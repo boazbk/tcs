@@ -177,6 +177,9 @@ For the best-formatted version, download [all lecture notes in a single PDF file
 
 See [this website](http://nandpl.org) for (a very much work in progress) implementation of the NAND\* programming languages that are used in in these notes.
 
+If you have any comments, suggestions, typo fixes, etc.. I would be very grateful if you post them as an [issue](https://github.com/boazbk/tcs/issues) or [pull request](https://github.com/boazbk/tcs/pulls) in the [GitHub repository](https://github.com/boazbk/tcs) where I am maintaining the source files for these notes.
+
+
 ---
 showindex: false
 showheader: false

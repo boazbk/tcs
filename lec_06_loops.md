@@ -212,7 +212,7 @@ There are two key differences between NAND<< and NAND:
 
 1. The NAND<< programming language works with _integer valued_ as opposed to _binary_ variables.
 
-2. NAND<< allows _indirection_ in the sense of accessing the `bar`-th location of an array `foo`. Specifically, since we use integer valued_ variables, we can assign the value of `bar` to the special index `i` and then use `foo_i`.  
+2. NAND<< allows _indirection_ in the sense of accessing the `bar`-th location of an array `foo`. Specifically, since we use _integer valued_ variables, we can assign the value of `bar` to the special index `i` and then use `foo_i`.  
 
 We will allow the following operations on variables:^[Below `foo`, `bar` and `baz` are indexed or non-indexed variable identifiers (e.g., they can have the form `blah` or `blah_12` or `blah_i`), as usual, we identify an indexed identifier `blah` with `blah_0`. Except for the assignment, where `i` can be on the lefthand side, the special index variable `i` cannot be involved in these operations.]
 
