@@ -1,4 +1,4 @@
-#  Modelling randomized computation
+#  Modeling randomized computation
 
 >_"Any one who considers arithmetical methods of producing random digits is, of course, in a state of sin."_, John von Neumann, 1951.
 

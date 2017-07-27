@@ -80,9 +80,11 @@ This can  help students keep up with what is a fairly ambitious and fast-paced s
 
 These lecture notes are constantly evolving, and I am getting input from several people, for which I am deeply grateful.
 Thanks to Jarosław Błasiok, Chi-Ning Chou, Juan Esteller, Alex Lombardi, Thomas Orton, Juan Perdomo, and Ryan Williams for helpful feedback. I will keep adding names here as I get more comments.
+If you have any comments or suggestions, please do post them on the GitHub repository [https://github.com/boazbk/tcs](https://github.com/boazbk/tcs).
+
 
 Thanks to Anil Ada, Venkat Guruswami,  and Ryan O'Donnell for helpful tips from their experience in teaching [CMU 15-251](http://www.cs.cmu.edu/~./15251/).
 
 Thanks to Juan Esteller for his work on [implementing](https://github.com/juan-esteller/NAND) the NAND* languages.
 
-Thanks to David Steurer for writing the scripts that I am using to produce these notes, (themselves based on several other packages, including [pandoc](http://pandoc.org/), [LateX](https://www.latex-project.org/), and the Tufte [LaTeX](https://tufte-latex.github.io/tufte-latex/) and [CSS](https://edwardtufte.github.io/tufte-css/) packages) ).
+Thanks to David Steurer for writing the scripts (oringally produce for [our joint notes on the sum of squares algorithm](http://sumofsquares.org))  that I am using to produce these notes, (themselves based on several other packages, including [pandoc](http://pandoc.org/), [LateX](https://www.latex-project.org/), and the Tufte [LaTeX](https://tufte-latex.github.io/tufte-latex/) and [CSS](https://edwardtufte.github.io/tufte-css/) packages).

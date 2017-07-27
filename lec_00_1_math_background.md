@@ -345,7 +345,14 @@ Prove that for every finite $S,T$, there are $(|T|+1)^{|S|}$ partial functions f
 ## Asymptotics and big-Oh notation
 
 It is often very cumbersome to describe precisely  quantities such as running time, whereas we are typically only interested in the "higher order terms" or understanding the scaling of the quantity as the input variable grows.
-For this purpose, Oh notation is extremely useful as a way to "declutter" our text.
+For example, as far as running time goes, the difference between an $n^5$-time algorithm and an $n^2$-time one is much more significant than the difference between an $100n^2 + 10n$ time algorithm and an $10n^2$
+For this purpose, Oh notation is extremely useful as a way to "declutter" our text,
+so for example, we can say that both $100n^2 + 10n$ and $10n^2$ are simply $O(n^2)$ (which we call  "Big Oh" of $n^2$), while $n^2 = o(n^5)$ (which we call "little Oh" of $n^5$).
+
+
+Intuitively, if $F,G$ are two functions mapping natural numbers to natural numbers,  you can think of "$F=O(G)$" as meaning that  $F(n) \leq G(n)$ if we don't care about constant factors, while you can think of "$F=o(G)$" as meaning that $F(n) < G(n)$ even if we mutliply $F$ by an arbitrary large constant factor (sometimes $F=o(G)$ is written as $F \ll G$).
+More formally, we define Big Oh notation as follows:
+
 
 > # {.definition title="Big Oh notation" #bigohdef}
 For $F,G: \N \rightarrow \N$, we define $F=O(G)$ if there exist numbers $a,N_0 \in \N$ such that $F(n) \leq a\cdot G(n)$ for every $n>N_0$.
@@ -367,10 +374,9 @@ There are some simple heuristics that can help when trying to compare two functi
 
 * Multiplicative constants don't matter in Oh notation, and so if $f(n)=O(g(n))$ then $100f(n)=O(g(n))$.
 * When adding two functions, we only care about the larger one. For example, for the purpose of Oh notation, $n^3+100n^2$ is the same as $n^3$, and in general in any polynomial, we only care about the larger exponent.
-* For every two constants $a,b>0$, $n^a = O(n^b)$ if and only if $a \leq b$, and $n^a = o(n^b)$ if and only if $a<b$.
-* Polynomial is always smaller than exponential: $n^a = o(2^{n^\epsilon})$ for every two constants $a>0$ and $\epsilon>0$ even if $\epsilon$ is much smaller than $a$.
-* Similarly, logarithmic is always smaller than polynomial: $(\log n)^a$ (which we write as $\log^a n$) is $o(n^\epsilon)$ for every two constants $a,\epsilon>0$.
-
+* For every two constants $a,b>0$, $n^a = O(n^b)$ if and only if $a \leq b$, and $n^a = o(n^b)$ if and only if $a<b$. For example, combining the two observations above, $100n^2 + 10n + 100 = o(n^3)$.
+* Polynomial is always smaller than exponential: $n^a = o(2^{n^\epsilon})$ for every two constants $a>0$ and $\epsilon>0$ even if $\epsilon$ is much smaller than $a$. For example, $100n^{100} = o(2^{\sqrt{n}})$.
+* Similarly, logarithmic is always smaller than polynomial: $(\log n)^a$ (which we write as $\log^a n$) is $o(n^\epsilon)$ for every two constants $a,\epsilon>0$. For example, combining the observations above, $100n^2\log^100 n = o(n^3)$.
 
 > # {.exercise}
 For every pair of functions $F,G$ below, determine which of the following relations holds: $F=O(G)$, $F=\Omega(G)$, $F=o(G)$ or $F=\omega(G)$. \
