@@ -2,6 +2,7 @@
 
 If you make a pull request, please also add your name here in the alphabetical order
 
+Michele Amoretti
 Jarosław Błasiok
 Chi-Ning Chou
 Juan Esteller

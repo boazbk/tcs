@@ -79,7 +79,7 @@ This can  help students keep up with what is a fairly ambitious and fast-paced s
 ## Acknowledgements
 
 These lecture notes are constantly evolving, and I am getting input from several people, for which I am deeply grateful.
-Thanks to Jarosław Błasiok, Chi-Ning Chou, Juan Esteller, Alex Lombardi, Thomas Orton, Juan Perdomo, and Ryan Williams for helpful feedback. I will keep adding names here as I get more comments.
+Thanks to Michele Amoretti, Jarosław Błasiok, Chi-Ning Chou, Juan Esteller, Alex Lombardi, Thomas Orton, Juan Perdomo, and Ryan Williams for helpful feedback. I will keep adding names here as I get more comments.
 If you have any comments or suggestions, please do post them on the GitHub repository [https://github.com/boazbk/tcs](https://github.com/boazbk/tcs).
 
 
