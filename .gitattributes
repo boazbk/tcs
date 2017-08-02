@@ -16,3 +16,6 @@
 *.png binary
 *.jpg binary
 *.pdf binary
+*.ttf binary
+*.woff binary
+*.eot binary

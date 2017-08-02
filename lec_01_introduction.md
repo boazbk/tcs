@@ -40,7 +40,7 @@ That is, the task of multiplying two numbers $x,y$ that are between $10^{19}$ an
 Since in this case $n=20$, the standard algorithm would use at most  $4n^2=1600$ single digit operations, while repeated addition would require at least $n\cdot y \geq 20\cdot 10^{19}$ single digit operations. To understand the difference, a human being might do a single digit operation in about 2 seconds, requiring just under an hour to complete the calculation, while a modern 4Ghz processor might be able to do $10^{10}$ single digit calculations in one second, and hence would take about $10^{10}$ seconds or $317$ years to do the same calculations using naïve iterated addition.
 
 We see that computers have not made algorithms obsolete.
-On the contrary, the vast increase in our ability to measure, store, and communicate data has led to a much higher demand on developing better and more sophisticated algorithms that can allow us to compute and these data and make better decisions based on them.
+On the contrary, the vast increase in our ability to measure, store, and communicate data has led to a much higher demand on developing better and more sophisticated algorithms that can allow us to compute  these data and make better decisions based on them.
 We also see that to a large extent the notion of _algorithm_ is independent of the actual computing device that will execute it.
 The digit by digit standard algorithm is vastly better than iterated addition regardless if the technology to implement it is a silicon based computer chip or a third grader with pen and paper.
 
@@ -50,7 +50,7 @@ We ask questions that already pondered by the Babylonians, such as "what is the 
 These types of questions are the topic of this course.
 
 In Computer Science parlance, a scheme such as the decimal (or sexadecimal) positional representation for numbers is known as a _data structure_, while the operations on this representations are known as _algorithms_.
-As we can see from this example, data structures and algorithm are useful beyond  just allowing us to do some things a little quicker.
+As we can see from this example, data structures and algorithms are useful beyond  just allowing us to do some things a little quicker.
 They  expand our vocabulary  and allow us to grasp concepts that otherwise would be beyond our comprehension.  
 Structures from computer science, such as bits, strings, graphs, and even the notion of a program itself, as well as concepts such as universality and replication, have not just found practical uses but contributed a new language and a new way to view the world.
 
@@ -83,7 +83,7 @@ In a [karatsuba-ex](){.ref}, you will formally show that the number of single di
 ![Running time of Karatsuba's algorithm vs. the Gradeschool algorithm. Figure by [Marina Mele](http://www.marinamele.com/third-grade-karatsuba-multiplication-algorithms).](../figure/karatsuba-vs-third-grade-order-768x600.png){#karatsubafig .class width=300px height=300px}
 
 
-![Karatsuba's algorithm reduces an $n$-bit multiplication to three $n/2$-bit multiplications, which in turn are reduced to nine $n/4$-bit multiplications and so on. We can represent the computational cost of all these multiplications in a $3$-ary tree of depth $\log_2 n$, where at the root the extra cost is $cn$ operations, at the first level the extra cost is $c(n/2)$ operations, and at each of the $3^i$ nodes of  level $i$, the extra cost is $c(n/2^i)$. The total cost is $cn\sum_{i=0}^{\log_2 n} (3/2)^i \leq 2cn^{\log_2 3}$ by the formula for summing a gemoetric series.](../figure/karatsuba_analysis.png){#karatsuba-fig .class width=300px height=300px}
+![Karatsuba's algorithm reduces an $n$-bit multiplication to three $n/2$-bit multiplications, which in turn are reduced to nine $n/4$-bit multiplications and so on. We can represent the computational cost of all these multiplications in a $3$-ary tree of depth $\log_2 n$, where at the root the extra cost is $cn$ operations, at the first level the extra cost is $c(n/2)$ operations, and at each of the $3^i$ nodes of  level $i$, the extra cost is $c(n/2^i)$. The total cost is $cn\sum_{i=0}^{\log_2 n} (3/2)^i \leq 2cn^{\log_2 3}$ by the formula for summing a geometric series.](../figure/karatsuba_analysis.png){#karatsuba-fig .class width=300px height=300px}
 
 >__Remark on Big Oh notation:__ It can be quite an headache to keep track of the various constants, and so typically in theoretical computer science we use asymptotic or "Big Oh" notation for quantities such as running time of an algorithm. So, we will write $f(n)=O(g(n))$ if there is some constant $C$ such that $f(n) \leq C g(n)$ for all $n$ and $f(n)=\Omega(g(n))$ if $g(n)=O(f(n))$. Most of the time, when you see a statement such as "running time is  $O(n^3)$" you can think of it as saying  that the algorithm takes at most $1000\cdot n^3$ steps and similarly when a statement such as "running time is  $\Omega(n^2)$" can be thought of as saying that the algorithm takes at least  $0.001\cdot n^2$ steps.
 A fuller review Big Oh notation and asymptotics of running time appears in the "mathematical background" section.
@@ -158,10 +158,10 @@ But when we want to answer a question such as "does there _exist_ an algorithm t
 
 In particular, we will  need to __(1)__  define exactly what does it mean to solve $P$, and __(2)__  define exactly what is an algorithm.
 Even __(1)__ can sometimes be non-trivial but __(2)__ is particularly challenging; it is not at all clear how (and even whether) we can encompass all potential ways to design algorithms.
-We will consider several simple _models of computation_, and argue that, despite their simplicity, they do capture many "reasonable" approache for computing, including all those that are currently used in modern computing devices.
+We will consider several simple _models of computation_, and argue that, despite their simplicity, they do capture many "reasonable" approaches for computing, including all those that are currently used in modern computing devices.
 
 Once we have these formal models of computation, we can try to obtain _impossibility results_ for computational tasks, showing that some problems _can not be solved_ (or perhaps can not be solved within the resources of our universe).
-Archimedes one said that given a fulcrum and a long enough lever, he could move the world.
+Archimedes once said that given a fulcrum and a long enough lever, he could move the world.
 We will see how _reductions_ allow us  to leverage one hardness result into a slew of a great many others, illuminating the boundaries between the computable and uncomputable (or tractable and intractable) problems.
 
 Later in this course we will go back to examining our models of computation, and see how resources such as randomness or quantum entanglement could potentially change the power of our model.
@@ -184,7 +184,7 @@ Rank the significance of the  following inventions in speeding up multiplication
    >c. Invention of modern electronic computers (improving upon calculations with pen and paper)
 
 > # {.exercise}
-The 1977  Apple II personal computer had a processor speed of 1.023Mhz or about $10^6$ operations per seconds. At the time of this writing the world's fastest supercomputer performs 93 "petaflops" ($10^{15}$ floating point operations per second) or about $10^{18}$ basic steps per second. Compute the size of input that each one of those computers can handle in a week of computation, if the algorithm they run takes on input of length $n$: \
+The 1977  Apple II personal computer had a processor speed of 1.023 Mhz or about $10^6$ operations per seconds. At the time of this writing the world's fastest supercomputer performs 93 "petaflops" ($10^{15}$ floating point operations per second) or about $10^{18}$ basic steps per second. Compute the size of input that each one of those computers can handle in a week of computation, if the algorithm they run takes on input of length $n$: \
    >a. $n$ operations. \
    >b. $n^2$ operations. \
    >c. $n\log n$ operations. \
