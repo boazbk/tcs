@@ -9,7 +9,7 @@
 
 To a first approximation, computation can be thought of as a process that maps an _input_ to an _output_.
 
-![Our basic notion of _computation_ is some process that maps and input to an output](../figure/input_output.png){#figureid .class width=300px height=300px}
+![Our basic notion of _computation_ is some process that maps an input to an output](../figure/input_output.png){#figureid .class width=300px height=300px}
 
 When discussing computation, it is important to separate the question of  __what__ is the task we need to perform (i.e., the _specification_) from the question of __how__ we achieve this task (i.e., the _implementation_).
 For example, as we've seen, there is more than one way to achieve the computational task of computing the product of two integers.
@@ -42,20 +42,20 @@ But for now, we will  focus on describing some simple representations for variou
 
 Perhaps the simplest object we want to represent is a _natural number_.
 That is, a member $x$ of the set $\N = \{0,1,2,3,\ldots \}$. We can represent a number $x\in\N$ as a string using the _binary basis_.
-That is, we can write $x$ in a unique way as $x = x_02^0 + x_12^1 + \cdots + x_n2^n$  (or $\sum_{i=0}^n x_i 2^i$ for short) where $x_0,\ldots,x_n$ are zero/one and $n$ is the largest number such that $2^n \leq x$. We can then represent $x$ as the string $(x_0,x_1,\ldots,x_n)$.
-For example, the number 35 will be represented as the string $(1,1,0,0,0,1)$ which we often also write as $110001$.^[Note that this is the reverse of the typical way we write numbers with the least significant digit as the rightmost one. Representing the number $x$ as $(x_n,x_{n-1},\ldots,x_0)$ will of course work just as well (in some contexts this is known as "Big Endian" vs. "Little Endian" representation). We chose the particular representation above for the sake of concreteness but such low level choices will not make a difference in this course.]
+That is, we can write $x$ in a unique way as $x = x_02^0 + x_12^1 + \cdots + x_{n-1}2^{n-1}$  (or $\sum_{i=0}^{n-1} x_i 2^i$ for short) where $x_0,\ldots,x_{n-1}$ are zero/one and $n$ is the smallest number such that $2^n > x$. We can then represent $x$ as the string $(x_0,x_1,\ldots,x_{n-1})$.
+For example, the number 35 will be represented as the string $(1,1,0,0,0,1)$ which we often also write as $110001$.^[Note that this is the reverse of the typical way we write numbers with the least significant digit as the rightmost one. Representing the number $x$ as $(x_{n-1},x_{n-2},\ldots,x_0)$ will of course work just as well (in some contexts this is known as "Big Endian" vs. "Little Endian" representation). We chose the particular representation above for the sake of concreteness but such low level choices will not make a difference in this course.]
 
 We can think of a representation as consisting of    _encoding_ and _decoding_ functions.
-In the case of the _binary representation_ for integers, the _encoding_ function $E:\N \rightarrow \{0,1\}^*$ maps a natural number to the string representing it, and the _decoding_ function $D:\{0,1\}^* \rightarrow \N$ maps a string into the number it represents (i.e., $D(x_0,\ldots,x_{n-1})= 2^0x_0 + 2^1x_1 +\ldots + 2^{n-1}x_{n-1}$ for every $x_0,\ldots,x_n \in \{0,1\}$).
+In the case of the _binary representation_ for integers, the _encoding_ function $E:\N \rightarrow \{0,1\}^*$ maps a natural number to the string representing it, and the _decoding_ function $D:\{0,1\}^* \rightarrow \N$ maps a string into the number it represents (i.e., $D(x_0,\ldots,x_{n-1})= 2^0x_0 + 2^1x_1 +\ldots + 2^{n-1}x_{n-1}$ for every $x_0,\ldots,x_{n-1} \in \{0,1\}$).
 
 
 In the case of the binary representation, both the encoding and decoding functions are _one-to-one and onto functions_,^[Recall that a function $f$ mapping a set $U$ to a set $V$ is _one-to-one_ if $f(x)\neq f(x')$ for every $x\neq x'$ in $U$, and is _onto_ if for every $y\in V$ there is some $x$ s.t. $f(x)=y$.]   also known as _bijections_.^[Note that since in our convention $\N$ includes zero, the set $\{0,1\}^*$ includes the empty (i.e., length zero) string which will represent the number zero.]
 
 ### Representing (potentially negative) integers
 
-Now that we can represent natural numbers, we can represent _whole numbers_ (i.e., members of the set $\Z=\{ \ldots, -3 , -2 , -1 , 0 , +1, +2, +3,\ldots \}$ ) by adding one more bit that represents the sign. So, the string $(\sigma,x_0,\ldots,x_n) \in \{0,1\}^{n+1}$ will represent the number
+Now that we can represent natural numbers, we can represent _whole numbers_ (i.e., members of the set $\Z=\{ \ldots, -3 , -2 , -1 , 0 , +1, +2, +3,\ldots \}$ ) by adding one more bit that represents the sign. So, the string $(\sigma,x_0,\ldots,x_{n-1}) \in \{0,1\}^{n+1}$ will represent the number
 $$
-(-1)^\sigma \left[ x_0 2^0 + \cdots x_n 2^n \right]
+(-1)^\sigma \left[ x_0 2^0 + \cdots x_{n-1} 2^{n} \right]
 $$
 
 
