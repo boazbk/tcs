@@ -334,7 +334,7 @@ By construction $F_X = X$ which demonstrates that $G(X)=F$ and hence $G$ is onto
 
 We will sometimes be interested in _partial_ functions from $S$ to $T$.
 This is a function $F$ that is not necessarily defined on every element of $S$.
-For example, the function $F(x)= \sqrt{x}$ is only defines on non-negative real numbers.
+For example, the function $F(x)= \sqrt{x}$ is only defined on non-negative real numbers.
 When we want to distinguish between partial functions and  standard (i.e., non-partial) functions, we will call the latter _total_ functions.
 We can think of a partial function $F$ from $S$ to $T$ also as a total function from $S$ to $T \cup \{ \bot \}$ where $\bot$ is some special "failure symbol", and so instead of saying that $F$ is undefined at $x$, we can say that $F(x)=\bot$.
 
@@ -411,7 +411,7 @@ __(a)__ For every $n>0$, if $Q(0),\ldots,Q(n-1)$ are all true then $Q(n)$ is tru
 
  __(b)__ $Q(0)$ is true. \
 
-(Usually proving __(a)__ is the hard part, though there are example where the "base case" __(b)__ is quite subtle.)
+(Usually proving __(a)__ is the hard part, though there are examples where the "base case" __(b)__ is quite subtle.)
 By repeatedly applying Modus Ponens, we can see that $Q(1)$ is true, $Q(2)$ is true, etc.. and this implies that  $Q(n)$ is true for every $n$.
 
 For example, to show the classical formula that the sum $S_n = 1+2+3+\cdots+n$ is equal to $(n+1)n/2$, we
@@ -442,7 +442,7 @@ As with the other topics mentioned here, you can review these notions using the 
 Describe the following statement in English words: $\forall_{n\in\N} \exists_{p>n} \forall{a,b \in \N} (a\times b \neq p) \vee (a=1)$.
 
 > # {.exercise }
-Prove that for every undirected graph $G$ of $100$ vertices. If every vertex has degree at most $4$, then there exists a subset $S$ of at $20$ vertices such that no two vertices in $S$ are neighbors of one another.
+Prove that for every undirected graph $G$ of $100$ vertices, if every vertex has degree at most $4$, then there exists a subset $S$ of at $20$ vertices such that no two vertices in $S$ are neighbors of one another.
 
 
 > # {.exercise }
