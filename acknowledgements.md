@@ -6,6 +6,7 @@ Michele Amoretti
 Jarosław Błasiok
 Chi-Ning Chou
 Juan Esteller
+Ondřej Lengál
 Alex Lombardi
 Thomas Orton
 Juan Perdomo
