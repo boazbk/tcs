@@ -27,7 +27,7 @@ The name "algorithm" is derived from the Latin transliteration of  Muhammad ibn 
 Still his description of the algorithms were rather informal by today's standards.
 For example, here is how al-Khwarizmi described how to solve an equation of the form $x^2 +bx = c$:^[Translation from "The Algebra of Ben-Musa", Fredric Rosen, 1831.]
 
->_[How to solve an equation of the form ] "roots and squares are equal to numbers": For instance "one square , and ten roots of the same, amount to thrity-nine dirhems" that is to say, what must be the square which, when increased by ten of its own root, amounts to thirty-nine? The solution is this: you halve the number of the roots, which in the present instance yields five. This you multiply by itself; the product is twenty-five. Add this to thirty-nine' the sum is sixty-four. Now take the root of this, which is eight, and subtract from it half the number of roots, which is five; the remainder is three. This is the root of the square which you sought for; the square itself is nine._
+>_[How to solve an equation of the form ] "roots and squares are equal to numbers": For instance "one square , and ten roots of the same, amount to thirty-nine dirhems" that is to say, what must be the square which, when increased by ten of its own root, amounts to thirty-nine? The solution is this: you halve the number of the roots, which in the present instance yields five. This you multiply by itself; the product is twenty-five. Add this to thirty-nine' the sum is sixty-four. Now take the root of this, which is eight, and subtract from it half the number of roots, which is five; the remainder is three. This is the root of the square which you sought for; the square itself is nine._
 
 
 ![An explanation for children of the two digit addition algorithm](../figure/addition_regrouping.jpg){#childrenalg .class width=300px height=300px}
@@ -190,7 +190,7 @@ That is, we can add each digit using $ADD_1$ and then take care of the carry.
 That is, if the two input numbers have the form $x_0+2x_1$ and $x_2+2x_3$, then the output number $y_0+y_12+y_32^2$ can be computed via the following "pseudocode" (see also [addtwofig](){.ref})
 
 ```
-y_0,c_1   := ADD_1(x_0,x_2) // add least signifcant digits
+y_0,c_1   := ADD_1(x_0,x_2) // add least significant digits
 z'_1,c_2  := ADD_1(x_1,x_3) // add second digits
 y_1, c'_2 := ADD_1(z_1,c_1) // second output is sum + carry
 y_3       := z'_1 OR c_2    // top digit is one if one of the top carries is
@@ -289,7 +289,7 @@ In programming language parlance this is known as "syntactic sugar", since we ar
 We will use several such "syntactic sugar" constructs to make our descriptions of NAND programs shorter and simpler.
 However, these descriptions are  merely shorthand for the equivalent standard or "sugar free" NAND program that is obtained after removing the use of all these constructs.
 In particular, when we  say that a function $F$ has an $s$-line NAND program, we mean a standard NAND program, that does not use any syntactic sugar.
-The website [http://www.nandpl.org](http://www.nandpl.org) contains an online "unsweetener" that can take a NAND program that uses the these features and modifies it to an equivalent program that does not use it.
+The website [http://www.nandpl.org](http://www.nandpl.org) contains an online "unsweetener" that can take a NAND program that uses  these features and modifies it to an equivalent program that does not use them.
 
 In the rest of this section, we will list some additional examples of "syntactic sugar" transformations.
 Going over all these examples can be somewhat tedious, but we do it for two reasons:
@@ -515,7 +515,7 @@ We can use the gradeschool algorithm to show that NAND programs can add $n$-bit 
 > # {.theorem title="Addition using NAND programs" #addition-thm}
 For every $n$, let $ADD_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{n+1}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the sum of the numbers that $x$ and $x'$ represent. Then there is a NAND program that computes the function $ADD_n$. Moreover, the number of lines in this program is smaller than $100n$.
 
-![Translating the gradeschool addition algorithm into a NAND program. If at tbe $i^{th}$ stage, the $i^{th}$  digits of the two numbers are $x_i$ and $x_{n+i}$ and the carry is $c_i$, then the $i^{th}$ digit of the sum will be $(x_i XOR x_{n+i}) XOR c_i$ and the new carry $c_{i+1}$ will be equal to $1$ if any two values among $c_i,x_i,x_{n+i}$ are $1$.](../figure/addition-alg-nand.png){#addition-fig .class width=300px height=300px}
+![Translating the gradeschool addition algorithm into a NAND program. If at the $i^{th}$ stage, the $i^{th}$  digits of the two numbers are $x_i$ and $x_{n+i}$ and the carry is $c_i$, then the $i^{th}$ digit of the sum will be $(x_i XOR x_{n+i}) XOR c_i$ and the new carry $c_{i+1}$ will be equal to $1$ if any two values among $c_i,x_i,x_{n+i}$ are $1$.](../figure/addition-alg-nand.png){#addition-fig .class width=300px height=300px}
 
 
 
@@ -582,8 +582,8 @@ We now prove [lookup-thm](){.ref}.
 We will do so by induction.
 That is, we show how to use a NAND program for computing $LOOKUP_k$ to compute $LOOKUP_{k+1}$.
 Let us first see how we do this for $LOOKUP_2$.
-Given input $x=(x_0,x_1,x_2,x_3)$ and an index $i=(i_0,i_1)$, if the most significant bit $i_1$ of the index  is $0$ then $LOOKUP(x,i)$ will equal $x_0$ if $i_0=0$ and equal $x_1$ if $i_0=1$.
-Similarly, if the most significant bit $i_1$ is $1$ then $LOOKUP(x,i)$ will equal $x_2$ if $i_0=0$ and will equal $x_3$ if $i_0=1$.
+Given input $x=(x_0,x_1,x_2,x_3)$ and an index $i=(i_0,i_1)$, if the most significant bit $i_1$ of the index  is $0$ then $LOOKUP_2(x,i)$ will equal $x_0$ if $i_0=0$ and equal $x_1$ if $i_0=1$.
+Similarly, if the most significant bit $i_1$ is $1$ then $LOOKUP_2(x,i)$ will equal $x_2$ if $i_0=0$ and will equal $x_3$ if $i_0=1$.
 Another way to say this is that
 $$
 LOOKUP_2(x_0,x_1,x_2,x_3,i_0,i_1) = LOOKUP_1(LOOKUP_1(x_0,x_1,i_0),LOOKUP_1(x_2,x_3,i_0),i_1)
@@ -622,7 +622,7 @@ $$
 > # {.proof data-ref="lookup-rec-lem"}
 If the most significant bit $i_{k-1}$  of $i$ is zero, then the index $i$ is in $\{0,\ldots,2^{k-1}-1\}$ and hence we can perform the lookup on the "first half" of $x$ and  the result of  $LOOKUP_k(x,i)$ will be the same as $a=LOOKUP_{k-1}(x_0,\ldots,x_{2^{k-1}-1},i_0,\ldots,i_{k-1})$.
 On the other hand, if this most significant bit $i_{k-1}$  is equal to $1$, then the index is in $\{2^{k-1},\ldots,2^k-1\}$, in which case the result of $LOOKUP_k(x,i)$ is the same as $b=LOOKUP_{k-1}(x_{2^{k-1}},\ldots,x_{2^k-1},i_0,\ldots,i_{k-1})$.
-Thus we can compute $LOOKUP_k(x,i)$ by first computing $a$ and $b$ and then outputting $LOOKUP(a,b,i_{k-1})$.
+Thus we can compute $LOOKUP_k(x,i)$ by first computing $a$ and $b$ and then outputting $LOOKUP_1(a,b,i_{k-1})$.
 
 [lookup-rec-lem](){.ref} directly implies [lookup-thm](){.ref}.
 We prove by induction on $k$ that there is a NAND program of at most $4\cdot 2^k$ lines for $LOOKUP_k$.
@@ -670,7 +670,7 @@ We also note that the bound of [NAND-univ-thm](){.ref} can be improved to $O(m 2
 To prove [NAND-univ-thm](){.ref}, we need to give a NAND program  for _every_ possible function.
 We will restrict our attention to the case of Boolean functions (i.e., $m=1$).
 In [mult-bit-ex](){.ref} you will show how to extend the proof for all values of $m$.
-A function $F: \{0,1\}^n\rightarrow \{0,1\}$ can be specified by a table of the its values for each one of the $2^n$ inputs.
+A function $F: \{0,1\}^n\rightarrow \{0,1\}$ can be specified by a table of  its values for each one of the $2^n$ inputs.
 Here is for example one particular function $G: \{0,1\}^4 \rightarrow \{0,1\}$:^[In case you are curious, this is the function that computes the digits of $\pi$ in the binary basis.]
 
 
