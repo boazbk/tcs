@@ -8,8 +8,8 @@
 
 People have been computing for thousands of years, with aids that include not just  pen and paper, but also abacus, slide rulers, various mechanical devices, and modern electronic computers.
 A priori, the notion of computation seems to be tied to the particular mechanism that you use.
-The best algorithm for multiplying numbers might be different if you need to implement it in _Python_ on a modern laptop than if you use pen and paper.
-However, as we saw, an algorithm that is asymptotically better would eventually beat a worse one regardless of the underlying technology.
+You might think that the "best"  algorithm for multiplying numbers will differ if you  implement it in _Python_ on a modern laptop than if you use pen and paper.
+However, as we saw in the introduction, an algorithm that is asymptotically better would eventually beat a worse one regardless of the underlying technology.
 This gives us hope for a _technology independent_ way of defining computation, which is what we will do in this lecture.
 
 ![Calculating wheels by Charles Babbage. Image taken from the Mark I 'operating manual'](../figure/wheels_babbage.png){#babbagewheels .class width=300px height=300px}
@@ -21,11 +21,13 @@ This gives us hope for a _technology independent_ way of defining computation, w
 
 ## Defining computation
 
-People have been using algorithms to perform computation throughout the ages, but it not has not always been obvious how to formally describe such algorithms.
-We typically explain algorithms via examples to children (e.g., see [childrenalg](){.ref}), and this was also the way they were originally presented and their knowledge transferred.
+
+
 The name "algorithm" is derived from the Latin transliteration of  Muhammad ibn Musa al-Khwarizmi, who was a Persian scholar during the 9th century whose books introduced the western world to the decimal positional numeral system, as well as the solutions of linear and quadratic equations (see [alKhwarizmi](){.ref}).
 Still his description of the algorithms were rather informal by today's standards.
-For example, here is how al-Khwarizmi described how to solve an equation of the form $x^2 +bx = c$:^[Translation from "The Algebra of Ben-Musa", Fredric Rosen, 1831.]
+Rather than use "variables" such as $x,y$, he used concrete numbers such as 10 and 39, and trusted the reader to be able to extrapolate from these examples.^[Indeed, extrapolation from examples is still the way most of us first learn algorithms such as addition and multiplication, see [childrenalg](){.ref})]
+
+Here is how al-Khwarizmi described how to solve an equation of the form $x^2 +bx = c$:^[Translation from "The Algebra of Ben-Musa", Fredric Rosen, 1831.]
 
 >_[How to solve an equation of the form ] "roots and squares are equal to numbers": For instance "one square , and ten roots of the same, amount to thirty-nine dirhems" that is to say, what must be the square which, when increased by ten of its own root, amounts to thirty-nine? The solution is this: you halve the number of the roots, which in the present instance yields five. This you multiply by itself; the product is twenty-five. Add this to thirty-nine' the sum is sixty-four. Now take the root of this, which is eight, and subtract from it half the number of roots, which is five; the remainder is three. This is the root of the square which you sought for; the square itself is nine._
 
@@ -36,8 +38,8 @@ For example, here is how al-Khwarizmi described how to solve an equation of the 
 ![Text pages from Algebra manuscript with geometrical solutions to two quadratic equations. Shelfmark: MS. Huntingdon 214 fol. 004v-005r](../figure/alKhwarizmi.jpg){#alKhwarizmi .class width=300px height=300px}
 
 For the purposes of this course, we will need a much more precise way to define algorithms.
-Fortunately, at least at the moment, computers lag far behind school-age children in learning from examples, and hence in the 20th century people have come up with an exact formalism for describing algorithms, namely _programming languages_.
-For example, here is the same algorithm described in Python:
+Fortunately, at least at the moment, computers lag far behind school-age children in learning from examples, and hence in the 20th century people have come up with  exact formalisms for describing algorithms, namely _programming languages_.
+Here is al-Khwarizmi's quadratic equation solving  algorithm described in Python:
 
 
 ~~~~ { .python .numberLines }
@@ -54,33 +56,36 @@ def solve_eq(b,c):
 
 ## The NAND Programming language
 
-We can try to use a modern programming language such as Python or C for our formal model of computation, but it would be quite hard to reason about, given the the [Python language reference](https://docs.python.org/2/reference/) has more than 100 pages.
+We can try to use a modern programming language such as Python or C for our formal model of computation, but it would be quite hard to reason about, given that the [Python language reference](https://docs.python.org/2/reference/) has more than 100 pages.
 Thus we will define computation using an extremely simple "programming language": one that has only a single operation.
 This raises the question of whether this language is rich enough to capture the power of modern computing systems.
 We will see that (to a first approximation), the answer to this question is __Yes__.
 
 
-We  start by defining a programming language that can only compute _finite_ functions. That is, functions $F$ that map $\{0,1\}^n$ to $\{0,1\}^m$ for some natural numbers $m,n$.
+We  start by defining a programming language that can only compute _finite_ functions.
+That is, functions $F$ that map $\{0,1\}^n$ to $\{0,1\}^m$ for some natural numbers $m,n$.
 Later we will discuss how to extend the language to allow for a single program that can compute a function of every length, but the finite case is already quite interesting and will give us a simple setting for exploring some of the salient features of computing.
 
-Every line in the NAND programming language has the form
+The _NAND programming language_ has no loops, functions, or if statements.
+It has only a single operation: `NAND`, and hence every line in a NAND program has the form:
 
 ```
 foo := bar NAND baz
 ```
 
-where `foo`, `bar`, `baz` are variable names.
+where `foo`, `bar`, `baz` are variable names.^[See the appendix and the website [http://nandpl.org](http://nandpl.org) for a full specification of the NAND programming language.]
+
 All the variables in the NAND language are _Boolean_: the only values they can take are either zero or one.
 The semantics of executing a NAND program is that when such a line is executed,  the variable `foo` is assigned the negation of the logical AND of (i.e., the NAND operation applied to) the values of the two variables `bar` and `baz`.^[The _logical AND_ of two bits $x,x'\in \{0,1\}$  is equal to $1$ if $x=x'=1$ and is equal to $0$ otherwise. Thus $NAND(0,0)=NAND(0,1)=NAND(1,0)=1$, while $NAND(1,1)=0$.]  
 If a variable hasn't been assigned a value before, then its default value is zero.
 
-Variable identifiers  consist of letters and the apostrophe character `'` (e.g., `foo`, `bar`, `bar'`,`baz''` etc..).
+Variable identifiers  consist of letters followed optionally by  the apostrophe or "prime" character `'` (e.g., `foo`, `bar`, `bar'`,`baz''` etc..).
 We also allow  adding numerical indices to variables by appending an  underscore and a number to the identifier, so `foo_17` or `bar_52` are also valid variable names.
-More generally, a variable can have the form `foo_`$\expr{i}$ for a letter/apostrophe label `foo` and a number $i$.^[In these lecture notes, we  use the convention that when we write $\expr{e}$  then we mean the numerical value of this expression. So for example if $i=10$ then we can write `x_`$\expr{i+7}$ to mean  `x_17`. This is just for the notes: in the NAND programming language itself the indices have to be absolute numerical constants.]
+Thus in general a variable has the form `foo` or `foo_`$\expr{i}$ for a letter+apostrophes label `foo` and a number $i$.^[In these lecture notes, we  use the convention that when we write $\expr{e}$  then we mean the numerical value of this expression. So for example if $i=10$ then we can write `x_`$\expr{i+7}$ to mean  `x_17`. This is just for the notes: in the NAND programming language itself the indices have to be absolute numerical constants.]
 
 Variables such as `x_22` or `y_18` (that is, of the form `x_`$\expr{i}$  or `y_`$\expr{i}$  where $i$ is a natural number)  have a special meaning.
 The variables beginning with `x_` are _input_ variables and those beginning with `y_` are _output_ variables.^[To avoid degenerate cases, such as a two line program that includes a reference to `x_1000000` or `y_1000000` and hence computes a function with a million inputs or outputs, we require that no index appearing in the program will be  larger than the total number of lines in it.]
-Thus for example the following four line program takes an input of two bits and outputs a single bit:
+Thus for example the following four line NAND program takes an input of two bits and outputs a single bit:
 
 
 ~~~~ { .go .numberLines  }
@@ -95,7 +100,7 @@ Can you guess what function from $\{0,1\}^2$ to $\{0,1\}$ this program computes?
 
 To find the function that this program computes, we can run it on all the four possible two bit inputs: $00$,$01$,$10$, and $11$.  
 For example, let us consider the execution of this program on the input $00$, keeping track of the values of the variables as the program runs line by line.
-In the website [http://nandpl.org](http://nandpl.org) we can run NAND programs in a "debug" mode, which will produce an _execution trace_ of the program.
+On the website [http://nandpl.org](http://nandpl.org) we can run NAND programs in a "debug" mode, which will produce an _execution trace_ of the program.^[At present the web interface is not yet implemented, and you can run NAND program using an OCaml interpreter that you can download from that website.]
 When we run the program above on the input $01$, we get the following printout:
 
 ```
@@ -106,6 +111,7 @@ Executing step 4: "y_0 := v   NAND w"	 v   = 1, w   = 0, y_0 is assigned 1,
 Output is y_0=1
 ```
 
+| x - a/b | < epsilon
 
 On the other hand if we execute this program on the input $11$, then we get the following execution trace:
 
@@ -180,6 +186,9 @@ Executing step 4: "y_0 := v NAND w"	 v   = 1, w   = 1, y_0 is assigned 0,
 Executing step 5: "y_1 := u NAND u"	 u   = 0, u   = 0, y_1 is assigned 1,
 Output is y_0=0, y_1=1
 ```
+
+and so you can see that the output $(0,1)$ is indeed the binary encoding of $1+1 = 2$.
+
 
 ### Adding two-bit numbers
 
@@ -270,22 +279,21 @@ That is, if we have an $s$ line program $P$ that computes the function $F$, and 
 
 The NAND programing language is pretty "bare bones", but we can implement some "added features" on top of it.
 That is, we can show how we can implement those features using the underlying mechanisms of the language.
-For example, we do not even have a variable assignment operation, and the following is not a valid NAND code:
+For example, example  we can implement a variable assignment operation by transforming a code such as
 
 ```
 foo := bar
 ```
 
-However, we can easily transform a code of this form into the valid code:
+into the valid NAND code:
 
 ```
 notbar := bar    NAND bar
 foo    := notbar NAND notbar
 ```
 
-Thus in describing NAND programs we will allow ourselves to use this construct, with the understanding that in actual programs we will replace every line of the first form with the two lines of the second form.
-
-In programming language parlance this is known as "syntactic sugar", since we are not changing the definition of the language, but merely introducing some convenient notational shortcuts.^[This concept is also known as "macros". Some text editors also give programmers the ability to use such shortcuts via mechanisms of macro languages or text snippets.]
+Thus in describing NAND programs we will allow ourselves to use the variable assignment operation, with the understanding that in actual programs we will replace every line of the first form with the two lines of the second form.
+In programming language parlance this is known as "syntactic sugar", since we are not changing the definition of the language, but merely introducing some convenient notational shortcuts.^[This concept is also known as "macros" and is sometimes implemented via a preprocessor. Some text editors also give programmers the ability to use such shortcuts via mechanisms of macro languages or text snippets.]
 We will use several such "syntactic sugar" constructs to make our descriptions of NAND programs shorter and simpler.
 However, these descriptions are  merely shorthand for the equivalent standard or "sugar free" NAND program that is obtained after removing the use of all these constructs.
 In particular, when we  say that a function $F$ has an $s$-line NAND program, we mean a standard NAND program, that does not use any syntactic sugar.
