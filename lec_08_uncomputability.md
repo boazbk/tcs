@@ -9,8 +9,8 @@ A natural guess is that NAND++ programs could compute every infinite function.
 However, this turns out to be _false_, even for  functions with $0/1$ output.
 That is, there exists a function $F:\{0,1\}^* \rightarrow \{0,1\}$ that is  _uncomputable_!
 This is actually quite surprising, if you think about it.
-Our intuitive notion of a "function" (and the notion most scholars had until the 20th century) is that it defines some implicit or explicit way of computing the output $f(x)$ from the input $x$.^[In the 1800's, with the invention of the  Fourier series and with the systematic study of  continuity and differentiability, people have starting looking at more general kinds of functions, but the modern definition of a function as an arbitrary mapping was not yet universally accepted. For example, in 1899 Poincare wrote "we have seen a mass of bizarre functions which appear to be forced to resemble as little as possible honest functions which serve some purpose. ... they are invented on purpose to show that our ancestor's reasoning was at fault, and we shall never get anything more than that out of them".]
-
+Our intuitive notion of a "function" (and the notion most scholars had until the 20th century) is that a function $f$ defines some implicit or explicit way of computing the output $f(x)$ from the input $x$.^[In the 1800's, with the invention of the  Fourier series and with the systematic study of  continuity and differentiability, people have starting looking at more general kinds of functions, but the modern definition of a function as an arbitrary mapping was not yet universally accepted. For example, in 1899 Poincare wrote "we have seen a mass of bizarre functions which appear to be forced to resemble as little as possible honest functions which serve some purpose. ... they are invented on purpose to show that our ancestor's reasoning was at fault, and we shall never get anything more than that out of them".]
+The notion of an "uncomputable function" thus seems to be a contradiction in terms, but yet the following theorem shows that such creatures do exist:
 
 > # {.theorem title="Uncomputable functions" #uncomputable-func}
 There exists a function $F^*:\{0,1\}^* \rightarrow \{0,1\}$ that is not computable by any NAND++ program.
@@ -137,7 +137,7 @@ Such a function is known as a _reduction_.
 The confusing part about reductions is that we are assuming something we _believe_ is false (that $BLAH$ has an algorithm) to derive something that we _know_ is false (that $HALT$ has an algorithm).
 For this reason Michael Sipser described such results as having the form "If pigs could whistle then horses could fly".
 
-At the end of the day this is just like any other proof by contradiction, but the fact that it involves hypothetical algorithms that don't really exist tends to make it quite confusing.
+At the end of the day reduction-based proofs are just like  other proofs by contradiction, but the fact that they involve hypothetical algorithms that don't really exist tends to make such proofs quite confusing.
 The one silver lining is that at the end of the day the notion of reductions is mathematically quite simple, and so it's not that bad even if you have to go back to first principles every time you need to remember what is the direction that a reduction should go in.
 (If this discussion itself is confusing, feel free to ignore it; it might become clearer after you see an example of a reduction such as the proof of [spec-thm](){.ref}.)
 
@@ -146,6 +146,7 @@ The one silver lining is that at the end of the day the notion of reductions is 
 
 ![Some of the functions that have been proven uncomputable. An arrow from problem X to problem Y means that the proof that Y is uncomputable follows by reducing computing X to computing Y.  Black arrows correspond to proofs that are shown in this and the next lecture while pink arrows correspond to proofs that are known but not shown here. There are  many other functions that have been shown uncomputable via a reduction from the Halting function $HALT$. ](../figure/reductions_from_halting.png){#haltreductions .class width=300px height=300px}
 
+^[TODO: clean up this figure]
 
 ## Impossibility of general software verification
 
@@ -230,17 +231,81 @@ We have seen that for every NAND++ program $P$ there is an equivalent Turing mac
 The transformation of $P$ to $M(P)$ was completely algorithmic and hence it can be thought of as a computable function $M:\{0,1\}^* \rightarrow \{0,1\}^*$.
 We see that $HALT(P,x)=TMHALT(M(P),x)$ and hence if we assume (towards the sake of a contradiction) that $TMHALT$ is computable then we get that $HALT$ is computable, hence contradicting [halt-thm](){.ref}.
 
-The same proof carries over to other computational models such as the _$\lambda$ calculus_, _two dimensional_ (or even one-dimensional) _automata_ etc... Hence for example, there is no algorithm to decide if a $\lambda$ expression evaluates the identity function, and no algorithm to decide whether an initial configuration of the game of life will result in eventually coloring the cell $(0,0)$ black or not.
+The same proof carries over to other computational models such as the _$\lambda$ calculus_, _two dimensional_ (or even one-dimensional) _automata_ etc.
+Hence for example, there is no algorithm to decide if a $\lambda$ expression evaluates the identity function, and no algorithm to decide whether an initial configuration of the game of life will result in eventually coloring the cell $(0,0)$ black or not.
 
-__Restricted  computational models.__
-The uncomputability of  halting and other semantic specification problems motivates coming up with _restricted_ computational models that are __(a)__ powerful enough to capture a set of functions useful for certain application but __(b)__ weak enough that we can still solve semantic specification problems on them.
+
+The uncomputability of  halting and other semantic specification problems motivates coming up with __restricted_ computational models__ that are __(a)__ powerful enough to capture a set of functions useful for certain applications but __(b)__ weak enough that we can still solve semantic specification problems on them.
 Here are some examples:
 
+### Regular expressions
 
+A _regular expression_ over some alphabet $\Sigma$ is obtained by combining elements of $\Sigma$ with the operations $|$ (corresponding to _or_) and $*$ (corresponding to repetition zero or more times).
+For example, the following regular expression over the alphabet $\{0,1\}$  corresponds to the set of all even length strings $x\in \{0,1\}^*$ such that $x_{2i}=x_{2i+1}$ for every $i\in \{0,\ldots, |x|/2-1 \}$:
 
+$$
+(00|11)*
+$$
 
+You have probably come across regular expressions in the context of searching for a file, doing search-and-replace in an editor,  or text manipulations in programming languages or tools such as `grep`.^[Standard implementations of regular expressions typically include more "syntactic sugar" such as using shorthands such as $[a-d]$ for $(a|b|c|d)$ and others, but they can all be implemented using   the operators $|$ and $*$.]
+Formally, regular expressions are defined by the following recursive definition:^[Just like recursive functions, we can define a concept recursively. Indeed, a definition of some class $\mathcal{C}$ of objects can be thought of as defining a function that maps an object $o$ to either $0$ or $1$ depending on whether $o \in \mathcal{C}$. Thus we can think of   the definition as defining a recursive function that maps a string $exp$ over $\Sigma \cup \{ "(",")","|", "*" \}$ to $0$ or $1$ depending on whether $exp$ describes a valid regular expression.]
 
+> # {.definition title="Regular expression" #regexp}
+A _regular expression_ $exp$ over an alphabet $\Sigma$ is a string over $\Sigma \cup \{ "(",")","|","*" \}$ that has one of the following forms:
+1. $exp = \sigma$ where $\sigma \in \Sigma$ \
+2. $exp = (exp' | exp'')$ where $exp', exp''$ are regular expressions. \
+3. $exp = (exp')(exp'')$ where $exp',exp''$ are regular expressions. \
+4. $exp = (exp')*$ where $exp'$ is a regular expression.^[Many texts also allow regular expressions that accept no strings or only the empty string. In the interest of simplicity, we drop these "edge cases" from our definition, though it does not matter much.]
+>
+Every regular expression $exp$ computes a function $\Phi_{exp}:\Sigma^* \rightarrow \{0,1\}$ defined as follows:
+1. If $exp = \sigma$ then $\Phi_{exp}(x)=1$ iff $x=\sigma$ \
+2. If $exp = (exp' | exp'')$ then $\Phi_{exp}(x) = \Phi_{exp'}(x) \vee \Phi_{exp''}(x)$ where $\vee$ is the OR operator. \
+3. If $exp = (exp')(exp'')$ then $\Phi_{exp}(x) = 1$ iff there is some $x',x'' \in \Sigma^*$ such that $x$ is the concatenation of $x'$ and $x''$ and $\Phi_{exp'}(x')=\Phi_{exp''}(x'')=1$.  \
+4. If $exp= (exp')*$ then $\Phi_{exp}(x)=1$ iff there are is $k\in \N$ and some $x_0,\ldots,x_{k-1} \in \Sigma^*$ such that $x$ is the concatenation $x_0 \cdots x_{k-1}$ and $\Phi_{exp'}(x_i)=1$ for every $i\in [k]$.
+
+[regexp](){.ref} might not be easy to grasp in a first read, so you should probably pause here and go over it again   until you understand why it corresponds to our intuitive notion of regular expressions.
+This is important not just for understanding regular expressions themselves (which are used time and again in a great many applications) but also for getting better at understanding recursive definitions in general.
+
+By [regexp](){.ref}, regular expressions can be thought of as a "programming language" that defines functions $exp: \Sigma^* \rightarrow \{0,1\}$.
+But it turns out that the "halting problem" for these functions is easy: they always halt.
+
+> # {.theorem title="Regular expression always halt" #regularexphalt}
+For every set $\Sigma$ and $exp \in (\Sigma \cup \{ "(",")","|","*" \})*$,  if $exp$ is a valid regular expression over $\Sigma$ then $\Phi_{exp}$ is a total function from $\Sigma^*$ to $\{0,1\}$.
+Moreover, there is an always halting NAND++ program $P_{exp}$ that computes $\Phi_{exp}$.
+
+> # {.proof data-ref="regularexphalt"}
+[regexp](){.ref} gives a way of recursively computing $\Phi_{exp}$.
+The key observation is that in our recursive definition of regular expressions, whenever $exp$ is made up of one or two expressions $exp',exp''$ then these two regular expressions are _smaller_ than $exp$, and eventually (when they have size $1$) then they must correspond to the non-recursive case of a single alphabet symbol.
+>
+Therefore, we can prove the theorem by induction over the length $m$ of $exp$.
+For $m=1$, $exp$ is a single alhpabet symbol and the function $\Phi_{exp}$ is trivial.
+In the general case, for $m=|exp$ we assume by the induction hypothesis that  we have proven the theorem for $|exp|  = 1,\ldots,m-1$.
+Then by the definition of regular expressions, $exp$ is made up of one or two sub-expressions $exp',exp''$ of length smaller than $m$, and hence by the induction hypothesis we assume that $\Phi_{exp'}$ and   $\Phi_{exp''}$ are total computable functions.
+But then we can follow the definition for the cases of concatenation, union, or the star operator to compute $\Phi_{exp}$ using $\Phi_{exp'}$ and $\Phi_{exp''}$.
+
+The proof of [regularexphalt](){.ref} gives a recursive algorithm to evaluate whether a given string matches or not a regular expression.
+However, it turns out that there is a much more efficient algorithm to match regular expressions, based on their connection to _finite automata_.
+We will discuss this other algorithm, and this connection,  later in this course.
+
+The fact that functions computed by regular expressions always halt is one of the reason why they are so useful.
+When you make a regular expression search, you are guaranteed that you will get a result.
+This is   why operating systems, for example, restrict you for searching a file via regular expressions and don't allow searching by specifying an arbitrary function via a general-purpose programming language.
+
+But this always-halting property comes at a cost.
+Regular expressions cannot compute every function that is computable by NAND++ programs.
+In fact there are some very simple (and useful!) functions that they cannot compute, such as the following:
+
+> # {.theorem title="Matching parenthesis" #regexpparn}
+Let $\Sigma = \{"(",")"\}$ and  $MATCHPAREN:\Sigma^* \rightarrow \{0,1\}$ be the function that given a string of parenthesis, outputs $1$ if and only if every opening parenthesis is matched by a corresponding closed one.
+Then there is no regular expression over $\Sigma$ that computes $MATCHPAREN$.
+
+> # {.proof data-ref="regexpparn"}
 TO BE COMPLETED
+
+
+
+### Context free grammars.
+
 
 
 Another example of uncomputable functions arises from the notions of _grammars_.
