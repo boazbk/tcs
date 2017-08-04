@@ -52,7 +52,7 @@ index:
     draft: false
 
   - num: 9.
-    name: Godel's Incomlpeteness THeorem
+    name: Gödel's Incompleteness Theorem
     file: lec_09_godel
     draft: false
 
