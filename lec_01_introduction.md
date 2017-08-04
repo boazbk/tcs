@@ -57,7 +57,7 @@ Structures from computer science, such as bits, strings, graphs, and even the no
 ### Example: A faster way to multiply
 
 Once you think of the standard digit-by-digit multiplication algorithm, it seems like obviously the "right" way to multiply numbers.
-Indeed, in 1960, the famous mathematician Andrey Kolmogorov organized a seminar at Moscow State University in which he conjectured that every algorithm for multiplying two $n$ digit numbers would require a number of basic operations that is proportional to $n^2$.^[That is at least some $n^2/C$ operations for some constant $C$ or, using "Big Oh notation", $\Omega(n^2)$ operations.]
+Indeed, in 1960, the famous mathematician Andrey Kolmogorov organized a seminar at Moscow State University in which he conjectured that every algorithm for multiplying two $n$ digit numbers would require a number of basic operations that is proportional to $n^2$.^[That is at least some $n^2/C$ operations for some constant $C$ or, using "Big Oh notation", $\Omega(n^2)$ operations. See the _mathematical background_ section for a precise definition of big Oh notation.]
 Another way to say it, is that he conjectured that in any multiplication algorithm, doubling the number of digits would _quadruple_ the number of basic operations required.
 
 A young student named Anatoly Karatsuba was in the audience, and within a week he found an algorithm that requires only about $Cn^{1.6}$ operations for some constant $C$.

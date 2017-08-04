@@ -111,7 +111,7 @@ Executing step 4: "y_0 := v   NAND w"	 v   = 1, w   = 0, y_0 is assigned 1,
 Output is y_0=1
 ```
 
-| x - a/b | < epsilon
+
 
 On the other hand if we execute this program on the input $11$, then we get the following execution trace:
 
@@ -318,7 +318,7 @@ one    := x_0 NAND notx_0
 zero   := one NAND one   
 ~~~~
 
-Note that since for every $x\in \{0,1\}$, $NAND(x,\overline{x})=1$, the variable `one` will get the value $1$ regardless of the value of $x_0$, and the variable `zero` will get the value $NAND(1,1)=0$.^[We could have saved a couple of lines using the convention that uninitialized variables default to $0$.]
+Note that since for every $x\in \{0,1\}$, $NAND(x,\overline{x})=1$, the variable `one` will get the value $1$ regardless of the value of $x_0$, and the variable `zero` will get the value $NAND(1,1)=0$.^[We could have saved a couple of lines using the convention that uninitialized variables default to $0$, but it's always nice to be explicit.]
 Hence we can replace code such as `a := 0` with `a := one NAND one` and similarly `b := 1` will be replaced with `b:= zero NAND zero`.
 
 
@@ -352,7 +352,7 @@ We leave it as [mux-ex](){.ref} to verify that this program does indeed compute 
 
 ### Functions / Macros
 
-Another staple of almost any programming language that is lacking in NAND is the ability to execute functions.
+Another staple of almost any programming language is the ability to execute functions.
 However, we can achieve the same effect as (non recursive) functions using  "copy pasting".
 That is, we can replace code such as
 
@@ -372,7 +372,8 @@ function_code'
 ...
 ~~~~
 
-where `function_code'` is obtained by replacing all occurrences of `a` with `e`,`f` with `b`, `c` with `g`, `d` with `h`. We also ensure that all other variables appearing in `function_code'` don't interfere with other variables by replacing every instance of a variable `foo` with `upfoo` where `up` is some unique prefix.
+where `function_code'` is obtained by replacing all occurrences of `a` with `e`,`f` with `b`, `c` with `g`, `d` with `h`.
+When doing that we will need to  ensure that all other variables appearing in `function_code'` don't interfere with other variables by replacing every instance of a variable `foo` with `upfoo` where `up` is some unique prefix.
 
 ### Example:
 
@@ -410,7 +411,7 @@ Hence we can replace any  variable of the form `foo_{`$\expr{i}$`,`$\expr{j}$`}`
 
 While the basic variables in NAND++ are Boolean (only have $0$ or $1$), we can easily extend this to other objects using encodings.
 For example, we can encode the alphabet $\{$`a`,`b`,`c`,`d`,`e`,`f` $\}$ using three bits as $000,001,010,011,100,101$.
-Hence we use the code
+Hence, given such an encoding, we could  use the code
 
 ~~~~ { .go .numberLines }
 foo := "b"
@@ -440,6 +441,8 @@ foo_{1,0}  := 1
 foo_{1,1}  := 0
 foo_{1,2}  := 0
 ~~~~
+
+which can then in turn be mapped to standard NAND code using a one-to-one embedding $pair: \N \times \N \rightarrow \N$ as above.
 
 ^[TODO: possibly add an exercise using this with the alphabet including `[`,`]`,`,` to encode lists.]
 
@@ -562,7 +565,7 @@ We omit the proof, though in [multiplication-ex](){.ref} we ask you to supply a 
 In fact, we can use Karatsuba's algorithm to show that there is a NAND program of $O(n^{\log_2 3})$ lines to compute $MULT_n$ (and one can even get further asymptotic improvements using the newer algorithms).
 
 
-## Computing more functions
+## Functions beyond arithmetic
 
 We have seen that NAND programs can add and multiply numbers.  But can they compute other type of functions, that have nothing to do with arithmetic?
 Here is one example:
@@ -789,7 +792,7 @@ and $MULT_n \in SIZE_{2n,2n}(10000 n^{\log_2 3})$.^[TODO: check constants]
 * We can define the notion of computing a function via a simplified "programming language", where computing a function $F$ in $T$ steps would correspond to having a $T$-line NAND program that computes $F$.
 * While the NAND programming only has one operation, other operations such as functions and conditional execution can be implemented using it.   
 * Every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a NAND program of at most $O(m 2^n)$ lines (and in fact at most $O(m 2^n/n)$ lines).
-* Sometimes (always?) we can translate an efficient algorithm to compute $F$ into a NAND program with a  number of lines comparable to the number of steps in this algorithm.
+* Sometimes (or maybe always?) we can translate an _efficient_ algorithm to compute $F$ into a NAND program that computes $F$  with a  number of lines comparable to the number of steps in this algorithm.
 
 
 

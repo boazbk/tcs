@@ -24,7 +24,10 @@ This might seem like a wishful fantasy, but we will see that the answer to this 
 
 ## Physical implementation of computing devices.
 
-While most modern computing devices are obtained by mapping logical gates to semi-conductor based transistors, people have based computation on media including mechanical systems, gas and liquid (known as _fluidics_), biological and chemical processes, and even living creatures (e.g., see [crabfig](){.ref} or  [this video](https://www.youtube.com/watch?v=czk4xgdhdY4) for how crabs or slime mold can be used to do computations).
+
+_Computation_ is an abstract notion, that is distinct from its physical _implementations_.
+While most modern computing devices are obtained by mapping logical gates to semi-conductor based transistors, over history people have computed using a huge variety of mechanisms,  including mechanical systems, gas and liquid (known as _fluidics_), biological and chemical processes, and even living creatures (e.g., see [crabfig](){.ref} or  [this video](https://www.youtube.com/watch?v=czk4xgdhdY4) for how crabs or slime mold can be used to do computations).
+
 
 In this lecture we review some of these implementations, both so  you can get an appreciation of how it is possible to directly translate NAND programs to the physical world, without going through the entire stack of architecture, operating systems, compilers, etc... as well as to emphasize that silicon-based processors are by no means the only way perform computation.
 Indeed, as we will see much later in this course, a very exciting recent line of works involves using different media for computation that would allow us to take advantage of _quantum mechanical effects_ to enable different types of algorithms.
@@ -114,7 +117,8 @@ We say that the circuit $C$ _computes the function $F$_ if for every $x\in \{0,1
 
 ### Circuits and NAND programs
 
-Boolean circuits with the basis $B$ consisting of the single function $NAND:\{0,1\}^2  \rightarrow \{0,1\}$ directly correspond to NAND programs. For example the program
+Boolean circuits with the basis $B$ consisting of the single function $NAND:\{0,1\}^2  \rightarrow \{0,1\}$ that maps $x,y \in \{0,1\}$ to $1-xy$ directly correspond to NAND programs.
+For example the program
 
 ~~~~ { .go .numberLines  }
 u   := x_0 NAND x_1
@@ -129,7 +133,7 @@ This is stated in the following theorem:
 
 
 > # {.theorem title="NAND programs are equivalent to NAND circuits" #NAND-circ-thm}
-For every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$, if we let $S(f)$ denote the smallest number of lines in a NAND program that computes $F$ and $S'(f)$ denote the smallest number of vertices in a Boolean circuit with the basis $B = \{ NAND \}$ (for $NAND:\{0,1\}^2 \rightarrow \{0,1\}$ the function $NAND(x,y)=\overline{x \wedge y}$) then
+For every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$, if we let $S(f)$ denote the smallest number of lines in a NAND program that computes $F$ and $S'(f)$ denote the smallest number of vertices in a Boolean circuit with the basis $B = \{ NAND \}$  then
 $$
 S(f) \leq S'(f) \leq S(f)+n+m+10
 $$
@@ -144,7 +148,7 @@ Both of these can be proven using the above correspondence, but we leave verifyi
 We have seen that  _every_ function $f:\{0,1\}^k \rightarrow \{0,1\}$ has a NAND program with at most $4\cdot 2^k$ lines, and hence [NAND-circ-thm](){.ref} implies the following theorem (see [NAND-all-circ-thm-ex](){.ref}):
 
 > # {.theorem title="NAND programs simulate all circuits" #NAND-all-circ-thm}
-For every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $B$ a subset of the functions from $\{0,1\}^k$ to $\{0,1\}$, if we let $S(f)$ denote the smallest number of lines in a NAND program that computes $F$ and $S_B(f)$ denote the smallest number of vertices in a Boolean circuit with the basis $B = \{ NAND \}$ (for $NAND:\{0,1\}^2 \rightarrow \{0,1\}$ the function $NAND(x,y)=\overline{x \wedge y}$) then
+For every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $B$ a subset of the functions from $\{0,1\}^k$ to $\{0,1\}$, if we let $S(f)$ denote the smallest number of lines in a NAND program that computes $F$ and $S_B(f)$ denote the smallest number of vertices in a Boolean circuit with the basis $B$, then
 $$
 S(f) \leq (4\cdot 2^k)S_B(f)
 $$
@@ -183,7 +187,12 @@ Even larger systems such as [flocks of birds](https://www.cs.princeton.edu/~chaz
 
 ![Performance of DNA-based logic gates. Figure taken from paper of [Bonnet et al](http://science.sciencemag.org/content/early/2013/03/27/science.1232758.full), Science, 2013.](../figure/transcriptor.jpg){#transcriptorfig .class width=300px height=300px}
 
-^[TODO: maybe add  [game of life gates](http://www.rennard.org/alife/CollisionBasedRennard.pdf)]
+## Cellular automata and the game of life
+
+As we will discuss later, cellular automata such as Conway's "Game of Life" can be used to simulate computation gates, see [gameoflifefig](){.ref}.
+
+![An AND gate using a "Game of Life" configuration. Figure taken from [Jean-Philippe Rennard's paper](http://www.rennard.org/alife/CollisionBasedRennard.pdf).](../figure/game_of_life_and.png){#gameoflifefig .class width=300px height=300px}
+
 
 ## Circuit evaluation algorithm
 
@@ -191,26 +200,30 @@ A Boolean circuit is a labeled graph, and hence we can use the _adjacency list_ 
 Hence we can represent such a circuit by a string of length $O(s\log |B| + s \log s)$.
 We can define  $CIRCEVAL_{B,s,n,m}$ to be the function to be the function that takes as input a pair $(C,x)$ where $C$ is string describing an $s$-size  $n$-input $m$-output circuit over $B$, and $x\in \{0,1\}^n$, and returns the evaluation of $C$ over $n$.
 
-[NAND-all-circ-thm](){.ref} implies that every circuit $C$ of $s$ gates over a $k$-ary basis $B$ can be transformed into a NAND program of $O(s\cdot 2^k)$ lines, and hence we can combine this transformation with last lecture's evaluation procedure for NAND programs to conclude that $CIRCEVAL$ can be evaluated in time $O(2^k s^3 poly(\log s))$, and as we've seen, can even improve the constant $3$ to $2$.
+[NAND-all-circ-thm](){.ref} implies that every circuit $C$ of $s$ gates over a $k$-ary basis $B$ can be transformed into a NAND program of $O(s\cdot 2^k)$ lines, and hence we can combine this transformation with last lecture's evaluation procedure for NAND programs to conclude that $CIRCEVAL$ can be evaluated in time $O(2^k s^3 poly(\log s))$.
 
 ### Advanced note: evaluating circuits in quasilinear time.
 
-We can improve the evaluation procedure even further, and evaluate $s$-size constant arity circuits (or NAND programs) in time $O(s polylog(s))$.^[TODO: add details here, use the notion of oblivious routing to embed any graph in a universal graph.]
+We can improve the evaluation procedure, and evaluate $s$-size constant arity circuits (or NAND programs) in time $O(s polylog(s))$.^[TODO: add details here, use the notion of oblivious routing to embed any graph in a universal graph.]
 
 
 
 ## The physical extended Church-Turing thesis
 
-So, NAND gates can be implemented using very different systems in the physical world.
+We've seen that  NAND gates can be implemented using very different systems in the physical world.
 What about the reverse direction?
 Can NAND programs simulate any physical computer?  
+
+
 We can take a leap of faith and stipulate that NAND programs do actually encapsulate _every_ computation that we can think of.
 Such a statement (in the realm of infinite functions, which we'll encounter in a couple of lectures) is typically attributed to Alonzo Church and Alan Turing, and in that context is  known as the _Church Turing Thesis_.
-In the context of finite functions, we can make the following informal conjecture:
+As we will discuss in future lectures, the Church-Turing Thesis is not a mathematical theorem or conjecture.
+Rather, like theories in physics, the Church-Turing Thesis is about mathematically modelling the real world.
+In the context of finite functions, we can make the following informal hypothesis or prediction:
 
 >_If a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed in the physical world using $s$ amount of "physical resources" then it can be computed by a NAND program of roughly $s$ lines._
 
-We call this conjecture the **"Physical Extended Church-Turing Thesis"** or _PECTT_ for short.
+We call this hypothesis the **"Physical Extended Church-Turing Thesis"** or _PECTT_ for short.
 
 
 There is no single universally-agreed-upon formalization of "$s$ physical resources",  but
@@ -221,16 +234,18 @@ The exact values for $\alpha,\beta$ are not so clear, but it is generally accept
 >__Advanced note: making things concrete:__
 We can attempt at a more exact phrasing of the PECTT as follows.
 Suppose that $Z$ is a physical system that accepts $n$ binary stimuli and has a binary output, and can be enclosed in a sphere of volume $V$.
-Then, if for every setting $x\in \{0,1\}^n$ of the stimuli, if we measure the output within time $t$, we get the value $F(x)$, then there is a NAND program of at most $\alpha(Vt)^2$ where $\alpha$ is some normalization constant.^[We can also consider variants where we use [surface area](https://en.wikipedia.org/wiki/Holographic_principle) instead of volume, or use a different power than $2$.  However, none of these choices makes a qualitative difference  to the discussion below.]
+We say that the system $Z$ _computes_ a function $F:\{0,1\}^n \rightarrow \{0,1\}$ within $t$ seconds if whenever we set the stimuli to some value  $x\in \{0,1\}^n$,  if we measure the output after $t$ seconds.
+We can phrase the PECTT as stipulating  that whenever there exists such a system $Z$  computes $F$ within $t$ seconds,  there exists  a NAND program that computes $F$ of at most $\alpha(Vt)^2$ lines, where $\alpha$ is some normalization constant.^[We can also consider variants where we use [surface area](https://en.wikipedia.org/wiki/Holographic_principle) instead of volume, or use a different power than $2$.  However, none of these choices makes a qualitative difference  to the discussion below.]
 In particular, suppose that $F:\{0,1\}^n \rightarrow \{0,1\}$ is a function that requires $2^n/(100n)>2^{0.8n}$ lines for any NAND program (we have seen that such functions exist in the last lecture).
 Then the PCETT would imply that either the volume or the time of a system that computes $F$ will have to be at least $2^{0.2 n}/\sqrt{\alpha}$.
 To fully make it  concrete, we need to decide on the units for measuring time and volume, and the normalization constant $\alpha$.
 One  conservative choice is to assume that we could squeeze computation to the absolute physical limits (which are many orders of magnitude beyond current technology).
-This corresponds to setting $\alpha=1$ and using the [Planck units](https://en.wikipedia.org/wiki/Planck_units) for volume and time. The _Planck length_ $\ell_P$ (which is, roughly speaking, the shortest distance that can theoretically be measured) is roughly $2^{-120}$ meters.
+This corresponds to setting $\alpha=1$ and using the [Planck units](https://en.wikipedia.org/wiki/Planck_units) for volume and time.
+The _Planck length_ $\ell_P$ (which is, roughly speaking, the shortest distance that can theoretically be measured) is roughly $2^{-120}$ meters.
 The _Planck time_ $t_P$ (which is the time it takes for light to travel one Planck length) is about $2^{-150}$ seconds.
-In the above setting, if a function $F$ takes, say, 1KB of input (e.g., roughly $10^4$ bits, which can encode a $100$ by $100$ bitmap image), and requires at least $2^{0.8 n}= 2^{0.8 10^4}$ NAND lines to compute, then any physical system that computes it would require either volume of $2^{0.2 10^4-360}>2^{1500}$ meters cubed or take at least $2^{0.2 10^4-150}>2^{1500}$ seconds.
+In the above setting, if a function $F$ takes, say, 1KB of input (e.g., roughly $10^4$ bits, which can encode a $100$ by $100$ bitmap image), and requires at least $2^{0.8 n}= 2^{0.8 10^4}$ NAND lines to compute, then any physical system that computes it would require either volume of $2^{0.2 10^4}$ Planck length cubed, which is more than $2^{1500}$ meters cubed or take at least $2^{0.2 10^4}$ Planck Time units, which is larger than $2^{1500}$ seconds.
 To get a sense of how big that number is, note that the universe is only about $2^{60}$ seconds old, and its observable radius is only roughly $2^{90}$ meters.
-This suggests that it is possible to _empirically falsify_ the PECTT by presenting a smaller-than-universe-size system that solves such a function.^[There are of course several hurdles to refuting the PECTT in this way, one of which is that we can't actually test the system on all possible inputs. However,  it turns we can get aroudn this issue using notions such as  _interactive proofs_ and _program checking_ that we will see later in this course. Another, perhaps more salient problem, is that while we know many hard functions exist, at the moment there is no single explicit function $F:\{0,1\}^n \rightarrow \{0,1\}$ for which we can _prove_ an $\omega(n)$ lower bound on the number of lines that a NAND program needs to compute it.]
+This suggests that it is possible to _empirically falsify_ the PECTT by presenting a smaller-than-universe-size system that solves such a function.^[There are of course several hurdles to refuting the PECTT in this way, one of which is that we can't actually test the system on all possible inputs. However,  it turns we can get around this issue using notions such as  _interactive proofs_ and _program checking_ that we will see later in this course. Another, perhaps more salient problem, is that while we know many hard functions exist, at the moment there is _no single explicit function_ $F:\{0,1\}^n \rightarrow \{0,1\}$ for which we can _prove_ an $\omega(n)$ (let alone  $\Omega(2^n/n)$) lower bound  on the number of lines that a NAND program needs to compute it.]
 
 ### Attempts at refuting  the PECTT:
 
@@ -251,7 +266,9 @@ The problem with this device of course is that nature, just like people, often g
 
 * **DNA computing.** People have suggested using the properties of DNA to do hard computational problems. The main advantage of DNA is the ability to potentially encode a lot of information in relatively small physical space, as well as operate on this information in a highly parallel manner. At the time of this writing, it was [demonstrated](http://science.sciencemag.org/content/337/6102/1628.full) that one can use DNA to store about $10^{16}$ bits of information in a region of radius about milimiter, as opposed to about $10^{10}$ bits with the best known hard disk technology. This does not posit a real challenge to the PECTT but does suggest that one should be conservative about the choice of constant and not assume that current hard disk + silicon technologies are the absolute best possible.^[We were extremely conservative in the suggested parameters for the PECTT, having assumed that as many as $\ell_P^{-2}10^{-6} \sim 10^{61}$ bits could potentially be stored in a milimeter radius region.]
 
-* **Continuous/real computers.** The physical world is often described using continuous quantities such as time and space, and people have suggested that analog devices might have direct access to computing with real-valued quantities and would be inherently more powerful than discrete models such as NAND machines. Whether the "true" physical world is continuous or discrete is an open questionIn fact, we do not even know how to precisely _phrase_ this question, let alone answer it. Yet, regardless of the answer, it seems clear that the effort to measure a continuous quantity grows with the level of accuracy desired, and so there is no "free lunch" or way to bypass the PECTT using such machines (see also [this paper](http://www.cs.princeton.edu/~ken/MCS86.pdf)). Related to that are proposals  known as "hypercomputing" or  "Zeno's computers" which attempt to use the continuity of time by doing the first operation in one second, the second one in half a second, the third operation in a quarter second and so on..  These fail for a  similar reason to the one guaranteeing that Achilles will eventually catch the tortoise despite the  original Zeno's paradox.
+* **Continuous/real computers.** The physical world is often described using continuous quantities such as time and space, and people have suggested that analog devices might have direct access to computing with real-valued quantities and would be inherently more powerful than discrete models such as NAND machines.
+Whether the "true" physical world is continuous or discrete is an open question.
+In fact, we do not even know how to precisely _phrase_ this question, let alone answer it. Yet, regardless of the answer, it seems clear that the effort to measure a continuous quantity grows with the level of accuracy desired, and so there is no "free lunch" or way to bypass the PECTT using such machines (see also [this paper](http://www.cs.princeton.edu/~ken/MCS86.pdf)). Related to that are proposals  known as "hypercomputing" or  "Zeno's computers" which attempt to use the continuity of time by doing the first operation in one second, the second one in half a second, the third operation in a quarter second and so on..  These fail for a  similar reason to the one guaranteeing that Achilles will eventually catch the tortoise despite the  original Zeno's paradox.
 
 * **Relativity computer and time travel.** The formulation above assumed the notion of time, but under the theory of relativity time is in the eye of the observer. One approach to solve hard problems is to leave the computer to run for a lot of time from _his_ perspective, but to ensure that this is actually a short while from _our_ perspective. One approach to do so is for the user to start the computer and then go for a quick jog at close to the speed of light before checking on its status. Depending on how fast one goes, few seconds from the point of view of the user might correspond to centuries in computer time (it might even finish updating its Windows operating system!). Of course the catch here is that the energy required from  the user is proportional to how close one needs to get to the speed of light. A more interesting proposal is to use time travel via _closed timelike curves (CTCs)_. In this case we could run an arbitrarily long computation by doing some calculations, remembering  the current state, and the travelling back in time to continue where we left off. Indeed, if CTCs exist then we'd probably have to revise the PECTT (though in this case I will simply travel back in time and edit these notes, so I can claim I never conjectured it in the first place...)
 
@@ -277,7 +294,7 @@ However, the main take away is that while quantum computing does suggest we need
 
 * NAND programs are equivalent (up to constants) to Boolean circuits using any finite universal basis.
 
-* It is possible that the number of lines in the smallest NAND program for a function $F$ captures roughly the amount of physical resources required to compute $F$. This statement is known as the _Physical Extended Church-Turing Thesis (PECTT)_.
+* By a leap of faith, we could hypothesize that the number of lines in the smallest NAND program for a function $F$ captures roughly the amount of physical resources required to compute $F$. This statement is known as the _Physical Extended Church-Turing Thesis (PECTT)_.
 
 * NAND programs capture a surprisingly wide array of computational models. The strongest currently known challenge to the PECTT comes from the potential for using quantum mechanical effects to speed-up computation, a model known as _quantum computers_.
 
@@ -306,11 +323,13 @@ Prove that for every $w,t$, the function $T_{w,t}$ can be computed by a NAND pro
 
 ## Bibliographical notes
 
-^[TODO: credit Aaronson for much of the discussion. Soap bubble claim was made by  Bringsjord and Taylor in 2004 though they did not contribute the idea to solve Steiner tree this way but only the faulty analysis. ]
+Scott Aaronson's blog post on how [information is physical](http://www.scottaaronson.com/blog/?p=3327) is a good discussion on issues related to the physical extended Church-Turing Physics.
+Aaronson's [survey on  NP complete problems and physical reality](http://www.arxiv.org/abs/quant-ph/0502072) is also a great source for some of these issues, though might be easier to read after we reach the lectures on NP and NP completeness.
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
+Some topics related to this lecture that might be accessible to advanced students include:
 
+* The notion of the fundamental limits for information and their interplay with physics, is still not well understood.
 
 ## Acknowledgements

@@ -34,7 +34,7 @@ defined as follows: For every string $(P,x)$ where $P \in \{0,1\}^s$ and $x\in\{
 
 
 Of course to fully specify $EVAL_{s,n,m}$, we need to fix a precise representation scheme  for NAND programs as binary strings.
-We can simply use the ASCII representation, though later we will fix a somewhat more convenient representation.
+We can simply use the ASCII representation, though later we will use a somewhat more convenient representation.
 But regardless of the choice of representation,
 [bounded-univ](){.ref} is an immediate corollary of the fact that _every_ finite function, and so in particular the function $EVAL_{s,n,m}$ above, can be computed by _some_ NAND program.
 
@@ -53,8 +53,8 @@ It turns out that we don't even need to pay that much of an overhead for univers
 For every $s,n,m \in \N$ there is a NAND program of at most $O(s \log s)$ lines that computes the  function
 $EVAL_{s,n,m}:\{0,1\}^{s+n} \rightarrow \{0,1\}^m$ defined above.
 
-We will prove a weaker version of [eff-bounded-univ](){.ref}, with  $O(s^3 \log s)$ lines instead of $O(s \log s)$.
-We will sketch  how we can get the improved $O(s \log s)$ bound in the next lecture.
+We will prove a weaker version of [eff-bounded-univ](){.ref}, that will use a large number of  $O(s^3 \log s)$ lines instead of $O(s \log s)$ as stated in the theorem.
+We will sketch  how we can improve this proof and get the  $O(s \log s)$ bound in the next lecture.
 Unlike [bounded-univ](){.ref}, [eff-bounded-univ](){.ref} is not a trivial corollary of the fact that every function can be computed, and  takes much more effort to prove.
 It requires us to present a concrete NAND program for the $EVAL_{s,n,m}$ function.
 We will do so in several stages.
@@ -102,6 +102,7 @@ is  represented by the following list of four six-tuples:
 ```
 
 Note that even if we renamed `u`, `v` and `w` to `foo`, `bar` and `blah` then the representation of the program will remain the same (which is fine, since it does not change its semantics).  
+It is very easy to transform a string containing the program code to a the list-of-tuples representation; for example, it can be done in 15 lines of Python.^[If you're curious what these 15 lines are, see the appendix or the website [http://nandpl.org](http://nandpl.org).]  
 
 To evaluate a NAND program $P$ given in this representation, on an input $x$, we will do the following:
 
@@ -207,16 +208,20 @@ It is possible to translate _every_ Python program into an equivalent `NAND` pro
 Actually doing so requires taking care of many details and is beyond the scope of this course, but let me convince you why you should believe it is possible in principle.
 We can use [CPython](https://en.wikipedia.org/wiki/CPython) (the reference implementation for Python), to evaluate every Python program using a `C` program.
 We can combine this with a C compiler to transform a Python program to various flavors of "machine language".
+
+
 So, to transform a Python program into an equivalent NAND program, it is enough to show how to transform a machine language program into an equivalent NAND program.
 One minimalistic (and hence convenient) family of machine languages is known as the _ARM architecture_ which powers a great many mobile devices including essentially all Android devices.^[ARM stands for "Advanced RISC Machine" where RISC in turn stands for "Reduced instruction set computing"]  
 There are even simpler machine languages, such as the [LEG acrhitecture](https://github.com/frasercrmck/llvm-leg) for which a  backend for the [LLVM compiler](http://llvm.org/) was implemented (and hence can be the target of compiling any of [large and growing list](https://en.wikipedia.org/wiki/LLVM#Front_ends) of languages that this compiler supports).
-Other examples include the  [TinyRAM](http://www.scipr-lab.org/doc/TinyRAM-spec-0.991.pdf) architecture (motivated by  interactive proof systems that we will discuss much later in this course) and  the teaching-oriented [Ridiculously Simple Computer](https://www.ece.umd.edu/~blj/RiSC/) architecture.
+Other examples include the  [TinyRAM](http://www.scipr-lab.org/doc/TinyRAM-spec-0.991.pdf) architecture (motivated by  interactive proof systems that we will discuss much later in this course) and  the teaching-oriented [Ridiculously Simple Computer](https://www.ece.umd.edu/~blj/RiSC/) architecture.^[The reverse direction of compiling NAND to C code, is much easier. We show code for a `NAND2C` function in the appendix.]
 
 Going one by one over the instruction sets of such computers and translating them to NAND snippets is no  fun, but it is a feasible thing to do.
 In fact, ultimately this is very similar to the transformation that takes place in converting our high level code to actual silicon gates that (as we will see in the next lecture) are not so different from the operations of a NAND program.  
-Indeed, tools such as [MyHDL](http://www.myhdl.org/) that transform "Python to Silicon" can be used to convert a Pyyhon program to a NAND program.
-We should emphasize that the NAND programming language is just a teaching tool, and by no means do I suggest that writing NAND programs, or compilers to NAND, is a practical, useful, or even enjoyable activity.
+Indeed, tools such as [MyHDL](http://www.myhdl.org/) that transform "Python to Silicon" can be used to convert a Python program to a NAND program.
+
+The NAND programming language is just a teaching tool, and by no means do I suggest that writing NAND programs, or compilers to NAND, is a practical, useful, or even enjoyable activity.
 What I do want is to make sure you understand why it _can_ be done, and to have the confidence that if your life (or at least your grade in this course) depended on it, then you would be able to do this.
+Understanding how programs in high level languages such as Python are eventually transformed into concrete low-level representation such as NAND is fundamental to computer science.
 
 The astute reader might notice that the above paragraphs only outlined why it should be possible to find for every _particular_ Python-computable function $F$, a _particular_ comparably efficient NAND program $P$ that computes $F$.
 But this still seems to fall short of our goal of writing a "Python interpreter in NAND" which would mean  that for every parameter $n$, we come up with a _single_ NAND program $UNIV_n$ such that given a description of a Python program $P$, a particular input $x$, and a bound $T$ on the number of operations (where the length of $P$, $x$ and the magnitude of $T$ are all at most $n$) would return the result of executing $P$ on $x$ for at most $T$ steps.

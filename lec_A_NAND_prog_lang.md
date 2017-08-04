@@ -87,6 +87,122 @@ The _number of steps_ that $P$ takes on input $x$ is defined as $(pc+1)\ell$ whe
 If $F:\{0,1\}^* \rightarrow \{0,1\}^*$ is a (potentially partial) function and $P$ is a NAND++ program then we say that $P$ _computes_ $F$ if for every $x\in \{0,1\}^*$ on which $F$ is defined, on input $x$ the program $P$ halts and outputs the value $F(x)$.
 If $P$ and $F$ are as above and $T:\N \rightarrow \N$ is some function, then we say that $P$ computes $F$ in time $T$ if for every $x\in \{0,1\}^*$ on which $F$ is defined, on input $x$ the program $P$ halts within $T(|x|)$ steps and outputs the value $F(x)$.
 
+### Interpreting NAND programs
+
+The NAND programming language is sufficiently simple so that writing an interpreter for it is an easy exercise.
+The website [http://nandpl.org](http://nandpl.org) contains an OCaml implementation that is more general and can handle many "syntactic sugar" transformation, but interpreting or compiling "plain vanilla" NAND can be done in few lines.
+For example,   the following Python function parses a NAND program to the "list of tuples" representation:
+
+~~~~ { .python }
+# Converts a NAND program from text to the list of tuples representation
+# Assumes a program where no index is larger than the size of the program
+def parse(prog):
+    avars = { 'x':0, 'y':1 , 'validx':2, 'loop':3 } # dictionary of indices of "workspace" variables
+    n = max([int(var[2:]) for var in prog.split() if var[:2]=='x_' ])+1 # no of inputs
+    m = max([int(var[2:]) for var in prog.split() if var[:2]=='y_' ])+1 # no of outputs
+
+    def var_idx(vname): # helper local function to return index of named variable
+        vname = vname.split('_')
+        name = vname[0]
+        idx = int(vname[1]) if len(vname)>1 else 0
+        return [avars.setdefault(name,len(avars)),idx]
+
+    result = []
+    for line in prog.split('\n'):
+        if not line or line[0]=='#': continue # ignore empty and commented out lines
+        (var1,assign,var2,op,var3) = line.split()
+        result.append(var_idx(var1) + var_idx(var2) + var_idx(var3))
+    return (n,m,result)
+~~~~
+
+As we discuss in the "code and data" lecture, we can execute a program given in the list of tuples representations as follows
+
+~~~~ { .python }
+# Evaluates an n-input, m-output NAND program P on input x
+# P is given in the list of tuples representation
+def EVAL(n,m,P,x):
+    s = len(P)    # no. of lines in the program
+    t = 3*len(P)  # maximum no. of unique labels
+    avars = [0]*(t*s) # initialize array to 0
+    for i in range(n): # initalize inputs to x
+        avars[i*t] = x[i]
+
+    for (a,i,b,j,c,k) in P: # evaluate every line of program
+        avars[i*t+a] = 1-avars[j*t+b]*avars[k*t+c]
+
+    #  return y_0...y_(m-1) which is
+    # avars[1],avars[t+1],...,avars[(m-1)*t+1]
+    return [avars[i*t+1] for i in range(m)]
+~~~~
+
+Moreover, if we want to _compile_ NAND programs, we can easily transform them to C code using the following `NAND2C` function:^[The function is somewhat more complex than the minimum needed, since it uses an array of _bits_ to store the variables.]
+
+~~~~ { .go }
+# Transforms a NAND program to a C function
+# prog: string of program code
+# n: number of inputs
+# m: number of outputs
+def NAND2C(prog,n,m):
+    avars = { } # dictionary of indices of "workspace" variables
+    for i in range(n):
+        avars['x_'+str(i)] = i
+    for j in range(m):
+        avars['y_'+str(j)] = n+j
+
+    def var_idx(vname): # helper local function to return index of named variable
+        vname = vname.split('_')
+        name = vname[0]
+        idx = int(vname[1]) if len(vname)>1 else 0
+        return avars.setdefault(name+'_'+str(idx),len(avars))
+
+    main = "\n"
+
+    for line in prog.split('\n'):
+        if not line or line[0]=='#' or line[0]=='//': continue # ignore empty and commented out lines
+        (var1,assign,var2,op,var3) = line.split()
+        main += '    setbit(vars,{idx1}, ~(getbit(vars,{idx2}) & (getbit(vars,{idx2}));\n'.format(
+            idx1= var_idx(var1), idx2 = var_idx(var2), idx3 = var_idx(var3))
+
+    Cprog = '''
+    #include <stdbool.h>
+
+    typedef unsigned long bfield_t[ (sizeof(long)-1+{numvars})/sizeof(long) ];
+    // From Stackoverflow answer https://stackoverflow.com/questions/2525310/how-to-define-and-work-with-an-array-of-bits-in-c
+    // long because that's probably what your cpu is best at
+    // The size_needed should be evenly divisable by sizeof(long) or
+    // you could (sizeof(long)-1+size_needed)/sizeof(long) to force it to round up
+
+    unsigned long getval(bfield_t vars, int idx) {{
+        return 1 & (vars[idx / (8 * sizeof(long) )] >> (idx % (8 * sizeof(long))));
+    }}
+
+    void setval(bfield_t vars, int idx, unsigned long v) {{
+        vars[idx / (8 * sizeof(long) )] = ((vars[idx / (8 * sizeof(long) )] & ~(1<<b)) | (v<<b);
+    }}
+
+    unsigned long int *eval(unsigned long int *x) {{
+       bfield_t vars = {{0}};
+       int i;
+       int j;
+       unsigned long int y[{m}] = {{0}};
+       for(i=0;i<{n};++i) {{
+           setval(vars,i,x[i])
+       }}
+    '''.format(n=n,m=m,numvars=len(avars))
+
+    Cprog = Cprog + main +  '''
+        for(j=0;j<{m};++j) {{
+           y[j] = getval(vars,{n}+j)
+       }}
+       return y;
+    }}
+    '''.format(n=n,m=m)
+
+    return Cprog
+~~~~
+
+
+
 
 ## NAND<< programming language specification
 

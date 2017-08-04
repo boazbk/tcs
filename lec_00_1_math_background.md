@@ -242,11 +242,13 @@ This is just a technical convention, like starting the natural numbers from zero
 
 The notions of lists/tuples and the $*$ operator extend  beyond the setting of binary strings. See any discrete mathematics text for their definitions, as well as the standard operators on sets which include not just union ($\cup$) but also intersection ($\cap$) and set difference ($\setminus$).
 
-> # {.exercise title="Inclusion Exclusion"} \
+
+
+># {.exercise title="Inclusion Exclusion" #inclex }
 a. Let $A,B$ be finite sets. Prove that $|A\cup B| = |A|+|B|-|A\cap B|$. \
 b. Let $A_0,\ldots,A_{k-1}$ be finite sets. Prove that $|A_1 \cup \cdots \cup A_k| \geq \sum_{i=0}^{k-1} |A_i| - \sum_{0 \leq i < j < k} |A_i \cap A_j|$. \
-c. Let $A_0,\ldots,A_{k-1}$ be finite subsets of $\{1,\ldots, n\}$, such that $|A_i|=m$ for every $i\in [k]$.
-Prove that if $k>100n$, then there exist two distinct sets $A_i,A_j$ s.t. $|A_i \cap A_j| \geq m^2/(10n)$.
+c. Let $A_0,\ldots,A_{k-1}$ be finite subsets of $\{1,\ldots, n\}$, such that $|A_i|=m$ for every $i\in [k]$. Prove that if $k>100n$, then there exist two distinct sets $A_i,A_j$ s.t. $|A_i \cap A_j| \geq m^2/(10n)$.
+
 
 
 

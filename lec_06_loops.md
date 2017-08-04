@@ -7,9 +7,14 @@
 >_"All problems in computer science can be solved by another level of indirection"_,  attributed to David Wheeler.
 
 
-The NAND programming language has one significant drawback: to compute a function on $n$ inputs, the program itself must have at least $n$ lines.
-This is contrast to other programming language where we can have a single program that computes functions that can take an arbitrary long output.
-For example, even the simple function $PARITY:\{0,1\}^* \rightarrow \{0,1\}$ such that $PARITY(x)$ equals $1$ iff the number of $1$'s in $x$ is odd cannot be computed by a NAND program. Rather, for every $n$, we can compute $PARITY_n$ (the restriction of $PARITY$ to $\{0,1\}^n$) using a different NAND program (which will require more than $n$ lines). For example, here is the NAND program to compute $PARITY_5$:
+
+
+The NAND programming language has one very significant drawback: a finite NAND program $P$ can only compute a finite function $F$, and in particular the number of inputs of $F$ is always smaller than the number of lines of $P$.
+This does not capture our intuitive notion of an algorithm as a _single recipe_ to compute a potentially infinite function.
+For example, the standard elementary school multiplication algorithm is a _single_ algorithm that multiplies numbers of all lengths, but yet we cannot express this algorithm as a single NAND program, but rather need a different NAND program for every input length.
+
+
+Let us consider the case of the simple _parity_ function  $PARITY:\{0,1\}^* \rightarrow \{0,1\}$ such that $PARITY(x)$ equals $1$ iff the number of $1$'s in $x$ is odd cannot be computed by a NAND program. Rather, for every $n$, we can compute $PARITY_n$ (the restriction of $PARITY$ to $\{0,1\}^n$) using a different NAND program. For example, here is the NAND program to compute $PARITY_5$:
 
 ~~~~ { .go .numberLines }
 u   := x_0 NAND x_1
@@ -31,7 +36,7 @@ y_0 := v   NAND w
 ~~~~
 
 This is rather repetitive, and more importantly, does not capture the fact that there is a _single_ algorithm to compute the parity on all inputs.
-We would rather write something like:
+Typical programming language use the notion of _loops_ to express such an algorithm, and so we would rather write something like:
 
 ~~~~ { .go .numberLines }
 # s is the "running parity", initalized to 0
@@ -45,15 +50,17 @@ ns  := s  NAND s
 y_0 := ns NAND ns
 ~~~~
 
-We will now discuss how we can extend our NAND programming language so that it can capture these kind of algorithms.
+We will now discuss how we can extend the  NAND programming language so that it can capture this kind of a construct.
 
 
 ## The NAND++ Programming language
 
-While, keeping to our minimalist form, we will not add a `while` keyword to the NAND programming language, we will extend it in a way that allows for executing loops and accessing arrays of arbitrary length.  The main new ingredients are the following:
+Keeping to our minimalist form, we will not add a `while` keyword to the NAND programming language.
+But we will extend this language in a way that allows for executing loops and accessing arrays of arbitrary length.  
+The main new ingredients are the following:
 
 
-* We add a special _integer valued_ variable `i`, and allow expressions of the form `foo_i` (for every variable identifier `foo`) which are evaluated to equal `foo_`$\expr{i}$ where $\expr{i}$ denotes the current value of the variable `i`. As usual, `i` is initially assigned the value 0.
+* We add a special _integer valued_ variable `i`, and allow expressions of the form `foo_i` (for every variable identifier `foo`) which are evaluated to equal `foo_`$\expr{i}$ where $\expr{i}$ denotes the current value of the variable `i`. As usual, `i` is initially assigned the value $0$.^[Note that the variable `i`, like all variables in NAND, is a _global_ variable, and hence  all expressions of the form `foo_i`, `bar_i` etc. refer to the same value of `i`.]
 
 * We add a special variable `loop` with the following semantics: when the program ends, if `loop` is equal to one, then execution goes back to the first line and the variable `i` is either incremented or decremented by 1. In the first iteration of the loop, `i` is incremented, in the second iteration, it is decremented, then in the next two iterations `i` is incremented, and in the next two after that it is decremented, and so on. That is, the variable `i` takes the following sequence of values:
 
@@ -66,7 +73,9 @@ $$
 
 * Like NAND programs, the output of a  NAND++ program is the string `y_`$0$, $\ldots$, `y_`$\expr{k}$  where $k$ is the largest integer such that `y_`$\expr{k}$ was assigned a value.
 
-See the appendix for a more formal specification of the NAND++ programming language.
+See the appendix for a more formal specification of the NAND++ programming language, and the website [http://nandpl.org](http://nandpl.org) for an implementation.
+
+
 Here is the NAND++ program to compute parity of arbitrary length:
 (It is a good idea for you to see why this program does indeed compute the parity)
 
@@ -81,7 +90,7 @@ tmp1  := seen_i NAND seen_i
 tmp2  := x_i NAND tmp1
 val   :=  tmp2 NAND tmp2
 
-# Do s := s XOR xal
+# Do s := s XOR val
 ns   := s   NAND s
 y_0  := ns  NAND ns
 u    := val NAND s
@@ -128,41 +137,7 @@ $$
 where $r= \floor{\sqrt{pc+1/4}-1/2}$.
 (We ask you to prove this in [computeidx-ex](){.ref}.)
 
-
-
-
-## Uniformity
-
-While NAND++ adds an extra operation over NAND, it is not exactly accurate to say that NAND++ programs are "more powerful" than NAND programs.
-NAND programs, having no loops, are simply not applicable for computing functions with more inputs than they have lines.
-The key difference between NAND and NAND++ is that NAND++ allows us to express the fact that the algorithm for computing parities of length-$100$ strings is really the same one as the algorithm for computing parities of length-$5$ strings (or similarly the fact that the algorithm for adding $n$-bit numbers is the same for every $n$, etc..).
-That is, one can think of the NAND++ program for general parity as the "seed" out of which we can grow NAND programs for length $10$, length $100$, or length $1000$ parities as needed.
-This notion of a single algorithm that can compute functions of all input lengths is known as _uniformity_ of computation and hence we think of NAND++ as  _uniform_ model of computation, as opposed to NAND which is a _nonuniform_ model, where we have to specify a different program for every input length.
-
-Looking ahead, we will see that this uniformity leads to another crucial difference between NAND++ and NAND programs.
-NAND++ programs can have inputs and outputs that are longer than the description of the program and in particular we can have a NAND++ program that "self replicates" in the sense that it can print its own code.   
-This notion of "self replication", and the related notion of "self reference" is crucial to many aspects of computation, as well  of course to life itself, whether in the form of digital or biological programs.
-
-
-### Infinite loops and computing a function
-
-There is another important difference between NAND and NAND++ programs: looking at a NAND program, we can always tell how many inputs and how many outputs it has (by looking at the number of `x_` and `y_` variables) and are guaranteed that if we invoke it on any input then _some_ output will be produced.  
-In contrast, given any particular NAND++ program $P$, we cannot determine a priori the length of the output and in fact  it is not even clear if an output would be produced at all!
-For example, the following NAND++ program would go into an infinite loop if the first bit of the input is zero:
-
-~~~~ { .go .numberLines }
-loop := x_0 NAND x_0
-~~~~
-
-For a NAND++ program $P$ and string $x\in \{0,1\}^*$, if $P$ produces an output when executed with input $x$ then we denote this output by $P(x)$.
-If $P$ does not produce an output on $x$ then we say that $P(x)$ is _undefined_ and denote this as $P(x) = \bot$.
-
-> # {.definition title="Computing a function" #compute}
-We say that a NAND++ program $P$ _computes_ a function $F:\{0,1\}^* :\rightarrow \{0,1\}^*$ if $P(x)=F(x)$ for every $x\in \{0,1\}^*$.
->
-If $F$ is a partial function then we say that _$P$ computes $F$_ if $P(x)=F(x)$ for every $x$ on which $F$ is defined.
-
-### Syntactic sugar: Inner loops
+### Remark: Inner loops via syntactic sugar
 
 While  NAND+  only has a single "outer loop",  we can use conditionals to implement inner loops as well.
 That is, we can replace code such as
@@ -201,6 +176,51 @@ if (finishedloop) {
 
 (Applying the standard syntactic sugar transformations to convert the conditionals into NAND code.)
 We can apply this transformation repeatedly to convert programs with multiple loops, and even nested loops, into a standard NAND++  program.
+
+
+
+## Uniformity and NAND vs NAND++
+
+While NAND++ adds an extra operation over NAND, it is not exactly accurate to say that NAND++ programs are "more powerful" than NAND programs.
+NAND programs, having no loops, are simply not applicable for computing functions with more inputs than they have lines.
+The key difference between NAND and NAND++ is that NAND++ allows us to express the fact that the algorithm for computing parities of length-$100$ strings is really the same one as the algorithm for computing parities of length-$5$ strings (or similarly the fact that the algorithm for adding $n$-bit numbers is the same for every $n$, etc.).
+That is, one can think of the NAND++ program for general parity as the "seed" out of which we can grow NAND programs for length $10$, length $100$, or length $1000$ parities as needed.
+This notion of a single algorithm that can compute functions of all input lengths is known as _uniformity_ of computation and hence we think of NAND++ as  _uniform_ model of computation, as opposed to NAND which is a _nonuniform_ model, where we have to specify a different program for every input length.
+
+
+Looking ahead, we will see that this uniformity leads to another crucial difference between NAND++ and NAND programs.
+NAND++ programs can have inputs and outputs that are longer than the description of the program and in particular we can have a NAND++ program that "self replicates" in the sense that it can print its own code.   
+This notion of "self replication", and the related notion of "self reference" is crucial to many aspects of computation, as well  of course to life itself, whether in the form of digital or biological programs.
+
+
+__Advanced remark:__ This notion of a NAND++ program as a "seed" that can grow a different NAND program for every input length is one that we will come back to later on in this course, when we consider bounding the _time complexity_ of computation.
+As we will see, we can think of a NAND++ program $P$ that computes some function $F$ in $T(n)$ steps on input length $n$, as a two phase process.
+For any  input $x\in \{0,1\}^*$, the program $P$ can be thought of as first producing a $T(|x|)$-line NAND program $P'$, and then executing this program $P'$ on $x$.
+This might not be easy to see at this point, but will become clearer in a few lectures when we tackle the issue of _efficiency_ in computation.
+
+
+### Infinite loops and computing a function
+
+There is another important difference between NAND and NAND++ programs: looking at a NAND program, we can always tell how many inputs and how many outputs it has (by looking at the number of `x_` and `y_` variables) and are guaranteed that if we invoke it on any input then _some_ output will be produced.  
+In contrast, given any particular NAND++ program $P$, we cannot determine a priori the length of the output.
+In fact, we don't even know  if an output would be produced at all!
+For example, the following NAND++ program would go into an infinite loop if the first bit of the input is zero:
+
+~~~~ { .go .numberLines }
+loop := x_0 NAND x_0
+~~~~
+
+For a NAND++ program $P$ and string $x\in \{0,1\}^*$, if $P$ produces an output when executed with input $x$ then we denote this output by $P(x)$.
+If $P$ does not produce an output on $x$ then we say that $P(x)$ is _undefined_ and denote this as $P(x) = \bot$.
+
+> # {.definition title="Computing a function" #compute}
+We say that a NAND++ program $P$ _computes_ a function $F:\{0,1\}^* :\rightarrow \{0,1\}^*$ if $P(x)=F(x)$ for every $x\in \{0,1\}^*$.
+>
+If $F$ is a partial function then we say that _$P$ computes $F$_ if $P(x)=F(x)$ for every $x$ on which $F$ is defined.
+
+
+
+
 
 
 ## The NAND<< programming language
@@ -279,7 +299,7 @@ Once we can increment and decrement `i`, we can use this, together with the noti
 We can also simulate an  operation such as `i := foo` by creating a temporary array that contains $0$ except for a single $1$ in the location corresponding to the integer represented by `foo` and waiting until we reach the point where `foo_i` equals $1$.
 
 We omit the full details of the proofs.
-However, the webpage [nandpl.org](http://nandpl.org) contains  an OCaml program that transform a NAND<< program into an equivalent NAND++ program, see the webpage [nandpl.org](http://nandpl.org).
+However, the webpage [nandpl.org](http://nandpl.org) contains  an OCaml program that transform a NAND<< program into an equivalent NAND++ program.
 
 
 
@@ -287,11 +307,53 @@ However, the webpage [nandpl.org](http://nandpl.org) contains  an OCaml program 
 
 
 
+## Example
 
-## Examples
+Here is a program that computes the function $PALINDROME:\{0,1\}^* \rightarrow \{0,1\}$ that outputs $1$ on $x$ if and only if $x_i = x_{|x|-i}$ for every $i\in \{0,\ldots, |x|-1\}$.
+This program uses NAND<< with the syntactic sugar we described before, but as discussed above, we can transform it into a NAND++ program.
 
-^[TODO: add NAND<< program for gradeschool and Karatsuba multiplication .]
+~~~~ { .go }
+// A sample NAND<< program that computes the language of palindromes
+// By Juan Esteller
+def a := NOT(b) {
+  a := b NAND b
+}
+o := NOT(z)
+two := o + o
+if(NOT(seen_0)) {
+  cur := z
+  seen_0 := o
+}
+i := cur
+if(validx_i) {
+ cur := cur + o  
+ loop := o
+}
+if(NOT(validx_i)) {
+  computedlength := o
+}
+if(computedlength) {
+  if(justentered) {
+    justentered := o
+    iter := z
+  }
+  i := iter
+  left := x_i
+  i := (cur - iter) - o
+  right := x_i
+  if(NOT(left == right)) {   
+    loop := z
+    y_0 := z
+  }
+  halflength := cur / two
+  if(NOT(iter < halflength)) {
+   y_0 := o
+   loop := z
+  }  
+  iter := iter + o  
+}
 
+~~~~
 
 
 
@@ -305,7 +367,7 @@ However, the webpage [nandpl.org](http://nandpl.org) contains  an OCaml program 
 Like a NAND program, a NAND++ or a NAND<< program is ultimately a sequence of symbols and hence can obviously be represented as a binary string.
 We will spell out the exact details of representation later, but as usual, the details are not so important (e.g., we can use the ASCII encoding of the source code).
 What is crucial is that we can use such representation to evaluate any program.
-That is, prove the following theorem:
+That is, we prove the following theorem:
 
 
 > # {.theorem title="Universality of NAND++" #univ-nandpp}
@@ -334,29 +396,40 @@ We represent an instruction of the form
 
 as a $6$ tuple $(a,j,b,k,c,\ell)$ where $a,b,c$ are numbers corresponding to the labels `foo`,`bar`,and `baz` respectively, and $j,k,\ell$ are the corresponding indices.
 We let $L$ be the number of lines in the program, and set the index to be  $L+1$ if instead of a number the variable is indexed by   the special  variable `i`.
-(There is no chance for conflict since we did not allow numerical indices larger than the number of lines in the program.)
+(There is no risk of conflict since we did not allow numerical indices larger than the number of lines in the program.)
 We will set the identifiers of `x`,`y`,`validx` and `loop` to $0,1,2,3$ respectively.
 Therefore the representation of the parity program
 
 ~~~~ { .go .numberLines }
-tmp1  := seen_i NAND seen_i
-tmp2  := x_i NAND notseen_i
-val   :=  tmp2 NAND tmp2
-ns   := s   NAND s
-y_0  := ns  NAND ns
-u    := val NAND s
-v    := s   NAND u
-w    := val NAND u
-s    := v   NAND w
-seen_i := zero NAND zero  
+tmp_1 := seen_i NAND seen_i
+tmp_2 := x_i NAND tmp_1
+val := tmp_2 NAND tmp_2
+ns := s NAND s
+y_0 := ns NAND ns
+u := val NAND s
+v := s NAND u
+w := val NAND u
+s := v NAND w
+seen_i := z NAND z
 stop := validx_i NAND validx_i
-loop := stop     NAND stop
+loop := stop NAND stop
 ~~~~
 
 will be
 
 ```
-put representation here
+[[4, 1, 5, 61, 5, 61],
+ [4, 2, 0, 61, 4, 1],
+ [6, 0, 4, 2, 4, 2],
+ [7, 0, 8, 0, 8, 0],
+ [1, 0, 7, 0, 7, 0],
+ [9, 0, 6, 0, 8, 0],
+ [10, 0, 8, 0, 9, 0],
+ [11, 0, 6, 0, 9, 0],
+ [8, 0, 10, 0, 11, 0],
+ [5, 61, 12, 0, 12, 0],
+ [13, 0, 2, 61, 2, 61],
+ [3, 0, 13, 0, 13, 0]]
 ```
 
 __Binary encoding:__ The above is a way to represent any NAND++ program as a list of numbers. We can of course encode such a list as a binary string in a number of ways. For concreteness, since all the numbers involved are between $0$ and $L+1$ (where $L$ is the number of lines),  we can simply use a string of length $6\ceil{\log (L+1)}$ to represent them, starting with the prefix $0^{L+1}1$ to encode $L$. For convenience we will assume that any string that is not formatted in this way encodes the single line program `y_0 := x_0 NAND x_0`. This way we can assume that every string $P\in\bits^*$ represents _some_ program.
@@ -366,11 +439,11 @@ __Binary encoding:__ The above is a way to represent any NAND++ program as a lis
 
 Here is the "pseudocode"/"sugar added" version of an  interpreter for NAND++ programs (given in the list of 6 tuples representation) in NAND<<.
 We assume below that the input is given as integers `x_0`,\ldots,`x_`$\expr{6\cdot lines-1}$ where $lines$ is the number of lines in the program.
-We also assume that `ComputNumberVariables` gives some upper bound on the total number of distinct non-indexed identifiers used in the program (we can simply have it the same as $lines$).
+We also assume that `NumberVariables` gives some upper bound on the total number of distinct non-indexed identifiers used in the program (we can also simply use $lines$ as this bound).
 
 ~~~~ { .go .numberLines }
 simloop := 3
-totalvars := ComputeNumberVariables(x)
+totalvars := NumberVariables(x)
 maxlines  := Length(x) / 6
 currenti := 0
 currentround := 0
@@ -417,15 +490,16 @@ while (true) {
 }
 ~~~~
 
-
-### Implementing the interpreter in NAND++
-
+Since we can transform _every_ NAND<< program to a NAND++ one, we can also implement this interpreter in NAND++.
 
 
 
 ### A  Python interpreter in NAND++
 
-^[TODO: explain why in principle we can do this]
+At this point you probably can guess that it is possible to write an interpreter for  languages such as  C or Python in NAND<< and hence in NAND++ as well.
+After all, with NAND++ / NAND<< we have access to an unbounded array of memory, which we can use to simulate memory allocation and access, and can do all the basic computation steps offered by modern CPUs.
+Writing such an interpreter is nobody's idea of a fun afternoon, but the fact it can be done gives credence to the belief that NAND++ _is_ a good model for general-purpose computing.
+
 
 
 ## Lecture summary
@@ -445,8 +519,9 @@ Prove that the value of the variable `i` is equal to $pc-r(r+1)$ if $pc \leq (r+
 
 ## Bibliographical notes
 
-The notion of "NAND++ programs" we use is nonstandard but (as we will see) it is equivalent to standard models used in the literature such as Turing machines and RAM programs.
-Specifically NAND++ programs are equivalent to _oblivious one-tape Turing Machines_ and NAND<< programs are equivalent to RAM machines. (Though, as we'll see, if we don't care about polynomial terms then these two models are equivalent to one another.)
+The notion of "NAND++ programs" we use is nonstandard but (as we will see)  they are equivalent to standard models used in the literature.
+Specifically, NAND++ programs are closely related (though not identical) to _oblivious one-tape Turing machines_, while NAND<< programs are essentially the same as RAM machines.
+As we've seen in these lectures, in a qualitative sense these two models are also equivalent to one another, though the distinctions between them matter if one cares (as is typically the case in algorithms research) about polynomial factors in the running time.
 
 ## Further explorations
 
