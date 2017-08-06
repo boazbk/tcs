@@ -62,20 +62,59 @@ Another way to say it, is that he conjectured that in any multiplication algorit
 
 A young student named Anatoly Karatsuba was in the audience, and within a week he found an algorithm that requires only about $Cn^{1.6}$ operations for some constant $C$.
 Such a  number becomes  much smaller than $n^2$ as $n$ grows.^[At the time of this writing, the [standard Python multiplication implementation](https://svn.python.org/projects/python/trunk/Objects/longobject.c) switches from the elementary school algorithm to  Karatsuba's algorithm when multiplying numbers larger than 70 bits long.]
-Karatsuba's algorithm is based on the following observation:
+Amazingly,  Karatsuba's algorithm is based on a faster way to multiply _two digit_ numbers.
 
-We can write two $n$ digit numbers $x$ and $y$ as $10^{n/2}x' + x''$ and $10^{n/2}y'+ y''$ where $x',x'',y',y''$ are $n/2$ digit numbers.
+Suppose that $x,y \in [100]=\{0,\ldots, 99 \}$ are a pair of two-digit numbers.
+Let's write $\overline{x}$ for the "tens" digit of $x$, and $\underline{x}$ for the "ones" digit, so that $x = 10\overline{x} + \underline{x}$, and write similarly $y = 10\overline{y} + \underline{y}$ for $\overline{y},\underline{y} \in [10]$.
+The gradeschool algorithm for multiplying $x$ and $y$ works as follows:
+
+$$
+\begin{aligned}
+& \overline{x} & \underline{x} & \\
+& \overline{y} & \underline{y} &  \times \\
+= & = & = & \\
+& \overline{x}\underline{y} & \underline{x}\underline{y} &  \\
+\overline{x}\overline{y} & \underline{x}\underline{y} &  &  \\
+= & = & = & \\
+\overline{x}\overline{y} & (\overline{x}\underline{y}+\underline{x}\overline{y}) & \underline{x}\underline{y} &
+\end{aligned}
+$$
+
+Another way to say it is that it transform the task of multiplying a pair of two digit number into _four_ single-digit multiplications via the formula
+
+$$
+(10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10(\overline{x}\underline{y} + \underline{y}\overline{x}) + \underline{x}\underline{y} \label{eq:gradeschooltwodigit}
+$$
+
+Karatsuba's algorithm is based on the observation that we can express this using only _three_ multiplications
+by writing
+
+$$
+(10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10\left[(\overline{x}+\underline{x})(\overline{x}-\underline{y})\right] -(10+1)\underline{x}\underline{y} \label{eq:karatsubatwodigit}
+$$
+
+Which reduces multiplying the two-digit number $x$ and $y$ to computing three "simple" multiplications $\overline{x}\overline{y}$, $\underline{x}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$.^[The last term is not exactly single digit multiplication as $\overline{x}+\underline{x}$ and $\overline{y}+\underline{y}$ are numbers between $0$ and $18$ and not between $0$ and $9$. As we'll see, it turns out that does not make much of a difference.]
+
+Of course if all we wanted to was to multiply two digit numbers, we wouldn't really need any clever algorithms.
+It turns out that we can repeatedly apply the same idea, and use them to multiply $4$-digit numbers, $8$-digit numbers, $16$-digit numbers, and so on and so forth.
+If we used the gradeschool based approach then our cost for doubling the number of digits would be to _quadruple_ the number of multiplications, which for $n=2^\ell$ digits would result in about $4^\ell=n^2$ operations.
+In contrast, in Karatsuba's approach doubling the number of digits  only  _triples_ the number of operations,  which means that for $n=2^\ell$ digits we require about $3^\ell = n^{\log_2 3} \sim n^{1.58}$ operations.
+
+Specifically, we use a  _recursive_ strategy as follows.
+Suppose that $n$ is an even number.
+Then we can write two $n$ digit numbers $x$ and $y$ as $10^{n/2}\overline{x} + \underline{x}$ and $10^{n/2}\overline{y}+ \underline{y}$ where $\overline{x},\underline{x},\overline{x},\underline{y}$ are $n/2$ digit numbers.
 Then
 $$
-x\cdot y = 10^nx'\cdot y' + 10^{n/2}(x'\cdot y''+x''\cdot y') + x''\cdot y'' \label{eqkarastubaone}
+x \times y = 10^n\overline{x}\cdot \overline{y} + 10^{n/2}(\overline{x}\overline{y} +\underline{x}\underline{y}) + \underline{x}\underline{y} \label{eqkarastubaone}
 $$
 
 But we can also write the same expression as
 $$
-x\cdot y = 10^nx' \cdot y' + 10^{n/2}[(x'+x'')\cdot (y'+y'')-x'\cdot y'-x''\cdot y''] + x''\cdot y'' \label{eqkarastubatwo}
+x \times y = 10^n\overline{x}\cdot \overline{y} + 10^{n/2}\left[ (\overline{x}+\underline{x})(\overline{y}+\underline{y}) - \underline{x}\underline{y} \right]  + \underline{x}\underline{y}
+ \label{eqkarastubatwo}
 $$
 
-The key observation is that the formula [eqkarastubatwo](){.eqref} reduces computing the product of two $n$ digit numbers to computing _three_ products of $n/2$ digit numbers (namely $x'\cdot y'$, $x''\cdot y''$ and $(x'+x'')\cdot (y'+y'')$) as well as performing a constant number (in fact eight) additions, subtractions, and multiplications by $10^n$ or $10^{n/2}$ (the latter corresponding to simple shifts).
+The key observation is that the formula [eqkarastubatwo](){.eqref} reduces computing the product of two $n$ digit numbers to computing _three_ products of $n/2$ or $n/2+1$ digit numbers (namely $\overline{x}\overline{y}$, $\underline{y}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ as well as performing a constant number (in fact eight) additions, subtractions, and multiplications by $10^n$ or $10^{n/2}$ (the latter corresponding to simple shifts).
 Intuitively this means that as the number of digits _doubles_, the cost of multiplying _triples_  instead of quadrupling, as happens in the naive algorithm.
 This implies that multiplying numbers of $n=2^\ell$ digits costs about $3^\ell = n^{\log_2 3} \sim n^{1.585}$ operations.
 In a [karatsuba-ex](){.ref}, you will formally show that the number of single digit operations that Karatsuba's algorithm uses for multiplying $n$ digit integers is at most $1000 n^{\log_2 3}$ (see also [karatsubafig](){.ref}).
@@ -94,6 +133,12 @@ It turns out that the ideas of Karatsuba can be further extended to yield asympt
 But this was not the end of the line.
 In 1971, Schönhage and Strassen gave an even faster algorithm using the _Fast Fourier Transform_; their idea was to somehow treat integers as "signals" and do the multiplication more efficiently by moving to the Fourier domain.
 The latest asymptotic improvement was given by Fürer in 2007 (though it only starts beating  the Schönhage-Strassen algorithm for truly astronomical numbers).
+
+> # {.remark title="Advanced note: matrix multiplication"  #matrixmult}
+It turns out that a  similar idea as Karatsuba's can be used to speed up _matrix_ multiplications as well.
+Matrices are a powerful way to represent linear equations and operations, widely used in a great many applications of scientific computing, graphics, machine learning, and many many more.
+One of the basic operations one can do with two matrices is to _multiply_ them.
+For example, if $x =  \left( \begin{smallmatrix} x_{0,0} & x_{0,1}\\ x_{1,0}& x_{1,1} \end{smallmatrix} \right)$ and $y =  \left( \begin{smallmatrix} y_{0,0} & y_{0,1}\\ y_{1,0}& y_{1,1} \end{smallmatrix} \right)$. TO BE COMPLETED
 
 ### Algorithms beyond arithmetic
 
