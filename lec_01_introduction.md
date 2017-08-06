@@ -138,7 +138,13 @@ The latest asymptotic improvement was given by Fürer in 2007 (though it only st
 It turns out that a  similar idea as Karatsuba's can be used to speed up _matrix_ multiplications as well.
 Matrices are a powerful way to represent linear equations and operations, widely used in a great many applications of scientific computing, graphics, machine learning, and many many more.
 One of the basic operations one can do with two matrices is to _multiply_ them.
-For example, if $x =  \left( \begin{smallmatrix} x_{0,0} & x_{0,1}\\ x_{1,0}& x_{1,1} \end{smallmatrix} \right)$ and $y =  \left( \begin{smallmatrix} y_{0,0} & y_{0,1}\\ y_{1,0}& y_{1,1} \end{smallmatrix} \right)$. TO BE COMPLETED
+For example, if $x =  \left( \begin{smallmatrix} x_{0,0} & x_{0,1}\\ x_{1,0}& x_{1,1} \end{smallmatrix} \right)$ and $y =  \left( \begin{smallmatrix} y_{0,0} & y_{0,1}\\ y_{1,0}& y_{1,1} \end{smallmatrix} \right)$ then the product of $x$ and $y$ is the matrix $\left( \begin{smallmatrix} x_{0,0}y_{0,0} + x_{0,1}y_{1,01} & x_{0,0}y_{1,0} + x_{0,1}y_{1,1}\\ x_{1,0}y_{0,0}+x_{1,1}y_{1,0}  & x_{1,0}y_{0,1}+x_{1,1}y_{1,1} \end{smallmatrix} \right)$.
+You can see that we can compute this matrix by _eight_ products of numbers.
+Now suppose that $n$ is even and $x$ and $y$ are a pair of  $n\times n$ matrices which we can think of as each composed of four $(n/2)\times (n/2)$ blocks $x_{0,0},x_{0,1},x_{1,0},x_{1,1}$ and $y_{0,0},y_{0,1},y_{1,0},y_{1,1}$.
+Then the formula for the matrix product of $x$ and $y$ can be expressed in the same way as above, just replacing products $x_{a,b}y_{c,d}$ with _matrix_ products, and addition with matrix addition.
+This means that we can use the formula above to give an algorithm that _doubles_ the dimension of the matrices at the expense of increasing the number of operation by a factor of $8$, which for $n=2^\ell$ will result in $8^\ell = n^3$ operations.
+>
+In 1969 Volker Strassen noted that we can compute the product of a pair of two by two matrices  using only _seven_ products of numbers by observing that each entry of the matrix $xy$ can be computed by adding and subtracting one of the following seven terms: $(x_{0,0}+x_{1,1})(y_{0,0}+y_{1,1})$, $(x_{1,0}+x_{1,1})y_{0,0}$, $x_{0,0}(y_{0,1}-y_{1,1})$, $x_{1,1}(y_{1,0}-y_{0,0})$. TBC
 
 ### Algorithms beyond arithmetic
 
