@@ -303,11 +303,34 @@ However, the webpage [nandpl.org](http://nandpl.org) contains  an OCaml program 
 
 ### NAND++ normal form
 
+In many programming language, we can make syntactic transformation on programs that do not change their operations, but might make them "cleaner" or "easier to understand" in some way.
+For example, we could declare variables in the beginning of every function even if this is not required by the programming language.
+For NAND++, it will also be sometimes useful for us that a programs have a "nice form", which we can ensure by making some syntactic transformations.
+Specifically we will make the following definition:
 
+> # {.definition title="NAND++ normal form" #normalform}
+We say that a NAND++ program $P$ is in _normal form_ if it satisfies the following properties:
+>
+1. It has a variable `indexincreasing` with the code to ensure that `indexincreasing` is $1$ whenever in the next iteration the value of `i` increases and `indexincreasing` is $0$ otherwise.  \
+2. It has a variable `zero` with the code to ensure that `zero_i` is equal to $1$ if and only if `i` is zero.
+3. There are no absolute numerical indices. All variables either have the form `foo_i` or `bar`: no `blah_17`. Moreover, every variable identifier that appears with the index `i` never appears without an index and vice versa. \
+4. There are no two lines in the program that assign a value to the same variable. \
+5. $P$ has a variable `halted` which the only line that refers to it is the last line of the program which has the form `halted := loop NAND loop`. \
+6. All assignments to `y` variables and `loop` are "guarded" by `halted` which means that any such assignment has the form that the value of `y_i` or `loop` is unchanged if `halted` equals $1$.
 
+It might not be clear at this point why we care about the conditions of  [normalform](){.ref}, but we will see later in this course that they can help make certain proofs easier.
+The following theorem shows that we can ensure these conditions at a small cost:
 
+> # {.theorem title="NAND++ normal form" #nandnormalformthm}
+For every NAND++ program $P$ there is a NAND++ program $P'$ of normal form that computes the same function as $P$. Moreover, the number of lines in $P'$ is at most $c$ times the number of lines in $P$, where $c \leq 10$ is some absolute constant. Furthermore, for every input $x$, the number of iterations that $P'$ takes on input $x$ is at most a constant additive number than the number of iterations that $P$ takes on the same input.
 
-
+> # {.proof data-ref="nandnormalformthm"}
+We only sketch the proof since it's not so insightful. We will go over the conditions one by one.
+For 1 and 2 we discussed above how to add code to a NAND++ program that ensures these conditions, so we can focus on the remaining ones: \
+3. We can replace a variable of the form `bar_17` with some unique number name such as `barseventeen`. We can add code to test if `i` is one of the constantly many indices that appeared as absolute numerical instances, and if so then replace variable such as `bar_i` with `barindexvalue`. \
+4. If two lines $i<j$ assign a value to the same (indexed or unindexed) variable `foo`, then we can replace all occurrences of `foo` in lines $i,i+1,\ldots,j-1$ with `tempfoo` where `temp` is some unique prefix. \
+5. We can ensure this by simply adding that line of code, and replacing any use of `halted` with `uphalted` where `up` stands for some unique prefix. \
+6. This can be ensured by replacing each such assignment with a constant  number of lines ensuring this `if` condition.
 
 
 ## Example
