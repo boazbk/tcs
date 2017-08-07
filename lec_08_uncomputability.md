@@ -235,7 +235,7 @@ The same proof carries over to other computational models such as the _$\lambda$
 Hence for example, there is no algorithm to decide if a $\lambda$ expression evaluates the identity function, and no algorithm to decide whether an initial configuration of the game of life will result in eventually coloring the cell $(0,0)$ black or not.
 
 
-The uncomputability of  halting and other semantic specification problems motivates coming up with __restricted_ computational models__ that are __(a)__ powerful enough to capture a set of functions useful for certain applications but __(b)__ weak enough that we can still solve semantic specification problems on them.
+The uncomputability of  halting and other semantic specification problems motivates coming up with __restricted computational models__ that are __(a)__ powerful enough to capture a set of functions useful for certain applications but __(b)__ weak enough that we can still solve semantic specification problems on them.
 Here are some examples:
 
 ### Regular expressions

@@ -127,6 +127,16 @@ In a [karatsuba-ex](){.ref}, you will formally show that the number of single di
 >__Remark on Big Oh notation:__ It can be quite an headache to keep track of the various constants, and so typically in theoretical computer science we use asymptotic or "Big Oh" notation for quantities such as running time of an algorithm. So, we will write $f(n)=O(g(n))$ if there is some constant $C$ such that $f(n) \leq C g(n)$ for all $n$ and $f(n)=\Omega(g(n))$ if $g(n)=O(f(n))$. Most of the time, when you see a statement such as "running time is  $O(n^3)$" you can think of it as saying  that the algorithm takes at most $1000\cdot n^3$ steps and similarly when a statement such as "running time is  $\Omega(n^2)$" can be thought of as saying that the algorithm takes at least  $0.001\cdot n^2$ steps.
 A fuller review Big Oh notation and asymptotics of running time appears in the "mathematical background" section.
 
+>__Ceilings, floors, and rounding:__ One of the benefits of using big Oh notation is that we can allow ourselves to be a little looser with issues such as rounding numbers etc.. For example, the natural way to describe Karatsuba's algorithm's running time is as following the recursive equation $T(n)= 3T(n/2)+O(n)$ but of course if $n$ is not even then we cannot recursively invoke the algorithm on $n/2$-digit integers.
+Rather, the true recursion is $T(n) = 3T(\ceil{n/2})+ O(n)$ where $\ceil{x}$ is the "rounding up" operator that maps a number $x$ to the smallest integer $n$ such that $n \geq x$.
+However, this will not make much difference when we don't worry about constant factors, since $\ceil{n/2}$ is at most $n/2+1$ and  its not hard to show that $T(n+O(1)) \leq T(n)+ o(T(n))$ for the functions we care about (which turns out to  be enough to carry over the same recursion).
+Another way to show that this doesn't hurt us is to note that for every number $n$, we can find $n' \leq 2n$ such that $n'$ is a power of two.
+Thus we can always "pad" the input by adding some input bits to make sure the number of digits is a power of two, in which case we will never run into these rounding issues.
+These kind of tricks work not just in the context of multiplication algorithms but in many other cases as well.
+Thus most of the time we can safely ignore these kind of "rounding issues".
+
+
+
 ### Beyond Karatsuba's algorithm
 
 It turns out that the ideas of Karatsuba can be further extended to yield asymptotically faster multiplication algorithms, as was shown by Toom and Cook in the 1960s.
@@ -144,7 +154,13 @@ Now suppose that $n$ is even and $x$ and $y$ are a pair of  $n\times n$ matrices
 Then the formula for the matrix product of $x$ and $y$ can be expressed in the same way as above, just replacing products $x_{a,b}y_{c,d}$ with _matrix_ products, and addition with matrix addition.
 This means that we can use the formula above to give an algorithm that _doubles_ the dimension of the matrices at the expense of increasing the number of operation by a factor of $8$, which for $n=2^\ell$ will result in $8^\ell = n^3$ operations.
 >
-In 1969 Volker Strassen noted that we can compute the product of a pair of two by two matrices  using only _seven_ products of numbers by observing that each entry of the matrix $xy$ can be computed by adding and subtracting one of the following seven terms: $(x_{0,0}+x_{1,1})(y_{0,0}+y_{1,1})$, $(x_{1,0}+x_{1,1})y_{0,0}$, $x_{0,0}(y_{0,1}-y_{1,1})$, $x_{1,1}(y_{1,0}-y_{0,0})$. TBC
+In 1969 Volker Strassen noted that we can compute the product of a pair of two by two matrices  using only _seven_ products of numbers by observing that each entry of the matrix $xy$ can be computed by adding and subtracting one of the following seven terms: $t_1 = (x_{0,0}+x_{1,1})(y_{0,0}+y_{1,1})$, $t_2 = (x_{0,0}+x_{1,1})y_{0,0}$, $t_3 = x_{0,0}(y_{0,1}-y_{1,1})$, $t_4 = x_{1,1}(y_{0,1}-y_{0,0})$, $t_5 = (x_{0,0}+x_{0,1})y_{1,1}$, $t_6 = (x_{1,0}-x_{0,0})(y_{0,0}+y_{0,1})$, $t_7 = (x_{0,1}-x_{1,1})(y_{1,0}+y_{1,1})$.
+Indeed, one can verify that $xy = \left(\begin{smallmatrix}   t_1 + t_4 - t_5 + t_7 & t_3 + t_5 \\ t_2 +t_4 & t_1 + t_3 - t_2 + t_6 \end{smallmatrix}\right)$.
+This implies an algorithm with factor $7$ increased cost for doubling the dimension, which means that for $n=2^\ell$ the cost is $7^\ell = n^{\log_2 7} \sim n^{2.807}$.
+A long sequence of works has since improved this algorithm, and the [current record](https://en.wikipedia.org/wiki/Matrix_multiplication_algorithm#Sub-cubic_algorithms) has running time about $O(n^{2.373})$.
+Unlike the case of integer multiplication, at the moment we don't know of a nearly linear in the matrix size (i.e., an $O(n^2 polylog(n))$ time) algorithm for matrix multiplication.
+People have tried to use [group representations](https://en.wikipedia.org/wiki/Group_representation), which can be thought of as generalizations of the Fourier transform, to obtain faster algorithms, but this effort [has not yet succeeded](http://discreteanalysisjournal.com/article/1245-on-cap-sets-and-the-group-theoretic-approach-to-matrix-multiplication).
+
 
 ### Algorithms beyond arithmetic
 
@@ -189,6 +205,7 @@ Indeed,  some [exciting recent research](http://www.scottaaronson.com/barbados-2
 Moreover, computer scientists have recently been finding creative approaches to _apply_ computational limitations to achieve certain useful tasks.
 For example, much of modern Internet traffic is encrypted using the RSA encryption scheme, which relies on its security on the (conjectured) _non existence_ of an efficient algorithm to perform the inverse operation for multiplication--- namely, factor large integers.
 More recently, the [Bitcoin](https://en.wikipedia.org/wiki/Bitcoin) system uses a digital analog of the "gold standard" where, instead of being based on a  precious metal, minting new currency corresponds to "mining"  solutions for computationally difficult problems.
+
 
 
 ## Lecture summary
@@ -262,6 +279,8 @@ For an overview of what we'll see in this course, you could do far worse than re
 Some topics related to this lecture that might be accessible to advanced students include:
 
 * The _Fourier transform_, the _Fast_ Fourier transform algorithm and how to use it multiply polynomials and integers. [This lecture of Jeff Erickson](http://jeffe.cs.illinois.edu/teaching/algorithms/notes/02-fft.pdf) (taken from his [collection of notes](http://jeffe.cs.illinois.edu/teaching/algorithms/) ) is a very good starting point.  See also this [MIT lecture](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-design-and-analysis-of-algorithms-spring-2012/lecture-notes/MIT6_046JS12_lec05.pdf) and this [popular article](http://www.ams.org/samplings/feature-column/fcarc-multiplication).
+
+* Fast matrix multiplication algorithms, and the approach of obtaining exponent two via group representations.
 
 * The proofs of some of the classical impossibility results in mathematics we mentioned, including the impossibility of proving Euclid's fifth postulate from the other four, impossibility of trisecting an angle with a straightedge and compass and the impossibility of solving a quintic equation via radicals. A geometric proof of the impossibility of angle trisection (one of the three [geometric problems of antiquity](http://mathworld.wolfram.com/GeometricProblemsofAntiquity.html), going back to the ancient greeks) is given in this [blog post of Tao](https://terrytao.wordpress.com/2011/08/10/a-geometric-proof-of-the-impossibility-of-angle-trisection-by-straightedge-and-compass/). [This book of Mario Livio](https://www.amazon.com/dp/B000FCKGVQ/) covers some of the background and ideas behind these impossibility results.
 

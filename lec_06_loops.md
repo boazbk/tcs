@@ -301,6 +301,9 @@ We can also simulate an  operation such as `i := foo` by creating a temporary ar
 We omit the full details of the proofs.
 However, the webpage [nandpl.org](http://nandpl.org) contains  an OCaml program that transform a NAND<< program into an equivalent NAND++ program.
 
+### NAND++ normal form
+
+
 
 
 
