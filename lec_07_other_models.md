@@ -7,7 +7,7 @@
 
 We have defined the notion of computing a  function based on the rather esoteric NAND++ programming language.
 In this lecture we justify this choice by showing that the definition of computable functions will remain the same under a wide variety of computational models.
-In fact, a widely believed claim known as the _Church-Turing Thesis_ holds that _every_ "reasonable" definition of computable function will be equivalent to ours.
+In fact, a widely believed claim known as the _Church-Turing Thesis_ holds that _every_ "reasonable" definition of computable function is equivalent to ours.
 We will discuss the Church-Turing Thesis and the potential definitions of "reasonable" at the end of this lecture.
 
 ## Turing machines
