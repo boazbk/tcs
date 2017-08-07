@@ -18,13 +18,11 @@ Turing machines were defined in 1936 by Alan Turing in an attempt to formally ca
 ![Until the advent of electronic computers, the word "computer" was used to describe a person, often female, that performed calculations. These human computers were absolutely essential to many achievements including mapping the stars, breaking the Engima cipher, and the NASA space mission. Two recent books about  these "computers" and their important contributions are [The Glass Universe](https://www.amazon.com/Glass-Universe-Harvard-Observatory-Measure-ebook/dp/B01CZCW45O) (from which this photo is taken) and [Hidden Figures](https://www.amazon.com/Hidden-Figures-American-Untold-Mathematicians/dp/006236359X).](../figure/HumanComputers.jpg){#figureid .class width=300px height=300px}
 
 Turing thought of such a person as having access to as much "scratch paper" as they need.
-For simplicity we can think of this scratch paper as a one dimensional piece of graph paper (commonly known as "work tape"), where in each box of this paper we can write  a single symbol.
+For simplicity we can think of this scratch paper as a one dimensional piece of graph paper (commonly known as "work tape"), where in each box or "cell" of the tape holds a  single symbol from some finite alphabet (e.g., one digit or letter).
 At any point in time, the person can read and write a single box of the paper, and based on the contents can update his/her finite mental  state, and/or move to the box immediately to the left or right.
 
-Thus, Turing thought of modeling such computation by a "machine" that maintains one of $k$ states, and at each point can read and write a single symbol from some alphabet $\Sigma$ (containing $\{0,1\}$) from its "work tape".
+Thus, Turing modeled  such a computation by a "machine" that maintains one of $k$ states, and at each point can read and write a single symbol from some alphabet $\Sigma$ (containing $\{0,1\}$) from its "work tape".
 To perform computation using this machine, we write the input $x\in \{0,1\}^n$ on the tape, and the goal of the machine is to ensure that at the end of the computation, the value $F(x)$ will be written there.
-
-
 Specifically, a computation of a Turing Machine $M$ with $k$ states and alphabet $\Sigma$ on input $x\in \{0,1\}^*$ proceeds as  follows:
 
 * Initially the machine is at state $0$ (known as the "starting state") and the tape is initialized to $\triangleright,x_0,\ldots,x_{n-1},\varnothing,\varnothing,\ldots$.^[We use the symbol $\triangleright$ to denote the beginning of the tape, and the symbol $\varnothing$ to denote an empty cell. Hence we will assume that $\Sigma$ contains these symbols, along with $0$ and $1$.]
@@ -119,8 +117,8 @@ In addition to the standard syntactic sugar, we assumed above we can make functi
 
 We now show the other direction of [TM-equiv-thm](){.ref}.
 Namely, we show that given a NAND++ program $P$, we can come up with a Turing machine $M$ that computes the same function.
-First of all, we will assume that $P$ has a variable `idxdecreasing` which will equal to $1$ if in the next step `i` will decrease and to $0$ otherwise.
-We have seen before that we can use the "breadcrumbs" technique to ensure that the program has this property.
+First of all, we will assume that $P$ is in _normal form_, as per [normalform](){.ref} from the previous lecture.
+In particular, this means that $P$ has a variable  `idxdecreasing` which  equals  $1$ if in the next step `i` will decrease and to $0$ otherwise.
 
 If $P$ has $t$ variables then the alphabet of $M$ will have, in addition to the standard elements of $0,1,\triangleright,\varnothing$ also the $2^t$ symbols $\{0,1\}^t$.
 The convention will be that the $j^{th}$ location of $M$'s tape will store using one "megasymbol" in $\{0,1\}^t$ the values of `var_`$\expr{j-1}$ for all the variables `var` of $P$.
