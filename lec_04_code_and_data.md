@@ -5,6 +5,7 @@
 >_"The importance of the universal machine is clear. We do not need to have an infinity of different machines doing different jobs. ... The engineering problem of producing various machines for various jobs is replaced by the office work of 'programming' the universal machine"_, Alan Turing, 1948
 
 
+
 A NAND program can be thought of as simply a sequence of symbols, each of which can be encoded with zeros and ones using (for example) the ASCII standard.
 Thus we can represent every NAND program as a binary string.
 This statement seems obvious but it is actually quite profound.

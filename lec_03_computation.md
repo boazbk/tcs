@@ -42,6 +42,7 @@ Fortunately, at least at the moment, computers lag far behind school-age childre
 Here is al-Khwarizmi's quadratic equation solving  algorithm described in Python:
 
 
+
 ~~~~ { .python .numberLines }
 def solve_eq(b,c):
     # return solution of x^2 + bx = c using Al Khwarizmi's instructions

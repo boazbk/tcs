@@ -234,7 +234,7 @@ Interestingly, while Turing Machines are not used for practical computation,  th
 
 
 __The $\lambda$ operator.__
-At the core of the $\lambda$ calculus  is a way to define "anonymous" functions that are not given a name.
+At the core of the $\lambda$ calculus  is a way to define "anonymous" functions.
 For example, instead of defining the squaring function as
 
 $$
@@ -289,6 +289,40 @@ In particular, if  $f=\lambda y.y+1$ then  $DOUBLE f = \lambda x.x+2$.
 ### The "basic" $\lambda$ calculus objects
 
 To calculate, it seems we need some basic objects such as $0$ and $1$, and so we will consider the following set of "basic" objects and operations:
+
+* __Boolean constants:__ $0$ and $1$. We  also have the $IF(cond,a,b)$ functions that outputs $a$ if $cond=1$ and $b$ otherwise.
+
+* __The empty string:__ The value $NIL$ and the function $ISNIL(x)$ that returns $1$ iff $x$ is $NIL$.
+
+* __Strings/lists:__ The function $PAIR(x,y)$ that creates a pair from $x$ and $y$. We can now create the list $x,y,z$ by $PAIR(x,PAIR(y,PAIR(z,NIL)))$. We will also have the function $HEAD$ and $TAIL$ to extract the first and second member of the pair. A _string_ is of course simply a list of bits.
+
+* __List operations:__ The functions $MAP,REDUCE,FILTER$. Given a list $L=(x_0,\ldots,x_{n-1})$ and a function $f$, $MAP(L,f)$ applies $f$ on every member of the list to obtain $L=(f(x_0),\ldots,f(x_{n-1}))$.
+The function $FILTER(L,f)$ returns the list of $x_i$'s such that $f(x_i)=1$, and $REDUCE(L,f)$ "combines" the list by  outputting
+$$
+f(x_0,f(x_1,\cdots f(x_{n-3},f(x_{n-2},x_{n-1}))\cdots)
+$$
+(for example $REDUCE(L,+)$ would output the sum of all the elements)
+
+Also, together these operations more or less amount to the Lisp/Scheme programming languague.^[In Lisp, the $PAIR$, $HEAD$ and $TAIL$ functions are [traditionally called](https://en.wikipedia.org/wiki/CAR_and_CDR) `cons`, `car` and `cdr`.]  
+Given that, it is perhaps not surprising that we can simulate NAND++ programs using the $\lambda$-calculus plus these basic elements, hence showing the following theorem:
+
+> # {.theorem title="Lambda calculus and NAND++" #lambdaequiv}
+For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable in the $\lambda$ calculus with the above basic operations if and only if it is computable by a NAND++ program.
+
+> # {.proof data-ref="lambdaequiv"}
+The "only if" direction is simple. It is a fairly straightforward programming exercise to implement all the above operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND<< as well, which we can then transform to a NAND++ program.
+>
+For the "if" direction, it suffices to show that for every normal-form NAND++ program $P$, we can compute the next-snapshot function $NEXT_P:\{0,1\}^* \rightarrow \{0,1\}^*$ using the above operations.
+It turns out not to be so hard.
+A snapshot of $P$ is a string of length $TB$ where $B$ is the (constant sized) block size, and so we can think of it as a list $S=(S^1,\ldots,S^T)$ of $T$ lists of bits, each of length $B$.
+Extracting from this list the $B$ sized string corresponding to the block $S^i$ where $S^i_0=1$ can be done via a single $REDUCE$ operations.
+Using this we can tell if this is an operation where $i$ stays the same, increases, or decreases.
+If it stays the same then we can compute $NEXT_P$ via a $MAP$ operation, using the function that on input $C \in \{0,1\}^B$, keeps $C$ the same if $C_0=0$ and otherwise updates it to the value in its next step.
+If it increases, then we can update it by a $REDUCE$ operation, with the function that on input a block $C$ and a list $S$, we output $PAIR(C,L)$ unless $C_0=1$ in which case we output $PAIR(C',PAIR(C'',TAIL(S)))$ where $(C',C'')$ are the new values of the blocks $i$ and $i+1$.
+The case for decreasing $i$ is analogous.
+
+### How basic is "basic"?
+
 
 
 ### Defining bits and strings in the $\lambda$ calculus.
