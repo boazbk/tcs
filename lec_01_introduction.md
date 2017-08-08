@@ -2,11 +2,9 @@
 
 >_"Computer Science is no more about computers than astronomy is about telescopes"_,  attributed to Edsger Dijkstra.^[This quote is typically read as disparaging the importance of actual physical computers in Computer Science, but note that telescopes are absolutely essential to astronomy and are our only means of connecting theoretical speculations with actual experimental observations.]
 
-\spewnote
 
 >_"Hackers need to understand the theory of computation about as much as painters need to understand paint chemistry."_ , Paul Graham 2003.^[To be fair, in the following sentence Graham says "you need to know how to calculate time and space complexity and about Turing completeness", which will be taught in this course. Apparently, NP-hardness, randomization, cryptography, and quantum computing are not essential to a hacker's education.]
 
-\spewnote
 
 >_"The subject of my talk is perhaps most directly indicated by simply
 asking two questions: first, is it harder to multiply than to

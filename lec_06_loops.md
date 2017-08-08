@@ -388,8 +388,6 @@ if(computedlength) {
 
 ## Universality: A NAND++ interpreter in NAND++
 
-^[TODO: Redo this based on new definition of the language]
-
 Like a NAND program, a NAND++ or a NAND<< program is ultimately a sequence of symbols and hence can obviously be represented as a binary string.
 We will spell out the exact details of representation later, but as usual, the details are not so important (e.g., we can use the ASCII encoding of the source code).
 What is crucial is that we can use such representation to evaluate any program.
@@ -413,7 +411,7 @@ Indeed, as we already alluded to before, NAND++ is powerful enough to simulate a
 
 ### Representing NAND++ programs as string
 
-To make the statement of  [univ-nandpp](){.ref} formal, we need to specify a representation scheme for NAND++ programs.
+Before we prove  [univ-nandpp](){.ref} formal, we need to make its statement precise by specifying a representation scheme for NAND++ programs.
 As mentioned above,  simply representing the program as a string using ASCII or UTF-8 encoding  will work just fine, but we will use a somewhat more convenient and concrete representation, which is the natural generalization of the "list of tuples" representation for NAND programs.
 We will assume that all variables are of the form `foo_##` where `##` is some number or the index `i`.  If a variable `foo` does not have an index then we add the index zero to it.
 We represent an instruction of the form
