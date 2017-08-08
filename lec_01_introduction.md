@@ -2,7 +2,11 @@
 
 >_"Computer Science is no more about computers than astronomy is about telescopes"_,  attributed to Edsger Dijkstra.^[This quote is typically read as disparaging the importance of actual physical computers in Computer Science, but note that telescopes are absolutely essential to astronomy and are our only means of connecting theoretical speculations with actual experimental observations.]
 
+\spewnote
+
 >_"Hackers need to understand the theory of computation about as much as painters need to understand paint chemistry."_ , Paul Graham 2003.^[To be fair, in the following sentence Graham says "you need to know how to calculate time and space complexity and about Turing completeness", which will be taught in this course. Apparently, NP-hardness, randomization, cryptography, and quantum computing are not essential to a hacker's education.]
+
+\spewnote
 
 >_"The subject of my talk is perhaps most directly indicated by simply
 asking two questions: first, is it harder to multiply than to
@@ -66,34 +70,28 @@ Amazingly,  Karatsuba's algorithm is based on a faster way to multiply _two digi
 
 Suppose that $x,y \in [100]=\{0,\ldots, 99 \}$ are a pair of two-digit numbers.
 Let's write $\overline{x}$ for the "tens" digit of $x$, and $\underline{x}$ for the "ones" digit, so that $x = 10\overline{x} + \underline{x}$, and write similarly $y = 10\overline{y} + \underline{y}$ for $\overline{y},\underline{y} \in [10]$.
-The gradeschool algorithm for multiplying $x$ and $y$ works as follows:
+The gradeschool algorithm for multiplying $x$ and $y$ is illustrated in [gradeschoolmult](){.ref}.
 
-$$
-\begin{aligned}
-& \overline{x} & \underline{x} & \\
-& \overline{y} & \underline{y} &  \times \\
-= & = & = & \\
-& \overline{x}\underline{y} & \underline{x}\underline{y} &  \\
-\overline{x}\overline{y} & \underline{x}\underline{y} &  &  \\
-= & = & = & \\
-\overline{x}\overline{y} & (\overline{x}\underline{y}+\underline{x}\overline{y}) & \underline{x}\underline{y} &
-\end{aligned}
-$$
+![The gradeschool multiplication algorithm illustrated for multiplying $x=10\overline{x}+\underline{x}$ and $y=10\overline{y}+\underline{y}$. It uses the formula $(10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10(\overline{x}\underline{y} + \underline{y}\overline{x}) + \underline{x}\underline{y}$.](../figure/gradeschoolmult.png){#gradeschoolmult .class width=300px height=300px}
 
-Another way to say it is that it transform the task of multiplying a pair of two digit number into _four_ single-digit multiplications via the formula
+The gradeschool algorithm  works by transforming the task of multiplying a pair of two digit number into _four_ single-digit multiplications via the formula
+
 
 $$
 (10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10(\overline{x}\underline{y} + \underline{y}\overline{x}) + \underline{x}\underline{y} \label{eq:gradeschooltwodigit}
 $$
 
-Karatsuba's algorithm is based on the observation that we can express this using only _three_ multiplications
-by writing
+
+
+Karatsuba's algorithm is based on the observation that we can express this also as
 
 $$
-(10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10\left[(\overline{x}+\underline{x})(\overline{x}-\underline{y})\right] -(10+1)\underline{x}\underline{y} \label{eq:karatsubatwodigit}
+(10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10\left[(\overline{x}+\underline{x})(\overline{x}-\underline{y})\right] +(100-1)\overline{x}\overline{y} -(10+1)\underline{x}\underline{y} \label{eq:karatsubatwodigit}
 $$
 
-Which reduces multiplying the two-digit number $x$ and $y$ to computing three "simple" multiplications $\overline{x}\overline{y}$, $\underline{x}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$.^[The last term is not exactly single digit multiplication as $\overline{x}+\underline{x}$ and $\overline{y}+\underline{y}$ are numbers between $0$ and $18$ and not between $0$ and $9$. As we'll see, it turns out that does not make much of a difference.]
+which reduces multiplying the two-digit number $x$ and $y$ to computing three "simple" multiplications $\overline{x}\overline{y}$, $\underline{x}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$.^[The last term is not exactly a single digit multiplication as $\overline{x}+\underline{x}$ and $\overline{y}+\underline{y}$ are numbers between $0$ and $18$ and not between $0$ and $9$. As we'll see, it turns out that does not make much of a difference, since when we use the algorithm recursively, this term will have essentially half the number of digits as the original input.]
+
+![Karatsuba's multiplication algorithm illustrated for multiplying $x=10\overline{x}+\underline{x}$ and $y=10\overline{y}+\underline{y}$. We compute the three orange, green and purple products $\underline{x}\underline{y}$, $\overline{x}\overline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ and then add and subtract them to obtain the result.](../figure/karatsubatwodigit.png){#karatsubafig .class width=300px height=300px}
 
 Of course if all we wanted to was to multiply two digit numbers, we wouldn't really need any clever algorithms.
 It turns out that we can repeatedly apply the same idea, and use them to multiply $4$-digit numbers, $8$-digit numbers, $16$-digit numbers, and so on and so forth.
