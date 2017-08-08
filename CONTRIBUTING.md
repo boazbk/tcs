@@ -6,6 +6,11 @@ You can either do this by posting on the [issues](https://github.com/boazbk/tcs/
 
 In an issue, please also write your full name so I can acknowledge you properly. If you do a pull request, please also edit the file `acknowledgements.md` to add your name.
 
+These notes are provided under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
+It will remain freely and publicly available, but I may also create a printed book version of these notes in the future.
+By making any contribution to this work, you are assigning me the rights to use your contribution in both the online and any other future versions of this work.
+
+
 _Thank you!_
 
 Boaz
