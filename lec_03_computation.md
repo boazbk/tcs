@@ -73,7 +73,8 @@ It has only a single operation: `NAND`, and hence every line in a NAND program h
 foo := bar NAND baz
 ```
 
-where `foo`, `bar`, `baz` are variable names.^[See the appendix and the website [http://nandpl.org](http://nandpl.org) for a full specification of the NAND programming language.]
+where `foo`, `bar`, `baz` are variable names.^[The terms `foo` and `bar` are [often used](https://en.wikipedia.org/wiki/Foobar) to describe generic variable names in the context of programming, and we will follow this convention throughout the course.
+See the appendix and the website [http://nandpl.org](http://nandpl.org) for a full specification of the NAND programming language.]
 
 All the variables in the NAND language are _Boolean_: the only values they can take are either zero or one.
 The semantics of executing a NAND program is that when such a line is executed,  the variable `foo` is assigned the negation of the logical AND of (i.e., the NAND operation applied to) the values of the two variables `bar` and `baz`.^[The _logical AND_ of two bits $x,x'\in \{0,1\}$  is equal to $1$ if $x=x'=1$ and is equal to $0$ otherwise. Thus $NAND(0,0)=NAND(0,1)=NAND(1,0)=1$, while $NAND(1,1)=0$.]  
