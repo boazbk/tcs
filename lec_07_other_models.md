@@ -306,7 +306,7 @@ The function $FILTER(L,f)$ returns the list of $x_i$'s such that $f(x_i)=1$, and
 $$
 f(x_0,f(x_1,\cdots f(x_{n-3},f(x_{n-2},x_{n-1}))\cdots)
 $$
-(For example $REDUCE(L,+)$ would output the sum of all the elements.)
+For example $REDUCE(L,+)$ would output the sum of all the elements of the list $L$.
 See [reduceetalfig](){.ref} for an illustration of these three operations.
 
 
@@ -314,6 +314,8 @@ See [reduceetalfig](){.ref} for an illustration of these three operations.
 ![A list $(x_0,x_1,x_2)$ in the $\lambda$ calculus is constructed from the tail up, building the pair $(x_2,NIL)$, then the pair $(x_1,(x_2,NIL))$ and finally the pair $(x_0,(x_1,(x_2,NIL)))$. That is, a list is a pair where the first element of the pair is the first element of the list and the second element is the rest of the list. The figure on the left renders this "pairs inside pairs" construction, though it is often easier to think of a list as a "chain", as in the figure on the right, where the second element of each pair is thought of as a _link_, _pointer_  or _reference_ to the  remainder of the list.](../figure/lambdalist.png){#lambdalistfig .class width=300px height=300px}
 
 ![Illustration of the $MAP$, $FILTER$ and $REDUCE$ operations.](../figure/reducemapfilter.png){#reduceetalfig .class width=300px height=300px}
+
+
 Together these operations more or less amount to the Lisp/Scheme programming languague.^[In Lisp, the $PAIR$, $HEAD$ and $TAIL$ functions are [traditionally called](https://en.wikipedia.org/wiki/CAR_and_CDR) `cons`, `car` and `cdr`.]  
 Given that, it is perhaps not surprising that we can simulate NAND++ programs using the $\lambda$-calculus plus these basic elements, hence showing the following theorem:
 
@@ -340,8 +342,9 @@ In other words, can we find a subset of these basic operations that can implemen
 
 
 
+
 > # { .pause  }
-This is a good point to pause and think how you would implement these operations yourself. For example, start by thinking how you could implement $MAP$ using $REDUCE$, and then try to continue and minimize things further, trying to implement $REDUCE$ with from $0,1,IF,PAIR,HEAD,TAIL$ together with the $\lambda$ operation. Remember that your functions can take functions as input and return functions as output.
+This is a good point to pause and think how you would implement these operations yourself. For example, start by thinking how you could implement $MAP$ using $REDUCE$, and then try to continue and minimize things further, trying to implement $REDUCE$ with from $0,1,IF,PAIR,HEAD,TAIL$ together with the $\lambda$ operations. Remember that your functions can take functions as input and return functions as output.
 
 It turns out that there is in fact a proper subset of these basic operations that can be used to implement the rest.
 That subset is the empty set.
