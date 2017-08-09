@@ -286,31 +286,42 @@ Thus, we can invoke one $\lambda$ expression on another.
 For example if  $DOUBLE$ is the $\lambda$ expression $\lambda f.(\lambda x. f(fx))$, then for every function $f$, $DOUBLE f$ corresponds to the function that invokes $f$ twice on $x$ (i.e., first computes $fx$ and then invokes $f$ on the result).
 In particular, if  $f=\lambda y.y+1$ then  $DOUBLE f = \lambda x.x+2$.
 
+__(Lack of) types.__ Unlike most programming languages out there, the pure $\lambda$-calculus doesn't have the notion of _types_.
+Every object in the $\lambda$ calculus can also be thought of as a $\lambda$ expression and hence as a function that takes  one input and returns one output.
+All functions take one input and return one output, and if you feed a function an input of a form  it didn't expect, it still evaluates the $\lambda$ expression  via "search and replace", replacing all instances of its parameter with copies of the input expression you fed it.
+
+
 ### The "basic" $\lambda$ calculus objects
 
 To calculate, it seems we need some basic objects such as $0$ and $1$, and so we will consider the following set of "basic" objects and operations:
 
-* __Boolean constants:__ $0$ and $1$. We  also have the $IF(cond,a,b)$ functions that outputs $a$ if $cond=1$ and $b$ otherwise.
+* __Boolean constants:__ $0$ and $1$. We  also have the $IF(cond,a,b)$ functions that outputs $a$ if $cond=1$ and $b$ otherwise. Using $IF$ we can also compute logical operations such as $AND,OR,NOT,NAND$ etc.: can you see why?
 
 * __The empty string:__ The value $NIL$ and the function $ISNIL(x)$ that returns $1$ iff $x$ is $NIL$.
 
-* __Strings/lists:__ The function $PAIR(x,y)$ that creates a pair from $x$ and $y$. We can now create the list $x,y,z$ by $PAIR(x,PAIR(y,PAIR(z,NIL)))$. We will also have the function $HEAD$ and $TAIL$ to extract the first and second member of the pair. A _string_ is of course simply a list of bits.
+* __Strings/lists:__ The function $PAIR(x,y)$ that creates a pair from $x$ and $y$. We will also have the function $HEAD$ and $TAIL$ to extract the first and second member of the pair. We can now create the list $x,y,z$ by $PAIR(x,PAIR(y,PAIR(z,NIL)))$, see [lambdalistfig](){.ref}.  A _string_ is of course simply a list of bits.  
 
 * __List operations:__ The functions $MAP,REDUCE,FILTER$. Given a list $L=(x_0,\ldots,x_{n-1})$ and a function $f$, $MAP(L,f)$ applies $f$ on every member of the list to obtain $L=(f(x_0),\ldots,f(x_{n-1}))$.
 The function $FILTER(L,f)$ returns the list of $x_i$'s such that $f(x_i)=1$, and $REDUCE(L,f)$ "combines" the list by  outputting
 $$
 f(x_0,f(x_1,\cdots f(x_{n-3},f(x_{n-2},x_{n-1}))\cdots)
 $$
-(for example $REDUCE(L,+)$ would output the sum of all the elements)
+(For example $REDUCE(L,+)$ would output the sum of all the elements.)
+See [reduceetalfig](){.ref} for an illustration of these three operations.
 
-Also, together these operations more or less amount to the Lisp/Scheme programming languague.^[In Lisp, the $PAIR$, $HEAD$ and $TAIL$ functions are [traditionally called](https://en.wikipedia.org/wiki/CAR_and_CDR) `cons`, `car` and `cdr`.]  
+
+
+![A list $(x_0,x_1,x_2)$ in the $\lambda$ calculus is constructed from the tail up, building the pair $(x_2,NIL)$, then the pair $(x_1,(x_2,NIL))$ and finally the pair $(x_0,(x_1,(x_2,NIL)))$. That is, a list is a pair where the first element of the pair is the first element of the list and the second element is the rest of the list. The figure on the left renders this "pairs inside pairs" construction, though it is often easier to think of a list as a "chain", as in the figure on the right, where the second element of each pair is thought of as a _link_, _pointer_  or _reference_ to the  remainder of the list.](../figure/lambdalist.png){#lambdalistfig .class width=300px height=300px}
+
+![Illustration of the $MAP$, $FILTER$ and $REDUCE$ operations.](../figure/reducemapfilter.png){#reduceetalfig .class width=300px height=300px}
+Together these operations more or less amount to the Lisp/Scheme programming languague.^[In Lisp, the $PAIR$, $HEAD$ and $TAIL$ functions are [traditionally called](https://en.wikipedia.org/wiki/CAR_and_CDR) `cons`, `car` and `cdr`.]  
 Given that, it is perhaps not surprising that we can simulate NAND++ programs using the $\lambda$-calculus plus these basic elements, hence showing the following theorem:
 
 > # {.theorem title="Lambda calculus and NAND++" #lambdaequiv}
 For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable in the $\lambda$ calculus with the above basic operations if and only if it is computable by a NAND++ program.
 
 > # {.proof data-ref="lambdaequiv"}
-The "only if" direction is simple. It is a fairly straightforward programming exercise to implement all the above operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND<< as well, which we can then transform to a NAND++ program.
+The "only if" direction is simple. As mentioned above, evaluating $\lambda$ expressions basically amounts to "search and replace". It is also a fairly straightforward programming exercise to implement all the above basic operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND<< as well, which we can then transform to a NAND++ program.
 >
 For the "if" direction, it suffices to show that for every normal-form NAND++ program $P$, we can compute the next-snapshot function $NEXT_P:\{0,1\}^* \rightarrow \{0,1\}^*$ using the above operations.
 It turns out not to be so hard.
@@ -323,77 +334,68 @@ The case for decreasing $i$ is analogous.
 
 ### How basic is "basic"?
 
+While the collection of "basic" functions above is smaller than what's provided by most Lisp dialects, coming from NAND++ it still seems a little "bloated".
+Can we make do with less?
+In other words, can we find a subset of these basic operations that can implement the rest?
 
 
-### Defining bits and strings in the $\lambda$ calculus.
 
-The pure $\lambda$-calculus does not contain the operations of addition, multiplication etc.., and in fact does not have any objects other than functions.
-It turns out that this is enough, and we can define numbers using only $\lambda$ expressions.
-Traditionally in the $\lambda$-calculus people use [Peano numbers](https://wiki.haskell.org/Peano_numbers) which means that we identify the number $2$ with the function $DOUBLE$ above, the number $3$ with the corresponding function $TRIPLE$ and so on and so forth.  
-That is, the Peano  $\lambda$-expression for $1$ is the function $\lambda f.f$, the Peano $\lambda$-expression for $2$ is the function  $\lambda f.(\lambda x. f(fx))$, the Peano $\lambda$-expression for $3$ is $\lambda f.(\lambda x.f(f(fx)))$ and so on. (The Peano $\lambda$-expression for $0$ is $\lambda f.(\lambda x.x)$).
+> # { .pause  }
+This is a good point to pause and think how you would implement these operations yourself. For example, start by thinking how you could implement $MAP$ using $REDUCE$, and then try to continue and minimize things further, trying to implement $REDUCE$ with from $0,1,IF,PAIR,HEAD,TAIL$ together with the $\lambda$ operation. Remember that your functions can take functions as input and return functions as output.
 
+It turns out that there is in fact a proper subset of these basic operations that can be used to implement the rest.
+That subset is the empty set.
+That is, we can implement _all_ the operations above using the $\lambda$ formalism only, even without using $0$'s and $1$'s.
+It's $\lambda$'s all the way down!
+The idea is that we encode $0$ and $1$  themselves as $\lambda$ expressions, and build things up from there.
+This notion is known as [Church encoding](https://en.wikipedia.org/wiki/Church_encoding), as was originated by Church in his effort to show that the $\lambda$ calculus can be a basis for all computation.
 
-Since we want to work directly with bits and strings, rather than natural numbers, we will use a slightly different convention.
-We will identify $0$  with the function $\lambda x,y.x$ and $1$ with the function $\lambda x,y.y$.^[Recall that by our convention, this means we identify $0$ with $\lambda x.(\lambda y.x)$ and $1$ with $\lambda x.(\lambda y.y)$.]
-That is, you can think of $0$ as the function that maps a pair $(x,y)$ to $x$ and $1$ as the function that maps this pair to $y$.
+We now outline how this can be done:
 
-With this identification, we can implement a function such as NOT simply as
+* We define $0$ to be the function that on two inputs $x,y$ outputs $y$, and $1$ to be the function that on two inputs $x,y$ outputs $x$. Of course we use Currying to achieve the effect of two inputs and hence $0 = \lambda x. \lambda y.y$ and $1 = \lambda x.\lambda y.x$.^[We could of course have flipped the definitions of $0$ and $1$, but we use the above because it is the common convention in the $\lambda$ calculus, where people think of $0$ and $1$ as "false" and "true".]
+
+* The above implementation makes the $IF$ function trivial: $IF(cond,a,b)$ is simply $cond,a,b$ since $0ab = b$ and $1ab = a$. (We can write $IF = \lambda x.x$ to achieve $IF cond a b = cond a b$.)
+
+* To encode a pair $(x,y)$ we will produce a function $f_{x,y}$ that has $x$ and $y$ "in its belly" and such that $f_{x,y}g = g x y$ for every function $g$. That is, we write $PAIR = \lambda x,y. \lambda g. gxy$. Note that now we can extract the first element of a pair $p$ by writing $p1$ and the second element by writing $p0$, and so $HEAD = \lambda p. p1$ and $TAIL = \lambda p. p0$.
+
+* We define $NIL$ to be the function that ignores its input and always outputs $1$. That is, $NIL = \lambda x.1$. The $ISNIL$ function checks, given an input $p$, whether we get $1$ if we apply $p$ to the function $0_{x,y}$ that ignores both its inputs and always outputs $0$.
+For every valid pair $p0_{x,y} = 0$ while $NIL 0_{x,y}=1$.
+Formally, $ISNIL = \lambda p. p (\lambda x,y.0)$.
+
+### List processing and recursion without recursion
+
+Now we come to the big hurdle, which is how to implement $MAP$, $FILTER$, and $REDUCE$ in the $\lambda$ calculus.
+It turns out that we can build $MAP$ and $FILTER$ from $REDUCE$.
+For example $MAP(L,f)$ is the same as $REDUCE(L,g)$ where $g$ is the operation that on input $x$ and $y$, outputs $f(x)$ if $y$ is NIL and otherwise outputs $PAIR(f(x),y)$.
+(I leave checking this as a (recommended!) exercise for you, the reader.)
+So, it all boils down to implementing $REDUCE$.
+We can define $REDUCE(L,g)$ recursively, by setting $REDUCE(NIL,g)=NIL$ and stipulating that given a non-empty list $L$, which we can think of as a pair $(head,rest)$, $REDUCE(L,g) = g(head, REDUCE(rest,g)))$.
+Thus, we might try to write a $\lambda$ expression for $REDUCE$ as follows
 
 $$
-NOT = \lambda f.\lambda x,y.fyx
+REDUCE = \lambda L,g. IF(ISNIL(L),NIL,g HEAD(L) REDUCE(TAIL(L),g)) \label{reducereceq} \;.
 $$
 
-Indeed, note that $NOT 0$ will be the function that takes $x,y$ and outputs $y$, and similarly $NOT 1$ will be the function that takes $y,x$ and outputs $0$.
+The only fly in this ointment is that the $\lambda$ calculus does not have the notion of recursion, and so this is an invalid definition.
+This seems like a very serious hurdle: if we don't have loops, and don't have recursion, how are we ever going to be able to compute a function like $REDUCE$?
 
-Similarly, the following expression correspond to the $OR$ operation:
+The idea is to use the "self referential" properties of the $\lambda$ calculus.
+Since we are able to work with $\lambda$ expressions, we can possibly inside $REDUCE$ compute a $\lambda$ expression that amounts to running $REDUCE$ itself.
+This is very much like the common exercise of a program that prints its own code.
+For example, suppose that you have some programming language with an `eval` operation that given a string `code` and an input `x`, evaluates its own code.
+Then, if you have a program $P$ that can print its own code, you can use `eval` as an alternative to recursion: instead of using a recursive call, the program will compute its own code and store it in a variable `str` and then use `eval`.
+You might find this confusing.
+_I_ definitely find this confusing.
+But hopefully the following will make things a little more concrete.
 
-$$
-OR = \lambda f,g. fgf
-$$
+^[TODO: add a direct example how to implement $REDUCE$ with $XOR$ without using the $Y$ combinator. Hopefully it can be done in a way that makes things more intuitive.]
 
-For example, let us verify that $OR 0 1$ is indeed the $1$ function.
-Indeed, since $0xy=x$ for every $x,y$, we get that $OR 01 = 010 = 1$.
-Similarly, $OR 10 = 101=1$.
-
-
-__String encoding:__
-We can extend this to encode strings as functions as well.
-For example, we will identify $00$  with the function that outputs the first element of a given four-tuple, and similarly $11$ will be the function that outputs the last element of a four-tuple.
-More generally we identify a string $x \in \{0,1\}^n$ (which can also be thought of as a number in $[2^n]$) with the function $\lambda z_0,\ldots,z_{2^n-1}. z_x$.
-
-__Concatenation.__
-If we let $C = \lambda f,g.fgg$ then for a string $x$ and a bit $b$, $Cbx$ corresponds to the string $xb$ obtained by concatenating $b$ and $x$.
-(It is a good exercise to pause here and verify that this indeed the case.)
-By repeatedly applying the above operation, we can construct for every string $x\in \{0,1\}^*$ a $\lambda$-expression $\phi_x$ that corresponds to $x$.
-
-__First and rest.__
-Given a string $x=x_0x_1\ldots x_n$, we can define the functions $head$ and $rest$ (also known as `car` and `cdr` in Lisp parlance) such that $head(x)=x_0$ and $rest(x)=x_1\ldots x_{n-1}$.
-^[TODO: complete this]
-
-### $\lambda$-computable functions and NAND++ equivalence
-
-We say that a $\lambda$-expression $e$ _computes_ a (partial) function $F: \{0,1\}^* \rightarrow \{0,1\}^*$ if for every $x\in \{0,1\}^*$ on which $F$ is defined, if $\phi_x$ is the $\lambda$-expression encoding $x$ then $e\phi_x$ is a $\lambda$-expression encoding $F(x)$.
-We say that a function $F$ is  _$\lambda$-computable_ if and only if it can be computed  by a $\lambda$-expression.
-
-Since evaluating a $\lambda$ expression simply corresponds to iteratively doing a "search and replace", we can easily write a NAND<< (or NAND++) program that given  $\lambda$ expressions $e$ and $f$, evaluates $ef$.
-This can be used to show "only if" direction of the following theorem:
-
-> # {.theorem title="$\lambda$-computable functions are computable" #lambdaturing-thm}
-A partial function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ is computable by a $\lambda$-expression if and only if it is computable by a NAND++ program.
-
-### The Y combinator and simulating NAND++ programs using $\lambda$ expressions.
-
-The "if" direction of [lambdaturing-thm](){.ref} is less obvious, and we won't show the full details here.
-Since we have AND and OR, we can obviously compute NANDs, which can be used to show to transform a NAND program into a $\lambda$ expression.
-
-However, NAND programs can only compute finite functions, and we need some way to compute loops.
-To handle   loops  we will  use _recursion_.
-A priori it is not obvious how to do recursion in the pure $\lambda$ calculus.
-We would like to write something like $f = \lambda x.e$ where $f$ itself appears in $e$, but cannot do it since we only have anonymous functions.
+### The Y combinator
 
 The solution is to think of a recursion  as a sort of "differential equation" on functions.
-For example, consider the parity function $par:\{0,1\}^* \rightarrow \{0,1\}$.
-We can define $par$ recursively as
+For example, suppose that all our lists contain either $0$ or $1$ and consider $REDUCE(L,XOR)$ which simply computes the _parity_ of the list elements.
+The ideas below will clearly generalize for implementing $REDUCE$ with any other function, and in fact for implementing recursive functions in general.
+We can define the parity function $par$ recursively as
 $$
 par(x_0,\ldots,x_n) = \begin{cases} 0 & |x|=0 \\ x_0 \oplus par(x_1,\ldots,x_n) \text{otherwise} \end{cases}
 \label{eq:par-recurse}
@@ -402,7 +404,6 @@ where $\oplus$ denotes the XOR operator.
 
 
 Our key insight would be to recast [eq:par-recurse](){.eqref} not as a _definition_ of the parity function but rather as an _equation_ on it.
-
 That is, we can think of [eq:par-recurse](){.eqref} as stating that
 
 $$
@@ -451,16 +452,13 @@ This can be used to complete the "if" direction of [lambdaturing-thm](){.ref}.
 For example, to compute parity we first give a recursive definition of parity using the $\lambda$-calculus as
 
 $$
-par x = ITE(emptry(x), 0 , XOR first(x) par(rest(x))) \label{eq:par-recurse}
+par L = IF(ISNIL(L), 0 , XOR HEAD(L) par(TAIL(L))) \label{eq:par-recurse}
 $$
 
-where $ITE(a,b,c)$ is the function that outputs $b$ if $a=1$ and $c$ otherwise,  $empty(x)$ is the function that outputs $1$ if $x$ corresponds to the empty string, and $XOR(a,b)$ computes the XOR operation.
-
-All of these are not hard to implement in the $\lambda$ calculus but of course the key issue with [eq:par-recurse](){.eqref} is that it is recursive.
-We avoid the recursion by converting [eq:par-recurse](){.eqref} to the operator $PAREQ$ defined as
+We then avoid the recursion by converting [eq:par-recurse](){.eqref} to the operator $PAREQ$ defined as
 
 $$
-PAREQ  = \lambda p. \lambda x. ITE(emptry(x), 0 , XOR first(x) p(rest(x)))
+PAREQ  = \lambda p. \lambda L. IF(ISNIL(L), 0 , XOR HEAD(L) p(TAIL(L)))
 $$
 
 and then we can define $par$ as  $Y PAREQ$ since this will be the unique solution to $p= PAREQ p$.
