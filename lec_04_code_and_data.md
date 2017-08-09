@@ -60,7 +60,7 @@ Unlike [bounded-univ](){.ref}, [eff-bounded-univ](){.ref} is not a trivial corol
 It requires us to present a concrete NAND program for the $EVAL_{s,n,m}$ function.
 We will do so in several stages.
 
-First, we will spell out precisely how represent NAND programs as strings.
+First, we will spell out precisely how to  represent NAND programs as strings.
 We can prove  [eff-bounded-univ](){.ref}  using the ASCII representation, but a "cleaner" representation will be more convenient for us.
 Then, we will show how we can write a  program to compute $EVAL_{s,n,m}$ in _Python_.^[We will not use much about Python, and a reader that has familiarity with programming in any language should be able to follow along.]
 Finally, we will show how we can transform this Python program into a NAND program.
@@ -115,7 +115,7 @@ To evaluate a NAND program $P$ given in this representation, on an input $x$, we
 
 * We set $1$ to be the index corresponding to the label `y` and so the  output is the value of the variables $(1,0),\ldots,(0,m-1)$ which are equal to `avars[0*t+1]`,...,`avars[(m-1)*t+1]`.
 
-^[TODO: Perhaps comment that we will not use the indices $2$ and $3$ as to maintain compatiblity with the representation of NAND++ that will be introduced later on.]
+^[TODO: Perhaps comment that we will not use the indices $2$ and $3$ as to maintain compatibility with the representation of NAND++ that will be introduced later on.]
 
 
 The following is a   _Python_ function `EVAL` that on input $n,m,P,x$ where $P$ is a list of six-tuples and $x$ is list of $0/1$ values, returns the result of the execution of the NAND program represented by $P$ on $x$:^[To keep things simple, we will not worry about the case that $P$ does not represent a valid program of $n$ inputs and $m$ outputs.]
@@ -205,14 +205,14 @@ We will see in a future lecture how to improve this to $O(s \log^c s)$ for some 
 
 To prove [eff-bounded-univ](){.ref} we essentially translated every line of the Python program for `EVAL` into an equivalent NAND snippet.
 It turns out that none of our reasoning  was specific to the  particular function $EVAL$.
-It is possible to translate _every_ Python program into an equivalent `NAND` program of comparable efficiency.^[More concretely, if when executed the Python program takes $T(n)$ operations on inputs of length at most $n$ then we can find a NAND program for the function restricted to $n$ inputs will have $O(T(n) \log T(n))$ lines.]
+It is possible to translate _every_ Python program into an equivalent `NAND` program of comparable efficiency.^[More concretely, if the Python program takes $T(n)$ operations on inputs of length at most $n$ then we can find a NAND program of $O(T(n) \log T(n))$ lines that agrees with the Python program on inputs of length $n$.]
 Actually doing so requires taking care of many details and is beyond the scope of this course, but let me convince you why you should believe it is possible in principle.
 We can use [CPython](https://en.wikipedia.org/wiki/CPython) (the reference implementation for Python), to evaluate every Python program using a `C` program.
 We can combine this with a C compiler to transform a Python program to various flavors of "machine language".
 
 
 So, to transform a Python program into an equivalent NAND program, it is enough to show how to transform a machine language program into an equivalent NAND program.
-One minimalistic (and hence convenient) family of machine languages is known as the _ARM architecture_ which powers a great many mobile devices including essentially all Android devices.^[ARM stands for "Advanced RISC Machine" where RISC in turn stands for "Reduced instruction set computing"]  
+One minimalistic (and hence convenient) family of machine languages is known as the _ARM architecture_ which powers a great many mobile devices including essentially all Android devices.^[ARM stands for "Advanced RISC Machine" where RISC in turn stands for "Reduced instruction set computer"]  
 There are even simpler machine languages, such as the [LEG acrhitecture](https://github.com/frasercrmck/llvm-leg) for which a  backend for the [LLVM compiler](http://llvm.org/) was implemented (and hence can be the target of compiling any of [large and growing list](https://en.wikipedia.org/wiki/LLVM#Front_ends) of languages that this compiler supports).
 Other examples include the  [TinyRAM](http://www.scipr-lab.org/doc/TinyRAM-spec-0.991.pdf) architecture (motivated by  interactive proof systems that we will discuss much later in this course) and  the teaching-oriented [Ridiculously Simple Computer](https://www.ece.umd.edu/~blj/RiSC/) architecture.^[The reverse direction of compiling NAND to C code, is much easier. We show code for a `NAND2C` function in the appendix.]
 

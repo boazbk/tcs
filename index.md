@@ -21,7 +21,7 @@ index:
     file: lec_02_representation
     draft: false
 
-  - num: 2.
+  - num: 3.
     name: Computation
     file: lec_03_computation
     draft: false
