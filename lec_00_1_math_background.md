@@ -148,7 +148,7 @@ For example, if $\Sigma = \{a,b,c,d,\ldots,z \}$ then $\Sigma^*$ denotes the set
 
 
 
-## Functions
+### Functions
 
 If $S$ and $T$ are sets, a _function_ $F$ mapping $S$ to $T$, denoted by $F:S \rightarrow T$, associates with every element $x\in S$ an element $F(x)\in T$.
 Just as with sets, we can write a function either by listing the table of all the values it gives for elements in $S$ or using a rule.
@@ -191,7 +191,7 @@ For example, the function $F(x)= \sqrt{x}$ is only defined on non-negative real 
 When we want to distinguish between partial functions and  standard (i.e., non-partial) functions, we will call the latter _total_ functions.
 We can think of a partial function $F$ from $S$ to $T$ also as a total function from $S$ to $T \cup \{ \bot \}$ where $\bot$ is some special "failure symbol", and so instead of saying that $F$ is undefined at $x$, we can say that $F(x)=\bot$.
 
-## Graphs
+### Graphs
 
 _Graphs_ are ubiquitous in Computer Science, and  many other fields as well.
 They are used to model a variety of data types including social networks, road networks, deep nueral nets, gene interactions, correlations between observations, and a great many more.
@@ -213,22 +213,68 @@ If the edge $\overrightarrow{u v}$ is present in the graph then we say that $v$ 
 Note that a directed graph might contain both $\overrightarrow{u v}$ and $\overrightarrow{v u}$ in which case $u$ will be both an in-neighbor and an out-neighbor of $v$ and vice versa.
 The _in-degree_ of $u$ is the number of in-neighbors it has, and the _out-degree_ of $v$ is the number of out-neighbors it has.
 A _path_ in the graph is a tuple $(u_0,\ldots,u_k) \in V^k$, for some $k>0$ such that $u_{i+1}$ is an out-neighbor of $u_i$ for every $i\in [k]$.
+As in the undirected case, a _simple path_ is a path $(u_0,\ldots,u_{k-1})$ where all the $u_i$'s are distinct and a  _cycle_ is a path $(u_0,\ldots,u_k)$ where $u_0=u_{k}$.
+One type of directed graphs we often care about is _directed acyclic graphs_ or _DAGs_, which, as their name implies, are directed graphs without any cycles.
 
-We say that there is a _path_ from $u$ to $v$ if there are $u_0,\ldots,u_k \in V$ such that $u_0=u$, $u_k=v$ and for every $i\in [k]$, $u_{i+1}$ is an out-neighbor of $u_i$.
-We say that $u$ and $v$ are _connected_ if there is a path from $u$ to $v$ and a path from $v$ to $u$.
-We say that the graph is connected if the
+### Logic operators and quantifiers.
 
-## Asymptotics and big-Oh notation
+If $P$ and $Q$ are some statements that can be true or false, then $P$ AND $Q$ (denoted as $P \wedge Q$) is the statement that is true if and only if both $P$ _and_ $Q$ are true, and $P$ OR $Q$ (denoted as $P \vee Q$) is the statement that is true if and only if either $P$ _or_ $Q$ is true.
+The _negation_ of $P$, denoted as $\neg P$ or $\overline{P}$, is the statement that is true if and only if $P$ is false.
 
-It is often very cumbersome to describe precisely  quantities such as running time, whereas we are typically only interested in the "higher order terms" or understanding the scaling of the quantity as the input variable grows.
+Suppose that $P(x)$ is a statement that depends on some _parameter_  $x$ (also sometimes known as an _unbound_ variable) in the sense that for every instantiation of $x$ with a value from some set $S$, $P(x)$ is either true or false.
+For example, $x>7$ is a statement that is not a priori true or false, but does become true or false whenever we instantiate $x$ with some real number.
+In such case we denote by  $\forall_{x\in S} P(x)$  the statement that is true if and only if $P(x)$ is true _for every_ $x\in S$.
+We denote by  $\exists_{x\in S} P(x)$  the statement that is true if and only if _there exists_ some $x\in S$ such that $P(x)$ is true.
+
+For example, the following is a formalization of the true statement that there exists a natural number $n$ larger than $100$ that is not divisble by $3$:
+
+$$
+\exists_{n\in \N} (n>100) \wedge \left(\forall_{k\in N} k+k+k \neq n\right) \;.
+$$
+
+### Quantifiers for summations and products
+
+The following shorthands for summing up or taking products of several numbers are often convenient.
+If $S = \{s_0,\ldots,s_{n-1} \}$ is a finite set and  $f:S \rightarrow \R$ is a function, then we write $\sum_{x\in S} f(x)$ as shorthand for
+
+$$
+f(s_0) + f(s_1) + f(s_2) + \ldots + f(s_{n-1}) \;,
+$$
+
+and $\prod_{x\in S} f(x)$ as shorthand for
+
+$$
+f(s_0) \cdot f(s_1) \cdot f(s_2) \cdot \ldots \cdot f(s_{n-1}) \;.
+$$
+
+For example, the sum of the squares of all numbers from $1$ to $100$ can be written as
+
+$$
+\sum_{i\in \{1,\ldots,100}} i^2 \;. \label{eqsumsquarehundred}
+$$
+
+Since summing up over intervals of integers is so common, there is  a special notation for it, and for every two integers $a \leq b$,  $\sum_{i=a}^b f(i)$ denotes $\sum_{i\in S} f(i)$ where $S =\{ x\in \Z : a \leq x \leq b \}$.
+Hence we can write the sum [eqsumsquarehundred](){.eqref} as
+
+$$
+\sum_{i=1}^{100} i^2 \;.
+$$
+
+
+
+
+
+### Asymptotics and big-Oh notation
+
+It is often very cumbersome to describe precisely  quantities such as running time and is also not needed, since we are typically mostly interested in the "higher order terms".
+That is, in  understanding the _scaling behavior_ of the quantity as the input variable grows.
 For example, as far as running time goes, the difference between an $n^5$-time algorithm and an $n^2$-time one is much more significant than the difference between an $100n^2 + 10n$ time algorithm and an $10n^2$
-For this purpose, Oh notation is extremely useful as a way to "declutter" our text,
-so for example, we can say that both $100n^2 + 10n$ and $10n^2$ are simply $O(n^2)$ (which we call  "Big Oh" of $n^2$), while $n^2 = o(n^5)$ (which we call "little Oh" of $n^5$).
+For this purpose, Oh notation is extremely useful as a way to "declutter" our text and focus our attention on what really matters.
+For example, using Ph notation, we can say that both $100n^2 + 10n$ and $10n^2$ are simply $\Theta(n^2)$ (which informally means "the same up to constant factors"), while $n^2 = o(n^5)$ (which informally means that $n^2$ is "much smaller than" $n^5$).
 
 
-Intuitively, if $F,G$ are two functions mapping natural numbers to non-negative reals,  you can think of "$F=O(G)$" as meaning that  $F(n) \leq G(n)$ if we don't care about constant factors, while you can think of "$F=o(G)$" as meaning that $F(n) < G(n)$ even if we mutliply $F$ by an arbitrary large constant factor (sometimes $F=o(G)$ is written as $F \ll G$).
+Generally (though still informally), if $F,G$ are two functions mapping natural numbers to non-negative reals,  then "$F=O(G)$" means that  $F(n) \leq G(n)$ if we don't care about constant factors, while  "$F=o(G)$" means that $F$ is much smaller than $G$, in the sense that no matter by what constant factor we multiply $F$, if we take $n$ to be large enough then  $G$ will be bigger (for this reason, sometimes $F=o(G)$ is written as $F \ll G$).
 We will write $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$, which one can think of as saying that $F$ is the same as $G$ if we don't care about constant factors.
-
 More formally, we define Big Oh notation as follows:
 
 
@@ -242,14 +288,13 @@ We write $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$.
 
 
 We can also use the notion of _limits_ to define big and little oh notation.
-You can verify that $F=o(G)$ (or, equivalently, $G=\omega(F)$) if and if $\lim\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)} = 0$.
+You can verify that $F=o(G)$ (or, equivalently, $G=\omega(F)$) if and only if $\lim\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)} = 0$.
 Similarly, if the limit $\lim\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)}$ exists and is a finite number then $F=O(G)$.
 If you are familiar with the notion of _supremum_, then you can verify that $F=O(G)$ if and only if $\limsup\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)} < \infty$.
 
 
 
 
-In most (though not all!) cases we use Oh notation, the constants hidden by it are not too huge and so on an intuitive level, you can think of $F=O(G)$ as saying something like $F(n) \leq 1000 G(n)$ and $F=\Omega(G)$ as saying something $F(n) \geq 0.001 G(n)$.
 
 Using the equality sign for Oh notation is extremely common, but is somewhat of a misnomer, since a statement such as $F = O(G)$ really means that $F$ is in the set $\{ G' : \exists_{N,c} \text{ s.t. } \forall_{n>N} G'(n) \leq c G(n) \}$.
 For this reason, some texts write $F \in O(G)$ instead of $F = O(G)$.
@@ -273,6 +318,8 @@ There are some simple heuristics that can help when trying to compare two functi
 
 * Similarly, logarithmic is always smaller than polynomial: $(\log n)^a$ (which we write as $\log^a n$) is $o(n^\epsilon)$ for every two constants $a,\epsilon>0$. For example, combining the observations above, $100n^2\log^100 n = o(n^3)$.
 
+In most (though not all!) cases we use Oh notation, the constants hidden by it are not too huge and so on an intuitive level, you can think of $F=O(G)$ as saying something like $F(n) \leq 1000 G(n)$ and $F=\Omega(G)$ as saying something $F(n) \geq 0.001 G(n)$.
+
 
 ## Proofs
 
@@ -290,10 +337,36 @@ This is not entirely wrong, but in reality a mathematical proof of a statement X
 To produce such a proof you need to:
 
 1. Understand precisely what X means.
+
 2. Convince  _yourself_ that X is true.
+
 3. Write your reasoning down in plain, precise and concise English (using formulas or notation only when they help clarity).
 
 In many cases, Step 1 is the most important one. Understanding what a statement means is often more than halfway towards understanding why it is true.
+In Step 3, to convince the reader beyond a shadow of a doubt, we will often want to  break down the reasoning to "basic steps", each of which is simple enough to be "self evident" and the combination of all steps yields the desired statement.
+(This "breaking down" can indeed be often thought of as proceeding in a sequence of  logical deduction from some axioms.)
+
+### Proofs and programs
+
+There is a great deal of similarity between the process of writing _proofs_ and that of writing _programs_, and doing both well requires a similar set of skills.  
+Writing a _program_ involves:
+
+1. Understanding what is the _task_ we want the program to achieve.
+
+2. Convincing _yourself_ that the task can be achieved by a computer, perhaps by planning on a whiteboard or notepad how you will break it up to simpler tasks.
+
+3. Converting this plan into code that a compiler or interpreter can understand, by breaking up each task into a sequence of the basic operations of some programming language.
+
+In programs as in proofs, step 1 is often the most important one.
+A key difference
+
+
+## Example: graph connectivity
+
+Let us consider the following example:
+
+> # {.theorem title="Minimum edges for connected graphs" #graphconthm}
+Every connected undirected graph of $n$ vertices has at least $n-1$ edges.
 
 
 
