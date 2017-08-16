@@ -358,15 +358,152 @@ Writing a _program_ involves:
 3. Converting this plan into code that a compiler or interpreter can understand, by breaking up each task into a sequence of the basic operations of some programming language.
 
 In programs as in proofs, step 1 is often the most important one.
-A key difference
+A key difference is that the reader for proofs is a human being and for programs is a compiler.^[This difference might be eroding with time, as more proofs are being written in a _machine verifiable form_ and progress in artificial intelligence allows expressing programs in more human friendly ways, such as "programming by example". Interestingly, much of the progress in automatic proof verification and proof assistants relies on a much deeper correspondence between _proofs_ and _programs_. We _might_ see this correspondence later in this course.]
+Thus our emphasis is on _readability_ and having a _clear logical flow_ for the proof (which is not a bad idea for programs as well..).
+For the purposes of this course, you can think of the human reader as an intelligent but highly skeptical reader, that will "call foul" at every step that is not well justified.
 
 
-## Example: graph connectivity
+## Extended example: graph connectivity
 
-Let us consider the following example:
+To illustrate these ideas, let us consider the following example of a true theorem:
 
 > # {.theorem title="Minimum edges for connected graphs" #graphconthm}
 Every connected undirected graph of $n$ vertices has at least $n-1$ edges.
+
+
+We are going to take our time to understand how one would come up with a  proof for [graphconthm](){.ref}, and how we will write it down.
+This will not be the shortest way to prove this theorem, but hopefully following this process will give you some insights on how to produce proofs in general.
+
+Before trying to prove [graphconthm](){.ref},  we need to understand what it means.
+We start with the terms in the theorems.
+We defined undirected graphs and the notion of connectivity above.
+You can check that a graph $G=(V,E)$ is _connected_ if for every pair $u,v \in V$, there is a path $(u_0,u_1,\ldots,u_k) \in  V^{k+1}$ such that $u_0=u$, $u_k=v$, and $\{ u_i,u_{i+1} \} \in E$ for every $i\in [k]$.
+
+> # { .pause }
+It is crucial that at this point you pause and verify that you completely understand the definition of connectivity. Indeed, you should make a habit of pausing after any statement of a theorem, even before looking at the proof, and verifying that you  understand all the terms that the theorem refers to.
+
+To prove this theorem we need to show that there is no $2$-vertex connected graph with fewer than $1$ edges, $3$-vertex connected graph with fewer than $2$ edges, and so on and so forth.
+One of the best ways to prove a theorem is to first try to _disprove it_.
+By trying to come up with a counterexample, we often understand why it could not be false.
+For example, if you try to draw a $4$-vertex graph with only two edges, you can see that there are basically only two  choices for such a graph as depicted in [figurefourvertexgraph](){.ref}, and in both  there will remain a vertex that is not connected.
+
+
+![In a four vertex graph with two edges, either both edges have a shared vertex or they don't. In both cases the graph will not be connected.](../figure/4graph2edge.png){#figurefourvertexgraph .class width=300px height=300px}
+
+In fact, we can see that if we have a budget of $2$ edges and we choose some vertex $u$, we will not be able to connect to $u$ more than two other vertices, and similarly with a budget of $3$ edges we will not be able to connect to $u$ more than three other vertices.
+We can keep trying to draw such examples until we convince ourselves that the theorem is probably true, at which point we want to see how we can _prove_ it.
+
+
+> # { .pause }
+If you have not seen the proof of this theorem before (or don't remember it), this would be an excellent point to pause and try to prove it yourself.
+
+There are several ways to approach this proof, but one version is to start by proving it for small graphs, such as graphs with 2,3 or 4 edges, for which we can check all the cases, and then try to extend the proof for larger graphs.
+The technical term for this proof approach is _proof by induction_.
+
+Induction is simply an application of the self-evident  [Modus Ponens](https://en.wikipedia.org/wiki/Modus_ponens) rule that says that if: \
+
+ __(a)__ $P$ implies $Q$ \
+
+and \
+
+__(b)__ $P$ is true \
+then $Q$ is true.
+
+In the setting of induction we typically have a statement $Q(k)$ about an integer $k$, and we prove that: \
+
+__(a)__ For every $k>0$, if $Q(0),\ldots,Q(k-1)$ are all true then $Q(k)$ is true \
+
+ and \
+
+ __(b)__ $Q(0)$ is true. \
+
+(Usually proving __(a)__ is the hard part, though there are examples where the "base case" __(b)__ is quite subtle.)
+By repeatedly applying Modus Ponens, we can see that $Q(1)$ is true, $Q(2)$ is true, etc.. and this implies that  $Q(k)$ is true for every $k$.
+
+In this context, there are several approaches for induction, but one possiblity is to follow our intuition above that with a budget of $k$ edges, we cannot connect to a vertex more than $k-1$ other vertices.
+That is, we will define the statement $Q(k)$ as follows: "For every graph $G=(V,E)$ with at most $k$ edges and every $u\in V$, the number of vertices other than $u$ that are connected to $u$ is at most $k$".
+Note that $Q(n-2)$ implies our theorem, since it means that in an $n$ vertex graph of $n-2$ edges, for every $u\in V$ there would be fewer than $n-2$ vertices other than $u$ that are connected to $u$, and so in particular there would be a vertex $v\in V$ that is not connected to it.
+
+The statement $Q(0)$ is obvious: in a graph with zero edges, $u$ is only connected to itself, and so now what we want to prove is that for every $k$, if $Q(0),Q(1),\ldots,Q(k-1)$ are true then so is $Q(k)$.
+
+Once again, a crucial point is to understand _what_ we are trying to prove.
+Since we are trying to prove an _implication_, we can _assume_ the so-called "inductive hypothesis" that $Q(i)$ is true for every $i<k$ and need to prove from this assumption that $Q(k)$ is true.
+So, suppose that $G=(V,E)$ is a graph of $k$ edges, and $u\in V$.
+Let $C(u)$ be the set of vertices that are connected to $u$ (not including $u$ itself) in $G$.
+We need to prove that $|C(u)| \leq k$.
+Since we can use induction, a natural approach would be to remove an edge $e\in E$ from the graph to create a new graph $G'$ of $k-1$ edges.
+We can use the induction hypothesis to argue that $|C'(u)| \leq k$, where $C'(u)$ is the set of vertices that are connected to $u$ in $G'$.
+Now if we could only argue that adding the edge $e$ adds at most a single vertex to $C'(u)$, then we would be done, as we could argue that $|C(u)| \leq |C'(u)|+1 \leq k+1$.
+
+Alas, this might not be the case.
+It could be that adding a single edge $e$ will greatly increase the size $C'(u)$.
+For example that edge might be a "bridge" between two large connected components; such a situation is illustrated in  [effectofoneedgefig](){.ref}.
+
+![Adding a single edge $e$ can greatly increase the number of vertices that are connected to a vertex $u$.](../figure/effectofoneedge.png){#effectofoneedgefig .class width=300px height=300px}
+
+This might seem as a real stumbling block, and at this point we might go back to the drawing board to see if perhaps the theorem is false after all.
+However, if we look at various concrete examples, we see that in any concrete example, there is always a "good" choice of an edge, adding which will  increase the component connect to $u$ by at most one vertex.
+The crucial observation is that this always holds if we choose an edge  $e = \{ s, w\}$ where $w \in C(u)$ has degree one in the graph $G$, see [degoneconnectivityfig](){.ref}.
+The reason is simple.
+Since every path from $u$ to $w$ must pass through $s$ (which is $w$'s only neighbor ')
+Removing the edge $\{s,w \}$ from $G$ only disconnect
+
+
+If we remove such an edge $\{s,w\}$ from the graph $G$, then in the resulting graph $G'$ the vertex $w$ has degree $0$ and is clearly not connected to $u$.
+
+Now, either $s$ is connected to $u$ in $G'$ or not.
+If $s\not\in C'(u)$, then adding the edge $\{s,w\}$ will not connect any new vertex to $u$.
+Otherwise, adding the edge will only connect $w$ to $u$, and hence increase the size of $C'(u)$ by at most one vertex.
+
+
+
+![Adding an edge $e=\{s,w\}$ where $w$ has degree one can increase $C'(u)$ by at most one vertex. ](../figure/addingdegreeone.png){#addingdegreeonefig .class width=300px height=300px}
+
+
+Now the question is whether there will always be a degree one vertex.
+Of course generally we are not guaranteed that a graph would have a degree one vertex, but we are not dealing with a general graph here but rather a graph with a small number of edges.
+Now suppose that $C(u)$ has at least $k+2$ vertices (otherwise we're done), and each one of them (apart from possibly $u$) has degree at least $2$.
+Then  the total number of edges must be at least $k+1.5>k$ since the total of all the degrees in the graph is twice the number of edges (every edge $\{ s, t \}$ contributes once to the degree of $s$ and once to the degree of $t$).
+Since $G$ has at most $k$ edges, we can conclude that it must have a vertex $w\in C(u)$ of degree one.
+Now we can remove  the edge $w$ touches to obtain the graph $G'$, and argue that by the induction hypothesis that $|C'(u)| \leq k$ and hence (by the argument above, and since $w$ has degree one) $|C(u)| \leq k+1$.
+
+
+### Writing down the proof
+
+All of the above was a discussion of how we _discover_ the proof, and convince _ourselves_ that the statement is true.
+However, once we do that, we still need to write it down.
+When writing the proof down we use the benefit of hindsight, and try to streamline what was a messy journey into a linear and easy-to-follow flow of logic that starts with the word __Proof:__ and ends with __QED__.
+All our discussions, examples and digressions can be very insightful, but we keep them outside the space between these two words, where (to use the words of this [excellend handout](http://web.stanford.edu/class/cs103/handouts/110%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
+Let us see how the proof of the theorem looks in this streamlined fashion:
+
+> # {.proof data-ref="graphconthm"}
+We need to show that for every $n$, a graph $G=(V,E)$ on $n$ vertices with at most $n-2$ edges has a disconnected pair $u,v \in V$.
+We prove the theorem by induction on $n$. The base case is $n=2$: in a graph with two vertices $\{u, v \}$ and zero edges, the pair $u,v$ is disconnected.
+>
+Now suppose that the theorem is true for graphs of $n-1$ vertices and we will prove it for $n$.
+We will use the following intermediate claim:
+>
+__Claim:__ If $G=(V,E)$ is an $n$ vertex graph of less than $n$ edges, then it contains a vertex $w$ of degree at most one.
+>
+__Proof of claim:__ Suppose towards the sake of contradiction that every vertex $w\in V$ has  degree at least two. For every $s,t\in V$ we will define the number $A_{s,t}$ to equal $1$ if $\{s,t\} \in E$ and $A_{s,t}=0$ otherwise. Define $S=\sum_{s\in V}\sum_{t\in V} A_{s,t}$.
+Note that $S=2|E|$ since  every edge $\{s,t\}$ contributes to this sum the two terms $A_{s,t}$ and $A_{t,s}$.  
+Since for every $s$, $\sum_{t\in V} A_{s,t}$ is equal to the degree of $s$, under our assumption  $S \geq 2n$, and hence we get $|E| \geq n$, contradicting our assumption.
+>
+Given the claim, under our assumption that $G$ is a graph of $n$ vertices and at most $n-2$ edges, we can find a vertex $w$ in $G$ of degree zero or one.
+If $w$ has degree zero then it is disconnected from every vertex $u\neq w$ of $G$ and so we're done.
+Otherwise $w$ has one neighbor $s$.
+We remove from $G$ the vertex $w$ and the edge $\{w,s \}$ to obtain an $n-1$ graph $G'$ with at most $n-3$ edges.
+By the induction hypothesis, $G'$ contains a pair $u,v$ of vertices that are disconnected in $G'$.
+To conclude the proof we need to prove the following claim:
+>
+__Claim:__ The vertices $u,v$ from above are disconnected in $G$ as well.
+>
+__Proof:__ Suppose that there is a path in $G$ from $u$ to $v$, We claim that these are disconnected in $G$ as well.
+Indeed, suppose that there was a path in $G$
+
+
+we have that $A_{s,t}=A_{t,s}=1$, we get that t
+If $G=(V,E)$ is an $n$-vertex graph of at most $n-2$ edges and it contains a vertex $w$ of degree zero then $w$ is disconnected from every other vertex and so we're done.
 
 
 
@@ -511,33 +648,6 @@ __Proofs by induction:__ We can think of such proofs as a variant of the above, 
 
 
 
-## Proofs by induction
-
-One common, but often tricky, method of proofs is to use _inductions_.
-Induction is simply an application of the basic  [Modus Ponens](https://en.wikipedia.org/wiki/Modus_ponens) rule that says that if: \
-
- __(a)__ $P$ implies $Q$ \
-
-and \
-
-__(b)__ $P$ is true \
-then $Q$ is true.
-
-In the setting of induction we typically have a statement $Q(n)$ about an integer $n$, and we prove that: \
-
-__(a)__ For every $n>0$, if $Q(0),\ldots,Q(n-1)$ are all true then $Q(n)$ is true \
-
- and \
-
- __(b)__ $Q(0)$ is true. \
-
-(Usually proving __(a)__ is the hard part, though there are examples where the "base case" __(b)__ is quite subtle.)
-By repeatedly applying Modus Ponens, we can see that $Q(1)$ is true, $Q(2)$ is true, etc.. and this implies that  $Q(n)$ is true for every $n$.
-
-For example, to show the classical formula that the sum $S_n = 1+2+3+\cdots+n$ is equal to $(n+1)n/2$, we
-first show this for the case $S_0$ in which indeed $0 = S_0 = (0+1)0/2$.
-Then we need to show that if for every $i\leq n-1$, $S_i = (i+1)i/2$ then $S_n=(n+1)n/2$.
-To do so we simply take $i=n-1$, and then $S_n = S_{n-1}+n = n(n-1)/2 +n = [n(n-1)+2n]/2= n(n+1)/2$.
 
 
 The website for CMU course 15-251 contains a [useful handout](http://www.cs.cmu.edu/~./15251/notes/induction-pitfalls.pdf) on potential pitfalls when making proofs by induction.
