@@ -1,13 +1,280 @@
 # Mathematical Background
 
 
-__Note:__ In this section we briefly review some of the mathematical content we will use in this course. We will assume that students either encountered these notions before, in a discrete math or other course, or can pick them up via self study. There are several excellent freely-available resources for this material online. In particular, the [CS 121 webpage](http://www.boazbarak.org/cs121/background/) contains a program for self study of all the needed notions using the lecture notes, videos, and assignments of MIT course [6.042j Mathematics for Computer science](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/).
-
-
-
-
-
 >_"Young man, in mathematics you don't understand things. You just get used to them."_, John von Neumann
+
+## Mathematical prerequisites
+
+
+
+The main notions we will use in this course are the following:
+
+* __Proofs:__ First and foremost, this course will involve a heavy dose of formal mathematical reasoning, which includes mathematical _definitions_, _statements_, and _proofs_.
+
+* __Sets:__ Including notation such as membership ($\in$), containment ($\subseteq$), and set operations such as union, intersection,  subtraction  and Cartesian product ($\cup,\cap,\setminus$ and $\times$).
+
+* __Functions:__ Including the notions of the _domain_ and _range_ of a function, properties such  being  _one-to-one_ or _onto_ functions, and also the   notion of _partial functions_ (that are not defined on all elements of their domain).
+
+* __Logical operations:__ The operations AND, OR, and NOT ($\wedge,\vee,\neg$) and the quantifiers "exists" and "forall" ($\exists$,$\forall$).
+
+* __Tuples and strings:__ The notation $\Sigma^k$ and $\Sigma^*$ where $\Sigma$ is some finite set which is called the _alphabet_ (quite often $\Sigma = \{0,1\}$).
+
+* __Basic combinatorics:__ Notions such as $\binom{n}{k}$ (the number of $k$-sized subset of a set of size $n$).
+
+* __Graphs:__ Undirected and directed graphs, degrees, connectivity.
+
+* __Big Oh notation:__ $O,o,\Omega,\omega,Theta$ notation for analyzing asymptotics of functions.
+
+* __Discrete probability:__ Later on in this course we will use _probability theory_, and specifically probability over _finite_ samples spaces such as tossing $n$ coins. We will only use  probability theory in the second half of this course, and will review it  before we use. However,  probabilistic reasoning is a subtle (and extremely useful!) skill, and it's always good to start early in acquiring it.
+
+
+
+
+There are several excellent freely-available resources for the above material online.
+In particular, the [CS 121 webpage](http://www.boazbarak.org/cs121/background/) contains a program for self study of all the needed notions using the lecture notes, videos, and assignments of MIT course [6.042j Mathematics for Computer science](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/) (which is also the text used by Harvard CS 20).
+Still, in the rest of this section we briefly review these as well, partially to remind the reader and reinforce material that might not be fresh in your mind, and partially to introduce our notation and conventions which might occasionally differ from those you've encountered before.
+
+
+
+## Basic discrete math objects
+
+We now quickly review some of the objects and definitions we use from discrete math in this course.
+
+### Sets
+
+A _set_ is an unordered collection of objects.
+For example, when we write $S = \{ 2,4, 7 \}$, we mean that $S$ denotes the set that contains the numbers $2$, $4$, and $7$.
+(We use the notation "$2 \in S$" to denote that $2$ is an element of $S$.)
+Note that the set $\{ 2, 4, 7 \}$ and $\{ 7 , 4, 2 \}$ are identical, since they contain the same elements.
+Also, a set either contains an element or does not contain it -there is no notion of containing it  "twice"- and so we could even write the same set $S$ as  $\{ 2, 2, 4, 7\}$ (though that would be a little weird).
+The _cardinality_ of a finite set $S$, denoted by $|S|$, is the number of distinct elements it contained.
+So, in the example above, $|S|=3$.
+A set $S$ is a _subset_ of a set $T$, denoted by $S \subseteq T$, if every element of $S$ is also an element of $T$.
+For example, $\{2,7\} \subseteq \{ 2,4,7\}$.
+The set that contains no elements is known as the _empty set_ and it is denoted by $\emptyset$.
+
+
+We can define sets by either listing all their elements or by writing down a rule that they satisfy such as
+$$
+EVEN = \{ x  \;:\; \text{ $x=2y$ for some non-negative integer $y$} \} \;.
+$$
+
+Of course there is more than one way to write the same set, and often we will use intuitive notation listing a few examples that illustrate the rules, and hence we can also define $EVEN$ as
+$$
+EVEN = \{ 0,2,4, \ldots \} \;.
+$$
+
+Note that a set can be either finite  (such as the set $\{2,4,7\}$ ) or infinite (such as the set $EVEN$).
+Also, the elements of a set don't have to be numbers.
+We can talk about the sets such as the set $\{a,e,o,u \}$ of all the vowels in the English language, or the  set $\{ New York, Los Angeles, Chicago \}$  of all cities in the U.S. with population more than  one million  per the 2010 census.^[TODO: check this and add other cities as needed. Also check that as a non-native speaker, I didn't miss a vowel.]
+A set can even have other sets as elements, such as the set $\{ \emptyset, \{1,2\},\{2,3\},\{1,3\} \}$ of all even-sized subsets of $\{1,2,3\}$.
+
+__Operations on sets:__ The _union_ of two sets $S,T$, denoted by $S \cup T$, is the set that contains all elements that are either in $S$ _or_ in $T$. The _intersection_ of $S$ and $T$, denoted by $S \cap T$, is the set of elements that are both in $S$ _and_ in $T$. The _set difference_ of $S$ and $T$, denoted by $S \setminus T$ (and in some texts  also by $S-T$), is the set of elements that are in $S$ but _not_ in $T$.
+
+__Tuples and Cartesian product:__ If $S$ and $T$ are sets, then their _Cartesian product_, denoted by $S \times T$, is the set of all ordered pairs $(s,t)$ where $s\in S$ and $t\in T$.
+For example, if $S = \{1,2,3 \}$ and $T = \{10,12 \}$, then $S\times T$ contains the $6$ elements $(1,10),(2,10),(3,10),(1,12),(2,12),(3,12)$.
+Similarly if $S,T,U$ are sets then $S\times T \times U$ is the set of all ordered triples $(s,t,u)$ where $s\in S$, $t\in T$, and $u\in U$.
+More generally, for every positive integer $n$ and sets $S_0,\ldots,S_{n-1}$, we denote by $S_0 \times S_1 \times \cdots \times S_{n-1}$ the set of ordered $n$-tuples $(s_0,\ldots,s_{n-1})$ where $s_i\in S_i$ for every $i \in \{0,\ldots, n-1\}$.  
+For every set $S$, we  denote the set $S\times S$ by $S^2$, $S\times S\times S$ by $S^3$, $S\times S\times S \times S$ by $S^4$, and so on and so forth.
+
+
+
+### Special sets
+
+There are several sets that we will use in this course time and again, and so find it useful to introduce notation for them.
+For starters we define
+
+$$
+\N = \{ 0, 1,2, \ldots \}
+$$
+
+to be the set of all _natural numbers_, i.e., non-negative integers.
+For any natural number $n$, we define the set $[n]$ as $\{0,\ldots, n-1\} = \{ k\in \N : k < n \}$.
+Note that we start our indexing of both $\N$ and $[n]$ from $0$.
+Many texts start those from $1$.
+Starting from zero or one is simply a convention that doesn't make much difference, as long as one is consistent about it.
+
+We will also occasionally use the set $\Z=\{\ldots,-2,-1,0,+1,+2,\ldots \}$ of (negative and non-negative) _whole numbers_, as well as the set $\R$ of _real_ numbers. (This is the set that includes not just the whole numbers, but also fractional and even irrational numbers; e.g., $\R$ contains numbers  such as $+0.5$, $-\pi$, etc.)
+We denote by $\R_+$  the set $\{ x\in \R : x > 0 \}$ of _positive_  real numbers.
+This set is sometimes also denoted as $(0,\infty)$.
+
+__Strings:__ Another set we will use time and again is
+
+$$
+\{0,1\}^n = \{ (x_0,\ldots,x_{n-1}) \;:\; x_0,\ldots,x_{n-1} \in \{0,1\}  \}
+$$
+
+which is the set of all $n$-length binary strings for some natural number $n$.
+That is $\{0,1\}^n$ is the set of all length-$n$ lists of zeroes and ones.
+Note that this is consistent with our notation above: $\{0,1\}^2$ is the Cartesian product $\{0,1\} \times \{0,1\}$, $\{0,1\}^3$ is the product $\{0,1\} \times \{0,1\} \times \{0,1\}$ and so on.
+
+
+We  will write the string $(x_0,x_1,\ldots,x_{n-1})$ as simply $x_0x_1\cdots x_{n-1}$ and so for example
+
+$$
+\{0,1\}^3 = \{ 000 , 001, 010 , 011, 100, 101, 110, 111 \} \;.
+$$
+
+For every string $x\in \{0,1\}^n$ and $i\in [n]$, we write $x_i$ for the $i^{th}$ coordinate of $x$.
+If $x$ and $y$ are strings, then $xy$  denotes their _concatenation_.
+That is, if $x \in \{0,1\}^n$ and $y\in \{0,1\}^m$, then $xy$ is equal to the string $z\in \{0,1\}^{n+m}$ such that for $i\in [n]$, $z_i=x_i$ and for $i\in \{n,\ldots,n+m-1\}$, $z_i = y_{i-n}$.
+
+We will also often talk about the set of binary strings of _all_ lengths, which is
+
+$$
+\{0,1\}^* = \{ (x_0,\ldots,x_{n-1}) \;:\; n\in\N \;,\;, x_0,\ldots,x_{n-1} \in \{0,1\} \} \;.
+$$
+
+Another way to write this set is as
+$$
+\{0,1\}^* = \{0,1\}^0 \cup \{0,1\}^1 \cup \{0,1\}^2 \cup \cdots
+$$
+
+or more concisely as
+
+$$
+\{0,1\}^* = \cup_{n\in\N} \{0,1\}^n \;.
+$$
+
+Note that the  set $\{0,1\}^*$ contains also the "string of length $0$", which we denote by $\emptyset$.
+If there is a chance of confusion with the empty set, we will denote this string by `""`.
+
+
+__Generalizing the star operation:__ For every set $\Sigma$, we define
+
+$$\Sigma^* = \cup_{n\in \N} \Sigma^n \;.$$
+
+For example, if $\Sigma = \{a,b,c,d,\ldots,z \}$ then $\Sigma^*$ denotes the set of all finite length strings over the alphabet a-z.
+
+
+
+## Functions
+
+If $S$ and $T$ are sets, a _function_ $F$ mapping $S$ to $T$, denoted by $F:S \rightarrow T$, associates with every element $x\in S$ an element $F(x)\in T$.
+Just as with sets, we can write a function either by listing the table of all the values it gives for elements in $S$ or using a rule.
+For example if $S = \{0,1,2,3,4,5,6,7,8,9 \}$ and $T = \{0,1 \}$.
+Then  the function $F$ defined as
+
+| Input | Output |
+|:------|:-------|
+| 0     | 0      |
+| 1     | 1      |
+| 2     | 0      |
+| 3     | 1      |
+| 4     | 0      |
+| 5     | 1      |
+| 6     | 0      |
+| 7     | 1      |
+| 8     | 0      |
+| 9     | 1      |
+
+\
+
+
+Is the same as defining $F(x)= (x \mod 2)$.
+If $F:S \rightarrow T$ satisfies that $F(x)\neq F(y)$ for all $x \neq y$ then we say that $F$ is _one-to-one_.  
+If $F$ satisfies that for every $y\in T$ there is some $x$ such that $F(x)=y$ then we say that $F$ is _onto_.
+A  one-to-one and onto function is called a _bijection_, and when $S=T$ it is also known as a _permutation_.
+If  $F:S \rightarrow T$ is a bijection  then  for every $y\in T$ there is a unique $x\in S$ s.t. $F(x)=y$.
+We denote this value $x$ by $F^{-1}(y)$.
+Note that $F^{-1}$ is itself a bijection from $T$ to $S$ (can you see why?).
+
+
+Giving a bijection between two sets is often a good way to show they have  the same size.
+In fact, the standard mathematical definition of the notion that "$S$ and $T$ have the same cardinality" is that there exists a bijection $f:S \rightarrow T$.
+As we will see later in this course, this is a definition that naturally generalizes to comparing the cardinality of _infinite_ sets.
+
+
+__Partial functions:__ We will sometimes be interested in _partial_ functions from $S$ to $T$.
+This is a function $F$ that is not necessarily defined on every element of $S$.
+For example, the function $F(x)= \sqrt{x}$ is only defined on non-negative real numbers.
+When we want to distinguish between partial functions and  standard (i.e., non-partial) functions, we will call the latter _total_ functions.
+We can think of a partial function $F$ from $S$ to $T$ also as a total function from $S$ to $T \cup \{ \bot \}$ where $\bot$ is some special "failure symbol", and so instead of saying that $F$ is undefined at $x$, we can say that $F(x)=\bot$.
+
+## Graphs
+
+_Graphs_ are ubiquitous in Computer Science, and  many other fields as well.
+They are used to model a variety of data types including social networks, road networks, deep nueral nets, gene interactions, correlations between observations, and a great many more.
+The formal definitions of graphs are below, but if you have not encountered them before then I urge you to read up on them in one of the sources linked above.
+
+An _undirected graph_ $G = (V,E)$ consists of a set $V$ of _vertices_ and a set $E$ of edges.
+Every edge is a size two subset of $V$.
+We say that two vertices $u,v \in V$ are _neighbors_, denoted by $u \sim v$, if the edge $\{u,v\}$ is in $E$.
+The _degree_ of $u$ is the number of neighbors it has.
+A _path_ in the graph is a tuple $(u_0,\ldots,u_k) \in V^k$, for some $k>0$ such that $u_{i+1}$ is a neighbor of $u_i$ for every $i\in [k]$.
+A _simple path_ is a path $(u_0,\ldots,u_{k-1})$ where all the $u_i$'s are distinct.
+A _cycle_ is a path $(u_0,\ldots,u_k)$ where $u_0=u_{k}$.
+We say that two vertices $u,v\in V$ are _connected_ if either $u=v$ or there is a path from $(u_0,\ldots,u_k)$ where $u_0=u$ and $u_k=v$.
+We say that the graph $G$ is _connected_ if every  pair of vertices in it is connected.
+
+
+In a _directed graph_ $G=(V,E)$, the set $E$ is a set of _ordered_ pairs, and so each edge is a pair $(u,v)$, which we often denote as $\overrightarrow{u v}$.
+If the edge $\overrightarrow{u v}$ is present in the graph then we say that $v$ is an _out-neighbor_ of $u$ and $u$ is an _in-neigbor_ of $v$.
+Note that a directed graph might contain both $\overrightarrow{u v}$ and $\overrightarrow{v u}$ in which case $u$ will be both an in-neighbor and an out-neighbor of $v$ and vice versa.
+The _in-degree_ of $u$ is the number of in-neighbors it has, and the _out-degree_ of $v$ is the number of out-neighbors it has.
+A _path_ in the graph is a tuple $(u_0,\ldots,u_k) \in V^k$, for some $k>0$ such that $u_{i+1}$ is an out-neighbor of $u_i$ for every $i\in [k]$.
+
+We say that there is a _path_ from $u$ to $v$ if there are $u_0,\ldots,u_k \in V$ such that $u_0=u$, $u_k=v$ and for every $i\in [k]$, $u_{i+1}$ is an out-neighbor of $u_i$.
+We say that $u$ and $v$ are _connected_ if there is a path from $u$ to $v$ and a path from $v$ to $u$.
+We say that the graph is connected if the
+
+## Asymptotics and big-Oh notation
+
+It is often very cumbersome to describe precisely  quantities such as running time, whereas we are typically only interested in the "higher order terms" or understanding the scaling of the quantity as the input variable grows.
+For example, as far as running time goes, the difference between an $n^5$-time algorithm and an $n^2$-time one is much more significant than the difference between an $100n^2 + 10n$ time algorithm and an $10n^2$
+For this purpose, Oh notation is extremely useful as a way to "declutter" our text,
+so for example, we can say that both $100n^2 + 10n$ and $10n^2$ are simply $O(n^2)$ (which we call  "Big Oh" of $n^2$), while $n^2 = o(n^5)$ (which we call "little Oh" of $n^5$).
+
+
+Intuitively, if $F,G$ are two functions mapping natural numbers to non-negative reals,  you can think of "$F=O(G)$" as meaning that  $F(n) \leq G(n)$ if we don't care about constant factors, while you can think of "$F=o(G)$" as meaning that $F(n) < G(n)$ even if we mutliply $F$ by an arbitrary large constant factor (sometimes $F=o(G)$ is written as $F \ll G$).
+We will write $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$, which one can think of as saying that $F$ is the same as $G$ if we don't care about constant factors.
+
+More formally, we define Big Oh notation as follows:
+
+
+> # {.definition title="Big Oh notation" #bigohdef}
+For $F,G: \N \rightarrow \R_+$, we define $F=O(G)$ if there exist numbers $a,N_0 \in \N$ such that $F(n) \leq a\cdot G(n)$ for every $n>N_0$.
+We define $F=\Omega(G)$ if $G=O(F)$.
+>
+We write $F =o(G)$ if for every $\epsilon>0$ there is some $N_0$ such that $F(n) <\epsilon G(n)$ for every $n>N_0$.
+We write $F =\omega(G)$ if $G=o(F)$.
+We write $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$.
+
+
+We can also use the notion of _limits_ to define big and little oh notation.
+You can verify that $F=o(G)$ (or, equivalently, $G=\omega(F)$) if and if $\lim\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)} = 0$.
+Similarly, if the limit $\lim\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)}$ exists and is a finite number then $F=O(G)$.
+If you are familiar with the notion of _supremum_, then you can verify that $F=O(G)$ if and only if $\limsup\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)} < \infty$.
+
+
+
+
+In most (though not all!) cases we use Oh notation, the constants hidden by it are not too huge and so on an intuitive level, you can think of $F=O(G)$ as saying something like $F(n) \leq 1000 G(n)$ and $F=\Omega(G)$ as saying something $F(n) \geq 0.001 G(n)$.
+
+Using the equality sign for Oh notation is extremely common, but is somewhat of a misnomer, since a statement such as $F = O(G)$ really means that $F$ is in the set $\{ G' : \exists_{N,c} \text{ s.t. } \forall_{n>N} G'(n) \leq c G(n) \}$.
+For this reason, some texts write $F \in O(G)$ instead of $F = O(G)$.
+If anything, it would have made more sense use _inequalities_ and  write $F \leq O(G)$ and $F \geq \Omega(G)$, reserving equality for $F = \Theta(G)$,  but by now the equality notation is quite firmly entrenched.
+Nevertheless, you should remember that a statement such as $F = O(G)$ means that $F$ is "at most" $G$ in some rough sense when we ignore constants, and a statement such as $F = \Omega(G)$ means that $F$ is "at least" $G$ in the same rough sense.
+
+It's often convenient to use "anonymous functions" when using Oh notation and to emphasize the input parameter to the function.
+For example, when we write a statement such as $F(n) = O(n^3)$, we mean that  $F=O(G)$ where $G$ is the function defined by $G(n)=n^3$.
+
+
+__Some "rules of thumbs" for big Oh notation:__
+There are some simple heuristics that can help when trying to compare two functions $F$ and $G$:
+
+* Multiplicative constants don't matter in Oh notation, and so if $F(n)=O(G(n))$ then $100F(n)=O(G(n))$.
+
+* When adding two functions, we only care about the larger one. For example, for the purpose of Oh notation, $n^3+100n^2$ is the same as $n^3$, and in general in any polynomial, we only care about the larger exponent.
+
+* For every two constants $a,b>0$, $n^a = O(n^b)$ if and only if $a \leq b$, and $n^a = o(n^b)$ if and only if $a<b$. For example, combining the two observations above, $100n^2 + 10n + 100 = o(n^3)$.
+
+* Polynomial is always smaller than exponential: $n^a = o(2^{n^\epsilon})$ for every two constants $a>0$ and $\epsilon>0$ even if $\epsilon$ is much smaller than $a$. For example, $100n^{100} = o(2^{\sqrt{n}})$.
+
+* Similarly, logarithmic is always smaller than polynomial: $(\log n)^a$ (which we write as $\log^a n$) is $o(n^\epsilon)$ for every two constants $a,\epsilon>0$. For example, combining the observations above, $100n^2\log^100 n = o(n^3)$.
+
+
+## Proofs
 
 
 In this course we will be interested in understanding the truth of assertions such as _"there is no efficient algorithm to find the prime factors of a given number"_.^[Actually, scientists currently do not know if this assertion is true or false, but we will see that settling it in either direction has very interesting applications touching on areas as far apart as Internet security and quantum mechanics.]
@@ -19,7 +286,7 @@ So you see that our main tools in this course will be mathematical proofs and de
 
 Many people think of mathematical proofs as a sequence of logical deductions that starts from some axioms and ultimately arrives at a conclusion.
 In fact, some dictionaries [define](http://www.thefreedictionary.com/mathematical+proof) proofs that way.
-But in reality a mathematical proof of a statement X is simply an argument that convinces the reader that X is true beyond a shadow of a doubt.
+This is not entirely wrong, but in reality a mathematical proof of a statement X is simply an argument that convinces the reader that X is true beyond a shadow of a doubt.
 To produce such a proof you need to:
 
 1. Understand precisely what X means.
@@ -27,6 +294,8 @@ To produce such a proof you need to:
 3. Write your reasoning down in plain, precise and concise English (using formulas or notation only when they help clarity).
 
 In many cases, Step 1 is the most important one. Understanding what a statement means is often more than halfway towards understanding why it is true.
+
+
 
 ## Example: There are infinitely many primes
 
@@ -167,230 +436,6 @@ __Proofs by induction:__ We can think of such proofs as a variant of the above, 
 
 
 
-## Some discrete mathematics notions
-
-We  now review some basic notions that we will use.
-This is not meant to be a substitute for a course on discrete mathematics, and, as mentioned above, there are  excellent online resources to catch up on this material if needed.
-
-
-## Sets
-
-One of the most basic notation in mathematics is the notion of _sets_.
-For example, when we write $S = \{ 2,4, 7 \}$, we mean that $S$ denotes the set that contains the numbers $2$, $4$, and $7$.
-(We use the notation "$2 \in S$" to denote that $2$ is an element of $S$.)
-Note that the set $\{ 2, 4, 7 \}$ and $\{ 7 , 4, 2 \}$ are identical, since they contain the same elements.
-Also, a set either contains an element or does not contain it -there is no notion of containing it  "twice"- and so we could even write the same set $S$ as  $\{ 2, 2, 4, 7\}$ (though that would be a little weird).
-The _cardinality_ of a finite set $S$, denoted by $|S|$, is the number of elements it contained.
-So, in the example above, $|S|=3$.
-A set $S$ is a _subset_ of a set $T$, denoted by $S \subseteq T$, if every element of $S$ is also an element of $T$.
-For example, $\{2,7\} \subseteq \{ 2,4,7\}$.
-
-
-We can define sets by either listing all their elements or by writing down a rule that they satisfy such as
-$$
-EVEN = \{ x\in \N \;:\; \text{ $x=2y$ for some non-negative integer $y$} \}
-$$
-where $\N=\{0,1,2,\ldots \}$ is the set of natural numbers.
-
-Of course there is more than one way to write the same set, and often we will use intuitive notation listing a few examples that illustrate the rules, and hence we can also define $EVEN$ as
-$$
-EVEN = \{ 0,2,4, \ldots \} \;.
-$$
-
-
-
-
-Note that a set can be either finite  (such as the set $\{2,4,7\}$ ) or infinite (such as the set $EVEN$).
-There are two sets that we will encounter time and again:
-$$
-\N = \{ 0, 1,2, \ldots \}
-$$
-is (as we've seen) the set of all natural numbers,^[Some texts define the natural numbers as the set $\{1,2,3,\ldots \}$. Like the style of bracing in a computer program, it doesn't make much difference which convention you choose, as long as you are consistent. In this course we will start the natural numbers from zero.]
-and
-$$
-\{0,1\}^n = \{ (x_0,\ldots,x_{n-1}) \;:\; x_0,\ldots,x_{n-1} \in \{0,1\}  \}
-$$
-is the set of all $n$-length binary strings for some natural number $n$.
-That is $\{0,1\}^n$ is the set of all length-$n$ lists of zeroes and ones.
-We often write the string $(x_0,x_1,\ldots,x_{n-1})$ as simply $x_0x_1\cdots x_{n-1}$ and so we can write
-$$
-\{0,1\}^3 = \{ 000 , 001, 010 , 011, 100, 101, 110, 111 \} \;.
-$$
-
-We will use the notation $[n]$ for the set $\{0,\ldots, n-1\}$.
-For every string $x\in \{0,1\}^n$ and $i\in [n]$, we write $x_i$ for the $i^{th}$ coordinate of $x$.
-If $x$ and $y$ are strings, then $xy$  denotes their _concatenation_.
-That is, if $x \in \{0,1\}^n$ and $y\in \{0,1\}^m$, then $xy$ is equal to the string $z\in \{0,1\}^{n+m}$ such that for $i\in [n]$, $z_i=x_i$ and for $i\in \{n,\ldots,n+m-1\}$, $z_i = y_{i-n}$.
-
-
-Another set we will encounter is the set $\{0,1\}^*$ of binary strings of _all_ lengths $n$.
-We can write it as
-$$
-\{0,1\}^* = \{ (x_0,\ldots,x_{n-1}) \;:\; n\in\N \;,\;, x_0,\ldots,x_{n-1} \in \{0,1\} \} \;.
-$$
-Another way to write it is as
-$$
-\{0,1\}^* = \{0,1\}^0 \cup \{0,1\}^1 \cup \{0,1\}^2 \cup \cdots
-$$
-or more concisely as
-$$
-\{0,1\}^* = \cup_{n\in\N} \{0,1\}^n \;,
-$$
-where $\cup$ denotes the _set union_ operation.
-That is,  for sets $S$ and $T$, $S \cup T$ is the set that contains all elements that are either in $S$ or in $T$.^[One minor technicality is, that as we mentioned, the set $\{0,1\}^*$ contains also the "string of length $0$", which we denote by $\emptyset$.
-This is just a technical convention, like starting the natural numbers from zero, and will not make any difference in almost all cases in this course, and so you can safely ignore this zero-length string 99.9\% of the time.]
-
-The notions of lists/tuples and the $*$ operator extend  beyond the setting of binary strings. See any discrete mathematics text for their definitions, as well as the standard operators on sets which include not just union ($\cup$) but also intersection ($\cap$) and set difference ($\setminus$).
-
-
-
-># {.exercise title="Inclusion Exclusion" #inclex }
-a. Let $A,B$ be finite sets. Prove that $|A\cup B| = |A|+|B|-|A\cap B|$. \
-b. Let $A_0,\ldots,A_{k-1}$ be finite sets. Prove that $|A_1 \cup \cdots \cup A_k| \geq \sum_{i=0}^{k-1} |A_i| - \sum_{0 \leq i < j < k} |A_i \cap A_j|$. \
-c. Let $A_0,\ldots,A_{k-1}$ be finite subsets of $\{1,\ldots, n\}$, such that $|A_i|=m$ for every $i\in [k]$. Prove that if $k>100n$, then there exist two distinct sets $A_i,A_j$ s.t. $|A_i \cap A_j| \geq m^2/(10n)$.
-
-
-
-
-
-
-## Functions
-
-If $S$ and $T$ are sets, a _function_ $F$ mapping $S$ to $T$, denoted by $F:S \rightarrow T$, associates with every element $x\in S$ an element $F(x)\in T$.
-Just as with sets, we can write a function either by listing the table of all the values it gives for elements in $S$ or using a rule.
-For example if $S = \{0,1,2,3,4,5,6,7,8,9 \}$ and $T = \{0,1 \}$.
-Then  the function $F$ defined as
-
-| Input | Output |
-|:------|:-------|
-| 0     | 0      |
-| 1     | 1      |
-| 2     | 0      |
-| 3     | 1      |
-| 4     | 0      |
-| 5     | 1      |
-| 6     | 0      |
-| 7     | 1      |
-| 8     | 0      |
-| 9     | 1      |
-
-\
-
-
-Is the same as defining $F(x)= (x \mod 2)$.
-If $F:S \rightarrow T$ satisfies that $F(x)\neq F(y)$ for all $x \neq y$ then we say that $F$ is _one-to-one_.  
-If $F$ satisfies that for every $y\in T$ there is some $x$ such that $F(x)=y$ then we say that $F$ is _onto_.
-The following claims are left as exercises:
-
-> # {.exercise }
-Prove that if $S,T$ are finite and $F:S \rightarrow T$ is one to one then $|S| \leq |T|$.
-
-> # {.exercise }
-Prove that if $S,T$ are finite and $F:S \rightarrow T$ is onto then $|S| \geq |T|$.
-
-If  $F:S \rightarrow T$ is both one-to-one and onto then by the claims above $|S|=|T|$ and for every $y\in T$ there is a unique $x\in S$ s.t. $F(x)=y$. We denote this value $x$ by $F^{-1}(y)$.
-A  one-to-one and onto function is called a _bijection_.
-Giving a bijection between two sets is often a good way to show they have  the same size, as in the following lemma.
-(Making sure you understand both the statement and the proof of this lemma is a good way to verify that you are sufficiently comfortable with the notions of both sets and functions.)
-
-> # {.lemma title="Power set" #powerset-lem}
-For every finite $S$ and $T$, there are $|T|^{|S|}$ functions from $S$ to $T$
-
-Before reading the proof it is good to verify the lemma for a few small examples.
-For example, if $S$ is the set $\{0,1,2,3 \}$ and $T = \{0,1\}$, then a  function $F$ mapping  $S$ to $T$ can be described in a table with four rows, where in the second cell of the  $i^{th}$ row we can we write either $0$ or $1$ depending on $F(i)$.
-So, for example the function $F$ where $F(x) = 3x/2 - x^2/2$ can be described by the table:
-
-
-| Input | Output |
-|:------|:-------|
-| 0     | 0      |
-| 1     | 1      |
-| 2     | 1      |
-| 3     | 0      |
-
-   \
-
-
-\
-
-
-To specify a function $F: \{0,1,2,3 \} \rightarrow \{0,1\}$ we need to specify these four values that appear in the output column.
-Since we have two choices for each one of these columns, the total number of functions is exactly $2^4$.
-We now prove the lemma in general:
-
-
-
-> # {.proof data-ref="powerset-lem"}
-Let $S$ and $T$ be some finite sets of cardinalities $n$ and $m$ respectively.
-To prove the lemma, we need to show that there are $m^n$ functions mapping $S$ to $T$.
-Define $A$ to be the set $\{ 0,\ldots, m^n - 1\}$ and
-define  $B$ to be the set $\{ F \;:\; F:S \rightarrow T \}$ of such functions.
-We will prove the lemma by giving a bijection $G$ from $A$ to $B$.
-Let us give some arbitrary ordering $s_0,\ldots,s_{n-1}$ to the elements of $S$ and another arbitrary ordering $t_0,\ldots,t_{m-1}$ to the elements of $T$.
-Given some number $X\in A$, we  can write $X$ in the $m$ basis as $X=\sum_{i=0}^{n-1}X_im^i$ where for every $i\in\{0,\ldots,n-1\}$, $X_i \in \{0,\ldots,m-1\}$.
-Now we define $G(X)$ to be the function $F_X:S \rightarrow T$ such that for every $i\in\{0,\ldots,n-1\}$, $F_X(s_i)= t_{X_i}$.
-Because for every $X \neq X'$ there will be some digit $i$ on which $X_i \neq X'_i$, for this digit it will hold  $F_X(s_i) \neq F_{X'}(s_i)$  and hence $F_X \neq F_{X'}$ which means that the map $G$ is one-to-one.
-Moreover, it is onto as well, since for every function $F:S \rightarrow T$, we can define $X=\sum_{i=0}^{n-1}X_i m^i$ where $X_i$ is equal to the $j\in \{0,\ldots,m-1\}$ such that $F(s_i)=t_j$.
-By construction $F_X = X$ which demonstrates that $G(X)=F$ and hence $G$ is onto.
-
-
-We will sometimes be interested in _partial_ functions from $S$ to $T$.
-This is a function $F$ that is not necessarily defined on every element of $S$.
-For example, the function $F(x)= \sqrt{x}$ is only defined on non-negative real numbers.
-When we want to distinguish between partial functions and  standard (i.e., non-partial) functions, we will call the latter _total_ functions.
-We can think of a partial function $F$ from $S$ to $T$ also as a total function from $S$ to $T \cup \{ \bot \}$ where $\bot$ is some special "failure symbol", and so instead of saying that $F$ is undefined at $x$, we can say that $F(x)=\bot$.
-
-
-> # {.exercise }
-Prove that for every finite $S,T$, there are $(|T|+1)^{|S|}$ partial functions from $S$ to $T$.
-
-## Asymptotics and big-Oh notation
-
-It is often very cumbersome to describe precisely  quantities such as running time, whereas we are typically only interested in the "higher order terms" or understanding the scaling of the quantity as the input variable grows.
-For example, as far as running time goes, the difference between an $n^5$-time algorithm and an $n^2$-time one is much more significant than the difference between an $100n^2 + 10n$ time algorithm and an $10n^2$
-For this purpose, Oh notation is extremely useful as a way to "declutter" our text,
-so for example, we can say that both $100n^2 + 10n$ and $10n^2$ are simply $O(n^2)$ (which we call  "Big Oh" of $n^2$), while $n^2 = o(n^5)$ (which we call "little Oh" of $n^5$).
-
-
-Intuitively, if $F,G$ are two functions mapping natural numbers to natural numbers,  you can think of "$F=O(G)$" as meaning that  $F(n) \leq G(n)$ if we don't care about constant factors, while you can think of "$F=o(G)$" as meaning that $F(n) < G(n)$ even if we mutliply $F$ by an arbitrary large constant factor (sometimes $F=o(G)$ is written as $F \ll G$).
-More formally, we define Big Oh notation as follows:
-
-
-> # {.definition title="Big Oh notation" #bigohdef}
-For $F,G: \N \rightarrow \N$, we define $F=O(G)$ if there exist numbers $a,N_0 \in \N$ such that $F(n) \leq a\cdot G(n)$ for every $n>N_0$.
-We define $F=\Omega(G)$ if $G=O(F)$.
->
-We write $F =o(G)$ if for every $\epsilon>0$ there is some $N_0$ such that $F(n) <\epsilon G(n)$ for every $n>N_0$.
-We write $F =\omega(G)$ if $G=o(F)$.
-
-
-In most cases you can safely  interpret $F=O(G)$ as $F(n) \leq 100 G(n)$ and $F=\Omega(G)$ as $F(n) \geq 0.01 G(n)$. Similarly, in most cases you can pretend that $F=o(G)$ means that $F(n) \leq G(n)/\log G(n)$ and you will not lose much  in understanding.
-
-We can also use the notion of _limits_ to define big and little oh notation.
-You can verify that $F=o(G)$ (or, equivalently, $G=\omega(F)$) if and if $\lim\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)} = 0$.
-Similarly, if the limit $\lim\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)}$ exists and is a finite number then $F(n)=O(G(n))$.
-If you are familiar with the notion of _supremum_, then you can verify that $F=O(G)$ if and only if $\limsup\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)} < \infty$.
-
-__Some "rules of thumbs" for big Oh notation:__
-There are some simple heuristics that can help when trying to compare two functions $f$ and $g$:
-
-* Multiplicative constants don't matter in Oh notation, and so if $f(n)=O(g(n))$ then $100f(n)=O(g(n))$.
-* When adding two functions, we only care about the larger one. For example, for the purpose of Oh notation, $n^3+100n^2$ is the same as $n^3$, and in general in any polynomial, we only care about the larger exponent.
-* For every two constants $a,b>0$, $n^a = O(n^b)$ if and only if $a \leq b$, and $n^a = o(n^b)$ if and only if $a<b$. For example, combining the two observations above, $100n^2 + 10n + 100 = o(n^3)$.
-* Polynomial is always smaller than exponential: $n^a = o(2^{n^\epsilon})$ for every two constants $a>0$ and $\epsilon>0$ even if $\epsilon$ is much smaller than $a$. For example, $100n^{100} = o(2^{\sqrt{n}})$.
-* Similarly, logarithmic is always smaller than polynomial: $(\log n)^a$ (which we write as $\log^a n$) is $o(n^\epsilon)$ for every two constants $a,\epsilon>0$. For example, combining the observations above, $100n^2\log^100 n = o(n^3)$.
-
-> # {.exercise}
-For every pair of functions $F,G$ below, determine which of the following relations holds: $F=O(G)$, $F=\Omega(G)$, $F=o(G)$ or $F=\omega(G)$. \
-a. $F(n)=n$, $G(n)=100n$. \
-b. $F(n)=n$, $G(n)=\sqrt{n}$.\
-c. $F(n)=n$, $G(n)=2^{(\log (n))^2}$.\
-d. $F(n)=n$, $G(n)=2^{\sqrt{\log n}}$
-
-> # {.exercise}
-Give an example of a pair of functions $F,G:\N \rightarrow \N$ such that neither $F=O(G)$ nor $G=O(F)$ holds.
-
-
 
 
 ## Proofs by induction
@@ -421,9 +466,6 @@ first show this for the case $S_0$ in which indeed $0 = S_0 = (0+1)0/2$.
 Then we need to show that if for every $i\leq n-1$, $S_i = (i+1)i/2$ then $S_n=(n+1)n/2$.
 To do so we simply take $i=n-1$, and then $S_n = S_{n-1}+n = n(n-1)/2 +n = [n(n-1)+2n]/2= n(n+1)/2$.
 
-> # {.exercise }
-Suppose that $\{ S_n \}_{n\in \N}$ is a sequence such that $S_0 \leq 10$ and for $n>1$ $n \leq 5 S_{\lfloor \tfrac{n}{5} \rfloor} + 2n$.
-Prove by induction that  $S_n \leq 100 n \log n$ for every $n$.
 
 The website for CMU course 15-251 contains a [useful handout](http://www.cs.cmu.edu/~./15251/notes/induction-pitfalls.pdf) on potential pitfalls when making proofs by induction.
 
@@ -440,6 +482,43 @@ Later in this course we will encounter several other topics including:
 
 As with the other topics mentioned here, you can review these notions using the  lecture notes of [Lehman, Leighton and Meyer](http://www.boazbarak.org/cs121/LLM_June17.pdf) or the other resources mentioned on the [CS 121 website](http://www.boazbarak.org/cs121/background/).
 
+
+## Mathematical notation
+
+
+* __Functions:__ If $S,T$ are sets, then we write $f:S \rightarrow T$ to indicate the $f$ is a function mapping elements of $S$ to elements of $T$. A _partial function_ is one that might not be defined on all inputs in $S$.
+
+* __Summations, products:__ If $f:A \rightarrow B$ is some function and $C \subseteq A$, then we write $\sum_{x\in C} f(x)$ to denote that result of adding $f(x)$ for all $x$'s in $C$. The most common case is when $f$ is a function on $\N$ and $C = \{ a,a+1,\ldots,b-1,b \}$ in which case we often write this as $\sum_{n=a}^n f(n)$. We can also write $\prod_{x\in C} f(x)$ or $\prod_{n=a}^b f(n)$ to denote the result of taking a product over all these terms.
+
+* __Graphs:__ A graph $G=(V,E)$ consists of a set of _vertices_ $V$ and a set of _edges_ $E$. In an _undirected_ graph, every member of $E$ is a size-two subset of $V$. In a _directed_ graph, every member of $E$ is an ordered pair of elements of $V$.
+A vertex $v$ is a _neighbor_ of $u$ if the edge $(u,v)$ is in $E$.
+A _path_ in the graph is a sequence $(v_0,v_1,\ldots,v_k)$ of vertices such that $v_{i+1}$ is a neighbor of $v_i$ for every $i\in [k]$.
+
+## Exercises
+
+># {.exercise title="Inclusion Exclusion" #inclex }
+a. Let $A,B$ be finite sets. Prove that $|A\cup B| = |A|+|B|-|A\cap B|$. \
+b. Let $A_0,\ldots,A_{k-1}$ be finite sets. Prove that $|A_1 \cup \cdots \cup A_k| \geq \sum_{i=0}^{k-1} |A_i| - \sum_{0 \leq i < j < k} |A_i \cap A_j|$. \
+c. Let $A_0,\ldots,A_{k-1}$ be finite subsets of $\{1,\ldots, n\}$, such that $|A_i|=m$ for every $i\in [k]$. Prove that if $k>100n$, then there exist two distinct sets $A_i,A_j$ s.t. $|A_i \cap A_j| \geq m^2/(10n)$.
+
+
+> # {.exercise }
+Prove that if $S,T$ are finite and $F:S \rightarrow T$ is one to one then $|S| \leq |T|$.
+
+> # {.exercise }
+Prove that if $S,T$ are finite and $F:S \rightarrow T$ is onto then $|S| \geq |T|$.
+
+
+> # {.exercise }
+Prove that for every finite $S,T$, there are $(|T|+1)^{|S|}$ partial functions from $S$ to $T$.
+
+
+
+
+> # {.exercise }
+Suppose that $\{ S_n \}_{n\in \N}$ is a sequence such that $S_0 \leq 10$ and for $n>1$ $n \leq 5 S_{\lfloor \tfrac{n}{5} \rfloor} + 2n$.
+Prove by induction that  $S_n \leq 100 n \log n$ for every $n$.
+
 > # {.exercise }
 Describe the following statement in English words: $\forall_{n\in\N} \exists_{p>n} \forall{a,b \in \N} (a\times b \neq p) \vee (a=1)$.
 
@@ -450,28 +529,15 @@ Prove that for every undirected graph $G$ of $100$ vertices, if every vertex has
 > # {.exercise }
 Suppose that we toss three independent fair coins $a,b,c \in \{0,1\}$. What is the probability that the XOR of $a$,$b$, and $c$ is equal to $1$? What is the probability that the AND of these three values is equal to $1$? Are these two events independent?
 
-## Mathematical notation
+> # {.exercise}
+For every pair of functions $F,G$ below, determine which of the following relations holds: $F=O(G)$, $F=\Omega(G)$, $F=o(G)$ or $F=\omega(G)$. \
+a. $F(n)=n$, $G(n)=100n$. \
+b. $F(n)=n$, $G(n)=\sqrt{n}$.\
+c. $F(n)=n$, $G(n)=2^{(\log (n))^2}$.\
+d. $F(n)=n$, $G(n)=2^{\sqrt{\log n}}$
 
-We summarize some of the mathematical notation we use in this course.
-Most of it is fairly standard, and can be found in any text on discrete mathematics:
-
-* __Set notation:__ We write a set by either listing its elements (as in $\{1,2,3\}$) or writing some rule that specifies its members. We write $x\in S$ to indicate that $x$ is a member of the set $S$ and $A \subseteq B$ to indicate that $A$ is a subset of $B$.  We write $A \cup B$, $A \cap B$ and $A \setminus B$ for the union, intersection, and set difference operations respectively.
-The _cardinality_ of a set is the number of elements it contains.
-
-* __Special sets:__ The set $\{0,1\}^n$ is the set of 0/1 strings of length $n$, the set $\{0,1\}^*$ is the set of 0/1 strings of arbitrary finite length. The set $\N = \{0,1,2,3,\ldots\}$ is the set of natural numbers. We denote by $[n]$ is the set $\{0,1,\ldots,n-1\}$ of numbers between $0$ and $n-1$. We denote the _empty set_ (set with no elements) by $\emptyset$, and use the same symbol to also denote the empty string (string of zero length). If there is possibility for confusion then we will use `""` for the latter.
-
-* __Indexing from zero:__
-Note that we start the natural numbers from $0$, as opposed to $1$. Similarly, we use the set $[n]$ for $\{0,1,\ldots,n-1\}$ instead of $\{1,\ldots, n\}$. Also, if $x \in \{0,1\}^*$ is a string of length $k$, then we will index the coordinates of $x$ by $x_0,\ldots,x_{k-1}$.
-
-* __More special sets:__ While the above are the most common ones, we will also use the set $\Z = \{ a\times b : a\in \N, b \in \{ +1,-1\} \} = \{ 0, \pm 1 , \pm 2 , \ldots \}$ of (positive, zero, or negative) _integers_,^[The letter Z stands for the German word "Zahlen" which means "numbers".] and the set $\R$ of _real numbers_ (that have a fractional component). Given any finite set $\Sigma$, we use $\Sigma^n$ to denote the set of length $n$ strings over the alphabet $\Sigma$ and $\Sigma^*$ to denote the set of all finite-length strings over the same alphabet.
-
-* __Functions:__ If $S,T$ are sets, then we write $f:S \rightarrow T$ to indicate the $f$ is a function mapping elements of $S$ to elements of $T$. A _partial function_ is one that might not be defined on all inputs in $S$.
-
-* __Summations, products:__ If $f:A \rightarrow B$ is some function and $C \subseteq A$, then we write $\sum_{x\in C} f(x)$ to denote that result of adding $f(x)$ for all $x$'s in $C$. The most common case is when $f$ is a function on $\N$ and $C = \{ a,a+1,\ldots,b-1,b \}$ in which case we often write this as $\sum_{n=a}^n f(n)$. We can also write $\prod_{x\in C} f(x)$ or $\prod_{n=a}^b f(n)$ to denote the result of taking a product over all these terms.
-
-* __Graphs:__ A graph $G=(V,E)$ consists of a set of _vertices_ $V$ and a set of _edges_ $E$. In an _undirected_ graph, every member of $E$ is a size-two subset of $V$. In a _directed_ graph, every member of $E$ is an ordered pair of elements of $V$.
-A vertex $v$ is a _neighbor_ of $u$ if the edge $(u,v)$ is in $E$.
-A _path_ in the graph is a sequence $(v_0,v_1,\ldots,v_k)$ of vertices such that $v_{i+1}$ is a neighbor of $v_i$ for every $i\in [k]$.
+> # {.exercise}
+Give an example of a pair of functions $F,G:\N \rightarrow \N$ such that neither $F=O(G)$ nor $G=O(F)$ holds.
 
 
 ## Acknowledgements
