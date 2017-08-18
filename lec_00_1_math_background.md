@@ -596,7 +596,15 @@ Just like in programming, there are several common patterns of proofs that occur
 Here are some examples:
 
 __Proofs by contradiction:__ One way to prove that $X$ is true, is to show that if $X$ was false then we would get a contradiction as a result. Such proofs often start with a sentence such as "Suppose, towards a contradiction, that $X$ is false" and end with deriving some contradiction (such as a violation of one of the assumptions in the theorem statement).
-Our proof of [inf-primes-thm](){.ref}  was obtained by assuming, toward a contradiction, that there are finitely many primes, and deriving from this assumption an equality of the form $A= B$ where $A$ is a whole number and $B$ has a fractional component.
+Here is an example:
+
+> # {.lemma }
+There are no natural numbers $a,b$ such that $\sqrt{2} = \tfrac{a}{b}$.
+
+> # {.proof }
+Suppose, towards the sake of contradiction that this is false, and so let $a\in \N$ be the smallest number such that there exists some $b\in\N$ satisfying $\sqrt{2}=\tfrac{a}{b}$.
+Squaring this equation we get that $2=a^2/b^2$ or $a^2=2b^2$. But this means that $a^2$ is _even_, and since the product of two odd  numbers is odd, it means that $a$ is even as well, or in other words, $a = 2a'$ for some $a' \in \N$. Yet this means that $4a'^2 = 2b^2$ or that $b^2 = 2a'^2$ is an even number as well, which (by the same considerations) means that $b$ is even. Hence $a/2$ and $b/2$ are two natural numbers which satisfy $\tfrac{a/2}{b/2}=\sqrt{2}$, contradicting the minimality of $a$.
+
 
 __Proofs of a universal statement:__ Often we want to prove a statement $X$ of the form "Every object of type $O$ has property $P$." Such proofs often start with a sentence such as "Let $o$ be an object of type $O$" and end by showing that $o$ has the property $P$.
 Here is a simple example:
