@@ -26,6 +26,8 @@ But more than any specific skill, this course aims to introduce students to a ne
 
 My aim in writing these notes is to try to convey these concepts in the simplest possible way and try to make sure that the formal notation and model help elucidate, rather than obscure, the main ideas.
 I also tried to take advantage of students' background in programming, and hence use (highly simplified) programming languages as the main model of computation, as opposed to automata or Turing machines.
+That said, this course does not really assume fluency with any particular programming language, but more a familiarity with the general _notion_ of programming.
+We will use programming metaphors and idioms, occasionally mentioning concrete languages such as _Python_, _C_, or _Lisp_, but students should be able to follow these descriptions even if they are not familiar with these languages.
 
 Proofs in this course, including the existence of a universal Turing Machine, the fact that every function can be computed by some circuit, the Cook-Levin theorem, and many others, are often constructive and algorithmic, in the sense that they ultimately  involve  transforming  one program to another.
 While the code of these transformations (like any code) is not always easy to read, and the ideas behind the proofs can be grasped without seeing it, I do think that having access to the code, and the ability to  play around with it and see how it acts on various programs, can make these theorems more concrete for the students.
@@ -46,8 +48,9 @@ While reading, I encourage you to stop and think about the following:
 * At any point in the text, try to think what are the natural questions that arise, and see whether or not they are answered in the following.
 
 
-Is this effort worth it?
-A traditional justification is that you might encounter these concepts in your career.
+### Is this effort worth it?
+
+A traditional justification for such a course is that you might encounter these concepts in your career.
 Perhaps you will come across a hard problem and realize it is NP complete, or find a need to use what you learned about regular expressions.
 This might very well be true, but the main benefit of this course is not in teaching you any practical tool or technique, but rather in giving you a _different way of thinking_: an ability to recognize computation even when it might not be obvious that it occurs, a way to model computational tasks and questions, and to reason about them.
 But, regardless of any use you will derive from it,   I believe this course is important because it teaches  concepts that are both beautiful and fundamental.
@@ -67,7 +70,8 @@ There are however some differences, with the most significant being:
 I also introduce another extension of the programming language that allows pointers, and hence is essentially equivalent to the standard RAM machine model (implicitly) used in algorithms courses.
 
 
-A much  more minor notational difference is that rather than talking about _languages_ (i.e., subsets $L\subseteq \{0,1\}^*$), I talk about Boolean functions (i.e., functions $f:\{0,1\}^*\rightarrow \{0,1\}$). These are of course equivalent, but the function notation extends more naturally to more general computational tasks.
+A much  more minor notational difference is that rather than talking about _languages_ (i.e., subsets $L\subseteq \{0,1\}^*$), I talk about Boolean functions (i.e., functions $f:\{0,1\}^*\rightarrow \{0,1\}$).
+These are of course equivalent, but the function notation extends more naturally to more general computational tasks.
 
 Reducing the time dedicated to automata (and eliminating context free languages) allows to spend more time on topics that I believe that  a modern course in the theory of computing needs to touch upon, including randomness and computation, the interaction of algorithms with society (with issues such as incentives, privacy, fairness), the basics of information theory, cryptography, and  quantum computing.
 
@@ -79,7 +83,7 @@ This can  help students keep up with what is a fairly ambitious and fast-paced s
 ## Acknowledgements
 
 These lecture notes are constantly evolving, and I am getting input from several people, for which I am deeply grateful.
-Thanks to Michele Amoretti, Jarosław Błasiok, Chi-Ning Chou, Juan Esteller, Ondřej Lengál, Alex Lombardi, Thomas Orton, Juan Perdomo, and Ryan Williams for helpful feedback. I will keep adding names here as I get more comments.
+Thanks to Michele Amoretti, Jarosław Błasiok, Chi-Ning Chou, Juan Esteller, Ondřej Lengál, Alex Lombardi, Thomas Orton, Juan Perdomo, Salil Vadhan, Ryan Williams and Jessica Zhu for helpful feedback. I will keep adding names here as I get more comments.
 If you have any comments or suggestions, please do post them on the GitHub repository [https://github.com/boazbk/tcs](https://github.com/boazbk/tcs).
 
 
