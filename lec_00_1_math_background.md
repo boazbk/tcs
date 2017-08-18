@@ -70,7 +70,7 @@ For example, when we write $S = \{ 2,4, 7 \}$, we mean that $S$ denotes the set 
 (We use the notation "$2 \in S$" to denote that $2$ is an element of $S$.)
 Note that the set $\{ 2, 4, 7 \}$ and $\{ 7 , 4, 2 \}$ are identical, since they contain the same elements.
 Also, a set either contains an element or does not contain it -there is no notion of containing it  "twice"- and so we could even write the same set $S$ as  $\{ 2, 2, 4, 7\}$ (though that would be a little weird).
-The _cardinality_ of a finite set $S$, denoted by $|S|$, is the number of distinct elements it contained.
+The _cardinality_ of a finite set $S$, denoted by $|S|$, is the number of distinct elements it contains.^[Later in this course we  will discuss how to extend the notion of cardinality to _infinite_ sets.]
 So, in the example above, $|S|=3$.
 A set $S$ is a _subset_ of a set $T$, denoted by $S \subseteq T$, if every element of $S$ is also an element of $T$. (We can also describe this by saying that  $T$ is a _superset_ of $S$.)
 For example, $\{2,7\} \subseteq \{ 2,4,7\}$.
@@ -212,7 +212,9 @@ Note that $F^{-1}$ is itself a bijection from $T$ to $S$ (can you see why?).
 
 Giving a bijection between two sets is often a good way to show they have  the same size.
 In fact, the standard mathematical definition of the notion that "$S$ and $T$ have the same cardinality" is that there exists a bijection $f:S \rightarrow T$.
-As we will see later in this course, this is a definition that naturally generalizes to comparing the cardinality of _infinite_ sets.
+In particular, the cardinality of a set $S$ is defined $n$ if there is a bijection from $S$ to the set $\{0,\ldots,n-1\}$.
+As we will see later in this course, this is a definition that can  generalizes to defining the cardinality of _infinite_ sets.
+
 
 
 __Partial functions:__ We will sometimes be interested in _partial_ functions from $S$ to $T$.

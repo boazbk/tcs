@@ -8,9 +8,9 @@
 These are lecture notes for an undergraduate introductory course on Theoretical Computer Science.
 The educational goals of this course are to convey the following:
 
-* That computation is not a phenomenon restricted to modern silicon-based computers, but arises in a variety of natural and manmade systems.
+* That  computation but arises in a variety of natural and manmade systems, and not only in  modern silicon-based computers.
 
-* Similarly, computation is not just a tool, but can serve as a useful lens to describe natural, physical,  mathematical and even social concepts.
+* Similarly, beyond being an extremely important _tool_, computation also serves  as a useful _lens_ to describe natural, physical,  mathematical and even social concepts.
 
 * The notion of _universality_ of many different computational models, and the related notion of the duality between _code_ and _data_.
 
@@ -19,29 +19,29 @@ The educational goals of this course are to convey the following:
 * Some of the surprising results and discoveries in modern theoretical computer science, including the prevalence of NP completeness, the power of interaction, the power of randomness on one hand and the possibility of derandomization on the other, the ability to use hardness "for good" in cryptography, and the fascinating possibility of quantum computing.
 
 I hope that following this course, students would be able to recognize computation, with both its power and pitfalls, as it arises in various settings, including seemingly "static" content or "restricted" formalisms such as macros and scripts.
-They should be able to follow arguments such as various diagonalization-based proofs, that use seemingly paradoxical constructions of programs that are invoked on their own code.
+They should be able to follow through the logic of _proofs_ about computation, including  the pervasive  notion of a _reduction_ and understanding the  subtle but crucial   "self referential" proofs (such as proofs involving  programs that use their own code as input).
 Students should understand the concept that some problems are intractable, and have the ability to recognize the potential for intractability when they are faced with a new problem.
 While this course only touches on  cryptography, students should understand the basic idea of how computational hardness can be utilized for cryptographic purposes.
 But more than any specific skill, this course aims to introduce students to a new way of thinking of computation as an object in its own right, and illustrate how this new way of thinking leads to far reaching insights and applications.
 
 My aim in writing these notes is to try to convey these concepts in the simplest possible way and try to make sure that the formal notation and model help elucidate, rather than obscure, the main ideas.
-I also tried to take advantage of students' background in programming, and hence use (highly simplified) programming languages as the main model of computation, as opposed to automata or Turing machines.
+I also tried to take advantage of modern students' familiarity (or at least interest!) in programming, and hence use (highly simplified) programming languages as the main model of computation, as opposed to automata or Turing machines.
 That said, this course does not really assume fluency with any particular programming language, but more a familiarity with the general _notion_ of programming.
 We will use programming metaphors and idioms, occasionally mentioning concrete languages such as _Python_, _C_, or _Lisp_, but students should be able to follow these descriptions even if they are not familiar with these languages.
 
-Proofs in this course, including the existence of a universal Turing Machine, the fact that every function can be computed by some circuit, the Cook-Levin theorem, and many others, are often constructive and algorithmic, in the sense that they ultimately  involve  transforming  one program to another.
+Proofs in this course, including the existence of a universal Turing Machine, the fact that every finite function can be computed by some circuit, the Cook-Levin theorem, and many others, are often constructive and algorithmic, in the sense that they ultimately  involve  transforming  one program to another.
 While the code of these transformations (like any code) is not always easy to read, and the ideas behind the proofs can be grasped without seeing it, I do think that having access to the code, and the ability to  play around with it and see how it acts on various programs, can make these theorems more concrete for the students.
-To that end, an accompanying website (which is still work in progress) allows to execute programs in the various computational models we define, as well as see constructive proofs of some of the theorems.
+To that end, an accompanying website (which is still work in progress) allows executing programs in the various computational models we define, as well as see constructive proofs of some of the theorems.
 
 ## To the student
 
 This course can be fairly challenging, mainly because it brings together a variety of ideas and techniques in the study of computation.
-There are quite a few technical hurdles to master, whether it is following the diagonalization argument in proving the Halting Problem is undecidable,  combinatorial gadgets in NP completeness reductions, analyzing probabilistic algorithms, or arguing about the adversary to prove  security of cryptographic primitives.
+There are quite a few technical hurdles to master, whether it is following the diagonalization argument in proving the Halting Problem is undecidable,  combinatorial gadgets in NP-completeness reductions, analyzing probabilistic algorithms, or arguing about the adversary to prove  security of cryptographic primitives.
 
 The best way to engage with the  material is to read these notes  __actively__.
 While reading, I encourage you to stop and think about the following:
 
-* When I state a theorem, stop and try to think of how you would prove it yourself _before_ reading the proof in the notes. You will be amazed how much you can understand a proof better even after only 5 minutes of attempting it yourself.  
+* When I state a theorem, stop and try to think of how you would prove it yourself _before_ reading the proof in the notes. You will be amazed by how much you can understand a proof better even after only 5 minutes of attempting it yourself.  
 
 * When reading a definition, make sure that you understand what the definition means, and you can think of natural examples of objects that satisfy it and objects that don't. Try to think of the motivation behind the definition, and there  other natural ways to formalize the same concept.
 
@@ -67,7 +67,7 @@ There are however some differences, with the most significant being:
 * I do not start with finite automata as the basic computational model, but rather with _straight-line programs_ in an extremely simple programming language (or, equivalently, Boolean circuits). Automata are discussed later in the course in the context of space-bounded computation.
 
 * Instead of Turing machines, I use an equivalent model obtained by extending the programming language above to include loops.
-I also introduce another extension of the programming language that allows pointers, and hence is essentially equivalent to the standard RAM machine model (implicitly) used in algorithms courses.
+I also introduce another extension of the programming language that allows pointers, and hence is essentially equivalent to the standard RAM machine model  used (implicitly) in algorithms courses.
 
 
 A much  more minor notational difference is that rather than talking about _languages_ (i.e., subsets $L\subseteq \{0,1\}^*$), I talk about Boolean functions (i.e., functions $f:\{0,1\}^*\rightarrow \{0,1\}$).
