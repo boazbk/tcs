@@ -3,7 +3,33 @@
 
 >_"Young man, in mathematics you don't understand things. You just get used to them."_, John von Neumann
 
-## Mathematical prerequisites
+In this chapter, we  review some of the mathematical concepts that we will use in this course.
+Most of these are not very complicated, but do require some practice and exercise to get comfortable with.
+If you have not previously encountered some of these concepts, there are several excellent freely-available resources online for them.
+In particular, the [CS 121 webpage](http://www.boazbarak.org/cs121/background/) contains a program for self study of all the needed notions using the lecture notes, videos, and assignments of MIT course [6.042j Mathematics for Computer science](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/). (The MIT lecture notes are also used by [Harvard CS 20](https://www.seas.harvard.edu/courses/cs20/).)
+
+## A mathematician's apology
+
+Before explaining the math background, perhaps I should explain why does this course is so "mathematically heavy".
+After all, this is supposed to be a course about _computation_; one might think we should be talking mostly about  _programs_, rather than more "mathematical" objects such as  _sets_, _functions_, and _graphs_, and doing more _coding_ on an actual computer than writing mathematical proofs with pen and paper.
+So, why are we doing so much math in this course?
+Is it just some form of hazing? Perhaps a revenge of the [math nerds against the code monkeys](https://blog.smartbear.com/careers/math-nerds-vs-code-monkeys-should-computer-science-classes-be-more-practical/)?
+
+At the end of the day, mathematics is simply a language for modelling concepts in a precise and unambiguous way.
+In this course,  we will be mostly interested in the concept of _computation_.
+For example, we will look at questions such as  _"is there an efficient algorithm to find the prime factors of a given integer?"_.^[Actually, scientists currently do not know the answer to this question, but we will see that settling it in either direction has very interesting applications touching on areas as far apart as Internet security and quantum mechanics.]
+To even _phrase_ such a question, we need to give a precise _definition_ of the notion of an _algorithm_, and of what it means for an algorithm to be _efficient_.
+Also, if the answer to this or similar questions turns out to be _negative_, then this cannot be shown by simply writing and executing some code.
+After all, there is no empirical experiment that will prove the _non existence_ of an algorithm.
+Thus, our only way to show this type of _negative results_ is to use _mathematical proofs_.
+So you can  see why our main tools in this course will be mathematical proofs and definitions.
+
+
+
+
+
+
+## A quick overview of mathematical prerequisites
 
 
 
@@ -11,9 +37,9 @@ The main notions we will use in this course are the following:
 
 * __Proofs:__ First and foremost, this course will involve a heavy dose of formal mathematical reasoning, which includes mathematical _definitions_, _statements_, and _proofs_.
 
-* __Sets:__ Including notation such as membership ($\in$), containment ($\subseteq$), and set operations such as union, intersection,  subtraction  and Cartesian product ($\cup,\cap,\setminus$ and $\times$).
+* __Sets:__ Including notation such as membership ($\in$), containment ($\subseteq$), and set operations such as union, intersection,  set difference  and Cartesian product ($\cup,\cap,\setminus$ and $\times$).
 
-* __Functions:__ Including the notions of the _domain_ and _range_ of a function, properties such  being  _one-to-one_ or _onto_ functions, and also the   notion of _partial functions_ (that, unlike standard or "total" functions, are not necessarily defined on all elements of their domain).
+* __Functions:__ Including the notions of the _domain_ and _range_ of a function, properties such  being  _one-to-one_ or _onto_ functions, as well as  _partial functions_ (that, unlike standard or "total" functions, are not necessarily defined on all elements of their domain).
 
 * __Logical operations:__ The operations AND, OR, and NOT ($\wedge,\vee,\neg$) and the quantifiers "exists" and "forall" ($\exists$,$\forall$).
 
@@ -21,24 +47,21 @@ The main notions we will use in this course are the following:
 
 * __Basic combinatorics:__ Notions such as $\binom{n}{k}$ (the number of $k$-sized subset of a set of size $n$).
 
-* __Graphs:__ Undirected and directed graphs, degrees, connectivity.
+* __Graphs:__ Undirected and directed graphs, connectivity, paths, and cycles.
 
-* __Big Oh notation:__ $O,o,\Omega,\omega,Theta$ notation for analyzing asymptotics of functions.
+* __Big Oh notation:__ $O,o,\Omega,\omega,\Theta$ notation for analyzing asymptotics of functions.
 
-* __Discrete probability:__ Later on in this course we will use _probability theory_, and specifically probability over _finite_ samples spaces such as tossing $n$ coins. We will only use  probability theory in the second half of this course, and will review it  before we use. However,  probabilistic reasoning is a subtle (and extremely useful!) skill, and it's always good to start early in acquiring it.
-
-
+* __Discrete probability:__ Later on in this course we will use _probability theory_, and specifically probability over _finite_ samples spaces such as tossing $n$ coins. We will only use  probability theory in the second half of this course, and will review it  beforehand. However,  probabilistic reasoning is a subtle (and extremely useful!) skill, and it's always good to start early in acquiring it.
 
 
-There are several excellent freely-available resources for the above material online.
-In particular, the [CS 121 webpage](http://www.boazbarak.org/cs121/background/) contains a program for self study of all the needed notions using the lecture notes, videos, and assignments of MIT course [6.042j Mathematics for Computer science](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/) (which is also the text used by Harvard CS 20).
-Still, in the rest of this section we briefly review these as well, partially to remind the reader and reinforce material that might not be fresh in your mind, and partially to introduce our notation and conventions which might occasionally differ from those you've encountered before.
+While I highly recommend the resources linked above, in the rest of this section we briefly review these notions.
+This is partially to remind the reader and reinforce material that might not be fresh in your mind, and partially to introduce our notation and conventions which might occasionally differ from those you've encountered before.
 
 
 
 ## Basic discrete math objects
 
-We now quickly review some of the objects and definitions we use from discrete math in this course.
+We now quickly review some of the mathematical objects and definitions we in this course.
 
 ### Sets
 
@@ -59,19 +82,29 @@ $$
 EVEN = \{ x  \;:\; \text{ $x=2y$ for some non-negative integer $y$} \} \;.
 $$
 
-Of course there is more than one way to write the same set, and often we will use intuitive notation listing a few examples that illustrate the rules, and hence we can also define $EVEN$ as
+Of course there is more than one way to write the same set, and often we will use intuitive notation listing a few examples that illustrate the rule.
+For example,  we can also define $EVEN$ as
+
 $$
 EVEN = \{ 0,2,4, \ldots \} \;.
 $$
 
 Note that a set can be either finite  (such as the set $\{2,4,7\}$ ) or infinite (such as the set $EVEN$).
 Also, the elements of a set don't have to be numbers.
-We can talk about the sets such as the set $\{a,e,o,u \}$ of all the vowels in the English language, or the  set $\{ New York, Los Angeles, Chicago \}$  of all cities in the U.S. with population more than  one million  per the 2010 census.^[TODO: check this and add other cities as needed. Also check that as a non-native speaker, I didn't miss a vowel.]
+We can talk about the sets such as the set $\{a,e,i,o,u \}$ of all the vowels in the English language, or the  set $\{$ `New York`, `Los Angeles`, `Chicago`, `Houston`, `Philadelphia`, `Phoenix`, `San Antonio`, `San Diego`, `Dallas` $\}$  of all cities in the U.S. with population more than  one million  per the 2010 census.
 A set can even have other sets as elements, such as the set $\{ \emptyset, \{1,2\},\{2,3\},\{1,3\} \}$ of all even-sized subsets of $\{1,2,3\}$.
 
 __Operations on sets:__ The _union_ of two sets $S,T$, denoted by $S \cup T$, is the set that contains all elements that are either in $S$ _or_ in $T$. The _intersection_ of $S$ and $T$, denoted by $S \cap T$, is the set of elements that are both in $S$ _and_ in $T$. The _set difference_ of $S$ and $T$, denoted by $S \setminus T$ (and in some texts  also by $S-T$), is the set of elements that are in $S$ but _not_ in $T$.
 
-__Tuples and Cartesian product:__ If $S$ and $T$ are sets, then their _Cartesian product_, denoted by $S \times T$, is the set of all ordered pairs $(s,t)$ where $s\in S$ and $t\in T$.
+__Tuples, lists, strings, sequences:__ A _tuple_ is an _ordered_ collection of items. For example $(1,5,2,1)$ is a tuple with four elements (also known as a $4$-tuple or quadruple).
+Since order matters, this is not the same tuple as the $4$-tuple $(1,1,5,2)$ or the $3$-tuple $(1,5,2)$. A $2$-tuple is also known as a _pair_.
+We use the terms _tuples_ and _lists_ interchangeably.
+A tuple where every element comes from some finite set $\Sigma$ (such as $\{0,1\}$) is also known as a _string_.
+Just like sets, we can also think of an infinite analogs of tuples, such as the ordered collection $(1,2,4,9,\ldots )$ of all perfect squares.
+Infinite ordered collections are known as _sequences_; we might sometimes use the term "infinite sequence" to emphasize this, and use "finite sequence" as a synonym for a tuple.^[We can identify a sequence $(a_0,a_1,a_2,\ldots)$ of elements in some set $S$ with a _function_ $A:\N \rightarrow S$ (where $a_n = A(n)$ for every $n\in \N$). Similarly, we can identify a $k$-tuple $(a_0,\ldots,a_{k-1})$ of elements in $S$ with a function $A:[k] \rightarrow S$.]
+
+
+__Cartesian product:__ If $S$ and $T$ are sets, then their _Cartesian product_, denoted by $S \times T$, is the set of all ordered pairs $(s,t)$ where $s\in S$ and $t\in T$.
 For example, if $S = \{1,2,3 \}$ and $T = \{10,12 \}$, then $S\times T$ contains the $6$ elements $(1,10),(2,10),(3,10),(1,12),(2,12),(3,12)$.
 Similarly if $S,T,U$ are sets then $S\times T \times U$ is the set of all ordered triples $(s,t,u)$ where $s\in S$, $t\in T$, and $u\in U$.
 More generally, for every positive integer $n$ and sets $S_0,\ldots,S_{n-1}$, we denote by $S_0 \times S_1 \times \cdots \times S_{n-1}$ the set of ordered $n$-tuples $(s_0,\ldots,s_{n-1})$ where $s_i\in S_i$ for every $i \in \{0,\ldots, n-1\}$.  
@@ -81,7 +114,7 @@ For every set $S$, we  denote the set $S\times S$ by $S^2$, $S\times S\times S$ 
 
 ### Special sets
 
-There are several sets that we will use in this course time and again, and so find it useful to introduce notation for them.
+There are several sets that we will use in this course time and again, and so find it useful to introduce explicit notation for them.
 For starters we define
 
 $$
@@ -89,12 +122,9 @@ $$
 $$
 
 to be the set of all _natural numbers_, i.e., non-negative integers.
-For any natural number $n$, we define the set $[n]$ as $\{0,\ldots, n-1\} = \{ k\in \N : k < n \}$.
-Note that we start our indexing of both $\N$ and $[n]$ from $0$.
-Many texts start those from $1$.
-Starting from zero or one is simply a convention that doesn't make much difference, as long as one is consistent about it.
+For any natural number $n$, we define the set $[n]$ as $\{0,\ldots, n-1\} = \{ k\in \N : k < n \}$.^[We start our indexing of both $\N$ and $[n]$ from $0$, while many other  texts index  those sets from $1$. Starting from zero or one is simply a convention that doesn't make much difference, as long as one is consistent about it.]
 
-We will also occasionally use the set $\Z=\{\ldots,-2,-1,0,+1,+2,\ldots \}$ of (negative and non-negative) _whole numbers_, as well as the set $\R$ of _real_ numbers. (This is the set that includes not just the whole numbers, but also fractional and even irrational numbers; e.g., $\R$ contains numbers  such as $+0.5$, $-\pi$, etc.)
+We will also occasionally use the set $\Z=\{\ldots,-2,-1,0,+1,+2,\ldots \}$ of (negative and non-negative) _whole numbers_,^[The letter Z stands for the German word "Zahlen", which means _numbers_.] as well as the set $\R$ of _real_ numbers. (This is the set that includes not just the whole numbers, but also fractional and even irrational numbers; e.g., $\R$ contains numbers  such as $+0.5$, $-\pi$, etc.)
 We denote by $\R_+$  the set $\{ x\in \R : x > 0 \}$ of _positive_  real numbers.
 This set is sometimes also denoted as $(0,\infty)$.
 
@@ -105,8 +135,8 @@ $$
 $$
 
 which is the set of all $n$-length binary strings for some natural number $n$.
-That is $\{0,1\}^n$ is the set of all length-$n$ lists of zeroes and ones.
-Note that this is consistent with our notation above: $\{0,1\}^2$ is the Cartesian product $\{0,1\} \times \{0,1\}$, $\{0,1\}^3$ is the product $\{0,1\} \times \{0,1\} \times \{0,1\}$ and so on.
+That is $\{0,1\}^n$ is the set of all $n$-tuples  of zeroes and ones.
+This is consistent with our notation above: $\{0,1\}^2$ is the Cartesian product $\{0,1\} \times \{0,1\}$, $\{0,1\}^3$ is the product $\{0,1\} \times \{0,1\} \times \{0,1\}$ and so on.
 
 
 We  will write the string $(x_0,x_1,\ldots,x_{n-1})$ as simply $x_0x_1\cdots x_{n-1}$ and so for example
@@ -136,8 +166,8 @@ $$
 \{0,1\}^* = \cup_{n\in\N} \{0,1\}^n \;.
 $$
 
-Note that the  set $\{0,1\}^*$ contains also the "string of length $0$", which we denote by $\emptyset$.
-If there is a chance of confusion with the empty set, we will denote this string by `""`.
+The set $\{0,1\}^*$ contains also the "string of length $0$" or "the empty string", which we will denote by $\mathtt{""}$.^[We follow programming languages in this notation; other texts sometimes use $\epsilon$ or $\lambda$ to denote the empty string. However, this doesn't matter much since we will rarely encounter this "edge case".]
+
 
 
 __Generalizing the star operation:__ For every set $\Sigma$, we define
@@ -219,7 +249,7 @@ Here are some basic facts about undirected graphs. We give some informal argumen
 > # {.lemma #degreesegeslem}
 In any undirected graph $G=(V,E)$, the sum of the degrees of all vertices is equal to twice the number of edges.
 
-[edgreesegeslem](){.ref} can be shown by seeing that every edge $\{ u,v\}$ contributes twice to the sum of the degrees (once for $u$ and the second time for $v$.)
+[degreesegeslem](){.ref} can be shown by seeing that every edge $\{ u,v\}$ contributes twice to the sum of the degrees (once for $u$ and the second time for $v$.)
 
 > # {.lemma #conntranslem}
 The connectivity relation is _transitive_, in the sense that if $u$ is connected to $v$, and $v$ is connected to $w$, then $u$ is connected to $w$.
@@ -312,10 +342,10 @@ $$
 ### Asymptotics and big-Oh notation
 
 It is often very cumbersome to describe precisely  quantities such as running time and is also not needed, since we are typically mostly interested in the "higher order terms".
-That is, in  understanding the _scaling behavior_ of the quantity as the input variable grows.
+That is, we want to understand the _scaling behavior_ of the quantity as the input variable grows.
 For example, as far as running time goes, the difference between an $n^5$-time algorithm and an $n^2$-time one is much more significant than the difference between an $100n^2 + 10n$ time algorithm and an $10n^2$
 For this purpose, Oh notation is extremely useful as a way to "declutter" our text and focus our attention on what really matters.
-For example, using Ph notation, we can say that both $100n^2 + 10n$ and $10n^2$ are simply $\Theta(n^2)$ (which informally means "the same up to constant factors"), while $n^2 = o(n^5)$ (which informally means that $n^2$ is "much smaller than" $n^5$).
+For example, using Oh notation, we can say that both $100n^2 + 10n$ and $10n^2$ are simply $\Theta(n^2)$ (which informally means "the same up to constant factors"), while $n^2 = o(n^5)$ (which informally means that $n^2$ is "much smaller than" $n^5$).
 
 
 Generally (though still informally), if $F,G$ are two functions mapping natural numbers to non-negative reals,  then "$F=O(G)$" means that  $F(n) \leq G(n)$ if we don't care about constant factors, while  "$F=o(G)$" means that $F$ is much smaller than $G$, in the sense that no matter by what constant factor we multiply $F$, if we take $n$ to be large enough then  $G$ will be bigger (for this reason, sometimes $F=o(G)$ is written as $F \ll G$).
@@ -346,7 +376,7 @@ For this reason, some texts write $F \in O(G)$ instead of $F = O(G)$.
 If anything, it would have made more sense use _inequalities_ and  write $F \leq O(G)$ and $F \geq \Omega(G)$, reserving equality for $F = \Theta(G)$,  but by now the equality notation is quite firmly entrenched.
 Nevertheless, you should remember that a statement such as $F = O(G)$ means that $F$ is "at most" $G$ in some rough sense when we ignore constants, and a statement such as $F = \Omega(G)$ means that $F$ is "at least" $G$ in the same rough sense.
 
-It's often convenient to use "anonymous functions" when using Oh notation and to emphasize the input parameter to the function.
+It's often convenient to use "anonymous functions" in the context of Oh notation, and also  to emphasize the input parameter to the function.
 For example, when we write a statement such as $F(n) = O(n^3)$, we mean that  $F=O(G)$ where $G$ is the function defined by $G(n)=n^3$.
 
 
@@ -370,12 +400,6 @@ In most (though not all!) cases we use Oh notation, the constants hidden by it a
 ## Proofs
 
 
-In this course we will be interested in understanding the truth of assertions such as _"there is no efficient algorithm to find the prime factors of a given number"_.^[Actually, scientists currently do not know if this assertion is true or false, but we will see that settling it in either direction has very interesting applications touching on areas as far apart as Internet security and quantum mechanics.]
-
-You cannot run experiments to prove the _non existence_ of an algorithm.
-Thus, our only way to show that an assertion such as the above is true is to use _mathematical proofs_.
-In fact, even before asking if this assertion is true, we will need to use _mathematical definitions_ to make this a precise statement that is either true or false.
-So you see that our main tools in this course will be mathematical proofs and definitions.^[The [CS 121 website](http://www.boazbarak.org/cs121/background/) contains links to various resources which can help students catch up on this material.]
 
 Many people think of mathematical proofs as a sequence of logical deductions that starts from some axioms and ultimately arrives at a conclusion.
 In fact, some dictionaries [define](http://www.thefreedictionary.com/mathematical+proof) proofs that way.
@@ -389,12 +413,11 @@ To produce such a proof you need to:
 3. Write your reasoning down in plain, precise and concise English (using formulas or notation only when they help clarity).
 
 In many cases, Step 1 is the most important one. Understanding what a statement means is often more than halfway towards understanding why it is true.
-In Step 3, to convince the reader beyond a shadow of a doubt, we will often want to  break down the reasoning to "basic steps", each of which is simple enough to be "self evident" and the combination of all steps yields the desired statement.
-(This "breaking down" can indeed be often thought of as proceeding in a sequence of  logical deduction from some axioms.)
+In Step 3, to convince the reader beyond a shadow of a doubt, we will often want to  break down the reasoning to "basic steps", where each basic step is simple enough to be "self evident". The  combination of all steps yields the desired statement.
 
 ### Proofs and programs
 
-There is a great deal of similarity between the process of writing _proofs_ and that of writing _programs_, and doing both well requires a similar set of skills.  
+There is a great deal of similarity between the process of writing _proofs_ and that of writing _programs_, and both require a similar set of skills.
 Writing a _program_ involves:
 
 1. Understanding what is the _task_ we want the program to achieve.
@@ -406,7 +429,7 @@ Writing a _program_ involves:
 In programs as in proofs, step 1 is often the most important one.
 A key difference is that the reader for proofs is a human being and for programs is a compiler.^[This difference might be eroding with time, as more proofs are being written in a _machine verifiable form_ and progress in artificial intelligence allows expressing programs in more human friendly ways, such as "programming by example". Interestingly, much of the progress in automatic proof verification and proof assistants relies on a [much deeper correspondence](http://homepages.inf.ed.ac.uk/wadler/papers/propositions-as-types/propositions-as-types.pdf) between _proofs_ and _programs_. We _might_ see this correspondence later in this course.]
 Thus our emphasis is on _readability_ and having a _clear logical flow_ for the proof (which is not a bad idea for programs as well..).
-For the purposes of this course, you can think of the human reader as an intelligent but highly skeptical reader, that will "call foul" at every step that is not well justified.
+When writing a proof, you should think of your audience as an intelligent but highly skeptical and somewhat petty reader, that will "call foul" at every step that is not well justified.
 
 
 ## Extended example: graph connectivity
@@ -423,14 +446,14 @@ This will not be the shortest way to prove this theorem, but hopefully following
 Before trying to prove [graphconthm](){.ref},  we need to understand what it means.
 Let's start with the terms in the theorems.
 We defined undirected graphs and the notion of connectivity in [graphsec](){.ref} above.
-In particular, an undirected graph $G=(V,E)$ is _connected_ if for every pair $u,v \in V$, there is a path $(u_0,u_1,\ldots,u_k) \in  V^{k+1}$ such that $u_0=u$, $u_k=v$, and $\{ u_i,u_{i+1} \} \in E$ for every $i\in [k]$.
+In particular, an undirected graph $G=(V,E)$ is _connected_ if for every pair $u,v \in V$, there is a path $(u_0,u_1,\ldots,u_k)$ such that $u_0=u$, $u_k=v$, and $\{ u_i,u_{i+1} \} \in E$ for every $i\in [k]$.
 
 > # { .pause }
 It is crucial that at this point you pause and verify that you completely understand the definition of connectivity. Indeed, you should make a habit of pausing after any statement of a theorem, even before looking at the proof, and verifying that you  understand all the terms that the theorem refers to.
 
 To prove [graphconthm](){.ref} we need to show that there is no $2$-vertex connected graph with fewer than $1$ edges, $3$-vertex connected graph with fewer than $2$ edges, and so on and so forth.
 One of the best ways to prove a theorem is to first try to _disprove it_.
-By trying to come up with a counterexample, we often understand why it could not be false.
+By trying and failing to come up with a counterexample, we often understand why the theorem can not be false.
 For example, if you try to draw a $4$-vertex graph with only two edges, you can see that there are basically only two  choices for such a graph as depicted in [figurefourvertexgraph](){.ref}, and in both  there will remain a vertex that is not connected.
 
 
@@ -446,36 +469,25 @@ If you have not seen the proof of this theorem before (or don't remember it), th
 There are several ways to approach this proof, but one version is to start by proving it for small graphs, such as graphs with 2,3 or 4 edges, for which we can check all the cases, and then try to extend the proof for larger graphs.
 The technical term for this proof approach is _proof by induction_.
 
-__Mathematical induction.__
-_Induction_ is simply an application of the self-evident  [Modus Ponens](https://en.wikipedia.org/wiki/Modus_ponens) rule that says that if: \
 
- __(a)__ $P$ implies $Q$ \
+>__Mathematical induction:__ _Induction_ is simply an application of the self-evident  [Modus Ponens](https://en.wikipedia.org/wiki/Modus_ponens) rule that says that if __(a)__ $P$ is true and __(b)__ $P$ implies $Q$
+then $Q$ is true. In the setting of proofs by induction we typically have a statement $Q(k)$ that is parameterized by some integer $k$, and we prove that  __(a)__ $Q(0)$ is true and __(b)__ For every $k>0$, if $Q(0),\ldots,Q(k-1)$ are all true then $Q(k)$ is true.^[Usually proving __(b)__ is the hard part, though there are examples where the "base case" __(a)__ is quite subtle.]
+By repeatedly applying Modus Ponens, we can deduce from __(a)__ and __(b)__ that $Q(1)$ is true, and then from __(a)__,__(b)__ and $Q(1)$ that $Q(2)$ is true, and so on and so forth to obtain that  $Q(k)$ is true for every $k$. The statement __(a)__ is called the "base case", while __(b)__ is called the "inductive step". The assumption in __(b)__ that $Q(i)$ holds for $i<k$ is called the "inductive hypothesis".
 
-and \
-
-__(b)__ $P$ is true \
-then $Q$ is true.
-
-In the setting of proofs by induction we typically have a statement $Q(k)$ about an integer $k$, and we prove that: \
-
-__(a)__ For every $k>0$, if $Q(0),\ldots,Q(k-1)$ are all true then $Q(k)$ is true \
-
- and \
-
- __(b)__ $Q(0)$ is true. \
-
-(Usually proving __(a)__ is the hard part, though there are examples where the "base case" __(b)__ is quite subtle.)
-By repeatedly applying Modus Ponens, we can see that $Q(1)$ is true, $Q(2)$ is true, etc.. and this implies that  $Q(k)$ is true for every $k$.
+### Proving the theorem by induction
 
 There are several ways to use induction to prove  [graphconthm](){.ref}.
-One possibility is to follow our intuition above that with a budget of $k$ edges, we cannot connect to a vertex more than $k-1$ other vertices.
-That is, we will define the statement $Q(k)$ as follows: "For every graph $G=(V,E)$ with at most $k$ edges and every $u\in V$, the number of vertices that are connected to $u$ is at most $k+1$". (Recall that $u$ is always connected to itself.)
+We will do so by following our intuition above that with a budget of $k$ edges, we cannot connect to a vertex more than $k-1$ other vertices.
+That is, we will define the statement $Q(k)$ as follows:
+
+>$Q(k)$ is _"For every graph $G=(V,E)$ with at most $k$ edges and every $u\in V$, the number of vertices that are connected to $u$ (including $u$ itself) is at most $k+1$"_
+
 Note that $Q(n-2)$ implies our theorem, since it means that in an $n$ vertex graph of $n-2$ edges, there would be at most $n-1$ vertices  that are connected to $u$, and hence in particular there would be _some_ vertex that is not connected to $u$.
 More formally, if we define, given any undirected graph $G$ and vertex $u$ of $G$, the set $C_G(u)$ to contain all  vertices connected to $u$, then the statement $Q(k)$ is that for every undirected graph $G=(V,E)$ with $|E|=k$ and $u\in V$,  $|C_G(u)| \leq k+1$.
 
-To prove that $Q(k)$ is true for every $k$ by induction, we will first prove __(a)__ that $Q(0)$ is true, and then prove __(b)__ that if $Q(0),\ldots,Q(k-1)$ are true then $Q(k)$ is true as well.
+To prove that $Q(k)$ is true for every $k$ by induction, we will first prove  that __(a)__  $Q(0)$ is true, and then prove  __(b)__  if $Q(0),\ldots,Q(k-1)$ are true then $Q(k)$ is true as well.
 In fact, we will prove the stronger statement __(b')__ that if $Q(k-1)$ is true then $Q(k)$ is true as well.
-(This is a stronger statement because we prove the same conclusion from a weaker assumption.)
+(__(b')__ is a stronger statement than __(b)__ because it has same conclusion with a weaker assumption.)
 Thus, if we show both __(a)__ and __(b')__ then we complete the proof of [graphconthm](){.ref}.
 
 
@@ -487,21 +499,22 @@ Since we can use induction, a natural approach would be to remove an edge $e\in 
 We can use the induction hypothesis to argue that $|C_{G'}(u)| \leq k$.
 Now if we could only argue that removing the edge $e$ reduced the connected component of $u$ by at most a single vertex,  then we would be done, as we could argue that $|C_G(u)| \leq |C_{G'}(u)|+1 \leq k+1$.
 
-Alas, this might not be the case.
-It could be that removing  a single edge $e$ will greatly reduce the size of $C_{G}(u)$.
-For example that edge might be a "bridge" between two large connected components; such a situation is illustrated in  [effectofoneedgefig](){.ref}.
+> # { .pause }
+Please ensure that you understand why showing that $|C_G(u)| \leq |C_{G'}(u)|+1$ completes the inductive proof.
 
 ![Removing a single edge $e$ can greatly decrease the number of vertices that are connected to a vertex $u$.](../figure/effectofoneedge.png){#effectofoneedgefig .class width=300px height=300px}
 
+Alas, this might not be the case.
+It could be that removing  a single edge $e$ will greatly reduce the size of $C_{G}(u)$.
+For example that edge might be a "bridge" between two large connected components; such a situation is illustrated in  [effectofoneedgefig](){.ref}.
 This might seem as a real stumbling block, and at this point we might go back to the drawing board to see if perhaps the theorem is false after all.
 However, if we look at various concrete examples, we see that in any concrete example, there is always a "good" choice of an edge,  adding which will  increase the component connect to $u$ by at most one vertex.
-The crucial observation is that this always holds if we choose an edge  $e = \{ s, w\}$ where $w \in C_G(u)$ has degree one in the graph $G$, see [degoneconnectivityfig](){.ref}.
-The reason is simple.
-Since every path from $u$ to $w$ must pass through $s$ (which is $w$'s only neighbor), removing the edge $\{ s,w \}$ merely has the effect of disconnecting $w$ from $u$, and hence $C_{G'}(u) = C_G(u) \setminus \{ w \}$ and in particular $|C_{G'}(u)|=|C_G(u)|-1$, which is exactly the condition we needed.
-
 
 ![Removing an edge $e=\{s,w\}$ where $w\in C_G(u)$ has degree one removes only $w$ from $C_G(u)$. ](../figure/addingdegreeone.png){#addingdegreeonefig .class width=300px height=300px}
 
+The crucial observation is that this always holds if we choose an edge  $e = \{ s, w\}$ where $w \in C_G(u)$ has degree one in the graph $G$, see [addingdegreeonefig](){.ref}.
+The reason is simple.
+Since every path from $u$ to $w$ must pass through $s$ (which is $w$'s only neighbor), removing the edge $\{ s,w \}$ merely has the effect of disconnecting $w$ from $u$, and hence $C_{G'}(u) = C_G(u) \setminus \{ w \}$ and in particular $|C_{G'}(u)|=|C_G(u)|-1$, which is exactly the condition we needed.
 
 Now the question is whether there will always be a degree one vertex in $C_G(u) \setminus \{u \}$.
 Of course generally we are not guaranteed that a graph would have a degree one vertex, but we are not dealing with a general graph here but rather a graph with a small number of edges.
@@ -510,18 +523,19 @@ Thus, the only case where there is no vertex $w\in C_G(u) \setminus \{u\}$  of d
 But then by [degreesegeslem](){.ref} the number of edges in the graph is at least $\tfrac{1}{2}\cdot 2 \cdot (k+1)>k$, which contradicts our assumption that the graph $G$ has at most $k$ edges.
 Thus we can conclude that either $|C_G(u)| \leq k+1$  (in which case we're done) or there is a degree one vertex $w\neq u$ that is connected to $u$.
 By removing the single edge $e$ that touches $w$, we obtain a $k-1$ edge graph $G'$ which (by the inductive hypothesis) satisfies $|C_{G'}(u)| \leq k$, and hence $|C_G(u)|=|C_{G'}(u) \cup \{ w \}| \leq k+1$.
+This suffices to complete an inductive proof of statement $Q(k)$.
 
 
 ### Writing down the proof
 
 All of the above was a discussion of how we _discover_ the proof, and convince _ourselves_ that the statement is true.
 However, once we do that, we still need to write it down.
-When writing the proof,   we use the benefit of hindsight, and try to streamline what was a messy journey into a linear and easy-to-follow flow of logic that starts with the word __Proof:__ and ends with __QED__.
-All our discussions, examples and digressions can be very insightful, but we keep them outside the space delimited between these two words, where (to use the words of this [excellend handout](http://web.stanford.edu/class/cs103/handouts/110%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
+When writing the proof,   we use the benefit of hindsight, and try to streamline what was a messy journey into a linear and easy-to-follow flow of logic that starts with the word __"Proof:"__ and ends with  __"QED"__ or the symbol ∎.^[QED stands for "quod erat demonstrandum", which is "What was to be demonstrated." or  "The very thing it was required to have shown." in Latin.]
+All our discussions, examples and digressions can be very insightful, but we keep them outside the space delimited between these two words, where (as described by this [excellent handout](http://web.stanford.edu/class/cs103/handouts/110%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
 Just like we do in programming, we can break the proof into little "subroutines" or "functions" (known as _lemmas_ or _claims_ in math language), which will be smaller statements that help us prove the main result.
 However, it should always be crystal-clear to the reader in what stage we are of the proof.
-That is, just like it should always be clear to which function a line of code belongs to, it should always be clear whether a sentence in the overall proof is part of the proof of an intermediate result, or part of the argument showing that this intermediate result implies the theorem.
-Sometimes we highlight this partition by noting after each occurence of  __QED__ to which lemma or claim it belongs.
+Just like it should always be clear to which function a line of code belongs to, it should always be clear whether an individual sentence  is part of a  proof of some intermediate result, or is part of the argument showing that this intermediate result implies the theorem.
+Sometimes we highlight this partition by noting after each occurrence of  __"QED"__ to which lemma or claim it belongs.
 
 
 Let us see how the proof of [graphconthm](){.ref} looks in this streamlined fashion.
@@ -538,36 +552,38 @@ The proof will follow from the following lemma:
 >
 >We start by showing that [graphcontlem](){.ref} implies the theorem:
 >
->>__Proof of [graphconthmpf](){.ref} from [graphcontlem](){.ref}:__ We will show that for undirected graph $G=(V,E)$ of $n$ vertices and at most $n-2$ edges, there is a pair $u,v$ of vertices that are disconnected in $G$. let $G$ be such a graph and $u$ be some vertex of $G$. By [graphcontlem](){.ref}, the number of vertices connected to $u$ is at most $n-1$, and hence (since $|V|=n$) there is a vertex $v\in V$ that is not connected to $u$, thus completing the proof. __QED (Proof of [graphconthm](){.ref} from [graphcontlem](){.ref})__
+>>__Proof of [graphconthmpf](){.ref} from [graphcontlem](){.ref}:__ We will show that for undirected graph $G=(V,E)$ of $n$ vertices and at most $n-2$ edges, there is a pair $u,v$ of vertices that are disconnected in $G$. let $G$ be such a graph and $u$ be some vertex of $G$. By [graphcontlem](){.ref}, the number of vertices connected to $u$ is at most $n-1$, and hence (since $|V|=n$) there is a vertex $v\in V$ that is not connected to $u$, thus completing the proof. __QED (Proof of [graphconthmpf](){.ref} from [graphcontlem](){.ref})__
 >
 >We now turn to proving [graphcontlem](){.ref}. Let $G=(V,E)$ be an undirected graph of $k$ vertices and $u\in V$. We define $C_G(u)$ to be the set of vertices connected to $u$. To complete the proof of  [graphcontlem](){.ref}, we need to prove that $|C_G(u)| \leq k+1$. We will do so by induction on $k$.
 >
->The _base_ case that $k=0$ follows since in a graph with zero edges, $u$ is only connected to itself.
+>The _base_ case that $k=0$ is true because a graph with zero edges, $u$ is only connected to itself.
 >
 >Now suppose that [graphcontlem](){.ref} is true for $k-1$ and we will prove it for $k$.
 >Let $G=(V,E)$ and $u\in V$ be as above, where $|E|=k$, and suppose (towards a contradiction) that $|C_G(u)| \geq k+2$. Let $S = C_G(u) \setminus \{u \}$.
 Denote by $deg(v)$ the degree of any vertex $v$.
 By [degreesegeslem](){.ref}, $\sum_{v\in S} deg(v) \leq \sum_{v\in V} deg(v) = 2|E|=2k$.
-Hence in particular, under our assumption that $|S|+1=|C_G(u)| \geq k+2$, we get that $\tfrac{1}{|S|}\sum_{v\in S} deg(v) \leq 2k/(k+2)< 2$.
-In other words, the _average_ degree of a vertex in $S$ is smaller than $2$, and hence in particular there is some vertex $w\in S$ with degree smaller than $2$.
-Since $w$ is connected to $u$, it must have degree at least one, and hence (since $w$'s degree is smaller than two) degree exactly one, or in other words, $w$ has a single neighbor which we denote by $s$.
-Let $G'$ be the graph obtained by removing the edge $\{ s, w\}$.
+Hence in particular, under our assumption that $|S|+1=|C_G(u)| \geq k+2$, we get that $\tfrac{1}{|S|}\sum_{v\in S} deg(v) \leq 2k/(k+1)< 2$.
+In other words, the _average_ degree of a vertex in $S$ is smaller than $2$, and hence in particular there is _some_ vertex $w\in S$ with degree smaller than $2$.
+Since $w$ is connected to $u$, it must have degree at least one, and hence (since $w$'s degree is smaller than two) degree _exactly_ one.
+In other words, $w$ has a single neighbor which we denote by $s$.
+>
+Let $G'$ be the graph obtained by removing the edge $\{ s, w\}$ from $G$.
 Since $G'$ has at most $k-1$ edges, by the inductive hypothesis we can assume that $|C_{G'}(u)| \leq k$.
-The proof of the lemma will be concluded by showing the following claim:
+The proof of the lemma is concluded by showing the following claim:
 >
 >>__Claim:__ Under the above assumptions, $|C_G(u)| \leq |C_{G'}(u)|+1$.
 >
->>__Proof of claim:__ This will follow by showing that $C_{G'}(u) \supseteq C_G(u) \setminus \{ w \}$. Indeed, if $v \neq w$ is connected to $u$, then by [simplepathlem](){.ref} there must be some _simple_ path $(t_0,t_1,\ldots,t_{i-1},t_i)$ in the graph $G$ where $t_0=u$ and $t_i=v$. But $w$ cannot belong to this path, since $w \neq \{u,v \}$, and $w$ cannot equal one of the $t_j$'s for $0 < j < i$ since $w$ has only a single neighbor $s$, and hence if $w=t_j$ then it would have to hold that $s=t_{j-1}=t_{j+1}$, contradicting the simplicity of the path.
+>>__Proof of claim:__ The claim says that $C_{G'}(u)$ has at most one fewer element than $C_G(u)$. Thus it follows from the following statement $(*)$:  $C_{G'}(u) \supseteq C_G(u) \setminus \{ w \}$. To prove (*) we need to show that for every  $v \neq w$ that is connected to $u$, $v \in C_{G'}(u)$. Indeed for every such $v$,  [simplepathlem](){.ref} implies that  there must be some _simple_ path $(t_0,t_1,\ldots,t_{i-1},t_i)$ in the graph $G$ where $t_0=u$ and $t_i=v$. But $w$ cannot belong to this  path, since $w$ is different from the endpoints $u$ and $v$ of the path and can't equal one of the intermediate points either, since it has degree one and that would make the path not  simple. More formally, if  $w=t_j$ for $0 < j < i$, then  since $w$ has only a single neighbor $s$,  it would have to hold that $w$'s neighbor $s$ satisfies $s=t_{j-1}=t_{j+1}$, contradicting the simplicity of the path.
 Hence the path from $u$ to $v$ is also a path in the graph $G'$, which means that $v \in C_{G'}(u)$, which is what we wanted to prove. __QED (claim)__
 >
->The claim implies [graphcontlem](){.ref} since by the inductive assumption, $|C_{G'}(u)| \leq k$, and hence by the claim $|C_G(u)| \leq k$, which is what we wanted to prove. This concludes the proof of [graphcontlem](){.ref} and hence also of [graphconthmpf](){.ref}. __QED ([graphcontlem](){.ref})__, __QED ([[graphconthmpf](){.ref}](){.ref})__
+>The claim implies [graphcontlem](){.ref} since by the inductive assumption, $|C_{G'}(u)| \leq k$, and hence by the claim $|C_G(u)| \leq k+1$, which is what we wanted to prove. This concludes the proof of [graphcontlem](){.ref} and hence also of [graphconthmpf](){.ref}. __QED ([graphcontlem](){.ref})__, __QED ([graphconthmpf](){.ref})__
 
 > # { .pause }
 Reading a proof is no less of an important skill than producing one.
 In fact, just like understanding code, it is a highly non-trivial skill in itself.
 Therefore I strongly suggest that you re-read the above proof, asking yourself at every sentence whether the assumption it makes are justified, and whether this sentence truly demonstrates what it purports to achieve.
 
-The proof above used the observation that if the _average_ of some $n$ numbers $x_0,\ldots,x_{n-1}$ is at most $X$, then there must _exists_ at least a single number $x_i \leq X$. (In the proof the numbers were the degrees of vertices in $S$.)
+The proof above used the observation that if the _average_ of some $n$ numbers $x_0,\ldots,x_{n-1}$ is at most $X$, then there must _exists_ at least a single number $x_i \leq X$. (In this particular proof, the numbers were the degrees of vertices in $S$.)
 This is known as the _averaging principle_, and despite its simplicity, it is often extremely useful.
 
 
@@ -599,7 +615,7 @@ Some helpful resources on mathematical writing include [this handout by Lee](htt
 Just like in programming, there are several common patterns of proofs that occur time and again.
 Here are some examples:
 
-__Proofs by contradiction:__ One way to prove that $X$ is true, is to show that if $X$ was false then we would get a contradiction as a result. Such proofs often start with a sentence such as "Suppose, towards a contradiction, that $X$ is false" and end with deriving some contradiction (such as a violation of one of the assumptions in the theorem statement).
+__Proofs by contradiction:__ One way to prove that $X$ is true is to show that if $X$ was false then we would get a contradiction as a result. Such proofs often start with a sentence such as "Suppose, towards a contradiction, that $X$ is false" and end with deriving some contradiction (such as a violation of one of the assumptions in the theorem statement).
 Here is an example:
 
 > # {.lemma }
@@ -607,7 +623,7 @@ There are no natural numbers $a,b$ such that $\sqrt{2} = \tfrac{a}{b}$.
 
 > # {.proof }
 Suppose, towards the sake of contradiction that this is false, and so let $a\in \N$ be the smallest number such that there exists some $b\in\N$ satisfying $\sqrt{2}=\tfrac{a}{b}$.
-Squaring this equation we get that $2=a^2/b^2$ or $a^2=2b^2$. But this means that $a^2$ is _even_, and since the product of two odd  numbers is odd, it means that $a$ is even as well, or in other words, $a = 2a'$ for some $a' \in \N$. Yet this means that $4a'^2 = 2b^2$ or that $b^2 = 2a'^2$ is an even number as well, which (by the same considerations) means that $b$ is even. Hence $a/2$ and $b/2$ are two natural numbers which satisfy $\tfrac{a/2}{b/2}=\sqrt{2}$, contradicting the minimality of $a$.
+Squaring this equation we get that $2=a^2/b^2$ or $a^2=2b^2$ $(*)$. But this means that $a^2$ is _even_, and since the product of two odd  numbers is odd, it means that $a$ is even as well, or in other words, $a = 2a'$ for some $a' \in \N$. Yet plugging this into $(*)$ shows  that $4a'^2 = 2b^2$ which means  $b^2 = 2a'^2$ is an even number as well. By the same considerations as above we gat that $b$ is even and hence $a/2$ and $b/2$ are two natural numbers  satisfying $\tfrac{a/2}{b/2}=\sqrt{2}$, contradicting the minimality of $a$.
 
 
 __Proofs of a universal statement:__ Often we want to prove a statement $X$ of the form "Every object of type $O$ has property $P$." Such proofs often start with a sentence such as "Let $o$ be an object of type $O$" and end by showing that $o$ has the property $P$.
@@ -662,7 +678,7 @@ The main points where we diverge are:
 
 * We use _partial_ functions which are functions that are not necessarily  defined on all inputs. When we write $f:A \rightarrow B$ this will refer to a _total_ function unless we say otherwise. When we want to emphasize that $f$ can be  a partial function, we will sometimes write $f: A \rightarrow_p B$.
 
-* As we will see later on in the course, we will mostly describe our computational problems in the terms of computing a _Boolean function_ $f: \{0,1\}^* \rightarrow \{0,1\}$. In contrast, most textbooks will refer to this as the task of _deciding a language_ $L \subseteq \{0,1\}^*$. These two viewpoints are equivalent, sicne for every set $L\subseteq \{0,1\}^*$ there is a corresponding  function $f = 1_L$ such that $f(x)=1$ if and only if $x\in L$. Computing _partial functions_ corresponds to the task known in the literature as a solving a _promise problem_.^[Because the language notation is so prevalent in textbooks, we will occasionally remind the reader of this correspondence.]
+* As we will see later on in the course, we will mostly describe our computational problems in the terms of computing a _Boolean function_ $f: \{0,1\}^* \rightarrow \{0,1\}$. In contrast, most textbooks will refer to this as the task of _deciding a language_ $L \subseteq \{0,1\}^*$. These two viewpoints are equivalent, since for every set $L\subseteq \{0,1\}^*$ there is a corresponding  function $f = 1_L$ such that $f(x)=1$ if and only if $x\in L$. Computing _partial functions_ corresponds to the task known in the literature as a solving a _promise problem_.^[Because the language notation is so prevalent in textbooks, we will occasionally remind the reader of this correspondence.]
 
 ## Exercises
 
