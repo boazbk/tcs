@@ -13,7 +13,7 @@ The main notions we will use in this course are the following:
 
 * __Sets:__ Including notation such as membership ($\in$), containment ($\subseteq$), and set operations such as union, intersection,  subtraction  and Cartesian product ($\cup,\cap,\setminus$ and $\times$).
 
-* __Functions:__ Including the notions of the _domain_ and _range_ of a function, properties such  being  _one-to-one_ or _onto_ functions, and also the   notion of _partial functions_ (that are not defined on all elements of their domain).
+* __Functions:__ Including the notions of the _domain_ and _range_ of a function, properties such  being  _one-to-one_ or _onto_ functions, and also the   notion of _partial functions_ (that, unlike standard or "total" functions, are not necessarily defined on all elements of their domain).
 
 * __Logical operations:__ The operations AND, OR, and NOT ($\wedge,\vee,\neg$) and the quantifiers "exists" and "forall" ($\exists$,$\forall$).
 
@@ -49,7 +49,7 @@ Note that the set $\{ 2, 4, 7 \}$ and $\{ 7 , 4, 2 \}$ are identical, since they
 Also, a set either contains an element or does not contain it -there is no notion of containing it  "twice"- and so we could even write the same set $S$ as  $\{ 2, 2, 4, 7\}$ (though that would be a little weird).
 The _cardinality_ of a finite set $S$, denoted by $|S|$, is the number of distinct elements it contained.
 So, in the example above, $|S|=3$.
-A set $S$ is a _subset_ of a set $T$, denoted by $S \subseteq T$, if every element of $S$ is also an element of $T$.
+A set $S$ is a _subset_ of a set $T$, denoted by $S \subseteq T$, if every element of $S$ is also an element of $T$. (We can also describe this by saying that  $T$ is a _superset_ of $S$.)
 For example, $\{2,7\} \subseteq \{ 2,4,7\}$.
 The set that contains no elements is known as the _empty set_ and it is denoted by $\emptyset$.
 
@@ -189,15 +189,19 @@ __Partial functions:__ We will sometimes be interested in _partial_ functions fr
 This is a function $F$ that is not necessarily defined on every element of $S$.
 For example, the function $F(x)= \sqrt{x}$ is only defined on non-negative real numbers.
 When we want to distinguish between partial functions and  standard (i.e., non-partial) functions, we will call the latter _total_ functions.
+(Note that the set of partial functions is a proper superset of the set of total functions; i.e., a partial function is allowed to be defined on all its input elements.)
+Also, when we want to emphasize that a function $f$ from $A$ to $B$ might not be total, we will write $f: A \rightarrow_p B$.
 We can think of a partial function $F$ from $S$ to $T$ also as a total function from $S$ to $T \cup \{ \bot \}$ where $\bot$ is some special "failure symbol", and so instead of saying that $F$ is undefined at $x$, we can say that $F(x)=\bot$.
 
-### Graphs
+
+### Graphs { #graphsec }
 
 _Graphs_ are ubiquitous in Computer Science, and  many other fields as well.
 They are used to model a variety of data types including social networks, road networks, deep nueral nets, gene interactions, correlations between observations, and a great many more.
 The formal definitions of graphs are below, but if you have not encountered them before then I urge you to read up on them in one of the sources linked above.
+Graphs come in two basic flavors: _undirected_ and _directed_.^[It is possible, and sometimes useful, to think of an undirected graph as simply a  directed graph with  the special property that for every pair $u,v$ either both the edges $\overrightarrow{u v}$ and $\overleftarrow{u v}$ are present or neither of them is. However, in many settings there is  a significant difference between  undirected and directed graphs, and so it's typically best to think of them as separate categories.]
 
-An _undirected graph_ $G = (V,E)$ consists of a set $V$ of _vertices_ and a set $E$ of edges.
+__Undirected graphs.__ An _undirected graph_ $G = (V,E)$ consists of a set $V$ of _vertices_ and a set $E$ of edges.
 Every edge is a size two subset of $V$.
 We say that two vertices $u,v \in V$ are _neighbors_, denoted by $u \sim v$, if the edge $\{u,v\}$ is in $E$.
 The _degree_ of $u$ is the number of neighbors it has.
@@ -207,14 +211,52 @@ A _cycle_ is a path $(u_0,\ldots,u_k)$ where $u_0=u_{k}$.
 We say that two vertices $u,v\in V$ are _connected_ if either $u=v$ or there is a path from $(u_0,\ldots,u_k)$ where $u_0=u$ and $u_k=v$.
 We say that the graph $G$ is _connected_ if every  pair of vertices in it is connected.
 
+Here are some basic facts about undirected graphs. We give some informal arguments below, but leave the full proofs as exercises. (The proofs can also be found in most basic texts on  graph theory.)
 
-In a _directed graph_ $G=(V,E)$, the set $E$ is a set of _ordered_ pairs, and so each edge is a pair $(u,v)$, which we often denote as $\overrightarrow{u v}$.
+> # {.lemma #degreesegeslem}
+In any undirected graph $G=(V,E)$, the sum of the degrees of all vertices is equal to twice the number of edges.
+
+[edgreesegeslem](){.ref} can be shown by seeing that every edge $\{ u,v\}$ contributes twice to the sum of the degrees (once for $u$ and the second time for $v$.)
+
+> # {.lemma #conntranslem}
+The connectivity relation is _transitive_, in the sense that if $u$ is connected to $v$, and $v$ is connected to $w$, then $u$ is connected to $w$.
+
+[conntranslem](){.ref} can be shown by simply attaching a path of the form $(u,u_1,u_2,\ldots,u_{k-1},v)$ to a path of the form $(v,u'_1,\ldots,u'_{k'-1},w)$ to obtain the path $(u,u_1,\ldots,u_{k-1},v,u'_1,\ldots,u'_{k'-1},w)$ that connects $u$ to $w$.
+
+
+> # {.lemma #simplepathlem}
+For every undirected graph $G=(V,E)$ and connected pair $u,v$, the shortest path from $u$ to $v$ is simple.
+In particular, for every connected pair there exists a simple path that connects them.
+
+[simplepathlem](){.ref} can be shown by "shortcutting" any non simple path of the form $(u,u_1,\ldots,u_{i-1},w,u_{i+1},\ldots,u_{j-1},w,u_{j+1},\ldots,u_{k-1},v)$ where the same vertex $w$ appears in both the $i$-th and $j$-position, to obtain the shorter path $(u,u_1,\ldots,u_{i-1},w,u_{j+1},\ldots,u_{k-1},v)$.
+
+> # { .pause }
+If you haven't seen these proofs before, it is indeed a great exercise to transform the above informal exercises into fully rigorous proofs.
+
+
+__Directed graphs.__ In a _directed graph_ $G=(V,E)$, the set $E$ is a set of _ordered_ pairs, and so each edge is a pair $(u,v)$, which we often denote as $\overrightarrow{u v}$.
 If the edge $\overrightarrow{u v}$ is present in the graph then we say that $v$ is an _out-neighbor_ of $u$ and $u$ is an _in-neigbor_ of $v$.
 Note that a directed graph might contain both $\overrightarrow{u v}$ and $\overrightarrow{v u}$ in which case $u$ will be both an in-neighbor and an out-neighbor of $v$ and vice versa.
 The _in-degree_ of $u$ is the number of in-neighbors it has, and the _out-degree_ of $v$ is the number of out-neighbors it has.
 A _path_ in the graph is a tuple $(u_0,\ldots,u_k) \in V^k$, for some $k>0$ such that $u_{i+1}$ is an out-neighbor of $u_i$ for every $i\in [k]$.
 As in the undirected case, a _simple path_ is a path $(u_0,\ldots,u_{k-1})$ where all the $u_i$'s are distinct and a  _cycle_ is a path $(u_0,\ldots,u_k)$ where $u_0=u_{k}$.
 One type of directed graphs we often care about is _directed acyclic graphs_ or _DAGs_, which, as their name implies, are directed graphs without any cycles.
+
+The lemmas we mentioned above have analogs for directed graphs.
+We again leave the proofs (which are essentially identical to their undirected analogs) as exercises for the reader:
+
+> # {.lemma #diredgreesegeslem}
+In any directed graph $G=(V,E)$, the sum of the in-degrees  is equal to the sum of the out-degrees, which is equal to the number of edges.
+
+
+> # {.lemma #dirconntranslem}
+In any directed graph $G$, if there is a path from $u$ to $v$ and a path from $v$ to $w$, then there is a path from $u$ to $w$.
+
+
+> # {.lemma #dirsimplepathlem}
+For every directed graph $G=(V,E)$ and a  pair $u,v$ such that there is a path from $u$ to $v$, the _shortest path_ from $u$ to $v$ is simple.
+
+
 
 ### Logic operators and quantifiers.
 
@@ -232,7 +274,7 @@ $$
 \exists_{n\in \N} (n>100) \wedge \left(\forall_{k\in N} k+k+k \neq n\right) \;.
 $$
 
-### Quantifiers for summations and products
+### Quantifiers for summations and products { #secquantifiers }
 
 The following shorthands for summing up or taking products of several numbers are often convenient.
 If $S = \{s_0,\ldots,s_{n-1} \}$ is a finite set and  $f:S \rightarrow \R$ is a function, then we write $\sum_{x\in S} f(x)$ as shorthand for
@@ -371,18 +413,18 @@ To illustrate these ideas, let us consider the following example of a true theor
 Every connected undirected graph of $n$ vertices has at least $n-1$ edges.
 
 
-We are going to take our time to understand how one would come up with a  proof for [graphconthm](){.ref}, and how we will write it down.
-This will not be the shortest way to prove this theorem, but hopefully following this process will give you some insights on how to produce proofs in general.
+We are going to take our time to understand how one would come up with a  proof for [graphconthm](){.ref}, and how to write such a proof down.
+This will not be the shortest way to prove this theorem, but hopefully following this process will give you some general insights on  reading, writing, and discovering mathematical proofs.
 
 Before trying to prove [graphconthm](){.ref},  we need to understand what it means.
-We start with the terms in the theorems.
-We defined undirected graphs and the notion of connectivity above.
-You can check that a graph $G=(V,E)$ is _connected_ if for every pair $u,v \in V$, there is a path $(u_0,u_1,\ldots,u_k) \in  V^{k+1}$ such that $u_0=u$, $u_k=v$, and $\{ u_i,u_{i+1} \} \in E$ for every $i\in [k]$.
+Let's start with the terms in the theorems.
+We defined undirected graphs and the notion of connectivity in [graphsec](){.ref} above.
+In particular, an undirected graph $G=(V,E)$ is _connected_ if for every pair $u,v \in V$, there is a path $(u_0,u_1,\ldots,u_k) \in  V^{k+1}$ such that $u_0=u$, $u_k=v$, and $\{ u_i,u_{i+1} \} \in E$ for every $i\in [k]$.
 
 > # { .pause }
 It is crucial that at this point you pause and verify that you completely understand the definition of connectivity. Indeed, you should make a habit of pausing after any statement of a theorem, even before looking at the proof, and verifying that you  understand all the terms that the theorem refers to.
 
-To prove this theorem we need to show that there is no $2$-vertex connected graph with fewer than $1$ edges, $3$-vertex connected graph with fewer than $2$ edges, and so on and so forth.
+To prove [graphconthm](){.ref} we need to show that there is no $2$-vertex connected graph with fewer than $1$ edges, $3$-vertex connected graph with fewer than $2$ edges, and so on and so forth.
 One of the best ways to prove a theorem is to first try to _disprove it_.
 By trying to come up with a counterexample, we often understand why it could not be false.
 For example, if you try to draw a $4$-vertex graph with only two edges, you can see that there are basically only two  choices for such a graph as depicted in [figurefourvertexgraph](){.ref}, and in both  there will remain a vertex that is not connected.
@@ -400,7 +442,8 @@ If you have not seen the proof of this theorem before (or don't remember it), th
 There are several ways to approach this proof, but one version is to start by proving it for small graphs, such as graphs with 2,3 or 4 edges, for which we can check all the cases, and then try to extend the proof for larger graphs.
 The technical term for this proof approach is _proof by induction_.
 
-Induction is simply an application of the self-evident  [Modus Ponens](https://en.wikipedia.org/wiki/Modus_ponens) rule that says that if: \
+__Mathematical induction.__
+_Induction_ is simply an application of the self-evident  [Modus Ponens](https://en.wikipedia.org/wiki/Modus_ponens) rule that says that if: \
 
  __(a)__ $P$ implies $Q$ \
 
@@ -409,7 +452,7 @@ and \
 __(b)__ $P$ is true \
 then $Q$ is true.
 
-In the setting of induction we typically have a statement $Q(k)$ about an integer $k$, and we prove that: \
+In the setting of proofs by induction we typically have a statement $Q(k)$ about an integer $k$, and we prove that: \
 
 __(a)__ For every $k>0$, if $Q(0),\ldots,Q(k-1)$ are all true then $Q(k)$ is true \
 
@@ -420,176 +463,127 @@ __(a)__ For every $k>0$, if $Q(0),\ldots,Q(k-1)$ are all true then $Q(k)$ is tru
 (Usually proving __(a)__ is the hard part, though there are examples where the "base case" __(b)__ is quite subtle.)
 By repeatedly applying Modus Ponens, we can see that $Q(1)$ is true, $Q(2)$ is true, etc.. and this implies that  $Q(k)$ is true for every $k$.
 
-In this context, there are several approaches for induction, but one possiblity is to follow our intuition above that with a budget of $k$ edges, we cannot connect to a vertex more than $k-1$ other vertices.
-That is, we will define the statement $Q(k)$ as follows: "For every graph $G=(V,E)$ with at most $k$ edges and every $u\in V$, the number of vertices other than $u$ that are connected to $u$ is at most $k$".
-Note that $Q(n-2)$ implies our theorem, since it means that in an $n$ vertex graph of $n-2$ edges, for every $u\in V$ there would be fewer than $n-2$ vertices other than $u$ that are connected to $u$, and so in particular there would be a vertex $v\in V$ that is not connected to it.
+There are several ways to use induction to prove  [graphconthm](){.ref}.
+One possibility is to follow our intuition above that with a budget of $k$ edges, we cannot connect to a vertex more than $k-1$ other vertices.
+That is, we will define the statement $Q(k)$ as follows: "For every graph $G=(V,E)$ with at most $k$ edges and every $u\in V$, the number of vertices that are connected to $u$ is at most $k+1$". (Recall that $u$ is always connected to itself.)
+Note that $Q(n-2)$ implies our theorem, since it means that in an $n$ vertex graph of $n-2$ edges, there would be at most $n-1$ vertices  that are connected to $u$, and hence in particular there would be _some_ vertex that is not connected to $u$.
+More formally, if we define, given any undirected graph $G$ and vertex $u$ of $G$, the set $C_G(u)$ to contain all  vertices connected to $u$, then the statement $Q(k)$ is that for every undirected graph $G=(V,E)$ with $|E|=k$ and $u\in V$,  $|C_G(u)| \leq k+1$.
 
-The statement $Q(0)$ is obvious: in a graph with zero edges, $u$ is only connected to itself, and so now what we want to prove is that for every $k$, if $Q(0),Q(1),\ldots,Q(k-1)$ are true then so is $Q(k)$.
+To prove that $Q(k)$ is true for every $k$ by induction, we will first prove __(a)__ that $Q(0)$ is true, and then prove __(b)__ that if $Q(0),\ldots,Q(k-1)$ are true then $Q(k)$ is true as well.
+In fact, we will prove the stronger statement __(b')__ that if $Q(k-1)$ is true then $Q(k)$ is true as well.
+(This is a stronger statement because we prove the same conclusion from a weaker assumption.)
+Thus, if we show both __(a)__ and __(b')__ then we complete the proof of [graphconthm](){.ref}.
 
-Once again, a crucial point is to understand _what_ we are trying to prove.
-Since we are trying to prove an _implication_, we can _assume_ the so-called "inductive hypothesis" that $Q(i)$ is true for every $i<k$ and need to prove from this assumption that $Q(k)$ is true.
+
+Proving __(a)__  (i.e., the "base case") is actually quite easy. The statement $Q(0)$ says that if $G$ has zero edges, then $|C_G(u)|=1$, but this is clear because in a graph  with zero edges, $u$ is only connected to itself.
+The heart of the proof is, as typical with induction proofs, is in proving a statement such as __(b')__ (or even the weaker statement __(b)__).
+Since we are trying to prove an _implication_, we can _assume_ the so-called "inductive hypothesis" that $Q(k-1)$ is true  and need to prove from this assumption that $Q(k)$ is true.
 So, suppose that $G=(V,E)$ is a graph of $k$ edges, and $u\in V$.
-Let $C(u)$ be the set of vertices that are connected to $u$ (not including $u$ itself) in $G$.
-We need to prove that $|C(u)| \leq k$.
 Since we can use induction, a natural approach would be to remove an edge $e\in E$ from the graph to create a new graph $G'$ of $k-1$ edges.
-We can use the induction hypothesis to argue that $|C'(u)| \leq k$, where $C'(u)$ is the set of vertices that are connected to $u$ in $G'$.
-Now if we could only argue that adding the edge $e$ adds at most a single vertex to $C'(u)$, then we would be done, as we could argue that $|C(u)| \leq |C'(u)|+1 \leq k+1$.
+We can use the induction hypothesis to argue that $|C_{G'}(u)| \leq k$.
+Now if we could only argue that removing the edge $e$ reduced the connected component of $u$ by at most a single vertex,  then we would be done, as we could argue that $|C_G(u)| \leq |C_{G'}(u)|+1 \leq k+1$.
 
 Alas, this might not be the case.
-It could be that adding a single edge $e$ will greatly increase the size $C'(u)$.
+It could be that removing  a single edge $e$ will greatly reduce the size of $C_{G}(u)$.
 For example that edge might be a "bridge" between two large connected components; such a situation is illustrated in  [effectofoneedgefig](){.ref}.
 
-![Adding a single edge $e$ can greatly increase the number of vertices that are connected to a vertex $u$.](../figure/effectofoneedge.png){#effectofoneedgefig .class width=300px height=300px}
+![Removing a single edge $e$ can greatly decrease the number of vertices that are connected to a vertex $u$.](../figure/effectofoneedge.png){#effectofoneedgefig .class width=300px height=300px}
 
 This might seem as a real stumbling block, and at this point we might go back to the drawing board to see if perhaps the theorem is false after all.
-However, if we look at various concrete examples, we see that in any concrete example, there is always a "good" choice of an edge, adding which will  increase the component connect to $u$ by at most one vertex.
-The crucial observation is that this always holds if we choose an edge  $e = \{ s, w\}$ where $w \in C(u)$ has degree one in the graph $G$, see [degoneconnectivityfig](){.ref}.
+However, if we look at various concrete examples, we see that in any concrete example, there is always a "good" choice of an edge,  adding which will  increase the component connect to $u$ by at most one vertex.
+The crucial observation is that this always holds if we choose an edge  $e = \{ s, w\}$ where $w \in C_G(u)$ has degree one in the graph $G$, see [degoneconnectivityfig](){.ref}.
 The reason is simple.
-Since every path from $u$ to $w$ must pass through $s$ (which is $w$'s only neighbor ')
-Removing the edge $\{s,w \}$ from $G$ only disconnect
+Since every path from $u$ to $w$ must pass through $s$ (which is $w$'s only neighbor), removing the edge $\{ s,w \}$ merely has the effect of disconnecting $w$ from $u$, and hence $C_{G'}(u) = C_G(u) \setminus \{ w \}$ and in particular $|C_{G'}(u)|=|C_G(u)|-1$, which is exactly the condition we needed.
 
 
-If we remove such an edge $\{s,w\}$ from the graph $G$, then in the resulting graph $G'$ the vertex $w$ has degree $0$ and is clearly not connected to $u$.
-
-Now, either $s$ is connected to $u$ in $G'$ or not.
-If $s\not\in C'(u)$, then adding the edge $\{s,w\}$ will not connect any new vertex to $u$.
-Otherwise, adding the edge will only connect $w$ to $u$, and hence increase the size of $C'(u)$ by at most one vertex.
+![Removing an edge $e=\{s,w\}$ where $w\in C_G(u)$ has degree one removes only $w$ from $C_G(u)$. ](../figure/addingdegreeone.png){#addingdegreeonefig .class width=300px height=300px}
 
 
-
-![Adding an edge $e=\{s,w\}$ where $w$ has degree one can increase $C'(u)$ by at most one vertex. ](../figure/addingdegreeone.png){#addingdegreeonefig .class width=300px height=300px}
-
-
-Now the question is whether there will always be a degree one vertex.
+Now the question is whether there will always be a degree one vertex in $C_G(u) \setminus \{u \}$.
 Of course generally we are not guaranteed that a graph would have a degree one vertex, but we are not dealing with a general graph here but rather a graph with a small number of edges.
-Now suppose that $C(u)$ has at least $k+2$ vertices (otherwise we're done), and each one of them (apart from possibly $u$) has degree at least $2$.
-Then  the total number of edges must be at least $k+1.5>k$ since the total of all the degrees in the graph is twice the number of edges (every edge $\{ s, t \}$ contributes once to the degree of $s$ and once to the degree of $t$).
-Since $G$ has at most $k$ edges, we can conclude that it must have a vertex $w\in C(u)$ of degree one.
-Now we can remove  the edge $w$ touches to obtain the graph $G'$, and argue that by the induction hypothesis that $|C'(u)| \leq k$ and hence (by the argument above, and since $w$ has degree one) $|C(u)| \leq k+1$.
+We can assume that $|C_G(u)| > k+1$ (otherwise we're done) and each vertex in $C_G(u)$ must have degree at least one (as otherwise it would not be connected to $u$).
+Thus, the only case where there is no vertex $w\in C_G(u) \setminus \{u\}$  of degree one, is when the degrees of all vertices in $C_G(u)$ are at least $2$.
+But then by [degreesegeslem](){.ref} the number of edges in the graph is at least $\tfrac{1}{2}\cdot 2 \cdot (k+1)>k$, which contradicts our assumption that the graph $G$ has at most $k$ edges.
+Thus we can conclude that either $|C_G(u)| \leq k+1$  (in which case we're done) or there is a degree one vertex $w\neq u$ that is connected to $u$.
+By removing the single edge $e$ that touches $w$, we obtain a $k-1$ edge graph $G'$ which (by the inductive hypothesis) satisfies $|C_{G'}(u)| \leq k$, and hence $|C_G(u)|=|C_{G'}(u) \cup \{ w \}| \leq k+1$.
 
 
 ### Writing down the proof
 
 All of the above was a discussion of how we _discover_ the proof, and convince _ourselves_ that the statement is true.
 However, once we do that, we still need to write it down.
-When writing the proof down we use the benefit of hindsight, and try to streamline what was a messy journey into a linear and easy-to-follow flow of logic that starts with the word __Proof:__ and ends with __QED__.
-All our discussions, examples and digressions can be very insightful, but we keep them outside the space between these two words, where (to use the words of this [excellend handout](http://web.stanford.edu/class/cs103/handouts/110%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
-Let us see how the proof of the theorem looks in this streamlined fashion:
+When writing the proof,   we use the benefit of hindsight, and try to streamline what was a messy journey into a linear and easy-to-follow flow of logic that starts with the word __Proof:__ and ends with __QED__.
+All our discussions, examples and digressions can be very insightful, but we keep them outside the space delimited between these two words, where (to use the words of this [excellend handout](http://web.stanford.edu/class/cs103/handouts/110%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
+Just like we do in programming, we can break the proof into little "subroutines" or "functions" (known as _lemmas_ or _claims_ in math language), which will be smaller statements that help us prove the main result.
+However, it should always be crystal-clear to the reader in what stage we are of the proof.
+That is, just like it should always be clear to which function a line of code belongs to, it should always be clear whether a sentence in the overall proof is part of the proof of an intermediate result, or part of the argument showing that this intermediate result implies the theorem.
+Sometimes we highlight this partition by noting after each occurence of  __QED__ to which lemma or claim it belongs.
 
-> # {.proof data-ref="graphconthm"}
-We need to show that for every $n$, a graph $G=(V,E)$ on $n$ vertices with at most $n-2$ edges has a disconnected pair $u,v \in V$.
-We prove the theorem by induction on $n$. The base case is $n=2$: in a graph with two vertices $\{u, v \}$ and zero edges, the pair $u,v$ is disconnected.
+
+Let us see how the proof of [graphconthm](){.ref} looks in this streamlined fashion.
+We start by repeating the theorem statement
+
+> # {.theorem title="Minimum edges for connected graphs (restated)" #graphconthmpf}
+Every connected undirected graph of $n$ vertices has at least $n-1$ edges.
+
+> # {.proof data-ref="graphconthmpf"}
+The proof will follow from the following lemma:
 >
-Now suppose that the theorem is true for graphs of $n-1$ vertices and we will prove it for $n$.
-We will use the following intermediate claim:
+>> # {.lemma #graphcontlem}
+>For every $k\in \N$, undirected graph $G=(V,E)$ of at most $k$ edges, and $u\in V$, the number of vertices connected to $u$ in $G$ is at most $k+1$.
 >
-__Claim:__ If $G=(V,E)$ is an $n$ vertex graph of less than $n$ edges, then it contains a vertex $w$ of degree at most one.
+>We start by showing that [graphcontlem](){.ref} implies the theorem:
 >
-__Proof of claim:__ Suppose towards the sake of contradiction that every vertex $w\in V$ has  degree at least two. For every $s,t\in V$ we will define the number $A_{s,t}$ to equal $1$ if $\{s,t\} \in E$ and $A_{s,t}=0$ otherwise. Define $S=\sum_{s\in V}\sum_{t\in V} A_{s,t}$.
-Note that $S=2|E|$ since  every edge $\{s,t\}$ contributes to this sum the two terms $A_{s,t}$ and $A_{t,s}$.  
-Since for every $s$, $\sum_{t\in V} A_{s,t}$ is equal to the degree of $s$, under our assumption  $S \geq 2n$, and hence we get $|E| \geq n$, contradicting our assumption.
+>>__Proof of [graphconthmpf](){.ref} from [graphcontlem](){.ref}:__ We will show that for undirected graph $G=(V,E)$ of $n$ vertices and at most $n-2$ edges, there is a pair $u,v$ of vertices that are disconnected in $G$. let $G$ be such a graph and $u$ be some vertex of $G$. By [graphcontlem](){.ref}, the number of vertices connected to $u$ is at most $n-1$, and hence (since $|V|=n$) there is a vertex $v\in V$ that is not connected to $u$, thus completing the proof. __QED (Proof of [graphconthm](){.ref} from [graphcontlem](){.ref})__
 >
-Given the claim, under our assumption that $G$ is a graph of $n$ vertices and at most $n-2$ edges, we can find a vertex $w$ in $G$ of degree zero or one.
-If $w$ has degree zero then it is disconnected from every vertex $u\neq w$ of $G$ and so we're done.
-Otherwise $w$ has one neighbor $s$.
-We remove from $G$ the vertex $w$ and the edge $\{w,s \}$ to obtain an $n-1$ graph $G'$ with at most $n-3$ edges.
-By the induction hypothesis, $G'$ contains a pair $u,v$ of vertices that are disconnected in $G'$.
-To conclude the proof we need to prove the following claim:
+>We now turn to proving [graphcontlem](){.ref}. Let $G=(V,E)$ be an undirected graph of $k$ vertices and $u\in V$. We define $C_G(u)$ to be the set of vertices connected to $u$. To complete the proof of  [graphcontlem](){.ref}, we need to prove that $|C_G(u)| \leq k+1$. We will do so by induction on $k$.
 >
-__Claim:__ The vertices $u,v$ from above are disconnected in $G$ as well.
+>The _base_ case that $k=0$ follows since in a graph with zero edges, $u$ is only connected to itself.
 >
-__Proof:__ Suppose that there is a path in $G$ from $u$ to $v$, We claim that these are disconnected in $G$ as well.
-Indeed, suppose that there was a path in $G$
+>Now suppose that [graphcontlem](){.ref} is true for $k-1$ and we will prove it for $k$.
+>Let $G=(V,E)$ and $u\in V$ be as above, where $|E|=k$, and suppose (towards a contradiction) that $|C_G(u)| \geq k+2$. Let $S = C_G(u) \setminus \{u \}$.
+Denote by $deg(v)$ the degree of any vertex $v$.
+By [degreesegeslem](){.ref}, $\sum_{v\in S} deg(v) \leq \sum_{v\in V} deg(v) = 2|E|=2k$.
+Hence in particular, under our assumption that $|S|+1=|C_G(u)| \geq k+2$, we get that $\tfrac{1}{|S|}\sum_{v\in S} deg(v) \leq 2k/(k+2)< 2$.
+In other words, the _average_ degree of a vertex in $S$ is smaller than $2$, and hence in particular there is some vertex $w\in S$ with degree smaller than $2$.
+Since $w$ is connected to $u$, it must have degree at least one, and hence (since $w$'s degree is smaller than two) degree exactly one, or in other words, $w$ has a single neighbor which we denote by $s$.
+Let $G'$ be the graph obtained by removing the edge $\{ s, w\}$.
+Since $G'$ has at most $k-1$ edges, by the inductive hypothesis we can assume that $|C_{G'}(u)| \leq k$.
+The proof of the lemma will be concluded by showing the following claim:
+>
+>>__Claim:__ Under the above assumptions, $|C_G(u)| \leq |C_{G'}(u)|+1$.
+>
+>>__Proof of claim:__ This will follow by showing that $C_{G'}(u) \supseteq C_G(u) \setminus \{ w \}$. Indeed, if $v \neq w$ is connected to $u$, then by [simplepathlem](){.ref} there must be some _simple_ path $(t_0,t_1,\ldots,t_{i-1},t_i)$ in the graph $G$ where $t_0=u$ and $t_i=v$. But $w$ cannot belong to this path, since $w \neq \{u,v \}$, and $w$ cannot equal one of the $t_j$'s for $0 < j < i$ since $w$ has only a single neighbor $s$, and hence if $w=t_j$ then it would have to hold that $s=t_{j-1}=t_{j+1}$, contradicting the simplicity of the path.
+Hence the path from $u$ to $v$ is also a path in the graph $G'$, which means that $v \in C_{G'}(u)$, which is what we wanted to prove. __QED (claim)__
+>
+>The claim implies [graphcontlem](){.ref} since by the inductive assumption, $|C_{G'}(u)| \leq k$, and hence by the claim $|C_G(u)| \leq k$, which is what we wanted to prove. This concludes the proof of [graphcontlem](){.ref} and hence also of [graphconthmpf](){.ref}. __QED ([graphcontlem](){.ref})__, __QED ([[graphconthmpf](){.ref}](){.ref})__
+
+> # { .pause }
+Reading a proof is no less of an important skill than producing one.
+In fact, just like understanding code, it is a highly non-trivial skill in itself.
+Therefore I strongly suggest that you re-read the above proof, asking yourself at every sentence whether the assumption it makes are justified, and whether this sentence truly demonstrates what it purports to achieve.
+
+The proof above used the observation that if the _average_ of some $n$ numbers $x_0,\ldots,x_{n-1}$ is at most $X$, then there must _exists_ at least a single number $x_i \leq X$. (In the proof the numbers were the degrees of vertices in $S$.)
+This is known as the _averaging principle_, and despite its simplicity, it is often extremely useful.
 
 
-we have that $A_{s,t}=A_{t,s}=1$, we get that t
-If $G=(V,E)$ is an $n$-vertex graph of at most $n-2$ edges and it contains a vertex $w$ of degree zero then $w$ is disconnected from every other vertex and so we're done.
 
+## Proof writing style
 
-
-## Example: There are infinitely many primes
-
-A classical example for a proof is Euclid's proof that there are infinitely many prime numbers.
-The first step is to understand what this statement means.
-One way to state this statement is that there is no largest prime number: for every number $N$, there is always a prime number $p$ that is larger than $N$.
-Now that we understand the statement, we can try to prove it.
-
-We can start by thinking why think this statement should be true or, equivalently, why it couldn't be false.
-If this statement was false, then there would be some number $N$ such that every number $M>N$ is _composite_: $M$ always has some divisors different than $1$ and itself.
-If any of the  divisors  is itself larger than $N$ then it must be composite as well, and hence we can decompose it further.
-Thus we can conclude that if we assume our original statement is false then every number $M>N$ has a divisor $K$ that is between $2$ and $N$.
-But consider the number $M$ defined as $N!+1 = (1\cdot 2 \cdots N) + 1$.
-If we divide $M$ by any number $K$  between $2$ and $N$, the remainder is $1$ and so in particular $M$ is not evenly divisible by $K$, contradicting our claim above that $M$ must have a divisor in that range.
-Hence the assumption that all primes are at most $N$ led to a contradiction, and so our original statement must have been true.
-
-The above is a perfectly valid proof, but just like it is often helpful to break down a computer  program to several functions, it is often useful to break proofs into simpler claims.
-Let us start by stating the statement as theorem:
-
-> # {.theorem  title="Infinitude of primes" #inf-primes-thm}
-For every natural number $N$, there exists a prime $p>N$.
-
-
-To prove [inf-primes-thm](){.ref}, we use the following intermediate statement (called a "lemma" in mathspeak):
-
-> # {.lemma title="Factoring" #inter-claim}
-Every integer $M \geq 2$ can be written as a product $M=P\cdot A$ where $P$ is prime and $A$ is a positive natural number.
-
-
->#{.proof data-ref="inter-claim"}
-We prove the lemma  by induction on $M$.^[We discuss proofs by induction below, and the [CS 121 website](http://www.boazbarak.org/cs121/background/) contains more links to resources.]
-It is clearly true when $M=2$ since when $2$ is a prime and so we can write $2=2\cdot 1$.
-To prove the claim we need to show that if it   is true for all numbers between $2$ and $M-1$ then it is true for $M$ as well.
-If $M$ is prime, then since $M = M \cdot 1$, the claim is true for $M$ as well.
-Otherwise, we can write $M=B\cdot C$ where both $B$ and $C$ are between $2$ and $M-1$.
-Hence by the induction hypothesis we can write $B=P\cdot A'$ for prime $P$, which means that $M=P \cdot (A'\cdot C)$ hence proving the claim for $M$.^[Notice the similarity between proofs and code in how we "define" variables such as $P,A'$ which we can think of as being the values that are "returned" to us from a "recursive call" to the induction hypothesis. However, if you find this viewpoint more confusing than helpul, feel free to ignore it.]
-
-
-We now use [inter-claim](){.ref} to prove [inf-primes-thm](){.ref}:
-
-> # {.proof data-ref="inf-primes-thm"}
-Suppose toward the sake of contradiction that there exists some $N$ s.t. all primes are between $2$ and $N$, and let $M$ be the number $N!+1 = (1\cdot 2 \cdot 3 \cdots N)+1$. By the claim, we can write $M = P\cdot A$ for a prime $P$, and so we get the equation
-$$
-PA =  (1 \cdots N) + 1  \;. \label{eqprimes}
-$$
-Divide both sides of [eqprimes](){.eqref} by $P$ to get
-$$
-A = (1\cdots N)/P + 1/P \;, \label{eqprimestwo}
-$$
-the lefthand side of [eqprimestwo](){.eqref} is a natural number, while, since $P$ is prime, under our assumption it is between $2$ and $N$, and hence the righthand side is equal to the natural number
-$$
-2 \times 3 \times \cdots \times (P-1) \times (P+1) \times \cdots \times N = \prod_{B \in \{2,\ldots,N\} \setminus \{P \}} B
-$$
-plus the fraction $1/P$, yielding a contradiction.^[We discuss below mathematical notation, including the shorthands $\sum$ and $\prod$ for sums and products.]
-
-
-When you first start writing proofs, it is good to err on the side of being a little more rigorous and formal, but like in coding, you should always make sure that you are not adding _unnecessary_ formalism, and trying to obfuscate invalid reasoning by using formal symbols.
-So (again like in programming) before you start writing down a proof formally, you want to make sure that you understand _what_ is the statement that you are trying to prove and _why_ it is in fact true.
-
-> # {.exercise title="Irrationality of the square root of 3" #sqrt3irrat}
-Write a proof that $\sqrt{3}$ is irrational in the following stages: \
-a. Write a statement X that of the form "there are no integers $a$, $b$ that satisfy 'blah' " such that X will be  equivalent to the statement  "$\sqrt{3}$ is irrational". \
-b. Convince _yourself_ that X is true. \
-c. Write down an informal argument to convince a friend of yours that X is true. \
-d. Write down a formal proof that X is true.
-
-> # {.exercise title="Irrationality of square roots of primes" #sqrtPirrat}
-Prove that for every prime number $p$,  $\sqrt{p}$ is irrational.
-Is it possible to extend this to show that this is true even for numbers that are prime powers? In particular, can you show that if $n=p^4$ for a prime number $p$, then $\sqrt{n}$ is irrational?
-
-### Writing proofs
-
-Once you have convinced yourself that a statement $X$ is true, and you understand the logical argument that proves it, it is time to write down the proof.
-A mathematical proof is a piece of writing, but it is a specific genre of writing with certain conventions and style.
+A mathematical proof is a piece of writing, but it is a specific genre of writing with certain conventions and preferred styles.
 As in any writing, practice makes perfect, and it is also important to revise your drafts for clarity.
 
-In a proof for the statement $X$, all the text between the words "Proof:" and "QED" should be focused on establishing that $X$ is true.
-Digressions, examples, or ruminations will just confuse the reader.
+In a proof for the statement $X$, all the text between the words __"Proof:"__ and __"QED"__ should be focused on establishing that $X$ is true.
+Digressions, examples, or ruminations should be kept outside these two words, so they do not confuse the reader.
 The proof should have a clear logical flow in the sense that every sentence or equation in it should have some purpose and it should be crystal-clear to the reader what this purpose is.
 When you write a proof, for every equation or sentence you include, ask yourself:
 
-1. Is this sentence or equation stating that some proposition is true?
-2. If so, does this proposition follow from the previous steps,  or are we going to establish it in the next step?
-3. What is the _role_ of this sentence or equation? Is it one step towards proving the original statement, or is it a step towards proving some intermediate claim that you have statebed before?
+1. Is this sentence or equation stating that some statement is true?
+
+2. If so, does this statement   follow from the previous steps,  or are we going to establish it in the next step?
+
+3. What is the _role_ of this sentence  or equation? Is it one step towards proving the original statement, or is it a step towards proving some intermediate claim that you have stated before?
+
 4. Finally, would the answers to questions 1-3 be clear to the reader? If not, then you should reorder, rephrase or add explanations.
 
 
@@ -608,12 +602,13 @@ __Proofs of a universal statement:__ Often we want to prove a statement $X$ of t
 Here is a simple example:
 
 > # {.lemma }
-Every linear equation in one variable has a solution
+For every natural number $n\in N$, either $n$ or $n+1$ is even.
+
 
 > # {.proof}
-Let $ax+b=0$ be a linear equation in the single variable $x$.
-Since the equation involves the variable $x$, it must be that $a \neq 0$.
-Hence $x = -b/a$ is a solution for the equation.
+Let $n\in N$ be some number.
+If $n/2$ is a whole number then we are done, since then $n=2(n/2)$ and hence it is even.
+Otherwise, $n/2+1/2$ is a whole number, and hence $2(n/2+1/2)=n+1$ is even.
 
 __Proofs of an implication:__ Another common case is that the statement $X$ has the form "$A$ implies $B$". Such proofs often start with a sentence such as "Assume that $A$ is true" and end with a derivation of $B$ from $A$.
 Here is a simple example:
@@ -624,7 +619,7 @@ If $b^2 \geq 4ac$ then there is a solution to the quadratic equation $ax^2 + bx 
 > # {.proof }
 Suppose that $b^2 \geq 4ac$.
 Then $d = b^2 - 4ac$ is a non-negative number and hence it has a square root $s$.
-Then $x = (-b+s)/(2a)$ satisfies
+Thus $x = (-b+s)/(2a)$ satisfies
 $$
 ax^2 + bx + c = a(-b+s)^2/(4a^2) + b(-b+s)/(2a) + c = (b^2-2bs+s^2)/(4a)+(-b^2+bs)/(2a)+c \;. \label{eq:quadeq}
 $$
@@ -638,44 +633,24 @@ If a statement has the form "$A$ holds if and only if $B$ holds" then we need to
 __Proofs by combining intermediate claims:__
 When a proof is more complex, it is often helpful to break it apart into several steps.
 That is, to prove the statement $X$, we might first prove statements $X_1$,$X_2$, and $X_3$ and then prove that $X_1 \wedge X_2 \wedge X_3$ implies $X$.^[As mentioned below, $\wedge$ denotes the logical AND operator.]
-We've seen an example of such a proof in [inf-primes-thm](){.ref}.
+Our proof of [graphconthm](){.ref} had this form.
 
-__Proofs by induction:__ We can think of such proofs as a variant of the above, where we have an unbounded number of intermediate claims $X_1,X_2,\ldots,X_n$, and we prove that $X_1$ is true, as well as that if $X_1 \wedge \ldots \wedge X_i$  is true then then $X_{i+1}$ is true. We discuss proofs by inductions below.
-
-
-
-
-
-
-
-
-
+__Proofs by induction:__ We can think of such proofs as a variant of the above, where we have an unbounded number of intermediate claims $X_0,X_2,\ldots,X_k$, and we prove that $X_0$ is true, as well that $X_0$ implies $X_1$, and that $X_0  \wedge X_1$ implies $X_2$, and so on and so forth.
 The website for CMU course 15-251 contains a [useful handout](http://www.cs.cmu.edu/~./15251/notes/induction-pitfalls.pdf) on potential pitfalls when making proofs by induction.
 
 
-## Logic, graphs, discrete probability
+## Non-standard notation
 
-Later in this course we will encounter several other topics including:
+Most of the notation we discussed above is standard and is used in most mathematical texts.
+The main points where we diverge are:
 
-* Logical operators such as AND ($\wedge$), OR ($\vee$), and NOT ($\neg$), as well as the quantifiers $\forall$ and $\exists$.  
+* We index the natural numbers $\N$ starting with $0$ (though many other texts, especially in computer science, do the same).
 
-* Graphs: directed, and undirected, including notions such as degree, paths, connectivity, cycles and trees.
+* We also index the set $[n]$ starting with $0$, and hence define it as $\{0,\ldots,n-1\}$. In most texts it is defined as $\{1,\ldots, n \}$. Similarly, we index coordinates of our strings starting with $0$, and hence a string $x\in \{0,1\}^n$ is written as $x_0x_1\cdots x_{n-1}$.
 
-* Discrete probability: probabilistic events, random variable, expectation, variance and concentration (a.k.a tail) bounds.
+* We use _partial_ functions which are functions that are not necessarily  defined on all inputs. When we write $f:A \rightarrow B$ this will refer to a _total_ function unless we say otherwise. When we want to emphasize that $f$ can be  a partial function, we will sometimes write $f: A \rightarrow_p B$.
 
-As with the other topics mentioned here, you can review these notions using the  lecture notes of [Lehman, Leighton and Meyer](http://www.boazbarak.org/cs121/LLM_June17.pdf) or the other resources mentioned on the [CS 121 website](http://www.boazbarak.org/cs121/background/).
-
-
-## Mathematical notation
-
-
-* __Functions:__ If $S,T$ are sets, then we write $f:S \rightarrow T$ to indicate the $f$ is a function mapping elements of $S$ to elements of $T$. A _partial function_ is one that might not be defined on all inputs in $S$.
-
-* __Summations, products:__ If $f:A \rightarrow B$ is some function and $C \subseteq A$, then we write $\sum_{x\in C} f(x)$ to denote that result of adding $f(x)$ for all $x$'s in $C$. The most common case is when $f$ is a function on $\N$ and $C = \{ a,a+1,\ldots,b-1,b \}$ in which case we often write this as $\sum_{n=a}^n f(n)$. We can also write $\prod_{x\in C} f(x)$ or $\prod_{n=a}^b f(n)$ to denote the result of taking a product over all these terms.
-
-* __Graphs:__ A graph $G=(V,E)$ consists of a set of _vertices_ $V$ and a set of _edges_ $E$. In an _undirected_ graph, every member of $E$ is a size-two subset of $V$. In a _directed_ graph, every member of $E$ is an ordered pair of elements of $V$.
-A vertex $v$ is a _neighbor_ of $u$ if the edge $(u,v)$ is in $E$.
-A _path_ in the graph is a sequence $(v_0,v_1,\ldots,v_k)$ of vertices such that $v_{i+1}$ is a neighbor of $v_i$ for every $i\in [k]$.
+* As we will see later on in the course, we will mostly describe our computational problems in the terms of computing a _Boolean function_ $f: \{0,1\}^* \rightarrow \{0,1\}$. In contrast, most textbooks will refer to this as the task of _deciding a language_ $L \subseteq \{0,1\}^*$. These two viewpoints are equivalent, sicne for every set $L\subseteq \{0,1\}^*$ there is a corresponding  function $f = 1_L$ such that $f(x)=1$ if and only if $x\in L$. Computing _partial functions_ corresponds to the task known in the literature as a solving a _promise problem_.^[Because the language notation is so prevalent in textbooks, we will occasionally remind the reader of this correspondence.]
 
 ## Exercises
 
