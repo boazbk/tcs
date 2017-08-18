@@ -201,6 +201,9 @@ They are used to model a variety of data types including social networks, road n
 The formal definitions of graphs are below, but if you have not encountered them before then I urge you to read up on them in one of the sources linked above.
 Graphs come in two basic flavors: _undirected_ and _directed_.^[It is possible, and sometimes useful, to think of an undirected graph as simply a  directed graph with  the special property that for every pair $u,v$ either both the edges $\overrightarrow{u v}$ and $\overleftarrow{u v}$ are present or neither of them is. However, in many settings there is  a significant difference between  undirected and directed graphs, and so it's typically best to think of them as separate categories.]
 
+![An example of an undirected and a directed graph. The undirected graph has vertex set $\{1,2,3,4\}$ and edge set $\{ \{1,2\},\{2,3\},\{3,4\},\{2,4\} \}$. The directed graph has vertex set $\{a,b,c\}$ and the edge set $\{ (a,b),(b,c),(c,a),(a,c) \}$.](../figure/graphsexampe.png){#graphsexampefig .class width=300px height=300px}
+
+
 __Undirected graphs.__ An _undirected graph_ $G = (V,E)$ consists of a set $V$ of _vertices_ and a set $E$ of edges.
 Every edge is a size two subset of $V$.
 We say that two vertices $u,v \in V$ are _neighbors_, denoted by $u \sim v$, if the edge $\{u,v\}$ is in $E$.
