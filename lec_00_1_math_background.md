@@ -350,7 +350,8 @@ It's often convenient to use "anonymous functions" when using Oh notation and to
 For example, when we write a statement such as $F(n) = O(n^3)$, we mean that  $F=O(G)$ where $G$ is the function defined by $G(n)=n^3$.
 
 
-__Some "rules of thumbs" for big Oh notation:__
+### Some "rules of thumbs" for big Oh notation
+
 There are some simple heuristics that can help when trying to compare two functions $F$ and $G$:
 
 * Multiplicative constants don't matter in Oh notation, and so if $F(n)=O(G(n))$ then $100F(n)=O(G(n))$.
@@ -403,7 +404,7 @@ Writing a _program_ involves:
 3. Converting this plan into code that a compiler or interpreter can understand, by breaking up each task into a sequence of the basic operations of some programming language.
 
 In programs as in proofs, step 1 is often the most important one.
-A key difference is that the reader for proofs is a human being and for programs is a compiler.^[This difference might be eroding with time, as more proofs are being written in a _machine verifiable form_ and progress in artificial intelligence allows expressing programs in more human friendly ways, such as "programming by example". Interestingly, much of the progress in automatic proof verification and proof assistants relies on a much deeper correspondence between _proofs_ and _programs_. We _might_ see this correspondence later in this course.]
+A key difference is that the reader for proofs is a human being and for programs is a compiler.^[This difference might be eroding with time, as more proofs are being written in a _machine verifiable form_ and progress in artificial intelligence allows expressing programs in more human friendly ways, such as "programming by example". Interestingly, much of the progress in automatic proof verification and proof assistants relies on a [much deeper correspondence](http://homepages.inf.ed.ac.uk/wadler/papers/propositions-as-types/propositions-as-types.pdf) between _proofs_ and _programs_. We _might_ see this correspondence later in this course.]
 Thus our emphasis is on _readability_ and having a _clear logical flow_ for the proof (which is not a bad idea for programs as well..).
 For the purposes of this course, you can think of the human reader as an intelligent but highly skeptical reader, that will "call foul" at every step that is not well justified.
 
