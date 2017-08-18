@@ -82,7 +82,7 @@ index:
     draft: false
 
   - num: 14.
-    name: Wnat if P=NP?
+    name: What if P=NP?
     file: lec_14_PvsNP
     draft: false
 
