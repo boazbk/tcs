@@ -292,7 +292,7 @@ $$
 For example, the sum of the squares of all numbers from $1$ to $100$ can be written as
 
 $$
-\sum_{i\in \{1,\ldots,100}} i^2 \;. \label{eqsumsquarehundred}
+\sum_{i\in \{1,\ldots,100\}} i^2 \;. \label{eqsumsquarehundred}
 $$
 
 Since summing up over intervals of integers is so common, there is  a special notation for it, and for every two integers $a \leq b$,  $\sum_{i=a}^b f(i)$ denotes $\sum_{i\in S} f(i)$ where $S =\{ x\in \Z : a \leq x \leq b \}$.
