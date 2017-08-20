@@ -3,6 +3,8 @@
 
 >_"Young man, in mathematics you don't understand things. You just get used to them."_, John von Neumann
 
+
+
 In this chapter, we  review some of the mathematical concepts that we will use in this course.
 Most of these are not very complicated, but do require some practice and exercise to get comfortable with.
 If you have not previously encountered some of these concepts, there are several excellent freely-available resources online for them.
@@ -13,7 +15,7 @@ In particular, the [CS 121 webpage](http://www.boazbarak.org/cs121/background/) 
 Before explaining the math background, perhaps I should explain why does this course is so "mathematically heavy".
 After all, this is supposed to be a course about _computation_; one might think we should be talking mostly about  _programs_, rather than more "mathematical" objects such as  _sets_, _functions_, and _graphs_, and doing more _coding_ on an actual computer than writing mathematical proofs with pen and paper.
 So, why are we doing so much math in this course?
-Is it just some form of hazing? Perhaps a revenge of the [math nerds against the code monkeys](https://blog.smartbear.com/careers/math-nerds-vs-code-monkeys-should-computer-science-classes-be-more-practical/)?
+Is it just some form of hazing? Perhaps a revenge of the ["math nerds" against the "hackers"](https://blog.smartbear.com/careers/math-nerds-vs-code-monkeys-should-computer-science-classes-be-more-practical/)?
 
 At the end of the day, mathematics is simply a language for modelling concepts in a precise and unambiguous way.
 In this course,  we will be mostly interested in the concept of _computation_.
@@ -532,7 +534,7 @@ This suffices to complete an inductive proof of statement $Q(k)$.
 
 All of the above was a discussion of how we _discover_ the proof, and convince _ourselves_ that the statement is true.
 However, once we do that, we still need to write it down.
-When writing the proof,   we use the benefit of hindsight, and try to streamline what was a messy journey into a linear and easy-to-follow flow of logic that starts with the word __"Proof:"__ and ends with  __"QED"__ or the symbol ∎.^[QED stands for "quod erat demonstrandum", which is "What was to be demonstrated." or  "The very thing it was required to have shown." in Latin.]
+When writing the proof,   we use the benefit of hindsight, and try to streamline what was a messy journey into a linear and easy-to-follow flow of logic that starts with the word __"Proof:"__ and ends with  __"QED"__ or the symbol $\blacksquare$.^[QED stands for "quod erat demonstrandum", which is "What was to be demonstrated." or  "The very thing it was required to have shown." in Latin.]
 All our discussions, examples and digressions can be very insightful, but we keep them outside the space delimited between these two words, where (as described by this [excellent handout](http://web.stanford.edu/class/cs103/handouts/110%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
 Just like we do in programming, we can break the proof into little "subroutines" or "functions" (known as _lemmas_ or _claims_ in math language), which will be smaller statements that help us prove the main result.
 However, it should always be crystal-clear to the reader in what stage we are of the proof.
