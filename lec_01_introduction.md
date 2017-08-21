@@ -3,7 +3,7 @@
 >_"Computer Science is no more about computers than astronomy is about telescopes"_,  attributed to Edsger Dijkstra.^[This quote is typically read as disparaging the importance of actual physical computers in Computer Science, but note that telescopes are absolutely essential to astronomy and are our only means of connecting theoretical speculations with actual experimental observations.]
 
 
->_"Hackers need to understand the theory of computation about as much as painters need to understand paint chemistry."_ , Paul Graham 2003.^[To be fair, in the following sentence Graham says "you need to know how to calculate time and space complexity and about Turing completeness", which will be taught in this course. Apparently, NP-hardness, randomization, cryptography, and quantum computing are not essential to a hacker's education.]
+>_"Hackers need to understand the theory of computation about as much as painters need to understand paint chemistry."_ , Paul Graham 2003.^[To be fair, in the following sentence Graham says "you need to know how to calculate time and space complexity and about Turing completeness". Apparently, NP-hardness, randomization, cryptography, and quantum computing are not essential to a hacker's education.]
 
 
 >_"The subject of my talk is perhaps most directly indicated by simply
@@ -14,7 +14,7 @@ addition, and this proves something of a stumbling block."_,  Alan Cobham, 1964
 
 
 The origin of much of science and medicine can be traced back to the ancient Babylonians.
-But perhaps their greatest contribution to society was the invention of the _place-value number system_.
+But perhaps their greatest contribution to humanity was the invention of the _place-value number system_.
 This is the idea that we can represent any number using a fixed number of digits, whereby the _position_ of the digit is used to determine the corresponding value, as opposed to system such as  Roman numerals, where every symbol has a fixed numerical value regardless of position.
 For example, the distance to the moon is 238,900 of our miles or 259,956 Roman miles.
 The latter quantity, expressed in standard Roman numerals is
@@ -27,7 +27,7 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 MMMMMMMMMMMMMMMDCCCCLVI
 ```
 
-Writing the distance to the sun in Roman numerals would require about 100,000 symbols.
+Writing the distance to the sun in Roman numerals would require about 100,000 symbols: a 50 page book just containing this single number!
 
 This means that for someone that thinks of numbers in an additive  system like Roman numerals, quantities like the distance to the moon or sun are not merely large- they are _unspeakable_: cannot be expressed or even grasped.
 It's no wonder that Eratosthene, who was the first person to calculate the earth's diameter (up to about ten percent error) and Hipparchus who was the first to calculate the distance to the moon, did not use a Roman-numeral type system but rather  the Babylonian sexadecimal (i.e., base 60) place-value system.
@@ -35,16 +35,42 @@ It's no wonder that Eratosthene, who was the first person to calculate the earth
 The Babylonians also invented the precursors of "standard algorithms" that we were all taught in elementary school for adding and multiplying numbers.^[For more on the actual algorithms the Babylonians used, see [Knuth's paper](http://steiner.math.nthu.edu.tw/disk5/js/computer/1.pdf) and Neugebauer's [classic book](https://www.amazon.com/Exact-Sciences-Antiquity-Neugebauer/dp/0486223329).]
 These algorithms and their variants have  been  of course essential to people throughout history  working with abaci, papyrus, or pencil and paper, but in our computer age, do they really serve any purpose beyond torturing third graders?
 
-To answer this question, let us try to see in what sense is the standard digit by digit multiplication algorithm "better" than the straightforward implementation of multiplication as iterated addition. Suppose that $x$ and $y$ are two numbers of $n$ decimal digits each. Adding two such numbers takes between $n$ to $2n$ single digit additions (depending on how many times we need to use a "carry"), and so adding $x$ to itself $y$ times will take between $n\cdot y$ to $2n\cdot y$ single digit additions.^[Actually the number of single digit additions might grow up to $3n\cdot y$ since as we add $x$ to itself the number of digits in our running sum could reach $2n$.] In contrast, the standard algorithm reduces this problem to taking $n$ products of $x$ with a single digit (which require up to $2n$ single digit operations each, depending on carries) and then adding all of those together (total of $n$ additions, which would cost at most $2n\cdot n$ single digit operations) for a total of at most $4n^2$ single digit operations. How much faster would $4n^2$ operations be than $n\cdot y$? and would this make any difference in a modern computer?
 
-Let us consider the case of multiplying so called "double precision"  64 bit or 20 digit numbers.
+To answer this question, let us try to see in what sense is the standard digit by digit multiplication algorithm "better" than the straightforward implementation of multiplication as iterated addition.
+Let's start by more formally describing both algorithm:
+
+>__Naive multiplication algorithm:__ \
+>__Input:__ Non-negative integers $x,y$ \
+>__Operation:__ \
+>1. Let  $result \leftarrow 0$. \
+>2. For $i=1,\ldots,y$: set $result \leftarrow result + x$ \
+>3. Output $result$
+
+
+
+>__Standard gradeschool multiplication algorithm:__ \
+>__Input:__ Non-negative integers $x,y$ \
+>__Operation:__ \
+>1. Let $n$ be number of digits of $y$, and set $result \leftarrow 0$. \
+>2. For $i=0,\ldots,n-1$: set $result \leftarrow result + 10^i\times y_i \times x$, where $y_i$ is the $i$-th digit of $y$ (i.e. $y= 10^0 y_0 + 10^1y_1 + \cdots + y_{n-1}10^{n-1}$) \
+>3. Output $result$
+
+Both algorithms assume that we already know how to add numbers, and the second one also assumes that we can multiply a number by a power of $10$ (which is after all a simple shift) as well as multiply by a single digit (which like addition, is done by multiplying each digit and propagating carries).
+Now suppose that $x$ and $y$ are two numbers of $n$ decimal digits each.
+Adding two such numbers takes at least $n$  single digit additions (depending on how many times we need to use a "carry"), and so adding $x$ to itself $y$ times will take at least  $n\cdot y$ single digit additions.
+In contrast, the standard gradeschool algorithm reduces this problem to taking $n$ products of $x$ with a single digit (which require up to $2n$ single digit operations each, depending on carries) and then adding all of those together (total of $n$ additions, which, again depending on carries, would cost at most $2n^2$ single digit operations) for a total of at most $4n^2$ single digit operations.
+How much faster would $4n^2$ operations be than $n\cdot y$? and would this make any difference in a modern computer?
+
+Let us consider the case of multiplying 64 bit or 20 digit numbers.^[This is a common size in several programming languages; for example the `long` data type in the Java programming language, and (depending on architecture) the `long` or `long long` types in C.]
 That is, the task of multiplying two numbers $x,y$ that are between $10^{19}$ and $10^{20}$.
-Since in this case $n=20$, the standard algorithm would use at most  $4n^2=1600$ single digit operations, while repeated addition would require at least $n\cdot y \geq 20\cdot 10^{19}$ single digit operations. To understand the difference, a human being might do a single digit operation in about 2 seconds, requiring just under an hour to complete the calculation, while a modern 4Ghz processor might be able to do $10^{10}$ single digit calculations in one second, and hence would take about $10^{10}$ seconds or $317$ years to do the same calculations using naïve iterated addition.
-
+Since in this case $n=20$, the standard algorithm would use at most  $4n^2=1600$ single digit operations, while repeated addition would require at least $n\cdot y \geq 20\cdot 10^{19}$ single digit operations.
+To understand the difference, consider that a human being might do a single digit operation in about 2 seconds, requiring just under an hour to complete the calculation of $x\times y$ using the gradeschool algorithm.
+In contrast, even though it is more than a billion times faster, a modern PC that computes $x\times y$ using  naïve iterated addition would require about $10^{20}/10^9 = 10^{11}$ seconds (which is more than three millenia!) to compute the same result.
 We see that computers have not made algorithms obsolete.
-On the contrary, the vast increase in our ability to measure, store, and communicate data has led to a much higher demand on developing better and more sophisticated algorithms that can allow us to compute  these data and make better decisions based on them.
+
+On the contrary, the vast increase in our ability to measure, store, and communicate data has led to a much higher demand on developing better and more sophisticated algorithms that can allow us to make better decisions based on these data.
 We also see that to a large extent the notion of _algorithm_ is independent of the actual computing device that will execute it.
-The digit by digit standard algorithm is vastly better than iterated addition regardless if the technology to implement it is a silicon based computer chip or a third grader with pen and paper.
+The digit-by-digit standard algorithm is vastly better than iterated addition regardless if the technology implementing it is a silicon based  chip or a third grader with pen and paper.
 
 
 Theoretical computer science is largely about studying the _inherent_ properties of algorithms and computation, that are independent of current technology.
@@ -52,9 +78,8 @@ We ask questions that already pondered by the Babylonians, such as "what is the 
 These types of questions are the topic of this course.
 
 In Computer Science parlance, a scheme such as the decimal (or sexadecimal) positional representation for numbers is known as a _data structure_, while the operations on this representations are known as _algorithms_.
-As we can see from this example, data structures and algorithms are useful beyond  just allowing us to do some things a little quicker.
-They  expand our vocabulary  and allow us to grasp concepts that otherwise would be beyond our comprehension.  
-Structures from computer science, such as bits, strings, graphs, and even the notion of a program itself, as well as concepts such as universality and replication, have not just found practical uses but contributed a new language and a new way to view the world.
+Data structures and algorithms have enabled amazing applications, but their importance goes beyond  their practical utility.
+Structures from computer science, such as bits, strings, graphs, and even the notion of a program itself, as well as concepts such as universality and replication, have not just found (many) practical uses but contributed a new language and a new way to view the world.
 
 ### Example: A faster way to multiply
 
@@ -87,7 +112,7 @@ $$
 (10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10\left[(\overline{x}+\underline{x})(\overline{x}-\underline{y})\right] +(100-1)\overline{x}\overline{y} -(10+1)\underline{x}\underline{y} \label{eq:karatsubatwodigit}
 $$
 
-which reduces multiplying the two-digit number $x$ and $y$ to computing three "simple" multiplications $\overline{x}\overline{y}$, $\underline{x}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$.^[The last term is not exactly a single digit multiplication as $\overline{x}+\underline{x}$ and $\overline{y}+\underline{y}$ are numbers between $0$ and $18$ and not between $0$ and $9$. As we'll see, it turns out that does not make much of a difference, since when we use the algorithm recursively, this term will have essentially half the number of digits as the original input.]
+which reduces multiplying the two-digit number $x$ and $y$ to computing the following three "simple" products:  $\overline{x}\overline{y}$, $\underline{x}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$.^[The last term is not exactly a single digit multiplication as $\overline{x}+\underline{x}$ and $\overline{y}+\underline{y}$ are numbers between $0$ and $18$ and not between $0$ and $9$. As we'll see, it turns out that does not make much of a difference, since when we use the algorithm recursively, this term will have essentially half the number of digits as the original input.]
 
 ![Karatsuba's multiplication algorithm illustrated for multiplying $x=10\overline{x}+\underline{x}$ and $y=10\overline{y}+\underline{y}$. We compute the three orange, green and purple products $\underline{x}\underline{y}$, $\overline{x}\overline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ and then add and subtract them to obtain the result.](../figure/karatsubatwodigit.png){#karatsubafig .class width=300px height=300px}
 
@@ -96,20 +121,30 @@ It turns out that we can repeatedly apply the same idea, and use them to multipl
 If we used the gradeschool based approach then our cost for doubling the number of digits would be to _quadruple_ the number of multiplications, which for $n=2^\ell$ digits would result in about $4^\ell=n^2$ operations.
 In contrast, in Karatsuba's approach doubling the number of digits  only  _triples_ the number of operations,  which means that for $n=2^\ell$ digits we require about $3^\ell = n^{\log_2 3} \sim n^{1.58}$ operations.
 
-Specifically, we use a  _recursive_ strategy as follows.
-Suppose that $n$ is an even number.
-Then we can write two $n$ digit numbers $x$ and $y$ as $10^{n/2}\overline{x} + \underline{x}$ and $10^{n/2}\overline{y}+ \underline{y}$ where $\overline{x},\underline{x},\overline{x},\underline{y}$ are $n/2$ digit numbers.
-Then
+Specifically, we use a  _recursive_ strategy as follows:
+
+>__Karatsuba Multiplication:__ \
+>__Input:__ Non negative integers $x,y$ with the same number of digits $n$ \
+>__Operation:__ \
+>1. If $n=1$ then return $x\cdot y$ (a single digit multiplication)
+>2. Otherwise, let $m = \floor{n/2}$, and write $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \underline{y}$. \
+>2. Use _recursion_ to compute  $A=\overline{x}\overline{y}$, $B=\underline{y}\underline{y}$ and $C=(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ \
+>3. Return $10^n\cdot A  + 10^m \cdot B -(10^m-1)\cdot C$
+
+To understand why the output will be correct, note that since $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \underline{y}$,
+
 $$
-x \times y = 10^n\overline{x}\cdot \overline{y} + 10^{n/2}(\overline{x}\overline{y} +\underline{x}\underline{y}) + \underline{x}\underline{y} \label{eqkarastubaone}
+x \times y = 10^n\overline{x}\cdot \overline{y} + 10^{m}(\overline{x}\overline{y} +\underline{x}\underline{y}) + \underline{x}\underline{y} \label{eqkarastubaone}
 $$
 
 But we can also write the same expression as
+
 $$
-x \times y = 10^n\overline{x}\cdot \overline{y} + 10^{n/2}\left[ (\overline{x}+\underline{x})(\overline{y}+\underline{y}) - \underline{x}\underline{y} \right]  + \underline{x}\underline{y}
+x \times y = 10^n\overline{x}\cdot \overline{y} + 10^{m}\left[ (\overline{x}+\underline{x})(\overline{y}+\underline{y}) - \underline{x}\underline{y} \right]  + \underline{x}\underline{y}
  \label{eqkarastubatwo}
 $$
 
+which gives as the expression 
 The key observation is that the formula [eqkarastubatwo](){.eqref} reduces computing the product of two $n$ digit numbers to computing _three_ products of $n/2$ or $n/2+1$ digit numbers (namely $\overline{x}\overline{y}$, $\underline{y}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ as well as performing a constant number (in fact eight) additions, subtractions, and multiplications by $10^n$ or $10^{n/2}$ (the latter corresponding to simple shifts).
 Intuitively this means that as the number of digits _doubles_, the cost of multiplying _triples_  instead of quadrupling, as happens in the naive algorithm.
 This implies that multiplying numbers of $n=2^\ell$ digits costs about $3^\ell = n^{\log_2 3} \sim n^{1.585}$ operations.
