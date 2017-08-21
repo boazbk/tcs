@@ -127,11 +127,12 @@ Specifically, we use a  _recursive_ strategy as follows:
 >__Input:__ Non negative integers $x,y$ with the same number of digits $n$ \
 >__Operation:__ \
 >1. If $n=1$ then return $x\cdot y$ (a single digit multiplication)
->2. Otherwise, let $m = \floor{n/2}$, and write $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \underline{y}$. \
+>2. Otherwise, let $m = \floor{n/2}$, and write $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \underline{y}$.^[Recall that for a number $x$, $\floor{x}$ is obtained by "rounding down" $x$ to the largest integer smaller or equal to  $x$.] \
 >2. Use _recursion_ to compute  $A=\overline{x}\overline{y}$, $B=\underline{y}\underline{y}$ and $C=(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ \
 >3. Return $10^n\cdot A  + 10^m \cdot B -(10^m-1)\cdot C$
 
-To understand why the output will be correct, note that since $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \underline{y}$,
+To understand why the output will be correct, first note that since it is always that case that $m<n$, the recursive calls will always be for multiplying numbers with a smaller number of digits, and (since eventually we will get to single digit numbers)  the algorithm will indeed terminate.
+Now, since $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \underline{y}$,
 
 $$
 x \times y = 10^n\overline{x}\cdot \overline{y} + 10^{m}(\overline{x}\overline{y} +\underline{x}\underline{y}) + \underline{x}\underline{y} \label{eqkarastubaone}
@@ -144,19 +145,19 @@ x \times y = 10^n\overline{x}\cdot \overline{y} + 10^{m}\left[ (\overline{x}+\un
  \label{eqkarastubatwo}
 $$
 
-which gives as the expression 
-The key observation is that the formula [eqkarastubatwo](){.eqref} reduces computing the product of two $n$ digit numbers to computing _three_ products of $n/2$ or $n/2+1$ digit numbers (namely $\overline{x}\overline{y}$, $\underline{y}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ as well as performing a constant number (in fact eight) additions, subtractions, and multiplications by $10^n$ or $10^{n/2}$ (the latter corresponding to simple shifts).
+which equals to the value $10^n\cdot A  + 10^m \cdot B -(10^m-1)\cdot C$ returned by the algorithm.
+
+
+The key observation is that the formula [eqkarastubatwo](){.eqref} reduces computing the product of two $n$ digit numbers to computing _three_ products of  $\floor{n/2}$ digit numbers (namely $\overline{x}\overline{y}$, $\underline{y}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ as well as performing a constant number (in fact eight) additions, subtractions, and multiplications by $10^n$ or $10^{\floor{n/2}}$ (the latter corresponding to simple shifts).
 Intuitively this means that as the number of digits _doubles_, the cost of multiplying _triples_  instead of quadrupling, as happens in the naive algorithm.
 This implies that multiplying numbers of $n=2^\ell$ digits costs about $3^\ell = n^{\log_2 3} \sim n^{1.585}$ operations.
-In a [karatsuba-ex](){.ref}, you will formally show that the number of single digit operations that Karatsuba's algorithm uses for multiplying $n$ digit integers is at most $1000 n^{\log_2 3}$ (see also [karatsubafig](){.ref}).
+In a [karatsuba-ex](){.ref}, you will formally show that the number of single digit operations that Karatsuba's algorithm uses for multiplying $n$ digit integers is at most $O(n^{\log_2 3})$ (see also [karatsubafig](){.ref}).
 
 ![Running time of Karatsuba's algorithm vs. the Gradeschool algorithm. Figure by [Marina Mele](http://www.marinamele.com/third-grade-karatsuba-multiplication-algorithms).](../figure/karatsuba-vs-third-grade-order-768x600.png){#karatsubafig .class width=300px height=300px}
 
 
 ![Karatsuba's algorithm reduces an $n$-bit multiplication to three $n/2$-bit multiplications, which in turn are reduced to nine $n/4$-bit multiplications and so on. We can represent the computational cost of all these multiplications in a $3$-ary tree of depth $\log_2 n$, where at the root the extra cost is $cn$ operations, at the first level the extra cost is $c(n/2)$ operations, and at each of the $3^i$ nodes of  level $i$, the extra cost is $c(n/2^i)$. The total cost is $cn\sum_{i=0}^{\log_2 n} (3/2)^i \leq 2cn^{\log_2 3}$ by the formula for summing a geometric series.](../figure/karatsuba_analysis.png){#karatsuba-fig .class width=300px height=300px}
 
->__Remark on Big Oh notation:__ It can be quite an headache to keep track of the various constants, and so typically in theoretical computer science we use asymptotic or "Big Oh" notation for quantities such as running time of an algorithm. So, we will write $f(n)=O(g(n))$ if there is some constant $C$ such that $f(n) \leq C g(n)$ for all $n$ and $f(n)=\Omega(g(n))$ if $g(n)=O(f(n))$. Most of the time, when you see a statement such as "running time is  $O(n^3)$" you can think of it as saying  that the algorithm takes at most $1000\cdot n^3$ steps and similarly when a statement such as "running time is  $\Omega(n^2)$" can be thought of as saying that the algorithm takes at least  $0.001\cdot n^2$ steps.
-A fuller review Big Oh notation and asymptotics of running time appears in the "mathematical background" section.
 
 >__Ceilings, floors, and rounding:__ One of the benefits of using big Oh notation is that we can allow ourselves to be a little looser with issues such as rounding numbers etc.. For example, the natural way to describe Karatsuba's algorithm's running time is as following the recursive equation $T(n)= 3T(n/2)+O(n)$ but of course if $n$ is not even then we cannot recursively invoke the algorithm on $n/2$-digit integers.
 Rather, the true recursion is $T(n) = 3T(\ceil{n/2})+ O(n)$ where $\ceil{x}$ is the "rounding up" operator that maps a number $x$ to the smallest integer $n$ such that $n \geq x$.
@@ -172,10 +173,16 @@ Thus most of the time we can safely ignore these kind of "rounding issues".
 
 It turns out that the ideas of Karatsuba can be further extended to yield asymptotically faster multiplication algorithms, as was shown by Toom and Cook in the 1960s.
 But this was not the end of the line.
-In 1971, Schönhage and Strassen gave an even faster algorithm using the _Fast Fourier Transform_; their idea was to somehow treat integers as "signals" and do the multiplication more efficiently by moving to the Fourier domain.
+In 1971, Schönhage and Strassen gave an even faster algorithm using the _Fast Fourier Transform_; their idea was to somehow treat integers as "signals" and do the multiplication more efficiently by moving to the Fourier domain.^[The _Fourier transform_ is a central tool in mathematics and engineering, used in a great number of applications. If you have not seen it yet, you will hopefully encounter it at some point in your studies.]
 The latest asymptotic improvement was given by Fürer in 2007 (though it only starts beating  the Schönhage-Strassen algorithm for truly astronomical numbers).
+And yet, despite all this progress, we still don't know whether or not there is an $O(n)$ time algorithm for multiplying two $n$ digit numbers!
 
-> # {.remark title="Advanced note: matrix multiplication"  #matrixmult}
+
+
+### Advanced note:  matrix multiplication
+
+(We will  have several such "advanced" notes and sections throughout these lectures notes. These may assume background that not every student has, and in any case can be safely skipped over as none of the future parts will depend on them.)
+
 It turns out that a  similar idea as Karatsuba's can be used to speed up _matrix_ multiplications as well.
 Matrices are a powerful way to represent linear equations and operations, widely used in a great many applications of scientific computing, graphics, machine learning, and many many more.
 One of the basic operations one can do with two matrices is to _multiply_ them.
@@ -201,7 +208,7 @@ Many _graph algorithms_, including algorithms for finding paths, matchings, span
 These algorithms are being used not just for the "natural" applications of routing network traffic or GPS-based navigation, but also for applications as varied as drug discovery through searching for structures in  gene-interaction graphs to computing risks from correlations in financial investments.
 
 
-Google was founded based on the _PageRank_ algorithm, which is an efficient algorithm to approximate the top eigenvector of (a dampened version of) the adjacency matrix of web graph.
+Google was founded based on the _PageRank_ algorithm, which is an efficient algorithm to approximate the "principal eigenvector" of (a dampened version of) the adjacency matrix of web graph.
 The _Akamai_ company was founded based on a new data structure, known as _consistent hashing_, for a hash table where buckets are stored at different servers.  
 The _backpropagation algorithm_, that computes partial derivatives of a neural network in $O(n)$ instead of $O(n^2)$ time, underlies many of the recent phenomenal successes of  learning deep neural networks.
 Algorithms for solving  linear equations under sparsity constraints, a concept known as _compressed sensing_, have been used to drastically reduce the amount and quality of data needed to analyze MRI images.
@@ -213,7 +220,8 @@ For the related problem of actually finding the factors of a composite number, n
 
 Despite all this progress, there are still many more questions than answers in the world of algorithms.
 For almost all natural problems, we do not know whether the current algorithm is the "best", or whether a significantly  better one is still waiting to be discovered.
-Even for the classical problem of multiplying numbers, we have not yet answered the age-old question of __"is multiplication harder than addition?"__ .  But at least, as we will see in this course, we now know the right way to _ask_ it.
+As we already saw, even for the classical problem of multiplying numbers we have not yet answered the age-old question of __"is multiplication harder than addition?"__ .  
+But at least we now know the right way to _ask_ it.
 
 
 
@@ -227,12 +235,13 @@ What useful applications could possibly arise from an impossibility result?
 One motivation is pure intellectual curiosity.
 After all, this is a question even Archimedes could have been excited about.
 Another reason to study impossibility results is that they correspond to the fundamental limits of our world or in other words to _laws of nature_.
-The impossibility of building a perpetual motion machine corresponds to the law of conservation of energy, the impossibility of building  a heat engine beating Carnot's bound corresponds to the second law of thermodynamics, while the impossibility of faster-than-light information transmission corresponds to special relativity.
-Within mathematics, the impossibility of solving a quintic equation with radicals gave  birth to group theory, while the impossibility of proving Euclid's fifth postulate from the first four gave rise to alternative geometries.
+In physics, it turns out that the impossibility of building a _perpetual motion machine_ corresponds to the _law of conservation of energy_.
+Other laws of nature also correspond to impossibility results:  the impossibility of building  a heat engine beating Carnot's bound corresponds to the second law of thermodynamics, while the impossibility of faster-than-light information transmission is a cornerstone of  special relativity.
+Within mathematics, while we all learned the solution for quadratic equations in high school, the impossibility of deneralizing this to equations of degree five or more gave  birth to _group theory_.
+In his 300 B.C. book _The Elements_, the Greek mathematician Euclid based geometry on five "axioms" or "postulates". Ever since then people have suspected that four axioms are enough, and try to base the "parallel postulate" (roughly speaking, that every line has a unique parallel line of each distance) from the other four.
+It turns out that this was impossible, and the impossibility result gave rise to so called "non-Euclidean geometries", which turn out to be crucial  for the theory of general relativity.^[It is fine if you have not yet encountered many of the above. I hope however it sparks your curiosity!]
 
-Similarly, impossibility results for computation correspond to "computational laws of nature" that tell us about the fundamental limits of any information processing apparatus, whether based on silicon, neurons, or quantum particles.
-Indeed,  some [exciting recent research](http://www.scottaaronson.com/barbados-2016.pdf)  has been trying to use computational complexity to shed light on fundamental questions in physics such as the "firewall paradox" for black holes and the "AdS/CFT correspondence".
-
+In an analogous way, impossibility results for computation correspond to "computational laws of nature" that tell us about the fundamental limits of any information processing apparatus, whether based on silicon, neurons, or quantum particles.^[Indeed,  some [exciting recent research](http://www.scottaaronson.com/barbados-2016.pdf)  has been trying to use computational complexity to shed light on fundamental questions in physics such understanding black holes and reconciling general relativity with quantum mechanics.]
 Moreover, computer scientists have recently been finding creative approaches to _apply_ computational limitations to achieve certain useful tasks.
 For example, much of modern Internet traffic is encrypted using the RSA encryption scheme, which relies on its security on the (conjectured) _non existence_ of an efficient algorithm to perform the inverse operation for multiplication--- namely, factor large integers.
 More recently, the [Bitcoin](https://en.wikipedia.org/wiki/Bitcoin) system uses a digital analog of the "gold standard" where, instead of being based on a  precious metal, minting new currency corresponds to "mining"  solutions for computationally difficult problems.
