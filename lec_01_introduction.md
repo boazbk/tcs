@@ -37,7 +37,7 @@ These algorithms and their variants have  been  of course essential to people th
 
 
 To answer this question, let us try to see in what sense is the standard digit by digit multiplication algorithm "better" than the straightforward implementation of multiplication as iterated addition.
-Let's start by more formally describing both algorithm:
+Let's start by more formally describing both algorithms:
 
 >__Naive multiplication algorithm:__ \
 >__Input:__ Non-negative integers $x,y$ \
@@ -66,8 +66,9 @@ That is, the task of multiplying two numbers $x,y$ that are between $10^{19}$ an
 Since in this case $n=20$, the standard algorithm would use at most  $4n^2=1600$ single digit operations, while repeated addition would require at least $n\cdot y \geq 20\cdot 10^{19}$ single digit operations.
 To understand the difference, consider that a human being might do a single digit operation in about 2 seconds, requiring just under an hour to complete the calculation of $x\times y$ using the gradeschool algorithm.
 In contrast, even though it is more than a billion times faster, a modern PC that computes $x\times y$ using  naïve iterated addition would require about $10^{20}/10^9 = 10^{11}$ seconds (which is more than three millenia!) to compute the same result.
-We see that computers have not made algorithms obsolete.
 
+
+We see that computers have not made algorithms obsolete.
 On the contrary, the vast increase in our ability to measure, store, and communicate data has led to a much higher demand on developing better and more sophisticated algorithms that can allow us to make better decisions based on these data.
 We also see that to a large extent the notion of _algorithm_ is independent of the actual computing device that will execute it.
 The digit-by-digit standard algorithm is vastly better than iterated addition regardless if the technology implementing it is a silicon based  chip or a third grader with pen and paper.
@@ -124,14 +125,14 @@ In contrast, in Karatsuba's approach doubling the number of digits  only  _tripl
 Specifically, we use a  _recursive_ strategy as follows:
 
 >__Karatsuba Multiplication:__ \
->__Input:__ Non negative integers $x,y$ with the same number of digits $n$ \
+>__Input:__ Non negative integers $x,y$ each of at most $n$ digits \
 >__Operation:__ \
->1. If $n=1$ then return $x\cdot y$ (a single digit multiplication)
->2. Otherwise, let $m = \floor{n/2}$, and write $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \underline{y}$.^[Recall that for a number $x$, $\floor{x}$ is obtained by "rounding down" $x$ to the largest integer smaller or equal to  $x$.] \
->2. Use _recursion_ to compute  $A=\overline{x}\overline{y}$, $B=\underline{y}\underline{y}$ and $C=(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ \
+>1. If $n \leq 2$ then return $x\cdot y$ (using a constant number of single digit multiplications)
+>2. Otherwise, let $m = \floor{n/2}$, and write $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \underline{y}$.^[Recall that for a number $x$, $\floor{x}$ is obtained by "rounding down" $x$ to the largest integer smaller or equal to  $x$.]  \
+>2. Use _recursion_ to compute  $A=\overline{x}\overline{y}$, $B=\underline{y}\underline{y}$ and $C=(\overline{x}+\underline{x})(\overline{y}+\underline{y})$. Note that all the numbers will have at most $m+1$ digits.  \
 >3. Return $10^n\cdot A  + 10^m \cdot B -(10^m-1)\cdot C$
 
-To understand why the output will be correct, first note that since it is always that case that $m<n$, the recursive calls will always be for multiplying numbers with a smaller number of digits, and (since eventually we will get to single digit numbers)  the algorithm will indeed terminate.
+To understand why the output will be correct, first note that for $n>2$, it will always hold that  $m<n-1$, and hence the recursive calls will always be for multiplying numbers with a smaller number of digits, and (since eventually we will get to single or double digit numbers)  the algorithm will indeed terminate.
 Now, since $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \underline{y}$,
 
 $$
@@ -160,8 +161,8 @@ In a [karatsuba-ex](){.ref}, you will formally show that the number of single di
 
 
 >__Ceilings, floors, and rounding:__ One of the benefits of using big Oh notation is that we can allow ourselves to be a little looser with issues such as rounding numbers etc.. For example, the natural way to describe Karatsuba's algorithm's running time is as following the recursive equation $T(n)= 3T(n/2)+O(n)$ but of course if $n$ is not even then we cannot recursively invoke the algorithm on $n/2$-digit integers.
-Rather, the true recursion is $T(n) = 3T(\ceil{n/2})+ O(n)$ where $\ceil{x}$ is the "rounding up" operator that maps a number $x$ to the smallest integer $n$ such that $n \geq x$.
-However, this will not make much difference when we don't worry about constant factors, since $\ceil{n/2}$ is at most $n/2+1$ and  its not hard to show that $T(n+O(1)) \leq T(n)+ o(T(n))$ for the functions we care about (which turns out to  be enough to carry over the same recursion).
+Rather, the true recursion is $T(n) = 3T(\floor{n/2}+1)+ O(n)$.
+However, this will not make much difference when we don't worry about constant factors, since its not hard to show that $T(n+O(1)) \leq T(n)+ o(T(n))$ for the functions we care about (which turns out to  be enough to carry over the same recursion).
 Another way to show that this doesn't hurt us is to note that for every number $n$, we can find $n' \leq 2n$ such that $n'$ is a power of two.
 Thus we can always "pad" the input by adding some input bits to make sure the number of digits is a power of two, in which case we will never run into these rounding issues.
 These kind of tricks work not just in the context of multiplication algorithms but in many other cases as well.
@@ -220,8 +221,9 @@ For the related problem of actually finding the factors of a composite number, n
 
 Despite all this progress, there are still many more questions than answers in the world of algorithms.
 For almost all natural problems, we do not know whether the current algorithm is the "best", or whether a significantly  better one is still waiting to be discovered.
-As we already saw, even for the classical problem of multiplying numbers we have not yet answered the age-old question of __"is multiplication harder than addition?"__ .  
-But at least we now know the right way to _ask_ it.
+As we already saw, even for the classical problem of multiplying numbers we have not yet answered the age-old question of __"is multiplication harder than addition?"__ .
+
+But at least we now know the right way to _ask_ it..
 
 
 

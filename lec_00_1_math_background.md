@@ -339,8 +339,47 @@ $$
 \sum_{i=1}^{100} i^2 \;.
 $$
 
+### Parsing formulas: bound and free variables
+
+In mathematics as in code, we often have symbolic "variables" or "parameters".
+It is important to be able to understand, given some formula, whether a given variable is _bound_ or _free_ in this formula.
+For example, in the following statement $n$ is free but $a,b$ are bound by the $\exists$ quantifier:
+
+$$
+\exists_{a,b \in \N} (a \neq 1) \wedge (a \neq n) \wedge (n = a \times b) \label{aboutnstmt}
+$$
+
+Since $n$ is free, it can be set to any value, and the truth of the statement [aboutnstmt](){.eqref} depends on the value of $n$.
+For example, if $n=8$ then [aboutnstmt](){.eqref} is true, but for $n=11$ it is false. (Can you see why?)
+
+The same issue appears when parsing code.
+For example, in the following snippet from the C++ programming language
+
+~~~~ { .clang }
+for (int i=0 ; i<n ; i=i+1) {
+    printf("*");
+}
+~~~~
+
+the variable `i` is bound to the `for` operator but the variable `n` is free.
+
+The main property of bound variables is that we can change them to a different name (as long as it doesn't conflict with another used variable)  without changing the meaning of the statement.
+Thus for example the statement
 
 
+$$
+\exists_{x,y \in \N} (x \neq 1) \wedge (x \neq n) \wedge (n = x \times y) \label{aboutnstmt}
+$$
+
+is equivalent to [aboutnstmt](){.eqref} in the sense that it is true for exactly the same set of $n$'s. Similarly, the code
+
+~~~~ { .clang }
+for (int j=0 ; j<n ; j=j+1) {
+    printf("*");
+}
+~~~~
+
+produces the same result.
 
 
 ### Asymptotics and big-Oh notation
@@ -684,6 +723,8 @@ The main points where we diverge are:
 
 * As we will see later on in the course, we will mostly describe our computational problems in the terms of computing a _Boolean function_ $f: \{0,1\}^* \rightarrow \{0,1\}$. In contrast, most textbooks will refer to this as the task of _deciding a language_ $L \subseteq \{0,1\}^*$. These two viewpoints are equivalent, since for every set $L\subseteq \{0,1\}^*$ there is a corresponding  function $f = 1_L$ such that $f(x)=1$ if and only if $x\in L$. Computing _partial functions_ corresponds to the task known in the literature as a solving a _promise problem_.^[Because the language notation is so prevalent in textbooks, we will occasionally remind the reader of this correspondence.]
 
+* Some other notation we use is $\ceil{x}$ and $\floor{x}$ for the "ceiling" and "floor" operators that correspond to "rounding up" or "rounding down" a number to the nearest integer. We use $(x \mod y)$ to denote the "remainder" of $x$ when divided by $y$. That is, $(x \mod y) = x - y\floor{x/y}$.
+
 ## Exercises
 
 ># {.exercise title="Inclusion Exclusion" #inclex }
@@ -728,6 +769,12 @@ d. $F(n)=n$, $G(n)=2^{\sqrt{\log n}}$
 
 > # {.exercise}
 Give an example of a pair of functions $F,G:\N \rightarrow \N$ such that neither $F=O(G)$ nor $G=O(F)$ holds.
+
+## Bibliographical notes
+
+The section heading "A Mathematician's Apology", refers of course to Hardy's [classic book](https://en.wikipedia.org/wiki/A_Mathematician%27s_Apology).
+Even when Hardy is wrong, he is very much worth reading.
+
 
 
 ## Acknowledgements
