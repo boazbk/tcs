@@ -208,8 +208,41 @@ The NAND program we presented above yields a proof of the following theorem
 > # {.theorem title="Computing XOR" #xortwothm}
 $XOR_2 \in SIZE(4)$
 
+Similarly, the addition program we presented shows that   $ADD_1 \in SIZE(5)$.
 
 ## Composing functions
+
+Computing the XOR or addition of two bits is all well and good, but still seems a long way off from even the algorithms we all learned in elementary school, let alone [World of Warcraft](https://worldofwarcraft.com/en-us/).
+We will get to computing more interesting functions, but for starters let us prove the following simple extension of [xortwothm](){.ref}
+
+> # {.theorem title="Computing four bit parity" #xorfourthm}
+$XOR_4 \in SIZE(12)$
+
+We can prove [xorfourthm](){.ref} by explicitly writing down a 12 line program.
+But writing NAND programs by hand can get real old real fast.
+So, we will prove more general results about _composing_ functions:
+
+> # {.theorem title="Sequential composition of functions" #seqcompositionthm}
+If $F:\{0,1\}^n \rightarrow \{0,1\}^m$ is a function in $SIZE(L)$ and $G:\{0,1\}^m \rightarrow \{0,1\}^k$ is a function in $SIZE(L')$ then $G\circ F$ is a function in $SIZE(L+L')$, where $G\circ G:\{0,1\}^n \rightarrow \{0,1\}^k$ is the function that maps $x\in \{0,1\}^n$ to $G(F(x))$.
+
+
+> # {.theorem title="Parallel composition of functions" #parcompositionthm}
+If $F:\{0,1\}^n \rightarrow \{0,1\}^m$ is a function in $SIZE(L)$ and $G:\{0,1\}^{n'} \rightarrow \{0,1\}^{m'}$ is a function in $SIZE(L')$ then $F \oplus G$ is a function in $SIZE(L+L')$, where
+$G \oplus H: \{0,1\}^{n+n'} \rightarrow \{0,1\}^{m+m'}$ is the function that maps $x \in \{0,1\}^{n+n'}$ to $F(x_0,\ldots,x_{n-1})G(x_n,\ldots,x_{n+n'-1})$.
+
+
+Before proving [seqcompositionthm](){.ref} and [parcompositionthm](){.ref}, note that they do imply [xorfourthm](){.ref}.
+Indeed, it's easy to verify that for every $x \in \{0,1\}^4$,
+
+$$
+XOR_4(x) = \sum_{i=0}^3 x_i (\mod 3) = ((x_0+x_1 \mod 2) + (x_2+x_3 \mod 2) \mod 2) = XOR_2(XOR_2(x_0,x_1)XOR_2(x_2,x_3))
+$$
+
+and hence
+
+$$
+XOR_4= XOR_2 \circ (XOR_2 \oplus XOR_2) \;.
+$$
 
 
 
