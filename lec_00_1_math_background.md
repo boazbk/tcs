@@ -102,6 +102,7 @@ __Tuples, lists, strings, sequences:__ A _tuple_ is an _ordered_ collection of i
 Since order matters, this is not the same tuple as the $4$-tuple $(1,1,5,2)$ or the $3$-tuple $(1,5,2)$. A $2$-tuple is also known as a _pair_.
 We use the terms _tuples_ and _lists_ interchangeably.
 A tuple where every element comes from some finite set $\Sigma$ (such as $\{0,1\}$) is also known as a _string_.
+Analogously to sets, we denote the _length_ of a tuple $T$ by $|T|$.
 Just like sets, we can also think of an infinite analogs of tuples, such as the ordered collection $(1,2,4,9,\ldots )$ of all perfect squares.
 Infinite ordered collections are known as _sequences_; we might sometimes use the term "infinite sequence" to emphasize this, and use "finite sequence" as a synonym for a tuple.^[We can identify a sequence $(a_0,a_1,a_2,\ldots)$ of elements in some set $S$ with a _function_ $A:\N \rightarrow S$ (where $a_n = A(n)$ for every $n\in \N$). Similarly, we can identify a $k$-tuple $(a_0,\ldots,a_{k-1})$ of elements in $S$ with a function $A:[k] \rightarrow S$.]
 
@@ -172,11 +173,15 @@ The set $\{0,1\}^*$ contains also the "string of length $0$" or "the empty strin
 
 
 
+
 __Generalizing the star operation:__ For every set $\Sigma$, we define
 
 $$\Sigma^* = \cup_{n\in \N} \Sigma^n \;.$$
 
 For example, if $\Sigma = \{a,b,c,d,\ldots,z \}$ then $\Sigma^*$ denotes the set of all finite length strings over the alphabet a-z.
+
+__Concatenation:__ The _concatenation_ of two strings $x\in \Sigma^n$ and $y\in \Sigma^m$ is the $(n+m)$-length string $xy$ obtained by writing $y$ after $x$.
+That is, $(xy)_i$ equals $x_i$ if $i<n$ and equals $y_{i-n}$ if $n \leq i < n+m$.
 
 
 
@@ -238,10 +243,13 @@ Graphs come in two basic flavors: _undirected_ and _directed_.^[It is possible, 
 ![An example of an undirected and a directed graph. The undirected graph has vertex set $\{1,2,3,4\}$ and edge set $\{ \{1,2\},\{2,3\},\{3,4\},\{2,4\} \}$. The directed graph has vertex set $\{a,b,c\}$ and the edge set $\{ (a,b),(b,c),(c,a),(a,c) \}$.](../figure/graphsexampe.png){#graphsexampefig .class width=300px height=300px}
 
 
-__Undirected graphs.__ An _undirected graph_ $G = (V,E)$ consists of a set $V$ of _vertices_ and a set $E$ of edges.
+> # {.definition title="Undirected graphs" #undirgraph}
+An _undirected graph_ $G = (V,E)$ consists of a set $V$ of _vertices_ and a set $E$ of edges.
 Every edge is a size two subset of $V$.
 We say that two vertices $u,v \in V$ are _neighbors_, denoted by $u \sim v$, if the edge $\{u,v\}$ is in $E$.
-The _degree_ of $u$ is the number of neighbors it has.
+
+Given this definition, we can define several other properties of graphs and their vertices.
+We define _degree_ of $u$ to be the number of neighbors $v$ has.
 A _path_ in the graph is a tuple $(u_0,\ldots,u_k) \in V^k$, for some $k>0$ such that $u_{i+1}$ is a neighbor of $u_i$ for every $i\in [k]$.
 A _simple path_ is a path $(u_0,\ldots,u_{k-1})$ where all the $u_i$'s are distinct.
 A _cycle_ is a path $(u_0,\ldots,u_k)$ where $u_0=u_{k}$.
@@ -271,9 +279,11 @@ In particular, for every connected pair there exists a simple path that connects
 If you haven't seen these proofs before, it is indeed a great exercise to transform the above informal exercises into fully rigorous proofs.
 
 
-__Directed graphs.__ In a _directed graph_ $G=(V,E)$, the set $E$ is a set of _ordered_ pairs, and so each edge is a pair $(u,v)$, which we often denote as $\overrightarrow{u v}$.
+> # {.definition title="Directed graphs" #directedgraphdef}
+A _directed graph_ $G=(V,E)$ consists of a set $V$ and a set $E \subseteq V\times V$  of _ordered pairs_ of $V$. We denote the edge $(u,v)$ also as $\overrightarrow{u v}$.
 If the edge $\overrightarrow{u v}$ is present in the graph then we say that $v$ is an _out-neighbor_ of $u$ and $u$ is an _in-neigbor_ of $v$.
-Note that a directed graph might contain both $\overrightarrow{u v}$ and $\overrightarrow{v u}$ in which case $u$ will be both an in-neighbor and an out-neighbor of $v$ and vice versa.
+
+A directed graph might contain both $\overrightarrow{u v}$ and $\overrightarrow{v u}$ in which case $u$ will be both an in-neighbor and an out-neighbor of $v$ and vice versa.
 The _in-degree_ of $u$ is the number of in-neighbors it has, and the _out-degree_ of $v$ is the number of out-neighbors it has.
 A _path_ in the graph is a tuple $(u_0,\ldots,u_k) \in V^k$, for some $k>0$ such that $u_{i+1}$ is an out-neighbor of $u_i$ for every $i\in [k]$.
 As in the undirected case, a _simple path_ is a path $(u_0,\ldots,u_{k-1})$ where all the $u_i$'s are distinct and a  _cycle_ is a path $(u_0,\ldots,u_k)$ where $u_0=u_{k}$.
@@ -293,6 +303,12 @@ In any directed graph $G$, if there is a path from $u$ to $v$ and a path from $v
 > # {.lemma #dirsimplepathlem}
 For every directed graph $G=(V,E)$ and a  pair $u,v$ such that there is a path from $u$ to $v$, the _shortest path_ from $u$ to $v$ is simple.
 
+
+> # {.remark title="Graph terminology" #graphsname}
+The word _graph_ in the sense above was coined by the mathematician Sylvester in 1878 in analogy with the chemical graphs used to visualize molecules.
+The more common usage of the term is to plot data, and in particular a plot of some function $f(x)$ as a function of $x$.
+We can think of a function $f:A \rightarrow B$ as a special case of a directed graph over the vertex set $V= A \cup B$ where we put the edge $\overrightarrow{x f(x)}$ for every $x\in A$.
+In a graph constructed in this way every vertex in $A$ has out-degree one.
 
 
 ### Logic operators and quantifiers.
@@ -706,8 +722,16 @@ When a proof is more complex, it is often helpful to break it apart into several
 That is, to prove the statement $X$, we might first prove statements $X_1$,$X_2$, and $X_3$ and then prove that $X_1 \wedge X_2 \wedge X_3$ implies $X$.^[As mentioned below, $\wedge$ denotes the logical AND operator.]
 Our proof of [graphconthm](){.ref} had this form.
 
+__Proofs by case distinction:__ This is a special case of the above, where to prove a statement $X$ we split into several cases $C_1,\ldots,C_k$, and prove that __(a)__ the cases are _exhaustive_, in the sense that _one_ of the cases $C_i$  must happen and __(b)__ go one by one and prove that each one of the cases $C_i$ implies the result $X$ that we are after.
+
+__"Without loss of generality (w.l.o.g)":__ This term can be initially quite confusing to students. It is essentially a way to shorten case distinctions such as the above. The idea is that if Case 1 is equal to Case 2 up to a change of variables or a similar transformation, then the proof of Case 1 will also imply the proof of case 2.
+It is always a statement that should be viewed with suspicion.
+Whenever you see it in a proof, ask yourself if you understand _why_ the assumption made is truly without loss of generality, and when you use it, try to see if the use is indeed justified.
+Sometimes it might be easier to just repeat the proof of the second case (adding a remark that the proof is very similar to the first one).
+
 __Proofs by induction:__ We can think of such proofs as a variant of the above, where we have an unbounded number of intermediate claims $X_0,X_2,\ldots,X_k$, and we prove that $X_0$ is true, as well that $X_0$ implies $X_1$, and that $X_0  \wedge X_1$ implies $X_2$, and so on and so forth.
 The website for CMU course 15-251 contains a [useful handout](http://www.cs.cmu.edu/~./15251/notes/induction-pitfalls.pdf) on potential pitfalls when making proofs by induction.
+
 
 
 ## Non-standard notation

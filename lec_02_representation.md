@@ -14,40 +14,49 @@ To a first approximation, computation can be thought of as a process that maps a
 When discussing computation, it is important to separate the question of  __what__ is the task we need to perform (i.e., the _specification_) from the question of __how__ we achieve this task (i.e., the _implementation_).
 For example, as we've seen, there is more than one way to achieve the computational task of computing the product of two integers.
 
-In this lecture we  discuss the first question - how do we define a computational task.
+In this lecture we  focus on the **what** part, namely defining  computational tasks.
 For starters, we need to define the inputs and outputs.
 A priori this seems nontrivial, since computation today is applied to a huge variety  of objects.
-We do not compute  merely on numbers, but also on texts, images, videos, connection graphs of social networks, MRI scans, gene data, and even other programs.  
+We do not compute  merely on numbers, but also on texts, images, videos, connection graphs of social networks, MRI scans, gene data, and even other programs.
 We will represent all these objects as __strings of zeroes and ones__, that is objects such as $0011101$ or $1011$ or any other finite list of $1$'s and $0$'s.
 
 ![We represent numbers, texts, images, networks and many other objects using strings of zeroes and ones. Writing the zeroes and ones themselves in green font over a black background is optional.](../figure/zeroes-ones.jpg){#figureid .class width=300px height=300px}
 
-Today, we are so used to the notion of digital representation that we do not find this surprising.
+Today, we are so used to the notion of digital representation that we are not surprised by the existence of such an encoding.
 But it is  a deep insight with significant implications.
-Many animals can convey a particular fear or desire, but what's unique about humans'  _language_ is that we use a  finite collection of basic symbols to describe a potentially unlimited range of experiences.
+Many animals can convey a particular fear or desire, but what's unique about humans is  _language_:  we use a  finite collection of basic symbols to describe a potentially unlimited range of experiences.
 Language allows transmission of information over both time and space, and enables societies that span a  great many people and accumulate a body of shared knowledge over time.
 
-Over the last several decades, we've seen a revolution in what we are able to represent and convey.
+Over the last several decades, we've seen a revolution in what we are able to represent and convey in digital form.
 We can capture experiences with almost perfect fidelity, and disseminate it essentially instantaneously to an unlimited audience.
-What's more, once information is in digital form, we can _compute_ over it, and gain insights that were simply not accessible in prior times.
+What's more, once information is in digital form, we can _compute_ over it, and gain insights from data that were not accessible in prior times.
 At the heart of this revolution is this simple but profound observation that we can represent an unbounded variety of objects using a finite set of symbols (and in fact  using only the two symbols ```0``` and ```1```).^[There is nothing "holy" about using zero and one as the basic symbols, and we can (indeed sometimes people do) use any other finite set of two or more symbols as the fundamental "alphabet". We use zero and one in this course mainly because it simplifies notation.]
 
-In later lectures, we will often fall back on taking this  representation for granted, and hence write something like "program $P$ takes $x$ as input" when $x$ could be a number, a vector, a graph, etc.,  when we really mean that $P$ takes as input the _representation_ of $x$ as a binary string.
+In later lectures, we will often fall back on taking this  representation for granted, and hence write something like "program $P$ takes $x$ as input" when $x$ might be a number, a vector, a graph, or any other objects,  when we really mean that $P$ takes as input the _representation_ of $x$ as a binary string.
 However, in this lecture, let us dwell a little bit on how such representations can be devised.
-We note that in many instances, choosing the "right" string representation for a piece of data is highly nontrivial, and finding the "best" one (e.g., most compact, best fidelity,  most efficiently manipulable, robust to errors, most informative features, etc..) is the object of intense research.
-But for now, we will  focus on describing some simple representations for various natural objects.
+
+## Examples of binary representations
+
+In many instances, choosing the "right" string representation for a piece of data is highly nontrivial, and finding the "best" one (e.g., most compact, best fidelity,  most efficiently manipulable, robust to errors, most informative features, etc..) is the object of intense research.
+But for now, let us start by describing some simple representations for various natural objects.
 
 
 ### Representing natural numbers
 
 Perhaps the simplest object we want to represent is a _natural number_.
 That is, a member $x$ of the set $\N = \{0,1,2,3,\ldots \}$. We can represent a number $x\in\N$ as a string using the _binary basis_.
-That is, we can write $x$ in a unique way as $x = x_02^0 + x_12^1 + \cdots + x_{n-1}2^{n-1}$  (or $\sum_{i=0}^{n-1} x_i 2^i$ for short) where $x_0,\ldots,x_{n-1}$ are zero/one and $n$ is the smallest number such that $2^n > x$. We can then represent $x$ as the string $(x_0,x_1,\ldots,x_{n-1})$.
-For example, the number 35 will be represented as the string $(1,1,0,0,0,1)$ which we often also write as $110001$.^[Note that this is the reverse of the typical way we write numbers with the least significant digit as the rightmost one. Representing the number $x$ as $(x_{n-1},x_{n-2},\ldots,x_0)$ will of course work just as well (in some contexts this is known as "Big Endian" vs. "Little Endian" representation). We chose the particular representation above for the sake of concreteness but such low level choices will not make a difference in this course.]
+Specifically, every natural number $x$ can be written in a unique way as $x = x_02^0 + x_12^1 + \cdots + x_{n-1}2^{n-1}$  (or $\sum_{i=0}^{n-1} x_i 2^i$ for short) where $x_0,\ldots,x_{n-1}$ are zero/one and $n$ is the smallest number such that $2^n > x$ (and hence $x_{n-1}=1$ for every nonzero $x$).
+We can then represent $x$ as the string $(x_0,x_1,\ldots,x_{n-1})$.^[We can represent the number zero either as some string that contains only zeroes, or as the empty string. The choice will not make any difference for us.]
+For example, the number 35 is represented as the string $(1,1,0,0,0,1)$.^[Typically when people write down the binary representation, they would print the string $x$ in  _reverse order_, with the least significant digit as the rightmost one. Representing the number $x$ as $(x_{n-1},x_{n-2},\ldots,x_0)$ will of course work just as well (in some contexts this is known as "Big Endian" vs. "Little Endian" representation). We chose the particular representation above for the sake of simplicity, so the the $i$-th bit corresponds to $2^i$, but such low level choices will not make a difference in this course.]
 
 We can think of a representation as consisting of    _encoding_ and _decoding_ functions.
 In the case of the _binary representation_ for integers, the _encoding_ function $E:\N \rightarrow \{0,1\}^*$ maps a natural number to the string representing it, and the _decoding_ function $D:\{0,1\}^* \rightarrow \N$ maps a string into the number it represents (i.e., $D(x_0,\ldots,x_{n-1})= 2^0x_0 + 2^1x_1 +\ldots + 2^{n-1}x_{n-1}$ for every $x_0,\ldots,x_{n-1} \in \{0,1\}$).
-For the representation to be well defined, we need every number to be represented by some unique string, which corresponds to requiring the _encoding_ function to be one-to-one, and the _decoding_ function to be _onto_.^[Recall that a function $f$ mapping a set $U$ to a set $V$ is _one-to-one_ if $f(x)\neq f(x')$ for every $x\neq x'$ in $U$, and is _onto_ if for every $y\in V$ there is some $x$ s.t. $f(x)=y$.]   also known as _bijections_.^[Note that since in our convention $\N$ includes zero, the set $\{0,1\}^*$ includes the empty (i.e., length zero) string which will represent the number zero.]
+For the representation to be well defined, we need every natural number to be represented by some  string, where two distinct numbers  must have distinct representations.
+This corresponds to requiring the _encoding_ function to be one-to-one, and the _decoding_ function to be _onto_.
+
+> # { .pause }
+If you don't remember the definitions of _one-to-one_, _onto_, _total_ and _partial_ functions, now would be an excellent time to review them. Make sure you understand _why_ the function $E$ described above is one-to-one, and the function $D$ is _onto_.
+
 
 ### Representing (potentially negative) integers
 
@@ -59,36 +68,143 @@ $$
 
 For this representation, the decoding function is not one-to-one: the two strings $1$ and $0$ both represent the number zero (since they can be thought of as representing $-0$ and $+0$ respectively, can you see why?).
 The decoding function is also only a _partial_ function, since there is no number that is represented by the empty string.
-But this is still a fine representation, since the encoding function still corresponds to  the one-to-one total function $E:\Z \rightarrow \{0,1\}^*$ which maps an integer of the form $a\times k$, where $a\in \{\pm 1 \}$ and $k\in \N$ to the bit $(-1)^a$ concatenated with  the binary representation of $k$.
+But this is still a fine representation, since the encoding function is the one-to-one total function $E:\Z \rightarrow \{0,1\}^*$ which maps an integer of the form $a\times k$, where $a\in \{\pm 1 \}$ and $k\in \N$ to the bit $(-1)^a$ concatenated with  the binary representation of $k$.
 That is, every integer can be represented as a string, and two distinct integers have distinct representations.
 
 
-__Interpretation:__  Given a string $x\in \{0,1\}^*$, how do we know if it's "supposed" to represent a (nonnegative) natural number  or a (potentially negative) integer?
+__Interpretation and context:__  Given a string $x\in \{0,1\}^*$, how do we know if it's "supposed" to represent a (nonnegative) natural number  or a (potentially negative) integer?
 For that matter, even if we know $x$ is "supposed" to be an integer, how do we know what representation scheme it uses?
 The short answer is that we don't necessarily know this information, unless it is supplied from the context.^[In  programming language, the compiler or interpreter determines the representation of the sequence of bits corresponding to a variable based on the variable's _type_.]
 We can treat the same string $x$ as representing a natural number, an integer, a piece of text, an image, or a green gremlin.
 Whenever we say a sentence such as "let $n$ be the number represented by the string $x$", we will assume that we are fixing some canonical representation scheme such as the ones above.
 The choice of the particular representation scheme will almost never matter, except that we want to make sure to stick with the same one for consistency.
 
-### Representing rational numbers and prefix freeness
+### Representing rational numbers
 
 We can represent a rational number of the form $a/b$ by representing the two numbers $a$ and $b$ (again, this is not a unique representation but this is fine).
-However, simply concatenating the representations of $a$ and $b$ will not work.
-For example, recall that we   represent $4$ as $01$ and  $35$ as $110001$, but the concatenation  $01110001$ of these strings is also the concatenation of the representation $011$ of $6$ and the representation $10001$ of $17$.
-Hence, if we used such simple concatenation then we would not be able to tell if the string $01110001$ is supposed to represent $4/35$ or  $6/17$.
+However, simply concatenating the representations of $a$ and $b$ will not work.^[Recall that the _concatenation_ of two strings $x$ and $y$ is  the string of length $|x|+|y|$ obtained by writing $y$ after $x$.]
+For example, recall that we represent $4$ as $(0,1)$ and  $35$ as $(1,1,0,0,0,1)$, but the concatenation  $(0,1,1,1,0,0,0,1)$ of these strings is also the concatenation of the representation $(0,1,1)$ of $6$ and the representation $(1,0,0,0,1)$ of $17$.
+Hence, if we used such simple concatenation then we would not be able to tell if the string $(0,1,1,1,0,0,0,1)$ is supposed to represent $4/35$ or  $6/17$.
 
-The solution is to use a _prefix-free_ encoding for the numbers.
-An encoding of a set of objects into strings is _prefix free_ if  there are no two objects $o,o'$ such that the representation $x$ of $o$ is a _prefix_ of the representation $x'$ of $o'$. (The definition of prefix is as you would expect: a length $n$ string $x$ is a prefix of a length $n' \geq n$ string $x'$ if $x_i=x'_i$ for every $1 \leq i \leq n$.)
-If we have a prefix-free encoding for some set $\mathcal{O}$ then we can encode pairs or tuples of objects in $\mathcal{O}$ by simply concatenating the underlying representation.
-That is, if $x_1,\ldots,x_k$ represent $o_1,\ldots,o_k$ then we can represent the tuple $(o_1,\ldots,o_k)$ simply by $x_1\cdots x_k$.
-We can recover the list of original objects from their  representation as a string $x$ by finding the first prefix of $x$ that is a valid representation, decoding this prefix, and then removing it from $x$ and continuing onwards (see [prefix-free-tuples-ex](){.ref}).
+The way to tackle this is to find a general representation for _pairs_ of numbers.
+If we were using a pen and paper, we would simply use a separator such as the semicolon symbol to represent, for example, the pair consisting of the numbers represented by $(0,1)$ and $(1,1,0,0,0,1)$ as the length-$9$ string $s$ `01;110001`.
+By adding a little redundancy, We can do just that in the digital domain.
+The idea is that we will map the three element set $\Sigma = \{$ `0`,`1`,`;` $\}$ to the four element set $\{0,1\}^2$ via the one-to-one map that takes `0` to $00$, `1` to $11$ and `;` to $01$.
+In particular, if apply this map to every symbol of the length-$9$ string $s$ above, we get the length $18$ binary string $001101111100000011$.
+More generally, the above encoding yields a  one-to-one map $E$ from strings over the alphabet $\Sigma$ to binary string, such that for every $s\in \Sigma^*$, $|E(s)|=2|s|$.
+
+
+
+Using this, we get get a one to one map $E': (\{0,1\}^*)\times (\{0,1\}^*) \rightarrow \{0,1\}^*$ mapping _pairs_ of binary strings into a single binary string.
+Given every pair $(a,b)$ of binary strings, we will first map it in a one-to way to a string $s \in \Sigma^*$ using `;` as a separator, and then map $s$ to a single (longer) binary string using the encoding $E$.
+The same idea can be used to represent triples, quadruples, and generally all tuples of strings as a single string (can you see why?).
+
+
+
+### Representing real numbers
+
+The set of  _real numbers_ $\R$ contains all numbers including positive, negative, and fractional, as well as _irrational_ numbers such as $\pi$ or $e$.
+Every real number can be approximated by a rational number, and so up to a small error we can represent every real number $x$ by a rational number $a/b$ that is very close to $x$.
+This is a fine representation though a more common choice to represent real numbers is the _floating point_ representation, where we represent $x$ by the pair $(a,b)$ of integers of some prescribed sizes (determined by the desired accuracy) such that $a2^{-b}$ is closest to $x$.
+The reader might be (rightly) worried about this issue of approximation, but in many (though not all) computational applications, one can make the accuracy tight enough so that this does not affect the final result.^[This is called "floating point" because we can think of the number $a$ as specifying a sequence of binary digits, and $b$ as describing the location of the "binary point" within this sequence. This internal representation is the reason why, for example, in   Python  typing `0.1+0.2` will result in `0.30000000000000004` and not `0.3`, see [here](http://floating-point-gui.de/), [here](https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html) and [here](https://randomascii.wordpress.com/2012/04/05/floating-point-complexities/) for more. A floating point error  has been implicated in the [explosion](http://sunnyday.mit.edu/accidents/Ariane5accidentreport.html) of the Ariane 5 rocket, a bug that cost more than 370 million dollars, and the [failure](http://embeddedgurus.com/barr-code/2014/03/lethal-software-defects-patriot-missile-failure/) of a U.S. Patriot missile to intercept an Iraqi Scud missile, costing 28 lives. Floating point is [often problematic](http://www.theregister.co.uk/2006/08/12/floating_point_approximation/) in financial applications as well.]
+Also, some error in representing real numbers is _unavoidable_: there is no exact representation of real numbers as strings; see [cantor-ex](){.ref}.^[The reason for this inherent error is that the set of real numbers is _uncountable_ as we will see later in this course.]
+
+
+## Beyond numbers
+
+We can of course represent objects other than numbers as binary strings.
+Let us give a general definition for representation:
+
+> # {.definition title="String representation" #binaryrepdef}
+Let $\cO$ be some set. A _representation scheme_ for $\mathcal{O}$ consists of a pair $(E,D)$ where  $E:\mathcal{O} \rightarrow \{0,1\}^*$ is a total one-to-one function, $D:\{0,1\}^* \rightarrow_p \mathcal{O}$ is a (possibly partial)  function,
+and such that  $D$ and $E$ satisfy that $D(E(o))=o$ for every $o\in \mathcal{O}$.
+$E$ is known as the _encoding_ function and $D$ is known as the _decoding_ function.
+
+Note that the condition $D(E(o))=o$ for every $o\in\mathcal{O}$ implies that $D$ is _onto_.
+It turns out that to construct a representation scheme we only need to find an _encoding_ function.
+That is, every one-to-one encoding function has a corresponding decoding function, as shown in the following lemma:
+
+> # {.lemma #decodelem}
+Suppose that $E: \mathcal{O} \rightarrow \{0,1\}^*$ is one-to-one. Then there exists a function $D:\{0,1\}^* \rightarrow \mathcal{O}$ such that $D(E(o))=o$ for every $o\in \mathcal{O}$.
+
+> # {.proof data-ref="decodelem"}
+Let $o_0$ be some arbitrary element of $O$.
+For every $x \in \{0,1\}^*$, there exists either zero or a single $o\in \mathcal{O}$ such that $E(o)=x$ (otherwise $E$ would not be one-to-one).
+We will define $D(x)$ to equal $o_0$ in the first case and this single object $o$ in the second case.
+By definition $D(E(o))=o$ for every $o\in \mathcal{O}$.
+
+
+Note that, while in general we allowed the decoding function to be _partial_.
+This proof shows that we can always obtain a _total_ decoding function if we need to.
+This observation can sometimes be useful.
+
+
+
+### Prefix free encoding
+
+In our discussion of the representation of rational numbers, we used the "hack" of encoding the alphabet $\{$,`0`,`1`,`;`$\}$ to represent tuples of strings as a single string.
+This turns out to be a special case of the  general paradigm of _prefix free_ encoding.
+An encoding function $E:\mathcal{O} \rightarrow \{0,1\}^*$ is _prefix free_ if  there are no two objects $o \neq o'$ such that the representation $E(o)$  is a _prefix_ of the representation $E(o')$. The definition of prefix is as you would expect: a length $n$ string $x$ is a prefix of a length $n' \geq n$ string $x'$ if $x_i=x'_i$ for every $1 \leq i \leq n$.
+Given a representation scheme for $\mathcal{O}$ with a prefix-free encoding map, we can use simple concatenation to encode tuples of objects in $\mathcal{O}$:
+
+> # {.theorem title="Prefix free implies tuple encoding" #prefixfreethm}
+Suppose that $(E,D)$ is a representation scheme for $\mathcal{O}$ and $E$ is prefix free.
+Then there exists a representation scheme $(E',D')$ for $\mathcal{O}^*$ such that for every $(o_0,\ldots,o_{k-1}) \in \mathcal{O}^*$, $E'(o_0,\ldots,o_{k-1}) = E(o_0)E(o_1)\cdots E(o_{k-1})$.
+
+> # { .pause }
+[prefixfreethm](){.ref} is one of those  statements that are a little hard to parse, but in fact are fairly straightforward to prove  once you understand what they mean.
+Thus I highly recommend that you pause here, make sure you understand  statement of the theorem, and try to prove it yourself before proceeding further.
+
+
+
 
 ![If we have a prefix-free representation of each object then we can concatenate the representations of $k$ objects to obtain a representation for the tuple $(o_1,\ldots,o_k)$.](../figure/repres_list.png){#figureid .class width=300px height=300px}
 
-One simple way to transform every representation to a prefix-free representation is to include a special "end representation mark".
-That is, suppose we modify every $0$ symbol to $00$ and every $1$ symbol to $11$ and append the two symbols $01$ to the end of the representation.
-This would make the representation prefix-free (can you see why?) at the cost of roughly doubling its size (i.e., if the original representation had length $k$ then the new representation will have  length $2k+2$).
-It is actually possible to have a more efficient prefix-free representation that encodes a $k$ bit string by a string of length at most $k+O(\log k)$, see [prefix-free-ex](){.ref}.
+The idea behind the proof is simple.
+Suppose that for example we want to decode a triple $(o_0,o_1,o_2)$ from its representation $x= E'(o_0,o_1,o_2)=E(o_0)E(o_1)E(o_2)$.
+We will do so by first finding the first prefix $x_0$ of $x$ such is a representation of some object.
+Then we will decode this object, remove $x_0$ from $x$ to obtain a new string $x'$,  and continue onwards to find the first prefix $x_1$ of $x'$ and so on and so forth  (see [prefix-free-tuples-ex](){.ref}).
+The prefix-freeness property of $E$ will ensure that $x_0$ will in fact be $E(o_0)$,  $x_1$ will be $E(o_1)$ etc.
+We now show the formal proof.
+
+
+> # {.proof data-ref="prefixfreethm"}
+By [decodelem](){.ref}, to prove the theorem it suffices show that $E'$ is one-to-one.
+Suppose, towards the sake of contradiction that there exist two distinct tuples $(o_0,\ldots,o_{k-1})$ and $(o'_0,\ldots,o'_{k'-1})$ such that
+>
+$$
+E'(o_0,\ldots,o_{k-1})=E'(o'_0,\ldots,o'_{k'-1}) \;,  \label{prefixfreeassump}
+$$
+and denote this string by $x$.
+>
+We denote $x_i = E(o_i)$ and $x'_i = E'(o_i)$.
+By our assumption and the  definition of $E'$, $x_0x_1 \cdots x_k = x'_0 x'_1 \cdots x'_k$.
+>
+Let's make the assumption A that there is   some index $i \in [\min \{k,k'\}]$ such that $o_i \neq o'_i$.
+Now, let $i$ be the first such index, and hence $o_j=o'_j$ for all $j<i$ but $o_i \neq o'_i$, and so (since $E$ is one-to-one) also $x_i \neq x'_i$.
+That means that if we write $p=x_0\cdots x_{j-1}$, then by [prefixfreeassump](){.eqref} the first $|p|+|x_i|$ bits of the string $x$ need to equal $px_i$ and the first $|p|+|x'_i|$ bits of $x$ needs to equal $px'_i$.
+If $|x_i|=|x'_i|$, then the only way this can happen is if $px_i = px'_i$, which implies $x_i=x'_i$, in contradiction to the fact that $E$ is one-to-one.
+Otherwise, without loss of generality $|x_i|>|x'_i|$,^[This is one of our first uses of the phrase "without loss of generality". Make sure you understand why it is justified! If you are not sure, you can try working out the case that $|x_i|>|x'_i|$ and see why the proof is symmetric.] and so $px'_i$ must be a _prefix_ of $px_i$, but this contradicts the prefix-freeness of $E$.
+The only remaining case is when Assumption A is false.
+Since the tuples are different, if $o_i=o'_i$ for every $i \in [\min\{ k,k'\}]$, it must mean that $k \neq k'$.
+Without loss of generality, assume that $k<k'$ (again, check that this is justified!).
+But then, since $o_i=o'_i$ for all $i\in [k]$, it holds that $x_0 \cdots x_{k-1} = x_0 \cdots x_{k-1} x'_{k} \cdots x'_{k'-1}$.
+But this can only happen if $x'_i$ for $i \geq k$ is the empty string, while a prefix-free encoding can never encode an object as the empty string (can you see why?).
+
+
+
+### Making representations prefix free
+
+Some natural representations are prefix free.
+For example, every _fixed output length_ representation (i.e., one-to-one function $E:\mathcal{O} \rightarrow \{0,1\}^n$) is automatically prefix free, since a string $x$ can only be a prefix of an equal-length $x'$ if $x$ and $x'$ are identical.
+Moreover, the approach we used for representing rational numbers can be used to show the following:
+
+> # {.lemma #predixfreeransformation}
+Let $E:\mathcal{O} \rightarrow \{0,1\}^*$ be a one-to-one function.
+Then there is a one-to-one prefix-free encoding $E'$ such that $|E'(o)| \leq 2|o|$ for every $o\in \mathcal{O}$.
+
+In fact, we can even obtain a more efficient transformation where $|E'(o)| \leq |o| + O(\log |o|)$.
+We leave proving this as an exercise (see [prefix-free-ex](){.ref}).
 
 ### Representing letters and text
 
@@ -99,13 +215,6 @@ There are several types of prefix-free representations of the code points, a pop
 <!-- (For example, the UTF-8 encoding for the "confused face" emoji 😕 is `11110000100111111001100010010101`) -->
 
 
-### Representing real numbers
-
-The _real numbers_ contain all numbers including positive, negative, and fractional, as well as _irrational_ numbers such as $\pi$ or $e$.
-Every real number can be approximated by a rational number, and so up to a small error we can represent every real number $x$ by a rational number $a/b$ that is very close to $x$.
-This is a fine representation though a more common choice to represent real numbers is the _floating point_ representation, where we represent $x$ by the pair $(a,b)$ of integers of some prescribed sizes (determined by the desired accuracy) such that $a2^{-b}$ is closest to $x$.
-The reader might be (rightly) worried about this issue of approximation, but in many (though not all) computational applications, one can make the accuracy tight enough so that this does not affect the final result.^[This is called "floating point" because we can think of the number $a$ as specifying a sequence of binary digits, and $b$ as describing the location of the "binary point" within this sequence. This internal representation is the reason why, for example, in   Python  typing `0.1+0.2` will result in `0.30000000000000004` and not `0.3`, see [here](http://floating-point-gui.de/), [here](https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html) and [here](https://randomascii.wordpress.com/2012/04/05/floating-point-complexities/) for more. A floating point error  has been implicated in the [explosion](http://sunnyday.mit.edu/accidents/Ariane5accidentreport.html) of the Ariane 5 rocket, a bug that cost more than 370 million dollars, and the [failure](http://embeddedgurus.com/barr-code/2014/03/lethal-software-defects-patriot-missile-failure/) of a U.S. Patriot missile to intercept an Iraqi Scud missile, costing 28 lives. Floating point is [often problematic](http://www.theregister.co.uk/2006/08/12/floating_point_approximation/) in financial applications as well.]
-Also, some error in representing real numbers is _unavoidable_: there is no exact representation of real numbers as strings; see [cantor-ex](){.ref}.
 
 
 
@@ -119,73 +228,67 @@ A video can be represented as a list of images.^[Of course these representations
 
 A _graph_ on $n$ vertices can be represented as an $n\times n$ matrix whose $(i,j)^{th}$ entry is equal to $1$ if the edge $(i,j)$ is present and is equal to $0$ otherwise. (We can also represent a graph using the so-called "adjacency list" representation, though the difference between these two representations will almost never matter for this course.)
 
-## General definitions for representations
 
-Generally, a _representation_ of set of objects $\mathcal{O}$ consists of a pair of _encoding_ and _decoding_ functions $E:\mathcal{O} \rightarrow \{0,1\}^*$ and $D:\{0,1\}^* \rightarrow \mathcal{O}$.
-We require that $E$ is one-to-one   $D(G(o))=o$ for every $o\in \mathcal{O}$.
-
-As mentioned, the decoding function $D$ might be a _partial_ function if not every string is a valid representation.
-Often however we will ensure for the sake of convenience that $D$ is total by picking some fixed object $o_0 \in \mathcal{O}$ and  stipulating that $D(x)=o_0$ for every $x$ where $D$ would not otherwise be defined.
 
 ### Representing lists
 
-If we have a way of represent objects from a set $\mathcal{O}$ as  binary strings, then we can easily represent lists of these objects.
-For starters, as mentoned above, we can convert any representation to a _prefix-free_ representation.
-Given a prefix-free encoding $E:\mathcal{O} \rightarrow  \{0,1\}^*$, we can encode a list such as $(o_1,o_2,o_3)$ simply as the concatenation of $o_1$,$o_2$ and $o_3$.
-
-But we can also use a different approach, that doesn't require prefix-free-ness, and  can also handle _nested_ lists.
-The idea is that if we have some representation $E:\mathcal{O} \rightarrow \{0,1\}^*$, then we can represent nested lists of items from $\mathcal{O}$ using strings over the five element alphabet $\Sigma = \{0,1,$`[` $,$ `]` $,$ `,` $\}$.
+If we have a way of represent objects from a set $\mathcal{O}$ as  binary strings, then we can represent lists of these objects ny applying a prefix-free transformation.
+Moreover, we can use a trick similar to the above to handle  _nested_ lists.
+The idea is that if we have some representation $E:\mathcal{O} \rightarrow \{0,1\}^*$, then we can represent nested lists of items from $\mathcal{O}$ using strings over the five element alphabet $\Sigma = \{$ `0`,`1`,`[` , `]` , `,` $\}$.
 For example, if $o_1$ is represented by `0011`, $o_2$ is represented by `10011`, and $o_3$ is represented by `00111`, then we can represent the nested list $(o_1,(o_2,o_3))$ as the string `"[0011,[1011,00111]]"` over the alphabet $\Sigma$.
 By encoding every element of $\Sigma$ itself as a three-bit string,
 we can transform any representation for objects $\mathcal{O}$ into a representation that allows to represent (potentially nested) lists of these objects.
-If we do not specify another representation scheme for lists, then we will assume that we use this method.
 
 
 
 ### Notation
 
 We will typically identify an object with its representation as a string. For example, if $F:\{0,1\}^* \rightarrow  \{0,1\}^*$ is some function that maps strings to strings and $x$ is an integer, we might make statements such as "$F(x)+1$ is prime" to mean that if we represent $x$ as a string $\underline{x}$ and let $\underline{y}=F(\underline{x})$, then the integer $y$ represented by the string $\underline{y}$ satisfies that $y+1$ is prime. (You can see how this convention of identifying objects with their representation can save us a lot of cumbersome formalism.)
-Similarly, if $x,y$ are some objects and $F$ is a function that takes strings as inputs, then by $F(x,y)$ we will mean the result of applying $F$ to the representation of the tuple $(x,y)$.
+Similarly, if $x,y$ are some objects and $F$ is a function that takes strings as inputs, then by $F(x,y)$ we will mean the result of applying $F$ to the representation of the order pair $(x,y)$.
+We will use the same notation to invoke functions on $k$-tuples of objects for every $k$.
 
-Note that this convention of identifying an object with its representation as a string is one that we humans follow all the time. For example, when people say a statement such as "$17$ is a prime number", what they really mean is that the integer whose representation in the decimal basis is the string "`17`", is prime.
+This convention of identifying an object with its representation as a string is one that we humans follow all the time. For example, when people say a statement such as "$17$ is a prime number", what they really mean is that the integer whose decimal representation is the string "`17`", is prime.
 
 ## Defining computational tasks
 
-Given the above, we will define a computational process as an object that takes an input which is a string of bits, and produces an output which is a string of bits.
+Abstractly, a _computational process_ is some process that takes an input which is a string of bits, and produces an output which is a string of bits.
+This transformation of input to output can be done using a modern computer, a person following instructions, the evolution of some natural system, or any other means.
+
 
 ![A computational process](../figure/computation.png){#figureid .class width=300px height=300px}
 
-A _computational task_ defines the relation that the output needs to have with the input.
-The simplest and most common task is simply _computing a function_.
-That is, computing some deterministic map $F$ of $\{0,1\}^*$ to $\{0,1\}^*$.
-A computational process $P$ computes a  function $F$ if for every input $x\in \{0,1\}^*$, the output of $P$ on input $x$, which we denote by $P(x)$, is equal to $F(x)$. ^[We will sometimes consider also _partial functions_, which are functions $F$ that are only defined on a subset of $\{0,1\}^*$.
-In this case, we say that $P$ computes $F$ if $P(x)=F(x)$ for every $x$ on which $F$ is defined, where we don't care what is the output of $P$ on $x$'s  where $F$ is undefined.]
-An important special case is when the function's output is a single bit $\{0,1\}$.
-Computing such functions corresponds to answering a YES/NO question, and hence this task is also known as a _decision problem_.^[Computing a single-bit output _partial_ function $F$ corresponds to answering a YES/NO question on inputs that are promised to be in the set on which $F$ is defined. Hence this task is also known as solving a _promise problem_. See our note on terminology below.]
+In future lectures, we will turn to mathematically defining  computational process, but, as we discussed above for now we want to focus on _computational tasks_; i.e., focus on the __specification__ and not the __implementation__.
+Again, at an abstract level, a computational task can specify any relation that the output needs to have with the input.
+But for most of this course, we will focus on the simplest and most common task of _computing a  function_.
+Here are some examples:
+
+* Given (a representation) of two integers $x,y$, compute the product $x\times y$. Using our representation above, this corresponds to computing a function from $\{0,1\}^*$ to $\{0,1\}^*$. We've seen that there is more than one way to solve this computational task, and in fact, we still don't know the best algorithm for this problem.
+
+* Given (a representation of) an integer $z$, compute its _factorization_; i.e., the list of primes $p_1 \leq \cdots \leq p_k$ such that $z = p_1\cdots p_k$.  This again corresponds to computing a function from $\{0,1\}^*$ to $\{0,1\}^*$. The gaps in our knowledge of the complexity of this problem are even longer.
+
+* Given (a representation of) a graph $G$ and two vertices $s$ and $t$, compute the length of the shortest path in $G$ between $s$ and $t$, or do the same for the _longest_ path (with no repeated vertices) between $s$ and $t$. Both these tasks correspond to computing a function from $\{0,1\}^*$ to $\{0,1\}^*$, though it turns out that there is a huge difference in their computational difficulty.
+
+* Given the code of a Python program, is there an input that would force it into an infinite loop. This corresponds to computing a partial function from $\{0,1\}^*$ to $\{0,1\}$; though it is easy to make it into a total function by mapping every string into the trivial Python program that stops without doing anything. We will see that we _do_ understand the computational status of this problem, but the answer is quite surprising.
+
+*  Given (a representation of) an image $I$, decide if $I$ is a photo of a cat or a dog. This correspond to computing  some (partial) function from $\{0,1\}^*$ to $\{0,1\}$.
 
 
-Computing functions or partial functions captures a very wide variety of computational tasks including:
+An important special case of computational tasks corresponds to computing _Boolean_ functions, whose output is a single bit $\{0,1\}$.
+Computing such functions corresponds to answering a YES/NO question, and hence this task is also known as a _decision problem_.
+Given any function $F:\{0,1\}^* \rightarrow \{0,1\}$ and $x\in \{0,1\}^*$, the task of computing $F(x)$ corresponds to the task of deciding whether or not $x\in L$ where $L = \{ x : F(x)=1 \}$ is known as the _language_ that corresponds to the function $F$.^[The language terminology is due to historical connections between the theory of computation and formal linguistics as developed by Noam Chomsky.]
+Hence many texts refer to such as computational task as _deciding a language_.
 
-* Given (a representation of) an integer $x$, decide if $x$ is prime or composite. (This corresponds to computing a function from $\{0,1\}^*$ to $\{0,1\}$, can you see why?)
 
-* Given (a representation of) an integer $x$, compute its _factorization_; i.e., the list of primes $p_1 \leq \cdots \leq p_k$ such that $x = p_1\cdots p_k$. (This corresponds to computing a function from $\{0,1\}^*$ to $\{0,1\}^*$.)
 
-* Given (a representation of) a logical true or false statement about the integers such as the Riemann Hypothesis, the twin prime conjecture, etc.., decide whether it is true or fale. (This corresponds to computing a partial function from $\{0,1\}^*$ to $\{0,1\}$; we can also make this a total function by arbitrarily assigning some trivial statement such as `1+1=2` to strings that do not correspond to a valid statement.)
 
-* Given (a representation of) a graph $G$ and two vertices $s$ and $t$, compute the length of the shortest simple (i.e., non intersecting) path in $G$ between $s$ and $t$, or do the same for the _longest_ simple path between $s$ and $t$. (Both correspond to computing a function from $\{0,1\}^*$ to $\{0,1\}^*$, though it turns out that there is a huge difference in their computational difficulty.)
-
-*  Given (a representation of) an image $I$, decide if $I$ is a photo of a cat or a dog. (This corresponds to a partial function from $\{0,1\}^*$ to $\{0,1\}$, though of course there is more than one partial function that would correspond to this task.)
-
-etc. etc.
-
-Given every particular (partial) function $F$, there can be several possible _algorithms_ to compute this function.
+For every particular  function $F$, there can be several possible _algorithms_ to compute $F$.
 We will be interested in questions such as:
 
 * For a given function $F$, can it be the case that _there is no algorithm_ to compute $F$?
 
 * If there is an algorithm, what is the best one? Could it be that $F$ is "effectively uncomputable" in the sense that every algorithm for computing $F$ requires a prohibitively large amount of resources?
 
-* If we can't answer this question, can we show equivalence between different functions $F$ and $F'$ in the sense that either they are both easy or they are both hard?
+* If we can't answer this question, can we show equivalence between different functions $F$ and $F'$ in the sense that either they are both easy (i.e., have fast algorithms) or they are both hard?
 
 * Can a function being hard to compute ever be a _good thing_? Can we use it for applications in areas such as cryptography?
 
@@ -194,41 +297,34 @@ In order to do that, we will need to mathematically define the notion of an _alg
 ### Advanced note: beyond computing functions
 
 Functions capture quite a lot of computational tasks, but one can consider more general settings as well.
-One generalization is to consider _relations_ that may have more than one possible admissible output.
-For example, a set of equations might have more than one solution.  
-A _relation_ $R$ maps a string $x\in \{0,1\}^*$ into a _set of strings_ $R(x)$ (for example, $x$ might describe a set of equations, in whihc case  $R(x)$ would correspond to  the set of all solutions to $x$).
+For starters, we can and will talk about _partial_ functions, that are not defined on all inputs.
+When computing a partial function, we only need to worry about the inputs on which the function is defined.
+Another way to say it is that we can design an algorithm for a partial function $F$ under the assumption that someone "promised" us that all inputs $x$ would be such that $F(x)$ is defined (as otherwise we don't care about the result).
+Hence such tasks are also known as _promise problems_.
+
+
+Another generalization is to consider _relations_ that may have more than one possible admissible output.
+For example, consider the task of finding any solution for a given set of equation.
+A _relation_ $R$ maps a string $x\in \{0,1\}^*$ into a _set of strings_ $R(x)$ (for example, $x$ might describe a set of equations, in which case  $R(x)$ would correspond to  the set of all solutions to $x$).
 We can also identify a relation $R$ with the set of pairs of strings $(x,y)$ where $y\in R(x)$.
 A computational process solves a relation if for every $x\in \{0,1\}^*$, it outputs some string $y\in R(x)$.
-We can also consider _interactive_ computational tasks, such as finding good strategy in a game, etc..
 
-Last but not least, our focus on the moment is on finding algorithms that correctly compute a function $F$ on _every_ input $x$.
-This is sometimes known as _worst case analysis_.
-We can also try to study algorithms that succeed on "typical" or "most" inputs, which is sometimes known as _average case complexity_.
-This is often a more appropriate model in various data analysis and machine learning applications, though formalizing the notion of "typical" is highly non trivial.
 
-We will consider various such generalizations later on in this course.
-However, in the first several few lectures we will focus on the task of computing a function, and often even a _Boolean_ function, that has only a single bit of output.
+Later on in this course we will consider even more general tasks, including  _interactive_  tasks, such as finding good strategy in a game, tasks defined using probabilistic notions, and others.
+However, for much of this course we will focus on the task of computing a function, and often even a _Boolean_ function, that has only a single bit of output.
 It turns out that a great deal of the theory of computation can be studied in the context of this task, and the insights  learned are applicable in the more general settings.
-
-### Terminology
-
-Different texts on the theory of computation use somewhat different terminology to describe computational tasks.
-As mentioned above, computing a _Boolean_ (i.e., with $0/1$ output) function $F:\{0,1\}^* \rightarrow \{0,1\}$ amounts to solving a YES/NO problem of whether $F(x)=0$ or $F(x)=1$.
-Hence this task is also known as a _decision problem_.
-We can identify a Boolean function $F$ with the set $L =  \{ x : F(x)=1 \}$ of the inputs on which it outputs $1$.
-For historical reasons, such sets are often known as _languages_, and hence some texts use the term "deciding a language" for the task of computing a Boolean function.
-We will not use this terminology in this course.
-
-If $F$ is a _partial_ function, then computing $F$ amounts to solving the decision problem only on the inputs $x$ for which $F$ is defined. One way to think of this is that the algorithm is "promised" that its input $x$ is such that $F$ is defined on it (and if the promise is violated then the algorithm need not provide any guarantees on the output).
-For this reason, computing a partial function $F$ is sometimes known as solving a _promise problem_.
 
 
 ## Lecture summary
 
 * We can represent essentially every object we want to compute on using binary strings.
+
 * A representation scheme for a set of objects $\mathcal{O}$ is a one-to-one map  from $\mathcal{O}$ to $\{0,1\}^*$.
+
 * A basic computational task is the task of _computing a function_ $F:\{0,1\}^* \rightarrow \{0,1\}^*$. This encompasses not just arithmetical computations such as multiplication, factoring, etc. but a great many other tasks arising in areas as diverse as scientific computing, artificial intelligence, image processing, data mining and many many more.
+
 * We will study the question of finding (or at least giving bounds on) what is the _best_ algorithm for  computing $F$ for various interesting functions $F$.
+
 
 ## Exercises
 
@@ -280,7 +376,7 @@ In this exercise we will prove that there is no "lossless" representation of rea
 a. Suppose, towards the sake of contradiction, that there exists such a function $F: \R \rightarrow \{0,1\}^*$. Prove that there exists an onto function $G:\{0,1\}^* \rightarrow \R$. \
 b. Prove that there is an onto function $G': \N \rightarrow \{0,1\}^*$. Conclude that  if there is an onto function $G:\{0,1\}^* \rightarrow \R$ then there exists an onto function $H: \N \rightarrow \R$. \
 c. For any real number $x$ and $i>0$,  define $D(x,i) \in \{0,\ldots, 9\}$ to be the $i^{th}$ decimal digit following the decimal point of $x$. That is, $D(x,i)$ is the remainder when we divide $\lfloor x 10^i \rfloor$ by $10$. For example $D(1/4,1)=2$, $D(1/4,2)=5$ and $D(1/4,i)=0$ for every $i>2$. Similarly,  $D(1/3,i)=3$ for every $i$.
-Prove that if $x$ is between $0$ and $1$ then $x = \sum_{i=1}^{\infty} 10^{-i}D(x,i)$.^[__Hint:__ If you have not taken honors calculus, start by showing that this is true for the case where $x$ has finite decimal expansion, namely that there is some $n$ such that $D(x,i)=0$ for all $i>n$. Formally, what you need to prove for the infinite case is that for every $\epsilon>0$, there is some $n$ such that $|x-\sum_{i=1}^n 10^{-i}D(x,i)|<\epsilon$.] \
+Prove that if $x$ is between $0$ and $1$ then $x = \sum_{i=1}^{\infty} 10^{-i}D(x,i)$.^[__Hint:__ If you are not familiar with infinite series, start by showing that this is true for the case where $x$ has finite decimal expansion, namely that there is some $n$ such that $D(x,i)=0$ for all $i>n$. Formally, what you need to prove for the infinite case is that for every $\epsilon>0$, there is some $n$ such that $|x-\sum_{i=1}^n 10^{-i}D(x,i)|<\epsilon$.] \
 d. Let $S$ be the set of all functions from $\N$ to $\{0,1\}$ prove that the map $D:\R \rightarrow S$ that maps a number $x$ to the function $i \mapsto D(x,i) (\mod 2)$ is onto.^[__Hint:__ Show that for every function $f:\N \rightarrow \{0,1\}$, the number $x = \sum_{i=0}^\infty 10^{-i-1}f(i)$ satisfies $D(x)=f$.] \
 e. Prove that there is no onto map from $\N$  to $S$.^[__Hint:__ Suppose that there was such a map $O$, the we can define the function $f \in S$ such that $f(i)=1-O(i)(i)$ and show that it is not in the image of $O$.] \
 f. Combine a-e to get a contradiction to the assumption that there is one-to-one map from $\R$ to $\{0,1\}^*$.

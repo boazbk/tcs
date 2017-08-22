@@ -268,14 +268,14 @@ But when we want to answer a question such as "does there _exist_ an algorithm t
 
 In particular, we will  need to __(1)__  define exactly what does it mean to solve $P$, and __(2)__  define exactly what is an algorithm.
 Even __(1)__ can sometimes be non-trivial but __(2)__ is particularly challenging; it is not at all clear how (and even whether) we can encompass all potential ways to design algorithms.
-We will consider several simple _models of computation_, and argue that, despite their simplicity, they do capture many "reasonable" approaches for computing, including all those that are currently used in modern computing devices.
+We will consider several simple _models of computation_, and argue that, despite their simplicity, they do capture all "reasonable" approaches for computing, including all those that are currently used in modern computing devices.
 
 Once we have these formal models of computation, we can try to obtain _impossibility results_ for computational tasks, showing that some problems _can not be solved_ (or perhaps can not be solved within the resources of our universe).
 Archimedes once said that given a fulcrum and a long enough lever, he could move the world.
 We will see how _reductions_ allow us  to leverage one hardness result into a slew of a great many others, illuminating the boundaries between the computable and uncomputable (or tractable and intractable) problems.
 
 Later in this course we will go back to examining our models of computation, and see how resources such as randomness or quantum entanglement could potentially change the power of our model.
-In the context of  probabilistic algorithms, we will see how randomness, and related notions such as _entropy_ and _mutual information_, has become an indispensable tool for understanding computation, information, and communication.   
+In the context of  probabilistic algorithms, we will see a glimpse of how randomness  has become an indispensable tool for understanding computation, information, and communication.   
 We will also see how  computational difficulty can be an asset rather than a hindrance, and be used for the   "derandomization" of probabilistic algorithms.
 The same ideas also show up in _cryptography_, which has undergone not just a technological but also an intellectual revolution in the last few decades, much of it building on the foundations that we explore in this course.
 
