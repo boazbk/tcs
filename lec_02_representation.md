@@ -60,7 +60,7 @@ If you don't remember the definitions of _one-to-one_, _onto_, _total_ and _part
 
 ### Representing (potentially negative) integers
 
-Now that we can represent natural numbers, we can represent _whole numbers_ (i.e., members of the set $\Z=\{ \ldots, -3 , -2 , -1 , 0 , +1, +2, +3,\ldots \}$ ) by adding one more bit that represents the sign. So, the string $(\sigma,x_0,\ldots,x_{n-1}) \in \{0,1\}^{n+1}$ will represent the number
+Now that we can represent natural numbers, we can represent the full set of _integers_ (i.e., members of the set $\Z=\{ \ldots, -3 , -2 , -1 , 0 , +1, +2, +3,\ldots \}$ ) by adding one more bit that represents the sign. So, the string $(\sigma,x_0,\ldots,x_{n-1}) \in \{0,1\}^{n+1}$ will represent the number
 $$
 (-1)^\sigma \left[ x_0 2^0 + \cdots x_{n-1} 2^{n} \right]
 $$

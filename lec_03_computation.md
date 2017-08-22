@@ -38,8 +38,9 @@ Here is how al-Khwarizmi described how to solve an equation of the form $x^2 +bx
 ![Text pages from Algebra manuscript with geometrical solutions to two quadratic equations. Shelfmark: MS. Huntingdon 214 fol. 004v-005r](../figure/alKhwarizmi.jpg){#alKhwarizmi .class width=300px height=300px}
 
 For the purposes of this course, we will need a much more precise way to define algorithms.
-Fortunately, at least at the moment, computers lag far behind school-age children in learning from examples, and hence in the 20th century people have come up with  exact formalisms for describing algorithms, namely _programming languages_.
-Here is al-Khwarizmi's quadratic equation solving  algorithm described in Python:
+Fortunately (or is it unfortunately?), at least at the moment, computers lag far behind school-age children in learning from examples.
+Hence in the 20th century people have come up with  exact formalisms for describing algorithms, namely _programming languages_.
+Here is al-Khwarizmi's quadratic equation solving  algorithm described in the Python programming language:^[For concreteness we will sometimes include code of actual programming languages in these notes. However, these will be simple enough to be understandable even by people that are not familiar with these languages.]
 
 
 
@@ -68,7 +69,8 @@ That is, functions $F$ that map $\{0,1\}^n$ to $\{0,1\}^m$ for some natural numb
 Later we will discuss how to extend the language to allow for a single program that can compute a function of every length, but the finite case is already quite interesting and will give us a simple setting for exploring some of the salient features of computing.
 
 The _NAND programming language_ has no loops, functions, or if statements.
-It has only a single operation: `NAND`, and hence every line in a NAND program has the form:
+It has only a single operation: `NAND`.
+That is, every line in a NAND program has the form:
 
 ```
 foo := bar NAND baz
@@ -76,17 +78,11 @@ foo := bar NAND baz
 
 where `foo`, `bar`, `baz` are variable names.^[The terms `foo` and `bar` are [often used](https://en.wikipedia.org/wiki/Foobar) to describe generic variable names in the context of programming, and we will follow this convention throughout the course.
 See the appendix and the website [http://nandpl.org](http://nandpl.org) for a full specification of the NAND programming language.]
+When this line is executed,  the variable `foo` is assigned the negation of the logical AND of (i.e., the NAND operation applied to) the values of the two variables `bar` and `baz`.^[The _logical AND_ of two bits $x,x'\in \{0,1\}$  is equal to $1$ if $x=x'=1$ and is equal to $0$ otherwise. Thus $NAND(0,0)=NAND(0,1)=NAND(1,0)=1$, while $NAND(1,1)=0$.]  
 
-All the variables in the NAND language are _Boolean_: the only values they can take are either zero or one.
-The semantics of executing a NAND program is that when such a line is executed,  the variable `foo` is assigned the negation of the logical AND of (i.e., the NAND operation applied to) the values of the two variables `bar` and `baz`.^[The _logical AND_ of two bits $x,x'\in \{0,1\}$  is equal to $1$ if $x=x'=1$ and is equal to $0$ otherwise. Thus $NAND(0,0)=NAND(0,1)=NAND(1,0)=1$, while $NAND(1,1)=0$.]  
-If a variable hasn't been assigned a value before, then its default value is zero.
-
-Variable identifiers  consist of letters followed optionally by  the apostrophe or "prime" character `'` (e.g., `foo`, `bar`, `bar'`,`baz''` etc..).
-We also allow  adding numerical indices to variables by appending an  underscore and a number to the identifier, so `foo_17` or `bar_52` are also valid variable names.
-Thus in general a variable has the form `foo` or `foo_`$\expr{i}$ for a letter+apostrophes label `foo` and a number $i$.^[In these lecture notes, we  use the convention that when we write $\expr{e}$  then we mean the numerical value of this expression. So for example if $i=10$ then we can write `x_`$\expr{i+7}$ to mean  `x_17`. This is just for the notes: in the NAND programming language itself the indices have to be absolute numerical constants.]
-
-Variables such as `x_22` or `y_18` (that is, of the form `x_`$\expr{i}$  or `y_`$\expr{i}$  where $i$ is a natural number)  have a special meaning.
-The variables beginning with `x_` are _input_ variables and those beginning with `y_` are _output_ variables.^[To avoid degenerate cases, such as a two line program that includes a reference to `x_1000000` or `y_1000000` and hence computes a function with a million inputs or outputs, we require that no index appearing in the program will be  larger than the total number of lines in it.]
+All variables in the NAND programming language are _Boolean_: can take values that are either zero or one.
+Variables such as `x_22` or `y_18` (that is, of the form `x_`$\expr{i}$  or `y_`$\expr{i}$  where $i$ is a natural number)  have a special meaning.^[In these lecture notes, we  use the convention that when we write $\expr{e}$  then we mean the numerical value of this expression. So for example if $i=10$ then we can write `x_`$\expr{i+7}$ to mean  `x_17`. This is just for the notes: in the NAND programming language itself the indices have to be absolute numerical constants.]
+The variables beginning with `x_` are _input_ variables and those beginning with `y_` are _output_ variables.
 Thus for example the following four line NAND program takes an input of two bits and outputs a single bit:
 
 
@@ -97,6 +93,7 @@ w   := x_1 NAND u
 y_0 := v   NAND w
 ~~~~   
 
+> # { .pause }
 Can you guess what function from $\{0,1\}^2$ to $\{0,1\}$ this program computes? It might be a good idea for you to pause here and try to figure this out.
 
 
@@ -190,6 +187,33 @@ Output is y_0=0, y_1=1
 ```
 
 and so you can see that the output $(0,1)$ is indeed the binary encoding of $1+1 = 2$.
+
+### Formal definitions
+
+We define the notion of computing a function by a NAND program in the natural way:
+
+> # {.definition title="Computing a function" #computefuncNAND}
+The _number of inputs_ in a NAND program $P$ is the largest number $n$ such that $P$ contains a variable of the form `x_`$\expr{n-1}$, and the _number of outputs_ is the largest number $m$ such that $P$ contains a variable of the form `y_`$\expr{m-1}$.
+>
+Let $F:\{0,1\}^n \rightarrow \{0,1\}^m$. A NAND program $P$ with $n$ inputs and $m$ outputs _computes $F$_ if for every $x\in \{0,1\}^n$, whenever $P$ is executed with the `x_`$\expr{i}$ variable initialized to $x_i$ for all $i\in [n]$, at the end of the execution the variable `y_`$\expr{j}$ will equal $y_j$ for all $j\in [m]$ where $y=F(x)$.
+>
+For every $L\in \N$, we define $SIZE(L)$ to be the set of all functions that are computable by a NAND program of at most $L$ lines.^[As mentioned in the appendix, we require that the largest index used in an $L$ line NAND program must be smaller than $L$, and so all functions in $SIZE(L)$ have at most $L$ inputs and $L$ outputs.]
+
+> # { .pause }
+Please pause here and verify why [computefuncNAND](){.ref} does indeed capture the natural notion of computing a function by a NAND program.
+
+Let $XOR_n:\{0,1\}^n \rightarrow \{0,1\}$ be the function that maps $x\in \{0,1\}^n$ to $\sum_{i=0}^n x_i (\mod 2)$.
+The NAND program we presented above yields a proof of the following theorem
+
+> # {.theorem title="Computing XOR" #xortwothm}
+$XOR_2 \in SIZE(4)$
+
+
+## Composing functions
+
+
+
+
 
 
 ### Adding two-bit numbers
