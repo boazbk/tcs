@@ -236,14 +236,14 @@ The importance of this phenomena to both the theory and practice of computing, a
 
 
 
-## Counting programs, and lower bounds on the size of NAND programs.
+## Counting programs, and lower bounds on the size of NAND programs
 
 One of the consequences of our representation is the following:
 
 > # {.theorem title="Counting programs" #program-count}
 There are at most $2^{O(s\log s)}$ functions computed by $s$-line NAND programs.
 
-Moreover, the implicit constant in the $O(\cdot)$ notation in [program-count](){.ref} at most $10$.
+Moreover, the implicit constant in the $O(\cdot)$ notation in [program-count](){.ref} is at most $10$.
 Using the notation introduced in the last lecture, another way to  state [program-count](){.ref}, is that for every $n,m,s$, $|SIZE_{n,m}(s)| \leq 2^{10s \log s}$.
 The idea of the proof is that because every such program can be represented by a binary string of at most $10s \log s$ bits, the number of functions they compute cannot be larger than the number of such strings. Let us now show the formal proof.
 
@@ -287,8 +287,10 @@ functions cannot be computed using much smaller programs. However there are many
 ## Lecture summary
 
 * We can think of programs both as describing a _process_, as well as simply a list of symbols that can be considered as _data_ that can be fed as input to other programs.
+
 * We can write a NAND program that evaluates arbitrary NAND programs. Moreover, the efficiency loss in doing so is not too large.
-* We can even write a NAND programs that evaluates programs in other programming languages such as Python, C, Lisp, Java, Go, etc..
+
+* We can even write a NAND program that evaluates programs in other programming languages such as Python, C, Lisp, Java, Go, etc.
 
 ## Exercises
 
@@ -303,7 +305,7 @@ c. There is an $O(\sqrt{s})$ line NAND program that given as input program $P$ o
 For every $k$, show that there is an $O(k)$ line NAND program that computes the function $EQUALS_k:\{0,1\}^{2k} \rightarrow \{0,1\}$ where $EQUALS(x,x')=1$ if and only if $x=x'$.
 
 > # {.exercise title="Improved evaluation" #square-eval-ex}
-Show that there is an  $O(s^2 \log s)$-line NAND program to evaluate $EVAL_{n,m,s}$.^[__Hint:__ Show that that the array `avars` will alwaus have at most $O(s)$ nonzero values, and use that to give a more compact representation for it.]
+Show that there is an  $O(s^2 \log s)$-line NAND program to evaluate $EVAL_{n,m,s}$.^[__Hint:__ Show that  the array `avars` will alwaus have at most $O(s)$ nonzero values, and use that to give a more compact representation for it.]
 
 
 > # {.exercise title="Random functions are hard (challenge)" #rand-lb-id}
@@ -327,7 +329,7 @@ Prove that there is a constant $c$ such that for every $n$, there is some functi
 
 Some topics related to this lecture that might be accessible to advanced students include:
 
-* Lower bounds. While we've seen the "most" functions mapping $n$ bits to one bit require NAND programs of exponential size $\Omega(2^n/n)$, we actually do not know of any _explicit_ function for which we can _prove_ that it requires, say, at least $n^{100}$ or even $100n$ size. At the moment, the best we unconditional lower bound known is that there are quite simple and explicit $n$-variable functions that require at least $(5-o(1))n$ lines to compute, see [this paper of Iwama et al](http://www.wisdom.weizmann.ac.il/~ranraz/publications/P5nlb.pdf) as well as this more recent [work of Kulikov et al](http://logic.pdmi.ras.ru/~kulikov/papers/2012_5n_lower_bound_cie.pdf).
+* Lower bounds. While we've seen the "most" functions mapping $n$ bits to one bit require NAND programs of exponential size $\Omega(2^n/n)$, we actually do not know of any _explicit_ function for which we can _prove_ that it requires, say, at least $n^{100}$ or even $100n$ size. At the moment, strongest such lower bound we know is that there are quite simple and explicit $n$-variable functions that require at least $(5-o(1))n$ lines to compute, see [this paper of Iwama et al](http://www.wisdom.weizmann.ac.il/~ranraz/publications/P5nlb.pdf) as well as this more recent [work of Kulikov et al](http://logic.pdmi.ras.ru/~kulikov/papers/2012_5n_lower_bound_cie.pdf).
 Proving lower bounds for restricted models of straightline programs (more often described as _circuits_) is an extremely interesting research area, for which [Jukna's book](http://www.thi.informatik.uni-frankfurt.de/~jukna/boolean/index.html) provides  very good introduction  and overview.
 
 

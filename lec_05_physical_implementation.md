@@ -29,7 +29,7 @@ _Computation_ is an abstract notion, that is distinct from its physical _impleme
 While most modern computing devices are obtained by mapping logical gates to semi-conductor based transistors, over history people have computed using a huge variety of mechanisms,  including mechanical systems, gas and liquid (known as _fluidics_), biological and chemical processes, and even living creatures (e.g., see [crabfig](){.ref} or  [this video](https://www.youtube.com/watch?v=czk4xgdhdY4) for how crabs or slime mold can be used to do computations).
 
 
-In this lecture we review some of these implementations, both so  you can get an appreciation of how it is possible to directly translate NAND programs to the physical world, without going through the entire stack of architecture, operating systems, compilers, etc... as well as to emphasize that silicon-based processors are by no means the only way perform computation.
+In this lecture we review some of these implementations, both so  you can get an appreciation of how it is possible to directly translate NAND programs to the physical world, without going through the entire stack of architecture, operating systems, compilers, etc... as well as to emphasize that silicon-based processors are by no means the only way to perform computation.
 Indeed, as we will see much later in this course, a very exciting recent line of works involves using different media for computation that would allow us to take advantage of _quantum mechanical effects_ to enable different types of algorithms.
 
 ![Crab-based logic gates from the paper "Robust soldier-crab ball gate" by Gunji, Nishiyama and Adamatzky. This is an example of an AND gate that relies on the tendency of two swarms of crabs arriving from different directions to combine to a single swarm that continues in the average of the directions.](../figure/crab-gate.jpg){#crabfig .class width=200px height=200px}
@@ -70,13 +70,13 @@ Since then, (adjusted versions of) this so-called "Moore's law" has been running
 
 We can use transistors to implement a _NAND gate_, which would be a system with two input wires $x,y$ and one output wire $z$, such that if we identify high voltage with "$1$" and low voltage with "$0$", then the wire  $z$ will equal to "$1$" if and only if the NAND of the values of the wires $x$ and $y$ is $1$ (see [transistor-nand-fig](){.ref}).
 
-![Implementing a NAND gate using transistors](../figure/nand_transistor.png){#transistor-nand-fig .class width=300px height=300px}
+![Implementing a NAND gate using transistors.](../figure/nand_transistor.png){#transistor-nand-fig .class width=300px height=300px}
 
 
 More generally, we can use transistors to implement the model of _Boolean circuits_.
 We list the formal definition below, but let us start with the informal one:
 
->For every subset $B$  of the functions mapping $k$ bits to a single bit, a _Boolean circuit_ with the basis $B$ is obtained by connecting "gates" which compute functions in $B$ together by "wires" where each gate has $k$ wires going into it and one wire going out of it. We have $n$ special wires known as the "input wires" and $m$ special wires known as the "output wires".
+>Let $B$ be some set of functions (known as "gates") from $\bits^k$ to $\{0,1\}$.  A _Boolean circuit_ with the basis $B$ is obtained by connecting "gates" which compute functions in $B$ together by "wires" where each gate has $k$ wires going into it and one wire going out of it. We have $n$ special wires known as the "input wires" and $m$ special wires known as the "output wires".
 To compute a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ using a circuit, we feed the bits of $x$ to the $n$ input wires, and then each gate computes the corresponding function, and we "read off" the output $y\in \{0,1\}^m$  from the $m$ output wires.
 
 The number $k$ is known as the _arity_ of the basis $B$.
@@ -93,7 +93,7 @@ We now define Boolean circuits more formally using the notion of labeled _direct
 Let $k$ be some number and $B$ be a subset of the functions from $\{0,1\}^k \rightarrow \{0,1\}$.
 For every $n,m \in \N$, an $n$ input, $m$ output  _Boolean circuit_ with $B$-gates is a directed acyclic graph (DAG) $G$ over the vertex set $[s] = \{0,1\ldots,s-1\}$ where every vertex is labeled with either a function $f\in B$ or a number $i \in \{0,\ldots,\max\{m,n\}-1\}$ such that: \
 * Every _source vertex_ (vertex without incoming edges) is labeled with a number between $0$ and $n-1$. \
-* Every _sink vertex_ (vertex without outgoing edges)  has only a single incoming edge and is labeled with a number between $0$ and $m-1$. There should be exactly $m$ sink vertices and every one of them gets a unique label \
+* Every _sink vertex_ (vertex without outgoing edges)  has only a single incoming edge and is labeled with a number between $0$ and $m-1$. There should be exactly $m$ sink vertices and every one of them gets a unique label. \
 * Every other vertex has exactly $k$ incoming edges and is labeled with a function $f\in B$.
 
 
@@ -196,9 +196,9 @@ As we will discuss later, cellular automata such as Conway's "Game of Life" can 
 
 ## Circuit evaluation algorithm
 
-A Boolean circuit is a labeled graph, and hence we can use the _adjacency list_ representation to represent an $s$-vertex circuit over an arity-$k$ basis $B$ by $s$ elements of $B$ (that can be identified with numbers in $[|B|]$) and $s$ lists of $K$ numbers in $[s]$.
+A Boolean circuit is a labeled graph, and hence we can use the _adjacency list_ representation to represent an $s$-vertex circuit over an arity-$k$ basis $B$ by $s$ elements of $B$ (that can be identified with numbers in $[|B|]$) and $s$ lists of $k$ numbers in $[s]$.
 Hence we can represent such a circuit by a string of length $O(s\log |B| + s \log s)$.
-We can define  $CIRCEVAL_{B,s,n,m}$ to be the function to be the function that takes as input a pair $(C,x)$ where $C$ is string describing an $s$-size  $n$-input $m$-output circuit over $B$, and $x\in \{0,1\}^n$, and returns the evaluation of $C$ over $n$.
+We can define  $CIRCEVAL_{B,s,n,m}$ to be the function  that takes as input a pair $(C,x)$ where $C$ is string describing an $s$-size  $n$-input $m$-output circuit over $B$, and $x\in \{0,1\}^n$, and returns the evaluation of $C$ over $n$.
 
 [NAND-all-circ-thm](){.ref} implies that every circuit $C$ of $s$ gates over a $k$-ary basis $B$ can be transformed into a NAND program of $O(s\cdot 2^k)$ lines, and hence we can combine this transformation with last lecture's evaluation procedure for NAND programs to conclude that $CIRCEVAL$ can be evaluated in time $O(2^k s^3 poly(\log s))$.
 
@@ -237,30 +237,30 @@ Suppose that $Z$ is a physical system that accepts $n$ binary stimuli and has a 
 We say that the system $Z$ _computes_ a function $F:\{0,1\}^n \rightarrow \{0,1\}$ within $t$ seconds if whenever we set the stimuli to some value  $x\in \{0,1\}^n$,  if we measure the output after $t$ seconds.
 We can phrase the PECTT as stipulating  that whenever there exists such a system $Z$  computes $F$ within $t$ seconds,  there exists  a NAND program that computes $F$ of at most $\alpha(Vt)^2$ lines, where $\alpha$ is some normalization constant.^[We can also consider variants where we use [surface area](https://en.wikipedia.org/wiki/Holographic_principle) instead of volume, or use a different power than $2$.  However, none of these choices makes a qualitative difference  to the discussion below.]
 In particular, suppose that $F:\{0,1\}^n \rightarrow \{0,1\}$ is a function that requires $2^n/(100n)>2^{0.8n}$ lines for any NAND program (we have seen that such functions exist in the last lecture).
-Then the PCETT would imply that either the volume or the time of a system that computes $F$ will have to be at least $2^{0.2 n}/\sqrt{\alpha}$.
+Then the PECTT would imply that either the volume or the time of a system that computes $F$ will have to be at least $2^{0.2 n}/\sqrt{\alpha}$.
 To fully make it  concrete, we need to decide on the units for measuring time and volume, and the normalization constant $\alpha$.
 One  conservative choice is to assume that we could squeeze computation to the absolute physical limits (which are many orders of magnitude beyond current technology).
 This corresponds to setting $\alpha=1$ and using the [Planck units](https://en.wikipedia.org/wiki/Planck_units) for volume and time.
 The _Planck length_ $\ell_P$ (which is, roughly speaking, the shortest distance that can theoretically be measured) is roughly $2^{-120}$ meters.
 The _Planck time_ $t_P$ (which is the time it takes for light to travel one Planck length) is about $2^{-150}$ seconds.
-In the above setting, if a function $F$ takes, say, 1KB of input (e.g., roughly $10^4$ bits, which can encode a $100$ by $100$ bitmap image), and requires at least $2^{0.8 n}= 2^{0.8 10^4}$ NAND lines to compute, then any physical system that computes it would require either volume of $2^{0.2 10^4}$ Planck length cubed, which is more than $2^{1500}$ meters cubed or take at least $2^{0.2 10^4}$ Planck Time units, which is larger than $2^{1500}$ seconds.
+In the above setting, if a function $F$ takes, say, 1KB of input (e.g., roughly $10^4$ bits, which can encode a $100$ by $100$ bitmap image), and requires at least $2^{0.8 n}= 2^{0.8 \cdot 10^4}$ NAND lines to compute, then any physical system that computes it would require either volume of $2^{0.2\cdot  10^4}$ Planck length cubed, which is more than $2^{1500}$ meters cubed or take at least $2^{0.2 \cdot 10^4}$ Planck Time units, which is larger than $2^{1500}$ seconds.
 To get a sense of how big that number is, note that the universe is only about $2^{60}$ seconds old, and its observable radius is only roughly $2^{90}$ meters.
 This suggests that it is possible to _empirically falsify_ the PECTT by presenting a smaller-than-universe-size system that solves such a function.^[There are of course several hurdles to refuting the PECTT in this way, one of which is that we can't actually test the system on all possible inputs. However,  it turns we can get around this issue using notions such as  _interactive proofs_ and _program checking_ that we will see later in this course. Another, perhaps more salient problem, is that while we know many hard functions exist, at the moment there is _no single explicit function_ $F:\{0,1\}^n \rightarrow \{0,1\}$ for which we can _prove_ an $\omega(n)$ (let alone  $\Omega(2^n/n)$) lower bound  on the number of lines that a NAND program needs to compute it.]
 
-### Attempts at refuting  the PECTT:
+### Attempts at refuting  the PECTT
 
 One of the admirable traits of mankind is the refusal to accept limitations.
 In the best case this is manifested by people achieving longstanding "impossible" challenges such as heavier-than-air flight, putting a person on the moon, circumnavigating the globe, or even resolving Fermat's Last Theorem.
 In the worst-case it is manifested by people continually following the footsteps of previous failures to try to do proven-impossible tasks such as build a perpetual motion machine, trisect an angle with a compass and straightedge, or refute Bell's inequality.
 The Physical Extended Church Turing thesis (in its various forms) has attracted both types of people.
-Here are some physical devices that have been speculated to  achieve computational tasks that cannot be done b y not-too-large  NAND programs:
+Here are some physical devices that have been speculated to  achieve computational tasks that cannot be done by not-too-large  NAND programs:
 
 * **Spaghetti sort:** One of the first lower bounds that Computer Science students encounter is that sorting $n$ numbers requires making $\Omega(n \log n)$ comparisons. The "spaghetti sort" is a description of a proposed "mechanical computer" that would do this faster. The idea is that to sort $n$ numbers $x_1,\ldots,x_n$, we could cut $n$ spaghetti noodles into lengths $x_1,\ldots,x_n$, and then if we simply hold them together in our hand and bring them down to a flat surface, they will emerge in sorted order. There are a great many reasons why this is not truly a challenge to the PECTT hypothesis, and I will not ruin the reader's fun in finding them out by her or himself.
 
 * **Soap bubbles:** One function $F:\{0,1\}^n \rightarrow \{0,1\}$ that is conjectured to require a large number of NAND lines to solve is the _Euclidean Steiner Tree_ problem. This is the problem where one is given $m$ points in the plane $(x_1,y_1),\ldots,(x_m,y_m)$ (say with integer coordinates ranging from $1$ till $m$, and hence the list can be represented as a string of $n=O(m \log m)$ size) and some number $K$.  The goal is to figure out whether it is possible to connect all the points by line segments of total length at most $K$. This function is conjectured to be hard because it is _NP complete_ - a concept that we'll encounter later in this course - and it is in fact reasonable to conjecture that as $m$ grows, the number of NAND lines required to compute this function grows _exponentially_ in $m$, meaning that the PECTT would predict that if $m$ is sufficiently large (such as few hundreds or so) then no physical device could compute $F$.
 Yet, some people claimed that there is in fact a very simple physical device that could solve this problem, that can be constructed using some wooden pegs and soap. The idea is that if we take two glass plates, and put $m$ wooden pegs between them in the locations $(x_1,y_1),\ldots,(x_m,y_m)$ then bubbles will form whose edges touch those pegs in the way that will minimize the total energy which turns out to be a function of the total length of the line segments.
 The problem with this device of course is that nature, just like people, often gets stuck in "local optima". That is, the resulting configuration will not be one that achieves the  absolute minimum of the total energy but rather one that can't be improved with local changes.
-[Aaronson](http://www.scottaaronson.com/papers/npcomplete.pdf) has carried out actual experiments (see [aaronsonsoapfig](){.ref}), and  saw that while this device often is successful for three or four pegs, it starts yielding suoptimal results once the number of pegs grows beyond that.
+[Aaronson](http://www.scottaaronson.com/papers/npcomplete.pdf) has carried out actual experiments (see [aaronsonsoapfig](){.ref}), and  saw that while this device often is successful for three or four pegs, it starts yielding suboptimal results once the number of pegs grows beyond that.
 
 ![Scott Aaronson [tests](http://www.scottaaronson.com/blog/?p=266) a candidate device for computing Steiner trees using soap bubbles.](../figure/aaronsonsoapbubble.jpg){#aaronsonsoapfig .class width=300px height=300px}
 

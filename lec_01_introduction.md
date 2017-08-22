@@ -96,13 +96,13 @@ Suppose that $x,y \in [100]=\{0,\ldots, 99 \}$ are a pair of two-digit numbers.
 Let's write $\overline{x}$ for the "tens" digit of $x$, and $\underline{x}$ for the "ones" digit, so that $x = 10\overline{x} + \underline{x}$, and write similarly $y = 10\overline{y} + \underline{y}$ for $\overline{y},\underline{y} \in [10]$.
 The gradeschool algorithm for multiplying $x$ and $y$ is illustrated in [gradeschoolmult](){.ref}.
 
-![The gradeschool multiplication algorithm illustrated for multiplying $x=10\overline{x}+\underline{x}$ and $y=10\overline{y}+\underline{y}$. It uses the formula $(10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10(\overline{x}\underline{y} + \underline{y}\overline{x}) + \underline{x}\underline{y}$.](../figure/gradeschoolmult.png){#gradeschoolmult .class width=300px height=300px}
+![The gradeschool multiplication algorithm illustrated for multiplying $x=10\overline{x}+\underline{x}$ and $y=10\overline{y}+\underline{y}$. It uses the formula $(10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10(\overline{x}\underline{y} + \underline{x}\overline{y}) + \underline{x}\underline{y}$.](../figure/gradeschoolmult.png){#gradeschoolmult .class width=300px height=300px}
 
 The gradeschool algorithm  works by transforming the task of multiplying a pair of two digit number into _four_ single-digit multiplications via the formula
 
 
 $$
-(10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10(\overline{x}\underline{y} + \underline{y}\overline{x}) + \underline{x}\underline{y} \label{eq:gradeschooltwodigit}
+(10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10(\overline{x}\underline{y} + \underline{x}\overline{y}) + \underline{x}\underline{y} \label{eq:gradeschooltwodigit}
 $$
 
 
@@ -110,7 +110,7 @@ $$
 Karatsuba's algorithm is based on the observation that we can express this also as
 
 $$
-(10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10\left[(\overline{x}+\underline{x})(\overline{x}-\underline{y})\right] +(100-1)\overline{x}\overline{y} -(10+1)\underline{x}\underline{y} \label{eq:karatsubatwodigit}
+(10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10\left[(\overline{x}+\underline{x})(\overline{y}+\underline{y})\right] -10\overline{x}\overline{y} -(10+1)\underline{x}\underline{y} \label{eq:karatsubatwodigit}
 $$
 
 which reduces multiplying the two-digit number $x$ and $y$ to computing the following three "simple" products:  $\overline{x}\overline{y}$, $\underline{x}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$.^[The last term is not exactly a single digit multiplication as $\overline{x}+\underline{x}$ and $\overline{y}+\underline{y}$ are numbers between $0$ and $18$ and not between $0$ and $9$. As we'll see, it turns out that does not make much of a difference, since when we use the algorithm recursively, this term will have essentially half the number of digits as the original input.]
@@ -130,23 +130,23 @@ Specifically, we use a  _recursive_ strategy as follows:
 >1. If $n \leq 2$ then return $x\cdot y$ (using a constant number of single digit multiplications)
 >2. Otherwise, let $m = \floor{n/2}$, and write $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \underline{y}$.^[Recall that for a number $x$, $\floor{x}$ is obtained by "rounding down" $x$ to the largest integer smaller or equal to  $x$.]  \
 >2. Use _recursion_ to compute  $A=\overline{x}\overline{y}$, $B=\underline{y}\underline{y}$ and $C=(\overline{x}+\underline{x})(\overline{y}+\underline{y})$. Note that all the numbers will have at most $m+1$ digits.  \
->3. Return $10^n\cdot A  + 10^m \cdot B -(10^m-1)\cdot C$
+>3. Return $(10^n-10^m)\cdot A  + 10^m \cdot B +(1-10^m)\cdot C$
 
 To understand why the output will be correct, first note that for $n>2$, it will always hold that  $m<n-1$, and hence the recursive calls will always be for multiplying numbers with a smaller number of digits, and (since eventually we will get to single or double digit numbers)  the algorithm will indeed terminate.
 Now, since $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \underline{y}$,
 
 $$
-x \times y = 10^n\overline{x}\cdot \overline{y} + 10^{m}(\overline{x}\overline{y} +\underline{x}\underline{y}) + \underline{x}\underline{y} \label{eqkarastubaone}
+x \times y = 10^n \overline{x}\cdot \overline{y} + 10^{m}(\overline{x}\overline{y} +\underline{x}\underline{y}) + \underline{x}\underline{y} \label{eqkarastubaone}
 $$
 
 But we can also write the same expression as
 
 $$
-x \times y = 10^n\overline{x}\cdot \overline{y} + 10^{m}\left[ (\overline{x}+\underline{x})(\overline{y}+\underline{y}) - \underline{x}\underline{y} \right]  + \underline{x}\underline{y}
+x \times y = 10^n\overline{x}\cdot \overline{y} + 10^{m}\left[ (\overline{x}+\underline{x})(\overline{y}+\underline{y}) - \underline{x}\underline{y}  - \overline{x}\overline{y} \right]  + \underline{x}\underline{y}
  \label{eqkarastubatwo}
 $$
 
-which equals to the value $10^n\cdot A  + 10^m \cdot B -(10^m-1)\cdot C$ returned by the algorithm.
+which equals to the value $(10^n-10^m)\cdot A  + 10^m \cdot B +(1-10^m)\cdot C$ returned by the algorithm.
 
 
 The key observation is that the formula [eqkarastubatwo](){.eqref} reduces computing the product of two $n$ digit numbers to computing _three_ products of  $\floor{n/2}$ digit numbers (namely $\overline{x}\overline{y}$, $\underline{y}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ as well as performing a constant number (in fact eight) additions, subtractions, and multiplications by $10^n$ or $10^{\floor{n/2}}$ (the latter corresponding to simple shifts).
