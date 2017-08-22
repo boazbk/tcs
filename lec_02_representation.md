@@ -397,10 +397,8 @@ Some topics related to this lecture that might be accessible to advanced student
 
 * We've mentioned that all  representations of the real numbers are inherently _approximate_. Thus an important endeavor is to understand what guarantees we can offer on the approximation quality of the output of an algorithm, as a function of the approximation quality of the inputs. This is known as the question of [numerical stability](https://en.wikipedia.org/wiki/Numerical_stability).
 
-* The linear algebraic view of graphs. The adjacency matrix representation of graphs is not merely a convenient way to map a graph into a binary string, but it turns out that many natural notions and operations on matrices are useful for graphs as well. (For example, Google's PageRank algorithm relies on this viewpoint.)  The notes of [this course](http://www.cs.yale.edu/homes/spielman/561/) are an excellent source for this area, known as _spectral graph theory_. We will discuss this view much later in this course when we talk about _random walks_.
+* The linear algebraic view of graphs. The adjacency matrix representation of graphs is not merely a convenient way to map a graph into a binary string, but it turns out that many natural notions and operations on matrices are useful for graphs as well. (For example, Google's PageRank algorithm relies on this viewpoint.)  The notes of [this course](http://www.cs.yale.edu/homes/spielman/561/) are an excellent source for this area, known as _spectral graph theory_. We might discuss this view much later in this course when we talk about _random walks_.
 
 
 
 ## Acknowledgements
-
-Thanks to Jarosław Błasiok for comments on the exercise on Cantor's Theorem.

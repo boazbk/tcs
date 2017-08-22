@@ -536,7 +536,7 @@ By repeatedly applying Modus Ponens, we can deduce from __(a)__ and __(b)__ that
 ### Proving the theorem by induction
 
 There are several ways to use induction to prove  [graphconthm](){.ref}.
-We will do so by following our intuition above that with a budget of $k$ edges, we cannot connect to a vertex more than $k-1$ other vertices.
+We will do so by following our intuition above that with a budget of $k$ edges, we cannot connect to a vertex more than $k$ other vertices.
 That is, we will define the statement $Q(k)$ as follows:
 
 >$Q(k)$ is _"For every graph $G=(V,E)$ with at most $k$ edges and every $u\in V$, the number of vertices that are connected to $u$ (including $u$ itself) is at most $k+1$"_
@@ -753,7 +753,7 @@ The main points where we diverge are:
 
 ># {.exercise title="Inclusion Exclusion" #inclex }
 a. Let $A,B$ be finite sets. Prove that $|A\cup B| = |A|+|B|-|A\cap B|$. \
-b. Let $A_0,\ldots,A_{k-1}$ be finite sets. Prove that $|A_1 \cup \cdots \cup A_k| \geq \sum_{i=0}^{k-1} |A_i| - \sum_{0 \leq i < j < k} |A_i \cap A_j|$. \
+b. Let $A_0,\ldots,A_{k-1}$ be finite sets. Prove that $|A_0 \cup \cdots \cup A_{k-1}| \geq \sum_{i=0}^{k-1} |A_i| - \sum_{0 \leq i < j < k} |A_i \cap A_j|$. \
 c. Let $A_0,\ldots,A_{k-1}$ be finite subsets of $\{1,\ldots, n\}$, such that $|A_i|=m$ for every $i\in [k]$. Prove that if $k>100n$, then there exist two distinct sets $A_i,A_j$ s.t. $|A_i \cap A_j| \geq m^2/(10n)$.
 
 
