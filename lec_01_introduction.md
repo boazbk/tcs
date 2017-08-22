@@ -294,7 +294,7 @@ Rank the significance of the  following inventions in speeding up multiplication
    >c. Invention of modern electronic computers (improving upon calculations with pen and paper)
 
 > # {.exercise}
-The 1977  Apple II personal computer had a processor speed of 1.023 Mhz or about $10^6$ operations per seconds. At the time of this writing the world's fastest supercomputer performs 93 "petaflops" ($10^{15}$ floating point operations per second) or about $10^{18}$ basic steps per second. Compute the size of input that each one of those computers can handle in a week of computation, if the algorithm they run takes on input of length $n$: \
+The 1977  Apple II personal computer had a processor speed of 1.023 Mhz or about $10^6$ operations per seconds. At the time of this writing the world's fastest supercomputer performs 93 "petaflops" ($10^{15}$ floating point operations per second) or about $10^{18}$ basic steps per second. For each one of the following running times (as a function of the input length $n$), compute for both computers how large an input  they could handle in a week of computation, if they run an algorithm that has this running time:  \
    >a. $n$ operations. \
    >b. $n^2$ operations. \
    >c. $n\log n$ operations. \
