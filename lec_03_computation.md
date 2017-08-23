@@ -294,6 +294,14 @@ The following theorem says that these two notions of computing a function are ac
 > # {.theorem title="Equivalence of circuits and straightline programs" #circuitprogequivthm}
 For every $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $S\in \N$, $F$ can be computed by an $S$-line NAND program if and only if $F$ can be computed by an $n$-input $m$-output NAND circuit of $S$ gates.
 
+The idea behind the proof is simple.
+Just like we did to the XOR program, if we have a NAND program $P$ of $S$ lines, $n$ inputs, and $m$ outputs, we can transform it into a NAND circuit with $n$ inputs and $m$ gates, where each gate corresponds to a line in the program $P$. If  line $\ell$ involves the NAND of two variables assigned to in lines $\ell'$ and $\ell''$, then we will have edges to the gate corresponding to $\ell$ from the gates correspnding to $\ell',\ell''$.
+In the other direction, we can transform a NAND circuit $C$ of  $n$ inputs, $m$ outputs and $S$ gates to an $S$-line program by essentially inverting this process.
+For every gate in the program, we will have a line in the program which assigns to a variable the NAND of the variables corresponding to the in-neighbors of this gate.
+If the gate is an output gate labeled with `y_`$\expr{j}$ then the  corresponding line will assign the value to the variable `y_`$\expr{j}$.
+Otherwise we will assign the value to a fresh "workspace" variable.
+We now show the formal proof.
+
 > # {.proof data-ref="circuitprogequivthm"}
 We start with the "only if" direction.
 That is, we show how to transform a NAND program to a circuit.
@@ -309,8 +317,35 @@ For every $j\in[m]$, let $\ell$ be the last line in which the variable `y_`$\exp
 Note that the vertices of the form $(0,i)$ have  in-degree zero, and all edges of the form $\overright{(1,\ell')\;(1,\ell)}$ satisfy $\ell>\ell'$.
 Hence this graph is a DAG, as in any cycle there would have to be at least on edge going from a vertex of the form $(1,\ell)$ to a vertex of the form $(1,\ell')$ for $\ell'<\ell$ (can you see why?).
 Also, since we don't allow a variable of the form `y_`$\expr{j}$ on the right-hand side of a NAND operation, the output vertices have out-degree zero.
-To complete the proof of this direction, we need to show that the circuit $C$ computes the same function as the program $P$.
-Indeed, 
+>
+To complete the proof of the "only if" direction, we need to show that the circuit $C$ we constructed computes the same function $F$ as the program $P$ we were given.
+Indeed, let $x\in \{0,1\}^n$ and $y = F(x)$.
+For every $\ell$, let $z_\ell$ be the value that is assigned by the $\ell$-th line in the execution of $P$ on input $x$.
+Now, as per [NANDcirccomputedef](){.ref}, define the map $Z:V \rightarrow \{0,1\}$ as follows: $Z((0,i))=x_i$ for $i\in [n]$ and $Z((1,\ell))=z_\ell$ for every $\ell \in [S]$.
+Then, by our construction of the circuit, the map satisfies the condition that for vertex $v$ with in-neighbors $u$ and $w$, the value $Z(v)$ is the NAND of $Z(u)$ and $Z(w)$ (replacing missing neighbors with the value $0$), and hence in particular for every $j\in [m]$, the value assigned in the last line that touches `y_`$\expr{j}$ equals $y_j$.
+Thus the circuit $C$ does compute the same function $F$.
+>
+For the "if" direction, we need to transform an $S$-gate circuit $C=(V,E,L)$ that computes $F:\{0,1\}^n \rightarrow \{0,1\}^m$ into an $S$-line NAND program $P$ that computes the same function.
+We start by doing a [topological sort](https://en.wikipedia.org/wiki/Topological_sorting) of the graph $C$.
+That is we sort the vertex set $V$ as $\{v_0,\ldots,v_{n+S-1} \}$ such that  $\overrightarrow{v_i v_j} \in E$, $v_i < v_j$.
+Such a sorting can be found for every DAG.
+Moreover, because the input vertices of $C$ are "sources" (have in-degree zero), we can ensure they are placed first in this sorting and moreover for every $i\in [n]$, $v_i$ is the input vertex labeled with `x_`$\expr{i}$.
+>
+Now for $\ell=0,1,\ldots,n+S-1$ we will define a variable  $var(\ell)$  in our resulting program as follows:
+If $\ell<n$ then $var(\ell)$ equals `x_`$\expr{i}$.
+If $v_\ell$ is an output gate  labeled with `y_`$\expr{j}$ then $var(\ell)$ equals `y_`$\expr{j}$.
+otherwise  $var(\ell)$ will be a temporary workspace variable `temp_`$\expr{\ell-n}$.
+Our program $P$ will have $S$ lines, where for every $k\in [S]$, if the in-neighbors of $v_{n+k}$ are $v_i$ and $v_j$ then the $k$-th line in the program will be $var(n+k)$ ` := ` $var(i)$ ` NAND ` $var(j)$.
+If $v_k$ has fewer  than two in-neighbors then we replace the corresponding variable with the variable `zero` (which is never set to any value and hence retains its default value of $0$.
+>
+To complete the proof of the "if" direction we need to show that the program $P$ we constructed computes the function $F$ as the circuit $C$ we were given.
+Indeed, let $x\in \{0,1\}^n$ and $y=F(x)$.
+Since $C$ computes $F$, there is a labeling $Z:V \rightarrow \{0,1\}$ as per  [NANDcirccomputedef](){.ref}.
+We claim that if we run the program $P$ on input $x$, then for every $k\in [S]$ the value assigned by the $k$-th line corresponds to $Z(v_{n+k})$.
+Indeed by construction the value assigned in the $k$-th line corresponds to the NAND of the value assigned to the in-neighbors of $v_{n+k}$.
+Hence in particular if $v_{n+k}$ is the output gate labeled `y_`$\expr{j}$ then this value will equal $y_j$, meaning that on input $x$ our program will output $y=F(x)$.
+
+
 
 
 

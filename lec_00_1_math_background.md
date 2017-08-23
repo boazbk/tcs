@@ -1,7 +1,11 @@
 # Mathematical Background
 
 
+>_"When you have mastered numbers, you will in fact no longer be reading numbers, any more than you read words when reading books. You will be reading meanings."_, W. E. B. Du Bois
+
+<!---
 >_"Young man, in mathematics you don't understand things. You just get used to them."_, John von Neumann
+--->
 
 
 
@@ -437,6 +441,8 @@ Nevertheless, you should remember that a statement such as $F = O(G)$ means that
 
 It's often convenient to use "anonymous functions" in the context of Oh notation, and also  to emphasize the input parameter to the function.
 For example, when we write a statement such as $F(n) = O(n^3)$, we mean that  $F=O(G)$ where $G$ is the function defined by $G(n)=n^3$.
+Chapter 7 in [Jim Apsnes' notes on discrete math](http://www.cs.yale.edu/homes/aspnes/classes/202/notes.pdf) provides a good summary of Oh notation.
+
 
 
 ### Some "rules of thumbs" for big Oh notation
@@ -529,9 +535,20 @@ There are several ways to approach this proof, but one version is to start by pr
 The technical term for this proof approach is _proof by induction_.
 
 
->__Mathematical induction:__ _Induction_ is simply an application of the self-evident  [Modus Ponens](https://en.wikipedia.org/wiki/Modus_ponens) rule that says that if __(a)__ $P$ is true and __(b)__ $P$ implies $Q$
+### Mathematical induction
+
+_Induction_ is simply an application of the self-evident  [Modus Ponens](https://en.wikipedia.org/wiki/Modus_ponens) rule that says that if __(a)__ $P$ is true and __(b)__ $P$ implies $Q$
 then $Q$ is true. In the setting of proofs by induction we typically have a statement $Q(k)$ that is parameterized by some integer $k$, and we prove that  __(a)__ $Q(0)$ is true and __(b)__ For every $k>0$, if $Q(0),\ldots,Q(k-1)$ are all true then $Q(k)$ is true.^[Usually proving __(b)__ is the hard part, though there are examples where the "base case" __(a)__ is quite subtle.]
 By repeatedly applying Modus Ponens, we can deduce from __(a)__ and __(b)__ that $Q(1)$ is true, and then from __(a)__,__(b)__ and $Q(1)$ that $Q(2)$ is true, and so on and so forth to obtain that  $Q(k)$ is true for every $k$. The statement __(a)__ is called the "base case", while __(b)__ is called the "inductive step". The assumption in __(b)__ that $Q(i)$ holds for $i<k$ is called the "inductive hypothesis".
+
+> # {.remark title="Induction and recursion" #inducrecrem}
+Proofs by inductions are closely related to algorithms by recursion.
+In both cases we reduce solving a larger problem to solving a smaller instance of itself. In a recursive algorithm to solve some problem P on an input of length $k$  we ask ourselves "what if someone handed me a way to solve P on instances smaller than $k$?". In an inductive proof to prove a statement Q parameterized by a number $k$, we ask ourselves "what if I already knew that $Q(k')$ is true for $k'<k$".
+Both induction and recursion are crucial concepts for this course and Computer Science at large (and even other areas of inquiry, including not just mathematics but other sciences as well). Both can be initially (and even post-initially) confusing, but with time and practice they become clearer.
+For more on proofs by induction and recursion, you might find the  following [Stanford CS 103 handout](http://web.stanford.edu/class/cs103/handouts/240%20Guide%20to%20Induction.pdf), [this MIT 6.00 lecture](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00sc-introduction-to-computer-science-and-programming-spring-2011/unit-1/lecture-6-recursion/) or [this excerpt of the Lehman-Leighoton book](http://www.boazbarak.org/cs121/LL_induction.pdf) useful.
+
+
+
 
 ### Proving the theorem by induction
 
@@ -637,13 +654,15 @@ Hence the path from $u$ to $v$ is also a path in the graph $G'$, which means tha
 >
 >The claim implies [graphcontlem](){.ref} since by the inductive assumption, $|C_{G'}(u)| \leq k$, and hence by the claim $|C_G(u)| \leq k+1$, which is what we wanted to prove. This concludes the proof of [graphcontlem](){.ref} and hence also of [graphconthmpf](){.ref}. __QED ([graphcontlem](){.ref})__, __QED ([graphconthmpf](){.ref})__
 
+
+The proof above used the observation that if the _average_ of some $n$ numbers $x_0,\ldots,x_{n-1}$ is at most $X$, then there must _exists_ at least a single number $x_i \leq X$. (In this particular proof, the numbers were the degrees of vertices in $S$.)
+This is known as the _averaging principle_, and despite its simplicity, it is often extremely useful.
+
 > # { .pause }
 Reading a proof is no less of an important skill than producing one.
 In fact, just like understanding code, it is a highly non-trivial skill in itself.
 Therefore I strongly suggest that you re-read the above proof, asking yourself at every sentence whether the assumption it makes are justified, and whether this sentence truly demonstrates what it purports to achieve.
-
-The proof above used the observation that if the _average_ of some $n$ numbers $x_0,\ldots,x_{n-1}$ is at most $X$, then there must _exists_ at least a single number $x_i \leq X$. (In this particular proof, the numbers were the degrees of vertices in $S$.)
-This is known as the _averaging principle_, and despite its simplicity, it is often extremely useful.
+Another good habit is to ask yourself when reading a proof for every variable you encounter (such as $u$, $t_i$, $G'$, etc. in the above proof) the following questions: __(1)__ What _type_ of variable is it? is it a number? a graph? a vertex? a function? and __(2)__ What do we know about it? Is it an arbitrary member of the set? Have we shown some facts about it?, and __(3)__ What are we _trying_ to show about it?.
 
 
 
@@ -715,7 +734,9 @@ $$
 s^2/(4a)+c- b^2/(4a) = (b^2-4ac)/(4a) + c - b^2/(4a) = 0
 $$
 
-If a statement has the form "$A$ holds if and only if $B$ holds" then we need to prove both that $A$ implies $B$ and that $B$ implies $A$.
+__Proofs of equivalence:__  If a statement has the form "$A$  if and only if $B$" (often shortened as "$A$ iff $B$") then we need to prove both that $A$ implies $B$ and that $B$ implies $A$.
+We call the implication that $A$ implies $B$ the "only if" direction, and the implication that $B$ implies $A$ the "if" direction.
+
 
 __Proofs by combining intermediate claims:__
 When a proof is more complex, it is often helpful to break it apart into several steps.
