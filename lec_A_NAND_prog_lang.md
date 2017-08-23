@@ -31,17 +31,22 @@ A NAND program consists of a finite  sequence of lines of the form
 $vara$ ` := ` $varb$ ` NAND ` $varc$
 
 where $vara$, $varb$, $varc$ are variable identifiers.
-If the variable identifiers are indexed, the index can never be larger than the number of lines in the program.
+
+
 
 
 Variables of the form `x` or `x_`$\expr{i}$ can only appear on the righthand side of the `:=` operator and variables of the form `y` or `y_`$\expr{i}$ can only appear on the lefthand side of the `:=` operator.
-The _number of inputs_ of a NAND program $P$ equals one plus the largest number $n$ such that a variable of the form `x_`$\expr{n}$ appears in the program, while the number of outputs of a NAND program equals one plus the largest number $m$ such that a variable of the form `y_`$\expr{m}$ appears in the program.
+The _number of inputs_ of a NAND program $P$ equals one plus the largest number $n$ such that a variable of the form `x_`$\expr{n}$ appears in the program, while the number of outputs of a NAND program equals one plus the largest number $j$ such that a variable of the form `y_`$\expr{j}$ appears in the program.
+
+__Restrictions on indices:__ If the variable identifiers are indexed, the index can never be larger than the number of lines in the program. If a variable of the form `y_`$\expr{j}$ appears in the program then `y_`$\expr{i}$ must appear in it for all $i<j$.
+
 
 ### Semantics of NAND programs
 
 
 To evaluate a NAND program $P$ with $n$ inputs and $m$ outputs on input $x_0,\ldots,x_{n-1}$ we initialize the all variables of the form `x_`$\expr{i}$ to $x_i$, and all other variables to zero.
-We then evaluate the program line by line, assigning to the variable on the lefthand side of the `:=` operator the value of the NAND of the variables on the righthand side. In this evaluation, we  identify `foo` with `foo_0` and `bar_079` with `bar_79`.
+We then evaluate the program line by line, assigning to the variable on the lefthand side of the `:=` operator the value of the NAND of the variables on the righthand side.
+In this evaluation, we  identify `foo` with `foo_0` and `bar_079` with `bar_79`.
 That is, we only care about the numerical value of the index of a variable (and so ignore leading zeros) and if an index is not specified, we assume that it equals zero.  
 The output is the value of the variables `y_0`, $\ldots$, `y_`$\expr{m-1}$.
 (If a variable of the form `y_`$\expr{i}$ has not been assigned a value in the program, then its value defaults to $0$.)

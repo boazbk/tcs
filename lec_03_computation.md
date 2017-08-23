@@ -78,10 +78,10 @@ foo := bar NAND baz
 
 where `foo`, `bar`, `baz` are variable names.^[The terms `foo` and `bar` are [often used](https://en.wikipedia.org/wiki/Foobar) to describe generic variable names in the context of programming, and we will follow this convention throughout the course.
 See the appendix and the website [http://nandpl.org](http://nandpl.org) for a full specification of the NAND programming language.]
-When this line is executed,  the variable `foo` is assigned the negation of the logical AND of (i.e., the NAND operation applied to) the values of the two variables `bar` and `baz`.^[The _logical AND_ of two bits $x,x'\in \{0,1\}$  is equal to $1$ if $x=x'=1$ and is equal to $0$ otherwise. Thus $NAND(0,0)=NAND(0,1)=NAND(1,0)=1$, while $NAND(1,1)=0$.]  
+When this line is executed,  the variable `foo` is assigned the _negation of the logical AND_ of (i.e., the NAND operation applied to) the values of the two variables `bar` and `baz`.^[The _logical AND_ of two bits $x,x'\in \{0,1\}$  is equal to $1$ if $x=x'=1$ and is equal to $0$ otherwise. Thus its negation satisfies $NAND(0,0)=NAND(0,1)=NAND(1,0)=1$, while $NAND(1,1)=0$. If a variable hasn't been assigned a value, then its default value is zero.]  
 
 All variables in the NAND programming language are _Boolean_: can take values that are either zero or one.
-Variables such as `x_22` or `y_18` (that is, of the form `x_`$\expr{i}$  or `y_`$\expr{i}$  where $i$ is a natural number)  have a special meaning.^[In these lecture notes, we  use the convention that when we write $\expr{e}$  then we mean the numerical value of this expression. So for example if $i=10$ then we can write `x_`$\expr{i+7}$ to mean  `x_17`. This is just for the notes: in the NAND programming language itself the indices have to be absolute numerical constants.]
+Variables such as `x_22` or `y_18` (that is, of the form `x_`$\expr{i}$  or `y_`$\expr{i}$  where $i$ is a natural number)  have a special meaning.^[In these lecture notes, we  use the convention that when we write $\expr{e}$  then we mean the numerical value of this expression. So for example if $k=10$ then we can write `x_`$\expr{k+7}$ to mean  `x_17`. This is just for the notes: in the NAND programming language itself the indices have to be absolute numerical constants.]
 The variables beginning with `x_` are _input_ variables and those beginning with `y_` are _output_ variables.
 Thus for example the following four line NAND program takes an input of two bits and outputs a single bit:
 
@@ -99,8 +99,8 @@ Can you guess what function from $\{0,1\}^2$ to $\{0,1\}$ this program computes?
 
 To find the function that this program computes, we can run it on all the four possible two bit inputs: $00$,$01$,$10$, and $11$.  
 For example, let us consider the execution of this program on the input $00$, keeping track of the values of the variables as the program runs line by line.
-On the website [http://nandpl.org](http://nandpl.org) we can run NAND programs in a "debug" mode, which will produce an _execution trace_ of the program.^[At present the web interface is not yet implemented, and you can run NAND program using an OCaml interpreter that you can download from that website.]
-When we run the program above on the input $01$, we get the following printout:
+On the website [http://nandpl.org](http://nandpl.org) we can run NAND programs in a "debug" mode, which will produce an _execution trace_ of the program.^[At present the web interface is not yet implemented, and you can run NAND program using an OCaml interpreter that you can download from that website. The implementation is in a fluid state and so the text below might not exactly match the output of the interpreter.]
+When we run the program above on the input $01$, we get the following trace:
 
 ```
 Executing step 1: "u   := x_0 NAND x_1"	 x_0 = 0, x_1 = 1, u   is assigned 1,
@@ -197,7 +197,7 @@ The _number of inputs_ in a NAND program $P$ is the largest number $n$ such that
 >
 Let $F:\{0,1\}^n \rightarrow \{0,1\}^m$. A NAND program $P$ with $n$ inputs and $m$ outputs _computes $F$_ if for every $x\in \{0,1\}^n$, whenever $P$ is executed with the `x_`$\expr{i}$ variable initialized to $x_i$ for all $i\in [n]$, at the end of the execution the variable `y_`$\expr{j}$ will equal $y_j$ for all $j\in [m]$ where $y=F(x)$.
 >
-For every $L\in \N$, we define $SIZE(L)$ to be the set of all functions that are computable by a NAND program of at most $L$ lines.^[As mentioned in the appendix, we require that the largest index used in an $L$ line NAND program must be smaller than $L$, and so all functions in $SIZE(L)$ have at most $L$ inputs and $L$ outputs.]
+For every $L\in \N$, we define $SIZE(L)$ to be the set of all functions that are computable by a NAND program of at most $L$ lines.^[As mentioned in the appendix, we require that all output variables are assigned a value, and that the largest index used in an $L$ line NAND program is smaller than $L$, and so all functions in $SIZE(L)$ have at most $L$ inputs and $L$ outputs.]
 
 > # { .pause }
 Please pause here and verify why [computefuncNAND](){.ref} does indeed capture the natural notion of computing a function by a NAND program.
@@ -244,6 +244,57 @@ $$
 XOR_4= XOR_2 \circ (XOR_2 \oplus XOR_2) \;.
 $$
 
+Since $XOR_2$ is in $SIZE(4)$, it follows that $XOR_4 \in SIZE(4+(4+4))=SIZE(12)$.
+
+Using the same idea we can prove the following more general result:
+
+> # {.theorem title="Computing parity via NAND circuits" #paritycircuitthm}
+For every $n>1$, $XOR_n \in SIZE(10n)$
+
+We leave proving [paritycircuitthm](){.ref} as [paritycircuitex](){.ref}.
+
+## Representing programs as graphs
+
+We can prove [seqcompositionthm](){.ref} and [parcompositionthm](){.ref} by directly arguing that we can "copy and paste" the code for $F$ and $G$ to achieve a program that computes $F \circ G$ and $F \oplus G$ respectively.
+However, we will use a more general approach, first giving a more "mathematical" representation for NAND programs as _graphs_, and then using this representation to prove these two theorems.
+
+> # { .pause }
+If you are not comfortable with the definitions of graphs, and in particular directed acyclic graphs (DAGs), now would be a great time to go back to the "mathematical background" lecture, as well as some of the resources [here](http://www.boazbarak.org/cs121/background/), and review these notions.
+
+> # {.definition title="NAND circuit" #NANDcircdef}
+A _NAND circuit_ with $n$ inputs and $m$ outputs is a labeled directed acyclic graph (DAG) in which every vertex has in-degree at most two. We require that there  are $n$ vertices with in-degree zero, known  as _input variables_, that are labeled with  `x_`$\expr{i}$ for $i\in [n]$.
+Every vertex apart from the input variables is known as a _gate_. We require that there are $m$  vertices of out-degree zero, denoted as the _output gates_, and that are labeled with `y_`$\expr{j}$ for $j\in [m]$.
+While not all vertices are labeled, no two vertices get the same label.
+We denote the circuit  as $C=(V,E,L)$ where $V,E$ are the vertices and edges of the circuit, and $L:V \rightarrow_p S$ is the (partial) one-to-one labeling function that maps vertices into the set $S=\{$ `x_0`,$\ldots$,`x_`$\expr{n-1}$,`y_0`,$\ldots$, `y_`$\expr{m-1}$,$\}$.
+
+The definition of NAND circuits is not ultimately that complicated, but may take  a second or third read  to fully parse.
+It might help to look at [XORcircuitfig](){.ref}, which describes the NAND circuit that corresponds to the 4-line NAND program we presented above for the $XOR_2$ function.
+
+
+
+![A NAND circuit for computing the $XOR_2$ function. Note that it has exactly four gates, corresponding to the four lines of the NAND program we presented above. The green labels $u,v,w$ for non-output gates are just for illustration and comparison with the NAND program, and are not formally part of the circuit.](../figure/XORcircuit.png){#XORcircuitfig .class width=300px height=300px}
+
+A NAND circuit corresponds to computation in the following way.
+To compute some output on an input $x\in \{0,1\}^n$, we start by assigning to the input vertex labeled with `x_`$\expr{i}$ the value $x_i$, and then proceed by assigning for every gate $v$ the value that is   the NAND of the values assigned to its in-neighbors (if it has less than two in-neighbors, we replace the value of the missing neighbors by zero).
+The output $y\in \{0,1\}^m$  corresponds to the value assigned to the output gates, with $y_j$ equal to the value assigned to the value assigned to the gate labeled `y_`$\expr{j}$ for every $j\in [m]$.
+Formally, this is defined as follows:
+
+> # {.definition title="Computing a function by a NAND circuit" #NANDcirccomputedef}
+Let $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and let $C=(V,E,L)$ be a NAND circuit with $n$ inputs and $m$ outputs.
+We say that _$C$ computes $F$_ if there is a map $Z:V \rightarrow \{0,1\}$, such that for every $x\in \{0,1\}^n$, if $y=F(x)$ then: \
+* For every $i\in [n]$, if $v$ is labeled with `x_`$\expr{i}$ then $Z(v)=x_i$. \
+* For every $j\in[m]$, if $v$ is labeled with `y_`$\expr{j}$ then $Z(v)=y_j$. \
+* For every gate $v$ with in-neighbors $u,w$, if $a=Z(u)$ and $b=Z(w)$, $Z(v)=NAND(a,b)$. (If $v$ has fewer than two neighbors then we replace either $b$ or both $a$ and $b$ with zero in the condition above.)
+
+> # { .pause }
+You should make sure you understand _why_ [NANDcirccomputedef](){.ref} captures the informal description above. This might require reading the definition a second or third time, but would be crucial for the rest of this course.
+
+The following theorem says that these two notions of computing a function are actually equivalent: we can transform a NAND program into a NAND circuit computing the same function, and vice versa.
+
+> # {.theorem title="Equivalence of circuits and straightline programs" #circuitprogequivthm}
+For every $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $S\in \N$, $F$ can be computed by an $S$-line NAND program if and only if $F$ can be computed by an $n$-input $m$-output NAND circuit of $S$ gates.
+
+> # {.proof data-ref="circuitprogequivthm"}
 
 
 
@@ -893,8 +944,12 @@ Suppose that there is an $s$-line NAND program to compute $F:\{0,1\}^n \rightarr
 Prove that there is a program of at most $s+s'+10$ lines to compute the function $G:\{0,1\}^{n+1} \rightarrow \{0,1\}$ where $G(x_0,\ldots,x_{n-1},x_n)$ equals $F(x_0,\ldots,x_{n-1})$ if $x_n=0$ and equals $F'(x_0,\ldots,x_{n-1})$ otherwise.
 
 
+
 > # {.exercise  #exid}
 Write a NAND program that adds two $3$-bit numbers.
+
+> # {.exercise  #paritycircuitex}
+Prove [paritycircuitthm](){.ref}.^[__Hint:__ Prove by induction that for every $n>1$ which is a power of two, $XOR_n \in SIZE(4(n-1))$. Then use this to prove the result for every $n$.]
 
 > # {.exercise title="Addition" #addition-ex}
 Write a program using your favorite programming language that on input an integer $n$, outputs a NAND program that computes $ADD_n$. Can you ensure that the program it outputs for $ADD_n$ has fewer than $10n$ lines?
