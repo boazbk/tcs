@@ -295,6 +295,23 @@ The following theorem says that these two notions of computing a function are ac
 For every $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $S\in \N$, $F$ can be computed by an $S$-line NAND program if and only if $F$ can be computed by an $n$-input $m$-output NAND circuit of $S$ gates.
 
 > # {.proof data-ref="circuitprogequivthm"}
+We start with the "only if" direction.
+That is, we show how to transform a NAND program to a circuit.
+Suppose that $P$ is an $S$ line program that computes $F$.
+We will build a NAND circuit $C=(V,E,L)$ that computes $F$ as follows.
+The vertex set $V$ will have the $n+S$ elements $\{ (0,0), \ldots, (0,n-1),(1,0),\ldots,(1,S-1) \}$.
+That is, it will have $n$ vertices of the form $(0,i)$ for $i\in [n]$ (corresponding to the $n$ inputs), and $S$ vertices of the form $(1,\ell)$ (corresponding to the lines in the program).
+For every line $\ell$ in the program $P$ of the form `foo := bar NAND baz`, we put edges in the graph of the form $\overrightarrow{(1,\ell')\;(1,\ell)}$ and $\overrightarrow{(1,\ell'')\;(1,\ell)}$ where  $\ell'$ and $\ell'$ are the last lines before $\ell$ in which the variables `bar` and `baz` were assigned a value.
+If the variable `bar` and/or `baz` was not assigned a value prior to the $\ell$-th line and is not an input variable then we don't add a corresponding edge.
+If the variable `bar` and/or `baz` is an input variable `x_`$\expr{i}$ then we add the edge $\overrightarrow{(0,i)\;(1,\ell)}$.
+We label the vertices of the form $(0,i)$ with `x_`$\expr{i}$ for every $i\in [n]$.
+For every $j\in[m]$, let $\ell$ be the last line in which the variable `y_`$\expr{j}$ is assigned a value,^[As noted in the appendix, valid NAND programs must assign a value to all their output variables.] and label the vertex $(1,\ell)$ with `y_`$\expr{j}$.
+Note that the vertices of the form $(0,i)$ have  in-degree zero, and all edges of the form $\overright{(1,\ell')\;(1,\ell)}$ satisfy $\ell>\ell'$.
+Hence this graph is a DAG, as in any cycle there would have to be at least on edge going from a vertex of the form $(1,\ell)$ to a vertex of the form $(1,\ell')$ for $\ell'<\ell$ (can you see why?).
+Also, since we don't allow a variable of the form `y_`$\expr{j}$ on the right-hand side of a NAND operation, the output vertices have out-degree zero.
+To complete the proof of this direction, we need to show that the circuit $C$ computes the same function as the program $P$.
+Indeed, 
+
 
 
 
