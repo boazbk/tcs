@@ -31,7 +31,7 @@ However, these descriptions are  merely shorthand for the equivalent standard or
 In particular, when we  say that a function $F$ has an $s$-line NAND program, we mean a standard NAND program, that does not use any syntactic sugar.
 The website [http://www.nandpl.org](http://www.nandpl.org) contains an online "unsweetener" that can take a NAND program that uses  these features and modifies it to an equivalent program that does not use them.
 
-# Some useful syntactic sugar
+## Some useful syntactic sugar
 
 In this section, we will list some additional examples of "syntactic sugar" transformations.
 Going over all these examples can be somewhat tedious, but we do it for two reasons:
