@@ -5,6 +5,7 @@
 
 >_"If, unwarned by my example, any man shall undertake and shall succeed in constructing an engine embodying in itself the whole of the executive department of mathematical analysis upon different principles or by simpler mechanical means, I have no fear of leaving my reputation in his charge, for he alone will be fully able to appreciate the nature of my efforts and the value of their results."_, Charles Babbage, 1864
 
+>_"To understand a program you must become both the machine and the program."_, Alan Perlis, 1982
 
 People have been computing for thousands of years, with aids that include not just  pen and paper, but also abacus, slide rulers, various mechanical devices, and modern electronic computers.
 A priori, the notion of computation seems to be tied to the particular mechanism that you use.
@@ -485,38 +486,9 @@ Similarly, in the circuit formulation, we can transform an $s$-gate circuit $C$ 
 
 > # {.exercise  #exid}
 Which of the following statements is false?
-   a. There is a NAND program to add two $4$-bit numbers that has at most $100$ lines.
-   b. Every NAND program to add two $4$-bit numbers has  at most $100$ lines.
-   c. Every NAND program to  add two $4$-bit numbers  has least  $5$ lines.
-
-> # {.exercise title="Composition" #composition-ex}
-Suppose that $F:\{0,1\}^n \rightarrow \{0,1\}^n$ can be computed by a NAND program of at most $s$ lines and $F':\{0,1\}^n \rightarrow \{0,1\}^n$ can be computed by a NAND program of at most $s'$ lines. Prove that the function $G:\{0,1\}^n \rightarrow \{0,1\}^n$ defined as $G(x)=F'(F(x))$ can be computed by a NAND program of at most $s+s'$ lines.
-
-> # {.exercise title="Pairing" #embedtuples-ex}
-1. Prove that the map $F(x,y)=2^x3^y$ is a one-to-one map from $\N^2$ to $\N$. \
-2. Show that there is a one-to-one map $F:\N^2 \rightarrow \N$ such that for every $x,y$, $F(x,y) \leq 100\cdot \max\{x,y\}^2$. \
-3. For every $k$, show that there is  a one-to-one map $F:\N^k \rightarrow \N$ such that for every $x_0,\ldots,x_{k-1}$, $F(x_0,\ldots,x_{k-1}) \leq 100 \cdot \max\{x_0,\ldots,x_{k-1}\}^k$.
-
-
-> # {.exercise title="Computing MUX" #mux-ex}
-Prove that the NAND program below computes the function $MUX$ (or $LOOKUP_1$) where $MUX(a,b,c)$ equals $a$ if $c=0$ and equals $b$ if $c=1$:
-
-~~~~
-nx_2 := x_2 NAND x_2
-u    := x_0 NAND nx_2
-v    := x_1 NAND x_2
-y_0  := u   NAND v
-~~~~
-
-
-> # {.exercise title="At least two" #atleasttwo-ex}
-Give a NAND program of at most 6 lines to compute  $ATLEASTTWO:\{0,1\}^3 \rightarrow \{0,1\}$
-where $ATLEASTTWO(a,b,c) = 1$ iff $a+b+c \geq 2$.
-
-> # {.exercise title="Conditional statements" #conditional-statements}
-In this exercise we will show that even though the NAND programming language does not have an `if .. then .. else ..` statement, we can still implement it.
-Suppose that there is an $s$-line NAND program to compute $F:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND program to compute $F':\{0,1\}^n \rightarrow \{0,1\}$.
-Prove that there is a program of at most $s+s'+10$ lines to compute the function $G:\{0,1\}^{n+1} \rightarrow \{0,1\}$ where $G(x_0,\ldots,x_{n-1},x_n)$ equals $F(x_0,\ldots,x_{n-1})$ if $x_n=0$ and equals $F'(x_0,\ldots,x_{n-1})$ otherwise.
+   a. There is a NAND program to add two $4$-bit numbers that has at most $100$ lines. \
+   b. Every NAND program to add two $4$-bit numbers has  at most $100$ lines. \
+   c. Every NAND program to  add two $4$-bit numbers  has least  $5$ lines. \
 
 
 
@@ -525,21 +497,6 @@ Write a NAND program that adds two $3$-bit numbers.
 
 > # {.exercise  #paritycircuitex}
 Prove [paritycircuitthm](){.ref}.^[__Hint:__ Prove by induction that for every $n>1$ which is a power of two, $XOR_n \in SIZE(4(n-1))$. Then use this to prove the result for every $n$.]
-
-> # {.exercise title="Addition" #addition-ex}
-Write a program using your favorite programming language that on input an integer $n$, outputs a NAND program that computes $ADD_n$. Can you ensure that the program it outputs for $ADD_n$ has fewer than $10n$ lines?
-
-> # {.exercise title="Multiplication" #multiplication-ex}
-Write a program using your favorite programming language that on input an integer $n$, outputs a NAND program that computes $MULT_n$. Can you ensure that the program it outputs for $MULT_n$ has fewer than $1000\cdot n^2$ lines?
-
-> # {.exercise title="Efficient multiplication (challenge)" #eff-multiplication-ex}
-Write a program using your favorite programming language that on input an integer $n$, outputs a NAND program that computes $MULT_n$ and has at most $10000 n^{1.9}$ lines.^[__Hint:__ Use Karatsuba's algorithm] What is the smallest number of lines you can use to multiply two 64 bit numbers?
-
-
-> # {.exercise title="Multibit function" #mult-bit-ex}
- Prove that \
-a. If there is an $s$-line NAND program to compute $F:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND program to compute $F':\{0,1\}^n \rightarrow \{0,1\}$ then there is an $s+s'$-line program to compute the function $G:\{0,1\}^n \rightarrow \{0,1\}^2$ such that $G(x)=(F(x),F'(x))$. \
-b. For every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$, there is a NAND program of at most $10m\cdot 2^n$ lines that computes $F$.
 
 
 ## Bibliographical notes

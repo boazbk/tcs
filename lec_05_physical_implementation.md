@@ -1,5 +1,6 @@
 # Physical implementations of NAND programs
 
+
 >_"In existing digital computing devices various mechanical or electrical devices have been used as
 elements: Wheels, which can be locked ... which on moving from one position to another transmit electric pulses that may cause other similar wheels
 to move; single or combined telegraph relays, actuated by an electromagnet and opening or closing

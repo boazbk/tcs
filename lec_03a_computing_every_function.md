@@ -1,11 +1,17 @@
 # Syntactic sugar, and computing every function
 
+>_"Syntactic sugar causes cancer of the semicolon."_, Alan Perlis, 1982.
 
-## "Syntactic sugar"
 
-The NAND programing language is pretty "bare bones", but we can implement some "added features" on top of it.
+The NAND programing language is pretty much as "bare bones" as programming languages come.
+After all, it only has a single operation.
+But, it turns out we can implement some "added features" on top of it.
 That is, we can show how we can implement those features using the underlying mechanisms of the language.
-For example, example  we can implement a variable assignment operation by transforming a code such as
+
+Let's start with a simple example.
+One of the most basic operations a programming language has is to assign the value of one variable into another.
+And yet in NAND, we cannot even do that, as we only allow assignments of the result of a NAND operation.
+Yet, it is possible to "pretend" that we have such an assignment operation, by  transforming  code such as
 
 ```
 foo := bar
@@ -18,14 +24,16 @@ notbar := bar    NAND bar
 foo    := notbar NAND notbar
 ```
 
-Thus in describing NAND programs we will allow ourselves to use the variable assignment operation, with the understanding that in actual programs we will replace every line of the first form with the two lines of the second form.
-In programming language parlance this is known as "syntactic sugar", since we are not changing the definition of the language, but merely introducing some convenient notational shortcuts.^[This concept is also known as "macros" and is sometimes implemented via a preprocessor. Some text editors also give programmers the ability to use such shortcuts via mechanisms of macro languages or text snippets.]
+Thus in describing NAND programs we can (and will) allow ourselves to use the variable assignment operation, with the understanding that in actual programs we will replace every line of the first form with the two lines of the second form.
+In programming language parlance this is known as "syntactic sugar", since we are not changing the definition of the language, but merely introducing some convenient notational shortcuts.^[This concept is also known as "macros" or "meta-programming" and is sometimes implemented via a preprocessor or macro language in a programming language or a text editor.]
 We will use several such "syntactic sugar" constructs to make our descriptions of NAND programs shorter and simpler.
 However, these descriptions are  merely shorthand for the equivalent standard or "sugar free" NAND program that is obtained after removing the use of all these constructs.
 In particular, when we  say that a function $F$ has an $s$-line NAND program, we mean a standard NAND program, that does not use any syntactic sugar.
 The website [http://www.nandpl.org](http://www.nandpl.org) contains an online "unsweetener" that can take a NAND program that uses  these features and modifies it to an equivalent program that does not use them.
 
-In the rest of this section, we will list some additional examples of "syntactic sugar" transformations.
+# Some useful syntactic sugar
+
+In this section, we will list some additional examples of "syntactic sugar" transformations.
 Going over all these examples can be somewhat tedious, but we do it for two reasons:
 
 1. To convince you that despite its seeming simplicity and limitations, the NAND programming language is actually quite powerful and can capture many of the fancy programming constructs such as `if` statements and function definitions  that exists in more fashionable languages.
@@ -103,7 +111,7 @@ When doing that we will need to  ensure that all other variables appearing in `f
 
 ### Example:
 
-Using these features, we can express the code of the  $ADD_2$ function a bit more succinctly as  
+Using these features, we can express the code of the  $ADD_2$ function we saw last lecture as  
 
 ~~~~ { .go .numberLines  }
 def c := AND(a,b) {
@@ -176,10 +184,8 @@ which can then in turn be mapped to standard NAND code using a one-to-one embedd
 ### Storing integers
 
 We can also handle non-finite alphabets, such as integers, by using some prefix-free encoding and encoding the integer in an array.
-To store non-negative integers, we will use the convention that `01` stands for $0$, `11` stands for $1$, and `00`
-is the end marker.
-To store integers that could be potentially negative we will use the convention that `10` in the first coordinate stands for the negative sign.^[TODO: I am not sure that this representation is the best or most convenient convention. Not sure it matters much though.]
-
+For example, to store non-negative integers, we can use the convention that `01` stands for $0$, `11` stands for $1$, and `00` is the end marker.
+To store integers that could be potentially negative we can use the convention `10` in the first coordinate stands for the negative sign.^[This is just an arbitrary choice made for concreteness, and one can choose other representations. In particular, as discussed before, if the integers are known to have a fixed size, then there is no need for additional encoding to make them prefix-free.]
 So,  code such as
 
 ~~~~ { .go .numberLines }
@@ -229,7 +235,7 @@ Using multidimensional arrays, we can use arrays of integers and hence replace c
 with the equivalent NAND expressions.
 
 
-For integer valued variables, we can use the standard algorithms of addition, multiplication, comparisons etc.. to   write code such as
+For integer valued variables, we can use the standard algorithms of addition, multiplication, comparisons and so on.. to   write code such as
 
 
 ~~~~ { .go .numberLines }
@@ -524,15 +530,6 @@ and $MULT_n \in SIZE_{2n,2n}(10000 n^{\log_2 3})$.^[TODO: check constants]
 
 ## Exercises
 
-> # {.exercise  #exid}
-Which of the following statements is false?
-   a. There is a NAND program to add two $4$-bit numbers that has at most $100$ lines.
-   b. Every NAND program to add two $4$-bit numbers has  at most $100$ lines.
-   c. Every NAND program to  add two $4$-bit numbers  has least  $5$ lines.
-
-> # {.exercise title="Composition" #composition-ex}
-Suppose that $F:\{0,1\}^n \rightarrow \{0,1\}^n$ can be computed by a NAND program of at most $s$ lines and $F':\{0,1\}^n \rightarrow \{0,1\}^n$ can be computed by a NAND program of at most $s'$ lines. Prove that the function $G:\{0,1\}^n \rightarrow \{0,1\}^n$ defined as $G(x)=F'(F(x))$ can be computed by a NAND program of at most $s+s'$ lines.
-
 > # {.exercise title="Pairing" #embedtuples-ex}
 1. Prove that the map $F(x,y)=2^x3^y$ is a one-to-one map from $\N^2$ to $\N$. \
 2. Show that there is a one-to-one map $F:\N^2 \rightarrow \N$ such that for every $x,y$, $F(x,y) \leq 100\cdot \max\{x,y\}^2$. \
@@ -561,9 +558,6 @@ Prove that there is a program of at most $s+s'+10$ lines to compute the function
 
 
 
-> # {.exercise  #exid}
-Write a NAND program that adds two $3$-bit numbers.
-
 > # {.exercise  #paritycircuitex}
 Prove [paritycircuitthm](){.ref}.^[__Hint:__ Prove by induction that for every $n>1$ which is a power of two, $XOR_n \in SIZE(4(n-1))$. Then use this to prove the result for every $n$.]
 
@@ -584,10 +578,6 @@ b. For every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$, there is a NAND progr
 
 
 ## Bibliographical notes
-
-The exact notion of  "NAND programs" we use is nonstandard, but these are equivalent to standard models in the literature  such as _straightline programs_ and _Boolean circuits_.
-
-An historical review of calculating machines can be found in Chapter I of the 1946 ["operating manual" for the Harvard Mark I computer](http://www.boazbarak.org/cs121/MarkI_operMan_1946.pdf), written by Lieutenant Grace Murray Hopper and the staff of the Harvard Computation Laboratory.
 
 ## Further explorations
 
