@@ -105,7 +105,6 @@ $$
 $$
 
 
-
 Karatsuba's algorithm is based on the observation that we can express this also as
 
 $$
