@@ -100,7 +100,6 @@ The gradeschool algorithm for multiplying $x$ and $y$ is illustrated in [gradesc
 
 The gradeschool algorithm  works by transforming the task of multiplying a pair of two digit number into _four_ single-digit multiplications via the formula
 
-
 $$
 (10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10(\overline{x}\underline{y} + \underline{x}\overline{y}) + \underline{x}\underline{y} \label{eq:gradeschooltwodigit}
 $$
