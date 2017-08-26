@@ -116,7 +116,7 @@ Using these features, we can express the code of the  $ADD_2$ function we saw la
 ~~~~ { .go .numberLines  }
 def c := AND(a,b) {
    notc := a NAND b
-   c    := notc NAND c
+   c    := notc NAND notc
 }
 def c := XOR(a,b) {
     u   := a NAND b

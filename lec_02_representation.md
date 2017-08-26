@@ -235,6 +235,7 @@ We can transform an undirected graph to a directed graph by replacing every edge
 Another representation for graphs is the _adjacency list_ representation. That is, we identify the vertex set $V$ of a graph with the set $[n]$ where $n=|V|$, and  represent the graph $G=(V,E)$ a a list of $n$ lists, where the $i$-th list consists of the out-neighbors of vertex $i$.
 The difference between these representations can be important for some applications, though for us would typically be immaterial.
 
+![Representing the graph $G=(\{0,1,2,3,4\},\{ (1,0),(4,0),(1,4),(4,1),(2,1),(3,2),(4,3) \})$ in the adjacency matrix and adjacency list representations.](../figure/representinggraphs.png){#representinggraphsfig .class width=300px height=300px}
 
 ### Representing lists
 
