@@ -218,7 +218,7 @@ There are several types of prefix-free representations of the code points, a pop
 
 
 
-### Representing vectors, matrices, images, graphs
+### Representing vectors, matrices, images
 
 Once we can represent numbers, and lists of numbers, then we can obviously represent _vectors_ (which are just lists of numbers).
 Similarly, we can represent lists of lists and so in particular _matrices_.
@@ -226,8 +226,14 @@ To represent an image, we can represent the color at each pixel by a list of thr
 Thus an image of $n$ pixels would be represented of a list of $n$ such length-three lists.
 A video can be represented as a list of images.^[Of course these representations are rather wasteful and [much](https://en.wikipedia.org/wiki/JPEG) [more](https://en.wikipedia.org/wiki/H.264/MPEG-4_AVC) compact representations are typically used for images and videos, though this will not be our concern in this course.]
 
-A _graph_ on $n$ vertices can be represented as an $n\times n$ matrix whose $(i,j)^{th}$ entry is equal to $1$ if the edge $(i,j)$ is present and is equal to $0$ otherwise. (We can also represent a graph using the so-called "adjacency list" representation, though the difference between these two representations will almost never matter for this course.)
+### Representing graphs
 
+A _graph_ on $n$ vertices can be represented as an $n\times n$ _adjacency_ matrix whose $(i,j)^{th}$ entry is equal to $1$ if the edge $(i,j)$ is present and is equal to $0$ otherwise.
+That is, we can represent an $n$ vertex directed graph $G=(V,E)$ as a string  $A\in \{0,1\}^{n^2}$ such that $A_{i,j}=1$ iff the edge $\overrightarrow{i\;j}\in E$.
+We can transform an undirected graph to a directed graph by replacing every edge $\{i,j\}$ with both edges $\overrightarrow{i\; j}$ and $\overleftarrow{i\;j}$
+
+Another representation for graphs is the _adjacency list_ representation. That is, we identify the vertex set $V$ of a graph with the set $[n]$ where $n=|V|$, and  represent the graph $G=(V,E)$ a a list of $n$ lists, where the $i$-th list consists of the out-neighbors of vertex $i$.
+The difference between these representations can be important for some applications, though for us would typically be immaterial.
 
 
 ### Representing lists
