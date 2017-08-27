@@ -418,7 +418,7 @@ Here is for example one particular function $G: \{0,1\}^4 \rightarrow \{0,1\}$:^
 
 
 | Input  | Output |
-|--------|--------|
+|:-------|:-------|
 | $0000$ | 1      |
 | $0001$ | 1      |
 | $0010$ | 0      |
@@ -435,6 +435,7 @@ Here is for example one particular function $G: \{0,1\}^4 \rightarrow \{0,1\}$:^
 | $1101$ | 1      |
 | $1110$ | 1      |
 | $1111$ | 1      |
+
 
 
  \
