@@ -118,7 +118,7 @@ To evaluate a NAND program $P$ given in this representation, on an input $x$, we
 ^[TODO: Perhaps comment that we will not use the indices $2$ and $3$ as to maintain compatibility with the representation of NAND++ that will be introduced later on.]
 
 
-The following is a   _Python_ function `EVAL` that on input $n,m,P,x$ where $P$ is a list of six-tuples and $x$ is list of $0/1$ values, returns the result of the execution of the NAND program represented by $P$ on $x$:^[To keep things simple, we will not worry about the case that $P$ does not represent a valid program of $n$ inputs and $m$ outputs.]
+The following is a   _Python_ function `EVAL` that on input $n,m,P,x$ where $P$ is a list of six-tuples and $x$ is list of $0/1$ values, returns the result of the execution of the NAND program represented by $P$ on $x$:^[To keep things simple, we will not worry about the case that $P$ does not represent a valid program of $n$ inputs and $m$ outputs. Also, there is nothing special about Python. We could have easily presented a corresponding function in JavaScript, C, OCaml, or any other programming language.]
 
 
 ~~~~ { .python .numberLines }
