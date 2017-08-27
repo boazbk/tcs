@@ -464,8 +464,10 @@ G1100 := 1
 G1101 := 1
 G1110 := 1
 G1111 := 1
-y_0 := LOOKUP(G0000,G0001,G0010,G0011,G0100,G0101,G0110,G0111,
-             G1000,G1001,G1010,G1011,G1100,G1101,G1111,x_0,x_1,x_2,x_3)   
+y_0 := LOOKUP(G0000,G0001,G0010,G0011,G0100,
+              G0101,G0110,G0111,G1000,G1001,
+              G1010,G1011,G1100,G1101,G1111,
+              x_0,x_1,x_2,x_3)   
 ~~~~
 
 Recall that we can translate this pseudocode into an actual NAND program by adding three lines to define variables `zero` and `one` that are initialized to $0$ and $1$ repsectively, and then  replacing a statement such as `Gxxx := 0` with `Gxxx := one NAND one` and a statement such as `Gxxx := 1` with `Gxxx := zero NAND zero`.
