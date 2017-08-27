@@ -138,6 +138,27 @@ Note that, while in general we allowed the decoding function to be _partial_.
 This proof shows that we can always obtain a _total_ decoding function if we need to.
 This observation can sometimes be useful.
 
+### Finite representations
+
+If $\mathcal{O}$ is _finite_, then we can represent every object in $o$ as a string of length at most some number $n$.
+What is the value of $n$?
+Let us denote the set $\{ x\in \{0,1\}^* : |x| \leq n \}$ of strings of length at most $n$ by  $\{0,1\}^{\leq n}$.
+To obtain a representation of objects in $\mathcal{O}$ as strings in $\{0,1\}^{\leq n}$ we need to come up with a one-to-one function from the former set to the latter.
+We can do so, if and only if $|\mathcal{O}| \leq 2^{n+1}-1$ as is implied by the following lemma:
+
+> # {.lemma #onetoone}
+For every two finite sets $S,T$, there exists a one-to-one $E:S \rightarrow T$ if and only if $|S| \leq |T|$.
+
+> # {.proof data-ref="onetoone"}
+Let $k=|S|$ and $m=|T|$ and so write the elements of $S$ and $T$ as $S = \{ s_0 , s_1, \ldots, s_{m-1} \}$ and $T= \{ t_0 , t_1, \ldots, t_{m-1} \}$. We need to show that there is a one-to-one function $E: S \rightarrow T$ iff $k \leq m$.
+For the "if" direction, if $k \leq m$ we can simply define $E(s_i)=t_i$ for every $i\in [k]$.
+Clearly for $i \neq j$, $t_i = E(s_i) \neq E(s_j) = t_j$, and hence this function is one-to-one.
+In the other direction, suppose that $k>m$ and  $E: S \rightarrow T$ is some function. Then $E$ cannot be one-to-one.
+Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$. If $t_j$ was marked before them we have found two objects in $S$ mapping to the same element $t_j$. Otherwise, since $T$ has $m$ elements,  when we get to $i=m-1$ we mark all the objects in $T$. Hence, in this case $E(m)$ must map to an element that was already marked before.^[This direction is sometimes known as the "Pigeon Hole Principle": the principle that if you have pigeon coop with $m$ holes, and $k>m$ pigeons, then there must be two pigeon in the same hole. ]
+
+Now the size of $\{0,1\}^n$ is $2^n$, and the size of $\{0,1\}^{\leq n}$ is only slightly bigger: $2^0 + 2^1 + \ldots + 2^n = 2^{n+1}-1$ by the formula for a [geometric series](https://en.wikipedia.org/wiki/Geometric_progression).
+
+
 
 
 ### Prefix free encoding
