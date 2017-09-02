@@ -222,7 +222,26 @@ Moreover, the approach we used for representing rational numbers can be used to 
 
 > # {.lemma #predixfreeransformation}
 Let $E:\mathcal{O} \rightarrow \{0,1\}^*$ be a one-to-one function.
-Then there is a one-to-one prefix-free encoding $E'$ such that $|E'(o)| \leq 2|o|$ for every $o\in \mathcal{O}$.
+Then there is a one-to-one prefix-free encoding $\overline{E}$ such that $|\overline{E}(o)| \leq 2|o|+2$ for every $o\in \mathcal{O}$.
+
+> # { .pause }
+For the sake of completeness, we will include the proof below, but it is a good idea for you to pause here and try to prove it yourself, using the same technique we used for representing rational numbers.
+
+> # {.proof data-ref="predixfreeransformation"}
+Define the function $PF:\{0,1\}^* \rightarrow \{0,1\}^*$ as follows $PF(x)=x_0 x_0 x_1 x_1 \ldots x_{n-1}x_{n-1}01$ for every $x\in \{0,1\}^*$. If $E:\mathcal{O} \rightarrow \{0,1\}^*$ is the (potentially not prefix free) representation for $\mathcal{O}$, then we transform it into a prefix free representation $\overline{E}:\mathcal{O} \rightarrow \{0,1\}^*$ by defining $\overline{E}(o)=PF(E(o))$.
+>
+To prove the lemma we need to show that __(1)__ $\overline{E}$ is one-to-one and __(2)__ $\overline{E}$ is prefix free.
+In fact __(2)__ implies __(1)__, since if $\overline{E}(o)$ is never a prefix of $\overline{E}(o')$ for every $o \neq o'$ then in particular  $\overline{E}$ is one-to-one.
+Now suppose, toward the sake of contradiction, that there are $o \neq o'$ in $\mathcal{O}$ such that $\overline{E}(o)$ is  a prefix of $\overline{E}(o')$. (That is, if $y=\overline{E}(o)$ and $y'=\overline{E}(o')$, then  $y_j = y'_j$ for every $i<|y|$.)
+>
+Define $x = E(o)$ and $x'=E(o')$.
+Note that since $E$ is one-to-one, $x \neq x'$.
+(Recall that two strings $x,x'$ are distinct if they either differ in length or have at least one distinct coordinate.)
+Under our assumption, $|PF(x)| \leq |PF(x')|$, and since by construction $|PF(x)|=2|x|+2$, it follows that $|x| \leq |x'|$.
+If $|x|=|x'|$ then, since $x \neq x'$, there must be a coordinate $i\in \{0,\ldots, |x|-1\}$ such that $x_i \neq x'_i$. But since $PF(x)_{2i}=x_i$, we get that $PF(x)_{2i} \neq PF(x')_{2i}$ and hence $\overline{E}(o)=PF(x)$ is not a prefix of $\overline{E}(o')=PF(x')$.
+Otherwise (if $|x| \neq |x'|$) then it must be that $|x| < |x'|$, and hence if $n=|x|$, then $PF(x)_{2n}=0$ and $PF(x)_{2n+1}=1$. But since $n<|x'|$, $PF(x')_{2n},PF(x')_{2n+1}$ is equal to either $00$ or $11$, and in any case we get that $\overline{E}(o)=PF(x)$ is not a prefix of $\overline{E}(o')=PF(x')$.
+
+
 
 In fact, we can even obtain a more efficient transformation where $|E'(o)| \leq |o| + O(\log |o|)$.
 We leave proving this as an exercise (see [prefix-free-ex](){.ref}).
