@@ -200,7 +200,7 @@ We will now do this  more formally.
 If you have not had much experience with limits of real series before, then the formal proof might be a little hard to follow.
 This part is not the core of Cantor's argument, nor are such limits very crucial to this course, so feel free to also just take [sequencestoreals](){.ref} on faith and skip the formal proof.
 
-> # {.proof data-ref="sequencestostrings"}
+> # {.proof data-ref="sequencestoreals"}
 For every $f\in \{0,1\}^\infty$ and $n\in \N$, we define $S(f)_n = \sum_{i=0}^n f(i)10^{-i}$.
 It is a known result (that we won't repeat here) that for every $f:\N \rightarrow \{0,1\}$, the sequence $( S(f)_n )_{n=0}^\infty$ has a _limit_.
 That is, there exists some value $x$ such that for every $\epsilon>0$, if $n$ is sufficiently large then $|S_f(n)-x| < \epsilon$.
@@ -212,7 +212,7 @@ Then, if $S = \sum_{i=0}^{k-1} 10^{-i}f(i) = \sum_{i=0}^{k-1} 10^{-i}f(i)$, we g
 $S(f)_n = S + \sum_{i=k+1}^n 10^{-i} f(i)$ and $S(g)_n = S + 10^{-k} + \sum_{i=k+1}^n 10^{-i} g(i)$.
 Clearly, the limit $FtR(g)$ is at least $S + 10^{-k}$.
 On the other hand, we claim that for every $n>k+1$, $S(f)_n \leq S + 2\cdot 10^{-k-1} < S + 10^{-k}$, and hence in particular $FtR(f) < FtR(g)$.
-Indeed, since $f(i)\in \{0,1\}$ for every $i$, $\sum_{i=k+1}^n f(i)10^{-i} \leq \sum_{i=k+1}^n 10^{-i}$ which by formula for [geometric series](https://en.wikipedia.org/wiki/Geometric_series), equals $10^{-k-1}\tfrac{1-10^{-(n-k-1)}}{1-10^{-1}} \leq \cdot 10^{-k-1}/0.9 \leq 2\cdot 10^{-k-1}$.
+Indeed, since $f(i)\in \{0,1\}$ for every $i$, $\sum_{i=k+1}^n f(i)10^{-i} \leq \sum_{i=k+1}^n 10^{-i}$ which by formula for [geometric series](https://en.wikipedia.org/wiki/Geometric_series), equals $10^{-k-1}\tfrac{1-10^{-(n-k-1)}}{1-10^{-1}} \leq  10^{-k-1}/0.9 \leq 2\cdot 10^{-k-1}$.
 
 
 
