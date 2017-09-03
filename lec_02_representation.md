@@ -289,7 +289,7 @@ E'(o_0,\ldots,o_{k-1})=E'(o'_0,\ldots,o'_{k'-1}) \;,  \label{prefixfreeassump}
 $$
 and denote this string by $x$.
 >
-We denote $x_i = E(o_i)$ and $x'_i = E'(o_i)$.
+We denote $x_i = E(o_i)$ and $x'_i = E(o_i)$.
 By our assumption and the  definition of $E'$, $x_0x_1 \cdots x_k = x'_0 x'_1 \cdots x'_k$.
 >
 Let's make the assumption A that there is   some index $i \in [\min \{k,k'\}]$ such that $o_i \neq o'_i$.
