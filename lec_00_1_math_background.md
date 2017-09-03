@@ -340,9 +340,11 @@ For every directed graph $G=(V,E)$ and a  pair $u,v$ such that there is a path f
 
 > # {.remark title="Graph terminology" #graphsname}
 The word _graph_ in the sense above was coined by the mathematician Sylvester in 1878 in analogy with the chemical graphs used to visualize molecules.
-The more common usage of the term is to plot data, and in particular a plot of some function $f(x)$ as a function of $x$.
-We can think of a function $f:A \rightarrow B$ as a special case of a directed graph over the vertex set $V= A \cup B$ where we put the edge $\overrightarrow{x f(x)}$ for every $x\in A$.
+There is an unfortunate confusion with the more common usage of the term as a way to plot  data, and in particular a plot of some function $f(x)$ as a function of $x$.
+We can merge these two meanings by thinking of a function $f:A \rightarrow B$ as a special case of a directed graph over the vertex set $V= A \cup B$ where we put the edge $\overrightarrow{x f(x)}$ for every $x\in A$.
 In a graph constructed in this way every vertex in $A$ has out-degree one.
+
+The following [lecture of Berkeley CS70](http://www.eecs70.org/static/notes/n5.html) provides an excellent overview of graph theory.
 
 
 ### Logic operators and quantifiers.
