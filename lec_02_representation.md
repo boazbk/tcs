@@ -124,7 +124,7 @@ The result (and the theory around it) was quite shocking to mathematicians at th
 By showing that there is no one-to-one map from $\R$ to $\{0,1\}^*$ (or $\N$), Cantor showed that these two infinite sets have "different forms of infinity" and that the set of real numbers $\R$ is in some sense "bigger"  than the infinite set $\{0,1\}^*$.
 The notion that there are "shades of infinity" was deeply disturbing to mathematicians and philosophers at the time.
 The philosopher Ludwig Wittgenstein called Cantor's results "utter nonsense" and "laughable".
-Others thought they were worse.
+Others thought they were even worse than that.
 Leopold Kronecker called Cantor a "corrupter of youth", while Henri Poincaré said that Cantor's ideas "should be banished from mathematics once and for all".
 The tide eventually turned, and these days Cantor's work is universally accepted as the cornerstone of set theory and the foundations of mathematics.
 As we will see later in this course, Cantor's ideas also play a huge role in the theory of computation.
@@ -148,7 +148,7 @@ Now all that is left is to prove these two lemmas.
 We start by proving  [sequencestostrings](){.ref} which is really the heart of [cantorthm](){.ref}.
 
 > # {.proof data-ref="sequencestoreals"}
-Let us assume, towards the sake of contradiction, that there is one-to-one function $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$.
+Let us assume, towards the sake of contradiction, that there exists a one-to-one function $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$.
 Then, there is an _onto_ function $StF:\{0,1\}^* \rightarrow \{0,1\}$ (e.g., see [onetooneimpliesonto](){.ref}).
 We will derive a contradiction by coming up with some function $f^* : \N \rightarrow \{0,1\}$ such that $f^* \neq StF(x)$ for every $x\in \{0,1\}^*$.
 >
@@ -186,8 +186,8 @@ The proof of [sequencestostrings](){.ref} can be generalized to show that there 
 In particular, it means that the set $\{0,1\}^\R$ is "even bigger" than $\R$.
 Cantor used these ideas to construct an infinite hierarchy of shades of infinity.
 The number of such shades turn out to be much larger than $|\N|$ or even $|\R|$.
-He denoted the cardinality of $\N$ by  $\Aleph_0$, where $\Aleph$ is the first letter in the Hebrew alphabet, and called the the next largest infinite number by $\Aleph_1$.
-Cantor also made the [continuum hypothesis](https://en.wikipedia.org/wiki/Continuum_hypothesis) that $|\R|=\Aleph_1$.
+He denoted the cardinality of $\N$ by  $\aleph_0$, where $\aleph$ is the first letter in the Hebrew alphabet, and called the the next largest infinite number by $\aleph_1$.
+Cantor also made the [continuum hypothesis](https://en.wikipedia.org/wiki/Continuum_hypothesis) that $|\R|=\aleph_1$.
 We will come back to the very interesting story of this hypothesis later on in this course.
 [This lecture of Aaronson](https://www.scottaaronson.com/democritus/lec2.html) mentions some of these issues (see also [this Berkeley CS 70 lecture](http://www.eecs70.org/static/notes/n10.pdf)).
 
@@ -195,10 +195,10 @@ We will come back to the very interesting story of this hypothesis later on in t
 
 To complete the proof of [cantorthm](){.ref}, we need to show [sequencestoreals](){.ref}.
 This requires some calculus background, but is otherwise straightforward.
-The idea is that we can construct a one-to-one map from $\{0,1\}^\infty$ to the real numbers by mapping the function $f:\N \rightarrow \{0,1\}$ to the number that has the infinite decimal expansion $f(0).f(1)f(2)f(3)f(4)\ldots$ (i.e., $\sum_{i=0}^\infty f(i)10^{-i}$).
+The idea is that we can construct a one-to-one map from $\{0,1\}^\infty$ to the real numbers by mapping the function $f:\N \rightarrow \{0,1\}$ to the number that has the infinite decimal expansion $f(0).f(1)f(2)f(3)f(4)f(5)\ldots$ (i.e., the number between $0$ and $2$ that is $\sum_{i=0}^\infty f(i)10^{-i}$).
 We will now do this  more formally.
 If you have not had much experience with limits of real series before, then the formal proof might be a little hard to follow.
-This part is not the core of Cantor's argument, nor such limits very crucial to this course, so feel free to also just take [sequencestoreals](){.ref} on faith and skip the formal proof.
+This part is not the core of Cantor's argument, nor are such limits very crucial to this course, so feel free to also just take [sequencestoreals](){.ref} on faith and skip the formal proof.
 
 > # {.proof data-ref="sequencestostrings"}
 For every $f\in \{0,1\}^\infty$ and $n\in \N$, we define $S(f)_n = \sum_{i=0}^n f(i)10^{-i}$.
