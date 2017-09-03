@@ -149,7 +149,7 @@ We start by proving  [sequencestostrings](){.ref} which is really the heart of [
 
 > # {.proof data-ref="sequencestoreals"}
 Let us assume, towards the sake of contradiction, that there exists a one-to-one function $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$.
-Then, there is an _onto_ function $StF:\{0,1\}^* \rightarrow \{0,1\}$ (e.g., see [onetooneimpliesonto](){.ref}).
+Then, there is an _onto_ function $StF:\{0,1\}^* \rightarrow \{0,1\}^\infty$ (e.g., see [onetooneimpliesonto](){.ref}).
 We will derive a contradiction by coming up with some function $f^* : \N \rightarrow \{0,1\}$ such that $f^* \neq StF(x)$ for every $x\in \{0,1\}^*$.
 >
 The argument for this is short but subtle.

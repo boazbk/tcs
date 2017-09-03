@@ -224,7 +224,7 @@ But writing NAND programs by hand can get real old real fast.
 So, we will prove more general results about _composing_ functions:
 
 > # {.theorem title="Sequential composition of functions" #seqcompositionthm}
-If $F:\{0,1\}^n \rightarrow \{0,1\}^m$ is a function in $SIZE(L)$ and $G:\{0,1\}^m \rightarrow \{0,1\}^k$ is a function in $SIZE(L')$ then $G\circ F$ is a function in $SIZE(L+L')$, where $G\circ G:\{0,1\}^n \rightarrow \{0,1\}^k$ is the function that maps $x\in \{0,1\}^n$ to $G(F(x))$.
+If $F:\{0,1\}^n \rightarrow \{0,1\}^m$ is a function in $SIZE(L)$ and $G:\{0,1\}^m \rightarrow \{0,1\}^k$ is a function in $SIZE(L')$ then $G\circ F$ is a function in $SIZE(L+L')$, where $G\circ F:\{0,1\}^n \rightarrow \{0,1\}^k$ is the function that maps $x\in \{0,1\}^n$ to $G(F(x))$.
 
 
 > # {.theorem title="Parallel composition of functions" #parcompositionthm}

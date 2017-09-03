@@ -283,7 +283,7 @@ Every edge is a size two subset of $V$.
 We say that two vertices $u,v \in V$ are _neighbors_, denoted by $u \sim v$, if the edge $\{u,v\}$ is in $E$.
 
 Given this definition, we can define several other properties of graphs and their vertices.
-We define _degree_ of $u$ to be the number of neighbors $v$ has.
+We define _degree_ of $u$ to be the number of neighbors $u$ has.
 A _path_ in the graph is a tuple $(u_0,\ldots,u_k) \in V^k$, for some $k>0$ such that $u_{i+1}$ is a neighbor of $u_i$ for every $i\in [k]$.
 A _simple path_ is a path $(u_0,\ldots,u_{k-1})$ where all the $u_i$'s are distinct.
 A _cycle_ is a path $(u_0,\ldots,u_k)$ where $u_0=u_{k}$.

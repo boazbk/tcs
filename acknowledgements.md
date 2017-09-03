@@ -9,9 +9,11 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Juan Esteller
 * Ondřej Lengál
 * Alex Lombardi
+* Lisa Lu
 * Aditya Mahadevan
 * Thomas Orton
 * Juan Perdomo
+* Brian Sapozhnikov
 * David Steurer
 * Everett Sussman
 * Salil Vadhan
