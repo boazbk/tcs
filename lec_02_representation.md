@@ -172,17 +172,33 @@ where $g=StF(x)$.
 For every $n$ that is not of the form $n=n(x)$ for some $x$, we set $f^*(n)=0$.
 [eqcantordiagreals](){.eqref} is well defined since the map $x \mapsto n(x)$ is one-to-one and hence we will not try to give $f^*(n)$ two different values.
 >
-Now by definition, for every $x\in \{0,1\}^*$, if $g=StF(x)$ and $n=n(x)$ then $f^*(n) = 1 - g(n) \neq g(n)$.
+Now by [eqcantordiagreals](){.eqref}, for every $x\in \{0,1\}^*$, if $g=StF(x)$ and $n=n(x)$ then $f^*(n) = 1 - g(n) \neq g(n)$.
 Hence $StF(x) \neq f^*$ for every $x\in \{0,1\}^*$, contradicting the assumption that $StF$ is onto.
+This proof is known as the "diagonal" argument, as the construction of $f^*$  can be thought of as going over the diagonal elements of a table that in the $n$-th row and $m$-column contains $StF(x)(m)$ where $x$ is the string such that $n(x)=n$, see [diagrealsfig](){.ref}.
 
+![We construct a function $f^*$ such that $f^* \neq StF(x)$ for every $x\in \{0,1\}^*$ by ensuring that $f^*(n(x)) \neq StF(x)(n(x))$ for every $x\in \{0,1\}^*$. We can think of this as building a table where the columns correspond to numbers $m\in \N$ and the rows correspond to $x\in \{0,1\}^*$ (sorted according to $n(x)$). If the entry in the $x$-th row and the $m$-th column corresponds to $g(m))$ where $g=StF(x)$ then $f^*$ is obtained by going over the "diagonal" elements in this table (the entries corresponding to the $x$-th row  and $n(x)$-th column) and enduring that $f^*(x)(n(x)) \neq StF(x)(n(x))$. ](../figure/diagreals2.png){#diagrealsfig .class width=300px height=300px}
 
-
+To complete the proof of [cantorthm](){.ref}, we need to show [sequencestoreals](){.ref}.
+This requires some calculus background, but is otherwise straightforward.
+The idea is that we can construct a one-to-one map from $\{0,1\}^\infty$ to the real numbers by mapping the function $f:\N \rightarrow \{0,1\}$ to the number that has the infinite decimal expansion $f(0).f(1)f(2)f(3)f(4)\ldots$ (i.e., $\sum_{i=0}^\infty f(i)10^{-i}$).
+We will now do this  more formally.
+If you have not had much experience with limits of real series before, then the formal proof might be a little hard to follow.
+This part is not the core of Cantor's argument, nor such limits very crucial to this course, so feel free to also just take [sequencestoreals](){.ref} on faith and skip the formal proof.
 
 > # {.proof data-ref="sequencestostrings"}
+For every $f\in \{0,1\}^\infty$ and $n\in \N$, we define $S(f)_n = \sum_{i=0}^n f(i)10^{-i}$.
+It is a known result (that we won't repeat here) that for every $f:\N \rightarrow \{0,1\}$, the sequence $( S(f)_n )_{n=0}^\infty$ has a _limit_.
+That is, there exists some value $x$ such that for every $\epsilon>0$, if $n$ is sufficiently large then $|S_f(n)-x| < \epsilon$.
+We define $FtR(f)$ to be this value $x$.
+To show that $FtR$ is one to one, we need to show that $FtR(f) \neq FtR(g)$ for every distinct $f,g:\N \rightarrow \{0,1\}$.
+Let $f \neq g$ be such functions, and let $k$ be the smallest number for which $f(k) \neq g(k)$.
+Assume without loss of generality that $f(k)=0$ and $g(k)=1$.
+Then, if $S = \sum_{i=0}^{k-1} 10^{-i}f(i) = \sum_{i=0}^{k-1} 10^{-i}f(i)$, we get that for every $n>k+1$,
+$S(f)_n = S + \sum_{i=k+1}^n 10^{-i} f(i)$ and $S(g)_n = S + 10^{-k} + \sum_{i=k+1}^n 10^{-i} g(i)$.
+Clearly, the limit $FtR(g)$ is at least $S + 10^{-k}$.
+On the other hand, we claim that for every $n>k+1$, $S(f)_n \leq S + 2\cdot 10^{-k-1} < S + 10^{-k}$, and hence in particular $FtR(f) < FtR(g)$.
+Indeed, since $f(i)\in \{0,1\}$ for every $i$, $\sum_{i=k+1}^n f(i)10^{-i} \leq \sum_{i=k+1}^n 10^{-i}$ which by formula for [geometric series](https://en.wikipedia.org/wiki/Geometric_series), equals $10^{-k-1}\tfrac{1-10^{-(n-k-1)}}{1-10^{-1}} \leq \cdot 10^{-k-1}/0.9 \leq 2\cdot 10^{-k-1}$.
 
-
-
-Also, some error in representing real numbers is _unavoidable_: there is no exact representation of real numbers as strings; see [cantor-ex](){.ref}.^[The reason for this inherent error is that the set of real numbers is _uncountable_ as we will see later in this course.]
 
 
 ## Beyond numbers
