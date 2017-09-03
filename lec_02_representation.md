@@ -106,7 +106,82 @@ The same idea can be used to represent triples, quadruples, and generally all tu
 The set of  _real numbers_ $\R$ contains all numbers including positive, negative, and fractional, as well as _irrational_ numbers such as $\pi$ or $e$.
 Every real number can be approximated by a rational number, and so up to a small error we can represent every real number $x$ by a rational number $a/b$ that is very close to $x$.
 This is a fine representation though a more common choice to represent real numbers is the _floating point_ representation, where we represent $x$ by the pair $(a,b)$ of integers of some prescribed sizes (determined by the desired accuracy) such that $a2^{-b}$ is closest to $x$.
-The reader might be (rightly) worried about this issue of approximation, but in many (though not all) computational applications, one can make the accuracy tight enough so that this does not affect the final result.^[This is called "floating point" because we can think of the number $a$ as specifying a sequence of binary digits, and $b$ as describing the location of the "binary point" within this sequence. This internal representation is the reason why, for example, in   Python  typing `0.1+0.2` will result in `0.30000000000000004` and not `0.3`, see [here](http://floating-point-gui.de/), [here](https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html) and [here](https://randomascii.wordpress.com/2012/04/05/floating-point-complexities/) for more. A floating point error  has been implicated in the [explosion](http://sunnyday.mit.edu/accidents/Ariane5accidentreport.html) of the Ariane 5 rocket, a bug that cost more than 370 million dollars, and the [failure](http://embeddedgurus.com/barr-code/2014/03/lethal-software-defects-patriot-missile-failure/) of a U.S. Patriot missile to intercept an Iraqi Scud missile, costing 28 lives. Floating point is [often problematic](http://www.theregister.co.uk/2006/08/12/floating_point_approximation/) in financial applications as well.]
+The reader might be (rightly) worried about this issue of approximation. In many (though not all) computational applications, one can make the accuracy tight enough so that this does not affect the final result, though sometimes we do need to be careful.
+This representation is called "floating point" because we can think of the number $a$ as specifying a sequence of binary digits, and $b$ as describing the location of the "binary point" within this sequence.
+The use of floating  representation is the reason why in many programming systems  printing the expression `0.1+0.2` will result in `0.30000000000000004` and not `0.3`, see [here](http://floating-point-gui.de/), [here](https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html) and [here](https://randomascii.wordpress.com/2012/04/05/floating-point-complexities/) for more.
+A floating point error  has been implicated in the [explosion](http://sunnyday.mit.edu/accidents/Ariane5accidentreport.html) of the Ariane 5 rocket, a bug that cost more than 370 million dollars, and the [failure](http://embeddedgurus.com/barr-code/2014/03/lethal-software-defects-patriot-missile-failure/) of a U.S. Patriot missile to intercept an Iraqi Scud missile, costing 28 lives. Floating point is [often problematic](http://www.theregister.co.uk/2006/08/12/floating_point_approximation/) in financial applications as well.
+
+### Can we represent reals _exactly_?
+
+Given the issues with floating point representation, we could ask whether we could represent real numbers _exactly_ as strings.
+Unfortunately, the following theorem says this cannot be done
+
+> # {.theorem title="Reals are uncountable" #cantorthm}
+There is no one-to-one function $RtN:\R \rightarrow \{0,1\}^*$.^[We use $RtN$ for "reals to natural numbers".]
+
+[cantorthm](){.ref} was proven by [Georg Cantor](https://en.wikipedia.org/wiki/Georg_Cantor) in 1874.^[Cantor used the set $\N$ rather than $\{0,1\}^*$, but one can show that these two result are equivalent using the one-to-one maps between those two sets, see [naturalsstringsmapex](){.ref}.]
+The result (and the theory around it) was quite shocking to mathematicians at the time.
+By showing that there is no one-to-one map from $\R$ to $\{0,1\}^*$ (or $\N$), Cantor showed that these two infinite sets have "different forms of infinity" and that the set of real numbers $\R$ is in some sense "bigger"  than the infinite set $\{0,1\}^*$.
+These notion that there are "shades of infinity" was deeply disturbing to mathematicians and philosophers at the time.
+The philosopher Ludwig Wittgenstein called Cantor's results "utter nonsense" and "laughable".
+Others thought these were worse.
+Leopold Kronecker called Cantor a "corrupter of youth", while Henri Poincaré said that Cantor's ideas "should be banished from mathematics
+once and for all".
+The tide eventually turned, and these days Cantor's work is universally accepted as the cornerstone of set theory and the foundations of mathematics.
+As we will see later in this course, Cantor's ideas play a huge role in the theory of computation as well.
+
+Now that we discussed the theorem's importance, let us see the proof.
+[cantorthm](){.ref} follows from the following two results:
+
+> # {.lemma #sequencestostrings}
+Let $\{0,1\}^\infty$ be the set $\{ f \;|\; f:\N \rightarrow \{0,1\} \}$ of functions from $\N$ to $\{0,1\}$.^[We can also think of $\{0,1\}^\infty$ as the set of all infinite _sequences_ of bits, since a function $f:\N \rightarrow \{0,1\}$ can be identified with the sequence $(f(0),f(1),f(2),\ldots )$.]
+Then there is no one-to-one map $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$.^[$FtS$ stands for "functions to strings".]
+
+> # {.lemma #sequencestoreals}
+There _does_ exist a one-to-one map $FtR:\{0,1\}^\infty \rightarrow \R$.^[$FtR$ stands for "functions to reals."]
+
+[sequencestostrings](){.ref} and [sequencestoreals](){.ref} together  imply [cantorthm](){.ref}.
+To see why, suppose, towards the sake of contradiction, that there did exist a one-to-one function $RtS:\R \rightarrow \{0,1\}^*$.
+By [sequencestoreals](){.ref}, there exists a one-to-one function $FtR:\{0,1\}^\infty \rightarrow \R$.
+Thus, under this assumption, since the composition of two one-to-one functions is one-to-one (see [onetoonecompex](){.ref}), the function $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$ defined as $FtS(f)=RtS(FtR(f))$ will be one to one, contradicting [sequencestostrings](){.ref}.
+
+Now all that is left is to prove these two lemmas.
+We start with  [sequencestostrings](){.ref} which is really the heart of this proof.
+
+> # {.proof data-ref="sequencestoreals"}
+Let us assume, towards the sake of contradiction, that there is one-to-one function $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$.
+Then, there is an _onto_ function $StF:\{0,1\}^* \rightarrow \{0,1\}$ (e.g., see [onetooneimpliesonto](){.ref}).
+We will derive a contradiction by coming up with some function $f^* : \N \rightarrow \{0,1\}$ such that $f^* \neq StF(x)$ for every $x\in \{0,1\}^*$.
+>
+The argument for this is short but subtle.
+We need to construct some function $f^*:\N \rightarrow \{0,1\}$ such that for every $x\in \{0,1\}^*$, if we let $g=StF(x)$ then $g \neq f^*$.
+Since two functions are identical if and only if they agree on every input, to do this we need to show that there is _some_ $n\in \N$ such that $f^*(n) \neq g(n)$.
+(All these quantifiers can be confusing, so let's again recap where we are and where we want to get to. We assumed by contradiction there  is a one-to-one $FtS$ and hence an onto $StF$. To get our desired contradiction we need to show the _existence_ of  a single $f^*$ such that for _every_ $x\in \{0,1\}^*$ there _exists_ $n\in \N$ on which $f^*$ and $g=StF(x)$ disagree.)
+>
+The idea is to construct $f^*$ iteratively: for every $x\in \{0,1\}^*$ we will "ruin" $f^*$ in one input $n(x)\in \N$ to ensure that $f^*(n(x)) \neq g(n(x))$ where $g=StF(x)$.
+If we are successful then this would ensure that $f^* \neq STF(x)$ for every $x$.
+Specifically, for every $x\in \{0,1\}^*$, let $n(x) \in N$ be the number $x_0 + 2x_1 + 4x_2 + \cdots +2^{k-1}x_{k-1} + 2^{k}$ where $k=|x|$.
+That is, $n(x) = 2^k + \sum_{i=0}^{k-1}2^i x_i$.
+If $x\neq x'$ then $n(x) \neq n(x')$  (we leave verifying this as an exercise to you, the reader).
+>
+Now for every $x\in \{0,1\}^*$, we define
+$$
+f^*(n(x)) = 1 - g(n(x)) \label{eqcantordiagreals}
+$$
+where $g=StF(x)$.
+For every $n$ that is not of the form $n=n(x)$ for some $x$, we set $f^*(n)=0$.
+[eqcantordiagreals](){.eqref} is well defined since the map $x \mapsto n(x)$ is one-to-one and hence we will not try to give $f^*(n)$ two different values.
+>
+Now by definition, for every $x\in \{0,1\}^*$, if $g=StF(x)$ and $n=n(x)$ then $f^*(n) = 1 - g(n) \neq g(n)$.
+Hence $StF(x) \neq f^*$ for every $x\in \{0,1\}^*$, contradicting the assumption that $StF$ is onto.
+
+
+
+
+> # {.proof data-ref="sequencestostrings"}
+
+
+
 Also, some error in representing real numbers is _unavoidable_: there is no exact representation of real numbers as strings; see [cantor-ex](){.ref}.^[The reason for this inherent error is that the set of real numbers is _uncountable_ as we will see later in this course.]
 
 
@@ -417,7 +492,15 @@ a. For every $k \leq n$ and length-$k$ string $x\in S$, let $L(x) \subseteq \{0,
 b. Prove that $\sum_{x\in S}2^{-|x|} \leq 1$. \
 c. Prove that there is no prefix-free encoding of strings with less than logarithmic overhead. That is, prove that there is no function $PF:\{0,1\}^* \rightarrow \{0,1\}^*$ s.t. $|PF(x)| \leq |x|+0.9\log |x|$ for every $x\in \{0,1\}^*$ and such that the set $\{ PF(x) : x\in \{0,1\}^* \}$ is prefix-free.
 
+> # {.exercise title="Composition of one-to-one functions" #onetoonecompex}
+Prove that for every two one-to-one functions $F:S \rightarrow T$ and $G:T \rightarrow U$, the function $H:S \rightarrow U$ defined as $H(x)=G(F(x))$ is one to one.
 
+
+> # {.exercise title="Natural numbers and strings" #naturalsstringsmapex}
+1. We have shown that the natural numbers can be represented as strings. Prove that the other direction holds as well: that there is a one-to-one map $StN:\{0,1\}^* \rightarrow \N$. ($StN$ stands for "strings to numbers".) \
+2. Recall that Cantor proved that there is no one-to-one map $RtN:\R \rightarrow \N$. Show that Cantor's result implies [cantorthm](){.ref}.
+
+<!--
 > # {.exercise title="No lossless representation of reals (challenge)" #cantor-ex}
 In this exercise we will prove that there is no "lossless" representation of real numbers as strings. That is, that there is no one-to-one function $F$ mapping the real numbers $\R$ to the set of finite strings $\{0,1\}^*$. \
 a. Suppose, towards the sake of contradiction, that there exists such a function $F: \R \rightarrow \{0,1\}^*$. Prove that there exists an onto function $G:\{0,1\}^* \rightarrow \R$. \
@@ -428,6 +511,8 @@ d. Let $S$ be the set of all functions from $\N$ to $\{0,1\}$ prove that the map
 e. Prove that there is no onto map from $\N$  to $S$.^[__Hint:__ Suppose that there was such a map $O$, the we can define the function $f \in S$ such that $f(i)=1-O(i)(i)$ and show that it is not in the image of $O$.] \
 f. Combine a-e to get a contradiction to the assumption that there is one-to-one map from $\R$ to $\{0,1\}^*$.
 ^[TODO: can we have a proof that doesn't need people to know limits?]
+
+-->
 
 ## Bibliographical notes
 

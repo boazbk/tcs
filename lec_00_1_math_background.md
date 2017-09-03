@@ -45,7 +45,7 @@ The main notions we will use in this course are the following:
 
 * __Sets:__ Including notation such as membership ($\in$), containment ($\subseteq$), and set operations such as union, intersection,  set difference  and Cartesian product ($\cup,\cap,\setminus$ and $\times$).
 
-* __Functions:__ Including the notions of the _domain_ and _range_ of a function, properties such  being  _one-to-one_ or _onto_ functions, as well as  _partial functions_ (that, unlike standard or "total" functions, are not necessarily defined on all elements of their domain).
+* __Functions:__ Including the notions of the _domain_ and _range_ of a function, properties such  being  _one-to-one_ (also known as _injective_) or _onto_ (also known as _surjective_) functions, as well as  _partial functions_ (that, unlike standard or "total" functions, are not necessarily defined on all elements of their domain).
 
 * __Logical operations:__ The operations AND, OR, and NOT ($\wedge,\vee,\neg$) and the quantifiers "exists" and "forall" ($\exists$,$\forall$).
 
@@ -213,9 +213,10 @@ Then  the function $F$ defined as
 
 
 Is the same as defining $F(x)= (x \mod 2)$.
-If $F:S \rightarrow T$ satisfies that $F(x)\neq F(y)$ for all $x \neq y$ then we say that $F$ is _one-to-one_.  
-If $F$ satisfies that for every $y\in T$ there is some $x$ such that $F(x)=y$ then we say that $F$ is _onto_.
-A  one-to-one and onto function is called a _bijection_, and when $S=T$ it is also known as a _permutation_.
+If $F:S \rightarrow T$ satisfies that $F(x)\neq F(y)$ for all $x \neq y$ then we say that $F$ is _one-to-one_ (also known as an _injective_ function or simply an _injection_).  
+If $F$ satisfies that for every $y\in T$ there is some $x$ such that $F(x)=y$ then we say that $F$ is _onto_ (also known as a _surjective_ function or simply a _surjection_).
+A  function that is both one-to-one and onto is known as a _bijective_ function or simply a _bijection_.
+If  $S=T$ then a bijection from $S$ to $T$ is also known as a _permutation_.
 If  $F:S \rightarrow T$ is a bijection  then  for every $y\in T$ there is a unique $x\in S$ s.t. $F(x)=y$.
 We denote this value $x$ by $F^{-1}(y)$.
 Note that $F^{-1}$ is itself a bijection from $T$ to $S$ (can you see why?).
@@ -235,6 +236,35 @@ When we want to distinguish between partial functions and  standard (i.e., non-p
 (Note that the set of partial functions is a proper superset of the set of total functions; i.e., a partial function is allowed to be defined on all its input elements.)
 Also, when we want to emphasize that a function $f$ from $A$ to $B$ might not be total, we will write $f: A \rightarrow_p B$.
 We can think of a partial function $F$ from $S$ to $T$ also as a total function from $S$ to $T \cup \{ \bot \}$ where $\bot$ is some special "failure symbol", and so instead of saying that $F$ is undefined at $x$, we can say that $F(x)=\bot$.
+
+__Basic facts about functions:__
+Verifying that you can prove the following results is an excellent way to brush up on functions:
+
+* If $F:S \rightarrow T$ and $G:T \rightarrow U$ are one-to-one functions, then their _composition_ $H:S \rightarrow U$ defined as $H(s)=G(F(s))$ is also one to one.
+
+* If $F:S \rightarrow T$ is one to one, then there exists an onto function $G:T \rightarrow S$ such that $G(F(s))=s$ for every $s\in S$.
+
+* If $G:T \rightarrow S$ is onto then there exists a one-to-one function $F:S \rightarrow T$ such that $G(F(s)=s$ for every $s\in S$.
+
+* If $S$ and $T$ are finite sets then the following conditions are equivalent to one another: __(a)__ $|S| \leq |T|$, __(b)__ there is a one-to-one function $F:S \rightarrow T$, and __(c)__ there is an onto function $G:T \rightarrow S$.
+
+> # { .pause }
+You can find the proofs of these results in many discrete math texts, including for example, section 4.5 in the [Leham-Leighton-Meyer notes](http://www.boazbarak.org/cs121/LLM_data_types.pdf).
+However, I strongly suggest you try to prove them on your own, or at least convince yourself that they are true by proving special cases of those for small sizes (e.g., $|S|=3,|T|=4,|U|=5$).
+
+Let us prove one of these facts as an example:
+
+> # {.lemma #onetooneimpliesonto}
+If $S,T$ are non-empty sets and $F:S \rightarrow T$ is one to one, then there exists an onto function $G:T \rightarrow S$ such that $G(F(s))=s$ for every $s\in S$.
+
+
+> # {.proof data-ref="onetooneimpliesonto"}
+Let $S$, $T$ and  $F:S \rightarrow T$ be as in the Lemma's statement, and choose some $s_0 \in S$.
+We will define the function $G:T \rightarrow S$ as follows: for every $t\in T$, if there is some $s\in S$ such that $F(s)=t$ then set $G(t)=s$ (the choice of $s$ is well defined since by the one-to-one property of $F$, there cannot be two distinct $s,s'$  that both map to $t$).
+Otherwise, set $G(t)=s_0$.
+Now for every $s\in S$, by the definition of $G$, if $t=F(s)$ then $G(t)=G(F(s))=s$.
+Moreover, this also shows that $G$ is _onto_, since it means that for every $s\in S$ there is some $t$ (namely $t=F(s)$) such that $G(t)=s$.
+
 
 
 ### Graphs { #graphsec }
