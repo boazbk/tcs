@@ -352,14 +352,20 @@ The _negation_ of $P$, denoted as $\neg P$ or $\overline{P}$, is the statement t
 
 Suppose that $P(x)$ is a statement that depends on some _parameter_  $x$ (also sometimes known as an _unbound_ variable) in the sense that for every instantiation of $x$ with a value from some set $S$, $P(x)$ is either true or false.
 For example, $x>7$ is a statement that is not a priori true or false, but does become true or false whenever we instantiate $x$ with some real number.
-In such case we denote by  $\forall_{x\in S} P(x)$  the statement that is true if and only if $P(x)$ is true _for every_ $x\in S$.
+In such case we denote by  $\forall_{x\in S} P(x)$  the statement that is true if and only if $P(x)$ is true _for every_ $x\in S$.^[In these notes we will place the variable that is bound by a quantifier in a subscript and so write $\forall_{x\in S}P(x)$ whereas other texts might use $\forall x\in S. P(x)$.]
 We denote by  $\exists_{x\in S} P(x)$  the statement that is true if and only if _there exists_ some $x\in S$ such that $P(x)$ is true.
 
-For example, the following is a formalization of the true statement that there exists a natural number $n$ larger than $100$ that is not divisble by $3$:
+For example, the following is a formalization of the true statement that there exists a natural number $n$ larger than $100$ that is not divisible by $3$:
 
 $$
 \exists_{n\in \N} (n>100) \wedge \left(\forall_{k\in N} k+k+k \neq n\right) \;.
 $$
+
+_"For sufficiently large $n$"_ One expression which comes up time and again is the claim that some statement $P(n)$ is true "for sufficiently large $n$".
+What this means is that there exists an integer $N_0$ such that $P(n)$ is true for every $n>N_0$.
+We can formalize this as $\exists_{N_0\in \N} \forall_{n>N_0} P(n)$.
+
+
 
 ### Quantifiers for summations and products { #secquantifiers }
 
