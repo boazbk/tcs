@@ -117,18 +117,17 @@ Given the issues with floating point representation, we could ask whether we cou
 Unfortunately, the following theorem says this cannot be done
 
 > # {.theorem title="Reals are uncountable" #cantorthm}
-There is no one-to-one function $RtN:\R \rightarrow \{0,1\}^*$.^[We use $RtN$ for "reals to natural numbers".]
+There is no one-to-one function $RtS:\R \rightarrow \{0,1\}^*$.^[$RtS$ stands for "reals to strings".]
 
 [cantorthm](){.ref} was proven by [Georg Cantor](https://en.wikipedia.org/wiki/Georg_Cantor) in 1874.^[Cantor used the set $\N$ rather than $\{0,1\}^*$, but one can show that these two result are equivalent using the one-to-one maps between those two sets, see [naturalsstringsmapex](){.ref}. Saying that there is no one-to-one map from $\R$ to $\N$ is equivalent to saying that there is no onto map $NtR:\N \rightarrow \R$ or, in other words, that there is way to "count" all the real numbers as $NtR(0),NtR(1),NtR(2),\ldots$. For this reason [cantorthm](){.ref} is known as the _uncountability of the reals_.]
 The result (and the theory around it) was quite shocking to mathematicians at the time.
 By showing that there is no one-to-one map from $\R$ to $\{0,1\}^*$ (or $\N$), Cantor showed that these two infinite sets have "different forms of infinity" and that the set of real numbers $\R$ is in some sense "bigger"  than the infinite set $\{0,1\}^*$.
-These notion that there are "shades of infinity" was deeply disturbing to mathematicians and philosophers at the time.
+The notion that there are "shades of infinity" was deeply disturbing to mathematicians and philosophers at the time.
 The philosopher Ludwig Wittgenstein called Cantor's results "utter nonsense" and "laughable".
-Others thought these were worse.
-Leopold Kronecker called Cantor a "corrupter of youth", while Henri Poincaré said that Cantor's ideas "should be banished from mathematics
-once and for all".
+Others thought they were worse.
+Leopold Kronecker called Cantor a "corrupter of youth", while Henri Poincaré said that Cantor's ideas "should be banished from mathematics once and for all".
 The tide eventually turned, and these days Cantor's work is universally accepted as the cornerstone of set theory and the foundations of mathematics.
-As we will see later in this course, Cantor's ideas play a huge role in the theory of computation as well.
+As we will see later in this course, Cantor's ideas also play a huge role in the theory of computation.
 
 Now that we discussed the theorem's importance, let us see the proof.
 [cantorthm](){.ref} follows from the following two results:
@@ -146,7 +145,7 @@ By [sequencestoreals](){.ref}, there exists a one-to-one function $FtR:\{0,1\}^\
 Thus, under this assumption, since the composition of two one-to-one functions is one-to-one (see [onetoonecompex](){.ref}), the function $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$ defined as $FtS(f)=RtS(FtR(f))$ will be one to one, contradicting [sequencestostrings](){.ref}.
 
 Now all that is left is to prove these two lemmas.
-We start with  [sequencestostrings](){.ref} which is really the heart of this proof.
+We start by proving  [sequencestostrings](){.ref} which is really the heart of [cantorthm](){.ref}.
 
 > # {.proof data-ref="sequencestoreals"}
 Let us assume, towards the sake of contradiction, that there is one-to-one function $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$.
@@ -177,6 +176,21 @@ Hence $StF(x) \neq f^*$ for every $x\in \{0,1\}^*$, contradicting the assumption
 This proof is known as the "diagonal" argument, as the construction of $f^*$  can be thought of as going over the diagonal elements of a table that in the $n$-th row and $m$-column contains $StF(x)(m)$ where $x$ is the string such that $n(x)=n$, see [diagrealsfig](){.ref}.
 
 ![We construct a function $f^*$ such that $f^* \neq StF(x)$ for every $x\in \{0,1\}^*$ by ensuring that $f^*(n(x)) \neq StF(x)(n(x))$ for every $x\in \{0,1\}^*$. We can think of this as building a table where the columns correspond to numbers $m\in \N$ and the rows correspond to $x\in \{0,1\}^*$ (sorted according to $n(x)$). If the entry in the $x$-th row and the $m$-th column corresponds to $g(m))$ where $g=StF(x)$ then $f^*$ is obtained by going over the "diagonal" elements in this table (the entries corresponding to the $x$-th row  and $n(x)$-th column) and enduring that $f^*(x)(n(x)) \neq StF(x)(n(x))$. ](../figure/diagreals2.png){#diagrealsfig .class width=300px height=300px}
+
+> # {.remark title="Genearlizing beyond strings and reals" #generalizepowerset}
+[sequencestostrings](){.ref} doesn't really have much to do with the natural numbers or the strings.
+An examination of the proof shows that it really shows that for _every_ set $S$, there is no one-to-one map $F:\{0,1\}^S \rightarrow S$ where $\{0,1\}^S$ denotes the set $\{ f \;|\; f:S \rightarrow \{0,1\} \}$ of all Boolean functions with domain $S$.
+Since we can identify a subset $V \subseteq S$ with its characteristic function $f=1_V$ (i.e., $1_V(x)=1$ iff $x\in V$), we can think of $\{0,1\}^S$ also as the set of all _subsets_ of $S$.
+This subset is sometimes called the _power set_ of $S$.
+The proof of [sequencestostrings](){.ref} can be generalized to show that there is no one-to-one map between a set and its power set.
+In particular, it means that the set $\{0,1\}^\R$ is "even bigger" than $\R$.
+Cantor denoted the cardinality of $\N$ by  $\Aleph_0$, where $\Aleph$ is the first letter in the Hebrew alphabet.
+He denoted the next largest infinite number by $\Aleph_1$ and made the [continuum hypothesis](https://en.wikipedia.org/wiki/Continuum_hypothesis) 
+Cantor used these ideas to construct an infinite hierarchy of shades of infinity.
+The number of such shades turn out to be much larger than $|\N|$ or even $|\R|$.
+[This lecture of Aaronson](https://www.scottaaronson.com/democritus/lec2.html) mentions some of these issues (see also [this Berkeley CS 70 lecture](http://www.eecs70.org/static/notes/n10.pdf)).
+
+
 
 To complete the proof of [cantorthm](){.ref}, we need to show [sequencestoreals](){.ref}.
 This requires some calculus background, but is otherwise straightforward.
