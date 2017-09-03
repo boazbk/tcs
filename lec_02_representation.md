@@ -184,10 +184,11 @@ Since we can identify a subset $V \subseteq S$ with its characteristic function 
 This subset is sometimes called the _power set_ of $S$.
 The proof of [sequencestostrings](){.ref} can be generalized to show that there is no one-to-one map between a set and its power set.
 In particular, it means that the set $\{0,1\}^\R$ is "even bigger" than $\R$.
-Cantor denoted the cardinality of $\N$ by  $\Aleph_0$, where $\Aleph$ is the first letter in the Hebrew alphabet.
-He denoted the next largest infinite number by $\Aleph_1$ and made the [continuum hypothesis](https://en.wikipedia.org/wiki/Continuum_hypothesis) 
 Cantor used these ideas to construct an infinite hierarchy of shades of infinity.
 The number of such shades turn out to be much larger than $|\N|$ or even $|\R|$.
+He denoted the cardinality of $\N$ by  $\Aleph_0$, where $\Aleph$ is the first letter in the Hebrew alphabet, and called the the next largest infinite number by $\Aleph_1$.
+Cantor also made the [continuum hypothesis](https://en.wikipedia.org/wiki/Continuum_hypothesis) that $|\R|=\Aleph_1$.
+We will come back to the very interesting story of this hypothesis later on in this course.
 [This lecture of Aaronson](https://www.scottaaronson.com/democritus/lec2.html) mentions some of these issues (see also [this Berkeley CS 70 lecture](http://www.eecs70.org/static/notes/n10.pdf)).
 
 
