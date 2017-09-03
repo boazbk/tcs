@@ -226,7 +226,7 @@ Let $\cO$ be some set. A _representation scheme_ for $\mathcal{O}$ consists of a
 and such that  $D$ and $E$ satisfy that $D(E(o))=o$ for every $o\in \mathcal{O}$.
 $E$ is known as the _encoding_ function and $D$ is known as the _decoding_ function.
 
-Note that the condition $D(E(o))=o$ for every $o\in\mathcal{O}$ implies that $D$ is _onto_.
+Note that the condition $D(E(o))=o$ for every $o\in\mathcal{O}$ implies that $D$ is _onto_ (can you see why?).
 It turns out that to construct a representation scheme we only need to find an _encoding_ function.
 That is, every one-to-one encoding function has a corresponding decoding function, as shown in the following lemma:
 
