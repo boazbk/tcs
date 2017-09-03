@@ -119,7 +119,7 @@ Unfortunately, the following theorem says this cannot be done
 > # {.theorem title="Reals are uncountable" #cantorthm}
 There is no one-to-one function $RtN:\R \rightarrow \{0,1\}^*$.^[We use $RtN$ for "reals to natural numbers".]
 
-[cantorthm](){.ref} was proven by [Georg Cantor](https://en.wikipedia.org/wiki/Georg_Cantor) in 1874.^[Cantor used the set $\N$ rather than $\{0,1\}^*$, but one can show that these two result are equivalent using the one-to-one maps between those two sets, see [naturalsstringsmapex](){.ref}.]
+[cantorthm](){.ref} was proven by [Georg Cantor](https://en.wikipedia.org/wiki/Georg_Cantor) in 1874.^[Cantor used the set $\N$ rather than $\{0,1\}^*$, but one can show that these two result are equivalent using the one-to-one maps between those two sets, see [naturalsstringsmapex](){.ref}. Saying that there is no one-to-one map from $\R$ to $\N$ is equivalent to saying that there is no onto map $NtR:\N \rightarrow \R$ or, in other words, that there is way to "count" all the real numbers as $NtR(0),NtR(1),NtR(2),\ldots$. For this reason this result is known as the _uncountability of the reals_.]
 The result (and the theory around it) was quite shocking to mathematicians at the time.
 By showing that there is no one-to-one map from $\R$ to $\{0,1\}^*$ (or $\N$), Cantor showed that these two infinite sets have "different forms of infinity" and that the set of real numbers $\R$ is in some sense "bigger"  than the infinite set $\{0,1\}^*$.
 These notion that there are "shades of infinity" was deeply disturbing to mathematicians and philosophers at the time.
