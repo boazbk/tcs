@@ -281,7 +281,7 @@ For every $s\in \N$, we define $SIZE(s)$ to be the set of all functions that are
 
 > # { .pause }
 The formal specification of any programming language, no matter how simple, is often cumbersome, and the definitions above are no exception.
-You should go back and read them and make sure that you understand why they correspond to our informal description of computing a function via NAND circuits.
+You should go back and read them and make sure that you understand why they correspond to our informal description of computing a function via NAND programs.
 From this point on, we will not distinguish between the representation of  a NAND program in terms of lines of codes, and its representation as a tuple $P=(V,X,Y,L)$.
 
 Let $XOR_n:\{0,1\}^n \rightarrow \{0,1\}$ be the function that maps $x\in \{0,1\}^n$ to $\sum_{i=0}^n x_i (\mod 2)$.
@@ -375,7 +375,7 @@ Since $XOR_2$ is in $SIZE(4)$, it follows that $XOR_4 \in SIZE(4+(4+4))=SIZE(12)
 
 Using the same idea we can prove the following more general result:
 
-> # {.theorem title="Computing parity via NAND circuits" #paritycircuitthm}
+> # {.theorem title="Computing parity via NAND programs" #paritycircuitthm}
 For every $n>1$, $XOR_n \in SIZE(10n)$
 
 We leave proving [paritycircuitthm](){.ref} as [paritycircuitex](){.ref}.
@@ -398,10 +398,12 @@ It is somewhat cumbersome since we have to __(1)__ fully specify the transformat
 Nevertheless, because proof about computation can be subtle, it is important that you read carefully the proof and see that you understand every step  in it.
 
 
+![Given canonoical-variables programs $P$ and $P'$ that compute $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $G:\{0,1\}^m \rightarrow \{0,1\}^k$ respectively, we create a program $P''$ using $t+t'-m$ variables to compute $G\circ F$ where $t$ and $t'$ are the number of variables used by $P$ and $P'$ respectively. In this program, the variables corresponding to the outputs of $P$ and the inputs of $P'$ are shared, but all other variables are disjoint.](../figure/compositionprogs.png){#compositionprogsfig .class width=300px height=300px}
+
 > # {.proof data-ref="seqcompositioncircthm"}
 Let $P=(V,X,Y,L)$ and $P'=(V',X',Y',L')$ be the programs for computing $F$ and $G$ respectively, and assume without loss of generality that they are in canonical form, and so $X = [n]$, $Y=X'=[m]$, and $Y'=[k]$.
 Let $t=|V|$, $s=|L|$, $t'=|V'|$, and $s'=|L'|$.
-We will construct an $s+s'$ line canonical form program $P''$ with $t+t'-m$ variables that computes $G\circ F:\{0,1\}^n \rightarrow \{0,1\}^k$.
+We will construct an $s+s'$ line canonical form program $P''$ with $t+t'-m$ variables that computes $G\circ F:\{0,1\}^n \rightarrow \{0,1\}^k$ (see [compositionprogsfig](){.ref}).
 To specify $P''$ we only need to define its set of lines $L'' = (L''_0,L''_1,\ldots, L''_{s+s'-1})$.
 The first $s$ lines of $L''$ simply equal $L$.
 For the next $s'$ lines are obtained from $L'$  by adding $t-m$ to every label.
