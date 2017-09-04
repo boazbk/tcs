@@ -200,7 +200,8 @@ To make sure we have a precise and unambiguous definition of computation, we wil
 
 
 > # {.definition title="NAND program" #NANDprogram}
-A _NAND program_ is a 4-tuple $P=(V,X,Y,L)$ of the following form: \
+A _NAND program_ is a 4-tuple $P=(V,X,Y,L)$ of the following form:
+>
 * $V$ (called the _variables_) is some finite set.
 >
 * $X$ (called the _input variables_) is a tuple of elements in $V$, i.e. $X \in V^*$. We require that the elements of $X$ are distinct: $X_i \neq X_j$ for all $i\neq j$ in $[n]$ where $n=|X|$.
@@ -222,6 +223,17 @@ Such a configuration simply corresponds to the  current line that is executed an
 Thus we will model it as a pair $(\ell,\sigma)$ where $\ell$ is a number between $0$ and the total number of lines in the program, and $\sigma$ maps every variable to its current value.
 The initial configuration has the form $(0,\sigma_0)$ where $0$ corresponds to the first line, and $\sigma_0$ is the assignment of zeroes to all variables and $x_i$'s to the input variables.
 The final configuration will have the form $(s,\sigma_s)$ where $s$ is the number of lines (i.e., corresponding to "going past" the final line) and $\sigma_s$ is the final values assigned to all variables, which in particular encodes also the values of the output variables.
+
+For example, if we run the XOR program about on the input `11` then the configuration of the program evolves as follows:
+
+~~~~ { .go }
+                       x_0  x_1  v    u    w    y_0  
+u   := x_0 NAND x_1  : 1    1    0    0    0    0    
+v   := x_0 NAND u    : 1    1    1    0    0    0    
+w   := x_1 NAND u    : 1    1    1    0    1    0    
+y_0 := v NAND w      : 1    1    1    0    1    0    
+~~~~
+
 We now write the formal definition.
 As always, it is a good practice to verify that this formal definition matches the intuitive description above:
 
