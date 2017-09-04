@@ -83,12 +83,139 @@ To compute a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ using a circuit, we fe
 The number $k$ is known as the _arity_ of the basis $B$.
 We think of $k$ as a small number (such as $k=2$ or $k=3$) and so the idea behind a Boolean circuit is that we can compute complex functions by combining together the simple components which are the functions in $B$.
 It turns out that NAND programs correspond to circuits where the basis is the single function $NAND:\{0,1\}^2 \rightarrow \{0,1\}$.
-However, as we've seen, we can simulate _any_ $k$-arity basis $B$ using NAND gates with a blowup of at most a $4\cdot 2^k$ factor in the number of gates.
-So,  as long as we think of $k$ as small, the choice of basis does not make much difference.
+We now show this more formally.
 
-## Boolean circuits: a formal definition
+## Representing programs as graphs
 
-We now define Boolean circuits more formally using the notion of labeled _directed acylic graphs_ (DAGs).^[For a review of graphs, both directed and undirected, see any discrete mathematics text such as Chapters  10-12 in the excellent notes of [Lehman, Leighton and Meyer](http://www.boazbarak.org/cs121/LLM_March17.pdf). ]
+
+However, we will use a more general approach, first giving a more "mathematical" representation for NAND programs as _graphs_, and then using this representation to prove these two theorems.
+
+> # { .pause }
+If you are not comfortable with the definitions of graphs, and in particular directed acyclic graphs (DAGs), now would be a great time to go back to the "mathematical background" lecture, as well as some of the resources [here](http://www.boazbarak.org/cs121/background/), and review these notions.
+
+> # {.definition title="NAND circuit" #NANDcircdef}
+A _NAND circuit_ with $n$ inputs and $m$ outputs is a labeled directed acyclic graph (DAG) in which every vertex has in-degree at most two. We require that there  are $n$ vertices with in-degree zero, known  as _input variables_, that are labeled with  `x_`$\expr{i}$ for $i\in [n]$.
+Every vertex apart from the input variables is known as a _gate_. We require that there are $m$  vertices of out-degree zero, denoted as the _output gates_, and that are labeled with `y_`$\expr{j}$ for $j\in [m]$.
+While not all vertices are labeled, no two vertices get the same label.
+We denote the circuit  as $C=(V,E,L)$ where $V,E$ are the vertices and edges of the circuit, and $L:V \rightarrow_p S$ is the (partial) one-to-one labeling function that maps vertices into the set $S=\{$ `x_0`,$\ldots$,`x_`$\expr{n-1}$,`y_0`,$\ldots$, `y_`$\expr{m-1}$,$\}$.
+The _size_ of a circuit $C$, denoted by $|C|$, is the number of gates that it contains.
+
+The definition of NAND circuits is not ultimately that complicated, but may take  a second or third read  to fully parse.
+It might help to look at [XORcircuitfig](){.ref}, which describes the NAND circuit that corresponds to the 4-line NAND program we presented above for the $XOR_2$ function.
+
+
+
+![A NAND circuit for computing the $XOR_2$ function. Note that it has exactly four gates, corresponding to the four lines of the NAND program we presented above. The green labels $u,v,w$ for non-output gates are just for illustration and comparison with the NAND program, and are not formally part of the circuit.](../figure/XORcircuit.png){#XORcircuitfig .class width=300px height=300px}
+
+A NAND circuit corresponds to computation in the following way.
+To compute some output on an input $x\in \{0,1\}^n$, we start by assigning to the input vertex labeled with `x_`$\expr{i}$ the value $x_i$, and then proceed by assigning for every gate $v$ the value that is   the NAND of the values assigned to its in-neighbors (if it has less than two in-neighbors, we replace the value of the missing neighbors by zero).
+The output $y\in \{0,1\}^m$  corresponds to the value assigned to the output gates, with $y_j$ equal to the value assigned to the value assigned to the gate labeled `y_`$\expr{j}$ for every $j\in [m]$.
+Formally, this is defined as follows:
+
+> # {.definition title="Computing a function by a NAND circuit" #NANDcirccomputedef}
+Let $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and let $C=(V,E,L)$ be a NAND circuit with $n$ inputs and $m$ outputs.
+We say that _$C$ computes $F$_ if there is a map $Z:V \rightarrow \{0,1\}$, such that for every $x\in \{0,1\}^n$, if $y=F(x)$ then: \
+* For every $i\in [n]$, if $v$ is labeled with `x_`$\expr{i}$ then $Z(v)=x_i$. \
+* For every $j\in[m]$, if $v$ is labeled with `y_`$\expr{j}$ then $Z(v)=y_j$. \
+* For every gate $v$ with in-neighbors $u,w$, if $a=Z(u)$ and $b=Z(w)$, $Z(v)=NAND(a,b)$. (If $v$ has fewer than two neighbors then we replace either $b$ or both $a$ and $b$ with zero in the condition above.)
+
+> # { .pause }
+You should make sure you understand _why_ [NANDcirccomputedef](){.ref} captures the informal description above. This might require reading the definition a second or third time, but would be crucial for the rest of this course.
+
+The following theorem says that these two notions of computing a function are actually equivalent: we can transform a NAND program into a NAND circuit computing the same function, and vice versa.
+
+> # {.theorem title="Equivalence of circuits and straightline programs" #circuitprogequivthm}
+For every $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $S\in \N$, $F$ can be computed by an $S$-line NAND program if and only if $F$ can be computed by an $n$-input $m$-output NAND circuit of $S$ gates.
+
+The idea behind the proof is simple.
+Just like we did to the XOR program, if we have a NAND program $P$ of $S$ lines, $n$ inputs, and $m$ outputs, we can transform it into a NAND circuit with $n$ inputs and $m$ gates, where each gate corresponds to a line in the program $P$. If  line $\ell$ involves the NAND of two variables assigned to in lines $\ell'$ and $\ell''$, then we will have edges to the gate corresponding to $\ell$ from the gates correspnding to $\ell',\ell''$.
+In the other direction, we can transform a NAND circuit $C$ of  $n$ inputs, $m$ outputs and $S$ gates to an $S$-line program by essentially inverting this process.
+For every gate in the program, we will have a line in the program which assigns to a variable the NAND of the variables corresponding to the in-neighbors of this gate.
+If the gate is an output gate labeled with `y_`$\expr{j}$ then the  corresponding line will assign the value to the variable `y_`$\expr{j}$.
+Otherwise we will assign the value to a fresh "workspace" variable.
+We now show the formal proof.
+
+> # {.proof data-ref="circuitprogequivthm"}
+We start with the "only if" direction.
+That is, we show how to transform a NAND program to a circuit.
+Suppose that $P$ is an $S$ line program that computes $F$.
+We will build a NAND circuit $C=(V,E,L)$ that computes $F$ as follows.
+The vertex set $V$ will have the $n+S$ elements $\{ (0,0), \ldots, (0,n-1),(1,0),\ldots,(1,S-1) \}$.
+That is, it will have $n$ vertices of the form $(0,i)$ for $i\in [n]$ (corresponding to the $n$ inputs), and $S$ vertices of the form $(1,\ell)$ (corresponding to the lines in the program).
+For every line $\ell$ in the program $P$ of the form `foo := bar NAND baz`, we put edges in the graph of the form $\overrightarrow{(1,\ell')\;(1,\ell)}$ and $\overrightarrow{(1,\ell'')\;(1,\ell)}$ where  $\ell'$ and $\ell'$ are the last lines before $\ell$ in which the variables `bar` and `baz` were assigned a value.
+If the variable `bar` and/or `baz` was not assigned a value prior to the $\ell$-th line and is not an input variable then we don't add a corresponding edge.
+If the variable `bar` and/or `baz` is an input variable `x_`$\expr{i}$ then we add the edge $\overrightarrow{(0,i)\;(1,\ell)}$.
+We label the vertices of the form $(0,i)$ with `x_`$\expr{i}$ for every $i\in [n]$.
+For every $j\in[m]$, let $\ell$ be the last line in which the variable `y_`$\expr{j}$ is assigned a value,^[As noted in the appendix, valid NAND programs must assign a value to all their output variables.] and label the vertex $(1,\ell)$ with `y_`$\expr{j}$.
+Note that the vertices of the form $(0,i)$ have  in-degree zero, and all edges of the form $\overrightarrow{(1,\ell')\;(1,\ell)}$ satisfy $\ell>\ell'$.
+Hence this graph is a DAG, as in any cycle there would have to be at least on edge going from a vertex of the form $(1,\ell)$ to a vertex of the form $(1,\ell')$ for $\ell'<\ell$ (can you see why?).
+Also, since we don't allow a variable of the form `y_`$\expr{j}$ on the right-hand side of a NAND operation, the output vertices have out-degree zero.
+>
+To complete the proof of the "only if" direction, we need to show that the circuit $C$ we constructed computes the same function $F$ as the program $P$ we were given.
+Indeed, let $x\in \{0,1\}^n$ and $y = F(x)$.
+For every $\ell$, let $z_\ell$ be the value that is assigned by the $\ell$-th line in the execution of $P$ on input $x$.
+Now, as per [NANDcirccomputedef](){.ref}, define the map $Z:V \rightarrow \{0,1\}$ as follows: $Z((0,i))=x_i$ for $i\in [n]$ and $Z((1,\ell))=z_\ell$ for every $\ell \in [S]$.
+Then, by our construction of the circuit, the map satisfies the condition that for vertex $v$ with in-neighbors $u$ and $w$, the value $Z(v)$ is the NAND of $Z(u)$ and $Z(w)$ (replacing missing neighbors with the value $0$), and hence in particular for every $j\in [m]$, the value assigned in the last line that touches `y_`$\expr{j}$ equals $y_j$.
+Thus the circuit $C$ does compute the same function $F$.
+>
+For the "if" direction, we need to transform an $S$-gate circuit $C=(V,E,L)$ that computes $F:\{0,1\}^n \rightarrow \{0,1\}^m$ into an $S$-line NAND program $P$ that computes the same function.
+We start by doing a [topological sort](https://en.wikipedia.org/wiki/Topological_sorting) of the graph $C$.
+That is we sort the vertex set $V$ as $\{v_0,\ldots,v_{n+S-1} \}$ such that  $\overrightarrow{v_i v_j} \in E$, $v_i < v_j$.
+Such a sorting can be found for every DAG.
+Moreover, because the input vertices of $C$ are "sources" (have in-degree zero), we can ensure they are placed first in this sorting and moreover for every $i\in [n]$, $v_i$ is the input vertex labeled with `x_`$\expr{i}$.
+>
+Now for $\ell=0,1,\ldots,n+S-1$ we will define a variable  $var(\ell)$  in our resulting program as follows:
+If $\ell<n$ then $var(\ell)$ equals `x_`$\expr{i}$.
+If $v_\ell$ is an output gate  labeled with `y_`$\expr{j}$ then $var(\ell)$ equals `y_`$\expr{j}$.
+otherwise  $var(\ell)$ will be a temporary workspace variable `temp_`$\expr{\ell-n}$.
+Our program $P$ will have $S$ lines, where for every $k\in [S]$, if the in-neighbors of $v_{n+k}$ are $v_i$ and $v_j$ then the $k$-th line in the program will be $var(n+k)$ ` := ` $var(i)$ ` NAND ` $var(j)$.
+If $v_k$ has fewer  than two in-neighbors then we replace the corresponding variable with the variable `zero` (which is never set to any value and hence retains its default value of $0$.
+>
+To complete the proof of the "if" direction we need to show that the program $P$ we constructed computes the function $F$ as the circuit $C$ we were given.
+Indeed, let $x\in \{0,1\}^n$ and $y=F(x)$.
+Since $C$ computes $F$, there is a map $Z:V \rightarrow \{0,1\}$ as per  [NANDcirccomputedef](){.ref}.
+We claim that if we run the program $P$ on input $x$, then for every $k\in [S]$ the value assigned by the $k$-th line corresponds to $Z(v_{n+k})$.
+Indeed by construction the value assigned in the $k$-th line corresponds to the NAND of the value assigned to the in-neighbors of $v_{n+k}$.
+Hence in particular if $v_{n+k}$ is the output gate labeled `y_`$\expr{j}$ then this value will equal $y_j$, meaning that on input $x$ our program will output $y=F(x)$.
+
+
+
+## Composition from graphs
+
+Given [circuitprogequivthm](){.ref}, we can reprove our composition theorems  in the circuit formalism, which has the advantag of making them more intuitive.
+That is, we can prove [seqcompositionthm](){.ref} and [parcompositionthm](){.ref} by showing how to transform a circuits for $F$ and $G$ into circuits for $F \circ G$ and $F \oplus G$.
+This is what we do now:
+
+> # {.theorem title="Sequential composition, circuit version" #seqcompositioncircthm}
+If $C,D$ are NAND circuits such that $C$ computes $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $D$ computes $G:\{0,1\}^m \rightarrow \{0,1\}^k$  then there is a circuit $E$ of size $|C|+|D|$ computing  the function $G\circ F:\{0,1\}^n \rightarrow \{0,1\}^k$.
+
+![Given a circuit $C$ computing $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and a circuit $D$ computing $G:\{0,1\}^m \rightarrow \{0,1\}^k$, we obtain a circuit $E$ computing $G\circ F$ by identifying the inputs of $D$ with the outputs of $C$. That is, the resulting circuit consists of the gates of both $C$ and $D$, where we replace every in-neighbor of $D$ that was an input gate with the corresponding output gate of $C$.](../figure/serial_comp.png){#serialcompfig .class width=300px height=300px}
+
+> # {.proof data-ref="seqcompositioncircthm"}
+Let $C$ be the $n$-input $m$-output circuit computing $F$ and $D$ be the $m$-input $k$-output circuit computing $G$.
+The circuit to compute $G \circ F$ is illustrated in [serialcompfig](){.ref}.
+We simply "stack" $D$ after $C$, by obtaining a combined circuit with $n$ inputs and $|C|+|D|$ gates. The gates of $C$ remain the same, except that we identify the output gates of $C$ with the input gates of $D$. That is, for every edge that connected the $i$-th input of $D$ to a gate $v$ of $D$, we now connect to $v$ the output gate of $C$ corresponding to `y_`$\expr{i}$ instead.
+After doing so, we remove the output labels from $C$ and keep only the outputs of $D$.
+For every input $x$, if we execute the composed circuits on $x$ (i.e., compute a map $Z$ from the vertices to $\{0,1\}$ as per [NANDcirccomputedef](){.ref}), then the output gates of $C$ will get the values corresponding to $F(x)$ and hence the output gates of $D$ will have the value $G(F(x))$.
+
+
+> # {.theorem title="Parallel composition, circuit versions" #parcompositioncircthm}
+If $C,D$ are NAND circuits such that $C$ computes $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $D$ computes $G:\{0,1\}^{n'} \rightarrow \{0,1\}^{m'}$  then there is a circuit $E$ of size $|C|+|D|$ computing  the function $G\oplus F : \{0,1\}^{n+n'} \rightarrow \{0,1\}^{m+m'}$.
+
+![Given a circuit $C$ computing $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and a circuit $D$ computing $G:\{0,1\}^{n'}\rightarrow \{0,1\}^{m'}$ we obtain a circuit $E$ computing $F \oplus G$ be simply putting the circuits "side by side", and renaming the labels of the inputs and outputs of $D$ to `x_`$n$,..,`x_`$n+n'-1$ and `y_`$m$,..,`y_`$m+m'-1$.](../figure/parallel_composition_circ.png){#parallelcompositioncircfig .class width=300px height=300px}
+
+
+> # {.proof data-ref="parcompositioncircthm"}
+If $C,D$ are circuits that compute $F,G$ then we can transform them to a circuit $E$ that computes $F \oplus G$ as in [parallelcompositioncircfig](){.ref}.
+The circuit $E$ simply consists of two disjoint copies of the circuits $C$ and $D$, where we modify the labelling of the inputs of $D$ from `x_`$0$,$\ldots$,`x_`$n'-1$ to `x_`$n$,$\ldots$,`x_`$n+n'-1$ and the labelling of the outputs of $D$ from `y_`$0$,$\ldots$,`y_`$m'-1$ to `y_`$m$,$\ldots$,`y_`$m+m'-1$.
+By the fact that $C$ and $D$ compute $F$ and $G$ respectively, we see that $E$ computes the function $F \oplus G: \{0,1\}^{n+n'}\rightarrow \{0,1\}^{m+m'}$ that on input $x \in \{0,1\}^{n+n'}$ outputs $F(x_0,\ldots,x_{n-1})G(x_n,\ldots,x_{n+n'-1})$.
+
+
+
+
+
+
+## General Boolean circuits: a formal definition
 
 > # {.definition title="Boolean circuits" #circuits-def}
 Let $k$ be some number and $B$ be a subset of the functions from $\{0,1\}^k \rightarrow \{0,1\}$.
@@ -115,35 +242,6 @@ For every input $x\in \{0,1\}^n$, we inductively define  the _value_ of every ve
 
 The output of the circuit on input $x$ is the string $y\in \{0,1\}^m$ such that for every $i\in \{0,\ldots,m-1\}$, $y_i$ is the value of the sink vertex labeled with $i$.
 We say that the circuit $C$ _computes the function $F$_ if for every $x\in \{0,1\}^n$, the output of the circuit $C$ on input $x$ is equal to $F(x)$.
-
-### Circuits and NAND programs
-
-Boolean circuits with the basis $B$ consisting of the single function $NAND:\{0,1\}^2  \rightarrow \{0,1\}$ that maps $x,y \in \{0,1\}$ to $1-xy$ directly correspond to NAND programs.
-For example the program
-
-~~~~ { .go .numberLines  }
-u   := x_0 NAND x_1
-v   := x_0 NAND u
-w   := x_1 NAND u
-y_0 := v   NAND w
-~~~~   
-
-corresponds to the circuit of [circuit-xor](){.ref}.
-Every line in the program will correspond to a gate (i.e., non sink and non-source vertex) in the graph, where the input variables `x_`$\expr{i}$ and output variables `y_`$\expr{i}$ correspond to the sources and the sink vertices.
-This is stated in the following theorem:
-
-
-> # {.theorem title="NAND programs are equivalent to NAND circuits" #NAND-circ-thm}
-For every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$, if we let $S(f)$ denote the smallest number of lines in a NAND program that computes $F$ and $S'(f)$ denote the smallest number of vertices in a Boolean circuit with the basis $B = \{ NAND \}$  then
-$$
-S(f) \leq S'(f) \leq S(f)+n+m+10
-$$
-
-To prove [NAND-circ-thm](){.ref} we need to show two statements.
-The first statement is that given an $s'$-vertex circuit $C$, we can find an $s'$ line NAND program  that computes the same  function as $C$.
-The second statement is that given an $s$-line NAND program $P$ with $n$ inputs and $m$ outputs, we can find a circuit of at most $s+n+m+10$ vertices that computes the same function as $P$.
-Both of these can be proven using the above correspondence, but we leave verifying the details as  [nand-circuits-thm-ex](){.ref}.
-
 
 
 We have seen that  _every_ function $f:\{0,1\}^k \rightarrow \{0,1\}$ has a NAND program with at most $4\cdot 2^k$ lines, and hence [NAND-circ-thm](){.ref} implies the following theorem (see [NAND-all-circ-thm-ex](){.ref}):

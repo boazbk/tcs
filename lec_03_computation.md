@@ -291,9 +291,11 @@ This motivates the following definition:
 
 > # {.definition title="Canonical variables" #NANDcanonical}
 Let $P=(V,X,Y,L)$ be a NAND program and let $n=|X|$ and $m=|Y|$.
-We say that $P$ has _canonical variables_ if $V=[t]$ for some $t\in \N$, $X=(0,1,\ldots,n-1)$ and $Y=(n,n+1,\ldots,n+m-1)$.
+We say that $P$ has _canonical variables_ if $V=[t]$ for some $t\in \N$, $X=(0,1,\ldots,n-1)$ and $Y=(t-m,t-m+1,\ldots,t-1)$.
 
-We have the following theorem:
+That is, in a canonical form program, the variables are the set $[t]$, where the input variables correspond to  the first $n$ variables and the outputs to the last $m$ variables.
+Every program can be converted to an equivalent program of canonical form:
+
 
 > # {.theorem title="Convert to canonical variables" #canonicalvarsthm}
 For every $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s\in\N$, $F$ can be computed by an $s$-line NAND program if and only if it can be computed by an $s$-line NAND program with canonical variables.
@@ -301,16 +303,21 @@ For every $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s\in\N$, $F$ can be computed 
 > # {.proof data-ref="canonicalvarsthm"}
 The "if" direction is trivial, since a NAND program with canonical variables is just a special case of a NAND program.
 For the "only if" direction, let $P=(V,X,Y,L)$ be an $s$-line NAND program computing $F$, and let $t=|V|$.
-We define a bijection $\pi:V \rightarrow [t]$ as follows: $\pi(X_i)=i$ for all $i\in [n]$, $\pi(Y_j)=n+j$ for all $j\in [m]$ and we map the remaining $t-m-n$ elements of $V$ to $\{ n+m,\ldots,t-1\}$ in some arbitrary one to one way. (We can do so because the $X$'s and $Y$'s are distinct and disjoint.)
+We define a bijection $\pi:V \rightarrow [t]$ as follows: $\pi(X_i)=i$ for all $i\in [n]$, $\pi(Y_j)=t-m+j$ for all $j\in [m]$ and we map the remaining $t-m-n$ elements of $V$ to $\{ n,\ldots,t-1-m\}$ in some arbitrary one to one way. (We can do so because the $X$'s and $Y$'s are distinct and disjoint.)
 Now define $P' = (\pi(V),\pi(X),\pi(Y),\pi(L))$, where by this we mean that we apply $\pi$ individually to every element of of $V$,$X$, $Y$, and the triples of $L$.
 Since (as we leave you to verify) the definition of configurations and computing a function are invariant under bijections of $V$, $P'$ computes the same function as $P$.
 
 
-Given [canonicalvarsthm](){.ref}, we will always be able to assume "without loss of generality" that a NAND program $P$ has canonical form.
+Given [canonicalvarsthm](){.ref}, since we only care about the functionality (and size) of programs, and not the labels of variables, we will always be able to assume "without loss of generality" that a given NAND program $P$ has canonical form.
 A canonical form program $P$ can also be represented as a triple $(n,m,L)$ where $n,m$ are (as usual) the inputs and outputs, and $L$ is the lines.
-This is because we recover the original representation $(V,X,Y,L)$ by simply setting $X=(0,1,\ldots,n-1)$, $Y =(n,n+1,\ldots,n+m-1)$ and $V=[t]$ where $t$ is one plus the largest number appearing in a triple of $L$.
+This is because we recover the original representation $(V,X,Y,L)$ by simply setting $X=(0,1,\ldots,n-1)$, $Y =(t-m,t-m+1,\ldots,t-1)$ and $V=[t]$ where $t$ is one plus the largest number appearing in a triple of $L$.
 In the following we will freely move between these two representations.
 If $n,m$ are known from the context, then a canonical form program can be represented simply by the list of triples $L$.
+
+__Configurations of  programs with canonical variables:__ A _configuration_ of a  program with canonical variables is a pair $(\ell,\sigma)$ where $\sigma:[t] \rightarrow \{0,1\}$ and $t$ is the number of variables.
+We can and will identify such a function $\sigma$ with a string of $t$ bits.
+Thus we will often say that a configuration of a canonical program is a pair $(\ell,\sigma)$ where $\sigma \in \{0,1\}^t$.
+
 
 
 ## Composing functions
@@ -326,12 +333,17 @@ But writing NAND programs by hand can get real old real fast.
 So, we will prove more general results about _composing_ functions:
 
 > # {.theorem title="Sequential composition of functions" #seqcompositionthm}
-If $F:\{0,1\}^n \rightarrow \{0,1\}^m$ is a function in $SIZE(L)$ and $G:\{0,1\}^m \rightarrow \{0,1\}^k$ is a function in $SIZE(L')$ then $G\circ F$ is a function in $SIZE(L+L')$, where $G\circ F:\{0,1\}^n \rightarrow \{0,1\}^k$ is the function that maps $x\in \{0,1\}^n$ to $G(F(x))$.
+If $F:\{0,1\}^n \rightarrow \{0,1\}^m$ is a function in $SIZE(L)$ and $G:\{0,1\}^m \rightarrow \{0,1\}^k$ is a function in $SIZE(L')$ then $G\circ F$ is in $SIZE(L+L')$, where $G\circ F:\{0,1\}^n \rightarrow \{0,1\}^k$ is defined as the function that maps $x\in \{0,1\}^n$ to $G(F(x))$.
 
 
 > # {.theorem title="Parallel composition of functions" #parcompositionthm}
-If $F:\{0,1\}^n \rightarrow \{0,1\}^m$ is a function in $SIZE(L)$ and $G:\{0,1\}^{n'} \rightarrow \{0,1\}^{m'}$ is a function in $SIZE(L')$ then $F \oplus G$ is a function in $SIZE(L+L')$, where
-$G \oplus H: \{0,1\}^{n+n'} \rightarrow \{0,1\}^{m+m'}$ is the function that maps $x \in \{0,1\}^{n+n'}$ to $F(x_0,\ldots,x_{n-1})G(x_n,\ldots,x_{n+n'-1})$.
+If $F:\{0,1\}^n \rightarrow \{0,1\}^m$ is a function in $SIZE(L)$ and $G:\{0,1\}^{n'} \rightarrow \{0,1\}^{m'}$ is a function in $SIZE(L')$ then $F \oplus G$ is in $SIZE(L+L')$, where
+$G \oplus H: \{0,1\}^{n+n'} \rightarrow \{0,1\}^{m+m'}$ is defined as the function that maps $x \in \{0,1\}^{n+n'}$ to $F(x_0,\ldots,x_{n-1})G(x_n,\ldots,x_{n+n'-1})$.
+
+> # { .pause }
+We will formally prove [seqcompositionthm](){.ref} and [parcompositionthm](){.ref} using our formal definition of NAND programs. But it is also possible to directly give syntactic transformations of the code of programs computing $F$ and $G$ to programs computing $G\circ F$ and $F \oplus G$ respectively.
+It is a good exercise for you to pause here and see that you know how to give such a transformation.
+Try to think how you would write a _program_ (in the programming language of your choice) that given two strings `C` and `D` that contain the code of NAND programs for computing $F$ and $G$, would output a string `E` that contains that code of a NAND program for $G\circ F$ (or $F \oplus G$).
 
 
 Before proving [seqcompositionthm](){.ref} and [parcompositionthm](){.ref}, note that they do imply [xorfourthm](){.ref}.
@@ -356,134 +368,57 @@ For every $n>1$, $XOR_n \in SIZE(10n)$
 
 We leave proving [paritycircuitthm](){.ref} as [paritycircuitex](){.ref}.
 
-## Representing programs as graphs
+## Proving the composition theorems
 
-We can prove [seqcompositionthm](){.ref} and [parcompositionthm](){.ref} by directly arguing that we can "copy and paste" the code for $F$ and $G$ to achieve a program that computes $F \circ G$ and $F \oplus G$ respectively.
-However, we will use a more general approach, first giving a more "mathematical" representation for NAND programs as _graphs_, and then using this representation to prove these two theorems.
+We now formally prove the "Sequential Composition Theorem"  [seqcompositionthm](){.ref}, leaving the "parallel composition" as an exercise.
+The idea behind the proof is that given a program $P=(V,X,Y,L)$ that computes $F$ and a  program $P'=(V',X',Y',L')$ that computes $G$, we can hope to obtain a program $P''$ that computes $G \circ F$ by simply "copy and pasting" the code for $P'$ after the code for $P$, replacing the inputs of $G$ with the outputs of $F$.
+In our tuple notation this corresponds renaming the variables $X'$ so they are the same as $Y$, and then  making  $P'' = (V \cup V',X,Y',L'')$ where $L''$ is obtained by simply concatenating $L$ and $L'$.
 
-> # { .pause }
-If you are not comfortable with the definitions of graphs, and in particular directed acyclic graphs (DAGs), now would be a great time to go back to the "mathematical background" lecture, as well as some of the resources [here](http://www.boazbarak.org/cs121/background/), and review these notions.
+It is an interesting exercise to try to prove that this transformation works.
+If you do so, you will find out that you simply can't make the proof  go through.
+It turns out the issue is not about mere "formalities".
+This transformation is simply not correct: if $G$ and $F$ use the same workspace variable `foo`, then the program $P'$ might assume `foo` is initialized to zero, while the program $P$ might assign `foo` a nonzero value.
+Thus in the proof we will need to take care of this issue, and ensure that $P'$ and $P$ use disjoint workspace variables.
+This is one example of a general phenomenon.
+Trying and failing to prove that a program or algorithm is correct often leads to discovery of bugs in it.
+We now turn to the full proof.
+It is somewhat cumbersome since we have to __(1)__ fully specify the transformation of $P$ and $P'$ to $P''$ and _(2)__ prove that the transformed program $P''$ does actually compute $G \circ F$.
+Nevertheless, because proof about computation can be subtle, it is important that you read carefully the proof and see that you understand every step  in it.
 
-> # {.definition title="NAND circuit" #NANDcircdef}
-A _NAND circuit_ with $n$ inputs and $m$ outputs is a labeled directed acyclic graph (DAG) in which every vertex has in-degree at most two. We require that there  are $n$ vertices with in-degree zero, known  as _input variables_, that are labeled with  `x_`$\expr{i}$ for $i\in [n]$.
-Every vertex apart from the input variables is known as a _gate_. We require that there are $m$  vertices of out-degree zero, denoted as the _output gates_, and that are labeled with `y_`$\expr{j}$ for $j\in [m]$.
-While not all vertices are labeled, no two vertices get the same label.
-We denote the circuit  as $C=(V,E,L)$ where $V,E$ are the vertices and edges of the circuit, and $L:V \rightarrow_p S$ is the (partial) one-to-one labeling function that maps vertices into the set $S=\{$ `x_0`,$\ldots$,`x_`$\expr{n-1}$,`y_0`,$\ldots$, `y_`$\expr{m-1}$,$\}$.
-The _size_ of a circuit $C$, denoted by $|C|$, is the number of gates that it contains.
-
-The definition of NAND circuits is not ultimately that complicated, but may take  a second or third read  to fully parse.
-It might help to look at [XORcircuitfig](){.ref}, which describes the NAND circuit that corresponds to the 4-line NAND program we presented above for the $XOR_2$ function.
-
-
-
-![A NAND circuit for computing the $XOR_2$ function. Note that it has exactly four gates, corresponding to the four lines of the NAND program we presented above. The green labels $u,v,w$ for non-output gates are just for illustration and comparison with the NAND program, and are not formally part of the circuit.](../figure/XORcircuit.png){#XORcircuitfig .class width=300px height=300px}
-
-A NAND circuit corresponds to computation in the following way.
-To compute some output on an input $x\in \{0,1\}^n$, we start by assigning to the input vertex labeled with `x_`$\expr{i}$ the value $x_i$, and then proceed by assigning for every gate $v$ the value that is   the NAND of the values assigned to its in-neighbors (if it has less than two in-neighbors, we replace the value of the missing neighbors by zero).
-The output $y\in \{0,1\}^m$  corresponds to the value assigned to the output gates, with $y_j$ equal to the value assigned to the value assigned to the gate labeled `y_`$\expr{j}$ for every $j\in [m]$.
-Formally, this is defined as follows:
-
-> # {.definition title="Computing a function by a NAND circuit" #NANDcirccomputedef}
-Let $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and let $C=(V,E,L)$ be a NAND circuit with $n$ inputs and $m$ outputs.
-We say that _$C$ computes $F$_ if there is a map $Z:V \rightarrow \{0,1\}$, such that for every $x\in \{0,1\}^n$, if $y=F(x)$ then: \
-* For every $i\in [n]$, if $v$ is labeled with `x_`$\expr{i}$ then $Z(v)=x_i$. \
-* For every $j\in[m]$, if $v$ is labeled with `y_`$\expr{j}$ then $Z(v)=y_j$. \
-* For every gate $v$ with in-neighbors $u,w$, if $a=Z(u)$ and $b=Z(w)$, $Z(v)=NAND(a,b)$. (If $v$ has fewer than two neighbors then we replace either $b$ or both $a$ and $b$ with zero in the condition above.)
-
-> # { .pause }
-You should make sure you understand _why_ [NANDcirccomputedef](){.ref} captures the informal description above. This might require reading the definition a second or third time, but would be crucial for the rest of this course.
-
-The following theorem says that these two notions of computing a function are actually equivalent: we can transform a NAND program into a NAND circuit computing the same function, and vice versa.
-
-> # {.theorem title="Equivalence of circuits and straightline programs" #circuitprogequivthm}
-For every $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $S\in \N$, $F$ can be computed by an $S$-line NAND program if and only if $F$ can be computed by an $n$-input $m$-output NAND circuit of $S$ gates.
-
-The idea behind the proof is simple.
-Just like we did to the XOR program, if we have a NAND program $P$ of $S$ lines, $n$ inputs, and $m$ outputs, we can transform it into a NAND circuit with $n$ inputs and $m$ gates, where each gate corresponds to a line in the program $P$. If  line $\ell$ involves the NAND of two variables assigned to in lines $\ell'$ and $\ell''$, then we will have edges to the gate corresponding to $\ell$ from the gates correspnding to $\ell',\ell''$.
-In the other direction, we can transform a NAND circuit $C$ of  $n$ inputs, $m$ outputs and $S$ gates to an $S$-line program by essentially inverting this process.
-For every gate in the program, we will have a line in the program which assigns to a variable the NAND of the variables corresponding to the in-neighbors of this gate.
-If the gate is an output gate labeled with `y_`$\expr{j}$ then the  corresponding line will assign the value to the variable `y_`$\expr{j}$.
-Otherwise we will assign the value to a fresh "workspace" variable.
-We now show the formal proof.
-
-> # {.proof data-ref="circuitprogequivthm"}
-We start with the "only if" direction.
-That is, we show how to transform a NAND program to a circuit.
-Suppose that $P$ is an $S$ line program that computes $F$.
-We will build a NAND circuit $C=(V,E,L)$ that computes $F$ as follows.
-The vertex set $V$ will have the $n+S$ elements $\{ (0,0), \ldots, (0,n-1),(1,0),\ldots,(1,S-1) \}$.
-That is, it will have $n$ vertices of the form $(0,i)$ for $i\in [n]$ (corresponding to the $n$ inputs), and $S$ vertices of the form $(1,\ell)$ (corresponding to the lines in the program).
-For every line $\ell$ in the program $P$ of the form `foo := bar NAND baz`, we put edges in the graph of the form $\overrightarrow{(1,\ell')\;(1,\ell)}$ and $\overrightarrow{(1,\ell'')\;(1,\ell)}$ where  $\ell'$ and $\ell'$ are the last lines before $\ell$ in which the variables `bar` and `baz` were assigned a value.
-If the variable `bar` and/or `baz` was not assigned a value prior to the $\ell$-th line and is not an input variable then we don't add a corresponding edge.
-If the variable `bar` and/or `baz` is an input variable `x_`$\expr{i}$ then we add the edge $\overrightarrow{(0,i)\;(1,\ell)}$.
-We label the vertices of the form $(0,i)$ with `x_`$\expr{i}$ for every $i\in [n]$.
-For every $j\in[m]$, let $\ell$ be the last line in which the variable `y_`$\expr{j}$ is assigned a value,^[As noted in the appendix, valid NAND programs must assign a value to all their output variables.] and label the vertex $(1,\ell)$ with `y_`$\expr{j}$.
-Note that the vertices of the form $(0,i)$ have  in-degree zero, and all edges of the form $\overrightarrow{(1,\ell')\;(1,\ell)}$ satisfy $\ell>\ell'$.
-Hence this graph is a DAG, as in any cycle there would have to be at least on edge going from a vertex of the form $(1,\ell)$ to a vertex of the form $(1,\ell')$ for $\ell'<\ell$ (can you see why?).
-Also, since we don't allow a variable of the form `y_`$\expr{j}$ on the right-hand side of a NAND operation, the output vertices have out-degree zero.
->
-To complete the proof of the "only if" direction, we need to show that the circuit $C$ we constructed computes the same function $F$ as the program $P$ we were given.
-Indeed, let $x\in \{0,1\}^n$ and $y = F(x)$.
-For every $\ell$, let $z_\ell$ be the value that is assigned by the $\ell$-th line in the execution of $P$ on input $x$.
-Now, as per [NANDcirccomputedef](){.ref}, define the map $Z:V \rightarrow \{0,1\}$ as follows: $Z((0,i))=x_i$ for $i\in [n]$ and $Z((1,\ell))=z_\ell$ for every $\ell \in [S]$.
-Then, by our construction of the circuit, the map satisfies the condition that for vertex $v$ with in-neighbors $u$ and $w$, the value $Z(v)$ is the NAND of $Z(u)$ and $Z(w)$ (replacing missing neighbors with the value $0$), and hence in particular for every $j\in [m]$, the value assigned in the last line that touches `y_`$\expr{j}$ equals $y_j$.
-Thus the circuit $C$ does compute the same function $F$.
->
-For the "if" direction, we need to transform an $S$-gate circuit $C=(V,E,L)$ that computes $F:\{0,1\}^n \rightarrow \{0,1\}^m$ into an $S$-line NAND program $P$ that computes the same function.
-We start by doing a [topological sort](https://en.wikipedia.org/wiki/Topological_sorting) of the graph $C$.
-That is we sort the vertex set $V$ as $\{v_0,\ldots,v_{n+S-1} \}$ such that  $\overrightarrow{v_i v_j} \in E$, $v_i < v_j$.
-Such a sorting can be found for every DAG.
-Moreover, because the input vertices of $C$ are "sources" (have in-degree zero), we can ensure they are placed first in this sorting and moreover for every $i\in [n]$, $v_i$ is the input vertex labeled with `x_`$\expr{i}$.
->
-Now for $\ell=0,1,\ldots,n+S-1$ we will define a variable  $var(\ell)$  in our resulting program as follows:
-If $\ell<n$ then $var(\ell)$ equals `x_`$\expr{i}$.
-If $v_\ell$ is an output gate  labeled with `y_`$\expr{j}$ then $var(\ell)$ equals `y_`$\expr{j}$.
-otherwise  $var(\ell)$ will be a temporary workspace variable `temp_`$\expr{\ell-n}$.
-Our program $P$ will have $S$ lines, where for every $k\in [S]$, if the in-neighbors of $v_{n+k}$ are $v_i$ and $v_j$ then the $k$-th line in the program will be $var(n+k)$ ` := ` $var(i)$ ` NAND ` $var(j)$.
-If $v_k$ has fewer  than two in-neighbors then we replace the corresponding variable with the variable `zero` (which is never set to any value and hence retains its default value of $0$.
->
-To complete the proof of the "if" direction we need to show that the program $P$ we constructed computes the function $F$ as the circuit $C$ we were given.
-Indeed, let $x\in \{0,1\}^n$ and $y=F(x)$.
-Since $C$ computes $F$, there is a map $Z:V \rightarrow \{0,1\}$ as per  [NANDcirccomputedef](){.ref}.
-We claim that if we run the program $P$ on input $x$, then for every $k\in [S]$ the value assigned by the $k$-th line corresponds to $Z(v_{n+k})$.
-Indeed by construction the value assigned in the $k$-th line corresponds to the NAND of the value assigned to the in-neighbors of $v_{n+k}$.
-Hence in particular if $v_{n+k}$ is the output gate labeled `y_`$\expr{j}$ then this value will equal $y_j$, meaning that on input $x$ our program will output $y=F(x)$.
-
-
-
-## Composition from graphs
-
-Given [circuitprogequivthm](){.ref}, we can prove [seqcompositionthm](){.ref} and [parcompositionthm](){.ref} by showing how to transform a circuits for $F$ and $G$ into circuits for $F \circ G$ and $F \oplus G$.
-This is what we do now:
-
-> # {.theorem title="Sequential composition, circuit version" #seqcompositioncircthm}
-If $C,D$ are NAND circuits such that $C$ computes $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $D$ computes $G:\{0,1\}^m \rightarrow \{0,1\}^k$  then there is a circuit $E$ of size $|C|+|D|$ computing  the function $G\circ F:\{0,1\}^n \rightarrow \{0,1\}^k$.
-
-![Given a circuit $C$ computing $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and a circuit $D$ computing $G:\{0,1\}^m \rightarrow \{0,1\}^k$, we obtain a circuit $E$ computing $G\circ F$ by identifying the inputs of $D$ with the outputs of $C$. That is, the resulting circuit consists of the gates of both $C$ and $D$, where we replace every in-neighbor of $D$ that was an input gate with the corresponding output gate of $C$.](../figure/serial_comp.png){#serialcompfig .class width=300px height=300px}
 
 > # {.proof data-ref="seqcompositioncircthm"}
-Let $C$ be the $n$-input $m$-output circuit computing $F$ and $D$ be the $m$-input $k$-output circuit computing $G$.
-The circuit to compute $G \circ F$ is illustrated in [serialcompfig](){.ref}.
-We simply "stack" $D$ after $C$, by obtaining a combined circuit with $n$ inputs and $|C|+|D|$ gates. The gates of $C$ remain the same, except that we identify the output gates of $C$ with the input gates of $D$. That is, for every edge that connected the $i$-th input of $D$ to a gate $v$ of $D$, we now connect to $v$ the output gate of $C$ corresponding to `y_`$\expr{i}$ instead.
-After doing so, we remove the output labels from $C$ and keep only the outputs of $D$.
-For every input $x$, if we execute the composed circuits on $x$ (i.e., compute a map $Z$ from the vertices to $\{0,1\}$ as per [NANDcirccomputedef](){.ref}), then the output gates of $C$ will get the values corresponding to $F(x)$ and hence the output gates of $D$ will have the value $G(F(x))$.
+Let $P=(V,X,Y,L)$ and $P'=(V',X',Y',L')$ be the programs for computing $F$ and $G$ respectively, and assume without loss of generality that they are in canonical form, and so $X = [n]$, $Y=X'=[m]$, and $Y'=[k]$.
+Let $t=|V|$, $s=|L|$, $t'=|V'|$, and $s'=|L'|$.
+We will construct an $s+s'$ line canonical form program $P''$ with $t+t'-m$ variables that computes $G\circ F:\{0,1\}^n \rightarrow \{0,1\}^k$.
+To specify $P''$ we only need to define its set of lines $L'' = (L''_0,L''_1,\ldots, L''_{s+s'-1})$.
+The first $s$ lines of $L''$ simply equal $L$.
+For the next $s'$ lines are obtained from $L'$  by adding $t-m$ to every label.
+That is, for every $\ell \in [s+s']$,
+>
+$$
+L''_\ell = \begin{cases} L_\ell & \ell < s \\
+                         (L'_{\ell-s,0}+t-m,L'_{\ell-s,1}+t-m,L'_{\ell-s,2} +t-m)
+            \end{cases}
+$$
+where $L' = ((L'_{0,0},L'_{0,1},L'_{0,2}), \cdots , (L'_{t',0},L'_{t',1},L'_{t',2})$.
+>
+We now need to prove that  $P''$ computes $G \circ F$.
+We will do so by showing the following two claims:
+>
+__Claim 1:__ For every $x\in \{0,1\}^n$ and $\ell \in [t+1]$, $conf_\ell(P'',x)=(\ell,\sigma 0^{t'-m})$ where $(\ell,\sigma)=conf_\ell(P,x)$.
+>
+__Claim 2:__ For every $x\in \{0,1\}^n$ and  $\ell \in \{t,\ldots, t+t'\}$, $conf_\ell(P'',x) = (\ell, z\sigma)$ where $(\ell-t,\sigma)=conf_{\ell-t}(P',F(x))$ and $z\in \{0,1\}^{t-m}$ is some string.
+>
+Claim 2 implies the theorem, since  by our definition of $P''$ computing the function $G$, it follows that if $(t',\sigma) = conf_{t'}(P'',F(x))$ then the last $k$ bits of $\sigma$ correspond to $G(F(x))$.
+We will outline the proof of Claims 1 and 2:
+>
+__Proof outline of claim 1:__ The proof follows because the lines $L''_0,\ldots,L''_{t-1}$ are identical to the lines of $L$, and hence they only touch the first $t$ variables, and leave the remaining $t'-m$ equal to $0$.
+>
+__Proof outline of claim 2:__  By Claim 1, by step $t$ the configuration has the value $F(x)$ on the variables $t-m,\ldots,t-1$. Since the lines $L''_t,\ldots, L''_{t+t'-1}$ only touch the variables $t-m,\ldots,t+t'-1-m$, the last $t'$ variables correspond to the same configuration as running the program $P''$ on $F(x)$.
+>
+To make these outlines into full proofs, we need to use _induction_, so we can argue that for every $\ell$, if we maintained these properties up to step $\ell-1$, then they are maintained in step $\ell$ as well.
+We omit the full inductive proof, though working out it for yourself can be an excellent exercise in getting comfortable with such arguments.
 
-
-> # {.theorem title="Parallel composition, circuit versions" #parcompositioncircthm}
-If $C,D$ are NAND circuits such that $C$ computes $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $D$ computes $G:\{0,1\}^{n'} \rightarrow \{0,1\}^{m'}$  then there is a circuit $E$ of size $|C|+|D|$ computing  the function $G\oplus F : \{0,1\}^{n+n'} \rightarrow \{0,1\}^{m+m'}$.
-
-![Given a circuit $C$ computing $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and a circuit $D$ computing $G:\{0,1\}^{n'}\rightarrow \{0,1\}^{m'}$ we obtain a circuit $E$ computing $F \oplus G$ be simply putting the circuits "side by side", and renaming the labels of the inputs and outputs of $D$ to `x_`$n$,..,`x_`$n+n'-1$ and `y_`$m$,..,`y_`$m+m'-1$.](../figure/parallel_composition_circ.png){#parallelcompositioncircfig .class width=300px height=300px}
-
-
-> # {.proof data-ref="parcompositioncircthm"}
-If $C,D$ are circuits that compute $F,G$ then we can transform them to a circuit $E$ that computes $F \oplus G$ as in [parallelcompositioncircfig](){.ref}.
-The circuit $E$ simply consists of two disjoint copies of the circuits $C$ and $D$, where we modify the labelling of the inputs of $D$ from `x_`$0$,$\ldots$,`x_`$n'-1$ to `x_`$n$,$\ldots$,`x_`$n+n'-1$ and the labelling of the outputs of $D$ from `y_`$0$,$\ldots$,`y_`$m'-1$ to `y_`$m$,$\ldots$,`y_`$m+m'-1$.
-By the fact that $C$ and $D$ compute $F$ and $G$ respectively, we see that $E$ computes the function $F \oplus G: \{0,1\}^{n+n'}\rightarrow \{0,1\}^{m+m'}$ that on input $x \in \{0,1\}^{n+n'}$ outputs $F(x_0,\ldots,x_{n-1})G(x_n,\ldots,x_{n+n'-1})$.
-
-> # { .pause }
-While we proved [seqcompositionthm](){.ref} and [parcompositionthm](){.ref}  using the circuit formalism, it is also possible to directly give syntactic transformations of the code of programs computing $F$ and $G$ to programs computing $G\circ F$ and $F \oplus G$ respectively.
-It is a good exercise for you to pause here and see that you know how to give such a transformation.
-Try to think how you would write a _program_ (in the programming language of your choice) that given two strings `C` and `D` that contain the code of NAND programs for computing $F$ and $G$, would output a string `E` that contains that code of a NAND program for $G\circ F$ (or $F \oplus G$).
 
 
 ### Example: Adding two-bit numbers
