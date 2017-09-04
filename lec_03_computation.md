@@ -394,7 +394,7 @@ Thus in the proof we will need to take care of this issue, and ensure that $P'$ 
 This is one example of a general phenomenon.
 Trying and failing to prove that a program or algorithm is correct often leads to discovery of bugs in it.
 We now turn to the full proof.
-It is somewhat cumbersome since we have to __(1)__ fully specify the transformation of $P$ and $P'$ to $P''$ and _(2)__ prove that the transformed program $P''$ does actually compute $G \circ F$.
+It is somewhat cumbersome since we have to __(1)__ fully specify the transformation of $P$ and $P'$ to $P''$ and __(2)__ prove that the transformed program $P''$ does actually compute $G \circ F$.
 Nevertheless, because proof about computation can be subtle, it is important that you read carefully the proof and see that you understand every step  in it.
 
 
