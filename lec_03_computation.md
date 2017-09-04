@@ -205,7 +205,7 @@ A _NAND program_ is a 4-tuple $P=(V,X,Y,L)$ of the following form: \
 >
 * $X$ (called the _input variables_) is a tuple of elements in $V$, i.e. $X \in V^*$. We require that the elements of $X$ are distinct: $X_i \neq X_j$ for all $i\neq j$ in $[n]$ where $n=|X|$.
 >
-* $Y$ (called the _output variables_) is a tuple of elements in $V$, i.e., $Y \in V^*$. We require that the elements of $Y$ are distinct (i.e.,  $Y_i \neq Y_j$ for all $i\neq j$ \in $[m]$ where $m=|Y|$) and that they are disjoint from $X$ (i.e., $Y_i \neq X_j$ for every $i\in [n]$ and $j\in [m]$).
+* $Y$ (called the _output variables_) is a tuple of elements in $V$, i.e., $Y \in V^*$. We require that the elements of $Y$ are distinct (i.e.,  $Y_i \neq Y_j$ for all $i\neq j$ in $[m]$ where $m=|Y|$) and that they are disjoint from $X$ (i.e., $Y_i \neq X_j$ for every $i\in [n]$ and $j\in [m]$).
 >
 * $L$ (called the _lines_) is a tuple of _triples_ of $V$, i.e., $L \in (V \times V \times V)^*$. Intuitively, if the $\ell$-the element of $L$ is a triple $(u,v,w)$ then this corresponds to the $\ell$-th line of the program being $u$ ` := ` $v$ ` NAND ` $w$. We require that for every triple $(u,v,w)$, $u$ does not appear in $X$ and $v,w$ do not appear in $Y$. Moreover, we require that for every $x\in V$, $x$ is contained in some  triple in $L$.
 >
@@ -243,14 +243,16 @@ For every $(\ell,\sigma)  \in CONF(P)$, if $\ell=|L|$ then $NEXT_P(\ell,\sigma)=
 Otherwise $NEXT_P(\ell,\sigma) = (\ell+1,\sigma')$ where $\sigma':V \rightarrow \{0,1\}$ is defined as follows:
 $$
 \sigma'(x) = \begin{cases} NAND(v,w)   & x=u \\
-             \end{cases}   \sigma(x)   & \text{otherwise}
+               \sigma(x)   & \text{otherwise}
+               \end{cases}
 $$
 where $(u,v,w)=L_\ell$ is the $\ell$-th triple in $L$.
 >
 For every input $x\in \{0,1\}^n$ and $\ell in [s+1]$, the _$\ell$-th configuration of $P$ on input $x$_, denoted as $conf_\ell(P,x)$ is defined recursively as follows:
 $$
 conf_\ell(P,x) = \begin{cases} (0,\sigma_0) & \ell=0 \\
-                \end{cases}   NEXT_P(conf_{\ell-1}(P)) & \text{otherwise}
+                   NEXT_P(conf_{\ell-1}(P)) & \text{otherwise}
+                   \end{cases}
 $$
 where $(0,\sigma_0)$ is the configuration of $P$ on input $x$.
 
