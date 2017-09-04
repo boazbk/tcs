@@ -189,19 +189,86 @@ Output is y_0=0, y_1=1
 
 and so you can see that the output $(0,1)$ is indeed the binary encoding of $1+1 = 2$.
 
+
 ### Formal definitions
 
-We define the notion of computing a function by a NAND program in the natural way:
+For a NAND program $P$, its _input length_ is the largest number $n$ such that $P$ contains a variable of the form `x_`$\expr{n-1}$.
+$P$'s  _output length_  is the largest number $m$ such that $P$ contains a variable of the form `y_`$\expr{m-1}$.^[As mentioned in the appendix, we require that all output variables are assigned a value, and that the largest index used in an $s$ line NAND program is smaller than $s$. In particular this means that an $s$ line program can have at most $s$ inputs and outputs.]
+Intuitively, if $P$ is a NAND program with input length $n$ and output length $m$, and $F:\{0,1\}^n \rightarrow \{0,1\}^m$ is some function, then  $P$ computes $F$ if for every $x\in \{0,1\}^n$ and $y=F(x)$, whenever $P$ is executed with the `x_`$\expr{i}$ variable initialized to $x_i$ for all $i\in [n]$, at the end of the execution the variable `y_`$\expr{j}$ will equal $y_j$ for all $j\in [m]$.
 
-> # {.definition title="Computing a function" #computefuncNAND}
-The _number of inputs_ in a NAND program $P$ is the largest number $n$ such that $P$ contains a variable of the form `x_`$\expr{n-1}$, and the _number of outputs_ is the largest number $m$ such that $P$ contains a variable of the form `y_`$\expr{m-1}$.
+To make sure we have a precise and unambiguous definition of computation, we will now model NAND programs using sets and tuples, and recast the notion of computing a function in these terms.
+
+
+> # {.definition title="NAND program" #NANDprogram}
+A _NAND program_ is a 4-tuple $P=(V,X,Y,L)$ of the following form: \
+* $V$ (called the _variables_) is some finite set.
 >
-Let $F:\{0,1\}^n \rightarrow \{0,1\}^m$. A NAND program $P$ with $n$ inputs and $m$ outputs _computes $F$_ if for every $x\in \{0,1\}^n$, whenever $P$ is executed with the `x_`$\expr{i}$ variable initialized to $x_i$ for all $i\in [n]$, at the end of the execution the variable `y_`$\expr{j}$ will equal $y_j$ for all $j\in [m]$ where $y=F(x)$.
+* $X$ (called the _input variables_) is a tuple of elements in $V$, i.e. $X \in V^*$. We require that the elements of $X$ are distinct: $X_i \neq X_j$ for all $i\neq j$ in $[n]$ where $n=|X|$.
 >
-For every $L\in \N$, we define $SIZE(L)$ to be the set of all functions that are computable by a NAND program of at most $L$ lines.^[As mentioned in the appendix, we require that all output variables are assigned a value, and that the largest index used in an $L$ line NAND program is smaller than $L$, and so all functions in $SIZE(L)$ have at most $L$ inputs and $L$ outputs.]
+* $Y$ (called the _output variables_) is a tuple of elements in $V$, i.e., $Y \in V^*$. We require that the elements of $Y$ are distinct (i.e.,  $Y_i \neq Y_j$ for all $i\neq j$ \in $[m]$ where $m=|Y|$) and that they are disjoint from $X$ (i.e., $Y_i \neq X_j$ for every $i\in [n]$ and $j\in [m]$).
+>
+* $L$ (called the _lines_) is a tuple of _triples_ of $V$, i.e., $L \in (V \times V \times V)^*$. Intuitively, if the $\ell$-the element of $L$ is a triple $(u,v,w)$ then this corresponds to the $\ell$-th line of the program being $u$ ` := ` $v$ ` NAND ` $w$. We require that for every triple $(u,v,w)$, $u$ does not appear in $X$ and $v,w$ do not appear in $Y$. Moreover, we require that for every $x\in V$, $x$ is contained in some  triple in $L$.
+>
+The _number of inputs_ of $P=(V,X,Y,Z)$ is equal to $|X|$ and the _number of outputs_ is equal to $|Y|$.
+
 
 > # { .pause }
-Please pause here and verify why [computefuncNAND](){.ref} does indeed capture the natural notion of computing a function by a NAND program.
+This definition is somewhat long and cumbersome, but really corresponds to a straightforward modelling of NAND programs, under the map that $V$ is the set of all variables appearing in the program, $X$ corresponds to the tuple $($`x_`$\expr{0}$, `x_`$\expr{1}$, $\ldots$, `x_`$\expr{n-1}$ $)$, $Y$ corresponds to the tuple $($ `y_`$\expr{0}$, `y_`$\expr{1}$, $\ldots$, `y_`$\expr{m-1}$, $)$ and $L$ corresponds to the list of triples of the form $($ `foo` $,$ `bar`, $,$ `baz` $)$ for every line `foo := bar NAND baz` in the program.
+Please pause here and verify that you understand this correspondence.
+
+Now that we defined NAND programs formally, we turn to formally defining  the notion of computing a function.
+Before we do that, we will need to talk about the notion of the _configuration_ or  "snapshot" of a NAND program.
+Such a configuration simply corresponds to the  current line that is executed and the current values of all variables at a certain point in the execution.
+Thus we will model it as a pair $(\ell,\sigma)$ where $\ell$ is a number between $0$ and the total number of lines in the program, and $\sigma$ maps every variable to its current value.
+The initial configuration has the form $(0,\sigma_0)$ where $0$ corresponds to the first line, and $\sigma_0$ is the assignment of zeroes to all variables and $x_i$'s to the input variables.
+The final configuration will have the form $(s,\sigma_s)$ where $s$ is the number of lines (i.e., corresponding to "going past" the final line) and $\sigma_s$ is the final values assigned to all variables, which in particular encodes also the values of the output variables.
+We now write the formal definition.
+As always, it is a good practice to verify that this formal definition matches the intuitive description above:
+
+
+
+
+> # {.definition title="Configuration of a NAND program" #NANDconfiguration}
+Let $P=(V,X,Y,L)$ be a NAND program, and let $n=|X|$, $m=|Y|$ and $s=|L$. A _configuration_ of $P$ is a pair $(\ell,\sigma)$ where $\ell \in [s+1]$ and $\sigma$ is a  function $\sigma:V \rightarrow \{0,1\}$ that maps every variable of $P$ into a bit in $\{0,1\}$.
+We define $CONF(P) = [s+1] \times \{ \sigma \;|\; \sigma:V \rightarrow \{0,1\} \}$ to be the set of all configurations of $P$.^[Note that $|CONF(P)| = |L+1|2^{|V|}$: can you see why?]
+>
+If $P$ has $n$ inputs, then for every $x\in \{0,1\}^n$, the _initial configuration of $P$ with input $x$_ is the the pair $(0,\sigma_0)$ where $\sigma_0:V \rightarrow \{0,1\}$ is the function defined as $\sigma_0(X_i)=x_i$ for every $i\in [n]$ and $\sigma_0(v)=0$ for all variables not in $X$.
+
+An execution of a NAND program can be thought of as simply progressing, line by line, from the initial configuration to the next one:
+
+> # {.definition title="NAND next step function" #nextstepNAND}
+For every NAND program $P=(V,X,Y,L)$, the _next step function of $P$_, denoted by $NEXT_P$, is the function $NEXT_P:CONF(P) \rightarrow CONF(P)$ that defined as follows:
+>
+For every $(\ell,\sigma)  \in CONF(P)$, if $\ell=|L|$ then $NEXT_P(\ell,\sigma)=(\ell,\sigma)$.
+Otherwise $NEXT_P(\ell,\sigma) = (\ell+1,\sigma')$ where $\sigma':V \rightarrow \{0,1\}$ is defined as follows:
+$$
+\sigma'(x) = \begin{cases} NAND(v,w)   & x=u \\
+             \end{cases}   \sigma(x)   & \text{otherwise}
+$$
+where $(u,v,w)=L_\ell$ is the $\ell$-th triple in $L$.
+>
+For every input $x\in \{0,1\}^n$ and $\ell in [s+1]$, the _$\ell$-th configuration of $P$ on input $x$_, denoted as $conf_\ell(P,x)$ is defined recursively as follows:
+$$
+conf_\ell(P,x) = \begin{cases} (0,\sigma_0) & \ell=0 \\
+                \end{cases}   NEXT_P(conf_{\ell-1}(P)) & \text{otherwise}
+$$
+where $(0,\sigma_0)$ is the configuration of $P$ on input $x$.
+
+
+We can now finally formally define the notion of computing a function:
+
+> # {.definition title="Computing a function" #computefuncNAND}
+Let $P=(V,X,Y,L)$ and $n=|X|$, $m=|Y|$ and $s=|L|$.
+Let $F:\{0,1\}^n \rightarrow \{0,1\}^m$.
+We say that _$P$ computes $F$_ if for every $x\in \{0,1\}^n$, if $y=F(x)$ then $conf_s(P,x)=(s,\sigma)$ where $\sigma(Y_j) = y_j$ for every $j\in [m]$.
+>
+For every $s\in \N$, we define $SIZE(s)$ to be the set of all functions that are computable by a NAND program of at most $s$ lines.
+
+
+> # { .pause }
+The formal specification of any programming language, no matter how simple, is often cumbersome, and the definitions above are no exception.
+You should go back and read them and make sure that you understand why they correspond to our informal description of computing a function via NAND circuits.
+From this point on, we will not distinguish between the representation of  a NAND program in terms of lines of codes, and its representation as a tuple $P=(V,X,Y,L)$.
 
 Let $XOR_n:\{0,1\}^n \rightarrow \{0,1\}$ be the function that maps $x\in \{0,1\}^n$ to $\sum_{i=0}^n x_i (\mod 2)$.
 The NAND program we presented above yields a proof of the following theorem
@@ -210,6 +277,39 @@ The NAND program we presented above yields a proof of the following theorem
 $XOR_2 \in SIZE(4)$
 
 Similarly, the addition program we presented shows that   $ADD_1 \in SIZE(5)$.
+
+
+## Canonical input and output variables
+
+The specific identifiers for  NAND variables (other than the inputs and outputs) do not make any difference in the program's functionality, as long as we give separate variable distinct identifiers.
+For example, if I replace all instances of the variable `foo` with `boazisgreat` then, under the (unfortunately common) condition that `boazisgreat` was not used in the original program, the resulting  program will still compute the same function.
+For convenience, it is sometimes useful to assume that all variables identifiers have some canonical form such as being either `x_`$\expr{i}$, `y_`$\expr{j}$ or `work_`$\expr{k}$.
+Similarly, while we allowed in  [NANDprogram](){.ref} the  variables to be members of some arbitrary set $V$, it is sometimes useful to assume that $V$ is simply the set of numbers from $0$ to some natural number (which can never be more than $n+m$ plus twice the number of lines $s$).
+This motivates the following definition:
+
+> # {.definition title="Canonical variables" #NANDcanonical}
+Let $P=(V,X,Y,L)$ be a NAND program and let $n=|X|$ and $m=|Y|$.
+We say that $P$ has _canonical variables_ if $V=[t]$ for some $t\in \N$, $X=(0,1,\ldots,n-1)$ and $Y=(n,n+1,\ldots,n+m-1)$.
+
+We have the following theorem:
+
+> # {.theorem title="Convert to canonical variables" #canonicalvarsthm}
+For every $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s\in\N$, $F$ can be computed by an $s$-line NAND program if and only if it can be computed by an $s$-line NAND program with canonical variables.
+
+> # {.proof data-ref="canonicalvarsthm"}
+The "if" direction is trivial, since a NAND program with canonical variables is just a special case of a NAND program.
+For the "only if" direction, let $P=(V,X,Y,L)$ be an $s$-line NAND program computing $F$, and let $t=|V|$.
+We define a bijection $\pi:V \rightarrow [t]$ as follows: $\pi(X_i)=i$ for all $i\in [n]$, $\pi(Y_j)=n+j$ for all $j\in [m]$ and we map the remaining $t-m-n$ elements of $V$ to $\{ n+m,\ldots,t-1\}$ in some arbitrary one to one way. (We can do so because the $X$'s and $Y$'s are distinct and disjoint.)
+Now define $P' = (\pi(V),\pi(X),\pi(Y),\pi(L))$, where by this we mean that we apply $\pi$ individually to every element of of $V$,$X$, $Y$, and the triples of $L$.
+Since (as we leave you to verify) the definition of configurations and computing a function are invariant under bijections of $V$, $P'$ computes the same function as $P$.
+
+
+Given [canonicalvarsthm](){.ref}, we will always be able to assume "without loss of generality" that a NAND program $P$ has canonical form.
+A canonical form program $P$ can also be represented as a triple $(n,m,L)$ where $n,m$ are (as usual) the inputs and outputs, and $L$ is the lines.
+This is because we recover the original representation $(V,X,Y,L)$ by simply setting $X=(0,1,\ldots,n-1)$, $Y =(n,n+1,\ldots,n+m-1)$ and $V=[t]$ where $t$ is one plus the largest number appearing in a triple of $L$.
+In the following we will freely move between these two representations.
+If $n,m$ are known from the context, then a canonical form program can be represented simply by the list of triples $L$.
+
 
 ## Composing functions
 
