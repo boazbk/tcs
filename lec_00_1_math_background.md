@@ -192,6 +192,7 @@ That is, $(xy)_i$ equals $x_i$ if $i<n$ and equals $y_{i-n}$ if $n \leq i < n+m$
 ### Functions
 
 If $S$ and $T$ are sets, a _function_ $F$ mapping $S$ to $T$, denoted by $F:S \rightarrow T$, associates with every element $x\in S$ an element $F(x)\in T$.
+The set $S$ is known as the _domain_ of $F$ and the set $T$ is known as the _range_ or _co-domain_ of $F$.
 Just as with sets, we can write a function either by listing the table of all the values it gives for elements in $S$ or using a rule.
 For example if $S = \{0,1,2,3,4,5,6,7,8,9 \}$ and $T = \{0,1 \}$.
 Then  the function $F$ defined as
@@ -249,6 +250,8 @@ Verifying that you can prove the following results is an excellent way to brush 
 * If $G:T \rightarrow S$ is onto then there exists a one-to-one function $F:S \rightarrow T$ such that $G(F(s)=s$ for every $s\in S$.
 
 * If $S$ and $T$ are finite sets then the following conditions are equivalent to one another: __(a)__ $|S| \leq |T|$, __(b)__ there is a one-to-one function $F:S \rightarrow T$, and __(c)__ there is an onto function $G:T \rightarrow S$.
+
+![We can represent finite functions as a directed graph where we put an edge from $x$ to $f(x)$. The _onto_ condition corresponds to requiring that every vertex in the range of the function has in-degree _at least_ one. The _one-to-one_ condition  corresponds to requiring that every vertex in the range of the function has in-degree _at most_ one. In the examples above $F$ is an onto function, $G$ is one to one, and $H$ is neither onto nor one to one.](../figure/functionsdiagram.png){#functionsdiagrampng .class width=300px height=300px}
 
 > # { .pause }
 You can find the proofs of these results in many discrete math texts, including for example, section 4.5 in the [Leham-Leighton-Meyer notes](http://www.boazbarak.org/cs121/LLM_data_types.pdf).
