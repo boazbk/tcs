@@ -230,11 +230,13 @@ As we will see later in this course, this is a definition that can  generalizes 
 
 
 __Partial functions:__ We will sometimes be interested in _partial_ functions from $S$ to $T$.
-This is a function $F$ that is not necessarily defined on every element of $S$.
-For example, the function $F(x)= \sqrt{x}$ is only defined on non-negative real numbers.
+This is a generalization of the notion of a function to consider also $F$ that is not necessarily defined on every element of $S$.
+For example, the partial function $F(x)= \sqrt{x}$ is only defined on non-negative real numbers.
 When we want to distinguish between partial functions and  standard (i.e., non-partial) functions, we will call the latter _total_ functions.
-(Note that the set of partial functions is a proper superset of the set of total functions; i.e., a partial function is allowed to be defined on all its input elements.)
-Also, when we want to emphasize that a function $f$ from $A$ to $B$ might not be total, we will write $f: A \rightarrow_p B$.
+When we say "function" without any qualifier then we mean a _total_ function.
+That is, the notion of partial functions is a strict generalization of functions, and so a partial function _not_ necessarily a function.
+The set of partial functions is a proper superset of the set of total functions, since a partial function is allowed to be defined on all its input elements.
+When we want to emphasize that a function $f$ from $A$ to $B$ might not be total, we will write $f: A \rightarrow_p B$.
 We can think of a partial function $F$ from $S$ to $T$ also as a total function from $S$ to $T \cup \{ \bot \}$ where $\bot$ is some special "failure symbol", and so instead of saying that $F$ is undefined at $x$, we can say that $F(x)=\bot$.
 
 __Basic facts about functions:__
