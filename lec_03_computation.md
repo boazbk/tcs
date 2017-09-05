@@ -393,9 +393,11 @@ This transformation is simply not correct: if $G$ and $F$ use the same workspace
 Thus in the proof we will need to take care of this issue, and ensure that $P'$ and $P$ use disjoint workspace variables.
 This is one example of a general phenomenon.
 Trying and failing to prove that a program or algorithm is correct often leads to discovery of bugs in it.
+
+
 We now turn to the full proof.
 It is somewhat cumbersome since we have to __(1)__ fully specify the transformation of $P$ and $P'$ to $P''$ and __(2)__ prove that the transformed program $P''$ does actually compute $G \circ F$.
-Nevertheless, because proof about computation can be subtle, it is important that you read carefully the proof and see that you understand every step  in it.
+Nevertheless, because proofs about computation can be subtle, it is important that you read carefully the proof and make sure  you understand every step  in it.
 
 
 ![Given canonoical-variables programs $P$ and $P'$ that compute $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $G:\{0,1\}^m \rightarrow \{0,1\}^k$ respectively, we create a program $P''$ using $t+t'-m$ variables to compute $G\circ F$ where $t$ and $t'$ are the number of variables used by $P$ and $P'$ respectively. In this program, the variables corresponding to the outputs of $P$ and the inputs of $P'$ are shared, but all other variables are disjoint.](../figure/compositionprogs.png){#compositionprogsfig .class width=300px height=300px}
@@ -406,12 +408,12 @@ Let $t=|V|$, $s=|L|$, $t'=|V'|$, and $s'=|L'|$.
 We will construct an $s+s'$ line canonical form program $P''$ with $t+t'-m$ variables that computes $G\circ F:\{0,1\}^n \rightarrow \{0,1\}^k$ (see [compositionprogsfig](){.ref}).
 To specify $P''$ we only need to define its set of lines $L'' = (L''_0,L''_1,\ldots, L''_{s+s'-1})$.
 The first $s$ lines of $L''$ simply equal $L$.
-For the next $s'$ lines are obtained from $L'$  by adding $t-m$ to every label.
-That is, for every $\ell \in [s+s']$,
+The next $s'$ lines are obtained from $L'$  by adding $t-m$ to every label.
+In other words, for every $\ell \in [s+s']$,
 >
 $$
 L''_\ell = \begin{cases} L_\ell & \ell < s \\
-                         (L'_{\ell-s,0}+t-m,L'_{\ell-s,1}+t-m,L'_{\ell-s,2} +t-m)
+                         (L'_{\ell-s,0}+t-m,L'_{\ell-s,1}+t-m,L'_{\ell-s,2} +t-m) & \ell > s
             \end{cases}
 $$
 where $L' = ((L'_{0,0},L'_{0,1},L'_{0,2}), \cdots , (L'_{t',0},L'_{t',1},L'_{t',2})$.

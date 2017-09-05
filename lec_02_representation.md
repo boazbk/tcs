@@ -66,9 +66,12 @@ $$
 $$
 
 
-For this representation, the decoding function is not one-to-one: the two strings $1$ and $0$ both represent the number zero (since they can be thought of as representing $-0$ and $+0$ respectively, can you see why?).
-The decoding function is also only a _partial_ function, since there is no number that is represented by the empty string.
-But this is still a fine representation, since the encoding function is the one-to-one total function $E:\Z \rightarrow \{0,1\}^*$ which maps an integer of the form $a\times k$, where $a\in \{\pm 1 \}$ and $k\in \N$ to the bit $(-1)^a$ concatenated with  the binary representation of $k$.
+The decoding function of a representation should always be _onto_, since every object must be represented by some string.
+However, it does not always have to be one to one.
+For example, in this particular representation the two strings $1$ and $0$ both represent the number zero (since they can be thought of as representing $-0$ and $+0$ respectively, can you see why?).
+We can also allow a _partial_ decoding function for representations.
+For example,   in the representation above there is no number that is represented by the empty string.
+But this is still a fine representation, since the decoding partial function is onto and the encoding function is the one-to-one total function $E:\Z \rightarrow \{0,1\}^*$ which maps an integer of the form $a\times k$, where $a\in \{\pm 1 \}$ and $k\in \N$ to the bit $(-1)^a$ concatenated with  the binary representation of $k$.
 That is, every integer can be represented as a string, and two distinct integers have distinct representations.
 
 
