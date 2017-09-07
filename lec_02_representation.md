@@ -111,7 +111,11 @@ The same idea can be used to represent triples, quadruples, and generally all tu
 
 The set of  _real numbers_ $\R$ contains all numbers including positive, negative, and fractional, as well as _irrational_ numbers such as $\pi$ or $e$.
 Every real number can be approximated by a rational number, and so up to a small error we can represent every real number $x$ by a rational number $a/b$ that is very close to $x$.
-This is a fine representation though a more common choice to represent real numbers is the _floating point_ representation, where we represent $x$ by the pair $(a,b)$ of integers of some prescribed sizes (determined by the desired accuracy) such that $a2^{-b}$ is closest to $x$.
+For example, we can represent $\pi$ by $22/7$ with an  error of about $10^{-3}$ and if we wanted smaller error (e.g., about $10^{-4}$) then we can use $311/99$ and so on and so forth.
+
+
+This is a fine representation though a more common choice to represent real numbers is the _floating point_ representation, where we represent $x$ by the pair $(a,b)$ of (positive or negative) integers of some prescribed sizes (determined by the desired accuracy) such that $a \times 2^{b}$ is closest to $x$.^[You can think of this as related to  [scientific notation](https://en.wikipedia.org/wiki/Scientific_notation). In scientific notation we represent a number $y$ as $a \times 10^b$ for  integers $a,b$. Sometimes we write this as  $y=a \mathtt{E} b$. For example, in many programming languages `1.21E2` is the same as `121.0`.
+In scientific notation, to represent $\pi$ up to accuracy $10^{-3}$ we will simply use $3141 \times 10^{-3}$ and to represent it up to accuracy $10^{-4}$ we will use $31415 \times 10^{-4}$.]
 The reader might be (rightly) worried about this issue of approximation. In many (though not all) computational applications, one can make the accuracy tight enough so that this does not affect the final result, though sometimes we do need to be careful.
 This representation is called "floating point" because we can think of the number $a$ as specifying a sequence of binary digits, and $b$ as describing the location of the "binary point" within this sequence.
 The use of floating  representation is the reason why in many programming systems  printing the expression `0.1+0.2` will result in `0.30000000000000004` and not `0.3`, see [here](http://floating-point-gui.de/), [here](https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html) and [here](https://randomascii.wordpress.com/2012/04/05/floating-point-complexities/) for more.
