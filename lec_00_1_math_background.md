@@ -835,7 +835,7 @@ Prove that for every finite $S,T$, there are $(|T|+1)^{|S|}$ partial functions f
 
 
 > # {.exercise }
-Suppose that $\{ S_n \}_{n\in \N}$ is a sequence such that $S_0 \leq 10$ and for $n>1$ $n \leq 5 S_{\lfloor \tfrac{n}{5} \rfloor} + 2n$.
+Suppose that $\{ S_n \}_{n\in \N}$ is a sequence such that $S_0 \leq 10$ and for $n>1$ $S_n \leq 5 S_{\lfloor \tfrac{n}{5} \rfloor} + 2n$.
 Prove by induction that  $S_n \leq 100 n \log n$ for every $n$.
 
 > # {.exercise }
