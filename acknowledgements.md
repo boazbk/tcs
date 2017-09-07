@@ -6,6 +6,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Sam Benkelman
 * Jarosław Błasiok
 * Chi-Ning Chou
+* Michael Colavita
 * Juan Esteller
 * Ondřej Lengál
 * Alex Lombardi
