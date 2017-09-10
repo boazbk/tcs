@@ -168,6 +168,7 @@ if NOT(finishedloop) {
     if NOT(a) {
         finishedloop := 1
     }
+    loop := 1
 }
 if (finishedloop) {
     postloop_code
@@ -278,7 +279,7 @@ The "only if" direction of the theorem  is immediate.
 After all, every NAND++ program $P$ is in particular also a NAND<< program, and hence if $F$ is computable by a NAND++ program then it is also computable by a NAND<< program.
 To show the "if" direction, we need to show how we can implement all the operations of NAND<< in NAND++.
 
-Note that it's quite easy to store integers as bit-arrays, and so we can also simulate an array of integers using a two-dimensional array of bits(which we have seen how to embed in a the standard single-dimensional arrays supplied by NAND++).
+Note that it's quite easy to store integers as bit-arrays, and so we can also simulate an array of integers using a two-dimensional array of bits (which we have seen how to embed in a the standard single-dimensional arrays supplied by NAND++).
 That is, if in NAND<< the variable `foo_`$\expr{i}$ corresponded to an integer, then we can simulate this in NAND++ by having  `foo_`$PAIR(i,j)$ correspond to the $j$-th bit in the representation of  the integer `foo_`$\expr{i}$ where $PAIR:\N^2 \rightarrow \N$ is some easily computable one-to-one embedding of $\N^2$ in $\N$.
 
 We can in principle use the standard algorithms for addition, multiplication, division, etc.. to perform the arithmetic operations on these arrays.
@@ -299,7 +300,7 @@ Once we can increment and decrement `i`, we can use this, together with the noti
 We can also simulate an  operation such as `i := foo` by creating a temporary array that contains $0$ except for a single $1$ in the location corresponding to the integer represented by `foo` and waiting until we reach the point where `foo_i` equals $1$.
 
 We omit the full details of the proofs.
-However, the webpage [nandpl.org](http://nandpl.org) contains  an OCaml program that transform a NAND<< program into an equivalent NAND++ program.
+However, the webpage [nandpl.org](http://nandpl.org) contains  an OCaml program that transforms a NAND<< program into an equivalent NAND++ program.
 
 ### NAND++ normal form
 

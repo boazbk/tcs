@@ -18,6 +18,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Brian Sapozhnikov
 * David Steurer
 * Everett Sussman
+* Sarah Turnill
 * Salil Vadhan
 * Ryan Williams
 * Jessica Zhu

@@ -49,7 +49,7 @@ We then evaluate the program line by line, assigning to the variable on the left
 In this evaluation, we  identify `foo` with `foo_0` and `bar_079` with `bar_79`.
 That is, we only care about the numerical value of the index of a variable (and so ignore leading zeros) and if an index is not specified, we assume that it equals zero.  
 The output is the value of the variables `y_0`, $\ldots$, `y_`$\expr{m-1}$.
-(If a variable of the form `y_`$\expr{i}$ has not been assigned a value in the program, then its value defaults to $0$.)
+(Recall that all variables of the form `y_`$\expr{i}$ must be assigned some value.)
 
 Every NAND program $P$ on $n$ inputs and $m$ outputs can be associated with the function $F_P:\{0,1\}^n \rightarrow \{0,1\}^m$ such that for every $x\in \{0,1\}^n$, $F_P(x)$ equals the output of $P$ on input $x$.
 We say that the function $P$ computes $F_P$.
