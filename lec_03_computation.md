@@ -548,8 +548,10 @@ Which of the following statements is false?
 > # {.exercise  #exid}
 Write a NAND program that adds two $3$-bit numbers.
 
+
 > # {.exercise  #paritycircuitex}
 Prove [paritycircuitthm](){.ref}.^[__Hint:__ Prove by induction that for every $n>1$ which is a power of two, $XOR_n \in SIZE(4(n-1))$. Then use this to prove the result for every $n$.]
+
 
 
 ## Bibliographical notes

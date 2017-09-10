@@ -414,27 +414,27 @@ To prove [NAND-univ-thm](){.ref}, we need to give a NAND program  for _every_ po
 We will restrict our attention to the case of Boolean functions (i.e., $m=1$).
 In [mult-bit-ex](){.ref} you will show how to extend the proof for all values of $m$.
 A function $F: \{0,1\}^n\rightarrow \{0,1\}$ can be specified by a table of  its values for each one of the $2^n$ inputs.
-Here is for example one particular function $G: \{0,1\}^4 \rightarrow \{0,1\}$:^[In case you are curious, this is the function that computes the digits of $\pi$ in the binary basis.]
+For example, the table below describes one particular function $G: \{0,1\}^4 \rightarrow \{0,1\}$:^[In case you are curious, this is the function that computes the digits of $\pi$ in the binary basis.]
 
 
-| Input  | Output |
-|:-------|:-------|
-| $0000$ | 1      |
-| $0001$ | 1      |
-| $0010$ | 0      |
-| $0011$ | 0      |
-| $0100$ | 1      |
-| $0101$ | 0      |
-| $0110$ | 0      |
-| $0111$ | 1      |
-| $1000$ | 0      |
-| $1001$ | 0      |
-| $1010$ | 0      |
-| $1011$ | 0      |
-| $1100$ | 1      |
-| $1101$ | 1      |
-| $1110$ | 1      |
-| $1111$ | 1      |
+| Input ($x$) | Output ($G(x)$) |
+|:------------|:----------------|
+| $0000$      | 1               |
+| $0001$      | 1               |
+| $0010$      | 0               |
+| $0011$      | 0               |
+| $0100$      | 1               |
+| $0101$      | 0               |
+| $0110$      | 0               |
+| $0111$      | 1               |
+| $1000$      | 0               |
+| $1001$      | 0               |
+| $1010$      | 0               |
+| $1011$      | 0               |
+| $1100$      | 1               |
+| $1101$      | 1               |
+| $1110$      | 1               |
+| $1111$      | 1               |
 
 
 
@@ -560,9 +560,6 @@ Suppose that there is an $s$-line NAND program to compute $F:\{0,1\}^n \rightarr
 Prove that there is a program of at most $s+s'+10$ lines to compute the function $G:\{0,1\}^{n+1} \rightarrow \{0,1\}$ where $G(x_0,\ldots,x_{n-1},x_n)$ equals $F(x_0,\ldots,x_{n-1})$ if $x_n=0$ and equals $F'(x_0,\ldots,x_{n-1})$ otherwise.
 
 
-
-> # {.exercise  #paritycircuitex}
-Prove [paritycircuitthm](){.ref}.^[__Hint:__ Prove by induction that for every $n>1$ which is a power of two, $XOR_n \in SIZE(4(n-1))$. Then use this to prove the result for every $n$.]
 
 > # {.exercise title="Addition" #addition-ex}
 Write a program using your favorite programming language that on input an integer $n$, outputs a NAND program that computes $ADD_n$. Can you ensure that the program it outputs for $ADD_n$ has fewer than $10n$ lines?

@@ -100,44 +100,44 @@ For example,   the following Python function parses a NAND program to the "list 
 
 ~~~~ { .python }
 # Converts a NAND program from text to the list of tuples representation
-# Assumes a program where no index is larger than the size of the program
-def parse(prog):
-    avars = { 'x':0, 'y':1 , 'validx':2, 'loop':3 } # dictionary of indices of "workspace" variables
-    n = max([int(var[2:]) for var in prog.split() if var[:2]=='x_' ])+1 # no of inputs
-    m = max([int(var[2:]) for var in prog.split() if var[:2]=='y_' ])+1 # no of outputs
+# prog: code of program
+# n: number of inputs
+# m: number of outputs
+# t: number of variables
+def triples(prog,n,m,t):
 
-    def var_idx(vname): # helper local function to return index of named variable
-        vname = vname.split('_')
-        name = vname[0]
-        idx = int(vname[1]) if len(vname)>1 else 0
-        return [avars.setdefault(name,len(avars)),idx]
+    varsidx = {}
+
+    def varindex(var): # index of variable with name var
+        if var[:2]=='x_': return int(var[2:])
+        if var[:2]=='y_': return t-m+int(var[2:])
+        if var in varsidx: return varsidx[var]
+        return varsidx.setdefault(var,len(varsidx)+n)
 
     result = []
+
     for line in prog.split('\n'):
-        if not line or line[0]=='#': continue # ignore empty and commented out lines
+        if not line or line[0]=='#' or line[0]=='//': continue # ignore empty and commented out lines
         (var1,assign,var2,op,var3) = line.split()
-        result.append(var_idx(var1) + var_idx(var2) + var_idx(var3))
-    return (n,m,result)
+        result.append([varindex(var1),varindex(var2),varindex(var3)])
+
+    return result
 ~~~~
 
 As we discuss in the "code and data" lecture, we can execute a program given in the list of tuples representations as follows
 
 ~~~~ { .python }
-# Evaluates an n-input, m-output NAND program P on input x
-# P is given in the list of tuples representation
-def EVAL(n,m,P,x):
-    s = len(P)    # no. of lines in the program
-    t = 3*len(P)  # maximum no. of unique labels
-    avars = [0]*(t*s) # initialize array to 0
-    for i in range(n): # initalize inputs to x
-        avars[i*t] = x[i]
+# Evaluates an n-input, m-output NAND program L on input x
+# L is given in the list of tuples representation
+def EVAL(L,n,m,x):
+    t = max([max(triple) for triple in L])+1 # num of vars in L
+    vars = [0]*t # initialize variable array to zeroes
+    vars[:n] = x # set first n vars to x
 
-    for (a,i,b,j,c,k) in P: # evaluate every line of program
-        avars[i*t+a] = 1-avars[j*t+b]*avars[k*t+c]
+    for (a,b,c) in L:  # evaluate each triple
+        vars[a] = 1-vars[b]*vars[c]
 
-    #  return y_0...y_(m-1) which is
-    # avars[1],avars[t+1],...,avars[(m-1)*t+1]
-    return [avars[i*t+1] for i in range(m)]
+    return vars[t-m:] # output last m variables
 ~~~~
 
 Moreover, if we want to _compile_ NAND programs, we can easily transform them to C code using the following `NAND2C` function:^[The function is somewhat more complex than the minimum needed, since it uses an array of _bits_ to store the variables.]
