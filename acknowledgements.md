@@ -8,6 +8,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Chi-Ning Chou
 * Michael Colavita
 * Juan Esteller
+* Mark Goldstein
 * Ondřej Lengál
 * Alex Lombardi
 * Lisa Lu
