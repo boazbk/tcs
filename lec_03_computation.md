@@ -241,8 +241,8 @@ As always, it is a good practice to verify that this formal definition matches t
 
 
 > # {.definition title="Configuration of a NAND program" #NANDconfiguration}
-Let $P=(V,X,Y,L)$ be a NAND program, and let $n=|X|$, $m=|Y|$ and $s=|L$. A _configuration_ of $P$ is a pair $(\ell,\sigma)$ where $\ell \in [s+1]$ and $\sigma$ is a  function $\sigma:V \rightarrow \{0,1\}$ that maps every variable of $P$ into a bit in $\{0,1\}$.
-We define $CONF(P) = [s+1] \times \{ \sigma \;|\; \sigma:V \rightarrow \{0,1\} \}$ to be the set of all configurations of $P$.^[Note that $|CONF(P)| = |L+1|2^{|V|}$: can you see why?]
+Let $P=(V,X,Y,L)$ be a NAND program, and let $n=|X|$, $m=|Y|$ and $s=|L|$. A _configuration_ of $P$ is a pair $(\ell,\sigma)$ where $\ell \in [s+1]$ and $\sigma$ is a  function $\sigma:V \rightarrow \{0,1\}$ that maps every variable of $P$ into a bit in $\{0,1\}$.
+We define $CONF(P) = [s+1] \times \{ \sigma \;|\; \sigma:V \rightarrow \{0,1\} \}$ to be the set of all configurations of $P$.^[Note that $|CONF(P)| = (s+1)2^{|V|}$: can you see why?]
 >
 If $P$ has $n$ inputs, then for every $x\in \{0,1\}^n$, the _initial configuration of $P$ with input $x$_ is the the pair $(0,\sigma_0)$ where $\sigma_0:V \rightarrow \{0,1\}$ is the function defined as $\sigma_0(X_i)=x_i$ for every $i\in [n]$ and $\sigma_0(v)=0$ for all variables not in $X$.
 
@@ -350,7 +350,7 @@ If $F:\{0,1\}^n \rightarrow \{0,1\}^m$ is a function in $SIZE(L)$ and $G:\{0,1\}
 
 > # {.theorem title="Parallel composition of functions" #parcompositionthm}
 If $F:\{0,1\}^n \rightarrow \{0,1\}^m$ is a function in $SIZE(L)$ and $G:\{0,1\}^{n'} \rightarrow \{0,1\}^{m'}$ is a function in $SIZE(L')$ then $F \oplus G$ is in $SIZE(L+L')$, where
-$G \oplus H: \{0,1\}^{n+n'} \rightarrow \{0,1\}^{m+m'}$ is defined as the function that maps $x \in \{0,1\}^{n+n'}$ to $F(x_0,\ldots,x_{n-1})G(x_n,\ldots,x_{n+n'-1})$.
+$F \oplus G: \{0,1\}^{n+n'} \rightarrow \{0,1\}^{m+m'}$ is defined as the function that maps $x \in \{0,1\}^{n+n'}$ to $F(x_0,\ldots,x_{n-1})G(x_n,\ldots,x_{n+n'-1})$.
 
 > # { .pause }
 We will formally prove [seqcompositionthm](){.ref} and [parcompositionthm](){.ref} using our formal definition of NAND programs. But it is also possible to directly give syntactic transformations of the code of programs computing $F$ and $G$ to programs computing $G\circ F$ and $F \oplus G$ respectively.
