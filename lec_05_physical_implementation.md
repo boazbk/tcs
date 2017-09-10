@@ -88,7 +88,9 @@ We now show this more formally.
 ## Representing programs as graphs
 
 
-However, we will use a more general approach, first giving a more "mathematical" representation for NAND programs as _graphs_, and then using this representation to prove these two theorems.
+We now define NAND programs as circuits, using the notion of _directed acyclic graphs_ (DAGs).
+
+
 
 > # { .pause }
 If you are not comfortable with the definitions of graphs, and in particular directed acyclic graphs (DAGs), now would be a great time to go back to the "mathematical background" lecture, as well as some of the resources [here](http://www.boazbarak.org/cs121/background/), and review these notions.
@@ -217,31 +219,34 @@ By the fact that $C$ and $D$ compute $F$ and $G$ respectively, we see that $E$ c
 
 ## General Boolean circuits: a formal definition
 
+We now define the notion of  _general_ Boolean circuits  that can use any basis.
+
 > # {.definition title="Boolean circuits" #circuits-def}
 Let $k$ be some number and $B$ be a subset of the functions from $\{0,1\}^k \rightarrow \{0,1\}$.
-For every $n,m \in \N$, an $n$ input, $m$ output  _Boolean circuit_ with $B$-gates is a directed acyclic graph (DAG) $G$ over the vertex set $[s] = \{0,1\ldots,s-1\}$ where every vertex is labeled with either a function $f\in B$ or a number $i \in \{0,\ldots,\max\{m,n\}-1\}$ such that: \
-* Every _source vertex_ (vertex without incoming edges) is labeled with a number between $0$ and $n-1$. \
-* Every _sink vertex_ (vertex without outgoing edges)  has only a single incoming edge and is labeled with a number between $0$ and $m-1$. There should be exactly $m$ sink vertices and every one of them gets a unique label. \
-* Every other vertex has exactly $k$ incoming edges and is labeled with a function $f\in B$.
+For every $n,m \in \N$, an $n$ input, $m$ output  _Boolean circuit_ with $B$-gates is a directed acyclic graph (DAG) $G$ over the vertex set $[t] = \{0,1\ldots,t-1\}$ and a labelling function $L:\{n,\ldots,t-1\} \rightarrow B$ such that: \
+* Vertices $\{0,\ldots,n-1\}$ are _sources_: have no incoming edges.
+* Vertices $\{t-m,\ldots,t-1 \}$ are _sinks_: have no out-going edges.
+* Every non source vertex has exactly $k$ incoming edges.
 
 
 
-![A Boolean circuit to compute the XOR function with NAND gates. In red are the corresponding variable names in the NAND program/](../figure/NAND_circuit.png){#circuit-xor .class width=300px height=300px}
+![A Boolean circuit to compute the XOR function with NAND gates. In red are the corresponding variable names in the NAND program. (Figure needs to be updated to remove special output gates) /](../figure/NAND_circuit.png){#circuit-xor .class width=300px height=300px}
 
-### Evaluating a function using circuits
 
-An $n$-input $m$-output circuit $C$ computes a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ as follows.
+An $n$-input $m$-output circuit $C=(G,L)$ computes a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ as follows.
 For every input $x\in \{0,1\}^n$, we inductively define  the _value_ of every vertex based on its incoming edges:
 
-* For a source vertex $v$ labeled with an integer $i\in \{0,\ldots,n-1\}$, we define the value $\val(v)$ of $v$ to be $x_i$.
+1. For the  source vertices $\{0,\ldots,i-1\}$ we define $val(i) =x_i$ for all $i\in [n]$.
 
-* For a vertex  $v$ that's neither a sink nor a source and is labeled with $f\in B$, if its incoming neighbors are vertices $v_1,\ldots,v_k$
-(sorted in order) then we let $\val(v)=f(\val(v_1),\ldots,\val(v_k))$.
+2. For a non source  vertex  $v$ and is labeled with $f\in B$, if its incoming neighbors are vertices $v_1,\ldots,v_k$
+(sorted in order) and their values have all been set  then we let $\val(v)=f(\val(v_1),\ldots,\val(v_k))$.
 
-* Sink vertices get the same value of their sole incoming neighbor.
+3. Go back to step 2 until all vertices have values.
 
-The output of the circuit on input $x$ is the string $y\in \{0,1\}^m$ such that for every $i\in \{0,\ldots,m-1\}$, $y_i$ is the value of the sink vertex labeled with $i$.
-We say that the circuit $C$ _computes the function $F$_ if for every $x\in \{0,1\}^n$, the output of the circuit $C$ on input $x$ is equal to $F(x)$.
+
+
+The _output_ of the circuit $C$ on input $x$, denoted by $C(x)$, is the string $y\in \{0,1\}^m$ such that for every $i\in \{0,\ldots,m-1\}$, $y_i$ is the value of the vertex $t-m+1$ where $t$ is the number of vertices.
+We say that the circuit $C$ _computes the function $F$_ if for every $x\in \{0,1\}^n$,  $C(x)=F(x)$.
 
 
 We have seen that  _every_ function $f:\{0,1\}^k \rightarrow \{0,1\}$ has a NAND program with at most $4\cdot 2^k$ lines, and hence [NAND-circ-thm](){.ref} implies the following theorem (see [NAND-all-circ-thm-ex](){.ref}):

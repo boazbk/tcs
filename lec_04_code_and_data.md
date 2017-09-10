@@ -240,11 +240,11 @@ The idea of the proof is that because every such program can be represented by a
 
 > # {.proof data-ref="program-count"}
 Every NAND program with $s$ lines has at most $s$ inputs, $s$ outputs, and $s$ workspace variables.
-Hence it can be represented by $s$ six-tuples of numbers in $\{0,\ldots,3s-1\}$.
+Hence it can be represented by $s$ triples of numbers in $\{0,\ldots,3s-1\}$.
 If two programs compute distinct functions then they have distinct representations.
 >
-Let $\mathcal{T}_s$ be the set of lists of at most $6s$ numbers between $\{0,\ldots,3s-1\}$.
-Note that $|\mathcal{T}_s| = \sum_{t=1}^{6s}(3s)^t \leq (6s)(3s)^{6s} \leq 2^{10s\log s}$.
+Let $\mathcal{T}_s$ be the set of lists of at most $3s$ numbers between $\{0,\ldots,3s-1\}$.
+Note that $|\mathcal{T}_s| = \sum_{t=1}^{3s}(3s)^t \leq (3s)(3s)^{3s} \leq 2^{10s\log s}$.
 Let  $\mathcal{F}_s$ be the set of functions from $\{0,1\}^*$ to $\{0,1\}^*$ that can be computed by
 $s$-line NAND programs. We can define a one-to-one map $R:\mathcal{F}_s \rightarrow \mathcal{T}_s$ by setting  for
 every function $F\in\mathcal{F}_s$ the value $R(F)$ to be the representation of the shortest NAND program that computes the function $F$ (breaking ties arbitrarily).
