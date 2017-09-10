@@ -13,6 +13,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Alex Lombardi
 * Lisa Lu
 * Aditya Mahadevan
+* Hamish Nicholson
 * Thomas Orton
 * Juan Perdomo
 * Brian Sapozhnikov

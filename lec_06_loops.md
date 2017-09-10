@@ -282,7 +282,7 @@ To show the "if" direction, we need to show how we can implement all the operati
 Note that it's quite easy to store integers as bit-arrays, and so we can also simulate an array of integers using a two-dimensional array of bits (which we have seen how to embed in a the standard single-dimensional arrays supplied by NAND++).
 That is, if in NAND<< the variable `foo_`$\expr{i}$ corresponded to an integer, then we can simulate this in NAND++ by having  `foo_`$PAIR(i,j)$ correspond to the $j$-th bit in the representation of  the integer `foo_`$\expr{i}$ where $PAIR:\N^2 \rightarrow \N$ is some easily computable one-to-one embedding of $\N^2$ in $\N$.
 
-We can in principle use the standard algorithms for addition, multiplication, division, etc.. to perform the arithmetic operations on these arrays.
+We can in principle use the standard algorithms for addition, multiplication, division, etc. to perform the arithmetic operations on these arrays.
 The key difficulty is in actually controlling the index variable `i`, which in NAND++ moves obliviously according to the set schedule $0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots$.
 To achieve control of `i` we use the well known observation that a bus is just like a taxi if you are willing to wait long enough.
 That is, instead of moving `i` to where we want, we wait until it eventually gets there on its own.
@@ -408,11 +408,11 @@ In particular, $U$ can even be used to evaluate itself!
 This notion of _self reference_ will appear time and again in this course, and as we will see, leads to several counterintuitive phenomena in computing.  
 
 Because we can easily transform a NAND<< program into a NAND++ program, this means that even the seemingly "weaker" NAND++ programming language is powerful enough to simulate NAND<< programs.
-Indeed, as we already alluded to before, NAND++ is powerful enough to simulate also all other standard programming languages such as  Python, C, Lisp, etc..
+Indeed, as we already alluded to before, NAND++ is powerful enough to simulate also all other standard programming languages such as  Python, C, Lisp, etc.
 
 ### Representing NAND++ programs as string
 
-Before we prove  [univ-nandpp](){.ref} formal, we need to make its statement precise by specifying a representation scheme for NAND++ programs.
+Before we can prove  [univ-nandpp](){.ref}, we need to make its statement precise by specifying a representation scheme for NAND++ programs.
 As mentioned above,  simply representing the program as a string using ASCII or UTF-8 encoding  will work just fine, but we will use a somewhat more convenient and concrete representation, which is the natural generalization of the "list of tuples" representation for NAND programs.
 We will assume that all variables are of the form `foo_##` where `##` is some number or the index `i`.  If a variable `foo` does not have an index then we add the index zero to it.
 We represent an instruction of the form

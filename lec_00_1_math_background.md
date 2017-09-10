@@ -673,7 +673,7 @@ The proof will follow from the following lemma:
 >
 >>__Proof of [graphconthmpf](){.ref} from [graphcontlem](){.ref}:__ We will show that for undirected graph $G=(V,E)$ of $n$ vertices and at most $n-2$ edges, there is a pair $u,v$ of vertices that are disconnected in $G$. let $G$ be such a graph and $u$ be some vertex of $G$. By [graphcontlem](){.ref}, the number of vertices connected to $u$ is at most $n-1$, and hence (since $|V|=n$) there is a vertex $v\in V$ that is not connected to $u$, thus completing the proof. __QED (Proof of [graphconthmpf](){.ref} from [graphcontlem](){.ref})__
 >
->We now turn to proving [graphcontlem](){.ref}. Let $G=(V,E)$ be an undirected graph of $k$ vertices and $u\in V$. We define $C_G(u)$ to be the set of vertices connected to $u$. To complete the proof of  [graphcontlem](){.ref}, we need to prove that $|C_G(u)| \leq k+1$. We will do so by induction on $k$.
+>We now turn to proving [graphcontlem](){.ref}. Let $G=(V,E)$ be an undirected graph of $k$ edges and $u\in V$. We define $C_G(u)$ to be the set of vertices connected to $u$. To complete the proof of  [graphcontlem](){.ref}, we need to prove that $|C_G(u)| \leq k+1$. We will do so by induction on $k$.
 >
 >The _base_ case that $k=0$ is true because a graph with zero edges, $u$ is only connected to itself.
 >
