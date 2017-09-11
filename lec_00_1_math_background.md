@@ -807,11 +807,18 @@ The main points where we diverge are:
 
 * We also index the set $[n]$ starting with $0$, and hence define it as $\{0,\ldots,n-1\}$. In most texts it is defined as $\{1,\ldots, n \}$. Similarly, we index coordinates of our strings starting with $0$, and hence a string $x\in \{0,1\}^n$ is written as $x_0x_1\cdots x_{n-1}$.
 
+
+
 * We use _partial_ functions which are functions that are not necessarily  defined on all inputs. When we write $f:A \rightarrow B$ this will refer to a _total_ function unless we say otherwise. When we want to emphasize that $f$ can be  a partial function, we will sometimes write $f: A \rightarrow_p B$.
 
 * As we will see later on in the course, we will mostly describe our computational problems in the terms of computing a _Boolean function_ $f: \{0,1\}^* \rightarrow \{0,1\}$. In contrast, most textbooks will refer to this as the task of _deciding a language_ $L \subseteq \{0,1\}^*$. These two viewpoints are equivalent, since for every set $L\subseteq \{0,1\}^*$ there is a corresponding  function $f = 1_L$ such that $f(x)=1$ if and only if $x\in L$. Computing _partial functions_ corresponds to the task known in the literature as a solving a _promise problem_.^[Because the language notation is so prevalent in textbooks, we will occasionally remind the reader of this correspondence.]
 
-* Some other notation we use is $\ceil{x}$ and $\floor{x}$ for the "ceiling" and "floor" operators that correspond to "rounding up" or "rounding down" a number to the nearest integer. We use $(x \mod y)$ to denote the "remainder" of $x$ when divided by $y$. That is, $(x \mod y) = x - y\floor{x/y}$.
+* Some other notation we use is $\ceil{x}$ and $\floor{x}$ for the "ceiling" and "floor" operators that correspond to "rounding up" or "rounding down" a number to the nearest integer. We use $(x \mod y)$ to denote the "remainder" of $x$ when divided by $y$. That is, $(x \mod y) = x - y\floor{x/y}$. In context when an integer is expected we'll typically "silently round" the quantities to an integer. For example, if we say that $x$ is a string of length $\sqrt{n}$ then we'll typically mean that $x$ is  of length $\lceil \sqrt{n} \rceil$. (In most such cases, it will not make a difference  whether we round up or down.)
+
+
+* Like most Computer Science texts, we default to the logarithm in base two. Thus, $\log n$ is the same as $\log_2 n$. 
+
+
 
 ## Exercises
 
