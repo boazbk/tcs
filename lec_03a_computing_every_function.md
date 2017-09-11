@@ -38,13 +38,13 @@ Going over all these examples can be somewhat tedious, but we do it for two reas
 
 1. To convince you that despite its seeming simplicity and limitations, the NAND programming language is actually quite powerful and can capture many of the fancy programming constructs such as `if` statements and function definitions  that exists in more fashionable languages.
 
-2. So you can realize how lucky you are to be  taking a theory of computation course and not a compilers course.. `:)`
+2. So you can realize how lucky you are to be  taking a theory of computation course and not a compilers course... `:)`
 
 
 
 ### Constants
 
-We can create variables `zero` and `one` that are have the values  $0$ and $1$ respectively by adding the lines
+We can create variables `zero` and `one` that  have the values  $0$ and $1$ respectively by adding the lines
 
 ~~~~ { .go .numberLines }
 notx_0 := x_0 NAND x_0
@@ -177,8 +177,6 @@ foo_{1,2}  := 0
 ~~~~
 
 which can then in turn be mapped to standard NAND code using a one-to-one embedding $pair: \N \times \N \rightarrow \N$ as above.
-
-^[TODO: possibly add an exercise using this with the alphabet including `[`,`]`,`,` to encode lists.]
 
 
 ### Storing integers
@@ -535,8 +533,8 @@ and $MULT_n \in SIZE_{2n,2n}(10000 n^{\log_2 3})$.^[TODO: check constants]
 
 > # {.exercise title="Pairing" #embedtuples-ex}
 1. Prove that the map $F(x,y)=2^x3^y$ is a one-to-one map from $\N^2$ to $\N$. \
-2. Show that there is a one-to-one map $F:\N^2 \rightarrow \N$ such that for every $x,y$, $F(x,y) \leq 100\cdot \max\{x,y\}^2$. \
-3. For every $k$, show that there is  a one-to-one map $F:\N^k \rightarrow \N$ such that for every $x_0,\ldots,x_{k-1}$, $F(x_0,\ldots,x_{k-1}) \leq 100 \cdot \max\{x_0,\ldots,x_{k-1}\}^k$.
+2. Show that there is a one-to-one map $F:\N^2 \rightarrow \N$ such that for every $x,y$, $F(x,y) \leq 100\cdot \max\{x,y\}^2+100$. \
+3. For every $k$, show that there is  a one-to-one map $F:\N^k \rightarrow \N$ such that for every $x_0,\ldots,x_{k-1} \in \N$, $F(x_0,\ldots,x_{k-1}) \leq 100 \cdot (x_0+x_1+\ldots+x_{k-1}+100k)^k$.
 
 
 > # {.exercise title="Computing MUX" #mux-ex}

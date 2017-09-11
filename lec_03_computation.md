@@ -220,7 +220,7 @@ Please pause here and verify that you understand this correspondence.
 Now that we defined NAND programs formally, we turn to formally defining  the notion of computing a function.
 Before we do that, we will need to talk about the notion of the _configuration_ or  "snapshot" of a NAND program.
 Such a configuration simply corresponds to the  current line that is executed and the current values of all variables at a certain point in the execution.
-Thus we will model it as a pair $(\ell,\sigma)$ where $\ell$ is a number between $0$ and the total number of lines in the program, and $\sigma$ maps every variable to its current value.
+Thus we will model it as a pair $(\ell,\sigma)$ where $\ell$ is a number between $0$ and the total number of lines in the program, and $\sigma$ maps every variable to its current value.^[The number $\ell$ can be thought of as the "program counter" and refers to the line that is just about to be executed, when we number the lines from $0$ till $s-1$ for some $s\in \N$. The program counter starts at $0$, and after executing the last line (i.e., line number $s-1$), it equals $s$.]
 The initial configuration has the form $(0,\sigma_0)$ where $0$ corresponds to the first line, and $\sigma_0$ is the assignment of zeroes to all variables and $x_i$'s to the input variables.
 The final configuration will have the form $(s,\sigma_s)$ where $s$ is the number of lines (i.e., corresponding to "going past" the final line) and $\sigma_s$ is the final values assigned to all variables, which in particular encodes also the values of the output variables.
 
@@ -452,7 +452,7 @@ y_1,c'_2 := ADD_1(z_1,c_1) // second output is sum + carry
 y_2       := c_2 OR c'_2    // top digit is 1 if one of the top carries is 1
 ```
 
-![Adding two $2$-bit numbers via the gradschool algorithm.](../figure/add2.png){#addtwofig .class width=300px height=300px}
+![Adding two $2$-bit numbers via the grade school algorithm.](../figure/add2.png){#addtwofig .class width=300px height=300px}
 
 To transform this pseudocode into an actual program or circuit, we can use [seqcompositionthm](){.ref} and [parcompositionthm](){.ref}.
 That is, we first compute $(y_0,c_1,z_1,c_2) = ADD_1 \oplus ADD_1 (x_0,x_2,x_1,x_3)$, which we can do in $10$ lines  via [parcompositionthm](){.ref}, then apply  $ADD_1$ to $(z_1,c_1)$, and finally use the fact that $OR(a,b)=NAND(NOT(a),NOT(b))$ and $NOT(a)=NAND(a,a)$ to compute `c_2 OR c'_2` via three lines of NAND.

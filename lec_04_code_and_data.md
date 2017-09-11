@@ -110,7 +110,7 @@ To evaluate a NAND program $P$ given in this representation, on an input $x$, we
 
 * We initialize the value of the input variables. We set $i$ to be the index corresponding to the label `x_`$\expr{i}$, and so set the $i$-th coordinate of `avars` to $x_i$ for every $i\in [n]$.
 
-* For every line $(a,b,c)$ in the program, we read from `avars` the values $x,y$ of the variables $b$ and $c$ respectively, and then set the value of the variable $a$ to $NAND(x,y)=1-x\cdot y$. That is, we set `avars[a] = 1-avars[b]*avars[c]`.
+* For every triple  $(a,b,c)$ in the program's representation, we read from `avars` the values $x,y$ of the variables $b$ and $c$ respectively, and then set the value of the variable indexed by $a$ to $NAND(x,y)=1-x\cdot y$. That is, we set `avars[a] = 1-avars[b]*avars[c]`.
 
 * The variables `y_0` till `y_`$\expr{m-1}$ are given the indices $t-m,\ldots,t-1$ and so  the  output is  `avars[t-m]`,...,`avars[t-1]`.
 
@@ -203,7 +203,7 @@ We can combine this with a C compiler to transform a Python program to various f
 
 
 So, to transform a Python program into an equivalent NAND program, it is enough to show how to transform a machine language program into an equivalent NAND program.
-One minimalistic (and hence convenient) family of machine languages is known as the _ARM architecture_ which powers a great many mobile devices including essentially all Android devices.^[ARM stands for "Advanced RISC Machine" where RISC in turn stands for "Reduced instruction set computer"]  
+One minimalistic (and hence convenient) family of machine languages is known as the _ARM architecture_ which powers a great many mobile devices including essentially all Android devices.^[ARM stands for "Advanced RISC Machine" where RISC in turn stands for "Reduced instruction set computer".]  
 There are even simpler machine languages, such as the [LEG acrhitecture](https://github.com/frasercrmck/llvm-leg) for which a  backend for the [LLVM compiler](http://llvm.org/) was implemented (and hence can be the target of compiling any of [large and growing list](https://en.wikipedia.org/wiki/LLVM#Front_ends) of languages that this compiler supports).
 Other examples include the  [TinyRAM](http://www.scipr-lab.org/doc/TinyRAM-spec-0.991.pdf) architecture (motivated by  interactive proof systems that we will discuss much later in this course) and  the teaching-oriented [Ridiculously Simple Computer](https://www.ece.umd.edu/~blj/RiSC/) architecture.^[The reverse direction of compiling NAND to C code, is much easier. We show code for a `NAND2C` function in the appendix.]
 
@@ -232,27 +232,30 @@ The importance of this phenomena to both the theory and practice of computing, a
 One of the consequences of our representation is the following:
 
 > # {.theorem title="Counting programs" #program-count}
-There are at most $2^{O(s\log s)}$ functions computed by $s$-line NAND programs.
+$$|Size(s)| \leq 2^{O(s \log s)}.$$
+That is, there are at most $2^{O(s\log s)}$ functions computed by  NAND programs of at most $s$ lines.
 
-Moreover, the implicit constant in the $O(\cdot)$ notation in [program-count](){.ref} is at most $10$.
-Using the notation introduced in the last lecture, another way to  state [program-count](){.ref}, is that for every $n,m,s$, $|SIZE_{n,m}(s)| \leq 2^{10s \log s}$.
-The idea of the proof is that because every such program can be represented by a binary string of at most $10s \log s$ bits, the number of functions they compute cannot be larger than the number of such strings. Let us now show the formal proof.
+Moreover, the implicit constant in the $O(\cdot)$ notation in [program-count](){.ref} is at most $10$.^[By this we mean that for all sufficiently large $s$, $|Size(s)|\leq 2^{10s\log s}$.]
+The idea behind the proof is that we can represent every $s$ line program by a binary string of  $10s \log s$ bits, and hence the number of functions  computed by $s$-line programs cannot be larger than the number of such strings, which is $2^{10s \log s}$.
+In the actual proof, given below, we  count the number of representations a little more carefully, talking directly about triples rather than binary strings, although the idea remains the same.
+
 
 > # {.proof data-ref="program-count"}
-Every NAND program with $s$ lines has at most $s$ inputs, $s$ outputs, and $s$ workspace variables.
-Hence it can be represented by $s$ triples of numbers in $\{0,\ldots,3s-1\}$.
+Every NAND program with $s$ lines has at most $3s$ variables.
+Hence it can be represented by its numbers of inputs and outputs $n,m \leq s$ and at most $s$ triples of numbers in $[3s]=\{0,\ldots,3s-1\}$.
 If two programs compute distinct functions then they have distinct representations.
 >
-Let $\mathcal{T}_s$ be the set of lists of at most $3s$ numbers between $\{0,\ldots,3s-1\}$.
-Note that $|\mathcal{T}_s| = \sum_{t=1}^{3s}(3s)^t \leq (3s)(3s)^{3s} \leq 2^{10s\log s}$.
-Let  $\mathcal{F}_s$ be the set of functions from $\{0,1\}^*$ to $\{0,1\}^*$ that can be computed by
-$s$-line NAND programs. We can define a one-to-one map $R:\mathcal{F}_s \rightarrow \mathcal{T}_s$ by setting  for
-every function $F\in\mathcal{F}_s$ the value $R(F)$ to be the representation of the shortest NAND program that computes the function $F$ (breaking ties arbitrarily).
-Note that $R(F)$ is indeed in $\mathcal{T}_S$ since for every $F\in \mathcal{F}_s$, the shortest program that computes it will have at most $s$ lines.
-Since $F \neq F'$ means that the programs $R(F)$ and $R(F')$ compute different functions, and hence have distinct representations, $R$ is a one-to-one function
-implying that $|\mathcal{F}_s| \leq |\mathcal{T}_s| \leq 2^{10s\log s}$.
+So, we will simply count the number of such representations.
+Let $T_s$ be the set of all lists of length at most $s$ of triples of numbers in $[3s]$.
+For every $s'\leq s$, the number of length-$s'$ lists of triples of numbers in $[3s]$ is $[3s]^{3s'} \leq (3s)^{3s}$.
+So, the size of $T_s$ is at most $s(3s)^{3s}=2^{\log s +3(\log 3)s\log s} \leq 2^{4.9s \log s}$ for all sufficiently large $s$.
+>
+For every $m,n \leq s$ and list $L$ of at most $s$ triples of numbers in $[3s]$, define $H(n,m,L)$ to be the function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ computed by the program represented by $L$.
+Then, $H$ is an onto map from $[s] \times [s] \times T_s$ to $Size(s)$.
+Thus in particular $|Size(s)| \leq s^2 2^{4.9s \log s} \leq 2^{5s \log s}$ for all sufficiently large $s$.
 
-__Note:__ We can also establish [program-count](){.ref} directly from the ASCII representation of the source code.  Since an $s$-line NAND program has at most $3s$ distinct variables,  we can change all the workspace variables of such a program to have the form `work_`$\expr{i}$ for $i$ between $0$ and $3s-1$ without changing the function that it computes. This means that  after removing comments and extra whitespaces, every line of such a program (which will  the form `var := var' NAND var''` for variable identifiers which will be either `x_###`,`y_###` or `work_###` where `###` is some number smaller than $3s$) will require at most, say, $20 + 3\log_{10} (3s) \leq O(\log s)$ characters. Since each one of those characters can be encoded using seven bits in the ASCII representation, we see that the number of functions computed by $s$-line NAND programs is at most $2^{O(s \log s)}$.
+> # {.remark title="Counting by ASCII representation" #countingfromascii}
+We can also establish [program-count](){.ref} directly from the ASCII representation of the source code.  Since an $s$-line NAND program has at most $3s$ distinct variables,  we can change all the workspace variables of such a program to have the form `work_`$\expr{i}$ for $i$ between $0$ and $3s-1$ without changing the function that it computes. This means that  after removing comments and extra whitespaces, every line of such a program (which will  the form `var := var' NAND var''` for variable identifiers which will be either `x_###`,`y_###` or `work_###` where `###` is some number smaller than $3s$) will require at most, say, $20 + 3\log_{10} (3s) \leq O(\log s)$ characters. Since each one of those characters can be encoded using seven bits in the ASCII representation, we see that the number of functions computed by $s$-line NAND programs is at most $2^{O(s \log s)}$.
 
 A function mapping $\{0,1\}^2$ to $\{0,1\}$ can be identified with the table of its four values on the inputs $00,01,10,11$;
 a function mapping $\{0,1\}^3$ to $\{0,1\}$ can be identified with the table of its eight values on the inputs $000,001,010,100,101,110,111$.
