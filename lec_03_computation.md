@@ -1,5 +1,13 @@
 # Defining computation
 
+
+># {.objectives  }
+* See that computation can be precisely modeled. \
+* Learn the NAND computational model. \
+* Comfort switching between description of NAND programs as _code_ and as _tuples_. \
+* Begin acquiring skill of translating informal algorithms into NAND code.
+
+
 >_"there is no reason why mental as well as bodily labor should not be economized by the aid of machinery"_, Charles Babbage, 1852
 
 
@@ -9,12 +17,6 @@
 
 
 
-
-># {.objectives  }
-* See that computation can be precisely modeled. \
-* Learn the NAND computational model. \
-* Comfort switching between description of NAND programs as _code_ and as _tuples_. \
-* Begin acquiring skill of translating informal algorithms into NAND code.
 
 
 People have been computing for thousands of years, with aids that include not just  pen and paper, but also abacus, slide rulers, various mechanical devices, and modern electronic computers.

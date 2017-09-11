@@ -1,5 +1,14 @@
 # Syntactic sugar, and computing every function
 
+> # { .objectives }
+* Get comfort with syntactic sugar or automatic translation of higher level logic to NAND code. \
+* More techniques for translating informal or higher level language algorithms into NAND. \
+* Learn proof of major result: every finite function can be computed by some NAND program. \
+* Start thinking _quantitatively_ about number of lines required for computation.
+
+
+
+
 >_"Syntactic sugar causes cancer of the semicolon."_, Alan Perlis, 1982.
 
 

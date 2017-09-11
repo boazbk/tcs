@@ -1,5 +1,13 @@
 # Code as data, data as code
 
+> # { .objectives }
+* Understand one of the most important concepts in computing: duality between code and data. \
+* Build up comfort in moving between different representations of programs. \
+* Follow the construction of a "universal NAND program" that can evaluate other NAND programs given their representation. \
+* See and understand the  proof of a major result that compliments the result last lecture: some functions require an _exponential_ number of NAND lines to compute.
+
+
+
 >_"The term code script is, of course, too narrow. The chromosomal structures are at the same time instrumental in bringing about the development they foreshadow. They are law-code and executive power - or, to use another simile, they are architect’s plan and builder’s craft - in one."_ ,  Erwin Schrödinger, 1944.
 
 >_"The importance of the universal machine is clear. We do not need to have an infinity of different machines doing different jobs. ... The engineering problem of producing various machines for various jobs is replaced by the office work of 'programming' the universal machine"_, Alan Turing, 1948
