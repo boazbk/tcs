@@ -256,7 +256,7 @@ As always, it is a good practice to verify that this formal definition matches t
 Let $P=(V,X,Y,L)$ be a NAND program, and let $n=|X|$, $m=|Y|$ and $s=|L|$. A _configuration_ of $P$ is a pair $(\ell,\sigma)$ where $\ell \in [s+1]$ and $\sigma$ is a  function $\sigma:V \rightarrow \{0,1\}$ that maps every variable of $P$ into a bit in $\{0,1\}$.
 We define $CONF(P) = [s+1] \times \{ \sigma \;|\; \sigma:V \rightarrow \{0,1\} \}$ to be the set of all configurations of $P$.^[Note that $|CONF(P)| = (s+1)2^{|V|}$: can you see why?]
 >
-If $P$ has $n$ inputs, then for every $x\in \{0,1\}^n$, the _initial configuration of $P$ with input $x$_ is the the pair $(0,\sigma_0)$ where $\sigma_0:V \rightarrow \{0,1\}$ is the function defined as $\sigma_0(X_i)=x_i$ for every $i\in [n]$ and $\sigma_0(v)=0$ for all variables not in $X$.
+If $P$ has $n$ inputs, then for every $x\in \{0,1\}^n$, the _initial configuration of $P$ with input $x$_ is the pair $(0,\sigma_0)$ where $\sigma_0:V \rightarrow \{0,1\}$ is the function defined as $\sigma_0(X_i)=x_i$ for every $i\in [n]$ and $\sigma_0(v)=0$ for all variables not in $X$.
 
 An execution of a NAND program can be thought of as simply progressing, line by line, from the initial configuration to the next one:
 
@@ -310,7 +310,7 @@ Similarly, the addition program we presented shows that   $ADD_1 \in SIZE(5)$.
 The specific identifiers for  NAND variables (other than the inputs and outputs) do not make any difference in the program's functionality, as long as we give separate variable distinct identifiers.
 For example, if I replace all instances of the variable `foo` with `boazisgreat` then, under the (unfortunately common) condition that `boazisgreat` was not used in the original program, the resulting  program will still compute the same function.
 For convenience, it is sometimes useful to assume that all variables identifiers have some canonical form such as being either `x_`$\expr{i}$, `y_`$\expr{j}$ or `work_`$\expr{k}$.
-Similarly, while we allowed in  [NANDprogram](){.ref} the  variables to be members of some arbitrary set $V$, it is sometimes useful to assume that $V$ is simply the set of numbers from $0$ to some natural number (which can never be more than $n+m$ plus twice the number of lines $s$).
+Similarly, while we allowed in  [NANDprogram](){.ref} the  variables to be members of some arbitrary set $V$, it is sometimes useful to assume that $V$ is simply the set of numbers from $0$ to some natural number (which can never be more than three times the number of lines $s$).
 This motivates the following definition:
 
 > # {.definition title="Canonical variables" #NANDcanonical}
