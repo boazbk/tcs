@@ -7,7 +7,8 @@
 
 >_"To understand a program you must become both the machine and the program."_, Alan Perlis, 1982
 
-># {.objectives }
+
+># {.objectives #blah }
 * See that computation can be precisely modeled. \
 * Learn the NAND computational model. \
 * Comfort switching between description of NAND programs as _code_ and as _tuples_. \
