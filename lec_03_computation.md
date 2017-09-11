@@ -7,6 +7,13 @@
 
 >_"To understand a program you must become both the machine and the program."_, Alan Perlis, 1982
 
+># {.objectives }
+* See that computation can be precisely modeled. \
+* Learn the NAND computational model. \
+* Comfort switching between description of NAND programs as _code_ and as _tuples_. \
+* Begin acquiring skill of translating informal algorithms into NAND code.
+
+
 People have been computing for thousands of years, with aids that include not just  pen and paper, but also abacus, slide rulers, various mechanical devices, and modern electronic computers.
 A priori, the notion of computation seems to be tied to the particular mechanism that you use.
 You might think that the "best"  algorithm for multiplying numbers will differ if you  implement it in _Python_ on a modern laptop than if you use pen and paper.
