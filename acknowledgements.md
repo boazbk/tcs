@@ -20,6 +20,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Juan Perdomo
 * Brian Sapozhnikov
 * David Steurer
+* Alec Sun
 * Everett Sussman
 * Sarah Turnill
 * Salil Vadhan
