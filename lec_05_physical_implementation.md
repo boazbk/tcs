@@ -1,5 +1,11 @@
 # Physical implementations of NAND programs
 
+> # { .objectives }
+* Understand how NAND programs can map to physical processes in a variety of ways.
+* Learn the model of _Boolean circuits_ and get proficient in moving between description of a NAND program as a code and as a circuit or _labeled graph_.
+* See that NAND is a _universal basis_ for circuits, and examples for universal and non-universal families of gates.
+* Understand the _physical extended Church-Turing thesis_ that NAND programs capture _all_ feasible computation in the physical world, and its physical and philosophical implications.
+
 
 >_"In existing digital computing devices various mechanical or electrical devices have been used as
 elements: Wheels, which can be locked ... which on moving from one position to another transmit electric pulses that may cause other similar wheels
@@ -184,7 +190,7 @@ Hence in particular if $v_{n+k}$ is the output gate labeled `y_`$\expr{j}$ then 
 
 ## Composition from graphs
 
-Given [circuitprogequivthm](){.ref}, we can reprove our composition theorems  in the circuit formalism, which has the advantag of making them more intuitive.
+Given [circuitprogequivthm](){.ref}, we can reprove our composition theorems  in the circuit formalism, which has the advantage of making them more intuitive.
 That is, we can prove [seqcompositionthm](){.ref} and [parcompositionthm](){.ref} by showing how to transform a circuits for $F$ and $G$ into circuits for $F \circ G$ and $F \oplus G$.
 This is what we do now:
 
@@ -219,7 +225,7 @@ By the fact that $C$ and $D$ compute $F$ and $G$ respectively, we see that $E$ c
 
 ## General Boolean circuits: a formal definition
 
-We now define the notion of  _general_ Boolean circuits  that can use any basis.
+We now define the notion of  _general_ Boolean circuits  that can use any set of gates and not just the NAND gate. 
 
 > # {.definition title="Boolean circuits" #circuits-def}
 Let $k$ be some number and $B$ be a subset of the functions from $\{0,1\}^k \rightarrow \{0,1\}$.

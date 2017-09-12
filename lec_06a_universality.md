@@ -14,9 +14,7 @@ This does not capture our intuitive notion of an algorithm as a _single recipe_ 
 For example, the standard elementary school multiplication algorithm is a _single_ algorithm that multiplies numbers of all lengths, but yet we cannot express this algorithm as a single NAND program, but rather need a different NAND program for every input length.
 
 
-Let us consider the case of the simple _parity_ or _XOR_ function  $XOR:\{0,1\}^* \rightarrow \{0,1\}$, where $XOR(x)$ equals $1$ iff the number of $1$'s in $x$ is odd.
-As simple as it is, the $XOR$ function cannot be computed by a NAND program.
-Rather, for every $n$, we can compute $XOR_n$ (the restriction of $XOR$ to $\{0,1\}^n$) using a different NAND program. For example, here is the NAND program to compute $XOR_5$:
+Let us consider the case of the simple _parity_ function  $PARITY:\{0,1\}^* \rightarrow \{0,1\}$ such that $PARITY(x)$ equals $1$ iff the number of $1$'s in $x$ is odd cannot be computed by a NAND program. Rather, for every $n$, we can compute $PARITY_n$ (the restriction of $PARITY$ to $\{0,1\}^n$) using a different NAND program. For example, here is the NAND program to compute $PARITY_5$:
 
 ~~~~ { .go .numberLines }
 u   := x_0 NAND x_1
@@ -38,7 +36,7 @@ y_0 := v   NAND w
 ~~~~
 
 This is rather repetitive, and more importantly, does not capture the fact that there is a _single_ algorithm to compute the parity on all inputs.
-Typical programming language use the notion of _loops_ to express such an algorithm, and so we might have wanted to use code such as:
+Typical programming language use the notion of _loops_ to express such an algorithm, and so we would rather write something like:
 
 ~~~~ { .go .numberLines }
 # s is the "running parity", initalized to 0
@@ -61,27 +59,23 @@ Keeping to our minimalist form, we will not add a `while` keyword to the NAND pr
 But we will extend this language in a way that allows for executing loops and accessing arrays of arbitrary length.  
 The main new ingredients are the following:
 
-* We add a special variable `loop` with the following semantics: after executing the last line of the program, if `loop` is equal to one, then instead of halting, the program goes back to the first line. If `loop` is equal to zero after executing the last line then the program halts as is usually with NAND.^[This corresponds to wrapping the entire program in one big loop that is executed at least once and continues as long as `loop` is equal to $1$. For example, in the C programming language this would correspond with wrapping the entire program with the construct `do { ...} while (loop);`.]
 
-* We add a special _integer valued_ variable `i`, and allow expressions of the form `foo_i` (for every variable identifier `foo`) which are evaluated to equal `foo_`$\expr{i}$ (where $\expr{i}$ denotes the current value of the variable `i`).
-For example, if the current value of `i` is equal to 15, then `foo_i` corresponds to `foo_15`.^[Note that the variable `i`, like all variables in NAND, is a _global_ variable, and hence  all expressions of the form `foo_i`, `bar_i` etc. refer to the same value of `i`.]
-In the first loop of the program, `i` is assigned the value $0$, but each time the program loops back to the first line, the value of `i` is updated in the following manner:
-in the $k$-th iteration the value of `i` equals $I(k)$ where $I=(I(0),I(1),I(2),\ldots)$ is the following sequence (see [indextimefig](){.ref}):
+* We add a special _integer valued_ variable `i`, and allow expressions of the form `foo_i` (for every variable identifier `foo`) which are evaluated to equal `foo_`$\expr{i}$ where $\expr{i}$ denotes the current value of the variable `i`. As usual, `i` is initially assigned the value $0$.^[Note that the variable `i`, like all variables in NAND, is a _global_ variable, and hence  all expressions of the form `foo_i`, `bar_i` etc. refer to the same value of `i`.]
+
+* We add a special variable `loop` with the following semantics: when the program ends, if `loop` is equal to one, then execution goes back to the first line and the variable `i` is either incremented or decremented by 1. In the first iteration of the loop, `i` is incremented, in the second iteration, it is decremented, then in the next two iterations `i` is incremented, and in the next two after that it is decremented, and so on. That is, the variable `i` takes the following sequence of values:
 
 $$
 0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots
 $$
 
 
-* Because the input to NAND++ programs can have variable length, we also add a special read-only array `validx` such that `validx_`$\expr{n}$ is equal to $1$ if and only if the $n$ is smaller than the length of the input. In particular, `validx_i` will equal to $1$ if and only if the value of  `i`  is smaller than the length of the input.
-
+* Because the input to NAND++ programs can have variable length, we also add a special read-only array `validx` such that `validx_`$\expr{n}$ is equal to $1$ if and only if the $n$ is smaller than the length of the input.
 
 * Like NAND programs, the output of a  NAND++ program is the string `y_`$0$, $\ldots$, `y_`$\expr{k}$  where $k$ is the largest integer such that `y_`$\expr{k}$ was assigned a value.
 
-![The value of `i` as a function of the current iteration. The variable `i` progresses according to the sequence $0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots$.  At the $k$-th iteration the value of `i` equals $k-r(r+1)$ if $k \leq (r+1)^2$ and $(r+1)(r+2)-k$ if $k<(r+1)^2$ where $r= \floor{\sqrt{pc+1/4}-1/2}$.](../figure/indextime.png){#indextimefig .class width=300px height=300px}
-
-
 See the appendix for a more formal specification of the NAND++ programming language, and the website [http://nandpl.org](http://nandpl.org) for an implementation.
+
+
 Here is the NAND++ program to compute parity of arbitrary length:
 (It is a good idea for you to see why this program does indeed compute the parity)
 
@@ -119,8 +113,6 @@ End of iteration 0, loop = 1, continuing to iteration 1
 End of iteration 2, loop = 0, halting program  
 ```
 
-### Computing the index location
-
 We say that a NAND program completed its _$r$-th round_ when the index variable `i` completed the sequence:
 
 $$
@@ -134,15 +126,15 @@ $$
 $$
 
 iterations of its main loop. (The last equality is obtained by applying the formula for the sum of an algebraic progression.)
-This means that if we keep a "loop counter" $k$ that is initially set to $0$ and increases by one at the end of any iteration, then  the "round" $r$ is the largest integer such that $r(r+1) \leq k$, which (as you can verify) equals $\floor{\sqrt{k+1/4}-1/2}$.
+This means that if we keep a "program counter" $pc$ that is initially set to $0$ and increases by one at the end of any iteration, then  the "round" $r$ is the largest integer such that $r(r+1) \leq pc$, which equals $\floor{\sqrt{pc+1/4}-1/2}$.
 
-Thus the value of `i` in the  $k$-th loop equals:
+Thus the value of `i` in the iteration with counter $pc$ equals:
 
 $$
-index(k) = \begin{cases} k- r(r+1) & k \leq (r+1)^2 \\ (r+1)(r+2)-k & \text{otherwise} \end{cases}
+index(pc) = \begin{cases} pc- r(r+1) & pc \leq (r+1)^2 \\ (r+1)(r+2)-pc & \text{otherwise} \end{cases}
 $$
 
-where $r= \floor{\sqrt{k+1/4}-1/2}$.
+where $r= \floor{\sqrt{pc+1/4}-1/2}$.
 (We ask you to prove this in [computeidx-ex](){.ref}.)
 
 ### Remark: Inner loops via syntactic sugar
@@ -152,45 +144,39 @@ That is, we can replace code such as
 
 
 ~~~~ { .go .numberLines }
-PRELOOP_CODE
-while (cond) {
- LOOP_CODE
+preloop_code
+while (a) {
+ loop_code
 }
-POSTLOOP_CODE
+postloop_code
 ~~~~
 
 
 by
 
 ~~~~ { .go .numberLines }
-// startedloop is initialized to 0
+// finishedpreloop is initialized to 0
 // finishedloop is initalized to 0
-if NOT(startedloop)  {
-    PRELOOP_CODE
-    startedloop := 1
+if NOT(finishedpreloop)  {
+    code1
+    finishedpreloop := 1
 }
 if NOT(finishedloop) {
-    temploop := loop
-    if (cond) {
-        LOOP_CODE
-        loop :=1
+    if (a) {
+        code2
     }
-    if NOT(cond) {
+    if NOT(a) {
         finishedloop := 1
-        loop := temploop
     }
+    loop := 1
 }
 if (finishedloop) {
-    POSTLOOP_CODE
+    postloop_code
 }
 ~~~~
 
 (Applying the standard syntactic sugar transformations to convert the conditionals into NAND code.)
 We can apply this transformation repeatedly to convert programs with multiple loops, and even nested loops, into a standard NAND++  program.
-
-> # { .pause }
-Please stop and verify that you understand why this transformation will result in a program that computes the same function as the original code with an inner loop.
-
 
 
 
