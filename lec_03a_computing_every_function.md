@@ -75,16 +75,17 @@ We would have liked to be able to write something like
 
 
 ~~~~ { .go .numberLines }
-if (a) {
+if (cond) {
     ...
    some code here
    ...
 }
 ~~~~
 
-To ensure that there is code that will only be executed when the variable `a` is equal to $1$.
-We can do so by replacing every variable `var` that is assigned a value in the code by a variable `tempvar` and then execute it normally.
-After it is executed, we assign to every such variable the value `MUX(a,var,tempvar)` where $MUX:\{0,1\}^3 \rightarrow \{0,1\}$ is the _multiplexer_ function that on input $(a,b,c)$ outputs $b$ if $a=0$ and $c$ if $a=1$.
+To ensure that there is code that will only be executed when the variable `cond` is equal to $1$.
+We can do so by replacing every variable `foo` that is assigned a value in the code by a variable `tempfoo` and then simply execute the code (_regardless_ of whether `cond` is false or true).
+After the code is executed, we want to ensure that if `cond` is true then the value of every such variable `foo` is replaced with `tempfoo`, and otherwise the value of `foo` should be unchanged.^[We  assume here for simplicity of exposition that `cond` itself is not modified by the code inside the if statement. Otherwise, we will copy it to a temporary variable as well.]
+We do so by assigning to every variable `foo` the value `MUX(foo,tempfoo,cond)` where $MUX:\{0,1\}^3 \rightarrow \{0,1\}$ is the _multiplexer_ function that on input $(a,b,c)$ outputs $a$ if $c=0$ and $b$ if $c=1$.
 This function has a 4-line NAND program:
 
 ~~~~
@@ -95,6 +96,7 @@ y_0  := u   NAND v
 ~~~~
 
 We leave it as [mux-ex](){.ref} to verify that this program does indeed compute the $MUX$ function.
+
 
 ### Functions / Macros
 

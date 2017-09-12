@@ -216,9 +216,9 @@ A _NAND program_ is a 4-tuple $P=(V,X,Y,L)$ of the following form:
 >
 * $V$ (called the _variables_) is some finite set.
 >
-* $X$ (called the _input variables_) is a tuple of elements in $V$, i.e. $X \in V^*$. We require that the elements of $X$ are distinct: $X_i \neq X_j$ for all $i\neq j$ in $[n]$ where $n=|X|$.
+* $X$ (called the _input variables_) is a tuple of elements in $V$, i.e. $X=(X_0,X_1,\ldots,X_{n-1})$ for some $n\in N$  where $X_i \in V$ for all $i\in [n]$. We require that the elements of $X$ are distinct: $X_i \neq X_j$ for all $i\neq j$ in $[n]$.
 >
-* $Y$ (called the _output variables_) is a tuple of elements in $V$, i.e., $Y \in V^*$. We require that the elements of $Y$ are distinct (i.e.,  $Y_i \neq Y_j$ for all $i\neq j$ in $[m]$ where $m=|Y|$) and that they are disjoint from $X$ (i.e., $Y_i \neq X_j$ for every $i\in [n]$ and $j\in [m]$).
+* $Y$ (called the _output variables_) is a tuple of elements in $V$, i.e., $Y=(Y_0,\ldots,Y_{m-1})$ for some $m\in \N$   where $Y_j \in V$ for all $j \in [m]$.  We require that the elements of $Y$ are distinct (i.e.,  $Y_i \neq Y_j$ for all $i\neq j$ in $[m]$) and that they are disjoint from $X$ (i.e., $Y_i \neq X_j$ for every $i\in [n]$ and $j\in [m]$).
 >
 * $L$ (called the _lines_) is a tuple of _triples_ of $V$, i.e., $L \in (V \times V \times V)^*$. Intuitively, if the $\ell$-the element of $L$ is a triple $(u,v,w)$ then this corresponds to the $\ell$-th line of the program being $u$ ` := ` $v$ ` NAND ` $w$. We require that for every triple $(u,v,w)$, $u$ does not appear in $X$ and $v,w$ do not appear in $Y$. Moreover, we require that for every $x\in V$, $x$ is contained in some  triple in $L$.
 >
