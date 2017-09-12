@@ -194,7 +194,7 @@ Please stop and verify that you understand why this transformation will result i
 
 
 
-## Uniformity and NAND vs NAND++
+### Uniformity and NAND vs NAND++
 
 While NAND++ adds an extra operation over NAND, it is not exactly accurate to say that NAND++ programs are "more powerful" than NAND programs.
 NAND programs, having no loops, are simply not applicable for computing functions with more inputs than they have lines.
@@ -208,7 +208,8 @@ NAND++ programs can have inputs and outputs that are longer than the description
 This notion of "self replication", and the related notion of "self reference" is crucial to many aspects of computation, as well  of course to life itself, whether in the form of digital or biological programs.
 
 
-__Advanced remark:__ This notion of a NAND++ program as a "seed" that can grow a different NAND program for every input length is one that we will come back to later on in this course, when we consider bounding the _time complexity_ of computation.
+> # {.remark title="Advanced note: NAND++ as a 'seed' for NAND." #nandefficienct}
+ This notion of a NAND++ program as a "seed" that can grow a different NAND program for every input length is one that we will come back to later on in this course, when we consider bounding the _time complexity_ of computation.
 As we will see, we can think of a NAND++ program $P$ that computes some function $F$ in $T(n)$ steps on input length $n$, as a two phase process.
 For any  input $x\in \{0,1\}^*$, the program $P$ can be thought of as first producing a $T(|x|)$-line NAND program $P'$, and then executing this program $P'$ on $x$.
 This might not be easy to see at this point, but will become clearer in a few lectures when we tackle the issue of _efficiency_ in computation.
@@ -216,8 +217,9 @@ This might not be easy to see at this point, but will become clearer in a few le
 
 ### Infinite loops and computing a function
 
-There is another important difference between NAND and NAND++ programs: looking at a NAND program, we can always tell how many inputs and how many outputs it has (by looking at the number of `x_` and `y_` variables) and are guaranteed that if we invoke it on any input then _some_ output will be produced.  
-In contrast, given any particular NAND++ program $P$, we cannot determine a priori the length of the output.
+There is another important difference between NAND and NAND++ programs: looking at a NAND program $P$, we can always tell how many inputs and how many outputs it has (by looking at the number of `x_` and `y_` variables).
+Furthermore, we  are guaranteed that if we invoke $P$ on any input then _some_ output will be produced.  
+In contrast, given any particular NAND++ program $P'$, we cannot determine a priori the length of the output.
 In fact, we don't even know  if an output would be produced at all!
 For example, the following NAND++ program would go into an infinite loop if the first bit of the input is zero:
 
@@ -233,88 +235,6 @@ We say that a NAND++ program $P$ _computes_ a function $F:\{0,1\}^* :\rightarrow
 >
 If $F$ is a partial function then we say that _$P$ computes $F$_ if $P(x)=F(x)$ for every $x$ on which $F$ is defined.
 
-
-
-
-
-
-## The NAND<< programming language
-
-Even the program to compute parities in NAND++ is somewhat tedious, and hence we will now define a seemingly more powerful programming language: NAND<<.
-NAND<< has some  additional operators, but as we will see, it can ultimately be implemented by applying certain "syntactic sugar" constructs on top of NAND++.
-Nonetheless, NAND<<  will still serve (especially later in the course) as a useful computational model.^[If you have encountered computability or computational complexity before, we can already "let you in on the secret". NAND++ is equivalent to the model known as _single tape oblivious Turing machines_, while NAND<< is (essentially) equivalent to the model known as _RAM machines_. For the purposes of the current lecture, these two models are indistinguishable (due to a notion known as "Turing completeness") but the difference between them can matter if one is interested in a fine enough resolution of computational efficiency.]
-There are two key differences between NAND<< and NAND:
-
-1. The NAND<< programming language works with _integer valued_ as opposed to _binary_ variables.
-
-2. NAND<< allows _indirection_ in the sense of accessing the `bar`-th location of an array `foo`. Specifically, since we use _integer valued_ variables, we can assign the value of `bar` to the special index `i` and then use `foo_i`.  
-
-We will allow the following operations on variables:^[Below `foo`, `bar` and `baz` are indexed or non-indexed variable identifiers (e.g., they can have the form `blah` or `blah_12` or `blah_i`), as usual, we identify an indexed identifier `blah` with `blah_0`. Except for the assignment, where `i` can be on the lefthand side, the special index variable `i` cannot be involved in these operations.]
-
-* `foo := bar` or `i := bar` (assignment)
-* `foo := bar  + baz` (addition)
-* `foo := bar - baz` (subtraction)
-* `foo := bar >> baz` (right shift: $idx \leftarrow \floor{foo 2^{-bar}}$)
-* `foo := bar << baz` (left shift: $idx \leftarrow foo 2^{bar}$)
-* `foo := bar % baz`  (modular reduction)
-* `foo := bar * baz` (multiplication)
-* `foo := bar / baz` (integer division: $idx \leftarrow \floor{\tfrac{foo}{bar}}$)
-* `foo := bar bAND baz` (bitwise AND)
-* `foo := bar bXOR baz` (bitwise XOR)
-* `foo := bar > baz` (greater than)
-* `foo := bar < baz` (smaller than)
-* `foo := bar == baz` (equality)
-
-The semantics of these operations are as expected except that we maintain the invariant that all  variables  always take values between $0$ and the current value of the program counter (i.e., number of iterations of the program that have been  completed).
-If an operation would result in assigning to a variable `foo` a number that is smaller than $0$, then we assign $0$ to `foo`, and if it assigns to `foo` a number that is larger than the program counter, then we assign the value of the program counter to `foo`.
-Just like C, we interpret any nonzero value as "true"  or $1$, and hence `foo := bar NAND baz` will assign to `foo` the value $0$ if both `bar` and `baz` are not zero, and $1$ otherwise.
-
-Apart from those operations, NAND<< is identical to NAND++.
-For consistency, we still treat the variable `i` as special, in the sense that we only allow it to be used as an index, even though the other variables contain integers as well, and so we don't allow variables such as `foo_bar` though we can simulate it by first writing `i := bar` and then `foo_i`.
-We also maintain the invariant that at the beginning of each iteration, the value of `i` is set to the same value that it would have in a NAND++ program (i.e., the function of the program counter stated in [computeidx-ex](){.ref}), though this can be of course overwritten by explicitly assigning a value to `i`.
-Once again, see the appendix for a more formal specification of NAND<<.
-
-> # {.remark title="Computing on integers" #integers-rem}
-Most of the time we will be interested in applying NAND<< programs on bits, and hence we will assume that both inputs and outputs are bits. We can enforce the  latter condition by not allowing `y_` variables to be on the lefthand side of any operation other than NAND.
-However, the same model can be used to talk about functions that map tuples of integers to tuples of integers, and so we may very occasionally abuse notation and talk about NAND<< programs that compute on integers.
-
-### Simulating NAND<< in NAND++
-
-
-The most important fact we need to know about NAND<< is that it can be implemented by mere "syntactic sugar" and hence does not give us more computational power than NAND++, as stated in the following theorem:
-
-> # {.theorem title="NAND++ and NAND<< are equivalent" #NANDequiv-thm}
-For every (partial) function $F:\{0,1\}^* \rightarrow \{0,1\}^*$,
-$F$ is computable by a NAND++ program if and only if $F$ is computable by a NAND<< program.
-
-
-The rest of this section is devoted to outlining the proof of  [NANDequiv-thm](){.ref}.
-The "only if" direction of the theorem  is immediate.
-After all, every NAND++ program $P$ is in particular also a NAND<< program, and hence if $F$ is computable by a NAND++ program then it is also computable by a NAND<< program.
-To show the "if" direction, we need to show how we can implement all the operations of NAND<< in NAND++.
-
-Note that it's quite easy to store integers as bit-arrays, and so we can also simulate an array of integers using a two-dimensional array of bits (which we have seen how to embed in a the standard single-dimensional arrays supplied by NAND++).
-That is, if in NAND<< the variable `foo_`$\expr{i}$ corresponded to an integer, then we can simulate this in NAND++ by having  `foo_`$PAIR(i,j)$ correspond to the $j$-th bit in the representation of  the integer `foo_`$\expr{i}$ where $PAIR:\N^2 \rightarrow \N$ is some easily computable one-to-one embedding of $\N^2$ in $\N$.
-
-We can in principle use the standard algorithms for addition, multiplication, division, etc. to perform the arithmetic operations on these arrays.
-The key difficulty is in actually controlling the index variable `i`, which in NAND++ moves obliviously according to the set schedule $0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots$.
-To achieve control of `i` we use the well known observation that a bus is just like a taxi if you are willing to wait long enough.
-That is, instead of moving `i` to where we want, we wait until it eventually gets there on its own.
-
-One useful observation is that in  a NAND++ program we can know whether the index is increasing or decreasing using the Hansel and Gretel technique of "breadcrumbs".
-We create an array `atstart` such that `atstart_0` equals $1$ but `atstart_`$\expr{j}$ equals $0$ for all $j>0$, and an array `breadcrumb` where we set `breadcrumb_i` to $1$ in every iteration.
-Then we can setup a variable `indexincreasing` and set it to $1$ when we reach the zero index (i.e., when `atstart_i` is equal to $1$) and set it to $0$ when we reach the end point (i.e., when we see an index for which `breadcrumb_i` is $0$ and hence we have reached it for the first time).
-We can also maintain an array `arridx` that contains $0$ in all positions except the current value of `i`.
-Now we can simulate incrementing and decrementing `i` by one as follows.
-If we want to increment `i` and `indexincreasing` then we simply wait one step.
-Otherwise (if `indexincreasing` is $0$) then we enter into a special state in which we do nothing until we reach again the point when `arridx_i` is $1$ and  `indexincreasing` is equal to $1$.
-Decrementing `i` is done in the analogous way.
-
-Once we can increment and decrement `i`, we can use this, together with the notion of inner loops, to perform all the operations needed on the representations of integers as bits.
-We can also simulate an  operation such as `i := foo` by creating a temporary array that contains $0$ except for a single $1$ in the location corresponding to the integer represented by `foo` and waiting until we reach the point where `foo_i` equals $1$.
-
-We omit the full details of the proofs.
-However, the webpage [nandpl.org](http://nandpl.org) contains  an OCaml program that transforms a NAND<< program into an equivalent NAND++ program.
 
 ### NAND++ normal form
 
@@ -347,206 +267,55 @@ For 1 and 2 we discussed above how to add code to a NAND++ program that ensures 
 5. We can ensure this by simply adding that line of code, and replacing any use of `halted` with `uphalted` where `up` stands for some unique prefix. \
 6. This can be ensured by replacing each such assignment with a constant  number of lines ensuring this `if` condition. That is, we replace an assignment of the form `y_i := foo NAND bar` or `loop := foo NAND bar`  with the code `if NOT(halted) { y_i := foo NAND bar }` or `if NOT(halted) { loop := foo NAND bar }`, and then use the standard "de-sugaring" transformation to remove the syntactic sugar for `if`.
 
+## NAND++ Programs as tuples
 
-## Example
+Just like we did with NAND programs, we can represent NAND++ programs as tuples.
+A minor difference is that since in NAND++ it makes sense to keep track of indices, we will represent a  variable `foo_`$\expr{j}$ as a pair of numbers $(a,j)$ where $a$ corresponds to the identifier `foo`.
+Thus we will use a 6-tuple of the form $(a,j,b,k,c,\ell)$ to represent each line of the form `foo_`$\expr{j}$ ` := ` `bar_`$\expr{k}$ ` NAND ` `baz_`$\expr{\ell}$, where $a,b,c$ correspond to the variable identifiers `foo`, `bar` and `baz` respectively.^[This difference between three tuples and six tuples is made for convenience and is not particularly important. We could have also  represented NAND programs using six-tuples and NAND++ using three-tuples.]
+If one of the indices is the special variable `i` then we will use the number $s$ for it where $s$ is the number of lines (as no index is allowed to be this large in a NAND++ program).
+We can now define NAND++ programs in a way analogous to [NANDprogram](){.ref}:
 
-Here is a program that computes the function $PALINDROME:\{0,1\}^* \rightarrow \{0,1\}$ that outputs $1$ on $x$ if and only if $x_i = x_{|x|-i}$ for every $i\in \{0,\ldots, |x|-1\}$.
-This program uses NAND<< with the syntactic sugar we described before, but as discussed above, we can transform it into a NAND++ program.
+> # {.definition title="NAND++" #NANDpp}
+A _NAND++ program_ is a 6-tuple $P=(V,x,y,validx,loop,L)$ of the following form:
+>
+* $V$ (called the _variable identifiers_) is some finite set.
+>
+* $x\in V$ is called the _input identifier_.
+>
+* $y\in V$ is called the _output identifier_.
+>
+* $validx \in V$ is the _input length identifier_.
+>
+* $loop \in V$ is the _loop variable_.
+>
+* $L \in (V\times [s+1] \times V \times [s+1] \times V \times [s+1])^*$ is a list of 6-tuples of the form $(a,j,b,k,c,\ell)$ where $a,b,c \in V$ and $j,k,\ell \in [s+1]$ for $s=|L|$.
+That is, $L= ( (a_0,j_0,b_0,k_0,c_0,\ell_0),\ldots,(a_{s-1},j_{s-1},b_{s-1},k_{s-1},c_{k-1},\ell_{s-1}))$ where for every $t\in \{0,\ldots, s-1\}$, $a_t,b_t,c_t \in V$ and $j_t,k_t,\ell_t \in [s+1]$.
+Moreover $a_t \not\in  \{x,validx\}$ for every $t\in [s]$ and $b_t,c_t \not\in \{ y,loop}$ for every $t \in [s]$.
+>
 
-~~~~ { .go }
-// A sample NAND<< program that computes the language of palindromes
-// By Juan Esteller
-def a := NOT(b) {
-  a := b NAND b
-}
-o := NOT(z)
-two := o + o
-if(NOT(seen_0)) {
-  cur := z
-  seen_0 := o
-}
-i := cur
-if(validx_i) {
- cur := cur + o  
- loop := o
-}
-if(NOT(validx_i)) {
-  computedlength := o
-}
-if(computedlength) {
-  if(justentered) {
-    justentered := o
-    iter := z
-  }
-  i := iter
-  left := x_i
-  i := (cur - iter) - o
-  right := x_i
-  if(NOT(left == right)) {   
-    loop := z
-    y_0 := z
-  }
-  halflength := cur / two
-  if(NOT(iter < halflength)) {
-   y_0 := o
-   loop := z
-  }  
-  iter := iter + o  
-}
+> # { .pause }
+This definition is long but ultimately translating a NAND++ program from code to tuples can be done in  a fairly straightforward way. Please read the definition again to see that you can follow this transformation.
+Note that there is a difference between the way we represent NAND++ and NAND programs.
+In NAND programs, we used a different element of $V$ to represent, for example, `x_17` and `x_35`.
+For NAND++ we will represent these two variables by $(x,17)$ and $(x,35)$ respectively where $x$ is the input identifier.
+For this reason, in our definition of NAND++, $x$ is a single element of $V$ as opposed to a tuple of elements as in [NANDprogram](){.ref}.
+For the same reason, $y$ is a single element and not a tuple as well.
 
-~~~~
+Just like for NAND, we can define a notion of _snapshots_ for NAND++.
+Just like it is the case for NAND, we can also define a _canonical form_ for NAND++ programs.
+This canonical form somewhat simplifies the definition of snapshots, and hence we will restrict attention to it.
+
+> # {.definition title="Canonical NAND++ program" #NANDppcanonical}
+A NAND++ program $P=(V,x,y,validx,loop,L)$ is in _canonical form_ if $V=[t]$ for some $t\in \N$, $x=0$,$y=1$, $validx=2$ and $loop=3$ and every element of $V$ appears in some tuple in $L$.
 
 
-
-
-
-
-## Universality: A NAND++ interpreter in NAND++
-
-Like a NAND program, a NAND++ or a NAND<< program is ultimately a sequence of symbols and hence can obviously be represented as a binary string.
-We will spell out the exact details of representation later, but as usual, the details are not so important (e.g., we can use the ASCII encoding of the source code).
-What is crucial is that we can use such representation to evaluate any program.
-That is, we prove the following theorem:
-
-
-> # {.theorem title="Universality of NAND++" #univ-nandpp}
-There is a NAND++ program that computes the partial function $EVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ defined as follows:
-$$
-EVAL(P,x)=P(x)
-$$
-for strings $P,x$ such that $P$ is a valid representation of a NAND++ program which produces an output on $x$.
-
-
-This is a stronger notion than the universality we proved for NAND, in the sense that we show a _single_ universal  NAND++ program $U$ that can evaluate _all_ NAND programs, including those that have more lines than the lines in $U$.
-In particular, $U$ can even be used to evaluate itself!
-This notion of _self reference_ will appear time and again in this course, and as we will see, leads to several counterintuitive phenomena in computing.  
-
-Because we can easily transform a NAND<< program into a NAND++ program, this means that even the seemingly "weaker" NAND++ programming language is powerful enough to simulate NAND<< programs.
-Indeed, as we already alluded to before, NAND++ is powerful enough to simulate also all other standard programming languages such as  Python, C, Lisp, etc.
-
-### Representing NAND++ programs as string
-
-Before we can prove  [univ-nandpp](){.ref}, we need to make its statement precise by specifying a representation scheme for NAND++ programs.
-As mentioned above,  simply representing the program as a string using ASCII or UTF-8 encoding  will work just fine, but we will use a somewhat more convenient and concrete representation, which is the natural generalization of the "list of tuples" representation for NAND programs.
-We will assume that all variables are of the form `foo_##` where `##` is some number or the index `i`.  If a variable `foo` does not have an index then we add the index zero to it.
-We represent an instruction of the form
-
-`foo_`$\expr{j}$ `:= bar_`$\expr{k}$  ` NAND baz_`$\expr{\ell}$
-
-as a $6$ tuple $(a,j,b,k,c,\ell)$ where $a,b,c$ are numbers corresponding to the labels `foo`,`bar`,and `baz` respectively, and $j,k,\ell$ are the corresponding indices.
-We let $L$ be the number of lines in the program, and set the index to be  $L+1$ if instead of a number the variable is indexed by   the special  variable `i`.
-(There is no risk of conflict since we did not allow numerical indices larger than the number of lines in the program.)
-We will set the identifiers of `x`,`y`,`validx` and `loop` to $0,1,2,3$ respectively.
-Therefore the representation of the parity program
-
-~~~~ { .go .numberLines }
-tmp_1 := seen_i NAND seen_i
-tmp_2 := x_i NAND tmp_1
-val := tmp_2 NAND tmp_2
-ns := s NAND s
-y_0 := ns NAND ns
-u := val NAND s
-v := s NAND u
-w := val NAND u
-s := v NAND w
-seen_i := z NAND z
-stop := validx_i NAND validx_i
-loop := stop NAND stop
-~~~~
-
-will be
-
-```
-[[4, 1, 5, 61, 5, 61],
- [4, 2, 0, 61, 4, 1],
- [6, 0, 4, 2, 4, 2],
- [7, 0, 8, 0, 8, 0],
- [1, 0, 7, 0, 7, 0],
- [9, 0, 6, 0, 8, 0],
- [10, 0, 8, 0, 9, 0],
- [11, 0, 6, 0, 9, 0],
- [8, 0, 10, 0, 11, 0],
- [5, 61, 12, 0, 12, 0],
- [13, 0, 2, 61, 2, 61],
- [3, 0, 13, 0, 13, 0]]
-```
-
-__Binary encoding:__ The above is a way to represent any NAND++ program as a list of numbers. We can of course encode such a list as a binary string in a number of ways. For concreteness, since all the numbers involved are between $0$ and $L+1$ (where $L$ is the number of lines),  we can simply use a string of length $6\ceil{\log (L+1)}$ to represent them, starting with the prefix $0^{L+1}1$ to encode $L$. For convenience we will assume that any string that is not formatted in this way encodes the single line program `y_0 := x_0 NAND x_0`. This way we can assume that every string $P\in\bits^*$ represents _some_ program.
-
-
-### A NAND++ interpreter in NAND<<
-
-Here is the "pseudocode"/"sugar added" version of an  interpreter for NAND++ programs (given in the list of 6 tuples representation) in NAND<<.
-We assume below that the input is given as integers `x_0`,\ldots,`x_`$\expr{6\cdot lines-1}$ where $lines$ is the number of lines in the program.
-We also assume that `NumberVariables` gives some upper bound on the total number of distinct non-indexed identifiers used in the program (we can also simply use $lines$ as this bound).
-
-~~~~ { .go .numberLines }
-simloop := 3
-totalvars := NumberVariables(x)
-maxlines  := Length(x) / 6
-currenti := 0
-currentround := 0
-increasing := 1
-pc := 0
-while (true) {
-    line := 0
-    foo    :=  x_{6*line + 0}
-    fooidx :=  x_{6*line + 1}
-    bar    :=  x_{6*line + 2}
-    baridx :=  x_{6*line + 3}
-    baz    :=  x_{6*line + 4}
-    bazidx :=  x_{6*line + 5}
-    if (fooidx == maxlines) {
-        fooidx := currenti
-    }
-    ... // similar for baridx, bazidx
-
-    vars_{totalvars*fooidx+foo} := vars_{totalvars*baridx+bar} NAND vars_{totalvars*bazidx+baz}
-    line++
-
-    if line==maxlines {
-        if not avars[simloop] {
-            break
-        }
-        pc := pc+1
-        if (increasing) {
-            i := i + 1
-        } else
-        {
-            i := i - 1
-        }
-        if i>r {
-            increasing := 0
-            r := r+1
-        }
-        if i==0 {
-            increasing := 1
-        }
-
-    }
-    // keep track in loop above of largest m that y_{m-1} was assigned a value
-    // add code to move vars[0*totalvars+1]...vars[(m-1)*totalvars+1] to y_0..y_{m-1}
-}
-~~~~
-
-Since we can transform _every_ NAND<< program to a NAND++ one, we can also implement this interpreter in NAND++.
-
-
-
-### A  Python interpreter in NAND++
-
-At this point you probably can guess that it is possible to write an interpreter for  languages such as  C or Python in NAND<< and hence in NAND++ as well.
-After all, with NAND++ / NAND<< we have access to an unbounded array of memory, which we can use to simulate memory allocation and access, and can do all the basic computation steps offered by modern CPUs.
-Writing such an interpreter is nobody's idea of a fun afternoon, but the fact it can be done gives credence to the belief that NAND++ _is_ a good model for general-purpose computing.
 
 
 
 ## Lecture summary
 
 * NAND++ programs introduce the notion of _loops_, and allow us to capture a single algorithm that can evaluate functions of any length.
-* NAND<< programs include more operations, including the ability to use indirection to obtain random access to memory, but they are computationally equivalent to NAND++ program.
-* We can translate many (all?)  standard algorithms into NAND<< and hence NAND++ programs.
-* There is a _universal_ NAND++ program $U$ such that on input a description of a NAND++ program $P$ and some input $x$,  $U(P,x)$ halts and  outputs $P(x)$ if (and only if) $P$ halts on input $x$.
+*
 
 ## Exercises
 
