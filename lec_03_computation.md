@@ -225,9 +225,35 @@ A _NAND program_ is a 4-tuple $P=(V,X,Y,L)$ of the following form:
 The _number of inputs_ of $P=(V,X,Y,Z)$ is equal to $|X|$ and the _number of outputs_ is equal to $|Y|$.
 
 
+
 > # { .pause }
 This definition is somewhat long and cumbersome, but really corresponds to a straightforward modelling of NAND programs, under the map that $V$ is the set of all variables appearing in the program, $X$ corresponds to the tuple $($`x_`$\expr{0}$, `x_`$\expr{1}$, $\ldots$, `x_`$\expr{n-1}$ $)$, $Y$ corresponds to the tuple $($ `y_`$\expr{0}$, `y_`$\expr{1}$, $\ldots$, `y_`$\expr{m-1}$, $)$ and $L$ corresponds to the list of triples of the form $($ `foo` $,$ `bar`, $,$ `baz` $)$ for every line `foo := bar NAND baz` in the program.
 Please pause here and verify that you understand this correspondence.
+
+
+For example, one representation of the XOR program we described above is $P=(V,X,Y,L)$ where
+
+* $V= \{$ `x_0`, `x_1`, `v`, `u`, `w`, `y_0` $\}$
+
+* $X = ($ `x_0`, `x_1` $)$
+
+* $Y =($ `y_0` $)$
+
+* $L = $(\;\;($`u`,`x_0`,`x_1`$), ($`v`,`x_0`,`u`$), ($`w`,`x_1`,`u`$), ($`y_0`,`v`,`w`$)\;\;)$
+
+But since we have the freedom of choosing arbitrary sets for our variables, we can also represent the same program as (for example) $P'=(V',X',Y',L')$ where
+
+* $V' = \{0,1,2,3,4,5 \}$
+
+* $X' = (0,1)$
+
+* $Y' =  (5)$
+
+* $L' = ( (3,0,1),(2,0,3),(4,1,3),(5,2,4))$
+
+
+
+### Computing a function: formal definition
 
 Now that we defined NAND programs formally, we turn to formally defining  the notion of computing a function.
 Before we do that, we will need to talk about the notion of the _configuration_ or  "snapshot" of a NAND program.
@@ -239,11 +265,12 @@ The final configuration will have the form $(s,\sigma_s)$ where $s$ is the numbe
 For example, if we run the XOR program about on the input `11` then the configuration of the program evolves as follows:
 
 ~~~~ { .go }
-                       x_0  x_1  v    u    w    y_0  
-u   := x_0 NAND x_1  : 1    1    0    0    0    0    
-v   := x_0 NAND u    : 1    1    1    0    0    0    
-w   := x_1 NAND u    : 1    1    1    0    1    0    
-y_0 := v NAND w      : 1    1    1    0    1    0    
+                         x_0  x_1  v    u    w    y_0  
+0. u   := x_0 NAND x_1 : 0    1    0    0    0    0    
+1. v   := x_0 NAND u   : 0    1    0    1    0    0    
+2. w   := x_1 NAND u   : 0    1    1    1    0    0    
+3. y_0 := v NAND w     : 0    1    1    1    0    0    
+4. (after halting)     : 0    1    1    1    0    1    
 ~~~~
 
 We now write the formal definition.
