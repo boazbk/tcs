@@ -139,7 +139,7 @@ This means that if we keep a "loop counter" $k$ that is initially set to $0$ and
 Thus the value of `i` in the  $k$-th loop equals:
 
 $$
-index(k) = \begin{cases} k- r(r+1) & k \leq (r+1)^2 \\ (r+1)(r+2)-k & \text{otherwise} \end{cases}
+index(k) = \begin{cases} k- r(r+1) & k \leq (r+1)^2 \\ (r+1)(r+2)-k & \text{otherwise} \end{cases} \label{eqindex}
 $$
 
 where $r= \floor{\sqrt{k+1/4}-1/2}$.
@@ -236,36 +236,7 @@ We say that a NAND++ program $P$ _computes_ a function $F:\{0,1\}^* :\rightarrow
 If $F$ is a partial function then we say that _$P$ computes $F$_ if $P(x)=F(x)$ for every $x$ on which $F$ is defined.
 
 
-### NAND++ normal form
 
-In many programming language, we can make syntactic transformation on programs that do not change their operations, but might make them "cleaner" or "easier to understand" in some way.
-For example, we could declare variables in the beginning of every function even if this is not required by the programming language.
-For NAND++, it will also be sometimes useful for us that a programs have a "nice form", which we can ensure by making some syntactic transformations.
-Specifically we will make the following definition:
-
-> # {.definition title="NAND++ normal form" #normalform}
-We say that a NAND++ program $P$ is in _normal form_ if it satisfies the following properties:
->
-1. $P$ has a variable `indexincreasing` with the code to ensure that `indexincreasing` is $1$ whenever in the next iteration the value of `i` increases and `indexincreasing` is $0$ otherwise.  \
-2. $P$ has a variable `zero` with the code to ensure that `zero_i` is equal to $1$ if and only if `i` is zero.
-3. There are no absolute numerical indices in $P$. All variables either have the form `foo_i` or `bar`: no `blah_17`. Moreover, every variable identifier that appears with the index `i` never appears without an index and vice versa. \
-4. There are no two lines in $P$ that assign a value to the same variable. \
-5. $P$ has a variable `halted` which the only line that refers to it is the last line of the program which has the form `halted := loop NAND loop`. \
-6. All assignments in $P$ to the `y` variables and `loop` are "guarded" by `halted` which means that any such assignment has the form that the value of `y_i` or `loop` is unchanged if `halted` equals $1$.
-
-It might not be clear at this point why we care about the conditions of  [normalform](){.ref}, but we will see later in this course that they can help make certain proofs easier.
-The following theorem shows that we can ensure these conditions at a small cost:
-
-> # {.theorem title="NAND++ normal form" #nandnormalformthm}
-For every NAND++ program $P$ there is a NAND++ program $P'$ of normal form that computes the same function as $P$. Moreover, the number of lines in $P'$ is at most $c$ times the number of lines in $P$, where $c \leq 10$ is some absolute constant. Furthermore, for every input $x$, the number of iterations that $P'$ takes on input $x$ is at most a constant additive number than the number of iterations that $P$ takes on the same input.
-
-> # {.proof data-ref="nandnormalformthm"}
-We only sketch the proof since it's not so insightful. We will go over the conditions one by one.
-For 1 and 2 we discussed above how to add code to a NAND++ program that ensures these conditions, so we can focus on the remaining ones: \
-3. We can replace a variable of the form `bar_17` with some unique number name such as `barseventeen`. We can add code to test if `i` is one of the constantly many indices that appeared as absolute numerical instances, and if so then replace variable such as `bar_i` with `barindexvalue`. \
-4. If two lines $i<j$ assign a value to the same (indexed or unindexed) variable `foo`, then we can replace all occurrences of `foo` in lines $i,i+1,\ldots,j-1$ with `tempfoo` where `temp` is some unique prefix. \
-5. We can ensure this by simply adding that line of code, and replacing any use of `halted` with `uphalted` where `up` stands for some unique prefix. \
-6. This can be ensured by replacing each such assignment with a constant  number of lines ensuring this `if` condition. That is, we replace an assignment of the form `y_i := foo NAND bar` or `loop := foo NAND bar`  with the code `if NOT(halted) { y_i := foo NAND bar }` or `if NOT(halted) { loop := foo NAND bar }`, and then use the standard "de-sugaring" transformation to remove the syntactic sugar for `if`.
 
 ## NAND++ Programs as tuples
 
@@ -301,6 +272,105 @@ For NAND++ we will represent these two variables by $(X,17)$ and $(X,35)$ respec
 For this reason, in our definition of NAND++, $X$ is a single element of $V$ as opposed to a tuple of elements as in [NANDprogram](){.ref}.
 For the same reason, $Y$ is a single element and not a tuple as well.
 
+Just like we did for NAND programs, we can define the notion of a _configuration_ and a _next step function_ for NAND++ programs.
+That is, a configuration of a program $P$ records all the state of $P$ at a given point in the execution, and contains everything we need to know in order to continue from this state.
+The next step function of $P$ maps a configuration of $P$ into the configuration that occurs after executing one more line of $P$.
+
+> # { .pause }
+Before reading onwards, try to think how _you_ would define the notion of a configuration of a NAND++ program.
+
+A _configuration_ of a NAND++ program $P=(V,X,Y,VALIDX,LOOP,L)$ is a tuple $(s,i,r,m,increasing,\sigma)$ where:
+
+* $s \in [|L|+1]$ corresponds to the index of the line that is about to be executed ($s=|L|$ means that the program halted)
+
+* $i\in \N$ is the current value of `i`.
+
+
+* $r\in \N$ is  the largest index that `i` reached.
+
+* $m\in \N$ is the largest number such that `y_`$\expr{m-1}$ was assigned a value.
+
+* $increasing \in \{0,1\}$ is equal to $1$ if `i` is currently increasing and equal to $0$ otherwise.
+
+
+* $\sigma:V \times \N \rightarrow \{0,1\}$ is a function mapping every variable identifier $v$ and index $j$ to the value of `var_`$\expr{j}$ where `var` is the identifier corresponding to $v$.^[While $\sigma$ has an infinitely large domain, it will output zero on all but  a finite number of inputs, and hence has a finite length representations, for example by writing the list of all inputs on which it outputs $1$.]
+
+The _next step_ function of a NAND++ program $P$, denoted by $NEXT_P$, maps a tuple $(s,i,r,m,increasing,\sigma)$ into $(s',i',r',m',increasing,\sigma')$ by executing the $s$-th line of the program using the NAND++ semantics.
+That is, if the $s$-th tuple of $L$ has the form $(a,j,b,k,c,\ell)$ then $\sigma'$ agrees with $\sigma$ on all inputs except that $\sigma'(a,\overline{j})=NAND(\sigma(b,\overline{k}),(c,\overline{\ell}))$ where $\overline{j}$ equals $i$ if $j=|L|$ (i.e., the variable in the corresponding line of code is indexed with `i`) and otherwise $\overline{j}=j$, and $\overline{k}$, $\overline{\ell}$ are defined analogously.
+If $a=Y$ then we let $m'=\max\{\overline{j}+1,m\}$, otherwise $m'=m$.
+The value $s'$ is set as $s+1$ unless $s=|L|-1$ or $s=|L|$.
+If $s=|L|$ then this is a halting state and $NEXT_P(s,\sigma)=(s,\sigma)$.
+In $s=|L|-1$ then we set $s'=0$ unless $\sigma(LOOP,0)=0$, in which case $s=|L|$.
+If $increasing=1$ we set $i'=i+1$. If $i'=r+1$ then we set $r'=r+1$ and $increasing=0$. If $increasing=0$ then if $i>0$ we set $i'=i-1$ and otherwise we set $i'=i+1$ and $increasing=1$.
+
+
+For a given input $x\in \{0,1\}^n$ and program $P=(V,X,Y,VALIDX,LOOP,L)$, the _initial configuration_ of $P$ with input $x$ is the tuple $(0,0,0,0,1,\sigma_0)$ where $\sigma_0(X,i)=x_i$ for $i\in [n]$ and $\sigma(v,j)=0$ for all other inputs.
+We say that $P$ _computes_ a (potentially partial) function $F:\{0,1\}^* \rightarrow \{0,1\}$ if for every $n\in \N$ and $x\in \{0,1\}^n$ on which $F(x)$ is defined, if we run the next step function of $P$ from the initial configuration of $P$ with input $x$, then within some finite number of steps we reach a halting configuration of the form $(|L|+1,i,r,m,increasing,\sigma)$ such that $\sigma(Y,j)=y_j$ for every $j\in [m]$ where $y=F(x)$ and $m=|y|$.
+
+
+### Canonical representation and normal form.
+
+As in the case of NAND, we can define a canonical representation  of NAND++ programs which will simplify our description of both the programs and their configurations.
+
+> # {.definition title="Canonical representation NAND++ program" #NANDppcanonical}
+A NAND++ program $P=(V,x,y,validx,loop,L)$ is in _canonical form_ if $V=[t]$ for some $t\in \N$, $x=0$,$y=1$, $validx=2$ and $loop=3$ and every element of $V$ appears in some tuple in $L$.
+
+
+In many programming language, we can make syntactic transformation on programs that do not change their operations, but might make them "cleaner" or "easier to understand" in some way.
+For example, we could declare variables in the beginning of every function even if this is not required by the programming language.
+For NAND++, it will also be sometimes useful for us that a programs have a "nice form", which we can ensure by making some syntactic transformations.
+Specifically we will make the following definition:
+
+> # {.definition title="NAND++ normal form" #normalform}
+We say that a NAND++ program $P$ is in _normal form_ if it satisfies the following properties:
+>
+1. $P$ has a variable `indexincreasing` with the code to ensure that `indexincreasing` is $1$ whenever in the next iteration the value of `i` increases and `indexincreasing` is $0$ otherwise.  \
+2. $P$ has a variable `zero` with the code to ensure that `zero_i` is equal to $1$ if and only if `i` is zero.
+3. $P$ has a variable `yassigned` with the code to ensure that `assigned_`$\expr{j}$ equals $1$ if and only if `y_`$\expr{j}$ was assigned a value for some $j' \geq j$.
+4. There are no absolute numerical indices in $P$. All variables either have the form `foo_i` or `bar`: no `blah_17`. Moreover, every variable identifier that appears with the index `i` never appears without an index and vice versa. \
+5. There are no two lines in $P$ that assign a value to the same variable. \
+6. $P$ has a variable `halted` which the only line that refers to it is the last line of the program which has the form `halted := loop NAND loop`. \
+7. All assignments in $P$ to the `y` variables and `loop` are "guarded" by `halted` which means that any such assignment has the form that the value of `y_i` or `loop` is unchanged if `halted` equals $1$.
+
+It might not be clear at this point why we care about the conditions of  [normalform](){.ref}, but we will see later in this course that they can help make certain proofs easier.
+The following theorem shows that we can ensure these conditions at a small cost:
+
+> # {.theorem title="NAND++ normal form" #nandnormalformthm}
+For every NAND++ program $P$ there is a NAND++ program $P'$ of normal form that computes the same function as $P$. Moreover, the number of lines in $P'$ is at most $c$ times the number of lines in $P$, where $c \leq 10$ is some absolute constant. Furthermore, for every input $x$, the number of iterations that $P'$ takes on input $x$ is at most a constant additive number than the number of iterations that $P$ takes on the same input.
+
+> # {.proof data-ref="nandnormalformthm"}
+We only sketch the proof since it's not so insightful. We will go over the conditions one by one.
+For 1 and 2 we discussed above how to add code to a NAND++ program that ensures these conditions, so we can focus on the remaining ones: \
+3. We can replace a variable of the form `bar_17` with some unique number name such as `barseventeen`. We can add code to test if `i` is one of the constantly many indices that appeared as absolute numerical instances, and if so then replace variable such as `bar_i` with `barindexvalue`. \
+4. If two lines $i<j$ assign a value to the same (indexed or unindexed) variable `foo`, then we can replace all occurrences of `foo` in lines $i,i+1,\ldots,j-1$ with `tempfoo` where `temp` is some unique prefix. \
+5. We can ensure this by simply adding that line of code, and replacing any use of `halted` with `uphalted` where `up` stands for some unique prefix. \
+6. This can be ensured by replacing each such assignment with a constant  number of lines ensuring this `if` condition. That is, we replace an assignment of the form `y_i := foo NAND bar` or `loop := foo NAND bar`  with the code `if NOT(halted) { y_i := foo NAND bar }` or `if NOT(halted) { loop := foo NAND bar }`, and then use the standard "de-sugaring" transformation to remove the syntactic sugar for `if`.
+
+### Configurations for normal form programs
+
+A normal-form program $P$ has two types of variables: unindexed and indexed. If $P$ has $\ell$ lines, $a$ variables of the former type, and $b$ of the latter, and we let $T$ be one plus the largest value $i$ such that a variable `foo_`$\expr{i}$  has been assigned a value,^[That is, when the computation begins then $T=n$ where $n$ is the input length,   and later $T$ is the maximum of $n$ and one plus the largest value that the counter `i` reaches.] then we can represent the current configuration  of $P$ by a string $S \in \{0,1\}^{T(1+\ceil{\log \ell} + a+b)}$ as follows: $S=(S^1,\ldots,S^T)$ where $S^i \in \{0,1\}^{a+b+1}$ is a string such that:
+
+* The first bit of $S^i$ (i.e.,   $S^i_0$) equals 1 if the current value of `i` is $i$ and equals $0$ otherwise.
+
+* The next $\ceil{\log \ell}$ bits are the binary encoding of the index line that the program is just going to execute.
+
+* The next $a$ bits are either all zeroes (if $i$ is not the current value of `i`) or are equal to the values of all the unindexed variables (in alphabetical order, except that the special variables `loop`,`halted`, and `idxincreasing` are first).
+
+* The next $b$ bits correspond to the value of  `foo_`$\expr{i}$ for the $b$ indexed variables `foo` (in alphabetical order, except that the special variables `x_`,`y_`,`validx_`, `zero_` are indexed first).
+
+
+If  $S(t)$ denotes the snapshot of computation at step $t$, then to compute $S(t+1)$ from $S(t)$ we need to do the following:
+
+* Find the unique block $i$ such that $S(t)^i_0=1$.
+
+* Let $c$ be the index of the current line to be executed. If $c \neq 0$, then just execute this line: if the line is `foo := bar NAND baz` then compute the NAND of `bar` and `baz` based on the content of $S^i$ and update the value of `foo` to this new value. (Here `foo`, `bar` and `baz` are either unindexed or indexed by `i`.) Then let $c = c +1 (\mod \ell)$ and update $S^i$ accordingly.
+Thus $S(t+1)$ is identical to $S(t)$ in all but the $i$-th block, where the difference is a single bit in the variable, and the fact that the line counter is incremented.
+
+* If $c=0$ then if `halted` is equal to $1$ we do nothing. Otherwise we first let $i'$ be  $i+1$ or $i-1$, based on the value of `idxincreasing` which we can read off $S(t)^i$. We thus set the first bit of $S^i$ to be zero, set the first bit of $S^{i'}$ to one,  and copy the values of the unindexed variables from the $i$-th block to the $i'$-th block, zeroing them out in the $i$-th block. We then execute line zero in the program in the $i'$-th block as above. In this case $S(t+1)$ is identical to $S(t)$ in all but the two adjacent blocks $i$ and $i'$. If  $i'$ does not exist in $S(t+1)$ then we append an additional $1+\ceil{\log \ell} + a+b$ bits to it.
+
+### Configurations of general NAND++ programs
+
+We do not need to restrict ourselves to NAND++ programs of "normal form" and can define the notion of a configuration for an arbitrary NAND++ program. Such a configuration is simply a pair $(i,\sigma)$ such that $i\in
 Just like for NAND, we can define a notion of a _configuration_ (or _snapshot_) for NAND++, and use that to precisely define the  function that a NAND++ program computes. A configuration of a NAND++ program $P$ is a pair $(pc,\sigma)$ such that $pc$ is the current "program counter" value- the number of lines that have been executed so far- and $\sigma:V\times [r] \rightarrow \{0,1\}$ gives the value for all variables that have been accessed so far.
 
 > # { .pause }
@@ -311,13 +381,13 @@ This snapshot contains all the information needed to continue the execution.
 
 
 > # {.definition title="Configurations of NAND++ programs" #configurationNANDpp}
-A _configuration_  a program $P=(V,X,Y,VALIDX,LOOP,L)$ consists of a pair $(pc,\sigma)$ where $pc \in \N$ and $\sigma:V \times [r(pc)] \rightarrow \{0,1\}$ is a function, where $r(pc)=  \floor{\sqrt{(pc \mod |L|)+1/4}-1/2}$.^[Note that $pc \mod |L|$ is the number of  iterations that the program executed, and hence $r(pc)$ is the largest index that `i` has ever reached.]
+A _configuration_  a program $P=(V,X,Y,VALIDX,LOOP,L)$ consists of a pair $(pc,\sigma)$ where $pc \in \N$ and $\sigma:V \times [r] \rightarrow \{0,1\}$ is a function for some $r\in \N$.
 We define $CONF(P)= \N \times \cup_{r\in\N}\{ \sigma | \sigma:V\times [r] \rightarrow \{0,1\} \}$ to be the set of all possible configurations.
 For a program $P=(V,X,Y,VALIDX,LOOP,L)$ and $x\in \{0,1\}^n$, the _initial configuration of $P$ with input $x$_ is the pair $(0,\sigma_0)$ where $\sigma_0:V\times[n]$ is defined as follows $\sigma_0(X,i)=x_i$ for all $i\in \{0,1\}$ and $\sigma_0(v,j)=0$ for every $v \neq X$ and $j\in [n]$.
 
 Note that the initial configuration indeed corresponds to the program counter being $0$ and the value of the variables corresponding to $x$ and the other variables being zero.
-The next step function of a NAND++ program is defined analogously to the way we defined it for NAND programs:
-
+The next step function of a NAND++ program is defined analogously to the way we defined it for NAND programs.
+Once again, the definition straightforwardly follows the semantics of the NAND++ language, but is cumbersome to write down.
 
 > # {.definition title="Next step function of NAND++ programs" #nextstepNANDpp}
 The _next step function_ of a program $P$, denoted  $NEXT_P:CONF(P) \rightarrow CONF(P)$, is defined as follows:
@@ -326,17 +396,13 @@ NEXT_P(pc,\sigma) = \begin{cases} (pc,\sigma) & pc = k|L| \text{for $k>1$ and } 
                                   (pc+1,\sigma') & \text{otherwise}
 \end{cases}
 \]
-where $\sigma': V \times [r(pc)]$ is defined as follows:
-
-
-
-### Canonical form of NAND++ programs
-
-> # {.definition title="Canonical NAND++ program" #NANDppcanonical}
-A NAND++ program $P=(V,x,y,validx,loop,L)$ is in _canonical form_ if $V=[t]$ for some $t\in \N$, $x=0$,$y=1$, $validx=2$ and $loop=3$ and every element of $V$ appears in some tuple in $L$.
-
-
-
+where $\sigma': V \times [r']$ is computed as follows:
+>
+* Let $(a,j,b,k,c,\ell)$ be the $(pc \mod |L|)$-th tuple of $L$. If $j=|L|$ (which corresponds to using the index `i`) then $j'=index(pc \mod |L|)$ where $index$ is defined as in [eqindex](){.eqref}, otherwise $j'=j$. Similarly $k'=index(pc \mod |L|)$ if $k=|L|$ and $k'=k$ otherwise and $\ell'=index(pc \mod |L|)$ if $\ell=|L|$ and $\ell'=\ell$ otherwise.
+>
+* We define $\sigma'(a,j')=NAND(\sigma(b,k'),\sigma(c,\ell'))$ and define $\sigma'(v,t)=\sigma(v,t)$ for all other $v\in V$ and $t\in \N$ for which $\sigma$ is defined.
+>
+* Define $r(pc)=  \floor{\sqrt{(pc \mod |L|)+1/4}-1/2}$ to be the largest  index that `i` has ever reached. The domain of $\sigma'$ is $V \times [\max\{n,r(pc+1) \}]$. If the domain of $\sigma'$ is larger than the domain of $\sigma$ then $\sigma'$ maps all elements outside the domain of $\sigma$ to zero.
 
 
 ## Lecture summary
