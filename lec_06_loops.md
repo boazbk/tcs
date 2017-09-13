@@ -1,5 +1,12 @@
 # Loops and infinity
 
+> # { .objectives }
+* Learn the model of NAND++ program that involve loops.
+* See some basic syntactic sugar for NAND++
+* Get comfort with switching between representation of NAND++ programs as code and as tuples.
+* Learn the notion of _configurations_ for NAND++ programs.
+* Understand the relation between NAND++ and NAND programs.
+
 >_"We thus see that when $n=1$, nine operation-cards are used; that when $n=2$, fourteen Operation-cards are used; and that when $n>2$, twenty-five operation-cards are used; but that no more are needed, however great $n$ may be; and not only this, but that these same twenty-five cards suffice for the successive computation of all the numbers"_, Ada Augusta, countess of Lovelace, 1843^[Translation of  "Sketch of the Analytical Engine" by L. F. Menabrea, Note G.]
 
 >_"It is found in practice that (Turing machines) can do anything that could be described as 'rule of thumb' or 'purely mechanical'... (Indeed,) it is  now agreed amongst logicians that 'calculable by means of (a Turing Machine)' is the correct accurate rendering of such phrases."_, Alan Turing, 1948
@@ -145,7 +152,54 @@ $$
 where $r= \floor{\sqrt{k+1/4}-1/2}$.
 (We ask you to prove this in [computeidx-ex](){.ref}.)
 
-## A spoonfull of sugar
+
+
+
+### Uniformity and NAND vs NAND++
+
+While NAND++ adds an extra operation over NAND, it is not exactly accurate to say that NAND++ programs are "more powerful" than NAND programs.
+NAND programs, having no loops, are simply not applicable for computing functions with more inputs than they have lines.
+The key difference between NAND and NAND++ is that NAND++ allows us to express the fact that the algorithm for computing parities of length-$100$ strings is really the same one as the algorithm for computing parities of length-$5$ strings (or similarly the fact that the algorithm for adding $n$-bit numbers is the same for every $n$, etc.).
+That is, one can think of the NAND++ program for general parity as the "seed" out of which we can grow NAND programs for length $10$, length $100$, or length $1000$ parities as needed.
+This notion of a single algorithm that can compute functions of all input lengths is known as _uniformity_ of computation and hence we think of NAND++ as  _uniform_ model of computation, as opposed to NAND which is a _nonuniform_ model, where we have to specify a different program for every input length.
+
+
+Looking ahead, we will see that this uniformity leads to another crucial difference between NAND++ and NAND programs.
+NAND++ programs can have inputs and outputs that are longer than the description of the program and in particular we can have a NAND++ program that "self replicates" in the sense that it can print its own code.   
+This notion of "self replication", and the related notion of "self reference" is crucial to many aspects of computation, as well  of course to life itself, whether in the form of digital or biological programs.
+
+
+> # {.remark title="Advanced note: NAND++ as a 'seed' for NAND." #nandefficienct}
+ This notion of a NAND++ program as a "seed" that can grow a different NAND program for every input length is one that we will come back to later on in this course, when we consider bounding the _time complexity_ of computation.
+As we will see, we can think of a NAND++ program $P$ that computes some function $F$ in $T(n)$ steps on input length $n$, as a two phase process.
+For any  input $x\in \{0,1\}^*$, the program $P$ can be thought of as first producing a $T(|x|)$-line NAND program $P'$, and then executing this program $P'$ on $x$.
+This might not be easy to see at this point, but will become clearer in a few lectures when we tackle the issue of _efficiency_ in computation.
+
+
+### Infinite loops and computing a function
+
+There is another important difference between NAND and NAND++ programs: looking at a NAND program $P$, we can always tell how many inputs and how many outputs it has (by looking at the number of `x_` and `y_` variables).
+Furthermore, we  are guaranteed that if we invoke $P$ on any input then _some_ output will be produced.  
+In contrast, given any particular NAND++ program $P'$, we cannot determine a priori the length of the output.
+In fact, we don't even know  if an output would be produced at all!
+For example, the following NAND++ program would go into an infinite loop if the first bit of the input is zero:
+
+~~~~ { .go .numberLines }
+loop := x_0 NAND x_0
+~~~~
+
+For a NAND++ program $P$ and string $x\in \{0,1\}^*$, if $P$ produces an output when executed with input $x$ then we denote this output by $P(x)$.
+If $P$ does not produce an output on $x$ then we say that $P(x)$ is _undefined_ and denote this as $P(x) = \bot$.
+
+> # {.definition title="Computing a function" #compute}
+We say that a NAND++ program $P$ _computes_ a function $F:\{0,1\}^* :\rightarrow \{0,1\}^*$ if $P(x)=F(x)$ for every $x\in \{0,1\}^*$.
+>
+If $F$ is a partial function then we say that _$P$ computes $F$_ if $P(x)=F(x)$ for every $x$ on which $F$ is defined.
+
+
+
+
+## A spoonful of sugar
 
 Just like NAND, we can add a bit of "syntactic sugar" to NAND++ as well.
 These are constructs that can help us in expressing programs, though ultimately do not change the computational power of the model, since any program using these constructs can be "unsweetened" to obtain a program without them.
@@ -198,50 +252,51 @@ Please stop and verify that you understand why this transformation will result i
 
 ### Controlling the index variable
 
-^[TODO: add here the "breadcrumbs" technique to implement i++ (foo) and i--(bar)]
+NAND++ is an _oblivious_ programming model, in the sense that it gives  us no means of controlling the index variable `i`.
+Rather to read a certain variable such as `foo_52` we need to wait until `i` will equal $52$.
+However we can use syntactic sugar to simulate the effect of incrementing and decrementing `i`.
+That is, rather than having `i` move according to a fixed schedule, we can assume that we have the operation `i++ (foo)` that increments `i` if `foo` is equal to $1$ (and otherwise leaves `i` in place), and similarly the operation `i-- (bar)` that decrements `i` if `bar` is $1$ and otherwise leaves `i` in place.
 
+To achieve this, we start with the  observation  that in  a NAND++ program we can know whether the index is increasing or decreasing.
+We achieve this using the Hansel and Gretel technique of leaving _"breadcrumbs"_.
+Specifically, we create an array `atstart` such that `atstart_0` equals $1$ but `atstart_`$\expr{j}$ equals $0$ for all $j>0$, and an array `breadcrumb` where we set `breadcrumb_i` to $1$ in every iteration.
+Then we can setup a variable `indexincreasing` and set it to $1$ when we reach the zero index (i.e., when `atstart_i` is equal to $1$) and set it to $0$ when we reach the end point (i.e., when we see an index for which `breadcrumb_i` is $0$ and hence we have reached it for the first time).
+We can also maintain an array `arridx` that contains $0$ in all positions except the current value of `i`.
 
+![We can simulate controlling the index variable `i` by keeping an array `atstart` letting us know when `i` reaches $0$, and hence `i` starts increasing, and `breadcrumb` letting us know when we reach a point we haven't seen before, and hence `i` starts decreasing. If we are at a point in which the index is increasing but we want it to decrease then we can mark our location on a special array `arridx` and enter a loop until the time we reach the same location again.](../figure/breadcrumbs.png){#breadcrumbspng .class width=300px height=300px}
 
-## Uniformity and NAND vs NAND++
+Now we can simulate incrementing and decrementing `i` by one as follows.
+If we want to increment `i` and `indexincreasing` then we simply wait one step.
+Otherwise (if `indexincreasing` is $0$) then we go into an inner loop in which we do nothing until we reach again the point when `arridx_i` is $1$ and  `indexincreasing` is equal to $1$.
+Decrementing `i` is done in the analogous way.
 
-While NAND++ adds an extra operation over NAND, it is not exactly accurate to say that NAND++ programs are "more powerful" than NAND programs.
-NAND programs, having no loops, are simply not applicable for computing functions with more inputs than they have lines.
-The key difference between NAND and NAND++ is that NAND++ allows us to express the fact that the algorithm for computing parities of length-$100$ strings is really the same one as the algorithm for computing parities of length-$5$ strings (or similarly the fact that the algorithm for adding $n$-bit numbers is the same for every $n$, etc.).
-That is, one can think of the NAND++ program for general parity as the "seed" out of which we can grow NAND programs for length $10$, length $100$, or length $1000$ parities as needed.
-This notion of a single algorithm that can compute functions of all input lengths is known as _uniformity_ of computation and hence we think of NAND++ as  _uniform_ model of computation, as opposed to NAND which is a _nonuniform_ model, where we have to specify a different program for every input length.
+### "Simple" NAND++ programs
 
+When analyzing NAND++ programs, it will sometimes be convenient for us to restrict our attention to programs of a somewhat nicer form.
 
-Looking ahead, we will see that this uniformity leads to another crucial difference between NAND++ and NAND programs.
-NAND++ programs can have inputs and outputs that are longer than the description of the program and in particular we can have a NAND++ program that "self replicates" in the sense that it can print its own code.   
-This notion of "self replication", and the related notion of "self reference" is crucial to many aspects of computation, as well  of course to life itself, whether in the form of digital or biological programs.
-
-
-> # {.remark title="Advanced note: NAND++ as a 'seed' for NAND." #nandefficienct}
- This notion of a NAND++ program as a "seed" that can grow a different NAND program for every input length is one that we will come back to later on in this course, when we consider bounding the _time complexity_ of computation.
-As we will see, we can think of a NAND++ program $P$ that computes some function $F$ in $T(n)$ steps on input length $n$, as a two phase process.
-For any  input $x\in \{0,1\}^*$, the program $P$ can be thought of as first producing a $T(|x|)$-line NAND program $P'$, and then executing this program $P'$ on $x$.
-This might not be easy to see at this point, but will become clearer in a few lectures when we tackle the issue of _efficiency_ in computation.
-
-
-### Infinite loops and computing a function
-
-There is another important difference between NAND and NAND++ programs: looking at a NAND program $P$, we can always tell how many inputs and how many outputs it has (by looking at the number of `x_` and `y_` variables).
-Furthermore, we  are guaranteed that if we invoke $P$ on any input then _some_ output will be produced.  
-In contrast, given any particular NAND++ program $P'$, we cannot determine a priori the length of the output.
-In fact, we don't even know  if an output would be produced at all!
-For example, the following NAND++ program would go into an infinite loop if the first bit of the input is zero:
-
-~~~~ { .go .numberLines }
-loop := x_0 NAND x_0
-~~~~
-
-For a NAND++ program $P$ and string $x\in \{0,1\}^*$, if $P$ produces an output when executed with input $x$ then we denote this output by $P(x)$.
-If $P$ does not produce an output on $x$ then we say that $P(x)$ is _undefined_ and denote this as $P(x) = \bot$.
-
-> # {.definition title="Computing a function" #compute}
-We say that a NAND++ program $P$ _computes_ a function $F:\{0,1\}^* :\rightarrow \{0,1\}^*$ if $P(x)=F(x)$ for every $x\in \{0,1\}^*$.
+> # {.definition title="Simple NAND++ programs" #simpleNANDpp}
+We say that a NAND++ program $P$ is _simple_ if it has the following properties:
 >
-If $F$ is a partial function then we say that _$P$ computes $F$_ if $P(x)=F(x)$ for every $x$ on which $F$ is defined.
+* The only output variable it ever writes to is `y_0` (and so it computes a Boolean function).
+>
+* The last line of the program has the form `halted := loop NAND loop` and so the variable `halted` gets the value $1$ when the program halts. Moreover, there is no other line in the program that writes to the variable `halted`.
+>
+* All lines that write to the variable `loop` or `y_0` are "guarded" by `halted` in the sense that we replace a line of the form `y_0 := foo NAND bar` with the (unsweetened equivalent to) `if NOT(halted) { y_0 := foo NAND bar }` and similarly `loop := blah NAND baz` is replaced with `if NOT(halted) {loop := blah NAND baz }`.
+>
+* It has an `indexincreasing` variable that is equal to $1$ if and only if in the next iteration the value of `i` will increase by $1$.
+
+Note that if $P$ is a simple program then even if we continue its execution beyond the point it should have halted in, the value of the `y_0` and `loop` variables will not change.
+The following theorem shows that, in the context of Boolean functions, we can assume that every program is simple:^[The restriction to Boolean functions is not very significant, as we can always encode a non Boolean function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ by the Boolean function $G(x,i)=F(x)_i$ where we treat the second input $i$ as representing an integer. The crucial point is that we still allow the functions to have an unbounded _input length_ and hence in particular these are functions that cannot be computed by plain "loop less" NAND programs.]
+
+> # {.theorem title="Simple program" #simpleNANDthm}
+Let $F:\{0,1\}^* \rightarrow \{0,1\}$ be a (possibly partial) Boolean function. If there is a NAND++ program that computes $F$ then there is a simple NAND++ program $P'$ that computes $F$ as well.
+
+> # {.proof data-ref="simpleNANDthm"}
+If $P$ computes a Boolean function then it cannot write to any `y_`$\expr{j}$ variable when $j \neq 0$.
+Now we obtain the simple NAND++ program $P'$ by simply modifying the code of $P$ to satisfy the properties above.
+If $P$ already used a variable named `halted` then we rename it.
+We then  we add the line `halted := loop NAND loop` to the end of the program, and replace all lines writing to the variables `y_0` and `loop` with their "guarded" equivalents.
+Finally, we ensure the existence of the variable `indexincreasing` using the breadrumbs technique discussed above.
 
 
 
@@ -250,7 +305,7 @@ If $F$ is a partial function then we say that _$P$ computes $F$_ if $P(x)=F(x)$ 
 
 Just like we did with NAND programs, we can represent NAND++ programs as tuples.
 A minor difference is that since in NAND++ it makes sense to keep track of indices, we will represent a  variable `foo_`$\expr{j}$ as a pair of numbers $(a,j)$ where $a$ corresponds to the identifier `foo`.
-Thus we will use a 6-tuple of the form $(a,j,b,k,c,\ell)$ to represent each line of the form `foo_`$\expr{j}$ ` := ` `bar_`$\expr{k}$ ` NAND ` `baz_`$\expr{\ell}$, where $a,b,c$ correspond to the variable identifiers `foo`, `bar` and `baz` respectively.^[This difference between three tuples and six tuples is made for convenience and is not particularly important. We could have also  represented NAND programs using six-tuples and NAND++ using three-tuples.]
+Thus we will use a 6-tuple of the form $(a,j,b,k,c,\ell)$ to represent each line of the form `foo_`$\expr{j}$ ` := ` `bar_`$\expr{k}$ ` NAND ` `baz_`$\expr{\ell}$, where $a,b,c$ correspond to the variable identifiers `foo`, `bar` and `baz` respectively.^[This difference between three tuples and six tuples is made for convenience and is not particularly important. We could have also  represented NAND programs using six-tuples and NAND++ using three-tuples. Also recall that we use the convention that an unindexed variable identifier `foo` is equivalent to `foo_0`.]
 If one of the indices is the special variable `i` then we will use the number $s$ for it where $s$ is the number of lines (as no index is allowed to be this large in a NAND++ program).
 We can now define NAND++ programs in a way analogous to [NANDprogram](){.ref}:
 
@@ -280,6 +335,52 @@ For NAND++ we will represent these two variables by $(X,17)$ and $(X,35)$ respec
 For this reason, in our definition of NAND++, $X$ is a single element of $V$ as opposed to a tuple of elements as in [NANDprogram](){.ref}.
 For the same reason, $Y$ is a single element and not a tuple as well.
 
+Just as was the case for NAND programs, we can define a _canonical form_ for NAND++ variables.
+Specifically in the canonical form we will use $V=[t]$ for some $t>3$, $X=0$,$Y=1$,$VALIDX=2$ and $LOOP=3$.
+Moreover, if $P$ is _simple_ in the sense of [simpleNANDpp](){.ref} then we will assume that the `halted` variable is encoded by $4$, and the `indexincreasing` variable is encoded by $5$.
+The canonical form representation of  a NAND++ program is specified simply by a length $s$ list of $6$-tuples of natural numbers $(a,j,b,k,c,\ell)$ where $a,b,c \in [t]$ and $j,k,\ell \in [s+1]$.
+
+Here is a Python code to evaluate a NAND++ program given the list of 6-tuples representation:
+
+~~~~ { .python }
+# Evaluates a  NAND++ program P on input x
+# P is given in the list of tuples representation
+# untested code
+def EVALpp(P,x):
+    vars = { 0:x , 2: [1]*len(x) } # vars[var][idx] is value of var_idx.
+    # special variables: 0:X, 1:Y, 2:VALIDX, 3:LOOP
+    t = len(P)
+    i = 0
+    r = 0
+    indexincreasing = 1;
+
+    def getval(var,idx): # returns current value of var_idx
+        if idx== t: idx = i
+        l = vars.getdefault(var,[])
+        return l[idx] if idx<len(l) else 0
+
+    def setval(var,idx,v): # sets var_idx := v
+        l = vars.setdefault(var,[])
+        l.append([0]*(1+idx-len(l)))
+        l[idx]=v
+        vars[var] = l
+
+    while True:
+        for t in P:
+            setval(t[0],t[1], 1-getval(t[2],t[3])*getval(t[4],t[5]))
+        if i==0:
+            indexincreasing = 1
+        elif i==r+1:
+            r +=1
+            indexincreasing = 0
+        i += -1+2*indexincreasing
+        if not getval(3,0): break
+
+    return vars[1]
+~~~~
+
+### Configurations
+
 Just like we did for NAND programs, we can define the notion of a _configuration_ and a _next step function_ for NAND++ programs.
 That is, a configuration of a program $P$ records all the state of $P$ at a given point in the execution, and contains everything we need to know in order to continue from this state.
 The next step function of $P$ maps a configuration of $P$ into the configuration that occurs after executing one more line of $P$.
@@ -287,136 +388,35 @@ The next step function of $P$ maps a configuration of $P$ into the configuration
 > # { .pause }
 Before reading onwards, try to think how _you_ would define the notion of a configuration of a NAND++ program.
 
-A _configuration_ of a NAND++ program $P=(V,X,Y,VALIDX,LOOP,L)$ is a tuple $(s,i,r,m,increasing,\sigma)$ where:
+While we can define configurations in full generality, for concreteness we will restrict our attention to configurations of "simple" programs NAND++ programs in the sense of [simpleNANDpp](){.ref}, that are given in a canonical form.
+Let $P$ be a canonical form simple program, represented as a list of $6$ tuples $L=((a_0,j_0,b_0,k_0,c_0,\ell_0),\ldots,(a_{s-1},j_{s-1},b_{s-1},k_{s-1},c_{s-1},\ell_{s-1}))$.
+Let $t$ be one more than the largest number appearing among the $a$'s, $b$'s or $c$'s.
+A _configuration_ of the program $P$ is a number $t' \in [t]$ and a binary string $\sigma$ of length $r(t+2)$ for some $r\in \N$ such that $\sigma = \sigma^0\sigma^1\cdots \sigma^{r-1}$ where each $\sigma_i$ is a block of $\sigma$ of length $t+2$.
+The $a$-th coordinate of the block $\sigma^i$ (denoted by $\sigma^i_a$) corresponds to the value of the variable represented by $(a,i)$.
+For example, if we encode `foo` by the number $11$ then $\sigma^{17}_{11}$ (i.e., the $12$-th coordinate  of the $17$-th block) corresponds to the value of `foo_17` at the given point in the execution.
+The last two coordinates of $\sigma_i$ are special: $\sigma^i_t$ equals $1$ if and only if the current value of `i` is $i$, in which case we say that $\sigma^i$ is the _active_ block.
+$\sigma^i_{t+1}$ equals $1$ if and only if $i=r-1$ (i.e., $i$ is the last block in the configuration). See [configurationsnandpppng](){.ref} for an illustration of the configuration.
 
-* $s \in [|L|+1]$ corresponds to the index of the line that is about to be executed ($s=|L|$ means that the program halted)
+![A configuration of a $t$-line simple NAND++ program can be encoded as a string in $\{0,1\}^{r(t+2)}$, the $i$-th block contains the value of all variables of the form `foo_`$\expr{i}$ and the last two bits of the block signal whether `i`=$i$ and whether this is the last block of the configuration.](../figure/configurationsnandpp.png){#configurationsnandpppng .class width=300px height=300px}
 
-* $i\in \N$ is the current value of `i`.
+For a simple $t$-line NAND++ program $P$ the _next configuration function_ $NEXT_P:[t] \times \{0,1\}^* \rightarrow [t] \times \{0,1\}^*$ is defined in the natural way.
+That is, given a line $p \in [t]$  and a configuration $\sigma$, we compute $p',\sigma'$ by:
 
+*  Executing the line $p$: if $p=(a,j,b,k,c,\ell)$ then we let $\sigma'^\overline{j}_a = 1-\sigma^{\overline{k}}_b\cdot \sigma^{\overline{\ell}}_c$ where $\overline{j}$ equals $j$ if $j<t$ and equals the index of the current active block $i$ if $j=t$, and $\overline{k}$, $\overline{\ell}$ are defined analogously.
 
-* $r\in \N$ is  the largest index that `i` reached.
+* Updating the value of $i$: we set $\sigma'^i_{t}=0$ and if $\sigma^0_5=1$ (which corresponds to `indexincreasing`) then we let $\sigma'^{i+1}_t=1$ and otherwise we let $\sigma'^{i-1}_t=1$. (If $i$ was the last active block then we create a new block and mark it to be the last one.)
 
-* $m\in \N$ is the largest number such that `y_`$\expr{m-1}$ was assigned a value.
+* Moving to $p+1 \mod t$ unless $p=|t|$ and $\sigma^0_3$ (corresponding to `loop`) is equal to $0$, in which case we let $p'=t+1$, which is considered a halting configuration that is never modified by $NEXT_P$.
 
-* $increasing \in \{0,1\}$ is equal to $1$ if `i` is currently increasing and equal to $0$ otherwise.
+One important property of $NEXT_P$ is that to compute it we only need to access the blocks $0,\ldots,t-1$ (since the largest absolute numerical index in the program is at most $t-1$) as well as the current active block and its immediate neighbors.
+Thus in each step, $NEXT_P$ only reads or modifies a constant number of blocks.
 
-
-* $\sigma:V \times \N \rightarrow \{0,1\}$ is a function mapping every variable identifier $v$ and index $j$ to the value of `var_`$\expr{j}$ where `var` is the identifier corresponding to $v$.^[While $\sigma$ has an infinitely large domain, it will output zero on all but  a finite number of inputs, and hence has a finite length representations, for example by writing the list of all inputs on which it outputs $1$.]
-
-The _next step_ function of a NAND++ program $P$, denoted by $NEXT_P$, maps a tuple $(s,i,r,m,increasing,\sigma)$ into $(s',i',r',m',increasing,\sigma')$ by executing the $s$-th line of the program using the NAND++ semantics.
-That is, if the $s$-th tuple of $L$ has the form $(a,j,b,k,c,\ell)$ then $\sigma'$ agrees with $\sigma$ on all inputs except that $\sigma'(a,\overline{j})=NAND(\sigma(b,\overline{k}),(c,\overline{\ell}))$ where $\overline{j}$ equals $i$ if $j=|L|$ (i.e., the variable in the corresponding line of code is indexed with `i`) and otherwise $\overline{j}=j$, and $\overline{k}$, $\overline{\ell}$ are defined analogously.
-If $a=Y$ then we let $m'=\max\{\overline{j}+1,m\}$, otherwise $m'=m$.
-The value $s'$ is set as $s+1$ unless $s=|L|-1$ or $s=|L|$.
-If $s=|L|$ then this is a halting state and $NEXT_P(s,\sigma)=(s,\sigma)$.
-In $s=|L|-1$ then we set $s'=0$ unless $\sigma(LOOP,0)=0$, in which case $s=|L|$.
-If $increasing=1$ we set $i'=i+1$. If $i'=r+1$ then we set $r'=r+1$ and $increasing=0$. If $increasing=0$ then if $i>0$ we set $i'=i-1$ and otherwise we set $i'=i+1$ and $increasing=1$.
-
-
-For a given input $x\in \{0,1\}^n$ and program $P=(V,X,Y,VALIDX,LOOP,L)$, the _initial configuration_ of $P$ with input $x$ is the tuple $(0,0,0,0,1,\sigma_0)$ where $\sigma_0(X,i)=x_i$ for $i\in [n]$ and $\sigma(v,j)=0$ for all other inputs.
-We say that $P$ _computes_ a (potentially partial) function $F:\{0,1\}^* \rightarrow \{0,1\}$ if for every $n\in \N$ and $x\in \{0,1\}^n$ on which $F(x)$ is defined, if we run the next step function of $P$ from the initial configuration of $P$ with input $x$, then within some finite number of steps we reach a halting configuration of the form $(|L|+1,i,r,m,increasing,\sigma)$ such that $\sigma(Y,j)=y_j$ for every $j\in [m]$ where $y=F(x)$ and $m=|y|$.
-
-
-### Canonical representation and normal form.
-
-As in the case of NAND, we can define a canonical representation  of NAND++ programs which will simplify our description of both the programs and their configurations.
-
-> # {.definition title="Canonical representation NAND++ program" #NANDppcanonical}
-A NAND++ program $P=(V,x,y,validx,loop,L)$ is in _canonical form_ if $V=[t]$ for some $t\in \N$, $x=0$,$y=1$, $validx=2$ and $loop=3$ and every element of $V$ appears in some tuple in $L$.
-
-
-In many programming language, we can make syntactic transformation on programs that do not change their operations, but might make them "cleaner" or "easier to understand" in some way.
-For example, we could declare variables in the beginning of every function even if this is not required by the programming language.
-For NAND++, it will also be sometimes useful for us that a programs have a "nice form", which we can ensure by making some syntactic transformations.
-Specifically we will make the following definition:
-
-> # {.definition title="NAND++ normal form" #normalform}
-We say that a NAND++ program $P$ is in _normal form_ if it satisfies the following properties:
->
-1. $P$ has a variable `indexincreasing` with the code to ensure that `indexincreasing` is $1$ whenever in the next iteration the value of `i` increases and `indexincreasing` is $0$ otherwise.  \
-2. $P$ has a variable `zero` with the code to ensure that `zero_i` is equal to $1$ if and only if `i` is zero.
-3. $P$ has a variable `yassigned` with the code to ensure that `assigned_`$\expr{j}$ equals $1$ if and only if `y_`$\expr{j}$ was assigned a value for some $j' \geq j$.
-4. There are no absolute numerical indices in $P$. All variables either have the form `foo_i` or `bar`: no `blah_17`. Moreover, every variable identifier that appears with the index `i` never appears without an index and vice versa. \
-5. There are no two lines in $P$ that assign a value to the same variable. \
-6. $P$ has a variable `halted` which the only line that refers to it is the last line of the program which has the form `halted := loop NAND loop`. \
-7. All assignments in $P$ to the `y` variables and `loop` are "guarded" by `halted` which means that any such assignment has the form that the value of `y_i` or `loop` is unchanged if `halted` equals $1$.
-
-It might not be clear at this point why we care about the conditions of  [normalform](){.ref}, but we will see later in this course that they can help make certain proofs easier.
-The following theorem shows that we can ensure these conditions at a small cost:
-
-> # {.theorem title="NAND++ normal form" #nandnormalformthm}
-For every NAND++ program $P$ there is a NAND++ program $P'$ of normal form that computes the same function as $P$. Moreover, the number of lines in $P'$ is at most $c$ times the number of lines in $P$, where $c \leq 10$ is some absolute constant. Furthermore, for every input $x$, the number of iterations that $P'$ takes on input $x$ is at most a constant additive number than the number of iterations that $P$ takes on the same input.
-
-> # {.proof data-ref="nandnormalformthm"}
-We only sketch the proof since it's not so insightful. We will go over the conditions one by one.
-For 1 and 2 we discussed above how to add code to a NAND++ program that ensures these conditions, so we can focus on the remaining ones: \
-3. We can replace a variable of the form `bar_17` with some unique number name such as `barseventeen`. We can add code to test if `i` is one of the constantly many indices that appeared as absolute numerical instances, and if so then replace variable such as `bar_i` with `barindexvalue`. \
-4. If two lines $i<j$ assign a value to the same (indexed or unindexed) variable `foo`, then we can replace all occurrences of `foo` in lines $i,i+1,\ldots,j-1$ with `tempfoo` where `temp` is some unique prefix. \
-5. We can ensure this by simply adding that line of code, and replacing any use of `halted` with `uphalted` where `up` stands for some unique prefix. \
-6. This can be ensured by replacing each such assignment with a constant  number of lines ensuring this `if` condition. That is, we replace an assignment of the form `y_i := foo NAND bar` or `loop := foo NAND bar`  with the code `if NOT(halted) { y_i := foo NAND bar }` or `if NOT(halted) { loop := foo NAND bar }`, and then use the standard "de-sugaring" transformation to remove the syntactic sugar for `if`.
-
-### Configurations for normal form programs
-
-A normal-form program $P$ has two types of variables: unindexed and indexed. If $P$ has $\ell$ lines, $a$ variables of the former type, and $b$ of the latter, and we let $T$ be one plus the largest value $i$ such that a variable `foo_`$\expr{i}$  has been assigned a value,^[That is, when the computation begins then $T=n$ where $n$ is the input length,   and later $T$ is the maximum of $n$ and one plus the largest value that the counter `i` reaches.] then we can represent the current configuration  of $P$ by a string $S \in \{0,1\}^{T(1+\ceil{\log \ell} + a+b)}$ as follows: $S=(S^1,\ldots,S^T)$ where $S^i \in \{0,1\}^{a+b+1}$ is a string such that:
-
-* The first bit of $S^i$ (i.e.,   $S^i_0$) equals 1 if the current value of `i` is $i$ and equals $0$ otherwise.
-
-* The next $\ceil{\log \ell}$ bits are the binary encoding of the index line that the program is just going to execute.
-
-* The next $a$ bits are either all zeroes (if $i$ is not the current value of `i`) or are equal to the values of all the unindexed variables (in alphabetical order, except that the special variables `loop`,`halted`, and `idxincreasing` are first).
-
-* The next $b$ bits correspond to the value of  `foo_`$\expr{i}$ for the $b$ indexed variables `foo` (in alphabetical order, except that the special variables `x_`,`y_`,`validx_`, `zero_` are indexed first).
-
-
-If  $S(t)$ denotes the snapshot of computation at step $t$, then to compute $S(t+1)$ from $S(t)$ we need to do the following:
-
-* Find the unique block $i$ such that $S(t)^i_0=1$.
-
-* Let $c$ be the index of the current line to be executed. If $c \neq 0$, then just execute this line: if the line is `foo := bar NAND baz` then compute the NAND of `bar` and `baz` based on the content of $S^i$ and update the value of `foo` to this new value. (Here `foo`, `bar` and `baz` are either unindexed or indexed by `i`.) Then let $c = c +1 (\mod \ell)$ and update $S^i$ accordingly.
-Thus $S(t+1)$ is identical to $S(t)$ in all but the $i$-th block, where the difference is a single bit in the variable, and the fact that the line counter is incremented.
-
-* If $c=0$ then if `halted` is equal to $1$ we do nothing. Otherwise we first let $i'$ be  $i+1$ or $i-1$, based on the value of `idxincreasing` which we can read off $S(t)^i$. We thus set the first bit of $S^i$ to be zero, set the first bit of $S^{i'}$ to one,  and copy the values of the unindexed variables from the $i$-th block to the $i'$-th block, zeroing them out in the $i$-th block. We then execute line zero in the program in the $i'$-th block as above. In this case $S(t+1)$ is identical to $S(t)$ in all but the two adjacent blocks $i$ and $i'$. If  $i'$ does not exist in $S(t+1)$ then we append an additional $1+\ceil{\log \ell} + a+b$ bits to it.
-
-### Configurations of general NAND++ programs
-
-We do not need to restrict ourselves to NAND++ programs of "normal form" and can define the notion of a configuration for an arbitrary NAND++ program. Such a configuration is simply a pair $(i,\sigma)$ such that $i\in
-Just like for NAND, we can define a notion of a _configuration_ (or _snapshot_) for NAND++, and use that to precisely define the  function that a NAND++ program computes. A configuration of a NAND++ program $P$ is a pair $(pc,\sigma)$ such that $pc$ is the current "program counter" value- the number of lines that have been executed so far- and $\sigma:V\times [r] \rightarrow \{0,1\}$ gives the value for all variables that have been accessed so far.
-
-> # { .pause }
-Before reading the formal definition of a configuration, try to think how _you_ would define a configuration of a NAND program $P$.
-A configuration $(pc,\sigma)$ of $P$ should encode all the state of the computation of $P$ on some input $x$ after executing $pc$ lines.
-You can think of it as a "snapshot of $P$'s memory" at a given point in time.
-This snapshot contains all the information needed to continue the execution.
-
-
-> # {.definition title="Configurations of NAND++ programs" #configurationNANDpp}
-A _configuration_  a program $P=(V,X,Y,VALIDX,LOOP,L)$ consists of a pair $(pc,\sigma)$ where $pc \in \N$ and $\sigma:V \times [r] \rightarrow \{0,1\}$ is a function for some $r\in \N$.
-We define $CONF(P)= \N \times \cup_{r\in\N}\{ \sigma | \sigma:V\times [r] \rightarrow \{0,1\} \}$ to be the set of all possible configurations.
-For a program $P=(V,X,Y,VALIDX,LOOP,L)$ and $x\in \{0,1\}^n$, the _initial configuration of $P$ with input $x$_ is the pair $(0,\sigma_0)$ where $\sigma_0:V\times[n]$ is defined as follows $\sigma_0(X,i)=x_i$ for all $i\in \{0,1\}$ and $\sigma_0(v,j)=0$ for every $v \neq X$ and $j\in [n]$.
-
-Note that the initial configuration indeed corresponds to the program counter being $0$ and the value of the variables corresponding to $x$ and the other variables being zero.
-The next step function of a NAND++ program is defined analogously to the way we defined it for NAND programs.
-Once again, the definition straightforwardly follows the semantics of the NAND++ language, but is cumbersome to write down.
-
-> # {.definition title="Next step function of NAND++ programs" #nextstepNANDpp}
-The _next step function_ of a program $P$, denoted  $NEXT_P:CONF(P) \rightarrow CONF(P)$, is defined as follows:
-\[
-NEXT_P(pc,\sigma) = \begin{cases} (pc,\sigma) & pc = k|L| \text{for $k>1$ and } \sigma(LOOP)=0 \\
-                                  (pc+1,\sigma') & \text{otherwise}
-\end{cases}
-\]
-where $\sigma': V \times [r']$ is computed as follows:
->
-* Let $(a,j,b,k,c,\ell)$ be the $(pc \mod |L|)$-th tuple of $L$. If $j=|L|$ (which corresponds to using the index `i`) then $j'=index(pc \mod |L|)$ where $index$ is defined as in [eqindex](){.eqref}, otherwise $j'=j$. Similarly $k'=index(pc \mod |L|)$ if $k=|L|$ and $k'=k$ otherwise and $\ell'=index(pc \mod |L|)$ if $\ell=|L|$ and $\ell'=\ell$ otherwise.
->
-* We define $\sigma'(a,j')=NAND(\sigma(b,k'),\sigma(c,\ell'))$ and define $\sigma'(v,t)=\sigma(v,t)$ for all other $v\in V$ and $t\in \N$ for which $\sigma$ is defined.
->
-* Define $r(pc)=  \floor{\sqrt{(pc \mod |L|)+1/4}-1/2}$ to be the largest  index that `i` has ever reached. The domain of $\sigma'$ is $V \times [\max\{n,r(pc+1) \}]$. If the domain of $\sigma'$ is larger than the domain of $\sigma$ then $\sigma'$ maps all elements outside the domain of $\sigma$ to zero.
-
+##
 
 ## Lecture summary
 
-* NAND++ programs introduce the notion of _loops_, and allow us to capture a single algorithm that can evaluate functions of any length.
-*
+* NAND++ programs introduce the notion of _loops_, and allow us to capture a single algorithm that can evaluate functions of any input length.
+
 
 ## Exercises
 
