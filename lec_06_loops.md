@@ -145,7 +145,12 @@ $$
 where $r= \floor{\sqrt{k+1/4}-1/2}$.
 (We ask you to prove this in [computeidx-ex](){.ref}.)
 
-### Remark: Inner loops via syntactic sugar
+## A spoonfull of sugar
+
+Just like NAND, we can add a bit of "syntactic sugar" to NAND++ as well.
+These are constructs that can help us in expressing programs, though ultimately do not change the computational power of the model, since any program using these constructs can be "unsweetened" to obtain a program without them.
+
+### Inner loops via syntactic sugar
 
 While  NAND+  only has a single "outer loop",  we can use conditionals to implement inner loops as well.
 That is, we can replace code such as
@@ -191,10 +196,13 @@ We can apply this transformation repeatedly to convert programs with multiple lo
 > # { .pause }
 Please stop and verify that you understand why this transformation will result in a program that computes the same function as the original code with an inner loop.
 
+### Controlling the index variable
+
+^[TODO: add here the "breadcrumbs" technique to implement i++ (foo) and i--(bar)]
 
 
 
-### Uniformity and NAND vs NAND++
+## Uniformity and NAND vs NAND++
 
 While NAND++ adds an extra operation over NAND, it is not exactly accurate to say that NAND++ programs are "more powerful" than NAND programs.
 NAND programs, having no loops, are simply not applicable for computing functions with more inputs than they have lines.
