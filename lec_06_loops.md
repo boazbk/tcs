@@ -78,7 +78,7 @@ $$
 
 * Like NAND programs, the output of a  NAND++ program is the string `y_`$0$, $\ldots$, `y_`$\expr{k}$  where $k$ is the largest integer such that `y_`$\expr{k}$ was assigned a value.
 
-![The value of `i` as a function of the current iteration. The variable `i` progresses according to the sequence $0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots$.  At the $k$-th iteration the value of `i` equals $k-r(r+1)$ if $k \leq (r+1)^2$ and $(r+1)(r+2)-k$ if $k<(r+1)^2$ where $r= \floor{\sqrt{pc+1/4}-1/2}$.](../figure/indextime.png){#indextimefig .class width=300px height=300px}
+![The value of `i` as a function of the current iteration. The variable `i` progresses according to the sequence $0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots$.  At the $k$-th iteration the value of `i` equals $k-r(r+1)$ if $k \leq (r+1)^2$ and $(r+1)(r+2)-k$ if $k<(r+1)^2$ where $r= \floor{\sqrt{k+1/4}-1/2}$.](../figure/indextime.png){#indextimefig .class width=300px height=300px}
 
 
 See the appendix for a more formal specification of the NAND++ programming language, and the website [http://nandpl.org](http://nandpl.org) for an implementation.
@@ -276,34 +276,61 @@ If one of the indices is the special variable `i` then we will use the number $s
 We can now define NAND++ programs in a way analogous to [NANDprogram](){.ref}:
 
 > # {.definition title="NAND++" #NANDpp}
-A _NAND++ program_ is a 6-tuple $P=(V,x,y,validx,loop,L)$ of the following form:
+A _NAND++ program_ is a 6-tuple $P=(V,X,Y,VALIDX,LOOP,L)$ of the following form:
 >
 * $V$ (called the _variable identifiers_) is some finite set.
 >
-* $x\in V$ is called the _input identifier_.
+* $X\in V$ is called the _input identifier_.
 >
-* $y\in V$ is called the _output identifier_.
+* $Y\in V$ is called the _output identifier_.
 >
-* $validx \in V$ is the _input length identifier_.
+* $VALIDX \in V$ is the _input length identifier_.
 >
-* $loop \in V$ is the _loop variable_.
+* $LOOP \in V$ is the _loop variable_.
 >
 * $L \in (V\times [s+1] \times V \times [s+1] \times V \times [s+1])^*$ is a list of 6-tuples of the form $(a,j,b,k,c,\ell)$ where $a,b,c \in V$ and $j,k,\ell \in [s+1]$ for $s=|L|$.
 That is, $L= ( (a_0,j_0,b_0,k_0,c_0,\ell_0),\ldots,(a_{s-1},j_{s-1},b_{s-1},k_{s-1},c_{k-1},\ell_{s-1}))$ where for every $t\in \{0,\ldots, s-1\}$, $a_t,b_t,c_t \in V$ and $j_t,k_t,\ell_t \in [s+1]$.
-Moreover $a_t \not\in  \{x,validx\}$ for every $t\in [s]$ and $b_t,c_t \not\in \{ y,loop}$ for every $t \in [s]$.
+Moreover $a_t \not\in  \{X,VALIDX\}$ for every $t\in [s]$ and $b_t,c_t \not\in \{ Y,LOOP}$ for every $t \in [s]$.
 >
 
 > # { .pause }
 This definition is long but ultimately translating a NAND++ program from code to tuples can be done in  a fairly straightforward way. Please read the definition again to see that you can follow this transformation.
 Note that there is a difference between the way we represent NAND++ and NAND programs.
 In NAND programs, we used a different element of $V$ to represent, for example, `x_17` and `x_35`.
-For NAND++ we will represent these two variables by $(x,17)$ and $(x,35)$ respectively where $x$ is the input identifier.
-For this reason, in our definition of NAND++, $x$ is a single element of $V$ as opposed to a tuple of elements as in [NANDprogram](){.ref}.
-For the same reason, $y$ is a single element and not a tuple as well.
+For NAND++ we will represent these two variables by $(X,17)$ and $(X,35)$ respectively where $X$ is the input identifier.
+For this reason, in our definition of NAND++, $X$ is a single element of $V$ as opposed to a tuple of elements as in [NANDprogram](){.ref}.
+For the same reason, $Y$ is a single element and not a tuple as well.
 
-Just like for NAND, we can define a notion of _snapshots_ for NAND++.
-Just like it is the case for NAND, we can also define a _canonical form_ for NAND++ programs.
-This canonical form somewhat simplifies the definition of snapshots, and hence we will restrict attention to it.
+Just like for NAND, we can define a notion of a _configuration_ (or _snapshot_) for NAND++, and use that to precisely define the  function that a NAND++ program computes. A configuration of a NAND++ program $P$ is a pair $(pc,\sigma)$ such that $pc$ is the current "program counter" value- the number of lines that have been executed so far- and $\sigma:V\times [r] \rightarrow \{0,1\}$ gives the value for all variables that have been accessed so far.
+
+> # { .pause }
+Before reading the formal definition of a configuration, try to think how _you_ would define a configuration of a NAND program $P$.
+A configuration $(pc,\sigma)$ of $P$ should encode all the state of the computation of $P$ on some input $x$ after executing $pc$ lines.
+You can think of it as a "snapshot of $P$'s memory" at a given point in time.
+This snapshot contains all the information needed to continue the execution.
+
+
+> # {.definition title="Configurations of NAND++ programs" #configurationNANDpp}
+A _configuration_  a program $P=(V,X,Y,VALIDX,LOOP,L)$ consists of a pair $(pc,\sigma)$ where $pc \in \N$ and $\sigma:V \times [r(pc)] \rightarrow \{0,1\}$ is a function, where $r(pc)=  \floor{\sqrt{(pc \mod |L|)+1/4}-1/2}$.^[Note that $pc \mod |L|$ is the number of  iterations that the program executed, and hence $r(pc)$ is the largest index that `i` has ever reached.]
+We define $CONF(P)= \N \times \cup_{r\in\N}\{ \sigma | \sigma:V\times [r] \rightarrow \{0,1\} \}$ to be the set of all possible configurations.
+For a program $P=(V,X,Y,VALIDX,LOOP,L)$ and $x\in \{0,1\}^n$, the _initial configuration of $P$ with input $x$_ is the pair $(0,\sigma_0)$ where $\sigma_0:V\times[n]$ is defined as follows $\sigma_0(X,i)=x_i$ for all $i\in \{0,1\}$ and $\sigma_0(v,j)=0$ for every $v \neq X$ and $j\in [n]$.
+
+Note that the initial configuration indeed corresponds to the program counter being $0$ and the value of the variables corresponding to $x$ and the other variables being zero.
+The next step function of a NAND++ program is defined analogously to the way we defined it for NAND programs:
+
+
+> # {.definition title="Next step function of NAND++ programs" #nextstepNANDpp}
+The _next step function_ of a program $P$, denoted  $NEXT_P:CONF(P) \rightarrow CONF(P)$, is defined as follows:
+\[
+NEXT_P(pc,\sigma) = \begin{cases} (pc,\sigma) & pc = k|L| \text{for $k>1$ and } \sigma(LOOP)=0 \\
+                                  (pc+1,\sigma') & \text{otherwise}
+\end{cases}
+\]
+where $\sigma': V \times [r(pc)]$ is defined as follows:
+
+
+
+### Canonical form of NAND++ programs
 
 > # {.definition title="Canonical NAND++ program" #NANDppcanonical}
 A NAND++ program $P=(V,x,y,validx,loop,L)$ is in _canonical form_ if $V=[t]$ for some $t\in \N$, $x=0$,$y=1$, $validx=2$ and $loop=3$ and every element of $V$ appears in some tuple in $L$.
