@@ -239,7 +239,7 @@ For example, one representation of the XOR program we described above is $P=(V,X
 
 * $Y =($ `y_0` $)$
 
-* $L = $(\;\;($`u`,`x_0`,`x_1`$), ($`v`,`x_0`,`u`$), ($`w`,`x_1`,`u`$), ($`y_0`,`v`,`w`$)\;\;)$
+* $L = (\;\;($ `u`,`x_0`,`x_1` $), ($ `v`,`x_0`,`u` $), ($ `w`,`x_1`,`u` $), ($ `y_0`,`v`,`w` $)\;\;)$
 
 But since we have the freedom of choosing arbitrary sets for our variables, we can also represent the same program as (for example) $P'=(V',X',Y',L')$ where
 

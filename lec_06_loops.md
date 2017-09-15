@@ -321,7 +321,7 @@ A _NAND++ program_ is a 6-tuple $P=(V,X,Y,VALIDX,LOOP,L)$ of the following form:
 >
 * $L \in (V\times [s+1] \times V \times [s+1] \times V \times [s+1])^*$ is a list of 6-tuples of the form $(a,j,b,k,c,\ell)$ where $a,b,c \in V$ and $j,k,\ell \in [s+1]$ for $s=|L|$.
 That is, $L= ( (a_0,j_0,b_0,k_0,c_0,\ell_0),\ldots,(a_{s-1},j_{s-1},b_{s-1},k_{s-1},c_{k-1},\ell_{s-1}))$ where for every $t\in \{0,\ldots, s-1\}$, $a_t,b_t,c_t \in V$ and $j_t,k_t,\ell_t \in [s+1]$.
-Moreover $a_t \not\in  \{X,VALIDX\}$ for every $t\in [s]$ and $b_t,c_t \not\in \{ Y,LOOP}$ for every $t \in [s]$.
+Moreover $a_t \not\in  \{X,VALIDX\}$ for every $t\in [s]$ and $b_t,c_t \not\in \{ Y,LOOP\}$ for every $t \in [s]$.
 >
 
 > # { .pause }
@@ -347,12 +347,15 @@ def EVALpp(P,x):
     vars = { 0:x , 2: [1]*len(x) } # vars[var][idx] is value of var_idx.
     # special variables: 0:X, 1:Y, 2:VALIDX, 3:LOOP
     t = len(P)
-    i = 0
-    r = 0
-    indexincreasing = 1;
+
+    def index(k): # compute i at loop j
+        r = math.floor(math.sqrt(k+1/4)-1/2)
+        return (k-r*(r+1) if k <= (r+1)*(r+1) else (r+1)*(r+2)-k)
+
+
 
     def getval(var,idx): # returns current value of var_idx
-        if idx== t: idx = i
+        if idx== t: idx = index(k)
         l = vars.getdefault(var,[])
         return l[idx] if idx<len(l) else 0
 
@@ -362,16 +365,12 @@ def EVALpp(P,x):
         l[idx]=v
         vars[var] = l
 
+    k = 0
     while True:
         for t in P:
             setval(t[0],t[1], 1-getval(t[2],t[3])*getval(t[4],t[5]))
-        if i==0:
-            indexincreasing = 1
-        elif i==r+1:
-            r +=1
-            indexincreasing = 0
-        i += -1+2*indexincreasing
         if not getval(3,0): break
+        k += 1
 
     return vars[1]
 ~~~~
@@ -410,7 +409,8 @@ Thus in each step, $NEXT_P$ only reads or modifies a constant number of blocks.
 
 ## Growing a NAND tree
 
-~~~~ { .go }
+
+~~~~ { .python }
 def index(k):
     r = math.floor(math.sqrt(k+1/4)-1/2)
     return (k-r*(r+1) if k <= (r+1)*(r+1) else (r+1)*(r+2)-k)
@@ -421,7 +421,7 @@ def expand(nandpp,t,n):
     for k in range(t):
         i=index(k)
         validx = (`one` if i<n else `zero`)
-        result += nandpp.replace('validx_i',validx).replace('_i','_'+str(i))
+        result += nandpp.replace('validx_i',validx).replace('x_i',('x_i' if i<n else 'zero')).replace('_i','_'+str(i))
 
     return result
 ~~~~
