@@ -408,7 +408,25 @@ That is, given a line $p \in [t]$  and a configuration $\sigma$, we compute $p',
 One important property of $NEXT_P$ is that to compute it we only need to access the blocks $0,\ldots,t-1$ (since the largest absolute numerical index in the program is at most $t-1$) as well as the current active block and its immediate neighbors.
 Thus in each step, $NEXT_P$ only reads or modifies a constant number of blocks.
 
-##
+## Growing a NAND tree
+
+~~~~ { .go }
+def index(k):
+    r = math.floor(math.sqrt(k+1/4)-1/2)
+    return (k-r*(r+1) if k <= (r+1)*(r+1) else (r+1)*(r+2)-k)
+
+def expand(nandpp,t,n):
+    result = ""
+
+    for k in range(t):
+        i=index(k)
+        validx = (`one` if i<n else `zero`)
+        result += nandpp.replace('validx_i',validx).replace('_i','_'+str(i))
+
+    return result
+~~~~
+
+![A NAND program for parity obtained by expanding the NAND++ program](../figure/expandnand.png){#expandnandpng .class width=300px height=300px}
 
 ## Lecture summary
 
