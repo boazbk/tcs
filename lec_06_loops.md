@@ -409,16 +409,20 @@ Thus in each step, $NEXT_P$ only reads or modifies a constant number of blocks.
 
 ## Growing a NAND tree
 
+If $P$ is a NAND++ program and $n,T\in \N$ are some numbers, then we can easily obtain a NAND program $P'=expand_{T,n}(P)$ that, given any $x\in \{0,1\}^n$, runs $T$ iterations of the program $P$ and outputs the result.
+If $P$ is a simple program, then we are guaranteed that, if $P$ does not enter an infinite loop on $x$, then as long as we make $T$ large enough, $P'(x)$ will equal $P(x)$.
+To obtain the program $P'$ we can simply place $T$ copies of the program $P$ one after the other, doing a "search and replace" in the $k$-th copy of any instances of `_i` with the value $index(k)$, where the function $index$ is defined as in [eqindex](){.eqref}.
+Here is a Python program `expand` that on input the code of a NAND++ program and numbers $T,n$, outputs the code of the NAND program $P'$ that works on length $n$ inputs and is obtained by running $T$ iterations of $P$: (See [expandnandpng](){.ref} for an illustration of how the expansion of the parity NAND++ program looks like)
 
 ~~~~ { .python }
 def index(k):
     r = math.floor(math.sqrt(k+1/4)-1/2)
     return (k-r*(r+1) if k <= (r+1)*(r+1) else (r+1)*(r+2)-k)
 
-def expand(nandpp,t,n):
+def expand(nandpp,T,n):
     result = ""
 
-    for k in range(t):
+    for k in range(T):
         i=index(k)
         validx = (`one` if i<n else `zero`)
         result += nandpp.replace('validx_i',validx).replace('x_i',('x_i' if i<n else 'zero')).replace('_i','_'+str(i))
@@ -427,6 +431,15 @@ def expand(nandpp,t,n):
 ~~~~
 
 ![A NAND program for parity obtained by expanding the NAND++ program](../figure/expandnand.png){#expandnandpng .class width=300px height=300px}
+
+If a NAND++ program $P$ computes some function $F:\{0,1\}^* \rightarrow \{0,1\}$, then for every $x\in \{0,1\}^*$  there is some number $T_P(x)$ such that on input $x$ halts within $T(x)$ iterations of its main loop and outputs $F(x)$.
+For every $n \in \N$, define $T_P(x) = \max_{x\in \{0,1\}^n} T(x)$. Then $P'=expand_{T_P(n),n}(P)$ computes the function $F_n:\{0,1\}^n \rightarrow \{0,1\}$ which is the restriction of $F$ to $\{0,1\}^n$. (Can you see why?)
+
+In particular we have the following theorem
+
+> # {.theorem title="Expansion of NAND++ to NAND" #NANDexpansionthm}
+For every simple NAND++ program $P$ and function $F:\{0,1\}^* \rightarrow \{0,1\}$, $P$ computes $F$ if and only if for every $n\in\N$ there exists $T\in \N$ such that $expand_{T,n}(P)$ computes $F_n$.^[TODO: this theorem is "morally true" but check that the "if" direction works. Need to see what we do if $P$ writes to `y_0` the correct value but then does not halt.]
+
 
 ## Lecture summary
 
