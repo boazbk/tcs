@@ -460,9 +460,9 @@ where $L' = ((L'_{0,0},L'_{0,1},L'_{0,2}), \cdots , (L'_{t',0},L'_{t',1},L'_{t',
 We now need to prove that  $P''$ computes $G \circ F$.
 We will do so by showing the following two claims:
 >
-__Claim 1:__ For every $x\in \{0,1\}^n$ and $\ell \in [t+1]$, $conf_\ell(P'',x)=(\ell,\sigma 0^{t'-m})$ where $(\ell,\sigma)=conf_\ell(P,x)$.
+__Claim 1:__ For every $x\in \{0,1\}^n$ and $\ell \in [s+1]$, $conf_\ell(P'',x)=(\ell,\sigma 0^{t'-m})$ where $(\ell,\sigma)=conf_\ell(P,x)$.
 >
-__Claim 2:__ For every $x\in \{0,1\}^n$ and  $\ell \in \{t,\ldots, t+t'\}$, $conf_\ell(P'',x) = (\ell, z\sigma)$ where $(\ell-t,\sigma)=conf_{\ell-t}(P',F(x))$ and $z\in \{0,1\}^{t-m}$ is some string.
+__Claim 2:__ For every $x\in \{0,1\}^n$ and  $\ell \in \{s,\ldots, s+s'\}$, $conf_\ell(P'',x) = (\ell, z\sigma)$ where $(\ell-t,\sigma)=conf_{\ell-t}(P',F(x))$ and $z\in \{0,1\}^{t-m}$ is some string.
 >
 Claim 2 implies the theorem, since  by our definition of $P''$ computing the function $G$, it follows that if $(t',\sigma) = conf_{t'}(P'',F(x))$ then the last $k$ bits of $\sigma$ correspond to $G(F(x))$.
 We will outline the proof of Claims 1 and 2:

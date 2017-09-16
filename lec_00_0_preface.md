@@ -83,7 +83,7 @@ This can  help students keep up with what is a fairly ambitious and fast-paced s
 ## Acknowledgements
 
 These lecture notes are constantly evolving, and I am getting input from several people, for which I am deeply grateful.
-Thanks to Michele Amoretti, Sam Benkelman, Jarosław Błasiok, Chi-Ning Chou, Michael Colavita, Juan Esteller, Mark Goldstein,  Chan Kang, Allison Lee, Ondřej Lengál, Alex Lombardi, Lisa Lu, Aditya Mahadevan, Jacob Meyerson, Hamish Nicholson, Thomas Orton, Juan Perdomo, Brian Sapozhnikov, Alec Sun, Everett Sussman, Sarah Turnill, Salil Vadhan, Ryan Williams and Jessica Zhu for helpful feedback. I will keep adding names here as I get more comments.
+Thanks to Michele Amoretti, Sam Benkelman, Jarosław Błasiok, Chi-Ning Chou, Michael Colavita, Juan Esteller, Mark Goldstein,  Chan Kang, Allison Lee, Ondřej Lengál, Alex Lombardi, Lisa Lu, Aditya Mahadevan, Jacob Meyerson, Hamish Nicholson, Thomas Orton, Juan Perdomo, Brian Sapozhnikov, Alec Sun, Everett Sussman, Sarah Turnill, Salil Vadhan, Ryan Williams, Wanqian Yang, and Jessica Zhu for helpful feedback. I will keep adding names here as I get more comments.
 If you have any comments or suggestions, please do post them on the GitHub repository [https://github.com/boazbk/tcs](https://github.com/boazbk/tcs).
 
 
