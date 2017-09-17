@@ -297,7 +297,7 @@ $$
                \sigma(x)   & \text{otherwise}
                \end{cases}
 $$
-where $(u,v,w)=L_\ell$ is the $\ell$-th triple in $L$.
+where $(u,v,w)=L_\ell$ is the $\ell$-th triple (counting from zero) in $L$.
 >
 For every input $x\in \{0,1\}^n$ and $\ell in [s+1]$, the _$\ell$-th configuration of $P$ on input $x$_, denoted as $conf_\ell(P,x)$ is defined recursively as follows:
 $$
@@ -305,7 +305,7 @@ conf_\ell(P,x) = \begin{cases} (0,\sigma_0) & \ell=0 \\
                    NEXT_P(conf_{\ell-1}(P)) & \text{otherwise}
                    \end{cases}
 $$
-where $(0,\sigma_0)$ is the configuration of $P$ on input $x$.
+where $(0,\sigma_0)$ is the initial configuration of $P$ on input $x$.
 
 
 We can now finally formally define the notion of computing a function:
