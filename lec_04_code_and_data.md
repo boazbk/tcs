@@ -182,7 +182,8 @@ Our construction will follow very closely the Python implementation of `EVAL` ab
 
     d. Add the code `avars_`$\expr{j}$ ` := ` `newvars_`$\expr{j}$ for every $j \in [2^\ell]$ (i.e., update `avars` to  `newvars`).
 
-4. At the end of the program we add the code `t_0`,$\ldots$,`t_`$\expr{\ell-1}$ `:= INC(MAX(avars_0`,$\ldots$,`avars_`$2^\ell$`))`  where `MAX` is a macro that computes the function $MAX_{2^\ell,\ell}$ and we define  $MAX_{s,\ell}:\{0,1\}^{s\ell} \rightarrow \{0,1\}^\ell$ to take the concatenation of the representation of $s$ numbers in $[2^\ell]$ and output the representation of the maximum number, and `INC` is a macro that computes the function $INC_\ell$ that increments a given number in $[2^\ell]$ by one. (We leave coming up with NAND programs for computing $MAX_{s,\ell}$ and $INC_\ell$ as an exercise for the reader.)
+
+4. After adding all the $s$ snippets above in Step 3,  we add to the program the code `t_0`,$\ldots$,`t_`$\expr{\ell-1}$ `:= INC(MAX(avars_0`,$\ldots$,`avars_`$2^\ell$`))`  where `MAX` is a macro that computes the function $MAX_{2^\ell,\ell}$ and we define  $MAX_{s,\ell}:\{0,1\}^{s\ell} \rightarrow \{0,1\}^\ell$ to take the concatenation of the representation of $s$ numbers in $[2^\ell]$ and output the representation of the maximum number, and `INC` is a macro that computes the function $INC_\ell$ that increments a given number in $[2^\ell]$ by one. (We leave coming up with NAND programs for computing $MAX_{s,\ell}$ and $INC_\ell$ as an exercise for the reader.)
 
 5. Finally we add for every $j\in [m]$:
 
