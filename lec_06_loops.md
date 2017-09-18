@@ -152,30 +152,11 @@ where $r= \floor{\sqrt{k+1/4}-1/2}$.
 
 
 
-### Uniformity and NAND vs NAND++
-
-While NAND++ adds an extra operation over NAND, it is not exactly accurate to say that NAND++ programs are "more powerful" than NAND programs.
-NAND programs, having no loops, are simply not applicable for computing functions with more inputs than they have lines.
-The key difference between NAND and NAND++ is that NAND++ allows us to express the fact that the algorithm for computing parities of length-$100$ strings is really the same one as the algorithm for computing parities of length-$5$ strings (or similarly the fact that the algorithm for adding $n$-bit numbers is the same for every $n$, etc.).
-That is, one can think of the NAND++ program for general parity as the "seed" out of which we can grow NAND programs for length $10$, length $100$, or length $1000$ parities as needed.
-This notion of a single algorithm that can compute functions of all input lengths is known as _uniformity_ of computation and hence we think of NAND++ as  _uniform_ model of computation, as opposed to NAND which is a _nonuniform_ model, where we have to specify a different program for every input length.
-
-
-Looking ahead, we will see that this uniformity leads to another crucial difference between NAND++ and NAND programs.
-NAND++ programs can have inputs and outputs that are longer than the description of the program and in particular we can have a NAND++ program that "self replicates" in the sense that it can print its own code.   
-This notion of "self replication", and the related notion of "self reference" is crucial to many aspects of computation, as well  of course to life itself, whether in the form of digital or biological programs.
-
-
-> # {.remark title="Advanced note: NAND++ as a 'seed' for NAND." #nandefficienct}
- This notion of a NAND++ program as a "seed" that can grow a different NAND program for every input length is one that we will come back to later on in this course, when we consider bounding the _time complexity_ of computation.
-As we will see, we can think of a NAND++ program $P$ that computes some function $F$ in $T(n)$ steps on input length $n$, as a two phase process.
-For any  input $x\in \{0,1\}^*$, the program $P$ can be thought of as first producing a $T(|x|)$-line NAND program $P'$, and then executing this program $P'$ on $x$.
-This might not be easy to see at this point, but will become clearer in a few lectures when we tackle the issue of _efficiency_ in computation.
-
 
 ### Infinite loops and computing a function
 
-There is another important difference between NAND and NAND++ programs: looking at a NAND program $P$, we can always tell how many inputs and how many outputs it has (by looking at the number of `x_` and `y_` variables).
+One crucial difference between NAND and NAND++ programs is the following.
+Looking at a NAND program $P$, we can always tell how many inputs and how many outputs it has (by simply counting  the number of `x_` and `y_` variables).
 Furthermore, we  are guaranteed that if we invoke $P$ on any input then _some_ output will be produced.  
 In contrast, given any particular NAND++ program $P'$, we cannot determine a priori the length of the output.
 In fact, we don't even know  if an output would be produced at all!
@@ -281,6 +262,8 @@ We say that a NAND++ program $P$ is _simple_ if it has the following properties:
 * All lines that write to the variable `loop` or `y_0` are "guarded" by `halted` in the sense that we replace a line of the form `y_0 := foo NAND bar` with the (unsweetened equivalent to) `if NOT(halted) { y_0 := foo NAND bar }` and similarly `loop := blah NAND baz` is replaced with `if NOT(halted) {loop := blah NAND baz }`.
 >
 * It has an `indexincreasing` variable that is equal to $1$ if and only if in the next iteration the value of `i` will increase by $1$.
+>
+* It contains variables `zero` and `one` that are initialized to be $0$ and $1$ respectively, by having the first line be `one := zero NAND zero` and having no other lines that assign values to them.
 
 Note that if $P$ is a simple program then even if we continue its execution beyond the point it should have halted in, the value of the `y_0` and `loop` variables will not change.
 The following theorem shows that, in the context of Boolean functions, we can assume that every program is simple:^[The restriction to Boolean functions is not very significant, as we can always encode a non Boolean function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ by the Boolean function $G(x,i)=F(x)_i$ where we treat the second input $i$ as representing an integer. The crucial point is that we still allow the functions to have an unbounded _input length_ and hence in particular these are functions that cannot be computed by plain "loop less" NAND programs.]
@@ -294,6 +277,69 @@ Now we obtain the simple NAND++ program $P'$ by simply modifying the code of $P$
 If $P$ already used a variable named `halted` then we rename it.
 We then  we add the line `halted := loop NAND loop` to the end of the program, and replace all lines writing to the variables `y_0` and `loop` with their "guarded" equivalents.
 Finally, we ensure the existence of the variable `indexincreasing` using the breadrumbs technique discussed above.
+
+
+
+## Uniformity, and NAND vs NAND++
+
+
+While NAND++ adds an extra operation over NAND, it is not exactly accurate to say that NAND++ programs are "more powerful" than NAND programs.
+NAND programs, having no loops, are simply not applicable for computing functions with more inputs than they have lines.
+The key difference between NAND and NAND++ is that NAND++ allows us to express the fact that the algorithm for computing parities of length-$100$ strings is really the same one as the algorithm for computing parities of length-$5$ strings (or similarly the fact that the algorithm for adding $n$-bit numbers is the same for every $n$, etc.).
+That is, one can think of the NAND++ program for general parity as the "seed" out of which we can grow NAND programs for length $10$, length $100$, or length $1000$ parities as needed.
+This notion of a single algorithm that can compute functions of all input lengths is known as _uniformity_ of computation and hence we think of NAND++ as  _uniform_ model of computation, as opposed to NAND which is a _nonuniform_ model, where we have to specify a different program for every input length.
+
+
+Looking ahead, we will see that this uniformity leads to another crucial difference between NAND++ and NAND programs.
+NAND++ programs can have inputs and outputs that are longer than the description of the program and in particular we can have a NAND++ program that "self replicates" in the sense that it can print its own code.   
+This notion of "self replication", and the related notion of "self reference" is crucial to many aspects of computation, as well  of course to life itself, whether in the form of digital or biological programs.
+
+### Growing a NAND tree
+
+
+If $P$ is a NAND++ program and $n,T\in \N$ are some numbers, then we can easily obtain a NAND program $P'=expand_{T,n}(P)$ that, given any $x\in \{0,1\}^n$, runs $T$ iterations of the program $P$ and outputs the result.
+If $P$ is a simple program, then we are guaranteed that, if $P$ does not enter an infinite loop on $x$, then as long as we make $T$ large enough, $P'(x)$ will equal $P(x)$.
+To obtain the program $P'$ we can simply place $T$ copies of the program $P$ one after the other, doing a "search and replace" in the $k$-th copy of any instances of `_i` with the value $index(k)$, where the function $index$ is defined as in [eqindex](){.eqref}. For example, [expandnandpng](){.ref} illustrates  the expansion of the  NAND++ program for parity.
+
+
+![A NAND program for parity obtained by expanding the NAND++ program](../figure/expandnand.png){#expandnandpng .class width=300px height=300px}
+
+
+In particular we have the following theorem
+
+> # {.theorem title="Expansion of NAND++ to NAND" #NANDexpansionthm}
+For every simple NAND++ program $P$ and function $F:\{0,1\}^* \rightarrow \{0,1\}$, if $P$ computes $F$ then for every $n\in\N$ there exists $T\in \N$ such that $expand_{T,n}(P)$ computes $F_n$.
+
+> #{.proof}
+We'll start with a "proof by code". Here is a Python program `expand` to compute $expand_{T,n}(P)$.
+On  input the code $P$ of a NAND++ program and numbers $T,n$, `expand` outputs the code of the NAND program $P'$ that works on length $n$ inputs and is obtained by running $T$ iterations of $P$:
+>
+~~~~ { .python }
+def index(k):
+    r = math.floor(math.sqrt(k+1/4)-1/2)
+    return (k-r*(r+1) if k <= (r+1)*(r+1) else (r+1)*(r+2)-k)
+
+def expand(P,T,n):
+    result = ""
+
+    for k in range(T):
+        i=index(k)
+        validx = (`one` if i<n else `zero`)
+        result += P.replace('validx_i',validx).replace('x_i',('x_i' if i<n else 'zero')).replace('_i','_'+str(i))
+
+    return result
+~~~~
+>
+If the original program had $s$ lines, then for every $\ell \in [sT]$, line  $\ell$ in the output of `expand(P,T,n)` corresponds exactly to the line executed in step $\ell$ of the execution $P(x)$.^[In the notation above (as elsewhere),  we index both  lines and steps from $0$.]
+Indeed, in step $\ell$ of the execution of $P(x)$, the line executed is $k=\ell \bmod s$, and line $\ell$ in the output of `expand(P,T,n)` is a copy of line $k$ in $P$.
+If that line involved unindexed variables, then it is copied as is in the returned program `result`.
+Otherwise, if it involved the index `_i` then we replace `i` with the current value of $i$.
+Moreover, we replace the variable `validx_i` with either `one` or `zero` depending on whether $i < n$.
+>
+Now, if a simple  NAND++ program $P$ computes some function $F:\{0,1\}^* \rightarrow \{0,1\}$, then for every $x\in \{0,1\}^*$  there is some number $T_P(x)$ such that on input $x$ halts within $T(x)$ iterations of its main loop and outputs $F(x)$.
+Moreover, since $P$ is simple, even if we run it for more iterations than that, the output value will not change.
+For every $n \in \N$, define $T_P(n) = \max_{x\in \{0,1\}^n} T(x)$. Then $P'=expand_{T_P(n),n}(P)$ computes the function $F_n:\{0,1\}^n \rightarrow \{0,1\}$ which is the restriction of $F$ to $\{0,1\}^n$.
+
 
 
 
@@ -352,8 +398,6 @@ def EVALpp(P,x):
         r = math.floor(math.sqrt(k+1/4)-1/2)
         return (k-r*(r+1) if k <= (r+1)*(r+1) else (r+1)*(r+2)-k)
 
-
-
     def getval(var,idx): # returns current value of var_idx
         if idx== t: idx = index(k)
         l = vars.getdefault(var,[])
@@ -407,38 +451,17 @@ That is, given a line $p \in [t]$  and a configuration $\sigma$, we compute $p',
 One important property of $NEXT_P$ is that to compute it we only need to access the blocks $0,\ldots,t-1$ (since the largest absolute numerical index in the program is at most $t-1$) as well as the current active block and its immediate neighbors.
 Thus in each step, $NEXT_P$ only reads or modifies a constant number of blocks.
 
-## Growing a NAND tree
+### Deltas
 
-If $P$ is a NAND++ program and $n,T\in \N$ are some numbers, then we can easily obtain a NAND program $P'=expand_{T,n}(P)$ that, given any $x\in \{0,1\}^n$, runs $T$ iterations of the program $P$ and outputs the result.
-If $P$ is a simple program, then we are guaranteed that, if $P$ does not enter an infinite loop on $x$, then as long as we make $T$ large enough, $P'(x)$ will equal $P(x)$.
-To obtain the program $P'$ we can simply place $T$ copies of the program $P$ one after the other, doing a "search and replace" in the $k$-th copy of any instances of `_i` with the value $index(k)$, where the function $index$ is defined as in [eqindex](){.eqref}.
-Here is a Python program `expand` that on input the code of a NAND++ program and numbers $T,n$, outputs the code of the NAND program $P'$ that works on length $n$ inputs and is obtained by running $T$ iterations of $P$: (See [expandnandpng](){.ref} for an illustration of how the expansion of the parity NAND++ program looks like)
+Sometimes it is  easier to keep track of merely the _changes_ (sometimes known as "deltas") in the state of a NAND++ program, rather than the full configuration.
+Since every step of a NAND++ program assigns a value to a single variable, this motivates the following definition:
 
-~~~~ { .python }
-def index(k):
-    r = math.floor(math.sqrt(k+1/4)-1/2)
-    return (k-r*(r+1) if k <= (r+1)*(r+1) else (r+1)*(r+2)-k)
+> # {.definition title="Modification logs of NAND++ program" #deltas}
+The _modification log_ (or "deltas") of an $s$-line simple NAND++ program $P$ on an input $x\in \{0,1\}^n$ is the string $\Delta$ of length $sT$ such that for every $\ell \in [sT]$,  $\Delta_\ell$ equals to the value that is assigned by the line executed in step $\ell$ of the execution $P(x)$, where $T$ is the number of iterations of the loop that $P$ does on input $x$.
 
-def expand(nandpp,T,n):
-    result = ""
+If $\Delta$  is the "deltas" of $P$ on input $x \in \{0,1\}^n$, then for every $\ell\in [Ts]$, $\Delta_\ell$  is the same as the value assigned by line $\ell$  of the NAND program $expand_{T',n}(P)$ where $s$ is the number of lines in $P$, and for every $T'$ which is at least the number of loop iterations that $P$ takes on input $x$.
 
-    for k in range(T):
-        i=index(k)
-        validx = (`one` if i<n else `zero`)
-        result += nandpp.replace('validx_i',validx).replace('x_i',('x_i' if i<n else 'zero')).replace('_i','_'+str(i))
 
-    return result
-~~~~
-
-![A NAND program for parity obtained by expanding the NAND++ program](../figure/expandnand.png){#expandnandpng .class width=300px height=300px}
-
-If a NAND++ program $P$ computes some function $F:\{0,1\}^* \rightarrow \{0,1\}$, then for every $x\in \{0,1\}^*$  there is some number $T_P(x)$ such that on input $x$ halts within $T(x)$ iterations of its main loop and outputs $F(x)$.
-For every $n \in \N$, define $T_P(x) = \max_{x\in \{0,1\}^n} T(x)$. Then $P'=expand_{T_P(n),n}(P)$ computes the function $F_n:\{0,1\}^n \rightarrow \{0,1\}$ which is the restriction of $F$ to $\{0,1\}^n$. (Can you see why?)
-
-In particular we have the following theorem
-
-> # {.theorem title="Expansion of NAND++ to NAND" #NANDexpansionthm}
-For every simple NAND++ program $P$ and function $F:\{0,1\}^* \rightarrow \{0,1\}$, $P$ computes $F$ if and only if for every $n\in\N$ there exists $T\in \N$ such that $expand_{T,n}(P)$ computes $F_n$.^[TODO: this theorem is "morally true" but check that the "if" direction works. Need to see what we do if $P$ writes to `y_0` the correct value but then does not halt.]
 
 
 ## Lecture summary

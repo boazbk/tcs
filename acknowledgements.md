@@ -7,6 +7,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Jarosław Błasiok
 * Chi-Ning Chou
 * Michael Colavita
+* Robert Darley Waddilove
 * Juan Esteller
 * Mark Goldstein
 * Chan Kang
