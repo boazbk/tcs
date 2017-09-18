@@ -388,13 +388,13 @@ If $F:\{0,1\}^n \rightarrow \{0,1\}^m$ is a function in $SIZE(L)$ and $G:\{0,1\}
 
 
 > # {.theorem title="Parallel composition of functions" #parcompositionthm}
-If $F:\{0,1\}^n \rightarrow \{0,1\}^m$ is a function in $SIZE(L)$ and $G:\{0,1\}^{n'} \rightarrow \{0,1\}^{m'}$ is a function in $SIZE(L')$ then $F \oplus G$ is in $SIZE(L+L')$, where
-$F \oplus G: \{0,1\}^{n+n'} \rightarrow \{0,1\}^{m+m'}$ is defined as the function that maps $x \in \{0,1\}^{n+n'}$ to $F(x_0,\ldots,x_{n-1})G(x_n,\ldots,x_{n+n'-1})$.
+If $F:\{0,1\}^n \rightarrow \{0,1\}^m$ is a function in $SIZE(L)$ and $G:\{0,1\}^{n'} \rightarrow \{0,1\}^{m'}$ is a function in $SIZE(L')$ then $F\| G$ is in $SIZE(L+L')$, where
+$F \| G: \{0,1\}^{n+n'} \rightarrow \{0,1\}^{m+m'}$ is defined as the function that maps $x \in \{0,1\}^{n+n'}$ to $F(x_0,\ldots,x_{n-1})G(x_n,\ldots,x_{n+n'-1})$.
 
 > # { .pause }
 We will formally prove [seqcompositionthm](){.ref} and [parcompositionthm](){.ref} using our formal definition of NAND programs. But it is also possible to directly give syntactic transformations of the code of programs computing $F$ and $G$ to programs computing $G\circ F$ and $F \oplus G$ respectively.
 It is a good exercise for you to pause here and see that you know how to give such a transformation.
-Try to think how you would write a _program_ (in the programming language of your choice) that given two strings `C` and `D` that contain the code of NAND programs for computing $F$ and $G$, would output a string `E` that contains that code of a NAND program for $G\circ F$ (or $F \oplus G$).
+Try to think how you would write a _program_ (in the programming language of your choice) that given two strings `C` and `D` that contain the code of NAND programs for computing $F$ and $G$, would output a string `E` that contains that code of a NAND program for $G\circ F$ (or $F \| G$).
 
 
 Before proving [seqcompositionthm](){.ref} and [parcompositionthm](){.ref}, note that they do imply [xorfourthm](){.ref}.
@@ -494,7 +494,7 @@ y_2       := c_2 OR c'_2    // top digit is 1 if one of the top carries is 1
 ![Adding two $2$-bit numbers via the grade school algorithm.](../figure/add2.png){#addtwofig .class width=300px height=300px}
 
 To transform this pseudocode into an actual program or circuit, we can use [seqcompositionthm](){.ref} and [parcompositionthm](){.ref}.
-That is, we first compute $(y_0,c_1,z_1,c_2) = ADD_1 \oplus ADD_1 (x_0,x_2,x_1,x_3)$, which we can do in $10$ lines  via [parcompositionthm](){.ref}, then apply  $ADD_1$ to $(z_1,c_1)$, and finally use the fact that $OR(a,b)=NAND(NOT(a),NOT(b))$ and $NOT(a)=NAND(a,a)$ to compute `c_2 OR c'_2` via three lines of NAND.
+That is, we first compute $(y_0,c_1,z_1,c_2) = ADD_1 \| ADD_1 (x_0,x_2,x_1,x_3)$, which we can do in $10$ lines  via [parcompositionthm](){.ref}, then apply  $ADD_1$ to $(z_1,c_1)$, and finally use the fact that $OR(a,b)=NAND(NOT(a),NOT(b))$ and $NOT(a)=NAND(a,a)$ to compute `c_2 OR c'_2` via three lines of NAND.
 The resulting code is the following:
 
 ~~~~ { .go .numberLines  }
