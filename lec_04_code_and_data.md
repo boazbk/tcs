@@ -152,7 +152,7 @@ We vnow turn to actually proving [eff-bounded-univ](){.ref}.
 To do this, it is of course not enough to give a Python program.
 We need to __(a)__ give a precise representation of programs as binary strings, and __(b)__ show how we compute the $EVAL_{S,n,m}$ function on this representation by a NAND program.
 
-First, if a NAND program has $s$ lines, then since it can have at most $3s$ distinct variables, it can be represented by a string of size $S=3s\ell$ where $\ell = \lceil \log(3s+1) \rceil$, by simply concatenating the binary representations of all the $3s$ numbers (adding leading zeroes as needed to make each number represented by a string of exactly $\ell$ bits).
+First, if a NAND program has $s$ lines, then since it can have at most $3s$ distinct variables, it can be represented by a string of size $S=3s\lambda$ where $\lambda = \lceil \log(3s+1) \rceil$, by simply concatenating the binary representations of all the $3s$ numbers (adding leading zeroes as needed to make each number represented by a string of exactly $\lambda$ bits).
 So, our job is to transform, for every $s,n,m$, the Python code above to a NAND program $U_{s,n,m}$ that  computes the function $EVAL_{S,n,m}$ for $S=3s\lceil \log(3s+1)\rceil$.
 That is, given any representation $r \in \{0,1\}^S$ of an $s$-line $n$-input $m$-output NAND program $P$, and string $w \in \{0,1\}^n$, $U_{S,n,m}(rw)$ outputs $P(w)$.
 
@@ -163,53 +163,54 @@ Note that there is a subtle but crucial difference between this function and the
 Rather than actually evaluating a given program $P$ on some input $w$, the function `universal` should output the _code_ of a NAND program that computes the map $(P,w) \mapsto P(w)$.
 
 Let $n,m,s \in \N$ be some numbers satisfying $s \geq n$ and $s \geq m$.
-We now describe the NAND program $U_{n,m,s}$ that computes $EVAL_{S,n,m}$ for $S = 3s\ell$ and $\ell = \lceil \log(3s+1) \rceil$.
+We now describe the NAND program $U_{n,m,s}$ that computes $EVAL_{S,n,m}$ for $S = 3s\lambda$ and $\lambda = \lceil \log(3s+1) \rceil$.
 Our construction will follow very closely the Python implementation of `EVAL` above:^[We allow ourselves use of syntactic sugar in describing the program. We can always "unsweeten" the program later.]
 
-1. $U_{s,n,m}$ will contain variables `avars_0`,$\ldots$,`avars_`$\expr{2^\ell-1}$.
+1. $U_{s,n,m}$ will contain variables `avars_0`,$\ldots$,`avars_`$\expr{2^\lambda-1}$.
 
-2. For $i=0,\ldots,n-1$, we add the line `avars_`$\expr{i}$ ` :=  x_`$\expr{3s\ell+i}$ to $U_{s,n,m}$. Recall that the input to $EVAL_{S,n,m}$ is a string $rw \in \{0,1\}^{3s\ell + n}$ where $r\in \{0,1\}^{3s\ell}$ is the representation of the program $P$ and $w\in \{0,1\}^n$ is the input that the program should be applied on. Hence this step copies the input to the variables `avars_0`,$\ldots$,`avars_`$\expr{n-1}$.
+2. For $i=0,\ldots,n-1$, we add the line `avars_`$\expr{i}$ ` :=  x_`$\expr{3s\lambda+i}$ to $U_{s,n,m}$. Recall that the input to $EVAL_{S,n,m}$ is a string $rw \in \{0,1\}^{3s\lambda + n}$ where $r\in \{0,1\}^{3s\lambda}$ is the representation of the program $P$ and $w\in \{0,1\}^n$ is the input that the program should be applied on. Hence this step copies the input to the variables `avars_0`,$\ldots$,`avars_`$\expr{n-1}$.
 
 3. For $\ell=0,\ldots,s-1$  we add the following code to $U_{s,n,m}$:
 
-    a. Write `a_`$\expr{j}$ ` := ` `x_`$\expr{3\ell+j}$, `b_`$\expr{j}$ ` := ` `x_`$\expr{3\ell+\ell+j}$ and `c_`$\expr{j}$ ` := ` `x_`$\expr{3\ell+2\ell+j}$ for all $j\in [\ell]$. In other words, this code make `a`, `b`, `c` be three $\ell$-bit long arrays containing the binary representation of the $\ell$-th triple  $(a,b,c)$ in the program.
+    a. Write `a_`$\expr{j}$ ` := ` `x_`$\expr{3\ell\lambda+j}$, `b_`$\expr{j}$ ` := ` `x_`$\expr{3\ell
+        lambda+\lambda+j}$ and `c_`$\expr{j}$ ` := ` `x_`$\expr{3\ell\lambda+2\lambda+j}$ for all $j\in [\lambda]$. In other words, this code make `a`, `b`, `c` be three $\lambda$-bit long arrays containing the binary representation of the $\ell$-th triple  $(a,b,c)$ in the program.
 
-    b. Add the code `u := LOOKUP(avars_0` ,$\ldots$, `avars_`$\expr{2^\ell-1}$,`b_0`,$\ldots$,`b_`$\expr{\ell-1}$`)` and `v := LOOKUP(avars_0` , $\ldots$,`avars_`$\expr{2^\ell-1}$,`c_0`,$\ldots$,`c_`$\expr{\ell-1}$`)` where `LOOKUP` is the macro that computes $LOOKUP_\ell:\{0,1\}^{2^\ell+\ell}\rightarrow \{0,1\}$. Recall that we defined $LOOKUP_\ell(A,i)=A_i$ for every $A\in \{0,1\}^{2^\ell}$ and $i\in \{0,1\}^\ell$ (using the binary representation to identify  $i$ with an index in $[2^\ell]$).  Hence this code means that `u` gets the value of `avars_`$\expr{b}$ and `v` gets the value of `avars_`$\expr{c}$.
+    b. Add the code `u := LOOKUP(avars_0` ,$\ldots$, `avars_`$\expr{2^\lambda-1}$,`b_0`,$\ldots$,`b_`$\expr{\lambda-1}$`)` and `v := LOOKUP(avars_0` , $\ldots$,`avars_`$\expr{2^\lambda-1}$,`c_0`,$\ldots$,`c_`$\expr{\lambda-1}$`)` where `LOOKUP` is the macro that computes $LOOKUP_\lambda:\{0,1\}^{2^\lambda+\lambda}\rightarrow \{0,1\}$. Recall that we defined $LOOKUP_\lambda(A,i)=A_i$ for every $A\in \{0,1\}^{2^\lambda}$ and $i\in \{0,1\}^\lambda$ (using the binary representation to identify  $i$ with an index in $[2^\lambda]$).  Hence this code means that `u` gets the value of `avars_`$\expr{b}$ and `v` gets the value of `avars_`$\expr{c}$.
 
     c. Add the code `val := u NAND v` (i.e., `w` gets the value that should be stored in `avars_`$\expr{a}$)
 
-    c. Add the code `newvars_0`,$\ldots$,`newvars_`$\expr{2^\ell-1}$ ` := UPDATE(avars_0`,$\ldots$,`avars_`$\expr{2^\ell-1}$`,` `a_0`,$\ldots$,`a_`$\expr{\ell-1}$,`val``)`, where `UPDATE` is a macro that computes the function $UPDATE_\ell:\{0,1\}^{2^\ell +\ell +1} \rightarrow \{0,1\}^{2^\ell}$ defined as follows: for every $A \in \{0,1\}^{2^\ell}$, $i\in \{0,1\}^\ell$ and $v\in \{0,1\}$, $UPDATE_\ell(A,i,v)=A'$ such that $A'_j = A_j$ for all $j \neq i$ and $A'_i = v$ (identifying $i$ with an index in $[2^\ell]$). (See below for discussions on how to implement this and other macros.)
+    c. Add the code `newvars_0`,$\ldots$,`newvars_`$\expr{2^\lambda-1}$ ` := UPDATE(avars_0`,$\ldots$,`avars_`$\expr{2^\lambda-1}$`,` `a_0`,$\ldots$,`a_`$\expr{\lambda-1}$,`val``)`, where `UPDATE` is a macro that computes the function $UPDATE_\lambda:\{0,1\}^{2^\lambda +\lambda +1} \rightarrow \{0,1\}^{2^\lambda}$ defined as follows: for every $A \in \{0,1\}^{2^\lambda}$, $i\in \{0,1\}^\lambda$ and $v\in \{0,1\}$, $UPDATE_\lambda(A,i,v)=A'$ such that $A'_j = A_j$ for all $j \neq i$ and $A'_i = v$ (identifying $i$ with an index in $[2^\lambda]$). (See below for discussions on how to implement this and other macros.)
 
-    d. Add the code `avars_`$\expr{j}$ ` := ` `newvars_`$\expr{j}$ for every $j \in [2^\ell]$ (i.e., update `avars` to  `newvars`).
+    d. Add the code `avars_`$\expr{j}$ ` := ` `newvars_`$\expr{j}$ for every $j \in [2^\lambda]$ (i.e., update `avars` to  `newvars`).
 
 
-4. After adding all the $s$ snippets above in Step 3,  we add to the program the code `t_0`,$\ldots$,`t_`$\expr{\ell-1}$ `:= INC(MAX(avars_0`,$\ldots$,`avars_`$2^\ell$`))`  where `MAX` is a macro that computes the function $MAX_{2^\ell,\ell}$ and we define  $MAX_{s,\ell}:\{0,1\}^{s\ell} \rightarrow \{0,1\}^\ell$ to take the concatenation of the representation of $s$ numbers in $[2^\ell]$ and output the representation of the maximum number, and `INC` is a macro that computes the function $INC_\ell$ that increments a given number in $[2^\ell]$ by one. (We leave coming up with NAND programs for computing $MAX_{s,\ell}$ and $INC_\ell$ as an exercise for the reader.)
+4. After adding all the $s$ snippets above in Step 3,  we add to the program the code `t_0`,$\ldots$,`t_`$\expr{\lambda-1}$ `:= INC(MAX(avars_0`,$\ldots$,`avars_`$2^\lambda$`))`  where `MAX` is a macro that computes the function $MAX_{2^\lambda,\lambda}$ and we define  $MAX_{s,\lambda}:\{0,1\}^{s\lambda} \rightarrow \{0,1\}^\lambda$ to take the concatenation of the representation of $s$ numbers in $[2^\lambda]$ and output the representation of the maximum number, and `INC` is a macro that computes the function $INC_\lambda$ that increments a given number in $[2^\lambda]$ by one. (We leave coming up with NAND programs for computing $MAX_{s,\lambda}$ and $INC_\lambda$ as an exercise for the reader.)
 
 5. Finally we add for every $j\in [m]$:
 
-    a.  The code  `idx_0`,$\ldots$,`idx_`$\expr{\ell-1}$ `:= ` `SUBTRACT(t_0,`$\ldots$,`t_`$\expr{\ell}$,$z_0$,\ldots,$z_{\ell-1}$) where `SUBTRACT` is the code for subtracting two numbers in $[2^\ell]$ given in their binary representation, and each $z_j$ is equal to either `zero` or `one` depending on the binary representation of the number $(2^\ell-1-t+m)$.
+    a.  The code  `idx_0`,$\ldots$,`idx_`$\expr{\lambda-1}$ `:= ` `SUBTRACT(t_0,`$\ldots$,`t_`$\expr{\lambda}$,$z_0$,\ldots,$z_{\lambda-1}$) where `SUBTRACT` is the code for subtracting two numbers in $[2^\lambda]$ given in their binary representation, and each $z_j$ is equal to either `zero` or `one` depending on the binary representation of the number $(2^\lambda-1-t+m)$.
 
-    b. `y_`$\expr{j}$ ` := LOOKUP(` `avars_0`,$\ldots$, `avars_`$\expr{2^\ell-1}$, `idx_0`,$\ldots$, `idx_`$\expr{\ell-1}$ `)`
+    b. `y_`$\expr{j}$ ` := LOOKUP(` `avars_0`,$\ldots$, `avars_`$\expr{2^\lambda-1}$, `idx_0`,$\ldots$, `idx_`$\expr{\lambda-1}$ `)`
 
 
 To complete the description of this program, we need to show that we can implement the macros for `LOOKUP`,`UPDATE`,`MAX`,`INC` and `SUBTRACT`:
 
 * We have already seen the implementation of `LOOKUP`
 
-* We leave the implementation of the arithmetic macros `MAX`, `INC`, and `SUBTRACT` as exercises for the reader. All of those can be done using a number of lines that is linear in the size of their input. That is  $MAX_{s,\ell}$ can be computed in $O(s \ell)$ lines, and $INC_\ell$ and $SUBTRACT_\ell$ can be computed in $O(\ell)$ lines.
+* We leave the implementation of the arithmetic macros `MAX`, `INC`, and `SUBTRACT` as exercises for the reader. All of those can be done using a number of lines that is linear in the size of their input. That is  $MAX_{s,\lambda}$ can be computed in $O(s \lambda)$ lines, and $INC_\lambda$ and $SUBTRACT_\lambda$ can be computed in $O(\lambda)$ lines.
 
-* For implementing the function `UPDATE`, note that for every indices $i$, $UPDATE_\ell(A,i,v)_j=A_j$ unless $j=i$ in which case $UPDATE_\ell(A,i,v)_i = v$. Since we can use the syntactic sugar for `if` statements,  computing $UPDATE$ boils down to the function  $EQUAL_\ell:\{0,1\}^{2\ell} \rightarrow \{0,1\}$ such that $EQUAL_\ell(i_0,\ldots,i_{\ell-1},j_0,\ldots,j_{\ell-1})=1$ if and only if $i_k=j_k$ for every $k\in [\ell]$.
-$EQUAL_\ell$ is equivalent to the AND of $\ell$ invocations of  the function $EQUAL_1:\{0,1\}^2 \rightarrow \{0,1\}$ that checks if two bits are equal. Since each $EQUAL_1$ (as a function on two inputs) can be computed in a constant number of lines, we can compute  $EQUAL_\ell$ using $O(\ell)$ lines.
+* For implementing the function `UPDATE`, note that for every indices $i$, $UPDATE_\lambda(A,i,v)_j=A_j$ unless $j=i$ in which case $UPDATE_\lambda(A,i,v)_i = v$. Since we can use the syntactic sugar for `if` statements,  computing $UPDATE$ boils down to the function  $EQUAL_\lambda:\{0,1\}^{2\lambda} \rightarrow \{0,1\}$ such that $EQUAL_\lambda(i_0,\ldots,i_{\lambda-1},j_0,\ldots,j_{\lambda-1})=1$ if and only if $i_k=j_k$ for every $k\in [\lambda]$.
+$EQUAL_\lambda$ is equivalent to the AND of $\lambda$ invocations of  the function $EQUAL_1:\{0,1\}^2 \rightarrow \{0,1\}$ that checks if two bits are equal. Since each $EQUAL_1$ (as a function on two inputs) can be computed in a constant number of lines, we can compute  $EQUAL_\lambda$ using $O(\lambda)$ lines.
 
 The total number of lines  in $U_{s,n,m}$ is dominated by the cost of step 3 above,^[It is a good exercise to verify that steps 1,2,4 and 5 above can be implemented in $O(s \log s)$ lines.] where we repeat $s$ times the following:
 
-a.  Copying the $\ell$-th triple to the variables `a`,`b`,`c`. Cost: $O(\ell)$ lines.
+a.  Copying the $\ell$-th triple to the variables `a`,`b`,`c`. Cost: $O(\lambda)$ lines.
 
-b.  Perform `LOOKUP` on a $2^\ell=O(s)$ variables `avars_0`,$\ldots$, `avars_`$\expr{2^\ell-1}$. Cost: $O(2^\ell)=O(s)$ lines.
+b.  Perform `LOOKUP` on a $2^\lambda=O(s)$ variables `avars_0`,$\ldots$, `avars_`$\expr{2^\lambda-1}$. Cost: $O(2^\lambda)=O(s)$ lines.
 
-c. Perform the `UPDATE` to update the $2^\ell$ variables `avar_0`,$\ldots$, `avars_`$\expr{2^\ell-1}$ to `newvars_0`,$\ldots$, `newvars_`$\expr{2^\ell-1}$. Since `UPDATE` makes $O(2^\ell)$ calls to $EQUAL_\ell$, and each such call costs $O(\ell)$ lines, the total cost for $UPDATE$ is $O(2^\ell \ell) = O(s \log s)$ lines.
+c. Perform the `UPDATE` to update the $2^\lambda$ variables `avar_0`,$\ldots$, `avars_`$\expr{2^\lambda-1}$ to `newvars_0`,$\ldots$, `newvars_`$\expr{2^\lambda-1}$. Since `UPDATE` makes $O(2^\lambda)$ calls to $EQUAL_\lambda$, and each such call costs $O(\lambda)$ lines, the total cost for $UPDATE$ is $O(2^\lambda \lambda) = O(s \log s)$ lines.
 
-d. Copy `newvars_0`,$\ldots$, `newvars_`$\expr{2^\ell-1}$ to `avar_0`,$\ldots$, `avars_`$\expr{2^\ell-1}$. Cost: $O(2^\ell)$ lines.
+d. Copy `newvars_0`,$\ldots$, `newvars_`$\expr{2^\lambda-1}$ to `avar_0`,$\ldots$, `avars_`$\expr{2^\lambda-1}$. Cost: $O(2^\lambda)$ lines.
 
 
 Since the loop of step 3 is repeated $s$ times, the total number of lines in $U_{s,n,m}$ is $O(s^2 \log s)$ which (since $S=\Omega(s \log s)$)  is $O(S^2)$.^[The website [http://nandpl.org](http://nandpl.org) will (hopefully) eventually contain the  implementation of the  NAND program $U_{s,n,m}$ where you can also play with it by feeding it various other programs as inputs.]

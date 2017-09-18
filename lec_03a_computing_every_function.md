@@ -58,7 +58,7 @@ Going over all these examples can be somewhat tedious, but we do it for two reas
 
 We can create variables `zero` and `one` that  have the values  $0$ and $1$ respectively by adding the lines
 
-~~~~ { .go .numberLines }
+~~~~ { .pascal .numberLines }
 notx_0 := x_0 NAND x_0
 one    := x_0 NAND notx_0
 zero   := one NAND one   
@@ -74,7 +74,7 @@ Another sorely missing feature in NAND is a conditional statement.
 We would have liked to be able to write something like
 
 
-~~~~ { .go .numberLines }
+~~~~ { .pascal .numberLines }
 if (cond) {
     ...
    some code here
@@ -104,7 +104,7 @@ Another staple of almost any programming language is the ability to execute func
 However, we can achieve the same effect as (non recursive) functions using  "copy pasting".
 That is, we can replace code such as
 
-~~~~ { .go .numberLines }
+~~~~ { .pascal .numberLines }
 def a,b := Func(c,d) {
     function_code
 }
@@ -114,7 +114,7 @@ e,f := Func(g,h)
 
 with
 
-~~~~ { .go .numberLines }
+~~~~ {  .numberLines }
 ...
 function_code'
 ...
@@ -127,7 +127,7 @@ When doing that we will need to  ensure that all other variables appearing in `f
 
 Using these features, we can express the code of the  $ADD_2$ function we saw last lecture as  
 
-~~~~ { .go .numberLines  }
+~~~~ {  .numberLines  }
 def c := AND(a,b) {
    notc := a NAND b
    c    := notc NAND notc
@@ -161,13 +161,13 @@ While the basic variables in NAND++ are Boolean (only have $0$ or $1$), we can e
 For example, we can encode the alphabet $\{$`a`,`b`,`c`,`d`,`e`,`f` $\}$ using three bits as $000,001,010,011,100,101$.
 Hence, given such an encoding, we could  use the code
 
-~~~~ { .go .numberLines }
+~~~~ { .pascal .numberLines }
 foo := "b"
 ~~~~
 
  would be a shorthand for the program  
 
-~~~~ { .go .numberLines }
+~~~~ { .pascal .numberLines }
 foo_0   := 0
 foo_1  := 0
 foo_2 := 1
@@ -175,13 +175,13 @@ foo_2 := 1
 
 Using our notion of multi-indexed arrays, we can also use code such as
 
-~~~~ { .go .numberLines }
+~~~~ { .pascal .numberLines }
 foo  := "be"
 ~~~~
 
 as a shorthand for
 
-~~~~ { .go .numberLines }
+~~~~ { .pascal .numberLines }
 foo_{0,0}  := 0
 foo_{0,1}  := 0
 foo_{0,2}  := 1
@@ -200,13 +200,13 @@ For example, to store non-negative integers, we can use the convention that `01`
 To store integers that could be potentially negative we can use the convention `10` in the first coordinate stands for the negative sign.^[This is just an arbitrary choice made for concreteness, and one can choose other representations. In particular, as discussed before, if the integers are known to have a fixed size, then there is no need for additional encoding to make them prefix-free.]
 So,  code such as
 
-~~~~ { .go .numberLines }
+~~~~ { .pascal .numberLines }
 foo := 5  // (1,0,1) in binary
 ~~~~
 
 will be shorthand for
 
-~~~~ { .go .numberLines }
+~~~~ { .pascal .numberLines }
 foo_0   := 1   
 foo_1  := 1
 foo_2  := 0
@@ -219,13 +219,13 @@ foo_7  := 0
 
 while
 
-~~~~ { .go .numberLines }
+~~~~ { .pascal .numberLines }
 foo := -5   
 ~~~~
 
 will be the same as
 
-~~~~ { .go .numberLines }
+~~~~ { .pascal .numberLines }
 foo_0   := 1
 foo_1  := 0
 foo_2   := 1   
@@ -240,7 +240,7 @@ foo_9  := 0
 
 Using multidimensional arrays, we can use arrays of integers and hence replace code such as
 
-~~~~ { .go .numberLines }
+~~~~ { .pascal .numberLines }
  foo := [12,7,19,33]
 ~~~~
 
@@ -250,7 +250,7 @@ with the equivalent NAND expressions.
 For integer valued variables, we can use the standard algorithms of addition, multiplication, comparisons and so on.. to   write code such as
 
 
-~~~~ { .go .numberLines }
+~~~~ { .pascal .numberLines }
 j := k + l
 if (m*n>k) {
     code...
@@ -346,7 +346,7 @@ $$
 That is, we can compute $LOOKUP_2$ using three invocations of $LOOKUP_1$.
 The "pseudocode" for this program will be
 
-~~~~ { .go .numberLines }
+~~~~ { .pascal .numberLines }
 z_0 := LOOKUP_1(x_0,x_1,x_4)
 z_1 := LOOKUP_1(x_2,x_3,x_4)
 y_0 := LOOKUP_1(z_0,z_1,x_5)
@@ -356,7 +356,7 @@ We can obtain  an actual "sugar free" NAND program of at most $12$ lines  by rep
 
 We can generalize this to compute $LOOKUP_3$ using two invocations of $LOOKUP_2$ and one invocation of $LOOKUP_1$. That is, given input $x=(x_0,\ldots,x_7)$ and $i=(i_0,i_1,i_2)$ for $LOOKUP_3$, if the most significant bit of the index $i_2$ is $0$, then the output of $LOOKUP_3$ will equal $LOOKUP_2(x_0,x_1,x_2,x_3,i_0,i_1)$, while if this index $i_2$ is $1$ then the output will be $LOOKUP_2(x_4,x_5,x_6,x_7,i_0,i_1)$, meaning that the following pseudocode can compute $LOOKUP_3$,
 
-~~~~ { .go .numberLines }
+~~~~ { .pascal .numberLines }
 z_0 := LOOKUP_2(x_0,x_1,x_2,x_3,x_8,x_9)
 z_1 := LOOKUP_2(x_4,x_5,x_6,x_7,x_8,x_9)
 y_0 := LOOKUP_1(z_0,z_1,x_10)
@@ -384,7 +384,7 @@ We prove by induction on $k$ that there is a NAND program of at most $4\cdot 2^k
 For $k=1$ this follows by the  four line program for $LOOKUP_1$ we've seen before.
 For $k>1$, we use the following pseudocode
 
-~~~~ { .go .numberLines }
+~~~~ { .numberLines }
 a = LOOKUP_(k-1)(x_0,...,x_(2^(k-1)-1),i_0,...,i_(k-2))
 b = LOOKUP_(k-1)(x_(2^(k-1)),...,x_(2^(k-1),i_0,...,i_(k-2))
 y_0 = LOOKUP_1(a,b,i_{k-1})
@@ -459,7 +459,7 @@ Therefore the following is NAND "pseudocode" to compute $G$:
 
 
 
-~~~~ { .go .numberLines }
+~~~~ { .pascal .numberLines }
 G0000 := 1
 G0001 := 1
 G0010 := 0
@@ -489,7 +489,7 @@ There was nothing about the above reasoning that was particular to this program.
 
 1. Initialize $2^n$ variables of the form `F00...0` till `F11...1` so that for every $z\in\{0,1\}^n$,  the variable corresponding to $z$ is assigned the value $F(z)$.
 
-2. Compute $LOOKUP_n$ on the $2^n$ variables initialized in the previous step, with the index variable being the input variables `x_`$\expr{0}$,...,`x_`$\expr{2^n-1}$. That is, just like in the pseudocode for `G` above, we use `y_0 := LOOKUP(F00..00,F00...01,...,F11..1,x_0,..,x_`$\expr{2^n-1}$`)`
+2. Compute $LOOKUP_n$ on the $2^n$ variables initialized in the previous step, with the index variable being the input variables `x_`$\expr{0}$,...,`x_`$\expr{2^n-1}$. That is, just like in the pseudocode for `G` above, we use `y_0 := LOOKUP(F00..00,F00...01,...,F11..1,x_0,..,x_`$\expr{n-1}$`)`
 
 The total number of lines in the program will be $2^n$ plus the $4\cdot 2^n$ lines that we pay for computing $LOOKUP_n$.
 This completes the proof of [NAND-univ-thm](){.ref}.
