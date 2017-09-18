@@ -197,12 +197,24 @@ To complete the description of this program, we need to show that we can impleme
 
 * We leave the implementation of the arithmetic macros `MAX`, `INC`, and `SUBTRACT` as exercises for the reader. All of those can be done using a number of lines that is linear in the size of their input. That is  $MAX_{s,\ell}$ can be computed in $O(s \ell)$ lines, and $INC_\ell$ and $SUBTRACT_\ell$ can be computed in $O(\ell)$ lines.
 
-* For implementing the function `UPDATE`, note that for every indices $i$, $UPDATE_\ell(A,i,v)_j=LOOKUP_{\ell}(A,j)$ unless $j=i$ in which case $UPDATE_\ell(A,i,v)_i = v$. Since we can use the syntactic sugar for `if` statements,  and we already know how to compute $LOOKUP_\ell$, computing $UPDATE$ boils down to the function  $EQUAL_\ell:\{0,1\}^{2\ell} \rightarrow \{0,1\}$ such that $EQUAL_\ell(i_0,\ldots,i_{\ell-1},j_0,\ldots,j_{\ell-1})=1$ if and only if $i_k=j_k$ for every $k\in [\ell]$.
+* For implementing the function `UPDATE`, note that for every indices $i$, $UPDATE_\ell(A,i,v)_j=A_j$ unless $j=i$ in which case $UPDATE_\ell(A,i,v)_i = v$. Since we can use the syntactic sugar for `if` statements,  computing $UPDATE$ boils down to the function  $EQUAL_\ell:\{0,1\}^{2\ell} \rightarrow \{0,1\}$ such that $EQUAL_\ell(i_0,\ldots,i_{\ell-1},j_0,\ldots,j_{\ell-1})=1$ if and only if $i_k=j_k$ for every $k\in [\ell]$.
 $EQUAL_\ell$ is equivalent to the AND of $\ell$ invocations of  the function $EQUAL_1:\{0,1\}^2 \rightarrow \{0,1\}$ that checks if two bits are equal. Since each $EQUAL_1$ (as a function on two inputs) can be computed in a constant number of lines, we can compute  $EQUAL_\ell$ using $O(\ell)$ lines.
 
-Thus the total cost to compute  $EVAL$ is dominated by the cost to compute the $s$ calls to $LOOKUP$ and $UPDATE$. Since each one of those costs $O(2^\ell) = O(s)$ time, the total number of lines in $U_{s,n,m}$ is $O(s^2)$.^[The website [http://nandpl.org](http://nandpl.org) will (hopefully) eventually contain the  implementation of the  NAND program $U_{s,n,m}$ where you can also play with it by feeding it various other programs as inputs.]
-The NAND program above is less efficient that its Python counterpart, since NAND does not offer arrays with efficient random access, and hence the `LOOKUP` operation on an array of $s$ bits takes $\Omega(s)$ lines in NAND even though it takes $O(1)$ steps (or maybe $O(\log s)$ steps, depending how we count) in _Python_.
-We might see in a future lecture how to improve this to $O(s \log^c s)$ for some constant $c$.
+The total number of lines  in $U_{s,n,m}$ is dominated by the cost of step 3 above,^[It is a good exercise to verify that steps 1,2,4 and 5 above can be implemented in $O(s \log s)$ lines.] where we repeat $s$ times the following:
+
+a.  Copying the $\ell$-th triple to the variables `a`,`b`,`c`. Cost: $O(\ell)$ lines.
+
+b.  Perform `LOOKUP` on a $2^\ell=O(s)$ variables `avars_0`,$\ldots$, `avars_`$\expr{2^\ell-1}$. Cost: $O(2^\ell)=O(s)$ lines.
+
+c. Perform the `UPDATE` to update the $2^\ell$ variables `avar_0`,$\ldots$, `avars_`$\expr{2^\ell-1}$ to `newvars_0`,$\ldots$, `newvars_`$\expr{2^\ell-1}$. Since `UPDATE` makes $O(2^\ell)$ calls to $EQUAL_\ell$, and each such call costs $O(\ell)$ lines, the total cost for $UPDATE$ is $O(2^\ell \ell) = O(s \log s)$ lines.
+
+d. Copy `newvars_0`,$\ldots$, `newvars_`$\expr{2^\ell-1}$ to `avar_0`,$\ldots$, `avars_`$\expr{2^\ell-1}$. Cost: $O(2^\ell)$ lines.
+
+
+Since the loop of step 3 is repeated $s$ times, the total number of lines in $U_{s,n,m}$ is $O(s^2 \log s)$ which (since $S=\Omega(s \log s)$)  is $O(S^2)$.^[The website [http://nandpl.org](http://nandpl.org) will (hopefully) eventually contain the  implementation of the  NAND program $U_{s,n,m}$ where you can also play with it by feeding it various other programs as inputs.]
+The NAND program above is less efficient that its Python counterpart, since NAND does not offer arrays with efficient random access. Hence for example the `LOOKUP` operation on an array of $s$ bits takes $\Omega(s)$ lines in NAND even though it takes $O(1)$ steps (or maybe $O(\log s)$ steps, depending how we count) in _Python_.
+We might see in a future lecture how to improve this to $O(s \log s)$.
+
 
 
 
