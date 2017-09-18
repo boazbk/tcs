@@ -39,7 +39,7 @@ For every $S,n,m \in \N$ there is a NAND program that computes the  function
 $$
 EVAL_{S,n,m}:\{0,1\}^{S+n} \rightarrow \{0,1\}^m
 $$
-defined as follows: For every string $(P,x)$ where $P \in \{0,1\}^s$ and $x\in\{0,1\}^n$, if $P$ describes a NAND program with $n$ input bits and $m$ outputs bits, then   $EVAL_{S,n,m}(x)$ is the output of this program on input $x$.^[If $P$ does not describe a program then we don't care what $EVAL_{S,n,m}(P,x)$ is, but for concreteness we will set it to be $0^m$. Note that in this theorem we use $S$ to denote the number of bits describing the program, rather than the number of lines in it. However, these two quantities are very closely related.]
+defined as follows: For every string $(P,x)$ where $P \in \{0,1\}^S$ and $x\in\{0,1\}^n$, if $P$ describes a NAND program with $n$ input bits and $m$ outputs bits, then   $EVAL_{S,n,m}(P,x)$ is the output of this program on input $x$.^[If $P$ does not describe a program then we don't care what $EVAL_{S,n,m}(P,x)$ is, but for concreteness we will set it to be $0^m$. Note that in this theorem we use $S$ to denote the number of bits describing the program, rather than the number of lines in it. However, these two quantities are very closely related.]
 
 
 Of course to fully specify $EVAL_{S,n,m}$, we need to fix a precise representation scheme  for NAND programs as binary strings.
