@@ -250,23 +250,25 @@ $$|Size(s)| \leq 2^{O(s \log s)}.$$
 That is, there are at most $2^{O(s\log s)}$ functions computed by  NAND programs of at most $s$ lines.
 
 Moreover, the implicit constant in the $O(\cdot)$ notation in [program-count](){.ref} is at most $10$.^[By this we mean that for all sufficiently large $s$, $|Size(s)|\leq 2^{10s\log s}$.]
-The idea behind the proof is that we can represent every $s$ line program by a binary string of  $10s \log s$ bits, and hence the number of functions  computed by $s$-line programs cannot be larger than the number of such strings, which is $2^{10s \log s}$.
+The idea behind the proof is that we can represent every $s$ line program by a binary string of  $O(s \log s)$ bits.
+Therefore the  number of functions  computed by $s$-line programs cannot be larger than the number of such strings, which is $2^{O(s \log s)}$.
 In the actual proof, given below, we  count the number of representations a little more carefully, talking directly about triples rather than binary strings, although the idea remains the same.
 
 
 > # {.proof data-ref="program-count"}
-Every NAND program with $s$ lines has at most $3s$ variables.
-Hence it can be represented by its numbers of inputs and outputs $n,m \leq s$ and at most $s$ triples of numbers in $[3s]=\{0,\ldots,3s-1\}$.
+Every NAND program $P$ with $s$ lines has at most $3s$ variables.
+Hence, using our canonical representation, $P$ can be represented by the numbers $n,m$ of $P$'s inputs and outputs, as well as by the list $L$ of $s$ triples of natural numbers, each of which is smaller or equal to $3s$.
+>
 If two programs compute distinct functions then they have distinct representations.
+So we will simply count the number of such representations: for every $s' \leq s$, the number of $s'$-long lists of triples of numbers in $[3s+1]$ is $(3s+1)^{3s'}$, which in particular is smaller than $(4s)^{3s}$.
+So, for every $s' \leq s$ and $n,m$, the total number of representations of $s'$-line programs with $n$ inputs and $m$ outputs is smaller than $(4s)^{3s}$.
 >
-So, we will simply count the number of such representations.
-Let $T_s$ be the set of all lists of length at most $s$ of triples of numbers in $[3s]$.
-For every $s'\leq s$, the number of length-$s'$ lists of triples of numbers in $[3s]$ is $[3s]^{3s'} \leq (3s)^{3s}$.
-So, the size of $T_s$ is at most $s(3s)^{3s}=2^{\log s +3(\log 3)s\log s} \leq 2^{4.9s \log s}$ for all sufficiently large $s$.
+Since a program of at most $s$ lines has at most $s$ inputs and outputs, the total number of representations of all programs of at most $s$ lines is smaller than $s\times s \times s \times (4s)^{3s} = (4s)^{3s+3}$ (the factor $s\times s\ times s$ arises from taking all of the at most $s$ options for the number of inputs $n$, all of the at most $s$ options for the number of outputs $m$, and all of the at most $s$ options for the number of lines $s'$).
+Writing $4s = 2^{\log(4s)}=2^{\log 4  + \log s} = 2^{2+\log s}$, we see that the total number of representations of programs of at most $s$ lines is at most $2^{(2+\log s)(3s+3)} \leq 2^{4s\log s}$ for $s$ large enough.
 >
-For every $m,n \leq s$ and list $L$ of at most $s$ triples of numbers in $[3s]$, define $H(n,m,L)$ to be the function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ computed by the program represented by $L$.
-Then, $H$ is an onto map from $[s] \times [s] \times T_s$ to $Size(s)$.
-Thus in particular $|Size(s)| \leq s^2 2^{4.9s \log s} \leq 2^{5s \log s}$ for all sufficiently large $s$.
+For every function $F \in Size(s)$ there is a program $P$ of at most $s$ lines that computes it, and we can map $F$ to its representation as a tuple $(n,m,L)$.
+If $F \neq F'$ then a program $P$ that computes $F$ must have an input on which it disagrees with any program $P'$ that computes $F'$, and hence in particular $P$ and $P'$ have distinct representations.
+Thus we see that the map of $Size(s)$ to its representation is one to one, and so in particular $|Size(s)|$ is at most the number of distinct representations which is it at most $2^{4s\log s}$.
 
 > # {.remark title="Counting by ASCII representation" #countingfromascii}
 We can also establish [program-count](){.ref} directly from the ASCII representation of the source code.  Since an $s$-line NAND program has at most $3s$ distinct variables,  we can change all the workspace variables of such a program to have the form `work_`$\expr{i}$ for $i$ between $0$ and $3s-1$ without changing the function that it computes. This means that  after removing comments and extra whitespaces, every line of such a program (which will  the form `var := var' NAND var''` for variable identifiers which will be either `x_###`,`y_###` or `work_###` where `###` is some number smaller than $3s$) will require at most, say, $20 + 3\log_{10} (3s) \leq O(\log s)$ characters. Since each one of those characters can be encoded using seven bits in the ASCII representation, we see that the number of functions computed by $s$-line NAND programs is at most $2^{O(s \log s)}$.
@@ -274,7 +276,8 @@ We can also establish [program-count](){.ref} directly from the ASCII representa
 A function mapping $\{0,1\}^2$ to $\{0,1\}$ can be identified with the table of its four values on the inputs $00,01,10,11$;
 a function mapping $\{0,1\}^3$ to $\{0,1\}$ can be identified with the table of its eight values on the inputs $000,001,010,011,100,101,110,111$.
 More generally, every function $F:\{0,1\}^n \rightarrow \{0,1\}$ can be identified with the table of its  $2^n$  values  on the inputs $\{0,1\}^n$.
-Hence the number of functions mapping $\{0,1\}^n$ to $\{0,1\}$ is equal to the number of such tables which (since we can choose either $0$ or $1$ for every row) is exactly $2^{2^n}$. This has the following interesting corollary:
+Hence the number of functions mapping $\{0,1\}^n$ to $\{0,1\}$ is equal to the number of such tables which (since we can choose either $0$ or $1$ for every row) is exactly $2^{2^n}$. Note that this is _double exponential_ in $n$, and hence even for small values of $n$ (e.g., $n=10$) the number of functions from $\{0,1\}^n$ to $\{0,1\}$ is truly astronomical.^["Astronomical" here is an understatement: there are much fewer than $2^{2^{10}}$ stars, or even particles, in the observable universe.]
+This has the following interesting corollary:
 
 > # {.theorem title="Counting argument lower bound" #counting-lb}
 There is a function $F:\{0,1\}^n\rightarrow \{0,1\}$ such that the  shortest NAND program to compute $F$ requires $2^n/(100n)$ lines.
