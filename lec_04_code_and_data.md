@@ -166,31 +166,31 @@ Let $n,m,s \in \N$ be some numbers satisfying $s \geq n$ and $s \geq m$.
 We now describe the NAND program $U_{n,m,s}$ that computes $EVAL_{S,n,m}$ for $S = 3s\lambda$ and $\lambda = \lceil \log(3s+1) \rceil$.
 Our construction will follow very closely the Python implementation of `EVAL` above:^[We allow ourselves use of syntactic sugar in describing the program. We can always "unsweeten" the program later.]
 
-1. $U_{s,n,m}$ will contain variables `avars_0`,$\ldots$,`avars_`$\expr{2^\lambda-1}$.
+1. $U_{s,n,m}$ will contain variables `avars_0`,$\ldots$,`avars_`$\expr{2^\lambda-1}$. (This corresponds to the line `avars = [0]*t` in the Python function `EVAL`.)
 
-2. For $i=0,\ldots,n-1$, we add the line `avars_`$\expr{i}$ ` :=  x_`$\expr{3s\lambda+i}$ to $U_{s,n,m}$. Recall that the input to $EVAL_{S,n,m}$ is a string $rw \in \{0,1\}^{3s\lambda + n}$ where $r\in \{0,1\}^{3s\lambda}$ is the representation of the program $P$ and $w\in \{0,1\}^n$ is the input that the program should be applied on. Hence this step copies the input to the variables `avars_0`,$\ldots$,`avars_`$\expr{n-1}$.
+2. For $i=0,\ldots,n-1$, we add the line `avars_`$\expr{i}$ ` :=  x_`$\expr{3s\lambda+i}$ to $U_{s,n,m}$. Recall that the input to $EVAL_{S,n,m}$ is a string $rw \in \{0,1\}^{3s\lambda + n}$ where $r\in \{0,1\}^{3s\lambda}$ is the representation of the program $P$ and $w\in \{0,1\}^n$ is the input that the program should be applied on. Hence this step copies the input to the variables `avars_0`,$\ldots$,`avars_`$\expr{n-1}$. (This corresponds to the line `avars[:n] = x` in `EVAL`.)
 
 3. For $\ell=0,\ldots,s-1$  we add the following code to $U_{s,n,m}$:
 
-    a. Write `a_`$\expr{j}$ ` := ` `x_`$\expr{3\ell\lambda+j}$, `b_`$\expr{j}$ ` := ` `x_`$\expr{3\ell
-        lambda+\lambda+j}$ and `c_`$\expr{j}$ ` := ` `x_`$\expr{3\ell\lambda+2\lambda+j}$ for all $j\in [\lambda]$. In other words, this code make `a`, `b`, `c` be three $\lambda$-bit long arrays containing the binary representation of the $\ell$-th triple  $(a,b,c)$ in the program.
+    a. For all $j\in [\lambda]$, add the code `a_`$\expr{j}$ ` := ` `x_`$\expr{3\ell\lambda+j}$, `b_`$\expr{j}$ ` := ` `x_`$\expr{3\ell\lambda+\lambda+j}$ and `c_`$\expr{j}$ ` := ` `x_`$\expr{3\ell\lambda+2\lambda+j}$.
+    In other words, we add the code to copy to `a`, `b`, `c` the three $\lambda$-bit long strings containing the binary representation  the $\ell$-th triple  $(a,b,c)$ in the input program. (This corresponds to the line `for (a,b,c) in L:` in `EVAL`.)
 
-    b. Add the code `u := LOOKUP(avars_0` ,$\ldots$, `avars_`$\expr{2^\lambda-1}$,`b_0`,$\ldots$,`b_`$\expr{\lambda-1}$`)` and `v := LOOKUP(avars_0` , $\ldots$,`avars_`$\expr{2^\lambda-1}$,`c_0`,$\ldots$,`c_`$\expr{\lambda-1}$`)` where `LOOKUP` is the macro that computes $LOOKUP_\lambda:\{0,1\}^{2^\lambda+\lambda}\rightarrow \{0,1\}$. Recall that we defined $LOOKUP_\lambda(A,i)=A_i$ for every $A\in \{0,1\}^{2^\lambda}$ and $i\in \{0,1\}^\lambda$ (using the binary representation to identify  $i$ with an index in $[2^\lambda]$).  Hence this code means that `u` gets the value of `avars_`$\expr{b}$ and `v` gets the value of `avars_`$\expr{c}$.
+    b. Add the code `u := LOOKUP(avars_0` ,$\ldots$, `avars_`$\expr{2^\lambda-1}$,`b_0`,$\ldots$,`b_`$\expr{\lambda-1}$`)` and `v := LOOKUP(avars_0` , $\ldots$,`avars_`$\expr{2^\lambda-1}$,`c_0`,$\ldots$,`c_`$\expr{\lambda-1}$`)` where `LOOKUP` is the macro that computes $LOOKUP_\lambda:\{0,1\}^{2^\lambda+\lambda}\rightarrow \{0,1\}$. Recall that we defined $LOOKUP_\lambda(A,i)=A_i$ for every $A\in \{0,1\}^{2^\lambda}$ and $i\in \{0,1\}^\lambda$ (using the binary representation to identify  $i$ with an index in $[2^\lambda]$).  Hence this code means that `u` gets the value of `avars_`$\expr{b}$ and `v` gets the value of `avars_`$\expr{c}$. (This corresponds to the lines `u = avars[b]` and `v = avars[c]` in `EVAL`.)
 
-    c. Add the code `val := u NAND v` (i.e., `w` gets the value that should be stored in `avars_`$\expr{a}$)
+    c. Add the code `val := u NAND v` (i.e., `w` gets the value that should be stored in `avars_`$\expr{a}$). (This corresponds to the line `val = 1-u*v` in `EVAL`.)
 
-    c. Add the code `newvars_0`,$\ldots$,`newvars_`$\expr{2^\lambda-1}$ ` := UPDATE(avars_0`,$\ldots$,`avars_`$\expr{2^\lambda-1}$`,` `a_0`,$\ldots$,`a_`$\expr{\lambda-1}$,`val``)`, where `UPDATE` is a macro that computes the function $UPDATE_\lambda:\{0,1\}^{2^\lambda +\lambda +1} \rightarrow \{0,1\}^{2^\lambda}$ defined as follows: for every $A \in \{0,1\}^{2^\lambda}$, $i\in \{0,1\}^\lambda$ and $v\in \{0,1\}$, $UPDATE_\lambda(A,i,v)=A'$ such that $A'_j = A_j$ for all $j \neq i$ and $A'_i = v$ (identifying $i$ with an index in $[2^\lambda]$). (See below for discussions on how to implement this and other macros.)
+    c. Add the code `newvars_0`,$\ldots$,`newvars_`$\expr{2^\lambda-1}$ ` := UPDATE(avars_0`,$\ldots$,`avars_`$\expr{2^\lambda-1}$`,` `a_0`,$\ldots$,`a_`$\expr{\lambda-1}$,`val``)`, where `UPDATE` is a macro that computes the function $UPDATE_\lambda:\{0,1\}^{2^\lambda +\lambda +1} \rightarrow \{0,1\}^{2^\lambda}$ defined as follows: for every $A \in \{0,1\}^{2^\lambda}$, $i\in \{0,1\}^\lambda$ and $v\in \{0,1\}$, $UPDATE_\lambda(A,i,v)=A'$ such that $A'_j = A_j$ for all $j \neq i$ and $A'_i = v$ (identifying $i$ with an index in $[2^\lambda]$). See below for discussions on how to implement `UPDATE` and other macros.
 
-    d. Add the code `avars_`$\expr{j}$ ` := ` `newvars_`$\expr{j}$ for every $j \in [2^\lambda]$ (i.e., update `avars` to  `newvars`).
+    d. Add the code `avars_`$\expr{j}$ ` := ` `newvars_`$\expr{j}$ for every $j \in [2^\lambda]$ (i.e., update `avars` to  `newvars`). (Steps 3.c and 3.d together  correspond to the line `avars[a] = val` in `EVAL`.)
 
 
-4. After adding all the $s$ snippets above in Step 3,  we add to the program the code `t_0`,$\ldots$,`t_`$\expr{\lambda-1}$ `:= INC(MAX(avars_0`,$\ldots$,`avars_`$2^\lambda$`))`  where `MAX` is a macro that computes the function $MAX_{2^\lambda,\lambda}$ and we define  $MAX_{s,\lambda}:\{0,1\}^{s\lambda} \rightarrow \{0,1\}^\lambda$ to take the concatenation of the representation of $s$ numbers in $[2^\lambda]$ and output the representation of the maximum number, and `INC` is a macro that computes the function $INC_\lambda$ that increments a given number in $[2^\lambda]$ by one. (We leave coming up with NAND programs for computing $MAX_{s,\lambda}$ and $INC_\lambda$ as an exercise for the reader.)
+4. After adding all the $s$ snippets above in Step 3,  we add to the program the code `t_0`,$\ldots$,`t_`$\expr{\lambda-1}$ `:= INC(MAX(avars_0`,$\ldots$,`avars_`$2^\lambda$`))`  where `MAX` is a macro that computes the function $MAX_{2^\lambda,\lambda}$ and we define  $MAX_{s,\lambda}:\{0,1\}^{s\lambda} \rightarrow \{0,1\}^\lambda$ to take the concatenation of the representation of $s$ numbers in $[2^\lambda]$ and output the representation of the maximum number, and `INC` is a macro that computes the function $INC_\lambda$ that increments a given number in $[2^\lambda]$ by one. (This corresponds to the line `t = max([max(triple) for triple in L])+1` in `EVAL`.) We leave coming up with NAND programs for computing $MAX_{s,\lambda}$ and $INC_\lambda$ as an exercise for the reader.
 
 5. Finally we add for every $j\in [m]$:
 
     a.  The code  `idx_0`,$\ldots$,`idx_`$\expr{\lambda-1}$ `:= ` `SUBTRACT(t_0,`$\ldots$,`t_`$\expr{\lambda}$,$z_0$,\ldots,$z_{\lambda-1}$) where `SUBTRACT` is the code for subtracting two numbers in $[2^\lambda]$ given in their binary representation, and each $z_j$ is equal to either `zero` or `one` depending on the binary representation of the number $(2^\lambda-1-t+m)$.
 
-    b. `y_`$\expr{j}$ ` := LOOKUP(` `avars_0`,$\ldots$, `avars_`$\expr{2^\lambda-1}$, `idx_0`,$\ldots$, `idx_`$\expr{\lambda-1}$ `)`
+    b. `y_`$\expr{j}$ ` := LOOKUP(` `avars_0`,$\ldots$, `avars_`$\expr{2^\lambda-1}$, `idx_0`,$\ldots$, `idx_`$\expr{\lambda-1}$ `)`. (Steps 5.a and 5.b together correspond to the line `return avars[t-m:]` in `EVAL`.)
 
 
 To complete the description of this program, we need to show that we can implement the macros for `LOOKUP`,`UPDATE`,`MAX`,`INC` and `SUBTRACT`:
