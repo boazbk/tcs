@@ -124,6 +124,26 @@ def triples(prog,n,m,t):
     return result
 ~~~~
 
+The function above assumes we know some parameters of the program, such as its input and output length, and the number of distinct variables, but this is easy to get as well.
+
+~~~~ { .python }
+# compute the parameters of a given program code
+# returns: n = number of inputs, m = number of outputs, t = number of distinct variables
+def params(prog):
+
+    varnames = set()
+    for line in prog.split('\n'):
+        if not line or line[0]=='#' or line[0]=='//': continue # ignore empty and commented out lines
+        (var1,assign,var2,op,var3) = line.split()
+        varnames.update([var1,var2,var3])
+
+    t = len(varnames)
+    n = len([var for var in varnames if var[:2]=='x_'])
+    m = len([var for var in varnames if var[:2]=='y_'])
+
+    return [n,m,t]
+~~~~
+
 As we discuss in the "code and data" lecture, we can execute a program given in the list of tuples representations as follows
 
 ~~~~ { .python }
@@ -142,11 +162,13 @@ def EVAL(L,n,m,x):
 
 Moreover, if we want to _compile_ NAND programs, we can easily transform them to C code using the following `NAND2C` function:^[The function is somewhat more complex than the minimum needed, since it uses an array of _bits_ to store the variables.]
 
-~~~~ { .go }
+
+~~~~ { .python }
 # Transforms a NAND program to a C function
 # prog: string of program code
 # n: number of inputs
 # m: number of outputs
+# code has not been tested
 def NAND2C(prog,n,m):
     avars = { } # dictionary of indices of "workspace" variables
     for i in range(n):
@@ -172,10 +194,7 @@ def NAND2C(prog,n,m):
     #include <stdbool.h>
 
     typedef unsigned long bfield_t[ (sizeof(long)-1+{numvars})/sizeof(long) ];
-    // From Stackoverflow answer https://stackoverflow.com/questions/2525310/how-to-define-and-work-with-an-array-of-bits-in-c
-    // long because that's probably what your cpu is best at
-    // The size_needed should be evenly divisable by sizeof(long) or
-    // you could (sizeof(long)-1+size_needed)/sizeof(long) to force it to round up
+    // See Stackoverflow answer https://stackoverflow.com/questions/2525310/how-to-define-and-work-with-an-array-of-bits-in-c
 
     unsigned long getval(bfield_t vars, int idx) {{
         return 1 & (vars[idx / (8 * sizeof(long) )] >> (idx % (8 * sizeof(long))));
@@ -212,7 +231,7 @@ def NAND2C(prog,n,m):
 ## NAND<< programming language specification
 
 The NAND<< programming language allows _indirection_, hence using every variable as a pointer or index variable.
-Unlike the case of NAND++ vs NAND, NAND<< cannot compute functions that NAND++ (and indeed any NAND<< program can be "compiled to a NAND++ program) but it can be polynomially faster.
+Unlike the case of NAND++ vs NAND, NAND<< cannot compute functions that NAND++ can not (and indeed any NAND<< program can be "compiled to a NAND++ program) but it can be polynomially faster.
 
 
 
