@@ -78,8 +78,8 @@ Finally, we will show how we can transform this Python program into a NAND progr
 ![In the Harvard Mark I computer, a program was represented as a list of triples of numbers, which were then encoded by perforating holes in a control card.](../figure/tapemarkI.png){#figureid .class width=300px height=300px}
 
 
-We  can use the canonical form_ of NAND program (as per [NANDcanonical](){.ref}) to represent it as a string.
-That is, if a NAND program has $s$ lineas and $t$ distinct variables (where $t \leq 3s$) then we encode every a  line of the program such as `foo_54 := baz NAND blah_22` as the  triple $(a,b,c)$ where $a,b,c$ are the numbers corresponding to `foo_54`,`bar`,`blah_22` respectively.
+We  can use the _canonical form_ of NAND program (as per [NANDcanonical](){.ref}) to represent it as a string.
+That is, if a NAND program has $s$ lines and $t$ distinct variables (where $t \leq 3s$) then we encode every a  line of the program such as `foo_54 := baz NAND blah_22` as the  triple $(a,b,c)$ where $a,b,c$ are the numbers corresponding to `foo_54`,`bar`,`blah_22` respectively.
 We  choose the ordering such that the numbers $0,1,\ldots,n-1$ encode the variables `x_0`,$\ldots$,`x_`$\expr{n-1}$ and the numbers $t-m,\ldots,t-1$ encode the variables `y_0`,$\ldots$,`y_`$\expr{m-1}$.
 Thus the representation of a program $P$ of $n$ inputes and $m$ outputs is simply the list of triples of $P$ in its canonical form.
 For example, the XOR program:
@@ -174,7 +174,7 @@ Our construction will follow very closely the Python implementation of `EVAL` ab
 
     a. Write `a_`$\expr{j}$ ` := ` `x_`$\expr{3\ell+j}$, `b_`$\expr{j}$ ` := ` `x_`$\expr{3\ell+\ell+j}$ and `c_`$\expr{j}$ ` := ` `x_`$\expr{3\ell+2\ell+j}$ for all $j\in [\ell]$. In other words, this code make `a`, `b`, `c` be three $\ell$-bit long arrays containing the binary representation of the $\ell$-th triple  $(a,b,c)$ in the program.
 
-    b. Add the code `u := LOOKUP(avars_0`,$\ldots$,`avars_`$\expr{2^\ell-1}$,`b_0`,$\ldots$,`b_`$\expr{\ell-1}$`)` and `v := LOOKUP(avars_0`,$\ldots$,`avars_`$\expr{2^\ell-1}$,`c_0`,$\ldots$,`c_`$\expr{\ell-1}$`)` where `LOOKUP` is the macro that computes $LOOKUP_\ell:\{0,1\}^{2^\ell+\ell}\rightarrow \{0,1\}$. Recall that we defined $LOOKUP_\ell(A,i)=A_i$ for every $A\in \{0,1\}^{2^\ell}$ and $i\in \{0,1\}^\ell$ (using the binary representation to identify  $i$ with an index in $[2^\ell]$).  Hence this code means that `u` gets the value of `avars_`$\expr{b}$ and `v` gets the value of `avars_`$\expr{c}$.
+    b. Add the code `u := LOOKUP(avars_0` ,$\ldots$, `avars_`$\expr{2^\ell-1}$,`b_0`,$\ldots$,`b_`$\expr{\ell-1}$`)` and `v := LOOKUP(avars_0` , $\ldots$,`avars_`$\expr{2^\ell-1}$,`c_0`,$\ldots$,`c_`$\expr{\ell-1}$`)` where `LOOKUP` is the macro that computes $LOOKUP_\ell:\{0,1\}^{2^\ell+\ell}\rightarrow \{0,1\}$. Recall that we defined $LOOKUP_\ell(A,i)=A_i$ for every $A\in \{0,1\}^{2^\ell}$ and $i\in \{0,1\}^\ell$ (using the binary representation to identify  $i$ with an index in $[2^\ell]$).  Hence this code means that `u` gets the value of `avars_`$\expr{b}$ and `v` gets the value of `avars_`$\expr{c}$.
 
     c. Add the code `val := u NAND v` (i.e., `w` gets the value that should be stored in `avars_`$\expr{a}$)
 
@@ -188,7 +188,7 @@ Our construction will follow very closely the Python implementation of `EVAL` ab
 
     a.  The code  `idx_0`,$\ldots$,`idx_`$\expr{\ell-1}$ `:= ` `SUBTRACT(t_0,`$\ldots$,`t_`$\expr{\ell}$,$z_0$,\ldots,$z_{\ell-1}$) where `SUBTRACT` is the code for subtracting two numbers in $[2^\ell]$ given in their binary representation, and each $z_j$ is equal to either `zero` or `one` depending on the binary representation of the number $(2^\ell-1-t+m)$.
 
-    b. `y_`$\expr{j}$ ` := LOOKUP(' `avars_0`,$\ldots$, `avars_`$\expr{2^\ell-1}$, `idx_0`,$\ldots$, `idx_`$\expr{\ell-1}$ `)`
+    b. `y_`$\expr{j}$ ` := LOOKUP(` `avars_0`,$\ldots$, `avars_`$\expr{2^\ell-1}$, `idx_0`,$\ldots$, `idx_`$\expr{\ell-1}$ `)`
 
 
 To complete the description of this program, we need to show that we can implement the macros for `LOOKUP`,`UPDATE`,`MAX`,`INC` and `SUBTRACT`:
