@@ -123,6 +123,58 @@ function_code'
 where `function_code'` is obtained by replacing all occurrences of `a` with `e`,`f` with `b`, `c` with `g`, `d` with `h`.
 When doing that we will need to  ensure that all other variables appearing in `function_code'` don't interfere with other variables by replacing every instance of a variable `foo` with `upfoo` where `up` is some unique prefix.
 
+### Bounded loops
+
+We can use "copy paste" to implement a bounded variant of _loops_, as long we only need to repeat the loop a fixed number of times.
+For example, we can use code such as:
+
+~~~~ { .pascal }
+for i in [7,9,12] do {
+    y_i := foo_i NAND x_i
+}
+~~~~
+
+as shorthand for
+
+~~~~ { .pascal }
+y_7  := foo_7  NAND x_7
+y_9  := foo_9  NAND x_9
+y_12 := foo_12 NAND x_12
+~~~~
+
+More generally, we will replace code of the form
+
+~~~~ { .pascal }
+for i in RANGE do {
+    code
+}
+~~~~
+
+where `RANGE` specifies a finite set $I = \{ i_0,\ldots, i_{k-1} \}$ of integers, with $|R|$ copies of `code`, where for $j \in [k]$, we replace all occurences of `_i` in the $j$-th copy with `_`$\expr{i_j}$.
+We specify the set $I = \{ i_0,\ldots,i_{k-1} \}$ by simply writing `[` $\expr{i_0}$, $\expr{i_1}$, $\ldots$, $\expr{i_{k-1}}$ `]`. We will also use the $\expr{beg}$`:`$\expr{end}$ notation so specify the interval $\{ beg, beg+1,\ldots, end-1 \}$.
+So for example
+
+~~~~ { .pascal }
+for i in [3:5,7:10] do {
+    foo_i := bar_i NAND baz_i
+}
+~~~~
+
+will be a shorthand for
+
+~~~~ { .pascal }
+foo_3 := bar_3 NAND baz_3
+foo_4 := bar_4 NAND baz_4
+foo_7 := bar_7 NAND baz_7
+foo_8 := bar_8 NAND baz_8
+foo_9 := bar_9 NAND baz_9
+~~~~
+
+One can also consider fancier versions, including inner loops and allowing arithmetic expressions such as `<5*i+3>` in indices, but we'll keep things simple and not use those.
+ 
+
+
+
 ### Example:
 
 Using these features, we can express the code of the  $ADD_2$ function we saw last lecture as  
