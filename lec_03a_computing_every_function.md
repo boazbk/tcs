@@ -170,8 +170,10 @@ foo_8 := bar_8 NAND baz_8
 foo_9 := bar_9 NAND baz_9
 ~~~~
 
-One can also consider fancier versions, including inner loops and allowing arithmetic expressions such as `<5*i+3>` in indices, but we'll keep things simple and not use those.
- 
+One can also consider fancier versions, including inner loops and allowing arithmetic expressions such as `<5*i+3>` in indices.
+The crucial point is that (unlike most programming languages) we do not allow the number of times the loop is executed to  depend on the input, and so it is always possible to "expand out" the loop by simply copying the code the requisite number of times.
+
+
 
 
 
