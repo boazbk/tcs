@@ -115,10 +115,11 @@ The following is a   _Python_ function `EVAL` that on input $L,n,m,x$ where $L$ 
 
 ~~~~ { .python }
 # Evaluates an n-input, m-output NAND program L on input x
-# L is given in the list of tuples representation
+# L is given in the canonical list of triples representation
+# (first n variables are inputs and last m variables are outputs)
 def EVAL(L,n,m,x):
-    t = max([max(triple) for triple in L])+1 # num of vars in L
-    avars = [0]*t # initialize variable array to zeroes
+    s = len(L)
+    avars = [0]*(3*s) # initialize variable array to zeroes, 3s is large enough to hold all variables
     avars[:n] = x # set first n vars to x
 
     for (a,b,c) in L:  # evaluate each triple
@@ -126,6 +127,8 @@ def EVAL(L,n,m,x):
         v = avars[c]
         val = 1-u*v # i.e., the NAND of u and v
         avars[a] = val
+
+    t = max([max(triple) for triple in L])+1 # num of vars in L
 
     return avars[t-m:] # output last m variables
 ~~~~
@@ -148,7 +151,7 @@ Accessing an  element  of the array `avars` at a given index takes a constant nu
 
 ## A NAND interpreter in NAND  
 
-We vnow turn to actually proving [eff-bounded-univ](){.ref}.
+We now turn to actually proving [eff-bounded-univ](){.ref}.
 To do this, it is of course not enough to give a Python program.
 We need to __(a)__ give a precise representation of programs as binary strings, and __(b)__ show how we compute the $EVAL_{S,n,m}$ function on this representation by a NAND program.
 

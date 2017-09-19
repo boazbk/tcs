@@ -133,11 +133,11 @@ You should make sure you understand _why_ [NANDcirccomputedef](){.ref} captures 
 The following theorem says that these two notions of computing a function are actually equivalent: we can transform a NAND program into a NAND circuit computing the same function, and vice versa.
 
 > # {.theorem title="Equivalence of circuits and straightline programs" #circuitprogequivthm}
-For every $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $S\in \N$, $F$ can be computed by an $S$-line NAND program if and only if $F$ can be computed by an $n$-input $m$-output NAND circuit of $S$ gates.
+For every $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $S\in \N$, $F$ can be computed by an $s$-line NAND program if and only if $F$ can be computed by an $n$-input $m$-output NAND circuit of $s$ gates.
 
 The idea behind the proof is simple.
-Just like we did to the XOR program, if we have a NAND program $P$ of $S$ lines, $n$ inputs, and $m$ outputs, we can transform it into a NAND circuit with $n$ inputs and $m$ gates, where each gate corresponds to a line in the program $P$. If  line $\ell$ involves the NAND of two variables assigned to in lines $\ell'$ and $\ell''$, then we will have edges to the gate corresponding to $\ell$ from the gates correspnding to $\ell',\ell''$.
-In the other direction, we can transform a NAND circuit $C$ of  $n$ inputs, $m$ outputs and $S$ gates to an $S$-line program by essentially inverting this process.
+Just like we did to the XOR program, if we have a NAND program $P$ of $s$ lines, $n$ inputs, and $m$ outputs, we can transform it into a NAND circuit with $n$ inputs and $m$ gates, where each gate corresponds to a line in the program $P$. If  line $\ell$ involves the NAND of two variables assigned to in lines $\ell'$ and $\ell''$, then we will have edges to the gate corresponding to $\ell$ from the gates correspnding to $\ell',\ell''$.
+In the other direction, we can transform a NAND circuit $C$ of  $n$ inputs, $m$ outputs and $s$ gates to an $s$-line program by essentially inverting this process.
 For every gate in the program, we will have a line in the program which assigns to a variable the NAND of the variables corresponding to the in-neighbors of this gate.
 If the gate is an output gate labeled with `y_`$\expr{j}$ then the  corresponding line will assign the value to the variable `y_`$\expr{j}$.
 Otherwise we will assign the value to a fresh "workspace" variable.
@@ -225,7 +225,7 @@ By the fact that $C$ and $D$ compute $F$ and $G$ respectively, we see that $E$ c
 
 ## General Boolean circuits: a formal definition
 
-We now define the notion of  _general_ Boolean circuits  that can use any set of gates and not just the NAND gate. 
+We now define the notion of  _general_ Boolean circuits  that can use any set of gates and not just the NAND gate.
 
 > # {.definition title="Boolean circuits" #circuits-def}
 Let $k$ be some number and $B$ be a subset of the functions from $\{0,1\}^k \rightarrow \{0,1\}$.
