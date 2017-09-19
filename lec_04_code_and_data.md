@@ -50,8 +50,8 @@ But regardless of the choice of representation,
 
 [bounded-univ](){.ref} can be thought of as providing  a "NAND interpreter in NAND".
 That is, for a particular size bound, we give a _single_ NAND program that can evaluate all NAND programs of that size.
-We call the NAND program $U_{S,n,m}$ that computes $EVAL_{S,n,m}$ a _bounded universal program_.
-"Universal" stands for the fact that this is a _single program_ that can evaluate _arbitrary_ code,  where "bounded" stands for the fact that $U_{S,n,m}$ only evaluates programs of bounded size.
+We call this  NAND program $U$ that computes $EVAL_{S,n,m}$ a _bounded universal program_.
+"Universal" stands for the fact that this is a _single program_ that can evaluate _arbitrary_ code,  where "bounded" stands for the fact that  $U$ only evaluates programs of bounded size.
 Of course this limitation is inherent for the NAND programming language where an $N$-line program can never compute a function with more than $N$ inputs.
 (We will later on introduce the concept of _loops_, that  allows  to escape this limitation.)
 
@@ -152,9 +152,9 @@ We vnow turn to actually proving [eff-bounded-univ](){.ref}.
 To do this, it is of course not enough to give a Python program.
 We need to __(a)__ give a precise representation of programs as binary strings, and __(b)__ show how we compute the $EVAL_{S,n,m}$ function on this representation by a NAND program.
 
-First, if a NAND program has $s$ lines, then since it can have at most $3s$ distinct variables, it can be represented by a string of size $S=3s\lambda$ where $\lambda = \lceil \log(3s+1) \rceil$, by simply concatenating the binary representations of all the $3s$ numbers (adding leading zeroes as needed to make each number represented by a string of exactly $\lambda$ bits).
-So, our job is to transform, for every $s,n,m$, the Python code above to a NAND program $U_{s,n,m}$ that  computes the function $EVAL_{S,n,m}$ for $S=3s\lceil \log(3s+1)\rceil$.
-That is, given any representation $r \in \{0,1\}^S$ of an $s$-line $n$-input $m$-output NAND program $P$, and string $w \in \{0,1\}^n$, $U_{S,n,m}(rw)$ outputs $P(w)$.
+First, if a NAND program has $s$ lines, then since it can have at most $3s$ distinct variables, it can be represented by a string of size $S=3s\lambda$ where $\lambda = \lceil \log(3s) \rceil$, by simply concatenating the binary representations of all the $3s$ numbers (adding leading zeroes as needed to make each number represented by a string of exactly $\lambda$ bits).
+So, our job is to transform, for every $s,n,m$, the Python code above to a NAND program $U_{s,n,m}$ that  computes the function $EVAL_{S,n,m}$ for $S=3s\lambda$.
+That is, given any representation $r \in \{0,1\}^S$ of an $s$-line $n$-input $m$-output NAND program $P$, and string $w \in \{0,1\}^n$, $U_{s,n,m}(rw)$ outputs $P(w)$.
 
 > # { .pause }
 Before reading further, try to think how _you_ could give a "constructive proof" of [eff-bounded-univ](){.ref}.
@@ -163,7 +163,7 @@ Note that there is a subtle but crucial difference between this function and the
 Rather than actually evaluating a given program $P$ on some input $w$, the function `universal` should output the _code_ of a NAND program that computes the map $(P,w) \mapsto P(w)$.
 
 Let $n,m,s \in \N$ be some numbers satisfying $s \geq n$ and $s \geq m$.
-We now describe the NAND program $U_{n,m,s}$ that computes $EVAL_{S,n,m}$ for $S = 3s\lambda$ and $\lambda = \lceil \log(3s+1) \rceil$.
+We now describe the NAND program $U_{n,m,s}$ that computes $EVAL_{S,n,m}$ for $S = 3s\lambda$ and $\lambda = \lceil \log(3s) \rceil$.
 Our construction will follow very closely the Python implementation of `EVAL` above:^[We allow ourselves use of syntactic sugar in describing the program. We can always "unsweeten" the program later.]
 
 1. $U_{s,n,m}$ will contain variables `avars_0`,$\ldots$,`avars_`$\expr{2^\lambda-1}$. (This corresponds to the line `avars = [0]*t` in the Python function `EVAL`.)
@@ -274,11 +274,11 @@ Every NAND program $P$ with $s$ lines has at most $3s$ variables.
 Hence, using our canonical representation, $P$ can be represented by the numbers $n,m$ of $P$'s inputs and outputs, as well as by the list $L$ of $s$ triples of natural numbers, each of which is smaller or equal to $3s$.
 >
 If two programs compute distinct functions then they have distinct representations.
-So we will simply count the number of such representations: for every $s' \leq s$, the number of $s'$-long lists of triples of numbers in $[3s+1]$ is $(3s+1)^{3s'}$, which in particular is smaller than $(4s)^{3s}$.
-So, for every $s' \leq s$ and $n,m$, the total number of representations of $s'$-line programs with $n$ inputs and $m$ outputs is smaller than $(4s)^{3s}$.
+So we will simply count the number of such representations: for every $s' \leq s$, the number of $s'$-long lists of triples of numbers in $[3s]$ is $(3s)^{3s'}$, which in particular is smaller than $(3s)^{3s}$.
+So, for every $s' \leq s$ and $n,m$, the total number of representations of $s'$-line programs with $n$ inputs and $m$ outputs is smaller than $(3s)^{3s}$.
 >
-Since a program of at most $s$ lines has at most $s$ inputs and outputs, the total number of representations of all programs of at most $s$ lines is smaller than $s\times s \times s \times (4s)^{3s} = (4s)^{3s+3}$ (the factor $s\times s\ times s$ arises from taking all of the at most $s$ options for the number of inputs $n$, all of the at most $s$ options for the number of outputs $m$, and all of the at most $s$ options for the number of lines $s'$).
-Writing $4s = 2^{\log(4s)}=2^{\log 4  + \log s} = 2^{2+\log s}$, we see that the total number of representations of programs of at most $s$ lines is at most $2^{(2+\log s)(3s+3)} \leq 2^{4s\log s}$ for $s$ large enough.
+Since a program of at most $s$ lines has at most $s$ inputs and outputs, the total number of representations of all programs of at most $s$ lines is smaller than $s\times s \times s \times (3s)^{3s} = (3s)^{3s+3}$ (the factor $s\times s\ times s$ arises from taking all of the at most $s$ options for the number of inputs $n$, all of the at most $s$ options for the number of outputs $m$, and all of the at most $s$ options for the number of lines $s'$).
+Writing $4s = 2^{\log(3s)}=2^{\log 3  + \log s} \leq 2^{2+\log s}$, we see that the total number of representations of programs of at most $s$ lines is at most $2^{(2+\log s)(3s+3)} \leq 2^{4s\log s}$ for $s$ large enough.
 >
 For every function $F \in Size(s)$ there is a program $P$ of at most $s$ lines that computes it, and we can map $F$ to its representation as a tuple $(n,m,L)$.
 If $F \neq F'$ then a program $P$ that computes $F$ must have an input on which it disagrees with any program $P'$ that computes $F'$, and hence in particular $P$ and $P'$ have distinct representations.
@@ -286,6 +286,7 @@ Thus we see that the map of $Size(s)$ to its representation is one to one, and s
 
 > # {.remark title="Counting by ASCII representation" #countingfromascii}
 We can also establish [program-count](){.ref} directly from the ASCII representation of the source code.  Since an $s$-line NAND program has at most $3s$ distinct variables,  we can change all the workspace variables of such a program to have the form `work_`$\expr{i}$ for $i$ between $0$ and $3s-1$ without changing the function that it computes. This means that  after removing comments and extra whitespaces, every line of such a program (which will  the form `var := var' NAND var''` for variable identifiers which will be either `x_###`,`y_###` or `work_###` where `###` is some number smaller than $3s$) will require at most, say, $20 + 3\log_{10} (3s) \leq O(\log s)$ characters. Since each one of those characters can be encoded using seven bits in the ASCII representation, we see that the number of functions computed by $s$-line NAND programs is at most $2^{O(s \log s)}$.
+
 
 A function mapping $\{0,1\}^2$ to $\{0,1\}$ can be identified with the table of its four values on the inputs $00,01,10,11$;
 a function mapping $\{0,1\}^3$ to $\{0,1\}$ can be identified with the table of its eight values on the inputs $000,001,010,011,100,101,110,111$.
@@ -308,6 +309,15 @@ Hence  functions that can be computed in a small number of lines (such as additi
 
 ![All functions mapping $n$ bits to $m$ bits can be computed by NAND programs of $O(m 2^n/n)$ lines, but most
 functions cannot be computed using much smaller programs. However there are many important exceptions which are functions such as addition, multiplication, program evaluation, and many others, that can be computed in polynomial time with a small exponent.](../figure/map_of_size.png){#size-bounds-fig .class width=300px height=300px}
+
+> # {.remark title="Advanced note: more efficient representation" #efficientrepresentation}
+The list of triples is not the shortest representation for NAND programs.
+As we will see in the next lecture, every NAND program of $s$ lines and $n$ inputs can be represented by a directed graph of $s+n$ vertices, of which $n$ have in-degree zero, and the $s$ others have in-degree at most two. Using the adjacency list representation, such a graph can be represented using roughly $2s\log(s+n) \leq 2s (\log s + O(1))$ bits.
+Using this representation we can reduce the implicit constant in [program-count](){.ref} arbitrarily close to $2$.
+
+
+
+
 
 ## Lecture summary
 
