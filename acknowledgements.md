@@ -24,9 +24,11 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Aaron Sachs
 * Brian Sapozhnikov
 * John Seides
+* Alaisha Sharma
 * David Steurer
 * Alec Sun
 * Everett Sussman
+* Garrett Tanzer
 * Sarah Turnill
 * Salil Vadhan
 * Ryan Williams
