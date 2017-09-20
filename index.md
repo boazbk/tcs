@@ -63,7 +63,7 @@ index:
     draft: false
 
   - num: 11.
-    name: Uncomputability
+    name: Restricted computational models
     file: lec_08a_restricted_models
     draft: false
 

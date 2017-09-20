@@ -282,11 +282,14 @@ We say that a subset $B$ of functions from $k$ bits to a single bit is a _univer
 ## Neural networks
 
 One particular basis we can use are _threshold gates_.
-Given any vector $w= (w_0,\ldots,w_{k-1})$ of integers  and some integer $t$ (some or all of whom  could be negative),
+For every vector $w= (w_0,\ldots,w_{k-1})$ of integers  and  integer $t$ (some or all of whom  could be negative),
 the _threshold function corresponding to $w,t$_ is the function
-$T_{w,t}:\{0,1\}^k \rightarrow \{0,1\}$ that maps $w$ to $1$ if and only if $\sum_{i=0} w_i x_i \geq t$.
+$T_{w,t}:\{0,1\}^k \rightarrow \{0,1\}$ that maps $x\in \{0,1\}^k$ to $1$ if and only if $\sum_{i=0}^{k-1} w_i x_i \geq t$.
+For example, the threshold function $T_{w,t}$ corresponding to $w=(1,1,1,1,1)$ and $t=3$ is simply the majority function $MAJ_5$ on $\{0,1\}^5$.
+The function $NAND:\{0,1\}^2 \rightarrow \{0,1\}$  is the threshold function corresponding to $w=(-1,-1)$ and $t=-1$, since $NAND(x_0,x_1)=1$ if and only if $x_0 + x_1 \leq 1$ or equivalently, $-x_0 - x_1 \geq -1$.
 
-The NAND function is of course itself a threshold gate, since $NAND(x,y)=1$ if and only if $-x-y \geq -1$. Threshold gates can be thought of as an approximation for    _neuron cells_ that make up the core of human and animal brains. To a first approximation, a neuron has $k$ inputs and a single output and the neurons  "fires" or "turns on" its output when those signals pass some threshold.^[Typically we think of an input to neurons as being a real number rather than a binary string, but  we can reduce to the binary case by  representing a real number in the binary basis, and multiplying the weight of the bit corresponding to the $i^{th}$ digit by $2^i$.]
+
+Threshold gates can be thought of as an approximation for    _neuron cells_ that make up the core of human and animal brains. To a first approximation, a neuron has $k$ inputs and a single output and the neurons  "fires" or "turns on" its output when those signals pass some threshold.^[Typically we think of an input to neurons as being a real number rather than a binary string, but  we can reduce to the binary case by  representing a real number in the binary basis, and multiplying the weight of the bit corresponding to the $i^{th}$ digit by $2^i$.]
 Hence circuits with threshold gates are sometimes known as _neural networks_.
 Unlike the cases above, when we considered $k$ to be a small constant, in such  neural networks we often do not put any bound on the number of inputs.
 However, since any threshold function can be computed by a NAND program of $poly(k)$  lines (see [threshold-nand-ex](){.ref}), the  power of NAND programs and neural networks is not much different.
