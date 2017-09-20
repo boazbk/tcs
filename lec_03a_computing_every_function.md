@@ -150,7 +150,7 @@ for i in RANGE do {
 }
 ~~~~
 
-where `RANGE` specifies a finite set $I = \{ i_0,\ldots, i_{k-1} \}$ of integers, with $|R|$ copies of `code`, where for $j \in [k]$, we replace all occurences of `_i` in the $j$-th copy with `_`$\expr{i_j}$.
+where `RANGE` specifies a finite set $I = \{ i_0,\ldots, i_{k-1} \}$ of natural numbers, with $|R|$ copies of `code`, where for $j \in [k]$, we replace all occurences of `_i` in the $j$-th copy with `_`$\expr{i_j}$.
 We specify the set $I = \{ i_0,\ldots,i_{k-1} \}$ by simply writing `[` $\expr{i_0}$, $\expr{i_1}$, $\ldots$, $\expr{i_{k-1}}$ `]`. We will also use the $\expr{beg}$`:`$\expr{end}$ notation so specify the interval $\{ beg, beg+1,\ldots, end-1 \}$.
 So for example
 

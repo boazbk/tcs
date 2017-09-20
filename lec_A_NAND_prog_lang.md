@@ -230,7 +230,7 @@ def NAND2C(prog,n,m):
 
 ## NAND<< programming language specification
 
-The NAND<< programming language allows _indirection_, hence using every variable as a pointer or index variable.
+The NAND<< (pronounced "NAND shift") programming language allows _indirection_, hence using every variable as a pointer or index variable.
 Unlike the case of NAND++ vs NAND, NAND<< cannot compute functions that NAND++ can not (and indeed any NAND<< program can be "compiled to a NAND++ program) but it can be polynomially faster.
 
 
@@ -362,6 +362,24 @@ if AND(foo,bar) {
 ~~~~
 
 where `XOR`,`AND` have been defined above.
+
+__NAND for loops:__ We can introduce syntactic sugar for loops in NAND, as long as the number of times the loop executes is fixed and independent of the input size. Hence we will use
+
+
+More generally, we will replace code of the form
+
+~~~~ { .pascal }
+for i in RANGE do {
+    code
+}
+~~~~
+
+where `RANGE` specifies a finite set $I = \{ i_0,\ldots, i_{k-1} \}$ of  natural numbers, as syntactic sugar for  $|R|$ copies of `code`, where for $j \in [k]$, we replace all occurences of `_<expr(i)>` in the $j$-th copy with `_`$\expr{expr(i_j)}$ where `expr(i)` denotes an arithmetic expression in `i` (involving `i`, constants, parenthesis, and the operators `+,-,*,mod,/`) and for every $x\in \N$, $expr(c)$ denotes the result of of applying this expression to the value $c$.
+
+We specify the set $I = \{ i_0,\ldots,i_{k-1} \}$ by simply writing `[` $\expr{i_0}$, $\expr{i_1}$, $\ldots$, $\expr{i_{k-1}}$ `]`. We will also use the $\expr{beg}$`:`$\expr{end}$ notation so specify the interval $\{ beg, beg+1,\ldots, end-1 \}$.
+For example, `[ 2:4, 10:13 ]` specifies the set $\{ 2,3,10,11,12 \}$. 
+
+
 
 __Operator overloading and infix notation:__ For convenience of notation, we can define functions corresponding to standard operators `*`,`+`,`-`, etc.. and then code such as `foo * bar` will correspond to `operator*(foo,bar)`.
 

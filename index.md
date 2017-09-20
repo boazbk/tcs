@@ -47,122 +47,132 @@ index:
     file: lec_06_loops
     draft: false
 
-  - num: 8.
+  - num: 7.
+    name: Universality and indirection
+    file: lec_06a_universality
+    draft: false
+
+  - num: 9.
     name: Other models
     file: lec_07_other_models
     draft: false
 
-  - num: 9.
+  - num: 10.
     name: Uncomputability
     file: lec_08_uncomputability
     draft: false
 
-  - num: 10.
+  - num: 11.
+    name: Uncomputability
+    file: lec_08a_restricted_models
+    draft: false
+
+  - num: 12.
     name: Gödel's Incompleteness Theorem
     file: lec_09_godel
     draft: false
 
-  - num: 11.
+  - num: 13.
     name: Efficient algorithms
     file: lec_10_efficient_alg
     draft: false
 
-  - num: 12.
+  - num: 14.
     name: Formally defining running time
     file: lec_11_running_time
     draft: false
 
-  - num: 13.
+  - num: 15.
     name: The class NP
     file: lec_12_NP
     draft: false
 
-  - num: 14.
+  - num: 16.
     name: The Cook Levin Theorem
     file: lec_13_Cook_Levin
     draft: false
 
-  - num: 15.
+  - num: 17.
     name: More NP hardness reductions (advanced lecture)
     file: lec_13a_advanced_reductions
     draft: false
 
-  - num: 16.
+  - num: 18.
     name: What if P=NP?
     file: lec_14_PvsNP
     draft: false
 
-  - num: 17.
+  - num: 19.
     name: Review of probability
     file: lec_15_probability
     draft: false
 
-  - num: 18.
+  - num: 20.
     name: Randomized algorithms
     file: lec_16_randomized_alg
     draft: false
 
-  - num: 19.
+  - num: 21.
     name: Modelling probabilistic computation
     file: lec_17_model_rand
     draft: false
 
-  - num: 20.
+  - num: 22.
     name: Hardness vs. randomness
     file: lec_18_hardness_vs_randomness
     draft: false
 
-  - num: 21.
+  - num: 23.
     name: Derandomization from worst-case assumptions (advanced lecture)
     file: lec_18a_worst_case_derand
     draft: false
 
-  - num: 22.
+  - num: 24.
     name: Cryptography
     file: lec_19_cryptography
     draft: false
 
-  - num: 23.
+  - num: 25.
     name: Algorithms and society
     file: lec_20_alg_society
     draft: false
 
-  - num: 24.
+  - num: 26.
     name: Compression, coding, and information
     file: lec_21_compression_coding
     draft: false
 
-  - num: 25.
+  - num: 27.
     name: Space bounded computation
     file: lec_22_space_complexity
     draft: false
 
-  - num: 26.
+  - num: 28.
     name: Streaming, sketching, and automata
     file: lec_23_stream_automata
     draft: false
 
-  - num: 27.
+  - num: 29.
     name: Proofs and algorithms
     file: lec_24_proofs
     draft: false
 
-  - num: 28
+  - num: 30
     name: Interactive and probabilistically-checkable proofs  (advanced lecture)
     file: lec_24a_interactive_proofs
     draft: false
 
-  - num: 29.
+  - num: 31.
     name: Limits of data structures
     file: lec_25_data_structures
     draft: false
 
-  - num: 30.
+  - num: 32.
     name: Quantum computing
     file: lec_26_quantum_computing
     draft: false
 
-  - num: 31.
+  - num: 33.
     name: Shor's algorithm (advanced lecture)
     file: lec_26a_Shor_algorithm
     draft: false

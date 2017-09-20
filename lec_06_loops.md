@@ -243,10 +243,11 @@ We can also maintain an array `arridx` that contains $0$ in all positions except
 
 ![We can simulate controlling the index variable `i` by keeping an array `atstart` letting us know when `i` reaches $0$, and hence `i` starts increasing, and `breadcrumb` letting us know when we reach a point we haven't seen before, and hence `i` starts decreasing. If we are at a point in which the index is increasing but we want it to decrease then we can mark our location on a special array `arridx` and enter a loop until the time we reach the same location again.](../figure/breadcrumbs.png){#breadcrumbspng .class width=300px height=300px}
 
-Now we can simulate incrementing and decrementing `i` by one as follows.
-If we want to increment `i` and `indexincreasing` then we simply wait one step.
+Now we can simulate incrementing and decrementing `i` by one by simply waiting until our desired outcome happens naturally.
+(This is similar to  the observation that a bus is like a taxi if you're willing to wait  long enough.)
+That is, if we want to increment `i` and `indexincreasing` equals $1$ then we simply wait one step.
 Otherwise (if `indexincreasing` is $0$) then we go into an inner loop in which we do nothing until we reach again the point when `arridx_i` is $1$ and  `indexincreasing` is equal to $1$.
-Decrementing `i` is done in the analogous way.
+Decrementing `i` is done in the analogous way.^[It can be verified that this transformation converts a program with $T$ steps that used the `i++ (foo)` and `i-- (bar)` operations into a program with $O(T^2)$ that doesn't use them.]
 
 ### "Simple" NAND++ programs
 
@@ -303,6 +304,25 @@ To obtain the program $P'$ we can simply place $T$ copies of the program $P$ one
 
 
 ![A NAND program for parity obtained by expanding the NAND++ program](../figure/expandnand.png){#expandnandpng .class width=300px height=300px}
+
+We can also obtain such an expansion by using the `for .. do { .. }` syntactic sugar.
+For example, the NAND program below corresponds to running the parity program for 17 iterations, and computing $XOR_5:\{0,1\}^5 \rightarrow \{0,1\}$. Its standard "unsweetened" version will have $17 \cdot 10$ lines.^[This is of course not the most efficient way to compute $XOR_5$. Generally, the NAND program to compute $XOR_n$ obtained by expanding out the  NAND++ program will require $\Theta(n^2)$ lines, as opposed to the $O(n)$ lines that is possible to achieve directly in NAND. However, in most cases this difference will not be so crucial for us.]
+
+~~~~ { .go .numberLines }
+for i in [0,1,0,1,2,1,0,1,2,3,2,1,0,1,2,3,4] do {
+tmp1  := seen_i NAND seen_i
+tmp2  := x_i NAND tmp1
+val   :=  tmp2 NAND tmp2
+ns   := s   NAND s
+y_0  := ns  NAND ns
+u    := val NAND s
+v    := s   NAND u
+w    := val NAND u
+s    := v   NAND w
+seen_i := zero NAND zero  
+}
+~~~~
+
 
 
 In particular we have the following theorem
@@ -467,6 +487,7 @@ If $\Delta$  is the "deltas" of $P$ on input $x \in \{0,1\}^n$, then for every $
 ## Lecture summary
 
 * NAND++ programs introduce the notion of _loops_, and allow us to capture a single algorithm that can evaluate functions of any input length.
+* Running a NAND++ program for any finite number of steps corresponds to a NAND program. However, the key feature of NAND++ is that the number of iterations can depend on the input, rather than being a fixed upper bound in advance.
 
 
 ## Exercises

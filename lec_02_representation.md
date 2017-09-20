@@ -203,6 +203,9 @@ We will come back to the very interesting story of this hypothesis later on in t
 
 
 
+
+
+
 To complete the proof of [cantorthm](){.ref}, we need to show [sequencestoreals](){.ref}.
 This requires some calculus background, but is otherwise straightforward.
 The idea is that we can construct a one-to-one map from $\{0,1\}^\infty$ to the real numbers by mapping the function $f:\N \rightarrow \{0,1\}$ to the number that has the infinite decimal expansion $f(0).f(1)f(2)f(3)f(4)f(5)\ldots$ (i.e., the number between $0$ and $2$ that is $\sum_{i=0}^\infty f(i)10^{-i}$).

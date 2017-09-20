@@ -417,9 +417,15 @@ Prove that  there no  program $P^*$ that computes $H$, by building from such a s
 
 ^[TODO:  Add letter of Christopher Strachey to the editor of The Computer Journal.
 Explain right order of historical achievements.
-Talk about intuitionistic, logicist, and formalist approaches for the foudnations of mathematics.
+Talk about intuitionistic, logicist, and formalist approaches for the foundations of mathematics.
 Perhaps analogy to veganism.
 State the full Rice's Theorem and say that it follows from the same proof as in the exercise.]
+
+The diagonlization argument used to prove uncomputability of $F^*$ is of course derived from Cantor's argument for the uncountability of the reals.
+In a twist of fate, using  techniques originating from the works  Gödel and Turing,  Paul Cohen showed in 1963 that Cantor's Continuum Hypothesis is independent of the axioms of set theory, which means that neither it nor its negation is provable from these axioms and hence in some sense  can be considered as "neither true nor false".
+See [here](https://gowers.wordpress.com/2017/09/19/two-infinities-that-are-surprisingly-equal/) for recent progress on a related question.
+
+
 
 ## Further explorations
 
