@@ -293,7 +293,7 @@ For every NAND program $P=(V,X,Y,L)$, the _next step function of $P$_, denoted b
 For every $(\ell,\sigma)  \in CONF(P)$, if $\ell=|L|$ then $NEXT_P(\ell,\sigma)=(\ell,\sigma)$.
 Otherwise $NEXT_P(\ell,\sigma) = (\ell+1,\sigma')$ where $\sigma':V \rightarrow \{0,1\}$ is defined as follows:
 $$
-\sigma'(x) = \begin{cases} NAND(v,w)   & x=u \\
+\sigma'(x) = \begin{cases} NAND(\sigma(v),\sigma(w))   & x=u \\
                \sigma(x)   & \text{otherwise}
                \end{cases}
 $$
@@ -558,8 +558,7 @@ Output is y_0=1, y_1=0, y_2=1
 ### Composition in NAND programs
 
 We can generalize the above examples to handle not just sequential and parallel but all forms of _composition_.
-That is, if we have an $s$ line program $P$ that computes the function $F$, and a $t$ line program $P'$ that can compute the function $G$ using $k$ calls to a "black box" for computing $F$, then we can obtain a $t + ks$ line program $P''$ to compute $G$ (without any "magic boxes") by replacing every call to $F$ in $P'$ with a copy of $P$ (while appropriately renaming the variables).
-Similarly, in the circuit formulation, we can transform an $s$-gate circuit $C$ for computing $G$, and a $t$-gate "augmented circuit" $C'$ that can compute $F$ using  $k$ "magic gates" that compute $G$ instead of NAND, into a standard $s+tk$ gate circuit $C''$  that computes $F$, by replacing each gate with a copy of $C$.
+That is, if we have an $s$ line program $P$ that computes the function $F$, and a program $P'$ that can compute the function $G$ using $t$ standard NAND lines and $k$ calls to a "black box" for computing $F$, then we can obtain a $t + ks$ line program $P''$ to compute $G$ (without any "magic boxes") by replacing every call to $F$ in $P'$ with a copy of $P$ (while appropriately renaming the variables).
 
 ![We can compose a program $P$ that computes $F$ with a program $P'$ that computes $G$ by making calls to $F$, to obtain a program $P''$ that computes $G$ without any calls.](../figure/composition.png){#composition-fig .class width=300px height=300px}
 

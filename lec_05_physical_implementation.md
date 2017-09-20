@@ -225,33 +225,40 @@ By the fact that $C$ and $D$ compute $F$ and $G$ respectively, we see that $E$ c
 
 ## General Boolean circuits: a formal definition
 
-We now define the notion of  _general_ Boolean circuits  that can use any set of gates and not just the NAND gate.
+We now define the notion of  _general_ Boolean circuits  that can use any set $B$ of gates and not just the NAND gate.
 
-> # {.definition title="Boolean circuits" #circuits-def}
-Let $k$ be some number and $B$ be a subset of the functions from $\{0,1\}^k \rightarrow \{0,1\}$.
-For every $n,m \in \N$, an $n$ input, $m$ output  _Boolean circuit_ with $B$-gates is a directed acyclic graph (DAG) $G$ over the vertex set $[t] = \{0,1\ldots,t-1\}$ and a labelling function $L:\{n,\ldots,t-1\} \rightarrow B$ such that: \
-* Vertices $\{0,\ldots,n-1\}$ are _sources_: have no incoming edges.
-* Vertices $\{t-m,\ldots,t-1 \}$ are _sinks_: have no out-going edges.
-* Every non source vertex has exactly $k$ incoming edges.
+> # {.definition title="A basis of gates" #basis-def}
+A _basis for Boolean circuits_ is a finite set $B = \{ g_0 , \ldots , g_{c-1} \}$ of finite Boolean functions, where each function $g \in B$ maps strings of some finite length (which we denote by $in(g)$) to $\{0,1\}$.
+
+We now define the notion of a general Boolean circuit with gates from $B$.^[Just as we defined  canonical variables in [NANDcanonical](){.ref}, it will be convenient for us to assume that the vertex set of such a circuit is an interval of the form $\{0,1,2,\ldots,n+s \}$ for $n,s \in \N$, where the first $n$ vertices correspond to the inputs and the last $m$ vertices correspond to the outputs.]
+
+> # {.definition title="General Boolean circuits" #circuits-def}
+Let $B$ be a basis for Boolean circuits. A _circuit over the basis $B$_ (or _$B$-circuit_ for short) with $n$ inputs and $m$ outputs is a labeled directed acyclic graph (DAG) over the vertex set $[n+s]$ for $s\in \N$. The vertices $\{0,\ldots, n-1\}$ are known as the "input variables" and have in-degree zero.
+Every vertex apart from the input variables is known as a _gate_.
+Each such vertex is labeled with a function $g \in B$ and has in-degree $in(g)$.
+The last $m$ vertices $\{ n+s-m,\ldots, n+s-1 \}$ have out-degree zero and are known as the _output gates_.
+We denote the circuit  as $C=([n+s],E,L)$ where $[n+s],E$ are the vertices and edges of the circuit, and $L:\{n,\ldots,n+s-1\} \rightarrow B$ is the  labeling function that maps vertices into the set $B$.
+
+> # { .pause }
+To make sure you understand this definition, stop and think how a Boolean circuits with AND, OR, and NOT gates corresponds to a $B$-circuit per [circuits-def](){.ref}, where $B= \{ AND, OR, NOT \}$ and $AND:\{0,1\}^2 \rightarrow \{0,1\}$ is the function $AND(a,b)=a \cdot b$, $OR(a,b) \rightarrow \{0,1\}$ is the function $OR(a,b) = 1-(1-a)(1-b)$ and $NOT:\{0,1\} \rightarrow \{0,1\}$ is the function $NOT(a)=1-a$.
 
 
-
-![A Boolean circuit to compute the XOR function with NAND gates. In red are the corresponding variable names in the NAND program. (Figure needs to be updated to remove special output gates) /](../figure/NAND_circuit.png){#circuit-xor .class width=300px height=300px}
-
-
-An $n$-input $m$-output circuit $C=(G,L)$ computes a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ as follows.
+The _size_ of a circuit $C$, denoted by $|C|$, is the number of gates that it contains.
+An $n$-input $m$-output circuit $C=([n+s],E,L)$ computes a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ as follows.
 For every input $x\in \{0,1\}^n$, we inductively define  the _value_ of every vertex based on its incoming edges:
 
 1. For the  source vertices $\{0,\ldots,i-1\}$ we define $val(i) =x_i$ for all $i\in [n]$.
 
-2. For a non source  vertex  $v$ and is labeled with $f\in B$, if its incoming neighbors are vertices $v_1,\ldots,v_k$
+2. For a non source  vertex  $v$ that  is labeled with $g\in B$, if its incoming neighbors are vertices $v_1,\ldots,v_k$
 (sorted in order) and their values have all been set  then we let $\val(v)=f(\val(v_1),\ldots,\val(v_k))$.
 
 3. Go back to step 2 until all vertices have values.
 
+4. Output $\val(n+s-m),\ldots,\val(n+s-1)$.
 
 
-The _output_ of the circuit $C$ on input $x$, denoted by $C(x)$, is the string $y\in \{0,1\}^m$ such that for every $i\in \{0,\ldots,m-1\}$, $y_i$ is the value of the vertex $t-m+1$ where $t$ is the number of vertices.
+
+The _output_ of the circuit $C$ on input $x$, denoted by $C(x)$, is the string  $y\in \{0,1\}^m$ outputted by this process.
 We say that the circuit $C$ _computes the function $F$_ if for every $x\in \{0,1\}^n$,  $C(x)=F(x)$.
 
 

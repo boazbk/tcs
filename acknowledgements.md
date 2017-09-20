@@ -23,6 +23,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Juan Perdomo
 * Aaron Sachs
 * Brian Sapozhnikov
+* John Seides
 * David Steurer
 * Alec Sun
 * Everett Sussman
