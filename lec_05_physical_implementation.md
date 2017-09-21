@@ -150,7 +150,7 @@ Suppose that $P$ is an $S$ line program that computes $F$.
 We will build a NAND circuit $C=(V,E,L)$ that computes $F$ as follows.
 The vertex set $V$ will have the $n+s$ elements $\{ (0,0), \ldots, (0,n-1),(1,0),\ldots,(1,s-1) \}$.
 That is, it will have $n$ vertices of the form $(0,i)$ for $i\in [n]$ (corresponding to the $n$ inputs), and $S$ vertices of the form $(1,\ell)$ (corresponding to the lines in the program).
-For every line $\ell$ in the program $P$ of the form `foo := bar NAND baz`, we put edges in the graph of the form $\overrightarrow{(1,\ell')\;(1,\ell)}$ and $\overrightarrow{(1,\ell'')\;(1,\ell)}$ where  $\ell'$ and $\ell'$ are the last lines before $\ell$ in which the variables `bar` and `baz` were assigned a value.
+For every line $\ell$ in the program $P$ of the form `foo := bar NAND baz`, we put edges in the graph of the form $\overrightarrow{(1,\ell')\;(1,\ell)}$ and $\overrightarrow{(1,\ell'')\;(1,\ell)}$ where  $\ell'$ and $\ell''$ are the last lines before $\ell$ in which the variables `bar` and `baz` were assigned a value.
 If the variable `bar` and/or `baz` was not assigned a value prior to the $\ell$-th line and is not an input variable then we don't add a corresponding edge.
 If the variable `bar` and/or `baz` is an input variable `x_`$\expr{i}$ then we add the edge $\overrightarrow{(0,i)\;(1,\ell)}$.
 We label the vertices of the form $(0,i)$ with `x_`$\expr{i}$ for every $i\in [n]$.
@@ -349,7 +349,7 @@ We call this hypothesis the **"Physical Extended Church-Turing Thesis"** or _PEC
 There is no single universally-agreed-upon formalization of "$s$ physical resources",  but
 we can approximate this notion by considering the size of any  physical computing device and the time it takes to compute the output.
 That is we can stipulate that any function that can be computed by a device of volume $V$ and time $t$, must be computable by a NAND program that has at most $\alpha(Vt)^\beta$ lines for some constants $\alpha,\beta$.
-The exact values for $\alpha,\beta$ are not so clear, but it is generally accepted that if $F:\{0,1\}^n \rightarrow \{0,1\}$ is an exponentially hard function, in the sense that it has not NAND program of fewer than, say, $2^{n/2}$ lines, then a demonstration of a physical device that can compute $F$ for moderate input lengths (e.g., $n=500$) would be a violation of the PECTT.
+The exact values for $\alpha,\beta$ are not so clear, but it is generally accepted that if $F:\{0,1\}^n \rightarrow \{0,1\}$ is an exponentially hard function, in the sense that it has no NAND program of fewer than, say, $2^{n/2}$ lines, then a demonstration of a physical device that can compute $F$ for moderate input lengths (e.g., $n=500$) would be a violation of the PECTT.
 
 >__Advanced note: making things concrete:__
 We can attempt at a more exact phrasing of the PECTT as follows.
