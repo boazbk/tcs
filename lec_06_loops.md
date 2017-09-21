@@ -330,15 +330,8 @@ In particular we have the following theorem
 > # {.theorem title="Expansion of NAND++ to NAND" #NANDexpansionthm}
 For every simple NAND++ program $P$ and function $F:\{0,1\}^* \rightarrow \{0,1\}$, if $P$ computes $F$ then for every $n\in\N$ there exists $T\in \N$ such that $expand_{T,n}(P)$ computes $F_n$.
 
-> #{.proof}
-We'll start with a "proof by code". Here is a Python program `expand` to compute $expand_{T,n}(P)$.
-On  input the code $P$ of a NAND++ program and numbers $T,n$, `expand` outputs the code of the NAND program $P'$ that works on length $n$ inputs and is obtained by running $T$ iterations of $P$:
->
 ~~~~ { .python }
-def index(k):
-    r = math.floor(math.sqrt(k+1/4)-1/2)
-    return (k-r*(r+1) if k <= (r+1)*(r+1) else (r+1)*(r+2)-k)
-
+# Expand a NAND++ program and a given time bound T and n to an n-input T-line NAND program
 def expand(P,T,n):
     result = ""
 
@@ -348,7 +341,17 @@ def expand(P,T,n):
         result += P.replace('validx_i',validx).replace('x_i',('x_i' if i<n else 'zero')).replace('_i','_'+str(i))
 
     return result
+
+
+def index(k):
+    r = math.floor(math.sqrt(k+1/4)-1/2)
+    return (k-r*(r+1) if k <= (r+1)*(r+1) else (r+1)*(r+2)-k)
 ~~~~
+
+
+> #{.proof}
+We'll start with a "proof by code". Above is a  Python program `expand` to compute $expand_{T,n}(P)$.
+On  input the code $P$ of a NAND++ program and numbers $T,n$, `expand` outputs the code of the NAND program $P'$ that works on length $n$ inputs and is obtained by running $T$ iterations of $P$:
 >
 If the original program had $s$ lines, then for every $\ell \in [sT]$, line  $\ell$ in the output of `expand(P,T,n)` corresponds exactly to the line executed in step $\ell$ of the execution $P(x)$.^[In the notation above (as elsewhere),  we index both  lines and steps from $0$.]
 Indeed, in step $\ell$ of the execution of $P(x)$, the line executed is $k=\ell \bmod s$, and line $\ell$ in the output of `expand(P,T,n)` is a copy of line $k$ in $P$.
