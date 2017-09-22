@@ -330,6 +330,14 @@ Let $PAIR:\N^2 \rightarrow \N$ be the function defined as $PAIR(x_0,x_1)= \tfrac
 3. Construct a NAND++ program $P$ such that for every $x^0,x^1 \in \N$, $P(pf(x^0)pf(x^1))=pf(PAIR(x^0,x^1))$, where $pf$ is the prefix-free encoding map defined above. You can use the syntactic sugar for inner loops, conditionals, and incrementing/decrementing the counter. \
 4. Construct NAND++ programs $P_0,P_1$ such that for for every $x^0,x^1 \in \N$ and $i \in N$, $P_i(pf(PAIR(x^0,x^1)))=pf(x^i)$. You can use the syntactic sugar for inner loops, conditionals, and incrementing/decrementing the counter.
 
+
+> # {.exercise title="Single vs multiple bit" #singlebit-ex}
+Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}^*$, the function $F$ is computable if and only if the following function $G:\{0,1\}^* \rightarrow \{0,1\}$ is computable, where $G$ is defined as follows:
+$G(x,i,\sigma) = \begin{cases} F(x)_i & i < |F(x)|, \sigma =0 \\ 1 & i < |F(x)|, \sigma = 1 \\ 0 & i \geq |F(x)| \end{cases}$
+
+
+
+
 ## Bibliographical notes
 
 The notion of "NAND++ programs" we use is nonstandard but (as we will see)  they are equivalent to standard models used in the literature.

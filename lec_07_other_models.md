@@ -77,7 +77,7 @@ Moreover, we can take advantage of  the syntactic sugar transformations we have 
 If $M:[k]\times \Sigma \rightarrow \Sigma \times [k] \times \{ L , R \}$ then there is a finite length NAND program `ComputeM` that computes the finite function $M$ (representing the finite sets $[k]$,$\Sigma$, $\{L,R\}$ appropriately by bits).
 The NAND<< program simulating $M$ will be the following:
 
-~~~~ { .go .numberLines }
+~~~~ { .pascal .numberLines }
 // tape is an array with the alphabet Sigma
 // we use ">" for the start-tape marker and "." for the empty cell
 // in the syntactic sugar below, we assume some binary encoding of the alphabet.
@@ -114,57 +114,12 @@ while EQUAL(tape_j,0) OR EQUAL(tape_j,1) {
 
 In addition to the standard syntactic sugar, we assumed above we can make function calls to the function `EQUAL` that checks equality of two symbols as well as the finite function `ComputeM`  that corresponds to the transition function of the Turing machine.
 
-### NAND++ Snapshots, Transition, and Traces
-
-To show the other direction of [TM-equiv-thm](){.ref} (namely simulate a NAND++ program with a Turing machine), we will introduce some  observations about NAND++ programs that will come in very handy in other settings as well.
-We can characterize a computation of a NAND++ program by keeping track of its _state_, namely the setting of all its variables (including the input and output variables), and the current state of its computation.
-A _snapshot_ of a NAND++ program $P$ is simply the state of $P$ at a given step in the computation.
-To simulate a NAND++ program by a Turing machine (or any other method), it is sufficient to use the machine to compute, given a snapshot $\sigma_i$ of $P$ at step $i$, the snapshot $\sigma_{i+1}$ at step $i+1$.
-To make this notion precise, we need to formally define snapshots, which is what we do next.
-
-For convenience, we will assume that a NAND++  program $P$ is in _normal form_,  as per [normalform](){.ref} from the previous lecture.
-Recall that this means that $P$ satisfies a long list of properties, but the most crucial for our purposes are the following:
-
-* $P$ has a variable `indexincreasing` with the code to ensure that `indexincreasing` is $1$ whenever in the next iteration the value of `i` increases and `indexincreasing` is $0$ otherwise.  
-
-* There are no absolute numerical indices in $P$. All variables either have the form `foo_i` or `bar`: no `blah_17`. Moreover, every variable identifier that appears with the index `i` never appears without an index and vice versa.
-
-As mentioned above, a _snapshot_ of $P$ will be a string that encodes the entire state of $P$. If the largest value that the  index $i$  achieved was $T$, then, we would need $O(T)$ bits for this encoding, so we can encode for every  indexed variable `foo` the value of `foo_`$\expr{i}$ for every $i$.
-Thus our _snapshot_ will be a string $S$ of $O(T)$ length, that we think of as being divided to $T$ constant-sized blocks, corresponding to each value of the counter.
-We now specify this encoding precisely:
-
-
-
-A normal-form program $P$ has two types of variables: unindexed and indexed. If $P$ has $\ell$ lines, $a$ variables of the former type, and $b$ of the latter, and we let $T$ be one plus the largest value $i$ such that a variable `foo_`$\expr{i}$  has been assigned a value,^[That is, when the computation begins then $T=n$ where $n$ is the input length,   and later $T$ is the maximum of $n$ and one plus the largest value that the counter `i` reaches.] then we can represent the current status of $P$ by a string $S \in \{0,1\}^{T(1+\ceil{\log \ell} + a+b)}$ as follows: $S=(S^1,\ldots,S^T)$ where $S^i \in \{0,1\}^{a+b+1}$ is a string such that:
-
-* The first bit of $S^i$ (i.e.,   $S^i_0$) equals 1 if the current value of `i` is $i$ and equals $0$ otherwise.
-
-* The next $\ceil{\log \ell}$ bits are the binary encoding of the index line that the program is just going to execute.
-
-* The next $a$ bits are either all zeroes (if $i$ is not the current value of `i`) or are equal to the values of all the unindexed variables (in alphabetical order, except that the special variables `loop`,`halted`, and `idxincreasing` are first).
-
-* The next $b$ bits correspond to the value of  `foo_`$\expr{i}$ for the $b$ indexed variables `foo` (in alphabetical order, except that the special variables `x_`,`y_`,`validx_`, `zero_` are indexed first).
-
-
-If  $S(t)$ denotes the snapshot of computation at step $t$, then to compute $S(t+1)$ from $S(t)$ we need to do the following:
-
-* Find the unique block $i$ such that $S(t)^i_0=1$.
-
-* Let $c$ be the index of the current line to be executed. If $c \neq 0$, then just execute this line: if the line is `foo := bar NAND baz` then compute the NAND of `bar` and `baz` based on the content of $S^i$ and update the value of `foo` to this new value. (Here `foo`, `bar` and `baz` are either unindexed or indexed by `i`.) Then let $c = c +1 (\mod \ell)$ and update $S^i$ accordingly.
-Thus $S(t+1)$ is identical to $S(t)$ in all but the $i$-th block, where the difference is a single bit in the variable, and the fact that the line counter is incremented.
-
-* If $c=0$ then if `halted` is equal to $1$ we do nothing. Otherwise we first let $i'$ be  $i+1$ or $i-1$, based on the value of `idxincreasing` which we can read off $S(t)^i$. We thus set the first bit of $S^i$ to be zero, set the first bit of $S^{i'}$ to one,  and copy the values of the unindexed variables from the $i$-th block to the $i'$-th block, zeroing them out in the $i$-th block. We then execute line zero in the program in the $i'$-th block as above. In this case $S(t+1)$ is identical to $S(t)$ in all but the two adjacent blocks $i$ and $i'$. If  $i'$ does not exist in $S(t+1)$ then we append an additional $1+\ceil{\log \ell} + a+b$ bits to it.
-
-> # {.definition title="Next step function" #nextstepfunction}
-Let $P$ be a normal-form NAND++ program. We define $NEXT_P:\{0,1\}^* \rightarrow \{0,1\}^*$ to be the partial function such that for every input $x\in \{0,1\}^*$ and $t\in \N$, if $S \in \{0,1\}^*$ is a string encoding a valid snapshot of the computation of $P$ on input $x$ after $t$ step, then $NEXT_P(S)=S'$ where $S'$ is the string encoding the snapshot of the computation of $P$ on input $x$ after $t+1$ steps.
-(If $S$ corresponds to a halting state, in which `halted` has value $1$, then we define $NEXT_P(S)=S$.)
-
-Clearly, to simulate a NAND++ program $P$ it is enough to compute $NEXT_P$, since given the input $x$, we can easily come up with the state of the program at step $0$ on input $x$, where all variables except for the `x_i` variables are equal to zero, and then compute $NEXT_P$ repeatedly until we reach a state where `halted` equals $1$, in which case we can read off the output from the `y_` variables.
-
 
 ### Simulating NAND++ programs with Turing machines
 
-Using the above, we can finish  [TM-equiv-thm](){.ref} by showing that for every normal-form $P$, there is a Turing machine $M$ that computes the function  $NEXT_P$.
+To prove the second direction of [TM-equiv-thm](){.ref}, we need to show that for  every NAND++-computable function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, there is a Turing machine that computes $F$.
+Since we can encode a non-Boolean function $F$ by the Boolean (i.e., single-bit output) $x,i \mapsto F(x)_i$, it is sufficient to prove the theorem for the case that $F$ is Boolean. 
+ by showing that for every normal-form $P$, there is a Turing machine $M$ that computes the function  $NEXT_P$.
 Let  $B=1+\ceil{\log \ell} + a+b$ be the block size of the snapshots of $P$.
 Note that $B$ is a constant independent of the input size, and in particular our machine $M$ will have about $2^{7B}$ states, which we can think of as a local memory of $7B$ bits.
 The machine will do the following:
