@@ -439,7 +439,7 @@ It is somewhat cumbersome since we have to __(1)__ fully specify the transformat
 Nevertheless, because proofs about computation can be subtle, it is important that you read carefully the proof and make sure  you understand every step  in it.
 
 
-![Given canonoical-variables programs $P$ and $P'$ that compute $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $G:\{0,1\}^m \rightarrow \{0,1\}^k$ respectively, we create a program $P''$ using $t+t'-m$ variables to compute $G\circ F$ where $t$ and $t'$ are the number of variables used by $P$ and $P'$ respectively. In this program, the variables corresponding to the outputs of $P$ and the inputs of $P'$ are shared, but all other variables are disjoint.](../figure/compositionprogs.png){#compositionprogsfig .class width=300px height=300px}
+![Given canonical-variables programs $P$ and $P'$ that compute $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $G:\{0,1\}^m \rightarrow \{0,1\}^k$ respectively, we create a program $P''$ using $t+t'-m$ variables to compute $G\circ F$ where $t$ and $t'$ are the number of variables used by $P$ and $P'$ respectively. In this program, the variables corresponding to the outputs of $P$ and the inputs of $P'$ are shared, but all other variables are disjoint.](../figure/compositionprogs.png){#compositionprogsfig .class width=300px height=300px}
 
 > # {.proof data-ref="seqcompositioncircthm"}
 Let $P=(V,X,Y,L)$ and $P'=(V',X',Y',L')$ be the programs for computing $F$ and $G$ respectively, and assume without loss of generality that they are in canonical form, and so $X = [n]$, $Y=X'=[m]$, and $Y'=[k]$.
@@ -497,7 +497,7 @@ To transform this pseudocode into an actual program or circuit, we can use [seqc
 That is, we first compute $(y_0,c_1,z_1,c_2) = ADD_1 \| ADD_1 (x_0,x_2,x_1,x_3)$, which we can do in $10$ lines  via [parcompositionthm](){.ref}, then apply  $ADD_1$ to $(z_1,c_1)$, and finally use the fact that $OR(a,b)=NAND(NOT(a),NOT(b))$ and $NOT(a)=NAND(a,a)$ to compute `c_2 OR c'_2` via three lines of NAND.
 The resulting code is the following:
 
-~~~~ { .go .numberLines  }
+~~~~ { .pascal .numberLines  }
 // Add a pair of two-bit numbers
 // Input: (x_0,x_1) and (x_2,x_3)
 // Output: (y_0,y_1,y_2) representing the sum
