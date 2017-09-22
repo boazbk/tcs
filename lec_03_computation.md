@@ -392,7 +392,7 @@ If $F:\{0,1\}^n \rightarrow \{0,1\}^m$ is a function in $SIZE(L)$ and $G:\{0,1\}
 $F \| G: \{0,1\}^{n+n'} \rightarrow \{0,1\}^{m+m'}$ is defined as the function that maps $x \in \{0,1\}^{n+n'}$ to $F(x_0,\ldots,x_{n-1})G(x_n,\ldots,x_{n+n'-1})$.
 
 > # { .pause }
-We will formally prove [seqcompositionthm](){.ref} and [parcompositionthm](){.ref} using our formal definition of NAND programs. But it is also possible to directly give syntactic transformations of the code of programs computing $F$ and $G$ to programs computing $G\circ F$ and $F \oplus G$ respectively.
+We will  prove [seqcompositionthm](){.ref} and [parcompositionthm](){.ref} using our formal definition of NAND programs. But it is also possible to directly give syntactic transformations of the code of programs computing $F$ and $G$ to programs computing $G\circ F$ and $F \oplus G$ respectively.
 It is a good exercise for you to pause here and see that you know how to give such a transformation.
 Try to think how you would write a _program_ (in the programming language of your choice) that given two strings `C` and `D` that contain the code of NAND programs for computing $F$ and $G$, would output a string `E` that contains that code of a NAND program for $G\circ F$ (or $F \| G$).
 
@@ -447,7 +447,7 @@ Let $t=|V|$, $s=|L|$, $t'=|V'|$, and $s'=|L'|$.
 We will construct an $s+s'$ line canonical form program $P''$ with $t+t'-m$ variables that computes $G\circ F:\{0,1\}^n \rightarrow \{0,1\}^k$ (see [compositionprogsfig](){.ref}).
 To specify $P''$ we only need to define its set of lines $L'' = (L''_0,L''_1,\ldots, L''_{s+s'-1})$.
 The first $s$ lines of $L''$ simply equal $L$.
-The next $s'$ lines are obtained from $L'$  by adding $t-m$ to every label.
+The next $s'$ lines are obtained from $L'$  by adding $t-m$ to every label.^[Since we are representing programs in canonical form, each line is a triple of numbers, and adding $t-m$ simply shifts the set of variables used by $P'$ from $\{0,\ldots,t'-1\}$ to the last $t'$ elements of $[t+t'-m]$ which is the set of variables of the composed program $P''$.]
 In other words, for every $\ell \in [s+s']$,
 >
 $$
@@ -458,9 +458,9 @@ $$
 where $L' = ((L'_{0,0},L'_{0,1},L'_{0,2}), \cdots , (L'_{t',0},L'_{t',1},L'_{t',2})$.
 >
 We now need to prove that  $P''$ computes $G \circ F$.
-We will do so by showing the following two claims:
+We will do so by showing the following two claims:^[These two claims are easiest to understand by looking at [compositionprogsfig](){.ref}. Claim 1 simply says that in the first $s$ steps of the execution, the state of the first $t$ variables corresponds to the state in the execution of $P$, and the last $t'-m$ variables are untouched. Claim 2 says that in the following $t'$ step, the state of the first $t-m$ variables remains as they were at the end of the execution of $P$, and the last $t'$ variables evolve according to the execution of $P'$. The variables $\{ t-m,\ldots, t-1\}$ are involved in both executions: they play the role of output variables for $P$ and the role of input variables for $P'$.]
 >
-__Claim 1:__ For every $x\in \{0,1\}^n$ and $\ell \in [s+1]$, $conf_\ell(P'',x)=(\ell,\sigma 0^{t'-m})$ where $(\ell,\sigma)=conf_\ell(P,x)$.
+__Claim 1:__ For every $x\in \{0,1\}^n$ and $\ell \in [s+1]$, $conf_\ell(P'',x)=(\ell,\sigma 0^{t'-m})$ where $(\ell,\sigma)=conf_\ell(P,x)$.^[Recall that for a program in canonical form, we can think of the state $\sigma$ as a string, and hence $\sigma 0^{t'-m}$ means that we concatenate $t'-m$ zeroes to this string. Similarly in Claim 2 below, $z \sigma$ refers to the concatenation of the string $z$ to $\sigma$.]
 >
 __Claim 2:__ For every $x\in \{0,1\}^n$ and  $\ell \in \{s,\ldots, s+s'\}$, $conf_\ell(P'',x) = (\ell, z\sigma)$ where $(\ell-t,\sigma)=conf_{\ell-t}(P',F(x))$ and $z\in \{0,1\}^{t-m}$ is some string.
 >
