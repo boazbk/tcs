@@ -164,13 +164,16 @@ if(computedlength) {
 
 The equivalence between NAND++ and NAND<< allows us to choose the most convenient language for the task at hand:
 
-* When we want to give a theorem about all programs, we can use NAND++ because it is simpler and easier to analyze.
+* When we want to give a theorem about all programs, we can use NAND++ because it is simpler and easier to analyze. In particular, if we want to show that a certain function _can not_ be computed, then we will use NAND++.  
 
-* When we want to show the existence of a program computing a certain function, we can use NAND<<, because it is higher level and easier to program in.
+* When we want to show the existence of a program computing a certain function, we can use NAND<<, because it is higher level and easier to program in. In particular, if we want to show that a function _can_ be computed then we can use NAND<<. In fact, because NAND<< has much of  the features of high level programming languages, we will often describe NAND<< programs in an informal manner, trusting that the reader can fill in the details and translate the high level description to the precise program. (This is just like the way people typically use informal or "pseudocode" descriptions of algorithms, trusting that their  audience will know to translate these descriptions to code if needed.)
 
-This is very similar to the usage of high and low level programming languages. When we want to produce a device that executes programs, it is convenient for us to do so for very simple and "low level" programming language.
+Our usage of NAND++ and NAND<< is very similar to the way people use in practice  high and low level programming languages.
+When one wants to produce a device that executes programs, it is convenient  to do so for very simple and "low level" programming language. When one wants to describe an algorithm, it is convenient to use as high level a formalism as possible.
 
 
+> # {.remark title="Recursion in NAND<<" #recursion}
+One high level tool we can use in describing NAND<< programs is _recursion_. We can use the standard implementation of the _stack_ data structure. That is, we let   `stack` to be an array of integers `stack_0`, $\ldots$, `stack_`$\expr{k-1}$ and `stackpointer` will be the number $k$ of items in the stack. We implement `push(foo)` by doing `i := stackpointer` and `stack_i := foo` and `pop()` by letting `stackpointer := stackpointer - 1`. By encoding strings as integers, we can have allow strings in our stack as well. Now we can implement recursion using the stack just as is done in most programming languages. First of all, we note that using loops and conditionals, we can implement "goto" statements in NAND<<. Moreover, we can even implement "dynamic gotos", in the sense that we can set integer labels for certain lines of codes, and have a `goto foo` operation that moves execution to the line labeled by `foo`. Now, if we want to make a  call to a function $F$ with parameter `bar` then we will push into the stack the label of the next line and `bar`, and then make a `goto` to the code of $F$. That code will pop its parameter from the stack, do the computation of $F$, and when it needs to resume execution, will pop the label from the stack and `goto` there.
 
 
 
