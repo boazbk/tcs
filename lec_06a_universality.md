@@ -83,15 +83,32 @@ In other words, we need to give a "NAND<< to NAND++ compiler".
 Writing a compiler in full detail, and then proving that it is correct, is possible (and [has been done](http://gallium.inria.fr/~xleroy/publi/compcert-CACM.pdf)) but is quite a time consuming enterprise, and not very illuminating.
 For our purposes, we need to convince ourselves that [NANDequiv-thm](){.ref} and that such a transformation exists, and we will do so by outlining the key ideas behind it.^[The webpage [nandpl.org](http://nandpl.org) should eventually contain  a  program that transforms a NAND<< program into an equivalent NAND++ program.]
 
+Let $P$ be a NAND<< program, we need to transform $P$ into a NAND++ program $P'$ that computes the same function as $P$.
+The idea will be that $P'$ will simulate $P$ "in its belly". We will use the variables of $P'$ to encode the state of the simulated program $P$, and every single NAND<< step of the program $P$ will be translated into several NAND++ steps by $P'$.
+We will do so in several steps:
 
-We start with the observation that it is quite easy to store integers as bit-arrays, and so we can also simulate an array of integers using a two-dimensional array of bits (which we have seen how to embed in a the standard single-dimensional arrays supplied by NAND++).
-That is, if in NAND<< the variable `foo_`$\expr{i}$ corresponded to an integer, then we can simulate this in NAND++ by having  `foo_`$PAIR(i,j)$ correspond to the $j$-th bit in the representation of  the integer `foo_`$\expr{i}$ where $PAIR:\N^2 \rightarrow \N$ is some easily computable one-to-one embedding of $\N^2$ in $\N$.
 
-We can in principle use the standard algorithms for addition, multiplication, division, etc. to perform the arithmetic operations on these arrays.
-The key point in using these is that we can control the index variable `i` by using the syntactic sugar `i++ (foo)` and `i-- (bar)` discussed in the last lecture.
-Once we can increment and decrement `i`, we can use this, together with the notion of inner loops, to perform all the operations needed on the representations of integers as bits.
-We can also simulate an  operation such as `i := foo` by creating a temporary array that contains $0$ except for a single $1$ in the location corresponding to the integer represented by `foo` and waiting until we reach the point where `foo_i` equals $1$.
-We omit the full details of the proofs, which are tedious but not that insightful.
+__Step 1: Controlling the index and inner loops.__ We have seen that we can add syntactic sugar for inner loops and incrementing/derementing the index (i.e., operations such as  `i++ (foo)` and `i-- (bar)`) to NAND++. Hence we can assume access to these operations in constructing $P'$. In particular, we can use such an inner loop to perform tasks such as copying the contents of one array (e.g., variables `foo_0`, $\ldots$, `foo_`$\expr{k-1}$ for some $k$) to another.
+
+__Step 2: Operations on integers.__ We can use some standard prefix free encoding to represent an integer as an array of bits. For example, we can use the map $pf:\Z \rightarrow \{0,1\}^*$ defined as follows. Given an integer $z\in \Z$, if $z \geq 0$ then we define the string $pf(z)$ as $z_0z_0z_1z_1 \ldots z_{n-1}z_{n-1}01$ (where $n$ is the smallest number s.t. $2^n > z$ and $z_i$ is the binary digit of $x$ corresponding to $2^i$). If $z<0$ then we define $pf(z)=10pf(|z|)$. We can then use the standard gradeschool algorithms to define NAND++ macros that perform arithmetic operations on the representation of integers (e.g., addition, multiplication, division, etc.).
+
+
+__Step 3: Move index to specified location.__ We can  use the above operations to move the index to a location encoded by an integer. To do so, we can first move  `i` to the zero location by decreasing it until the `atstart_i` equals $1$ (where, as we've seen before, `atstart` is an array we can set up so `attstart_0` is $1$ and `atstart_`$\expr{j}$ is zero for $j\neq 0$). Now, if the variables `foo_0`,`foo_1`,... encode the number $k\in \N$ we can set the value of `i` to $k$ as follows.
+We'll set `bar` to $1$ and  an inner loop that will proceed as long as `bar` is not zero.
+In this loop we will do the following: __(1)__ If `foo` encodes $0$ then set `bar` to zero. __(2)__ Otherwise, we use a nested inner loop to decrement the number represented by `foo` by $1$, and perform the operation `i++ (bar)`.
+
+
+__Step 4: Maintaining a program counter and index.__ The NAND++ program $P'$ will simulate execution of the NAND<< program $P$. Every step of $P$ will be simulated by several steps of $P'$. We can use the above operations to maintain a variable `progcounter` and `index` that will encode the current step of $P$ that is being executed and the current value of the special index variable `i` in the simulated program $P$ (which does not have to be the same as the value of `i` in the NAND++ program $P'$).
+
+__Step 5: Embedding two dimensional arrays into one dimension.__ If `foo` and `bar`  the encode the natural numbers $x,y \in \N$, then we can use NAND++ to compute the map $PAIR:\N^2 \rightarrow \N$ where $PAIR(x,y) = \tfrac{1}{2}(x+y)(x+y+1)$. In [pair-ex](){.ref} we ask you to verify that $PAIR$ is a one-to-one map from $\N^2$ to $\N$ and that there are NAND++ programs $P_0,P_1$ such that for every $x_0,x_1 \in \N$ and $i \in \{0,1\}$, $P_i(PAIR(x_0,x_1))=x_i$.
+Using this  $PAIR$ map, we can assume we have access to two dimensional arrays in our NAND++ program.
+
+
+__Step 6: Embedding an array of integers into a two dimensional bit array.__ We can use the same  encoding as above to embed a one-dimensional array `foo` of integers into a two-dimensional array `bar` of bits, where `bar_{`$\expr{i},$\expr{j}$`}` will encode the $j$-th bit in the representation of the integer `foo_`$\expr{i}$. Thus we can simulate the integer arrays of the NAND<< program $P$ in the NAND++ program $P'$.
+
+__Step 7: Simulating $P$.__ Now we have all the components in place to simulate every operation of $P$ in $P'$. The program $P'$ will have a two dimensional bit array corresponding to any one dimensional array of $P$, as well as variables to store the program counter, index, as well as the `loop` variable of the simulated program $P$. Every step of $P$ can now be translated into an inner loop that would perform the same operation on the representations of the state.
+
+We omit the full details of all the steps above and their analysis, which are tedious but not that insightful.
 
 ### Example
 
@@ -306,11 +323,12 @@ Writing such an interpreter is nobody's idea of a fun afternoon, but the fact it
 
 ## Exercises
 
-> # {.exercise title="Compute index" #computeidx-ex}
-Suppose that $pc$ is the "program counter" of a NAND++ program, in the sense that $pc$ is initialized to zero, and is incremented by one each time the program finishes an iteration and goes back to the first line.
-Prove that the value of the variable `i` is equal to $pc-r(r+1)$ if $pc \leq (r+1)^2$ and equals $(r+2)(r+1)-pc$ otherwise, where $r = \floor{\sqrt{pc+1/4}-1/2}$.
-
-
+> # {.exercise title="Pairing" #pair-ex}
+Let $PAIR:\N^2 \rightarrow \N$ be the function defined as $PAIR(x_0,x_1)= \tfrac{1}{2}(x_0+x_1)(x_0+x_1+1) + x_1$. \
+1. Prove that for every $x^0,x^1 \in \N$, $PAIR(x^0,x^1)$ is indeed a natural number. \
+2. Prove that $PAIR$ is one-to-one \
+3. Construct a NAND++ program $P$ such that for every $x^0,x^1 \in \N$, $P(pf(x^0)pf(x^1))=pf(PAIR(x^0,x^1))$, where $pf$ is the prefix-free encoding map defined above. You can use the syntactic sugar for inner loops, conditionals, and incrementing/decrementing the counter. \
+4. Construct NAND++ programs $P_0,P_1$ such that for for every $x^0,x^1 \in \N$ and $i \in N$, $P_i(pf(PAIR(x^0,x^1)))=pf(x^i)$. You can use the syntactic sugar for inner loops, conditionals, and incrementing/decrementing the counter.
 
 ## Bibliographical notes
 

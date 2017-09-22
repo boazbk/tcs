@@ -173,6 +173,15 @@ If $P$ does not produce an output on $x$ then we say that $P(x)$ is _undefined_ 
 We say that a NAND++ program $P$ _computes_ a function $F:\{0,1\}^* :\rightarrow \{0,1\}^*$ if $P(x)=F(x)$ for every $x\in \{0,1\}^*$.
 >
 If $F$ is a partial function then we say that _$P$ computes $F$_ if $P(x)=F(x)$ for every $x$ on which $F$ is defined.
+>
+We say that a function $F$ is _NAND++ computable_ if there is a NAND++ program that computes it.
+
+
+We will often drop the "NAND++" qualifier and simply call a function _computable_ if it is NAND++ computable.
+This may seem "reckless" but, as we'll see in future lectures, it turns out that  being NAND++-computable is equivalent to being computable in essentially any reasonable model of computation.
+
+> # {.remark title="Notation" #notation}
+If $F:\{0,1\}^* \rightarrow \{0,1\}$ is a Boolean function, then computing $F$ is equivalent to deciding membership in the set $L=\{ x\in \{0,1\}^* \;|\; F(x)=1 \}$. Subsets of $\{0,1\}^*$ are known as _languages_ in the literature. Such a language  $L \subseteq \{0,1\}^*$ is known as _decidable_ or _recursive_ if the corresponding function $F$ is computable.
 
 
 
