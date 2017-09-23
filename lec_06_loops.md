@@ -282,11 +282,12 @@ The following theorem shows that, in the context of Boolean functions, we can as
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$ be a (possibly partial) Boolean function. If there is a NAND++ program that computes $F$ then there is a simple NAND++ program $P'$ that computes $F$ as well.
 
 > # {.proof data-ref="simpleNANDthm"}
-If $P$ computes a Boolean function then it cannot write to any `y_`$\expr{j}$ variable when $j \neq 0$.
-Now we obtain the simple NAND++ program $P'$ by simply modifying the code of $P$ to satisfy the properties above.
+We only sketch the proof, leaving verifying the full details to the reader.
+We prove the theorem by transforming the code of the program $P$ to achieve a simple program $P'$ without modifying the functionality of $P$.
+If $P$ computes a Boolean function then it cannot write to any `y_`$\expr{j}$ variable other than `y_0`.
 If $P$ already used a variable named `halted` then we rename it.
 We then  we add the line `halted := loop NAND loop` to the end of the program, and replace all lines writing to the variables `y_0` and `loop` with their "guarded" equivalents.
-Finally, we ensure the existence of the variable `indexincreasing` using the breadrumbs technique discussed above.
+Finally, we ensure the existence of the variable `indexincreasing` using the "breadcrumbs" technique discussed above.
 
 
 
@@ -493,14 +494,19 @@ The _modification log_ (or "deltas") of an $s$-line simple NAND++ program $P$ on
 
 If $\Delta$  is the "deltas" of $P$ on input $x \in \{0,1\}^n$, then for every $\ell\in [Ts]$, $\Delta_\ell$  is the same as the value assigned by line $\ell$  of the NAND program $expand_{T',n}(P)$ where $s$ is the number of lines in $P$, and for every $T'$ which is at least the number of loop iterations that $P$ takes on input $x$.
 
-
-
+> # {.remark title="Snapshots and deltas: what you need to remember" #snapshotsremark}
+The details of the definitions of configuration and deltas are not as important as the main points which are:
+* A _configuration_ is the full state of the program at a certain point in the computation. Applying the $NEXT_P$ function to the current configuration yields the next configuration. \
+* Each configuration can be thought of as a string which is a  sequence of constant-size _blocks_. The $NEXT_P$ function only depends and modifies  a constant number of blocks: the $t$ first ones, the current active block, and its two adjacent neighbors. \
+* The "delta" or "modification log" of computation is a succinct description of how the configuration changed in each step of the computation. It is simply the string $\Delta$  of length $T$ such that for every $\ell \in T$, $\Delta_\ell$ is denotes the value assigned in the $\ell$-th step of the computation.
+>
+Both configurations and Deltas are technical ways to capture the fact that computation is a complex process that is obtained as the result of a long sequence of simple steps.
 
 ## Lecture summary
 
 * NAND++ programs introduce the notion of _loops_, and allow us to capture a single algorithm that can evaluate functions of any input length.
 * Running a NAND++ program for any finite number of steps corresponds to a NAND program. However, the key feature of NAND++ is that the number of iterations can depend on the input, rather than being a fixed upper bound in advance.
-
+* A _configuration_ of a NAND++ program encodes the state of the program at a given point in the computation. The _next step function_ of the program maps the current configuration to the next one. 
 
 ## Exercises
 

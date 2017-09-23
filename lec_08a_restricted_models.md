@@ -20,9 +20,48 @@ Hence for example, there is no algorithm to decide if a $\lambda$ expression eva
 
 
 The uncomputability of  halting and other semantic specification problems motivates coming up with __restricted computational models__ that are __(a)__ powerful enough to capture a set of functions useful for certain applications but __(b)__ weak enough that we can still solve semantic specification problems on them.
-Here are some examples:
+In this lecture we will discuss several such examples.
 
-### Regular expressions
+
+## Turing completeness as a bug
+
+We have seen that seemingly simple formalisms can turn out to be Turing complete.
+The [following webpage](http://beza1e1.tuxen.de/articles/accidentally_turing_complete.html) lists several examples of formalisms that "accidentally" turned out to Turing complete, including supposedly limited languages such as the C preprocessor, CCS, SQL, sendmail configuration, as well as games such as Minecraft, Super Mario, and  the card game "Magic: The gathering".
+This is not always a good thing, as it means that such formalisms can give rise to arbitrarily complex behavior.
+For example, the postscript format (a precursor of PDF) is a Turing-complete programming language meant to describe documents for printing.
+The expressive power of postscript can allow for short description of very complex images.
+But it also gives rise to some nasty surprises, such as the attacks described in  [this page](http://hacking-printers.net/wiki/index.php/PostScript) ranging from using infinite loops as a denial of service attack, to accessing the printer's file system.
+
+An interesting recent example of the pitfalls of Turing-completeness arose in the context of the cryptocurrency [Ethereum](https://www.ethereum.org/).
+The distinguishing feature of this currency is the ability to design "smart contract" using an expressive (and in particular Turing-complete) language.  
+Whereas in our "human operated" economy, Alice and Bob might pool their funds together sign a contract to create a joint venture and agree that if condition X happens then they will invest in Charlie's company, Ethereum allows Alice and Bob to create a joint venture where Alice and Bob pool their funds together into an account that will be governed by some program $P$ that would decide under what conditions it disburses funds from it.
+For example, one could imagine some code that interacts between Alice, Bob, and some program running on Bob's car that would allow Alice to rent out Bob's car without any human intervention or overhead.
+
+
+Specifically Ethereum uses the Turing-complete programming  [solidity](https://solidity.readthedocs.io/en/develop/index.html) which has a syntax similar to Javascript.
+The flagship of Ethereum was an experiment known as  The "Decentralized Autonomous Organization" or [The DAO](https://en.wikipedia.org/wiki/The_DAO_(organization)).
+The idea was to create a smart contract that would create an autonomously run decentralized venture capital fund, without human managers, were shareholders could decide on investment opportunities.
+The DAO was  the biggest crowdfunding success in history and at its height was worth 150 million dollars, which was more than ten percent of the total Ethereum market.
+Investing in the DAO (or entering any other "smart contract") amounts to providing your funds to be run by a computer program. i.e., "code is law", or to use the words the DAO described itself: "The DAO is borne from immutable, unstoppable, and irrefutable computer code".
+Unfortunately, it turns out that (as we'll see in the next lecture) understanding the behavior of Turing-complete computer programs is quite a hard thing to do.
+A hacker (or perhaps, some would say, a savvy investor) was able to fashion an input that would cause the DAO code to essentially enter into an infinite recursive loop in which it continuously transferred funds into their account, thereby [cleaning out about 60 million dollars](https://www.bloomberg.com/features/2017-the-ether-thief/) out of the DAO.
+While this transaction was "legal" in the sense that it complied with the code of the smart contract, it was obviously not what the humans who wrote this code had in mind.
+There was a lot of debate in the Ethereum community how to handle this, including some partially successful "Robin Hood" attempts to use the same loophole to drain the DAO funds into a secure account.
+Eventually it turned out that the code is mutable, stoppable, and refutable after all, and the Ethereum community decided to do a "hard fork" (also known as a "bailout") to revert history to before this transaction.
+Some elements of the community strongly opposed this decision, and so an alternative currency called [Ethereum Classic](https://ethereumclassic.github.io/)  was created that preserved the original history.
+
+
+
+## Regular expressions
+
+
+If you have ever used an advanced text editor, a command line shell, you might have come across the notion of searching for files or objects using _wildcards_ and more generally _regular expression_.
+At its heart, the _search problem_ is quite simple.
+The user gives out a function $F:\{0,1\}^* \rightarrow \{0,1\}$, and the system applies this function to a set of candidates $\{ x_0, \ldots, x_k \}$, returning all the $x_i$'s such that $F(x_i)=1$.
+However, we typically do not want the system to get into an infinite loop just trying to evaluate this function!
+For this reason, such systems often do not allow the user to specify an _arbitrary_ function using some Turing-complete formalism, but rather a function that is described by a restricted computational model, and in particular one in which all functions halt.
+One of the most popular models for this application is the model of  _regular expressions_.
+
 
 A _regular expression_ over some alphabet $\Sigma$ is obtained by combining elements of $\Sigma$ with the operations $|$ (corresponding to _or_) and $*$ (corresponding to repetition zero or more times).
 For example, the following regular expression over the alphabet $\{0,1\}$  corresponds to the set of all even length strings $x\in \{0,1\}^*$ such that $x_{2i}=x_{2i+1}$ for every $i\in \{0,\ldots, |x|/2-1 \}$:
@@ -31,8 +70,8 @@ $$
 (00|11)*
 $$
 
-You have probably come across regular expressions in the context of searching for a file, doing search-and-replace in an editor,  or text manipulations in programming languages or tools such as `grep`.^[Standard implementations of regular expressions typically include more "syntactic sugar" including shorthands such as $[a-d]$ for $(a|b|c|d)$ and others, but they can all be implemented using   the operators $|$ and $*$.]
-Formally, regular expressions are defined by the following recursive definition:^[Just like recursive functions, we can define a concept recursively. Indeed, a definition of some class $\mathcal{C}$ of objects can be thought of as defining a function that maps an object $o$ to either $0$ or $1$ depending on whether $o \in \mathcal{C}$. Thus we can think of   the definition as defining a recursive function that maps a string $exp$ over $\Sigma \cup \{ "(",")","|", "*" \}$ to $0$ or $1$ depending on whether $exp$ describes a valid regular expression.]
+You have probably come across regular expressions in the context of searching for a file, doing search-and-replace in an editor,  or text manipulations in programming languages or tools such as `grep`.^[Standard implementations of regular expressions typically include some extra "syntactic sugar", but they can all be implemented using   the operators $|$ and $*$.]
+Formally, regular expressions are defined by the following recursive definition:^[Just like recursive functions, we can define a concept recursively. A definition of some class $\mathcal{C}$ of objects can be thought of as defining a function that maps an object $o$ to either $0$ or $1$ depending on whether $o \in \mathcal{C}$. Thus we can think of   [regexp](){.ref} as defining a recursive function that maps a string $exp$ over $\Sigma \cup \{ "(",")","|", "*" \}$ to $0$ or $1$ depending on whether $exp$ describes a valid regular expression.]
 
 > # {.definition title="Regular expression" #regexp}
 A _regular expression_ $exp$ over an alphabet $\Sigma$ is a string over $\Sigma \cup \{ "(",")","|","*" \}$ that has one of the following forms:
@@ -68,13 +107,15 @@ Then by the definition of regular expressions, $exp$ is made up of one or two su
 But then we can follow the definition for the cases of concatenation, union, or the star operator to compute $\Phi_{exp}$ using $\Phi_{exp'}$ and $\Phi_{exp''}$.
 
 The proof of [regularexphalt](){.ref} gives a recursive algorithm to evaluate whether a given string matches or not a regular expression.
-However, it turns out that there is a much more efficient algorithm to match regular expressions, based on their connection to _finite automata_.
-We will discuss this other algorithm, and this connection,  later in this course.
+However, it turns out that there is a much more efficient algorithm to match regular expressions.
+One way to obtain such an algorithm is to replace this recursive algorithm with a dynamic program, using the technique of [memoization](https://en.wikipedia.org/wiki/Memoization).
+It turns out that the resulting dynamic program only requires maintaining a finite (independent of the input length) amount of state, and hence it can be viewed as a [finite state machine](https://en.wikipedia.org/wiki/Finite-state_machine) or finite automata.
+The relation of regular expressions with finite automate is a beautiful topic, and one we may return to later in this course.
 
-The fact that functions computed by regular expressions always halt is one of the reason why they are so useful.
+
+The fact that functions computed by regular expressions always halt is of course one of the reason why they are so useful.
 When you make a regular expression search, you are guaranteed that you will get a result.
 This is   why operating systems, for example, restrict you for searching a file via regular expressions and don't allow searching by specifying an arbitrary function via a general-purpose programming language.
-
 But this always-halting property comes at a cost.
 Regular expressions cannot compute every function that is computable by NAND++ programs.
 In fact there are some very simple (and useful!) functions that they cannot compute, such as the following:
@@ -83,8 +124,22 @@ In fact there are some very simple (and useful!) functions that they cannot comp
 Let $\Sigma = \{"(",")"\}$ and  $MATCHPAREN:\Sigma^* \rightarrow \{0,1\}$ be the function that given a string of parenthesis, outputs $1$ if and only if every opening parenthesis is matched by a corresponding closed one.
 Then there is no regular expression over $\Sigma$ that computes $MATCHPAREN$.
 
+[regexpparn](){.ref} is a consequence of the following result known as the _pumping lemma_:
+
+> # {.theorem title="Pumping Lemma" #pumping}
+Let $exp$ be a regular expression. Then there is some number $n_0$ such that for every $w\in \{0,1\}^*$ with $|w|>n_0$ and $\Phi_{exp}(w)=1$, it holds that we can write $w=xyz$ where  $|y| \geq 1$, $|xy| \leq n_0$ and such that $\Phi_{exp}(xy^nz)=1$ for every $n\in \N$.
+
+
+> # {.proof data-ref="pumping"}
+The idea behind the proof is simple. If we let $n_0$ be one plus the twice the number of symbols that are used in the expression $exp$, then the only way that there is some $w$ with $|w|>n_0$ and $\Phi_{exp}(w)=1$ is that $exp$ contains the $*$ (i.e. star) operator and that there is a nonempty substring $y$ of $w$ that was matched by $(exp')^*$ for some sub-expression $exp'$ of $exp$. Take the innermost such expression $exp'$ (one that does not itself contain a star expression) and the one that is leftmost (and so there  is no star expression before it in $exp$). Then we know that the string $w$ has the form $xy^kz'$ where $y$ is a non-emptry string satisfying $\Phi_{exp'}(y)=1$, $k$ is a positive integer, and (since $exp$ does not contain a star before $exp'$ and $exp'$ does not contain a star), $|x|,|y| < n_0/2$.
+Hence if we set $z = y^{k-1}z'$ then we get the conditions $|xy| \leq n_0$ and $|y|\geq 1$, and moreover, by the definition of the star operator, $\Phi_{exp}(xy^{n+k-1}z')=\Phi_{exp}(xy^nz)=1$ for every $n\in \N$.
+
+
 > # {.proof data-ref="regexpparn"}
-TO BE COMPLETED
+Given the pumping lemma, we can easily prove [regexpparn](){.ref}. Suppose, towards the sake of contradiction, that there is an expression $exp$ such that $\Phi_{exp}= MATCHPAREN$. Let $n_0$ be the number from [regexpparn](){.ref} and let
+$w =(^{n_0})^{n_0}$. Then we see that if we write $w=xyz$ as in [regexpparn](){.ref}, the condition $|xy| \leq n_0$ implies that $y$ consists solely of left parenthesis. Hence the string $xy^2z$ will contain more left parenthesis than right parenthesis.
+
+
 
 
 

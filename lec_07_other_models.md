@@ -1,5 +1,10 @@
 # Equivalent models of computation
 
+> # { .objectives }
+* Learn about the Turing Machine and $\lambda$ calculus, which are important models of computation.
+* See the equivalence between these models and NAND++ programs.
+* See how many other models turn out to be "Turing complete"
+* Understand the Church-Turing thesis.
 
 
 >_"Computing is normally done by writing certain symbols on paper. We may suppose that this paper is divided into squares like a child's arithmetic book.. The behavior of the \[human\] computer at any moment is determined by the symbols which he is observing, and of his 'state of mind' at that moment... We may suppose that in a simple operation not more than one symbol is altered."_, \
@@ -113,26 +118,29 @@ while EQUAL(tape_j,0) OR EQUAL(tape_j,1) {
 ~~~~
 
 In addition to the standard syntactic sugar, we assumed above we can make function calls to the function `EQUAL` that checks equality of two symbols as well as the finite function `ComputeM`  that corresponds to the transition function of the Turing machine.
-
+We can of course compute them (as any other finite function) using a NAND program.
 
 ### Simulating NAND++ programs with Turing machines
 
 To prove the second direction of [TM-equiv-thm](){.ref}, we need to show that for  every NAND++-computable function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, there is a Turing machine that computes $F$.
-Since we can encode a non-Boolean function $F$ by the Boolean (i.e., single-bit output) $x,i \mapsto F(x)_i$, it is sufficient to prove the theorem for the case that $F$ is Boolean. 
- by showing that for every normal-form $P$, there is a Turing machine $M$ that computes the function  $NEXT_P$.
-Let  $B=1+\ceil{\log \ell} + a+b$ be the block size of the snapshots of $P$.
-Note that $B$ is a constant independent of the input size, and in particular our machine $M$ will have about $2^{7B}$ states, which we can think of as a local memory of $7B$ bits.
-The machine will do the following:
+Since we can encode a non-Boolean function $F$ by the Boolean (i.e., single-bit output) $x,i \mapsto F(x)_i$, it is sufficient to prove the theorem for the case that $F$ is Boolean.
+Let $F:\{0,1\}^* \rightarrow \{0,1\}$ be a computable Boolean function, and let $P$ be a NAND++ program that computes $F$.
+By [simpleNANDthm](){.ref} we can assume without loss of generality that $P$ is _simple_, in the sense of [simpleNANDpp](){.ref}.^[By "assume without loss of generality" we mean that, since $F$ is computable, [simpleNANDthm](){.ref} guarantees the existence of a simple NAND++ program that computes it, and we use $P$ to denote that program.]
 
-* Scan the tape in jumps of $B$ bits until we find a block $i$ that begins with $1$.
+To show that $F$ is computable by a Turing machine, it is enough to show give a Turing machine $M$ that computes the _next step function_ $NEXT_P$ of $P$.
+This is because we can then construct a Turing machine $M'$ that repeatedly invokes $M$ until it reaches a configuration in which `halt` is set to true.
+But because the next-step function of a Turing machine is quite simple, it is not hard to show that it is computable by a Turing machine.
+Specifically, recall that a _configuration_ of a $t$-line simple program $P$ is a string $\sigma \in \{0,1\}^*$ that can be thought of as composed of a sequence of  blocks each of length $t+2$.
+The crucial point is that while the _number_ of blocks  increases as the computation evolves, the _size_ of each block (which is $t+2$) is a constant independent of the input length.
+The next step function of $P$ can be computed on input $\sigma$ by doing the following:
 
-* Copy to memory the contents of the blocks  $i-1,i,i+1$ to the first $3B$ bits local memory (requires $3B$ bits).
+1. Read the first $t$ blocks of $\sigma$.
 
-* Compute the updated value of these three blocks based on the logic above (this is a finite function from $\{0,1\}^{3B}$ to bits $\{0,1\}^{3B}$) and write this to the next  $3B$ bits of memory.
-the state accordingly.
+2. Scan $\sigma$ for the active block $i$ and read it into memory.
 
-* Write to the new contents of the $i-1,i,i+1$ block from memory.
+3. Based on the content of these $t+1$ blocks, decide how to update the active block, and (based on the content of the variable `indexincreasing`, which is encoded in these blocks) decide if the next active block will be $i+1$ or $i-1$.
 
+These three steps can be easily done by a Turing machine that has $2^{O(t^2)}$ states and hence can store all the contents of these $t+2$ states in its memory, and compute an arbitrary function based on these contants.
 Writing down the full description of $M$ from the above "pseudocode" is  straightforward, even if somewhat painful, exercise, and hence this completes the proof of [TM-equiv-thm](){.ref}.
 
 
@@ -170,7 +178,7 @@ See [this lecture](http://people.seas.harvard.edu/~cs125/fall14/lec6.pdf) for a 
 We will not show all the details but it is not hard to show that the word RAM model is equivalent to NAND<< programs.
 Every NAND<< program can be easily simulated by a RAM machine as long as $w$ is larger than the logarithm of its running time.
 In the other direction, a NAND<< program can simulate a RAM machine, using its variables as the registers.
-The only significant difference between NAND<< and the word-RAM model is that in NAND<<, since we have a constant number of variables, we can think of our memory as an array where in each location there are only $t=O(1)$ bits stored (one bit for each distinct unindexed variable identifier used in the program). Thus we will need a factor of $O(w)$  multiplicative overheard to simulate the word-RAM model with an array storing $w$-length words.
+
 
 ### Imperative languages
 
@@ -282,10 +290,10 @@ For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable in the
 > # {.proof data-ref="lambdaequiv"}
 The "only if" direction is simple. As mentioned above, evaluating $\lambda$ expressions basically amounts to "search and replace". It is also a fairly straightforward programming exercise to implement all the above basic operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND<< as well, which we can then transform to a NAND++ program.
 >
-For the "if" direction, it suffices to show that for every normal-form NAND++ program $P$, we can compute the next-snapshot function $NEXT_P:\{0,1\}^* \rightarrow \{0,1\}^*$ using the above operations.
+For the "if" direction, it suffices to show that for every normal-form NAND++ program $P$, we can compute the next-step function $NEXT_P:\{0,1\}^* \rightarrow \{0,1\}^*$ using the above operations.
 It turns out not to be so hard.
-A snapshot of $P$ is a string of length $TB$ where $B$ is the (constant sized) block size, and so we can think of it as a list $S=(S^1,\ldots,S^T)$ of $T$ lists of bits, each of length $B$.
-Extracting from this list the $B$ sized string corresponding to the block $S^i$ where $S^i_0=1$ can be done via a single $REDUCE$ operations.
+A configuration of $P$ is a string of length $TB$ where $B$ is the (constant sized) block size, and so we can think of it as a list $\sigma=(\sigma^1,\ldots,\sigma^T)$ of $T$ lists of bits, each of length $B$.
+Extracting from this list the $B$ sized string corresponding to the block $\sigma^i$ where $\sigma^i_0=1$ can be done via a single $REDUCE$ operations.
 Using this we can tell if this is an operation where $i$ stays the same, increases, or decreases.
 If it stays the same then we can compute $NEXT_P$ via a $MAP$ operation, using the function that on input $C \in \{0,1\}^B$, keeps $C$ the same if $C_0=0$ and otherwise updates it to the value in its next step.
 If it increases, then we can update it by a $REDUCE$ operation, with the function that on input a block $C$ and a list $S$, we output $PAIR(C,L)$ unless $C_0=1$ in which case we output $PAIR(C',PAIR(C'',TAIL(S)))$ where $(C',C'')$ are the new values of the blocks $i$ and $i+1$.
@@ -293,7 +301,7 @@ The case for decreasing $i$ is analogous.
 
 ### How basic is "basic"?
 
-While the collection of "basic" functions above is smaller than what's provided by most Lisp dialects, coming from NAND++ it still seems a little "bloated".
+While the collection of "basic" functions we allowed for $\lambda$ calculus is smaller than what's provided by most Lisp dialects, coming from NAND++ it still seems a little "bloated".
 Can we make do with less?
 In other words, can we find a subset of these basic operations that can implement the rest?
 
@@ -509,7 +517,7 @@ We can summarize the models we use versus those used in other texts in the follo
 
   \
 
-Later on in this course we will study _memory bounded_ computation.
+Later on in this course we may study _memory bounded_ computation.
 It turns out that NAND++ programs with a constant amount of memory are equivalent to the model of _finite automata_ (the adjectives "deterministic" or "nondeterministic" are sometimes added as well, this model is also known as _finite state machines_) which in turns captures the notion of _regular languages_ (those that can be described by [regular expressions](https://en.wikipedia.org/wiki/Regular_expression)).
 
 
@@ -524,32 +532,6 @@ No candidate computing device (including quantum computers, and also much less r
 These devices might potentially make some computations more _efficient_, but they do not change the difference between what is finitely computable and what is not.^[The _extended_ Church Turing thesis, which we'll discuss later in this course, is that NAND++ programs even capture the limit of what can be _efficiently_ computable. Just like the PECTT, quantum computing presents the main challenge to this thesis.]
 
 
-## Turing completeness as a bug
-
-We have seen that seemingly simple formalisms can turn out to be Turing complete.
-The [following webpage](http://beza1e1.tuxen.de/articles/accidentally_turing_complete.html) lists several examples of formalisms that "accidentally" turned out to Turing complete, including supposedly limited languages such as the C preprocessor, CCS, SQL, sendmail configuration, as well as games such as Minecraft, Super Mario, and  the card game "Magic: The gathering".
-This is not always a good thing, as it means that such formalisms can give rise to arbitrarily complex behavior.
-For example, the postscript format (a precursor of PDF) is a Turing-complete programming language meant to describe documents for printing.
-The expressive power of postscript can allow for short description of very complex images.
-But it also gives rise to some nasty surprises, such as the attacks described in  [this page](http://hacking-printers.net/wiki/index.php/PostScript) ranging from using infinite loops as a denial of service attack, to accessing the printer's file system.
-
-An interesting recent example of the pitfalls of Turing-completeness arose in the context of the cryptocurrency [Ethereum](https://www.ethereum.org/).
-The distinguishing feature of this currency is the ability to design "smart contract" using an expressive (and in particular Turing-complete) language.  
-Whereas in our "human operated" economy, Alice and Bob might pool their funds together sign a contract to create a joint venture and agree that if condition X happens then they will invest in Charlie's company, Ethereum allows Alice and Bob to create a joint venture where Alice and Bob pool their funds together into an account that will be governed by some program $P$ that would decide under what conditions it disburses funds from it.
-For example, one could imagine some code that interacts between Alice, Bob, and some program running on Bob's car that would allow Alice to rent out Bob's car without any human intervention or overhead.
-
-
-Specifically Ethereum uses the Turing-complete programming  [solidity](https://solidity.readthedocs.io/en/develop/index.html) which has a syntax similar to Javascript.
-The flagship of Ethereum was an experiment known as  The "Decentralized Autonomous Organization" or [The DAO](https://en.wikipedia.org/wiki/The_DAO_(organization)).
-The idea was to create a smart contract that would create an autonomously run decentralized venture capital fund, without human managers, were shareholders could decide on investment opportunities.
-The DAO was  the biggest crowdfunding success in history and at its height was worth 150 million dollars, which was more than ten percent of the total Ethereum market.
-Investing in the DAO (or entering any other "smart contract") amounts to providing your funds to be run by a computer program. i.e., "code is law", or to use the words the DAO described itself: "The DAO is borne from immutable, unstoppable, and irrefutable computer code".
-Unfortunately, it turns out that (as we'll see in the next lecture) understanding the behavior of Turing-complete computer programs is quite a hard thing to do.
-A hacker (or perhaps, some would say, a savvy investor) was able to fashion an input that would cause the DAO code to essentially enter into an infinite recursive loop in which it continuously transferred funds into their account, thereby [cleaning out about 60 million dollars](https://www.bloomberg.com/features/2017-the-ether-thief/) out of the DAO.
-While this transaction was "legal" in the sense that it complied with the code of the smart contract, it was obviously not what the humans who wrote this code had in mind.
-There was a lot of debate in the Ethereum community how to handle this, including some partially successful "Robin Hood" attempts to use the same loophole to drain the DAO funds into a secure account.
-Eventually it turned out that the code is mutable, stoppable, and refutable after all, and the Ethereum community decided to do a "hard fork" (also known as a "bailout") to revert history to before this transaction.
-Some elements of the community strongly opposed this decision, and so an alternative currency called [Ethereum Classic](https://ethereumclassic.github.io/)  was created that preserved the original history.
 
 
 

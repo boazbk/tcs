@@ -279,6 +279,11 @@ One can show that such a circuit will always output $0$ on the all zero inputs, 
 We say that a subset $B$ of functions from $k$ bits to a single bit is a _universal basis_ if there is a "$B$-circuit" (i.e., circuit all whose gates are labeled with functions in $B$) that computes the $NAND$ function.
 [universal-basis](){.ref} asks you to explore some examples of universal and non-universal bases.
 
+> # {.remark title="Advanced note: depth" #depthrem}
+The _depth_ of a Boolean circuit is the length of the longest path in it. The notion of depth is tightly connected to the _parallelism complexity_ of the circuit. "Shallow" circuits are easier to parallelize, since a $k$ long path we mean that we have a sequence of $k$ gates that each needs to wait for the output of the other until it completes its computation.
+>
+It is a good exercise for you to verify that every function $F:\{0,1\}^n \rightarrow  \{0,1\}$ has a circuit that computes it which is of $O(2^n)$ (in fact even $O(2^n/n)$) size and  $O(\log n)$ depth. However, there are functions that require at least $\log n/10$ depth (can you see why?). There are also function for which the smallest size known circuits that compute them requires a much largeer depth.
+
 ## Neural networks
 
 One particular basis we can use are _threshold gates_.
@@ -436,10 +441,12 @@ For every one of the following sets, either prove that it is a universal basis o
 
 > # {.exercise title="Bound on universal basis size (challenge)" #universal-bound}
 Prove that for every subset $B$ of the functions from $\{0,1\}^k$ to $\{0,1\}$,
-if $B$ is universal then there is a $B$-circuit of at most $O(2^k)$ gates to compute the $NAND$ function.^[TODO: verify it's true, and check how to do this.]
+if $B$ is universal then there is a $B$-circuit of at most $O(k)$ gates to compute the $NAND$ function (you can start by showing that there is a $B$ circuit of at most $O(k^{16})$ gates).^[Thanks to Alec Sun for solving this problem.]
 
 > # {.exercise title="Threshold using NANDs" #threshold-nand-ex}
 Prove that for every $w,t$, the function $T_{w,t}$ can be computed by a NAND program of at most $O(k^3)$ lines.^[TODO: check the right bound, and give it as a challenge program. Also say the conditions under which this can be improved to $O(k)$ or $\tilde{O}(k)$.]
+
+
 
 ## Bibliographical notes
 
