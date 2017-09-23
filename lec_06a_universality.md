@@ -104,7 +104,7 @@ __Step 5: Embedding two dimensional arrays into one dimension.__ If `foo` and `b
 Using this  $PAIR$ map, we can assume we have access to two dimensional arrays in our NAND++ program.
 
 
-__Step 6: Embedding an array of integers into a two dimensional bit array.__ We can use the same  encoding as above to embed a one-dimensional array `foo` of integers into a two-dimensional array `bar` of bits, where `bar_{`$\expr{i},$\expr{j}$`}` will encode the $j$-th bit in the representation of the integer `foo_`$\expr{i}$. Thus we can simulate the integer arrays of the NAND<< program $P$ in the NAND++ program $P'$.
+__Step 6: Embedding an array of integers into a two dimensional bit array.__ We can use the same  encoding as above to embed a one-dimensional array `foo` of integers into a two-dimensional array `bar` of bits, where `bar_{`$\expr{i}$, $\expr{j}$`}` will encode the $j$-th bit in the representation of the integer `foo_`$\expr{i}$. Thus we can simulate the integer arrays of the NAND<< program $P$ in the NAND++ program $P'$.
 
 __Step 7: Simulating $P$.__ Now we have all the components in place to simulate every operation of $P$ in $P'$. The program $P'$ will have a two dimensional bit array corresponding to any one dimensional array of $P$, as well as variables to store the program counter, index, as well as the `loop` variable of the simulated program $P$. Every step of $P$ can now be translated into an inner loop that would perform the same operation on the representations of the state.
 
