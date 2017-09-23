@@ -141,6 +141,8 @@ Given the pumping lemma, we can easily prove [regexpparn](){.ref}. Suppose, towa
 $w =(^{n_0})^{n_0}$. Then we see that if we write $w=xyz$ as in [regexpparn](){.ref}, the condition $|xy| \leq n_0$ implies that $y$ consists solely of left parenthesis. Hence the string $xy^2z$ will contain more left parenthesis than right parenthesis.
 
 
+> # {.remark title="Regular expressions beyond searching" #netkat}
+Regular expressions are widely used beyond just searching. First, they are typically used to define _tokens_ in various formalisms such as programming data description languages. But they are also used beyond it. One nice example is the recent work on the [NetKAT network programming language](http://www.cs.cornell.edu/~jnfoster/papers/frenetic-netkat.pdf). In recent years, the world of networking moved from fixed topologies to  "software defined networks", that are run by programmable switches that can implement policies such as "if packet is SSL then forward it to A, otherwise forward it to B". By its nature, one would want to use a formalism for such policies that is guaranteed to always halt (and quickly!) and that where it is possible to answer semantic questions such as "does C see the packets moved from A to B" etc. The NetKAT language uses a variant of regular expressions to achieve that.
 
 
 
