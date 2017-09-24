@@ -36,7 +36,7 @@ where $vara$, $varb$, $varc$ are variable identifiers.
 
 
 Variables of the form `x` or `x_`$\expr{i}$ can only appear on the righthand side of the `:=` operator and variables of the form `y` or `y_`$\expr{i}$ can only appear on the lefthand side of the `:=` operator.
-The _number of inputs_ of a NAND program $P$ equals one plus the largest number $n$ such that a variable of the form `x_`$\expr{n}$ appears in the program, while the number of outputs of a NAND program equals one plus the largest number $j$ such that a variable of the form `y_`$\expr{j}$ appears in the program.
+The _number of inputs_ of a NAND program $P$ equals one plus the largest number $i$ such that a variable of the form `x_`$\expr{i}$ appears in the program, while the number of outputs of a NAND program equals one plus the largest number $j$ such that a variable of the form `y_`$\expr{j}$ appears in the program.
 
 __Restrictions on indices:__ If the variable identifiers are indexed, the index is always smaller number of lines in the program. If a variable of the form `y_`$\expr{j}$ appears in the program then `y_`$\expr{i}$ must appear in it for all $i<j$.
 
@@ -377,7 +377,7 @@ for i in RANGE do {
 where `RANGE` specifies a finite set $I = \{ i_0,\ldots, i_{k-1} \}$ of  natural numbers, as syntactic sugar for  $|R|$ copies of `code`, where for $j \in [k]$, we replace all occurences of `_<expr(i)>` in the $j$-th copy with `_`$\expr{expr(i_j)}$ where `expr(i)` denotes an arithmetic expression in `i` (involving `i`, constants, parenthesis, and the operators `+,-,*,mod,/`) and for every $x\in \N$, $expr(c)$ denotes the result of of applying this expression to the value $c$.
 
 We specify the set $I = \{ i_0,\ldots,i_{k-1} \}$ by simply writing `[` $\expr{i_0}$, $\expr{i_1}$, $\ldots$, $\expr{i_{k-1}}$ `]`. We will also use the $\expr{beg}$`:`$\expr{end}$ notation so specify the interval $\{ beg, beg+1,\ldots, end-1 \}$.
-For example, `[ 2:4, 10:13 ]` specifies the set $\{ 2,3,10,11,12 \}$. 
+For example, `[ 2:4, 10:13 ]` specifies the set $\{ 2,3,10,11,12 \}$.
 
 
 
