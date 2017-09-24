@@ -465,27 +465,57 @@ While we can define configurations in full generality, for concreteness we will 
 Let $P$ be a canonical form simple program, represented as a list of $6$ tuples $L=((a_0,j_0,b_0,k_0,c_0,\ell_0),\ldots,(a_{s-1},j_{s-1},b_{s-1},k_{s-1},c_{s-1},\ell_{s-1}))$.
 Let $s$ be the number of lines and $t$ be one more than the largest number appearing among the $a$'s, $b$'s or $c$'s.
 
-Just like we did for NAND, a _configuration_ of the program $P$ will denote the current line being executed and the current value of all variables. That is, a configuration will be a pair $(p,\sigma)$ where $p$ is simply a number in $[s]$ and $\sigma \in \{0,1\}^*$ encodes the value of all variables.
-We will think of the string $\sigma$ as being composed of _blocks_, that is, $\sigma$ will be the concatenation of $\sigma^0,\ldots,\sigma^{r-1}$ for some $r\in \N$ (that will represent the largest index that the program has ever reached in the execution), and where the block $\sigma^i$ encodes all the values of variables indexed by $i$ (e.g.,  `foo_`$\expr{i}$, `bar_`$\expr{i}$, etc.).
+Just like we did for NAND, a _configuration_ of the program $P$ will denote the current line being executed and the current value of all variables.
+For our convenience we will use a somewhat different encoding than we did for NAND.
+We will encode the configuration as a string $\sigma \in \{0,1\}^*$, which is composed of _blocks_, that is, $\sigma$ will be the concatenation of $\sigma^0,\ldots,\sigma^{r-1}$ for some $r\in \N$ (that will represent the largest index that the program has ever reached in the execution).
+Each block $\sigma^i$ will be a string of length $B$ (for some constant $B$ depending on $t,s$) that encodes the following:
+
+* The  values of variables indexed by $i$ (e.g.,  `foo_`$\expr{i}$, `bar_`$\expr{i}$, etc.).
+
+* Whether or not the block is "active" (i.e., whether the current value of the index variable `i` is $i$), and in the latter case, the current line that is being executed.
+
+* Whether this is the first or last block.
+
+The exact way to encode this information is not that important, but for the sake of concreteness, we will now specify it.
 
 
-The $a$-th coordinate of the block $\sigma^i$ (denoted by $\sigma^i_a$) corresponds to the value of the variable represented by $(a,i)$.
-For example, if we encode `foo` by the number $11$ then $\sigma^{17}_{11}$ (i.e., the $12$-th coordinate  of the $17$-th block) corresponds to the value of `foo_17` at the given point in the execution.
-The last two coordinates of $\sigma_i$ are special: $\sigma^i_t$ equals $1$ if and only if the current value of `i` is $i$, in which case we say that $\sigma^i$ is the _active_ block.
-$\sigma^i_{t+1}$ equals $1$ if and only if $i=r-1$ (i.e., $i$ is the last block in the configuration). See [configurationsnandpppng](){.ref} for an illustration of the configuration.
+We will think of a block as using the alphabet $\Sigma = \{ \mathtt{BB}, \mathtt{EB}, 0 , 1 \}$. ($\mathtt{BB}$ and $\mathtt{EB}$ stand for "begin block" and "end block" respectively; we can later encode this as a binary string using the map $0 \mapsto 00, 1\mapsto 11, \mathtt{BB} \mapsto 01, \mathtt{EB} \mapsto 10$.)
+In this alphebt $\Sigma$, every block $\sigma^i$ will have the form
 
-![A configuration of a $t$-line simple NAND++ program can be encoded as a string in $\{0,1\}^{r(t+2)}$, the $i$-th block contains the value of all variables of the form `foo_`$\expr{i}$ and the last two bits of the block signal whether `i`=$i$ and whether this is the last block of the configuration.](../figure/configurationsnandpp.png){#configurationsnandpppng .class width=300px height=300px}
+$$
+\sigma^i = \mathtt{BB}\;\hat{\sigma}^{i} \; first \; last \; active \; p \; \mathtt{EB}
+$$
 
-For a simple $s$-line $t$-variable NAND++ program $P$ the _next configuration function_ $NEXT_P:[s+1] \times \{0,1\}^* \rightarrow [s+1] \times \{0,1\}^*$ is defined in the natural way.
-That is, given a line $p \in [s]$  and a configuration $\sigma$, we compute $p',\sigma'$ by:
+where $\hat{\sigma}^i$ is a string in $\{0,1\}^t$  that encodes the values of all the variables in the program indexed by $i$.
+That is, the $a$-th coordinate of $\hat{\sigma}^i$  corresponds to the value of the variable represented by $(a,i)$.
+For example, if we encode `foo` by the number $11$ then $\hat{\sigma}^{17}_{11}$  corresponds to the value of `foo_17` at the given point in the execution.
+We use the same indexing of variables as in representations and so in particular coordinates $0,1,2,3,4,5$ of $\hat{\sigma}^i$ correspond to the variables `x_i`,`y_i`,`validx_i`,`loop_i`,`halted_i`,`indexincreasing_i` respectively.^[Recall that we identify an unindexed variable identifier such as `foo` with `foo_0`, and so in particular the values of `loop`, `halted` and `indexincreasing` are encoded in the block $\sigma^0$.]
 
-*  Executing the line $p$: if $p=(a,j,b,k,c,\ell)$ then we let $\sigma'^\overline{j}_a = 1-\sigma^{\overline{k}}_b\cdot \sigma^{\overline{\ell}}_c$ where $\overline{j}$ equals $j$ if $j<t$ and equals the index of the current active block $i$ if $j=t$, and $\overline{k}$, $\overline{\ell}$ are defined analogously.
 
-* Updating the value of $i$: we set $\sigma'^i_{t}=0$ and if $\sigma^0_5=1$ (which corresponds to `indexincreasing`) then we let $\sigma'^{i+1}_t=1$ and otherwise we let $\sigma'^{i-1}_t=1$. (If $i$ was the last active block then we create a new block and mark it to be the last one.)
+The values $active$, $first$, and $last$ are each bits that are set to $1$ or $0$ depending on whether  the current block is _active_ (i.e. the current value of `i` is $i$), is the _first_ block in the configuration and the _last_ block, respectively.
+The parameter $p$ is a string in $\{0,1\}^{\ceil{\log(s+1)}}$, which (via the binary representation) we think of also as number in $[s+1]$.
+The value of $p$ is equal to the current line that is about to be executed if the block is active, and to $0$ if the block is not active.
+If $p=s$ then this means that we have halted.
 
-* Moving to $p+1 \mod s$ unless $p=|s|$ and $\sigma^0_3$ (corresponding to `loop`) is equal to $0$, in which case we let $p'=s+1$, which is considered a halting configuration that is never modified by $NEXT_P$.
 
-One important property of $NEXT_P$ is that to compute it we only need to access the blocks $0,\ldots,t-1$ (since the largest absolute numerical index in the program is at most $t-1$) as well as the current active block and its immediate neighbors.
+Note that in the alphabet $\Sigma$, our encoding takes $2$ symbols for $\mathtt{BB}$ and $\mathtt{EB}$, $t$ symbols for $\hat{\sigma}^i$, three symbols for $first$,$last$,$active$, and $\log \ceil{s+1}$ symbols for encoding $p$.
+Hence in the binary alphabet, each block $\sigma^i$ will be encoded as a string of length $B=2(5+t+\log(\ceil{s+1}))$ bits, and a configuration will be encoded as a binary string of length $(r+1)B$ where $r$ is the largest index that the variable `i` has reached so far in the execution.
+See [configurationsnandpppng](){.ref} for an illustration of the configuration.
+
+![A configuration of an $s$-line $t$-variable simple NAND++ program can be encoded as a string in $\{0,1\}^{rB}$, the $i$-th block encodes the value of all variables of the form `foo_`$\expr{i}$, as well as whether the block is first, last or active in the sense that `i`=$i$ and in the latter case, also the index of the current line being executed.](../figure/nandppconfiguration.png){#configurationsnandpppng .class width=300px height=300px}
+
+For a simple $s$-line $t$-variable NAND++ program $P$ the _next configuration function_ $NEXT_P:\{0,1\}^* \rightarrow  \{0,1\}^*$ is defined in the natural way.
+That is,  a configuration $\sigma$, we compute $\sigma'$ by:
+
+1. Scan the configuration $\sigma$ to find the index $i$ of the active block and the current line $p$ that needs to be executed.
+
+2.  Execute the line $p$: if the $p$-th tuple in the program is $(a,j,b,k,c,\ell)$ then we update $\sigma$ based on the value of this program.
+
+3. Updating the value of $i$: based on `indexincreasing` (which we can read from the first block), if $p$ is the last line then we either increment or  decrement $i$ and update the active block.  (If $i$ was the last active block and $i$ is incremented then we create a new block and mark it to be the last one.)
+
+* Moving to $p+1 \mod s$ unless $p=|s|$ and $\hat{\sigma}^0_3$ (corresponding to `loop`) is equal to $0$, in which case we let $p'=s+1$, which is considered a halting configuration that is never modified by $NEXT_P$.
+
+One important property of $NEXT_P$ is that to compute it we only need to access the blocks $0,\ldots,s-1$ (since the largest absolute numerical index in the program is at most $s-1$) as well as the current active block and its immediate neighbors.
 Thus in each step, $NEXT_P$ only reads or modifies a constant number of blocks.
 
 ### Deltas
