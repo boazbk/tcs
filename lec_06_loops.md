@@ -463,8 +463,12 @@ Before reading onwards, try to think how _you_ would define the notion of a conf
 
 While we can define configurations in full generality, for concreteness we will restrict our attention to configurations of "simple" programs NAND++ programs in the sense of [simpleNANDpp](){.ref}, that are given in a canonical form.
 Let $P$ be a canonical form simple program, represented as a list of $6$ tuples $L=((a_0,j_0,b_0,k_0,c_0,\ell_0),\ldots,(a_{s-1},j_{s-1},b_{s-1},k_{s-1},c_{s-1},\ell_{s-1}))$.
-Let $t$ be one more than the largest number appearing among the $a$'s, $b$'s or $c$'s.
-A _configuration_ of the program $P$ is a number $t' \in [t]$ and a binary string $\sigma$ of length $r(t+2)$ for some $r\in \N$ such that $\sigma = \sigma^0\sigma^1\cdots \sigma^{r-1}$ where each $\sigma_i$ is a block of $\sigma$ of length $t+2$.
+Let $s$ be the number of lines and $t$ be one more than the largest number appearing among the $a$'s, $b$'s or $c$'s.
+
+Just like we did for NAND, a _configuration_ of the program $P$ will denote the current line being executed and the current value of all variables. That is, a configuration will be a pair $(p,\sigma)$ where $p$ is simply a number in $[s]$ and $\sigma \in \{0,1\}^*$ encodes the value of all variables.
+We will think of the string $\sigma$ as being composed of _blocks_, that is, $\sigma$ will be the concatenation of $\sigma^0,\ldots,\sigma^{r-1}$ for some $r\in \N$ (that will represent the largest index that the program has ever reached in the execution), and where the block $\sigma^i$ encodes all the values of variables indexed by $i$ (e.g.,  `foo_`$\expr{i}$, `bar_`$\expr{i}$, etc.).
+
+
 The $a$-th coordinate of the block $\sigma^i$ (denoted by $\sigma^i_a$) corresponds to the value of the variable represented by $(a,i)$.
 For example, if we encode `foo` by the number $11$ then $\sigma^{17}_{11}$ (i.e., the $12$-th coordinate  of the $17$-th block) corresponds to the value of `foo_17` at the given point in the execution.
 The last two coordinates of $\sigma_i$ are special: $\sigma^i_t$ equals $1$ if and only if the current value of `i` is $i$, in which case we say that $\sigma^i$ is the _active_ block.
@@ -472,14 +476,14 @@ $\sigma^i_{t+1}$ equals $1$ if and only if $i=r-1$ (i.e., $i$ is the last block 
 
 ![A configuration of a $t$-line simple NAND++ program can be encoded as a string in $\{0,1\}^{r(t+2)}$, the $i$-th block contains the value of all variables of the form `foo_`$\expr{i}$ and the last two bits of the block signal whether `i`=$i$ and whether this is the last block of the configuration.](../figure/configurationsnandpp.png){#configurationsnandpppng .class width=300px height=300px}
 
-For a simple $t$-line NAND++ program $P$ the _next configuration function_ $NEXT_P:[t] \times \{0,1\}^* \rightarrow [t] \times \{0,1\}^*$ is defined in the natural way.
-That is, given a line $p \in [t]$  and a configuration $\sigma$, we compute $p',\sigma'$ by:
+For a simple $s$-line $t$-variable NAND++ program $P$ the _next configuration function_ $NEXT_P:[s+1] \times \{0,1\}^* \rightarrow [s+1] \times \{0,1\}^*$ is defined in the natural way.
+That is, given a line $p \in [s]$  and a configuration $\sigma$, we compute $p',\sigma'$ by:
 
 *  Executing the line $p$: if $p=(a,j,b,k,c,\ell)$ then we let $\sigma'^\overline{j}_a = 1-\sigma^{\overline{k}}_b\cdot \sigma^{\overline{\ell}}_c$ where $\overline{j}$ equals $j$ if $j<t$ and equals the index of the current active block $i$ if $j=t$, and $\overline{k}$, $\overline{\ell}$ are defined analogously.
 
 * Updating the value of $i$: we set $\sigma'^i_{t}=0$ and if $\sigma^0_5=1$ (which corresponds to `indexincreasing`) then we let $\sigma'^{i+1}_t=1$ and otherwise we let $\sigma'^{i-1}_t=1$. (If $i$ was the last active block then we create a new block and mark it to be the last one.)
 
-* Moving to $p+1 \mod t$ unless $p=|t|$ and $\sigma^0_3$ (corresponding to `loop`) is equal to $0$, in which case we let $p'=t+1$, which is considered a halting configuration that is never modified by $NEXT_P$.
+* Moving to $p+1 \mod s$ unless $p=|s|$ and $\sigma^0_3$ (corresponding to `loop`) is equal to $0$, in which case we let $p'=s+1$, which is considered a halting configuration that is never modified by $NEXT_P$.
 
 One important property of $NEXT_P$ is that to compute it we only need to access the blocks $0,\ldots,t-1$ (since the largest absolute numerical index in the program is at most $t-1$) as well as the current active block and its immediate neighbors.
 Thus in each step, $NEXT_P$ only reads or modifies a constant number of blocks.
@@ -506,7 +510,7 @@ Both configurations and Deltas are technical ways to capture the fact that compu
 
 * NAND++ programs introduce the notion of _loops_, and allow us to capture a single algorithm that can evaluate functions of any input length.
 * Running a NAND++ program for any finite number of steps corresponds to a NAND program. However, the key feature of NAND++ is that the number of iterations can depend on the input, rather than being a fixed upper bound in advance.
-* A _configuration_ of a NAND++ program encodes the state of the program at a given point in the computation. The _next step function_ of the program maps the current configuration to the next one. 
+* A _configuration_ of a NAND++ program encodes the state of the program at a given point in the computation. The _next step function_ of the program maps the current configuration to the next one.
 
 ## Exercises
 
