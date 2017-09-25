@@ -262,12 +262,12 @@ The _output_ of the circuit $C$ on input $x$, denoted by $C(x)$, is the string  
 We say that the circuit $C$ _computes the function $F$_ if for every $x\in \{0,1\}^n$,  $C(x)=F(x)$.
 
 
-We have seen that  _every_ function $f:\{0,1\}^k \rightarrow \{0,1\}$ has a NAND program with at most $4\cdot 2^k$ lines, and hence [NAND-circ-thm](){.ref} implies the following theorem (see [NAND-all-circ-thm-ex](){.ref}):
+We have seen in [NAND-univ-thm](){.ref} that  _every_ function $f:\{0,1\}^k \rightarrow \{0,1\}$ has a NAND program with at most $10\cdot 2^k$ lines, and hence [NAND-circ-thm](){.ref} implies the following theorem (see [NAND-all-circ-thm-ex](){.ref}):^[The bound  that comes out of the proof of [NAND-univ-thm](){.ref} is $5\cdot 2^k$ and in fact can be easily optimized further. As $k$ grows, we can also use the bound of $O(2^k/k)$ mentioned in [tight-upper-bound](){.ref}.]
 
 > # {.theorem title="NAND programs simulate all circuits" #NAND-all-circ-thm}
 For every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $B$ a subset of the functions from $\{0,1\}^k$ to $\{0,1\}$, if we let $S(f)$ denote the smallest number of lines in a NAND program that computes $F$ and $S_B(f)$ denote the smallest number of vertices in a Boolean circuit with the basis $B$, then
 $$
-S(f) \leq (4\cdot 2^k)S_B(f)
+S(f) \leq (10\cdot 2^k)S_B(f)
 $$
 
 One can ask whether there is an equivalence here as well.
