@@ -444,6 +444,18 @@ for (int j=0 ; j<n ; j=j+1) {
 
 produces the same result.
 
+> # {.remark title="Aside: mathematical vs programming notation" #notation}
+Mathematical notation has a lot of similarities with programming language, and for the same reasons.
+Both are formalisms meant to convey complex concepts in a precise way.
+However, there are some cultural differences.
+In programming languages, we often try to use meaningful variable names such as `NumberOfVertices` while in math we often use short identifiers such as $n$.
+(Part of it might have to do with the tradition of mathematical proofs as being handwritten and verbally presented, as opposed to typed up and compiled.)
+One consequence of that is that in mathematics we often end up reusing identifier, and also "run out" of letters and hence use greek letters too, as well as distinguish between small and capital letters.
+Similarly, mathematical notation tends to use quite a lot of "overloading", using operators such as $+$ for a great variety of objects (e.g., real numbers, matrices, finite field elements, etc..), and assuming that the meaning can be inferred from the context.
+Both fields have a notion of "types", and in math we often try to reserve certain letters for variables of a particular type.
+For example, variables such as $i,j,k,\ell,m,n$ will often denote integers, and $\epsilon$ will often denote a small positive real number.
+When reading or writing mathematical texts, we usually don't have the advantage of a "compiler" that will check type safety for us. Hence it is important to keep track of the type of each variable, and see that the operations that are performed on it "make sense".
+
 
 ### Asymptotics and big-Oh notation
 
@@ -816,7 +828,7 @@ The main points where we diverge are:
 * Some other notation we use is $\ceil{x}$ and $\floor{x}$ for the "ceiling" and "floor" operators that correspond to "rounding up" or "rounding down" a number to the nearest integer. We use $(x \mod y)$ to denote the "remainder" of $x$ when divided by $y$. That is, $(x \mod y) = x - y\floor{x/y}$. In context when an integer is expected we'll typically "silently round" the quantities to an integer. For example, if we say that $x$ is a string of length $\sqrt{n}$ then we'll typically mean that $x$ is  of length $\lceil \sqrt{n} \rceil$. (In most such cases, it will not make a difference  whether we round up or down.)
 
 
-* Like most Computer Science texts, we default to the logarithm in base two. Thus, $\log n$ is the same as $\log_2 n$. 
+* Like most Computer Science texts, we default to the logarithm in base two. Thus, $\log n$ is the same as $\log_2 n$.
 
 
 
