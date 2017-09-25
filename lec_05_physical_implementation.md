@@ -413,6 +413,13 @@ We will discuss quantum computing in much more detail later in this course.
 Modeling it will  essentially involve extending the NAND programming language to the "QNAND" programming language that has one more (very special) operation.
 However, the main take away is that while quantum computing does suggest we need to amend the PECTT, it does _not_ require a complete revision of our worldview. Indeed, almost all of the content of this course remains the same whether the underlying computational model is the "classical" model of NAND programs or the quantum model of QNAND programs (also known as _quantum circuits_).
 
+
+> # {.remark title="PECTT in practice" #PECTTpractice}
+While even the precise phrasing of the PECTT, let alone understanding its correctness, is still a subject of research, some variant of it is already implicitly assumed in practice.
+A statement such as "this cryptosystem provides 128 bits of security" really means that __(a)__ it is conjectured that there is no Boolean circuit (or, equivalently, a NAND gate) of size much smaller than $2^{128}$ that can break the system,^[We say "conjectured" and not "proved" because, while we can phrase such a  statement as a precise mathematical conjecture, at the moment we are unable to _prove_ such a statement for any cryptosystem. This is related to the P vs NP question we will discuss in future lectures] and __(b)__ we assume that no other physical mechanism can do better, and hence it would take roughly a $2^{128}$ amount of "resources" to break the system.
+
+
+
 ## Lecture summary
 
 * NAND gates can be implemented by a variety of physical means.
