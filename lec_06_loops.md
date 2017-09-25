@@ -467,7 +467,7 @@ Let $s$ be the number of lines and $t$ be one more than the largest number appea
 
 Just like we did for NAND, a _configuration_ of the program $P$ will denote the current line being executed and the current value of all variables.
 For our convenience we will use a somewhat different encoding than we did for NAND.
-We will encode the configuration as a string $\sigma \in \{0,1\}^*$, which is composed of _blocks_, that is, $\sigma$ will be the concatenation of $\sigma^0,\ldots,\sigma^{r-1}$ for some $r\in \N$ (that will represent the largest index that the program has ever reached in the execution).
+We will encode the configuration as a string $\sigma \in \{0,1\}^*$, which is composed of _blocks_, that is, $\sigma$ will be the concatenation of $\sigma^0,\ldots,\sigma^{r-1}$ for some $r\in \N$ (that will represent the maximum among $n-1$, where $n$ is the input length, the largest numerical index appearing in the program, and the  largest index that the program has ever reached in the execution).
 Each block $\sigma^i$ will be a string of length $B$ (for some constant $B$ depending on $t,s$) that encodes the following:
 
 * The  values of variables indexed by $i$ (e.g.,  `foo_`$\expr{i}$, `bar_`$\expr{i}$, etc.).
