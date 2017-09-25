@@ -130,8 +130,8 @@ By [simpleNANDthm](){.ref} we can assume without loss of generality that $P$ is 
 To show that $F$ is computable by a Turing machine, it is enough to show give a Turing machine $M$ that computes the _next step function_ $NEXT_P$ of $P$.
 This is because we can then construct a Turing machine $M'$ that repeatedly invokes $M$ until it reaches a configuration in which `halt` is set to true.
 But because the next-step function of a Turing machine is quite simple, it is not hard to show that it is computable by a Turing machine.
-Specifically, recall that a _configuration_ of a $t$-line simple program $P$ is a string $\sigma \in \{0,1\}^*$ that can be thought of as composed of a sequence of  blocks each of length $t+2$.
-The crucial point is that while the _number_ of blocks  increases as the computation evolves, the _size_ of each block (which is $t+2$) is a constant independent of the input length.
+Specifically, recall that a _configuration_ of a $t$-line simple program $P$ is a string $\sigma \in \{0,1\}^*$ that can be thought of as composed of a sequence of  blocks each of length $B = O(t)$.
+The crucial point is that while the _number_ of blocks  increases as the computation evolves, the _size_ of each block  is a constant independent of the input length.
 The next step function of $P$ can be computed on input $\sigma$ by doing the following:
 
 1. Read the first $t$ blocks of $\sigma$.
@@ -140,18 +140,16 @@ The next step function of $P$ can be computed on input $\sigma$ by doing the fol
 
 3. Based on the content of these $t+1$ blocks, decide how to update the active block, and (based on the content of the variable `indexincreasing`, which is encoded in these blocks) decide if the next active block will be $i+1$ or $i-1$.
 
-These three steps can be easily done by a Turing machine that has $2^{O(t^2)}$ states and hence can store all the contents of these $t+2$ states in its memory, and compute an arbitrary function based on these contants.
+These three steps can be easily done by a Turing machine that has $2^{O(t^2)}$ states and hence can store all the contents of these $t+1$ blocks in its memory, and compute an arbitrary function based on these contents.
 Writing down the full description of $M$ from the above "pseudocode" is  straightforward, even if somewhat painful, exercise, and hence this completes the proof of [TM-equiv-thm](){.ref}.
 
 
 
 
 
-### Advanced note: polynomial equivalence
-
+> # {.remark title="Polynomial equivalence" #polyequivrem}
 If we examine the proof of [TM-equiv-thm](){.ref} then we can see  that the equivalence between NAND++ programs and NAND<< programs is up to polynomial overhead in the number of steps. That is, for every NAND++ program $P$, there is a Turing machine $M$ and a constant $c$ such that for every $x\in \{0,1\}^*$, if on input $x$, $P$ halts within $T$ steps and outputs $y$, then on the same input $x$, $M$ halts within  $c\cdot T^c$ steps with the same output $y$.
-Similarly, for every Turing machine $M$, there is a NAND++ program $P$ and a constant $d$ such that for every $x\in \{0,1\}^*$, if on input $x$, $M$ halts within $T$ steps and outputs $y$, then on the same input $x$, $P$ outputs within $d\cdot T^d$ steps with the same output $y$.^[TODO: check if the overhead is really what I say it is.]
-
+Similarly, for every Turing machine $M$, there is a NAND++ program $P$ and a constant $d$ such that for every $x\in \{0,1\}^*$, if on input $x$, $M$ halts within $T$ steps and outputs $y$, then on the same input $x$, $P$ outputs within $d\cdot T^d$ steps with the same output $y$.
 
 ## "Turing Completeness" and other  Computational models
 
@@ -290,7 +288,7 @@ For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable in the
 > # {.proof data-ref="lambdaequiv"}
 The "only if" direction is simple. As mentioned above, evaluating $\lambda$ expressions basically amounts to "search and replace". It is also a fairly straightforward programming exercise to implement all the above basic operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND<< as well, which we can then transform to a NAND++ program.
 >
-For the "if" direction, it suffices to show that for every normal-form NAND++ program $P$, we can compute the next-step function $NEXT_P:\{0,1\}^* \rightarrow \{0,1\}^*$ using the above operations.
+For the "if" direction, we start by showing that for every normal-form NAND++ program $P$, we can compute the next-step function $NEXT_P:\{0,1\}^* \rightarrow \{0,1\}^*$ using the above operations.
 It turns out not to be so hard.
 A configuration of $P$ is a string of length $TB$ where $B$ is the (constant sized) block size, and so we can think of it as a list $\sigma=(\sigma^1,\ldots,\sigma^T)$ of $T$ lists of bits, each of length $B$.
 Extracting from this list the $B$ sized string corresponding to the block $\sigma^i$ where $\sigma^i_0=1$ can be done via a single $REDUCE$ operations.
@@ -298,6 +296,11 @@ Using this we can tell if this is an operation where $i$ stays the same, increas
 If it stays the same then we can compute $NEXT_P$ via a $MAP$ operation, using the function that on input $C \in \{0,1\}^B$, keeps $C$ the same if $C_0=0$ and otherwise updates it to the value in its next step.
 If it increases, then we can update it by a $REDUCE$ operation, with the function that on input a block $C$ and a list $S$, we output $PAIR(C,L)$ unless $C_0=1$ in which case we output $PAIR(C',PAIR(C'',TAIL(S)))$ where $(C',C'')$ are the new values of the blocks $i$ and $i+1$.
 The case for decreasing $i$ is analogous.
+>
+Once we have a $\lambda$ expression $\varphi$ for computing $NEXT_P$, we can compute the final expression by defining
+$$APPLY = \lambda f,\sigma. IF(HALT \sigma,\sigma,f f \varphi \sigma)$$
+now for every configuration $\sigma_0$, $APPLY APPLY \sigma$ is the final configuration $\sigma_t$ obtained after running the next-step function continuosly.
+Indeed, note that if $\sigma_0$ is not halting, then $APPLY APPLY \sigma$ outputs $APPLY APPLY \varphi \sigma_0$ which (since $\varphi$ computes the $NEXT_P$) function is the same as $APPLY APPLY \sigma_1$. By the same reasoning we see that we will eventually get $APPLY APPLY \sigma_t$ where $\sigma_t$ is the halting configuration, but in this case we will get simply the output $\sigma_t$.^[If this looks like recursion then this is not accidental- this is a special case of a general technique for simulating recursive functions in the $\lambda$ calculus. See the discussion on the $Y$ combinator below.]
 
 ### How basic is "basic"?
 

@@ -191,7 +191,7 @@ Our construction will follow very closely the Python implementation of `EVAL` ab
 
 5. Finally we add for every $j\in [m]$:
 
-    a.  The code  `idx_0`,$\ldots$,`idx_`$\expr{\lambda-1}$ `:= ` `SUBTRACT(t_0,`$\ldots$,`t_`$\expr{\lambda}$,$z_0$,\ldots,$z_{\lambda-1}$) where `SUBTRACT` is the code for subtracting two numbers in $[2^\lambda]$ given in their binary representation, and each $z_j$ is equal to either `zero` or `one` depending on the binary representation of the number $(2^\lambda-1-t+m)$.
+    a.  The code  `idx_0`,$\ldots$,`idx_`$\expr{\lambda-1}$ `:= ` `SUBTRACT(t_0,`$\ldots$,`t_`$\expr{\lambda}$,$z_0$,\ldots,$z_{\lambda-1}$) where `SUBTRACT` is the code for subtracting two numbers in $[2^\lambda]$ given in their binary representation, and each $z_h$ is equal to either `zero` or `one` depending on the $h$-th digit in the binary representation of the number $m-j$.
 
     b. `y_`$\expr{j}$ ` := LOOKUP(` `avars_0`,$\ldots$, `avars_`$\expr{2^\lambda-1}$, `idx_0`,$\ldots$, `idx_`$\expr{\lambda-1}$ `)`. (Steps 5.a and 5.b together correspond to the line `return avars[t-m:]` in `EVAL`.)
 

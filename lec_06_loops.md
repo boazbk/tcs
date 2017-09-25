@@ -214,9 +214,9 @@ by
 if NOT(startedloop)  {
     PRELOOP_CODE
     startedloop := 1
+    temploop := loop
 }
 if NOT(finishedloop) {
-    temploop := loop
     if (cond) {
         LOOP_CODE
         loop :=1

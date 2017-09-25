@@ -1,5 +1,12 @@
 # Is every function computable?
 
+> # { .objectives }
+* See a fundamental result in computer science and mathematics: the existence of uncomputable functions.
+* See the canonical example for an uncomputable function: _the halting problem_.
+* Introduction to the technique of _reductions_ which will be used time and again in this course to show difficulty of computational tasks.
+* Rice's Theorem, which is a starting point for much of research on compilers and programming languages, and marks the difference between _semantic_ and _syntactic_ properties of programs.
+
+
 >_"A function of a variable quantity is an analytic expression composed in any way whatsoever of the variable quantity and numbers or constant quantities."_,  Leonhard Euler, 1748.
 
 
@@ -215,174 +222,6 @@ Say that $\mathcal{S}$ as above is _trivial_ if either there is no computable fu
 If $\mathcal{S}$ is not trivial then $COMPUTES\text{-}\mathcal{S}$ is uncomputable.
 
 The proof of [rice-thm](){.ref} follows by generalizing the proof of [spec-thm](){.ref} and we leave it to the reader as [rice-ex](){.ref}.
-
-## Restricted vs unrestricted computational models
-
-
-We have mentioned before that many natural computational models turn out to be _equivalent_ to one another, in the sense that we can transform a "program" of that other model (such as a $\lambda$ expression, or a game-of-life configurations) into a NAND++ program.
-This equivalence implies that we can translate the uncomputability of the Halting problem for NAND++ programs into uncomputability for Halting in other models.
-For example:
-
-> # {.theorem title="Turing Machine Halting" #halt-tm}
-Let $TMHALT:\{0,1\}^* \rightarrow \{0,1\}$ be the function that on input  strings $M\in\{0,1\}^*$ and $x\in \{0,1\}^*$ outputs $1$ if the Turing machine described by $M$ halts on the input $x$ and outputs $0$ otherwise. Then $TMHALT$ is uncomputable.
-
-> # {.proof }
-We have seen that for every NAND++ program $P$ there is an equivalent Turing machine $M(P)$ such that for every $x$, $M(P)$ halts on $x$ if and only $P$ halts on $x$ (and moreover if they both halt, they produce the same output).
-The transformation of $P$ to $M(P)$ was completely algorithmic and hence it can be thought of as a computable function $M:\{0,1\}^* \rightarrow \{0,1\}^*$.
-We see that $HALT(P,x)=TMHALT(M(P),x)$ and hence if we assume (towards the sake of a contradiction) that $TMHALT$ is computable then we get that $HALT$ is computable, hence contradicting [halt-thm](){.ref}.
-
-The same proof carries over to other computational models such as the _$\lambda$ calculus_, _two dimensional_ (or even one-dimensional) _automata_ etc.
-Hence for example, there is no algorithm to decide if a $\lambda$ expression evaluates the identity function, and no algorithm to decide whether an initial configuration of the game of life will result in eventually coloring the cell $(0,0)$ black or not.
-
-
-The uncomputability of  halting and other semantic specification problems motivates coming up with __restricted computational models__ that are __(a)__ powerful enough to capture a set of functions useful for certain applications but __(b)__ weak enough that we can still solve semantic specification problems on them.
-Here are some examples:
-
-### Regular expressions
-
-A _regular expression_ over some alphabet $\Sigma$ is obtained by combining elements of $\Sigma$ with the operations $|$ (corresponding to _or_) and $*$ (corresponding to repetition zero or more times).
-For example, the following regular expression over the alphabet $\{0,1\}$  corresponds to the set of all even length strings $x\in \{0,1\}^*$ such that $x_{2i}=x_{2i+1}$ for every $i\in \{0,\ldots, |x|/2-1 \}$:
-
-$$
-(00|11)*
-$$
-
-You have probably come across regular expressions in the context of searching for a file, doing search-and-replace in an editor,  or text manipulations in programming languages or tools such as `grep`.^[Standard implementations of regular expressions typically include more "syntactic sugar" such as using shorthands such as $[a-d]$ for $(a|b|c|d)$ and others, but they can all be implemented using   the operators $|$ and $*$.]
-Formally, regular expressions are defined by the following recursive definition:^[Just like recursive functions, we can define a concept recursively. Indeed, a definition of some class $\mathcal{C}$ of objects can be thought of as defining a function that maps an object $o$ to either $0$ or $1$ depending on whether $o \in \mathcal{C}$. Thus we can think of   the definition as defining a recursive function that maps a string $exp$ over $\Sigma \cup \{ "(",")","|", "*" \}$ to $0$ or $1$ depending on whether $exp$ describes a valid regular expression.]
-
-> # {.definition title="Regular expression" #regexp}
-A _regular expression_ $exp$ over an alphabet $\Sigma$ is a string over $\Sigma \cup \{ "(",")","|","*" \}$ that has one of the following forms:
-1. $exp = \sigma$ where $\sigma \in \Sigma$ \
-2. $exp = (exp' | exp'')$ where $exp', exp''$ are regular expressions. \
-3. $exp = (exp')(exp'')$ where $exp',exp''$ are regular expressions. \
-4. $exp = (exp')*$ where $exp'$ is a regular expression.^[Many texts also allow regular expressions that accept no strings or only the empty string. In the interest of simplicity, we drop these "edge cases" from our definition, though it does not matter much.]
->
-Every regular expression $exp$ computes a function $\Phi_{exp}:\Sigma^* \rightarrow \{0,1\}$ defined as follows:
-1. If $exp = \sigma$ then $\Phi_{exp}(x)=1$ iff $x=\sigma$ \
-2. If $exp = (exp' | exp'')$ then $\Phi_{exp}(x) = \Phi_{exp'}(x) \vee \Phi_{exp''}(x)$ where $\vee$ is the OR operator. \
-3. If $exp = (exp')(exp'')$ then $\Phi_{exp}(x) = 1$ iff there is some $x',x'' \in \Sigma^*$ such that $x$ is the concatenation of $x'$ and $x''$ and $\Phi_{exp'}(x')=\Phi_{exp''}(x'')=1$.  \
-4. If $exp= (exp')*$ then $\Phi_{exp}(x)=1$ iff there are is $k\in \N$ and some $x_0,\ldots,x_{k-1} \in \Sigma^*$ such that $x$ is the concatenation $x_0 \cdots x_{k-1}$ and $\Phi_{exp'}(x_i)=1$ for every $i\in [k]$.
-
-[regexp](){.ref} might not be easy to grasp in a first read, so you should probably pause here and go over it again   until you understand why it corresponds to our intuitive notion of regular expressions.
-This is important not just for understanding regular expressions themselves (which are used time and again in a great many applications) but also for getting better at understanding recursive definitions in general.
-
-By [regexp](){.ref}, regular expressions can be thought of as a "programming language" that defines functions $exp: \Sigma^* \rightarrow \{0,1\}$.
-But it turns out that the "halting problem" for these functions is easy: they always halt.
-
-> # {.theorem title="Regular expression always halt" #regularexphalt}
-For every set $\Sigma$ and $exp \in (\Sigma \cup \{ "(",")","|","*" \})*$,  if $exp$ is a valid regular expression over $\Sigma$ then $\Phi_{exp}$ is a total function from $\Sigma^*$ to $\{0,1\}$.
-Moreover, there is an always halting NAND++ program $P_{exp}$ that computes $\Phi_{exp}$.
-
-> # {.proof data-ref="regularexphalt"}
-[regexp](){.ref} gives a way of recursively computing $\Phi_{exp}$.
-The key observation is that in our recursive definition of regular expressions, whenever $exp$ is made up of one or two expressions $exp',exp''$ then these two regular expressions are _smaller_ than $exp$, and eventually (when they have size $1$) then they must correspond to the non-recursive case of a single alphabet symbol.
->
-Therefore, we can prove the theorem by induction over the length $m$ of $exp$.
-For $m=1$, $exp$ is a single alhpabet symbol and the function $\Phi_{exp}$ is trivial.
-In the general case, for $m=|exp$ we assume by the induction hypothesis that  we have proven the theorem for $|exp|  = 1,\ldots,m-1$.
-Then by the definition of regular expressions, $exp$ is made up of one or two sub-expressions $exp',exp''$ of length smaller than $m$, and hence by the induction hypothesis we assume that $\Phi_{exp'}$ and   $\Phi_{exp''}$ are total computable functions.
-But then we can follow the definition for the cases of concatenation, union, or the star operator to compute $\Phi_{exp}$ using $\Phi_{exp'}$ and $\Phi_{exp''}$.
-
-The proof of [regularexphalt](){.ref} gives a recursive algorithm to evaluate whether a given string matches or not a regular expression.
-However, it turns out that there is a much more efficient algorithm to match regular expressions, based on their connection to _finite automata_.
-We will discuss this other algorithm, and this connection,  later in this course.
-
-The fact that functions computed by regular expressions always halt is one of the reason why they are so useful.
-When you make a regular expression search, you are guaranteed that you will get a result.
-This is   why operating systems, for example, restrict you for searching a file via regular expressions and don't allow searching by specifying an arbitrary function via a general-purpose programming language.
-
-But this always-halting property comes at a cost.
-Regular expressions cannot compute every function that is computable by NAND++ programs.
-In fact there are some very simple (and useful!) functions that they cannot compute, such as the following:
-
-> # {.theorem title="Matching parenthesis" #regexpparn}
-Let $\Sigma = \{"(",")"\}$ and  $MATCHPAREN:\Sigma^* \rightarrow \{0,1\}$ be the function that given a string of parenthesis, outputs $1$ if and only if every opening parenthesis is matched by a corresponding closed one.
-Then there is no regular expression over $\Sigma$ that computes $MATCHPAREN$.
-
-> # {.proof data-ref="regexpparn"}
-TO BE COMPLETED
-
-
-
-### Context free grammars.
-
-
-
-Another example of uncomputable functions arises from the notions of _grammars_.
-The idea of a grammar is best illustrated by an example.
-Consider the set of all valid arithmetical expressions involving natural numbers, and the operators $+,-,\times,\div$.
-We can describe this set recursively as follows:
-
-$$
-digit := 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
-$$
-
-$$
-number := digit | digit number
-$$
-
-$$
-expression := number | (expression + expression) | (expression - expression) | (expression \times expression) | (expression \div expression)
-$$
-
-A valid expression is any string in $\Sigma = \{ 0,1,2,3,4,5,6,7,8,9,0,(,),+,-,\times,\div \}^*$ that can be obtained by repeatedly applying some of these rules to the initial symbol $expression$ until we remain a string that does not contain $number$,$digit$ or $expression$ but  only symbols in $\Sigma$ (and hence cannot be reduced further).
-
-^[TODO: maybe add here more example of context-sensitive grammar and then a proof that grammars are undecidable if there is in fact a simple proof of this (maybe based on lambda calculus?).]
-
-More generally, a _grammar_ over an alphabet $\Sigma$ consists of a set of pairs of strings $(\alpha,\beta)$ where $\alpha,\beta \in (\Sigma \cup N)^*$ and $N$ is some finite set disjoint from $\Sigma$ containing a special symbol we call $start$.
-$\Sigma$ is known as the set of _terminals_ and $N$ as the set of _non terminals_.
-
-A grammar defines a subset $L \subseteq \Sigma^*$ (known as a _language_) as follows:
-$x$ is in $\Sigma$ if and only if there exists some finite sequence of rules such that if we start from the string $start$ and each time replace a substring of the current string $\alpha$ with the corresponding righthand side of the rule $\beta$, then we eventually end up with $x$.
-
-
-
-
-
-
-
-## Uncountable sets
-
-The diagonalization argument is useful outside the realm of computation.
-One of its most striking applications (one that preceded and inspired the results of Gödel and  Turing discussed in this lecture and the next) is Cantor's proof that there is a hierarchy of types of infinity.
-What  can something like that mean?
-
-We know that there are infinitely many natural numbers, and that there are also infinitely many even natural numbers.
-There seem to be "more" natural numbers than natural even numbers, but Cantor said that in fact the size of these two sets is the same.
-The reason is that there is a one-to-one map from the natural numbers $\N$ to the set $EVEN$ of even natural numbers, namely the map $f(x)=2x$.
-Similarly, while we may think that there set $\N^2$ of pairs of natural numbers is larger than the set of natural numbers, it turns out that we can consider them as having the same size as well, since there is a one-to-one map $PAIR:\N^2 \rightarrow \N$  (there are many ways to define such a map including $PAIR(x,y)=2^x3^y$; we've use such a  map in embedding two-dimensional arrays in one-dimensional arrays).
-
-Cantor defined two sets $A$ and $B$ to have the _same cardinality_ if there is a one-to-one map $f:A \rightarrow B$ and a one-to-one map $g:B \rightarrow A$.
-One can verify that if $A$ and $B$ are finite then they have the same cardinality under this definition if and only if they have the same number of elements (can you see why?).
-Cantor denoted the cardinality of the set $\N$ of natural numbers by $\aleph_0$  and sets with such cardinality are called _countable_.
-
-A natural question is whether there is an _uncountable_ infinite set. That is, a infinite set $S$ that is _bigger_ than the natural numbers, in the sense that there is no one-to-one function from $S$ to $\N$.
-It turns out that the answer is _yes_:
-
-> # {.theorem title="Cantor's Theorem" #realsuncountable}
-The set $\mathbb{R}$ of real numbers is uncountable.
-
-> # {.proof data-ref="readlsuncountable"}
-To prove the theorem we need to show that there is no one-to-one map from $\mathbb{R}$ to $\N$. In fact, we will show the stronger statement that there is no one-one-map from $S$ to $\N$ where $S$ is some subset of $\mathbb{R}$ (and even of the interval $[0,1]$).
-We have already shown this, using different language, in [cantor-ex](){.ref}.
-We will now repeat an outline of the argument.
->
-We let $S$ be the set of numbers in $[0,1]$ whose decimal expansion is $x=0.x_1x_2x_3\cdots$ where $x_i \in \{0,1\}$.
-Note that every $x\in S$ has a unique decimal expansion involving only the numbers $0$ and $1$. (By restricting to $S$ we avoid technicalities such as the equivalence of $0.0999999\ldots$ and $0.1$.)
-Suppose for the sake of contradiction that there is a one-to-one map $f:S \rightarrow\N$.
-Then there is an onto map $g:\N \rightarrow S$.
-We can use diagonalization to obtain a contradiction by constructing a number $x^* \in S$ such that $g(n) \neq x^*$ for every $n\in\N$.
-Write the decimal expansion of  $x^* = 0.x^*_1x^*_2x^*_3\cdots$.
-We will let $x^*_n$ equal $1$ if the $n^{th}$ digit following the decimal point of $g(n)$ equals $0$ and will define $x^*_n=0$ otherwise.
-Now we can see that the $n^{th}$ digit of $g(n)$ differs from $x^*_n$ and hence $g(n) \neq x^*$ for every $n\in\N$, thus contradicting our assumption that $g$ is onto and completing the proof.
-
-Cantor denoted the cardinality of the real numbers by $\aleph$.
-It turns out that there are sets with even larger cardinality than $\aleph$, and sets with even greater cardinality as well. These levels of inifinity is sometimes known as
-[transfinite ordinals](https://en.wikipedia.org/wiki/Transfinite_number).
-Cantor conjectured that there is no set with cardinality strictly between $\aleph_0$ and $\aleph$.
-This is known as the [Continuum Hypothesis](https://en.wikipedia.org/wiki/Continuum_hypothesis) and was presented by Hilbert in 1900 as the first in his list  of the most important open questions in mathematics.
-In a twist of fate, using  techniques originating from the works  Gödel and Turing,  Paul Cohen showed in 1963 that the Continuum Hypothesis is independent of the axioms of set theory, which means that neither it nor its negation is provable from these axioms and hence in some sense  can be considered as "neither true nor false".
-
 
 
 
