@@ -347,7 +347,7 @@ def expand(P,T,n):
 
     for k in range(T):
         i=index(k)
-        validx = (`one` if i<n else `zero`)
+        validx = ('one' if i<n else 'zero')
         result += P.replace('validx_i',validx).replace('x_i',('x_i' if i<n else 'zero')).replace('_i','_'+str(i))
 
     return result
