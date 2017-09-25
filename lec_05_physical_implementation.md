@@ -325,7 +325,7 @@ A Boolean circuit is a labeled graph, and hence we can use the _adjacency list_ 
 Hence we can represent such a circuit by a string of length $O(s\log |B| + s \log s)$.
 We can define  $CIRCEVAL_{B,s,n,m}$ to be the function  that takes as input a pair $(C,x)$ where $C$ is string describing an $s$-size  $n$-input $m$-output circuit over $B$, and an input $x\in \{0,1\}^n$, and returns the evaluation of $C$ on the input $x$.
 
-[NAND-all-circ-thm](){.ref} implies that every circuit $C$ of $s$ gates over a $k$-ary basis $B$ can be transformed into a NAND program of $S=O(s\cdot 2^k)$ lines, and hence we can combine this transformation with last lecture's evaluation procedure for NAND programs to conclude that $CIRCEVAL$ for circuits of $s$ gates over $B$ can be computed by a NAND program of $O(S^2)= O(s^2 2^{2k})$ lines.^[In fact, as we mentioned, it is possible to improve this to $O(S \log S)=O(s2^k(\log s + k))$ lines.]
+[NAND-all-circ-thm](){.ref} implies that every circuit $C$ of $s$ gates over a $k$-ary basis $B$ can be transformed into a NAND program of $s'=O(s\cdot 2^k)$ lines, and hence we can combine this transformation with last lecture's evaluation procedure for NAND programs to conclude that $CIRCEVAL$ for circuits of $s$ gates over $B$ can be computed by a NAND program of $O(s'^2 \log s)= O(s^2 2^{2k}(\log s + k))$ lines.^[In fact, as we mentioned, it is possible to improve this to $O(s' \log s')=O(s2^k(\log s + k))$ lines.]
 
 
 ### Advanced note: evaluating circuits in quasilinear time.
