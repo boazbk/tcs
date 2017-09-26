@@ -14,7 +14,7 @@ It turns out that NAND++ allows us to "break out of this cycle" and obtain a tru
 (As we'll see in the next lecture, this is not something special to NAND++ but is a feature of many other computational models.)
 The existence of such a universal program has far reaching applications, and we will explore them in the rest of this course.
 
-To describe the unviersal program, it will be convenient for us to introduce some extra "syntactic sugar" for NAND++. We'll use the name NAND<< for  the language of NAND++ with this extra syntactic sugar.
+To describe the universal program, it will be convenient for us to introduce some extra "syntactic sugar" for NAND++. We'll use the name NAND<< for  the language of NAND++ with this extra syntactic sugar.
 The classes of functions computable by  NAND++ and NAND<< programs are identical, but NAND<< can sometimes be more convenient to work with.
 Moreover, NAND<< will be useful for us later in the course when we will turn to modelling _running time_ of algorithms.^[Looking ahead, as we will see in the next lecture, NAND++ programs are essentially equivalent to _Turing Machines_ (more precisely, their single-tape, oblivious  variant), while NAND<< programs are equivalent to _RAM machines_. Turing machines are typically the standard model used in computability and complexity theory, while RAM machines are used in algorithm design. As we will see, their powers are equivalent up to polynomial factors in the running time.]
 
@@ -28,7 +28,7 @@ Moreover, NAND<< will be useful for us later in the course when we will turn to 
 
 We now  define a seemingly more powerful programming language than NAND++: NAND<< (pronounced _"NAND shift"_).
 NAND<< has some  additional operators, but as we will see, it can ultimately be implemented by applying certain "syntactic sugar" constructs on top of NAND++.
-Nonetheless, NAND<<  will still serve (especially later in the course) as a useful computational model.^[If you have encountered computability or computational complexity before, we can already "let you in on the secret". NAND++ is equivalent to the model known as _single tape oblivious Turing machines_, while NAND<< is (essentially) equivalent to the model known as _RAM machines_. For the purposes of the current lecture, these two models are indistinguishable (due to a notion known as "Turing completeness") but the difference between them can matter if one is interested in a fine enough resolution of computational efficiency.]
+Nonetheless, NAND<<  will still serve (especially later in the course) as a useful computational model.^[If you have encountered computability or computational complexity before, we can already "let you in on the secret". NAND++ is equivalent to the model known as _single tape oblivious Turing machines_, while NAND<< is (essentially) equivalent to the model known as _RAM machines_. For the purposes of the current lecture, the NAND++/Turing-Machine model is  indistinguishable from the NAND<</RAM-Machine model (due to a notion known as "Turing completeness") but the difference between them can matter if one is interested in a fine enough resolution of computational efficiency.]
 There are two key differences between NAND<< and NAND:
 
 1. The NAND<< programming language works with _integer valued_ as opposed to _binary_ variables.
@@ -176,6 +176,11 @@ When one wants to produce a device that executes programs, it is convenient  to 
 > # {.remark title="Recursion in NAND<<" #recursion}
 One high level tool we can use in describing NAND<< programs is _recursion_. We can use the standard implementation of the _stack_ data structure. That is, we let   `stack` to be an array of integers `stack_0`, $\ldots$, `stack_`$\expr{k-1}$ and `stackpointer` will be the number $k$ of items in the stack. We implement `push(foo)` by doing `i := stackpointer` and `stack_i := foo` and `pop()` by letting `stackpointer := stackpointer - 1`. By encoding strings as integers, we can have allow strings in our stack as well. Now we can implement recursion using the stack just as is done in most programming languages. First of all, we note that using loops and conditionals, we can implement "goto" statements in NAND<<. Moreover, we can even implement "dynamic gotos", in the sense that we can set integer labels for certain lines of codes, and have a `goto foo` operation that moves execution to the line labeled by `foo`. Now, if we want to make a  call to a function $F$ with parameter `bar` then we will push into the stack the label of the next line and `bar`, and then make a `goto` to the code of $F$. That code will pop its parameter from the stack, do the computation of $F$, and when it needs to resume execution, will pop the label from the stack and `goto` there.
 
+### The bees, the birds, and NAND++ programs.
+
+At some point in any theory of computation course, the instructor and students need to have _the talk_.
+That is, we need to discuss the _level of abstraction_ in describing algorithms.
+In algorithms courses, one typically describes 
 
 
 ## Universality: A NAND++ interpreter in NAND++
