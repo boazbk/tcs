@@ -38,7 +38,8 @@ where $vara$, $varb$, $varc$ are variable identifiers.
 Variables of the form `x` or `x_`$\expr{i}$ can only appear on the righthand side of the `:=` operator and variables of the form `y` or `y_`$\expr{i}$ can only appear on the lefthand side of the `:=` operator.
 The _number of inputs_ of a NAND program $P$ equals one plus the largest number $i$ such that a variable of the form `x_`$\expr{i}$ appears in the program, while the number of outputs of a NAND program equals one plus the largest number $j$ such that a variable of the form `y_`$\expr{j}$ appears in the program.
 
-__Restrictions on indices:__ If the variable identifiers are indexed, the index is always smaller number of lines in the program. If a variable of the form `y_`$\expr{j}$ appears in the program then `y_`$\expr{i}$ must appear in it for all $i<j$.
+__Restrictions on indices:__ If the variable identifiers are indexed, the index is always smaller number of lines in the program. If a variable of the form `y_`$\expr{j}$ appears in the program, then `y_`$\expr{i}$ must appear in it for all $i<j$.
+Similarly, we require that if a variable of the form `x_`$\expr{j}$ appears in the program, then  then `x_`$\expr{i}$ must appear in it for all $i<j$.^[I've been going back and forth on whether we should make this requirement. The main advantage in it is that it ensures that $Size(s)$ is a finite set, as the inputs and outputs are always smaller than $s$. It does however mean that we may need to add "dummy lines" of the form `one := x_i NAND zero` to the program to ensure that every input variable is touched. We could also simply require that $s \geq n$.]
 
 
 ### Semantics of NAND programs
