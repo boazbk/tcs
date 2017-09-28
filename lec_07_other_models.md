@@ -56,13 +56,16 @@ We say that the Turing machine $M$ _computes_ a (partial) function $F:\{0,1\}^* 
 * Initialize the array $T$ of symbols in $\Sigma$ as follows: $T[0] = \triangleright$, $T[i]=x_i$ for $i=1,\ldots,|x|$
 >
 * Let $s=1$ and $i=0$ and repeat the following while $s\neq k-1$: \
-  >a. Let $\sigma = T[i]$. If $T[i]$ is not defined then let $\sigma = \varnothing$ \
-  >b. Let $(s',\sigma',D) = M(s,\sigma)$ \
-  >c. Modify $T[i]$ to equal $\sigma'$ \
-  >d. If $D=L$ and $i>0$ then set $i \leftarrow i-1$. If $D=R$ then set $i \leftarrow i+1$. \
-  >e. Set $s \leftarrow s'$ \
+   >a. Let $\sigma = T[i]$. If $T[i]$ is not defined then let $\sigma = \varnothing$ \
+   >b. Let $(s',\sigma',D) = M(s,\sigma)$ \
+   >c. Modify $T[i]$ to equal $\sigma'$ \
+   >d. If $D=L$ and $i>0$ then set $i \leftarrow i-1$. If $D=R$ then set $i \leftarrow i+1$. \
+   >e. Set $s \leftarrow s'$ \
 >
-* Let $n$ be the first index larger than $0$ such that $T[i] \not\in \{0,1\}$. We define the output of the process to be $T[1],\ldots,T[n-1]$. The number of steps that the Turing Machine $M$ takes on input $x$ is the number of times that the while loop above  is executed. (If the process never stops then we say that the machine did not halt on $x$.)
+* Let $n$ be the first index larger than $0$ such that $T[i] \not\in \{0,1\}$. We define the output of the process to be $T[1]$,$\ldots$,$T[n-1]$. The number of steps that the Turing Machine $M$ takes on input $x$ is the number of times that the while loop above  is executed. (If the process never stops then we say that the machine did not halt on $x$.)
+
+> # {.remark title="Turing Machine configurations" #TMconfigurations}
+Just as we did for NAND++ programs, we can also define the notion of _configurations_ for Turing machines and define computation in terms of iterations of their _next step function_. However, we will not follow this approach in this course.
 
 ## Turing Machines and NAND++ programs
 
@@ -129,8 +132,8 @@ By [simpleNANDthm](){.ref} we can assume without loss of generality that $P$ is 
 
 To show that $F$ is computable by a Turing machine, it is enough to show give a Turing machine $M$ that computes the _next step function_ $NEXT_P$ of $P$.
 This is because we can then construct a Turing machine $M'$ that repeatedly invokes $M$ until it reaches a configuration in which `halt` is set to true.
-But because the next-step function of a Turing machine is quite simple, it is not hard to show that it is computable by a Turing machine.
-Specifically, recall that a _configuration_ of a $t$-line simple program $P$ is a string $\sigma \in \{0,1\}^*$ that can be thought of as composed of a sequence of  blocks each of length $B = O(t)$.
+But because the next-step function of a NAND++ program is quite simple, it is not hard to show that it is computable by a Turing machine.
+Specifically, recall that a _configuration_ of a $t$-line simple program $P$ is a string $\sigma \in \{0,1\}^*$ that can be thought of as composed of a sequence of  blocks each of length $B$ which is a constant depending on $t$.
 The crucial point is that while the _number_ of blocks  increases as the computation evolves, the _size_ of each block  is a constant independent of the input length.
 The next step function of $P$ can be computed on input $\sigma$ by doing the following:
 
@@ -148,8 +151,14 @@ Writing down the full description of $M$ from the above "pseudocode" is  straigh
 
 
 > # {.remark title="Polynomial equivalence" #polyequivrem}
-If we examine the proof of [TM-equiv-thm](){.ref} then we can see  that the equivalence between NAND++ programs and NAND<< programs is up to polynomial overhead in the number of steps. That is, for every NAND++ program $P$, there is a Turing machine $M$ and a constant $c$ such that for every $x\in \{0,1\}^*$, if on input $x$, $P$ halts within $T$ steps and outputs $y$, then on the same input $x$, $M$ halts within  $c\cdot T^c$ steps with the same output $y$.
-Similarly, for every Turing machine $M$, there is a NAND++ program $P$ and a constant $d$ such that for every $x\in \{0,1\}^*$, if on input $x$, $M$ halts within $T$ steps and outputs $y$, then on the same input $x$, $P$ outputs within $d\cdot T^d$ steps with the same output $y$.
+If we examine the proof of [TM-equiv-thm](){.ref} then we can see  that the equivalence between NAND++ programs and NAND<< programs is up to polynomial overhead in the number of steps.
+Specifically, our NAND<< program to simulate a Turing Machine $M$, has two loops to copy the input and output and then one loop that iterates once per each step of the machine $M$.
+In particular this means that if the Turing machine $M$ halts on every $n$-length input $x$ within $T(n)$ steps, then the NAND<< program computes the same function within $O(T(n)+n+m)$ steps.
+(The transformation of NAND<< to NAND++ has  polynomial overhead, and hence for any such machine $M$ there is a NAND++ program $P'$ that computes the same function within $poly(T(n)+n+m)$ steps, where $poly(f(n))$ is shorthand for $f(n)^{O(1)}$ as defined in the mathematical background section.)
+In the other direction, our Turing machine to compute the next step function of a NAND++ program $P$ used a linear scan over the configuration of $P$.
+Since a configuration of a NAND++ program after $T$ steps can be of length at most $O(T+n)$, if the NAND++ program halts after $T(n)$ steps on inputs of length $n$, then the number of times the Turing machine invokes its next step function is $T(n)$, and so the total number of steps it spends is $O((T(n)+n)^2)$.
+
+
 
 ## "Turing Completeness" and other  Computational models
 
@@ -158,6 +167,7 @@ A model is _Turing equivalent_ if the other direction holds as well; that is, fo
 Another way to state [TM-equiv-thm](){.ref} is that NAND++ is Turing equivalent.
 Since we can simulate any NAND<< program by a NAND++ program (and vice versa), NAND<< is Turing equivalent as well.
 It turns out that there are many other Turing-equivalent models of computation.
+
 We now discuss a few examples.
 
 
@@ -216,7 +226,7 @@ $$
 \lambda x. e
 $$
 
-corresponds to the function that maps any expression $z$ into the expression $e[x \rightarrow z]$ which is obtained by replacing every occurrence of $x$ in $e$ with $z$.^[More accurately, we replace every expression of $x$ that is _bounded_ by the $\lambda$ operator. For example, if we have the $\lambda$ expression $\lambda x.(\lambda x. x+1)(x)$ and invoke it on the number $7$ then we get $(\lambda x.x+1)(7)=8$ and not the nonsensical expression $(\lambda 7.7+1)(7)$. To avoid such annoyances, we can always ensure that every instance of $\lambda var.e$ uses a unique variable identifier $var$.]
+corresponds to the function that maps any expression $z$ into the expression $e[x \rightarrow z]$ which is obtained by replacing every occurrence of $x$ in $e$ with $z$.^[More accurately, we replace every expression of $x$ that is _bound_ by the $\lambda$ operator. For example, if we have the $\lambda$ expression $\lambda x.(\lambda x. x+1)(x)$ and invoke it on the number $7$ then we get $(\lambda x.x+1)(7)=8$ and not the nonsensical expression $(\lambda 7.7+1)(7)$. To avoid such annoyances, we can always ensure that every instance of $\lambda var.e$ uses a unique variable identifier $var$. See the "logical operators" section in the math background lecture for more discussion on bound variables.]
 
 
 __Currying.__ The expression $e$ can itself involve $\lambda$, and so for example the function
@@ -262,7 +272,7 @@ To calculate, it seems we need some basic objects such as $0$ and $1$, and so we
 
 * __The empty string:__ The value $NIL$ and the function $ISNIL(x)$ that returns $1$ iff $x$ is $NIL$.
 
-* __Strings/lists:__ The function $PAIR(x,y)$ that creates a pair from $x$ and $y$. We will also have the function $HEAD$ and $TAIL$ to extract the first and second member of the pair. We can now create the list $x,y,z$ by $PAIR(x,PAIR(y,PAIR(z,NIL)))$, see [lambdalistfig](){.ref}.  A _string_ is of course simply a list of bits.  
+* __Strings/lists:__ The function $PAIR(x,y)$ that creates a pair from $x$ and $y$. We will also have the function $HEAD$ and $TAIL$ to extract the first and second member of the pair. We can now create the list $x,y,z$ by $PAIR(x,PAIR(y,PAIR(z,NIL)))$, see [lambdalistfig](){.ref}.  A _string_ is of course simply a list of bits.^[Note that if $L$ is a list, then $HEAD(L)$ is its first element, but $TAIL(L)$ is not the last element but rather all the elements except the first. We use $NIL$ to denote the empty list and hence $PAIR(x,NIL)$ denotes the list with the single element $x$.]  
 
 * __List operations:__ The functions $MAP,REDUCE,FILTER$. Given a list $L=(x_0,\ldots,x_{n-1})$ and a function $f$, $MAP(L,f)$ applies $f$ on every member of the list to obtain $L=(f(x_0),\ldots,f(x_{n-1}))$.
 The function $FILTER(L,f)$ returns the list of $x_i$'s such that $f(x_i)=1$, and $REDUCE(L,f)$ "combines" the list by  outputting
@@ -279,14 +289,14 @@ See [reduceetalfig](){.ref} for an illustration of these three operations.
 ![Illustration of the $MAP$, $FILTER$ and $REDUCE$ operations.](../figure/reducemapfilter.png){#reduceetalfig .class width=300px height=300px}
 
 
-Together these operations more or less amount to the Lisp/Scheme programming languague.^[In Lisp, the $PAIR$, $HEAD$ and $TAIL$ functions are [traditionally called](https://en.wikipedia.org/wiki/CAR_and_CDR) `cons`, `car` and `cdr`.]  
+Together these operations more or less amount to the Lisp/Scheme programming language.^[In Lisp, the $PAIR$, $HEAD$ and $TAIL$ functions are [traditionally called](https://en.wikipedia.org/wiki/CAR_and_CDR) `cons`, `car` and `cdr`.]  
 Given that, it is perhaps not surprising that we can simulate NAND++ programs using the $\lambda$-calculus plus these basic elements, hence showing the following theorem:
 
 > # {.theorem title="Lambda calculus and NAND++" #lambdaturing-thm}
 For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable in the $\lambda$ calculus with the above basic operations if and only if it is computable by a NAND++ program.
 
 > # {.proof data-ref="lambdaturing-thm"}
-The "only if" direction is simple. As mentioned above, evaluating $\lambda$ expressions basically amounts to "search and replace". It is also a fairly straightforward programming exercise to implement all the above basic operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND<< as well, which we can then transform to a NAND++ program.
+We only sketch the proof. The "only if" direction is simple. As mentioned above, evaluating $\lambda$ expressions basically amounts to "search and replace". It is also a fairly straightforward programming exercise to implement all the above basic operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND<< as well, which we can then transform to a NAND++ program.
 >
 For the "if" direction, we start by showing that for every normal-form NAND++ program $P$, we can compute the next-step function $NEXT_P:\{0,1\}^* \rightarrow \{0,1\}^*$ using the above operations.
 It turns out not to be so hard.
@@ -294,7 +304,7 @@ A configuration of $P$ is a string of length $TB$ where $B$ is the (constant siz
 Extracting from this list the $B$ sized string corresponding to the block $\sigma^i$ where $\sigma^i_0=1$ can be done via a single $REDUCE$ operation.
 Using this we can tell if this is an operation where $i$ stays the same, increases, or decreases.
 If it stays the same then we can compute $NEXT_P$ via a $MAP$ operation, using the function that on input $C \in \{0,1\}^B$, keeps $C$ the same if $C_0=0$ and otherwise updates it to the value in its next step.
-If it increases, then we can update it by a $REDUCE$ operation, with the function that on input a block $C$ and a list $S$, we output $PAIR(C,L)$ unless $C_0=1$ in which case we output $PAIR(C',PAIR(C'',TAIL(S)))$ where $(C',C'')$ are the new values of the blocks $i$ and $i+1$.
+If it increases, then we can update it by a $REDUCE$ operation, with the function that on input a block $C$ and a list $S$, we output $PAIR(C,S)$ unless $C_0=1$ in which case we output $PAIR(C',PAIR(C'',TAIL(S)))$ where $(C',C'')$ are the new values of the blocks $i$ and $i+1$.
 The case for decreasing $i$ is analogous.
 >
 Once we have a $\lambda$ expression $\varphi$ for computing $NEXT_P$, we can compute the final expression by defining
@@ -353,8 +363,8 @@ This seems like a very serious hurdle: if we don't have loops, and don't have re
 The idea is to use the "self referential" properties of the $\lambda$ calculus.
 Since we are able to work with $\lambda$ expressions, we can possibly inside $REDUCE$ compute a $\lambda$ expression that amounts to running $REDUCE$ itself.
 This is very much like the common exercise of a program that prints its own code.
-For example, suppose that you have some programming language with an `eval` operation that given a string `code` and an input `x`, evaluates its own code.
-Then, if you have a program $P$ that can print its own code, you can use `eval` as an alternative to recursion: instead of using a recursive call, the program will compute its own code and store it in a variable `str` and then use `eval`.
+For example, suppose that you have some programming language with an `eval` operation that given a string `code` and an input `x`, evaluates `code` on `x`.
+Then, if you have a program $P$ that can print its own code, you can use `eval` as an alternative to recursion: instead of using a recursive call on some input `x`, the program will compute its own code,  store it in some string variable `str` and then use `eval(str,x)`.
 You might find this confusing.
 _I_ definitely find this confusing.
 But hopefully the following will make things a little more concrete.

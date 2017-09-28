@@ -176,6 +176,8 @@ When one wants to produce a device that executes programs, it is convenient  to 
 
 ![By having the two equivalent languages NAND++ and NAND<<, we can "have our cake and eat it too", using NAND++ when we want to prove that programs _can't_ do something, and using NAND<< or other high level languages when we want to prove that programs _can_ do something.](../figure/have_your_cake_and_eat_it_too-img-intro.png){#cakefig .class width=300px height=300px}
 
+
+
 > # {.remark title="Recursion in NAND<<" #recursion}
 One high level tool we can use in describing NAND<< programs is _recursion_. We can use the standard implementation of the _stack_ data structure. That is, we let   `stack` to be an array of integers `stack_0`, $\ldots$, `stack_`$\expr{k-1}$ and `stackpointer` will be the number $k$ of items in the stack. We implement `push(foo)` by doing `i := stackpointer` and `stack_i := foo` and `pop()` by letting `stackpointer := stackpointer - 1`. By encoding strings as integers, we can have allow strings in our stack as well. Now we can implement recursion using the stack just as is done in most programming languages. First of all, we note that using loops and conditionals, we can implement "goto" statements in NAND<<. Moreover, we can even implement "dynamic gotos", in the sense that we can set integer labels for certain lines of codes, and have a `goto foo` operation that moves execution to the line labeled by `foo`. Now, if we want to make a  call to a function $F$ with parameter `bar` then we will push into the stack the label of the next line and `bar`, and then make a `goto` to the code of $F$. That code will pop its parameter from the stack, do the computation of $F$, and when it needs to resume execution, will pop the label from the stack and `goto` there.
 
@@ -198,7 +200,7 @@ For example, we might describe the [breadth first search](https://en.wikipedia.o
 We call such a description a _high level description_.
 
 
-If we wanted to give more details on how to implement  breadth first search in a programming language such as Python or C (or NAND<</NAND++ for that matter), we would  describe how we implement the queue data structure using an array, and similarly how we would use arrays to implement the marking.
+If we wanted to give more details on how to implement  breadth first search in a programming language such as Python or C (or NAND<< /  NAND++ for that matter), we would  describe how we implement the queue data structure using an array, and similarly how we would use arrays to implement the marking.
 We call such a "intermediate level" description an _implementation level_ or _pseudocode_ description.
 Finally, if we want to describe the implementation precisely, we would give the full code of the program (or another fully precise representation, such as in the form of a list of tuples).
 We call this a _formal_ or _low level_ description.
@@ -227,7 +229,7 @@ What is crucial is that we can use such representation to evaluate any program.
 That is, we prove the following theorem:
 
 
-> # {.theorem title="Universality of NAND++" #univ-nandpp-noneff}
+> # {.theorem title="Universality of NAND++" #univnandppnoneff}
 There is a NAND++ program that computes the partial function $EVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ defined as follows:
 $$
 EVAL(P,x)=P(x)
@@ -244,7 +246,7 @@ Indeed, as we already alluded to before, NAND++ is powerful enough to simulate a
 
 ### Representing NAND++ programs as strings
 
-Before we can prove  [univ-nandpp-noneff](){.ref}, we need to make its statement precise by specifying a representation scheme for NAND++ programs.
+Before we can prove  [univnandppnoneff](){.ref}, we need to make its statement precise by specifying a representation scheme for NAND++ programs.
 As mentioned above,  simply representing the program as a string using ASCII or UTF-8 encoding  will work just fine, but we will use a somewhat more convenient and concrete representation, which is the natural generalization of the "list of triples" representation for NAND programs.
 We will assume that all variables are of the form `foo_##` where `foo` is an identifier and  `##` is some number or the index `i`.  If a variable `foo` does not have an index then we add the index zero to it.
 We represent an instruction of the form
@@ -347,7 +349,7 @@ while (true) {
 }
 ~~~~
 
-Since we can transform _every_ NAND<< program to a NAND++ one, we can also implement this interpreter in NAND++, hence completing the proof of [univ-nandpp-noneff](){.ref}.
+Since we can transform _every_ NAND<< program to a NAND++ one, we can also implement this interpreter in NAND++, hence completing the proof of [univnandppnoneff](){.ref}.
 
 
 

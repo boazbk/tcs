@@ -5,6 +5,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Michele Amoretti
 * Sam Benkelman
 * Jarosław Błasiok
+* Daniel Chiu
 * Chi-Ning Chou
 * Michael Colavita
 * Robert Darley Waddilove
