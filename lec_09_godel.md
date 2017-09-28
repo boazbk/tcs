@@ -356,4 +356,4 @@ Some topics related to this lecture that might be accessible to advanced student
 
 ## Acknowledgements
 
-Thanks to Alex Lombardi for pointing out  an embarrassing mistake in the description of Fermat's Last Theorem. (I  said that it was open for exponent 11 was before Wiles' work.)
+Thanks to Alex Lombardi for pointing out  an embarrassing mistake in the description of Fermat's Last Theorem. (I  said that it was open for exponent 11 before Wiles' work.)
