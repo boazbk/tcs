@@ -175,15 +175,27 @@ Then $HALTONZERO$ is uncomputable.
 
 > # { .pause }
 The proof of [haltonzero-thm](){.ref} is below, but before reading it you might want to pause for a couple of minutes and think how you would prove it yourself.
-This is an excellent way to get some initial comfort with the notion of proofs by _reduction_, which is a notion that will recur time and again in this course.
+In particular, try to think of what a reduction from $HALT$ to $HALTONZERO$ would look like.
+Doing so is an excellent way to get some initial comfort with the notion of proofs by _reduction_, which is a notion that will recur time and again in this course.
 
 
 > # {.proof data-ref="haltonzero-thm"}
-The proof is by reduction to $HALT$. Suppose, towards the sake of contradiction, that there was an algorithm $A$ such that $A(P')=HALTONZERO(P)$ for every $P'\in \{0,1\}^*$. Then, we will construct an algorithm $B$ that solves $HALT$.
-On input a program $P$ and some input $x$, the algorithm $B$ will construct a program $P'$ such that $P'(0)=P(x)$ for every $x$, and then feed this to $A$, returning $A(P')$. Constructing such a program is very simple: add $|x|$ lines in the beginning of $P'$ of the form `myx_`$\expr{i}$` := ` $\expr{x_i}$ for every $i < |x|$. Then add the program $P$, but change any reference to `x_`$\expr{i}$ to `myx_`$\expr{i}$.
-Clearly, regardless of its input, $P'$ always behaves like $P$ on input $x$.
+The proof is by reduction to $HALT$. Suppose, towards the sake of contradiction, that there was an algorithm $A$ such that $A(P')=HALTONZERO(P)$ for every $P'\in \{0,1\}^*$.
+Then, we will construct an algorithm $B$ that solves $HALT$.
+>
+On input a program $P$ and some input $x$, the algorithm $B$ will construct a program $P'$ such that $P'(0)=P(x)$  and then feed this to $A$, returning $A(P')$.
+We will describe this algorithm in terms of how one can use the input $x$ to modify the source code of $P$ to obtain the source code of the program $P'$.
+However, it is clearly possible to do these modification also on the level of the string representations of the programs $P$ and $P'$.
+>
+Constructing the program $P'$  is in fact rather simple.
+The algorithm $B$ will obtain $P'$ by modifying $P$ to  ignore its input and use $x$ instead.
+In particular, for $n=|x|$, the program $P'$ will have have variables `myx_0`,$\ldots$,`my_`$\expr{n-1}$ that are set to the constants `zero` or `one` based on the value of $x$.
+That is, it will contain lines of the form `myx_`$\expr{i}$` := ` $\expr{x_i}$ for every $i < n$.
+Similarly, $P'$ will have  variables `myvalidx_0`,$\ldots$,`myvalidx_`$\expr{n-1}$ that are all set to `one`.
+Algorithm $B$ will include in the program $P'$ a copy of  $P$ modified to change any reference to `x_`$\expr{i}$ to `myx_`$\expr{i}$ and any reference to `validx_`$\expr{i}$ to `myvalidx_`$\expr{i}$.
+Clearly, regardless of its input, $P'$ always emulates the behavior of  $P$ on input $x$.
 In particular $P'$ will halt on the input $0$ if and only if $P$ halts on the input $x$.
-Thus if $A(P')=HALTONZERO(P')$ for every $P'$ then $B(P,x)=HALT(P,x)$ for every $P,x$, contradicting the uncomputability of $HALT$.
+Thus if the hypothetical algorithm $A$ satisfies $A(P')=HALTONZERO(P')$ for every $P'$ then the algorithm $B$ we construct satisfies $B(P,x)=HALT(P,x)$ for every $P,x$, contradicting the uncomputability of $HALT$.
 
 
 Once we show the uncomputability of $HALTONZERO$ we can extend to various other natural functions:

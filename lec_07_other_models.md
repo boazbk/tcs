@@ -10,7 +10,8 @@
 >_"Computing is normally done by writing certain symbols on paper. We may suppose that this paper is divided into squares like a child's arithmetic book.. The behavior of the \[human\] computer at any moment is determined by the symbols which he is observing, and of his 'state of mind' at that moment... We may suppose that in a simple operation not more than one symbol is altered."_, \
 >_"We compare a man in the process of computing ... to a machine which is only capable of a finite number of configurations... The machine is supplied with a 'tape' (the analogue of paper) ... divided into sections (called 'squares') each capable of bearing a 'symbol' "_, Alan Turing, 1936
 
->_" What is the difference between a Turing machine and the modern computer? It's the same as that between Hillary's ascent of Everest and the establishment of a Hilton hotel on its peak."_, Alan Perlis, 1982.
+
+>_"What is the difference between a Turing machine and the modern computer? It's the same as that between Hillary's ascent of Everest and the establishment of a Hilton hotel on its peak."_ , Alan Perlis, 1982.
 
 We have defined the notion of computing a  function based on the rather esoteric NAND++ programming language.
 In this lecture we justify this choice by showing that the definition of computable functions will remain the same under a wide variety of computational models.
@@ -133,7 +134,7 @@ By [simpleNANDthm](){.ref} we can assume without loss of generality that $P$ is 
 To show that $F$ is computable by a Turing machine, it is enough to show give a Turing machine $M$ that computes the _next step function_ $NEXT_P$ of $P$.
 This is because we can then construct a Turing machine $M'$ that repeatedly invokes $M$ until it reaches a configuration in which `halt` is set to true.
 But because the next-step function of a NAND++ program is quite simple, it is not hard to show that it is computable by a Turing machine.
-Specifically, recall that a _configuration_ of a $t$-line simple program $P$ is a string $\sigma \in \{0,1\}^*$ that can be thought of as composed of a sequence of  blocks each of length $B$ which is a constant depending on $t$.
+Specifically, recall that a _configuration_ of a $t$-line simple program $P$ is a string $\sigma \in \{0,1\}^*$ that can be thought of as composed of a sequence of  blocks each of length $B$ which is a constant  independent of the input length.^[This constant does depend on the number of lines in the program. Concretely, each block of the configuration will be of length $\Theta(t)$ bits.]
 The crucial point is that while the _number_ of blocks  increases as the computation evolves, the _size_ of each block  is a constant independent of the input length.
 The next step function of $P$ can be computed on input $\sigma$ by doing the following:
 
@@ -143,7 +144,8 @@ The next step function of $P$ can be computed on input $\sigma$ by doing the fol
 
 3. Based on the content of these $t+1$ blocks, decide how to update the active block, and (based on the content of the variable `indexincreasing`, which is encoded in these blocks) decide if the next active block will be $i+1$ or $i-1$.
 
-These three steps can be easily done by a Turing machine that has $2^{O(t^2)}$ states and hence can store all the contents of these $t+1$ blocks in its memory, and compute an arbitrary function based on these contents.
+Since $t$ is a constant independent of the input length, and each block has constant size, these three steps can be easily done by a Turing machine that has a constant number of states.
+The machine will store all the contents of these $t+1$ blocks in its memory, and so can compute an arbitrary function based on these contents.
 Writing down the full description of $M$ from the above "pseudocode" is  straightforward, even if somewhat painful, exercise, and hence this completes the proof of [TM-equiv-thm](){.ref}.
 
 
@@ -257,9 +259,9 @@ __Functions as first-class citizens.__
 The key property of the $\lambda$ calculus (and functional languages in general) is that functions are "first-class citizens" in the sense that they can be used as parameters and return values of other functions.
 Thus, we can invoke one $\lambda$ expression on another.
 For example if  $DOUBLE$ is the $\lambda$ expression $\lambda f.(\lambda x. f(fx))$, then for every function $f$, $DOUBLE f$ corresponds to the function that invokes $f$ twice on $x$ (i.e., first computes $fx$ and then invokes $f$ on the result).
-In particular, if  $f=\lambda y.y+1$ then  $DOUBLE f = \lambda x.x+2$.
+In particular, if  $f=\lambda y.(y+1)$ then  $DOUBLE f = \lambda x.(x+2)$.
 
-__(Lack of) types.__ Unlike most programming languages out there, the pure $\lambda$-calculus doesn't have the notion of _types_.
+__(Lack of) types.__ Unlike most programming languages, the pure $\lambda$-calculus doesn't have the notion of _types_.
 Every object in the $\lambda$ calculus can also be thought of as a $\lambda$ expression and hence as a function that takes  one input and returns one output.
 All functions take one input and return one output, and if you feed a function an input of a form  it didn't expect, it still evaluates the $\lambda$ expression  via "search and replace", replacing all instances of its parameter with copies of the input expression you fed it.
 
@@ -277,7 +279,7 @@ To calculate, it seems we need some basic objects such as $0$ and $1$, and so we
 * __List operations:__ The functions $MAP,REDUCE,FILTER$. Given a list $L=(x_0,\ldots,x_{n-1})$ and a function $f$, $MAP(L,f)$ applies $f$ on every member of the list to obtain $L=(f(x_0),\ldots,f(x_{n-1}))$.
 The function $FILTER(L,f)$ returns the list of $x_i$'s such that $f(x_i)=1$, and $REDUCE(L,f)$ "combines" the list by  outputting
 $$
-f(x_0,f(x_1,\cdots f(x_{n-3},f(x_{n-2},x_{n-1}))\cdots)
+f(x_0,f(x_1,\cdots f(x_{n-3},f(x_{n-2},f(x_{n-1},NIL))\cdots)
 $$
 For example $REDUCE(L,+)$ would output the sum of all the elements of the list $L$.
 See [reduceetalfig](){.ref} for an illustration of these three operations.
@@ -309,8 +311,8 @@ The case for decreasing $i$ is analogous.
 >
 Once we have a $\lambda$ expression $\varphi$ for computing $NEXT_P$, we can compute the final expression by defining
 $$APPLY = \lambda f,\sigma. IF(HALT \sigma,\sigma,f f \varphi \sigma)$$
-now for every configuration $\sigma_0$, $APPLY APPLY \sigma$ is the final configuration $\sigma_t$ obtained after running the next-step function continuosly.
-Indeed, note that if $\sigma_0$ is not halting, then $APPLY APPLY \sigma$ outputs $APPLY APPLY \varphi \sigma_0$ which (since $\varphi$ computes the $NEXT_P$) function is the same as $APPLY APPLY \sigma_1$. By the same reasoning we see that we will eventually get $APPLY APPLY \sigma_t$ where $\sigma_t$ is the halting configuration, but in this case we will get simply the output $\sigma_t$.^[If this looks like recursion then this is not accidental- this is a special case of a general technique for simulating recursive functions in the $\lambda$ calculus. See the discussion on the $Y$ combinator below.]
+now for every configuration $\sigma_0$, $APPLY\; APPLY \sigma$ is the final configuration $\sigma_t$ obtained after running the next-step function continuosly.
+Indeed, note that if $\sigma_0$ is not halting, then $APPLY\; APPLY \sigma_0$ outputs $APPLY\; APPLY \varphi \sigma_0$ which (since $\varphi$ computes the $NEXT_P$) function is the same as $APPLY \;  APPLY \sigma_1$. By the same reasoning we see that we will eventually get $APPLY\;  APPLY \sigma_t$ where $\sigma_t$ is the halting configuration, but in this case we will get simply the output $\sigma_t$.^[If this looks like recursion then this is not accidental- this is a special case of a general technique for simulating recursive functions in the $\lambda$ calculus. See the discussion on the $Y$ combinator below.]
 
 ### How basic is "basic"?
 
@@ -335,7 +337,7 @@ We now outline how this can be done:
 
 * We define $0$ to be the function that on two inputs $x,y$ outputs $y$, and $1$ to be the function that on two inputs $x,y$ outputs $x$. Of course we use Currying to achieve the effect of two inputs and hence $0 = \lambda x. \lambda y.y$ and $1 = \lambda x.\lambda y.x$.^[We could of course have flipped the definitions of $0$ and $1$, but we use the above because it is the common convention in the $\lambda$ calculus, where people think of $0$ and $1$ as "false" and "true".]
 
-* The above implementation makes the $IF$ function trivial: $IF(cond,a,b)$ is simply $cond,a,b$ since $0ab = b$ and $1ab = a$. (We can write $IF = \lambda x.x$ to achieve $IF cond a b = cond a b$.)
+* The above implementation makes the $IF$ function trivial: $IF(cond,a,b)$ is simply $cond \; a\; b$ since $0ab = b$ and $1ab = a$. (We can write $IF = \lambda x.x$ to achieve $IF \; cond \; a \; b = cond \; a \; b$.)
 
 * To encode a pair $(x,y)$ we will produce a function $f_{x,y}$ that has $x$ and $y$ "in its belly" and such that $f_{x,y}g = g x y$ for every function $g$. That is, we write $PAIR = \lambda x,y. \lambda g. gxy$. Note that now we can extract the first element of a pair $p$ by writing $p1$ and the second element by writing $p0$, and so $HEAD = \lambda p. p1$ and $TAIL = \lambda p. p0$.
 
