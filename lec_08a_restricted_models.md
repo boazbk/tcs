@@ -34,8 +34,8 @@ But it also gives rise to some nasty surprises, such as the attacks described in
 
 An interesting recent example of the pitfalls of Turing-completeness arose in the context of the cryptocurrency [Ethereum](https://www.ethereum.org/).
 The distinguishing feature of this currency is the ability to design "smart contract" using an expressive (and in particular Turing-complete) language.  
-Whereas in our "human operated" economy, Alice and Bob might pool their funds together sign a contract to create a joint venture and agree that if condition X happens then they will invest in Charlie's company, Ethereum allows Alice and Bob to create a joint venture where Alice and Bob pool their funds together into an account that will be governed by some program $P$ that would decide under what conditions it disburses funds from it.
-For example, one could imagine some code that interacts between Alice, Bob, and some program running on Bob's car that would allow Alice to rent out Bob's car without any human intervention or overhead.
+In our current "human operated" economy, Alice and Bob might  sign a contract to  agree that if condition X happens then they will jointly invest in Charlie's company. Ethereum allows Alice and Bob to create a joint venture where Alice and Bob pool their funds together into an account that will be governed by some program $P$ that  decides under what conditions it disburses funds from it.
+For example, one could imagine a piece of code that interacts between Alice, Bob, and some program running on Bob's car that allows Alice to rent out Bob's car without any human intervention or overhead.
 
 
 Specifically Ethereum uses the Turing-complete programming  [solidity](https://solidity.readthedocs.io/en/develop/index.html) which has a syntax similar to Javascript.

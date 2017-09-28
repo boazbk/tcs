@@ -48,7 +48,7 @@ Indeed, as we will see much later in this course, a very exciting recent line of
 A _transistor_ can be thought of as an electric circuit with two inputs, known as _source_ and _gate_ and an output, known as the _sink_.
 The gate controls whether current flows from the source to the sink.
 In a _standard transistor_, if the gate is "ON" then current can flow from the source to the sink and if it is "OFF" then it can't.
-In a _complimentary transistor_ this is reversed: if the gate is "OFF" then current can flow from the source to the sink and if it is "ON" then it can't.  
+In a _complementary transistor_ this is reversed: if the gate is "OFF" then current can flow from the source to the sink and if it is "ON" then it can't.  
 
 ![We can implement the logic of transistors using water. The water pressure from the gate closes or opens a faucet between the source and the sink.](../figure/transistor_water.png){#transistor-water-fig .class width=300px height=300px}
 
@@ -125,10 +125,12 @@ Let $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and let $C=(V,E,L)$ be a NAND circuit wi
 We say that _$C$ computes $F$_ if there is a map $Z:V \rightarrow \{0,1\}$, such that for every $x\in \{0,1\}^n$, if $y=F(x)$ then: \
 * For every $i\in [n]$, if $v$ is labeled with `x_`$\expr{i}$ then $Z(v)=x_i$. \
 * For every $j\in[m]$, if $v$ is labeled with `y_`$\expr{j}$ then $Z(v)=y_j$. \
-* For every gate $v$ with in-neighbors $u,w$, if $a=Z(u)$ and $b=Z(w)$, $Z(v)=NAND(a,b)$. (If $v$ has fewer than two neighbors then we replace either $b$ or both $a$ and $b$ with zero in the condition above.)
+* For every gate $v$ with in-neighbors $u,w$, if $a=Z(u)$ and $b=Z(w)$, then $Z(v)=NAND(a,b)$. (If $v$ has fewer than two neighbors then we replace either $b$ or both $a$ and $b$ with zero in the condition above.)
 
 > # { .pause }
 You should make sure you understand _why_ [NANDcirccomputedef](){.ref} captures the informal description above. This might require reading the definition a second or third time, but would be crucial for the rest of this course.
+Moreover, a priori it is not clear that for every circuit $C$ and assignment $x$ there is a map $Z:V \rightarrow \{0,1\}$ that satisfies the conditions of [NANDcirccomputedef](){.ref}.
+However, this follows from [circuitprogequivthm](){.ref}
 
 The following theorem says that these two notions of computing a function are actually equivalent: we can transform a NAND program into a NAND circuit computing the same function, and vice versa.
 
@@ -169,7 +171,7 @@ Thus the circuit $C$ does compute the same function $F$.
 For the "if" direction, we need to transform an $s$-gate circuit $C=(V,E,L)$ that computes $F:\{0,1\}^n \rightarrow \{0,1\}^m$ into an $S$-line NAND program $P$ that computes the same function.
 We start by doing a [topological sort](https://en.wikipedia.org/wiki/Topological_sorting) of the graph $C$.
 That is we sort the vertex set $V$ as $\{v_0,\ldots,v_{n+S-1} \}$ such that  $\overrightarrow{v_i v_j} \in E$, $v_i < v_j$.
-Such a sorting can be found for every DAG.
+Such a sorting can be found for every DAG (see also [topologicalsortex](){.ref}).
 Moreover, because the input vertices of $C$ are "sources" (have in-degree zero), we can ensure they are placed first in this sorting and moreover for every $i\in [n]$, $v_i$ is the input vertex labeled with `x_`$\expr{i}$.
 >
 Now for $\ell=0,1,\ldots,n+s-1$ we will define a variable  $var(\ell)$  in our resulting program as follows:
@@ -179,7 +181,7 @@ otherwise  $var(\ell)$ will be a temporary workspace variable `temp_`$\expr{\ell
 Our program $P$ will have $s$ lines, where for every $k\in [s]$, if the in-neighbors of $v_{n+k}$ are $v_i$ and $v_j$ then the $k$-th line in the program will be $var(n+k)$ ` := ` $var(i)$ ` NAND ` $var(j)$.
 If $v_k$ has fewer  than two in-neighbors then we replace the corresponding variable with the variable `zero` (which is never set to any value and hence retains its default value of $0$.
 >
-To complete the proof of the "if" direction we need to show that the program $P$ we constructed computes the function $F$ as the circuit $C$ we were given.
+To complete the proof of the "if" direction we need to show that the program $P$ we constructed computes the same function $F$ as the circuit $C$ we were given.
 Indeed, let $x\in \{0,1\}^n$ and $y=F(x)$.
 Since $C$ computes $F$, there is a map $Z:V \rightarrow \{0,1\}$ as per  [NANDcirccomputedef](){.ref}.
 We claim that if we run the program $P$ on input $x$, then for every $k\in [s]$ the value assigned by the $k$-th line corresponds to $Z(v_{n+k})$.
@@ -240,7 +242,7 @@ The last $m$ vertices $\{ n+s-m,\ldots, n+s-1 \}$ have out-degree zero and are k
 We denote the circuit  as $C=([n+s],E,L)$ where $[n+s],E$ are the vertices and edges of the circuit, and $L:\{n,\ldots,n+s-1\} \rightarrow B$ is the  labeling function that maps vertices into the set $B$.
 
 > # { .pause }
-To make sure you understand this definition, stop and think how a Boolean circuits with AND, OR, and NOT gates corresponds to a $B$-circuit per [circuits-def](){.ref}, where $B= \{ AND, OR, NOT \}$ and $AND:\{0,1\}^2 \rightarrow \{0,1\}$ is the function $AND(a,b)=a \cdot b$, $OR(a,b) \rightarrow \{0,1\}$ is the function $OR(a,b) = 1-(1-a)(1-b)$ and $NOT:\{0,1\} \rightarrow \{0,1\}$ is the function $NOT(a)=1-a$.
+To make sure you understand this definition, stop and think how a Boolean circuits with AND, OR, and NOT gates corresponds to a $B$-circuit per [circuits-def](){.ref}, where $B= \{ AND, OR, NOT \}$ and $AND:\{0,1\}^2 \rightarrow \{0,1\}$ is the function $AND(a,b)=a \cdot b$, $OR(a,b) \rightarrow \{0,1\}$ is the function $OR(a,b) = 1-(1-a)(1-b)$ and $NOT:\{0,1\} \rightarrow \{0,1\}$ is the function $NOT(a)=1-a$.^[Another commonly used  notation $x \wedge y$ for $AND(x,y)$, $x \vee y$ for $OR(x,y)$ and $\overline{x}$ or $\neg x$ for $NOT(x)$.]
 
 
 The _size_ of a circuit $C$, denoted by $|C|$, is the number of gates that it contains.
@@ -265,15 +267,15 @@ We say that the circuit $C$ _computes the function $F$_ if for every $x\in \{0,1
 We have seen in [NAND-univ-thm](){.ref} that  _every_ function $f:\{0,1\}^k \rightarrow \{0,1\}$ has a NAND program with at most $10\cdot 2^k$ lines, and hence [NAND-circ-thm](){.ref} implies the following theorem (see [NAND-all-circ-thm-ex](){.ref}):^[The bound  that comes out of the proof of [NAND-univ-thm](){.ref} is $5\cdot 2^k$ and in fact can be easily optimized further. As $k$ grows, we can also use the bound of $O(2^k/k)$ mentioned in [tight-upper-bound](){.ref}.]
 
 > # {.theorem title="NAND programs simulate all circuits" #NAND-all-circ-thm}
-For every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $B$ a subset of the functions from $\{0,1\}^k$ to $\{0,1\}$, if we let $S(f)$ denote the smallest number of lines in a NAND program that computes $F$ and $S_B(f)$ denote the smallest number of vertices in a Boolean circuit with the basis $B$, then
+For every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $B$ a subset of the functions from $\{0,1\}^k$ to $\{0,1\}$, if we let $S_{NAND}(f)$ denote the smallest number of lines in a NAND program that computes $F$ and $S_B(f)$ denote the smallest number of vertices in a Boolean circuit with the basis $B$, then
 $$
-S(f) \leq (10\cdot 2^k)S_B(f)
+S_{NAND}(f) \leq (10\cdot 2^k)S_B(f)
 $$
 
 One can ask whether there is an equivalence here as well.
 However, this is not the case.
 For example if the set $B$ only consists of constant functions, then clearly a circuit whose gates are in $B$ cannot compute any non-constant function.
-A slightly less boring example is if $B$ is the $\wedge$ (i.e. AND) function (as opposed to the $NAND$ function).
+A slightly less boring example is if $B$ consists of  the $\wedge$ (i.e. AND) function (as opposed to the $NAND$ function).
 One can show that such a circuit will always output $0$ on the all zero inputs, and hence it  can never compute the simple negation function $\neg:\{0,1\} \rightarrow \{0,1\}$ such that $\neg(x)=1-x$.
 
 We say that a subset $B$ of functions from $k$ bits to a single bit is a _universal basis_ if there is a "$B$-circuit" (i.e., circuit all whose gates are labeled with functions in $B$) that computes the $NAND$ function.
@@ -297,7 +299,7 @@ The function $NAND:\{0,1\}^2 \rightarrow \{0,1\}$  is the threshold function cor
 Threshold gates can be thought of as an approximation for    _neuron cells_ that make up the core of human and animal brains. To a first approximation, a neuron has $k$ inputs and a single output and the neurons  "fires" or "turns on" its output when those signals pass some threshold.^[Typically we think of an input to neurons as being a real number rather than a binary string, but  we can reduce to the binary case by  representing a real number in the binary basis, and multiplying the weight of the bit corresponding to the $i^{th}$ digit by $2^i$.]
 Hence circuits with threshold gates are sometimes known as _neural networks_.
 Unlike the cases above, when we considered $k$ to be a small constant, in such  neural networks we often do not put any bound on the number of inputs.
-However, since any threshold function can be computed by a NAND program of $poly(k)$  lines (see [threshold-nand-ex](){.ref}), the  power of NAND programs and neural networks is not much different.
+However, since any threshold function on $k$ inputs can be computed by a NAND program of $poly(k)$  lines (see [threshold-nand-ex](){.ref}), the  power of NAND programs and neural networks is not very different.
 
 
 
@@ -322,7 +324,7 @@ As we will discuss later, cellular automata such as Conway's "Game of Life" can 
 ## Circuit evaluation algorithm
 
 A Boolean circuit is a labeled graph, and hence we can use the _adjacency list_ representation to represent an $s$-vertex circuit over an arity-$k$ basis $B$ by $s$ elements of $B$ (that can be identified with numbers in $[|B|]$) and $s$ lists of $k$ numbers in $[s]$.
-Hence we can represent such a circuit by a string of length $O(s\log |B| + s \log s)$.
+Hence for every fixed basis $B$ we can represent such a circuit by a string of length $O(s \log s)$.^[The implicit constant in the $O$ notation can depend on the basis $B$.]
 We can define  $CIRCEVAL_{B,s,n,m}$ to be the function  that takes as input a pair $(C,x)$ where $C$ is string describing an $s$-size  $n$-input $m$-output circuit over $B$, and an input $x\in \{0,1\}^n$, and returns the evaluation of $C$ on the input $x$.
 
 [NAND-all-circ-thm](){.ref} implies that every circuit $C$ of $s$ gates over a $k$-ary basis $B$ can be transformed into a NAND program of $s'=O(s\cdot 2^k)$ lines, and hence we can combine this transformation with last lecture's evaluation procedure for NAND programs to conclude that $CIRCEVAL$ for circuits of $s$ gates over $B$ can be computed by a NAND program of $O(s'^2 \log s)= O(s^2 2^{2k}(\log s + k))$ lines.^[In fact, as we mentioned, it is possible to improve this to $O(s' \log^2 s')=O(s2^k(\log s + k)^2)$ lines.]
@@ -330,7 +332,7 @@ We can define  $CIRCEVAL_{B,s,n,m}$ to be the function  that takes as input a pa
 
 ### Advanced note: evaluating circuits in quasilinear time.
 
-We can improve the evaluation procedure, and evaluate $s$-size constant arity circuits (or NAND programs) in time $O(s polylog(s))$.^[TODO: add details here, use the notion of oblivious routing to embed any graph in a universal graph.]
+We can improve the evaluation procedure, and evaluate $s$-size constant fan-in circuits (or NAND programs) in  $O(s polylog(s))$ lines.^[TODO: add details here, use the notion of oblivious routing to embed any graph in a universal graph.]
 
 
 
@@ -350,12 +352,16 @@ In the context of finite functions, we can make the following informal hypothesi
 >_If a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed in the physical world using $s$ amount of "physical resources" then it can be computed by a NAND program of roughly $s$ lines._
 
 We call this hypothesis the **"Physical Extended Church-Turing Thesis"** or _PECTT_ for short.
+A priori it might seem rather extreme to hypothesize that our meager NAND model captures all possible physical computation.
+But yet, in more than a century of computing technologies, no one has yet built any  scalable computing device that challenges this hypothesis.
+
+We now  discuss  the "fine print" of the PECTT in more detail, as well as the (so far unsuccessful) challenges that have been raised against it.
+There is no single universally-agreed-upon formalization of "roughly $s$ physical resources",  but
+we can approximate this notion by considering the size of any  physical computing device and the time it takes to compute the output, and ask that  any such device can be simulated by a NAND program with a number of lines that is a polynomial (with not too large exponent) in the size of the system and the time it takes it to operate.
 
 
-There is no single universally-agreed-upon formalization of "$s$ physical resources",  but
-we can approximate this notion by considering the size of any  physical computing device and the time it takes to compute the output.
-That is we can stipulate that any function that can be computed by a device of volume $V$ and time $t$, must be computable by a NAND program that has at most $\alpha(Vt)^\beta$ lines for some constants $\alpha,\beta$.
-The exact values for $\alpha,\beta$ are not so clear, but it is generally accepted that if $F:\{0,1\}^n \rightarrow \{0,1\}$ is an exponentially hard function, in the sense that it has no NAND program of fewer than, say, $2^{n/2}$ lines, then a demonstration of a physical device that can compute $F$ for moderate input lengths (e.g., $n=500$) would be a violation of the PECTT.
+In other words, we can phrase the PECTT as stipulating that any function that can be computed by a device of volume $V$ and time $t$, must be computable by a NAND program that has at most $\alpha(Vt)^\beta$ lines for some constants $\alpha,\beta$.
+The exact values for $\alpha,\beta$ are not so clear, but it is generally accepted that if $F:\{0,1\}^n \rightarrow \{0,1\}$ is an _exponentially hard_ function, in the sense that it has no NAND program of fewer than, say, $2^{n/2}$ lines, then a demonstration of a physical device that can compute $F$ for moderate input lengths (e.g., $n=500$) would be a violation of the PECTT.
 
 >__Advanced note: making things concrete:__
 We can attempt at a more exact phrasing of the PECTT as follows.
@@ -376,8 +382,8 @@ This suggests that it is possible to _empirically falsify_ the PECTT by presenti
 ### Attempts at refuting  the PECTT
 
 One of the admirable traits of mankind is the refusal to accept limitations.
-In the best case this is manifested by people achieving longstanding "impossible" challenges such as heavier-than-air flight, putting a person on the moon, circumnavigating the globe, or even resolving Fermat's Last Theorem.
-In the worst-case it is manifested by people continually following the footsteps of previous failures to try to do proven-impossible tasks such as build a perpetual motion machine, trisect an angle with a compass and straightedge, or refute Bell's inequality.
+In the best case this is manifested by people achieving longstanding "impossible" challenges such as heavier-than-air flight, putting a person on the moon, circumnavigating the globe, or even resolving [Fermat's Last Theorem](https://en.wikipedia.org/wiki/Fermat%27s_Last_Theorem).
+In the worst case it is manifested by people continually following the footsteps of previous failures to try to do proven-impossible tasks such as build a [perpetual motion machine](https://en.wikipedia.org/wiki/Perpetual_motion), [trisect an angle](https://en.wikipedia.org/wiki/Angle_trisection) with a compass and straightedge, or refute [Bell's inequality](https://en.wikipedia.org/wiki/Bell%27s_theorem).
 The Physical Extended Church Turing thesis (in its various forms) has attracted both types of people.
 Here are some physical devices that have been speculated to  achieve computational tasks that cannot be done by not-too-large  NAND programs:
 
@@ -390,7 +396,7 @@ The problem with this device of course is that nature, just like people, often g
 
 ![Scott Aaronson [tests](http://www.scottaaronson.com/blog/?p=266) a candidate device for computing Steiner trees using soap bubbles.](../figure/aaronsonsoapbubble.jpg){#aaronsonsoapfig .class width=300px height=300px}
 
-* **DNA computing.** People have suggested using the properties of DNA to do hard computational problems. The main advantage of DNA is the ability to potentially encode a lot of information in relatively small physical space, as well as operate on this information in a highly parallel manner. At the time of this writing, it was [demonstrated](http://science.sciencemag.org/content/337/6102/1628.full) that one can use DNA to store about $10^{16}$ bits of information in a region of radius about milimiter, as opposed to about $10^{10}$ bits with the best known hard disk technology. This does not posit a real challenge to the PECTT but does suggest that one should be conservative about the choice of constant and not assume that current hard disk + silicon technologies are the absolute best possible.^[We were extremely conservative in the suggested parameters for the PECTT, having assumed that as many as $\ell_P^{-2}10^{-6} \sim 10^{61}$ bits could potentially be stored in a milimeter radius region.]
+* **DNA computing.** People have suggested using the properties of DNA to do hard computational problems. The main advantage of DNA is the ability to potentially encode a lot of information in relatively small physical space, as well as compute on this information in a highly parallel manner. At the time of this writing, it was [demonstrated](http://science.sciencemag.org/content/337/6102/1628.full) that one can use DNA to store about $10^{16}$ bits of information in a region of radius about milimiter, as opposed to about $10^{10}$ bits with the best known hard disk technology. This does not posit a real challenge to the PECTT but does suggest that one should be conservative about the choice of constant and not assume that current hard disk + silicon technologies are the absolute best possible.^[We were extremely conservative in the suggested parameters for the PECTT, having assumed that as many as $\ell_P^{-2}10^{-6} \sim 10^{61}$ bits could potentially be stored in a milimeter radius region.]
 
 * **Continuous/real computers.** The physical world is often described using continuous quantities such as time and space, and people have suggested that analog devices might have direct access to computing with real-valued quantities and would be inherently more powerful than discrete models such as NAND machines.
 Whether the "true" physical world is continuous or discrete is an open question.
@@ -410,6 +416,7 @@ Much of the recent efforts in artificial intelligence research is focused on fin
 * **Quantum computation.** The most compelling attack on the Physical Extended Church Turing Thesis comes from the notion of _quantum computing_.
 The idea was initiated by the observation that systems with strong quantum effects are very hard to simulate on a computer.
 Turning this observation on its head, people have proposed using such systems to perform computations that we do not know how to do otherwise.
+At the time of this writing, Scalable quantum computers have not yet been built, but it is a fascinating possibility, and one that does not seem to contradict any known law of nature.
 We will discuss quantum computing in much more detail later in this course.
 Modeling it will  essentially involve extending the NAND programming language to the "QNAND" programming language that has one more (very special) operation.
 However, the main take away is that while quantum computing does suggest we need to amend the PECTT, it does _not_ require a complete revision of our worldview. Indeed, almost all of the content of this course remains the same whether the underlying computational model is the "classical" model of NAND programs or the quantum model of QNAND programs (also known as _quantum circuits_).

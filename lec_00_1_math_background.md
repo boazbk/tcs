@@ -830,6 +830,7 @@ The main points where we diverge are:
 
 * Like most Computer Science texts, we default to the logarithm in base two. Thus, $\log n$ is the same as $\log_2 n$.
 
+* We will also use the notation $f(n)=poly(n)$ as a short hand for $f(n)=n^{O(1)}$ (i.e., as shorthand for saying that there is some constants $a,b$ such that $f(n) \leq a\cdot n^b$ for every sufficiently large $n$). Similarly, we will use $f(n)=polylog(n)$ as shorthand for $f(n)=poly(\log n)$ (i.e., as shorthand for saying that there are some constant $a,b$ such that $f(n) \leq a\cdot (\log n)^b$ for every sufficiently large $n$).
 
 
 ## Exercises
@@ -876,6 +877,10 @@ d. $F(n)=n$, $G(n)=2^{\sqrt{\log n}}$
 
 > # {.exercise}
 Give an example of a pair of functions $F,G:\N \rightarrow \N$ such that neither $F=O(G)$ nor $G=O(F)$ holds.
+
+
+> # {.exercise title="Topological sort" #topologicalsortex}
+Prove that for every directed acyclic graph (DAG) $G=(V,E)$, there exists a map $f:V \rightarrow \N$ such that $f(u)<f(v)$ for every edge $\overrightarrow{u \; v}$ in the graph.^[Hint: Use induction on the number of vertices. You might want to first prove the claim that every DAG contains a _sink_: a vertex without an outgoing edge.]
 
 ## Bibliographical notes
 

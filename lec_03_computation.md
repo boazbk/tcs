@@ -220,7 +220,7 @@ A _NAND program_ is a 4-tuple $P=(V,X,Y,L)$ of the following form:
 >
 * $Y$ (called the _output variables_) is a tuple of elements in $V$, i.e., $Y=(Y_0,\ldots,Y_{m-1})$ for some $m\in \N$   where $Y_j \in V$ for all $j \in [m]$.  We require that the elements of $Y$ are distinct (i.e.,  $Y_i \neq Y_j$ for all $i\neq j$ in $[m]$) and that they are disjoint from $X$ (i.e., $Y_i \neq X_j$ for every $i\in [n]$ and $j\in [m]$).
 >
-* $L$ (called the _lines_) is a tuple of _triples_ of $V$, i.e., $L \in (V \times V \times V)^*$. Intuitively, if the $\ell$-the element of $L$ is a triple $(u,v,w)$ then this corresponds to the $\ell$-th line of the program being $u$ ` := ` $v$ ` NAND ` $w$. We require that for every triple $(u,v,w)$, $u$ does not appear in $X$ and $v,w$ do not appear in $Y$. Moreover, we require that for every   $v\in V$ (i.e., a member of $V$ that is not equal to $X_i$ for some $i$), $v$ is contained in some  triple in $L$.
+* $L$ (called the _lines_) is a tuple of _triples_ of $V$, i.e., $L \in (V \times V \times V)^*$. Intuitively, if the $\ell$-th element of $L$ is a triple $(u,v,w)$ then this corresponds to the $\ell$-th line of the program being $u$ ` := ` $v$ ` NAND ` $w$. We require that for every triple $(u,v,w)$, $u$ does not appear in $X$ and $v,w$ do not appear in $Y$. Moreover, we require that for every   $v\in V$ (i.e., a member of $V$ that is not equal to $X_i$ for some $i$), $v$ is contained in some  triple in $L$.
 >
 The _number of inputs_ of $P=(V,X,Y,Z)$ is equal to $|X|$ and the _number of outputs_ is equal to $|Y|$.
 
@@ -256,7 +256,7 @@ But since we have the freedom of choosing arbitrary sets for our variables, we c
 ### Computing a function: formal definition
 
 Now that we defined NAND programs formally, we turn to formally defining  the notion of computing a function.
-Before we do that, we will need to talk about the notion of the _configuration_ or  "snapshot" of a NAND program.
+Before we do that, we will need to talk about the notion of the _configuration_ of a NAND program.
 Such a configuration simply corresponds to the  current line that is executed and the current values of all variables at a certain point in the execution.
 Thus we will model it as a pair $(\ell,\sigma)$ where $\ell$ is a number between $0$ and the total number of lines in the program, and $\sigma$ maps every variable to its current value.^[The number $\ell$ can be thought of as the "program counter" and refers to the line that is just about to be executed, when we number the lines from $0$ till $s-1$ for some $s\in \N$. The program counter starts at $0$, and after executing the last line (i.e., line number $s-1$), it equals $s$.]
 The initial configuration has the form $(0,\sigma_0)$ where $0$ corresponds to the first line, and $\sigma_0$ is the assignment of zeroes to all variables and $x_i$'s to the input variables.

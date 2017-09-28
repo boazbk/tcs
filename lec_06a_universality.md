@@ -103,7 +103,7 @@ In this loop we will do the following: __(1)__ If `foo` encodes $0$ then set `ba
 
 __Step 4: Maintaining a program counter and index.__ The NAND++ program $P'$ will simulate execution of the NAND<< program $P$. Every step of $P$ will be simulated by several steps of $P'$. We can use the above operations to maintain a variable `progcounter` and `index` that will encode the current step of $P$ that is being executed and the current value of the special index variable `i` in the simulated program $P$ (which does not have to be the same as the value of `i` in the NAND++ program $P'$).
 
-__Step 5: Embedding two dimensional arrays into one dimension.__ If `foo` and `bar`  the encode the natural numbers $x,y \in \N$, then we can use NAND++ to compute the map $PAIR:\N^2 \rightarrow \N$ where $PAIR(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+y$. In [pair-ex](){.ref} we ask you to verify that $PAIR$ is a one-to-one map from $\N^2$ to $\N$ and that there are NAND++ programs $P_0,P_1$ such that for every $x_0,x_1 \in \N$ and $i \in \{0,1\}$, $P_i(PAIR(x_0,x_1))=x_i$.
+__Step 5: Embedding two dimensional arrays into one dimension.__ If `foo` and `bar`  the encode the natural numbers $x,y \in \N$, then we can use NAND++ to compute the map $PAIR:\N^2 \rightarrow \N$ where $PAIR(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+x$. In [pair-ex](){.ref} we ask you to verify that $PAIR$ is a one-to-one map from $\N^2$ to $\N$ and that there are NAND++ programs $P_0,P_1$ such that for every $x_0,x_1 \in \N$ and $i \in \{0,1\}$, $P_i(PAIR(x_0,x_1))=x_i$.
 Using this  $PAIR$ map, we can assume we have access to two dimensional arrays in our NAND++ program.
 
 
@@ -179,11 +179,44 @@ When one wants to produce a device that executes programs, it is convenient  to 
 > # {.remark title="Recursion in NAND<<" #recursion}
 One high level tool we can use in describing NAND<< programs is _recursion_. We can use the standard implementation of the _stack_ data structure. That is, we let   `stack` to be an array of integers `stack_0`, $\ldots$, `stack_`$\expr{k-1}$ and `stackpointer` will be the number $k$ of items in the stack. We implement `push(foo)` by doing `i := stackpointer` and `stack_i := foo` and `pop()` by letting `stackpointer := stackpointer - 1`. By encoding strings as integers, we can have allow strings in our stack as well. Now we can implement recursion using the stack just as is done in most programming languages. First of all, we note that using loops and conditionals, we can implement "goto" statements in NAND<<. Moreover, we can even implement "dynamic gotos", in the sense that we can set integer labels for certain lines of codes, and have a `goto foo` operation that moves execution to the line labeled by `foo`. Now, if we want to make a  call to a function $F$ with parameter `bar` then we will push into the stack the label of the next line and `bar`, and then make a `goto` to the code of $F$. That code will pop its parameter from the stack, do the computation of $F$, and when it needs to resume execution, will pop the label from the stack and `goto` there.
 
-### The bees, the birds, and NAND++ programs.
+### Let's talk about abstractions.
 
 At some point in any theory of computation course, the instructor and students need to have _the talk_.
 That is, we need to discuss the _level of abstraction_ in describing algorithms.
-In algorithms courses, one typically describes
+In algorithms courses, one typically describes  algorithms in English, assuming readers can "fill in the details" and would be able to convert such an algorithm into an implementation if needed.
+For example, we might describe the [breadth first search](https://en.wikipedia.org/wiki/Breadth-first_search) algorithm to find if two vertices $u,v$ are connected as follows:
+
+1. Put $u$ in  queue $Q$.
+
+2. While $Q$ is not empty:
+   * Remove the top vertex $w$ from $Q$
+   * If $w=v$ then declare "connected" and exit.
+   * Mark $w$ and add all unmarked neighbors of $w$ to $Q$.
+
+3. Declare "unconnected".
+
+We call such a description a _high level description_.
+
+
+If we wanted to give more details on how to implement  breadth first search in a programming language such as Python or C (or NAND<</NAND++ for that matter), we would  describe how we implement the queue data structure using an array, and similarly how we would use arrays to implement the marking.
+We call such a "intermediate level" description an _implementation level_ or _pseudocode_ description.
+Finally, if we want to describe the implementation precisely, we would give the full code of the program (or another fully precise representation, such as in the form of a list of tuples).
+We call this a _formal_ or _low level_ description.
+
+While initially we might have described NAND, NAND++, and NAND<< programs at the full formal level (and the [NAND website](http://www.nandpl.org) contains more such examples), as the course continues we will move to implementation and high level description.
+After all, our focus is typically not to use these models for actual computation, but rather to analyze the general phenomenon of  computation.
+That said, if you don't understand how the high level description translates to an actual implementation, you should always feel welcome to ask for more details of your teachers and teaching fellows.
+
+A similar distinction applies to the notion of _representation_ of objects as strings.
+Sometimes, to be precise, we give a _low level specification_ of exactly how an object maps into a binary string.
+For example, we might describe an encoding of $n$ vertex graphs as length $n^2$ binary strings, by saying that we map a graph $G$ over the vertex $[n]$ to a string $x\in \{0,1\}^{n^2}$ such that the $n\cdot i + j$-th coordinate of $x$ is $1$ if and only if the edge $\overrightarrow{i \; j}$  is present in $G$.
+We can also use an _intermediate_ or _implementation level_ description, by simply saying that we represent a graph using the adjacency matrix representation.
+Finally, because we translating between the various representations of graphs (and objects in general) can be done via a NAND<< (and hence a NAND++) program, when talking in a high level we  also suppress discussion of  representation altogether.
+For example, the fact that graph connectivity  is a computable function is true regardless of whether we represent graphs as adjacency lists, adjacency matrices, list of edge-pairs, and so on and so forth.
+Hence, in cases where the precise representation doesn't make a difference, we would often talk about our algorithms as taking as input an object $O$ (that can be a graph, a vector, a program, etc.) without specifying how $O$ is encoded as a string.
+
+
+
 
 
 ## Universality: A NAND++ interpreter in NAND++
@@ -194,7 +227,7 @@ What is crucial is that we can use such representation to evaluate any program.
 That is, we prove the following theorem:
 
 
-> # {.theorem title="Universality of NAND++" #univ-nandpp}
+> # {.theorem title="Universality of NAND++" #univ-nandpp-noneff}
 There is a NAND++ program that computes the partial function $EVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ defined as follows:
 $$
 EVAL(P,x)=P(x)
@@ -211,7 +244,7 @@ Indeed, as we already alluded to before, NAND++ is powerful enough to simulate a
 
 ### Representing NAND++ programs as strings
 
-Before we can prove  [univ-nandpp](){.ref}, we need to make its statement precise by specifying a representation scheme for NAND++ programs.
+Before we can prove  [univ-nandpp-noneff](){.ref}, we need to make its statement precise by specifying a representation scheme for NAND++ programs.
 As mentioned above,  simply representing the program as a string using ASCII or UTF-8 encoding  will work just fine, but we will use a somewhat more convenient and concrete representation, which is the natural generalization of the "list of triples" representation for NAND programs.
 We will assume that all variables are of the form `foo_##` where `foo` is an identifier and  `##` is some number or the index `i`.  If a variable `foo` does not have an index then we add the index zero to it.
 We represent an instruction of the form
@@ -314,7 +347,7 @@ while (true) {
 }
 ~~~~
 
-Since we can transform _every_ NAND<< program to a NAND++ one, we can also implement this interpreter in NAND++.
+Since we can transform _every_ NAND<< program to a NAND++ one, we can also implement this interpreter in NAND++, hence completing the proof of [univ-nandpp-noneff](){.ref}.
 
 
 

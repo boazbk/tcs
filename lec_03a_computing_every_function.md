@@ -559,10 +559,10 @@ The idea is to use the technique known as _memoization_.
 Let $k= \log(n-2\log n)$ (the reasoning behind this choice will become clear later on).
 For every $a \in \{0,1\}^{n-k}$ we define $F_a:\{0,1\}^k \rightarrow \{0,1\}$ to be the function that maps $w_0,\ldots,w_{k-1}$ to $F(a_0,\ldots,a_{n-k-1},w_0,\ldots,w_{k-1})$.
 On input $x=x_0,\ldots,x_{n-1}$, we can compute $F(x)$ as follows:
-First we  compute a $2^{n-k}$ long string $P$ whose $a^{th}$ entry (identifying $\{0,1\}^{n-k}$ with $[2^{n-k}]$ equals $F_a(x_{n-k},\ldots,x_{n-1})$.
-One can verify that $F(x)=LOOKUP_{n-k}(P,x_0,\ldots,x_{n-k})$.
+First we  compute a $2^{n-k}$ long string $P$ whose $a^{th}$ entry (identifying $\{0,1\}^{n-k}$ with $[2^{n-k}]$) equals $F_a(x_{n-k},\ldots,x_{n-1})$.
+One can verify that $F(x)=LOOKUP_{n-k}(P,x_0,\ldots,x_{n-k-1})$.
 Since we can compute $LOOKUP_{n-k}$ using $O(2^{n-k})$ lines, if we can compute the string $P$ (i.e., compute variables `P_`$\expr{0}$, ..., `P_`$\expr{2^{n-k}-1}$) using $T$ lines, then we can compute $F$ in $O(2^{n-k})+T$ lines.
-The trivial way to compute the string $P$ would by to use $O(2^k)$ lines to compute for every $a$ the map $x_0,\ldots,x_{k-1} \mapsto F_a(x_0,\ldots,x_{k-1})$ as in the proof of [NAND-univ-thm](){.ref}.
+The trivial way to compute the string $P$ would be to use $O(2^k)$ lines to compute for every $a$ the map $x_0,\ldots,x_{k-1} \mapsto F_a(x_0,\ldots,x_{k-1})$ as in the proof of [NAND-univ-thm](){.ref}.
 Since there are $2^{n-k}$ $a$'s,  that would be a total cost of $O(2^{n-k} \cdot 2^k) = O(2^n)$ which would not improve at all on the bound of [NAND-univ-thm](){.ref}.
 However, a more careful observation shows that we are making some _redundant_ computations.
 After all, there are only $2^{2^k}$ distinct functions mapping $k$ bits to one bit.

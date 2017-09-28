@@ -65,12 +65,12 @@ Keeping to our minimalist form, we will not add a `while` keyword to the NAND pr
 But we will extend this language in a way that allows for executing loops and accessing arrays of arbitrary length.  
 The main new ingredients are the following:
 
-* We add a special variable `loop` with the following semantics: after executing the last line of the program, if `loop` is equal to one, then instead of halting, the program goes back to the first line. If `loop` is equal to zero after executing the last line then the program halts as is usually with NAND.^[This corresponds to wrapping the entire program in one big loop that is executed at least once and continues as long as `loop` is equal to $1$. For example, in the C programming language this would correspond with wrapping the entire program with the construct `do { ...} while (loop);`.]
+* We add a special variable `loop` with the following semantics: after executing the last line of the program, if `loop` is equal to one, then instead of halting, the program goes back to the first line. If `loop` is equal to zero after executing the last line then the program halts as is usual with NAND.^[This corresponds to wrapping the entire program in one big loop that is executed at least once and continues as long as `loop` is equal to $1$. For example, in the C programming language this would correspond with wrapping the entire program with the construct `do { ...} while (loop);`.]
 
 * We add a special _integer valued_ variable `i`, and allow expressions of the form `foo_i` (for every variable identifier `foo`) which are evaluated to equal `foo_`$\expr{i}$ (where $\expr{i}$ denotes the current value of the variable `i`).
 For example, if the current value of `i` is equal to 15, then `foo_i` corresponds to `foo_15`.^[Note that the variable `i`, like all variables in NAND, is a _global_ variable, and hence  all expressions of the form `foo_i`, `bar_i` etc. refer to the same value of `i`.]
 In the first loop of the program, `i` is assigned the value $0$, but each time the program loops back to the first line, the value of `i` is updated in the following manner:
-in the $k$-th iteration the value of `i` equals $I(k)$ where $I=(I(0),I(1),I(2),\ldots)$ is the following sequence (see [indextimefig](){.ref}):
+in the $k$-th iteration the value of `i` equals $I(k)$ where $I=(I(0),I(1),I(2),\ldots)$ is the following sequence (see [indextimefig](){.ref}):^[TODO: Potentially change in the future to Salil's sequence $INDEX(\ell) = min{\ell-floor(sqrt(\ell))^2,ceiling(sqrt(\ell))^2-\ell}$ which has the form $0,0,1,1,0,1,2,2,1,0,1,2,3,3,2,1,0,1,2,3,4,4,3,2,1,0,\ldots$.]
 
 $$
 0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots
@@ -137,7 +137,7 @@ $$
 1+2+4+6+\cdots+2r =r^2 +r + 1
 $$
 
-iterations of its main loop. (The last equality is obtained by applying the formula for the sum of an algebraic progression.)
+iterations of its main loop. (The last equality is obtained by applying the formula for the sum of an arithmetic progression.)
 This means that if we keep a "loop counter" $k$ that is initially set to $0$ and increases by one at the end of any iteration, then  the "round" $r$ is the largest integer such that $r(r+1) \leq k$, which (as you can verify) equals $\floor{\sqrt{k+1/4}-1/2}$.
 
 Thus the value of `i` in the  $k$-th loop equals:
@@ -308,7 +308,7 @@ This notion of "self replication", and the related notion of "self reference" is
 ### Growing a NAND tree
 
 
-If $P$ is a NAND++ program and $n,T\in \N$ are some numbers, then we can easily obtain a NAND program $P'=expand_{T,n}(P)$ that, given any $x\in \{0,1\}^n$, runs $T$ iterations of the program $P$ and outputs the result.
+If $P$ is a NAND++ program and $n,T\in \N$ are some numbers, then we can easily obtain a NAND program $P'=expand_{T,n}(P)$ that, given any $x\in \{0,1\}^n$, runs $T$ loop iterations of the program $P$ and outputs the result.
 If $P$ is a simple program, then we are guaranteed that, if $P$ does not enter an infinite loop on $x$, then as long as we make $T$ large enough, $P'(x)$ will equal $P(x)$.
 To obtain the program $P'$ we can simply place $T$ copies of the program $P$ one after the other, doing a "search and replace" in the $k$-th copy of any instances of `_i` with the value $index(k)$, where the function $index$ is defined as in [eqindex](){.eqref}. For example, [expandnandpng](){.ref} illustrates  the expansion of the  NAND++ program for parity.
 

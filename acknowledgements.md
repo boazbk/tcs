@@ -9,6 +9,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Michael Colavita
 * Robert Darley Waddilove
 * Juan Esteller
+* Leor Fishman
 * Mark Goldstein
 * Chan Kang
 * Allison Lee

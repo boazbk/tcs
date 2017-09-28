@@ -19,10 +19,10 @@ We will discuss the Church-Turing Thesis and the potential definitions of "reaso
 
 ## Turing machines
 
-The "granddaddy" of all models of computation is the _Turing Machine_, which is the standard  model of computation in most textbook.^[This definitional choice does not make much difference since, as we will show, NAND++/NAND<< programs are equivalent to Turing machines in their computing power.]
+The "granddaddy" of all models of computation is the _Turing Machine_, which is the standard  model of computation in most textbooks.^[This definitional choice does not make much difference since, as we will show, NAND++/NAND<< programs are equivalent to Turing machines in their computing power.]
 Turing machines were defined in 1936 by Alan Turing in an attempt to formally capture all the functions that can be computed by human "computers" that follow a well-defined set of rules, such as the standard algorithms for addition or multiplication.
 
-![Until the advent of electronic computers, the word "computer" was used to describe a person, often female, that performed calculations. These human computers were absolutely essential to many achievements including mapping the stars, breaking the Engima cipher, and the NASA space mission. Two recent books about  these "computers" and their important contributions are [The Glass Universe](https://www.amazon.com/Glass-Universe-Harvard-Observatory-Measure-ebook/dp/B01CZCW45O) (from which this photo is taken) and [Hidden Figures](https://www.amazon.com/Hidden-Figures-American-Untold-Mathematicians/dp/006236359X).](../figure/HumanComputers.jpg){#figureid .class width=300px height=300px}
+![Until the advent of electronic computers, the word "computer" was used to describe a person, often female, that performed calculations. These human computers were absolutely essential to many achievements including mapping the stars, breaking the Enigma cipher, and the NASA space mission. Two recent books about  these "computers" and their important contributions are [The Glass Universe](https://www.amazon.com/Glass-Universe-Harvard-Observatory-Measure-ebook/dp/B01CZCW45O) (from which this photo is taken) and [Hidden Figures](https://www.amazon.com/Hidden-Figures-American-Untold-Mathematicians/dp/006236359X).](../figure/HumanComputers.jpg){#figureid .class width=300px height=300px}
 
 Turing thought of such a person as having access to as much "scratch paper" as they need.
 For simplicity we can think of this scratch paper as a one dimensional piece of graph paper (commonly known as "work tape"), where in each box or "cell" of the tape holds a  single symbol from some finite alphabet (e.g., one digit or letter).
@@ -41,7 +41,7 @@ Specifically, a computation of a Turing Machine $M$ with $k$ states and alphabet
 * When the machine reaches the state $s=k-1$ (known as the "halting state") then it halts. The output of the machine is obtained by reading off the tape from location $1$ onwards, stopping at the first point where the symbol is not $0$ or $1$.
 
 
-![A Turing machine has access to an _tape_ of unbounded length. At each point in the execution, the machine can read/write a single symbol of the tape, and based on that decide whether to move left, right or halt.](../figure/turing_machine.png){#turing-machine-fig .class width=300px height=300px}
+![A Turing machine has access to a _tape_ of unbounded length. At each point in the execution, the machine can read/write a single symbol of the tape, and based on that decide whether to move left, right or halt.](../figure/turing_machine.png){#turing-machine-fig .class width=300px height=300px}
 
 ^[TODO: update figure to $\{0,\ldots,k-1\}$.]
 
@@ -117,7 +117,7 @@ while EQUAL(tape_j,0) OR EQUAL(tape_j,1) {
 }
 ~~~~
 
-In addition to the standard syntactic sugar, we assumed above we can make function calls to the function `EQUAL` that checks equality of two symbols as well as the finite function `ComputeM`  that corresponds to the transition function of the Turing machine.
+In addition to the standard syntactic sugar, we are also assuming in the above code that  we can make function calls to the function `EQUAL` that checks equality of two symbols as well as the finite function `ComputeM`  that corresponds to the transition function of the Turing machine.
 We can of course compute them (as any other finite function) using a NAND program.
 
 ### Simulating NAND++ programs with Turing machines
@@ -184,7 +184,7 @@ In the other direction, a NAND<< program can simulate a RAM machine, using its v
 ![A punched card corresponding to a Fortran statement.](../figure/FortranProg.jpg){#fortranfig .class width=300px height=300px}
 
 
-As we discussed before, any function computed by a standard programming language such as `C`, `Java`, `Python`, `Pascal`, `Fortran` etc.. can be computed by a NAND++ program.
+As we discussed before, any function computed by a standard programming language such as `C`, `Java`, `Python`, `Pascal`, `Fortran` etc. can be computed by a NAND++ program.
 Indeed,  a _compiler_ for such languages translates programs into machine languages  that are quite similar to   NAND<< programs or RAM machines.
 We can also translate NAND++ programs to such programming languages.
 Thus all these programming languages are Turing equivalent.^[Some programming language have hardwired fixed (even if extremely large) bounds on the amount of memory they can access. We ignore such issues in this discussion and assume access to some storage device without a fixed upper bound on its capacity.]
@@ -236,7 +236,7 @@ to achieve the effect of functions with more than one input and so we will use t
 __Precedence and parenthesis.__
 The above is a complete description of the $\lambda$ calculus.
 However, to avoid clutter, we will allow to drop parenthesis for function invocation, and so if $f$ is a $\lambda$ expression and $z$ is some other expression, then we can write  $fz$ instead of $f(z)$ for the expression corresponding to invoking $f$ on $z$.^[When using  identifiers with multiple letters for $\lambda$ expressions,  we'll separate them with spaces or commas.]
-That is, if $f$ has the form $\lambda x.e$ then $fz$ is the same as $f(z)$, which corresponds to the expression $e[x \rightarrow z]$ (i.e., the expression obtained by invoking $f$ on $z$ via replacing all copies of the $x$ parameter with $x$).
+That is, if $f$ has the form $\lambda x.e$ then $fz$ is the same as $f(z)$, which corresponds to the expression $e[x \rightarrow z]$ (i.e., the expression obtained by invoking $f$ on $z$ via replacing all copies of the $x$ parameter with $z$).
 
 We can still use parenthesis for grouping and so $f(gh)$ means invoking $g$ on $h$ and then invoking $f$ on the result, while $(fg)h$ means invoking $f$ on $g$ and then considering the result as a function which then is invoked on $h$.
 We will associate from left to right and so identify $fgh$ with $(fg)h$.
@@ -282,16 +282,16 @@ See [reduceetalfig](){.ref} for an illustration of these three operations.
 Together these operations more or less amount to the Lisp/Scheme programming languague.^[In Lisp, the $PAIR$, $HEAD$ and $TAIL$ functions are [traditionally called](https://en.wikipedia.org/wiki/CAR_and_CDR) `cons`, `car` and `cdr`.]  
 Given that, it is perhaps not surprising that we can simulate NAND++ programs using the $\lambda$-calculus plus these basic elements, hence showing the following theorem:
 
-> # {.theorem title="Lambda calculus and NAND++" #lambdaequiv}
+> # {.theorem title="Lambda calculus and NAND++" #lambdaturing-thm}
 For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable in the $\lambda$ calculus with the above basic operations if and only if it is computable by a NAND++ program.
 
-> # {.proof data-ref="lambdaequiv"}
+> # {.proof data-ref="lambdaturing-thm"}
 The "only if" direction is simple. As mentioned above, evaluating $\lambda$ expressions basically amounts to "search and replace". It is also a fairly straightforward programming exercise to implement all the above basic operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND<< as well, which we can then transform to a NAND++ program.
 >
 For the "if" direction, we start by showing that for every normal-form NAND++ program $P$, we can compute the next-step function $NEXT_P:\{0,1\}^* \rightarrow \{0,1\}^*$ using the above operations.
 It turns out not to be so hard.
 A configuration of $P$ is a string of length $TB$ where $B$ is the (constant sized) block size, and so we can think of it as a list $\sigma=(\sigma^1,\ldots,\sigma^T)$ of $T$ lists of bits, each of length $B$.
-Extracting from this list the $B$ sized string corresponding to the block $\sigma^i$ where $\sigma^i_0=1$ can be done via a single $REDUCE$ operations.
+Extracting from this list the $B$ sized string corresponding to the block $\sigma^i$ where $\sigma^i_0=1$ can be done via a single $REDUCE$ operation.
 Using this we can tell if this is an operation where $i$ stays the same, increases, or decreases.
 If it stays the same then we can compute $NEXT_P$ via a $MAP$ operation, using the function that on input $C \in \{0,1\}^B$, keeps $C$ the same if $C_0=0$ and otherwise updates it to the value in its next step.
 If it increases, then we can update it by a $REDUCE$ operation, with the function that on input a block $C$ and a list $S$, we output $PAIR(C,L)$ unless $C_0=1$ in which case we output $PAIR(C',PAIR(C'',TAIL(S)))$ where $(C',C'')$ are the new values of the blocks $i$ and $i+1$.
@@ -385,7 +385,7 @@ where $PAREQ$ is a _non-recursive_ function that takes a function $p$ as input, 
 
 $$
 q(x_0,\ldots,x_n) = \begin{cases} 0 & |x|=0 \\ x_0 \oplus p(x_1,\ldots,x_n) \text{otherwise} \end{cases}
-\label{eq:par-recurse}
+\label{eq:par-nonrecurse}
 $$
 
 In fact, it's not hard to see that satisfying [eq:pareq](){.eqref} is _equivalent_ to satisfying [eq:par-recurse](){.eqref}, and hence $par$ is the _unique_ function that satisfies the condition [eq:pareq](){.eqref}.
@@ -462,7 +462,7 @@ We can see that continuing in this way we get longer and longer expressions, and
 ## Other models
 
 There is a great variety of models that are computationally equivalent to Turing machines (and hence to NAND++/NAND<< program).
-Chapter 8 of the book [The Nature of Computation](http://nature-of-computation.org/) is wonderful resource for some of those models.
+Chapter 8 of the book [The Nature of Computation](http://nature-of-computation.org/) is a wonderful resource for some of those models.
 We briefly mention a few examples.
 
 ### Parallel algorithms and cloud computing
@@ -482,7 +482,7 @@ At each time step, a cell updates to a new  state by applying some  simple rule 
 A canonical example of a cellular automaton is [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
 In this automata the cells are arranged in an infinite two dimensional grid.
 Each cell has only two states: "dead" (which we can encode as $0$) or "alive" (which we can encode as $1$).
-The next state of a cell depends on its previous state and the states of its 8 vertical, horizontal and vertical neighbors.
+The next state of a cell depends on its previous state and the states of its 8 vertical, horizontal and diagonal neighbors.
 A dead cell becomes alive only if exactly three of its neighbors are alive.
 A live cell continues to live if it has two or three live neighbors.
 Even though the number of cells is potentially infinite, we can have a finite encoding for the state by only keeping track of the live cells.
@@ -492,7 +492,7 @@ If we initialize the system in a configuration with a finite number of live cell
 We can think of such a system as encoding a computation by starting it in some initial configuration, and then defining some halting condition (e.g., we halt if the cell at position $(0,0)$ becomes dead) and some way to define an output (e.g., we output the state of the cell at position $(1,1)$).
 Clearly, given any starting configuration $x$, we can simulate the game of life starting from $x$ using a NAND<< (or NAND++) program, and hence every "Game-of-Life computable" function is computable by a NAND<< program.
 Surprisingly, it turns out that the other direction is true as well: as simple as its rules seem, we can simulate a NAND++ program using the game of life (see [golfig](){.ref}).
-The [Wikipedia page](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) for the Game of Life contain some beautiful figures and animations of  configurations that produce some very interesting evolutions.
+The [Wikipedia page](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) for the Game of Life contains some beautiful figures and animations of  configurations that produce some very interesting evolutions.
 See also the book [The Nature of Computation](http://nature-of-computation.org/).
 It turns out that even [one dimensional cellular automata](https://en.wikipedia.org/wiki/Rule_110) can be Turing complete, see [onedimautfig](){.ref}.
 
