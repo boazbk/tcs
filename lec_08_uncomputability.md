@@ -52,7 +52,7 @@ That is, perhaps it is a function that no one actually _wants_ to compute.
 It turns out that there are natural uncomputable functions:
 
 > # {.theorem title="Uncomputability of Halting function" #halt-thm}
-Let $HALT:\{0,1\}^* \rightarrow \{0,1\}$ be the function such that $HALT(P,x)=1$ if the program $P$ halts on input $x$ and equals to $0$ if it does not.
+Let $HALT:\{0,1\}^* \rightarrow \{0,1\}$ be the function such that $HALT(P,x)=1$ if the NAND++ program $P$ halts on input $x$ and equals to $0$ if it does not.
 Then $HALT$ is not computable.
 
 Before turning to prove [halt-thm](){.ref}, we note that $HALT$ is a very natural function to want to compute.
@@ -69,7 +69,7 @@ The proof is by a _reduction_ to [uncomputable-func](){.ref} , as illustrated in
 That is, we will assume, towards a contradiction, that there is NAND++ program $P^*$ that can compute the $HALT$ function, and use that to derive that there is some NAND++ program $Q^*$ that computes the function  $F^*$ defined above, contradicting [uncomputable-func](){.ref}.
 >   
 Indeed, suppose that  $P^*$ was a NAND++ program that computes $HALT$.
-Then we can write a NAND++ program $Q^*$ that does the following on input $x\in \{0,1\}^*$:
+Then we can write a NAND++ program $Q^*$ that does the following on input $x\in \{0,1\}^*$:^[Note that we are using here a "high level" description of NAND++ programs. We know that we can implement the steps below, for example by first writing them in NAND<< and then transforming the NAND<< program to NAND++. Step 1 involves simply running the program $P^*$ on some input.]
 >
 1. Compute $z=P^*(x,x)$ \
 2. If $z=0$ then output $1$. \
@@ -173,8 +173,9 @@ We start by proving a simple generalization of the Halting problem:
 Let $HALTONZERO:\{0,1\}^* \rightarrow\{0,1\}$ be the function that on input $P\in \{0,1\}^*$, maps $P$ to $1$ if and only if the NAND++ program represented by $P$ halts when supplied the single bit $0$ as input.
 Then $HALTONZERO$ is uncomputable.
 
+> # { .pause }
 The proof of [haltonzero-thm](){.ref} is below, but before reading it you might want to pause for a couple of minutes and think how you would prove it yourself.
-This is an excellent way to get some initial comfort with the notion of proofs by reduction.
+This is an excellent way to get some initial comfort with the notion of proofs by _reduction_, which is a notion that will recur time and again in this course.
 
 
 > # {.proof data-ref="haltonzero-thm"}
