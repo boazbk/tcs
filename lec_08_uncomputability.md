@@ -198,6 +198,13 @@ In particular $P'$ will halt on the input $0$ if and only if $P$ halts on the in
 Thus if the hypothetical algorithm $A$ satisfies $A(P')=HALTONZERO(P')$ for every $P'$ then the algorithm $B$ we construct satisfies $B(P,x)=HALT(P,x)$ for every $P,x$, contradicting the uncomputability of $HALT$.
 
 
+> # {.remark title="The hardwiring technique" #hardwiringrem}
+In the proof of [haltonzero-thm](){.ref} we used the technique of  "hardwiring" an input  $x$ to a program $P$.
+That is, modifying a program $P$ that it uses "hardwired constants" for some of all of its input.
+This technique is quite common in reductions and elsewhere, and we will often use it again in this course.
+
+
+
 Once we show the uncomputability of $HALTONZERO$ we can extend to various other natural functions:
 
 > # {.theorem title="Computing all zero function" #allzero-thm}
