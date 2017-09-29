@@ -186,7 +186,7 @@ A bit more precisely, we can make the following definitions:
 A context free grammar is a formal way of specifying such conditions.^[Sections 2.1 and 2.3 in [Sipser's book](https://www.google.com/search?q=introduction+to+the+theory+of+computation) are excellent resources for context free grammars.]
 
 > # {.definition title="Context Free Grammar" #defcfg}
-Let $\Sigma$ be some finite set. A _context free grammar over $\Sigma$_ is a triple $(V,R,s)$ where $V$ is a set disjoint from $\Sigma$ of _variables_, $R$ is a set of _rules_, which are pairs $(v,z)$ where $v\in \V$ and $x\in (\Sigma \cup V)^*$ that has at least one element of $\Sigma$, and $s\in V$ is the starting rule.
+Let $\Sigma$ be some finite set. A _context free grammar over $\Sigma$_ is a triple $(V,R,s)$ where $V$ is a set disjoint from $\Sigma$ of _variables_, $R$ is a set of _rules_, which are pairs $(v,z)$ where $v\in V$ and $x\in (\Sigma \cup V)^*$ that has at least one element of $\Sigma$, and $s\in V$ is the starting rule.
 >  
 IF $(V,R,s)$ is a context-free grammar over $\Sigma$, then the function computed by $(V,R,s)$ is the map $\varphi_{V,R,s}:\{0,1\}^* \rightarrow \{0,1\}$ that is recursively defined as follows:
 >
@@ -196,7 +196,7 @@ IF $(V,R,s)$ is a context-free grammar over $\Sigma$, then the function computed
    - For every $i\in \{1,\ldots,k\}$, $\varphi_{V,R,v_i}(w_i)=1$.
 
 
-A priori it might not be clear that the function $\varphi_{V,R,s}$ above is well defined, but since the second member of every rule contains at least one element of $\Sigma$, we get that $|w_1|+\cdots+|w_k| < |x|$, and hence this recursive definition always involves calls to $\vaprhi_{V,R,v}$ on inputs $w_i$ that are smaller than $x$.
+A priori it might not be clear that the function $\varphi_{V,R,s}$ above is well defined, but since the second member of every rule contains at least one element of $\Sigma$, we get that $|w_1|+\cdots+|w_k| < |x|$, and hence this recursive definition always involves calls to $\varphi_{V,R,v}$ on inputs $w_i$ that are smaller than $x$.
 By the same reasoning, for every context-free grammar $(V,R,s)$ there is a recursive algorithm to compute the function $\varphi_{V,R,s}$ that always terminates.
 In particular the "halting problem" for context free grammars is trivial.
 
