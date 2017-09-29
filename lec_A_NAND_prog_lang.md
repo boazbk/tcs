@@ -69,6 +69,8 @@ Every valid NAND program  is also a valid NAND++ program, but the NAND++ program
 
 * The special variables `loop` and `validx` can appear in NAND++ programs. However,  `loop` can only appear without an index and only on the lefthand side of the `:=` operator and `validx` can only appear on the righthand side of the `:=` operator. The variable `i` can only appear as an index to an unindexed variable identifier.
 
+^[Add discussion of `invalidy` array for NAND++ and NAND<<, see the loops lecture]
+
 ### Semantics of NAND++ programs
 
 Unlike a NAND program, a NAND++ program can be evaluated on inputs of every length.

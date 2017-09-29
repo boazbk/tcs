@@ -122,43 +122,48 @@ while EQUAL(tape_j,0) OR EQUAL(tape_j,1) {
 ~~~~
 
 In addition to the standard syntactic sugar, we are also assuming in the above code that  we can make function calls to the function `EQUAL` that checks equality of two symbols as well as the finite function `ComputeM`  that corresponds to the transition function of the Turing machine.
-We can of course compute them (as any other finite function) using a NAND program.
+Since these are _finite_ functions (whose input and output length only depends on the number of states and symbols of the machine $M$, and not the input length), we can compute them  using a NAND (and hence in particular a NAND++ or NAND<<) program.
 
 ### Simulating NAND++ programs with Turing machines
 
-To prove the second direction of [TM-equiv-thm](){.ref}, we need to show that for  every NAND++-computable function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, there is a Turing machine that computes $F$.
-Since we can encode a non-Boolean function $F$ by the Boolean (i.e., single-bit output) $x,i \mapsto F(x)_i$, it is sufficient to prove the theorem for the case that $F$ is Boolean.
-Let $F:\{0,1\}^* \rightarrow \{0,1\}$ be a computable Boolean function, and let $P$ be a NAND++ program that computes $F$.
-By [simpleNANDthm](){.ref} we can assume without loss of generality that $P$ is _simple_, in the sense of [simpleNANDpp](){.ref}.^[By "assume without loss of generality" we mean that, since $F$ is computable, [simpleNANDthm](){.ref} guarantees the existence of a simple NAND++ program that computes it, and we use $P$ to denote that program.]
+To prove the second direction of [TM-equiv-thm](){.ref}, we need to show that for  every NAND++ program $P$, there is a Turing machine $M$ that computes the same function as $P$.
+The idea behind the proof is that the TM $M$ will _simulate_ the program $P$ as follows:
 
-To show that $F$ is computable by a Turing machine, it is enough to show give a Turing machine $M$ that computes the _next step function_ $NEXT_P$ of $P$.
-This is because we can then construct a Turing machine $M'$ that repeatedly invokes $M$ until it reaches a configuration in which `halt` is set to true.
-But because the next-step function of a NAND++ program is quite simple, it is not hard to show that it is computable by a Turing machine.
-Specifically, recall that a _configuration_ of a $t$-line simple program $P$ is a string $\sigma \in \{0,1\}^*$ that can be thought of as composed of a sequence of  blocks each of length $B$ which is a constant  independent of the input length.^[This constant does depend on the number of lines in the program. Concretely, each block of the configuration will be of length $\Theta(t)$ bits.]
-The crucial point is that while the _number_ of blocks  increases as the computation evolves, the _size_ of each block  is a constant independent of the input length.
-The next step function of $P$ can be computed on input $\sigma$ by doing the following:
+* The _head position_ of $M$ will correspond to the position of the index `i` in the current execution of the program $P$.
 
-1. Read the first $t$ blocks of $\sigma$.
+* The _alphabet_ of $M$ will be large enough so that in position $i$ of the tape will store the contents of all the variables of $P$ of the form `foo_`$\expr{i}$. (In particular this means that the alphabet of $M$ will have at least $2^t$ symbols when $t$ is the number of variables of $P$.)
 
-2. Scan $\sigma$ for the active block $i$ and read it into memory.
+* The _states_ of $M$ will be large enough to encode the current line number that is executed by $P$, as well as the contents of all variables that are indexed in the program by an absolute numerical index (e.g., variables of the form `foo` or `bar_17` that are not indexed with `i`.)
 
-3. Based on the content of these $t+1$ blocks, decide how to update the active block, and (based on the content of the variable `indexincreasing`, which is encoded in these blocks) decide if the next active block will be $i+1$ or $i-1$.
+The key point is that the number of lines of $P$ and the number of variables are constants that do not depend on the length of the input and so can be encoded in the alphabet and state size. More specifically, if $V$ is the set of variables of $P$, then the alphabet of $M$ will contain  (in addition to the symbols $\{0,1, \triangleright, \varnothing \}$) the finite set of all functions from $V$ to   $\{0,1\}$, with the semantics that if $\sigma: V \rightarrow \{0,1\}$ appears in the $i$-th position of the tape then for every variable $v\in V$, the value of $v$`_`$\expr{i}$ equals $\sigma(v)$.
+Similarly, we will think of the state space of $M$ as containing all pairs of the form $(\ell,\tau)$ where $\ell$ is a number between $0$ and the number of lines in $P$ and $\tau$ is a function from $V\times [c]$ to $\{0,1\}$  where $c-1$ is the largest absolute numerical index that appears in the program.^[While formally the state space of $M$ is a number from $0$ to some $k-1$, by making $k-1$ we can ensure that there is a one-to-one map from the set of all pairs $(\ell,\tau)$ of the form above to $[k]$, and hence can think of the state as having this form.]
+The semantics are that $\ell$ encodes the line of $P$ that is about to be executed, and $\tau(v,j)$ encodes the value of the variable $v$`_`$\expr{j}$.
 
-Since $t$ is a constant independent of the input length, and each block has constant size, these three steps can be easily done by a Turing machine that has a constant number of states.
-The machine will store all the contents of these $t+1$ blocks in its memory, and so can compute an arbitrary function based on these contents.
-Writing down the full description of $M$ from the above "pseudocode" is  straightforward, even if somewhat painful, exercise, and hence this completes the proof of [TM-equiv-thm](){.ref}.
+To simulate the execution of one step in $P$'s computation, the machine $M$ will do the following:
+
+1. The contents of the symbol at the current head position and its state encode all information about the current line number to be executed, as well as the contents of all variables that are either indexed by `i` or by an absolute numerical index. Hence we can use that to compute the new line to be executed.
+
+2. $M$ will write to the tape and update its state to reflect the update to the variable that is assigned a new value in the execution of this line.
+
+3. If the current line was the last one in the program, and the `loop` variable (which is encoded in $M$'s state) is equal to $1$ then $M$ will decide whether to move the head left or right based on whether the index is going to increase and decrease. We can ensure this is is a function of the current variables of $P$ by adding to the program the variables `breadcrumbs_i`, `atstart_i` and `indexincreasing` and the appropriate code so that `indexincreasing` is set to $1$ if and only if the index will increase in the next iteration.^[While formally we did not allow the head of the Turing machine to stay in place, we can simulate this by adding a "dummy step" in which $M$'s head  moves right and goes into a special state that will move left in the next step.]
+
+The simulation will also contain an _initialization_ and a  _finalization_ phases. In the _initialization phase_, $M$ will scan the input and modify the  tape  so it contains the proper encoding of  `x_i`'s  `validx_i`'s variables as well as load into its state all references to these variables with absolute numerical indices.
+In the _finalization phase_, $M$ will scan its tape to copy the contents of the  `y_i`'s  (i.e., output) variables to the beginning of the tape, and write a non $\{0,1\}$ value at their end.
+We leave verifying the (fairly straightforward) details of implementing these steps to the reader. Note that we can add a finite number of states to $M$ or symbols to its alphabet to make this  implementation easier.
+ Writing down the full description of $M$ from the above "pseudocode" is  straightforward, even if somewhat painful, exercise, and hence this completes the proof of [TM-equiv-thm](){.ref}.
 
 
 
 
 
 > # {.remark title="Polynomial equivalence" #polyequivrem}
-If we examine the proof of [TM-equiv-thm](){.ref} then we can see  that the equivalence between NAND++ programs and NAND<< programs is up to polynomial overhead in the number of steps.
+If we examine the proof of [TM-equiv-thm](){.ref} then we can see  that the equivalence between NAND++ programs and Turing machines is up to polynomial overhead in the number of steps.
 Specifically, our NAND<< program to simulate a Turing Machine $M$, has two loops to copy the input and output and then one loop that iterates once per each step of the machine $M$.
 In particular this means that if the Turing machine $M$ halts on every $n$-length input $x$ within $T(n)$ steps, then the NAND<< program computes the same function within $O(T(n)+n+m)$ steps.
-(The transformation of NAND<< to NAND++ has  polynomial overhead, and hence for any such machine $M$ there is a NAND++ program $P'$ that computes the same function within $poly(T(n)+n+m)$ steps, where $poly(f(n))$ is shorthand for $f(n)^{O(1)}$ as defined in the mathematical background section.)
-In the other direction, our Turing machine to compute the next step function of a NAND++ program $P$ used a linear scan over the configuration of $P$.
-Since a configuration of a NAND++ program after $T$ steps can be of length at most $O(T+n)$, if the NAND++ program halts after $T(n)$ steps on inputs of length $n$, then the number of times the Turing machine invokes its next step function is $T(n)$, and so the total number of steps it spends is $O((T(n)+n)^2)$.
+Moreover, the transformation of NAND<< to NAND++ has  polynomial overhead, and hence for any such machine $M$ there is a NAND++ program $P'$ that computes the same function within $poly(T(n)+n+m)$ steps (where $poly(f(n))$ is shorthand for $f(n)^{O(1)}$ as defined in the mathematical background section).
+In the other direction, our Turing machine $M$ simulates each step of a NAND++ program $P$ in a constant number of steps.
+The initialization and finalization phases involve scanning over $O(n+m)$ symbols and copying them around. Since the cost to move a symbol to a point that is of distance $d$ in the tape can be $O(d)$ steps, the total cost of these phases will be $O((n+m)^2)$
+Thus, for every NAND++ program $P$, if $P$ halts on input $x$ after $T$ steps, then the corresponding Turing machine $M$ will halt after $O(T+(n+m)^2)$ steps.
 
 
 

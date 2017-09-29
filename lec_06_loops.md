@@ -80,7 +80,7 @@ $$
 * Because the input to NAND++ programs can have variable length, we also add a special read-only array `validx` such that `validx_`$\expr{n}$ is equal to $1$ if and only if the $n$ is smaller than the length of the input. In particular, `validx_i` will equal to $1$ if and only if the value of  `i`  is smaller than the length of the input.
 
 
-* Like NAND programs, the output of a  NAND++ program is the string `y_`$0$, $\ldots$, `y_`$\expr{k}$  where $k$ is the largest integer such that `y_`$\expr{k}$ was assigned a value.
+* Like NAND programs, the output of a  NAND++ program is the string `y_`$0$, $\ldots$, `y_`$\expr{k}$  where $k$ is the largest integer such that `y_`$\expr{k}$ was assigned a value.^[To allow control of the output length, we also add a write-only array `invalidy`. If there exist $j<k$ such that `invalidy_`$\expr{j}$=1 then we reduce the output length to $j-1$. However, we will hardly use this array in this course, since  we will almost always be interested in programs with a fixed output length (and in fact most often in programs with one bit of output). ]
 
 ![The value of `i` as a function of the current iteration. The variable `i` progresses according to the sequence $0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots$.  At the $k$-th iteration the value of `i` equals $k-r(r+1)$ if $k \leq (r+1)^2$ and $(r+1)(r+2)-k$ if $k<(r+1)^2$ where $r= \floor{\sqrt{k+1/4}-1/2}$.](../figure/indextime.png){#indextimefig .class width=300px height=300px}
 
