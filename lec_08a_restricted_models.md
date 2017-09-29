@@ -73,7 +73,7 @@ The user gives out a function $F:\{0,1\}^* \rightarrow \{0,1\}$, and the system 
 However, we typically do not want the system to get into an infinite loop just trying to evaluate this function!
 For this reason, such systems often do not allow the user to specify an _arbitrary_ function using some Turing-complete formalism, but rather a function that is described by a restricted computational model, and in particular one in which all functions halt.
 One of the most popular models for this application is the model of  [regular expressions](https://en.wikipedia.org/wiki/Regular_expression).
-You have probably come across regular expresions if you  ever used an advanced text editor, a command line shell, or have done any kind of manipulations of text files.
+You have probably come across regular expresions if you  ever used an advanced text editor, a command line shell, or have done any kind of manipulations of text files.^[Sections 1.3 and 1.4 in [Sipser's book](https://www.google.com/search?q=introduction+to+the+theory+of+computation) are excellent resources for regular expressions. Sipser's book also discusses the equivalence of regular expressions with _finite automata_.]
 
 
 A _regular expression_ over some alphabet $\Sigma$ is obtained by combining elements of $\Sigma$ with the operations $|$ (corresponding to _or_) and $*$ (corresponding to repetition zero or more times).^[Common implementations of regular expressions in programming languages and shells typically include some extra  operations on top of $|$ and $*$, but these can all be implemented as "syntactic sugar" using   the operators $|$ and $*$.]
@@ -158,40 +158,33 @@ Regular expressions are widely used beyond just searching. First, they are typic
 
 
 
-### Context free grammars.
+## Context free grammars.
 
+If you have ever written a program, you've probably had the experience of a syntax error.
+You might have had also the experience of your program entering into an infinite loop.
+What is less likely is that the compiler or interpreter entered an infinite loop when trying to figure out if your program has a syntax error.
+When a person designs a programming language, they need to come up with a function $VALID:\{0,1\}^* \rightarrow \{0,1\}$ that determines the strings that correspond to valid programs in this language.
+The compiler or interpreter computes $VALID$ to determine if there is a syntax error.
+To ensure that the compiler will always halt in this computation, language designers  typically _don't_ use a general Turing-complete mechanism to express the function $VALID$, but rather a restricted computational model.
+One of the most popular choices for such a model is _context free grammar_.
 
+To explain context free grammars, let's begin with a canonical example.
+Let us try to define a function $ARITH:\Sigma^* \rightarrow \{0,1\}$ that takes as input a string $x$ over the alphabet $\Sigma = \{ (,),+,-,\times,\div,0,1,2,3,4,5,6,7,8,9\}$ and returns $1$ if and only if the string $x$ represents a valid arithmetic expression.
+Intuitively, we build expressions by applying an operation to smaller expressions, or enclosing them in parenthesis, where the "base case" corresponds to expressions that are simply numbers.
+A bit more precisely, we can make the following definitions:
 
-Another example of uncomputable functions arises from the notions of _grammars_.
-The idea of a grammar is best illustrated by an example.
-Consider the set of all valid arithmetical expressions involving natural numbers, and the operators $+,-,\times,\div$.
-We can describe this set recursively as follows:
+* A _number_ is either $0$ or a sequence of digits not starting with $0$.
 
-$$
-digit := 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
-$$
+* An _operation_ is one of $+,-,\times,\div$
 
-$$
-number := digit | digit number
-$$
+* An _expression_ has either the form "_number_" or the form  "_subexpression1 operation subexpression2_" or "(_subexpression_)".
 
-$$
-expression := number | (expression + expression) | (expression - expression) | (expression \times expression) | (expression \div expression)
-$$
+A context free grammar is a formal way of specifying such conditions.^[Sections 2.1 and 2.3 in [Sipser's book](https://www.google.com/search?q=introduction+to+the+theory+of+computation) are excellent resources for context free grammars.]
 
-A valid expression is any string in $\Sigma = \{ 0,1,2,3,4,5,6,7,8,9,0,(,),+,-,\times,\div \}^*$ that can be obtained by repeatedly applying some of these rules to the initial symbol $expression$ until we remain a string that does not contain $number$,$digit$ or $expression$ but  only symbols in $\Sigma$ (and hence cannot be reduced further).
+> # {.definition title="Context Free Grammar" #defcfg}
+Let $\Sigma$ be some finite set. A _context free grammar over $\Sigma$_ is a triple $(V,R,s)$ where $V$ is a set disjoint from $\Sigma$ of _variables_, $R$ is a set of _rules_, which are pairs $(v,x)$ where $v\in \V$ and $x\in (\Sigma \cup V)^*$, and $s\in V$ is the starting rule.
 
-^[TODO: maybe add here more example of context-sensitive grammar and then a proof that grammars are undecidable if there is in fact a simple proof of this (maybe based on lambda calculus?).]
-
-More generally, a _grammar_ over an alphabet $\Sigma$ consists of a set of pairs of strings $(\alpha,\beta)$ where $\alpha,\beta \in (\Sigma \cup N)^*$ and $N$ is some finite set disjoint from $\Sigma$ containing a special symbol we call $start$.
-$\Sigma$ is known as the set of _terminals_ and $N$ as the set of _non terminals_.
-
-A grammar defines a subset $L \subseteq \Sigma^*$ (known as a _language_) as follows:
-$x$ is in $\Sigma$ if and only if there exists some finite sequence of rules such that if we start from the string $start$ and each time replace a substring of the current string $\alpha$ with the corresponding righthand side of the rule $\beta$, then we eventually end up with $x$.
-
-
-
-
+For example, the f   
 
 
 
