@@ -1,5 +1,9 @@
 # Restricted computational models
 
+> # { .objectives }
+* See that Turing completeness is not always a good thing
+* See two important examples of non-Turing-complete, always-halting formalisms: _regular expressions_ and _context-free grammars_.
+* See the pumping lemmas for both these formalisms, and examples of non regular and non context-free languages.  
 
 >_"Happy families are all alike; every unhappy family is unhappy in its own way"_,  Leo Tolstoy (opening of  the book "Anna Karenina").
 
@@ -182,15 +186,30 @@ A bit more precisely, we can make the following definitions:
 A context free grammar is a formal way of specifying such conditions.^[Sections 2.1 and 2.3 in [Sipser's book](https://www.google.com/search?q=introduction+to+the+theory+of+computation) are excellent resources for context free grammars.]
 
 > # {.definition title="Context Free Grammar" #defcfg}
-Let $\Sigma$ be some finite set. A _context free grammar over $\Sigma$_ is a triple $(V,R,s)$ where $V$ is a set disjoint from $\Sigma$ of _variables_, $R$ is a set of _rules_, which are pairs $(v,x)$ where $v\in \V$ and $x\in (\Sigma \cup V)^*$, and $s\in V$ is the starting rule.
+Let $\Sigma$ be some finite set. A _context free grammar over $\Sigma$_ is a triple $(V,R,s)$ where $V$ is a set disjoint from $\Sigma$ of _variables_, $R$ is a set of _rules_, which are pairs $(v,z)$ where $v\in \V$ and $x\in (\Sigma \cup V)^*$ that has at least one element of $\Sigma$, and $s\in V$ is the starting rule.
+>  
+IF $(V,R,s)$ is a context-free grammar over $\Sigma$, then the function computed by $(V,R,s)$ is the map $\varphi_{V,R,s}:\{0,1\}^* \rightarrow \{0,1\}$ that is recursively defined as follows:
+>
+* For every $x\in \Sigma^*$, $\varphi_{V,R,s}(x)=1$ if there exists some $k\in \N$ and some strings $a_0,\ldots,a_{k},w_1,\ldots,w_{k} \in \Sigma^*$ and variables $v_1,\ldots,v_k \in V$ such that:
+   - $x= a_0w_1a_1w_2a_2 \cdots w_ka_k$
+   - The rule $(s,a_0v_1w_1a_2w_2 \cdots v_ka_k)$ is in $R$.
+   - For every $i\in \{1,\ldots,k\}$, $\varphi_{V,R,v_i}(w_i)=1$.
 
-For example, the f   
+
+A priori it might not be clear that the function $\varphi_{V,R,s}$ above is well defined, but since the second member of every rule contains at least one element of $\Sigma$, we get that $|w_1|+\cdots+|w_k| < |x|$, and hence this recursive definition always involves calls to $\vaprhi_{V,R,v}$ on inputs $w_i$ that are smaller than $x$.
+By the same reasoning, for every context-free grammar $(V,R,s)$ there is a recursive algorithm to compute the function $\varphi_{V,R,s}$ that always terminates.
+In particular the "halting problem" for context free grammars is trivial.
 
 
+The example above of well-formed arithmetic expressions can be captured formally by the following context free grammar:
 
+* The alphabet $\Sigma$ is  $\{ (,),+,-,\times,\div,0,1,2,3,4,5,6,7,8,9\}$
+* The variables are $V = \{ expression, operation \}$.
+* The rules  are the  set $R$ containing the following pairs:^[For the sake of clarify, we use quotation marks $".."$ to enclose the string which is the second pair of each rule. Also, note that our rules below,  slightly differ from those illustrated above. The two sets of rules compute the same function, but the description below has been modified to be an equivalent form of the reulsts above that doesn't have a rule whose righthand side is only variables. We could have also relaxed the condition of containing an alphabet symbol by only requiring that rules with no alphabet symbols induce a _directed acyclic graph_ over the variables.]
+   - $(number,"0")$ and $(number,"1number")$,$\ldots$, $(number,"9number")$
+   - $(expression,"(expression)")$,$(expression,"expression+expression")$,$(expression,"expression-expression")$,$(expression,"expression \times expression")$,$(expression,expression \div expression)$, $(expression,"0")$,$(expression,"1number")$,$\ldots$,$(expression,"9number")$.
 
-
-
+* The starting variable is $expression$
 
 ## Lecture summary
 
