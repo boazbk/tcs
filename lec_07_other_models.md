@@ -127,7 +127,7 @@ Since these are _finite_ functions (whose input and output length only depends o
 ### Simulating NAND++ programs with Turing machines
 
 To prove the second direction of [TM-equiv-thm](){.ref}, we need to show that for  every NAND++ program $P$, there is a Turing machine $M$ that computes the same function as $P$.
-The idea behind the proof is that the TM $M$ will _simulate_ the program $P$ as follows:
+The idea behind the proof is that the TM $M$ will _simulate_ the program $P$ as follows: (see also [TMsimNANDfig](){.ref})
 
 * The _head position_ of $M$ will correspond to the position of the index `i` in the current execution of the program $P$.
 
@@ -153,7 +153,7 @@ We leave verifying the (fairly straightforward) details of implementing these st
  Writing down the full description of $M$ from the above "pseudocode" is  straightforward, even if somewhat painful, exercise, and hence this completes the proof of [TM-equiv-thm](){.ref}.
 
 
-
+![To simulate a NAND++ program $P$ using a machine $M$ we introduce a large alphabet $\Sigma$ such that each symbol in $\Sigma$ can be thought of as a "mega symbol" that encodes the value of all the variables indexed at $i$, where $i$ is the current tape location. Similarly each state of $M$ can be thought of as a "mega state" that encodes the value of all variables of $P$ that have an absolute numerical index, as well as the current line that is about to be executed.](../figure/TMsimNAND.png){#TMsimNANDfig .class width=300px height=300px}
 
 
 > # {.remark title="Polynomial equivalence" #polyequivrem}
