@@ -535,7 +535,7 @@ We can summarize the models we use versus those used in other texts in the follo
 
     \
 
-  \
+
 
 Later on in this course we may study _memory bounded_ computation.
 It turns out that NAND++ programs with a constant amount of memory are equivalent to the model of _finite automata_ (the adjectives "deterministic" or "nondeterministic" are sometimes added as well, this model is also known as _finite state machines_) which in turns captures the notion of _regular languages_ (those that can be described by [regular expressions](https://en.wikipedia.org/wiki/Regular_expression)).

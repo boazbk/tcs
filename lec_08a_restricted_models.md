@@ -94,13 +94,15 @@ A _regular expression_ $exp$ over an alphabet $\Sigma$ is a string over $\Sigma 
 1. $exp = \sigma$ where $\sigma \in \Sigma$ \
 2. $exp = (exp' | exp'')$ where $exp', exp''$ are regular expressions. \
 3. $exp = (exp')(exp'')$ where $exp',exp''$ are regular expressions. \
-4. $exp = (exp')*$ where $exp'$ is a regular expression.^[Many texts also allow regular expressions that accept no strings or only the empty string. In the interest of simplicity, we drop these "edge cases" from our definition, though it does not matter much.]
+4. $exp = (exp')*$ where $exp'$ is a regular expression.^[The standard definition of regular expressions  adds some additional syntax to allow a regular expressions that accepts only the empty string, as well as a regular expression accepts no strings. In the interest of simplicity, we drop this "edge cases" from the  definition we use in these notes, though it does not matter much.]
 >
 Every regular expression $exp$ computes a function $\Phi_{exp}:\Sigma^* \rightarrow \{0,1\}$ defined as follows:
 1. If $exp = \sigma$ then $\Phi_{exp}(x)=1$ iff $x=\sigma$ \
 2. If $exp = (exp' | exp'')$ then $\Phi_{exp}(x) = \Phi_{exp'}(x) \vee \Phi_{exp''}(x)$ where $\vee$ is the OR operator. \
 3. If $exp = (exp')(exp'')$ then $\Phi_{exp}(x) = 1$ iff there is some $x',x'' \in \Sigma^*$ such that $x$ is the concatenation of $x'$ and $x''$ and $\Phi_{exp'}(x')=\Phi_{exp''}(x'')=1$.  \
 4. If $exp= (exp')*$ then $\Phi_{exp}(x)=1$ iff there are is $k\in \N$ and some $x_0,\ldots,x_{k-1} \in \Sigma^*$ such that $x$ is the concatenation $x_0 \cdots x_{k-1}$ and $\Phi_{exp'}(x_i)=1$ for every $i\in [k]$.
+>
+We say that a function $F:\Sigma^* \rightarrow \{0,1\}$ is _regular_ if $F=\Phi_{exp}$ for some regular expression $exp$. We say that a set $L \subseteq \Sigma^*$ (also known as a _language_) is _regular_ if the function $F$ s.t. $F(x)=1$ iff $x\in L$ is regular.
 
 [regexp](){.ref} might not be easy to grasp in a first read, so you should probably pause here and go over it again   until you understand why it corresponds to our intuitive notion of regular expressions.
 This is important not just for understanding regular expressions themselves (which are used time and again in a great many applications) but also for getting better at understanding recursive definitions in general.
@@ -164,11 +166,11 @@ Regular expressions are widely used beyond just searching. First, they are typic
 
 ## Context free grammars.
 
-If you have ever written a program, you've probably had the experience of a syntax error.
-You might have had also the experience of your program entering into an infinite loop.
+If you have ever written a program, you've  experienced  a _syntax error_.
+You might have had also the experience of your program entering into an _infinite loop_.
 What is less likely is that the compiler or interpreter entered an infinite loop when trying to figure out if your program has a syntax error.
 When a person designs a programming language, they need to come up with a function $VALID:\{0,1\}^* \rightarrow \{0,1\}$ that determines the strings that correspond to valid programs in this language.
-The compiler or interpreter computes $VALID$ to determine if there is a syntax error.
+The compiler or interpreter computes $VALID$ on the string corresponding to your source code to determine if there is a syntax error.
 To ensure that the compiler will always halt in this computation, language designers  typically _don't_ use a general Turing-complete mechanism to express the function $VALID$, but rather a restricted computational model.
 One of the most popular choices for such a model is _context free grammar_.
 
@@ -186,19 +188,27 @@ A bit more precisely, we can make the following definitions:
 A context free grammar is a formal way of specifying such conditions.^[Sections 2.1 and 2.3 in [Sipser's book](https://www.google.com/search?q=introduction+to+the+theory+of+computation) are excellent resources for context free grammars.]
 
 > # {.definition title="Context Free Grammar" #defcfg}
-Let $\Sigma$ be some finite set. A _context free grammar over $\Sigma$_ is a triple $(V,R,s)$ where $V$ is a set disjoint from $\Sigma$ of _variables_, $R$ is a set of _rules_, which are pairs $(v,z)$ where $v\in V$ and $x\in (\Sigma \cup V)^*$ that has at least one element of $\Sigma$, and $s\in V$ is the starting rule.
+Let $\Sigma$ be some finite set. A _context free grammar (CFG) over $\Sigma$_ is a triple $(V,R,s)$ where $V$ is a set disjoint from $\Sigma$ of _variables_, $R$ is a set of _rules_, which are pairs $(v,z)$ where $v\in V$ and $z\in (\Sigma \cup V)^*$, and $s\in V$ is the starting rule. We require that for every rule $(v,z)\in R$, if $z$ contains an element in $V$ then it must also contain at least one element in $\Sigma$.
 >  
-IF $(V,R,s)$ is a context-free grammar over $\Sigma$, then the function computed by $(V,R,s)$ is the map $\varphi_{V,R,s}:\{0,1\}^* \rightarrow \{0,1\}$ that is recursively defined as follows:
+IF $(V,R,s)$ is a context-free grammar over $\Sigma$, then the function computed by $(V,R,s)$ is the map $\Phi_{V,R,s}:\Sigma^* \rightarrow \{0,1\}$ that is recursively defined as follows:
 >
-* For every $x\in \Sigma^*$, $\varphi_{V,R,s}(x)=1$ if there exists some $k\in \N$ and some strings $a_0,\ldots,a_{k},w_1,\ldots,w_{k} \in \Sigma^*$ and variables $v_1,\ldots,v_k \in V$ such that:
+* For every $x\in \Sigma^*$, $\Phi_{V,R,s}(x)=1$ if there exists some $k\in \N$ and some strings $a_0,\ldots,a_{k},w_1,\ldots,w_{k} \in \Sigma^*$ and variables $v_1,\ldots,v_k \in V$ such that:
    - $x= a_0w_1a_1w_2a_2 \cdots w_ka_k$
    - The rule $(s,a_0v_1w_1a_2w_2 \cdots v_ka_k)$ is in $R$.
-   - For every $i\in \{1,\ldots,k\}$, $\varphi_{V,R,v_i}(w_i)=1$.
+   - For every $i\in \{1,\ldots,k\}$, $\Phi_{V,R,v_i}(w_i)=1$.
+>
+We say that $F:\Sigma^* \rightarrow \{0,1\}$ is _context free_ if $F = \Phi_{V,R,s}$ for some CFG $(V,R,s)$ we say that a set $L \subseteq \Sigma^*$ (also knoan as a _language_) is _context free_ if the function $F$ such that $F(x)=1$ iff $x\in L$ is context free.
 
 
-A priori it might not be clear that the function $\varphi_{V,R,s}$ above is well defined, but since the second member of every rule contains at least one element of $\Sigma$, we get that $|w_1|+\cdots+|w_k| < |x|$, and hence this recursive definition always involves calls to $\varphi_{V,R,v}$ on inputs $w_i$ that are smaller than $x$.
-By the same reasoning, for every context-free grammar $(V,R,s)$ there is a recursive algorithm to compute the function $\varphi_{V,R,s}$ that always terminates.
-In particular the "halting problem" for context free grammars is trivial.
+A priori it might not be clear that the function $\Phi_{V,R,s}$ above is well defined, but since the second member of every rule either contains no element of $v$ or contains at least one element of $\Sigma$, we get that if $k>0$, $|w_1|+\cdots+|w_k| < |x|$, and hence this recursive definition always involves calls to $\Phi_{V,R,v}$ on inputs $w_i$ that are smaller than $x$.
+By the same reasoning, for every context-free grammar $(V,R,s)$ there is a recursive algorithm to compute the function $\Phi_{V,R,s}$ that always terminates.
+In particular the "halting problem" for context free grammars is trivial, or in other words, we have the following theorem:
+
+> # {.theorem title="Context-free grammars always halt" #CFGhalt}
+For every CFG $(V,R,s)$ over $\Sigma$, the function $\Phi_{V,R,s}:\Sigma^* \rightarrow \{0,1\}$ is computable.^[While formally we only defined computability of functions over $\{0,1\}^*$, we can extend the definition to functions over any finite $\Sigma^*$ by using any one-to-one encoding of $\Sigma$ into $\{0,1\}^k$ for some finite $k$. It is a (good!) exercise to verify that if a function is computable with respect to one such encoding, then it is computable with respect to them all.]
+
+> # { .pause }
+[CFGhalt](){.ref} can be proven via the recursive algorithm sketched above, but it would be a great exercise for you to work out both the details of the algorithm, as well as the proof that it always halts with the correct answer. As a hint, such a proof is easiest done by induction on the length of the input, since all of our recursive calls always involve innputs of shorter length than the original one.
 
 
 The example above of well-formed arithmetic expressions can be captured formally by the following context free grammar:
@@ -210,6 +220,79 @@ The example above of well-formed arithmetic expressions can be captured formally
    - $(expression,"(expression)")$,$(expression,"expression+expression")$,$(expression,"expression-expression")$,$(expression,"expression \times expression")$,$(expression,expression \div expression)$, $(expression,"0")$,$(expression,"1number")$,$\ldots$,$(expression,"9number")$.
 
 * The starting variable is $expression$
+
+For clarity, we will often write a rule of the form $(v,\alpha)$ as $v \mapsto \alpha$.
+There are various notations to write context free grammars in the literature, with one of the most common being [Backus–Naur form](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form) where we write a rule of the form $v\mapsto a$ (where $v$ is a variable and $a$ is a string) in the form  `<v> := a`.
+If we have several rules of the form $v \mapsto a$, $v \mapsto b$, and $v \mapsto c$ then we can combine them as `<v> := a|b|c` (and this similarly extends for the case of more rules).
+
+
+
+While we can (and people do) talk about context free grammars over any alphabet $\Sigma$, in the following we will restrict ourselves to $\Sigma=\{0,1\}$. This is of course not a big restriction, as any finite alphabet $\Sigma$ can be encoded as strings of some finite size.
+It turns out that context free grammars can capture every regular expression:
+
+> # {.theorem title="Context free grammars and regular expressions" #CFGreg}
+Let $exp$ be a regular expression over $\{0,1\}$, then there is a CFG $(V,R,s)$ over $\{0,1\}$ such that $\Phi_{V,R,s}=\Phi_{exp}$.
+
+> # {.proof data-ref="CFGreg"}
+We will prove this by induction on the length of $exp$. If $exp$ is an expression of one bit length, then $exp=0$ or $exp=1$, in which case we leave it to the reader to verify that there is a (trivial) CFG that computes it.
+Otherwise, we fall into one of the following case: __case 1:__ $exp = exp'exp''$, __case 2:__ $exp = exp'|exp''$ or __case 3:__ $exp=(exp')^*$ where in all cases $exp',exp''$ are shorter regular expressions. By the induction hypothesis have grammars $(V',R',s')$ and $(V'',R'',s'')$ that compute $\Phi_{exp'}$ and $\Phi_{exp''}$ respectively. By renaming of variables, we can also assume without loss of generality that $V'$ and $V''$ are disjoint.
+>
+In case 1, we can define the new grammar as follows: we add a new starting variable $s \not\in V \cup V'$ and the rule $s \mapsto  s's''$.
+In case 2, we can define the new grammar as follows: we add a new starting variable $s \not\in V \cup V'$ and the rules $s \mapsto s'$ and $s \mapsto s''$.
+Case 3 will be the only one that uses _recursion_. As before  we add a new starting variable $s \not\in V \cup V'$, but now add the rules $s \mapsto ""$ (i.e., the empty string) and also add for every rule of the form $(s',\alpha) \in R'$ the rule $s \mapsto s\alpha$ to $R$.
+>
+We leave it to the reader as (again a very good!) exercise to verify that in all three cases the grammars we produce  capture the same function as the original expression.
+
+It turns out that CFG's are strictly more powerful than regular expressions. In particular, the "matching parenthesis" function can be computed by a context free grammar.
+Specifically, consider the grammar $(V,R,s)$ where $V=\{s}$ and $R$ is $s \mapsto ""$, $s \mapsto (s)s$, and $s \mapsto s(s)$. It is not hard to see that it captures exactly the set of strings over $\{ (,)\}$ that correspond to matching parenthesis.
+However, there are some simple languages that are _not_ captured by context free grammars, as can be shown via the following version of [pumping](){.ref}
+
+> # {.theorem title="Context-free pumping lemma" #cfgpumping}
+Let $(V,R,s)$ be a CFG over $\Sigma$, then there is some $n_0\in \N$ such that for every $x \in \Sigma^*$ with $|\sigma|>n_0$, if $\Phi_{V,R,s}(x)=1$ then $x=abcde$ such that $|b|+|c|+|d| \leq n_1$, $|b|+|d| \geq 1$, and $\Phi_{V,R,s}(ab^kcd^ke)=1$ for every $k\in \N$.
+
+> # {.proof data-ref="cfgpumping"}
+We only sketch the proof. The idea is that if the total number of symbols in the rules $R$ is $k_0$, then the only way to get $|x|>k_0$ with $\Phi_{V,R,s}(x)=1$ is to use _recursion_.
+That is there must be some $v \in V$ such that by a sequence of rules we are able to derive from $v$ the value $bvd$ for some strings $b,d \in \Sigma^*$ and then further on derive from $v$ the string $c\in \Sigma^*$ such that $bcd$ is a substring of $x$. If try to take the minimal such $v$ then we can ensure that $|bcd|$ is at most some constant depending on $k_0$ and we can set $n_0$ to be that constant ($n_0=10|R|k_0$ will do, since we will not need more than $|R|$ applications of rules, and each such application can grow the string by at most $k_0$ symbols).
+Thus by the definition of the grammar, we can repeat the derivation to replace the substring $bcd$ in $x$ with $b^kcd^k$ for every $k\in \N$ while retaining the property that the output of $\Phi_{V,R,s}$ is still one.
+
+Using [cfgpumping](){.ref} one can show that even the simple function $F(x)=1$ iff $x =  ww$ for some $w\in \{0,1\}^*$ is not context free. (In contrast, the function $F(x)=1$ iff $x=ww^R$ for $w\in \{0,1\}^*$ where for $w\in \{0,1\}^n$, $w^R=w_{n-1}w_{n-2}\cdots w_0$ is context free, can you see why?.)
+
+
+
+> # {.remark title="Parse trees" #parsetreesrem}
+While we present CFGs as merely _deciding_ whether the syntax is correct or not, the algorithm to compute $\Phi_{V,R,s}$ actually gives more information than that. That is, on input a string $x$, if $\Phi_{V,R,s}(x)=1$ then the algorithm yields the sequence of rules that one can apply from the starting vertex $s$ to obtain the final string $x$. We can think of these rules as determining a connected directed acylic graph (i.e., a _tree_) with $s$ being a source (or _root_) vertex and the sinks (or _leaves_)  corresponding to the substrings of $x$ that are obtained by the rules that do not have a variable in their second element. This tree is known as the _parse tree_ of $x$, and often yields very useful information about the structure of $x$.
+Often the first step in a compiler or interpreter for a programming language is a _parser_ that transforms the source into the parse tree (often known in this context as the [abstract syntax tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree)). There are also tools that can automatically convert a description of a context-free grammars into a _parser_ algorithm that computes the parse tree of a given string. (Indeed, the above recursive algorithm can be used to achieve this, but there are much more efficient versions, especially for grammars that have [particular forms](https://en.wikipedia.org/wiki/LR_parser), and programming language designers often try to ensure their languages have these more efficient grammars.)
+
+## Unrestricted grammars
+
+The reason we call context free grammars "context free" is because if we have a rule of the form $v \mapsto a$ it means that we can always replace $v$ with the string $a$, no matter the _context_ in which $v$ appears.
+More generally, we want to consider cases where our replacement rules depend on the context.^[TODO: add example]
+This gives rise to the notion of _general grammars_ that allow rules of the form $(a,b)$ where both $a$ and $b$ are strings over $(V \cup \Sigma)^*$.
+The idea is that if, for example, we wanted to enforce the condition that we only apply some rule such as $v \mapsto 0w1$  when $v$ is surrounded by three zeroes on both sides, then we could do so by adding a rule of the form $000v000 \mapsto 0000w1000$ (and of course we can add much more general conditions).
+Formally we make the following definition
+
+> # {.definition title="General Grammar" #defcfg}
+Let $\Sigma$ be some finite set. A  _grammar_ (also known as a _general_ or _unrestricted_ grammar) over $\Sigma$ is a triple $(V,R,s)$ where $V$ is a set disjoint from $\Sigma$ of _variables_, $R$ is a set of _rules_, which are pairs $(z',z)$ where  $z,z'\in (\Sigma \cup V)^*$, and $s\in (\Sigma \cup V)^*$ is the starting string.
+>
+Ig $(V,R,s)$ is a grammar over $\Sigma$, then the function computed by $(V,R,s)$ is the map $\Phi_{V,R,s}:\Sigma^* \rightarrow \{0,1\}$ that is recursively defined as follows:
+>
+* For every $x\in \Sigma^*$, $\Phi_{V,R,s}(x)=1$ if there exists some $k\in \N$ and some strings $a_0,\ldots,a_{k},w_1,\ldots,w_{k} \in \Sigma^*$ and variables $v_1,\ldots,v_k \in V$ such that:
+   - $x= a_0w_1a_1w_2a_2 \cdots w_ka_k$
+   - The rule $(s,a_0v_1w_1a_2w_2 \cdots v_ka_k)$ is in $R$.
+   - For every $i\in \{1,\ldots,k\}$, $\Phi_{V,R,v_i}(w_i)=1$.
+>
+We say that $F:\Sigma^* \rightarrow \{0,1\}$ is _context free_ if $F = \Phi_{V,R,s}$ for some CFG $(V,R,s)$ we say that a set $L \subseteq \Sigma^*$ (also known as a _language_) is _context free_ if the function $F$ such that $F(x)=1$ iff $x\in L$ is context free.
+
+Like context free grammars, this definition yields a natural recursive algorithm for computing $\Phi_{V,R,s}$.
+However, unlike the case of CFGs, we are not necessarily guaranteed that the algorithm will terminate, as the recursive calls are not guaranteed to use inputs shorter than the original input.^[This does not mean that the algorithm will necessarily _not_ terminate, but it does mean that we can't use the same argument we used above]
+However, we can still make the function above well defined by stating that $\Phi_{V,R,s}(x)$ defaults to $0$ unless it is set to $1$ by the definition above.
+That is, we can think of $\Phi_{V,R,s}$ as being defined by a process that starts with the all zeroes function, then sets $\Phi_{V,R,z'}(z)=1$ for every $z\in \Sigma^*$ such that $(z,z')\in R$, and then continues to set $\Phi_{V,R,s}(x)=1$ for every $x$ that can be demonstrated to equal $1$ via the recursive definition above.
+
+
+^[TO BE CONTINUED]
+
+
+
 
 ## Lecture summary
 
