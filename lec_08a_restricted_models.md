@@ -2,8 +2,9 @@
 
 > # { .objectives }
 * See that Turing completeness is not always a good thing
-* See two important examples of non-Turing-complete, always-halting formalisms: _regular expressions_ and _context-free grammars_.
-* See the pumping lemmas for both these formalisms, and examples of non regular and non context-free languages.  
+* Two important examples of non-Turing-complete, always-halting formalisms: _regular expressions_ and _context-free grammars_.
+* The pumping lemmas for both these formalisms, and examples of non regular and non context-free functions.
+* Unrestricted grammars, and another example of an uncomputable function.  
 
 >_"Happy families are all alike; every unhappy family is unhappy in its own way"_,  Leo Tolstoy (opening of  the book "Anna Karenina").
 
@@ -190,17 +191,23 @@ A context free grammar is a formal way of specifying such conditions.^[Sections 
 > # {.definition title="Context Free Grammar" #defcfg}
 Let $\Sigma$ be some finite set. A _context free grammar (CFG) over $\Sigma$_ is a triple $(V,R,s)$ where $V$ is a set disjoint from $\Sigma$ of _variables_, $R$ is a set of _rules_, which are pairs $(v,z)$ where $v\in V$ and $z\in (\Sigma \cup V)^*$, and $s\in V$ is the starting rule. We require that for every rule $(v,z)\in R$, if $z$ contains an element in $V$ then it must also contain at least one element in $\Sigma$.
 >  
-IF $(V,R,s)$ is a context-free grammar over $\Sigma$, then the function computed by $(V,R,s)$ is the map $\Phi_{V,R,s}:\Sigma^* \rightarrow \{0,1\}$ that is recursively defined as follows:
+IF $G=(V,R,s)$ is a context-free grammar over $\Sigma$, then for two strings $\alpha,\beta \in (\Sigma \cup V)^*$ we say that $\beta$ _can be derived in one step_ from $\alpha$, denoted by  $\alpha \rightarrow_G \beta$, if there exist a rule $(v,z) \in R$ and strings $\alpha',\alpha'' \in (\Sigma \cup V)^*$ such that $\alpha = \alpha'v\alpha''$ and $\beta=\alpha'z\alpha''$.
+We say that $\beta$ can be derived from $\alpha$, denoted by $\alpha \rightsquigarrow_G \beta$ if there exist $k\in \N$. $\alpha_1,\alpha_2,\ldots,\alpha_{k-1}$ such that $\alpha \rightarrow_G \alpha_1 \rightarrow_G \alpha_2 \rightarrow_G \cdots \rightarrow_G \alpha_{k-1} \rightarrow_G \beta$.
+>
+We define the _function computed by_ $(V,R,s)$ to be the map $\Phi_{V,R,s}:\Sigma^* \rightarrow \{0,1\}$ such that $\Phi_{V,R,s}(x)=1$ iff  $s \rightsquigarrow_G x$.
+We say that $F:\Sigma^* \rightarrow \{0,1\}$ is _context free_ if $F = \Phi_{V,R,s}$ for some CFG $(V,R,s)$ we say that a set $L \subseteq \Sigma^*$ (also knoan as a _language_) is _context free_ if the function $F$ such that $F(x)=1$ iff $x\in L$ is context free.
+
+
+that is recursively defined as follows:
 >
 * For every $x\in \Sigma^*$, $\Phi_{V,R,s}(x)=1$ if there exists some $k\in \N$ and some strings $a_0,\ldots,a_{k},w_1,\ldots,w_{k} \in \Sigma^*$ and variables $v_1,\ldots,v_k \in V$ such that:
    - $x= a_0w_1a_1w_2a_2 \cdots w_ka_k$
    - The rule $(s,a_0v_1w_1a_2w_2 \cdots v_ka_k)$ is in $R$.
    - For every $i\in \{1,\ldots,k\}$, $\Phi_{V,R,v_i}(w_i)=1$.
->
-We say that $F:\Sigma^* \rightarrow \{0,1\}$ is _context free_ if $F = \Phi_{V,R,s}$ for some CFG $(V,R,s)$ we say that a set $L \subseteq \Sigma^*$ (also knoan as a _language_) is _context free_ if the function $F$ such that $F(x)=1$ iff $x\in L$ is context free.
 
 
-A priori it might not be clear that the function $\Phi_{V,R,s}$ above is well defined, but since the second member of every rule either contains no element of $v$ or contains at least one element of $\Sigma$, we get that if $k>0$, $|w_1|+\cdots+|w_k| < |x|$, and hence this recursive definition always involves calls to $\Phi_{V,R,v}$ on inputs $w_i$ that are smaller than $x$.
+
+A priori it might not be clear that the function $\Phi_{V,R,s}$ above is well defined, but since the second member of every rule either contains no element of $v$ or contains at least one element of $\Sigma$, we get that if $k>0$, $|w_1|+\cdots+|w_k| < |x|$. and hence this recursive definition always involves calls to $\Phi_{V,R,v}$ on inputs $w_i$ that are smaller than $x$.
 By the same reasoning, for every context-free grammar $(V,R,s)$ there is a recursive algorithm to compute the function $\Phi_{V,R,s}$ that always terminates.
 In particular the "halting problem" for context free grammars is trivial, or in other words, we have the following theorem:
 
