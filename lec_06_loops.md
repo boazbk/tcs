@@ -542,7 +542,7 @@ Thus in each step, $NEXT_P$ only reads or modifies a constant number of blocks.
 
 Here is some Python code for the next step function:
 
-~~~~ { .python] }
+~~~~ { .python }
 # compute the next-step configuration
 # Inputs:
 # P: NAND++ program in list of 6-tuples representation
