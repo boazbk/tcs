@@ -150,6 +150,14 @@ where $r= \floor{\sqrt{k+1/4}-1/2}$.
 (We ask you to prove this in [computeidx-ex](){.ref}.)
 
 
+> # {.remark title="Variables as arrays" #arrays}
+In NAND we allowed variables to have names such as `foo_17` but the numerical part of the identifier played essentially the same role as alphabetical part. In particular, NAND would be just as powerful if we didn't allow any numbers in the variable identifiers.
+With the introduction of the special index variable `i`, in NAND++ things are different.
+It is best to think of each NAND++ variable `foo` as an _array_, with its $j$-th position corresponding to `foo_`$\expr{j}$ (which in other programming languages would often be written as `foo[`$\expr{j}$`]`).
+Recall also our convention that a variable without an index such as `bar` is equivalent to `bar_0`, or the first position of the corresponding array.
+Of course we can think of variables as arrays in NAND as well, but since in NAND all indices are absolute numerical constants, this viewpoint does not make much of a difference as it does in NAND++.
+
+
 
 
 
@@ -476,10 +484,20 @@ Each block $\sigma^i$ will be a string of length $B$ (for some constant $B$ depe
 
 * Whether this is the first or last block.
 
-The exact way to encode this information is not that important, but for the sake of concreteness, we will now specify it.
+
+> # {.remark title="High level points about configurations" #configdetails}
+For the sake of completeness, we will describe below precisely how  configurations of NAND++ programs and the next-step function are defined.
+However, the details are as important as the high level points, which are the following:
+A configuration encodes all the information of the state of the program at a given step in the computation, including the values of all variables (both the Boolean variables and the special index variable `i`) and the current line number that is to be executed.
+The next step function of a program $P$ updates that configuration by computing one line of the program, and updating the value of the variable that is assigned a value in this program.
+The variables involved in that line either have absolute numerical indices (in which case they are encoded in one of the first $s$ blocks, as numerical indices can't be larger than the number of lines) or are indexed by the special variable `i` (in which case they are encoded in the active block).
+If the line is the last one in the program, the next step function also determines whether to halt based on the `loop` variable, and updates the active block based on whether the index will be increasing or decreasing.
 
 
-We will think of a block as using the alphabet $\Sigma = \{ \mathtt{BB}, \mathtt{EB}, 0 , 1 \}$. ($\mathtt{BB}$ and $\mathtt{EB}$ stand for "begin block" and "end block" respectively; we can later encode this as a binary string using the map $0 \mapsto 00, 1\mapsto 11, \mathtt{BB} \mapsto 01, \mathtt{EB} \mapsto 10$.)
+
+We now describe a precise encoding for the configurations of a NAND++ program.
+Many of the choices below are made for convenience and other choices would be just as valid.
+We will think of encoding each block as using the alphabet $\Sigma = \{ \mathtt{BB}, \mathtt{EB}, 0 , 1 \}$. ($\mathtt{BB}$ and $\mathtt{EB}$ stand for "begin block" and "end block" respectively; we can later encode this as a binary string using the map $0 \mapsto 00, 1\mapsto 11, \mathtt{BB} \mapsto 01, \mathtt{EB} \mapsto 10$.)
 In this alphebt $\Sigma$, every block $\sigma^i$ will have the form
 
 $$
@@ -505,19 +523,81 @@ See [configurationsnandpppng](){.ref} for an illustration of the configuration.
 ![A configuration of an $s$-line $t$-variable simple NAND++ program can be encoded as a string in $\{0,1\}^{rB}$, the $i$-th block encodes the value of all variables of the form `foo_`$\expr{i}$, as well as whether the block is first, last or active in the sense that `i`=$i$ and in the latter case, also the index of the current line being executed.](../figure/nandppconfiguration.png){#configurationsnandpppng .class width=300px height=300px}
 
 
-For a simple $s$-line $t$-variable NAND++ program $P$ the _next configuration function_ $NEXT_P:\{0,1\}^* \rightarrow  \{0,1\}^*$ is defined in the natural way.
-That is,  a configuration $\sigma$, we compute $\sigma'$ by:
+For a simple $s$-line $t$-variable NAND++ program $P$ the _next configuration function_ $NEXT_P:\{0,1\}^* \rightarrow  \{0,1\}^*$ is defined in the natural way.^[We define $NEXT_P$ as a _partial_ function, that is only defined on strings that are valid encoding of a configuration, and in particular have only a single block with its active bit set, and where the initial and final bits are also only set for the first and last block respectively. It is of course possible to extend $NEXT_P$ to be a total function by defining it on invalid configurations in some way.]
+That is,  on input a configuration $\sigma$, one can compute $\sigma'=NEXT_P(\sigma)$ as follows:
 
-1. Scan the configuration $\sigma$ to find the index $i$ of the active block and the current line $p$ that needs to be executed.
+1. Scan the configuration $\sigma$ to find the index $i$ of the active block (block where the _active_ bit is set to $1$) and the current line $p$ that needs to be executed (which is enc). We  denote the new active block and current line in the configuration $\sigma'$ by $(i',p')$.
 
-2.  Execute the line $p$: if the $p$-th tuple in the program is $(a,j,b,k,c,\ell)$ then we update $\sigma$ based on the value of this program.
+2. If $p=s$ then this $\sigma$ a halting configuration and $NEXT_p(\sigma) = \sigma$. Otherwise we continue to the following steps:
 
-3. Updating the value of $i$: based on `indexincreasing` (which we can read from the first block), if $p$ is the last line then we either increment or  decrement $i$ and update the active block.  (If $i$ was the last active block and $i$ is incremented then we create a new block and mark it to be the last one.)
+3.  Execute the line $p$: if the $p$-th tuple in the program is $(a,j,b,k,c,\ell)$ then we update $\sigma$ to $\sigma'$ based on the value of this program. That is,  in the configuration $\sigma'$, we encode the value of of the variable corresponding to $(a,j)$ as the NAND of the values of variables corresponding to  $(b,k)$ and $(c,\ell)$.^[Recall that according to the way we represent NAND++ programs as 6-tuples, if $a$ is the number corresponding to the identifier `foo` then $(a,j)$ corresponds to `foo_`$\expr{j}$ if $j<s$, and corresponds to `foo_`$\expr{i}$ if $j=s$ where $i$ is the current value of the index variable `i`.]
 
-* Moving to $p+1 \mod s$ unless $p=|s|$ and $\hat{\sigma}^0_3$ (corresponding to `loop`) is equal to $0$, in which case we let $p'=s+1$, which is considered a halting configuration that is never modified by $NEXT_P$.
+4. Updating the value of $i$: if $p=s-1$ (i.e., $p$ corresponds to the last line of the program), then we check whether the value of the `loop` or `loop_0` variable (which by our convention is encoded as the variable with index $3$ in the first block) and if so set in $\sigma'$ the value $p'=s$ which corresponds to a halting configuration. Otherwise, $i$ is either incremented and decremented based on  `indexincreasing` (which we can read from the first block). That is, we let $i'$ be either $i+1$ and $i-1$ based on `indexincreasing` and modify the active block in $\sigma'$ to be $i'$. (If $i$ is the final block and $i'=i+1$ then we create a new block and mark it to be the last one.)
+
+5. We update $p'= p+1 \mod s$, and encode $p'$ in the active block of $\sigma'$.
+
 
 One important property of $NEXT_P$ is that to compute it we only need to access the blocks $0,\ldots,s-1$ (since the largest absolute numerical index in the program is at most $s-1$) as well as the current active block and its immediate neighbors.
 Thus in each step, $NEXT_P$ only reads or modifies a constant number of blocks.
+
+Here is some Python code for the next step function:
+
+~~~~ { .python] }
+# compute the next-step configuration
+# Inputs:
+# P: NAND++ program in list of 6-tuples representation
+# conf: encoding of configuration as a string using the alphabet "B","E","0","1".
+# untested code - probably has a few bugs
+def next_step(P,conf):
+    s = len(P) # numer of lines
+    t = max([max(tup[0],tup[2],tup[4]) for tup in P])+1 # number of variables
+    line_enc_length = math.ceil(math.log(2,s+1)) # num of bits to encode a line
+    block_enc_length = math.ceil(math.log(2,t))+3+line_enc_length # num of bits to encode a block (without bookends of "E","B")
+    LOOP = 3
+    IDXINCREASING = 5
+    ACTIVEIDX = block_enc_length -line_enc_length-2 # position of active flag
+    FINALIDX =  block_enc_length  -line_enc_length-3 # position of final flag
+
+    def getval(var,idx):
+        if idx<s: return int(blocks[idx][var])
+        return active[var]
+
+    def setval(var,idx,v):
+        nonlocal blocks, i
+        if idx<s: blocks[idx][var]=str(v)
+        blocks[i][var]=str(v)
+
+    blocks = [b[1:] for b in conf.split("E")[:-1]] # list of blocks w/o initial "B" and final "E"
+
+    i = [j for j in range(len(blocks))  if blocks[j][ACTIVEIDX] ][0]
+    active = blocks[i]
+
+    p = int(blocks[i][-line_enc_length:],2) # current line to be executed
+
+    if p==s: return conf # halting configuration
+
+    (a,j,b,k,c,l) = P[p] #  6-tuple corresponding to current line
+    setval(a,j,1-getval(b,k)*getval(c,l))
+
+    new_p = p+1
+    new_i = i
+    if p==s-1: # last line
+        new_p = (s if getval(LOOP,0)==0 else 0)
+        new_i = (i+1 if getval(INDEXINCREASING,0) else i-1)
+        if new_i==len(blocks): # need to add another block and make it final
+            blocks[len(blocks)-1][FINALIDX]="0"
+            new_final = "0"*block_enc_length
+            new_final[FINALIDX]="1"
+            blocks.append(new_final)
+
+    blocks[i][ACTIVEIDX]="0" # turn off "active" flag in old active block
+    blocks[i][ACTIVDEIDX+1:ACTIVEIDX+1+line_enc_length]="0"*line_enc_length # zero out line counter in old active block
+    blocks[new_i][ACTIVEIDX]="1" # turn on "active" flag in new active block
+    blocks[new_i][ACTIVDEIDX+1:ACTIVEIDX+1+line_enc_length] = bin(new_p)[2:] # add binary representation of next line in new active block
+
+    return ["B"+block+"E" for block in blocks].join("") # return new configuration
+~~~~
+
 
 ### Deltas
 
