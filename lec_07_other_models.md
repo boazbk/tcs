@@ -141,7 +141,7 @@ The semantics are that $\ell$ encodes the line of $P$ that is about to be execut
 
 To simulate the execution of one step in $P$'s computation, the machine $M$ will do the following:
 
-1. The contents of the symbol at the current head position and its state encode all information about the current line number to be executed, as well as the contents of all variables that are either indexed by `i` or by an absolute numerical index. Hence we can use that to compute the new line to be executed.
+1. The contents of the symbol at the current head position and its state encode all information about the current line number to be executed, as well as the contents of all variables of the program of the form `foo_`$\expr{i}$ where $i$ is the current value of the index variable in the simulated program. Hence we can use that to compute the new line to be executed.
 
 2. $M$ will write to the tape and update its state to reflect the update to the variable that is assigned a new value in the execution of this line.
 
