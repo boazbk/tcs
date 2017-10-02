@@ -251,7 +251,7 @@ Case 3 will be the only one that uses _recursion_. As before  we add a new start
 We leave it to the reader as (again a very good!) exercise to verify that in all three cases the grammars we produce  capture the same function as the original expression.
 
 It turns out that CFG's are strictly more powerful than regular expressions. In particular, the "matching parenthesis" function can be computed by a context free grammar.
-Specifically, consider the grammar $(V,R,s)$ where $V=\{s}$ and $R$ is $s \mapsto ""$, $s \mapsto (s)s$, and $s \mapsto s(s)$. It is not hard to see that it captures exactly the set of strings over $\{ (,)\}$ that correspond to matching parenthesis.
+Specifically, consider the grammar $(V,R,s)$ where $V=\{s\}$ and $R$ is $s \mapsto ""$, $s \mapsto (s)s$, and $s \mapsto s(s)$. It is not hard to see that it captures exactly the set of strings over $\{ (,)\}$ that correspond to matching parenthesis.
 However, there are some simple languages that are _not_ captured by context free grammars, as can be shown via the following version of [pumping](){.ref}
 
 > # {.theorem title="Context-free pumping lemma" #cfgpumping}
