@@ -248,7 +248,7 @@ Please stop and verify that you understand why this transformation will result i
 ### Controlling the index variable
 
 NAND++ is an _oblivious_ programming model, in the sense that it gives  us no means of controlling the index variable `i`.
-Rather to read a certain variable such as `foo_52` we need to wait until `i` will equal $52$.
+Rather to read, for example, the 1017-th index of the array `foo` (i.e., `foo_1017`) we need to wait until `i` will equal $1017$.^[Note that we _can_ use variables with absolute numerical indices in the program, but they can only let us access a fixed number of locations (in particular smaller than the number of lines in the program). Since in NAND++ we typically think of inputs that are much longer than the number of lines, in general we will have to use the index variable `i` to access most of the memory locations.]
 However we can use syntactic sugar to simulate the effect of incrementing and decrementing `i`.
 That is, rather than having `i` move according to a fixed schedule, we can assume that we have the operation `i++ (foo)` that increments `i` if `foo` is equal to $1$ (and otherwise leaves `i` in place), and similarly the operation `i-- (bar)` that decrements `i` if `bar` is $1$ and otherwise leaves `i` in place.
 
