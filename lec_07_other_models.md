@@ -51,7 +51,7 @@ The formal definition of Turing machines is as follows:
 
 > # {.definition title="Turing Machine" #TM-def}
 A (one tape) _Turing machine_ with $k$ states and alphabet $\Sigma \supseteq \{0,1, \triangleright, \varnothing \}$ is a function
-$M:[k]\times \Sigma \rightarrow \Sigma \times [k] \times \{ L , R \}$.
+$M:[k]\times \Sigma \rightarrow [k] \times \Sigma  \times \{ L , R \}$.
 We say that the Turing machine $M$ _computes_ a (partial) function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ if for every $x\in\bits^*$ on which $F$ is defined, the result of the following process is $F(x)$:
 >
 * Initialize the array $T$ of symbols in $\Sigma$ as follows: $T[0] = \triangleright$, $T[i]=x_i$ for $i=1,\ldots,|x|$
