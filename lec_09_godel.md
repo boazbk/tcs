@@ -156,7 +156,7 @@ At a high level, the crucial insight  is that unlike when we actually run the co
 
 
 Informally, an _execution trace_ of a program $P$ on an input $x$ is a string that represents a "log" of all the lines executed and variables assigned in the course of the execution.
-For example, if we execute the parity program
+For example, if we execute on [nandpl.org](http://www.nandpl.org) the parity program
 
 ~~~~ { .go .numberLines }
 tmp_1  := seen_i NAND seen_i
@@ -174,7 +174,7 @@ loop := stop     NAND stop
 ~~~~
 
 
-on the input `01`, the trace will be the following long text (which you don't need to actually read)
+on the input `01`, the trace will be the following  text (truncated here, since it is not the most riveting of reading material):
 
 ```
 Executing commmand "tmp_1 := seen_i NAND seen_i", seen_0 has value 0, seen_0 has value 0, tmp_1 assigned value 1
@@ -191,60 +191,16 @@ Executing commmand "stop_0 := validx_i NAND validx_i", validx_0 has value 1, val
 Executing commmand "loop := stop_0 NAND stop_0", stop_0 has value 0, stop_0 has value 0, loop assigned value 1
 Entering new iteration
 Executing commmand "tmp_1 := seen_i NAND seen_i", seen_1 has value 0, seen_1 has value 0, tmp_1 assigned value 1
-Executing commmand "tmp_2 := x_i NAND tmp_1", x_1 has value 1, tmp_1 has value 1, tmp_2 assigned value 0
-Executing commmand "val_0 := tmp_2 NAND tmp_2", tmp_2 has value 0, tmp_2 has value 0, val_0 assigned value 1
-Executing commmand "ns_0 := s_0 NAND s_0", s_0 has value 0, s_0 has value 0, ns_0 assigned value 1
-Executing commmand "y_0 := ns_0 NAND ns_0", ns_0 has value 1, ns_0 has value 1, y_0 assigned value 0
-Executing commmand "u_0 := val_0 NAND s_0", val_0 has value 1, s_0 has value 0, u_0 assigned value 1
-Executing commmand "v_0 := s_0 NAND u_0", s_0 has value 0, u_0 has value 1, v_0 assigned value 1
-Executing commmand "w_0 := val_0 NAND u_0", val_0 has value 1, u_0 has value 1, w_0 assigned value 0
-Executing commmand "s_0 := v_0 NAND w_0", v_0 has value 1, w_0 has value 0, s_0 assigned value 1
-Executing commmand "seen_i := zero_0 NAND zero_0", zero_0 has value 0, zero_0 has value 0, seen_1 assigned value 1
-Executing commmand "stop_0 := validx_i NAND validx_i", validx_1 has value 1, validx_1 has value 1, stop_0 assigned value 0
-Executing commmand "loop := stop_0 NAND stop_0", stop_0 has value 0, stop_0 has value 0, loop assigned value 1
-Entering new iteration
-Executing commmand "tmp_1 := seen_i NAND seen_i", seen_0 has value 1, seen_0 has value 1, tmp_1 assigned value 0
-Executing commmand "tmp_2 := x_i NAND tmp_1", x_0 has value 0, tmp_1 has value 0, tmp_2 assigned value 1
-Executing commmand "val_0 := tmp_2 NAND tmp_2", tmp_2 has value 1, tmp_2 has value 1, val_0 assigned value 0
-Executing commmand "ns_0 := s_0 NAND s_0", s_0 has value 1, s_0 has value 1, ns_0 assigned value 0
-Executing commmand "y_0 := ns_0 NAND ns_0", ns_0 has value 0, ns_0 has value 0, y_0 assigned value 1
-Executing commmand "u_0 := val_0 NAND s_0", val_0 has value 0, s_0 has value 1, u_0 assigned value 1
-Executing commmand "v_0 := s_0 NAND u_0", s_0 has value 1, u_0 has value 1, v_0 assigned value 0
-Executing commmand "w_0 := val_0 NAND u_0", val_0 has value 0, u_0 has value 1, w_0 assigned value 1
-Executing commmand "s_0 := v_0 NAND w_0", v_0 has value 0, w_0 has value 1, s_0 assigned value 1
-Executing commmand "seen_i := zero_0 NAND zero_0", zero_0 has value 0, zero_0 has value 0, seen_0 assigned value 1
-Executing commmand "stop_0 := validx_i NAND validx_i", validx_0 has value 1, validx_0 has value 1, stop_0 assigned value 0
-Executing commmand "loop := stop_0 NAND stop_0", stop_0 has value 0, stop_0 has value 0, loop assigned value 1
-Entering new iteration
-Executing commmand "tmp_1 := seen_i NAND seen_i", seen_1 has value 1, seen_1 has value 1, tmp_1 assigned value 0
-Executing commmand "tmp_2 := x_i NAND tmp_1", x_1 has value 1, tmp_1 has value 0, tmp_2 assigned value 1
-Executing commmand "val_0 := tmp_2 NAND tmp_2", tmp_2 has value 1, tmp_2 has value 1, val_0 assigned value 0
-Executing commmand "ns_0 := s_0 NAND s_0", s_0 has value 1, s_0 has value 1, ns_0 assigned value 0
-Executing commmand "y_0 := ns_0 NAND ns_0", ns_0 has value 0, ns_0 has value 0, y_0 assigned value 1
-Executing commmand "u_0 := val_0 NAND s_0", val_0 has value 0, s_0 has value 1, u_0 assigned value 1
-Executing commmand "v_0 := s_0 NAND u_0", s_0 has value 1, u_0 has value 1, v_0 assigned value 0
-Executing commmand "w_0 := val_0 NAND u_0", val_0 has value 0, u_0 has value 1, w_0 assigned value 1
-Executing commmand "s_0 := v_0 NAND w_0", v_0 has value 0, w_0 has value 1, s_0 assigned value 1
-Executing commmand "seen_i := zero_0 NAND zero_0", zero_0 has value 0, zero_0 has value 0, seen_1 assigned value 1
-Executing commmand "stop_0 := validx_i NAND validx_i", validx_1 has value 1, validx_1 has value 1, stop_0 assigned value 0
-Executing commmand "loop := stop_0 NAND stop_0", stop_0 has value 0, stop_0 has value 0, loop assigned value 1
-Entering new iteration
-Executing commmand "tmp_1 := seen_i NAND seen_i", seen_2 has value 0, seen_2 has value 0, tmp_1 assigned value 1
-Executing commmand "tmp_2 := x_i NAND tmp_1", x_2 has value 0, tmp_1 has value 1, tmp_2 assigned value 1
-Executing commmand "val_0 := tmp_2 NAND tmp_2", tmp_2 has value 1, tmp_2 has value 1, val_0 assigned value 0
-Executing commmand "ns_0 := s_0 NAND s_0", s_0 has value 1, s_0 has value 1, ns_0 assigned value 0
-Executing commmand "y_0 := ns_0 NAND ns_0", ns_0 has value 0, ns_0 has value 0, y_0 assigned value 1
-Executing commmand "u_0 := val_0 NAND s_0", val_0 has value 0, s_0 has value 1, u_0 assigned value 1
-Executing commmand "v_0 := s_0 NAND u_0", s_0 has value 1, u_0 has value 1, v_0 assigned value 0
-Executing commmand "w_0 := val_0 NAND u_0", val_0 has value 0, u_0 has value 1, w_0 assigned value 1
-Executing commmand "s_0 := v_0 NAND w_0", v_0 has value 0, w_0 has value 1, s_0 assigned value 1
+...
+...
+...
 Executing commmand "seen_i := zero_0 NAND zero_0", zero_0 has value 0, zero_0 has value 0, seen_2 assigned value 1
 Executing commmand "stop_0 := validx_i NAND validx_i", validx_2 has value 0, validx_2 has value 0, stop_0 assigned value 1
 Executing commmand "loop := stop_0 NAND stop_0", stop_0 has value 1, stop_0 has value 1, loop assigned value 0
 Result: 1 (1)
 ```
 
-The line by line execution trace is quite long and tedious, but note that it is much easier to check: we just need to see that each line computes the NAND correctly, and that the value that it claims for the variables on the righthand side of the assignment is the same value that was written to them in the previous line that accessed them.
+The line by line execution trace is quite long and tedious, but note that it is very easy to locally check, without the need to redo the computation ourselves: we just need to see that each line computes the NAND correctly, and that the value that it claims for the variables on the righthand side of the assignment is the same value that was written to them in the previous line that accessed them.
 
 
 More formally, we will use the notion of a _modification log_ or "Deltas" of a NAND++ program, as presented in [deltas](){.ref}.
