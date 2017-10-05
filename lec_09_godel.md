@@ -1,5 +1,11 @@
 # Is every theorem provable?
 
+> # { .objectives }
+* See more examples of uncomputable functions that are not as tied to computation.
+* See Godel's incompleteness theorem - a result that shook the world of mathematics in the early 20th century.
+
+
+
 >_"Take any definite unsolved problem, such as ... the existence of an infinite number of prime numbers of the form $2^n + 1$. However unapproachable these problems may seem to us and however helpless we stand before them, we have, nevertheless, the firm conviction that their solution must follow by a finite number of purely logical processes..."_ \
 >_"...This conviction of the solvability of every mathematical problem is a powerful incentive to the worker. We hear within us the perpetual call: There is the problem. Seek its solution. You can find it by pure reason, for in mathematics there is no ignorabimus."_, David Hilbert, 1900.
 
@@ -73,13 +79,13 @@ $$
 \neg \exists_{a\in\N} \exists_{b\in\N} \exists_{c\in\N} a\times a \times a  + b \times b \times b = c\times c \times c \;.
 $$
 
-The _twin prime hypothesis_, that states that there is an infinite number of numbers $p$ such that both $p$ and $p+2$ are primes  can be phrased as the quantified integer statement
+The [twin prime conjecture](https://en.wikipedia.org/wiki/Twin_prime), that states that there is an infinite number of numbers $p$ such that both $p$ and $p+2$ are primes  can be phrased as the quantified integer statement
 $$
 \forall_{n\in\N} \exists_{p\in\N} (p>n) \wedge PRIME(p) \wedge PRIME(p+2)
 $$
 where we replace an instance of $PRIME(q)$ with the statement $(q>1) \wedge \forall_{a\in \N} \forall_{b\in\N} (a=1) \vee (a=q) \vee \neg (a\times b =q)$.
 
-The claim (mentioned in Hilbert's quote above) that are infinitely many _Fermat primes_ of the form $p=2^n+1$ can be phrased as follows:
+The claim (mentioned in Hilbert's quote above) that are infinitely many primes of the form $p=2^n+1$ can be phrased as follows:
 
 $$
 \begin{split}
@@ -149,14 +155,13 @@ The statement will be true if and only if there exists a string $L\in \{0,1\}^*$
 At a high level, the crucial insight  is that unlike when we actually run the computation, to verify the correctness of a execution trace  we only need to verify _local consistency_ between pairs of lines.
 
 
-We have seen execution traces before, but now we  define them more precisely.
 Informally, an _execution trace_ of a program $P$ on an input $x$ is a string that represents a "log" of all the lines executed and variables assigned in the course of the execution.
 For example, if we execute the parity program
 
 ~~~~ { .go .numberLines }
-tmp1  := seen_i NAND seen_i
-tmp2  := x_i NAND notseen_i
-val   :=  tmp2 NAND tmp2
+tmp_1  := seen_i NAND seen_i
+tmp_2  := x_i NAND tmp_1
+val   :=  tmp_2 NAND tmp_2
 ns   := s   NAND s
 y_0  := ns  NAND ns
 u    := val NAND s
@@ -169,39 +174,122 @@ loop := stop     NAND stop
 ~~~~
 
 
-on the input `01`, the trace will be
+on the input `01`, the trace will be the following long text (which you don't need to actually read)
 
 ```
-... add trace here...
+Executing commmand "tmp_1 := seen_i NAND seen_i", seen_0 has value 0, seen_0 has value 0, tmp_1 assigned value 1
+Executing commmand "tmp_2 := x_i NAND tmp_1", x_0 has value 0, tmp_1 has value 1, tmp_2 assigned value 1
+Executing commmand "val_0 := tmp_2 NAND tmp_2", tmp_2 has value 1, tmp_2 has value 1, val_0 assigned value 0
+Executing commmand "ns_0 := s_0 NAND s_0", s_0 has value 0, s_0 has value 0, ns_0 assigned value 1
+Executing commmand "y_0 := ns_0 NAND ns_0", ns_0 has value 1, ns_0 has value 1, y_0 assigned value 0
+Executing commmand "u_0 := val_0 NAND s_0", val_0 has value 0, s_0 has value 0, u_0 assigned value 1
+Executing commmand "v_0 := s_0 NAND u_0", s_0 has value 0, u_0 has value 1, v_0 assigned value 1
+Executing commmand "w_0 := val_0 NAND u_0", val_0 has value 0, u_0 has value 1, w_0 assigned value 1
+Executing commmand "s_0 := v_0 NAND w_0", v_0 has value 1, w_0 has value 1, s_0 assigned value 0
+Executing commmand "seen_i := zero_0 NAND zero_0", zero_0 has value 0, zero_0 has value 0, seen_0 assigned value 1
+Executing commmand "stop_0 := validx_i NAND validx_i", validx_0 has value 1, validx_0 has value 1, stop_0 assigned value 0
+Executing commmand "loop := stop_0 NAND stop_0", stop_0 has value 0, stop_0 has value 0, loop assigned value 1
+Entering new iteration
+Executing commmand "tmp_1 := seen_i NAND seen_i", seen_1 has value 0, seen_1 has value 0, tmp_1 assigned value 1
+Executing commmand "tmp_2 := x_i NAND tmp_1", x_1 has value 1, tmp_1 has value 1, tmp_2 assigned value 0
+Executing commmand "val_0 := tmp_2 NAND tmp_2", tmp_2 has value 0, tmp_2 has value 0, val_0 assigned value 1
+Executing commmand "ns_0 := s_0 NAND s_0", s_0 has value 0, s_0 has value 0, ns_0 assigned value 1
+Executing commmand "y_0 := ns_0 NAND ns_0", ns_0 has value 1, ns_0 has value 1, y_0 assigned value 0
+Executing commmand "u_0 := val_0 NAND s_0", val_0 has value 1, s_0 has value 0, u_0 assigned value 1
+Executing commmand "v_0 := s_0 NAND u_0", s_0 has value 0, u_0 has value 1, v_0 assigned value 1
+Executing commmand "w_0 := val_0 NAND u_0", val_0 has value 1, u_0 has value 1, w_0 assigned value 0
+Executing commmand "s_0 := v_0 NAND w_0", v_0 has value 1, w_0 has value 0, s_0 assigned value 1
+Executing commmand "seen_i := zero_0 NAND zero_0", zero_0 has value 0, zero_0 has value 0, seen_1 assigned value 1
+Executing commmand "stop_0 := validx_i NAND validx_i", validx_1 has value 1, validx_1 has value 1, stop_0 assigned value 0
+Executing commmand "loop := stop_0 NAND stop_0", stop_0 has value 0, stop_0 has value 0, loop assigned value 1
+Entering new iteration
+Executing commmand "tmp_1 := seen_i NAND seen_i", seen_0 has value 1, seen_0 has value 1, tmp_1 assigned value 0
+Executing commmand "tmp_2 := x_i NAND tmp_1", x_0 has value 0, tmp_1 has value 0, tmp_2 assigned value 1
+Executing commmand "val_0 := tmp_2 NAND tmp_2", tmp_2 has value 1, tmp_2 has value 1, val_0 assigned value 0
+Executing commmand "ns_0 := s_0 NAND s_0", s_0 has value 1, s_0 has value 1, ns_0 assigned value 0
+Executing commmand "y_0 := ns_0 NAND ns_0", ns_0 has value 0, ns_0 has value 0, y_0 assigned value 1
+Executing commmand "u_0 := val_0 NAND s_0", val_0 has value 0, s_0 has value 1, u_0 assigned value 1
+Executing commmand "v_0 := s_0 NAND u_0", s_0 has value 1, u_0 has value 1, v_0 assigned value 0
+Executing commmand "w_0 := val_0 NAND u_0", val_0 has value 0, u_0 has value 1, w_0 assigned value 1
+Executing commmand "s_0 := v_0 NAND w_0", v_0 has value 0, w_0 has value 1, s_0 assigned value 1
+Executing commmand "seen_i := zero_0 NAND zero_0", zero_0 has value 0, zero_0 has value 0, seen_0 assigned value 1
+Executing commmand "stop_0 := validx_i NAND validx_i", validx_0 has value 1, validx_0 has value 1, stop_0 assigned value 0
+Executing commmand "loop := stop_0 NAND stop_0", stop_0 has value 0, stop_0 has value 0, loop assigned value 1
+Entering new iteration
+Executing commmand "tmp_1 := seen_i NAND seen_i", seen_1 has value 1, seen_1 has value 1, tmp_1 assigned value 0
+Executing commmand "tmp_2 := x_i NAND tmp_1", x_1 has value 1, tmp_1 has value 0, tmp_2 assigned value 1
+Executing commmand "val_0 := tmp_2 NAND tmp_2", tmp_2 has value 1, tmp_2 has value 1, val_0 assigned value 0
+Executing commmand "ns_0 := s_0 NAND s_0", s_0 has value 1, s_0 has value 1, ns_0 assigned value 0
+Executing commmand "y_0 := ns_0 NAND ns_0", ns_0 has value 0, ns_0 has value 0, y_0 assigned value 1
+Executing commmand "u_0 := val_0 NAND s_0", val_0 has value 0, s_0 has value 1, u_0 assigned value 1
+Executing commmand "v_0 := s_0 NAND u_0", s_0 has value 1, u_0 has value 1, v_0 assigned value 0
+Executing commmand "w_0 := val_0 NAND u_0", val_0 has value 0, u_0 has value 1, w_0 assigned value 1
+Executing commmand "s_0 := v_0 NAND w_0", v_0 has value 0, w_0 has value 1, s_0 assigned value 1
+Executing commmand "seen_i := zero_0 NAND zero_0", zero_0 has value 0, zero_0 has value 0, seen_1 assigned value 1
+Executing commmand "stop_0 := validx_i NAND validx_i", validx_1 has value 1, validx_1 has value 1, stop_0 assigned value 0
+Executing commmand "loop := stop_0 NAND stop_0", stop_0 has value 0, stop_0 has value 0, loop assigned value 1
+Entering new iteration
+Executing commmand "tmp_1 := seen_i NAND seen_i", seen_2 has value 0, seen_2 has value 0, tmp_1 assigned value 1
+Executing commmand "tmp_2 := x_i NAND tmp_1", x_2 has value 0, tmp_1 has value 1, tmp_2 assigned value 1
+Executing commmand "val_0 := tmp_2 NAND tmp_2", tmp_2 has value 1, tmp_2 has value 1, val_0 assigned value 0
+Executing commmand "ns_0 := s_0 NAND s_0", s_0 has value 1, s_0 has value 1, ns_0 assigned value 0
+Executing commmand "y_0 := ns_0 NAND ns_0", ns_0 has value 0, ns_0 has value 0, y_0 assigned value 1
+Executing commmand "u_0 := val_0 NAND s_0", val_0 has value 0, s_0 has value 1, u_0 assigned value 1
+Executing commmand "v_0 := s_0 NAND u_0", s_0 has value 1, u_0 has value 1, v_0 assigned value 0
+Executing commmand "w_0 := val_0 NAND u_0", val_0 has value 0, u_0 has value 1, w_0 assigned value 1
+Executing commmand "s_0 := v_0 NAND w_0", v_0 has value 0, w_0 has value 1, s_0 assigned value 1
+Executing commmand "seen_i := zero_0 NAND zero_0", zero_0 has value 0, zero_0 has value 0, seen_2 assigned value 1
+Executing commmand "stop_0 := validx_i NAND validx_i", validx_2 has value 0, validx_2 has value 0, stop_0 assigned value 1
+Executing commmand "loop := stop_0 NAND stop_0", stop_0 has value 1, stop_0 has value 1, loop assigned value 0
+Result: 1 (1)
 ```
 
-More formally, given a NAND++ program $P$ and an input $x\in \{0,1\}^n$, if $P$ takes $T$ steps to halt on $x$, then the _execution trace_ of $P$ on $x$ will be a string $L\in \{0,1\}^{T+n}$ such that $(L_0,\ldots,L_{n-1})=x$ and for every $i\in \{n,\ldots,n+T-1\}$, $L_i$ correspond to the value that is assigned to a variable in the $(i-n)^{th}$ step of $P$'s execution on $x$.
-Note that such an execution trace $L\in \{0,1\}^{n+T}$ satisfies that for every $i\in \{n,\ldots,n+T-1\}$, $L_i$ is the NAND of $L_j$ and $L_k$ where $j$ and $k$ are the last lines in which the two variables referred to in the corresponding line are assigned a value.
+The line by line execution trace is quite long and tedious, but note that it is much easier to check: we just need to see that each line computes the NAND correctly, and that the value that it claims for the variables on the righthand side of the assignment is the same value that was written to them in the previous line that accessed them.
 
-We can compute $j$ and $k$ as an arithmetic function of $i$ as follows:
 
-* If $P$ has $L$ lines then  line $\ell$ of $P$ that is executed in the $j^{th}$ step is $j (\mod L)$ and the value of the program counter $pc$ is $\floor{j/L}$.
+More formally, we will use the notion of a _modification log_ or "Deltas" of a NAND++ program, as presented in [deltas](){.ref}.
+Recall taht given a NAND++ program $P$ (which can be assumed to be simple without loss of generality) and an input $x\in \{0,1\}^n$, if $P$ has $s$ lines and takes $T$ iterations of its loop to halt on $x$, then the _modification log_ of $P$ on $x$ is the string $\Delta \in \{0,1\}^{sT+n}$ such that for every $i\in [n]$, $\Delta_i  = x_i$ and for every $\ell \in \{n,n+1,\ldots,sT+n-1\}$, $\Delta_{\ell}$ corresponds to the value that is assigned to a variable during   step number $(\ell-n)$  of the execution.
+Note that for every $\ell \in \{n,n+1,\ldots,sT+n+-1\}$, $\Delta_\ell$ is the  NAND of $\Delta_j$ and $\Delta_k$ where $j$ and $k$ are the last lines in which the two variables referred to in the corresponding line are assigned a value.
 
-* The value of the index variable `i` at this point is $INDEX(pc)$ where $INDEX$ is the explicit function that we computed in Lecture 6.
+We can compute $j$ and $k$ as an arithmetic function of $\ell$ as follows:
 
-* The variables that a referred to in the $\ell$-th line are computed by a constant size function since there is only a constant number of lines in $P$.
+* If $P$ has $s$ lines then at any particular step $t$ the number of iterations we have performed is $\floor{t/T}$ and the current line we are executing is $t \mod T$.
+
+* The value of the index variable `i` at at step $t$ is therefore $INDEX(\floor{t/T})$ where $INDEX$ is the explicit arithmetic function that we computed in Lecture 6.
+
+* The variables that a referred to in each line are computed by a constant size function of the line number  since there is only a constant number of lines in $P$.
+
+
 
 ### Completing the proof
 
 
-The idea of the reduction is that given a NAND++ program $P$ and an input $x$, we can come up with a mixed quantifier statement $\Psi_{P,x}(L)$ such that for every $L\in \{0,1\}^*$,  $\Psi_{P,x}(L)$ is true if and only if $L$ is a consistent execution trace of $P$ on input $x$ that ends in a halting state (with the `loop` variable set to $0$).
-The full details are rather tedious,  but the crucial points are the following:
+The idea of the reduction is that given a NAND++ program $P$ and an input $x$, we can come up with a mixed quantifier statement $\Psi_{P,x}(\Delta)$ such that for every $\Delta\in \{0,1\}^*$,  $\Psi_{P,x}(\Delta)$ is true if and only if $\Delta$ is a consistent modification log of $P$ on input $x$ that ends in a halting state (with the `loop` variable set to $0$).
+The full details are rather tedious,  but the high level point is that we can express the fact that $\Delta$ is consistent as the following conditions:
 
-* We can come up with a quantified integer statement $INDEX(t,i)$ that will be true if and only if the value of `i` when the program executes step $t$ equals $i$.
+* For every $i\in [n]$, $\Delta_i = x_i$. (Note that this is easily a mixed quantifier statement.)
 
-* We can come up with quantified integer statements $PREV_1(t,s)$  and $PREV_2(t,r)$ that will satisfy the following. If at step $t$ the operation invokved is `foo := bar NAND baz` then $PREV_1(t,s)$ is true if and only if $s$ is the last step before $t$ in which `bar` was written to  and $PREV_2(t,r)$ is true if and only if $r$ is the last step before $t$ in which `baz` was written to. Note that these statements will themselves use $INDEX$ because if `bar` and/or `baz` are indexed by `i` then part of the condition for $PREV_1(t,s)$ and $PREV_2(t,r)$ will be to ensure that $INDEX(t)=INDEX(s)$ and/or $INDEX(t)=INDEX(r)$.
+* For every $\ell \in \{n,\ldots,Ts+n-1\}$, $\Delta_\ell = 1 -\Delta_j\Delta_k$ where $j$ and $k$ are the locations in the log corresponding to the last steps before step $\ell-n$ in which the variables on the righthand side of the assignment were written to.  (This is a mixed quantifier statement as long as we can compute $j$ and $k$ using some arithmetic function of $i$, or some integer quantifier statement using $i$ as a parameter.)
 
-* We can come up with a quantified integer statement $LOOP(t)$ that will be true if and only if the variable written to  at step $t$ in the execution is equal to `loop`
+* If $t_0$ is the last step in which the  variable `loop` is written to, then $\Delta_{t_0+n}=0$. (Again this is a mixed quantifier statement if we can compute $t_0$ from the length of $\Delta$.)
 
 
-Given a construction of such a formula $\Psi_{P,x}(L)$ we can see that $HALT(P,x)=1$ if and only if the following quantified mixed statement $\varphi_{P,x}$ is true
+To ensure that we can implement the above as mixed quantifier statements we observe the following:
+
+
+1. Since the $INDEX$ function that maps the current step to the location of the value `i` was an explicit arithmetic function, we  can come up with a quantified integer statement $INDEX(t,i)$ that will be true if and only if the value of `i` when the program executes step $t$ equals $i$.
+
+2. We can come up with quantified integer statements $PREV_1(t,s)$  and $PREV_2(t,r)$ that will satisfy the following. If at step $t$ the operation invokved is `foo := bar NAND baz` then $PREV_1(t,s)$ is true if and only if $s$ is the last step before $t$ in which `bar` was written to  and $PREV_2(t,r)$ is true if and only if $r$ is the last step before $t$ in which `baz` was written to. Note that these statements will themselves use $INDEX$ because if `bar` and/or `baz` are indexed by `i` then part of the condition for $PREV_1(t,s)$ and $PREV_2(t,r)$ will be to ensure that $INDEX(t)=INDEX(s)$ and/or $INDEX(t)=INDEX(r)$.
+
+3. We can come up with a quantified integer statement $LOOP(t)$ that will be true if and only if the variable written to  at step $t$ in the execution is equal to `loop`
+
+
+Together these three steps enable the construction of the formula $\Psi_{P,x}(\Delta)$.
+
+
+Given a construction of such a formula $\Psi_{P,x}(\Delta)$ we can see that $HALT(P,x)=1$ if and only if the following quantified mixed statement $\varphi_{P,x}$ is true
 $$
-\varphi_{P,x} = \exists_{L\in \{0,1\}^*} \Psi_{P,x}(L) \label{eq:QMSHALT}
+\varphi_{P,x} = \exists_{\Delta \in \{0,1\}^*} \Psi_{P,x}(\Delta) \label{eq:QMSHALT}
 $$
 and hence we can write $HALT(P,x)= QMS(\varphi_{P,x})$.
 Since we can compute from $P,x$ the statement $\varphi_{P,x}$, we see that if $QMS$ is computable then so would have been $HALT$, yielding a proof by contradiction of [QMS-thm](){.ref}.
@@ -220,25 +308,25 @@ To remove string-valued variables from a  statement, we  encode them by integers
 We will show  that we can encode a string $x\in \{0,1\}^*$ by a pair  of numbers $(X,n)\in \N$ s.t.
 
 * $n=|x|$
-* There is a quantified integer statement $INDEX(X,i)$ that for every $i<n$, will be true  if $x_i=1$ and will be false otherwise.
+* There is a quantified integer statement $COORD(X,i)$ that for every $i<n$, will be true  if $x_i=1$ and will be false otherwise.
 
 
-This will mean that we can replace a quantifier such as $\forall_{x\in \{0,1\}^*}$ with $\forall_{X\in \N}\forall_{n\in\N}$  (and similarly replace existential quantifiers over strings). We can  later replace all calls to $|x|$ by $n$ and all calls to $x_i$ by $INDEX(X,i)$.
+This will mean that we can replace a quantifier such as $\forall_{x\in \{0,1\}^*}$ with $\forall_{X\in \N}\forall_{n\in\N}$  (and similarly replace existential quantifiers over strings). We can  later replace all calls to $|x|$ by $n$ and all calls to $x_i$ by $COORD(X,i)$.
 Hence an encoding of the form above yields a proof of [QIS-thm](){.ref}, since we can use it to map every mixed quantified statement $\varphi$ to quantified integer statement $\xi$ such that $QMS(\varphi)=QIS(\xi)$.
 Hence if $QIS$ was computable then $QMS$ would be computable as well, leading to a contradiction.
 
 To achieve our encoding we use the following technical result :
 
 > # {.lemma title="Constructible prime sequence" #primeseq}
-There is a sequence of prime numbers $p_0 < p_1 < p_3 < \cdots$ such that there is  a quantified integer statement $PINDEX(p,i)$ that is true if and only if $p=p_i$.
+There is a sequence of prime numbers $p_0 < p_1 < p_3 < \cdots$ such that there is  a quantified integer statement $PCOORD(p,i)$ that is true if and only if $p=p_i$.
 
 Using [primeseq](){.ref} we can encode a $x\in\bits^*$ by the numbers $(X,n)$ where  $X = \prod_{x_i=1} p_i$ and $n=|x|$.
-We can then define the statement $INDEX(X,i)$ as
+We can then define the statement $COORD(X,i)$ as
 $$
-\forall_{p\in\N} \neg PINDEX(p,i) \vee DIVIDES(p,X)
+\forall_{p\in\N} \neg PCOORD(p,i) \vee DIVIDES(p,X)
 $$
 where  $DIVIDES(a,b)$, as before, is defined as $\exists_{c\in\N} a\times c = b$.
-Note that indeed if $X,n$ encodes the string $x\in \{0,1\}^*$, then for every $i<n$, $INDEX(X,i)=x_i$, since $p_i$ divides $X$ if and only if $x_i=1$.  
+Note that indeed if $X,n$ encodes the string $x\in \{0,1\}^*$, then for every $i<n$, $COORD(X,i)=x_i$, since $p_i$ divides $X$ if and only if $x_i=1$.  
 
 Thus all that is left to conclude the proof of [QIS-thm](){.ref} is to prove [primeseq](){.ref}, which we now proceed to do.
 
@@ -246,12 +334,12 @@ Thus all that is left to conclude the proof of [QIS-thm](){.ref} is to prove [pr
  The sequence of prime numbers we consider is the following:
 we define $p_i$ to be the smallest prime number that is in the interval $[i+1,2i+1]$.
 It is known by [Bertrand's postulate](https://en.wikipedia.org/wiki/Bertrand's_postulate) that there exists such a prime number for every $i\in\N$.
-Given this, the  definition of $PINDEX(p,i)$ is simple:
+Given this, the  definition of $PCOORD(p,i)$ is simple:
 $$
 (p > i) \wedge (p < 2\times i+1)\wedge
 \left(\forall_{p'} \neg PRIME(p') \vee (p' \leq i) \vee (p' \geq p) \right) \;,
 $$
-We leave it to the reader to verify that $PINDEX(p,i)$ is true iff $p=p_i$.
+We leave it to the reader to verify that $PCOORD(p,i)$ is true iff $p=p_i$.
 
 
 
@@ -272,24 +360,31 @@ In the beginning of the 20th century, there was an effort to replicate this effo
 The hope was to show that all the true results of mathematics can be obtained by starting with a number of axioms, and deriving theorems from them using logical rules of inference.
 This effort was known as the _Hilbert program_, named after the very same David Hilbert we mentioned above.
 Alas, [MRDP-thm](){.ref}  yields a devastating blow to this program, as it implies that for _any_ valid set of axioms and inference laws, there will be unsatisfiable Diophantine equations that cannot be proven unsatisfiable using these axioms and laws.
-To formalize that, we make the following definition:
+
+
+To study the existence of  proofs, we need to make the notion of a _proof system_ more precise.
+What axioms shall we use? What rules?
+Our idea will be to use an extremely general notion of proof.
+A _proof_ will be simply a piece of text- a finite string- such that:
+
+1. Given a statement $x$ and a proof $w$ (both of which can be encoded as strings) we can verify that $w$ is a valid proof for $x$. (For example, by going line by line and checking that each line does indeed follow from the preceding ones using one of the allowed inference rules.)
+2. If there is a valid proof $w$ for $x$ then $x$ is true.
+
+Those seem like rather minimal requirements that one would want from every proof system.
+Let us give a formal definition for this notion, specializing for the case of Diophantine equations:
 
 > # {.definition title="Proof systems for diophantine equations" #proofdef}
-A proof system for Diophantine equations is defined by a finite subset $A \subseteq \{0,1\}^*$ of _axioms_ and a finite set of functions $I_1,\ldots, I_m$ (known as _inference rules_) where each $I_j:(\{0,1\}^*)^{k_j} \rightarrow \{0,1\}^*$ is a function mapping a tuple of $k_j$ strings to a string.
->
-A _valid proof_ in the system $(A,I_1,\ldots,I_m)$ of the unsatisfiability of a diophantine equation $P(x_1,\ldots,x_t)=0$  consists of a sequence $p_1,\ldots,p_n$ of strings such that for every $i$, either $p_i \in A$ or there exists $j\in [m]$ and $i_1,\ldots,i_{k_j} < i$ such that $p_i = I_j(p_{i_1},\ldots,p_{i_j})$ and $p_n$ is a string representing the statement "$\forall_{x_1,\ldots,x_t \in \N} P(x) \neq 0$."
->
-A proof system $(A,I_1,\ldots,I_m)$ is _sound_ if there is no valid proof of a false statement. That is, for every diophantine equation $P(x_1,\ldots,x_t)=0$, if there is a proof $(p_1,\ldots,p_n)$ that the equation is unsatisfiable then it is indeed unsatisfiable.
+A proof system for Diophantine equations is defined by a NAND++ program $V$.
+A _valid proof_ in the system corresponding to $V$ of the unsatisfiability of a diophantine equation "$P(\cdot,\cdots,\cdot)=0$"  is some string $w\in \{0,1\}^*$ such that $V(P,w)=1$.
+The proof system corresponding to $V$ is  _sound_ if there is no valid proof of a false statement. That is, for every diophantine equation "$P(\cdot,\cdots,\cdot)=0$", if there exists $w\in \{0,1\}^*$ such that $V(p,w)=1$ then for every $x_1,\ldots,x_t \in \Z$, $P(x_1,\ldots,x_t) \neq 0$.
 
 The formal definition is a bit of a mouthful, but what it states the natural notion of a logical proof for the unsatisfiability of an equation.
-Namely, that such a proof will consist of $n$ lines, where each line is either an axiom or is derived from the previous lines by some rule of inference.
-We do not make any restriction on what the axioms or rules should be, except that they should not allow us to prove false statements.
 Hilbert believed that for all of mathematics, and in particular for settling diophantine equations, it should be possible to find some set of axioms and rules of inference that would allow to derive all true statements.
 However, he was wrong:
 
 
 > # {.theorem title="Gödel's Incompleteness Theorem" #godelthm}
-For every valid proof system $(A,I_1,\ldots,I_m)$, there exists a diophantine equation $P(x_1,\ldots,x_t)=0$ such that there is no $x_1,\ldots,x_t \in \N$ that satisfy it, but yet there is no proof in the system $(A,I_1,\ldots,I_m)$ for the statement "$\forall_{x_1\in\N} \cdots \forall_{x_t\in \N} P(x_1,\ldots,x_t)\neq 0$".
+For every sound proof system $V$, there exists a diophantine equation "$P(\cdot,\cdots,\cdot)=0$" such that there is no $x_1,\ldots,x_t \in \N$ that satisfy it, but yet there is no proof in the system $V$  for the statement that the equation is unsatisfiable.
 
 > # {.proof data-ref="godelthm"}
 Suppose otherwise, that there exists such a system.
@@ -298,7 +393,7 @@ The algorithm will work as follows:
 >
 * On input a Diophantine equation $P(x_1,\ldots,x_t)=0$, for $k=1,2,\ldots$ do the following:
    >1. Check for all $x_1,\ldots,x_t \in \{0,\ldots, k\}$ whether $x_1,\ldots,x_t$  satisfies the equation. If so then halt and output $1$.
-   >2. For all  $n \in \{1,\ldots,k\}$ and all strings $p_1,\ldots,p_n$ of length at most $k$, check whether $(p_1,\ldots,p_n)$ is a valid proof of "$\forall_{x_1\in\N} \cdots \forall_{x_t\in \N} P(x_1,\ldots,x_t)\neq 0$". If so then halt and output $0$.
+   >2. For all  $n \in \{1,\ldots,k\}$ and all strings $w$ of length at most $k$, check whether $V(P,w)=1$. If so then halt and output $0$.
 >
 Note that checking if a list $(p_1,\ldots,p_n)$ is a valid proof can be done in finite time since there is only a finite number of axioms and inference rules. Under the assumption that for _every_ diophantine equation that is unsatisfiable, there is a proof that certifies it, this algorithm will always halt and output $0$ or $1$, and moreover, the answer will be correct. Hence we reach a contradiction to [MRDP-thm](){.ref}
 
@@ -307,7 +402,7 @@ Indeed, that was the content of Gödel's original incompleteness theorem which w
 Another way to state the result is that every proof system that is rich enough to express quantified integer statements  is either inconsistent (can prove both a statement and its negation) or incomplete (cannot prove all true statements).
 
 
-Examining the proof of [godelthm](){.ref} shows that it yields a more general statement (see [godelthemex](){.ref}): for every uncomputable function $F:\{0,1\}^* \rightarrow \{0,1\}$ and every sound axiomatic proof system $S$ (that is characterized by a finite number of axioms and inference rules), there is some input $x$ for which the proof system $S$ is not able to prove neither that $F(x)=0$ nor that $F(x) \neq 0$ (see [godelthemex](){.ref}).
+Examining the proof of [godelthm](){.ref} shows that it yields a more general statement (see [godelthemex](){.ref}): for every uncomputable function $F:\{0,1\}^* \rightarrow \{0,1\}$ and every sound proof system, there is some input $x$ for which the proof system is not able to prove neither that $F(x)=0$ nor that $F(x) \neq 0$ (see [godelthemex](){.ref}).
 
 Also, the  proof of  [godelthm](){.ref} can be extended to yield Gödel's second incompleteness theorem which, informally speaking, says for that every proof system $S$ rich enough to express quantified integer statements, the following holds:
 
@@ -328,7 +423,7 @@ This in particular showed that Hilbert's second problem (which was about finding
 
 * Uncomputable functions include also functions that seem to have nothing to do with NAND++ programs or other computational models such as determining the satisfiability of diophantine equations.
 
-* This also implies that for any finite axiomatic system $S$,  there are interesting statements $X$ (namely of the form "$F(x)=0$" for an uncomputable function $F$) such that $S$ is not able to prove either $X$ or its negation.  
+* This also implies that for any soudn proof system (and in particular every finite axiomatic system) $S$,  there are interesting statements $X$ (namely of the form "$F(x)=0$" for an uncomputable function $F$) such that $S$ is not able to prove either $X$ or its negation.  
 
 ## Exercises
 
@@ -343,11 +438,6 @@ Prove that for every uncomputable function $F:\{0,1\}^* \rightarrow \{0,1\}$ and
 
 ## Bibliographical notes
 
-^[TODO:  Add letter of Christopher Strachey to the editor of The Computer Journal.
-Explain right order of historical achievements.
-Talk about intuitionistic, logicist, and formalist approaches for the foudnations of mathematics.
-Perhaps analogy to veganism.
-State the full Rice's Theorem and say that it follows from the same proof as in the exercise.]
 
 ## Further explorations
 
