@@ -226,48 +226,42 @@ A bit more precisely, we can make the following definitions:
 A context free grammar is a formal way of specifying such conditions.^[Sections 2.1 and 2.3 in [Sipser's book](https://www.google.com/search?q=introduction+to+the+theory+of+computation) are excellent resources for context free grammars.]
 
 > # {.definition title="Context Free Grammar" #defcfg}
-Let $\Sigma$ be some finite set. A _context free grammar (CFG) over $\Sigma$_ is a triple $(V,R,s)$ where $V$ is a set disjoint from $\Sigma$ of _variables_, $R$ is a set of _rules_, which are pairs $(v,z)$ where $v\in V$ and $z\in (\Sigma \cup V)^*$, and $s\in V$ is the starting rule. We require that for every rule $(v,z)\in R$, if $z$ contains an element in $V$ then it must also contain at least one element in $\Sigma$.
->  
-IF $G=(V,R,s)$ is a context-free grammar over $\Sigma$, then for two strings $\alpha,\beta \in (\Sigma \cup V)^*$ we say that $\beta$ _can be derived in one step_ from $\alpha$, denoted by  $\alpha \rightarrow_G \beta$, if there exist a rule $(v,z) \in R$ and strings $\alpha',\alpha'' \in (\Sigma \cup V)^*$ such that $\alpha = \alpha'v\alpha''$ and $\beta=\alpha'z\alpha''$.
-We say that $\beta$ can be derived from $\alpha$, denoted by $\alpha \rightsquigarrow_G \beta$ if there exist $k\in \N$. $\alpha_1,\alpha_2,\ldots,\alpha_{k-1}$ such that $\alpha \rightarrow_G \alpha_1 \rightarrow_G \alpha_2 \rightarrow_G \cdots \rightarrow_G \alpha_{k-1} \rightarrow_G \beta$.
->
-We define the _function computed by_ $(V,R,s)$ to be the map $\Phi_{V,R,s}:\Sigma^* \rightarrow \{0,1\}$ such that $\Phi_{V,R,s}(x)=1$ iff  $s \rightsquigarrow_G x$.
+Let $\Sigma$ be some finite set. A _context free grammar (CFG) over $\Sigma$_ is a triple $(V,R,s)$ where $V$ is a set disjoint from $\Sigma$ of _variables_, $R$ is a set of _rules_, which are pairs $(v,z)$ (which we will write as $v \Rightarrow z$) where $v\in V$ and $z\in (\Sigma \cup V)^*$, and $s\in V$ is the starting rule.
+
+
+If $G=(V,R,s)$ is a context-free grammar over $\Sigma$, then for two strings $\alpha,\beta \in (\Sigma \cup V)^*$ we say that $\beta$ _can be derived in one step_ from $\alpha$, denoted by  $\alpha \Rightarrow_G \beta$, if we can obtain $\beta$ from $\alpha$ by applying one of the rules of $G$. That is, we obtain $\beta$ by replacing in $\alpha$ one occurence of the variable $v$ with the string $z$, where $v \Rightarrow z$ is a rule of $G$.
+
+We define the _function computed by_ $(V,R,s)$ to be the map $\Phi_{V,R,s}:\Sigma^* \rightarrow \{0,1\}$ such that $\Phi_{V,R,s}(x)=1$ iff  $s \Rightarrow^*_G x$.
 We say that $F:\Sigma^* \rightarrow \{0,1\}$ is _context free_ if $F = \Phi_{V,R,s}$ for some CFG $(V,R,s)$ we say that a set $L \subseteq \Sigma^*$ (also knoan as a _language_) is _context free_ if the function $F$ such that $F(x)=1$ iff $x\in L$ is context free.
-
-
-that is recursively defined as follows:
->
-* For every $x\in \Sigma^*$, $\Phi_{V,R,s}(x)=1$ if there exists some $k\in \N$ and some strings $a_0,\ldots,a_{k},w_1,\ldots,w_{k} \in \Sigma^*$ and variables $v_1,\ldots,v_k \in V$ such that:
-   - $x= a_0w_1a_1w_2a_2 \cdots w_ka_k$
-   - The rule $(s,a_0v_1w_1a_2w_2 \cdots v_ka_k)$ is in $R$.
-   - For every $i\in \{1,\ldots,k\}$, $\Phi_{V,R,v_i}(w_i)=1$.
-
-
-
-A priori it might not be clear that the function $\Phi_{V,R,s}$ above is well defined, but since the second member of every rule either contains no element of $v$ or contains at least one element of $\Sigma$, we get that if $k>0$, $|w_1|+\cdots+|w_k| < |x|$. and hence this recursive definition always involves calls to $\Phi_{V,R,v}$ on inputs $w_i$ that are smaller than $x$.
-By the same reasoning, for every context-free grammar $(V,R,s)$ there is a recursive algorithm to compute the function $\Phi_{V,R,s}$ that always terminates.
-In particular the "halting problem" for context free grammars is trivial, or in other words, we have the following theorem:
-
-> # {.theorem title="Context-free grammars always halt" #CFGhalt}
-For every CFG $(V,R,s)$ over $\Sigma$, the function $\Phi_{V,R,s}:\Sigma^* \rightarrow \{0,1\}$ is computable.^[While formally we only defined computability of functions over $\{0,1\}^*$, we can extend the definition to functions over any finite $\Sigma^*$ by using any one-to-one encoding of $\Sigma$ into $\{0,1\}^k$ for some finite $k$. It is a (good!) exercise to verify that if a function is computable with respect to one such encoding, then it is computable with respect to them all.]
-
-> # { .pause }
-[CFGhalt](){.ref} can be proven via the recursive algorithm sketched above, but it would be a great exercise for you to work out both the details of the algorithm, as well as the proof that it always halts with the correct answer. As a hint, such a proof is easiest done by induction on the length of the input, since all of our recursive calls always involve innputs of shorter length than the original one.
 
 
 The example above of well-formed arithmetic expressions can be captured formally by the following context free grammar:
 
 * The alphabet $\Sigma$ is  $\{ (,),+,-,\times,\div,0,1,2,3,4,5,6,7,8,9\}$
+
 * The variables are $V = \{ expression, operation \}$.
+
 * The rules  are the  set $R$ containing the following pairs:^[For the sake of clarify, we use quotation marks $".."$ to enclose the string which is the second pair of each rule. Also, note that our rules below,  slightly differ from those illustrated above. The two sets of rules compute the same function, but the description below has been modified to be an equivalent form of the reulsts above that doesn't have a rule whose righthand side is only variables. We could have also relaxed the condition of containing an alphabet symbol by only requiring that rules with no alphabet symbols induce a _directed acyclic graph_ over the variables.]
-   - $(number,"0")$ and $(number,"1number")$,$\ldots$, $(number,"9number")$
-   - $(expression,"(expression)")$,$(expression,"expression+expression")$,$(expression,"expression-expression")$,$(expression,"expression \times expression")$,$(expression,expression \div expression)$, $(expression,"0")$,$(expression,"1number")$,$\ldots$,$(expression,"9number")$.
+   - $number \Rightarrow 0$  and $number \Rightarrow 1number$,$\ldots$, $number \Rightarrow 9number$
+   - $expression\ Rightarrow (expression)$ , $expression \Rightarrow expression+expression$, $expression \Rightarrow expression-expression$, $expression \Rightarrow expression \times expression$, $(expression \Rightarrow expression \div expression$, $expression \Rightarrow 0$,$(expression \Rightarrow 1number$,$\ldots$,$expression \Rightarrow 9number$.
 
 * The starting variable is $expression$
 
-For clarity, we will often write a rule of the form $(v,\alpha)$ as $v \mapsto \alpha$.
-There are various notations to write context free grammars in the literature, with one of the most common being [Backus–Naur form](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form) where we write a rule of the form $v\mapsto a$ (where $v$ is a variable and $a$ is a string) in the form  `<v> := a`.
+There are various notations to write context free grammars in the literature, with one of the most common being [Backus–Naur form](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form) where we write a rule of the form $v \Rightarrow a$ (where $v$ is a variable and $a$ is a string) in the form  `<v> := a`.
 If we have several rules of the form $v \mapsto a$, $v \mapsto b$, and $v \mapsto c$ then we can combine them as `<v> := a|b|c` (and this similarly extends for the case of more rules).
+
+
+
+A priori it might not be clear that the map $\Phi_{V,R,s}$ is computable, but it turns out that we can in fact compute it. The crucial observation is the following:
+
+> # {.lemma #CFGderivation}
+For every context free grammar $G$ of at most $k$ variables and every $x\in \{0,1\}^n$, if $s \Rightarrow_G^* x$ then we can derive $x$ from $G$ in at most $(2^k+1)n$ steps. (TO BE COMPLETED, CHECK NUMBER)
+
+
+This implies "halting problem" for context free grammars is trivial, or in other words, we have the following theorem:
+
+> # {.theorem title="Context-free grammars always halt" #CFGhalt}
+For every CFG $(V,R,s)$ over $\Sigma$, the function $\Phi_{V,R,s}:\Sigma^* \rightarrow \{0,1\}$ is computable.^[While formally we only defined computability of functions over $\{0,1\}^*$, we can extend the definition to functions over any finite $\Sigma^*$ by using any one-to-one encoding of $\Sigma$ into $\{0,1\}^k$ for some finite $k$. It is a (good!) exercise to verify that if a function is computable with respect to one such encoding, then it is computable with respect to them all.]
 
 
 
@@ -313,29 +307,8 @@ The reason we call context free grammars "context free" is because if we have a 
 More generally, we want to consider cases where our replacement rules depend on the context.^[TODO: add example]
 This gives rise to the notion of _general grammars_ that allow rules of the form $(a,b)$ where both $a$ and $b$ are strings over $(V \cup \Sigma)^*$.
 The idea is that if, for example, we wanted to enforce the condition that we only apply some rule such as $v \mapsto 0w1$  when $v$ is surrounded by three zeroes on both sides, then we could do so by adding a rule of the form $000v000 \mapsto 0000w1000$ (and of course we can add much more general conditions).
-Formally we make the following definition
 
-> # {.definition title="General Grammar" #defcfg}
-Let $\Sigma$ be some finite set. A  _grammar_ (also known as a _general_ or _unrestricted_ grammar) over $\Sigma$ is a triple $(V,R,s)$ where $V$ is a set disjoint from $\Sigma$ of _variables_, $R$ is a set of _rules_, which are pairs $(z',z)$ where  $z,z'\in (\Sigma \cup V)^*$, and $s\in (\Sigma \cup V)^*$ is the starting string.
->
-Ig $(V,R,s)$ is a grammar over $\Sigma$, then the function computed by $(V,R,s)$ is the map $\Phi_{V,R,s}:\Sigma^* \rightarrow \{0,1\}$ that is recursively defined as follows:
->
-* For every $x\in \Sigma^*$, $\Phi_{V,R,s}(x)=1$ if there exists some $k\in \N$ and some strings $a_0,\ldots,a_{k},w_1,\ldots,w_{k} \in \Sigma^*$ and variables $v_1,\ldots,v_k \in V$ such that:
-   - $x= a_0w_1a_1w_2a_2 \cdots w_ka_k$
-   - The rule $(s,a_0v_1w_1a_2w_2 \cdots v_ka_k)$ is in $R$.
-   - For every $i\in \{1,\ldots,k\}$, $\Phi_{V,R,v_i}(w_i)=1$.
->
-We say that $F:\Sigma^* \rightarrow \{0,1\}$ is _context free_ if $F = \Phi_{V,R,s}$ for some CFG $(V,R,s)$ we say that a set $L \subseteq \Sigma^*$ (also known as a _language_) is _context free_ if the function $F$ such that $F(x)=1$ iff $x\in L$ is context free.
-
-Like context free grammars, this definition yields a natural recursive algorithm for computing $\Phi_{V,R,s}$.
-However, unlike the case of CFGs, we are not necessarily guaranteed that the algorithm will terminate, as the recursive calls are not guaranteed to use inputs shorter than the original input.^[This does not mean that the algorithm will necessarily _not_ terminate, but it does mean that we can't use the same argument we used above]
-However, we can still make the function above well defined by stating that $\Phi_{V,R,s}(x)$ defaults to $0$ unless it is set to $1$ by the definition above.
-That is, we can think of $\Phi_{V,R,s}$ as being defined by a process that starts with the all zeroes function, then sets $\Phi_{V,R,z'}(z)=1$ for every $z\in \Sigma^*$ such that $(z,z')\in R$, and then continues to set $\Phi_{V,R,s}(x)=1$ for every $x$ that can be demonstrated to equal $1$ via the recursive definition above.
-
-
-^[TO BE CONTINUED]
-
-
+TO BE CONTINUED, UNDECIDABILITY OF GENERAL GRAMMARS.
 
 
 ## Lecture summary
@@ -347,18 +320,6 @@ That is, we can think of $\Phi_{V,R,s}$ as being defined by a process that start
 
 ## Exercises
 
-> # {.exercise title="Halting problem" #halting-alt-ex}
-Give an alternative, more direct, proof for the uncomputability of the Halting problem.
-Let us define $H:\{0,1\}^* \rightarrow \{0,1\}$ to be the function such that $H(P)=1$ if, when we interpret $P$ as a program, then $H(P)$ equals $1$ if  $P(P)$ halts (i.e., invoke $P$ on its own string representation) and $H(P)$ equals $0$ otherwise.
-Prove that  there no  program $P^*$ that computes $H$, by building from such a supposed $P^*$ a program $Q$ such  that, under the assumption that $P^*$ computes $H$, $Q(Q)$ halts if and only if it does not halt.^[__Hint:__ See Christopher Strachey's letter in the biographical notes.]
-
-
-
-
-
-> # {.exercise title="Rice's Theorem (slightly restricted form)" #rice-ex}
-1. Generalize the result that $COMPUTES\text{-}PARITY$ is uncomputable as follows. Prove that for every computable function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, the function $COMPUTES\text{-}F$ which on input a NAND++ program $P$, outputs $1$ iff it holds that $P(x)=F(x)$ for every $x$, is uncomputable. \
-2. Generalize this even further to show that for  every nontrivial (neither emptry nor the entire set) subset $\mathcal{S}$ of the set $\mathbb{R}$ of the  computable functions from $\{0,1\}^*$ to $\{0,1\}^*$, the function $COMPUTES\text{-}\mathcal{S}$ that outputs $1$ on a program $P$ if and only if $P$ computes some function in $\mathcal{S}$, is uncomputable.^[__Hint:__ Pick some $F\in\mathcal{S}$ and for every Turing machine $Q$ and input $x$, construct a machine $P_{Q,x}$ that either computes $F$ or computes nothing, based on whether $Q$ halts on $x$.]
 
 
 
