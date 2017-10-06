@@ -9,23 +9,25 @@ belong to the class of multitape Turing machines.", Juris Hartmanis and Richard 
 
 
 In the last lecture we saw examples of efficient algorithms, and made some claims about their running time, but did not give a mathematically precise definition for this concept.
-We do so in this lecture.
-The definition is actually quite simple: we define the complexity of computing a function $F$ as the number of NAND<< steps that are required to compute it. (We can also use NAND++; this choice turns out not to matter much at the coarse resolution we are interested in.)
+We do so in this lecture, using our NAND++ and NAND<< models we have seen before.
 Since we think of functions that can take as input a string of arbitrary length, we need to measure this number as a function of the length of the input.
-For example, if a function $F$ can be computed by a NAND<< program that on inputs of length $n$ takes $O(n)$ steps then we will think of $F$ as "efficiently computable",  while if any NAND<< program  requires $2^{\Omega(n)}$ steps to compute $F$ then we consider $F$ "intractable".
-The formal definition for running time the following:
+For example, if a function $F$ can be computed by a NAND<< (or NAND++) program that on inputs of length $n$ takes $O(n)$ steps then we will think of $F$ as "efficiently computable",  while if any such program  requires $2^{\Omega(n)}$ steps to compute $F$ then we consider $F$ "intractable".
+
+Since running time depends on the length of the input, the formal definition of running time of a function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ is not a _number_ but rather a _function_ $T:\N \rightarrow \N$ such that $T(n)$ is the maximum number of steps that the fastest algorithm to compute $F$ requires on length $n$ inputs.
+Formally, the definition is as follows:
+
 
 > # {.definition title="Running time" #time-def}
 Let $T:\N \rightarrow \N$.
-We say that a (partial) function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ is _computable in $T(n)$ NAND<< time_
-if there is a NAND<< program $P$ such that for every $x\in \{0,1\}^*$ for which $F(x)$ is defined, on input $x$, $P$ runs for at most $T(|x|)$ steps and outputs $F(x)$.
-Similarly, we say that $F$ is _computable in $T(n)$ NAND++ time_ if there is a NAND++ program that computes it on $x$ in $T(|x|)$ steps.
+We say that a  function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _computable in $T(n)$ NAND<< time_
+if there is a NAND<< program $P$ such that for every $x\in \{0,1\}^*$, on input $x$, $P$ runs for at most $T(|x|)$ steps and outputs $F(x)$.
+Similarly, we say that $F$ is _computable in $T(n)$ NAND++ time_ if there is a NAND++ program that computes it on $x$ in at most $T(|x|)$ steps.
 >
-We let $\overline{TIME_{<<}}(T(n))$ and  $\overline{TIME_{++}}(T(n))$ denote the set of partial functions that are computable in $T(n)$ time by NAND<< and NAND++ programs respectively.
-We let $TIME_{<<}(T(n))$ denote the restriction of $\overline{TIME_{<<}}(T(n))$ to total Boolean functions $F:\{0,1\}^* \rightarrow \{0,1\}$ and define $TIME_{++}(T(n))$ analogously.^[We use the  "overline" notation because in the literature  $TIME(T(n))$  is reserved for total functions that are _Boolean_ (i.e., have a single bit of output) and so we respect this convention. The notation $\overline{TIME}(T(n))$ is non-standard. Some texts use the prefix $F$ to indicate a complexity class containing  non-Boolean function (such as the class $\mathbf{FP}$ of non-Boolean functions computable in polynomial time) and the prefix "promise" to indicate a class that could contain also partial functions (which are also known as _promise problems_), and so one can also use  $\text{promise-}FTIME(T)$ to denote the class we define as $\overline{TIME}(T(n))$. However, we find $\overline{TIME}(T(n))$ to be less cumbersome. Most of the time it is clear from the context whether a function $F$ is total and/or Boolean, and so you can typically safely ignore the $\overline{\cdot}$ notation and the distinction between $TIME(T(n))$ and $\overline{TIME}(T(n))$.]
+We  $TIME_{<<}(T(n))$ denote the set of Boolean functions that are computable in $T(n)$ NAND<< time, and define  $TIME_{++}(T(n))$.
 
-We use NAND<< programs as our "default" computational model for measuring time, and so if we say that $F$ is computable in $T(n)$ time without any qualifications, or write $TIME(T(n))$ without any subscript, we mean that this holds with respect to NAND<< machines.
-However, as we will see, in most settings relevant to this course, the choice of computational model, whether it is NAND<<, NAND++, or Turing or RAM machines of various flavors, will not make much difference.
+[time-def](){.ref} above naturally extend to non Boolean and to partial functions as well, and so we will talk about the time complexity of these functions.
+
+__Which model to choose?__ Unlike the notion of computability, the exact running time can be a function of the model we use. However, it turns out that if we care about "coarse enough" resolution (as we will in this course) then the choice of the model,  whether it is NAND<<, NAND++, or Turing or RAM machines of various flavors,  does not matter. (This is known as the _extended_ Church-Turing Thesis). Nevertheless, to be concrete, we will use NAND<< programs as our "default" computational model for measuring time, and so if we say that $F$ is computable in $T(n)$ time without any qualifications, or write $TIME(T(n))$ without any subscript, we mean that this holds with respect to NAND<< machines.
 
 
 __Nice time bounds.__ When considering time bounds, we want to restrict attention to "nice" bounds such as $O(n)$, $O(n\log n)$, $O(n^2)$, $O(2^{\sqrt{n}})$, $O(2^n)$, etc. and avoid pathological examples such as non-monotone functions (where the time to compute a function on inputs of size $n$ could be smaller than the time to compute it on inputs of size $n'<n$) or other degenerate cases.
@@ -42,15 +44,15 @@ All the functions mentioned above are "nice" per [nice-def](){.ref}, and from no
 
 The two main time complexity classes we will be interested in are the following:
 
-* __Polynomial time:__ We say that a total Boolean function is _computable in polynomial time_ if it is in the class $\mathbf{P} = \cup_{c\in\N} TIME(n^c)$. Similarly, we define $\overline{\mathbf{P}} = \cup_{c\in \N} \overline{TIME}(n^c)$.^[As above, this notation is non standard. Many texts define $\mathbb{FP}$ for the class of non-Boolean functions that are computable in polynomial time, and $\mathbb{promiseP}$ for the class of Boolean partial functions that are computable in polynomial time. Thus such texts might use the notation $\mathbb{promiseBP}$ for the class $\overline{\mathbf{P}}$.   ]
+* __Polynomial time:__ We say that a total Boolean function is _computable in polynomial time_ if it is in the class $\mathbf{P} = \cup_{c\in\N} TIME(n^c)$.
 
-* __Exponential time:__ We say that a Boolean total function is computable in exponential time if it is in the class $\mathbf{EXP} = \cup_{c\in\N} TIME(2^{n^c})$. Similarly we define $\overline{\mathbf{EXP}}  = \cup_{c\in\N} \overline{TIME}(2^{n^c})$.
+* __Exponential time:__ We say that a Boolean total function is computable in exponential time if it is in the class $\mathbf{EXP} = \cup_{c\in\N} TIME(2^{n^c})$.
 
-Since exponential time is much larger than polynomial time, clearly $\mathbf{P}\subseteq \mathbf{EXP}$ (and $\overline{\mathbf{P}} \subseteq \overline{\mathbb{EXP}}$).
-All of the problems we listed in the last lecture are in $\overline{\mathbf{EXP}}$, but as we've seen, for some of them there are much better algorithms that demonstrate that they are in fact in $\overline{\mathbf{P}}$.
+Since exponential time is much larger than polynomial time, clearly $\mathbf{P}\subseteq \mathbf{EXP}$.
+All of the problems we listed in the last lecture are in $\mathbf{EXP}$,^[Strictly speaking, many of these problems correspond to _non Boolean_ functions, but we will sometimes "abuse notation" and refer to non Boolean functions as belonging to $\mathbf{P}$ or $\mathbe{EXP}$. We can easily extend the definitions of these classes to non Boolean and partial functions. Also, for every non-Boolean function $F$, we can define a Boolean variant $\Hat{F}$ such that $F$ can be computed in polynomial time if and only if  $\Hat{F}$ is.] but as we've seen, for some of them there are much better algorithms that demonstrate that they are in fact in $\mathbf{P}$.
 
 
-| $\overline{\mathbf{P}}$  | $\overline{\mathbf{EXP}}$ |
+| $\mathbf{P}$  | $\mathbf{EXP}$ |
 |--------------------------|---------------------------|
 | Shortest path            | Longest Path              |
 | Min cut                  | Max cut                   |
@@ -61,7 +63,7 @@ All of the problems we listed in the last lecture are in $\overline{\mathbf{EXP}
 | Primality                | Factoring                 |
 
 A table of the  examples from the previous lecture.
-All these problems are in $\overline{\mathbf{EXP}}$ but the only the ones on the left column are currently known to be in $\overline{\mathbf{P}}$ (i.e., have a polynomial-time algorithm).
+All these problems are in $\mathbf{EXP}$ but the only the ones on the left column are currently known to be in $\mathbf{P}$ (i.e., have a polynomial-time algorithm).
 
 
 ## NAND<< vs NAND++
@@ -71,8 +73,8 @@ It turns out that the $P'$ is not much slower than $P$.
 That is, we can prove the following theorem:
 
 > # {.theorem title="Efficient simulation of NAND<< with NAND++" #NANDpp-thm}
-There are absolute constants $a,b$ such that for every partial function $F$ and nice  function  $T:\N \rightarrow \N$,  if $F \in \overline{TIME_{<<}}(T(n))$ then there is a NAND++ program $P'$ that computes $F$ in $T'(n)=a\cdot T(n)^b$.
-That is, $\overline{TIME_{<<}}(T(n)) \subseteq \overline{TIME_{++}}(aT(n)^b)$
+There are absolute constants $a,b$ such that for every  function $F$ and nice  function  $T:\N \rightarrow \N$,  if $F \in TIME_{<<}(T(n))$ then there is a NAND++ program $P'$ that computes $F$ in $T'(n)=a\cdot T(n)^b$.
+That is, $TIME_{<<}(T(n)) \subseteq TIME_{++}(aT(n)^b)$
 
 ![The path an index variable takes in a NAND++ program](../figure/oblivious_simulation.png){#obliviousfig .class width=300px height=300px}
 
@@ -80,7 +82,11 @@ That is, $\overline{TIME_{<<}}(T(n)) \subseteq \overline{TIME_{++}}(aT(n)^b)$
 
 > # {.proof data-ref="NANDpp-thm"}
 We only sketch the proof as it follows very closely the simulation of NAND<< programs by NAND++ programs that we have already seen.
-First note that we that we can simulate all the index operations using only the operations of incrementing and decrementing a single index `i` with polynomial overhead.
+The simulation of NAND<< works by "peeling off" features of NAND<< one by one, until we are left with NAND<<.
+>
+If $P$ is a NAND<< program that computes $F$ in $T(n)$ time, then on inputs of length $n$, all integers used by $P$ are of magnitude at most $T(n)$ and hence can be stored using $\log T(n)$ bits.
+>
+Note also that we can simulate all the index operations using only the operations of incrementing and decrementing a single index `i` with polynomial overhead.
 The reason is that these operations are enough to copy an index to another array, and all the operations of adding, multiplying, shifting etc.. can be carried out in polynomial time.
 Now we need to simulate a program that only decrements or incremenets its index variable `i` (perhaps based on the value of another boolean variable) with a NAND++ program where the index variable  travels using the path described in [obliviousfig](){.ref}.
 In the NAND++ program if we want to, for example, increment the variable while we are in a decrementing phase, then we'll have to wait until the round is finished.
