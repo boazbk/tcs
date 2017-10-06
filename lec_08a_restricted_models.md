@@ -82,33 +82,48 @@ You have probably come across regular expresions if you  ever used an advanced t
 
 
 A _regular expression_ over some alphabet $\Sigma$ is obtained by combining elements of $\Sigma$ with the operations $|$ (corresponding to _or_) and $*$ (corresponding to repetition zero or more times).^[Common implementations of regular expressions in programming languages and shells typically include some extra  operations on top of $|$ and $*$, but these can all be implemented as "syntactic sugar" using   the operators $|$ and $*$.]
-For example, the following regular expression over the alphabet $\{0,1\}$  corresponds to the set of all even length strings $x\in \{0,1\}^*$ such that $x_{2i}=x_{2i+1}$ for every $i\in \{0,\ldots, |x|/2-1 \}$:
+For example, the following regular expression over the alphabet $\{0,1\}$  corresponds to the set of all even length strings $x\in \{0,1\}^*$  where the digit at location $2i$ is the same as the one at location $2i+1$ for every $i$:
 
 $$
 (00|11)*
 $$
 
-Formally, regular expressions are defined by the following recursive definition:^[Just like recursive functions, we can define a concept recursively. A definition of some class $\mathcal{C}$ of objects can be thought of as defining a function that maps an object $o$ to either $0$ or $1$ depending on whether $o \in \mathcal{C}$. Thus we can think of   [regexp](){.ref} as defining a recursive function that maps a string $exp$ over $\Sigma \cup \{ "(",")","|", "*" \}$ to $0$ or $1$ depending on whether $exp$ describes a valid regular expression.]
+The following regular expression over the alphabet $\{ a,b,c,d,0,1,2,3,4,5,6,7,8,9 \}$ corresponds to the set of all strings that consist of a sequence of one or more the letters $a$-$b$ followed by a sequence of one or more digits (without a leading zero):
+
+$$
+(a|b|c|d)(a|b|c|d)^*(1|2|3|4|5|6|7|8|9)(0|1|2|3|4|5|6|7|8|9)^*
+$$
+
+
+Formally, regular expressions are defined by the following recursive definition:^[Just like recursive functions, we can define a concept recursively. A definition of some class $\mathcal{C}$ of objects can be thought of as defining a function that maps an object $o$ to either $VALID$ or $INVALID$ depending on whether $o \in \mathcal{C}$. Thus we can think of   [regexp](){.ref} as defining a recursive function that maps a string $exp$ over $\Sigma \cup \{ "(",")","|", "*" \}$ to $VALID$ or $INVALID$ depending on whether $exp$ describes a valid regular expression.]
 
 > # {.definition title="Regular expression" #regexp}
 A _regular expression_ $exp$ over an alphabet $\Sigma$ is a string over $\Sigma \cup \{ "(",")","|","*" \}$ that has one of the following forms:
 1. $exp = \sigma$ where $\sigma \in \Sigma$ \
 2. $exp = (exp' | exp'')$ where $exp', exp''$ are regular expressions. \
-3. $exp = (exp')(exp'')$ where $exp',exp''$ are regular expressions. \
-4. $exp = (exp')*$ where $exp'$ is a regular expression.^[The standard definition of regular expressions  adds some additional syntax to allow a regular expressions that accepts only the empty string, as well as a regular expression accepts no strings. In the interest of simplicity, we drop this "edge cases" from the  definition we use in these notes, though it does not matter much.]
+3. $exp = (exp')(exp'')$ where $exp',exp''$ are regular expressions. (We often drop the parenthesis when there is no danger of confusion and so write this as $exp\; exp'$.) \
+4. $exp = (exp')*$ where $exp'$ is a regular expression.
 >
-Every regular expression $exp$ computes a function $\Phi_{exp}:\Sigma^* \rightarrow \{0,1\}$ defined as follows:
+Finally we also allow the following "edge cases": $exp = \emptyset$ and $exp = ""$.^[These are the regular expressions corresponding to accepting no strings, and accepting only the empty string respectively.]
+
+
+Every regular expression $exp$ computes a function $\Phi_{exp}:\Sigma^* \rightarrow \{0,1\}$, where $\Phi_{exp}(x)=1$ if $x$ _matches_ the regular expression. So, for example if $exp = (00|11)^*$ then $\Phi_{exp}(x)=1$ if and only if $x$ is of even length and $x_{2i}=x_{2i+1}$ for every $i < |x|/2$.
+Formally, the function is defined as follows:
+
 1. If $exp = \sigma$ then $\Phi_{exp}(x)=1$ iff $x=\sigma$ \
 2. If $exp = (exp' | exp'')$ then $\Phi_{exp}(x) = \Phi_{exp'}(x) \vee \Phi_{exp''}(x)$ where $\vee$ is the OR operator. \
 3. If $exp = (exp')(exp'')$ then $\Phi_{exp}(x) = 1$ iff there is some $x',x'' \in \Sigma^*$ such that $x$ is the concatenation of $x'$ and $x''$ and $\Phi_{exp'}(x')=\Phi_{exp''}(x'')=1$.  \
 4. If $exp= (exp')*$ then $\Phi_{exp}(x)=1$ iff there are is $k\in \N$ and some $x_0,\ldots,x_{k-1} \in \Sigma^*$ such that $x$ is the concatenation $x_0 \cdots x_{k-1}$ and $\Phi_{exp'}(x_i)=1$ for every $i\in [k]$.
->
+5. Finally, for the edge cases $\Phi_{\emptyset}$ is the constant zero function, and $\Phi_{""}$ is the function that only outputs $1$ on the constant string.
+
 We say that a function $F:\Sigma^* \rightarrow \{0,1\}$ is _regular_ if $F=\Phi_{exp}$ for some regular expression $exp$. We say that a set $L \subseteq \Sigma^*$ (also known as a _language_) is _regular_ if the function $F$ s.t. $F(x)=1$ iff $x\in L$ is regular.
 
-[regexp](){.ref} might not be easy to grasp in a first read, so you should probably pause here and go over it again   until you understand why it corresponds to our intuitive notion of regular expressions.
+> # { .pause }
+The definitions above might not be easy to grasp in a first read, so you should probably pause here and go over it again   until you understand why it corresponds to our intuitive notion of regular expressions.
 This is important not just for understanding regular expressions themselves (which are used time and again in a great many applications) but also for getting better at understanding recursive definitions in general.
 
-By [regexp](){.ref}, regular expressions can be thought of as a "programming language" that defines functions $exp: \Sigma^* \rightarrow \{0,1\}$.
+
+We can think of  regular expressions  as a type of  "programming language" that defines functions $exp: \Sigma^* \rightarrow \{0,1\}$.^[Regular expressions (and context free grammars, which we'll see below) are often thought of as _generative models_ rather than computational ones, since their definition does not immediately give rise to a way to _decide_ matches but rather to a way to generate matching strings by repeatedly choosing which rules to apply.]
 But it turns out that the "halting problem" for these functions is easy: they always halt.
 
 > # {.theorem title="Regular expression always halt" #regularexphalt}
@@ -127,12 +142,12 @@ But then we can follow the definition for the cases of concatenation, union, or 
 
 The proof of [regularexphalt](){.ref} gives a recursive algorithm to evaluate whether a given string matches or not a regular expression.
 However, it turns out that there is a much more efficient algorithm to match regular expressions.
-One way to obtain such an algorithm is to replace this recursive algorithm with a dynamic program, using the technique of [memoization](https://en.wikipedia.org/wiki/Memoization).
+One way to obtain such an algorithm is to replace this recursive algorithm with [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming), using the technique of [memoization](https://en.wikipedia.org/wiki/Memoization).^[If you haven't taken yet an algorithms course such as CS 124, you might not know these techniques. This is OK, as, while  the more efficient algorithm is crucial for the many practical applications of regular expressions, is not of great importance to this course.]
 It turns out that the resulting dynamic program only requires maintaining a finite (independent of the input length) amount of state, and hence it can be viewed as a [finite state machine](https://en.wikipedia.org/wiki/Finite-state_machine) or finite automata.
 The relation of regular expressions with finite automate is a beautiful topic, and one we may return to later in this course.
 
 
-The fact that functions computed by regular expressions always halt is of course one of the reason why they are so useful.
+The fact that functions computed by regular expressions always halt is of course one of the reasons why they are so useful.
 When you make a regular expression search, you are guaranteed that you will get a result.
 This is   why operating systems, for example, restrict you for searching a file via regular expressions and don't allow searching by specifying an arbitrary function via a general-purpose programming language.
 But this always-halting property comes at a cost.
@@ -140,19 +155,25 @@ Regular expressions cannot compute every function that is computable by NAND++ p
 In fact there are some very simple (and useful!) functions that they cannot compute, such as the following:
 
 > # {.theorem title="Matching parenthesis" #regexpparn}
-Let $\Sigma = \{"(",")"\}$ and  $MATCHPAREN:\Sigma^* \rightarrow \{0,1\}$ be the function that given a string of parenthesis, outputs $1$ if and only if every opening parenthesis is matched by a corresponding closed one.
+Let $\Sigma = \{\langle ,\rangle \}$ and  $MATCHPAREN:\Sigma^* \rightarrow \{0,1\}$ be the function that given a string of parenthesis, outputs $1$ if and only if every opening parenthesis is matched by a corresponding closed one.
 Then there is no regular expression over $\Sigma$ that computes $MATCHPAREN$.
 
 [regexpparn](){.ref} is a consequence of the following result known as the _pumping lemma_:
 
 > # {.theorem title="Pumping Lemma" #pumping}
-Let $exp$ be a regular expression. Then there is some number $n_0$ such that for every $w\in \{0,1\}^*$ with $|w|>n_0$ and $\Phi_{exp}(w)=1$, it holds that we can write $w=xyz$ where  $|y| \geq 1$, $|xy| \leq n_0$ and such that $\Phi_{exp}(xy^nz)=1$ for every $n\in \N$.
+Let $exp$ be a regular expression. Then there is some number $n_0$ such that for every $w\in \{0,1\}^*$ with $|w|>n_0$ and $\Phi_{exp}(w)=1$, it holds that we can write $w=xyz$ where  $|y| \geq 1$, $|xy| \leq n_0$ and such that $\Phi_{exp}(xy^kz)=1$ for every $k\in \N$.
 
 ![To prove the "pumping lemma" we look at a word $w$ that is much larger than the regular expression $exp$ that matches it. In such a case, part of $w$ must be matched by some sub-expression of the form $(exp')^*$, since this is the only operator that allows matching words longer than the expression. If we look at the "leftmost" such sub-expression and define $y^k$ to be the string that is matched by it, we obtain the partition needed for the pumping lemma.](../figure/pumpinglemma.png){#pumpinglemmafig .class width=300px height=300px}
 
 > # {.proof data-ref="pumping"}
-The idea behind the proof is simple (see [pumpinglemmafig](){.ref}). If we let $n_0$ be one plus the twice the number of symbols that are used in the expression $exp$, then the only way that there is some $w$ with $|w|>n_0$ and $\Phi_{exp}(w)=1$ is that $exp$ contains the $*$ (i.e. star) operator and that there is a nonempty substring $y$ of $w$ that was matched by $(exp')^*$ for some sub-expression $exp'$ of $exp$. Take the left  such expression $exp'$ (and so there is no star expression with a non-emptry match before it), and also the "innermost" (and so it does not contain a sub-expression that uses the star operator and matches a non-empty string). Then we know that the string $w$ has the form $xy^kz'$ where $y$ is a non-emptry string satisfying $\Phi_{exp'}(y)=1$, $k$ is a positive integer, and (since $exp$ does not contain a star before $exp'$ and $exp'$ does not contain a star), $|x|,|y| < n_0/2$.
-Hence if we set $z = y^{k-1}z'$ then we get the conditions $|xy| \leq n_0$ and $|y|\geq 1$, and moreover, by the definition of the star operator, $\Phi_{exp}(xy^{n+k-1}z')=\Phi_{exp}(xy^nz)=1$ for every $n\in \N$.
+The idea behind the proof is simple (see [pumpinglemmafig](){.ref}). If we let $n_0$ be one plus the twice the number of symbols that are used in the expression $exp$, then the only way that there is some $w$ with $|w|>n_0$ and $\Phi_{exp}(w)=1$ is that $exp$ contains the $*$ (i.e. star) operator and that there is a nonempty substring $y$ of $w$ that was matched by $(exp')^*$ for some sub-expression $exp'$ of $exp$.  The idea is that we can now repeat $y$ any number of times and still get a matching string.
+>
+To prove the lemma formally, we use induction on the length of the expression. Our inductive hypothesis is that for an $n$ length expression,  $n_0=2n$ satisfies the conditions of the lemma. The base case is when the expression is a single symbol or that it is $\emptyset$ or $""$ in which case the condition is satisfied just because there is no matching string of length more than one.
+Otherwise, $exp$ is of the form __(a)__ $exp' | exp''$, __(b)__, $(exp')(exp'')$, __(c)__ or $(exp'')^*$ where in all these cases the subexpressions have fewer symbols than $exp$ and hence satisfy the induction hypothesis.
+In case __(a)__, every string $w$ matching $exp$ must match either $exp'$ or $exp''$.
+In the former case, since $exp'$ satisfies the induction hypothesis, if $|w|>n_0$ then we can write $w=xyz$ such that  $xy^kz$ matches $exp'$ for every $k$, and hence this is matched by $exp$ as well.
+In case __(b)__, if $w$ matches $(exp')(exp'')$. then we can write $w=w'w''$ where $w'$ matches $exp'$ and $w''$ matches $exp''$. Since $n_0>2(|exp'|+|exp''|)$ we get that either (TBC).
+
 
 
 > # {.proof data-ref="regexpparn"}
