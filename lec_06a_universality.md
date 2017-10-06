@@ -54,13 +54,13 @@ We will allow the following operations on variables:^[Below `foo`, `bar` and `ba
 * `foo := bar < baz` (smaller than)
 * `foo := bar == baz` (equality)
 
-The semantics of these operations are as expected except that we maintain the invariant that all  variables  always take values between $0$ and the current value of the program counter (i.e., number of iterations of the program that have been  completed).
-If an operation would result in assigning to a variable `foo` a number that is smaller than $0$, then we assign $0$ to `foo`, and if it assigns to `foo` a number that is larger than the program counter, then we assign the value of the program counter to `foo`.
+The semantics of these operations are as expected except that we maintain the invariant that all  variables  always take values between $0$ and the current value of the iteration counter (i.e., number of iterations of the program that have been  completed).
+If an operation would result in assigning to a variable `foo` a number that is smaller than $0$, then we assign $0$ to `foo`, and if it assigns to `foo` a number that is larger than the iteration counter, then we assign the value of the iteration counter to `foo`.
 Just like C, we interpret any nonzero value as "true"  or $1$, and hence `foo := bar NAND baz` will assign to `foo` the value $0$ if both `bar` and `baz` are not zero, and $1$ otherwise.
 
 Apart from those operations, NAND<< is identical to NAND++.
 For consistency, we still treat the variable `i` as special, in the sense that we only allow it to be used as an index, even though the other variables contain integers as well, and so we don't allow variables such as `foo_bar` though we can simulate it by first writing `i := bar` and then `foo_i`.
-We also maintain the invariant that at the beginning of each iteration, the value of `i` is set to the same value that it would have in a NAND++ program (i.e., the function of the program counter stated in [computeidx-ex](){.ref}), though this can be of course overwritten by explicitly assigning a value to `i`.
+We also maintain the invariant that at the beginning of each iteration, the value of `i` is set to the same value that it would have in a NAND++ program (i.e., the function of the iteration counter stated in [computeidx-ex](){.ref}), though this can be of course overwritten by explicitly assigning a value to `i`.
 Once again, see the appendix for a more formal specification of NAND<<.
 
 > # {.remark title="Computing on integers" #integers-rem}
@@ -101,7 +101,7 @@ We'll set `bar` to $1$ and  an inner loop that will proceed as long as `bar` is 
 In this loop we will do the following: __(1)__ If `foo` encodes $0$ then set `bar` to zero. __(2)__ Otherwise, we use a nested inner loop to decrement the number represented by `foo` by $1$, and perform the operation `i++ (bar)`.
 
 
-__Step 4: Maintaining a program counter and index.__ The NAND++ program $P'$ will simulate execution of the NAND<< program $P$. Every step of $P$ will be simulated by several steps of $P'$. We can use the above operations to maintain a variable `progcounter` and `index` that will encode the current step of $P$ that is being executed and the current value of the special index variable `i` in the simulated program $P$ (which does not have to be the same as the value of `i` in the NAND++ program $P'$).
+__Step 4: Maintaining an iteration counter and index.__ The NAND++ program $P'$ will simulate execution of the NAND<< program $P$. Every step of $P$ will be simulated by several steps of $P'$. We can use the above operations to maintain a variable `itercounter` and `index` that will encode the current step of $P$ that is being executed and the current value of the special index variable `i` in the simulated program $P$ (which does not have to be the same as the value of `i` in the NAND++ program $P'$).
 
 __Step 5: Embedding two dimensional arrays into one dimension.__ If `foo` and `bar`  the encode the natural numbers $x,y \in \N$, then we can use NAND++ to compute the map $PAIR:\N^2 \rightarrow \N$ where $PAIR(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+x$. In [pair-ex](){.ref} we ask you to verify that $PAIR$ is a one-to-one map from $\N^2$ to $\N$ and that there are NAND++ programs $P_0,P_1$ such that for every $x_0,x_1 \in \N$ and $i \in \{0,1\}$, $P_i(PAIR(x_0,x_1))=x_i$.
 Using this  $PAIR$ map, we can assume we have access to two dimensional arrays in our NAND++ program.
@@ -109,7 +109,7 @@ Using this  $PAIR$ map, we can assume we have access to two dimensional arrays i
 
 __Step 6: Embedding an array of integers into a two dimensional bit array.__ We can use the same  encoding as above to embed a one-dimensional array `foo` of integers into a two-dimensional array `bar` of bits, where `bar_{`$\expr{i}$, $\expr{j}$`}` will encode the $j$-th bit in the representation of the integer `foo_`$\expr{i}$. Thus we can simulate the integer arrays of the NAND<< program $P$ in the NAND++ program $P'$.
 
-__Step 7: Simulating $P$.__ Now we have all the components in place to simulate every operation of $P$ in $P'$. The program $P'$ will have a two dimensional bit array corresponding to any one dimensional array of $P$, as well as variables to store the program counter, index, as well as the `loop` variable of the simulated program $P$. Every step of $P$ can now be translated into an inner loop that would perform the same operation on the representations of the state.
+__Step 7: Simulating $P$.__ Now we have all the components in place to simulate every operation of $P$ in $P'$. The program $P'$ will have a two dimensional bit array corresponding to any one dimensional array of $P$, as well as variables to store the iteration counter, index, as well as the `loop` variable of the simulated program $P$. Every step of $P$ can now be translated into an inner loop that would perform the same operation on the representations of the state.
 
 We omit the full details of all the steps above and their analysis, which are tedious but not that insightful.
 

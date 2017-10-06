@@ -629,8 +629,8 @@ Both configurations and Deltas are technical ways to capture the fact that compu
 ## Exercises
 
 > # {.exercise title="Compute index" #computeidx-ex}
-Suppose that $pc$ is the "program counter" of a NAND++ program, in the sense that $pc$ is initialized to zero, and is incremented by one each time the program finishes an iteration and goes back to the first line.
-Prove that the value of the variable `i` is equal to $pc-r(r+1)$ if $pc \leq (r+1)^2$ and equals $(r+2)(r+1)-pc$ otherwise, where $r = \floor{\sqrt{pc+1/4}-1/2}$.
+Suppose that $t$ is the "iteration counter" of a NAND++ program, in the sense that $t$ is initialized to zero, and is incremented by one each time the program finishes an iteration and goes back to the first line.
+Prove that the value of the variable `i` is equal to $t-r(r+1)$ if $t \leq (r+1)^2$ and equals $(r+2)(r+1)-t$ otherwise, where $r = \floor{\sqrt{t+1/4}-1/2}$.
 
 
 

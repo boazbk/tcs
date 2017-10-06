@@ -35,7 +35,7 @@ Solving polynomial equations is by no means restricted only to ancient history o
 The [gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) method is the workhorse powering many of the machine learning tools that have revolutionized Computer Science over the last several years.
 
 But there are some equations that we simply do not know how to solve _by any means_.
-For example, it took more than 200 years until people succeeded in proving that the equation  $a^{11} + b^{11} = c^{11}$ has no solution in integers.^[This is a special case of what's known as  "[Fermat's Last Theorem](https://en.wikipedia.org/wiki/Fermat%27s_Last_Theorem)" which states that $a^n + b^n = c^n$ has no solution in integers for $n>2$. This was conjectured in 1637 by Pierre de Fermat but only proven by Andrew Wiles in 1991. The case $n=11$ (along with all other so called "regular prime exponents") was established by Kummer in 1850.]
+For example, it took more than 200 years until people succeeded in proving that the equation  $a^{11} + b^{11} = c^{11}$ has no solution in integers.^[This is a special case of what's known as  "Fermat's Last Theorem" which states that $a^n + b^n = c^n$ has no solution in integers for $n>2$. This was conjectured in 1637 by Pierre de Fermat but only proven by Andrew Wiles in 1991. The case $n=11$ (along with all other so called "regular prime exponents") was established by Kummer in 1850.]
 The notorious difficulty of so called _Diophantine equations_ (i.e., finding _integer_ roots of a polynomial) motivated the mathematician David Hilbert in 1900 to include the question of finding a general procedure for solving such equations  in his famous list of twenty-three open problems for mathematics of the 20th century.
 I  don't think Hilbert  doubted that such a procedure exists.
 After all, the whole history of mathematics up to this point involved the discovery of ever more powerful methods, and even impossibility results such as the inability to trisect an angle with a straightedge and compass, or the non-existence of an algebraic formula for qunitic equations, merely pointed out to the need to use more general methods.
@@ -74,7 +74,8 @@ A _quantified integer statement_ is a well-formed statement with no unbound vari
 
 [QIS-def](){.ref} is interesting in its own right and not just as a "toy version" of [MRDP-thm](){.ref}.
 We often care deeply about determining the truth of quantified integer statements.
-For example, the statement that Fermat's Last Theorem  is true for $n=3$ can be phrased as the quantified integer statement
+For example, the statement that [Fermat's Last Theorem](https://en.wikipedia.org/wiki/Fermat%27s_Last_Theorem)  is true for $n=3$ can be phrased as the quantified integer statement
+
 $$
 \neg \exists_{a\in\N} \exists_{b\in\N} \exists_{c\in\N} a\times a \times a  + b \times b \times b = c\times c \times c \;.
 $$
@@ -151,11 +152,11 @@ This sill complete  the proof, since it will imply that if $QMS$ is computable t
 
 
 The idea behind the construction of the statement $\varphi_{P,x}$ is the following.
-The statement will be true if and only if there exists a string $L\in \{0,1\}^*$ which corresponds to an _execution trace_ that proves that $P$ halts on input $x$.
+The statement will be true if and only if there exists a string $\Delta \in \{0,1\}^*$ which corresponds to a summary of an _execution trace_ that proves that $P$ halts on input $x$.
 At a high level, the crucial insight  is that unlike when we actually run the computation, to verify the correctness of a execution trace  we only need to verify _local consistency_ between pairs of lines.
 
 
-Informally, an _execution trace_ of a program $P$ on an input $x$ is a string that represents a "log" of all the lines executed and variables assigned in the course of the execution.
+Informally, an execution trace of a program $P$ on an input $x$ is a string that represents a "log" of all the lines executed and variables assigned in the course of the execution.
 For example, if we execute on [nandpl.org](http://www.nandpl.org) the parity program
 
 ~~~~ { .go .numberLines }
@@ -203,21 +204,9 @@ Result: 1 (1)
 The line by line execution trace is quite long and tedious, but note that it is very easy to locally check, without the need to redo the computation ourselves: we just need to see that each line computes the NAND correctly, and that the value that it claims for the variables on the righthand side of the assignment is the same value that was written to them in the previous line that accessed them.
 
 
-More formally, we will use the notion of a _modification log_ or "Deltas" of a NAND++ program, as presented in [deltas](){.ref}.
-Recall taht given a NAND++ program $P$ (which can be assumed to be simple without loss of generality) and an input $x\in \{0,1\}^n$, if $P$ has $s$ lines and takes $T$ iterations of its loop to halt on $x$, then the _modification log_ of $P$ on $x$ is the string $\Delta \in \{0,1\}^{sT+n}$ such that for every $i\in [n]$, $\Delta_i  = x_i$ and for every $\ell \in \{n,n+1,\ldots,sT+n-1\}$, $\Delta_{\ell}$ corresponds to the value that is assigned to a variable during   step number $(\ell-n)$  of the execution.
+More formally, we will use the notion of a _modification log_ or "Deltas" of a NAND++ program, as presented in [deltas](){.ref}.^[We could also have proven Godel's theorem using the sequence of all configurations, but the "deltas" have a simpler format.]
+Recall that  given a NAND++ program $P$ and an input $x\in \{0,1\}^n$, if $P$ has $s$ lines and takes $T$ iterations of its loop to halt on $x$, then the _modification log_ of $P$ on $x$ is the string $\Delta \in \{0,1\}^{sT+n}$ such that for every $i\in [n]$, $\Delta_i  = x_i$ and for every $\ell \in \{n,n+1,\ldots,sT+n-1\}$, $\Delta_{\ell}$ corresponds to the value that is assigned to a variable during   step number $(\ell-n)$  of the execution.
 Note that for every $\ell \in \{n,n+1,\ldots,sT+n+-1\}$, $\Delta_\ell$ is the  NAND of $\Delta_j$ and $\Delta_k$ where $j$ and $k$ are the last lines in which the two variables referred to in the corresponding line are assigned a value.
-
-We can compute $j$ and $k$ as an arithmetic function of $\ell$ as follows:
-
-* If $P$ has $s$ lines then at any particular step $t$ the number of iterations we have performed is $\floor{t/T}$ and the current line we are executing is $t \mod T$.
-
-* The value of the index variable `i` at at step $t$ is therefore $INDEX(\floor{t/T})$ where $INDEX$ is the explicit arithmetic function that we computed in Lecture 6.
-
-* The variables that a referred to in each line are computed by a constant size function of the line number  since there is only a constant number of lines in $P$.
-
-
-
-### Completing the proof
 
 
 The idea of the reduction is that given a NAND++ program $P$ and an input $x$, we can come up with a mixed quantifier statement $\Psi_{P,x}(\Delta)$ such that for every $\Delta\in \{0,1\}^*$,  $\Psi_{P,x}(\Delta)$ is true if and only if $\Delta$ is a consistent modification log of $P$ on input $x$ that ends in a halting state (with the `loop` variable set to $0$).
@@ -233,16 +222,18 @@ The full details are rather tedious,  but the high level point is that we can ex
 To ensure that we can implement the above as mixed quantifier statements we observe the following:
 
 
-1. Since the $INDEX$ function that maps the current step to the location of the value `i` was an explicit arithmetic function, we  can come up with a quantified integer statement $INDEX(t,i)$ that will be true if and only if the value of `i` when the program executes step $t$ equals $i$.
-
-2. We can come up with quantified integer statements $PREV_1(t,s)$  and $PREV_2(t,r)$ that will satisfy the following. If at step $t$ the operation invokved is `foo := bar NAND baz` then $PREV_1(t,s)$ is true if and only if $s$ is the last step before $t$ in which `bar` was written to  and $PREV_2(t,r)$ is true if and only if $r$ is the last step before $t$ in which `baz` was written to. Note that these statements will themselves use $INDEX$ because if `bar` and/or `baz` are indexed by `i` then part of the condition for $PREV_1(t,s)$ and $PREV_2(t,r)$ will be to ensure that $INDEX(t)=INDEX(s)$ and/or $INDEX(t)=INDEX(r)$.
-
-3. We can come up with a quantified integer statement $LOOP(t)$ that will be true if and only if the variable written to  at step $t$ in the execution is equal to `loop`
+1. Since the $INDEX$ function that maps the current step to the location of the value `i` was an explicit arithmetic function, we  can come up with a quantified integer statement $INDEX(t,i)$ that will be true if and only if the value of `i` when the program executes step $t$ equals $i$. (See [indexexpressionex](){.ref}.)
 
 
-Together these three steps enable the construction of the formula $\Psi_{P,x}(\Delta)$.
+
+2. We can come up with quantified integer statements $PREV_1(t,t')$  and $PREV_2(t,t'')$ that will satisfy the following. If at step $t-n$ the operation invokved is `foo := bar NAND baz` then $PREV_1(t,t')$ is true if and only if $t'$ is $n$ plus the last step before $t$ in which `bar` was written to  and $PREV_2(t,t'')$ is true if and only if $t''$ is $n$ plus the last step before $t$ in which `baz` was written to. (If one ore both of the righthand side variables are input variables, the $t'$ and/or $t'$ will correspond to the index in $[n]$ of that variable.) Therefore, checking the validity of $\Delta_t$ will amount to checing that $\forall_{t' \in \N} \forall_{t'' \in \N} \neg PREV_1(t,t') \vee \neg PERV_2(t,t'') \vee (\Delta_t = 1-\Delta_{t'}\Delta_{t''})$. Note that these statements will themselves use $INDEX$ because if `bar` and/or `baz` are indexed by `i` then part of the condition for $PREV_1(t,t')$ and $PREV_2(t,t'')$ will be to ensure that the `i` variable in these steps is the same as the variable in step $t-n$.
+Using this, plus the observation that the program has only a constant number of lines, we can create the statements $PREV_1$ and $PREV_2$. (See [prevex](){.ref})
 
 
+3. We can come up with a quantified integer statement $LOOP(t)$ that will be true if and only if the variable written to  at step $t$ in the execution is equal to `loop`.
+
+
+Together these three steps enable the construction of the formula $\Psi_{P,x}(\Delta)$. (We omit the full details, which are messy but ultimately straightforward.)
 Given a construction of such a formula $\Psi_{P,x}(\Delta)$ we can see that $HALT(P,x)=1$ if and only if the following quantified mixed statement $\varphi_{P,x}$ is true
 $$
 \varphi_{P,x} = \exists_{\Delta \in \{0,1\}^*} \Psi_{P,x}(\Delta) \label{eq:QMSHALT}
@@ -288,11 +279,11 @@ Thus all that is left to conclude the proof of [QIS-thm](){.ref} is to prove [pr
 
 > # {.proof data-ref="primeseq"}
  The sequence of prime numbers we consider is the following:
-we define $p_i$ to be the smallest prime number that is in the interval $[i+1,2i+1]$.
-It is known by [Bertrand's postulate](https://en.wikipedia.org/wiki/Bertrand's_postulate) that there exists such a prime number for every $i\in\N$.
+We fix $C$ to be a suficiently large constant ($C=2^{2^{34}}$ [will do](https://arxiv.org/pdf/1401.4233.pdf) and define $p_i$ to be the smallest prime number that is in the interval $[(i+C)^3+1,(i+C+1)^3-1]$.
+It is known  that there exists such a prime number for every $i\in\N$.
 Given this, the  definition of $PCOORD(p,i)$ is simple:
 $$
-(p > i) \wedge (p < 2\times i+1)\wedge
+(p > (i+C)\times (i+C)\times (i+C)  ) \wedge (p < (i+C+1)\times(i+C+1)\times (i+C+1) )\wedge
 \left(\forall_{p'} \neg PRIME(p') \vee (p' \leq i) \vee (p' \geq p) \right) \;,
 $$
 We leave it to the reader to verify that $PCOORD(p,i)$ is true iff $p=p_i$.
@@ -383,9 +374,27 @@ This in particular showed that Hilbert's second problem (which was about finding
 
 ## Exercises
 
+> # {.exercise title="Expression for floor" #floorexpressionex}
+Let $FSQRT(n,m) = \forall_{j \in \N}((j \times j)>n) \vee (j<m) \vee (j=m)$. Prove that $FSQRT(m,n)$ is true if and only if $m =\floor{\sqrt{m}}$.
 
-> # {.exercise title="title" #godelthemex}
-For every representation of logical statements as strings, we can define as in [proofdef](){.ref} an axiomatic proof system to consist of a finite set of strings $A$ and a finite set of rules $I_0,\ldots,I_{m-1}$ with $I_j: (\{0,1\}^*)^{k_j} \rightarrow \{0,1\}^*$ such that a proof $(s_1,\ldots,s_n)$ that $s_n$ is true is valid if for every $i$, either $s_i \in A$ or is some $j\in [m]$ and  are $i_1,\ldots,i_{k_j} < i$ such that $s_i = I_j(s_{i_1},\ldots,i_{k_j})$.
+> # {.exercise title="Expression for computing the index" #indexexpressionex}
+Recall that in [computeidx-ex](){.ref} asked you to prove that at iteration $t$ of a NAND++ program the  the variable `i` is equal to $t-r(r+1)$ if $t \leq (r+1)^2$ and equals $(r+2)(r+1)t$ otherwise, where $r = \floor{\sqrt{t+1/4}-1/2}$.
+Prove that there is a quantified integer statement $INDEX$ with parameters $t,i$ such that $INDEX(t,i)$ is true if and $i$ is the value of `i` after $t$ iterations.
+
+> # {.exercise title="Expression for computing the previos line" #prevex}
+Give the following quantified integer expressions: \
+1. $MOD(a,b,c)$ which is true if and only if $c = a \mod c$. Note if a program has $s$ lines then  the line executed at step $t$ is equal to $t \mod s$. \
+2. Suppose that $P$ is the  three line NAND program listed below.  Give a quantified integer statement $LAST(n,t,t')$  such that $LAST(t,t')$ is true if and only if $t'-n$ is the largest step smaller than $t-n$ in which the variable on the righthand side of the line executed at step $t-n$ is written to. If this variable is an input variable `x_i` then let $LAST(n,t,t')$ to be true if the current index location equals $t'$ and $t'<n$.
+
+~~~~ { .pascal }
+y_0    := foo_i  NAND foo_i
+foo_i  := x_i NAND x_i
+loop := validx_i NAND validx_i
+~~~~
+
+
+> # {.exercise title="axiomatic proof systems" #godelthemex}
+For every representation of logical statements as strings, we can define  an axiomatic proof system to consist of a finite set of strings $A$ and a finite set of rules $I_0,\ldots,I_{m-1}$ with $I_j: (\{0,1\}^*)^{k_j} \rightarrow \{0,1\}^*$ such that a proof $(s_1,\ldots,s_n)$ that $s_n$ is true is valid if for every $i$, either $s_i \in A$ or is some $j\in [m]$ and  are $i_1,\ldots,i_{k_j} < i$ such that $s_i = I_j(s_{i_1},\ldots,i_{k_j})$.
 A system is _sound_  if whenever there is no false $s$ such that there is  a proof that $s$ is true
 Prove that for every uncomputable function $F:\{0,1\}^* \rightarrow \{0,1\}$ and every sound axiomatic proof system $S$ (that is characterized by a finite number of axioms and inference rules), there is some input $x$ for which the proof system $S$ is not able to prove neither that $F(x)=0$ nor that $F(x) \neq 0$.
 

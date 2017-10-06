@@ -76,7 +76,7 @@ Every valid NAND program  is also a valid NAND++ program, but the NAND++ program
 Unlike a NAND program, a NAND++ program can be evaluated on inputs of every length.
 To evaluate a NAND++ program $P$ on input $x\in \{0,1\}^*$ we do the following:
 
-1. Set $pc=0$, $r=0$, $m=0$, $i=0$, $inc=+1$ ($pc$ stands for "program counter" and $r$ is the current  "rounds" of the the index variable).
+1. Set $ic=0$, $r=0$, $m=0$, $i=0$, $inc=+1$ ($ic$ stands for "iteration counter" and $r$ is the current  "rounds" of the the index variable).
 
 2.  For every line in $P$ of the form $vara$ ` := ` $varb$ ` NAND ` $varc$, assign to the variable denoted by $vara$  the NAND of the values of the variables denoted by $varb$ and $varc$.
 If a variable on the righthand side has not received a value then its value is set to $0$.
@@ -88,10 +88,10 @@ If a variable on the lefthandside has the form `y_`$\expr{j}$ then we let $m = \
 3. If the variable `loop` has the value $0$ then halt with output $y_0,\ldots,y_{m-1}$ where $y_j$ equals the value of `y_`$\expr{j}$ if this variable has been assigned a value, and equals $0$ if it hasn't been assigned a value. Otherwise (if `loop` has value $1$) then do the following:
     * If $i=0$ then set $r \leftarrow r+1$ (in this case we have completed a "round") and $inc=+1$.
     * If $i=r$ then set $inc = -1$.
-    * Then set   $i \leftarrow i + inc$,  $pc \leftarrow pc+1$, and go back to step 2.
+    * Then set   $i \leftarrow i + inc$,  $ic \leftarrow ic+1$, and go back to step 2.
 
 We say that a NAND++ program $P$ _halts_ on input $x\in \{0,1\}^*$ if when initialized with $x$, $P$ will eventually reach the point where `loop` equals $0$ in Step 3. above and will output some value, which we denote by $P(x)$.
-The _number of steps_ that $P$ takes on input $x$ is defined as $(pc+1)\ell$ where $pc$ is the value of the program counter $pc$ at the time when the program halts and $\ell$ is the number of lines in $P$.
+The _number of steps_ that $P$ takes on input $x$ is defined as $(ic+1)\ell$ where $ic$ is the value of the iteration counter $ic$ at the time when the program halts and $\ell$ is the number of lines in $P$.
 If $F:\{0,1\}^* \rightarrow \{0,1\}^*$ is a (potentially partial) function and $P$ is a NAND++ program then we say that $P$ _computes_ $F$ if for every $x\in \{0,1\}^*$ on which $F$ is defined, on input $x$ the program $P$ halts and outputs the value $F(x)$.
 If $P$ and $F$ are as above and $T:\N \rightarrow \N$ is some function, then we say that $P$ computes $F$ in time $T$ if for every $x\in \{0,1\}^*$ on which $F$ is defined, on input $x$ the program $P$ halts within $T(|x|)$ steps and outputs the value $F(x)$.
 
@@ -274,14 +274,14 @@ We might however sometimes consider drop the bit-string valued restriction and c
 
 
 Semantics of NAND<< are obtained by generalizing to integer valued variables.
-Arithmetic operations are defined  as expected except that we maintain the invariant that all  variables  always take values between $0$ and the current value of the program counter (i.e., number of iterations of the program that have been  completed).
-If an operation would result in assigning to a variable `foo` a number that is smaller than $0$, then we assign $0$ to `foo`, and if it assigns to `foo` a number that is larger than the program counter, then we assign the value of the program counter to `foo`.
+Arithmetic operations are defined  as expected except that we maintain the invariant that all  variables  always take values between $0$ and the current value of the iteration counter (i.e., number of iterations of the program that have been  completed).
+If an operation would result in assigning to a variable `foo` a number that is smaller than $0$, then we assign $0$ to `foo`, and if it assigns to `foo` a number that is larger than the iteration counter, then we assign the value of the iteration counter to `foo`.
 Just like C, we interpret any nonzero value as "true"  or $1$, and hence `foo := bar NAND baz` will assign to `foo` the value $0$ if both `bar` and `baz` are not zero, and $1$ otherwise.
 More formally, to evaluate a NAND++ program on inputs $x_0,x_1,x_2,\ldots$ (which we will typically assume to be bits, but could be integers as well) we do the following:
 
 
 
-1. Set $pc=0$, $m=0$, $i=0$,  ($pc$ stands for "program counter" and $r$ is the current  "rounds" of the the index variable).
+1. Set $ic=0$, $m=0$, $i=0$,  ($ic$ stands for "iteration counter" and $r$ is the current  "rounds" of the the index variable).
 
 2.  For every line in $P$, we do the following:
 
@@ -292,13 +292,13 @@ More formally, to evaluate a NAND++ program on inputs $x_0,x_1,x_2,\ldots$ (whic
         - If a variable has the form `validx_`$\expr{j}$ then if $j<|x|$ it gets the value $1$ and otherwise it gets the value $0$.
         - If a variable on the lefthand side has the form `y_`$\expr{j}$ then we let $m = \max\{ m,j+1 \}$.
 
-    b. If a line correspond to an index operation of the form `foo := bar OP baz` where `OP` is one of the operations listed above then we evaluate `foo` and `bar` as in the step above and compute the value $v$ to be the operation `OP` applied to the values of `foo` and `bar`. We assign to the index variable corresponding to `idx` the value $\max\{0,\min\{ pc , v \}\}$.
+    b. If a line correspond to an index operation of the form `foo := bar OP baz` where `OP` is one of the operations listed above then we evaluate `foo` and `bar` as in the step above and compute the value $v$ to be the operation `OP` applied to the values of `foo` and `bar`. We assign to the index variable corresponding to `idx` the value $\max\{0,\min\{ic , v \}\}$.
 
-3. If the variable `loop` has the value $0$ then halt with output $y_0,\ldots,y_{m-1}$ where $y_j$ equals the value of `y_`$\expr{j}$ if this variable has been assigned a value, and equals $0$ if it hasn't been assigned a value. Otherwise (if `loop` has value $1$) then do the following. Set $px \leftarrow pc+1$, set $i=INDEX(pc)$ where $INDEX$ is the function that maps the program counter value to the current value of `i`, and go back to step 2.
+3. If the variable `loop` has the value $0$ then halt with output $y_0,\ldots,y_{m-1}$ where $y_j$ equals the value of `y_`$\expr{j}$ if this variable has been assigned a value, and equals $0$ if it hasn't been assigned a value. Otherwise (if `loop` has value $1$) then do the following. Set $px \leftarrow ic+1$, set $i=INDEX(ic)$ where $INDEX$ is the function that maps the iteration counter value to the current value of `i`, and go back to step 2.
 
 
 
-Like a NAND++ program, the number of steps which a NAND<< program $P$ takes on input $x$ is defined as $(pc+1)\ell$ where $pc$ is the value of the program counter at the point in which it halts and $\ell$ is the number of lines in $P$.
+Like a NAND++ program, the number of steps which a NAND<< program $P$ takes on input $x$ is defined as $(ic+1)\ell$ where $ic$ is the value of the iteration counter at the point in which it halts and $\ell$ is the number of lines in $P$.
 Just like in NAND++, we say that a NAND<< program $P$ computes a partial function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ in time $T:\N \rightarrow \N$ if for every $x\in \{0,1\}^*$ on which $F$ is defined, $P(x)$ outputs $F(x)$ within $T(|x|)$ steps.
 Note that any NAND<< program can be transformed into a NAND++ program that computes the same function, albeit at a polynomial loss in the number of steps.
 
