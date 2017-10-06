@@ -166,19 +166,35 @@ Let $exp$ be a regular expression. Then there is some number $n_0$ such that for
 ![To prove the "pumping lemma" we look at a word $w$ that is much larger than the regular expression $exp$ that matches it. In such a case, part of $w$ must be matched by some sub-expression of the form $(exp')^*$, since this is the only operator that allows matching words longer than the expression. If we look at the "leftmost" such sub-expression and define $y^k$ to be the string that is matched by it, we obtain the partition needed for the pumping lemma.](../figure/pumpinglemma.png){#pumpinglemmafig .class width=300px height=300px}
 
 > # {.proof data-ref="pumping"}
-The idea behind the proof is simple (see [pumpinglemmafig](){.ref}). If we let $n_0$ be one plus the twice the number of symbols that are used in the expression $exp$, then the only way that there is some $w$ with $|w|>n_0$ and $\Phi_{exp}(w)=1$ is that $exp$ contains the $*$ (i.e. star) operator and that there is a nonempty substring $y$ of $w$ that was matched by $(exp')^*$ for some sub-expression $exp'$ of $exp$.  The idea is that we can now repeat $y$ any number of times and still get a matching string.
+The idea behind the proof is very simple (see [pumpinglemmafig](){.ref}). If we let $n_0$ be, say, twice the number of symbols that are used in the expression $exp$, then the only way that there is some $w$ with $|w|>n_0$ and $\Phi_{exp}(w)=1$ is that $exp$ contains the $*$ (i.e. star) operator and that there is a nonempty substring $y$ of $w$ that was matched by $(exp')^*$ for some sub-expression $exp'$ of $exp$.  We can now repeat $y$ any number of times and still get a matching string.
 >
-To prove the lemma formally, we use induction on the length of the expression. Our inductive hypothesis is that for an $n$ length expression,  $n_0=2n$ satisfies the conditions of the lemma. The base case is when the expression is a single symbol or that it is $\emptyset$ or $""$ in which case the condition is satisfied just because there is no matching string of length more than one.
+To prove the lemma formally, we use induction on the length of the expression. Like all induction proofs, this is going to be somewhat lengthy, but at the end of the day it directly follows the intuition above that _somewhere_ we must have used the star operation. Reading this proof, and in particular understanding how the formal proof below corresponds to the intuitive idea above, is a very good way to get more comfort with inductive proofs of this form.
+>
+Our inductive hypothesis is that for an $n$ length expression,  $n_0=2n$ satisfies the conditions of the lemma. The base case is when the expression is a single symbol or that it is $\emptyset$ or $""$ in which case the condition is satisfied just because there is no matching string of length more than one.
 Otherwise, $exp$ is of the form __(a)__ $exp' | exp''$, __(b)__, $(exp')(exp'')$, __(c)__ or $(exp'')^*$ where in all these cases the subexpressions have fewer symbols than $exp$ and hence satisfy the induction hypothesis.
+>
 In case __(a)__, every string $w$ matching $exp$ must match either $exp'$ or $exp''$.
 In the former case, since $exp'$ satisfies the induction hypothesis, if $|w|>n_0$ then we can write $w=xyz$ such that  $xy^kz$ matches $exp'$ for every $k$, and hence this is matched by $exp$ as well.
-In case __(b)__, if $w$ matches $(exp')(exp'')$. then we can write $w=w'w''$ where $w'$ matches $exp'$ and $w''$ matches $exp''$. Since $n_0>2(|exp'|+|exp''|)$ we get that either (TBC).
+>
+In case __(b)__, if $w$ matches $(exp')(exp'')$. then we can write $w=w'w''$ where $w'$ matches $exp'$ and $w''$ matches $exp''$. Again we split to subcases. If $|w'|>2|exp'|$, then by the induction hypothesis we can write $w' = xyz$ of the form above such that $xy^kz$ matches $exp'$ for every $k$ and then $xy^kzw''$ matches $(exp')(exp'')$d. This completes the proof since $|xy| \leq 2|exp'|$ and so in particular $|xy| \leq 2(|exp'|+|exp''|) \leq 2|exp$, and hence $zw''$ can be play the role of $z$ in the proof. Otherwise, if $|w'| \leq 2|exp'|$ then since $|w'|+|w'|>2(|exp'|+|exp''|)$ it must be that $|w'|>2|exp''|$ and hence by the induction hypothesis we can write $w''=xyz$ such that $xy^kz$ matches $exp''$ for every $k$ and $|xy| \leq 2|exp''|$. Therefore we get that $w'xy^kz$ matches $(exp')(exp'')$ for every $k$ and since $|w'| \leq 2|exp'|$, $|w'xy| \leq 2(|exp'|+|exp'|)$ and this completes the proof since   $w'x$ can play the role of $x$ in the statement.
+>
+Now in the case __(c)__, if $w$ matches $(exp')^*$ then $w= w_0\cdots w_t$ where $w_i$ is a nonempty string that matches $exp'$ for every $i$.
+If $|w_0|>2|exp'|$ then we can use the same approach as in the concatenation case above.
+Otherwise, we simply note that if $x$ is the empty string, $y=w_0$, and $z=w_1\cdots w_t$ then $xy^kz$ will match $(exp')^*$ for every $k$.
 
 
+> # {.remark title="Recursive definitions and inductive proofs" #recursiveproofs}
+When an object is _recursively defined_ (as in the case of regular expressions) then it is natural to prove  properties of such objects by  _induction_. That is, if we want to prove that all objects of this type have property $P$, then it is natural to use an inductive steps that says that if $o',o'',o'''$ etc have property $P$ then so is an object $o$ that is obtained by composing them.
+
+
+
+
+Given the pumping lemma, we can easily prove [regexpparn](){.ref}:
 
 > # {.proof data-ref="regexpparn"}
-Given the pumping lemma, we can easily prove [regexpparn](){.ref}. Suppose, towards the sake of contradiction, that there is an expression $exp$ such that $\Phi_{exp}= MATCHPAREN$. Let $n_0$ be the number from [regexpparn](){.ref} and let
-$w =(^{n_0})^{n_0}$. Then we see that if we write $w=xyz$ as in [regexpparn](){.ref}, the condition $|xy| \leq n_0$ implies that $y$ consists solely of left parenthesis. Hence the string $xy^2z$ will contain more left parenthesis than right parenthesis.
+Suppose, towards the sake of contradiction, that there is an expression $exp$ such that $\Phi_{exp}= MATCHPAREN$. Let $n_0$ be the number from [regexpparn](){.ref} and let
+$w =\langle^{n_0}\rangle^{n_0}$ (i.e., $n_0$ left parenthesis followed by $n_0$ right parenthesis). Then we see that if we write $w=xyz$ as in [regexpparn](){.ref}, the condition $|xy| \leq n_0$ implies that $y$ consists solely of left parenthesis. Hence the string $xy^2z$ will contain more left parenthesis than right parenthesis.
+Hence $MATCHPAREN(xy^2z)=0$ but by the pumping lemma $\Phi_{exp}(xy^2z)=1$, contradicting our assumption that $\Phi_{exp}=MATCHPAREN$.
 
 
 > # {.remark title="Regular expressions beyond searching" #netkat}
