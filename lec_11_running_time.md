@@ -49,7 +49,7 @@ The two main time complexity classes we will be interested in are the following:
 * __Exponential time:__ We say that a Boolean total function is computable in exponential time if it is in the class $\mathbf{EXP} = \cup_{c\in\N} TIME(2^{n^c})$.
 
 Since exponential time is much larger than polynomial time, clearly $\mathbf{P}\subseteq \mathbf{EXP}$.
-All of the problems we listed in the last lecture are in $\mathbf{EXP}$,^[Strictly speaking, many of these problems correspond to _non Boolean_ functions, but we will sometimes "abuse notation" and refer to non Boolean functions as belonging to $\mathbf{P}$ or $\mathbe{EXP}$. We can easily extend the definitions of these classes to non Boolean and partial functions. Also, for every non-Boolean function $F$, we can define a Boolean variant $\Hat{F}$ such that $F$ can be computed in polynomial time if and only if  $\Hat{F}$ is.] but as we've seen, for some of them there are much better algorithms that demonstrate that they are in fact in $\mathbf{P}$.
+All of the problems we listed in the last lecture are in $\mathbf{EXP}$,^[Strictly speaking, many of these problems correspond to _non Boolean_ functions, but we will sometimes "abuse notation" and refer to non Boolean functions as belonging to $\mathbf{P}$ or $\mathbf{EXP}$. We can easily extend the definitions of these classes to non Boolean and partial functions. Also, for every non-Boolean function $F$, we can define a Boolean variant $\Hat{F}$ such that $F$ can be computed in polynomial time if and only if  $\Hat{F}$ is.] but as we've seen, for some of them there are much better algorithms that demonstrate that they are in fact in $\mathbf{P}$.
 
 
 | $\mathbf{P}$  | $\mathbf{EXP}$ |
@@ -112,23 +112,31 @@ When we want to _analyze_ a program, we can describe it in the simpler form of N
 
 We have seen before the NAND<< or "interpreter" for NAND++.
 Examining this program, we can see that it has polynomial (in fact linear) overhead, and hence, combining this with [NANDpp-thm](){.ref} , we get that we have a universal NAND<< program with polynomial overhead.
-But in fact, by directly simulating NAND<< programs, we can do better with only polylogarithmic overhead:
+But in fact, by directly simulating NAND<< programs, we can do better with only a _constant_ multiplicative overhead:
 
 
 > # {.theorem title="Efficient universality of NAND<<" #univ-nandpp}
-There is  an $O(n \log n)$-step NAND<< program that computes the  partial function $TIMEDEVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ defined as follows:
+There is  a NAND<< program $U$ that computes the  partial function $TIMEDEVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ defined as follows:
 $$
 TIMEDEVAL(P,x,1^T)=P(x)
 $$
 if $P$  is a valid representation of a NAND<< program which produces an output on $x$ within at most $T$ steps.
+Moreover, for every program $P$, the running time of $U$ on input $P,x,1^T$ is $O(T)$ (where the hidden constant in the Oh notation can depend on the program $P$).
 
 > # {.proof data-ref="univ-nandpp"}
-Once again we only sketch the proof. The definition of executing a NAND<< program is given in Appendix A.
-It involves maintaining variables `ic`  and `i` for the iteration  counter and index variable, as well as an index for the current line that is being executed. If a program involves $L$ different variable identifiers, we can store all the variables in a single array `vars` such that if `foo` is the $\ell$-th identifier then the value of `foo_`$\expr{j}$ will be stored in `vars_`$\expr{Lj+\ell}$.
-Evaluating every line can be done in  about  $O(L)$ operators which is a constant independent of the input length.
-
-
-
+To present a universal NAND<< program in full we need to describe a precise representation scheme, as well as the full NAND<< instructions for the program.
+While this can be done, it is more important to focus on the main ideas, and so we just sketch the proof here.
+A complete specification for NAND<< is given in the Appendix, and for the purposes of this simulation, we can simply use the representation of the code NAND<< as an ASCII string.
+>
+The program $U$ gets as input a NAND<< program $P$, an input $x$, and a time bound $T$ (given in the form $1^T$) and needs to simulate the execution of $P$ for $T$ steps.
+To do so, $U$ will do the following:
+>
+1.$U$ will maintain variables `icP`, `lcP`, and `iP` for the iteration counter, line counter, and index variable of $P$. \
+2.$U$ will maintain an array `varsP` for all other variables of $P$. If $P$ has $s$ lines then it uses at most $3s$ variable identifiers. $U$ will associate each identifier with a number in $[3s]$. It will encode the contents of the variable with identifier corresponding to $a$ and index $j$ at the location `varsP_`$\expr{3s\cdot j+ a}$. \
+3. $U$ will maintain an array  `LinesP` of $O(s)$ size that will encode the lines of $P$ in some canonical encoding. \
+4. To simulate a single step of $P$, the program $U$ will recover the line corresponding to `lcP` from the `LinesP` and execute it. Since NAND<< has a constant number of arithmetic operations, we can simulate choosing which operation to execute with a sequence of a constantly many  if-then-else's.^[While NAND<< does not formally have if/then/else, we can easily add this as syntactic sugar.] When executing these operations, $U$ will use the variable `icP` that keeps track of the iteration counter of $P$.
+>
+Simulating a  single step of $P$ will take $U$  $O(s)$ steps, , and hence the simulation will be $O(sT)$ which is $O(T)$ when surpressing constants such as $s$ that depend on  the program $P$.
 
 
 ## Time hierarchy theorem
@@ -138,19 +146,19 @@ It turns out that the answer is __Yes__:
 
 > # {.theorem title="Time Hierarchy Theorem" #time-hierarchy-thm}
 For every nice function $T$, there is a function $F:\{0,1\}^* \rightarrow \{0,1\}$
-in $TIME(T(n)\log^2 n) \setminus TIME(T(n))$.
+in $TIME(T(n)\log n) \setminus TIME(T(n))$.^[There is nothing special about $\log n$, and we could have used any other nice function that tends to infinity with $n$.]
 
 > # {.proof data-ref="time-hierarchy-thm"}
 Recall the Halting function $HALT:\{0,1\}^* \rightarrow \{0,1\}$ that was defined as follows:
 $HALT(P,x)$ equals $1$ for every program $P$ and input $x$ s.t.  $P$ halts on input $x$, and is equal to $0$ otherwise.
 We cannot use the  Halting function  of course, as it is uncomputable and hence  not in $TIME(T'(n))$ for any function $T'$. However, we will use the following variant of it:
 >
-We define the _Bounded Halting_ function $HALT_T(P)$ to equal $1$ for every program $P$  s.t. $P$ halts when given _its own string representation_ as input within $100 T(|P|)$ steps.
+We define the _Bounded Halting_ function $HALT_T(P)$ to equal $1$ for every NAND<< program $P$  s.t. $P$ halts when given _its own string representation_ as input within $100 T(|P|)$ steps.
 >
-On one hand, using the universal NAND++ program, we can evaluate $HALT_T(P)$ in $O(T(|P|)\log T(|P|))$ steps.
+On one hand, using the universal NAND<< program, we can evaluate $HALT_T(P)$ in $O(T(|P|))$ steps.
 On the other hand, we claim that $HALT_T \not\in TIME(T(n))$.
 The proof is very reminiscent of the proof that $HALT$ is not computable.
-Assume, toward the sake of contradiction, that there is some program $P^*$ that computes $HALT_T(P)$ within $T(|P|)$ steps.
+Assume, toward the sake of contradiction, that there is some NAND<< program $P^*$ that computes $HALT_T(P)$ within $T(|P|)$ steps.
 Then, define $Q$ to be the program that on input a program $P$ does the following: \
 1. Computes $b= P^*(Q)=HALT_T(Q)$ (at a cost of at most $T(|P|)$ steps, under our assumptions). \
 2. If $b=1$ then it goes into an infinite loop, otherwise it halts.
