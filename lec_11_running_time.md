@@ -76,26 +76,32 @@ That is, we can prove the following theorem:
 There are absolute constants $a,b$ such that for every  function $F$ and nice  function  $T:\N \rightarrow \N$,  if $F \in TIME_{<<}(T(n))$ then there is a NAND++ program $P'$ that computes $F$ in $T'(n)=a\cdot T(n)^b$.
 That is, $TIME_{<<}(T(n)) \subseteq TIME_{++}(aT(n)^b)$
 
-![The path an index variable takes in a NAND++ program](../figure/oblivious_simulation.png){#obliviousfig .class width=300px height=300px}
 
-(The constant $b$ can be easily shown to be at most four, and with more effort can be made arbitrarily close to two.)
+(The constant $b$ can be easily shown to be at most five, and with more effort can be optimized further.)
 
 > # {.proof data-ref="NANDpp-thm"}
-We only sketch the proof as it follows very closely the simulation of NAND<< programs by NAND++ programs that we have already seen.
-The simulation of NAND<< works by "peeling off" features of NAND<< one by one, until we are left with NAND<<.
+The idea is to follow the proof of [NANDequiv-thm](){.ref} (simulation of NAND<< programs using NAND++ programs) and use the exact same simulation, but with a more careful accounting of the number of steps that the simulation costs.
+Recall, that the simulation of NAND<< works by "peeling off" features of NAND<< one by one, until we are left with NAND++.
+We now sketch the main observations we use to show that this "peeling off" costs at most a polynomial overhead:
 >
-If $P$ is a NAND<< program that computes $F$ in $T(n)$ time, then on inputs of length $n$, all integers used by $P$ are of magnitude at most $T(n)$ and hence can be stored using $\log T(n)$ bits.
+1. If $P$ is a NAND<< program that computes $F$ in $T(n)$ time, then on inputs of length $n$, all integers used by $P$ are of magnitude at most $T(n)$. This means that the largest value `i` can ever reach is at most $T(n)$ and so each one of $P$'s variables can be thought of as an array of at most $T(n)$ indices, each of which holds a  natural number of magnitude at most $T(n)$ (and hence one that can be encoded using $O(\log T(n))$ bits). Such an array can be encoded by a bit array of length $O(T(n)\log T(n))$. \
+2. All the arithmetic operations on integers use the gradeschool algorithms, that take time that is polynomial in the number of bits of the integers, which is  $poly(\log T(n))$ in our case. \
+3. Using the `i++` and `i--` operations we can load an integer (represented in binary) from the variable `foo` into the index `i` using a cost of $O(T(n)^2)$. The idea is that we create an array `marker` that contains a single $1$ coordinate and all the rest are zeroes. We will repeat the following for at most $T(n)$ steps: at each step we decrease `foo` by one (at a cost of $O(\log T(n))$) and move the $1$ in `marker` one step to the right (at a cost of $O(T(n))$). We stop when `foo` reaches $0$, at which point `marker` has $1$ in the location  encoded by the number that was in `foo`, and so if we move `i` until `marker_i` equals to $1$ then we reach our desired location. \
+4. Once that is done, all that is left is to simulate `i++` and `i--` in NAND++ using our "breadcrumbs" and "wait for the bus"  technique. To simulate $T$ steps of increasing and decreasing the index, we will need at most $O(T^2)$ steps of NAND++  (see [obliviousfig](){.ref}). In the worst case for every increasing or decreasing step we will need to wait a full round until `i` reaches $0$ and gets back to the same location, in which case the total cost will be $O(1+2+3+4+\cdots+T)=O(T^2)$ steps. \
 >
-Note also that we can simulate all the index operations using only the operations of incrementing and decrementing a single index `i` with polynomial overhead.
-The reason is that these operations are enough to copy an index to another array, and all the operations of adding, multiplying, shifting etc.. can be carried out in polynomial time.
-Now we need to simulate a program that only decrements or incremenets its index variable `i` (perhaps based on the value of another boolean variable) with a NAND++ program where the index variable  travels using the path described in [obliviousfig](){.ref}.
-In the NAND++ program if we want to, for example, increment the variable while we are in a decrementing phase, then we'll have to wait until the round is finished.
-The worst case is if we always have to wait a whole round in which case to simulate $T$ steps we will need something like $2+4+\cdots+2T = O(T^2)$ steps.
+Together these observations imply that the simulation of $T$ steps of NAND<< can be done in $poly(T)$ step. (In fact the cost is  $O(T^4 polylog(T))= O(T^5)$ steps, and can even be improved further though this does not matter much.)
+
+
+
+
+![The path an index variable takes in a NAND++ program](../figure/oblivious_simulation.png){#obliviousfig .class width=300px height=300px}
+
+
 
 
 [NANDpp-thm](){.ref} means that we could have defined
-$\overline{\mathbf{EXP}}$ and $\overline{\mathbf{P}}$ equally well using NAND++ instead of NAND<<, as these are the same up to polynomial factors.
-More generally, the equivalence between NAND++ and NAND<< allows us to pick our favorite one depending on the task at hand.
+$\mathbf{EXP}$ and $\mathbf{P}$ equally well using NAND++ instead of NAND<<, as these are the same up to polynomial factors.
+More generally, the equivalence between NAND++ and NAND<< (as well as other models, such as Turing machines) allows us to pick our favorite one depending on the task at hand.
 When we want to design an algorithm, we can use the extra power and convenience afforded by NAND<<.
 When we want to _analyze_ a program, we can describe it in the simpler form of NAND++.
 
@@ -118,7 +124,7 @@ if $P$  is a valid representation of a NAND<< program which produces an output o
 
 > # {.proof data-ref="univ-nandpp"}
 Once again we only sketch the proof. The definition of executing a NAND<< program is given in Appendix A.
-It involves maintaining variables `pc`  and `i` for the program counter and index variable, as well as an index for the current line that is being executed. If a program involves $L$ different variable identifiers, we can store all the variables in a single array `vars` such that if `foo` is the $\ell$-th identifier then the value of `foo_`$\expr{j}$ will be stored in `vars_`$\expr{Lj+\ell}$.
+It involves maintaining variables `ic`  and `i` for the iteration  counter and index variable, as well as an index for the current line that is being executed. If a program involves $L$ different variable identifiers, we can store all the variables in a single array `vars` such that if `foo` is the $\ell$-th identifier then the value of `foo_`$\expr{j}$ will be stored in `vars_`$\expr{Lj+\ell}$.
 Evaluating every line can be done in  about  $O(L)$ operators which is a constant independent of the input length.
 
 
