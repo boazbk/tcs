@@ -545,38 +545,37 @@ Here is some Python code for the next step function:
 ~~~~ { .python }
 # compute the next-step configuration
 # Inputs:
-# P: NAND++ program in list of 6-tuples representation
+# P: NAND++ program in list of 6-tuples representation  (assuming it has an "indexincreasing" variable)
 # conf: encoding of configuration as a string using the alphabet "B","E","0","1".
-# untested code - probably has a few bugs
 def next_step(P,conf):
     s = len(P) # numer of lines
     t = max([max(tup[0],tup[2],tup[4]) for tup in P])+1 # number of variables
-    line_enc_length = math.ceil(math.log(2,s+1)) # num of bits to encode a line
-    block_enc_length = math.ceil(math.log(2,t))+3+line_enc_length # num of bits to encode a block (without bookends of "E","B")
+    line_enc_length = math.ceil(math.log(s+1,2)) # num of bits to encode a line
+    block_enc_length = t+3+line_enc_length # num of bits to encode a block (without bookends of "E","B")
     LOOP = 3
-    IDXINCREASING = 5
-    ACTIVEIDX = block_enc_length -line_enc_length-2 # position of active flag
-    FINALIDX =  block_enc_length  -line_enc_length-3 # position of final flag
+    INDEXINCREASING = 5
+    ACTIVEIDX = block_enc_length -line_enc_length-1 # position of active flag
+    FINALIDX =  block_enc_length  -line_enc_length-2 # position of final flag
 
     def getval(var,idx):
         if idx<s: return int(blocks[idx][var])
-        return active[var]
+        return int(active[var])
 
     def setval(var,idx,v):
         nonlocal blocks, i
         if idx<s: blocks[idx][var]=str(v)
         blocks[i][var]=str(v)
 
-    blocks = [b[1:] for b in conf.split("E")[:-1]] # list of blocks w/o initial "B" and final "E"
+    blocks = [list(b[1:]) for b in conf.split("E")[:-1]] # list of blocks w/o initial "B" and final "E"
 
-    i = [j for j in range(len(blocks))  if blocks[j][ACTIVEIDX] ][0]
+    i = [j for j in range(len(blocks))  if blocks[j][ACTIVEIDX]=="1" ][0]
     active = blocks[i]
 
-    p = int(blocks[i][-line_enc_length:],2) # current line to be executed
+    p = int("".join(active[-line_enc_length:]),2) # current line to be executed
 
     if p==s: return conf # halting configuration
 
-    (a,j,b,k,c,l) = P[p] #  6-tuple corresponding to current line
+    (a,j,b,k,c,l) = P[p] #  6-tuple corresponding to current line#  6-tuple corresponding to current line
     setval(a,j,1-getval(b,k)*getval(c,l))
 
     new_p = p+1
@@ -586,16 +585,18 @@ def next_step(P,conf):
         new_i = (i+1 if getval(INDEXINCREASING,0) else i-1)
         if new_i==len(blocks): # need to add another block and make it final
             blocks[len(blocks)-1][FINALIDX]="0"
-            new_final = "0"*block_enc_length
+            new_final = ["0"]*block_enc_length
             new_final[FINALIDX]="1"
             blocks.append(new_final)
 
-    blocks[i][ACTIVEIDX]="0" # turn off "active" flag in old active block
-    blocks[i][ACTIVDEIDX+1:ACTIVEIDX+1+line_enc_length]="0"*line_enc_length # zero out line counter in old active block
-    blocks[new_i][ACTIVEIDX]="1" # turn on "active" flag in new active block
-    blocks[new_i][ACTIVDEIDX+1:ACTIVEIDX+1+line_enc_length] = bin(new_p)[2:] # add binary representation of next line in new active block
+        blocks[i][ACTIVEIDX]="0" # turn off "active" flag in old active block
+        blocks[i][ACTIVEIDX+1:ACTIVEIDX+1+line_enc_length]=["0"]*line_enc_length # zero out line counter in old active block
+        blocks[new_i][ACTIVEIDX]="1" # turn on "active" flag in new active block
+    new_p_s = bin(new_p)[2:]
+    new_p_s = "0"*(line_enc_length-len(new_p_s))+new_p_s
+    blocks[new_i][ACTIVEIDX+1:ACTIVEIDX+1+line_enc_length] = list(new_p_s) # add binary representation of next line in new active block
 
-    return ["B"+block+"E" for block in blocks].join("") # return new configuration
+    return "".join(["B"+"".join(block)+"E" for block in blocks]) # return new configuration
 ~~~~
 
 
