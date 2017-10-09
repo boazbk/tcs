@@ -90,18 +90,28 @@ The NAND<< program simulating $M$ will be the following:
 // tape is an array with the alphabet Sigma
 // we use ">" for the start-tape marker and "." for the empty cell
 // in the syntactic sugar below, we assume some binary encoding of the alphabet.
+// we also assume we can index an array with a variable other than i,
+// and with some simple expressions of it (e.g., foo_{j+1})
+// this can be easily simulated in NAND<<
+//
+// we assume an encoding such that the default value for tape_j is "."
+
+// below k is the number of states of the machine M
+// ComputeM is a function that maps a symbol in Sigma and a state in [k]
+// to the new state, symbol to write, and direction
+
 tape_0 := ">"
-k := 0
+j = 0
 while (validx_j) { // copy input to tape
-    tape_j := x_k
-    k++
+    tape_{j+1} := x_j
     j++
 }
-tape_j := "<"
+
 state := 0
 head  := 0 // location of the head
 while NOT EQUAL(state,k-1) { // not ending state
-   state', dir := ComputeM(tape_head,state)
+   state', symbol, dir := ComputeM(tape_head,state)
+   tape_head := symbols
    if EQUAL(dir,`L`) AND NOT(EQUAL(tape_head,">")) {
        head--
    }
@@ -111,13 +121,12 @@ while NOT EQUAL(state,k-1) { // not ending state
    state' := state
 }
 
-// copy output to y variables
+// after halting, we copy the contents of the tape
+// to the output variables
+// we stop when we see a non-boolean symbol
 j := 1
-s := 0
 while EQUAL(tape_j,0) OR EQUAL(tape_j,1) {
-   y_s := tape_j
-   j++
-   s++
+   y_{j-1} := tape_j
 }
 ~~~~
 
@@ -136,7 +145,7 @@ The idea behind the proof is that the TM $M$ will _simulate_ the program $P$ as 
 * The _states_ of $M$ will be large enough to encode the current line number that is executed by $P$, as well as the contents of all variables that are indexed in the program by an absolute numerical index (e.g., variables of the form `foo` or `bar_17` that are not indexed with `i`.)
 
 The key point is that the number of lines of $P$ and the number of variables are constants that do not depend on the length of the input and so can be encoded in the alphabet and state size. More specifically, if $V$ is the set of variables of $P$, then the alphabet of $M$ will contain  (in addition to the symbols $\{0,1, \triangleright, \varnothing \}$) the finite set of all functions from $V$ to   $\{0,1\}$, with the semantics that if $\sigma: V \rightarrow \{0,1\}$ appears in the $i$-th position of the tape then for every variable $v\in V$, the value of $v$`_`$\expr{i}$ equals $\sigma(v)$.
-Similarly, we will think of the state space of $M$ as containing all pairs of the form $(\ell,\tau)$ where $\ell$ is a number between $0$ and the number of lines in $P$ and $\tau$ is a function from $V\times [c]$ to $\{0,1\}$  where $c-1$ is the largest absolute numerical index that appears in the program.^[While formally the state space of $M$ is a number from $0$ to some $k-1$, by making $k-1$ we can ensure that there is a one-to-one map from the set of all pairs $(\ell,\tau)$ of the form above to $[k]$, and hence can think of the state as having this form.]
+Similarly, we will think of the state space of $M$ as containing all pairs of the form $(\ell,\tau)$ where $\ell$ is a number between $0$ and the number of lines in $P$ and $\tau$ is a function from $V\times [c]$ to $\{0,1\}$  where $c-1$ is the largest absolute numerical index that appears in the program.^[While formally the state space of $M$ is a number between  $0$ and $k-1$ for some $k\in \N$, by making $k$ large enough, we can encode all pairs  $(\ell,\tau)$ of the form above as elements of the state space of the amchine, and so we can  think of the state as having this form.]
 The semantics are that $\ell$ encodes the line of $P$ that is about to be executed, and $\tau(v,j)$ encodes the value of the variable $v$`_`$\expr{j}$.
 
 To simulate the execution of one step in $P$'s computation, the machine $M$ will do the following:
