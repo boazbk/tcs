@@ -367,7 +367,7 @@ Formally, $ISNIL = \lambda p. p (\lambda x,y.0)$.
 
 Now we come to the big hurdle, which is how to implement $MAP$, $FILTER$, and $REDUCE$ in the $\lambda$ calculus.
 It turns out that we can build $MAP$ and $FILTER$ from $REDUCE$.
-For example $MAP(L,f)$ is the same as $REDUCE(L,g)$ where $g$ is the operation that on input $x$ and $y$, outputs $f(x)$ if $y$ is NIL and otherwise outputs $PAIR(f(x),y)$.
+For example $MAP(L,f)$ is the same as $REDUCE(L,g)$ where $g$ is the operation that on input $x$ and $y$, outputs $PAIR(f(x),NIL)$ if $y$ is NIL and otherwise outputs $PAIR(f(x),y)$.
 (I leave checking this as a (recommended!) exercise for you, the reader.)
 So, it all boils down to implementing $REDUCE$.
 We can define $REDUCE(L,g)$ recursively, by setting $REDUCE(NIL,g)=NIL$ and stipulating that given a non-empty list $L$, which we can think of as a pair $(head,rest)$, $REDUCE(L,g) = g(head, REDUCE(rest,g)))$.
@@ -453,10 +453,10 @@ This can be used to complete the "if" direction of [lambdaturing-thm](){.ref}.
 For example, to compute parity we first give a recursive definition of parity using the $\lambda$-calculus as
 
 $$
-par L = IF(ISNIL(L), 0 , XOR HEAD(L) par(TAIL(L))) \label{eq:par-recurse}
+par L = IF(ISNIL(L), 0 , XOR HEAD(L) par(TAIL(L))) \label{eq:par-recurse-lambda}
 $$
 
-We then avoid the recursion by converting [eq:par-recurse](){.eqref} to the operator $PAREQ$ defined as
+We then avoid the recursion by converting [eq:par-recurse-lambda](){.eqref} to the operator $PAREQ$ defined as
 
 $$
 PAREQ  = \lambda p. \lambda L. IF(ISNIL(L), 0 , XOR HEAD(L) p(TAIL(L)))
