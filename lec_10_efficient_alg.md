@@ -1,5 +1,11 @@
 #  Efficient computation
 
+> # { .objectives }
+* Describe at a high level some interesting computational problems. \
+* The difference between polynomial and exponential time.  \
+* Examples of techniques for obtaining efficient algorithms \
+* Examples of how seemingly small differences in problems can make (at least apparent) huge differences in their computational complexity.
+
 >_"The problem of distinguishing prime numbers from composite and of resolving the latter into their prime factors is ... one of the most important and useful in arithmetic ... Nevertheless we must confess that all methods ... are either restricted to very special cases or are so laborious ... they try the patience of even the practiced calculator ... and do not apply at all to larger numbers."_, Carl Friedrich Gauss, 1798
 
 >_"For practical purposes, the difference between algebraic and exponential order is often more crucial than the difference between finite and non-finite."_, Jack Edmunds, "Paths, Trees, and Flowers", 1963
@@ -26,9 +32,10 @@ Many of the problems will involve _graphs_.
 We have already encountered graphs in the context of Boolean circuits, but let us now quickly recall the basic notation.
 A  graph  $G$ consists of a set of _vertices_ $V$ and _edges_ $E$ where each edge is a pair of vertices.
 In a _directed_ graph, an edge is an ordered pair $(u,v)$, which we sometimes denote as $\overrightarrow{u\;v}$.
-In an _undirected_ graph, an edge is an unordered pair (or simply a set) $\{ u,v \}$.^[An equivalent viewpoint is that an undirected graph is like a directed graph with the property that whenever the edge $\overrightarrow{u\; v}$ is present then so is the edge $\overrightarrow{v\; u}$.]
+In an _undirected_ graph, an edge is an unordered pair (or simply a set) $\{ u,v \}$ which we sometimes denote as $\overline{u\; v}$ or $u \sim v$.^[An equivalent viewpoint is that an undirected graph is like a directed graph with the property that whenever the edge $\overrightarrow{u\; v}$ is present then so is the edge $\overrightarrow{v\; u}$.]
 We will assume graphs are undirected and _simple_ (i.e., containing no parallel edges or self-loops) unless stated otherwise.
-We typically will think of the set of vertices as simply the set  $[n]$ of the numbers from $0$ till $n-1$.
+
+We typically will think of the  vertices in a graph as simply the set  $[n]$ of the numbers from $0$ till $n-1$.
 Graphs can be represented either in the _adjacency list_ representation, which is a list of $n$ lists, with the $i^{th}$ list corresponding to the neighbors of the $i^{th}$ vertex, or the _adjacency matrix_ representation, which is an $n\times n$ matrix $A$ with $A_{i,j}$ equalling $1$ if the edge $\overrightarrow{u\; v}$ is present and equalling $0$ otherwise.^[In an undirected graph, the adjacency matrix $A$ is _symmetric_, in the sense that it satisfies $A_{i,j}=A_{j,i}$.]
 We can transform between these two representations using $O(n^2)$ operations, and hence for our purposes we will mostly consider them as equivalent.
 We will sometimes consider _labeled_ or _weighted_ graphs, where we assign a label or a number to the edges or vertices of the graph, but mostly we will try to keep things simple and stick to the basic notion of an unlabeled, unweighted, simple undirected graph.
@@ -38,7 +45,7 @@ They can be used to model a great many of the data that we encounter.
 These are not just the "obvious" networks such as the road network (which can be thought of as a graph of whose vertices are locations with edges corresponding to road segments), or the web (which can be thought of as a graph whose vertices are web pages with edges corresponding to links), or social networks (which can be thought of as a graph whose vertices are people and the edges correspond to friend relation).
 Graphs can also denote correlations in data (e.g., graph of observations of features with edges corresponding to features that tend to appear together), casual relations (e.g., gene regulatory networks, where a gene  is connected to gene products it derives), or the state space of a system (e.g., graph of configurations of a physical system, with edges corresponding to states that can be reached from one another in one step).
 
-![Some examples of graphs found from the Internet.](../figure/graphs.png){#figureid .class width=300px height=300px}
+![Some examples of graphs found on the Internet.](../figure/graphs.png){#figureid .class width=300px height=300px}
 
 
 We now give some examples of computational problems on graphs.
@@ -53,7 +60,7 @@ The _shortest path problem_ is the task of, given a graph $G=(V,E)$ and two vert
 That is, we want to find the smallest number $k$ such that there are vertices $v_0,v_1,\ldots,v_k$ with $v_0=s$, $v_k=t$ and for every $i\in\{0,\ldots,k-1\}$ an edge between $v_i$ and $v_{i+1}$.
 If each vertex has at least two neighbors then there can be an _exponential_ number of paths from $s$ to $t$, but fortunately we do not have to enumerate them all to find the shortest path.
 We can do so by performing a _breadth first search (BFS)_, enumerating $s$'s neighbors, and then neighbors' neighbors, etc.. in order.
-If we maintain the neighbors in a list we can perform a BFS in $O(n^2)$ time, while using  a queue we can do this in $O(m)$ time.^[Since we assume $m \geq n-1$, $O(m)$ is the same as $O(n+m)$. As we mentioned above, we state the running time of BFS as $O(m)$ even though it is typically  thought of as an  $O(m)$ time algorithm, to avoid dependence on the model. [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra's_algorithm) is a well-known generalization of BFS to _weighted_ graphs.]
+If we maintain the neighbors in a list we can perform a BFS in $O(n^2)$ time, while using  a queue we can do this in $O(m)$ time.^[Since we assume $m \geq n-1$, $O(m)$ is the same as $O(n+m)$.  [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra's_algorithm) is a well-known generalization of BFS to _weighted_ graphs.]
 
 
 ### Finding the longest path in a graph
@@ -64,8 +71,11 @@ TSP is a classical optimization problem, with applications ranging from  plannin
 
 A priori it is not clear that  finding the longest path should be harder  than finding the shortest path,
 but this turns out to be the case.
-While we know how to find the shortest path in $O(n)$ time, for the longest path problem we have not been able to significantly improve upon the trivial brute force algorithm to try all paths,
-and the best algorithm takes   $\Omega(c^n)$ time for some constant $c$ which is a little smaller than $2$ but not that much smaller.^[At the moment the best record is $c \sim 1.65$ or so. Even beating the trivial $O(n!)$ bound is not that simple, see [longest-path-ex](){.ref}.]
+While we know how to find the shortest path in $O(n)$ time, for the longest path problem we have not been able to significantly improve upon the trivial brute force algorithm that tries all paths.
+
+Specifically, in a graph of degree at most $d$, we can enumerate over all paths of length $k$ by going over the (at most  $d$) neighbors of each vertex.
+This would take about $O(d^k)$ steps, and since the longest simple path can't have length more than the number of vertices, this means that the brute force algorithms runs in  $O(d^n)$ time (which we can bound by $O(n^n)$ since the maximum degree is $n$).
+The best algorithm for the longest path improves on this, but not by much: it takes $\Omega(c^n)$ time for some constant $c>1$.^[At the moment the best record is $c \sim 1.65$ or so. Even obtaining an $O(2^n)$ time bound is not that simple, see [longest-path-ex](){.ref}.]
 
 ![A _knight's tour_ can be thought of as a maximally long path on the graph corresponding to a chessboard where we put an edge between any two squares that can be reached by one step via a legal knight move.](../figure/knights_tour.jpg){#knighttourpath .class width=300px height=300px}
 
@@ -73,19 +83,22 @@ and the best algorithm takes   $\Omega(c^n)$ time for some constant $c$ which is
 ### Finding the minimum cut in a graph
 
 Given a graph $G=(V,E)$, a _cut_  is simply a subset $S$ of $V$, and the edges cut by $S$ are those edges where one of their endpoints is in $S$ and the other is in $\overline{S} = V \setminus S$.
-If $s,t \in V$ then an _$s,t$ cut_ is a cut such that $s\in S$ and $t\in \overline{S}$.
+If $s,t \in V$ then an _$s,t$ cut_ is a cut such that $s\in S$ and $t\in \overline{S}$. (See [cutingraphfig](){.ref}.)
 The _minimum $s,t$ cut problem_ ( is the task of finding, given $s$ and $t$, the minimum number $k$ such that there is an $s,t$ cut cutting $k$ edges.^[We can also define the problem of finding the minimum $s,t$ cut in the graph over all pairs $s,t$. Though note that  if we can solve the minimum $s,t$ cut problem in time $T(n)$ then we can solve the global minimum cut in time   $O(T(n)n^2)$.]
+
+![A _cut_ in a graph $G=(V,E)$ is simply a subset $S$ of its vertices. The edges that are _cut_ by $S$ are all those whose one endpoint is in $S$ and the other one is in $\overline{S} = V \setminus S$. The cut edges are colored red in this figure.](../figure/cutingraph.png){#cutingraphfig .class width=300px height=300px}
 
 The minimum $s,t$ cut problem appears in many applications.
 Minimum cuts often correspond to  _bottlenecks_.
 For example, in a communication network the minimum cut between $s$ and $t$ corresponds to the smallest number of edges that, if dropped,  will disconnect $s$ from $t$.
 Similar applications arise in scheduling and planning.
-There are also other applications as well: for _image segmentation_, we can define a graph whose vertices are pixels and whose edges correspond to neighboring pixels of distinct colors.
+In the setting of [image segmentation](https://en.wikipedia.org/wiki/Image_segmentation), one can define a graph whose vertices are pixels and whose edges correspond to neighboring pixels of distinct colors.
 If we want to separate the foreground from the background then we can  pick (or guess) a foreground pixel $s$ and background pixel $t$ and ask for a minimum cut between them.
 
-Once again, a priori we might worry that we'd need to enumerate over all the $2^n$ subsets of $S$.
-Fortunately, we can solve the minimum $s$-$t$ cut problem efficiently.
-There are several algorithms to do so, but many of them rely on the [Max Flow Min Cut](https://en.wikipedia.org/wiki/Max-flow_min-cut_theorem) that says that the minimum cut between $s$ and $t$ equals the maximum amount of _flow_ we can send from $s$ to $t$, if every edge has unit capacity.
+__Solving the minimum cut problem:__
+A priori we might worry that to find the minimum cut we'd need to enumerate over all the $2^n$ subsets of $S$.
+Fortunately, it turns out that we _can_ solve this problem efficiently.
+There are several algorithms to do so, but many of them rely on the [Max Flow Min Cut](https://en.wikipedia.org/wiki/Max-flow_min-cut_theorem) that says that the minimum cut between $s$ and $t$ equals the maximum amount of _flow_ we can send from $s$ to $t$, if every edge has unit capacity.^[A _flow_ of capacity $c$ from a _source_ $s$ to a _sink_ $t$ in a graph can be thought of as describing how one would send some quantity from $s$ to $t$ in the graph (e.g., sending $c$ liters of water (or any other matter    one can partition arbitrarily), on pipes described by the edges). Mathematically, a flow is captured by assigning numbers to edges, and requiring that on any vertex apart from $s$ and $t$, the amount flowing it is equal to the amount flowing out, while in $s$ there are $c$ units flowing out and in $t$ there are $c$ units flowing in.]
 For example, this directly implies that the value of the minimum cut problem is the solution for the following [linear program](https://en.wikipedia.org/wiki/Linear_programming):
 
 $$
@@ -125,8 +138,9 @@ The reason is that if $f(y)<f(x)$ then every point $z=px+(1-p)y$ on the line seg
 Intuitively, local minima of functions are much easier to find than global ones: after all, any "local search" algorithm that keeps finding a nearby point on which the value is lower, will eventually arrive at a local minima.^[One example of such a local search algorithm is [gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) which takes a small step in the direction that would reduce the value by the most amount based on the current derivative. There are also algorithms that take advantage of the _second derivative_ (hence are known as _second order methods_)  to potentially converge faster.]
 Indeed, under certain technical conditions, we can often efficiently find the minimum of convex functions, and this underlies the reason problems such as minimum cut and shortest path are easy to solve.
 On the other hand, _maximizing_  a convex function (or equivalently, minimizing a _concave_ function) can often be a hard computational task.
+A _linear_ function is both convex and concave, which is the reason both the maximization and minimization problems for linear functions can be done efficiently.
 
-The minimum cut problem is not a priori a convex minimization task, because the set of potential cuts is   _discrete_. However, it turns out that we can embed it in a continuous and convex set via the maximum flow problem.
+The minimum cut problem is not a priori a convex minimization task, because the set of potential cuts is   _discrete_. However, it turns out that we can embed it in a continuous and convex set via the (linear) maximum flow problem.
 The "max flow min cut" theorem ensuring that this embedding is "tight" in the sense that the minimum "fractional cut" that we obtain through the maximum-flow linear program will be the same as the true minimum cut.
 Unfortunately, we don't know of such a tight embedding in the setting of the _maximum_ cut problem.
 
@@ -165,12 +179,12 @@ This reduces 2SAT to the (efficiently solvable) problem of determining connectiv
 ### The 3SAT problem
 
 The 3SAT problem is the task of determining satisfiability  for 3CNFs.
-One might think that the difference between two and three would not make that much a difference for complexity.
+One might think that changing from two to   three would not make that much of a difference for complexity.
 One would be wrong.
 Despite much effort, do not know of a significantly better than brute force algorithm for 3SAT (the best known algorithms take roughy $1.3^n$ steps).
 
 Interestingly, a similar issue arises time and again in computation, where the difference between two and three often corresponds to the difference between tractable and intractable.
-As Lawler's quote alludes to, we do not fully understand the reasons for this phenomenon, though the notions of $\mathbf{NP}$ completeness we will see in the next lecture does offer a partial explanation.
+As Lawler's quote alludes to, we do not fully understand the reasons for this phenomenon, though the notions of $\mathbf{NP}$ completeness we will see later does offer a partial explanation.
 It may be related to the fact that optimzing a polynomial often amounts to equations on its derivative. The derivative of a  a quadratic polynomial is linear, while the derivative of a cubic is quadratic, and, as we will see, the difference between solving linear and quadratic equations can be quite profound.
 
 
@@ -194,7 +208,7 @@ $$
 where $\{ a_{i,j} \}_{i,j \in [n]}$ and $\{ b_i \}_{i\in [n]}$ are real (or rational) numbers.
 More compactly, we can write this as the equations $Ax = b$ where $A$ is an $n\times n$ matrix, and we think of $x,b$ are column vectors in $\R^n$.
 
-The standard Gaussian elimination algorithm can be used to solve such equations in polynomial time (i.e., determine if they have a solution, and if so, to find it).^[To analyze this fully we need to ensure that the bit complexity of the numbers involved does not grow too much, but fortunately we can indeed ensure this using Cramer's rule. Also, as is usually the case when talking about real numbers, we  do not care much for the distinction  between solving equations exactly and solving them to arbitrarily good precision.]
+The standard [Gaussian elimination](https://en.wikipedia.org/wiki/Gaussian_elimination) algorithm can be used to solve such equations in polynomial time (i.e., determine if they have a solution, and if so, to find it).^[To analyze this fully we need to ensure that the bit complexity of the numbers involved does not grow too much, but fortunately we can indeed ensure this using Cramer's rule. Also, as is usually the case when talking about real numbers, we  do not care much for the distinction  between solving equations exactly and solving them to arbitrarily good precision.]
 As we discussed above,  if we are willing to allow some loss in precision, we even have algorithms that  handle linear _inequalities_, also known as linear programming.
 
 
@@ -202,8 +216,11 @@ As we discussed above,  if we are willing to allow some loss in precision, we ev
 
 Suppose that the equations involve also _quadratic_ terms of the form $a_{i,j,k}x_jx_k$.
 That is, suppose that we are given a set of quadratic polynomials $p_1,\ldots,p_m$ and consider the equations $\{ p_i(x) = 0 \}$.
-To avoid issues with bit representations, we will always assume that the equations contain the constraints $\{ x_i^2 - x_i = 0 \}_{i\in [n]}$ and hence the solutions can be assumed to lie in $\{0,1\}^n$.
-This is a very well motivated problem which in particular generalizes the classical [quadratic assignment problem](https://www.opt.math.tugraz.at/~cela/papers/qap_bericht.pdf).
+To avoid issues with bit representations, we will always assume that the equations contain the constraints $\{ x_i^2 - x_i = 0 \}_{i\in [n]}$.
+Since only $0$ and $1$ satisfy the equation  $a^2-a$, this assumption means that we  can restrict attention to  solutions  in $\{0,1\}^n$.
+Solving quadratic equations in several variable is a classical and extremely well motivated problem.
+This is the generalization of the classical case of single-variable quadratic equations that generations of high school students grapple with.
+It also generalizes the [quadratic assignment problem](https://www.opt.math.tugraz.at/~cela/papers/qap_bericht.pdf), introduced in the 1950's as a way to optimize assignment of economic activities.
 Once again, we do not know a much better algorithm for this problem than the one that enumerates over all the $2^n$ possiblities.
 
 ### The permanent (mod 2) problem
@@ -224,14 +241,15 @@ $$
 
 where the _sign_  of a permutation $\pi$ is a number in $\{+1,-1\}$ which can be defined in several ways, one of which is that $sign(\pi)$  equals  $+1$ if the number of swaps that "Bubble" sort performs starting an array sorted according to $\pi$ is even, and it equals $-1$ if this number is odd.^[It turns out that this definition is independent of the sorting algorithm, and for example if $sign(\pi)=-1$ then one cannot sort an array ordered according to $\pi$ using an even number of swaps.]
 
-It seems like we replaced one formula involving a sum over $n!$ terms with an even more complicated formula, which does not appear useful for making the problem easier.
+From a first look, [eq:det](){.eqref} does not seem like it makes much progress.
+After all, all we did is replace  one  formula involving a sum over $n!$ terms with an even more complicated formula involving a sum over $n!$ tersm.
 But fortunately [eq:det](){.eqref} also has an alternative description: it is simply the [determinant](https://en.wikipedia.org/wiki/Determinant) of the matrix $A$, which can be computed using a process similar to Gaussian elimination.
 
 ### The permanent (mod 3) problem
 
 Emboldened by our good fortune above, we might hope to be able to compute the permanent modulo any prime $p$ and perhaps in full generality.
 Alas, we have no such luck.
-We do not know of a much better than brute force algorithm to even compute the permanent modulo $3$.
+In a similar "two to three" type of a phenomenon, we do not know of a much better than brute force algorithm to even compute the permanent modulo $3$.
 
 ### Finding a zero-sum equilibrium
 
@@ -240,7 +258,7 @@ That is, whatever the first player gains, the second player loses.
 As much as we want to avoid them, zero sum games do arise in life, and the one good thing about them is that at least we can compute the optimal strategy.
 
 A zero sum game can be specified by an $n\times n$ matrix $A$, where if player 1 chooses action $i$ and player 2 chooses action $j$ then player one gets $A_{i,j}$ and player 2 loses the same amount.
-The famous "min max" theorem by John von Neumann states that if we allow probabilistic or "mixed" strategies (where a player does not choose a single action but rather a _distribution_ over actions) then it does not matter who plays first and the end result will be the same.
+The famous [Min Max Theorem](https://en.wikipedia.org/wiki/Min-max_theorem) by John von Neumann states that if we allow probabilistic or "mixed" strategies (where a player does not choose a single action but rather a _distribution_ over actions) then it does not matter who plays first and the end result will be the same.
 Mathematically the min max theorem is that if we let $\Delta_n$ be the set of probability distributions over $[n]$ (i.e., non-negative columns vectors in $\R^n$ whose entries sum to $1$) then
 
 $$
@@ -251,8 +269,8 @@ The min-max theorem turns out to be a corollary of linear programming duality, a
 
 ### Finding a Nash equilibrium
 
-Fortunately, not all real-world games are zero sum, and we do have  more general games, where the payoff of one player is not necessarily the loss of the other.
-John Nash won the Nobel prize for showing that there is a notion of _equilibrium_ for such games as well.
+Fortunately, not all real-world games are zero sum, and we do have  more general games, where the payoff of one player does not necessarily qual the loss of the other.
+[John Nash](https://en.wikipedia.org/wiki/John_Forbes_Nash_Jr.) won the Nobel prize for showing that there is a notion of _equilibrium_ for such games as well.
 In many economic texts it is taken as an article of faith that when actual agents are involved in such a game then they reach a Nash equilibrium.
 However, unlike zero sum games, we do not know of an efficient algorithm for finding a Nash equilibrium given the description of a general (non zero sum) game.
 In particular this means that, despite economists' intuitions, there are games for which natural stategies will take exponential number of steps to converge to an equilibrium.
@@ -261,10 +279,14 @@ In particular this means that, despite economists' intuitions, there are games f
 
 ### Primality testing
 
-Another classical computational problem that has been of interest since the ancient greeks is to determine whether a given number $N$ is prime or composite.
+Another classical computational problem, that has been of interest since the ancient greeks, is to determine whether a given number $N$ is prime or composite.
 Clearly we can do so by trying to divide it with all the numbers in $2,\ldots,N-1$, but this would take at least $N$ steps which is _exponential_ in its bit complexity $n = \log N$.
 We can reduce these $N$ steps to $\sqrt{N}$ by observing that if $N$ is a composite of the form $N=PQ$ then either $P$ or $Q$ is smaller than $\sqrt{N}$.
-However, it turns out we can do radically better.
+But this is still quite terrible.
+If $N$ is a $1024$ bit integer, $\sqrt{N}$ is about $2^{512}$, and so running this algorithm on such an input would take much more than the lifetime of the universe.
+
+
+Luckily, it turns out we can do radically better.
 In the 1970's, Rabin and Miller gave _probabilistic_ algorithms to determine whether a given number $N$ is prime or composite in time $poly(n)$ for $n=\log N$.
 We will discuss the probabilistic model of computation later in this course.
 In 2002, Agrawal, Kayal, and Saxena found a deterministic $poly(n)$ time algorithm for this problem.
@@ -279,7 +301,7 @@ Alas, no such algorithm is known.
 In a surprising and exciting turn of events, the _non existence_ of such an algorithm has been used as a basis for encryptions, and indeed it underlies much of the security of the world wide web.
 We will return to the factoring problem later in this course.
 We remark that we do know much better than brute force algorithms for this problem.
-While the brute force algorithms would require $2^{\Omega(n)}$ time to factor an $n$-bit integer, there are known algorithms running in time $2^{O(\sqrt{n})}$ and also algorithms that are widely believed (though not fully rigorously analyzed) to run in time $2^{O(n^{1/3})}$.
+While the brute force algorithms would require $2^{\Omega(n)}$ time to factor an $n$-bit integer, there are known algorithms running in time roughly $2^{O(\sqrt{n})}$ and also algorithms that are widely believed (though not fully rigorously analyzed) to run in time  roughly $2^{O(n^{1/3})}$.^[The "roughly" adjective above refers to neglecting factors that are polylogarithmic in $n$.]
 
 
 ## Our current knowledge

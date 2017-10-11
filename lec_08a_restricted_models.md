@@ -19,11 +19,11 @@ Let $TMHALT:\{0,1\}^* \rightarrow \{0,1\}$ be the function that on input  string
 Once again, this is a good point for you to stop and try to prove the result yourself before reading the proof below.
 
 > # {.proof }
-We have seen in [TM-equiv-thm](){.ref} that for every NAND++ program $P$ there is an equivalent Turing machine $M_P$ such that for every $x$, $M_P$ halts on $x$ if and only $P$ halts on $x$ (and moreover if they both halt, they produce the same output).
+We have seen in [TM-equiv-thm](){.ref} that for every NAND++ program $P$ there is an equivalent Turing machine $M_P$ such that for every $x$, that computes the same function.
+The machine $M_P$ exactly simulated $P$, in the sense that  $M_P$ halts on $x$ if and only $P$ halts on $x$ (and moreover if they both halt, they produce the same output).
 Going back to the proof of [TM-equiv-thm](){.ref}, we can see that the transformation of the program $P$ to the Turing machine $M(P)$ was described in a _constructive_ way.
-Specifically, we gave explicit instructions as to how to obtain a Turing Machine $M'$ that computes the _next step_ function of $P$, and then construct a Turing machine $M_P$ that repeatedly executes the instructions of $M'$ until we reach a halting configuration.
-In particular if $P$ does _not_  reach a halting configuration on an input $x$ then neither will $M_P$.
 >
+Specifically, we gave explicit instructions how to build the Turing machine $M(P)$ given the description of the program $P$.
 Thus, we can view the proof of [TM-equiv-thm](){.ref} as a high level description of an _algorithm_ to obtain $M_P$ from the program $P$, and using our "have your cake and eat it too" paradigm, this means that there exists also a NAND++ program $R$ such  that computes the map $P \mapsto M_P$.
 We see that
 $$
@@ -165,9 +165,10 @@ Let $exp$ be a regular expression. Then there is some number $n_0$ such that for
 
 ![To prove the "pumping lemma" we look at a word $w$ that is much larger than the regular expression $exp$ that matches it. In such a case, part of $w$ must be matched by some sub-expression of the form $(exp')^*$, since this is the only operator that allows matching words longer than the expression. If we look at the "leftmost" such sub-expression and define $y^k$ to be the string that is matched by it, we obtain the partition needed for the pumping lemma.](../figure/pumpinglemma.png){#pumpinglemmafig .class width=300px height=300px}
 
-> # {.proof data-ref="pumping"}
+> # {.proofidea data-ref="pumping"}
 The idea behind the proof is very simple (see [pumpinglemmafig](){.ref}). If we let $n_0$ be, say, twice the number of symbols that are used in the expression $exp$, then the only way that there is some $w$ with $|w|>n_0$ and $\Phi_{exp}(w)=1$ is that $exp$ contains the $*$ (i.e. star) operator and that there is a nonempty substring $y$ of $w$ that was matched by $(exp')^*$ for some sub-expression $exp'$ of $exp$.  We can now repeat $y$ any number of times and still get a matching string.
->
+
+> # {.proof data-ref="pumping"}
 To prove the lemma formally, we use induction on the length of the expression. Like all induction proofs, this is going to be somewhat lengthy, but at the end of the day it directly follows the intuition above that _somewhere_ we must have used the star operation. Reading this proof, and in particular understanding how the formal proof below corresponds to the intuitive idea above, is a very good way to get more comfort with inductive proofs of this form.
 >
 Our inductive hypothesis is that for an $n$ length expression,  $n_0=2n$ satisfies the conditions of the lemma. The base case is when the expression is a single symbol or that it is $\emptyset$ or $""$ in which case the condition is satisfied just because there is no matching string of length more than one.
