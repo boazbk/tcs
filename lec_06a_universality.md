@@ -230,12 +230,12 @@ That is, we prove the following theorem:
 
 
 > # {.theorem title="Universality of NAND++" #univnandppnoneff}
-There is a NAND++ program that computes the partial function $EVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ defined as follows:
+There is a NAND++ program $U$ that computes the partial function $EVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ defined as follows:
 $$
 EVAL(P,x)=P(x)
 $$
 for strings $P,x$ such that $P$ is a valid representation of a NAND++ program which produces an output on $x$.
-
+Moreover, for every input $x\in \{0,1\}^*$  on which $P$ does not halt,   $U(P,x)$ does not halt as well.
 
 This is a stronger notion than the universality we proved for NAND, in the sense that we show a _single_ universal  NAND++ program $U$ that can evaluate _all_ NAND programs, including those that have more lines than the lines in $U$.
 In particular, $U$ can even be used to evaluate itself!
