@@ -191,7 +191,7 @@ __Proof of claim 2:__ The proof is very reminiscent of the proof that $HALT$ is 
 Assume, toward the sake of contradiction, that there is some NAND<< program $P^*$ that computes $HALT_T(P)$ within $T(|P|)$ steps. We are going to show a contradiction by creating a program $Q$ and showing that under our assumptions, if $Q$ runs for less than $T(n)$ steps when given (a padded version of)  its own code as input then it actually runs for more than $T(n)$ steps and vice versa. (It is worth re-reading the last sentence twice or thrice to make sure you understand this logic. It is very similar to the direct proof of the uncomputability of the halting problem where we obtained a contradiction by using an assumed "halting solver" to construct  a program that, given its own code as input, halts if and only if it does not halt.)
 >
 We will define $Q$ to be the program that on input a string $z$   does the following: \
-1. If $z$ does not have the form $z=P1^m$ where $P$ represents a NAND<< program and $|P|< 0.1 \log\log m$ then return $0$.
+1. If $z$ does not have the form $z=P1^m$ where $P$ represents a NAND<< program and $|P|< 0.1 \log\log m$ then return $0$. \
 2. Compute $b= P^*(P,z)$ (at a cost of at most $T(|P|+|z|)$ steps, under our assumptions). \
 3. If $b=1$ then $Q$ goes into an infinite loop, otherwise it halts.
 >
