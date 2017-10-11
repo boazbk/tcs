@@ -286,7 +286,7 @@ We say that a subset $B$ of functions from $k$ bits to a single bit is a _univer
 > # {.remark title="Advanced note: depth" #depthrem}
 The _depth_ of a Boolean circuit is the length of the longest path in it. The notion of depth is tightly connected to the _parallelism complexity_ of the circuit. "Shallow" circuits are easier to parallelize, since a $k$ long path we mean that we have a sequence of $k$ gates that each needs to wait for the output of the other until it completes its computation.
 >
-It is a good exercise for you to verify that every function $F:\{0,1\}^n \rightarrow  \{0,1\}$ has a circuit that computes it which is of $O(2^n)$ (in fact even $O(2^n/n)$) size and  $O(\log n)$ depth. However, there are functions that require at least $\log n/10$ depth (can you see why?). There are also function for which the smallest size known circuits that compute them requires a much largeer depth.
+It is a good exercise for you to verify that every function $F:\{0,1\}^n \rightarrow  \{0,1\}$ has a circuit that computes it which is of $O(2^n)$ (in fact even $O(2^n/n)$) size and  $O(\log n)$ depth. However, there are functions that require at least $\log n/10$ depth (can you see why?). There are also function for which the smallest size known circuits that compute them requires a much larger depth.
 
 ## Neural networks
 
