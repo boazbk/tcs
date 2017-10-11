@@ -81,7 +81,7 @@ One of the most popular models for this application is the model of  [regular ex
 You have probably come across regular expresions if you  ever used an advanced text editor, a command line shell, or have done any kind of manipulations of text files.^[Sections 1.3 and 1.4 in [Sipser's book](https://www.google.com/search?q=introduction+to+the+theory+of+computation) are excellent resources for regular expressions. Sipser's book also discusses the equivalence of regular expressions with _finite automata_.]
 
 
-A _regular expression_ over some alphabet $\Sigma$ is obtained by combining elements of $\Sigma$ with the operations $|$ (corresponding to _or_) and $*$ (corresponding to repetition zero or more times).^[Common implementations of regular expressions in programming languages and shells typically include some extra  operations on top of $|$ and $*$, but these can all be implemented as "syntactic sugar" using   the operators $|$ and $*$.]
+A _regular expression_ over some alphabet $\Sigma$ is obtained by combining elements of $\Sigma$ with the operation of concatenation, as well as $|$ (corresponding to _or_) and $*$ (corresponding to repetition zero or more times).^[Common implementations of regular expressions in programming languages and shells typically include some extra  operations on top of $|$ and $*$, but these can all be implemented as "syntactic sugar" using   the operators $|$ and $*$.]
 For example, the following regular expression over the alphabet $\{0,1\}$  corresponds to the set of all even length strings $x\in \{0,1\}^*$  where the digit at location $2i$ is the same as the one at location $2i+1$ for every $i$:
 
 $$
@@ -230,6 +230,8 @@ Let $\Sigma$ be some finite set. A _context free grammar (CFG) over $\Sigma$_ is
 
 
 If $G=(V,R,s)$ is a context-free grammar over $\Sigma$, then for two strings $\alpha,\beta \in (\Sigma \cup V)^*$ we say that $\beta$ _can be derived in one step_ from $\alpha$, denoted by  $\alpha \Rightarrow_G \beta$, if we can obtain $\beta$ from $\alpha$ by applying one of the rules of $G$. That is, we obtain $\beta$ by replacing in $\alpha$ one occurence of the variable $v$ with the string $z$, where $v \Rightarrow z$ is a rule of $G$.
+We say that $\beta$ _can be derived_ from $\alpha$, denoted by $\alpha \Rightarrow_G^* \beta$, if it can be derived by some finite number $k$ of steps. That is, if there are $\alpha_1,\ldots,\alpha_{k-1} \in (\Sigma \cup V)^*$, so that $\alpha \Rightarrow_G \alpha_1 \Rightarrow_G \alpha_2 \Rightarrow_G \cdots \Rightarrow_G \alpha_{k-1} \Rightarrow_G \beta$.
+
 
 We define the _function computed by_ $(V,R,s)$ to be the map $\Phi_{V,R,s}:\Sigma^* \rightarrow \{0,1\}$ such that $\Phi_{V,R,s}(x)=1$ iff  $s \Rightarrow^*_G x$.
 We say that $F:\Sigma^* \rightarrow \{0,1\}$ is _context free_ if $F = \Phi_{V,R,s}$ for some CFG $(V,R,s)$ we say that a set $L \subseteq \Sigma^*$ (also knoan as a _language_) is _context free_ if the function $F$ such that $F(x)=1$ iff $x\in L$ is context free.
@@ -252,17 +254,20 @@ If we have several rules of the form $v \mapsto a$, $v \mapsto b$, and $v \mapst
 
 
 
-A priori it might not be clear that the map $\Phi_{V,R,s}$ is computable, but it turns out that we can in fact compute it. The crucial observation is the following:
-
-> # {.lemma #CFGderivation}
-For every context free grammar $G$ of at most $k$ variables and every $x\in \{0,1\}^n$, if $s \Rightarrow_G^* x$ then we can derive $x$ from $G$ in at most $(2^k+1)n$ steps. (TO BE COMPLETED, CHECK NUMBER)
-
-
-This implies "halting problem" for context free grammars is trivial, or in other words, we have the following theorem:
+A priori it might not be clear that the map $\Phi_{V,R,s}$ is computable, but it turns out that we can in fact compute it.
+That is, the  "halting problem" for context free grammars is trivial, or in other words, we have the following theorem:
 
 > # {.theorem title="Context-free grammars always halt" #CFGhalt}
 For every CFG $(V,R,s)$ over $\Sigma$, the function $\Phi_{V,R,s}:\Sigma^* \rightarrow \{0,1\}$ is computable.^[While formally we only defined computability of functions over $\{0,1\}^*$, we can extend the definition to functions over any finite $\Sigma^*$ by using any one-to-one encoding of $\Sigma$ into $\{0,1\}^k$ for some finite $k$. It is a (good!) exercise to verify that if a function is computable with respect to one such encoding, then it is computable with respect to them all.]
 
+
+> # {.proof data-ref="CFGhalt"}
+We only sketch the proof.
+It turns out that we can convert every CFG to an quivalent version that has the so called _Chomsky normal form_, where all rules either have the form $u \rightarrow vw$ for variables $u,v,w$ or the form $u \rightarrow \sigma$ for a variable $u$ and symbol $\sigma \in \Sigma$, plus potentially the rule $s \rightarrow ""$ where $s$ is the starting variable.
+(The idea behind such a transformation is to simply add new variables as needed, and so for example we can translate a rule such as $v \rightarrow u\sigma w$ into the three rules $v \rightarrow ur$, $r \rightarrow tw$ and $t \rightarrow \sigma$.)
+>
+Using this form we get a natural recursive algorithm for computing whether $s \Rightarrow_G^* x$ for a given grammar $G$ and string $x$.
+We simply try all possible guesses for the first rule $s \rightarrow uv$   that is used in such a derivation, and then all possible ways to partition $x$ as a concatenation $x=x'x''$. If we guessed the rule and the partition correctly, then this reduces our task to checking whether $u \Rightarrow_G^* x'$ and $v \Rightarrow_G^* x''$, which (as it involves shorter strings) can be done recursively. The base cases are when $x$ is empty or a single symbol, and can be easily handled.
 
 
 While we can (and people do) talk about context free grammars over any alphabet $\Sigma$, in the following we will restrict ourselves to $\Sigma=\{0,1\}$. This is of course not a big restriction, as any finite alphabet $\Sigma$ can be encoded as strings of some finite size.

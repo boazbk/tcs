@@ -231,17 +231,71 @@ We leave the proof of [spec-thm](){.ref} as an exercise.
 
 [spec-thm](){.ref} can be generalized far beyond the parity function
 and in fact it rules out  verifying any type of semantic specification on programs.
-Define a _semantic specification_ on programs to be some property that does not depend on the code of the program but just on the function that the program computes.
-More formally, for a   subset  $\mathcal{S}$ of the functions from $\{0,1\}^*$ to $\{0,1\}^*$, define the function $COMPUTES\text{-}\mathcal{S}:\{0,1\}^*\rightarrow \{0,1\}$ as follows: if $P\in \{0,1\}^*$ is a description of a NAND++ program that computes some $F\in \mathcal{S}$ then $COMPUTES\text{-}\mathcal{S}(P)=1$ and otherwise $COMPUTES\text{-}\mathcal{S}(P)=0$.
-The following theorem shows that $COMPUTES\text{-}\mathcal{S}$ is either trivial or non-computable:
+We define a _semantic specification_ on programs to be some property that does not depend on the code of the program but just on the function that the program computes.
 
+For example, consider the following two C programs
+
+~~~~ { .cpp }
+int First(int k) {
+    return 2*k;
+}
+~~~~
+
+~~~~ { .cpp }
+int Second(int n) {
+    int i = 0;
+    int j = 0
+    while (j<n) {
+        i = i + 2;
+        j=  j + 1;
+    }
+    return i;
+}
+~~~~
+
+`First` and `Second` are two distinct C programs, but they compute the same function.
+A _semantic_ property, such  as "computing a function $f:\N \rightarrow \N$ where $f(m) \geq m$ for every $m$", would be either _true_ for both programs or _false_ for both programs, since it depends on the _function_ the programs compute and not on their code.
+A _syntactic_ property, such as "containing the variable `k`" or "using a `while` operation" might be true for one of the programs and false for the other, since it can depend on properties of the programs' _code_.
+
+Often the properties of programs that we are most interested in are the _semantic_ ones, since we want to understand the programs' functionality. Unfortunately, the following theorem shows that such properties are uncomputable in general:
 
 
 > # {.theorem title="Rice's Theorem (slightly restricted version)" #rice-thm}
-Say that $\mathcal{S}$ as above is _trivial_ if either there is no computable function $F\in\mathcal{S}$ (and hence $COMPUTES\text{-}\mathcal{S}$ is identically $0$) or every computable function belongs to $\mathcal{S}$ (and hence $COMPUTES\text{-}\mathcal{S}$ is identically $1$).
-If $\mathcal{S}$ is not trivial then $COMPUTES\text{-}\mathcal{S}$ is uncomputable.
+We say that two strings $P$ and $Q$ representing NAND++ programs _have the same functionality_ if for every input $x\in \{0,1\}^*$, either the programs corresponding to both $P$ and $Q$ don't halt on $x$, or they both halt with the same output.
+>
+We say that a function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _semantic_ if for every $P$ and $Q$ that have the same functionality, $F(P)=F(Q)$.
+Then the only semantic computable total functions $F:\{0,1\}^* \rightarrow \{0,1\}$ are the constant zero function and the constant one function.
 
-The proof of [rice-thm](){.ref} follows by generalizing the proof of [spec-thm](){.ref} and we leave it to the reader as [rice-ex](){.ref}.
+> # {.proof data-ref="rice-thm"}
+We will illustrate the proof idea by considering a particular semantic function $F$.
+Define $MONOTONE:\{0,1\}^* \rightarrow \{0,1\}$ as follows: $MONOTONE(P)=1$ if there does not exist  $n\in \N$ and two inputs $x,x' \in \{0,1\}^n$ such that for every $i\in [n]$ $x_i \leq x'_i$ but $P(x)$ outputs $1$ and $P(x')=0$.
+That is, $MONOTONE(P)=1$ if it's not possible to find an input $x$ such that flipping some bits of $x$ from $0$ to $1$ will change $P$'s output in the other direction from $1$ to $0$.
+We will prove that $MONOTONE$ is uncomputable, but the proof will easily generalize to any semantic function.
+For starters we note that $MONOTONE$ is not actually the all zeroes or all one function:
+>
+* The program $INF$ that simply goes into an infinite loop satisfies $MONOTONE(INF)=1$, since there are no inputs $x,x'$ on which $INF(x)=1$ and $INF(x')=1$.
+>
+* The program $PAR$  that we've seen, which computes the XOR or parity of its input, is not monotone (e.g., $PAR(1,1,0,0,\ldots,0)=0$ but $PAR(1,0,0,\ldots,0)=0$) and hence $MONOTONE(PAR)=0$.
+>
+(It is important to note that in the above we talk about _programs_ $INF$ and $PAR$ and not the corresesponding functions that they compute.)
+>
+We will now give a reduction from $HALTONZERO$ to $MONOTONE$.
+That is, we assume towards a contradiction that there exists an algorithm $A$ that computes $MONOTONE$ and we will build an algorithm $B$ that computes $HALTONZERO$.
+Our algorithm $B$ will work as follows:
+>
+1. On input a program $P \in \{0,1\}^*$, $B$ will construct the following program $Q$: "on input $z\in \{0,1\}^*$ do: a. Run $B(0)$, b. Return $PAR(z)$".
+2. $B$ will then return the value $1-A(Q)$.
+>
+To complete the proof we need to show that $B$ outputs the correct answer, under our assumption that $A$ computes $MONOTONE$.
+In other words, we need to show that $HALTONZERO(P)=1-MONOTONE(Q)$.
+However, note that if $P$ does _not_ halt on zero, then the program $Q$ enters into an infinite loop in step a. and will never reach step b.
+Hence in this case the program $Q$ has the same functionality as $INF$.^[Note that the program $Q$ has different code than $INF$. It is not the same program, but it does have the same behavior (in this case) of never halting on any input.]
+Thus, $MONOTONE(Q)=MONOTONE(INF)=1$.
+If $P$ _does_ halt on zero, then step a. in $Q$ will eventually conclude and $Q$'s output will be determined by step b., where it simply outputs the parity of its input.
+Hence in this case, $Q$ computes the non-monotone parity function, and we get that $MONOTONE(Q)=MONOTONE(PAR)=0$.
+In both cases we see that $MONOTONE(Q)=1-HALTONZERO(P)$, which is what we wanted to prove.
+An examination of this proof shows that we did not use anything about $MONOTONE$ beyond the fact that it is semantic and non-trivial (in the sense that it is not the all zero, nor the all-ones function).
+
 
 
 
@@ -264,11 +318,6 @@ Prove that  there no  program $P^*$ that computes $H$, by building from such a s
 
 
 
-
-
-> # {.exercise title="Rice's Theorem (slightly restricted form)" #rice-ex}
-1. Generalize the result that $COMPUTES\text{-}PARITY$ is uncomputable as follows. Prove that for every computable function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, the function $COMPUTES\text{-}F$ which on input a NAND++ program $P$, outputs $1$ iff it holds that $P(x)=F(x)$ for every $x$, is uncomputable. \
-2. Generalize this even further to show that for  every nontrivial (neither emptry nor the entire set) subset $\mathcal{S}$ of the set $\mathbb{R}$ of the  computable functions from $\{0,1\}^*$ to $\{0,1\}^*$, the function $COMPUTES\text{-}\mathcal{S}$ that outputs $1$ on a program $P$ if and only if $P$ computes some function in $\mathcal{S}$, is uncomputable.^[__Hint:__ Pick some $F\in\mathcal{S}$ and for every Turing machine $Q$ and input $x$, construct a machine $P_{Q,x}$ that either computes $F$ or computes nothing, based on whether $Q$ halts on $x$.]
 
 
 
