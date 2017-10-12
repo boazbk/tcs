@@ -295,10 +295,17 @@ The class $SIZE(poly(n))$ is sometimes denoted as $\mathbf{P}_{/poly}$, where th
 
 We have mentioned the Church-Turing thesis, that posits that the definition of computable functions using NAND++ programs captures the definition that would be obtained by all physically realizable computing devices.
 The _extended_ Church Turing is the statement that the same holds for _efficiently computable_ functions, which is typically interpreted as saying that NAND++ programs can simulate  every physically realizable computing device with polynomial overhead.
+
+In other words, the extended Church Turing thesis says that for every _scalable computing device_ $C$ (which has a finite description but can be in principle used to run computation on arbitrarily large inputs),  there are some constants $a,b$ such that for every  function $F:\{0,1\}^* \rightarrow \{0,1\}$ that $C$ can compute on $n$ length inputs using an $S(n)$ amount of physical resources, $F$ is in $TIME(aS(n)^b)$.
+
 Like the Church-Turing thesis itself, the extended Church-Turing thesis is in the asymptotic setting and does not directly yield an experimentally testable prediction.
-However, it can be instantiated with more concrete bounds on the overhead, which would yield predictions such as the Physical Extended Church-Turing Thesis   we mentioned before, that are experimentally testable.
-As we mentioned, quantum computing poses a serious challenge to the extended Church-Turing thesis.
-However, it still seems that the extended Church-Turing thesis is fundamentally correct, in the sense that, while we do need to adapt it to account for the possibility of quantum computing, its broad outline remains unchanged.
+However, it can be instantiated with more concrete bounds on the overhead, which would yield predictions such as the _Physical Extended Church-Turing Thesis_   we mentioned before, which would be  experimentally testable.
+
+In the last hundred+ years of studying and mechanizing computation, no one has yet constructed a scalable computing device (or even gave a convincing blueprint) that violates the extended Church Turing Thesis.
+That said, as we mentioned before, the prospect of _ quantum computing_, if realized, does pose  a serious challenge to this  thesis.
+However, even if the promises of quantum computing are fully realized, it still seems that the extended Church-Turing thesis is fundamentally or "morally" correct, in the sense that, while we do need to adapt the thesis to account for the possibility of quantum computing, its broad outline remains unchanged.
+We are still able to model computation mathematically, we can still treat programs as strings and have a universal program,  and we still have hierarchy and uncomputability results.^[Note that indeed, quantum computing is _not_ a challenge to the Church Turing itself, as a function is computable by a quantum computer if and only if it is computable by a "classical" computer or a NAND++ program. It is only the running time of computing the  function that can be affected by moving to the quantum model. ]
+Moreover, for most (though not all!) concrete problems we care about, the prospect of quantum computing does not seem to change their time complexity.
 In particular, out of all the example problems mentioned in the previous lecture, as far as we know, the complexity of only one--- integer factoring--- is affected by modifying our model to include quantum computers as well.
 
 ## Lecture summary

@@ -314,10 +314,15 @@ What axioms shall we use? What rules?
 Our idea will be to use an extremely general notion of proof.
 A _proof_ will be simply a piece of text- a finite string- such that:
 
-1. Given a statement $x$ and a proof $w$ (both of which can be encoded as strings) we can verify that $w$ is a valid proof for $x$. (For example, by going line by line and checking that each line does indeed follow from the preceding ones using one of the allowed inference rules.)
-2. If there is a valid proof $w$ for $x$ then $x$ is true.
+1. _(effectiveness)_ Given a statement $x$ and a proof $w$ (both of which can be encoded as strings) we can verify that $w$ is a valid proof for $x$. (For example, by going line by line and checking that each line does indeed follow from the preceding ones using one of the allowed inference rules.)
+
+2. _(soundness)_ If there is a valid proof $w$ for $x$ then $x$ is true.
 
 Those seem like rather minimal requirements that one would want from every proof system.
+Requirement 2 (soundndess) is the very definition of a proof system: you shouldn't be able to prove things that are not true. Requirement 1 is also essential. If it there is no set of rules (i.e., an algorithm) to check that a proof is valid then in what sense is it a proof system? We could replace it with the system where the "proof" for a statement $x$ would simply be "trust me: it's true".
+
+
+
 Let us give a formal definition for this notion, specializing for the case of Diophantine equations:
 
 > # {.definition title="Proof systems for diophantine equations" #proofdef}
@@ -342,7 +347,7 @@ The algorithm will work as follows:
    >1. Check for all $x_1,\ldots,x_t \in \{0,\ldots, k\}$ whether $x_1,\ldots,x_t$  satisfies the equation. If so then halt and output $1$.
    >2. For all  $n \in \{1,\ldots,k\}$ and all strings $w$ of length at most $k$, check whether $V(P,w)=1$. If so then halt and output $0$.
 >
-Note that checking if a list $(p_1,\ldots,p_n)$ is a valid proof can be done in finite time since there is only a finite number of axioms and inference rules. Under the assumption that for _every_ diophantine equation that is unsatisfiable, there is a proof that certifies it, this algorithm will always halt and output $0$ or $1$, and moreover, the answer will be correct. Hence we reach a contradiction to [MRDP-thm](){.ref}
+Under the assumption that for _every_ diophantine equation that is unsatisfiable, there is a proof that certifies it, this algorithm will always halt and output $0$ or $1$, and moreover, the answer will be correct. Hence we reach a contradiction to [MRDP-thm](){.ref}
 
 Note that if we considered proof systems for more general quantified integer statements, then  the existence of a true but yet unprovable statement would follow from [QIS-thm](){.ref}.
 Indeed, that was the content of Gödel's original incompleteness theorem which was proven in 1931 way before the MRDP Theorem (and initiated the line of research which resulted in the latter theorem).
@@ -353,7 +358,7 @@ Examining the proof of [godelthm](){.ref} shows that it yields a more general st
 
 Also, the  proof of  [godelthm](){.ref} can be extended to yield Gödel's second incompleteness theorem which, informally speaking, says for that every proof system $S$ rich enough to express quantified integer statements, the following holds:
 
-* There is a quantified integer statement $\varphi$ that is true if and only if $S$ is consistent.
+* There is a quantified integer statement $\varphi$ that is true if and only if $S$ is consistent (i.e., if there is no statement $x$ such that $S$ can prove both $x$ and $NOT(x)$).
 
 * There is no proof in $S$ for $\varphi$.
 
@@ -362,9 +367,31 @@ Thus once we pass a sufficient level of expressiveness, we cannot find a proof s
 This in particular showed that Hilbert's second problem (which was about finding an axiomatic provably-consistent basis for arithmetic) was also unsolvable.
 
 
+### The Gödel statement
 
+One can extract from the proof of [godelthm](){.ref} a procedure that for every proof system $V$ (when thought of as a verification algorithm), yields a true statement $x^*$ that cannot be proven in $V$.
+But Gödel's proof gave a very  explicit description of such a statement $x$ which is closely related to the ["Liar's paradox"](https://en.wikipedia.org/wiki/Liar_paradox).
+That is, Gödel's statement $x^*$  was designed to be  true if and only if $\forall_{w\in \{0,1\}^*} V(x,w)=0$.
+In other words, it satisfied the following property
 
+$$
+x^* \text{ is true} \Leftrightarrow \text{$x^*$ does not have a proof in $V$} \label{godeleq}
+$$
 
+One can see that if $x^*$ is true, then it does not have a proof, but it is false then (assuming the proof system is sound) then it cannot have a proof, and hence $x^*$ must be both true and unprovable.
+One might wonder how is it possible to come up with an $x^*$ that satisfies a condition such as [godeleq](){.eqref} where the same string $x^*$ appears on both the righthand side  and the lefthand side of the equation.
+The idea is that the proof of [godelthm](){.ref} yields a way to transform  every statement $x$ into a statement $F(x)$ that is true if and only if $x$ does not have a proof in $V$.
+Thus $x^*$ needs to be a _fixed point_ of $F$: a sentence such that $x^* = F(x^*)$.
+It turns out that [we can always find](https://en.wikipedia.org/wiki/Kleene%27s_recursion_theorem) such a fixed point of $F$.
+We've already seen this phenomenon in the $\lambda$ calculus, where the $Y$ combinator maps every $F$ into a fixed point $Y F$ of $F$.
+This is very related to the idea of programs that can print their own code.
+Indeed, Scott Aaronson likes to describe Gödel's statement as follows:
+
+>The following sentence repeated twice, the second time in quotes, is not provable in the formal system $V$.
+“The following sentence repeated twice, the second time in quotes, is not provable in the formal system $V$.”
+
+In the argument above we actually showed that $x^*$ is _true_, under the assumption that $V$ is sound. Since $x^*$ is true and does not have a proof in $V$, this means that $V$  cannot prove its own soundness (or even consistency: that there is no proof of both a statement and its negation).
+Using this idea, it's not hard to get Gödel's second incompleteness theorem, which says that every sufficiently rich $V$ cannot prove its own consistency. That is, if we formalize the statement $c^*$ that is true if and only if $V$ is consistent (i.e., $V$ cannot prove a statement and its own negation), then $c^*$ cannot be proven in $V$.
 
 ## Lecture summary
 
