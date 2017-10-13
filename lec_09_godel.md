@@ -77,7 +77,7 @@ We often care deeply about determining the truth of quantified integer statement
 For example, the statement that [Fermat's Last Theorem](https://en.wikipedia.org/wiki/Fermat%27s_Last_Theorem)  is true for $n=3$ can be phrased as the quantified integer statement
 
 $$
-\neg \exists_{a\in\N} \exists_{b\in\N} \exists_{c\in\N} a\times a \times a  + b \times b \times b = c\times c \times c \;.
+\neg \exists_{a\in\N} \exists_{b\in\N} \exists_{c\in\N} (a>0) \wedge (b>0) \wedge (c>0) \wedge \left( a\times a \times a  + b \times b \times b = c\times c \times c \right) \;.
 $$
 
 The [twin prime conjecture](https://en.wikipedia.org/wiki/Twin_prime), that states that there is an infinite number of numbers $p$ such that both $p$ and $p+2$ are primes  can be phrased as the quantified integer statement
