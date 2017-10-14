@@ -390,8 +390,8 @@ Indeed, Scott Aaronson likes to describe Gödel's statement as follows:
 >The following sentence repeated twice, the second time in quotes, is not provable in the formal system $V$.
 “The following sentence repeated twice, the second time in quotes, is not provable in the formal system $V$.”
 
-In the argument above we actually showed that $x^*$ is _true_, under the assumption that $V$ is sound. Since $x^*$ is true and does not have a proof in $V$, this means that $V$  cannot prove its own soundness (or even consistency: that there is no proof of both a statement and its negation).
-Using this idea, it's not hard to get Gödel's second incompleteness theorem, which says that every sufficiently rich $V$ cannot prove its own consistency. That is, if we formalize the statement $c^*$ that is true if and only if $V$ is consistent (i.e., $V$ cannot prove a statement and its own negation), then $c^*$ cannot be proven in $V$.
+In the argument above we actually showed that $x^*$ is _true_, under the assumption that $V$ is sound. Since $x^*$ is true and does not have a proof in $V$, this means that we cannot carry the above argument in the system $V$, which means that $V$  cannot prove its own soundness (or even consistency: that there is no proof of both a statement and its negation).
+Using this idea, it's not hard to get Gödel's second incompleteness theorem, which says that every sufficiently rich $V$ cannot prove its own consistency. That is, if we formalize the statement $c^*$ that is true if and only if $V$ is consistent (i.e., $V$ cannot prove both a statement and the statement's  negation), then $c^*$ cannot be proven in $V$.
 
 ## Lecture summary
 
