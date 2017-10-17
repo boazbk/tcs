@@ -62,11 +62,11 @@ At a minimum, it seems that we should verify that the code would not go into an 
 
 
 
-![We prove that $HALT$ is uncomputable using a _reduction_ to the uncomputability of the function $F^*$. We assume that we had an algorithm that computes $HALT$ and use that to obtain an algorithm that computes $F^*$.](../figure/halt-reduction.png){#halt-fig .class width=300px height=300px}
+![We prove that $HALT$ is uncomputable using a _reduction_ from computing the previously shown uncomputable function $F^*$ to computing $HALT$. We assume that we had an algorithm that computes $HALT$ and use that to obtain an algorithm that computes $F^*$.](../figure/halt-reduction.png){#halt-fig .class width=300px height=300px}
 
 > # {.proof data-ref="halt-thm"}
-The proof is by a _reduction_ to [uncomputable-func](){.ref} , as illustrated in [halt-fig](){.ref}.
-That is, we will assume, towards a contradiction, that there is NAND++ program $P^*$ that can compute the $HALT$ function, and use that to derive that there is some NAND++ program $Q^*$ that computes the function  $F^*$ defined above, contradicting [uncomputable-func](){.ref}.
+The proof will use the previously established [uncomputable-func](){.ref} , as illustrated in [halt-fig](){.ref}.
+That is, we will assume, towards a contradiction, that there is NAND++ program $P^*$ that can compute the $HALT$ function, and use that to derive that there is some NAND++ program $Q^*$ that computes the function  $F^*$ defined above, contradicting [uncomputable-func](){.ref}. (This is known as a proof by _reduction_, since we reduce the task of computing $F^*$ to the task of computing $HALT$. By the contrapositive, this means the uncomputability of $F^*$ implies the uncomputability of $HALT$.)
 >   
 Indeed, suppose that  $P^*$ was a NAND++ program that computes $HALT$.
 Then we can write a NAND++ program $Q^*$ that does the following on input $x\in \{0,1\}^*$:^[Note that we are using here a "high level" description of NAND++ programs. We know that we can implement the steps below, for example by first writing them in NAND<< and then transforming the NAND<< program to NAND++. Step 1 involves simply running the program $P^*$ on some input.]
@@ -137,7 +137,7 @@ We will see several  examples in such results in the lecture and the exercises, 
 The idea behind such uncomputability results is conceptually simple but can  at first be quite confusing.
 If we know that $HALT$ is uncomputable, and we want to show that some other function $BLAH$ is uncomputable, then we can do so via a _contrapositive_ argument (i.e., proof by contradiction).
 That is, we show that _if_ we had a NAND++ program that computes $BLAH$ _then_ we could have a NAND++ program that computes $HALT$.
-(Indeed, this is exactly how we showed that $HALT$ itself is uncomputable, by reducing to the uncomputability of the function $F^*$ from [uncomputable-func](){.ref}.)
+(Indeed, this is exactly how we showed that $HALT$ itself is uncomputable, by showing this follows from  the uncomputability of the function $F^*$ from [uncomputable-func](){.ref}.)
 
 For example, to prove that $BLAH$ is uncomputable,  we could show that there is a  computable function $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every $x\in \{0,1\}^*$, $HALT(x)=BLAH(R(x))$.
 Such a function is known as a _reduction_.
