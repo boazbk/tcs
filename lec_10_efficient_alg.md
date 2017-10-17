@@ -51,7 +51,6 @@ Graphs can also denote correlations in data (e.g., graph of observations of feat
 We now give some examples of computational problems on graphs.
 As mentioned above, to keep things simple, we will restrict attention to undirected simple graphs.
 In all cases the input graph $G=(V,E)$ will have $n$ vertices and $m$ edges.
-To avoid trivialities, we will always assume the graph is connected (every two vertices can be reached from one another by traversing edges), which in particular means that $m \geq n-1$ (can you see why?).
 
 
 ### Finding the shortest path in a graph
@@ -59,14 +58,15 @@ To avoid trivialities, we will always assume the graph is connected (every two v
 The _shortest path problem_ is the task of, given a graph $G=(V,E)$ and two vertices $s,t \in V$, to find the length of the  shortest path between $s$ and $t$.
 That is, we want to find the smallest number $k$ such that there are vertices $v_0,v_1,\ldots,v_k$ with $v_0=s$, $v_k=t$ and for every $i\in\{0,\ldots,k-1\}$ an edge between $v_i$ and $v_{i+1}$.
 If each vertex has at least two neighbors then there can be an _exponential_ number of paths from $s$ to $t$, but fortunately we do not have to enumerate them all to find the shortest path.
-We can do so by performing a _breadth first search (BFS)_, enumerating $s$'s neighbors, and then neighbors' neighbors, etc.. in order.
+We can do so by performing a [breadth first search (BFS)](https://en.wikipedia.org/wiki/Breadth-first_search), enumerating $s$'s neighbors, and then neighbors' neighbors, etc.. in order.
 If we maintain the neighbors in a list we can perform a BFS in $O(n^2)$ time, while using  a queue we can do this in $O(m)$ time.^[Since we assume $m \geq n-1$, $O(m)$ is the same as $O(n+m)$.  [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra's_algorithm) is a well-known generalization of BFS to _weighted_ graphs.]
 
 
 ### Finding the longest path in a graph
 
 The _longest path problem_ is the task of, given a graph $G=(V,E)$ and two vertices $s,t \in V$, to find the length of the _longest_ simple (i.e., non intersecting) path between $s$ and $t$.
-While a priori this may seem less motivated than the shortest path, it is a natural optimization problem related to the  [Hamiltonian path problem](https://en.wikipedia.org/wiki/Hamiltonian_path_problem) which asks for  a _maximally long_ simple path (i.e., path that visits all $n$ vertices once) between $s$ and $t$, as well as   the notorious [traveling salesman problem (TSP)](https://en.wikipedia.org/wiki/Travelling_salesman_problem) of finding (in a weighted graph) a maximally long path of cost at most $w$.
+If the graph is a road network, then the longest path might seem less motivated than the shortest path, but of course graphs can be and are used to model a variety of phenomena, and in many such cases the longest path (and some of its variants) are highly moticated.
+In particular, finding the longest path is a generalization of the famous  [Hamiltonian path problem](https://en.wikipedia.org/wiki/Hamiltonian_path_problem) which asks for  a _maximally long_ simple path (i.e., path that visits all $n$ vertices once) between $s$ and $t$, as well as   the notorious [traveling salesman problem (TSP)](https://en.wikipedia.org/wiki/Travelling_salesman_problem) of finding (in a weighted graph) a path visiting all vertices of cost at most $w$.
 TSP is a classical optimization problem, with applications ranging from  planning and logistics to DNA sequencing and astronomy.
 
 A priori it is not clear that  finding the longest path should be harder  than finding the shortest path,
@@ -82,9 +82,11 @@ The best algorithm for the longest path improves on this, but not by much: it ta
 
 ### Finding the minimum cut in a graph
 
-Given a graph $G=(V,E)$, a _cut_  is simply a subset $S$ of $V$, and the edges cut by $S$ are those edges where one of their endpoints is in $S$ and the other is in $\overline{S} = V \setminus S$.
+Given a graph $G=(V,E)$, a _cut_  is a subset $S$ of $V$ such that $S$ is neither empty nor is it all of $V$.
+The edges cut by $S$ are those edges where one of their endpoints is in $S$ and the other is in $\overline{S} = V \setminus S$.
+We denote this set of edges by $E(S,\overline{S})$.
 If $s,t \in V$ then an _$s,t$ cut_ is a cut such that $s\in S$ and $t\in \overline{S}$. (See [cutingraphfig](){.ref}.)
-The _minimum $s,t$ cut problem_ ( is the task of finding, given $s$ and $t$, the minimum number $k$ such that there is an $s,t$ cut cutting $k$ edges.^[We can also define the problem of finding the minimum $s,t$ cut in the graph over all pairs $s,t$. Though note that  if we can solve the minimum $s,t$ cut problem in time $T(n)$ then we can solve the global minimum cut in time   $O(T(n)n^2)$.]
+The _minimum $s,t$ cut problem_  is the task of finding, given $s$ and $t$, the minimum number $k$ such that there is an $s,t$ cut cutting $k$ edges (the problem is also sometimes phrased as finding the set that achieves this minimum).^[One can also define the problem of finding the _global minimum cut_ (i.e., the non-empty and non-everything set $S$ that minimizes the number of edges cut). One can verify that a polynomial time algorithm for the minimum $s,t$ cut can be used to solve the global cut in polynomial time as well (can you see why?).]
 
 ![A _cut_ in a graph $G=(V,E)$ is simply a subset $S$ of its vertices. The edges that are _cut_ by $S$ are all those whose one endpoint is in $S$ and the other one is in $\overline{S} = V \setminus S$. The cut edges are colored red in this figure.](../figure/cutingraph.png){#cutingraphfig .class width=300px height=300px}
 
@@ -96,9 +98,41 @@ In the setting of [image segmentation](https://en.wikipedia.org/wiki/Image_segme
 If we want to separate the foreground from the background then we can  pick (or guess) a foreground pixel $s$ and background pixel $t$ and ask for a minimum cut between them.
 
 __Solving the minimum cut problem:__
-A priori we might worry that to find the minimum cut we'd need to enumerate over all the $2^n$ subsets of $S$.
-Fortunately, it turns out that we _can_ solve this problem efficiently.
-There are several algorithms to do so, but many of them rely on the [Max Flow Min Cut](https://en.wikipedia.org/wiki/Max-flow_min-cut_theorem) that says that the minimum cut between $s$ and $t$ equals the maximum amount of _flow_ we can send from $s$ to $t$, if every edge has unit capacity.^[A _flow_ of capacity $c$ from a _source_ $s$ to a _sink_ $t$ in a graph can be thought of as describing how one would send some quantity from $s$ to $t$ in the graph (e.g., sending $c$ liters of water (or any other matter    one can partition arbitrarily), on pipes described by the edges). Mathematically, a flow is captured by assigning numbers to edges, and requiring that on any vertex apart from $s$ and $t$, the amount flowing it is equal to the amount flowing out, while in $s$ there are $c$ units flowing out and in $t$ there are $c$ units flowing in.]
+Here is an algorithm to solve the minimum cut problem:
+
+__Algorithm MINCUTNAIVE:__
+
+* __Input:__ Graph $G=(V,E)$ and two distinct vertices $s,t \in V$
+
+* __Goal:__ Return $S$ s.t. $s\in S$ and $t\not\in S$ that minimizes  $|E(S,\overline{S})|$.
+
+* __Operation:__
+
+1. If $V=\{s,t\}$ then return $\{s \}$.
+2. Otherwise choose $v\in V \setminus \{s,t\}$, and define $G',G''$ to be two graphs with vertex set $V\setminus \{v \}$, where in $G'$ the edge set $E'$ is obtained by making all of $v$'s neighbors be neighbors of $s$, and in $G''$ the edge set $E''$ is obtained by making all of $v$'s neighbors be neighbors of $t$. That is, $E'$ has the same edges as $E$ except that in edges involving $v$  we replace $v$ with $s$, and $E''$  has the same edges as $E$ except that in edges involving $v$  we replace $v$ with $t$.
+3. Compute recursively $S'=MINCUTNAIVE(G',s,t)$ and $S''=MINCUTNAIVE(G'',s,t)$.
+4. If $S'\cup \{v\}$ cuts fewer edges in $G$ than $S''$ then return $S' \cup \{ v \}$. Otherwise return $S''$.
+
+> # { .pause }
+It is an excellent exercise for you to pause at this point and verify:
+__(i)__ that you understand what this algorithm does, __(2)__ that you understand why this algorithm will in fact return the minimum cut in the graph, and __(3)__ that you can analyze the running time of this algorithm.
+
+We can prove by induction that Algorithm  $MINCUTNAIVE$ does indeed return the minimum cut.
+Indeed, it definitely does so for graphs of two vertices.
+Now we assume by induction that $MINCUTNAIVE$ solves the minimum cut problem for graphs of at most $n-1$ vertices, and we will prove that it does so for graphs of $n$ vertices.
+Indeed, under the inductive hypothesis, our recursive calls in step 3 return the minimum cuts $S'$ and $S''$ of the $n-1$ vertex graphs $G'$ and $G''$ respectively.
+But if $v$ is the vertex we choose in step 2, we can think of $G'$ as simply a graph where we "merged" $s$ and $v$ to be a single vertex with the neighbors of both $s$ and $v$, and $G''$ as the graph where we merged $t$ and $v$.
+So the $s,t$ cuts in $G'$ correspond to $s,t$ cuts in $G$ that don't separate $s$ and $v$, while $s,t$ cuts in $G''$ correspond to $s,t$ cuts in $G$ that don't separate $t$ and $v$.
+Since in the minimum  cut $S$, either $s$ or $t$ will be in the same side as $v$, the best one out of the minimal cuts from $G'$ and $G''$ will be the minimum cut in $G$.
+
+The running time $T(n)$ of $MINCUTNAIVE$ on $n$ vertex graphs can be described by the recursive equation $T(n)=2T(n-1)+f(n)$ where $f(n)$ is the time to execute the non recursive steps 1,2 and 4.
+In an algorithms course we might want to worry about the exact data structures we use to implement these steps, but for this course it is enough that we can do these steps in polynomial time (which is not hard to see).
+Nevertheless, this running time bound is terrible: even if $f(n)$ was equal to $1$ we would still get that $T(n) \geq 2^n$!
+Indeed, this recursive algorithm is nothing but a fancy description of the trivial algorithm that enumerates over all the roughly $2^n$ (in fact, precisely $2^{n-2}$) sets $S$ that contain $s$ and don't contain $t$.
+
+Since minimum cut is a problem we want to solve, this seems like bad news.
+Luckily however we are able to find much faster algorithms that run in _polynomial time_ (which we denote by $poly(n)$) for this problem.
+There are several algorithms to do so, but many of them rely on the [Max Flow Min Cut Theorem](https://en.wikipedia.org/wiki/Max-flow_min-cut_theorem) that says that the minimum cut between $s$ and $t$ equals the maximum amount of _flow_ we can send from $s$ to $t$, if every edge has unit capacity.^[A _flow_ of capacity $c$ from a _source_ $s$ to a _sink_ $t$ in a graph can be thought of as describing how one would send some quantity from $s$ to $t$ in the graph (e.g., sending $c$ liters of water (or any other matter    one can partition arbitrarily), on pipes described by the edges). Mathematically, a flow is captured by assigning numbers to edges, and requiring that on any vertex apart from $s$ and $t$, the amount flowing it is equal to the amount flowing out, while in $s$ there are $c$ units flowing out and in $t$ there are $c$ units flowing in.]
 For example, this directly implies that the value of the minimum cut problem is the solution for the following [linear program](https://en.wikipedia.org/wiki/Linear_programming):
 
 $$

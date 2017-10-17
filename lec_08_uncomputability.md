@@ -283,7 +283,7 @@ We will now give a reduction from $HALTONZERO$ to $MONOTONE$.
 That is, we assume towards a contradiction that there exists an algorithm $A$ that computes $MONOTONE$ and we will build an algorithm $B$ that computes $HALTONZERO$.
 Our algorithm $B$ will work as follows:
 >
-1. On input a program $P \in \{0,1\}^*$, $B$ will construct the following program $Q$: "on input $z\in \{0,1\}^*$ do: a. Run $B(0)$, b. Return $PAR(z)$".
+1. On input a program $P \in \{0,1\}^*$, $B$ will construct the following program $Q$: "on input $z\in \{0,1\}^*$ do: a. Run $P(0)$, b. Return $PAR(z)$".
 2. $B$ will then return the value $1-A(Q)$.
 >
 To complete the proof we need to show that $B$ outputs the correct answer, under our assumption that $A$ computes $MONOTONE$.
