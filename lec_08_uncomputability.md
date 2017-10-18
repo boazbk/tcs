@@ -180,7 +180,8 @@ Doing so is an excellent way to get some initial comfort with the notion of proo
 
 
 > # {.proof data-ref="haltonzero-thm"}
-The proof is by reduction to $HALT$. Suppose, towards the sake of contradiction, that there was an algorithm $A$ such that $A(P')=HALTONZERO(P)$ for every $P'\in \{0,1\}^*$.
+The proof is by reduction to $HALT$. Suppose, towards the sake of contradiction, that  $HALTONZERO$ is computable.
+In other words, suppose towards the sake of contradiction that there exists an algorithm $A$ such that $A(P')=HALTONZERO(P')$ for every $P'\in \{0,1\}^*$.
 Then, we will construct an algorithm $B$ that solves $HALT$.
 >
 On input a program $P$ and some input $x$, the algorithm $B$ will construct a program $P'$ such that $P'(0)=P(x)$  and then feed this to $A$, returning $A(P')$.

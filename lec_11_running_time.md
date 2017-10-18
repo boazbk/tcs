@@ -15,9 +15,9 @@ belong to the class of multitape Turing machines.", Juris Hartmanis and Richard 
 
 
 In the last lecture we saw examples of efficient algorithms, and made some claims about their running time, but did not give a mathematically precise definition for this concept.
-We do so in this lecture, using our NAND++ and NAND<< models we have seen before.
-Since we think of functions that can take as input a string of arbitrary length, the running time is not a fixed number but rather what we are interested in is measuring the _dependence_ of the number of steps on the length of the input.
-That is, for any program $P$, we will be interested in be interested in the maximum number of steps that $P$ takes on inputs of length $n$ (which we often denote as $T(n)$).
+We do so in this lecture, using the NAND++ and NAND<< models we have seen before.
+Since we think of programs  that can take as input a string of arbitrary length, their running time is not a fixed number but rather what we are interested in is measuring the _dependence_ of the number of steps the program takes on the length of the input.
+That is, for any program $P$, we will be interested in be interested in the maximum number of steps that $P$ takes on inputs of length $n$ (which we often denote as $T(n)$).^[Because we are interested in the _maximum_ number of steps for inputs of a given length, this concept is often known as _worst case complexity_. The _minimum_ number of steps (or "best case" complexity) to compute a function on length $n$ inputs is typically not a meaningful quantity since essentially every natural problem will have some trivially easy instances. However, the _average case complexity_ (i.e., complexity on a "typical" or "random" input) is an interesting  concept which we'll return to when we discuss _cryptography_. That said, worst-case complexity is the most standard and basic of the complexity measures, and will be our focus in most of this course.]
 For example, if a function $F$ can be computed by a NAND<< (or NAND++) program that on inputs of length $n$ takes $O(n)$ steps then we will think of $F$ as "efficiently computable",  while if any such program  requires $2^{\Omega(n)}$ steps to compute $F$ then we consider $F$ "intractable".
 Formally, we define running time as follows:
 
@@ -55,7 +55,7 @@ Since exponential time is much larger than polynomial time, clearly $\mathbf{P}\
 All of the problems we listed in the last lecture are in $\mathbf{EXP}$,^[Strictly speaking, many of these problems correspond to _non Boolean_ functions, but we will sometimes "abuse notation" and refer to non Boolean functions as belonging to $\mathbf{P}$ or $\mathbf{EXP}$. We can easily extend the definitions of these classes to non Boolean and partial functions. Also, for every non-Boolean function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, we can define a Boolean variant $Bool(F)$ such that $F$ can be computed in polynomial time if and only if  $Bool(F)$ is.] but as we've seen, for some of them there are much better algorithms that demonstrate that they are in fact in $\mathbf{P}$.
 
 
-| $\mathbf{P}$  | $\mathbf{EXP}$ |
+| $\mathbf{P}$  | $\mathbf{EXP}$ (but not known to be in $\mathbf{P}$) |
 |--------------------------|---------------------------|
 | Shortest path            | Longest Path              |
 | Min cut                  | Max cut                   |
@@ -80,10 +80,15 @@ There are absolute constants $a,b$ such that for every  function $F$ and nice  f
 That is, $TIME_{<<}(T(n)) \subseteq TIME_{++}(aT(n)^b)$
 
 
-(The constant $b$ can be easily shown to be at most five, and with more effort can be optimized further.)
+The constant $b$ can be easily shown to be at most five, and with more effort can be optimized further.
+[NANDpp-thm](){.ref} means that the definition of the classes $\mathbf{P}$ and $\mathbf{EXP}$ are robust to the choice of model, and will not make a difference whether we use NAND++ or NAND<<. In fact, similar results are known for Turing Machines, RAM machines, C programs, and a great many other models, which justifies the choice of $\mathbf{P}$ as capturing a technology-independent notion of tractability.
+As we discussed before,  the  equivalence between NAND++ and NAND<< (as well as other models) allows us to pick our favorite one depending on the task at hand (i.e., "have our cake and eat it too").
+When we want to _design_ an algorithm, we can use the extra power and convenience afforded by NAND<<.
+When we want to _analyze_ a program or prove a _negative result_, we can restrict attention to   NAND++ programs.
+
 
 > # {.proofidea data-ref="NANDpp-thm"}
-We have  seen in [NANDequiv-thm](){.ref} that every function $F$ that is computable by a NAND<< program $P$ is computable by a NAND++ program $P'$.  To prove [NANDpp-thm](){.ref}, we follow the same proof but just check that the overhead of the simulation of $P$ by $P'$ is polynomial.
+We have  seen in [NANDequiv-thm](){.ref} that every function $F$ that is computable by a NAND<< program $P$ is computable by a NAND++ program $P'$.  To prove [NANDpp-thm](){.ref}, we follow the exact same proof but just check that the overhead of the simulation of $P$ by $P'$ is polynomial.
 
 > # {.proof data-ref="NANDpp-thm"}
 As mentioned above, we  follow the proof of [NANDequiv-thm](){.ref} (simulation of NAND<< programs using NAND++ programs) and use the exact same simulation, but with a more careful accounting of the number of steps that the simulation costs.
@@ -104,12 +109,10 @@ Together these observations imply that the simulation of $T$ steps of NAND<< can
 
 
 
+> # {.remark title="Turing machines and other models" #othermodels}
+If we follow the equivalence results between NAND++/NAND<< and  other models, including Turing machines, RAM machines, Game of life, $\lambda$ calculus, and many others, then we can see that these results also have at most a polynomial overhead in the simulation in each way.^[One technical point is that for $\lambda$ calculus, one needs to be careful about the order of application of the reduction steps, which can matter for computational efficiency.]
+It is a good exercise to go through, for example, the proof of [TM-equiv-thm](){.ref} and verify that it establishes that Turing machines and NAND++ programs are equivalent up to polynomial overhead.
 
-[NANDpp-thm](){.ref} means that we could have defined
-$\mathbf{EXP}$ and $\mathbf{P}$ equally well using NAND++ instead of NAND<<, as these are the same up to polynomial factors.
-More generally, the equivalence between NAND++ and NAND<< (as well as other models, such as Turing machines) allows us to pick our favorite one depending on the task at hand.
-When we want to design an algorithm, we can use the extra power and convenience afforded by NAND<<.
-When we want to _analyze_ a program, we can describe it in the simpler form of NAND++.
 
 
 
@@ -127,7 +130,7 @@ $$
 TIMEDEVAL(P,x,1^T)=P(x)
 $$
 if $P$  is a valid representation of a NAND<< program which produces an output on $x$ within at most $T$ steps.
-Moreover, for every program $P$, the running time of $U$ on input $P,x,1^T$ is $O(T)$. (The hidden constant in the Oh notation can depend on the program $P$ but is at most polynomial in the lengto of $P$'s description as a string.).
+Moreover, for every program $P$, the running time of $U$ on input $P,x,1^T$ is $O(T)$. (The hidden constant in the Oh notation can depend on the program $P$ but is at most polynomial in the length of $P$'s description as a string.).
 
 > # { .pause }
 Before reading the proof of [univ-nandpp](){.ref}, try to think how you would compute $TIMEDEVAL$ using your favorite programming language. That is, how you would write a program `TIMEDEVAL(P,x,T)` that gets a NAND<< program  `P` (represented in some convenient form), a string `x`, and an integer `T`, and simulates `P` for `T` steps.
@@ -183,7 +186,7 @@ __Claim 2:__ $HALT_T \not\in TIME(T(n))$.
 >
 We now turn to proving the two claims.
 >
-__Proof of claim 1:__  We can easily check whether an input has the form $P,x$ where $|P| \leq \log |x|$ in linear time.
+__Proof of claim 1:__  We can easily check whether an input has the form $P,x$ where $|P| \leq \log\log |x|$ in linear time.
 Since $T(\cdot)$ is a nice function, we can evaluate it in $O(T(n))$ time. Then, using the universal NAND<< program of [univ-nandpp](){.ref}, we can evaluate $HALT_T$ in at most $poly(|P|) T(n)$ steps.^[Recall that we use $poly(m)$ to denote a quantity that is bounded by $am^b$ for some constants $a,b$ and every sufficiently large $m$.]  
 Since $(\log \log n)^a = o(\log n)$ for every $a$, this will be smaller than $T(n)\log n$ for every sufficiently large $n$.
 >
