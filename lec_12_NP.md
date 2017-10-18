@@ -1,7 +1,7 @@
 #  NP and NP completeness
 
 > # { .objectives }
-* Introduce the class $\mathbf{NP}$ that encapsulates the problems whose solutions we can efficiently _ verify_ \
+* Introduce the class $\mathbf{NP}$ that encapsulates the problems whose solutions we can efficiently _verify_ \
 * See  many interesting problems  in $\mathbf{NP}$ \
 * See the notion of $\mathbf{NP}$-completeness which connects problems that a priori seem unrelated \
 * The $\mathbf{P}$ vs $\mathbf{NP}$ question
