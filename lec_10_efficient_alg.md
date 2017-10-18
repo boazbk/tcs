@@ -15,7 +15,7 @@
 
 So far we were concerned with which functions are computable and which ones are not.
 But now we return to _quantitative considerations_ and study the time that it takes to compute functions mapping strings to strings, as a function of the input length.
-One of the interesting phenomenona of computing is that there is often a kind of "zero one law" for running time, where for many natural problems, they either can be solved in _polynomial_ running time (e.s., something like $O(n^2)$ or $O(n^3)$), or require _exponential_ (e.g., at least $2^{\Omega(n)}$ or $2^{\Omega(\sqrt{n})}$) running time.
+One of the interesting phenomenona of computing is that there is often a kind of a "[thershold phenomenon](http://www.ma.huji.ac.il/~kalai/ML.pdf)" or "zero one law" for running time, where for many natural problems, they either can be solved in _polynomial_ running time (e.s., something like $O(n^2)$ or $O(n^3)$), or require _exponential_ (e.g., at least $2^{\Omega(n)}$ or $2^{\Omega(\sqrt{n})}$) running time.
 The reasons for this phenomenon are still not fully understood, but some light on this is shed by the concept of _NP completeness_, which we will encounter later.
 
 In this lecture we will survey some examples of computational problems, for some of which we know efficient (e.g., $n^c$-time for a small constant $c$) algorithms, and for others the best known algorithms are exponential.
