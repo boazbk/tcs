@@ -1,25 +1,43 @@
 #  NP and NP completeness
 
+> # { .objectives }
+* Introduce the class $\mathbf{NP}$ that encapsulates the problems whose solutions we can efficiently _ verify_ \
+* See  many interesting problems  in $\mathbf{NP}$ \
+* See the notion of $\mathbf{NP}$-completeness which connects problems that a priori seem unrelated \
+* The $\mathbf{P}$ vs $\mathbf{NP}$ question
+
+
+
 >_"In this paper we give theorems that suggest, but do not imply, that these problems, as well as many others, will remain  intractable perpetually"_, Richard Karp, 1972
 
 
 Let us consider several of the problems we have encountered before:
 
 * Finding the longest path in a graph
+
 * Finding the maximum cut in a graph
+
 * The 3SAT problem
+
 * Solving quadratic equations
+
+
 
 All of these have the following properties:
 
 * These are important problems, and people have spent significant effort on trying to find better algorithms for them.
 
-* They have trivial exponential time algorithms that involve enumerating all possible solutions.
+* Each one of these  problems is a _search_ problem, whereby we search for a solution that is "good" in some easy to define sense (e.g., a long path, a satisfying assignment, etc..).
 
-* At the moment the best known algorithms are not much better than the trivial one in the worst-case.
+* Each of these problems has trivial exponential time algorithms that involve enumerating all possible solutions.
+
+* At the moment, for all these problems the best known algorithms are not much better than the trivial one in the worst-case.
+
 
 In this lecture we will see that, despite their apparent differences, all these problems are _computationally equivalent_, in the sense that solving one of them immediately implies solving the others.
 This phenomenon, known as _$\mathbf{NP}$ completeness_, is one of the surprising discoveries of theoretical computer science, and we will see that it has far-reaching ramifications.
+
+
 
 ### Decision problems
 
@@ -40,7 +58,7 @@ Thus, we will model all the problems as functions mapping $\{0,1\}^*$ to $\{0,1\
 Suppose that $F,G:\{0,1\}^* \rightarrow \{0,1\}$ are two functions.
 How can we show that they are "computationally equivalent"?
 The idea is that we show that an efficient algorithm for $F$ would imply an efficient algorithm for $G$ and vice versa.
-The key to this is the notion of a _reduction_:
+The key to this is the notion of a _reduction_:^[Several notions of reductions are defined in the literature. The notion defined in [reduction-def](){.ref}  is often known as a _mapping reduction_, _many to one reduction_ or a  _Karp reduction_.]
 
 > # {.definition title="Reductions" #reduction-def}
 Let $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$. We say that _$F$ reduces to $G$_, denoted by $F \leq_p G$ if there is a polynomial-time computable $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every $x\in \{0,1\}^*$,
@@ -56,6 +74,8 @@ Indeed, [eq:reduction](){.eqref} shows a way how to compute $F$ by applying the 
 
 We will now  use reductions to  show that the  problems above- 3SAT, Quadratic Equations, Maximum Cut, and Longest Path- are indeed computationally equivalent to one another.
 We start by  reducing 3SAT to the latter three problems, demonstrating that solving either of them will solve it 3SAT.
+Along the way we will introduce one more problem: the _independent set_  problem.
+Like the others it shares the characteristics that it is an important and well motivated computational problem, and that the best known algorithm for it takes exponential time.
 
 ![Our first stage in showing equivalence is to reduce  3SAT to the  three other problems](../figure/sat_to_others.png){#figureid .class width=300px height=300px}
 
@@ -107,8 +127,27 @@ Since the original system was equivalent to the 3SAT instance it is not hard to 
 
 Thus if we define $E' = R(\varphi)$, then we see that for every 3SAT formula $\varphi$, $3SAT(\varphi) = QUADEQ(R(\varphi))$, showing that $3SAT \leq_p QUADEQ$ and completing the proof of [quadeq-thm](){.ref}.
 
+## The independent set problem
 
-## Reducing 3SAT to Maximum Cut
+For a graph $G=(V,E)$, an [independent set](https://en.wikipedia.org/wiki/Independent_set_(graph_theory)) (also known as a _stable set_) is a subset $S \subseteq V$ such that there are no edges with both endpoints in $S$ (in other words, $E(S,S)=\emptyset$).
+Every singleton is trivially an independent set, but finding larger independent set can be challenging.
+The _maximum independent set_ proble[m (hencefore ]simply "independent set") is the task of finding the largest independent set in the graph.^[While we will not consider it here, people have also looked at the _maximal_ (as opposed to _maximum_) independent set, which is the task of finding a "local maximum" of an independent set: an independent set $S$ such that one cannot add a vertex to it without losing the independence property (such a set is known as a _vertex cover_). Finding a maximal independent set can be done efficiently by a greedy algorithm, but this local maximum can be much smaller than the global maximum.]
+The independent set problem is naturally related to _scheduling problems_: if we put an edge between two conflicting tasks,  then an independent set corresponds to a set of tasks that can all be scheduled together without conflicts.
+But it also arises in very different settings, including trying to find structure in [protein-protein interaction graphs](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3919085/).^[In the molecular biology literature, people often refer to the computationally equivalent  [clique problem](https://en.wikipedia.org/wiki/Clique_problem).]
+
+To phrase the independent set as a decision problem, we think of it as a function $IS:\{0,1\}^* \rightarrow \{0,1\}$ that on input a graph $G$ and a number $k$ outputs $1$ if and only if the graph $G$ contains an independent set of size at least $k$.
+We will now reduce 3SAT to Independent set.
+
+> # {.theorem title="Independent set is NP complete" #isetnpc}
+$3SAT \leq_p IS$.
+
+> # {.proofidea data-ref="isetnpc"}
+The idea is that finding a satisfying assignment to a 3SAT formula corresponds to satisfying many local constraints without creating any conflicts. One can think of "$x_{17}=0$"  and "$x_{17}=1$" as two conflicting events, and of the constraints $x_{17} \vee \overline{x}_5 \vee x_9$ as creating a conflict between the events "$x_{17}=0$", "$x_5=0$" and "$x_9=0$", saying that these  three cannot simultaneosly co-occur. Using these ideas, we can we can think of solving a  3SAT problem as trying to schedule non conflicting events, though the devil is, as usual, in the details.
+
+> # {.proof data-ref="isetnpc"}
+TO BE COMPLETED
+
+## Reducing Indepndent Set to Maximum Cut
 
 ^[Add reduction here]
 

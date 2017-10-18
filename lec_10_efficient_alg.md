@@ -222,7 +222,7 @@ We now list some other examples of computational problems that  of great interes
 ### The 2SAT problem
 
 A _propositional formula_ $\varphi$ involves $n$ variables $x_1,\ldots,x_n$ and the logical operators AND ($\wedge$), OR ($\vee$), and NOT ($\neg$, also denoted as $\overline{\cdot}$).
-We say that such a formula is in _conjunctive normal form_ (CNF for short) if it is an OR of ANDs of variables or their negations (we call a term of the form $x_i$ or $\overline{x}_i$ a _literal_).
+We say that such a formula is in _conjunctive normal form_ (CNF for short) if it is an AND of ORs of variables or their negations (we call a term of the form $x_i$ or $\overline{x}_i$ a _literal_).
 For example, this is a CNF formula
 $$
 (x_7 \vee \overline{x}_{22} \vee x_{15} ) \wedge (x_{37} \vee x_{22}) \wedge (x_{55} \vee \overline{x}_7)

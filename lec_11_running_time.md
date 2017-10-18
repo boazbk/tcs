@@ -110,7 +110,7 @@ Together these observations imply that the simulation of $T$ steps of NAND<< can
 
 
 > # {.remark title="Turing machines and other models" #othermodels}
-If we follow the equivalence results between NAND++/NAND<< and  other models, including Turing machines, RAM machines, Game of life, $\lambda$ calculus, and many others, then we can see that these results also have at most a polynomial overhead in the simulation in each way.^[One technical point is that for $\lambda$ calculus, one needs to be careful about the order of application of the reduction steps, which can matter for computational efficiency.]
+If we follow the equivalence results between NAND++/NAND<< and  other models, including Turing machines, RAM machines, Game of life, $\lambda$ calculus, and many others, then we can see that these results also have at most a polynomial overhead in the simulation in each way.^[One technical point is that for $\lambda$ calculus, one needs to be careful about the order of application of the reduction steps, which can matter for computational efficiency.  Counting running time for $\lambda$ calculus is somewhat delicate, see [this paper](https://lmcs.episciences.org/1627).]
 It is a good exercise to go through, for example, the proof of [TM-equiv-thm](){.ref} and verify that it establishes that Turing machines and NAND++ programs are equivalent up to polynomial overhead.
 
 
