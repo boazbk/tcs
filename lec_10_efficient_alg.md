@@ -25,9 +25,9 @@ In this lecture, we will not formally define the notion of running time, and so 
 In the next lecture, we will define this notion precisely, using our NAND++ and NAND<< programming languages.
 One of the nice things about the theory of computation is that it turns out that, like in the context of computability, the details of the precise computational model or programming language don't matter that much, especially if you mostly care about the distinction between polynomial and exponential time.
 
-## Some computational problems
+## Problems on graphs
 
-Let us start with a few examples of computational problems that we might want to solve.
+We nor present a  few examples of computational problems that people are interesting in solving.
 Many of the problems will involve _graphs_.
 We have already encountered graphs in the context of Boolean circuits, but let us now quickly recall the basic notation.
 A  graph  $G$ consists of a set of _vertices_ $V$ and _edges_ $E$ where each edge is a pair of vertices.
@@ -74,9 +74,9 @@ __Algorithm $SHORTESTPATH$:__
     1. We will maintain a label $L[v]$ for every vertex $v$. Initially no vertex is labeled except for $s$ that is labeled with "start". \
     2. We maintain a _queue_ $Q$ of vertices, initially $Q$ contains only $s$. \
     3. While $Q$ is not empty do the following: \
-        a. Pop the vertex $v$ from the top of the queue.
-        b. If $v=t$ exit  output the path which is the reverse order of $v,L[v],L[L[v]],L[L[L[v]]],\ldots,s$.
-        c. Otherwise, label all the unlabeled neighbors of $v$ with $v$ and add them to $Q$
+        a. Pop the vertex $v$ from the top of the queue.  \
+        b. If $v=t$ exit  output the path which is the reverse order of $v,L[v],L[L[v]],L[L[L[v]]],\ldots,s$. \
+        c. Otherwise, label all the unlabeled neighbors of $v$ with $v$ and add them to $Q$ \
     4. Output "no path"
 
 Since we only add to the queue unlabeled vertices, we never push to the queue a vertex more than once, and hence the algorithm takes $n$ "push" and "pop" operations.
@@ -212,9 +212,15 @@ That said, even if we don't find the global (or even a local) minima, this conti
 In particular,  when running a local improvement algorithm such as Gradient Descent, we might still find a function $h$ that is  "useful" in the sense of having a   small error on future examples from the same distribution.^[In machine learning parlance, this task is known as _supervised learning_. The set of examples $(x_1,y_1),\ldots,(x_m,y_m)$ is known as the _training set_, and the error on additional samples from the same distribution is known as the _generalization error_, and can be measured by checking $h$ against a _test set_ that was not used in  training it.]
 
 
-### The 2SAT problem
+## Beyond graphs
+
 
 Not all computational problems arise from graphs.
+We now list some other examples of computational problems that  of great interest.
+
+
+### The 2SAT problem
+
 A _propositional formula_ $\varphi$ involves $n$ variables $x_1,\ldots,x_n$ and the logical operators AND ($\wedge$), OR ($\vee$), and NOT ($\neg$, also denoted as $\overline{\cdot}$).
 We say that such a formula is in _conjunctive normal form_ (CNF for short) if it is an OR of ANDs of variables or their negations (we call a term of the form $x_i$ or $\overline{x}_i$ a _literal_).
 For example, this is a CNF formula
@@ -281,6 +287,12 @@ Solving quadratic equations in several variable is a classical and extremely wel
 This is the generalization of the classical case of single-variable quadratic equations that generations of high school students grapple with.
 It also generalizes the [quadratic assignment problem](https://www.opt.math.tugraz.at/~cela/papers/qap_bericht.pdf), introduced in the 1950's as a way to optimize assignment of economic activities.
 Once again, we do not know a much better algorithm for this problem than the one that enumerates over all the $2^n$ possiblities.
+
+
+## More advanced examples
+
+We now list a few more examples of interesting problems that are a little more advanced but are of significant interest in areas such as physics, economics, number theory, and cryptography.
+
 
 ### The permanent (mod 2) problem
 
