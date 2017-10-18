@@ -55,11 +55,34 @@ In all cases the input graph $G=(V,E)$ will have $n$ vertices and $m$ edges.
 
 ### Finding the shortest path in a graph
 
-The _shortest path problem_ is the task of, given a graph $G=(V,E)$ and two vertices $s,t \in V$, to find the length of the  shortest path between $s$ and $t$.
+The _shortest path problem_ is the task of, given a graph $G=(V,E)$ and two vertices $s,t \in V$, to find the length of the  shortest path between $s$ and $t$ (if such a path exists).
 That is, we want to find the smallest number $k$ such that there are vertices $v_0,v_1,\ldots,v_k$ with $v_0=s$, $v_k=t$ and for every $i\in\{0,\ldots,k-1\}$ an edge between $v_i$ and $v_{i+1}$.
 If each vertex has at least two neighbors then there can be an _exponential_ number of paths from $s$ to $t$, but fortunately we do not have to enumerate them all to find the shortest path.
 We can do so by performing a [breadth first search (BFS)](https://en.wikipedia.org/wiki/Breadth-first_search), enumerating $s$'s neighbors, and then neighbors' neighbors, etc.. in order.
 If we maintain the neighbors in a list we can perform a BFS in $O(n^2)$ time, while using  a queue we can do this in $O(m)$ time.^[Since we assume $m \geq n-1$, $O(m)$ is the same as $O(n+m)$.  [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra's_algorithm) is a well-known generalization of BFS to _weighted_ graphs.]
+
+More formally, the algorithm for shortest path can be described as follows:
+
+__Algorithm $SHORTESTPATH$:__
+
+* __Input:__ Graph $G=(V,E)$, vertices $s,t$
+
+* __Goal:__ Find the  shortest path $v_0,v_1,\ldots,v_k$ such that $v_0=s$, $v_k=t$ and $\{ v_i,v_{i+1} \} \in E$ for every $i\in [k]$, if such a path exists.
+
+* __Operation:__
+
+    1. We will maintain a label $L[v]$ for every vertex $v$. Initially no vertex is labeled except for $s$ that is labeled with "start". \
+    2. We maintain a _queue_ $Q$ of vertices, initially $Q$ contains only $s$. \
+    3. While $Q$ is not empty do the following: \
+        a. Pop the vertex $v$ from the top of the queue.
+        b. If $v=t$ exit  output the path which is the reverse order of $v,L[v],L[L[v]],L[L[L[v]]],\ldots,s$.
+        c. Otherwise, label all the unlabeled neighbors of $v$ with $v$ and add them to $Q$
+    4. Output "no path"
+
+Since we only add to the queue unlabeled vertices, we never push to the queue a vertex more than once, and hence the algorithm takes $n$ "push" and "pop" operations.
+It returns the correct answer since add the vertices to the queue in the order of their distance from $s$, and hence we will reach $t$ after we have explored all the vertices that are closer to $s$ than $t$.
+
+
 
 
 ### Finding the longest path in a graph
@@ -108,10 +131,10 @@ __Algorithm MINCUTNAIVE:__
 
 * __Operation:__
 
-1. If $V=\{s,t\}$ then return $\{s \}$.
-2. Otherwise choose $v\in V \setminus \{s,t\}$, and define $G',G''$ to be two graphs with vertex set $V\setminus \{v \}$, where in $G'$ the edge set $E'$ is obtained by making all of $v$'s neighbors be neighbors of $s$, and in $G''$ the edge set $E''$ is obtained by making all of $v$'s neighbors be neighbors of $t$. That is, $E'$ has the same edges as $E$ except that in edges involving $v$  we replace $v$ with $s$, and $E''$  has the same edges as $E$ except that in edges involving $v$  we replace $v$ with $t$.
-3. Compute recursively $S'=MINCUTNAIVE(G',s,t)$ and $S''=MINCUTNAIVE(G'',s,t)$.
-4. If $S'\cup \{v\}$ cuts fewer edges in $G$ than $S''$ then return $S' \cup \{ v \}$. Otherwise return $S''$.
+    1. If $V=\{s,t\}$ then return $\{s \}$. \
+    2. Otherwise choose $v\in V \setminus \{s,t\}$, and define $G',G''$ to be two graphs with vertex set $V\setminus \{v \}$, where in $G'$ the edge set $E'$ is obtained by making all of $v$'s neighbors be neighbors of $s$, and in $G''$ the edge set $E''$ is obtained by making all of $v$'s neighbors be neighbors of $t$. That is, $E'$ has the same edges as $E$ except that in edges involving $v$  we replace $v$ with $s$, and $E''$  has the same edges as $E$ except that in edges involving $v$  we replace $v$ with $t$. \
+    3. Compute recursively $S'=MINCUTNAIVE(G',s,t)$ and $S''=MINCUTNAIVE(G'',s,t)$.  \
+    4. If $S'\cup \{v\}$ cuts fewer edges in $G$ than $S''$ then return $S' \cup \{ v \}$. Otherwise return \ $S''$.
 
 > # { .pause }
 It is an excellent exercise for you to pause at this point and verify:
@@ -131,9 +154,9 @@ Nevertheless, this running time bound is terrible: even if $f(n)$ was equal to $
 Indeed, this recursive algorithm is nothing but a fancy description of the trivial algorithm that enumerates over all the roughly $2^n$ (in fact, precisely $2^{n-2}$) sets $S$ that contain $s$ and don't contain $t$.
 
 Since minimum cut is a problem we want to solve, this seems like bad news.
-Luckily however we are able to find much faster algorithms that run in _polynomial time_ (which we denote by $poly(n)$) for this problem.
+Luckily however we are able to find much faster algorithms that run in _polynomial time_ (which, as mentioned in the mathematical background lecture, we denote by $poly(n)$) for this problem.
 There are several algorithms to do so, but many of them rely on the [Max Flow Min Cut Theorem](https://en.wikipedia.org/wiki/Max-flow_min-cut_theorem) that says that the minimum cut between $s$ and $t$ equals the maximum amount of _flow_ we can send from $s$ to $t$, if every edge has unit capacity.^[A _flow_ of capacity $c$ from a _source_ $s$ to a _sink_ $t$ in a graph can be thought of as describing how one would send some quantity from $s$ to $t$ in the graph (e.g., sending $c$ liters of water (or any other matter    one can partition arbitrarily), on pipes described by the edges). Mathematically, a flow is captured by assigning numbers to edges, and requiring that on any vertex apart from $s$ and $t$, the amount flowing it is equal to the amount flowing out, while in $s$ there are $c$ units flowing out and in $t$ there are $c$ units flowing in.]
-For example, this directly implies that the value of the minimum cut problem is the solution for the following [linear program](https://en.wikipedia.org/wiki/Linear_programming):
+For example, this directly implies that the value of the minimum cut problem is the solution for the following [linear program](https://en.wikipedia.org/wiki/Linear_programming):^[A _linear program_ is the task of maximizing or minimizing a linear function of $n$ real variables $x_0,\ldots,x_{n-1}$ subject to certain linear equalities and inequalities on the variables.]
 
 $$
 \begin{split}
@@ -160,8 +183,9 @@ We do not know of an algorithm that solves this problem much faster than the tri
 
 ###  A note on convexity
 
+![In a _convex_ function $f$ (left figure), for every $x$ and $y$ and $p\in [0,1]$ it holds that $f(px+(1-p)y) \leq p\cdot f(x)+(1-p)\cdot f(y)$. In particular this means that every _local minimum_ of $f$ is also a _global minimum_. In contrast in a _non convex_ function there can be many local minima.](../figure/convexvsnot.png){#figid .class width=300px height=300px}
 
-![In a _convex_ function (right figure) the global minimum is the only local minimum, and we can find it by a local-search algorithm which can be thought of as dropping  a marble and letting it "slide down" until it reaches the global minimum. In contrast, a non-convex function (right figure) might have an exponential number of local minima in which any local-search algorithm could get stuck.](../figure/convexandnon.jpg){#figureid .class width=300px height=300px}
+![In the high dimensional case, if $f$ is a _convex_ function (left figure) the global minimum is the only local minimum, and we can find it by a local-search algorithm which can be thought of as dropping  a marble and letting it "slide down" until it reaches the global minimum. In contrast, a non-convex function (right figure) might have an exponential number of local minima in which any local-search algorithm could get stuck.](../figure/convexandnon.jpg){#figureid .class width=300px height=300px}
 
 There is an underlying reason for the sometimes radical difference between the difficulty of maximizing and minimizing a function over a domain.
 If $D \subseteq \R^n$, then a function $f:D \rightarrow R$ is _convex_ if for every $x,y \in D$ and $p\in [0,1]$
@@ -242,13 +266,14 @@ $$
 where $\{ a_{i,j} \}_{i,j \in [n]}$ and $\{ b_i \}_{i\in [n]}$ are real (or rational) numbers.
 More compactly, we can write this as the equations $Ax = b$ where $A$ is an $n\times n$ matrix, and we think of $x,b$ are column vectors in $\R^n$.
 
-The standard [Gaussian elimination](https://en.wikipedia.org/wiki/Gaussian_elimination) algorithm can be used to solve such equations in polynomial time (i.e., determine if they have a solution, and if so, to find it).^[To analyze this fully we need to ensure that the bit complexity of the numbers involved does not grow too much, but fortunately we can indeed ensure this using Cramer's rule. Also, as is usually the case when talking about real numbers, we  do not care much for the distinction  between solving equations exactly and solving them to arbitrarily good precision.]
+The standard [Gaussian elimination](https://en.wikipedia.org/wiki/Gaussian_elimination) algorithm can be used to solve such equations in polynomial time (i.e., determine if they have a solution, and if so, to find it).^[To analyze this fully we need to ensure that the bit complexity of the numbers involved does not grow too much, but fortunately we can indeed ensure this using [Cramer's rule](https://en.wikipedia.org/wiki/Cramer%27s_rule). Also, as is usually the case when talking about real numbers, we  do not care much for the distinction  between solving equations exactly and solving them to arbitrarily good precision.]
 As we discussed above,  if we are willing to allow some loss in precision, we even have algorithms that  handle linear _inequalities_, also known as linear programming.
+In contrast, if we insist on _integer_ solutions, the task of solving for linear equalities or inequalities is known as [integer programming](https://en.wikipedia.org/wiki/Integer_programming), and the best known algorithms are exponential time in the worst case.
 
 
 ### Solving quadratic equations
 
-Suppose that the equations involve also _quadratic_ terms of the form $a_{i,j,k}x_jx_k$.
+Suppose that we want to solve not just _linear_ but also  equations involving  _quadratic_ terms of the form $a_{i,j,k}x_jx_k$.
 That is, suppose that we are given a set of quadratic polynomials $p_1,\ldots,p_m$ and consider the equations $\{ p_i(x) = 0 \}$.
 To avoid issues with bit representations, we will always assume that the equations contain the constraints $\{ x_i^2 - x_i = 0 \}_{i\in [n]}$.
 Since only $0$ and $1$ satisfy the equation  $a^2-a$, this assumption means that we  can restrict attention to  solutions  in $\{0,1\}^n$.
