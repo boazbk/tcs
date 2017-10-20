@@ -1,8 +1,8 @@
 #  Polynomial-time reductions
 
 > # { .objectives }
-* Introduce the notion of _polynomial-time reductions_ as a way to relate the complexity of problems to one another.
-* See several examples of such reductions.
+* Introduce the notion of _polynomial-time reductions_ as a way to relate the complexity of problems to one another. \
+* See several examples of such reductions. \
 * 3SAT as a basic starting point for reductions.
 
 
@@ -38,10 +38,10 @@ This phenomenon, known as _$\mathbf{NP}$ completeness_, is one of the surprising
 
 ### Decision problems
 
-For reasons of technical conditions rather than anything substantial, we will concern ourselves in this lecture with _decision problems_ or _Boolean functions_.
+For reasons of technical conditions rather than anything substantial, we will concern ourselves  with _decision problems_ (i.e., Yes/No questions) or in other words _Boolean_  (i.e., one-bit output) functions.
 Thus, we will model all the problems as functions mapping $\{0,1\}^*$ to $\{0,1\}$:
 
-* The _3SAT_ problem corresponds to the function $3SAT:\{0,1\}^* \rightarrow \{0,1\}$ that maps a 3CNF formula $\varphi$ to $1$ if there exists some assignment $x$ that satisfies it and to $0$ otherwise.^[We assume some representation of formulas as strings, and define the function to output $0$ if its input is not a valid representation. We will use the same convention for all the other functions below.]
+* The _3SAT_ problem can be phrased as the function $3SAT:\{0,1\}^* \rightarrow \{0,1\}$ that maps a 3CNF formula $\varphi$ to $1$ if there exists some assignment $x$ that satisfies it and to $0$ otherwise.^[We assume some representation of formulas as strings, and define the function to output $0$ if its input is not a valid representation. We will use the same convention for all the other functions below.]
 
 * The _quadratic equations_ problem  corresponds to the function $QUADEQ:\{0,1\}^* \rightarrow \{0,1\}$ that maps a set of quadratic equations $E$ to $1$ if there is an assignment $x$ that satisfies all equations and to $0$ otherwise.
 
@@ -64,9 +64,8 @@ F(x) = G(R(x)) \;. \label{eq:reduction}
 $$
 We say that $F$ and $G$ have _equivalent complexity_ if $F \leq_p G$ and $G \leq_p H$.
 
-If $F \leq_p G$ and $G$ is computable in polynomial time, then $F$ is computable in polynomial time as well.
+If $F \leq_p G$ and $G$ is computable in polynomial time (i.e., $G \in \mathbf{P}$), then $F$ is computable in polynomial time as well.
 Indeed, [eq:reduction](){.eqref} shows a way how to compute $F$ by applying the polynomial-time reduction $R$ and then the  polynomial-time algorithm  for computing $F$.
-
 One can think of $F \leq_p G$ as saying that (as far as polynomial-time computation is concerned) $F$ is "easier or equal in difficulty to" $G$.
 With this interpretation, we would expect that if $F \leq_p G$ and $G \leq_p H$ then it would hold that $F \leq_p H$ and indeed this is the case:
 
@@ -80,16 +79,16 @@ We leave the proof of [transitivitylem](){.ref} as [transitivity-reductions-ex](
 > # {.remark title="Polynomial reductions" #polynomialred}
 We have seen reductions before in the context of proving uncomputability of problems such as $HALTONZERO$ and others.
 The most crucial difference between the notion in [reduction-def](){.ref} and previously occuring notions is that in hte context of relating the time complexity of problems, we need the reduction to be computable in _polynomial time_, as opposed to merely computable.
-[reduction-def](){.ref} also restricts reductions to have a very specific format. That is, to show that $F \leq_p G$, rather than allowing a general algorithm for $F$ that uses a "magic box" that computes $G$, we only allow an algorithm that computes $F(x)$ by outputting $G(F(x))$. This restricted form is convenient for us, but people have defined and used the more general form of reductions, which are known as _Cook reductions_.
+[reduction-def](){.ref} also restricts reductions to have a very specific format. That is, to show that $F \leq_p G$, rather than allowing a general algorithm for $F$ that uses a "magic box" that computes $G$, we only allow an algorithm that computes $F(x)$ by outputting $G(F(x))$. This restricted form is convenient for us, but people have defined and used  more general  reductions as well.
 
 ## Some example reductions
 
-We will now  use reductions to  show that the  problems above- 3SAT, Quadratic Equations, Maximum Cut, and Longest Path- are indeed computationally equivalent to one another.
+We will now  use reductions to  relate the computational complexity of the   problems mentioned above- 3SAT, Quadratic Equations, Maximum Cut, and Longest Path.
 We start by  reducing 3SAT to the latter three problems, demonstrating that solving either of them will solve it 3SAT.
-Later we will show the other direction: reducing each one of these problems to 3SAT in one fell swoop.
-
 Along the way we will introduce one more problem: the _independent set_  problem.
 Like the others it shares the characteristics that it is an important and well motivated computational problem, and that the best known algorithm for it takes exponential time.
+In the next lecture we will show the other direction: reducing each one of these problems to 3SAT in one fell swoop.
+
 
 ![Our first stage in showing equivalence is to reduce  3SAT to the  three other problems](../figure/sat_to_others.png){#figureid .class width=300px height=300px}
 
@@ -110,27 +109,22 @@ To show that $3SAT \leq_p QUADEQ$ we need to give a polynomial-time reduction th
 The idea is that we can transform a 3SAT formula $\varphi$ first to a set of _cubic_ equations by mapping every constraint of the form $(x_{12} \vee  \overline{x}_{15} \vee x_{24})$ into an equation of the form $(1-x_{12})x_{15}(1-x_{24})=0$. We can then turn this into a _quadratic equation_ by mapping any cubic equation of the form $x_ix_jx_k =0$ into the two quadratic equations $y_{i,j}=x_ix_j$ and $y_{i,j}x_k=0$.
 
 > # {.proof data-ref="quadeq-thm"}
-We now present  a polynomial-time transformation of every 3SAT formula $\varphi$ into a set of quadratic equations $E$.
+To prove [quadeq-thm](){.ref} we need to give a   polynomial-time transformation of every 3SAT formula $\varphi$ into a set of quadratic equations $E$, and prove that $3SAT(\varphi)=QUADEQ(E)$. 
+>
+We now describe the transformation of a formula $\varphi$ to equations $E$ and show the completeness and soundness conditions.
 Recall that a _3SAT formula_ $\varphi$ is a formula such as $(x_{17} \vee \overline{x}_{101} \vee x_{57}) \wedge ( x_{18} \vee \overline{x}_{19} \vee \overline{x}_{101}) \vee \cdots$.
 That is, $\varphi$ is composed of the AND of $m$ _3SAT clauses_ where a 3SAT clause is the OR of three variables or their negation.
-A _quadratic equations_  instance $E$, is composed of a list of equations, each of involving a sum of variables or their products, such as $x_{19}x_{52} - x_{12} + 2x_{33} = 2$, etc..
+A _quadratic equations_  instance $E$, is composed of a list of equations, each of involving a sum of variables or their products, such as $x_{19}x_{52} - x_{12} + 2x_{33} = 2$, etc.. We will include the constraints $x_i^2-x_i=0$ for every $i\in [n]$ in our equations, which means that we can restrict attention to assignments where $x_i \in \{0,1\}$ for every $i$.
 >
-Recall that we restrict attention to $\{0,1\}$ valued variables for simplicity (or, equivalently, assume that the instance contains the equations $x_i^2 - x_i = 0$ for every $i$. )
 There is a natural way to map a 3SAT instance into a set of _cubic_ equations, and that is to map a clause such as $(x_{17} \vee \overline{x}_{101} \vee x_{57})$ to the equation $(1-x_{17})x_{101}(1-x_{57})=0$.
 We can  map a formula $\varphi$ with $m$ clauses into a set $E$ of $m$ such equations such that there is an $x$ with $\varphi(x)=1$ if and only if there is an assignment to the variables that satisfies all the equations of $E$.
->
-The problem is that the equations in $E$ will not be quadratic but _cubic_: they contain terms of degree three.
-So, to finish the reduction it will suffice to show that we can map any set of cubic equations $E$ into a set of _quadratic_ equations $E'$ such that $E$ is satisfiable if and only if $E'$ is.
-We can do so by introducing new variables $y_{i,j}$ which correspond to the product of $x_i$ and $x_j$, and including the equation $y_{i,j}-x_ix_j = 0$.
-Once we do that, we can replace cubic terms of the form $x_ix_jx_k$ with the quadratic term $y_{i,j}x_k$ in the new variables. Using this idea we can transform the cubic system $E$ in the variables $\{ x_i\}_{i \in [n]}$ to an equivalent quadratic system $E'$ in the variables $\{ x_i, y_{i,j}\}_{i,j \in [n]}$.
-Note that the transformation (which involves a simple translation of every 3SAT clause to a constant number of equations) can be easily carried out in polynomial (in fact linear) time.
-Since the original system was equivalent to the 3SAT instance it is not hard to see that we get:
->
-* __(Completeness)__ If $\varphi$ has a satisfying assignment $x$ then $E'$ has a satisfying assignments $(x,y,z)$.
->
-* __(Soundness)__ If $E'$ has a satisfying assignment $(x,y,z)$ then $\varphi$ has a satisfying assignment.
->
-Thus if we define $E' = R(\varphi)$, then we see that for every 3SAT formula $\varphi$, $3SAT(\varphi) = QUADEQ(R(\varphi))$, showing that $3SAT \leq_p QUADEQ$ and completing the proof of [quadeq-thm](){.ref}.
+To make the equations _quadratic_ we introduce for every $i,j\in [n]$ a variable $y_{i,j}$ and include the constraint $y_{i,j}-x_ix_j=0$ in the equations.
+This is a quadratic equation that ensures that $y_{i,j}=x_ix_j$ for every $i,j\in [n]$.
+Now we can turn any cubic equation in the $x$'s into a quadratic equation in the $x$ and $y$ variables.
+For example, we can "open up the parenthesis" of an equation such as $(1-x_{17})x_{101}(1-x_{57})=0$ to $x_{101} -x_{17}x_{101}-x_{101}x_{57}+x_{17}x_{101}x_{57}=0$.
+We can now replace the cubic term $x_{17}x_{101}x_{57}$ with the quadratic term $y_{17,101}x_{57}$.
+This can be done for every cubic equation in the same way, replacing any cubic term $x_ix_jx_k$ with the term $y_{i,j}x_k$.
+The bottom line is that we get a set $E$ of quadratic equations in the variables $x_0,\ldots,x_{n-1},y_{0,0},\ldots,y_{n-1,n-1}$ such that the 3SAT formula $\varphi$ is satisfiable if and only if the equations $E$ are satisfiable.
 
 
 ## The independent set problem
