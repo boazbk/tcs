@@ -1,14 +1,10 @@
-#  NP and NP completeness
+#  Polynomial-time reductions
 
 > # { .objectives }
-* Introduce the class $\mathbf{NP}$ that encapsulates the problems whose solutions we can efficiently _verify_ \
-* See  many interesting problems  in $\mathbf{NP}$ \
-* See the notion of $\mathbf{NP}$-completeness which connects problems that a priori seem unrelated \
-* The $\mathbf{P}$ vs $\mathbf{NP}$ question
+* Introduce the notion of _polynomial-time reductions_ as a way to relate the complexity of problems to one another.
+* See several examples of such reductions.
+* 3SAT as a basic starting point for reductions.
 
-
-
->_"In this paper we give theorems that suggest, but do not imply, that these problems, as well as many others, will remain  intractable perpetually"_, Richard Karp, 1972
 
 
 Let us consider several of the problems we have encountered before:
@@ -34,7 +30,8 @@ All of these have the following properties:
 * At the moment, for all these problems the best known algorithms are not much better than the trivial one in the worst-case.
 
 
-In this lecture we will see that, despite their apparent differences, all these problems are _computationally equivalent_, in the sense that solving one of them immediately implies solving the others.
+In this lecture and the next one we will see that, despite their apparent differences, we can relate their complexity.
+In fact, it turns out that all these problems are _computationally equivalent_, in the sense that solving one of them immediately implies solving the others.
 This phenomenon, known as _$\mathbf{NP}$ completeness_, is one of the surprising discoveries of theoretical computer science, and we will see that it has far-reaching ramifications.
 
 
@@ -195,85 +192,6 @@ But if we do that, then the only way if we are able to reach $t$ is if the paths
 
 
 
-
-## Reducing to 3SAT from... everything?
-
-So far we have shown that 3SAT is no harder than Quadratic Equations, Maximum Cut, and Longest Path.
-But to show that they are equivalent we need to give reductions in the other direction, reducing each one of these problems to 3SAT as well.
-It turns out we can reduce all three problems to 3SAT in one fell swoop.
-In fact, this result extends  far beyond these particular problems:  _every_ problem that corresponds to finding a solution that can be easily verified can be reduced to 3SAT.
-We make the following definition:
-
-> # {.definition title="NP" #NP-def}
-We say that $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{NP}$ if there exists some constants $a,b \in \N$ and $G:\{0,1\}^* \rightarrow \{0,1\}$ such that $G\in \mathbf{P}$ and for every $x\in \{0,1\}^n$
-$$
-F(x)=1 \Leftrightarrow \exists_{y \in \{0,1\}^{an^b}} \text{ s.t. } G(x,y)=1 \label{NP:eq}
-$$
-
-The name $\mathbf{NP}$ stands for "nondeterministic polynomial time" and is used for historical reasons, see the bibiographical notes.
-
-
-### Examples:
-
-* $3SAT$ is in $\mathbf{NP}$ since for every $\ell$-variable formula $\varphi$, $3SAT(\varphi)=1$ if and only if there exists a satisfying assignment $x \in \{0,1\}^\ell$ such that $\varphi(x)=1$, and we can check this condition in polynomial time.^[Note that an $\ell$ variable formula $\varphi$ is represented by a string of length at least $\ell$, and we can use some "padding" in our encoding so that the assignment to $\varphi$'s variables  is encoded by a string of length exactly $|\varphi|$. We can always use this padding trick, and so one can think of the condition [{NP:eq}](){.eqref} as simply stipulating that the "solution" $y$ to the problem $x$ is of size at most $poly(|x|)$.]
-
-
-* $QUADEQ$ is in $\mathbf{NP}$ since for every $\ell$ variable instance of quadratic equations $E$, $QUADEQ(E)=1$ if and only if there exists an assignment $x\in \{0,1\}^\ell$ that satisfies $E$ and we can check this condition in polynomial time.
-
-* $LONGPATH$ is in $\mathbf{NP}$ since for every graph $G$ and integer $k$, $LONGPATH(G,k)=1$ if and only if there exists a simple path $P$ in $G$ that is of length at least $k$, and we can check this condition in polynomial time.
-
-* $MAXCUT$ is in $\mathbf{NP}$ since for every graph $G$ and integer $k$, $MAXCUT(G,k)=1$ if and only if there exists a cut $(S,\overline{S})$ in $G$ that cuts at least $k$ edges, and we can check this condition in polynomial time.
-
-### From $\mathbf{NP}$ to 3SAT
-
-There are many, many, _many_, more examples of interesting functions we would like to compute that are easily shown to be in $\mathbf{NP}$. What is quite amazing is that if we can solve 3SAT then we can solve all of them!
-
-> # {.theorem title="Cook-Levin Theorem" #cooklevin-thm}
-For every $F\in \mathbf{NP}$, $F \leq_p 3SAT$.
-
-We will see the proof of [cooklevin-thm](){.ref} in the next lecture, but note that it immediately implies that $QUADEQ$, $LONGPATH$, and $MAXCUT$ all reduce to $3SAT$.
-In fact, combining it with the reductions we've seen, it implies that all these problems are _equivalent!_. To reduce $QUADEQ$ to $LONGPATH$, we can first reduce $QUADEQ$ to $3SAT$ using [cooklevin-thm](){.ref} and use the reduction we've seen from $3SAT$ to $LONGPATH$.
-There is of course nothing special about $QUADEQ$ here- by combining [cooklevin-thm](){.eqref} with the reduction we saw, we see that just like $3SAT$,  _every_ $F\in \mathbf{NP}$ reduces to $LONGPATH$, and the same is true for $QUADEQ$ and $MAXCUT$.
-All these problems are in some sense "the hardest in $\mathbf{NP}$" in the sense that an efficient algorithm for one of them would imply an efficient algorithm for _all_ the problems in $\mathbf{NP}$.
-This motivates the following definition
-
-> # {.definition title="$\mathbf{NP}$ completeness" #NPC-def}
-We say that $G:\{0,1\}^* \rightarrow \{0,1\}$ is _$\mathbf{NP}$ hard_ if for every $F\in \mathbf{NP}$,
-$F \leq_p G$. We say that $G$ is _$\mathbf{NP}$ complete_ if $G$ is $\mathbf{NP}$ hard and it is in $\mathbf{NP}$.
-
-[cooklevin-thm](){.ref} and the reductions we've seen in this lecture show that despite their superficial differences, 3SAT, quadratic equations, longest path and maximum cut, are all $\mathbf{NP}$ complete. Thousands more problems have been shown to be $\mathbf{NP}$ complete, arising from all science, mathematics, economics, engineering and many other fields.
-If (as is widely believed to be the case) there is no polynomial-time (or even $2^{o(n)}$ time) algorithm for 3SAT, then all of these problems cannot be computed  by an efficient algorithm.
-
-
-
-
-## Complexocartography
-
-Clearly $\mathbf{NP} \supseteq \mathbf{P}$, since if we can decide efficiently whether $F(x)=1$, we can simply ignore any "solution" that we are presented with.  Also, $\mathbf{NP} \subseteq \mathbf{EXP}$, since all the problems in $\mathbf{NP}$ can be solved in exponential time by enumerating all the possible solutions.
-For the $\mathbf{NP}$ complete ones, we believe that we cannot radically improve upon this trivial algorithm.
-Whether or not is true is the most important open question in computer science, commonly phrased as the $\mathbf{P}$ vs $\mathbf{NP}$ question- is it the case that $\mathbf{P}=\mathbf{NP}$?
-
-
-One of the mysteries of computation is that people have observed a  certain empirical "zero one law" or "dychotomy" in the computational complexity of natural problems, in the sense that they are either in $\mathbf{P}$ (in fact often with a low exponent) or are $\mathbf{NP}$ hard. However, it is believed that there are problems in $\mathbf{NP}$ that are neither in $\mathbf{P}$ not in $\mathbf{NP}$, and in fact a result known as "Ladner's Theorem" shows that if $\mathbf{P} \neq \mathbf{NP}$ then this is the case.
-
-
-
-
-![A rough illustration of the (conjectured) status of problems in exponential time. Darker colors correspond to higher running time, and the circle in the middle is the problems in $\mathbf{P}$. $\mathbf{NP}$ is a (conjectured to be proper) superclass of $\mathbf{P}$ and the NP complete problems (or NPC) for short are the "hardest" problems in NP, in the sense that a solution for one of them implies solution for all other problems problems in NP. It is conjectured that all the NP complete problems require at least $\exp(n^\epsilon)$ time to solve for a constant $\epsilon>0$, and many require  $\exp(\Omega(n))$ time. The _permanent_ is not believed to be contained in $\mathbf{NP}$ though it is $\mathbf{NP}$-hard, which means that a polynomial-time algorithm for it implies that $\mathbf{P}=\mathbf{NP}$.](../figure/PNPmap.png){#figureid .class width=300px height=300px}
-
-## $\mathbf{NP}$ completeness as a barrier to understanding
-
-^[TODO: add examples of NP hard problems from economics, physics, etc.. that prevent having a closed-form solutions]
-
-^[TODO: maybe include knots]
-
-## Lecture summary
-
-* Many of the problems which we don't know polynomial-time algorithms for are $\mathbf{NP}$ complete, which means that finding a polynomial-time algorithm for one of them would imply a polynomial-time algorithm for _all_ of them.
-
-* It is conjectured that $\mathbf{NP}\neq \mathbf{P}$ which means that we believe that polynomial-time algorithms  for these  problems are not merely _unknown_ but are _nonexistent_.
-
-* While an $\mathbf{NP}$ hardness result means for example that a full fledged "textbook" solution to a problem such as MAX-CUT that is as clean and general as the algorithm for MIN-CUT probably does not exist, it does not mean that we need to give up whenever we see a MAX-CUT instance.                       Later in this course we will discuss several strategies to deal with $\mathbf{NP}$ hardness, including  _average-case complexity_ and _approximation algorithms_.
 
 ## Exercises
 
