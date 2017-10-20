@@ -109,7 +109,7 @@ To show that $3SAT \leq_p QUADEQ$ we need to give a polynomial-time reduction th
 The idea is that we can transform a 3SAT formula $\varphi$ first to a set of _cubic_ equations by mapping every constraint of the form $(x_{12} \vee  \overline{x}_{15} \vee x_{24})$ into an equation of the form $(1-x_{12})x_{15}(1-x_{24})=0$. We can then turn this into a _quadratic equation_ by mapping any cubic equation of the form $x_ix_jx_k =0$ into the two quadratic equations $y_{i,j}=x_ix_j$ and $y_{i,j}x_k=0$.
 
 > # {.proof data-ref="quadeq-thm"}
-To prove [quadeq-thm](){.ref} we need to give a   polynomial-time transformation of every 3SAT formula $\varphi$ into a set of quadratic equations $E$, and prove that $3SAT(\varphi)=QUADEQ(E)$. 
+To prove [quadeq-thm](){.ref} we need to give a   polynomial-time transformation of every 3SAT formula $\varphi$ into a set of quadratic equations $E$, and prove that $3SAT(\varphi)=QUADEQ(E)$.
 >
 We now describe the transformation of a formula $\varphi$ to equations $E$ and show the completeness and soundness conditions.
 Recall that a _3SAT formula_ $\varphi$ is a formula such as $(x_{17} \vee \overline{x}_{101} \vee x_{57}) \wedge ( x_{18} \vee \overline{x}_{19} \vee \overline{x}_{101}) \vee \cdots$.
@@ -130,16 +130,16 @@ The bottom line is that we get a set $E$ of quadratic equations in the variables
 ## The independent set problem
 
 For a graph $G=(V,E)$, an [independent set](https://en.wikipedia.org/wiki/Independent_set_(graph_theory)) (also known as a _stable set_) is a subset $S \subseteq V$ such that there are no edges with both endpoints in $S$ (in other words, $E(S,S)=\emptyset$).
-Every singleton is trivially an independent set, but finding larger independent set can be challenging.
-The _maximum independent set_ proble[m (hencefore ]simply "independent set") is the task of finding the largest independent set in the graph.^[While we will not consider it here, people have also looked at the _maximal_ (as opposed to _maximum_) independent set, which is the task of finding a "local maximum" of an independent set: an independent set $S$ such that one cannot add a vertex to it without losing the independence property (such a set is known as a _vertex cover_). Finding a maximal independent set can be done efficiently by a greedy algorithm, but this local maximum can be much smaller than the global maximum.]
+Every "singleton" (set consisting of a single vertex) is trivially an independent set, but finding larger independent sets can be challenging.
+The _maximum independent set_ problem (hencefore simply "independent set") is the task of finding the largest independent set in the graph.^[While we will not consider it here, people have also looked at the _maximal_ (as opposed to _maximum_) independent set, which is the task of finding a "local maximum" of an independent set: an independent set $S$ such that one cannot add a vertex to it without losing the independence property (such a set is known as a _vertex cover_). Finding a maximal independent set can be done efficiently by a greedy algorithm, but this local maximum can be much smaller than the global maximum.]
 The independent set problem is naturally related to _scheduling problems_: if we put an edge between two conflicting tasks,  then an independent set corresponds to a set of tasks that can all be scheduled together without conflicts.
 But it also arises in very different settings, including trying to find structure in [protein-protein interaction graphs](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3919085/).^[In the molecular biology literature, people often refer to the computationally equivalent  [clique problem](https://en.wikipedia.org/wiki/Clique_problem).]
 
-To phrase the independent set as a decision problem, we think of it as a function $IS:\{0,1\}^* \rightarrow \{0,1\}$ that on input a graph $G$ and a number $k$ outputs $1$ if and only if the graph $G$ contains an independent set of size at least $k$.
+To phrase  independent set as a decision problem, we think of it as a function $ISET:\{0,1\}^* \rightarrow \{0,1\}$ that on input a graph $G$ and a number $k$ outputs $1$ if and only if the graph $G$ contains an independent set of size at least $k$.
 We will now reduce 3SAT to Independent set.
 
 > # {.theorem title="Independent set is NP complete" #isetnpc}
-$3SAT \leq_p IS$.
+$3SAT \leq_p ISET$.
 
 > # {.proofidea data-ref="isetnpc"}
 The idea is that finding a satisfying assignment to a 3SAT formula corresponds to satisfying many local constraints without creating any conflicts. One can think of "$x_{17}=0$"  and "$x_{17}=1$" as two conflicting events, and of the constraints $x_{17} \vee \overline{x}_5 \vee x_9$ as creating a conflict between the events "$x_{17}=0$", "$x_5=0$" and "$x_9=0$", saying that these  three cannot simultaneosly co-occur. Using these ideas, we can we can think of solving a  3SAT problem as trying to schedule non conflicting events, though the devil is, as usual, in the details.
@@ -153,19 +153,25 @@ TO BE COMPLETED
 
 ## Reducing 3SAT to Longest Path
 
-The two reductions above might not have seemed so surprising, since quadratic equations and max cut are at least somewhat similar to 3SAT in the sense that they are _constraint satisfaction problems_, which are about trying to find an assignment $x\in \{0,1\}^n$ (or equivalently a set $S\subseteq [n]$) that satisfies as many local constraints (such as quadratic equations or cutting edges) as possible.
-But we will now show that 3SAT reduces the the _longest path_ problem as well, which seems to be of a different nature.
+One of the most basic algorithms in  Computer Scienceis Dijkstra's algorithm to find the _shortest path_ between two vertices.
+We now show that in contrast, an efficient algorithm for the _longest path_ problem would imply a polynomial-time algorithm for 3SAT.
 
 > # {.theorem title="Hardness of longest path" #longpath-thm}
 $$3SAT \leq_p LONGPATH$$
 
+> # {.proofidea data-ref="longpath-thm"}
 To prove [longpath-thm](){.ref} need to show how to transform a 3CNF formula $\varphi$ into a graph $G$ and two vertices $s,t$ such that $G$ has a path of length at least $k$ if and only if $\varphi$ is satisfiable.
 The idea of the reduction is sketched in [longpathfig](){.ref} and [longpathfigtwo](){.ref}.
+We will construct a graph that contains a potentially long "snaking path" that corresponds to all variables in the formula.
+We will add a "gadget" corresponding to each clause of $\varphi$ in a way that we would only be able to use the gadgets if we have a satisfying assignment.
+
+
+> # {.proof data-ref="longpath-thm"}
 We build a graph $G$ that "snakes" from $s$ to $t$ as follows.
 After $s$ we add a sequence of $n$ long loops.
 Each loop has an "upper path" and a "lower path".
 A simple path cannot take both the upper path and the lower path, and so it will need to take exactly one of them to reach $s$ from $t$.
-
+>
 Our intention is that a path in the graph will correspond to an assignment $x\in \{0,1\}^n$ in the sense that taking the upper path in the $i^{th}$ loop corresponds to assigning $x_i=1$ and taking the lower path corresponds to assigning $x_i=0$.
 When we are done snaking through all the $n$  loops corresponding to the variables to reach $t$ we need to pass through $m$ "obstacles":
 for each clause $j$ we will have a small gadget consisting of a pair of vertices $s_j,t_j$ that have three paths between them.

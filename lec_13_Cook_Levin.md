@@ -109,29 +109,38 @@ We will now prove the Cook-Levin Theorem, which  is the underpinning to  a great
 Some problems that have been shown NP complete include: minimum-energy protein folding, minimum surface-area foam configuration, map coloring,    optimal Nash equilibrium, quantum state entanglement, minimum supersequence of a genome, minimum codeword problem, shortest vector in a lattice, minimum genus knots, positive Diophantine equations, integer programming, and many many more..
 The worst-case complexity of all these problems is (up to polynomial factors) equivalent to that of 3SAT, and through the Cook-Levin Theorem, to all problems in $\mathbf{NP}$.
 
-Since (as we have already observed before) $3SAT$ is obviously in $\mathbf{NP}$, to prove [cook-levin-thm](){.ref} we need to show that $F \leq_p 3SAT$ for every $F\in \mathbf{NP}$.
+
+To prove [cook-levin-thm](){.ref} we need to show that $F \leq_p 3SAT$ for every $F\in \mathbf{NP}$.
 We will do so in three stages.
 We define two intermediate problems: $NANDSAT$ and $3NAND$.
 We will shortly show the definitions of these two problems, but
-[cook-levin-thm](){.ref} will follow from the following three theorems:
+[cook-levin-thm](){.ref} will follow from the following three lemmas:
 
-> # {.theorem  #nand-thm}
-$NANDSAT$ is $\mathbf{NP}$-complete.
+> # {.lemma #nand-thm}
+$NANDSAT$ is $\mathbf{NP}$-hard.
 
-> # {.theorem  #threenand-thm}
+> # {.lemma  #threenand-thm}
 $NANDSAT \leq_p 3NAND$.
 
-> # {.theorem  #threenand-sat-thm}
+> # {.lemma  #threenand-sat-thm}
 $3NAND \leq_p 3SAT$.
 
-Together [nand-thm](){.ref}, [threenand-thm](){.ref}, and [threenand-sat-thm](){.ref} immediately imply that $3SAT$ is  $\mathbf{NP}$ complete (can you see why?), hence establishing [cook-levin-thm](){.ref}.
+Together [nand-thm](){.ref}, [threenand-thm](){.ref}, and [threenand-sat-thm](){.ref} immediately imply that $3SAT$ is  $\mathbf{NP}$-hard(can you see why?), hence establishing [cook-levin-thm](){.ref}.
 We now prove them one by one, providing the requisite definitions as we go along.
 
 ## The $NANDSAT$ Problem, and why it is $\mathbf{NP}$ complete.
 
-We define the $NANDSAT$ problem as follows: its input is a NAND program $P$ (represented as a string as usual),
-and we define $NANDSAT(P)=1$ if and only there is some input $x$ such that $P(x)=1$.
-Since given $P$ and $x$, we can check in polynomial (in fact $\tilde{O}(|P|)$ time) whether $P(x)=1$, $NANDSAT$ is in $\mathbf{NP}$.
+We define the $NANDSAT$ problem as follows. On input a string $Q\in \{0,1\}^*$, we define $NANDSAT(Q)=1$ if and only if $Q$ is a valid representation of an $n$-input and single-output NAND program and there exists some $y\in \{0,1\}^n$ such that $Q(y)=1$.
+To prove [nand-thm](){.ref}  we need to show that for every $F\in \mathbf{NP}$, $F \leq_p NANDSAT$.
+The high level __proof idea__ is that by the definition  of $\mathbf{NP}$, there is some NAND++ program $P_F$ and some polynomial $T(\cdot)$ such that $F(x)=1$ if and only if there exists some $y$ such that $P_F(x,y)$ outputs $1$ within $T(|x|)$ steps.
+Now by "unrolling the loop" of the NAND++ $P_F$ we can convert it into a  NAND program $Q$ that on input $y$ will simulate $P_F(x,y)$ for $T(|x|)$ steps.
+We will then get that $NANDSAT(Q)=1$ if and only if $F(x)=1$.
+We now present the details.
+
+TO BE COMPLETED
+
+
+Since given $P$ and $x$, we can check in polynomial (in fact $O(|P|^2 \log(|P|))$ time) whether $P(x)=1$, $NANDSAT$ is in $\mathbf{NP}$.
 Hence the proof of [nand-thm](){.ref} will follow by showing that $NANDSAT$ is $\mathbf{NP}$ hard, or in other words, that $F \leq_p NAND$ for every $F\in \mathbf{NP}$.
 
 Let $F\in \mathbf{NP}$. Hence there are constants $a,b,c \in \N$ and a  NAND++ program $P_F$ such that for every $x\in \{0,1\}^n$, $F(x)=1$ if and only if there exists some $y\in \{0,1\}^{an^b}$ such that $P_F(xy)$ outputs $1$ within $n^c$ steps.
