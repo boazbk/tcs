@@ -82,7 +82,7 @@ $F \leq_p G$. We say that $G$ is _$\mathbf{NP}$ complete_ if $G$ is $\mathbf{NP}
 Clearly $\mathbf{NP} \supseteq \mathbf{P}$, since if we can decide efficiently whether $F(x)=1$, we can simply ignore any "solution" that we are presented with.  Also, $\mathbf{NP} \subseteq \mathbf{EXP}$, since all the problems in $\mathbf{NP}$ can be solved in exponential time by enumerating all the possible solutions.
 _The_ most famous conjecture in Computer Science is that $\mathbf{P} \neq \mathbf{NP}$.
 One way to refute this conjecture is to give a polynomial-time algorithm for even a single one of the $\mathbf{NP}$-complete problems such as 3SAT, Max Cut, or the thousands of others that have been studied in all fields of human endeavors.
-The fact that these problems have been studied by so many people, and yet not a single polynomial-time algorithm for them was found, supports that conjecture that indeed $\mathbf{P} \neq \mathf{NP}$.
+The fact that these problems have been studied by so many people, and yet not a single polynomial-time algorithm for them was found, supports that conjecture that indeed $\mathbf{P} \neq \mathbf{NP}$.
 In fact, for many of these problems (including all the ones we mentioned above), we don't even know of a $2^{o(n)}$ time algorithm!
 However, to the frustration of computer scientists, we have not yet been able to prove that $\mathbf{P}\neq\mathbf{NP}$ or even rule out the existence of an $O(n)$ time algorithm for 3SAT.
 
