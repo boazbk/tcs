@@ -83,12 +83,12 @@ index:
     draft: false
 
   - num: 15.
-    name: The class NP
+    name: Polynomial-time reductions
     file: lec_12_NP
     draft: false
 
   - num: 16.
-    name: The Cook Levin Theorem
+    name: NP, NP completeness, and the Cook-Levin Theorem
     file: lec_13_Cook_Levin
     draft: false
 
