@@ -44,13 +44,13 @@ This phenomenon, known as _$\mathbf{NP}$ completeness_, is one of the surprising
 For reasons of technical conditions rather than anything substantial, we will concern ourselves in this lecture with _decision problems_ or _Boolean functions_.
 Thus, we will model all the problems as functions mapping $\{0,1\}^*$ to $\{0,1\}$:
 
-* The _3SAT_ problem corresponds to the function $3SAT$ that maps a 3CNF formula $\varphi$ to $1$ if there exists some assignment $x$ that satisfies it and to $0$ otherwise.
+* The _3SAT_ problem corresponds to the function $3SAT:\{0,1\}^* \rightarrow \{0,1\}$ that maps a 3CNF formula $\varphi$ to $1$ if there exists some assignment $x$ that satisfies it and to $0$ otherwise.^[We assume some representation of formulas as strings, and define the function to output $0$ if its input is not a valid representation. We will use the same convention for all the other functions below.]
 
-* The _quadratic equations_ problem  corresponds to the function $QUADEQ$ that maps a set of quadratic equations $E$ to $1$ if there is an assignment $x$ that satisfies all equations and to $0$ otherwise.
+* The _quadratic equations_ problem  corresponds to the function $QUADEQ:\{0,1\}^* \rightarrow \{0,1\}$ that maps a set of quadratic equations $E$ to $1$ if there is an assignment $x$ that satisfies all equations and to $0$ otherwise.
 
-* The _longest path_ problem corresponds to the function $LONGPATH$ that maps a graph $G$ and a number $k$ to $1$ if there is a simple path in $G$ of length at least $k$ and maps $(G,k)$ to $0$ otherwise.
+* The _longest path_ problem corresponds to the function $LONGPATH:\{0,1\}^* \rightarrow \{0,1\}$ that maps a graph $G$ and a number $k$ to $1$ if there is a simple path in $G$ of length at least $k$ and maps $(G,k)$ to $0$ otherwise.
 
-* The _maximum cut_ problem corresponds to the function $MAXCUT$ that maps a graph $G$ and a number $k$ to $1$ if there is a cut in $G$ that cuts at least $k$ edges and maps $(G,k)$ to $0$ otherwise.
+* The _maximum cut_ problem corresponds to the function $MAXCUT:\{0,1\}^* \rightarrow \{0,1\}$ that maps a graph $G$ and a number $k$ to $1$ if there is a cut in $G$ that cuts at least $k$ edges and maps $(G,k)$ to $0$ otherwise.
 
 
 ## Reductions
@@ -70,17 +70,30 @@ We say that $F$ and $G$ have _equivalent complexity_ if $F \leq_p G$ and $G \leq
 If $F \leq_p G$ and $G$ is computable in polynomial time, then $F$ is computable in polynomial time as well.
 Indeed, [eq:reduction](){.eqref} shows a way how to compute $F$ by applying the polynomial-time reduction $R$ and then the  polynomial-time algorithm  for computing $F$.
 
+One can think of $F \leq_p G$ as saying that (as far as polynomial-time computation is concerned) $F$ is "easier or equal in difficulty to" $G$.
+With this interpretation, we would expect that if $F \leq_p G$ and $G \leq_p H$ then it would hold that $F \leq_p H$ and indeed this is the case:
+
+> # {.lemma #transitivitylem}
+For every $F,G,H :\{0,1\}^* \rightarrow \{0,1\}$, if $F \leq_p G$ and $G \leq_p H$ then $F \leq_p H$.
+
+> # { .pause }
+We leave the proof of [transitivitylem](){.ref} as [transitivity-reductions-ex](){.ref}. Pausing now and doing this exercise is an excellent way to verify that you understood the definition of reductions.
+
+
+
 ## Some example reductions
 
 We will now  use reductions to  show that the  problems above- 3SAT, Quadratic Equations, Maximum Cut, and Longest Path- are indeed computationally equivalent to one another.
 We start by  reducing 3SAT to the latter three problems, demonstrating that solving either of them will solve it 3SAT.
+Later we will show the other direction: reducing each one of these problems to 3SAT in one fell swoop.
+
 Along the way we will introduce one more problem: the _independent set_  problem.
 Like the others it shares the characteristics that it is an important and well motivated computational problem, and that the best known algorithm for it takes exponential time.
 
 ![Our first stage in showing equivalence is to reduce  3SAT to the  three other problems](../figure/sat_to_others.png){#figureid .class width=300px height=300px}
 
 
-## Reducing 3SAT to quadratic equations
+### Reducing 3SAT to quadratic equations
 
 Let us now see our first example of a reduction.
 We will show how to reduce 3SAT to the problem of Quadratic Equations.
@@ -89,43 +102,35 @@ We will show how to reduce 3SAT to the problem of Quadratic Equations.
 $$3SAT \leq_p QUADEQ$$
 where $3SAT$ is the function that maps a 3SAT formula $\varphi$ to $1$ if it is satisfiable and to $0$ otherwise, and $QUADEQ$ is the function that maps a set $E$ of quadratic equations over $\{0,1\}^n$ to $1$ if its satisfiable and to $0$ otherwise.
 
-To do so, we need to give a polynomial-time transformation of every 3SAT formula $\varphi$ into a set of quadratic equations $E$.
+> # {.proofidea data-ref="quadeq-thm"}
+At the end of the day, a 3SAT formula can be thought of as a list of equations on some variables $x_0,\ldots,x_{n-1}$.
+Namely the equations are that each of the $x_i$'s should be equal to either $0$ or $1$, and that the variables should satisfy some set of constraints which corresponds to the OR of three variables or their negation.
+To show that $3SAT \leq_p QUADEQ$ we need to give a polynomial-time reduction that maps a 3SAT formula $\varphi$ into a  set of quadratic equations $E$ such that $E$ has a solution if and only if $\varphi$ is satisfiable.
+The idea is that we can transform a 3SAT formula $\varphi$ first to a set of _cubic_ equations by mapping every constraint of the form $(x_{12} \vee  \overline{x}_{15} \vee x_{24})$ into an equation of the form $(1-x_{12})x_{15}(1-x_{24})=0$. We can then turn this into a _quadratic equation_ by mapping any cubic equation of the form $x_ix_jx_k =0$ into the two quadratic equations $y_{i,j}=x_ix_j$ and $y_{i,j}x_k=0$.
+
+> # {.proof data-ref="quadeq-thm"}
+We now present  a polynomial-time transformation of every 3SAT formula $\varphi$ into a set of quadratic equations $E$.
 Recall that a _3SAT formula_ $\varphi$ is a formula such as $(x_{17} \vee \overline{x}_{101} \vee x_{57}) \wedge ( x_{18} \vee \overline{x}_{19} \vee \overline{x}_{101}) \vee \cdots$.
 That is, $\varphi$ is composed of the AND of $m$ _3SAT clauses_ where a 3SAT clause is the OR of three variables or their negation.
 A _quadratic equations_  instance $E$, is composed of a list of equations, each of involving a sum of variables or their products, such as $x_{19}x_{52} - x_{12} + 2x_{33} = 2$, etc..
+>
 Recall that we restrict attention to $\{0,1\}$ valued variables for simplicity (or, equivalently, assume that the instance contains the equations $x_i^2 - x_i = 0$ for every $i$. )
-
-There is a natural way to map a 3SAT instance into a set of equations, and that is to map a clause such as $(x_{17} \vee \overline{x}_{101} \vee x_{57})$ to the equation $(1-x_{17})x_{101}(1-x_{57})=0$.
+There is a natural way to map a 3SAT instance into a set of _cubic_ equations, and that is to map a clause such as $(x_{17} \vee \overline{x}_{101} \vee x_{57})$ to the equation $(1-x_{17})x_{101}(1-x_{57})=0$.
 We can  map a formula $\varphi$ with $m$ clauses into a set $E$ of $m$ such equations such that there is an $x$ with $\varphi(x)=1$ if and only if there is an assignment to the variables that satisfies all the equations of $E$.
+>
 The problem is that the equations in $E$ will not be quadratic but _cubic_: they contain terms of degree three.
 So, to finish the reduction it will suffice to show that we can map any set of cubic equations $E$ into a set of _quadratic_ equations $E'$ such that $E$ is satisfiable if and only if $E'$ is.
-
-The idea is that for every two variables $x_i$ and $x_j$, we add an extra variables $y_{i,j}$ and $z_{i,j}$ and a set of quadratic equations  that, if satisfied, guarantee that $y_{i,j} = x_i x_j$.
-Once we do that, we can replace cubic terms of the form $x_ix_jx_k$ with the quadratic term $y_{i,j}x_k$ in the new variables. We can do so by adding the following equations
-
-$$
-\begin{aligned}
-x_iy_{i,j} - y_{i,j} &= 0 \\
-x_jy_{i,j} - y_{i,j} &= 0 \\
-y_{i,j} + 1 - x_i - x_j - z_{i,j} &= 0
-\end{aligned}
-$$
-
-Note that this system can be satisfied by setting $y_{i,j} = x_ix_j$ and $z_{i,j}=(1-x_i)(1-x_j)$.
-It turns out this is the only solution
-
-> # {.lemma #product-lem}
-Every assignment to $\{ x_i,x_j,y_{i,j},z_{i,j} \}$ that satisfies the equations above must satisfy $y_{i,j}=x_ix_j$
-
-We leave proving [product-lem](){.ref} as [product-ex](){.ref}.
-Using this lemma, we can transform the cubic system $E$ in the variables $\{ x_i\}_{i \in [n]}$ to an equivalent quadratic system $E'$ in the variables $\{ x_i, y_{i,j}, z_{i,j} \}_{i,j \in [n]}$.
+We can do so by introducing new variables $y_{i,j}$ which correspond to the product of $x_i$ and $x_j$, and including the equation $y_{i,j}-x_ix_j = 0$.
+Once we do that, we can replace cubic terms of the form $x_ix_jx_k$ with the quadratic term $y_{i,j}x_k$ in the new variables. Using this idea we can transform the cubic system $E$ in the variables $\{ x_i\}_{i \in [n]}$ to an equivalent quadratic system $E'$ in the variables $\{ x_i, y_{i,j}\}_{i,j \in [n]}$.
 Note that the transformation (which involves a simple translation of every 3SAT clause to a constant number of equations) can be easily carried out in polynomial (in fact linear) time.
 Since the original system was equivalent to the 3SAT instance it is not hard to see that we get:
-
+>
 * __(Completeness)__ If $\varphi$ has a satisfying assignment $x$ then $E'$ has a satisfying assignments $(x,y,z)$.
+>
 * __(Soundness)__ If $E'$ has a satisfying assignment $(x,y,z)$ then $\varphi$ has a satisfying assignment.
-
+>
 Thus if we define $E' = R(\varphi)$, then we see that for every 3SAT formula $\varphi$, $3SAT(\varphi) = QUADEQ(R(\varphi))$, showing that $3SAT \leq_p QUADEQ$ and completing the proof of [quadeq-thm](){.ref}.
+
 
 ## The independent set problem
 
