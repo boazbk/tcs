@@ -80,6 +80,10 @@ For every $F,G,H :\{0,1\}^* \rightarrow \{0,1\}$, if $F \leq_p G$ and $G \leq_p 
 We leave the proof of [transitivitylem](){.ref} as [transitivity-reductions-ex](){.ref}. Pausing now and doing this exercise is an excellent way to verify that you understood the definition of reductions.
 
 
+> # {.remark title="Polynomial reductions" #polynomialred}
+We have seen reductions before in the context of proving uncomputability of problems such as $HALTONZERO$ and others.
+The most crucial difference between the notion in [reduction-def](){.ref} and previously occuring notions is that in hte context of relating the time complexity of problems, we need the reduction to be computable in _polynomial time_, as opposed to merely computable.
+[reduction-def](){.ref} also restricts reductions to have a very specific format. That is, to show that $F \leq_p G$, rather than allowing a general algorithm for $F$ that uses a "magic box" that computes $G$, we only allow an algorithm that computes $F(x)$ by outputting $G(F(x))$. This restricted form is convenient for us, but people have defined and used the more general form of reductions, which are known as _Cook reductions_.
 
 ## Some example reductions
 
