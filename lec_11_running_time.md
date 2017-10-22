@@ -234,16 +234,16 @@ For every such function, define $F_n : \{0,1\}^n \rightarrow \{0,1\}$ to be the 
 It turns out that we do have at least one relation between the NAND++ complexity of $F$ and the NAND complexity of the functions $\{ F_n \}$.
 
 > # {.theorem  title="Nonuniform computation contains uniform computation" #non-uniform}
-There is some $c\in \N$ s.t. for every $F:\{0,1\}^* \rightarrow \{0,1\}$ in  $TIME_{++}(T(n))$ and every  sufficiently large $n\in N$,  $F_n$ is in $SIZE(10 T(n))$.
+There is some $c\in \N$ s.t. for every $F:\{0,1\}^* \rightarrow \{0,1\}$ in  $TIME_{++}(T(n))$ and every  sufficiently large $n\in N$,  $F_n$ is in $SIZE(c T(n))$.
 
 > # {.proof data-ref="non-uniform"}
 The proof follows by the "unraveling" argument that we've already seen in the proof of [NANDexpansionthm](){.ref}.
-Given a NAND++ program $P$ and some function $T(n)$, we can transform NAND++ to be "simple" in the sense of [simpleNANDpp](){.ref}, and by direct examination this transformation costs at most a factor of 4 in the  running time. Thus we can construct a NAND program on $n$ inputs and with less than $2 T(n)$ lines by simply putting "unraveling the main loop" of $P$ and hance putting $T(n)/L$  copies of $P$ one after the other, where $L$ is the number of lines in $P$, replacing any instance of `i` with the numerical value of `i` for that iteration.
+Given a NAND++ program $P$ and some function $T(n)$, we can transform NAND++ to be "simple" in the sense of [simpleNANDpp](){.ref}, and by direct examination this transformation costs at most a factor of 4 in the  running time. Thus we can construct a NAND program on $n$ inputs and with less than $2 T(n)$ lines by simply putting "unraveling the main loop" of $P$ and hence putting $T(n)/L$  copies of $P$ one after the other, where $L$ is the number of lines in $P$, replacing any instance of `i` with the numerical value of `i` for that iteration.
 While the original NAND++ program $P$ might have ended on some inputs _before_ $T(n)$ iterations have passed, by transforming it to be simple we ensure that there is no harm in "extra" iterations, since all assignments to the output are "guarded" by ensuring they make no difference if the program should have already halted before.
 
 
 
-__Algorithmic version: the "NAND++ to NAND compliler":__
+__Algorithmic version: the "NAND++ to NAND compiler":__
 The transformation of the NAND++ program $P$ to the NAND program $Q_P$ is itself algorithmic. (Indeed it can be done in  about 5 lines of Python.)
 Thus we can also phrase this result as follows:
 
