@@ -162,6 +162,14 @@ This completes the proof of [isetnpc](){.ref}
 
 ## Reducing Independent Set to Maximum Cut
 
+> # {.theorem title="Reducing Independent Set to Max Cut" #isettomaxcut}
+$ISET \leq_p MAXCUT$
+
+> # {.proofidea data-ref="isettomaxcut"}
+We will map a graph $G$ into a graph $H$ such that a large independent set in $G$ becomes a partition cutting many edges in $H$. We can think of a cut in $H$ as coloring each vertex either "blue" or  "red". We will add a special "source" vertex $s$, connect it to all other vertices, and assume without loss of generality that it is colored blue. Hence the more vertices we color red, the more edges from $x$ we cut. Now, for every edge $u,v$  Hence the  The idea is that we will replace each edge of $G$ with a special "gadget" (a small subgraph) so that 
+
+
+> # {.proof data-ref="isettomaxcut"}
 ^[Add reduction here]
 
 ## Reducing 3SAT to Longest Path
