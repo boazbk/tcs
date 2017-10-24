@@ -178,45 +178,32 @@ Let $n$ be the number of inputs to $Q$. The idea is that $z_0,\ldots,z_{n-1}$ wi
 
 
 > # {.proof data-ref="threenand-thm"}
-
 To prove [threenand-thm](){.ref} we need to give a reduction from $NANDSAT$ to $3NAND$.
-Given a NAND program $P$ with $n$ inputs, one outputs, and  $m$ lines, we define a $3NAND$ formula $\psi$ as follows.
-The formula $\psi$ will have $m+n$ variables $z_1,\ldots,z_{m+n+1}$.
-For every $i\in \{1,\ldots,m \}$, the variable $z_i$ will correspond to the $i^{th}$ line of the program $P$.
-The variables $z_{m+1},\ldots,z_{m+n}$ will correspond to the input variables `x_0` ... `x_`$n-1$ of $P$.
-The last variable $z_{m+n+1}$ is added for convenience, where we ensure that it is always the negation of $z_{m+n}$ by adding the constraint $z_{m+n+1}=NAND(z_{m+n},z_{m+n})$.
-
-If the $i^{th}$ line in the program $P$ has the form
-```
-var := var' NAND var''
-```
-then we add a constraint of the form $z_i = NAND(z_j,z_k)$, where we choose $j$ and $k$ as follows.
-If `var'` is an input variable `x_`$\ell$, then we choose $j=n+\ell$.
-Similarly, if `var''` is an input variable `x_`$\ell'$, then we choose $k=n+\ell'$.
-If `var'` is a workspace variable then we let $j$ be the index of the last line prior to $i$ in which `var'` was assigned.
-Similarly, if `var''` is a workspace variable then we let $k$ be the index of the last line prior to $i$ in which `var''` was assigned.
-
-Finally, if $i_0$ is the last line in which the output variable `y_0` was assigned, then we add the constraint $z_{i_0} = NAND(z_{m+n},z_{m+n+1})$, which (since we constrained $z_{m+n+1}=1-z_{m+n}$) is equivalent to constraining $z_{i_0}=1$.
+Let  $Q$ be a NAND program with $n$ inputs, one output, and  $m$ lines.
+We can assume without loss of generality that $Q$ contains the variables `one` and `zero` by adding the following lines in its beginning if needed:
+>
+~~~~ { .pascal .numberLines }
+notx_0 := x_0 NAND x_0
+one    := x_0 NAND notx_0
+zero   := one NAND one   
+~~~~
+>
+We map $Q$ to  a $3NAND$ formula $\varphi$ as follows:
+>
+* $\varphi$ has $m+n$ variables $z_0,\ldots,z_{m+n-1}$ \
+* For every $\ell\in \{n,n+1,\ldots,n+m \}$, if the $\ell-n$-th line of the program $Q$ is `foo := bar NAND blah` then we add to $\varpnhi$  the constraint $z_\ell = NAND(z_j,z_k)$ where $j-n$ and $k-n$ correspond to the last lines in which the variables `bar` and `blah` (respectively) were written to. If one or both of `bar` and `blah` was not written to before then we use $z_{\ell_0}$ instead of the corresponding value $z_j$ or $z_k$  in the  constraint, where $\ell_0-n$ is the line in which `zero` is assigned a value.
+If  one or both of `bar` and `blah` is an input variable `x_i` then we we use $z_i$ in the constraint. \
+* Let $\ell^*$ be the last line in which the output `y_0` is assigned a value. Then we add the constraint $z_{\ell^*} = NAND(z_{\ell_0},z_{\ell_0})$ where $\ell_0-n$ is as above the last line in which `zero` is assigned a value. Note that this is effectively the constraint $z_{\ell^*}=NAND(0,0)=1$.
+>
+To complete the proof we need to show exists $w\in \{0,1\}^n$ s.t. $Q(w)=1$ if and only if there exists $z\in \{0,1\}^{n+m}$ that satisfies all constraints in $\varphi$.
+We now show both sides of this equivalence.
+>
+* __Completeness:__ Suppose that there is $w\in \{0,1\}^n$ s.t. $Q(w)=1$. Let $z\in \{0,1\}^{n+m}$ be defined as follows. For $i\in [n]$, $z_i=w_i$ and for $i\in \{n,n+1,\ldots,n+m\}$ $z_i$ equals the value that is assigned in the $(i-n)$-th line of $Q$ when executed on $w$. Then by construction $z$ satisfies all of the constraints of $\varphi$ (including the constraint that $z_{\ell^*}=NAND(0,0)=1$ since $Q(w)=1$.)
+>
+* __Soundness:__ TO BE COMPLETED
 
 ![We reduce $NANDSAT$ to $3NAND$ by mapping a program $P$ to a formula $\psi$ where we have a variable for each line and input variable of $P$, and add a constraint to ensure that the variables are consistent with the program. We also add a constraint that the final output is $1$. One can show that there is an input $x$ such that $P(x)=1$ if and only if there is a satisfying assignment for $\psi$.](../figure/3NANDreduction.png){#figureid .class width=300px height=300px}
 
-We make the following claim
-
-> # {.lemma #temp-lemma-nand }
-There is $x\in \{0,1\}^n$ s.t. $P(x)=1$ if and only if there is $z\in \{0,1\}^{m+n+1}$ s.t. $\psi(z)=1$.
-
-> # {.proof data-ref="temp-lemma-nand"}
-Suppose that there is such an $x$, and consider the execution of $P$ on $x$.
-For $i=1,\ldots,m$ we let $z_i$ be the value that is assigned to a variable in the $i^{th}$ line, for $j=0,\ldots,n-1$, we let $z_{n+1+j}=x_j$, and we let $z_{m+n+1}=1-z_{m+n}$.
-By the semantics of the NAND program, the value $z_i$ will correspond to the NAND of the values of the variables corresponding to $z_j$ and $z_k$.
-Hence we see that every one of our constraints of the form $z_i = NAND(z_j,z_k)$ is satisfied,
-and moreover since the final output is $1$, the last constraint is satisfied as well.
->
-In the other direction, suppose that there is an assignment $z\in \{0,1\}^{m+n+1}$ s.t. $\psi(z)=1$, and let $x\in \{0,1\}^n$ s.t. $x_j = z_{n+1+j}$ for every $j\in \{0,\ldots,n-1\}$.
-We claim that $P(x)=1$. Indeed note that, because $z$ satisfies all constraints of $\psi$, as we execute the program $P$ on $x$, the value assigned in the $i^{th}$ line is equal to $z_i$.
-Hence in particular the value that is finally assigned to the output variable `y_0` will equal to $1$.
-
-This claim means that the polynomial time map $P \mapsto \psi$ that transform a NAND program to a 3NAND formula satisfies that $NANDSAT(P)=3NAND(\psi)$ and hence this  is a reduction demonstrating $NANDSAT \leq_p 3NANT$ and concluding the proof of [threenand-thm](){.ref}.
 
 ## Concluding the proof of Cook-Levin
 
