@@ -8,23 +8,24 @@
 
 >_"In this paper we give theorems that suggest, but do not imply, that these problems, as well as many others, will remain  intractable perpetually"_, Richard Karp, 1972
 
+>_"It is not the verifier who counts; not the man who points out how the solver of problems  stumbles, or where the doer of deeds could have done them better. The credit belongs to the man who actually searches over the exponential space of possiblities, whose face is marred by dust and sweat and blood; who strives valiantly; who errs, who comes short again and again ... who at the best knows in the end the triumph of high achievement, and who at the worst, if he fails, at least fails while daring greatly, so that his place shall never be with those cold and timid souls who neither know victory nor defeat."_, paraphrasing Theodore Roosevelt (1910).
 
 
 ## The class $\mathbf{NP}$
 
 
 So far we have shown that 3SAT is no harder than Quadratic Equations, Independent Set, Maximum Cut, and Longest Path.
-But to show that they are equivalent we need to give reductions in the other direction, reducing each one of these problems to 3SAT as well.
+But to show that these problems are _computationally equivalent_ we need to give reductions in the other direction, reducing each one of these problems to 3SAT as well.
 It turns out we can reduce all three problems to 3SAT in one fell swoop.
 
 
 In fact, this result extends  far beyond these particular problems.
 All of the problems we discussed in the previous lecture, and a great many other problems, share the same  commonality:
-they are all _search_ problems, where the goal is to decide, given an instance $x$ whether there exists a _solution_ $y$ that satisfies some condition.
+they are all _search_ problems, where the goal is to decide, given an instance $x$ whether there exists a _solution_ $y$ that satisfies some condition that can be verified in polynomial time.
 For example, in 3SAT, the instance is a formula and the solution is an assignment to the variable, in Max-Cut the instance is a graph and the solution is a cut in the graph, and so on and so forth.
 It turns out that  _every_ such search problem can be reduced to 3SAT.
 
-To make this precise, we need to make the following mathematical definition.
+To make this precise, we  make the following mathematical definition.
 We define the class $\mathbf{NP}$ to  contain all Boolean functions that correspond to a _search problem_ of the form above.
 That is, functions that  output $1$ on $x$ if and only if there exists a solution $y$ such that the pair $(x,y)$ satisfies some polynomial-time checkable condition.
 Formally, $\mathbf{NP}$ is defined as follows:
@@ -34,10 +35,10 @@ Formally, $\mathbf{NP}$ is defined as follows:
 > # {.definition title="NP" #NP-def}
 We say that $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{NP}$ if there exists some constants $a,b \in \N$ and $G:\{0,1\}^* \rightarrow \{0,1\}$ such that $G\in \mathbf{P}$ and for every $x\in \{0,1\}^n$
 $$
-F(x)=1 \Leftrightarrow \exists_{y \in \{0,1\}^{an^b}} \text{ s.t. } G(x,y)=1 \label{NP:eq}
+F(x)=1 \Leftrightarrow \exists_{w \in \{0,1\}^{an^b}} \text{ s.t. } G(xw)=1 \label{NP:eq}
 $$
 
-The name $\mathbf{NP}$ stands for "nondeterministic polynomial time" and is used for historical reasons, see the bibiographical notes.
+The name $\mathbf{NP}$ stands for "nondeterministic polynomial time" and is used for historical reasons, see the bibiographical notes. The string $w$ in [{NP:eq}](){.eqref} is sometimes known as a _solution_, _certificate_, or _witness_ for the instance $x$.
 
 
 ### Examples:
@@ -125,49 +126,58 @@ $NANDSAT \leq_p 3NAND$.
 > # {.lemma  #threenand-sat-thm}
 $3NAND \leq_p 3SAT$.
 
-Together [nand-thm](){.ref}, [threenand-thm](){.ref}, and [threenand-sat-thm](){.ref} immediately imply that $3SAT$ is  $\mathbf{NP}$-hard(can you see why?), hence establishing [cook-levin-thm](){.ref}.
+
+
+From the transitivity of reductions,  [nand-thm](){.ref}, [threenand-thm](){.ref}, and [threenand-sat-thm](){.ref} together immediately imply that $3SAT$ is  $\mathbf{NP}$-hard, hence establishing [cook-levin-thm](){.ref}.
 We now prove them one by one, providing the requisite definitions as we go along.
 
 ## The $NANDSAT$ Problem, and why it is $\mathbf{NP}$ complete.
 
-We define the $NANDSAT$ problem as follows. On input a string $Q\in \{0,1\}^*$, we define $NANDSAT(Q)=1$ if and only if $Q$ is a valid representation of an $n$-input and single-output NAND program and there exists some $y\in \{0,1\}^n$ such that $Q(y)=1$.
+We define the $NANDSAT$ problem as follows. On input a string $Q\in \{0,1\}^*$, we define $NANDSAT(Q)=1$ if and only if $Q$ is a valid representation of an $n$-input and single-output NAND  program and there exists some $w\in \{0,1\}^n$ such that $Q(w)=1$.
+While we don't need this to prove [nand-thm](){.ref}, note that $NANDSAT$ is in $\mathbf{NP}$ since we can verify that $Q(w)=1$ using the polyonmial-time algorithm for evaluating NAND programs.^[$Q$ is a NAND program and not a NAND++ program, and hence it is only defined on inputs of some particular size $n$. Evaluating $Q$ on any input $w\in \{0,1\}^n$ can be done in time polynomial in the number of lines of $Q$.]
+
+
+> # {.proofidea data-ref="nand-thm"}
 To prove [nand-thm](){.ref}  we need to show that for every $F\in \mathbf{NP}$, $F \leq_p NANDSAT$.
-The high level __proof idea__ is that by the definition  of $\mathbf{NP}$, there is some NAND++ program $P_F$ and some polynomial $T(\cdot)$ such that $F(x)=1$ if and only if there exists some $y$ such that $P_F(x,y)$ outputs $1$ within $T(|x|)$ steps.
-Now by "unrolling the loop" of the NAND++ $P_F$ we can convert it into a  NAND program $Q$ that on input $y$ will simulate $P_F(x,y)$ for $T(|x|)$ steps.
+The high level idea is that by the definition  of $\mathbf{NP}$, there is some NAND++ program $P^*$ and some polynomial $T(\cdot)$ such that $F(x)=1$ if and only if there exists some $w$ such that $P^*(xw)$ outputs $1$ within $T(|x|)$ steps.
+Now by "unrolling the loop" of the NAND++ $P^*$ we can convert it into a  NAND program $Q$ that on input $w$ will simulate $P^*(xw)$ for $T(|x|)$ steps.
 We will then get that $NANDSAT(Q)=1$ if and only if $F(x)=1$.
+
+
+> # {.proof data-ref="nand-thm"}
 We now present the details.
+Let $F \in \mathbf{NP}$.  By [NP-def](){.ref} there exists $G \in \mathbf{P}$ and $a,b \in \N$ such that for every $x\in \{0,1\}^*$, $F(x)=1$  if and only if there exists $w\in \{0,1\}^{a|x|^b}$ such that $G(xw)=1$.
+Since $G\in \mathbf{P}$ there is some NAND++ program $P^*$ that computes $G$ in at most ${n'}^c$ time for some constant $c$ where $n'$ is the size of its input.
+Moreover, we can assume without loss of generality that $P^*$ is simple in the sense of [simpleNANDpp](){.ref} and let $L$ be the number of lines of $P^*$.
+>
+To prove [nand-thm](){.ref} we need to give a polynomial-time computable map of every $x^* \in \{0,1\}^*$ to a NAND program $Q$ such that $F(x^*)=NANDSAT(Q)$.
+Let  $x^*\in \{0,1\}^*$ be such a string and let $n=|x^*|$ be its length. In time polynomial in $n$, we can obtain a NAND program $Q^*$ of $n+an^b$ inputs and $L(n+an^b)^c$ lines such that $Q^*(xw)=P^*(xw)$ for every $x\in \{0,1\}^n$ and $w\in \{0,1\}^{an^b}$. Indeed, we can do this by simply copying and pasting $(n+an^b)^c$ times the code of $P^*$ one after the other, and replacing all references to `i` in the $j$-th copy with $INDEX(j)$.^[Recall that $INDEX(j)$ is the value of the `i` index variable in the $j$-th iteration. The particular formula for $INDEX(j)$ was given in [eqindex](){.eqref} but all we care is that it is computable in time polynomial in $j$.] We also replace references to `validx_`$\expr{k}$ with `one` if $k<an^b$ and `zero` otherwise.
+By the definition of NAND++ and the fact that the original program $P^*$ was simple and halted within at most $(n+an^b)^c$ steps, the NAND program $Q^*$ agrees with $P^*$ on every input of the form $xw \in \{0,1\}^{n+an^b}$.^[We only used the fact that $P^*$ is simple to ensure that __1__ we have access to the `one` and `zero` variables, and that assignments to the output variable `y_0` are "guarded" in the sense that adding extra copies of $P^*$ after it already halted will not change the output. It is not hard to ensure these properties as shown in [simpleNANDthm](){.ref}.]
+>
+Now we  transform $Q^*$ into $Q$  by replacing all references to the variables `x_`$\expr{j}$ for $j<n$ with either `one` or `zero` depending on the value of $x^*_j$. For $j>n$ we will replace references to `x_`$\expr{j}$ with `x_`$\expr{j-n}$. (These transformation do not change the number of lines.)
+This means that we have "hardwired" the bits of $x^*$ as the first $n$ inputs of $Q^*$ and so $Q$ has $an^b$ inputs and for every $w\in \{0,1\}^{an^b}$, $Q(w)=Q^*(x^*w)$.
+We now claim that $NANDSAT(Q)=F(x^*)$. Indeed note that $F(x^*)=1$ if and only if there exists $w\in \{0,1\}^{an^b}$ s.t. $P^*(x^*w)=1$. But since $Q^*(xw)=P^*(xw)$ for every $x,w$ of these lengths, and $Q(w)=Q^*(x^*w)$ it follows that this holds if and only if there exists $w\in \{0,1\}^{an^b}$ such that $Q(w)=1$.
+But the latter condition holds exactly when $NANDSAT(Q)=1$.
 
-TO BE COMPLETED
+> # { .pause }
+The proof above is a little bit technical but ultimately follows quite directly from the definition of $\mathbf{NP}$, as well as NAND and NAND++ programs. If you find it confusing, try to pause here and work out the proof yourself from these definitions, using the idea of "unrolling the loop" of a NAND++ program.
 
 
-Since given $P$ and $x$, we can check in polynomial (in fact $O(|P|^2 \log(|P|))$ time) whether $P(x)=1$, $NANDSAT$ is in $\mathbf{NP}$.
-Hence the proof of [nand-thm](){.ref} will follow by showing that $NANDSAT$ is $\mathbf{NP}$ hard, or in other words, that $F \leq_p NAND$ for every $F\in \mathbf{NP}$.
-
-Let $F\in \mathbf{NP}$. Hence there are constants $a,b,c \in \N$ and a  NAND++ program $P_F$ such that for every $x\in \{0,1\}^n$, $F(x)=1$ if and only if there exists some $y\in \{0,1\}^{an^b}$ such that $P_F(xy)$ outputs $1$ within $n^c$ steps.
-Recall that we had the following "NAND++ to NAND compiler":
-
-> # {.theorem title="NAND++ to NAND compiler" #nand-compiler}
-There is an $\tilde{O}(n)$-time NAND++ program $COMPILE$ such that on input a NAND++ program $P$,  and strings of the form $1^n,1^m,1^T$  outputs a NAND program $Q_P$ of at most $O(T \log T)$ lines with $n$ bits of inputs and $m$ bits of output, such that: \
-For every $x\in\bits^n$, if $P$ halts on input $x$ within fewer than $T$ steps and outputs some string $y\in\bits^m$, then $Q_P(x)=y$.  
-
-
-Therefore, we can transform the NAND++ program $P_F$ into a NAND program $Q_F$ of at most $\tilde{O}(n^c)$ lines taking  $n+an^b$ bits of input and outputting one bit, such that $P_F(xy)=Q_F(xy)$ for every $x\in \{0,1\}^n$ and $y\in \{0,1\}^n$.  
-
-Now if $Q_F$ has $t$ lines, then we can transform $Q_F$ and $x$ into a NAND program $Q_{F,x}$ with $t'+4$  lines that takes $an^b$ bits of inputs, and satisfies  $P_x(y)=Q_{F,x}(x,y)$ for every $y\in \{0,1\}^{an^b}$.
-The transformation is very simple.
-Recall that by adding four lines to the program, we can ensure that we have variables `zero` and `one` that are equal to $0$ and $1$ respectively.
-Now for every $i\in \{0,\ldots,n-1\}$, we can replace any mention of `x_`$i$ in the program with either `zero` or `one` depending on whether $x_i$ is equal to $0$ or $1$ respectively.
-Then for $i= n,\ldots, n+an^b-1$, we can replace `x_`$i$ with `x_`$i-n$ so we make the last $an^b$ inputs of $Q_F$ become the first inputs of $Q_{F,x}$.
-
-By our construction, $NAND(Q_{F,x})=1$ if and only if there is $y\in \{0,1\}^{an^b}$ such that  $P_F(xy)=1$, which by definition, happens if and only if $F(x)=1$.
-Hence the polynomial-time transformation $x \mapsto Q_{F,x}$ is a reduction from $F$ to $NANDSAT$,
-completing the proof of [nand-thm](){.ref}.
 
 ## The $3NAND$ problem
 
 The $3NAND$ problem is defined as follows: the input is a logical formula on a set of  variables $z_1,\ldots,z_m$
 which is an AND of constraints of the form $z_i = NAND(z_j,z_k)$.
 The output is $1$ if and only if there is an  assignment to the $z$'s that satisfies all these constraints.
+That is, for every string $\varphi \in \{0,1\}^*$ that encodes such a formula, we define $3NAND(\varphi)=1$ if and only if there exists an assignment $x$ that satisfies all the constraints of $\varphi$.
+
+> # {.proofidea data-ref="threenand-thm"}
+To prove [threenand-thm](){.ref} we need to give a polynomial-time map from every NAND program $Q$ to a 3NAND formula $\varphi$ such that there exists $w$ such that $Q(w)=1$ if and only if there exists $z$ satisfying $\varphi$.
+This will actually follow directly from our notion of "modification logs" or  "deltas" of NAND++ programs (see [deltas](){.ref}).
+Let $n$ be the number of inputs to $Q$. The idea is that $z_0,\ldots,z_{n-1}$ will correspond to the input $w$ to $Q$, and for every $i>n$, $z_{i}$ will encode the value that is written to a variable in the $i-n$-th line of $Q$. The constraint we add is that $z_i = NAND(z_j,z_k)$ where $j-n$ and $k-n$ are the last lines where the two variables on the righhand side of the assignment in this line were written to (if one or two of these variables is an input variable, then we let $z_j$ and/or $z_k$ be the corresponding variable). Finally we add a constraint that requires the last assignment to `y_0` to equal $1$. One can then verify that there is a satisfying assignment to $\varphi$ if and only if there is some input $w\in \{0,1\}^n$ on which the execution of $Q$ on $w$ ends in $1$.
+
+
+> # {.proof data-ref="threenand-thm"}
 
 To prove [threenand-thm](){.ref} we need to give a reduction from $NANDSAT$ to $3NAND$.
 Given a NAND program $P$ with $n$ inputs, one outputs, and  $m$ lines, we define a $3NAND$ formula $\psi$ as follows.

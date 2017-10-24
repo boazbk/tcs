@@ -138,7 +138,7 @@ But it also arises in very different settings, including trying to find structur
 To phrase  independent set as a decision problem, we think of it as a function $ISET:\{0,1\}^* \rightarrow \{0,1\}$ that on input a graph $G$ and a number $k$ outputs $1$ if and only if the graph $G$ contains an independent set of size at least $k$.
 We will now reduce 3SAT to Independent set.
 
-> # {.theorem title="Independent set is NP complete" #isetnpc}
+> # {.theorem title="Hardness of Independent Set" #isetnpc}
 $3SAT \leq_p ISET$.
 
 > # {.proofidea data-ref="isetnpc"}
@@ -162,7 +162,7 @@ This completes the proof of [isetnpc](){.ref}
 
 ## Reducing Independent Set to Maximum Cut
 
-> # {.theorem title="Reducing Independent Set to Max Cut" #isettomaxcut}
+> # {.theorem title="Hardness of Max Cut" #isettomaxcut}
 $ISET \leq_p MAXCUT$
 
 > # {.proofidea data-ref="isettomaxcut"}
