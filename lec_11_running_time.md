@@ -45,6 +45,14 @@ A function $T:\N \rightarrow \N$ is a _nice time bound function_ (or nice functi
 
 
 All the functions mentioned above are "nice" per [nice-def](){.ref}, and from now on we will only care about the class $TIME(T(n))$   when $T$ is a "nice" function.
+The last condition simply means that we can compute the binary represention of $T(n)$ in time which itself is roughly $T(n)$. This condition is typically easily satisfied.
+For example, for arithmetic functions such as $T(n) = n^3$ or $T(n)= \floor n^{1.2}\log n \rfloor$ we can  typically compute the binary representation of $T(n)$ in time which is polynomial in the _number of bits_ in this representation.
+Since the number of bits is $O(\log T(n))$, any quantity that is polynomial in this number will be much smaller than $T(n)$ for large enough $n$.
+
+
+
+
+
 The two main time complexity classes we will be interested in are the following:
 
 * __Polynomial time:__ We say that a  function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _computable in polynomial time_ if it is in the class $\mathbf{P} = \cup_{c\in\N} TIME(n^c)$.
