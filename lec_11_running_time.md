@@ -205,7 +205,7 @@ On the one hand, if $HALT_T(Q,Q1^m)=1$, then under our assumption that $P^*$ com
 This means that it must hold that $HALT_T(Q,Q1^m)=0$. But in this case, since we assume $P^*$ computes $HALT_T$, $Q$ does not do anything in phase 3 of its computation, and so the only computation costs come in phases 1 and 2 of the computation.
 It is not hard to verify that Phase 1 can be done in linear and in fact less than $5|z|$ steps.
 Phase 2 involves executing $P^*$, which under our assumption requires $T(|Q|+m)$ steps.
-In total we can perform both phases in less than $10 T(|Q|+m)$ in steps, which by definition means that $HALT_T(Q,Q1^m)=0$, but this is of course a contradiction.
+In total we can perform both phases in less than $10 T(|Q|+m)$ in steps, which by definition means that $HALT_T(Q,Q1^m)=1$, but this is of course a contradiction.
 
 
 

@@ -131,7 +131,7 @@ $3NAND \leq_p 3SAT$.
 From the transitivity of reductions,  [nand-thm](){.ref}, [threenand-thm](){.ref}, and [threenand-sat-thm](){.ref} together immediately imply that $3SAT$ is  $\mathbf{NP}$-hard, hence establishing [cook-levin-thm](){.ref}.
 We now prove them one by one, providing the requisite definitions as we go along.
 
-## The $NANDSAT$ Problem, and why it is $\mathbf{NP}$ complete.
+### The $NANDSAT$ Problem, and why it is $\mathbf{NP}$ complete.
 
 We define the $NANDSAT$ problem as follows. On input a string $Q\in \{0,1\}^*$, we define $NANDSAT(Q)=1$ if and only if $Q$ is a valid representation of an $n$-input and single-output NAND  program and there exists some $w\in \{0,1\}^n$ such that $Q(w)=1$.
 While we don't need this to prove [nand-thm](){.ref}, note that $NANDSAT$ is in $\mathbf{NP}$ since we can verify that $Q(w)=1$ using the polyonmial-time algorithm for evaluating NAND programs.^[$Q$ is a NAND program and not a NAND++ program, and hence it is only defined on inputs of some particular size $n$. Evaluating $Q$ on any input $w\in \{0,1\}^n$ can be done in time polynomial in the number of lines of $Q$.]
@@ -164,7 +164,7 @@ The proof above is a little bit technical but ultimately follows quite directly 
 
 
 
-## The $3NAND$ problem
+### The $3NAND$ problem
 
 The $3NAND$ problem is defined as follows: the input is a logical formula on a set of  variables $z_1,\ldots,z_m$
 which is an AND of constraints of the form $z_i = NAND(z_j,z_k)$.
@@ -200,15 +200,25 @@ We now show both sides of this equivalence.
 >
 * __Completeness:__ Suppose that there is $w\in \{0,1\}^n$ s.t. $Q(w)=1$. Let $z\in \{0,1\}^{n+m}$ be defined as follows. For $i\in [n]$, $z_i=w_i$ and for $i\in \{n,n+1,\ldots,n+m\}$ $z_i$ equals the value that is assigned in the $(i-n)$-th line of $Q$ when executed on $w$. Then by construction $z$ satisfies all of the constraints of $\varphi$ (including the constraint that $z_{\ell^*}=NAND(0,0)=1$ since $Q(w)=1$.)
 >
-* __Soundness:__ TO BE COMPLETED
+* __Soundness:__ Suppose that there exists $z\in \{0,1\}^{n+m}$ satisfying $\varphi$. Soundness will follow by showing that  $Q(z_0,\ldots,z_{n-1})=1$ (and hence in particular there exists $w\in \{0,1\}^n$, namesly $w=z_0\cdots z_{n-1}$, such taht $Q(w)=1$). To do this we will prove the following claim $(*)$: for every $\ell \in [m]$, $z_{\ell+n}$ equals the value assigned in the $\ell$-th step of the execution of the program $Q$ on $z_0,\ldots,z_{n-1}$. Note that because $z$ satisfies the constraints of $\varphi$, $(*)$ is sufficient to prove the soundness condition since these constraints imply that the last value assigned to the variable `y_0` in the execution of $Q$ on $z_0\lcdots w_{n-1}$  is equal to $1$. To pprove $(*)$ suppose, towards a contradiction, that it is false, and let $\ell$ be the smallest number such that $z_{\ell+n}$ is _not_ equal to the value assigned in the $\ell$-th step of the exeuction of $Q$ on $z_0,\ldots,z_{n-1}$. But since $z$ satisfies the constraints of $\varphi$, we get that $z_{\ell+n}=NAND(z_i,z_j)$ where (by the assumption above that $\ell$ is _smallest_ with this property) these values  _do_ correspond to the values last assigned by to the variables on the righthand side of the assignment operator in the $\ell$-th line of the program. But this means that the value assigned in the $\ell$-th step is indeed simply the NAND of $z_i$ and $z_j$, contradicting our assumption on the choice of $\ell$.
+
 
 ![We reduce $NANDSAT$ to $3NAND$ by mapping a program $P$ to a formula $\psi$ where we have a variable for each line and input variable of $P$, and add a constraint to ensure that the variables are consistent with the program. We also add a constraint that the final output is $1$. One can show that there is an input $x$ such that $P(x)=1$ if and only if there is a satisfying assignment for $\psi$.](../figure/3NANDreduction.png){#figureid .class width=300px height=300px}
 
 
-## Concluding the proof of Cook-Levin
+### From $3NAND$ to $3SAT$
 
-To conclude the proof of [cook-levin-thm](){.ref}, we need to show [threenand-sat-thm](){.ref}.
-That is, to reduce $3NAND$ to $3SAT$. The reduction is actually quite simple.
+
+
+To conclude the proof of [cook-levin-thm](){.ref}, we need to show [threenand-sat-thm](){.ref} and show that $3NAND \leq_p 3SAT$. We now do so.
+
+> # {.proofidea data-ref="threenand-sat-thm"}
+To prove [threenand-sat-thm](){.ref} we need to map a 3NAND formula $\varphi$ into a 3SAT formula $\psi$ such that $\varphi$ is satisfiable if and only if $\psi$ is. The idea is that we can transform every NAND constraint of the form $a=NAND(b,c)$ into the AND of  ORs involving the variables $a,b,c$ and their negations, where each of the ORs contains  at most three terms. The construction is fairly straightforward, and the details are given below.
+
+> # { .pause }
+It is a good exercise for you to try to find a 3CNF formula $\xi$ on three variables $a,b,c$ such that $\xi(a,b,c)$ is true if and only if $a = NAND(b,c)$. Once you do so, try to see why this implies a reduction from $3NAND$ to $3SAT$,  and hence completes the proof of [threenand-sat-thm](){.ref}
+
+> # {.proofidea data-ref="threenand-sat-thm"}
 Since $NAND(z,z') = \overline{z \wedge z'} = \overline{z}\vee\overline{z'}$,  the constraint
 $$
 z_i = NAND(z_j,z_k) \label{eq:NANDconstraint}
@@ -218,7 +228,7 @@ $$
  z_i \Rightarrow \left( \overline{z_j}\vee\overline{z_k} \right) \;\;\;\wedge\;\;\;  \left(\overline{z_j}\vee\overline{z_k} \right) \Rightarrow z_i
 $$
 where $\Rightarrow$ is the logical implication operator, defined as $a \Rightarrow b = \overline{a} \vee b$.
-
+>
 Hence [{eq:NANDconstraint}](){.eqref} is the same as
 $$
  (\overline{z_i} \vee \overline{z_j} \vee\overline{z_k})  \; \wedge \;  ((z_j           \wedge   z_k)      \vee z_i )
@@ -226,15 +236,20 @@ $$
 which is the same as
 $$
  (\overline{z_i} \vee \overline{z_j} \vee\overline{z_k} ) \wedge          (z_i     \vee z_j )
-         \wedge  (z_i     \vee z_k)
+         \wedge  (z_i     \vee z_k) \label{eq:CNFNAND}
 $$
+>
+This means that, given any 3NAND formula $\vaprhi$ over $n$ variables $z_0,\ldots,z_{n-1}$, we can obtain a 3SAT formula $\psi$ over the same variables by replacing every $3NAND$ constraint of $\varphi$ with three $3OR$ constraints as above.^[The resulting forumula will have some of the OR's involving only two variables.  If we wanted to insist on each formula involving three distinct variables we can always add a "dummy variable" $z_{n+1}$ and include it in all the OR's involving only two variables.]
+Because of the equivalence of [eq:NANDconstraint](){.eqref} and [eq:CNFNAND](){.eqref}, the formula $\psi$ satisfies that $\psi(z_0,\ldots,z_{n-1})=\varphi(z_0,\ldots,z_{n-1})$ for every assignment $z_0,\ldots,z_{n-1} \in \{0,1\}^n$ to the variables.
+In particular $\psi$ is satisfiable if and only if $\varphi$ is, thus completing the proof.
 
-Hence by replacing every $3NAND$ constraint of $\psi$ with three $3OR$ constraints as above we can transform a 3NAND formula $\psi$ to an equivalent 3CNF formula $\varphi$, thus completing the proof.^[The resulting forumula will have some of the OR's involving only two variables.  If we wanted to insist on each formula involving three distinct variables we can always add a "dummy variable" $z_{m+n+2}$ and include it in all the OR's involving only two variables. We leave it as an exercise to show that the new formula will be satisfiable if and only if the previous one was.]
+### Wrapping up
 
-
-
-
-
+We have shown that for every function $F$ in $\mathbf{NP}$, $F \leq_p NANDSAT \leq_p 3NAND \leq_p 3SAT$, and so $3SAT$ is $\mathbf{NP}$-hard.
+Since in the previous lecture we have seen that $3SAT \leq_p QUADEQ$, $3SAT \leq_p ISET$, $3SAT \leq_p MAXCUT$ and $3SAT \leq_p LONGPATH$, all these problems are $\mathbf{NP}$-hard as well.
+Finally, since all the aforementioned problems are in $\mathbf{NP}$, they are all in fact $\mathbf{NP}$-complete and have equivalent complexity.
+There are thousands of other natural problems that are $\mathbf{NP}$ complete as well.
+Finding a polynomial time algorithm for one of them will imply a polynomial-time algorithm for all of them. 
 
 ## Lecture summary
 
