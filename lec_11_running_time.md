@@ -167,7 +167,7 @@ It turns out that the answer is __Yes__:
 
 > # {.theorem title="Time Hierarchy Theorem" #time-hierarchy-thm}
 For every nice function $T$, there is a function $F:\{0,1\}^* \rightarrow \{0,1\}$
-in $TIME(T(n)\log n) \setminus TIME(T(n))$.^[There is nothing special about $\log n$, and we could have used any other nice function that tends to infinity with $n$.]
+in $TIME(T(n)\log n) \setminus TIME(T(n))$.^[There is nothing special about $\log n$, and we could have used any other efficiently computable function that tends to infinity with $n$.]
 
 Note that in particular this means that $\mathbf{P} \neq \mathbf{EXP}$.
 
