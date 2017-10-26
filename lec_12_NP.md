@@ -79,7 +79,7 @@ We leave the proof of [transitivitylem](){.ref} as [transitivity-reductions-ex](
 > # {.remark title="Polynomial reductions" #polynomialred}
 We have seen reductions before in the context of proving uncomputability of problems such as $HALTONZERO$ and others.
 The most crucial difference between the notion in [reduction-def](){.ref} and previously occuring notions is that in hte context of relating the time complexity of problems, we need the reduction to be computable in _polynomial time_, as opposed to merely computable.
-[reduction-def](){.ref} also restricts reductions to have a very specific format. That is, to show that $F \leq_p G$, rather than allowing a general algorithm for $F$ that uses a "magic box" that computes $G$, we only allow an algorithm that computes $F(x)$ by outputting $G(F(x))$. This restricted form is convenient for us, but people have defined and used  more general  reductions as well.
+[reduction-def](){.ref} also restricts reductions to have a very specific format. That is, to show that $F \leq_p G$, rather than allowing a general algorithm for $F$ that uses a "magic box" that computes $G$, we only allow an algorithm that computes $F(x)$ by outputting $G(R(x))$. This restricted form is convenient for us, but people have defined and used  more general  reductions as well.
 
 ## Some example reductions
 
@@ -112,7 +112,7 @@ The idea is that we can transform a 3SAT formula $\varphi$ first to a set of _cu
 To prove [quadeq-thm](){.ref} we need to give a   polynomial-time transformation of every 3SAT formula $\varphi$ into a set of quadratic equations $E$, and prove that $3SAT(\varphi)=QUADEQ(E)$.
 >
 We now describe the transformation of a formula $\varphi$ to equations $E$ and show the completeness and soundness conditions.
-Recall that a _3SAT formula_ $\varphi$ is a formula such as $(x_{17} \vee \overline{x}_{101} \vee x_{57}) \wedge ( x_{18} \vee \overline{x}_{19} \vee \overline{x}_{101}) \vee \cdots$.
+Recall that a _3SAT formula_ $\varphi$ is a formula such as $(x_{17} \vee \overline{x}_{101} \vee x_{57}) \wedge ( x_{18} \vee \overline{x}_{19} \vee \overline{x}_{101}) \wedge \cdots$.
 That is, $\varphi$ is composed of the AND of $m$ _3SAT clauses_ where a 3SAT clause is the OR of three variables or their negation.
 A _quadratic equations_  instance $E$, is composed of a list of equations, each of involving a sum of variables or their products, such as $x_{19}x_{52} - x_{12} + 2x_{33} = 2$, etc.. We will include the constraints $x_i^2-x_i=0$ for every $i\in [n]$ in our equations, which means that we can restrict attention to assignments where $x_i \in \{0,1\}$ for every $i$.
 >

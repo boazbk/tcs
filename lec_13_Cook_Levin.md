@@ -27,7 +27,7 @@ It turns out that  _every_ such search problem can be reduced to 3SAT.
 
 To make this precise, we  make the following mathematical definition.
 We define the class $\mathbf{NP}$ to  contain all Boolean functions that correspond to a _search problem_ of the form above.
-That is, functions that  output $1$ on $x$ if and only if there exists a solution $y$ such that the pair $(x,y)$ satisfies some polynomial-time checkable condition.
+That is, functions that  output $1$ on $x$ if and only if there exists a solution $w$ such that the pair $(x,w)$ satisfies some polynomial-time checkable condition.
 Formally, $\mathbf{NP}$ is defined as follows:
 
 
@@ -60,35 +60,44 @@ There are many, many, _many_, more examples of interesting functions we would li
 
 The following is one of the most fundamental theorems in Computer Science:
 
-> # {.theorem title="Cook-Levin Theorem" #cooklevin-thm}
+
+
+> # {.theorem title="Cook-Levin Theorem" #cook-levin-thm}
 For every $F\in \mathbf{NP}$, $F \leq_p 3SAT$.
 
-We will soon show the proof of [cooklevin-thm](){.ref}, but note that it immediately implies that $QUADEQ$, $LONGPATH$, and $MAXCUT$ all reduce to $3SAT$.
+We will soon show the proof of [cook-levin-thm](){.ref}, but note that it immediately implies that $QUADEQ$, $LONGPATH$, and $MAXCUT$ all reduce to $3SAT$.
 In fact, combining it with the reductions we've seen, it implies that all these problems are _equivalent!_
-To reduce $QUADEQ$ to $LONGPATH$, we can first reduce $QUADEQ$ to $3SAT$ using [cooklevin-thm](){.ref} and use the reduction we've seen from $3SAT$ to $LONGPATH$.
-There is of course nothing special about $QUADEQ$ here- by combining [cooklevin-thm](){.eqref} with the reduction we saw, we see that just like $3SAT$,  _every_ $F\in \mathbf{NP}$ reduces to $LONGPATH$, and the same is true for $QUADEQ$ and $MAXCUT$.
-All these problems are in some sense "the hardest in $\mathbf{NP}$" in the sense that an efficient algorithm for one of them would imply an efficient algorithm for _all_ the problems in $\mathbf{NP}$.
+To reduce $QUADEQ$ to $LONGPATH$, we can first reduce $QUADEQ$ to $3SAT$ using [cook-levin-thm](){.ref} and use the reduction we've seen from $3SAT$ to $LONGPATH$.
+There is of course nothing special about $QUADEQ$ here- by combining [cook-levin-thm](){.eqref} with the reduction we saw, we see that just like $3SAT$,  _every_ $F\in \mathbf{NP}$ reduces to $LONGPATH$, and the same is true for $QUADEQ$ and $MAXCUT$.
+All these problems are in some sense "the hardest in $\mathbf{NP}$" since an efficient algorithm for any one of them would imply an efficient algorithm for _all_ the problems in $\mathbf{NP}$.
 This motivates the following definition
 
 > # {.definition title="$\mathbf{NP}$ completeness" #NPC-def}
 We say that $G:\{0,1\}^* \rightarrow \{0,1\}$ is _$\mathbf{NP}$ hard_ if for every $F\in \mathbf{NP}$,
 $F \leq_p G$. We say that $G$ is _$\mathbf{NP}$ complete_ if $G$ is $\mathbf{NP}$ hard and it is in $\mathbf{NP}$.
 
-[cooklevin-thm](){.ref} and the reductions we've seen in the last lecture show that despite their superficial differences, 3SAT, quadratic equations, longest path, independent set, and maximum cut, are all $\mathbf{NP}$ complete. Thousands more problems have been shown to be $\mathbf{NP}$ complete, arising from all science, mathematics, economics, engineering and many other fields.
+[cook-levin-thm](){.ref} and the reductions we've seen in the last lecture show that despite their superficial differences, 3SAT, quadratic equations, longest path, independent set, and maximum cut, are all $\mathbf{NP}$ complete. Many thousands of additional problems have been shown to be $\mathbf{NP}$ complete, arising from all the sciences, mathematics, economics, engineering and many other fields.^[For some partial lists, see [this Wikipedia page](https://en.wikipedia.org/wiki/List_of_NP-complete_problems) and [this website](https://www.nada.kth.se/~viggo/problemlist/compendium.html).]
 
 ### What does this mean?
 
 
 
-Clearly $\mathbf{NP} \supseteq \mathbf{P}$, since if we can decide efficiently whether $F(x)=1$, we can simply ignore any "solution" that we are presented with.  Also, $\mathbf{NP} \subseteq \mathbf{EXP}$, since all the problems in $\mathbf{NP}$ can be solved in exponential time by enumerating all the possible solutions.
+Clearly $\mathbf{NP} \supseteq \mathbf{P}$, since if we can decide efficiently whether $F(x)=1$, we can simply ignore any "solution" that we are presented with. (However, it is still an excellent idea for you to pause here and verify that you see why every $F\in \mathbf{P}$ will be in $\mathbf{NP}$ as per [NP-def](){.ref}.)
+Also, $\mathbf{NP} \subseteq \mathbf{EXP}$, since all the problems in $\mathbf{NP}$ can be solved in exponential time by enumerating all the possible solutions. (Again, please verify that you understand why this follows from the definition.)
+
 _The_ most famous conjecture in Computer Science is that $\mathbf{P} \neq \mathbf{NP}$.
 One way to refute this conjecture is to give a polynomial-time algorithm for even a single one of the $\mathbf{NP}$-complete problems such as 3SAT, Max Cut, or the thousands of others that have been studied in all fields of human endeavors.
 The fact that these problems have been studied by so many people, and yet not a single polynomial-time algorithm for them was found, supports that conjecture that indeed $\mathbf{P} \neq \mathbf{NP}$.
 In fact, for many of these problems (including all the ones we mentioned above), we don't even know of a $2^{o(n)}$ time algorithm!
 However, to the frustration of computer scientists, we have not yet been able to prove that $\mathbf{P}\neq\mathbf{NP}$ or even rule out the existence of an $O(n)$ time algorithm for 3SAT.
+Resolving whether or not $\mathbf{P}=\mathbf{NP}$ is known as the [$\mathbf{P}$ vs $\mathbf{NP}$ problem](https://en.wikipedia.org/wiki/P_versus_NP_problem).
+A million dollar prize has been [offered](http://www.claymath.org/millennium-problems/p-vs-np-problem) for the solution of this problem, a [popular book](https://www.amazon.com/dp/B00BKZYGUY) was written, and every year a new paper comes out claiming a proof of $\mathbf{P}=\mathbf{NP}$ or $\mathbf{P}\neq\mathbf{NP}$, only to wither under the scrutiny.^[The following [web page](https://www.win.tue.nl/~gwoegi/P-versus-NP.htm) keeps a catalog of these failed attempts. At the time of the writing it lists  about 110 papers claiming to resolve the question, of which about 60 claim to prove that $\mathbf{P}=\mathbf{NP}$ and about 50 claim to prove that $\mathbf{P} \neq \mathbf{NP}$.]
+The following [120 page survey of Aaronson](https://eccc.weizmann.ac.il/report/2017/004/), as well as [chapter 3 in Wigderson's upcoming book](https://www.math.ias.edu/avi/book) are excellent sources for summarizing what is known about this problem.
 
 
-One of the mysteries of computation is that people have observed a  certain empirical "zero one law" or "dichotomy" in the computational complexity of natural problems, in the sense that many natural problems are either in $\mathbf{P}$ (in fact often with a low exponent) or are $\mathbf{NP}$ hard. However, it is believed that there are problems in $\mathbf{NP}$ that are neither in $\mathbf{P}$ not in $\mathbf{NP}$, and in fact a result known as "Ladner's Theorem" shows that if $\mathbf{P} \neq \mathbf{NP}$ then this is the case.
+One of the mysteries of computation is that people have observed a  certain empirical "zero one law" or "dichotomy" in the computational complexity of natural problems, in the sense that many natural problems are either in $\mathbf{P}$ (in fact often with a low exponent) or are $\mathbf{NP}$ hard.
+This is related to the fact that for most natural problems, the best known algorithm is either exponential or polynomial, with not too many examples where the best running time is some strange intermediate complexity such as $2^{2^{\sqrt{\log n}}}$.
+However, it is believed that there exist problems in $\mathbf{NP}$ that are neither in $\mathbf{P}$ not in $\mathbf{NP}$, and in fact a result known as "Ladner's Theorem" shows that if $\mathbf{P} \neq \mathbf{NP}$ then this is the case.
 
 
 
@@ -129,13 +138,14 @@ $3NAND \leq_p 3SAT$.
 
 
 From the transitivity of reductions,  [nand-thm](){.ref}, [threenand-thm](){.ref}, and [threenand-sat-thm](){.ref} together immediately imply that $3SAT$ is  $\mathbf{NP}$-hard, hence establishing [cook-levin-thm](){.ref}.
-We now prove them one by one, providing the requisite definitions as we go along.
+(Can you see why?)
+We now prove these three lemmas one by one, providing the requisite definitions as we go along.
 
-### The $NANDSAT$ Problem, and why it is $\mathbf{NP}$ complete.
+### The $NANDSAT$ Problem, and why it is $\mathbf{NP}$ hard.
 
 We define the $NANDSAT$ problem as follows. On input a string $Q\in \{0,1\}^*$, we define $NANDSAT(Q)=1$ if and only if $Q$ is a valid representation of an $n$-input and single-output NAND  program and there exists some $w\in \{0,1\}^n$ such that $Q(w)=1$.
 While we don't need this to prove [nand-thm](){.ref}, note that $NANDSAT$ is in $\mathbf{NP}$ since we can verify that $Q(w)=1$ using the polyonmial-time algorithm for evaluating NAND programs.^[$Q$ is a NAND program and not a NAND++ program, and hence it is only defined on inputs of some particular size $n$. Evaluating $Q$ on any input $w\in \{0,1\}^n$ can be done in time polynomial in the number of lines of $Q$.]
-
+We now present the proof of [nand-thm](){.ref}.
 
 > # {.proofidea data-ref="nand-thm"}
 To prove [nand-thm](){.ref}  we need to show that for every $F\in \mathbf{NP}$, $F \leq_p NANDSAT$.
@@ -148,19 +158,21 @@ We will then get that $NANDSAT(Q)=1$ if and only if $F(x)=1$.
 We now present the details.
 Let $F \in \mathbf{NP}$.  By [NP-def](){.ref} there exists $G \in \mathbf{P}$ and $a,b \in \N$ such that for every $x\in \{0,1\}^*$, $F(x)=1$  if and only if there exists $w\in \{0,1\}^{a|x|^b}$ such that $G(xw)=1$.
 Since $G\in \mathbf{P}$ there is some NAND++ program $P^*$ that computes $G$ in at most ${n'}^c$ time for some constant $c$ where $n'$ is the size of its input.
-Moreover, we can assume without loss of generality that $P^*$ is simple in the sense of [simpleNANDpp](){.ref} and let $L$ be the number of lines of $P^*$.
+Moreover, as shown in [simpleNANDthm](){.ref}, we can assume without loss of generality that $P^*$ is simple in the sense of [simpleNANDpp](){.ref}.
 >
 To prove [nand-thm](){.ref} we need to give a polynomial-time computable map of every $x^* \in \{0,1\}^*$ to a NAND program $Q$ such that $F(x^*)=NANDSAT(Q)$.
-Let  $x^*\in \{0,1\}^*$ be such a string and let $n=|x^*|$ be its length. In time polynomial in $n$, we can obtain a NAND program $Q^*$ of $n+an^b$ inputs and $L(n+an^b)^c$ lines such that $Q^*(xw)=P^*(xw)$ for every $x\in \{0,1\}^n$ and $w\in \{0,1\}^{an^b}$. Indeed, we can do this by simply copying and pasting $(n+an^b)^c$ times the code of $P^*$ one after the other, and replacing all references to `i` in the $j$-th copy with $INDEX(j)$.^[Recall that $INDEX(j)$ is the value of the `i` index variable in the $j$-th iteration. The particular formula for $INDEX(j)$ was given in [eqindex](){.eqref} but all we care is that it is computable in time polynomial in $j$.] We also replace references to `validx_`$\expr{k}$ with `one` if $k<an^b$ and `zero` otherwise.
+Let  $x^*\in \{0,1\}^*$ be such a string and let $n=|x^*|$ be its length. In time polynomial in $n$, we can obtain a NAND program $Q^*$ of $n+an^b$ inputs and $|P^*|\cdot (n+an^b)^c$ lines (where $|P^*|$ denotes the number of lines of $P^*$) such that $Q^*(xw)=P^*(xw)$ for every $x\in \{0,1\}^n$ and $w\in \{0,1\}^{an^b}$. Indeed, we can do this by simply copying and pasting $(n+an^b)^c$ times the code of $P^*$ one after the other, and replacing all references to `i` in the $j$-th copy with $INDEX(j)$.^[Recall that $INDEX(j)$ is the value of the `i` index variable in the $j$-th iteration. The particular formula for $INDEX(j)$ was given in [eqindex](){.eqref} but all we care is that it is computable in time polynomial in $j$.] We also replace references to `validx_`$\expr{k}$ with `one` if $k<an^b$ and `zero` otherwise.
 By the definition of NAND++ and the fact that the original program $P^*$ was simple and halted within at most $(n+an^b)^c$ steps, the NAND program $Q^*$ agrees with $P^*$ on every input of the form $xw \in \{0,1\}^{n+an^b}$.^[We only used the fact that $P^*$ is simple to ensure that __1__ we have access to the `one` and `zero` variables, and that assignments to the output variable `y_0` are "guarded" in the sense that adding extra copies of $P^*$ after it already halted will not change the output. It is not hard to ensure these properties as shown in [simpleNANDthm](){.ref}.]
 >
-Now we  transform $Q^*$ into $Q$  by replacing all references to the variables `x_`$\expr{j}$ for $j<n$ with either `one` or `zero` depending on the value of $x^*_j$. For $j>n$ we will replace references to `x_`$\expr{j}$ with `x_`$\expr{j-n}$. (These transformation do not change the number of lines.)
-This means that we have "hardwired" the bits of $x^*$ as the first $n$ inputs of $Q^*$ and so $Q$ has $an^b$ inputs and for every $w\in \{0,1\}^{an^b}$, $Q(w)=Q^*(x^*w)$.
+Now we  transform $Q^*$ into $Q$  by "hardwiring" its first $n$ inputs to corresond to $x^*$.
+That is, we obtain a program $Q$ such that $Q(w)=Q^*(x^*w)$ for every $w\in \{0,1\}^{an^b}$ by replacing all references to the variables `x_`$\expr{j}$ for $j<n$ with either `one` or `zero` depending on the value of $x^*_j$. (We also map `x_`$\expr{n}$,$\ldots$,`x_`$\expr{n+an^b}$ to `x_`$\expr{0}$, $\ldots$, `x_`$\expr{an^b-1}$ so that the number of inputs is reduced from $n+an^b$ to $an^b$..)
+You can verify that by this construction $Q$ has $an^b$ inputs and for every $w\in \{0,1\}^{an^b}$, $Q(w)=Q^*(x^*w)$.
 We now claim that $NANDSAT(Q)=F(x^*)$. Indeed note that $F(x^*)=1$ if and only if there exists $w\in \{0,1\}^{an^b}$ s.t. $P^*(x^*w)=1$. But since $Q^*(xw)=P^*(xw)$ for every $x,w$ of these lengths, and $Q(w)=Q^*(x^*w)$ it follows that this holds if and only if there exists $w\in \{0,1\}^{an^b}$ such that $Q(w)=1$.
 But the latter condition holds exactly when $NANDSAT(Q)=1$.
 
 > # { .pause }
 The proof above is a little bit technical but ultimately follows quite directly from the definition of $\mathbf{NP}$, as well as NAND and NAND++ programs. If you find it confusing, try to pause here and work out the proof yourself from these definitions, using the idea of "unrolling the loop" of a NAND++ program.
+It might also be useful for you to think how you would implement in your favorite programming language the function `expand` which on input a NAND++ program $P$ and numbers $T,n$ would output an $n$-input NAND program $Q$ of $O(|T|)$ lines such that for every input $x\in \{0,1\}^n$, if $P$ halts on $x$ within at most $T$ steps and outputs $y$, then $Q(x)=y$.
 
 
 
@@ -170,6 +182,7 @@ The $3NAND$ problem is defined as follows: the input is a logical formula on a s
 which is an AND of constraints of the form $z_i = NAND(z_j,z_k)$.
 The output is $1$ if and only if there is an  assignment to the $z$'s that satisfies all these constraints.
 That is, for every string $\varphi \in \{0,1\}^*$ that encodes such a formula, we define $3NAND(\varphi)=1$ if and only if there exists an assignment $x$ that satisfies all the constraints of $\varphi$.
+We now prove [threenand-thm](){.ref}.
 
 > # {.proofidea data-ref="threenand-thm"}
 To prove [threenand-thm](){.ref} we need to give a polynomial-time map from every NAND program $Q$ to a 3NAND formula $\varphi$ such that there exists $w$ such that $Q(w)=1$ if and only if there exists $z$ satisfying $\varphi$.
@@ -218,7 +231,7 @@ To prove [threenand-sat-thm](){.ref} we need to map a 3NAND formula $\varphi$ in
 > # { .pause }
 It is a good exercise for you to try to find a 3CNF formula $\xi$ on three variables $a,b,c$ such that $\xi(a,b,c)$ is true if and only if $a = NAND(b,c)$. Once you do so, try to see why this implies a reduction from $3NAND$ to $3SAT$,  and hence completes the proof of [threenand-sat-thm](){.ref}
 
-> # {.proofidea data-ref="threenand-sat-thm"}
+> # {.proof data-ref="threenand-sat-thm"}
 Since $NAND(z,z') = \overline{z \wedge z'} = \overline{z}\vee\overline{z'}$,  the constraint
 $$
 z_i = NAND(z_j,z_k) \label{eq:NANDconstraint}
