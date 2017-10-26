@@ -62,7 +62,7 @@ Let $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$. We say that _$F$ reduces to $G$_, den
 $$
 F(x) = G(R(x)) \;. \label{eq:reduction}
 $$
-We say that $F$ and $G$ have _equivalent complexity_ if $F \leq_p G$ and $G \leq_p H$.
+We say that $F$ and $G$ have _equivalent complexity_ if $F \leq_p G$ and $G \leq_p F$.
 
 If $F \leq_p G$ and $G$ is computable in polynomial time (i.e., $G \in \mathbf{P}$), then $F$ is computable in polynomial time as well.
 Indeed, [eq:reduction](){.eqref} shows a way how to compute $F$ by applying the polynomial-time reduction $R$ and then the  polynomial-time algorithm  for computing $F$.
