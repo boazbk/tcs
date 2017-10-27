@@ -249,7 +249,7 @@ The proof follows by the "unraveling" argument that we've already seen in the pr
 Given a NAND++ program $P$ and some function $T(n)$, we can transform NAND++ to be "simple" in the sense of [simpleNANDpp](){.ref}, and by direct examination this transformation costs at most a factor of 4 in the  running time. Thus we can construct a NAND program on $n$ inputs and with less than $2 T(n)$ lines by simply putting "unraveling the main loop" of $P$ and hence putting $T(n)/L$  copies of $P$ one after the other, where $L$ is the number of lines in $P$, replacing any instance of `i` with the numerical value of `i` for that iteration.
 While the original NAND++ program $P$ might have ended on some inputs _before_ $T(n)$ iterations have passed, by transforming it to be simple we ensure that there is no harm in "extra" iterations, since all assignments to the output are "guarded" by ensuring they make no difference if the program should have already halted before.
 
-
+Note that by combining it with [NANDpp-thm](){.ref}, [non-uniform](){.ref} implies that if $F\in TIME(T(n))$ then there are some constants $a,b$ such that for every large enough $n$, $F_n \in SIZE(aT(n)^b)$. (In fact, by direct inspection of the proofs we can see that $a=1$ and $b=5$ would work.)
 
 __Algorithmic version: the "NAND++ to NAND compiler":__
 The transformation of the NAND++ program $P$ to the NAND program $Q_P$ is itself algorithmic. (Indeed it can be done in  about 5 lines of Python.)

@@ -13,7 +13,7 @@ In this lecture, we will try to figure out the implications of such an algorithm
 First, let us get one qualm out of the way.
 Sometimes people say, _"What if $\mathbf{P}=\mathbf{NP}$ but the best algorithm for 3SAT takes $n^{100}$ time?"_
 Well, $n^{100}$ is much larger than, say, $2^{\sqrt{n}}$ for any input shorter than $10^{60}$ bits which is way way larger than the world's total storage capacity (estimated at a "mere" $10^{21}$ bits or about 200 exabytes at the time of this writing).
-So qualitatively, this question can be thought of as "what if the complexity of 3SAT is exponential for all inputs that we will ever encounter, but then grows much smaller than that?"
+So another way to phrase this question is as saying  "what if the complexity of 3SAT is exponential for all inputs that we will ever encounter, but then grows much smaller than that?"
 To me this sounds like the computer science equivalent of asking "what if the laws of physics change completely once they are out of the range of our telescopes?".
 Sure, this is a valid  possibility, but wondering about it does not sound like the most productive use of our time.
 
@@ -23,7 +23,8 @@ So, as the saying goes, we'll keep an open mind, but not so open that our brains
 
 and
 
- * She does not "pussyfoot around" or take "half measures". If she decided to make 3SAT easy then this problem will have an $10^6\cdot n$ (or at worst $10^6 n^2$) time algorithm, and if she decided to make 3SAT hard, then for every $n$, 3SAT on $n$ variables cannot be solved by a NAND program of fewer than $2^{10^{-6}n}$ lines.
+ * She does not "pussyfoot around" or take "half measures". If God  decided to make $3SAT$ easy then $3SAT$ will have an $10^6\cdot n$ (or at worst $10^6 n^2$) time algorithm (i.e., $3SAT$ will be in $TIME(cn)$ or $TIME(cn^2)$  for a not-too-large constant $c$). If she decided to make $3SAT$ hard, then for every $n \in \N$, 3SAT on $n$ variables cannot be solved by a NAND program of fewer than $2^{10^{-6}n}$ lines (which, through the relations between $SIZE(T(n))$, $TIME_{++}(T(n))$ and $TIME(T(n))$ that we've seen in [NANDpp-thm](){.ref} and [non-uniform](){.ref}, implies that $3SAT \not\in TIME(2^{o(n)})$).
+
 
 So far most of our evidence points to the latter possibility of 3SAT being exponentially hard, but we have not ruled out the former possibility either.
 In this lecture we will explore some of its consequences.
@@ -40,11 +41,22 @@ It turns out that if we can solve these decision problems, we can solve the corr
 > # {.theorem title="Search vs Decision" #search-dec-thm}
 Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time NAND++ program $P$ and $a,b \in \N$,there is a polynomial time NAND++ program $FIND$  such that for every  $x\in \{0,1\}^n$, if there exists $y\in \{0,1\}^{an^b}$ satisfying $P(xy)=1$, then $FIND(x)$ finds some string $y'$ satisfying this condition.
 
-While the theorem's statement is a bit of a mouthful, it in particular implies that if $\mathbf{P}=\mathbf{NP}$ then we can  we can find a satisfying assignment for every satisfiable 3CNF formula, find a simple path of length at least $k$ in any graph that has one, etc..
+> # { .pause }
+To understand what the statement of [search-dec-thm](){.ref} means, let us look at the special case of the $MAXCUT$ problem.
+It is not hard to see that there is a polyomial time algorithm $VERIFYCUT$ such that $VERIFYCUT(G,k,S)=1$ if and only if $S$ is a subset of $G$'s vertices that cuts at least $k$ edges.
+[search-dec-thm](){.ref} implies that if $\mathbf{P}=\mathbf{NP}$ then there is a polynomial time algorithm $FINDCUT$ that on input $G,k$ outputs a set $S$ such that $VERIFYCUT(G,k,S)=1$ if such a set exists. This means that if $\mathbf{P}=\mathbf{NP}$, by trying all values of $k$ we can find in polynomial time that maximum cut in any given graph. We can use a similar argument to show that if $\mathbf{P}=\mathbf{NP}$ then we can find a satisfying assignment for every satisfiable 3CNF formula, find the longest path in a graph, solve integer programming, and so and and so forth.
+
+> # {.proofidea data-ref="search-dec-thm"}
+The idea behind the proof of [search-dec-thm](){.ref} is simple.
+Let us demonstrate it for the particular case of $3SAT$.
+Suppose that $\mathbf{P}=\mathbf{NP}$ and we are given a satisfiable 3CNF formula $\varphi$, and we want to find a satisfying assignment $y$ for $\varphi$.
+Define $3SAT_0(\varphi)$ to output $1$ if there is a satisfying assignment $y$ for $\varphi$ such that its first bit is $0$, and similarly define $3SAT_1(\varphi)=1$ if there is a satisfying assignment $y$ with $y_0=1$.
+The key observation is that both $3SAT_0$ and $3SAT_1$ are in $\mathbf{NP}$, and so if $\mathbf{P}=\mathbf{NP}$ then we can compute them in polynomial time as well.
+Thus we can use this to find the first bit of the satisfying assignment.
+We can continue in this way to recover all the bits, see the full proof below.
 
 
 > # {.proof data-ref="search-dec-thm"}
-The idea behind the proof is simple.
 If $\mathbf{P}=\mathbf{NP}$ then for every polynomial-time NAND++ program $P$ and $a,b \in \N$, there is a polynomial-time algorithm $STARTSWITH$ that on input $x\in \{0,1\}^*$ and $z\in \{0,1\}^\ell$, outputs $1$ if and only if there exists some $y\in \{0,1\}^{an^b}$ such that the first $\ell$ bits of $y$ are equal to $z$ and $P(xy)=1$. Indeed, we leave it as an exercise to verify that the $STARTSWITH$ function is in $\mathbf{NP}$ and hence can be solved in polynomial time if $\mathbf{P}=\mathbf{NP}$.
 >
 Now for any program $P$ and $a,b\in\N$, we can implement $FIND(x)$ as follows: \
@@ -90,7 +102,7 @@ $$
 \exists_{P'} \forall_x   |P'| \leq k \wedge P(x)=P'(x) \;.
 $$
 
-It turns out that if $\mathbf{P}=\mathbf{NP}$ then we can solve these kinds of problems as well.
+It turns out that if $\mathbf{P}=\mathbf{NP}$ then we can solve these kinds of problems as well.^[Since NAND programs are equivalent to Boolean circuits, this  is known as the [circuit minimization problem](https://en.wikipedia.org/wiki/Logic_optimization)  and is widely studied in Engineering.]
 
 > # {.theorem title="Polynomial hierarchy collapse" #PH-collapse-thm}
 If $\mathbf{P}=\mathbf{NP}$ then for every  $a\in \N$ there is a polynomial-time algorithm
@@ -254,5 +266,6 @@ This is not surprising since, as we mentioned before, from group theory to the t
 
 Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
 
+* Polynomial hieararchy hardness for circuit minimization and related problems, see for example [this paper](http://users.cms.caltech.edu/~umans/papers/BU07.pdf).
 
 ## Acknowledgements

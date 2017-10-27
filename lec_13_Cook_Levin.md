@@ -67,7 +67,7 @@ For every $F\in \mathbf{NP}$, $F \leq_p 3SAT$.
 
 We will soon show the proof of [cook-levin-thm](){.ref}, but note that it immediately implies that $QUADEQ$, $LONGPATH$, and $MAXCUT$ all reduce to $3SAT$.
 In fact, combining it with the reductions we've seen, it implies that all these problems are _equivalent!_
-To reduce $QUADEQ$ to $LONGPATH$, we can first reduce $QUADEQ$ to $3SAT$ using [cook-levin-thm](){.ref} and use the reduction we've seen from $3SAT$ to $LONGPATH$.
+For example, to reduce $QUADEQ$ to $LONGPATH$, we can first reduce $QUADEQ$ to $3SAT$ using [cook-levin-thm](){.ref} and use the reduction we've seen from $3SAT$ to $LONGPATH$.
 There is of course nothing special about $QUADEQ$ here- by combining [cook-levin-thm](){.eqref} with the reduction we saw, we see that just like $3SAT$,  _every_ $F\in \mathbf{NP}$ reduces to $LONGPATH$, and the same is true for $QUADEQ$ and $MAXCUT$.
 All these problems are in some sense "the hardest in $\mathbf{NP}$" since an efficient algorithm for any one of them would imply an efficient algorithm for _all_ the problems in $\mathbf{NP}$.
 This motivates the following definition
@@ -95,9 +95,9 @@ A million dollar prize has been [offered](http://www.claymath.org/millennium-pro
 The following [120 page survey of Aaronson](https://eccc.weizmann.ac.il/report/2017/004/), as well as [chapter 3 in Wigderson's upcoming book](https://www.math.ias.edu/avi/book) are excellent sources for summarizing what is known about this problem.
 
 
-One of the mysteries of computation is that people have observed a  certain empirical "zero one law" or "dichotomy" in the computational complexity of natural problems, in the sense that many natural problems are either in $\mathbf{P}$ (in fact often with a low exponent) or are $\mathbf{NP}$ hard.
+One of the mysteries of computation is that people have observed a  certain empirical "zero one law" or "dichotomy" in the computational complexity of natural problems, in the sense that many natural problems are either in $\mathbf{P}$ (often in $TIME(O(n))$ or $TIME(O(n^2))$), or they are are $\mathbf{NP}$ hard.
 This is related to the fact that for most natural problems, the best known algorithm is either exponential or polynomial, with not too many examples where the best running time is some strange intermediate complexity such as $2^{2^{\sqrt{\log n}}}$.
-However, it is believed that there exist problems in $\mathbf{NP}$ that are neither in $\mathbf{P}$ not in $\mathbf{NP}$, and in fact a result known as "Ladner's Theorem" shows that if $\mathbf{P} \neq \mathbf{NP}$ then this is the case.
+However, it is believed that there exist problems in $\mathbf{NP}$ that are neither in $\mathbf{P}$ not in $\mathbf{NP}$, and in fact a result known as "Ladner's Theorem" shows that if $\mathbf{P} \neq \mathbf{NP}$ then this is the case (see also [ladner-ex](){.ref}).
 
 
 
@@ -116,7 +116,7 @@ However, it is believed that there exist problems in $\mathbf{NP}$ that are neit
 
 
 We will now prove the Cook-Levin Theorem, which  is the underpinning to  a great web of reductions from 3SAT to thousands of problems across great many fields.
-Some problems that have been shown NP complete include: minimum-energy protein folding, minimum surface-area foam configuration, map coloring,    optimal Nash equilibrium, quantum state entanglement, minimum supersequence of a genome, minimum codeword problem, shortest vector in a lattice, minimum genus knots, positive Diophantine equations, integer programming, and many many more..
+Some problems that have been shown NP complete include: minimum-energy protein folding, minimum surface-area foam configuration, map coloring,    optimal Nash equilibrium, quantum state entanglement, minimum supersequence of a genome, minimum codeword problem, shortest vector in a lattice, minimum genus knots, positive Diophantine equations, integer programming, and many many more.
 The worst-case complexity of all these problems is (up to polynomial factors) equivalent to that of 3SAT, and through the Cook-Levin Theorem, to all problems in $\mathbf{NP}$.
 
 
@@ -178,16 +178,22 @@ It might also be useful for you to think how you would implement in your favorit
 
 ### The $3NAND$ problem
 
-The $3NAND$ problem is defined as follows: the input is a logical formula on a set of  variables $z_1,\ldots,z_m$
+The $3NAND$ problem is defined as follows: the input is a logical formula $\varphi$ on a set of  variables $z_0,\ldots,z_{r-1}$
 which is an AND of constraints of the form $z_i = NAND(z_j,z_k)$.
-The output is $1$ if and only if there is an  assignment to the $z$'s that satisfies all these constraints.
-That is, for every string $\varphi \in \{0,1\}^*$ that encodes such a formula, we define $3NAND(\varphi)=1$ if and only if there exists an assignment $x$ that satisfies all the constraints of $\varphi$.
+For example, the following is a $3NAND$ formula with $5$ variables and $3$ constraints:
+\[
+\left( z_3 = NAND(z_0,z_2) \right) \wedge \left( z_1 = NAND(z_0,z_2) \right) \wedge \left( z_4 = NAND(z_3,z_1) \right)
+\]
+
+The output of $3NAND$ on input $\varphi$ is $1$ if and only if there is an  assignment to the variables of $\varphi$ that makes it evaluate to "true"  (that is, there is some assignment $z \in \{0,1\}^r$ satisfying all of the constraints of $\varphi$).
+As usual, we can represent $\varphi$ as a string, and so think of $3NAND$ as a function mapping $\{0,1\}^*$ to $\{0,1\}$.
 We now prove [threenand-thm](){.ref}.
 
 > # {.proofidea data-ref="threenand-thm"}
 To prove [threenand-thm](){.ref} we need to give a polynomial-time map from every NAND program $Q$ to a 3NAND formula $\varphi$ such that there exists $w$ such that $Q(w)=1$ if and only if there exists $z$ satisfying $\varphi$.
 This will actually follow directly from our notion of "modification logs" or  "deltas" of NAND++ programs (see [deltas](){.ref}).
-Let $n$ be the number of inputs to $Q$. The idea is that $z_0,\ldots,z_{n-1}$ will correspond to the input $w$ to $Q$, and for every $i>n$, $z_{i}$ will encode the value that is written to a variable in the $i-n$-th line of $Q$. The constraint we add is that $z_i = NAND(z_j,z_k)$ where $j-n$ and $k-n$ are the last lines where the two variables on the righhand side of the assignment in this line were written to (if one or two of these variables is an input variable, then we let $z_j$ and/or $z_k$ be the corresponding variable). Finally we add a constraint that requires the last assignment to `y_0` to equal $1$. One can then verify that there is a satisfying assignment to $\varphi$ if and only if there is some input $w\in \{0,1\}^n$ on which the execution of $Q$ on $w$ ends in $1$.
+We will have a variable of $\varphi$ corresponding to every line of $Q$, with a constraint  ensuring that if line $i$ has the form `foo := bar NAND blah` then the variable corresponding to line $i$ should be the NAND of the variables corresponding to the lines in which `bar` and `blah` were just written to.
+We will also have variables associated with the input $w$, and use them in lines such as  `foo := x_17 NAND x_33` or `foo := bar NAND x_55`. Finally we add a constraint that requires the last assignment to `y_0` to equal $1$. By construction satisfying assignments to our formula $\varphi$ will correspond to valid modification logs of executions of $Q$ that end with it outputting $1$. Hence in particular there exists a satisfying assignment to $\varphi$ if and only if there is some input $w\in \{0,1\}^n$ on which the execution of $Q$ on $w$ ends in $1$.
 
 
 > # {.proof data-ref="threenand-thm"}
@@ -213,7 +219,7 @@ We now show both sides of this equivalence.
 >
 * __Completeness:__ Suppose that there is $w\in \{0,1\}^n$ s.t. $Q(w)=1$. Let $z\in \{0,1\}^{n+m}$ be defined as follows. For $i\in [n]$, $z_i=w_i$ and for $i\in \{n,n+1,\ldots,n+m\}$ $z_i$ equals the value that is assigned in the $(i-n)$-th line of $Q$ when executed on $w$. Then by construction $z$ satisfies all of the constraints of $\varphi$ (including the constraint that $z_{\ell^*}=NAND(0,0)=1$ since $Q(w)=1$.)
 >
-* __Soundness:__ Suppose that there exists $z\in \{0,1\}^{n+m}$ satisfying $\varphi$. Soundness will follow by showing that  $Q(z_0,\ldots,z_{n-1})=1$ (and hence in particular there exists $w\in \{0,1\}^n$, namesly $w=z_0\cdots z_{n-1}$, such taht $Q(w)=1$). To do this we will prove the following claim $(*)$: for every $\ell \in [m]$, $z_{\ell+n}$ equals the value assigned in the $\ell$-th step of the execution of the program $Q$ on $z_0,\ldots,z_{n-1}$. Note that because $z$ satisfies the constraints of $\varphi$, $(*)$ is sufficient to prove the soundness condition since these constraints imply that the last value assigned to the variable `y_0` in the execution of $Q$ on $z_0\cdots w_{n-1}$  is equal to $1$. To pprove $(*)$ suppose, towards a contradiction, that it is false, and let $\ell$ be the smallest number such that $z_{\ell+n}$ is _not_ equal to the value assigned in the $\ell$-th step of the exeuction of $Q$ on $z_0,\ldots,z_{n-1}$. But since $z$ satisfies the constraints of $\varphi$, we get that $z_{\ell+n}=NAND(z_i,z_j)$ where (by the assumption above that $\ell$ is _smallest_ with this property) these values  _do_ correspond to the values last assigned by to the variables on the righthand side of the assignment operator in the $\ell$-th line of the program. But this means that the value assigned in the $\ell$-th step is indeed simply the NAND of $z_i$ and $z_j$, contradicting our assumption on the choice of $\ell$.
+* __Soundness:__ Suppose that there exists $z\in \{0,1\}^{n+m}$ satisfying $\varphi$. Soundness will follow by showing that  $Q(z_0,\ldots,z_{n-1})=1$ (and hence in particular there exists $w\in \{0,1\}^n$, namesly $w=z_0\cdots z_{n-1}$, such taht $Q(w)=1$). To do this we will prove the following claim $(*)$: for every $\ell \in [m]$, $z_{\ell+n}$ equals the value assigned in the $\ell$-th step of the execution of the program $Q$ on $z_0,\ldots,z_{n-1}$. Note that because $z$ satisfies the constraints of $\varphi$, $(*)$ is sufficient to prove the soundness condition since these constraints imply that the last value assigned to the variable `y_0` in the execution of $Q$ on $z_0\cdots w_{n-1}$  is equal to $1$. To prove $(*)$ suppose, towards a contradiction, that it is false, and let $\ell$ be the smallest number such that $z_{\ell+n}$ is _not_ equal to the value assigned in the $\ell$-th step of the exeuction of $Q$ on $z_0,\ldots,z_{n-1}$. But since $z$ satisfies the constraints of $\varphi$, we get that $z_{\ell+n}=NAND(z_i,z_j)$ where (by the assumption above that $\ell$ is _smallest_ with this property) these values  _do_ correspond to the values last assigned by to the variables on the righthand side of the assignment operator in the $\ell$-th line of the program. But this means that the value assigned in the $\ell$-th step is indeed simply the NAND of $z_i$ and $z_j$, contradicting our assumption on the choice of $\ell$.
 
 
 ![We reduce $NANDSAT$ to $3NAND$ by mapping a program $P$ to a formula $\psi$ where we have a variable for each line and input variable of $P$, and add a constraint to ensure that the variables are consistent with the program. We also add a constraint that the final output is $1$. One can show that there is an input $x$ such that $P(x)=1$ if and only if there is a satisfying assignment for $\psi$.](../figure/3NANDreduction.png){#figureid .class width=300px height=300px}
@@ -232,27 +238,18 @@ To prove [threenand-sat-thm](){.ref} we need to map a 3NAND formula $\varphi$ in
 It is a good exercise for you to try to find a 3CNF formula $\xi$ on three variables $a,b,c$ such that $\xi(a,b,c)$ is true if and only if $a = NAND(b,c)$. Once you do so, try to see why this implies a reduction from $3NAND$ to $3SAT$,  and hence completes the proof of [threenand-sat-thm](){.ref}
 
 > # {.proof data-ref="threenand-sat-thm"}
-Since $NAND(z,z') = \overline{z \wedge z'} = \overline{z}\vee\overline{z'}$,  the constraint
+The constraint
 $$
 z_i = NAND(z_j,z_k) \label{eq:NANDconstraint}
 $$
-is the same as
-$$
- z_i \Rightarrow \left( \overline{z_j}\vee\overline{z_k} \right) \;\;\;\wedge\;\;\;  \left(\overline{z_j}\vee\overline{z_k} \right) \Rightarrow z_i
-$$
-where $\Rightarrow$ is the logical implication operator, defined as $a \Rightarrow b = \overline{a} \vee b$.
->
-Hence [{eq:NANDconstraint}](){.eqref} is the same as
-$$
- (\overline{z_i} \vee \overline{z_j} \vee\overline{z_k})  \; \wedge \;  ((z_j           \wedge   z_k)      \vee z_i )
-$$
-which is the same as
+is satisfied if $z_i=1$ whenever $(z_j,z_k) \neq (1,1)$.
+By going through all cases, we can verify that  [eq:NANDconstraint](){.eqref} is equivalent to the constraint
 $$
  (\overline{z_i} \vee \overline{z_j} \vee\overline{z_k} ) \wedge          (z_i     \vee z_j )
-         \wedge  (z_i     \vee z_k) \label{eq:CNFNAND}
+         \wedge  (z_i     \vee z_k) \;\;. \label{eq:CNFNAND}
 $$
->
-This means that, given any 3NAND formula $\varphi$ over $n$ variables $z_0,\ldots,z_{n-1}$, we can obtain a 3SAT formula $\psi$ over the same variables by replacing every $3NAND$ constraint of $\varphi$ with three $3OR$ constraints as above.^[The resulting forumula will have some of the OR's involving only two variables.  If we wanted to insist on each formula involving three distinct variables we can always add a "dummy variable" $z_{n+1}$ and include it in all the OR's involving only two variables.]
+Indeed if $z_j=z_k=1$ then the first constraint of [eq:CNFNAND](){.ref} is only true if $z_i=0$.
+On the other hand, if either of $z_j$ or $z_k$ equals $0$ then unless $z_i=1$  either the second or third constraints will fail. This means that, given any 3NAND formula $\varphi$ over $n$ variables $z_0,\ldots,z_{n-1}$, we can obtain a 3SAT formula $\psi$ over the same variables by replacing every $3NAND$ constraint of $\varphi$ with three $3OR$ constraints as in [eq:CNFNAND](){.ref}.^[The resulting forumula will have some of the OR's involving only two variables.  If we wanted to insist on each formula involving three distinct variables we can always add a "dummy variable" $z_{n+m}$ and include it in all the OR's involving only two variables, and add a constraint requiring this dummy variable to be zero.]
 Because of the equivalence of [eq:NANDconstraint](){.eqref} and [eq:CNFNAND](){.eqref}, the formula $\psi$ satisfies that $\psi(z_0,\ldots,z_{n-1})=\varphi(z_0,\ldots,z_{n-1})$ for every assignment $z_0,\ldots,z_{n-1} \in \{0,1\}^n$ to the variables.
 In particular $\psi$ is satisfiable if and only if $\varphi$ is, thus completing the proof.
 
@@ -277,7 +274,10 @@ Finding a polynomial time algorithm for one of them will imply a polynomial-time
 
 ## Exercises
 
-^[TODO: add exercises]
+> # {.exercise title="Poor man's Ladner's Theorem" #ladner-ex}
+Prove that if there is no $n^{O(\log^2 n)}$ time algorithm for $3SAT$ then there is some $F\in \mathbf{NP}$ such that $F \not\in \mathbf{P}$ and $F$ is not $\mathbf{NP}$ complete.^[__Hint:__ Use the function $F$ that on input a formula $\varphi$ and a string of the form $1^t$, outputs $1$ if and only if $\varphi$ is satisfiable and $t=|\varphi|^{\log|\varphi|}$.]
+
+
 
 ## Bibliographical notes
 

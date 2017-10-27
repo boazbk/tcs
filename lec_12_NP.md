@@ -237,9 +237,6 @@ Prove [product-lem](){.ref}
 > # {.exercise title="Transitivity of reductions" #transitivity-reductions-ex}
 Prove that if $F \leq_p G$ and $G \leq_p H$ then $F \leq_p H$.
 
-> # {.exercise title="Poor man's Ladner's Theorem" #ladner-ex}
-Prove that if there is no $n^{O(\log^2 n)}$ time algorithm for $3SAT$ then there is some $F\in \mathbf{NP}$ such that $F \not\in \mathbf{P}$ and $F$ is not $\mathbf{NP}$ complete.^[__Hint:__ Use the function $F$ that on input a formula $\varphi$ and a string of the form $1^t$, outputs $1$ if and only if $\varphi$ is satisfiable and $t=|\varphi|^{\log|\varphi|}$.]
-
 
 ## Bibliographical notes
 
