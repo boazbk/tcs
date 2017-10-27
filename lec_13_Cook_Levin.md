@@ -181,9 +181,10 @@ It might also be useful for you to think how you would implement in your favorit
 The $3NAND$ problem is defined as follows: the input is a logical formula $\varphi$ on a set of  variables $z_0,\ldots,z_{r-1}$
 which is an AND of constraints of the form $z_i = NAND(z_j,z_k)$.
 For example, the following is a $3NAND$ formula with $5$ variables and $3$ constraints:
-\[
+
+$$
 \left( z_3 = NAND(z_0,z_2) \right) \wedge \left( z_1 = NAND(z_0,z_2) \right) \wedge \left( z_4 = NAND(z_3,z_1) \right)
-\]
+$$
 
 The output of $3NAND$ on input $\varphi$ is $1$ if and only if there is an  assignment to the variables of $\varphi$ that makes it evaluate to "true"  (that is, there is some assignment $z \in \{0,1\}^r$ satisfying all of the constraints of $\varphi$).
 As usual, we can represent $\varphi$ as a string, and so think of $3NAND$ as a function mapping $\{0,1\}^*$ to $\{0,1\}$.
