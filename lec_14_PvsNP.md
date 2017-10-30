@@ -1,5 +1,17 @@
 #  What if P equals NP?
 
+
+
+> # { .objectives }
+* Explore the consequences of $\mathbf{P}=\mathbf{NP}$ \
+* _Search to decision_ reduction: transform algorithms that solve decision version to search version for $\mathbf{NP}$ complete problems. \
+* Optimization and learning problems \
+* Quantifier elimination and solving polynomial hieararchy. \
+* What is the evidence for $\mathbf{P}=\mathbf{NP}$ vs $\mathbf{P}\neq \mathbf{NP}$?
+
+
+
+
 >_"There should be no fear ... we will be protected by God."_, President Donald J. Trump, inauguration speech, 2017
 
 >_"No more half measures, Walter"_, Mike Ehrmantraut in "Breaking Bad", 2010.
@@ -76,6 +88,46 @@ Now for every $\ell$, if the call $STARTSWITH(xz_0\cdots z_{\ell-1}0)$ returns  
 Now under our inductive hypothesis, there is $y_\ell,\ldots,y_{an^b-1}$ such that
 $P(xz_0,\ldots,z_{\ell-1}y_\ell,\ldots,y_{an^b-1})=1$.
 If the call to  $STARTSWITH(xz_0\cdots z_{\ell-1}0)$ returns $0$ then it must be the case that $y_\ell=1$, and hence when we set $z_\ell=1$ we maintain the invariant.
+
+## Optimization
+
+[search-dec-thm](){.ref} allows us to find solutions for $\mathbf{NP}$ problems if $\mathbf{P}=\mathbf{NP}$, but it is not immediately clear that we can find the _optimal_ solution.
+For example, suppose that $\mathbf{P}=\mathbf{NP}$, and you are given a graph $G$. Can you find the _longest_ simple path in $G$ in polynomial time?
+
+> # { .pause }
+This is actually an excellent question for you to attempt on your own.
+That is, assuming $\mathbf{P}=\mathbf{NP}$, give a polynomial-time algorithm that on input a graph $G$, outputs the a maximally long simple path in the graph $G$.
+
+It turns out the answer is _Yes_. The idea is simple. If $\mathbf{P}=\mathbf{NP}$ then we can find out in polynomial time if an $n$ vertex graph $G$ contains a simple path of length $n$, and moreover, by [search-dec-thm](){.ref}, if $G$ does contain such a path then we can find it. (Can you see why?)
+If $G$ does not contain a simple path of length $n$, then we will check if it contains a simple path of length $n-1$, and continue in this way to find the largest $k$ such that $G$ contains a simple path of length $k$.
+
+The above reasoning was not specifically tailored to finding paths in graphs.
+In fact, it can be vastly generalized to proving the following result:
+
+> # {.theorem title="Optimization from $\mathbf{P}=\mathbf{NP}$" #optimizationnp}
+Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial time computable function $f:\{0,1\}^* \rightarrow \bits^*$ , we can compute in $poly(n)$ time $\max_{x\in \{0,1\}^n} f(x)$ (where we identify the output of $f(x)$ with a natural number via the binary representation) and moreover find some $x^* \in \{0,1\}^n$ that achieves this maximum.
+
+> # {.proofidea data-ref="optimizationnp"}
+Since $f$ is polynomial time computable, if $x\in \{0,1\}^n$ then $f(x)$ has at most $poly(n)$ bits and so we can think of $f(x)$ as a number between $0$ and $N$ where $N \leq 2^{poly(n)}$.
+If $\mathbf{P}=\mathbf{NP}$ then we can easily obtain an algorithm for computing $\max_{x\in \{0,1\}^n} f(x)$  that runs in time $N\cdot poly(n)$ time just as above, by using the fact that $\mathbf{P}=\mathbf{NP}$ to obtain a polynomial-time algorithm checking whether there exists an $x$ with $f(x) \geq k$ for $k=N,N-1,N-2,\ldots, 0$.
+But if $N$ is exponentially large in $n$, a running of $N \cdot poly(n)$ might not be good enough.
+The crucial observation is that we can use _binary search_: rather than checking whether there is $x$ with $f(x) \geq k$ for $k=N,N-1,N-2,\ldots$, we first check for $k=\floor{N/2}$, then (based on the answer) for either $k=\floor{3N/4}$ or $k=\floor{N/4}$ and so on and so forth.
+
+
+> # {.proof data-ref="optimizationnp"}
+For every such $f$, we can define the following Boolean function $F:\{0,1\}^* \rightarrow \{0,1\}$: $F(1^n,k)=1$ iff there exists $x\in \{0,1\}^n$ s.t. $f(x) \geq k$.
+Since $f$ is computable in polynomial time, $F$ is in $\mathbf{NP}$, and so, under our assumption that $\mathbf{P}=\mathbf{NP}$, $F$ itself can be computed in polynomial time.
+Now, for every $n$, we can compute the largest $k$ such that $F(1^n,k)=1$ by a binary search. We maintain two numbers $a,b$ such that we are guaranteed that $a \leq \max_{x\in \{0,1\}^n} f(x) < b$.
+Initially we set $a=0$ and $b=2^{T(n)}$ where $T(n)$ is the running time of $f$.
+At each point in time, we compute the midpoint $c = \floor{(a+b)/2})$ and let $y=F(1^n,c)$.
+If $y=1$ then we set $a=c$ and leave $b$ as it is.
+If $y=0$ then we set $b=c$ and leave $a$ as it is.
+Since $|b-a|$ shrinks by a factor of $2$, within $\log_2 2^{T(n)}= T(n)$ steps, we will get to the point that $b\leq a+1$ in which we cab simply output $a$.
+We can also use [search-dec-thm](){.ref} to obtain the actual $x$ that achieves the maximum.
+
+For example, if $G$ is a _weighted_ graph, where every edge of $G$ is given a weight which is a number of $k$ bits, then [optimizationnp](){.ref} shows that we can find the longest simple path in $G$ (i.e., simple path maximizing the sum of the weights of its edges) in time polynomial in the number of vertices and in $k$.
+
+
 
 
 ## Quantifier elimination

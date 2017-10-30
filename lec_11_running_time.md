@@ -138,6 +138,7 @@ $$
 TIMEDEVAL(P,x,1^T)=P(x)
 $$
 if $P$  is a valid representation of a NAND<< program which produces an output on $x$ within at most $T$ steps.
+If $P$ does not produce an output within this time then $TIMEDEVAL$ outputs an encoding of a special `fail` symbol.
 Moreover, for every program $P$, the running time of $U$ on input $P,x,1^T$ is $O(T)$. (The hidden constant in the Oh notation can depend on the program $P$ but is at most polynomial in the length of $P$'s description as a string.).
 
 > # { .pause }
@@ -194,12 +195,12 @@ __Claim 2:__ $HALT_T \not\in TIME(T(n))$.
 >
 We now turn to proving the two claims.
 >
-__Proof of claim 1:__  We can easily check whether an input has the form $P,x$ where $|P| \leq \log\log |x|$ in linear time.
-Since $T(\cdot)$ is a nice function, we can evaluate it in $O(T(n))$ time. Then, using the universal NAND<< program of [univ-nandpp](){.ref}, we can evaluate $HALT_T$ in at most $poly(|P|) T(n)$ steps.^[Recall that we use $poly(m)$ to denote a quantity that is bounded by $am^b$ for some constants $a,b$ and every sufficiently large $m$.]  
+__Proof of claim 1:__  We can easily check in linear time whether an input has the form $P,x$ where $|P| \leq \log\log |x|$.
+Since $T(\cdot)$ is a nice function, we can evaluate it in $O(T(n))$ time. Thus, we can perform the check above, compute $T(|P|+|x|)$ and use the universal NAND<< program of [univ-nandpp](){.ref} to evaluate $HALT_T$ in at most $poly(|P|) T(n)$ steps.^[Recall that we use $poly(m)$ to denote a quantity that is bounded by $am^b$ for some constants $a,b$ and every sufficiently large $m$.]  
 Since $(\log \log n)^a = o(\log n)$ for every $a$, this will be smaller than $T(n)\log n$ for every sufficiently large $n$.
 >
 __Proof of claim 2:__ The proof is very reminiscent of the proof that $HALT$ is not computable.
-Assume, toward the sake of contradiction, that there is some NAND<< program $P^*$ that computes $HALT_T(P)$ within $T(|P|)$ steps. We are going to show a contradiction by creating a program $Q$ and showing that under our assumptions, if $Q$ runs for less than $T(n)$ steps when given (a padded version of)  its own code as input then it actually runs for more than $T(n)$ steps and vice versa. (It is worth re-reading the last sentence twice or thrice to make sure you understand this logic. It is very similar to the direct proof of the uncomputability of the halting problem where we obtained a contradiction by using an assumed "halting solver" to construct  a program that, given its own code as input, halts if and only if it does not halt.)
+Assume, toward the sake of contradiction, that there is some NAND<< program $P^*$ that computes $HALT_T(P,x)$ within $T(|P|+|x|)$ steps. We are going to show a contradiction by creating a program $Q$ and showing that under our assumptions, if $Q$ runs for less than $T(n)$ steps when given (a padded version of)  its own code as input then it actually runs for more than $T(n)$ steps and vice versa. (It is worth re-reading the last sentence twice or thrice to make sure you understand this logic. It is very similar to the direct proof of the uncomputability of the halting problem where we obtained a contradiction by using an assumed "halting solver" to construct  a program that, given its own code as input, halts if and only if it does not halt.)
 >
 We will define $Q$ to be the program that on input a string $z$   does the following: \
 1. If $z$ does not have the form $z=P1^m$ where $P$ represents a NAND<< program and $|P|< 0.1 \log\log m$ then return $0$. \
@@ -246,10 +247,9 @@ There is some $c\in \N$ s.t. for every $F:\{0,1\}^* \rightarrow \{0,1\}$ in  $TI
 
 > # {.proof data-ref="non-uniform"}
 The proof follows by the "unraveling" argument that we've already seen in the proof of [NANDexpansionthm](){.ref}.
-Given a NAND++ program $P$ and some function $T(n)$, we can transform NAND++ to be "simple" in the sense of [simpleNANDpp](){.ref}, and by direct examination this transformation costs at most a factor of 4 in the  running time. Thus we can construct a NAND program on $n$ inputs and with less than $2 T(n)$ lines by simply putting "unraveling the main loop" of $P$ and hence putting $T(n)/L$  copies of $P$ one after the other, where $L$ is the number of lines in $P$, replacing any instance of `i` with the numerical value of `i` for that iteration.
-While the original NAND++ program $P$ might have ended on some inputs _before_ $T(n)$ iterations have passed, by transforming it to be simple we ensure that there is no harm in "extra" iterations, since all assignments to the output are "guarded" by ensuring they make no difference if the program should have already halted before.
-
-Note that by combining it with [NANDpp-thm](){.ref}, [non-uniform](){.ref} implies that if $F\in TIME(T(n))$ then there are some constants $a,b$ such that for every large enough $n$, $F_n \in SIZE(aT(n)^b)$. (In fact, by direct inspection of the proofs we can see that $a=1$ and $b=5$ would work.)
+Given a NAND++ program $P$ and some function $T(n)$, we can transform NAND++ to be "simple" in the sense of [simpleNANDpp](){.ref} with a constant factor overhead (in fact the constant is at most $5$). Thus we can construct a NAND program on $n$ inputs and with less than $c T(n)$ lines by making it simple and then simply  "unraveling the main loop" of $P$ and hence putting $T(n)/L$  copies of $P$ one after the other, where $L$ is the number of lines in $P$, replacing any instance of `i` with the numerical value of `i` for that iteration.
+While the original NAND++ program $P$ might have ended on some inputs _before_ $T(n)$ iterations have passed, by transforming it to a simple program we ensure that there is no harm in "extra" iterations.^[Specifically, [simpleNANDpp](){.ref} ensures that there is a variable `halted` that is set to $1$ once the program is "supposed" to halt, and all assignments to `loop`, `y_0` and `halted` itself are modified so that if `halted` equals $1$ then the value of these variables does not change. Thus continuing for extra iterations does not change the value of these variables.]
+By combining [non-uniform](){.ref}  with [NANDpp-thm](){.ref}, we get that if $F\in TIME(T(n))$ then there are some constants $a,b$ such that for every large enough $n$, $F_n \in SIZE(aT(n)^b)$. (In fact, by direct inspection of the proofs we can see that $a=1$ and $b=5$ would work.)
 
 __Algorithmic version: the "NAND++ to NAND compiler":__
 The transformation of the NAND++ program $P$ to the NAND program $Q_P$ is itself algorithmic. (Indeed it can be done in  about 5 lines of Python.)
@@ -293,12 +293,12 @@ To summarize, the two models of computation we have described so far are:
 
 For a function $F:\{0,1\}^* \rightarrow \{0,1\}$ and some nice time bound $T:\N \rightarrow \N$, we know that:
 
-* If $F$ is computable in time $T(n)$ then there is a sequence $\{ P_n \}$ of NAND programs with $|P_n| = \tilde{O}(T(n))$ such that $P_n$ computes $F_n$ (i.e., restriction of $F$ to $\{0,1\}^n$) for every $n$.
+* If $F$ is computable in time $T(n)$ then there is a sequence $\{ P_n \}$ of NAND programs with $|P_n| = poly(T(n))$ such that $P_n$ computes $F_n$ (i.e., restriction of $F$ to $\{0,1\}^n$) for every $n$.
 
 * The reverse direction is not necessarily true - there are examples of functions $F:\{0,1\}^n \rightarrow \{0,1\}$ such that $F_n$ can be computed by even a constant size NAND program but $F$ is uncomputable.
 
-Note that the $EVAL$ function, that takes as input a NAND program $P$ and an input $x$, and outputs $P(x)$, can be computed by a NAND++ program in $\tilde{O}(|P|)$ time.
-Hence if $F$ has the property that it is computable by a sequence $\{ P_n \}$ of programs of $T(n)$ size, then there is a in fact an $\tilde{O}(T(n))$ time NAND++ program $P^*$ that can can compute $F$ if it is only given for every $n$ the  program $P_n$ as "advice".
+Note that the $EVAL$ function, that takes as input a NAND program $P$ and an input $x$, and outputs $P(x)$, can be computed by a NAND++ program in $poly(|P|)$ time.
+Hence if $F$ has the property that it is computable by a sequence $\{ P_n \}$ of programs of $T(n)$ size, then there is a in fact an $poly(T(n))$ time NAND++ program $P^*$ that can can compute $F$ if it is only given for every $n$ the  program $P_n$ as "advice".
 For this reason, nonuniform computation is sometimes known as _computation with advice_.
 The class $SIZE(poly(n))$ is sometimes denoted as $\mathbf{P}_{/poly}$, where the $/poly$ stands for giving the polynomial time algorithm a polynomial amount of "advice" - some string of information that depends only on the input length but not on the particular input.
 
@@ -347,11 +347,6 @@ Let $F:\{0,1\}^* \rightarrow \{0,1\}^*$ be such that there is some function $m:\
 Then there is an _oblivious_ NAND++ program $P'$ that computes $F$ in time $O(T^2(n) \log T(n))$.
 
 ^[TODO: Add exercise showing NAND is like NAND++ with advice. Mention the definition of $\mathbf{P}_{/poly}$.]
-
-> # {.exercise title="Evaluating NAND programs" #nandeval}
-Let $NANDEVAL:\{0,1\}^* \rightarrow \{0,1\}$ be the function that maps an $n$-input NAND++ program $P$ and a string $x\in \{0,1\}^n$ to $P(x)$.
-1. Prove that $NANDEVAL \in \overline{TIME}(\tilde{O}(T(n)^2))$. For extra credit prove that $NANDEVAL \in \overline{TIME}(\tilde{O}(T(n)))$. \
-2. Let $COMPILE$ be the function from   [nand-compiler](){.ref} that  maps a NAND++ program $P$ and strings $1^n,1^m,1^T$  to an $n$-input $m$-output NAND program $Q_P$ such that for every $x\in \{0,1\}^n$, if $P(x)$ outputs $y\in \{0,1\}^m$ within $T$ steps then $Q_P(x)=y$. We saw that $COMPILE \in \overline{TIME}(\tilde{O}(n))$. Use that to show that $TIMEDEVAL \in \overline{TIME}(\tilde{O}(n))$.
 
 ## Bibliographical notes
 
