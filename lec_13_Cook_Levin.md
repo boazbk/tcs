@@ -97,7 +97,7 @@ The following [120 page survey of Aaronson](https://eccc.weizmann.ac.il/report/2
 
 One of the mysteries of computation is that people have observed a  certain empirical "zero one law" or "dichotomy" in the computational complexity of natural problems, in the sense that many natural problems are either in $\mathbf{P}$ (often in $TIME(O(n))$ or $TIME(O(n^2))$), or they are are $\mathbf{NP}$ hard.
 This is related to the fact that for most natural problems, the best known algorithm is either exponential or polynomial, with not too many examples where the best running time is some strange intermediate complexity such as $2^{2^{\sqrt{\log n}}}$.
-However, it is believed that there exist problems in $\mathbf{NP}$ that are neither in $\mathbf{P}$ not in $\mathbf{NP}$, and in fact a result known as "Ladner's Theorem" shows that if $\mathbf{P} \neq \mathbf{NP}$ then this is the case (see also [ladner-ex](){.ref}).
+However, it is believed that there exist problems in $\mathbf{NP}$ that are neither in $\mathbf{P}$ nor are $\mathbf{NP}$-complete, and in fact a result known as "Ladner's Theorem" shows that if $\mathbf{P} \neq \mathbf{NP}$ then this is the case (see also [ladner-ex](){.ref}).
 
 
 
