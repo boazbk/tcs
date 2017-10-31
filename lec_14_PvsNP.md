@@ -125,7 +125,24 @@ If $y=0$ then we set $b=c$ and leave $a$ as it is.
 Since $|b-a|$ shrinks by a factor of $2$, within $\log_2 2^{T(n)}= T(n)$ steps, we will get to the point that $b\leq a+1$ in which we cab simply output $a$.
 We can also use [search-dec-thm](){.ref} to obtain the actual $x$ that achieves the maximum.
 
-For example, if $G$ is a _weighted_ graph, where every edge of $G$ is given a weight which is a number of $k$ bits, then [optimizationnp](){.ref} shows that we can find the longest simple path in $G$ (i.e., simple path maximizing the sum of the weights of its edges) in time polynomial in the number of vertices and in $k$.
+For example, if $G$ is a _weighted_ graph, and every edge of $G$ is given a weight which is a number between $0$ and $2^k$, then [optimizationnp](){.ref} shows that we can find the maximum weight simple path in $G$ (i.e., simple path maximizing the sum of the weights of its edges) in time polynomial in the number of vertices and in $k$.
+
+### Example: Supervised learning
+
+One classical optimization task is _supervised learning_.
+In supervised learning we are given a list of _examples_ $x_0,x_1,\ldots,x_{m-1}$ (where we can think of each $x_i$ as a string in $\{0,1\}^n$ for some $n$) and the _labels_ for them $y_0,\ldots,y_{n-1}$ (which we will think of simply bits, i.e.,  $y_i\in \{0,1\}$).
+For example, we can think of $x_i$'s as images if either dogs or cats, and $y_i=1$ in the former case and $y_i=0$ in the latter case.
+Our goal is to come up with a _hypothesis_ or _predictor_ $h:\{0,1\}^n \rightarrow \{0,1\}$ such that if we are given a new example $x$ that has an (unknown to us) label $y$, then  with high probability $h$ will _predict_ the label. That is, with high probability it will hold that $h(x)=y$.
+The idea in supervised learning is to use _Occam's Razor principle_: the simplest hypothesis that explains the data is likely to be correct.
+There are several ways to model this, but one popular approach is to pick some fairly simple function $H:\{0,1\}^{k+n} \rightarrow \{0,1\}$. We think of the first $k$ inputs as the _parameters_ and the last $n$ inputs as the example data.
+(For example, we can think of the first $k$ inputs of $H$ as specifying the weights and connections for some neural network that will then be applied on the latter $n$ inputs.)
+We can then phrase the supervised learning problem as finding, given a set of labeled examples $S=\{ (x_0,y_0),\ldots,(x_{m-1},y_{m-1}) \}$ the set of parameters $\theta_0,\ldots,\theta_{k-1} \in \{0,1\}$ that minimizes the number of errors made by the predictor $x \mapsto H(\theta,x)$ makes.
+
+In other words, we can define for every set $S$ as above the function $F_S:\{0,1\}^k \rightarrow [m]$ such that $F_S(\theta) = \sum_{(x,y)\in S} |H(\theta,x)-y|$.
+Now finding the value $\theta$ that minimizes $F_S(\theta)$ is equivalent to solving the supervised learning problem with respect to $H$.
+For every polynomial-time computable $H:\{0,1\}^{k+n} \rightarrow \{0,1\}$, the task of minimizing $F_S(\theta)$ can be "massaged" to fit the form of [optimizationnp](){.ref} and hence if $\mathbf{P}=\mathbf{NP}$ then we can solve the supervised learning problem in great generality.
+In fact this observation extends to essentially any learning model, and allows finding the optimal predictors given the minimum number of examples.
+(This is contrast to many current learning algorithms which often rely on having access to an extremely large number of examples, far beyond the minimum needed, and in particular far beyond the number of examples humans use for the same tasks.)
 
 
 
@@ -209,13 +226,13 @@ Since we could automatically find the "best" (in any measure we chose) program t
 
 The possibility that  $\mathbf{P}=\mathbf{NP}$ is often described as "automating creativity" and there is something to that analogy, as we often think of a creative solution, as a solution that is  hard to discover, once that "spark" hits, is easy to verify.
 But there is also an element of hubris to that statement, implying that the most impressive consequence of such an algorithmic breakthrough will be that computers would succeed in doing something that humans already do today.
-Indeed, as the manager of any mass-market film or music studio will tell you, creativity already is to a large extent automated, and as in most professions, we should expect to see  the need for humans in this process diminish with time even if $\mathbf{P}\neq \mathbf{NP}$.
+In fact, creativity already is to a large extent automated or minimized (e.g., just see how much popular media content is mass produced), and as in most professions we should expect to see  the need for humans  diminish with time even if $\mathbf{P}\neq \mathbf{NP}$.
 
 Nevertheless, artificial intelligence, like many other fields, will clearly be greatly impacted by an efficient 3SAT algorithm.
 For example, it is clearly much easier to find a better Chess-playing algorithm, when given any algorithm $P$, you can find the smallest algorithm $P'$ that plays Chess better than $P$.
-Moreover, much of machine learning (and statistical reasoning in general) is about finding "simple" concepts that explain the observed data, and with $\mathbf{NP}=\mathbf{P}$, we could search for such concepts automatically for any notion of "simplicity" we see fit.
+Moreover, as we mentioned above, much of machine learning (and statistical reasoning in general) is about finding "simple" concepts that explain the observed data, and with $\mathbf{NP}=\mathbf{P}$, we could search for such concepts automatically for any notion of "simplicity" we see fit.
 In fact, we could even "skip the middle man" and do an automatic search for the learning algorithm with smallest generalization error.
-Ultimately the  field of Artificial Intelligence is about trying to "shortcut" billions of years of evolution to obtain artificial programs that match (or beat) the performance of natural ones, and a fast algorithm for $\mathbf{NP}$ would provide the ultimate shortcut.^[Some people might claim that, if it  indeed holds  $\mathbf{P}=\mathbf{NP}$, then  evolution should have  already discovered the efficient 3SAT  algorithm and perhaps we _have_ to discover this algorithm too if we want  to match evolution's performance. At the moments there seems to be very little evidence for such a scenario. In fact we have some partial results showing that, regardless of whether $\mathbf{P}=\mathbf{NP}$,  many types of  "local search" or "evolutionary"  algorithms require exponential time to solve 3SAT and other $\mathbf{NP}$-hard problems.]
+Ultimately the  field of Artificial Intelligence is about trying to "shortcut" billions of years of evolution to obtain artificial programs that match (or beat) the performance of natural ones, and a fast algorithm for $\mathbf{NP}$ would provide the ultimate shortcut.^[One interesting theory is that  $\mathbf{P}=\mathbf{NP}$ and evolution has already discovered this algorithm, which we are already using without realizing it. At the moment, there seems to be very little evidence for such a scenario. In fact we have some partial results in the other direction showing that, regardless of whether $\mathbf{P}=\mathbf{NP}$,  many types of  "local search" or "evolutionary"  algorithms require exponential time to solve 3SAT and other $\mathbf{NP}$-hard problems.]
 
 More generally, a faster algorithm for $\mathbf{NP}$- problems would be immensely useful in any field where one is faced with computational or quantitative problems, which is basically all fields of science, math, and engineering.
 This will not only help with  concrete problems such as designing a better bridge, or finding a better drug, but also with addressing basic mysteries such as trying to find  scientific theories or "laws of nature".
@@ -239,7 +256,7 @@ Such new insights would be very fruitful regardless of their computational utili
 
 ## Can $\mathbf{P} \neq \mathbf{NP}$ be neither true nor false?
 
-The _Continuum Hypothesis_, was a conjecture made by Georg Cantor in 1878, positing the non-existence of a certain type of infinite cardinality.^[One way to phrase it is that for every infinite subset $S$ of the real numbers $\R$, either there is a one-to-one and onto function $f:S \rightarrow \R$ or there is a one-to-one and onto function $f:S \rightarrow \N$.]
+The [Continuum Hypothesis](https://en.wikipedia.org/wiki/Continuum_hypothesis) is a conjecture made by Georg Cantor in 1878, positing the non-existence of a certain type of infinite cardinality.^[One way to phrase it is that for every infinite subset $S$ of the real numbers $\R$, either there is a one-to-one and onto function $f:S \rightarrow \R$ or there is a one-to-one and onto function $f:S \rightarrow \N$.]
 This was considered one of the most important open problems in set theory, and settling its truth or falseness was the first problem put forward by Hilbert in his 1900 address we made before.
 However, using the developed by Gödel and Turing, in 1963 Paul Cohen proved that both the Continuum Hypothesis and its negation are consistent with the standard axioms of set theory (i.e., the Zermelo-Fraenkel axioms + the Axiom of choice, or  "ZFC" for short).^[Formally, what he proved is that if ZFC is consistent, then so is ZFC when we assume either the continuum hypothesis or its negation.]
 
@@ -248,7 +265,7 @@ Could the same hold for $\mathbf{P} \neq \mathbf{NP}$?
 
 In short, the answer is _No_.
 For example, suppose that we are trying to decide between the "3SAT is easy" conjecture (there is an $10^6n$ time algorithm for 3SAT) and the "3SAT is hard" conjecture (for every $n$, any NAND program that solves $n$ variable 3SAT takes $2^{10^{-6}n}$ lines), then, since for  $n = 10^8$, $2^{10^{-6}n} > 10^6 n$, this boils down to the finite question of deciding whether or not there is $10^{13}$ line NAND program deciding 3SAT on formulas with $10^8$ variables.  
-If there is such a program then there is a finite proof of that, namely the proof is the ~1TB file describing the program, and the verification is the (finite in principle though infeasible in practice) process of checking that it succeeds on all inputs.^[This inefficiency is not necessarily inherent. Later in this course we will discuss results in program checking, interactive proofs, and average-case complexity, that can be used for efficient verification of  proofs of related statements. In contrast, the  inefficiency of verifying  _failure_ of all programs could well be inherent.]
+If there is such a program then there is a finite proof of that, namely the proof is the  approximately 1TB file describing the program, and the verification is the (finite in principle though infeasible in practice) process of checking that it succeeds on all inputs.^[This inefficiency is not necessarily inherent. Later in this course we may discuss results in program checking, interactive proofs, and average-case complexity, that can be used for efficient verification of  proofs of related statements. In contrast, the  inefficiency of verifying  _failure_ of all programs could well be inherent.]
 If there isn't such a program then there is also a finite proof of that, though that would take longer since we would need to enumerate over all _programs_ as well.
 Ultimately, since it boils down to a finite statement about bits and numbers, either the statement or its negation must follow from the standard axioms of arithmetic in a finite number of arithmetic steps.
 Thus we cannot justify our ignorance in distinguishing between the "3SAT easy" and "3SAT hard" cases by claiming that this might be an inherently ill-defined question.
@@ -261,8 +278,8 @@ The fact that a problem is $\mathbf{NP}$ hard means that we believe there is no 
 It of course does not mean that every single instance of the problem is hard.
 For example, if all the clauses in a  3SAT instance $\varphi$ contain the same variable $x_i$ (possibly in negated form) then by guessing a value to $x_i$ we can reduce $\varphi$ to a 2SAT instance which can then be efficiently solved.
 Generalizations of this simple idea are used in "SAT solvers" which are algorithms that have solved certain specific interesting SAT formulas with thousands of variables, despite the fact that we believe SAT to be exponentially hard in the worst case.
-Similarly, a lot of problems arising in machine learning and economics are $\mathbf{NP}$ hard.
-And yet people manage to figure out prices (as economists like to point out, there is milk on the shelves) and  distinguish cats from dogs.
+Similarly, a lot of problems arising in economics and machine learning  are $\mathbf{NP}$ hard.^[Actually the computational difficulty of problems in economics such as finding optimal (or any) equilibria is quite subtle. Some variants of such problems are $\mathbf{NP}$ while others have a certain "intermediate" complexity.]
+And yet vendors and customers manage to figure out market-clearing prices (as economists like to point out, there is milk on the shelves) and mice succeed in  distinguishing cats from dogs.
 Hence people (and machines) seem to regularly succeed in solving interesting instances of $\mathbf{NP}$-hard problems, typically by using some combination of guessing while making local improvements.
 
 It is  also true that there are many interesting instances of  $\mathbf{NP}$ hard problems that we do _not_ currently know how to solve.
