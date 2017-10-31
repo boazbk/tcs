@@ -95,9 +95,11 @@ A million dollar prize has been [offered](http://www.claymath.org/millennium-pro
 The following [120 page survey of Aaronson](https://eccc.weizmann.ac.il/report/2017/004/), as well as [chapter 3 in Wigderson's upcoming book](https://www.math.ias.edu/avi/book) are excellent sources for summarizing what is known about this problem.
 
 
+![The world if $\mathbf{P}\neq \mathbf{NP}$ (left) and $\mathbf{P}=\mathbf{NP}$ (right). In the former case the set of $\mathbf{NP}$ complete problems is disjoint from $\mathbf{P}$ and Ladner's theorem shows that there exist problems that are neither in $\mathbf{P}$ nor $\mathbf{NP}$ complete. (There are remarkably few natural candidates for such problems, with some prominent examples being decision variants of problems such as integer factoring, lattice shortest vector, and finding Nash equilibria.) In the latter case that $\mathbf{P}=\mathbf{NP}$ the notion of $\mathbf{NP}$-completeness loses its meaning, as essentially all functions in $\mathbf{P}$ (save for the trivial constant zero and constant one functions) are $\mathbf{NP}$ complete.](../figure/PNPscenarios.png){#PNPscenariosfig .class width=300px height=300px}
+
 One of the mysteries of computation is that people have observed a  certain empirical "zero one law" or "dichotomy" in the computational complexity of natural problems, in the sense that many natural problems are either in $\mathbf{P}$ (often in $TIME(O(n))$ or $TIME(O(n^2))$), or they are are $\mathbf{NP}$ hard.
 This is related to the fact that for most natural problems, the best known algorithm is either exponential or polynomial, with not too many examples where the best running time is some strange intermediate complexity such as $2^{2^{\sqrt{\log n}}}$.
-However, it is believed that there exist problems in $\mathbf{NP}$ that are neither in $\mathbf{P}$ nor are $\mathbf{NP}$-complete, and in fact a result known as "Ladner's Theorem" shows that if $\mathbf{P} \neq \mathbf{NP}$ then this is the case (see also [ladner-ex](){.ref}).
+However, it is believed that there exist problems in $\mathbf{NP}$ that are neither in $\mathbf{P}$ nor are $\mathbf{NP}$-complete, and in fact a result known as "Ladner's Theorem" shows that if $\mathbf{P} \neq \mathbf{NP}$ then this is the case (see also [ladner-ex](){.ref} and [PNPscenariosfig](){.ref}).
 
 
 

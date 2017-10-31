@@ -51,7 +51,7 @@ Similarly, it's not enough to find out if a graph has a long path- we want to ac
 It turns out that if we can solve these decision problems, we can solve the corresponding search problems as well:
 
 > # {.theorem title="Search vs Decision" #search-dec-thm}
-Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time NAND++ program $P$ and $a,b \in \N$,there is a polynomial time NAND++ program $FIND$  such that for every  $x\in \{0,1\}^n$, if there exists $y\in \{0,1\}^{an^b}$ satisfying $P(xy)=1$, then $FIND(x)$ finds some string $y'$ satisfying this condition.
+Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time algorithm $P$ and $a,b \in \N$,there is a polynomial time algorithm $FIND$  such that for every  $x\in \{0,1\}^n$, if there exists $y\in \{0,1\}^{an^b}$ satisfying $P(xy)=1$, then $FIND(x)$ finds some string $y'$ satisfying this condition.
 
 > # { .pause }
 To understand what the statement of [search-dec-thm](){.ref} means, let us look at the special case of the $MAXCUT$ problem.
@@ -143,6 +143,48 @@ Now finding the value $\theta$ that minimizes $F_S(\theta)$ is equivalent to sol
 For every polynomial-time computable $H:\{0,1\}^{k+n} \rightarrow \{0,1\}$, the task of minimizing $F_S(\theta)$ can be "massaged" to fit the form of [optimizationnp](){.ref} and hence if $\mathbf{P}=\mathbf{NP}$ then we can solve the supervised learning problem in great generality.
 In fact this observation extends to essentially any learning model, and allows finding the optimal predictors given the minimum number of examples.
 (This is contrast to many current learning algorithms which often rely on having access to an extremely large number of examples, far beyond the minimum needed, and in particular far beyond the number of examples humans use for the same tasks.)
+
+### Example: Breaking cryptosystems
+
+We will discuss _cryptography_ later in this course, but it turns out that if $\mathbf{P}=\mathbf{NP}$ then almost every cryptosystem can be efficiently broken.
+One approach is to treat finding an encryption key as an instance of a supervised learning problem.
+If there is an encryption scheme that maps a "plaintext" message $p$ and a key $\theta$ to a "ciphertext" $c$, then given examples of ciphertext/plaintext pairs of the form $(c_0,p_0),\ldots,(c_{m-1},p_{m-1})$ then our goal is to find the key $\theta$ such that $E(\theta,p_i)=c_i$ where $E$ is the encryption algorithm.
+While you might think  getting such "labeled examples" is unrealistic, it turns out (as many amateur homebrew crypto designers learn the hard way) that this is actually quite common in real-life scenarios, and it is also possible to relax the assumption to having more minimal prior information about the plaintext (e.g., that it is English text).
+We defer a more formal treatment to our lecture on cryptography.
+
+
+
+
+
+## Finding mathematical proofs
+
+In the context of Godel's Theorem, we discussed the notion of a _proof system_ (see [proofdef](){.ref}).
+Generally speaking, a _proof system_ can be thought of as an algorithm $V:\{0,1\}^* \rightarrow \{0,1\}$ (known as the _verifier_) such that given a _statement_ $x\in \{0,1\}^*$ and a _candidate proof_ $w\in \{0,1\}^*$, $V(x,w)=1$ if and only if $w$ encodes a valid proof for the statement $x$.
+Any type of proof systems that are used in mathematics for geometry, number theory, analysis, etc.. are an instance of this form.
+In fact standard mathematical proof systems have an even simpler form where the proof $w$ encodes a _sequence_ of lines $w^0,\ldots,w^m$ (each of which is itself a binary string) such that each line $w^i$ is either an _axiom_ or follows from some prior lines through an application of some _inference rule_.
+For example, [Peano's axioms](https://en.wikipedia.org/wiki/Peano_axioms) encode a set of axioms and rules for the natural numbers, and one can use them to formalize proofs in number theory, and there are some even stronger axiomatic systems, the most popular one being [Zermelo–Fraenkel with the Axiom of Choice](https://en.wikipedia.org/wiki/Zermelo%E2%80%93Fraenkel_set_theory) or ZFC for short.
+Thus, although mathematicians typically write their papers in  natural language,  proofs of number theorists can typically be translated to ZFC or similar systems, and so in particular the existence of an $n$ page proof for a statement $x$ implies that there exists  a string $w$ of length $poly(n)$ (in fact often $O(n)$ or $O(n^2)$)  that encodes the proof in such a system.
+Moreover, because verifying a proof simply involves going over each line and checking that it does indeed follow from the prior lines, it is fairly easy to do that in $O(|w|)$ or $O(|w|^2)$ (where as usual $|w|$ denotes the length of the proof $w$).
+This means that for every reasonable proof system $V$, the following function $SHORTPROOF_V:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{NP}$, where for every input of the form $x1^m$ $SHORTPROOF_V(x,1^m)=1$ if and only if  there exists $w\in \{0,1\}^*$ with $|w|\leq m$ s.t. $V(xw)=1$,
+That is $SHORTPROOF_V(x,1^m)=1$ if there is a proof (in the system $V$) of length at most $m$  bits that $x$ is true.
+Thus, if $\mathbf{P}=\mathbf{NP}$ then, despite Gödel's Incompleteness Theorems, we can still automate mathematics in the sense of finding proofs that are not too long for every statement that has it. (And, frankly speaking, if  there $x$ is a  statement whose shortest proof requires great a terrabyte, then human mathematicians won't ever find this proof either.)
+For this reason Gödel himself felt that the question of whether $SHORTPROOF_V$ has a polynomial time algorithm is of great interest.
+As he wrote [in a letter to John von Neumann](https://rjlipton.wordpress.com/the-gdel-letter/) in 1956 (before the concept of $\mathbf{NP}$ or even "polynomial time" was formally defined):
+
+>One can obviously easily construct a Turing machine, which for every formula $F$ in first order predicate logic and every natural number $n$, allows one to decide if there is a proof of $F$ of length $n$ (length = number of symbols). Let $\psi(F,n)$ be the number of steps the machine requires for this and let $\varphi(n) = \max_F \psi(F,n)$. The question is how fast $\varphi(n)$ grows for an optimal machine. One can show that $\varphi \geq k \cdot n$ [for some constant $k>0$]. If there really were a machine with $\varphi(n) \sim k \cdot n$ (or even $\sim k\cdot n^2$), this would have consequences of the greatest importance. Namely, it would obviously mean that in spite of the undecidability of the Entscheidungsproblem,^[The undecidability of [Entscheidungsproblem](https://en.wikipedia.org/wiki/Entscheidungsproblem) refers to the uncomputability of the function that maps a statement in [first order logic](https://en.wikipedia.org/wiki/First-order_logic) to $1$ if and only if that statement has a proof.] the mental work of a mathematician concerning Yes-or-No questions could be completely replaced by a machine. After all, one would simply have to choose the natural number $n$ so large that when the machine does not deliver a result, it makes no sense to think more about the problem.
+
+For many reasonable proof systems (including the one that Gödel referred to), $SHORTPROOF_V$ is in fact $\mathbf{NP}$-complete, and so Gödel can be thought of as the first person to formulate the $\mathbf{P}$ vs $\mathbf{NP}$ question. Unfortunately, the letter was [only discovered in 1988](https://www.win.tue.nl/~gwoegi/P-versus-NP/sipser.pdf).
+
+
+
+^[TODO: Maybe add example on finding Nash equilibrium]
+
+
+
+
+
+
+
 
 
 
@@ -319,7 +361,7 @@ This is not surprising since, as we mentioned before, from group theory to the t
 
 * Our current evidence and understanding supports the "SAT hard" scenario that there is no much-better-than-brute-force algorithm for 3SAT and many other $\mathbf{NP}$-hard problems.
 
-* We are very far from _proving_ this however, and we will discuss some of the efforts in this direction later in this course.
+* We are very far from _proving_ this however, though we may discuss some of the efforts in this direction later in this course. Indeed, we currently do not even know how to rule out the possibility  that for every $n\in \N$, $SAT$ restricted to length $n$ inputs has a NAND program of $10n$ lines (even though there  _exist_ $n$-input functions that require $2^n/(10n)$ lines to compute).
 
 * Understanding how to cope with this computational intractability, and even benefit from it, comprises much of the research in theoretical computer science.
 
