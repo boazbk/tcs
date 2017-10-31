@@ -240,6 +240,8 @@ Prove that if $F \leq_p G$ and $G \leq_p H$ then $F \leq_p H$.
 
 ## Bibliographical notes
 
+Reduction of independent set to max cut taken from [these notes](https://people.engr.ncsu.edu/mfms/Teaching/CSC505/wrap/Lectures/week14.pdf).
+
 ## Further explorations
 
 Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
