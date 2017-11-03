@@ -32,46 +32,59 @@ These can be defined for much more general probabilistic experiments or _sample 
 
 If instead of "heads" and "tails" we encode the sides of each coin by "zero" and "one", we can encode the result of tossing $n$ coins as a string in $\{0,1\}^n$.
 Each particular outcome $x\in \{0,1\}^n$ is obtained with probability $2^{-n}$.
-For example, if we toss three coins, then we obtain each of the 8 outcomes $000,001,010,011,100,101,110,111$ with probability $2^{-3}=1/8$.
-We can also describe this experiment as choosing $x$ uniformly at random from $\{0,1\}^n$, and hence we'll use the shorthand $x\sim \{0,1\}^n$ for it.
+For example, if we toss three coins, then we obtain each of the 8 outcomes $000,001,010,011,100,101,110,111$ with probability $2^{-3}=1/8$ (see also [coinexperimentfig](){.ref}).
+We can  describe the experiment of tossing $n$ coins as choosing a string $x$ uniformly at random from $\{0,1\}^n$, and hence we'll use the shorthand $x\sim \{0,1\}^n$ for $x$ that is chosen according to this experiment.
+
+![The probabilistic experiment of tossing three coins corresponding to making $2\times 2 \times 2 = 8$ choices, each with equal probability. In this example, the blue set corresponds to the event $A = \{ x\in \{0,1\}^3 \;|\; x_0 = 0 \}$ where the first coin toss is equal to $0$, and the red set corresponds to the event $B = \{ x\in \{0,1\}^3 \;|\; x_1 = 1 \}$ where the second coin toss is equal to $1$. As we can see, each of these events contains $4$ elements (out of $8$ total) and so has probability $1/2$. The intersection of $A$ and $B$ contains two elements, and so the probability that both of these events occur is $\tfrac{2}{8}=\tfrac{1}{4}$](../figure/coinexperiment.png){#coinexperimentfig .class width=300px height=300px}
 
 An _event_ is simply a subset $A$ of $\{0,1\}^n$.
 The _probability of $A$_, denoted by $\Pr_{x\sim \{0,1\}^n}[A]$ (or $\Pr[A]$ for short, when the sample space is understood from the context), is  the probability that a random $x$ chosen uniformly at random will be  contained in $A$.
-Note that this is the same as $|A|/2^n$.
-For example, the probability that $x$ has an even number of ones is $\Pr[A]$ where $A=\{ x : \sum_{i} x_i = 0 (\mod 2) \}$.
-Let us calculate this probability:
+Note that this is the same as $|A|/2^n$ (where $|A|$ as usual denotes the number of elements in the set $A$).
+For example, the probability that $x$ has an even number of ones is $\Pr[A]$ where $A=\{ x : \sum_{i=0}^{n-1} x_i \;= 0 \mod 2 \}$.
+In the case $n=3$, $A=\{ 000,011,101,110 \}$, and hence $\Pr[A]=\tfrac{4}{8}=\tfrac{1}{2}$.
+It turns out this is true for every $n$:
 
 > # {.lemma #evenprob}
-$$\Pr_{x\sim \{0,1\}^n}[ \text{$\sum x_i$ is even }] = 1/2$$
+$$\Pr_{x\sim \{0,1\}^n}[ \text{$\sum_{i=0}^{n-1} x_i$ is even }] = 1/2$$
+
+> # { .pause }
+To test your intuition on probability, try to stop here and prove the lemma on your own.
 
 > # {.proof data-ref="evenprob"}
-Let $A = \{ x \in \{0,1\}^n :  \sum_i x_i = 0 (\mod 2) \}$.
+Let $A = \{ x \in \{0,1\}^n :  \sum_{i=0}^{n-1} x_i = 0 \mod 2 \}$.
 Since every $x$ is obtained with probability $2^{-n}$, to show this we need to show that $|A|=2^n/2=2^{n-1}$.
 For every $x_0,\ldots,x_{n-2}$, if $\sum_{i=0}^{n-2} x_i$ is even then $(x_0,\ldots,x_{n-1},0)\in A$ and $(x_0,\ldots,x_{n-1},1) \not\in A$.
 Similarly, if $\sum_{i=0}^{n-2} x_i$ is odd then $(x_0,\ldots,x_{n-1},1) \in A$ and  $(x_0,\ldots,x_{n-1},0)\not\in A$.
 Hence, for every one of the $2^{n-1}$ prefixes $(x_0,\ldots,x_{n-2})$, there is exactly a single continuation of $(x_0,\ldots,x_{n-2})$ that places it in $A$.
 
 We can also use the  _intersection_ ($\cap$) and _union_ ($\cup$) operators to talk about the probability of both event $A$ _and_ event $B$ happening, or the probability of event $A$ _or_ event $B$ happening.
-For example, the probability $p$ that $x$ is has an _even_ number of ones _and_ $x_0=1$ is the same as
-$\Pr[A\cap B]$ where $A=\{ x\in \{0,1\}^n : \sum_i x_i =0 (\mod 2) \}$ and $B=\{ x\in \{0,1\}^n : x_0 = 1 \}$.
-This probability is equal to $1/4$: can you see why?
-Because intersection corresponds to considering  the logical AND of the conditions that two events happen, while union corresponds to considering the logical OR, we will sometimes use the $\wedge$ and $\vee$ operators instead of $\cap$ and $\cup$, and so write this probability $p$ above also as
+For example, the probability $p$ that $x$ has an _even_ number of ones _and_ $x_0=1$ is the same as
+$\Pr[A\cap B]$ where $A=\{ x\in \{0,1\}^n : \sum_{i=0}^{n-1} x_i =0 \mod 2 \}$ and $B=\{ x\in \{0,1\}^n : x_0 = 1 \}$.
+This probability is equal to $1/4$. (It is a great exercise for you to pause here and verify that you understand why this is the case.)
+
+
+Because intersection corresponds to considering  the logical AND of the conditions that two events happen, while union corresponds to considering the logical OR, we will sometimes use the $\wedge$ and $\vee$ operators instead of $\cap$ and $\cup$, and so write this probability $p=\Pr[A \cap B]$ defined above also as
 $$
 \Pr_{x\sim \{0,1\}^n} \left[ \sum_i x_i =0 (\mod 2) \; \wedge \; x_0 = 1 \right] \;.
 $$
 
 If $A \subseteq \{0,1\}^n$ is an event, then $\overline{A} = \{0,1\}^n \setminus A$ corresponds to the event that $A$ does _not_ happen.
-Note that $\Pr[ \overline{A}] = 1 -\Pr[A]$: can you see why?
+Since $|\overline{A}|=2^n-|A|$, we get that
+$$\Pr[\overline{A}] = \tfrac{|\overline{A}|}{2^n} = \tfrac{2^n-|A|}{2^n}=1-\tfrac{|A|}{2^n} = 1- \Pr[A]
+$$
+This makese sense: since $A$ happens if and only if $\overline{A}$ does _not_ happen, the probability of $\overline{A}$ should be one minus the probability of $A$.
 
 ### Random variables
 
 A _random variable_ is a function $X:\{0,1\}^n \rightarrow \R$ that maps every outcome $x\in \{0,1\}^n$ to a real number $X(x)$.
-For example, the sum of the $x_i$'s is a random variable.
+For example, the function $sum:\{0,1\}^n \rightarrow \R$ that maps $x$ to the sum of its ccordinates (i.e., to $\sum_{i=0}^{n-1} x_i$) is a random variable.
 The _expectation_ of a random variable $X$, denoted by $\E[X]$, is the average value that it will receive.
-That is,
+In other words, it is defined as follows:
 $$
-\E[X] = \sum_{x\in \{0,1\}^b} 2^{-n}X(x) \;.
+\E[X] = \sum_{x\in \{0,1\}^n} 2^{-n}X(x) \;.
 $$
+
+
 
 If $X$ and $Y$ are random variables, then we can define $X+Y$ as simply the random variable maps $x$ to $X(x)+Y(x)$.
 One of the basic and useful properties of the expectation is that is is _linear_:
@@ -91,7 +104,10 @@ $$
 Similarly, $\E[kX] = k\E[X]$ for every $k \in \R$.
 For example, using the linearity of expectation, it is very easy to show that the expectation of the sum of the $x_i$'s for $x \sim \{0,1\}^n$ is equal to $n/2$.
 Indeed, if we write $X= \sum_{i=0}^{n-1} x_i$ then $X= X_0 + \cdots + X_{n-1}$ where $X_i$ is the random variable $x_i$. Since for every $i$, $\Pr[X_i=0] = 1/2$ and $\Pr[X_i=1]=1/2$, we get that $\E[X_i] = (1/2)\cdot 0 + (1/2)\cdot 1 = 1/2$ and hence $\E[X] = \sum_{i=0}^{n-1}\E[X_i] = n\cdot(1/2) = n/2$.
-(If you have not seen discrete probability before, please go over this argument again until you are sure you follow it, it is a prototypical simple example of the type of reasoning we will employ again and again in this course.)
+
+
+> # { .pause }
+If you have not seen discrete probability before, please go over this argument again until you are sure you follow it, it is a prototypical simple example of the type of reasoning we will employ again and again in this course.
 
 If $A$ is an event, then $1_A$ is the random variable such that $1_A(x)$ equals $1$ if $x\in A$ and $1_A(x)=0$ otherwise.
 Note that $\Pr[A] = \E[1_A]$ (can you see why?).
@@ -100,11 +116,14 @@ Using this and the linearity of expectation, we can show one of the most useful 
 > # {.lemma title="Union bound" #unionbound}
 For every two events $A,B$, $\Pr[ A \cup B] \leq \Pr[A]+\Pr[B]$
 
+> # { .pause }
+Before looking at the proof, try to see why the union bound makes intuitive sense. We can also prove it directly from the definition of probabilities and the cardinality of sets, together with the equation $|A \cup B| \leq |A|+|B|$. Can you see why the latter equation is true?
+
 > # {.proof data-ref="unionbound"}
 For every $x$, the variable $1_{A\cup B}(x) \leq 1_A(x)+1_B(x)$.
 Hence, $\Pr[A\cup B] = \E[ 1_{A \cup B} ] \leq \E[1_A+1_B] = \E[1_A]+\E[1_B] = \Pr[A]+\Pr[B]$.
 
-The way we often use this in theoretical computer science is to argue that, for example, if there is a list of 1000 bad events that can happen, and each one of them happens with probability at most $1/10000$, then with probability at least $1-1000/10000 \geq 0.9$, no bad event happens.
+The way we often use this in theoretical computer science is to argue that, for example, if there is a list of 100 bad events that can happen, and each one of them happens with probability at most $1/10000$, then with probability at least $1-100/10000 = 0.99$, no bad event happens.
 
 ### More general sample spaces.
 
@@ -122,30 +141,30 @@ A _random variable_ is a function $X:S \rightarrow \R$, where the probability th
 One of the most delicate but important concepts in probability is the notion of _independence_ (and the opposing notion of _correlations_).
 Subtle correlations are often behind surprises and errors in probability and statistical analysis, and several mistaken predictions have been blamed on miscalculating the correlations between, say, housing prices in Florida and Arizona, or voter preferences in Ohio and Michigan. See also Joe Blitzstein's aptly named talk ["Conditioning is the Soul of Statistics"](https://youtu.be/dzFf3r1yph8).^[Another thorny issue is of course the difference between _correlation_ and _causation_. Luckily, this is another point we don't need to worry about in our clean setting of tossing $n$ coins.]  
 
-Two events $A$ and $B$ are _independent_ if the fact that $A$ happened does not make $B$ more or less likely to happen.
+Two events $A$ and $B$ are _independent_ if the fact that $A$ happened does not make $B$ neither more nor less likely to happen.
 For example, if we think of the experiment of tossing $3$ random coins $x\in \{0,1\}^3$, and let $A$ be the event that $x_0=1$ and $B$ the event that $x_0 + x_1 + x_2 \geq 2$, then if $A$ happens it is more likely that $B$ happens, and hence these events are _not_ independent.
-On the other hand, if we let $C$ be the event that $x_1=1$, then because the second coin toss is not affected by the result of the first one, the events $A$ and $C$ are independent.
+On the other hand, if we let $C$ be the event that $x_1=1$, then because the second coin toss is not affected by the result of the first one, the events $A$ and $C$ are independent (see [coinexperimentfig](){.ref}).
 
-Mathematically, we say that events $A$ and $B$ are _independent_ if $\Pr[A \cap B]=\Pr[A]\Pr[B]$.
+The dormal definition is that  events $A$ and $B$ are _independent_ if $\Pr[A \cap B]=\Pr[A]\Pr[B]$.
 If $\Pr[A \cap B] > \Pr[A]\Pr[B]$ then we say that $A$ and $B$ are _positively correlated_, while if $\Pr[ A \cap B] < \Pr[A]\Pr[B]$ then we say that $A$ and $B$ are _negatively correlated_.
 
 If we consider the above examples on the experiment of choosing $x\in \{0,1\}^3$ then we can see that
 
 $$
 \begin{aligned}
-\Pr[x_0=1] &= 1/2 \\
-\Pr[x_0+x_1+x_2 \geq 2] = \Pr[\{ 011,101,110,111 \}] &= 4/8 = 1/2
+\Pr[x_0=1] &= \tfrac{1}{2} \\
+\Pr[x_0+x_1+x_2 \geq 2] = \Pr[\{ 011,101,110,111 \}] &= \tfrac{4}{8} = \tfrac{1}{2}
 \end{aligned}
 $$
 
 but
 
 $$
-\Pr[x_0 =1 \; \wedge \; x_0+x_1+x_2 \geq 2 ] = \Pr[ \{101,110,111 \} ] = 3/8 > (1/2)(1/2)
+\Pr[x_0 =1 \; \wedge \; x_0+x_1+x_2 \geq 2 ] = \Pr[ \{101,110,111 \} ] = \tfrac{3}{8} > \tfrac{1}{2} \cdot \tfrac{1}{2}
 $$
 
-and hence, as we already observed, the events $\{ x_0 = 1 \}$ and $\{ x_0+x_1+x_2 \geq 2 \}$ are  not independent and in fact positively correlated.
-On the other hand $\Pr[ x_0 = 1 \wedge x_1 = 1 ] = \Pr[ \{110,111 \}] = 2/8 = (1/2)(1/2)$ and hence the events $\{x_0 = 1 \}$ and $\{ x_1 = 1 \}$ are indeed independent.
+and hence, as we already observed, the events $\{ x_0 = 1 \}$ and $\{ x_0+x_1+x_2 \geq 2 \}$ are  not independent and in fact are positively correlated.
+On the other hand $\Pr[ x_0 = 1 \wedge x_1 = 1 ] = \Pr[ \{110,111 \}] = \tfrac{2}{8} = \tfrac{1}{2} \cdot \tfrac{1}{2}$ and hence the events $\{x_0 = 1 \}$ and $\{ x_1 = 1 \}$ are indeed independent.
 
 
 __Conditional probability:__ If $A$ and $B$ are events, and $A$ happens with nonzero probability then we define the probability that $B$ happens _conditioned on $A$_ to be $\Pr[B|A] = \Pr[A \cap B]/\Pr[A]$.
@@ -169,9 +188,12 @@ That is, $\Pr[ X=u \wedge Y=t]=\Pr[X=u]\Pr[Y=t]$.
 For example, if two random variables depend on the result of tossing different coins then they are independent:
 
 > # {.lemma  #indcoins}
-Suppose that $S=\{ s_1,\ldots, s_k \}$ and $T=\{ t_1 ,\ldots, t_m \}$ are disjoint subsets of $\{0,\ldots,n-1\}$ and let
-$X,Y:\{0,1\}^n \rightarrow \R$ be random variables such that $X=F(x_{s_1},\ldots,x_{s_k})$ and $Y=G(x_{t_1},\ldots,x_{t_m})$ for some functions $F: \{0,1\}^k \rightarrow \R$ and $G: \{0,1\}^m \rightarrow \R$.
+Suppose that $S=\{ s_0,\ldots, s_{k-1} \}$ and $T=\{ t_0 ,\ldots, t_{m-1} \}$ are disjoint subsets of $\{0,\ldots,n-1\}$ and let
+$X,Y:\{0,1\}^n \rightarrow \R$ be random variables such that $X=F(x_{s_0},\ldots,x_{s_{k-1}})$ and $Y=G(x_{t_0},\ldots,x_{t_{m-1}})$ for some functions $F: \{0,1\}^k \rightarrow \R$ and $G: \{0,1\}^m \rightarrow \R$.
 Then $X$ and $Y$ are independent.
+
+> # { .pause }
+The notation in the lemma's statement is a bit cumbersome, but at the end of the day it simply says that if $X$ and $Y$ are random variables that depends on two disjoin sets $S$ and $T$ of coins (for example, $X$ might be the sum of the first $n/2$ coins, and $Y$ might be the largest consecutive stretch of zeroes in the second $n/2$ coins), then they are independent.
 
 > # {.proof data-ref="indcoins"}
 Let $a,b\in \R$, and let $A = \{ x \in \{0,1\}^k : F(x)=a \}$ and $B=\{ x\in \{0,1\}^m : F(x)=b \}$.
