@@ -1,5 +1,13 @@
 #  Probability Theory 101
 
+>_"God doesn't play dice with the universe"_, Albert Einstein
+
+>_"Einstein was doubly wrong ... not only does God definitely play dice, but He sometimes confuses us by throwing them where they can't be seen."_, Stephan Hawking
+
+>_"'The probability of winning a battle' has no place in our theory because it does not belong to any collective. Probability cannot be applied to this problem any more than the physical concept of work can be applied to the "work" done by an actor reciting his part."_ Richard Von Mises, 1928 (paraphrased)
+
+>_"I am unable to see why 'objectivity' requires us to interpret every probability as a frequency in some random experiment; particularly when in most problems probabilities are frequencies only in an imaginary universe invented just for the purpose of allowing a frequency interpretation."_, E.T. Jaynes, 1976
+
 
 Before we show how to use randomness in algorithms, let us do a quick review of some basic notions in probability theory.
 This is not meant to replace a course on probability theory, and if you have not seen this material before, I highly recommend you look at additional resources to get up to speed.^[Harvard's [STAT 110](http://projects.iq.harvard.edu/stat110/home) class (whose lectures are available on [youtube](http://projects.iq.harvard.edu/stat110/youtube) ) is a highly recommended introduction to probability. See also these [lecture notes](http://www.boazbarak.org/cs121/LLM_probability.pdf) from MIT's "Mathematics for Computer Science" course.]
@@ -265,7 +273,7 @@ A standard way to  measure the deviation of a random variable from its expectati
 For a random variable $X$, we define the _variance_ of $X$ as  $Var[X] = \E[X-\mu]^2$ where $\mu = \E[X]$, i.e., the variance is the average square distance of $X$ from its expectation.
 The _standard deviation_ of $X$ is defined as $\sigma[X] = \sqrt{Var[X]}$.
 
-Using Markov's inequality we can control the probability that a random variable is too many standard deviations away from its expectation.
+Using Chebychev's inequality we can control the probability that a random variable is too many standard deviations away from its expectation.
 
 > # {.theorem title="Chebyshev's inequality" #chebychevthm}
 Suppose that $\mu=\E[X]=\mu$ and $\sigma^2 = Var[X]$.
@@ -277,7 +285,7 @@ We define the random variable $Y = (X-\mu)^2$.
 Then $\E[Y] = Var[X] = \sigma^2$, and hence by Markov the probability that $Y > k^2\sigma^2$ is at most $1/k^2$.
 But clearly $(X-\mu)^2 \geq k^2\sigma^2$ if and only if $|X-\mu| \geq k\sigma$.
 
-One example of how to use Chebyshev's inequality is the setting when $X = X_1 + \cdots + X_n$ where $X_i$'s are independent and identically distributed (i.i.d for short) variables with values in $[0,1]$ where each has  expectation $1/2$.
+One example of how to use Chebyshev's inequality is the setting when $X = X_1 + \cdots + X_n$ where $X_i$'s are _independent and identically distributed_ (i.i.d for short) variables with values in $[0,1]$ where each has  expectation $1/2$.
 Since $\E[X] = \sum_i \E[X_i] = n/2$, we would like to say that $X$ is very likely to be in, say, the interval  $[0.499n,0.501n]$.
 Using Markov's inequality directly will not help us, since it will only tell us that $X$ is very likely to be at most $100n$ (which we already knew, since it always lies between $0$ and $n$).
 However,  since $X_1,\ldots,X_n$ are independent,
