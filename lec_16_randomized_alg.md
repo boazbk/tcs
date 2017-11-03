@@ -33,6 +33,9 @@ This problem is $\mathbf{NP}$-hard, which means that we do not know of any effic
 There is an efficient probabilistic algorithm that on input an $n$-vertex $m$-edge graph  $G$,
 outputs a set $S$ such that the expected number of edges cut is at least $m/2$.
 
+> # {.proofidea data-ref="maxcutthm"}
+We simply choose a _random cut_: we choose a subset $S$ of vertices by choosing every vertex $v$ to be a member of $S$ with probability $1/2$ independently. It's not hard to see that each edge is cut with probability $1/2$ and so the expected number of cut edges is $m/2$.
+
 > # {.proof data-ref="maxcutthm"}
 The algorithm is extremely simple: we choose $x$ uniformly at random in $\{0,1\}^n$ and let $S$ be the set corresponding to $\{ i : x_i =1 \}$.
 For every edge $e$, we let $X_e$ be the random variable such that $X_e(x)=1$ if the edge $e$ is cut by $x$, and $X_e(x)=0$ otherwise.
@@ -45,19 +48,35 @@ Hence, $\E[X_e]=1/2$ and if we let $X = \sum_{e} X_e$ over all the edges in the 
 [maxcutthm](){.ref} gives us an algorithm that cuts $m/2$ edges in _expectation_.
 But, as we saw before, expectation does not immediately imply concentration, and so a priori, it may be the case that when we run the algorithm, most of the time we don't get a cut matching the expectation.
 Luckily, we can _amplify_ the probability of success by repeating the process several times and outputting the best cut we find.
+We start by arguing that the probability the algorithm above succeeds in cutting at least $m/2$ edges is not _too_ tiny.
+
+> # {.lemma #cutprob}
+The probability that a random cut in an $m$ edge graph cuts at least $m/2$ edges is at least $1/(2m)$.
+
+> # {.proofidea data-ref="cutprob"}
+To see the idea behind the proof, think of the case that $m=1000$, and suppose that the probability we cut at least $500$ edges is only $0.001$, or that in other words, with probability at least $0.999$ the event $A$  that we cut  $499$ or fewer edges holds. Then this is a contradiction for the  fact we proved above that  the expected number of cut edges is $m/2=500$. Indeed, even if we cut all the $1000$ edges  whenever $A$ does not hold, the maximum value of the expectation will be smaller than $0.001 \cdot 1000 + 0.999\cdot 499 < 1 + 499 = 500$.
+
+> # {.proof data-ref="cutprob"}
 Let $p$ be the probability that we cut at least $m/2$  edges.
-We claim that $p \geq 1/m$.
-Indeed, otherwise the expected number of edges cut would be at most
+Suppose, towards the sake of contradiction, that $p<1/m$, or, in other words
+that with probability more than $1-p$ we cut at most $m/2-0.5$ edges.
+(The latter holds since we can only cut an integer number of edges, and since $m/2$ is a multiple of $0.5$, any integer smaller than it has  at least $0.5$ difference from it.)
+Since we can never cut more than $m$ edges, under our assumption, we can bound the expected number of edges cut by
 $$
-pm + (1-p)(m/2-1) \leq pm + m/2 - 1 = m/2 + pm - 1 < m/2 \;.
+pm + (1-p)(m/2-0.5)  \leq pm + m/2-0.5
 $$
-So, if we repeat this experiment, for example, $1000m$ times, then the probability that we will never be able to cut at least $m/2$ edges is at most
+but if $p<1/(2m)$ then $pm<0.5$ and so the righthand side is smaller than $m/2$, contradicting our assumption.
+
+
+__Success amplification.__  [cutprob](){.ref} shows that our algorithm succeeds at least _some_ of the time, but we'd like to succeed almost _all_ of the time. The approach to do that is to simply _repeat_ our algorithm many times, with fresh randomness each time, and output the best cut we get in one of these repetitions.
+It turns out that with extremely high probability we will get a cut of size at least $m/2$:
+For example, if we repeat this experiment, for example, $2000m$ times, then the probability that we will never be able to cut at least $m/2$ edges is at most
 
 $$
-(1-1/m)^{1000 m} \leq 2^{-1000}
+(1-1/(2m))^{2000 m} \leq 2^{-1000}
 $$
 
-(using the inequality $(1-1/m)^m \leq 1/e \leq 1/2$).
+(using the inequality $(1-1/k)^k \leq 1/e \leq 1/2$).
 
 ### What does this mean?
 
@@ -72,9 +91,9 @@ While a probabilistic algorithm might not seem as nice as a deterministic algori
 
 * The chance of winning the Massachussets Mega Million lottery is one over $(75)^5\cdot 15$ which is roughly $2^{-35}$. So $2^{-1000}$ corresponds to winning the lottery about $300$ times in a row, at which point you might not care so much about your algorithm failing.
 
-* The chance for a U.S. resident to be struck by lightning is about $1/700000$ which corresponds about $2^{-45}$ chance that you'll be struck this very second, and again might not  care so much about the algorithm's performance.
+* The chance for a U.S. resident to be struck by lightning is about $1/700000$ which corresponds about $2^{-45}$ chance that you'll be struck by lightining the  very second that you're reading this sentence (after which again you might not  care so much about the algorithm's performance).
 
-* Since the earth is about 5 billion years old, we can estimate the chance that an asteroid of the magnitude that caused the dinosaurs' extinction will hit us this very second is about $2^{-58}$.
+* Since the earth is about 5 billion years old, we can estimate the chance that an asteroid of the magnitude that caused the dinosaurs' extinction will hit us this very second to be about $2^{-60}$.
 It is quite likely that even a deterministic algorithm will fail if this happens.
 
 So, in practical terms, a probabilistic algorithm is just as good as a deterministic one.
@@ -92,10 +111,11 @@ The best known worst-case algorithms for 3SAT are randomized, and are related to
 __Algorithm WalkSAT:__
 
 * On input an $n$ variable 3CNF formula $\varphi$ do the following for $T$ steps:
-* Choose a random assignment $x\in \{0,1\}^n$ and repeat the following for $S$ steps:
-   1. If $x$ satisfies $\varphi$ then output $x$.
-   2. Otherwise, choose a random clause $(\ell_i \vee \ell_j \vee \ell_k)$ that $x$ does not satisfy, and choose a random literal in $\ell_i,\ell_j,\ell_k$ and modify $x$ to satisfy this literal.
-   3. Go back to step 1.
+
+    * Choose a random assignment $x\in \{0,1\}^n$ and repeat the following for $S$ steps: \
+        1. If $x$ satisfies $\varphi$ then output $x$. \
+        2. Otherwise, choose a random clause $(\ell_i \vee \ell_j \vee \ell_k)$ that $x$ does not satisfy, and choose a random literal in $\ell_i,\ell_j,\ell_k$ and modify $x$ to satisfy this literal. \
+        3. Go back to step 1.
 
  * If all the $T\cdot S$ repetitions above did not result in a satisfying assignment then output `Unsatisfiable`
 
@@ -105,6 +125,7 @@ It is known that we can do so with $ST = \tilde{O}((4/3)^n)$ (see [walksatex](){
 
 > # {.theorem title="WalkSAT simple analysis" #walksatthm}
 If we set $T=100\cdot 3^{n/2}$ and $S= n/2$, then the probability we output `Unsatisifiable` for a satisfiable $\varphi$ is at most $1/2$.
+
 
 > # {.proof data-ref="walksatthm"}
 Suppose that $\varphi$ is a satisfiable formula and let $x^*$ be a satisfying assignment for it.
@@ -196,9 +217,14 @@ Since the matching polynomial $P$  of [matchpolylem](){.ref} has degree at most 
 
 __Algorithm Perfect-Matching:__
 
-1. __Input:__ Bipartite graph $G$ on $2n$ vertices $\{ \ell_0,\ldots,\ell_{n-1} , r_0,\ldots,r_{n-1} \}$.
-2. For every $i,j \in [n]$, choose $x_{i,j}$ independently at random from $[2n]=\{0,\ldots 2n-1\}$. \
+__Input:__ Bipartite graph $G$ on $2n$ vertices $\{ \ell_0,\ldots,\ell_{n-1} , r_0,\ldots,r_{n-1} \}$.
+
+__Operation:__
+
+1. For every $i,j \in [n]$, choose $x_{i,j}$ independently at random from $[2n]=\{0,\ldots 2n-1\}$. \
+
 2. Compute the determinant of the matrix $A(x)$ whose $(i,j)^{th}$ entry corresponds equals $x_{i,j}$ if the edge $\{\ell_i,r_j\}$ is present and is equal to $0$ otherwise. \
+
 3. Output `no perfect matching`  if this determinant is zero, and output `perfect matching` otherwise.
 
 This algorithm can be improved further (e.g., see [matchingmodex](){.ref}).
