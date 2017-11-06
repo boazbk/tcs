@@ -339,7 +339,7 @@ This phenomena, variants of which are known as  "law of large numbers", "central
 ### Chebyshev's Inequality
 
 A standard way to  measure the deviation of a random variable from its expectation is using its _standard deviation_.
-For a random variable $X$, we define the _variance_ of $X$ as  $Var[X] = \E[X-\mu]^2$ where $\mu = \E[X]$, i.e., the variance is the average square distance of $X$ from its expectation.
+For a random variable $X$, we define the _variance_ of $X$ as  $Var[X] = \E[(X-\mu)^2]$ where $\mu = \E[X]$, i.e., the variance is the average square distance of $X$ from its expectation.
 The _standard deviation_ of $X$ is defined as $\sigma[X] = \sqrt{Var[X]}$.
 (This is well defined since the variance, being an average of a square, is always a non-negative number.)
 
