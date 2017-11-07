@@ -422,7 +422,7 @@ Prove [expprod](){.ref}
 Prove [indeplem](){.ref}
 
 
-> # {.exercise title="\mathrm{Var}iance of independent random variances" #varianceex}
+> # {.exercise title="Variance of independent random variables" #varianceex}
 Prove that if $X_0,\ldots,X_{n-1}$ are independent random variables then $\mathrm{Var}[X_0+\cdots+X_{n-1}]=\sum_{i=0}^{n-1} \mathrm{Var}[X_i]$.
 
 
