@@ -72,9 +72,11 @@ There is of course nothing special about $QUADEQ$ here- by combining [cook-levin
 All these problems are in some sense "the hardest in $\mathbf{NP}$" since an efficient algorithm for any one of them would imply an efficient algorithm for _all_ the problems in $\mathbf{NP}$.
 This motivates the following definition
 
-> # {.definition title="$\mathbf{NP}$ completeness" #NPC-def}
+> # {.definition title="$\mathbf{NP}$-hardness and $\mathbf{NP}$-completeness" #NPC-def}
 We say that $G:\{0,1\}^* \rightarrow \{0,1\}$ is _$\mathbf{NP}$ hard_ if for every $F\in \mathbf{NP}$,
-$F \leq_p G$. We say that $G$ is _$\mathbf{NP}$ complete_ if $G$ is $\mathbf{NP}$ hard and it is in $\mathbf{NP}$.
+$F \leq_p G$.
+>
+We say that $G:\{0,1\}^* \rightarrow \{0,1\}$ is _$\mathbf{NP}$ complete_ if $G$ is $\mathbf{NP}$ hard and $G$ is in $\mathbf{NP}$.
 
 [cook-levin-thm](){.ref} and the reductions we've seen in the last lecture show that despite their superficial differences, 3SAT, quadratic equations, longest path, independent set, and maximum cut, are all $\mathbf{NP}$ complete. Many thousands of additional problems have been shown to be $\mathbf{NP}$ complete, arising from all the sciences, mathematics, economics, engineering and many other fields.^[For some partial lists, see [this Wikipedia page](https://en.wikipedia.org/wiki/List_of_NP-complete_problems) and [this website](https://www.nada.kth.se/~viggo/problemlist/compendium.html).]
 

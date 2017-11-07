@@ -4,7 +4,7 @@
 
 
 
-So far we have descrined probabilistic algorithms in an informal way, assuming that an operation such as  "pick a string $x\in \{0,1\}^n$" can be done efficiently.
+So far we have descrined randomized algorithms in an informal way, assuming that an operation such as  "pick a string $x\in \{0,1\}^n$" can be done efficiently.
 We have neglected to address two questions:
 
 1. How do we actually efficiently obtain random strings in the physical world?
@@ -162,7 +162,7 @@ Still, there are two questions we haven't answered:
 
 * _What reason do we have to believe that pseudorandom generators with non-trivial parameters exist?_
 
-* _Even if they do exist, why would such generators be useful to derandomize probabilistic algorithms?_ After all, [prg](){.ref} does not involve RNAND++ programs but deterministic NAND programs with no randomness and no loops.
+* _Even if they do exist, why would such generators be useful to derandomize randomized algorithms?_ After all, [prg](){.ref} does not involve RNAND++ programs but deterministic NAND programs with no randomness and no loops.
 
 We will now (partially) answer both questions.
 
@@ -210,7 +210,7 @@ is at most $2^{-T^2}$.
 [{eq:prgchernoff}](){.eqref} follows directly from the Chernoff bound. If we let for every $i\in  [L]$  the random variable $X_i$ denote $P(y_i)$, then since $y_0,\ldots,y_{L-1}$ is chosen independently at random, these are independently and identically distributed random variables with mean $\Pr_{s\sim \{0,1\}^m}[ P(s)=1]$ and hence the probability that they deviate from their expectation by $\epsilon$ is at most $2\cdot 2^{-\epsilon^2 L/2}$.
 
 The fact that there _exists_ a pseudorandom generator does not mean that there is one that can be efficiently computed.
-However, it turns out that we can turn complexity "on its head" and used the assumed _non existence_ of fast algorithms for problems such as 3SAT to obtain pseudorandom generators that can then be used to transform probabilistic algorithms into deterministic ones.
+However, it turns out that we can turn complexity "on its head" and used the assumed _non existence_ of fast algorithms for problems such as 3SAT to obtain pseudorandom generators that can then be used to transform randomized algorithms into deterministic ones.
 This is known as the _Hardness vs Randomness_ paradigm.
 We will discuss this in the next lecture, but this set of results led researchers to believe the following conjecture:
 

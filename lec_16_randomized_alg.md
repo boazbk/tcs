@@ -15,9 +15,9 @@ One of the  first applications  involved the very same John von Neumann.
 While he was sick in bed and playing cards, Stan Ulam came up with the observation that calculating statistics of a system could be done much faster by running several randomized simulations.
 He mentioned this idea to von Neumann, who became very excited about it, as indeed it turned out to be crucial for the neutron transport calculations that were needed for development of the Atom bomb and later on the hydrogen bomb.
 Because this project was highly classified, Ulam, von Neumann and their collaborators came up with the codeword "Monte Carlo" for this approach (based on the famous casinos where Ulam's uncle gambled).
-The name stuck, and probabilistic algorithms are known as Monte Carlo algorithms to this day.^[Some texts also talk about "Las Vegas algorithms" that always return the right answer but whose running time is only polynomial on the average. Since this Monte Carlo vs Las Vegas terminology is confusing, we will not use these terms anymore, and simply talk about probabilistic algorithms.]
+The name stuck, and randomized algorithms are known as Monte Carlo algorithms to this day.^[Some texts also talk about "Las Vegas algorithms" that always return the right answer but whose running time is only polynomial on the average. Since this Monte Carlo vs Las Vegas terminology is confusing, we will not use these terms anymore, and simply talk about randomized algorithms.]
 
-In this lecture, we will see some examples of probabilistic algorithms that use randomness to compute a quantity in a faster or simpler way than was known otherwise.
+In this lecture, we will see some examples of randomized algorithms that use randomness to compute a quantity in a faster or simpler way than was known otherwise.
 We will  describe the algorithms in an informal / "pseudo-code" way, rather than as NAND or NAND++ programs.
 In the next lecture we will discuss how to augment the NAND and NAND++ models to incorporate the ability to "toss coins".
 
@@ -97,7 +97,7 @@ While a probabilistic algorithm might not seem as nice as a deterministic algori
 It is quite likely that even a deterministic algorithm will fail if this happens.
 
 So, in practical terms, a probabilistic algorithm is just as good as a deterministic one.
-But it is still a theoretically fascinating question whether probabilistic algorithms actually yield more power, or is it the case that for any computational problem that can be solved by probabilistic algorithm, there is a deterministic algorithm with nearly the same performance.^[This question does have some significance to practice, since  hardware that generates  high quality randomness at speed is nontrivial to construct.]
+But it is still a theoretically fascinating question whether randomized algorithms actually yield more power, or is it the case that for any computational problem that can be solved by probabilistic algorithm, there is a deterministic algorithm with nearly the same performance.^[This question does have some significance to practice, since  hardware that generates  high quality randomness at speed is nontrivial to construct.]
 For example, we will see in [maxcutex](){.ref} that there is in fact a deterministic algorithm that can cut at least $m/2$ edges in an $m$-edge graph.
 We will discuss this question in generality   in  future lectures.
 For now, let us see a couple of  examples where randomization leads to algorithms that are better in some sense than what the known deterministic algorithms.
@@ -235,7 +235,7 @@ The Schwartz–Zippel Lemma, and the associated zero testing algorithm for polyn
 ## Lecture summary
 
 * Using  concentration results we can _amplify_ in polynomial time the success probability of a probabilistic algorithm from a mere $1/p(n)$ to $1-2^{-q(n)}$ for every polynomials $p$ and $q$.
-* There are several probabilistic algorithms that are better in various senses  (e.g., simpler, faster, or other advantages) than the best known deterministic algorithm for the same problem.
+* There are several randomized algorithms that are better in various senses  (e.g., simpler, faster, or other advantages) than the best known deterministic algorithm for the same problem.
 
 ## Exercises
 
