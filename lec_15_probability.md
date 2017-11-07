@@ -14,7 +14,7 @@
 
 >_"Einstein was doubly wrong ... not only does God definitely play dice, but He sometimes confuses us by throwing them where they can't be seen."_, Stephan Hawking
 
->_" 'The probability of winning a battle' has no place in our theory because it does not belong to any collective. Probability cannot be applied to this problem any more than the physical concept of work can be applied to the 'work' done by an actor reciting his part."_, Richard Von Mises, 1928 (paraphrased)
+>_"'The probability of winning a battle' has no place in our theory because it does not belong to any [random experiment]. Probability cannot be applied to this problem any more than the physical concept of work can be applied to the 'work' done by an actor reciting his part."_, Richard Von Mises, 1928 (paraphrased)
 
 >_"I am unable to see why 'objectivity' requires us to interpret every probability as a frequency in some random experiment; particularly when in most problems probabilities are frequencies only in an imaginary universe invented just for the purpose of allowing a frequency interpretation."_, E.T. Jaynes, 1976
 
@@ -75,7 +75,7 @@ This probability is equal to $1/4$. (It is a great exercise for you to pause her
 
 Because intersection corresponds to considering  the logical AND of the conditions that two events happen, while union corresponds to considering the logical OR, we will sometimes use the $\wedge$ and $\vee$ operators instead of $\cap$ and $\cup$, and so write this probability $p=\Pr[A \cap B]$ defined above also as
 $$
-\Pr_{x\sim \{0,1\}^n} \left[ \sum_i x_i =0 (\mod 2) \; \wedge \; x_0 = 1 \right] \;.
+\Pr_{x\sim \{0,1\}^n} \left[ \sum_i x_i =0 \mod 2 \; \wedge \; x_0 = 1 \right] \;.
 $$
 
 If $A \subseteq \{0,1\}^n$ is an event, then $\overline{A} = \{0,1\}^n \setminus A$ corresponds to the event that $A$ does _not_ happen.
@@ -96,8 +96,8 @@ For example, suppose that I were to randomize seating in my course, and then it 
 
 _Events_ corresponds to Yes/No question, but often we want to analyze finer questions.
 For example, if we make a bet at the roulette wheel, we don't want to just analyze whether we won or lost but _how_ much we've gained.
-A _random variable_ is simply a way to associate a number with the result of a probabilistic experiment.
-Formally, a random variable is simple  a function $X:\{0,1\}^n \rightarrow \R$ that maps every outcome $x\in \{0,1\}^n$ to a real number $X(x)$.
+A (real valued) _random variable_ is simply a way to associate a number with the result of a probabilistic experiment.
+Formally, a random variable is simple  a function $X:\{0,1\}^n \rightarrow \R$ that maps every outcome $x\in \{0,1\}^n$ to a real number $X(x)$.^[In many probability texts a random variable is always defined to have values in the set $\R$ of real numbers, and this will be our default option as well. However, in some  contexts in theoretical computer science we can consider random variables mapping to other sets such as $\{0,1\}^*$.]
 For example, the function $sum:\{0,1\}^n \rightarrow \R$ that maps $x$ to the sum of its ccordinates (i.e., to $\sum_{i=0}^{n-1} x_i$) is a random variable.
 
 
@@ -152,7 +152,7 @@ The way we often use this in theoretical computer science is to argue that, for 
 
 ### More general sample spaces.
 
-While in this lecture we assume that the underlying probabilistic experiment   corresponds to tossing $n$ independent coins, everything we say easily generalizes to sampling $x$ from a more general finite set $S$ (and not-so-easily generalizes to infinite sets $S$ as well).
+While in this lecture we assume that the underlying probabilistic experiment   corresponds to tossing $n$ independent coins, everything we say easily generalizes to sampling $x$ from a more general finite or countable set $S$ (and not-so-easily generalizes to uncountable sets $S$ as well).
 A _probability distribution_  over a finite set $S$ is simply a function $\mu : S \rightarrow [0,1]$ such that
 $\sum_{x\in S}\mu(s)=1$.
 We think of this as the experiment where we obtain every $x\in S$ with probability $\mu(s)$, and sometimes denote this as $x\sim \mu$.
@@ -215,10 +215,10 @@ $$
 $$
 
 For example, if $x\sim \{0,1\}^3$, then the events $\{ x_0=1 \}$, $\{ x_1 = 1\}$ and $\{x_2 = 1 \}$ are mutually independent.
-On the other hand, the events $\{x_0 = 1 \}$, $\{x_1 = 1\}$ and $\{ x_0 + x_1 = 0 (\mod 2) \}$ are _not_ mutually independent even though every pair of these events is independent (can you see why? see also [independencecoinsfig](){.ref}).
+On the other hand, the events $\{x_0 = 1 \}$, $\{x_1 = 1\}$ and $\{ x_0 + x_1 = 0 \mod 2 \}$ are _not_ mutually independent even though every pair of these events is independent (can you see why? see also [independencecoinsfig](){.ref}).
 
 
-![Consider the sample space $\{0,1\}^n$ and the events $A,B,C,D,E$ corresponding to $A$: $x_0=1$, $B$: $x_1=0$, $C$: $x_0+x_1+x_2 \geq 2$, $D$: $x_0+x_1+x_2 = 0 \mod 2$ and $D$: $x_0+x_1 = 0 \mod 2$. We can see that $A$ and $B$ are independent, $C$ is negatively correlated with $A$ and positively correlated with $B$, the three events $A,B,D$ are mutually independent, and while every pair out of $A,B,E$ is independent, the three events $A,B,E$ are not mutually independent since their intersection has probability $\tfrac{2}{8}=\tfrac{1}{4}$ instead of $\tfrac{1}{2}\cdot \tfrac{1}{2} \cdot \tfrac{1}{2} = \tfrac{1}{8}$.](../figure/independencecoins.png){#independencecoinsfig .class width=300px height=300px}
+![Consider the sample space $\{0,1\}^n$ and the events $A,B,C,D,E$ corresponding to $A$: $x_0=1$, $B$: $x_1=1$, $C$: $x_0+x_1+x_2 \geq 2$, $D$: $x_0+x_1+x_2 = 0 \mod 2$ and $D$: $x_0+x_1 = 0 \mod 2$. We can see that $A$ and $B$ are independent, $C$ is positively correlated with $A$ and positively correlated with $B$, the three events $A,B,D$ are mutually independent, and while every pair out of $A,B,E$ is independent, the three events $A,B,E$ are not mutually independent since their intersection has probability $\tfrac{2}{8}=\tfrac{1}{4}$ instead of $\tfrac{1}{2}\cdot \tfrac{1}{2} \cdot \tfrac{1}{2} = \tfrac{1}{8}$.](../figure/independencecoins.png){#independencecoinsfig .class width=300px height=300px}
 
 ### Independent random variables
 
@@ -249,11 +249,12 @@ Note that if $X$ and $Y$ are independent then
 
 $$
 \begin{split}
-\E[ XY ] = \sum_{a,b} \Pr[X=a \wedge Y=b]ab = \sum_a \Pr[X=a]\Pr[Y=b]ab = \\
-\left(\sum_a \Pr[X=a]a\right)\left(\sum_b \Pr[Y=b]b\right) = \\
+\E[ XY ] = \sum_{a,b} {\textstyle\Pr[X=a \wedge Y=b]}\cdot ab \; =^{(1)} \; \sum_{a,b} {\textstyle \Pr[X=a]\Pr[Y=b]}\cdot ab =^{(2)} \\
+\left(\sum_a {\textstyle \Pr[X=a]}\cdot a\right)\left(\sum_b {\textstyle \Pr[Y=b]}b\right) =^{(3)} \\
 \E[X] \E[Y]
 \end{split}
 $$
+where the first equality  ($=^{(1)}$) follows from the independence of $X$ and $Y$, the second equality ($=^{(2)}$) follows by "opening the parenthesis" of the righthand side, and the third inequality ($=^{(3)}$) follows from the definition of expectation.
 (This is not an "if and only if", see [noindnocorex](){.ref}.)
 
 If $X$ and $Y$ are independent random variables then so are $F(X)$ and $G(Y)$ for every functions $F,G:\R \rightarrow R$.
@@ -275,7 +276,7 @@ $$
 We can extend the notions of independence to more than two random variables.
 We say that  the random variables $X_0,\ldots,X_{n-1}$ are _mutually independent_ if for every $a_0,\ldots,a_{n-1}$ then
 $$
-\Pr[X_0=a_0 \wedge \cdots \wedge X_{n-1}=a_{n-1}]=\Pr[X_0=a_0]\cdots \Pr[X_{n-1}=a_{n-1}]
+\Pr\left[X_0=a_0 \wedge \cdots \wedge X_{n-1}=a_{n-1}\right]=\Pr[X_0=a_0]\cdots \Pr[X_{n-1}=a_{n-1}]
 $$
 and similarly we have that
 
@@ -305,7 +306,7 @@ $$
 $$
 
 but we don't really "expect" the result of this experiment to be for you to gain 90 dollars.
-Rather, 99.9\% of the time you will pay me 10 dollars, and you will hit the jackpot 0.01\% pf the times.
+Rather, 99.9\% of the time you will pay me 10 dollars, and you will hit the jackpot 0.01\% of the times.
 
 However, if we repeat this experiment again and again (with fresh and hence _independent_ coins), then in the long run we do expect your average earning to be 90 dollars, which is the reason why casinos can make money in a predictable way even though every individual bet is random.
 For example, if we toss $n$ coins, then as $n$ grows the number of coins that come up ones will be more and more _concentrated_ around $n/2$ according to  the famous "bell curve" (see [bellfig](){.ref}).
@@ -339,20 +340,20 @@ This phenomena, variants of which are known as  "law of large numbers", "central
 ### Chebyshev's Inequality
 
 A standard way to  measure the deviation of a random variable from its expectation is using its _standard deviation_.
-For a random variable $X$, we define the _variance_ of $X$ as  $Var[X] = \E[(X-\mu)^2]$ where $\mu = \E[X]$, i.e., the variance is the average square distance of $X$ from its expectation.
-The _standard deviation_ of $X$ is defined as $\sigma[X] = \sqrt{Var[X]}$.
+For a random variable $X$, we define the _variance_ of $X$ as  $\mathrm{Var}[X] = \E[(X-\mu)^2]$ where $\mu = \E[X]$, i.e., the variance is the average square distance of $X$ from its expectation.
+The _standard deviation_ of $X$ is defined as $\sigma[X] = \sqrt{\mathrm{Var}[X]}$.
 (This is well defined since the variance, being an average of a square, is always a non-negative number.)
 
 Using Chebychev's inequality we can control the probability that a random variable is too many standard deviations away from its expectation.
 
 > # {.theorem title="Chebyshev's inequality" #chebychevthm}
-Suppose that $\mu=\E[X]=\mu$ and $\sigma^2 = Var[X]$.
+Suppose that $\mu=\E[X]=\mu$ and $\sigma^2 = \mathrm{Var}[X]$.
 Then for every $k>0$, $\Pr[ |X-\mu | \geq k \sigma ] \leq 1/k^2$.
 
 > # {.proof data-ref="chebychevthm"}
 The proof follows from Markov's inequality.
 We define the random variable $Y = (X-\mu)^2$.
-Then $\E[Y] = Var[X] = \sigma^2$, and hence by Markov the probability that $Y > k^2\sigma^2$ is at most $1/k^2$.
+Then $\E[Y] = \mathrm{Var}[X] = \sigma^2$, and hence by Markov the probability that $Y > k^2\sigma^2$ is at most $1/k^2$.
 But clearly $(X-\mu)^2 \geq k^2\sigma^2$ if and only if $|X-\mu| \geq k\sigma$.
 
 One example of how to use Chebyshev's inequality is the setting when $X = X_1 + \cdots + X_n$ where $X_i$'s are _independent and identically distributed_ (i.i.d for short) variables with values in $[0,1]$ where each has  expectation $1/2$.
@@ -360,11 +361,11 @@ Since $\E[X] = \sum_i \E[X_i] = n/2$, we would like to say that $X$ is very like
 Using Markov's inequality directly will not help us, since it will only tell us that $X$ is very likely to be at most $100n$ (which we already knew, since it always lies between $0$ and $n$).
 However,  since $X_1,\ldots,X_n$ are independent,
 $$
-Var[X_1+\cdots +X_n] = Var[X_1]+\cdots + Var[X_n]  \label{varianceeq}\;.
+\mathrm{Var}[X_1+\cdots +X_n] = \mathrm{Var}[X_1]+\cdots + \mathrm{Var}[X_n]  \label{varianceeq}\;.
 $$
 (We leave showing this to the reader as  [varianceex](){.ref}.)
 
-For every random variable $X_i$ in $[0,1]$, $Var[X_i] \leq 1$ (if the variable is always in $[0,1]$, it can't be more than $1$ away from its expectation), and hence [varianceeq](){.eqref} implies that $Var[X]\leq n$ and hence $\sigma[X] \leq \sqrt{n}$.
+For every random variable $X_i$ in $[0,1]$, $\mathrm{Var}[X_i] \leq 1$ (if the variable is always in $[0,1]$, it can't be more than $1$ away from its expectation), and hence [varianceeq](){.eqref} implies that $\mathrm{Var}[X]\leq n$ and hence $\sigma[X] \leq \sqrt{n}$.
 For large $n$, $\sqrt{n} \ll 0.01n$, and in particular if $\sqrt{n} \leq 0.01n/k$,  we can use Chebyshev's inequality  to bound the probability that $X$ is not in $[0.499n,0.501n]$ by $1/k^2$.
 
 
@@ -421,8 +422,8 @@ Prove [expprod](){.ref}
 Prove [indeplem](){.ref}
 
 
-> # {.exercise title="Variance of independent random variances" #varianceex}
-Prove that if $X_0,\ldots,X_{n-1}$ are independent random variables then $Var[X_0+\cdots+X_{n-1}]=\sum_{i=0}^{n-1} Var[X_i]$.
+> # {.exercise title="\mathrm{Var}iance of independent random variances" #varianceex}
+Prove that if $X_0,\ldots,X_{n-1}$ are independent random variables then $\mathrm{Var}[X_0+\cdots+X_{n-1}]=\sum_{i=0}^{n-1} \mathrm{Var}[X_i]$.
 
 
 > # {.exercise title="Entropy (challenge)" #entropyex}
