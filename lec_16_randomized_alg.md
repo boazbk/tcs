@@ -1,5 +1,11 @@
 #  Probabilistic computation
 
+> # { .objectives }
+* See  examples  of randomized algorithms \
+* Get more comfort with analyzing probabilistic processes and tail bounds
+
+
+
 > _"in 1946 .. (I asked myself) what are the chances that a Canfield solitaire laid out with 52 cardds will come out successfully? After spending a lot of time trying to estimate them by pure combinatorial calculations, I wondered whether a more practical method ... might not be to lay it our say one hundred times and simple observe and count"_, Stanislaw Ulam, 1983
 
 >_"The salient features of our method are that it is probabilistic ... and with a controllable miniscule probability of error."_, Michael Rabin, 1977
