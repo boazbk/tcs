@@ -6,7 +6,7 @@
 * Events, probabilities of unions and intersections. \
 * Random variables and their expectation, variance, and standard deviation. \
 * Independence and correlation for both events and random variables. \
-* Markov, Chebychev and Chernogff tail bounds (bounding the probability that a random variable will deviate from its expectation).
+* Markov, Chebychev and Chernoff tail bounds (bounding the probability that a random variable will deviate from its expectation).
 
 
 
@@ -385,11 +385,11 @@ The following extremely useful theorem shows that such exponential decay occurs 
 
 
 
-> # {.theorem title="Chernoff bound" #chernoffthm}
+> # {.theorem title="Chernoff/Hoeffding bound" #chernoffthm}
 If $X_1,\ldots,X_n$ are i.i.d random variables such that $X_i \in [0,1]$ and $\E[X_i]=p$ for every $i$,
 then for every $\epsilon >0$
 $$
-\Pr[ \left| \sum_{i=0}^{n-1} X_i - pn \right| > \epsilon n ] \leq 2\exp(-\epsilon^2 n/2)
+\Pr[ \left| \sum_{i=0}^{n-1} X_i - pn \right| > \epsilon n ] \leq \exp(-2\epsilon^2 n)
 $$
 
 We omit the proof, which appears in many texts, and uses Markov's inequality on i.i.d random variables $Y_0,\ldots,Y_n$ that are of the form $Y_i = e^{\lambda X_i}$ for some carefully chosen parameter $\lambda$.
