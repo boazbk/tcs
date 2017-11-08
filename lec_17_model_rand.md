@@ -1,5 +1,11 @@
 #  Modeling randomized computation
 
+> # { .objectives }
+* Formal definition of probabilistic polynomial time: $\mathbf{BPTIME}(T(n))$ and $\mathbf{BPP}$. \
+* Proof that that every function in $\mathbf{BPP}$ can be computed by $poly(n)$-sized NAND programs/circuits. \
+* Pseudorandom generators
+
+
 >_"Any one who considers arithmetical methods of producing random digits is, of course, in a state of sin."_, John von Neumann, 1951.
 
 
@@ -11,16 +17,17 @@ We have neglected to address two questions:
 
 2. What is the  mathematical model for randomized computations, and is it more powerful than deterministic computation?
 
-We will return to the first question later in this course, but for now let's just say that there are various random physical sources.
+The first  question is of both practical and theoretical importance,  but for now let's just say that there are various random physical sources.
 User's mouse movements, (non solid state) hard drive and network latency, thermal noise, and radioactive decay, have all been used as sources for randomness.
-For example, new Intel chips  come with a random number generator [built in](http://spectrum.ieee.org/computing/hardware/behind-intels-new-randomnumber-generator).  At the worst case, one can even include a coin tossing machine [coinfig](){.ref}.
-We remark that while we can represent the output of these processes as binary strings which will be random from some distribution $\mu$, this distribution is not necessarily the same as the uniform distribution over $\{0,1\}^n$.^[Indeed, as [this paper](http://statweb.stanford.edu/~susan/papers/headswithJ.pdf) shows, even (real-world) coin tosses do not have exactly the distribution of a uniformly random string.]
-As we will discuss later (and is covered more in depth in a cryptography course), one typically needs to apply a "distillation" or _randomness extraction_ process to the raw measurements to transform them to the uniform distribution.
+For example, new Intel chips  come with a random number generator [built in](http://spectrum.ieee.org/computing/hardware/behind-intels-new-randomnumber-generator).
+One can even build mechanical  coin tossing machines (see [coinfig](){.ref}).^[The output of  processes such as above can be thought of  as a binary string sampled from some distribution $\mu$ that might have significant unpredictablity (or _entropy_) but is  not necessarily the _uniform_ distribution over $\{0,1\}^n$. Indeed, as [this paper](http://statweb.stanford.edu/~susan/papers/headswithJ.pdf) shows, even (real-world) coin tosses do not have exactly the distribution of a uniformly random string.
+Therefore, to use the resulting measurements for randomized algorithms, one typically needs to apply a "distillation" or _randomness extraction_ process to the raw measurements to transform them to the uniform distribution.]
 
 ![A mechanical coin tosser built for Percy Diaconis by  Harvard technicians Steve Sansone and Rick Haggerty](../figure/coin_tosser.jpg){#coinfig .class width=300px height=300px}
 
 In this lecture we focus on the second point - formally modeling probabilistic computation and studying its power.
-The first part is very easy. We define the RNAND programming language to include all the operations of   NAND  plus  the following additional operation:
+The first part is very easy.
+We can define the RNAND programming language to include all the operations of   NAND  plus  the following additional operation:
 
 ~~~~ { .go .numberLines }
 var := RAND
@@ -28,42 +35,66 @@ var := RAND
 
 where `var` is a variable.
 The result of applying this operation is that `var` is assigned a random bit in $\{0,1\}$.
-Similarly RNAND++ corresponds to NAND++ augmented with the same operation.
+Similarly RNAND++ and RNAND<< will corresponds to NAND++ and NAND<< augmented with the same operation.
 (Every time the `RAND` operation is involved it returns a fresh independent random bit.)
-We can now define what it means to compute a function with a probabilistic algorithm:
+We can now define what it means to compute both finite and infinite  functions with randomized algorithm:
 
-> # {.definition title="Randomized circuits" #rnandcomp}
-Let $F$ be a (possibly partial) function mapping $\{0,1\}^n$ to $\{0,1\}^m$ and $T\in \N$. We say that $F \in BPSIZE(T)$ if there is an $n$-input $m$-output RNAND program $P$ of at most $T$ lines so that for every $x\in \{0,1\}^m$, $\Pr[ P(x)= F(x)] \geq 2/3$ where this probability is taken over the random choices in the `RAND` operations.
+> # {.definition title="Randomized circuits and algorithms" #rnandcomp}
+Let $F$ be a  function mapping $\{0,1\}^n$ to $\{0,1\}^m$ and $T\in \N$. We say that $F \in \mathbf{BPSIZE}(T)$ if there is an $n$-input $m$-output RNAND program $P$ of at most $T$ lines so that for every $x\in \{0,1\}^n$, $\Pr[ P(x)= F(x)] \geq 2/3$ where this probability is taken over the random choices in the `RAND` operations.
 >
-Let $F$ be a (possibly partial) function mapping $\{0,1\}^*$ to $\{0,1\}^*$  and $T:\N \rightarrow \N$ be a nice function.
-We say that $F \in\overline{BPTIME}(T(n))$ if there is an RNAND++ program $P$ such that   for every $x\in \{0,1\}^n$,
-$P$ always halts with an output $P(x)$ within at most $T(|x|)$ steps and $\Pr[ P(x)=F(x)] \geq 2/3$, where again this probability is taken over the random choices in the `RAND` operations.
+Let $F:\{0,1\}^* \rightarrow \{0,1\}$. We say that $F\in \mathbf{BPTIME}_{<<}(T(n))$ if there is an RNAND<< program $P$  such that   for every $x\in \{0,1\}^*$, $P$ always halts with an output $P(x)$ within at most $T(|x|)$ steps and $\Pr[ P(x)=F(x)] \geq 2/3$, where again this probability is taken over the random choices in the `RAND` operations.
+We define the condition $F\in \mathbf{BPTIME}_{++}(T(n))$ analogously using NAND++ programs, and use $\mathbf{BPTIME}$ as shorthand for $\mathbf{BPTIME}_{<<}$.^[The prefix BP stands for "bounded probability", and is used for historical reasons.]
 
-The prefix BP stands for "bounded probability", and is used for historical reasons.
-As above, we will use $BPTIME(T(n))$ for the subset of $\overline{BPTIME}(T(n))$ corresponding to total Boolean functions.
+We are mostly interested in understanding which functions can be computed by randomized algorithms running in _polynomial_ time, which motivates the following definition:
+
+> # {.definition title="BPP" #bppdef}
+The class $\mathbf{BPP}$ is equal to the union over all $c\in\N$ of $\mathbf{BPTIME}(n^c)$.
+
+The same polynomial-overhead simulation of NAND<< programs by  NAND++ programs we saw in [NANDpp-thm](){.ref} extends to _randomized_ programs as well.
+Hence the class $\mathbf{BPP}$ is the same regardless of whether it is defined via RNAND++ or RNAND<< programs.
+
+
+## Amplification
+
+
 The number $2/3$ might seem arbitrary, but as we've seen in the previous lecture it can be amplified to our liking:
 
 > # {.theorem title="Amplification" #amplificationthm}
-Let $P$ be a NAND (or NAND++) program such that $\Pr[ P(x)=F(x)] \geq 1/2 + \epsilon$, then there is a program $P'$ that with at most $10m/\epsilon^2$ times more lines (or runs in at most $m/\epsilon^2$ times more steps) such that $\Pr[ P'(x) = F(x)] \geq 1 - 2^{-m}$.
+Let $P$ be an RNAND<< program,  $F\in \{0,1\}^* \rightarrow \{0,1\}$,
+and $T:\N \rightarrow \N$ be a nice time bound such that for every $x\in \{0,1\}^*$, on input $x$ the program $P$ runs in at most $T(|x|)$ steps and moreover $\Pr[ P(x)=F(x) ] \geq \tfrac{1}{2}+\epsilon$ for some $\epsilon>0$.
+Then for every $k$, there is a program $P'$  taking at most $O(k\cdot T(n)/\epsilon^2)$ steps such that on input $x\in \{0,1\}^*$, $\Pr[ P'(x)= F(x)] > 1 - 2^{-k}$.
+
+> # {.proofidea data-ref="amplificationthm"}
+The proof is the same as we've seen before in the maximum cut and other examples.
+We use the Chernoff bound to argue that if we run the program $O(k/\epsilon^2)$ times, each time using fresh and independent random coins, then the probability that the majority of the answers will not be correct will be less than $2^{-k}$.
 
 > # {.proof data-ref="amplificationthm"}
 The proof is the same as we've seen in the maximum cut example.
-We can run $P$ on input $x$ for $t=10m/\epsilon^2$ times, using fresh randomness each one, to compute outputs $y_0,\ldots,y_{t-1}$. We output the value $y$ that appeared the largest number of times.
+We can run $P$ on input $x$ for $t=10k/\epsilon^2$ times, using fresh randomness each one, to compute outputs $y_0,\ldots,y_{t-1}$. We output the value $y$ that appeared the largest number of times.
 Let $X_0$ be the random variable that is equal to $1$ if $y_i = F(x)$ and equal to $0$ otherwise.
-Then all the random variables $X_0,\ldots,X_{t-1}$ are i.i.d.  and satisfy $\E [X_i] = \Pr[ X_i = 1] \geq 1/2 - \epsilon$.
-Hence the probability that $\sum X_i \leq t/2$ is at most $\exp(-\epsilon^2 t/4) \leq 2^{-m}$.
+Then all the random variables $X_0,\ldots,X_{t-1}$ are i.i.d.  and satisfy $\E [X_i] = \Pr[ X_i = 1] \geq 1/2 + \epsilon$.
+Hence by the Chernoff bound ([chernoffthm](){.ref}) the probability that the majority value is not correct (i.e., that  $\sum X_i \leq t/2$) is at most $\exp(-\epsilon^2 t/4) \leq 2^{-m}$.
+
+There is nothing special about NAND<< in [amplificationthm](){.ref}. The same proof can be used to amplify randomized NAND or NAND++ programs as well.
+
+
 
 ## The power of randomization
 
 
 A major question is whether randomization can add power to computation.
-We can phrase it mathematically as follows:
+For _finite_ functions, we can formalize this as asking  whether RNAND programs can be simulated by NAND programs with at most a polynomially larger number of lines.
+For _infinite_ functions, we can formalize this as asking whether  RNAND<<  programs can be simulated by NAND<< programs with at most a polynomially larger number of steps.
+(Due to their polynomial equivalence, the question remains the same if we replace RNAND<< or NAND<< with RNAND++ or NAND++).
 
-1. Is there some constant $c$ such that $BPSIZE(T) \subseteq SIZE(T^c)$ for every $T\in \N$?
+Mathematically, we can also formulate both questions as follows:
 
-2. Is there some constant $c$ such that $\overline{BPTIME}(T(n)) \subseteq \overline{TIME}(T(n)^c)$ for every nice $T:\N \rightarrow \N$? Specifically, is it the case that $\overline{\mathbf{BPP}}=\overline{\mathbf{P}}$ where $\overline{\mathbf{BPP}}=\cup_{a\in \N} \overline{BPTIME}(n^a)$ stands for the class of functions that can be computed in probabilistic polynomial time.
+1. If there a constant $c\in \N$, $\mathbf{BPSIZE}(T) \subseteq SIZE(T^c)$ for every $t\in \N$?
 
-## Simulating RNAND programs by NAND programs
+2. Is there a constant $c\in \N$ such that $\mathbf{BPTIME}(T(n)) \subseteq \mathbf{TIME}(T(n)^c)$ for every nice time bound $T:\N \rightarrow \N$? In particular, is $\mathbf{BPP}=\mathbf{P}$?
+3.
+
+### Simulating RNAND programs by NAND programs
 
 It turns out that question 1 is much easier to answer than question 2: RNAND is not really more powerful than NAND.
 
