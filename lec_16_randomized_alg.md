@@ -85,6 +85,18 @@ $$
 
 (using the inequality $(1-1/k)^k \leq 1/e \leq 1/2$).
 
+### Two-sided amplification
+
+The analysis above relied on the fact that the maximum cut has _one sided error_. By this we mean that if we get a cut of size at leat $m/2$ then we know we have succeeded.
+This is common for randomized algorithms, but is not the only case.
+In particular, consider the task of computing some Boolean function $F:\{0,1\}^* \rightarrow \{0,1\}$.
+A randomized algorithm $A$ for computing $F$, given input $x$, might toss coins and succeed on outputting $F(x)$ with probability, say, $0.9$.
+We say that $A$ has _two sided errors_ if there is positive probability that $A(x)$ outputs $1$ when $F(x)=0$, and positive probability that $A(x)$ outputs $0$ when $F(x)=1$.
+In such a case, to smplify $A$'s success, we cannot simply repeat it $k$ times and output $1$ if a single one of those repetitions resulted in $1$, nor can we output $0$ if a single one of the repetitions resulted in $0$.
+But we can output the _majority value_ of these repetitions.
+By the Chernoff bound ([chernoffthm](){.ref}),  with probability _exponentially close_ to $1$ (i.e., $1-2^{\Omega(k)}$), the fraction of the repetitions where $A$ will output $F(x)$ will be at least, say $0.89$, and in such cases we will of course output the correct answer.
+
+
 ### What does this mean?
 
 We have shown a probabilistic algorithm that on any $m$ edge graph $G$, will output a cut of at least $m/2$ edges with probability at least $1-2^{-1000}$.
