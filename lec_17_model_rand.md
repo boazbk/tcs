@@ -99,11 +99,16 @@ Mathematically, we can also formulate both questions as follows:
 It turns out that question 1 is much easier to answer than question 2: RNAND is not really more powerful than NAND.
 
 > # {.theorem title="Simulating RNAND with NAND" #rnandthm}
-For every $T\in \N$ and  $F: \{0,1\}^n \rightarrow \{0,1\}^m$, if $F\in RSIZE(T)$ then $F \in SIZE(100nT)$.
+For every $T\in \N$ and  $F: \{0,1\}^n \rightarrow \{0,1\}^m$, if $F\in \mathbf{BPSIZE}(T)$ then $F \in SIZE(100nT)$.
+
+> # {.proofidea data-ref="rnandthm"}
+The idea behind the proof is that we can first amplify by repetition the probability of success from $2/3$ to $1-0.1 \cdot 2^{-n}$.
+This will allow us to show that there exists a single fixed choice of "favorable coins" that would cause the algorithm to output the right answer on _all_ of the possible $2^n$ inputs.
+We can then "hardwire" this choice and transform the RNAND program into a plain-old deterministic NAND program.
 
 > # {.proof data-ref="rnandthm"}
 Suppose that $P$ is a $T$-line  RNAND program such that $\Pr[ P(x)=F(x)] \geq 2/3$.
-We use [amplificationthm](){.ref} to obtain an $50n T$ line program $P'$ such that
+We use [amplificationthm](){.ref} to obtain an $50n T$ line RNAND program $P'$ such that
 $$
 \Pr[ P'(x)=F(x)] \geq 1 - 0.9\cdot 2^{-n} \;. \label{ampeq}
 $$
@@ -128,9 +133,9 @@ __Note:__ [rnandthm](){.ref} can also be proven using the _Union Bound_. That is
 The proof of [rnandthm](){.ref} can be summarized as follows:  we can replace a $poly(n)$-time algorithm that tosses coins as it runs, with an algorithm that uses a single set of coin tosses $r^* \in \{0,1\}^{poly(n)}$ which will be good enough for all inputs of size $n$.
 Another way to say it is that for the purposes of computing functions, we do not need "online" access to random coins and can generate a set of  coins "offline" ahead of time, before we see the actual input.
 
-But the question of derandomizing _uniform_ computation, or equivalently, NAND++ programs, is a whole different matter.
-For a NAND++ program we need to come up with a _single_ deterministic algorithm that will work for _all input lengths_.
-That is, unlike the nonuniform NAND case, we cannot choose for every input length $n$ some string $r^* \in \{0,1\}^{poly(n)}$ to use as our random coins.
+But the question of derandomizing _uniform_ computation, or equivalently, RNAND<< or RNAND++ programs, is a whole different matter.
+To derandomize an RNAND++ program we will need to come up with a _single_ deterministic algorithm that will work for _all input lengths_.
+That is, unlike in the case of RNAND programs, we cannot choose for every input length $n$ some string $r^* \in \{0,1\}^{poly(n)}$ to use as our random coins.
 Can we still do this, or does randomness add an inherent extra power for computation?
 This is a fundamentally interesting question  but is also of practical significance.
 Ever since people started to use randomized algorithms during the Manhattan project, they have been trying to remove  the need for randomness and replace it with numbers that are selected through some deterministic process.
@@ -141,9 +146,10 @@ For example, one can use the digits of $\pi$ for the random tape.
 Using these type of methods corresponds to   what von Neumann referred to as a "state of sin".
 (Though   this is a sin that he himself frequently committed, as generating true randomness in sufficient quantity was and still is often too expensive.)
 The reason that this is considered a "sin" is that such a  procedure will not work in general.
-For example, it is easy to modify any probabilistic algorithm $A$ such as the ones we have seen in the previous lecture, to an algorithm $A'$ that is guaranteed to fail if the random tape happens to equal the digits of $\pi$.
-This means that the procedure of "replacing the random tape by the digits of $\pi$" does not yield a general way to transform a probabilistic algorithm to a deterministic one that will solve the same problem.
-It does not mean that it _always_ fails, but we have no good way to determine when this will work out.
+For example, it is easy to  modify any probabilistic algorithm $A$ such as the ones we have seen in the previous lecture, to an algorithm $A'$ that is _guaranteed to fail_ if the random tape happens to equal the digits of $\pi$.
+This means that the procedure  "replace the random tape by the digits of $\pi$" does not yield a _general_ way to transform a probabilistic algorithm to a deterministic one that will solve the same problem.
+Of course,  this procedure does not _always_ fail, but we have no good way to determine when it fails and when it succeeds.
+
 
 This reasoning is not specific to $\pi$ and holds for every deterministically produced string, whether it obtained by  $\pi$,  $e$, the Fibonacci series, or anything else, as shown in the following result:
 
@@ -161,7 +167,7 @@ The proof of [nodet](){.ref} might seem quite silly, but refers to a very seriou
 Time and again people have learned the hard way that one needs to be very careful about producing random bits using deterministic means.
 As we will see when we discuss cryptography, many spectacular security failures and break-ins were the result of using "insufficiently random" coins.
 
-## Pseudorandom generators
+### Pseudorandom generators
 
 So, we can't use any _single_ string to "derandomize" a probabilistic algorithm.
 It turns out however, that we can use a _collection_ of strings to do so.
@@ -178,14 +184,17 @@ NAND program $P$ with $m$ inputs and one output of at most $T$ lines,
 
 ![A pseudorandom generator $G$ maps a short string $s\in \{0,1\}^\ell$ into a long string $r\in \{0,1\}^m$ such that an small program $P$ cannot distinguish between the case that it is provided a random input $r \sim \{0,1\}^m$ and the case that it is provided a "pseudorandom" input of the form $r=G(s)$ where $s \sim \{0,1\}^\ell$. The short string $s$ is sometimes called the _seed_ of the pseudorandom generator, as it is a small  object that can be thought as yielding a large "tree of randomness".](../figure/prg_experiment.png){#figureid .class width=300px height=300px}
 
+> # { .pause }
 This is a definition that's worth reading more than once, and spending some time to digest it.
-First of all note that it takes several parameters:
-
+Note that it takes several parameters:
+>
 * $T$ is the limit on the number of lines of the program $P$  that the generator needs to "fool". The larger $T$ is, the stronger the generator.
-
+>
 * $\epsilon$ is how close is the output of the pseudorandom generator to the true uniform distribution over $\{0,1\}^m$. The smaller $\epsilon$ is, the stronger the generator.
-
+>
 * $\ell$ is the input length and $m$ is the output length. If $\ell \geq m$ then it is trivial to come up with such a generator: on input $s\in \{0,1\}^\ell$, we can output $s_0,\ldots,s_{m-1}$. In this case $\Pr_{s\sim \{0,1\}^\ell}[ P(G(s))=1]$ will simply equal $\Pr_{r\in \{0,1\}^m}[ P(r)=1]$, no matter how many lines $P$ has. So, the smaller $\ell$ is and the larger $m$ is, the stronger the generator, and to get anything non-trivial, we need $m>\ell$.
+
+
 
 We can think of a pseudorandom generator as a "randomness amplifier". It takes an input $s$ of $\ell$ bits, which we can assume per [{eq:prg}](){.eqref} that are _truly random_, and expands this into an output $r$ of $m>\ell$ _pseudorandom_ bits.
 If $\epsilon$ is small enough (even $\epsilon=0.1$ might be enough) then the pseudorandom bits will "look random" to any NAND program that is not too big.
@@ -193,7 +202,7 @@ Still, there are two questions we haven't answered:
 
 * _What reason do we have to believe that pseudorandom generators with non-trivial parameters exist?_
 
-* _Even if they do exist, why would such generators be useful to derandomize randomized algorithms?_ After all, [prg](){.ref} does not involve RNAND++ programs but deterministic NAND programs with no randomness and no loops.
+* _Even if they do exist, why would such generators be useful to derandomize randomized algorithms?_ After all, [prg](){.ref} does not involve RNAND++ or RNAND<<programs but deterministic NAND programs with no randomness and no loops.
 
 We will now (partially) answer both questions.
 
