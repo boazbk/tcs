@@ -216,13 +216,13 @@ If we drop the last  condition, then as shown in [prgexist](){.ref}, there are p
 > # {.lemma title="Existence of inefficient pseudorandom generators" #prgexist}
 There is some absolute constant $C$ such that for every $\epsilon,T$, if $\ell > C (\log T + \log (1/\epsilon))$ and $m \leq T$,  then there is an $(T,\epsilon)$ pseudorandom generator $G: \{0,1\}^\ell \rightarrow \{0,1\}^m$.
 
+> # {.proofidea data-ref="prgexist"}
 The proof uses an extremely useful technique known  as the "probabilistic method" which is not too hard technically but can be confusing at first.^[There is a whole (highly recommended) [book](https://www.amazon.com/Probabilistic-Method-Discrete-Mathematics-Optimization/dp/1119061954/ref=dp_ob_title_bk) by Alon and Spencer devoted to this method.]
 The idea is to give a "non constructive" proof of existence of the pseudorandom generator $G$ by showing that if $G$ was chosen at random, then the probability that it would be a valid $(T,\epsilon)$ pseudorandom generator is positive.
 In  particular this means that there _exists_ a single $G$ that is a valid $(T,\epsilon)$ pseudorandom generator.
 The probabilistic method is doubly-confusing in the current setting, since eventually $G$ is a _deterministic_ function $G$  (as its whole point is to reduce the need for randomness).
 The probabilistic method is just a _proof technique_ to demonstrate the existence of such a function.
 The above discussion might be rather abstract at this point, but would become clearer after seeing the proof.
-
 ^[TODO: if we end up discussing the probabilistic method before this proof, then move this discussion to that point.]
 
 

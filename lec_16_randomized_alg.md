@@ -2,7 +2,8 @@
 
 > # { .objectives }
 * See  examples  of randomized algorithms \
-* Get more comfort with analyzing probabilistic processes and tail bounds
+* Get more comfort with analyzing probabilistic processes and tail bounds \
+* Success amplification using tail bounds \
 
 
 
