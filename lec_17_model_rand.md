@@ -10,7 +10,7 @@
 
 
 
-So far we have descrined randomized algorithms in an informal way, assuming that an operation such as  "pick a string $x\in \{0,1\}^n$" can be done efficiently.
+So far we have described randomized algorithms in an informal way, assuming that an operation such as  "pick a string $x\in \{0,1\}^n$" can be done efficiently.
 We have neglected to address two questions:
 
 1. How do we actually efficiently obtain random strings in the physical world?
@@ -134,50 +134,73 @@ There is nothing special about NAND<< in [amplificationthm](){.ref}. The same pr
 
 
 A major question is whether randomization can add power to computation.
-For _finite_ functions, we can formalize this as asking  whether RNAND programs can be simulated by NAND programs with at most a polynomially larger number of lines.
-For _infinite_ functions, we can formalize this as asking whether  RNAND<<  programs can be simulated by NAND<< programs with at most a polynomially larger number of steps.
-(Due to their polynomial equivalence, the question remains the same if we replace RNAND<< or NAND<< with RNAND++ or NAND++).
+Mathematically, we can phrase this as the following question: does $\mathbf{BPP}=\mathbf{P}$?
+Given what we've seen so far about the relations of other complexity classes such as $\mathbf{P}$ and $\mathbf{NP}$, or $\mathbf{NP}$ and $\mathbf{EXP}$, one might guess that:
 
-Mathematically, we can also formulate both questions as follows:
+1. We do not know the answer to this question.
 
-1. If there a constant $c\in \N$, $\mathbf{BPSIZE}(T) \subseteq SIZE(T^c)$ for every $t\in \N$?
+2. But we suspect that $\mathbf{BPP}$ is different than $\mathbf{P}$.
 
-2. Is there a constant $c\in \N$ such that $\mathbf{BPTIME}(T(n)) \subseteq \mathbf{TIME}(T(n)^c)$ for every nice time bound $T:\N \rightarrow \N$? In particular, is $\mathbf{BPP}=\mathbf{P}$?
-3.
+One would be correct about the former, but wrong about the latter.
+As we will see, we do in fact have  reasons to believe that $\mathbf{BPP}=\mathbf{P}$.
+This can be thought of as supporting the _extended Church Turing hypothesis_ that deterministic polynomial-time NAND++ program (or, equivalently, polynomial-time Turing machines)  capture what can be feasibly computed in the physical world.
 
-### Simulating RNAND programs by NAND programs
+We now survey some of the relations that are known between $\mathbf{BPP}$ and other complexity classes we have encountered.
 
-It turns out that question 1 is much easier to answer than question 2: RNAND is not really more powerful than NAND.
+### Solving $\mathbf{BPP}$ in exponential time
 
-> # {.theorem title="Simulating RNAND with NAND" #rnandthm}
-For every $T\in \N$ and  $F: \{0,1\}^n \rightarrow \{0,1\}^m$, if $F\in \mathbf{BPSIZE}(T)$ then $F \in SIZE(100nT)$.
+It is not hard to see that if $F$ is in $\mathbf{BPP}$ then it can be computed in _exponential_ time.
+
+> # {.theorem title="Simulating randomized algorithm in exponential time" #BPPEXP}
+$\mathbf{BPP} \subseteq \mathbf{P}$
+
+> # { .pause }
+The proof of [BPPEXP](){.ref} readily follows by enumerating over all the (exponentially many) choices for the random coins.
+We omit the formal proof, as doing it by yourself is an excellent way to get comfort with [BPPdef](){.ref}
+
+
+
+
+### Simulating randomized algorithms by circuits or straightline programs.
+
+We have seen in [non-uniform-thm](){.ref} that if  $F$ is in $\mathbf{P}$, then there is a polynomial $p:\N \rightarrow \N$ such that for every $n$, the restriction $F_n$ of $F$ to inputs $\{0,1\}^n$ is in $SIZE(p(n))$.
+A priori it is not at all clear that the same holds for a function in $\mathbf{BPP}$, but this does turn out to be the case.
+
+
+
+> # {.theorem title="$\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$" #rnandthm}
+For every $F\in \mathbf{BPP}$, there exist some $a,b\in \N$ such that for every $n>0$, $F_n \in SIZE(an^b)$ where $F_n$ is the restriction
+of $F$ to inputs in $\{0,1\}^n$.
+
 
 > # {.proofidea data-ref="rnandthm"}
 The idea behind the proof is that we can first amplify by repetition the probability of success from $2/3$ to $1-0.1 \cdot 2^{-n}$.
 This will allow us to show that there exists a single fixed choice of "favorable coins" that would cause the algorithm to output the right answer on _all_ of the possible $2^n$ inputs.
-We can then "hardwire" this choice and transform the RNAND program into a plain-old deterministic NAND program.
+We can then use the standard "unravelling the loop" technique to transform an RNAND++ program to an RNAND program, and  "hardwire" the favorable choice of random coins to  transform the RNAND program into a plain-old deterministic NAND program.
 
 > # {.proof data-ref="rnandthm"}
-Suppose that $P$ is a $T$-line  RNAND program such that $\Pr[ P(x)=F(x)] \geq 2/3$.
-We use [amplificationthm](){.ref} to obtain an $50n T$ line RNAND program $P'$ such that
+Suppose that $F\in \mathbf{BPP}$ and let $P$ be a polynomial-time RNAND++ program that computes $F$ as per [BPPdef](){.ref}.
+Using [amplificationthm](){.ref} we can  _amplify_ the success probability of $P$ to obtain an RNAND++ program $P'$ that is at most a factor of $O(n)$ slower (and hence still polynomial time)
+such that for every $x\in \{0,1\}^n$
 $$
-\Pr[ P'(x)=F(x)] \geq 1 - 0.9\cdot 2^{-n} \;. \label{ampeq}
+\Pr_{r \sim \{0,1\}^m\}[ P'(x;r)=F(x)] \geq 1 - 0.1\cdot 2^{-n} \;, \label{ampeq}
 $$
+where $m$ is the number of coin tosses that $P'$ uses on inputs of length $n$, and we use (as above) the notation $P'(x;r)$ to denote the execution of $P'$ on input $x$ and when the result of the coin tosses corresponds to the string $r$.
 >
-Let $R \leq T$ be the number of lines using the `RAND` operations in $P'$.
-For every $r\in \{0,1\}^R$, let $P'_r(x)$ be the result of executing $P'$ on $x$ where we use $r_i$ for the result of the $i^{th}$ `RAND` operation for every $i\in \{0,\ldots,R-1\}$.
-For every $r\in \{0,1\}^R$ and $x\in \{0,1\}^n$, define a matrix $B$ whose rows are indexed by elements in $\{0,1\}^R$ and whose columns are indexed by elements in $\{0,1\}^n$ such that for every $r\in \{0,1\}^R$ and $x\in \{0,1\}^n$, $B_{r,x}$ equals $1$ if $P'_r(x) \neq F(x)$ and $B_{r,x} = 0$ otherwise.
-We can rewrite [ampeq](){.eqref} as follows: for every $x\in \{0,1\}^n$
+For every $x\in \{0,1\}^n$, define the "bad" event $B_x$ to hold if $P'(x) \neq F(x)$, where the sample space for this event consists of the coins of $P'$.
+Then by [ampeq](){.eqref}, $\Pr[B_x] \geq  0.1\cdot 2^n$ for every $x \in \{0,1\}^n$.
+Since there are $2^n$ many such $x$'s, by the union bound we see that the probability that the _union_ of the events $\{ B_x \}_{x\in \{0,1\}^n}$ is at most $0.9$.
+This means that if we choose $r \sim \{0,1\}^n$, then with probability at least $0.9$ it will be the case that for _every_ $x\in \{0,1\}^n$, $F(x)=P'(x;r)$.
+(Indeed, otherwise the event $B_x$ would hold for some $x$.)
+In particular it means that _there exists_ a particular $r^* \in \{0,1\}^m$ such that  
+$$P'(x;r^*)=F(x) \label{hardwirecorrecteq}
 $$
-\sum_{r\in \{0,1\}^R} B_{x,r} \leq 0.1 \cdot 2^{R-n} \;.
-$$
->
-It follows that the total number of $1$'s in this matrix is at most $0.1 2^R$, which means that there is at least one row $r^*$ in this matrix such that $B_{r^*,x}=0$ for every $x$. (Indeed, otherwise the matrix would have at least $2^R$ $1$'s.)^[In fact, the same reasoning shows that at least a $0.9$ fraction of the rows have this property.]
-Let $P^*$ be  the following NAND program which is obtained by taking $P'$ and replacing  the $i^{th}$ line of the form `var := RAND` with the line `var := `$\expr{r^*_i}$.
-That is, we replace this with `var := one NAND one` or `var := zero NAND zero` based on whether $r^*_i$ is equal  to $0$ or $1$ respectively, where we add as usual a couple of lines to initialize `zero` and `one` to $0$ and $1$.
-By construction, for every $x$, $P^*(x)=P'_r(x)$ and hence, since $B_{r^*,x}=0$ for every  $x\in \{0,1\}^n$, it follows that $P^*(x)= F(x)$ for every $x\in \{0,1\}^n$.
+for every $x\in \{0,1\}^n$.
+Now let us use the standard "unravelling the loop" the technique and transform $P'$ into a NAND program $Q$ of polynomial in $n$ size, such that $Q(xr)=P'(x;r)$ for every $x\in \{0,1\}^n$ abd $r \in \{0,1\}^m$.
+Then by "hardwiring" the values $r^*_0,\ldots,r^*_{m-1}$ in place of the last $m$ inputs of $Q$, we obtain a new NAND program $Q_{r^*}$ that satisfies by [hardwirecorrecteq](){.eqref} that $Q_{r^*}(x)=F(x)$ for every $x\in \{0,1\}^n$.
+This demonstrates that $F_n$ has a polynomial sized NAND program, hence completing the proof of [rnandthm](){.ref}
 
-__Note:__ [rnandthm](){.ref} can also be proven using the _Union Bound_. That is, once we show that the probability of an error is smaller than $2^{-n}$, we can take a union bound over all $x$'s and so show that if we choose some random coins $r^*$ and fix them once and for all, then with high probability they will work for _every_ $x\in \{0,1\}^n$.
+
 
 ## Derandomizing uniform computation
 

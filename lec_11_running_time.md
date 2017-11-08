@@ -242,14 +242,17 @@ For simplicity, let  us restrict attention to  functions $F:\{0,1\}^* \rightarro
 For every such function, define $F_n : \{0,1\}^n \rightarrow \{0,1\}$ to be the restriction of $F$ to inputs of size $n$.
 It turns out that we do have at least one relation between the NAND++ complexity of $F$ and the NAND complexity of the functions $\{ F_n \}$.
 
-> # {.theorem  title="Nonuniform computation contains uniform computation" #non-uniform}
+> # {.theorem  title="Nonuniform computation contains uniform computation" #non-uniform-thm}
 There is some $c\in \N$ s.t. for every $F:\{0,1\}^* \rightarrow \{0,1\}$ in  $TIME_{++}(T(n))$ and every  sufficiently large $n\in N$,  $F_n$ is in $SIZE(c T(n))$.
 
-> # {.proof data-ref="non-uniform"}
+> # {.proofidea data-ref="non-uniform-thm"}
+To prove [non-uniform-thm](){.ref} we use the technique of "unraveling  the loop". That is, we can in general use "copy paste" to replace a program $P$ that uses a loop that iterates for at most $T$ times with a "loop free" program that has about $T$ times as many lines as $P$. In particular, given $n\in \N$ and a NAND++ program $P$ we can transform a NAND++ program
+
+> # {.proof data-ref="non-uniform-thm"}
 The proof follows by the "unraveling" argument that we've already seen in the proof of [NANDexpansionthm](){.ref}.
 Given a NAND++ program $P$ and some function $T(n)$, we can transform NAND++ to be "simple" in the sense of [simpleNANDpp](){.ref} with a constant factor overhead (in fact the constant is at most $5$). Thus we can construct a NAND program on $n$ inputs and with less than $c T(n)$ lines by making it simple and then simply  "unraveling the main loop" of $P$ and hence putting $T(n)/L$  copies of $P$ one after the other, where $L$ is the number of lines in $P$, replacing any instance of `i` with the numerical value of `i` for that iteration.
 While the original NAND++ program $P$ might have ended on some inputs _before_ $T(n)$ iterations have passed, by transforming it to a simple program we ensure that there is no harm in "extra" iterations.^[Specifically, [simpleNANDpp](){.ref} ensures that there is a variable `halted` that is set to $1$ once the program is "supposed" to halt, and all assignments to `loop`, `y_0` and `halted` itself are modified so that if `halted` equals $1$ then the value of these variables does not change. Thus continuing for extra iterations does not change the value of these variables.]
-By combining [non-uniform](){.ref}  with [NANDpp-thm](){.ref}, we get that if $F\in TIME(T(n))$ then there are some constants $a,b$ such that for every large enough $n$, $F_n \in SIZE(aT(n)^b)$. (In fact, by direct inspection of the proofs we can see that $a=1$ and $b=5$ would work.)
+By combining [non-uniform-thm](){.ref}  with [NANDpp-thm](){.ref}, we get that if $F\in TIME(T(n))$ then there are some constants $a,b$ such that for every large enough $n$, $F_n \in SIZE(aT(n)^b)$. (In fact, by direct inspection of the proofs we can see that $a=1$ and $b=5$ would work.)
 
 __Algorithmic version: the "NAND++ to NAND compiler":__
 The transformation of the NAND++ program $P$ to the NAND program $Q_P$ is itself algorithmic. (Indeed it can be done in  about 5 lines of Python.)
@@ -261,12 +264,15 @@ There is an $O(n)$-time NAND<< program $COMPILE$ such that on input a NAND++ pro
 
 Since NAND<< programs can be simulated by NAND++ programs with polynomial overhead, we see that we can simulate a $T(n)$ time NAND<< program on length $n$ inputs with a $poly(T(n))$ size NAND program.
 
+Although we will hardly  use this term in this course, the set of functions $F:\{0,1\}^* \rightarrow \{0,1\}$ whose restriction to $n$-bit inputs can be solved by a polynomial size NAND program (or, equivalently, by a polynomial size Boolean circuit) is known as $\mathbf{P_{/poly}}$.
+Thus one consequence of [non-uniform-thm](){.ref} is that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$.
+
 
 
 
 ## Simulating NAND with NAND++?
 
-We have seen that every function in $TIME(T(n))$ is in $SIZE(poly(T(n)))$.
+[non-uniform-thm](){.ref} shows that every function in $TIME(T(n))$ is in $SIZE(poly(T(n)))$.
 One can ask if  there is an inverse relation.
 Suppose that $F$ is such that $F_n$ has a "short" NAND program for every $n$.
 Can we say that it must be in $TIME(T(n))$ for some "small" $T$?
@@ -278,7 +284,7 @@ On the other hand, for every $n$, $UH_n(x)$ is either equal to $0$ for all input
 
 The issue here is _uniformity_. For a function $F:\{0,1\}^* \rightarrow \{0,1\}$, if $F$ is in $TIME(T(n))$ then we have a _single_ algorithm that can compute $F_n$ for every $n$.
 On the other hand,  $F_n$ might be in  $SIZE(T(n))$ for every $n$ using a completely different algorithm for every input length.
-While this can be a real issue, in most natural settings the difference between uniformity and non-uniformity does not seem to arise.
+While this can be a real issue, in most natural settings the difference between uniformity and non-uniform-thmity does not seem to arise.
 In particular, in all the example problems in this lecture, as the input size $n$ grows, we do not know of NAND programs that are significantly smaller than what would be implied by the best known algorithm (i.e., NAND++ program).
 Thus, for "natural" functions, if you pretend that $TIME(T(n))$  is roughly the same as $SIZE(T(n))$, you will be right more often than wrong.
 
