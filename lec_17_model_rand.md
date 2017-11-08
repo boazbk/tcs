@@ -27,7 +27,7 @@ Therefore, to use the resulting measurements for randomized algorithms, one typi
 
 In this lecture we focus on the second point - formally modeling probabilistic computation and studying its power.
 The first part is very easy.
-We can define the RNAND programming language to include all the operations of   NAND  plus  the following additional operation:
+We can add the following operations to our NAND, NAND++ and NAND<< programming languages:
 
 ~~~~ { .go .numberLines }
 var := RAND
@@ -35,24 +35,75 @@ var := RAND
 
 where `var` is a variable.
 The result of applying this operation is that `var` is assigned a random bit in $\{0,1\}$.
-Similarly RNAND++ and RNAND<< will corresponds to NAND++ and NAND<< augmented with the same operation.
 (Every time the `RAND` operation is involved it returns a fresh independent random bit.)
-We can now define what it means to compute both finite and infinite  functions with randomized algorithm:
+We call the resulting languages RNAND, RNAND++, and RNAND<< respectively.
 
-> # {.definition title="Randomized circuits and algorithms" #rnandcomp}
-Let $F$ be a  function mapping $\{0,1\}^n$ to $\{0,1\}^m$ and $T\in \N$. We say that $F \in \mathbf{BPSIZE}(T)$ if there is an $n$-input $m$-output RNAND program $P$ of at most $T$ lines so that for every $x\in \{0,1\}^n$, $\Pr[ P(x)= F(x)] \geq 2/3$ where this probability is taken over the random choices in the `RAND` operations.
->
-Let $F:\{0,1\}^* \rightarrow \{0,1\}$. We say that $F\in \mathbf{BPTIME}_{<<}(T(n))$ if there is an RNAND<< program $P$  such that   for every $x\in \{0,1\}^*$, $P$ always halts with an output $P(x)$ within at most $T(|x|)$ steps and $\Pr[ P(x)=F(x)] \geq 2/3$, where again this probability is taken over the random choices in the `RAND` operations.
-We define the condition $F\in \mathbf{BPTIME}_{++}(T(n))$ analogously using NAND++ programs, and use $\mathbf{BPTIME}$ as shorthand for $\mathbf{BPTIME}_{<<}$.^[The prefix BP stands for "bounded probability", and is used for historical reasons.]
+We can use this to define the notion of a function being computed by a randomized $T(n)$ time algorithm for every nice tume bound $T:\N \rightarrow \N$, as well as the notion of a finite function being computed by a size $S$ randomized NAND program (or, equivalently, a randomized circuit with $S$ gates that correspond to either NAND or coin-tossing).
+However, for simplicity we we will not define this in full generality, but simply focus on the class of functions that are computable by randomized algorithms _running in polynomial time_, which by historical convention is known as $\mathbf{BPP}$:
 
-We are mostly interested in understanding which functions can be computed by randomized algorithms running in _polynomial_ time, which motivates the following definition:
 
-> # {.definition title="BPP" #bppdef}
-The class $\mathbf{BPP}$ is equal to the union over all $c\in\N$ of $\mathbf{BPTIME}(n^c)$.
+> # {.definition title="BPP" #BPPdef}
+Let $F:\in \{0,1\}^*\rightarrow \{0,1\}$.
+We say that $F\in \mathbf{BPP}$ if there is some constants $a,b\in \N$ and an RNAND++ program $P$ such that for every $x\in \{0,1\}^*$, on input $x$, the program $P$ halts within at most $a|x|^b$ steps and
+$$
+\Pr[ P(x)= F(x)] \geq \tfrac{2}{3}
+$$
+where this  probability is taken over the result of the RAND operations of $P$.^[$\mathbf{BPP}$ stands for "bounded probability polynomial time", and is used for historical reasons.]
+
 
 The same polynomial-overhead simulation of NAND<< programs by  NAND++ programs we saw in [NANDpp-thm](){.ref} extends to _randomized_ programs as well.
 Hence the class $\mathbf{BPP}$ is the same regardless of whether it is defined via RNAND++ or RNAND<< programs.
 
+
+### Random coins as an "extra input"
+
+While we presented randomized computation as adding an extra "coin tossing" operation to our programs, we can also model this as being given an additional extra input.
+That is, we can think of a randomized algorithm  $A$ as a _deterministic_ algorithm $A'$ that takes _two inputs_ $x$ and $r$ where the second input $r$ is chosen at random from $\{0,1\}^m$ for some $m\in \N$.
+The equivalence to the [BPPdef](){.ref} is shown in the following theorem:
+
+> # {.theorem title="Alternative characterization of $\mathbf{BPP}$" #randextrainput}
+Let $F:\{0,1\}^*  \rightarrow \{0,1\}$. Then $F\in \mathbf{BPP}$ if and only if there exists $a,b\in \N$ and $G:\{0,1\}^* \rightarrow \{0,1\}$ such that $G$ is in $\mathbf{P}$ and for every $x\in \{0,1\}^*$,
+$$
+\Pr_{r\sim \{0,1\}^{a|x|^b}} [ G(xr)=F(x)] \geq \tfrac{2}{3}  \label{eqBPPauxiliary}\;.
+$$
+
+
+> # {.proofidea data-ref="randextrainput"}
+The idea behind the proof is that we can simply replace sampling a random coin with reading a bit from the extra "random input" $r$ and vice versa. Of course to prove this rigorously we  need to work through some formal notation, and so this might be one of those proofs that is easier for you to work out on your own than to read.
+
+> # {.proof data-ref="randextrainput"}
+We start by showing the "only if" direction.
+Let $F\in \mathbf{BPP}$ and let $P$ be an RNAND++ program that computes $F$ as per [BPPdef](){.ref}, and let $a,b\in \N$ be such that on every input of length $n$, the program $P$ halts within at most $an^b$ steps.
+We will construct a NAND++ polynomial-time program $P'$ that computes a function $G$ satisfying the conditions of [eqBPPauxiliary](){.eqref}.
+As usual, we will allow ourselves some "syntactic sugar" in constructing this program, as it can always be eliminated with polynomial overhead.
+The program $P'$ will first read off the bits in  positions $n,n+1,n+2,\ldots,n+an^b-1$ of its input into the variables `r_0`, `r_1`, $\ldots$, `r_`$\expr{an^b-1}$.
+We will also assume we have access to an extra index variable `j` which we can increase and decrease (which of course can be simulated via syntactic sugar).
+The program $P'$ will run the same operations of $P$ except that it will replace a line of the form
+```
+foo := RAND
+```
+with the two lineas
+```
+foo := r_j
+j   := j + 1
+```
+One can easily verify that __(1)__ $P'$ runs in polynomial time and __(2)__  if the last $an^b$ bits of the input of $P'$ are chosen at random then its execution when its first $n$ inputs are $x$ is identical to an execution of $P(x)$.
+>
+For the other direction, given a function $G\in \mathbf{P}$ satisfying the condition [eqBPPauxiliary](){.eqref} and a NAND++ program $P'$ that computes $G$ in polynomial time, we will construct an RNAND++ program $P$ that computes $F$ in polynomial time.
+The idea behind the construction of $F'$ is simple: on input a string $x\in \{0,1\}^n$, we will first run for $an^b$ steps and use the `RNAND` operation to create variables `r_0`, `r_1`, $\ldots$,`r_`$\expr{an^b-1}$ each containing the result of a random coin toss.
+We will then execute $P'$ on the input $x$ and `r_0`,$\ldots$,`r_`$\expr{an^b-1}$ (i.e., replacing every reference to the variable `x_`$\expr{n+k}$ with the variable `r_`$\expr{k}$).
+Once again, it is clear that if $P'$ runs in polynomial time then so will $P$, and for every input $x$ and $r\in \{0,1\}^{an^b}$, the output of $P$ on input $x$ and where the coin tosses outcome is $r$ is equal to $P'(xr)$.
+
+The characterization of $\mathbf{BPP}$ [randextrainput](){.ref} is reminiscent of the characterization of $\mathbf{NP}$  in [NP-def](){.ref}, with the randomness in the case of $\mathbf{BPP}$ playing the role of the solution in the case of $\mathbf{BP}$ but there are important differences between the two:
+
+* While the definition of $\mathbf{NP}$ is "one sided": $F(x)=1$ if _there exists_ a solution $w$ such that $G(xw)=1$, the characterization of $\mathbf{BPP}$ is symmetric with respect to the cases $F(x)=0$ and $F(x)=1$.
+
+* For this reason the relation between $\mathbf{NP}$ and $\mathbf{BPP}$ is not immediately clear, and indeed is not known whether $\mathbf{BPP} \subseteq \mathbf{NP}$, $\mathbf{NP} \subseteq \mathbf{BPP}$, or these two classes are incomprable. It is however known (with a non-trivial proof) that if $\mathbf{P}=\mathbf{NP}$ then  $\mathbf{BPP}=\mathbf{P}$.
+
+* Most importantly, while the definition of $\mathbf{NP}$ is "ineffective", since it does not yield a way of actually finding whether there exists a solution among the exponentially many possiblities. In contrast, the definition of $\mathbf{BPP}$ gives us a way to compute the function in practice by simply choosing the second input at random.
+
+__"Random tapes"__ [randextrainput](){.ref} motivates sometimes considering the randomness of an RNAND++ (or RNAND<<) program  as an extra input, and so if $A$ is a randomized algorithm that on inputs of length $n$ makes at most $p(n)$ coin tosses, we will sometimes use the notation $A(x;r)$ (where $x\in \{0,1\}^n$ and $r\in \{0,1\}^{p(n)}$) to refer to the result of executing $x$ when the coin tosses of $A$ correspond to the coordinates of $r$.
+This second or "auxiliary" input is sometimes referred to as a "random tape", with the terminology coming from the model of randomized Turing machines.
 
 ## Amplification
 
