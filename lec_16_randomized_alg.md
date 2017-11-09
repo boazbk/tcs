@@ -140,7 +140,7 @@ __Algorithm WalkSAT:__
 
 
 The running time of this algorithm is $S\cdot T \cdot poly(n)$, and so the key question is how small can we make $S$ and $T$ so that the probability that WalkSAT outputs `Unsatisfisable` on a satisfiable formula $\varphi$ will be small.
-It is known that we can do so with $ST = \tilde{O}((4/3)^n)$ (see [walksatex](){.ref}), but we'll show below a simpler analysis yielding $ST= \tilde{O}(\sqrt{3}^n) = \tilde{O}(1.74^n)$ which is still much better than the trivial $2^n$ bound.^[At the time of this writing, the best known [randomized](https://arxiv.org/pdf/1103.2165.pdf) algorithms for 3SAT run in time roughly $O(1.308^n)$ and the best known [deterministic](https://arxiv.org/pdf/1102.3766v1.pdf) algorithms run in time $O(1.3303^n)$ in the worst case. As mentioned above, the simple WalkSAT algorithm takes $\tilde{O}((4/3)^n)=\tilde{O}(1.333..^n)$ time.]
+It is known that we can do so with $ST = \tilde{O}((4/3)^n)$ (see [walksatex](){.ref} for a weaker result), but we'll show below a simpler analysis yielding $ST= \tilde{O}(\sqrt{3}^n) = \tilde{O}(1.74^n)$ which is still much better than the trivial $2^n$ bound.^[At the time of this writing, the best known [randomized](https://arxiv.org/pdf/1103.2165.pdf) algorithms for 3SAT run in time roughly $O(1.308^n)$ and the best known [deterministic](https://arxiv.org/pdf/1102.3766v1.pdf) algorithms run in time $O(1.3303^n)$ in the worst case. As mentioned above, the simple WalkSAT algorithm takes $\tilde{O}((4/3)^n)=\tilde{O}(1.333..^n)$ time.]
 
 > # {.theorem title="WalkSAT simple analysis" #walksatthm}
 If we set $T=100\cdot 3^{n/2}$ and $S= n/2$, then the probability we output `Unsatisifiable` for a satisfiable $\varphi$ is at most $1/2$.
@@ -151,7 +151,7 @@ Suppose that $\varphi$ is a satisfiable formula and let $x^*$ be a satisfying as
 For every $x\in \{0,1\}^n$, denote by $\Delta(x,x^*)$ the number of coordinates that differ between $x$ and $x^*$.
 We claim that $(*)$: in every local improvement step, with probability at least $1/3$ we will reduce $\Delta(x,x^*)$ by one.
 Hence, if the original guess $x$ satisfied $\Delta(x,x^*) \leq n/2$ (an event that, as we will show, happens with probability at least $1/2$) then with probability at least $(1/3)^{n/2} = \sqrt{3}^{-n/2}$ after $n/2$ steps we will reach a satisfying assignment.
-This is a pretty lousy probability of success, but if we repeat this $100 \sqrt{3}^{n/2}$ times then it is likely that it that it will happen once.
+This is a pretty lousy probability of success, but if we repeat this $100 \sqrt{3}^{n}$ times then it is likely that it that it will happen once.
 >
 To prove the claim $(*)$ note that  any clause that  $x$ does not satisfy, it differs from  $x^*$  by at least one literal.
 So when we change $x$ by one of the three literals in the clause, we have probability at least $1/3$ of decreasing the distance.
@@ -268,8 +268,8 @@ Fortunately,  we can simulate this with an exponentially small probability of er
 
 > # {.exercise title="Better walksat analysis" #walksatex}
 1. Prove that for  every $\epsilon>0$, if $n$ is large enough then for every $x^*\in \{0,1\}^n$  $\Pr_{x \sim \{0,1\}^n}[ \Delta(x,x^*) \leq n/3 ] \leq 2^{-(1-H(1/3)-\epsilon)n}$ where $H(p)=p\log(1/p) + (1-p)\log(1/(1-p))$ is the same function as in [entropybinomex](){.ref}. \
-2. Prove that $2^{1-H(1/3)+1/3}=(4/3)$.
-2. Use the above to prove that for every $\delta>0$ and large enough $n$, if we set $T=1000\cdot (4/3+\delta)^n$ and $S=n/3$  in the WalkSAT algorithm then for every satisfiable 3CNF $\varphi$, the probability that we output `unsatisfiable` is at most $1/2$. \
+2. Prove that $2^{1-H(1/4)+(1/4) \log 3}=(3/2)$.
+2. Use the above to prove that for every $\delta>0$ and large enough $n$, if we set $T=1000\cdot (3/2+\delta)^n$ and $S=n/4$  in the WalkSAT algorithm then for every satisfiable 3CNF $\varphi$, the probability that we output `unsatisfiable` is at most $1/2$. \
 
 > # {.exercise title="Faster bipartite mactching (challenge)" #matchingmodex}
 ^[TODO: add exercise to improve the matching algorithm by working modulo a prime]
