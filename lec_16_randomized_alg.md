@@ -143,7 +143,7 @@ The running time of this algorithm is $S\cdot T \cdot poly(n)$, and so the key q
 It is known that we can do so with $ST = \tilde{O}((4/3)^n)$ (see [walksatex](){.ref} for a weaker result), but we'll show below a simpler analysis yielding $ST= \tilde{O}(\sqrt{3}^n) = \tilde{O}(1.74^n)$ which is still much better than the trivial $2^n$ bound.^[At the time of this writing, the best known [randomized](https://arxiv.org/pdf/1103.2165.pdf) algorithms for 3SAT run in time roughly $O(1.308^n)$ and the best known [deterministic](https://arxiv.org/pdf/1102.3766v1.pdf) algorithms run in time $O(1.3303^n)$ in the worst case. As mentioned above, the simple WalkSAT algorithm takes $\tilde{O}((4/3)^n)=\tilde{O}(1.333..^n)$ time.]
 
 > # {.theorem title="WalkSAT simple analysis" #walksatthm}
-If we set $T=100\cdot 3^{n/2}$ and $S= n/2$, then the probability we output `Unsatisifiable` for a satisfiable $\varphi$ is at most $1/2$.
+If we set $T=100\cdot \sqrt{3}^{n}$ and $S= n/2$, then the probability we output `Unsatisifiable` for a satisfiable $\varphi$ is at most $1/2$.
 
 
 > # {.proof data-ref="walksatthm"}
