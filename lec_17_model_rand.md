@@ -202,7 +202,7 @@ A priori it is not at all clear that the same holds for a function in $\mathbf{B
 
 
 
-> # {.theorem title="$\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$" #rnandthm}
+> # {.theorem title="Randomness does not help in non uniformity" #rnandthm}
 For every $F\in \mathbf{BPP}$, there exist some $a,b\in \N$ such that for every $n>0$, $F_n \in SIZE(an^b)$ where $F_n$ is the restriction
 of $F$ to inputs in $\{0,1\}^n$.
 
@@ -233,6 +233,17 @@ for every $x\in \{0,1\}^n$.
 Now let us use the standard "unravelling the loop" the technique and transform $P'$ into a NAND program $Q$ of polynomial in $n$ size, such that $Q(xr)=P'(x;r)$ for every $x\in \{0,1\}^n$ abd $r \in \{0,1\}^m$.
 Then by "hardwiring" the values $r^*_0,\ldots,r^*_{m-1}$ in place of the last $m$ inputs of $Q$, we obtain a new NAND program $Q_{r^*}$ that satisfies by [hardwirecorrecteq](){.eqref} that $Q_{r^*}(x)=F(x)$ for every $x\in \{0,1\}^n$.
 This demonstrates that $F_n$ has a polynomial sized NAND program, hence completing the proof of [rnandthm](){.ref}
+
+> # {.remark title="Randomness and non uniformity" #nonuniform}
+The proof of [rnandthm](){.ref} actually yields more than its statement. We can use the same "unrolling the loop" arguments we've used before to show that the restriction to $\{0,1\}^n$ of every function in $\mathbf{BPP}$ is also computable by a polynomial-size RNAND program (i.e., NAND program with the `RAND` operation), but like in the $\mathbf{P}$ vs $SIZE(poly(n))$ case, there are functions outside $\mathbf{BPP}$ whose restrictions can be  computed  by polynomial-size  RNAND programs.
+Nevertheless the proof of [rnandthm](){.ref} shows that even such functions can be computed by polynomial sized NAND programs without using the `rand` operations.
+This can be phrased as saying   that $BPSIZE(T(n)) \subseteq SIZE(O(n T(n)))$ (where $BPSIZE$ is defined in the natural way using RNAND progams).
+[rnandthm](){.ref} can also be phrased as saying  that $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$, and the stronger result can be phrased as $\mathbf{BPP_{/poly}} \subseteq \mathbf{P_{/poly}}$.
+
+
+
+
+It shows not just that every function in $\mathbf{BPP}$ can be computed by polynomial size NAND programs, but that even a function
 
 
 

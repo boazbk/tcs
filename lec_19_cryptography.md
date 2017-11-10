@@ -92,7 +92,7 @@ Defining security is not a trivial matter.
 You would appreciate the subleties of defining security of encryption if at this point you take a five minute break from reading, and try (possibly with a partner) to brainstorm on how you would mathematically define the notion that an encryption scheme is _secure_, in the sense that it protects the secrecy of the plaintext $x$.
 
 
-Throuhgout history, many attacks on  cryptosystems  are rooted in the cryptosystem designers' reliance on  "security through obscurity"---
+Throughout history, many attacks on  cryptosystems  are rooted in the cryptosystem designers' reliance on  "security through obscurity"---
 trusting that the fact their _methods_ are not known to their enemy will
 protect them from being broken.
 This is a faulty assumption - if you reuse a
@@ -247,7 +247,13 @@ including Julius Rosenberg, Harry Gold, Klaus Fuchs, Alger Hiss, Harry Dexter Wh
 
 ![Gene Grabeel, who founded the U.S. Russian SigInt program on 1 Feb 1943. 1942 Photo taken from Page 7 in the [https://nsarchive2.gwu.edu//NSAEBB/NSAEBB278/01.PDF](Venona historical study).](../figure/genevenona.png){#genegrabeelfig .class width=300px height=300px}
 
+Unfortunately it turns out that (as shown by Shannon) that such long keys are _necessary_ for perfect secrecy:
 
+> # {.theorem title="Perfect secrecy requires long keys" #longkeysthm}
+For every perfectly secret encryption scheme $(E,D)$ the length function $\ell$ satisfies $\ell(n) \geq n$.
+
+
+> # {.proof data-ref="longkeysthm"}
 
 
 
