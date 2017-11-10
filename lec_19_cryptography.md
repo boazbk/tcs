@@ -184,6 +184,34 @@ This example can be vastly generalized to show that perfect secrecy is indeed "p
 
 ### Constructing perfectly secret encryption
 
+_Perfect security_ is an extremely strong condition, and implies that an eavesdropper does not learn _any_ information from observing the ciphertext.
+You might think that an encryption scheme satisfying such a strong condition will be impossible, or at least extremely complicated, to achieve.
+However it turns out we can in fact obtain perfectly secure encryption scheme fairly easily.
+In particular, the following  table details a perfectly secure encryption scheme for encrypting two bit messages:
+
+
+
++---------+-------+-------+-------+-------+-------+
+| Plain:  |       | __00__| __01__| __10__| __11__|
++---------+-------+-------+-------+-------+-------+
+| Cipher: |       |       |       |       |       |
++---------+-------+-------+-------+-------+-------+
+|         | __00__|     00|     01|     10|     11|
++---------+-------+-------+-------+-------+-------+
+|         | __01__|     01|     00|     11|     10|
++---------+-------+-------+-------+-------+-------+
+|         | __10__|     10|     11|     00|     01|
++---------+-------+-------+-------+-------+-------+
+|         | __11__|     11|     10|     01|     00|
++---------+-------+-------+-------+-------+-------+
+
+  : A perfectly secret encryption scheme with $2$ bit keys, plaintexts, and ciphertexts; the rows are indexed by possible ciphertexts, the columns indexed
+  by possible plaintexts, and the $(c,m)$ location of the matrix corresponds to the key   that maps $m$ to $c$.
+
+In fact, this can be generalized to any number of bits:
+
+__Theorem (One time pad, Vernam 1917):__ For every $n$, there is a perfectly secret encryption $(E,D)$ with plaintexts of $n$ bits, where the key size and the ciphertext size is also $n$.
+
 
 
 ## Lecture summary
