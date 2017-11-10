@@ -124,7 +124,7 @@ This is such a crucial point that is worth repeating:
 At the heart of every cryptographic scheme there is a secret key, and the secret key is always chosen at random.
 A corollary of that is that to understand cryptography, you need to know  probability theory.
 
-### Perfect secrecy
+## Perfect secrecy
 
 If you think about encryption scheme security for a while, you might come up with the following principle for defining security: _"An encryption scheme is secure if it is not possible to recover the key $k$ from $E_k(x)$"_.
 However,  a moment's thought shows that the key is not really what we're trying to protect.
@@ -151,7 +151,39 @@ In particular, suppose that you knew ahead of time that Alice sent either an enc
 
 ![For any key length $n$, we can visualize an encryption scheme $(E,D)$ as a graph where we put a vertex for every one of the $2^{\ell(n)}$ possible plaintexts and for every one of the ciphertexts in $\{0,1\}^*$ that can be output by $E$ on a length $n$ key and length $\ell(n)$ plaintext. We connect a plaintext $x$ and a ciphertext $y$ by an edge if there is some key $k$ such that $E_k(x)=y$, and in this case we label the edge by $k$.  By the validity condition, if we pick any fixed key $k$, the map $x \mapsto E_k(x)$ must be one-to-one. If we make the (mild) assumption that any two distinct keys map $x$ to distinct ciphertext, each plaintext vertex will have degree $2^n$ in this graph. In such a case the condition of perfect secrecy simply corresponds to the condition that every two    plaintexts $x$ and $x'$, the set of neighbors of $x$ is the same as the set of neighbors of $x'$.](../figure/perfectsecrecy.png){#perfectsecfig .class width=300px height=300px}
 
-To understand [perfectsecrecy](){.ref}, suppose that Alice sends only one of two possible messages: "attack" or "retreat", which we denote by $x$ and $x'$ respectively, and that she sends each one of those messages with probability $1/2$. TO BE CONTINUED
+### Example: Perfect secrecy in the battlefield
+
+To understand [perfectsecrecy](){.ref}, suppose that Alice sends only one of two possible messages: "attack" or "retreat", which we denote by $x_0$ and $x_1$ respectively, and that she sends each one of those messages with probability $1/2$.
+Let us put ourselves in the shoes of _Eve_, the eavesdropping adversary.
+A priori we would have guessed that Alice sent either $x_0$ or $x_1$ with probability $1/2$.
+Now we observe $y=E_k(x_i)$ where $k$ is a uniformly chosen key in $\{0,1\}^n$.
+How does this new information cause us to update our beliefs on whether Alice sent $x_0$ or $x_1$?
+
+> # { .pause }
+Before reading the next paragraph, you might want to try the analysis yourself.
+You may find it useful to  look at the [Wikipedia entry on Bayesian Inference](https://en.wikipedia.org/wiki/Bayesian_inference) or [these MIT lecture notes](https://ocw.mit.edu/courses/mathematics/18-05-introduction-to-probability-and-statistics-spring-2014/readings/MIT18_05S14_Reading11.pdf).
+
+Let us define $p_0(y)$ to be the probability (taken over $k\sim \{0,1\}^n$) that $y=E_k(x_0)$ and similarly $p_1(y)$ to be $\Pr_{k \sim \{0,1\}^n}[y=E_k(x_1)]$.
+Note that, since Alice chooses the message to send at random, our a priori probability for observing $y$ is $\tfrac{1}{2}p_y(0) + \tfrac{1}{2}p_y(1)$.
+However, as per [perfectsecrecy](){.ref},   the perfect secrecy condition guarantees that $p_y(0)=p_y(1)$!
+Let us denote the number $p_y(0)=p_y(1)$ by $p$.
+By the formula for conditional probability, the probability that Alice sent the message $x_0$ conditioned on our observation $y$ is simply^[The equation [bayeseq](){.eqref} is a special case of [Bayes' rule](https://en.wikipedia.org/wiki/Bayes%27_theorem) which, although a simple restatement of the formula for conditional probability, is an extremely important and widely used tool in statistics and data analysis.]
+$$
+\Pr[i=0 | y=E_k(x_i)] = \frac{\Pr[i=0 \wedge y = E_k(x_i)]}{\Pr[y = E_k(x)]} \;. \label{bayeseq}
+$$
+
+Since the probability that $i=0$ and $y$ is the cyphtertext $E_k(0)$ is equal to $\tfrac{1}{2}\cdot p_y(0)$, and the a priori probability of observing $y$ is $\tfrac{1}{2}p_y(0) + \tfrac{1}{2}p_y(1)$,
+we can rewrite [bayeseq](){.eqref} as
+$$
+\Pr[i=0 | y=E_k(x_i)] = \frac{\tfrac{1}{2}p_y(0)}{\tfrac{1}{2}p_y(0)+\tfrac{1}{2}p_y(1)}  =  \frac{p}{p +p}  = \frac{1}{2}
+$$
+using the fact that $p_y(0)=p_y(1)=p$.
+This means that observing the ciphertext $y$ did not help us at all! We still would not be able to guess whether Alice sent "attack" or "retreat" with better than 50/50 odds!
+
+This example can be vastly generalized to show that perfect secrecy is indeed "perfect" in the sense that observing a ciphertext gives Eve _no additional information_ about the plaintext beyond her apriori knowledge.
+
+### Constructing perfectly secret encryption
+
 
 
 ## Lecture summary
