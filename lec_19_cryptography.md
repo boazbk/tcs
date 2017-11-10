@@ -42,20 +42,21 @@ Cryptography is a vast and continuously changing topic, but we will touch on som
 
 A great many cryptosystems have been devised and broken throughout the ages.
 Let us recount just one such story.
-In 1587, Mary the queen of Scots, and the heir to the throne of England, wanted to arrange the assasination of her cousin, queen Elisabeth I of
+In 1587, Mary the queen of Scots, and the heir to the throne of England, wanted to arrange the assassination of her cousin, queen Elisabeth I of
 England, so that she could ascend to the throne and finally escape the house arrest under which she has been for the last 18 years.
-As part of this complicated plot, she sent a coded letter to Sir Anthony Babington. It is what's known as a _substitution cipher_ where each letter is transformed into a different symbol, and so
-the resulting letter looks something like [maryscottletterfig](){.ref}.
+As part of this complicated plot, she sent a coded letter to Sir Anthony Babington.
 
 ![Snippet from encrypted communication between queen Mary and Sir Babington](../figure/encrypted_letter.jpg){#maryscottletterfig .class width=300px height=300px}
 
 
-
-At a first look, such a letter might seem rather inscrutable- a meaningless sequence of strange symbols. However, after some thought, one might recognize that these symbols _repeat_ several
-times and moreover that different symbols repeat with different frequencies. Now it doesn't take a large leap of faith to assume that perhaps each symbol corresponds to a different letter
-and the more frequent symbols correspond to letters that occur in the alphabet with higher frequency. From this observation, there is a short gap to completely breaking the cipher,
+Mary used what's known as a _substitution cipher_ where each letter is transformed into a different obscure symbol (see [maryscottletterfig](){.ref}).
+At a first look, such a letter might seem rather inscrutable- a meaningless sequence of strange symbols.
+However, after some thought, one might recognize that these symbols _repeat_ several
+times and moreover that different symbols repeat with different frequencies.
+Now it doesn't take a large leap of faith to assume that perhaps each symbol corresponds to a different letter
+and the more frequent symbols correspond to letters that occur in the alphabet with higher frequency.
+From this observation, there is a short gap to completely breaking the cipher,
 which was in fact done by queen Elisabeth's spies who used the decoded letters to learn of all the co-conspirators and to convict queen Mary of treason, a crime for which she was executed.
-
 Trusting in superficial security measures (such as using "inscrutable" symbols) is a trap that users of cryptography have been falling into again and again over the years.
 (As in many things, this is the subject of a great XKCD cartoon, see [XKCDnavajofig](){.ref}.)
 
