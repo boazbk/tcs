@@ -246,13 +246,19 @@ is shared by Lt. Richard Hallock, Carrie Berry, Frank Lewis, and Lt. Karl Elmqui
 In the 37 years of its existence, the project has resulted in a treasure chest of intelligence, exposing hundreds of KGB agents and Russian spies in the U.S. and other countries,
 including Julius Rosenberg, Harry Gold, Klaus Fuchs, Alger Hiss, Harry Dexter White  and many others.
 
-![Gene Grabeel, who founded the U.S. Russian SigInt program on 1 Feb 1943. 1942 Photo taken from Page 7 in the [https://nsarchive2.gwu.edu//NSAEBB/NSAEBB278/01.PDF](Venona historical study).](../figure/genevenona.png){#genegrabeelfig .class width=300px height=300px}
+![Gene Grabeel, who founded the U.S. Russian SigInt program on 1 Feb 1943. 1942 Photo taken from Page 7 in the Venona historical study.](../figure/genevenona.png){#genegrabeelfig .class width=300px height=300px}
+
 
 Unfortunately it turns out that (as shown by Shannon) that such long keys are _necessary_ for perfect secrecy:
+
+![An encryption scheme where the number of keys is smaller than the number of plaintexts corresponds to a bipartite graph where the degree is smaller than the number of vertices on the left side. Together with the validity condition this implies that  there will be two left vertices $x,x'$ with non-identical neighborhoods, and hence the scheme does _not_ satisfy perfect secrecy.](../figure/longkeygraph.png){#longkeygraphfig .class width=300px height=300px}
+
 
 > # {.theorem title="Perfect secrecy requires long keys" #longkeysthm}
 For every perfectly secret encryption scheme $(E,D)$ the length function $\ell$ satisfies $\ell(n) \geq n$.
 
+> # {.proofidea data-ref="longkeysthm"}
+The idea behind the proof is illustrated in [longkeygraphfig](){.ref}.
 
 > # {.proof data-ref="longkeysthm"}
 
