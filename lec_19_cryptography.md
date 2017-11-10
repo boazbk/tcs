@@ -66,7 +66,7 @@ Trusting in superficial security measures (such as using "inscrutable" symbols) 
 
 Many of the troubles that cryptosystem designers faced over history (and still face!) can be attributed to not properly defining or understanding what are the goals they want to achieve in the first place.
 Let us focus on the setting of _private key encryption_.^[If you don't know what "private key" means, you can ignore this adjective for now. For thousands of years, "private key encryption" was synonymous with encryption. Only in the 1970's was the concept of _public key encryption_ invented.]
-A _sender_ (traditionally called "Alice") wants to send a message (known also as a _plaintext_) $x\in \{0,1\}^\*$ to a _receiver_ (traditionally called "Bob").
+A _sender_ (traditionally called "Alice") wants to send a message (known also as a _plaintext_) $x\in \{0,1\}^*$ to a _receiver_ (traditionally called "Bob").
 They would like their message to be kept secret from an _adversary_ who listens in or "eavesdrops" on the communication channel (and is traditionally called "Eve").
 
 Alice and Bob share a _secret key_ $k \in \{0,1\}^*$.
@@ -194,7 +194,62 @@ Such a scheme is illustrated in [onetimepadtwofig](){.ref}
 
 In fact, this can be generalized to any number of bits:
 
-__Theorem (One time pad, Vernam 1917):__ For every $n$, there is a perfectly secret encryption $(E,D)$ with plaintexts of $n$ bits, where the key size and the ciphertext size is also $n$.
+> # {.theorem title="One Time Pad (Vernam 1917, Shannon 1949)" #onetimepad}
+There is a perfectly secret valid encryption scheme $(E,D)$ with $\ell(n)=n$.
+
+> # {.proofidea data-ref="onetimepad"}
+The idea is known as the [one-time pad](https://en.wikipedia.org/wiki/One-time_pad) also known as the "Vernam Cipher".
+The encryption is exceedingly simple: to encrypt a message $x\in \{0,1\}^n$ with a key $k \in \{0,1\}^n$ we simply output $x \oplus k$ where $\oplus$ is the bitwise XOR operation that
+outputs the string corresponding to XORing each  coordinate of $x$ and $k$.
+
+
+> # {.proof data-ref="onetimepad"}
+For two binary  strings $a$ and $b$ of the same length $n$, we define $a \oplus b$ to be the string $c \in \{0,1\}^n$ such that $c_i = a_i + b_i \mod 2$ for every $i\in [n]$.
+The encryption scheme $(E,D)$ is defined as follows: $E_k(x) = x\oplus k$ and $D_k(y)= y \oplus k$.
+By the associative law of addition (which works also modulo two), $D_k(E_k(x))=(x\oplus k) \oplus k = x \oplus (k \oplus k) = x \oplus 0^n = x$,
+using the fact that for every bit $\sigma \in \{0,1\}$, $\sigma + \sigma \mod 2 = 0$ and $\sigma + 0 = \sigma \mod 2$.
+Hence $(E,D)$ form  a valid encryption.
+>
+To analyze the perfect secrecy property, we claim that for every $x\in \{0,1\}^n$, the distribution $Y_x=E_k(x)$ where $k \sim \{0,1\}^n$ is simply the uniform distribution over $\{0,1\}^n$, and hence in particular the distributions $Y_{x}$ and $Y_{x'}$ are identical for every $x,x' \in \{0,1\}^n$.
+Indeed, for every particular $y\in \{0,1\}^n$, the value $y$ is output by $Y_x$ if and only if $y = x \oplus k$ which holds if and only if $k= x \oplus y$. Since $k$ is chosen uniformly at random in $\{0,1\}^n$, the probability that $k$ happens to equal $k \oplus y$ is exactly $2^{-n}$, which means that every string $y$ is output by $Y_x$ with probability $2^{-n}$.
+
+
+> # { .pause }
+The argument above is quite simple but is worth reading again. To understand why the one-time pad is perfectly secret, it is useful to envision it as a bipartite graph as we've done in [onetimepadtwofig](){.ref}. (In fact the encryption scheme of [onetimepadtwofig](){.ref} is precisely the one-time pad for $n=2$.) For every $n$, the one-time pad encryption scheme corresponds to a bipartite graph with $2^n$  vertices on the "left side" corresponding to the plaintexts in $\{0,1\}^n$ and $2^n$  vertices on the "right side" corresponding to the ciphertexts $\{0,1\}^n$.
+For every $x\in \{0,1\}^n$ and $k\in \{0,1\}^n$, we connect $x$ to the vertex $y=E_k(x)$ with an edge that we label with $k$.
+One can see that this is the complete bipartite graph, where every vertex on the left is connected to _all_ vertices on the right.
+In particular this means that for every left vertex $x$, the distribution on the ciphertexts obtained by taking a random $k\in \{0,1\}^n$ and going to the neighbor of $x$ on the edge labeled $k$ is the uniform distribution over $\{0,1\}^n$.
+This ensures  the perfect secrecy condition.
+
+## Necessity of long keys
+
+So, does [onetimepad](){.ref} close the lid on cryptography, and means that we can all communicate with perfect secrecy and live happily ever after?
+No it doesn't.
+While the one-time pad is efficient, and gives perfect secrecy, it has one glaring disadvantage: to communicate $n$ bits you need to store a key of length $n$.
+In contrast, practically used cryptosystems such as AES-128 have a short key of $128$ bits (i.e., $16$ bytes) that can be used to protect Terrabytes or more of communication!
+Imagine that we all needed to use the one time pad.
+If that was the case, then if you had to communicate with $m$ people, you would have to  maintain (securely!)
+$m$ huge files that are each as long as the length of the maximum total communication you expect with that person.
+Imagine that every time you opened an account with Amazon, Google, or any other service, they would need to send you in the mail (ideally with a secure courier) a DVD full of random numbers,
+and every time you suspected a virus, you'll need to ask all these services for a fresh DVD. This doesn't sounds so appealing.
+
+This is not just a theoretical issue.
+The Soviets have used the one-time pad for their confidential communication since before the 1940's, and in fact it seems that even before
+Shannon's work, the U.S. intelligence  already knew in 1941 that the one-time pad is in principle "unbreakable"  (see page 32 in the [Venona document](http://nsarchive.gwu.edu/NSAEBB/NSAEBB278/01.PDF) ).
+However, it  turned out that the hassle of manufacturing so many keys for all the communication took its toll on the Soviets and they ended up reusing the same keys
+for more than one message, though they tried to use them for completely different receivers in the (false) hope that this wouldn't be
+detected.
+The [Venona Project](https://en.wikipedia.org/wiki/Venona_project) of the U.S. Army was founded in February 1943 by Gene Grabeel (see [genegrabeelfig](){.ref})- a former home economics teacher from Madison Heights, Virgnia and Lt. Leonard Zubko.
+In October 1943, they had their breakthrough when it was discovered that the Russians are reusing their keys.^[Credit to this discovery
+is shared by Lt. Richard Hallock, Carrie Berry, Frank Lewis, and Lt. Karl Elmquist, and there are others that have made important contribution to this project. See pages 27 and 28 in the document.]
+In the 37 years of its existence, the project has resulted in a treasure chest of intelligence, exposing hundreds of KGB agents and Russian spies in the U.S. and other countries,
+including Julius Rosenberg, Harry Gold, Klaus Fuchs, Alger Hiss, Harry Dexter White  and many others.
+
+![Gene Grabeel, who founded the U.S. Russian SigInt program on 1 Feb 1943. 1942 Photo taken from Page 7 in the [https://nsarchive2.gwu.edu//NSAEBB/NSAEBB278/01.PDF](Venona historical study).](../figure/genevenona.png){#genegrabeelfig .class width=300px height=300px}
+
+
+
+
 
 
 
