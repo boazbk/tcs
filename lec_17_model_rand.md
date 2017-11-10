@@ -105,7 +105,7 @@ The characterization of $\mathbf{BPP}$ [randextrainput](){.ref} is reminiscent o
 __"Random tapes"__ [randextrainput](){.ref} motivates sometimes considering the randomness of an RNAND++ (or RNAND<<) program  as an extra input, and so if $A$ is a randomized algorithm that on inputs of length $n$ makes at most $p(n)$ coin tosses, we will sometimes use the notation $A(x;r)$ (where $x\in \{0,1\}^n$ and $r\in \{0,1\}^{p(n)}$) to refer to the result of executing $x$ when the coin tosses of $A$ correspond to the coordinates of $r$.
 This second or "auxiliary" input is sometimes referred to as a "random tape", with the terminology coming from the model of randomized Turing machines.
 
-## Amplification
+### Amplification
 
 
 The number $2/3$ might seem arbitrary, but as we've seen in the previous lecture it can be amplified to our liking:
@@ -128,6 +128,40 @@ Hence by the Chernoff bound ([chernoffthm](){.ref}) the probability that the maj
 
 There is nothing special about NAND<< in [amplificationthm](){.ref}. The same proof can be used to amplify randomized NAND or NAND++ programs as well.
 
+## $\mathbf{BPP}$ and $\mathbf{BPP}$
+
+Since "noisy processes" abound in nature, randomized algorithms can be realized physically, and so it is reasonable to propose $\mathbf{BPP}$ rather than $\mathbf{P}$ as our mathematical model for "feasible" or "tractable" computation.
+One might wonder if this makes all the previous lectures irrelevant, and in particular does the theory of $\mathbf{NP}$ completeness still apply to probabilistic algorithms.
+Fortunately, the answer is _Yes_:
+
+> # {.theorem title="NP hardness and  BPP" #NPCandBPP}
+Suppose that $F$ is $\mathbf{NP}$-hard and $F\in \mathbf{BPP}$ then $\mathbf{NP} \subseteq \mathbf{BPP}$.
+
+Before seeing the proof note that [NPCandBPP](){.ref} in particular implies that if there was a randomized polynomial time algorithm for any $\mathbf{NP}$-complete problem such as $3SAT$, $ISET$ etc.. then there will be such an algorithm for _every_ problem in $\mathbf{NP}$.
+Thus, regardless of whether our model of computation is deterministic or randomized algorithms, $\mathbf{NP}$ complete problems retain their status as the "hardest problems in $\mathbf{NP}$".
+
+> # {.proofidea data-ref="NPCandBPP"}
+The idea is to simply run the reduction as usual, and plug it into the randomized algorithm instead of a deterministic one. It would be an excellent exercise, and a way to reinforce the definitions of $\mathbf{NP}$-hardness and randomized algorithms, for you to work out the proof for yourself. However for the sake of completeness, we include this proof below.
+
+> # {.proof data-ref="NPCandBPP"}
+Suppose that $F$ is $\mathbf{NP}$-hard and $F\in \mathbf{BPP}$.
+We will now show that this implies that $\mathbf{NP} \subseteq \mathbf{BPP}$.
+Let $G \in \mathbf{NP}$.
+By the definition of $\mathbf{NP}$-hardness, it follows that $G \leq_p F$, or that in other words there exists a polynomial-time computable function $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that $G(x)=F(R(x))$ for every $x\in \{0,1\}^*$.
+Now if $F$ is in $\mathbf{BPP}$ then there is a polynomial-time RNAND++ program  $P$ such that
+$$
+\Pr[ P(y)= F(y) ] \geq 2/3 \label{FinBPPeq}
+$$  
+for _every_ $y\in \{0,1\}^*$ (where the probability is taken over the random coin tosses of $P$).
+Hence we can get a polynomial-time  RNAND++ program $P'$ to compute $G$ by setting $P'(x)=P(R(x))$.
+By [FinBPPeq](){.eqref} $\Pr[ P'(x) = F(R(x))] \geq 2/3$ and since $F(R(x))=G(x)$ this implies that $\Pr[ P'(x) = G(x)] \geq 2/3$, which proves that $G \in \mathbf{BPP}$.
+
+Most of the results we've seen about the $\mathbf{NP}$ hardness, including the search to decision reduction of [search-dec-thm](){.ref}, the decision to optimization reduction of [optimizationnp](){.ref}, and the quantifier elimination result of [PH-collapse-thm](){.ref}, all carry over in the same way if we replace $\mathbf{P}$ with $\mathbf{BPP}$ as our model of efficient computation.
+Thus if $\mathbf{NP} \subseteq \mathbf{BPP}$ then we'd get essentially all of the strange and wonderful  consequences of $\mathbf{P}=\mathbf{NP}$.
+Unsurprisingly, we cannot rule out this possiblity.
+In fact, unlike $\mathbf{P}=\mathbf{EXP}$, which is ruled out by the time hierarchy theorem, we don't even know how to rule out the possiblity that $\mathbf{BPP}=\mathbf{EXP}$!
+Thus a priori it's possible (though seems highly unlikely) that randomness is a magical tool that allows to speed up arbitrary exponential time computation.^[At the time of this writing, the largest "natural" complexity class which we can't rule out being contained in $\mathbf{BPP}$ is the class $\mathbf{NEXP}$, which we did not define in this course, but  corresponds to non deterministic exponential time. See [this paper](https://people.csail.mit.edu/rrw/nexp-v-bpp.pdf) for a discussion of this question.]
+Nevertheless, as we discuss below, it is believed that randomization's power is much weaker and $\mathbf{BPP}$ lies in much more "pedestrian" territory.
 
 
 ## The power of randomization
@@ -152,7 +186,7 @@ We now survey some of the relations that are known between $\mathbf{BPP}$ and ot
 It is not hard to see that if $F$ is in $\mathbf{BPP}$ then it can be computed in _exponential_ time.
 
 > # {.theorem title="Simulating randomized algorithm in exponential time" #BPPEXP}
-$\mathbf{BPP} \subseteq \mathbf{P}$
+$\mathbf{BPP} \subseteq \mathbf{EXP}$
 
 > # { .pause }
 The proof of [BPPEXP](){.ref} readily follows by enumerating over all the (exponentially many) choices for the random coins.
@@ -296,6 +330,9 @@ Nevertheless, [prgexist](){.ref} below shows that if we only drop the last  cond
 > # {.lemma title="Existence of inefficient pseudorandom generators" #prgexist}
 There is some absolute constant $C$ such that for every $\epsilon,T$, if $\ell > C (\log T + \log (1/\epsilon))$ and $m \leq T$,  then there is an $(T,\epsilon)$ pseudorandom generator $G: \{0,1\}^\ell \rightarrow \{0,1\}^m$.
 
+> # { .pause }
+While it is important for you to understand the _statement_ of [prgexist](){.ref}, I recommend you skip the _proof_ in a first reading, and read the rest of this chapter.
+
 > # {.proofidea data-ref="prgexist"}
 The proof uses an extremely useful technique known  as the "probabilistic method" which is not too hard mathematically but can be confusing at first.^[There is a whole (highly recommended) [book by Alon and Spencer](https://www.amazon.com/Probabilistic-Method-Discrete-Mathematics-Optimization/dp/1119061954/ref=dp_ob_title_bk)  devoted to this method.]
 The idea is to give a "non constructive" proof of existence of the pseudorandom generator $G$ by showing that if $G$ was chosen at random, then the probability that it would be a valid $(T,\epsilon)$ pseudorandom generator is positive.
@@ -389,11 +426,25 @@ The reason is that we know that $\Pr_{s \sim \{0,1\}^\ell}[ Q_x(G(s)) = 1]$ will
 Now, under the optimal PRG conjecture we can set $m = 2^{\delta \ell}$ or equivalently $\ell = \tfrac{1}{\delta}\log m$, and our total computation time is polynomial in $2^\ell = m^{1/\delta}$, which is polynomial in $m$ and hence in $n$.
 
 
-## $\mathbf{BPP}$ and $\mathbf{NP}$
+##  $\mathbf{P}=\mathbf{NP}$ and $\mathbf{BPP}$ vs $\mathbf{P}$
 
-TO BE COMPLETED: Prove that if $\mathbf{P}=\mathbf{NP}$ then $\mathbf{BPP}=\mathbf{P}$.
+Two computational complexity questions that we cannot settle are:
 
+* Is $\mathbf{P}=\mathbf{NP}$? Where we believe the answer  is _negative_.
 
+* If $\mathbf{BPP}=\mathbf{P}$? Where we believe the answer is _positive_.
+
+However we can say that the "conventional wisdom" is correct on at least one of these questions.
+Namely, if we're wrong on the first count, then we'll be right on the second one:
+
+> # {.theorem title="Sipser–Gács Theorem" #BPPvsNP}
+If $\mathbf{P}=\mathbf{NP}$ then $\mathbf{BPP}=\mathbf{P}$.
+
+> # {.proofidea data-ref="BPPvsNP"}
+TO BE COMPLETED
+
+> # {.proof data-ref="BPPvsNP"}
+TO BE COMPLETED
 
 ## Lecture summary
 
