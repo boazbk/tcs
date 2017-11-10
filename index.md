@@ -118,63 +118,18 @@ index:
     draft: false
 
   - num: 22.
-    name: Hardness vs. randomness
-    file: lec_18_hardness_vs_randomness
-    draft: false
-
-  - num: 23.
-    name: Derandomization from worst-case assumptions (advanced lecture)
-    file: lec_18a_worst_case_derand
-    draft: false
-
-  - num: 24.
     name: Cryptography
     file: lec_19_cryptography
     draft: false
 
-  - num: 25.
-    name: Algorithms and society
-    file: lec_20_alg_society
-    draft: false
-
-  - num: 26.
-    name: Compression, coding, and information
-    file: lec_21_compression_coding
-    draft: false
-
-  - num: 27.
-    name: Space bounded computation
-    file: lec_22_space_complexity
-    draft: false
-
-  - num: 28.
-    name: Streaming, sketching, and automata
-    file: lec_23_stream_automata
-    draft: false
-
-  - num: 29.
+  - num: 23.
     name: Proofs and algorithms
     file: lec_24_proofs
     draft: false
 
-  - num: 30
-    name: Interactive and probabilistically-checkable proofs  (advanced lecture)
-    file: lec_24a_interactive_proofs
-    draft: false
-
-  - num: 31.
-    name: Limits of data structures
-    file: lec_25_data_structures
-    draft: false
-
-  - num: 32.
+  - num: 24.
     name: Quantum computing
     file: lec_26_quantum_computing
-    draft: false
-
-  - num: 33.
-    name: Shor's algorithm (advanced lecture)
-    file: lec_26a_Shor_algorithm
     draft: false
 
   - num: A.

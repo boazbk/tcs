@@ -224,7 +224,7 @@ This ensures  the perfect secrecy condition.
 
 ## Necessity of long keys
 
-So, does [onetimepad](){.ref} close the lid on cryptography, and means that we can all communicate with perfect secrecy and live happily ever after?
+So, does [onetimepad](){.ref} give the final word on cryptography, and means that we can all communicate with perfect secrecy and live happily ever after?
 No it doesn't.
 While the one-time pad is efficient, and gives perfect secrecy, it has one glaring disadvantage: to communicate $n$ bits you need to store a key of length $n$.
 In contrast, practically used cryptosystems such as AES-128 have a short key of $128$ bits (i.e., $16$ bytes) that can be used to protect Terrabytes or more of communication!
@@ -276,6 +276,46 @@ To prove Claim I, just choose a fixed $k\in \{0,1\}^n$. By the validity conditio
 the _image_ of this map: the set $I = \{ y \;|\; \exists_{x\in \{0,1\}^\ell} y=E_k(x) \}$ has size at least (in fact exactly) $2^\ell$.
 Since $|S_0| = 2^n < 2^\ell$, this means that $|I|>|S_0|$ and so in particular there exists some string $y$ in $I \setminus S_0$.But by the definition of $I$ this means that there is some $x\in \{0,1\}^\ell$  such that $E_k(x) \not\in S_0$ which concludes the proof of Claim I and hence of  [longkeysthm](){.ref}.
 
+## Computational secrecy
+
+To sum up the previous episodes, we now know that:
+
+* It is possible to obtain a perfectly secret encryption scheme with key length the same as the plaintext.
+
+and
+
+* It is not possible to obtain such a scheme with key that is even a single bit shorter than the plaintext.
+
+How does this mesh with the fact that, as we've already seen, people routinely use cryptosystems with a 16 bytes  key but  many terrabytes of plaintext?
+The proof of [longkeysthm](){.ref} does give in fact a way to break all these cryptosystems, but an examination of this proof shows that it only yields an algorithm with time  _exponential in the length of the key_.
+This motivates the following relaxation of perfect secrecy  to a condition known as _"computational secrecy"_.
+Intuitively, an encryption scheme is  computationally secret if no polynomial time algorithm can break it.
+The formal definition is below:
+
+> # {.definition title="Computational secrecy" #compsecdef}
+Let $(E,D)$ be a valid encryption scheme where for keys of length $n$, the plaintexts are of length $\ell(n)$ and the ciphertexts are of length $m(n)$.
+We say that $(E,D)$ is _computationally secret_ if for every polynomial $p:\N \rightarrow \N$, and large enough $n$, if $P$ is an $m(n)$-input and single output NAND program of at most $p(\ell(n))$ lines, and $x_0,x_1 \in \{0,1\}^{\ell(n)}$  then
+$$
+\left| \E_{k \sim \{0,1\}^n} [P(E_k(x_0))] -   \E_{k \sim \{0,1\}^n} [P(E_k(x_1))] \right| < \tfrac{1}{p(\ell(n))} \label{eqindist}
+$$
+
+> # { .pause }
+[compsecdef](){.ref} requires a second or third read  and some practice to truly understand.
+One excellent exercise to make sure you follow it is to see that if we allow $P$ to be an _arbitrary_ function mapping $\{0,1\}^{m(n)}$ to $\{0,1\}$, and we replace the condition in [eqindist](){.eqref} that the lefhand side is smaller than $\tfrac{1}{p(\ell(n))}$ with the condition  that it is equal to $0$ then we get the perfect secrecy condition of [perfectsecrecy](){.ref}.
+Indeed if the distributions $E_k(x_0)$  and $E_k(x_1)$ are identical then applying any function $P$ to them we get the same expectation.
+On the other hand, if the two distributions above give a different probability for some element $y^*\in \{0,1\}^{m(n)}$, then the function $P(y)$ that outputs $1$ iff $y=y^*$ will have a different expectation under the former distribution than under the latter.
+
+
+[compsecdef](){.ref} raises two natural questions:
+
+* Is it strong enough to ensure that a computationally secret encryption scheme protects the secrecy of messages that are encrypted with it?
+
+* It is weak enough that, unlike perfect secrecy, it is possible to obtain a computationally secret encryption scheme where the key is much smaller than the message?
+
+The answer to both questions is _Yes_.
+We skip the proof here, but is not hard to show that if, for example,  Alice uses a computationally secret encryption algorithm to encrypt either "attack" or "retreat" (each chosen with probability $1/2$), then as long as she's restricted to polynomial-time algorithms, an adversary Eve will not be able to guess the message with probability better than, say, $0.51$, even after observing its encrypted form.
+
+To answer the second question we now show that under the same assumption we used for derandomizing $\mathbf{BPP}$, we can obtain a computationally secret cryptosystem where the key is almost _exponentially_ smaller than the plaintext.
 
 
 
