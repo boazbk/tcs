@@ -240,13 +240,13 @@ Shannon's work, the U.S. intelligence  already knew in 1941 that the one-time pa
 However, it  turned out that the hassle of manufacturing so many keys for all the communication took its toll on the Soviets and they ended up reusing the same keys
 for more than one message, though they tried to use them for completely different receivers in the (false) hope that this wouldn't be
 detected.
-The [Venona Project](https://en.wikipedia.org/wiki/Venona_project) of the U.S. Army was founded in February 1943 by Gene Grabeel (see [genegrabeelfig](){.ref})- a former home economics teacher from Madison Heights, Virgnia and Lt. Leonard Zubko.
+The [Venona Project](https://en.wikipedia.org/wiki/Venona_project) of the U.S. Army was founded in February 1943 by Gene Grabeel (see [genegrabeelfig](){.ref}), a former home economics teacher from Madison Heights, Virgnia and Lt. Leonard Zubko.
 In October 1943, they had their breakthrough when it was discovered that the Russians are reusing their keys.^[Credit to this discovery
 is shared by Lt. Richard Hallock, Carrie Berry, Frank Lewis, and Lt. Karl Elmquist, and there are others that have made important contribution to this project. See pages 27 and 28 in the document.]
 In the 37 years of its existence, the project has resulted in a treasure chest of intelligence, exposing hundreds of KGB agents and Russian spies in the U.S. and other countries,
 including Julius Rosenberg, Harry Gold, Klaus Fuchs, Alger Hiss, Harry Dexter White  and many others.
 
-![Gene Grabeel, who founded the U.S. Russian SigInt program on 1 Feb 1943. 1942 Photo taken from Page 7 in the Venona historical study.](../figure/genevenona.png){#genegrabeelfig .class width=300px height=300px}
+![Gene Grabeel, who founded the U.S. Russian SigInt program on 1 Feb 1943.  Photo taken in 1942, see Page 7 in the Venona historical study.](../figure/genevenona.png){#genegrabeelfig .class width=300px height=300px}
 
 
 Unfortunately it turns out that (as shown by Shannon) that such long keys are _necessary_ for perfect secrecy:
@@ -258,9 +258,23 @@ Unfortunately it turns out that (as shown by Shannon) that such long keys are _n
 For every perfectly secret encryption scheme $(E,D)$ the length function $\ell$ satisfies $\ell(n) \geq n$.
 
 > # {.proofidea data-ref="longkeysthm"}
-The idea behind the proof is illustrated in [longkeygraphfig](){.ref}.
+The idea behind the proof is illustrated in [longkeygraphfig](){.ref}. If the number of keys is smaller than the number of messages then the neighborhoods of all vertices in the corresponding graphs cannot be identical.
 
 > # {.proof data-ref="longkeysthm"}
+Let $E,D$ be a valid encryption scheme with messages of length $\ell$ and key of length $n<\ell$.
+We will show that $(E,D)$ is not perfectly secret by providing two plaintexts $x_0,x_1 \in \{0,1\}^\ell$ such that the distributions $Y_{x_0}$ and $Y_{x_1}$ are not identical, where $Y_x$ is the distribution obtained by picking $k \sim \{0,1\}^n$ and outputting $E_k(x)$.
+We choose $x_0 = 0^\ell$.
+Let $S_0 \subseteq \{0,1\}^*$ be the set of all ciphertexts that have nonzero probability of being output in $Y_{x_0}$. That is, $S=\{ y \;|\; \exists_{k\in \{0,1\}^n} y=E_k(x_0) \}$.
+Since there are only $2^n$ keys, we know that $|S_0| < 2^n$.
+>
+We will show the following claim:
+>
+__Claim I:__ There exists some $x_1 \in \{0,1\}^\ell$ and $k\in \{0,1\}^n$ such that $E_k(x_1) \not\in S_0$.
+>
+Claim I implies that $E_k(x_1)$ has positive probability of being output  by $Y_{x_1}$  and zero probability of being output by $Y_{x_0}$ and hence will complete the proof.
+To prove Claim I, just choose a fixed $k\in \{0,1\}^n$. By the validity condition, the map $x \mapsto E_k(x)$ is a one to one map of $\{0,1\}^\ell$ to $\{0,1\}^*$ and hence in particular
+the _image_ of this map: the set $I = \{ y \;|\; \exists_{x\in \{0,1\}^\ell} y=E_k(x) \}$ has size at least (in fact exactly) $2^\ell$.
+Since $|S_0| = 2^n < 2^\ell$, this means that $|I|>|S_0|$ and so in particular there exists some string $y$ in $I \setminus S_0$.But by the definition of $I$ this means that there is some $x\in \{0,1\}^\ell$  such that $E_k(x) \not\in S_0$ which concludes the proof of Claim I and hence of  [longkeysthm](){.ref}.
 
 
 
