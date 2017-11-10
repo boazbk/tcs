@@ -206,7 +206,8 @@ In particular, the following  table details a perfectly secure encryption scheme
 +---------+-------+-------+-------+-------+-------+
 
   : A perfectly secret encryption scheme with $2$ bit keys, plaintexts, and ciphertexts; the rows are indexed by possible ciphertexts, the columns indexed
-  by possible plaintexts, and the $(c,m)$ location of the matrix corresponds to the key   that maps $m$ to $c$.
+  by possible plaintexts, and the $(y,x)$ location of the matrix corresponds to the key   that maps $x$ to $y$.
+
 
 In fact, this can be generalized to any number of bits:
 
