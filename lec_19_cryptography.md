@@ -184,29 +184,13 @@ This example can be vastly generalized to show that perfect secrecy is indeed "p
 
 ### Constructing perfectly secret encryption
 
-_Perfect security_ is an extremely strong condition, and implies that an eavesdropper does not learn _any_ information from observing the ciphertext.
+_Perfect secrecy_ is an extremely strong condition, and implies that an eavesdropper does not learn _any_ information from observing the ciphertext.
 You might think that an encryption scheme satisfying such a strong condition will be impossible, or at least extremely complicated, to achieve.
-However it turns out we can in fact obtain perfectly secure encryption scheme fairly easily.
-In particular, the following  table details a perfectly secure encryption scheme for encrypting two bit messages:
+However it turns out we can in fact obtain perfectly secret encryption scheme fairly easily.
+Such a scheme is illustrated in [onetimepadtwofig](){.ref}
 
 
-
-+---------+-------+-------+-------+-------+-------+
-| Plain:  |       | __00__| __01__| __10__| __11__|
-+---------+-------+-------+-------+-------+-------+
-| Cipher: |       |       |       |       |       |
-+---------+-------+-------+-------+-------+-------+
-|         | __00__|     00|     01|     10|     11|
-+---------+-------+-------+-------+-------+-------+
-|         | __01__|     01|     00|     11|     10|
-+---------+-------+-------+-------+-------+-------+
-|         | __10__|     10|     11|     00|     01|
-+---------+-------+-------+-------+-------+-------+
-|         | __11__|     11|     10|     01|     00|
-+---------+-------+-------+-------+-------+-------+
-
-  : A perfectly secret encryption scheme with $2$ bit keys, plaintexts, and ciphertexts; the rows are indexed by possible ciphertexts, the columns indexed
-  by possible plaintexts, and the $(c,m)$ location of the matrix corresponds to the key   that maps $m$ to $c$.
+![A perfectly secret encryption scheme for two-bit keys and messages. The blue vertices represent plaintexts and the red vertices represent ciphertexts, each edge mapping a plaintext $x$ to a ciphertext $y=E_k(x)$ is labeled with the corresponding key $k$. Since there are four possible keys, the degree of the graph is four and it is in fact a complete bipartite graph. The encryption scheme is valid in the sense that for every $k\in \{0,1\}^2$, the map $x \mapsto E_k(x)$ is one-to-one, which in other words means that the set of edges labeled with $k$ is a _matching_.](../figure/onetimepadtwobits.png){#onetimepadtwofig .class width=300px height=300px}
 
 In fact, this can be generalized to any number of bits:
 
