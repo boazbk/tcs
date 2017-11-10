@@ -151,7 +151,8 @@ In particular, suppose that you knew ahead of time that Alice sent either an enc
 
 ![For any key length $n$, we can visualize an encryption scheme $(E,D)$ as a graph where we put a vertex for every one of the $2^{\ell(n)}$ possible plaintexts and for every one of the ciphertexts in $\{0,1\}^*$ that can be output by $E$ on a length $n$ key and length $\ell(n)$ plaintext. We connect a plaintext $x$ and a ciphertext $y$ by an edge if there is some key $k$ such that $E_k(x)=y$, and in this case we label the edge by $k$.  By the validity condition, if we pick any fixed key $k$, the map $x \mapsto E_k(x)$ must be one-to-one. If we make the (mild) assumption that any two distinct keys map $x$ to distinct ciphertext, each plaintext vertex will have degree $2^n$ in this graph. In such a case the condition of perfect secrecy simply corresponds to the condition that every two    plaintexts $x$ and $x'$, the set of neighbors of $x$ is the same as the set of neighbors of $x'$.](../figure/perfectsecrecy.png){#perfectsecfig .class width=300px height=300px}
 
-To understand [perfectsecrecy](){.ref}, suppose that Alice sends only one of two possible messages: "attack" or "retreat", which we denote by $x$ and $x'$ respectively, and that she sends each one of those messages with probability $1/2$.
+To understand [perfectsecrecy](){.ref}, suppose that Alice sends only one of two possible messages: "attack" or "retreat", which we denote by $x$ and $x'$ respectively, and that she sends each one of those messages with probability $1/2$. TO BE CONTINUED
+
 
 ## Lecture summary
 
