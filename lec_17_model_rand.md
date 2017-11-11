@@ -342,7 +342,7 @@ This is known as the _Hardness vs Randomness_ paradigm.
 A number of results, most of whom are ourside the scope of this course, has led researchers to believe the following conjecture:
 
 >__Optimal PRG conjecture:__ There is a polynomial-time computable function $PRG:\{0,1\}^* \rightarrow \{0,1\}$ that yields an _exponentially secure pseudorandom generator_.
-Specifically, there exists a  constant $\delta>0$ such that for every $\ell$, if we let $m=2^{\delta \ell}$ and define $G:\{0,1\}^\ell \rightarrow \{0,1\}^m$ as $G(s)_i = PRG(s,i)$ for every $s\in \{0,1\}^\ell$ and $i \in [m]$, then $G$ is a $(2^{\delta m},2^{-\delta m})$ pseudorandom generator.
+Specifically, there exists constants  $\delta, \epsilon >0$ such that for every $\ell$, if we let $m=2^{\epsilon \ell}$ and define $G:\{0,1\}^\ell \rightarrow \{0,1\}^m$ as $G(s)_i = PRG(s,i)$ for every $s\in \{0,1\}^\ell$ and $i \in [m]$, then $G$ is a $(2^{\delta \ell},2^{-\delta \ell})$ pseudorandom generator.
 
 > # { .pause }
 The "optimal PRG conjecture" is worthwhile reading more than once. What it posits is that we can obtain $(T,\epsilon)$ pseudorandom generator $G$ such that every output bit of $G$ can be computed in time polynomial in the length $\ell$ of the input, where $T$ is exponentially large in $\ell$ and $\epsilon$ is exponentially small in $\ell$. (Note that we could not hope for the entire output to be computable in $\ell$, as just writing the output down will take too long.)

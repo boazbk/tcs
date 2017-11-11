@@ -315,15 +315,25 @@ On the other hand, if the two distributions above give a different probability f
 
 * It is weak enough that, unlike perfect secrecy, it is possible to obtain a computationally secret encryption scheme where the key is much smaller than the message?
 
-The answer to both questions is _Yes_.
-We skip the proof here, but is not hard to show that if, for example,  Alice uses a computationally secret encryption algorithm to encrypt either "attack" or "retreat" (each chosen with probability $1/2$), then as long as she's restricted to polynomial-time algorithms, an adversary Eve will not be able to guess the message with probability better than, say, $0.51$, even after observing its encrypted form.
+To the best of our knowledge, the answer to both questions is _Yes_.
+Regarding the first question, it is not hard to show that if, for example,  Alice uses a computationally secret encryption algorithm to encrypt either "attack" or "retreat" (each chosen with probability $1/2$), then as long as she's restricted to polynomial-time algorithms, an adversary Eve will not be able to guess the message with probability better than, say, $0.51$, even after observing its encrypted form. (We omit the proof, but it is an excellent exercise for you to work it out on your own.)
 
-To answer the second question we now show that under the same assumption we used for derandomizing $\mathbf{BPP}$, we can obtain a computationally secret cryptosystem where the key is almost _exponentially_ smaller than the plaintext.
+To answer the second question we will show that under the same assumption we used for derandomizing $\mathbf{BPP}$, we can obtain a computationally secret cryptosystem where the key is almost _exponentially_ smaller than the plaintext.
 
-### Stream ciphers or "derandomized one-time pad"
+### Stream ciphers or the "derandomized one-time pad"
+
+It turns out that if pseudorandom generators exist as in the optimal PRG conjecture, then there exists a computationally  secret encryption scheme with keys that are much shorter than the plaintext.
+The construction below is known as a [stream cipher](https://en.wikipedia.org/wiki/Stream_cipher), though perhaps a better name is the "derandomized one-time pad".
+It is widely used in practice with keys on the order of a few tens or hundreds of bits protecting many terrabytes or even petabytes of communication.
+
+> # {.theorem title="Derandomized one-time pad" #PRGtoENC}
+Let $T:\N \rightarrow \N$ be a nice time bound that is _super polynomial_ (i.e., for every constant $c$ and large enough $n$, $n^c < T(n)$.)
+If there is a polynomial-time computable 
 
 
-![In the a _stream cipher_ or "derandomized one-time pad" we use a pseudorandom generator $G:\{0,1\}^n \rightarrow \{0,1\}^L$ to obtain an encryption scheme with a key length of $n$ and plaintexts of length $L$. We encrypt the plainted $x\in \{0,1\}^L$ with key $k\in \{0,1\}^n$ by the ciphertext $x \oplus G(k)$.](../figure/derandonetimepad.png){#derandonetimepadfig .class width=300px height=300px}
+> # {.proof data-ref="PRGtoENC"}
+
+![In  a _stream cipher_ or "derandomized one-time pad" we use a pseudorandom generator $G:\{0,1\}^n \rightarrow \{0,1\}^L$ to obtain an encryption scheme with a key length of $n$ and plaintexts of length $L$. We encrypt the plainted $x\in \{0,1\}^L$ with key $k\in \{0,1\}^n$ by the ciphertext $x \oplus G(k)$.](../figure/derandonetimepad.png){#derandonetimepadfig .class width=300px height=300px}
 
 
 ## Lecture summary
