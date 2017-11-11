@@ -391,7 +391,7 @@ without first exchanging a shared secret key.
 
 Yet in the late 1960's and early 1970's, several people started to question this "common wisdom".
 Perhaps the most surprising of these visionaries was an undergraduate student at Berkeley named Ralph Merkle.
-In the fall of 1974 he wrote in a [project proposal](http://www.merkle.com/1974/) for his computer security course that while "it might seem intuitively obvious that if two people have never had the opportunity to prearrange an encryption method, then they will be unable to communicate securely over an insecure channel... I believe it is false".
+In the fall of 1974 Merkle wrote in a [project proposal](http://www.merkle.com/1974/) for his computer security course that while "it might seem intuitively obvious that if two people have never had the opportunity to prearrange an encryption method, then they will be unable to communicate securely over an insecure channel... I believe it is false".
 The project proposal was rejected by his professor as "not good enough".
 Merkle later submitted a paper to the communication of the ACM where he apologized for the lack of references since he was unable to find any mention of the problem in the scientific literature, and the only source where he saw the problem even _raised_ was in a science fiction story.
 The paper was rejected with the comment that "Experience shows that it is extremely dangerous to transmit key information in the clear."
@@ -415,13 +415,18 @@ They realized that protecting the _integrity_ of communication is no less import
 Thus they imagined that Alice could "run encryption in reverse" in order to certify or _sign_ messages.
 
 
-At the point, Diffie and Hellman were in a position not unlike  physicists who predicted that a certain particle should exist but without any experimental verification. Luckily they [met Ralph Merkle](http://cr.yp.to/bib/1988/diffie.pdf), and his ideas about a probabilistic _key exchange protocol_, together with a suggestion from their Stanford colleague [John Gill](https://profiles.stanford.edu/john-gill), inspired them to come up with what today is known as the _Diffie Hellman Key Exchange_ (which unbeknownst to them was found two years earlier at GCHQ by Malcolm Williamson).
+At the point, Diffie and Hellman were in a position not unlike  physicists who predicted that a certain particle should exist but without any experimental verification.
+Luckily they [met Ralph Merkle](http://cr.yp.to/bib/1988/diffie.pdf), and his ideas about a probabilistic _key exchange protocol_, together with a suggestion from their Stanford colleague [John Gill](https://profiles.stanford.edu/john-gill), inspired them to come up with what today is known as the [Diffie Hellman Key Exchange](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange) (which unbeknownst to them was found two years earlier at GCHQ by Malcolm Williamson).
 They published their paper ["New Directions in Cryptography"](https://www-ee.stanford.edu/~hellman/publications/24.pdf) in 1976, and it is considered to have brought about the birth of modern cryptography.
 
 The Diffie-Hellman Key Exchange is still widely used today for secure communication.
 However, it still felt short of providing Diffie and Hellman's  elusive trapdoor function.
 This was done the next year by Rivest, Shamir and Adleman who came up with the RSA trapdoor function, which through the framework of Diffie and Hellman yielded not just encryption but also signatures.^[A close variant of the  RSA function was   discovered earlier by Clifford Cocks at GCHQ, though as far as I can tell Cocks, Ellis and Williamson did not realize the application to digital signatures.]
 From this point on began a flurry of advances in cryptography which hasn't really died down till this day.
+
+### Public key encryption, trapdoor functions and pseudrandom generators
+
+A  _public key encryption_ consists of a triple of algorithms.
 
 
 
