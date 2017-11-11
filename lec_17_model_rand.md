@@ -79,18 +79,13 @@ As usual, we will allow ourselves some "syntactic sugar" in constructing this pr
 The program $P'$ will first read off the bits in  positions $n,n+1,n+2,\ldots,n+an^b-1$ of its input into the variables `r_0`, `r_1`, $\ldots$, `r_`$\expr{an^b-1}$.
 We will also assume we have access to an extra index variable `j` which we can increase and decrease (which of course can be simulated via syntactic sugar).
 The program $P'$ will run the same operations of $P$ except that it will replace a line of the form
-```
-foo := RAND
-```
-with the two lineas
-```
-foo := r_j
-j   := j + 1
-```
+`foo := RAND` with the two lineas
+`foo := r_j` amd `j   := j + 1`
+>
 One can easily verify that __(1)__ $P'$ runs in polynomial time and __(2)__  if the last $an^b$ bits of the input of $P'$ are chosen at random then its execution when its first $n$ inputs are $x$ is identical to an execution of $P(x)$.
 >
 For the other direction, given a function $G\in \mathbf{P}$ satisfying the condition [eqBPPauxiliary](){.eqref} and a NAND++ program $P'$ that computes $G$ in polynomial time, we will construct an RNAND++ program $P$ that computes $F$ in polynomial time.
-The idea behind the construction of $F'$ is simple: on input a string $x\in \{0,1\}^n$, we will first run for $an^b$ steps and use the `RNAND` operation to create variables `r_0`, `r_1`, $\ldots$,`r_`$\expr{an^b-1}$ each containing the result of a random coin toss.
+The idea behind the construction of $P$ is simple: on input a string $x\in \{0,1\}^n$, we will first run for $an^b$ steps and use the `RNAND` operation to create variables `r_0`, `r_1`, $\ldots$,`r_`$\expr{an^b-1}$ each containing the result of a random coin toss.
 We will then execute $P'$ on the input $x$ and `r_0`,$\ldots$,`r_`$\expr{an^b-1}$ (i.e., replacing every reference to the variable `x_`$\expr{n+k}$ with the variable `r_`$\expr{k}$).
 Once again, it is clear that if $P'$ runs in polynomial time then so will $P$, and for every input $x$ and $r\in \{0,1\}^{an^b}$, the output of $P$ on input $x$ and where the coin tosses outcome is $r$ is equal to $P'(xr)$.
 
@@ -128,7 +123,7 @@ Hence by the Chernoff bound ([chernoffthm](){.ref}) the probability that the maj
 
 There is nothing special about NAND<< in [amplificationthm](){.ref}. The same proof can be used to amplify randomized NAND or NAND++ programs as well.
 
-## $\mathbf{BPP}$ and $\mathbf{BPP}$
+## $\mathbf{BPP}$ and $\mathbf{NP}$ completeness
 
 Since "noisy processes" abound in nature, randomized algorithms can be realized physically, and so it is reasonable to propose $\mathbf{BPP}$ rather than $\mathbf{P}$ as our mathematical model for "feasible" or "tractable" computation.
 One might wonder if this makes all the previous lectures irrelevant, and in particular does the theory of $\mathbf{NP}$ completeness still apply to probabilistic algorithms.
@@ -247,7 +242,7 @@ It shows not just that every function in $\mathbf{BPP}$ can be computed by polyn
 
 
 
-## Derandomizing uniform computation
+## Derandomization
 
 The proof of [rnandthm](){.ref} can be summarized as follows:  we can replace a $poly(n)$-time algorithm that tosses coins as it runs, with an algorithm that uses a single set of coin tosses $r^* \in \{0,1\}^{poly(n)}$ which will be good enough for all inputs of size $n$.
 Another way to say it is that for the purposes of computing functions, we do not need "online" access to random coins and can generate a set of  coins "offline" ahead of time, before we see the actual input.
@@ -331,67 +326,12 @@ Still, there are two questions we haven't answered:
 
 We will now (partially) answer both questions.
 
-### Existence of pseudorandom generators
-
 For the first question, let us come clean and confess we do not know how to _prove_ that interesting pseudorandom generators exist.
 By _interesting_ we mean pseudorandom generators that satisfy that $\epsilon$ is some small constant (say $\epsilon<1/3$), $m>\ell$, and the function $G$ itself can be computed in $poly(m)$ time.
-Nevertheless, [prgexist](){.ref} below shows that if we only drop the last  condition, then there do in fact exist pseudorandom generators where $m$ is _exponentially larger_  than $\ell$.
-
-
-> # {.lemma title="Existence of inefficient pseudorandom generators" #prgexist}
-There is some absolute constant $C$ such that for every $\epsilon,T$, if $\ell > C (\log T + \log (1/\epsilon))$ and $m \leq T$,  then there is an $(T,\epsilon)$ pseudorandom generator $G: \{0,1\}^\ell \rightarrow \{0,1\}^m$.
+Nevertheless, [prgexist](){.ref} (whose statement and proof is deferred to the end of this chapter) shows that if we only drop the last  condition (poltnomial-time computability), then there do in fact exist pseudorandom generators where $m$ is _exponentially larger_  than $\ell$.
 
 > # { .pause }
-While it is important for you to understand the _statement_ of [prgexist](){.ref}, I recommend you skip the _proof_ in a first reading, and read the rest of this chapter.
-
-> # {.proofidea data-ref="prgexist"}
-The proof uses an extremely useful technique known  as the "probabilistic method" which is not too hard mathematically but can be confusing at first.^[There is a whole (highly recommended) [book by Alon and Spencer](https://www.amazon.com/Probabilistic-Method-Discrete-Mathematics-Optimization/dp/1119061954/ref=dp_ob_title_bk)  devoted to this method.]
-The idea is to give a "non constructive" proof of existence of the pseudorandom generator $G$ by showing that if $G$ was chosen at random, then the probability that it would be a valid $(T,\epsilon)$ pseudorandom generator is positive.
-In  particular this means that there _exists_ a single $G$ that is a valid $(T,\epsilon)$ pseudorandom generator.
-The probabilistic method is just a _proof technique_ to demonstrate the existence of such a function.
-Ultimately, our goal is to show the existence of  a _deterministic_ function $G$ that satisfies
-
-The above discussion might be rather abstract at this point, but would become clearer after seeing the proof.
-^[TODO: if we end up discussing the probabilistic method before this proof, then move this discussion to that point.]
-
-
-
-
-> # {.proof data-ref="prgexist"}
-Let $\epsilon,T,\ell,m$ be as in the lemma's statement. We need to show that there exists a function $G:\{0,1\}^\ell \rightarrow \{0,1\}^m$ that "fools" every $T$ line program $P$ in the sense of [eq:prg](){.eqref}.
-We will show that this follows from the following claim:
->
-__Claim I:__ For every fixed NAND program $P$, if we pick $G:\{0,1\}^\ell \rightarrow \{0,1\}^m$ _at random_ then the probability that [eq:prg](){.eqref} is violated is at most $2^{-T^2}$.
->
-Before proving Claim I, let us see why it implies [prgexist](){.ref}.
-We can identify a function $G:\{0,1\}^\ell \rightarrow \{0,1\}^m$ with its "truth table" or simply the list of evaluations on all its possible $2^\ell$ inputs. Since each output is an $m$ bit string,
-we can also think of $G$ as a string in $\{0,1\}^{m\cdot 2^\ell}$. We define $\mathcal{G}^m_\ell$ to be the set of all functions from $\{0,1\}^\ell$ to $\{0,1\}^\ell$. As discussed above we can identify $\mathcal{F}_\ell^m$ with $\{0,1\}^{m\cdot 2^\ell}$ and choosing a random function $G \sim \mathcal{F}_\ell^m$ corresponds to choosing a random $m\cdot 2^\ell$-long bit string.
->
-For every NAND program $P$ let $B_P$ be the event that, if we choose $G$ at random from $\mathcal{F}_\ell^m$ then  [eq:prg](){.eqref} is violated with respect to the program $P$.
-It is important to understand what is the sample space that the event $B_P$ is defined over, namely this event depends on the choice of $G$ and so $B_P$ is a subset of $\mathcal{F}_\ell^m$. An equivalent way to define the  event $B_P$ is that it is the subset of  all functions  mapping $\{0,1\}^\ell$ to $\{0,1\}^m$  that violate [eq:prg](){.eqref}, or in other words:
-$$
-B_P = \bigl\{ G \in \mathcal{F}_\ell^m  \; \big| \; \left| \tfrac{1}{2^\ell}\sum_{s\in \{0,1\}^\ell} P(G(s)) - \tfrac{1}{2^m}\sum_{r \in \{0,1\}^m}P(r)  \right| < \epsilon  \bigr\} \;\;. \label{eq:eventdefine}
-$$
-(We've replaced here the probability statements in [eq:prg](){.eqref} with the equivalent sums so as to reduce confusion as to what is the sample space that $B_P$ is defined over.)
->
-To understand this proof it is crucial that you pause here and see how  the definition of $B_P$ above corresponds to [eq:eventdefine](){.eqref}. This may well take re-reading the above text once or twice, but it is a good exercise at parsing probabilistic statements and learning how to identify the _sample space_ that these statements correspond to.
->
-Now, we've shown in [program-count](){.ref} that up to renaming variables (which makes no difference to program's functionality) there are $2^{O(T\log T)}$ NAND programs of at most $T$ lines.
-Since $T\log T < T^2$ for sufficiently large $T$, this means that if the Claim I  is true, then by the union bound it holds that the probability of the union of $B_P$ over _all_ NAND programs of at most $T$ lines is at most $2^{O(T\log T)}2^{-T^2} < 0.1$ for sufficiently large $T$.
-What is important for us about the number $0.1$ is that it is smaller than $1$.
-In particular this means that there _exists_ a single $G^* \in \mathcal{F}_\ell^m$ such that $G^*$ _does not_ violate [eq:prg](){.eqref} with respect to any NAND program of at most $T$ lines, but that precisely means that $G^*$ is a $(T,\epsilon)$ pseudorandom generator.
->
-Hence  conclude the proof of [prgexist](){.ref}, it suffices to prove Claim I.
-Choosing a random $G: \{0,1\}^\ell \rightarrow \{0,1\}^m$ amounts to choosing $L=2^\ell$ random strings $y_0,\ldots,y_{L-1} \in \{0,1\}^m$ and letting $G(x)=y_x$ (identifying $\{0,1\}^\ell$ and $[L]$ via the binary representation).
-Hence the claim amounts to showing that for every fixed function $P:\{0,1\}^m \rightarrow \{0,1\}$,
-if $L >  2^{C (\log T + \log \epsilon)}$ (which by setting $C>4$, we can ensure is larger than $10 T^2/\epsilon^2$) then the probability that
-$$
-\left| \tfrac{1}{L}\sum_{i=0}^{L-1} P(y_s)  -  \Pr_{s \sim \{0,1\}^m}[P(s)=1] \right| > \epsilon \label{eq:prgchernoff}
-$$
-is at most $2^{-T^2}$.
-[{eq:prgchernoff}](){.eqref} follows directly from the Chernoff bound.
-If we let for every $i\in  [L]$  the random variable $X_i$ denote $P(y_i)$, then since $y_0,\ldots,y_{L-1}$ is chosen independently at random, these are independently and identically distributed random variables with mean $\E_{y \sim \{0,1\}^m}[P(y)]= \Pr_{y\sim \{0,1\}^m}[ P(y)=1]$ and hence the probability that they deviate from their expectation by $\epsilon$ is at most $2\cdot 2^{-\epsilon^2 L/2}$.
-
+At this point you might want to skip ahead and  look at the _statement_ of [prgexist](){.ref}. However, since its _proof_ is somewhat subtle, I recommend you defer reading it until you've finished reading the rest of this lecture.
 
 ### From existence to constructivity
 
@@ -456,6 +396,67 @@ TO BE COMPLETED
 
 > # {.proof data-ref="BPPvsNP"}
 TO BE COMPLETED
+
+## Non-constructive existence of pseudorandom generators
+
+
+
+
+### Existence of pseudorandom generators
+
+We now show that, if we don't insist on _constructivity_ of pseudorandom generators, then we can show that there exists  pseudorandom generators with output that  _exponentially larger_   in the input length.
+
+
+> # {.lemma title="Existence of inefficient pseudorandom generators" #prgexist}
+There is some absolute constant $C$ such that for every $\epsilon,T$, if $\ell > C (\log T + \log (1/\epsilon))$ and $m \leq T$,  then there is an $(T,\epsilon)$ pseudorandom generator $G: \{0,1\}^\ell \rightarrow \{0,1\}^m$.
+
+
+> # {.proofidea data-ref="prgexist"}
+The proof uses an extremely useful technique known  as the "probabilistic method" which is not too hard mathematically but can be confusing at first.^[There is a whole (highly recommended) [book by Alon and Spencer](https://www.amazon.com/Probabilistic-Method-Discrete-Mathematics-Optimization/dp/1119061954/ref=dp_ob_title_bk)  devoted to this method.]
+The idea is to give a "non constructive" proof of existence of the pseudorandom generator $G$ by showing that if $G$ was chosen at random, then the probability that it would be a valid $(T,\epsilon)$ pseudorandom generator is positive.
+In  particular this means that there _exists_ a single $G$ that is a valid $(T,\epsilon)$ pseudorandom generator.
+The probabilistic method is just a _proof technique_ to demonstrate the existence of such a function.
+Ultimately, our goal is to show the existence of  a _deterministic_ function $G$ that satisfies
+
+The above discussion might be rather abstract at this point, but would become clearer after seeing the proof.
+
+
+
+> # {.proof data-ref="prgexist"}
+Let $\epsilon,T,\ell,m$ be as in the lemma's statement. We need to show that there exists a function $G:\{0,1\}^\ell \rightarrow \{0,1\}^m$ that "fools" every $T$ line program $P$ in the sense of [eq:prg](){.eqref}.
+We will show that this follows from the following claim:
+>
+__Claim I:__ For every fixed NAND program $P$, if we pick $G:\{0,1\}^\ell \rightarrow \{0,1\}^m$ _at random_ then the probability that [eq:prg](){.eqref} is violated is at most $2^{-T^2}$.
+>
+Before proving Claim I, let us see why it implies [prgexist](){.ref}.
+We can identify a function $G:\{0,1\}^\ell \rightarrow \{0,1\}^m$ with its "truth table" or simply the list of evaluations on all its possible $2^\ell$ inputs. Since each output is an $m$ bit string,
+we can also think of $G$ as a string in $\{0,1\}^{m\cdot 2^\ell}$. We define $\mathcal{G}^m_\ell$ to be the set of all functions from $\{0,1\}^\ell$ to $\{0,1\}^\ell$. As discussed above we can identify $\mathcal{F}_\ell^m$ with $\{0,1\}^{m\cdot 2^\ell}$ and choosing a random function $G \sim \mathcal{F}_\ell^m$ corresponds to choosing a random $m\cdot 2^\ell$-long bit string.
+>
+For every NAND program $P$ let $B_P$ be the event that, if we choose $G$ at random from $\mathcal{F}_\ell^m$ then  [eq:prg](){.eqref} is violated with respect to the program $P$.
+It is important to understand what is the sample space that the event $B_P$ is defined over, namely this event depends on the choice of $G$ and so $B_P$ is a subset of $\mathcal{F}_\ell^m$. An equivalent way to define the  event $B_P$ is that it is the subset of  all functions  mapping $\{0,1\}^\ell$ to $\{0,1\}^m$  that violate [eq:prg](){.eqref}, or in other words:
+$$
+B_P = \bigl\{ G \in \mathcal{F}_\ell^m  \; \big| \; \left| \tfrac{1}{2^\ell}\sum_{s\in \{0,1\}^\ell} P(G(s)) - \tfrac{1}{2^m}\sum_{r \in \{0,1\}^m}P(r)  \right| < \epsilon  \bigr\} \;\;. \label{eq:eventdefine}
+$$
+(We've replaced here the probability statements in [eq:prg](){.eqref} with the equivalent sums so as to reduce confusion as to what is the sample space that $B_P$ is defined over.)
+>
+To understand this proof it is crucial that you pause here and see how  the definition of $B_P$ above corresponds to [eq:eventdefine](){.eqref}. This may well take re-reading the above text once or twice, but it is a good exercise at parsing probabilistic statements and learning how to identify the _sample space_ that these statements correspond to.
+>
+Now, we've shown in [program-count](){.ref} that up to renaming variables (which makes no difference to program's functionality) there are $2^{O(T\log T)}$ NAND programs of at most $T$ lines.
+Since $T\log T < T^2$ for sufficiently large $T$, this means that if the Claim I  is true, then by the union bound it holds that the probability of the union of $B_P$ over _all_ NAND programs of at most $T$ lines is at most $2^{O(T\log T)}2^{-T^2} < 0.1$ for sufficiently large $T$.
+What is important for us about the number $0.1$ is that it is smaller than $1$.
+In particular this means that there _exists_ a single $G^* \in \mathcal{F}_\ell^m$ such that $G^*$ _does not_ violate [eq:prg](){.eqref} with respect to any NAND program of at most $T$ lines, but that precisely means that $G^*$ is a $(T,\epsilon)$ pseudorandom generator.
+>
+Hence  conclude the proof of [prgexist](){.ref}, it suffices to prove Claim I.
+Choosing a random $G: \{0,1\}^\ell \rightarrow \{0,1\}^m$ amounts to choosing $L=2^\ell$ random strings $y_0,\ldots,y_{L-1} \in \{0,1\}^m$ and letting $G(x)=y_x$ (identifying $\{0,1\}^\ell$ and $[L]$ via the binary representation).
+Hence the claim amounts to showing that for every fixed function $P:\{0,1\}^m \rightarrow \{0,1\}$,
+if $L >  2^{C (\log T + \log \epsilon)}$ (which by setting $C>4$, we can ensure is larger than $10 T^2/\epsilon^2$) then the probability that
+$$
+\left| \tfrac{1}{L}\sum_{i=0}^{L-1} P(y_s)  -  \Pr_{s \sim \{0,1\}^m}[P(s)=1] \right| > \epsilon \label{eq:prgchernoff}
+$$
+is at most $2^{-T^2}$.
+[{eq:prgchernoff}](){.eqref} follows directly from the Chernoff bound.
+If we let for every $i\in  [L]$  the random variable $X_i$ denote $P(y_i)$, then since $y_0,\ldots,y_{L-1}$ is chosen independently at random, these are independently and identically distributed random variables with mean $\E_{y \sim \{0,1\}^m}[P(y)]= \Pr_{y\sim \{0,1\}^m}[ P(y)=1]$ and hence the probability that they deviate from their expectation by $\epsilon$ is at most $2\cdot 2^{-\epsilon^2 L/2}$.
+
 
 ## Lecture summary
 
