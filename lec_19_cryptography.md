@@ -75,9 +75,9 @@ Alice uses the key $k$ to "scramble" or _encrypt_ the plaintext  $x$ into a _cip
 This motivates the following definition:
 
 > # {.definition title="Valid encryption scheme" #encryptiondef}
-Let $\ell:\N \rightarrow \N$ be some function.
-A pair of polynomial-time computable functions $(E,D)$ mapping strings to strings is a _valid private key encryption scheme_ (or _encryption scheme_ for short) with plaintext length $\ell(\cdot)$ if
-for every $k\in \{0,1\}^n$ and $x \in \{0,1\}^{\ell(n)}$,
+Let $L:\N \rightarrow \N$ be some function.
+A pair of polynomial-time computable functions $(E,D)$ mapping strings to strings is a _valid private key encryption scheme_ (or _encryption scheme_ for short) with plaintext length $L(\cdot)$ if
+for every $k\in \{0,1\}^n$ and $x \in \{0,1\}^{L(n)}$,
 $$
 D(k,E(k,x))=x \;. \label{eqvalidenc}
 $$
@@ -140,7 +140,7 @@ The above thinking led Shannon in 1945 to formalize the notion of _perfect secre
 There are several equivalent ways to define it, but perhaps the cleanest one is the following:
 
 > # {.definition title="Perfect secrecy" #perfectsecrecy}
-A valid encryption scheme $(E,D)$ with length $\ell(\cdot)$ is _perfectly secrect_ if for every $n\in \N$ and plaintexts $x,x' \in \{0,1\}^{\ell(n)}$, the following two distributions $Y$ and $Y'$ over $\{0,1\}^*$ are identical:
+A valid encryption scheme $(E,D)$ with length $L(\cdot)$ is _perfectly secrect_ if for every $n\in \N$ and plaintexts $x,x' \in \{0,1\}^{L(n)}$, the following two distributions $Y$ and $Y'$ over $\{0,1\}^*$ are identical:
 >
 * The distribution $Y$ is obtained by sampling a random $k\sim \{0,1\}^n$ and outputting $E_k(x)$.
 >
@@ -150,7 +150,7 @@ A valid encryption scheme $(E,D)$ with length $\ell(\cdot)$ is _perfectly secrec
 This definition might take more than one reading to parse. Try to think of how this condition would correspond to your intuitive notion of "learning no information" about $x$ from observing $E_k(x)$.
 In particular, suppose that you knew ahead of time that Alice sent either an encryption of $x$ or an encryption of $x'$. Would you learn anything new from observing the encryption of the message that Alice actually sent? It may help you to look at [perfectsecfig](){.ref}.
 
-![For any key length $n$, we can visualize an encryption scheme $(E,D)$ as a graph where we put a vertex for every one of the $2^{\ell(n)}$ possible plaintexts and for every one of the ciphertexts in $\{0,1\}^*$ that can be output by $E$ on a length $n$ key and length $\ell(n)$ plaintext. We connect a plaintext $x$ and a ciphertext $y$ by an edge if there is some key $k$ such that $E_k(x)=y$, and in this case we label the edge by $k$.  By the validity condition, if we pick any fixed key $k$, the map $x \mapsto E_k(x)$ must be one-to-one. If we make the (mild) assumption that any two distinct keys map $x$ to distinct ciphertext, each plaintext vertex will have degree $2^n$ in this graph. In such a case the condition of perfect secrecy simply corresponds to the condition that every two    plaintexts $x$ and $x'$, the set of neighbors of $x$ is the same as the set of neighbors of $x'$.](../figure/perfectsecrecy.png){#perfectsecfig .class width=300px height=300px}
+![For any key length $n$, we can visualize an encryption scheme $(E,D)$ as a graph where we put a vertex for every one of the $2^{L(n)}$ possible plaintexts and for every one of the ciphertexts in $\{0,1\}^*$ that can be output by $E$ on a length $n$ key and length $L(n)$ plaintext. We connect a plaintext $x$ and a ciphertext $y$ by an edge if there is some key $k$ such that $E_k(x)=y$, and in this case we label the edge by $k$.  By the validity condition, if we pick any fixed key $k$, the map $x \mapsto E_k(x)$ must be one-to-one. If we make the (mild) assumption that any two distinct keys map $x$ to distinct ciphertext, each plaintext vertex will have degree $2^n$ in this graph. In such a case the condition of perfect secrecy simply corresponds to the condition that every two    plaintexts $x$ and $x'$, the set of neighbors of $x$ is the same as the set of neighbors of $x'$.](../figure/perfectsecrecy.png){#perfectsecfig .class width=300px height=300px}
 
 ### Example: Perfect secrecy in the battlefield
 
@@ -195,11 +195,14 @@ Such a scheme is illustrated in [onetimepadtwofig](){.ref}
 
 In fact, this can be generalized to any number of bits:
 
+![In the _one time pad_ encryption scheme we encrypt a plaintext $x\in \{0,1\}^n$ with a key $k\in \{0,1\}^n$ by the ciphertext $x \oplus k$ where $\oplus$ denotes the bitwise XOR operation.](../figure/onetimepad.png){#onetimepadfig .class width=300px height=300px}
+
+
 > # {.theorem title="One Time Pad (Vernam 1917, Shannon 1949)" #onetimepad}
-There is a perfectly secret valid encryption scheme $(E,D)$ with $\ell(n)=n$.
+There is a perfectly secret valid encryption scheme $(E,D)$ with $L(n)=n$.
 
 > # {.proofidea data-ref="onetimepad"}
-The idea is known as the [one-time pad](https://en.wikipedia.org/wiki/One-time_pad) also known as the "Vernam Cipher".
+The idea is known as the [one-time pad](https://en.wikipedia.org/wiki/One-time_pad) also known as the "Vernam Cipher", see [onetimepadfig](){.ref}.
 The encryption is exceedingly simple: to encrypt a message $x\in \{0,1\}^n$ with a key $k \in \{0,1\}^n$ we simply output $x \oplus k$ where $\oplus$ is the bitwise XOR operation that
 outputs the string corresponding to XORing each  coordinate of $x$ and $k$.
 
@@ -255,26 +258,26 @@ Unfortunately it turns out that (as shown by Shannon) that such long keys are _n
 
 
 > # {.theorem title="Perfect secrecy requires long keys" #longkeysthm}
-For every perfectly secret encryption scheme $(E,D)$ the length function $\ell$ satisfies $\ell(n) \geq n$.
+For every perfectly secret encryption scheme $(E,D)$ the length function $L$ satisfies $L(n) \geq n$.
 
 > # {.proofidea data-ref="longkeysthm"}
 The idea behind the proof is illustrated in [longkeygraphfig](){.ref}. If the number of keys is smaller than the number of messages then the neighborhoods of all vertices in the corresponding graphs cannot be identical.
 
 > # {.proof data-ref="longkeysthm"}
-Let $E,D$ be a valid encryption scheme with messages of length $\ell$ and key of length $n<\ell$.
-We will show that $(E,D)$ is not perfectly secret by providing two plaintexts $x_0,x_1 \in \{0,1\}^\ell$ such that the distributions $Y_{x_0}$ and $Y_{x_1}$ are not identical, where $Y_x$ is the distribution obtained by picking $k \sim \{0,1\}^n$ and outputting $E_k(x)$.
-We choose $x_0 = 0^\ell$.
+Let $E,D$ be a valid encryption scheme with messages of length $L$ and key of length $n<L$.
+We will show that $(E,D)$ is not perfectly secret by providing two plaintexts $x_0,x_1 \in \{0,1\}^L$ such that the distributions $Y_{x_0}$ and $Y_{x_1}$ are not identical, where $Y_x$ is the distribution obtained by picking $k \sim \{0,1\}^n$ and outputting $E_k(x)$.
+We choose $x_0 = 0^L$.
 Let $S_0 \subseteq \{0,1\}^*$ be the set of all ciphertexts that have nonzero probability of being output in $Y_{x_0}$. That is, $S=\{ y \;|\; \exists_{k\in \{0,1\}^n} y=E_k(x_0) \}$.
 Since there are only $2^n$ keys, we know that $|S_0| < 2^n$.
 >
 We will show the following claim:
 >
-__Claim I:__ There exists some $x_1 \in \{0,1\}^\ell$ and $k\in \{0,1\}^n$ such that $E_k(x_1) \not\in S_0$.
+__Claim I:__ There exists some $x_1 \in \{0,1\}^L$ and $k\in \{0,1\}^n$ such that $E_k(x_1) \not\in S_0$.
 >
 Claim I implies that $E_k(x_1)$ has positive probability of being output  by $Y_{x_1}$  and zero probability of being output by $Y_{x_0}$ and hence will complete the proof.
-To prove Claim I, just choose a fixed $k\in \{0,1\}^n$. By the validity condition, the map $x \mapsto E_k(x)$ is a one to one map of $\{0,1\}^\ell$ to $\{0,1\}^*$ and hence in particular
-the _image_ of this map: the set $I = \{ y \;|\; \exists_{x\in \{0,1\}^\ell} y=E_k(x) \}$ has size at least (in fact exactly) $2^\ell$.
-Since $|S_0| = 2^n < 2^\ell$, this means that $|I|>|S_0|$ and so in particular there exists some string $y$ in $I \setminus S_0$.But by the definition of $I$ this means that there is some $x\in \{0,1\}^\ell$  such that $E_k(x) \not\in S_0$ which concludes the proof of Claim I and hence of  [longkeysthm](){.ref}.
+To prove Claim I, just choose a fixed $k\in \{0,1\}^n$. By the validity condition, the map $x \mapsto E_k(x)$ is a one to one map of $\{0,1\}^L$ to $\{0,1\}^*$ and hence in particular
+the _image_ of this map: the set $I = \{ y \;|\; \exists_{x\in \{0,1\}^L} y=E_k(x) \}$ has size at least (in fact exactly) $2^L$.
+Since $|S_0| = 2^n < 2^L$, this means that $|I|>|S_0|$ and so in particular there exists some string $y$ in $I \setminus S_0$.But by the definition of $I$ this means that there is some $x\in \{0,1\}^L$  such that $E_k(x) \not\in S_0$ which concludes the proof of Claim I and hence of  [longkeysthm](){.ref}.
 
 ## Computational secrecy
 
@@ -293,15 +296,15 @@ Intuitively, an encryption scheme is  computationally secret if no polynomial ti
 The formal definition is below:
 
 > # {.definition title="Computational secrecy" #compsecdef}
-Let $(E,D)$ be a valid encryption scheme where for keys of length $n$, the plaintexts are of length $\ell(n)$ and the ciphertexts are of length $m(n)$.
-We say that $(E,D)$ is _computationally secret_ if for every polynomial $p:\N \rightarrow \N$, and large enough $n$, if $P$ is an $m(n)$-input and single output NAND program of at most $p(\ell(n))$ lines, and $x_0,x_1 \in \{0,1\}^{\ell(n)}$  then
+Let $(E,D)$ be a valid encryption scheme where for keys of length $n$, the plaintexts are of length $L(n)$ and the ciphertexts are of length $m(n)$.
+We say that $(E,D)$ is _computationally secret_ if for every polynomial $p:\N \rightarrow \N$, and large enough $n$, if $P$ is an $m(n)$-input and single output NAND program of at most $p(L(n))$ lines, and $x_0,x_1 \in \{0,1\}^{L(n)}$  then
 $$
-\left| \E_{k \sim \{0,1\}^n} [P(E_k(x_0))] -   \E_{k \sim \{0,1\}^n} [P(E_k(x_1))] \right| < \tfrac{1}{p(\ell(n))} \label{eqindist}
+\left| \E_{k \sim \{0,1\}^n} [P(E_k(x_0))] -   \E_{k \sim \{0,1\}^n} [P(E_k(x_1))] \right| < \tfrac{1}{p(L(n))} \label{eqindist}
 $$
 
 > # { .pause }
 [compsecdef](){.ref} requires a second or third read  and some practice to truly understand.
-One excellent exercise to make sure you follow it is to see that if we allow $P$ to be an _arbitrary_ function mapping $\{0,1\}^{m(n)}$ to $\{0,1\}$, and we replace the condition in [eqindist](){.eqref} that the lefhand side is smaller than $\tfrac{1}{p(\ell(n))}$ with the condition  that it is equal to $0$ then we get the perfect secrecy condition of [perfectsecrecy](){.ref}.
+One excellent exercise to make sure you follow it is to see that if we allow $P$ to be an _arbitrary_ function mapping $\{0,1\}^{m(n)}$ to $\{0,1\}$, and we replace the condition in [eqindist](){.eqref} that the lefhand side is smaller than $\tfrac{1}{p(L(n))}$ with the condition  that it is equal to $0$ then we get the perfect secrecy condition of [perfectsecrecy](){.ref}.
 Indeed if the distributions $E_k(x_0)$  and $E_k(x_1)$ are identical then applying any function $P$ to them we get the same expectation.
 On the other hand, if the two distributions above give a different probability for some element $y^*\in \{0,1\}^{m(n)}$, then the function $P(y)$ that outputs $1$ iff $y=y^*$ will have a different expectation under the former distribution than under the latter.
 
