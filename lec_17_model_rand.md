@@ -328,7 +328,7 @@ We will now (partially) answer both questions.
 
 For the first question, let us come clean and confess we do not know how to _prove_ that interesting pseudorandom generators exist.
 By _interesting_ we mean pseudorandom generators that satisfy that $\epsilon$ is some small constant (say $\epsilon<1/3$), $m>\ell$, and the function $G$ itself can be computed in $poly(m)$ time.
-Nevertheless, [prgexist](){.ref} (whose statement and proof is deferred to the end of this chapter) shows that if we only drop the last  condition (poltnomial-time computability), then there do in fact exist pseudorandom generators where $m$ is _exponentially larger_  than $\ell$.
+Nevertheless, [prgexist](){.ref} (whose statement and proof is deferred to the end of this chapter) shows that if we only drop the last  condition (polynomial-time computability), then there do in fact exist pseudorandom generators where $m$ is _exponentially larger_  than $\ell$.
 
 > # { .pause }
 At this point you might want to skip ahead and  look at the _statement_ of [prgexist](){.ref}. However, since its _proof_ is somewhat subtle, I recommend you defer reading it until you've finished reading the rest of this lecture.
