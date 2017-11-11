@@ -426,10 +426,42 @@ From this point on began a flurry of advances in cryptography which hasn't reall
 
 ### Public key encryption, trapdoor functions and pseudrandom generators
 
-A  _public key encryption_ consists of a triple of algorithms.
+A  _public key encryption_ consists of a triple of algorithms:
+
+* The _key generation algorithm_, which we denote by $KeyGen$ or $KG$ for short, is a randomized algorithm that outputs a pair of strings $(e,d)$ where $e$ is known as the _public_ (or _encryption_) key, and $d$ is known as the _private_ (or _decryption_) key.
+The key generation algorithm gets as input $1^n$ (i.e., a string of ones of length $n$): we defer to $n$ as the _security parameter_ of the scheme.
+The bigger we make $n$, the more secure the encryption will be, but also the less efficient it will be.
+
+* The _encryption algorithm_, which we denote by $E$, takes the encryption key $e$ and a plaintext $x$, and outputs the ciphertext $y=E_e(x)$.
+
+* The _decryption algorithm_, which we denote by $D$, takes the decryption key $d$ and a ciphertext $y$, and outputs the plaintext $x=D_d(y)$.
 
 
 
+![In a _public key encryption_, Alice generates a private/public keypair $(e,d)$,  publishes $e$ and keeps $d$ secret. To encrypt a message for Alice, one only needs to know $e$. To decrypt it we need to know $d$.](../figure/publickeyenc.png){#publickeyencfig .class width=300px height=300px}
+
+We now make this a formal definition:
+
+> # {.definition title="Public Key Encryption" #publickeyencdef}
+A _computationally secret public key encryption_ with plaintext length $L:\N \rightarrow \N$ is a triple of randomized polynomial-time algorithms $(KG,E,D)$ that satisfy the following conditions:
+>
+* For every $n$, if $(e,d)$ is output by $KG(1^n)$ with positive probability, and $x\in \{0,1\}^{L(n)}$, then $D_d(E_e(x))=x$ with probability one.
+>
+* For every polynomial $p$, and sufficiently large $n$, if $P$ is a NAND program of at most $p(n)$ lines then for every $x,x'\in \{0,1\}^{L(n)}$, $\| \E[ P(e,E_e(x))] - \E[P(e,E_e(x'))] \| < 1/p(n)$, where this probability is taken over the coins of $KG$ and $E$.
+
+Note that we allowed $E$ and $D$ to be _randomized_ as well.
+In fact, it turns out that it is _necessary_ for $E$ to be randomized to obtain computational secrecy.
+It also turns out that, unlike the private key case, obtaining public key encryption for a _single bit of plaintext_ is sufficient for obtaining public key encryption for arbitrarily long messages.
+In particular this means that we cannot obtain a perfectly secret public key encryption scheme.
+
+We will not give full constructions for public key encryption schemes in this lecture, but will mention some of the ideas that underly the most widely used schemes today.
+These generally belong to one of two families:
+
+* _Group theoretic constructions_ based on  problems such as _integer factoring_, and the  _discrete logarithm_ over finite fields or elliptic curves.
+
+* _Lattice/coding based constructions_ based on problems such as the _closest vector in a lattice_ or  _bounded distance decoding_.
+
+The former type are more widely implemented, but the latter are recently on the rise, particularly because encryption schemes based on the former can be broken by _quantum computers_, which we'll discuss later in  this  course.
 
 ## Lecture summary
 
