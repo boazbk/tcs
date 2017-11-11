@@ -233,12 +233,9 @@ This demonstrates that $F_n$ has a polynomial sized NAND program, hence completi
 The proof of [rnandthm](){.ref} actually yields more than its statement. We can use the same "unrolling the loop" arguments we've used before to show that the restriction to $\{0,1\}^n$ of every function in $\mathbf{BPP}$ is also computable by a polynomial-size RNAND program (i.e., NAND program with the `RAND` operation), but like in the $\mathbf{P}$ vs $SIZE(poly(n))$ case, there are functions outside $\mathbf{BPP}$ whose restrictions can be  computed  by polynomial-size  RNAND programs.
 Nevertheless the proof of [rnandthm](){.ref} shows that even such functions can be computed by polynomial sized NAND programs without using the `rand` operations.
 This can be phrased as saying   that $BPSIZE(T(n)) \subseteq SIZE(O(n T(n)))$ (where $BPSIZE$ is defined in the natural way using RNAND progams).
-[rnandthm](){.ref} can also be phrased as saying  that $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$, and the stronger result can be phrased as $\mathbf{BPP_{/poly}} \subseteq \mathbf{P_{/poly}}$.
+[rnandthm](){.ref} can also be phrased as saying  that $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$, and the stronger result can be phrased as $\mathbf{BPP_{/poly}} = \mathbf{P_{/poly}}$.
 
 
-
-
-It shows not just that every function in $\mathbf{BPP}$ can be computed by polynomial size NAND programs, but that even a function
 
 
 
@@ -247,10 +244,13 @@ It shows not just that every function in $\mathbf{BPP}$ can be computed by polyn
 The proof of [rnandthm](){.ref} can be summarized as follows:  we can replace a $poly(n)$-time algorithm that tosses coins as it runs, with an algorithm that uses a single set of coin tosses $r^* \in \{0,1\}^{poly(n)}$ which will be good enough for all inputs of size $n$.
 Another way to say it is that for the purposes of computing functions, we do not need "online" access to random coins and can generate a set of  coins "offline" ahead of time, before we see the actual input.
 
-But the question of derandomizing _uniform_ computation, or equivalently, RNAND<< or RNAND++ programs, is a whole different matter.
+But this does not really help us with answering the question of whether $\mathbf{BPP}$ equals $\mathbf{P}$, since we still need to find a way to generate these "offline" coins.
 To derandomize an RNAND++ program we will need to come up with a _single_ deterministic algorithm that will work for _all input lengths_.
 That is, unlike in the case of RNAND programs, we cannot choose for every input length $n$ some string $r^* \in \{0,1\}^{poly(n)}$ to use as our random coins.
-Can we still do this, or does randomness add an inherent extra power for computation?
+
+
+
+Can we derandomize randomized algorithms, or does randomness add an inherent extra power for computation?
 This is a fundamentally interesting question  but is also of practical significance.
 Ever since people started to use randomized algorithms during the Manhattan project, they have been trying to remove  the need for randomness and replace it with numbers that are selected through some deterministic process.
 Throughout the years this approach has often been used successfully, though there have been a number of failures as well.^[One amusing anecdote is a [recent case](https://www.wired.com/2017/02/russians-engineer-brilliant-slot-machine-cheat-casinos-no-fix/) where scammers managed to predict the imperfect "pseudorandom generator" used by slot machines to cheat casinos. Unfortunately we don't know the details of how they did it, since the case was [sealed](https://www.plainsite.org/dockets/2j3mlaig6/missouri-eastern-district-court/usa-v-bliev-et-al/).]
