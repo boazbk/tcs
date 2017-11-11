@@ -339,18 +339,18 @@ At this point you might want to skip ahead and  look at the _statement_ of [prge
 The fact that there _exists_ a pseudorandom generator does not mean that there is one that can be efficiently computed.
 However, it turns out that we can turn complexity "on its head" and used the assumed _non existence_ of fast algorithms for problems such as 3SAT to obtain pseudorandom generators that can then be used to transform randomized algorithms into deterministic ones.
 This is known as the _Hardness vs Randomness_ paradigm.
-A number of results, most of whom are ourside the scope of this course, has led researchers to believe the following conjecture:
+A number of results along those lines, most of whom are ourside the scope of this course, has led researchers to believe the following conjecture:
 
 >__Optimal PRG conjecture:__ There is a polynomial-time computable function $PRG:\{0,1\}^* \rightarrow \{0,1\}$ that yields an _exponentially secure pseudorandom generator_.
-Specifically, there exists constants  $\delta, \epsilon >0$ such that for every $\ell$, if we let $m=2^{\epsilon \ell}$ and define $G:\{0,1\}^\ell \rightarrow \{0,1\}^m$ as $G(s)_i = PRG(s,i)$ for every $s\in \{0,1\}^\ell$ and $i \in [m]$, then $G$ is a $(2^{\delta \ell},2^{-\delta \ell})$ pseudorandom generator.
+Specifically, there exists a constant  $\delta >0$ such that for every $\ell$ and $m < 2^{\delta \ell}$, if we define $G:\{0,1\}^\ell \rightarrow \{0,1\}^m$ as $G(s)_i = PRG(s,i)$ for every $s\in \{0,1\}^\ell$ and $i \in [m]$, then $G$ is a $(2^{\delta \ell},2^{-\delta \ell})$ pseudorandom generator.
 
 > # { .pause }
-The "optimal PRG conjecture" is worthwhile reading more than once. What it posits is that we can obtain $(T,\epsilon)$ pseudorandom generator $G$ such that every output bit of $G$ can be computed in time polynomial in the length $\ell$ of the input, where $T$ is exponentially large in $\ell$ and $\epsilon$ is exponentially small in $\ell$. (Note that we could not hope for the entire output to be computable in $\ell$, as just writing the output down will take too long.)
+The "optimal PRG conjecture" is worth while reading more than once. What it posits is that we can obtain $(T,\epsilon)$ pseudorandom generator $G$ such that every output bit of $G$ can be computed in time polynomial in the length $\ell$ of the input, where $T$ is exponentially large in $\ell$ and $\epsilon$ is exponentially small in $\ell$. (Note that we could not hope for the entire output to be computable in $\ell$, as just writing the output down will take too long.)
 >
 To understand why we call such a pseudorandom generator "optimal", it is a great exercise to convince yourself that there exists no $(T,\epsilon)$ pseudorandom generator unless $T$ is larger than (say) $2^{2\ell}$ and $\epsilon$ is at least (say) $2^{-2\ell}$.
 For the former case note that if we allow a NAND program with much more than $2^\ell$ lines then this NAND program could "hardwire" inside it all the outputs of $G$ on all its $2^\ell$ inputs, and use that to distinguish between a string of the form $G(s)$ and a uniformly chosen string in $\{0,1\}^m$.
 For the latter case note that by trying to "guess" the input $s$, we can achieve a $2^{-\ell}$ advantage in distinguishing a pseudorandom and uniform input.
-But working out these details is a great exercise.
+But working out these details is a highly recommended exercise.
 
 
 
@@ -362,7 +362,7 @@ We now show that optimal pseudorandom generators are indeed very useful, by prov
 Suppose that the optimal PRG conjecture is true. Then $\mathbf{BPP}=\mathbf{P}$.
 
 > # {.proofidea data-ref="derandBPPthm"}
-The optimal PRG conjecture tells us that we can achieve _exponential expansion_ of $\ell$ truly random coins into $2^{\delta \ell}$ "pseudorandom coins".
+The optimal PRG conjecture tells us that we can achieve _exponential expansion_ of $\ell$ truly random coins into as many as $2^{\delta \ell}$ "pseudorandom coins".
 Looked at from the other direction, it allows us to reduce the need for randomness by taking an algorithm that uses $m$ coins and converting it into an algorithm that only uses $O(\log m)$ coins.
 Now an algorithm of the latter type by can be made fully deterministic by enumerating over all the $2^{O(\log m)}$ (which is polynomial in $m$) possiblities for its random choices.
 We now proceed with the proof details.
@@ -371,10 +371,11 @@ We now proceed with the proof details.
 > # {.proof data-ref="derandBPPthm"}
 Let $F\in \mathbf{BPP}$ and let $P$ be a NAND++ program and $a,b,c,d$ constants such that for every $x\in \{0,1\}^n$, $P(x)$ runs in at most $c\dot n^d$ steps and  $\Pr_{r\sim \{0,1\}^m}[ P(x;r) = F(x) ] \geq 2/3$.
 By "unrolling the loop" and hardwiring the input $x$, we can obtain for every input $x\in \{0,1\}^n$ a NAND program $Q_x$ of at most, say, $T=10c\dot n^d$ lines, that takes $m$ bits  of input and such that $Q(r)=P(x;r)$.
+>
 Now suppose that $G:\{0,1\}^\ell \rightarrow \{0,1\}$ is a $(T,0.1)$ pseudorandom generator.
-Then we could estimate $\Pr_{r\sim \{0,1\}^m}[ P(x;r) = 1 ]$ up to $0.1$ accuracy (and hence compute $F(x)$) in time which $O(T 2^\ell T')$ where $T'$ is the time that it takes to compute $G$.
+Then we could deterministically estimate $\Pr_{r\sim \{0,1\}^m}[ Q_x(r) = 1 ]$ up to $0.1$ accuracy (and hence compute $F(x)$) in time  $O(T \cdot 2^\ell \cdot m \cdot cost(G))$ where $cost(G)$ is the time that it takes to compute a single output bit of $G$.
 The reason is that we know that $\Pr_{s \sim \{0,1\}^\ell}[ Q_x(G(s)) = 1]$ will give us such an estimate, and we can compute this probability by simply trying all $2^\ell$ possibillites for $s$.
-Now, under the optimal PRG conjecture we can set $m = 2^{\delta \ell}$ or equivalently $\ell = \tfrac{1}{\delta}\log m$, and our total computation time is polynomial in $2^\ell = m^{1/\delta}$, which is polynomial in $m$ and hence in $n$.
+Now, under the optimal PRG conjecture we can set  $T = 2^{\delta \ell}$ or equivalently $\ell = \tfrac{1}{\delta}\log T$, and our total computation time is polynomial in $2^\ell = T^{1/\delta}$, and since $T \leq 10c \dot n^d$, this running time will be polynomial in $n$.
 
 
 ##  $\mathbf{P}=\mathbf{NP}$ and $\mathbf{BPP}$ vs $\mathbf{P}$
@@ -398,11 +399,6 @@ TO BE COMPLETED
 TO BE COMPLETED
 
 ## Non-constructive existence of pseudorandom generators
-
-
-
-
-### Existence of pseudorandom generators
 
 We now show that, if we don't insist on _constructivity_ of pseudorandom generators, then we can show that there exists  pseudorandom generators with output that  _exponentially larger_   in the input length.
 

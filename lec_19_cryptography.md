@@ -326,14 +326,104 @@ It turns out that if pseudorandom generators exist as in the optimal PRG conject
 The construction below is known as a [stream cipher](https://en.wikipedia.org/wiki/Stream_cipher), though perhaps a better name is the "derandomized one-time pad".
 It is widely used in practice with keys on the order of a few tens or hundreds of bits protecting many terrabytes or even petabytes of communication.
 
-> # {.theorem title="Derandomized one-time pad" #PRGtoENC}
-Let $T:\N \rightarrow \N$ be a nice time bound that is _super polynomial_ (i.e., for every constant $c$ and large enough $n$, $n^c < T(n)$.)
-If there is a polynomial-time computable 
 
-
-> # {.proof data-ref="PRGtoENC"}
 
 ![In  a _stream cipher_ or "derandomized one-time pad" we use a pseudorandom generator $G:\{0,1\}^n \rightarrow \{0,1\}^L$ to obtain an encryption scheme with a key length of $n$ and plaintexts of length $L$. We encrypt the plainted $x\in \{0,1\}^L$ with key $k\in \{0,1\}^n$ by the ciphertext $x \oplus G(k)$.](../figure/derandonetimepad.png){#derandonetimepadfig .class width=300px height=300px}
+
+
+> # {.theorem title="Derandomized one-time pad" #PRGtoENC}
+Suppose that the optimal PRG conjecture is true.
+Then for every constants $a,b$ there is   a computationally secret encryption scheme $(E,D)$ with plaintext length $L(n)$ at least $a\cdot n^b$.
+
+> # {.proofidea data-ref="PRGtoENC"}
+The proof is illustrated in [derandonetimepadfig](){.ref}. We simply take the one-time pad on $L$ bit plaintexts, but replace the key with $G(k)$ where $k$ is a string in $\{0,1\}^n$ and $G:\{0,1\}^n \rightarrow \{0,1\}^L$ is a pseudorandom generator.
+
+> # {.proof data-ref="PRGtoENC"}
+Since an exponential function of the form $2^{\delta n}$ grows faster than any polynomial of the form $an^b$,  under the optimal PRG conjecture we can obtain a polynomial-time computable $(2^{\delta n},2^{-\delta n})$ pseudorandom generator $G:\{0,1\}^n \rightarrow \{0,1\}^L$  for $L = \lceil a\cdot n^b \rceil$.
+We now define our encryption scheme as follows: given key $k\in \{0,1\}^n$ and plaintext $x\in \{0,1\}^L$, the encryption $E_k(x)$ is simply $x \oplus G(k)$.
+To decrypt a string $y \in \{0,1\}^m$ we output $y \oplus G(k)$.
+This is a valid encryption since $G$ is computable in polynomial time and $(x \oplus G(k)) \oplus G(k) = x \oplus (G(k) \oplus G(k))=x$ for every $x\in \{0,1\}^L$.
+>
+Computational secrecy follows from the condition of a pseudorandom generator.
+Suppose, towards a contradiction, that there is a polynomial $p$, NAND program $Q$ of at most $p(L)$ lines and  $x,x' \in \{0,1\}^{L(n)}$  such that
+$$
+\left| \E_{k \sim \{0,1\}^n}[ Q(E_k(x))] - \E_{k \sim \{0,1\}^n}[Q(E_k(x'))] \right| > \tfrac{1}{p(L)}
+$$
+which by the definition of our encryption scheme means that
+$$
+\left| \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \_{k \sim \{0,1\}^n}E[Q(G(k) \oplus x')] \right| > \tfrac{1}{p(L)} \;. \label{eqprgsecone}
+$$
+Now since (as we saw in the security analysis of the one-time pad), the distribution $r \oplus x$ and $r \oplus k'$ are identical, where $r\sim \{0,1\}^L$, it follows that
+$$
+\E_{r \sim \{0,1\}^L} [ Q(r \oplus x)] -  \E_{r \sim \{0,1\}^L} [ Q(r \oplus x')] = 0 \;.  \label{eqprgsectwo}
+$$
+By plugging [eqprgsectwo](){.eqref} into [eqprgsecone](){.eqref}  we can derive  that
+$$
+\left| \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \E_{r \sim \{0,1\}^L} [ Q(r \oplus x)] +  \E_{r \sim \{0,1\}^L} [ Q(r \oplus x')]  -  \_{k \sim \{0,1\}^n}E[Q(G(k) \oplus x')] \right| > \tfrac{1}{p(L)} \;. \label{eqprgsethree}
+$$
+(Please make sure that you can see why this is true.)
+Now we can use the _triangle inequality_ that $|A+B| \leq |A|+|B|$ for every two numbers $A,B$, applying it for $A= \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \E_{r \sim \{0,1\}^L} [ Q(r \oplus x)]$ and $B= \E_{r \sim \{0,1\}^L} [ Q(r \oplus x')]  -  \_{k \sim \{0,1\}^n}E[Q(G(k) \oplus x')]$ to derive  
+$$
+\left| \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \E_{r \sim \{0,1\}^L} [ Q(r \oplus x)] \right| + \left|  \E_{r \sim \{0,1\}^L} [ Q(r \oplus x')]  -  \_{k \sim \{0,1\}^n}E[Q(G(k) \oplus x')] \right| > \tfrac{1}{p(L)} \;. \label{eqprgsefour}
+$$
+In particular, either the first term or the second term of the lefthand-side of [eqprgsefour](){.eqref} must be at least $\tfrac{1}{2p(L)}$.
+Let us assume the first case holds (the second case is analyzed in exactly the same way).
+Then we get that
+$$
+\left| \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \E_{r \sim \{0,1\}^L} [ Q(r \oplus x)] \right| > \tfrac{1}{2p(L)} \;. \label{distingprgeq}
+$$
+But if we now define the NAND program $P_x$ that on input $r\in \{0,1\}^L$ outputs $Q(r \oplus x)$ then (since XOR of $L$ bits can be computed in $O(L)$ lines), we get that $P_x$ has $p(L)+O(L)$ lines and by [distingprgeq](){.eqref} it can distinguish between an input of the form $G(k)$ and an input of the form $r \sim \{0,1\}^k$ with advantage better than $\tfrac{1}{2p(L)}$.
+Since a polynomial is dominated by an exponential, if we make $L$ large enough, this will contradict the $(2^{\delta n},2^{-\delta n})$ security of the pseudorandom generator $G$.
+
+> # {.remark title="Stream ciphers in pracitce" #streamciphersrem}
+The two most widely used forms of encryption schemes in practice are _stream ciphers_ and _block ciphers_. (To make things more confusing, a block cipher is always used in some [mode of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation) and some of these modes effectively turn a block cipher into a stream cipher.)
+A block cipher can be thought as a sort of a "random invertible map" from $\{0,1\}^n$ to $\{0,1\}^n$, and can be used to construct a pseudorandom generator and from it a stream cipher, or to encrypt data directly using other modes of operations.
+There are a great many other security notions and considerations for encryption schemes beyond computational secrecy.
+Many of those involve handling scenarios such as  _chosen plaintext_, _man in the middle_, and _chosen ciphertext_ attacks, where the adversary is not just merely a passive eavesdropper but can influence the communication in some way.
+While this lecture is meant to give you some taste of the ideas behind cryptography, there is much more to know before applying it correctly to obtain secure applications, and a great many people have managed to get it wrong.
+
+## Public key cryptography
+
+People have been dreaming about heavier than air flight since at least the days of Leonardo Da Vinci (not to mention Icarus from the greek mythology).
+Jules Vern wrote with rather insightful details about going to the moon in 1865.  
+But, as far as I know, in all the thousands of years people have been using secret writing, until about 50 years ago no one  has considered the possibility of communicating securely
+without first exchanging a shared secret key.
+
+Yet in the late 1960's and early 1970's, several people started to question this "common wisdom".
+Perhaps the most surprising of these visionaries was an undergraduate student at Berkeley named Ralph Merkle.
+In the fall of 1974 he wrote in a [project proposal](http://www.merkle.com/1974/) for his computer security course that while "it might seem intuitively obvious that if two people have never had the opportunity to prearrange an encryption method, then they will be unable to communicate securely over an insecure channel... I believe it is false".
+The project proposal was rejected by his professor as "not good enough".
+Merkle later submitted a paper to the communication of the ACM where he apologized for the lack of references since he was unable to find any mention of the problem in the scientific literature, and the only source where he saw the problem even _raised_ was in a science fiction story.
+The paper was rejected with the comment that "Experience shows that it is extremely dangerous to transmit key information in the clear."
+Merkle showed that one can  design a protocol where Alice and Bob can use $T$ invocations of a hash function to exchange a key, but an adversary (in the random oracle model, though he of course didn't use this name) would need roughly $T^2$ invocations to break it. He conjectured that it may be possible to obtain such protocols where breaking is _exponentially harder_ than using them, but could not think of any concrete way to doing so.
+
+We only found out  much later that in the late 1960's, a few years before Merkle, James Ellis of the British Intelligence agency GCHQ was [having similar thoughts](http://cryptome.org/jya/ellisdoc.htm).
+His curiosity was spurred by an old World-War II manuscript from Bell labs that suggested the following way that two people could communicate securely over a phone line.
+Alice would inject noise to the line, Bob would relay his messages, and then Alice would subtract the noise to get the signal.
+The idea is that an adversary over the line sees only the sum of Alice's and Bob's signals, and doesn't know what came from what. This got James Ellis thinking whether it would be possible to achieve something like that digitally.
+As Ellis later recollected, in  1970 he realized that in principle this should be possible, since he could think of an hypothetical black box $B$ that on input a "handle" $\alpha$ and plaintext  $x$ would give a "ciphertext" $y$ and that there would be a secret key $\beta$ corresponding to $\alpha$, such that feeding $\beta$ and $y$ to the box would recover $x$.
+However, Ellis had no idea how to actually instantiate this box. He and others kept giving this question as a puzzle to bright new recruits until one of them, Clifford Cocks, came up in 1973 with a candidate solution loosely based on the factoring problem; in 1974 another GCHQ recruit, Malcolm Williamson,  came up with a solution using modular exponentiation.
+
+But among all those thinking of public key cryptography, probably the people who saw the furthest were two researchers at Stanford, Whit Diffie and Martin Hellman.
+They realized that with the advent of electronic communication, cryptography would find new applications beyond the military domain of spies and submarines, and they understood that in this new world of many users and point to point communication, cryptography will need to scale up.
+Diffie and Hellman envisioned an object which we now call "trapdoor permutation" though they called "one way trapdoor function" or sometimes simply "public key encryption".
+Though they didn't have full formal definitions, their idea was that this is an injective function that is easy (e.g., polynomial-time) to _compute_ but hard (e.g., exponential-time)  to _invert_.
+However, there is a certain _trapdoor_, knowledge of which  would allow polynomial time inversion.
+Diffie and Hellman argued that using such a trapdoor function, it would be possible for Alice and Bob to communicate securely _without ever having exchanged a secret key_.
+But they didn't stop there.
+They realized that protecting the _integrity_ of communication is no less important than protecting its _secrecy_.
+Thus they imagined that Alice could "run encryption in reverse" in order to certify or _sign_ messages.
+
+
+At the point, Diffie and Hellman were in a position not unlike  physicists who predicted that a certain particle should exist but without any experimental verification. Luckily they [met Ralph Merkle](http://cr.yp.to/bib/1988/diffie.pdf), and his ideas about a probabilistic _key exchange protocol_, together with a suggestion from their Stanford colleague [John Gill](https://profiles.stanford.edu/john-gill), inspired them to come up with what today is known as the _Diffie Hellman Key Exchange_ (which unbeknownst to them was found two years earlier at GCHQ by Malcolm Williamson).
+They published their paper ["New Directions in Cryptography"](https://www-ee.stanford.edu/~hellman/publications/24.pdf) in 1976, and it is considered to have brought about the birth of modern cryptography.
+
+The Diffie-Hellman Key Exchange is still widely used today for secure communication.
+However, it still felt short of providing Diffie and Hellman's  elusive trapdoor function.
+This was done the next year by Rivest, Shamir and Adleman who came up with the RSA trapdoor function, which through the framework of Diffie and Hellman yielded not just encryption but also signatures.^[A close variant of the  RSA function was   discovered earlier by Clifford Cocks at GCHQ, though as far as I can tell Cocks, Ellis and Williamson did not realize the application to digital signatures.]
+From this point on began a flurry of advances in cryptography which hasn't really died down till this day.
+
+
 
 
 ## Lecture summary
