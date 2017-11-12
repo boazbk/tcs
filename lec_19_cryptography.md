@@ -351,7 +351,7 @@ $$
 $$
 which by the definition of our encryption scheme means that
 $$
-\left| \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \_{k \sim \{0,1\}^n}E[Q(G(k) \oplus x')] \right| > \tfrac{1}{p(L)} \;. \label{eqprgsecone}
+\left| \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \E_{k \sim \{0,1\}^n}[Q(G(k) \oplus x')] \right| > \tfrac{1}{p(L)} \;. \label{eqprgsecone}
 $$
 Now since (as we saw in the security analysis of the one-time pad), the distribution $r \oplus x$ and $r \oplus k'$ are identical, where $r\sim \{0,1\}^L$, it follows that
 $$
@@ -359,7 +359,7 @@ $$
 $$
 By plugging [eqprgsectwo](){.eqref} into [eqprgsecone](){.eqref}  we can derive  that
 $$
-\left| \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \E_{r \sim \{0,1\}^L} [ Q(r \oplus x)] +  \E_{r \sim \{0,1\}^L} [ Q(r \oplus x')]  -  \_{k \sim \{0,1\}^n}E[Q(G(k) \oplus x')] \right| > \tfrac{1}{p(L)} \;. \label{eqprgsethree}
+\left| \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \E_{r \sim \{0,1\}^L} [ Q(r \oplus x)] +  \E_{r \sim \{0,1\}^L} [ Q(r \oplus x')]  -  \E_{k \sim \{0,1\}^n}[Q(G(k) \oplus x')] \right| > \tfrac{1}{p(L)} \;. \label{eqprgsethree}
 $$
 (Please make sure that you can see why this is true.)
 Now we can use the _triangle inequality_ that $|A+B| \leq |A|+|B|$ for every two numbers $A,B$, applying it for $A= \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \E_{r \sim \{0,1\}^L} [ Q(r \oplus x)]$ and $B= \E_{r \sim \{0,1\}^L} [ Q(r \oplus x')]  -  \_{k \sim \{0,1\}^n}E[Q(G(k) \oplus x')]$ to derive  
