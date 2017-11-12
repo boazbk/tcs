@@ -26,7 +26,7 @@ Therefore, to use the resulting measurements for randomized algorithms, one typi
 ![A mechanical coin tosser built for Percy Diaconis by  Harvard technicians Steve Sansone and Rick Haggerty](../figure/coin_tosser.jpg){#coinfig .class width=300px height=300px}
 
 In this lecture we focus on the second point - formally modeling probabilistic computation and studying its power.
-The first part is very easy.
+Modeling randomized computation is actually quite easy.
 We can add the following operations to our NAND, NAND++ and NAND<< programming languages:
 
 ~~~~ { .go .numberLines }
@@ -35,16 +35,16 @@ var := RAND
 
 where `var` is a variable.
 The result of applying this operation is that `var` is assigned a random bit in $\{0,1\}$.
-(Every time the `RAND` operation is involved it returns a fresh independent random bit.)
+(Every time the `RAND` operation is invoked it returns a fresh independent random bit.)
 We call the resulting languages RNAND, RNAND++, and RNAND<< respectively.
 
-We can use this to define the notion of a function being computed by a randomized $T(n)$ time algorithm for every nice tume bound $T:\N \rightarrow \N$, as well as the notion of a finite function being computed by a size $S$ randomized NAND program (or, equivalently, a randomized circuit with $S$ gates that correspond to either NAND or coin-tossing).
-However, for simplicity we we will not define this in full generality, but simply focus on the class of functions that are computable by randomized algorithms _running in polynomial time_, which by historical convention is known as $\mathbf{BPP}$:
+We can use this to define the notion of a function being computed by a randomized $T(n)$ time algorithm for every nice time bound $T:\N \rightarrow \N$, as well as the notion of a finite function being computed by a size $S$ randomized NAND program (or, equivalently, a randomized circuit with $S$ gates that correspond to either NAND or coin-tossing).
+However, for simplicity we we will not define randomized computation in full generality, but simply focus on the class of functions that are computable by randomized algorithms _running in polynomial time_, which by historical convention is known as $\mathbf{BPP}$:
 
 
 > # {.definition title="BPP" #BPPdef}
 Let $F:\in \{0,1\}^*\rightarrow \{0,1\}$.
-We say that $F\in \mathbf{BPP}$ if there is some constants $a,b\in \N$ and an RNAND++ program $P$ such that for every $x\in \{0,1\}^*$, on input $x$, the program $P$ halts within at most $a|x|^b$ steps and
+We say that $F\in \mathbf{BPP}$ if there exist  constants $a,b\in \N$ and an RNAND++ program $P$ such that for every $x\in \{0,1\}^*$, on input $x$, the program $P$ halts within at most $a|x|^b$ steps and
 $$
 \Pr[ P(x)= F(x)] \geq \tfrac{2}{3}
 $$
@@ -76,10 +76,10 @@ We start by showing the "only if" direction.
 Let $F\in \mathbf{BPP}$ and let $P$ be an RNAND++ program that computes $F$ as per [BPPdef](){.ref}, and let $a,b\in \N$ be such that on every input of length $n$, the program $P$ halts within at most $an^b$ steps.
 We will construct a NAND++ polynomial-time program $P'$ that computes a function $G$ satisfying the conditions of [eqBPPauxiliary](){.eqref}.
 As usual, we will allow ourselves some "syntactic sugar" in constructing this program, as it can always be eliminated with polynomial overhead.
-The program $P'$ will first read off the bits in  positions $n,n+1,n+2,\ldots,n+an^b-1$ of its input into the variables `r_0`, `r_1`, $\ldots$, `r_`$\expr{an^b-1}$.
+The program $P'$ will first copy the bits in  positions $n,n+1,n+2,\ldots,n+an^b-1$ of its input into the variables `r_0`, `r_1`, $\ldots$, `r_`$\expr{an^b-1}$.
 We will also assume we have access to an extra index variable `j` which we can increase and decrease (which of course can be simulated via syntactic sugar).
 The program $P'$ will run the same operations of $P$ except that it will replace a line of the form
-`foo := RAND` with the two lineas
+`foo := RAND` with the two lines
 `foo := r_j` amd `j   := j + 1`
 >
 One can easily verify that __(1)__ $P'$ runs in polynomial time and __(2)__  if the last $an^b$ bits of the input of $P'$ are chosen at random then its execution when its first $n$ inputs are $x$ is identical to an execution of $P(x)$.
@@ -89,13 +89,14 @@ The idea behind the construction of $P$ is simple: on input a string $x\in \{0,1
 We will then execute $P'$ on the input $x$ and `r_0`,$\ldots$,`r_`$\expr{an^b-1}$ (i.e., replacing every reference to the variable `x_`$\expr{n+k}$ with the variable `r_`$\expr{k}$).
 Once again, it is clear that if $P'$ runs in polynomial time then so will $P$, and for every input $x$ and $r\in \{0,1\}^{an^b}$, the output of $P$ on input $x$ and where the coin tosses outcome is $r$ is equal to $P'(xr)$.
 
-The characterization of $\mathbf{BPP}$ [randextrainput](){.ref} is reminiscent of the characterization of $\mathbf{NP}$  in [NP-def](){.ref}, with the randomness in the case of $\mathbf{BPP}$ playing the role of the solution in the case of $\mathbf{BP}$ but there are important differences between the two:
+The characterization of $\mathbf{BPP}$ [randextrainput](){.ref} is reminiscent of the characterization of $\mathbf{NP}$  in [NP-def](){.ref}, with the randomness in the case of $\mathbf{BPP}$ playing the role of the solution in the case of $\mathbf{NP}$ but there are important differences between the two:
 
-* While the definition of $\mathbf{NP}$ is "one sided": $F(x)=1$ if _there exists_ a solution $w$ such that $G(xw)=1$, the characterization of $\mathbf{BPP}$ is symmetric with respect to the cases $F(x)=0$ and $F(x)=1$.
+* The definition of $\mathbf{NP}$ is "one sided": $F(x)=1$ if _there exists_ a solution $w$ such that $G(xw)=1$ and $F(x)=0$ if _for every_ string $w$ of the appropriate length, $G(xw)=0$. In contrast, the characterization of $\mathbf{BPP}$ is symmetric with respect to the cases $F(x)=0$ and $F(x)=1$.
 
-* For this reason the relation between $\mathbf{NP}$ and $\mathbf{BPP}$ is not immediately clear, and indeed is not known whether $\mathbf{BPP} \subseteq \mathbf{NP}$, $\mathbf{NP} \subseteq \mathbf{BPP}$, or these two classes are incomprable. It is however known (with a non-trivial proof) that if $\mathbf{P}=\mathbf{NP}$ then  $\mathbf{BPP}=\mathbf{P}$.
+* For this reason the relation between $\mathbf{NP}$ and $\mathbf{BPP}$ is not immediately clear, and indeed is not known whether $\mathbf{BPP} \subseteq \mathbf{NP}$, $\mathbf{NP} \subseteq \mathbf{BPP}$, or these two classes are incomprable. It is however known (with a non-trivial proof) that if $\mathbf{P}=\mathbf{NP}$ then  $\mathbf{BPP}=\mathbf{P}$ (see [BPPvsNP](){.ref}).
 
-* Most importantly, while the definition of $\mathbf{NP}$ is "ineffective", since it does not yield a way of actually finding whether there exists a solution among the exponentially many possiblities. In contrast, the definition of $\mathbf{BPP}$ gives us a way to compute the function in practice by simply choosing the second input at random.
+
+* Most importantly,  the definition of $\mathbf{NP}$ is "ineffective", since it does not yield a way of actually finding whether there exists a solution among the exponentially many possiblities. In contrast, the definition of $\mathbf{BPP}$ gives us a way to compute the function in practice by simply choosing the second input at random.
 
 __"Random tapes"__ [randextrainput](){.ref} motivates sometimes considering the randomness of an RNAND++ (or RNAND<<) program  as an extra input, and so if $A$ is a randomized algorithm that on inputs of length $n$ makes at most $p(n)$ coin tosses, we will sometimes use the notation $A(x;r)$ (where $x\in \{0,1\}^n$ and $r\in \{0,1\}^{p(n)}$) to refer to the result of executing $x$ when the coin tosses of $A$ correspond to the coordinates of $r$.
 This second or "auxiliary" input is sometimes referred to as a "random tape", with the terminology coming from the model of randomized Turing machines.
@@ -115,11 +116,10 @@ The proof is the same as we've seen before in the maximum cut and other examples
 We use the Chernoff bound to argue that if we run the program $O(k/\epsilon^2)$ times, each time using fresh and independent random coins, then the probability that the majority of the answers will not be correct will be less than $2^{-k}$.
 
 > # {.proof data-ref="amplificationthm"}
-The proof is the same as we've seen in the maximum cut example.
 We can run $P$ on input $x$ for $t=10k/\epsilon^2$ times, using fresh randomness each one, to compute outputs $y_0,\ldots,y_{t-1}$. We output the value $y$ that appeared the largest number of times.
-Let $X_0$ be the random variable that is equal to $1$ if $y_i = F(x)$ and equal to $0$ otherwise.
+Let $X_i$ be the random variable that is equal to $1$ if $y_i = F(x)$ and equal to $0$ otherwise.
 Then all the random variables $X_0,\ldots,X_{t-1}$ are i.i.d.  and satisfy $\E [X_i] = \Pr[ X_i = 1] \geq 1/2 + \epsilon$.
-Hence by the Chernoff bound ([chernoffthm](){.ref}) the probability that the majority value is not correct (i.e., that  $\sum X_i \leq t/2$) is at most $\exp(-\epsilon^2 t/4) \leq 2^{-m}$.
+Hence by the Chernoff bound ([chernoffthm](){.ref}) the probability that the majority value is not correct (i.e., that  $\sum X_i \leq t/2$) is at most $2e^{-2\epsilon^2 t}  < 2^{-k}$ for our choice of $t$.
 
 There is nothing special about NAND<< in [amplificationthm](){.ref}. The same proof can be used to amplify randomized NAND or NAND++ programs as well.
 
@@ -214,14 +214,14 @@ such that for every $x\in \{0,1\}^n$
 $$
 \Pr_{r \sim \{0,1\}^m}[ P'(x;r)=F(x)] \geq 1 - 0.1\cdot 2^{-n} \;, \label{ampeq}
 $$
-where $m$ is the number of coin tosses that $P'$ uses on inputs of length $n$, and we use (as above) the notation $P'(x;r)$ to denote the execution of $P'$ on input $x$ and when the result of the coin tosses corresponds to the string $r$.
+where $m$ is the number of coin tosses that $P'$ uses on inputs of length $n$, and we use  the notation $P'(x;r)$ to denote the execution of $P'$ on input $x$ and when the result of the coin tosses corresponds to the string $r$.
 >
 For every $x\in \{0,1\}^n$, define the "bad" event $B_x$ to hold if $P'(x) \neq F(x)$, where the sample space for this event consists of the coins of $P'$.
 Then by [ampeq](){.eqref}, $\Pr[B_x] \geq  0.1\cdot 2^n$ for every $x \in \{0,1\}^n$.
-Since there are $2^n$ many such $x$'s, by the union bound we see that the probability that the _union_ of the events $\{ B_x \}_{x\in \{0,1\}^n}$ is at most $0.9$.
+Since there are $2^n$ many such $x$'s, by the union bound we see that the probability that the _union_ of the events $\{ B_x \}_{x\in \{0,1\}^n}$ is at most $0.1$.
 This means that if we choose $r \sim \{0,1\}^n$, then with probability at least $0.9$ it will be the case that for _every_ $x\in \{0,1\}^n$, $F(x)=P'(x;r)$.
 (Indeed, otherwise the event $B_x$ would hold for some $x$.)
-In particular it means that _there exists_ a particular $r^* \in \{0,1\}^m$ such that  
+In particular, because of the mere fact that the the probability of $\cup_{x \in \{0,1\}^n} B_x$ is smaller than $1$, this means that _there exists_ a particular $r^* \in \{0,1\}^m$ such that  
 $$P'(x;r^*)=F(x) \label{hardwirecorrecteq}
 $$
 for every $x\in \{0,1\}^n$.
@@ -244,7 +244,7 @@ This can be phrased as saying   that $BPSIZE(T(n)) \subseteq SIZE(O(n T(n)))$ (w
 The proof of [rnandthm](){.ref} can be summarized as follows:  we can replace a $poly(n)$-time algorithm that tosses coins as it runs, with an algorithm that uses a single set of coin tosses $r^* \in \{0,1\}^{poly(n)}$ which will be good enough for all inputs of size $n$.
 Another way to say it is that for the purposes of computing functions, we do not need "online" access to random coins and can generate a set of  coins "offline" ahead of time, before we see the actual input.
 
-But this does not really help us with answering the question of whether $\mathbf{BPP}$ equals $\mathbf{P}$, since we still need to find a way to generate these "offline" coins.
+But this does not really help us with answering the question of whether $\mathbf{BPP}$ equals $\mathbf{P}$, since we still need to find a way to generate these "offline" coins in the first place.
 To derandomize an RNAND++ program we will need to come up with a _single_ deterministic algorithm that will work for _all input lengths_.
 That is, unlike in the case of RNAND programs, we cannot choose for every input length $n$ some string $r^* \in \{0,1\}^{poly(n)}$ to use as our random coins.
 
@@ -352,7 +352,9 @@ For the former case note that if we allow a NAND program with much more than $2^
 For the latter case note that by trying to "guess" the input $s$, we can achieve a $2^{-\ell}$ advantage in distinguishing a pseudorandom and uniform input.
 But working out these details is a highly recommended exercise.
 
-
+We emphasize again that the optimal PRG conjecture is, as its name implies, a _conjecture_, and we still do not know how to _prove_ it.
+In particular, it is stronger than the conjecture that $\mathbf{P} \neq \mathbf{NP}$.
+But we do have some evidence for its truth.^[For more on the many interesting results and connections in the study of _pseudorandomness_, see [this monograph of Salil Vadhan](https://people.seas.harvard.edu/~salil/pseudorandomness/).]
 
 ### Usefulness of pseudorandom generators
 
