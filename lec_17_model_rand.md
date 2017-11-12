@@ -354,7 +354,10 @@ But working out these details is a highly recommended exercise.
 
 We emphasize again that the optimal PRG conjecture is, as its name implies, a _conjecture_, and we still do not know how to _prove_ it.
 In particular, it is stronger than the conjecture that $\mathbf{P} \neq \mathbf{NP}$.
-But we do have some evidence for its truth.^[For more on the many interesting results and connections in the study of _pseudorandomness_, see [this monograph of Salil Vadhan](https://people.seas.harvard.edu/~salil/pseudorandomness/).]
+But we do have some evidence for its truth.
+There is a spectrum of different types of pseudorandom generators, and there are weaker assumption than the optimal PRG conjecture that suffice to prove that $\mathbf{BPP}=\mathbf{P}$.
+In particular this is known to hold under the assumption that there exists a function $F\in \mathbb{TIME}(2^{O(n)})$ and $\epsilon >0$ such that for every sufficiently large  $n$, $F_n$ is not in $SIZE(2^{\epsilon n})$.
+The name "Optimal PRG conjecture" is non standard. This conjecture is sometimes known in the literature as the existence of exponentially strong pseudorandom functions.^[For more on the many interesting results and connections in the study of _pseudorandomness_, see [this monograph of Salil Vadhan](https://people.seas.harvard.edu/~salil/pseudorandomness/).]
 
 ### Usefulness of pseudorandom generators
 
