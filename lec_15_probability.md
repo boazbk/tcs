@@ -222,8 +222,8 @@ On the other hand, the events $\{x_0 = 1 \}$, $\{x_1 = 1\}$ and $\{ x_0 + x_1 = 
 
 ### Independent random variables
 
-We say that two random variables $X$ and $Y$ are independent if for every $u,v \in \R$, the events $\{ X=u \}$ and $\{ Y=t \}$ are independent.
-That is, $\Pr[ X=u \wedge Y=t]=\Pr[X=u]\Pr[Y=t]$.
+We say that two random variables $X:\{0,1\}^n \rightarrow \R$ and $Y:\{0,1\}^n \rightarrow \R$ are independent if for every $u,v \in \R$, the events $\{ X=u \}$ and $\{ Y=v \}$ are independent.^[We use $\{ X=u \}$ as shorthand for $\{ x \;|\; X(x)=u \}$.]
+In other words, $X$ and $Y$ are independent if $\Pr[ X=u \wedge Y=v]=\Pr[X=u]\Pr[Y=v]$ for every $u,v \in \R$.
 For example, if two random variables depend on the result of tossing different coins then they are independent:
 
 > # {.lemma  #indcoins}
@@ -245,22 +245,21 @@ $$
 
 
 
-Note that if $X$ and $Y$ are independent then
-
+Note that if $X$ and $Y$ are independent random variables then (if we let $S_X,S_Y$ denote all the numbers that have positive probability of being the output of $X$ and $Y$ respectively) it holds that:
 $$
 \begin{split}
-\E[ XY ] = \sum_{a,b} {\textstyle\Pr[X=a \wedge Y=b]}\cdot ab \; =^{(1)} \; \sum_{a,b} {\textstyle \Pr[X=a]\Pr[Y=b]}\cdot ab =^{(2)} \\
-\left(\sum_a {\textstyle \Pr[X=a]}\cdot a\right)\left(\sum_b {\textstyle \Pr[Y=b]}b\right) =^{(3)} \\
+\E[ XY ] = \sum_{a \in S_X,b \in S_Y} {\textstyle\Pr[X=a \wedge Y=b]}\cdot ab \; =^{(1)} \; \sum_{a \in S_X,b \in S_Y} {\textstyle \Pr[X=a]\Pr[Y=b]}\cdot ab =^{(2)} \\
+\left(\sum_{a \in S_X} {\textstyle \Pr[X=a]}\cdot a\right)\left(\sum_{b \in S_Y} {\textstyle \Pr[Y=b]}b\right) =^{(3)} \\
 \E[X] \E[Y]
 \end{split}
 $$
 where the first equality  ($=^{(1)}$) follows from the independence of $X$ and $Y$, the second equality ($=^{(2)}$) follows by "opening the parenthesis" of the righthand side, and the third inequality ($=^{(3)}$) follows from the definition of expectation.
 (This is not an "if and only if", see [noindnocorex](){.ref}.)
 
-If $X$ and $Y$ are independent random variables then so are $F(X)$ and $G(Y)$ for every functions $F,G:\R \rightarrow R$.
+Another useful fact is that if $X$ and $Y$ are independent random variables then so are $F(X)$ and $G(Y)$ for every functions $F,G:\R \rightarrow R$.
 This is intuitively true since learning $F(X)$ can only provide us with less information than learning $X$.
 Hence, if learning $X$ does not teach us anything about $Y$ (and so also about $F(Y)$) then neither will learning $F(X)$.
-Indeed, to prove this  we can write
+Indeed, to prove this  we can write for every $a,b \in \R$:
 
 $$
 \begin{split}
@@ -274,7 +273,7 @@ $$
 ### Collections of independent random variables.
 
 We can extend the notions of independence to more than two random variables.
-We say that  the random variables $X_0,\ldots,X_{n-1}$ are _mutually independent_ if for every $a_0,\ldots,a_{n-1}$ then
+We say that  the random variables $X_0,\ldots,X_{n-1}$ are _mutually independent_ if for every $a_0,\ldots,a_{n-1} \in \E$ then
 $$
 \Pr\left[X_0=a_0 \wedge \cdots \wedge X_{n-1}=a_{n-1}\right]=\Pr[X_0=a_0]\cdots \Pr[X_{n-1}=a_{n-1}]
 $$
