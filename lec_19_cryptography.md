@@ -1,5 +1,13 @@
 #  Cryptography
 
+> # { .objectives }
+* Definition of perfect secrecy \
+* The one-time pad encryption scheme \
+* Necessity of long keys for perfect secrecy \
+* Computational secrecy and the derandomized one-time pad. \
+* Public key encryption \
+* A taste of advanced topics \
+
 >_"Human ingenuity cannot concoct a cipher which human ingenuity cannot resolve."_, Edgar Allen Poe, 1841
 
 >_"I hope my handwriting, etc. do not give the impression I am just a crank or circle-squarer....  The significance of this conjecture [that certain encryption schemes are exponentially secure against key recovery attacks] .. is that it is  quite feasible to design ciphers that are effectively unbreakable. "_, John Nash, [letter to the NSA](https://www.nsa.gov/news-features/declassified-documents/nash-letters/assets/files/nash_letters1.pdf), 1955.
@@ -462,7 +470,99 @@ These generally belong to one of two families:
 
 * _Lattice/coding based constructions_ based on problems such as the _closest vector in a lattice_ or  _bounded distance decoding_.
 
-The former type are more widely implemented, but the latter are recently on the rise, particularly because encryption schemes based on the former can be broken by _quantum computers_, which we'll discuss later in  this  course.
+Group theory based encryptions are more widely implemented, but the lattice/coding schemes are recently on the rise, particularly because encryption schemes based on the former can be broken by _quantum computers_, which we'll discuss later in  this  course.^[If you want to learn more about the different types of public key assumptions, you can take a look [at my own survey on this topic](https://eccc.weizmann.ac.il/report/2017/065/).]
+
+As just one example of how public key encryption schemes are constructed, let us now describe the Diffie-Hellman key exchange.
+We describe the Diffie-Hellman protocol in a somewhat of an informal level, without presenting a full security analysis.
+
+The  computational problem underlying the Diffie Hellman protocol is the _discrete logarithm problem_.
+Let's suppose that $g$ is some integer.
+We can compute the map $x \mapsto g^x$ and also its _inverse_ $y \mapsto \log_g y$.^[One  way to compute a logarithm is by _binary search_: start with some interval $[x_{min},x_{max}]$ that is guaranteed to contain $\log_g y$. We can then test whether the inteveral's midpoint $x_{mid}$ satisfies $g^{x_{mid}} > y$, and based on that halve the size of the interval.]
+However, suppose now that we use _modular arithmetic_ and work modulo some prime number $p$.
+If $p$ has $n$ binary digits,  $g$ is in $[p]$, it is known how to compute the map $x \mapsto g^x \mod p$ in time polynomial in $n$. (This is not trivial, and is a great exercise for you to work this out.^[As a hint, start by showing that one can compute the map $k \mapsto g^{2^k} \mod p$ using $k$ modular multiplications modulo $p$. If you're stumped, you can look up [this Wikipedia entry](https://en.wikipedia.org/wiki/Exponentiation_by_squaring).])
+On the other hand, because of the "wraparound" property of modular arithmetic, we cannot run binary search to find the inverse of this map (known as the _discrete logarithm_).
+In fact, there is no known polynomial-time algorithm for computing the map $(g,x,p) \mapsto \log_g x \mod p$, where we define $\log_g x \mod p$ as the number $a \in [p]$ such that $g^a = x \mod p$.
+
+The Diffie-Hellman protocol for Bob to send a message to Alice is as follows:
+
+* __Alice:__ Chooses $p$ to be a random $n$ bit long prime (which can be done by choosing random numbers and running a primality testing algorithm on them), and $g$ and $a$ at random in $[p]$. She sends to Bob the triple $(p,g,g^a \mod p)$.
+
+* __Bob:__ Given the triple $(p,g,h)$, Bob  sends a message $x \in \{0,1\}^L$  to Alice by choosing $b$ at random in $[p]$, and sending to Alice the pair $(g^b \mod p, rep(h^b \mod p) \oplus x)$ where $rep:[p] \rightarrow \{0,1\}^*$ is some "representation  function"  that maps $[p]$ to $\{0,1\}^L$.^[The function $rep$ does not need to be one-to-one and you can think of $rep(z)$ as simply outputting  $L$ of the bits of $z$ in the natural binary representation. The function $rep$ does need to satisfy certain technical conditions which we omit in this description.]
+
+* __Alice:__ Given $g',z$, Alice recovers $x$ by outputting $rep(g'^a \mod p) \oplus z$.
+
+The correctness of the protocol follows from the simple fact that $(g^a)^b = (g^b)^a$ for every $g,a,b$ and this still holds if we work modulo $p$. Its security  The  relies on the computational assumption that computing this map is hard, even in a certain "average case" sense (this computational assumption is known as the [Decisional Diffie Hellman assumption](https://en.wikipedia.org/wiki/Decisional_Diffie%E2%80%93Hellman_assumption)).
+The Diffie-Hellman key exchange protocol can be thought of as a public key encryption where the Alice's first message is the public key, and Bob's message is the encryption.
+
+One can think of the Diffie-Hellman protocol as being based on a "trapdoor pseudorandom generator" whereas the triple $g^a,g^{b},g^{ab}$ looks "random" to someone that doesn't know $a$, but someone that does know $a$ can see that raising the second element to the $a$-th power yields the third element.
+The Diffie-Hellman protocol can be described abstractly in the context of any [finite Abelian group](https://en.wikipedia.org/wiki/Abelian_group) for which we can efficiently compute the group operation.
+It has been implemented on other groups than numbers modulo $p$, and in particular [Elliptic Curve Cryptography (ECC)](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography) is obtained by basing the Diffie Hellman on elliptic curve groups which gives some practical advantages.^[The main advantage in ECC is that the best known algorithms for computing discrete logarithms over elliptic curve groups take time $2^{\epsilon n}$ for some $\epsilon>0$ where $n$ is the number of bits  to describe a group element. In contrast, for the multiplicative group modulo a prime $p$ the best algorithm take time $2^{O(n^{1/3} polylog(n))}$ which means that (assuming the known algorithms are optimal) we need to set the prime to be bigger (and so have larger key sizes with corresponding overhead in communication and computation) to get the same level of security.]
+Another common group theoretic basis for key-exchange/public key encryption protocol is the RSA function.
+A big disadvantage of  Diffie-Hellman (both the modular arithmetic and elliptic curve variants) and RSA is that both schemes can be broken in polynomial time by a _quantum computer_.
+We will discuss quantum computing later in this course.
+
+## Other security notions
+
+There is a great deal to cryptography beyond just encryption schemes, and beyond the notion of a passive adversary.
+A central objective is _integrity_ or _authentication_: protecting communications from being modified by an adversary.
+Integerity is often more fundamental than secrecy: whether it is a software update or viewing the news, you might often not care about the communication being secret as much as that it indeed came  from its claimed  source.
+_Digital signature schemes_ are the analog of public key encryption for authentication, and are widely used (through the idea of [certificates](https://en.wikipedia.org/wiki/Public_key_certificate)) to provide a foundations of trust in the digital world.
+
+Similarly, even for encryption, we often need to ensure security against _active attacks_, and so notions such as non-malleability and [adaptive chosen ciphertext](https://en.wikipedia.org/wiki/Adaptive_chosen-ciphertext_attack) security have been proposed.
+An encryption scheme is only as secure as the secret key, and mechanisms to make sure the key is generated properly, and is protected against refresh or even compromise (i.e., [forward secrecy](https://en.wikipedia.org/wiki/Forward_secrecy)) have been studied as well.
+Hopefully this lecture provides you with some appreciation for cryptography as an intellectual field, but does not imbue you with a false self of condifence in implementing it.
+
+## Magic
+
+Beyond encryption and signature schemes, cryptographers have managed to obtain objects that truly seem paradoxical and "magical".
+We briefly discuss some of these objects.
+We do not give any details, but hopefully this will spark your curiosity to find out more.
+
+### Zero knowledge proofs
+
+On October 31, 1903, the mathematician Frank Nelson Cole, gave an hourlong lecture to a meeting of the American Mathematical Society where he did not speak a single word.
+Rather, he calculated on the board the value $2^{67}-1$ which is equal to $147,573,952,589,676,412,927$, and then showed that this number is equal to $193,707,721 \times 761,838,257,287$.
+Cole's proof showed that $2^{67}-1$ is not a prime, but it also revealed additional information, namely its actual factors.
+This is often the case with proofs: they teach us more  than just the validity of the statements.
+
+In _Zero Knowledge Proofs_  we try to achieve the opposite effect.
+We want a proof for a statement $X$ where we can _rigorously show_ that the proofs reveals _absolutely no additional information about $X$_ beyond the fact that it is true.
+This turns out to be an extremely useful object for a variety of tasks including authentication, secure protocols, voting, [anonimity in cryptocurrencies](https://z.cash/technology/zksnarks.html), and more.
+Constructing these objects relies on the theory of $\mathbf{NP}$ completeness.
+Thus this theory that originally was designed to give a _negative result_ (show that some problems are hard) ended up yielding _positive applications_, enabling us to achieve tasks that were not possible otherwise.
+
+
+### Fully homomorphic encryption
+
+Suppose that we are given a bit-by-bit encryption of a string $E_k(x_0),\ldots,E_k(x_{n-1})$.
+By design, these ciphertexts are supposed to be "completely unscrutable" and we should not be able to extract any information about $x_i$'s from it.
+However, already in 1978, Rivest,  Adleman and Dertouzos observed that this does not imply that we could not _manipulate_ these encryptions.
+For example, it turns out the security of an encryption scheme does not immediately  rule out the ability to take a pair of encryptions $E_k(a)$ and $E_k(b)$ and compute from them $E_k(a NAND b)$ _without knowing the secret key $k$_.
+But do there exist  encryption schemes that allow such manipulations? And if so, is this a bug or a feature?
+
+Rivest et al already showed that such encryption schemes could be _immensely_ useful, and their utility has only grown in the age of cloud computing.
+After all, if we can compute NAND then we can use this to run any algorithm $P$ on the encrypted data, and map $E_k(x_0),\ldots,E_k(x_{n-1})$ to $E_k(P(x_0,\ldots,x_{n-1}))$.
+For example, a client could store their secret data $x$ in encrypted form on the cloud, and have the cloud provider perform all sorts of computation on these data without ever revealing to the provider the private key, and so without the provider _ever learning any information_ about the secret data.
+
+The first question took much longer time to resolve. Only in 2009 Craig Gentry gave the first construction of an encryption scheme that allows to compute a universal basis of gates on the data (known as a _Fully Homomorphic Encryption scheme_ in crypto parlance).
+Gentry's scheme left much to be desired in terms of efficiency, and improving upon it has been the focus of an intensive research program that has already seen significant improvements.
+
+### Multiparty secure computation
+
+Cryptography is about enabling mutually distrusting parties to achieve a common goal.
+Perhaps the most general primitive achieving this objective is [secure multiparty computation](https://en.wikipedia.org/wiki/Secure_multi-party_computation).
+The idea in secure multiparty computation is that $n$ parties interact together to compute some  function  $F(x_0,\ldots,x_{n-1})$ where $x_i$ is the private input of the $i$-th party.
+The crucial point is that there is _no commonly trusted party or authority_ and that nothing is revealed about the secret data beyond the function's output.
+One example is an _electronic voting protocol_ where only the total vote count is revealed, with the privacy of the individual voters protected, but without having to trust any authority to either count the votes correctly or to keep information confidential.
+Another example is implementing a [second price (aka Vickery) auction](https://en.wikipedia.org/wiki/Vickrey_auction) where $n-1$ parties submit bids to an item owned by the $n$-th party, and the item goes to the higest bidder but at the price of the _second highest bid_.
+Using secure multiparty computation we can implement second price auction in a way that will ensure the secrecy of the numerical values of all bids (including even the top one) except the second highest one, and the secrecy of the identity of all bidders (including even the second highest bidder) except the top one.
+We emphasize that such a protocol requires no trust even in the auctioneer itself, that will also not learn any additional information.
+Secure multiparty computation can be used even for computing  _randomized_  processes, with one example being playing Poker over the net without having to trust any server for correct shuffling of cards or not revealing the information.
+
+
+
+
+
 
 ## Lecture summary
 
@@ -484,6 +584,19 @@ However, he hus struggled with mental illness throughout his life.
 His biography, [A Beautiful Mind](https://en.wikipedia.org/wiki/A_Beautiful_Mind_(book)) was made into a popular movie.
 It is natural to compare Nash's 1955 letter to the NSA to Gödel's letter to von Neumann we mentioned before.
 From the theoretical computer science point of view, the crucial difference is that while Nash informally talks about exponential vs polynomial computation time, he does not mention the word "Turing Machine" or other models of computation, and it is not clear if he is aware or not that his conjecture can be made mathematically precise (assuming a formalization of "sufficiently complex types of enciphering").
+
+The definition of computational secrecy we use is the notion of _computational indistinguishability_ (known to be equivalent to _semantic security_) that was given by Goldwasser and Micali in 1982.
+
+
+Although they used a different terminology, Diffie and Hellman already made clear in their paper that their protocol can be used as a public key encryption, with the first message being put in a "public file".
+In 1985, ElGamal showed how to obtain  a _signature scheme_ based on the Diffie Hellman ideas, and since he described the Diffie-Hellman encryption scheme in the same paper, it is sometimes also known  as ElGamal encryption.
+
+Zero-knowledge proofs were constructed by Goldwasser, Micali, and Rackoff in 1982, and their wide applicability was shown (using the theory of $\mathbf{NP}$ completeness) by Goldreich, Micali, and Wigderson in 1986.
+
+Two party and multiparty secure computation protocols were constructed (respectively) by Yao in 1982 and Goldreich, Micali, and Wigderson in 1987.
+The latter work gave  a general transformation from security against passive adversaries to security against active adversaries using zero knowledge proofs.
+
+
 
 
 ## Further explorations
