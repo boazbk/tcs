@@ -259,7 +259,7 @@ Unfortunately it turns out that (as shown by Shannon) that such long keys are _n
 
 
 > # {.theorem title="Perfect secrecy requires long keys" #longkeysthm}
-For every perfectly secret encryption scheme $(E,D)$ the length function $L$ satisfies $L(n) \geq n$.
+For every perfectly secret encryption scheme $(E,D)$ the length function $L$ satisfies $L(n) \leq n$.
 
 > # {.proofidea data-ref="longkeysthm"}
 The idea behind the proof is illustrated in [longkeygraphfig](){.ref}. If the number of keys is smaller than the number of messages then the neighborhoods of all vertices in the corresponding graphs cannot be identical.
