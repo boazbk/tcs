@@ -2,7 +2,7 @@
 
 >_"Human ingenuity cannot concoct a cipher which human ingenuity cannot resolve."_, Edgar Allen Poe, 1841
 
->_"I hope my handwriting, etc. do not give the impression I am just a crank or circle-squarer....  a logical way to classify enciphering processes is by the way in which the computation [of key recovery attack]... increases with increasing length of the key. This is at best exponential and at worst probably at most a relatively small power of [the key length]... The significance of this conjecture [that certain encryption schemes are exponentially secure against key recovery attacks] .. is that it is  quite feasible to design ciphers that are effectively unbreakable. "_, John Nash, [letter to the NSA](https://www.nsa.gov/news-features/declassified-documents/nash-letters/assets/files/nash_letters1.pdf), 1955.
+>_"I hope my handwriting, etc. do not give the impression I am just a crank or circle-squarer....  The significance of this conjecture [that certain encryption schemes are exponentially secure against key recovery attacks] .. is that it is  quite feasible to design ciphers that are effectively unbreakable. "_, John Nash, [letter to the NSA](https://www.nsa.gov/news-features/declassified-documents/nash-letters/assets/files/nash_letters1.pdf), 1955.
 
 >_"“Perfect Secrecy” is defined by requiring of a system
 that after a cryptogram is intercepted by the enemy the a posteriori
@@ -26,7 +26,7 @@ cryptosystems.
 Yet, something changed in the last few decades, which is the "revolution" alluded to (and to a large extent initiated by) Diffie and Hellman's 1976 paper quoted above.
 New cryptosystems have been found that have not been broken despite being subjected to immense
 efforts involving both human ingenuity and computational power on a scale that
-completely dwarves the "crypto breakers" of Poe's time. Even more amazingly,
+completely dwarves the "code breakers" of Poe's time. Even more amazingly,
 these cryptosystem are not only seemingly unbreakable, but they also achieve
 this under much harsher conditions. Not only do today's attackers have more
 computational power but they also have more data to work with. In Poe's age, an
@@ -36,7 +36,7 @@ terabytes or more - at their disposal. In fact, with *public key* encryption,
 an attacker can generate as many ciphertexts as they wish.
 
 The key to this success has been a clearer understanding of both how to _define_ security for cryptographic tools and how to relate this security to _concrete computational problems_.
-Cryptography is a vast and continuously changing topic, but we will touch on some of these issues in this paper.
+Cryptography is a vast and continuously changing topic, but we will touch on some of these issues in this lecture.
 
 ## Classical cryptosystems
 
@@ -61,12 +61,12 @@ Trusting in superficial security measures (such as using "inscrutable" symbols) 
 (As in many things, this is the subject of a great XKCD cartoon, see [XKCDnavajofig](){.ref}.)
 
 
-![On the added security of using uncommon symbols](../figure/code_talkers.png){#XKCDnavajofig .class width=300px height=300px}
+![XKCD's take on the added security of using uncommon symbols](../figure/code_talkers.png){#XKCDnavajofig .class width=300px height=300px}
 
 ## Defining encryption
 
 Many of the troubles that cryptosystem designers faced over history (and still face!) can be attributed to not properly defining or understanding what are the goals they want to achieve in the first place.
-Let us focus on the setting of _private key encryption_.^[If you don't know what "private key" means, you can ignore this adjective for now. For thousands of years, "private key encryption" was synonymous with encryption. Only in the 1970's was the concept of _public key encryption_ invented.]
+Let us focus on the setting of _private key encryption_.^[If you don't know what "private key" means, you can ignore this adjective for now. For thousands of years, "private key encryption" was synonymous with encryption. Only in the 1970's was the concept of _public key encryption_ invented, see [publickeyencdef](){.ref}.]
 A _sender_ (traditionally called "Alice") wants to send a message (known also as a _plaintext_) $x\in \{0,1\}^*$ to a _receiver_ (traditionally called "Bob").
 They would like their message to be kept secret from an _adversary_ who listens in or "eavesdrops" on the communication channel (and is traditionally called "Eve").
 
@@ -82,7 +82,7 @@ $$
 D(k,E(k,x))=x \;. \label{eqvalidenc}
 $$
 
-We will sometimes write the first input (i.e., the key) to the encryption and decryption as a subscript and so can write [eqvalidenc](){.eqref} also as  $D_k(E_k(x))=x$.
+We will often write the first input (i.e., the key) to the encryption and decryption as a subscript and so can write [eqvalidenc](){.eqref} also as  $D_k(E_k(x))=x$.
 
 ## Defining security of encryption
 
@@ -104,7 +104,7 @@ well take the opportunity to exchange their secrets.
 These considerations led  Auguste Kerchoffs in 1883 to state the following principle:
 
 >_A cryptosystem should be secure even if everything about the system, except
-the key, is public knowledge._ ^[The actual quote is "Il faut qu’il n’exige pas le secret, et qu’il puisse sans inconvénient tomber entre les mains de l’ennemi"  loosely translated as
+the key, is public knowledge._^[The actual quote is "Il faut qu’il n’exige pas le secret, et qu’il puisse sans inconvénient tomber entre les mains de l’ennemi"  loosely translated as
 "The system must not require secrecy and can be stolen by the enemy without
 causing trouble". According to Steve Bellovin the NSA version is "assume that the first
 copy of any device we make is shipped to the Kremlin".]
@@ -131,9 +131,9 @@ If you think about encryption scheme security for a while, you might come up wit
 However,  a moment's thought shows that the key is not really what we're trying to protect.
 After all, the whole point of an encryption is to protect the confidentiality of the _plaintext_ $x$.
 So, we can try to define  that _"an encryption scheme is secure if it is not possible to recover the plaintext $x$ from $E_k(x)$"_.
-Yet it is not clear that it means.
+Yet it is not clear what this means either.
 Suppose that an encryption scheme reveals the first 10 bits of the plaintext $x$.
-It might still not be possible to recover $x$ completely, but on an intuitive level, this seems like it would be extremely unwise to use it in practice.
+It might still not be possible to recover $x$ completely, but on an intuitive level, this seems like it would be extremely unwise to use such an encryption scheme in practice.
 Indeed, often even _partial information_ about the plaintext is enough for the adversary to achieve its goals.
 
 The above thinking led Shannon in 1945 to formalize the notion of _perfect secrecy_, which is that an encryption reveals absolutely nothing about the message.
@@ -142,15 +142,15 @@ There are several equivalent ways to define it, but perhaps the cleanest one is 
 > # {.definition title="Perfect secrecy" #perfectsecrecy}
 A valid encryption scheme $(E,D)$ with length $L(\cdot)$ is _perfectly secrect_ if for every $n\in \N$ and plaintexts $x,x' \in \{0,1\}^{L(n)}$, the following two distributions $Y$ and $Y'$ over $\{0,1\}^*$ are identical:
 >
-* The distribution $Y$ is obtained by sampling a random $k\sim \{0,1\}^n$ and outputting $E_k(x)$.
+* $Y$ is obtained by sampling a random $k\sim \{0,1\}^n$ and outputting $E_k(x)$.
 >
-* The distribution $Y$ is obtained by sampling a random $k\sim \{0,1\}^n$ and outputting $E_k(x')$.
+* $Y'$ is obtained by sampling a random $k\sim \{0,1\}^n$ and outputting $E_k(x')$.
 
 > # { .pause }
-This definition might take more than one reading to parse. Try to think of how this condition would correspond to your intuitive notion of "learning no information" about $x$ from observing $E_k(x)$.
+This definition might take more than one reading to parse. Try to think of how this condition would correspond to your intuitive notion of "learning no information" about $x$ from observing $E_k(x)$, and to Shannon's quote in the beginning of this lecture.
 In particular, suppose that you knew ahead of time that Alice sent either an encryption of $x$ or an encryption of $x'$. Would you learn anything new from observing the encryption of the message that Alice actually sent? It may help you to look at [perfectsecfig](){.ref}.
 
-![For any key length $n$, we can visualize an encryption scheme $(E,D)$ as a graph where we put a vertex for every one of the $2^{L(n)}$ possible plaintexts and for every one of the ciphertexts in $\{0,1\}^*$ that can be output by $E$ on a length $n$ key and length $L(n)$ plaintext. We connect a plaintext $x$ and a ciphertext $y$ by an edge if there is some key $k$ such that $E_k(x)=y$, and in this case we label the edge by $k$.  By the validity condition, if we pick any fixed key $k$, the map $x \mapsto E_k(x)$ must be one-to-one. If we make the (mild) assumption that any two distinct keys map $x$ to distinct ciphertext, each plaintext vertex will have degree $2^n$ in this graph. In such a case the condition of perfect secrecy simply corresponds to the condition that every two    plaintexts $x$ and $x'$, the set of neighbors of $x$ is the same as the set of neighbors of $x'$.](../figure/perfectsecrecy.png){#perfectsecfig .class width=300px height=300px}
+![For any key length $n$, we can visualize an encryption scheme $(E,D)$ as a graph with a  vertex for every one of the $2^{L(n)}$ possible plaintexts and for every one of the ciphertexts in $\{0,1\}^*$ of the form $E_k(x)$ for $k\in \{0,1\}^n$ and $x\in \{0,1\}^{L(n)}$. For every plaintext $x$ and key $k$, we add an edge labeled $k$ between $x$ and $E_k(x)$. By the validity condition, if we pick any fixed key $k$, the map $x \mapsto E_k(x)$ must be one-to-one. The condition of perfect secrecy simply corresponds to requiring that every two    plaintexts $x$ and $x'$ have exactly the same set of neighbors (or multi-set, if there are parallel edges).](../figure/perfectsecrecy.png){#perfectsecfig .class width=300px height=300px}
 
 ### Example: Perfect secrecy in the battlefield
 
@@ -158,7 +158,7 @@ To understand [perfectsecrecy](){.ref}, suppose that Alice sends only one of two
 Let us put ourselves in the shoes of _Eve_, the eavesdropping adversary.
 A priori we would have guessed that Alice sent either $x_0$ or $x_1$ with probability $1/2$.
 Now we observe $y=E_k(x_i)$ where $k$ is a uniformly chosen key in $\{0,1\}^n$.
-How does this new information cause us to update our beliefs on whether Alice sent $x_0$ or $x_1$?
+How does this new information cause us to update our beliefs on whether Alice sent the plaintext $x_0$ or the plaintext $x_1$?
 
 > # { .pause }
 Before reading the next paragraph, you might want to try the analysis yourself.
@@ -168,7 +168,7 @@ Let us define $p_0(y)$ to be the probability (taken over $k\sim \{0,1\}^n$) that
 Note that, since Alice chooses the message to send at random, our a priori probability for observing $y$ is $\tfrac{1}{2}p_y(0) + \tfrac{1}{2}p_y(1)$.
 However, as per [perfectsecrecy](){.ref},   the perfect secrecy condition guarantees that $p_y(0)=p_y(1)$!
 Let us denote the number $p_y(0)=p_y(1)$ by $p$.
-By the formula for conditional probability, the probability that Alice sent the message $x_0$ conditioned on our observation $y$ is simply^[The equation [bayeseq](){.eqref} is a special case of [Bayes' rule](https://en.wikipedia.org/wiki/Bayes%27_theorem) which, although a simple restatement of the formula for conditional probability, is an extremely important and widely used tool in statistics and data analysis.]
+By the formula for conditional probability, the probability that Alice sent the message $x_0$ conditioned on our observation $y$ is simply^[The equation [bayeseq](){.eqref} is a special case of _Bayes' rule_ which, although a simple restatement of the formula for conditional probability, is an extremely important and widely used tool in statistics and data analysis.]
 $$
 \Pr[i=0 | y=E_k(x_i)] = \frac{\Pr[i=0 \wedge y = E_k(x_i)]}{\Pr[y = E_k(x)]} \;. \label{bayeseq}
 $$
@@ -195,14 +195,12 @@ Such a scheme is illustrated in [onetimepadtwofig](){.ref}
 
 In fact, this can be generalized to any number of bits:
 
-![In the _one time pad_ encryption scheme we encrypt a plaintext $x\in \{0,1\}^n$ with a key $k\in \{0,1\}^n$ by the ciphertext $x \oplus k$ where $\oplus$ denotes the bitwise XOR operation.](../figure/onetimepad.png){#onetimepadfig .class width=300px height=300px}
-
 
 > # {.theorem title="One Time Pad (Vernam 1917, Shannon 1949)" #onetimepad}
 There is a perfectly secret valid encryption scheme $(E,D)$ with $L(n)=n$.
 
 > # {.proofidea data-ref="onetimepad"}
-The idea is known as the [one-time pad](https://en.wikipedia.org/wiki/One-time_pad) also known as the "Vernam Cipher", see [onetimepadfig](){.ref}.
+Our scheme is the [one-time pad](https://en.wikipedia.org/wiki/One-time_pad) also known as the "Vernam Cipher", see [onetimepadfig](){.ref}.
 The encryption is exceedingly simple: to encrypt a message $x\in \{0,1\}^n$ with a key $k \in \{0,1\}^n$ we simply output $x \oplus k$ where $\oplus$ is the bitwise XOR operation that
 outputs the string corresponding to XORing each  coordinate of $x$ and $k$.
 
@@ -218,6 +216,9 @@ To analyze the perfect secrecy property, we claim that for every $x\in \{0,1\}^n
 Indeed, for every particular $y\in \{0,1\}^n$, the value $y$ is output by $Y_x$ if and only if $y = x \oplus k$ which holds if and only if $k= x \oplus y$. Since $k$ is chosen uniformly at random in $\{0,1\}^n$, the probability that $k$ happens to equal $k \oplus y$ is exactly $2^{-n}$, which means that every string $y$ is output by $Y_x$ with probability $2^{-n}$.
 
 
+![In the _one time pad_ encryption scheme we encrypt a plaintext $x\in \{0,1\}^n$ with a key $k\in \{0,1\}^n$ by the ciphertext $x \oplus k$ where $\oplus$ denotes the bitwise XOR operation.](../figure/onetimepad.png){#onetimepadfig .class width=300px height=300px}
+
+
 > # { .pause }
 The argument above is quite simple but is worth reading again. To understand why the one-time pad is perfectly secret, it is useful to envision it as a bipartite graph as we've done in [onetimepadtwofig](){.ref}. (In fact the encryption scheme of [onetimepadtwofig](){.ref} is precisely the one-time pad for $n=2$.) For every $n$, the one-time pad encryption scheme corresponds to a bipartite graph with $2^n$  vertices on the "left side" corresponding to the plaintexts in $\{0,1\}^n$ and $2^n$  vertices on the "right side" corresponding to the ciphertexts $\{0,1\}^n$.
 For every $x\in \{0,1\}^n$ and $k\in \{0,1\}^n$, we connect $x$ to the vertex $y=E_k(x)$ with an edge that we label with $k$.
@@ -230,7 +231,7 @@ This ensures  the perfect secrecy condition.
 So, does [onetimepad](){.ref} give the final word on cryptography, and means that we can all communicate with perfect secrecy and live happily ever after?
 No it doesn't.
 While the one-time pad is efficient, and gives perfect secrecy, it has one glaring disadvantage: to communicate $n$ bits you need to store a key of length $n$.
-In contrast, practically used cryptosystems such as AES-128 have a short key of $128$ bits (i.e., $16$ bytes) that can be used to protect Terrabytes or more of communication!
+In contrast, practically used cryptosystems such as AES-128 have a short key of $128$ bits (i.e., $16$ bytes) that can be used to protect terrabytes or more of communication!
 Imagine that we all needed to use the one time pad.
 If that was the case, then if you had to communicate with $m$ people, you would have to  maintain (securely!)
 $m$ huge files that are each as long as the length of the maximum total communication you expect with that person.
@@ -268,13 +269,13 @@ Let $E,D$ be a valid encryption scheme with messages of length $L$ and key of le
 We will show that $(E,D)$ is not perfectly secret by providing two plaintexts $x_0,x_1 \in \{0,1\}^L$ such that the distributions $Y_{x_0}$ and $Y_{x_1}$ are not identical, where $Y_x$ is the distribution obtained by picking $k \sim \{0,1\}^n$ and outputting $E_k(x)$.
 We choose $x_0 = 0^L$.
 Let $S_0 \subseteq \{0,1\}^*$ be the set of all ciphertexts that have nonzero probability of being output in $Y_{x_0}$. That is, $S=\{ y \;|\; \exists_{k\in \{0,1\}^n} y=E_k(x_0) \}$.
-Since there are only $2^n$ keys, we know that $|S_0| < 2^n$.
+Since there are only $2^n$ keys, we know that $|S_0| \leq 2^n$.
 >
 We will show the following claim:
 >
 __Claim I:__ There exists some $x_1 \in \{0,1\}^L$ and $k\in \{0,1\}^n$ such that $E_k(x_1) \not\in S_0$.
 >
-Claim I implies that $E_k(x_1)$ has positive probability of being output  by $Y_{x_1}$  and zero probability of being output by $Y_{x_0}$ and hence will complete the proof.
+Claim I implies that the string $E_k(x_1)$ has positive probability of being output  by $Y_{x_1}$  and zero probability of being output by $Y_{x_0}$ and hence in particular $Y_{x_0}$ and $Y_{x_1}$ are not identical.
 To prove Claim I, just choose a fixed $k\in \{0,1\}^n$. By the validity condition, the map $x \mapsto E_k(x)$ is a one to one map of $\{0,1\}^L$ to $\{0,1\}^*$ and hence in particular
 the _image_ of this map: the set $I = \{ y \;|\; \exists_{x\in \{0,1\}^L} y=E_k(x) \}$ has size at least (in fact exactly) $2^L$.
 Since $|S_0| = 2^n < 2^L$, this means that $|I|>|S_0|$ and so in particular there exists some string $y$ in $I \setminus S_0$.But by the definition of $I$ this means that there is some $x\in \{0,1\}^L$  such that $E_k(x) \not\in S_0$ which concludes the proof of Claim I and hence of  [longkeysthm](){.ref}.
@@ -362,9 +363,9 @@ $$
 \left| \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \E_{r \sim \{0,1\}^L} [ Q(r \oplus x)] +  \E_{r \sim \{0,1\}^L} [ Q(r \oplus x')]  -  \E_{k \sim \{0,1\}^n}[Q(G(k) \oplus x')] \right| > \tfrac{1}{p(L)} \;. \label{eqprgsethree}
 $$
 (Please make sure that you can see why this is true.)
-Now we can use the _triangle inequality_ that $|A+B| \leq |A|+|B|$ for every two numbers $A,B$, applying it for $A= \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \E_{r \sim \{0,1\}^L} [ Q(r \oplus x)]$ and $B= \E_{r \sim \{0,1\}^L} [ Q(r \oplus x')]  -  \_{k \sim \{0,1\}^n}E[Q(G(k) \oplus x')]$ to derive  
+Now we can use the _triangle inequality_ that $|A+B| \leq |A|+|B|$ for every two numbers $A,B$, applying it for $A= \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \E_{r \sim \{0,1\}^L} [ Q(r \oplus x)]$ and $B= \E_{r \sim \{0,1\}^L} [ Q(r \oplus x')]  -  \E_{k \sim \{0,1\}^n}[Q(G(k) \oplus x')]$ to derive  
 $$
-\left| \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \E_{r \sim \{0,1\}^L} [ Q(r \oplus x)] \right| + \left|  \E_{r \sim \{0,1\}^L} [ Q(r \oplus x')]  -  \_{k \sim \{0,1\}^n}E[Q(G(k) \oplus x')] \right| > \tfrac{1}{p(L)} \;. \label{eqprgsefour}
+\left| \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \E_{r \sim \{0,1\}^L} [ Q(r \oplus x)] \right| + \left|  \E_{r \sim \{0,1\}^L} [ Q(r \oplus x')]  -  \E_{k \sim \{0,1\}^n}[Q(G(k) \oplus x')] \right| > \tfrac{1}{p(L)} \;. \label{eqprgsefour}
 $$
 In particular, either the first term or the second term of the lefthand-side of [eqprgsefour](){.eqref} must be at least $\tfrac{1}{2p(L)}$.
 Let us assume the first case holds (the second case is analyzed in exactly the same way).
@@ -376,7 +377,7 @@ But if we now define the NAND program $P_x$ that on input $r\in \{0,1\}^L$ outpu
 Since a polynomial is dominated by an exponential, if we make $L$ large enough, this will contradict the $(2^{\delta n},2^{-\delta n})$ security of the pseudorandom generator $G$.
 
 > # {.remark title="Stream ciphers in pracitce" #streamciphersrem}
-The two most widely used forms of encryption schemes in practice are _stream ciphers_ and _block ciphers_. (To make things more confusing, a block cipher is always used in some [mode of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation) and some of these modes effectively turn a block cipher into a stream cipher.)
+The two most widely used forms of (private key) encryption schemes in practice are _stream ciphers_ and _block ciphers_. (To make things more confusing, a block cipher is always used in some [mode of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation) and some of these modes effectively turn a block cipher into a stream cipher.)
 A block cipher can be thought as a sort of a "random invertible map" from $\{0,1\}^n$ to $\{0,1\}^n$, and can be used to construct a pseudorandom generator and from it a stream cipher, or to encrypt data directly using other modes of operations.
 There are a great many other security notions and considerations for encryption schemes beyond computational secrecy.
 Many of those involve handling scenarios such as  _chosen plaintext_, _man in the middle_, and _chosen ciphertext_ attacks, where the adversary is not just merely a passive eavesdropper but can influence the communication in some way.
@@ -447,7 +448,7 @@ A _computationally secret public key encryption_ with plaintext length $L:\N \ri
 >
 * For every $n$, if $(e,d)$ is output by $KG(1^n)$ with positive probability, and $x\in \{0,1\}^{L(n)}$, then $D_d(E_e(x))=x$ with probability one.
 >
-* For every polynomial $p$, and sufficiently large $n$, if $P$ is a NAND program of at most $p(n)$ lines then for every $x,x'\in \{0,1\}^{L(n)}$, $\| \E[ P(e,E_e(x))] - \E[P(e,E_e(x'))] \| < 1/p(n)$, where this probability is taken over the coins of $KG$ and $E$.
+* For every polynomial $p$, and sufficiently large $n$, if $P$ is a NAND program of at most $p(n)$ lines then for every $x,x'\in \{0,1\}^{L(n)}$, $\left| \E[ P(e,E_e(x))] - \E[P(e,E_e(x'))] \right| < 1/p(n)$, where this probability is taken over the coins of $KG$ and $E$.
 
 Note that we allowed $E$ and $D$ to be _randomized_ as well.
 In fact, it turns out that it is _necessary_ for $E$ to be randomized to obtain computational secrecy.
