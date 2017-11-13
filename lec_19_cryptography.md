@@ -38,8 +38,8 @@ completely dwarves the "code breakers" of Poe's time. Even more amazingly,
 these cryptosystem are not only seemingly unbreakable, but they also achieve
 this under much harsher conditions. Not only do today's attackers have more
 computational power but they also have more data to work with. In Poe's age, an
-attacker would be lucky if they got access to more than a few ciphertexts with
-known plaintexts. These days attackers might have massive amounts of data-
+attacker would be lucky if they got access to more than a few  encryptions of known messages.
+These days attackers might have massive amounts of data-
 terabytes or more - at their disposal. In fact, with *public key* encryption,
 an attacker can generate as many ciphertexts as they wish.
 
@@ -51,7 +51,7 @@ Cryptography is a vast and continuously changing topic, but we will touch on som
 A great many cryptosystems have been devised and broken throughout the ages.
 Let us recount just one such story.
 In 1587, Mary the queen of Scots, and the heir to the throne of England, wanted to arrange the assassination of her cousin, queen Elisabeth I of
-England, so that she could ascend to the throne and finally escape the house arrest under which she has been for the last 18 years.
+England, so that she could ascend to the throne and finally escape the house arrest under which she had been for the last 18 years.
 As part of this complicated plot, she sent a coded letter to Sir Anthony Babington.
 
 ![Snippet from encrypted communication between queen Mary and Sir Babington](../figure/encrypted_letter.jpg){#maryscottletterfig .class width=300px height=300px}
@@ -306,9 +306,9 @@ The formal definition is below:
 
 > # {.definition title="Computational secrecy" #compsecdef}
 Let $(E,D)$ be a valid encryption scheme where for keys of length $n$, the plaintexts are of length $L(n)$ and the ciphertexts are of length $m(n)$.
-We say that $(E,D)$ is _computationally secret_ if for every polynomial $p:\N \rightarrow \N$, and large enough $n$, if $P$ is an $m(n)$-input and single output NAND program of at most $p(L(n))$ lines, and $x_0,x_1 \in \{0,1\}^{L(n)}$  then
+We say that $(E,D)$ is _computationally secret_ if for every polynomial $p:\N \rightarrow \N$, and large enough $n$, if $P$ is an $m(n)$-input and single output NAND program of at most $p(n)$ lines, and $x_0,x_1 \in \{0,1\}^{L(n)}$  then
 $$
-\left| \E_{k \sim \{0,1\}^n} [P(E_k(x_0))] -   \E_{k \sim \{0,1\}^n} [P(E_k(x_1))] \right| < \tfrac{1}{p(L(n))} \label{eqindist}
+\left| \E_{k \sim \{0,1\}^n} [P(E_k(x_0))] -   \E_{k \sim \{0,1\}^n} [P(E_k(x_1))] \right| < \tfrac{1}{p(n)} \label{eqindist}
 $$
 
 > # { .pause }
@@ -342,13 +342,13 @@ It is widely used in practice with keys on the order of a few tens or hundreds o
 
 > # {.theorem title="Derandomized one-time pad" #PRGtoENC}
 Suppose that the optimal PRG conjecture is true.
-Then for every constants $a,b$ there is   a computationally secret encryption scheme $(E,D)$ with plaintext length $L(n)$ at least $a\cdot n^b$.
+Then for every constant $a\in \N$ there is   a computationally secret encryption scheme $(E,D)$ with plaintext length $L(n)$ at least $n^a$.
 
 > # {.proofidea data-ref="PRGtoENC"}
 The proof is illustrated in [derandonetimepadfig](){.ref}. We simply take the one-time pad on $L$ bit plaintexts, but replace the key with $G(k)$ where $k$ is a string in $\{0,1\}^n$ and $G:\{0,1\}^n \rightarrow \{0,1\}^L$ is a pseudorandom generator.
 
 > # {.proof data-ref="PRGtoENC"}
-Since an exponential function of the form $2^{\delta n}$ grows faster than any polynomial of the form $an^b$,  under the optimal PRG conjecture we can obtain a polynomial-time computable $(2^{\delta n},2^{-\delta n})$ pseudorandom generator $G:\{0,1\}^n \rightarrow \{0,1\}^L$  for $L = \lceil a\cdot n^b \rceil$.
+Since an exponential function of the form $2^{\delta n}$ grows faster than any polynomial of the form $n^a$,  under the optimal PRG conjecture we can obtain a polynomial-time computable $(2^{\delta n},2^{-\delta n})$ pseudorandom generator $G:\{0,1\}^n \rightarrow \{0,1\}^L$  for $L = \lceil a\cdot n^b \rceil$.
 We now define our encryption scheme as follows: given key $k\in \{0,1\}^n$ and plaintext $x\in \{0,1\}^L$, the encryption $E_k(x)$ is simply $x \oplus G(k)$.
 To decrypt a string $y \in \{0,1\}^m$ we output $y \oplus G(k)$.
 This is a valid encryption since $G$ is computable in polynomial time and $(x \oplus G(k)) \oplus G(k) = x \oplus (G(k) \oplus G(k))=x$ for every $x\in \{0,1\}^L$.
@@ -384,7 +384,7 @@ $$
 But if we now define the NAND program $P_x$ that on input $r\in \{0,1\}^L$ outputs $Q(r \oplus x)$ then (since XOR of $L$ bits can be computed in $O(L)$ lines), we get that $P_x$ has $p(L)+O(L)$ lines and by [distingprgeq](){.eqref} it can distinguish between an input of the form $G(k)$ and an input of the form $r \sim \{0,1\}^k$ with advantage better than $\tfrac{1}{2p(L)}$.
 Since a polynomial is dominated by an exponential, if we make $L$ large enough, this will contradict the $(2^{\delta n},2^{-\delta n})$ security of the pseudorandom generator $G$.
 
-> # {.remark title="Stream ciphers in pracitce" #streamciphersrem}
+> # {.remark title="Stream ciphers in practice" #streamciphersrem}
 The two most widely used forms of (private key) encryption schemes in practice are _stream ciphers_ and _block ciphers_. (To make things more confusing, a block cipher is always used in some [mode of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation) and some of these modes effectively turn a block cipher into a stream cipher.)
 A block cipher can be thought as a sort of a "random invertible map" from $\{0,1\}^n$ to $\{0,1\}^n$, and can be used to construct a pseudorandom generator and from it a stream cipher, or to encrypt data directly using other modes of operations.
 There are a great many other security notions and considerations for encryption schemes beyond computational secrecy.

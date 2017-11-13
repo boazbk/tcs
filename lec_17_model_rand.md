@@ -75,7 +75,7 @@ The idea behind the proof is that we can simply replace sampling a random coin w
 We start by showing the "only if" direction.
 Let $F\in \mathbf{BPP}$ and let $P$ be an RNAND++ program that computes $F$ as per [BPPdef](){.ref}, and let $a,b\in \N$ be such that on every input of length $n$, the program $P$ halts within at most $an^b$ steps.
 We will construct a NAND++ polynomial-time program $P'$ that computes a function $G$ satisfying the conditions of [eqBPPauxiliary](){.eqref}.
-As usual, we will allow ourselves some "syntactic sugar" in constructing this program, as it can always be eliminated with polynomial overhead.
+As usual, we will allow ourselves some "syntactic sugar" in constructing this program, as it can always be eliminated with polynomial overhead as in the proof of [NANDequiv-thm](){.ref}.
 The program $P'$ will first copy the bits in  positions $n,n+1,n+2,\ldots,n+an^b-1$ of its input into the variables `r_0`, `r_1`, $\ldots$, `r_`$\expr{an^b-1}$.
 We will also assume we have access to an extra index variable `j` which we can increase and decrease (which of course can be simulated via syntactic sugar).
 The program $P'$ will run the same operations of $P$ except that it will replace a line of the form
@@ -83,6 +83,8 @@ The program $P'$ will run the same operations of $P$ except that it will replace
 `foo := r_j` amd `j   := j + 1`
 >
 One can easily verify that __(1)__ $P'$ runs in polynomial time and __(2)__  if the last $an^b$ bits of the input of $P'$ are chosen at random then its execution when its first $n$ inputs are $x$ is identical to an execution of $P(x)$.
+By __(2)__ we mean that for every $r\in \{0,1\}^{an^b}$ corresponding to the result of the `RAND` operations made by $P$ on its execution on $x$, the output of $P$ on input $x$ and with random choices $r$ is equal to $P'(xr)$.
+Hence the distribution of the output  $P(x)$ of the randomized program $P$ on input $x$ is identical to the distribution of $P'(x;r)$  when $r \sim \{0,1\}^{an^b}$.
 >
 For the other direction, given a function $G\in \mathbf{P}$ satisfying the condition [eqBPPauxiliary](){.eqref} and a NAND++ program $P'$ that computes $G$ in polynomial time, we will construct an RNAND++ program $P$ that computes $F$ in polynomial time.
 The idea behind the construction of $P$ is simple: on input a string $x\in \{0,1\}^n$, we will first run for $an^b$ steps and use the `RNAND` operation to create variables `r_0`, `r_1`, $\ldots$,`r_`$\expr{an^b-1}$ each containing the result of a random coin toss.
@@ -217,9 +219,9 @@ $$
 where $m$ is the number of coin tosses that $P'$ uses on inputs of length $n$, and we use  the notation $P'(x;r)$ to denote the execution of $P'$ on input $x$ and when the result of the coin tosses corresponds to the string $r$.
 >
 For every $x\in \{0,1\}^n$, define the "bad" event $B_x$ to hold if $P'(x) \neq F(x)$, where the sample space for this event consists of the coins of $P'$.
-Then by [ampeq](){.eqref}, $\Pr[B_x] \geq  0.1\cdot 2^n$ for every $x \in \{0,1\}^n$.
+Then by [ampeq](){.eqref}, $\Pr[B_x] \leq  0.1\cdot 2^{-n}$ for every $x \in \{0,1\}^n$.
 Since there are $2^n$ many such $x$'s, by the union bound we see that the probability that the _union_ of the events $\{ B_x \}_{x\in \{0,1\}^n}$ is at most $0.1$.
-This means that if we choose $r \sim \{0,1\}^n$, then with probability at least $0.9$ it will be the case that for _every_ $x\in \{0,1\}^n$, $F(x)=P'(x;r)$.
+This means that if we choose $r \sim \{0,1\}^m$, then with probability at least $0.9$ it will be the case that for _every_ $x\in \{0,1\}^n$, $F(x)=P'(x;r)$.
 (Indeed, otherwise the event $B_x$ would hold for some $x$.)
 In particular, because of the mere fact that the the probability of $\cup_{x \in \{0,1\}^n} B_x$ is smaller than $1$, this means that _there exists_ a particular $r^* \in \{0,1\}^m$ such that  
 $$P'(x;r^*)=F(x) \label{hardwirecorrecteq}

@@ -355,6 +355,8 @@ We define the random variable $Y = (X-\mu)^2$.
 Then $\E[Y] = \mathrm{Var}[X] = \sigma^2$, and hence by Markov the probability that $Y > k^2\sigma^2$ is at most $1/k^2$.
 But clearly $(X-\mu)^2 \geq k^2\sigma^2$ if and only if $|X-\mu| \geq k\sigma$.
 
+
+
 One example of how to use Chebyshev's inequality is the setting when $X = X_1 + \cdots + X_n$ where $X_i$'s are _independent and identically distributed_ (i.i.d for short) variables with values in $[0,1]$ where each has  expectation $1/2$.
 Since $\E[X] = \sum_i \E[X_i] = n/2$, we would like to say that $X$ is very likely to be in, say, the interval  $[0.499n,0.501n]$.
 Using Markov's inequality directly will not help us, since it will only tell us that $X$ is very likely to be at most $100n$ (which we already knew, since it always lies between $0$ and $n$).
@@ -365,7 +367,7 @@ $$
 (We leave showing this to the reader as  [varianceex](){.ref}.)
 
 For every random variable $X_i$ in $[0,1]$, $\mathrm{Var}[X_i] \leq 1$ (if the variable is always in $[0,1]$, it can't be more than $1$ away from its expectation), and hence [varianceeq](){.eqref} implies that $\mathrm{Var}[X]\leq n$ and hence $\sigma[X] \leq \sqrt{n}$.
-For large $n$, $\sqrt{n} \ll 0.01n$, and in particular if $\sqrt{n} \leq 0.01n/k$,  we can use Chebyshev's inequality  to bound the probability that $X$ is not in $[0.499n,0.501n]$ by $1/k^2$.
+For large $n$, $\sqrt{n} \ll 0.001n$, and in particular if $\sqrt{n} \leq 0.001n/k$,  we can use Chebyshev's inequality  to bound the probability that $X$ is not in $[0.499n,0.501n]$ by $1/k^2$.
 
 
 ### The Chernoff bound
