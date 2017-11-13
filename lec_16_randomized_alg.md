@@ -158,12 +158,13 @@ So when we change $x$ by one of the three literals in the clause, we have probab
 >
 We now prove our earlier claim  that with probability $1/2$ over $x\in \{0,1\}^n$, $\Delta(x,x^*) \leq n/2$.
 Indeed,  consider the map $FLIP:\{0,1\}^n \rightarrow \{0,1\}^n$ where $FLIP(x_0,\ldots,x_{n-1}) = (1-x_0,\ldots,1-x_{n-1})$.
-We leave it to the reader to verify that __(1)__ $FLIP$ is one to one, and __(2)__ $\Delta(FLIP(x),x^*) = n-\Delta(x,x^*)$.
-Thus, if   $A = \{ x\in \{0,1\}^n : \Delta(x,x^*) \leq n/2 \}$ then $FLIP$ is a one-to-one map from $\overline{A}$ to $A$, implying that $|A| \geq |\overline{A}|$ and hence $\Pr[A] \geq 1/2$.
+We leave it to the reader to verify that __(1)__ $FLIP$ is one to one, and __(2)__ $\Delta(FLIP(x),x^*) = n-\Delta(x,x^*)$ (and so in particular if $x\in \overline{A}$ then $FLIP(x)\in A$).
+Thus, if   $A = \{ x\in \{0,1\}^n : \Delta(x,x^*) \leq n/2 \}$ then $FLIP$ is a one-to-one map from $\overline{A}$ to $A$, implying that $|A| \geq |\overline{A}|$ and hence $\Pr[A] \geq 1/2$ (see [flipaanalysisfig](){.ref}).
 >
 The above means that in any single repetition of the outer loop, we will end up with a satisfying assignment with probability $\tfrac{1}{2} \cdot \sqrt{3}^{-n}$.
 Hence the probability that we never do so in $100 \sqrt{3}^{n}$ repetitions is at most $(1-\tfrac{1}{2\sqrt{3}^{n}})^{100\cdot \sqrt{3}^n} \leq (1/e)^{50}$.
 
+![For every $x^* \in \{0,1\}^n$, we can sort all string in $\{0,1\}^n$ according to their distance from $x^*$ (top to bottom in the above figure), where we let $A = \{ x\in \{0,1\}^n \;|\; dist(x,x^* \leq n/2 \}$ be the "top half" of strings. If we define $FLIP:\{0,1\}^n \rightarrow \{0,1\}$ to be the map that "flips" the bits of a given string $x$ then it maps every $x\in \overline{A}$ to an output $FLIP(x)\in A$ in a one-to-one way, and so it demonstrates that $|\overline{A}| \leq |A|$ which implies that $\Pr[A] \geq \Pr[\overline{A}]$ and hence $\Pr[A] \geq 1/2$.](../figure/flipaanalysis.png){#flipaanalysisfig .class width=300px height=300px}
 
 ### Bipartite matching.
 
@@ -176,7 +177,7 @@ That is, $M$ matches every vertex in $L$ to a unique vertex in $R$.
 
 ![The bipartite matching problem in the graph $G=(L\cup R,E)$ can be reduced to the minimum $s,t$ cut problem in the graph $G'$ obtained by adding vertices $s,t$ to $G$, connecting $s$ with $L$ and connecting $t$ with $R$.](../figure/matchingfig.png){#matchingfig .class width=300px height=300px}
 
-The bipartite matching problem turns out to have a polynomial-time algorithm, since we can reduce finding a matching in $G$ to finding a minimum cut (or equivalently, maximum flow) in a related graph $G'$ (see [matchingfig](){.ref}).
+The bipartite matching problem turns out to have a polynomial-time algorithm, since we can reduce finding a matching in $G$ to finding a maximum flow (or equivalently, minimum cut) in a related graph $G'$ (see [matchingfig](){.ref}).
 However, we will see a different probabilistic algorithm to determine whether a graph contains such a matching.
 
 
