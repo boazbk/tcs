@@ -89,6 +89,7 @@ for every $k\in \{0,1\}^n$ and $x \in \{0,1\}^{L(n)}$,
 $$
 D(k,E(k,x))=x \;. \label{eqvalidenc}
 $$
+We also require that our encryption schemes are _length regular_ in the sense that all ciphertexts corresponding to keys of the same length are of the same length: there is some function $C:\N \rightarrow \N$ such that for every $k\in \{0,1\}^n$ and $x\in \{0,1\}^{L(n)}$, $|E(k,x)|=C(n)$.^[The "length regularity" condition is added for technical convenience and is not at all important. You can ignore it in a first reading.]
 
 We will often write the first input (i.e., the key) to the encryption and decryption as a subscript and so can write [eqvalidenc](){.eqref} also as  $D_k(E_k(x))=x$.
 
@@ -362,7 +363,7 @@ which by the definition of our encryption scheme means that
 $$
 \left| \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \E_{k \sim \{0,1\}^n}[Q(G(k) \oplus x')] \right| > \tfrac{1}{p(L)} \;. \label{eqprgsecone}
 $$
-Now since (as we saw in the security analysis of the one-time pad), the distribution $r \oplus x$ and $r \oplus k'$ are identical, where $r\sim \{0,1\}^L$, it follows that
+Now since (as we saw in the security analysis of the one-time pad), the distribution $r \oplus x$ and $r \oplus x'$ are identical, where $r\sim \{0,1\}^L$, it follows that
 $$
 \E_{r \sim \{0,1\}^L} [ Q(r \oplus x)] -  \E_{r \sim \{0,1\}^L} [ Q(r \oplus x')] = 0 \;.  \label{eqprgsectwo}
 $$
@@ -390,6 +391,61 @@ A block cipher can be thought as a sort of a "random invertible map" from $\{0,1
 There are a great many other security notions and considerations for encryption schemes beyond computational secrecy.
 Many of those involve handling scenarios such as  _chosen plaintext_, _man in the middle_, and _chosen ciphertext_ attacks, where the adversary is not just merely a passive eavesdropper but can influence the communication in some way.
 While this lecture is meant to give you some taste of the ideas behind cryptography, there is much more to know before applying it correctly to obtain secure applications, and a great many people have managed to get it wrong.
+
+## Computational secrecy and $\mathbf{NP}$
+
+We've also mentioned before that an efficient algorithm for $\mathbf{NP}$ could be used to break all cryptography.
+We now give an example of how this can be done:
+
+> # {.theorem title="Breaking encryption using $\mathbf{NP}$ algorithm" #breakingcryptowithnp}
+Suppose that $\mathbf{P}=\mathbf{NP}$.
+Then there is no computationally secret encryption scheme  with $L(n) > n$.
+Furthermore, for every valid encryption scheme $(E,D)$ with $L(n) > n+100$ there is a polynomial $p$ such that for every large enough $n$ there exist $x_0,x_1 \in \{0,1\}^{L(n)}$ and a $p(n)$-line NAND program $EVE$ s.t.
+$$
+\Pr_{i \sim \{0,1\}, k \sim \{0,1\}^n}[ EVE(E_k(x_i))=i ] \geq 0.99
+$$
+
+Note that the "furthermore" part is extremely strong. It means that if the plaintext is even a little bit larger than the key, then we can already break the scheme in a very strong way, in the sense that we have a polynomial-time algorithm that will guess whether the encrypted message was $x_0$ or $x_1$ with probability very close to $1$.
+The condition $\mathbf{P}=\mathbf{NP}$ can be relaxed to $\mathbf{NP}\subseteq \mathbf{BPP}$ and even the weaker condition $\mathbf{NP} \subseteq \mathbf{P_{poly}}$ with essentially the same proof.
+
+> # {.proofidea data-ref="breakingcryptowithnp"}
+The proof follows along the lines of [longkeysthm](){.ref} but this time paying attention to the computational aspects.
+If $\mathbf{P}=\mathbf{NP}$ then for every plaintext $x$ and ciphertext $y$, we can efficiently tell whether there exists $k\in \{0,1\}^n$ such that $E_k(x)=y$.
+So, to prove this result we need to show that if the plaintexts are long enough, there would exist a pair $x_0,x_1$ such that the probability that a random encryption of $x_1$ also is a valid encryption of $x_0$ will be very small.
+The details of how to show this are below.
+
+
+> # {.proof data-ref="breakingcryptowithnp"}
+We focus on showing only the "furthermore" part since it is the more interesting and the other part follows by essentially the same proof.
+Suppose that $(E,D)$ is such an encryption, let $n$ be large enough, and let $x_0  = 0^{L(n)}$.
+For every $x\in \{0,1\}^{L(n)}$ we define $S_x$ to be the set of all valid encryption of $x$.
+That is $S_x = \{ y \;|\; \exists_{k\in \{0,1\}^n} y=E_k(x) \}$.
+As in the proof of [longkeysthm](){.ref}, since there are $2^n$ keys $k$, $|S_x| \leq 2^n$ for every $x\in \{0,1\}^{L(n)}$.
+We denote by $S_0$ the set $S_{x_0}$.
+We define our algorithm $EVE$ to output $0$ on input $y\in \{0,1\}^*$ if $y\in S_0$ and to output $1$ otherwise.
+This can be implemented in polynomial time if $\mathbf{P}=\mathbf{NP}$, since the key $k$ can serve the role of an efficiently verifiable solution. (Can you see why?)
+Clearly $\Pr[ EVE(E_k(x_0))=0 ] =1$ and so in the case that $EVE$ gets an encryption of $x_0$ then she  guesses correctly with probability $1$.
+The remainder of the proof is devoted to showing that there exists $x_1 \in \{0,1\}^{L(n)}$ such that $\Pr[ EVE(E_k(x_1))=0 ]  \leq 0.01$, which will conclude the proof by showing that $EVE$ guesses wrongly with probability at most $\tfrac{1}{2}0 + \tfrac{1}{2}0.01 < 0.01$.
+>
+Consider now the followins probabilistic experiment  (which we define solely for the sake of analysis).
+We consider the sample space of choosing $x$ unfiformly in $\{0,1\}^{L(n)}$ and define the random variable $Z_k(x)$ to equal $1$ if and only if $E_k(x)\in S_0$.
+For every $k$, the map $x \mapsto E_k(x)$ is one-to-one, which means that the probability that $Z_k=1$ is equal to the probability that $x \in E_k^{-1}(S_0)$ which is  $\tfrac{|S_0|}{2^{L(n)}}$.
+So by the linearity of expectation $\E[\sum_{k \in \{0,1\}^n} Z_k] \leq \tfrac{2^n|S_0|}{2^{L(n)} \leq \tfrac{2^{2n}}{2^{L(n)}}$.
+>
+We will now use the following extremely simple but useful fact known as the  _averaging principle_: for every random variable $Z$, if $\E[Z]=\mu$, then with positve probability $Z \leq \mu$.
+(Indeed, if $Z>\mu$ with probability one, then the expected value of $Z$ will have to be larger than $\mu$, just like you can't have a class in which all students got A or A- and yet the overall average is B+.)
+In our case it means that with positive probability $\sum_{k\in \{0,1\}^n} Z_k \leq \tfrac{2^{2n}}{2^{L(n)}}$.
+In other words, there exists some $x_1 \in \{0,1\}^{L(n)}$ such that $\sum_{k\in \{0,1\}^n} Z_k(x_1) \leq \tfrac{2^{2n}}{2^{L(n)}}$.
+Yet this means that if we choose a random $k \sim \{0,1\}^n$, then the probability that $E_k(x_1) \in S_0$ is at most
+$\tfrac{1}{2^n} \cdot \tfrac{2^{2n}}{2^{L(n)}} = 2^{n-L(n)}$.
+So, in particular if we have an algorithm $EVE$ that outputs $0$ if $x\in S_0$ and outputs $1$ otherwise, then $\Pr[ EVE(E_k(x_0))=0]=1$ and $\Pr[EVE(E_k(x_1))=0] \leq 2^{n-L(n)}$ which will be smaller than $2^{-10} < 0.01$ if $L(n) \geq n+10$.
+
+
+
+
+
+In retrospect [breakingcryptowithnp](){.ref} is perhaps not surprising.
+After all, as we've mentioned  before it is known that the Optimal PRG conjecture (which is the basis for the derandomized one-time pad encryption) is _false_ if $\mathbf{P}=\mathbf{NP}$ (and in fact even if $\mathbf{NP}\subseteq \mathbf{BPP}$ or even $\mathbf{NP} \subseteq \mathbf{P_{/poly}}$).
 
 ## Public key cryptography
 

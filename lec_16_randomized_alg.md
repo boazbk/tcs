@@ -227,9 +227,9 @@ Choosing a random real number is quite problematic, especially when you have onl
 We will use the following result
 
 > # {.theorem title="Schwartz–Zippel lemma" #szlem}
-For every integer $q$, and polynomial $P:\R^m \rightarrow \R$ with integer coefficients.
+For every integer $q$, and polynomial $P:\R^n \rightarrow \R$ with integer coefficients.
 If $P$ has degree at most $d$ and is not identically zero, then it has at most $dq^{n-1}$ roots
-in the set $[q]^n = \{ (x_0,\ldots,x_{m-1}) : x_i \in \{0,\ldots,q-1\} \}$.
+in the set $[q]^n = \{ (x_0,\ldots,x_{n-1}) : x_i \in \{0,\ldots,q-1\} \}$.
 
 We omit the (not too complicated)  proof of [szlem](){.ref}.
 We remark that it holds not just over the real numbers but over any field as well.
