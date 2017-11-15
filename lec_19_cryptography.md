@@ -151,9 +151,9 @@ There are several equivalent ways to define it, but perhaps the cleanest one is 
 > # {.definition title="Perfect secrecy" #perfectsecrecy}
 A valid encryption scheme $(E,D)$ with length $L(\cdot)$ is _perfectly secrect_ if for every $n\in \N$ and plaintexts $x,x' \in \{0,1\}^{L(n)}$, the following two distributions $Y$ and $Y'$ over $\{0,1\}^*$ are identical:
 >
-* $Y$ is obtained by sampling a random $k\sim \{0,1\}^n$ and outputting $E_k(x)$.
+* $Y$ is obtained by sampling  $k\sim \{0,1\}^n$ and outputting $E_k(x)$.
 >
-* $Y'$ is obtained by sampling a random $k\sim \{0,1\}^n$ and outputting $E_k(x')$.
+* $Y'$ is obtained by sampling  $k\sim \{0,1\}^n$ and outputting $E_k(x')$.
 
 > # { .pause }
 This definition might take more than one reading to parse. Try to think of how this condition would correspond to your intuitive notion of "learning no information" about $x$ from observing $E_k(x)$, and to Shannon's quote in the beginning of this lecture.
@@ -174,20 +174,20 @@ Before reading the next paragraph, you might want to try the analysis yourself.
 You may find it useful to  look at the [Wikipedia entry on Bayesian Inference](https://en.wikipedia.org/wiki/Bayesian_inference) or [these MIT lecture notes](https://ocw.mit.edu/courses/mathematics/18-05-introduction-to-probability-and-statistics-spring-2014/readings/MIT18_05S14_Reading11.pdf).
 
 Let us define $p_0(y)$ to be the probability (taken over $k\sim \{0,1\}^n$) that $y=E_k(x_0)$ and similarly $p_1(y)$ to be $\Pr_{k \sim \{0,1\}^n}[y=E_k(x_1)]$.
-Note that, since Alice chooses the message to send at random, our a priori probability for observing $y$ is $\tfrac{1}{2}p_y(0) + \tfrac{1}{2}p_y(1)$.
-However, as per [perfectsecrecy](){.ref},   the perfect secrecy condition guarantees that $p_y(0)=p_y(1)$!
-Let us denote the number $p_y(0)=p_y(1)$ by $p$.
+Note that, since Alice chooses the message to send at random, our a priori probability for observing $y$ is $\tfrac{1}{2}p_0(y) + \tfrac{1}{2}p_1(y)$.
+However, as per [perfectsecrecy](){.ref},   the perfect secrecy condition guarantees that $p_0(y)=p_1(y)$!
+Let us denote the number $p_0(y)=p_1(y)$ by $p$.
 By the formula for conditional probability, the probability that Alice sent the message $x_0$ conditioned on our observation $y$ is simply^[The equation [bayeseq](){.eqref} is a special case of _Bayes' rule_ which, although a simple restatement of the formula for conditional probability, is an extremely important and widely used tool in statistics and data analysis.]
 $$
 \Pr[i=0 | y=E_k(x_i)] = \frac{\Pr[i=0 \wedge y = E_k(x_i)]}{\Pr[y = E_k(x)]} \;. \label{bayeseq}
 $$
 
-Since the probability that $i=0$ and $y$ is the cyphtertext $E_k(0)$ is equal to $\tfrac{1}{2}\cdot p_y(0)$, and the a priori probability of observing $y$ is $\tfrac{1}{2}p_y(0) + \tfrac{1}{2}p_y(1)$,
+Since the probability that $i=0$ and $y$ is the ciphertext $E_k(0)$ is equal to $\tfrac{1}{2}\cdot p_0(y)$, and the a priori probability of observing $y$ is $\tfrac{1}{2}p_0(y) + \tfrac{1}{2}p_1(y)$,
 we can rewrite [bayeseq](){.eqref} as
 $$
-\Pr[i=0 | y=E_k(x_i)] = \frac{\tfrac{1}{2}p_y(0)}{\tfrac{1}{2}p_y(0)+\tfrac{1}{2}p_y(1)}  =  \frac{p}{p +p}  = \frac{1}{2}
+\Pr[i=0 | y=E_k(x_i)] = \frac{\tfrac{1}{2}p_0(y)}{\tfrac{1}{2}p_0(y)+\tfrac{1}{2}p_1(y)}  =  \frac{p}{p +p}  = \frac{1}{2}
 $$
-using the fact that $p_y(0)=p_y(1)=p$.
+using the fact that $p_0(y)=p_1(y)=p$.
 This means that observing the ciphertext $y$ did not help us at all! We still would not be able to guess whether Alice sent "attack" or "retreat" with better than 50/50 odds!
 
 This example can be vastly generalized to show that perfect secrecy is indeed "perfect" in the sense that observing a ciphertext gives Eve _no additional information_ about the plaintext beyond her apriori knowledge.
@@ -197,7 +197,7 @@ This example can be vastly generalized to show that perfect secrecy is indeed "p
 _Perfect secrecy_ is an extremely strong condition, and implies that an eavesdropper does not learn _any_ information from observing the ciphertext.
 You might think that an encryption scheme satisfying such a strong condition will be impossible, or at least extremely complicated, to achieve.
 However it turns out we can in fact obtain perfectly secret encryption scheme fairly easily.
-Such a scheme is illustrated in [onetimepadtwofig](){.ref}
+Such a scheme for two-bit messages is illustrated in [onetimepadtwofig](){.ref}
 
 
 ![A perfectly secret encryption scheme for two-bit keys and messages. The blue vertices represent plaintexts and the red vertices represent ciphertexts, each edge mapping a plaintext $x$ to a ciphertext $y=E_k(x)$ is labeled with the corresponding key $k$. Since there are four possible keys, the degree of the graph is four and it is in fact a complete bipartite graph. The encryption scheme is valid in the sense that for every $k\in \{0,1\}^2$, the map $x \mapsto E_k(x)$ is one-to-one, which in other words means that the set of edges labeled with $k$ is a _matching_.](../figure/onetimepadtwobits.png){#onetimepadtwofig .class width=300px height=300px}
@@ -248,11 +248,10 @@ Imagine that every time you opened an account with Amazon, Google, or any other 
 and every time you suspected a virus, you'll need to ask all these services for a fresh DVD. This doesn't sounds so appealing.
 
 This is not just a theoretical issue.
-The Soviets have used the one-time pad for their confidential communication since before the 1940's, and in fact it seems that even before
-Shannon's work, the U.S. intelligence  already knew in 1941 that the one-time pad is in principle "unbreakable"  (see page 32 in the [Venona document](http://nsarchive.gwu.edu/NSAEBB/NSAEBB278/01.PDF) ).
+The Soviets have used the one-time pad for their confidential communication since before the 1940's.
+In fact,  even before Shannon's work, the U.S. intelligence  already knew in 1941 that the one-time pad is in principle "unbreakable"  (see page 32 in the [Venona document](http://nsarchive.gwu.edu/NSAEBB/NSAEBB278/01.PDF)).
 However, it  turned out that the hassle of manufacturing so many keys for all the communication took its toll on the Soviets and they ended up reusing the same keys
-for more than one message, though they tried to use them for completely different receivers in the (false) hope that this wouldn't be
-detected.
+for more than one message.  They did try  to use them for completely different receivers in the (false) hope that this wouldn't be detected.
 The [Venona Project](https://en.wikipedia.org/wiki/Venona_project) of the U.S. Army was founded in February 1943 by Gene Grabeel (see [genegrabeelfig](){.ref}), a former home economics teacher from Madison Heights, Virgnia and Lt. Leonard Zubko.
 In October 1943, they had their breakthrough when it was discovered that the Russians are reusing their keys.^[Credit to this discovery
 is shared by Lt. Richard Hallock, Carrie Berry, Frank Lewis, and Lt. Karl Elmquist, and there are others that have made important contribution to this project. See pages 27 and 28 in the document.]
@@ -349,7 +348,7 @@ Then for every constant $a\in \N$ there is   a computationally secret encryption
 The proof is illustrated in [derandonetimepadfig](){.ref}. We simply take the one-time pad on $L$ bit plaintexts, but replace the key with $G(k)$ where $k$ is a string in $\{0,1\}^n$ and $G:\{0,1\}^n \rightarrow \{0,1\}^L$ is a pseudorandom generator.
 
 > # {.proof data-ref="PRGtoENC"}
-Since an exponential function of the form $2^{\delta n}$ grows faster than any polynomial of the form $n^a$,  under the optimal PRG conjecture we can obtain a polynomial-time computable $(2^{\delta n},2^{-\delta n})$ pseudorandom generator $G:\{0,1\}^n \rightarrow \{0,1\}^L$  for $L = \lceil a\cdot n^b \rceil$.
+Since an exponential function of the form $2^{\delta n}$ grows faster than any polynomial of the form $n^a$,  under the optimal PRG conjecture we can obtain a polynomial-time computable $(2^{\delta n},2^{-\delta n})$ pseudorandom generator $G:\{0,1\}^n \rightarrow \{0,1\}^L$  for $L = n^a$.
 We now define our encryption scheme as follows: given key $k\in \{0,1\}^n$ and plaintext $x\in \{0,1\}^L$, the encryption $E_k(x)$ is simply $x \oplus G(k)$.
 To decrypt a string $y \in \{0,1\}^m$ we output $y \oplus G(k)$.
 This is a valid encryption since $G$ is computable in polynomial time and $(x \oplus G(k)) \oplus G(k) = x \oplus (G(k) \oplus G(k))=x$ for every $x\in \{0,1\}^L$.
@@ -406,7 +405,7 @@ $$
 $$
 
 Note that the "furthermore" part is extremely strong. It means that if the plaintext is even a little bit larger than the key, then we can already break the scheme in a very strong way, in the sense that we have a polynomial-time algorithm that will guess whether the encrypted message was $x_0$ or $x_1$ with probability very close to $1$.
-The condition $\mathbf{P}=\mathbf{NP}$ can be relaxed to $\mathbf{NP}\subseteq \mathbf{BPP}$ and even the weaker condition $\mathbf{NP} \subseteq \mathbf{P_{poly}}$ with essentially the same proof.
+The condition $\mathbf{P}=\mathbf{NP}$ can be relaxed to $\mathbf{NP}\subseteq \mathbf{BPP}$ and even the weaker condition $\mathbf{NP} \subseteq \mathbf{P_{/poly}}$ with essentially the same proof.
 
 > # {.proofidea data-ref="breakingcryptowithnp"}
 The proof follows along the lines of [longkeysthm](){.ref} but this time paying attention to the computational aspects.
@@ -450,7 +449,7 @@ After all, as we've mentioned  before it is known that the Optimal PRG conjectur
 ## Public key cryptography
 
 People have been dreaming about heavier than air flight since at least the days of Leonardo Da Vinci (not to mention Icarus from the greek mythology).
-Jules Vern wrote with rather insightful details about going to the moon in 1865.  
+Jules Vern wrote with rather insightful details about going to the moon in 1865.
 But, as far as I know, in all the thousands of years people have been using secret writing, until about 50 years ago no one  has considered the possibility of communicating securely
 without first exchanging a shared secret key.
 
@@ -487,14 +486,15 @@ They published their paper ["New Directions in Cryptography"](https://www-ee.sta
 The Diffie-Hellman Key Exchange is still widely used today for secure communication.
 However, it still felt short of providing Diffie and Hellman's  elusive trapdoor function.
 This was done the next year by Rivest, Shamir and Adleman who came up with the RSA trapdoor function, which through the framework of Diffie and Hellman yielded not just encryption but also signatures.^[A close variant of the  RSA function was   discovered earlier by Clifford Cocks at GCHQ, though as far as I can tell Cocks, Ellis and Williamson did not realize the application to digital signatures.]
-From this point on began a flurry of advances in cryptography which hasn't really died down till this day.
+From this point on began a flurry of advances in cryptography which hasn't died down till this day.
 
 ### Public key encryption, trapdoor functions and pseudrandom generators
 
 A  _public key encryption_ consists of a triple of algorithms:
 
 * The _key generation algorithm_, which we denote by $KeyGen$ or $KG$ for short, is a randomized algorithm that outputs a pair of strings $(e,d)$ where $e$ is known as the _public_ (or _encryption_) key, and $d$ is known as the _private_ (or _decryption_) key.
-The key generation algorithm gets as input $1^n$ (i.e., a string of ones of length $n$): we defer to $n$ as the _security parameter_ of the scheme.
+The key generation algorithm gets as input $1^n$ (i.e., a string of ones of length $n$).
+We refer to $n$ as the _security parameter_ of the scheme.
 The bigger we make $n$, the more secure the encryption will be, but also the less efficient it will be.
 
 * The _encryption algorithm_, which we denote by $E$, takes the encryption key $e$ and a plaintext $x$, and outputs the ciphertext $y=E_e(x)$.
@@ -547,7 +547,7 @@ The Diffie-Hellman protocol for Bob to send a message to Alice is as follows:
 
 * __Alice:__ Given $g',z$, Alice recovers $x$ by outputting $rep(g'^a \mod p) \oplus z$.
 
-The correctness of the protocol follows from the simple fact that $(g^a)^b = (g^b)^a$ for every $g,a,b$ and this still holds if we work modulo $p$. Its security  The  relies on the computational assumption that computing this map is hard, even in a certain "average case" sense (this computational assumption is known as the [Decisional Diffie Hellman assumption](https://en.wikipedia.org/wiki/Decisional_Diffie%E2%80%93Hellman_assumption)).
+The correctness of the protocol follows from the simple fact that $(g^a)^b = (g^b)^a$ for every $g,a,b$ and this still holds if we work modulo $p$. Its security relies on the computational assumption that computing this map is hard, even in a certain "average case" sense (this computational assumption is known as the [Decisional Diffie Hellman assumption](https://en.wikipedia.org/wiki/Decisional_Diffie%E2%80%93Hellman_assumption)).
 The Diffie-Hellman key exchange protocol can be thought of as a public key encryption where the Alice's first message is the public key, and Bob's message is the encryption.
 
 One can think of the Diffie-Hellman protocol as being based on a "trapdoor pseudorandom generator" whereas the triple $g^a,g^{b},g^{ab}$ looks "random" to someone that doesn't know $a$, but someone that does know $a$ can see that raising the second element to the $a$-th power yields the third element.
@@ -600,7 +600,7 @@ Rivest et al already showed that such encryption schemes could be _immensely_ us
 After all, if we can compute NAND then we can use this to run any algorithm $P$ on the encrypted data, and map $E_k(x_0),\ldots,E_k(x_{n-1})$ to $E_k(P(x_0,\ldots,x_{n-1}))$.
 For example, a client could store their secret data $x$ in encrypted form on the cloud, and have the cloud provider perform all sorts of computation on these data without ever revealing to the provider the private key, and so without the provider _ever learning any information_ about the secret data.
 
-The first question took much longer time to resolve. Only in 2009 Craig Gentry gave the first construction of an encryption scheme that allows to compute a universal basis of gates on the data (known as a _Fully Homomorphic Encryption scheme_ in crypto parlance).
+The  question of _existence_ of such a scheme took much longer time to resolve. Only in 2009 Craig Gentry gave the first construction of an encryption scheme that allows to compute a universal basis of gates on the data (known as a _Fully Homomorphic Encryption scheme_ in crypto parlance).
 Gentry's scheme left much to be desired in terms of efficiency, and improving upon it has been the focus of an intensive research program that has already seen significant improvements.
 
 ### Multiparty secure computation
