@@ -179,7 +179,13 @@ One would be correct about the former, but wrong about the latter.
 As we will see, we do in fact have  reasons to believe that $\mathbf{BPP}=\mathbf{P}$.
 This can be thought of as supporting the _extended Church Turing hypothesis_ that deterministic polynomial-time NAND++ program (or, equivalently, polynomial-time Turing machines)  capture what can be feasibly computed in the physical world.
 
-We now survey some of the relations that are known between $\mathbf{BPP}$ and other complexity classes we have encountered.
+We now survey some of the relations that are known between $\mathbf{BPP}$ and other complexity classes we have encountered, see also [BPPscenariosfig](){.ref}.
+
+![Some possibilities for the relations between $\mathbf{BPP}$ and other complexity classes. Most researchers believe that $\mathbf{BPP}=\mathbf{P}$ and that these classes are _not_ powerful enough to solve $\mathbf{NP}$-complete problems, let alone all problems in $\mathbf{EXP}$.
+However, we have not even been able yet to rule out the possiblity that randomness is a "silver bullet" that allows exponential speedup on all problems, and hence $\mathbf{BPP}=\mathbf{EXP}$.
+As we've already seen, we also can't rule out that $\mathbf{P}=\mathbf{NP}$.
+Interestingly, in the latter case, $\mathbf{P}=\mathbf{BPP}$.](../figure/BPPscenarios.png){#BPPscenariosfig .class width=300px height=300px}
+
 
 ### Solving $\mathbf{BPP}$ in exponential time
 
