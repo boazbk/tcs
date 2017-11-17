@@ -5,56 +5,79 @@
 
 >_"The only difference between a probabilistic classical world and the equations of the quantum world is that somehow or other it appears as if the probabilities would have to go negative "_, Richard Feynman, 1981
 
-For much of the history of mankind, people believed that the ultimate "theory of everything" would be of the "billiard ball" type.
-That is, at the end of the day, everything is composed of some elementary particles and adjacent particles interact with one another according to some well specified laws.
-The types of particles and laws might differ, but not the general shape of the theory.
-Note that this in particular means that a system of $N$ particles can be simulated by a computer with $poly(N)$ memory and time.
+There were two schools of natural philosophy in ancient Greece.
+_Aristotle_ believed that objects have an _essence_ that explains their behavior, and a theory of the natural world has to refer to the _reasons_ (or "final cause" to use Aristotle's language) as to why they exhibit certain phenonmena.
+_Democritus_ believed in a purely mechanistic explanation of the world.
+In his view, the universe was ultimately composed of elementary particles (or _Atoms_) and  our observed phenomena arise from the interactions between these particles according to some local rules.
+Modern science (arguably starting with Newton) has embraced Democritus' point of view, of a mechanistic or "clockwork" universe of particles and forces acting upon them.
+While the classification of particles and forces evolved with in time, to a large extent the "big picture" has not changed from  Newton till Einstein.
+In particular it was held as an axiom that if we knew fully the current _state_ of the universe (i.e., the particles and their properties such as location and velocity) then we could predict its future state at any point in time.
+In computational language, in all these theories the state of a system with $n$ particles could be stored in an array of $O(n)$ numbers, and predicting the evolution of the system  can be done by running some efficient (e.g., $poly(n)$ time) computation on this array.
 
 Alas, in the beginning of the 20th century, several experimental results were calling into question the "billiard ball" theory of the world.
-One such experiment is the famous "double slit" experiment.
-Suppose we shoot an electron at a wall that has a single slit at position $i$ and put somewhere behind this slit a detector.
-If we let $p_i$ be the probability that the electron goes through the slit and let $q_i$ be the probability that conditioned on this event, the electron hits this detector, then the fraction of times the electron hits our detector should be (and indeed is) $\alpha = p_iq_i$.
-Similarly, if we close this slit and open a second slit at position $j$ then the new fraction of times the electron hits our detector will be $\beta=p_jq_j$.
-Now if we open both slits then it seems that the fraction should be $\alpha+\beta$ and in particular, "obviously" the probability that the electron hits our detector should only _increase_ if we open a second slit.
+One such experiment is the famous [double slit](https://en.wikipedia.org/wiki/Double-slit_experiment) experiment.
+One way to describe it is as following.
+Suppose that we buy one of those baseball pitching machines, and aim it at a soft plastic wall.
+If we shoot baseballs at the wall, then we will dent it.
+Now, if we use another machine, aimed at a slightly different part of the wall,  and interleave between shooting at the wall with both machines, then we will now make _two_ dents in the wall.
+Obviously,  we expect the level of "denting" in any particular position of the wall to only be bigger when we shoot at it with two machines than when we shoot at it with one.
 
-However, this is not what actually happens when we run this experiment.
-It can be that the detector is  hit a _smaller_ number of times when two slits are open than when only a single one hits.
-It's almost as if the electron checks whether two slits are open, and if they are, it changes the path it takes.
-If we try to "catch the electron in the act" and place a detector right next to each slit so we can count which electron went through which slit then something even more bizzare happened.
-The mere fact that we _measured_ the electron path changes the actual path it takes, and now this "destructive interference" pattern is gone and the detector  will be hit   $\alpha+\beta$ fraction of the time.
+The above is (to my knowledge) an accurate description of what happens when we shoot baseballs at a wall.
+However, this is not the same when we shoot _photons_.
+Amazingly, if we shoot with two "photon guns" (i.e., lasers) at a wall equipped with photon detectors, then some of the detectors will see _fewer_ hits when the two lasers operate than when only one of them does.^[Normally rather than shooting with one or two lasers, people use a single laser with a barrier between the laser and the detectors that has either one or two _slits_ open in it, hence the name "double slit experiemnt". The variant of the experiment we describe was first performed by  Pfleegor and Mandel in 1967.]
+In particular there are positions in the wall that are hit when the first gun is turned on, and when the second gone is turned on, but are _not hit at all when both guns are turned on!_.
+It's almost as if the photons from both guns are aware of each other's existence, and behave differently when they know that in the future a photon would be shot from another gun. (Indeed, we stress that we can modulate the rate of firing so that photons are _not_ fired at the same time, and so there is not chance of "collision".)
+
+This and other experiments ultimately forced scientists to accept the following picture of the world.
+Let us go back to the baseball experiment, and consider a particular position in the wall.
+Suppose that the probability that a ball shot from the first machine hits that position is $p$, and the probability that a ball shot from the second machine hits the same position is $q$.
+Then, if we shoot $N$ balls out of each gun, we expect that this position will be hit $(p+q)N$ times.
+In the quantum world, for photons, we have almost the same picture, except that the probabilities can be _negative_.
+In particular, it can be the case that $p+q=0$, in which case the position would be hit with nonzero probability when gun number one is operating, and with nonzero probability when gun number two is operating, but with zero probability when both of them are operating.
+If we try to "catch photons in the act" and place  detectors right next to the mouth of each gun so we can see exactly the path that the photons took  then something even more bizzare happens.
+The mere fact that we _measure_ the  path changes the actual path it takes, and now this "destructive interference" pattern is gone and the detector  will be hit $p+q$ fraction of the time.
+
+> # { .pause }
+You should read the paragraphs above more than once and make sure you appreciate how truly mind boggling these results are.
+
+What does it mean for a probability to be negative?
+The physicsts' answer is that it does not mean much in isolation, but it can cause _interference_ when a positive and negative probability interact.
+Specifically, let's consider the simplest system of all: one that can be in only one of two states, call them "red" and "blue". (If you have some physics background then you  can think of an electron that can be in either "spin up" or "spin down" state.)
+In classical probability terms, we would model the state of such a system by a pair of two non-negative numbers $p,q$ such that $p+q=1$.
+If we observe (or _measure_, to use quantum mechanical parlance), the color of the system, we will see that it is red with probability $p$ and blue with probability $q$.
+In quantum mechanics, we model the state of such a system by a pair of two (potentially negative) numbers $\alpha,\beta$ such that $\alpha^2 + \beta^2 = 1$.
+If we measure the color of the system then we will see that it is red with probability $\alpha^2$ and blue with probability $\beta^2$.[^quantum]
+In isolation, these negative numbers don't matter much, since we anyway square them to obtain probabilities.
+But as we mention above, the interaction of positive and negative probabilities can result in surprising _cancellations_ where somehow combining two scenarios where a system is "blue" with positive probability results in a scenario where it is never blue.
+
+
 
 ![The setup of the double slit experiment](../figure/double-slit-setup.PNG){#doubleslitfig .class width=300px height=300px}
 
 ![](../figure/double_slit2.jpg){#doubleslittwofig .class width=300px height=300px}
 
 
-Quantum mechanics is a mathematical theory that allows us to calculate and predict the results of this and many other examples.
+Quantum mechanics is a mathematical theory that allows us to calculate and predict the results of this and many other experiments.
 If you think of quantum as an explanation as to what "really" goes on in the world, it can be rather confusing.
 However, if you simply "shut up and calculate" then it works amazingly well at predicting the results of a great many experiments.
-
-In the double slit experiment, quantum mechanics still allows to compute numbers $\alpha$ and $\beta$ that denote "probabilities"
-that the first and second electrons hit the detector. The only difference that in quantum mechanics these probabilities might be _negative_ numbers.
-However, probabilities can only be negative when no one is looking at them.
-When we actually measure what happened to the detector, we make the probabilities positive by _squaring_ them.
-So, if only the first slit is open, the detector will be hit $\alpha^2$ fraction of the time. If only the second slit is open, the detector will be hit $\beta^2$ fraction of the time. And if both slits are open, the detector will be hit $(\alpha+\beta)^2$ fraction of the time.
-Note that it can well be that $(\alpha+\beta)^2 < \alpha^2 + \beta^2$ and so this calculation explains why the number of times a detector is hit when two slits are open
-might be _smaller_ than the number of times it is hit when either slit is open.
+In particular, in the double slit experiments, for any position in the wall, we can compute  numbers $\alpha$ and $\beta$ such that photons from the first and second gun  hit that position with probabilities $\alpha^2$ and $\beta^2$ respectively.
+When we activate both guns, the probability that the position will be hit is proportional to $(\alpha+\beta)^2$, and so in particular, if $\alpha=-\beta$ then it will be the case that, despite being hit when _either_ gun one or gun two are working, the position is _not hit at all_ when they both work.
 If you haven't seen it before, it may seem like complete nonsense and at this point I'll have to politely point you back to the part where I said we should not question
-quantum mechanics but simply "shut up and calculate".[^quantum]
+quantum mechanics but simply "shut up and calculate".
 
-[^quantum]: If you _have_ seen quantum mechanics before, I should warn that I am making here many simplifications. In particular in quantunm mechanics the "probabilities" can actually be _complex_ numbers, though one gets most of the qualitative understanding by considering them as potentially negative real numbers. I will also be focusing throughout this presentation on so called "pure" quantum states, and ignore the fact that generally the states of a quantum subsystem are _mixed_ states that are a convex combination of pure states and can be described by a so called _density matrix_. This issue does not arise as much in quantum algorithms precisely because the goal is for a quantum computer is to be an isolated system that can evolve to continue to be in a pure state; in real world quantum computers however there will be interference from the outside world that causes the state to become mixed and increase its so called "von Neumann entropy"- fighting this interference and the second law of thermodynamics is much of what the challenge of building quantum computers is all about . More generally, this lecture is not meant to be a complete or accurate description of quantum mechanics, quantum information theory, or quantum computing, but rather just give a sense of the main points that are different about it from classical computing.
+[^quantum]: I should warn that we are making here many simplifications. In particular in quantum mechanics the "probabilities" can actually be _complex_ numbers,  though essentially all of the power and subtleties of quantum mechanics and quantum computing arise from allowing _negative_ real numbers, and the generalization from real to complex numbers is much less important. We will also be focusing on so called "pure" quantum states, and ignore the fact that generally the states of a quantum subsystem are _mixed_ states that are a convex combination of pure states and can be described by a so called _density matrix_. This issue does not arise as much in quantum algorithms precisely because the goal is for a quantum computer is to be an isolated system that can evolve to continue to be in a pure state; in real world quantum computers however there will be interference from the outside world that causes the state to become mixed and increase its so called "von Neumann entropy"- fighting this interference and the second law of thermodynamics is much of what the challenge of building quantum computers is all about . More generally, this lecture is not meant to be a complete or accurate description of quantum mechanics, quantum information theory, or quantum computing, but rather just give a sense of the main points where it differs  from classical computing.
 
 Some of the counterintuitive properties that arise from these negative probabilities include:
 
 * **Interference** - As we see here, probabilities can "cancel each other out".
 
-* **Measurement** -   The idea that probabilities are negative as long as "no one is looking" and "collapse" to positive probabilities when they are _measured_ is deeply disturbing. Indeed, people have shown that it can yield to various strange outcomes such as "spooky actions at a distance", where we can measure an object at one place and instantaously (faster than the speed of light) cause a difference in the results of a measurements in a place far removed. Unfortunately (or fortunately?) these strange outcomes have been confirmed experimentally.
+* **Measurement** -   The idea that probabilities are negative as long as "no one is looking" and "collapse" (by squaring them) to positive probabilities when they are _measured_ is deeply disturbing. Indeed, people have shown that it can yield to various strange outcomes such as "spooky actions at a distance", where we can measure an object at one place and instantaously (faster than the speed of light) cause a difference in the results of a measurements in a place far removed. Unfortunately (or fortunately?) these strange outcomes have been confirmed experimentally.
 
 * **Entanglement** - The notion that two parts of the system could be connected in this weird way where measuring one will affect the other is known as _quantum entanglement_.   
 
 Again, as counter-intuitive as these concepts are, they have been experimentally confirmed, so we just have to live with them.
 
-### Quantum computing and computation - an executive summary.
+## Quantum computing and computation - an executive summary.
 
 One of the strange aspects of the quantum-mechanical picture of the world is that unlike in the billiard ball example, there is no obvious algorithm to simulate the evolution of $n$ particles over $t$ time periods in $poly(n,t)$ steps.
 In fact, the natural way to simulate $n$ quantum particles will require a number of steps that is _exponential_ in $n$.
@@ -69,12 +92,13 @@ So, he asked whether one could design a quantum system such that its outcome $y$
 In 1985, David Deutsch formally suggested the notion of a quantum Turing machine, and the model has been since refined in works of Detusch and Josza and Bernstein and Vazirani.
 Such a system is now known as a _quantum computer_.
 
-[^Feynman]: As its title suggests, Feynman's [lecture](https://www.cs.berkeley.edu/~christos/classics/Feynman.pdf) was actually focused on the other side of simulating physics with a computer, but he mentioned that as a "side remark" one could wonder if it's possible to simulate physics with a new kind of computer - a "quantum computer" which would "not [be] a Turing machine, but a machine of a different kind". As far as I know, Feynman did not suggest that such a computer could be useful for computations completely outside the domain of quantum simulation, and in fact he found the question of whether quantum mechanics could be simulated by a classical computer to be  more interesting.
+[^Feynman]: As its title suggests, Feynman's [lecture](https://www.cs.berkeley.edu/~christos/classics/Feynman.pdf) was actually focused on the other side of simulating physics with a computer. However,  he mentioned that as a "side remark" one could wonder if it's possible to simulate physics with a new kind of computer - a "quantum computer" which would "not [be] a Turing machine, but a machine of a different kind". As far as I know, Feynman did not suggest that such a computer could be useful for computations completely outside the domain of quantum simulation, and in fact he found the question of whether quantum mechanics could be simulated by a classical computer to be  more interesting.
 
 
 For a while these hypothetical quantum computers seemed useful for one of two things.
 First, to provide a general-purpose mechanism to  simulate a variety of the real quantum systems that people care about.
-Second, as a challenge to the theory of computation's approach to model efficient computation by Turing machines, though a challenge that has little bearing to practice, given that this theoretical "extra power" of quantum computer seemed to offer little advantage in the problems people actually want to solve such as combinatorial optimization, machine learning,  data structures, etc..
+Second, as a challenge to the _Extended Church Turing hypothesis_ which says that every physically realizable computation device can be modeled (up to polynomial overhead) by Turing machines (or equivalently, NAND++ / NAND<< programs).
+However, (unless you care about quantum chemistry) it seemed like a challenge that might have little bearing to practice, given that this theoretical "extra power" of quantum computer seemed to offer little advantage in the majority of the  problems people  want to solve in areas such as  combinatorial optimization, machine learning,  data structures, etc..
 
 To a significant extent, this is still true today. We have no real evidence that quantum computers, if built, will offer truly significant[^Grover] advantage in 99% of the applications of computing.[^overhead]
 However, there is one cryptography-sized exception:
@@ -82,25 +106,21 @@ In 1994 Peter Shor showed that quantum computers can solve the integer factoring
 This result has captured the imagination of a great many people, and completely energized research into quantum computing.  
 This is both because the hardness of these particular problems provides the foundations for securing such a huge part of our communications (and these days, our economy), as well as it was a powerful demonstration that quantum computers could turn out to be useful for problems that a-priori seemd to have nothing to do with quantum physics.
 As we'll discuss later, at the moment there are several intensive efforts to construct large scale quantum computers.
-It seems safe to say that, as far as we know, in the next five years or so there will not be a quantum computer large enough to factor, say, a $1024$ bit number, but there it is quite possible that some quantum computer will be built that is strong enough to achieve some task that is too inefficient to achieve with a non-quantum or "classical" computer  (or at least requires more resources classically than it would for this computer).
+It seems safe to say that, as far as we know, in the next five years or so there will not be a quantum computer large enough to factor, say, a $1024$ bit number, but there it is quite possible that some quantum computer will be built that is strong enough to achieve some task that is too inefficient to achieve with a non-quantum or "classical" computer  (or at least requires far more resources classically than it would for this computer).
 When and if such a computer is  built that can break reasonable parameters of Diffie Hellman, RSA and elliptic curve cryptography is anybody's guess.
 It could also be a "self destroying prophecy" whereby the existence of a small-scale quantum computer would cause everyone to shift away to lattice-based crypto which in turn will diminish the motivation to invest the huge resources needed to build a large scale quantum computer.[^legacy]
 
-[^legacy]: Of course, given that [we're still hearing](http://blog.cryptographyengineering.com/2016/03/attack-of-week-drown.html) of attacks exploiting "export grade" cryptography that was supposed to disappear with 1990's, I imagine that we'll still have products running 1024 bit RSA when everyone has a quantum laptop.
+[^legacy]: Of course, given that [we're still hearing](http://blog.cryptographyengineering.com/2016/03/attack-of-week-drown.html) of attacks exploiting "export grade" cryptography that was supposed to disappear in 1990's, I imagine that we'll still have products running 1024 bit RSA when everyone has a quantum laptop.
 
 [^overhead]: This "99 percent" is a figure of speech, but not completely so. It seems that for many web servers, the TLS protocol (which based on the current non-lattice based systems would be completely broken by quantum computing) is responsible [for about 1 percent of the CPU usage](https://goo.gl/mHpYpm).  
 
 [^Grover]: I am using the theorist' definition of conflating "significant" with "super-polynomial". As we'll see, Grover's algorithm does offer a very generic _quadratic_ advantage in computation. Whether that quadratic advantage will  ever be good enough to offset in practice the significant overhead in building a quantum computer remains an open question. We also don't have evidence that super-polynomial speedups _can't_ be achieved for some problems outside the Factoring/Dlog or quantum simulation domains, and there is at least [one company](http://www.dwavesys.com/) banking on such speedups actually being feasible.
 
-The above summary might be all that you need to know as a cryptographer, and enough motivation to study lattice-based cryptography as we do in this course.
-However, because quantum computing is such a beautiful and (like cryptography) counter-intuitive concept,
-we will try to give at least a hint of what is it about and how does Shor's algorithm work.
-
-
 
 ## Quantum 101
 
-We now present some of the basic notions in quantum information. It is very useful to contrast these notions to the setting of _probabilistic_ systems and see how "negative probabilities" make a difference.^[This discussion is somewhat brief. The chapter on quantum computation in my [book with Arora](http://theory.cs.princeton.edu/complexity/) (see [draft here](http://theory.cs.princeton.edu/complexity/ab_quantumchap.pdf)) is one
+We now present some of the basic notions in quantum information.
+It is very useful to contrast these notions to the setting of _probabilistic_ systems and see how "negative probabilities" make a difference.^[This discussion is somewhat brief. The chapter on quantum computation in my [book with Arora](http://theory.cs.princeton.edu/complexity/) (see [draft here](http://theory.cs.princeton.edu/complexity/ab_quantumchap.pdf)) is one
 relatively short resource that contains essentially everything we discuss here.
 See also this [blog post of Aaronson](http://www.scottaaronson.com/blog/?p=208) for a high level explanation of Shor's algorithm which ends with links to several more detailed expositions.
 See also [this lecture](http://www.scottaaronson.com/democritus/lec14.html) of Aaronson for a great discussion of the feasibility of quantum computing (Aaronson's [course lecture notes](http://www.scottaaronson.com/democritus/default.html) and the [book](http://www.amazon.com/Quantum-Computing-since-Democritus-Aaronson/dp/0521199565) that they spawned are fantastic reads as well).]
@@ -114,13 +134,14 @@ Thus we can describe the _state_ of the system by the $2^n$-dimensional vector $
 If we _measure_ the system and see what the coins came out, we will get the value $x$ with probability $v_x$.
 Naturally, if we measure the system twice we will get the same result.
 Thus, after we see that the coin is $x$, the new state of the system _collapses_ to a  vector $v$ such that $v_y = 1$ if $y=x$ and $v_y=0$ if $y\neq x$.
-In a quantum state, we do the same thing: if we _measure_ a vector $v$ corresponds to turning it with probability $|v_x|^2$ into a vector that has $1$ on coordinate $x$ and zero on all the other coordinates.
+In a quantum state, we do the same thing:  _measuring_ a vector $v$ corresponds to turning it with probability $|v_x|^2$ into a vector that has $1$ on coordinate $x$ and zero on all the other coordinates.
 
 
 __Operations:__ In the classical probabilistic setting, if we have a system in state $v$ and we apply some function $f:\{0,1\}^n\rightarrow\{0,1\}^n$ then this transforms $v$ to the state $w$ such that $w_y = \sum_{x:f(x)=y} v_x$.  
-Another way to state this, is that $w=M_f$ where $M_f$ is the matrix such that $M_{f(x),x}=1$ for all $x$ and all other entries are $0$.
+Another way to state this, is that $w=M_f v$ where $M_f$ is the matrix such that $M_{f(x),x}=1$ for all $x$ and all other entries are $0$.
 If we toss a coin and decide with probability $1/2$ to apply $f$ and with probability $1/2$ to apply $g$, this corresponds to the matrix $(1/2)M_f + (1/2)M_g$.
-More generally, the set of operations that we can apply can be captured as the set of convex combinations of all such matrices- this is simply the set of non-negative matrices whose columns all sum up to $1$- the _stochastic_ matrices. In the quantum case, the operations we can apply to a quantum state are encoded as a _unitary_ matrix, which is a matrix $M$ such that $\|Mv\|=\|v\|$ for all vectors $v$.
+More generally, the set of operations that we can apply can be captured as the set of convex combinations of all such matrices- this is simply the set of non-negative matrices whose columns all sum up to $1$- the _stochastic_ matrices.
+In the quantum case, the operations we can apply to a quantum state are encoded as a _unitary_ matrix, which is a matrix $M$ such that $\|Mv\|=\|v\|$ for all vectors $v$.
 
 __Elementary operations:__ Of course, even in the probabilistic setting, not every function $f:\{0,1\}^n\rightarrow\{0,1\}^n$ is efficiently computable. We think of a function as efficiently computable if it is composed of polynomially many elementary operations, that involve at most $2$ or $3$ bits or so (i.e., Boolean _gates_).
 That is, we say that a matrix $M$ is _elementary_ if it only modifies three bits.
