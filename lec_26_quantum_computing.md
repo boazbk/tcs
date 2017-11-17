@@ -62,7 +62,7 @@ This is a huge headache for scientists that actually need to do these calculatio
 
 In the 1981, physicist Richard Feynman proposed  to "turn this lemon to lemonade" by making the following almost tautological observation:
 
->_If a physical system cannot be simulated by a computer in $T$ steps, the system can be considered as performing a computation that would take more than $T$ steps_
+>_If a physical system cannot be simulated by a computer in $T$ steps, the system can be considered as performing a computation that would take more than $T$ steps._
 
 So, he asked whether one could design a quantum system such that its outcome $y$ based on the initial condition $x$ would be some function $y=f(x)$ such that **(a)** we don't know how to efficiently compute in any other way, and **(b)** is actually useful for something.[^Feynman]
 In 1985, David Deutsch formally suggested the notion of a quantum Turing machine, and the model has been since refined in works of Detusch and Josza and Bernstein and Vazirani.
@@ -105,7 +105,7 @@ See also this [blog post of Aaronson](http://www.scottaaronson.com/blog/?p=208) 
 See also [this lecture](http://www.scottaaronson.com/democritus/lec14.html) of Aaronson for a great discussion of the feasibility of quantum computing (Aaronson's [course lecture notes](http://www.scottaaronson.com/democritus/default.html) and the [book](http://www.amazon.com/Quantum-Computing-since-Democritus-Aaronson/dp/0521199565) that they spawned are fantastic reads as well).]
 
 __States:__ We will consider a simple quantum system that includes $n$ objects (e.g., electrons/photons/transistors/etc..) each of which can be in either an "on" or "off" state - i.e., each of them can encode a single _bit_ of information, but to emphasize the "quantumness" we will call it a _qubit_.
-A _probability distribution_ over such a system can be described as a $2^n$ dimensional vector $v$ with non-negative entries summing up to $1$, where for every $x\in\zo^n$, $v_x$ denotes the probability that the system is in state $x$.
+A _probability distribution_ over such a system can be described as a $2^n$ dimensional vector $v$ with non-negative entries summing up to $1$, where for every $x\in\{0,1\}^n$, $v_x$ denotes the probability that the system is in state $x$.
 As we mentioned, quantum mechanics allows negative (in fact even complex) probabilities and so a _quantum state_ of the system can be described as a $2^n$ dimensional vector $v$ such that $\|v\|^2 = \sum_x |v_x|^2 = 1$.
 
 __Measurement:__ Suppose that we were in the classical probabilistic setting, and that the $n$ bits are simply random coins.
@@ -116,16 +116,16 @@ Thus, after we see that the coin is $x$, the new state of the system _collapses_
 In a quantum state, we do the same thing: if we _measure_ a vector $v$ corresponds to turning it with probability $|v_x|^2$ into a vector that has $1$ on coordinate $x$ and zero on all the other coordinates.
 
 
-__Operations:__ In the classical probabilistic setting, if we have a system in state $v$ and we apply some function $f:\zo^n\rightarrow\zo^n$ then this transforms $v$ to the state $w$ such that $w_y = \sum_{x:f(x)=y} v_x$.  
+__Operations:__ In the classical probabilistic setting, if we have a system in state $v$ and we apply some function $f:\{0,1\}^n\rightarrow\{0,1\}^n$ then this transforms $v$ to the state $w$ such that $w_y = \sum_{x:f(x)=y} v_x$.  
 Another way to state this, is that $w=M_f$ where $M_f$ is the matrix such that $M_{f(x),x}=1$ for all $x$ and all other entries are $0$.
 If we toss a coin and decide with probability $1/2$ to apply $f$ and with probability $1/2$ to apply $g$, this corresponds to the matrix $(1/2)M_f + (1/2)M_g$.
 More generally, the set of operations that we can apply can be captured as the set of convex combinations of all such matrices- this is simply the set of non-negative matrices whose columns all sum up to $1$- the _stochastic_ matrices. In the quantum case, the operations we can apply to a quantum state are encoded as a _unitary_ matrix, which is a matrix $M$ such that $\|Mv\|=\|v\|$ for all vectors $v$.
 
-__Elementary operations:__ Of course, even in the probabilistic setting, not every function $f:\zo^n\rightarrow\zo^n$ is efficiently computable. We think of a function as efficiently computable if it is composed of polynomially many elementary operations, that involve at most $2$ or $3$ bits or so (i.e., Boolean _gates_).
+__Elementary operations:__ Of course, even in the probabilistic setting, not every function $f:\{0,1\}^n\rightarrow\{0,1\}^n$ is efficiently computable. We think of a function as efficiently computable if it is composed of polynomially many elementary operations, that involve at most $2$ or $3$ bits or so (i.e., Boolean _gates_).
 That is, we say that a matrix $M$ is _elementary_ if it only modifies three bits.
 That is,  $M$ is obtained by "lifting" some $8\times 8$ matrix $M'$ that operates on three bits $i,j,k$, leaving all the rest of the bits intact.
-Formally, given an $8\times 8$ matrix $M'$ (indexed by strings in $\zo^3$) and three distinct indices $i<j<k \in \{1,\ldots,n\}$ we define the _$n$-lift of $M'$ with indices $i,j,k$_ to be the $2^n\times 2^n$ matrix $M$ such that for every strings $x$ and $y$ that agree with each other on all coordinates except possibly $i,j,k$, $M_{x,y}=M'_{x_ix_jx_k,y_iy_jy_k}$ and otherwise $M_{x,y}=0$.
-Note that if $M'$ is of the form $M'_f$ for some function $f:\zo^3\rightarrow\zo^3$ then $M=M_g$ where $g:\zo^n\rightarrow\zo^n$ is defined as $g(x)=f(x_ix_jx_k)$.
+Formally, given an $8\times 8$ matrix $M'$ (indexed by strings in $\{0,1\}^3$) and three distinct indices $i<j<k \in \{1,\ldots,n\}$ we define the _$n$-lift of $M'$ with indices $i,j,k$_ to be the $2^n\times 2^n$ matrix $M$ such that for every strings $x$ and $y$ that agree with each other on all coordinates except possibly $i,j,k$, $M_{x,y}=M'_{x_ix_jx_k,y_iy_jy_k}$ and otherwise $M_{x,y}=0$.
+Note that if $M'$ is of the form $M'_f$ for some function $f:\{0,1\}^3\rightarrow\{0,1\}^3$ then $M=M_g$ where $g:\{0,1\}^n\rightarrow\{0,1\}^n$ is defined as $g(x)=f(x_ix_jx_k)$.
 We define $M$ as an _elementary stochastic matrix_ or a _probabilistic gate_ if $M$ is equal to an $n$ lift of some stochastic $8\times 8$ matrix $M'$.
 The quantum case is similar: a _quantum gate_ is a $2^n\times 2^n$ matrix that is an $N$ lift of some unitary $8\times 8$ matrix $M'$.
 It is an exercise to prove that lifting preserves stochasticity and unitarity. That is,  every probabilistic gate is a stochastic matrix and every quantum gate is a unitary matrix.
@@ -133,22 +133,22 @@ It is an exercise to prove that lifting preserves stochasticity and unitarity. T
 __Complexity:__ For every stochastic matrix $M$ we can define its _randomized complexity_, denoted as $R(M)$ to be the minimum number $T$ such that $M$ is can be (approximately) obtained by combining $T$ elemntary probabilistic gates. To be concrete, we can define $R(M)$ to be the minimum $T$ such that there exists $T$ elementary matrices $M_1,\ldots,M_T$
 such that for every $x$, $\sum_y |M_{y,x}-(M_T\cdots M_1)_{y,x}|<0.1$.
 (It can be shown that $R(M)$ is finite and in fact at most $10^n$ for every $M$; we can do so by writing $M$ as a convex combination of function and writing every function as a composition of functions that map a single string $x$ to $y$, keeping all other inputs intact.)
-We will say that a probabilistic process $M$ mapping distributions on $\zo^n$ to distributions on $\zo^n$ is  _efficiently classically computable_ if $R(M) \leq poly(n)$.
+We will say that a probabilistic process $M$ mapping distributions on $\{0,1\}^n$ to distributions on $\{0,1\}^n$ is  _efficiently classically computable_ if $R(M) \leq poly(n)$.
 If $M$ is a unitary matrix, then we define the _quantum complexity_ of $M$, denoted as $Q(M)$, to be the minimum number $T$ such that there are quantum gates $M_1,\ldots,M_T$ satisfying that for every $x$, $\sum_y |M_{y,x}-(M_T \cdots M_1)_{y,x}|^2 < 0.1$.  
 We say that $M$ is _efficiently quantumly computable_ if $Q(M)\leq poly(n)$.
 
 
-__Computing functions:__ We have defined what it means for an operator to be probabilistically or quantumly efficiently computable, but we typically are interested in computing some function $f:\zo^m\rightarrow\zo^\ell$.
+__Computing functions:__ We have defined what it means for an operator to be probabilistically or quantumly efficiently computable, but we typically are interested in computing some function $f:\{0,1\}^m\rightarrow\{0,1\}^\ell$.
 The idea is that we say that $f$ is efficiently computable if the corresponding operator is efficiently computable, except that we also allow to use extra memory and so to embed $f$ in some $n=poly(m)$.
-We define $f$ to be  _efficiently classically computable_ if there is some $n=poly(m)$ such that the operator $M_g$ is efficiently classically computable where $g:\zo^n\rightarrow\zo^n$ is defined such that  $g(x_1,\ldots,x_n)=f(x_1,\ldots,x_m)$.
+We define $f$ to be  _efficiently classically computable_ if there is some $n=poly(m)$ such that the operator $M_g$ is efficiently classically computable where $g:\{0,1\}^n\rightarrow\{0,1\}^n$ is defined such that  $g(x_1,\ldots,x_n)=f(x_1,\ldots,x_m)$.
 In the quantum case we have a slight twist since the operator $M_g$ is not necessarily a unitary matrix.[^reversible]
-Therefore we say that $f$ is _efficiently quantumly computable_  if there is $n=poly(m)$ such that the operator $M_q$ is efficiently quantumly computable where $g:\zo^n\rightarrow\zo^n$ is defined as
+Therefore we say that $f$ is _efficiently quantumly computable_  if there is $n=poly(m)$ such that the operator $M_q$ is efficiently quantumly computable where $g:\{0,1\}^n\rightarrow\{0,1\}^n$ is defined as
 $g(x_1,\ldots,x_n) = x_1\cdots x_m \|( f(x_1\cdots x_m)0^{n-m-\ell}\; \oplus \; x_{m+1}\cdots x_n)$.
 
-[^reversible]: It is a good exercise to verify that for every $g:\zo^n\rightarrow\zo^n$, $M_g$ is unitary if and only if $g$ is a permutation.
+[^reversible]: It is a good exercise to verify that for every $g:\{0,1\}^n\rightarrow\{0,1\}^n$, $M_g$ is unitary if and only if $g$ is a permutation.
 
-**Quantum and classical computation:** The way we defined what it means for a function to be efficiently quantumly computable, it might not be clear that if $f:\zo^m\rightarrow\zo^\ell$ is a function that we can compute by a polynomial size Boolean circuit (e.g., combining polynomially many AND, OR and NOT gates) then it is also quantumly efficiently computable.
-The idea is that for every gate $g:\zo^2\rightarrow\zo$ we can define an $8\times 8$ unitary matrix $M_h$ where $h:\zo^3\rightarrow\zo^3$ have the form $h(a,b,c)=a,b,c\oplus g(a,b)$.
+**Quantum and classical computation:** The way we defined what it means for a function to be efficiently quantumly computable, it might not be clear that if $f:\{0,1\}^m\rightarrow\{0,1\}^\ell$ is a function that we can compute by a polynomial size Boolean circuit (e.g., combining polynomially many AND, OR and NOT gates) then it is also quantumly efficiently computable.
+The idea is that for every gate $g:\{0,1\}^2\rightarrow\{0,1\}$ we can define an $8\times 8$ unitary matrix $M_h$ where $h:\{0,1\}^3\rightarrow\{0,1\}^3$ have the form $h(a,b,c)=a,b,c\oplus g(a,b)$.
 So, if $f$ has a circuit of $s$ gates, then we can dedicate an extra bit for every one of these gates and then run the corresponding $s$ unitary operations one by one, at the end of which we will get an operator that computes the mapping $x_1,\ldots,x_{m+\ell+s} = x_1\cdots x_m \| x_{m+1}\cdots x_{m+s} \oplus f(x_1,\ldots,x_m)\|g(x_1\ldots x_m)$ where
 the  the $\ell+i^{th}$ bit of $g(x_1,\ldots,x_n)$ is the result of applying the $i^{th}$ gate in the calculation of $f(x_1,\ldots,x_m)$.
 So this is "almost" what we wanted except that we have this "extra junk" that we need to get rid of. The idea is that we now simply run the same computation again which will basically we mean we XOR another copy of $g(x_1,\ldots,x_m)$ to the last $s$ bits, but since $g(x)\oplus g(x) = 0^s$ we get that we compute the map $x \mapsto x_1\cdots x_m \| (f(x_1,\ldots,x_m)0^s \;\oplus\; x_{m+1}\cdots x_{m+\ell+s})$ as desired.
@@ -157,7 +157,7 @@ So this is "almost" what we wanted except that we have this "extra junk" that we
 **The "obviously exponential" fallacy:**  A priori it might seem "obvious" that quantum computing is exponentially powerful, since to compute a quantum computation on $n$ bits we need to maintain the $2^n$ dimensional state vector and apply $2^n\times 2^n$ matrices to it.
 Indeed popular descriptions of quantum computing (too) often say something along the lines that the difference between quantum and classical computer is that a classic bit can either be zero or one while a qubit can be in both states at once, and so in many qubits a quantum computer can perform exponentially many computations at once.
 Depending on how you interpret this, this description is either false or would apply equally well to _probabilistic computation_.
-However, for probabilistic computation it is a not too hard exercise to  show that if $f:\zo^m\rightarrow\zo^n$ is an efficiently computable function then it has a polynomial size circuit of AND, OR and NOT gates.[^circuit]
+However, for probabilistic computation it is a not too hard exercise to  show that if $f:\{0,1\}^m\rightarrow\{0,1\}^n$ is an efficiently computable function then it has a polynomial size circuit of AND, OR and NOT gates.[^circuit]
 Moreover, this "obvious" approach for simulating a quantum computation will take not just exponential time but _exponential space_ as well, while it is not hard to show that using a simple recursive formula one can calculate the final quantum state using _polynomial space_ (in physics parlance this is known as "Feynman path integrals").
 So, the exponentially long vector description by itself does not imply that quantum computers are exponentially powerful.
 Indeed, we cannot _prove_ that they are (since in particular we can't prove that _every_ polynomial space calculation can be done in polynomial time, in complexity parlance we don't know how to rule out that $P=PSPACE$), but we do have some problems (integer factoring most prominently) for which they do provide exponential speedup over the currently best _known_ classical (deterministic or probabilistic) algorithms.
@@ -166,7 +166,7 @@ Indeed, we cannot _prove_ that they are (since in particular we can't prove that
 
 
 
-[^circuit]: It is a good exercise to show that if $M$ is a probabilistic process with $R(M) \leq T$ then there exists a probabilistic circuit  of size, say, $100 T n^2$ that approximately computes $M$ in the sense that for every input $x$, $\sum_{y\in\zo^n} \left| \Pr[C(x)=y] - M_{x,y} \right| < 1/3$.
+[^circuit]: It is a good exercise to show that if $M$ is a probabilistic process with $R(M) \leq T$ then there exists a probabilistic circuit  of size, say, $100 T n^2$ that approximately computes $M$ in the sense that for every input $x$, $\sum_{y\in\{0,1\}^n} \left| \Pr[C(x)=y] - M_{x,y} \right| < 1/3$.
 
 
 ### Physically realizing quantum computation
@@ -196,16 +196,16 @@ But there is also a "cultural" reason why people sometimes find quantum argument
 Quantum folks follow their own special [notation](https://en.wikipedia.org/wiki/Bra%E2%80%93ket_notation) for vectors.
 Many non quantum people find it ugly and confusing, while quantum folks secretly wish they people used it all the time, not just for non-quantum linear algebra, but also for restaurant bills and elemntary school math classes.
 
-The notation is actually not so confusing. If $x\in\zo^n$ then $\ket{x}$ denotes the $x^{th}$ standard basis vector in $2^n$ dimension.
-That is $\ket{x}$  $2^n$-dimensional column vector that has $1$ in the $x^{th}$ coordinate and zero everywhere else.
-So, we can describe the column vector that has $\alpha_x$ in the $x^{th}$ entry as $\sum_{x\in\zo^n} \alpha_x \ket{x}$.
-One more piece of notation that is useful is that if $x\in\zo^n$ and $y\in\zo^m$ then we identify $\ket{x}\ket{y}$ with $\ket{xy}$ (that is, the $2^{n+m}$ dimensional vector that has $1$ in the coordinate corresponding to the concatenation of $x$ and $y$, and zero everywhere else).
+The notation is actually not so confusing. If $x\in\{0,1\}^n$ then $\rangle{x}$ denotes the $x^{th}$ standard basis vector in $2^n$ dimension.
+That is $\rangle{x}$  $2^n$-dimensional column vector that has $1$ in the $x^{th}$ coordinate and zero everywhere else.
+So, we can describe the column vector that has $\alpha_x$ in the $x^{th}$ entry as $\sum_{x\in\{0,1\}^n} \alpha_x \rangle{x}$.
+One more piece of notation that is useful is that if $x\in\{0,1\}^n$ and $y\in\{0,1\}^m$ then we identify $\rangle{x}\rangle{y}$ with $\rangle{xy}$ (that is, the $2^{n+m}$ dimensional vector that has $1$ in the coordinate corresponding to the concatenation of $x$ and $y$, and zero everywhere else).
 This is more or less all you need to know about this notation to follow this lecture.[^bra]
 
-[^bra]: If you are curious, there is an analog notation for _row_ vectors as $\bra{x}$. Generally if $u$ is a vector then $\ket{u}$ would be its form as a column vector and $\bra{u}$ would be its form as a row product. Hence since $u^\top v = \iprod{u,v}$ the inner product of $u$ and $b$ can be thought of as $\bra{u}\ket{v}$ . The _outer product_ (the matrix whose $i,j$ entry is $u_iv_j$) is denoted as $\ket{u}\bra{v}$.
+[^bra]: If you are curious, there is an analog notation for _row_ vectors as $\langle{x}$. Generally if $u$ is a vector then $\rangle{u}$ would be its form as a column vector and $\langle{u}$ would be its form as a row product. Hence since $u^\top v = \iprod{u,v}$ the inner product of $u$ and $b$ can be thought of as $\langle{u}\rangle{v}$ . The _outer product_ (the matrix whose $i,j$ entry is $u_iv_j$) is denoted as $\rangle{u}\langle{v}$.
 
-A quantum gate is an operation on at most three bits, and so it can be completely specified by what it does to the $8$ vectors $\ket{000},\ldots,\ket{111}$.
-Quantum states are always unit vectors and so we sometimes omit the normalization for convenience; for example we will identify the state $\ket{0}+\ket{1}$ with its normalized version $\tfrac{1}{\sqrt{2}}\ket{0} + \tfrac{1}{\sqrt{2}}\ket{1}$.
+A quantum gate is an operation on at most three bits, and so it can be completely specified by what it does to the $8$ vectors $\rangle{000},\ldots,\rangle{111}$.
+Quantum states are always unit vectors and so we sometimes omit the normalization for convenience; for example we will identify the state $\rangle{0}+\rangle{1}$ with its normalized version $\tfrac{1}{\sqrt{2}}\rangle{0} + \tfrac{1}{\sqrt{2}}\rangle{1}$.
 
 
 ### Bell's Inequality
@@ -223,7 +223,7 @@ So, what is this Bell's Inequality?
 Suppose that Alice and Bob try to convince you they have telepathic ability, and they aim to prove it via the following experiment.
 Alice and Bob will be in separate closed rooms.[^paranoid]
 You will interrogate Alice and your associate will interrogate Bob.
-You choose a random bit $x\in\zo$ and your associate chooses a random $y\in\zo$.
+You choose a random bit $x\in\{0,1\}$ and your associate chooses a random $y\in\{0,1\}$.
 We let $a$ be Alice's response and $b$ be Bob's response.
 We say that Alice and Bob win this experiment if $a \oplus b = x \wedge y$.
 
@@ -231,12 +231,12 @@ We say that Alice and Bob win this experiment if $a \oplus b = x \wedge y$.
 
 
 Now if Alice and Bob are not telepathic, then they need to agree in advance on some strategy.
-The most general form of such a strategy is that Alice and Bob agree on some distribution over a pair of functions $d,g:\zo\rightarrow\zo$, such that Alice will set $a=f(x)$ and
+The most general form of such a strategy is that Alice and Bob agree on some distribution over a pair of functions $d,g:\{0,1\}\rightarrow\{0,1\}$, such that Alice will set $a=f(x)$ and
 Bob will set $b=g(x)$.
 Therefore, the following claim, which is basically Bell's Inequality,[^CHSH] implies that Alice and Bob cannot succeed in this game with probability higher than $3/4$:
 
 > # {.theorem title="Bell's Inequality" #bellthm}
-For every two functions $f,g:\zo\rightarrow\zo$ there exist some $x,y\in\zo$ such that $f(x) \oplus g(y) \neq x \wedge y$.
+For every two functions $f,g:\{0,1\}\rightarrow\{0,1\}$ there exist some $x,y\in\{0,1\}$ such that $f(x) \oplus g(y) \neq x \wedge y$.
 
 > # {.proof data-ref="bellthm"}
 Suppose toward a contradiction that $f,g$ satisfy
@@ -257,7 +257,7 @@ There is a strategy for Alice and Bob to succeed in this game with probability a
 
 > # {.proof data-ref="bellstrategy"}
 The main  idea is for Alice and Bob to first prepare a 2-qubit quantum system in the state (up to normalization)
-$\ket{00}+\ket{11}$ (this is known as an _EPR pair_).
+$\rangle{00}+\rangle{11}$ (this is known as an _EPR pair_).
 Alice takes the first qubit in this system to her room, and Bob takes the qubit to his room.
 Now, when Alice receives $x$ if $x=0$ she does nothing and if $x=1$ she applies the unitary map $R_{\pi/8}$ to her qubit where $R_\theta = \left( \begin{smallmatrix} cos \theta & \sin -\theta \\ \sin \theta & \cos \theta \end{smallmatrix} \right)$.
 When Bob receives $y$, if $y=0$ he does nothing and if $y=1$ he applies the unitary map $R_{-\pi/8}$ to his  qubit.
@@ -265,7 +265,7 @@ Then each one of them measures their qubit and sends this as their response.
 Recall that to win the game Bob and Alice want their outputs to be more likely to differ if $x=y=1$ and to be more likely to agree otherwise.
 >
 If $x=y=0$ then the state does not change and Alice and Bob always output either both $0$ or both $1$, and hence in both case $a\oplus b = x \wedge y$.
-If $x=0$ and $y=1$ then after Alice measures her bit, if she gets $0$ then Bob's state is equal to $-\cos (\pi/8)\ket{0}-\sin(\pi/8)\ket{1}$ which will equal $0$ with probability $\cos^2 (\pi/8)$.
+If $x=0$ and $y=1$ then after Alice measures her bit, if she gets $0$ then Bob's state is equal to $-\cos (\pi/8)\rangle{0}-\sin(\pi/8)\rangle{1}$ which will equal $0$ with probability $\cos^2 (\pi/8)$.
 The case that Alice gets $1$, or that $x=1$ and $y=0$, is symmetric, and so in all the cases where $x\neq y$ (and hence $x \wedge y=0$) the probability that $a=b$ will be $\cos^2(\pi/8) \geq 0.85$.
 For the case that $x=1$ and $y=1$, direct calculation via trigonomertic identities yields that all four options for $(a,b)$ are equally likely and hence in this case $a=b$ with probability $0.5$.
 The overall probability of winning the game is at least $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}\cdot 0.85 + \tfrac{1}{4} \cdot 0.5 =0.8$.
@@ -281,10 +281,10 @@ It is instructive to understand what is it about quantum mechanics that enabled 
 <!--
 
 Now for every $x,y$, the state of the two qubits before measurement is the $4$ dimensional vector:
-$v_{x,y} = \tfrac{1}{\sqrt{2}}\left[ R_{x\pi/8}\ket{0} \otimes R_{-y\pi/8}\ket{1} \;+\; R_{x\pi/8}\ket{0} \otimes R_{-y\pi/8}\ket{1}  \right] \;(**)$
+$v_{x,y} = \tfrac{1}{\sqrt{2}}\left[ R_{x\pi/8}\rangle{0} \otimes R_{-y\pi/8}\rangle{1} \;+\; R_{x\pi/8}\rangle{0} \otimes R_{-y\pi/8}\rangle{1}  \right] \;(**)$
 
-If $v \in \mathbb{R}^4$ is the state of the two qubits,[^real] then the probability that we get a particular output $(a,b)$ is simply the dot product squared of $v$ with $\ket{ab}$.
-Since $\ket{1}=R_{\pi/2}\ket{0}$, and $\iprod{R_\alpha u,R_\beta u}^2 = \cos^2 (\beta-\alpha)$, we get that for every choice of the coins $x,y$ and $a,b$
+If $v \in \mathbb{R}^4$ is the state of the two qubits,[^real] then the probability that we get a particular output $(a,b)$ is simply the dot product squared of $v$ with $\rangle{ab}$.
+Since $\rangle{1}=R_{\pi/2}\rangle{0}$, and $\iprod{R_\alpha u,R_\beta u}^2 = \cos^2 (\beta-\alpha)$, we get that for every choice of the coins $x,y$ and $a,b$
 the probability that we get $a,b$ as output conditioned on $x,y$ is:
 
 $\tfrac{1}{2}\left[ \cos^2(a\pi/2-x\pi/8)\cos^2(b\pi/2+y\pi/8) + \sin^2(a\pi/2-x\pi/8)\sin^2(b\pi/2+y\pi/8) right]$
@@ -312,21 +312,21 @@ Grover's theorem is the following:
 
 
 > # {.theorem title="Grover search" #groverthm}
-There is a quantum $O(2^{n/2}poly(n))$-time algorithm that given a $poly(n)$-sized  circuit computing a function $f:\zo^n\rightarrow\zo$ outputs a string
-$x^*\in\zo^n$ such that $f(x^*)=1$.
+There is a quantum $O(2^{n/2}poly(n))$-time algorithm that given a $poly(n)$-sized  circuit computing a function $f:\{0,1\}^n\rightarrow\{0,1\}$ outputs a string
+$x^*\in\{0,1\}^n$ such that $f(x^*)=1$.
 
 > # {.proof data-ref="groverthm"}
 The proof is not hard but we only sketch it here.
 The general idea can be illustrated in the case that there exists a single $x^*$ satisfying $f(x^*)=1$.
 (There is a classical reduction from the general case to this problem.)
-As in Simon's algorithm, we can efficiently initialize an $n$-qubit system to the uniform state $u = 2^{-n/2}\sum_{x\in\zo^n}\ket{x}$ which has $2^{-n/2}$ dot product with $\ket{x^*}$. Of course if we measure $u$, we only have probability $(2^{-n/2})^2 = 2^{-n}$ of obtaining the value $x^*$.
-Our goal would be to use $O(2^{n/2})$ calls to the oracle to transform the  system to a state $v$ with dot product at least some constant $\epsilon>0$ with the state $\ket{x^*}$.
+As in Simon's algorithm, we can efficiently initialize an $n$-qubit system to the uniform state $u = 2^{-n/2}\sum_{x\in\{0,1\}^n}\rangle{x}$ which has $2^{-n/2}$ dot product with $\rangle{x^*}$. Of course if we measure $u$, we only have probability $(2^{-n/2})^2 = 2^{-n}$ of obtaining the value $x^*$.
+Our goal would be to use $O(2^{n/2})$ calls to the oracle to transform the  system to a state $v$ with dot product at least some constant $\epsilon>0$ with the state $\rangle{x^*}$.
 >
 It is an exercise to show that using $Had$ gets we can efficiently compute the unitary operator $U$ such that $Uu = u$ and $Uv = -v$ for every $v$ orthogonal to $u$.
-Also, using the circuit for $f$, we can efficiently compute the unitary operator $U^*$ such that $U^*\ket{x}=\ket{x}$ for all $x\neq x^*$ and $U^*\ket{x^*}=-\ket{x^*}$.
-It turns out that $O(2^{n/2})$ applications of $UU^*$ to $u$ yield a vector $v$ with $\Omega(1)$ inner product with $\ket{x^*}$.
-To see why, consider what these operators do in the two dimensional linear subspace spanned by $u$ and $\ket{x^*}$. (Note that the initial state $u$ is in this subspace and all our operators preserve this property.)
-Let $u_\perp$ be the unit vector orthogonal to $u$ in this subspace and let $x^*_\perp$ be the unit vector orthogonal to $\ket{x^*}$ in this subspace.
+Also, using the circuit for $f$, we can efficiently compute the unitary operator $U^*$ such that $U^*\rangle{x}=\rangle{x}$ for all $x\neq x^*$ and $U^*\rangle{x^*}=-\rangle{x^*}$.
+It turns out that $O(2^{n/2})$ applications of $UU^*$ to $u$ yield a vector $v$ with $\Omega(1)$ inner product with $\rangle{x^*}$.
+To see why, consider what these operators do in the two dimensional linear subspace spanned by $u$ and $\rangle{x^*}$. (Note that the initial state $u$ is in this subspace and all our operators preserve this property.)
+Let $u_\perp$ be the unit vector orthogonal to $u$ in this subspace and let $x^*_\perp$ be the unit vector orthogonal to $\rangle{x^*}$ in this subspace.
 Restricted to this subspace, $U^*$ is a reflection along the axis $x^*_\perp$ and $U$ is a reflection along the axis $u$.
 >
 Now, let $\theta$ be the angle between $u$ and $x^*_\perp$.
@@ -336,7 +336,7 @@ $u+\theta$ with $x^*_\perp$.
 That means taht $U^*v$ will have angle $-\alpha-\theta$ with $x^*_\perp$ or $-\alpha-2\theta$ with $u$, and hence $UU^*v$ will have angle
 $\alpha+2\theta$ with $u$.
 Hence in one application from $UU^*$ we move $2\theta$ radians away from $u$, and in $O(2^{-n/2})$ steps the angle between $u$ and our state will be at least some constant $\epsilon>0$.
-Since we live in the two dimensional space spanned by $u$ and $\ket{x}$, it would mean that the dot product of our state and $\ket{x}$ will be at least some constant as well.
+Since we live in the two dimensional space spanned by $u$ and $\rangle{x}$, it would mean that the dot product of our state and $\rangle{x}$ will be at least some constant as well.
 
 
 # Shor's Algorithm
@@ -353,9 +353,9 @@ This is an exponential improvement over the best known classical algorithms, whi
 We will now sketch the ideas behind Shor's algorithm. In fact, Shor proved the following more general result:
 
 > # {.lemma #shor}
-There is a quantum polynomial time algorithm that given a multiplicative Abelian group $\Gp$ and element $g\in\Gp$ computes the _order_ of $g$ in the group.
+There is a quantum polynomial time algorithm that given a multiplicative Abelian group $\mathbb{G}$ and element $g\in\mathbb{G}$ computes the _order_ of $g$ in the group.
 
-Recall that the order of $g$ in $\Gp$ is the smallest positive integer $a$ such that $g^a = 1$. By "given a group" we mean that we can represent the elements of the group as strings of length $O(\log |\Gp|)$ and there is a $poly(\log|\Gp|)$ algorithm to perform multiplication
+Recall that the order of $g$ in $\mathbb{G}$ is the smallest positive integer $a$ such that $g^a = 1$. By "given a group" we mean that we can represent the elements of the group as strings of length $O(\log |\mathbb{G}|)$ and there is a $poly(\log|\mathbb{G}|)$ algorithm to perform multiplication
 in the group.
 
 ## From order finding to factoring and discrete log
@@ -365,13 +365,13 @@ We merely sketch how one reduces the factoring and discrete logarithm problems t
 
 * For __factoring__, let us restrict to the case $m=pq$ for distinct $p,q$. Recall that we showed that finding the size $(p-1)(q-1)=m-p-q-1$ of the group $\Z^*_m$ is sufficient to recover $p$ and $q$. One can show that if we pick a few random $x$'s in $\Z^*_m$ and compute their order, the least common multiplier of these orders is likely to be the group size.
 
-* For **discrete log** in a group $\Gp$, if we get $X=g^x$ and need to recover $x$, we can compute the order of various elements of the form $X^ag^b$. The order of such an element is a number $c$ satisfying   $c(xa+b) = 0 \pmod{|\Gp|}$. Again, with a few random examples we will get a non trivial example (where $c \neq 0 \pmod{|\Gp|}$ ) and be able to recover the unknown $x$.
+* For **discrete log** in a group $\mathbb{G}$, if we get $X=g^x$ and need to recover $x$, we can compute the order of various elements of the form $X^ag^b$. The order of such an element is a number $c$ satisfying   $c(xa+b) = 0 \pmod{|\mathbb{G}|}$. Again, with a few random examples we will get a non trivial example (where $c \neq 0 \pmod{|\mathbb{G}|}$ ) and be able to recover the unknown $x$.
 
 ## Finding periods of a function: Simon's Algorithm
 
-Let $\Hp$ be some Abelian group with a  group operation that we'll denote by $\oplus$, and $f$ be some function mapping $\Hp$ to an arbitrary set (which we can encode as $\zo^*$).
+Let $\Hp$ be some Abelian group with a  group operation that we'll denote by $\oplus$, and $f$ be some function mapping $\Hp$ to an arbitrary set (which we can encode as $\{0,1\}^*$).
 We say that $f$ has _period $h^*$_ for some $h^*\in\Hp$ if for every $x,y \in \Hp$, $f(x)=f(y)$ if and only if $y = x \oplus kh^*$ for some integer $k$.
-Note that if $\Gp$ is some Abelian group, then if we define $\Hp=\Z_{|\Gp|}$, for every element $g\in \Gp$, the map $f(a)=g^a$ is a periodic map over $\Hp$ with period the order of $g$.
+Note that if $\mathbb{G}$ is some Abelian group, then if we define $\Hp=\Z_{|\mathbb{G}|}$, for every element $g\in \mathbb{G}$, the map $f(a)=g^a$ is a periodic map over $\Hp$ with period the order of $g$.
 So, finding the order of an item reduces to the question of finding the period of a function.
 
 
@@ -386,31 +386,31 @@ Similarly, the main idea behind Shor's algorithm is to use a tool known as the _
 Hence when we measure this state,  we get a group element $h$ with probability proportional to the square of the corresponding Fourier coefficient.
 One can show that if $f$ is $h^*$-periodic then we can recover $h^*$ from this distribution.
 
-Shor carried out this approach for the group $\Hp=\Z^*_q$ for some $q$, but we will start be seeing this for the group $\Hp = \zo^n$ with the XOR operation.
+Shor carried out this approach for the group $\Hp=\Z^*_q$ for some $q$, but we will start be seeing this for the group $\Hp = \{0,1\}^n$ with the XOR operation.
 This case is known as _Simon's algorithm_ (given by Dan Simon in 1994) and actually preceded (and inspired) Shor's algorithm:
 
 > # {.theorem title="Simon's Algorithm" #simons}
-If $f:\zo^n\rightarrow\zo^*$ is polynomial time computable and satisfies the property that $f(x)=f(y)$ iff $x\oplus y = h^*$ then there exists
-a quantum polynomial-time algorithm that outputs a random $h\in \zo^n$ such that $\iprod{h,h^*}=0 \pmod{2}$.
+If $f:\{0,1\}^n\rightarrow\{0,1\}^*$ is polynomial time computable and satisfies the property that $f(x)=f(y)$ iff $x\oplus y = h^*$ then there exists
+a quantum polynomial-time algorithm that outputs a random $h\in \{0,1\}^n$ such that $\iprod{h,h^*}=0 \pmod{2}$.
 
 Note that given $O(n)$ such samples, we can recover $h^*$ with high probability by solving the corresponding linear equations.
 
 > # {.proof data-ref="simons"}
-Let $HAD$ be the $2\times 2$ unitary  matrix corresponding to the  one qubit operation $\ket{0} \mapsto \tfrac{1}{\sqrt{2}}(\ket{0}+\ket{1})$ and
-$\ket{1} \mapsto \tfrac{1}{\sqrt{2}}(\ket{0}-\ket{1})$  or $\ket{a}\mapsto \tfrac{1}{\sqrt{2}}(\ket{0}+(-1)^a\ket{1})$.
-Given the state $\ket{0^{n+m}}$ we can apply this map to each one of the first $n$ qubits to get the state
-$2^{-n/2}\sum_{x\in\zo^n}\ket{x}\ket{0^m}$
+Let $HAD$ be the $2\times 2$ unitary  matrix corresponding to the  one qubit operation $\rangle{0} \mapsto \tfrac{1}{\sqrt{2}}(\rangle{0}+\rangle{1})$ and
+$\rangle{1} \mapsto \tfrac{1}{\sqrt{2}}(\rangle{0}-\rangle{1})$  or $\rangle{a}\mapsto \tfrac{1}{\sqrt{2}}(\rangle{0}+(-1)^a\rangle{1})$.
+Given the state $\rangle{0^{n+m}}$ we can apply this map to each one of the first $n$ qubits to get the state
+$2^{-n/2}\sum_{x\in\{0,1\}^n}\rangle{x}\rangle{0^m}$
 and then we can apply the gates of $f$ to map this to the state
-$2^{-n/2}\sum_{x\in\zo^n}\ket{x}\ket{f(x)}$
+$2^{-n/2}\sum_{x\in\{0,1\}^n}\rangle{x}\rangle{f(x)}$
 now suppose that we apply this operation again to the first $n$ qubits then we get the state
-$2^{-n}\sum_{x\in\zo^n}\prod_{i=1}^n(\ket{0}+(-1)^{x_i}\ket{1})\ket{f(x)}$
-which if we open up each one of these product and look at all $2^n$ choices $y\in\zo^n$ (with $y_i=0$ corresponding to picking $\ket{0}$ and $y_i=1$ corresponding to picking $\ket{1}$ in the $i^{th}$ product) we get
-$2^{-n}\sum_{x\in\zo^n}\sum_{y\in\zo^n}(-1)^{\iprod{x,y}}\ket{y}\ket{f(x)}$.
+$2^{-n}\sum_{x\in\{0,1\}^n}\prod_{i=1}^n(\rangle{0}+(-1)^{x_i}\rangle{1})\rangle{f(x)}$
+which if we open up each one of these product and look at all $2^n$ choices $y\in\{0,1\}^n$ (with $y_i=0$ corresponding to picking $\rangle{0}$ and $y_i=1$ corresponding to picking $\rangle{1}$ in the $i^{th}$ product) we get
+$2^{-n}\sum_{x\in\{0,1\}^n}\sum_{y\in\{0,1\}^n}(-1)^{\iprod{x,y}}\rangle{y}\rangle{f(x)}$.
 Now under our assumptions for every particular $z$ in the image of $f$, there exist exactly two preimages $x$ and $x\oplus h^*$ such that $f(x)=f(x+h^*)=z$.
 So, if $\iprod{y,h^*}=0 \pmod{2}$, we get that $(-1)^{\iprod{x,y}}+(-1)^{\iprod{x,y+h^*}}=2$ and otherwise we get $(-1)^{\iprod{x,y}}+(-1)^{\iprod{x,y+h^*}}=0$.
 Therefore, if measure the state we will get a pair $(y,z)$ such that $\iprod{y,h^*}=0 \pmod{2}$. QED
 
-Simon's algorithm seems to really use the special bit-wise structure of the group $\zo^n$, so one could wonder if it has any relevance for the group $\Z^*_m$ for some exponentially large $m$.
+Simon's algorithm seems to really use the special bit-wise structure of the group $\{0,1\}^n$, so one could wonder if it has any relevance for the group $\Z^*_m$ for some exponentially large $m$.
 It turns out that the same insights that underlie the well known  Fast Fourier Transform (FFT) algorithm can be used to essentially follow the same strategy for this group as well.
 
 
