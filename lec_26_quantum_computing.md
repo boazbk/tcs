@@ -197,16 +197,16 @@ But there is also a "cultural" reason why people sometimes find quantum argument
 Quantum folks follow their own special [notation](https://en.wikipedia.org/wiki/Bra%E2%80%93ket_notation) for vectors.
 Many non quantum people find it ugly and confusing, while quantum folks secretly wish they people used it all the time, not just for non-quantum linear algebra, but also for restaurant bills and elemntary school math classes.
 
-The notation is actually not so confusing. If $x\in\{0,1\}^n$ then $\rangle{x}$ denotes the $x^{th}$ standard basis vector in $2^n$ dimension.
-That is $\rangle{x}$  $2^n$-dimensional column vector that has $1$ in the $x^{th}$ coordinate and zero everywhere else.
-So, we can describe the column vector that has $\alpha_x$ in the $x^{th}$ entry as $\sum_{x\in\{0,1\}^n} \alpha_x \rangle{x}$.
-One more piece of notation that is useful is that if $x\in\{0,1\}^n$ and $y\in\{0,1\}^m$ then we identify $\rangle{x}\rangle{y}$ with $\rangle{xy}$ (that is, the $2^{n+m}$ dimensional vector that has $1$ in the coordinate corresponding to the concatenation of $x$ and $y$, and zero everywhere else).
+The notation is actually not so confusing. If $x\in\{0,1\}^n$ then $|x\rangle$ denotes the $x^{th}$ standard basis vector in $2^n$ dimension.
+That is $|x\rangle$  $2^n$-dimensional column vector that has $1$ in the $x^{th}$ coordinate and zero everywhere else.
+So, we can describe the column vector that has $\alpha_x$ in the $x^{th}$ entry as $\sum_{x\in\{0,1\}^n} \alpha_x |x\rangle$.
+One more piece of notation that is useful is that if $x\in\{0,1\}^n$ and $y\in\{0,1\}^m$ then we identify $|x\rangle|y\rangle$ with $|xy\rangle$ (that is, the $2^{n+m}$ dimensional vector that has $1$ in the coordinate corresponding to the concatenation of $x$ and $y$, and zero everywhere else).
 This is more or less all you need to know about this notation to follow this lecture.[^bra]
 
-[^bra]: If you are curious, there is an analog notation for _row_ vectors as $\langle{x}$. Generally if $u$ is a vector then $\rangle{u}$ would be its form as a column vector and $\langle{u}$ would be its form as a row product. Hence since $u^\top v = \iprod{u,v}$ the inner product of $u$ and $b$ can be thought of as $\langle{u}\rangle{v}$ . The _outer product_ (the matrix whose $i,j$ entry is $u_iv_j$) is denoted as $\rangle{u}\langle{v}$.
+[^bra]: If you are curious, there is an analog notation for _row_ vectors as $\langle x|$. Generally if $u$ is a vector then $|u\rangle$ would be its form as a column vector and $\langle u|$ would be its form as a row product. Hence since $u^\top v = \iprod{u,v}$ the inner product of $u$ and $b$ can be thought of as $\langle u| |v\rangle$ . The _outer product_ (the matrix whose $i,j$ entry is $u_iv_j$) is denoted as $| u\rangle \langle v|$.
 
-A quantum gate is an operation on at most three bits, and so it can be completely specified by what it does to the $8$ vectors $\rangle{000},\ldots,\rangle{111}$.
-Quantum states are always unit vectors and so we sometimes omit the normalization for convenience; for example we will identify the state $\rangle{0}+\rangle{1}$ with its normalized version $\tfrac{1}{\sqrt{2}}\rangle{0} + \tfrac{1}{\sqrt{2}}\rangle{1}$.
+A quantum gate is an operation on at most three bits, and so it can be completely specified by what it does to the $8$ vectors $|000\rangle,\ldots,|111\rangle$.
+Quantum states are always unit vectors and so we sometimes omit the normalization for convenience; for example we will identify the state $|0\rangle+|1}$ with its normalized version $\tfrac{1}{\sqrt{2}}|0\rangle + \tfrac{1}{\sqrt{2}}|1\rangle$.
 
 
 ### Bell's Inequality
@@ -224,7 +224,7 @@ So, what is this Bell's Inequality?
 Suppose that Alice and Bob try to convince you they have telepathic ability, and they aim to prove it via the following experiment.
 Alice and Bob will be in separate closed rooms.[^paranoid]
 You will interrogate Alice and your associate will interrogate Bob.
-You choose a random bit $x\in\{0,1\}$ and your associate chooses a random $y\in\{0,1\}$.
+You choose a random bit $x\in\{0,1\\rangle$ and your associate chooses a random $y\in\{0,1\}$.
 We let $a$ be Alice's response and $b$ be Bob's response.
 We say that Alice and Bob win this experiment if $a \oplus b = x \wedge y$.
 
@@ -258,7 +258,7 @@ There is a strategy for Alice and Bob to succeed in this game with probability a
 
 > # {.proof data-ref="bellstrategy"}
 The main  idea is for Alice and Bob to first prepare a 2-qubit quantum system in the state (up to normalization)
-$\rangle{00}+\rangle{11}$ (this is known as an _EPR pair_).
+$|00\rangle+|11\rangle$ (this is known as an _EPR pair_).
 Alice takes the first qubit in this system to her room, and Bob takes the qubit to his room.
 Now, when Alice receives $x$ if $x=0$ she does nothing and if $x=1$ she applies the unitary map $R_{\pi/8}$ to her qubit where $R_\theta = \left( \begin{smallmatrix} cos \theta & \sin -\theta \\ \sin \theta & \cos \theta \end{smallmatrix} \right)$.
 When Bob receives $y$, if $y=0$ he does nothing and if $y=1$ he applies the unitary map $R_{-\pi/8}$ to his  qubit.
@@ -266,7 +266,7 @@ Then each one of them measures their qubit and sends this as their response.
 Recall that to win the game Bob and Alice want their outputs to be more likely to differ if $x=y=1$ and to be more likely to agree otherwise.
 >
 If $x=y=0$ then the state does not change and Alice and Bob always output either both $0$ or both $1$, and hence in both case $a\oplus b = x \wedge y$.
-If $x=0$ and $y=1$ then after Alice measures her bit, if she gets $0$ then Bob's state is equal to $-\cos (\pi/8)\rangle{0}-\sin(\pi/8)\rangle{1}$ which will equal $0$ with probability $\cos^2 (\pi/8)$.
+If $x=0$ and $y=1$ then after Alice measures her bit, if she gets $0$ then Bob's state is equal to $-\cos (\pi/8)|0\rangle-\sin(\pi/8)|1\rangle$ which will equal $0$ with probability $\cos^2 (\pi/8)$.
 The case that Alice gets $1$, or that $x=1$ and $y=0$, is symmetric, and so in all the cases where $x\neq y$ (and hence $x \wedge y=0$) the probability that $a=b$ will be $\cos^2(\pi/8) \geq 0.85$.
 For the case that $x=1$ and $y=1$, direct calculation via trigonomertic identities yields that all four options for $(a,b)$ are equally likely and hence in this case $a=b$ with probability $0.5$.
 The overall probability of winning the game is at least $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}\cdot 0.85 + \tfrac{1}{4} \cdot 0.5 =0.8$.
@@ -282,10 +282,10 @@ It is instructive to understand what is it about quantum mechanics that enabled 
 <!--
 
 Now for every $x,y$, the state of the two qubits before measurement is the $4$ dimensional vector:
-$v_{x,y} = \tfrac{1}{\sqrt{2}}\left[ R_{x\pi/8}\rangle{0} \otimes R_{-y\pi/8}\rangle{1} \;+\; R_{x\pi/8}\rangle{0} \otimes R_{-y\pi/8}\rangle{1}  \right] \;(**)$
+$v_{x,y} = \tfrac{1}{\sqrt{2}}\left[ R_{x\pi/8}|0\rangle \otimes R_{-y\pi/8}|1} \;+\; R_{x\pi/8}|0\rangle \otimes R_{-y\pi/8}|1\rangle  \right] \;(**)$
 
-If $v \in \mathbb{R}^4$ is the state of the two qubits,[^real] then the probability that we get a particular output $(a,b)$ is simply the dot product squared of $v$ with $\rangle{ab}$.
-Since $\rangle{1}=R_{\pi/2}\rangle{0}$, and $\iprod{R_\alpha u,R_\beta u}^2 = \cos^2 (\beta-\alpha)$, we get that for every choice of the coins $x,y$ and $a,b$
+If $v \in \mathbb{R\rangle^4$ is the state of the two qubits,[^real] then the probability that we get a particular output $(a,b)$ is simply the dot product squared of $v$ with $|ab\rangle$.
+Since $|1}=R_{\pi/2}|0\rangle$, and $\iprod{R_\alpha u,R_\beta u\rangle^2 = \cos^2 (\beta-\alpha)$, we get that for every choice of the coins $x,y$ and $a,b$
 the probability that we get $a,b$ as output conditioned on $x,y$ is:
 
 $\tfrac{1}{2}\left[ \cos^2(a\pi/2-x\pi/8)\cos^2(b\pi/2+y\pi/8) + \sin^2(a\pi/2-x\pi/8)\sin^2(b\pi/2+y\pi/8) right]$
@@ -320,14 +320,14 @@ $x^*\in\{0,1\}^n$ such that $f(x^*)=1$.
 The proof is not hard but we only sketch it here.
 The general idea can be illustrated in the case that there exists a single $x^*$ satisfying $f(x^*)=1$.
 (There is a classical reduction from the general case to this problem.)
-As in Simon's algorithm, we can efficiently initialize an $n$-qubit system to the uniform state $u = 2^{-n/2}\sum_{x\in\{0,1\}^n}\rangle{x}$ which has $2^{-n/2}$ dot product with $\rangle{x^*}$. Of course if we measure $u$, we only have probability $(2^{-n/2})^2 = 2^{-n}$ of obtaining the value $x^*$.
-Our goal would be to use $O(2^{n/2})$ calls to the oracle to transform the  system to a state $v$ with dot product at least some constant $\epsilon>0$ with the state $\rangle{x^*}$.
+As in Simon's algorithm, we can efficiently initialize an $n$-qubit system to the uniform state $u = 2^{-n/2}\sum_{x\in\{0,1\}^n}|x\rangle$ which has $2^{-n/2}$ dot product with $|x^*\rangle$. Of course if we measure $u$, we only have probability $(2^{-n/2})^2 = 2^{-n}$ of obtaining the value $x^*$.
+Our goal would be to use $O(2^{n/2})$ calls to the oracle to transform the  system to a state $v$ with dot product at least some constant $\epsilon>0$ with the state $|x^*\rangle$.
 >
 It is an exercise to show that using $Had$ gets we can efficiently compute the unitary operator $U$ such that $Uu = u$ and $Uv = -v$ for every $v$ orthogonal to $u$.
-Also, using the circuit for $f$, we can efficiently compute the unitary operator $U^*$ such that $U^*\rangle{x}=\rangle{x}$ for all $x\neq x^*$ and $U^*\rangle{x^*}=-\rangle{x^*}$.
-It turns out that $O(2^{n/2})$ applications of $UU^*$ to $u$ yield a vector $v$ with $\Omega(1)$ inner product with $\rangle{x^*}$.
-To see why, consider what these operators do in the two dimensional linear subspace spanned by $u$ and $\rangle{x^*}$. (Note that the initial state $u$ is in this subspace and all our operators preserve this property.)
-Let $u_\perp$ be the unit vector orthogonal to $u$ in this subspace and let $x^*_\perp$ be the unit vector orthogonal to $\rangle{x^*}$ in this subspace.
+Also, using the circuit for $f$, we can efficiently compute the unitary operator $U^*$ such that $U^*|x\rangle=|x\rangle$ for all $x\neq x^*$ and $U^*|x^*\rangle=-|x^*\rangle$.
+It turns out that $O(2^{n/2})$ applications of $UU^*$ to $u$ yield a vector $v$ with $\Omega(1)$ inner product with $|x^*\rangle$.
+To see why, consider what these operators do in the two dimensional linear subspace spanned by $u$ and $|x^*\rangle$. (Note that the initial state $u$ is in this subspace and all our operators preserve this property.)
+Let $u_\perp$ be the unit vector orthogonal to $u$ in this subspace and let $x^*_\perp$ be the unit vector orthogonal to $|x^*\rangle$ in this subspace.
 Restricted to this subspace, $U^*$ is a reflection along the axis $x^*_\perp$ and $U$ is a reflection along the axis $u$.
 >
 Now, let $\theta$ be the angle between $u$ and $x^*_\perp$.
@@ -337,7 +337,7 @@ $u+\theta$ with $x^*_\perp$.
 That means taht $U^*v$ will have angle $-\alpha-\theta$ with $x^*_\perp$ or $-\alpha-2\theta$ with $u$, and hence $UU^*v$ will have angle
 $\alpha+2\theta$ with $u$.
 Hence in one application from $UU^*$ we move $2\theta$ radians away from $u$, and in $O(2^{-n/2})$ steps the angle between $u$ and our state will be at least some constant $\epsilon>0$.
-Since we live in the two dimensional space spanned by $u$ and $\rangle{x}$, it would mean that the dot product of our state and $\rangle{x}$ will be at least some constant as well.
+Since we live in the two dimensional space spanned by $u$ and $|x\rangle$, it would mean that the dot product of our state and $|x\rangle$ will be at least some constant as well.
 
 
 # Shor's Algorithm
@@ -397,16 +397,16 @@ a quantum polynomial-time algorithm that outputs a random $h\in \{0,1\}^n$ such 
 Note that given $O(n)$ such samples, we can recover $h^*$ with high probability by solving the corresponding linear equations.
 
 > # {.proof data-ref="simons"}
-Let $HAD$ be the $2\times 2$ unitary  matrix corresponding to the  one qubit operation $\rangle{0} \mapsto \tfrac{1}{\sqrt{2}}(\rangle{0}+\rangle{1})$ and
-$\rangle{1} \mapsto \tfrac{1}{\sqrt{2}}(\rangle{0}-\rangle{1})$  or $\rangle{a}\mapsto \tfrac{1}{\sqrt{2}}(\rangle{0}+(-1)^a\rangle{1})$.
-Given the state $\rangle{0^{n+m}}$ we can apply this map to each one of the first $n$ qubits to get the state
-$2^{-n/2}\sum_{x\in\{0,1\}^n}\rangle{x}\rangle{0^m}$
+Let $HAD$ be the $2\times 2$ unitary  matrix corresponding to the  one qubit operation $|0\rangle \mapsto \tfrac{1}{\sqrt{2}}(|0\rangle+|1\rangle)$ and
+$|1} \mapsto \tfrac{1}{\sqrt{2}}(|0\rangle-|1\rangle)$  or $|a\rangle\mapsto \tfrac{1}{\sqrt{2}}(|0\rangle+(-1)^a|1\rangle)$.
+Given the state $\rangle{0^{n+m\rangle}$ we can apply this map to each one of the first $n$ qubits to get the state
+$2^{-n/2}\sum_{x\in\{0,1\}^n}|x\rangle|0^m\rangle$
 and then we can apply the gates of $f$ to map this to the state
-$2^{-n/2}\sum_{x\in\{0,1\}^n}\rangle{x}\rangle{f(x)}$
+$2^{-n/2}\sum_{x\in\{0,1\}^n}|x\rangle|f(x)\rangle$
 now suppose that we apply this operation again to the first $n$ qubits then we get the state
-$2^{-n}\sum_{x\in\{0,1\}^n}\prod_{i=1}^n(\rangle{0}+(-1)^{x_i}\rangle{1})\rangle{f(x)}$
-which if we open up each one of these product and look at all $2^n$ choices $y\in\{0,1\}^n$ (with $y_i=0$ corresponding to picking $\rangle{0}$ and $y_i=1$ corresponding to picking $\rangle{1}$ in the $i^{th}$ product) we get
-$2^{-n}\sum_{x\in\{0,1\}^n}\sum_{y\in\{0,1\}^n}(-1)^{\iprod{x,y}}\rangle{y}\rangle{f(x)}$.
+$2^{-n}\sum_{x\in\{0,1\}^n}\prod_{i=1}^n(|0\rangle+(-1)^{x_i}|1})|f(x)\rangle$
+which if we open up each one of these product and look at all $2^n$ choices $y\in\{0,1\\rangle^n$ (with $y_i=0$ corresponding to picking $|0\rangle$ and $y_i=1$ corresponding to picking $|1}$ in the $i^{th\rangle$ product) we get
+$2^{-n}\sum_{x\in\{0,1\}^n}\sum_{y\in\{0,1\}^n}(-1)^{\iprod{x,y}}|y\rangle|f(x)\rangle$.
 Now under our assumptions for every particular $z$ in the image of $f$, there exist exactly two preimages $x$ and $x\oplus h^*$ such that $f(x)=f(x+h^*)=z$.
 So, if $\iprod{y,h^*}=0 \pmod{2}$, we get that $(-1)^{\iprod{x,y}}+(-1)^{\iprod{x,y+h^*}}=2$ and otherwise we get $(-1)^{\iprod{x,y}}+(-1)^{\iprod{x,y+h^*}}=0$.
 Therefore, if measure the state we will get a pair $(y,z)$ such that $\iprod{y,h^*}=0 \pmod{2}$. QED
