@@ -1,6 +1,17 @@
 #  Proofs and algorithms
 
-PLAN: Talk about proofs and algorithms, zero knowledge proofs, correspondence between proofs and algorithms, Coq or other proof assistants, SAT solvers.
+_Proofs_ have captured human imagination for thousands of years, ever since the publication of Euclid's _Elements_, a book second only to the bible in the number of editions printed.
+
+Plan:
+
+* Proofs and algorithms
+
+* Interactive proofs
+
+* Zero knowledge proofs
+
+* Propositions as types, Coq and other proof assistants.
+
 
 ## Lecture summary
 
