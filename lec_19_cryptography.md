@@ -84,12 +84,12 @@ This motivates the following definition:
 
 > # {.definition title="Valid encryption scheme" #encryptiondef}
 Let $L:\N \rightarrow \N$ be some function.
-A pair of polynomial-time computable functions $(E,D)$ mapping strings to strings is a _valid private key encryption scheme_ (or _encryption scheme_ for short) with plaintext length $L(\cdot)$ if
+A pair of polynomial-time computable functions $(E,D)$ mapping strings to strings is a _valid private key encryption scheme_ (or _encryption scheme_ for short) with plaintext length function $L(\cdot)$ if
 for every $k\in \{0,1\}^n$ and $x \in \{0,1\}^{L(n)}$,
 $$
 D(k,E(k,x))=x \;. \label{eqvalidenc}
 $$
-We also require that our encryption schemes are _length regular_ in the sense that all ciphertexts corresponding to keys of the same length are of the same length: there is some function $C:\N \rightarrow \N$ such that for every $k\in \{0,1\}^n$ and $x\in \{0,1\}^{L(n)}$, $|E(k,x)|=C(n)$.^[The "length regularity" condition is added for technical convenience and is not at all important. You can ignore it in a first reading.]
+We also require that our encryption schemes are _ciphertext length regular_ in the sense that all ciphertexts corresponding to keys of the same length are of the same length: there is some function $C:\N \rightarrow \N$ such that for every $k\in \{0,1\}^n$ and $x\in \{0,1\}^{L(n)}$, $|E(k,x)|=C(n)$.^[We call the function $L:\N \rightarrow \N$ the _length function_ of $(E,D)$. The "ciphtertext length regularity" condition is added for technical convenience and is not at all important. You can ignore it in a first reading.]
 
 We will often write the first input (i.e., the key) to the encryption and decryption as a subscript and so can write [eqvalidenc](){.eqref} also as  $D_k(E_k(x))=x$.
 

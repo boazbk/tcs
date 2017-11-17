@@ -150,6 +150,21 @@ The way we often use this in theoretical computer science is to argue that, for 
 
 ![The _union bound_ tells us that the probability of $A$ or $B$ happening is at most the sum of the individual probabilities. We can see it by noting that for every two sets $|A\cup B| \leq |A|+|B|$ (with equality only if $A$ and $B$ have no intersection).](../figure/unionbound.png){#unionboundfig .class width=300px height=300px}
 
+### Distributions over strings
+
+While most of the time we think of random variables as having output a _real number_, we sometimes consider random variables whose output is a _string_.
+That is, we can think of a map $Y:\{0,1\}^n \rightarrow \{0,1\}^*$ and consider the "random variable" $Y$ such that for every $y\in \{0,1\}^*$, the probability that $Y$ outputs $y$ is equal to $\tfrac{1}{2^n}\left| \{ x \in \{0,1\}^n \;|\; Y(x)=y \}\right|$.
+To avoid confusion, we will typically  refer to such string-valued random variables as _distributions_ over strings.
+So, a _distribution_ $Y$ over strings $\{0,1\}^*$ can be thought of as a finite collection of strings $y_0,\ldots,y_{M-1} \in \{0,1\}^*$ and probabilities $p_0,\ldots,p_{M-1}$ (which are non-negative numbers summing up to one), so that $\Pr[ Y = y_i ] = p_i$.
+
+Two distributions $Y$ and $Y'$ are _identical_ if they assign the same probability to every string.
+For example, consider the following two functions $Y,Y':\{0,1\}^2 \rightarrow \{0,1\}^2$.
+For every $x \in \{0,1\}^2$, we define $Y(x)=x$ and $Y'(x)=x_0(x_0\oplus x_1)$ where $\oplus$ is the XOR operations.
+Although these are two different functions, they induce the same distribution over $\{0,1\}^2$ when invoked on a uniform input.
+The distribution $Y(x)$ for $x\sim \{0,1\}^2$ is of course the uniform distribution over $\{0,1\}^2$.
+On the other hand $Y'$ is simply the map $00 \mapsto 00$, $01 \mapsto 01$, $10 \mapsto 11$, $11 \mapsto 10$ which is a permutation over 
+the map $F:\{0,1\}^2 \rightarrow \{0,1\}^2$ defined as $F(x_0x_1)=x_0x_1$ and the map $G:\{0,1\}^2 \rightarrow \{0,1\}^2$  defined as $G(x_0x_1)=x_0(x_0 \oplus x_1)$
+
 ### More general sample spaces.
 
 While in this lecture we assume that the underlying probabilistic experiment   corresponds to tossing $n$ independent coins, everything we say easily generalizes to sampling $x$ from a more general finite or countable set $S$ (and not-so-easily generalizes to uncountable sets $S$ as well).
@@ -161,6 +176,7 @@ A _random variable_ is a function $X:S \rightarrow \R$, where the probability th
 
 
 ^[TODO: add exercise on simulating die tosses and choosing a random number in $[m]$ by coin tosses]
+
 
 ## Correlations and independence
 
