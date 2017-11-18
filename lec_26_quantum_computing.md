@@ -24,7 +24,7 @@ Obviously,  we expect the level of "denting" in any particular position of the w
 
 The above is (to my knowledge) an accurate description of what happens when we shoot baseballs at a wall.
 However, this is not the same when we shoot _photons_.
-Amazingly, if we shoot with two "photon guns" (i.e., lasers) at a wall equipped with photon detectors, then some of the detectors will see _fewer_ hits when the two lasers operate than when only one of them does.^[Normally rather than shooting with one or two lasers, people use a single laser with a barrier between the laser and the detectors that has either one or two _slits_ open in it, hence the name "double slit experiemnt". The variant of the experiment we describe was first performed by  Pfleegor and Mandel in 1967.]
+Amazingly, if we shoot with two "photon guns" (i.e., lasers) at a wall equipped with photon detectors, then some of the detectors will see _fewer_ hits when the two lasers operate than when only one of them does.^[Normally rather than shooting with  two lasers, people use a single laser with a barrier between the laser and the detectors that has either one or two _slits_ open in it, hence the name "double slit experiemnt". The variant of the experiment we describe was first performed by  Pfleegor and Mandel in 1967.]
 In particular there are positions in the wall that are hit when the first gun is turned on, and when the second gone is turned on, but are _not hit at all when both guns are turned on!_.
 It's almost as if the photons from both guns are aware of each other's existence, and behave differently when they know that in the future a photon would be shot from another gun. (Indeed, we stress that we can modulate the rate of firing so that photons are _not_ fired at the same time, and so there is not chance of "collision".)
 
@@ -116,9 +116,47 @@ It could also be a "self destroying prophecy" whereby the existence of a small-s
 
 [^Grover]: I am using the theorist' definition of conflating "significant" with "super-polynomial". As we'll see, Grover's algorithm does offer a very generic _quadratic_ advantage in computation. Whether that quadratic advantage will  ever be good enough to offset in practice the significant overhead in building a quantum computer remains an open question. We also don't have evidence that super-polynomial speedups _can't_ be achieved for some problems outside the Factoring/Dlog or quantum simulation domains, and there is at least [one company](http://www.dwavesys.com/) banking on such speedups actually being feasible.
 
-## Quantum NAND programs
+## The  computational model
 
-To understand 
+Before we talk about _quantum_ computing, let us recall how we physically realize "vanilla" or _classical_ computing.
+We model a _logical bit_ that can equal $0$ or a $1$ by some physical system that can be in one of two states.
+For example, it might be a wire with high or low voltage, charged or uncharged capacitor, or even (as we saw) a pipe with or without a flow of water, or the presence or absence of a soldier crab.
+A _classical_ system of $n$ bits is composed of $n$ such "basic systems", each of which can be in either a "zero" or "one" state.
+We can model the state of such a system by a string $s \in \{0,1\}^n$.
+If we perform an operation such as writing to the 17-th bit the NAND of the 3rd and 5th bits, this corresponds to applying a _local_ function to $s$ such as setting $s_{17} = 1 - s_3\cdot s_5$.
+
+In the _probabilistic_ setting, we would model the state of the system by a _distribution_.
+For an individual bit, we could model it by a pair of non-negative numbers $\alpha,\beta$ such that $\alpha+\beta=1$, where $\alpha$ is the probability that the bit is zero and $\beta$ is the probability that the bit is one.
+For example,  applying the _negation_ (i.e., NOT) operation to this bit  corresponds to mapping the pair $(\alpha,\beta)$ to $(\beta,\alpha)$ since the probability that $NOT(\sigma)$ is equal to $1$ is the same as the probability that $\sigma$ is equal to $0$.
+This means that we can think of the NOT function as the linear map $N:\R^2 \rightarrow \R^2$ such that $N(\alpha,\beta)=(\beta,\alpha)$.
+
+If we think of the $n$-bit system as a whole, then since the $n$ bits can take  one of  $2^n$ possible values, we model the state of the system as a vector $p$ of $2^n$ probabilities $p_0,\ldots,p_{2^n}$, where for every $s\in \{0,1\}^n$, $p_s$ denotes the probability that the system is in the state $s$, identifying $\{0,1\}^n$ with $[2^n]$.
+Applying the operation above of setting the $17$-th bit to the NAND of the 3rd and 5th bits, corresponds to transforming the vector $p$ to the vector $Fp$ where $F:\R^{2^n} \rightarrow \R^{2^n}$ is the map such that
+$$
+F(p)_s = \begin{cases}0 & s_{17} \neq 1 - s_3\cdot s_5 \\ p_{s}+p_{s'} & \text{otherwise} \label{eqprobnandevolution}
+$$
+where $s'$ is the string that agrees with $s$ on all but the 17th coordinate.
+
+> # { .pause }
+It might not be immediate to see why [eqprobnandevolution](){.eqref} describes the progression of such a system, so you should pause here and make sure you understand that. Understanding evolution of probabilistic systems is a prerequisite to understanding evolution of quantum systems.
+You should also make sure that you understand why the function $F:\R^{2^n} \rightarrow F:\R^{2^n}$ described in [eqprobnandevolution](){.eqref} is _linear_, in the sense that for every pair of vectors $p,q \in \R^{2^n}$ and numbers $a,b\in R$, $F(ap+bq)=aF(p)+bF(q)$.
+>
+If your linear algebra is a bit rusty, now would be a good time to review it, and in particular make sure you are comfortable with the notion of _matrices_, _vectors_, (orthogonal and orthonormal) _bases_, and _norms_.
+
+
+### Quantum probabilities
+
+In the quantum setting, the state of an individual bit (or "qubit", to use quantum parlance) is modeled by a pair of numbers $(\alpha,\beta)$ such that $\alpha^2 + \beta^2 = 1$.
+As before, we think of $\alpha^2$ as the probability that the bit equals $0$ and $\beta^2$ as the probability that the bit equals $1$.
+Therefore, as before, we can model the NOT operation by the map $N:\R^2 \rightarrow \R^2$ where $N(\alpha,\beta)=(\beta,\alpha)$.
+
+Following quantum tradition, we will denote the vector $(1,0)$ by $|0\rangle$  and the vector $(0,1)$ by $|1\rangle$ (and moreover, think of these as column vectors).
+So NOT is the unique linear map $N:\R^2 \rightarrow \R^2$ that satisfies $N(|0\rangle)=|1\rangle$ and $N(|1\rangle)=|0\rangle$. (This is known as the Dirac "ket" notation.)
+
+In classical computation, we typically think that there are only two operations that we can do on a single bit: keep it the same or negate it.
+In the quantum setting, a single bit operation corresponds to any linear map $OP:\R^2 \rightarrow \R^2$ that is _norm preserving_ in the sense that  for every $\alpha,\beta$ such that $\alpha^2+\beta^2=1$,  if $(\alpha',\beta')= OP(\alpha,\beta)$ then $\alpha'^2 + \beta'^2 = 1$.
+Such a linear map $OP$ corresponds to a [unitary](https://en.wikipedia.org/wiki/Unitary_matrix) two by two matrix.^[As we mentioned,  quantum mechanics actually models states as vectors with _complex_ coordinates. However, this does not make any qualitative difference to our discussion.]
+
 
 
 ## Quantum 101
