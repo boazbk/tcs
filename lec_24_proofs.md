@@ -1,5 +1,8 @@
 #  Proofs and algorithms
 
+>_"Let's not try to define knowledge, but try to define zero-knowledge."_, Shafi Goldwasser.
+
+
 _Proofs_ have captured human imagination for thousands of years, ever since the publication of Euclid's _Elements_, a book second only to the bible in the number of editions printed.
 
 Plan:

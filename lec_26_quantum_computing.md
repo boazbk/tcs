@@ -116,6 +116,10 @@ It could also be a "self destroying prophecy" whereby the existence of a small-s
 
 [^Grover]: I am using the theorist' definition of conflating "significant" with "super-polynomial". As we'll see, Grover's algorithm does offer a very generic _quadratic_ advantage in computation. Whether that quadratic advantage will  ever be good enough to offset in practice the significant overhead in building a quantum computer remains an open question. We also don't have evidence that super-polynomial speedups _can't_ be achieved for some problems outside the Factoring/Dlog or quantum simulation domains, and there is at least [one company](http://www.dwavesys.com/) banking on such speedups actually being feasible.
 
+## Quantum NAND programs
+
+To understand 
+
 
 ## Quantum 101
 

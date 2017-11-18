@@ -459,6 +459,8 @@ When reading or writing mathematical texts, we usually don't have the advantage 
 
 ### Asymptotics and big-Oh notation
 
+>_"$\log\log\log n$ has been proved to go to infinity, but has never been observed to do so."_, Anonymous, quoted by Carl Pomerance (2000)
+
 It is often very cumbersome to describe precisely  quantities such as running time and is also not needed, since we are typically mostly interested in the "higher order terms".
 That is, we want to understand the _scaling behavior_ of the quantity as the input variable grows.
 For example, as far as running time goes, the difference between an $n^5$-time algorithm and an $n^2$-time one is much more significant than the difference between an $100n^2 + 10n$ time algorithm and an $10n^2$
