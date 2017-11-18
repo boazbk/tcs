@@ -566,6 +566,8 @@ Historically, a function $F$ was  identified by  rules or formulas showing  how 
 As we discuss in greater  depth in our lecture on uncomputability, in the 1800's this somewhat informal notion of a function started "breaking at the seams" and eventually mathematicians arrived at the more rigorous definition of  a function as an arbitrary assignment of input to outputs.
 While many  functions may be described (or computed) by one or more  formulas, today we do not consider that to be an essential property of functions, and also allow functions that do not correspond to any "nice" formula.
 
+Gromov and Pomerantz's quotes are lifted from [Doron Zielberger's page](http://sites.math.rutgers.edu/~zeilberg/quotes.html).
+
 ## Further explorations
 
 Some topics related to this lecture that might be accessible to advanced students include:
