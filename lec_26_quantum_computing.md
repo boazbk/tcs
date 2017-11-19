@@ -22,13 +22,23 @@ One way to describe it is as following.
 Suppose that we buy one of those baseball pitching machines, and aim it at a soft plastic wall.
 If we shoot baseballs at the wall, then we will dent it.
 Now, if we use another machine, aimed at a slightly different part of the wall,  and interleave between shooting at the wall with both machines, then we will now make _two_ dents in the wall.
-Obviously,  we expect the level of "denting" in any particular position of the wall to only be bigger when we shoot at it with two machines than when we shoot at it with one.
+Obviously,  we expect the level of "denting" in any particular position of the wall to only be bigger when we shoot at it with two machines than when we shoot at it with one. (See [doublebaseballfig](){.ref})
+
+
+![In the "double baseball experiment" we shoot baseballs from two guns at a wall. There is only "constructive interference" in the sense that the dent in each position in the wall when both guns operate is the sum of the dents when each gun operates on its own.](../figure/double_baseball_experiment.png){#doublebaseballfig .class width=300px height=300px}
+
+
+
 
 The above is (to my knowledge) an accurate description of what happens when we shoot baseballs at a wall.
 However, this is not the same when we shoot _photons_.
-Amazingly, if we shoot with two "photon guns" (i.e., lasers) at a wall equipped with photon detectors, then some of the detectors will see _fewer_ hits when the two lasers operate than when only one of them does.^[Normally rather than shooting with  two lasers, people use a single laser with a barrier between the laser and the detectors that has either one or two _slits_ open in it, hence the name "double slit experiemnt". The variant of the experiment we describe was first performed by  Pfleegor and Mandel in 1967. See also [this video](https://www.youtube.com/watch?v=DfPeprQ7oGc)]
+Amazingly, if we shoot with two "photon guns" (i.e., lasers) at a wall equipped with photon detectors, then some of the detectors will see _fewer_ hits when the two lasers operate than when only one of them does.^[Normally rather than shooting with  two lasers, people use a single laser with a barrier between the laser and the detectors that has either one or two _slits_ open in it, hence the name "double slit experiemnt", see [doubleslitfig](){.ref} and [doubleslittwofig](){.ref}. The variant of the experiment we describe was first performed by  Pfleegor and Mandel in 1967.]
 In particular there are positions in the wall that are hit when the first gun is turned on, and when the second gone is turned on, but are _not hit at all when both guns are turned on!_.
 It's almost as if the photons from both guns are aware of each other's existence, and behave differently when they know that in the future a photon would be shot from another gun. (Indeed, we stress that we can modulate the rate of firing so that photons are _not_ fired at the same time, and so there is no chance of "collision".)
+
+<!-- An excellent description of the double slit experiment appears in   [this video](https://www.youtube.com/watch?v=DfPeprQ7oGc)]
+
+-->
 
 This and other experiments ultimately forced scientists to accept the following picture of the world.
 Let us go back to the baseball experiment, and consider a particular position in the wall.
@@ -53,8 +63,6 @@ In quantum mechanics, we model the state of such a system by a pair of two (pote
 If we measure the color of the system then we will see that it is red with probability $\alpha^2$ and blue with probability $\beta^2$.[^quantum]
 In isolation, these negative numbers don't matter much, since we anyway square them to obtain probabilities.
 But as we mention above, the interaction of positive and negative probabilities can result in surprising _cancellations_ where somehow combining two scenarios where a system is "blue" with positive probability results in a scenario where it is never blue.
-
-
 
 ![The setup of the double slit experiment](../figure/double-slit-setup.PNG){#doubleslitfig .class width=300px height=300px}
 
