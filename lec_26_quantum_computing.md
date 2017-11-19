@@ -264,7 +264,7 @@ At the end of the process we _measure_ the bits, and so we get a particular Bool
 Since we output the bits corresponding to the output variables, for every string $y\in \{0,1\}^m$, the output will equal $y$ with probability $\sum_{z\in S_y} (s^*_z)^2$ where $S_y$ is the set of all $z\in \{0,1\}^{n+\ell+m}$ that agree with $y$ in the last $m$ coordinates.
 
 
-> # {.remark title="The `obviously exponential' fallacy" #exponential}
+> # {.remark title="The obviously exponential fallacy" #exponential}
 A priori it might seem "obvious" that quantum computing is exponentially powerful, since to perform a quantum computation on $n$ bits we need to maintain the $2^n$ dimensional state vector and apply $2^n\times 2^n$ matrices to it.
 Indeed popular descriptions of quantum computing (too) often say something along the lines that the difference between quantum and classical computer is that a classic bit can either be zero or one while a qubit can be in both states at once, and so in many qubits a quantum computer can perform exponentially many computations at once.
 Depending on how you interpret this, this description is either false or would apply equally well to _probabilistic computation_, which we've already seen that $\mathbf{BPP}\subseteq \mathbf{P_{/poly}}$ and we conjecture that $\mathbf{BPP}=\mathbf{P}$.
@@ -331,7 +331,7 @@ The overall probability of winning the game is at least $\tfrac{1}{4}\cdot 1 + \
 It is instructive to understand what is it about quantum mechanics that enabled this gain in Bell's Inequality. For this, consider the following analogous probabilistic strategy for Alice and Bob. They agree that each one of them output $0$ if he or she get $0$ as input and outputs $1$ with probability $p$ if they get $1$ as input. In this case one can see that their success probability would be $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}(1-p)+\tfrac{1}{4}[2p(1-p)]=0.75 -0.5p^2 \leq 0.75$. The quantum strategy we described above can be thought of as a variant of the probabilistic strategy for parameter $p$ set to  $\sin^2 (\pi/8)=0.15$. But in the case $x=y=1$, instead of disagreeing only with probability $2p(1-p)=1/4$, because we can use these negative probabilities in the quantum world and rotate the state in opposite directions, and hence  the probability of disagreement ends up being $\sin^2 (\pi/4)=0.5$.
 
 
-# Shor's Algorithm
+## Shor's Algorithm
 
 Bell's Inequality is powerful demonstration that there is something very strange going on with quantum mechanics.
 But could this "strangeness" be of any use to solve computational problems not directly related to quantum systems?
@@ -359,7 +359,7 @@ We merely sketch how one reduces the factoring and discrete logarithm problems t
 
 * For **discrete log** in a group $\mathbb{G}$, if we get $X=g^x$ and need to recover $x$, we can compute the order of various elements of the form $X^ag^b$. The order of such an element is a number $c$ satisfying   $c(xa+b) = 0 \pmod{|\mathbb{G}|}$. Again, with a few random examples we will get a non trivial example (where $c \neq 0 \pmod{|\mathbb{G}|}$ ) and be able to recover the unknown $x$.
 
-## Finding periods of a function: Simon's Algorithm
+### Finding periods of a function: Simon's Algorithm
 
 Let $\mathbb{H}$ be some Abelian group with a  group operation that we'll denote by $\oplus$, and $f$ be some function mapping $\mathbb{H}$ to an arbitrary set (which we can encode as $\{0,1\}^*$).
 We say that $f$ has _period $h^*$_ for some $h^*\in\mathbb{H}$ if for every $x,y \in \mathbb{H}$, $f(x)=f(y)$ if and only if $y = x \oplus kh^*$ for some integer $k$.
