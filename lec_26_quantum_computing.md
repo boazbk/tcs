@@ -60,12 +60,65 @@ But as we mention above, the interaction of positive and negative probabilities 
 Quantum mechanics is a mathematical theory that allows us to calculate and predict the results of this and many other experiments.
 If you think of quantum as an explanation as to what "really" goes on in the world, it can be rather confusing.
 However, if you simply "shut up and calculate" then it works amazingly well at predicting the results of a great many experiments.
-In particular, in the double slit experiments, for any position in the wall, we can compute  numbers $\alpha$ and $\beta$ such that photons from the first and second gun  hit that position with probabilities $\alpha^2$ and $\beta^2$ respectively.
+In particular, in the double slit experiment, for any position in the wall, we can compute  numbers $\alpha$ and $\beta$ such that photons from the first and second gun  hit that position with probabilities $\alpha^2$ and $\beta^2$ respectively.
 When we activate both guns, the probability that the position will be hit is proportional to $(\alpha+\beta)^2$, and so in particular, if $\alpha=-\beta$ then it will be the case that, despite being hit when _either_ gun one or gun two are working, the position is _not hit at all_ when they both work.
 If you haven't seen it before, it may seem like complete nonsense and at this point I'll have to politely point you back to the part where I said we should not question
 quantum mechanics but simply "shut up and calculate".
 
 [^quantum]: I should warn that we are making here many simplifications. In particular in quantum mechanics the "probabilities" can actually be _complex_ numbers,  though essentially all of the power and subtleties of quantum mechanics and quantum computing arise from allowing _negative_ real numbers, and the generalization from real to complex numbers is much less important. We will also be focusing on so called "pure" quantum states, and ignore the fact that generally the states of a quantum subsystem are _mixed_ states that are a convex combination of pure states and can be described by a so called _density matrix_. This issue does not arise as much in quantum algorithms precisely because the goal is for a quantum computer is to be an isolated system that can evolve to continue to be in a pure state; in real world quantum computers however there will be interference from the outside world that causes the state to become mixed and increase its so called "von Neumann entropy"- fighting this interference and the second law of thermodynamics is much of what the challenge of building quantum computers is all about . More generally, this lecture is not meant to be a complete or accurate description of quantum mechanics, quantum information theory, or quantum computing, but rather just give a sense of the main points where it differs  from classical computing.
+
+### Bell's Inequality
+
+There is something weird about quantum mechanics.
+In 1935 [Einstein, Podolsky and Rosen (EPR)](http://plato.stanford.edu/entries/qt-epr/) tried to pinpoint this issue by highlighting a previously unrealized corollary of this theory.
+People already understood  that the fact that  quantum measurement collapses a state to a definite state yields  the _uncertainty principle_, whereby if you measure a quantum system in one orthogonal basis, you will not know how it would have measured in an incohrent basis to it (such as position vs. momentum).
+What EPR showed was that quantum mechanics results in so called "spooky action at a distance" where if you have a system of two particles then measuring one of them would instantenously effect the state of the other.
+Since this "state" is just a mathematical description,  as far as I know the EPR paper was considered to be a thought experiment showing troubling aspects of quantum mechanics, without bearing on experiment.
+This changed when in 1965 John Bell showed an actual experiment to test the predictions of EPR and hence pit intuitive common sense against the predictions of quantum mechanics.
+Quantum mechanics won.
+Nonetheless, since the results of these experiments are so obviously wrong to anyone that has ever sat in an armchair,  that there are still a number of [Bell denialists](http://www.scottaaronson.com/blog/?p=2464) arguing that quantum mechanics is wrong in some way.
+
+So, what is this Bell's Inequality?
+Suppose that Alice and Bob try to convince you they have telepathic ability, and they aim to prove it via the following experiment.
+Alice and Bob will be in separate closed rooms.[^paranoid]
+You will interrogate Alice and your associate will interrogate Bob.
+You choose a random bit $x\in\{0,1\}$ and your associate chooses a random $y\in\{0,1\}$.
+We let $a$ be Alice's response and $b$ be Bob's response.
+We say that Alice and Bob win this experiment if $a \oplus b = x \wedge y$.
+In other words, Alice and Bob need to output two bits that _disagree_ if $x=y=1$ and _agree_ otherwise.
+
+
+[^paranoid]: If you are extremely paranoid about Alice and Bob communicating with one another, you can coordinate with your assistant to perform the experiment exactly at the same time, and make sure that the rooms are sufficiently far apart (e.g., are on two sides of the world, or maybe even one is on the moon and another is on earth) so that Alice and Bob couldn't communicate to each other in time  the results of the coin even if they do so at the speed of light.
+
+
+Now if Alice and Bob are not telepathic, then they need to agree in advance on some strategy.
+It's not hard for Alice and Bob to succeed with probability $3/4$: just always output the same bit.
+However, by doing some case analysis, we can show that no matter what strategy they use, Alice and Bob cannot succeed with higher probability than that:
+
+> # {.theorem title="Bell's Inequality" #bellthm}
+For every two functions $f,g:\{0,1\}\rightarrow\{0,1\}$, $\Pr[  f(x) \oplus g(y) \neq x \wedge y] \geq 1/4$.
+
+> # {.proof data-ref="bellthm"}
+Since the probability is taken over all four choices of $x,y \in \{0,1\}$, the theorem can only be violated if there exist  $f,g$ that satisfy
+$f(x) \oplus g(y) = x \wedge y \;(*)$
+for every $x,y \in \{0,1\}^2$.
+In other words,
+$f(x) = (x \wedge y) \oplus g(y)\;(*)$
+for every $x,y \in \{0,1\}^2$.
+So if $y=0$ it must be that $f(x)=0$ for all $x$, but on the other hand, if $y=1$ then for $(*)$ to hold then it must be that $f(x) = x \oplus g(1)$ but that means that $f$ cannot be constant.
+
+
+[^CHSH]: This form of Bell's game was shown by [Clauser, Horne, Shimony, and Holt](https://en.wikipedia.org/wiki/CHSH_inequality). (I think)
+
+An amazing [experimentally verified](http://arxiv.org/abs/1508.05949) fact is that quantum mechanics allows for telepathy.[^telepathy]
+Specifically, it has been shown that using the weirdness of quantum mechanics, there is in fact a strategy for Alice and Bob to succeed in this game with probability at least $0.8$ (see [bellstrategy](){.ref}).
+
+
+[^telepathy]: More accurately, one either has to give up on a "billiard ball type" theory of the universe or believe in telepathy (believe it or not, some scientists went for the [latter option](https://en.wikipedia.org/wiki/Superdeterminism)).
+
+### Quantum weirdness
+
+
 
 Some of the counterintuitive properties that arise from these negative probabilities include:
 
@@ -76,6 +129,14 @@ Some of the counterintuitive properties that arise from these negative probabili
 * **Entanglement** - The notion that two parts of the system could be connected in this weird way where measuring one will affect the other is known as _quantum entanglement_.   
 
 Again, as counter-intuitive as these concepts are, they have been experimentally confirmed, so we just have to live with them.
+
+> # {.remark title="More on quantum" #quantumsources}
+The discussion in this  lecture is quite brief and somewhat superficial.
+The chapter on quantum computation in my [book with Arora](http://theory.cs.princeton.edu/complexity/) (see [draft here](http://theory.cs.princeton.edu/complexity/ab_quantumchap.pdf)) is one
+relatively short resource that contains essentially everything we discuss here and more.
+See also this [blog post of Aaronson](http://www.scottaaronson.com/blog/?p=208) for a high level explanation of Shor's algorithm which ends with links to several more detailed expositions.
+[This lecture](http://www.scottaaronson.com/democritus/lec14.html) of Aaronson for a great discussion of the feasibility of quantum computing (Aaronson's [course lecture notes](http://www.scottaaronson.com/democritus/default.html) and the [book](http://www.amazon.com/Quantum-Computing-since-Democritus-Aaronson/dp/0521199565) that they spawned are fantastic reads as well).
+
 
 ## Quantum computing and computation - an executive summary.
 
@@ -151,13 +212,202 @@ As before, we think of $\alpha^2$ as the probability that the bit equals $0$ and
 Therefore, as before, we can model the NOT operation by the map $N:\R^2 \rightarrow \R^2$ where $N(\alpha,\beta)=(\beta,\alpha)$.
 
 Following quantum tradition, we will denote the vector $(1,0)$ by $|0\rangle$  and the vector $(0,1)$ by $|1\rangle$ (and moreover, think of these as column vectors).
-So NOT is the unique linear map $N:\R^2 \rightarrow \R^2$ that satisfies $N(|0\rangle)=|1\rangle$ and $N(|1\rangle)=|0\rangle$. (This is known as the Dirac "ket" notation.)
+So NOT is the unique linear map $N:\R^2 \rightarrow \R^2$ that satisfies $N(|0\rangle)=|1\rangle$ and $N(|1\rangle)=|0\rangle$.
+(This is known as the Dirac "ket" notation.)
+
 
 In classical computation, we typically think that there are only two operations that we can do on a single bit: keep it the same or negate it.
 In the quantum setting, a single bit operation corresponds to any linear map $OP:\R^2 \rightarrow \R^2$ that is _norm preserving_ in the sense that  for every $\alpha,\beta$ such that $\alpha^2+\beta^2=1$,  if $(\alpha',\beta')= OP(\alpha,\beta)$ then $\alpha'^2 + \beta'^2 = 1$.
 Such a linear map $OP$ corresponds to a [unitary](https://en.wikipedia.org/wiki/Unitary_matrix) two by two matrix.^[As we mentioned,  quantum mechanics actually models states as vectors with _complex_ coordinates. However, this does not make any qualitative difference to our discussion.]
+Keeping the bit the same corresponds to the matrix $I = \left( \begin{smallmatrix} 1&0\\ 0&1 \end{smallmatrix} \right)$ and the NOT operations corresponds to the matrix $N = \left( \begin{smallmatrix} 0&1\\ 1&0 \end{smallmatrix} \right)$.
+But there are other operations we can use as well.
+One such useful operation is the _Hadamard_ operation, which corresponds to the matrix $H = \tfrac{1}{\sqrt{2}} \left( \begin{smallmatrix} +1&+1\\ +1&-1 \end{smallmatrix} \right)$.
+In fact it turns out that Hadamard is all that we need to add to a classical universal basis to achieve the full power of quantum computing.
+
+### Quantum circuits and QNAND
+
+A _quantum circuit_ is analogous to a Boolean circuit, and can be described as a directed acyclic graph.
+One crucial difference that the _out degree_ of every vertex in a quantum circuit is at most one.
+This is because we cannot "reuse" quantum states without _measuring_ them (which collapses their "probabilities").
+Therefore, we cannot use the same bit as input for two different gates.
+Another more technical difference is that to express our operations as unitary matrices, we will need to make sure all our gates are _reversible_.
+This is not hard to ensure.
+For example, in the quantum context, instead of thinking of $NAND$ as a map from $\{0,1\}^2$ to $\{0,1\}$, we will think of it as a map on _three_ qubits or equivalently a unitary map on $\R^{2^3}$ that maps the basis element $|abc\rangle$  to $|ab(b \oplus NAND(a,b))\rangle$ for every $a,b,c \in \{0,1\}$.
+
+Just like we did in the classical case, we can define QNAND program to be the quantum analog of NAND programs.
+We only add a single operation: `HAD(foo)` which applies the single-bit operation to the variable `foo`.
+We also use the following interpretation to make `NAND` reversible: `foo := bar NAND blah` means that we modify `foo` to be the XOR of its original value and the NAND of `bar` and `blah`.
+If `foo` is initialized to zero then this makes no difference.
+
+If $P$ is a QNAND program with $n$ input variables, $\ell$ workspace variables, and $m$ output variables, then running it on the input $x\in \{0,1\}^n$ corresponds to setting up a system with $n+m+\ell$ qubits and performing the following process:
+
+1. We initialize the input variables to $x_0,\ldots,x_{n-1}$ and all other variables to $0$.
+
+2. We  execute the program line by line,  applying the corresponding physical operation to the qubits that are referred to by the line.
+
+3. We _measure_ the output variables `y_0`$,\ldots,$ `y_`$\expr{m-1}$ and output the result.
+
+This seems quite simple, but maintaining the qubits in a way that we can apply the operations on one hand, but we don't accidentally measure them or corrupt them in another way, is a significant engineering challenge.
 
 
+### Analyzing QNAND execution
+
+The _state_ of an $n+\ell+m$-qubit system can be modeled, as we discussed, by a vector in $\R^{2^{n+\ell+m}}$.
+For an input $x$, the initial state  corresponds to the fact that we initialize the  system to  $x0^{\ell+m}$ (i.e., the inputs variable get the values of $x$ and all other variables get the value zero).
+We can think of this initial state as saying that if we measured all variables in the system then we'll get the value $x0^{\ell+m}$ with probability one, and hence it is modeled by   the vector $s^0 \in \R^{2^{n+\ell+m}}$ such that (identifying the coordinates with strings of length $n+\ell+m$) $s^0_{x0^{\ell+m}}=1$ and $s^0_z = 1$ for every $z \neq x0^{n+\ell+m}$.
+(Please pause here and see that you understand what the notation above means.)
+
+Every line in the program corresponds to applying a (rather simple) unitary map on $\R^{2^{n+\ell+m}}$, and so if $L_i$ is the map corresponding to the $i$-th line, then $s_{i+1}=L_i(s_i)$.
+If the program has $t$ lines then $s^* = L_{t-1}(L_{t-2}(\cdots L_0s^0))$ is the final state
+of the system.
+At the end of the process we _measure_ the bits, and so we get a particular Boolean assignment $z$ for its variables with probability $(s^*_z)^2$.
+Since we output the bits corresponding to the output variables, for every string $y\in \{0,1\}^m$, the output will equal $y$ with probability $\sum_{z\in S_y} (s^*_z)^2$ where $S_y$ is the set of all $z\in \{0,1\}^{n+\ell+m}$ that agree with $y$ in the last $m$ coordinates.
+
+
+> # {.remark title="The "obviously exponential" fallacy" #exponential}
+A priori it might seem "obvious" that quantum computing is exponentially powerful, since to perform a quantum computation on $n$ bits we need to maintain the $2^n$ dimensional state vector and apply $2^n\times 2^n$ matrices to it.
+Indeed popular descriptions of quantum computing (too) often say something along the lines that the difference between quantum and classical computer is that a classic bit can either be zero or one while a qubit can be in both states at once, and so in many qubits a quantum computer can perform exponentially many computations at once.
+Depending on how you interpret this, this description is either false or would apply equally well to _probabilistic computation_, which we've already seen that $\mathbf{BPP}\subseteq \mathbf{P_{/poly}}$ and we conjecture that $\mathbf{BPP}=\mathbf{P}$.
+Moreover, this "obvious" approach for simulating a quantum computation will take not just exponential time but _exponential space_ as well, while it is not hard to show that using a simple recursive formula one can calculate the final quantum state using _polynomial space_ (in physics parlance this is known as "Feynman path integrals").
+So, the exponentially long vector description by itself does not imply that quantum computers are exponentially powerful.
+Indeed, we cannot _prove_ that they are (since in particular we can't prove that _every_ polynomial space calculation can be done in polynomial time, in complexity parlance we don't know how to rule out that $P=PSPACE$), but we do have some problems (integer factoring most prominently) for which they do provide exponential speedup over the currently best _known_ classical (deterministic or probabilistic) algorithms.
+
+
+
+
+
+
+### Physically realizing quantum computation
+
+To realize quantum computation one needs to create a system with $n$ independent binary states (i.e., "qubits"), and be able to manipulate small subsets of two or three of these qubits to change their state.
+While by the way we defined operations above it might seem that one needs to be able to perform arbitrary unitary operations on these two or three qubits, it turns out that there several choices for _universal sets_ -  a small constant number of gates that generate all others.
+The biggest challenge is how to keep the system from being measured and _collapsing_ to a single classical combination of states.
+This is sometimes known as the _coherence time_ of the system.
+The [threshold theorem](https://courses.cs.washington.edu/courses/cse599d/06wi/lecturenotes19.pdf) says that there is some absolute constant level of errors $\tau$ so that if errors are created at every gate at rate smaller than $\tau$ then we can recover from those and perform arbitrary long computations.
+(Of course there are different ways to model the errors and so there are actually several threshold _theorems_ corresponding to various noise models).
+
+There have been several proposals to build quantum computers:^[The text below was written in early 2016 and likely needs to be updated.]
+
+* [Superconducting quantum computers](https://en.wikipedia.org/wiki/Superconducting_quantum_computing) use super-conducting electric circuits to do quantum computation. [Recent works](http://arxiv.org/abs/1411.7403) have shown one can keep these superconducting qubits fairly robust to the point one can do some error correction on them (see also [here](http://arxiv.org/abs/1508.05882v2)).
+
+* [Trapped ion quantum computers](https://en.wikipedia.org/wiki/Trapped_ion_quantum_computer) Use the states of an ion to simulate a qubit. People have made some [recent advances](http://iontrap.umd.edu/wp-content/uploads/2016/02/1602.02840v1.pdf) on these computers too. While it's not clear that's the right measuring yard, the [current best implementation](http://arxiv.org/abs/1507.08852) of Shor's algorithm (for factoring 15) is done using an ion-trap computer.
+
+* [Topological quantum computers](https://en.wikipedia.org/wiki/Topological_quantum_computer) use a different technology, which is more stable by design but arguably harder to manipulate to create quantum computers.
+
+These approaches are not mutually exclusive and it could be that ultimately quantum computers are built by combining all of them together.
+I am not at all an expert on this matter, but it seems that progress has been slow but steady and it is quite possible that we'll see a 50 qubit computer sometime in the next 5 years.
+
+
+
+
+
+## Analysis of Bell's Inequality
+
+Now that we have the notation in place, we can show the strategy for showing "quantum telepathy".
+
+
+
+> # {.lemma #bellstrategy}
+There is a 2-qubit quantum state $s\in \R^4$ so that if Alice has access to the first qubit of $s$, can manipulate and measure it and output $a\in \{0,1\}$ and Bob has access to the second qubit of $s$ and can manipulate and measure it and output $b\in \{0,1\}$ then
+$\Pr[ a \oplus b = x \wedge y ] \geq 0.8$.
+
+> # {.proof data-ref="bellstrategy"}
+The main  idea is for Alice and Bob to first prepare a 2-qubit quantum system in the state (up to normalization)
+$|00\rangle+|11\rangle$ (this is known as an _EPR pair_).
+Alice takes the first qubit in this system to her room, and Bob takes the qubit to his room.
+Now, when Alice receives $x$ if $x=0$ she does nothing and if $x=1$ she applies the unitary map $R_{\pi/8}$ to her qubit where $R_\theta = \left( \begin{smallmatrix} cos \theta & \sin -\theta \\ \sin \theta & \cos \theta \end{smallmatrix} \right)$ is the unitary operation corresponding to rotation in the plane with angle $\theta$.
+When Bob receives $y$, if $y=0$ he does nothing and if $y=1$ he applies the unitary map $R_{-\pi/8}$ to his  qubit.
+Then each one of them measures their qubit and sends this as their response.
+Recall that to win the game Bob and Alice want their outputs to be more likely to differ if $x=y=1$ and to be more likely to agree otherwise.
+>
+If $x=y=0$ then the state does not change and Alice and Bob always output either both $0$ or both $1$, and hence in both case $a\oplus b = x \wedge y$.
+If $x=0$ and $y=1$ then after Alice measures her bit, if she gets $0$ then Bob's state is equal to $-\cos (\pi/8)|0\rangle-\sin(\pi/8)|1\rangle$ which will equal $0$ with probability $\cos^2 (\pi/8)$.
+The case that Alice gets $1$, or that $x=1$ and $y=0$, is symmetric, and so in all the cases where $x\neq y$ (and hence $x \wedge y=0$) the probability that $a=b$ will be $\cos^2(\pi/8) \geq 0.85$.
+For the case that $x=1$ and $y=1$, direct calculation via trigonomertic identities yields that all four options for $(a,b)$ are equally likely and hence in this case $a=b$ with probability $0.5$.
+The overall probability of winning the game is at least $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}\cdot 0.85 + \tfrac{1}{4} \cdot 0.5 =0.8$.
+
+
+> # {.remark title="Quantum vs probabilistic strategies" #quantumprob}
+It is instructive to understand what is it about quantum mechanics that enabled this gain in Bell's Inequality. For this, consider the following analogous probabilistic strategy for Alice and Bob. They agree that each one of them output $0$ if he or she get $0$ as input and outputs $1$ with probability $p$ if they get $1$ as input. In this case one can see that their success probability would be $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}(1-p)+\tfrac{1}{4}[2p(1-p)]=0.75 -0.5p^2 \leq 0.75$. The quantum strategy we described above can be thought of as a variant of the probabilistic strategy for parameter $p$ set to  $\sin^2 (\pi/8)=0.15$. But in the case $x=y=1$, instead of disagreeing only with probability $2p(1-p)=1/4$, because we can use these negative probabilities in the quantum world and rotate the state in opposite directions, and hence  the probability of disagreement ends up being $\sin^2 (\pi/4)=0.5$.
+
+
+# Shor's Algorithm
+
+Bell's Inequality is powerful demonstration that there is something very strange going on with quantum mechanics.
+But could this "strangeness" be of any use to solve computational problems not directly related to quantum systems?
+A priori, one could guess the answer is _no_.
+In 1994 Peter Shor showed that one would be wrong:
+
+> # {.theorem title="Shor's Algorithm" #shorthm}
+The map that takes an integer $M$ into its prime factorization is efficiently quantumly computable. Specifically, it can be computed using $O(\log^3 M)$ quantum gates.
+
+This is an exponential improvement over the best known classical algorithms, which as we mentioned before,  take roughly $2^{\tilde{O(\log^{1/3}M)}}$ time, where the $\tilde{O}$ notation hides factors that of the form $poly(\log \log M)$,
+We will now sketch the ideas behind Shor's algorithm. In fact, Shor proved the following more general result:
+
+> # {.lemma #shor}
+There is a quantum polynomial time algorithm that given a multiplicative Abelian group $\mathbb{G}$ and element $g\in\mathbb{G}$ computes the _order_ of $g$ in the group.
+
+Recall that the order of $g$ in $\mathbb{G}$ is the smallest positive integer $a$ such that $g^a = 1$. By "given a group" we mean that we can represent the elements of the group as strings of length $O(\log |\mathbb{G}|)$ and there is a $poly(\log|\mathbb{G}|)$ algorithm to perform multiplication
+in the group.
+
+## From order finding to factoring and discrete log
+
+The order finding problem allows not just to factor integers in polynomial time, but also solve the discrete logarithm over arbitrary Abelian groups, hereby showing that quantum computers will break not just RSA but also Diffie Hellman and Elliptic Curve Cryptography.
+We merely sketch how one reduces the factoring and discrete logarithm problems to order finding: (see some of the sources above for the full details)
+
+* For __factoring__, let us restrict to the case $m=pq$ for distinct $p,q$. Recall that we showed that finding the size $(p-1)(q-1)=m-p-q-1$ of the group $\Z^*_m$ is sufficient to recover $p$ and $q$. One can show that if we pick a few random $x$'s in $\Z^*_m$ and compute their order, the least common multiplier of these orders is likely to be the group size.
+
+* For **discrete log** in a group $\mathbb{G}$, if we get $X=g^x$ and need to recover $x$, we can compute the order of various elements of the form $X^ag^b$. The order of such an element is a number $c$ satisfying   $c(xa+b) = 0 \pmod{|\mathbb{G}|}$. Again, with a few random examples we will get a non trivial example (where $c \neq 0 \pmod{|\mathbb{G}|}$ ) and be able to recover the unknown $x$.
+
+## Finding periods of a function: Simon's Algorithm
+
+Let $\mathbb{H}$ be some Abelian group with a  group operation that we'll denote by $\oplus$, and $f$ be some function mapping $\mathbb{H}$ to an arbitrary set (which we can encode as $\{0,1\}^*$).
+We say that $f$ has _period $h^*$_ for some $h^*\in\mathbb{H}$ if for every $x,y \in \mathbb{H}$, $f(x)=f(y)$ if and only if $y = x \oplus kh^*$ for some integer $k$.
+Note that if $\mathbb{G}$ is some Abelian group, then if we define $\mathbb{H}=\Z_{|\mathbb{G}|}$, for every element $g\in \mathbb{G}$, the map $f(a)=g^a$ is a periodic map over $\mathbb{H}$ with period the order of $g$.
+So, finding the order of an item reduces to the question of finding the period of a function.
+
+
+How do we generally find the period of a function? Let us consider the simplest case, where $f$ is a function from $\R$ to $\R$ that is $h^*$ periodic for some number $h^*$, in the sense that $f$ repeats itself on the intervals $[0,h^*]$, $[h^*,2h^*]$, $[2h^*,3h^*]$, etc..
+How do we find this number $h^*$?
+The key idea would be to transform $f$ from the _time_ to the _frequency_ domain.
+That is, we use the _Fourier transform_ to represent $f$ as a sum of wave functions. In this representation wavelengths that divide the period $h^*$ would get significant mass, while wavelengths that don't would likely "cancel out".
+
+![If $f$ is a periodic function then when we represent it in the Fourier transform, we expect the coefficients corresponding to wavelengths that do not evenly divide the period to be very small, as they would tend to "cancel out".](../figure/quantum_fourier.jpg){#qfourierfig .class width=300px height=300px}
+
+Similarly, the main idea behind Shor's algorithm is to use a tool known as the _quantum fourier transform_ that given a circuit computing the function $f:\mathbb{H}\rightarrow\R$, creates a quantum state over roughly $\log |\mathbb{H}|$ qubits (and hence dimension $|\mathbb{H}|$) that corresponds to the Fourier transform of $f$.
+Hence when we measure this state,  we get a group element $h$ with probability proportional to the square of the corresponding Fourier coefficient.
+One can show that if $f$ is $h^*$-periodic then we can recover $h^*$ from this distribution.
+
+Shor carried out this approach for the group $\mathbb{H}=\Z^*_q$ for some $q$, but we will show this for the group $\mathbb{H} = \{0,1\}^n$ with the XOR operation.
+This case is known as _Simon's algorithm_ (given by Dan Simon in 1994) and actually preceded (and inspired) Shor's algorithm:
+
+> # {.theorem title="Simon's Algorithm" #simons}
+If $f:\{0,1\}^n\rightarrow\{0,1\}^*$ is polynomial time computable and satisfies the property that $f(x)=f(y)$ iff $x\oplus y = h^*$ then there exists
+a quantum polynomial-time algorithm that outputs a random $h\in \{0,1\}^n$ such that $\iprod{h,h^*}=0 \pmod{2}$.
+
+Note that given $O(n)$ such samples, we can recover $h^*$ with high probability by solving the corresponding linear equations.
+
+> # {.proof data-ref="simons"}
+Let $HAD$ be the $2\times 2$ unitary  matrix corresponding to the  Hadamard single qubit operation $|0\rangle \mapsto \tfrac{1}{\sqrt{2}}(|0\rangle+|1\rangle)$ and
+$|1\rangle \mapsto \tfrac{1}{\sqrt{2}}(|0\rangle-|1\rangle)$  or $|a\rangle\mapsto \tfrac{1}{\sqrt{2}}(|0\rangle+(-1)^a|1\rangle)$.
+Given the state $|0^{n+m}\rangle$ we can apply this map to each one of the first $n$ qubits to get the state
+$2^{-n/2}\sum_{x\in\{0,1\}^n}|x\rangle|0^m\rangle$
+and then we can apply the gates of $f$ to map this to the state
+$2^{-n/2}\sum_{x\in\{0,1\}^n}|x\rangle|f(x)\rangle$
+now suppose that we apply this operation again to the first $n$ qubits then we get the state
+$2^{-n}\sum_{x\in\{0,1\}^n}\prod_{i=1}^n(|0\rangle+(-1)^{x_i}|1\rangle)|f(x)\rangle$
+which if we open up each one of these product and look at all $2^n$ choices $y\in\{0,1\}^n$ (with $y_i=0$ corresponding to picking $|0\rangle$ and $y_i=1$ corresponding to picking $|1\rangle$ in the $i^{th}$ product) we get
+$2^{-n}\sum_{x\in\{0,1\}^n}\sum_{y\in\{0,1\}^n}(-1)^{\iprod{x,y}}|y\rangle|f(x)\rangle$.
+Now under our assumptions for every particular $z$ in the image of $f$, there exist exactly two preimages $x$ and $x\oplus h^*$ such that $f(x)=f(x+h^*)=z$.
+So, if $\iprod{y,h^*}=0 \pmod{2}$, we get that $(-1)^{\iprod{x,y}}+(-1)^{\iprod{x,y+h^*}}=2$ and otherwise we get $(-1)^{\iprod{x,y}}+(-1)^{\iprod{x,y+h^*}}=0$.
+Therefore, if measure the state we will get a pair $(y,z)$ such that $\iprod{y,h^*}=0 \pmod{2}$.
+
+
+Simon's algorithm seems to really use the special bit-wise structure of the group $\{0,1\}^n$, so one could wonder if it has any relevance for the group $\Z^*_m$ for some exponentially large $m$.
+It turns out that the same insights that underlie the well known  Fast Fourier Transform (FFT) algorithm can be used to essentially follow the same strategy for this group as well.
+
+
+<!--
 
 ## Quantum 101
 
@@ -218,41 +468,14 @@ the  the $\ell+i^{th}$ bit of $g(x_1,\ldots,x_n)$ is the result of applying the 
 So this is "almost" what we wanted except that we have this "extra junk" that we need to get rid of. The idea is that we now simply run the same computation again which will basically we mean we XOR another copy of $g(x_1,\ldots,x_m)$ to the last $s$ bits, but since $g(x)\oplus g(x) = 0^s$ we get that we compute the map $x \mapsto x_1\cdots x_m \| (f(x_1,\ldots,x_m)0^s \;\oplus\; x_{m+1}\cdots x_{m+\ell+s})$ as desired.
 
 
-**The "obviously exponential" fallacy:**  A priori it might seem "obvious" that quantum computing is exponentially powerful, since to compute a quantum computation on $n$ bits we need to maintain the $2^n$ dimensional state vector and apply $2^n\times 2^n$ matrices to it.
-Indeed popular descriptions of quantum computing (too) often say something along the lines that the difference between quantum and classical computer is that a classic bit can either be zero or one while a qubit can be in both states at once, and so in many qubits a quantum computer can perform exponentially many computations at once.
-Depending on how you interpret this, this description is either false or would apply equally well to _probabilistic computation_.
-However, for probabilistic computation it is a not too hard exercise to  show that if $f:\{0,1\}^m\rightarrow\{0,1\}^n$ is an efficiently computable function then it has a polynomial size circuit of AND, OR and NOT gates.[^circuit]
-Moreover, this "obvious" approach for simulating a quantum computation will take not just exponential time but _exponential space_ as well, while it is not hard to show that using a simple recursive formula one can calculate the final quantum state using _polynomial space_ (in physics parlance this is known as "Feynman path integrals").
-So, the exponentially long vector description by itself does not imply that quantum computers are exponentially powerful.
-Indeed, we cannot _prove_ that they are (since in particular we can't prove that _every_ polynomial space calculation can be done in polynomial time, in complexity parlance we don't know how to rule out that $P=PSPACE$), but we do have some problems (integer factoring most prominently) for which they do provide exponential speedup over the currently best _known_ classical (deterministic or probabilistic) algorithms.
-
-
-
-
-
 [^circuit]: It is a good exercise to show that if $M$ is a probabilistic process with $R(M) \leq T$ then there exists a probabilistic circuit  of size, say, $100 T n^2$ that approximately computes $M$ in the sense that for every input $x$, $\sum_{y\in\{0,1\}^n} \left| \Pr[C(x)=y] - M_{x,y} \right| < 1/3$.
 
-
-### Physically realizing quantum computation
-
-To realize quantum computation one needs to create a system with $n$ independent binary states (i.e., "qubits"), and be able to manipulate small subsets of two or three of these qubits to change their state.
-While by the way we defined operations above it might seem that one needs to be able to perform arbitrary unitary operations on these two or three qubits, it turns out that there several choices for _universal sets_ -  a small constant number of gates that generate all others.
-The biggest challenge is how to keep the system from being measured and _collapsing_ to a single classical combination of states.
-This is sometimes known as the _coherence time_ of the system.
-The [threshold theorem](https://courses.cs.washington.edu/courses/cse599d/06wi/lecturenotes19.pdf) says that there is some absolute constant level of errors $\tau$ so that if errors are created at every gate at rate smaller than $\tau$ then we can recover from those and perform arbitrary long computations. (Of course there are different ways to model the errors and so there are actually several threshold _theorems_ corresponding to various noise models).
-
-There have been several proposals to build quantum computers:
-
-* [Superconducting quantum computers](https://en.wikipedia.org/wiki/Superconducting_quantum_computing) use super-conducting electric circuits to do quantum computation. [Recent works](http://arxiv.org/abs/1411.7403) have shown one can keep these superconducting qubits fairly robust to the point one can do some error correction on them (see also [here](http://arxiv.org/abs/1508.05882v2)).
-
-* [Trapped ion quantum computers](https://en.wikipedia.org/wiki/Trapped_ion_quantum_computer) Use the states of an ion to simulate a qubit. People have made some [recent advances](http://iontrap.umd.edu/wp-content/uploads/2016/02/1602.02840v1.pdf) on these computers too. While it's not clear that's the right measuring yard, the [current best implementation](http://arxiv.org/abs/1507.08852) of Shor's algorithm (for factoring 15) is done using an ion-trap computer.
-
-* [Topological quantum computers](https://en.wikipedia.org/wiki/Topological_quantum_computer) use a different technology, which is more stable by design but arguably harder to manipulate to create quantum computers.
-
-These approaches are not mutually exclusive and it could be that ultimately quantum computers are built by combining all of them together.
-I am not at all an expert on this matter, but it seems that progress has been slow but steady and it is quite possible that we'll see a 20-50 qubit computer sometime in the next 5-10 years.
+-->
 
 
+
+
+<!--
 ### Bra-ket notation
 
 Quantum computing is very confusing and counterintuitive for many reasons.
@@ -271,72 +494,7 @@ This is more or less all you need to know about this notation to follow this lec
 A quantum gate is an operation on at most three bits, and so it can be completely specified by what it does to the $8$ vectors $|000\rangle,\ldots,|111\rangle$.
 Quantum states are always unit vectors and so we sometimes omit the normalization for convenience; for example we will identify the state $|0\rangle+|1\rangle$ with its normalized version $\tfrac{1}{\sqrt{2}}|0\rangle + \tfrac{1}{\sqrt{2}}|1\rangle$.
 
-
-### Bell's Inequality
-
-There is something weird about quantum mechanics.
-In 1935 [Einstein, Podolsky and Rosen (EPR)](http://plato.stanford.edu/entries/qt-epr/) tried to pinpoint this issue by highlighting a previously unrealized corollary of this theory.
-It was already realized that the fact that quantum measurement collapses the state to a definite aspect yields  the _uncertainty principle_, whereby if you measure a quantum system in one orthogonal basis, you will not know how it would have measured in an incohrent basis to it (such as position vs. momentum).
-What EPR showed was that quantum mechanics results in so called "spooky action at a distance" where if you have a system of two particles then measuring one of them would instantenously effect the state of the other.
-Since this "state" is just a mathematical description,  as far as I know the EPR paper was considered to be a thought experiment showing troubling aspects of quantum mechanics, without bearing on experiment.
-This changed when in 1965 John Bell showed an actual experiment to test the predictions of EPR and hence pit intuitive common sense against the predictions of quantum mechanics.
-Quantum mechanics won.
-Nonetheless, since the results of these experiments are so obviously wrong to anyone that has ever sat in an armchair,  that there are still a number of [Bell denialists](http://www.scottaaronson.com/blog/?p=2464) arguing that quantum mechanics is wrong in some way.
-
-So, what is this Bell's Inequality?
-Suppose that Alice and Bob try to convince you they have telepathic ability, and they aim to prove it via the following experiment.
-Alice and Bob will be in separate closed rooms.[^paranoid]
-You will interrogate Alice and your associate will interrogate Bob.
-You choose a random bit $x\in\{0,1\}$ and your associate chooses a random $y\in\{0,1\}$.
-We let $a$ be Alice's response and $b$ be Bob's response.
-We say that Alice and Bob win this experiment if $a \oplus b = x \wedge y$.
-
-[^paranoid]: If you are extremely paranoid about Alice and Bob communicating with one another, you can coordinate with your assistant to perform the experiment exactly at the same time, and make sure that the rooms are so that Alice and Bob couldn't communicate to each other in time  the results of the coin even if they do so at the speed of light.
-
-
-Now if Alice and Bob are not telepathic, then they need to agree in advance on some strategy.
-The most general form of such a strategy is that Alice and Bob agree on some distribution over a pair of functions $d,g:\{0,1\}\rightarrow\{0,1\}$, such that Alice will set $a=f(x)$ and
-Bob will set $b=g(x)$.
-Therefore, the following claim, which is basically Bell's Inequality,[^CHSH] implies that Alice and Bob cannot succeed in this game with probability higher than $3/4$:
-
-> # {.theorem title="Bell's Inequality" #bellthm}
-For every two functions $f,g:\{0,1\}\rightarrow\{0,1\}$ there exist some $x,y\in\{0,1\}$ such that $f(x) \oplus g(y) \neq x \wedge y$.
-
-> # {.proof data-ref="bellthm"}
-Suppose toward a contradiction that $f,g$ satisfy
-$f(x) \oplus g(y) = x \wedge y \;(*)$
-or
-$f(x) = (x \wedge y) \oplus g(y)\;(*)$ \;.
-So if $y=0$ it must be that $f(x)=0$ for all $x$, but on the other hand, if $y=1$ then for $(*)$ to hold then it must be that $f(x) = x \oplus g(1)$ but that means that $f$ cannot be constant.
-
-
-[^CHSH]: This form of Bell's game was shown by CHSH
-
-An amazing [experimentally verified](http://arxiv.org/abs/1508.05949) fact is that quantum mechanics allows for telepathy:[^telepathy]
-
-[^telepathy]: More accurately, one either has to give up on a "billiard ball type" theory of the universe or believe in telepathy (believe it or not, some scientists went for the [latter option](https://en.wikipedia.org/wiki/Superdeterminism)).
-
-> # {.lemma #bellstrategy}
-There is a strategy for Alice and Bob to succeed in this game with probability at least $0.8$.
-
-> # {.proof data-ref="bellstrategy"}
-The main  idea is for Alice and Bob to first prepare a 2-qubit quantum system in the state (up to normalization)
-$|00\rangle+|11\rangle$ (this is known as an _EPR pair_).
-Alice takes the first qubit in this system to her room, and Bob takes the qubit to his room.
-Now, when Alice receives $x$ if $x=0$ she does nothing and if $x=1$ she applies the unitary map $R_{\pi/8}$ to her qubit where $R_\theta = \left( \begin{smallmatrix} cos \theta & \sin -\theta \\ \sin \theta & \cos \theta \end{smallmatrix} \right)$.
-When Bob receives $y$, if $y=0$ he does nothing and if $y=1$ he applies the unitary map $R_{-\pi/8}$ to his  qubit.
-Then each one of them measures their qubit and sends this as their response.
-Recall that to win the game Bob and Alice want their outputs to be more likely to differ if $x=y=1$ and to be more likely to agree otherwise.
->
-If $x=y=0$ then the state does not change and Alice and Bob always output either both $0$ or both $1$, and hence in both case $a\oplus b = x \wedge y$.
-If $x=0$ and $y=1$ then after Alice measures her bit, if she gets $0$ then Bob's state is equal to $-\cos (\pi/8)|0\rangle-\sin(\pi/8)|1\rangle$ which will equal $0$ with probability $\cos^2 (\pi/8)$.
-The case that Alice gets $1$, or that $x=1$ and $y=0$, is symmetric, and so in all the cases where $x\neq y$ (and hence $x \wedge y=0$) the probability that $a=b$ will be $\cos^2(\pi/8) \geq 0.85$.
-For the case that $x=1$ and $y=1$, direct calculation via trigonomertic identities yields that all four options for $(a,b)$ are equally likely and hence in this case $a=b$ with probability $0.5$.
-The overall probability of winning the game is at least $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}\cdot 0.85 + \tfrac{1}{4} \cdot 0.5 =0.8$.
-
-
-> # {.remark title="Quantum vs probabilistic strategies" #quantumprob}
-It is instructive to understand what is it about quantum mechanics that enabled this gain in Bell's Inequality. For this, consider the following analogous probabilistic strategy for Alice and Bob. They agree that each one of them output $0$ if he or she get $0$ as input and outputs $1$ with probability $p$ if they get $1$ as input. In this case one can see that their success probability would be $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}(1-p)+\tfrac{1}{4}[2p(1-p)]=0.75 -0.5p^2 \leq 0.75$. The quantum strategy we described above can be thought of as a variant of the probabilistic strategy for $p$ is $\sin^2 (\pi/8)=0.15$. But in the case $x=y=1$, instead of disagreeing only with probability $2p(1-p)=1/4$, because we can use these negative probabilities in the quantum world and rotate the state in opposite directions, the probability of disagreement ends up being $\sin^2 (\pi/4)=0.5$.
+-->
 
 
 
@@ -364,7 +522,7 @@ which by calculation yields success probability of at least 0.8 QED
 [Bell's overview paper](http://philosophyfaculty.ucsd.edu/faculty/wuthrich/GSSPP09/Files/BellJohnS1981Speakable_BertlmannsSocks.pdf)
 -->
 
-
+<!--
 ## Grover's Algorithm
 
 Shor's Algorithm is an amazing achievement, but it only applies to very particular problems.
@@ -402,81 +560,8 @@ $\alpha+2\theta$ with $u$.
 Hence in one application from $UU^*$ we move $2\theta$ radians away from $u$, and in $O(2^{-n/2})$ steps the angle between $u$ and our state will be at least some constant $\epsilon>0$.
 Since we live in the two dimensional space spanned by $u$ and $|x\rangle$, it would mean that the dot product of our state and $|x\rangle$ will be at least some constant as well.
 
+-->
 
-# Shor's Algorithm
-
-Bell's Inequality is powerful demonstration that there is something very strange going on with quantum mechanics.
-But could this "strangeness" be of any use to solve computational problems not directly related to quantum systems?
-A priori, one could guess the answer is _no_.
-In 1994 Peter Shor showed that one would be wrong:
-
-> # {.theorem title="Shor's Algorithm" #shorthm}
-The map that takes an integer $m$ into its prime factorization is efficiently quantumly computable. Specifically, it can be computed using $O(\log^3 m)$ quantum gates.
-
-This is an exponential improvement over the best known classical algorithms, which as we mentioned before,  take roughly $2^{\tilde{O(\log^{1/3}m)}}$ time.
-We will now sketch the ideas behind Shor's algorithm. In fact, Shor proved the following more general result:
-
-> # {.lemma #shor}
-There is a quantum polynomial time algorithm that given a multiplicative Abelian group $\mathbb{G}$ and element $g\in\mathbb{G}$ computes the _order_ of $g$ in the group.
-
-Recall that the order of $g$ in $\mathbb{G}$ is the smallest positive integer $a$ such that $g^a = 1$. By "given a group" we mean that we can represent the elements of the group as strings of length $O(\log |\mathbb{G}|)$ and there is a $poly(\log|\mathbb{G}|)$ algorithm to perform multiplication
-in the group.
-
-## From order finding to factoring and discrete log
-
-The order finding problem allows not just to factor integers in polynomial time, but also solve the discrete logarithm over arbitrary Abelian groups, hereby showing that quantum computers will break not just RSA but also Diffie Hellman and Elliptic Curve Cryptography.
-We merely sketch how one reduces the factoring and discrete logarithm problems to order finding: (see some of the sources above for the full details)
-
-* For __factoring__, let us restrict to the case $m=pq$ for distinct $p,q$. Recall that we showed that finding the size $(p-1)(q-1)=m-p-q-1$ of the group $\Z^*_m$ is sufficient to recover $p$ and $q$. One can show that if we pick a few random $x$'s in $\Z^*_m$ and compute their order, the least common multiplier of these orders is likely to be the group size.
-
-* For **discrete log** in a group $\mathbb{G}$, if we get $X=g^x$ and need to recover $x$, we can compute the order of various elements of the form $X^ag^b$. The order of such an element is a number $c$ satisfying   $c(xa+b) = 0 \pmod{|\mathbb{G}|}$. Again, with a few random examples we will get a non trivial example (where $c \neq 0 \pmod{|\mathbb{G}|}$ ) and be able to recover the unknown $x$.
-
-## Finding periods of a function: Simon's Algorithm
-
-Let $\mathbb{H}$ be some Abelian group with a  group operation that we'll denote by $\oplus$, and $f$ be some function mapping $\mathbb{H}$ to an arbitrary set (which we can encode as $\{0,1\}^*$).
-We say that $f$ has _period $h^*$_ for some $h^*\in\mathbb{H}$ if for every $x,y \in \mathbb{H}$, $f(x)=f(y)$ if and only if $y = x \oplus kh^*$ for some integer $k$.
-Note that if $\mathbb{G}$ is some Abelian group, then if we define $\mathbb{H}=\Z_{|\mathbb{G}|}$, for every element $g\in \mathbb{G}$, the map $f(a)=g^a$ is a periodic map over $\mathbb{H}$ with period the order of $g$.
-So, finding the order of an item reduces to the question of finding the period of a function.
-
-
-How do we generally find the period of a function? Let us consider the simplest case, where $f$ is a function from $\R$ to $\R$ that is $h^*$ periodic for some number $h^*$, in the sense that $f$ repeats itself on the intervals $[0,h^*]$, $[h^*,2h^*]$, $[2h^*,3h^*]$, etc..
-How do we find this number $h^*$?
-The key idea would be to transform $f$ from the _time_ to the _frequency_ domain.
-That is, we use the _Fourier transform_ to represent $f$ as a sum of wave functions. In this representation wavelengths that divide the period $h^*$ would get significant mass, while wavelengths that don't would likely "cancel out".
-
-![If $f$ is a periodic function then when we represent it in the Fourier transform, we expect the coefficients corresponding to wavelengths that do not evenly divide the period to be very small, as they would tend to "cancel out".](../figure/quantum_fourier.jpg){#qfourierfig .class width=300px height=300px}
-
-Similarly, the main idea behind Shor's algorithm is to use a tool known as the _quantum fourier transform_ that given a circuit computing the function $f:\mathbb{H}\rightarrow\R$, creates a quantum state over roughly $\log |\mathbb{H}|$ qubits (and hence dimension $|\mathbb{H}|$) that corresponds to the Fourier transform of $f$.
-Hence when we measure this state,  we get a group element $h$ with probability proportional to the square of the corresponding Fourier coefficient.
-One can show that if $f$ is $h^*$-periodic then we can recover $h^*$ from this distribution.
-
-Shor carried out this approach for the group $\mathbb{H}=\Z^*_q$ for some $q$, but we will start be seeing this for the group $\mathbb{H} = \{0,1\}^n$ with the XOR operation.
-This case is known as _Simon's algorithm_ (given by Dan Simon in 1994) and actually preceded (and inspired) Shor's algorithm:
-
-> # {.theorem title="Simon's Algorithm" #simons}
-If $f:\{0,1\}^n\rightarrow\{0,1\}^*$ is polynomial time computable and satisfies the property that $f(x)=f(y)$ iff $x\oplus y = h^*$ then there exists
-a quantum polynomial-time algorithm that outputs a random $h\in \{0,1\}^n$ such that $\iprod{h,h^*}=0 \pmod{2}$.
-
-Note that given $O(n)$ such samples, we can recover $h^*$ with high probability by solving the corresponding linear equations.
-
-> # {.proof data-ref="simons"}
-Let $HAD$ be the $2\times 2$ unitary  matrix corresponding to the  one qubit operation $|0\rangle \mapsto \tfrac{1}{\sqrt{2}}(|0\rangle+|1\rangle)$ and
-$|1\rangle \mapsto \tfrac{1}{\sqrt{2}}(|0\rangle-|1\rangle)$  or $|a\rangle\mapsto \tfrac{1}{\sqrt{2}}(|0\rangle+(-1)^a|1\rangle)$.
-Given the state $|0^{n+m}\rangle$ we can apply this map to each one of the first $n$ qubits to get the state
-$2^{-n/2}\sum_{x\in\{0,1\}^n}|x\rangle|0^m\rangle$
-and then we can apply the gates of $f$ to map this to the state
-$2^{-n/2}\sum_{x\in\{0,1\}^n}|x\rangle|f(x)\rangle$
-now suppose that we apply this operation again to the first $n$ qubits then we get the state
-$2^{-n}\sum_{x\in\{0,1\}^n}\prod_{i=1}^n(|0\rangle+(-1)^{x_i}|1\rangle)|f(x)\rangle$
-which if we open up each one of these product and look at all $2^n$ choices $y\in\{0,1\}^n$ (with $y_i=0$ corresponding to picking $|0\rangle$ and $y_i=1$ corresponding to picking $|1\rangle$ in the $i^{th}$ product) we get
-$2^{-n}\sum_{x\in\{0,1\}^n}\sum_{y\in\{0,1\}^n}(-1)^{\iprod{x,y}}|y\rangle|f(x)\rangle$.
-Now under our assumptions for every particular $z$ in the image of $f$, there exist exactly two preimages $x$ and $x\oplus h^*$ such that $f(x)=f(x+h^*)=z$.
-So, if $\iprod{y,h^*}=0 \pmod{2}$, we get that $(-1)^{\iprod{x,y}}+(-1)^{\iprod{x,y+h^*}}=2$ and otherwise we get $(-1)^{\iprod{x,y}}+(-1)^{\iprod{x,y+h^*}}=0$.
-Therefore, if measure the state we will get a pair $(y,z)$ such that $\iprod{y,h^*}=0 \pmod{2}$.
-
-
-Simon's algorithm seems to really use the special bit-wise structure of the group $\{0,1\}^n$, so one could wonder if it has any relevance for the group $\Z^*_m$ for some exponentially large $m$.
-It turns out that the same insights that underlie the well known  Fast Fourier Transform (FFT) algorithm can be used to essentially follow the same strategy for this group as well.
 
 
 
