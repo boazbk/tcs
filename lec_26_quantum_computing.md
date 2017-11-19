@@ -108,7 +108,7 @@ It's not hard for Alice and Bob to succeed with probability $3/4$: just always o
 However, by doing some case analysis, we can show that no matter what strategy they use, Alice and Bob cannot succeed with higher probability than that:
 
 > # {.theorem title="Bell's Inequality" #bellthm}
-For every two functions $f,g:\{0,1\}\rightarrow\{0,1\}$, $\Pr[  f(x) \oplus g(y) \neq x \wedge y] \geq 1/4$.
+For every two functions $f,g:\{0,1\}\rightarrow\{0,1\}$, $\Pr_{x,y \in \{0,1\}}[  f(x) \oplus g(y) = x \wedge y] \leq 3/4$.
 
 > # {.proof data-ref="bellthm"}
 Since the probability is taken over all four choices of $x,y \in \{0,1\}$, the theorem can only be violated if there exist  $f,g$ that satisfy
