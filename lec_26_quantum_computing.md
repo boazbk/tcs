@@ -194,7 +194,7 @@ This means that we can think of the NOT function as the linear map $N:\R^2 \righ
 If we think of the $n$-bit system as a whole, then since the $n$ bits can take  one of  $2^n$ possible values, we model the state of the system as a vector $p$ of $2^n$ probabilities $p_0,\ldots,p_{2^n}$, where for every $s\in \{0,1\}^n$, $p_s$ denotes the probability that the system is in the state $s$, identifying $\{0,1\}^n$ with $[2^n]$.
 Applying the operation above of setting the $17$-th bit to the NAND of the 3rd and 5th bits, corresponds to transforming the vector $p$ to the vector $Fp$ where $F:\R^{2^n} \rightarrow \R^{2^n}$ is the map such that
 $$
-F(p)_s = \begin{cases}0 & s_{17} \neq 1 - s_3\cdot s_5 \\ p_{s}+p_{s'} & \text{otherwise} \label{eqprobnandevolution}
+F(p)_s = \begin{cases}0 & s_{17} \neq 1 - s_3\cdot s_5 \\ p_{s}+p_{s'} & \text{otherwise} \end{cases} \label{eqprobnandevolution}
 $$
 where $s'$ is the string that agrees with $s$ on all but the 17th coordinate.
 
@@ -264,7 +264,7 @@ At the end of the process we _measure_ the bits, and so we get a particular Bool
 Since we output the bits corresponding to the output variables, for every string $y\in \{0,1\}^m$, the output will equal $y$ with probability $\sum_{z\in S_y} (s^*_z)^2$ where $S_y$ is the set of all $z\in \{0,1\}^{n+\ell+m}$ that agree with $y$ in the last $m$ coordinates.
 
 
-> # {.remark title="The "obviously exponential" fallacy" #exponential}
+> # {.remark title="The `obviously exponential' fallacy" #exponential}
 A priori it might seem "obvious" that quantum computing is exponentially powerful, since to perform a quantum computation on $n$ bits we need to maintain the $2^n$ dimensional state vector and apply $2^n\times 2^n$ matrices to it.
 Indeed popular descriptions of quantum computing (too) often say something along the lines that the difference between quantum and classical computer is that a classic bit can either be zero or one while a qubit can be in both states at once, and so in many qubits a quantum computer can perform exponentially many computations at once.
 Depending on how you interpret this, this description is either false or would apply equally well to _probabilistic computation_, which we've already seen that $\mathbf{BPP}\subseteq \mathbf{P_{/poly}}$ and we conjecture that $\mathbf{BPP}=\mathbf{P}$.
