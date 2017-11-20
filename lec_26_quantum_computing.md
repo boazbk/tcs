@@ -1,9 +1,16 @@
 #  Quantum computing
 
 
->_" we always have had (secret, secret, close the doors!) ... a great deal of difficulty in understanding the world view that quantum mechanics represents ... It has not yet become obvious to me that there's no real problem. ...  Can I learn anything from asking this question about computers--about this may or may not be mystery as to what the world view of quantum mechanics is?"_ , Richard Feynman, 1981
+> # { .objectives }
+* Main aspects in which quantum mechanics differs from local deterministic theories. \
+* Model of quantum circuits, or equivalently QNAND programs \
+* Simons' Algorithm: an example of potential exponential speedup using quantum computers that predated and inspired Shor's factoring algorithm.
 
->_"The only difference between a probabilistic classical world and the equations of the quantum world is that somehow or other it appears as if the probabilities would have to go negative "_, Richard Feynman, 1981
+
+
+>_"We always have had (secret, secret, close the doors!) ... a great deal of difficulty in understanding the world view that quantum mechanics represents ... It has not yet become obvious to me that there's no real problem. ...  Can I learn anything from asking this question about computers--about this may or may not be mystery as to what the world view of quantum mechanics is?"_ , Richard Feynman, 1981
+
+>_"The only difference between a probabilistic classical world and the equations of the quantum world is that somehow or other it appears as if the probabilities would have to go negative"_, Richard Feynman, 1981
 
 There were two schools of natural philosophy in ancient Greece.
 _Aristotle_ believed that objects have an _essence_ that explains their behavior, and a theory of the natural world has to refer to the _reasons_ (or "final cause" to use Aristotle's language) as to why they exhibit certain phenonmena.
@@ -384,21 +391,21 @@ The _order_ of $g\in \mathbb{G}$ is the smallest natural number $a$ such that $g
 
 ### Period finding
 
-Shor's algorithm followed from showing the following results:
+The heart of Shor's algorithm is the following result:
 
 > # {.lemma #shorlem}
-For every (efficiently presented) Abliean group $\mathbb{G}$, there is a quantum polynomial time algorithm that given a _periodic_ function $f:\mathbb{G} \rightarrow \{0,1\}^*$ finds a minimal period of $f$.
+For every (efficiently presented) Abliean group $\mathbb{G}$, there is a quantum polynomial time algorithm that given a _periodic_ function $f:\mathbb{G} \rightarrow \{0,1\}^*$ finds a period of $f$.
 
-If $\mathbb{G}$ is an Abelian group with operation $\star$ and $z\in \mathbb{G}$, then a function $f:\mathbb{G} \rightarrow \{0,1\}^*$ is _$z$ periodic_ if $f(x\star z)=f(x)$ for every $x\in \mathbb{G}$.
-We say that $z$ is a _minimal_ period if there does not exist a period $w$  of $f$ and $a$ smaller than the order of $w$ such that $z=w^a$.
+If $\mathbb{G}$ is an Abelian group with operation $\star$ and $z\in \mathbb{G}$ is not the $1$ element, then a function $f:\mathbb{G} \rightarrow \{0,1\}^*$ is _$z$ periodic_ if $f(x\star z)=f(x)$ for every $x\in \mathbb{G}$.
 The algorithm of [shorlem](){.ref} is "given"  the group $\mathbb{G}$ in the form of a classical algorithm (e.g., a NAND program) that computes the function $\star : \{0,1\}^n \times \{0,1\}^n \rightarrow \{0,1\}^n$, where $n$ is the number of bits that are required to represent an element of the group (which is logarithmic in the size of the group itself).
 Similarly, it is given the function $f$ in the form of a NAND program computing it.
 
 
 ### From order finding to factoring and discrete log
 
-Using the function $f(a)=g^a$ one can use  period finding (for the group of  $\Z_{|\mathbb{G}|}= \{0,1,2,\ldots,|\mathbb{G}|-1\}$ with modular addition) to find the order of any element in a group $\mathbb{G}$.
-We can then use order finding factor integers in polynomial time, but also solve the discrete logarithm over arbitrary Abelian groups, hereby showing that quantum computers will break not just RSA but also Diffie Hellman and Elliptic Curve Cryptography.
+Using the function $f(a)=g^a$ one can use  period finding (for the group of  $\Z_{|\mathbb{G}|}= \{0,1,2,\ldots,|\mathbb{G}|-1\}$ with modular addition) to find the _order_ of any element in a group $\mathbb{G}$.
+We can then use order finding to  both factor integers in polynomial time and solve the discrete logarithm over arbitrary Abelian groups.
+This shows  that quantum computers will break not  RSA, Diffie Hellman and Elliptic Curve Cryptography, which are by far the most widely deployed  public key cryptosystems today.
 We merely sketch how one reduces the factoring and discrete logarithm problems to order finding: (see some of the sources above for the full details)
 
 * For __factoring__, let us restrict to the case $m=pq$ for distinct $p,q$. It turns out that in this case the multiplicative group modulo $m$ (known as $\Z^*_m$) has size $(p-1)(q-1)=m-p-q-1$ and moreover finding this size can be used to efficiently obtain the factors of $m$.
@@ -412,16 +419,17 @@ One can show that if we pick a few random $x$'s in $\Z^*_m$ and compute their or
 
 How do we  find the period of a function? Let us consider the simplest case, where $f$ is a function from $\R$ to $\R$ that is $h^*$ periodic for some number $h^*$, in the sense that $f$ repeats itself on the intervals $[0,h^*]$, $[h^*,2h^*]$, $[2h^*,3h^*]$, etc..
 How do we find this number $h^*$?
-The key idea would be to transform $f$ from the _time_ to the _frequency_ domain.
-That is, we use the _Fourier transform_ to represent $f$ as a sum of wave functions. In this representation wavelengths that divide the period $h^*$ would get significant mass, while wavelengths that don't would likely "cancel out".
+A standard technique in finding the period of a function $f$ is to transform  $f$ from the _time_ to the _frequency_ domain.
+That is, we use the [Fourier transform](https://en.wikipedia.org/wiki/Fourier_transform) to represent $f$ as a sum of _wave functions_.
+In this representation, wavelengths that divide the period $h^*$ would get significant mass, while wavelengths that don't "cancel out".
 
 ![If $f$ is a periodic function then when we represent it in the Fourier transform, we expect the coefficients corresponding to wavelengths that do not evenly divide the period to be very small, as they would tend to "cancel out".](../figure/quantum_fourier.jpg){#qfourierfig .class width=300px height=300px}
 
-Similarly, the main idea behind Shor's algorithm is to use a tool known as the _quantum fourier transform_ that given a circuit computing the function $f:\mathbb{H}\rightarrow\R$, creates a quantum state over roughly $\log |\mathbb{H}|$ qubits (and hence dimension $|\mathbb{H}|$) that corresponds to the Fourier transform of $f$.
+Similarly, the main idea behind Shor's algorithm is to use a tool known as the [quantum fourier transform](https://en.wikipedia.org/wiki/Quantum_Fourier_transform) that given a circuit computing the function $f:\mathbb{H}\rightarrow\R$, creates a quantum state over roughly $\log |\mathbb{H}|$ qubits (and hence dimension $|\mathbb{H}|$) that corresponds to the Fourier transform of $f$.
 Hence when we measure this state,  we get a group element $h$ with probability proportional to the square of the corresponding Fourier coefficient.
 One can show that if $f$ is $h^*$-periodic then we can recover $h^*$ from this distribution.
 
-Shor carried out this approach for the group $\mathbb{H}=\Z^*_q$ for some $q$, but we will show this for the group $\mathbb{H} = \{0,1\}^n$ with the XOR operation.
+Shor carried out this approach for the group $\mathbb{H}=\Z^*_m$ for some $m$,^[For a number $m\in \N$, the group $\Z^*_m$ is  set $\{ k \in [m]\;|\; gcd(k,m)=1 \}$  with the operation being multiplication modulo $m$. It is known as the _multiplicative group_ modulo $m$.] but we will show this for the group $\mathbb{H} = \{0,1\}^n$ with the XOR operation.
 This case is known as _Simon's algorithm_ (given by Dan Simon in 1994) and actually preceded (and inspired) Shor's algorithm:
 
 > # {.theorem title="Simon's Algorithm" #simons}
@@ -429,6 +437,11 @@ If $f:\{0,1\}^n\rightarrow\{0,1\}^*$ is polynomial time computable and satisfies
 a quantum polynomial-time algorithm that outputs a random $h\in \{0,1\}^n$ such that $\sum_{i=0}^{n-1}h_i h^*_i =0 \mod 2$.
 
 Note that given $O(n)$ such samples, we can recover $h^*$ with high probability by solving the corresponding linear equations.
+
+> # {.proofidea data-ref="simons"}
+The idea behind the proof is that the _Hadamard_ operation corresponds to the _Fourier transform_ over the group $\{0,1\}^n$ (with the XOR operations).
+We can use that to create quantum state over $n$ qubits where the probability of obtaining some value $h$ is proportional to the  coefficient corresponding to $h$ in the Fourier transform of (a real-valued function  related to)  $f$.
+We can show that this coefficient will be zero if $h$ is not orthogonal to the period $h^*$ modulo $2$, and hence when we measuer this state we will obtain some $h$ satisfying $\sum_{i=0}^{n-1}h_ih^*_i = 0 \mod 2$.
 
 > # {.proof data-ref="simons"}
 We can express the Hadamard operation $HAD$ as follows:
