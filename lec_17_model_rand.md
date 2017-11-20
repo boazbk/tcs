@@ -389,9 +389,11 @@ Let $F\in \mathbf{BPP}$ and let $P$ be a NAND++ program and $a,b,c,d$ constants 
 By "unrolling the loop" and hardwiring the input $x$, we can obtain for every input $x\in \{0,1\}^n$ a NAND program $Q_x$ of at most, say, $T=10c\dot n^d$ lines, that takes $m$ bits  of input and such that $Q(r)=P(x;r)$.
 >
 Now suppose that $G:\{0,1\}^\ell \rightarrow \{0,1\}$ is a $(T,0.1)$ pseudorandom generator.
-Then we could deterministically estimate $\Pr_{r\sim \{0,1\}^m}[ Q_x(r) = 1 ]$ up to $0.1$ accuracy (and hence compute $F(x)$) in time  $O(T \cdot 2^\ell \cdot m \cdot cost(G))$ where $cost(G)$ is the time that it takes to compute a single output bit of $G$.
-The reason is that we know that $\Pr_{s \sim \{0,1\}^\ell}[ Q_x(G(s)) = 1]$ will give us such an estimate, and we can compute this probability by simply trying all $2^\ell$ possibillites for $s$.
+Then we could deterministically estimate the probability  $p(x)= \Pr_{r\sim \{0,1\}^m}[ Q_x(r) = 1 ]$ up to $0.1$ accuracy in time  $O(T \cdot 2^\ell \cdot m \cdot cost(G))$ where $cost(G)$ is the time that it takes to compute a single output bit of $G$.
+The reason is that we know that $\tilde{p}(x)= \Pr_{s \sim \{0,1\}^\ell}[ Q_x(G(s)) = 1]$ will give us such an estimate for $p(x)$, and we can compute the probability $\tilde{p}(x)$ by simply trying all $2^\ell$ possibillites for $s$.
 Now, under the optimal PRG conjecture we can set  $T = 2^{\delta \ell}$ or equivalently $\ell = \tfrac{1}{\delta}\log T$, and our total computation time is polynomial in $2^\ell = T^{1/\delta}$, and since $T \leq 10c \dot n^d$, this running time will be polynomial in $n$.
+This completes the proof, since  we are guaranteed that  $\Pr_{r\sim \{0,1\}^m}[ Q_x(r) = F(x) ] \geq 2/3$, and hence estimating the  probability $p(x)$ to within $0.1$ accuracy is sufficient to compute $F(x)$.
+
 
 
 ##  $\mathbf{P}=\mathbf{NP}$ and $\mathbf{BPP}$ vs $\mathbf{P}$
