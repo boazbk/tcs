@@ -59,8 +59,15 @@ The mere fact that we _measure_ the  path changes the photon's behavior, and now
 > # { .pause }
 You should read the paragraphs above more than once and make sure you appreciate how truly mind boggling these results are.
 
+![The setup of the double slit experiment](../figure/double-slit-setup.PNG){#doubleslitfig .class width=300px height=300px}
+
+![Results of the double slit experiement.](../figure/double_slit2.jpg){#doubleslittwofig .class width=300px height=300px}
+
+
+## Negative probabilities
+
 What does it mean for a probability to be negative?
-The physicsts' answer is that it does not mean much in isolation, but it can cause _interference_ when a positive and negative probability interact.
+The physicists' answer is that it does not mean much in isolation, but it can cause _interference_ when a positive and negative probability interact.
 Specifically, let's consider the simplest system of all: one that can be in only one of two states, call them "red" and "blue". (If you have some physics background then you  can think of an electron that can be in either "spin up" or "spin down" state.)
 In classical probability terms, we would model the state of such a system by a pair of two non-negative numbers $p,q$ such that $p+q=1$.
 If we observe (or _measure_, to use quantum mechanical parlance), the color of the system, we will see that it is red with probability $p$ and blue with probability $q$.
@@ -70,10 +77,6 @@ In quantum mechanics, we model the state of such a system by a pair of two (pote
 If we measure the color of the system then we will see that it is red with probability $\alpha^2$ and blue with probability $\beta^2$.[^quantum]
 In isolation, these negative numbers don't matter much, since we anyway square them to obtain probabilities.
 But as we mention above, the interaction of positive and negative probabilities can result in surprising _cancellations_ where somehow combining two scenarios where a system is "blue" with positive probability results in a scenario where it is never blue.
-
-![The setup of the double slit experiment](../figure/double-slit-setup.PNG){#doubleslitfig .class width=300px height=300px}
-
-![Results of the double slit experiement.](../figure/double_slit2.jpg){#doubleslittwofig .class width=300px height=300px}
 
 
 Quantum mechanics is a mathematical theory that allows us to calculate and predict the results of the double-slit and many other experiments.
