@@ -183,7 +183,8 @@ First, to provide a general-purpose mechanism to  simulate a variety of the real
 Second, as a challenge to the _Extended Church Turing hypothesis_ which says that every physically realizable computation device can be modeled (up to polynomial overhead) by Turing machines (or equivalently, NAND++ / NAND<< programs).
 However, (unless you care about quantum chemistry) it seemed like a challenge that might have little bearing to practice, given that this theoretical "extra power" of quantum computer seemed to offer little advantage in the majority of the  problems people  want to solve in areas such as  combinatorial optimization, machine learning,  data structures, etc..
 
-To a significant extent, this is still true today. We have no real evidence that quantum computers, if built, will offer truly significant[^Grover] advantage in 99% of the applications of computing.[^overhead]
+To a significant extent, this is still true today. We have no real evidence that quantum computers, if built, will offer truly significant[^Grover] advantage in 99% of the applications of computing.
+In particular, as far as we know, quantum computers will _not_ help us solve $\mathbf{NP}$ complete problems in polynomial or even sub-exponential time.[^overhead]
 However, there is one cryptography-sized exception:
 In 1994 Peter Shor showed that quantum computers can solve the integer factoring and discrete logarithm in polynomial time.
 This result has captured the imagination of a great many people, and completely energized research into quantum computing.  
@@ -198,6 +199,16 @@ It could also be a "self destroying prophecy" whereby the existence of a small-s
 [^overhead]: This "99 percent" is a figure of speech, but not completely so. It seems that for many web servers, the TLS protocol (which based on the current non-lattice based systems would be completely broken by quantum computing) is responsible [for about 1 percent of the CPU usage](https://goo.gl/mHpYpm).  
 
 [^Grover]: I am using the theorist' definition of conflating "significant" with "super-polynomial". [Grover's algorithm](https://goo.gl/NQVLLF) does offer a very generic _quadratic_ advantage in computation. Whether that quadratic advantage will  ever be good enough to offset in practice the significant overhead in building a quantum computer remains an open question. We also don't have evidence that super-polynomial speedups _can't_ be achieved for some problems outside the Factoring/Dlog or quantum simulation domains, and there is at least [one company](http://www.dwavesys.com/) banking on such speedups actually being feasible.
+
+> # {.remark title="Quantum computing and $\mathbf{NP}$" #quantumnp}
+Despite popular accounts of quantum computers as having variables that can take "zero and one at the same time"  and therefore can "explore an exponential number of possiblities simultaneously", their true power is much more subtle and nuanced.
+In particular, as far as we know, quantum computers do _not_ enable us to solve $\mathbf{NP}$ complete problems such as 3SAT.
+In particular it is believed that for every large enough $n$, the restriction of 3SAT to length $n$ cannot be solved by quantum circuits (or equivalently QNAND programs) of polynomial, or even subexponential size.
+However, [Grover's search algorithm](https://goo.gl/NQVLLF) does give a more modest advantage (namely, quadratic) for quantum computers over classical ones for problems in $\mathbf{NP}$.
+In particular, due to Grover's search algorithm, we know that the $k$-SAT problem for $n$ variables can be solved in time $O(2^{n/2}poly(n))$ on a quantum computer for every $k$.
+In contrast, the best known algorithms for $k$-SAT on a classical computer take roughly $2^{(1-\tfrac{1}{k})n}$ steps.
+
+
 
 ## The  computational model
 
