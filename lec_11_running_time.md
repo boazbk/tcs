@@ -264,9 +264,6 @@ There is an $O(n)$-time NAND<< program $COMPILE$ such that on input a NAND++ pro
 
 Since NAND<< programs can be simulated by NAND++ programs with polynomial overhead, we see that we can simulate a $T(n)$ time NAND<< program on length $n$ inputs with a $poly(T(n))$ size NAND program.
 
-Although we will hardly  use this term in this course, the set of functions $F:\{0,1\}^* \rightarrow \{0,1\}$ whose restriction to $n$-bit inputs can be solved by a polynomial size NAND program (or, equivalently, by a polynomial size Boolean circuit) is known as $\mathbf{P_{/poly}}$.
-Thus one consequence of [non-uniform-thm](){.ref} is that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$.
-
 
 
 
@@ -287,6 +284,32 @@ On the other hand,  $F_n$ might be in  $SIZE(T(n))$ for every $n$ using a comple
 While this can be a real issue, in most natural settings the difference between uniformity and non-uniform-thmity does not seem to arise.
 In particular, in all the example problems in this lecture, as the input size $n$ grows, we do not know of NAND programs that are significantly smaller than what would be implied by the best known algorithm (i.e., NAND++ program).
 Thus, for "natural" functions, if you pretend that $TIME(T(n))$  is roughly the same as $SIZE(T(n))$, you will be right more often than wrong.
+
+
+### The class $\mathbf{P_{/poly}}$
+
+We define $\mathbf{P}$ to be the class of functions that are computed by polynomial time NAND++ programs.
+We can define $\mathbf{P_{/poly}}$ to be the analogous class of functions whose restriction to any length $n$ is computed by a polynomial size NAND program.
+
+> # {.definition title="$\mathbf{P_{/poly}}$" #defppoly}
+Let $F:\{0,1\}^* \rightarrow \{0,1\}$. We say that $F\in \mathbf{P_{/poly}}$ if there is some polynomial $p:\N \rightarrow \N$ and a sequence $\{ Q_n \}$ of NAND programs such that: \
+* For every $n\in \N$, $Q_n$ has at most $p(n)$ lines. \
+* For every $n\in \N$, $Q_n$ computes the finite function $F_n$ that is obtained by restricting $F$ to inputs in $\{0,1\}^n$
+
+We can rephrase  [non-uniform-thm](){.ref} as saying that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$.
+The notation $\mathbf{P_{/poly}}$ is for historical reasons, and was introduced by Karp and Lipton, who considered this class as corresponding to functions that can be computed by polynomial-time Turing Machines (or equivalently, NAND++ programs) that are given for any input length $n$ a polynomial in $n$ long _advice string_.
+That this is an equivalent characterization is shown in the following theorem:
+
+> # {.theorem title="$\mathbf{P_{/poly}}$ characterization by advice" #ppolyadvice}
+Let $F:\{0,1\}^* \rightarrow \{0,1\}$. Then $F\in\mathbf{P_{/poly}}$ if and only if there exists a polynomial $p:\N \rightarrow \N$, a polynomial-time NAND++ program $P$ and a sequence $\{ a_n \}_{n\in \N}$ of strings, such that for every $n\in \N$: \
+* $|a_n| \leq p(n)$  \
+* For every $x\in \{0,1\}^n$, $P(a_n,x)=F(x)$.
+
+> # {.proof data-ref="ppolyadvice"}
+The proof is quite straightforward.
+For the "only if" direction, if $F\in \mathbf{P_{/poly}}$ then we can use for $a_n$  simply the description of the corresponding NAND program $Q_n$, and for $P$ the program that computes in polynomial time the $NANDEVAL$ function that on input an $n$-input NAND program $Q$ and a string $x\in \{0,1\}^n$, outputs $Q(n)$>
+>
+For the "if" direction, we can use the same "unrolling the loop" technique of [non-uniform-thm](){.ref} to show that if $P$ is a polynomial-time NAND++ program, then for every $n\in \N$, the map $x \mapsto P(a_n,x)$ can be computed by a polynomial size NAND program $Q_n$.
 
 
 ### Uniform vs. Nonuniform computation: A recap
@@ -336,6 +359,7 @@ In particular, out of all the example problems mentioned in the previous lecture
 
 ## Exercises
 
+For these exercises, a class $\overline{C}$ is the multi-bit output analog of the class $C$, where we consider programs that output more than ont bit.
 
 > # {.exercise title="Composition of polynomial time" #poly-time-comp-ex}
 Prove that if $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$ are in $\overline{\mathbf{P}}$ then their _composition_ $F\circ G$, which is the function $H$ s.t. $H(x)=F(G(x))$, is also in $\overline{\mathbf{P}}$.

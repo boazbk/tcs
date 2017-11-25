@@ -288,8 +288,9 @@ This seems quite simple, but maintaining the qubits in a way that we can apply t
 > # {.remark title="Uniformity" #uniformity}
 Just like NAND, QNAND is a _non uniform_ model of computation, where we consider a different program for every input step.
 One can define quantum Turing machines or QNAND++ programs to capture the notion of _uniform_ quantum computation where a single algorithm is specified for all input lengths.
+The quantum analog of $\mathbf{P}$, known as $\mathbf{BQP}$ is defined using such notions.
 However, for the sake of simplicity, we omit the discussion of those models in this lecture.
-
+However, all of the discussion in this section holds equally well for the uniform and non-uniform models.
 
 ### Analyzing QNAND execution
 
@@ -314,6 +315,27 @@ Depending on how you interpret it, this description is either false or would app
 Moreover, this "obvious" approach for simulating a quantum computation will take not just exponential time but _exponential space_ as well, while it is not hard to show that using a simple recursive formula one can calculate the final quantum state using _polynomial space_ (in physics  this is known as "Feynman path integrals").
 So, the exponentially long vector description by itself does not imply that quantum computers are exponentially powerful.
 Indeed, we cannot _prove_ that they are (i.e., as far as we know, every QNAND program could be simulated by a NAND program with polynomial overhead), but we do have some problems (integer factoring most prominently) for which they do provide exponential speedup over the currently best _known_ classical (deterministic or probabilistic) algorithms.
+
+
+
+### Complexity classes
+
+If $F:\{0,1\}^n \rightarrow \{0,1\}$  is a finite function and $s\in \N$ then we say that $F\in QSIZE(s)$ if there exists a QNAND program $P$ of at most $s$ lines that comptues $F$, in the sense that for every $x\in \{0,1\}^n$, $\Pr[ P(x)=F(x) ] \geq 2/3$.
+Equivalently, $F\in QSIZE(S)$ if there is a quantum circuit of at most $s$ gates that computes it.^[Recall that we use circuits over the basis consisting  of the  Hadamard gate and the "reversible NAND" or  "shifted Toffoli" gate $abc \mapsto ab(c \oplus (1-ab))$. However, using any other universal basis only changes the number of gates by a constant factor.]
+For an _infinite_ function $F:\{0,1\}^* \rightarrow \{0,1\}$, we say that $F\in \mathbf{BQP_{/poly}}$ if there is some polynomial $p:\N \rightarrow \N$ and a sequence $\{ Q_n \}_{n\in \N}$ of QNAND programs such that for every $n\in \N$, $Q_n$ has less than $p(n)$ lines and $Q_n$ computes the restriction of $F$ to inputs in $\{0,1\}^n$.
+We can also define the class $\mathbf{BQP}$ to be the uniform analog of $\mathbf{BQP_{/poly}}$.
+It can be defined using QNAND++ programs, but also has the following equivalent definition: $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{BQP}$ if there is polynomial-time (classical) NAND++ program $P$ such that for every $n\in \N$, $P(1^n)$ is a string representing a QNAND program $Q_n$ such that $Q_n$ computes the restriction of $F$ to inputs in $\{0,1\}^n$.
+
+> # { .pause }
+Parsing the above definitions can take a bit of time, but they are ultimately not very deep.
+One way to verify that you've understood these definitions it to see that you can prove __(1)__ $\mathbf{P} \subseteq \mathbf{BQP}$ and in fact the stronger statement $\mathbf{BPP} \subseteq \mathbf{BQP}$, __(2)__  $\mathbf{BQP} \subseteq \mathbf{EXP}$, and __(3)__ For every $\mathbf{NP}$-complete function $F$, if $F\in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$.
+
+The relation between $\mathbf{NP}$ and $\mathbf{BQP}$ is not known. It is believed that they are incomprable, in the sense that $\mathbf{NP} \nsubseteq \mathbf{BQP}$ (and in particular no $\mathbf{NP}$-complete function belongs to $\mathbf{BQP}$) but also $\mathbf{BQP} \nsubseteq \mathbf{NP}$ (and there are some interesting candidates for such problems).
+
+
+
+
+
 
 
 
