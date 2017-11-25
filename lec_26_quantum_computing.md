@@ -4,7 +4,7 @@
 > # { .objectives }
 * Main aspects in which quantum mechanics differs from local deterministic theories. \
 * Model of quantum circuits, or equivalently QNAND programs \
-* Simons' Algorithm: an example of potential exponential speedup using quantum computers that predated and inspired Shor's factoring algorithm.
+* Simon's Algorithm: an example of potential exponential speedup using quantum computers that predated and inspired Shor's factoring algorithm.
 
 
 
@@ -39,13 +39,10 @@ Obviously,  we expect the level of "denting" in any particular position of the w
 
 The above is (to my knowledge) an accurate description of what happens when we shoot baseballs at a wall.
 However, this is not the same when we shoot _photons_.
-Amazingly, if we shoot with two "photon guns" (i.e., lasers) at a wall equipped with photon detectors, then some of the detectors will see _fewer_ hits when the two lasers operate than when only one of them does.^[Normally rather than shooting with  two lasers, people use a single laser with a barrier between the laser and the detectors that has either one or two _slits_ open in it, hence the name "double slit experiemnt", see [doubleslitfig](){.ref} and [doubleslittwofig](){.ref}. The variant of the experiment we describe was first performed by  Pfleegor and Mandel in 1967.]
+Amazingly, if we shoot with two "photon guns" (i.e., lasers) at a wall equipped with photon detectors, then some of the detectors will see _fewer_ hits when the two lasers operate than when only one of them does.^[Normally rather than shooting with  two lasers, people use a single laser with a barrier between the laser and the detectors that has either one or two _slits_ open in it, hence the name "double slit experiemnt", see [doubleslitfig](){.ref} and [doubleslittwofig](){.ref}. The variant of the experiment we describe was first performed by  Pfleegor and Mandel in 1967. A nice illustrated description of the double slit experiment appears in   [this video](https://www.youtube.com/watch?v=DfPeprQ7oGc)].]
 In particular there are positions in the wall that are hit when the first gun is turned on, and when the second gone is turned on, but are _not hit at all when both guns are turned on!_.
 It's almost as if the photons from both guns are aware of each other's existence, and behave differently when they know that in the future a photon would be shot from another gun. (Indeed, we stress that we can modulate the rate of firing so that photons are _not_ fired at the same time, and so there is no chance of "collision".)
 
-<!-- An excellent description of the double slit experiment appears in   [this video](https://www.youtube.com/watch?v=DfPeprQ7oGc)]
-
--->
 
 This and other experiments ultimately forced scientists to accept the following picture of the world.
 Let us go back to the baseball experiment, and consider a particular position in the wall.
@@ -320,7 +317,7 @@ Indeed, we cannot _prove_ that they are (i.e., as far as we know, every QNAND pr
 
 ### Complexity classes
 
-If $F:\{0,1\}^n \rightarrow \{0,1\}$  is a finite function and $s\in \N$ then we say that $F\in QSIZE(s)$ if there exists a QNAND program $P$ of at most $s$ lines that comptues $F$, in the sense that for every $x\in \{0,1\}^n$, $\Pr[ P(x)=F(x) ] \geq 2/3$.
+If $F:\{0,1\}^n \rightarrow \{0,1\}$  is a finite function and $s\in \N$ then we say that $F\in QSIZE(s)$ if there exists a QNAND program $P$ of at most $s$ lines that comptues $F$, in the sense that for every $x\in \{0,1\}^n$, $\Pr[ P(x)=F(x) ] \geq 2/3$.^[The number $2/3$ is arbitrary. As  in the case of $\mathbf{BPP}$, we can amplify success probability of a quantum algorithm to our liking.]
 Equivalently, $F\in QSIZE(S)$ if there is a quantum circuit of at most $s$ gates that computes it.^[Recall that we use circuits over the basis consisting  of the  Hadamard gate and the "reversible NAND" or  "shifted Toffoli" gate $abc \mapsto ab(c \oplus (1-ab))$. However, using any other universal basis only changes the number of gates by a constant factor.]
 For an _infinite_ function $F:\{0,1\}^* \rightarrow \{0,1\}$, we say that $F\in \mathbf{BQP_{/poly}}$ if there is some polynomial $p:\N \rightarrow \N$ and a sequence $\{ Q_n \}_{n\in \N}$ of QNAND programs such that for every $n\in \N$, $Q_n$ has less than $p(n)$ lines and $Q_n$ computes the restriction of $F$ to inputs in $\{0,1\}^n$.
 We can also define the class $\mathbf{BQP}$ to be the uniform analog of $\mathbf{BQP_{/poly}}$.
@@ -333,6 +330,8 @@ One way to verify that you've understood these definitions it to see that you ca
 The relation between $\mathbf{NP}$ and $\mathbf{BQP}$ is not known. It is believed that they are incomprable, in the sense that $\mathbf{NP} \nsubseteq \mathbf{BQP}$ (and in particular no $\mathbf{NP}$-complete function belongs to $\mathbf{BQP}$) but also $\mathbf{BQP} \nsubseteq \mathbf{NP}$ (and there are some interesting candidates for such problems).
 
 
+It can be shown that $QNANDEVAL$ (evluating a quantum circuit on an input) is computable by a polynomial size QNAND program, and moreover this program can even be generated _uniformly_ and hence $QNANDEVAL$ is in $\mathbf{BQP}$.
+This allows us to "port" many of the results of classical computational complexity such as the _time hierarchy theorem_ into the quantum realm as well.
 
 
 
