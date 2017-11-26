@@ -700,6 +700,10 @@ This [talk and panel](https://youtu.be/GdqC2bVLesQ?t=2m51s) moderated by Brian G
 
 Finally, for some non-video sources,  the [Feynmann lecture on the Fourier Transform](http://www.feynmanlectures.caltech.edu/I_50.html) and [quantum mechanics in general](http://www.feynmanlectures.caltech.edu/III_toc.html) are very much worth reading.
 
+The [Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform), used as a component in Shor's algorithm, is one of the most useful algorithms across many applications areas.
+The stories of its discovery by Gauss in trying to calculate astroid orbits and rediscovery by Tukey in the cold war are very interesting as well.
+
+
 ## Further explorations
 
 Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
