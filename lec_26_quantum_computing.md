@@ -691,12 +691,14 @@ The Fourier transform is covered in this
 videos of [Dr. Chris Geoscience](https://youtu.be/EYRmB1aNh9I?t=19s),  [Clare Zhang](https://www.youtube.com/watch?v=Y9pYHDSxc7g) and [Vi Hart](https://www.youtube.com/watch?v=i_0DXxNeaQ0).
 More specifically to quantum computing, the videos of  [Umesh Vazirani on the Quantum Fourier Transform](https://www.youtube.com/watch?v=BM429cOogYc) and  [Kelsey Houston-Edwards on Shor's Algorithm](https://www.youtube.com/watch?v=wUwZZaI5u0c) are very recommended.
 
+
+
 Regarding quantum mechanics in general, this
 [video](https://www.youtube.com/watch?v=DfPeprQ7oGc) illustrates the double slit experiment,
 this [[Scientific American video](https://www.youtube.com/watch?v=xM3GOXaci7w)]{.fragment} is a nice exposition of Bell's Theorem.
 This [talk and panel](https://youtu.be/GdqC2bVLesQ?t=2m51s) moderated by Brian Greene discusses some of the philosophical and technical issues around quantum mechanics.
 
-
+Finally, for some non-video sources,  the [Feynmann lecture on the Fourier Transform](http://www.feynmanlectures.caltech.edu/I_50.html) and [quantum mechanics in general](http://www.feynmanlectures.caltech.edu/III_toc.html) are very much worth reading.
 
 ## Further explorations
 
