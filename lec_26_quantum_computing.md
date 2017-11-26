@@ -331,7 +331,7 @@ The relation between $\mathbf{NP}$ and $\mathbf{BQP}$ is not known. It is believ
 
 
 It can be shown that $QNANDEVAL$ (evluating a quantum circuit on an input) is computable by a polynomial size QNAND program, and moreover this program can even be generated _uniformly_ and hence $QNANDEVAL$ is in $\mathbf{BQP}$.
-This allows us to "port" many of the results of classical computational complexity such as the _time hierarchy theorem_ into the quantum realm as well.
+This allows us to "port" many of the results of classical computational complexity into the quantum realm as well.
 
 
 
