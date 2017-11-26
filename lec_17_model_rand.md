@@ -358,7 +358,7 @@ Specifically, there exists a constant  $\delta >0$ such that for every $\ell$ an
 > # { .pause }
 The "optimal PRG conjecture" is worth while reading more than once. What it posits is that we can obtain $(T,\epsilon)$ pseudorandom generator $G$ such that every output bit of $G$ can be computed in time polynomial in the length $\ell$ of the input, where $T$ is exponentially large in $\ell$ and $\epsilon$ is exponentially small in $\ell$. (Note that we could not hope for the entire output to be computable in $\ell$, as just writing the output down will take too long.)
 >
-To understand why we call such a pseudorandom generator "optimal", it is a great exercise to convince yourself that there exists no $(T,\epsilon)$ pseudorandom generator unless $T$ is larger than (say) $2^{2\ell}$ and $\epsilon$ is at least (say) $2^{-2\ell}$.
+To understand why we call such a pseudorandom generator "optimal", it is a great exercise to convince yourself that there exists no $(T,\epsilon)$ pseudorandom generator unless $T$ is smaller than (say) $2^{2\ell}$ and $\epsilon$ is at least (say) $2^{-2\ell}$.
 For the former case note that if we allow a NAND program with much more than $2^\ell$ lines then this NAND program could "hardwire" inside it all the outputs of $G$ on all its $2^\ell$ inputs, and use that to distinguish between a string of the form $G(s)$ and a uniformly chosen string in $\{0,1\}^m$.
 For the latter case note that by trying to "guess" the input $s$, we can achieve a $2^{-\ell}$ advantage in distinguishing a pseudorandom and uniform input.
 But working out these details is a highly recommended exercise.

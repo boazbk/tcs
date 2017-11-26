@@ -683,6 +683,19 @@ Since we live in the two dimensional space spanned by $u$ and $|x\rangle$, it wo
 
 ## Bibliographical notes
 
+Chapters 9 and 10 in the book _Quantum Computing Since Democritus_ give an informal but highly informative introduction to the topics of this lecture and much more.
+Shor's and Simon's algorithms are also covered in Chapter 10 of my book with Arora on computational complexity.
+
+There are many excellent videos available online covering some of these materials.
+The Fourier transform is covered in this
+videos of [Dr. Chris Geoscience](https://youtu.be/EYRmB1aNh9I?t=19s),  [Clare Zhang](https://www.youtube.com/watch?v=Y9pYHDSxc7g) and [Vi Hart](https://www.youtube.com/watch?v=i_0DXxNeaQ0).
+More specifically to quantum computing, the videos of  [Umesh Vazirani on the Quantum Fourier Transform](https://www.youtube.com/watch?v=BM429cOogYc) and  [Kelsey Houston-Edwards on Shor's Algorithm](https://www.youtube.com/watch?v=wUwZZaI5u0c) are very recommended.
+
+Regarding quantum mechanics in general, this
+[video](https://www.youtube.com/watch?v=DfPeprQ7oGc) illustrates the double slit experiment,
+this [[Scientific American video](https://www.youtube.com/watch?v=xM3GOXaci7w)]{.fragment} is a nice exposition of Bell's Theorem.
+This [talk and panel](https://youtu.be/GdqC2bVLesQ?t=2m51s) moderated by Brian Greene discusses some of the philosophical and technical issues around quantum mechanics.
+
 
 
 ## Further explorations
