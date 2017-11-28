@@ -158,7 +158,8 @@ The chapter on quantum computation in my [book with Arora](http://theory.cs.prin
 relatively short resource that contains essentially everything we discuss here and more.
 See also this [blog post of Aaronson](http://www.scottaaronson.com/blog/?p=208) for a high level explanation of Shor's algorithm which ends with links to several more detailed expositions.
 [This lecture](http://www.scottaaronson.com/democritus/lec14.html) of Aaronson for a great discussion of the feasibility of quantum computing (Aaronson's [course lecture notes](http://www.scottaaronson.com/democritus/default.html) and the [book](http://www.amazon.com/Quantum-Computing-since-Democritus-Aaronson/dp/0521199565) that they spawned are fantastic reads as well).
-See the "bibliographical notes" section at the end of this lecture for more resources, and in particular videos.
+The videos of [Umesh Variani'z EdX course](https://www.youtube.com/playlist?list=PLDAjb_zu5aoFazE31_8yT0OfzsTcmvAVg) are an accessible and recommended introduction to quantum computing.
+See the "bibliographical notes" section at the end of this lecture for more resources.
 
 ## Quantum computing and computation - an executive summary.
 
@@ -694,17 +695,20 @@ The Fourier transform is covered in this
 videos of [Dr. Chris Geoscience](https://youtu.be/EYRmB1aNh9I?t=19s),  [Clare Zhang](https://www.youtube.com/watch?v=Y9pYHDSxc7g) and [Vi Hart](https://www.youtube.com/watch?v=i_0DXxNeaQ0).
 More specifically to quantum computing, the videos of  [Umesh Vazirani on the Quantum Fourier Transform](https://www.youtube.com/watch?v=BM429cOogYc) and  [Kelsey Houston-Edwards on Shor's Algorithm](https://www.youtube.com/watch?v=wUwZZaI5u0c) are very recommended.
 
-
+Chapter 10 in [Avi Wigderson's book](https://www.math.ias.edu/avi/book) gives a high level overview of quantum computing.
+Andrew Childs' [lecture notes on quantum algorithms](http://www.cs.umd.edu/~amchilds/qa/qa.pdf), as well as the lecture notes of [Umesh Vazirani](https://inst.eecs.berkeley.edu/~cs191/),
+[John Preskill](http://www.theory.caltech.edu/people/preskill/ph229/), and [John Watrous](https://cs.uwaterloo.ca/~watrous/LectureNotes.html)
 
 Regarding quantum mechanics in general, this
 [video](https://www.youtube.com/watch?v=DfPeprQ7oGc) illustrates the double slit experiment,
-this [[Scientific American video](https://www.youtube.com/watch?v=xM3GOXaci7w)]{.fragment} is a nice exposition of Bell's Theorem.
-This [talk and panel](https://youtu.be/GdqC2bVLesQ?t=2m51s) moderated by Brian Greene discusses some of the philosophical and technical issues around quantum mechanics.
-
-Finally, for some non-video sources,  the [Feynmann lecture on the Fourier Transform](http://www.feynmanlectures.caltech.edu/I_50.html) and [quantum mechanics in general](http://www.feynmanlectures.caltech.edu/III_toc.html) are very much worth reading.
+this [Scientific American video](https://www.youtube.com/watch?v=xM3GOXaci7w)  is a nice exposition of Bell's Theorem.
+This [talk and panel](https://youtu.be/GdqC2bVLesQ?t=2m51s) moderated by Brian Greene discusses some of the philosophical and technical issues around quantum mechanics and its so called  "measurement problem".
+The [Feynmann lecture on the Fourier Transform](http://www.feynmanlectures.caltech.edu/I_50.html) and [quantum mechanics in general](http://www.feynmanlectures.caltech.edu/III_toc.html) are very much worth reading.
 
 The [Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform), used as a component in Shor's algorithm, is one of the most useful algorithms across many applications areas.
-The stories of its discovery by Gauss in trying to calculate astroid orbits and rediscovery by Tukey in the cold war are very interesting as well.
+The stories of its discovery by Gauss in trying to calculate astroid orbits and rediscovery by Tukey during  the cold war are fascinating as well.
+
+
 
 
 ## Further explorations
