@@ -121,10 +121,13 @@ For every two functions $f,g:\{0,1\}\rightarrow\{0,1\}$, $\Pr_{x,y \in \{0,1\}}[
 Since the probability is taken over all four choices of $x,y \in \{0,1\}$, the theorem can only be violated if there exist  $f,g$ that satisfy
 $f(x) \oplus g(y) = x \wedge y \;(*)$
 for every $x,y \in \{0,1\}^2$.
-In other words,
+In other words, we assume for the sake of contradiction that
 $f(x) = (x \wedge y) \oplus g(y)\;(*)$
 for every $x,y \in \{0,1\}^2$.
-So if $y=0$ it must be that $f(x)=0$ for all $x$, but on the other hand, if $y=1$ then for $(*)$ to hold then it must be that $f(x) = x \oplus g(1)$ but that means that $f$ cannot be constant.
+So if $y=0$ it must be that $f(x)=(x \wedge 0) \oplus g(0) = 0 \oplus g(0)= g(0)$ for both  $x=0$ and $x=1$ and in particular $f(0)=f(1)$.
+On the other hand, if $y=1$ then plugging $x=0$ and $x=1$ to $(*)$ implies that $f(0)= g(1)$ and $f(1)=1 \oplus g(1)$.
+Yet this implies that $f(0) \neq f(1)$, containing a contradiction.
+
 
 
 [^CHSH]: This form of Bell's game was shown by [Clauser, Horne, Shimony, and Holt](https://en.wikipedia.org/wiki/CHSH_inequality). (I think)
@@ -155,7 +158,7 @@ The chapter on quantum computation in my [book with Arora](http://theory.cs.prin
 relatively short resource that contains essentially everything we discuss here and more.
 See also this [blog post of Aaronson](http://www.scottaaronson.com/blog/?p=208) for a high level explanation of Shor's algorithm which ends with links to several more detailed expositions.
 [This lecture](http://www.scottaaronson.com/democritus/lec14.html) of Aaronson for a great discussion of the feasibility of quantum computing (Aaronson's [course lecture notes](http://www.scottaaronson.com/democritus/default.html) and the [book](http://www.amazon.com/Quantum-Computing-since-Democritus-Aaronson/dp/0521199565) that they spawned are fantastic reads as well).
-
+See the "bibliographical notes" section at the end of this lecture for more resources, and in particular videos.
 
 ## Quantum computing and computation - an executive summary.
 
