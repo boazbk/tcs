@@ -74,7 +74,7 @@ The idea behind the proof is that we can simply replace sampling a random coin w
 > # {.proof data-ref="randextrainput"}
 We start by showing the "only if" direction.
 Let $F\in \mathbf{BPP}$ and let $P$ be an RNAND++ program that computes $F$ as per [BPPdef](){.ref}, and let $a,b\in \N$ be such that on every input of length $n$, the program $P$ halts within at most $an^b$ steps.
-We will construct a NAND++ polynomial-time program $P'$ that computes a function $G$ satisfying the conditions of [eqBPPauxiliary](){.eqref}.
+We will construct a  polynomial-time NAND++ program $P'$ that computes a function $G$ satisfying the conditions of [eqBPPauxiliary](){.eqref}.
 As usual, we will allow ourselves some "syntactic sugar" in constructing this program, as it can always be eliminated with polynomial overhead as in the proof of [NANDequiv-thm](){.ref}.
 The program $P'$ will first copy the bits in  positions $n,n+1,n+2,\ldots,n+an^b-1$ of its input into the variables `r_0`, `r_1`, $\ldots$, `r_`$\expr{an^b-1}$.
 We will also assume we have access to an extra index variable `j` which we can increase and decrease (which of course can be simulated via syntactic sugar).
@@ -91,13 +91,13 @@ The idea behind the construction of $P$ is simple: on input a string $x\in \{0,1
 We will then execute $P'$ on the input $x$ and `r_0`,$\ldots$,`r_`$\expr{an^b-1}$ (i.e., replacing every reference to the variable `x_`$\expr{n+k}$ with the variable `r_`$\expr{k}$).
 Once again, it is clear that if $P'$ runs in polynomial time then so will $P$, and for every input $x$ and $r\in \{0,1\}^{an^b}$, the output of $P$ on input $x$ and where the coin tosses outcome is $r$ is equal to $P'(xr)$.
 
+> # {.remark title="Definitions of $\mathbf{BPP}$ and $\mathbf{NP}$" #BPPandNP}
 The characterization of $\mathbf{BPP}$ [randextrainput](){.ref} is reminiscent of the characterization of $\mathbf{NP}$  in [NP-def](){.ref}, with the randomness in the case of $\mathbf{BPP}$ playing the role of the solution in the case of $\mathbf{NP}$ but there are important differences between the two:
-
+>
 * The definition of $\mathbf{NP}$ is "one sided": $F(x)=1$ if _there exists_ a solution $w$ such that $G(xw)=1$ and $F(x)=0$ if _for every_ string $w$ of the appropriate length, $G(xw)=0$. In contrast, the characterization of $\mathbf{BPP}$ is symmetric with respect to the cases $F(x)=0$ and $F(x)=1$.
-
+>
 * For this reason the relation between $\mathbf{NP}$ and $\mathbf{BPP}$ is not immediately clear, and indeed is not known whether $\mathbf{BPP} \subseteq \mathbf{NP}$, $\mathbf{NP} \subseteq \mathbf{BPP}$, or these two classes are incomprable. It is however known (with a non-trivial proof) that if $\mathbf{P}=\mathbf{NP}$ then  $\mathbf{BPP}=\mathbf{P}$ (see [BPPvsNP](){.ref}).
-
-
+>
 * Most importantly,  the definition of $\mathbf{NP}$ is "ineffective", since it does not yield a way of actually finding whether there exists a solution among the exponentially many possiblities. In contrast, the definition of $\mathbf{BPP}$ gives us a way to compute the function in practice by simply choosing the second input at random.
 
 __"Random tapes"__ [randextrainput](){.ref} motivates sometimes considering the randomness of an RNAND++ (or RNAND<<) program  as an extra input, and so if $A$ is a randomized algorithm that on inputs of length $n$ makes at most $p(n)$ coin tosses, we will sometimes use the notation $A(x;r)$ (where $x\in \{0,1\}^n$ and $r\in \{0,1\}^{p(n)}$) to refer to the result of executing $x$ when the coin tosses of $A$ correspond to the coordinates of $r$.
@@ -411,7 +411,10 @@ Namely, if we're wrong on the first count, then we'll be right on the second one
 If $\mathbf{P}=\mathbf{NP}$ then $\mathbf{BPP}=\mathbf{P}$.
 
 > # {.proofidea data-ref="BPPvsNP"}
-TO BE COMPLETED
+The construction follows  the "quantifier elimination" idea which we have seen in [PH-collapse-thm](){.ref}.
+We will show that for  every $F \in \mathbf{BPP}$, we can reduce the question of some input $x$ satisfies $F(x)=1$ to the question of whether a formula of the form $\exists_{u\in \{0,1\}^m} \forall_{v \in \{0,1\}^k} P(x,y)$ is true where $m,k$ are polynomial in the length of $x$ and $P$ is polynomial-time computable.
+By [PH-collapse-thm](){.ref}, if $\mathbf{P}=\mathbf{NP}$ then we can decide in polynomial time  whether such a formula is true or false.
+
 
 > # {.proof data-ref="BPPvsNP"}
 TO BE COMPLETED

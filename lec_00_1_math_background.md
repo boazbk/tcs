@@ -431,7 +431,7 @@ Thus for example the statement
 
 
 $$
-\exists_{x,y \in \N} (x \neq 1) \wedge (x \neq n) \wedge (n = x \times y) \label{aboutnstmt}
+\exists_{x,y \in \N} (x \neq 1) \wedge (x \neq n) \wedge (n = x \times y) \label{aboutnstmttwo}
 $$
 
 is equivalent to [aboutnstmt](){.eqref} in the sense that it is true for exactly the same set of $n$'s. Similarly, the code
