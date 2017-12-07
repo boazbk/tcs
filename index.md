@@ -93,41 +93,36 @@ index:
     draft: false
 
   - num: 17.
-    name: More NP hardness reductions (advanced lecture)
-    file: lec_13a_advanced_reductions
-    draft: false
-
-  - num: 18.
     name: What if P=NP?
     file: lec_14_PvsNP
     draft: false
 
-  - num: 19.
+  - num: 18.
     name: Review of probability
     file: lec_15_probability
     draft: false
 
-  - num: 20.
+  - num: 19.
     name: Randomized algorithms
     file: lec_16_randomized_alg
     draft: false
 
-  - num: 21.
+  - num: 20.
     name: Modelling probabilistic computation
     file: lec_17_model_rand
     draft: false
 
-  - num: 22.
+  - num: 21.
     name: Cryptography
     file: lec_19_cryptography
     draft: false
 
-  - num: 23.
+  - num: 22.
     name: Proofs and algorithms
     file: lec_24_proofs
     draft: false
 
-  - num: 24.
+  - num: 23.
     name: Quantum computing
     file: lec_26_quantum_computing
     draft: false

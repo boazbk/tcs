@@ -6,6 +6,7 @@
 
 >_"I found that every number, which may be expressed from one to ten, surpasses the preceding by one unit: afterwards the ten is doubled or tripled  ...  until a hundred; then the hundred is doubled and tripled in the same manner as the units and the tens ... and so forth to the utmost limit of numeration."_,  Muhammad ibn Mūsā al-Khwārizmī, 820, translation by Fredric Rosen, 1831.
 
+>_"A mathematician would hardly call a correspondence between the set of 64 triples of four units and a set of twenty other units, "universal", while such correspondence is, probably, the most fundamental general feature of life on Earth"_, Misha Gromov, 2013
 
 To a first approximation, computation can be thought of as a process that maps an _input_ to an _output_.
 
@@ -564,6 +565,8 @@ The idea that we should separate the _definition_ or _specification_ of a functi
 Historically, a function $F$ was  identified by  rules or formulas showing  how to derive the output from the input.
 As we discuss in greater  depth in our lecture on uncomputability, in the 1800's this somewhat informal notion of a function started "breaking at the seams" and eventually mathematicians arrived at the more rigorous definition of  a function as an arbitrary assignment of input to outputs.
 While many  functions may be described (or computed) by one or more  formulas, today we do not consider that to be an essential property of functions, and also allow functions that do not correspond to any "nice" formula.
+
+Gromov and Pomerantz's quotes are lifted from [Doron Zielberger's page](http://sites.math.rutgers.edu/~zeilberg/quotes.html).
 
 ## Further explorations
 

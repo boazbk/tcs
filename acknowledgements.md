@@ -15,6 +15,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Leor Fishman
 * Mark Goldstein
 * Chan Kang
+* Vidak Kazic
 * Estefania Lahera
 * Allison Lee
 * Ondřej Lengál
@@ -28,7 +29,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Juan Perdomo
 * Aaron Sachs
 * Brian Sapozhnikov
-* John Seides
+* Josh Seides
 * Alaisha Sharma
 * David Steurer
 * Alec Sun

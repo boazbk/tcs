@@ -150,6 +150,21 @@ The way we often use this in theoretical computer science is to argue that, for 
 
 ![The _union bound_ tells us that the probability of $A$ or $B$ happening is at most the sum of the individual probabilities. We can see it by noting that for every two sets $|A\cup B| \leq |A|+|B|$ (with equality only if $A$ and $B$ have no intersection).](../figure/unionbound.png){#unionboundfig .class width=300px height=300px}
 
+### Distributions over strings
+
+While most of the time we think of random variables as having output a _real number_, we sometimes consider random variables whose output is a _string_.
+That is, we can think of a map $Y:\{0,1\}^n \rightarrow \{0,1\}^*$ and consider the "random variable" $Y$ such that for every $y\in \{0,1\}^*$, the probability that $Y$ outputs $y$ is equal to $\tfrac{1}{2^n}\left| \{ x \in \{0,1\}^n \;|\; Y(x)=y \}\right|$.
+To avoid confusion, we will typically  refer to such string-valued random variables as _distributions_ over strings.
+So, a _distribution_ $Y$ over strings $\{0,1\}^*$ can be thought of as a finite collection of strings $y_0,\ldots,y_{M-1} \in \{0,1\}^*$ and probabilities $p_0,\ldots,p_{M-1}$ (which are non-negative numbers summing up to one), so that $\Pr[ Y = y_i ] = p_i$.
+
+Two distributions $Y$ and $Y'$ are _identical_ if they assign the same probability to every string.
+For example, consider the following two functions $Y,Y':\{0,1\}^2 \rightarrow \{0,1\}^2$.
+For every $x \in \{0,1\}^2$, we define $Y(x)=x$ and $Y'(x)=x_0(x_0\oplus x_1)$ where $\oplus$ is the XOR operations.
+Although these are two different functions, they induce the same distribution over $\{0,1\}^2$ when invoked on a uniform input.
+The distribution $Y(x)$ for $x\sim \{0,1\}^2$ is of course the uniform distribution over $\{0,1\}^2$.
+On the other hand $Y'$ is simply the map $00 \mapsto 00$, $01 \mapsto 01$, $10 \mapsto 11$, $11 \mapsto 10$ which is a permutation over 
+the map $F:\{0,1\}^2 \rightarrow \{0,1\}^2$ defined as $F(x_0x_1)=x_0x_1$ and the map $G:\{0,1\}^2 \rightarrow \{0,1\}^2$  defined as $G(x_0x_1)=x_0(x_0 \oplus x_1)$
+
 ### More general sample spaces.
 
 While in this lecture we assume that the underlying probabilistic experiment   corresponds to tossing $n$ independent coins, everything we say easily generalizes to sampling $x$ from a more general finite or countable set $S$ (and not-so-easily generalizes to uncountable sets $S$ as well).
@@ -161,6 +176,7 @@ A _random variable_ is a function $X:S \rightarrow \R$, where the probability th
 
 
 ^[TODO: add exercise on simulating die tosses and choosing a random number in $[m]$ by coin tosses]
+
 
 ## Correlations and independence
 
@@ -222,8 +238,8 @@ On the other hand, the events $\{x_0 = 1 \}$, $\{x_1 = 1\}$ and $\{ x_0 + x_1 = 
 
 ### Independent random variables
 
-We say that two random variables $X$ and $Y$ are independent if for every $u,v \in \R$, the events $\{ X=u \}$ and $\{ Y=t \}$ are independent.
-That is, $\Pr[ X=u \wedge Y=t]=\Pr[X=u]\Pr[Y=t]$.
+We say that two random variables $X:\{0,1\}^n \rightarrow \R$ and $Y:\{0,1\}^n \rightarrow \R$ are independent if for every $u,v \in \R$, the events $\{ X=u \}$ and $\{ Y=v \}$ are independent.^[We use $\{ X=u \}$ as shorthand for $\{ x \;|\; X(x)=u \}$.]
+In other words, $X$ and $Y$ are independent if $\Pr[ X=u \wedge Y=v]=\Pr[X=u]\Pr[Y=v]$ for every $u,v \in \R$.
 For example, if two random variables depend on the result of tossing different coins then they are independent:
 
 > # {.lemma  #indcoins}
@@ -245,22 +261,21 @@ $$
 
 
 
-Note that if $X$ and $Y$ are independent then
-
+Note that if $X$ and $Y$ are independent random variables then (if we let $S_X,S_Y$ denote all the numbers that have positive probability of being the output of $X$ and $Y$ respectively) it holds that:
 $$
 \begin{split}
-\E[ XY ] = \sum_{a,b} {\textstyle\Pr[X=a \wedge Y=b]}\cdot ab \; =^{(1)} \; \sum_{a,b} {\textstyle \Pr[X=a]\Pr[Y=b]}\cdot ab =^{(2)} \\
-\left(\sum_a {\textstyle \Pr[X=a]}\cdot a\right)\left(\sum_b {\textstyle \Pr[Y=b]}b\right) =^{(3)} \\
+\E[ XY ] = \sum_{a \in S_X,b \in S_Y} {\textstyle\Pr[X=a \wedge Y=b]}\cdot ab \; =^{(1)} \; \sum_{a \in S_X,b \in S_Y} {\textstyle \Pr[X=a]\Pr[Y=b]}\cdot ab =^{(2)} \\
+\left(\sum_{a \in S_X} {\textstyle \Pr[X=a]}\cdot a\right)\left(\sum_{b \in S_Y} {\textstyle \Pr[Y=b]}b\right) =^{(3)} \\
 \E[X] \E[Y]
 \end{split}
 $$
 where the first equality  ($=^{(1)}$) follows from the independence of $X$ and $Y$, the second equality ($=^{(2)}$) follows by "opening the parenthesis" of the righthand side, and the third inequality ($=^{(3)}$) follows from the definition of expectation.
 (This is not an "if and only if", see [noindnocorex](){.ref}.)
 
-If $X$ and $Y$ are independent random variables then so are $F(X)$ and $G(Y)$ for every functions $F,G:\R \rightarrow R$.
+Another useful fact is that if $X$ and $Y$ are independent random variables then so are $F(X)$ and $G(Y)$ for every functions $F,G:\R \rightarrow R$.
 This is intuitively true since learning $F(X)$ can only provide us with less information than learning $X$.
 Hence, if learning $X$ does not teach us anything about $Y$ (and so also about $F(Y)$) then neither will learning $F(X)$.
-Indeed, to prove this  we can write
+Indeed, to prove this  we can write for every $a,b \in \R$:
 
 $$
 \begin{split}
@@ -274,7 +289,7 @@ $$
 ### Collections of independent random variables.
 
 We can extend the notions of independence to more than two random variables.
-We say that  the random variables $X_0,\ldots,X_{n-1}$ are _mutually independent_ if for every $a_0,\ldots,a_{n-1}$ then
+We say that  the random variables $X_0,\ldots,X_{n-1}$ are _mutually independent_ if for every $a_0,\ldots,a_{n-1} \in \E$ then
 $$
 \Pr\left[X_0=a_0 \wedge \cdots \wedge X_{n-1}=a_{n-1}\right]=\Pr[X_0=a_0]\cdots \Pr[X_{n-1}=a_{n-1}]
 $$
@@ -356,6 +371,8 @@ We define the random variable $Y = (X-\mu)^2$.
 Then $\E[Y] = \mathrm{Var}[X] = \sigma^2$, and hence by Markov the probability that $Y > k^2\sigma^2$ is at most $1/k^2$.
 But clearly $(X-\mu)^2 \geq k^2\sigma^2$ if and only if $|X-\mu| \geq k\sigma$.
 
+
+
 One example of how to use Chebyshev's inequality is the setting when $X = X_1 + \cdots + X_n$ where $X_i$'s are _independent and identically distributed_ (i.i.d for short) variables with values in $[0,1]$ where each has  expectation $1/2$.
 Since $\E[X] = \sum_i \E[X_i] = n/2$, we would like to say that $X$ is very likely to be in, say, the interval  $[0.499n,0.501n]$.
 Using Markov's inequality directly will not help us, since it will only tell us that $X$ is very likely to be at most $100n$ (which we already knew, since it always lies between $0$ and $n$).
@@ -366,7 +383,7 @@ $$
 (We leave showing this to the reader as  [varianceex](){.ref}.)
 
 For every random variable $X_i$ in $[0,1]$, $\mathrm{Var}[X_i] \leq 1$ (if the variable is always in $[0,1]$, it can't be more than $1$ away from its expectation), and hence [varianceeq](){.eqref} implies that $\mathrm{Var}[X]\leq n$ and hence $\sigma[X] \leq \sqrt{n}$.
-For large $n$, $\sqrt{n} \ll 0.01n$, and in particular if $\sqrt{n} \leq 0.01n/k$,  we can use Chebyshev's inequality  to bound the probability that $X$ is not in $[0.499n,0.501n]$ by $1/k^2$.
+For large $n$, $\sqrt{n} \ll 0.001n$, and in particular if $\sqrt{n} \leq 0.001n/k$,  we can use Chebyshev's inequality  to bound the probability that $X$ is not in $[0.499n,0.501n]$ by $1/k^2$.
 
 
 ### The Chernoff bound

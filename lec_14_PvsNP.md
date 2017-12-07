@@ -167,7 +167,7 @@ Thus, although mathematicians typically write their papers in  natural language,
 Moreover, because verifying a proof simply involves going over each line and checking that it does indeed follow from the prior lines, it is fairly easy to do that in $O(|w|)$ or $O(|w|^2)$ (where as usual $|w|$ denotes the length of the proof $w$).
 This means that for every reasonable proof system $V$, the following function $SHORTPROOF_V:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{NP}$, where for every input of the form $x1^m$ $SHORTPROOF_V(x,1^m)=1$ if and only if  there exists $w\in \{0,1\}^*$ with $|w|\leq m$ s.t. $V(xw)=1$,
 That is $SHORTPROOF_V(x,1^m)=1$ if there is a proof (in the system $V$) of length at most $m$  bits that $x$ is true.
-Thus, if $\mathbf{P}=\mathbf{NP}$ then, despite Gödel's Incompleteness Theorems, we can still automate mathematics in the sense of finding proofs that are not too long for every statement that has it. (And, frankly speaking, if  there $x$ is a  statement whose shortest proof requires  a terrabyte, then human mathematicians won't ever find this proof either.)
+Thus, if $\mathbf{P}=\mathbf{NP}$ then, despite Gödel's Incompleteness Theorems, we can still automate mathematics in the sense of finding proofs that are not too long for every statement that has it. (Frankly speaking, if the shortest proof for some statement requires  a terabyte, then human mathematicians won't ever find this proof either.)
 For this reason Gödel himself felt that the question of whether $SHORTPROOF_V$ has a polynomial time algorithm is of great interest.
 As he wrote [in a letter to John von Neumann](https://rjlipton.wordpress.com/the-gdel-letter/) in 1956 (before the concept of $\mathbf{NP}$ or even "polynomial time" was formally defined):
 
@@ -300,7 +300,7 @@ Such new insights would be very fruitful regardless of their computational utili
 
 The [Continuum Hypothesis](https://en.wikipedia.org/wiki/Continuum_hypothesis) is a conjecture made by Georg Cantor in 1878, positing the non-existence of a certain type of infinite cardinality.^[One way to phrase it is that for every infinite subset $S$ of the real numbers $\R$, either there is a one-to-one and onto function $f:S \rightarrow \R$ or there is a one-to-one and onto function $f:S \rightarrow \N$.]
 This was considered one of the most important open problems in set theory, and settling its truth or falseness was the first problem put forward by Hilbert in his 1900 address we made before.
-However, using the developed by Gödel and Turing, in 1963 Paul Cohen proved that both the Continuum Hypothesis and its negation are consistent with the standard axioms of set theory (i.e., the Zermelo-Fraenkel axioms + the Axiom of choice, or  "ZFC" for short).^[Formally, what he proved is that if ZFC is consistent, then so is ZFC when we assume either the continuum hypothesis or its negation.]
+However, using the theories developed by Gödel and Turing, in 1963 Paul Cohen proved that both the Continuum Hypothesis and its negation are consistent with the standard axioms of set theory (i.e., the Zermelo-Fraenkel axioms + the Axiom of choice, or  "ZFC" for short).^[Formally, what he proved is that if ZFC is consistent, then so is ZFC when we assume either the continuum hypothesis or its negation.]
 
 Today many (though not all) mathematicians interpret this result as saying that the Continuum Hypothesis is neither true nor false, but rather is an axiomatic choice that we are free to make one way or the other.
 Could the same hold for $\mathbf{P} \neq \mathbf{NP}$?
