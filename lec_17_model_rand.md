@@ -339,7 +339,7 @@ We will now (partially) answer both questions.
 
 For the first question, let us come clean and confess we do not know how to _prove_ that interesting pseudorandom generators exist.
 By _interesting_ we mean pseudorandom generators that satisfy that $\epsilon$ is some small constant (say $\epsilon<1/3$), $m>\ell$, and the function $G$ itself can be computed in $poly(m)$ time.
-Nevertheless, [prgexist](){.ref} (whose statement and proof is deferred to the end of this chapter) shows that if we only drop the last  condition (poltnomial-time computability), then there do in fact exist pseudorandom generators where $m$ is _exponentially larger_  than $\ell$.
+Nevertheless, [prgexist](){.ref} (whose statement and proof is deferred to the end of this chapter) shows that if we only drop the last  condition (polynomial-time computability), then there do in fact exist pseudorandom generators where $m$ is _exponentially larger_  than $\ell$.
 
 > # { .pause }
 At this point you might want to skip ahead and  look at the _statement_ of [prgexist](){.ref}. However, since its _proof_ is somewhat subtle, I recommend you defer reading it until you've finished reading the rest of this lecture.
@@ -350,7 +350,7 @@ At this point you might want to skip ahead and  look at the _statement_ of [prge
 The fact that there _exists_ a pseudorandom generator does not mean that there is one that can be efficiently computed.
 However, it turns out that we can turn complexity "on its head" and used the assumed _non existence_ of fast algorithms for problems such as 3SAT to obtain pseudorandom generators that can then be used to transform randomized algorithms into deterministic ones.
 This is known as the _Hardness vs Randomness_ paradigm.
-A number of results along those lines, most of whom are ourside the scope of this course, has led researchers to believe the following conjecture:
+A number of results along those lines, most of whom are ourside the scope of this course, have led researchers to believe the following conjecture:
 
 >__Optimal PRG conjecture:__ There is a polynomial-time computable function $PRG:\{0,1\}^* \rightarrow \{0,1\}$ that yields an _exponentially secure pseudorandom generator_.
 Specifically, there exists a constant  $\delta >0$ such that for every $\ell$ and $m < 2^{\delta \ell}$, if we define $G:\{0,1\}^\ell \rightarrow \{0,1\}^m$ as $G(s)_i = PRG(s,i)$ for every $s\in \{0,1\}^\ell$ and $i \in [m]$, then $G$ is a $(2^{\delta \ell},2^{-\delta \ell})$ pseudorandom generator.
