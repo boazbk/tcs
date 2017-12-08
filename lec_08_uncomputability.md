@@ -140,7 +140,7 @@ That is, we show that _if_ we had a NAND++ program that computes $BLAH$ _then_ w
 (Indeed, this is exactly how we showed that $HALT$ itself is uncomputable, by showing this follows from  the uncomputability of the function $F^*$ from [uncomputable-func](){.ref}.)
 
 For example, to prove that $BLAH$ is uncomputable,  we could show that there is a  computable function $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every $x\in \{0,1\}^*$, $HALT(x)=BLAH(R(x))$.
-Such a function is known as a _reduction_.
+Such a function is known as a _reduction_, because we are _reducing_ the task of computing $HALT$ to the task of computing $BLAH$.
 The confusing part about reductions is that we are assuming something we _believe_ is false (that $BLAH$ has an algorithm) to derive something that we _know_ is false (that $HALT$ has an algorithm).
 For this reason Michael Sipser described such results as having the form "If pigs could whistle then horses could fly".
 
@@ -180,7 +180,7 @@ Doing so is an excellent way to get some initial comfort with the notion of proo
 
 
 > # {.proof data-ref="haltonzero-thm"}
-The proof is by reduction to $HALT$. Suppose, towards the sake of contradiction, that  $HALTONZERO$ is computable.
+The proof is by reduction from $HALT$. Suppose, towards the sake of contradiction, that  $HALTONZERO$ is computable.
 In other words, suppose towards the sake of contradiction that there exists an algorithm $A$ such that $A(P')=HALTONZERO(P')$ for every $P'\in \{0,1\}^*$.
 Then, we will construct an algorithm $B$ that solves $HALT$.
 >

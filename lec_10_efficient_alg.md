@@ -59,7 +59,7 @@ The _shortest path problem_ is the task of, given a graph $G=(V,E)$ and two vert
 That is, we want to find the smallest number $k$ such that there are vertices $v_0,v_1,\ldots,v_k$ with $v_0=s$, $v_k=t$ and for every $i\in\{0,\ldots,k-1\}$ an edge between $v_i$ and $v_{i+1}$.
 If each vertex has at least two neighbors then there can be an _exponential_ number of paths from $s$ to $t$, but fortunately we do not have to enumerate them all to find the shortest path.
 We can do so by performing a [breadth first search (BFS)](https://en.wikipedia.org/wiki/Breadth-first_search), enumerating $s$'s neighbors, and then neighbors' neighbors, etc.. in order.
-If we maintain the neighbors in a list we can perform a BFS in $O(n^2)$ time, while using  a queue we can do this in $O(m)$ time.^[Since we assume $m \geq n-1$, $O(m)$ is the same as $O(n+m)$.  [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra's_algorithm) is a well-known generalization of BFS to _weighted_ graphs.]
+If we maintain the neighbors in a list we can perform a BFS in $O(n^2)$ time, while using  a queue we can do this in $O(m)$ time.^[A _queue_ stores a list of elements in "First In First Out (FIFO)" order and so each "pop" operation removes an element from the queue in the order that they were "pushed" into it; see the [Wikipedia page](https://goo.gl/HY9BJD). Since we assume $m \geq n-1$, $O(m)$ is the same as $O(n+m)$.  [Dijkstra's algorithm](https://goo.gl/PJyc4D) is a well-known generalization of BFS to _weighted_ graphs.]
 
 More formally, the algorithm for shortest path can be described as follows:
 

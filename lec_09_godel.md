@@ -1,3 +1,4 @@
+sill complete
 # Is every theorem provable?
 
 > # { .objectives }
@@ -43,9 +44,9 @@ After all, the whole history of mathematics up to this point involved the discov
 Alas, this turned out not to be the case for Diophantine equations: in 1970, Yuri Matiyasevich, building on a decades long line of work by  Martin Davis,  Hilary Putnam and Julia Robinson, showed that there is simply _no method_ to solve such equations in general:
 
 > # {.theorem title="MRDP Theorem" #MRDP-thm}
-Let  $SOLVE:\{0,1\}^* \rightarrow \{0,1\}^*$ be the function that takes as input a multivariate polynomial with integer coefficients $P:\R^k \rightarrow \R$ for $k \leq 100$ and outputs either $(x_1,\ldots,x_k) \in \N^k$ s.t.  $P(x_1,\ldots,x_k)=0$  or the string ```no solution``` if no $P$ does not have non-negative integer roots.^[As usual, we assume some standard way to express numbers and text as binary strings.]
+Let  $SOLVE:\{0,1\}^* \rightarrow \{0,1\}^*$ be the function that takes as input a string describing a $100$-variable polynomial with integer coefficients $P(x_0,\ldots,x_{99})$  and outputs either $(z_0,\ldots,z_{99}) \in \N^{100}$ s.t.  $P(z_0,\ldots,z_{99})=0$  or the string ```no solution``` if no $P$ does not have non-negative integer roots.^[As usual, we assume some standard way to express numbers and text as binary strings. The constant $100$ is of course arbitrary; in fact the number of variables can be reduced to nine, at the expense of the polynomial having a constant (but very large) degree. It is also possible to restrict attention to polynomials of degree four and at most 58 variables. See [Jones's paper](https://www.jstor.org/stable/2273588) for more about this issue.]
 Then $SOLVE$ is uncomputable.
-Moreover, this holds even for the easier function $HASSOL:\{0,1\}^* \rightarrow \{0,1\}$ that given such a polynomial $P$ outputs $1$ if there are $x_1,\ldots,x_k \in \N$ s.t. $P(x_1,\ldots,x_k)=0$ and $0$ otherwise.
+Moreover, this holds even for the easier function $HASSOL:\{0,1\}^* \rightarrow \{0,1\}$ that given such a polynomial $P$ outputs $1$ if there are $z_0,\ldots,z_{99} \in \N$ s.t. $P(z_0,\ldots,z_{99})=0$ and outputs $0$ otherwise.
 
 
 The difficulty in finding a way to distinguish between "code" such as NAND++ programs, and "static content" such as polynomials is just another manifestation of the phenomenon that _code_ is the same as _data_.
@@ -60,7 +61,7 @@ Logical statements where all variables are _bound_ to some quantifier (and hence
 If you could use a review of quantifiers, section 3.6 of the text by [Lehman, Leighton and Meyer](http://www.boazbarak.org/cs121/MIT6_042Notes.pdf) is an excellent source for this material.]
 
 $$
-\exists_{x_1,\ldots,x_k \in \N} \text{ s.t.} P(x_1,\ldots,x_k)=0 \;. \label{eq:diophantine}
+\exists_{z_0,\ldots,z_{99} \in \N} \text{ s.t.} P(z_0,\ldots,z_{99})=0 \;. \label{eq:diophantine}
 $$
 
 
@@ -70,7 +71,7 @@ Rather  we will prove the following weaker result that there is no NAND++ progra
 The reason this  result is weaker than [MRDP-thm](){.ref} is  because deciding the truth of  more general  statements (that involve both quantifier) is a potentially harder problem than only existential statements, and so it is potentially easier to prove that this problem is uncomputable. (If you find the last sentence confusing, it is worthwhile to reread it until you are sure you follow its logic; we are so used to trying to find solution for problems that it can be quite confusing to follow the arguments showing that problems are _uncomputable_.)
 
 > # {.definition title="Quantified integer statements" #QIS-def}
-A _quantified integer statement_ is a well-formed statement with no unbound variables involving integers, variables, the operators $>,<\times,+,-,=$, the logical operations $\neg$ (NOT), $\wedge$ (AND), and $\vee$ (OR), as well as quantifiers of the form $\exists_{x\in\N}$ and $\forall_{y\in\N}$ where $x,y$ are variable names.
+A _quantified integer statement_ is a well-formed statement with no unbound variables involving integers, variables, the operators $>,<,\times,+,-,=$, the logical operations $\neg$ (NOT), $\wedge$ (AND), and $\vee$ (OR), as well as quantifiers of the form $\exists_{x\in\N}$ and $\forall_{y\in\N}$ where $x,y$ are variable names.
 
 [QIS-def](){.ref} is interesting in its own right and not just as a "toy version" of [MRDP-thm](){.ref}.
 We often care deeply about determining the truth of quantified integer statements.
@@ -91,16 +92,22 @@ The claim (mentioned in Hilbert's quote above) that are infinitely many primes o
 $$
 \begin{split}
 \forall_{n\in\N}\exists_{p\in\N} (p>n) \wedge PRIME(p) \wedge \\
-\left(\forall_{k\in\N}  (k = 2) \vee \neg PRIME(k) \vee \neg DIVIDES(k,p-1)\right)
+\left(\forall_{k\in\N}  (k \neq 2 \; \wedge \; PRIME(k)) \Rightarrow \neg DIVIDES(k,p-1)\right)
 \end{split}
+\label{eqinfprimespowertwoplusone}
 $$
-
 where $DIVIDES(a,b)$ is the statement $\exists_{c\in\N} b\times c = a$.
 In English, this corresponds to the claim that for every $n$ there is some $p>n$ such that all of $p-1$'s prime factors are equal to $2$.
 
+__Syntactic sugar:__ To make our statements more readable, we  often use syntactic sugar and so write $x \neq y$ as shorthand for $\neg(x=y)$, and so on.
+In [eqinfprimespowertwoplusone](){.eqref} we also used the "implication operator" $a \Rightarrow b$ as "syntactic sugar" or shorthand for $\neg a \vee b$.
+Similarly, we will sometimes use the "if and only if operator" $a \Leftrightarrow$ as shorthand for $(a \Rightarrow b) \wedge (b \Rightarrow b$).
+
+
+
 
 Much of number theory is concerned with determining the truth of quantified integer statements.
-Since our experience has been that, given enough time (which could sometimes be several centuries)  humanity has  managed to do so for the statements that she cared enough about, one could (as Hilbert did) hope that eventually we will discover a _general procedure_ to determine the truth of such statements.
+Since our experience has been that, given enough time (which could sometimes be several centuries)  humanity has  managed to do so for the statements that it cared enough about, one could (as Hilbert did) hope that eventually we will discover a _general procedure_ to determine the truth of such statements.
 The following theorem shows that this is not the case:
 
 > # {.theorem title="Uncomputability of quantified integer statements" #QIS-thm}
@@ -126,13 +133,15 @@ The proof will, as usual, go by reduction from the Halting problem, but we will 
 As mentioned above, before proving [QIS-thm](){.ref}, we will give an easier result showing the uncomputability of deciding the truth of an even more general class of statements- one that involves not just integer-valued variables but also string-valued ones.
 
 > # {.definition title="Quantified mixed statements" #QMS-def}
-A _quantified mixed statement_ is a well-formed statement with no unbound variables involving integers, variables, the operators $>,<\times,+,-,=$, the logical operations $\neg$ (NOT), $\wedge$ (AND), and $\vee$ (OR), as well as quantifiers of the form $\exists_{x\in\N}$, $\exists_{a\in\bits^*}$,  $\forall_{y\in\N}$, $\forall_{b\in\{0,1\}^*}$ where $x,y,a,b$ are variable names. These also include the operator $|a|$ which returns the length of a string valued variable $a$, as well as the operator $a_i$ where $a$ is a string-valued variable and $i$ is an integer valued expression which is true if $i$ is smaller than the length of $a$ and the $i^{th}$ coordinate of $a$ is $1$, and is false otherwise.
+A _quantified mixed statement_ is a well-formed statement with no unbound variables involving integers, variables, the operators $>,<,\times,+,-,=$, the logical operations $\neg$ (NOT), $\wedge$ (AND), and $\vee$ (OR), as well as quantifiers of the form $\exists_{x\in\N}$, $\exists_{a\in\bits^*}$,  $\forall_{y\in\N}$, $\forall_{b\in\{0,1\}^*}$ where $x,y,a,b$ are variable names. These also include the operator $|a|$ which returns the length of a string valued variable $a$, as well as the operator $a_i$ where $a$ is a string-valued variable and $i$ is an integer valued expression which is true if $i$ is smaller than the length of $a$ and the $i^{th}$ coordinate of $a$ is $1$, and is false otherwise.
 
-For example, the true statement that for every string $a$ there is a string $b$ that correspond to $a$ in reverse order can be phrased as the following quantified mixed statement
+For example, the true statement that for every string $a$ there is a string $b$ that corresponds to $a$ in reverse order can be phrased as the following quantified mixed statement
 $$
 \forall_{a\in\{0,1\}^*} \exists_{b\in \{0,1\}^*}  (|a|=|b|)
-\wedge (\forall_{i\in\N} (i>|a|) \vee (a_i \wedge b_{|a|-i}) \vee (\neg a_i \wedge \neg b_{|a|-i}) )) \;.
+\wedge (\forall_{i\in\N} i < |a| \Rightarrow (a_i \Leftrightarrow b_{|a|-i}) \;.
 $$
+
+
 
 Quantified mixed statements are a more general than quantified integer statements, and so the following theorem is potentially easier to prove than [QIS-thm](){.ref}:
 
@@ -146,7 +155,7 @@ Let $QMS:\{0,1\}^* \rightarrow \{0,1\}$ be the function that given a (string rep
 We will first prove [QMS-thm](){.ref} and then use it to prove [QIS-thm](){.ref}.
 The proof is again by reduction to $HALT$ (see [QMS:reduction:fig](){.ref}).
 That is, we do so by giving a program that transforms any NAND++ program $P$ and input $x$ into a quantified mixed statement $\varphi_{P,x}$ such that $\varphi_{P,x}$  is true if and only if $P$ halts on input $x$.
-This sill complete  the proof, since it will imply that if $QMS$ is computable then so is the $HALT$ problem, which we have already shown is uncomputable.
+This will  complete  the proof, since it will imply that if $QMS$ is computable then so is the $HALT$ problem, which we have already shown is uncomputable.
 
 ![We prove that $QMS$ is uncomputable by giving a reduction that maps every pair $(P,x)$ into a quantified mixed statements $\varphi_{P,x}$ that is true if and only if $P$ halts on $x$.](../figure/QMS_reduction.png){#QMS:reduction:fig .class width=300px height=300px}
 
@@ -205,7 +214,7 @@ The line by line execution trace is quite long and tedious, but note that it is 
 
 
 More formally, we will use the notion of a _modification log_ or "Deltas" of a NAND++ program, as presented in [deltas](){.ref}.^[We could also have proven Godel's theorem using the sequence of all configurations, but the "deltas" have a simpler format.]
-Recall that  given a NAND++ program $P$ and an input $x\in \{0,1\}^n$, if $P$ has $s$ lines and takes $T$ iterations of its loop to halt on $x$, then the _modification log_ of $P$ on $x$ is the string $\Delta \in \{0,1\}^{sT+n}$ such that for every $i\in [n]$, $\Delta_i  = x_i$ and for every $\ell \in \{n,n+1,\ldots,sT+n-1\}$, $\Delta_{\ell}$ corresponds to the value that is assigned to a variable during   step number $(\ell-n)$  of the execution.
+Recall that  given a NAND++ program $P$ and an input $x\in \{0,1\}^n$, if $P$ has $s$ lines and takes $T$ iterations of its loop to halt on $x$, then the _modification log_ of $P$ on $x$ is the string $\Delta \in \{0,1\}^{sT+n}$ such that for every $\ell \in [n]$, $\Delta_\ell = x_\ell$ and for every $\ell \in \{n,n+1,\ldots,sT+n-1\}$, $\Delta_{\ell}$ corresponds to the value that is assigned to a variable during   step number $(\ell-n)$  of the execution.
 Note that for every $\ell \in \{n,n+1,\ldots,sT+n+-1\}$, $\Delta_\ell$ is the  NAND of $\Delta_j$ and $\Delta_k$ where $j$ and $k$ are the last lines in which the two variables referred to in the corresponding line are assigned a value.
 
 
@@ -270,7 +279,7 @@ There is a sequence of prime numbers $p_0 < p_1 < p_3 < \cdots$ such that there 
 Using [primeseq](){.ref} we can encode a $x\in\bits^*$ by the numbers $(X,n)$ where  $X = \prod_{x_i=1} p_i$ and $n=|x|$.
 We can then define the statement $COORD(X,i)$ as
 $$
-\forall_{p\in\N} \neg PCOORD(p,i) \vee DIVIDES(p,X)
+\forall_{p\in\N}  PCOORD(p,i) \Rightarrow DIVIDES(p,X)
 $$
 where  $DIVIDES(a,b)$, as before, is defined as $\exists_{c\in\N} a\times c = b$.
 Note that indeed if $X,n$ encodes the string $x\in \{0,1\}^*$, then for every $i<n$, $COORD(X,i)=x_i$, since $p_i$ divides $X$ if and only if $x_i=1$.  
@@ -328,9 +337,10 @@ Let us give a formal definition for this notion, specializing for the case of Di
 > # {.definition title="Proof systems for diophantine equations" #proofdef}
 A proof system for Diophantine equations is defined by a NAND++ program $V$.
 A _valid proof_ in the system corresponding to $V$ of the unsatisfiability of a diophantine equation "$P(\cdot,\cdots,\cdot)=0$"  is some string $w\in \{0,1\}^*$ such that $V(P,w)=1$.
-The proof system corresponding to $V$ is  _sound_ if there is no valid proof of a false statement. That is, for every diophantine equation "$P(\cdot,\cdots,\cdot)=0$", if there exists $w\in \{0,1\}^*$ such that $V(p,w)=1$ then for every $x_1,\ldots,x_t \in \Z$, $P(x_1,\ldots,x_t) \neq 0$.
+The proof system corresponding to $V$ is  _sound_ if there is no valid proof of a false statement. That is, for every diophantine equation "$P(\cdot,\cdots,\cdot)=0$", if there exists $w\in \{0,1\}^*$ such that $V(P,w)=1$ then for every $x_1,\ldots,x_t \in \Z$, $P(x_1,\ldots,x_t) \neq 0$.
 
 The formal definition is a bit of a mouthful, but what it states the natural notion of a logical proof for the unsatisfiability of an equation.
+By the  Church-Turing Thesis, we can replace NAND++ with any other reasonable computational model for proof verification.
 Hilbert believed that for all of mathematics, and in particular for settling diophantine equations, it should be possible to find some set of axioms and rules of inference that would allow to derive all true statements.
 However, he was wrong:
 
