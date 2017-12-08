@@ -195,7 +195,7 @@ If $S$ and $T$ are sets, a _function_ $F$ mapping $S$ to $T$, denoted by $F:S \r
 The set $S$ is known as the _domain_ of $F$ and the set $T$ is known as the _range_ or _co-domain_ of $F$.
 Just as with sets, we can write a function either by listing the table of all the values it gives for elements in $S$ or using a rule.
 For example if $S = \{0,1,2,3,4,5,6,7,8,9 \}$ and $T = \{0,1 \}$.
-Then  the function $F$ defined as
+Then  the function $F$ defined by the input output behavior as in the table below, is  the same as defining $F(x)= (x \mod 2)$.
 
 | Input | Output |
 |:------|:-------|
@@ -213,7 +213,7 @@ Then  the function $F$ defined as
 \
 
 
-Is the same as defining $F(x)= (x \mod 2)$.
+
 If $F:S \rightarrow T$ satisfies that $F(x)\neq F(y)$ for all $x \neq y$ then we say that $F$ is _one-to-one_ (also known as an _injective_ function or simply an _injection_).  
 If $F$ satisfies that for every $y\in T$ there is some $x$ such that $F(x)=y$ then we say that $F$ is _onto_ (also known as a _surjective_ function or simply a _surjection_).
 A  function that is both one-to-one and onto is known as a _bijective_ function or simply a _bijection_.
