@@ -277,6 +277,16 @@ As we discussed above,  if we are willing to allow some loss in precision, we ev
 In contrast, if we insist on _integer_ solutions, the task of solving for linear equalities or inequalities is known as [integer programming](https://en.wikipedia.org/wiki/Integer_programming), and the best known algorithms are exponential time in the worst case.
 
 
+> # {.remark title="Bit complexity of numbers" #numbersbits}
+Whenever we discuss problems whose inputs correspond to numbers, the input length corresponds to how many  bits are needed to describe the number (or, as is equivalent up to a constant factor, the number of digits in base 10, 16 or any other constant).
+The difference between the length of the input and the magnitude of the number itself can be of course quite profound.
+For example, most people would agree that there is a huge difference between having a billion (i.e. $10^9$) dollars and having nine dollars.
+Similarly there is a huge difference between an algorithm that takes $n$ steps on an $n$-bit number and an algorithm that takes $2^n$ steps.
+>
+One example, is the problem (discussed below) of finding the prime factors of a given integer $N$.
+The natural algorithm is to search for such a factor by trying all numbers from $1$ to $N$, but that would take $N$ steps which is _exponential_ in the input length, which is number of bits needed to describe $N$.^[The running time of this algorithm can be easily improved to roughly $\sqrt{N}$, but this is still exponential (i.e., $2^{n/2}$) in the number $n$ of bits to describe $N$.]
+It is an important and long open question whether there is such an algorithm  that runs in time polynomial in the input length (i.e., polynomial in $\log N$).
+
 ### Solving quadratic equations
 
 Suppose that we want to solve not just _linear_ but also  equations involving  _quadratic_ terms of the form $a_{i,j,k}x_jx_k$.

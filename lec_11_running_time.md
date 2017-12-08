@@ -90,7 +90,7 @@ That is, $TIME_{<<}(T(n)) \subseteq TIME_{++}(aT(n)^b)$
 
 The constant $b$ can be easily shown to be at most five, and with more effort can be optimized further.
 [NANDpp-thm](){.ref} means that the definition of the classes $\mathbf{P}$ and $\mathbf{EXP}$ are robust to the choice of model, and will not make a difference whether we use NAND++ or NAND<<. In fact, similar results are known for Turing Machines, RAM machines, C programs, and a great many other models, which justifies the choice of $\mathbf{P}$ as capturing a technology-independent notion of tractability.
-As we discussed before,  the  equivalence between NAND++ and NAND<< (as well as other models) allows us to pick our favorite one depending on the task at hand (i.e., "have our cake and eat it too").
+As we discussed before,  this  equivalence between NAND++ and NAND<<  (as well as other models) allows us to pick our favorite one depending on the task at hand (i.e., "have our cake and eat it too").
 When we want to _design_ an algorithm, we can use the extra power and convenience afforded by NAND<<.
 When we want to _analyze_ a program or prove a _negative result_, we can restrict attention to   NAND++ programs.
 
@@ -121,6 +121,14 @@ Together these observations imply that the simulation of $T$ steps of NAND<< can
 If we follow the equivalence results between NAND++/NAND<< and  other models, including Turing machines, RAM machines, Game of life, $\lambda$ calculus, and many others, then we can see that these results also have at most a polynomial overhead in the simulation in each way.^[One technical point is that for $\lambda$ calculus, one needs to be careful about the order of application of the reduction steps, which can matter for computational efficiency.  Counting running time for $\lambda$ calculus is somewhat delicate, see [this paper](https://lmcs.episciences.org/1627).]
 It is a good exercise to go through, for example, the proof of [TM-equiv-thm](){.ref} and verify that it establishes that Turing machines and NAND++ programs are equivalent up to polynomial overhead.
 
+
+> # {.remark title="Robustness of representation" #representation}
+[NANDpp-thm](){.ref} shows that the classes $\mathbf{P}$ and $\mathbf{EXP}$ are robust with respect to variation in  the choice of the computational model.
+They are also robust with respect to our choice of the representation of the input.
+For example, whether we decide to represent graphs as adjacency matrices or adjacency lists will not make a difference as to whether a function on graphs is in $\mathbf{P}$ or $\mathbf{EXP}$.
+The reason is that changing from one representation to another at most squares the size of the input, and a quantity is polynomial in $n$ if and only if it is polynomial in $n^2$.
+>
+More generally, for every function $F:\{0,1\}^* \rightarrow \{0,1\}$, the answer to the  question of whether $F\in \mathbf{P}$ (or whether $F\in \mathbf{EXP}$) is unchanged by switching  representations, as long as transforming one representation to the other can be done in polynomial time (which essentially holds for  all reasonable representations).
 
 
 
@@ -337,6 +345,9 @@ We have mentioned the Church-Turing thesis, that posits that the definition of c
 The _extended_ Church Turing is the statement that the same holds for _efficiently computable_ functions, which is typically interpreted as saying that NAND++ programs can simulate  every physically realizable computing device with polynomial overhead.
 
 In other words, the extended Church Turing thesis says that for every _scalable computing device_ $C$ (which has a finite description but can be in principle used to run computation on arbitrarily large inputs),  there are some constants $a,b$ such that for every  function $F:\{0,1\}^* \rightarrow \{0,1\}$ that $C$ can compute on $n$ length inputs using an $S(n)$ amount of physical resources, $F$ is in $TIME(aS(n)^b)$.
+
+All the current constructions of scalable computational  models and programming language  conform to the Extended Church-Turing Thesis, in the sense that they can be with polynomial overhead by Turing Machines (and hence also by NAND++ or NAND<< programs).
+consequently, the classes $\mathbf{P}$ and $\mathbb{EXP}$ are robust to the choice of model, and we can the programming language of our choice, or  high level descriptions of an algorithm, to determine whether or not a problem is in $\mathbf{P}$.
 
 Like the Church-Turing thesis itself, the extended Church-Turing thesis is in the asymptotic setting and does not directly yield an experimentally testable prediction.
 However, it can be instantiated with more concrete bounds on the overhead, which would yield predictions such as the _Physical Extended Church-Turing Thesis_   we mentioned before, which would be  experimentally testable.

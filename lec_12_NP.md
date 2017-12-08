@@ -7,15 +7,15 @@
 
 
 
-Let us consider several of the problems we have encountered before:
+Let us consider several of the problems we have  encountered before:
 
 * Finding the longest path in a graph
 
 * Finding the maximum cut in a graph
 
-* The 3SAT problem
+* The 3SAT problem: deciding whether a given 3CNF formula has a satisfying assignment.
 
-* Solving quadratic equations
+* Solving quadratic equations over $n$ variables $x_0,\ldots,x_{n-1} \in \R$.
 
 
 
@@ -80,6 +80,13 @@ We leave the proof of [transitivitylem](){.ref} as [transitivity-reductions-ex](
 We have seen reductions before in the context of proving uncomputability of problems such as $HALTONZERO$ and others.
 The most crucial difference between the notion in [reduction-def](){.ref} and previously occuring notions is that in hte context of relating the time complexity of problems, we need the reduction to be computable in _polynomial time_, as opposed to merely computable.
 [reduction-def](){.ref} also restricts reductions to have a very specific format. That is, to show that $F \leq_p G$, rather than allowing a general algorithm for $F$ that uses a "magic box" that computes $G$, we only allow an algorithm that computes $F(x)$ by outputting $G(R(x))$. This restricted form is convenient for us, but people have defined and used  more general  reductions as well.
+>
+Since both $F$ and $G$ are Boolean functions, the condition $F(x)=G(R(x))$ in [eq:reduction](){.eqref} is equivalent to the following two impliciations __(i)__ if $F(x)=1$ then $G(R(x))=1$ and __(ii)__ if $G(R(x))=1$ then $F(x)=1$.
+Traditionally, the condition __(i)__ is often known as _completness_ and the condition __(ii)__ is often known as _soundness_.
+We can think of this as saying that the reduction $R$ is _complete_ if  every $1$-input of $F$ (i.e. $x$ such that $F(x)=1$)  is mapped by $R$ to a $1$-input of $G$, and  it is _sound_ if no $0$-input of $F$ will ever be mapped to a $1$-input of $G$.
+As we will see below, it is often the case that establishing __(ii)__ is the more challenging part.
+
+
 
 ## Some example reductions
 
@@ -96,6 +103,22 @@ In the next lecture we will show the other direction: reducing each one of these
 ### Reducing 3SAT to quadratic equations
 
 Let us now see our first example of a reduction.
+Recall that in the _quadratic equation_ problem, the input is a list of degree two $n$-variate polynomials $p_0,\ldots,p_{m-1}:\R^n \rightarrow R$ that are all of [degree](https://en.wikipedia.org/wiki/Degree_of_a_polynomial) at most two (i.e., they are _quadratic_ at most two) and with integer coefficients.^[The latter condition is for convenience and can be achieved by scaling.]
+The task is to find out whether there is a solution $x\in \R^n$ to the equations $p_0(x)=0$,$p_1(x)=0$,$\ldots$,$p_{m-1}(x)=0$.
+
+For example, the following is a set of quadratic equations over the variables $x_0,x_1,x_2$:
+$$
+\begin{aligned}
+x_0^2 - x_0 &= 0 \\
+x_1^2 - x_1 &= 0 \\
+x_2^2 - x_2 &= 0 \\
+1-x_0-x_1+x_0x_1    &= 0
+\end{aligned}
+$$
+You can verify that $x \in \R^3$ satisfies this set of equations if and only if $x \in \{0,1\}^3$ and $x_0 \vee x_1 = 1$.
+
+
+
 We will show how to reduce 3SAT to the problem of Quadratic Equations.
 
 > # {.theorem title="Hardness of quadratic equations" #quadeq-thm}
@@ -116,7 +139,7 @@ Recall that a _3SAT formula_ $\varphi$ is a formula such as $(x_{17} \vee \overl
 That is, $\varphi$ is composed of the AND of $m$ _3SAT clauses_ where a 3SAT clause is the OR of three variables or their negation.
 A _quadratic equations_  instance $E$, is composed of a list of equations, each of involving a sum of variables or their products, such as $x_{19}x_{52} - x_{12} + 2x_{33} = 2$, etc.. We will include the constraints $x_i^2-x_i=0$ for every $i\in [n]$ in our equations, which means that we can restrict attention to assignments where $x_i \in \{0,1\}$ for every $i$.
 >
-There is a natural way to map a 3SAT instance into a set of _cubic_ equations, and that is to map a clause such as $(x_{17} \vee \overline{x}_{101} \vee x_{57})$ to the equation $(1-x_{17})x_{101}(1-x_{57})=0$.
+There is a natural way to map a 3SAT instance into a set of _cubic_ equations, and that is to map a clause such as $(x_{17} \vee \overline{x}_{101} \vee x_{57})$ (which is equivalent to the negation of $\overline{x}_{17} \wedge x_{101} \wedge \overline{x}_{57}$) to the equation $(1-x_{17})x_{101}(1-x_{57})=0$.
 We can  map a formula $\varphi$ with $m$ clauses into a set $E$ of $m$ such equations such that there is an $x$ with $\varphi(x)=1$ if and only if there is an assignment to the variables that satisfies all the equations of $E$.
 To make the equations _quadratic_ we introduce for every $i,j\in [n]$ a variable $y_{i,j}$ and include the constraint $y_{i,j}-x_ix_j=0$ in the equations.
 This is a quadratic equation that ensures that $y_{i,j}=x_ix_j$ for every $i,j\in [n]$.
@@ -142,7 +165,7 @@ We will now reduce 3SAT to Independent set.
 $3SAT \leq_p ISET$.
 
 > # {.proofidea data-ref="isetnpc"}
-The idea is that finding a satisfying assignment to a 3SAT formula corresponds to satisfying many local constraints without creating any conflicts. One can think of "$x_{17}=0$"  and "$x_{17}=1$" as two conflicting events, and of the constraints $x_{17} \vee \overline{x}_5 \vee x_9$ as creating a conflict between the events "$x_{17}=0$", "$x_5=0$" and "$x_9=0$", saying that these  three cannot simultaneosly co-occur. Using these ideas, we can we can think of solving a  3SAT problem as trying to schedule non conflicting events, though the devil is, as usual, in the details.
+The idea is that finding a satisfying assignment to a 3SAT formula corresponds to satisfying many local constraints without creating any conflicts. One can think of "$x_{17}=0$"  and "$x_{17}=1$" as two conflicting events, and of the constraints $x_{17} \vee \overline{x}_5 \vee x_9$ as creating a conflict between the events "$x_{17}=0$", "$x_5=1$" and "$x_9=0$", saying that these  three cannot simultaneosly co-occur. Using these ideas, we can we can think of solving a  3SAT problem as trying to schedule non conflicting events, though the devil is, as usual, in the details.
 
 > # {.proof data-ref="isetnpc"}
 Given a 3SAT formula $\varphi$ on $n$ variable and with $m$ clauses, we will create a graph $G$ with $2n+3m$ vertices as follows: (see [threesattoisfig](){.ref} for an example)

@@ -51,7 +51,7 @@ Similarly, it's not enough to find out if a graph has a long path- we want to ac
 It turns out that if we can solve these decision problems, we can solve the corresponding search problems as well:
 
 > # {.theorem title="Search vs Decision" #search-dec-thm}
-Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time algorithm $P$ and $a,b \in \N$,there is a polynomial time algorithm $FIND$  such that for every  $x\in \{0,1\}^n$, if there exists $y\in \{0,1\}^{an^b}$ satisfying $P(xy)=1$, then $FIND(x)$ finds some string $y'$ satisfying this condition.
+Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time algorithm $V$ and $a,b \in \N$,there is a polynomial time algorithm $FIND_V$  such that for every  $x\in \{0,1\}^n$, if there exists $y\in \{0,1\}^{an^b}$ satisfying $V(xy)=1$, then $FIND_V(x)$ finds some string $y'$ satisfying this condition.
 
 > # { .pause }
 To understand what the statement of [search-dec-thm](){.ref} means, let us look at the special case of the $MAXCUT$ problem.
@@ -60,34 +60,38 @@ It is not hard to see that there is a polyomial time algorithm $VERIFYCUT$ such 
 
 > # {.proofidea data-ref="search-dec-thm"}
 The idea behind the proof of [search-dec-thm](){.ref} is simple.
-Let us demonstrate it for the particular case of $3SAT$.
-Suppose that $\mathbf{P}=\mathbf{NP}$ and we are given a satisfiable 3CNF formula $\varphi$, and we want to find a satisfying assignment $y$ for $\varphi$.
+Let us demonstrate it for the special case of $3SAT$.
+(In fact, this case is not so "special": since $3SAT$ is $\mathbf{NP}$-complete, we can reduce the task of solving the search problem for $MAXCUT$ or any other problem in $\mathbf{NP}$ to the task of solving it for $3SAT$.)
+Suppose that $\mathbf{P}=\mathbf{NP}$ and we are given a satisfiable 3CNF formula $\varphi$, and we now want to find a satisfying assignment $y$ for $\varphi$.
 Define $3SAT_0(\varphi)$ to output $1$ if there is a satisfying assignment $y$ for $\varphi$ such that its first bit is $0$, and similarly define $3SAT_1(\varphi)=1$ if there is a satisfying assignment $y$ with $y_0=1$.
 The key observation is that both $3SAT_0$ and $3SAT_1$ are in $\mathbf{NP}$, and so if $\mathbf{P}=\mathbf{NP}$ then we can compute them in polynomial time as well.
 Thus we can use this to find the first bit of the satisfying assignment.
-We can continue in this way to recover all the bits, see the full proof below.
+We can continue in this way to recover all the bits.
+
+
 
 
 > # {.proof data-ref="search-dec-thm"}
-If $\mathbf{P}=\mathbf{NP}$ then for every polynomial-time NAND++ program $P$ and $a,b \in \N$, there is a polynomial-time algorithm $STARTSWITH$ that on input $x\in \{0,1\}^*$ and $z\in \{0,1\}^\ell$, outputs $1$ if and only if there exists some $y\in \{0,1\}^{an^b}$ such that the first $\ell$ bits of $y$ are equal to $z$ and $P(xy)=1$. Indeed, we leave it as an exercise to verify that the $STARTSWITH$ function is in $\mathbf{NP}$ and hence can be solved in polynomial time if $\mathbf{P}=\mathbf{NP}$.
+If $\mathbf{P}=\mathbf{NP}$ then for every polynomial-time algorithm $V$ and $a,b \in \N$, there is a polynomial-time algorithm $STARTSWITH_V$ that on input $x\in \{0,1\}^*$ and $z\in \{0,1\}^\ell$, outputs $1$ if and only if there exists some $y\in \{0,1\}^{an^b}$ such that the first $\ell$ bits of $y$ are equal to $z$ and $V(xy)=1$.
+Indeed, we leave it as an exercise to verify that the $STARTSWITH_V$ function is in $\mathbf{NP}$ and hence can be solved in polynomial time if $\mathbf{P}=\mathbf{NP}$.
 >
-Now for any program $P$ and $a,b\in\N$, we can implement $FIND(x)$ as follows: \
+Now for any such polynomial-time $V$ and $a,b\in\N$, we can implement $FIND_V(x)$ as follows: \
 1. For $\ell=0,\ldots,an^b-1$ do the following: \
-  >a. let $b_0 = STARTSWITH(xz_{0}\cdots z_{\ell-1}0)$ and $b_1 = STARTSWITH(xz_{0}\cdots z_{\ell-1}1)$ \
+  >a. let $b_0 = STARTSWITH_V(xz_{0}\cdots z_{\ell-1}0)$ and $b_1 = STARTSWITH_V(xz_{0}\cdots z_{\ell-1}1)$ \
   >b. If $b_0=1$ then $z_\ell=0$, otherwise $z_\ell=1$.
 2. Output $z_0,\ldots,z_{an^b-1}$
 >
-To analyze the $FIND$ algorithm note that it makes $2an^{b-1}$ invocations to $STARTSWITH$ and hence if the latter is polynomial-time then so is $FIND$.
-Now suppose that $x$ is such that there exists _some_ $y$ satisfying $P(xy)=1$.
-We claim that at every step $\ell=0,\ldots,an^b-1$, we maintain the invariant that there exists $y\in \{0,1\}^{an^b}$ whose first $\ell$ bits are $z$ s.t. $P(xy)=1$.
-Note that this claim implies the theorem, since in particular it means that for $\ell = an^b-1$, $z$ satisfies $P(xz)=1$.
+To analyze the $FIND$ algorithm note that it makes $2an^{b-1}$ invocations to $STARTSWITH_V$ and hence if the latter is polynomial-time then so is $FIND_V$.
+Now suppose that $x$ is such that there exists _some_ $y$ satisfying $V(xy)=1$.
+We claim that at every step $\ell=0,\ldots,an^b-1$, we maintain the invariant that there exists $y\in \{0,1\}^{an^b}$ whose first $\ell$ bits are $z$ s.t. $V(xy)=1$.
+Note that this claim implies the theorem, since in particular it means that for $\ell = an^b-1$, $z$ satisfies $V(xz)=1$.
 >
 We prove the claim by induction.
 For $\ell=0$ this holds vacuously.
-Now for every $\ell$, if the call $STARTSWITH(xz_0\cdots z_{\ell-1}0)$ returns  $1$ then we are guaranteed the invariant by definition of $STARTSWITH$.
+Now for every $\ell$, if the call $STARTSWITH_V(xz_0\cdots z_{\ell-1}0)$ returns  $1$ then we are guaranteed the invariant by definition of $STARTSWITH_V$.
 Now under our inductive hypothesis, there is $y_\ell,\ldots,y_{an^b-1}$ such that
 $P(xz_0,\ldots,z_{\ell-1}y_\ell,\ldots,y_{an^b-1})=1$.
-If the call to  $STARTSWITH(xz_0\cdots z_{\ell-1}0)$ returns $0$ then it must be the case that $y_\ell=1$, and hence when we set $z_\ell=1$ we maintain the invariant.
+If the call to  $STARTSWITH_V(xz_0\cdots z_{\ell-1}0)$ returns $0$ then it must be the case that $y_\ell=1$, and hence when we set $z_\ell=1$ we maintain the invariant.
 
 ## Optimization
 
@@ -98,7 +102,8 @@ For example, suppose that $\mathbf{P}=\mathbf{NP}$, and you are given a graph $G
 This is actually an excellent question for you to attempt on your own.
 That is, assuming $\mathbf{P}=\mathbf{NP}$, give a polynomial-time algorithm that on input a graph $G$, outputs the a maximally long simple path in the graph $G$.
 
-It turns out the answer is _Yes_. The idea is simple. If $\mathbf{P}=\mathbf{NP}$ then we can find out in polynomial time if an $n$ vertex graph $G$ contains a simple path of length $n$, and moreover, by [search-dec-thm](){.ref}, if $G$ does contain such a path then we can find it. (Can you see why?)
+It turns out the answer is _Yes_.
+The idea is simple. If $\mathbf{P}=\mathbf{NP}$ then we can find out in polynomial time if an $n$ vertex graph $G$ contains a simple path of length $n$, and moreover, by [search-dec-thm](){.ref}, if $G$ does contain such a path then we can find it. (Can you see why?)
 If $G$ does not contain a simple path of length $n$, then we will check if it contains a simple path of length $n-1$, and continue in this way to find the largest $k$ such that $G$ contains a simple path of length $k$.
 
 The above reasoning was not specifically tailored to finding paths in graphs.
@@ -361,7 +366,9 @@ This is not surprising since, as we mentioned before, from group theory to the t
 
 * Our current evidence and understanding supports the "SAT hard" scenario that there is no much-better-than-brute-force algorithm for 3SAT and many other $\mathbf{NP}$-hard problems.
 
-* We are very far from _proving_ this however, though we may discuss some of the efforts in this direction later in this course. Indeed, we currently do not even know how to rule out the possibility  that for every $n\in \N$, $SAT$ restricted to length $n$ inputs has a NAND program of $10n$ lines (even though there  _exist_ $n$-input functions that require $2^n/(10n)$ lines to compute).
+* We are very far from _proving_ this however. Researchers have studied proving lower bounds on the number of gates to compute explicit functions in _restricted forms_ of circuits, and have made some advances in this effort, along the way generating mathematical tools that have found other uses.
+However, we have made essentially no headway in proving lower bounds for _general_ models of computation such as NAND and NNAD++ programs.
+Indeed, we currently do not even know how to rule out the possibility  that for every $n\in \N$, $SA`T$ restricted to length $n$ inputs has a NAND program of $10n$ lines (even though there  _exist_ $n$-input functions that require $2^n/(10n)$ lines to compute).
 
 * Understanding how to cope with this computational intractability, and even benefit from it, comprises much of the research in theoretical computer science.
 

@@ -30,16 +30,31 @@ We define the class $\mathbf{NP}$ to  contain all Boolean functions that corresp
 That is, functions that  output $1$ on $x$ if and only if there exists a solution $w$ such that the pair $(x,w)$ satisfies some polynomial-time checkable condition.
 Formally, $\mathbf{NP}$ is defined as follows:
 
-
+![The class $\mathbf{NP}$ corresponds to problems where solutions can be _efficiently verified_.  That is, this is the class of functions $F$ such that $F(x)=1$ if there is a "solution" $w$ of length polynomial in $|x|$ that can be verified by a polynomial-time algorithm $V$. ](../figure/NPdeffig.png){#NPdeffigfig .class width=300px height=300px}
 
 > # {.definition title="NP" #NP-def}
-We say that $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{NP}$ if there exists some constants $a,b \in \N$ and $G:\{0,1\}^* \rightarrow \{0,1\}$ such that $G\in \mathbf{P}$ and for every $x\in \{0,1\}^n$
+We say that $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{NP}$ if there exists some constants $a,b \in \N$ and $V:\{0,1\}^* \rightarrow \{0,1\}$ such that $V\in \mathbf{P}$ and for every $x\in \{0,1\}^n$
 $$
-F(x)=1 \Leftrightarrow \exists_{w \in \{0,1\}^{an^b}} \text{ s.t. } G(xw)=1 \label{NP:eq}
+F(x)=1 \Leftrightarrow \exists_{w \in \{0,1\}^{an^b}} \text{ s.t. } V(xw)=1 \label{NP:eq}
 $$
 
-The name $\mathbf{NP}$ stands for "nondeterministic polynomial time" and is used for historical reasons, see the bibiographical notes. The string $w$ in [{NP:eq}](){.eqref} is sometimes known as a _solution_, _certificate_, or _witness_ for the instance $x$.
+See also [NPdeffigfig](){.ref} for an illustration of [NP-def](){.ref}.
+The name $\mathbf{NP}$ stands for "nondeterministic polynomial time" and is used for historical reasons, see the bibiographical notes.
+The string $w$ in [{NP:eq}](){.eqref} is sometimes known as a _solution_, _certificate_, or _witness_ for the instance $x$.
 
+> # {.remark title="$\mathbf{NP}$ and proof systems" #NPproofs}
+The definition of $\mathbf{NP}$ means that for every  $F\in \mathbf{NP}$ and string $x\in \{0,1\}^*$, $F(x)=1$ if and only if there is a _short and efficiently verifiable proof_ of this fact.
+That is, we can think of the function $G$ in [NP-def](){.ref} as a _verifier_ algorithm, similar to what we've seen in [proofdef](){.ref}.
+The verifier checks whether a given string $w\in \{0,1\}^*$ is a valid proof for the statement "$F(x)=1$".
+Essentially all proof systems considered in mathematics involve line by line checks that can be carried out in polynomial time.
+Thus the heart of $\mathbf{NP}$ is asking for statements that have _short_ (i.e., polynomial in the size of the statements).
+As we will see  later on, for this reason Kurt Gödel phrased the question of whether $\mathbf{NP}=\mathbf{P}$ as asking whether "the mental work of a mathematician [in proving theorems]  could be completely replaced by a machine".
+
+> # { .pause }
+The [NP-def](){.ref} is _assymetric_ in the sense that there is a difference between an output of $1$ and an output of $0$.
+You should make sure you understand why this definition does _not_ guarantee that if $F \in \mathbf{NP}$ then the function $1-F$ is in $\mathbf{NP}$ as well.
+In fact, this is believed _not_ to be the case in general.
+This is in contrast to the class $\mathbf{P}$ which (as you should verify) does satisfy that if $F\in \mathbf{P}$ then $1-F$ is in $\mathbf{P}$ as well.
 
 ### Examples:
 
@@ -165,7 +180,7 @@ Since $G\in \mathbf{P}$ there is some NAND++ program $P^*$ that computes $G$ in 
 Moreover, as shown in [simpleNANDthm](){.ref}, we can assume without loss of generality that $P^*$ is simple in the sense of [simpleNANDpp](){.ref}.
 >
 To prove [nand-thm](){.ref} we need to give a polynomial-time computable map of every $x^* \in \{0,1\}^*$ to a NAND program $Q$ such that $F(x^*)=NANDSAT(Q)$.
-Let  $x^*\in \{0,1\}^*$ be such a string and let $n=|x^*|$ be its length. In time polynomial in $n$, we can obtain a NAND program $Q^*$ of $n+an^b$ inputs and $|P^*|\cdot (n+an^b)^c$ lines (where $|P^*|$ denotes the number of lines of $P^*$) such that $Q^*(xw)=P^*(xw)$ for every $x\in \{0,1\}^n$ and $w\in \{0,1\}^{an^b}$. Indeed, we can do this by simply copying and pasting $(n+an^b)^c$ times the code of $P^*$ one after the other, and replacing all references to `i` in the $j$-th copy with $INDEX(j)$.^[Recall that $INDEX(j)$ is the value of the `i` index variable in the $j$-th iteration. The particular formula for $INDEX(j)$ was given in [eqindex](){.eqref} but all we care is that it is computable in time polynomial in $j$.] We also replace references to `validx_`$\expr{k}$ with `one` if $k<an^b$ and `zero` otherwise.
+Let  $x^*\in \{0,1\}^*$ be such a string and let $n=|x^*|$ be its length. In time polynomial in $n$, we can obtain a NAND program $Q^*$ of $n+an^b$ inputs and $|P^*|\cdot (n+an^b)^c$ lines (where $|P^*|$ denotes the number of lines of $P^*$) such that $Q^*(xw)=P^*(xw)$ for every $x\in \{0,1\}^n$ and $w\in \{0,1\}^{an^b}$. Indeed, we can do this by simply copying and pasting $(n+an^b)^c$ times the code of $P^*$ one after the other, and replacing all references to `i` in the $j$-th copy with $INDEX(j)$.^[Recall that $INDEX(j)$ is the value of the `i` index variable in the $j$-th iteration. The particular formula for $INDEX(j)$ was given in [eqindex](){.eqref} but all we care is that it is computable in time polynomial in $j$.] We also replace references to `validx_`$\expr{k}$ with `one` if $k<n+an^b$ and `zero` otherwise.
 By the definition of NAND++ and the fact that the original program $P^*$ was simple and halted within at most $(n+an^b)^c$ steps, the NAND program $Q^*$ agrees with $P^*$ on every input of the form $xw \in \{0,1\}^{n+an^b}$.^[We only used the fact that $P^*$ is simple to ensure that __1__ we have access to the `one` and `zero` variables, and that assignments to the output variable `y_0` are "guarded" in the sense that adding extra copies of $P^*$ after it already halted will not change the output. It is not hard to ensure these properties as shown in [simpleNANDthm](){.ref}.]
 >
 Now we  transform $Q^*$ into $Q$  by "hardwiring" its first $n$ inputs to corresond to $x^*$.
@@ -227,7 +242,7 @@ We now show both sides of this equivalence.
 * __Soundness:__ Suppose that there exists $z\in \{0,1\}^{n+m}$ satisfying $\varphi$. Soundness will follow by showing that  $Q(z_0,\ldots,z_{n-1})=1$ (and hence in particular there exists $w\in \{0,1\}^n$, namesly $w=z_0\cdots z_{n-1}$, such taht $Q(w)=1$). To do this we will prove the following claim $(*)$: for every $\ell \in [m]$, $z_{\ell+n}$ equals the value assigned in the $\ell$-th step of the execution of the program $Q$ on $z_0,\ldots,z_{n-1}$. Note that because $z$ satisfies the constraints of $\varphi$, $(*)$ is sufficient to prove the soundness condition since these constraints imply that the last value assigned to the variable `y_0` in the execution of $Q$ on $z_0\cdots w_{n-1}$  is equal to $1$. To prove $(*)$ suppose, towards a contradiction, that it is false, and let $\ell$ be the smallest number such that $z_{\ell+n}$ is _not_ equal to the value assigned in the $\ell$-th step of the exeuction of $Q$ on $z_0,\ldots,z_{n-1}$. But since $z$ satisfies the constraints of $\varphi$, we get that $z_{\ell+n}=NAND(z_i,z_j)$ where (by the assumption above that $\ell$ is _smallest_ with this property) these values  _do_ correspond to the values last assigned by to the variables on the righthand side of the assignment operator in the $\ell$-th line of the program. But this means that the value assigned in the $\ell$-th step is indeed simply the NAND of $z_i$ and $z_j$, contradicting our assumption on the choice of $\ell$.
 
 
-![We reduce $NANDSAT$ to $3NAND$ by mapping a program $P$ to a formula $\psi$ where we have a variable for each line and input variable of $P$, and add a constraint to ensure that the variables are consistent with the program. We also add a constraint that the final output is $1$. One can show that there is an input $x$ such that $P(x)=1$ if and only if there is a satisfying assignment for $\psi$.](../figure/3NANDreduction.png){#figureid .class width=300px height=300px}
+![We reduce $NANDSAT$ to $3NAND$ by mapping a program $P$ to a formula $\psi$ where we have a variable for each line and input variable of $P$, and add a constraint to ensure that the variables are consistent with the program. We also add a constraint that the final output is $1$. One can show that there is an input $x$ such that $P(x)=1$ if and only if there is a satisfying assignment for $\psi$. (NOTATION IN FIGURE NEEDS TO BE UPDATED)](../figure/3NANDreduction.png){#figureid .class width=300px height=300px}
 
 
 ### From $3NAND$ to $3SAT$
