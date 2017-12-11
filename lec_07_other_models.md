@@ -254,8 +254,7 @@ $$
 maps $x$ to the function $y \mapsto x+y$.
 
 In particular, if we invoke this function on $a$ and then invoke the result on $b$ then we get $a+b$.
-We can use this approach,
-to achieve the effect of functions with more than one input and so we will use the shorthand $\lambda x,y. e$ for $\lambda x. (\lambda y. e)$.^[This technique of simulating multiple-input functions with single-input functions is known as [Currying](https://en.wikipedia.org/wiki/Currying) and is named after the logician [Haskell Curry](https://en.wikipedia.org/wiki/Haskell_Curry).]
+We can use this approach to achieve the effect of functions with more than one input and so we will use the shorthand $\lambda x,y. e$ for $\lambda x. (\lambda y. e)$.^[This technique of simulating multiple-input functions with single-input functions is known as [Currying](https://en.wikipedia.org/wiki/Currying) and is named after the logician [Haskell Curry](https://en.wikipedia.org/wiki/Haskell_Curry).]
 
 ![In the "currying" transformation, we can create the effect of a two parameter function $f(x,y)$ with the $\lambda$ expression $\lambda x.(\lambda y. f(x,y))$ which on input $x$ outputs a one-parameter function $f_x$ that has $x$ "hardwired" into it and such that $f_x(y)=f(x,y)$. This can be illustrated by a circuit diagram; see [Chelsea Voss's site](https://tromp.github.io/cl/diagrams.html).](../figure/currying.png){#currying .class width=300px height=300px}
 
@@ -400,7 +399,7 @@ For example, suppose that all our lists contain either $0$ or $1$ and consider $
 The ideas below will clearly generalize for implementing $REDUCE$ with any other function, and in fact for implementing recursive functions in general.
 We can define the parity function $par$ recursively as
 $$
-par(x_0,\ldots,x_n) = \begin{cases} 0 & |x|=0 \\ x_0 \oplus par(x_1,\ldots,x_n) \text{otherwise} \end{cases}
+par(x_0,\ldots,x_n) = \begin{cases} 0 & |x|=0 \\ x_0 \oplus par(x_1,\ldots,x_n) & \text{otherwise} \end{cases}
 \label{eq:par-recurse}
 $$
 where $\oplus$ denotes the XOR operator.
@@ -416,7 +415,7 @@ $$
 where $PAREQ$ is a _non-recursive_ function that takes a function $p$ as input, and returns the function $q$ defined as
 
 $$
-q(x_0,\ldots,x_n) = \begin{cases} 0 & |x|=0 \\ x_0 \oplus p(x_1,\ldots,x_n) \text{otherwise} \end{cases}
+q(x_0,\ldots,x_n) = \begin{cases} 0 & |x|=0 \\ x_0 \oplus p(x_1,\ldots,x_n) & \text{otherwise} \end{cases}
 \label{eq:par-nonrecurse}
 $$
 

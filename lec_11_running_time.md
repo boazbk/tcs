@@ -41,7 +41,7 @@ Thus we make the following definition:
 A function $T:\N \rightarrow \N$ is a _nice time bound function_ (or nice function for short) if: \
 * $T(n) \geq n$ \
 * $T(n) \geq T(n')$ whenever $n \geq n'$ \
-* There is a NAND<< program that on input numbers $n,i$, given in binary, can compute in $O(T(n))$ steps the $i$-th bit of a prefix-free representation of the $i$-th bit of $T(n)$ (represented as a string in some prefix-free way).
+* There is a NAND<< program that on input numbers $n,i$, given in binary, can compute in $O(T(n))$ steps the $i$-th bit of a prefix-free representation of $T(n)$ (represented as a string in some prefix-free way).
 
 
 All the functions mentioned above are "nice" per [nice-def](){.ref}, and from now on we will only care about the class $TIME(T(n))$   when $T$ is a "nice" function.
@@ -280,12 +280,37 @@ While the original NAND++ program $P$ might have ended on some inputs _before_ $
 By combining [non-uniform-thm](){.ref}  with [NANDpp-thm](){.ref}, we get that if $F\in TIME(T(n))$ then there are some constants $a,b$ such that for every large enough $n$, $F_n \in SIZE(aT(n)^b)$. (In fact, by direct inspection of the proofs we can see that $a=1$ and $b=5$ would work.)
 
 __Algorithmic version: the "NAND++ to NAND compiler":__
-The transformation of the NAND++ program $P$ to the NAND program $Q_P$ is itself algorithmic. (Indeed it can be done in  about 5 lines of Python.)
+The transformation of the NAND++ program $P$ to the NAND program $Q_P$ is itself algorithmic.
 Thus we can also phrase this result as follows:
 
 
 > # {.theorem title="NAND++ to NAND compiler" #nand-compiler}
 There is an $O(n)$-time NAND<< program $COMPILE$ such that on input a NAND++ program $P$,  and strings of the form $1^n,1^m,1^T$  outputs a NAND program $Q_P$ of at most $O(T)$ lines with $n$ bits of inputs and $m$ bits of output, such that: For every $x\in\bits^n$, if $P$ halts on input $x$ within fewer than $T$ steps and outputs some string $y\in\bits^m$, then $Q_P(x)=y$.  
+
+
+The program $COMPILE$ of [nand-compiler](){.ref} is fairly easy to implement.
+In particular this is done by the following very simple python function
+
+~~~~ { .python }
+#Input: Source code of a NAND++ program P, time bound T, input length n
+#Output: n-input NAND program of T|P| lines computing same function
+#For simplicity we assume that the program P has a constant m number of outputs.
+def expand(P,T,n):
+    result = r'''notx_0 := x_0 NAND x_0
+one := x_0 NAND notx_0
+zero := one NAND one'''
+
+    for t in range(T):
+        i=index(t)
+        validx = ('one' if i<n else 'zero')
+        result += P.replace('validx_i',validx).replace( '_i',f'_{i}')
+    return result
+
+# Returns the value of the index variable i in  iteration number t
+def index(t):
+    r = math.floor(math.sqrt(t+1/4)-1/2)
+    return (t-r*(r+1) if t <= (r+1)*(r+1) else (r+1)*(r+2)-t)
+~~~~
 
 Since NAND<< programs can be simulated by NAND++ programs with polynomial overhead, we see that we can simulate a $T(n)$ time NAND<< program on length $n$ inputs with a $poly(T(n))$ size NAND program.
 

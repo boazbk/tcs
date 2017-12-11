@@ -229,7 +229,7 @@ $$
 $$
 
 
-We say that a formula is a $k$-CNF it is an AND or ORs where each OR involves exactly $k$ literals.
+We say that a formula is a $k$-CNF it is an AND of ORs where each OR involves exactly $k$ literals.
 The 2SAT problem is to find out, given a $2$-CNF formula $\varphi$, whether there is an assignment $x\in \{0,1\}^n$ that _satisfies_ $\varphi$, in the sense that it makes it evaluate to $1$ or "True".
 
 Determining the satisfiability of Boolean formulas arises in many applications and in particular in software and hardware verification, as well as scheduling problems.

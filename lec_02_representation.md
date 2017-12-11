@@ -318,13 +318,13 @@ E'(o_0,\ldots,o_{k-1})=E'(o'_0,\ldots,o'_{k'-1}) \;,  \label{prefixfreeassump}
 $$
 and denote this string by $x$.
 >
-We denote $x_i = E(o_i)$ and $x'_i = E(o_i)$.
+We denote $x_i = E(o_i)$ and $x'_i = E(o'_i)$.
 By our assumption and the  definition of $E'$, $x_0x_1 \cdots x_k = x'_0 x'_1 \cdots x'_k$.
 >
 Let's make the assumption A that there is   some index $i \in [\min \{k,k'\}]$ such that $o_i \neq o'_i$.
 Now, let $i$ be the first such index, and hence $o_j=o'_j$ for all $j<i$ but $o_i \neq o'_i$, and so (since $E$ is one-to-one) also $x_i \neq x'_i$.
-That means that if we write $p=x_0\cdots x_{j-1}$, then by [prefixfreeassump](){.eqref} the first $|p|+|x_i|$ bits of the string $x$ need to equal $px_i$ and the first $|p|+|x'_i|$ bits of $x$ needs to equal $px'_i$.
-If $|x_i|=|x'_i|$, then the only way this can happen is if $px_i = px'_i$, which implies $x_i=x'_i$, in contradiction to the fact that $E$ is one-to-one.
+That means that if we write $p=x_0\cdots x_{i-1}$, then by [prefixfreeassump](){.eqref} the first $|p|+|x_i|$ bits of the string $x$ need to equal $p\,x_i$ (i.e., the concatenation of $p$ and $x_i$) and the first $|p|+|x'_i|$ bits of $x$ needs to equal $p\,x'_i$.
+If $|x_i|=|x'_i|$, then the only way this can happen is if $p\,x_i = p\,x'_i$, which implies $x_i=x'_i$, in contradiction to the fact that $E$ is one-to-one.
 Otherwise, without loss of generality $|x_i|>|x'_i|$,^[This is one of our first uses of the phrase "without loss of generality". Make sure you understand why it is justified! If you are not sure, you can try working out the case that $|x_i|>|x'_i|$ and see why the proof is symmetric.] and so $px'_i$ must be a _prefix_ of $px_i$, but this contradicts the prefix-freeness of $E$.
 The only remaining case is when Assumption A is false.
 Since the tuples are different, if $o_i=o'_i$ for every $i \in [\min\{ k,k'\}]$, it must mean that $k \neq k'$.
@@ -342,7 +342,7 @@ Moreover, the approach we used for representing rational numbers can be used to 
 
 > # {.lemma #predixfreeransformation}
 Let $E:\mathcal{O} \rightarrow \{0,1\}^*$ be a one-to-one function.
-Then there is a one-to-one prefix-free encoding $\overline{E}$ such that $|\overline{E}(o)| \leq 2|o|+2$ for every $o\in \mathcal{O}$.
+Then there is a one-to-one prefix-free encoding $\overline{E}$ such that $|\overline{E}(o)| \leq 2|E(o)|+2$ for every $o\in \mathcal{O}$.
 
 > # { .pause }
 For the sake of completeness, we will include the proof below, but it is a good idea for you to pause here and try to prove it yourself, using the same technique we used for representing rational numbers.

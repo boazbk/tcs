@@ -179,7 +179,24 @@ When one wants to produce a device that executes programs, it is convenient  to 
 
 
 > # {.remark title="Recursion in NAND<<" #recursion}
-One high level tool we can use in describing NAND<< programs is _recursion_. We can use the standard implementation of the _stack_ data structure. That is, we let   `stack` to be an array of integers `stack_0`, $\ldots$, `stack_`$\expr{k-1}$ and `stackpointer` will be the number $k$ of items in the stack. We implement `push(foo)` by doing `i := stackpointer` and `stack_i := foo` and `pop()` by letting `stackpointer := stackpointer - 1`. By encoding strings as integers, we can have allow strings in our stack as well. Now we can implement recursion using the stack just as is done in most programming languages. First of all, we note that using loops and conditionals, we can implement "goto" statements in NAND<<. Moreover, we can even implement "dynamic gotos", in the sense that we can set integer labels for certain lines of codes, and have a `goto foo` operation that moves execution to the line labeled by `foo`. Now, if we want to make a  call to a function $F$ with parameter `bar` then we will push into the stack the label of the next line and `bar`, and then make a `goto` to the code of $F$. That code will pop its parameter from the stack, do the computation of $F$, and when it needs to resume execution, will pop the label from the stack and `goto` there.
+One high level tool we can use in describing NAND<< programs is _recursion_.
+We can use the standard implementation of the [stack data structure](https://goo.gl/JweMj), which can be (and in fact is) used to implement recursion.
+A _stack_ is a data structure containing a sequence of elements, where we can "push"  elements into it and "pop" them from it in "first in last out" order.
+We can implement   `stack` by an array of integers `stack_0`, $\ldots$, `stack_`$\expr{k-1}$ and `stackpointer` will be the number $k$ of items in the stack.
+We implement `push(foo)` by doing `i := stackpointer` and `stack_i := foo` and `pop()` by letting `stackpointer := stackpointer - 1`.
+By encoding strings as integers, we can have allow strings in our stack as well.
+>
+Now we can implement recursion using the stack just as is done in most programming languages.
+The idea is that  a (recursive or non recursive) call to a function $F$ is implemented by pushing the arguments for $F$ into the stack.
+The code of $F$ will "pop" the arguments from the stack, perform the computation (which might involve making recursive or non recursive calls) and then "push" its return value into the stack.
+Because of the "first in last out" nature of a stack, we do not return control to the calling procedure until all the recursive calls are done.
+>
+Specifically,  we note that using loops and conditionals, we can implement "goto" statements in NAND<<.
+Moreover, we can even implement "dynamic gotos", in the sense that we can set integer labels for certain lines of codes, and have a `goto foo` operation that moves execution to the line labeled by `foo`.
+Now, if we want to make a  call to a function $F$ with parameter `bar` then we will push into the stack the label of the next line and `bar`, and then make a `goto` to the code of $F$. That code will pop its parameter from the stack, do the computation of $F$, and when it needs to resume execution, will pop the label from the stack and `goto` there.
+>
+You can find  online a tutorial on how recursion is implemented via stack in your favorite programming language, whether it's [Python](http://interactivepython.org/runestone/static/pythonds/Recursion/StackFramesImplementingRecursion.html) , [JavaScript](https://javascript.info/recursion), or [Lisp/Scheme](https://mitpress.mit.edu/sicp/full-text/sicp/book/node110.html).
+
 
 ### Let's talk about abstractions.
 
