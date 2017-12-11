@@ -59,6 +59,14 @@ The two main time complexity classes we will be interested in are the following:
 
 * __Exponential time:__ We say that function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _computable in exponential time_ if it is in the class $\mathbf{EXP} = \cup_{c\in\N} TIME(2^{n^c})$.
 
+In other words, these are defined as follows:
+
+> # {.definition title="$\mathbf{P}$ and $\mathbf{EXP}$" #PandEXP}
+Let $F:\{0,1\}^* \rightarrow \{0,1\}$. We say that $F\in \mathbf{P}$ if there is a polynomial $p:\N \rightarrow \R$ and a NAND<< program $P$ such that for every $x\in \{0,1\}^*$, $P(x)$ runs in at most $p(|x|)$ steps and outputs $F(x)$.
+>
+We say that $F\in \mathbf{EXP}$ if there is a polynomial $p:\N \rightarrow \R$ and a NAND<< program $P$ such that for every $x\in \{0,1\}^*$, $P(x)$ runs in at most $2^{p(|x|)}$ steps and outputs $F(x)$.
+
+
 Since exponential time is much larger than polynomial time, clearly $\mathbf{P}\subseteq \mathbf{EXP}$.
 All of the problems we listed in the last lecture are in $\mathbf{EXP}$,^[Strictly speaking, many of these problems correspond to _non Boolean_ functions, but we will sometimes "abuse notation" and refer to non Boolean functions as belonging to $\mathbf{P}$ or $\mathbf{EXP}$. We can easily extend the definitions of these classes to non Boolean and partial functions. Also, for every non-Boolean function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, we can define a Boolean variant $Bool(F)$ such that $F$ can be computed in polynomial time if and only if  $Bool(F)$ is.] but as we've seen, for some of them there are much better algorithms that demonstrate that they are in fact in $\mathbf{P}$.
 
@@ -75,6 +83,7 @@ All of the problems we listed in the last lecture are in $\mathbf{EXP}$,^[Strict
 
 A table of the  examples from the previous lecture.
 All these problems are in $\mathbf{EXP}$ but the only the ones on the left column are currently known to be in $\mathbf{P}$ (i.e., have a polynomial-time algorithm).
+
 
 
 ## NAND<< vs NAND++
@@ -284,7 +293,7 @@ There is an $O(n)$-time NAND<< program $COMPILE$ such that on input a NAND++ pro
 Since NAND<< programs can be simulated by NAND++ programs with polynomial overhead, we see that we can simulate a $T(n)$ time NAND<< program on length $n$ inputs with a $poly(T(n))$ size NAND program.
 
 > # { .pause }
-To make sure you understand this transformation, it is an excellent exercise to verify the following equivalent characterization of the class $\mathbf{P}$. Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}$, $F\in \mathbf{P}$ if and only if there is a polynomial-time NAND++ (or NAND<<, it doesn't matter) program $P$ such that for every $n\in \N$, $P(1^n)$ outputs a description of an $n$ inpute NAND program $Q_n$ that computes the restriction $F_n$ of $F$ to inputs in $\{0,1\}^n$. (Note that since $P$ runs in polynomial time and hence has an output of at most polynomial length, $Q_n$ has at most a polynomial number of lines.)
+To make sure you understand this transformation, it is an excellent exercise to verify the following equivalent characterization of the class $\mathbf{P}$ (see [Palternativeex](){.ref}). Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}$, $F\in \mathbf{P}$ if and only if there is a polynomial-time NAND++ (or NAND<<, it doesn't matter) program $P$ such that for every $n\in \N$, $P(1^n)$ outputs a description of an $n$ inpute NAND program $Q_n$ that computes the restriction $F_n$ of $F$ to inputs in $\{0,1\}^n$. (Note that since $P$ runs in polynomial time and hence has an output of at most polynomial length, $Q_n$ has at most a polynomial number of lines.)
 
 ### The class $\mathbf{P_{/poly}}$
 
@@ -314,7 +323,7 @@ For the "only if" direction, if $F\in \mathbf{P_{/poly}}$ then we can use for $a
 For the "if" direction, we can use the same "unrolling the loop" technique of [non-uniform-thm](){.ref} to show that if $P$ is a polynomial-time NAND++ program, then for every $n\in \N$, the map $x \mapsto P(a_n,x)$ can be computed by a polynomial size NAND program $Q_n$.
 
 > # { .pause }
-To make sure you understand the definition of $\mathbf{P_{/poly}}$, I highly encourage you to work out fully the details of the proof of [ppolyadvice](){.ref}
+To make sure you understand the definition of $\mathbf{P_{/poly}}$, I highly encourage you to work out fully the details of the proof of [ppolyadvice](){.ref}.
 
 
 ### Simulating NAND with NAND++?
@@ -395,7 +404,7 @@ In particular, out of all the example problems mentioned in the previous lecture
 
 ## Exercises
 
-For these exercises, a class $\overline{C}$ is the multi-bit output analog of the class $C$, where we consider programs that output more than ont bit.
+For these exercises, a class $\overline{C}$ is the multi-bit output analog of the class $C$, where we consider programs that output more than one bit.
 
 > # {.exercise title="Composition of polynomial time" #poly-time-comp-ex}
 Prove that if $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$ are in $\overline{\mathbf{P}}$ then their _composition_ $F\circ G$, which is the function $H$ s.t. $H(x)=F(G(x))$, is also in $\overline{\mathbf{P}}$.
@@ -412,7 +421,8 @@ We say that a NAND++ program $P$ is oblivious if there is some functions $T:\N \
 Let $F:\{0,1\}^* \rightarrow \{0,1\}^*$ be such that there is some function $m:\N \rightarrow \N$ satisfying $|F(x)|=m(|x|)$ for every $x$, and let $P$ be a NAND++ program that computes $F$ in $T(n)$ time for some nice $T$.
 Then there is an _oblivious_ NAND++ program $P'$ that computes $F$ in time $O(T^2(n) \log T(n))$.
 
-^[TODO: Add exercise showing NAND is like NAND++ with advice. Mention the definition of $\mathbf{P}_{/poly}$.]
+> # {.exercise title="Alternative characterization of $\mathbf{P}$" #Palternativeex}
+Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}$, $F\in \mathbf{P}$ if and only if there exists a polynomial time NAND++ program $P$ such that $P(1^n)$ outputs a NAND program  $Q_n$ that computes the restriction of $F$ to $\{0,1\}^n$.
 
 ## Bibliographical notes
 
