@@ -50,9 +50,6 @@ For example, for arithmetic functions such as $T(n) = n^3$ or $T(n)= \floor n^{1
 Since the number of bits is $O(\log T(n))$, any quantity that is polynomial in this number will be much smaller than $T(n)$ for large enough $n$.
 
 
-
-
-
 The two main time complexity classes we will be interested in are the following:
 
 * __Polynomial time:__ We say that a  function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _computable in polynomial time_ if it is in the class $\mathbf{P} = \cup_{c\in\N} TIME(n^c)$.
