@@ -58,10 +58,13 @@ The two main time complexity classes we will be interested in are the following:
 
 In other words, these are defined as follows:
 
-> # {.definition title="$\mathbf{P}$ and $\mathbf{EXP}$" #PandEXP}
+> # {.definition title="$\mathbf{P}$ and $\mathbf{EXP}$" #PandEXPdef}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$. We say that $F\in \mathbf{P}$ if there is a polynomial $p:\N \rightarrow \R$ and a NAND<< program $P$ such that for every $x\in \{0,1\}^*$, $P(x)$ runs in at most $p(|x|)$ steps and outputs $F(x)$.
 >
 We say that $F\in \mathbf{EXP}$ if there is a polynomial $p:\N \rightarrow \R$ and a NAND<< program $P$ such that for every $x\in \{0,1\}^*$, $P(x)$ runs in at most $2^{p(|x|)}$ steps and outputs $F(x)$.
+
+> # { .pause }
+Please make sure you understand why  [PandEXPdef](){.ref} and the bullets above define the same classes.
 
 
 Since exponential time is much larger than polynomial time, clearly $\mathbf{P}\subseteq \mathbf{EXP}$.
