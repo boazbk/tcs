@@ -1,4 +1,5 @@
-sill complete
+
+
 # Is every theorem provable?
 
 > # { .objectives }
