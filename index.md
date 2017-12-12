@@ -139,7 +139,7 @@ These are lecture notes for an introductory undergraduate course on theoretical 
 I am using these notes for [Harvard CS 121](http://cs121.boazbarak.org).
 
 
-For the best-formatted version, download [all lecture notes in a single PDF file](lnotes_book.pdf) (about 300 pages, 3MB).
+You can also download [all lecture notes in a single PDF file](lnotes_book.pdf) (about 500 pages, 10MB).
 
 See [this website](http://nandpl.org) for (a very much work in progress) implementation of the NAND\* programming languages that are used in in these notes.
 

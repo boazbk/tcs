@@ -41,7 +41,7 @@ Thus we make the following definition:
 A function $T:\N \rightarrow \N$ is a _nice time bound function_ (or nice function for short) if: \
 * $T(n) \geq n$ \
 * $T(n) \geq T(n')$ whenever $n \geq n'$ \
-* There is a NAND<< program that on input numbers $n,i$, given in binary, can compute in $O(T(n))$ steps the $i$-th bit of a prefix-free representation of the $i$-th bit of $T(n)$ (represented as a string in some prefix-free way).
+* There is a NAND<< program that on input numbers $n,i$, given in binary, can compute in $O(T(n))$ steps the $i$-th bit of a prefix-free representation of $T(n)$ (represented as a string in some prefix-free way).
 
 
 All the functions mentioned above are "nice" per [nice-def](){.ref}, and from now on we will only care about the class $TIME(T(n))$   when $T$ is a "nice" function.
@@ -50,14 +50,22 @@ For example, for arithmetic functions such as $T(n) = n^3$ or $T(n)= \floor n^{1
 Since the number of bits is $O(\log T(n))$, any quantity that is polynomial in this number will be much smaller than $T(n)$ for large enough $n$.
 
 
-
-
-
 The two main time complexity classes we will be interested in are the following:
 
 * __Polynomial time:__ We say that a  function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _computable in polynomial time_ if it is in the class $\mathbf{P} = \cup_{c\in\N} TIME(n^c)$.
 
 * __Exponential time:__ We say that function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _computable in exponential time_ if it is in the class $\mathbf{EXP} = \cup_{c\in\N} TIME(2^{n^c})$.
+
+In other words, these are defined as follows:
+
+> # {.definition title="$\mathbf{P}$ and $\mathbf{EXP}$" #PandEXPdef}
+Let $F:\{0,1\}^* \rightarrow \{0,1\}$. We say that $F\in \mathbf{P}$ if there is a polynomial $p:\N \rightarrow \R$ and a NAND<< program $P$ such that for every $x\in \{0,1\}^*$, $P(x)$ runs in at most $p(|x|)$ steps and outputs $F(x)$.
+>
+We say that $F\in \mathbf{EXP}$ if there is a polynomial $p:\N \rightarrow \R$ and a NAND<< program $P$ such that for every $x\in \{0,1\}^*$, $P(x)$ runs in at most $2^{p(|x|)}$ steps and outputs $F(x)$.
+
+> # { .pause }
+Please make sure you understand why  [PandEXPdef](){.ref} and the bullets above define the same classes.
+
 
 Since exponential time is much larger than polynomial time, clearly $\mathbf{P}\subseteq \mathbf{EXP}$.
 All of the problems we listed in the last lecture are in $\mathbf{EXP}$,^[Strictly speaking, many of these problems correspond to _non Boolean_ functions, but we will sometimes "abuse notation" and refer to non Boolean functions as belonging to $\mathbf{P}$ or $\mathbf{EXP}$. We can easily extend the definitions of these classes to non Boolean and partial functions. Also, for every non-Boolean function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, we can define a Boolean variant $Bool(F)$ such that $F$ can be computed in polynomial time if and only if  $Bool(F)$ is.] but as we've seen, for some of them there are much better algorithms that demonstrate that they are in fact in $\mathbf{P}$.
@@ -75,6 +83,7 @@ All of the problems we listed in the last lecture are in $\mathbf{EXP}$,^[Strict
 
 A table of the  examples from the previous lecture.
 All these problems are in $\mathbf{EXP}$ but the only the ones on the left column are currently known to be in $\mathbf{P}$ (i.e., have a polynomial-time algorithm).
+
 
 
 ## NAND<< vs NAND++
@@ -238,17 +247,28 @@ We will however see that there is a single unproven conjecture that would imply 
 
 
 
-## Simulating NAND<< or NAND++ programs with NAND programs
+## Uniform vs non uniform computation
 
-We have seen two measures of "computation cost" for functions.
+
+
+We have now seen two measures of "computation cost" for functions.
 For a finite function $G:\{0,1\}^n \rightarrow \{0,1\}^m$,  we said that $G\in SIZE(T)$ if there is a $T$-line NAND program that computes $G$.
 We saw that _every_ function mapping $\{0,1\}^n$ to $\{0,1\}^m$ can be computed using at most $O(m2^n)$ lines.
 For infinite functions $F:\{0,1\}^* \rightarrow \{0,1\}^*$, we can define the "complexity" by the smallest $T$ such that $F \in TIME(T(n))$.
 Is there a relation between the two?
 
-For simplicity, let  us restrict attention to  functions $F:\{0,1\}^* \rightarrow \{0,1\}$.
+For simplicity, let  us restrict attention to  Boolean (i.e., single-bit output) functions $F:\{0,1\}^* \rightarrow \{0,1\}$.
 For every such function, define $F_n : \{0,1\}^n \rightarrow \{0,1\}$ to be the restriction of $F$ to inputs of size $n$.
-It turns out that we do have at least one relation between the NAND++ complexity of $F$ and the NAND complexity of the functions $\{ F_n \}$.
+We have seen two ways to define that $F$ is computable within a roughly $T(n)$ amount of resources:
+
+1. There is a _single algorithm_ $P$ that computes $F$ within $T(n)$ steps on all inputs of length $n$. In such a case we say that  $F$ is  _uniformly_ computable (or more often, simply "computable") within $T(n)$ steps.
+
+2. For every $n$, there is a $T(n)$ NAND program $Q_n$ that computes $F_n$. In such a case we say that $F$ has can be computed via a _non uniform_ $T(n)$ bounded sequence of algorithms.
+
+Unlike the first condition, where there is a single algorithm or "recipe" to compute $F$ on all possible inputs, in the second condition we allow the restriction $F_n$ to be computed by a  completely different  program $Q_n$ for every $n$.
+One can see that the second condition is much more relaxed, and hence we might expect that every function satisfying the first condition satisfies the second one as well (up to a small overhead in the bound $T(n)$).
+This  indeed turns out to be the case:
+
 
 > # {.theorem  title="Nonuniform computation contains uniform computation" #non-uniform-thm}
 There is some $c\in \N$ s.t. for every $F:\{0,1\}^* \rightarrow \{0,1\}$ in  $TIME_{++}(T(n))$ and every  sufficiently large $n\in N$,  $F_n$ is in $SIZE(c T(n))$.
@@ -263,19 +283,75 @@ While the original NAND++ program $P$ might have ended on some inputs _before_ $
 By combining [non-uniform-thm](){.ref}  with [NANDpp-thm](){.ref}, we get that if $F\in TIME(T(n))$ then there are some constants $a,b$ such that for every large enough $n$, $F_n \in SIZE(aT(n)^b)$. (In fact, by direct inspection of the proofs we can see that $a=1$ and $b=5$ would work.)
 
 __Algorithmic version: the "NAND++ to NAND compiler":__
-The transformation of the NAND++ program $P$ to the NAND program $Q_P$ is itself algorithmic. (Indeed it can be done in  about 5 lines of Python.)
+The transformation of the NAND++ program $P$ to the NAND program $Q_P$ is itself algorithmic.
 Thus we can also phrase this result as follows:
 
 
 > # {.theorem title="NAND++ to NAND compiler" #nand-compiler}
 There is an $O(n)$-time NAND<< program $COMPILE$ such that on input a NAND++ program $P$,  and strings of the form $1^n,1^m,1^T$  outputs a NAND program $Q_P$ of at most $O(T)$ lines with $n$ bits of inputs and $m$ bits of output, such that: For every $x\in\bits^n$, if $P$ halts on input $x$ within fewer than $T$ steps and outputs some string $y\in\bits^m$, then $Q_P(x)=y$.  
 
+
+The program $COMPILE$ of [nand-compiler](){.ref} is fairly easy to implement.
+In particular this is done by the following very simple python function
+
+~~~~ { .python }
+#Input: Source code of a NAND++ program P, time bound T, input length n
+#Output: n-input NAND program of T|P| lines computing same function
+#For simplicity we assume that the program P has a constant m number of outputs.
+def expand(P,T,n):
+    result = r'''notx_0 := x_0 NAND x_0
+one := x_0 NAND notx_0
+zero := one NAND one'''
+
+    for t in range(T):
+        i=index(t)
+        validx = ('one' if i<n else 'zero')
+        result += P.replace('validx_i',validx).replace( '_i',f'_{i}')
+    return result
+
+# Returns the value of the index variable i in  iteration number t
+def index(t):
+    r = math.floor(math.sqrt(t+1/4)-1/2)
+    return (t-r*(r+1) if t <= (r+1)*(r+1) else (r+1)*(r+2)-t)
+~~~~
+
 Since NAND<< programs can be simulated by NAND++ programs with polynomial overhead, we see that we can simulate a $T(n)$ time NAND<< program on length $n$ inputs with a $poly(T(n))$ size NAND program.
 
+> # { .pause }
+To make sure you understand this transformation, it is an excellent exercise to verify the following equivalent characterization of the class $\mathbf{P}$ (see [Palternativeex](){.ref}). Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}$, $F\in \mathbf{P}$ if and only if there is a polynomial-time NAND++ (or NAND<<, it doesn't matter) program $P$ such that for every $n\in \N$, $P(1^n)$ outputs a description of an $n$ inpute NAND program $Q_n$ that computes the restriction $F_n$ of $F$ to inputs in $\{0,1\}^n$. (Note that since $P$ runs in polynomial time and hence has an output of at most polynomial length, $Q_n$ has at most a polynomial number of lines.)
+
+### The class $\mathbf{P_{/poly}}$
+
+We can define the "non uniform" analog of the class $\mathbf{P}$ as follows:
+
+> # {.definition title="$\mathbf{P_{/poly}}$" #Ppoly}
+For every $F:\{0,1\}^* \rightarrow \{0,1\}$, we say that $F\in \mathbf{P_{/poly}}$ if there is some polynomial $p:\N \rightarrow \R$ such that for every $n\in \N$, $F_n \in SIZE(p(n))$ where $F_n$ is the restriction of $F$ to inputs in $\{0,1\}^n$.
+
+An immediate corollary of [non-uniform-thm](){.ref} is that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$.
+Using the equivalence of NAND programs and Boolean circuits, we can also define $P_{/poly}$ as the class of functions $F:\{0,1\}^* \rightarrow \{0,1\}$  such that the restriction of $F$ to $\{0,1\}^n$ is computable by a Boolean circuit of $poly(n)$ size (say with gates in the set $\wedge,\vee,\neg$ though any universal gateset will do); see [Ppolyfig](){.ref}.
+
+![A function $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{P_{/poly}}$ if for every $n$, the restriction of $F$ to $n$ bit inputs is computable by a polynomial size NAND program, or equivalently, a polynomial sized Boolean circuit.](../figure/Ppoly.png){#Ppolyfig .class width=300px height=300px}
+
+The notation $\mathbf{P_{/poly}}$ is used for historical reasons.
+It was introduced by Karp and Lipton, who considered this class as corresponding to functions that can be computed by polynomial-time Turing Machines (or equivalently, NAND++ programs) that are given for any input length $n$ a polynomial in $n$ long _advice string_.
+That this is an equivalent characterization is shown in the following theorem:
+
+> # {.theorem title="$\mathbf{P_{/poly}}$ characterization by advice" #ppolyadvice}
+Let $F:\{0,1\}^* \rightarrow \{0,1\}$. Then $F\in\mathbf{P_{/poly}}$ if and only if there exists a polynomial $p:\N \rightarrow \N$, a polynomial-time NAND++ program $P$ and a sequence $\{ a_n \}_{n\in \N}$ of strings, such that for every $n\in \N$: \
+* $|a_n| \leq p(n)$  \
+* For every $x\in \{0,1\}^n$, $P(a_n,x)=F(x)$.
+
+> # {.proof data-ref="ppolyadvice"}
+We only sketch the proof.
+For the "only if" direction, if $F\in \mathbf{P_{/poly}}$ then we can use for $a_n$  simply the description of the corresponding NAND program $Q_n$, and for $P$ the program that computes in polynomial time the $NANDEVAL$ function that on input an $n$-input NAND program $Q$ and a string $x\in \{0,1\}^n$, outputs $Q(n)$>
+>
+For the "if" direction, we can use the same "unrolling the loop" technique of [non-uniform-thm](){.ref} to show that if $P$ is a polynomial-time NAND++ program, then for every $n\in \N$, the map $x \mapsto P(a_n,x)$ can be computed by a polynomial size NAND program $Q_n$.
+
+> # { .pause }
+To make sure you understand the definition of $\mathbf{P_{/poly}}$, I highly encourage you to work out fully the details of the proof of [ppolyadvice](){.ref}.
 
 
-
-## Simulating NAND with NAND++?
+### Simulating NAND with NAND++?
 
 [non-uniform-thm](){.ref} shows that every function in $TIME(T(n))$ is in $SIZE(poly(T(n)))$.
 One can ask if  there is an inverse relation.
@@ -287,37 +363,21 @@ Indeed, consider the following "unary halting function" $UH:\{0,1\}^* \rightarro
 $UH$ is uncomputable, since otherwise we could compute the halting function by transforming the input program $P$ into the integer $n$ whose representation is the string $P$, and then running $UH(1^n)$ (i.e., $UH$ on the string of $n$ ones).
 On the other hand, for every $n$, $UH_n(x)$ is either equal to $0$ for all inputs $x$ or equal to $1$ on all inputs $x$, and hence can be computed by a NAND program of a _constant_ number of lines.
 
-The issue here is _uniformity_. For a function $F:\{0,1\}^* \rightarrow \{0,1\}$, if $F$ is in $TIME(T(n))$ then we have a _single_ algorithm that can compute $F_n$ for every $n$.
+The issue here is of course _uniformity_.
+For a function $F:\{0,1\}^* \rightarrow \{0,1\}$, if $F$ is in $TIME(T(n))$ then we have a _single_ algorithm that can compute $F_n$ for every $n$.
 On the other hand,  $F_n$ might be in  $SIZE(T(n))$ for every $n$ using a completely different algorithm for every input length.
-While this can be a real issue, in most natural settings the difference between uniformity and non-uniform-thmity does not seem to arise.
-In particular, in all the example problems in this lecture, as the input size $n$ grows, we do not know of NAND programs that are significantly smaller than what would be implied by the best known algorithm (i.e., NAND++ program).
+For this reason we typically use $\mathbf{P_{/poly}}$ not as a model of _efficient_ computation but rather as a way to model _inefficient computation_.
+For example, in cryptography people often define  an encryption  scheme to be secure if breaking it for a key of length $n$ requires more then a polynomial number of NAND lines.
+Since $\mathbf{P} \subseteq \mathbf{P_{/poly}}$, this in particular precludes a polynomial time algorithm for doing so, but there are technical reasons why working in a non uniform model makes more sense in cryptography.
+It also allows to talk about security in non asymptotic terms such as a scheme having "$128$ bits of security".
+
+> # {.remark title="Non uniformity in practice" #nonunif}
+While it  can sometimes be a real issue, in many natural settings the difference between uniformity and non-uniform-thmity does not seem to arise.
+In particular, in all the examples of problems not known to be in $\mathbf{P}$ we discussed before: longest path, 3SAT, factoring, etc., these problems are also not known to be in $\mathbf{P_{/poly}}$ either.
 Thus, for "natural" functions, if you pretend that $TIME(T(n))$  is roughly the same as $SIZE(T(n))$, you will be right more often than wrong.
 
 
-### The class $\mathbf{P_{/poly}}$
 
-We define $\mathbf{P}$ to be the class of functions that are computed by polynomial time NAND++ programs.
-We can define $\mathbf{P_{/poly}}$ to be the analogous class of functions whose restriction to any length $n$ is computed by a polynomial size NAND program.
-
-> # {.definition title="$\mathbf{P_{/poly}}$" #defppoly}
-Let $F:\{0,1\}^* \rightarrow \{0,1\}$. We say that $F\in \mathbf{P_{/poly}}$ if there is some polynomial $p:\N \rightarrow \N$ and a sequence $\{ Q_n \}$ of NAND programs such that: \
-* For every $n\in \N$, $Q_n$ has at most $p(n)$ lines. \
-* For every $n\in \N$, $Q_n$ computes the finite function $F_n$ that is obtained by restricting $F$ to inputs in $\{0,1\}^n$
-
-We can rephrase  [non-uniform-thm](){.ref} as saying that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$.
-The notation $\mathbf{P_{/poly}}$ is for historical reasons, and was introduced by Karp and Lipton, who considered this class as corresponding to functions that can be computed by polynomial-time Turing Machines (or equivalently, NAND++ programs) that are given for any input length $n$ a polynomial in $n$ long _advice string_.
-That this is an equivalent characterization is shown in the following theorem:
-
-> # {.theorem title="$\mathbf{P_{/poly}}$ characterization by advice" #ppolyadvice}
-Let $F:\{0,1\}^* \rightarrow \{0,1\}$. Then $F\in\mathbf{P_{/poly}}$ if and only if there exists a polynomial $p:\N \rightarrow \N$, a polynomial-time NAND++ program $P$ and a sequence $\{ a_n \}_{n\in \N}$ of strings, such that for every $n\in \N$: \
-* $|a_n| \leq p(n)$  \
-* For every $x\in \{0,1\}^n$, $P(a_n,x)=F(x)$.
-
-> # {.proof data-ref="ppolyadvice"}
-The proof is quite straightforward.
-For the "only if" direction, if $F\in \mathbf{P_{/poly}}$ then we can use for $a_n$  simply the description of the corresponding NAND program $Q_n$, and for $P$ the program that computes in polynomial time the $NANDEVAL$ function that on input an $n$-input NAND program $Q$ and a string $x\in \{0,1\}^n$, outputs $Q(n)$>
->
-For the "if" direction, we can use the same "unrolling the loop" technique of [non-uniform-thm](){.ref} to show that if $P$ is a polynomial-time NAND++ program, then for every $n\in \N$, the map $x \mapsto P(a_n,x)$ can be computed by a polynomial size NAND program $Q_n$.
 
 
 ### Uniform vs. Nonuniform computation: A recap
@@ -334,10 +394,7 @@ For a function $F:\{0,1\}^* \rightarrow \{0,1\}$ and some nice time bound $T:\N 
 
 * The reverse direction is not necessarily true - there are examples of functions $F:\{0,1\}^n \rightarrow \{0,1\}$ such that $F_n$ can be computed by even a constant size NAND program but $F$ is uncomputable.
 
-Note that the $EVAL$ function, that takes as input a NAND program $P$ and an input $x$, and outputs $P(x)$, can be computed by a NAND++ program in $poly(|P|)$ time.
-Hence if $F$ has the property that it is computable by a sequence $\{ P_n \}$ of programs of $T(n)$ size, then there is a in fact an $poly(T(n))$ time NAND++ program $P^*$ that can can compute $F$ if it is only given for every $n$ the  program $P_n$ as "advice".
-For this reason, nonuniform computation is sometimes known as _computation with advice_.
-The class $SIZE(poly(n))$ is sometimes denoted as $\mathbf{P}_{/poly}$, where the $/poly$ stands for giving the polynomial time algorithm a polynomial amount of "advice" - some string of information that depends only on the input length but not on the particular input.
+This means that non uniform complexity is more useful to establish _hardness_ of a function than its _easiness_.
 
 ## Extended Church-Turing Thesis
 
@@ -367,10 +424,12 @@ In particular, out of all the example problems mentioned in the previous lecture
 
 * The time hierarchy theorem shows that there are _some_ problems that can be solved in exponential, but not in polynomial time. However, we do not know if that is the case for the natural examples that we described in this lecture.
 
+* By "unrolling the loop" we can show that every function computable in time $T(n)$ can be computed by a sequence of NAND programs (one for every input length) each of size at most $poly(T(n))$
+
 
 ## Exercises
 
-For these exercises, a class $\overline{C}$ is the multi-bit output analog of the class $C$, where we consider programs that output more than ont bit.
+For these exercises, a class $\overline{C}$ is the multi-bit output analog of the class $C$, where we consider programs that output more than one bit.
 
 > # {.exercise title="Composition of polynomial time" #poly-time-comp-ex}
 Prove that if $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$ are in $\overline{\mathbf{P}}$ then their _composition_ $F\circ G$, which is the function $H$ s.t. $H(x)=F(G(x))$, is also in $\overline{\mathbf{P}}$.
@@ -387,7 +446,8 @@ We say that a NAND++ program $P$ is oblivious if there is some functions $T:\N \
 Let $F:\{0,1\}^* \rightarrow \{0,1\}^*$ be such that there is some function $m:\N \rightarrow \N$ satisfying $|F(x)|=m(|x|)$ for every $x$, and let $P$ be a NAND++ program that computes $F$ in $T(n)$ time for some nice $T$.
 Then there is an _oblivious_ NAND++ program $P'$ that computes $F$ in time $O(T^2(n) \log T(n))$.
 
-^[TODO: Add exercise showing NAND is like NAND++ with advice. Mention the definition of $\mathbf{P}_{/poly}$.]
+> # {.exercise title="Alternative characterization of $\mathbf{P}$" #Palternativeex}
+Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}$, $F\in \mathbf{P}$ if and only if there exists a polynomial time NAND++ program $P$ such that $P(1^n)$ outputs a NAND program  $Q_n$ that computes the restriction of $F$ to $\{0,1\}^n$.
 
 ## Bibliographical notes
 

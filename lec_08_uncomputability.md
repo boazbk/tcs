@@ -37,10 +37,14 @@ But by definition, the program should also output $1-F^*(x)$, hence yielding a c
 ![We construct an uncomputable function by defining for every two strings $x,y$ the value $1-P_y(x)$ which equals to $0$ if the program described by $y$ outputs $1$ on $x$, and equals to $1$ otherwise.  We then define $F^*(x)$ to be the "diagonal" of this table, namely $F^*(x)=1-P_x(x)$ for every $x$. The function $F^*$ is uncomputable, because if it was computable by some program whose string description is $x^*$ then we would get that $P_{x^*}(x^*)=F(x^*)=1-P_{x^*}(x^*)$.](../figure/diagonal_proof.png){#diagonal-fig .class width=300px height=300px}
 
 
-The proof of [uncomputable-func](){.ref} is short but subtle, and it crucially uses the dual view of a program as both instructions for computation, as well as a string that can be an input for this computation.
+> # { .pause }
+The proof of [uncomputable-func](){.ref} is short but subtle.
 I suggest that you pause here and go back to read it again and think about it - this is a proof that  is worth reading at least twice if not three or four times.
 It is not often the case that a few lines of mathematical reasoning establish a  deeply profound fact - that there are problems we simply _cannot_ solve and the "firm conviction" that Hilbert alluded to above is simply false.
+
 The type of argument used to prove [uncomputable-func](){.ref} is known as  _diagonalization_ since it can be described as defining a function based on the diagonal entries of a table as in [diagonal-fig](){.ref}.
+The proof can be thought of as an infinite version of the  _counting_ argument we used for showing lower bound for NAND progams in [counting-lb](){.ref}.
+Namely, we show that it's not possible to compute all functions from $\{0,1\}^* \rightarrow \{0,1\}$ by NAND++ programs simply because there are more functions like that then there are NAND++ programs.
 
 
 
@@ -87,6 +91,12 @@ Otherwise, there are two cases.
 Either the program described by $x$ does not halt on $x$, in which case $z=0$ and $Q^*(x)=1=F^*(x)$.
 Or the program halts but its first output bit is not $1$.
 In this case $z=1$ but the value $y$ computed by $Q^*(x)$ is not $1$ and so $Q^*(x)=1=F^*(x)$.
+
+> # { .pause }
+Once again, this is a proof that's worth reading more than once.
+The uncomputability of the halting problem is one of the fundamental theorems of computer science, and is the starting point for much of the investigations we will see later.
+An excellent way to get a better understanding of [halt-thm](){.ref} is to do [halting-alt-ex](){.ref} which asks you to prove an alternative proof of the same result.
+
 
 ### Is the Halting problem really hard?
 
@@ -163,10 +173,11 @@ Namely, that _we cannot certify semantic properties of general purpose programs_
 "Semantic properties" mean properties of the function that the program computes, as opposed to properties that depend on the particular syntax.
 For example, we can easily check whether or not  a given C program contains no comments, or whether all function names begin with an upper case letter.
 As we've seen, we cannot check whether a given program enters into an infinite loop or not.
-But we could still hope to check some other properties of the program, for example verifying that if it _does_ halt then it will conform with some specification.
-Alas, this turns out to be not the case.
 
 
+But we could still hope to check some other properties of the program.
+For example, we could hope to certify that a given  program $M$ correctly computes the multiplication operation, or that no matter what input the program is provided with, it will never reveal some confidential information.
+Alas it turns out that the task of checking that a given program conforms with such a specification is uncomputable.
 We start by proving a simple generalization of the Halting problem:
 
 > # {.theorem title="Halting without input" #haltonzero-thm}
@@ -297,9 +308,20 @@ Hence in this case, $Q$ computes the non-monotone parity function, and we get th
 In both cases we see that $MONOTONE(Q)=1-HALTONZERO(P)$, which is what we wanted to prove.
 An examination of this proof shows that we did not use anything about $MONOTONE$ beyond the fact that it is semantic and non-trivial (in the sense that it is not the all zero, nor the all-ones function).
 
+### Is software verification doomed?
 
+Programs are increasingly being used for mission critical purposes, whether it's running our banking system, flying planes, or monitoring nuclear reactors.
+If we can't even give a certification algorithm that  a program correctly computes the parity function, how can we ever be assured that a program does what it is supposed to do?
+The key insight is that while it is impossible to certify that a _general_ program conforms with a specification, it is possible to write a program in the first place in a way that will make it easier to certify.
+As a trivial example, if you write a program without loops, then you can certify that it halts.
+Also, while it might not be possible to certify that an _artbirary_ program computes the parity function, it is quite possible to write a particular program $P$ for which we can mathematically _prove_ that $P$ computes the parity.
+In fact, writing programs or algorithms and providing proofs for their correctness is what we do all the time in algorithms research.
 
-
+The field of _software verification_ is concerned with verifying that given programs satisfy certain conditions.
+These conditions can be that the program computes a certain function, that it never writes into a dangeours memory location, that is respects certain invariants, and others.
+While the general tasks of verifying this may be uncomputable, researchers have managed to do so for many interesting cases, especially if the program is written in the first place in a formalism or programming language that makes verification easier.
+That said, verification, especially of large and complex programs, remains a highly challenging task in practice as well, and the number of programs that have been formally proven correct is still quite small.
+Moreover, even phrasing the right theorem to prove (i.e., the specification) if often a highly non-trivial endeavor.
 
 
 ## Lecture summary
@@ -318,6 +340,12 @@ Let us define $H:\{0,1\}^* \rightarrow \{0,1\}$ to be the function such that $H(
 Prove that  there no  program $P^*$ that computes $H$, by building from such a supposed $P^*$ a program $Q$ such  that, under the assumption that $P^*$ computes $H$, $Q(Q)$ halts if and only if it does not halt.^[__Hint:__ See Christopher Strachey's letter in the biographical notes.]
 
 
+> # {.exercise #salil-ex}
+For each of the following two functions, say whether it is decidable (computable) or not:
+>
+1. Given a NAND++ program $P$, an input $x$, and a number $k$, when we run $P$ on $x$, does the index variable `i` ever reach $k$?
+>
+2. Given a NAND++ program $P$, an input $x$, and a number $k$, when we run $P$ on $x$, does $P$ ever write to an array at index $k$?
 
 
 
@@ -331,7 +359,7 @@ Perhaps analogy to veganism.
 State the full Rice's Theorem and say that it follows from the same proof as in the exercise.]
 
 The diagonlization argument used to prove uncomputability of $F^*$ is of course derived from Cantor's argument for the uncountability of the reals.
-In a twist of fate, using  techniques originating from the works  Gödel and Turing,  Paul Cohen showed in 1963 that Cantor's Continuum Hypothesis is independent of the axioms of set theory, which means that neither it nor its negation is provable from these axioms and hence in some sense  can be considered as "neither true nor false".
+In a twist of fate, using  techniques originating from the works  Gödel and Turing,  Paul Cohen showed in 1963 that Cantor's Continuum Hypothesis is independent of the axioms of set theory, which means that neither it nor its negation is provable from these axioms and hence in some sense  can be considered as "neither true nor false".^[The [Continuum Hypothesis](https://goo.gl/9ieBVq) is the conjecture that for every subset $S$ of $\mathbb{R}$, either there is a one-to-one and onto map between $S$ and $\N$ or there is a one-to-one and onto map between $S$ and $\mathbb{R}$. It was conjectured by Cantor and listed by Hilbert in 1900 as one of the most important problems in mathematics.]
 See [here](https://gowers.wordpress.com/2017/09/19/two-infinities-that-are-surprisingly-equal/) for recent progress on a related question.
 
 

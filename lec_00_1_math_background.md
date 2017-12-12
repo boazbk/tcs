@@ -463,9 +463,9 @@ When reading or writing mathematical texts, we usually don't have the advantage 
 
 It is often very cumbersome to describe precisely  quantities such as running time and is also not needed, since we are typically mostly interested in the "higher order terms".
 That is, we want to understand the _scaling behavior_ of the quantity as the input variable grows.
-For example, as far as running time goes, the difference between an $n^5$-time algorithm and an $n^2$-time one is much more significant than the difference between an $100n^2 + 10n$ time algorithm and an $10n^2$
+For example, as far as running time goes, the difference between an $n^5$-time algorithm and an $n^2$-time one is much more significant than the difference between an $100n^2 + 10n$ time algorithm and an $10n^2$ time algorithm.
 For this purpose, Oh notation is extremely useful as a way to "declutter" our text and focus our attention on what really matters.
-For example, using Oh notation, we can say that both $100n^2 + 10n$ and $10n^2$ are simply $\Theta(n^2)$ (which informally means "the same up to constant factors"), while $n^2 = o(n^5)$ (which informally means that $n^2$ is "much smaller than" $n^5$).
+For example, using Oh notation, we can say that both $100n^2 + 10n$ and $10n^2$ are simply $\Theta(n^2)$ (which informally means "the same up to constant factors"), while $n^2 = o(n^5)$ (which informally means that $n^2$ is "much smaller than" $n^5$).^[While Big Oh notation is often used to analyze running time of algorithms, this is by no means the only application. At the end of the day, Big Oh notation is just a way to express asymptotic inequalities between functions on integers. It can be used regardless of whether these functions are a measure of running time, memory usage, or any other quantity that may have nothing to do with computation.]
 
 
 Generally (though still informally), if $F,G$ are two functions mapping natural numbers to non-negative reals,  then "$F=O(G)$" means that  $F(n) \leq G(n)$ if we don't care about constant factors, while  "$F=o(G)$" means that $F$ is much smaller than $G$, in the sense that no matter by what constant factor we multiply $F$, if we take $n$ to be large enough then  $G$ will be bigger (for this reason, sometimes $F=o(G)$ is written as $F \ll G$).
@@ -498,7 +498,7 @@ Nevertheless, you should remember that a statement such as $F = O(G)$ means that
 
 It's often convenient to use "anonymous functions" in the context of Oh notation, and also  to emphasize the input parameter to the function.
 For example, when we write a statement such as $F(n) = O(n^3)$, we mean that  $F=O(G)$ where $G$ is the function defined by $G(n)=n^3$.
-Chapter 7 in [Jim Apsnes' notes on discrete math](http://www.cs.yale.edu/homes/aspnes/classes/202/notes.pdf) provides a good summary of Oh notation.
+Chapter 7 in [Jim Apsnes' notes on discrete math](http://www.cs.yale.edu/homes/aspnes/classes/202/notes.pdf) provides a good summary of Oh notation, see also [this tutorial](http://discrete.gr/complexity/) for a gentler and more programmer-oriented introduction.
 
 
 

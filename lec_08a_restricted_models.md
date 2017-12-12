@@ -8,7 +8,7 @@
 
 >_"Happy families are all alike; every unhappy family is unhappy in its own way"_,  Leo Tolstoy (opening of  the book "Anna Karenina").
 
-Many natural computational models turn out to be _equivalent_ to one another, in the sense that we can transform a "program" of that other model (such as a $\lambda$ expression, or a game-of-life configurations) into a NAND++ program.
+As we saw before, many natural computational models turn out to be _equivalent_ to one another, in the sense that we can transform a "program" of one  model (such as a $\lambda$ expression, or a game-of-life configurations) into another model (such as a NAND++ program).
 This equivalence implies that we can translate the uncomputability of the Halting problem for NAND++ programs into uncomputability for Halting in other models.
 For example:
 
@@ -88,10 +88,10 @@ $$
 (00|11)*
 $$
 
-The following regular expression over the alphabet $\{ a,b,c,d,0,1,2,3,4,5,6,7,8,9 \}$ corresponds to the set of all strings that consist of a sequence of one or more the letters $a$-$b$ followed by a sequence of one or more digits (without a leading zero):
+The following regular expression over the alphabet $\{ a,b,c,d,0,1,2,3,4,5,6,7,8,9 \}$ corresponds to the set of all strings that consist of a sequence of one or more of the letters $a$-$b$ followed by a sequence of one or more digits (without a leading zero):
 
 $$
-(a|b|c|d)(a|b|c|d)^*(1|2|3|4|5|6|7|8|9)(0|1|2|3|4|5|6|7|8|9)^*
+(a|b|c|d)(a|b|c|d)^*(1|2|3|4|5|6|7|8|9)(0|1|2|3|4|5|6|7|8|9)^* \label{regexpeq}
 $$
 
 
@@ -107,24 +107,32 @@ A _regular expression_ $exp$ over an alphabet $\Sigma$ is a string over $\Sigma 
 Finally we also allow the following "edge cases": $exp = \emptyset$ and $exp = ""$.^[These are the regular expressions corresponding to accepting no strings, and accepting only the empty string respectively.]
 
 
-Every regular expression $exp$ computes a function $\Phi_{exp}:\Sigma^* \rightarrow \{0,1\}$, where $\Phi_{exp}(x)=1$ if $x$ _matches_ the regular expression. So, for example if $exp = (00|11)^*$ then $\Phi_{exp}(x)=1$ if and only if $x$ is of even length and $x_{2i}=x_{2i+1}$ for every $i < |x|/2$.
+Every regular expression $exp$ computes a function $\Phi_{exp}:\Sigma^* \rightarrow \{0,1\}$, where $\Phi_{exp}(x)=1$ if $x$ _matches_ the regular expression.
+So, for example if $exp = (00|11)^*$ then $\Phi_{exp}(x)=1$ if and only if $x$ is of even length and $x_{2i}=x_{2i+1}$ for every $i < |x|/2$.
 Formally, the function is defined as follows:
 
-1. If $exp = \sigma$ then $\Phi_{exp}(x)=1$ iff $x=\sigma$ \
+1. If $exp = \sigma$ then $\Phi_{exp}(x)=1$ iff $x=\sigma$. \
 2. If $exp = (exp' | exp'')$ then $\Phi_{exp}(x) = \Phi_{exp'}(x) \vee \Phi_{exp''}(x)$ where $\vee$ is the OR operator. \
 3. If $exp = (exp')(exp'')$ then $\Phi_{exp}(x) = 1$ iff there is some $x',x'' \in \Sigma^*$ such that $x$ is the concatenation of $x'$ and $x''$ and $\Phi_{exp'}(x')=\Phi_{exp''}(x'')=1$.  \
-4. If $exp= (exp')*$ then $\Phi_{exp}(x)=1$ iff there are is $k\in \N$ and some $x_0,\ldots,x_{k-1} \in \Sigma^*$ such that $x$ is the concatenation $x_0 \cdots x_{k-1}$ and $\Phi_{exp'}(x_i)=1$ for every $i\in [k]$.
+4. If $exp= (exp')*$ then $\Phi_{exp}(x)=1$ iff there are is $k\in \N$ and some $x_0,\ldots,x_{k-1} \in \Sigma^*$ such that $x$ is the concatenation $x_0 \cdots x_{k-1}$ and $\Phi_{exp'}(x_i)=1$ for every $i\in [k]$. \
 5. Finally, for the edge cases $\Phi_{\emptyset}$ is the constant zero function, and $\Phi_{""}$ is the function that only outputs $1$ on the constant string.
 
-We say that a function $F:\Sigma^* \rightarrow \{0,1\}$ is _regular_ if $F=\Phi_{exp}$ for some regular expression $exp$. We say that a set $L \subseteq \Sigma^*$ (also known as a _language_) is _regular_ if the function $F$ s.t. $F(x)=1$ iff $x\in L$ is regular.
+We say that a function $F:\Sigma^* \rightarrow \{0,1\}$ is _regular_ if $F=\Phi_{exp}$ for some regular expression $exp$.
+We say that a set $L \subseteq \Sigma^*$ (also known as a _language_) is _regular_ if the function $F$ s.t. $F(x)=1$ iff $x\in L$ is regular.
+For example let $\Sigma=\{ a,b,c,d,0,1,2,3,4,5,6,7,8,9 \}$ and $F:\Sigma^* \rightarrow \{0,1\}$ be the function such that  $F(x)$ outputs $1$ iff $x$ consists of one or more of the letters $a$-$b$ followed by a sequence of one or more digits (without a leading zero).
+As shown by   [regexpeq](){.eqref}, the function $F:\Sigma^* \rightarrow \{0,1\}$ is computable by a regular expression.
+For example the string $abc12078$ matches the expression of [regexpeq](){.eqref} since $\Phi_{a|b|c|d}(a)=1$, ,$\Phi_{(a|b|c|d)^*}(bcd)=1$, $\Phi_{(1|2|\cdots|9)}(1)=1$, and $\Phi_{(0|\cdots|9)^*}(2078)=1$.
+
+
 
 > # { .pause }
 The definitions above might not be easy to grasp in a first read, so you should probably pause here and go over it again   until you understand why it corresponds to our intuitive notion of regular expressions.
 This is important not just for understanding regular expressions themselves (which are used time and again in a great many applications) but also for getting better at understanding recursive definitions in general.
 
 
-We can think of  regular expressions  as a type of  "programming language" that defines functions $exp: \Sigma^* \rightarrow \{0,1\}$.^[Regular expressions (and context free grammars, which we'll see below) are often thought of as _generative models_ rather than computational ones, since their definition does not immediately give rise to a way to _decide_ matches but rather to a way to generate matching strings by repeatedly choosing which rules to apply.]
-But it turns out that the "halting problem" for these functions is easy: they always halt.
+We can think of  regular expressions  as a type of  "programming language".
+That is, we can think of a regular expression $exp$ over the alphabet $\Sigma$ as a program that computes some function $\Phi:\Sigma^* \rightarrow \{0,1\}$.^[Regular expressions (and context free grammars, which we'll see below) are often thought of as _generative models_ rather than computational ones, since their definition does not immediately give rise to a way to _decide_ matches but rather to a way to generate matching strings by repeatedly choosing which rules to apply.]
+But it turns out that the "halting problem" for these programs is easy: they always halt.
 
 > # {.theorem title="Regular expression always halt" #regularexphalt}
 For every set $\Sigma$ and $exp \in (\Sigma \cup \{ "(",")","|","*" \})*$,  if $exp$ is a valid regular expression over $\Sigma$ then $\Phi_{exp}$ is a total function from $\Sigma^*$ to $\{0,1\}$.
@@ -142,10 +150,11 @@ But then we can follow the definition for the cases of concatenation, union, or 
 
 The proof of [regularexphalt](){.ref} gives a recursive algorithm to evaluate whether a given string matches or not a regular expression.
 However, it turns out that there is a much more efficient algorithm to match regular expressions.
-One way to obtain such an algorithm is to replace this recursive algorithm with [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming), using the technique of [memoization](https://en.wikipedia.org/wiki/Memoization).^[If you haven't taken yet an algorithms course such as CS 124, you might not know these techniques. This is OK, as, while  the more efficient algorithm is crucial for the many practical applications of regular expressions, is not of great importance to this course.]
+One way to obtain such an algorithm is to replace this recursive algorithm with [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming), using the technique of [memoization](https://en.wikipedia.org/wiki/Memoization).^[If you haven't taken yet an algorithms course such as Harvard CS 124, you might not know these techniques. This is OK;  while  the more efficient algorithm is crucial for the many practical applications of regular expressions, it is not of great importance to this course.]
 It turns out that the resulting dynamic program only requires maintaining a finite (independent of the input length) amount of state, and hence it can be viewed as a [finite state machine](https://en.wikipedia.org/wiki/Finite-state_machine) or finite automata.
-The relation of regular expressions with finite automate is a beautiful topic, and one we may return to later in this course.
+The relation of regular expressions with finite automata is a beautiful topic, and one we may return to later in this course.
 
+### Limitations of regular expressions
 
 The fact that functions computed by regular expressions always halt is of course one of the reasons why they are so useful.
 When you make a regular expression search, you are guaranteed that you will get a result.
@@ -198,13 +207,20 @@ Suppose, towards the sake of contradiction, that there is an expression $exp$ su
 $w =\langle^{n_0}\rangle^{n_0}$ (i.e., $n_0$ left parenthesis followed by $n_0$ right parenthesis). Then we see that if we write $w=xyz$ as in [regexpparn](){.ref}, the condition $|xy| \leq n_0$ implies that $y$ consists solely of left parenthesis. Hence the string $xy^2z$ will contain more left parenthesis than right parenthesis.
 Hence $MATCHPAREN(xy^2z)=0$ but by the pumping lemma $\Phi_{exp}(xy^2z)=1$, contradicting our assumption that $\Phi_{exp}=MATCHPAREN$.
 
+The pumping lemma is a very useful tool to show that certain functions are _not_ computable by a regular language. However, it is _not_ an "if and only if" condition for regularity.
+There are non regular functions which still satisfy the conditions of the pumping lemma.
+To understand the pumping lemma, it is important to follow the order of quantifiers in [pumping](){.ref}.
+In particular, the number $n_0$ in the statement of  [pumping](){.ref} depends on the regular expression (in particular we can choose $n_0$ to be twice the number of symbols in the expression).
+So, if we want to use the pumping lemma to rule out the existence of a regular expression $exp$ computing some function $F$, we need to be able to choose an appropriate $w$ that can be arbitrarily large and satisfies $F(w)=1$.
+This makes sense if you think about the intuition behind the pumping lemma: we need $w$ to be large enough as to force the use of the star operator.
+
 
 > # {.remark title="Regular expressions beyond searching" #netkat}
 Regular expressions are widely used beyond just searching. First, they are typically used to define _tokens_ in various formalisms such as programming data description languages. But they are also used beyond it. One nice example is the recent work on the [NetKAT network programming language](http://www.cs.cornell.edu/~jnfoster/papers/frenetic-netkat.pdf). In recent years, the world of networking moved from fixed topologies to  "software defined networks", that are run by programmable switches that can implement policies such as "if packet is SSL then forward it to A, otherwise forward it to B". By its nature, one would want to use a formalism for such policies that is guaranteed to always halt (and quickly!) and that where it is possible to answer semantic questions such as "does C see the packets moved from A to B" etc. The NetKAT language uses a variant of regular expressions to achieve that.
 
 
 
-## Context free grammars.
+## Context free grammars
 
 If you have ever written a program, you've  experienced  a _syntax error_.
 You might have had also the experience of your program entering into an _infinite loop_.
@@ -219,41 +235,77 @@ Let us try to define a function $ARITH:\Sigma^* \rightarrow \{0,1\}$ that takes 
 Intuitively, we build expressions by applying an operation to smaller expressions, or enclosing them in parenthesis, where the "base case" corresponds to expressions that are simply numbers.
 A bit more precisely, we can make the following definitions:
 
-* A _number_ is either $0$ or a sequence of digits not starting with $0$.
+* A _number_ is either a sequence of digits.^[For simplicity we drop the condition that the sequence does not have a leading zero, though it is not hard to encode it in a context-free grammar as well.]
 
 * An _operation_ is one of $+,-,\times,\div$
 
 * An _expression_ has either the form "_number_" or the form  "_subexpression1 operation subexpression2_" or "(_subexpression_)".
 
-A context free grammar is a formal way of specifying such conditions.^[Sections 2.1 and 2.3 in [Sipser's book](https://www.google.com/search?q=introduction+to+the+theory+of+computation) are excellent resources for context free grammars.]
+A context free grammar (CFG) is a formal way of specifying such conditions.^[Sections 2.1 and 2.3 in [Sipser's book](https://goo.gl/oe1BhY) are excellent resources for context free grammars.]
+We can think of a CFG as a set of rules to _generate_  valid expressions.
+In the example above, the rule $expression \; \Rightarrow\; expression \; \times \; expression$ tells us that if we have built two valid expressions $exp1$ and $exp2$, then the expression $exp1 \; \times \; exp2$ is valid above.
+
+We can divide our rules to "base rules" and "recursive rules".
+The "base rules"  are rules  such as $number \; \Rightarrow \; 0$, $number \; \Rightarrow \; 1$, $number \; \Rightarrow \; 2$ and so on, that tell us that a single digit is a number.
+The "recursive rules" are rules  such as $number \; Rightarrow 1\, number$ that tell us that if we add a digit to a valid number then we still have a valid number.
+
 
 > # {.definition title="Context Free Grammar" #defcfg}
 Let $\Sigma$ be some finite set. A _context free grammar (CFG) over $\Sigma$_ is a triple $(V,R,s)$ where $V$ is a set disjoint from $\Sigma$ of _variables_, $R$ is a set of _rules_, which are pairs $(v,z)$ (which we will write as $v \Rightarrow z$) where $v\in V$ and $z\in (\Sigma \cup V)^*$, and $s\in V$ is the starting rule.
 
 
-If $G=(V,R,s)$ is a context-free grammar over $\Sigma$, then for two strings $\alpha,\beta \in (\Sigma \cup V)^*$ we say that $\beta$ _can be derived in one step_ from $\alpha$, denoted by  $\alpha \Rightarrow_G \beta$, if we can obtain $\beta$ from $\alpha$ by applying one of the rules of $G$. That is, we obtain $\beta$ by replacing in $\alpha$ one occurence of the variable $v$ with the string $z$, where $v \Rightarrow z$ is a rule of $G$.
-We say that $\beta$ _can be derived_ from $\alpha$, denoted by $\alpha \Rightarrow_G^* \beta$, if it can be derived by some finite number $k$ of steps. That is, if there are $\alpha_1,\ldots,\alpha_{k-1} \in (\Sigma \cup V)^*$, so that $\alpha \Rightarrow_G \alpha_1 \Rightarrow_G \alpha_2 \Rightarrow_G \cdots \Rightarrow_G \alpha_{k-1} \Rightarrow_G \beta$.
 
-
-We define the _function computed by_ $(V,R,s)$ to be the map $\Phi_{V,R,s}:\Sigma^* \rightarrow \{0,1\}$ such that $\Phi_{V,R,s}(x)=1$ iff  $s \Rightarrow^*_G x$.
-We say that $F:\Sigma^* \rightarrow \{0,1\}$ is _context free_ if $F = \Phi_{V,R,s}$ for some CFG $(V,R,s)$ we say that a set $L \subseteq \Sigma^*$ (also knoan as a _language_) is _context free_ if the function $F$ such that $F(x)=1$ iff $x\in L$ is context free.
 
 
 The example above of well-formed arithmetic expressions can be captured formally by the following context free grammar:
 
 * The alphabet $\Sigma$ is  $\{ (,),+,-,\times,\div,0,1,2,3,4,5,6,7,8,9\}$
 
-* The variables are $V = \{ expression, operation \}$.
+* The variables are $V = \{ expression \;,\; number \;,\; digit \;,\; operation \}$.
 
-* The rules  are the  set $R$ containing the following pairs:^[For the sake of clarify, we use quotation marks $".."$ to enclose the string which is the second pair of each rule. Also, note that our rules below,  slightly differ from those illustrated above. The two sets of rules compute the same function, but the description below has been modified to be an equivalent form of the reulsts above that doesn't have a rule whose righthand side is only variables. We could have also relaxed the condition of containing an alphabet symbol by only requiring that rules with no alphabet symbols induce a _directed acyclic graph_ over the variables.]
-   - $number \Rightarrow 0$  and $number \Rightarrow 1number$,$\ldots$, $number \Rightarrow 9number$
-   - $expression\ Rightarrow (expression)$ , $expression \Rightarrow expression+expression$, $expression \Rightarrow expression-expression$, $expression \Rightarrow expression \times expression$, $(expression \Rightarrow expression \div expression$, $expression \Rightarrow 0$,$(expression \Rightarrow 1number$,$\ldots$,$expression \Rightarrow 9number$.
+* The rules  correspond the  set $R$ containing the following pairs:
+   - $operation \Rightarrow +$, $operation \Rightarrow -$,   $operation \Rightarrow \times$, $operation \Rightarrow \div$
+   - $digit \Rightarrow 0$,$\ldots$, $digit \Rightarrow 9$
+   - $number \Rightarrow digit$
+   - $number \Rightarrow digit\; number$
+   - $expression \Rightarrow number$
+   - $expression \Rightarrow expression \; operation \; expression$
+   - $expression \Rightarrow (expression)$
 
 * The starting variable is $expression$
 
 There are various notations to write context free grammars in the literature, with one of the most common being [Backus–Naur form](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form) where we write a rule of the form $v \Rightarrow a$ (where $v$ is a variable and $a$ is a string) in the form  `<v> := a`.
 If we have several rules of the form $v \mapsto a$, $v \mapsto b$, and $v \mapsto c$ then we can combine them as `<v> := a|b|c` (and this similarly extends for the case of more rules).
+For example, the Backus-Naur description for the context free grammar above is (using ASCII equivalents for operations):
 
+~~~~ { .go }
+operation  := +|-|*|/
+digit      := 0|1|2|3|4|5|6|7|8|9
+number     := digit|digit number   
+expression := number|expression operation expression|(expression)
+~~~~
+
+Another example of a context free grammar is the "matching parenthesis" grammar, which can be represented in Backus-Naur as follows:
+
+~~~~ { .go }
+match  := ""|match match|(match)
+~~~~
+
+You can verify that a string over the alphabet $\{$ `(`,`)` $\}$ can be generated from this grammar (where `match` is the starting expression and `""` corresponds to the empty string) if and only if it consists of a matching set of parenthesis.
+
+### Context-free grammars as a computational model
+
+We can think of a CFG over the alphabet $\Sigma$ as defining a function that maps every string $x$ in $\Sigma^*$ to $1$ or $0$ depending on whether $x$ can be generated by the rules of the grammars.
+We now make this definition formally.
+
+> # {.definition title="Deriving a string from a grammar" #CFGderive}
+If $G=(V,R,s)$ is a context-free grammar over $\Sigma$, then for two strings $\alpha,\beta \in (\Sigma \cup V)^*$ we say that $\beta$ _can be derived in one step_ from $\alpha$, denoted by  $\alpha \Rightarrow_G \beta$, if we can obtain $\beta$ from $\alpha$ by applying one of the rules of $G$. That is, we obtain $\beta$ by replacing in $\alpha$ one occurence of the variable $v$ with the string $z$, where $v \Rightarrow z$ is a rule of $G$.
+>
+We say that $\beta$ _can be derived_ from $\alpha$, denoted by $\alpha \Rightarrow_G^* \beta$, if it can be derived by some finite number $k$ of steps. That is, if there are $\alpha_1,\ldots,\alpha_{k-1} \in (\Sigma \cup V)^*$, so that $\alpha \Rightarrow_G \alpha_1 \Rightarrow_G \alpha_2 \Rightarrow_G \cdots \Rightarrow_G \alpha_{k-1} \Rightarrow_G \beta$.
+>
+We define the _function computed by_ $(V,R,s)$ to be the map $\Phi_{V,R,s}:\Sigma^* \rightarrow \{0,1\}$ such that $\Phi_{V,R,s}(x)=1$ iff  $s \Rightarrow^*_G x$.
+>
+We say that $F:\Sigma^* \rightarrow \{0,1\}$ is _context free_ if $F = \Phi_{V,R,s}$ for some CFG $(V,R,s)$ we say that a set $L \subseteq \Sigma^*$ (also knoan as a _language_) is _context free_ if the function $F$ such that $F(x)=1$ iff $x\in L$ is context free.
 
 
 A priori it might not be clear that the map $\Phi_{V,R,s}$ is computable, but it turns out that we can in fact compute it.
@@ -265,12 +317,13 @@ For every CFG $(V,R,s)$ over $\Sigma$, the function $\Phi_{V,R,s}:\Sigma^* \righ
 
 > # {.proof data-ref="CFGhalt"}
 We only sketch the proof.
-It turns out that we can convert every CFG to an quivalent version that has the so called _Chomsky normal form_, where all rules either have the form $u \rightarrow vw$ for variables $u,v,w$ or the form $u \rightarrow \sigma$ for a variable $u$ and symbol $\sigma \in \Sigma$, plus potentially the rule $s \rightarrow ""$ where $s$ is the starting variable.
+It turns out that we can convert every CFG to an equivalent version that has the so called _Chomsky normal form_, where all rules either have the form $u \rightarrow vw$ for variables $u,v,w$ or the form $u \rightarrow \sigma$ for a variable $u$ and symbol $\sigma \in \Sigma$, plus potentially the rule $s \rightarrow ""$ where $s$ is the starting variable.
 (The idea behind such a transformation is to simply add new variables as needed, and so for example we can translate a rule such as $v \rightarrow u\sigma w$ into the three rules $v \rightarrow ur$, $r \rightarrow tw$ and $t \rightarrow \sigma$.)
 >
 Using this form we get a natural recursive algorithm for computing whether $s \Rightarrow_G^* x$ for a given grammar $G$ and string $x$.
 We simply try all possible guesses for the first rule $s \rightarrow uv$   that is used in such a derivation, and then all possible ways to partition $x$ as a concatenation $x=x'x''$. If we guessed the rule and the partition correctly, then this reduces our task to checking whether $u \Rightarrow_G^* x'$ and $v \Rightarrow_G^* x''$, which (as it involves shorter strings) can be done recursively. The base cases are when $x$ is empty or a single symbol, and can be easily handled.
 
+### The power of context free grammars
 
 While we can (and people do) talk about context free grammars over any alphabet $\Sigma$, in the following we will restrict ourselves to $\Sigma=\{0,1\}$. This is of course not a big restriction, as any finite alphabet $\Sigma$ can be encoded as strings of some finite size.
 It turns out that context free grammars can capture every regular expression:
@@ -288,8 +341,8 @@ Case 3 will be the only one that uses _recursion_. As before  we add a new start
 >
 We leave it to the reader as (again a very good!) exercise to verify that in all three cases the grammars we produce  capture the same function as the original expression.
 
-It turns out that CFG's are strictly more powerful than regular expressions. In particular, the "matching parenthesis" function can be computed by a context free grammar.
-Specifically, consider the grammar $(V,R,s)$ where $V=\{s\}$ and $R$ is $s \mapsto ""$, $s \mapsto (s)s$, and $s \mapsto s(s)$. It is not hard to see that it captures exactly the set of strings over $\{ (,)\}$ that correspond to matching parenthesis.
+It turns out that CFG's are strictly more powerful than regular expressions.
+In particular, as we've seen,  the "matching parenthesis" function   $MATCHPAREN$ can be computed by a context free grammar, whereas, as shown in [regexpparn](){.ref}, it cannot be computed by regular expressoins.
 However, there are some simple languages that are _not_ captured by context free grammars, as can be shown via the following version of [pumping](){.ref}
 
 > # {.theorem title="Context-free pumping lemma" #cfgpumping}
