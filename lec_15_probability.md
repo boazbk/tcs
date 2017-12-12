@@ -12,7 +12,7 @@
 
 >_"God doesn't play dice with the universe"_, Albert Einstein
 
->_"Einstein was doubly wrong ... not only does God definitely play dice, but He sometimes confuses us by throwing them where they can't be seen."_, Stephan Hawking
+>_"Einstein was doubly wrong ... not only does God definitely play dice, but He sometimes confuses us by throwing them where they can't be seen."_, Stephen Hawking
 
 >_"'The probability of winning a battle' has no place in our theory because it does not belong to any [random experiment]. Probability cannot be applied to this problem any more than the physical concept of work can be applied to the 'work' done by an actor reciting his part."_, Richard Von Mises, 1928 (paraphrased)
 
@@ -21,7 +21,7 @@
 
 Before we show how to use randomness in algorithms, let us do a quick review of some basic notions in probability theory.
 This is not meant to replace a course on probability theory, and if you have not seen this material before, I highly recommend you look at additional resources to get up to speed.^[Harvard's [STAT 110](http://projects.iq.harvard.edu/stat110/home) class (whose lectures are available on [youtube](http://projects.iq.harvard.edu/stat110/youtube) ) is a highly recommended introduction to probability. See also these [lecture notes](http://www.boazbarak.org/cs121/LLM_probability.pdf) from MIT's "Mathematics for Computer Science" course.]
-Fortunately, we will not need many of the advanced notions of probability theory, but, as we will see, even the so called "simple" setting of tossing $n$ coins can lead to very subtle and interesting issues.
+Fortunately, we will not need many of the advanced notions of probability theory, but, as we will see, even the so-called "simple" setting of tossing $n$ coins can lead to very subtle and interesting issues.
 
 
 
@@ -38,17 +38,17 @@ These are all important questions that have been studied and debated by  scienti
 Fortunately, we will not  need to deal directly with these questions here.
 We will be mostly interested in the setting of tossing $n$ random, unbiased and independent coins.
 Below we define the basic probabilistic objects of _events_ and  _random variables_ when restricted to this setting.
-These can be defined for much more general probabilistic experiments or _sample spaces_, and later on we will briefly discuss how this can be done, though the $n$-coin case is sufficient for almost everything we'll need in this course.
+These can be defined for much more general probabilistic experiments or _sample spaces_, and later on we will briefly discuss how this can be done. However, the $n$-coin case is sufficient for almost everything we'll need in this course.
 
 If instead of "heads" and "tails" we encode the sides of each coin by "zero" and "one", we can encode the result of tossing $n$ coins as a string in $\{0,1\}^n$.
 Each particular outcome $x\in \{0,1\}^n$ is obtained with probability $2^{-n}$.
 For example, if we toss three coins, then we obtain each of the 8 outcomes $000,001,010,011,100,101,110,111$ with probability $2^{-3}=1/8$ (see also [coinexperimentfig](){.ref}).
 We can  describe the experiment of tossing $n$ coins as choosing a string $x$ uniformly at random from $\{0,1\}^n$, and hence we'll use the shorthand $x\sim \{0,1\}^n$ for $x$ that is chosen according to this experiment.
 
-![The probabilistic experiment of tossing three coins corresponds  to making $2\times 2 \times 2 = 8$ choices, each with equal probability. In this example, the blue set corresponds to the event $A = \{ x\in \{0,1\}^3 \;|\; x_0 = 0 \}$ where the first coin toss is equal to $0$,  the pink set corresponds to the event $B = \{ x\in \{0,1\}^3 \;|\; x_1 = 1 \}$ where the second coin toss is equal to $1$ (with their intersection having a purplish color). As we can see, each of these events contains $4$ elements (out of $8$ total) and so has probability $1/2$. The intersection of $A$ and $B$ contains two elements, and so the probability that both of these events occur is $\tfrac{2}{8}=\tfrac{1}{4}$](../figure/coinexperiment.png){#coinexperimentfig .class width=300px height=300px}
+![The probabilistic experiment of tossing three coins corresponds  to making $2\times 2 \times 2 = 8$ choices, each with equal probability. In this example, the blue set corresponds to the event $A = \{ x\in \{0,1\}^3 \;|\; x_0 = 0 \}$ where the first coin toss is equal to $0$,  and the pink set corresponds to the event $B = \{ x\in \{0,1\}^3 \;|\; x_1 = 1 \}$ where the second coin toss is equal to $1$ (with their intersection having a purplish color). As we can see, each of these events contains $4$ elements (out of $8$ total) and so has probability $1/2$. The intersection of $A$ and $B$ contains two elements, and so the probability that both of these events occur is $\tfrac{2}{8}=\tfrac{1}{4}$](../figure/coinexperiment.png){#coinexperimentfig .class width=300px height=300px}
 
 An _event_ is simply a subset $A$ of $\{0,1\}^n$.
-The _probability of $A$_, denoted by $\Pr_{x\sim \{0,1\}^n}[A]$ (or $\Pr[A]$ for short, when the sample space is understood from the context), is  the probability that a random $x$ chosen uniformly at random will be  contained in $A$.
+The _probability of $A$_, denoted by $\Pr_{x\sim \{0,1\}^n}[A]$ (or $\Pr[A]$ for short, when the sample space is understood from the context), is  the probability that an $x$ chosen uniformly at random will be  contained in $A$.
 Note that this is the same as $|A|/2^n$ (where $|A|$ as usual denotes the number of elements in the set $A$).
 For example, the probability that $x$ has an even number of ones is $\Pr[A]$ where $A=\{ x : \sum_{i=0}^{n-1} x_i \;= 0 \mod 2 \}$.
 In the case $n=3$, $A=\{ 000,011,101,110 \}$, and hence $\Pr[A]=\tfrac{4}{8}=\tfrac{1}{2}$.
@@ -82,10 +82,10 @@ If $A \subseteq \{0,1\}^n$ is an event, then $\overline{A} = \{0,1\}^n \setminus
 Since $|\overline{A}|=2^n-|A|$, we get that
 $$\Pr[\overline{A}] = \tfrac{|\overline{A}|}{2^n} = \tfrac{2^n-|A|}{2^n}=1-\tfrac{|A|}{2^n} = 1- \Pr[A]
 $$
-This makese sense: since $A$ happens if and only if $\overline{A}$ does _not_ happen, the probability of $\overline{A}$ should be one minus the probability of $A$.
+This makes sense: since $A$ happens if and only if $\overline{A}$ does _not_ happen, the probability of $\overline{A}$ should be one minus the probability of $A$.
 
 > # {.remark title="Remember the sample space" #samplespace}
-While the above definition might seem very simple and almost trivial,  the human mind seems to have not evolved for probabilistic reasoning, and it is surprising how often people can get even the simplest settings of probability wrong.
+While the above definition might seem very simple and almost trivial,  the human mind seems not to have evolved for probabilistic reasoning, and it is surprising how often people can get even the simplest settings of probability wrong.
 One way to make sure you don't get confused when trying to calculate probability statements is to always ask yourself the following two questions: __(1)__ Do I understand what is the __sample space__ that this probability is taken over?, and __(2)__ Do I understand what is the definition of the __event__ that we are analyzing?.
 >
 For example, suppose that I were to randomize seating in my course, and then it turned out that students sitting in row 7 performed better on the final: how surprising should we find this? If we started out with the hypothesis that there is something special about the number 7 and chose it ahead of time, then the event that we are discussing is the event $A$  that students sitting in number 7 had better performance on the final, and we might find it surprising. However, if we first looked at the results and then chose the row whose average performance is best, then the event we are discussing is the event $B$ that there exists _some_  row where the performance is higher than the overall average. $B$ is a superset of $A$, and its probability (even if there is no correlation between sitting and performance) can be quite significant.
@@ -94,11 +94,11 @@ For example, suppose that I were to randomize seating in my course, and then it 
 
 ### Random variables
 
-_Events_ corresponds to Yes/No question, but often we want to analyze finer questions.
-For example, if we make a bet at the roulette wheel, we don't want to just analyze whether we won or lost but _how_ much we've gained.
+_Events_ correspond to Yes/No questions, but often we want to analyze finer questions.
+For example, if we make a bet at the roulette wheel, we don't want to just analyze whether we won or lost, but also _how much_ we've gained.
 A (real valued) _random variable_ is simply a way to associate a number with the result of a probabilistic experiment.
-Formally, a random variable is simple  a function $X:\{0,1\}^n \rightarrow \R$ that maps every outcome $x\in \{0,1\}^n$ to a real number $X(x)$.^[In many probability texts a random variable is always defined to have values in the set $\R$ of real numbers, and this will be our default option as well. However, in some  contexts in theoretical computer science we can consider random variables mapping to other sets such as $\{0,1\}^*$.]
-For example, the function $sum:\{0,1\}^n \rightarrow \R$ that maps $x$ to the sum of its ccordinates (i.e., to $\sum_{i=0}^{n-1} x_i$) is a random variable.
+Formally, a random variable is simply  a function $X:\{0,1\}^n \rightarrow \R$ that maps every outcome $x\in \{0,1\}^n$ to a real number $X(x)$.^[In many probability texts a random variable is always defined to have values in the set $\R$ of real numbers, and this will be our default option as well. However, in some  contexts in theoretical computer science we can consider random variables mapping to other sets such as $\{0,1\}^*$.]
+For example, the function $sum:\{0,1\}^n \rightarrow \R$ that maps $x$ to the sum of its coordinates (i.e., to $\sum_{i=0}^{n-1} x_i$) is a random variable.
 
 
 The _expectation_ of a random variable $X$, denoted by $\E[X]$, is the average value that that this number takes, taken over all draws from the probabilistic experiment.
@@ -110,7 +110,7 @@ $$
 
 
 If $X$ and $Y$ are random variables, then we can define $X+Y$ as simply the random variable that maps a point $x\in \{0,1\}^n$ to $X(x)+Y(x)$.
-One of the basic and useful properties of the expectation is that is is _linear_:
+One basic and very useful property of the expectation is that is is _linear_:
 
 > # {.lemma title="Linearity of expectation" #linearityexp}
 $$ \E[ X+Y ] = \E[X] + \E[Y] $$
@@ -130,9 +130,9 @@ Indeed, if we write $X= \sum_{i=0}^{n-1} x_i$ then $X= X_0 + \cdots + X_{n-1}$ w
 
 
 > # { .pause }
-If you have not seen discrete probability before, please go over this argument again until you are sure you follow it, it is a prototypical simple example of the type of reasoning we will employ again and again in this course.
+If you have not seen discrete probability before, please go over this argument again until you are sure you follow it; it is a prototypical simple example of the type of reasoning we will employ again and again in this course.
 
-If $A$ is an event, then $1_A$ is the random variable such that $1_A(x)$ equals $1$ if $x\in A$ and $1_A(x)=0$ otherwise.
+If $A$ is an event, then $1_A$ is the random variable such that $1_A(x)$ equals $1$ if $x\in A$, and $1_A(x)=0$ otherwise.
 Note that $\Pr[A] = \E[1_A]$ (can you see why?).
 Using this and the linearity of expectation, we can show one of the most useful bounds in probability theory:
 
@@ -152,7 +152,7 @@ The way we often use this in theoretical computer science is to argue that, for 
 
 ### Distributions over strings
 
-While most of the time we think of random variables as having output a _real number_, we sometimes consider random variables whose output is a _string_.
+While most of the time we think of random variables as having as output a _real number_, we sometimes consider random variables whose output is a _string_.
 That is, we can think of a map $Y:\{0,1\}^n \rightarrow \{0,1\}^*$ and consider the "random variable" $Y$ such that for every $y\in \{0,1\}^*$, the probability that $Y$ outputs $y$ is equal to $\tfrac{1}{2^n}\left| \{ x \in \{0,1\}^n \;|\; Y(x)=y \}\right|$.
 To avoid confusion, we will typically  refer to such string-valued random variables as _distributions_ over strings.
 So, a _distribution_ $Y$ over strings $\{0,1\}^*$ can be thought of as a finite collection of strings $y_0,\ldots,y_{M-1} \in \{0,1\}^*$ and probabilities $p_0,\ldots,p_{M-1}$ (which are non-negative numbers summing up to one), so that $\Pr[ Y = y_i ] = p_i$.
@@ -171,8 +171,8 @@ While in this lecture we assume that the underlying probabilistic experiment   c
 A _probability distribution_  over a finite set $S$ is simply a function $\mu : S \rightarrow [0,1]$ such that
 $\sum_{x\in S}\mu(s)=1$.
 We think of this as the experiment where we obtain every $x\in S$ with probability $\mu(s)$, and sometimes denote this as $x\sim \mu$.
-An _event_ $A$ is a subset of $S$, and the probability of $A$, which we denote by $\Pr_\mu[A]$ is $\sum_{x\in A} \mu(x)$.
-A _random variable_ is a function $X:S \rightarrow \R$, where the probability that $X=y$ is equal to $\sum_{x\in S \text{s.t.} X(x)=y} \mu(x)$.
+An _event_ $A$ is a subset of $S$, and the probability of $A$, which we denote by $\Pr_\mu[A]$, is $\sum_{x\in A} \mu(x)$.
+A _random variable_ is a function $X:S \rightarrow \R$, where the probability that $X=y$ is equal to $\sum_{x\in S \text{ s.t. } X(x)=y} \mu(x)$.
 
 
 ^[TODO: add exercise on simulating die tosses and choosing a random number in $[m]$ by coin tosses]
@@ -183,15 +183,15 @@ A _random variable_ is a function $X:S \rightarrow \R$, where the probability th
 One of the most delicate but important concepts in probability is the notion of _independence_ (and the opposing notion of _correlations_).
 Subtle correlations are often behind surprises and errors in probability and statistical analysis, and several mistaken predictions have been blamed on miscalculating the correlations between, say, housing prices in Florida and Arizona, or voter preferences in Ohio and Michigan. See also Joe Blitzstein's aptly named talk ["Conditioning is the Soul of Statistics"](https://youtu.be/dzFf3r1yph8).^[Another thorny issue is of course the difference between _correlation_ and _causation_. Luckily, this is another point we don't need to worry about in our clean setting of tossing $n$ coins.]  
 
-Two events $A$ and $B$ are _independent_ if the fact that $A$ happened does not make $B$ neither more nor less likely to happen.
-For example, if we think of the experiment of tossing $3$ random coins $x\in \{0,1\}^3$, and let $A$ be the event that $x_0=1$ and $B$ the event that $x_0 + x_1 + x_2 \geq 2$, then if $A$ happens it is more likely that $B$ happens, and hence these events are _not_ independent.
+Two events $A$ and $B$ are _independent_ if the fact that $A$ happens makes $B$ neither more nor less likely to happen.
+For example, if we think of the experiment of tossing $3$ random coins $x\in \{0,1\}^3$, and we let $A$ be the event that $x_0=1$ and $B$ the event that $x_0 + x_1 + x_2 \geq 2$, then if $A$ happens it is more likely that $B$ happens, and hence these events are _not_ independent.
 On the other hand, if we let $C$ be the event that $x_1=1$, then because the second coin toss is not affected by the result of the first one, the events $A$ and $C$ are independent.
 
 The formal definition is that  events $A$ and $B$ are _independent_ if $\Pr[A \cap B]=\Pr[A] \cdot \Pr[B]$.
 If $\Pr[A \cap B] > \Pr[A]\cdot \Pr[B]$ then we say that $A$ and $B$ are _positively correlated_, while if $\Pr[ A \cap B] < \Pr[A] \cdot \Pr[B]$ then we say that $A$ and $B$ are _negatively correlated_ (see [coinexperimentfig](){.ref}).
 
 
-![Two events $A$ and $B$ are _independent_ if $\Pr[A \cap B]=\Pr[A]\cdot \Pr[B]$. In the two figures above, the empty $x\times x$ square is the sample space, and $A$ and $B$ are two events in this sample space. In the left figure $A$ and $B$ are independent, while in the right figure they are negatively correlated, since $B$ is less likely to occur if we condition on $A$ (and vice versa). Mathematically, one can see this by noticing that in the left figure the areas of $A$ and $B$ respectively are $a\cdot x$ and $b\cdot x$, and so their probabilities are $\tfrac{a\cdot x}{x^2}=\tfrac{a}{x}$ and
+![Two events $A$ and $B$ are _independent_ if $\Pr[A \cap B]=\Pr[A]\cdot \Pr[B]$. In the two figures above, the empty $x\times x$ square is the sample space, and $A$ and $B$ are two events in this sample space. In the left figure, $A$ and $B$ are independent, while in the right figure they are negatively correlated, since $B$ is less likely to occur if we condition on $A$ (and vice versa). Mathematically, one can see this by noticing that in the left figure the areas of $A$ and $B$ respectively are $a\cdot x$ and $b\cdot x$, and so their probabilities are $\tfrac{a\cdot x}{x^2}=\tfrac{a}{x}$ and
 $\tfrac{b\cdot x}{x^2}=\tfrac{b}{x}$ respectively, while the area of $A \cap B$ is $a\cdot b$ which corresponds to the probability $\tfrac{a\cdot b}{x^2}$. In the right figure, the area of the triangle $B$ is $\tfrac{b\cdot x}{2}$ which corresponds to a probability of  $\tfrac{b}{2x}$, but the area of $A \cap B$ is $\tfrac{b' \cdot a}{2}$ for some $b'<b$. This means that the probability of $A \cap B$ is $\tfrac{b'\cdot a}{2x^2} < \tfrac{b}{2x} \cdot \tfrac{a}{x}$, or in other words $\Pr[A \cap B ] < \Pr[A] \cdot \Pr[B]$.](../figure/independence.png){#independencefig .class width=300px height=300px}
 
 
@@ -211,27 +211,27 @@ $$
 $$
 
 and hence, as we already observed, the events $\{ x_0 = 1 \}$ and $\{ x_0+x_1+x_2 \geq 2 \}$ are  not independent and in fact are positively correlated.
-On the other hand $\Pr[ x_0 = 1 \wedge x_1 = 1 ] = \Pr[ \{110,111 \}] = \tfrac{2}{8} = \tfrac{1}{2} \cdot \tfrac{1}{2}$ and hence the events $\{x_0 = 1 \}$ and $\{ x_1 = 1 \}$ are indeed independent.
+On the other hand, $\Pr[ x_0 = 1 \wedge x_1 = 1 ] = \Pr[ \{110,111 \}] = \tfrac{2}{8} = \tfrac{1}{2} \cdot \tfrac{1}{2}$ and hence the events $\{x_0 = 1 \}$ and $\{ x_1 = 1 \}$ are indeed independent.
 
 > # {.remark title="Disjointness vs independence" #disjoint}
-People sometimes confuse the notion of _disjointness_ and _independence_ but these are actually quite different.
+People sometimes confuse the notion of _disjointness_ and _independence_, but these are actually quite different.
 Two events $A$ and $B$ are _disjoint_ if $A \cap B = \emptyset$, which means that if $A$ happens then $B$ definitely does not happen. They are _independent_ if $\Pr[A \cap B]=\Pr[A]\Pr[B]$ which means that knowing that $A$ happens gives us no information about whether $B$ happened or not. If $A$ and $B$ have nonzero probability, then being disjoint implies that they are _not_ independent, since in particular it means that they are negatively correlated.
 
 
 
 __Conditional probability:__ If $A$ and $B$ are events, and $A$ happens with nonzero probability then we define the probability that $B$ happens _conditioned on $A$_ to be $\Pr[B|A] = \Pr[A \cap B]/\Pr[A]$.
-This corresponds to calculating the probability that $B$ happened if we already know that $A$ happened.
+This corresponds to calculating the probability that $B$ happens if we already know that $A$ happened.
 Note that $A$ and $B$ are independent if and only if $\Pr[B|A]=\Pr[B]$.
 
 __More than two events:__ We can generalize this definition to more than two events.
 We say that events $A_1,\ldots,A_k$ are _mutually independent_ if knowing that any set of them occurred or didn't occur does not change the probability that an event outside the set occurrs.
-Formally the condition is that for every subset $I \subseteq [k]$,
+Formally, the condition is that for every subset $I \subseteq [k]$,
 $$
-\Pr[ \wedge_{i\in I} A_i] =\prod_{i\in I} \Pr[A_i]
+\Pr[ \wedge_{i\in I} A_i] =\prod_{i\in I} \Pr[A_i].
 $$
 
 For example, if $x\sim \{0,1\}^3$, then the events $\{ x_0=1 \}$, $\{ x_1 = 1\}$ and $\{x_2 = 1 \}$ are mutually independent.
-On the other hand, the events $\{x_0 = 1 \}$, $\{x_1 = 1\}$ and $\{ x_0 + x_1 = 0 \mod 2 \}$ are _not_ mutually independent even though every pair of these events is independent (can you see why? see also [independencecoinsfig](){.ref}).
+On the other hand, the events $\{x_0 = 1 \}$, $\{x_1 = 1\}$ and $\{ x_0 + x_1 = 0 \mod 2 \}$ are _not_ mutually independent, even though every pair of these events is independent (can you see why? see also [independencecoinsfig](){.ref}).
 
 
 ![Consider the sample space $\{0,1\}^n$ and the events $A,B,C,D,E$ corresponding to $A$: $x_0=1$, $B$: $x_1=1$, $C$: $x_0+x_1+x_2 \geq 2$, $D$: $x_0+x_1+x_2 = 0 \mod 2$ and $D$: $x_0+x_1 = 0 \mod 2$. We can see that $A$ and $B$ are independent, $C$ is positively correlated with $A$ and positively correlated with $B$, the three events $A,B,D$ are mutually independent, and while every pair out of $A,B,E$ is independent, the three events $A,B,E$ are not mutually independent since their intersection has probability $\tfrac{2}{8}=\tfrac{1}{4}$ instead of $\tfrac{1}{2}\cdot \tfrac{1}{2} \cdot \tfrac{1}{2} = \tfrac{1}{8}$.](../figure/independencecoins.png){#independencecoinsfig .class width=300px height=300px}
@@ -248,7 +248,7 @@ $X,Y:\{0,1\}^n \rightarrow \R$ be random variables such that $X=F(x_{s_0},\ldots
 Then $X$ and $Y$ are independent.
 
 > # { .pause }
-The notation in the lemma's statement is a bit cumbersome, but at the end of the day it simply says that if $X$ and $Y$ are random variables that depends on two disjoin sets $S$ and $T$ of coins (for example, $X$ might be the sum of the first $n/2$ coins, and $Y$ might be the largest consecutive stretch of zeroes in the second $n/2$ coins), then they are independent.
+The notation in the lemma's statement is a bit cumbersome, but at the end of the day, it simply says that if $X$ and $Y$ are random variables that depend on two disjoint sets $S$ and $T$ of coins (for example, $X$ might be the sum of the first $n/2$ coins, and $Y$ might be the largest consecutive stretch of zeroes in the second $n/2$ coins), then they are independent.
 
 > # {.proof data-ref="indcoins"}
 Let $a,b\in \R$, and let $A = \{ x \in \{0,1\}^k : F(x)=a \}$ and $B=\{ x\in \{0,1\}^m : F(x)=b \}$.
@@ -256,12 +256,12 @@ Since $S$ and $T$ are disjoint, we can reorder the indices so that $S = \{0,\ldo
 Hence we can write $\Pr[X=a \wedge X=b] = |C|/2^n$ where $C= \{ x_0,\ldots,x_{n-1} : (x_0,\ldots,x_{k-1}) \in A \wedge (x_k,\ldots,x_{k+m-1}) \in B \}$.
 Another way to write this using string concatenation is that $C = \{ xyz : x\in A, y\in B, z\in \{0,1\}^{n-k-m} \}$, and hence $|C|=|A||B|2^{n-k-m}$, which means that
 $$
-\tfrac{|C|}{2^n} = \tfrac{|A|}{2^k}\tfrac{|B|}{2^m}\tfrac{2^{n-k-m}}{2^{n-k-m}}=\Pr[X=a]\Pr[Y=b]
+\tfrac{|C|}{2^n} = \tfrac{|A|}{2^k}\tfrac{|B|}{2^m}\tfrac{2^{n-k-m}}{2^{n-k-m}}=\Pr[X=a]\Pr[Y=b] .
 $$
 
 
 
-Note that if $X$ and $Y$ are independent random variables then (if we let $S_X,S_Y$ denote all the numbers that have positive probability of being the output of $X$ and $Y$ respectively) it holds that:
+Note that if $X$ and $Y$ are independent random variables then (if we let $S_X,S_Y$ denote all the numbers that have positive probability of being the output of $X$ and $Y$, respectively) it holds that:
 $$
 \begin{split}
 \E[ XY ] = \sum_{a \in S_X,b \in S_Y} {\textstyle\Pr[X=a \wedge Y=b]}\cdot ab \; =^{(1)} \; \sum_{a \in S_X,b \in S_Y} {\textstyle \Pr[X=a]\Pr[Y=b]}\cdot ab =^{(2)} \\
@@ -269,11 +269,11 @@ $$
 \E[X] \E[Y]
 \end{split}
 $$
-where the first equality  ($=^{(1)}$) follows from the independence of $X$ and $Y$, the second equality ($=^{(2)}$) follows by "opening the parenthesis" of the righthand side, and the third inequality ($=^{(3)}$) follows from the definition of expectation.
-(This is not an "if and only if", see [noindnocorex](){.ref}.)
+where the first equality  ($=^{(1)}$) follows from the independence of $X$ and $Y$, the second equality ($=^{(2)}$) follows by "opening the parentheses" of the righthand side, and the third inequality ($=^{(3)}$) follows from the definition of expectation.
+(This is not an "if and only if"; see [noindnocorex](){.ref}.)
 
-Another useful fact is that if $X$ and $Y$ are independent random variables then so are $F(X)$ and $G(Y)$ for every functions $F,G:\R \rightarrow R$.
-This is intuitively true since learning $F(X)$ can only provide us with less information than learning $X$.
+Another useful fact is that if $X$ and $Y$ are independent random variables, then so are $F(X)$ and $G(Y)$ for all functions $F,G:\R \rightarrow R$.
+This is intuitively true since learning $F(X)$ can only provide us with less information than does learning $X$ itself.
 Hence, if learning $X$ does not teach us anything about $Y$ (and so also about $F(Y)$) then neither will learning $F(X)$.
 Indeed, to prove this  we can write for every $a,b \in \R$:
 
@@ -282,23 +282,23 @@ $$
 \Pr[ F(X)=a \wedge G(Y)=b ] = \sum_{x \text{ s.t.} F(x)=a, y \text{ s.t. } G(y)=b} \Pr[ X=x \wedge Y=y ] = \\
 \sum_{x \text{ s.t.} F(x)=a, y \text{ s.t. } G(y)=b} \Pr[ X=x ] \Pr[  Y=y ]  = \\
 \left( \sum_{x \text{ s.t.} F(x)=a } \Pr[X=x ] \right) \cdot \left( \sum_{y \text{ s.t.} G(y)=b } \Pr[Y=y ] \right) = \\
-\Pr[ F(X)=a] \Pr[G(Y)=b]
+\Pr[ F(X)=a] \Pr[G(Y)=b] .
 \end{split}
 $$
 
 ### Collections of independent random variables.
 
-We can extend the notions of independence to more than two random variables.
-We say that  the random variables $X_0,\ldots,X_{n-1}$ are _mutually independent_ if for every $a_0,\ldots,a_{n-1} \in \E$ then
+We can extend the notions of independence to more than two random variables: 
+we say that  the random variables $X_0,\ldots,X_{n-1}$ are _mutually independent_ if for every $a_0,\ldots,a_{n-1} \in \E$,
 $$
-\Pr\left[X_0=a_0 \wedge \cdots \wedge X_{n-1}=a_{n-1}\right]=\Pr[X_0=a_0]\cdots \Pr[X_{n-1}=a_{n-1}]
+\Pr\left[X_0=a_0 \wedge \cdots \wedge X_{n-1}=a_{n-1}\right]=\Pr[X_0=a_0]\cdots \Pr[X_{n-1}=a_{n-1}] .
 $$
-and similarly we have that
+And similarly, we have that
 
 > # {.lemma title="Expectation of product of independent random variables" #expprod}
 If $X_0,\ldots,X_{n-1}$ are mutually independent then
 $$
-\E[ \prod_{i=0}^{n-1} X_i ] = \prod_{i=0}^{n-1} \E[X_i]
+\E[ \prod_{i=0}^{n-1} X_i ] = \prod_{i=0}^{n-1} \E[X_i] .
 $$
 
 > # {.lemma title="Functions preserve independence" #indeplem}
@@ -317,16 +317,16 @@ For example, suppose that you and I place a bet on the outcome of 10 coin tosses
 If we let $X:\{0,1\}^{10} \rightarrow \R$ be the random variable denoting your gain, then we see that
 
 $$
-\E[X] = 2^{-10}\cdot 100000 - (1-2^{-10})10 \sim 90
+\E[X] = 2^{-10}\cdot 100000 - (1-2^{-10})10 \sim 90 .
 $$
 
-but we don't really "expect" the result of this experiment to be for you to gain 90 dollars.
+But we don't really "expect" the result of this experiment to be for you to gain 90 dollars.
 Rather, 99.9\% of the time you will pay me 10 dollars, and you will hit the jackpot 0.01\% of the times.
 
 However, if we repeat this experiment again and again (with fresh and hence _independent_ coins), then in the long run we do expect your average earning to be 90 dollars, which is the reason why casinos can make money in a predictable way even though every individual bet is random.
-For example, if we toss $n$ coins, then as $n$ grows the number of coins that come up ones will be more and more _concentrated_ around $n/2$ according to  the famous "bell curve" (see [bellfig](){.ref}).
+For example, if we toss $n$ coins, then as $n$ grows, the number of coins that come up ones will be more and more _concentrated_ around $n/2$ according to  the famous "bell curve" (see [bellfig](){.ref}).
 
-![The probabilities we obtain a particular sum when we toss $n=10,20,100,1000$ coins converge quickly to the Gaussian/normal distribution.](../figure/binomial.png){#bellfig .class width=300px height=300px}
+![The probabilities that we obtain a particular sum when we toss $n=10,20,100,1000$ coins converge quickly to the Gaussian/normal distribution.](../figure/binomial.png){#bellfig .class width=300px height=300px}
 
 Much of probability theory is concerned with so called _concentration_ or _tail_ bounds, which are upper bounds on the probability that a random variable $X$ deviates too much from its expectation.
 The first and simplest one of them is Markov's inequality:
@@ -335,7 +335,7 @@ The first and simplest one of them is Markov's inequality:
 If $X$ is a non-negative random variable then $\Pr[ X \geq k \E[X] ] \leq 1/k$.
 
 > # { .pause }
-Markov's Inequality is actually a very natural statement (see also [markovfig](){.ref}). For example, if you know that the average (not the median!) household income in the us is 70,000 dollars, then in particular you can deduce that at most a 25 percent of the households makes more than 280,000 dollars, since otherwise, even if the remaining 75 percent  had zero income, the top 25 percent alone would cause the average income to be larger than 70,000. From this example you can already see that in many situations Markov's inequality will not be _tight_ and the probability of deviating from expectation will be much smaller: see the Chebychev and Chernoff inequalities below.
+Markov's Inequality is actually a very natural statement (see also [markovfig](){.ref}). For example, if you know that the average (not the median!) household income in the US is 70,000 dollars, then in particular you can deduce that at most 25 percent of households make more than 280,000 dollars, since otherwise, even if the remaining 75 percent  had zero income, the top 25 percent alone would cause the average income to be larger than 70,000. From this example you can already see that in many situations, Markov's inequality will not be _tight_ and the probability of deviating from expectation will be much smaller: see the Chebychev and Chernoff inequalities below.
 
 > # {.proof data-ref="markovthm"}
 Let $\mu = \E[X]$ and define $Y=1_{X \geq k \mu}$. That is, $Y(x)=1$ if $X(x) \geq k \mu$ and $Y(x)=0$ otherwise.
@@ -343,26 +343,26 @@ Note that by definition, for every $x$, $Y(x) \leq X/(k\mu)$.
 We need to show $\E[Y] \leq 1/k$.
 But this follows since  $\E[Y] \leq \E[X/k(\mu)] = \E[X]/(k\mu) = \mu/(k\mu)=1/k$.
 
-![Markov's Inequality tells us that a non-negative random variable $X$ cannot be much larger than its expectation with high probability. For example, if the expectation of $X$ is $\mu$, then the probability that $X>4\mu$ must be at most $1/4$, as otherwise just the contribution from this part of the sample space will be too large.](../figure/markovineq.png){#markovfig .class width=300px height=300px}
+![Markov's Inequality tells us that a non-negative random variable $X$ cannot be much larger than its expectation, with high probability. For example, if the expectation of $X$ is $\mu$, then the probability that $X>4\mu$ must be at most $1/4$, as otherwise just the contribution from this part of the sample space will be too large.](../figure/markovineq.png){#markovfig .class width=300px height=300px}
 
 
 __Going beyond Markov's Inequality:__
-Markov's inequality says that a (non negative) random variable $X$ can't go too crazy and be, say, a million times its expectation, with significant probability.
-But ideally we would like to say that with high probability $X$ should be very close to its expectation, e.g., in the range $[0.99 \mu, 1.01 \mu]$ where $\mu = \E[X]$.
+Markov's inequality says that a (non-negative) random variable $X$ can't go too crazy and be, say, a million times its expectation, with significant probability.
+But ideally we would like to say that with high probability, $X$ should be very close to its expectation, e.g., in the range $[0.99 \mu, 1.01 \mu]$ where $\mu = \E[X]$.
 This is not generally true, but does turn out to hold when $X$ is obtained by combining (e.g., adding)  many independent random variables.
-This phenomena, variants of which are known as  "law of large numbers", "central limit theorem", "invariance principles" and "Chernoff bounds", is one of the most fundamental in probability and statistics, and one that we heavily use in computer science as well.
+This phenomenon, variants of which are known as  "law of large numbers", "central limit theorem", "invariance principles" and "Chernoff bounds", is one of the most fundamental in probability and statistics, and is one that we heavily use in computer science as well.
 
 ### Chebyshev's Inequality
 
-A standard way to  measure the deviation of a random variable from its expectation is using its _standard deviation_.
-For a random variable $X$, we define the _variance_ of $X$ as  $\mathrm{Var}[X] = \E[(X-\mu)^2]$ where $\mu = \E[X]$, i.e., the variance is the average square distance of $X$ from its expectation.
+A standard way to  measure the deviation of a random variable from its expectation is by using its _standard deviation_.
+For a random variable $X$, we define the _variance_ of $X$ as  $\mathrm{Var}[X] = \E[(X-\mu)^2]$ where $\mu = \E[X]$; i.e., the variance is the average squared distance of $X$ from its expectation.
 The _standard deviation_ of $X$ is defined as $\sigma[X] = \sqrt{\mathrm{Var}[X]}$.
-(This is well defined since the variance, being an average of a square, is always a non-negative number.)
+(This is well-defined since the variance, being an average of a square, is always a non-negative number.)
 
-Using Chebychev's inequality we can control the probability that a random variable is too many standard deviations away from its expectation.
+Using Chebychev's inequality, we can control the probability that a random variable is too many standard deviations away from its expectation.
 
 > # {.theorem title="Chebyshev's inequality" #chebychevthm}
-Suppose that $\mu=\E[X]=\mu$ and $\sigma^2 = \mathrm{Var}[X]$.
+Suppose that $\mu=\E[X]$ and $\sigma^2 = \mathrm{Var}[X]$.
 Then for every $k>0$, $\Pr[ |X-\mu | \geq k \sigma ] \leq 1/k^2$.
 
 > # {.proof data-ref="chebychevthm"}
@@ -389,9 +389,9 @@ For large $n$, $\sqrt{n} \ll 0.001n$, and in particular if $\sqrt{n} \leq 0.001n
 ### The Chernoff bound
 
 Chebyshev's inequality already shows a connection between independence and concentration, but in many cases we can hope for a quantitatively much stronger result.
-If, as in the example above, $X= X_1+\ldots+X_n$ where the $X_i$'s are  bounded i.i.d random variables of mean $1/2$, then as $n$ grows, the distribution of $X$ would be roughly the _normal_ or _Gaussian_ distribution, that is distributed according to  the  _bell curve_ (see [bellfig](){.ref} and [empiricalbellfig](){.ref}).
-This distribution has the property of being _very_ concentrated in the sense that the probability of deviating $k$ standard deviations from the mean is not merely $1/k^2$ as is guaranteed by Chebyshev, but rather it is roughly $e^{-k^2}$.^[Specifically, for a normal random variable $X$ of expectation $\mu$ and standard deviation $\sigma$, the probability that $|X-\mu| \geq k\sigma$ is at most $2e^{-k^2/2}$.]
-That is we have an _exponential decay_ of the probability of deviation.
+If, as in the example above, $X= X_1+\ldots+X_n$ where the $X_i$'s are  bounded i.i.d random variables of mean $1/2$, then as $n$ grows, the distribution of $X$ would be roughly the _normal_ or _Gaussian_ distribution$-$ that is, distributed according to  the  _bell curve_ (see [bellfig](){.ref} and [empiricalbellfig](){.ref}).
+This distribution has the property of being _very_ concentrated in the sense that the probability of deviating $k$ standard deviations from the mean is not merely $1/k^2$ as is guaranteed by Chebyshev, but rather is roughly $e^{-k^2}$.^[Specifically, for a normal random variable $X$ of expectation $\mu$ and standard deviation $\sigma$, the probability that $|X-\mu| \geq k\sigma$ is at most $2e^{-k^2/2}$.]
+That is, we have an _exponential decay_ of the probability of deviation.
 
 
 
@@ -406,7 +406,7 @@ The following extremely useful theorem shows that such exponential decay occurs 
 If $X_1,\ldots,X_n$ are i.i.d random variables such that $X_i \in [0,1]$ and $\E[X_i]=p$ for every $i$,
 then for every $\epsilon >0$
 $$
-\Pr[ \left| \sum_{i=0}^{n-1} X_i - pn \right| > \epsilon n ] \leq 2\cdot e^{-2\epsilon^2 n}
+\Pr[ \left| \sum_{i=0}^{n-1} X_i - pn \right| > \epsilon n ] \leq 2\cdot e^{-2\epsilon^2 n} .
 $$
 
 We omit the proof, which appears in many texts, and uses Markov's inequality on i.i.d random variables $Y_0,\ldots,Y_n$ that are of the form $Y_i = e^{\lambda X_i}$ for some carefully chosen parameter $\lambda$.
@@ -418,7 +418,7 @@ See [chernoffstirlingex](){.ref}  for a proof of the    simple (but highly usefu
 ## Lecture summary
 
 * A basic probabilistic experiment corresponds to tossing $n$ coins or choosing $x$ uniformly at random from $\{0,1\}^n$.
-* _Random variables_ assign a real number to every result of a coin toss. The _expectation_ of a random variable $X$, is its average value, and there are several _concentration_ results showing that under certain conditions  random variables deviate significantly from their expectation only with small probability.
+* _Random variables_ assign a real number to every result of a coin toss. The _expectation_ of a random variable $X$ is its average value, and there are several _concentration_ results showing that under certain conditions,  random variables deviate significantly from their expectation only with small probability.
 
 ## Exercises
 
@@ -453,7 +453,7 @@ In this exercise we justify this definition. Let  $\mu$ be such that $H(\mu)=k$.
 where $x \sim \mu$ denotes the experiments of choosing $x_0,\ldots,x_{n-1}$ each independently from $S$ using the distribution $\mu$.
 
 > # {.exercise title="Entropy approximation to binomial" #entropybinomex}
-Let $H(p) = p \log(1/p)+(1-p)\log(1/(1-p))$.^[While you don't need this to solve this exercise,this is the function that maps $p$ to the entropy (as defined in [entropyex](){.ref}) of the $p$-biased coin distribution over $\{0,1\}$, which is the function $\mu:\{0,1\}\rightarrow [0,1]$ s.y. $\mu(0)=1-p$ and $\mu(1)=p$.]
+Let $H(p) = p \log(1/p)+(1-p)\log(1/(1-p))$.^[While you don't need this to solve this exercise, this is the function that maps $p$ to the entropy (as defined in [entropyex](){.ref}) of the $p$-biased coin distribution over $\{0,1\}$, which is the function $\mu:\{0,1\}\rightarrow [0,1]$ s.y. $\mu(0)=1-p$ and $\mu(1)=p$.]
 Prove that for every $p \in (0,1)$ and $\epsilon>0$, if $n$ is large enough then^[__Hint:__ Use Stirling's formula for approximating the factorial function.]
 $$
 2^{(H(p)-\epsilon)n }\binom{n}{pn} \leq 2^{(H(p)+\epsilon)n}
@@ -475,11 +475,11 @@ Define $Y_i = X_i - p$.  \
 
 
 > # {.exercise title="Simulating distributions using coins" #coindistex}
-Our model for probability involves tossing $n$ coins, but sometimes algorithm require sampling from other distributions, such as selecting a uniform number in $\{0,\ldots,M-1\}$ for some $M$.
+Our model for probability involves tossing $n$ coins, but sometimes algorithms require sampling from other distributions, such as selecting a uniform number in $\{0,\ldots,M-1\}$ for some $M$.
 Fortunately,  we can simulate this with an exponentially small probability of error: prove that for every $M$, if $n>k\lceil \log M \rceil$, then there is a function $F:\{0,1\}^n \rightarrow \{0,\ldots,M-1\} \cup \{ \bot \}$ such that __(1)__ The probability that $F(x)=\bot$ is at most $2^{-k}$ and __(2)__ the  distribution of $F(x)$ conditioned on $F(x) \neq \bot$ is equal to the uniform distribution over $\{0,\ldots,M-1\}$.^[__Hint:__ Think of $x\in \{0,1\}^n$ as choosing $k$ numbers $y_1,\ldots,y_k \in \{0,\ldots, 2^{\lceil \log M \rceil}-1 \}$. Output the first such number that is in $\{0,\ldots,M-1\}$. ]
 
 > # {.exercise title="Sampling" #samplingex}
-Suppose that a country has 300,000,000 citizens, 52 percent of them prefer the color "green" and 48 percent of which prefer the color "orange". Suppose we sample $n$ random citizens and ask them their favorite color (assume they will answer truthfully). What is the smallest value $n$ among the following  choices so that the probability that the majority of the sample answers "green" is at most $0.05$? \\
+Suppose that a country has 300,000,000 citizens, 52 percent of which prefer the color "green" and 48 percent of which prefer the color "orange". Suppose we sample $n$ random citizens and ask them their favorite color (assume they will answer truthfully). What is the smallest value $n$ among the following  choices so that the probability that the majority of the sample answers "green" is at most $0.05$? \\
 a. 1,000 \\
 b. 10,000 \\
 c. 100,000 \\
