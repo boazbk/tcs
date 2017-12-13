@@ -99,7 +99,7 @@ We will often write the first input (i.e., the key) to the encryption and decryp
 Defining security is not a trivial matter.
 
 > # { .pause }
-You would appreciate the subleties of defining security of encryption if at this point you take a five minute break from reading, and try (possibly with a partner) to brainstorm on how you would mathematically define the notion that an encryption scheme is _secure_, in the sense that it protects the secrecy of the plaintext $x$.
+You would appreciate the subtleties of defining security of encryption if at this point you take a five minute break from reading, and try (possibly with a partner) to brainstorm on how you would mathematically define the notion that an encryption scheme is _secure_, in the sense that it protects the secrecy of the plaintext $x$.
 
 
 Throughout history, many attacks on  cryptosystems  are rooted in the cryptosystem designers' reliance on  "security through obscurity"---
@@ -110,7 +110,7 @@ method again and again (even with a different key each time) then eventually
 your adversaries will figure out what you are doing.
 And if Alice and Bob meet frequently in a secure location to decide on a new method, they might as
 well take the opportunity to exchange their secrets.
-These considerations led  Auguste Kerchoffs in 1883 to state the following principle:
+These considerations led  Auguste Kerckhoffs in 1883 to state the following principle:
 
 >_A cryptosystem should be secure even if everything about the system, except
 the key, is public knowledge._^[The actual quote is "Il faut qu’il n’exige pas le secret, et qu’il puisse sans inconvénient tomber entre les mains de l’ennemi"  loosely translated as
@@ -122,7 +122,7 @@ Why is it OK to assume the key is secret and not the algorithm? Because we can a
 But of course that won't help us much if our key is if we choose our key to be "1234" or "passw0rd!".
 In fact, if you use _any_ deterministic algorithm
 to choose the key then eventually your adversary will figure this out.
-Therefore for security we must choose the key at _random_ and can restate Kerchkoffs's principle as follows:
+Therefore for security we must choose the key at _random_ and can restate Kerckhoffs's principle as follows:
 
 
 >_There is no secrecy without randomness_
@@ -149,7 +149,7 @@ The above thinking led Shannon in 1945 to formalize the notion of _perfect secre
 There are several equivalent ways to define it, but perhaps the cleanest one is the following:
 
 > # {.definition title="Perfect secrecy" #perfectsecrecy}
-A valid encryption scheme $(E,D)$ with length $L(\cdot)$ is _perfectly secrect_ if for every $n\in \N$ and plaintexts $x,x' \in \{0,1\}^{L(n)}$, the following two distributions $Y$ and $Y'$ over $\{0,1\}^*$ are identical:
+A valid encryption scheme $(E,D)$ with length $L(\cdot)$ is _perfectly secret_ if for every $n\in \N$ and plaintexts $x,x' \in \{0,1\}^{L(n)}$, the following two distributions $Y$ and $Y'$ over $\{0,1\}^*$ are identical:
 >
 * $Y$ is obtained by sampling  $k\sim \{0,1\}^n$ and outputting $E_k(x)$.
 >
@@ -190,7 +190,7 @@ $$
 using the fact that $p_0(y)=p_1(y)=p$.
 This means that observing the ciphertext $y$ did not help us at all! We still would not be able to guess whether Alice sent "attack" or "retreat" with better than 50/50 odds!
 
-This example can be vastly generalized to show that perfect secrecy is indeed "perfect" in the sense that observing a ciphertext gives Eve _no additional information_ about the plaintext beyond her apriori knowledge.
+This example can be vastly generalized to show that perfect secrecy is indeed "perfect" in the sense that observing a ciphertext gives Eve _no additional information_ about the plaintext beyond her a priori knowledge.
 
 ### Constructing perfectly secret encryption
 
@@ -240,12 +240,12 @@ This ensures  the perfect secrecy condition.
 So, does [onetimepad](){.ref} give the final word on cryptography, and means that we can all communicate with perfect secrecy and live happily ever after?
 No it doesn't.
 While the one-time pad is efficient, and gives perfect secrecy, it has one glaring disadvantage: to communicate $n$ bits you need to store a key of length $n$.
-In contrast, practically used cryptosystems such as AES-128 have a short key of $128$ bits (i.e., $16$ bytes) that can be used to protect terrabytes or more of communication!
+In contrast, practically used cryptosystems such as AES-128 have a short key of $128$ bits (i.e., $16$ bytes) that can be used to protect terabytes or more of communication!
 Imagine that we all needed to use the one time pad.
 If that was the case, then if you had to communicate with $m$ people, you would have to  maintain (securely!)
 $m$ huge files that are each as long as the length of the maximum total communication you expect with that person.
 Imagine that every time you opened an account with Amazon, Google, or any other service, they would need to send you in the mail (ideally with a secure courier) a DVD full of random numbers,
-and every time you suspected a virus, you'll need to ask all these services for a fresh DVD. This doesn't sounds so appealing.
+and every time you suspected a virus, you'd need to ask all these services for a fresh DVD. This doesn't sound so appealing.
 
 This is not just a theoretical issue.
 The Soviets have used the one-time pad for their confidential communication since before the 1940's.
@@ -253,7 +253,7 @@ In fact,  even before Shannon's work, the U.S. intelligence  already knew in 194
 However, it  turned out that the hassle of manufacturing so many keys for all the communication took its toll on the Soviets and they ended up reusing the same keys
 for more than one message.  They did try  to use them for completely different receivers in the (false) hope that this wouldn't be detected.
 The [Venona Project](https://en.wikipedia.org/wiki/Venona_project) of the U.S. Army was founded in February 1943 by Gene Grabeel (see [genegrabeelfig](){.ref}), a former home economics teacher from Madison Heights, Virgnia and Lt. Leonard Zubko.
-In October 1943, they had their breakthrough when it was discovered that the Russians are reusing their keys.^[Credit to this discovery
+In October 1943, they had their breakthrough when it was discovered that the Russians were reusing their keys.^[Credit to this discovery
 is shared by Lt. Richard Hallock, Carrie Berry, Frank Lewis, and Lt. Karl Elmquist, and there are others that have made important contribution to this project. See pages 27 and 28 in the document.]
 In the 37 years of its existence, the project has resulted in a treasure chest of intelligence, exposing hundreds of KGB agents and Russian spies in the U.S. and other countries,
 including Julius Rosenberg, Harry Gold, Klaus Fuchs, Alger Hiss, Harry Dexter White  and many others.
@@ -286,7 +286,7 @@ __Claim I:__ There exists some $x_1 \in \{0,1\}^L$ and $k\in \{0,1\}^n$ such tha
 Claim I implies that the string $E_k(x_1)$ has positive probability of being output  by $Y_{x_1}$  and zero probability of being output by $Y_{x_0}$ and hence in particular $Y_{x_0}$ and $Y_{x_1}$ are not identical.
 To prove Claim I, just choose a fixed $k\in \{0,1\}^n$. By the validity condition, the map $x \mapsto E_k(x)$ is a one to one map of $\{0,1\}^L$ to $\{0,1\}^*$ and hence in particular
 the _image_ of this map: the set $I = \{ y \;|\; \exists_{x\in \{0,1\}^L} y=E_k(x) \}$ has size at least (in fact exactly) $2^L$.
-Since $|S_0| = 2^n < 2^L$, this means that $|I|>|S_0|$ and so in particular there exists some string $y$ in $I \setminus S_0$.But by the definition of $I$ this means that there is some $x\in \{0,1\}^L$  such that $E_k(x) \not\in S_0$ which concludes the proof of Claim I and hence of  [longkeysthm](){.ref}.
+Since $|S_0| = 2^n < 2^L$, this means that $|I|>|S_0|$ and so in particular there exists some string $y$ in $I \setminus S_0$. But by the definition of $I$ this means that there is some $x\in \{0,1\}^L$  such that $E_k(x) \not\in S_0$ which concludes the proof of Claim I and hence of  [longkeysthm](){.ref}.
 
 ## Computational secrecy
 
@@ -298,7 +298,7 @@ and
 
 * It is not possible to obtain such a scheme with key that is even a single bit shorter than the plaintext.
 
-How does this mesh with the fact that, as we've already seen, people routinely use cryptosystems with a 16 bytes  key but  many terrabytes of plaintext?
+How does this mesh with the fact that, as we've already seen, people routinely use cryptosystems with a 16 bytes  key but  many terabytes of plaintext?
 The proof of [longkeysthm](){.ref} does give in fact a way to break all these cryptosystems, but an examination of this proof shows that it only yields an algorithm with time  _exponential in the length of the key_.
 This motivates the following relaxation of perfect secrecy  to a condition known as _"computational secrecy"_.
 Intuitively, an encryption scheme is  computationally secret if no polynomial time algorithm can break it.
@@ -333,11 +333,11 @@ To answer the second question we will show that under the same assumption we use
 
 It turns out that if pseudorandom generators exist as in the optimal PRG conjecture, then there exists a computationally  secret encryption scheme with keys that are much shorter than the plaintext.
 The construction below is known as a [stream cipher](https://en.wikipedia.org/wiki/Stream_cipher), though perhaps a better name is the "derandomized one-time pad".
-It is widely used in practice with keys on the order of a few tens or hundreds of bits protecting many terrabytes or even petabytes of communication.
+It is widely used in practice with keys on the order of a few tens or hundreds of bits protecting many terabytes or even petabytes of communication.
 
 
 
-![In  a _stream cipher_ or "derandomized one-time pad" we use a pseudorandom generator $G:\{0,1\}^n \rightarrow \{0,1\}^L$ to obtain an encryption scheme with a key length of $n$ and plaintexts of length $L$. We encrypt the plainted $x\in \{0,1\}^L$ with key $k\in \{0,1\}^n$ by the ciphertext $x \oplus G(k)$.](../figure/derandonetimepad.png){#derandonetimepadfig .class width=300px height=300px}
+![In  a _stream cipher_ or "derandomized one-time pad" we use a pseudorandom generator $G:\{0,1\}^n \rightarrow \{0,1\}^L$ to obtain an encryption scheme with a key length of $n$ and plaintexts of length $L$. We encrypt the plaintext $x\in \{0,1\}^L$ with key $k\in \{0,1\}^n$ by the ciphertext $x \oplus G(k)$.](../figure/derandonetimepad.png){#derandonetimepadfig .class width=300px height=300px}
 
 
 > # {.theorem title="Derandomized one-time pad" #PRGtoENC}
@@ -427,12 +427,12 @@ This can be implemented in polynomial time if $\mathbf{P}=\mathbf{NP}$, since th
 Clearly $\Pr[ EVE(E_k(x_0))=0 ] =1$ and so in the case that $EVE$ gets an encryption of $x_0$ then she  guesses correctly with probability $1$.
 The remainder of the proof is devoted to showing that there exists $x_1 \in \{0,1\}^{L(n)}$ such that $\Pr[ EVE(E_k(x_1))=0 ]  \leq 0.01$, which will conclude the proof by showing that $EVE$ guesses wrongly with probability at most $\tfrac{1}{2}0 + \tfrac{1}{2}0.01 < 0.01$.
 >
-Consider now the followins probabilistic experiment  (which we define solely for the sake of analysis).
-We consider the sample space of choosing $x$ unfiformly in $\{0,1\}^{L(n)}$ and define the random variable $Z_k(x)$ to equal $1$ if and only if $E_k(x)\in S_0$.
+Consider now the following probabilistic experiment  (which we define solely for the sake of analysis).
+We consider the sample space of choosing $x$ uniformly in $\{0,1\}^{L(n)}$ and define the random variable $Z_k(x)$ to equal $1$ if and only if $E_k(x)\in S_0$.
 For every $k$, the map $x \mapsto E_k(x)$ is one-to-one, which means that the probability that $Z_k=1$ is equal to the probability that $x \in E_k^{-1}(S_0)$ which is  $\tfrac{|S_0|}{2^{L(n)}}$.
 So by the linearity of expectation $\E[\sum_{k \in \{0,1\}^n} Z_k] \leq \tfrac{2^n|S_0|}{2^{L(n)}} \leq \tfrac{2^{2n}}{2^{L(n)}}$.
 >
-We will now use the following extremely simple but useful fact known as the  _averaging principle_: for every random variable $Z$, if $\E[Z]=\mu$, then with positve probability $Z \leq \mu$.
+We will now use the following extremely simple but useful fact known as the  _averaging principle_: for every random variable $Z$, if $\E[Z]=\mu$, then with positive probability $Z \leq \mu$.
 (Indeed, if $Z>\mu$ with probability one, then the expected value of $Z$ will have to be larger than $\mu$, just like you can't have a class in which all students got A or A- and yet the overall average is B+.)
 In our case it means that with positive probability $\sum_{k\in \{0,1\}^n} Z_k \leq \tfrac{2^{2n}}{2^{L(n)}}$.
 In other words, there exists some $x_1 \in \{0,1\}^{L(n)}$ such that $\sum_{k\in \{0,1\}^n} Z_k(x_1) \leq \tfrac{2^{2n}}{2^{L(n)}}$.
@@ -450,7 +450,7 @@ After all, as we've mentioned  before it is known that the Optimal PRG conjectur
 ## Public key cryptography
 
 People have been dreaming about heavier than air flight since at least the days of Leonardo Da Vinci (not to mention Icarus from the greek mythology).
-Jules Vern wrote with rather insightful details about going to the moon in 1865.
+Jules Verne wrote with rather insightful details about going to the moon in 1865.
 But, as far as I know, in all the thousands of years people have been using secret writing, until about 50 years ago no one  has considered the possibility of communicating securely
 without first exchanging a shared secret key.
 
@@ -567,7 +567,7 @@ _Digital signature schemes_ are the analog of public key encryption for authenti
 
 Similarly, even for encryption, we often need to ensure security against _active attacks_, and so notions such as non-malleability and [adaptive chosen ciphertext](https://en.wikipedia.org/wiki/Adaptive_chosen-ciphertext_attack) security have been proposed.
 An encryption scheme is only as secure as the secret key, and mechanisms to make sure the key is generated properly, and is protected against refresh or even compromise (i.e., [forward secrecy](https://en.wikipedia.org/wiki/Forward_secrecy)) have been studied as well.
-Hopefully this lecture provides you with some appreciation for cryptography as an intellectual field, but does not imbue you with a false self of condifence in implementing it.
+Hopefully this lecture provides you with some appreciation for cryptography as an intellectual field, but does not imbue you with a false self of confidence in implementing it.
 
 ## Magic
 
@@ -584,7 +584,7 @@ This is often the case with proofs: they teach us more  than just the validity o
 
 In _Zero Knowledge Proofs_  we try to achieve the opposite effect.
 We want a proof for a statement $X$ where we can _rigorously show_ that the proofs reveals _absolutely no additional information about $X$_ beyond the fact that it is true.
-This turns out to be an extremely useful object for a variety of tasks including authentication, secure protocols, voting, [anonimity in cryptocurrencies](https://z.cash/technology/zksnarks.html), and more.
+This turns out to be an extremely useful object for a variety of tasks including authentication, secure protocols, voting, [anony  mity in cryptocurrencies](https://z.cash/technology/zksnarks.html), and more.
 Constructing these objects relies on the theory of $\mathbf{NP}$ completeness.
 Thus this theory that originally was designed to give a _negative result_ (show that some problems are hard) ended up yielding _positive applications_, enabling us to achieve tasks that were not possible otherwise.
 
@@ -611,7 +611,7 @@ Perhaps the most general primitive achieving this objective is [secure multipart
 The idea in secure multiparty computation is that $n$ parties interact together to compute some  function  $F(x_0,\ldots,x_{n-1})$ where $x_i$ is the private input of the $i$-th party.
 The crucial point is that there is _no commonly trusted party or authority_ and that nothing is revealed about the secret data beyond the function's output.
 One example is an _electronic voting protocol_ where only the total vote count is revealed, with the privacy of the individual voters protected, but without having to trust any authority to either count the votes correctly or to keep information confidential.
-Another example is implementing a [second price (aka Vickery) auction](https://en.wikipedia.org/wiki/Vickrey_auction) where $n-1$ parties submit bids to an item owned by the $n$-th party, and the item goes to the higest bidder but at the price of the _second highest bid_.
+Another example is implementing a [second price (aka Vickrey) auction](https://en.wikipedia.org/wiki/Vickrey_auction) where $n-1$ parties submit bids to an item owned by the $n$-th party, and the item goes to the highest bidder but at the price of the _second highest bid_.
 Using secure multiparty computation we can implement second price auction in a way that will ensure the secrecy of the numerical values of all bids (including even the top one) except the second highest one, and the secrecy of the identity of all bidders (including even the second highest bidder) except the top one.
 We emphasize that such a protocol requires no trust even in the auctioneer itself, that will also not learn any additional information.
 Secure multiparty computation can be used even for computing  _randomized_  processes, with one example being playing Poker over the net without having to trust any server for correct shuffling of cards or not revealing the information.
