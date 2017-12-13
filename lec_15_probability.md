@@ -6,7 +6,7 @@
 * Events, probabilities of unions and intersections. \
 * Random variables and their expectation, variance, and standard deviation. \
 * Independence and correlation for both events and random variables. \
-* Markov, Chebychev and Chernoff tail bounds (bounding the probability that a random variable will deviate from its expectation).
+* Markov, Chebyshev and Chernoff tail bounds (bounding the probability that a random variable will deviate from its expectation).
 
 
 
@@ -110,7 +110,7 @@ $$
 
 
 If $X$ and $Y$ are random variables, then we can define $X+Y$ as simply the random variable that maps a point $x\in \{0,1\}^n$ to $X(x)+Y(x)$.
-One basic and very useful property of the expectation is that is is _linear_:
+One basic and very useful property of the expectation is that it is _linear_:
 
 > # {.lemma title="Linearity of expectation" #linearityexp}
 $$ \E[ X+Y ] = \E[X] + \E[Y] $$
@@ -224,7 +224,7 @@ This corresponds to calculating the probability that $B$ happens if we already k
 Note that $A$ and $B$ are independent if and only if $\Pr[B|A]=\Pr[B]$.
 
 __More than two events:__ We can generalize this definition to more than two events.
-We say that events $A_1,\ldots,A_k$ are _mutually independent_ if knowing that any set of them occurred or didn't occur does not change the probability that an event outside the set occurrs.
+We say that events $A_1,\ldots,A_k$ are _mutually independent_ if knowing that any set of them occurred or didn't occur does not change the probability that an event outside the set occurs.
 Formally, the condition is that for every subset $I \subseteq [k]$,
 $$
 \Pr[ \wedge_{i\in I} A_i] =\prod_{i\in I} \Pr[A_i].
@@ -335,7 +335,7 @@ The first and simplest one of them is Markov's inequality:
 If $X$ is a non-negative random variable then $\Pr[ X \geq k \E[X] ] \leq 1/k$.
 
 > # { .pause }
-Markov's Inequality is actually a very natural statement (see also [markovfig](){.ref}). For example, if you know that the average (not the median!) household income in the US is 70,000 dollars, then in particular you can deduce that at most 25 percent of households make more than 280,000 dollars, since otherwise, even if the remaining 75 percent  had zero income, the top 25 percent alone would cause the average income to be larger than 70,000. From this example you can already see that in many situations, Markov's inequality will not be _tight_ and the probability of deviating from expectation will be much smaller: see the Chebychev and Chernoff inequalities below.
+Markov's Inequality is actually a very natural statement (see also [markovfig](){.ref}). For example, if you know that the average (not the median!) household income in the US is 70,000 dollars, then in particular you can deduce that at most 25 percent of households make more than 280,000 dollars, since otherwise, even if the remaining 75 percent  had zero income, the top 25 percent alone would cause the average income to be larger than 70,000. From this example you can already see that in many situations, Markov's inequality will not be _tight_ and the probability of deviating from expectation will be much smaller: see the Chebyshev and Chernoff inequalities below.
 
 > # {.proof data-ref="markovthm"}
 Let $\mu = \E[X]$ and define $Y=1_{X \geq k \mu}$. That is, $Y(x)=1$ if $X(x) \geq k \mu$ and $Y(x)=0$ otherwise.
@@ -359,7 +359,7 @@ For a random variable $X$, we define the _variance_ of $X$ as  $\mathrm{Var}[X] 
 The _standard deviation_ of $X$ is defined as $\sigma[X] = \sqrt{\mathrm{Var}[X]}$.
 (This is well-defined since the variance, being an average of a square, is always a non-negative number.)
 
-Using Chebychev's inequality, we can control the probability that a random variable is too many standard deviations away from its expectation.
+Using Chebyshev's inequality, we can control the probability that a random variable is too many standard deviations away from its expectation.
 
 > # {.theorem title="Chebyshev's inequality" #chebychevthm}
 Suppose that $\mu=\E[X]$ and $\sigma^2 = \mathrm{Var}[X]$.
@@ -395,7 +395,7 @@ That is, we have an _exponential decay_ of the probability of deviation.
 
 
 
-![In the _normal distribution_ or the Bell curve, the probability of deviating $k$ standard deviations from the expectation shrinks _exponentially_ in $k^2$, and specifically with probability at least $1-2e^{-k^2/2}$,  a random variable $X$ of exepctation $\mu$ and standard deviation $\sigma$ satisfies $\mu -k\sigma \leq X \leq \mu+k\sigma$. This figure  gives more precise bounds for $k=1,2,3,4,5,6$. (Image credit:Imran Baghirov)](../figure/sixsigma.jpg){#empiricalbellfig   .class width=300px height=300px}
+![In the _normal distribution_ or the Bell curve, the probability of deviating $k$ standard deviations from the expectation shrinks _exponentially_ in $k^2$, and specifically with probability at least $1-2e^{-k^2/2}$,  a random variable $X$ of expectation $\mu$ and standard deviation $\sigma$ satisfies $\mu -k\sigma \leq X \leq \mu+k\sigma$. This figure  gives more precise bounds for $k=1,2,3,4,5,6$. (Image credit:Imran Baghirov)](../figure/sixsigma.jpg){#empiricalbellfig   .class width=300px height=300px}
 
 
 The following extremely useful theorem shows that such exponential decay occurs every time we have a sum of independent and bounded variables. This theorem is known under many names in different communities, though it is mostly called the [Chernoff bound](https://en.wikipedia.org/wiki/Chernoff_bound) in the computer science literature:
