@@ -1,4 +1,4 @@
-#  Modeling running time
+﻿#  Modeling running time
 
 > # { .objectives }
 * Formally modeling  running time, and in particular notions such as $O(n)$ or $O(n^3)$ time algorithms. \
@@ -25,7 +25,7 @@ Formally, we define running time as follows:
 Let $T:\N \rightarrow \N$ be some function mapping natural numbers to natural numbers.
 We say that a  function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _computable in $T(n)$ NAND<< time_
 if there is a NAND<< program $P$ computing $F$ such that for every sufficiently large $n$ and  every $x\in \{0,1\}^n$, on input $x$, $P$ runs for at most $T(n)$ steps.
-Similarly, we say that $F$ is _computable in $T(n)$ NAND++ time_ if there is a NAND++ program $P$ computing $F$ such  that on every suficiently large $n$ and $x\in \{0,1\}^n$, on input $x$, $P$ runs for at most $T(n)$ steps.
+Similarly, we say that $F$ is _computable in $T(n)$ NAND++ time_ if there is a NAND++ program $P$ computing $F$ such  that on every sufficiently large $n$ and $x\in \{0,1\}^n$, on input $x$, $P$ runs for at most $T(n)$ steps.
 >
 We let  $TIME_{<<}(T(n))$ denote the set of Boolean functions that are computable in $T(n)$ NAND<< time, and define  $TIME_{++}(T(n))$ analogously.^[The relaxation of considering only "sufficiently large" $n$'s is not very important but it is convenient since it allows us to avoid dealing explicitly with un-interesting "edge cases". In most cases we will anyway be interested in determining running time only up to constant and even polynomial factors. Note that we can always compute a function on a finite number of inputs using a lookup table.]
 
@@ -45,7 +45,7 @@ A function $T:\N \rightarrow \N$ is a _nice time bound function_ (or nice functi
 
 
 All the functions mentioned above are "nice" per [nice-def](){.ref}, and from now on we will only care about the class $TIME(T(n))$   when $T$ is a "nice" function.
-The last condition simply means that we can compute the binary represention of $T(n)$ in time which itself is roughly $T(n)$. This condition is typically easily satisfied.
+The last condition simply means that we can compute the binary representation of $T(n)$ in time which itself is roughly $T(n)$. This condition is typically easily satisfied.
 For example, for arithmetic functions such as $T(n) = n^3$ or $T(n)= \floor n^{1.2}\log n \rfloor$ we can  typically compute the binary representation of $T(n)$ in time which is polynomial in the _number of bits_ in this representation.
 Since the number of bits is $O(\log T(n))$, any quantity that is polynomial in this number will be much smaller than $T(n)$ for large enough $n$.
 
@@ -175,7 +175,7 @@ To do so, $U$ will do the following: \
 3. $U$ will maintain an array  `LinesP` of $O(s)$ size that will encode the lines of $P$ in some canonical encoding. \
 4. To simulate a single step of $P$, the program $U$ will recover the line corresponding to `lcP` from the `LinesP` and execute it. Since NAND<< has a constant number of arithmetic operations, we can simulate choosing which operation to execute with a sequence of a constantly many  if-then-else's.^[While NAND<< does not formally have if/then/else, we can easily add this as syntactic sugar.] When executing these operations, $U$ will use the variable `icP` that keeps track of the iteration counter of $P$.
 >
-Simulating a  single step of $P$ will take $U$  $O(s)$ steps, , and hence the simulation will be $O(sT)$ which is $O(T)$ when surpressing constants such as $s$ that depend on  the program $P$.
+Simulating a  single step of $P$ will take $U$  $O(s)$ steps, , and hence the simulation will be $O(sT)$ which is $O(T)$ when suppressing constants such as $s$ that depend on  the program $P$.
 
 
 ## Time hierarchy theorem
