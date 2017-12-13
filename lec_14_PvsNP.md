@@ -78,7 +78,7 @@ Indeed, we leave it as an exercise to verify that the $STARTSWITH_V$ function is
 Now for any such polynomial-time $V$ and $a,b\in\N$, we can implement $FIND_V(x)$ as follows: \
 1. For $\ell=0,\ldots,an^b-1$ do the following: \
   >a. Let $b_0 = STARTSWITH_V(xz_{0}\cdots z_{\ell-1}0)$ and $b_1 = STARTSWITH_V(xz_{0}\cdots z_{\ell-1}1)$ \
-  >b. If $b_0=1$ then $z_\ell=0$, otherwise $z_\ell=1$. \ 
+  >b. If $b_0=1$ then $z_\ell=0$, otherwise $z_\ell=1$. \
 2. Output $z_0,\ldots,z_{an^b-1}$.
 >
 To analyze the $FIND$ algorithm, note that it makes $2an^{b-1}$ invocations to $STARTSWITH_V$ and hence if the latter is polynomial-time, then so is $FIND_V$.
@@ -110,27 +110,38 @@ The above reasoning was not specifically tailored to finding paths in graphs.
 In fact, it can be vastly generalized to proving the following result:
 
 > # {.theorem title="Optimization from $\mathbf{P}=\mathbf{NP}$" #optimizationnp}
-Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time computable function $f:\{0,1\}^* \rightarrow \bits^*$ , we can compute in $poly(n)$ time $\max_{x\in \{0,1\}^n} f(x)$ (where we identify the output of $f(x)$ with a natural number via the binary representation), and moreover find some $x^* \in \{0,1\}^n$ that achieves this maximum.
+Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time computable function $f:\{0,1\}^* \rightarrow \bits^*$  there is a polynomial-time algorithm $OPT$ such that on input   $x\in \{0,1\}^*$, $OPT(x,1^m) = \max_{y\in \{0,1\}^m} f(x,y)$  (where we identify the output of $f(x)$ with a natural number via the binary representation).
+>
+Moreover under the same assumption, there is a polynomial-time algorithm $FINDOPT$ such that for every $x\in \{0,1\}^*$, $FINDOPT(x,1^m)$ outputs $y^* \in \{0,1\}^*$ such that $f(x,y^*)=OPT(x,y^*)$.
+
+> # { .pause }
+To understand the statement of the theorem, think of how it would subsume the example above of  a polynomial time algorithm for finding the maximum length path in a graph. In this case the function $f$ would be a map that on input a pair $x,y$, outputs $0$ if $x$ does not represent a graph $G$ and $y$ does not represent a path in $G$, and otherwise outputs the length of this path. Since a path in an $n$ vertex graph can be represented by at most $n \log n$ bits, for every $x$ representing a graph of $n$ vertices, finding $\max_{y\in \{0,1\}^{n \log n}f(x,y)$   corresponds to finding the length of the maximum path in the graph corresponding to $x$, and finding $y^*$ that achieves this maximum corresponds to actually finding the path.
+
 
 > # {.proofidea data-ref="optimizationnp"}
-Since $f$ is polynomial-time computable, if $x\in \{0,1\}^n$ then $f(x)$ has at most $poly(n)$ bits and so we can think of $f(x)$ as a number between $0$ and $N$ where $N \leq 2^{poly(n)}$.
-If $\mathbf{P}=\mathbf{NP}$ then we can easily obtain an algorithm for computing $\max_{x\in \{0,1\}^n} f(x)$  that runs in time $N\cdot poly(n)$-time just as above, by using the fact that $\mathbf{P}=\mathbf{NP}$ to obtain a polynomial-time algorithm checking whether there exists an $x$ with $f(x) \geq k$ for $k=N,N-1,N-2,\ldots, 0$.
-But if $N$ is exponentially large in $n$, a running of $N \cdot poly(n)$ might not be good enough.
-The crucial observation is that we can use _binary search_: rather than checking whether there is $x$ with $f(x) \geq k$ for $k=N,N-1,N-2,\ldots$, we first check for $k=\floor{N/2}$, then (based on the answer) for either $k=\floor{3N/4}$ or $k=\floor{N/4}$ and so on and so forth.
+The proof follows by generalizing our ideas from the longest path. If $\mathbf{P}=\mathbf{NP}$ then we can test for every number $k$ in $poly(|x|,m)$ time  whether $\max_{y \in \{0,1\}^m} f(x,y) \geq k$. If $f(x,y)$ is an integer between $0$ and $poly(|x|+|y|)$ (as  is the case in the example of longest path) then we can just try out all possiblities for $k$ to find the maximum. Otherwise, we can use _binary search_ to hone down on the right value. Once we do so, we can use search-to-decision to actually find the string $y^*$ that  achieves the maximum.
 
 
 > # {.proof data-ref="optimizationnp"}
-For every such $f$, we can define the following Boolean function: $F:\{0,1\}^* \rightarrow \{0,1\}$: $F(1^n,k)=1$ iff there exists $x\in \{0,1\}^n$ s.t. $f(x) \geq k$.
+For every such $f$, we can define the following Boolean function: $F:\{0,1\}^* \rightarrow \{0,1\}$: $F(x,1^n,k)=1$ iff there exists $y\in \{0,1\}^m$ s.t. $f(x,y) \geq k$.
 Since $f$ is computable in polynomial time, $F$ is in $\mathbf{NP}$, and so, under our assumption that $\mathbf{P}=\mathbf{NP}$, $F$ itself can be computed in polynomial time.
-Now, for every $n$, we can compute the largest $k$ such that $F(1^n,k)=1$ by a binary search. We maintain two numbers $a,b$ such that we are guaranteed that $a \leq \max_{x\in \{0,1\}^n} f(x) < b$.
+Now, for every $n$, we can compute the largest $k$ such that $F(1^n,k)=1$ by a binary search.
+We maintain two numbers $a,b$ such that we are guaranteed that $a \leq \max_{x\in \{0,1\}^n} f(x) < b$.
 Initially we set $a=0$ and $b=2^{T(n)}$ where $T(n)$ is the running time of $f$.
+(A function with $T(n)$ running time can't output more than $T(n)$ bits and so can't output a number larger than $2^{T(n)}$.)
 At each point in time, we compute the midpoint $c = \floor{(a+b)/2})$ and let $y=F(1^n,c)$.
 If $y=1$ then we set $a=c$ and leave $b$ as it is.
 If $y=0$ then we set $b=c$ and leave $a$ as it is.
 Since $|b-a|$ shrinks by a factor of $2$, within $\log_2 2^{T(n)}= T(n)$ steps, we will get to the point at which $b\leq a+1$, and then we can simply output $a$.
-We can also use [search-dec-thm](){.ref} to obtain the actual $x$ that achieves the maximum.
+Once we find the maximum, to obtain the "moreover" part we  use [search-dec-thm](){.ref} to find the actual $y^*$ that achieves it.
 
-For example, if $G$ is a _weighted_ graph, and every edge of $G$ is given a weight which is a number between $0$ and $2^k$, then [optimizationnp](){.ref} shows that we can find the maximum-weight simple path in $G$ (i.e., simple path maximizing the sum of the weights of its edges) in time polynomial in the number of vertices and in $k$.
+> # {.remark title="Binary search example" #binarysearchrm}
+One example where we'd need to use the "binary search" approach of [optimizationnp](){.ref}  is for the problem of finding a maximum length path in a _weighted_ graph.
+In this case $G$ is a _weighted_ graph, and every edge of $G$ is given a weight which is a number between $0$ and $2^k$.
+[optimizationnp](){.ref} shows that we can find the maximum-weight simple path in $G$ (i.e., simple path maximizing the sum of the weights of its edges) in time polynomial in the number of vertices and in $k$.
+
+
+
 
 ### Example: Supervised learning
 
