@@ -272,7 +272,7 @@ Fortunately,  we can simulate this with an exponentially small probability of er
 2. Prove that $2^{1-H(1/4)+(1/4) \log 3}=(3/2)$.
 2. Use the above to prove that for every $\delta>0$ and large enough $n$, if we set $T=1000\cdot (3/2+\delta)^n$ and $S=n/4$  in the WalkSAT algorithm then for every satisfiable 3CNF $\varphi$, the probability that we output `unsatisfiable` is at most $1/2$. \
 
-> # {.exercise title="Faster bipartite mactching (challenge)" #matchingmodex}
+> # {.exercise title="Faster bipartite matching (challenge)" #matchingmodex}
 ^[TODO: add exercise to improve the matching algorithm by working modulo a prime]
 
 
