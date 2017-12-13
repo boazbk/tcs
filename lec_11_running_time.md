@@ -330,7 +330,7 @@ For every $F:\{0,1\}^* \rightarrow \{0,1\}$, we say that $F\in \mathbf{P_{/poly}
 An immediate corollary of [non-uniform-thm](){.ref} is that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$.
 Using the equivalence of NAND programs and Boolean circuits, we can also define $P_{/poly}$ as the class of functions $F:\{0,1\}^* \rightarrow \{0,1\}$  such that the restriction of $F$ to $\{0,1\}^n$ is computable by a Boolean circuit of $poly(n)$ size (say with gates in the set $\wedge,\vee,\neg$ though any universal gateset will do); see [Ppolyfig](){.ref}.
 
-![A function $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{P_{/poly}}$ if for every $n$, the restriction of $F$ to $n$ bit inputs is computable by a polynomial size NAND program, or equivalently, a polynomial sized Boolean circuit.](../figure/Ppoly.png){#Ppolyfig .class width=300px height=300px}
+![We can think of an infintie function $F:\{0,1\}^* \rightarrow \{0,1\}$ as a collection of finite functions $F_0,F_1,F_2,\ldots$ where $F_n:\{0,1\}^n \rightarrow \{0,1\}$ is the restriction of $F$ to inputs of length $n$. We say $F$ is in $\mathbf{P_{/poly}}$ if for every $n$, the function $F_n$  is computable by a polynomial size NAND program, or equivalently, a polynomial sized Boolean circuit.](../figure/Ppoly.png){#Ppolyfig .class width=300px height=300px}
 
 The notation $\mathbf{P_{/poly}}$ is used for historical reasons.
 It was introduced by Karp and Lipton, who considered this class as corresponding to functions that can be computed by polynomial-time Turing Machines (or equivalently, NAND++ programs) that are given for any input length $n$ a polynomial in $n$ long _advice string_.
