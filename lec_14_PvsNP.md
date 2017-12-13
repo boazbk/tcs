@@ -115,7 +115,7 @@ Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time computable
 Moreover under the same assumption, there is a polynomial-time algorithm $FINDOPT$ such that for every $x\in \{0,1\}^*$, $FINDOPT(x,1^m)$ outputs $y^* \in \{0,1\}^*$ such that $f(x,y^*)=OPT(x,y^*)$.
 
 > # { .pause }
-To understand the statement of the theorem, think of how it would subsume the example above of  a polynomial time algorithm for finding the maximum length path in a graph. In this case the function $f$ would be a map that on input a pair $x,y$, outputs $0$ if $x$ does not represent a graph $G$ and $y$ does not represent a path in $G$, and otherwise outputs the length of this path. Since a path in an $n$ vertex graph can be represented by at most $n \log n$ bits, for every $x$ representing a graph of $n$ vertices, finding $\max_{y\in \{0,1\}^{n \log n}f(x,y)$   corresponds to finding the length of the maximum path in the graph corresponding to $x$, and finding $y^*$ that achieves this maximum corresponds to actually finding the path.
+To understand the statement of the theorem, think of how it would subsume the example above of  a polynomial time algorithm for finding the maximum length path in a graph. In this case the function $f$ would be a map that on input a pair $x,y$, outputs $0$ if $x$ does not represent a graph $G$ and $y$ does not represent a path in $G$, and otherwise outputs the length of this path. Since a path in an $n$ vertex graph can be represented by at most $n \log n$ bits, for every $x$ representing a graph of $n$ vertices, finding $\max_{y\in \{0,1\}^{n \log n}}f(x,y)$   corresponds to finding the length of the maximum path in the graph corresponding to $x$, and finding $y^*$ that achieves this maximum corresponds to actually finding the path.
 
 
 > # {.proofidea data-ref="optimizationnp"}
@@ -139,8 +139,10 @@ Once we find the maximum, to obtain the "moreover" part we  use [search-dec-thm]
 One example where we'd need to use the "binary search" approach of [optimizationnp](){.ref}  is for the problem of finding a maximum length path in a _weighted_ graph.
 In this case $G$ is a _weighted_ graph, and every edge of $G$ is given a weight which is a number between $0$ and $2^k$.
 [optimizationnp](){.ref} shows that we can find the maximum-weight simple path in $G$ (i.e., simple path maximizing the sum of the weights of its edges) in time polynomial in the number of vertices and in $k$.
-
-
+>
+Beyond just this examle there is a vast field of [mathematical optimization](https://en.wikipedia.org/wiki/Mathematical_optimization) that studies problems of the same form as in [optimizationnp](){.ref}. In the context of optimization, $x$ typically denotes a set of constraints over some variables (that can be Boolean, integer, or real valued), $y$ encodes an assignment to these variables,  and $f(x,y)$ is the value of some _objective function_ that we want to maximize.
+Given that we don't know efficient algorithms for $\mathbf{NP}$ complete problems, researchers in optimization research study special cases of functions $f$ (such as linear programming and semidefinite programming) where it _is_ possible to optimize the value efficiently.
+Optimization is widely used in a great many scientific agreas including  machine learning, engineering, economics and operations research.
 
 
 ### Example: Supervised learning
