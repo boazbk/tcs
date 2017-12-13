@@ -295,9 +295,13 @@ The program $COMPILE$ of [nand-compiler](){.ref} is fairly easy to implement.
 In particular this is done by the following very simple python function
 
 ~~~~ { .python }
-#Input: Source code of a NAND++ program P, time bound T, input length n
-#Output: n-input NAND program of T|P| lines computing same function
-#For simplicity we assume that the program P has a constant m number of outputs.
+#Input:  Source code of a NAND++ program P,
+#        time bound T, input length n
+#Output: n-input NAND program of T|P| lines
+#        computing same function as P
+#For simplicity we assume that program P
+#has a constant m number of outputs,
+#and validx only used with the index i.
 def expand(P,T,n):
     result = r'''notx_0 := x_0 NAND x_0
 one := x_0 NAND notx_0
@@ -306,10 +310,11 @@ zero := one NAND one'''
     for t in range(T):
         i=index(t)
         validx = ('one' if i<n else 'zero')
-        result += P.replace('validx_i',validx).replace( '_i',f'_{i}')
+        result += P.replace('validx_i',validx
+                  ).replace('_i',f'_{i}')
     return result
 
-# Returns the value of the index variable i in  iteration number t
+# Returns value of index variable i in  iteration  t
 def index(t):
     r = math.floor(math.sqrt(t+1/4)-1/2)
     return (t-r*(r+1) if t <= (r+1)*(r+1) else (r+1)*(r+2)-t)
@@ -330,7 +335,7 @@ For every $F:\{0,1\}^* \rightarrow \{0,1\}$, we say that $F\in \mathbf{P_{/poly}
 An immediate corollary of [non-uniform-thm](){.ref} is that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$.
 Using the equivalence of NAND programs and Boolean circuits, we can also define $P_{/poly}$ as the class of functions $F:\{0,1\}^* \rightarrow \{0,1\}$  such that the restriction of $F$ to $\{0,1\}^n$ is computable by a Boolean circuit of $poly(n)$ size (say with gates in the set $\wedge,\vee,\neg$ though any universal gateset will do); see [Ppolyfig](){.ref}.
 
-![We can think of an infintie function $F:\{0,1\}^* \rightarrow \{0,1\}$ as a collection of finite functions $F_0,F_1,F_2,\ldots$ where $F_n:\{0,1\}^n \rightarrow \{0,1\}$ is the restriction of $F$ to inputs of length $n$. We say $F$ is in $\mathbf{P_{/poly}}$ if for every $n$, the function $F_n$  is computable by a polynomial size NAND program, or equivalently, a polynomial sized Boolean circuit.](../figure/Ppoly.png){#Ppolyfig .class width=300px height=300px}
+![We can think of an infintie function $F:\{0,1\}^* \rightarrow \{0,1\}$ as a collection of finite functions $F_0,F_1,F_2,\ldots$ where $F_n:\{0,1\}^n \rightarrow \{0,1\}$ is the restriction of $F$ to inputs of length $n$. We say $F$ is in $\mathbf{P_{/poly}}$ if for every $n$, the function $F_n$  is computable by a polynomial size NAND program, or equivalently, a polynomial sized Boolean circuit. (We drop in this figure the "edge case" of $F_0$ though as a constant function, it can always be computed by a constant sized NAND program.)](../figure/Ppoly.png){#Ppolyfig .class width=300px height=300px}
 
 The notation $\mathbf{P_{/poly}}$ is used for historical reasons.
 It was introduced by Karp and Lipton, who considered this class as corresponding to functions that can be computed by polynomial-time Turing Machines (or equivalently, NAND++ programs) that are given for any input length $n$ a polynomial in $n$ long _advice string_.
