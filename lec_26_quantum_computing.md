@@ -13,7 +13,7 @@
 >_"The only difference between a probabilistic classical world and the equations of the quantum world is that somehow or other it appears as if the probabilities would have to go negative"_, Richard Feynman, 1981
 
 There were two schools of natural philosophy in ancient Greece.
-_Aristotle_ believed that objects have an _essence_ that explains their behavior, and a theory of the natural world has to refer to the _reasons_ (or "final cause" to use Aristotle's language) as to why they exhibit certain phenonmena.
+_Aristotle_ believed that objects have an _essence_ that explains their behavior, and a theory of the natural world has to refer to the _reasons_ (or "final cause" to use Aristotle's language) as to why they exhibit certain phenomena.
 _Democritus_ believed in a purely mechanistic explanation of the world.
 In his view, the universe was ultimately composed of elementary particles (or _Atoms_) and  our observed phenomena arise from the interactions between these particles according to some local rules.
 Modern science (arguably starting with Newton) has embraced Democritus' point of view, of a mechanistic or "clockwork" universe of particles and forces acting upon them.
@@ -39,8 +39,8 @@ Obviously,  we expect the level of "denting" in any particular position of the w
 
 The above is (to my knowledge) an accurate description of what happens when we shoot baseballs at a wall.
 However, this is not the same when we shoot _photons_.
-Amazingly, if we shoot with two "photon guns" (i.e., lasers) at a wall equipped with photon detectors, then some of the detectors will see _fewer_ hits when the two lasers operate than when only one of them does.^[Normally rather than shooting with  two lasers, people use a single laser with a barrier between the laser and the detectors that has either one or two _slits_ open in it, hence the name "double slit experiemnt", see [doubleslitfig](){.ref} and [doubleslittwofig](){.ref}. The variant of the experiment we describe was first performed by  Pfleegor and Mandel in 1967. A nice illustrated description of the double slit experiment appears in   [this video](https://www.youtube.com/watch?v=DfPeprQ7oGc)].]
-In particular there are positions in the wall that are hit when the first gun is turned on, and when the second gone is turned on, but are _not hit at all when both guns are turned on!_.
+Amazingly, if we shoot with two "photon guns" (i.e., lasers) at a wall equipped with photon detectors, then some of the detectors will see _fewer_ hits when the two lasers operate than when only one of them does.^[Normally rather than shooting with  two lasers, people use a single laser with a barrier between the laser and the detectors that has either one or two _slits_ open in it, hence the name "double slit experiment", see [doubleslitfig](){.ref} and [doubleslittwofig](){.ref}. The variant of the experiment we describe was first performed by  Pfleegor and Mandel in 1967. A nice illustrated description of the double slit experiment appears in   [this video](https://www.youtube.com/watch?v=DfPeprQ7oGc)].]
+In particular there are positions in the wall that are hit when the first gun is turned on, and when the second gun is turned on, but are _not hit at all when both guns are turned on!_.
 It's almost as if the photons from both guns are aware of each other's existence, and behave differently when they know that in the future a photon would be shot from another gun. (Indeed, we stress that we can modulate the rate of firing so that photons are _not_ fired at the same time, and so there is no chance of "collision".)
 
 
@@ -50,7 +50,7 @@ Suppose that the probability that a ball shot from the first machine hits that p
 Then, if we shoot $N$ balls out of each gun, we expect that this position will be hit $(p+q)N$ times.
 In the quantum world, for photons, we have almost the same picture, except that the probabilities can be _negative_.
 In particular, it can be the case that $p+q=0$, in which case the position would be hit with nonzero probability when gun number one is operating, and with nonzero probability when gun number two is operating, but with zero probability when both of them are operating.
-If we try to "catch photons in the act" and place  detectors right next to the mouth of each gun so we can see exactly the path that the photons took  then something even more bizzare happens.
+If we try to "catch photons in the act" and place  detectors right next to the mouth of each gun so we can see exactly the path that the photons took  then something even more bizarre happens.
 The mere fact that we _measure_ the  path changes the photon's behavior, and now this "destructive interference" pattern is gone and the detector  will be hit $p+q$ fraction of the time.
 
 > # { .pause }
@@ -90,7 +90,7 @@ quantum mechanics but simply "shut up and calculate".
 
 There is something weird about quantum mechanics.
 In 1935 [Einstein, Podolsky and Rosen (EPR)](http://plato.stanford.edu/entries/qt-epr/) tried to pinpoint this issue by highlighting a previously unrealized corollary of this theory.
-People already understood  that the fact that  quantum measurement collapses a state to a definite state yields  the _uncertainty principle_, whereby if you measure a quantum system in one orthogonal basis, you will not know how it would have measured in an incohrent basis to it (such as position vs. momentum).
+People already understood  that the fact that  quantum measurement collapses a state to a definite state yields  the _uncertainty principle_, whereby if you measure a quantum system in one orthogonal basis, you will not know how it would have measured in an incoherent basis to it (such as position vs. momentum).
 What EPR showed was that quantum mechanics results in so called "spooky action at a distance" where if you have a system of two particles then measuring one of them would instantenously effect the state of the other.
 Since this "state" is just a mathematical description,  as far as I know the EPR paper was considered to be a thought experiment showing troubling aspects of quantum mechanics, without bearing on experiment.
 This changed when in 1965 John Bell showed an actual experiment to test the predictions of EPR and hence pit intuitive common sense against the predictions of quantum mechanics.
@@ -202,7 +202,7 @@ It could also be a "self destroying prophecy" whereby the existence of a small-s
 [^Grover]: I am using the theorist' definition of conflating "significant" with "super-polynomial". [Grover's algorithm](https://goo.gl/NQVLLF) does offer a very generic _quadratic_ advantage in computation. Whether that quadratic advantage will  ever be good enough to offset in practice the significant overhead in building a quantum computer remains an open question. We also don't have evidence that super-polynomial speedups _can't_ be achieved for some problems outside the Factoring/Dlog or quantum simulation domains, and there is at least [one company](http://www.dwavesys.com/) banking on such speedups actually being feasible.
 
 > # {.remark title="Quantum computing and $\mathbf{NP}$" #quantumnp}
-Despite popular accounts of quantum computers as having variables that can take "zero and one at the same time"  and therefore can "explore an exponential number of possiblities simultaneously", their true power is much more subtle and nuanced.
+Despite popular accounts of quantum computers as having variables that can take "zero and one at the same time"  and therefore can "explore an exponential number of possibilities simultaneously", their true power is much more subtle and nuanced.
 In particular, as far as we know, quantum computers do _not_ enable us to solve $\mathbf{NP}$ complete problems such as 3SAT.
 In particular it is believed that for every large enough $n$, the restriction of 3SAT to length $n$ cannot be solved by quantum circuits (or equivalently QNAND programs) of polynomial, or even subexponential size.
 However, [Grover's search algorithm](https://goo.gl/NQVLLF) does give a more modest advantage (namely, quadratic) for quantum computers over classical ones for problems in $\mathbf{NP}$.
@@ -411,7 +411,7 @@ Let $FACT_n:\{0,1\}^n \rightarrow \{0,1\}^*$ be the function that on input a num
 Then $FACT_n$ can be computed by a QNAND program of $O(n^3)$ lines.
 
 This is an exponential improvement over the best known classical algorithms, which take roughly $2^{\tilde{O}(n^{1/3})}$ time, where the $\tilde{O}$ notation hides factors that are polylogarithmic in $n$.
-In the rest of this section we will sketch some of the ideas behinf Shor's algorithm.
+In the rest of this section we will sketch some of the ideas behind Shor's algorithm.
 
 
 > # {.remark title="Group theory" #grouptheorem}
@@ -433,7 +433,7 @@ The _order_ of $g\in \mathbb{G}$ is the smallest natural number $a$ such that $g
 The heart of Shor's algorithm is the following result:
 
 > # {.lemma #shorlem}
-For every (efficiently presented) Abliean group $\mathbb{G}$, there is a quantum polynomial time algorithm that given a _periodic_ function $f:\mathbb{G} \rightarrow \{0,1\}^*$ finds a period of $f$.
+For every (efficiently presented) Abelian group $\mathbb{G}$, there is a quantum polynomial time algorithm that given a _periodic_ function $f:\mathbb{G} \rightarrow \{0,1\}^*$ finds a period of $f$.
 
 If $\mathbb{G}$ is an Abelian group with operation $\star$ and $z\in \mathbb{G}$ is not the $1$ element, then a function $f:\mathbb{G} \rightarrow \{0,1\}^*$ is _$z$ periodic_ if $f(x\star z)=f(x)$ for every $x\in \mathbb{G}$.
 The algorithm of [shorlem](){.ref} is "given"  the group $\mathbb{G}$ in the form of a classical algorithm (e.g., a NAND program) that computes the function $\star : \{0,1\}^n \times \{0,1\}^n \rightarrow \{0,1\}^n$, where $n$ is the number of bits that are required to represent an element of the group (which is logarithmic in the size of the group itself).
@@ -706,7 +706,7 @@ This [talk and panel](https://youtu.be/GdqC2bVLesQ?t=2m51s) moderated by Brian G
 The [Feynmann lecture on the Fourier Transform](http://www.feynmanlectures.caltech.edu/I_50.html) and [quantum mechanics in general](http://www.feynmanlectures.caltech.edu/III_toc.html) are very much worth reading.
 
 The [Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform), used as a component in Shor's algorithm, is one of the most useful algorithms across many applications areas.
-The stories of its discovery by Gauss in trying to calculate astroid orbits and rediscovery by Tukey during  the cold war are fascinating as well.
+The stories of its discovery by Gauss in trying to calculate asteroid orbits and rediscovery by Turkey during  the cold war are fascinating as well.
 
 
 
