@@ -7,7 +7,7 @@
 
 
 
-> _"in 1946 .. (I asked myself) what are the chances that a Canfield solitaire laid out with 52 cardds will come out successfully? After spending a lot of time trying to estimate them by pure combinatorial calculations, I wondered whether a more practical method ... might not be to lay it our say one hundred times and simple observe and count"_, Stanislaw Ulam, 1983
+> _"in 1946 .. (I asked myself) what are the chances that a Canfield solitaire laid out with 52 cards will come out successfully? After spending a lot of time trying to estimate them by pure combinatorial calculations, I wondered whether a more practical method ... might not be to lay it our say one hundred times and simple observe and count"_, Stanislaw Ulam, 1983
 
 >_"The salient features of our method are that it is probabilistic ... and with a controllable miniscule probability of error."_, Michael Rabin, 1977
 
@@ -87,12 +87,12 @@ $$
 
 ### Two-sided amplification
 
-The analysis above relied on the fact that the maximum cut has _one sided error_. By this we mean that if we get a cut of size at leat $m/2$ then we know we have succeeded.
+The analysis above relied on the fact that the maximum cut has _one sided error_. By this we mean that if we get a cut of size at least $m/2$ then we know we have succeeded.
 This is common for randomized algorithms, but is not the only case.
 In particular, consider the task of computing some Boolean function $F:\{0,1\}^* \rightarrow \{0,1\}$.
 A randomized algorithm $A$ for computing $F$, given input $x$, might toss coins and succeed on outputting $F(x)$ with probability, say, $0.9$.
 We say that $A$ has _two sided errors_ if there is positive probability that $A(x)$ outputs $1$ when $F(x)=0$, and positive probability that $A(x)$ outputs $0$ when $F(x)=1$.
-In such a case, to smplify $A$'s success, we cannot simply repeat it $k$ times and output $1$ if a single one of those repetitions resulted in $1$, nor can we output $0$ if a single one of the repetitions resulted in $0$.
+In such a case, to simplify $A$'s success, we cannot simply repeat it $k$ times and output $1$ if a single one of those repetitions resulted in $1$, nor can we output $0$ if a single one of the repetitions resulted in $0$.
 But we can output the _majority value_ of these repetitions.
 By the Chernoff bound ([chernoffthm](){.ref}),  with probability _exponentially close_ to $1$ (i.e., $1-2^{\Omega(k)}$), the fraction of the repetitions where $A$ will output $F(x)$ will be at least, say $0.89$, and in such cases we will of course output the correct answer.
 
@@ -108,9 +108,9 @@ That is, we are not assuming anything about the _input graph_: the probability i
 While a probabilistic algorithm might not seem as nice as a deterministic algorithm that is _guaranteed_ to give an output, to get a sense of what a failure probability of $2^{-1000}$ means, note that:
 
 
-* The chance of winning the Massachussets Mega Million lottery is one over $(75)^5\cdot 15$ which is roughly $2^{-35}$. So $2^{-1000}$ corresponds to winning the lottery about $300$ times in a row, at which point you might not care so much about your algorithm failing.
+* The chance of winning the Massachusetts Mega Million lottery is one over $(75)^5\cdot 15$ which is roughly $2^{-35}$. So $2^{-1000}$ corresponds to winning the lottery about $300$ times in a row, at which point you might not care so much about your algorithm failing.
 
-* The chance for a U.S. resident to be struck by lightning is about $1/700000$ which corresponds about $2^{-45}$ chance that you'll be struck by lightining the  very second that you're reading this sentence (after which again you might not  care so much about the algorithm's performance).
+* The chance for a U.S. resident to be struck by lightning is about $1/700000$ which corresponds about $2^{-45}$ chance that you'll be struck by lightning the  very second that you're reading this sentence (after which again you might not  care so much about the algorithm's performance).
 
 * Since the earth is about 5 billion years old, we can estimate the chance that an asteroid of the magnitude that caused the dinosaurs' extinction will hit us this very second to be about $2^{-60}$.
 It is quite likely that even a deterministic algorithm will fail if this happens.
@@ -139,11 +139,11 @@ __Algorithm WalkSAT:__
  * If all the $T\cdot S$ repetitions above did not result in a satisfying assignment then output `Unsatisfiable`
 
 
-The running time of this algorithm is $S\cdot T \cdot poly(n)$, and so the key question is how small can we make $S$ and $T$ so that the probability that WalkSAT outputs `Unsatisfisable` on a satisfiable formula $\varphi$ will be small.
+The running time of this algorithm is $S\cdot T \cdot poly(n)$, and so the key question is how small can we make $S$ and $T$ so that the probability that WalkSAT outputs `Unsatisfiable` on a satisfiable formula $\varphi$ will be small.
 It is known that we can do so with $ST = \tilde{O}((4/3)^n)$ (see [walksatex](){.ref} for a weaker result), but we'll show below a simpler analysis yielding $ST= \tilde{O}(\sqrt{3}^n) = \tilde{O}(1.74^n)$ which is still much better than the trivial $2^n$ bound.^[At the time of this writing, the best known [randomized](https://arxiv.org/pdf/1103.2165.pdf) algorithms for 3SAT run in time roughly $O(1.308^n)$ and the best known [deterministic](https://arxiv.org/pdf/1102.3766v1.pdf) algorithms run in time $O(1.3303^n)$ in the worst case. As mentioned above, the simple WalkSAT algorithm takes $\tilde{O}((4/3)^n)=\tilde{O}(1.333..^n)$ time.]
 
 > # {.theorem title="WalkSAT simple analysis" #walksatthm}
-If we set $T=100\cdot \sqrt{3}^{n}$ and $S= n/2$, then the probability we output `Unsatisifiable` for a satisfiable $\varphi$ is at most $1/2$.
+If we set $T=100\cdot \sqrt{3}^{n}$ and $S= n/2$, then the probability we output `Unsatisfiable` for a satisfiable $\varphi$ is at most $1/2$.
 
 
 > # {.proof data-ref="walksatthm"}
@@ -169,7 +169,7 @@ Hence the probability that we never do so in $100 \sqrt{3}^{n}$ repetitions is a
 ### Bipartite matching.
 
 The _matching_ problem is one of the canonical optimization problems, arising in all kinds of applications, including matching residents and hospitals, kidney donors and patients, or flights and crews, and many others.
-One prototypical variant is _bipratite perfect matching_.
+One prototypical variant is _bipartite perfect matching_.
 In this problem, we are given a bipartite graph $G = (L\cup R,E)$ which has $2n$ vertices partitioned into $n$-sized sets $L$ and $R$, where all edges have one endpoint in $L$ and the other in $R$.
 The goal is to determined whether there is a _perfect matching_ which is a subset $M \subseteq E$ of $n$ disjoint edges.
 That is, $M$ matches every vertex in $L$ to a unique vertex in $R$.
