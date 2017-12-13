@@ -13,6 +13,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Juan Esteller
 * Michael Fine
 * Leor Fishman
+* William Fu
 * Mark Goldstein
 * Chan Kang
 * Vidak Kazic
