@@ -68,7 +68,7 @@ $$
 
 [MRDP-thm](){.ref} states that there is no NAND++ program that can determine the truth of every statements of the form [eq:diophantine](){.eqref}.
 The proof is highly involved and we will not see it here.
-Rather  we will prove the following weaker result that there is no NAND++ program that can the truth of more general statements that mix together the existential ($\exists$) and universal ($\forall$) quantifiers.
+Rather  we will prove the following weaker result that there is no NAND++ program that can determine the truth of more general statements that mix together the existential ($\exists$) and universal ($\forall$) quantifiers.
 The reason this  result is weaker than [MRDP-thm](){.ref} is  because deciding the truth of  more general  statements (that involve both quantifier) is a potentially harder problem than only existential statements, and so it is potentially easier to prove that this problem is uncomputable. (If you find the last sentence confusing, it is worthwhile to reread it until you are sure you follow its logic; we are so used to trying to find solution for problems that it can be quite confusing to follow the arguments showing that problems are _uncomputable_.)
 
 > # {.definition title="Quantified integer statements" #QIS-def}
@@ -144,7 +144,7 @@ $$
 
 
 
-Quantified mixed statements are a more general than quantified integer statements, and so the following theorem is potentially easier to prove than [QIS-thm](){.ref}:
+Quantified mixed statements are more general than quantified integer statements, and so the following theorem is potentially easier to prove than [QIS-thm](){.ref}:
 
 
 > # {.theorem title="Uncomputability of quantified mixed statements" #QMS-thm}
