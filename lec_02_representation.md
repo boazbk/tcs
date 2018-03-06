@@ -90,7 +90,7 @@ The choice of the particular representation scheme will almost never matter, exc
 
 We can represent a rational number of the form $a/b$ by representing the two numbers $a$ and $b$ (again, this is not a unique representation but this is fine).
 However, simply concatenating the representations of $a$ and $b$ will not work.^[Recall that the _concatenation_ of two strings $x$ and $y$ is  the string of length $|x|+|y|$ obtained by writing $y$ after $x$.]
-For example, recall that we represent $4$ as $(0,1)$ and  $35$ as $(1,1,0,0,0,1)$, but the concatenation  $(0,1,1,1,0,0,0,1)$ of these strings is also the concatenation of the representation $(0,1,1)$ of $6$ and the representation $(1,0,0,0,1)$ of $17$.
+For example, recall that we represent $4$ as $(0,0,1)$ and  $35$ as $(1,1,0,0,0,1)$, but the concatenation  $(0,1,1,1,0,0,0,1)$ of these strings is also the concatenation of the representation $(0,1,1)$ of $6$ and the representation $(1,0,0,0,1)$ of $17$.
 Hence, if we used such simple concatenation then we would not be able to tell if the string $(0,1,1,1,0,0,0,1)$ is supposed to represent $4/35$ or  $6/17$.
 
 The way to tackle this is to find a general representation for _pairs_ of numbers.
