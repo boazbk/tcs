@@ -70,10 +70,10 @@ In this course, we will eventually tackle some fairly complex definitions.
 For example, let us consider one of the definitions that we will encounter  towards the very end of this text:
 
 > # {.definition title="The complexity class $\mathbf{BQP}$" #BGPintrodef}
-If $G:\{0,1\}^n \rightarrow \{0,1\}$  is a finite function and $P$ is a QNAND program then we say that _$Q$ computes $G$_ if  for every $x\in \{0,1\}^n$, $\Pr[ Q(x)=G(x) ] \geq 2/3$.
+If $G:\{0,1\}^n \rightarrow \{0,1\}$  is a finite function and $Q$ is a QNAND program then we say that _$Q$ computes $G$_ if  for every $x\in \{0,1\}^n$, $\Pr[ Q(x)=G(x) ] \geq 2/3$.
 >
 The class $\mathbf{BQP}$ (which stands for "bounded-error quantum polynomial time") is the set of all functions $F:\{0,1\}^* \rightarrow \{0,1\}$ such that there exists a polynomial-time NAND++ program $P$ that satisfies the following:
-for every $n\in \N$, $P(1^n)$ is a QNAND program that computes $F_n$, where $F_n:\{0,1\}^n \rightarrow \{0,1\}$ is the restriction of $F$ to inputs of length $\{0,1\}^n$.
+for every $n\in \N$, $P(1^n)$ is a QNAND program $Q_n$ that computes $F_n$, where $F_n:\{0,1\}^n \rightarrow \{0,1\}$ is the restriction of $F$ to inputs of length $\{0,1\}^n$.
 That is, $F_n(x) = F(x)$ for every $x\in \{0,1\}^n$.
 
 We will also see the following theorem:
@@ -83,7 +83,7 @@ Let $F:\{0,1\}^* \rightarrow \{0,1\}$ be the function that on input a string rep
 
 
 
-While it should make sense to you by the end of the term, at the current point in time   [BGPintrodef](){.ref} and [shorsthmintro](){.ref} should seem to you as a meaningless combination of inscrutable terms.
+While it should make sense to you by the end of the term, at the current point in time it is perfectly fine if    [BGPintrodef](){.ref} and [shorsthmintro](){.ref} seem to you as a meaningless combination of inscrutable terms.
 Indeed, to a large extent they _are_ such a combination, as they contains many terms that we have not defined (and that we would need to build on a semester's worth of material to be able to define).
 Yet, even when faced with what seems like completely incomprehensible gibberish, it is still possible for us to try to make _some_ sense of it, and try to at least to be able to "know what we don't know".
 Let's use [BGPintrodef](){.ref} and [shorsthmintro](){.ref} as examples.
@@ -91,8 +91,10 @@ For starters,  let me tell you what this definition and this theorem are about.
 _Quantum computing_ is an approach to use  the peculiarities of quantum mechanics  to   build computing devices that can solve certain problems exponentially faster than current computers.
 Many large companies and [governments](http://www.businessinsider.com/justin-trudeau-quantum-computing-2016-4) are extremely excited about this possibility, and are investing hundreds of millions of dollars in trying to make this happen.
 To a first order of approximation, the reason they are so excited is [shorsthmintro](){.ref}, which says that the problem of _integer factoring_, with history going back thousands of years, and whose difficulty is (as we'll see) closely tied to the security of many current encryption schemes, can be solved efficiently using quantum computers.
+
+
 [shorsthmintro](){.ref} was proven by Peter Shor in 1994.
-However, he could not even have stated this theorem, let alone prove it, without having [BGPintrodef](){.ref} in place.
+However, Shor could not even have _stated_ this theorem, let alone prove it, without having [BGPintrodef](){.ref} in place.
 [BGPintrodef](){.ref} defines the class $\mathbf{BQP}$ of functions that can be computed in polynomial time by quantum computers.
 Like any mathematical definition, it defines a new concept (in this case the class $\mathbf{BQP}$) in terms of other  concepts.
 In this case the concepts that are needed are
