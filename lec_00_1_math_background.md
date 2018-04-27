@@ -12,7 +12,7 @@
 In this chapter, we  review some of the mathematical concepts that we will use in this course.
 Most of these are not very complicated, but do require some practice and exercise to get comfortable with.
 If you have not previously encountered some of these concepts, there are several excellent freely-available resources online for them.
-In particular, the [CS 121 webpage](http://www.boazbarak.org/cs121/background/) contains a program for self study of all the needed notions using the lecture notes, videos, and assignments of MIT course [6.042j Mathematics for Computer science](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/). (The MIT lecture notes are also used by [Harvard CS 20](https://www.seas.harvard.edu/courses/cs20/).)
+In particular, the [CS 121 webpage](http://www.boazbarak.org/cs121/background/) contains a program for self study of all the needed notions using the lecture notes, videos, and assignments of MIT course [6.042j Mathematics for Computer science](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/). (The MIT lecture notes were also used in the past in [Harvard CS 20](https://www.seas.harvard.edu/courses/cs20/).)
 
 ## A mathematician's apology
 
@@ -62,6 +62,69 @@ The main notions we will use in this course are the following:
 
 While I highly recommend the resources linked above, in the rest of this section we briefly review these notions.
 This is partially to remind the reader and reinforce material that might not be fresh in your mind, and partially to introduce our notation and conventions which might occasionally differ from those you've encountered before.
+
+
+## Reading mathematical texts
+
+In this course, we will eventually tackle some fairly complex definitions.
+For example, let us consider one of the definitions that we will encounter  towards the very end of this text:
+
+> # {.definition title="The complexity class $\mathbf{BQP}$" #BGPintrodef}
+If $G:\{0,1\}^n \rightarrow \{0,1\}$  is a finite function and $P$ is a QNAND program then we say that _$Q$ computes $G$_ if  for every $x\in \{0,1\}^n$, $\Pr[ Q(x)=G(x) ] \geq 2/3$.
+>
+The class $\mathbf{BQP}$ (which stands for "bounded-error quantum polynomial time") is the set of all functions $F:\{0,1\}^* \rightarrow \{0,1\}$ such that there exists a polynomial-time NAND++ program $P$ that satisfies the following:
+for every $n\in \N$, $P(1^n)$ is a QNAND program that computes $F_n$, where $F_n:\{0,1\}^n \rightarrow \{0,1\}$ is the restriction of $F$ to inputs of length $\{0,1\}^n$.
+That is, $F_n(x) = F(x)$ for every $x\in \{0,1\}^n$.
+
+We will also see the following theorem:
+
+> # {.theorem title="Shor's Algorithm" #shorsthmintro}
+Let $F:\{0,1\}^* \rightarrow \{0,1\}$ be the function that on input a string representation of a pair $(m,i)$ of natural numbers, outputs $1$ if and only if the $i$-th bit of the smallest prime factor of $m$ is equal to $1$. Then $F \in \mathbf{BQP}$.
+
+
+
+While it should make sense to you by the end of the term, at the current point in time   [BGPintrodef](){.ref} and [shorsthmintro](){.ref} should seem to you as a meaningless combination of inscrutable terms.
+Indeed, to a large extent they _are_ such a combination, as they contains many terms that we have not defined (and that we would need to build on a semester's worth of material to be able to define).
+Yet, even when faced with what seems like completely incomprehensible gibberish, it is still possible for us to try to make _some_ sense of it, and try to at least to be able to "know what we don't know".
+Let's use [BGPintrodef](){.ref} and [shorsthmintro](){.ref} as examples.
+For starters,  let me tell you what this definition and this theorem are about.
+_Quantum computing_ is an approach to use  the peculiarities of quantum mechanics  to   build computing devices that can solve certain problems exponentially faster than current computers.
+Many large companies and [governments](http://www.businessinsider.com/justin-trudeau-quantum-computing-2016-4) are extremely excited about this possibility, and are investing hundreds of millions of dollars in trying to make this happen.
+To a first order of approximation, the reason they are so excited is [shorsthmintro](){.ref}, which says that the problem of _integer factoring_, with history going back thousands of years, and whose difficulty is (as we'll see) closely tied to the security of many current encryption schemes, can be solved efficiently using quantum computers.
+[shorsthmintro](){.ref} was proven by Peter Shor in 1994.
+However, he could not even have stated this theorem, let alone prove it, without having [BGPintrodef](){.ref} in place.
+[BGPintrodef](){.ref} defines the class $\mathbf{BQP}$ of functions that can be computed in polynomial time by quantum computers.
+Like any mathematical definition, it defines a new concept (in this case the class $\mathbf{BQP}$) in terms of other  concepts.
+In this case the concepts that are needed are
+
+* The notion of a _function_, which is a mapping of one set to another. In this particular case we use functions whose output is a single number that is either zero or one (i.e., a _bit_) and the input is a list of bits (i.e., a _string_) which can either have a fixed length $n$ (this is denoted as the set $\{0,1\}^n$) or have length that is not a priori bounded (this is denoted by $\{0,1\}^*$).
+
+* We define the notion of a _restriction_ of a function. If $F$ is a function that takes strings of arbitrary length as input (i.e., members of the set $\{0,1\}^*$) then $F_n$ is the restriction of $F$ to inputs of length $n$ (i.e., members of $\{0,1\}^n$).
+
+* We use the notion of a _QNAND program_ which will be our computational model for quantum computers, and which we will encounter later on in the course. QNAND programs can compute functions with a fixed input length $n$, and we define the notion of computing a function $G$ as outputting on input $x$ the value $G(x)$ with probability at least $2/$.
+
+* We will also use the notion of a _NAND++ program_ which will be our computational model for "classical" computers.  We require that for every $n\in \N$, the QNAND program $Q_n$ for $F_n$ needs  to be efficiently generatable, in the sense that there is a polynomial-time classical program $P$ that on input a string of $n$ ones (which we  shorthand  as $1^n$) outputs $Q_n$.
+
+The point of this example is not for you to understand  [BGPintrodef](){.ref} and [shorsthmintro](){.ref}. Fully understanding them will require background that will take us weeks to develop.
+The point is to show that you should not be afraid of even the most complicated looking definitions and mathematical terminology.
+No matter how convoluted the notation, and how many layers of indirection, you can always look at mathematical definitions and try to at least attempt at answering the following questions:
+
+1. What is the intuitive notion that this definition aims at modeling?
+
+2. How is each new concept  defined in terms of other concepts?
+
+3. Which of these prior concepts am I already familiar with, and which ones do I still need to look up?
+
+Dealing with mathematical text is in many ways not so different from dealing with any other complex text, whether it's a legal argument, a philosophical treatise, an English Renaissance play, or even the source code of an operating system.
+You should not expect it to be clear in a first reading, but you should not despair immediately, but rather engage with the text, trying to figure out both the high level intentions as well as the underlying details.
+Luckily, mathematicians have a greater discipline of introducing definitions in linear order, and making sure that every concept is defined only in terms of concepts that have been previously defined.
+As you read through the rest of this chapter and this text, try to ask yourself the questions 1-3 above every time that you encounter a new definition.
+
+
+
+
+
+
 
 
 
