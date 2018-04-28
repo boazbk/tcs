@@ -33,6 +33,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Brian Sapozhnikov
 * Josh Seides
 * Alaisha Sharma
+* Miguel Solano
 * Hikari Sorensen
 * David Steurer
 * Alec Sun
