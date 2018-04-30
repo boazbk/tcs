@@ -48,7 +48,7 @@ Here is how al-Khwarizmi described how to solve an equation of the form $x^2 +bx
 ![An explanation for children of the two digit addition algorithm](../figure/addition_regrouping.jpg){#childrenalg .class width=300px height=300px}
 
 
-![Text pages from Algebra manuscript with geometrical solutions to two quadratic equations. Shelfmark: MS. Huntingdon 214 fol. 004v-005r](../figure/alKhwarizmi.jpg){#alKhwarizmi .class width=300px height=300px}
+![Text pages from Algebra manuscript with geometrical solutions to two quadratic equations. Shelfmark: MS. Huntington 214 fol. 004v-005r](../figure/alKhwarizmi.jpg){#alKhwarizmi .class width=300px height=300px}
 
 For the purposes of this course, we will need a much more precise way to define algorithms.
 Fortunately (or is it unfortunately?), at least at the moment, computers lag far behind school-age children in learning from examples.
