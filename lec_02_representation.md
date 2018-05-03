@@ -53,6 +53,21 @@ Representing the number $x$ as $(x_{n-1},x_{n-2},\ldots,x_0)$ will of course wor
 We chose the particular representation above for the sake of simplicity, so the the $i$-th bit corresponds to $2^i$, but such low level choices will not make a difference in this course.
 A related, but not identical, distinction is the [Big Endian vs Little Endian](https://betterexplained.com/articles/understanding-big-and-little-endian-byte-order/) representation for integers in computing architecture.]
 
+```python
+def represent(n):
+    res = []
+    while n>0:
+        res += [n % 2]
+        n = n // 2
+    return res
+
+print(represent(236))
+```
+
+```
+[0, 0, 1, 1, 0, 1, 1, 1]
+```
+
 We can think of a representation as consisting of    _encoding_ and _decoding_ functions.
 In the case of the _binary representation_ for integers, the _encoding_ function $E:\N \rightarrow \{0,1\}^*$ maps a natural number to the string representing it, and the _decoding_ function $D:\{0,1\}^* \rightarrow \N$ maps a string into the number it represents (i.e., $D(x_0,\ldots,x_{n-1})= 2^0x_0 + 2^1x_1 +\ldots + 2^{n-1}x_{n-1}$ for every $x_0,\ldots,x_{n-1} \in \{0,1\}$).
 For the representation to be well defined, we need every natural number to be represented by some  string, where two distinct numbers  must have distinct representations.
