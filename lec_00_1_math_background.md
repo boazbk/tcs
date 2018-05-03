@@ -122,6 +122,14 @@ You should not expect it to be clear in a first reading, but you should not desp
 Luckily, mathematicians have a greater discipline of introducing definitions in linear order, and making sure that every concept is defined only in terms of concepts that have been previously defined.
 As you read through the rest of this chapter and this text, try to ask yourself the questions 1-3 above every time that you encounter a new definition.
 
+### Example: Defining a one to one function
+
+Here is a simpler mathematical definition, which you may have encountered in the past:
+
+
+> # {.definition title="One to one function" #onetoonedef}
+A function $f:S \rightarrow T$ is _one to one_ if for every $x \neq x'$ in $S$, $f(x) \neq f(x')$.
+
 
 
 
@@ -179,7 +187,7 @@ Infinite ordered collections are known as _sequences_; we might sometimes use th
 __Cartesian product:__ If $S$ and $T$ are sets, then their _Cartesian product_, denoted by $S \times T$, is the set of all ordered pairs $(s,t)$ where $s\in S$ and $t\in T$.
 For example, if $S = \{1,2,3 \}$ and $T = \{10,12 \}$, then $S\times T$ contains the $6$ elements $(1,10),(2,10),(3,10),(1,12),(2,12),(3,12)$.
 Similarly if $S,T,U$ are sets then $S\times T \times U$ is the set of all ordered triples $(s,t,u)$ where $s\in S$, $t\in T$, and $u\in U$.
-More generally, for every positive integer $n$ and sets $S_0,\ldots,S_{n-1}$, we denote by $S_0 \times S_1 \times \cdots \times S_{n-1}$ the set of ordered $n$-tuples $(s_0,\ldots,s_{n-1})$ where $s_i\in S_i$ for every $i \in \{0,\ldots, n-1\}$.  
+More generally, for every positive integer $n$ and sets $S_0,\ldots,S_{n-1}$, we denote by $S_0 \times S_1 \times \cdots \times S_{n-1}$ the set of ordered $n$-tuples $(s_0,\ldots,s_{n-1})$ where $s_i\in S_i$ for every $i \in \{0,\ldots, n-1\}$.
 For every set $S$, we  denote the set $S\times S$ by $S^2$, $S\times S\times S$ by $S^3$, $S\times S\times S \times S$ by $S^4$, and so on and so forth.
 
 
@@ -279,7 +287,7 @@ Then  the function $F$ defined by the input output behavior as in the table belo
 
 
 
-If $F:S \rightarrow T$ satisfies that $F(x)\neq F(y)$ for all $x \neq y$ then we say that $F$ is _one-to-one_ (also known as an _injective_ function or simply an _injection_).  
+If $F:S \rightarrow T$ satisfies that $F(x)\neq F(y)$ for all $x \neq y$ then we say that $F$ is _one-to-one_ (also known as an _injective_ function or simply an _injection_).
 If $F$ satisfies that for every $y\in T$ there is some $x$ such that $F(x)=y$ then we say that $F$ is _onto_ (also known as a _surjective_ function or simply a _surjection_).
 A  function that is both one-to-one and onto is known as a _bijective_ function or simply a _bijection_.
 If  $S=T$ then a bijection from $S$ to $T$ is also known as a _permutation_.
