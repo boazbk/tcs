@@ -41,7 +41,7 @@ There are quite a few technical hurdles to master, whether it is following the d
 The best way to engage with the  material is to read these notes  __actively__.
 While reading, I encourage you to stop and think about the following:
 
-* When I state a theorem, stop and try to think of how you would prove it yourself _before_ reading the proof in the notes. You will be amazed by how much you can understand a proof better even after only 5 minutes of attempting it yourself.  
+* When I state a theorem, stop and try to think of how you would prove it yourself _before_ reading the proof in the notes. You will be amazed by how much you can understand a proof better even after only 5 minutes of attempting it yourself.
 
 * When reading a definition, make sure that you understand what the definition means, and you can think of natural examples of objects that satisfy it and objects that don't. Try to think of the motivation behind the definition, and there  other natural ways to formalize the same concept.
 
@@ -89,6 +89,8 @@ If you have any comments or suggestions, please do post them on the GitHub repos
 
 Thanks to Anil Ada, Venkat Guruswami,  and Ryan O'Donnell for helpful tips from their experience in teaching [CMU 15-251](http://www.cs.cmu.edu/~./15251/).
 
-Thanks to Juan Esteller for his work on [implementing](https://github.com/juan-esteller/NAND) the NAND* languages.
+Thanks to Juan Esteller and Gabe Montague for their  work on [implementing](http://nandpl.org) the NAND* languages.
 
-Thanks to David Steurer for writing the scripts (oringally produce for [our joint notes on the sum of squares algorithm](http://sumofsquares.org))  that I am using to produce these notes, (themselves based on several other packages, including [pandoc](http://pandoc.org/), [LateX](https://www.latex-project.org/), and the Tufte [LaTeX](https://tufte-latex.github.io/tufte-latex/) and [CSS](https://edwardtufte.github.io/tufte-css/) packages).
+Thanks to David Steurer for writing the scripts (originally written for [our joint notes on the sum of squares algorithm](http://sumofsquares.org))  that I am using to produce these notes.
+David's scripts are themselves based on several other packages, including [pandoc](http://pandoc.org/), [LaTeX](https://www.latex-project.org/), and the Tufte [LaTeX](https://tufte-latex.github.io/tufte-latex/) and [CSS](https://edwardtufte.github.io/tufte-css/) packages.
+I used the [Atom editor]  to write these notes,  and used the [hyrdrogen package](https://atom.io/packages/hydrogen), which relies on the [Jupyter project](http://jupyter.org/), to write code snippets.

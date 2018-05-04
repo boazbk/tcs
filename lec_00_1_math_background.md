@@ -961,7 +961,3 @@ Prove that for every directed acyclic graph (DAG) $G=(V,E)$, there exists a map 
 
 The section heading "A Mathematician's Apology", refers of course to Hardy's [classic book](https://en.wikipedia.org/wiki/A_Mathematician%27s_Apology).
 Even when Hardy is wrong, he is very much worth reading.
-
-
-
-## Acknowledgements

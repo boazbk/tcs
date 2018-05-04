@@ -204,12 +204,12 @@ People have tried to use [group representations](https://en.wikipedia.org/wiki/G
 
 The quest for better algorithms is by no means restricted to arithmetical tasks such as adding, multiplying or solving equations.
 Many _graph algorithms_, including algorithms for finding paths, matchings, spanning tress, cuts, and flows, have been discovered in the last several decades, and this is still an intensive area of research.
-(For example,  the last few years saw many advances in algorithms for the _maximum flow_ problem, borne out of surprising connections with electrical circuits and linear equation solvers.)   
+(For example,  the last few years saw many advances in algorithms for the _maximum flow_ problem, borne out of surprising connections with electrical circuits and linear equation solvers.)
 These algorithms are being used not just for the "natural" applications of routing network traffic or GPS-based navigation, but also for applications as varied as drug discovery through searching for structures in  gene-interaction graphs to computing risks from correlations in financial investments.
 
 
 Google was founded based on the _PageRank_ algorithm, which is an efficient algorithm to approximate the "principal eigenvector" of (a dampened version of) the adjacency matrix of web graph.
-The _Akamai_ company was founded based on a new data structure, known as _consistent hashing_, for a hash table where buckets are stored at different servers.  
+The _Akamai_ company was founded based on a new data structure, known as _consistent hashing_, for a hash table where buckets are stored at different servers.
 The _backpropagation algorithm_, that computes partial derivatives of a neural network in $O(n)$ instead of $O(n^2)$ time, underlies many of the recent phenomenal successes of  learning deep neural networks.
 Algorithms for solving  linear equations under sparsity constraints, a concept known as _compressed sensing_, have been used to drastically reduce the amount and quality of data needed to analyze MRI images.
 This is absolutely crucial for MRI imaging of cancer tumors in children, where previously doctors needed to use anesthesia to suspend breath during the MRI exam, sometimes with dire consequences.
@@ -274,7 +274,7 @@ Archimedes once said that given a fulcrum and a long enough lever, he could move
 We will see how _reductions_ allow us  to leverage one hardness result into a slew of a great many others, illuminating the boundaries between the computable and uncomputable (or tractable and intractable) problems.
 
 Later in this course we will go back to examining our models of computation, and see how resources such as randomness or quantum entanglement could potentially change the power of our model.
-In the context of  probabilistic algorithms, we will see a glimpse of how randomness  has become an indispensable tool for understanding computation, information, and communication.   
+In the context of  probabilistic algorithms, we will see a glimpse of how randomness  has become an indispensable tool for understanding computation, information, and communication.
 We will also see how  computational difficulty can be an asset rather than a hindrance, and be used for the   "derandomization" of probabilistic algorithms.
 The same ideas also show up in _cryptography_, which has undergone not just a technological but also an intellectual revolution in the last few decades, much of it building on the foundations that we explore in this course.
 
@@ -324,7 +324,3 @@ Some topics related to this lecture that might be accessible to advanced student
 * Fast matrix multiplication algorithms, and the approach of obtaining exponent two via group representations.
 
 * The proofs of some of the classical impossibility results in mathematics we mentioned, including the impossibility of proving Euclid's fifth postulate from the other four, impossibility of trisecting an angle with a straightedge and compass and the impossibility of solving a quintic equation via radicals. A geometric proof of the impossibility of angle trisection (one of the three [geometric problems of antiquity](http://mathworld.wolfram.com/GeometricProblemsofAntiquity.html), going back to the ancient greeks) is given in this [blog post of Tao](https://terrytao.wordpress.com/2011/08/10/a-geometric-proof-of-the-impossibility-of-angle-trisection-by-straightedge-and-compass/). [This book of Mario Livio](https://www.amazon.com/dp/B000FCKGVQ/) covers some of the background and ideas behind these impossibility results.
-
-
-
-## Acknowledgements

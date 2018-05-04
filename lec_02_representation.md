@@ -94,7 +94,8 @@ However, for most Europeans in the middle ages `CCXXXVI` would be the "actual" n
 When our AI robot overlords materialize, they will probably think of $00110111$ as the "actual" number and of $236$ as "merely" a representation that they need to use when they give commands to humans.
 >
 So what is the "actual" number? This is a question that philosophers of mathematics have pondered over the generations.
-Plato argued that mathematical objects exist in some ideal sphere of existence (that to a certain extent is more "real" than the world we sense, which is merely the shadow of this ideal sphere), and so the symbols $236$ are merely notation for some ideal object, that, in homage to the [late musician](https://goo.gl/b93h83), we can refer to as  "the number commonly represented by $236$".
+Plato argued that mathematical objects exist in some ideal sphere of existence (that to a certain extent is more "real" than the world we perceive via our senses, as this latter world is  merely the shadow of this ideal sphere).
+Thus in Plato's vision  the symbols $236$ are merely notation for some ideal object, that, in homage to the [late musician](https://goo.gl/b93h83), we can refer to as  "the number commonly represented by $236$".
 Wittgenstein argued that mathematical objects don't exist at all, and the only thing that exists are the actual splotches on paper that make up $236$, $00110111$ or `CCXXXVI` and mathematics are just about formal manipulation of symbols that don't have any inherent meaning.
 You can also think of the "actual" number as (somewhat recursively) "that thing which is common to $236$, $00110111$  and `CCXXXVI` and all other past and future representations meant to capture the same object".
 (Some mathematicians would say that the actual number can be thought of as an _equivalence class_ of these representations.)
@@ -602,10 +603,14 @@ Here are some examples:
 *  Given (a representation of) an image $I$, decide if $I$ is a photo of a cat or a dog. This correspond to computing  some (partial) function from $\{0,1\}^*$ to $\{0,1\}$.
 
 
+> # {.remark title="Boolean functions and languages" #booleanrem}
 An important special case of computational tasks corresponds to computing _Boolean_ functions, whose output is a single bit $\{0,1\}$.
 Computing such functions corresponds to answering a YES/NO question, and hence this task is also known as a _decision problem_.
 Given any function $F:\{0,1\}^* \rightarrow \{0,1\}$ and $x\in \{0,1\}^*$, the task of computing $F(x)$ corresponds to the task of deciding whether or not $x\in L$ where $L = \{ x : F(x)=1 \}$ is known as the _language_ that corresponds to the function $F$.^[The language terminology is due to historical connections between the theory of computation and formal linguistics as developed by Noam Chomsky.]
 Hence many texts refer to such as computational task as _deciding a language_.
+
+![A subset $L \subeteq \{0,1\}^*$ can be identified with the function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F(x)=1$ if $x\in L$ and $F(x)=0$ if $x\not\in L$. Functions with a single bit of output are called _Boolean functions_, while subsets of strings are called _languages_. The above shows that the two are essentially the same object, and we can identify the task of deciding membership in $L$ (known as _deciding a language_ in the literature) with the task of computing the function $F$.](../figure/booleanfunc.png){#booleanlangfig .class width=300px height=300px}
+
 
 
 
@@ -782,7 +787,3 @@ Some topics related to this lecture that might be accessible to advanced student
 * We've mentioned that all  representations of the real numbers are inherently _approximate_. Thus an important endeavor is to understand what guarantees we can offer on the approximation quality of the output of an algorithm, as a function of the approximation quality of the inputs. This is known as the question of [numerical stability](https://en.wikipedia.org/wiki/Numerical_stability).
 
 * The linear algebraic view of graphs. The adjacency matrix representation of graphs is not merely a convenient way to map a graph into a binary string, but it turns out that many natural notions and operations on matrices are useful for graphs as well. (For example, Google's PageRank algorithm relies on this viewpoint.)  The notes of [this course](http://www.cs.yale.edu/homes/spielman/561/) are an excellent source for this area, known as _spectral graph theory_. We might discuss this view much later in this course when we talk about _random walks_.
-
-
-
-## Acknowledgements
