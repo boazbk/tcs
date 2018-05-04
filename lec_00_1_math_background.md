@@ -1,5 +1,14 @@
 # Mathematical Background
 
+> # { .objectives }
+* Recall basic mathematical notions such as sets, functions, numbers, strings, graphs, logical operators and quantifiers.
+* Big  Oh notation.
+* Proofs by induction.
+* See which of the above is familiar, and which needs review or further study.
+* Practice with reading mathematical _definitions_, _statements_, and _proofs_.
+* How to transform an intuitive argument into a rigorous proof.
+
+
 
 >_"When you have mastered numbers, you will in fact no longer be reading numbers, any more than you read words when reading books. You will be reading meanings."_, W. E. B. Du Bois
 
@@ -11,7 +20,7 @@
 
 In this chapter, we  review some of the mathematical concepts that we will use in this course.
 Most of these are not very complicated, but do require some practice and exercise to get comfortable with.
-If you have not previously encountered some of these concepts, there are several excellent freely-available resources online for them.
+If you have not previously encountered some of these concepts, there are several excellent freely-available resources online that cover them.
 In particular, the [CS 121 webpage](http://www.boazbarak.org/cs121/background/) contains a program for self study of all the needed notions using the lecture notes, videos, and assignments of MIT course [6.042j Mathematics for Computer science](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/). (The MIT lecture notes were also used in the past in [Harvard CS 20](https://www.seas.harvard.edu/courses/cs20/).)
 
 ## A mathematician's apology
@@ -21,7 +30,7 @@ After all, this is supposed to be a course about _computation_; one might think 
 So, why are we doing so much math in this course?
 Is it just some form of hazing? Perhaps a revenge of the ["math nerds" against the "hackers"](https://blog.smartbear.com/careers/math-nerds-vs-code-monkeys-should-computer-science-classes-be-more-practical/)?
 
-At the end of the day, mathematics is simply a language for modelling concepts in a precise and unambiguous way.
+At the end of the day, mathematics is simply a language for modeling concepts in a precise and unambiguous way.
 In this course,  we will be mostly interested in the concept of _computation_.
 For example, we will look at questions such as  _"is there an efficient algorithm to find the prime factors of a given integer?"_.^[Actually, scientists currently do not know the answer to this question, but we will see that settling it in either direction has very interesting applications touching on areas as far apart as Internet security and quantum mechanics.]
 To even _phrase_ such a question, we need to give a precise _definition_ of the notion of an _algorithm_, and of what it means for an algorithm to be _efficient_.
@@ -124,13 +133,29 @@ As you read through the rest of this chapter and this text, try to ask yourself 
 
 ### Example: Defining a one to one function
 
-Here is a simpler mathematical definition, which you may have encountered in the past:
+Here is a simpler mathematical definition, which you may have encountered in the past (and will encounter again shortly):
 
 
 > # {.definition title="One to one function" #onetoonedef}
 A function $f:S \rightarrow T$ is _one to one_ if for every $x \neq x'$ in $S$, $f(x) \neq f(x')$.
 
+This definition captures a simple concept, but even so it uses quite a bit of notation.
+When reading this definition, or any other piece of mathematical text, it is often useful to annotate it with a pen as you're going through it, as in [onetoonedefannotatedef](){.ref}.
+For every identifier you encounter (for example $f,S,T,x,x'$ in this case), make sure that you realize what sort of object is it: is it a set, a function, an element, a number, a gremlin?
+Make sure you understand how are the identifiers _quantified_.
+For example, in [onetoonedef](){.ref} there is a _universal_ or "for all" (sometimes denotes by $\forall$) quantifier over pairs $(x,x')$ of distinct elements in $S$.
+Finally, an most importantly, make sure that aside from being able to parse the text formally, you also have an intuitive understanding of what is it that this text is actually saying.
+For example, [onetoonedef](){.ref} says that a one to one function is a function where every input is mapped to a unique output.
 
+
+
+![An annotated form of [onetoonedef](){.ref}, marking which type is every object, and with a doodle explaining what the definition says.](../figure/onetoonedef.png){#onetoonedefannotatedef .class width=300px height=300px}
+
+Reading mathematical texts in this way takes time, but it gets easier with practice. Moreover, this is one of the most transferable skills you could take from this course.
+Our world is changing rapidly, not just in the realm of technology, but also in many other human endeavors, whether it is medicine, economics, law or even culture.
+Whatever your future aspirations, it is likely that you will often need throughout your life to understand texts that use new concepts that you have not seen before.
+Being able to internalize and then apply new definitions can be hugely important.
+It is a skill that's much easier to acquire in the relatively safe and stable of context a mathematical course, where at least you have the guarantee that the concepts are fully specified, and you have access to your teaching staff for questions.
 
 
 
@@ -491,11 +516,12 @@ For example, if $n=8$ then [aboutnstmt](){.eqref} is true, but for $n=11$ it is 
 The same issue appears when parsing code.
 For example, in the following snippet from the C++ programming language
 
-~~~~ { .clang }
+
+```clang
 for (int i=0 ; i<n ; i=i+1) {
     printf("*");
 }
-~~~~
+```
 
 the variable `i` is bound to the `for` operator but the variable `n` is free.
 
@@ -509,13 +535,13 @@ $$
 
 is equivalent to [aboutnstmt](){.eqref} in the sense that it is true for exactly the same set of $n$'s. Similarly, the code
 
-~~~~ { .clang }
+```clang
 for (int j=0 ; j<n ; j=j+1) {
     printf("*");
 }
-~~~~
+```
 
-produces the same result.
+produces the same result as the code above that used `i` instead of `j`.
 
 > # {.remark title="Aside: mathematical vs programming notation" #notation}
 Mathematical notation has a lot of similarities with programming language, and for the same reasons.
@@ -523,8 +549,10 @@ Both are formalisms meant to convey complex concepts in a precise way.
 However, there are some cultural differences.
 In programming languages, we often try to use meaningful variable names such as `NumberOfVertices` while in math we often use short identifiers such as $n$.
 (Part of it might have to do with the tradition of mathematical proofs as being handwritten and verbally presented, as opposed to typed up and compiled.)
+>
 One consequence of that is that in mathematics we often end up reusing identifier, and also "run out" of letters and hence use greek letters too, as well as distinguish between small and capital letters.
 Similarly, mathematical notation tends to use quite a lot of "overloading", using operators such as $+$ for a great variety of objects (e.g., real numbers, matrices, finite field elements, etc..), and assuming that the meaning can be inferred from the context.
+>
 Both fields have a notion of "types", and in math we often try to reserve certain letters for variables of a particular type.
 For example, variables such as $i,j,k,\ell,m,n$ will often denote integers, and $\epsilon$ will often denote a small positive real number.
 When reading or writing mathematical texts, we usually don't have the advantage of a "compiler" that will check type safety for us. Hence it is important to keep track of the type of each variable, and see that the operations that are performed on it "make sense".
@@ -564,6 +592,7 @@ If you are familiar with the notion of _supremum_, then you can verify that $F=O
 
 
 
+> # {.remark title="Big Oh and equality" #equalitybighohrem}
 Using the equality sign for Oh notation is extremely common, but is somewhat of a misnomer, since a statement such as $F = O(G)$ really means that $F$ is in the set $\{ G' : \exists_{N,c} \text{ s.t. } \forall_{n>N} G'(n) \leq c G(n) \}$.
 For this reason, some texts write $F \in O(G)$ instead of $F = O(G)$.
 If anything, it would have made more sense use _inequalities_ and  write $F \leq O(G)$ and $F \geq \Omega(G)$, reserving equality for $F = \Theta(G)$,  but by now the equality notation is quite firmly entrenched.
@@ -660,15 +689,21 @@ We can keep trying to draw such examples until we convince ourselves that the th
 
 > # { .pause }
 If you have not seen the proof of this theorem before (or don't remember it), this would be an excellent point to pause and try to prove it yourself.
+ONe way to do it would be to describe an _algorithm_ that on input a graph $G$ on $n$ vertices and $n-2$ or fewer edges, finds a pair $u,v$ of vertices such that $u$ is disconnected from $v$.
 
-There are several ways to approach this proof, but one version is to start by proving it for small graphs, such as graphs with 2,3 or 4 edges, for which we can check all the cases, and then try to extend the proof for larger graphs.
-The technical term for this proof approach is _proof by induction_.
+
 
 
 ### Mathematical induction
 
-_Induction_ is simply an application of the self-evident  [Modus Ponens](https://en.wikipedia.org/wiki/Modus_ponens) rule that says that if __(a)__ $P$ is true and __(b)__ $P$ implies $Q$
-then $Q$ is true. In the setting of proofs by induction we typically have a statement $Q(k)$ that is parameterized by some integer $k$, and we prove that  __(a)__ $Q(0)$ is true and __(b)__ For every $k>0$, if $Q(0),\ldots,Q(k-1)$ are all true then $Q(k)$ is true.^[Usually proving __(b)__ is the hard part, though there are examples where the "base case" __(a)__ is quite subtle.]
+There are several ways to prove [graphconthm](){.ref}.
+One approach to do is to start by proving it for small graphs, such as graphs with 2,3 or 4 edges, for which we can check all the cases, and then try to extend the proof for larger graphs.
+The technical term for this proof approach is _proof by induction_.
+
+
+_Induction_ is simply an application of the self-evident  [Modus Ponens rule](https://en.wikipedia.org/wiki/Modus_ponens) that says that if __(a)__ $P$ is true and __(b)__ $P$ implies $Q$
+then $Q$ is true.
+In the setting of proofs by induction we typically have a statement $Q(k)$ that is parameterized by some integer $k$, and we prove that  __(a)__ $Q(0)$ is true and __(b)__ For every $k>0$, if $Q(0),\ldots,Q(k-1)$ are all true then $Q(k)$ is true.^[Usually proving __(b)__ is the hard part, though there are examples where the "base case" __(a)__ is quite subtle.]
 By repeatedly applying Modus Ponens, we can deduce from __(a)__ and __(b)__ that $Q(1)$ is true, and then from __(a)__,__(b)__ and $Q(1)$ that $Q(2)$ is true, and so on and so forth to obtain that  $Q(k)$ is true for every $k$. The statement __(a)__ is called the "base case", while __(b)__ is called the "inductive step". The assumption in __(b)__ that $Q(i)$ holds for $i<k$ is called the "inductive hypothesis".
 
 > # {.remark title="Induction and recursion" #inducrecrem}
