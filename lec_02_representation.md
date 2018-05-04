@@ -1,6 +1,12 @@
 # Computation and Representation
 
 
+> # { .objectives }
+* Internalize the concept of _representing_ an object as a string (often of zeroes and ones).
+* Examples for common objects such as numbers, vectors, lists, graphs.
+* Prefix free representations.
+* Distinguish between _specification_ and _implementation_, or equivalently between _algorithms/programs_ and _mathematical functions_.
+
 
 >_"The alphabet was a great invention, which enabled men to store and to learn with little effort what others had learned the hard way-that is, to learn from books rather than from direct, possibly painful, contact with the real world."_, B.F. Skinner
 
