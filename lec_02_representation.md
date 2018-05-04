@@ -53,28 +53,48 @@ Representing the number $x$ as $(x_{n-1},x_{n-2},\ldots,x_0)$ will of course wor
 We chose the particular representation above for the sake of simplicity, so the the $i$-th bit corresponds to $2^i$, but such low level choices will not make a difference in this course.
 A related, but not identical, distinction is the [Big Endian vs Little Endian](https://betterexplained.com/articles/understanding-big-and-little-endian-byte-order/) representation for integers in computing architecture.]
 
-```python
-def represent(n):
-    res = []
-    while n>0:
-        res += [n % 2]
-        n = n // 2
-    return res
-
-print(represent(236))
-```
-
-```
-[0, 0, 1, 1, 0, 1, 1, 1]
-```
-
 We can think of a representation as consisting of    _encoding_ and _decoding_ functions.
 In the case of the _binary representation_ for integers, the _encoding_ function $E:\N \rightarrow \{0,1\}^*$ maps a natural number to the string representing it, and the _decoding_ function $D:\{0,1\}^* \rightarrow \N$ maps a string into the number it represents (i.e., $D(x_0,\ldots,x_{n-1})= 2^0x_0 + 2^1x_1 +\ldots + 2^{n-1}x_{n-1}$ for every $x_0,\ldots,x_{n-1} \in \{0,1\}$).
+In Python we can compute these encoding and decoding functions as follows:^[This is not a programming course, and it is absolutely fine if you do not follow this code. However, it might be instructive to try to parse it, with the help of websites such as Google and Stackoverflow. The function `int2bits` uses the fact that the  binary representation of a number $n$ is the list  $(\floor{\tfrac{n}{2^i}} \mod 2)_{i=0,\ldots,\floor{\log_2 n}}$.]
+
+```python
+import math
+def int2bits(n):
+    return [ math.floor(n / 2**i ) % 2 for i in range(math.floor(math.log(n,2))+1)]
+
+print(int2bits(236))
+# [0, 0, 1, 1, 0, 1, 1, 1]
+```
+
+```python
+def bits2int(L):
+    return sum([2**i * L[i] for i in range(len(L))])
+
+print(bits2int([0, 0, 1, 1, 0, 1, 1, 1]))
+# 236
+```
+
+
 For the representation to be well defined, we need every natural number to be represented by some  string, where two distinct numbers  must have distinct representations.
 This corresponds to requiring the _encoding_ function to be one-to-one, and the _decoding_ function to be _onto_.
 
 > # { .pause }
 If you don't remember the definitions of _one-to-one_, _onto_, _total_ and _partial_ functions, now would be an excellent time to review them. Make sure you understand _why_ the function $E$ described above is one-to-one, and the function $D$ is _onto_.
+
+
+> # {.remark title="Meaning of representation" #represphilrem}
+It is natural for us to think of $236$ as a the "actual" number, and of $00110111$ as "merely" its representation.
+However, for most Europeans in the middle ages `CCXXXVI` would be the "actual" number and $236$ (if they have heard about it) would be the weird Hindu-Arabic positional representation.^[While the Babylonians already invented a positional system much earlier, the decimal  positional system we use today was invented by Indian mathematicians around the third century. It was taken up by Arab mathematicians in the 8th century. It was mainly introduced to Europe in the 1202 book _"Liber Abaci"_ by  Leonardo of Pisa, also known as Fibonacci, but has  not displaced Roman numerals in common usage until the 15th century.]
+When our AI robot overlords materialize, they will probably think of $00110111$ as the "actual" number and of $236$ as "merely" a representation that they need to use when they give commands to humans.
+>
+So what is the "actual" number? This is a question that philosophers of mathematics have pondered over the generations.
+Plato argued that mathematical objects exist in some ideal sphere of existence (that to a certain extent is more "real" than the world we sense, which is merely the shadow of this ideal sphere), and so the symbols $236$ are merely notation for some ideal object, that, in homage to the [late musician](https://goo.gl/b93h83), we can refer to as  "the number commonly represented by $236$".
+Wittgenstein argued that mathematical objects don't exist at all, and the only thing that exists are the actual splotches on paper that make up $236$, $00110111$ or `CCXXXVI` and mathematics are just about formal manipulation of symbols that don't have any inherent meaning.
+You can also think of the "actual" number as (somewhat recursively) "that thing which is common to $236$, $00110111$  and `CCXXXVI` and all other past and future representations meant to capture the same object".
+(Some mathematicians would say that the actual number can be thought of as an _equivalence class_ of these representations.)
+>
+In this course you are free to choose your own philosophy of mathematics, as long as you maintain the distinction between the mathematical objects themselves to the particular choice of representing them, whether as splotches of ink, pixels on a screen, zeroes and one, or in another format.
+
 
 
 ### Representing (potentially negative) integers
@@ -381,6 +401,90 @@ Otherwise (if $|x| \neq |x'|$) then it must be that $|x| < |x'|$, and hence if $
 In fact, we can even obtain a more efficient transformation where $|E'(o)| \leq |o| + O(\log |o|)$.
 We leave proving this as an exercise (see [prefix-free-ex](){.ref}).
 
+### "Proof by Python"
+
+The proofs of [prefixfreethm](){.ref} and [predixfreeransformation](){.ref} are _constructive_ in the sense that they give us:
+
+* A way to transform the encoding and decoding functions of any representation of an object $O$ to a encoding and decoding functions that are prefix free.
+
+* A way to extend prefix free encoding and decoding of single objects to encoding and decoding of _lists_ of objects by concatenation.
+
+Specifically, we could transform any pair of Python functions `encode` and `decode` to functions `pfencode` and `pfdecode` that correspond to a prefix free encoding and decoding.
+Similarly, given `pfencode` and `pfdecode` for single objects, we can extend them to encoding of lists.
+Let us show how this works for the case of the `int2bits` and `bits2int` functions we defined above.
+
+```python
+# takes functions encode and decode mapping
+# objects to lists of bits and vice versa,
+# and returns functions pfencode and pfdecode that
+# maps objects to lists of bits and vice versa
+# in a prefix free way.
+# Also returns a function pfvalid that says
+# whether a list is a valid encoding
+def prefixfree(encode, decode):
+    def pfencode(o):
+        L = encode(o)
+        return [L[i//2] for i in range(2*len(L))]+[0,1]
+    def pfdecode(L):
+        return decode([L[j] for j in range(0,len(L)-2,2)])
+    def pfvalid(L):
+        return (len(L) % 2 == 0 ) and L[-2:]==[0,1]
+
+    return pfencode, pfdecode, pfvalid
+
+pfint2bits, pfbits2int , pfvalidint = prefixfree(int2bits,bits2int)
+
+print(int2bits(23))
+# [1, 1, 1, 0, 1]
+print(pfint2bits(23))
+# [1, 1, 1, 1, 1, 1, 0, 0, 0, 1]
+
+print(pfbits2int(pfint2bits(23)))
+# 23
+
+print(pfvalidint(pfint2bits(23)))
+# true
+
+print(pfvalidint([1,1,1,1]))
+#false
+```
+
+> # { .pause }
+Note that Python function `prefixfree` above takes two _Python functions_ as input and outputs three Python functions as output.^[When it's not too awkward, I use the term "Python function" or "subroutine" to distinguish between such snippets of python programs and mathematical functions. However, in comments in python source I use "functions" to denote python functions, just as I use "integers" to denote python int objects.]
+You don't have to know Python in this course, but you do need to get comfortable with the idea of functions as mathematical objects in their own right, that can be used as inputs and outputs of other functions.
+
+```python
+# takes functions pfencode, pfdecode and pfvalid,
+# and returns functions encodelists, decodelists
+# that can encode and decode
+# lists of the objects respectively
+def represlists(pfencode,pfdecode,pfvalid):
+
+    # gets list of objects, encodes it as list of bits
+    def encodelist(L):
+        return [bit for obj in L for bit in pfencode(obj)]
+
+    # gets lists of bits, returns lists of objects
+    def decodelist(S):
+        i=0; j=1 ; res = []
+        while j<=len(S):
+            if pfvalid(S[i:j]):
+                res += [pfdecode(S[i:j])]
+                i=j
+            j+= 1
+        return res
+
+    return encodelist,decodelist
+
+intlist2bits, bits2intlist = represlists(pfint2bits,pfbits2int,pfvalidint)
+
+print(intlist2bits([12,8]))
+# [0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1]
+
+print(bits2intlist(intlist2bits([12,8])))
+# [12, 8]
+```
+
 ### Representing letters and text
 
 We can represent a letter or symbol by a string, and then if this representation is prefix free, we can represent a sequence of symbols by simply concatenating the representation of each symbol.
@@ -412,9 +516,46 @@ The difference between these representations can be important for some applicati
 
 ![Representing the graph $G=(\{0,1,2,3,4\},\{ (1,0),(4,0),(1,4),(4,1),(2,1),(3,2),(4,3) \})$ in the adjacency matrix and adjacency list representations.](../figure/representing_graphs.png){#representinggraphsfig .class width=300px height=300px}
 
+Once again, we can also define these encoding and decoding functions in python:
+<!--
+```python
+# Some setup code for visualizing graphs
+import graphviz; from graphviz import Graph; from graphviz import Digraph; import networkx as nx; import pydotplus
+```
+-->
+
+```python
+import graphviz; from graphviz import Graph
+
+# get n by n matrix
+# (as n long list of n lists)
+# return graph corresponding to it
+def matrix2graph(M):
+    G = Graph(); n = len(M)
+    for i in range(n):
+        G.node(str(i))
+        for j in range(n):
+            G.node(str(j))
+            if M[i][j]: G.edge(str(i),str(j))
+    return G
+
+matrix2graph([[0,1,0],[0,0,1],[1,0,0]])
+```
+
+![Output of `matrix2graph` on the matrix `[[0,1,0],[0,0,1],[1,0,0]]`](../figure/graphfrommat.png){#figid .class width=300px height=300px} \
+
+<!---
+import warnings
+warnings.filterwarnings("ignore")
+
+def nxgraph(G):
+    P = pydotplus.graph_from_dot_data(G.source)
+    return nx.drawing.nx_pydot.from_pydot(P)
+--->
+
 ### Representing lists
 
-If we have a way of represent objects from a set $\mathcal{O}$ as  binary strings, then we can represent lists of these objects ny applying a prefix-free transformation.
+If we have a way of represent objects from a set $\mathcal{O}$ as  binary strings, then we can represent lists of these objects by applying a prefix-free transformation.
 Moreover, we can use a trick similar to the above to handle  _nested_ lists.
 The idea is that if we have some representation $E:\mathcal{O} \rightarrow \{0,1\}^*$, then we can represent nested lists of items from $\mathcal{O}$ using strings over the five element alphabet $\Sigma = \{$ `0`,`1`,`[` , `]` , `,` $\}$.
 For example, if $o_1$ is represented by `0011`, $o_2$ is represented by `10011`, and $o_3$ is represented by `00111`, then we can represent the nested list $(o_1,(o_2,o_3))$ as the string `"[0011,[1011,00111]]"` over the alphabet $\Sigma$.
@@ -475,6 +616,49 @@ We will be interested in questions such as:
 * Can a function being hard to compute ever be a _good thing_? Can we use it for applications in areas such as cryptography?
 
 In order to do that, we will need to mathematically define the notion of an _algorithm_, which is what we'll do in the next lecture.
+
+### Distinguish functions from programs
+
+You should always watch out for potential confusions between **specification** and **implementation** or equivalently between **mathematical functions**  and **algorithms/programs**.
+It does not help that programming languages (my favorite Python included) use the term _"functions"_ to denote (parts of) _programs_.
+This confusion also stems from thousands of years of mathematical history, where people typically defined functions by means of a way to compute them.
+
+For example, consider the  multiplication function on natural numbers.
+This is the function $MULT:\N\times N \rightarrow \N$ that maps a pair $(x,y)$ of natural numbers to the number $x \cdot y$.
+As we mentioned, it can be implemented in more than one way:
+
+```python
+def mult1(x,y):
+    res = 0
+    while y>0:
+        res += x
+        y   -= 1
+    return res
+
+def mult2(x,y):
+    a = int2bits(x)
+    b = int2bits(y)
+    res = [0]*(len(a)+len(b))
+    for i in range(len(a)):
+        for j in range(len(b)):
+            res[i+j] += a[i]*b[j]
+    return bits2int(res)
+    # use a bit of a cheat that bits2int can handle trailing zeroes
+    # as well as lists with elements in 0,1,2 instead of 0,1
+
+print(mult1(12,7))
+# 84
+print(mult2(12,7))
+# 84
+```
+
+Both `mult1` and `mult2` produce the same output given the same pair of inputs.
+(Though `mult1` will take far longer to do so when the numbers become large.)
+Hence, even though these are two different _programs_, they compute the same _mathematical function_.
+This distinction between a _program_ or _algorithm_ $A$, and the _function_ $F$ that $A$ _computes_ will be absolutely crucial for us in this course (see also [functionornotfig](){.ref}).
+
+![A _function_ is a mapping of inputs to outputs. A _program_ is a set of instructions of how to obtain an output given an input. A program _computes_ a function, but it is not the same as a function, popular programming language terminology notwithstanding.](../figure/functionornot.png){#functionornotfig .class width=300px height=300px}
+
 
 ### Advanced note: beyond computing functions
 
