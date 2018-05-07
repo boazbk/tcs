@@ -155,7 +155,7 @@ Reading mathematical texts in this way takes time, but it gets easier with pract
 Our world is changing rapidly, not just in the realm of technology, but also in many other human endeavors, whether it is medicine, economics, law or even culture.
 Whatever your future aspirations, it is likely that you will often need throughout your life to understand texts that use new concepts that you have not seen before.
 Being able to internalize and then apply new definitions can be hugely important.
-It is a skill that's much easier to acquire in the relatively safe and stable of context a mathematical course, where at least you have the guarantee that the concepts are fully specified, and you have access to your teaching staff for questions.
+It is a skill that's much easier to acquire in the relatively safe and stable  context of a mathematical course, where at least you have the guarantee that the concepts are fully specified, and you have access to your teaching staff for questions.
 
 
 
@@ -215,6 +215,39 @@ Similarly if $S,T,U$ are sets then $S\times T \times U$ is the set of all ordere
 More generally, for every positive integer $n$ and sets $S_0,\ldots,S_{n-1}$, we denote by $S_0 \times S_1 \times \cdots \times S_{n-1}$ the set of ordered $n$-tuples $(s_0,\ldots,s_{n-1})$ where $s_i\in S_i$ for every $i \in \{0,\ldots, n-1\}$.
 For every set $S$, we  denote the set $S\times S$ by $S^2$, $S\times S\times S$ by $S^3$, $S\times S\times S \times S$ by $S^4$, and so on and so forth.
 
+### Sets in Python
+
+To get more comfortable with sets, one can also play with the `set` data structure in Python:^[The `set` data structure only corresponds to _finite_ sets; infinite sets are much  more cumbersome to handle in programming languages, though mechanisms such as [Python generators](https://wiki.python.org/moin/Generators) and [lazy evaluation](https://goo.gl/EJV4L3) in general can be helpful.]
+
+```python
+A = { 7 , 10 , 12}
+B = {12 , 8 , 5 }
+print(A==B)
+# False
+print(A=={10,7,7,12})
+# True
+
+def intersect(S,T):
+    return {x for x in S if x in T}
+
+print(intersect(A,B))
+# {12}
+
+def contains(S,T):
+    return all({x in T for x in S})
+
+print(contains(A,B))
+# False
+
+print(contains({2,8,8,12},{12,8,2,34}))
+# True
+
+def product(S,T):
+    return {(s,t) for s in  S for t in  T}
+
+print(product(A,B))
+# {(10, 8), (10, 5), (7, 12), (12, 12), (10, 12), (12, 5), (7, 5), (7, 8), (12, 8)}
+```
 
 
 ### Special sets
@@ -941,6 +974,16 @@ The main points where we diverge are:
 * Like most Computer Science texts, we default to the logarithm in base two. Thus, $\log n$ is the same as $\log_2 n$.
 
 * We will also use the notation $f(n)=poly(n)$ as a short hand for $f(n)=n^{O(1)}$ (i.e., as shorthand for saying that there is some constants $a,b$ such that $f(n) \leq a\cdot n^b$ for every sufficiently large $n$). Similarly, we will use $f(n)=polylog(n)$ as shorthand for $f(n)=poly(\log n)$ (i.e., as shorthand for saying that there are some constant $a,b$ such that $f(n) \leq a\cdot (\log n)^b$ for every sufficiently large $n$).
+
+
+
+> # { .recap }
+* The basic "mathematical data structures" we'll need are _numbers_, _sets_, _tuples_, _strings_, _graphs_ and _functions_.
+* We can use basic objects to define more complex notions. For example, _graphs_ can be defined as a list of _pairs_.
+* Given precise _definitions_ of objects, we can state unambiguous and precise _statements_. We can then use mathematical _proofs_ to determine whether these statements are true or false.
+* A mathematical proof is not a formal ritual but rather a clear, precise and "bulletproof" argument certifying the truth of a certain statement.
+* Big oh notation is an extremely useful formalism to suppress  less significant details and allow us to focus on the high level behavior of quantities of interest.
+* The only way to get comfort with mathematical notions is to apply them in the contexts of solving problems. You should expect to need to go back time and again to the definitions and notation in this lecture as you work through problems in this course.
 
 
 ## Exercises
