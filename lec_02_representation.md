@@ -609,7 +609,7 @@ Computing such functions corresponds to answering a YES/NO question, and hence t
 Given any function $F:\{0,1\}^* \rightarrow \{0,1\}$ and $x\in \{0,1\}^*$, the task of computing $F(x)$ corresponds to the task of deciding whether or not $x\in L$ where $L = \{ x : F(x)=1 \}$ is known as the _language_ that corresponds to the function $F$.^[The language terminology is due to historical connections between the theory of computation and formal linguistics as developed by Noam Chomsky.]
 Hence many texts refer to such as computational task as _deciding a language_.
 
-![A subset $L \subeteq \{0,1\}^*$ can be identified with the function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F(x)=1$ if $x\in L$ and $F(x)=0$ if $x\not\in L$. Functions with a single bit of output are called _Boolean functions_, while subsets of strings are called _languages_. The above shows that the two are essentially the same object, and we can identify the task of deciding membership in $L$ (known as _deciding a language_ in the literature) with the task of computing the function $F$.](../figure/booleanfunc.png){#booleanlangfig .class width=300px height=300px}
+![A subset $L \subseteq \{0,1\}^*$ can be identified with the function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F(x)=1$ if $x\in L$ and $F(x)=0$ if $x\not\in L$. Functions with a single bit of output are called _Boolean functions_, while subsets of strings are called _languages_. The above shows that the two are essentially the same object, and we can identify the task of deciding membership in $L$ (known as _deciding a language_ in the literature) with the task of computing the function $F$.](../figure/booleanfunc.png){#booleanlangfig .class width=300px height=300px}
 
 
 
