@@ -1,5 +1,11 @@
 # Introduction
 
+> # { .objectives }
+* Introduce and motivate the study of computation for its own sake, irrespective of particular implementations.
+* The notion of an _algorithm_ and some of its history.
+* Algorithms as not just  _tools_, but also _ways of thinking and understanding_.
+* Taste of Big Oh analysis and surprising creativity in efficient algorithms.
+
 >_"Computer Science is no more about computers than astronomy is about telescopes"_,  attributed to Edsger Dijkstra.^[This quote is typically read as disparaging the importance of actual physical computers in Computer Science, but note that telescopes are absolutely essential to astronomy and are our only means of connecting theoretical speculations with actual experimental observations.]
 
 
@@ -152,7 +158,7 @@ Intuitively this means that as the number of digits _doubles_, the cost of multi
 This implies that multiplying numbers of $n=2^\ell$ digits costs about $3^\ell = n^{\log_2 3} \sim n^{1.585}$ operations.
 In a [karatsuba-ex](){.ref}, you will formally show that the number of single digit operations that Karatsuba's algorithm uses for multiplying $n$ digit integers is at most $O(n^{\log_2 3})$ (see also [karatsubafig](){.ref}).
 
-![[Running time of Karatsuba's algorithm vs. the Gradeschool algorithm. (Python implementation available [online](https://github.com/boazbk/nandnotebooks/blob/master/lec_01_introduction.ipynb).) Note the existence of a "cutoff" length, where for sufficiently large inputs Karatsuba becomes more efficient than the gradeschool algorithm. The precise cutoff location varies by implementation and platform details, but will always occur eventually. ](../figure/karastubavsgschoolv2.png){#karatsubaruntimefig .class width=300px height=300px}
+![Running time of Karatsuba's algorithm vs. the Gradeschool algorithm. (Python implementation available [online](https://goo.gl/zwzpYe).) Note the existence of a "cutoff" length, where for sufficiently large inputs Karatsuba becomes more efficient than the gradeschool algorithm. The precise cutoff location varies by implementation and platform details, but will always occur eventually.](../figure/karastubavsgschoolv2.png){#karatsubaruntimefig .class width=300px height=300px}
 
 ![Karatsuba's algorithm reduces an $n$-bit multiplication to three $n/2$-bit multiplications, which in turn are reduced to nine $n/4$-bit multiplications and so on. We can represent the computational cost of all these multiplications in a $3$-ary tree of depth $\log_2 n$, where at the root the extra cost is $cn$ operations, at the first level the extra cost is $c(n/2)$ operations, and at each of the $3^i$ nodes of  level $i$, the extra cost is $c(n/2^i)$. The total cost is $cn\sum_{i=0}^{\log_2 n} (3/2)^i \leq 2cn^{\log_2 3}$ by the formula for summing a geometric series.](../figure/karatsuba_analysis.png){#karatsuba-fig .class width=300px height=300px}
 
@@ -249,11 +255,8 @@ More recently, the [Bitcoin](https://en.wikipedia.org/wiki/Bitcoin) system uses 
 
 
 
-## Lecture summary
-
-( _The notes for every lecture will end in such a "lecture summary" section that contains a few of the "take home messages" of the lecture. It is not meant to be a comprehensive summary of all the main points covered in the lecture._ )
-
-
+> # { .recap }
+* Algorithms' history goes back thousands of years,  and were essential for much of human progress. These days algorithms form the basis of multi-billion dollar industries as well as life-saving technologies.
 * There can be several different algorithms to achieve the same computational task. Finding a faster algorithm can make a much bigger difference than better technology.
 * Better algorithms and data structures don't just speed up calculations, but can yield  new qualitative insights.
 * One of the main topics of this course is studying the question of what is  the _most efficient_ algorithm for a given  problem.

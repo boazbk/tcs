@@ -72,6 +72,16 @@ The main notions we will use in this course are the following:
 While I highly recommend the resources linked above, in the rest of this section we briefly review these notions.
 This is partially to remind the reader and reinforce material that might not be fresh in your mind, and partially to introduce our notation and conventions which might occasionally differ from those you've encountered before.
 
+> # {.remark title="This chapter: a reader's manual" #manualbackground}
+Depending on your background, you can approach this chapter in different ways:
+>
+* If you already have taken some proof-based courses, and are very familiar with the notions of discrete mathematics, you can sit back, relax, and read this chapter just to get familiar with our notation, as well as to enjoy (or not) my philosophical musings and attempts at humor. You might also want to start brushing up on _discrete probability_, which we'll use later in this course.
+>
+* If your background is not as extensive, you should lean forward, and read this chapter with a pen and paper handy, making notes and working out derivations as you go along. We cannot fit a semester-length discrete math course in a single chapter, and hence will be necessarily brief in our discussions. Thus you might want to occasionally pause to watch  some discrete math lectures, read some of the resources mentioned above, and do some exercises to make sure you internalized the material.
+
+
+
+
 
 ## Reading mathematical texts
 
