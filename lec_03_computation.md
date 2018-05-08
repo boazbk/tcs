@@ -72,7 +72,7 @@ print(solve_eq(2,35))
 ```
 
 
-## Capturing computation formally
+### Defining "elementary operations"
 
 An _algorithm_ breaks down a complex calculation into a series of simpler steps.
 These steps can be executed by:
@@ -110,10 +110,98 @@ We claim that we can construct $XOR$ using only $AND$, $OR$, and $NOT$.
 > # { .pause }
 You should stop here and try to construct $XOR$ yourself from $AND,OR,NOT$. Try to think of other functions as well. For example, can you construct the function $MAJ:\{0,1\}^5  \rightarrow \{0,1\}$ that output $1$ on $x\in \{0,1\}^5$ if the majority of $x$'s coordinates are equal to $1$?
 
+Here is an algorithm to compute $XOR(a,b)$ using $AND,NOT,OR$ as basic operations:
+
+1. Compute $w1 = AND(a,b)$
+2. Compute $w2 = NOT(w1)$
+3. Compute $w3 = OR(a,b)$
+4. Output $AND(w2,w3)$
+
+
+We can also express this algorithm graphically, see [andornotcircxorfig](){.ref}. Such diagrams are often known as _Boolean circuits_, and each basic operation is known as a _gate_. This is a point of view that we will revisit often in this course.
+Last but not least, we can also express it in Python code.
+
+![A circuit with $AND$, $OR$ and $NOT$ gates (denoted as $\wedge,\vee,\neg$ respectively) for computing the $XOR$ function.](../figure/andornotcircforxor.png){#andornotcircxorfig  .class width=300px height=300px}
 
 
 
+```python
+def XOR(a,b):
+    w1 = a & b
+    w2 = ~w1
+    w3 = a | b
+    return w2 & w3
 
+print([(a,b,XOR(a,b)) for a in [0,1] for b in [0,1]])
+# [(0, 0, 0), (0, 1, 1), (1, 0, 1), (1, 1, 0)]
+```
+
+
+Extending the same ideas, we can use these basic operations to compute the function $XOR_3:\{0,1\}^3 \rightarrow \{0,1\}$ defined as $XOR_3(a,b,c) = a + b + c (\mod 2)$  by computing first $d=XOR(a,b)$ and then outputting $XOR(d,c)$.
+In Python this is done as follows:
+
+```python
+def XOR3(a,b,c):
+    w1 = a & b
+    w2 = ~w1
+    w3 = a | b
+    w4 = w2 & w3
+    w5 = w4 & c
+    w6 = ~w5
+    w7 = w4 | c
+    return w6 & w7
+
+print([(a,b,c,XOR3(a,b,c)) for a in [0,1] for b in [0,1] for c in [0,1]])
+# [(0, 0, 0, 0), (0, 0, 1, 1), (0, 1, 0, 1), (0, 1, 1, 0), (1, 0, 0, 1), (1, 0, 1, 0), (1, 1, 0, 0), (1, 1, 1, 1)]
+```
+
+> # { .pause }
+Make sure you see how to generalize this and obtain a way to compute $XOR_n:\{0,1\}^n \rightarrow \{0,1\}$ for every $n$ using at most $4n$ basic steps involving applications of a function in $\{ AND, OR , NOT \}$ to omputs or previously computed values.
+
+
+### The NAND function
+
+Here is another function we can compute using $AND,OR,NOT$. The $NAND$ function maps $\{0,1\}^2$ to $\{0,1\}$ and is defined as
+
+$$NAND(a,b) = \begin{cases} 0 & a=b=1 \\ 1 & \text{otherwise} \end{cases}$$
+
+As its name implies, $NAND$ is the NOT  of AND (i.e., $NAND(a,b)= NOT(AND(a,b))$), and so we can clearly compute $NAND$ using $AND,OR,NOT$. Interestingly, the opposite direction also holds:
+
+> # {.theorem title="NAND computes AND,OR,NOT." #univnandonethm}
+We can compute $AND$, $OR$, and $NOT$ by composing only the $NAND$ function.
+
+> # {.proof data-ref="univnandonethm"}
+We start with the following observation. For every $a\in \{0,1\}$, $AND(a,a)=a$. Hence, $NAND(a,a)=NOT(AND(a,a))=NOT(a)$.
+This means that $NAND$ can compute $NOT$, and since by the principle of "double negation",  $AND(a,b)=NOT(NOT(AND(a,b)))$ this means that we can use $NAND$ to compute $AND$ as well.
+Once we can compute $AND$ and $NOT$, we can compute $OR$ using the so called ["De Morgan's Law"](https://goo.gl/TH86dH): $OR(a,b)=NOT(AND(NOT(a),NOT(b)))$ for every $a,b \in \{0,1\}$.
+
+> # { .pause }
+[univnandonethm](){.ref}'s proof is very simple, but you should make sure that __(i)__ you understand the statement of the theorem, and __(ii)__ you follow its proof completely. In particular, you should make sure you understand why De Morgan's law is true.
+
+
+[univnandonethm](){.ref} tells us that we can use applications of the single function $NAND$ to obtain $AND$, $OR$, $NOT$, and so by extension all the other functions that can be built up from them.
+This suggests making $NAND$ our notion of a "basic operation", and hence coming up with the following definition of an "algorithm":
+
+>__Informal definition for an algorithm:__ An _algorithm_  consists of a sequence of steps of the form "store the NAND of variables `foo` and `bar` in variable `blah`". \
+>
+An algorithm $A$ _computes_ a function $F$ if for every input $x$ to $F$, if we feed $x$ as input to the algorithm, the value computed in its last step is $F(x)$.
+
+There are several things that are wrong with this definition:
+
+1. First and foremost, it is indeed too informal. We do not specify exactly what each step does, nor what it means to "feed $x$ as input".
+
+2. Second, the choice of $NAND$ as a basic operation seems arbitrary. Why just $NAND$? Why not $AND$, $OR$ or $NOT$? Why not allow operations like addition and multiplication? What about any other logical constructions such `if`/`then` or `while`?
+
+3. Third, do we even know that this definition has anything to do with actual computing? If someone gave us a description of such an algorithm, could we use it to actually compute the function the real world?
+
+
+A large part of this course will be devoted to answering questions 1,2 and 3 above. We will see that:
+
+1. We can make the definition of an algorithm fully formal, and so give a precise mathematical meaning to statements such as "Algorithm $A$ computes function $F$".
+
+2. While the choice of $NAND$ is arbitrary, and we could just as well chose some other functions, we will also see this choice does not matter muchh. Our notion of an algorithm is not more restrictive because we only think of $NAND$ as a basic step. We have already seen that allowing $AND$,$OR$, $NOT$ as basic operations will not add any power (because we can compute them from $NAND$'s via [univnandonethm](){.ref}). We will see that the same is true for addition, multiplication, and essentially every other operation that could be reasonably thought of as a basic step.
+
+3. It turns out that we can and do compute such "$NAND$ based algorithms" in the real world. First of all, such an algorithm is clearly well specified, and so can be executed by a h
 
 
 
