@@ -83,7 +83,37 @@ These steps can be executed by:
 
 * Binding a protein to a strand of DNA
 
-* Response to a 
+* Response to a stimulus by a member of a collection (e.g., a bee in a colony, a trader in a market).
+
+Let us try to "err on the side of simplicity" and model computation in the simplest possible way.
+We will think of the most basic of computational steps.
+Here are some very simple functions:
+
+* $OR:\{0,1\}^2 \rightarrow \{0,1\}$ defined as
+
+$$OR(a,b) = \begin{cases} 0 & a=b=0 \\ 1 & \text{otherwise} \end{cases}$$
+
+* $AND:\{0,1\}^2 \rightarrow \{0,1\}$ defined as
+
+$$AND(a,b) = \begin{cases} 1 & a=b=1 \\ 0 & \text{otherwise} \end{cases}$$
+
+* $NOT:\{0,1\} \rightarrow \{0,1\}$ defind as $NOT(a) = 1-a$.
+
+
+Each one of these functions takes either one or two single bits as input, and produces a single bit as output. Clearly, it cannot get much more basic than these.
+However, the power of computation comes from _composing_ simple building blocks together.
+Let us see how we can obtain a different function from these building blocks:
+
+Define $XOR:\{0,1\}^2 \rightarrow \{0,1\}$ to be the function $XOR(a,b)= a + b \mod 2$. That is, $XOR(0,0)=XOR(1,1)=0$ and $XOR(1,0)=XOR(0,1)=1$.
+We claim that we can construct $XOR$ using only $AND$, $OR$, and $NOT$.
+
+> # { .pause }
+You should stop here and try to construct $XOR$ yourself from $AND,OR,NOT$. Try to think of other functions as well. For example, can you construct the function $MAJ:\{0,1\}^5  \rightarrow \{0,1\}$ that output $1$ on $x\in \{0,1\}^5$ if the majority of $x$'s coordinates are equal to $1$?
+
+
+
+
+
 
 
 
