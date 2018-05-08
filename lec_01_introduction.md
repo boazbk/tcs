@@ -152,8 +152,7 @@ Intuitively this means that as the number of digits _doubles_, the cost of multi
 This implies that multiplying numbers of $n=2^\ell$ digits costs about $3^\ell = n^{\log_2 3} \sim n^{1.585}$ operations.
 In a [karatsuba-ex](){.ref}, you will formally show that the number of single digit operations that Karatsuba's algorithm uses for multiplying $n$ digit integers is at most $O(n^{\log_2 3})$ (see also [karatsubafig](){.ref}).
 
-![Running time of Karatsuba's algorithm vs. the Gradeschool algorithm. Figure by [Marina Mele](http://www.marinamele.com/third-grade-karatsuba-multiplication-algorithms).](../figure/karatsuba-vs-third-grade-order-768x600.png){#karatsubafig .class width=300px height=300px}
-
+![[Running time of Karatsuba's algorithm vs. the Gradeschool algorithm. (Python implementation available online.) Note the existence of a "cutoff" length, where for sufficiently large inputs Karatsuba becomes more efficient than the gradeschool algorithm. The precise cutoff location varies by implementation and platform details, but will always occur eventually. ](../figure/karastubavsgschoolv2.png){#karatsubaruntimefig .class width=300px height=300px}
 
 ![Karatsuba's algorithm reduces an $n$-bit multiplication to three $n/2$-bit multiplications, which in turn are reduced to nine $n/4$-bit multiplications and so on. We can represent the computational cost of all these multiplications in a $3$-ary tree of depth $\log_2 n$, where at the root the extra cost is $cn$ operations, at the first level the extra cost is $c(n/2)$ operations, and at each of the $3^i$ nodes of  level $i$, the extra cost is $c(n/2^i)$. The total cost is $cn\sum_{i=0}^{\log_2 n} (3/2)^i \leq 2cn^{\log_2 3}$ by the formula for summing a geometric series.](../figure/karatsuba_analysis.png){#karatsuba-fig .class width=300px height=300px}
 
@@ -166,6 +165,7 @@ Another way to show that this doesn't hurt us is to note that for every number $
 Thus we can always "pad" the input by adding some input bits to make sure the number of digits is a power of two, in which case we will never run into these rounding issues.
 These kind of tricks work not just in the context of multiplication algorithms but in many other cases as well.
 Thus most of the time we can safely ignore these kind of "rounding issues".
+
 
 
 
