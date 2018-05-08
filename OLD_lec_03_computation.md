@@ -52,7 +52,7 @@ Here is how al-Khwarizmi described how to solve an equation of the form $x^2 +bx
 For the purposes of this course, we will need a much more precise way to define algorithms.
 Fortunately (or is it unfortunately?), at least at the moment, computers lag far behind school-age children in learning from examples.
 Hence in the 20th century people have come up with  exact formalisms for describing algorithms, namely _programming languages_.
-Here is al-Khwarizmi's quadratic equation solving  algorithm described in the Python programming language:^[For concreteness we often  include code of actual programming languages in these notes. However, these will be simple enough to be understandable even by people that are not familiar with these languages.]
+Here is al-Khwarizmi's quadratic equation solving  algorithm described in the Python programming language:^[For concreteness we will sometimes include code of actual programming languages in these notes. However, these will be simple enough to be understandable even by people that are not familiar with these languages.]
 
 
 ```python
@@ -70,20 +70,6 @@ def solve_eq(b,c):
 print(solve_eq(2,35))
 # 5.0
 ```
-
-
-## Capturing computation formally
-
-An _algorithm_ breaks down a complex calculation into a series of simpler steps.
-These steps can be executed by:
-
-* Writing down symbols on a piece of paper
-
-* Modifying the current flowing on electrical wires.
-
-* Binding a protein to a strand of DNA
-
-* Response to a 
 
 
 
