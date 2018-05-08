@@ -215,7 +215,7 @@ Similarly if $S,T,U$ are sets then $S\times T \times U$ is the set of all ordere
 More generally, for every positive integer $n$ and sets $S_0,\ldots,S_{n-1}$, we denote by $S_0 \times S_1 \times \cdots \times S_{n-1}$ the set of ordered $n$-tuples $(s_0,\ldots,s_{n-1})$ where $s_i\in S_i$ for every $i \in \{0,\ldots, n-1\}$.
 For every set $S$, we  denote the set $S\times S$ by $S^2$, $S\times S\times S$ by $S^3$, $S\times S\times S \times S$ by $S^4$, and so on and so forth.
 
-### Sets in Python
+### Sets in Python (optional)
 
 To get more comfortable with sets, one can also play with the `set` data structure in Python:^[The `set` data structure only corresponds to _finite_ sets; infinite sets are much  more cumbersome to handle in programming languages, though mechanisms such as [Python generators](https://wiki.python.org/moin/Generators) and [lazy evaluation](https://goo.gl/EJV4L3) in general can be helpful.]
 
@@ -621,7 +621,7 @@ You can verify that $F=o(G)$ (or, equivalently, $G=\omega(F)$) if and only if $\
 Similarly, if the limit $\lim\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)}$ exists and is a finite number then $F=O(G)$.
 If you are familiar with the notion of _supremum_, then you can verify that $F=O(G)$ if and only if $\limsup\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)} < \infty$.
 
-
+![If $F(n)=o(G(n))$ then for sufficiently large $n$, $F(n)$ will be smaller than $G(n)$. For example, if Algorithm $A$ runs in time $1000\cdot n+10^6$ and Algorithm $B$ runs in time $0.01\cdot n^2$ then even though $B$ might be more efficient for smaller inputs, when the inputs get sufficiently large, $A$ will run _much_ faster than $B$. ](../figure/nvsnsquared.png){#nvsnsquaredfig .class width=300px height=300px}
 
 
 
