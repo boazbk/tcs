@@ -1,4 +1,4 @@
-# Computation and Representation
+# Computation and Representation {#chaprepres }
 
 
 > # { .objectives }
@@ -64,12 +64,15 @@ In the case of the _binary representation_ for integers, the _encoding_ function
 In Python we can compute these encoding and decoding functions as follows:^[This is not a programming course, and it is absolutely fine if you do not follow this code. However, it might be instructive to try to parse it, with the help of websites such as Google and Stackoverflow. The function `int2bits` uses the fact that the  binary representation of a number $n$ is the list  $(\floor{\tfrac{n}{2^i}} \mod 2)_{i=0,\ldots,\floor{\log_2 n}}$.]
 
 ```python
-import math
+from math import floor, log
 def int2bits(n):
-    return [ math.floor(n / 2**i ) % 2 for i in range(math.floor(math.log(n,2))+1)]
+    return [ floor(n / 2**i ) % 2 for i in range(floor(log(n,2))+1)]
 
 print(int2bits(236))
 # [0, 0, 1, 1, 0, 1, 1, 1]
+
+print(int2bits(19))
+# [1, 1, 0, 0, 1]
 ```
 
 ```python
@@ -121,7 +124,8 @@ But this is still a fine representation, since the decoding partial function is 
 That is, every integer can be represented as a string, and two distinct integers have distinct representations.
 
 
-__Interpretation and context:__  Given a string $x\in \{0,1\}^*$, how do we know if it's "supposed" to represent a (nonnegative) natural number  or a (potentially negative) integer?
+> # {.remark title="Interpretation and context" #contextreprem}
+Given a string $x\in \{0,1\}^*$, how do we know if it's "supposed" to represent a (nonnegative) natural number  or a (potentially negative) integer?
 For that matter, even if we know $x$ is "supposed" to be an integer, how do we know what representation scheme it uses?
 The short answer is that we don't necessarily know this information, unless it is supplied from the context.^[In  programming language, the compiler or interpreter determines the representation of the sequence of bits corresponding to a variable based on the variable's _type_.]
 We can treat the same string $x$ as representing a natural number, an integer, a piece of text, an image, or a green gremlin.
@@ -133,24 +137,36 @@ The choice of the particular representation scheme will almost never matter, exc
 We can represent a rational number of the form $a/b$ by representing the two numbers $a$ and $b$ (again, this is not a unique representation but this is fine).
 However, simply concatenating the representations of $a$ and $b$ will not work.^[Recall that the _concatenation_ of two strings $x$ and $y$ is  the string of length $|x|+|y|$ obtained by writing $y$ after $x$.]
 For example, recall that we represent $4$ as $(0,0,1)$ and  $35$ as $(1,1,0,0,0,1)$, but the concatenation  $(0,0,1,1,1,0,0,0,1)$ of these strings is also the concatenation of the representation $(0,0,1,1)$ of $12$ and the representation $(1,0,0,0,1)$ of $17$.
-Hence, if we used such simple concatenation then we would not be able to tell if the string $(0,0,1,1,1,0,0,0,1)$ is supposed to represent $4/35$ or  $12/17$.
+Hence, if we used such simple concatenation then we would not be able to tell if the string $(0,0,1,1,1,0,0,0,1)$ is supposed to represent $4/35$ or  $12/17$.^[The above assumes we use the simple binary representation of natural numbers as strings. If we want to handle negative numbers then we should add the sign bit as well, though it would not make any qualitative difference to this discussion.]
 
 The way to tackle this is to find a general representation for _pairs_ of numbers.
-If we were using a pen and paper, we would simply use a separator such as the semicolon symbol to represent, for example, the pair consisting of the numbers represented by $(0,1)$ and $(1,1,0,0,0,1)$ as the length-$9$ string $s$ `01;110001`.
+If we were using a pen and paper, we would simply use a separator such as the semicolon symbol to represent, for example, the pair consisting of the numbers represented by $(0,1)$ and $(1,1,0,0,0,1)$ as the length-$9$ string $s$ "$01;110001$".
 By adding a little redundancy, We can do just that in the digital domain.
-The idea is that we will map the three element set $\Sigma = \{$ `0`,`1`,`;` $\}$ to the four element set $\{0,1\}^2$ via the one-to-one map that takes `0` to $00$, `1` to $11$ and `;` to $01$.
-In particular, if apply this map to every symbol of the length-$9$ string $s$ above, we get the length $18$ binary string $001101111100000011$.
+The idea is that we will map the three element set $\Sigma = \{0,1,;\}$  to the four element set $\{0,1\}^2$ via the one-to-one map that takes $0$ to $00$, $1$ to $11$ and $;$ to $01$.
+
+> # {.example title="Representing a rational number as a string" #represnumberbypairs}
+Consider the rational number $r=19/236$. In our convention, we represent $19$ as the string $11001$ and $236$ as the string $00110111$, and so we could rerpresent $r$ as the _pair_ of strings $(11001,00110111)$.
+We can then represent this pair as the length $14$ string $11001;00110111$ over the alphabet $\{0,1,;\}$.
+Now, applying the map $0 \mapsto 00$, $1\mapsto 11$, $; \mapsto 01$, we can represent the latter string as the length $28$ string  $s=1111000011010000111100111111$ over the alphabet $\{0,1\}$.
+So we represent the rational number $r=19/36$ be the binary string $s=1111000011010000111100111111$.
+>
+More generally, we obtained a representation of the non-negative rational numbers as binary strings by composing the following representations:
+>
+1. Representing a non-negative rational number as a pair of natural numbers. \
+2. Representing a natural number by a string via the binary representation. (We can use the representation of integers to handle rational numbers that can be negative. )\
+3. Combining 1 and 2 to obtain representation of a rational number as a pair of strings. \
+4. Representing a pair of strings over $\{0,1\}$ as a single string over $\Sigma = \{0,1,;\}$. \
+5. Representing a string over $\Sigma$ as a longer string over $\{0,1\}$.
+
+
 More generally, the above encoding yields a  one-to-one map $E$ from strings over the alphabet $\Sigma$ to binary string, such that for every $s\in \Sigma^*$, $|E(s)|=2|s|$.
-
-
-
 Using this, we get get a one to one map $E': (\{0,1\}^*)\times (\{0,1\}^*) \rightarrow \{0,1\}^*$ mapping _pairs_ of binary strings into a single binary string.
 Given every pair $(a,b)$ of binary strings, we will first map it in a one-to way to a string $s \in \Sigma^*$ using `;` as a separator, and then map $s$ to a single (longer) binary string using the encoding $E$.
 The same idea can be used to represent triples, quadruples, and generally all tuples of strings as a single string (can you see why?).
 
 
 
-### Representing real numbers
+## Representing real numbers
 
 The set of  _real numbers_ $\R$ contains all numbers including positive, negative, and fractional, as well as _irrational_ numbers such as $\pi$ or $e$.
 Every real number can be approximated by a rational number, and so up to a small error we can represent every real number $x$ by a rational number $a/b$ that is very close to $x$.
@@ -196,6 +212,9 @@ There _does_ exist a one-to-one map $FtR:\{0,1\}^\infty \rightarrow \R$.^[$FtR$ 
 To see why, suppose, towards the sake of contradiction, that there did exist a one-to-one function $RtS:\R \rightarrow \{0,1\}^*$.
 By [sequencestoreals](){.ref}, there exists a one-to-one function $FtR:\{0,1\}^\infty \rightarrow \R$.
 Thus, under this assumption, since the composition of two one-to-one functions is one-to-one (see [onetoonecompex](){.ref}), the function $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$ defined as $FtS(f)=RtS(FtR(f))$ will be one to one, contradicting [sequencestostrings](){.ref}.
+See [proofofcantorfig](){.ref} for a graphical illustration of this argument.
+
+![We prove [cantorthm](){.ref} by combining [sequencestostrings](){.ref} and [sequencestoreals](){.ref}.  [sequencestoreals](){.ref}, which uses standard calculus tools, shows the existence of a 1 to 1 map $FtR$ from the set $\{0,1\}^\infty$ to the real numbers. So, if a hypothetical 1 to 1 map $RtS:\R \rightarrow \{0,1\}^*$ existed, then we could compose them to get a 1 to 1 map $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$. Yet this contradicts [sequencestostrings](){.ref}- the heart of the proof- which rules out the existence of such a map.](../figure/proofofcantor.png){#proofofcantorfig .class width=300px height=300px}
 
 Now all that is left is to prove these two lemmas.
 We start by proving  [sequencestostrings](){.ref} which is really the heart of [cantorthm](){.ref}.
@@ -259,16 +278,27 @@ This part is not the core of Cantor's argument, nor are such limits very crucial
 > # {.proof data-ref="sequencestoreals"}
 For every $f\in \{0,1\}^\infty$ and $n\in \N$, we define $S(f)_n = \sum_{i=0}^n f(i)10^{-i}$.
 It is a known result (that we won't repeat here) that for every $f:\N \rightarrow \{0,1\}$, the sequence $( S(f)_n )_{n=0}^\infty$ has a _limit_.
-That is, there exists some value $x$ such that for every $\epsilon>0$, if $n$ is sufficiently large then $|S_f(n)-x| < \epsilon$.
-We define $FtR(f)$ to be this value $x$.
+That is, for every $f$ there exists some value $x(f)$ (often denoted as $\sum_{i=0}^\infty f(i)10^{-i}$) such that for every $\epsilon>0$, if $n$ is sufficiently large then $|S_f(n)-x(f)| < \epsilon$.
+We define $FtR(f)$ to be this value $x(f)$.
+In other words, we define
+$$
+FtR(f) = \sum_{i=0}^\infty f(i)10^{-i}
+$$
+which will be a number between $0$ and $2$.
+>
 To show that $FtR$ is one to one, we need to show that $FtR(f) \neq FtR(g)$ for every distinct $f,g:\N \rightarrow \{0,1\}$.
 Let $f \neq g$ be such functions, and let $k$ be the smallest number for which $f(k) \neq g(k)$.
-Assume without loss of generality that $f(k)=0$ and $g(k)=1$.
-Then, if $S = \sum_{i=0}^{k-1} 10^{-i}f(i) = \sum_{i=0}^{k-1} 10^{-i}f(i)$, we get that for every $n>k+1$,
-$S(f)_n = S + \sum_{i=k+1}^n 10^{-i} f(i)$ and $S(g)_n = S + 10^{-k} + \sum_{i=k+1}^n 10^{-i} g(i)$.
-Clearly, the limit $FtR(g)$ is at least $S + 10^{-k}$.
-On the other hand, we claim that for every $n>k+1$, $S(f)_n \leq S + 2\cdot 10^{-k-1} < S + 10^{-k}$, and hence in particular $FtR(f) < FtR(g)$.
-Indeed, since $f(i)\in \{0,1\}$ for every $i$, $\sum_{i=k+1}^n f(i)10^{-i} \leq \sum_{i=k+1}^n 10^{-i}$ which by formula for [geometric series](https://en.wikipedia.org/wiki/Geometric_series), equals $10^{-k-1}\tfrac{1-10^{-(n-k-1)}}{1-10^{-1}} \leq  10^{-k-1}/0.9 \leq 2\cdot 10^{-k-1}$.
+We will show that $|FtR(f)-FtR(g)| > 0.5\cdot 10^{-k}$.
+This will complete the proof since  in particular it implies  $FtR(f) \neq FtR(g)$.
+>
+Assume without loss of generality that $f(k)=0$ and $g(k)=1$ (otherwise switch the roles of $f$ and $g$).
+Define  $S = \sum_{i=0}^{k-1} 10^{-i}f(i) = \sum_{i=0}^{k-1} 10^{-i}f(i)$ (the equality holds since $f$ and $g$ agree up to $k$).
+Now, since $g(k)=1$,
+$$FtR(g) = \sum_{i=0}^\infty g(i)10^{-i} \geq \sum_{i=0}^k g(i)10^{-i} = S + 10^{-k} \;.$$
+On the other hand, since $f(k)=0$ and $f(k+1+j) \leq 1$ for every $j\geq 0$,
+$$FtR(f) = \sum_{i=0}^\infty f(i)10^{-i} = S + \sum_{i=k+1}^\infty f(i) 10^{-i} \leq S + 10^{-(k-1)}\sum_{j=0}^\infty 10^{-j} \;.$$
+Now $\sum_{j=0}^\infty 10^{-j}$ is simply the number $1.11111\ldots =  11/9$, and hence we get that
+$FtR(f) \leq S + 11/9 \cdot 10^{-k-1}$ while $FtR(g) \geq S + 10^{-k}$ which means the difference between them is larger than $0.5 \cdot 10^{-k}$.
 
 
 

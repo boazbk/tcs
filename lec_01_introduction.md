@@ -1,4 +1,4 @@
-# Introduction
+# Introduction { #chapintro }
 
 > # { .objectives }
 * Introduce and motivate the study of computation for its own sake, irrespective of particular implementations.

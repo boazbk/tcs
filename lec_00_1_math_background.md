@@ -1,4 +1,4 @@
-# Mathematical Background
+# Mathematical Background { #chapmath }
 
 > # { .objectives }
 * Recall basic mathematical notions such as sets, functions, numbers, strings, graphs, logical operators and quantifiers.
@@ -185,7 +185,7 @@ It is a skill that's much easier to acquire in the relatively safe and stable  c
 
 ## Basic discrete math objects
 
-We now quickly review some of the mathematical objects and definitions we in this course.
+We now quickly review some of the mathematical objects (the "basic data structures" of mathematics, if you will) we use  in this course.
 
 ### Sets
 
