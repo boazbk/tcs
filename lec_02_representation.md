@@ -374,36 +374,35 @@ Thus I highly recommend that you pause here, make sure you understand  statement
 
 ![If we have a prefix-free representation of each object then we can concatenate the representations of $k$ objects to obtain a representation for the tuple $(o_1,\ldots,o_k)$.](../figure/repres_list.png){#figureid .class width=300px height=300px}
 
+> # {.proofidea data-ref="prefixfreethm"}
 The idea behind the proof is simple.
 Suppose that for example we want to decode a triple $(o_0,o_1,o_2)$ from its representation $x= E'(o_0,o_1,o_2)=E(o_0)E(o_1)E(o_2)$.
 We will do so by first finding the first prefix $x_0$ of $x$ such is a representation of some object.
 Then we will decode this object, remove $x_0$ from $x$ to obtain a new string $x'$,  and continue onwards to find the first prefix $x_1$ of $x'$ and so on and so forth  (see [prefix-free-tuples-ex](){.ref}).
 The prefix-freeness property of $E$ will ensure that $x_0$ will in fact be $E(o_0)$,  $x_1$ will be $E(o_1)$ etc.
-We now show the formal proof.
+
+
+
+
+
+
 
 
 > # {.proof data-ref="prefixfreethm"}
-By [decodelem](){.ref}, to prove the theorem it suffices show that $E'$ is one-to-one.
+We now show the formal proof.
+By [decodelem](){.ref}, to prove the theorem it suffices to show that $E'$ is one-to-one.
 Suppose, towards the sake of contradiction that there exist two distinct tuples $(o_0,\ldots,o_{k-1})$ and $(o'_0,\ldots,o'_{k'-1})$ such that
 >
 $$
-E'(o_0,\ldots,o_{k-1})=E'(o'_0,\ldots,o'_{k'-1}) \;,  \label{prefixfreeassump}
+E'(o_0,\ldots,o_{k-1})=E'(o'_0,\ldots,o'_{k'-1}) \;. \label{prefixfreeassump}
 $$
-and denote this string by $x$.
 >
 We denote $x_i = E(o_i)$ and $x'_i = E(o'_i)$.
-By our assumption and the  definition of $E'$, $x_0x_1 \cdots x_k = x'_0 x'_1 \cdots x'_k$.
+By our assumption and the  definition of $E'$, $x_0x_1 \cdots x_{k-1} = x'_0 x'_1 \cdots x'_{k'-1}$.
+Without loss of generality we can assume $k' \leq k$.
+Let $i$ be the smallest number such that $x_j = x'_j$ for all $j<i$. (If $x'_0 \neq x_0$ then $i=0$; if $x_j = x'_j$ for all $j<k$ then we let $i=k$; note that the fact that the _concatenation_ of $x_0,\ldots,x_{k-1}$ is equal to the concatenation of $x'_0,\ldots,x'_{k'-1}$ does not mean the individual components have to agree.)
 >
-Let's make the assumption A that there is   some index $i \in [\min \{k,k'\}]$ such that $o_i \neq o'_i$.
-Now, let $i$ be the first such index, and hence $o_j=o'_j$ for all $j<i$ but $o_i \neq o'_i$, and so (since $E$ is one-to-one) also $x_i \neq x'_i$.
-That means that if we write $p=x_0\cdots x_{i-1}$, then by [prefixfreeassump](){.eqref} the first $|p|+|x_i|$ bits of the string $x$ need to equal $p\,x_i$ (i.e., the concatenation of $p$ and $x_i$) and the first $|p|+|x'_i|$ bits of $x$ needs to equal $p\,x'_i$.
-If $|x_i|=|x'_i|$, then the only way this can happen is if $p\,x_i = p\,x'_i$, which implies $x_i=x'_i$, in contradiction to the fact that $E$ is one-to-one.
-Otherwise, without loss of generality $|x_i|>|x'_i|$,^[This is one of our first uses of the phrase "without loss of generality". Make sure you understand why it is justified! If you are not sure, you can try working out the case that $|x_i|>|x'_i|$ and see why the proof is symmetric.] and so $px'_i$ must be a _prefix_ of $px_i$, but this contradicts the prefix-freeness of $E$.
-The only remaining case is when Assumption A is false.
-Since the tuples are different, if $o_i=o'_i$ for every $i \in [\min\{ k,k'\}]$, it must mean that $k \neq k'$.
-Without loss of generality, assume that $k<k'$ (again, check that this is justified!).
-But then, since $o_i=o'_i$ for all $i\in [k]$, it holds that $x_0 \cdots x_{k-1} = x_0 \cdots x_{k-1} x'_{k} \cdots x'_{k'-1}$.
-But this can only happen if $x'_i$ for $i \geq k$ is the empty string, while a prefix-free encoding can never encode an object as the empty string (can you see why?).
+Since $x_j=x'_j$ for all $j<i$, the strings $x_{i}\cdots x_{k-1}$ and $x'_i \cdots x'_{k'-1}$ are   identical, and we denote this string by $s$. If $i<k$ then both $x_i$ and $x'_i$ are prefixes of $s$ which means that one of them is a prefix of the other, since by the  choice of $i$, $x_i \neq x'_i$ we get that both of them are valid representation of distinct objects which contradicts prefix freeness. If $i=k$ then the string $x$ must be empty, but this would mean that $i=k'$ as well, which means that $x_i=x'_i$ for all $i$, which means that the original tuples of objects must have been the same.
 
 
 
