@@ -41,10 +41,22 @@ So you can  see why our main tools in this course will be mathematical proofs an
 
 
 
+> # {.remark title="This chapter: a reader's manual" #manualbackground}
+Depending on your background, you can approach this chapter in different ways:
+>
+* If you already have taken some proof-based courses, and are very familiar with the notions of discrete mathematics, you can take a quick look at [#secmathoverview](){.ref} to see the main tools we will use, and skip ahead to the rest of this book. Alternatively, you can  sit back, relax, and read this chapter just to get familiar with our notation, as well as to enjoy (or not) my philosophical musings and attempts at humor. You might also want to start brushing up on _discrete probability_, which we'll use later in this course.
+>
+* If your background is not as extensive, you should lean forward, and read this chapter with a pen and paper handy, making notes and working out derivations as you go along. We cannot fit a semester-length discrete math course in a single chapter, and hence will be necessarily brief in our discussions. Thus you might want to occasionally pause to watch  some discrete math lectures, read some of the resources mentioned above, and do some exercises to make sure you internalized the material.
 
 
 
-## A quick overview of mathematical prerequisites
+
+
+
+
+
+
+## A quick overview of mathematical prerequisites { #secmathoverview }
 
 
 
@@ -54,11 +66,16 @@ The main notions we will use in this course are the following:
 
 * __Sets:__ Including notation such as membership ($\in$), containment ($\subseteq$), and set operations such as union, intersection,  set difference  and Cartesian product ($\cup,\cap,\setminus$ and $\times$).
 
+
+* __Tuples and strings:__ We use the notation $\Sigma^k$ for the set of length $k$ strings/lists over elements in $\Sigma$, where $\Sigma$ is some finite set which is called the _alphabet_ (quite often $\Sigma = \{0,1\}$). We use $\Sigma^*$ for the set of all strings of finite length.
+
+* __Some special sets:__ We will use the set $\N$ of natural numbers. We will index from zero in this course and so write $\N = \{0,1,2,\ldots \}$. We will use $[n]$ for the set $\{0,1,2,\ldots,n-1\}$. We use $\{0,1\}^*$ for the set of all binary strings and $\{0,1\}^n$ for the set of strings of length $n$. If $x$ is a string of length $n$, then we refer to its coordinate by $x_0,\ldots,x_{n-1}$.
+
+
 * __Functions:__ Including the notions of the _domain_ and _range_ of a function, properties such  being  _one-to-one_ (also known as _injective_) or _onto_ (also known as _surjective_) functions, as well as  _partial functions_ (that, unlike standard or "total" functions, are not necessarily defined on all elements of their domain).
 
 * __Logical operations:__ The operations AND, OR, and NOT ($\wedge,\vee,\neg$) and the quantifiers "exists" and "forall" ($\exists$,$\forall$).
 
-* __Tuples and strings:__ The notation $\Sigma^k$ and $\Sigma^*$ where $\Sigma$ is some finite set which is called the _alphabet_ (quite often $\Sigma = \{0,1\}$).
 
 * __Basic combinatorics:__ Notions such as $\binom{n}{k}$ (the number of $k$-sized subset of a set of size $n$).
 
@@ -66,18 +83,11 @@ The main notions we will use in this course are the following:
 
 * __Big Oh notation:__ $O,o,\Omega,\omega,\Theta$ notation for analyzing asymptotics of functions.
 
-* __Discrete probability:__ Later on in this course we will use _probability theory_, and specifically probability over _finite_ samples spaces such as tossing $n$ coins. We will only use  probability theory in the second half of this course, and will review it  beforehand. However,  probabilistic reasoning is a subtle (and extremely useful!) skill, and it's always good to start early in acquiring it.
+* __Discrete probability:__ Later on in this course we will use _probability theory_, and specifically probability over _finite_ samples spaces such as tossing $n$ coins, including notions such as _random variables_, _expectation_, and _concentration_.  We will only use  probability theory in the second half of this course, and will review it  beforehand. However,  probabilistic reasoning is a subtle (and extremely useful!) skill, and it's always good to start early in acquiring it.
 
 
-While I highly recommend the resources linked above, in the rest of this section we briefly review these notions.
+While I highly recommend the resources linked above, in the rest of this chapter we briefly review the above notions.
 This is partially to remind the reader and reinforce material that might not be fresh in your mind, and partially to introduce our notation and conventions which might occasionally differ from those you've encountered before.
-
-> # {.remark title="This chapter: a reader's manual" #manualbackground}
-Depending on your background, you can approach this chapter in different ways:
->
-* If you already have taken some proof-based courses, and are very familiar with the notions of discrete mathematics, you can sit back, relax, and read this chapter just to get familiar with our notation, as well as to enjoy (or not) my philosophical musings and attempts at humor. You might also want to start brushing up on _discrete probability_, which we'll use later in this course.
->
-* If your background is not as extensive, you should lean forward, and read this chapter with a pen and paper handy, making notes and working out derivations as you go along. We cannot fit a semester-length discrete math course in a single chapter, and hence will be necessarily brief in our discussions. Thus you might want to occasionally pause to watch  some discrete math lectures, read some of the resources mentioned above, and do some exercises to make sure you internalized the material.
 
 
 

@@ -21,7 +21,7 @@ People have been computing for thousands of years, with aids that include not ju
 A priori, the notion of computation seems to be tied to the particular mechanism that you use.
 You might think that the "best"  algorithm for multiplying numbers will differ if you  implement it in _Python_ on a modern laptop than if you use pen and paper.
 However, as we saw in the introduction, an algorithm that is asymptotically better would eventually beat a worse one regardless of the underlying technology.
-This gives us hope for a _technology independent_ way of defining computation, which is what we will do in this lecture.
+This gives us hope for a _technology independent_ way of defining computation, which is what we will do in this chapter.
 
 ![Calculating wheels by Charles Babbage. Image taken from the Mark I 'operating manual'](../figure/wheels_babbage.png){#babbagewheels .class width=300px height=300px}
 
@@ -100,27 +100,23 @@ $$AND(a,b) = \begin{cases} 1 & a=b=1 \\ 0 & \text{otherwise} \end{cases}$$
 
 Each one of these functions takes either one or two single bits as input, and produces a single bit as output. Clearly, it cannot get much more basic than these.
 However, the power of computation comes from _composing_ simple building blocks together.
-Let us see how we can obtain a different function from these building blocks:
 
+
+> # {.example title="Computing $XOR$ from $AND$,$OR$,$NOT$" #XOR}
+Let us see how we can obtain a different function from these building blocks:
 Define $XOR:\{0,1\}^2 \rightarrow \{0,1\}$ to be the function $XOR(a,b)= a + b \mod 2$. That is, $XOR(0,0)=XOR(1,1)=0$ and $XOR(1,0)=XOR(0,1)=1$.
 We claim that we can construct $XOR$ using only $AND$, $OR$, and $NOT$.
-
-> # { .pause }
-You should stop here and try to construct $XOR$ yourself from $AND,OR,NOT$. Try to think of other functions as well. For example, can you construct the function $MAJ:\{0,1\}^5  \rightarrow \{0,1\}$ that output $1$ on $x\in \{0,1\}^5$ if the majority of $x$'s coordinates are equal to $1$?
-
+>
 Here is an algorithm to compute $XOR(a,b)$ using $AND,NOT,OR$ as basic operations:
-
-1. Compute $w1 = AND(a,b)$
-2. Compute $w2 = NOT(w1)$
-3. Compute $w3 = OR(a,b)$
-4. Output $AND(w2,w3)$
-
-
+>
+1. Compute $w1 = AND(a,b)$ \
+2. Compute $w2 = NOT(w1)$ \
+3. Compute $w3 = OR(a,b)$ \
+4. Output $AND(w2,w3)$ \
+>
 We can also express this algorithm graphically, see [andornotcircxorfig](){.ref}. Such diagrams are often known as _Boolean circuits_, and each basic operation is known as a _gate_. This is a point of view that we will revisit often in this course.
-Last but not least, we can also express it in Python code.
-
-![A circuit with $AND$, $OR$ and $NOT$ gates (denoted as $\wedge,\vee,\neg$ respectively) for computing the $XOR$ function.](../figure/andornotcircforxor.png){#andornotcircxorfig  .class width=300px height=300px}
-
+>
+Last but not least, we can also express it in Python code (see below).
 
 
 ```python
@@ -135,9 +131,15 @@ print([(a,b,XOR(a,b)) for a in [0,1] for b in [0,1]])
 ```
 
 
+![A circuit with $AND$, $OR$ and $NOT$ gates (denoted as $\wedge,\vee,\neg$ respectively) for computing the $XOR$ function.](../figure/andornotcircforxor.png){#andornotcircxorfig  .class width=300px height=300px}
+
+
+
+
+> # {.example title="Computing $XOR$ on three bits" #xorthree}
 Extending the same ideas, we can use these basic operations to compute the function $XOR_3:\{0,1\}^3 \rightarrow \{0,1\}$ defined as $XOR_3(a,b,c) = a + b + c (\mod 2)$  by computing first $d=XOR(a,b)$ and then outputting $XOR(d,c)$.
 In Python this is done as follows:
-
+>
 ```python
 def XOR3(a,b,c):
     w1 = a & b
@@ -155,6 +157,8 @@ print([(a,b,c,XOR3(a,b,c)) for a in [0,1] for b in [0,1] for c in [0,1]])
 
 > # { .pause }
 Make sure you see how to generalize this and obtain a way to compute $XOR_n:\{0,1\}^n \rightarrow \{0,1\}$ for every $n$ using at most $4n$ basic steps involving applications of a function in $\{ AND, OR , NOT \}$ to omputs or previously computed values.
+
+
 
 
 ### The NAND function
@@ -176,6 +180,7 @@ Once we can compute $AND$ and $NOT$, we can compute $OR$ using the so called ["D
 > # { .pause }
 [univnandonethm](){.ref}'s proof is very simple, but you should make sure that __(i)__ you understand the statement of the theorem, and __(ii)__ you follow its proof completely. In particular, you should make sure you understand why De Morgan's law is true.
 
+### Informally defining "basic operations" and "algorithms"
 
 [univnandonethm](){.ref} tells us that we can use applications of the single function $NAND$ to obtain $AND$, $OR$, $NOT$, and so by extension all the other functions that can be built up from them.
 This suggests making $NAND$ our notion of a "basic operation", and hence coming up with the following definition of an "algorithm":
@@ -184,7 +189,7 @@ This suggests making $NAND$ our notion of a "basic operation", and hence coming 
 >
 An algorithm $A$ _computes_ a function $F$ if for every input $x$ to $F$, if we feed $x$ as input to the algorithm, the value computed in its last step is $F(x)$.
 
-There are several things that are wrong with this definition:
+There are questions that are raised by this definition:
 
 1. First and foremost, it is indeed too informal. We do not specify exactly what each step does, nor what it means to "feed $x$ as input".
 
@@ -201,6 +206,13 @@ A large part of this course will be devoted to answering questions 1,2 and 3 abo
 
 3. It turns out that we can and do compute such "$NAND$ based algorithms" in the real world. First of all, such an algorithm is clearly well specified, and so can be executed by a human with a pen and paper. Second, there are a variety of ways to _mechanize_ this computation. We've already seen that we can write Python code that corresponds to following such a list of instructions. But in fact we can directly implement operations such as $NAND$, $AND$, $OR$, $NOT$ etc.. via electronic signals using components known as _transistors_. This is how modern electronic computers operate.
 
+We will see fully formal definitions of computation in future chapters. In the remainder of this chapter, we will focus on giving some partial answers to Questions 2 and 3.
+We will see more example of the power of simple operations like $NAND$ (or equivalently, $AND$/$OR$/$NOT$, as well as many other choices) to compute more complex operations including addition, multiplication, sorting and more.
+We will then discuss how to _physically implement_ simple operations such as NAND using a variety of technologies.
+
+## From NAND to infinity and beyond..
+
+
 
 ## Physical implementations of computing devices.
 
@@ -209,14 +221,14 @@ _Computation_ is an abstract notion, that is distinct from its physical _impleme
 While most modern computing devices are obtained by mapping logical gates to semi-conductor based transistors, over history people have computed using a huge variety of mechanisms,  including mechanical systems, gas and liquid (known as _fluidics_), biological and chemical processes, and even living creatures (e.g., see [crabfig](){.ref} or  [this video](https://www.youtube.com/watch?v=czk4xgdhdY4) for how crabs or slime mold can be used to do computations).
 
 
-In the rest of this  lecture we review some of these implementations, both so  you can get an appreciation of how it is possible to directly translate NAND programs to the physical world, without going through the entire stack of architecture, operating systems, compilers, etc... as well as to emphasize that silicon-based processors are by no means the only way to perform computation.
+In the rest of this  chapter we review some of these implementations, both so  you can get an appreciation of how it is possible to directly translate NAND programs to the physical world, without going through the entire stack of architecture, operating systems, compilers, etc... as well as to emphasize that silicon-based processors are by no means the only way to perform computation.
 Indeed, as we will see much later in this course, a very exciting recent line of works involves using different media for computation that would allow us to take advantage of _quantum mechanical effects_ to enable different types of algorithms.
 
 ![Crab-based logic gates from the paper "Robust soldier-crab ball gate" by Gunji, Nishiyama and Adamatzky. This is an example of an AND gate that relies on the tendency of two swarms of crabs arriving from different directions to combine to a single swarm that continues in the average of the directions.](../figure/crab-gate.jpg){#crabfig .class width=200px height=200px}
 
 
 
-## Transistors and physical logic gates
+### Transistors and physical logic gates
 
 A _transistor_ can be thought of as an electric circuit with two inputs, known as _source_ and _gate_ and an output, known as the _sink_.
 The gate controls whether current flows from the source to the sink.
