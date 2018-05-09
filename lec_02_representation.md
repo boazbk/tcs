@@ -302,6 +302,7 @@ $FtR(f) \leq S + 11/9 \cdot 10^{-k-1}$ while $FtR(g) \geq S + 10^{-k}$ which mea
 
 
 
+
 ## Beyond numbers
 
 We can of course represent objects other than numbers as binary strings.
