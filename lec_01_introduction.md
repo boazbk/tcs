@@ -89,7 +89,7 @@ In Computer Science parlance, a scheme such as the decimal (or sexadecimal) posi
 Data structures and algorithms have enabled amazing applications, but their importance goes beyond  their practical utility.
 Structures from computer science, such as bits, strings, graphs, and even the notion of a program itself, as well as concepts such as universality and replication, have not just found (many) practical uses but contributed a new language and a new way to view the world.
 
-### Example: A faster way to multiply
+## Extended Example: A faster way to multiply
 
 Once you think of the standard digit-by-digit multiplication algorithm, it seems like obviously the "right" way to multiply numbers.
 Indeed, in 1960, the famous mathematician Andrey Kolmogorov organized a seminar at Moscow State University in which he conjectured that every algorithm for multiplying two $n$ digit numbers would require a number of basic operations that is proportional to $n^2$.^[That is, he conjectured that the number of operations would be at least some $n^2/C$ operations for some constant $C$ or, using "Big Oh notation", $\Omega(n^2)$ operations. See the _mathematical background_ chapter for a precise definition of big Oh notation.]
@@ -210,7 +210,7 @@ Unlike the case of integer multiplication, at the moment we don't know of a near
 People have tried to use [group representations](https://en.wikipedia.org/wiki/Group_representation), which can be thought of as generalizations of the Fourier transform, to obtain faster algorithms, but this effort [has not yet succeeded](http://discreteanalysisjournal.com/article/1245-on-cap-sets-and-the-group-theoretic-approach-to-matrix-multiplication).
 
 
-### Algorithms beyond arithmetic
+## Algorithms beyond arithmetic
 
 The quest for better algorithms is by no means restricted to arithmetical tasks such as adding, multiplying or solving equations.
 Many _graph algorithms_, including algorithms for finding paths, matchings, spanning tress, cuts, and flows, have been discovered in the last several decades, and this is still an intensive area of research.
@@ -236,7 +236,7 @@ But at least we now know the right way to _ask_ it..
 
 
 
-### On the importance of negative results.
+## On the importance of negative results.
 
 Finding better multiplication algorithms is undoubtedly a worthwhile endeavor.
 But why is it important  to prove that such algorithms _don't_ exist?
@@ -266,7 +266,7 @@ More recently, the [Bitcoin](https://en.wikipedia.org/wiki/Bitcoin) system uses 
 * One of the main topics of this course is studying the question of what is  the _most efficient_ algorithm for a given  problem.
 * To answer such a question we need to find ways to _prove lower bounds_ on the computational resources needed to solve certain problems. That is, show an _impossiblity result_ ruling out the existence of "too good" algorithms.
 
-### Roadmap to the rest of this course
+## Roadmap to the rest of this course
 
 Often, when we try to solve a computational problem, whether it is solving a system of  linear equations, finding the top eigenvector of a matrix, or trying to rank Internet search results, it is enough to use the "I know it when I see it" standard for describing algorithms.
 As long as we find some way to solve the problem, we are happy and  don't care so much about  formal descriptions of the algorithm.
