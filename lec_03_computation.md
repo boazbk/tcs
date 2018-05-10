@@ -102,7 +102,7 @@ Each one of these functions takes either one or two single bits as input, and pr
 However, the power of computation comes from _composing_ simple building blocks together.
 
 
-> # {.example title="Computing $XOR$ from $AND$,$OR$,$NOT$" #XOR}
+> # {.example title="Computing $XOR$ from $AND$,$OR$,$NOT$" #XORandornotexample}
 Let us see how we can obtain a different function from these building blocks:
 Define $XOR:\{0,1\}^2 \rightarrow \{0,1\}$ to be the function $XOR(a,b)= a + b \mod 2$. That is, $XOR(0,0)=XOR(1,1)=0$ and $XOR(1,0)=XOR(0,1)=1$.
 We claim that we can construct $XOR$ using only $AND$, $OR$, and $NOT$.
@@ -159,8 +159,6 @@ print([(a,b,c,XOR3(a,b,c)) for a in [0,1] for b in [0,1] for c in [0,1]])
 Make sure you see how to generalize this and obtain a way to compute $XOR_n:\{0,1\}^n \rightarrow \{0,1\}$ for every $n$ using at most $4n$ basic steps involving applications of a function in $\{ AND, OR , NOT \}$ to omputs or previously computed values.
 
 
-
-
 ### The NAND function
 
 Here is another function we can compute using $AND,OR,NOT$. The $NAND$ function maps $\{0,1\}^2$ to $\{0,1\}$ and is defined as
@@ -179,6 +177,24 @@ Once we can compute $AND$ and $NOT$, we can compute $OR$ using the so called ["D
 
 > # { .pause }
 [univnandonethm](){.ref}'s proof is very simple, but you should make sure that __(i)__ you understand the statement of the theorem, and __(ii)__ you follow its proof completely. In particular, you should make sure you understand why De Morgan's law is true.
+
+
+> # {.solvedexercise title="Compute majority with NAND" #majbynandex}
+Let $MAJ_3: \{0,1\}^3 \rightarrow \{0,1\}$ be the function that on input $a,b,c$ outputs $1$ iff $a+b+c \geq 2$. Show how to compute $MAJ_3$ using a composition of $NAND$'s.
+
+> # {.solution data-ref="majbynandex"}
+To solve this problem, we will first express  $MAJ_3$  using $AND$, $OR$, $NOT$, and then use
+[univnandonethm](){.ref}  to replace those with only $NAND$.
+We can very naturally express the statement "At least two of $a,b,c$ are equal to $1$" using OR's and AND's. Specifically, this is true if at least one of the values $AND(a,b)$, $AND(a,c)$, $AND(b,c)$ is true.
+So we can write
+$$MAJ_3(a,b,c) = OR(OR(AND(a,b),AND(a,c)),AND(b,c)) \label{eqmajusingandor} \;.$$
+>
+Now we can use the equivalence $AND(a,b)=NOT(NAND(a,b))$, $OR(a,b)=NAND(NOT(a),NOT(b))$, and $NOT(a)=NAND(a,a)$ to replace the righthand side of [{eqmajusingandor}](){.eqref} with an expression involving only $NAND$, yielding
+$$
+MAJ_3(a,b,c) = NAND(NAND(NAND(a,b),NAND(a,c)),NAND(b,c))
+$$
+
+
 
 ### Informally defining "basic operations" and "algorithms"
 
@@ -212,6 +228,81 @@ We will then discuss how to _physically implement_ simple operations such as NAN
 
 ## From NAND to infinity and beyond..
 
+We have seen that using $NAND$, we can compute $AND$, $OR$, $NOT$ and $XOR$.
+But this still seems a far cry from being able to add and multiply numbers, not to mention more complex programs such as sorting and searching, solving equations, manipulating images, and so on.
+We now give a few examples demonstrating how we can use these simple operations to do some more complicated tasks.
+While we will not go as far as implementing   [Call of Duty](https://goo.gl/DdJZFF), we will at least show how we can compose $NAND$ operations to obtain tasks such as addition, multiplications, and comparisons.
+
+__NAND Circuits.__ We can describe the computation of a  function $F:\{0,1\}^n \rightarrow \{0,1\}$ via a composition of $NAND$ operations in terms of a _circuit_, as was done in [andornotcircxorfig](){.ref}.
+Since in our case, all the gates are the same function (i.e., $NAND$), the description of the circuit is even simpler.
+We can think of the circuit as a directed graph.
+It has a vertex for every one of the input bits, and also for every intermediate  value  we use in our computation.
+If we compute a value $u$ by applying $NAND$ to $v$ and $w$ then we put a directed edges from $v$ to $u$ and from $w$ to $u$.
+We will follow the convention of using  "$x$" for inputs and "$y$" for outputs, and hence write $x_0,x_1,\ldots$ for our inputs and $y_0,y_1,\ldots$ for our outputs. (We will sometimes also write these as `x[0]`,`x[1]`,$\ldots$ and  `y[0]`,`y[1]`,$\ldots$ respectively.)
+
+We now present some examples of $NAND$ circuits for various natural problems:
+
+
+> # {.example title="$NAND$ circuit for $XOR$" #xornandexample}
+Recall the $XOR$ function which maps $x_0,x_1 \in \{0,1\}$ to $x_0 + x_1 \mod 2$.
+We have seen in [XORandornotexample](){.ref} that we can compute this function using $AND$, $OR$, and $NOT$, and so by [univnandonethm](){.ref} we can compute it using only $NAND$'s.
+However, the following is a direct construction of computing $XOR$ by a sequence of NAND operations:
+>
+1. Let $u = NAND(x_0,x_1)$.  \
+2. Let $v = NAND(x_0,u)$  \
+3. Let $w = NAND(x_1,u)$. \
+4. The $XOR$ of $x_0$ and $x_1$ is $y_0 = NAND(v,w)$.
+>
+(We leave it to you to verify that this algorithm does indeed compute $XOR$.)
+>
+We can also represent this algorithm graphically as a circuit:
+>
+![](../figure/xornandcirc.png){#figid .class width=300px height=300px} \
+
+
+We now present a few more examples of computing natural functions by a sequence of $NAND$ operations.
+
+> # {.example title="$NAND$ circuit for incrementing" #incrementnandexample}
+Consider the task of computing, given as input a string $x\in \{0,1\}^n$ that represents a natural number $X\in \N$, the representation of $X+1$.
+That is, we want to compute the function $INC_n:\{0,1\}^n \rightarrow \{0,1\}^{n+1}$ such that for every $x_0,\ldots,x_{n-1}$, $INC_n(x)=y$  which satisfies $\sum_{i=0}^n y_i 2^i = \left( \sum_{i=0}^{n-1} x_i 2^i \right)+1$.
+>
+The increment operation can be very informally described as follows: _"Add $1$ to the most significant bit and propagate the carry"_.
+A little more precisely, in the case of the binary representation, to obtain the increment of $x$, we scan $x$ from the least significant bit onwards, and flip all $1$'s to $0$'s until we encounter a bit equal to $0$, in which case we flip it to $1$ and stop.
+(Please verify you understand why this is the case.)
+>
+Thus we can compute the increment of $x_0,\ldots,x_{n-1}$ by doing the following:
+>
+1. Set $c_0=1$ (we pretend we have a "carry" of $1$ initially)
+2. For $i=0,\ldots, n-1$ do the following:
+   a. Let $y_i = XOR(x_i,c_i)$.
+   b. If $y_i=x_i=1$ then $c_{i+1}=1$, else $c_{i+1}=0$.
+3. Set $y_n = c_n$.
+>
+The above is a very precise description of an algorithm to compute the increment operation, and can be easily transformed into _Python_ code that performs the same computation, but it does not seem to directly yield a NAND circuit to compute this.
+However, we can transform this algorithm line by line to a NAND circuit.
+For example, since for every $a$, $NAND(a,NOT(a))=1$, we can replace the initial statement $c_0=1$ with $c_0 = NAND(x_0,NAND(x_0,x_0))$.
+We already know how to compute $XOR$ using NAND, so line 2.a can be replaced by some NAND operations.
+Next, we can write line 2.b as simply saying $c_{i+1} = AND(y_i,x_i)$,  or in other words $c_{i+1}=NAND(NAND(y_i,x_i),NAND(y_i,x_i))$.
+Finally, the assignment $y_n = c_n$ can be written as $y_n = NAND(NAND(c_n,c_n),NAND(c_n,c_n))$.
+Combining these observations yields for every $n\in \N$, a $NAND$ circuit to compute $INC_n$.
+For example, this is how this circuit looks like for $n=4$.
+>
+![](../figure/incrementnandcirc.png){#figid .class width=100px height=300px} \
+
+
+> # {.example title="Addition using NANDs" #additionnandcirc}
+Once we have the increment operation, we can certainly compute addition by repeatedly incrementing (i.e., compute $x+y$ by performing $INC(x)$ $y$ times).
+However, that would be quite inefficient and unnecessary.
+With the same idea of keeping track of carries we can implement the "gradeschool" algorithm for addition to compute the function $ADD_n:\{0,1\}^{2n} \rightarrow \{0,1\}^{n+1}$ that on input $x\in \{0,1\}^{2n}$ outputs the binary representation of the sum of the numbers represented by $x_0,\ldots,x_{n-1}$ and $x_{n+1},\ldots,x_n$:
+>
+1. Set $c_0=0$.
+2. For $i=0,\ldots,n-1$:
+   a. Let $y_i = x_i + x_{n+i} + c_i (\mod 2)$.
+   b. If $x_i + x_{n+i} + c_i \geq 2$ then $c_{i+1}=1$.
+3. Let $y_n = c_n$
+>
+Once again, this can be translated into a NAND circuit.
+To transform Step 2.b to a NAND circuit we use the fact (shown in [majbynandex](){.ref}) that the function $MAJ_3:\{0,1\}^3 \rightarrow \{0,1\}$ can be computed  using $NAND$s.
 
 
 ## Physical implementations of computing devices.
@@ -254,3 +345,63 @@ Since then, (adjusted versions of) this so-called "Moore's law" has been running
 ![Gordon Moore's cartoon "predicting" the implications of radically improving transistor density.](../figure/moore_cartoon.png){#moore-cartoon-fig .class width=300px height=300px}
 
 ![The exponential growth in computing power over the last 120 years. Graph by Steve Jurvetson, extending a prior graph of Ray Kurzweil.](../figure/1200px-Moore's_Law_over_120_Years.png){#kurzweil-fig .class width=300px height=300px}
+
+
+
+
+### NAND gates from transistors
+
+We can use transistors to implement a _NAND gate_, which would be a system with two input wires $x,y$ and one output wire $z$, such that if we identify high voltage with "$1$" and low voltage with "$0$", then the wire  $z$ will equal to "$1$" if and only if the NAND of the values of the wires $x$ and $y$ is $1$ (see [transistor-nand-fig](){.ref}).
+
+![Implementing a NAND gate using transistors.](../figure/nand_transistor.png){#transistor-nand-fig .class width=300px height=300px}
+
+This means that there exists a NAND circuit to  compute a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$, then we can compute $F$ in the physical world using transistors as well.
+
+
+## Basing computing on other media
+
+Electronic transistors are in no way the only technology that can implement computation.
+There are many mechanical, chemical, biological,  or even social systems that can be thought of as  computing devices.
+We now discuss some of these examples.
+
+
+
+
+### Biological computing
+
+Computation can be based on [biological  or chemical systems]((http://www.nature.com/nrg/journal/v13/n7/full/nrg3197.html)).
+For example the [_lac_ operon](https://en.wikipedia.org/wiki/Lac_operon) produces the enzymes needed to digest lactose only if the conditions $x \wedge (\neg y)$ hold where $x$ is "lactose is present" and $y$ is "glucose is present".
+Researchers have managed to [create transistors](http://science.sciencemag.org/content/340/6132/554?iss=6132), and from them the NAND function and other logic gates, based on DNA molecules (see also [transcriptorfig](){.ref}).
+One motivation for DNA computing is to achieve  increased parallelism or storage density; another is to create "smart biological agents" that could perhaps be injected into bodies, replicate themselves, and fix or kill cells that were damaged by a disease such as cancer.
+Computing in biological systems is not restricted of course to DNA.
+Even larger systems such as [flocks of birds](https://www.cs.princeton.edu/~chazelle/pubs/cacm12-natalg.pdf) can be considered as computational processes.
+
+![Performance of DNA-based logic gates. Figure taken from paper of [Bonnet et al](http://science.sciencemag.org/content/early/2013/03/27/science.1232758.full), Science, 2013.](../figure/transcriptor.jpg){#transcriptorfig .class width=300px height=300px}
+
+### Cellular automata and the game of life
+
+_Cellular automata_ is a model of a system composed of a sequence of _cells_, which of which can have a finite state.
+At each step, a cell updates its state based on the states of its _neighboring cells_ and some simple rules.
+As we will discuss later in this course, cellular automata such as Conway's "Game of Life" can be used to simulate computation gates, see [gameoflifefig](){.ref}.
+
+![An AND gate using a "Game of Life" configuration. Figure taken from [Jean-Philippe Rennard's paper](http://www.rennard.org/alife/CollisionBasedRennard.pdf).](../figure/game_of_life_and.png){#gameoflifefig .class width=300px height=300px}
+
+
+### Neural networks
+
+One particular basis we can use are _threshold gates_.
+For every vector $w= (w_0,\ldots,w_{k-1})$ of integers  and  integer $t$ (some or all of whom  could be negative),
+the _threshold function corresponding to $w,t$_ is the function
+$T_{w,t}:\{0,1\}^k \rightarrow \{0,1\}$ that maps $x\in \{0,1\}^k$ to $1$ if and only if $\sum_{i=0}^{k-1} w_i x_i \geq t$.
+For example, the threshold function $T_{w,t}$ corresponding to $w=(1,1,1,1,1)$ and $t=3$ is simply the majority function $MAJ_5$ on $\{0,1\}^5$.
+The function $NAND:\{0,1\}^2 \rightarrow \{0,1\}$  is the threshold function corresponding to $w=(-1,-1)$ and $t=-1$, since $NAND(x_0,x_1)=1$ if and only if $x_0 + x_1 \leq 1$ or equivalently, $-x_0 - x_1 \geq -1$.
+
+
+Threshold gates can be thought of as an approximation for    _neuron cells_ that make up the core of human and animal brains. To a first approximation, a neuron has $k$ inputs and a single output and the neurons  "fires" or "turns on" its output when those signals pass some threshold.^[Typically we think of an input to neurons as being a real number rather than a binary string, but  we can reduce to the binary case by  representing a real number in the binary basis, and multiplying the weight of the bit corresponding to the $i^{th}$ digit by $2^i$.]
+Hence circuits with threshold gates are sometimes known as _neural networks_.
+Unlike the cases above, when we considered $k$ to be a small constant, in such  neural networks we often do not put any bound on the number of inputs.
+However, since any threshold function on $k$ inputs can be computed by a NAND program of $poly(k)$  lines (see [threshold-nand-ex](){.ref}), the  power of NAND programs and neural networks is not very different.
+
+### The marble computer
+
+TO BE COMPLETED

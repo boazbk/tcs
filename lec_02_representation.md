@@ -430,7 +430,7 @@ Define $x = E(o)$ and $x'=E(o')$.
 Note that since $E$ is one-to-one, $x \neq x'$.
 (Recall that two strings $x,x'$ are distinct if they either differ in length or have at least one distinct coordinate.)
 Under our assumption, $|PF(x)| \leq |PF(x')|$, and since by construction $|PF(x)|=2|x|+2$, it follows that $|x| \leq |x'|$.
-If $|x|=|x'|$ then, since $x \neq x'$, there must be a coordinate $i\in \{0,\ldots, |x|-1\}$ such that $x_i \neq x'_i$. But since $PF(x)_{2i}=x_i$, we get that $PF(x)_{2i} \neq PF(x')_{2i}$ and hence $\overline{E}(o)=PF(x)$ is not a prefix of $\overline{E}(o')=PF(x')$.
+If $|x|=|x'|$ then, since $x \neq x'$, there must be a coordinate $i\in \{0,\ldots, |x|-1\}$ such that $x_i \neq x'_i$. But since $PF(x)_{2i}=x_i$, we get that $PF(x)_{2i} \neq PF(x')_{2i}$ and hence $\overline{E}(o)=PF(x)$ is _not_ a prefix of $\overline{E}(o')=PF(x')$.
 Otherwise (if $|x| \neq |x'|$) then it must be that $|x| < |x'|$, and hence if $n=|x|$, then $PF(x)_{2n}=0$ and $PF(x)_{2n+1}=1$. But since $n<|x'|$, $PF(x')_{2n},PF(x')_{2n+1}$ is equal to either $00$ or $11$, and in any case we get that $\overline{E}(o)=PF(x)$ is not a prefix of $\overline{E}(o')=PF(x')$.
 
 
@@ -491,18 +491,20 @@ Note that Python function `prefixfree` above takes two _Python functions_ as inp
 You don't have to know Python in this course, but you do need to get comfortable with the idea of functions as mathematical objects in their own right, that can be used as inputs and outputs of other functions.
 
 ```python
-# takes functions pfencode, pfdecode and pfvalid,
-# and returns functions encodelists, decodelists
-# that can encode and decode
-# lists of the objects respectively
 def represlists(pfencode,pfdecode,pfvalid):
+"""
+Takes functions pfencode, pfdecode and pfvalid,
+and returns functions encodelists, decodelists
+that can encode and decode
+lists of the objects respectively
+"""
 
-    # gets list of objects, encodes it as list of bits
     def encodelist(L):
+    """Gets list of objects, encodes it as list of bits"""
         return [bit for obj in L for bit in pfencode(obj)]
 
-    # gets lists of bits, returns lists of objects
     def decodelist(S):
+    """Gets lists of bits, returns lists of objects"""
         i=0; j=1 ; res = []
         while j<=len(S):
             if pfvalid(S[i:j]):

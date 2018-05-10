@@ -132,7 +132,7 @@ Specifically, we use a  _recursive_ strategy as follows:
 >__Karatsuba Multiplication:__ \
 >__Input:__ Non negative integers $x,y$ each of at most $n$ digits \
 >__Operation:__ \
->1. If $n \leq 2$ then return $x\cdot y$ (using a constant number of single digit multiplications)
+>1. If $n \leq 2$ then return $x\cdot y$ (using a constant number of single digit multiplications) \
 >2. Otherwise, let $m = \floor{n/2}$, and write $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \underline{y}$.^[Recall that for a number $x$, $\floor{x}$ is obtained by "rounding down" $x$ to the largest integer smaller or equal to  $x$.]  \
 >2. Use _recursion_ to compute  $A=\overline{x}\overline{y}$, $B=\underline{y}\underline{y}$ and $C=(\overline{x}+\underline{x})(\overline{y}+\underline{y})$. Note that all the numbers will have at most $m+1$ digits.  \
 >3. Return $(10^n-10^m)\cdot A  + 10^m \cdot B +(1-10^m)\cdot C$
