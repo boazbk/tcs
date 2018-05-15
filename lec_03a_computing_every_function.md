@@ -8,6 +8,42 @@
 
 
 
+<!--
+```python
+from inspect import signature
+def numarguments(f):
+    """Number of arguments a Python function takes."""
+    return len(signature(f).parameters)
+
+def nandcode(f):
+    n = numarguments(f)
+    counter = 0 # to ensure unique temporary variables.
+    code = ''
+    global NAND
+    def tempNAND(bar,blah):
+        nonlocal code, counter
+        var = f'Temp[{counter}]'
+        counter += 1
+        code += f'{var} = NAND({bar},{blah})\n'
+        return var
+
+    NAND , tempNAND = tempNAND, NAND # Override NAND with its temporary version
+    # (this is a hack and won't play nicely with exceptions or multithreading)
+    outputs = f(*[f'X[{i}]' for i in range(n)]) # execute f on the strings "X[0]", "X[1]", ...
+    NAND , tempNAND = tempNAND, NAND # Restore original NAND
+
+    if type(outputs)==str: outputs = [outputs] # make single output into singleton list
+
+    for j in range(len(outputs)):
+        code = code.replace(outputs[j],f'Y[{j}]')
+    return code
+
+def NAND(a,b): return 1-a*b
+
+```
+-->
+
+
 
 >_"Syntactic sugar causes cancer of the semicolon."_, Alan Perlis, 1982.
 
@@ -22,15 +58,15 @@ One of the most basic operations a programming language has is to assign the val
 And yet in NAND, we cannot even do that, as we only allow assignments of the result of a NAND operation.
 Yet, it is possible to "pretend" that we have such an assignment operation, by  transforming  code such as
 
-```
-foo := bar
+```python
+foo = COPY(bar)
 ```
 
 into the valid NAND code:
 
-```
-notbar := bar    NAND bar
-foo    := notbar NAND notbar
+```python
+notbar = NAND(bar,bar)
+foo    = NAND(notbar,notbar)
 ```
 
 the reason being that for every $a\in \{0,1\}$, $NAND(a,a)=NOT(a AND a)=NOT(a)$ and so in these two lines `notbar` is assigned the negation of `bar` and so `foo` is assigned the negation of the negation of `bar`, which is simply `bar`.
@@ -58,155 +94,285 @@ Going over all these examples can be somewhat tedious, but we do it for two reas
 
 We can create variables `zero` and `one` that  have the values  $0$ and $1$ respectively by adding the lines
 
-~~~~ { .pascal .numberLines }
-notx_0 := x_0 NAND x_0
-one    := x_0 NAND notx_0
-zero   := one NAND one   
-~~~~
+```python
+temp = NAND(X[0],X[0])
+one  = NAND(x[0],X[1])
+zero = NAND(one,one)
+```
+
 
 Note that since for every $x\in \{0,1\}$, $NAND(x,\overline{x})=1$, the variable `one` will get the value $1$ regardless of the value of $x_0$, and the variable `zero` will get the value $NAND(1,1)=0$.^[We could have saved a couple of lines using the convention that uninitialized variables default to $0$, but it's always nice to be explicit.]
-Hence we can replace code such as `a := 0` with `a := one NAND one` and similarly `b := 1` will be replaced with `b:= zero NAND zero`.
-
-
-### Conditional statements
-
-Another sorely missing feature in NAND is a conditional statement.
-We would have liked to be able to write something like
-
-
-~~~~ { .pascal .numberLines }
-if (cond) {
-    ...
-   some code here
-   ...
-}
-~~~~
-
-To ensure that there is code that will only be executed when the variable `cond` is equal to $1$.
-We can do so by replacing every variable `foo` that is assigned a value in the code by a variable `tempfoo` and then simply execute the code (_regardless_ of whether `cond` is false or true).
-After the code is executed, we want to ensure that if `cond` is true then the value of every such variable `foo` is replaced with `tempfoo`, and otherwise the value of `foo` should be unchanged.^[We  assume here for simplicity of exposition that `cond` itself is not modified by the code inside the if statement. Otherwise, we will copy it to a temporary variable as well.]
-We do so by assigning to every variable `foo` the value `MUX(foo,tempfoo,cond)` where $MUX:\{0,1\}^3 \rightarrow \{0,1\}$ is the _multiplexer_ function that on input $(a,b,c)$ outputs $a$ if $c=0$ and $b$ if $c=1$.
-This function has a 4-line NAND program:
-
-~~~~
-nx_2 := x_2 NAND x_2
-u    := x_0 NAND nx_2
-v    := x_1 NAND x_2
-y_0  := u   NAND v
-~~~~
-
-We leave it as [mux-ex](){.ref} to verify that this program does indeed compute the $MUX$ function.
+We can combine the above two techniques to enable assigning constants to variables in our programs.
 
 
 ### Functions / Macros
 
-Another staple of almost any programming language is the ability to execute functions.
-However, we can achieve the same effect as (non recursive) functions using  "copy pasting".
+Another staple of almost any programming language is the ability to execute _functions_.
+However, we can achieve the same effect as (non recursive) functions using the time honored technique of  "copy and paste".
 That is, we can replace code such as
 
-~~~~ { .pascal .numberLines }
-def a,b := Func(c,d) {
+```python
+def Func(a,b):
     function_code
-}
-...
-e,f := Func(g,h)
-~~~~
+    return c
+some_code
+f = Func(e,d)
+some_more_code
+```
 
-with
-
-~~~~ {  .numberLines }
-...
+```python
+some_code
 function_code'
-...
-~~~~
+some_more_code
+```
 
-where `function_code'` is obtained by replacing all occurrences of `a` with `e`,`f` with `b`, `c` with `g`, `d` with `h`.
+where `function_code'` is obtained by replacing all occurrences of `a` with `d`,`b` with `e`, `c` with `f`.
 When doing that we will need to  ensure that all other variables appearing in `function_code'` don't interfere with other variables by replacing every instance of a variable `foo` with `upfoo` where `up` is some unique prefix.
+
+### Example: Computing Majority via NAND's
+
+Function definition allow us to express NAND programs much more cleanly and succinctly. For example, because we can compute AND,OR, NOT using NANDs, we can compute the _Majority_ function as well.
+
+```python
+def NOT(a): return NAND(a,a)
+def AND(a,b): return NOT(NAND(a,b))
+def OR(a,b): return NAND(NOT(a),NOT(b))
+
+def MAJ(a,b,c):
+    return OR(OR(AND(a,b),AND(b,c)),AND(a,c))
+
+print(MAJ(0,1,1))
+# 1
+```
+
+This is certainly much more pleasant than the full NAND alternative:
+
+```python
+Temp[0] = NAND(X[0],X[1])
+Temp[1] = NAND(Temp[0],Temp[0])
+Temp[2] = NAND(X[1],X[2])
+Temp[3] = NAND(Temp[2],Temp[2])
+Temp[4] = NAND(Temp[1],Temp[1])
+Temp[5] = NAND(Temp[3],Temp[3])
+Temp[6] = NAND(Temp[4],Temp[5])
+Temp[7] = NAND(X[0],X[2])
+Temp[8] = NAND(Temp[7],Temp[7])
+Temp[9] = NAND(Temp[6],Temp[6])
+Temp[10] = NAND(Temp[8],Temp[8])
+Y[0] = NAND(Temp[9],Temp[10])
+```
+
+
+### Conditional statements
+
+Another sorely missing feature in NAND is a conditional statement such as the `if`/`then` constructs that are found in many programming languages.
+However, using functions, we can obtain an ersatz if/then construct.
+First we can compute the function $IF:\{0,1\}^3 \rightarrow \{0,1\}$ such that $IF(a,b,c)$ equals $b$ if $a=1$ and $c$ if $a=0$.
+
+> # { .pause }
+Try to  see how you could compute the $IF$ function using $NAND$'s.
+Once you  you do that, see how you can use that to emulate `if`/`then` types of constructs.
+
+```python
+def IF(cond,a,b):
+    notcond = NAND(cond,cond)
+    temp = NAND(b,notcond)
+    temp1 = NAND(a,cond)
+    return NAND(temp,temp1)
+
+
+print(IF(0,1,0))
+# 0
+print(IF(1,1,0))
+# 1
+```
+
+The $IF$ function is also known as the _multiplexing_ function, since $cond$ can be thought of as a switch that controls whether the output is connected to $a$ or $b$.
+We leave it as [mux-ex](){.ref} to verify that this program does indeed compute this  function.
+
+Using the $IF$ function, we can implement conditionals in NAND:
+To achieve something like
+
+```python
+if (cond):
+    a = ...
+    b = ...
+    c = ...
+```
+
+we can use code of the following form
+
+```python
+a = IF(cond,...,a)
+b = IF(cond,...,b)
+c = IF(cond,...,c)
+```
+
+or even
+
+```python
+a,b,c = IF(cond,.....,a,b,c)
+```
+
+using an extension of the $IF$ function to more inputs and outputs.
+
+
+
+
+
 
 ### Bounded loops
 
 We can use "copy paste" to implement a bounded variant of _loops_, as long we only need to repeat the loop a fixed number of times.
 For example, we can use code such as:
 
-~~~~ { .pascal }
-for i in [7,9,12] do {
-    y_i := foo_i NAND x_i
-}
-~~~~
+```python
+for i in [7,9,12]:
+    Foo[i] = NAND(Bar[2*i],Blah[3*i+1])
+```
 
 as shorthand for
 
-~~~~ { .pascal }
-y_7  := foo_7  NAND x_7
-y_9  := foo_9  NAND x_9
-y_12 := foo_12 NAND x_12
-~~~~
+```python
+Foo[7]  = NAND(Bar[14],Blah[22])
+Foo[9]  = NAND(Bar[18],Blah[28])
+Foo[12] = NAND(Bar[24],Blah[37])
+```
 
-More generally, we will replace code of the form
-
-~~~~ { .pascal }
-for i in RANGE do {
-    code
-}
-~~~~
-
-where `RANGE` specifies a finite set $I = \{ i_0,\ldots, i_{k-1} \}$ of natural numbers, with $|R|$ copies of `code`, where for $j \in [k]$, we replace all occurences of `_i` in the $j$-th copy with `_`$\expr{i_j}$.
-We specify the set $I = \{ i_0,\ldots,i_{k-1} \}$ by simply writing `[` $\expr{i_0}$, $\expr{i_1}$, $\ldots$, $\expr{i_{k-1}}$ `]`. We will also use the $\expr{beg}$`:`$\expr{end}$ notation so specify the interval $\{ beg, beg+1,\ldots, end-1 \}$.
-So for example
-
-~~~~ { .pascal }
-for i in [3:5,7:10] do {
-    foo_i := bar_i NAND baz_i
-}
-~~~~
-
-will be a shorthand for
-
-~~~~ { .pascal }
-foo_3 := bar_3 NAND baz_3
-foo_4 := bar_4 NAND baz_4
-foo_7 := bar_7 NAND baz_7
-foo_8 := bar_8 NAND baz_8
-foo_9 := bar_9 NAND baz_9
-~~~~
-
-One can also consider fancier versions, including inner loops and allowing arithmetic expressions such as `<5*i+3>` in indices.
+One can also consider fancier versions, including inner loops and so on.
 The crucial point is that (unlike most programming languages) we do not allow the number of times the loop is executed to  depend on the input, and so it is always possible to "expand out" the loop by simply copying the code the requisite number of times.
+We will use standard Python syntax such as `range(n)` for the sets we can range over.
 
 
 
 
 
-### Example:
+### Example: Adding two integers
 
-Using these features, we can express the code of the  $ADD_2$ function we saw last lecture as  
+Using the above features, we can write the integer addition function as follows:
 
-~~~~ {  .numberLines  }
-def c := AND(a,b) {
-   notc := a NAND b
-   c    := notc NAND notc
-}
-def c := XOR(a,b) {
-    u   := a NAND b
-    v   := a NAND u
-    w   := b NAND u
-    c := v NAND w
-}
-y_0 := XOR(x_0,x_2) // add first digit
-c_1 := AND(x_0,x_2)
-z_1 := XOR(x_1,x_2) // add second digit
-c_2 := AND(x_1,x_2)
-y_1 := XOR(c_1,y_2) // add carry from before
-c'_2 := AND(c_1,y_2)
-y_2 := XOR(c'_2,x_2)
-~~~~  
+<!--
+```python
+def zero(a):
+    return NOT(NAND(a,NOT(a)))
+
+def XOR(a,b):
+    t1 = NAND(a,b)
+    t2 = NAND(a,t1)
+    t3 = NAND(b,t1)
+    return NAND(t2,t3)
+
+# generalize restrict to handle functions that take more than one array
+def restrict(f,*numinputs):
+    """Create function that restricts the function f to exactly given input lengths n0,n1,..."""
+    k = len(numinputs)
+    args = [""]*k
+
+    for i in range(k):
+        args[i] = ", ".join(f'arg_{i}_{j}' for j in range(numinputs[i]))
+        sig = ", ".join(args)
+        call = ", ".join(f"[{args[i]}]" for i in range(k))
+        exec(rf'''
+    def _temp({sig}):
+        return {f.__name__}({call})
+        ''',globals())
+    return _temp
+
+
+```
+
+-->
+
+```python
+# Add two n-bit integers
+def ADD(A,B):
+    n = len(A)
+    Result = [0]*(n+1)
+    Carry  = [0]*(n+1)
+    Carry[0] = zero(A[0])
+    for i in range(n):
+        Result[i] = XOR(Carry[i],XOR(A[i],B[i]))
+        Carry[i+1] = MAJ(Carry[i],A[i],B[i])
+    Result[n] = Carry[n]
+    return Result
+
+ADD([1,1,1,0,0],[1,0,0,0,0])
+```
+
+where `zero` is the constant zero function, and `MAJ` and `XOR` correspond to the majority and XOR functions respectively.
+This "sugared" version is certainly easier to read than even the two bit  NAND addition program (obtained by restricting the above to the case $n=2$):
+
+
+<!--
+```python
+ADD2 = restrict(ADD,2,2)
+print(nandcode(ADD2))
+```
+-->
+
+
+```python
+Temp[0] = NAND(X[0],X[0])
+Temp[1] = NAND(X[0],Temp[0])
+Temp[2] = NAND(Temp[1],Temp[1])
+Temp[3] = NAND(X[0],X[2])
+Temp[4] = NAND(X[0],Temp[3])
+Temp[5] = NAND(X[2],Temp[3])
+Temp[6] = NAND(Temp[4],Temp[5])
+Temp[7] = NAND(Temp[2],Temp[6])
+Temp[8] = NAND(Temp[2],Temp[7])
+Temp[9] = NAND(Temp[6],Temp[7])
+Y[0] = NAND(Temp[8],Temp[9])
+Temp[11] = NAND(Temp[2],X[0])
+Temp[12] = NAND(Temp[11],Temp[11])
+Temp[13] = NAND(X[0],X[2])
+Temp[14] = NAND(Temp[13],Temp[13])
+Temp[15] = NAND(Temp[12],Temp[12])
+Temp[16] = NAND(Temp[14],Temp[14])
+Temp[17] = NAND(Temp[15],Temp[16])
+Temp[18] = NAND(Temp[2],X[2])
+Temp[19] = NAND(Temp[18],Temp[18])
+Temp[20] = NAND(Temp[17],Temp[17])
+Temp[21] = NAND(Temp[19],Temp[19])
+Temp[22] = NAND(Temp[20],Temp[21])
+Temp[23] = NAND(X[1],X[3])
+Temp[24] = NAND(X[1],Temp[23])
+Temp[25] = NAND(X[3],Temp[23])
+Temp[26] = NAND(Temp[24],Temp[25])
+Temp[27] = NAND(Temp[22],Temp[26])
+Temp[28] = NAND(Temp[22],Temp[27])
+Temp[29] = NAND(Temp[26],Temp[27])
+Y[1] = NAND(Temp[28],Temp[29])
+Temp[31] = NAND(Temp[22],X[1])
+Temp[32] = NAND(Temp[31],Temp[31])
+Temp[33] = NAND(X[1],X[3])
+Temp[34] = NAND(Temp[33],Temp[33])
+Temp[35] = NAND(Temp[32],Temp[32])
+Temp[36] = NAND(Temp[34],Temp[34])
+Temp[37] = NAND(Temp[35],Temp[36])
+Temp[38] = NAND(Temp[22],X[3])
+Temp[39] = NAND(Temp[38],Temp[38])
+Temp[40] = NAND(Temp[37],Temp[37])
+Temp[41] = NAND(Temp[39],Temp[39])
+Y[2] = NAND(Temp[40],Temp[41])
+```
+
+Which corresponds to the following circuit:
+
+![](../figure/add2bitcirc.png){#figid .class width=300px height=300px} \
+
+
+## Even more sugar (optional)
+
+We can go even beyond this, and add more "syntactic sugar" to NAND.
+The key observation is that all of these are _not_ extra features to NAND, but only ways that make it easier for us to write programs.
 
 ### More indices
 
-As stated, the NAND programming language only allows for "one dimensional arrays", in the sense that we can use variables such as `foo_7` or `foo_29` but not `foo_{5,15}`.
+As stated, the NAND programming language only allows for "one dimensional arrays", in the sense that we can use variables such as `Foo[7]` or `Foo[29]` but not `Foo[5][15]`.
 However we can easily embed two dimensional arrays in one-dimensional ones using a one-to-one function $PAIR:\N^2 \rightarrow \N$.
 (For example, we can use $PAIR(x,y)=2^x3^y$, but there are also more efficient embeddings, see [embedtuples-ex](){.ref}.)
-Hence we can replace any  variable of the form `foo_{`$\expr{i}$`,`$\expr{j}$`}`  with `foo_`$\expr{PAIR(i,j)}$, and similarly for three dimensional arrays.
+Hence we can replace any  variable of the form `Foo[`$\expr{i}$`][`$\expr{j}$`]`  with `foo[`$\expr{PAIR(i,j)}$ `]`, and similarly for three dimensional arrays.
 
 
 ### Non-Boolean  variables, lists and integers
@@ -215,33 +381,34 @@ While the basic variables in NAND++ are Boolean (only have $0$ or $1$), we can e
 For example, we can encode the alphabet $\{$`a`,`b`,`c`,`d`,`e`,`f` $\}$ using three bits as $000,001,010,011,100,101$.
 Hence, given such an encoding, we could  use the code
 
-~~~~ { .pascal .numberLines }
-foo := "b"
+~~~~ { .python }
+Foo = REPRES("b")
 ~~~~
 
- would be a shorthand for the program  
+would be a shorthand for the program
 
-~~~~ { .pascal .numberLines }
-foo_0   := 0
-foo_1  := 0
-foo_2 := 1
+~~~~ { .python  }
+Foo[0]  = zero(.)
+Foo[1]  = zero(.)
+Foo[2]  = one(.)
 ~~~~
 
+(Where we use the constant functions `zero` and `one`, which we can apply to any variable.)
 Using our notion of multi-indexed arrays, we can also use code such as
 
-~~~~ { .pascal .numberLines }
-foo  := "be"
+~~~~ { .python  }
+Foo =  COPY("be")
 ~~~~
 
 as a shorthand for
 
-~~~~ { .pascal .numberLines }
-foo_{0,0}  := 0
-foo_{0,1}  := 0
-foo_{0,2}  := 1
-foo_{1,0}  := 1
-foo_{1,1}  := 0
-foo_{1,2}  := 0
+~~~~ { .python }
+Foo[0][0]  = zero(.)
+Foo[0][1]  = one(.)
+Foo[0][2]  = one(.)
+Foo[1][0]  = one(.)
+Foo[1][1]  = zero(.)
+Foo[1][2]  = zero(.)
 ~~~~
 
 which can then in turn be mapped to standard NAND code using a one-to-one embedding $pair: \N \times \N \rightarrow \N$ as above.
@@ -255,68 +422,34 @@ To store integers that could be potentially negative we can use the convention `
 So,  code such as
 
 ~~~~ { .pascal .numberLines }
-foo := 5  // (1,0,1) in binary
+Foo = REPRES(5)  // (1,0,1) in binary
 ~~~~
 
 will be shorthand for
 
 ~~~~ { .pascal .numberLines }
-foo_0   := 1   
-foo_1  := 1
-foo_2  := 0
-foo_3  := 1
-foo_4 := 1
-foo_5  := 1
-foo_6  := 0
-foo_7  := 0
-~~~~
-
-while
-
-~~~~ { .pascal .numberLines }
-foo := -5   
-~~~~
-
-will be the same as
-
-~~~~ { .pascal .numberLines }
-foo_0   := 1
-foo_1  := 0
-foo_2   := 1   
-foo_3  := 1
-foo_4   := 0
-foo_5  := 1
-foo_6  := 1
-foo_7  := 1
-foo_8  := 0
-foo_9  := 0
+Foo[0] = one(.)
+Foo[1] = one(.)
+Foo[2] = zero(.)
+Foo[3] = one(.)
+Foo[4] = one(.)
+Foo[5] = one(.)
+Foo[6] = zero(.)
+Foo[7] = zero(.)
 ~~~~
 
 Using multidimensional arrays, we can use arrays of integers and hence replace code such as
 
 ~~~~ { .pascal .numberLines }
- foo := [12,7,19,33]
+ Foo = REPRES([12,7,19,33])
 ~~~~
 
 with the equivalent NAND expressions.
 
 
-For integer valued variables, we can use the standard algorithms of addition, multiplication, comparisons and so on.. to   write code such as
 
 
-~~~~ { .pascal .numberLines }
-j := k + l
-if (m*n>k) {
-    code...
-}
-~~~~
-
-which then gets translated into standard NAND++ program by copy pasting these algorithms.
-
-
-
-
-## Adding and multiplying $n$ bit numbers
+### Example: adding and multiplying $n$ bit numbers
 
 We have seen how to add one and two bit numbers.
 We can use the gradeschool algorithm to show that NAND programs can add $n$-bit numbers for every $n$:
@@ -333,13 +466,13 @@ To prove this theorem we repeatedly appeal to the notion of composition, and to 
 To add the numbers $(x_0,\ldots,x_{n-1})$ and $(x_n,\ldots,x_{2n-1})$, we set $c_0=0$ and  do the following for $i=0,\ldots,n-1$: \
   >* Compute $z_i  = XOR(x_i,x_{n+i})$ (add the two corresponding digits) \
   >* Compute $y_i = XOR(z_i,c_i)$ (add in the carry to get the final digit) \
-  >* Compute $c_{i+1} = ATLEASTTWO(x_i,x_{n+i},c_i)$ where $ATLEASTTWO:\{0,1\}^3 \rightarrow \{0,1\}$ is the function that maps $(a,b,c)$ to $1$ if $a+b+c \geq 2$. (The new carry is $1$ if and only if at least two of the values $x_i,x_{n+i},y_i$ were equal to $1$.)
+  >* Compute $c_{i+1} = MAJ(x_i,x_{n+i},c_i)$ where $MAJ:\{0,1\}^3 \rightarrow \{0,1\}$ is the function that maps $(a,b,c)$ to $1$ if $a+b+c \geq 2$. (The new carry is $1$ if and only if at least two of the values $x_i,x_{n+i},y_i$ were equal to $1$.)
 The most significant digit $y_n$ of the output will of course be the last carry $c_n$.
 >
 To transform this algorithm to a NAND program we just need to plug in the program for XOR, and use the observation (see [atleasttwo-ex](){.ref}) that
 $$
 \begin{split}
-ATLEASTTWO(a,b,c)  &=  (a \wedge b) \vee (a \wedge c) \vee (b \wedge c)  \\
+MAJ(a,b,c)  &=  (a \wedge b) \vee (a \wedge c) \vee (b \wedge c)  \\
   &= NAND(NOT(NAND(NAND(a,b),NAND(a,c))),NAND(b,c))
 \end{split}
 $$
@@ -363,7 +496,7 @@ We omit the proof, though in [multiplication-ex](){.ref} we ask you to supply a 
 In fact, we can use Karatsuba's algorithm to show that there is a NAND program of $O(n^{\log_2 3})$ lines to compute $MULT_n$ (and one can even get further asymptotic improvements using the newer algorithms).
 
 
-## Functions beyond arithmetic
+## Functions beyond arithmetic and LOOKUP
 
 We have seen that NAND programs can add and multiply numbers.  But can they compute other type of functions, that have nothing to do with arithmetic?
 Here is one example:
@@ -371,14 +504,14 @@ Here is one example:
 
 > # {.definition title="Lookup function" #lookup-def}
 For every $k$, the _lookup_ function $LOOKUP_k: \{0,1\}^{2^k+k}\rightarrow \{0,1\}$ is defined as follows:
-For every $x\in\{0,1\}^{2^k}$ and $i\in \{0,1\}^k$,  
+For every $x\in\{0,1\}^{2^k}$ and $i\in \{0,1\}^k$,
 $$
 LOOKUP_k(x,i)=x_i
 $$
 where $x_i$ denotes the $i^{th}$ entry of $x$, using the binary representation to identify $i$ with a number in $\{0,\ldots,2^k - 1 \}$.
 
 The function $LOOKUP_1: \{0,1\}^3 \rightarrow \{0,1\}$ maps $(x_0,x_1,i) \in \{0,1\}^3$ to $x_i$.
-It is actually the same as the $MUX$ function we have seen above, that has a 4 line NAND program.
+It is actually the same as the $IF$/$MUX$ function we have seen above, that has a 4 line NAND program.
 However, can we compute higher levels of $LOOKUP$?
 This turns out to be the case:
 
@@ -400,10 +533,13 @@ $$
 That is, we can compute $LOOKUP_2$ using three invocations of $LOOKUP_1$.
 The "pseudocode" for this program will be
 
+```python
+Z[0] = LOOKUP_1(X[0],X[1],X[4])
+```
 ~~~~ { .pascal .numberLines }
-z_0 := LOOKUP_1(x_0,x_1,x_4)
-z_1 := LOOKUP_1(x_2,x_3,x_4)
-y_0 := LOOKUP_1(z_0,z_1,x_5)
+Z[0] = LOOKUP_1(X[0],X[1],X[4])
+Z[1] = LOOKUP_1(X[2],X[3],X[4])
+Y[0] = LOOKUP_1(Z[0],Z[1],X[5])
 ~~~~
 (Note that since we call this function with $(x_0,x_1,x_2,x_3,i_0,i_1)$, the inputs `x_4` and `x_5` correspond to  $i_0$ and $i_1$.)
 We can obtain  an actual "sugar free" NAND program of at most $12$ lines  by replacing the calls to `LOOKUP_1` by an appropriate copy of the program above.
@@ -411,9 +547,9 @@ We can obtain  an actual "sugar free" NAND program of at most $12$ lines  by rep
 We can generalize this to compute $LOOKUP_3$ using two invocations of $LOOKUP_2$ and one invocation of $LOOKUP_1$. That is, given input $x=(x_0,\ldots,x_7)$ and $i=(i_0,i_1,i_2)$ for $LOOKUP_3$, if the most significant bit of the index $i_2$ is $0$, then the output of $LOOKUP_3$ will equal $LOOKUP_2(x_0,x_1,x_2,x_3,i_0,i_1)$, while if this index $i_2$ is $1$ then the output will be $LOOKUP_2(x_4,x_5,x_6,x_7,i_0,i_1)$, meaning that the following pseudocode can compute $LOOKUP_3$,
 
 ~~~~ { .pascal .numberLines }
-z_0 := LOOKUP_2(x_0,x_1,x_2,x_3,x_8,x_9)
-z_1 := LOOKUP_2(x_4,x_5,x_6,x_7,x_8,x_9)
-y_0 := LOOKUP_1(z_0,z_1,x_10)
+Z[0] = LOOKUP_2(X[0],X[1],X[2],X[3],X[8],X[9])
+Z[1] = LOOKUP_2(X[4],X[5],X[6],X[7],X[8],X[9])
+Y[0] = LOOKUP_1(Z[0],Z[1],X[10])
 ~~~~
 
 where again we can replace the calls to `LOOKUP_2` and `LOOKUP_1` by invocations of the process above.
@@ -433,16 +569,26 @@ If the most significant bit $i_{k-1}$  of $i$ is zero, then the index $i$ is in 
 On the other hand, if this most significant bit $i_{k-1}$  is equal to $1$, then the index is in $\{2^{k-1},\ldots,2^k-1\}$, in which case the result of $LOOKUP_k(x,i)$ is the same as $b=LOOKUP_{k-1}(x_{2^{k-1}},\ldots,x_{2^k-1},i_0,\ldots,i_{k-1})$.
 Thus we can compute $LOOKUP_k(x,i)$ by first computing $a$ and $b$ and then outputting $LOOKUP_1(a,b,i_{k-1})$.
 
+
 [lookup-rec-lem](){.ref} directly implies [lookup-thm](){.ref}.
 We prove by induction on $k$ that there is a NAND program of at most $4\cdot 2^k$ lines for $LOOKUP_k$.
 For $k=1$ this follows by the  four line program for $LOOKUP_1$ we've seen before.
 For $k>1$, we use the following pseudocode
 
 ~~~~ { .numberLines }
-a = LOOKUP_(k-1)(x_0,...,x_(2^(k-1)-1),i_0,...,i_(k-2))
-b = LOOKUP_(k-1)(x_(2^(k-1)),...,x_(2^(k-1),i_0,...,i_(k-2))
-y_0 = LOOKUP_1(a,b,i_{k-1})
+a = LOOKUP_(k-1)(X[0],...,X[2^(k-1)-1],i[0],...,i[k-2])
+b = LOOKUP_(k-1)(X[2^(k-1)],...,Z[2^(k-1)],i[0],...,i[k-2])
+y_0 = LOOKUP_1(a,b,i[k-1])
 ~~~~
+
+In Python, this can be described as follows
+
+```python
+def LOOKUP(X,i):
+    k = len(i)
+    if k==1: return IF(i[0],X[1],X[0])
+    return IF(i[k-1],LOOKUP(X[2**(k-1):],i[:-1]),LOOKUP(X[:2**(k-1)],i[:-1]))
+```
 
 If we let $L(k)$ be the number of lines required for $LOOKUP_k$, then the above shows that
 $$
@@ -513,37 +659,38 @@ Therefore the following is NAND "pseudocode" to compute $G$:
 
 
 
-~~~~ { .pascal .numberLines }
-G0000 := 1
-G0001 := 1
-G0010 := 0
-G0011 := 0
-G0100 := 1
-G0101 := 0
-G0110 := 0
-G0111 := 1
-G1000 := 0
-G1001 := 0
-G1010 := 0
-G1011 := 0
-G1100 := 1
-G1101 := 1
-G1110 := 1
-G1111 := 1
-y_0 := LOOKUP(G0000,G0001,G0010,G0011,G0100,
+
+```python
+G0000 = 1
+G0001 = 1
+G0010 = 0
+G0011 = 0
+G0100 = 1
+G0101 = 0
+G0110 = 0
+G0111 = 1
+G1000 = 0
+G1001 = 0
+G1010 = 0
+G1011 = 0
+G1100 = 1
+G1101 = 1
+G1110 = 1
+G1111 = 1
+Y[0] = LOOKUP(G0000,G0001,G0010,G0011,G0100,
               G0101,G0110,G0111,G1000,G1001,
               G1010,G1011,G1100,G1101,G1111,
-              x_0,x_1,x_2,x_3)   
-~~~~
+              X[0],X[1],X[2],X[3])
+```
 
-Recall that we can translate this pseudocode into an actual NAND program by adding three lines to define variables `zero` and `one` that are initialized to $0$ and $1$ repsectively, and then  replacing a statement such as `Gxxx := 0` with `Gxxx := one NAND one` and a statement such as `Gxxx := 1` with `Gxxx := zero NAND zero`.
-The call to `LOOKUP` will be replaced by the NAND program that computes $LOOKUP_4$, but we will replace the variables `i_0`,$\ldots$,`i_3` in this program with `x_0`,$\ldots$,`x_3` and the variables `x_0`,$\ldots$,`x_15` with `G000`, $\ldots$, `G1111`.
+Recall that we can translate this pseudocode into an actual NAND program by adding three lines to define variables `zero` and `one` that are initialized to $0$ and $1$ repsectively, and then  replacing a statement such as `Gxxx = 0` with `Gxxx = NAND(one,one)` and a statement such as `Gxxx = 1` with `Gxxx = NAND(zero,zero)`.
+The call to `LOOKUP` will be replaced by the NAND program that computes $LOOKUP_4$, but we will replace the variables `X[16]`,$\ldots$,`X[19]` in this program with `X[0]`,$\ldots$,`X[3]` and the variables `X[0]`,$\ldots$,`X[15]` with `G000`, $\ldots$, `G1111`.
 
 There was nothing about the above reasoning that was particular to this program. Given every function $F: \{0,1\}^n \rightarrow \{0,1\}$, we can write a NAND program that does the following:
 
 1. Initialize $2^n$ variables of the form `F00...0` till `F11...1` so that for every $z\in\{0,1\}^n$,  the variable corresponding to $z$ is assigned the value $F(z)$.
 
-2. Compute $LOOKUP_n$ on the $2^n$ variables initialized in the previous step, with the index variable being the input variables `x_`$\expr{0}$,...,`x_`$\expr{2^n-1}$. That is, just like in the pseudocode for `G` above, we use `y_0 := LOOKUP(F00..00,F00...01,...,F11..1,x_0,..,x_`$\expr{n-1}$`)`
+2. Compute $LOOKUP_n$ on the $2^n$ variables initialized in the previous step, with the index variable being the input variables `X[`$\expr{0}$ `]`,...,`X[`$\expr{2^n-1}$ `]`. That is, just like in the pseudocode for `G` above, we use `Y[0] = LOOKUP(F00..00,F00...01,...,F11..1,X[0],..,x[`$\expr{n-1}$`])`
 
 The total number of lines in the program will be $2^n$ plus the $4\cdot 2^n$ lines that we pay for computing $LOOKUP_n$.
 This completes the proof of [NAND-univ-thm](){.ref}.
@@ -575,6 +722,7 @@ Since $n/2 \leq 2^k \leq n$, we can bound the total cost of computing $F(x)$ (in
 
 
 
+
 >__Discussion:__ In retrospect, it is perhaps not surprising that every finite function can be computed with a NAND program. A finite function $F: \{0,1\}^n \rightarrow \{0,1\}^m$ can be represented by simply the list of its  outputs for each one of the $2^n$ input values.
 So it makes sense that we could write a NAND program of similar size to compute it.
 What is more interesting is that  _some_ functions, such as addition and multiplication,  have a much more efficient representation: one that only requires $O(n^2)$ or even smaller number of lines.
@@ -588,10 +736,9 @@ and $MULT_n \in SIZE_{2n,2n}(10000 n^{\log_2 3})$.^[TODO: check constants]
 
 
 
-## Lecture summary
-
+> # { .recap }
 * We can define the notion of computing a function via a simplified "programming language", where computing a function $F$ in $T$ steps would correspond to having a $T$-line NAND program that computes $F$.
-* While the NAND programming only has one operation, other operations such as functions and conditional execution can be implemented using it.   
+* While the NAND programming only has one operation, other operations such as functions and conditional execution can be implemented using it.
 * Every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a NAND program of at most $O(m 2^n)$ lines (and in fact at most $O(m 2^n/n)$ lines).
 * Sometimes (or maybe always?) we can translate an _efficient_ algorithm to compute $F$ into a NAND program that computes $F$  with a  number of lines comparable to the number of steps in this algorithm.
 
@@ -616,9 +763,9 @@ y_0  := u   NAND v
 ~~~~
 
 
-> # {.exercise title="At least two" #atleasttwo-ex}
-Give a NAND program of at most 6 lines to compute  $ATLEASTTWO:\{0,1\}^3 \rightarrow \{0,1\}$
-where $ATLEASTTWO(a,b,c) = 1$ iff $a+b+c \geq 2$.
+> # {.exercise title="At least two / Majority" #atleasttwo-ex}
+Give a NAND program of at most 6 lines to compute  $MAJ:\{0,1\}^3 \rightarrow \{0,1\}$
+where $MAJ(a,b,c) = 1$ iff $a+b+c \geq 2$.
 
 > # {.exercise title="Conditional statements" #conditional-statements}
 In this exercise we will show that even though the NAND programming language does not have an `if .. then .. else ..` statement, we can still implement it.

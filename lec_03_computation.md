@@ -120,11 +120,15 @@ Last but not least, we can also express it in Python code (see below).
 
 
 ```python
+def AND(a,b): return a*b
+def OR(a,b):  return 1-(1-a)*(1-b)
+def NOT(a): return 1-a
+
 def XOR(a,b):
-    w1 = a & b
-    w2 = ~w1
-    w3 = a | b
-    return w2 & w3
+    w1 = AND(a,b)
+    w2 = NOT(w1)
+    w3 = OR(a,b)
+    return AND(w2,w3)
 
 print([(a,b,XOR(a,b)) for a in [0,1] for b in [0,1]])
 # [(0, 0, 0), (0, 1, 1), (1, 0, 1), (1, 1, 0)]
@@ -142,14 +146,14 @@ In Python this is done as follows:
 >
 ```python
 def XOR3(a,b,c):
-    w1 = a & b
-    w2 = ~w1
-    w3 = a | b
-    w4 = w2 & w3
-    w5 = w4 & c
-    w6 = ~w5
-    w7 = w4 | c
-    return w6 & w7
+    w1 = AND(a,b)
+    w2 = NOT(w1)
+    w3 = OR(a,b)
+    w4 = AND(w2,w3)
+    w5 = AND(w4,c)
+    w6 = NOT(w5)
+    w7 = OR(w4,c)
+    return AND(w6,w7)
 
 print([(a,b,c,XOR3(a,b,c)) for a in [0,1] for b in [0,1] for c in [0,1]])
 # [(0, 0, 0, 0), (0, 0, 1, 1), (0, 1, 0, 1), (0, 1, 1, 0), (1, 0, 0, 1), (1, 0, 1, 0), (1, 1, 0, 0), (1, 1, 1, 1)]
@@ -218,7 +222,7 @@ A large part of this course will be devoted to answering questions 1,2 and 3 abo
 
 1. We can make the definition of an algorithm fully formal, and so give a precise mathematical meaning to statements such as "Algorithm $A$ computes function $F$".
 
-2. While the choice of $NAND$ is arbitrary, and we could just as well chose some other functions, we will also see this choice does not matter muchh. Our notion of an algorithm is not more restrictive because we only think of $NAND$ as a basic step. We have already seen that allowing $AND$,$OR$, $NOT$ as basic operations will not add any power (because we can compute them from $NAND$'s via [univnandonethm](){.ref}). We will see that the same is true for addition, multiplication, and essentially every other operation that could be reasonably thought of as a basic step.
+2. While the choice of $NAND$ is arbitrary, and we could just as well chose some other functions, we will also see this choice does not matter much. Our notion of an algorithm is not more restrictive because we only think of $NAND$ as a basic step. We have already seen that allowing $AND$,$OR$, $NOT$ as basic operations will not add any power (because we can compute them from $NAND$'s via [univnandonethm](){.ref}). We will see that the same is true for addition, multiplication, and essentially every other operation that could be reasonably thought of as a basic step.
 
 3. It turns out that we can and do compute such "$NAND$ based algorithms" in the real world. First of all, such an algorithm is clearly well specified, and so can be executed by a human with a pen and paper. Second, there are a variety of ways to _mechanize_ this computation. We've already seen that we can write Python code that corresponds to following such a list of instructions. But in fact we can directly implement operations such as $NAND$, $AND$, $OR$, $NOT$ etc.. via electronic signals using components known as _transistors_. This is how modern electronic computers operate.
 
