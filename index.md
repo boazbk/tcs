@@ -129,7 +129,7 @@ index:
 
   - num: A.
     name: The NAND programming language (appendix)
-    url:  https://github.com/boazbk/nandnotebooks/blob/master/NAND%20programming%20language.ipynb
+    file: lec_A_NAND_prog_lang
     draft: false
 
 ---
