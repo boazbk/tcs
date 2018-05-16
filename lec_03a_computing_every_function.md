@@ -699,7 +699,14 @@ This completes the proof of [NAND-univ-thm](){.ref}.
 The [NAND programming language website](http://nandpl.org) allows you to construct a NAND program for an arbitrary function.
 
 
-> # {.remark title="Advanced note: improving  by a factor of $n$" #tight-upper-bound}
+> # {.remark title="Result in perspective" #discusscomputation}
+While [NAND-univ-thm](){.ref} seems striking at first, in retrospect, it is perhaps not that surprising that every finite function can be computed with a NAND program. After all, a finite function $F: \{0,1\}^n \rightarrow \{0,1\}^m$ can be represented by simply the list of its  outputs for each one of the $2^n$ input values.
+So it makes sense that we could write a NAND program of similar size to compute it.
+What is more interesting is that  _some_ functions, such as addition and multiplication,  have a much more efficient representation: one that only requires $O(n^2)$ or even smaller number of lines.
+
+
+### Improving  by a factor of $n$ (optional) {#tight-upper-bound}
+
 By being a little more careful, we can improve the bound of [NAND-univ-thm](){.ref} and show that every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a NAND program of at most $O(m 2^n/n)$ lines.
 As before, it is enough to prove the case that $m=1$.
 >
@@ -724,9 +731,6 @@ Since $n/2 \leq 2^k \leq n$, we can bound the total cost of computing $F(x)$ (in
 
 
 
->__Discussion:__ In retrospect, it is perhaps not surprising that every finite function can be computed with a NAND program. A finite function $F: \{0,1\}^n \rightarrow \{0,1\}^m$ can be represented by simply the list of its  outputs for each one of the $2^n$ input values.
-So it makes sense that we could write a NAND program of similar size to compute it.
-What is more interesting is that  _some_ functions, such as addition and multiplication,  have a much more efficient representation: one that only requires $O(n^2)$ or even smaller number of lines.
 
 ## The class $SIZE_{n,m}(T)$
 
