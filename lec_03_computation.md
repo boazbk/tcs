@@ -469,10 +469,11 @@ foo = NAND(bar,blah)
 
 ```foo = NAND(bar,blah)```
 
-where `foo`, `bar` and `blah` are variable identifiers.^[We follow the common convention in programming language of using names such as `foo`, `bar`, `baz`, `blah` as stand-ins for generic identifiers. Generally a variable identifier in the NAND programming language can be any combination of letters and numbers, and we will also sometimes have identifiers such as `Foo[12]`  that end with a number inside square brackets. Later in the course we will introduce programming languages where such identifiers  carry special meaning as _arrays_. At the moment you can treat them as simply any other identifier. The appendix contains a full formal specification of the NAND programming language.]
+where `foo`, `bar` and `blah` are variable identifiers.^[We follow the common [programming languages convention](https://goo.gl/QyHa3b)  of using names such as `foo`, `bar`, `baz`, `blah` as stand-ins for generic identifiers. Generally a variable identifier in the NAND programming language can be any combination of letters and numbers, and we will also sometimes have identifiers such as `Foo[12]`  that end with a number inside square brackets. Later in the course we will introduce programming languages where such identifiers  carry special meaning as _arrays_. At the moment you can treat them as simply any other identifier. The appendix contains a full formal specification of the NAND programming language.]
 
 > # {.example title="Our first NAND program" #NANDprogramexample}
-Here is an example of a NAND program:
+Here is an example of a NAND program: \
+>
 `u = NAND(X[0],X[1])` \
 `v = NAND(X[0],u)` \
 `w = NAND(X[1],u)` \
@@ -554,7 +555,7 @@ The proof of [nandcircuitthm](){.ref} is _constructive_, in the sense that it yi
 The appendix contains code of a _Python_ function that outputs the circuit corresponding to a program.
 
 
-> # {.remark title="Circuit with other gate sets (advanced note)" #othergatesets}
+> # {.remark title="Circuits with other gate sets (advanced note)" #othergatesets}
 There is nothing special about NAND. For every set of functions $\mathcal{G} = \{ G_0,\ldots,G_{k-1} \}$, we can define a notion of circuits that use elements of  $\mathcal{G}$ as gates, and a notion of a "$\mathcal{G}$ programming language" where every line involves assigning to a variable `foo` the result of applying some $G_i \in \mathcal{G}$ to previously defined or input variables.
 We can use the same proof idea of  [nandcircuitthm](){.ref} to show that $\mathcal{G}$ circuits and $\mathcal{G}$ programs are equivalent.
 We have seen that for $\mathcal{G} = \{ AND,OR, NOT\}$, the resulting  circuits/programs  are equivalent in power to the NAND programming language, as we can compute $NAND$ using $AND$/$OR$/$NOT$ and vice versa.
