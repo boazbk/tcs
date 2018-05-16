@@ -608,6 +608,7 @@ completing the proof of [lookup-thm](){.ref}.
 At this point we know the following facts about NAND programs:
 
 1. They can compute at least some non trivial functions.
+
 2. Coming up with NAND programs for various functions is a very tedious task.
 
 Thus I would not blame the reader if they were not particularly looking forward to a long sequence of examples of functions that can be computed by NAND programs.

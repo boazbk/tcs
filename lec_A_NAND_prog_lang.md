@@ -1,5 +1,11 @@
 # Appendix: The NAND\* Programming Languages
 
+See [this Github repository](https://github.com/boazbk/nandnotebooks) for the current updated version of this appendix.
+
+## Old version
+
+(please ignore)
+
 In this appendix we give a more formal specification of the NAND, NAND++ and NAND<< programming languages.
 See the website [http://nandpl.org](http://nandpl.org) for more information about these languages.
 
@@ -48,7 +54,7 @@ Similarly, we require that if a variable of the form `x_`$\expr{j}$ appears in t
 To evaluate a NAND program $P$ with $n$ inputs and $m$ outputs on input $x_0,\ldots,x_{n-1}$ we initialize the all variables of the form `x_`$\expr{i}$ to $x_i$, and all other variables to zero.
 We then evaluate the program line by line, assigning to the variable on the lefthand side of the `:=` operator the value of the NAND of the variables on the righthand side.
 In this evaluation, we  identify `foo` with `foo_0` and `bar_079` with `bar_79`.
-That is, we only care about the numerical value of the index of a variable (and so ignore leading zeros) and if an index is not specified, we assume that it equals zero.  
+That is, we only care about the numerical value of the index of a variable (and so ignore leading zeros) and if an index is not specified, we assume that it equals zero.
 The output is the value of the variables `y_0`, $\ldots$, `y_`$\expr{m-1}$.
 (Recall that all variables of the form `y_`$\expr{i}$ must be assigned some value.)
 
@@ -343,7 +349,7 @@ def foo1,...,fook := Func(bar1,...,barl) {
 denotes code for a function that takes $l$ inputs `bar1`,...,`barl` and returns $k$ outputs `foo1`,...,`fook`.  We can then invoke such a function by writing
 
 ~~~~ { .go .numberLines }
-blah1,...,blahk := Func(baz1,...,bazl)   
+blah1,...,blahk := Func(baz1,...,bazl)
 ~~~~
 
 this will be implemented by copy-pasting the code of `Func` and doing the appropriate search-and-replace of the variables, adding a unique prefix to workspace variables to ensure there are no namespace conflicts.

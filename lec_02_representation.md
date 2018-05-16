@@ -724,14 +724,11 @@ However, for much of this course we will focus on the task of computing a functi
 It turns out that a great deal of the theory of computation can be studied in the context of this task, and the insights  learned are applicable in the more general settings.
 
 
-## Lecture summary
 
+> # { .recap }
 * We can represent essentially every object we want to compute on using binary strings.
-
 * A representation scheme for a set of objects $\mathcal{O}$ is a one-to-one map  from $\mathcal{O}$ to $\{0,1\}^*$.
-
 * A basic computational task is the task of _computing a function_ $F:\{0,1\}^* \rightarrow \{0,1\}^*$. This encompasses not just arithmetical computations such as multiplication, factoring, etc. but a great many other tasks arising in areas as diverse as scientific computing, artificial intelligence, image processing, data mining and many many more.
-
 * We will study the question of finding (or at least giving bounds on) what is the _best_ algorithm for  computing $F$ for various interesting functions $F$.
 
 

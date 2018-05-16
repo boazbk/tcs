@@ -200,7 +200,7 @@ $$
 
 
 
-### Informally defining "basic operations" and "algorithms"
+## Informally defining "basic operations" and "algorithms"
 
 [univnandonethm](){.ref} tells us that we can use applications of the single function $NAND$ to obtain $AND$, $OR$, $NOT$, and so by extension all the other functions that can be built up from them.
 This suggests making $NAND$ our notion of a "basic operation", and hence coming up with the following definition of an "algorithm":
@@ -209,16 +209,21 @@ This suggests making $NAND$ our notion of a "basic operation", and hence coming 
 >
 An algorithm $A$ _computes_ a function $F$ if for every input $x$ to $F$, if we feed $x$ as input to the algorithm, the value computed in its last step is $F(x)$.
 
-There are questions that are raised by this definition:
+There are several concerns that are raised by this definition:
 
-1. First and foremost, it is indeed too informal. We do not specify exactly what each step does, nor what it means to "feed $x$ as input".
+1. First and foremost, this definition is indeed too informal. We do not specify exactly what each step does, nor what it means to "feed $x$ as input".
 
 2. Second, the choice of $NAND$ as a basic operation seems arbitrary. Why just $NAND$? Why not $AND$, $OR$ or $NOT$? Why not allow operations like addition and multiplication? What about any other logical constructions such `if`/`then` or `while`?
 
 3. Third, do we even know that this definition has anything to do with actual computing? If someone gave us a description of such an algorithm, could we use it to actually compute the function the real world?
 
 
-A large part of this course will be devoted to answering questions 1,2 and 3 above. We will see that:
+> # { .pause }
+These concerns will to a large extent guide us in the upcoming lectures. Thus you would be well advised to re-read the above informal definition and see what you think about these issues.
+
+
+A large part of this course will be devoted to adressing the above issues.
+We will see that:
 
 1. We can make the definition of an algorithm fully formal, and so give a precise mathematical meaning to statements such as "Algorithm $A$ computes function $F$".
 
@@ -226,9 +231,11 @@ A large part of this course will be devoted to answering questions 1,2 and 3 abo
 
 3. It turns out that we can and do compute such "$NAND$ based algorithms" in the real world. First of all, such an algorithm is clearly well specified, and so can be executed by a human with a pen and paper. Second, there are a variety of ways to _mechanize_ this computation. We've already seen that we can write Python code that corresponds to following such a list of instructions. But in fact we can directly implement operations such as $NAND$, $AND$, $OR$, $NOT$ etc.. via electronic signals using components known as _transistors_. This is how modern electronic computers operate.
 
-We will see fully formal definitions of computation in future chapters. In the remainder of this chapter, we will focus on giving some partial answers to Questions 2 and 3.
+In the remainder of this chapter, we will begin to answer some of these questions.
 We will see more example of the power of simple operations like $NAND$ (or equivalently, $AND$/$OR$/$NOT$, as well as many other choices) to compute more complex operations including addition, multiplication, sorting and more.
 We will then discuss how to _physically implement_ simple operations such as NAND using a variety of technologies.
+Finally we will define _The NAND programming language_ that will be our formal model of computation.
+
 
 ## From NAND to infinity and beyond..
 
@@ -237,7 +244,9 @@ But this still seems a far cry from being able to add and multiply numbers, not 
 We now give a few examples demonstrating how we can use these simple operations to do some more complicated tasks.
 While we will not go as far as implementing   [Call of Duty](https://goo.gl/DdJZFF), we will at least show how we can compose $NAND$ operations to obtain tasks such as addition, multiplications, and comparisons.
 
-__NAND Circuits.__ We can describe the computation of a  function $F:\{0,1\}^n \rightarrow \{0,1\}$ via a composition of $NAND$ operations in terms of a _circuit_, as was done in [andornotcircxorfig](){.ref}.
+### NAND Circuits
+
+We can describe the computation of a  function $F:\{0,1\}^n \rightarrow \{0,1\}$ via a composition of $NAND$ operations in terms of a _circuit_, as was done in [andornotcircxorfig](){.ref}.
 Since in our case, all the gates are the same function (i.e., $NAND$), the description of the circuit is even simpler.
 We can think of the circuit as a directed graph.
 It has a vertex for every one of the input bits, and also for every intermediate  value  we use in our computation.
@@ -316,7 +325,7 @@ _Computation_ is an abstract notion, that is distinct from its physical _impleme
 While most modern computing devices are obtained by mapping logical gates to semi-conductor based transistors, over history people have computed using a huge variety of mechanisms,  including mechanical systems, gas and liquid (known as _fluidics_), biological and chemical processes, and even living creatures (e.g., see [crabfig](){.ref} or  [this video](https://www.youtube.com/watch?v=czk4xgdhdY4) for how crabs or slime mold can be used to do computations).
 
 
-In the rest of this  chapter we review some of these implementations, both so  you can get an appreciation of how it is possible to directly translate NAND programs to the physical world, without going through the entire stack of architecture, operating systems, compilers, etc... as well as to emphasize that silicon-based processors are by no means the only way to perform computation.
+In this section we will  review some of these implementations, both so  you can get an appreciation of how it is possible to directly translate NAND programs to the physical world, without going through the entire stack of architecture, operating systems, compilers, etc... as well as to emphasize that silicon-based processors are by no means the only way to perform computation.
 Indeed, as we will see much later in this course, a very exciting recent line of works involves using different media for computation that would allow us to take advantage of _quantum mechanical effects_ to enable different types of algorithms.
 
 ![Crab-based logic gates from the paper "Robust soldier-crab ball gate" by Gunji, Nishiyama and Adamatzky. This is an example of an AND gate that relies on the tendency of two swarms of crabs arriving from different directions to combine to a single swarm that continues in the average of the directions.](../figure/crab-gate.jpg){#crabfig .class width=200px height=200px}
@@ -362,7 +371,7 @@ We can use transistors to implement a _NAND gate_, which would be a system with 
 This means that there exists a NAND circuit to  compute a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$, then we can compute $F$ in the physical world using transistors as well.
 
 
-## Basing computing on other media
+## Basing computing on other media (optional)
 
 Electronic transistors are in no way the only technology that can implement computation.
 There are many mechanical, chemical, biological,  or even social systems that can be thought of as  computing devices.
@@ -393,20 +402,155 @@ As we will discuss later in this course, cellular automata such as Conway's "Gam
 
 ### Neural networks
 
-One particular basis we can use are _threshold gates_.
+One computation device that we all carry with us is our own _brain_.
+Brains have served humanity throughout history, doing computations  that range from  distinguishing prey from predators, through making scientific discoveries and artistic masterpieces, to composing witty 280 character  messages.
+The exact working of the brain is still not fully understood, but it seems that to a first approximation it can be modeled by a (very large) _neural network_.
+
+A neural network is a Boolean circuit that instead of $NAND$ (or even $AND$/$OR$/$NOT$) uses some other gates as the basic basis.
+For example, ine particular basis we can use are _threshold gates_.
 For every vector $w= (w_0,\ldots,w_{k-1})$ of integers  and  integer $t$ (some or all of whom  could be negative),
 the _threshold function corresponding to $w,t$_ is the function
 $T_{w,t}:\{0,1\}^k \rightarrow \{0,1\}$ that maps $x\in \{0,1\}^k$ to $1$ if and only if $\sum_{i=0}^{k-1} w_i x_i \geq t$.
 For example, the threshold function $T_{w,t}$ corresponding to $w=(1,1,1,1,1)$ and $t=3$ is simply the majority function $MAJ_5$ on $\{0,1\}^5$.
-The function $NAND:\{0,1\}^2 \rightarrow \{0,1\}$  is the threshold function corresponding to $w=(-1,-1)$ and $t=-1$, since $NAND(x_0,x_1)=1$ if and only if $x_0 + x_1 \leq 1$ or equivalently, $-x_0 - x_1 \geq -1$.
+The function $NAND:\{0,1\}^2 \rightarrow \{0,1\}$  is the threshold function corresponding to $w=(-1,-1)$ and $t=-1$, since $NAND(x_0,x_1)=1$ if and only if $x_0 + x_1 \leq 1$ or equivalently, $-x_0 - x_1 \geq -1$.^[Threshold is just one example of gates that can  used by neural networks. More generally, a neural network is often described as operating on signals that are real numbers, rather than $0/1$ values, and where the output of a gate on inputs $x_0,\ldots,x_{k-1}$ is obtained by applying $f(\sum_i w_i x_i)$ where $f:\R \rightarrow \R$ is an an [activation function](https://goo.gl/p9izfA) such as rectified linear unit (ReLU), Sigmoid, or many others. However, for the purpose of our discussion, all of the above are equivalent. In particular we can reduce the real case to the binary case by a real number in the binary basis, and multiplying the weight of the bit corresponding to the $i^{th}$ digit by $2^i$.]
 
 
 
-Threshold gates can be thought of as an approximation for    _neuron cells_ that make up the core of human and animal brains. To a first approximation, a neuron has $k$ inputs and a single output and the neurons  "fires" or "turns on" its output when those signals pass some threshold.^[Typically we think of an input to neurons as being a real number rather than a binary string, but  we can reduce to the binary case by  representing a real number in the binary basis, and multiplying the weight of the bit corresponding to the $i^{th}$ digit by $2^i$.]
-Hence circuits with threshold gates are sometimes known as _neural networks_.
-Unlike the cases above, when we considered $k$ to be a small constant, in such  neural networks we often do not put any bound on the number of inputs.
-However, since any threshold function on $k$ inputs can be computed by a NAND program of $poly(k)$  lines (see [threshold-nand-ex](){.ref}), the  power of NAND programs and neural networks is not very different.
+Threshold gates can be thought of as an approximation for    _neuron cells_ that make up the core of human and animal brains. To a first approximation, a neuron has $k$ inputs and a single output and the neurons  "fires" or "turns on" its output when those signals pass some threshold.
+Unlike the cases above, when we considered the number of inputs to a gate $k$ to be a small constant, in such  neural networks we often do not put any bound on the number of inputs.
+However, since any threshold function on $k$ inputs can be computed by a NAND circuit of at most $poly(k)$  gates (see [threshold-nand-ex](){.ref}),  NAND circuits are no less powerful than  neural networks.
 
 ### The marble computer
 
 TO BE COMPLETED
+
+
+## The NAND Programming language
+
+We now turn to formally defining the notion of algorithm.
+We use a _programming language_ to do so.
+We define the _NAND Programming Language_ to be a programming language where every line has the following  form:
+
+```python
+foo = NAND(bar,blah)
+```
+
+```foo = NAND(bar,blah)```
+
+where `foo`, `bar` and `blah` are variable identifiers.^[We follow the common convention in programming language of using names such as `foo`, `bar`, `baz`, `blah` as stand-ins for generic identifiers. Generally a variable identifier in the NAND programming language can be any combination of letters and numbers, and we will also sometimes have identifiers such as `Foo[12]`  that end with a number inside square brackets. Later in the course we will introduce programming languages where such identifiers  carry special meaning as _arrays_. At the moment you can treat them as simply any other identifier. The appendix contains a full formal specification of the NAND programming language.]
+
+> # {.example title="Our first NAND program" #NANDprogramexample}
+Here is an example of a NAND program:
+`u = NAND(X[0],X[1])` \
+`v = NAND(X[0],u)` \
+`w = NAND(X[1],u)` \
+`Y[0] = NAND(v,w)`
+
+
+> # { .pause }
+Do you know what function this program computes? Hint: you have seen it before.
+
+
+As you might have guessed from this example, we  have two special types of variables in the NAND language: _input variables_ have the form `X[` $i$ `]` where $i$ is a natural number, and _output variables_ have the form `Y[`$j$ `]` where $j$ is a natural number. When a NAND program is _executed_ on input $x \in \{0,1\}^n$, the variable `X[`$i$ `]` is assigned the value $x_i$ for all $i\in [n]$. The _output_ of the program is the list of $m$ values  `Y[0]`$\ldots$ `Y[`$m-1$ `]`, where $m-1$ is the largest index for which the variable `Y[`$m-1$ `]` is assigned a value in the program.
+If a line of the form `foo = NAND(bar,blah)` appears in the program, then if `bar` is _not_ an input variable of the form `X[`$i$ `]`, then it must have been assigned a value in a previous line, and the same holds for `blah`.
+We also forbid assigning a value to an input variable, and applying the NAND operation to an output variable.
+
+We can now formally define the notion of a function being computed by a NAND program:
+
+> # {.definition title="Computing by a NAND program" #NANDcomp}
+Let $F:\{0,1\}^n \rightarrow \{0,1\}^m$ be some function, and let $P$ be a NAND program. We say that $P$ _computes_ the function $F$ if:
+>
+1. $P$ has $n$ input variables `X[`$0$`]`$,\ldots,$`X[`$n-1$`]` and $m$ output variables `Y[`$0$`]`,$\ldots$,`Y[`$m-1$`]`. \
+2. For every $x\in \{0,1\}^n$, if we execute $P$ when we assign to `X[`$0$`]`$,\ldots,$`X[`$n-1$`]` the values $x_0,\ldots,x_{n-1}$, then at the end of the execution, the output variables `Y[`$0$`]`,$\ldots$,`Y[`$m-1$`]` have the values $y_0,\ldots,y_{m-1}$.
+
+> # { .pause }
+[NANDcomp](){.ref} is one of the most important definitions in this book. Please make sure to read it time and again until you are sure that you understand it. A full formal specification of the execution model of NAND programs appears in the appendix.
+
+### NAND programs and NAND circuits
+
+So far we have described two models of computation:
+
+* _NAND circuits_, which are obtained by applying NAND gates to inputs.
+
+* _NAND programs_, which are obtained by repeatedly applying operations of the form `foo = NAND(bar,blah)`.
+
+A main result is that these two models are actually equivalent:
+
+> # {.theorem title="Circuit and straightline program equivalence" #nandcircuitthm}
+Let $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s\in \N$. Then $F$ is computable by a NAND program of $s$ lines if and only if it is computable by a NAND circuit of $s$ gates.
+
+> # {.proofidea data-ref="nandcircuitthm"}
+To understand the proof, you can first work out for yourself the equivalence between the NAND program of [NANDprogramexample](){.ref} and the circuit we have seen in [xornandexample](){.ref}.
+Generally, if we have a NAND program, we can transform it into a circuit by mapping every line `foo = NAND(bar,blah)` of the program into a gate `foo` that is applied to the result of the previous gates `bar` and `blah`. (Since we always assign a variable to variables that have been assigned before or are input variables, we can assume that `bar` and `blah` are either gates we already constructed or are inputs to the circuit.)
+In the reverse direction, to map a circuit $C$ into a program $P$ we use [topological sorting](https://goo.gl/QvLE3K) to sort the vertices of the graph of $C$ into an order $v_0,v_1,\ldots,v_{s-1}$ such that if there is an edge from $v_i$ to $v_j$ then $j>i$.
+Thus we can transform every gate (i.e. non input vertex) of the circuit into a line in a program in an analogous way: if $v$ is a gate that has two incoming edges from $u$ and $w$, then we add a variable `foo` corresonding to $v$ and a line `foo = NAND(bar,blah)` where `bar` and `blah` are the variables corresponding to $u$ and $w$.
+
+
+> # {.proof data-ref="nandcircuitthm"}
+Let $F:\{0,1\}^n \rightarrow \{0,1\}^m$ be a function. Suppose that there exists a program $P$ of $s$ lines that computes $F$. We construct a NAND circuit $C$ to compute $F$ as follows: the circuit will include $n$ input vertices, and will include $s$ gates, one for each of the lines of $P$.
+We let $I(0),\ldots,I(n-1)$ denotes the vertices corresponding to the inputs and $G(0),\ldots,G(s-1)$ denote the vertices corresponding to the lines.
+We connect our gates in the natural way as follows:
+>
+If the $\ell$-th line of $P$ has the form `foo  = NAND(bar,blah)` where `bar` and `blah` are variables _not_ of the form `X[`$i$`]`, then `bar` and `blah` must have been assigned a value before. We let $j$ and $k$ be the last lines before the $\ell$-th line in which the variables `bar` and `blah` respectively were assigned a value.
+In such a case, we will add the edges $\overrightarrow{G(j)\;G(\ell)}$ and $\overrightarrow{G(k)\;G(\ell)}$ to our circuit $C$.
+That is, we will apply the gate $G(\ell)$ to the outputs of the gates $G(j)$ and $G(k)$. If `bar` is an input variable of  the form `X[`$i$`]` then we connect $G(\ell)$ to the corresponding input vertex $I(i)$, and do the analogous step if `blah` is an input variable.
+Finally, for every $j\in [m]$, if $\ell(j)$ is the last line which assigns a value to `Y[`$j$`]`, then we mark the gate $G(j)$ as the $j$-th output gate of the circuit $C$.
+>
+We claim that the circuit $C$ computes the same function as the program $P$. Indeed, one can show by induction on $\ell$ that  for every input $x\in \{0,1\}^n$, if we execute $P$ on input $x$, then the value assigned to the variable in the $\ell$-th line is the same as the value output by the gate $G(\ell)$ in the circuit $C$.
+(To see this note that by the induction hypothesis, this is true for the values that the $\ell$-th line uses, as they were assigned a value in earlier lines or are inputs, and both the gate and the line compute the NAND function on these values.)
+Hence in particular the output variables of the program will have the same value as the output gates of the circuits.
+>
+In the other direction, given a circuit $C$ of $s$ gates that computes $F$, we can construct a program of $s$ lines that computes the same function. We use a topological sort to ensure that the $n+s$ vertices of the graph of $C$ are sorted so that all edges go from earlier vertices to later ones, and ensure the first $n$ vertices $0,1,\ldots,n-1$ correspond to the $n$ inputs. (This can be ensured as input vertices have no incoming edges.) Then for every $\ell \in [s]$, the $\ell$-th line of the program $P$ will correspond to the vertex $n+\ell$ of the circuit.
+If  vertex $n+\ell$'s incoming neighbors are $j$ and $k$, then the $\ell$-th line will be of the form `Temp[`$\ell$`] = NAND(Temp[`$j-n$`],Temp[`$k-n$`])` (if $j$ and/or $k$ are one of the first $n$ vertices, then we will use the corresponding input variable `X[`$j$`]` and/or `X[`$j$`]` instead).
+If vertex $n+\ell$ is the $j$-th output gate, then we use `Y[`$j$`]` as the variable on the righthand side of the $\ell$-th line.
+Once again by a similar inductive proof we can show that the program $P$ we constructed computes the same function as the circuit $C$.
+
+
+> # {.remark title="Constructive proof" #circbypython}
+The proof of [nandcircuitthm](){.ref} is _constructive_, in the sense that it yield an explicit transformation from a program to a circuit and vice versa.
+The appendix contains code of a _Python_ function that outputs the circuit corresponding to a program.
+
+
+> # {.remark title="Circuit with other gate sets (advanced note)" #othergatesets}
+There is nothing special about NAND. For every set of functions $\mathcal{G} = \{ G_0,\ldots,G_{k-1} \}$, we can define a notion of circuits that use elements of  $\mathcal{G}$ as gates, and a notion of a "$\mathcal{G}$ programming language" where every line involves assigning to a variable `foo` the result of applying some $G_i \in \mathcal{G}$ to previously defined or input variables.
+We can use the same proof idea of  [nandcircuitthm](){.ref} to show that $\mathcal{G}$ circuits and $\mathcal{G}$ programs are equivalent.
+We have seen that for $\mathcal{G} = \{ AND,OR, NOT\}$, the resulting  circuits/programs  are equivalent in power to the NAND programming language, as we can compute $NAND$ using $AND$/$OR$/$NOT$ and vice versa.
+This turns out to be a special case of a general phenomena- the _universality_ of $NAND$ and other gate sets- that we will explore more in depth later in this course.
+
+
+
+> # { .recap }
+* An _algorithm_ is a recipe for performing a computation as a sequence of "elementary" or "simple" operations.
+* One candidate definition for an "elementary" operation is the $NAND$ operation. It is an operation that is easily implementable in the physical world in a variety of methods including by electronic transistors.
+* We can use $NAND$ to compute many other functions, including majority, increment, and others.
+* There are other equivalent choices, including the set $\{AND,OR,NOT\}$.
+* We can formally define the notion of a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ being computable using the _NAND Programming language_.
+* The notions of being computable by a $NAND$ circuit and being computable by a $NAND$ program are equivalent.
+
+## Exercises
+
+> # {.exercise title="Universal basis" #universal-basis}
+Define a set $\mathcal{G}$ of functions to be a _universal basis_ if we can compute $NAND$ using $\mathcal{G}$. For every one of the following sets, either prove that it is a universal basis or prove that it is not.
+1. $B = \{ \wedge, \vee, \neg \}$. (To make all of them be function on two inputs, define $\neg(x,y)=\overline{x}$.) \
+2. $B = \{ \wedge, \vee \}$. \
+3. $B= \{ \oplus,0,1 \}$ where $\oplus:\{0,1\}^2 \rightarrow \{0,1\}$ is the XOR function and $0$ and $1$ are the constant functions that output $0$ and $1$. \
+4. $B = \{ LOOKUP_1,0,1 \}$ where $0$ and $1$ are the constant functions as above and  $LOOKUP_1:\{0,1\}^3 \rightarrow \{0,1\}$ satisfies $LOOKUP_1(a,b,c)$ equals $a$ if $c=0$ and equals $b$ if $c=1$.
+
+> # {.exercise title="Bound on universal basis size (challenge)" #universal-bound}
+Prove that for every subset $B$ of the functions from $\{0,1\}^k$ to $\{0,1\}$,
+if $B$ is universal then there is a $B$-circuit of at most $O(k)$ gates to compute the $NAND$ function (you can start by showing that there is a $B$ circuit of at most $O(k^{16})$ gates).^[Thanks to Alec Sun for solving this problem.]
+
+> # {.exercise title="Threshold using NANDs" #threshold-nand-ex}
+Prove that for every $w,t$, the function $T_{w,t}$ can be computed by a NAND program of at most $O(k^3)$ lines.^[TODO: check the right bound, and give it as a challenge program. Also say the conditions under which this can be improved to $O(k)$ or $\tilde{O}(k)$.]
+
+
+## Biographical notes
+
+
+## Further explorations
+
+Some topics related to this lecture that might be accessible to advanced students include:
+
+* Efficient constructions of circuits: finding  circuits of minimal size that compute certain functions.
+
+TBC
