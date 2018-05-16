@@ -38,11 +38,6 @@ index:
     draft: false
 
   - num: 6.
-    name: Physical implementations
-    file: lec_05_physical_implementation
-    draft: false
-
-  - num: 7.
     name: Programs with loops
     file: lec_06_loops
     draft: false
@@ -52,77 +47,77 @@ index:
     file: lec_06a_universality
     draft: false
 
-  - num: 9.
+  - num: 8.
     name: Other models
     file: lec_07_other_models
     draft: false
 
-  - num: 10.
+  - num: 9.
     name: Uncomputability
     file: lec_08_uncomputability
     draft: false
 
-  - num: 11.
+  - num: 10.
     name: Restricted computational models
     file: lec_08a_restricted_models
     draft: false
 
-  - num: 12.
+  - num: 11.
     name: Gödel's Incompleteness Theorem
     file: lec_09_godel
     draft: false
 
-  - num: 13.
+  - num: 12.
     name: Efficient algorithms
     file: lec_10_efficient_alg
     draft: false
 
-  - num: 14.
+  - num: 13.
     name: Formally defining running time
     file: lec_11_running_time
     draft: false
 
-  - num: 15.
+  - num: 14.
     name: Polynomial-time reductions
     file: lec_12_NP
     draft: false
 
-  - num: 16.
+  - num: 15.
     name: NP, NP completeness, and the Cook-Levin Theorem
     file: lec_13_Cook_Levin
     draft: false
 
-  - num: 17.
+  - num: 16.
     name: What if P=NP?
     file: lec_14_PvsNP
     draft: false
 
-  - num: 18.
+  - num: 17.
     name: Review of probability
     file: lec_15_probability
     draft: false
 
-  - num: 19.
+  - num: 18.
     name: Randomized algorithms
     file: lec_16_randomized_alg
     draft: false
 
-  - num: 20.
+  - num: 19.
     name: Modelling probabilistic computation
     file: lec_17_model_rand
     draft: false
 
-  - num: 21.
+  - num: 20.
     name: Cryptography
     file: lec_19_cryptography
     draft: false
 
-  - num: 22.
+  - num: 21.
     name: Proofs and algorithms
     file: lec_24_proofs
     draft: false
 
-  - num: 23.
+  - num: 22.
     name: Quantum computing
     file: lec_26_quantum_computing
     draft: false
