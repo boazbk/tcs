@@ -559,7 +559,7 @@ So far we have described two models of computation:
 
 * _NAND programs_, which are obtained by repeatedly applying operations of the form `foo = NAND(bar,blah)`.
 
-A main result is that these two models are actually equivalent:
+A central result is that these two models are actually equivalent:
 
 > # {.theorem title="Circuit and straightline program equivalence" #nandcircuitthm}
 Let $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s\in \N$. Then $F$ is computable by a NAND program of $s$ lines if and only if it is computable by a NAND circuit of $s$ gates.
