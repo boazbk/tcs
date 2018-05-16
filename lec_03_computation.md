@@ -204,7 +204,7 @@ Once we can compute $AND$ and $NOT$, we can compute $OR$ using the so called ["D
 
 > # {.remark title="Verify NAND's universality by Python (optional)" #verifynanduniversalitybyptyon}
 If you are so inclined, you can also verify the proof of [univnandonethm](){.ref} by Python:
->```python
+```python
 def NAND(a,b): return 1-a*b
 
 def ORwithNAND(a,b):
@@ -230,6 +230,11 @@ Now we can use the equivalence $AND(a,b)=NOT(NAND(a,b))$, $OR(a,b)=NAND(NOT(a),N
 $$
 MAJ_3(a,b,c) = NAND(NAND(NAND(NAND(a,b),NAND(a,c)),NAND(NAND(a,b),NAND(a,c))),NAND(b,c))
 $$
+>
+This corresponds to the following circuit with $NAND$ gates: \
+>
+![](../figure/majoritycirc.png){#figid .class width=300px height=300px}  \
+
 
 <!--
 ```python
@@ -318,7 +323,9 @@ For every $i\in [n]$, we assign to the  input vertex `X[`$i$`]` the value $x_i$,
 When you are faced with such a definition, there are several strategies to try to understand it:
 >
 1. First, as we suggested above, you might want to see how _you_ would formalize the intuitive notion that the definitions tries to capture. If we made different choices than you would, try to think why is that the case. \
-2. Try to also see how this definition matches up to simple 
+2. Then, you should read the definition carefully, making sure you understand all the terms that it uses, and all the conditions it imposes. \
+3. Finally, try to  how the definition corresponds  to  simple examples such as the NAND circuit presented in [eqmajusingandor](){.ref}, as well as the examples illustrated below.
+
 
 
 We now present some examples of $NAND$ circuits for various natural problems:
