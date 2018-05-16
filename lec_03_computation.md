@@ -51,6 +51,7 @@ We can define algorithms informally as follows:
 
 >__Informal definition of an algorithm:__ An _Algorithm_ is a set of instructions of how to compute an input from an output by following a sequence of "elementary steps".
 >
+>
 An algorithm $A$ _computes_ a function $F$ if for every input $x$, if we follow the instruction of $A$ on the input $x$, we obtain the output $F(x)$.
 
 
@@ -237,7 +238,8 @@ print([MAJ(a,b,c)==NAND(NAND(NAND(NAND(a,b),NAND(a,c)),NAND(NAND(a,b),NAND(a,c))
 This suggests making $NAND$ our notion of a "basic operation", and hence coming up with the following definition of an "algorithm":
 
 
->__Semi-formal definition of an algorithm:__ An _algorithm_  consists of a sequence of steps of the form "store the NAND of variables `foo` and `bar` in variable `blah`". \
+>__Semi-formal definition of an algorithm:__ An _algorithm_  consists of a sequence of steps of the form "store the NAND of variables `foo` and `bar` in variable `blah`". 
+>
 >
 An algorithm $A$ _computes_ a function $F$ if for every input $x$ to $F$, if we feed $x$ as input to the algorithm, the value computed in its last step is $F(x)$.
 
