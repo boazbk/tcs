@@ -89,7 +89,7 @@ In Computer Science parlance, a scheme such as the decimal (or sexadecimal) posi
 Data structures and algorithms have enabled amazing applications, but their importance goes beyond  their practical utility.
 Structures from computer science, such as bits, strings, graphs, and even the notion of a program itself, as well as concepts such as universality and replication, have not just found (many) practical uses but contributed a new language and a new way to view the world.
 
-## Extended Example: A faster way to multiply
+## Extended Example: A faster way to multiply {#karatsubasec }
 
 Once you think of the standard digit-by-digit multiplication algorithm, it seems like obviously the "right" way to multiply numbers.
 Indeed, in 1960, the famous mathematician Andrey Kolmogorov organized a seminar at Moscow State University in which he conjectured that every algorithm for multiplying two $n$ digit numbers would require a number of basic operations that is proportional to $n^2$.^[That is, he conjectured that the number of operations would be at least some $n^2/C$ operations for some constant $C$ or, using "Big Oh notation", $\Omega(n^2)$ operations. See the _mathematical background_ chapter for a precise definition of big Oh notation.]
@@ -268,7 +268,7 @@ More recently, the [Bitcoin](https://en.wikipedia.org/wiki/Bitcoin) system uses 
 * One of the main topics of this course is studying the question of what is  the _most efficient_ algorithm for a given  problem.
 * To answer such a question we need to find ways to _prove lower bounds_ on the computational resources needed to solve certain problems. That is, show an _impossiblity result_ ruling out the existence of "too good" algorithms.
 
-## Roadmap to the rest of this course
+## Roadmap to the rest of this course {#roadmapsec }
 
 Often, when we try to solve a computational problem, whether it is solving a system of  linear equations, finding the top eigenvector of a matrix, or trying to rank Internet search results, it is enough to use the "I know it when I see it" standard for describing algorithms.
 As long as we find some way to solve the problem, we are happy and  don't care so much about  formal descriptions of the algorithm.
@@ -290,6 +290,11 @@ The same ideas also show up in _cryptography_, which has undergone not just a te
 Theoretical Computer Science is a vast topic, branching out and touching upon many scientific and engineering disciplines.
 This course only provides a very partial (and biased) sample of this area.
 More than anything, I hope I will manage to "infect" you with at least some of my love for this field, which is inspired and enriched by the connection to practice, but which I find to be  deep and  beautiful regardless of   applications.
+
+### Dependencies between chapters
+
+TO BE COMPLETED
+
 
 
 ## Exercises

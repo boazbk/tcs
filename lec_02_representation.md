@@ -61,7 +61,7 @@ A related, but not identical, distinction is the [Big Endian vs Little Endian](h
 
 We can think of a representation as consisting of    _encoding_ and _decoding_ functions.
 In the case of the _binary representation_ for integers, the _encoding_ function $E:\N \rightarrow \{0,1\}^*$ maps a natural number to the string representing it, and the _decoding_ function $D:\{0,1\}^* \rightarrow \N$ maps a string into the number it represents (i.e., $D(x_0,\ldots,x_{n-1})= 2^0x_0 + 2^1x_1 +\ldots + 2^{n-1}x_{n-1}$ for every $x_0,\ldots,x_{n-1} \in \{0,1\}$).
-In Python we can compute these encoding and decoding functions as follows:^[This is not a programming course, and it is absolutely fine if you do not follow this code. However, it might be instructive to try to parse it, with the help of websites such as Google and Stackoverflow. The function `int2bits` uses the fact that the  binary representation of a number $n$ is the list  $(\floor{\tfrac{n}{2^i}} \mod 2)_{i=0,\ldots,\floor{\log_2 n}}$.]
+In the _Python_ programming language, we can compute these encoding and decoding functions as follows:
 
 ```python
 from math import floor, log
@@ -84,7 +84,22 @@ print(bits2int([0, 0, 1, 1, 0, 1, 1, 1]))
 ```
 
 
-For the representation to be well defined, we need every natural number to be represented by some  string, where two distinct numbers  must have distinct representations.
+> # {.remark title="Programming examples" #programmingrem}
+In this book, we will often illustrate our points by using programming languages  to
+present certain computations.
+Our examples will be fairly short, and our point will always be to emphasize that certain computations can be done concretely,
+rather than focus on a particular language feature.
+We often use Python, but that choice is rather arbitrary.
+Indeed, one of the messages of this course is that all programming language are in some sense _equivalent_ to one another, and hence we could have just as well used JavaScript, C, COBOL, Visual Basic or even [BrainF*ck](https://goo.gl/LKKNFK).
+>
+This is _not_ a programming course, and it is absolutely fine if you are not familiar with Python and don't follow the fine points of code  examples such as the above.
+Still you might find it instructive to try to parse them, with the help of websites such as Google or Stackoverflow.
+In particular, the function `int2bits` above uses the fact that the  binary representation of a number $n$ is the list  $(\floor{\tfrac{n}{2^i}} \mod 2)_{i=0,\ldots,\floor{\log_2 n}}$, which in Python-speak is written as `[ floor(n / 2**i ) % 2 for i in range(floor(log(n,2))+1)]`.
+
+
+
+__Well defined representations.__
+For a representation to be well defined, we need every natural number to be represented by some  string, where two distinct numbers  must have distinct representations.
 This corresponds to requiring the _encoding_ function to be one-to-one, and the _decoding_ function to be _onto_.
 
 > # { .pause }

@@ -20,7 +20,7 @@
 People have been computing for thousands of years, with aids that include not just  pen and paper, but also abacus, slide rulers, various mechanical devices, and modern electronic computers.
 A priori, the notion of computation seems to be tied to the particular mechanism that you use.
 You might think that the "best"  algorithm for multiplying numbers will differ if you  implement it in _Python_ on a modern laptop than if you use pen and paper.
-However, as we saw in the introduction, an algorithm that is asymptotically better would eventually beat a worse one regardless of the underlying technology.
+However, as we saw in the introduction ([chapintro](){.ref}), an algorithm that is asymptotically better would eventually beat a worse one regardless of the underlying technology.
 This gives us hope for a _technology independent_ way of defining computation, which is what we will do in this chapter.
 
 ![Calculating wheels by Charles Babbage. Image taken from the Mark I 'operating manual'](../figure/wheels_babbage.png){#babbagewheels .class width=300px height=300px}
@@ -33,19 +33,48 @@ This gives us hope for a _technology independent_ way of defining computation, w
 ## Defining computation
 
 
-The name "algorithm" is derived from the Latin transliteration of  Muhammad ibn Musa al-Khwarizmi, who was a Persian scholar during the 9th century whose books introduced the western world to the decimal positional numeral system, as well as the solutions of linear and quadratic equations (see [alKhwarizmi](){.ref}).
-Still his description of the algorithms were rather informal by today's standards.
+The name "algorithm" is derived from the Latin transliteration of  Muhammad ibn Musa al-Khwarizmi's name.
+Al-Khwarizmi was a Persian scholar during the 9th century whose books introduced the western world to the decimal positional numeral system, as well as the solutions of linear and quadratic equations (see [alKhwarizmi](){.ref}).
+However Al-Khwarizmi's descriptions of algorithms were rather informal by today's standards.
 Rather than use "variables" such as $x,y$, he used concrete numbers such as 10 and 39, and trusted the reader to be able to extrapolate from these examples.^[Indeed, extrapolation from examples is still the way most of us first learn algorithms such as addition and multiplication, see [childrenalg](){.ref})]
 
-Here is how al-Khwarizmi described how to solve an equation of the form $x^2 +bx = c$:^[Translation from "The Algebra of Ben-Musa", Fredric Rosen, 1831.]
+Here is how al-Khwarizmi described the algorithm for solving an equation of the form $x^2 +bx = c$:^[Translation from "The Algebra of Ben-Musa", Fredric Rosen, 1831.]
 
 >_[How to solve an equation of the form ] "roots and squares are equal to numbers": For instance "one square , and ten roots of the same, amount to thirty-nine dirhems" that is to say, what must be the square which, when increased by ten of its own root, amounts to thirty-nine? The solution is this: you halve the number of the roots, which in the present instance yields five. This you multiply by itself; the product is twenty-five. Add this to thirty-nine' the sum is sixty-four. Now take the root of this, which is eight, and subtract from it half the number of roots, which is five; the remainder is three. This is the root of the square which you sought for; the square itself is nine._
 
 
-![An explanation for children of the two digit addition algorithm](../figure/addition_regrouping.jpg){#childrenalg .class width=300px height=300px}
 
 
 ![Text pages from Algebra manuscript with geometrical solutions to two quadratic equations. Shelfmark: MS. Huntington 214 fol. 004v-005r](../figure/alKhwarizmi.jpg){#alKhwarizmi .class width=300px height=300px}
+
+![An explanation for children of the two digit addition algorithm](../figure/addition_regrouping.jpg){#childrenalg .class width=300px height=300px}
+
+
+For the purposes of this course, we will need a much more precise way to describe algorithms.
+Fortunately (or is it unfortunately?), at least at the moment, computers lag far behind school-age children in learning from examples.
+Hence in the 20th century people have come up with  exact formalisms for describing algorithms, namely _programming languages_.
+Here is al-Khwarizmi's quadratic equation solving  algorithm described in the _Python_ programming language:^[As mentioned in [programmingrem](){.ref}], this is not a programming course, and it is absolutely fine if you don't know Python. Still the code below should be fairly self-explanatory.]
+
+```python
+from math import sqrt
+#Pythonspeak to enable use of the sqrt function to compute square roots.
+
+def solve_eq(b,c):
+    # return solution of x^2 + bx = c following Al Khwarizmi's instructions
+    # Al Kwarizmi demonstrates this for the case b=10 and c= 39
+
+    val1 = b/2.0 # "halve the number of the roots"
+    val2 = val1*val1 # "this you multiply by itself"
+    val3 = val2 + c # "Add this to thirty-nine"
+    val4 = sqrt(val3) # "take the root of this"
+    val5 = val4 - val1 # "subtract from it half the number of roots"
+    return val5  # "This is the root of the square which you sought for"
+
+# Test: solve x^2 + 10*x = 39
+print(solve_eq(10,39))
+# 3.0
+```
+
 
 We can define algorithms informally as follows:
 
@@ -55,29 +84,7 @@ We can define algorithms informally as follows:
 An algorithm $A$ _computes_ a function $F$ if for every input $x$, if we follow the instruction of $A$ on the input $x$, we obtain the output $F(x)$.
 
 
-For the purposes of this course, we will need a much more precise way to define algorithms.
-Fortunately (or is it unfortunately?), at least at the moment, computers lag far behind school-age children in learning from examples.
-Hence in the 20th century people have come up with  exact formalisms for describing algorithms, namely _programming languages_.
-Here is al-Khwarizmi's quadratic equation solving  algorithm described in the Python programming language:^[For concreteness we often  include code of actual programming languages in these notes. However, these will be simple enough to be understandable even by people that are not familiar with these languages.]
-
-
-```python
-from math import sqrt
-
-def solve_eq(b,c):
-    # return solution of x^2 + bx = c using Al Khwarizmi's instructions
-    val1 = b/2.0 # halve the number of the roots
-    val2 = val1*val1 # this you multiply by itself
-    val3 = val2 + c # Add this to thirty-nine (c)
-    val4 = sqrt(val3) # take the root of this
-    val5 = val4 - val1 # subtract from it half the number of roots
-    return val5  # This is the root of the square which you sought for
-
-print(solve_eq(2,35))
-# 5.0
-```
-
-Inspired by this, in this chapter we will use an ultra-simple "programming language" to define algorithms. (In fact, so simple that it is hardly worthy of this name.)
+In this chapter we will use an ultra-simple "programming language" to give a _formal_ (that is, _precise_) definition of  algorithms. (In fact, our programming language will be so  simple that it is hardly worthy of this name.)
 However, it will take us some time to get there.
 We will start by discussing what are "elementary operations" and also how do we map a description of an algorithm into an actual physical process that produces an output from an input in the real world.
 
@@ -181,7 +188,7 @@ Here is another function we can compute using $AND,OR,NOT$. The $NAND$ function 
 
 $$NAND(a,b) = \begin{cases} 0 & a=b=1 \\ 1 & \text{otherwise} \end{cases}$$
 
-As its name implies, $NAND$ is the NOT  of AND (i.e., $NAND(a,b)= NOT(AND(a,b))$), and so we can clearly compute $NAND$ using $AND,OR,NOT$. Interestingly, the opposite direction also holds:
+As its name implies, $NAND$ is the NOT  of AND (i.e., $NAND(a,b)= NOT(AND(a,b))$), and so we can clearly compute $NAND$ using $AND$  and $NOT$. Interestingly, the opposite direction also holds:
 
 > # {.theorem title="NAND computes AND,OR,NOT." #univnandonethm}
 We can compute $AND$, $OR$, and $NOT$ by composing only the $NAND$ function.
@@ -194,9 +201,10 @@ Once we can compute $AND$ and $NOT$, we can compute $OR$ using the so called ["D
 > # { .pause }
 [univnandonethm](){.ref}'s proof is very simple, but you should make sure that __(i)__ you understand the statement of the theorem, and __(ii)__ you follow its proof completely. In particular, you should make sure you understand why De Morgan's law is true.
 
-We can also verify the proof of [univnandonethm](){.ref} by Python:
 
-```python
+> # {.remark title="Verify NAND's universality by Python (optional)" #verifynanduniversalitybyptyon}
+If you are so inclined, you can also verify the proof of [univnandonethm](){.ref} by Python:
+>```python
 def NAND(a,b): return 1-a*b
 
 def ORwithNAND(a,b):
@@ -205,6 +213,7 @@ def ORwithNAND(a,b):
 print([f"Test {a},{b}: {ORwithNAND(a,b)==OR(a,b)}" for a in [0,1] for b in [0,1]])
 # ['Test 0,0: True', 'Test 0,1: True', 'Test 1,0: True', 'Test 1,1: True']
 ```
+
 
 
 > # {.solvedexercise title="Compute majority with NAND" #majbynandex}
@@ -238,8 +247,8 @@ print([MAJ(a,b,c)==NAND(NAND(NAND(NAND(a,b),NAND(a,c)),NAND(NAND(a,b),NAND(a,c))
 This suggests making $NAND$ our notion of a "basic operation", and hence coming up with the following definition of an "algorithm":
 
 
->__Semi-formal definition of an algorithm:__ An _algorithm_  consists of a sequence of steps of the form "store the NAND of variables `foo` and `bar` in variable `blah`". 
->
+>__Semi-formal definition of an algorithm:__ An _algorithm_  consists of a sequence of steps of the form "store the NAND of variables `bar` and `blah` in variable `foo`".
+> \
 >
 An algorithm $A$ _computes_ a function $F$ if for every input $x$ to $F$, if we feed $x$ as input to the algorithm, the value computed in its last step is $F(x)$.
 
@@ -285,7 +294,32 @@ Since in our case, all the gates are the same function (i.e., $NAND$), the descr
 We can think of the circuit as a directed graph.
 It has a vertex for every one of the input bits, and also for every intermediate  value  we use in our computation.
 If we compute a value $u$ by applying $NAND$ to $v$ and $w$ then we put a directed edges from $v$ to $u$ and from $w$ to $u$.
-We will follow the convention of using  "$x$" for inputs and "$y$" for outputs, and hence write $x_0,x_1,\ldots$ for our inputs and $y_0,y_1,\ldots$ for our outputs. (We will sometimes also write these as `x[0]`,`x[1]`,$\ldots$ and  `y[0]`,`y[1]`,$\ldots$ respectively.)
+We will follow the convention of using  "$x$" for inputs and "$y$" for outputs, and hence write $x_0,x_1,\ldots$ for our inputs and $y_0,y_1,\ldots$ for our outputs. (We will sometimes also write these as `X[0]`,`X[1]`,$\ldots$ and  `Y[0]`,`Y[1]`,$\ldots$ respectively.)
+Here is a more formal definition:
+
+> # { .pause }
+Before reading the formal definition, it would be an extremely good exercise  for you to pause here and try to think how _you_ would formally define the notion of a NAND circuit.
+Sometimes working out the definition for yourself is easier than parsing its text.
+
+> # {.definition title="NAND circuits" #nandcircdef}
+Let $n,m,s > 0$. A NAND circuit $C$ with $n$ inputs, $m$ outputs, and $s$ gates is a labeled directed acyclic graph (DAG)
+with $n+s$ vertices such that:
+>
+* $C$ has $n$ vertices with no incoming edges, which are called  the _input vertices_ and are labeled with `X[`$0$`]`,$\ldots$, `X[`$n-1$`]`. \
+* $C$ has $s$ vertices each with exactly two (possibly parallel) incoming edges, which are called the _gates_.  \
+* $C$ has $m$  gates which are called the _output vertices_ and are labeled with `Y[`$0$`]`,$\ldots$,`Y[`$m-1$`]`. The output vertices have no outgoing edges.
+>
+For $x\in \{0,1\}^n$, the _output_ of $C$ on input $x$, denoted by $C(X)$, is computed in the natural way.
+For every $i\in [n]$, we assign to the  input vertex `X[`$i$`]` the value $x_i$, and then continuously assign to every gate the value which is the NAND of the values assigned to its two incoming neighbors. The output is the string $y\in \{0,1\}^m$ such that for every $j \in [m]$, $y_j$ is the value assigned to the output gate labeled with `Y[`$j$`]`.
+
+
+> # { .pause }
+[nandcircdef](){.ref} is perhaps our first encounter with a somewhat complicated definition.
+When you are faced with such a definition, there are several strategies to try to understand it:
+>
+1. First, as we suggested above, you might want to see how _you_ would formalize the intuitive notion that the definitions tries to capture. If we made different choices than you would, try to think why is that the case. \
+2. Try to also see how this definition matches up to simple 
+
 
 We now present some examples of $NAND$ circuits for various natural problems:
 

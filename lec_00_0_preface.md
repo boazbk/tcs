@@ -60,23 +60,29 @@ This course will give you a taste of some of the theory behind those, and hopefu
 
 ## To potential instructors
 
-These lecture notes are written for my course at Harvard, but I hope that other lecturers will find them useful as well.
-To some extent, these notes are similar in content to "Theory of Computation" or "Great Ideas" courses such as those at [CMU](http://www.cs.cmu.edu/~./15251/) or [MIT](http://stellar.mit.edu/S/course/6/sp16/6.045/materials.html).
+This book was  written as lecture notes for my course at Harvard, but I hope that other lecturers will find it useful as well.
+To some extent, it is similar in content to "Theory of Computation" or "Great Ideas" courses such as those taught at [CMU](http://www.cs.cmu.edu/~./15251/) or [MIT](http://stellar.mit.edu/S/course/6/sp16/6.045/materials.html).
 There are however some differences, with the most significant being:
 
-* I do not start with finite automata as the basic computational model, but rather with _straight-line programs_ in an extremely simple programming language (or, equivalently, Boolean circuits). Automata are discussed later in the course in the context of space-bounded computation.
+* I do not start with finite automata as the basic computational model, but rather with _straight-line programs_ (or, equivalently _Boolean circuits_) in an extremely simple programming language which I call the "NAND programming language" since its only operation is assigning to one variable the NAND of two others. Automata are discussed later in the course, after Turing machines and undecidability, as an example for a restricted computational model where problems such as halting are effectively solvable. This actually corresponds to the historical ordering: Boolean algebra goes back to Boole's work in the 1850's,  Turing machines and undecidability were of course discovered in the 1930's, while finite automata were  introduced in the 1943 work of  McCulloch and Pitts but only really  understood in the seminal 1959 work of Rabin and Scott. More importantly, the main current practical motivations for restricted models such as regular and context free languages (whether it is  for parsing, for analyzing liveness and safety, or even for [software defined routing tables](https://www.cs.cornell.edu/~kozen/Papers/NetKAT-APLAS.pdf)) are precisely because these are tractable models in which semantic  questions can be effectively answered. This motivation can be better appreciated _after_ students see the undecidability of general computation. Moreover, the Boolean circuit / straightline programs model is extremely simple to both describe and analyze, and some of the main lessons of the theory of computation, including the notions of the duality between code and data, and the idea of universality, can already be seen in this context.
 
-* Instead of Turing machines, I use an equivalent model obtained by extending the programming language above to include loops.
-I also introduce another extension of the programming language that allows pointers, and hence is essentially equivalent to the standard RAM machine model  used (implicitly) in algorithms courses.
+* Instead of Turing machines, I introduce uniform computation using an equivalent model obtained by extending the straightline programming language above to include loops and arrays (I call the resulting programming language "NAND++"). I do define Turing machines and show the equivalence to NAND++ program, so the students can connect this both to the historical context as well to other literature they may encounter.   The intimate connection between NAND++ programs and NAND programs/circuits makes the Cook Levin Theorem also much easier to prove. In fact, transforming a NAND++ program to an instance of CIRCUIT SAT can (and is) be done in a handful of lines of Python, and combining this with the standard reductions (which I also implemented in Python) allows students to appreciate visually how a question about computation can be mapped into a question about (for example) the existence of an independent set in a graph.
 
 
-A much  more minor notational difference is that rather than talking about _languages_ (i.e., subsets $L\subseteq \{0,1\}^*$), I talk about Boolean functions (i.e., functions $f:\{0,1\}^*\rightarrow \{0,1\}$).
-These are of course equivalent, but the function notation extends more naturally to more general computational tasks.
+*  I also introduce yet another  extension of the programming language that allows indirect access to arrays, and hence is essentially equivalent to the standard RAM machine model  used (implicitly) in algorithms courses. This makes the distinction between notions such  as $O(n)$ or $O(n^2)$ time more meaningful, and makes the time complexity classes correspond to the informal definitions of linear and quadratic time that students encountered in their algorithms lectures (or their whiteboard coding interviews..).
 
-Reducing the time dedicated to automata (and eliminating context free languages) allows to spend more time on topics that I believe that  a modern course in the theory of computing needs to touch upon, including randomness and computation, the interaction of algorithms with society (with issues such as incentives, privacy, fairness), the basics of information theory, cryptography, and  quantum computing.
+
+* A much  more minor notational difference is that rather than talking about _languages_ (i.e., subsets $L\subseteq \{0,1\}^*$), I talk about Boolean functions (i.e., functions $f:\{0,1\}^*\rightarrow \{0,1\}$). These are of course equivalent, but the function notation extends more naturally to more general computational tasks.
+
+Reducing the time dedicated to automata (and eliminating context free languages) allows to spend more time on topics that I believe that  a modern course in the theory of computing needs to touch upon, including randomness and computation,  the interactions between _proofs_ and _programs_ (including Gödel's incompleteness, interactive proof systems, and even a bit on the $\lambda$-calculus and the Curry-Howard correspondence), cryptography,  and  quantum computing.
 
 My intention was to write these notes in a level of detail that will enable their use  for self-study, and in particular for students to be able to read the notes _before_ each lecture.
-This can  help students keep up with what is a fairly ambitious and fast-paced schedule.
+Toward that end, every chapter starts with a list of learning objectives, ends with a recap, and is peppered with "pause boxes" which encourage students to stop and work out an argument or make sure they understand a definition before continuing further.
+
+[roadmapsec](){.ref} contains a "roadmap" for this book, with description of the different chapters, as well as the dependency structure between them.
+This can help in planning out a course based on this book.
+
+
 
 
 
