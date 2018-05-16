@@ -3,7 +3,9 @@
 
 ># {.objectives  }
 * See that computation can be precisely modeled. \
-* Learn the NAND computational model. \
+* Learn the NAND computational model, and why the specific choice of NAND is not important. \
+* Examples of computing in the physical world. \
+* Equivalence of circuits and programs.
 
 
 >_"there is no reason why mental as well as bodily labor should not be economized by the aid of machinery"_, Charles Babbage, 1852
@@ -12,8 +14,6 @@
 >_"If, unwarned by my example, any man shall undertake and shall succeed in constructing an engine embodying in itself the whole of the executive department of mathematical analysis upon different principles or by simpler mechanical means, I have no fear of leaving my reputation in his charge, for he alone will be fully able to appreciate the nature of my efforts and the value of their results."_, Charles Babbage, 1864
 
 >_"To understand a program you must become both the machine and the program."_, Alan Perlis, 1982
-
-
 
 
 
@@ -47,6 +47,13 @@ Here is how al-Khwarizmi described how to solve an equation of the form $x^2 +bx
 
 ![Text pages from Algebra manuscript with geometrical solutions to two quadratic equations. Shelfmark: MS. Huntington 214 fol. 004v-005r](../figure/alKhwarizmi.jpg){#alKhwarizmi .class width=300px height=300px}
 
+We can define algorithms informally as follows:
+
+>__Informal definition of an algorithm:__ An _Algorithm_ is a set of instructions of how to compute an input from an output by following a sequence of "elementary steps".
+>
+An algorithm $A$ _computes_ a function $F$ if for every input $x$, if we follow the instruction of $A$ on the input $x$, we obtain the output $F(x)$.
+
+
 For the purposes of this course, we will need a much more precise way to define algorithms.
 Fortunately (or is it unfortunately?), at least at the moment, computers lag far behind school-age children in learning from examples.
 Hence in the 20th century people have come up with  exact formalisms for describing algorithms, namely _programming languages_.
@@ -69,10 +76,13 @@ print(solve_eq(2,35))
 # 5.0
 ```
 
+Inspired by this, in this chapter we will use an ultra-simple "programming language" to define algorithms. (In fact, so simple that it is hardly worthy of this name.)
+However, it will take us some time to get there.
+We will start by discussing what are "elementary operations" and also how do we map a description of an algorithm into an actual physical process that produces an output from an input in the real world.
 
 ### Defining "elementary operations"
 
-An _algorithm_ breaks down a complex calculation into a series of simpler steps.
+An algorithm breaks down a complex calculation into a series of simpler steps.
 These steps can be executed by:
 
 * Writing down symbols on a piece of paper
@@ -85,7 +95,7 @@ These steps can be executed by:
 
 Let us try to "err on the side of simplicity" and model computation in the simplest possible way.
 We will think of the most basic of computational steps.
-Here are some very simple functions:
+For example, are some very simple functions:
 
 * $OR:\{0,1\}^2 \rightarrow \{0,1\}$ defined as
 
@@ -98,7 +108,8 @@ $$AND(a,b) = \begin{cases} 1 & a=b=1 \\ 0 & \text{otherwise} \end{cases}$$
 * $NOT:\{0,1\} \rightarrow \{0,1\}$ defind as $NOT(a) = 1-a$.
 
 
-Each one of these functions takes either one or two single bits as input, and produces a single bit as output. Clearly, it cannot get much more basic than these.
+Each one of these functions takes either one or two single bits as input, and produces a single bit as output.
+Clearly, it cannot get much more basic than these.
 However, the power of computation comes from _composing_ simple building blocks together.
 
 
@@ -130,8 +141,8 @@ def XOR(a,b):
     w3 = OR(a,b)
     return AND(w2,w3)
 
-print([(a,b,XOR(a,b)) for a in [0,1] for b in [0,1]])
-# [(0, 0, 0), (0, 1, 1), (1, 0, 1), (1, 1, 0)]
+print([f"XOR({a},{b})={XOR(a,b)}" for a in [0,1] for b in [0,1]])
+# ['XOR(0,0)=0', 'XOR(0,1)=1', 'XOR(1,0)=1', 'XOR(1,1)=0']
 ```
 
 
@@ -155,8 +166,8 @@ def XOR3(a,b,c):
     w7 = OR(w4,c)
     return AND(w6,w7)
 
-print([(a,b,c,XOR3(a,b,c)) for a in [0,1] for b in [0,1] for c in [0,1]])
-# [(0, 0, 0, 0), (0, 0, 1, 1), (0, 1, 0, 1), (0, 1, 1, 0), (1, 0, 0, 1), (1, 0, 1, 0), (1, 1, 0, 0), (1, 1, 1, 1)]
+print([f"XOR3({a},{b},{c})={XOR3(a,b,c)}" for a in [0,1] for b in [0,1] for c in [0,1]])
+# ['XOR3(0,0,0)=0', 'XOR3(0,0,1)=1', 'XOR3(0,1,0)=1', 'XOR3(0,1,1)=0', 'XOR3(1,0,0)=1', 'XOR3(1,0,1)=0', 'XOR3(1,1,0)=0', 'XOR3(1,1,1)=1']
 ```
 
 > # { .pause }
@@ -182,6 +193,18 @@ Once we can compute $AND$ and $NOT$, we can compute $OR$ using the so called ["D
 > # { .pause }
 [univnandonethm](){.ref}'s proof is very simple, but you should make sure that __(i)__ you understand the statement of the theorem, and __(ii)__ you follow its proof completely. In particular, you should make sure you understand why De Morgan's law is true.
 
+We can also verify the proof of [univnandonethm](){.ref} by Python:
+
+```python
+def NAND(a,b): return 1-a*b
+
+def ORwithNAND(a,b):
+    return NAND(NAND(a,a),NAND(b,b))
+
+print([f"Test {a},{b}: {ORwithNAND(a,b)==OR(a,b)}" for a in [0,1] for b in [0,1]])
+# ['Test 0,0: True', 'Test 0,1: True', 'Test 1,0: True', 'Test 1,1: True']
+```
+
 
 > # {.solvedexercise title="Compute majority with NAND" #majbynandex}
 Let $MAJ_3: \{0,1\}^3 \rightarrow \{0,1\}$ be the function that on input $a,b,c$ outputs $1$ iff $a+b+c \geq 2$. Show how to compute $MAJ_3$ using a composition of $NAND$'s.
@@ -195,9 +218,17 @@ $$MAJ_3(a,b,c) = OR(OR(AND(a,b),AND(a,c)),AND(b,c)) \label{eqmajusingandor} \;.$
 >
 Now we can use the equivalence $AND(a,b)=NOT(NAND(a,b))$, $OR(a,b)=NAND(NOT(a),NOT(b))$, and $NOT(a)=NAND(a,a)$ to replace the righthand side of [{eqmajusingandor}](){.eqref} with an expression involving only $NAND$, yielding
 $$
-MAJ_3(a,b,c) = NAND(NAND(NAND(a,b),NAND(a,c)),NAND(b,c))
+MAJ_3(a,b,c) = NAND(NAND(NAND(NAND(a,b),NAND(a,c)),NAND(NAND(a,b),NAND(a,c))),NAND(b,c))
 $$
 
+<!--
+```python
+def MAJ(a,b,c): return 1 if a+b+c >=2 else 0
+
+
+print([MAJ(a,b,c)==NAND(NAND(NAND(NAND(a,b),NAND(a,c)),NAND(NAND(a,b),NAND(a,c))),NAND(b,c)) for a in [0,1] for b in [0,1] for c in [0,1]])
+```
+-->
 
 
 ## Informally defining "basic operations" and "algorithms"
@@ -205,7 +236,8 @@ $$
 [univnandonethm](){.ref} tells us that we can use applications of the single function $NAND$ to obtain $AND$, $OR$, $NOT$, and so by extension all the other functions that can be built up from them.
 This suggests making $NAND$ our notion of a "basic operation", and hence coming up with the following definition of an "algorithm":
 
->__Informal definition for an algorithm:__ An _algorithm_  consists of a sequence of steps of the form "store the NAND of variables `foo` and `bar` in variable `blah`". \
+
+>__Semi-formal definition of an algorithm:__ An _algorithm_  consists of a sequence of steps of the form "store the NAND of variables `foo` and `bar` in variable `blah`". \
 >
 An algorithm $A$ _computes_ a function $F$ if for every input $x$ to $F$, if we feed $x$ as input to the algorithm, the value computed in its last step is $F(x)$.
 
@@ -465,6 +497,17 @@ Let $F:\{0,1\}^n \rightarrow \{0,1\}^m$ be some function, and let $P$ be a NAND 
 
 > # { .pause }
 [NANDcomp](){.ref} is one of the most important definitions in this book. Please make sure to read it time and again until you are sure that you understand it. A full formal specification of the execution model of NAND programs appears in the appendix.
+
+
+> # {.remark title="Is the NAND programming language Turing Complete? (optional note)" #NANDturingcompleteness}
+You might have heard of a term called "Turing Complete" to describe programming languages. (If you haven't, feel free to ignore the rest of this remark, we will encounter this term later in this course and define it properly.)
+If so, you might wonder if the NAND programming language has this property.
+The answer is no, or perhaps more accurately, the term is not really applicable for the NAND programming language.
+The reason is that, by design, the NAND programming language can only compute _finite_ functions $F:\{0,1\}^n \rightarrow \{0,1\}^m$ that take a fixed number of input bits and produce a fixed number of outputs bits.
+The term "Turing Complete" is really only applicable to programming languages for _infinite_ functions that can take inputs of arbitrary length.
+We will come back to this distinction later on in the course.
+
+
 
 ### NAND programs and NAND circuits
 
