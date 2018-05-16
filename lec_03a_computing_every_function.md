@@ -732,7 +732,7 @@ Since $n/2 \leq 2^k \leq n$, we can bound the total cost of computing $F(x)$ (in
 
 
 
-## The class $SIZE_{n,m}(T)$
+### The class $SIZE_{n,m}(T)$
 
 For every $n,m,T \in \N$, we denote by $SIZE_{n,m}(T)$, the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$ that can be computed by NAND programs  of at most $T$ lines.
 [NAND-univ-thm](){.ref} shows that  $SIZE_{n,m}(4 m 2^n)$ is the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$.
@@ -760,12 +760,12 @@ and $MULT_n \in SIZE_{2n,2n}(10000 n^{\log_2 3})$.^[TODO: check constants]
 > # {.exercise title="Computing MUX" #mux-ex}
 Prove that the NAND program below computes the function $MUX$ (or $LOOKUP_1$) where $MUX(a,b,c)$ equals $a$ if $c=0$ and equals $b$ if $c=1$:
 
-~~~~
-nx_2 := x_2 NAND x_2
-u    := x_0 NAND nx_2
-v    := x_1 NAND x_2
-y_0  := u   NAND v
-~~~~
+```python
+t = NAND(X[2],X[2])
+u = NAND(X[0],t)
+v = NAND(X[1],X[2])
+Y[0] = NAND(u,v)
+```
 
 
 > # {.exercise title="At least two / Majority" #atleasttwo-ex}
@@ -802,5 +802,3 @@ b. For every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$, there is a NAND progr
 Some topics related to this lecture that might be accessible to advanced students include:
 
 (to be completed)
-
-## Acknowledgements
