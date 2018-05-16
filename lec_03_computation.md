@@ -510,8 +510,6 @@ We define the _NAND Programming Language_ to be a programming language where eve
 foo = NAND(bar,blah)
 ```
 
-```foo = NAND(bar,blah)```
-
 where `foo`, `bar` and `blah` are variable identifiers.^[We follow the common [programming languages convention](https://goo.gl/QyHa3b)  of using names such as `foo`, `bar`, `baz`, `blah` as stand-ins for generic identifiers. Generally a variable identifier in the NAND programming language can be any combination of letters and numbers, and we will also sometimes have identifiers such as `Foo[12]`  that end with a number inside square brackets. Later in the course we will introduce programming languages where such identifiers  carry special meaning as _arrays_. At the moment you can treat them as simply any other identifier. The appendix contains a full formal specification of the NAND programming language.]
 
 > # {.example title="Our first NAND program" #NANDprogramexample}
@@ -544,7 +542,7 @@ Let $F:\{0,1\}^n \rightarrow \{0,1\}^m$ be some function, and let $P$ be a NAND 
 
 
 > # {.remark title="Is the NAND programming language Turing Complete? (optional note)" #NANDturingcompleteness}
-You might have heard of a term called "Turing Complete" to describe programming languages. (If you haven't, feel free to ignore the rest of this remark, we will encounter this term later in this course and define it properly.)
+You might have heard of a term called "Turing Complete" to describe programming languages. (If you haven't, feel free to ignore the rest of this remark: we will encounter this term later in this course and define it properly.)
 If so, you might wonder if the NAND programming language has this property.
 The answer is no, or perhaps more accurately, the term is not really applicable for the NAND programming language.
 The reason is that, by design, the NAND programming language can only compute _finite_ functions $F:\{0,1\}^n \rightarrow \{0,1\}^m$ that take a fixed number of input bits and produce a fixed number of outputs bits.
