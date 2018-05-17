@@ -8,43 +8,14 @@
 
 
 
-
 \iffalse
-
 ```python
-from inspect import signature
-def numarguments(f):
-    """Number of arguments a Python function takes."""
-    return len(signature(f).parameters)
-
-def nandcode(f):
-    n = numarguments(f)
-    counter = 0 # to ensure unique temporary variables.
-    code = ''
-    global NAND
-    def tempNAND(bar,blah):
-        nonlocal code, counter
-        var = f'Temp[{counter}]'
-        counter += 1
-        code += f'{var} = NAND({bar},{blah})\n'
-        return var
-
-    NAND , tempNAND = tempNAND, NAND # Override NAND with its temporary version
-    # (this is a hack and won't play nicely with exceptions or multithreading)
-    outputs = f(*[f'X[{i}]' for i in range(n)]) # execute f on the strings "X[0]", "X[1]", ...
-    NAND , tempNAND = tempNAND, NAND # Restore original NAND
-
-    if type(outputs)==str: outputs = [outputs] # make single output into singleton list
-
-    for j in range(len(outputs)):
-        code = code.replace(outputs[j],f'Y[{j}]')
-    return code
-
-def NAND(a,b): return 1-a*b
-
+%run "..\code\NAND programming language.ipynb"
 ```
 
 \fi
+
+
 
 
 >_"Syntactic sugar causes cancer of the semicolon."_, Alan Perlis, 1982.
@@ -249,41 +220,10 @@ We will use standard Python syntax such as `range(n)` for the sets we can range 
 
 
 
-### Example: Adding two integers
+### Example: Adding two integers { #addexample }
 
 Using the above features, we can write the integer addition function as follows:
 
-\iffalse
-
-```python
-def zero(a):
-    return NOT(NAND(a,NOT(a)))
-
-def XOR(a,b):
-    t1 = NAND(a,b)
-    t2 = NAND(a,t1)
-    t3 = NAND(b,t1)
-    return NAND(t2,t3)
-
-# generalize restrict to handle functions that take more than one array
-def restrict(f,*numinputs):
-    """Create function that restricts the function f to exactly given input lengths n0,n1,..."""
-    k = len(numinputs)
-    args = [""]*k
-
-    for i in range(k):
-        args[i] = ", ".join(f'arg_{i}_{j}' for j in range(numinputs[i]))
-        sig = ", ".join(args)
-        call = ", ".join(f"[{args[i]}]" for i in range(k))
-        exec(rf'''
-def _temp({sig}):
-        return {f.__name__}({call})
-''',globals())
-    return _temp
-
-
-```
-\fi
 
 
 ```python
@@ -427,13 +367,13 @@ For example, to store non-negative integers, we can use the convention that `01`
 To store integers that could be potentially negative we can use the convention `10` in the first coordinate stands for the negative sign.^[This is just an arbitrary choice made for concreteness, and one can choose other representations. In particular, as discussed before, if the integers are known to have a fixed size, then there is no need for additional encoding to make them prefix-free.]
 So,  code such as
 
-~~~~ { .pascal .numberLines }
-Foo = REPRES(5)  // (1,0,1) in binary
-~~~~
+```python
+Foo = REPRES(5)  # (1,0,1) in binary
+```
 
 will be shorthand for
 
-~~~~ { .pascal .numberLines }
+```python
 Foo[0] = one(.)
 Foo[1] = one(.)
 Foo[2] = zero(.)
@@ -442,31 +382,46 @@ Foo[4] = one(.)
 Foo[5] = one(.)
 Foo[6] = zero(.)
 Foo[7] = zero(.)
-~~~~
+```
 
 Using multidimensional arrays, we can use arrays of integers and hence replace code such as
 
-~~~~ { .pascal .numberLines }
- Foo = REPRES([12,7,19,33])
-~~~~
+```python
+Foo = REPRES([12,7,19,33])
+```
 
 with the equivalent NAND expressions.
 
 
 
 
-### Example: adding and multiplying $n$ bit numbers
+### Example: Multiplying $n$ bit numbers
 
-We have seen how to add one and two bit numbers.
-We can use the gradeschool algorithm to show that NAND programs can add $n$-bit numbers for every $n$:
+We have seen in [addexample](){.ref} how to use the gradeschool algorithm to show that NAND programs can add $n$-bit numbers for every $n$.
+By following through this example, we can obtain the following result
+
+
 
 > # {.theorem title="Addition using NAND programs" #addition-thm}
 For every $n$, let $ADD_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{n+1}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the sum of the numbers that $x$ and $x'$ represent. Then there is a NAND program that computes the function $ADD_n$. Moreover, the number of lines in this program is smaller than $100n$.
 
+We omit the full formal proof of [addition-thm](){.ref}, but it can be obtained by going through the code in [addexample](){.ref} and:
+
+1. Proving that for every $n$, this code does indeed compute the addition of two $n$ bit numbers.
+
+2. Proving that for every $n$, if we expand the code out to its "unsweetened" version (i.e., to a standard NAND program), then the number of lines will be at most $100n$.
+
+See [addnumoflinesfig](){.ref} for a figure illustrating the number of lines our program has as a function of $n$. It turns out that this implementation of $ADD_n$ uses about $13n$ lines.
+
+
+![The number of lines in our NAND program to add two $n$ bit numbers, as a function of $n$, for $n$'s between $1$ and $100$.](../figure/addnumberoflines.png){#addnumoflinesfig .class width=300px height=300px}
+
+<!--
 ![Translating the gradeschool addition algorithm into a NAND program. If at the $i^{th}$ stage, the $i^{th}$  digits of the two numbers are $x_i$ and $x_{n+i}$ and the carry is $c_i$, then the $i^{th}$ digit of the sum will be $(x_i XOR x_{n+i}) XOR c_i$ and the new carry $c_{i+1}$ will be equal to $1$ if any two values among $c_i,x_i,x_{n+i}$ are $1$.](../figure/addition-alg-nand.png){#addition-fig .class width=300px height=300px}
+-->
 
 
-
+<!--
 > # {.proof data-ref="addition-thm"}
 To prove this theorem we repeatedly appeal to the notion of composition, and to the "gradeschool" algorithm for addition.
 To add the numbers $(x_0,\ldots,x_{n-1})$ and $(x_n,\ldots,x_{2n-1})$, we set $c_0=0$ and  do the following for $i=0,\ldots,n-1$: \
@@ -490,13 +445,13 @@ We leave accounting for the number of lines, and verifying that it is smaller th
 See the website [http://nandpl.org](http://nandpl.org) for an applet that produces, given $n$, a  NAND program that computes $ADD_n$.^[TODO: maybe add the example of the code of $ADD_4$? (using syntactic sugar)]
 
 ### Multiplying numbers
-
+-->
 
 Once we have addition, we can use the gradeschool algorithm to obtain multiplication as well, thus obtaining the following theorem:
 
 
 > # {.theorem title="Multiplication NAND programs" #theoremid}
- For every $n$, let $MULT_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{2n}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the product of the numbers that $x$ and $x'$ represent. Then there is a NAND program that computes the function $MULT_n$. Moreover, the number of lines in this program is smaller than $1000n^2$.
+For every $n$, let $MULT_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{2n}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the product of the numbers that $x$ and $x'$ represent. Then there is a NAND program that computes the function $MULT_n$. Moreover, the number of lines in this program is smaller than $1000n^2$.
 
 We omit the proof, though in [multiplication-ex](){.ref} we ask you to supply a "constructive proof" in the form of a program (in your favorite programming language) that on input a number $n$, outputs the code of a NAND program of at most $1000n^2$ lines that computes the $MULT_n$ function.
 In fact, we can use Karatsuba's algorithm to show that there is a NAND program of $O(n^{\log_2 3})$ lines to compute $MULT_n$ (and one can even get further asymptotic improvements using the newer algorithms).
@@ -521,8 +476,10 @@ It is actually the same as the $IF$/$MUX$ function we have seen above, that has 
 However, can we compute higher levels of $LOOKUP$?
 This turns out to be the case:
 
-> # {.theorem title="Lookup function" #lookup-thm}
- For every $k$, there is a NAND program that computes the function $LOOKUP_k: \{0,1\}^{2^k+k}\rightarrow \{0,1\}$. Moreover, the number of lines in this program is at most  $4\cdot 2^k$.
+># {.theorem title="Lookup function" #lookup-thm}
+For every $k$, there is a NAND program that computes the function $LOOKUP_k: \{0,1\}^{2^k+k}\rightarrow \{0,1\}$. Moreover, the number of lines in this program is at most  $4\cdot 2^k$.
+
+
 
 ### Constructing a NAND program for $LOOKUP$
 
@@ -542,7 +499,7 @@ The "pseudocode" for this program will be
 ```python
 Z[0] = LOOKUP_1(X[0],X[1],X[4])
 ```
-~~~~ { .pascal .numberLines }
+~~~~ { .python }
 Z[0] = LOOKUP_1(X[0],X[1],X[4])
 Z[1] = LOOKUP_1(X[2],X[3],X[4])
 Y[0] = LOOKUP_1(Z[0],Z[1],X[5])
@@ -552,7 +509,7 @@ We can obtain  an actual "sugar free" NAND program of at most $12$ lines  by rep
 
 We can generalize this to compute $LOOKUP_3$ using two invocations of $LOOKUP_2$ and one invocation of $LOOKUP_1$. That is, given input $x=(x_0,\ldots,x_7)$ and $i=(i_0,i_1,i_2)$ for $LOOKUP_3$, if the most significant bit of the index $i_2$ is $0$, then the output of $LOOKUP_3$ will equal $LOOKUP_2(x_0,x_1,x_2,x_3,i_0,i_1)$, while if this index $i_2$ is $1$ then the output will be $LOOKUP_2(x_4,x_5,x_6,x_7,i_0,i_1)$, meaning that the following pseudocode can compute $LOOKUP_3$,
 
-~~~~ { .pascal .numberLines }
+~~~~ { .python }
 Z[0] = LOOKUP_2(X[0],X[1],X[2],X[3],X[8],X[9])
 Z[1] = LOOKUP_2(X[4],X[5],X[6],X[7],X[8],X[9])
 Y[0] = LOOKUP_1(Z[0],Z[1],X[10])
@@ -581,11 +538,11 @@ We prove by induction on $k$ that there is a NAND program of at most $4\cdot 2^k
 For $k=1$ this follows by the  four line program for $LOOKUP_1$ we've seen before.
 For $k>1$, we use the following pseudocode
 
-~~~~ { .numberLines }
+```python
 a = LOOKUP_(k-1)(X[0],...,X[2^(k-1)-1],i[0],...,i[k-2])
 b = LOOKUP_(k-1)(X[2^(k-1)],...,Z[2^(k-1)],i[0],...,i[k-2])
 y_0 = LOOKUP_1(a,b,i[k-1])
-~~~~
+```
 
 In Python, this can be described as follows
 
@@ -607,7 +564,9 @@ we get that
 $$
 L(k) \leq 2\cdot 4 \cdot (2^{k-1}-1)+4= 4\cdot 2^k - 8 + 4 = 4(2^k-1)
 $$
-completing the proof of [lookup-thm](){.ref}.
+completing the proof of [lookup-thm](){.ref}. (See [lookuplinesfig](){.ref} for a plot of the actual number of lines in our implementation of $LOOKUP_k$.)
+
+![The number of lines in our implementation of  the `LOOKUP_k` function as a function of $k$ (i.e., the length of the index). The number of lines in our implementation is roughly $3 \cdot 2^k$.](../figure/lookup_numlines.png){#lookuplinesfig .class width=300px height=300px}
 
 ## Computing _every_ function
 
@@ -743,9 +702,17 @@ Since $n/2 \leq 2^k \leq n$, we can bound the total cost of computing $F(x)$ (in
 For every $n,m,T \in \N$, we denote by $SIZE_{n,m}(T)$, the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$ that can be computed by NAND programs  of at most $T$ lines.
 [NAND-univ-thm](){.ref} shows that  $SIZE_{n,m}(4 m 2^n)$ is the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$.
 The results we've seen before can be phrased as showing  that $ADD_n \in SIZE_{2n,n+1}(100 n)$
-and $MULT_n \in SIZE_{2n,2n}(10000 n^{\log_2 3})$.^[TODO: check constants]
+and $MULT_n \in SIZE_{2n,2n}(10000 n^{\log_2 3})$.
+See [sizeclassesfig](){.ref}.
 
+> # { .pause }
+Note that $SIZE_{n,m}(T)$ does _not_  correspond to a set of programs!
+Rather, it is a set of _functions_.
+This distinction between _programs_ and _functions_ will be crucial for us in this course.
+You should always remember that while a program _computes_ a function, it is not _equal_ to a function.
+In particular, as we've seen, there can be more than one program to compute the same function.
 
+![A rough illustration of the relations between the different classes of functions computed by NAND programs of given size. For every $n,m$, the class $SIZE_{n,m}(T)$ is a subset of the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$, and if $T \leq T;$ then $SIZE_{n,m}(T) \subseteq SIZE_{n,m}(T')$. [NAND-univ-thm](){.ref} shows that $SIZE_{n,m}(O(m\cdot 2^n))$ is equal to the set of all functions, and using [tight-upper-bound](){.ref} this can be improved to $O(m \cdot 2^n/n)$. If we consider all functions mapping $n$ bits to $n$ bits, then addition of two $n/2$ bit numbers can be done in $O(n)$ lines, while we don't know of such a program for _multiplying_ two $n$ bit numbers, though we do know it can be done in $O(n^2)$ and in fact even better size. In the above  $FACTOR_n$ corresponds to the inverse problem of multiplying- finding the _prime factorization_ of a given number. At the moment  we do not know  of any NAND program with a polynomial (or even sub-exponential) number of lines that can compute $FACTOR_n$. ](../figure/sizeclasses.png){#sizeclassesfig .class width=300px height=300px}
 
 > # { .recap }
 * We can define the notion of computing a function via a simplified "programming language", where computing a function $F$ in $T$ steps would correspond to having a $T$-line NAND program that computes $F$.
