@@ -453,7 +453,7 @@ Otherwise (if $|x| \neq |x'|$) then it must be that $|x| < |x'|$, and hence if $
 In fact, we can even obtain a more efficient transformation where $|E'(o)| \leq |o| + O(\log |o|)$.
 We leave proving this as an exercise (see [prefix-free-ex](){.ref}).
 
-### "Proof by Python"
+### "Proof by Python" (optional)
 
 The proofs of [prefixfreethm](){.ref} and [predixfreeransformation](){.ref} are _constructive_ in the sense that they give us:
 
@@ -506,13 +506,11 @@ Note that Python function `prefixfree` above takes two _Python functions_ as inp
 You don't have to know Python in this course, but you do need to get comfortable with the idea of functions as mathematical objects in their own right, that can be used as inputs and outputs of other functions.
 
 ```python
+# Takes functions pfencode, pfdecode and pfvalid,
+# and returns functions encodelists, decodelists
+# that can encode and decode
+# lists of the objects respectively
 def represlists(pfencode,pfdecode,pfvalid):
-"""
-Takes functions pfencode, pfdecode and pfvalid,
-and returns functions encodelists, decodelists
-that can encode and decode
-lists of the objects respectively
-"""
 
     def encodelist(L):
     """Gets list of objects, encodes it as list of bits"""
@@ -571,26 +569,22 @@ The difference between these representations can be important for some applicati
 ![Representing the graph $G=(\{0,1,2,3,4\},\{ (1,0),(4,0),(1,4),(4,1),(2,1),(3,2),(4,3) \})$ in the adjacency matrix and adjacency list representations.](../figure/representing_graphs.png){#representinggraphsfig .class width=300px height=300px}
 
 Once again, we can also define these encoding and decoding functions in python:
-<!--
-```python
-# Some setup code for visualizing graphs
-import graphviz; from graphviz import Graph; from graphviz import Digraph; import networkx as nx; import pydotplus
-```
--->
+
+
 
 ```python
-import graphviz; from graphviz import Graph
+from graphviz import Graph
 
-# get n by n matrix
-# (as n long list of n lists)
+# get n by n matrix (as list of n lists)
 # return graph corresponding to it
 def matrix2graph(M):
     G = Graph(); n = len(M)
     for i in range(n):
-        G.node(str(i))
+        G.node(str(i)) # add vertex i
         for j in range(n):
             G.node(str(j))
             if M[i][j]: G.edge(str(i),str(j))
+            # if M[i][j] is nonzero then add edge between i and j
     return G
 
 matrix2graph([[0,1,0],[0,0,1],[1,0,0]])
