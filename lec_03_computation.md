@@ -565,11 +565,12 @@ A central result is that these two models are actually equivalent:
 Let $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s\in \N$. Then $F$ is computable by a NAND program of $s$ lines if and only if it is computable by a NAND circuit of $s$ gates.
 
 > # {.proofidea data-ref="nandcircuitthm"}
-To understand the proof, you can first work out for yourself the equivalence between the NAND program of [NANDprogramexample](){.ref} and the circuit we have seen in [xornandexample](){.ref}.
+To understand the proof, you can first work out for yourself the equivalence between the NAND program of [NANDprogramexample](){.ref} and the circuit we have seen in [xornandexample](){.ref}, see also [progandcircfig](){.ref}.
 Generally, if we have a NAND program, we can transform it into a circuit by mapping every line `foo = NAND(bar,blah)` of the program into a gate `foo` that is applied to the result of the previous gates `bar` and `blah`. (Since we always assign a variable to variables that have been assigned before or are input variables, we can assume that `bar` and `blah` are either gates we already constructed or are inputs to the circuit.)
 In the reverse direction, to map a circuit $C$ into a program $P$ we use [topological sorting](https://goo.gl/QvLE3K) to sort the vertices of the graph of $C$ into an order $v_0,v_1,\ldots,v_{s-1}$ such that if there is an edge from $v_i$ to $v_j$ then $j>i$.
 Thus we can transform every gate (i.e. non input vertex) of the circuit into a line in a program in an analogous way: if $v$ is a gate that has two incoming edges from $u$ and $w$, then we add a variable `foo` corresonding to $v$ and a line `foo = NAND(bar,blah)` where `bar` and `blah` are the variables corresponding to $u$ and $w$.
 
+![The NAND code and the corresponding circuit for a program to compute the _increment_ function that maps a string $x\in \{0,1\}^3$ (which we think of as a number in $[7]$) to the string $y\in \{0,1\}^4$ that represents $x+1$. Note how every line in the program corresponds to a gate in the circuit.](../figure/progandcircinc3.png){#progandcircfig .class width=300px height=300px}
 
 > # {.proof data-ref="nandcircuitthm"}
 Let $F:\{0,1\}^n \rightarrow \{0,1\}^m$ be a function. Suppose that there exists a program $P$ of $s$ lines that computes $F$. We construct a NAND circuit $C$ to compute $F$ as follows: the circuit will include $n$ input vertices, and will include $s$ gates, one for each of the lines of $P$.
