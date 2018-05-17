@@ -8,7 +8,9 @@
 
 
 
-<!--
+
+\iffalse
+
 ```python
 from inspect import signature
 def numarguments(f):
@@ -41,8 +43,8 @@ def nandcode(f):
 def NAND(a,b): return 1-a*b
 
 ```
--->
 
+\fi
 
 
 >_"Syntactic sugar causes cancer of the semicolon."_, Alan Perlis, 1982.
@@ -251,7 +253,8 @@ We will use standard Python syntax such as `range(n)` for the sets we can range 
 
 Using the above features, we can write the integer addition function as follows:
 
-<!--
+\iffalse
+
 ```python
 def zero(a):
     return NOT(NAND(a,NOT(a)))
@@ -273,15 +276,15 @@ def restrict(f,*numinputs):
         sig = ", ".join(args)
         call = ", ".join(f"[{args[i]}]" for i in range(k))
         exec(rf'''
-    def _temp({sig}):
+def _temp({sig}):
         return {f.__name__}({call})
-        ''',globals())
+''',globals())
     return _temp
 
 
 ```
+\fi
 
--->
 
 ```python
 # Add two n-bit integers
@@ -297,18 +300,21 @@ def ADD(A,B):
     return Result
 
 ADD([1,1,1,0,0],[1,0,0,0,0])
+# [0, 0, 0, 1, 0, 0]
 ```
 
 where `zero` is the constant zero function, and `MAJ` and `XOR` correspond to the majority and XOR functions respectively.
 This "sugared" version is certainly easier to read than even the two bit  NAND addition program (obtained by restricting the above to the case $n=2$):
 
 
-<!--
+\iffalse
+
 ```python
 ADD2 = restrict(ADD,2,2)
 print(nandcode(ADD2))
 ```
--->
+
+\fi
 
 
 ```python
