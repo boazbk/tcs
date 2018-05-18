@@ -712,7 +712,13 @@ This distinction between _programs_ and _functions_ will be crucial for us in th
 You should always remember that while a program _computes_ a function, it is not _equal_ to a function.
 In particular, as we've seen, there can be more than one program to compute the same function.
 
+
 ![A rough illustration of the relations between the different classes of functions computed by NAND programs of given size. For every $n,m$, the class $SIZE_{n,m}(T)$ is a subset of the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$, and if $T \leq T;$ then $SIZE_{n,m}(T) \subseteq SIZE_{n,m}(T')$. [NAND-univ-thm](){.ref} shows that $SIZE_{n,m}(O(m\cdot 2^n))$ is equal to the set of all functions, and using [tight-upper-bound](){.ref} this can be improved to $O(m \cdot 2^n/n)$. If we consider all functions mapping $n$ bits to $n$ bits, then addition of two $n/2$ bit numbers can be done in $O(n)$ lines, while we don't know of such a program for _multiplying_ two $n$ bit numbers, though we do know it can be done in $O(n^2)$ and in fact even better size. In the above  $FACTOR_n$ corresponds to the inverse problem of multiplying- finding the _prime factorization_ of a given number. At the moment  we do not know  of any NAND program with a polynomial (or even sub-exponential) number of lines that can compute $FACTOR_n$. ](../figure/sizeclasses.png){#sizeclassesfig .class width=300px height=300px}
+
+> # {.remark title="Finite vs infinite functions" #infinitefunc}
+A NAND program $P$ can only compute a function with a certain number $n$ of inputs and a certain number $m$ of outputs. Hence for example there is no single NAND program that can compute the increment function $INC:\{0,1\}^* \rightarrow \{0,1\}^*$ that maps a string $x$ (which we identify with a number via the binary representation) to the string that represents $x+1$. Rather for every $n>0$, there is a NAND program $P_n$ that computes the restriction $INC_n$ of the function $INC$ to inputs of length $n$. Since it can be shown that for every $n>0$ such a program $P_n$ exists of length at most $10n$, $INC_n \in SIZE(10n)$ for every $n>0$.
+>
+If $T:\N \rightarrow \N$ and $F:\{0,1\}^* \rightarrow \{0,1\}^*$, we will sometimes slightly abuse notation and write $F \in SIZE(T(n))$ to indicate that for every $n$ the restriction $F_n$ of $F$ to inputs in $\{0,1\}^n$ is in $SIZE(T(n))$. Hence we can write $INC \in SIZE(10n)$. We will come back to this issue of finite vs infinite functions later in this course.
 
 > # { .recap }
 * We can define the notion of computing a function via a simplified "programming language", where computing a function $F$ in $T$ steps would correspond to having a $T$-line NAND program that computes $F$.

@@ -369,7 +369,7 @@ Now the size of $\{0,1\}^n$ is $2^n$, and the size of $\{0,1\}^{\leq n}$ is only
 
 
 
-### Prefix free encoding
+### Prefix free encoding { #prefixfreesec }
 
 In our discussion of the representation of rational numbers, we used the "hack" of encoding the alphabet $\{$,`0`,`1`,`;`$\}$ to represent tuples of strings as a single string.
 This turns out to be a special case of the  general paradigm of _prefix free_ encoding.

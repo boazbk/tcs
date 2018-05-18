@@ -24,30 +24,46 @@ It means that we can treat a NAND program both as instructions to carrying compu
 This correspondence between _code_ and _data_ is one of the most fundamental aspects of computing.
 It  underlies  the notion of _general purpose_ computers, that are not pre-wired to compute only one task, and it is also the basis of our  hope for obtaining _general_ artificial intelligence.
 This concept finds immense use in all areas of computing, from scripting languages to machine learning, but it is fair to say that we haven't yet fully mastered it.
-Indeed many security exploits involve cases such as "buffer overflows" when attackers manage to inject code where the system expected only "passive" data.
+Indeed many security exploits involve cases such as "buffer overflows" when attackers manage to inject code where the system expected only "passive" data (see [XKCDmomexploitsfig](){.ref}).
 The idea of code as data reaches beyond the realm of electronic computers.
 For example, DNA can be thought of as both a program and data (in the words of Schrödinger, who wrote  before DNA's discovery a book that inspired Watson and Crick, it is both "architect's plan and builder's craft").
 
-![As illustrated in this xkcd cartoon, many exploits, including buffer overflow, SQL injections, and more, utilize the blurry line between "active programs" and "static strings".](../figure/exploits_of_a_mom.png){#XKCD .class width=300px height=300px}
+![As illustrated in this xkcd cartoon, many exploits, including buffer overflow, SQL injections, and more, utilize the blurry line between "active programs" and "static strings".](../figure/exploits_of_a_mom.png){#XKCDmomexploitsfig .class width=300px height=300px}
 
 
 ## A NAND interpreter in NAND
 
-One of the most interesting consequences of the fact that we can represent programs as strings is the following theorem:
+For every NAND program $P$, we can represent $P$ as a binary string.
+In particular, this means that for any choice of such representation, the following is a well defined mathematical function
+$EVAL:\{0,1\}^* \times \{0,1\}^* \rightarrow \{0,1\}^*$
+
+$$
+EVAL(P,x) = \begin{cases} P(x) & |x|= \text{no. of $P$'s inputs} \\ 0 & \text{otherwise} \end{cases}
+$$
+where we denote by $P(x)$ the output of the program represented by the string $P$ on the input $x$.
+
+> # { .pause }
+The above is one of those observations that are simultaneously both simple and profound. Please make sure that you understand __(1)__ how for every fixed choice of representing programs as strings, the function $EVAL$ above is well defined, and __(2)__ what this function actually does.
+
+
+$EVAL$ takes strings arbitrarily of length, and hence cannot be computed by a NAND program, that has a fixed length of inputs.
+However, one of the most interesting consequences of the fact that we can represent programs as strings is the following theorem:
 
 > # {.theorem title="Bounded Universality of NAND programs" #bounded-univ}
 For every $S,n,m \in \N$ there is a NAND program that computes the  function
 $$
 EVAL_{S,n,m}:\{0,1\}^{S+n} \rightarrow \{0,1\}^m
 $$
-defined as follows: For every string $(P,x)$ where $P \in \{0,1\}^S$ and $x\in\{0,1\}^n$, if $P$ describes a NAND program with $n$ input bits and $m$ outputs bits, then   $EVAL_{S,n,m}(P,x)$ is the output of this program on input $x$.^[If $P$ does not describe a program then we don't care what $EVAL_{S,n,m}(P,x)$ is, but for concreteness we will set it to be $0^m$. Note that in this theorem we use $S$ to denote the number of bits describing the program, rather than the number of lines in it. However, these two quantities are very closely related.]
+defined as follows: For every string $(P,x)$ where $P \in \{0,1\}^S$ and $x\in\{0,1\}^n$, if $P$ describes a NAND program with $n$ input bits and $m$ outputs bits, then   $EVAL_{S,n,m}(P,x)$ is the output of this program on input $x$.^[If $P$ does not describe a program then we don't care what $EVAL_{S,n,m}(P,x)$ is, but for concreteness we will set it to be $0^m$. Note that in this theorem's statement we use $S$ to denote the number of bits describing the program, rather than the number of lines in it. However, these two quantities are very closely related.]
 
 
 Of course to fully specify $EVAL_{S,n,m}$, we need to fix a precise representation scheme  for NAND programs as binary strings.
 We can simply use the ASCII representation, though  we will use a  more convenient representation.
 But regardless of the choice of representation,
-[bounded-univ](){.ref} is an immediate corollary of the fact that _every_ finite function, and so in particular the function $EVAL_{S,n,m}$ above, can be computed by _some_ NAND program.
+[bounded-univ](){.ref} is an immediate corollary of [NAND-univ-thm](){.ref}, which states that _every_ finite function, and so in particular the function $EVAL_{S,n,m}$ above, can be computed by _some_ NAND program.
 
+> # { .pause }
+Once again, [bounded-univ](){.ref}  is subtle but important. Make sure you understand what this thorem means, and why it is a corollary of [NAND-univ-thm](){.ref}.
 
 [bounded-univ](){.ref} can be thought of as providing  a "NAND interpreter in NAND".
 That is, for a particular size bound, we give a _single_ NAND program that can evaluate all NAND programs of that size.
@@ -60,166 +76,235 @@ Of course this limitation is inherent for the NAND programming language where an
 It turns out that we don't even need to pay that much of an overhead for universality
 
 > # {.theorem title="Efficient bounded universality of NAND programs" #eff-bounded-univ}
-For every $S,n,m \in \N$ there is a NAND program of at most $O(S \log S)$ lines that computes the  function
+For every $S,n,m \in \N$ there is a NAND program of at most $O(S^2)$ lines that computes the  function
 $EVAL_{S,n,m}:\{0,1\}^{S+n} \rightarrow \{0,1\}^m$ defined above.
 
-We will prove a weaker version of [eff-bounded-univ](){.ref}, that will use a large number of  $O(S^2)$ lines instead of $O(S \log S)$ as stated in the theorem.
-We will sketch  how we can improve this proof and get the  $O(S \log S)$ bound in a future lecture.
 Unlike [bounded-univ](){.ref}, [eff-bounded-univ](){.ref} is not a trivial corollary of the fact that every function can be computed, and  takes much more effort to prove.
 It requires us to present a concrete NAND program for the $EVAL_{S,n,m}$ function.
 We will do so in several stages.
 
-First, we will spell out precisely how to  represent NAND programs as strings.
+1. First, we will spell out precisely how to  represent NAND programs as strings.
 We can prove  [eff-bounded-univ](){.ref}  using the ASCII representation, but a "cleaner" representation will be more convenient for us.
-Then, we will show how we can write a  program to compute $EVAL_{S,n,m}$ in _Python_.^[We will not use much about Python, and a reader that has familiarity with programming in any language should be able to follow along.]
-Finally, we will show how we can transform this Python program into a NAND program.
 
-## Concrete representation for NAND programs
+2. Then, we will show how we can write a  program to compute $EVAL_{S,n,m}$ in _Python_.^[We will not use much about Python, and a reader that has familiarity with programming in any language should be able to follow along.]
+
+3. Finally, we will show how we can transform this Python program into a NAND program.
+
+### Concrete representation for NAND programs
 
 ![In the Harvard Mark I computer, a program was represented as a list of triples of numbers, which were then encoded by perforating holes in a control card.](../figure/tapemarkI.png){#figureid .class width=300px height=300px}
 
 
-We  can use the _canonical form_ of NAND program (as per [NANDcanonical](){.ref}) to represent it as a string.
-That is, if a NAND program has $s$ lines and $t$ distinct variables (where $t \leq 3s$) then we encode every a  line of the program such as `foo_54 := baz NAND blah_22` as the  triple $(a,b,c)$ where $a,b,c$ are the numbers corresponding to `foo_54`,`bar`,`blah_22` respectively.
-We  choose the ordering such that the numbers $0,1,\ldots,n-1$ encode the variables `x_0`,$\ldots$,`x_`$\expr{n-1}$ and the numbers $t-m,\ldots,t-1$ encode the variables `y_0`,$\ldots$,`y_`$\expr{m-1}$.
-Thus the representation of a program $P$ of $n$ inputes and $m$ outputs is simply the list of triples of $P$ in its canonical form.
-For example, the XOR program:
-
-~~~~ { .go .numberLines  }
-u_0   := x_0 NAND x_1
-v_0   := x_0 NAND u_0
-w_0   := x_1 NAND u_0
-y_0   := v_0 NAND w_0
-~~~~
-
-is  represented by the following list of four triples:
-```
-[[2, 0, 1], [3, 0, 2], [4, 1, 2], [5, 3, 4]]
-```
-
-Note that even if we renamed `u`, `v` and `w` to `foo`, `bar` and `blah` then the representation of the program will remain the same (which is fine, since it does not change its semantics).
-It is very easy to transform a string containing the program code to a the list-of-tuples representation; for example, it can be done in 15 lines of Python.^[If you're curious what these 15 lines are, see the appendix or the website [http://nandpl.org](http://nandpl.org).]
-
-To evaluate a NAND program $P$ given in this representation, on an input $x$, we will do the following:
-
-* We create an array `avars` of $t$ integers. The value of the variable with label $j$  will be stored in the $j$-th location of this array.
-
-* We initialize the value of the input variables. We set $i$ to be the index corresponding to the label `x_`$\expr{i}$, and so set the $i$-th coordinate of `avars` to $x_i$ for every $i\in [n]$.
-
-* For every triple  $(a,b,c)$ in the program's representation, we read from `avars` the values $x,y$ of the variables $b$ and $c$ respectively, and then set the value of the variable indexed by $a$ to $NAND(x,y)=1-x\cdot y$. That is, we set `avars[a] = 1-avars[b]*avars[c]`.
-
-* The variables `y_0` till `y_`$\expr{m-1}$ are given the indices $t-m,\ldots,t-1$ and so  the  output is  `avars[t-m]`,...,`avars[t-1]`.
-
-
-The following is a   _Python_ function `EVAL` that on input $L,n,m,x$ where $L$ is a list of triples representing an $n$-input $m$-output program, and $x$ is list of $0/1$ values, returns the result of the execution of the NAND program represented by $P$ on $x$:^[To keep things simple, we will not worry about the case that $L$ does not represent a valid program of $n$ inputs and $m$ outputs. Also, there is nothing special about Python. We could have easily presented a corresponding function in JavaScript, C, OCaml, or any other programming language.]
-
-
-~~~~ { .python }
-# Evaluates an n-input, m-output NAND program L on input x
-# L is given in the canonical list of triples representation
-# (first n variables are inputs and last m variables are outputs)
-def EVAL(L,n,m,x):
-    s = len(L)
-    avars = [0]*(3*s) # initialize variable array to zeroes, 3s is large enough to hold all variables
-    avars[:n] = x # set first n vars to x
-
-    for (a,b,c) in L:  # evaluate each triple
-        u = avars[b]
-        v = avars[c]
-        val = 1-u*v # i.e., the NAND of u and v
-        avars[a] = val
-
-    t = max([max(triple) for triple in L])+1 # num of vars in L
-
-    return avars[t-m:] # output last m variables
-~~~~
-
-
-For example, if we run
+A NAND program is simply a sequence of lines of the form
 
 ```python
-EVAL(
-[[2, 0, 1], [3, 0, 2], [4, 1, 2], [5, 3, 4]],
-2,
-1,
-[0,1]
-)
+blah = NAND(baz,boo)
 ```
-then this corresponds to running our XOR program on the input $(0,1)$ and hence the resulting output is `[1]`.
+
+There is of course nothing special about these particular identifiers. Hence to represent a NAND program mathematically, we can simply identify the variables with natural numbers, and think of each line as a triple $(i,j,k)$ which corresponds to saying that we assign to the $i$-th variable  the NAND of the values of the $j$-th and $k$-th variables.
+We will use the set $[t]= \{0,1,\ldots,t-1\}$ as our set of variables, and for concreteness we will let the input variables be the first $n$ numbers, and the output variables be the last $m$ numbers (i.e., the numbers $(t-m,\dots,t-1)$).
+This motivates the following definition:
+
+> # {.definition title="List of tuples representation" #nandtuplesdef}
+Let $P$ be a NAND program of $n$ inputs, $m$ outputs, and $s$ lines, and let $t$ be the number of distinct variables used by $P$.
+The _list of tuples representation of $P$_ is the triple $(n,m,L)$ where $L$ is a list of triples of the form $(i,j,k)$ for $i,j,k \in [t]$.
+>
+For every variable  of $P$, we assign a number in $[t]$ as follows:
+>
+* For every $i\in [n]$, the variable `X[`$i$`]` is assigned the number $i$. \
+* For every $j\in [m]$, the variable `Y[`$j$`]` is assigned the number $t-m+j$. \
+* Every other variable is assigned a number in $\{n,n+1,\ldots,t-m-1\}$ in the order of which it appears.
+
+The list of tuples representation will be our default choice for representing NAND programs, and since "list of tuples representation" is a bit of a mouthful, we will often call this simply the  _representation_ for a program $P$.
+
+> # {.example title="Representing the XOR program" #representXOR}
+Our favorite NAND program, the XOR program:
+>
+`u = NAND(X[0],X[1])` \
+`v = NAND(X[0],u)` \
+`w = NAND(X[1],u)` \
+`Y[0] = NAND(v,w)`
+>
+Is represented as the tuple $(2,1,L)$ where $L=((2, 0, 1), (3, 0, 2), (4, 1, 2), (5, 3, 4))$. That is, the variables `X[0]` and `X[1]` are given the indices  $0$ and $1$ respectively, the variables `u`,`v`,`w` are given the indices $2,3,4$ respectively, and the variable `Y[0]` is given the index $5$.
 
 
-Accessing an  element  of the array `avars` at a given index takes a constant number of basic operations.^[Python does not distinguish between lists and arrays, but allows constant time random access to an indexed elements to both of them. One could argue that if we allowed programs of truly unbounded length (e.g., larger than $2^{64}$) then the price  would not be constant but logarithmic in the length of the array/lists, but the difference between $O(1)$ and $O(\log s)$ will not be important for our discussions.] Hence (since $n,m \leq s$ and $t \leq 3s$),  the program above will use  $O(s)$ basic operations.
 
-## A NAND interpreter in NAND
+\iffalse
 
-We now turn to actually proving [eff-bounded-univ](){.ref}.
+```python
+%run "../code/NAND programming language.ipynb"
+```
+
+```python
+def XOR(a,b):
+    u = NAND(a,b)
+    v = NAND(a,u)
+    w = NAND(b,u)
+    return  NAND(v,w)
+
+nandrepresent(XOR)
+```
+\fi
+
+Transforming a NAND program from its representation as code to the representation as a list of tuples is a fairly straightforward programming exercise, and in particular can be done in a few lines of _Python_.^[If you're curious what these 15 lines are, see the appendix.]
+Note that this representation loses information such as the particular names we used for the variables, but this is OK since these names do not make a difference to the functionality of the program.
+
+### Representing a program as a string
+
+To obtain a representation that we can use as input to a NAND program, we need to take a step further and map the triple $(n,m,L)$ to a binary string.
+Here there are many different choices, but let us fix one of them.
+If the list $L$ has $s$ triples in it, we will represent it as simply the string $str(L)$ which will be the concatenation of the $3s$ numbers in the binary basis, which can be encoded as a string of length $3s\ell$ where $\ell = \ceil{\log 3s}$ is a number of bits that is guaranteed to be sufficient to  represent numbers in $[t]$ (since $t \leq 3s$).
+We will represent the program $(n,m,L)$ as the string $\repres{n}\repres{m}\repres{s}str(L)$ where $\repres{n}$  and $\repres{m}$ are some  prefix free representations of $n$,  $m$ and $s$ (see [prefixfreesec](){.ref}).
+
+In the context of computing $EVAL_{S,n,m}$ the number of lines, inputs, and outputs, is fixed, and so we can drop $n,m,s$ and simply think of it as a function that maps $\{0,1\}^{3s\ell + n}$ to $\{0,1\}^m$, where $\ell  = \ceil{\log 3s}$, and $s$ is the number of lines in programs whose representation has length $S$.
+Note that $S = \Theta(s \log s)$.
+
+Since the number $s$ of lines is easier to keep track of than the number of bits of representation, from now on we will consider the function $EVAL'_{s,n,m}:\{0,1\}^{3s\ceil{\log 3s}+n} \rightarrow \{0,1\}^m$
+such that
+$$EVAL'_{s,n,m}(str(L)x) = P(x) \label{evalprimeeq}
+$$
+where $P$ is the program represented by $(n,m,L)$.
+That is $EVAL'_{s,n,m}$  maps the string $str(L)$ representing an $s$ line program $P$ on $n$ input and $m$ outputs, and the string $x\in \{0,1\}^n$, to the output $P(x)$.
+To prove  [eff-bounded-univ](){.ref} we need to
+show an $O((s \log s)^2)$ line NAND program to compute $EVAL'_{s,n,m}$, which would correspond to an $O(S^2)$ line program to compute $EVAL_{S,n,m}$.^[The numbers $n$ and $m$ of inputs and outputs are always smaller than $s$.]
+
+
+
+
+
+
+### A NAND interpeter in "pseudocode"
+
+To prove [eff-bounded-univ](){.ref} it suffices  to give a NAND program of $O(s^2 \log s) \leq  O((s\log s)^2)$ lines that can evaluate NAND programs of $s$ lines.
+Let us start by thinking how we would evaluate such programs  if we weren't restricted to the NAND operations.
+That is, let us describe informally an _algorithm_ that on input $n,m,s$, a list of triples $L$, and a string $x\in \{0,1\}^n$, evaluates the program represented by $(n,m,L)$ on the string $x$.
+
+> # { .pause }
+It would be highly worthwhile for you to stop here and try to solve this problem yourself.
+For example, you can try thinking how you would write a program `NANDEVAL(n,m,s,L,x)` that compues this function in the programming language of your choice.
+
+Here is a description of such an algorithm:
+
+__Input:__ Numbers $n,m$ and a list $L$ of $s$ triples  of numbers in $[t]$ for some $t\leq 3s$, as well as a string $x\in \{0,1\}^n$.
+
+__Goal:__ Evaluate the program represented by $(n,m,L)$ on the input $x\in \{0,1\}^n$.
+
+__Operation:__
+
+1. We will create a _dictionary_ data structure `Vartable` that for every $i \in [t]$ stores a bit. We will assume we have the operations `GET(Vartable,i)` which restore the bit corresponding to `i`, and the operation `UPDATE(Vartable,i,b)` which update the bit corresponding to `i` with the value `b`. (More concretely, we will write this as `Vartable = UPDATE(Vartable,i,b)` to emphasize the fact that the state of the data structure changes, and to keep our convention of using functions free of "side effects".)
+
+2. We will initialize the table by setting the $i$-th value of `Vartable`  to $x_i$ for every $i\in [n]$.
+
+3. We will go over the list $L$ in order, and for every triple  $(i,j,k)$ in $L$, we let $a$ be `GET(Vartable,`$j$`)`, $b$ be `GET(Vartable`$k$`)`, and then set the value corresponding to $i$ to the NAND of $a$ and $b$. That is, let `Vartable = UPDATE(Vartable,`$i$,`NAND(`$a$`,`$b$`))`.
+
+4. Finally, we output the value `GET(Vartable,`$t-m+j$`)` for every $j\in [m]$.
+
+
+> # { .pause }
+Please make sure you understand this algorithm and why it does produce the right value.
+
+### A NAND interpreter in Python
+
+To make things more concrete, let us see how we implement the above algorithm in the _Python_ programming language.
+We will construct a function `NANDEVAL` that  on input $n,m,L,x$  will output the result of evaluating the program represented by $(n,m,L)$ on $x$.^[To keep things simple, we will not worry about the case that $L$ does not represent a valid program of $n$ inputs and $m$ outputs. Also, there is nothing special about Python. We could have easily presented a corresponding function in JavaScript, C, OCaml, or any other programming language.]
+(We will compute the value $s$ to be the size of $L$ and the value $t$ to be the maximum number appearing in $L$ plus one.)
+
+```python
+def NANDEVAL(n,m,L,X):
+    # Evaluate a NAND program from its list of triple representation.
+    s = len(L) # number of lines
+    t = max(max(a,b,c) for (a,b,c) in L)+1 # maximum index in L + 1
+
+    Vartable = [0] * t # we'll simply use an array to store data
+
+    def GET(V,i): return V[i]
+    def UPDATE(V,i,b):
+        V[i]=b
+        return V
+
+    # load input values to Vartable:
+    for i in range(n): Vartable = UPDATE(Vartable,i,X[i])
+
+    # Run the program
+    for (i,j,k) in L:
+        a = GET(Vartable,j)
+        b = GET(Vartable,k)
+        c = NAND(a,b)
+        Vartable = UPDATE(Vartable,i,c)
+
+    # Return outputs Vartable[t-m], Vartable[t-m+1],....,Vartable[t-1]
+    return [GET(Vartable,t-m+j) for j in range(m)]
+
+# Test on XOR (2 inputs, 1 output)
+L = ((2, 0, 1), (3, 0, 2), (4, 1, 2), (5, 3, 4))
+print(NANDEVAL(2,1,L,(0,1))) # XOR(0,1)
+# [1]
+print(NANDEVAL(2,1,L,(1,1))) # XOR(1,1)
+# [0]
+```
+
+
+Accessing an  element  of the array `Vartable` at a given index takes a constant number of basic operations.
+Hence (since $n,m \leq s$ and $t \leq 3s$),  the program above will use  $O(s)$ basic operations.^[Python does not distinguish between lists and arrays, but allows constant time random access to an indexed elements to both of them. One could argue that if we allowed programs of truly unbounded length (e.g., larger than $2^{64}$) then the price  would not be constant but logarithmic in the length of the array/lists, but the difference between $O(s)$ and $O(s \log s)$ will not be important for our discussions.]
+
+### A NAND interpreter in NAND
+
+We now turn to describing the proof of  [eff-bounded-univ](){.ref}.
 To do this, it is of course not enough to give a Python program.
-We need to __(a)__ give a precise representation of programs as binary strings, and __(b)__ show how we compute the $EVAL_{S,n,m}$ function on this representation by a NAND program.
-
-First, if a NAND program has $s$ lines, then since it can have at most $3s$ distinct variables, it can be represented by a string of size $S=3s\lambda$ where $\lambda = \lceil \log(3s) \rceil$, by simply concatenating the binary representations of all the $3s$ numbers (adding leading zeroes as needed to make each number represented by a string of exactly $\lambda$ bits).
-So, our job is to transform, for every $s,n,m$, the Python code above to a NAND program $U_{s,n,m}$ that  computes the function $EVAL_{S,n,m}$ for $S=3s\lambda$.
-That is, given any representation $r \in \{0,1\}^S$ of an $s$-line $n$-input $m$-output NAND program $P$, and string $w \in \{0,1\}^n$, $U_{s,n,m}(rw)$ outputs $P(w)$.
+Rather, we need to show  how we compute the $EVAL'_{s,n,m}$ function of [evalprimeeq](){.eqref} by a NAND program.
+In other words, our job is to transform, for every $s,n,m$, the Python code above to a NAND program $U_{s,n,m}$ that  computes the function $EVAL'_{s,n,m}$.
 
 > # { .pause }
 Before reading further, try to think how _you_ could give a "constructive proof" of [eff-bounded-univ](){.ref}.
 That is, think of how you would write, in the programming language of your choice, a function `universal(s,n,m)` that on input $s,n,m$ outputs the code for the NAND program $U_{s,n,m}$ such that $U_{s,n,m}$ computes $EVAL_{S,n,m}$.
-Note that there is a subtle but crucial difference between this function and the Python `EVAL` program described above.
-Rather than actually evaluating a given program $P$ on some input $w$, the function `universal` should output the _code_ of a NAND program that computes the map $(P,w) \mapsto P(w)$.
+Note that there is a subtle but crucial difference between this function and the Python `NANDEVAL` program described above.
+Rather than actually evaluating a given program $P$ on some input $w$, the function `universal` should output the _code_ of a NAND program that computes the map $(P,x) \mapsto P(x)$.
 
-Let $n,m,s \in \N$ be some numbers satisfying $s \geq n$ and $s \geq m$.
-We now describe the NAND program $U_{n,m,s}$ that computes $EVAL_{S,n,m}$ for $S = 3s\lambda$ and $\lambda = \lceil \log(3s) \rceil$.
-Our construction will follow very closely the Python implementation of `EVAL` above:^[We allow ourselves use of syntactic sugar in describing the program. We can always "unsweeten" the program later.]
+Our construction will follow very closely the Python implementation of `EVAL` above.
+We will use variables `Vartable[`$0$`]`,$\ldots$,`Vartable[`$2^\ell-1$`]`, where $\ell = \ceil{\log 3s}$ to store our variables.
+However, NAND doesn't have integer-valued variables, so we cannot write code such as
+`Vartable[i]` for some variable `i`.
+However, we _can_ implement the function `GET(Vartable,i)` that outputs the `i`-th bit of the array `Vartable`.
+Indeed, this is nothing by the function `LOOKUP` that we have seen in [lookup-thm](){.ref}!
 
-1. $U_{s,n,m}$ will contain variables `avars_0`,$\ldots$,`avars_`$\expr{2^\lambda-1}$. (This corresponds to the line `avars = [0]*t` in the Python function `EVAL`.)
+> # { .pause }
+Please make sure that you understand why `GET` and `LOOKUP` are the same function.
 
-2. For $i=0,\ldots,n-1$, we add the line `avars_`$\expr{i}$ ` :=  x_`$\expr{3s\lambda+i}$ to $U_{s,n,m}$. Recall that the input to $EVAL_{S,n,m}$ is a string $rw \in \{0,1\}^{3s\lambda + n}$ where $r\in \{0,1\}^{3s\lambda}$ is the representation of the program $P$ and $w\in \{0,1\}^n$ is the input that the program should be applied on. Hence this step copies the input to the variables `avars_0`,$\ldots$,`avars_`$\expr{n-1}$. (This corresponds to the line `avars[:n] = x` in `EVAL`.)
+We saw that we can compute `LOOKUP` on arrays of size $2^\ell$ in time $O(2^\ell)$, which will be $O(s)$ for our choice of $\ell$.
 
-3. For $\ell=0,\ldots,s-1$  we add the following code to $U_{s,n,m}$:
+To compute the `update` function on input `V`,`i`,`b`, we need to scan the array `V`, and for  $j \in [2^\ell]$, have our $j$-th output be `V[`$j$`]` unless $j$ is equal to `i`, in which case the $j$-th output is `b`.
+We can do this as follows:
 
-    a. For all $j\in [\lambda]$, add the code `a_`$\expr{j}$ ` := ` `x_`$\expr{3\ell\lambda+j}$, `b_`$\expr{j}$ ` := ` `x_`$\expr{3\ell\lambda+\lambda+j}$ and `c_`$\expr{j}$ ` := ` `x_`$\expr{3\ell\lambda+2\lambda+j}$.
-    In other words, we add the code to copy to `a`, `b`, `c` the three $\lambda$-bit long strings containing the binary representation  the $\ell$-th triple  $(a,b,c)$ in the input program. (This corresponds to the line `for (a,b,c) in L:` in `EVAL`.)
+1. For every $j\in [2^\ell]$, there is an $O(\ell)$ line NAND program to compute the function $EQ_j: \{0,1\}^\ell \rightarrow \{0,1\}$ that on input $i$ outputs $1$ if and only if $i$ is equal to (the binary representation of) $j$. (We leave verifying this as [equals](){.ref} and [equalstwo](){.ref}.)
 
-    b. Add the code `u := LOOKUP(avars_0` ,$\ldots$, `avars_`$\expr{2^\lambda-1}$,`b_0`,$\ldots$,`b_`$\expr{\lambda-1}$`)` and `v := LOOKUP(avars_0` , $\ldots$,`avars_`$\expr{2^\lambda-1}$,`c_0`,$\ldots$,`c_`$\expr{\lambda-1}$`)` where `LOOKUP` is the macro that computes $LOOKUP_\lambda:\{0,1\}^{2^\lambda+\lambda}\rightarrow \{0,1\}$. Recall that we defined $LOOKUP_\lambda(A,i)=A_i$ for every $A\in \{0,1\}^{2^\lambda}$ and $i\in \{0,1\}^\lambda$ (using the binary representation to identify  $i$ with an index in $[2^\lambda]$).  Hence this code means that `u` gets the value of `avars_`$\expr{b}$ and `v` gets the value of `avars_`$\expr{c}$. (This corresponds to the lines `u = avars[b]` and `v = avars[c]` in `EVAL`.)
+2. We have seen that we can compute the function $IF:\{0,1\}^3 \rightarrow \{0,1\}$ such that $IF(a,b,c)$ equals $b$ if $a=1$ and $c$ if $a=0$.
 
-    c. Add the code `val := u NAND v` (i.e., `w` gets the value that should be stored in `avars_`$\expr{a}$). (This corresponds to the line `val = 1-u*v` in `EVAL`.)
+Together, this means that we can compute `UPDATE` as follows:
 
-    c. Add the code `newvars_0`,$\ldots$,`newvars_`$\expr{2^\lambda-1}$ ` := UPDATE(avars_0`,$\ldots$,`avars_`$\expr{2^\lambda-1}$`,` `a_0`,$\ldots$,`a_`$\expr{\lambda-1}$,`val``)`, where `UPDATE` is a macro that computes the function $UPDATE_\lambda:\{0,1\}^{2^\lambda +\lambda +1} \rightarrow \{0,1\}^{2^\lambda}$ defined as follows: for every $A \in \{0,1\}^{2^\lambda}$, $i\in \{0,1\}^\lambda$ and $v\in \{0,1\}$, $UPDATE_\lambda(A,i,v)=A'$ such that $A'_j = A_j$ for all $j \neq i$ and $A'_i = v$ (identifying $i$ with an index in $[2^\lambda]$). See below for discussions on how to implement `UPDATE` and other macros.
+```python
+def UPDATE(V,i,b):
+    # update a 2**ell length array at location i to the value b
+    for j in range(2**ell):
+        a = EQUALS(j,i)
+        Y[j] = IF(a,b,V[j])
 
-    d. Add the code `avars_`$\expr{j}$ ` := ` `newvars_`$\expr{j}$ for every $j \in [2^\lambda]$ (i.e., update `avars` to  `newvars`). (Steps 3.c and 3.d together  correspond to the line `avars[a] = val` in `EVAL`.)
+    return Y
+```
 
-
-4. After adding all the $s$ snippets above in Step 3,  we add to the program the code `t_0`,$\ldots$,`t_`$\expr{\lambda-1}$ `:= INC(MAX(avars_0`,$\ldots$,`avars_`$2^\lambda$`))`  where `MAX` is a macro that computes the function $MAX_{2^\lambda,\lambda}$ and we define  $MAX_{s,\lambda}:\{0,1\}^{s\lambda} \rightarrow \{0,1\}^\lambda$ to take the concatenation of the representation of $s$ numbers in $[2^\lambda]$ and output the representation of the maximum number, and `INC` is a macro that computes the function $INC_\lambda$ that increments a given number in $[2^\lambda]$ by one. (This corresponds to the line `t = max([max(triple) for triple in L])+1` in `EVAL`.) We leave coming up with NAND programs for computing $MAX_{s,\lambda}$ and $INC_\lambda$ as an exercise for the reader.
-
-5. Finally we add for every $j\in [m]$:
-
-    a.  The code  `idx_0`,$\ldots$,`idx_`$\expr{\lambda-1}$ `:= ` `SUBTRACT(t_0,`$\ldots$,`t_`$\expr{\lambda}$,$z_0$,\ldots,$z_{\lambda-1}$) where `SUBTRACT` is the code for subtracting two numbers in $[2^\lambda]$ given in their binary representation, and each $z_h$ is equal to either `zero` or `one` depending on the $h$-th digit in the binary representation of the number $m-j$.
-
-    b. `y_`$\expr{j}$ ` := LOOKUP(` `avars_0`,$\ldots$, `avars_`$\expr{2^\lambda-1}$, `idx_0`,$\ldots$, `idx_`$\expr{\lambda-1}$ `)`. (Steps 5.a and 5.b together correspond to the line `return avars[t-m:]` in `EVAL`.)
-
-
-To complete the description of this program, we need to show that we can implement the macros for `LOOKUP`,`UPDATE`,`MAX`,`INC` and `SUBTRACT`:
-
-* We have already seen the implementation of `LOOKUP`
-
-* We leave the implementation of the arithmetic macros `MAX`, `INC`, and `SUBTRACT` as exercises for the reader. All of those can be done using a number of lines that is linear in the size of their input. That is  $MAX_{s,\lambda}$ can be computed in $O(s \lambda)$ lines, and $INC_\lambda$ and $SUBTRACT_\lambda$ can be computed in $O(\lambda)$ lines.
-
-* For implementing the function `UPDATE`, note that for every indices $i$, $UPDATE_\lambda(A,i,v)_j=A_j$ unless $j=i$ in which case $UPDATE_\lambda(A,i,v)_i = v$. Since we can use the syntactic sugar for `if` statements,  computing $UPDATE$ boils down to the function  $EQUAL_\lambda:\{0,1\}^{2\lambda} \rightarrow \{0,1\}$ such that $EQUAL_\lambda(i_0,\ldots,i_{\lambda-1},j_0,\ldots,j_{\lambda-1})=1$ if and only if $i_k=j_k$ for every $k\in [\lambda]$.
-$EQUAL_\lambda$ is equivalent to the AND of $\lambda$ invocations of  the function $EQUAL_1:\{0,1\}^2 \rightarrow \{0,1\}$ that checks if two bits are equal. Since each $EQUAL_1$ (as a function on two inputs) can be computed in a constant number of lines, we can compute  $EQUAL_\lambda$ using $O(\lambda)$ lines.
-
-The total number of lines  in $U_{s,n,m}$ is dominated by the cost of step 3 above,^[It is a good exercise to verify that steps 1,2,4 and 5 above can be implemented in $O(s \log s)$ lines.] where we repeat $s$ times the following:
-
-a.  Copying the $\ell$-th triple to the variables `a`,`b`,`c`. Cost: $O(\lambda)$ lines.
-
-b.  Perform `LOOKUP` on a $2^\lambda=O(s)$ variables `avars_0`,$\ldots$, `avars_`$\expr{2^\lambda-1}$. Cost: $O(2^\lambda)=O(s)$ lines.
-
-c. Perform the `UPDATE` to update the $2^\lambda$ variables `avar_0`,$\ldots$, `avars_`$\expr{2^\lambda-1}$ to `newvars_0`,$\ldots$, `newvars_`$\expr{2^\lambda-1}$. Since `UPDATE` makes $O(2^\lambda)$ calls to $EQUAL_\lambda$, and each such call costs $O(\lambda)$ lines, the total cost for $UPDATE$ is $O(2^\lambda \lambda) = O(s \log s)$ lines.
-
-d. Copy `newvars_0`,$\ldots$, `newvars_`$\expr{2^\lambda-1}$ to `avar_0`,$\ldots$, `avars_`$\expr{2^\lambda-1}$. Cost: $O(2^\lambda)$ lines.
+Once we can compute `GET` and `UPDATE`, the rest of the implementation amounts to "book keeping" that needs to be done carefully, but is not too insightful.
+Hence we omit these details from this chapter.
+See the appendix for the full details of how to compute the universal NAND evaluator in NAND.
 
 
-Since the loop of step 3 is repeated $s$ times, the total number of lines in $U_{s,n,m}$ is $O(s^2 \log s)$ which (since $S=\Omega(s \log s)$)  is $O(S^2)$.^[The website [http://nandpl.org](http://nandpl.org) will (hopefully) eventually contain the  implementation of the  NAND program $U_{s,n,m}$ where you can also play with it by feeding it various other programs as inputs.]
+
+> # {.remark title="Improving to quasilinear overhead (advanced optional note)" #quasilinearevalrem}
 The NAND program above is less efficient that its Python counterpart, since NAND does not offer arrays with efficient random access. Hence for example the `LOOKUP` operation on an array of $s$ bits takes $\Omega(s)$ lines in NAND even though it takes $O(1)$ steps (or maybe $O(\log s)$ steps, depending how we count) in _Python_.
-We might see in a future lecture how to improve this to $O(s \log s)$.
+>
+It turns out that it is  possible to improve the bound of [eff-bounded-univ](){.ref}, and  evaluate $s$ line NAND programs using a NAND program of  $O(s \log s)$ lines.
+The key is to consider the description of NAND programs as circuits, and in particular as directed acyclic graphs (DAGs) of bounded in degree.
+A universal NAND program $U_s$ for $s$ line programs  will correspond to a _universal graph_ $H_s$ for such $s$ vertex DAGs.
+We can think of such as graph $U_s$ as fixed "wiring" for communication network, that should be able to accommodate any arbitrary pattern of communication between $s$ vertices (where this pattern corresponds to an $s$ line NAND program).
+It turns out that there exist such efficient [routing networks](https://goo.gl/NnkkjM) exist  that allow embedding any $s$ vertex circuit inside a universal graph of size $O(s \log s)$, see [this recent paper](https://eprint.iacr.org/2016/017) for more on this issue.
 
 
 
@@ -268,6 +353,8 @@ $$|Size(s)| \leq 2^{O(s \log s)}.$$
 That is, there are at most $2^{O(s\log s)}$ functions computed by  NAND programs of at most $s$ lines.
 
 Moreover, the implicit constant in the $O(\cdot)$ notation in [program-count](){.ref} is at most $10$.^[By this we mean that for all sufficiently large $s$, $|Size(s)|\leq 2^{10s\log s}$.]
+
+> # {.proofidea data-ref="program-count"}
 The idea behind the proof is that we can represent every $s$ line program by a binary string of  $O(s \log s)$ bits.
 Therefore the  number of functions  computed by $s$-line programs cannot be larger than the number of such strings, which is $2^{O(s \log s)}$.
 In the actual proof, given below, we  count the number of representations a little more carefully, talking directly about triples rather than binary strings, although the idea remains the same.
@@ -441,7 +528,12 @@ c. There is an $O(\sqrt{s})$ line NAND program that given as input program $P$ o
 
 
 > # {.exercise title="Equals function" #equals}
-For every $k$, show that there is an $O(k)$ line NAND program that computes the function $EQUALS_k:\{0,1\}^{2k} \rightarrow \{0,1\}$ where $EQUALS(x,x')=1$ if and only if $x=x'$.
+For every $k \in \N$, show that there is an $O(k)$ line NAND program that computes the function $EQUALS_k:\{0,1\}^{2k} \rightarrow \{0,1\}$ where $EQUALS(x,x')=1$ if and only if $x=x'$.
+
+> # {.exercise title="Equals to constant function" #equalstwo}
+For every $k \in \N$ and $x' \in \{0,1\}^k$, show that there is an $O(k)$ line NAND program that computes the function $EQUALS_{x'} : \{0,1\}^k \rightarrow \{0,1\}$ that on input $x\in \{0,1\}^k$ outputs $1$ if and only if $x=x'$.
+
+
 
 
 > # {.exercise title="Random functions are hard (challenge)" #rand-lb-id}
