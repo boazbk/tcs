@@ -9,6 +9,7 @@
 
 
 
+
 >_"The term code script is, of course, too narrow. The chromosomal structures are at the same time instrumental in bringing about the development they foreshadow. They are law-code and executive power - or, to use another simile, they are architect’s plan and builder’s craft - in one."_ ,  Erwin Schrödinger, 1944.
 
 >_"The importance of the universal machine is clear. We do not need to have an infinity of different machines doing different jobs. ... The engineering problem of producing various machines for various jobs is replaced by the office work of 'programming' the universal machine"_, Alan Turing, 1948
@@ -346,12 +347,6 @@ The importance of this phenomena to both the theory and practice of computing, a
 ## Counting programs, and lower bounds on the size of NAND programs
 
 One of the consequences of our representation is the following:
-
-
-:::  {.theorem title="Counting programs" #program-count}
-$$|Size(s)| \leq 2^{O(s \log s)}.$$
-That is, there are at most $2^{O(s\log s)}$ functions computed by  NAND programs of at most $s$ lines.
-:::
 
 
 > # {.theorem title="Counting programs" #program-count}
