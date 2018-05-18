@@ -275,7 +275,7 @@ We saw that we can compute `LOOKUP` on arrays of size $2^\ell$ in time $O(2^\ell
 To compute the `update` function on input `V`,`i`,`b`, we need to scan the array `V`, and for  $j \in [2^\ell]$, have our $j$-th output be `V[`$j$`]` unless $j$ is equal to `i`, in which case the $j$-th output is `b`.
 We can do this as follows:
 
-1. For every $j\in [2^\ell]$, there is an $O(\ell)$ line NAND program to compute the function $EQ_j: \{0,1\}^\ell \rightarrow \{0,1\}$ that on input $i$ outputs $1$ if and only if $i$ is equal to (the binary representation of) $j$. (We leave verifying this as [equals](){.ref} and [equalstwo](){.ref}.)
+1. For every $j\in [2^\ell]$, there is an $O(\ell)$ line NAND program to compute the function $EQUALS_j: \{0,1\}^\ell \rightarrow \{0,1\}$ that on input $i$ outputs $1$ if and only if $i$ is equal to (the binary representation of) $j$. (We leave verifying this as [equals](){.ref} and [equalstwo](){.ref}.)
 
 2. We have seen that we can compute the function $IF:\{0,1\}^3 \rightarrow \{0,1\}$ such that $IF(a,b,c)$ equals $b$ if $a=1$ and $c$ if $a=0$.
 
@@ -284,11 +284,9 @@ Together, this means that we can compute `UPDATE` as follows:
 ```python
 def UPDATE(V,i,b):
     # update a 2**ell length array at location i to the value b
-
     for j in range(2**ell):
-        a = EQUALS(j,i)
+        a = EQUALS_j(i)
         Y[j] = IF(a,b,V[j])
-
     return Y
 ```
 
@@ -310,7 +308,7 @@ It turns out that there exist such efficient [routing networks](https://goo.gl/N
 
 
 
-##  A Python interpreter in NAND
+##  A Python interpreter in NAND (discussion)
 
 To prove [eff-bounded-univ](){.ref} we essentially translated every line of the Python program for `EVAL` into an equivalent NAND snippet.
 It turns out that none of our reasoning  was specific to the  particular function $EVAL$.
@@ -414,7 +412,7 @@ Using this representation we can reduce the implicit constant in [program-count]
 
 
 
-## The physical extended Church-Turing thesis
+## The physical extended Church-Turing thesis (discussion)
 
 We've seen that  NAND gates can be implemented using very different systems in the physical world.
 What about the reverse direction?
