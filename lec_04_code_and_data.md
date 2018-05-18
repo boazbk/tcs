@@ -51,15 +51,15 @@ $EVAL$ takes strings arbitrarily of length, and hence cannot be computed by a NA
 However, one of the most interesting consequences of the fact that we can represent programs as strings is the following theorem:
 
 > # {.theorem title="Bounded Universality of NAND programs" #bounded-univ}
-For every $S,n,m \in \N$ there is a NAND program that computes the  function
+For every $s,n,m \in \N$ there is a NAND program that computes the  function
 $$
-EVAL_{S,n,m}:\{0,1\}^{S+n} \rightarrow \{0,1\}^m
+EVAL_{s,n,m}:\{0,1\}^{S+n} \rightarrow \{0,1\}^m
 $$
-defined as follows: For every string $(P,x)$ where $P \in \{0,1\}^S$ and $x\in\{0,1\}^n$, if $P$ describes a NAND program with $n$ input bits and $m$ outputs bits, then   $EVAL_{S,n,m}(P,x)$ is the output of this program on input $x$.^[If $P$ does not describe a program then we don't care what $EVAL_{S,n,m}(P,x)$ is, but for concreteness we will set it to be $0^m$. Note that in this theorem's statement we use $S$ to denote the number of bits describing the program, rather than the number of lines in it. However, these two quantities are very closely related.]
+defined as follows. We let $S$ be the number of bits that are needed to represents programs of $s$ lines. For every string $(P,x)$ where $P \in \{0,1\}^S$ and $x\in\{0,1\}^n$, if $P$ describes an $s$ line NAND program with $n$ input bits and $m$ outputs bits, then   $EVAL_{s,n,m}(P,x)$ is the output of this program on input $x$.^[If $P$ does not describe a program then we don't care what $EVAL_{s,n,m}(P,x)$ is. For concreteness you can think of the value as  $0^m$.]
 
 
-Of course to fully specify $EVAL_{S,n,m}$, we need to fix a precise representation scheme  for NAND programs as binary strings.
-We can simply use the ASCII representation, though  we will use a  more convenient representation.
+Of course to fully specify $EVAL_{s,n,m}$, we need to fix a precise representation scheme  for NAND programs as binary strings.
+We can simply use the ASCII representation, though  below we will choose a  more convenient representation.
 But regardless of the choice of representation,
 [bounded-univ](){.ref} is an immediate corollary of [NAND-univ-thm](){.ref}, which states that _every_ finite function, and so in particular the function $EVAL_{S,n,m}$ above, can be computed by _some_ NAND program.
 
@@ -68,7 +68,7 @@ Once again, [bounded-univ](){.ref}  is subtle but important. Make sure you under
 
 [bounded-univ](){.ref} can be thought of as providing  a "NAND interpreter in NAND".
 That is, for a particular size bound, we give a _single_ NAND program that can evaluate all NAND programs of that size.
-We call this  NAND program $U$ that computes $EVAL_{S,n,m}$ a _bounded universal program_.
+We call this  NAND program $U$ that computes $EVAL_{s,n,m}$ a _bounded universal program_.
 "Universal" stands for the fact that this is a _single program_ that can evaluate _arbitrary_ code,  where "bounded" stands for the fact that  $U$ only evaluates programs of bounded size.
 Of course this limitation is inherent for the NAND programming language where an $N$-line program can never compute a function with more than $N$ inputs.
 (We will later on introduce the concept of _loops_, that  allows  to escape this limitation.)
@@ -77,17 +77,17 @@ Of course this limitation is inherent for the NAND programming language where an
 It turns out that we don't even need to pay that much of an overhead for universality
 
 > # {.theorem title="Efficient bounded universality of NAND programs" #eff-bounded-univ}
-For every $S,n,m \in \N$ there is a NAND program of at most $O(S^2)$ lines that computes the  function
+For every $s,n,m \in \N$ there is a NAND program of at most $O(s^2 \log s)$ lines that computes the  function
 $EVAL_{S,n,m}:\{0,1\}^{S+n} \rightarrow \{0,1\}^m$ defined above.
 
 Unlike [bounded-univ](){.ref}, [eff-bounded-univ](){.ref} is not a trivial corollary of the fact that every function can be computed, and  takes much more effort to prove.
-It requires us to present a concrete NAND program for the $EVAL_{S,n,m}$ function.
+It requires us to present a concrete NAND program for the $EVAL_{s,n,m}$ function.
 We will do so in several stages.
 
 1. First, we will spell out precisely how to  represent NAND programs as strings.
 We can prove  [eff-bounded-univ](){.ref}  using the ASCII representation, but a "cleaner" representation will be more convenient for us.
 
-2. Then, we will show how we can write a  program to compute $EVAL_{S,n,m}$ in _Python_.^[We will not use much about Python, and a reader that has familiarity with programming in any language should be able to follow along.]
+2. Then, we will show how we can write a  program to compute $EVAL_{s,n,m}$ in _Python_.^[We will not use much about Python, and a reader that has familiarity with programming in any language should be able to follow along.]
 
 3. Finally, we will show how we can transform this Python program into a NAND program.
 
@@ -156,18 +156,8 @@ To obtain a representation that we can use as input to a NAND program, we need t
 Here there are many different choices, but let us fix one of them.
 If the list $L$ has $s$ triples in it, we will represent it as simply the string $str(L)$ which will be the concatenation of the $3s$ numbers in the binary basis, which can be encoded as a string of length $3s\ell$ where $\ell = \ceil{\log 3s}$ is a number of bits that is guaranteed to be sufficient to  represent numbers in $[t]$ (since $t \leq 3s$).
 We will represent the program $(n,m,L)$ as the string $\expr{n}\expr{m}\expr{s}str(L)$ where $\expr{n}$  and $\expr{m}$ are some  prefix free representations of $n$,  $m$ and $s$ (see [prefixfreesec](){.ref}).
-
-In the context of computing $EVAL_{S,n,m}$ the number of lines, inputs, and outputs, is fixed, and so we can drop $n,m,s$ and simply think of it as a function that maps $\{0,1\}^{3s\ell + n}$ to $\{0,1\}^m$, where $\ell  = \ceil{\log 3s}$, and $s$ is the number of lines in programs whose representation has length $S$.
-Note that $S = \Theta(s \log s)$.
-
-Since the number $s$ of lines is easier to keep track of than the number of bits of representation, from now on we will consider the function $EVAL'_{s,n,m}:\{0,1\}^{3s\ceil{\log 3s}+n} \rightarrow \{0,1\}^m$
-such that
-$$EVAL'_{s,n,m}(str(L)x) = P(x) \label{evalprimeeq}
-$$
-where $P$ is the program represented by $(n,m,L)$.
-That is $EVAL'_{s,n,m}$  maps the string $str(L)$ representing an $s$ line program $P$ on $n$ input and $m$ outputs, and the string $x\in \{0,1\}^n$, to the output $P(x)$.
-To prove  [eff-bounded-univ](){.ref} we need to
-show an $O((s \log s)^2)$ line NAND program to compute $EVAL'_{s,n,m}$, which would correspond to an $O(S^2)$ line program to compute $EVAL_{S,n,m}$.^[The numbers $n$ and $m$ of inputs and outputs are always smaller than $s$.]
+Hence an $s$ line program will be represented by a string of length $O(s \log s)$.
+In the context of computing $EVAL_{s,n,m}$ the number of lines, inputs, and outputs, is fixed, and so we can drop $n,m,s$ and simply think of it as a function that maps $\{0,1\}^{3s\ell + n}$ to $\{0,1\}^m$, where $\ell  = \ceil{\log 3s}$.
 
 
 
@@ -182,7 +172,7 @@ That is, let us describe informally an _algorithm_ that on input $n,m,s$, a list
 
 > # { .pause }
 It would be highly worthwhile for you to stop here and try to solve this problem yourself.
-For example, you can try thinking how you would write a program `NANDEVAL(n,m,s,L,x)` that compues this function in the programming language of your choice.
+For example, you can try thinking how you would write a program `NANDEVAL(n,m,s,L,x)` that computes this function in the programming language of your choice.
 
 Here is a description of such an algorithm:
 
@@ -252,12 +242,12 @@ Hence (since $n,m \leq s$ and $t \leq 3s$),  the program above will use  $O(s)$ 
 
 We now turn to describing the proof of  [eff-bounded-univ](){.ref}.
 To do this, it is of course not enough to give a Python program.
-Rather, we need to show  how we compute the $EVAL'_{s,n,m}$ function of [evalprimeeq](){.eqref} by a NAND program.
-In other words, our job is to transform, for every $s,n,m$, the Python code above to a NAND program $U_{s,n,m}$ that  computes the function $EVAL'_{s,n,m}$.
+Rather, we need to show  how we compute the function  $EVAL_{s,n,m}$  by a NAND program.
+In other words, our job is to transform, for every $s,n,m$, the Python code above to a NAND program $U_{s,n,m}$ that  computes the function $EVAL_{s,n,m}$.
 
 > # { .pause }
 Before reading further, try to think how _you_ could give a "constructive proof" of [eff-bounded-univ](){.ref}.
-That is, think of how you would write, in the programming language of your choice, a function `universal(s,n,m)` that on input $s,n,m$ outputs the code for the NAND program $U_{s,n,m}$ such that $U_{s,n,m}$ computes $EVAL_{S,n,m}$.
+That is, think of how you would write, in the programming language of your choice, a function `universal(s,n,m)` that on input $s,n,m$ outputs the code for the NAND program $U_{s,n,m}$ such that $U_{s,n,m}$ computes $EVAL_{s,n,m}$.
 Note that there is a subtle but crucial difference between this function and the Python `NANDEVAL` program described above.
 Rather than actually evaluating a given program $P$ on some input $w$, the function `universal` should output the _code_ of a NAND program that computes the map $(P,x) \mapsto P(x)$.
 
@@ -285,16 +275,19 @@ Together, this means that we can compute `UPDATE` as follows:
 ```python
 def UPDATE(V,i,b):
     # update a 2**ell length array at location i to the value b
-    for j in range(2**ell):
+    for j in range(2**ell): # j = 0,1,2,....,2^ell -1
         a = EQUALS_j(i)
         Y[j] = IF(a,b,V[j])
     return Y
 ```
 
+
 Once we can compute `GET` and `UPDATE`, the rest of the implementation amounts to "book keeping" that needs to be done carefully, but is not too insightful.
 Hence we omit these details from this chapter.
 See the appendix for the full details of how to compute the universal NAND evaluator in NAND.
 
+
+Since the loop over `j` in `UPDATE` is run $2^\ell$ times, and computing `EQUALS_j` takes $O(\ell)$ lines, the total number of lines to compute `UPDATE` is $O(2^\ell \cdot \ell) = O(s \log s)$. Since we run this function $s$ times, the total number of lines for computing $EVAL_{s,n,m}$ is $O(s^2 \log s)$.
 
 
 > # {.remark title="Improving to quasilinear overhead (advanced optional note)" #quasilinearevalrem}
