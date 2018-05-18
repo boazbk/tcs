@@ -154,7 +154,7 @@ Note that this representation loses information such as the particular names we 
 To obtain a representation that we can use as input to a NAND program, we need to take a step further and map the triple $(n,m,L)$ to a binary string.
 Here there are many different choices, but let us fix one of them.
 If the list $L$ has $s$ triples in it, we will represent it as simply the string $str(L)$ which will be the concatenation of the $3s$ numbers in the binary basis, which can be encoded as a string of length $3s\ell$ where $\ell = \ceil{\log 3s}$ is a number of bits that is guaranteed to be sufficient to  represent numbers in $[t]$ (since $t \leq 3s$).
-We will represent the program $(n,m,L)$ as the string $\repres{n}\repres{m}\repres{s}str(L)$ where $\repres{n}$  and $\repres{m}$ are some  prefix free representations of $n$,  $m$ and $s$ (see [prefixfreesec](){.ref}).
+We will represent the program $(n,m,L)$ as the string $\expr{n}\expr{m}\expr{s}str(L)$ where $\expr{n}$  and $\expr{m}$ are some  prefix free representations of $n$,  $m$ and $s$ (see [prefixfreesec](){.ref}).
 
 In the context of computing $EVAL_{S,n,m}$ the number of lines, inputs, and outputs, is fixed, and so we can drop $n,m,s$ and simply think of it as a function that maps $\{0,1\}^{3s\ell + n}$ to $\{0,1\}^m$, where $\ell  = \ceil{\log 3s}$, and $s$ is the number of lines in programs whose representation has length $S$.
 Note that $S = \Theta(s \log s)$.
@@ -284,6 +284,7 @@ Together, this means that we can compute `UPDATE` as follows:
 ```python
 def UPDATE(V,i,b):
     # update a 2**ell length array at location i to the value b
+
     for j in range(2**ell):
         a = EQUALS(j,i)
         Y[j] = IF(a,b,V[j])
