@@ -347,6 +347,13 @@ The importance of this phenomena to both the theory and practice of computing, a
 
 One of the consequences of our representation is the following:
 
+
+:::  {.theorem title="Counting programs" #program-count}
+$$|Size(s)| \leq 2^{O(s \log s)}.$$
+That is, there are at most $2^{O(s\log s)}$ functions computed by  NAND programs of at most $s$ lines.
+:::
+
+
 > # {.theorem title="Counting programs" #program-count}
 $$|Size(s)| \leq 2^{O(s \log s)}.$$
 That is, there are at most $2^{O(s\log s)}$ functions computed by  NAND programs of at most $s$ lines.
