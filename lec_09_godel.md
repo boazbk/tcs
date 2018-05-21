@@ -169,7 +169,7 @@ At a high level, the crucial insight  is that unlike when we actually run the co
 Informally, an execution trace of a program $P$ on an input $x$ is a string that represents a "log" of all the lines executed and variables assigned in the course of the execution.
 For example, if we execute on [nandpl.org](http://www.nandpl.org) the parity program
 
-~~~~ { .go .numberLines }
+```python
 tmp_1  := seen_i NAND seen_i
 tmp_2  := x_i NAND tmp_1
 val   :=  tmp_2 NAND tmp_2
@@ -182,7 +182,7 @@ s    := v   NAND w
 seen_i := zero NAND zero  
 stop := validx_i NAND validx_i
 loop := stop     NAND stop
-~~~~
+```
 
 
 on the input `01`, the trace will be the following  text (truncated here, since it is not the most riveting of reading material):
@@ -424,11 +424,11 @@ Give the following quantified integer expressions: \
 1. $MOD(a,b,c)$ which is true if and only if $c = a \mod c$. Note if a program has $s$ lines then  the line executed at step $t$ is equal to $t \mod s$. \
 2. Suppose that $P$ is the  three line NAND program listed below.  Give a quantified integer statement $LAST(n,t,t')$  such that $LAST(t,t')$ is true if and only if $t'-n$ is the largest step smaller than $t-n$ in which the variable on the righthand side of the line executed at step $t-n$ is written to. If this variable is an input variable `x_i` then let $LAST(n,t,t')$ to be true if the current index location equals $t'$ and $t'<n$.
 
-~~~~ { .pascal }
+```python
 y_0    := foo_i  NAND foo_i
 foo_i  := x_i NAND x_i
 loop := validx_i NAND validx_i
-~~~~
+```
 
 
 > # {.exercise title="axiomatic proof systems" #godelthemex}

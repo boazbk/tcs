@@ -294,7 +294,7 @@ There is an $O(n)$-time NAND<< program $COMPILE$ such that on input a NAND++ pro
 The program $COMPILE$ of [nand-compiler](){.ref} is fairly easy to implement.
 In particular this is done by the following very simple python function
 
-~~~~ { .python }
+```python
 #Input:  Source code of a NAND++ program P,
 #        time bound T, input length n
 #Output: n-input NAND program of T|P| lines
@@ -318,7 +318,7 @@ zero := one NAND one'''
 def index(t):
     r = math.floor(math.sqrt(t+1/4)-1/2)
     return (t-r*(r+1) if t <= (r+1)*(r+1) else (r+1)*(r+2)-t)
-~~~~
+```
 
 Since NAND<< programs can be simulated by NAND++ programs with polynomial overhead, we see that we can simulate a $T(n)$ time NAND<< program on length $n$ inputs with a $poly(T(n))$ size NAND program.
 

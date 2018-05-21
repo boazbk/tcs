@@ -31,12 +31,13 @@ Moreover, NAND<< will be useful for us later in the course when we will turn to 
 
 We now  define a seemingly more powerful programming language than NAND++: NAND<< (pronounced _"NAND shift"_).
 NAND<< has some  additional operators, but as we will see, it can ultimately be implemented by applying certain "syntactic sugar" constructs on top of NAND++.
-Nonetheless, NAND<<  will still serve (especially later in the course) as a useful computational model.^[If you have encountered computability or computational complexity before, we can already "let you in on the secret". NAND++ is equivalent to the model known as _single tape oblivious Turing machines_, while NAND<< is (essentially) equivalent to the model known as _RAM machines_. For the purposes of the current lecture, the NAND++/Turing-Machine model is  indistinguishable from the NAND<</RAM-Machine model (due to a notion known as "Turing completeness") but the difference between them can matter if one is interested in a fine enough resolution of computational efficiency.]
+Nonetheless, NAND<<  will still serve (especially later in the course) as a useful computational model.^[If you have encountered computability or computational complexity before, we can already "let you in on the secret". NAND++ is equivalent to the model known as _single tape oblivious Turing machines_, while NAND<< is (essentially) equivalent to the model known as _RAM machines_. For the purposes of the current lecture, the NAND++ / Turing-Machine model is  indistinguishable from the NAND<< /  RAM-Machine model (due to a notion known as "Turing completeness") but the difference between them can matter if one is interested in a fine enough resolution of computational efficiency.]
+
 There are two key differences between NAND<< and NAND:
 
 1. The NAND<< programming language works with _integer valued_ as opposed to _binary_ variables.
 
-2. NAND<< allows _indirection_ in the sense of accessing the `bar`-th location of an array `foo`. Specifically, since we use _integer valued_ variables, we can assign the value of `bar` to the special index `i` and then use `foo_i`.  
+2. NAND<< allows _indirection_ in the sense of accessing the `bar`-th location of an array `foo`. Specifically, since we use _integer valued_ variables, we can assign the value of `bar` to the special index `i` and then use `foo_i`.
 
 We will allow the following operations on variables:^[Below `foo`, `bar` and `baz` are indexed or non-indexed variable identifiers (e.g., they can have the form `blah` or `blah_12` or `blah_i`), as usual, we identify an indexed identifier `blah` with `blah_0`. Except for the assignment, where `i` can be on the lefthand side, the special index variable `i` cannot be involved in these operations.]
 
@@ -118,7 +119,7 @@ We omit the full details of all the steps above and their analysis, which are te
 Here is a program that computes the function $PALINDROME:\{0,1\}^* \rightarrow \{0,1\}$ that outputs $1$ on $x$ if and only if $x_i = x_{|x|-i}$ for every $i\in \{0,\ldots, |x|-1\}$.
 This program uses NAND<< with the syntactic sugar we described before, but as discussed above, we can transform it into a NAND++ program.
 
-~~~~ { .go }
+```python
 // A sample NAND<< program that computes the language of palindromes
 // By Juan Esteller
 def a := NOT(b) {
@@ -132,7 +133,7 @@ if(NOT(seen_0)) {
 }
 i := cur
 if(validx_i) {
- cur := cur + o  
+ cur := cur + o
  loop := o
 }
 if(NOT(validx_i)) {
@@ -147,7 +148,7 @@ if(computedlength) {
   left := x_i
   i := (cur - iter) - o
   right := x_i
-  if(NOT(left == right)) {   
+  if(NOT(left == right)) {
     loop := z
     y_0 := z
   }
@@ -155,11 +156,11 @@ if(computedlength) {
   if(NOT(iter < halflength)) {
    y_0 := o
    loop := z
-  }  
-  iter := iter + o  
+  }
+  iter := iter + o
 }
 
-~~~~
+```
 
 
 
@@ -167,7 +168,7 @@ if(computedlength) {
 
 The equivalence between NAND++ and NAND<< allows us to choose the most convenient language for the task at hand:
 
-* When we want to give a theorem about all programs, we can use NAND++ because it is simpler and easier to analyze. In particular, if we want to show that a certain function _can not_ be computed, then we will use NAND++.  
+* When we want to give a theorem about all programs, we can use NAND++ because it is simpler and easier to analyze. In particular, if we want to show that a certain function _can not_ be computed, then we will use NAND++.
 
 * When we want to show the existence of a program computing a certain function, we can use NAND<<, because it is higher level and easier to program in. In particular, if we want to show that a function _can_ be computed then we can use NAND<<. In fact, because NAND<< has much of  the features of high level programming languages, we will often describe NAND<< programs in an informal manner, trusting that the reader can fill in the details and translate the high level description to the precise program. (This is just like the way people typically use informal or "pseudocode" descriptions of algorithms, trusting that their  audience will know to translate these descriptions to code if needed.)
 
@@ -256,7 +257,7 @@ Moreover, for every input $x\in \{0,1\}^*$  on which $P$ does not halt,   $U(P,x
 
 This is a stronger notion than the universality we proved for NAND, in the sense that we show a _single_ universal  NAND++ program $U$ that can evaluate _all_ NAND programs, including those that have more lines than the lines in $U$.
 In particular, $U$ can even be used to evaluate itself!
-This notion of _self reference_ will appear time and again in this course, and as we will see, leads to several counterintuitive phenomena in computing.  
+This notion of _self reference_ will appear time and again in this course, and as we will see, leads to several counterintuitive phenomena in computing.
 
 Because we can easily transform a NAND<< program into a NAND++ program, this means that even the seemingly "weaker" NAND++ programming language is powerful enough to simulate NAND<< programs.
 Indeed, as we already alluded to before, NAND++ is powerful enough to simulate also all other standard programming languages such as  Python, C, Lisp, etc.
@@ -276,7 +277,7 @@ For variables that indexed by the special index `i`, we will encode  the index b
 We will set the identifiers of `x`,`y`,`validx` and `loop` to $0,1,2,3$ respectively.
 Therefore the representation of the parity program
 
-~~~~ { .go .numberLines }
+```python
 tmp_1 := seen_i NAND seen_i
 tmp_2 := x_i NAND tmp_1
 val := tmp_2 NAND tmp_2
@@ -289,7 +290,7 @@ s := v NAND w
 seen_i := z NAND z
 stop := validx_i NAND validx_i
 loop := stop NAND stop
-~~~~
+```
 
 will be
 
@@ -317,7 +318,7 @@ Here is the "pseudocode"/"sugar added" version of an  interpreter for NAND++ pro
 We assume below that the input is given as integers `x_0`,\ldots,`x_`$\expr{6\cdot lines-1}$ where $lines$ is the number of lines in the program.
 We also assume that `NumberVariables` gives some upper bound on the total number of distinct non-indexed identifiers used in the program (we can also simply use $lines$ as this bound).
 
-~~~~ { .go .numberLines }
+```python
 simloop := 3
 totalvars := NumberVariables(x)
 maxlines  := Length(x) / 6
@@ -364,7 +365,7 @@ while (true) {
     // keep track in loop above of largest m that y_{m-1} was assigned a value
     // add code to move vars[0*totalvars+1]...vars[(m-1)*totalvars+1] to y_0..y_{m-1}
 }
-~~~~
+```
 
 Since we can transform _every_ NAND<< program to a NAND++ one, we can also implement this interpreter in NAND++, hence completing the proof of [univnandppnoneff](){.ref}.
 
