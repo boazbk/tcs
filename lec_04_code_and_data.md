@@ -283,11 +283,11 @@ def UPDATE(V,i,b):
 
 
 Once we can compute `GET` and `UPDATE`, the rest of the implementation amounts to "book keeping" that needs to be done carefully, but is not too insightful.
-Hence we omit these details from this chapter.
+Hence we omit the details from this chapter.
 See the appendix for the full details of how to compute the universal NAND evaluator in NAND.
 
-
 Since the loop over `j` in `UPDATE` is run $2^\ell$ times, and computing `EQUALS_j` takes $O(\ell)$ lines, the total number of lines to compute `UPDATE` is $O(2^\ell \cdot \ell) = O(s \log s)$. Since we run this function $s$ times, the total number of lines for computing $EVAL_{s,n,m}$ is $O(s^2 \log s)$.
+This completes (up to the omitted details) the proof of [eff-bounded-univ](){.ref}.
 
 
 > # {.remark title="Improving to quasilinear overhead (advanced optional note)" #quasilinearevalrem}
