@@ -216,6 +216,7 @@ We will have a variable of $\varphi$ corresponding to every line of $Q$, with a 
 We will also have variables associated with the input $w$, and use them in lines such as  `foo := x_17 NAND x_33` or `foo := bar NAND x_55`. Finally we add a constraint that requires the last assignment to `y_0` to equal $1$. By construction, satisfying assignments to our formula $\varphi$ will correspond to valid modification logs of executions of $Q$ that end with it outputting $1$. Hence in particular there exists a satisfying assignment to $\varphi$ if and only if there is some input $w\in \{0,1\}^n$ on which the execution of $Q$ on $w$ ends in $1$.
 
 
+
 > # {.proof data-ref="threenand-thm"}
 To prove [threenand-thm](){.ref} we need to give a reduction from $NANDSAT$ to $3NAND$.
 Let  $Q$ be a NAND program with $n$ inputs, one output, and  $m$ lines.
