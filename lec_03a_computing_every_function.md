@@ -8,13 +8,13 @@
 
 
 
+
 \iffalse
 ```python
 %run "..\code\NAND programming language.ipynb"
 ```
 
 \fi
-
 
 
 
