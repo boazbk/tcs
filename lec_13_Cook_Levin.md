@@ -217,6 +217,7 @@ We will also have variables associated with the input $w$, and use them in lines
 
 
 
+
 > # {.proof data-ref="threenand-thm"}
 To prove [threenand-thm](){.ref} we need to give a reduction from $NANDSAT$ to $3NAND$.
 Let  $Q$ be a NAND program with $n$ inputs, one output, and  $m$ lines.
