@@ -22,7 +22,7 @@ Let us consider the case of the simple _parity_ or _XOR_ function  $XOR:\{0,1\}^
 As simple as it is, the $XOR$ function cannot be computed by a NAND program.
 Rather, for every $n$, we can compute $XOR_n$ (the restriction of $XOR$ to $\{0,1\}^n$) using a different NAND program. For example, here is the NAND program to compute $XOR_5$:
 
-~~~~ { .go .numberLines }
+```python
 u   := x_0 NAND x_1
 v   := x_0 NAND u
 w   := x_1 NAND u
@@ -39,12 +39,12 @@ u   := s   NAND x_4
 v   := s   NAND u
 w   := x_4 NAND u
 y_0 := v   NAND w
-~~~~
+```
 
 This is rather repetitive, and more importantly, does not capture the fact that there is a _single_ algorithm to compute the parity on all inputs.
 Typical programming language use the notion of _loops_ to express such an algorithm, and so we might have wanted to use code such as:
 
-~~~~ { .go .numberLines }
+```python
 # s is the "running parity", initalized to 0
 while i < length(x):
     u   := x_i NAND s
@@ -54,7 +54,7 @@ while i < length(x):
     i++
 ns  := s  NAND s
 y_0 := ns NAND ns
-~~~~
+```
 
 We will now discuss how we can extend the  NAND programming language so that it can capture this kind of a construct.
 
@@ -62,7 +62,7 @@ We will now discuss how we can extend the  NAND programming language so that it 
 ## The NAND++ Programming language
 
 Keeping to our minimalist form, we will not add a `while` keyword to the NAND programming language.
-But we will extend this language in a way that allows for executing loops and accessing arrays of arbitrary length.  
+But we will extend this language in a way that allows for executing loops and accessing arrays of arbitrary length.
 The main new ingredients are the following:
 
 * We add a special variable `loop` with the following semantics: after executing the last line of the program, if `loop` is equal to one, then instead of halting, the program goes back to the first line. If `loop` is equal to zero after executing the last line then the program halts as is usual with NAND.^[This corresponds to wrapping the entire program in one big loop that is executed at least once and continues as long as `loop` is equal to $1$. For example, in the C programming language this would correspond with wrapping the entire program with the construct `do { ...} while (loop);`.]
@@ -90,7 +90,7 @@ Here is the NAND++ program to compute parity of arbitrary length:
 (It is a good idea for you to see why this program does indeed compute the parity)
 
 
-~~~~ { .go .numberLines }
+```python
 # compute sum x_i (mod 2)
 # s = running parity
 # seen_i = 1 if this index has been seen before
@@ -108,10 +108,10 @@ v    := s   NAND u
 w    := val NAND u
 s    := v   NAND w
 
-seen_i := zero NAND zero  
+seen_i := zero NAND zero
 stop := validx_i NAND validx_i
 loop := stop     NAND stop
-~~~~
+```
 
 
 When we invoke this program on the input $010$, we get the following execution trace:
@@ -120,7 +120,7 @@ When we invoke this program on the input $010$, we get the following execution t
 ... (complete this here)
 End of iteration 0, loop = 1, continuing to iteration 1
 ...
-End of iteration 2, loop = 0, halting program  
+End of iteration 2, loop = 0, halting program
 ```
 
 ### Computing the index location
@@ -165,14 +165,14 @@ Of course we can think of variables as arrays in NAND as well, but since in NAND
 
 One crucial difference between NAND and NAND++ programs is the following.
 Looking at a NAND program $P$, we can always tell how many inputs and how many outputs it has (by simply counting  the number of `x_` and `y_` variables).
-Furthermore, we  are guaranteed that if we invoke $P$ on any input then _some_ output will be produced.  
+Furthermore, we  are guaranteed that if we invoke $P$ on any input then _some_ output will be produced.
 In contrast, given any particular NAND++ program $P'$, we cannot determine a priori the length of the output.
 In fact, we don't even know  if an output would be produced at all!
 For example, the following NAND++ program would go into an infinite loop if the first bit of the input is zero:
 
-~~~~ { .go .numberLines }
+```python
 loop := x_0 NAND x_0
-~~~~
+```
 
 For a NAND++ program $P$ and string $x\in \{0,1\}^*$, if $P$ produces an output when executed with input $x$ then we denote this output by $P(x)$.
 If $P$ does not produce an output on $x$ then we say that $P(x)$ is _undefined_ and denote this as $P(x) = \bot$.
@@ -205,18 +205,18 @@ While  NAND+  only has a single "outer loop",  we can use conditionals to implem
 That is, we can replace code such as
 
 
-~~~~ { .go .numberLines }
+```python
 PRELOOP_CODE
 while (cond) {
  LOOP_CODE
 }
 POSTLOOP_CODE
-~~~~
+```
 
 
 by
 
-~~~~ { .go .numberLines }
+```python
 // startedloop is initialized to 0
 // finishedloop is initalized to 0
 if NOT(startedloop)  {
@@ -237,7 +237,7 @@ if NOT(finishedloop) {
 if (finishedloop) {
     POSTLOOP_CODE
 }
-~~~~
+```
 
 (Applying the standard syntactic sugar transformations to convert the conditionals into NAND code.)
 We can apply this transformation repeatedly to convert programs with multiple loops, and even nested loops, into a standard NAND++  program.
@@ -310,7 +310,7 @@ This notion of a single algorithm that can compute functions of all input length
 
 
 Looking ahead, we will see that this uniformity leads to another crucial difference between NAND++ and NAND programs.
-NAND++ programs can have inputs and outputs that are longer than the description of the program and in particular we can have a NAND++ program that "self replicates" in the sense that it can print its own code.   
+NAND++ programs can have inputs and outputs that are longer than the description of the program and in particular we can have a NAND++ program that "self replicates" in the sense that it can print its own code.
 This notion of "self replication", and the related notion of "self reference" is crucial to many aspects of computation, as well  of course to life itself, whether in the form of digital or biological programs.
 
 ### Growing a NAND tree
@@ -326,7 +326,7 @@ To obtain the program $P'$ we can simply place $T$ copies of the program $P$ one
 We can also obtain such an expansion by using the `for .. do { .. }` syntactic sugar.
 For example, the NAND program below corresponds to running the parity program for 17 iterations, and computing $XOR_5:\{0,1\}^5 \rightarrow \{0,1\}$. Its standard "unsweetened" version will have $17 \cdot 10$ lines.^[This is of course not the most efficient way to compute $XOR_5$. Generally, the NAND program to compute $XOR_n$ obtained by expanding out the  NAND++ program will require $\Theta(n^2)$ lines, as opposed to the $O(n)$ lines that is possible to achieve directly in NAND. However, in most cases this difference will not be so crucial for us.]
 
-~~~~ { .go .numberLines }
+```python
 for i in [0,1,0,1,2,1,0,1,2,3,2,1,0,1,2,3,4] do {
 tmp1  := seen_i NAND seen_i
 tmp2  := x_i NAND tmp1
@@ -337,9 +337,9 @@ u    := val NAND s
 v    := s   NAND u
 w    := val NAND u
 s    := v   NAND w
-seen_i := zero NAND zero  
+seen_i := zero NAND zero
 }
-~~~~
+```
 
 
 
@@ -348,7 +348,7 @@ In particular we have the following theorem
 > # {.theorem title="Expansion of NAND++ to NAND" #NANDexpansionthm}
 For every simple NAND++ program $P$ and function $F:\{0,1\}^* \rightarrow \{0,1\}$, if $P$ computes $F$ then for every $n\in\N$ there exists $T\in \N$ such that $expand_{T,n}(P)$ computes $F_n$.
 
-~~~~ { .python }
+```python
 # Expand a NAND++ program and a given time bound T and n to an n-input T-line NAND program
 def expand(P,T,n):
     result = ""
@@ -364,10 +364,13 @@ def expand(P,T,n):
 def index(k):
     r = math.floor(math.sqrt(k+1/4)-1/2)
     return (k-r*(r+1) if k <= (r+1)*(r+1) else (r+1)*(r+2)-k)
-~~~~
+```
 
 
-> #{.proof}
+
+  \
+
+> # {.proof data-ref="NANDexpansionthm"}
 We'll start with a "proof by code". Above is a  Python program `expand` to compute $expand_{T,n}(P)$.
 On  input the code $P$ of a NAND++ program and numbers $T,n$, `expand` outputs the code of the NAND program $P'$ that works on length $n$ inputs and is obtained by running $T$ iterations of $P$:
 >
@@ -426,7 +429,11 @@ The canonical form representation of  a NAND++ program is specified simply by a 
 
 Here is a Python code to evaluate a NAND++ program given the list of 6-tuples representation:
 
-~~~~ { .python }
+```python
+
+```
+
+```python
 # Evaluates a  NAND++ program P on input x
 # P is given in the list of tuples representation
 # untested code
@@ -458,7 +465,7 @@ def EVALpp(P,x):
         k += 1
 
     return vars[1]
-~~~~
+```
 
 ### Configurations
 
@@ -542,7 +549,7 @@ Thus in each step, $NEXT_P$ only reads or modifies a constant number of blocks.
 
 Here is some Python code for the next step function:
 
-~~~~ { .python }
+```python
 # compute the next-step configuration
 # Inputs:
 # P: NAND++ program in list of 6-tuples representation  (assuming it has an "indexincreasing" variable)
@@ -597,7 +604,7 @@ def next_step(P,conf):
     blocks[new_i][ACTIVEIDX+1:ACTIVEIDX+1+line_enc_length] = list(new_p_s) # add binary representation of next line in new active block
 
     return "".join(["B"+"".join(block)+"E" for block in blocks]) # return new configuration
-~~~~
+```
 
 
 ### Deltas

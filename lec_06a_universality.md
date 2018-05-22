@@ -118,7 +118,7 @@ We omit the full details of all the steps above and their analysis, which are te
 Here is a program that computes the function $PALINDROME:\{0,1\}^* \rightarrow \{0,1\}$ that outputs $1$ on $x$ if and only if $x_i = x_{|x|-i}$ for every $i\in \{0,\ldots, |x|-1\}$.
 This program uses NAND<< with the syntactic sugar we described before, but as discussed above, we can transform it into a NAND++ program.
 
-~~~~ { .go }
+```python
 // A sample NAND<< program that computes the language of palindromes
 // By Juan Esteller
 def a := NOT(b) {
@@ -159,7 +159,7 @@ if(computedlength) {
   iter := iter + o  
 }
 
-~~~~
+```
 
 
 
@@ -276,7 +276,7 @@ For variables that indexed by the special index `i`, we will encode  the index b
 We will set the identifiers of `x`,`y`,`validx` and `loop` to $0,1,2,3$ respectively.
 Therefore the representation of the parity program
 
-~~~~ { .go .numberLines }
+```python
 tmp_1 := seen_i NAND seen_i
 tmp_2 := x_i NAND tmp_1
 val := tmp_2 NAND tmp_2
@@ -289,7 +289,7 @@ s := v NAND w
 seen_i := z NAND z
 stop := validx_i NAND validx_i
 loop := stop NAND stop
-~~~~
+```
 
 will be
 
@@ -317,7 +317,7 @@ Here is the "pseudocode"/"sugar added" version of an  interpreter for NAND++ pro
 We assume below that the input is given as integers `x_0`,\ldots,`x_`$\expr{6\cdot lines-1}$ where $lines$ is the number of lines in the program.
 We also assume that `NumberVariables` gives some upper bound on the total number of distinct non-indexed identifiers used in the program (we can also simply use $lines$ as this bound).
 
-~~~~ { .go .numberLines }
+```python
 simloop := 3
 totalvars := NumberVariables(x)
 maxlines  := Length(x) / 6
@@ -364,7 +364,7 @@ while (true) {
     // keep track in loop above of largest m that y_{m-1} was assigned a value
     // add code to move vars[0*totalvars+1]...vars[(m-1)*totalvars+1] to y_0..y_{m-1}
 }
-~~~~
+```
 
 Since we can transform _every_ NAND<< program to a NAND++ one, we can also implement this interpreter in NAND++, hence completing the proof of [univnandppnoneff](){.ref}.
 

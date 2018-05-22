@@ -278,18 +278,18 @@ There are various notations to write context free grammars in the literature, wi
 If we have several rules of the form $v \mapsto a$, $v \mapsto b$, and $v \mapsto c$ then we can combine them as `<v> := a|b|c` (and this similarly extends for the case of more rules).
 For example, the Backus-Naur description for the context free grammar above is (using ASCII equivalents for operations):
 
-~~~~ { .go }
+```python
 operation  := +|-|*|/
 digit      := 0|1|2|3|4|5|6|7|8|9
 number     := digit|digit number   
 expression := number|expression operation expression|(expression)
-~~~~
+```
 
 Another example of a context free grammar is the "matching parenthesis" grammar, which can be represented in Backus-Naur as follows:
 
-~~~~ { .go }
+```python
 match  := ""|match match|(match)
-~~~~
+```
 
 You can verify that a string over the alphabet $\{$ `(`,`)` $\}$ can be generated from this grammar (where `match` is the starting expression and `""` corresponds to the empty string) if and only if it consists of a matching set of parenthesis.
 

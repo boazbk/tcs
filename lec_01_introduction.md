@@ -1,5 +1,6 @@
 # Introduction { #chapintro }
 
+
 > # { .objectives }
 * Introduce and motivate the study of computation for its own sake, irrespective of particular implementations.
 * The notion of an _algorithm_ and some of its history.

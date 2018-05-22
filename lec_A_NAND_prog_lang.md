@@ -107,7 +107,7 @@ The NAND programming language is sufficiently simple so that writing an interpre
 The website [http://nandpl.org](http://nandpl.org) contains an OCaml implementation that is more general and can handle many "syntactic sugar" transformation, but interpreting or compiling "plain vanilla" NAND can be done in few lines.
 For example,   the following Python function parses a NAND program to the "list of tuples" representation:
 
-~~~~ { .python }
+```python
 # Converts a NAND program from text to the list of tuples representation
 # prog: code of program
 # n: number of inputs
@@ -131,11 +131,11 @@ def triples(prog,n,m,t):
         result.append([varindex(var1),varindex(var2),varindex(var3)])
 
     return result
-~~~~
+```
 
 The function above assumes we know some parameters of the program, such as its input and output length, and the number of distinct variables, but this is easy to get as well.
 
-~~~~ { .python }
+```python
 # compute the parameters of a given program code
 # returns: n = number of inputs, m = number of outputs, t = number of distinct variables
 def params(prog):
@@ -151,11 +151,11 @@ def params(prog):
     m = len([var for var in varnames if var[:2]=='y_'])
 
     return [n,m,t]
-~~~~
+```
 
 As we discuss in the "code and data" lecture, we can execute a program given in the list of tuples representations as follows
 
-~~~~ { .python }
+```python
 # Evaluates an n-input, m-output NAND program L on input x
 # L is given in the list of tuples representation
 def EVAL(L,n,m,x):
@@ -167,12 +167,12 @@ def EVAL(L,n,m,x):
         vars[a] = 1-vars[b]*vars[c]
 
     return vars[t-m:] # output last m variables
-~~~~
+```
 
 Moreover, if we want to _compile_ NAND programs, we can easily transform them to C code using the following `NAND2C` function:^[The function is somewhat more complex than the minimum needed, since it uses an array of _bits_ to store the variables.]
 
 
-~~~~ { .python }
+```python
 # Transforms a NAND program to a C function
 # prog: string of program code
 # n: number of inputs
@@ -232,7 +232,7 @@ def NAND2C(prog,n,m):
     '''.format(n=n,m=m)
 
     return Cprog
-~~~~
+```
 
 
 
@@ -330,45 +330,45 @@ __Multidimensional arrays:__ We can use multidimensional indices such as `foo_{1
 __Conditionals:__ We can write code such as
 
 
-~~~~ { .go .numberLines }
+```python
 if (foo) {
     code
 }
-~~~~
+```
 
 to indicate that `code` will only be executed if `foo` is equal to $1$.
 
 __Functions:__ We can define (non recursive) functions as follows:
 
-~~~~ { .go .numberLines }
+```python
 def foo1,...,fook := Func(bar1,...,barl) {
     function_code
 }
-~~~~
+```
 
 denotes code for a function that takes $l$ inputs `bar1`,...,`barl` and returns $k$ outputs `foo1`,...,`fook`.  We can then invoke such a function by writing
 
-~~~~ { .go .numberLines }
+```python
 blah1,...,blahk := Func(baz1,...,bazl)
-~~~~
+```
 
 this will be implemented by copy-pasting the code of `Func` and doing the appropriate search-and-replace of the variables, adding a unique prefix to workspace variables to ensure there are no namespace conflicts.
 
 We can use Functions also inside expressions, and so write code such as
 
 
-~~~~ { .go .numberLines }
+```python
 foo := XOR(bar,baz)
-~~~~
+```
 
 or
 
 
-~~~~ { .go .numberLines }
+```python
 if AND(foo,bar) {
     code
 }
-~~~~
+```
 
 where `XOR`,`AND` have been defined above.
 
@@ -377,11 +377,11 @@ __NAND for loops:__ We can introduce syntactic sugar for loops in NAND, as long 
 
 More generally, we will replace code of the form
 
-~~~~ { .pascal }
+```python
 for i in RANGE do {
     code
 }
-~~~~
+```
 
 where `RANGE` specifies a finite set $I = \{ i_0,\ldots, i_{k-1} \}$ of  natural numbers, as syntactic sugar for  $|R|$ copies of `code`, where for $j \in [k]$, we replace all occurences of `_<expr(i)>` in the $j$-th copy with `_`$\expr{expr(i_j)}$ where `expr(i)` denotes an arithmetic expression in `i` (involving `i`, constants, parenthesis, and the operators `+,-,*,mod,/`) and for every $x\in \N$, $expr(c)$ denotes the result of of applying this expression to the value $c$.
 
@@ -418,35 +418,35 @@ We will store integers in this encoding using their represnetation binary basis 
 So, for example, the integer $13 = 2^3 + 2^2 + 2^0$ will be stored by encoding `1011.` and hence the shorthands `foo := 13` and `foo := "1011"` will be transformed into identical NAND code.
 Arithmetic operations will be shorthand for the standard algorithms and so we can use code such as
 
-~~~~ { .go .numberLines }
+```python
 foo := 12
 bar := 1598
 baz := foo * bar
-~~~~
+```
 
 
 Using multidimensional arrays we can also use code such as
 
-~~~~ { .go .numberLines }
+```python
 foo_0 := 124
 foo_1 := 57
 foo_2 := 5459
-~~~~
+```
 
 
 __Lists:__
 We store lists and nested lists using the separators `[`,`]`,`,` with the binary encoding of each element. Thus code  such as
 
-~~~~ { .go .numberLines }
+```python
 foo := [ 13 , 1, 4  ]
-~~~~
+```
 
 will be the same as
 
 
-~~~~ { .go .numberLines }
+```python
 foo := "[1011,01,001]"
-~~~~
+```
 
 
 
@@ -454,25 +454,25 @@ We can store in lists not just integers but any other object for which we have s
 
 We can  use the union operation on lists and so
 
-~~~~ { .go .numberLines }
+```python
 foo := [17,8] + [24,9]
-~~~~
+```
 
 will be the same as
 
 
-~~~~ { .go .numberLines }
+```python
 foo := [17,8,24,9]
-~~~~
+```
 
 
 
 we will use `in` as shorthand for the operation that scans a list to see if it contains an element and so in the code
 
-~~~~ { .go .numberLines }
+```python
 foo := [12,127,8]
 bar := 8 in foo
-~~~~
+```
 
 `bar` is assigned the value $1$.
 
@@ -483,11 +483,11 @@ Within lists the no-op character `_` will be ignored, and so replacing character
 __Iterating:__ We use the construct
 
 
-~~~~ { .go .numberLines }
+```python
 for foo in bar {
     code
 }
-~~~~
+```
 
 to execute code `length(bar)` times where each time `foo` will get the current element.
 
@@ -512,11 +512,11 @@ If `bar` does not represent a number then we consider it as representing $0$.
 __Inner loops:__ We can use the following loop construct
 
 
-~~~~ { .go .numberLines }
+```python
 while (foo) {
     code
 }
-~~~~
+```
 
 to indicate the  loop will execute as long as `foo` equals $1$.
 We can nest loops inside one another, and also replace `foo` with another expression such as a call to a function.

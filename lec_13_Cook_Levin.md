@@ -221,11 +221,11 @@ To prove [threenand-thm](){.ref} we need to give a reduction from $NANDSAT$ to $
 Let  $Q$ be a NAND program with $n$ inputs, one output, and  $m$ lines.
 We can assume without loss of generality that $Q$ contains the variables `one` and `zero` by adding the following lines in its beginning if needed:
 >
-~~~~ { .pascal .numberLines }
+```python
 notx_0 := x_0 NAND x_0
 one    := x_0 NAND notx_0
 zero   := one NAND one   
-~~~~
+```
 >
 We map $Q$ to  a $3NAND$ formula $\varphi$ as follows:
 >

@@ -119,7 +119,7 @@ For example, the following Python program will  halt if and only if [Goldbach's 
 
 
 
-~~~~ { .python .numberLines }
+```python
 def isprime(p):
     return all(p % i  for i in range(2,p-1))
 
@@ -131,7 +131,7 @@ n = 4
 while True:
     if not Goldbach(n): break
     n+= 2
-~~~~
+```
 
 Given that Goldbach's Conjecture has been open since 1742, it is unclear that humans have any magical ability to say whether this (or other similar programs) will halt or not.
 
@@ -247,13 +247,13 @@ We define a _semantic specification_ on programs to be some property that does n
 
 For example, consider the following two C programs
 
-~~~~ { .cpp }
+```python
 int First(int k) {
     return 2*k;
 }
-~~~~
+```
 
-~~~~ { .cpp }
+```python
 int Second(int n) {
     int i = 0;
     int j = 0
@@ -263,7 +263,7 @@ int Second(int n) {
     }
     return i;
 }
-~~~~
+```
 
 `First` and `Second` are two distinct C programs, but they compute the same function.
 A _semantic_ property, such  as "computing a function $f:\N \rightarrow \N$ where $f(m) \geq m$ for every $m$", would be either _true_ for both programs or _false_ for both programs, since it depends on the _function_ the programs compute and not on their code.

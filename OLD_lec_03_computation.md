@@ -104,12 +104,12 @@ The variables beginning with `x_` are _input_ variables and those beginning with
 Thus for example the following four line NAND program takes an input of two bits and outputs a single bit:
 
 
-~~~~ { .go .numberLines  }
+```python
 u   := x_0 NAND x_1
 v   := x_0 NAND u
 w   := x_1 NAND u
 y_0 := v   NAND w
-~~~~
+```
 
 > # { .pause }
 Can you guess what function from $\{0,1\}^2$ to $\{0,1\}$ this program computes? It might be a good idea for you to pause here and try to figure this out.
@@ -184,14 +184,14 @@ If we write the sum $x_0+x_1$ as $y_02^0 + y_12^1$ then the table of values for 
 One can see that `y_0` will be the XOR of `x_0` and `x_1` and `y_1` will be the AND of `x_0` and `x_1`.^[This is a special case of the general rule that when you add two digits $x,x' \in \{0,1,\ldots,b-1\}$ over the $b$-ary basis (in our case $b=2$), then the output digit is $x+x' (\mod b)$ and the carry digit is $\lfloor (x+x')/b  \rfloor$.]
 Thus we can compute one bit variable addition using the following program:
 
-~~~~ { .go .numberLines  }
+```python
 // Add two single-bit numbers
 u   := x_0 NAND x_1
 v   := x_0 NAND u
 w   := x_1 NAND u
 y_0 := v NAND w
 y_1 := u NAND u
-~~~~
+```
 
 If we run this program on the input $(1,1)$ we get the execution trace
 
@@ -269,14 +269,14 @@ The final configuration will have the form $(s,\sigma_s)$ where $s$ is the numbe
 
 For example, if we run the XOR program about on the input `11` then the configuration of the program evolves as follows:
 
-~~~~ { .go }
+```python
                          x_0  x_1  v    u    w    y_0
 0. u   := x_0 NAND x_1 : 0    1    0    0    0    0
 1. v   := x_0 NAND u   : 0    1    0    1    0    0
 2. w   := x_1 NAND u   : 0    1    1    1    0    0
 3. y_0 := v NAND w     : 0    1    1    1    0    0
 4. (after halting)     : 0    1    1    1    0    1
-~~~~
+```
 
 We now write the formal definition.
 As always, it is a good practice to verify that this formal definition matches the intuitive description above:
@@ -502,7 +502,7 @@ To transform this pseudocode into an actual program or circuit, we can use [seqc
 That is, we first compute $(y_0,c_1,z_1,c_2) = ADD_1 \| ADD_1 (x_0,x_2,x_1,x_3)$, which we can do in $10$ lines  via [parcompositionthm](){.ref}, then apply  $ADD_1$ to $(z_1,c_1)$, and finally use the fact that $OR(a,b)=NAND(NOT(a),NOT(b))$ and $NOT(a)=NAND(a,a)$ to compute `c_2 OR c'_2` via three lines of NAND.
 The resulting code is the following:
 
-~~~~ { .pascal .numberLines  }
+```python
 // Add a pair of two-bit numbers
 // Input: (x_0,x_1) and (x_2,x_3)
 // Output: (y_0,y_1,y_2) representing the sum
@@ -535,7 +535,7 @@ y_1 := v   NAND w
 u   := z'_1 NAND z'_1
 v   := z_1 NAND c_1
 y_2 := u NAND v
-~~~~
+```
 
 For example, the computation of the deep fact that $2+3=5$ corresponds to running this program on the inputs $(0,1,1,1)$ which will result in the following trace:
 

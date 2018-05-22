@@ -29,9 +29,9 @@ In this lecture we focus on the second point - formally modeling probabilistic c
 Modeling randomized computation is actually quite easy.
 We can add the following operations to our NAND, NAND++ and NAND<< programming languages:
 
-~~~~ { .go .numberLines }
+```python
 var := RAND
-~~~~
+```
 
 where `var` is a variable.
 The result of applying this operation is that `var` is assigned a random bit in $\{0,1\}$.

@@ -86,7 +86,7 @@ Moreover, we can take advantage of  the syntactic sugar transformations we have 
 If $M:[k]\times \Sigma \rightarrow \Sigma \times [k] \times \{ L , R \}$ then there is a finite length NAND program `ComputeM` that computes the finite function $M$ (representing the finite sets $[k]$,$\Sigma$, $\{L,R\}$ appropriately by bits).
 The NAND<< program simulating $M$ will be the following:
 
-~~~~ { .pascal .numberLines }
+```python
 // tape is an array with the alphabet Sigma
 // we use ">" for the start-tape marker and "." for the empty cell
 // in the syntactic sugar below, we assume some binary encoding of the alphabet.
@@ -128,7 +128,7 @@ j := 1
 while EQUAL(tape_j,0) OR EQUAL(tape_j,1) {
    y_{j-1} := tape_j
 }
-~~~~
+```
 
 In addition to the standard syntactic sugar, we are also assuming in the above code that  we can make function calls to the function `EQUAL` that checks equality of two symbols as well as the finite function `ComputeM`  that corresponds to the transition function of the Turing machine.
 Since these are _finite_ functions (whose input and output length only depends on the number of states and symbols of the machine $M$, and not the input length), we can compute them  using a NAND (and hence in particular a NAND++ or NAND<<) program.

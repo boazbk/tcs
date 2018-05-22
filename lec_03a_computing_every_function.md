@@ -327,35 +327,35 @@ While the basic variables in NAND++ are Boolean (only have $0$ or $1$), we can e
 For example, we can encode the alphabet $\{$`a`,`b`,`c`,`d`,`e`,`f` $\}$ using three bits as $000,001,010,011,100,101$.
 Hence, given such an encoding, we could  use the code
 
-~~~~ { .python }
+```python
 Foo = REPRES("b")
-~~~~
+```
 
 would be a shorthand for the program
 
-~~~~ { .python  }
+```python
 Foo[0]  = zero(.)
 Foo[1]  = zero(.)
 Foo[2]  = one(.)
-~~~~
+```
 
 (Where we use the constant functions `zero` and `one`, which we can apply to any variable.)
 Using our notion of multi-indexed arrays, we can also use code such as
 
-~~~~ { .python  }
+```python
 Foo =  COPY("be")
-~~~~
+```
 
 as a shorthand for
 
-~~~~ { .python }
+```python
 Foo[0][0]  = zero(.)
 Foo[0][1]  = one(.)
 Foo[0][2]  = one(.)
 Foo[1][0]  = one(.)
 Foo[1][1]  = zero(.)
 Foo[1][2]  = zero(.)
-~~~~
+```
 
 which can then in turn be mapped to standard NAND code using a one-to-one embedding $pair: \N \times \N \rightarrow \N$ as above.
 
@@ -499,21 +499,21 @@ The "pseudocode" for this program will be
 ```python
 Z[0] = LOOKUP_1(X[0],X[1],X[4])
 ```
-~~~~ { .python }
+```python
 Z[0] = LOOKUP_1(X[0],X[1],X[4])
 Z[1] = LOOKUP_1(X[2],X[3],X[4])
 Y[0] = LOOKUP_1(Z[0],Z[1],X[5])
-~~~~
+```
 (Note that since we call this function with $(x_0,x_1,x_2,x_3,i_0,i_1)$, the inputs `x_4` and `x_5` correspond to  $i_0$ and $i_1$.)
 We can obtain  an actual "sugar free" NAND program of at most $12$ lines  by replacing the calls to `LOOKUP_1` by an appropriate copy of the program above.
 
 We can generalize this to compute $LOOKUP_3$ using two invocations of $LOOKUP_2$ and one invocation of $LOOKUP_1$. That is, given input $x=(x_0,\ldots,x_7)$ and $i=(i_0,i_1,i_2)$ for $LOOKUP_3$, if the most significant bit of the index $i_2$ is $0$, then the output of $LOOKUP_3$ will equal $LOOKUP_2(x_0,x_1,x_2,x_3,i_0,i_1)$, while if this index $i_2$ is $1$ then the output will be $LOOKUP_2(x_4,x_5,x_6,x_7,i_0,i_1)$, meaning that the following pseudocode can compute $LOOKUP_3$,
 
-~~~~ { .python }
+```python
 Z[0] = LOOKUP_2(X[0],X[1],X[2],X[3],X[8],X[9])
 Z[1] = LOOKUP_2(X[4],X[5],X[6],X[7],X[8],X[9])
 Y[0] = LOOKUP_1(Z[0],Z[1],X[10])
-~~~~
+```
 
 where again we can replace the calls to `LOOKUP_2` and `LOOKUP_1` by invocations of the process above.
 
