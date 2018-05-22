@@ -63,6 +63,8 @@ We can think of a representation as consisting of    _encoding_ and _decoding_ f
 In the case of the _binary representation_ for integers, the _encoding_ function $E:\N \rightarrow \{0,1\}^*$ maps a natural number to the string representing it, and the _decoding_ function $D:\{0,1\}^* \rightarrow \N$ maps a string into the number it represents (i.e., $D(x_0,\ldots,x_{n-1})= 2^0x_0 + 2^1x_1 +\ldots + 2^{n-1}x_{n-1}$ for every $x_0,\ldots,x_{n-1} \in \{0,1\}$).
 In the _Python_ programming language, we can compute these encoding and decoding functions as follows:
 
+
+
 ```python
 from math import floor, log
 def int2bits(n):

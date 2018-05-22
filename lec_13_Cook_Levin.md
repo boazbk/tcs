@@ -216,16 +216,12 @@ We will have a variable of $\varphi$ corresponding to every line of $Q$, with a 
 We will also have variables associated with the input $w$, and use them in lines such as  `foo := x_17 NAND x_33` or `foo := bar NAND x_55`. Finally we add a constraint that requires the last assignment to `y_0` to equal $1$. By construction, satisfying assignments to our formula $\varphi$ will correspond to valid modification logs of executions of $Q$ that end with it outputting $1$. Hence in particular there exists a satisfying assignment to $\varphi$ if and only if there is some input $w\in \{0,1\}^n$ on which the execution of $Q$ on $w$ ends in $1$.
 
 
+
+
 > # {.proof data-ref="threenand-thm"}
 To prove [threenand-thm](){.ref} we need to give a reduction from $NANDSAT$ to $3NAND$.
 Let  $Q$ be a NAND program with $n$ inputs, one output, and  $m$ lines.
-We can assume without loss of generality that $Q$ contains the variables `one` and `zero` by adding the following lines in its beginning if needed:
->
-```python
-notx_0 := x_0 NAND x_0
-one    := x_0 NAND notx_0
-zero   := one NAND one   
-```
+We can assume without loss of generality that $Q$ contains the variables `one` and `zero` as usual.
 >
 We map $Q$ to  a $3NAND$ formula $\varphi$ as follows:
 >
@@ -243,6 +239,7 @@ We now show both sides of this equivalence.
 
 
 ![We reduce $NANDSAT$ to $3NAND$ by mapping a program $P$ to a formula $\psi$ where we have a variable for each line and input variable of $P$, and add a constraint to ensure that the variables are consistent with the program. We also add a constraint that the final output is $1$. One can show that there is an input $x$ such that $P(x)=1$ if and only if there is a satisfying assignment for $\psi$. (NOTATION IN FIGURE NEEDS TO BE UPDATED)](../figure/3NANDreduction.png){#figureid .class width=300px height=300px}
+
 
 
 ### From $3NAND$ to $3SAT$
