@@ -1,4 +1,4 @@
-# Equivalent models of computation
+# Equivalent models of computation { #chapequivalentmodels }
 
 > # { .objectives }
 * Learn about the Turing Machine and $\lambda$ calculus, which are important models of computation.
@@ -287,7 +287,7 @@ To calculate, it seems we need some basic objects such as $0$ and $1$, and so we
 
 * __The empty string:__ The value $NIL$ and the function $ISNIL(x)$ that returns $1$ iff $x$ is $NIL$.
 
-* __Strings/lists:__ The function $PAIR(x,y)$ that creates a pair from $x$ and $y$. We will also have the function $HEAD$ and $TAIL$ to extract the first and second member of the pair. We can now create the list $x,y,z$ by $PAIR(x,PAIR(y,PAIR(z,NIL)))$, see [lambdalistfig](){.ref}.  A _string_ is of course simply a list of bits.^[Note that if $L$ is a list, then $HEAD(L)$ is its first element, but $TAIL(L)$ is not the last element but rather all the elements except the first. We use $NIL$ to denote the empty list and hence $PAIR(x,NIL)$ denotes the list with the single element $x$.]  
+* __Strings/lists:__ The function $PAIR(x,y)$ that creates a pair from $x$ and $y$. We will also have the function $HEAD$ and $TAIL$ to extract the first and second member of the pair. We can now create the list $x,y,z$ by $PAIR(x,PAIR(y,PAIR(z,NIL)))$, see [lambdalistfig](){.ref}.  A _string_ is of course simply a list of bits.^[Note that if $L$ is a list, then $HEAD(L)$ is its first element, but $TAIL(L)$ is not the last element but rather all the elements except the first. We use $NIL$ to denote the empty list and hence $PAIR(x,NIL)$ denotes the list with the single element $x$.]
 
 
 
@@ -306,7 +306,7 @@ See [reduceetalfig](){.ref} for an illustration of these three operations.
 ![Illustration of the $MAP$, $FILTER$ and $REDUCE$ operations.](../figure/reducemapfilter.png){#reduceetalfig .class width=300px height=300px}
 
 
-Together these operations more or less amount to the Lisp/Scheme programming language.^[In Lisp, the $PAIR$, $HEAD$ and $TAIL$ functions are [traditionally called](https://en.wikipedia.org/wiki/CAR_and_CDR) `cons`, `car` and `cdr`.]  
+Together these operations more or less amount to the Lisp/Scheme programming language.^[In Lisp, the $PAIR$, $HEAD$ and $TAIL$ functions are [traditionally called](https://en.wikipedia.org/wiki/CAR_and_CDR) `cons`, `car` and `cdr`.]
 Given that, it is perhaps not surprising that we can simulate NAND++ programs using the $\lambda$-calculus plus these basic elements, hence showing the following theorem:
 
 > # {.theorem title="Lambda calculus and NAND++" #lambdaturing-thm}

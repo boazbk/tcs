@@ -1,10 +1,9 @@
 # Loops and infinity
 
 > # { .objectives }
-* Learn the model of NAND++ program that involve loops.
+* Learn the model of NAND++ programs that involve loops.
 * See some basic syntactic sugar for NAND++
-* Get comfort with switching between representation of NAND++ programs as code and as tuples.
-* Learn the notion of _configurations_ for NAND++ programs.
+* See equivalence between NAND++ programs and Turing Machines.
 * Understand the relation between NAND++ and NAND programs.
 
 >_"We thus see that when $n=1$, nine operation-cards are used; that when $n=2$, fourteen Operation-cards are used; and that when $n>2$, twenty-five operation-cards are used; but that no more are needed, however great $n$ may be; and not only this, but that these same twenty-five cards suffice for the successive computation of all the numbers"_, Ada Augusta, countess of Lovelace, 1843^[Translation of  "Sketch of the Analytical Engine" by L. F. Menabrea, Note G.]
@@ -13,118 +12,202 @@
 
 
 
-The NAND programming language has one very significant drawback: a finite NAND program $P$ can only compute a finite function $F$, and in particular the number of inputs of $F$ is always smaller than the number of lines of $P$.
+The NAND programming language has one very significant drawback: a finite NAND program $P$ can only compute a finite function $F$, and in particular the number of inputs of $F$ is always smaller than (twice) the number of lines of $P$.^[This conceptual point holds for any straightline programming language, and is independent  of the particular syntactical choices we made for NAND. The particular ratio of "twice" is true for NAND because input variables cannot be written to, and hence a NAND program of $s$ lines includes at most $2s$ input variables. Coupled with the fact that a NAND program can't include `X[` $i$ `]` if it doesn't include `X[` $j$ `]` for $j<i$, this implies that the length of the input is at most $2s$.]
+
 This does not capture our intuitive notion of an algorithm as a _single recipe_ to compute a potentially infinite function.
 For example, the standard elementary school multiplication algorithm is a _single_ algorithm that multiplies numbers of all lengths, but yet we cannot express this algorithm as a single NAND program, but rather need a different NAND program for every input length.
 
 
 Let us consider the case of the simple _parity_ or _XOR_ function  $XOR:\{0,1\}^* \rightarrow \{0,1\}$, where $XOR(x)$ equals $1$ iff the number of $1$'s in $x$ is odd.
 As simple as it is, the $XOR$ function cannot be computed by a NAND program.
-Rather, for every $n$, we can compute $XOR_n$ (the restriction of $XOR$ to $\{0,1\}^n$) using a different NAND program. For example, here is the NAND program to compute $XOR_5$:
+Rather, for every $n$, we can compute $XOR_n$ (the restriction of $XOR$ to $\{0,1\}^n$) using a different NAND program. For example, here is the NAND program to compute $XOR_5$: (see also [XOR5fig](){.ref})
 
 ```python
-u   := x_0 NAND x_1
-v   := x_0 NAND u
-w   := x_1 NAND u
-s   := v   NAND w
-u   := s   NAND x_2
-v   := s   NAND u
-w   := x_2 NAND u
-s   := v   NAND w
-u   := s   NAND x_3
-v   := s   NAND u
-w   := x_3 NAND u
-s   := v   NAND w
-u   := s   NAND x_4
-v   := s   NAND u
-w   := x_4 NAND u
-y_0 := v   NAND w
+Temp[0] = NAND(X[0],X[1])
+Temp[1] = NAND(X[0],Temp[0])
+Temp[2] = NAND(X[1],Temp[0])
+Temp[3] = NAND(Temp[1],Temp[2])
+Temp[4] = NAND(X[2],Temp[3])
+Temp[5] = NAND(X[2],Temp[4])
+Temp[6] = NAND(Temp[3],Temp[4])
+Temp[7] = NAND(Temp[5],Temp[6])
+Temp[8] = NAND(Temp[7],X[3])
+Temp[9] = NAND(Temp[7],Temp[8])
+Temp[10] = NAND(X[3],Temp[8])
+Temp[11] = NAND(Temp[9],Temp[10])
+Temp[12] = NAND(Temp[11],X[4])
+Temp[13] = NAND(Temp[11],Temp[12])
+Temp[14] = NAND(X[4],Temp[12])
+Y[0] = NAND(Temp[13],Temp[14])
 ```
+
+![The circuit for computing the XOR of $5$ bits. Note how it merely repeats four times  the circuit to compute the XOR of $2$ bits.](../figure/XOR5circuit.png){#XOR5fig .class width=300px height=300px}
+
 
 This is rather repetitive, and more importantly, does not capture the fact that there is a _single_ algorithm to compute the parity on all inputs.
 Typical programming language use the notion of _loops_ to express such an algorithm, and so we might have wanted to use code such as:
 
 ```python
-# s is the "running parity", initalized to 0
-while i < length(x):
-    u   := x_i NAND s
-    v   := s   NAND u
-    w   := x_i NAND u
-    s  := v   NAND w
-    i++
-ns  := s  NAND s
-y_0 := ns NAND ns
+# s is the "running parity", initialized to 0
+while i<len(X):
+    u = NAND(s,X[i])
+    v = NAND(s,u)
+    w = NAND(X[i],u)
+    s = NAND(v,w)
+    i+= 1
+Y[0] = s
 ```
 
-We will now discuss how we can extend the  NAND programming language so that it can capture this kind of a construct.
+We will now discuss how we can extend the  NAND programming language so that it can capture these kinds of  constructs.
 
 
 ## The NAND++ Programming language
 
-Keeping to our minimalist form, we will not add a `while` keyword to the NAND programming language.
-But we will extend this language in a way that allows for executing loops and accessing arrays of arbitrary length.
-The main new ingredients are the following:
+The NAND++ programming language aims to capture the notion of a _single uniform algorithm_ that can compute a function that takes inputs of _arbitrary lengths_.
+To do so, we need to extend the NAND programming language with two constructs:
 
-* We add a special variable `loop` with the following semantics: after executing the last line of the program, if `loop` is equal to one, then instead of halting, the program goes back to the first line. If `loop` is equal to zero after executing the last line then the program halts as is usual with NAND.^[This corresponds to wrapping the entire program in one big loop that is executed at least once and continues as long as `loop` is equal to $1$. For example, in the C programming language this would correspond with wrapping the entire program with the construct `do { ...} while (loop);`.]
+* _Loops_: NAND is a _straightline_ programming language- a NAND program of $s$ lines takes exactly $s$ steps of computation and hence in particular cannot even touch more than $3s$ variables. _Loops_ allow us to capture in a short program the instructions for a computation that can take an arbitrary amount of time.
 
-* We add a special _integer valued_ variable `i`, and allow expressions of the form `foo_i` (for every variable identifier `foo`) which are evaluated to equal `foo_`$\expr{i}$ (where $\expr{i}$ denotes the current value of the variable `i`).
-For example, if the current value of `i` is equal to 15, then `foo_i` corresponds to `foo_15`.^[Note that the variable `i`, like all variables in NAND, is a _global_ variable, and hence  all expressions of the form `foo_i`, `bar_i` etc. refer to the same value of `i`.]
-In the first loop of the program, `i` is assigned the value $0$, but each time the program loops back to the first line, the value of `i` is updated in the following manner:
-in the $k$-th iteration the value of `i` equals $I(k)$ where $I=(I(0),I(1),I(2),\ldots)$ is the following sequence (see [indextimefig](){.ref}):^[TODO: Potentially change in the future to Salil's sequence $INDEX(\ell) = min{\ell-floor(sqrt(\ell))^2,ceiling(sqrt(\ell))^2-\ell}$ which has the form $0,0,1,1,0,1,2,2,1,0,1,2,3,3,2,1,0,1,2,3,4,4,3,2,1,0,\ldots$.]
+* _Arrays_: A NAND program of $s$ lines touches at most $3s$ variables. While we allow in NAND variables such as `Foo[17]` or `Bar[22]`, they are not true arrays, since the number inside the brackets is a constant that is "hardwired" into the program. In particular a NAND program of $s$ lines cannot read an input `X[` $i$ `]` for $i>2s$.
+
+
+Thus a good way to remember  NAND++ is  using the following informal equation:
 
 $$
-0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots
+NAND++ \;=\; NAND \;+\; \text{loops} \;+\; \text{arrays} \label{eqnandloops}
 $$
 
+> # {.remark title="NAND + loops + arrays = everything." #otherpl}
+It turns out that adding loops and arrays is enough to not only enable computing XOR, but in fact capture the full power of all programming languages! Hence we could replace "NAND++" with any of _Python_, _C_, _Javascript_, _OCaml_,  etc... in the lefthand side of  [eqnandloops](){.eqref}.
+But we're getting ahead of ourselves: this issue will be discussed in [chapequivalentmodels](){.ref}.
 
-* Because the input to NAND++ programs can have variable length, we also add a special read-only array `validx` such that `validx_`$\expr{n}$ is equal to $1$ if and only if the $n$ is smaller than the length of the input. In particular, `validx_i` will equal to $1$ if and only if the value of  `i`  is smaller than the length of the input.
+
+### Enhanced NAND++ programs
+
+We now turn to describing the syntax of NAND++ programs.
+We'll start by describing what we call the "enhanced NAND++ programming language".
+Enhanced NAND++ has some extra features on top of NAND++ that make it easier to describe.
+However, we will  see in [eNANDppequivalent](){.ref} that these extra features can be implemented as "syntactic sugar" on top of standard or "vanilla" NAND++, and hence these two programming languages are equivalent in power.
+
+Enhanced NAND++ programs add the following features on top of NAND:
+
+* We add a special Boolean variable `loop`. If `loop` is equal to $1$ at the end of the execution then execution loops back to the first line of the program.
+
+* We add a special _integer valued_ variable `i`. We add the commands `i += foo` and `i -= bar` that can add or subtract to `i` either zero or one, where `foo` and `bar` are standard (Boolean valued) variables.^[The variable `i` will actually always be a _non-negative_ integer, and hence `i -= foo` will have no effect if `i`= $0$. This choice is made for notational convenience, and the language would have had the same power if we allowed `i`  to take negative values.]
+
+* We add  _arrays_ to the language by allowing variable identifiers to have the form `Foo[i]`. `Foo` is an array of Boolean values, and `Foo[i]` refers to the value of this array at location equal to the current value of  the variable `i`.
+
+* The input and output `X` and `Y` are now considered _arrays_ with values of zeroes and ones. Since both input and output could have arbitrary length, we also add two new arrays `Xvalid` and `Yvalid` to mark their length. We define `Xvalid[` $i$ `]` $=1$  if and only if $i$ is smaller than the length of the input, and similarly we will set `Yvalid[` $j$ `]` to equal $1$ if and only if $j$ is smaller than the length of the output.
 
 
-* Like NAND programs, the output of a  NAND++ program is the string `y_`$0$, $\ldots$, `y_`$\expr{k}$  where $k$ is the largest integer such that `y_`$\expr{k}$ was assigned a value.^[To allow control of the output length, we also add a write-only array `invalidy`. If there exist $j<k$ such that `invalidy_`$\expr{j}$=1 then we reduce the output length to $j-1$. However, we will hardly use this array in this course, since  we will almost always be interested in programs with a fixed output length (and in fact most often in programs with one bit of output). ]
+
+:::  {.example title="XOR in Enhanced NAND++" #XORENANDPP}
+The following is an enhanced NAND++ program to compute the XOR function
+on inputs of arbitrary length.
+That is $XOR:\{0,1\}^* \rightarrow \{0,1\}$ such that $XOR(x) = \sum_{i=0}^{|x|-1} x_i \mod 2$ for every $x\in \{0,1\}^*$.
+
+```python
+temp_0 = NAND(X[0],X[0])
+Yvalid[0] = NAND(X[0],temp_0)
+temp_2 = NAND(X[i],Y[0])
+temp_3 = NAND(X[i],temp_2)
+temp_4 = NAND(Y[0],temp_2)
+Y[0] = NAND(temp_3,temp_4)
+loop = Xvalid[i]
+i += Xvalid[i]
+```
+:::
+
+::: {.example title="Increment in Enhanced NAND++" #INCENANDPP}
+We now present enhanced NAND++ program to compute the _increment function_.
+That is, $INC:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every $x\in \{0,1\}^n$, $INC(x)$ is the $n+1$ bit long string $y$ such that if $X = \sum_{i=0}^{n-1}x_i \cdot 2^i$ is the number represented by $x$, then $y$ is the binary representation of the number $X+1$.
+
+We start by showing the program using the "syntactic sugar" we've seen before of using shorthand for some NAND programs we have seen before to compute simple functions such as `IF`, `XOR` and `AND` (as well as the constant `one` function as well as the function `COPY` that just maps a bit to itself).
+
+```python
+carry = IF(started,carry,one(started))
+started = one(started)
+Y[i] = XOR(X[i],carry)
+carry = AND(X[i],carry)
+Yvalid[i] = one(started)
+loop = COPY(Xvalid[i])
+i += loop
+```
+The above is not, strictly speaking, a valid enhanced NAND++ program.
+If we "open up" all of the syntactic sugar, we get the following valid program to compute this syntactic sugar.
+
+```python
+temp_0 = NAND(started,started)
+temp_1 = NAND(started,temp_0)
+temp_2 = NAND(started,started)
+temp_3 = NAND(temp_1,temp_2)
+temp_4 = NAND(carry,started)
+carry = NAND(temp_3,temp_4)
+temp_6 = NAND(started,started)
+started = NAND(started,temp_6)
+temp_8 = NAND(X[i],carry)
+temp_9 = NAND(X[i],temp_8)
+temp_10 = NAND(carry,temp_8)
+Y[i] = NAND(temp_9,temp_10)
+temp_12 = NAND(X[i],carry)
+carry = NAND(temp_12,temp_12)
+temp_14 = NAND(started,started)
+Yvalid[i] = NAND(started,temp_14)
+temp_16 = NAND(Xvalid[i],Xvalid[i])
+loop = NAND(temp_16,temp_16)
+i += loop
+```
+:::
+
+::: { .pause }
+Working out the above two example can go a long way towards understanding NAND++.
+See the appendix for a full specification of the language.
+:::
+
+### "Oblivious" / "Vanilla" NAND++
+
+Since our goal in theoretical computer science is not as much to _construct_
+programs  as to _analyze_ them, we want to use as simple as possible computational models.
+Hence our actual NAND++ programming language will be even more "bare bones" than enhanced NAND++.
+In particular, NAND++ does _not_ contain the commands `i += foo` and `i -= bar` to control the integer-valued variable `i`.
+Rather in NAND++ the variable `i` always progresses according to the same sequence.
+In the first iteration `i`$=0$, in the second one `i`$=1$, in the third iteration, `i=`$0$ again, and then in the fourth to seventh iterations `i` travels to $2$ and back to $0$ again, and so on and so forth.
+Generally, in the $k$-th iteration the value of `i` equals $I(k)$ where $I=(I(0),I(1),I(2),\ldots)$ is the following sequence (see [indextimefig](){.ref}):^[TODO: Potentially change in the future to Salil's sequence $INDEX(\ell) = min{\ell-floor(sqrt(\ell))^2,ceiling(sqrt(\ell))^2-\ell}$ which has the form $0,0,1,1,0,1,2,2,1,0,1,2,3,3,2,1,0,1,2,3,4,4,3,2,1,0,\ldots$.]
+
+$$
+0,1,0,1,2,1,0,1,2,3,2,1,0,1,\ldots
+$$
 
 ![The value of `i` as a function of the current iteration. The variable `i` progresses according to the sequence $0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots$.  At the $k$-th iteration the value of `i` equals $k-r(r+1)$ if $k \leq (r+1)^2$ and $(r+1)(r+2)-k$ if $k<(r+1)^2$ where $r= \floor{\sqrt{k+1/4}-1/2}$.](../figure/indextime.png){#indextimefig .class width=300px height=300px}
 
-
-See the appendix for a more formal specification of the NAND++ programming language, and the website [http://nandpl.org](http://nandpl.org) for an implementation.
-Here is the NAND++ program to compute parity of arbitrary length:
-(It is a good idea for you to see why this program does indeed compute the parity)
-
+::: {.example title="XOR in vanilla NAND++" #XORNANDPP}
+Here is the XOR function in NAND++ (using our standard syntactic sugar to make it more readable):
 
 ```python
-# compute sum x_i (mod 2)
-# s = running parity
-# seen_i = 1 if this index has been seen before
-
-# Do val := (NOT seen_i) AND x_i
-tmp_1  := seen_i NAND seen_i
-tmp_2  := x_i NAND tmp_1
-val   :=  tmp_2 NAND tmp_2
-
-# Do s := s XOR val
-ns   := s   NAND s
-y_0  := ns  NAND ns
-u    := val NAND s
-v    := s   NAND u
-w    := val NAND u
-s    := v   NAND w
-
-seen_i := zero NAND zero
-stop := validx_i NAND validx_i
-loop := stop     NAND stop
+Yvalid[0] = one(X[0])
+Y[0] = IF(Visited[i],Y[0],XOR(X[i],Y[0]))
+Visited[i] = one(X[0])
+loop = Xvalid[i]
 ```
 
+Note that we use the array `Visited` to "mark" the positions of the input that we have already visited.
+The line `IF(Visited[i],Y[0],XOR(X[i],Y[0]))` ensures that the output value  `Y[0]`
+is XOR'ed with the $i$-th bit of the input only at the first time we see it.
+:::
 
-When we invoke this program on the input $010$, we get the following execution trace:
+::: { .pause }
+It would be very instructive for you to compare the enhanced NAND++ program for XOR of [XORENANDPP](){.ref} with the standard NAND++ program of [XORNANDPP](){.ref}.
+:::
 
-```
-... (complete this here)
-End of iteration 0, loop = 1, continuing to iteration 1
-...
-End of iteration 2, loop = 0, halting program
-```
+::: {.solvedexercise title="Computing index location" #computeindex}
+Prove that at the $k$-iteration of the loop, the value of the variable `i` is equal to $index(k)$ where $index:\N \rightarrow \N$ is defined as follows:
+$$
+index(k) = \begin{cases} k- r(r+1) & k \leq (r+1)^2 \\ (r+1)(r+2)-k & \text{otherwise} \end{cases} \label{eqindex}
+$$
+where $r= \floor{\sqrt{k+1/4}-1/2}$.
+:::
 
-### Computing the index location
-
+::: {.solution data-ref="computeindex"}
 We say that a NAND program completed its _$r$-th round_ when the index variable `i` completed the sequence:
 
 $$
@@ -138,49 +221,45 @@ $$
 $$
 
 iterations of its main loop. (The last equality is obtained by applying the formula for the sum of an arithmetic progression.)
-This means that if we keep a "loop counter" $k$ that is initially set to $0$ and increases by one at the end of any iteration, then  the "round" $r$ is the largest integer such that $r(r+1) \leq k$, which (as you can verify) equals $\floor{\sqrt{k+1/4}-1/2}$.
+This means that if we keep a "loop counter" $k$ that is initially set to $0$ and increases by one at the end of any iteration, then  the "round" $r$ is the largest integer such that $r(r+1) \leq k$.
+One can verify that this means that $r=\floor{\sqrt{k+1/4}-1/2}$.
+When $k$ is between $r(r+1)$ and $(r+1)^2$ then the index `i`
+is ascending, and hence the value of $index(k)$ will be $k-r(r+1)$.
+When $k$ is between $(r+1)^2$ and $(r+1)(r+2)$ then the index `i` is descending,  and hence the value of $index(k)$ will be $r-(k-(r+1)^2)= (r+1)(r+2)-k$.
+:::
 
-Thus the value of `i` in the  $k$-th loop equals:
 
-$$
-index(k) = \begin{cases} k- r(r+1) & k \leq (r+1)^2 \\ (r+1)(r+2)-k & \text{otherwise} \end{cases} \label{eqindex}
-$$
-
-where $r= \floor{\sqrt{k+1/4}-1/2}$.
-(We ask you to prove this in [computeidx-ex](){.ref}.)
 
 
 > # {.remark title="Variables as arrays" #arrays}
-In NAND we allowed variables to have names such as `foo_17` but the numerical part of the identifier played essentially the same role as alphabetical part. In particular, NAND would be just as powerful if we didn't allow any numbers in the variable identifiers.
-With the introduction of the special index variable `i`, in NAND++ things are different.
-It is best to think of each NAND++ variable `foo` as an _array_, with its $j$-th position corresponding to `foo_`$\expr{j}$ (which in other programming languages would often be written as `foo[`$\expr{j}$`]`).
-Recall also our convention that a variable without an index such as `bar` is equivalent to `bar_0`, or the first position of the corresponding array.
-Of course we can think of variables as arrays in NAND as well, but since in NAND all indices are absolute numerical constants, this viewpoint does not make much of a difference as it does in NAND++.
-
-
-
-
-
-### Infinite loops and computing a function
-
-One crucial difference between NAND and NAND++ programs is the following.
-Looking at a NAND program $P$, we can always tell how many inputs and how many outputs it has (by simply counting  the number of `x_` and `y_` variables).
-Furthermore, we  are guaranteed that if we invoke $P$ on any input then _some_ output will be produced.
-In contrast, given any particular NAND++ program $P'$, we cannot determine a priori the length of the output.
-In fact, we don't even know  if an output would be produced at all!
-For example, the following NAND++ program would go into an infinite loop if the first bit of the input is zero:
-
-```python
-loop := x_0 NAND x_0
-```
-
-For a NAND++ program $P$ and string $x\in \{0,1\}^*$, if $P$ produces an output when executed with input $x$ then we denote this output by $P(x)$.
-If $P$ does not produce an output on $x$ then we say that $P(x)$ is _undefined_ and denote this as $P(x) = \bot$.
-
-> # {.definition title="Computing a function" #compute}
-We say that a NAND++ program $P$ _computes_ a function $F:\{0,1\}^* :\rightarrow \{0,1\}^*$ if $P(x)=F(x)$ for every $x\in \{0,1\}^*$.
+In NAND we allowed variables to have names such as `foo_17` or even `Bar[23]` but the numerical part of the identifier played essentially the same role as alphabetical part. In particular, NAND would be just as powerful if we didn't allow any numbers in the variable identifiers.
+With the introduction of the special index variable `i`, in NAND++ things are different, and we do have actual arrays.
 >
-If $F$ is a partial function then we say that _$P$ computes $F$_ if $P(x)=F(x)$ for every $x$ on which $F$ is defined.
+To make sure there is no confusion, we will insist that plain variables are written with all lower case, and _array variables_ begin with an upper case letter.
+Moreover, it turns out that we can ensure without loss of generality that arrays are always indexed by the variable `i`.
+Hence all the variable identifiers in "well formed" NAND++ programs will either have the form `foo_123` (a sequence of lower case letters, underscores, and numbers, with no brackets or upper case letters) or the form `Bar[i]` (an identifier starting with an upper case letter, and ending with `[i]`).
+>
+Some of our example programs, such as the program to compute XOR  in [XORNANDPP](){.ref}, are not well formed, in the sense that they index the `X` and `Y` arrays with `0` and not just `i`.
+However, it is not hard to transform them into well formed programs (see [noabsoluteindexex](){.ref})
+
+
+
+
+
+## Computable functions
+
+
+We now turn to making one of the most important definitions in this book,
+that of _computable functions_.
+The definition is deceptively simple, but will be the starting point of many deep results and questions:
+
+
+
+> # {.definition title="Computing a function" #computablefuncdef}
+Let $F:\{0,1\}^* \rightarrow \{0,1\}^*$ be a function and let $P$ be a
+NAND++ program.
+We say that $P$ _computes_ $F$ if for every $x\in \{0,1\}^*$, if we execute $P$ while initializing the variables `X[`$i$`]`$=x_i$ and `Xvalid[`$i$`]`$=1$ for every $i\in \{0,\ldots,|x|-1\}$,
+then $P$ halts eventually with the value of the variables `Y[`$0$`]`,$\ldots$,`Y[`$m-1$`]` equalling $F(x)$, where $m$ is the smallest number such that the value of `Yvalid[`$m$`]`  is equal to $0$.
 >
 We say that a function $F$ is _NAND++ computable_ if there is a NAND++ program that computes it.
 
@@ -188,8 +267,28 @@ We say that a function $F$ is _NAND++ computable_ if there is a NAND++ program t
 We will often drop the "NAND++" qualifier and simply call a function _computable_ if it is NAND++ computable.
 This may seem "reckless" but, as we'll see in future lectures, it turns out that  being NAND++-computable is equivalent to being computable in essentially any reasonable model of computation.
 
-> # {.remark title="Notation" #notation}
+::: { .pause }
+[computablefuncdef](){.ref} is, as we mentioned above, one of the most important definitions in this book. Please re-read it and make sure you understand it. Try to think how _you_ would define the notion of a NAND++ program $P$ computing a function, and make sure that you arrive at the same definition.
+:::
+
+
+::: {.remark title="Infinite loops" #infiniteloops}
+One crucial difference between NAND and NAND++ programs is the following.
+Looking at a NAND program $P$, we can always tell how many inputs and how many outputs it has (by simply looking  at the `X` and `Y` variables).
+Furthermore, we  are guaranteed that if we invoke $P$ on any input then _some_ output will be produced.
+
+In contrast, given any particular NAND++ program $P'$, we cannot determine a priori the length of the output.
+In fact, we don't even know  if an output would be produced at all!
+For example, the following NAND++ program would go into an infinite loop if the first bit of the input is zero:
+
+```python
+loop = NAND(X[0],X[0])
+```
+:::
+
+> # {.remark title="Decidable languages" #decidablelanguages}
 If $F:\{0,1\}^* \rightarrow \{0,1\}$ is a Boolean function, then computing $F$ is equivalent to deciding membership in the set $L=\{ x\in \{0,1\}^* \;|\; F(x)=1 \}$. Subsets of $\{0,1\}^*$ are known as _languages_ in the literature. Such a language  $L \subseteq \{0,1\}^*$ is known as _decidable_ or _recursive_ if the corresponding function $F$ is computable.
+
 
 
 
@@ -636,9 +735,10 @@ Both configurations and Deltas are technical ways to capture the fact that compu
 
 ## Exercises
 
-> # {.exercise title="Compute index" #computeidx-ex}
-Suppose that $t$ is the "iteration counter" of a NAND++ program, in the sense that $t$ is initialized to zero, and is incremented by one each time the program finishes an iteration and goes back to the first line.
-Prove that the value of the variable `i` is equal to $t-r(r+1)$ if $t \leq (r+1)^2$ and equals $(r+2)(r+1)-t$ otherwise, where $r = \floor{\sqrt{t+1/4}-1/2}$.
+
+::: {.exercise title="Well formed NAND++ programs" #noabsoluteindexex}
+Let $P$ be a NAND++ program. Prove that there exists a NAND++ program $P'$ that computes the same function as $P$, such that every variable in $P'$ is either a scalar (non array variable), or is an array indexed by `i`.^[_Hint:_   We can replace references to `Foo[17]` with `foo_17`. We can also use a finite number of variables to keep track of when the index variable `i` reaches the point `17`, in which case we write `foo_17` to the value of `Foo[i]`.]
+:::
 
 
 
