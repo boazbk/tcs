@@ -340,7 +340,7 @@ That is, $(xy)_i$ equals $x_i$ if $i<n$ and equals $y_{i-n}$ if $n \leq i < n+m$
 
 
 
-### Functions
+### Functions {#functionsec }
 
 If $S$ and $T$ are sets, a _function_ $F$ mapping $S$ to $T$, denoted by $F:S \rightarrow T$, associates with every element $x\in S$ an element $F(x)\in T$.
 The set $S$ is known as the _domain_ of $F$ and the set $T$ is known as the _range_ or _co-domain_ of $F$.

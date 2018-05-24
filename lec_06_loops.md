@@ -259,7 +259,7 @@ The definition is deceptively simple, but will be the starting point of many dee
 Let $F:\{0,1\}^* \rightarrow \{0,1\}^*$ be a function and let $P$ be a
 NAND++ program.
 We say that $P$ _computes_ $F$ if for every $x\in \{0,1\}^*$, if we execute $P$ while initializing the variables `X[`$i$`]`$=x_i$ and `Xvalid[`$i$`]`$=1$ for every $i\in \{0,\ldots,|x|-1\}$,
-then $P$ halts eventually with the value of the variables `Y[`$0$`]`,$\ldots$,`Y[`$m-1$`]` equalling $F(x)$, where $m$ is the smallest number such that the value of `Yvalid[`$m$`]`  is equal to $0$.
+then $P$ halts eventually and moreover, if we let $P(x)$ denote  the value of the variables `Y[`$0$`]`,$\ldots$,`Y[`$m-1$`]`  (where $m$ is the smallest number such that the value of `Yvalid[`$m$`]`  is equal to $0$) then $P(x)=F(x)$.
 >
 We say that a function $F$ is _NAND++ computable_ if there is a NAND++ program that computes it.
 
@@ -284,16 +284,41 @@ For example, the following NAND++ program would go into an infinite loop if the 
 ```python
 loop = NAND(X[0],X[0])
 ```
+
+If a program $P$ fails to stop and produce an output on some an input $x$, then it cannot compute any total function. However, it can still compute a _partial_ function.^[A _partial function_ $F$ from a set $A$ to a set $B$ is a function that is only defined on a _subset_ of $A$, (see [functionsec](){.ref}). We can also think of such a function as mapping $A$ to $B \cup \{ \bot \}$ where $\bot$ is a special "failure" symbol such that $F(a)=\bot$  indicates the function $F$ is not defined on $a$.]
+We say that a NAND++ program $P$ computes a partial function $F$ if for every $x$ on which $F$ is defined, on input $x$, $P$ halts and outputs $F(x)$.
 :::
 
 > # {.remark title="Decidable languages" #decidablelanguages}
 If $F:\{0,1\}^* \rightarrow \{0,1\}$ is a Boolean function, then computing $F$ is equivalent to deciding membership in the set $L=\{ x\in \{0,1\}^* \;|\; F(x)=1 \}$. Subsets of $\{0,1\}^*$ are known as _languages_ in the literature. Such a language  $L \subseteq \{0,1\}^*$ is known as _decidable_ or _recursive_ if the corresponding function $F$ is computable.
+The corresponding concept to a _partial function_ is known as a [promise problem](https://goo.gl/sBczFM).
 
 
 
 
 
-## A spoonful of sugar
+## Equivalence of "vanilla" and "enhanced" NAND++
+
+We have defined so far not one but two programming languages to handle functions with unbounded input lengths: "enhanced" NAND++ which contains the `i += bar` and `i -= foo` operations, and the standard or "vanilla" NAND++, which does not contain these operations, but rather where the index `i` travels obliviously according to the schedule $0,1,0,1,2,1,0,1,\ldots$.
+
+We now show these two versions are equivalent in power:
+
+> # {.theorem title="Equivalence of enhanced and standard NAND++" #enhancednandequivalence}
+Let $F:\{0,1\}^* \rightarrow \{0,1\}^*$.
+Then $F$ is computable by a NAND++ program if and only if $F$ is computable by an enhanced NAND++ program.
+
+> # {.proofidea data-ref="enhancednandequivalence"}
+To prove the theorem we need to show  __(1)__ that for every NAND++ program $P$ there is an enhanced NAND++ program $Q$ that computes the same function as $P$, and __(2)__  that for every enhanced NAND++ program $Q$, there is a NAND++ program $P$ that computes the same function as $Q$.
+>
+Showing __(1)__ is quite straightforward: all we need to do is to show that we can ensure that `i` follows the sequence $0,1,0,1,2,1,0,1,\ldots$ using the `i += foo` and `i -= foo` operations.
+The idea is that we use a `Visited` array to keep track at which places we visited, as well as a special `Zero` array for which we ensure that `Zero[`$0$`]`$=1$ but `Zero[`$i$`]`$=0$ for every $i>0$.
+We can use these arrays to check in each iteration whether `i` is equal to $0$ (in which case we want to execute `i += 1` at the end of the iteration), whether `i` is at a point which we haven't seen before (in which case we want to execute `i -= 1` at the end of the iteration), or whether it's at neither of those extremes (in which case we should add or subtract to `i` the same value as the last iteration).
+>
+Showing __(2)__ is a little more involved. Our main observation is that we can simulate a conditional `GOTO` command in NAND++. That is, we can come up with some "syntactic sugar" that will have the effect of jumping to a different line in the program if a certain variable is equal to $1$. Once we have this, we can implement looping commands such as `while`. This allows us to simulate a command such as `i += foo` by simply waiting until `i` checking  will simulate a command such as `i += foo` by 
+
+::: {.proof data-ref="enhancednandequivalence"}
+
+:::
 
 Just like NAND, we can add a bit of "syntactic sugar" to NAND++ as well.
 These are constructs that can help us in expressing programs, though ultimately do not change the computational power of the model, since any program using these constructs can be "unsweetened" to obtain a program without them.
