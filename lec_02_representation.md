@@ -11,19 +11,19 @@
 >_"The alphabet was a great invention, which enabled men to store and to learn with little effort what others had learned the hard way-that is, to learn from books rather than from direct, possibly painful, contact with the real world."_, B.F. Skinner
 
 
->_"The name of the song is called `Haddocks' Eyes.'"_ [said the Knight]
+>_"The name of the song is called `HADDOCK'S EYES.'"_ [said the Knight]
 >
 >_"Oh, that's the name of the song, is it?"_ Alice said, trying to feel interested.
 >
->_"No, you don't understand,"_ the Knight said, looking a little vexed. _"That's what the name is called. The name really is `The Aged Aged Man.' "_
+>_"No, you don't understand,"_ the Knight said, looking a little vexed. _"That's what the name is CALLED. The name really is `THE AGED AGED MAN.' "_
 >
->_"Then I ought to have said `That's what the song is called'?"_ Alice corrected herself.
+>_"Then I ought to have said `That's what the SONG is called'?"_ Alice corrected herself.
 >
->_"No, you oughtn't: that's quite another thing! The song is called `Ways And Means': but that's only what it's called, you know!"_
+>_"No, you oughtn't: that's quite another thing! The SONG is called `WAYS AND MEANS': but that's only what it's CALLED, you know!"_
 >
->_"Well, what is the song, then?"_ said Alice, who was by this time completely bewildered.
+>_"Well, what IS the song, then?"_ said Alice, who was by this time completely bewildered.
 >
->_"I was coming to that,"_ the Knight said. _"The song really is `A-sitting On A Gate': and the tune's my own invention."_
+>_"I was coming to that,"_ the Knight said. _"The song really IS `A-SITTING ON A GATE': and the tune's my own invention."_
 >
 >Lewis Carroll, _Through the looking glass_
 >
