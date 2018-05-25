@@ -364,6 +364,9 @@ indexincreasing = IF(Visited[i],indexincreasing,zero)
 indexincreasing = IF(Atstart[i],one,indexincreasing)
 Visited[i] = COPY(one)
 ```
+
+at the very end of the program.
+
 ![We can know if the index variable `i` should increase or decrease by keeping an array `atstart` letting us know when `i` reaches $0$, and hence `i` starts increasing, and `breadcrumb` letting us know when we reach a point we haven't seen before, and hence `i` starts decreasing.  TODO: update figure to `Atstart` and `Visited` notation. ](../figure/breadcrumbs.png){#breadcrumbspng .class width=300px height=300px}
 
 Given any standard NAND++ program $P$, we can add the above lines of code to it to obtain an enhanced NAND++ program $Q$ that will behave in exactly the same way as $P$ and hence will compute the same function.
@@ -372,11 +375,58 @@ This completes the proof of the first part of [enhancednandequivalence](){.ref}.
 
 ### Simulating enhanced NAND++ programs by NAND++ programs. { #nhanvedtovanillasec }
 
+To simulate enhanced NAND++ programs by vanilla ones, we will do as follows.
+We introduce an array `Markposition` which normally would be all zeroes.
+We then replace the line `i += foo` with code that achieves the following:
+
+1. We first check if `foo=0`. If so, then we do nothing.
+2. Otherwise we set `Markposition[i]=one`.
+3. We then want to add code that will do nothing until we we get to the position `i+1`. We now that we got to this position when we reach the end of the program iteration and both `Markposition[i]`$=1$  and `indexincreasing`$=1$. We do so by setting a special variable named `waiting`, which basically tells the program to do nothing except check the condition until `waiting`$=0$.
+
+We will start by describing this program under the assumption that we have access to `GOTO` and `LABEL` operations.
+`LABEL(l)` simply marks a line of code with the string `l`. `GOTO(l,cond)` jumps in execution to the position labeled `l` if `cond` is equal to $1$.^[Since this is a NAND++ program, we assume that if the label `l` is _before_ the `GOTO` then jumping in execution means that another iteration of the program is finished, and the index variable `i` is increased or decreased as usual.]
+
+If the original program had the form:
+
+```python
+precode... #pre-increment-code
+
+i += foo
+
+postcode... # post-increment-cod
+```
+
+Then the new program will have the following form:
+
+```python
+precode... #pre-increment-code
+
+# relacement for i += foo
+waiting = foo # if foo=1 then we need to wait
+Markposition[i] = foo # we mark the position we were at
+GOTO("end",waiting) # If waiting then jump till end.
+
+LABEL("postcode")
+waiting = zero
+timeforpostcode = zero
+postcode..
+
+LABEL("end")
+maintainance # maintain value of indexincreasing variable as before
+condition = AND(Markposition[i],indexincreasing) # when to stop waiting.
+Markposition[i] = IF(condition,zero,Markposition[i]) # zero out Markposition if we are done waiting
+GOTO("postcode",AND(condition,waiting))  # If condition is one and we  were waiting then go to instruction after increment
+GOTO("end",waiting) # If we are still in waiting then go back to "end" skipping all the rest of the code
+# (since this is another iteration of the program i keeps travelling as usual.)
+```
+> # { .pause }
+Please make sure you understand the above construct.
+Also note that the above only works when there is a _single_ line of the form ` i += foo` or `i -= bar` in the program.
+When there are multiple lines then we need to add more labels and variables to take care of each one of them separately.
+Stopping here and working out how to handle more labels is an excellent way to get a better understanding of this construction.
 
 
 
-Just like NAND, we can add a bit of "syntactic sugar" to NAND++ as well.
-These are constructs that can help us in expressing programs, though ultimately do not change the computational power of the model, since any program using these constructs can be "unsweetened" to obtain a program without them.
 
 ### Inner loops via syntactic sugar
 
