@@ -87,7 +87,7 @@ But we're getting ahead of ourselves: this issue will be discussed in [chapequiv
 We now turn to describing the syntax of NAND++ programs.
 We'll start by describing what we call the "enhanced NAND++ programming language".
 Enhanced NAND++ has some extra features on top of NAND++ that make it easier to describe.
-However, we will  see in [eNANDppequivalent](){.ref} that these extra features can be implemented as "syntactic sugar" on top of standard or "vanilla" NAND++, and hence these two programming languages are equivalent in power.
+However, we will see in [enhancednandequivalence](){.ref}  that these extra features can be implemented as "syntactic sugar" on top of standard or "vanilla" NAND++, and hence these two programming languages are equivalent in power.
 
 Enhanced NAND++ programs add the following features on top of NAND:
 
@@ -251,7 +251,7 @@ However, it is not hard to transform them into well formed programs (see [noabso
 
 We now turn to making one of the most important definitions in this book,
 that of _computable functions_.
-The definition is deceptively simple, but will be the starting point of many deep results and questions:
+This definition is deceptively simple, but will be the starting point of many deep results and questions:
 
 
 
@@ -270,6 +270,15 @@ This may seem "reckless" but, as we'll see in future lectures, it turns out that
 ::: { .pause }
 [computablefuncdef](){.ref} is, as we mentioned above, one of the most important definitions in this book. Please re-read it and make sure you understand it. Try to think how _you_ would define the notion of a NAND++ program $P$ computing a function, and make sure that you arrive at the same definition.
 :::
+
+This is a good point to remind the reader of  the distinction between _functions_ and _programs_:
+
+$$ \text{Functions} \;\neq; \text{Programs} $$
+
+A program $P$  can _compute_ some function  $F$, but it is not the same as $F$.
+In particular there can be more than one program to compute the same function.
+Being "NAND++ computable" is a property of _functions_, not of programs.
+
 
 
 ::: {.remark title="Infinite loops" #infiniteloops}
@@ -311,15 +320,60 @@ Then $F$ is computable by a NAND++ program if and only if $F$ is computable by a
 To prove the theorem we need to show  __(1)__ that for every NAND++ program $P$ there is an enhanced NAND++ program $Q$ that computes the same function as $P$, and __(2)__  that for every enhanced NAND++ program $Q$, there is a NAND++ program $P$ that computes the same function as $Q$.
 >
 Showing __(1)__ is quite straightforward: all we need to do is to show that we can ensure that `i` follows the sequence $0,1,0,1,2,1,0,1,\ldots$ using the `i += foo` and `i -= foo` operations.
-The idea is that we use a `Visited` array to keep track at which places we visited, as well as a special `Zero` array for which we ensure that `Zero[`$0$`]`$=1$ but `Zero[`$i$`]`$=0$ for every $i>0$.
+The idea is that we use a `Visited` array to keep track at which places we visited, as well as a special `Atstart` array for which we ensure that `Atstart[`$0$`]`$=1$ but `Atstart[`$i$`]`$=0$ for every $i>0$.
 We can use these arrays to check in each iteration whether `i` is equal to $0$ (in which case we want to execute `i += 1` at the end of the iteration), whether `i` is at a point which we haven't seen before (in which case we want to execute `i -= 1` at the end of the iteration), or whether it's at neither of those extremes (in which case we should add or subtract to `i` the same value as the last iteration).
 >
-Showing __(2)__ is a little more involved. Our main observation is that we can simulate a conditional `GOTO` command in NAND++. That is, we can come up with some "syntactic sugar" that will have the effect of jumping to a different line in the program if a certain variable is equal to $1$. Once we have this, we can implement looping commands such as `while`. This allows us to simulate a command such as `i += foo` by simply waiting until `i` checking  will simulate a command such as `i += foo` by
+Showing __(2)__ is a little more involved. Our main observation is that we can simulate a conditional `GOTO` command in NAND++. That is, we can come up with some "syntactic sugar" that will have the effect of jumping to a different line in the program if a certain variable is equal to $1$. Once we have this, we can implement looping commands such as `while`. This allows us to simulate a command such as `i += foo` when `i` is currently in the "decreasing phase" of its cycle  by simply waiting until `i`  reaches the same point in the "increasing phase". The intuition is that the difference between standard and enhanced NAND++ is like the difference between a bus and a taxi. Ennhanced NAND++ is like a taxi - you tell `i` where to do.  Standard NAND++ is like a bus - you wait until `i` arrives at the point you want it to be in. A bus might be a little slower, but will eventually get you to the same place.
 
 
-::: {.proof data-ref="enhancednandequivalence"}
+We split the full proof of  [enhancednandequivalence](){.ref} into two parts.
+In [vanillatoenhancedsec](){.ref} we show the easier direction of simulating standard NAND++ programs by enhanced ones.
+In [nhanvedtovanillasec](){.ref} we show the harder direction of simulating enhanced NAND++ programs by standard ones.
+Along the way we will show how we can simulate the `GOTO` operation in NAND++ programs.
 
-:::
+
+
+### Simulating NAND++ programs by enhanced NAND++ programs. { #vanillatoenhancedsec }
+
+Let $P$ be a standard NAND++ program. To create an enhanced NAND++ program that computes the same function, we will add a variable `indexincreasing` and code to ensure that at the end of the iteration, if `indexincreasing` equals $1$ then `i` needs to increase by $1$ and otherwise `i` needs to decrease by $1$.
+Once we ensure that, we can emulate $P$ by simply adding the following lines to the end of the program
+
+```python
+i += IF(indexincreasing,one,zero)
+i -= IF(indexincreasing,zero,one)
+```
+
+where `one` and `zero` are variables which are always set to be zero or one, and `IF` is shorthand for NAND implementation of our usual $IF$ function (i.e., $IF(a,b,c)$ equals $b$ if $a=1$ and $c$ otherwise).
+
+To compute `indexincreasing` we use the fact that the sequence $0,1,0,1,2,1,0,1,\ldots$ of  `i`'s travels in  a standard NAND++ program is obtained from the following rules:
+
+1. At the beginning `i` is increasing.
+2. If `i` reaches a point which it hasn't seen before, then it starts decreasing.
+3. If `i` reaches the initial point $0$, then it starts increasing.
+
+To know which points we have seen before, we can borrow Hansel and Gretel's technique of leaving _"breadcrumbs"_.
+That is, we will create an array `Visited` and add code `Visited[i] = one` at the end of every iteration.
+This means that if `Visited[i]`$=0$ then we know we have not visited this point before.
+Similarly we create an array `Atstart` array and add code `Atstart[0] = one` (while all other location remain at the default value of zero).
+Now we can use `Visited` and `Atstart` to compute the value of `indexincreasing`.
+Specifically, we will add the following pieces of code
+
+```python
+Atstart[0] = COPY(one)
+indexincreasing = IF(Visited[i],indexincreasing,zero)
+indexincreasing = IF(Atstart[i],one,indexincreasing)
+Visited[i] = COPY(one)
+```
+![We can know if the index variable `i` should increase or decrease by keeping an array `atstart` letting us know when `i` reaches $0$, and hence `i` starts increasing, and `breadcrumb` letting us know when we reach a point we haven't seen before, and hence `i` starts decreasing.  TODO: update figure to `Atstart` and `Visited` notation. ](../figure/breadcrumbs.png){#breadcrumbspng .class width=300px height=300px}
+
+Given any standard NAND++ program $P$, we can add the above lines of code to it to obtain an enhanced NAND++ program $Q$ that will behave in exactly the same way as $P$ and hence will compute the same function.
+This completes the proof of the first part of [enhancednandequivalence](){.ref}.
+
+
+### Simulating enhanced NAND++ programs by NAND++ programs. { #nhanvedtovanillasec }
+
+
+
 
 Just like NAND, we can add a bit of "syntactic sugar" to NAND++ as well.
 These are constructs that can help us in expressing programs, though ultimately do not change the computational power of the model, since any program using these constructs can be "unsweetened" to obtain a program without them.
