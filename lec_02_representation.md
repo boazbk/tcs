@@ -10,9 +10,24 @@
 
 >_"The alphabet was a great invention, which enabled men to store and to learn with little effort what others had learned the hard way-that is, to learn from books rather than from direct, possibly painful, contact with the real world."_, B.F. Skinner
 
->_"I found that every number, which may be expressed from one to ten, surpasses the preceding by one unit: afterwards the ten is doubled or tripled  ...  until a hundred; then the hundred is doubled and tripled in the same manner as the units and the tens ... and so forth to the utmost limit of numeration."_,  Muhammad ibn Mūsā al-Khwārizmī, 820, translation by Fredric Rosen, 1831.
 
->_"A mathematician would hardly call a correspondence between the set of 64 triples of four units and a set of twenty other units, "universal", while such correspondence is, probably, the most fundamental general feature of life on Earth"_, Misha Gromov, 2013
+>_"The name of the song is called `Haddocks' Eyes.'"_ [said the Knight]
+>
+>_"Oh, that's the name of the song, is it?"_ Alice said, trying to feel interested.
+>
+>_"No, you don't understand,"_ the Knight said, looking a little vexed. _"That's what the name is called. The name really is `The Aged Aged Man.' "_
+>
+>_"Then I ought to have said `That's what the song is called'?"_ Alice corrected herself.
+>
+>_"No, you oughtn't: that's quite another thing! The song is called `Ways And Means': but that's only what it's called, you know!"_
+>
+>_"Well, what is the song, then?"_ said Alice, who was by this time completely bewildered.
+>
+>_"I was coming to that,"_ the Knight said. _"The song really is `A-sitting On A Gate': and the tune's my own invention."_
+>
+>Lewis Carroll, _Through the looking glass_
+>
+
 
 To a first approximation, computation can be thought of as a process that maps an _input_ to an _output_.
 
