@@ -314,7 +314,8 @@ Showing __(1)__ is quite straightforward: all we need to do is to show that we c
 The idea is that we use a `Visited` array to keep track at which places we visited, as well as a special `Zero` array for which we ensure that `Zero[`$0$`]`$=1$ but `Zero[`$i$`]`$=0$ for every $i>0$.
 We can use these arrays to check in each iteration whether `i` is equal to $0$ (in which case we want to execute `i += 1` at the end of the iteration), whether `i` is at a point which we haven't seen before (in which case we want to execute `i -= 1` at the end of the iteration), or whether it's at neither of those extremes (in which case we should add or subtract to `i` the same value as the last iteration).
 >
-Showing __(2)__ is a little more involved. Our main observation is that we can simulate a conditional `GOTO` command in NAND++. That is, we can come up with some "syntactic sugar" that will have the effect of jumping to a different line in the program if a certain variable is equal to $1$. Once we have this, we can implement looping commands such as `while`. This allows us to simulate a command such as `i += foo` by simply waiting until `i` checking  will simulate a command such as `i += foo` by 
+Showing __(2)__ is a little more involved. Our main observation is that we can simulate a conditional `GOTO` command in NAND++. That is, we can come up with some "syntactic sugar" that will have the effect of jumping to a different line in the program if a certain variable is equal to $1$. Once we have this, we can implement looping commands such as `while`. This allows us to simulate a command such as `i += foo` by simply waiting until `i` checking  will simulate a command such as `i += foo` by
+
 
 ::: {.proof data-ref="enhancednandequivalence"}
 
