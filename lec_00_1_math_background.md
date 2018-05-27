@@ -30,7 +30,7 @@ In particular, the [CS 121 webpage](http://www.boazbarak.org/cs121/background/) 
 
 ## A mathematician's apology
 
-Before explaining the math background, perhaps I should explain why does this course is so "mathematically heavy".
+Before explaining the math background, perhaps I should explain why is this course so "mathematically heavy".
 After all, this is supposed to be a course about _computation_; one might think we should be talking mostly about  _programs_, rather than more "mathematical" objects such as  _sets_, _functions_, and _graphs_, and doing more _coding_ on an actual computer than writing mathematical proofs with pen and paper.
 So, why are we doing so much math in this course?
 Is it just some form of hazing? Perhaps a revenge of the ["math nerds" against the "hackers"](https://blog.smartbear.com/careers/math-nerds-vs-code-monkeys-should-computer-science-classes-be-more-practical/)?
