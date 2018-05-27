@@ -7,6 +7,7 @@
 * Understand the _physical extended Church-Turing thesis_ that NAND programs capture _all_ feasible computation in the physical world, and its physical and philosophical implications.
 
 
+
 >_"In existing digital computing devices various mechanical or electrical devices have been used as
 elements: Wheels, which can be locked ... which on moving from one position to another transmit electric pulses that may cause other similar wheels
 to move; single or combined telegraph relays, actuated by an electromagnet and opening or closing
@@ -48,7 +49,7 @@ Indeed, as we will see much later in this course, a very exciting recent line of
 A _transistor_ can be thought of as an electric circuit with two inputs, known as _source_ and _gate_ and an output, known as the _sink_.
 The gate controls whether current flows from the source to the sink.
 In a _standard transistor_, if the gate is "ON" then current can flow from the source to the sink and if it is "OFF" then it can't.
-In a _complementary transistor_ this is reversed: if the gate is "OFF" then current can flow from the source to the sink and if it is "ON" then it can't.  
+In a _complementary transistor_ this is reversed: if the gate is "OFF" then current can flow from the source to the sink and if it is "ON" then it can't.
 
 ![We can implement the logic of transistors using water. The water pressure from the gate closes or opens a faucet between the source and the sink.](../figure/transistor_water.png){#transistor-water-fig .class width=300px height=300px}
 
@@ -312,7 +313,7 @@ For example the [_lac_ operon](https://en.wikipedia.org/wiki/Lac_operon) produce
 Researchers have managed to [create transistors](http://science.sciencemag.org/content/340/6132/554?iss=6132), and from them the NAND function and other logic gates, based on DNA molecules (see also [transcriptorfig](){.ref}).
 One motivation for DNA computing is to achieve  increased parallelism or storage density; another is to create "smart biological agents" that could perhaps be injected into bodies, replicate themselves, and fix or kill cells that were damaged by a disease such as cancer.
 Computing in biological systems is not restricted of course to DNA.
-Even larger systems such as [flocks of birds](https://www.cs.princeton.edu/~chazelle/pubs/cacm12-natalg.pdf) can be considered as computational processes.  
+Even larger systems such as [flocks of birds](https://www.cs.princeton.edu/~chazelle/pubs/cacm12-natalg.pdf) can be considered as computational processes.
 
 ![Performance of DNA-based logic gates. Figure taken from paper of [Bonnet et al](http://science.sciencemag.org/content/early/2013/03/27/science.1232758.full), Science, 2013.](../figure/transcriptor.jpg){#transcriptorfig .class width=300px height=300px}
 
@@ -342,7 +343,7 @@ We can improve the evaluation procedure, and evaluate $s$-size constant fan-in c
 
 We've seen that  NAND gates can be implemented using very different systems in the physical world.
 What about the reverse direction?
-Can NAND programs simulate any physical computer?  
+Can NAND programs simulate any physical computer?
 
 
 We can take a leap of faith and stipulate that NAND programs do actually encapsulate _every_ computation that we can think of.
