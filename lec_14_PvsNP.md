@@ -110,7 +110,7 @@ The above reasoning was not specifically tailored to finding paths in graphs.
 In fact, it can be vastly generalized to proving the following result:
 
 > # {.theorem title="Optimization from $\mathbf{P}=\mathbf{NP}$" #optimizationnp}
-Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time computable function $f:\{0,1\}^* \rightarrow \bits^*$  there is a polynomial-time algorithm $OPT$ such that on input   $x\in \{0,1\}^*$, $OPT(x,1^m) = \max_{y\in \{0,1\}^m} f(x,y)$  (where we identify the output of $f(x)$ with a natural number via the binary representation).
+Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time computable function $f:\{0,1\}^* \rightarrow \{0,1\}^*$  there is a polynomial-time algorithm $OPT$ such that on input   $x\in \{0,1\}^*$, $OPT(x,1^m) = \max_{y\in \{0,1\}^m} f(x,y)$  (where we identify the output of $f(x)$ with a natural number via the binary representation).
 >
 Moreover under the same assumption, there is a polynomial-time algorithm $FINDOPT$ such that for every $x\in \{0,1\}^*$, $FINDOPT(x,1^m)$ outputs $y^* \in \{0,1\}^*$ such that $f(x,y^*)=OPT(x,y^*)$.
 

@@ -84,7 +84,7 @@ We can use transistors to implement a _NAND gate_, which would be a system with 
 More generally, we can use transistors to implement the model of _Boolean circuits_.
 We list the formal definition below, but let us start with the informal one:
 
->Let $B$ be some set of functions (known as "gates") from $\bits^k$ to $\{0,1\}$.  A _Boolean circuit_ with the basis $B$ is obtained by connecting "gates" which compute functions in $B$ together by "wires" where each gate has $k$ wires going into it and one wire going out of it. We have $n$ special wires known as the "input wires" and $m$ special wires known as the "output wires".
+>Let $B$ be some set of functions (known as "gates") from $\{0,1\}^k$ to $\{0,1\}$.  A _Boolean circuit_ with the basis $B$ is obtained by connecting "gates" which compute functions in $B$ together by "wires" where each gate has $k$ wires going into it and one wire going out of it. We have $n$ special wires known as the "input wires" and $m$ special wires known as the "output wires".
 To compute a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ using a circuit, we feed the bits of $x$ to the $n$ input wires, and then each gate computes the corresponding function, and we "read off" the output $y\in \{0,1\}^m$  from the $m$ output wires.
 
 The number $k$ is known as the _arity_ of the basis $B$.

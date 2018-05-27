@@ -134,7 +134,7 @@ The proof will, as usual, go by reduction from the Halting problem, but we will 
 As mentioned above, before proving [QIS-thm](){.ref}, we will give an easier result showing the uncomputability of deciding the truth of an even more general class of statements- one that involves not just integer-valued variables but also string-valued ones.
 
 > # {.definition title="Quantified mixed statements" #QMS-def}
-A _quantified mixed statement_ is a well-formed statement with no unbound variables involving integers, variables, the operators $>,<,\times,+,-,=$, the logical operations $\neg$ (NOT), $\wedge$ (AND), and $\vee$ (OR), as well as quantifiers of the form $\exists_{x\in\N}$, $\exists_{a\in\bits^*}$,  $\forall_{y\in\N}$, $\forall_{b\in\{0,1\}^*}$ where $x,y,a,b$ are variable names. These also include the operator $|a|$ which returns the length of a string valued variable $a$, as well as the operator $a_i$ where $a$ is a string-valued variable and $i$ is an integer valued expression which is true if $i$ is smaller than the length of $a$ and the $i^{th}$ coordinate of $a$ is $1$, and is false otherwise.
+A _quantified mixed statement_ is a well-formed statement with no unbound variables involving integers, variables, the operators $>,<,\times,+,-,=$, the logical operations $\neg$ (NOT), $\wedge$ (AND), and $\vee$ (OR), as well as quantifiers of the form $\exists_{x\in\N}$, $\exists_{a\in\{0,1\}^*}$,  $\forall_{y\in\N}$, $\forall_{b\in\{0,1\}^*}$ where $x,y,a,b$ are variable names. These also include the operator $|a|$ which returns the length of a string valued variable $a$, as well as the operator $a_i$ where $a$ is a string-valued variable and $i$ is an integer valued expression which is true if $i$ is smaller than the length of $a$ and the $i^{th}$ coordinate of $a$ is $1$, and is false otherwise.
 
 For example, the true statement that for every string $a$ there is a string $b$ that corresponds to $a$ in reverse order can be phrased as the following quantified mixed statement
 $$
@@ -277,7 +277,7 @@ To achieve our encoding we use the following technical result :
 > # {.lemma title="Constructible prime sequence" #primeseq}
 There is a sequence of prime numbers $p_0 < p_1 < p_3 < \cdots$ such that there is  a quantified integer statement $PCOORD(p,i)$ that is true if and only if $p=p_i$.
 
-Using [primeseq](){.ref} we can encode a $x\in\bits^*$ by the numbers $(X,n)$ where  $X = \prod_{x_i=1} p_i$ and $n=|x|$.
+Using [primeseq](){.ref} we can encode a $x\in\{0,1\}^*$ by the numbers $(X,n)$ where  $X = \prod_{x_i=1} p_i$ and $n=|x|$.
 We can then define the statement $COORD(X,i)$ as
 $$
 \forall_{p\in\N}  PCOORD(p,i) \Rightarrow DIVIDES(p,X)

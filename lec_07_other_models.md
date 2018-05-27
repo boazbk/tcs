@@ -52,7 +52,7 @@ The formal definition of Turing machines is as follows:
 > # {.definition title="Turing Machine" #TM-def}
 A (one tape) _Turing machine_ with $k$ states and alphabet $\Sigma \supseteq \{0,1, \triangleright, \varnothing \}$ is a function
 $M:[k]\times \Sigma \rightarrow [k] \times \Sigma  \times \{ L , R \}$.
-We say that the Turing machine $M$ _computes_ a (partial) function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ if for every $x\in\bits^*$ on which $F$ is defined, the result of the following process is $F(x)$:
+We say that the Turing machine $M$ _computes_ a (partial) function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ if for every $x\in\{0,1\}^*$ on which $F$ is defined, the result of the following process is $F(x)$:
 >
 * Initialize the array $T$ of symbols in $\Sigma$ as follows: $T[0] = \triangleright$, $T[i]=x_i$ for $i=1,\ldots,|x|$
 >
@@ -217,7 +217,7 @@ Thus all these programming languages are Turing equivalent.^[Some programming la
 
 ## Lambda calculus and functional programming languages
 
-The [$\lambda$ calculus](https://en.wikipedia.org/wiki/Lambda_calculus) is another way to define computable functions.
+The [$\lambda$ calculus](https://goo.gl/B9HwT8) is another way to define computable functions.
 It was proposed by Alonzo Church in the 1930's around the same time as Alan Turing's proposal of the Turing Machine.
 Interestingly, while Turing Machines are not used for practical computation,  the $\lambda$ calculus has inspired functional programming languages such as LISP, ML and Haskell, and so indirectly, the development of many other programming languages as well.
 
@@ -279,7 +279,7 @@ Every object in the $\lambda$ calculus can also be thought of as a $\lambda$ exp
 All functions take one input and return one output, and if you feed a function an input of a form  it didn't expect, it still evaluates the $\lambda$ expression  via "search and replace", replacing all instances of its parameter with copies of the input expression you fed it.
 
 
-### The "basic" $\lambda$ calculus objects
+### The "basic" lambda calculus objects
 
 To calculate, it seems we need some basic objects such as $0$ and $1$, and so we will consider the following set of "basic" objects and operations:
 

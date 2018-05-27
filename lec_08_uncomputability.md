@@ -26,7 +26,7 @@ There exists a function $F^*:\{0,1\}^* \rightarrow \{0,1\}$ that is not computab
 The proof is illustrated in [diagonal-fig](){.ref}.
 We start by defining the following function $G:\{0,1\}^* \rightarrow \{0,1\}$:
 >
-For every string $x\in\bits^*$, if $x$ satisfies __(1)__ $x$ is a valid representation of a NAND++ program $P_x$ and __(2)__ when the program $P_x$ is executed on the input $x$ it  halts and  produces an output,  then we define $G(x)$ as the first  bit of this output.  Otherwise (i.e., if $x$ is not a valid representation of a program, or the program $P_x$  never halts on $x$)  we define $G(x)=0$.
+For every string $x\in\{0,1\}^*$, if $x$ satisfies __(1)__ $x$ is a valid representation of a NAND++ program $P_x$ and __(2)__ when the program $P_x$ is executed on the input $x$ it  halts and  produces an output,  then we define $G(x)$ as the first  bit of this output.  Otherwise (i.e., if $x$ is not a valid representation of a program, or the program $P_x$  never halts on $x$)  we define $G(x)=0$.
 We define $F^*(x) := 1 - G(x)$.
 >
 We claim that there is no NAND++ program that computes $F^*$.

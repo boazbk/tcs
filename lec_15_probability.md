@@ -162,7 +162,7 @@ For example, consider the following two functions $Y,Y':\{0,1\}^2 \rightarrow \{
 For every $x \in \{0,1\}^2$, we define $Y(x)=x$ and $Y'(x)=x_0(x_0\oplus x_1)$ where $\oplus$ is the XOR operations.
 Although these are two different functions, they induce the same distribution over $\{0,1\}^2$ when invoked on a uniform input.
 The distribution $Y(x)$ for $x\sim \{0,1\}^2$ is of course the uniform distribution over $\{0,1\}^2$.
-On the other hand $Y'$ is simply the map $00 \mapsto 00$, $01 \mapsto 01$, $10 \mapsto 11$, $11 \mapsto 10$ which is a permutation over 
+On the other hand $Y'$ is simply the map $00 \mapsto 00$, $01 \mapsto 01$, $10 \mapsto 11$, $11 \mapsto 10$ which is a permutation over
 the map $F:\{0,1\}^2 \rightarrow \{0,1\}^2$ defined as $F(x_0x_1)=x_0x_1$ and the map $G:\{0,1\}^2 \rightarrow \{0,1\}^2$  defined as $G(x_0x_1)=x_0(x_0 \oplus x_1)$
 
 ### More general sample spaces.
@@ -181,7 +181,7 @@ A _random variable_ is a function $X:S \rightarrow \R$, where the probability th
 ## Correlations and independence
 
 One of the most delicate but important concepts in probability is the notion of _independence_ (and the opposing notion of _correlations_).
-Subtle correlations are often behind surprises and errors in probability and statistical analysis, and several mistaken predictions have been blamed on miscalculating the correlations between, say, housing prices in Florida and Arizona, or voter preferences in Ohio and Michigan. See also Joe Blitzstein's aptly named talk ["Conditioning is the Soul of Statistics"](https://youtu.be/dzFf3r1yph8).^[Another thorny issue is of course the difference between _correlation_ and _causation_. Luckily, this is another point we don't need to worry about in our clean setting of tossing $n$ coins.]  
+Subtle correlations are often behind surprises and errors in probability and statistical analysis, and several mistaken predictions have been blamed on miscalculating the correlations between, say, housing prices in Florida and Arizona, or voter preferences in Ohio and Michigan. See also Joe Blitzstein's aptly named talk ["Conditioning is the Soul of Statistics"](https://youtu.be/dzFf3r1yph8).^[Another thorny issue is of course the difference between _correlation_ and _causation_. Luckily, this is another point we don't need to worry about in our clean setting of tossing $n$ coins.]
 
 Two events $A$ and $B$ are _independent_ if the fact that $A$ happens makes $B$ neither more nor less likely to happen.
 For example, if we think of the experiment of tossing $3$ random coins $x\in \{0,1\}^3$, and we let $A$ be the event that $x_0=1$ and $B$ the event that $x_0 + x_1 + x_2 \geq 2$, then if $A$ happens it is more likely that $B$ happens, and hence these events are _not_ independent.
@@ -234,7 +234,7 @@ For example, if $x\sim \{0,1\}^3$, then the events $\{ x_0=1 \}$, $\{ x_1 = 1\}$
 On the other hand, the events $\{x_0 = 1 \}$, $\{x_1 = 1\}$ and $\{ x_0 + x_1 = 0 \mod 2 \}$ are _not_ mutually independent, even though every pair of these events is independent (can you see why? see also [independencecoinsfig](){.ref}).
 
 
-![Consider the sample space $\{0,1\}^n$ and the events $A,B,C,D,E$ corresponding to $A$: $x_0=1$, $B$: $x_1=1$, $C$: $x_0+x_1+x_2 \geq 2$, $D$: $x_0+x_1+x_2 = 0 \mod 2$ and $D$: $x_0+x_1 = 0 \mod 2$. We can see that $A$ and $B$ are independent, $C$ is positively correlated with $A$ and positively correlated with $B$, the three events $A,B,D$ are mutually independent, and while every pair out of $A,B,E$ is independent, the three events $A,B,E$ are not mutually independent since their intersection has probability $\tfrac{2}{8}=\tfrac{1}{4}$ instead of $\tfrac{1}{2}\cdot \tfrac{1}{2} \cdot \tfrac{1}{2} = \tfrac{1}{8}$.](../figure/independencecoins.png){#independencecoinsfig .class width=300px height=300px}
+![Consider the sample space $\{0,1\}^n$ and the events $A,B,C,D,E$ corresponding to $A$: $x_0=1$, $B$: $x_1=1$, $C$: $x_0+x_1+x_2 \geq 2$, $D$: $x_0+x_1+x_2 = 0 mod 2$ and $D$: $x_0+x_1 = 0 mod 2$. We can see that $A$ and $B$ are independent, $C$ is positively correlated with $A$ and positively correlated with $B$, the three events $A,B,D$ are mutually independent, and while every pair out of $A,B,E$ is independent, the three events $A,B,E$ are not mutually independent since their intersection has probability $\tfrac{2}{8}=\tfrac{1}{4}$ instead of $\tfrac{1}{2}\cdot \tfrac{1}{2} \cdot \tfrac{1}{2} = \tfrac{1}{8}$.](../figure/independencecoins.png){#independencecoinsfig .class width=300px height=300px}
 
 ### Independent random variables
 
@@ -288,7 +288,7 @@ $$
 
 ### Collections of independent random variables.
 
-We can extend the notions of independence to more than two random variables: 
+We can extend the notions of independence to more than two random variables:
 we say that  the random variables $X_0,\ldots,X_{n-1}$ are _mutually independent_ if for every $a_0,\ldots,a_{n-1} \in \E$,
 $$
 \Pr\left[X_0=a_0 \wedge \cdots \wedge X_{n-1}=a_{n-1}\right]=\Pr[X_0=a_0]\cdots \Pr[X_{n-1}=a_{n-1}] .

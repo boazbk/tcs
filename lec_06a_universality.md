@@ -313,7 +313,7 @@ will be
  [3, 0, 13, 0, 13, 0]]
 ```
 
-__Binary encoding:__ The above is a way to represent any NAND++ program as a list of numbers. We can of course encode such a list as a binary string in a number of ways. For concreteness, since all the numbers involved are between $0$ and $s$ (where $s$ is the number of lines),  we can simply use a string of length $6\ceil{\log (s+1)}$ to represent them, starting with the prefix $0^{s+1}1$ to encode $s$. For convenience we will assume that any string that is not formatted in this way encodes the single line program `y_0 := x_0 NAND x_0`. This way we can assume that every string $P\in\bits^*$ represents _some_ NAND++ program.
+__Binary encoding:__ The above is a way to represent any NAND++ program as a list of numbers. We can of course encode such a list as a binary string in a number of ways. For concreteness, since all the numbers involved are between $0$ and $s$ (where $s$ is the number of lines),  we can simply use a string of length $6\ceil{\log (s+1)}$ to represent them, starting with the prefix $0^{s+1}1$ to encode $s$. For convenience we will assume that any string that is not formatted in this way encodes the single line program `y_0 := x_0 NAND x_0`. This way we can assume that every string $P\in\{0,1\}^*$ represents _some_ NAND++ program.
 
 
 ### A NAND++ interpreter in NAND<<

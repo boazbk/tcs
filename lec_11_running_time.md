@@ -288,7 +288,7 @@ Thus we can also phrase this result as follows:
 
 
 > # {.theorem title="NAND++ to NAND compiler" #nand-compiler}
-There is an $O(n)$-time NAND<< program $COMPILE$ such that on input a NAND++ program $P$,  and strings of the form $1^n,1^m,1^T$  outputs a NAND program $Q_P$ of at most $O(T)$ lines with $n$ bits of inputs and $m$ bits of output, such that: For every $x\in\bits^n$, if $P$ halts on input $x$ within fewer than $T$ steps and outputs some string $y\in\bits^m$, then $Q_P(x)=y$.  
+There is an $O(n)$-time NAND<< program $COMPILE$ such that on input a NAND++ program $P$,  and strings of the form $1^n,1^m,1^T$  outputs a NAND program $Q_P$ of at most $O(T)$ lines with $n$ bits of inputs and $m$ bits of output, such that: For every $x\in\{0,1\}^n$, if $P$ halts on input $x$ within fewer than $T$ steps and outputs some string $y\in\{0,1\}^m$, then $Q_P(x)=y$.  
 
 
 The program $COMPILE$ of [nand-compiler](){.ref} is fairly easy to implement.
