@@ -913,8 +913,9 @@ Some helpful resources on mathematical writing include [this handout by Lee](htt
 
 ### Patterns in proofs
 
->_"If it was so, it might be; and if it were so, it would be; but as it isn’t, it ain’t. That’s logic."_, Lewis Carroll, _Through the looking glass_. 
->
+>_"If it was so, it might be; and if it were so, it would be; but as it isn’t, it ain’t. That’s logic."_, Lewis Carroll, _Through the looking-glass_.
+
+
 Just like in programming, there are several common patterns of proofs that occur time and again.
 Here are some examples:
 

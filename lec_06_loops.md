@@ -586,7 +586,7 @@ Because by [enhancednandequivalence](){.ref} enhanced and plain NAND++ are equiv
 Moreover, since our goal is just to show such a program $P_M$ _exists_, we don't need to write out the full code of $P_M$ line by line, and can take advantage of our various "syntactic sugar" in describing it.
 
 The key observation is that by [NAND-univ-thm](){.ref} we can compute _every_ finite function using a NAND program.
-In particular, consider the function  $M:[k]\times \Sigma \rightarrow [k] \times \Sigma  \times $\{\mathbb{L},\mathbb{R} \}$ corresponding to our Turing Machine.
+In particular, consider the function  $M:[k]\times \Sigma \rightarrow [k] \times \Sigma  \times \{\mathbb{L},\mathbb{R} \}$ corresponding to our Turing Machine.
 We can encode $[k]$ using $\{0,1\}^\ell$, $\Sigma$ using $\{0,1\}^{\ell'}$, and $\{\mathbb{L},\mathbb{R} \}$  using $\{0,1\}$, where $\ell = \ceil{\log k}$ and $\ell' = \ceil{\log |\Sigma|}$.
 Hence we can identify $M$ with a function $\overline{M}:\{0,1\}^\ell \times \{0,1\}^{\ell'} \rightarrow \{0,1\}^\ell \times \{0,1\}^{\ell'} \times \{0,1\}$,
 and by [NAND-univ-thm](){.ref} there exists a  finite length NAND program `ComputeM` that computes this function $\overline{M}$.
@@ -671,7 +671,7 @@ This notion of "self replication", and the related notion of "self reference" is
 
 For now, what you ought to remember is the following differences between _uniform_ and _non uniform_ computational models:
 
-* __Non uniform computational models:__ Examples are _NAND programs_ and _Boolean circuits_. These are models where each individual program/circuit can compute a _finite_ function F:\{0,1\}^n \rightarrow \{0,1\}^m$. We have seen that _every_ finite function can be computed by _some_ program/circuit.
+* __Non uniform computational models:__ Examples are _NAND programs_ and _Boolean circuits_. These are models where each individual program/circuit can compute a _finite_ function $F:\{0,1\}^n \rightarrow \{0,1\}^m$. We have seen that _every_ finite function can be computed by _some_ program/circuit.
 To discuss computation of an _infinite_ function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ we need to allow a _sequence_ $\{ P_n \}_{n\in \N}$ of programs/circuits (one for every input length), but this does not capture the notion of a _single algorithm_ to compute the function $F$.
 
 * __Uniform computational models:__ Examples are (standard or enhanced) _NAND++ programs_ and _Turing Machines_. These are model where a single program/machine can take inputs of _arbitrary length_ and hence compute an _infinite_ function $F:\{0,1\}^* \rightarrow \{0,1\}^*$.
