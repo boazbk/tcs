@@ -163,6 +163,18 @@ Working out the above two example can go a long way towards understanding NAND++
 See the appendix for a full specification of the language.
 :::
 
+> # {.remark title="Variables as arrays" #arrays}
+In NAND we allowed variables to have names such as `foo_17` or even `Bar[23]` but the numerical part of the identifier played essentially the same role as alphabetical part. In particular, NAND would be just as powerful if we didn't allow any numbers in the variable identifiers.
+With the introduction of the special index variable `i`, in NAND++ things are different, and we do have actual arrays.
+>
+To make sure there is no confusion, we will insist that plain variables (which we will also refer to as _scalar_ variables) are written with all lower case, and _array variables_ begin with an upper case letter.
+Moreover, it turns out that we can ensure without loss of generality that arrays are always indexed by the variable `i`.
+Hence all the variable identifiers in "well formed" NAND++ programs will either have the form `foo_123` (a sequence of lower case letters, underscores, and numbers, with no brackets or upper case letters) or the form `Bar[i]` (an identifier starting with an upper case letter, and ending with `[i]`).
+>
+Some of our example programs, such as the program to compute XOR  in [XORNANDPP](){.ref}, are not well formed, in the sense that they index the `X` and `Y` arrays with `0` and not just `i`.
+However, it is not hard to transform them into well formed programs (see [noabsoluteindexex](){.ref})
+
+
 ### "Oblivious" / "Vanilla" NAND++
 
 Since our goal in theoretical computer science is not as much to _construct_
@@ -230,16 +242,6 @@ When $k$ is between $(r+1)^2$ and $(r+1)(r+2)$ then the index `i` is descending,
 
 
 
-> # {.remark title="Variables as arrays" #arrays}
-In NAND we allowed variables to have names such as `foo_17` or even `Bar[23]` but the numerical part of the identifier played essentially the same role as alphabetical part. In particular, NAND would be just as powerful if we didn't allow any numbers in the variable identifiers.
-With the introduction of the special index variable `i`, in NAND++ things are different, and we do have actual arrays.
->
-To make sure there is no confusion, we will insist that plain variables (which we will also refer to as _scalar_ variables) are written with all lower case, and _array variables_ begin with an upper case letter.
-Moreover, it turns out that we can ensure without loss of generality that arrays are always indexed by the variable `i`.
-Hence all the variable identifiers in "well formed" NAND++ programs will either have the form `foo_123` (a sequence of lower case letters, underscores, and numbers, with no brackets or upper case letters) or the form `Bar[i]` (an identifier starting with an upper case letter, and ending with `[i]`).
->
-Some of our example programs, such as the program to compute XOR  in [XORNANDPP](){.ref}, are not well formed, in the sense that they index the `X` and `Y` arrays with `0` and not just `i`.
-However, it is not hard to transform them into well formed programs (see [noabsoluteindexex](){.ref})
 
 
 
@@ -248,26 +250,42 @@ However, it is not hard to transform them into well formed programs (see [noabso
 ## Computable functions
 
 
-We now turn to making one of the most important definitions in this book,
-that of _computable functions_.
-This definition is deceptively simple, but will be the starting point of many deep results and questions:
+We now turn to making one of the most important definitions in this book, that of _computable functions_.
+This definition is deceptively simple, but will be the starting point of many deep results and questions.
+We start by formalizing the notion of a NAND++ computation:
 
 
+::: # {.definition title="NAND++ computation" #nandppcomputation}
+Let $P$ be a NAND++ program. For every input $x\in \{0,1\}^*$, we define the _output of $P$ on input $x$_ (denotes as $P(x)$) to be the result of the following process:
 
-> # {.definition title="Computing a function" #computablefuncdef}
+*  Initialize  the variables `X[`$i$`]`$=x_i$ and `Xvalid[`$i$`]`$=1$ for all $i\in [n]$ (where $n=|x|$). All other variables (including `i` and `loop`) default to $0$.
+
+* Run the program line by line. At the end of the program, if `loop`$=1$ then increment/decrement `i` according to the schedule $0,1,0,1,2,1,0,1,\ldots$ and go back to the first line.
+
+* If `loop`$=0$ at the end of the program, then we halt and ouptput `Y[`$0$`]` , $\ldots$, `Y[`$m-1$`]` where $m$ is the smallest integer such that `Yvalid[`$m$`]`$=0$.
+
+If the program does not halt on input $x$, then we say it has no output, and we denote this as $P(x) = \bot$.
+:::
+
+::: {.remark title="Enhanced NAND++ computation" #nandppcomputationrem}
+[nandppcomputation](){.ref} can be easily adapted for _enhanced_ NAND++ programs. The only modification is the natural one: instead of `i` travelling according to the sequence $0,1,0,1,2,1,0,1,\ldots$, `i` is increased/decreased based on the `i += foo` and `i -= bar` operations.
+:::
+
+We can now define what it means for a function to be _computable_:
+
+::: {.definition title="Computable functions" #computablefuncdef}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}^*$ be a function and let $P$ be a
 NAND++ program.
-We say that $P$ _computes_ $F$ if for every $x\in \{0,1\}^*$, if we execute $P$ while initializing the variables `X[`$i$`]`$=x_i$ and `Xvalid[`$i$`]`$=1$ for every $i\in \{0,\ldots,|x|-1\}$,
-then $P$ halts eventually and moreover, if we let $P(x)$ denote  the value of the variables `Y[`$0$`]`,$\ldots$,`Y[`$m-1$`]`  (where $m$ is the smallest number such that the value of `Yvalid[`$m$`]`  is equal to $0$) then $P(x)=F(x)$.
->
-We say that a function $F$ is _NAND++ computable_ if there is a NAND++ program that computes it.
+We say that $P$ _computes_ $F$ if for every $x\in \{0,1\}^*$, $P(x)=F(x)$.
 
+We say that a function $F$ is _NAND++ computable_ if there is a NAND++ program that computes it.
+:::
 
 We will often drop the "NAND++" qualifier and simply call a function _computable_ if it is NAND++ computable.
 This may seem "reckless" but, as we'll see in future lectures, it turns out that  being NAND++-computable is equivalent to being computable in essentially any reasonable model of computation.
 
 ::: { .pause }
-[computablefuncdef](){.ref} is, as we mentioned above, one of the most important definitions in this book. Please re-read it and make sure you understand it. Try to think how _you_ would define the notion of a NAND++ program $P$ computing a function, and make sure that you arrive at the same definition.
+[computablefuncdef](){.ref} is, as we mentioned above, one of the most important definitions in this book. Please re-read it (and [nandppcomputation](){.ref}) and make sure you understand it. Try to think how _you_ would define the notion of a NAND++ program $P$ computing a function, and make sure that you arrive at the same definition.
 :::
 
 This is a good point to remind the reader of  the distinction between _functions_ and _programs_:
@@ -300,7 +318,6 @@ We say that a NAND++ program $P$ computes a partial function $F$ if for every $x
 > # {.remark title="Decidable languages" #decidablelanguages}
 If $F:\{0,1\}^* \rightarrow \{0,1\}$ is a Boolean function, then computing $F$ is equivalent to deciding membership in the set $L=\{ x\in \{0,1\}^* \;|\; F(x)=1 \}$. Subsets of $\{0,1\}^*$ are known as _languages_ in the literature. Such a language  $L \subseteq \{0,1\}^*$ is known as _decidable_ or _recursive_ if the corresponding function $F$ is computable.
 The corresponding concept to a _partial function_ is known as a [promise problem](https://goo.gl/sBczFM).
-
 
 
 
@@ -493,6 +510,45 @@ The way we use `GOTO` to implement a higher level functionality in NAND++ is rem
 :::
 
 ![XKCD's take on the `GOTO` statement.](../figure/xkcdgoto.png){#xkcdgotofig .class width=300px height=300px}
+
+### Another application of GOTO: well formed programs
+
+The notion of passing between different variants of programs can  be extremely useful, as often, given a program $P$ that we want to analyze, it would be simpler for us to first modify it to an equivalent program $P'$ that has some convenient properties.
+The following solved exercise is an example of that:
+
+::: {.solvedexercise title="Making an (enhanced) NAND++ program well formed." #noabsoluteindexex}
+Prove that for every  NAND++ program $P$, there is an   NAND++ program $P'$ equivalent to $P$ that is _well formed_, in the sense that __(1)__ all array variables start with a capital letter, __(2)__ all scalar variables are all lower case, numbers, and underscores, and __(3)__ every access to an array variable has the form `Foo[i]`.
+(That is, we only access the array variable at the location `i` and not any other location.)
+:::
+
+::: { .pause }
+As usual, I would recommend you try to solve this exercise yourself before looking up the solution.
+Also, try to think how you would achieve the same result for _standard_ (i.e. non enhanced) NAND++ programs. (Doing so is an excellent exercise in its own right, see [standardnoabsoluteindexex](){.ref})
+:::
+
+::: {.solution data-ref="wellformednandpp"}
+Since variable identifiers on their own have no meaning in (enhanced) NAND++ (other than the special ones `X`, `Xvalid`, `Y`, `Yvalid` and `loop`, that already have the desired properties), we can easily achieve properties __(1)__ and __(2)__ using "search and replace".
+We just have to take care that we don't make two distinct identifiers become the same.
+For example, we can do so by changing all scalar variable identifiers to lower case, and adding to them the prefix `scalar_`, and adding the prefix `Array_` to all array variable identifiers.
+
+Property __(3)__ is more challenging.
+We need to remove all references to an array variable with an actual numerical index rather than `i`.
+One thought might be to simply convert a a reference of the form `Arr[17]` to the scalar variable `arr_17`.
+However, this will not necessarily preserve the functionality of the program.
+The reason is that we want to ensure that when `i`$=17$ then `Arr[i]` would give us the same value as `arr_17`.
+
+Nevertheless, we can use the  approach above with a slight twist. We will demonstrate the solution in a concrete case.^[Needless to say, if you were to write a full solution in a problem set or an exam, such a demonstration would not be sufficient. But this example should be sufficient for you to extrapolate a full solution.] Suppose that there are only three references to array variables with numerical indices in the program: `Foo[5]`, `Bar[12]` and `Blah[22]`.
+We will include three scalar variables `foo_5`, `bar_12` and `blah_22` which will serve as a _cache_ for the values of these arrays.
+We will change all references to `Foo[5]` to `foo_5`, `Bar[12]` to `bar_12` and so on and so forth.
+But in addition to that, whenever in the code we refer to `Foo[i]` we will check if `i`$=5$ and if so use the value `foo_5` instead, and similarly with  `Bar[i]`  or `Blah[i]`.
+
+Specifically, we will change our program as follows:
+
+
+
+:::
+
+
 
 ## Turing Machines
 
@@ -1008,8 +1064,10 @@ Both configurations and Deltas are technical ways to capture the fact that compu
 
 
 
-::: {.exercise title="Well formed NAND++ programs" #noabsoluteindexex}
-Let $P$ be a NAND++ program. Prove that there exists a NAND++ program $P'$ that computes the same function as $P$, such that every variable in $P'$ is either a scalar (non array variable), or is an array indexed by `i`.^[_Hint:_   We can replace references to `Foo[17]` with `foo_17`. We can also use a finite number of variables to keep track of when the index variable `i` reaches the point `17`, in which case we write `foo_17` to the value of `Foo[i]`.]
+::: {.exercise title="Well formed NAND++ programs" #standardnoabsoluteindexex}
+In this exercise we prove the analog of [noabsoluteindexex](){.ref} for standard (i.e., non enahnced) NAND++ programs. We focus on the more challenging property of ensuring every access to an array variable is through the index `i`. (The other properties of "well formedness" are just as easy to achieve for standard NAND++ programs as they are for enhanced ones.)
+
+Let $P$ be a NAND++ program. Prove that there exists a NAND++ program $P'$ equivalent to $P$ such that every variable in $P'$ is either a scalar (non array variable), or is an array indexed by `i`.
 :::
 
 
