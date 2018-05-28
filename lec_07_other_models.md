@@ -121,8 +121,78 @@ GOTO("increment_bar",cond)
 To implement two dimensional arrays, we embed want to embed them in a one dimensional array.
 The idea is that we come up with a _one to one_ function $PAIR:\N \times \N \rightarrow \N$, and so embed the location $(i,j)$ of the two dimensional array `Two` in the location $PAIR(i,j)$ of the array `One`.
 
+Since the set $\N \times \N$ seems "much bigger" than the set $\N$, a priori it might not be clear that such a one to one mapping exists. However, once you think about it more, it is not that hard to construct.
+For example, you could ask a child to use scissors and glue to transform a 10" by 10" piece of paper into a  1" by 100" strip.
+If you think about it, this is essentially  a one to one map from $[10]\times [10]$ to $[10]$. We can generalize this to obtain a one to one map from $[n]\times [n]$ to $[n^2]$ and more generally a one to one map from $\N \times \N$ to $\N$.
+Specifically, the following map $PAIR$ would do (see [pairingfuncfig](){.ref}):
 
-## The "Best of both worlds" paradigm
+$$PAIR(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+x\;\;.$$
+
+We ask you to prove that $PAIR$ is indeed one to one, as well as computable by a NAND++ program, in [pair-ex](){.ref}.
+
+![Illustration of the map $PAIR(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+x$ for $x,y \in [10]$, one can see that for every distinct pairs $(x,y)$ and $(x',y')$, $PAIR(x,y) \neq PAIR(x',y')$. ](../figure/pairing_function.png){#pairingfuncfig .class width=300px height=300px}
+
+So, we can replace code of the form `Two[Foo][Bar] = something` (i.e., access the two dimensional array `Two` at the integers encoded by the one dimensional arrays `Foo` and `Bar`) by code of the form:
+
+```python
+Blah = PAIR(Foo,Bar)
+Setindex(Blah)
+Two[i] = something
+```
+
+Computing `PAIR` is left for you the reader as [pair-ex](){.ref}, but let us hint that this can be done by simply following the gradeschool algorithms for multiplication, addition, and division.
+
+### All the rest
+
+Once we have two dimensional arrays and indexed access, simulating NAND<< with NAND++ is just a matter of implementing the standard algorithms for arithmetic operations and comparators in NAND++.
+While this is cumbersome, it is not difficult, and the end result is to show that every NAND<< program $P$ can be simulated by an equivalent NAND++ program $Q$, thus completing the proof of [RAMTMequivalencethm](){.ref}.
+
+
+### Turing equivalence (discussion)
+
+
+![A punched card corresponding to a Fortran statement.](../figure/FortranProg.jpg){#fortranfig .class width=300px height=300px}
+
+
+
+Any of the  standard programming language such as `C`, `Java`, `Python`, `Pascal`, `Fortran` have very similar operations to NAND<<.
+(Indeed, ultimately they can all be executed by machines which have a fixed number of registers and a large memory array.)
+Hence using [RAMTMequivalencethm](){.ref}, we can simulate any program in such a programming language by a NAND++  program.
+In the other direction, it is a fairly easy programming exercise to write an interpreter for NAND++ in any of the above programming languages.
+Hence we can also simulate NAND++ programs (and so by [TM-equiv-thm](){.ref}, Turing machines) using these programming languages.
+This property of being equivalent in power to Turing Machines / NAND++ is called _Turing Equivalent_ (or sometimes _Turing Complete_).
+Thus all programming languages we are familiar with are Turing equivalent.^[Some programming language have hardwired fixed (even if extremely large) bounds on the amount of memory they can access, which formally prevent them from being applicable to computing infinite functions and hence simulating Turing machines. We ignore such issues in this discussion and assume access to some storage device without a fixed upper bound on its capacity.]
+
+::: {.remark title="Recursion in NAND<< (advanced)" #recursion}
+One concept that appears in some of these languages but we did not include in NAND<< programs is _recursion_.
+However, recursion (and function calls in general) can be implemented in NAND<< using the  [stack data structure](https://goo.gl/JweMj).
+A _stack_ is a data structure containing a sequence of elements, where we can "push"  elements into it and "pop" them from it in "first in last out" order.
+We can implement   a stack  by an array of integers `Stack` and a scalar variable `stackpointer` that will be the number  of items in the stack.
+We implement `push(foo)` by
+
+```python
+Stack[stackpointer]=foo
+foo += one
+```
+
+and implement `bar = pop()` by
+
+```python
+bar = Stack[stackpointer]
+stackpointer -= one
+```
+
+We implement a function call to $F$ by pushing the arguments for $F$ into the stack.
+The code of $F$ will "pop" the arguments from the stack, perform the computation (which might involve making recursive or non recursive calls) and then "push" its return value into the stack.
+Because of the "first in last out" nature of a stack, we do not return control to the calling procedure until all the recursive calls are done.
+
+The fact that we can implement recursion using a non recursive language is not surprising.
+Indeed, _machine languages_ typically do not have recursion (or function calls in general), and a compiler implements function calls  using a stack and `GOTO`.
+You can find  online  tutorials on how recursion is implemented via stack in your favorite programming language, whether it's [Python](http://interactivepython.org/runestone/static/pythonds/Recursion/StackFramesImplementingRecursion.html) , [JavaScript](https://javascript.info/recursion), or [Lisp/Scheme](https://mitpress.mit.edu/sicp/full-text/sicp/book/node110.html).
+:::
+
+
+## The "Best of both worlds" paradigm (discussion)
 
 The equivalence between NAND++ and NAND<< allows us to choose the most convenient language for the task at hand:
 
@@ -137,24 +207,6 @@ When one wants to produce a device that executes programs, it is convenient  to 
 
 
 
-> # {.remark title="Recursion in NAND<<" #recursion}
-One high level tool we can use in describing NAND<< programs is _recursion_.
-We can use the standard implementation of the [stack data structure](https://goo.gl/JweMj), which can be (and in fact is) used to implement recursion.
-A _stack_ is a data structure containing a sequence of elements, where we can "push"  elements into it and "pop" them from it in "first in last out" order.
-We can implement   `stack` by an array of integers `stack_0`, $\ldots$, `stack_`$\expr{k-1}$ and `stackpointer` will be the number $k$ of items in the stack.
-We implement `push(foo)` by doing `i := stackpointer` and `stack_i := foo` and `pop()` by letting `stackpointer := stackpointer - 1`.
-By encoding strings as integers, we can have allow strings in our stack as well.
->
-Now we can implement recursion using the stack just as is done in most programming languages.
-The idea is that  a (recursive or non recursive) call to a function $F$ is implemented by pushing the arguments for $F$ into the stack.
-The code of $F$ will "pop" the arguments from the stack, perform the computation (which might involve making recursive or non recursive calls) and then "push" its return value into the stack.
-Because of the "first in last out" nature of a stack, we do not return control to the calling procedure until all the recursive calls are done.
->
-Specifically,  we note that using loops and conditionals, we can implement "goto" statements in NAND<<.
-Moreover, we can even implement "dynamic gotos", in the sense that we can set integer labels for certain lines of codes, and have a `goto foo` operation that moves execution to the line labeled by `foo`.
-Now, if we want to make a  call to a function $F$ with parameter `bar` then we will push into the stack the label of the next line and `bar`, and then make a `goto` to the code of $F$. That code will pop its parameter from the stack, do the computation of $F$, and when it needs to resume execution, will pop the label from the stack and `goto` there.
->
-You can find  online a tutorial on how recursion is implemented via stack in your favorite programming language, whether it's [Python](http://interactivepython.org/runestone/static/pythonds/Recursion/StackFramesImplementingRecursion.html) , [JavaScript](https://javascript.info/recursion), or [Lisp/Scheme](https://mitpress.mit.edu/sicp/full-text/sicp/book/node110.html).
 
 
 ### Let's talk about abstractions.
@@ -162,7 +214,7 @@ You can find  online a tutorial on how recursion is implemented via stack in you
 At some point in any theory of computation course, the instructor and students need to have _the talk_.
 That is, we need to discuss the _level of abstraction_ in describing algorithms.
 In algorithms courses, one typically describes  algorithms in English, assuming readers can "fill in the details" and would be able to convert such an algorithm into an implementation if needed.
-For example, we might describe the [breadth first search](https://en.wikipedia.org/wiki/Breadth-first_search) algorithm to find if two vertices $u,v$ are connected as follows:
+For example, we might describe the [breadth first search](https://goo.gl/ug7Jaj) algorithm to find if two vertices $u,v$ are connected as follows:
 
 1. Put $u$ in  queue $Q$.
 
@@ -189,22 +241,14 @@ A similar distinction applies to the notion of _representation_ of objects as st
 Sometimes, to be precise, we give a _low level specification_ of exactly how an object maps into a binary string.
 For example, we might describe an encoding of $n$ vertex graphs as length $n^2$ binary strings, by saying that we map a graph $G$ over the vertex $[n]$ to a string $x\in \{0,1\}^{n^2}$ such that the $n\cdot i + j$-th coordinate of $x$ is $1$ if and only if the edge $\overrightarrow{i \; j}$  is present in $G$.
 We can also use an _intermediate_ or _implementation level_ description, by simply saying that we represent a graph using the adjacency matrix representation.
+
+
 Finally, because we translating between the various representations of graphs (and objects in general) can be done via a NAND<< (and hence a NAND++) program, when talking in a high level we  also suppress discussion of  representation altogether.
 For example, the fact that graph connectivity  is a computable function is true regardless of whether we represent graphs as adjacency lists, adjacency matrices, list of edge-pairs, and so on and so forth.
 Hence, in cases where the precise representation doesn't make a difference, we would often talk about our algorithms as taking as input an object $O$ (that can be a graph, a vector, a program, etc.) without specifying how $O$ is encoded as a string.
 
 
 
-### Imperative languages
-
-
-![A punched card corresponding to a Fortran statement.](../figure/FortranProg.jpg){#fortranfig .class width=300px height=300px}
-
-
-As we discussed before, any function computed by a standard programming language such as `C`, `Java`, `Python`, `Pascal`, `Fortran` etc. can be computed by a NAND++ program.
-Indeed,  a _compiler_ for such languages translates programs into machine languages  that are quite similar to   NAND<< programs or RAM machines.
-We can also translate NAND++ programs to such programming languages.
-Thus all these programming languages are Turing equivalent.^[Some programming language have hardwired fixed (even if extremely large) bounds on the amount of memory they can access. We ignore such issues in this discussion and assume access to some storage device without a fixed upper bound on its capacity.]
 
 ## Lambda calculus and functional programming languages
 
@@ -571,6 +615,19 @@ These devices might potentially make some computations more _efficient_, but the
 ## Exercises
 
 ^[TODO: Add an exercise showing that NAND++ programs where the integers are represented using the _unary_ basis are equivalent up to polylog terms with multi-tape Turing machines.]
+
+::: {.exercise title="Pairing" #pair-ex}
+Let $PAIR:\N^2 \rightarrow \N$ be the function defined as $PAIR(x_0,x_1)= \tfrac{1}{2}(x_0+x_1)(x_0+x_1+1) + x_1$. \
+
+1. Prove that for every $x^0,x^1 \in \N$, $PAIR(x^0,x^1)$ is indeed a natural number. \
+
+2. Prove that $PAIR$ is one-to-one \
+
+3. Construct a NAND++ program $P$ such that for every $x^0,x^1 \in \N$, $P(pf(x^0)pf(x^1))=pf(PAIR(x^0,x^1))$, where $pf$ is the prefix-free encoding map defined above. You can use the syntactic sugar for inner loops, conditionals, and incrementing/decrementing the counter. \
+
+4. Construct NAND++ programs $P_0,P_1$ such that for for every $x^0,x^1 \in \N$ and $i \in N$, $P_i(pf(PAIR(x^0,x^1)))=pf(x^i)$. You can use the syntactic sugar for inner loops, conditionals, and incrementing/decrementing the counter.
+
+:::
 
 > # {.exercise title="lambda calculus requires three variables" #lambda-calc-ex}
 Prove that for every $\lambda$-expression $e$ with no free variables there is an equivalent $\lambda$-expression $f$ using only the variables $x,y,z$.^[__Hint:__ You can reduce the number of variables a function takes by "pairing them up". That is, define a $\lambda$ expression $PAIR$ such that for every $x,y$ $PAIR xy$ is some function $f$ such that $f0=x$ and $f1=y$. Then use $PAIR$ to iteratively reduce the number of variables used.]
