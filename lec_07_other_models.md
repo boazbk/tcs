@@ -22,35 +22,57 @@ We will discuss the Church-Turing Thesis and the potential definitions of "reaso
 One of the limitations of NAND++ (and Turing machines) is that we can only access one location of our arrays/tape at a time.
 If currently `i`$=22$ and we want to access `Foo[`$957$`]` then it will take us at least 923 steps to get there.
 In contrast, almost every programming language has a formalism for directly accessing memory locations.
-Hardware
+Hardware implementations also provide so called _Random Access Memory (RAM)_ which can be thought of as a large array `Mem`, such that given an index $p$ (i.e., memory address, or a _pointer_), we can read from and write to the $p^{th}$ location of `Mem`.
 
-## "Turing Completeness" and other  Computational models
-
-A computational model $M$ is _Turing complete_ if  every partial function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ that is computable by a Turing Machine is also computable in $M$.
-A model is _Turing equivalent_ if the other direction holds as well; that is, for every partial function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a Turing machine if and only if it is computable in $M$.
-Another way to state [TM-equiv-thm](){.ref} is that NAND++ is Turing equivalent.
-Since we can simulate any NAND<< program by a NAND++ program (and vice versa), NAND<< is Turing equivalent as well.
-It turns out that there are many other Turing-equivalent models of computation.
-
-
-
-
-
-### RAM Machines
-
-The _Word RAM model_ is a computational model that is arguably more similar to real-world computers than Turing machines or NAND++ programs.
+The computational model that allows access to such a memory is known as a _RAM machine_ (sometimes also known as the _Word RAM model_).
 In this model the memory is an array of unbounded size where each cell can store a single _word_, which we think of as a string in $\{0,1\}^w$ and also as a number in $[2^w]$.
 The parameter $w$ is known as the _word size_ and is chosen as some function of the input length $n$.
 A typical choice is that $w = c\log n$ for some constant $c$.
 This is sometimes known as the "transdichotomous RAM model".
-In this model there are a constant number of _registers_ $r_1,\ldots,r_k$ that also contain a single word.
+In addition to the memory array, the word RAM model also contains a  constant number of _registers_ $r_1,\ldots,r_k$ that also contain a single word.
 The operations in this model include loops, arithmetic on registers, and reading and writing from a memory location addressed by the register.
-See [this lecture](http://people.seas.harvard.edu/~cs125/fall14/lec6.pdf) for a more precise definition of this model.
 
-We will not show all the details but it is not hard to show that the word RAM model is equivalent to NAND<< programs.
-Every NAND<< program can be easily simulated by a RAM machine as long as $w$ is larger than the logarithm of its running time.
-In the other direction, a NAND<< program can simulate a RAM machine, using its variables as the registers.
+We will use an extension of NAND++ to capture the RAM model.
+Specifically, we define the _NAND<< programming language_ as follows:
 
+* The variables are allowed to be (non negative) _integer valued_ rather than only Boolean. That is, a scalar variable `foo` holds an non negative integer in $\N$ (rather than only a bit in $\{0,1\}$), and an array variable `Bar` holds an array of integers.
+
+* We allow _indirect access_ to arrays. If `foo` is a scalar and `Bar` is an array, then `Bar[foo]` refers to the location of `Bar` indexed by the value of `foo`.
+
+* As is often the case in programming language, we will assume that for Boolean operations such as `NAND`, a zero valued integer is considered as _false_, and a nonzero valued integer is considered as _true_.
+
+
+* In addition to `NAND` we will also allow the basic arithmetic operations of addition, subtraction, multiplication, (integer) division, as well as comparisons (equal, greater than, less than, etc..)
+
+* We will also include as part of the language basic control flow structures such as `if` and `while`
+
+The full description of the NAND<< programing language is in the appendix.^[One restriction mentioned there is that the integer values in a variable always range between $0$ and $T-1$ where $T$ is the number of steps the program took so far. Hence all the arithmetic operations will "truncate" their results so that the output is in this range. This restriction does not make a difference for any of the discussion in this chapter, but will help us make a more accurate accounting of the running time in the future.] However, the most important fact you need to know about it is the following:
+
+> # {.theorem title="NAND++ (TM's) and NAND<< (RAM) are equivalent" #RAMTMequivalencethm}
+For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND++ program if and only if $F$ is computable by a NAND<< program.
+
+
+::: {.proofidea data-ref="RAMTMequivalencethm"}
+Clearly NAND<< is only more  powerful  than NAND++, and so if a function $F$ is computable by a NAND++ program then it can be computed by a NAND<< program.
+The challenging direction is of course to transform a NAND<< program $P$ to an equivalent NAND++ program $Q$.
+To describe the proof in full we will need to cover the full formal specification of the NAND<< language, and show how we can implement every one of its features as syntactic sugar on top of NAND++.
+
+This can be done but going over all the operations in detail is rather tedious. Hence we will focus on describing the main ideas behind this transformation.
+The transformation has two steps:
+
+1. _Random access of bit arrays:_ NAND<< generalizes NAND++ in two main ways: __(a)__ adding _random access_ to the arrays (ie.., `Foo[bar]` syntax) and __(b)__ moving from _Boolean valued_ variables to _integer valued_ ones. We will start by showing how to handle __(a)__.
+Namely, we will show how we can implement in NAND++ the operation `Setindex(Bar)` such that if `Bar` is an array that encodes some integer $j$, then after executing `Setindex(Bar)` the value of `i` will equal to $j$. This will allow us to simulate syntax of the form `Foo[Bar]` by `Setindex(Bar)` followed by `Foo[i]`.
+
+2. _Two dimensional bit arrays:_ We will then show how we can use "syntactiv sugar" to  augment NAND++  with _two dimensional arrays_. That is, have _two indices_ `i` and `j` and _two dimensional arrays_, such that we can use the syntax `Foo[i][j]` to access the (`i`,`j`)-th location of `Foo`
+
+3. _Arrays of integers:_ Finally we will encode a one dimensional array `Arr` of _integers_ by a two dimensional `Arrbin` of _bits_. The idea is simple: if $a_{i,0},\ldots,a_{i,\ell}$ is a binary  (prefix free) representation of `Arr[`$i$`]`, then `Arrbin[`$i$`][`$j$`]` will be equal to $a_{i,j}$.
+
+Once we have arrays of integers, we can use our usual syntactic sugar for functions, `GOTO` etc. to implement the arithmetic  and control flow operations of NAND<<.
+:::
+
+::: {.proof data-ref="RAMTMequivalencethm"}
+
+:::
 
 ### Imperative languages
 
