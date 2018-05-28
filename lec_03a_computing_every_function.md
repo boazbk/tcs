@@ -10,13 +10,6 @@
 
 
 
-\iffalse
-```python
-%run "..\code\NAND programming language.ipynb"
-```
-
-\fi
-
 
 
 >_"Syntactic sugar causes cancer of the semicolon."_, Alan Perlis, 1982.

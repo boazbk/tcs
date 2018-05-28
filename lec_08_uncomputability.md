@@ -1,4 +1,4 @@
-# Is every function computable?
+# Is every function computable? {#chapcomputable }
 
 > # { .objectives }
 * See a fundamental result in computer science and mathematics: the existence of uncomputable functions.
@@ -52,7 +52,7 @@ Namely, we show that it's not possible to compute all functions from $\{0,1\}^* 
 
 [uncomputable-func](){.ref} shows that there is _some_ function that cannot be computed.
 But is this function the equivalent of the "tree that falls in the forest with no one hearing it"?
-That is, perhaps it is a function that no one actually _wants_ to compute.  
+That is, perhaps it is a function that no one actually _wants_ to compute.
 It turns out that there are natural uncomputable functions:
 
 > # {.theorem title="Uncomputability of Halting function" #halt-thm}
@@ -71,7 +71,7 @@ At a minimum, it seems that we should verify that the code would not go into an 
 > # {.proof data-ref="halt-thm"}
 The proof will use the previously established [uncomputable-func](){.ref} , as illustrated in [halt-fig](){.ref}.
 That is, we will assume, towards a contradiction, that there is NAND++ program $P^*$ that can compute the $HALT$ function, and use that to derive that there is some NAND++ program $Q^*$ that computes the function  $F^*$ defined above, contradicting [uncomputable-func](){.ref}. (This is known as a proof by _reduction_, since we reduce the task of computing $F^*$ to the task of computing $HALT$. By the contrapositive, this means the uncomputability of $F^*$ implies the uncomputability of $HALT$.)
->   
+>
 Indeed, suppose that  $P^*$ was a NAND++ program that computes $HALT$.
 Then we can write a NAND++ program $Q^*$ that does the following on input $x\in \{0,1\}^*$:^[Note that we are using here a "high level" description of NAND++ programs. We know that we can implement the steps below, for example by first writing them in NAND<< and then transforming the NAND<< program to NAND++. Step 1 involves simply running the program $P^*$ on some input.]
 >
@@ -82,7 +82,7 @@ Then we can write a NAND++ program $Q^*$ that does the following on input $x\in 
 __Claim:__ For every $x\in \{0,1\}^*$, if  $P^*(x,x)=HALT(x,x)$ then  the program $Q^*(x)=F^*(x)$ where $F^*$ is the function from the proof of [uncomputable-func](){.ref}.
 >
 Note that the claim immediately implies that our assumption that $P^*$ computes $HALT$ contradicts  [uncomputable-func](){.ref}, where we proved that the function $F^*$ is uncomputable.
-Hence the claim is sufficient to prove the theorem.    
+Hence the claim is sufficient to prove the theorem.
 >
 __Proof of claim:__: Let $x$ be any string.
 If the program described by $x$ halts on input $x$ and its first output bit is  $1$ then $F^*(x)=0$ and the output $Q^*(x)$ will also equal $0$ since $z=HALT(x,x)=1$, and hence in step 3 the program $Q^*$ will run in a finite number of steps (since the program described by $x$ halts on $x$), obtain the value $y=1$ and output $0$.
