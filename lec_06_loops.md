@@ -537,7 +537,7 @@ One thought might be to simply convert a a reference of the form `Arr[17]` to th
 However, this will not necessarily preserve the functionality of the program.
 The reason is that we want to ensure that when `i`$=17$ then `Arr[i]` would give us the same value as `arr_17`.
 
-Nevertheless, we can use the  approach above with a slight twist. We will demonstrate the solution in a concrete case.^[Needless to say, if you were to write a full solution in a problem set or an exam, such a demonstration would not be sufficient. But this example should be sufficient for you to extrapolate a full solution.] Suppose that there are only three references to array variables with numerical indices in the program: `Foo[5]`, `Bar[12]` and `Blah[22]`.
+Nevertheless, we can use the  approach above with a slight twist. We will demonstrate the solution in a concrete case.(Needless to say, if you needed to solve this question in a problem set or an exam, such a demonstration of a special case would not be sufficient; but this example should be sufficient for you to extrapolate a full solution.) Suppose that there are only three references to array variables with numerical indices in the program: `Foo[5]`, `Bar[12]` and `Blah[22]`.
 We will include three scalar variables `foo_5`, `bar_12` and `blah_22` which will serve as a _cache_ for the values of these arrays.
 We will change all references to `Foo[5]` to `foo_5`, `Bar[12]` to `bar_12` and so on and so forth.
 But in addition to that, whenever in the code we refer to `Foo[i]` we will check if `i`$=5$ and if so use the value `foo_5` instead, and similarly with  `Bar[i]`  or `Blah[i]`.
@@ -1124,10 +1124,6 @@ Let $P$ be a NAND++ program. Prove that there exists a NAND++ program $P'$ equiv
 
 
 ## Bibliographical notes
-
-The notion of "NAND++ programs" we use is nonstandard but (as we will see)  they are equivalent to standard models used in the literature.
-Specifically, NAND++ programs are closely related (though not identical) to _oblivious one-tape Turing machines_, while NAND<< programs are essentially the same as RAM machines.
-As we've seen in these lectures, in a qualitative sense these two models are also equivalent to one another, though the distinctions between them matter if one cares (as is typically the case in algorithms research) about polynomial factors in the running time.
 
 
 Salil Vadhan proposed the following analytically easier to describe sequence for NAND++:  $INDEX(\ell) = \min\{\ell -  \floor{\sqrt{\ell}}^2,\ceil{\sqrt{\ell}}^2-\ell\}$ which has the form $0,0,1,1,0,1,2,2,1,0,1,2,3,3,2,1,0,1,2,3,4,4,3,2,1,0,\ldots$.
