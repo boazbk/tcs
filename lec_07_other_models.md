@@ -1,178 +1,24 @@
 # Equivalent models of computation { #chapequivalentmodels }
 
 > # { .objectives }
-* Learn about the Turing Machine and $\lambda$ calculus, which are important models of computation.
+* Learn about RAM machines and $\lambda$ calculus, which are important models of computation.
 * See the equivalence between these models and NAND++ programs.
 * See how many other models turn out to be "Turing complete"
 * Understand the Church-Turing thesis.
 
+>_"All problems in computer science can be solved by another level of indirection"_,  attributed to David Wheeler.
 
->_"Computing is normally done by writing certain symbols on paper. We may suppose that this paper is divided into squares like a child's arithmetic book.. The behavior of the \[human\] computer at any moment is determined by the symbols which he is observing, and of his 'state of mind' at that moment... We may suppose that in a simple operation not more than one symbol is altered."_, \
->_"We compare a man in the process of computing ... to a machine which is only capable of a finite number of configurations... The machine is supplied with a 'tape' (the analogue of paper) ... divided into sections (called 'squares') each capable of bearing a 'symbol' "_, Alan Turing, 1936
+>_"Because we shall later compute with expressions for functions, we need a distinction between functions and forms and a notation for expressing this distinction. This distinction and a notation for describing it, from which we deviate trivially, is given by Church."_,  John McCarthy, 1960 (in paper describing the LISP programming language)
 
 
->_"What is the difference between a Turing machine and the modern computer? It's the same as that between Hillary's ascent of Everest and the establishment of a Hilton hotel on its peak."_ , Alan Perlis, 1982.
-
-We have defined the notion of computing a  function based on the rather esoteric NAND++ programming language.
+So far we have defined the notion of computing a  function based on the rather esoteric NAND++ programming language.
+While we have shown this is equivalent with Turing machines, the latter also don't correspond closely to the way computation is typically done these days.
 In this lecture we justify this choice by showing that the definition of computable functions will remain the same under a wide variety of computational models.
 In fact, a widely believed claim known as the _Church-Turing Thesis_ holds that _every_ "reasonable" definition of computable function is equivalent to ours.
 We will discuss the Church-Turing Thesis and the potential definitions of "reasonable" at the end of this lecture.
 
-## Turing machines
+## RAM machines and NAND<<
 
-The "granddaddy" of all models of computation is the _Turing Machine_, which is the standard  model of computation in most textbooks.^[This definitional choice does not make much difference since, as we will show, NAND++/NAND<< programs are equivalent to Turing machines in their computing power.]
-Turing machines were defined in 1936 by Alan Turing in an attempt to formally capture all the functions that can be computed by human "computers" that follow a well-defined set of rules, such as the standard algorithms for addition or multiplication.
-
-![Until the advent of electronic computers, the word "computer" was used to describe a person, often female, that performed calculations. These human computers were absolutely essential to many achievements including mapping the stars, breaking the Enigma cipher, and the NASA space mission. Two recent books about  these "computers" and their important contributions are [The Glass Universe](https://www.amazon.com/Glass-Universe-Harvard-Observatory-Measure-ebook/dp/B01CZCW45O) (from which this photo is taken) and [Hidden Figures](https://www.amazon.com/Hidden-Figures-American-Untold-Mathematicians/dp/006236359X).](../figure/HumanComputers.jpg){#figureid .class width=300px height=300px}
-
-Turing thought of such a person as having access to as much "scratch paper" as they need.
-For simplicity we can think of this scratch paper as a one dimensional piece of graph paper (commonly known as "work tape"), where in each box or "cell" of the tape holds a  single symbol from some finite alphabet (e.g., one digit or letter).
-At any point in time, the person can read and write a single box of the paper, and based on the contents can update his/her finite mental  state, and/or move to the box immediately to the left or right.
-
-Thus, Turing modeled  such a computation by a "machine" that maintains one of $k$ states, and at each point can read and write a single symbol from some alphabet $\Sigma$ (containing $\{0,1\}$) from its "work tape".
-To perform computation using this machine, we write the input $x\in \{0,1\}^n$ on the tape, and the goal of the machine is to ensure that at the end of the computation, the value $F(x)$ will be written there.
-Specifically, a computation of a Turing Machine $M$ with $k$ states and alphabet $\Sigma$ on input $x\in \{0,1\}^*$ proceeds as  follows:
-
-* Initially the machine is at state $0$ (known as the "starting state") and the tape is initialized to $\triangleright,x_0,\ldots,x_{n-1},\varnothing,\varnothing,\ldots$.^[We use the symbol $\triangleright$ to denote the beginning of the tape, and the symbol $\varnothing$ to denote an empty cell. Hence we will assume that $\Sigma$ contains these symbols, along with $0$ and $1$.]
-* The location $i$ to which the machine points to is set to $0$.
-* At each step, the machine reads the symbol $\sigma = T[i]$ that is in the $i^{th}$ location of the tape, and based on this symbol and its state $s$ decides on:
-    * What symbol $\sigma'$ to write on the tape \
-    * Whether to move **L**eft (i.e., $i \leftarrow i-1$) or **R**ight  (i.e., $i \leftarrow i+1$) \
-    * What is going to be the new state $s \in [k]$
-* When the machine reaches the state $s=k-1$ (known as the "halting state") then it halts. The output of the machine is obtained by reading off the tape from location $1$ onwards, stopping at the first point where the symbol is not $0$ or $1$.
-
-
-![A Turing machine has access to a _tape_ of unbounded length. At each point in the execution, the machine can read/write a single symbol of the tape, and based on that decide whether to move left, right or halt.](../figure/turing_machine.png){#turing-machine-fig .class width=300px height=300px}
-
-^[TODO: update figure to $\{0,\ldots,k-1\}$.]
-
-
-The formal definition of Turing machines is as follows:
-
-> # {.definition title="Turing Machine" #TM-def}
-A (one tape) _Turing machine_ with $k$ states and alphabet $\Sigma \supseteq \{0,1, \triangleright, \varnothing \}$ is a function
-$M:[k]\times \Sigma \rightarrow [k] \times \Sigma  \times \{ L , R \}$.
-We say that the Turing machine $M$ _computes_ a (partial) function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ if for every $x\in\{0,1\}^*$ on which $F$ is defined, the result of the following process is $F(x)$:
->
-* Initialize the array $T$ of symbols in $\Sigma$ as follows: $T[0] = \triangleright$, $T[i]=x_i$ for $i=1,\ldots,|x|$
->
-* Let $s=1$ and $i=0$ and repeat the following while $s\neq k-1$: \
-   >a. Let $\sigma = T[i]$. If $T[i]$ is not defined then let $\sigma = \varnothing$ \
-   >b. Let $(s',\sigma',D) = M(s,\sigma)$ \
-   >c. Modify $T[i]$ to equal $\sigma'$ \
-   >d. If $D=L$ and $i>0$ then set $i \leftarrow i-1$. If $D=R$ then set $i \leftarrow i+1$. \
-   >e. Set $s \leftarrow s'$ \
->
-* Let $n$ be the first index larger than $0$ such that $T[i] \not\in \{0,1\}$. We define the output of the process to be $T[1]$,$\ldots$,$T[n-1]$. The number of steps that the Turing Machine $M$ takes on input $x$ is the number of times that the while loop above  is executed. (If the process never stops then we say that the machine did not halt on $x$.)
-
-> # {.remark title="Turing Machine configurations" #TMconfigurations}
-Just as we did for NAND++ programs, we can also define the notion of _configurations_ for Turing machines and define computation in terms of iterations of their _next step function_. However, we will not follow this approach in this course.
-
-## Turing Machines and NAND++ programs
-
-As mentioned, Turing machines turn out to be equivalent to NAND++ programs:
-
-> # {.theorem title="Turing machines and NAND++ programs" #TM-equiv-thm}
-For every $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND++ program if and only if there is a Turing Machine $M$ that computes $F$.
-
-
-### Simulating Turing machines with NAND++ programs
-
-We now prove the "if" direction of [TM-equiv-thm](){.ref}, namely we show that given a Turing machine $M$, we can find a NAND++ program $P_M$ such that for every input $x$, if $M$ halts on input $x$ with output $y$ then $P_M(x)=y$.
-Because NAND<< and NAND++ are equivalent in power, it is sufficient to construct a NAND<< program that has this property.
-Moreover, we can take advantage of  the syntactic sugar transformations we have seen before for NAND<<, including conditionals, loops, and function calls.
-
-
-If $M:[k]\times \Sigma \rightarrow \Sigma \times [k] \times \{ L , R \}$ then there is a finite length NAND program `ComputeM` that computes the finite function $M$ (representing the finite sets $[k]$,$\Sigma$, $\{L,R\}$ appropriately by bits).
-The NAND<< program simulating $M$ will be the following:
-
-```python
-// tape is an array with the alphabet Sigma
-// we use ">" for the start-tape marker and "." for the empty cell
-// in the syntactic sugar below, we assume some binary encoding of the alphabet.
-// we also assume we can index an array with a variable other than i,
-// and with some simple expressions of it (e.g., foo_{j+1})
-// this can be easily simulated in NAND<<
-//
-// we assume an encoding such that the default value for tape_j is "."
-
-// below k is the number of states of the machine M
-// ComputeM is a function that maps a symbol in Sigma and a state in [k]
-// to the new state, symbol to write, and direction
-
-tape_0 := ">"
-j = 0
-while (validx_j) { // copy input to tape
-    tape_{j+1} := x_j
-    j++
-}
-
-state := 0
-head  := 0 // location of the head
-while NOT EQUAL(state,k-1) { // not ending state
-   state', symbol, dir := ComputeM(tape_head,state)
-   tape_head := symbols
-   if EQUAL(dir,`L`) AND NOT(EQUAL(tape_head,">")) {
-       head--
-   }
-   if EQUAL(dir,'R') {
-       head++
-   }
-   state' := state
-}
-
-// after halting, we copy the contents of the tape
-// to the output variables
-// we stop when we see a non-boolean symbol
-j := 1
-while EQUAL(tape_j,0) OR EQUAL(tape_j,1) {
-   y_{j-1} := tape_j
-}
-```
-
-In addition to the standard syntactic sugar, we are also assuming in the above code that  we can make function calls to the function `EQUAL` that checks equality of two symbols as well as the finite function `ComputeM`  that corresponds to the transition function of the Turing machine.
-Since these are _finite_ functions (whose input and output length only depends on the number of states and symbols of the machine $M$, and not the input length), we can compute them  using a NAND (and hence in particular a NAND++ or NAND<<) program.
-
-### Simulating NAND++ programs with Turing machines
-
-To prove the second direction of [TM-equiv-thm](){.ref}, we need to show that for  every NAND++ program $P$, there is a Turing machine $M$ that computes the same function as $P$.
-The idea behind the proof is that the TM $M$ will _simulate_ the program $P$ as follows: (see also [TMsimNANDfig](){.ref})
-
-* The _head position_ of $M$ will correspond to the position of the index `i` in the current execution of the program $P$.
-
-* The _alphabet_ of $M$ will be large enough so that in position $i$ of the tape will store the contents of all the variables of $P$ of the form `foo_`$\expr{i}$. (In particular this means that the alphabet of $M$ will have at least $2^t$ symbols when $t$ is the number of variables of $P$.)
-
-* The _states_ of $M$ will be large enough to encode the current line number that is executed by $P$, as well as the contents of all variables that are indexed in the program by an absolute numerical index (e.g., variables of the form `foo` or `bar_17` that are not indexed with `i`.)
-
-The key point is that the number of lines of $P$ and the number of variables are constants that do not depend on the length of the input and so can be encoded in the alphabet and state size. More specifically, if $V$ is the set of variables of $P$, then the alphabet of $M$ will contain  (in addition to the symbols $\{0,1, \triangleright, \varnothing \}$) the finite set of all functions from $V$ to   $\{0,1\}$, with the semantics that if $\sigma: V \rightarrow \{0,1\}$ appears in the $i$-th position of the tape then for every variable $v\in V$, the value of $v$`_`$\expr{i}$ equals $\sigma(v)$.
-Similarly, we will think of the state space of $M$ as containing all pairs of the form $(\ell,\tau)$ where $\ell$ is a number between $0$ and the number of lines in $P$ and $\tau$ is a function from $V\times [c]$ to $\{0,1\}$  where $c-1$ is the largest absolute numerical index that appears in the program.^[While formally the state space of $M$ is a number between  $0$ and $k-1$ for some $k\in \N$, by making $k$ large enough, we can encode all pairs  $(\ell,\tau)$ of the form above as elements of the state space of the amchine, and so we can  think of the state as having this form.]
-The semantics are that $\ell$ encodes the line of $P$ that is about to be executed, and $\tau(v,j)$ encodes the value of the variable $v$`_`$\expr{j}$.
-
-To simulate the execution of one step in $P$'s computation, the machine $M$ will do the following:
-
-1. The contents of the symbol at the current head position and its state encode all information about the current line number to be executed, as well as the contents of all variables of the program of the form `foo_`$\expr{i}$ where $i$ is the current value of the index variable in the simulated program. Hence we can use that to compute the new line to be executed.
-
-2. $M$ will write to the tape and update its state to reflect the update to the variable that is assigned a new value in the execution of this line.
-
-3. If the current line was the last one in the program, and the `loop` variable (which is encoded in $M$'s state) is equal to $1$ then $M$ will decide whether to move the head left or right based on whether the index is going to increase and decrease. We can ensure this is is a function of the current variables of $P$ by adding to the program the variables `breadcrumbs_i`, `atstart_i` and `indexincreasing` and the appropriate code so that `indexincreasing` is set to $1$ if and only if the index will increase in the next iteration.^[While formally we did not allow the head of the Turing machine to stay in place, we can simulate this by adding a "dummy step" in which $M$'s head  moves right and goes into a special state that will move left in the next step.]
-
-The simulation will also contain an _initialization_ and a  _finalization_ phases. In the _initialization phase_, $M$ will scan the input and modify the  tape  so it contains the proper encoding of  `x_i`'s  `validx_i`'s variables as well as load into its state all references to these variables with absolute numerical indices.
-In the _finalization phase_, $M$ will scan its tape to copy the contents of the  `y_i`'s  (i.e., output) variables to the beginning of the tape, and write a non $\{0,1\}$ value at their end.
-We leave verifying the (fairly straightforward) details of implementing these steps to the reader. Note that we can add a finite number of states to $M$ or symbols to its alphabet to make this  implementation easier.
- Writing down the full description of $M$ from the above "pseudocode" is  straightforward, even if somewhat painful, exercise, and hence this completes the proof of [TM-equiv-thm](){.ref}.
-
-
-![To simulate a NAND++ program $P$ using a machine $M$ we introduce a large alphabet $\Sigma$ such that each symbol in $\Sigma$ can be thought of as a "mega symbol" that encodes the value of all the variables indexed at $i$, where $i$ is the current tape location. Similarly each state of $M$ can be thought of as a "mega state" that encodes the value of all variables of $P$ that have an absolute numerical index, as well as the current line that is about to be executed.](../figure/TMsimNAND.png){#TMsimNANDfig .class width=300px height=300px}
-
-
-> # {.remark title="Polynomial equivalence" #polyequivrem}
-If we examine the proof of [TM-equiv-thm](){.ref} then we can see  that the equivalence between NAND++ programs and Turing machines is up to polynomial overhead in the number of steps.
-Specifically, our NAND<< program to simulate a Turing Machine $M$, has two loops to copy the input and output and then one loop that iterates once per each step of the machine $M$.
-In particular this means that if the Turing machine $M$ halts on every $n$-length input $x$ within $T(n)$ steps, then the NAND<< program computes the same function within $O(T(n)+n+m)$ steps.
-Moreover, the transformation of NAND<< to NAND++ has  polynomial overhead, and hence for any such machine $M$ there is a NAND++ program $P'$ that computes the same function within $poly(T(n)+n+m)$ steps (where $poly(f(n))$ is shorthand for $f(n)^{O(1)}$ as defined in the mathematical background section).
-In the other direction, our Turing machine $M$ simulates each step of a NAND++ program $P$ in a constant number of steps.
-The initialization and finalization phases involve scanning over $O(n+m)$ symbols and copying them around. Since the cost to move a symbol to a point that is of distance $d$ in the tape can be $O(d)$ steps, the total cost of these phases will be $O((n+m)^2)$
-Thus, for every NAND++ program $P$, if $P$ halts on input $x$ after $T$ steps, then the corresponding Turing machine $M$ will halt after $O(T+(n+m)^2)$ steps.
 
 
 
@@ -254,7 +100,7 @@ $$
 maps $x$ to the function $y \mapsto x+y$.
 
 In particular, if we invoke this function on $a$ and then invoke the result on $b$ then we get $a+b$.
-We can use this approach to achieve the effect of functions with more than one input and so we will use the shorthand $\lambda x,y. e$ for $\lambda x. (\lambda y. e)$.^[This technique of simulating multiple-input functions with single-input functions is known as [Currying](https://en.wikipedia.org/wiki/Currying) and is named after the logician [Haskell Curry](https://en.wikipedia.org/wiki/Haskell_Curry).]
+We can use this approach to achieve the effect of functions with more than one input and so we will use the shorthand $\lambda x,y. e$ for $\lambda x. (\lambda y. e)$.^[This technique of simulating multiple-input functions with single-input functions is known as [Currying](https://en.wikipedia.org/wiki/Currying) and is named after the logician [Haskell Curry](https://goo.gl/C9hKz1). Curry himself attributed this concept to [Moses Schönfinkel](https://goo.gl/qJqd47), though for some reason the term "Schönfinkeling" never caught on..]
 
 ![In the "currying" transformation, we can create the effect of a two parameter function $f(x,y)$ with the $\lambda$ expression $\lambda x.(\lambda y. f(x,y))$ which on input $x$ outputs a one-parameter function $f_x$ that has $x$ "hardwired" into it and such that $f_x(y)=f(x,y)$. This can be illustrated by a circuit diagram; see [Chelsea Voss's site](https://tromp.github.io/cl/diagrams.html).](../figure/currying.png){#currying .class width=300px height=300px}
 
