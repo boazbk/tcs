@@ -74,10 +74,52 @@ We do not show the full formal proof of  [RAMTMequivalencethm](){.ref} but focus
 
 ### Indexed access in NAND++
 
-Let us fix some prefix free representation for the natural numbers (see [prefixfreesec](){.ref}).
+Let us choose some prefix free representation for the natural numbers (see [prefixfreesec](){.ref}).
+For example, if a natural number $k$ is equal to $\sum_{i=0}^{\ell} k_i \cdot 2^i$ for $\ell=\floor{\log k}$, then we can represent it as the string $(k_0,k_0,k_1,k_1,\ldots,k_\ell,k_\ell,1,0)$.
 
 
 To implement indexed access in NAND++, we need to be able to do the following.
+Given an array `Bar`, implement to operation `Setindex(Bar)` that will set `i` to the value encoded by `Bar`.
+This can be achieved as follows:
+
+1. Set `i` to zero, by decrementing it until we reach the point where `Atzero[i]`$=1$ (where `Atzero` is an array that has $1$ only in position $0$).
+
+2. Let `Temp` be an array encoding the number $0$.
+
+3. While the number encoded by `Temp` differs from the number encoded by `Bar`:
+   a. Increment `Temp`
+   b. Set `i += one`
+
+At the end of the loop, `i` is equal to the value at `Bar`, and so we can use this to read or write to arrays at the location corresponding to this value.
+In code, we can implement the above operations as follows:
+
+```python
+# set i to 0, assume Atzero, one are initialized
+LABEL("zero_idx")
+i -= one
+GOTO("zero_idx",NOT(Atzero[i]))
+
+...
+
+# zero out temp
+#(code below assumes a specific prefix-free encoding in which 10 is the "end marker")
+Temp[0] = 1
+Temp[1] = 0
+# set i to Bar, assume we know how to increment, compare
+LABEL("increment_bar")
+cond = EQUAL(Temp,Bar)
+i += cond
+INC(Bar)
+GOTO("increment_bar",cond)
+# if we reach this point, i is number encoded by Bar
+
+...
+```
+
+### Two dimensional arrays in NAND++
+
+To implement two dimensional arrays, we embed want to embed them in a one dimensional array.
+The idea is that we come up with a _one to one_ function $PAIR:\N \times \N \rightarrow \N$, and so embed the location $(i,j)$ of the two dimensional array `Two` in the location $PAIR(i,j)$ of the array `One`.
 
 
 ## The "Best of both worlds" paradigm
