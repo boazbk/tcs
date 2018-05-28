@@ -22,7 +22,7 @@ We will discuss the Church-Turing Thesis and the potential definitions of "reaso
 One of the limitations of NAND++ (and Turing machines) is that we can only access one location of our arrays/tape at a time.
 If currently `i`$=22$ and we want to access `Foo[`$957$`]` then it will take us at least 923 steps to get there.
 In contrast, almost every programming language has a formalism for directly accessing memory locations.
-Hardware implementations also provide so called _Random Access Memory (RAM)_ which can be thought of as a large array `Mem`, such that given an index $p$ (i.e., memory address, or a _pointer_), we can read from and write to the $p^{th}$ location of `Mem`.
+Hardware implementations also provide so called _Random Access Memory (RAM)_ which can be thought of as a large array `Mem`, such that given an index $p$ (i.e., memory address, or a _pointer_), we can read from and write to the $p^{th}$ location of `Mem`.^["Random access memory" is quite a misnomer, since it has nothing to do with probability. Alas at this point the term is quite entrenched. Still, we will try to call use the term _indexed_ access instead.]
 
 The computational model that allows access to such a memory is known as a _RAM machine_ (sometimes also known as the _Word RAM model_).
 In this model the memory is an array of unbounded size where each cell can store a single _word_, which we think of as a string in $\{0,1\}^w$ and also as a number in $[2^w]$.
@@ -37,7 +37,7 @@ Specifically, we define the _NAND<< programming language_ as follows:
 
 * The variables are allowed to be (non negative) _integer valued_ rather than only Boolean. That is, a scalar variable `foo` holds an non negative integer in $\N$ (rather than only a bit in $\{0,1\}$), and an array variable `Bar` holds an array of integers.
 
-* We allow _indirect access_ to arrays. If `foo` is a scalar and `Bar` is an array, then `Bar[foo]` refers to the location of `Bar` indexed by the value of `foo`.
+* We allow _indexed access_ to arrays. If `foo` is a scalar and `Bar` is an array, then `Bar[foo]` refers to the location of `Bar` indexed by the value of `foo`.
 
 * As is often the case in programming language, we will assume that for Boolean operations such as `NAND`, a zero valued integer is considered as _false_, and a nonzero valued integer is considered as _true_.
 
@@ -60,7 +60,7 @@ To describe the proof in full we will need to cover the full formal specificatio
 This can be done but going over all the operations in detail is rather tedious. Hence we will focus on describing the main ideas behind this transformation.
 The transformation has two steps:
 
-1. _Random access of bit arrays:_ NAND<< generalizes NAND++ in two main ways: __(a)__ adding _random access_ to the arrays (ie.., `Foo[bar]` syntax) and __(b)__ moving from _Boolean valued_ variables to _integer valued_ ones. We will start by showing how to handle __(a)__.
+1. _Indexed access of bit arrays:_ NAND<< generalizes NAND++ in two main ways: __(a)__ adding _indexed access_ to the arrays (ie.., `Foo[bar]` syntax) and __(b)__ moving from _Boolean valued_ variables to _integer valued_ ones. We will start by showing how to handle __(a)__.
 Namely, we will show how we can implement in NAND++ the operation `Setindex(Bar)` such that if `Bar` is an array that encodes some integer $j$, then after executing `Setindex(Bar)` the value of `i` will equal to $j$. This will allow us to simulate syntax of the form `Foo[Bar]` by `Setindex(Bar)` followed by `Foo[i]`.
 
 2. _Two dimensional bit arrays:_ We will then show how we can use "syntactiv sugar" to  augment NAND++  with _two dimensional arrays_. That is, have _two indices_ `i` and `j` and _two dimensional arrays_, such that we can use the syntax `Foo[i][j]` to access the (`i`,`j`)-th location of `Foo`
@@ -70,12 +70,14 @@ Namely, we will show how we can implement in NAND++ the operation `Setindex(Bar)
 Once we have arrays of integers, we can use our usual syntactic sugar for functions, `GOTO` etc. to implement the arithmetic  and control flow operations of NAND<<.
 :::
 
-We do not show the full formal proof of  [RAMTMequivalencethm](){.ref} but 
+We do not show the full formal proof of  [RAMTMequivalencethm](){.ref} but focus on the most important parts: implementing indexed access, and simulating two dimensional arrays with one dimensional ones.
 
-::: {.proof data-ref="RAMTMequivalencethm"}
+### Indexed access in NAND++
 
-:::
+Let us fix some prefix free representation for the natural numbers (see [prefixfreesec](){.ref}).
 
+
+To implement indexed access in NAND++, we need to be able to do the following.
 
 
 ## The "Best of both worlds" paradigm
