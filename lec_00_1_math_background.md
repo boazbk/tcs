@@ -559,7 +559,7 @@ $$
 \sum_{i=1}^{100} i^2 \;.
 $$
 
-### Parsing formulas: bound and free variables
+### Parsing formulas: bound and free variables {#boundvarsec }
 
 In mathematics as in code, we often have symbolic "variables" or "parameters".
 It is important to be able to understand, given some formula, whether a given variable is _bound_ or _free_ in this formula.
