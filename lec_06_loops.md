@@ -255,7 +255,7 @@ This definition is deceptively simple, but will be the starting point of many de
 We start by formalizing the notion of a NAND++ computation:
 
 
-::: # {.definition title="NAND++ computation" #nandppcomputation}
+:::  {.definition title="NAND++ computation" #nandppcomputation}
 Let $P$ be a NAND++ program. For every input $x\in \{0,1\}^*$, we define the _output of $P$ on input $x$_ (denotes as $P(x)$) to be the result of the following process:
 
 *  Initialize  the variables `X[`$i$`]`$=x_i$ and `Xvalid[`$i$`]`$=1$ for all $i\in [n]$ (where $n=|x|$). All other variables (including `i` and `loop`) default to $0$.
@@ -542,9 +542,60 @@ We will include three scalar variables `foo_5`, `bar_12` and `blah_22` which wil
 We will change all references to `Foo[5]` to `foo_5`, `Bar[12]` to `bar_12` and so on and so forth.
 But in addition to that, whenever in the code we refer to `Foo[i]` we will check if `i`$=5$ and if so use the value `foo_5` instead, and similarly with  `Bar[i]`  or `Blah[i]`.
 
-Specifically, we will change our program as follows:
+Specifically, we will change our program as follows.
+We will create an array `Is_5` such that `Is_5[i]`$=1$ if and only `i`$=5$, and similarly create arrays `Is_12`, `Is_22`.
 
+We can then change code of the following form
 
+```python
+Foo[i] = something
+```
+
+to
+
+```python
+temp = something
+foo_5 = IF(Is_5[i],temp,foo_5)
+Foo[i] = temp
+```
+
+and similarly code of the form
+
+```python
+blah = NAND(Bar[i],baz)
+```
+
+to
+
+```python
+temp = If(Is_22[i],bar_22,Bar[i])
+blah = NAND(temp,baz)
+```
+
+To create the arrays we can add code of the following form in the beginning of the program (here we're using enhanced NAND++ syntax, `GOTO`, and the constant `one` but this syntactic sugar can of course be avoided):
+
+```python
+# initialization of arrays
+GOTO("program body",init_done)
+i += one
+i += one
+i += one
+i += one
+i += one
+Is_5[i] = one
+i += one
+... # repeat i += one 6 more times
+Is_12[i] = one
+i += one
+... # repeat i += one 9 more times
+Is_22[i] = one
+i -= one
+... # repeat i -= one 21 more times
+init_done = one
+
+LABEL("program body")
+original code of program..
+```
 
 :::
 
