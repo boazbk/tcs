@@ -70,9 +70,86 @@ Namely, we will show how we can implement in NAND++ the operation `Setindex(Bar)
 Once we have arrays of integers, we can use our usual syntactic sugar for functions, `GOTO` etc. to implement the arithmetic  and control flow operations of NAND<<.
 :::
 
+We do not show the full formal proof of  [RAMTMequivalencethm](){.ref} but 
+
 ::: {.proof data-ref="RAMTMequivalencethm"}
 
 :::
+
+
+
+## The "Best of both worlds" paradigm
+
+The equivalence between NAND++ and NAND<< allows us to choose the most convenient language for the task at hand:
+
+* When we want to give a theorem about all programs, we can use NAND++ because it is simpler and easier to analyze. In particular, if we want to show that a certain function _can not_ be computed, then we will use NAND++.
+
+* When we want to show the existence of a program computing a certain function, we can use NAND<<, because it is higher level and easier to program in. In particular, if we want to show that a function _can_ be computed then we can use NAND<<. In fact, because NAND<< has much of  the features of high level programming languages, we will often describe NAND<< programs in an informal manner, trusting that the reader can fill in the details and translate the high level description to the precise program. (This is just like the way people typically use informal or "pseudocode" descriptions of algorithms, trusting that their  audience will know to translate these descriptions to code if needed.)
+
+Our usage of NAND++ and NAND<< is very similar to the way people use in practice  high and low level programming languages.
+When one wants to produce a device that executes programs, it is convenient  to do so for very simple and "low level" programming language. When one wants to describe an algorithm, it is convenient to use as high level a formalism as possible.
+
+![By having the two equivalent languages NAND++ and NAND<<, we can "have our cake and eat it too", using NAND++ when we want to prove that programs _can't_ do something, and using NAND<< or other high level languages when we want to prove that programs _can_ do something.](../figure/have_your_cake_and_eat_it_too-img-intro.png){#cakefig .class width=300px height=300px}
+
+
+
+> # {.remark title="Recursion in NAND<<" #recursion}
+One high level tool we can use in describing NAND<< programs is _recursion_.
+We can use the standard implementation of the [stack data structure](https://goo.gl/JweMj), which can be (and in fact is) used to implement recursion.
+A _stack_ is a data structure containing a sequence of elements, where we can "push"  elements into it and "pop" them from it in "first in last out" order.
+We can implement   `stack` by an array of integers `stack_0`, $\ldots$, `stack_`$\expr{k-1}$ and `stackpointer` will be the number $k$ of items in the stack.
+We implement `push(foo)` by doing `i := stackpointer` and `stack_i := foo` and `pop()` by letting `stackpointer := stackpointer - 1`.
+By encoding strings as integers, we can have allow strings in our stack as well.
+>
+Now we can implement recursion using the stack just as is done in most programming languages.
+The idea is that  a (recursive or non recursive) call to a function $F$ is implemented by pushing the arguments for $F$ into the stack.
+The code of $F$ will "pop" the arguments from the stack, perform the computation (which might involve making recursive or non recursive calls) and then "push" its return value into the stack.
+Because of the "first in last out" nature of a stack, we do not return control to the calling procedure until all the recursive calls are done.
+>
+Specifically,  we note that using loops and conditionals, we can implement "goto" statements in NAND<<.
+Moreover, we can even implement "dynamic gotos", in the sense that we can set integer labels for certain lines of codes, and have a `goto foo` operation that moves execution to the line labeled by `foo`.
+Now, if we want to make a  call to a function $F$ with parameter `bar` then we will push into the stack the label of the next line and `bar`, and then make a `goto` to the code of $F$. That code will pop its parameter from the stack, do the computation of $F$, and when it needs to resume execution, will pop the label from the stack and `goto` there.
+>
+You can find  online a tutorial on how recursion is implemented via stack in your favorite programming language, whether it's [Python](http://interactivepython.org/runestone/static/pythonds/Recursion/StackFramesImplementingRecursion.html) , [JavaScript](https://javascript.info/recursion), or [Lisp/Scheme](https://mitpress.mit.edu/sicp/full-text/sicp/book/node110.html).
+
+
+### Let's talk about abstractions.
+
+At some point in any theory of computation course, the instructor and students need to have _the talk_.
+That is, we need to discuss the _level of abstraction_ in describing algorithms.
+In algorithms courses, one typically describes  algorithms in English, assuming readers can "fill in the details" and would be able to convert such an algorithm into an implementation if needed.
+For example, we might describe the [breadth first search](https://en.wikipedia.org/wiki/Breadth-first_search) algorithm to find if two vertices $u,v$ are connected as follows:
+
+1. Put $u$ in  queue $Q$.
+
+2. While $Q$ is not empty:
+   * Remove the top vertex $w$ from $Q$
+   * If $w=v$ then declare "connected" and exit.
+   * Mark $w$ and add all unmarked neighbors of $w$ to $Q$.
+
+3. Declare "unconnected".
+
+We call such a description a _high level description_.
+
+
+If we wanted to give more details on how to implement  breadth first search in a programming language such as Python or C (or NAND<< /  NAND++ for that matter), we would  describe how we implement the queue data structure using an array, and similarly how we would use arrays to implement the marking.
+We call such a "intermediate level" description an _implementation level_ or _pseudocode_ description.
+Finally, if we want to describe the implementation precisely, we would give the full code of the program (or another fully precise representation, such as in the form of a list of tuples).
+We call this a _formal_ or _low level_ description.
+
+While initially we might have described NAND, NAND++, and NAND<< programs at the full formal level (and the [NAND website](http://www.nandpl.org) contains more such examples), as the course continues we will move to implementation and high level description.
+After all, our focus is typically not to use these models for actual computation, but rather to analyze the general phenomenon of  computation.
+That said, if you don't understand how the high level description translates to an actual implementation, you should always feel welcome to ask for more details of your teachers and teaching fellows.
+
+A similar distinction applies to the notion of _representation_ of objects as strings.
+Sometimes, to be precise, we give a _low level specification_ of exactly how an object maps into a binary string.
+For example, we might describe an encoding of $n$ vertex graphs as length $n^2$ binary strings, by saying that we map a graph $G$ over the vertex $[n]$ to a string $x\in \{0,1\}^{n^2}$ such that the $n\cdot i + j$-th coordinate of $x$ is $1$ if and only if the edge $\overrightarrow{i \; j}$  is present in $G$.
+We can also use an _intermediate_ or _implementation level_ description, by simply saying that we represent a graph using the adjacency matrix representation.
+Finally, because we translating between the various representations of graphs (and objects in general) can be done via a NAND<< (and hence a NAND++) program, when talking in a high level we  also suppress discussion of  representation altogether.
+For example, the fact that graph connectivity  is a computable function is true regardless of whether we represent graphs as adjacency lists, adjacency matrices, list of edge-pairs, and so on and so forth.
+Hence, in cases where the precise representation doesn't make a difference, we would often talk about our algorithms as taking as input an object $O$ (that can be a graph, a vector, a program, etc.) without specifying how $O$ is encoded as a string.
+
+
 
 ### Imperative languages
 
