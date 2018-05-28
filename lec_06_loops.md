@@ -1007,6 +1007,7 @@ Both configurations and Deltas are technical ways to capture the fact that compu
 ## Exercises
 
 
+
 ::: {.exercise title="Well formed NAND++ programs" #noabsoluteindexex}
 Let $P$ be a NAND++ program. Prove that there exists a NAND++ program $P'$ that computes the same function as $P$, such that every variable in $P'$ is either a scalar (non array variable), or is an array indexed by `i`.^[_Hint:_   We can replace references to `Foo[17]` with `foo_17`. We can also use a finite number of variables to keep track of when the index variable `i` reaches the point `17`, in which case we write `foo_17` to the value of `Foo[i]`.]
 :::
