@@ -655,7 +655,7 @@ For now the main take away point is that NAND++ programs and Turing Machines are
 
 
 
-## Uniformity, and NAND vs NAND++
+## Uniformity, and NAND vs NAND++ (discussion)
 
 
 While NAND++ adds an extra operation over NAND, it is not exactly accurate to say that NAND++ programs are "more powerful" than NAND programs.
