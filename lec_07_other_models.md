@@ -19,8 +19,10 @@ We will discuss the Church-Turing Thesis and the potential definitions of "reaso
 
 ## RAM machines and NAND<<
 
-
-
+One of the limitations of NAND++ (and Turing machines) is that we can only access one location of our arrays/tape at a time.
+If currently `i`$=22$ and we want to access `Foo[`$957$`]` then it will take us at least 923 steps to get there.
+In contrast, almost every programming language has a formalism for directly accessing memory locations.
+Hardware 
 
 ## "Turing Completeness" and other  Computational models
 
