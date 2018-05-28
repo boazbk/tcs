@@ -51,96 +51,90 @@ index:
     notebook: false
 
   - num: 7.
-    name: Universality and indirection
-    file: lec_06a_universality
-    draft: false
-    notebook: false
-
-  - num: 8.
     name: Other models
     file: lec_07_other_models
     draft: false
     notebook: false
 
-  - num: 9.
+  - num: 8.
     name: Uncomputability
     file: lec_08_uncomputability
     draft: false
     notebook: false
 
-  - num: 10.
+  - num: 9.
     name: Restricted computational models
     file: lec_08a_restricted_models
     draft: false
     notebook: false
 
-  - num: 11.
+  - num: 10.
     name: Gödel's Incompleteness Theorem
     file: lec_09_godel
     draft: false
     notebook: false
 
-  - num: 12.
+  - num: 11.
     name: Efficient algorithms
     file: lec_10_efficient_alg
     draft: false
     notebook: false
 
-  - num: 13.
+  - num: 12.
     name: Formally defining running time
     file: lec_11_running_time
     draft: false
     notebook: false
 
-  - num: 14.
+  - num: 13.
     name: Polynomial-time reductions
     file: lec_12_NP
     draft: false
     notebook: false
 
-  - num: 15.
+  - num: 14.
     name: NP, NP completeness, and the Cook-Levin Theorem
     file: lec_13_Cook_Levin
     draft: false
     notebook: false
 
-  - num: 16.
+  - num: 15.
     name: What if P=NP?
     file: lec_14_PvsNP
     draft: false
     notebook: false
 
-  - num: 17.
+  - num: 16.
     name: Review of probability
     file: lec_15_probability
     draft: false
     notebook: false
 
-  - num: 18.
+  - num: 17.
     name: Randomized algorithms
     file: lec_16_randomized_alg
     draft: false
     notebook: false
 
-  - num: 19.
+  - num: 18.
     name: Modelling probabilistic computation
     file: lec_17_model_rand
     draft: false
     notebook: false
 
-  - num: 20.
+  - num: 19.
     name: Cryptography
     file: lec_19_cryptography
     draft: false
     notebook: false
 
-  - num: 21.
+  - num: 20.
     name: Proofs and algorithms
     file: lec_24_proofs
     draft: false
     notebook: false
 
-  - num: 22.
+  - num: 21.
     name: Quantum computing
     file: lec_26_quantum_computing
     draft: false
