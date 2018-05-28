@@ -119,28 +119,28 @@ GOTO("increment_bar",cond)
 ### Two dimensional arrays in NAND++
 
 To implement two dimensional arrays, we embed want to embed them in a one dimensional array.
-The idea is that we come up with a _one to one_ function $PAIR:\N \times \N \rightarrow \N$, and so embed the location $(i,j)$ of the two dimensional array `Two` in the location $PAIR(i,j)$ of the array `One`.
+The idea is that we come up with a _one to one_ function $embed:\N \times \N \rightarrow \N$, and so embed the location $(i,j)$ of the two dimensional array `Two` in the location $embed(i,j)$ of the array `One`.
 
 Since the set $\N \times \N$ seems "much bigger" than the set $\N$, a priori it might not be clear that such a one to one mapping exists. However, once you think about it more, it is not that hard to construct.
 For example, you could ask a child to use scissors and glue to transform a 10" by 10" piece of paper into a  1" by 100" strip.
 If you think about it, this is essentially  a one to one map from $[10]\times [10]$ to $[10]$. We can generalize this to obtain a one to one map from $[n]\times [n]$ to $[n^2]$ and more generally a one to one map from $\N \times \N$ to $\N$.
-Specifically, the following map $PAIR$ would do (see [pairingfuncfig](){.ref}):
+Specifically, the following map $embed$ would do (see [pairingfuncfig](){.ref}):
 
-$$PAIR(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+x\;\;.$$
+$$embed(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+x\;\;.$$
 
-We ask you to prove that $PAIR$ is indeed one to one, as well as computable by a NAND++ program, in [pair-ex](){.ref}.
+We ask you to prove that $embed$ is indeed one to one, as well as computable by a NAND++ program, in [pair-ex](){.ref}.
 
-![Illustration of the map $PAIR(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+x$ for $x,y \in [10]$, one can see that for every distinct pairs $(x,y)$ and $(x',y')$, $PAIR(x,y) \neq PAIR(x',y')$. ](../figure/pairing_function.png){#pairingfuncfig .class width=300px height=300px}
+![Illustration of the map $embed(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+x$ for $x,y \in [10]$, one can see that for every distinct pairs $(x,y)$ and $(x',y')$, $embed(x,y) \neq embed(x',y')$. ](../figure/pairing_function.png){#pairingfuncfig .class width=300px height=300px}
 
 So, we can replace code of the form `Two[Foo][Bar] = something` (i.e., access the two dimensional array `Two` at the integers encoded by the one dimensional arrays `Foo` and `Bar`) by code of the form:
 
 ```python
-Blah = PAIR(Foo,Bar)
+Blah = embed(Foo,Bar)
 Setindex(Blah)
 Two[i] = something
 ```
 
-Computing `PAIR` is left for you the reader as [pair-ex](){.ref}, but let us hint that this can be done by simply following the gradeschool algorithms for multiplication, addition, and division.
+Computing `embed` is left for you the reader as [pair-ex](){.ref}, but let us hint that this can be done by simply following the gradeschool algorithms for multiplication, addition, and division.
 
 ### All the rest
 
@@ -322,10 +322,12 @@ All functions take one input and return one output, and if you feed a function a
 
 ### "Enhanced" lambda calculus
 
-As we did with NAND++, we will start by describing an "enhanced" version of the $\lambda$ calculus that 
-To calculate, it seems we need some basic objects such as $0$ and $1$, and so we will consider the following set of "basic" objects and operations:
+As we did with NAND++, we will start by describing an "enhanced" version of the $\lambda$ calculus that contains some "superfluous objects" but is easier to wrap your head around.
+We will later show how we can do without many of those concepts, and that the "enhanced $\lambda$ calculus" is equivalent to the "pure $\lambda$ calculus".
 
-* __Boolean constants:__ $0$ and $1$. We  also have the $IF(cond,a,b)$ functions that outputs $a$ if $cond=1$ and $b$ otherwise. Using $IF$ we can also compute logical operations such as $AND,OR,NOT,NAND$ etc.: can you see why?
+For now, we will  consider the following set of "basic" objects and operations:
+
+* __Boolean constants:__ $0$ and $1$. We  also have the $IF(cond,a,b)$ functions that outputs $a$ if $cond=1$ and $b$ otherwise. Using $IF$ and the constants $0,1$ we can also compute logical operations such as $AND,OR,NOT,NAND$ etc.: can you see why?
 
 * __The empty string:__ The value $NIL$ and the function $ISNIL(x)$ that returns $1$ iff $x$ is $NIL$.
 
@@ -341,18 +343,48 @@ $$
 For example $REDUCE(L,+)$ would output the sum of all the elements of the list $L$.
 See [reduceetalfig](){.ref} for an illustration of these three operations.
 
+* __Recursion:__  Finally, we want to be able to execute recursive functions of the form:
 
+```python
+def rec(x):
+    if end(x): return x
+    return rec(f(x))
+```
+
+we will assume we have a function $RECURSE(f,end,x)$ that computes `rec(x)` as above.
+That is, for every functions $f,end$ and input $x$, $RECURSE(f,end,x)$ continuosly  computes $x_1 = f(x)$, $x_2 = f(x_1)$, $x_3 = f(x_2)$ and so on and  so forth until we get to the point where $end(x_i)=1$, in which case we output $x_i$.
 
 ![A list $(x_0,x_1,x_2)$ in the $\lambda$ calculus is constructed from the tail up, building the pair $(x_2,NIL)$, then the pair $(x_1,(x_2,NIL))$ and finally the pair $(x_0,(x_1,(x_2,NIL)))$. That is, a list is a pair where the first element of the pair is the first element of the list and the second element is the rest of the list. The figure on the left renders this "pairs inside pairs" construction, though it is often easier to think of a list as a "chain", as in the figure on the right, where the second element of each pair is thought of as a _link_, _pointer_  or _reference_ to the  remainder of the list.](../figure/lambdalist.png){#lambdalistfig .class width=300px height=300px}
 
 ![Illustration of the $MAP$, $FILTER$ and $REDUCE$ operations.](../figure/reducemapfilter.png){#reduceetalfig .class width=300px height=300px}
 
+We now formally define the notion of a $\lambda$ expression, and how these correspond to a computation.
 
-Together these operations more or less amount to the Lisp/Scheme programming language.^[In Lisp, the $PAIR$, $HEAD$ and $TAIL$ functions are [traditionally called](https://en.wikipedia.org/wiki/CAR_and_CDR) `cons`, `car` and `cdr`.]
-Given that, it is perhaps not surprising that we can simulate NAND++ programs using the $\lambda$-calculus plus these basic elements, hence showing the following theorem:
+::: {.definition title="$\lambda$ expression" #lambdaexpressdef}
+An _enhanced $\lambda$ expression_ has one of the following forms:
+
+1. A single variable $var$. (In which case we say $var$ is _free_ in the expression.)
+
+2. One of the basic objects $0,1,IF,ISNIL,NIL,PAIR,HEAD,TAIL,MAP,REDUCE,FILTER,RECURSE$.
+
+3. $(exp1)(exp2)$ where $exp1,exp2$ are two enhanced $\lambda$ expressions. The free variables in the expression are the union of the free variables in $exp1$ and $exp2$.
+
+4. $\lambda var. (exp)$ where $var$ is a variable and $exp$ is a $\lambda$ expression. In this case we say $var$ is _bound_ in the expression, and we remove it from the set of free variables. $var$ is called the _argument_ of the expression.
+
+:::
+
+::: { .pause }
+[lambdaexpressdef](){.ref} is a _recursive definition_.
+We define the notion of a $\lambda$ expression in terms of itself. That is, there basic types of $\lambda$ expressions, and then more complex types that are built by combining the basic types together using rules 3 and 4.
+:::
+
+
+
+Together these operations more or less amount to the Lisp/Scheme programming language.^[In Lisp, the $PAIR$, $HEAD$ and $TAIL$ functions are [traditionally called](https://goo.gl/BLRd6S) `cons`, `car` and `cdr`.]
+Given that, it is perhaps not surprising that we can simulate NAND++ programs using the enhanced $\lambda$-calculus, hence showing the following theorem:
 
 > # {.theorem title="Lambda calculus and NAND++" #lambdaturing-thm}
-For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable in the $\lambda$ calculus with the above basic operations if and only if it is computable by a NAND++ program.
+For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable in the enhanced $\lambda$ calculus if and only if it is computable by a NAND++ program.
 
 > # {.proof data-ref="lambdaturing-thm"}
 We only sketch the proof. The "only if" direction is simple. As mentioned above, evaluating $\lambda$ expressions basically amounts to "search and replace". It is also a fairly straightforward programming exercise to implement all the above basic operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND<< as well, which we can then transform to a NAND++ program.
@@ -624,15 +656,15 @@ These devices might potentially make some computations more _efficient_, but the
 ^[TODO: Add an exercise showing that NAND++ programs where the integers are represented using the _unary_ basis are equivalent up to polylog terms with multi-tape Turing machines.]
 
 ::: {.exercise title="Pairing" #pair-ex}
-Let $PAIR:\N^2 \rightarrow \N$ be the function defined as $PAIR(x_0,x_1)= \tfrac{1}{2}(x_0+x_1)(x_0+x_1+1) + x_1$. \
+Let $embed:\N^2 \rightarrow \N$ be the function defined as $embed(x_0,x_1)= \tfrac{1}{2}(x_0+x_1)(x_0+x_1+1) + x_1$. \
 
-1. Prove that for every $x^0,x^1 \in \N$, $PAIR(x^0,x^1)$ is indeed a natural number. \
+1. Prove that for every $x^0,x^1 \in \N$, $embed(x^0,x^1)$ is indeed a natural number. \
 
-2. Prove that $PAIR$ is one-to-one \
+2. Prove that $embed$ is one-to-one \
 
-3. Construct a NAND++ program $P$ such that for every $x^0,x^1 \in \N$, $P(pf(x^0)pf(x^1))=pf(PAIR(x^0,x^1))$, where $pf$ is the prefix-free encoding map defined above. You can use the syntactic sugar for inner loops, conditionals, and incrementing/decrementing the counter. \
+3. Construct a NAND++ program $P$ such that for every $x^0,x^1 \in \N$, $P(pf(x^0)pf(x^1))=pf(embed(x^0,x^1))$, where $pf$ is the prefix-free encoding map defined above. You can use the syntactic sugar for inner loops, conditionals, and incrementing/decrementing the counter. \
 
-4. Construct NAND++ programs $P_0,P_1$ such that for for every $x^0,x^1 \in \N$ and $i \in N$, $P_i(pf(PAIR(x^0,x^1)))=pf(x^i)$. You can use the syntactic sugar for inner loops, conditionals, and incrementing/decrementing the counter.
+4. Construct NAND++ programs $P_0,P_1$ such that for for every $x^0,x^1 \in \N$ and $i \in N$, $P_i(pf(embed(x^0,x^1)))=pf(x^i)$. You can use the syntactic sugar for inner loops, conditionals, and incrementing/decrementing the counter.
 
 :::
 
