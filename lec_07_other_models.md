@@ -336,11 +336,11 @@ For now, we will  consider the following set of "basic" objects and operations:
 
 
 * __List operations:__ The functions $MAP,REDUCE,FILTER$. Given a list $L=(x_0,\ldots,x_{n-1})$ and a function $f$, $MAP L f$ applies $f$ on every member of the list to obtain $L=(f(x_0),\ldots,f(x_{n-1}))$.
-The function $FILTER L f$ returns the list of $x_i$'s such that $f(x_i)=1$, and $REDUCE(L,f)$ "combines" the list by  outputting
+The function $FILTER L f$ returns the list of $x_i$'s such that $f(x_i)=1$, and $REDUCE L f$ "combines" the list by  outputting
 $$
 f(x_0,f(x_1,\cdots f(x_{n-3},f(x_{n-2},f(x_{n-1},NIL))\cdots)
 $$
-For example $REDUCE(L,+)$ would output the sum of all the elements of the list $L$.
+For example $REDUCE L +$ would output the sum of all the elements of the list $L$.
 See [reduceetalfig](){.ref} for an illustration of these three operations.
 
 * __Recursion:__  Finally, we want to be able to execute recursive functions of the form:
@@ -351,8 +351,8 @@ def rec(x):
     return rec(f(x))
 ```
 
-we will assume we have a function $RECURSE(f,end,x)$ that computes `rec(x)` as above.
-That is, for every functions $f,end$ and input $x$, $RECURSE(f,end,x)$ continuosly  computes $x_1 = f(x)$, $x_2 = f(x_1)$, $x_3 = f(x_2)$ and so on and  so forth until we get to the point where $end(x_i)=1$, in which case we output $x_i$.
+we will assume we have a function $RECURSE f end x$ that computes `rec(x)` as above.
+That is, for every functions $f,end$ and input $x$, $RECURSE f end x$ continuosly  computes $x_1 = f(x)$, $x_2 = f(x_1)$, $x_3 = f(x_2)$ and so on and  so forth until we get to the point where $end x_i=1$, in which case we output $x_i$.
 
 ![A list $(x_0,x_1,x_2)$ in the $\lambda$ calculus is constructed from the tail up, building the pair $(x_2,NIL)$, then the pair $(x_1,(x_2,NIL))$ and finally the pair $(x_0,(x_1,(x_2,NIL)))$. That is, a list is a pair where the first element of the pair is the first element of the list and the second element is the rest of the list. The figure on the left renders this "pairs inside pairs" construction, though it is often easier to think of a list as a "chain", as in the figure on the right, where the second element of each pair is thought of as a _link_, _pointer_  or _reference_ to the  remainder of the list.](../figure/lambdalist.png){#lambdalistfig .class width=300px height=300px}
 
