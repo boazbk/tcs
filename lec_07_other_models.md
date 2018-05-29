@@ -106,11 +106,11 @@ GOTO("zero_idx",NOT(Atzero[i]))
 Temp[0] = 1
 Temp[1] = 0
 # set i to Bar, assume we know how to increment, compare
-LABEL("increment_bar")
+LABEL("increment_temp")
 cond = EQUAL(Temp,Bar)
 i += cond
-INC(Bar)
-GOTO("increment_bar",cond)
+INC(Temp)
+GOTO("increment_temp",cond)
 # if we reach this point, i is number encoded by Bar
 
 ...
