@@ -327,16 +327,16 @@ We will later show how we can do without many of those concepts, and that the "e
 
 For now, we will  consider the following set of "basic" objects and operations:
 
-* __Boolean constants:__ $0$ and $1$. We  also have the $IF(cond,a,b)$ functions that outputs $a$ if $cond=1$ and $b$ otherwise. Using $IF$ and the constants $0,1$ we can also compute logical operations such as $AND,OR,NOT,NAND$ etc.: can you see why?
+* __Boolean constants:__ $0$ and $1$. We  also have the $IF$ function such that $IF cond\;a\;b$  outputs $a$ if $cond=1$ and $b$ otherwise. (We use _currying_ to implement multi-input functions, so $IF cond$ is the function $\lambda a.\lambda b.a$ if $cond=1$ and is the function $\lambda a. \lambda b. b$ if $cond=0$.) Using $IF$ and the constants $0,1$ we can also compute logical operations such as $AND,OR,NOT,NAND$ etc.: can you see why?
 
-* __The empty string:__ The value $NIL$ and the function $ISNIL(x)$ that returns $1$ iff $x$ is $NIL$.
+* __The empty string:__ The value $NIL$ and the function $ISNIL x$ that returns $1$ iff $x$ is $NIL$.
 
-* __Strings/lists:__ The function $PAIR(x,y)$ that creates a pair from $x$ and $y$. We will also have the function $HEAD$ and $TAIL$ to extract the first and second member of the pair. We can now create the list $x,y,z$ by $PAIR(x,PAIR(y,PAIR(z,NIL)))$, see [lambdalistfig](){.ref}.  A _string_ is of course simply a list of bits.^[Note that if $L$ is a list, then $HEAD(L)$ is its first element, but $TAIL(L)$ is not the last element but rather all the elements except the first. We use $NIL$ to denote the empty list and hence $PAIR(x,NIL)$ denotes the list with the single element $x$.]
+* __Strings/lists:__ The function $PAIR$ where $PAIR x y$ that creates a pair from $x$ and $y$. We will also have the function $HEAD$ and $TAIL$ to extract the first and second member of the pair. We can now create the list $x,y,z$ by $PAIR x (PAIR y (PAIR z NIL))$, see [lambdalistfig](){.ref}.  A _string_ is of course simply a list of bits.^[Note that if $L$ is a list, then $HEAD L$ is its first element, but $TAIL L$ is not the last element but rather all the elements except the first. We use $NIL$ to denote the empty list and hence $PAIR x NIL$ denotes the list with the single element $x$.]
 
 
 
-* __List operations:__ The functions $MAP,REDUCE,FILTER$. Given a list $L=(x_0,\ldots,x_{n-1})$ and a function $f$, $MAP(L,f)$ applies $f$ on every member of the list to obtain $L=(f(x_0),\ldots,f(x_{n-1}))$.
-The function $FILTER(L,f)$ returns the list of $x_i$'s such that $f(x_i)=1$, and $REDUCE(L,f)$ "combines" the list by  outputting
+* __List operations:__ The functions $MAP,REDUCE,FILTER$. Given a list $L=(x_0,\ldots,x_{n-1})$ and a function $f$, $MAP L f$ applies $f$ on every member of the list to obtain $L=(f(x_0),\ldots,f(x_{n-1}))$.
+The function $FILTER L f$ returns the list of $x_i$'s such that $f(x_i)=1$, and $REDUCE(L,f)$ "combines" the list by  outputting
 $$
 f(x_0,f(x_1,\cdots f(x_{n-3},f(x_{n-2},f(x_{n-1},NIL))\cdots)
 $$
@@ -363,11 +363,11 @@ We now formally define the notion of a $\lambda$ expression, and how these corre
 ::: {.definition title="$\lambda$ expression" #lambdaexpressdef}
 An _enhanced $\lambda$ expression_ has one of the following forms:
 
-1. A single variable $var$. (In which case we say $var$ is _free_ in the expression.)
+1. A single variable $var$. In this case we say $var$ is _free_ in the expression. _Examples:_ $x$, $y$
 
 2. One of the basic objects $0,1,IF,ISNIL,NIL,PAIR,HEAD,TAIL,MAP,REDUCE,FILTER,RECURSE$.
 
-3. $(exp1)(exp2)$ where $exp1,exp2$ are two enhanced $\lambda$ expressions. The free variables in the expression are the union of the free variables in $exp1$ and $exp2$.
+3. $(exp1)(exp2)$ where $exp1,exp2$ are two enhanced $\lambda$ expressions. The free variables in the expression are the union of the free variables in $exp1$ and $exp2$. _Example:_ $y(\lambda x.x)$, $TAIL f$.
 
 4. $\lambda var. (exp)$ where $var$ is a variable and $exp$ is a $\lambda$ expression. In this case we say $var$ is _bound_ in the expression, and we remove it from the set of free variables. $var$ is called the _argument_ of the expression.
 
