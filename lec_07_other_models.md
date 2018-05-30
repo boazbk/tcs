@@ -308,6 +308,23 @@ Our function $g$ is simply $g(x)=x^2$ and so $(F g)$ is the function that maps $
 Hence $((F g) 3) = 3^4 = 81$.
 :::
 
+
+::: {.remark title="Obtaining multi-argument functions via "Currying"." #curryingrem}
+The expression $e$ can itself involve $\lambda$, and so for example the function
+
+$$
+\lambda x. (\lambda y. x+y)
+$$
+
+maps $x$ to the function $y \mapsto x+y$.
+
+In particular, if we invoke this function on $a$ and then invoke the result on $b$ then we get $a+b$.
+We can use this approach to achieve the effect of functions with more than one input and so we will use the shorthand $\lambda x,y. e$ for $\lambda x. (\lambda y. e)$.^[This technique of simulating multiple-input functions with single-input functions is known as [Currying](https://en.wikipedia.org/wiki/Currying) and is named after the logician [Haskell Curry](https://goo.gl/C9hKz1). Curry himself attributed this concept to [Moses Schönfinkel](https://goo.gl/qJqd47), though for some reason the term "Schönfinkeling" never caught on..]
+:::
+
+![In the "currying" transformation, we can create the effect of a two parameter function $f(x,y)$ with the $\lambda$ expression $\lambda x.(\lambda y. f(x,y))$ which on input $x$ outputs a one-parameter function $f_x$ that has $x$ "hardwired" into it and such that $f_x(y)=f(x,y)$. This can be illustrated by a circuit diagram; see [Chelsea Voss's site](https://tromp.github.io/cl/diagrams.html).](../figure/currying.png){#currying .class width=300px height=300px}
+
+
 ::: {.example title="Simplfying a $\lambda$ expression" #lambdaexptwo}
 Here is another example of a $\lambda$ expression:
 
@@ -339,30 +356,6 @@ A _$\lambda$ expression_ is either a single variable identifier or an expression
 [lambdaexpdef](){.ref} is a _recursive_ definition. That is, we define the concept of $\lambda$ expression in terms of itself.
 This might seem confusing at first, but in fact you have known recursive definitions since you were an elementary school student. Consider how we define an _arithmetic expression_: it is an expression that is either a number, or is built  from other expressions $exp,exp'$ using $(exp + exp')$, $(exp - exp')$, $(exp \times exp')$, or $(exp \div exp')$.
 
-::: {.definition title="Equivalence of $\lambda$ expressions" #lambdaequivalence}
-Two $\lambda$ expressions are _equivalent_ if they can be made into the same expression by repeated applications of the following rules:
-
-1. __Evaluation:__ The expression $(\lambda x.exp) exp'$ is equivalent to $exp[x \rightarrow exp']$.
-
-2. __Variable renaming:__ The expression $\lambda x.exp$ is equivalent to $\lambda y.exp[x \rightarrow y]$.
-:::
-
-
-
-::: {.remark title="Obtaining multi-argument functions via "Currying"." #curryingrem}
-The expression $e$ can itself involve $\lambda$, and so for example the function
-
-$$
-\lambda x. (\lambda y. x+y)
-$$
-
-maps $x$ to the function $y \mapsto x+y$.
-
-In particular, if we invoke this function on $a$ and then invoke the result on $b$ then we get $a+b$.
-We can use this approach to achieve the effect of functions with more than one input and so we will use the shorthand $\lambda x,y. e$ for $\lambda x. (\lambda y. e)$.^[This technique of simulating multiple-input functions with single-input functions is known as [Currying](https://en.wikipedia.org/wiki/Currying) and is named after the logician [Haskell Curry](https://goo.gl/C9hKz1). Curry himself attributed this concept to [Moses Schönfinkel](https://goo.gl/qJqd47), though for some reason the term "Schönfinkeling" never caught on..]
-:::
-
-![In the "currying" transformation, we can create the effect of a two parameter function $f(x,y)$ with the $\lambda$ expression $\lambda x.(\lambda y. f(x,y))$ which on input $x$ outputs a one-parameter function $f_x$ that has $x$ "hardwired" into it and such that $f_x(y)=f(x,y)$. This can be illustrated by a circuit diagram; see [Chelsea Voss's site](https://tromp.github.io/cl/diagrams.html).](../figure/currying.png){#currying .class width=300px height=300px}
 
 ::: {.remark title="Precedence and parenthesis." #precedencerem}
 However, to avoid clutter, we will allow to drop parenthesis for function invocation, and so if $f$ is a $\lambda$ expression and $z$ is some other expression, then we can write  $fz$ instead of $f(z)$ for the expression corresponding to invoking $f$ on $z$.^[When using  identifiers with multiple letters for $\lambda$ expressions,  we'll separate them with spaces or commas.]
@@ -374,6 +367,21 @@ For example, if $f = \lambda x.(\lambda y.x+y)$ then $fzw=(fz)w=z+w$.
 
 This is similar to how we use the precedence rules in arithmetic operations to allow us to use fewer parenthesis and so write the expression $(7 \times 3) + 2$ as $7\times 3 + 2$.
 :::
+
+
+As we have seen in [lambdaexptwo](){.ref}, the  rule that $(\lambda x. exp) exp'$ is equivalent to $exp[x \rightarrow exp']$ enables us to modify $\lambda$ expressions and obtain simpler _equivalent form_ for them.
+Another rule that we can use is that the parameter does not matter and hence for example $\lambda y.y$ is the same as $\lambda z.z$.
+Together these rules define the notion of _equivalence_ of $\lambda$ expressions:
+
+::: {.definition title="Equivalence of $\lambda$ expressions" #lambdaequivalence}
+Two $\lambda$ expressions are _equivalent_ if they can be made into the same expression by repeated applications of the following rules:
+
+1. __Evaluation:__ The expression $(\lambda x.exp) exp'$ is equivalent to $exp[x \rightarrow exp']$.
+
+2. __Variable renaming:__ The expression $\lambda x.exp$ is equivalent to $\lambda y.exp[x \rightarrow y]$.
+:::
+
+
 
 ### Functions as first class objects
 
