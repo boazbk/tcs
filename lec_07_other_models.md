@@ -277,16 +277,80 @@ $$
 \lambda x. x\cdot x
 $$
 
-Generally, an expression of the form
+and so $(\lambda x.x*x)(7)=49$.
+(In fact, in the $\lamdba$ calculus the conventional way to write function application of $f$ on $x$ is $(f x)$ rather than $f(x)$, and so we write $((\lambda x.x*x) 7)=49$.)
+Clearly, the name of the argument doesn't matter, and so $\lambda y.y*y$ is the same as $\lambda x.x*x$.
 
+We can also apply functions on functions.
+For example, can you guess what number is the following expression equal to?
+
+$$(((\lambda f.(\lambda y.(f (f y)))) (\lambda x. x*x)) 3) \label{lambdaexampleeq}$$
+
+::: { .pause }
+The expression [lambdaexampleeq](){.eqref} might seem daunting, but before you look at the solution below, try to break it apart to its components, and evaluate each component at a time.
+Working out this example would go a long way toward understanding the $\lambda$ calculus.
+:::
+
+
+::: {.example title="Working out a $\lambda$ expression." #lambda}
+To understand better the $\lambda$ calculus. Let's evaluate [lambdaexampleeq](){.eqref}, one step at a time.
+As nice as it is for the $\lambda$ calculus to allow us anonymous functions, for complicated expressions adding names can be very helpful for understanding.
+So, let us write $F = \lambda f.(\lambda y.(f (f y)))$ and
+$g = \lambda x.x* x$.
+
+Therefore [lambdaexampleeq](){.eqref} becomes
 $$
-\lambda x. e
+((F g) 3) \;.
 $$
 
-corresponds to the function that maps any expression $z$ into the expression $e[x \rightarrow z]$ which is obtained by replacing every occurrence of $x$ in $e$ with $z$.^[More accurately, we replace every expression of $x$ that is _bound_ by the $\lambda$ operator. For example, if we have the $\lambda$ expression $\lambda x.(\lambda x. x+1)(x)$ and invoke it on the number $7$ then we get $(\lambda x.x+1)(7)=8$ and not the nonsensical expression $(\lambda 7.7+1)(7)$. To avoid such annoyances, we can always ensure that every instance of $\lambda var.e$ uses a unique variable identifier $var$. See  [boundvarsec](){.ref} for more discussion on bound variables.]
+On input a function $f$, $F$ outputs the function $\lambda y.(f (f y))$, which in more standard notation is the mapping $y \mapsto f(f(y))$.
+Our function $g$ is simply $g(x)=x^2$ and so $(F g)$ is the function that maps $y$ to $(y^2)^2$ or in other words to $y^4$.
+Hence $((F g) 3) = 3^4 = 81$.
+:::
+
+::: {.example title="Simplfying a $\lambda$ expression" #lambdaexptwo}
+Here is another example of a $\lambda$ expression:
+
+$$((\lambda x.(\lambda y.x)) 2) 9) \;. \label{lambdaexptwo}$$
+
+Let us denote $(\lambda y.x)$ by $F$. Then [lambdaexptwo](){.eqref} has the form
+
+$$((\lambda x. F) 2) 9)$$
+
+Now $(\lambda x.F) 2$ is equal to $F[x \rightarrow 2]$.
+Since $F$ is $\lambda y.x$ this means that this is the function $|\lambda y.2$ that ignores its input and outputs $2$ no matter what it is equal to.
+Hence [lambdaexptwo](){.eqref}  is equivalent to $(\lambda y. 2) 9$ which is the result of applying the function $y \mapsto 2$ on the input $9$, which is simply the number $2$.
+:::
+
+### Formal description of the $\lambda$ calculus.
+
+In the $\lambda$ calculus we start with some "basic expressions" such as $x$ or $y$ and build more complex expression using two rules:
+
+* __Application:__ If $exp$ and $exp'$ are $\lambda$ expressions, then the $\lambda$ expression $(exp exp')$ corresponds to applying the function described by $exp$ to the input $exp'$.
+
+* __Abstraction:__ If $exp$ is a  $\lambda$ expression and $x$ is a variable, then the $\lambda$ expression $\lambda x.(exp)$  corresponds to the function that on any input $z$ returns the expression $exp[x \rightarrow z]$ replacing all (free) occurrences of $x$ in $exp$.^[Strictly speaking we should replace only the _free_ and not the ones that are _bound_ by some other $\lambda$ operator. For example, if we have the $\lambda$ expression $\lambda x.(\lambda x. x+1)(x)$ and invoke it on the number $7$ then we get $(\lambda x.x+1)(7)=8$ and not the nonsensical expression $(\lambda 7.7+1)(7)$. To avoid such annoyances, we can always ensure that every instance of $\lambda var.e$ uses a unique variable identifier $var$. See  [boundvarsec](){.ref} for more discussion on bound and free variables.]
+
+We can now formally define $\lambda$ expressions:
+
+::: {.definition title="$\lambda$ expression." #lambdaexpdef}
+A _$\lambda$ expression_ is either a single variable identifier or an expression that is built from other expressions using the _application_ and _abstraction_ operations.
+:::
+
+[lambdaexpdef](){.ref} is a _recursive_ definition. That is, we define the concept of $\lambda$ expression in terms of itself.
+This might seem confusing at first, but in fact you have known recursive definitions since you were an elementary school student. Consider how we define an _arithmetic expression_: it is an expression that is either a number, or is built  from other expressions $exp,exp'$ using $(exp + exp')$, $(exp - exp')$, $(exp \times exp')$, or $(exp \div exp')$.
+
+::: {.definition title="Equivalence of $\lambda$ expressions" #lambdaequivalence}
+Two $\lambda$ expressions are _equivalent_ if they can be made into the same expression by repeated applications of the following rules:
+
+1. __Evaluation:__ The expression $(\lambda x.exp) exp'$ is equivalent to $exp[x \rightarrow exp']$.
+
+2. __Variable renaming:__ The expression $\lambda x.exp$ is equivalent to $\lambda y.exp[x \rightarrow y]$.
+:::
 
 
-__Currying.__ The expression $e$ can itself involve $\lambda$, and so for example the function
+
+::: {.remark title="Obtaining multi-argument functions via "Currying"." #curryingrem}
+The expression $e$ can itself involve $\lambda$, and so for example the function
 
 $$
 \lambda x. (\lambda y. x+y)
@@ -296,11 +360,11 @@ maps $x$ to the function $y \mapsto x+y$.
 
 In particular, if we invoke this function on $a$ and then invoke the result on $b$ then we get $a+b$.
 We can use this approach to achieve the effect of functions with more than one input and so we will use the shorthand $\lambda x,y. e$ for $\lambda x. (\lambda y. e)$.^[This technique of simulating multiple-input functions with single-input functions is known as [Currying](https://en.wikipedia.org/wiki/Currying) and is named after the logician [Haskell Curry](https://goo.gl/C9hKz1). Curry himself attributed this concept to [Moses Schönfinkel](https://goo.gl/qJqd47), though for some reason the term "Schönfinkeling" never caught on..]
+:::
 
 ![In the "currying" transformation, we can create the effect of a two parameter function $f(x,y)$ with the $\lambda$ expression $\lambda x.(\lambda y. f(x,y))$ which on input $x$ outputs a one-parameter function $f_x$ that has $x$ "hardwired" into it and such that $f_x(y)=f(x,y)$. This can be illustrated by a circuit diagram; see [Chelsea Voss's site](https://tromp.github.io/cl/diagrams.html).](../figure/currying.png){#currying .class width=300px height=300px}
 
-__Precedence and parenthesis.__
-The above is a complete description of the $\lambda$ calculus.
+::: {.remark title="Precedence and parenthesis." #precedencerem}
 However, to avoid clutter, we will allow to drop parenthesis for function invocation, and so if $f$ is a $\lambda$ expression and $z$ is some other expression, then we can write  $fz$ instead of $f(z)$ for the expression corresponding to invoking $f$ on $z$.^[When using  identifiers with multiple letters for $\lambda$ expressions,  we'll separate them with spaces or commas.]
 That is, if $f$ has the form $\lambda x.e$ then $fz$ is the same as $f(z)$, which corresponds to the expression $e[x \rightarrow z]$ (i.e., the expression obtained by invoking $f$ on $z$ via replacing all copies of the $x$ parameter with $z$).
 
@@ -308,30 +372,33 @@ We can still use parenthesis for grouping and so $f(gh)$ means invoking $g$ on $
 We will associate from left to right and so identify $fgh$ with $(fg)h$.
 For example, if $f = \lambda x.(\lambda y.x+y)$ then $fzw=(fz)w=z+w$.
 
+This is similar to how we use the precedence rules in arithmetic operations to allow us to use fewer parenthesis and so write the expression $(7 \times 3) + 2$ as $7\times 3 + 2$.
+:::
 
-__Functions as first-class citizens.__
+### Functions as first class objects
+
 The key property of the $\lambda$ calculus (and functional languages in general) is that functions are "first-class citizens" in the sense that they can be used as parameters and return values of other functions.
 Thus, we can invoke one $\lambda$ expression on another.
 For example if  $DOUBLE$ is the $\lambda$ expression $\lambda f.(\lambda x. f(fx))$, then for every function $f$, $DOUBLE f$ corresponds to the function that invokes $f$ twice on $x$ (i.e., first computes $fx$ and then invokes $f$ on the result).
 In particular, if  $f=\lambda y.(y+1)$ then  $DOUBLE f = \lambda x.(x+2)$.
 
-__(Lack of) types.__ Unlike most programming languages, the pure $\lambda$-calculus doesn't have the notion of _types_.
+::: {.remark title="(Lack of) types" #untypedrem}
+Unlike most programming languages, the pure $\lambda$-calculus doesn't have the notion of _types_.
 Every object in the $\lambda$ calculus can also be thought of as a $\lambda$ expression and hence as a function that takes  one input and returns one output.
 All functions take one input and return one output, and if you feed a function an input of a form  it didn't expect, it still evaluates the $\lambda$ expression  via "search and replace", replacing all instances of its parameter with copies of the input expression you fed it.
-
+:::
 
 ### "Enhanced" lambda calculus
 
 As we did with NAND++, we will start by describing an "enhanced" version of the $\lambda$ calculus that contains some "superfluous objects" but is easier to wrap your head around.
 We will later show how we can do without many of those concepts, and that the "enhanced $\lambda$ calculus" is equivalent to the "pure $\lambda$ calculus".
 
-For now, we will  consider the following set of "basic" objects and operations:
+The  _enhanced $\lambda$ calculus_ includes the following set of "basic" objects and operations:
 
 * __Boolean constants:__ $0$ and $1$. We  also have the $IF$ function such that $IF cond\;a\;b$  outputs $a$ if $cond=1$ and $b$ otherwise. (We use _currying_ to implement multi-input functions, so $IF cond$ is the function $\lambda a.\lambda b.a$ if $cond=1$ and is the function $\lambda a. \lambda b. b$ if $cond=0$.) Using $IF$ and the constants $0,1$ we can also compute logical operations such as $AND,OR,NOT,NAND$ etc.: can you see why?
 
-* __The empty string:__ The value $NIL$ and the function $ISNIL x$ that returns $1$ iff $x$ is $NIL$.
 
-* __Strings/lists:__ The function $PAIR$ where $PAIR x y$ that creates a pair from $x$ and $y$. We will also have the function $HEAD$ and $TAIL$ to extract the first and second member of the pair. We can now create the list $x,y,z$ by $PAIR x (PAIR y (PAIR z NIL))$, see [lambdalistfig](){.ref}.  A _string_ is of course simply a list of bits.^[Note that if $L$ is a list, then $HEAD L$ is its first element, but $TAIL L$ is not the last element but rather all the elements except the first. We use $NIL$ to denote the empty list and hence $PAIR x NIL$ denotes the list with the single element $x$.]
+* __Strings/lists:__ The function $PAIR$ where $PAIR x y$ that creates a pair from $x$ and $y$. We will also have the function $HEAD$ and $TAIL$ to extract the first and second member of the pair. We denote by $NIL$ the empty list, and so can create the list $x,y,z$ by $PAIR x (PAIR y (PAIR z NIL))$, see [lambdalistfig](){.ref}.  The function $ISEMPTY$ will return $0$ on any input that was generated by $PAIR$, but will return $1$ on $NIL$. A _string_ is of course simply a list of bits.^[Note that if $L$ is a list, then $HEAD L$ is its first element, but $TAIL L$ is not the last element but rather all the elements except the first. Since $NIL$ denotes the empty list, $PAIR x NIL$ denotes the list with the single element $x$.]
 
 
 
@@ -352,31 +419,11 @@ def rec(x):
 ```
 
 we will assume we have a function $RECURSE f end x$ that computes `rec(x)` as above.
-That is, for every functions $f,end$ and input $x$, $RECURSE f end x$ continuosly  computes $x_1 = f(x)$, $x_2 = f(x_1)$, $x_3 = f(x_2)$ and so on and  so forth until we get to the point where $end x_i=1$, in which case we output $x_i$.
+That is, for every functions $f,end$ and input $x$, $RECURSE f end x$ continuously  computes $x_1 = f(x)$, $x_2 = f(x_1)$, $x_3 = f(x_2)$ and so on and  so forth until we get to the point where $end x_i=1$, in which case we output $x_i$.^[Readers familiar with programming langbuages might note that $RECURSE$ corresponds to special type of recursive function where the recursion call happens at the very last instruction. This is known as [tail recursion](https://goo.gl/eKZifC) in the programming language literature.]
 
 ![A list $(x_0,x_1,x_2)$ in the $\lambda$ calculus is constructed from the tail up, building the pair $(x_2,NIL)$, then the pair $(x_1,(x_2,NIL))$ and finally the pair $(x_0,(x_1,(x_2,NIL)))$. That is, a list is a pair where the first element of the pair is the first element of the list and the second element is the rest of the list. The figure on the left renders this "pairs inside pairs" construction, though it is often easier to think of a list as a "chain", as in the figure on the right, where the second element of each pair is thought of as a _link_, _pointer_  or _reference_ to the  remainder of the list.](../figure/lambdalist.png){#lambdalistfig .class width=300px height=300px}
 
 ![Illustration of the $MAP$, $FILTER$ and $REDUCE$ operations.](../figure/reducemapfilter.png){#reduceetalfig .class width=300px height=300px}
-
-We now formally define the notion of a $\lambda$ expression, and how these correspond to a computation.
-
-::: {.definition title="$\lambda$ expression" #lambdaexpressdef}
-An _enhanced $\lambda$ expression_ has one of the following forms:
-
-1. A single variable $var$. In this case we say $var$ is _free_ in the expression. _Examples:_ $x$, $y$
-
-2. One of the basic objects $0,1,IF,ISNIL,NIL,PAIR,HEAD,TAIL,MAP,REDUCE,FILTER,RECURSE$.
-
-3. $(exp1)(exp2)$ where $exp1,exp2$ are two enhanced $\lambda$ expressions. The free variables in the expression are the union of the free variables in $exp1$ and $exp2$. _Example:_ $y(\lambda x.x)$, $TAIL f$.
-
-4. $\lambda var. (exp)$ where $var$ is a variable and $exp$ is a $\lambda$ expression. In this case we say $var$ is _bound_ in the expression, and we remove it from the set of free variables. $var$ is called the _argument_ of the expression.
-
-:::
-
-::: { .pause }
-[lambdaexpressdef](){.ref} is a _recursive definition_.
-We define the notion of a $\lambda$ expression in terms of itself. That is, there basic types of $\lambda$ expressions, and then more complex types that are built by combining the basic types together using rules 3 and 4.
-:::
 
 
 
