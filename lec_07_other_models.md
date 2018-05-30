@@ -261,6 +261,8 @@ Hence, in cases where the precise representation doesn't make a difference, we w
 The [$\lambda$ calculus](https://goo.gl/B9HwT8) is another way to define computable functions.
 It was proposed by Alonzo Church in the 1930's around the same time as Alan Turing's proposal of the Turing Machine.
 Interestingly, while Turing Machines are not used for practical computation,  the $\lambda$ calculus has inspired functional programming languages such as LISP, ML and Haskell, and  indirectly the development of many other programming languages as well.
+In this section we will present the $\lambda$ calculus and show that its power is equivalent to NAND++ programs (and hence also to Turing machines).
+An [online appendix](https://github.com/boazbk/nandnotebooks/blob/master/lambda.ipynb) contains a Jupyter notebook with a Python implementation of the $\lambda$ calculus that you can experiment with to get a better feel for this topic.
 
 
 __The $\lambda$ operator.__
@@ -398,6 +400,7 @@ All functions take one input and return one output, and if you feed a function a
 
 ### "Enhanced" lambda calculus
 
+We now discuss the $\lambda$ calculus as a computational model.
 As we did with NAND++, we will start by describing an "enhanced" version of the $\lambda$ calculus that contains some "superfluous objects" but is easier to wrap your head around.
 We will later show how we can do without many of those concepts, and that the "enhanced $\lambda$ calculus" is equivalent to the "pure $\lambda$ calculus".
 
@@ -432,6 +435,8 @@ That is, for every functions $f,end$ and input $x$, $RECURSE f end x$ continuous
 ![A list $(x_0,x_1,x_2)$ in the $\lambda$ calculus is constructed from the tail up, building the pair $(x_2,NIL)$, then the pair $(x_1,(x_2,NIL))$ and finally the pair $(x_0,(x_1,(x_2,NIL)))$. That is, a list is a pair where the first element of the pair is the first element of the list and the second element is the rest of the list. The figure on the left renders this "pairs inside pairs" construction, though it is often easier to think of a list as a "chain", as in the figure on the right, where the second element of each pair is thought of as a _link_, _pointer_  or _reference_ to the  remainder of the list.](../figure/lambdalist.png){#lambdalistfig .class width=300px height=300px}
 
 ![Illustration of the $MAP$, $FILTER$ and $REDUCE$ operations.](../figure/reducemapfilter.png){#reduceetalfig .class width=300px height=300px}
+
+An _enhanced $\lambda$ expression_ is obtained by composing the objects above with the _application_ and _abstraction_ rules. We can now define the notion of computing a function using the $\lambda$ calculus.
 
 
 
