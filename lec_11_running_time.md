@@ -1,3 +1,6 @@
+% Modeling running time
+% Boaz Barak
+
 ﻿#  Modeling running time
 
 > # { .objectives }
@@ -213,7 +216,7 @@ __Claim 2:__ $HALT_T \not\in TIME(T(n))$.
 We now turn to proving the two claims.
 >
 __Proof of claim 1:__  We can easily check in linear time whether an input has the form $P,x$ where $|P| \leq \log\log |x|$.
-Since $T(\cdot)$ is a nice function, we can evaluate it in $O(T(n))$ time. Thus, we can perform the check above, compute $T(|P|+|x|)$ and use the universal NAND<< program of [univ-nandpp](){.ref} to evaluate $HALT_T$ in at most $poly(|P|) T(n)$ steps.^[Recall that we use $poly(m)$ to denote a quantity that is bounded by $am^b$ for some constants $a,b$ and every sufficiently large $m$.]  
+Since $T(\cdot)$ is a nice function, we can evaluate it in $O(T(n))$ time. Thus, we can perform the check above, compute $T(|P|+|x|)$ and use the universal NAND<< program of [univ-nandpp](){.ref} to evaluate $HALT_T$ in at most $poly(|P|) T(n)$ steps.^[Recall that we use $poly(m)$ to denote a quantity that is bounded by $am^b$ for some constants $a,b$ and every sufficiently large $m$.]
 Since $(\log \log n)^a = o(\log n)$ for every $a$, this will be smaller than $T(n)\log n$ for every sufficiently large $n$.
 >
 __Proof of claim 2:__ The proof is very reminiscent of the proof that $HALT$ is not computable.
@@ -288,7 +291,7 @@ Thus we can also phrase this result as follows:
 
 
 > # {.theorem title="NAND++ to NAND compiler" #nand-compiler}
-There is an $O(n)$-time NAND<< program $COMPILE$ such that on input a NAND++ program $P$,  and strings of the form $1^n,1^m,1^T$  outputs a NAND program $Q_P$ of at most $O(T)$ lines with $n$ bits of inputs and $m$ bits of output, such that: For every $x\in\{0,1\}^n$, if $P$ halts on input $x$ within fewer than $T$ steps and outputs some string $y\in\{0,1\}^m$, then $Q_P(x)=y$.  
+There is an $O(n)$-time NAND<< program $COMPILE$ such that on input a NAND++ program $P$,  and strings of the form $1^n,1^m,1^T$  outputs a NAND program $Q_P$ of at most $O(T)$ lines with $n$ bits of inputs and $m$ bits of output, such that: For every $x\in\{0,1\}^n$, if $P$ halts on input $x$ within fewer than $T$ steps and outputs some string $y\in\{0,1\}^m$, then $Q_P(x)=y$.
 
 
 The program $COMPILE$ of [nand-compiler](){.ref} is fairly easy to implement.
@@ -475,7 +478,7 @@ We start by ensuring that the time at which the program halts does not depend on
 We achieve this by adding a `noop` variable and modify the program to do nothing if `noop` equals to $1$.
 Hence, when the original program would assign $0$ to `loop`, we modify `noop` to $1$, and only halt after $T(|x|)$ steps when $x$ is the input.
 >
-The heart of the proof of [oblivious-thm](){.ref} is to ensure that movements of the  index `i` only depend on the input length.  
+The heart of the proof of [oblivious-thm](){.ref} is to ensure that movements of the  index `i` only depend on the input length.
 Our approach is analogous to replacing a taxi by a bus.
 Instead of  the program controlling  to where `i` goes, the index will go obliviously on its route, and we will wait until it reaches the desired location.
 That is, regardless of the input the  index `i` will progress between every iteration of the main loop according to the sequence

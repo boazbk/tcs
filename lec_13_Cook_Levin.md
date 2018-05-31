@@ -1,3 +1,6 @@
+% Cook-Levin Theorem
+% Boaz Barak
+
 #  NP, NP completeness, and the Cook-Levin Theorem
 
 > # { .objectives }

@@ -1,3 +1,6 @@
+% Modeling randomized algorithms
+% Boaz Barak
+
 #  Modeling randomized computation
 
 > # { .objectives }
@@ -151,7 +154,7 @@ By the definition of $\mathbf{NP}$-hardness, it follows that $G \leq_p F$, or th
 Now if $F$ is in $\mathbf{BPP}$ then there is a polynomial-time RNAND++ program  $P$ such that
 $$
 \Pr[ P(y)= F(y) ] \geq 2/3 \label{FinBPPeq}
-$$  
+$$
 for _every_ $y\in \{0,1\}^*$ (where the probability is taken over the random coin tosses of $P$).
 Hence we can get a polynomial-time  RNAND++ program $P'$ to compute $G$ by setting $P'(x)=P(R(x))$.
 By [FinBPPeq](){.eqref} $\Pr[ P'(x) = F(R(x))] \geq 2/3$ and since $F(R(x))=G(x)$ this implies that $\Pr[ P'(x) = G(x)] \geq 2/3$, which proves that $G \in \mathbf{BPP}$.
@@ -233,7 +236,7 @@ Then by [ampeq](){.eqref}, $\Pr[B_x] \leq  0.1\cdot 2^{-n}$ for every $x \in \{0
 Since there are $2^n$ many such $x$'s, by the union bound we see that the probability that the _union_ of the events $\{ B_x \}_{x\in \{0,1\}^n}$ is at most $0.1$.
 This means that if we choose $r \sim \{0,1\}^m$, then with probability at least $0.9$ it will be the case that for _every_ $x\in \{0,1\}^n$, $F(x)=P'(x;r)$.
 (Indeed, otherwise the event $B_x$ would hold for some $x$.)
-In particular, because of the mere fact that the the probability of $\cup_{x \in \{0,1\}^n} B_x$ is smaller than $1$, this means that _there exists_ a particular $r^* \in \{0,1\}^m$ such that  
+In particular, because of the mere fact that the the probability of $\cup_{x \in \{0,1\}^n} B_x$ is smaller than $1$, this means that _there exists_ a particular $r^* \in \{0,1\}^m$ such that
 $$P'(x;r^*)=F(x) \label{hardwirecorrecteq}
 $$
 for every $x\in \{0,1\}^n$.

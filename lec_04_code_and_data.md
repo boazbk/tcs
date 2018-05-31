@@ -1,3 +1,6 @@
+% Code as data
+% Boaz Barak
+
 # Code as data, data as code
 
 > # { .objectives }

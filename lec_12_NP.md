@@ -1,3 +1,6 @@
+% Polynomial time reductions
+% Boaz Barak
+
 #  Polynomial-time reductions
 
 > # { .objectives }
@@ -196,7 +199,7 @@ We will map a graph $G$ into a graph $H$ such that a large independent set in $G
 > # {.proof data-ref="isettomaxcut"}
 We will transform a graph $G$ of $n$ vertices and $m$ edges into a graph $H$ of $n+1+2m$ vertices and $n+5m$ edges in the following way:  the graph $H$ will contain all vertices of $G$ (though not the edges between them!) and in addition to that will contain: \
 * A special vertex $s^*$ that is connected to all the vertices of $G$ \
-* For every edge $e=\{u,v\} \in E(G)$, two vertices $e_0,e_1$ such that $e_0$ is connected to $u$ and $e_1$ is connected to $v$, and moreover we add the edges $\{e_0,e_1 \},\{ e_0,s^* \},\{e_1,s^*\}$ to $H$.  
+* For every edge $e=\{u,v\} \in E(G)$, two vertices $e_0,e_1$ such that $e_0$ is connected to $u$ and $e_1$ is connected to $v$, and moreover we add the edges $\{e_0,e_1 \},\{ e_0,s^* \},\{e_1,s^*\}$ to $H$.
 >
 [isettomaxcut](){.ref} will follow by showing that $G$ contains an independent set of size at least $k$ if and only if $H$ has a cut cutting at least $k+4m$ edges. We now prove both directions of this equivalence:
 >

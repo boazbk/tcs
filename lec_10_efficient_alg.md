@@ -1,3 +1,6 @@
+% Efficient computation
+% Boaz Barak
+
 #  Efficient computation
 
 > # { .objectives }

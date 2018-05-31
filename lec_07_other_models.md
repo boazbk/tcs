@@ -1,3 +1,6 @@
+% Other computational models
+% Boaz Barak
+
 # Equivalent models of computation { #chapequivalentmodels }
 
 > # { .objectives }

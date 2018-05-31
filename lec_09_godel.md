@@ -1,3 +1,5 @@
+% Godel's incompleteness theorem
+% Boaz Barak
 
 
 # Is every theorem provable?
@@ -179,7 +181,7 @@ u    := val NAND s
 v    := s   NAND u
 w    := val NAND u
 s    := v   NAND w
-seen_i := zero NAND zero  
+seen_i := zero NAND zero
 stop := validx_i NAND validx_i
 loop := stop     NAND stop
 ```
@@ -283,7 +285,7 @@ $$
 \forall_{p\in\N}  PCOORD(p,i) \Rightarrow DIVIDES(p,X)
 $$
 where  $DIVIDES(a,b)$, as before, is defined as $\exists_{c\in\N} a\times c = b$.
-Note that indeed if $X,n$ encodes the string $x\in \{0,1\}^*$, then for every $i<n$, $COORD(X,i)=x_i$, since $p_i$ divides $X$ if and only if $x_i=1$.  
+Note that indeed if $X,n$ encodes the string $x\in \{0,1\}^*$, then for every $i<n$, $COORD(X,i)=x_i$, since $p_i$ divides $X$ if and only if $x_i=1$.
 
 Thus all that is left to conclude the proof of [QIS-thm](){.ref} is to prove [primeseq](){.ref}, which we now proceed to do.
 
@@ -408,7 +410,7 @@ Using this idea, it's not hard to get Gödel's second incompleteness theorem, wh
 
 * Uncomputable functions include also functions that seem to have nothing to do with NAND++ programs or other computational models such as determining the satisfiability of diophantine equations.
 
-* This also implies that for any soudn proof system (and in particular every finite axiomatic system) $S$,  there are interesting statements $X$ (namely of the form "$F(x)=0$" for an uncomputable function $F$) such that $S$ is not able to prove either $X$ or its negation.  
+* This also implies that for any soudn proof system (and in particular every finite axiomatic system) $S$,  there are interesting statements $X$ (namely of the form "$F(x)=0$" for an uncomputable function $F$) such that $S$ is not able to prove either $X$ or its negation.
 
 ## Exercises
 

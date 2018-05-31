@@ -1,3 +1,6 @@
+% Probability 101
+% Boaz Barak
+
 #  Probability Theory 101
 
 > # { .objectives }

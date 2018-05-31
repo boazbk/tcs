@@ -1,3 +1,7 @@
+% Computing every function
+% Boaz Barak
+
+
 # Syntactic sugar, and computing every function
 
 > # { .objectives }

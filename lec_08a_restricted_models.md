@@ -1,10 +1,14 @@
+% Restricted models
+% Boaz Barak
+
+
 # Restricted computational models
 
 > # { .objectives }
 * See that Turing completeness is not always a good thing
 * Two important examples of non-Turing-complete, always-halting formalisms: _regular expressions_ and _context-free grammars_.
 * The pumping lemmas for both these formalisms, and examples of non regular and non context-free functions.
-* Unrestricted grammars, and another example of an uncomputable function.  
+* Unrestricted grammars, and another example of an uncomputable function.
 
 >_"Happy families are all alike; every unhappy family is unhappy in its own way"_,  Leo Tolstoy (opening of  the book "Anna Karenina").
 
@@ -50,7 +54,7 @@ The expressive power of postscript can allow for short description of very compl
 But it also gives rise to some nasty surprises, such as the attacks described in  [this page](http://hacking-printers.net/wiki/index.php/PostScript) ranging from using infinite loops as a denial of service attack, to accessing the printer's file system.
 
 An interesting recent example of the pitfalls of Turing-completeness arose in the context of the cryptocurrency [Ethereum](https://www.ethereum.org/).
-The distinguishing feature of this currency is the ability to design "smart contracts" using an expressive (and in particular Turing-complete) language.  
+The distinguishing feature of this currency is the ability to design "smart contracts" using an expressive (and in particular Turing-complete) language.
 In our current "human operated" economy, Alice and Bob might  sign a contract to  agree that if condition X happens then they will jointly invest in Charlie's company. Ethereum allows Alice and Bob to create a joint venture where Alice and Bob pool their funds together into an account that will be governed by some program $P$ that  decides under what conditions it disburses funds from it.
 For example, one could imagine a piece of code that interacts between Alice, Bob, and some program running on Bob's car that allows Alice to rent out Bob's car without any human intervention or overhead.
 
@@ -281,7 +285,7 @@ For example, the Backus-Naur description for the context free grammar above is (
 ```python
 operation  := +|-|*|/
 digit      := 0|1|2|3|4|5|6|7|8|9
-number     := digit|digit number   
+number     := digit|digit number
 expression := number|expression operation expression|(expression)
 ```
 
