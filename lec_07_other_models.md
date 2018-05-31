@@ -311,7 +311,7 @@ Hence $((F g) 3) = 3^4 = 81$.
 :::
 
 
-::: {.remark title="Obtaining multi-argument functions via "Currying"." #curryingrem}
+::: {.remark title="Obtaining multi-argument functions via Currying." #curryingrem}
 The expression $e$ can itself involve $\lambda$, and so for example the function
 
 $$
@@ -341,7 +341,7 @@ Since $F$ is $\lambda y.x$ this means that this is the function $|\lambda y.2$ t
 Hence [lambdaexptwo](){.eqref}  is equivalent to $(\lambda y. 2) 9$ which is the result of applying the function $y \mapsto 2$ on the input $9$, which is simply the number $2$.
 :::
 
-### Formal description of the $\lambda$ calculus.
+### Formal description of the λ calculus.
 
 In the $\lambda$ calculus we start with some "basic expressions" such as $x$ or $y$ and build more complex expression using two rules:
 
@@ -437,7 +437,15 @@ That is, for every functions $f,end$ and input $x$, $RECURSE f end x$ continuous
 ![Illustration of the $MAP$, $FILTER$ and $REDUCE$ operations.](../figure/reducemapfilter.png){#reduceetalfig .class width=300px height=300px}
 
 An _enhanced $\lambda$ expression_ is obtained by composing the objects above with the _application_ and _abstraction_ rules. We can now define the notion of computing a function using the $\lambda$ calculus.
+Below we'll use $LIST(x)$ for the $\lambda$ list corresponding to a string $x\in \{0,1\}^n$.
+That, is $LIST x = PAIR(x_0, PAIR( x_1 , PAIR(\cdots PAIR(x_{n-1} NIL))))$.
 
+:::  {.definition title="Computing a function via $\lambda$ calculus" #lambdacompute   }
+Let $F:\{0,1\}^* \rightarrow \{0,1\}^*$ be a function and $exp$ a $\lambda$ expression.
+We say that _$exp$ computes $F$_ if for every $x\in \{0,1\}^*$, the expressions $start = (exp LIST(x))$ and $end = LIST(F(x))$ are equivalent, and moreover $end$ is obtained from $start$ by applying  evaluation  in the following order:
+
+
+:::
 
 
 Together these operations more or less amount to the Lisp/Scheme programming language.^[In Lisp, the $PAIR$, $HEAD$ and $TAIL$ functions are [traditionally called](https://goo.gl/BLRd6S) `cons`, `car` and `cdr`.]
