@@ -439,26 +439,42 @@ That is, for every functions $f,end$ and input $x$, $RECURSE f end x$ continuous
 
 ![Illustration of the $MAP$, $FILTER$ and $REDUCE$ operations.](../figure/reducemapfilter.png){#reduceetalfig .class width=300px height=300px}
 
-An _enhanced $\lambda$ expression_ is obtained by composing the objects above with the _application_ and _abstraction_ rules. We can now define the notion of computing a function using the $\lambda$ calculus.
+An _enhanced $\lambda$ expression_ is obtained by composing the objects above with the _application_ and _abstraction_ rules.
+We can now define the notion of computing a function using the $\lambda$ calculus.
 Below we'll use $LIST(x)$ for the $\lambda$ list corresponding to a string $x\in \{0,1\}^n$.
 That, is $LIST x = PAIR(x_0, PAIR( x_1 , PAIR(\cdots PAIR(x_{n-1} NIL))))$.
+We will define the _simplification_ of a $\lambda$ expression as the following recursive process:
 
-:::  {.definition title="Computing a function via $\lambda$ calculus" #lambdacompute   }
+1. If the expression has the form $(exp_L exp_R)$, simplify $exp_L$ first, and then if it has the form $\lambda x. exp'_L$, replace the expression with $exp'_L[x \rightarrow L]$.
+
+2. When we cannot simplify any further, rename the variables so that the first bound variable in the expression is $v_0$, the second one is $v_1$, and so on and so forth.
+
+The result of simplifying a $\lambda$ expression  is an equivalent expression, and hence if two expressions have the same simplification then they are equivalent.^[In the process above, we have picked a particular order of applying the simplification, where if we have an expression of the form $(\lambda x.f z)$ then we plug $z$ into the function $x \mapsto f$ before trying to simplify $z$. This is known as "call by name" (related to "lazy evaluation") in programming language terminology. We could have also chosen the opposite order, which is known as "call by value" (related to "eager evaluation"), but it turns out that "call by name" is better in this context. The notion of equivalence is independent of the order in which the rules are applied.]
+
+:::  {.definition title="Computing a function via $\lambda$ calculus" #lambdacomputedef   }
 Let $F:\{0,1\}^* \rightarrow \{0,1\}^*$ be a function and $exp$ a $\lambda$ expression.
-We say that _$exp$ computes $F$_ if for every $x\in \{0,1\}^*$, the expressions $start = (exp LIST(x))$ and $end = LIST(F(x))$ are equivalent, and moreover $end$ is obtained from $start$ by applying  evaluation  in the following order:
-
-
+We say that _$exp$ computes $F$_ if for every $x\in \{0,1\}^*$, the expressions $(exp LIST(x))$ and $LIST(F(x))$ are equivalent, and moreover they have the same simplification.
 :::
 
 
-Together these operations more or less amount to the Lisp/Scheme programming language.^[In Lisp, the $PAIR$, $HEAD$ and $TAIL$ functions are [traditionally called](https://goo.gl/BLRd6S) `cons`, `car` and `cdr`.]
-Given that, it is perhaps not surprising that we can simulate NAND++ programs using the enhanced $\lambda$-calculus, hence showing the following theorem:
+The basic operations of of the enhanced $\lambda$ calculus more or less amount to the Lisp/Scheme programming language.^[In Lisp, the $PAIR$, $HEAD$ and $TAIL$ functions are [traditionally called](https://goo.gl/BLRd6S) `cons`, `car` and `cdr`.]
+Given that, it is perhaps not surprising that the  enhanced $\lambda$-calculus is equivalent to NAND++:
 
 > # {.theorem title="Lambda calculus and NAND++" #lambdaturing-thm}
 For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable in the enhanced $\lambda$ calculus if and only if it is computable by a NAND++ program.
 
-> # {.proof data-ref="lambdaturing-thm"}
-We only sketch the proof. The "only if" direction is simple. As mentioned above, evaluating $\lambda$ expressions basically amounts to "search and replace". It is also a fairly straightforward programming exercise to implement all the above basic operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND<< as well, which we can then transform to a NAND++ program.
+::: {.proofidea data-ref="lambdaturing-thm"}
+To prove the theorem, we need to show that __(1)__ if $F$ is computable by a $\lambda$ calculus expression then it is computable by a NAND++ program, and __(2)__ if $F$ is computable by a NAND++ program, then it is computable by an enhanced $\lambda$ calculus expression.
+
+Showing __(1)__ is fairly straightforward. Applying the simplification rules to a $\lambda$ expression basically amounts to "search and replace" which we can implement easily in, say, NAND<<, or for that matter Python (both of which are equivalent to NAND++ in power).
+Showing __(2)__ essentially amounts to writing a NAND++ interpreter in a functional programming language such as LISP  or Scheme. Showing how this can be done is a good exercise in mastering some functional programming techniques that are useful in their own right.
+:::
+
+
+
+
+::: {.proof data-ref="lambdaturing-thm"}
+We only sketch the proof. The "if" direction is simple. As mentioned above, evaluating $\lambda$ expressions basically amounts to "search and replace". It is also a fairly straightforward programming exercise to implement all the above basic operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND<< as well, which we can then transform to a NAND++ program.
 >
 For the "if" direction, we start by showing that for every normal-form NAND++ program $P$, we can compute the next-step function $NEXT_P:\{0,1\}^* \rightarrow \{0,1\}^*$ using the above operations.
 It turns out not to be so hard.
