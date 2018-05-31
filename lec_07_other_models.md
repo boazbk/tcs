@@ -280,7 +280,7 @@ $$
 $$
 
 and so $(\lambda x.x*x)(7)=49$.
-(In fact, in the $\lamdba$ calculus the conventional way to write function application of $f$ on $x$ is $(f x)$ rather than $f(x)$, and so we write $((\lambda x.x*x) 7)=49$.)
+(In fact, in the $\lambda$ calculus the conventional way to write function application of $f$ on $x$ is $(f x)$ rather than $f(x)$, and so we write $((\lambda x.x*x) 7)=49$.)
 Clearly, the name of the argument doesn't matter, and so $\lambda y.y*y$ is the same as $\lambda x.x*x$.
 
 We can also apply functions on functions.
