@@ -558,9 +558,12 @@ Now we can use the following "pseudocode" to simulate the program $P$.
 The function $SIM_P$ will obtain an encoding $\sigma_0$ of the initial state of $P$, and output the encoding $\sigma^*$ of the state of $P$ after it halts.
 It will be computed as follows:
 
-__Algorithm $SIM_P(\sigma)$:
-1. Let $\sigma' = NEXT_P \sigma$.
-2. If $loop(\sigma') = 0$ then return $\sigma'$.
+>__Algorithm $SIM_P(\sigma)$:__ \
+>
+1. Let $\sigma' = NEXT_P \sigma$. \
+>
+2. If $loop(\sigma') = 0$ then return $\sigma'$. \
+>
 3. Otherwise return $SIM_P(\sigma')$.
 
 where $loop(\sigma')$ simply denotes extracting the contents of the variable $loop$ from the tuple $\sigma$.
