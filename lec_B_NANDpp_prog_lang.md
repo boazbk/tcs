@@ -1,6 +1,6 @@
-% NAND Appendix
+% NAND++ appendix
 % Boaz Barak
 
-# The NAND Programming Language
+# The NAND++ Programming Language
 
 See [this Github repository](https://github.com/boazbk/nandnotebooks) for the current updated version of all online appendices.

@@ -283,7 +283,9 @@ $$
 $$
 
 and so $(\lambda x.x*x)(7)=49$.
-(In fact, in the $\lambda$ calculus the conventional way to write function application of $f$ on $x$ is $(f x)$ rather than $f(x)$, and so we write $((\lambda x.x*x) 7)=49$.)
+
+
+In fact, in the $\lambda$ calculus we often denote the result of applying the function $f$ to an input $x$ as $fx$ rather than $f(x)$, and so we write $((\lambda x.x*x) 7)=49$.^[In this chapter, we will use both the $f(x)$ and $fx$ notations for function application, depending on clarity.]
 Clearly, the name of the argument doesn't matter, and so $\lambda y.y*y$ is the same as $\lambda x.x*x$.
 
 We can also apply functions on functions.
@@ -324,7 +326,8 @@ $$
 maps $x$ to the function $y \mapsto x+y$.
 
 In particular, if we invoke this function on $a$ and then invoke the result on $b$ then we get $a+b$.
-We can use this approach to achieve the effect of functions with more than one input and so we will use the shorthand $\lambda x,y. e$ for $\lambda x. (\lambda y. e)$.^[This technique of simulating multiple-input functions with single-input functions is known as [Currying](https://en.wikipedia.org/wiki/Currying) and is named after the logician [Haskell Curry](https://goo.gl/C9hKz1). Curry himself attributed this concept to [Moses Schönfinkel](https://goo.gl/qJqd47), though for some reason the term "Schönfinkeling" never caught on..]
+We can use this approach to achieve the effect of functions with more than one input and so we will use the shorthand $\lambda x,y. e$ for $\lambda x. (\lambda y. e)$.
+Similarly, we will use $f(x,y,z)$ as shorthand for $(((f x) y) z)$ or equivalently (since function application will associate left to right)  $fxyz$.^[This technique of simulating multiple-input functions with single-input functions is known as [Currying](https://en.wikipedia.org/wiki/Currying) and is named after the logician [Haskell Curry](https://goo.gl/C9hKz1). Curry himself attributed this concept to [Moses Schönfinkel](https://goo.gl/qJqd47), though for some reason the term "Schönfinkeling" never caught on..]
 :::
 
 ![In the "currying" transformation, we can create the effect of a two parameter function $f(x,y)$ with the $\lambda$ expression $\lambda x.(\lambda y. f(x,y))$ which on input $x$ outputs a one-parameter function $f_x$ that has $x$ "hardwired" into it and such that $f_x(y)=f(x,y)$. This can be illustrated by a circuit diagram; see [Chelsea Voss's site](https://tromp.github.io/cl/diagrams.html).](../figure/currying.png){#currying .class width=300px height=300px}
@@ -363,15 +366,14 @@ This might seem confusing at first, but in fact you have known recursive definit
 
 
 ::: {.remark title="Precedence and parenthesis." #precedencerem}
-However, to avoid clutter, we will allow to drop parenthesis for function invocation, and so if $f$ is a $\lambda$ expression and $z$ is some other expression, then we can write  $fz$ instead of $f(z)$ for the expression corresponding to invoking $f$ on $z$.^[When using  identifiers with multiple letters for $\lambda$ expressions,  we'll separate them with spaces or commas.]
-That is, if $f$ has the form $\lambda x.e$ then $fz$ is the same as $f(z)$, which corresponds to the expression $e[x \rightarrow z]$ (i.e., the expression obtained by invoking $f$ on $z$ via replacing all copies of the $x$ parameter with $z$).
-
-We can still use parenthesis for grouping and so $f(gh)$ means invoking $g$ on $h$ and then invoking $f$ on the result, while $(fg)h$ means invoking $f$ on $g$ and then considering the result as a function which then is invoked on $h$.
-We will associate from left to right and so identify $fgh$ with $(fg)h$.
-For example, if $f = \lambda x.(\lambda y.x+y)$ then $fzw=(fz)w=z+w$.
+We will use the following rules to allow us to drop some parenthesis. Function application associates from left to right, and so $fgh$ is the same as $(fg)h$.
+Function application has a higher precedence than the $\lambda$ operator, and so $\lambda x.fgx$ is the same as $\lambda x.((fg)x)$.
 
 This is similar to how we use the precedence rules in arithmetic operations to allow us to use fewer parenthesis and so write the expression $(7 \times 3) + 2$ as $7\times 3 + 2$.
+
+As mentioned in [curryingrem](){.ref}, we also use the shorthand $\lambda x,y.e$ for $\lambda x.(\lambda y.e)$. This plays nicely with the "Currying" transformation
 :::
+
 
 
 As we have seen in [lambdaexptwo](){.ref}, the  rule that $(\lambda x. exp) exp'$ is equivalent to $exp[x \rightarrow exp']$ enables us to modify $\lambda$ expressions and obtain simpler _equivalent form_ for them.
@@ -385,6 +387,24 @@ Two $\lambda$ expressions are _equivalent_ if they can be made into the same exp
 
 2. __Variable renaming:__ The expression $\lambda x.exp$ is equivalent to $\lambda y.exp[x \rightarrow y]$.
 :::
+
+If $exp$ is a $\lambda$ expression of the form $\lambda x.exp'$ then it naturally corresponds to the function that maps any input $z$ to $exp'[x \rightarrow z]$.
+Hence the $\lambda$ calculus naturally implies a computational model.
+Since in the λ calculus the inputs can themselves be functions, we need to fix how we evaluate an expression such as
+
+$$
+(\lambda x.f)(\lambda y.g z) \;. \label{lambdaexpeq}
+$$
+There are two natural conventions for this:
+
+
+* _Call by name_: We evaluate [lambdaexpeq](){.eqref} by first plugging in the righthand expression $(\lambda y.g z)$ as input to the lefthand side function, obtaining $f[x \rightarrow (\lambda y.g z)]$ and then continue from there.
+
+* _Call by value_: We evaluate [lambdaexpeq](){.eqref} by first evaluating the righthand side and obtaining $h=g[y \rightarrow z]$, and then plugging this into the lefthandside to obtain $f[x \rightarrow h]$.
+
+Because the λ calculus has only _pure_ functions, that do not have "side effects", in many cases the order does not matter. In fact, it can be shown that if we obtain an definite irreducible expression (for example, a number) in both strategies, then it will be the same one.
+However, there could be situations where "call by value" goes into an infinite loop while "call by name" does not.
+Hence we will use "call by name" henceforth.^["Call by value" is also sometimes known as  _eager evaluation_, since it means we always evaluate parameters to functions before they are executed, while "call by name" is also known as  _lazy evaluation_, since it means that we hold off on evaluating parameters until we are sure we need them. Most programming languages use eager evaluation, though there are some exceptions (notably Haskell). For programming languages that involve non pure functions, call by value has the advantage that it is much easier to understand when the side effects will take place in the program.]
 
 
 
@@ -412,28 +432,63 @@ The  _enhanced $\lambda$ calculus_ includes the following set of "basic" objects
 * __Boolean constants:__ $0$ and $1$. We  also have the $IF$ function such that $IF cond\;a\;b$  outputs $a$ if $cond=1$ and $b$ otherwise. (We use _currying_ to implement multi-input functions, so $IF cond$ is the function $\lambda a.\lambda b.a$ if $cond=1$ and is the function $\lambda a. \lambda b. b$ if $cond=0$.) Using $IF$ and the constants $0,1$ we can also compute logical operations such as $AND,OR,NOT,NAND$ etc.: can you see why?
 
 
-* __Strings/lists:__ The function $PAIR$ where $PAIR x y$ that creates a pair from $x$ and $y$. We will also have the function $HEAD$ and $TAIL$ to extract the first and second member of the pair. We denote by $NIL$ the empty list, and so can create the list $x,y,z$ by $PAIR x (PAIR y (PAIR z NIL))$, see [lambdalistfig](){.ref}.  The function $ISEMPTY$ will return $0$ on any input that was generated by $PAIR$, but will return $1$ on $NIL$. A _string_ is of course simply a list of bits.^[Note that if $L$ is a list, then $HEAD L$ is its first element, but $TAIL L$ is not the last element but rather all the elements except the first. Since $NIL$ denotes the empty list, $PAIR x NIL$ denotes the list with the single element $x$.]
+* __Strings/lists:__ The function $PAIR$ where $PAIR\; x\; y$ that creates a pair from $x$ and $y$. We will also have the function $HEAD$ and $TAIL$ to extract the first and second member of the pair. We denote by $NIL$ the empty list, and so can create the list $x,y,z$ by $PAIR\; x\; (PAIR\; y\; (PAIR\; z\; NIL))$, see [lambdalistfig](){.ref}.  The function $ISEMPTY$ will return $0$ on any input that was generated by $PAIR$, but will return $1$ on $NIL$. A _string_ is of course simply a list of bits.^[Note that if $L$ is a list, then $HEAD L$ is its first element, but $TAIL L$ is not the last element but rather all the elements except the first. Since $NIL$ denotes the empty list, $PAIR x NIL$ denotes the list with the single element $x$.]
 
 
 
 * __List operations:__ The functions $MAP,REDUCE,FILTER$. Given a list $L=(x_0,\ldots,x_{n-1})$ and a function $f$, $MAP L f$ applies $f$ on every member of the list to obtain $L=(f(x_0),\ldots,f(x_{n-1}))$.
-The function $FILTER L f$ returns the list of $x_i$'s such that $f(x_i)=1$, and $REDUCE L f$ "combines" the list by  outputting
+The function $FILTER\; L\; f$ returns the list of $x_i$'s such that $f(x_i)=1$, and $REDUCE \; L \; f$ "combines" the list by  outputting
 $$
 f(x_0,f(x_1,\cdots f(x_{n-3},f(x_{n-2},f(x_{n-1},NIL))\cdots)
 $$
-For example $REDUCE L +$ would output the sum of all the elements of the list $L$.
+For example $REDUCE \; L \; +$ would output the sum of all the elements of the list $L$.
 See [reduceetalfig](){.ref} for an illustration of these three operations.
 
-* __Recursion:__  Finally, we want to be able to execute recursive functions of the form:
+* __Recursion:__  Finally, we want to be able to execute _recursive functions_.  Since in λ calculus functions are _anonymous_, we can't write a definition of the form $f(x) = blah$  where $blah$ includes calls to $f$.
+Instead we will construct functions that take an additional function $me$ as a  parameter.
+The operator $RECURSE$ will take a function of the form $\lambda me,x.exp$ as input and will return some function $f$ that has the property that $f = \lambda x.exp[me \rightarrow f]$.
 
-```python
-def rec(x):
-    if end(x): return x
-    return rec(f(x))
-```
+::: {.example title="Computing XOR" #xorusingrecursion}
+Let us see how we can compute the XOR of a list in the enhanced $\lambda$ calculus.
+First, we note that we can compute XOR of two bits as follows:
+$$
+NOT = \lambda a. IF(a,0,1) \label{lambdanot}
+$$
+and
+$$
+XOR_2 = lambda a,b. IF(b,NOT(a),a) \label{lambdaxor}
+$$
 
-we will assume we have a function $RECURSE f end x$ that computes `rec(x)` as above.
-That is, for every functions $f,end$ and input $x$, $RECURSE f end x$ continuously  computes $x_1 = f(x)$, $x_2 = f(x_1)$, $x_3 = f(x_2)$ and so on and  so forth until we get to the point where $end x_i=1$, in which case we output $x_i$.^[Readers familiar with programming langbuages might note that $RECURSE$ corresponds to special type of recursive function where the recursion call happens at the very last instruction. This is known as [tail recursion](https://goo.gl/eKZifC) in the programming language literature.]
+(We are using here a bit of syntactic sugar to describe the functions. To obtain the λ expression for XOR we will simply replace the expression  [lambdanot](){.eqref} in [lambdaxor](){.eqref}.)
+
+Now recursively we can define the XOR of a list as follows:
+
+$$
+XOR(L) = \begin{cases} 0 & \text{$L$ is empty} \\
+XOR_2(HEAD(L),XOR(TAIL(L))) & \text{otherwise}
+\end{cases}
+$$
+
+This means that we can write $XOR$ as
+
+$$
+RECURSE (\lambda me,L. IF(ISEMPTY(L),0,XOR_2(HEAD(L),me(TAIL(L))))) \;.
+$$
+
+(Can you see why?)
+:::
+
+::: {.solvedexercise title="Compute NAND using λ calculus" #NANDlambdaex}
+Give a λ expression $n$ such that  $nxy = NAND(x,y)$ for every $x,y \in \{0,1\}$.
+:::
+
+::: {.solution data-ref="NANDlambdaex"}
+This can be done in a similar way to how we computed $XOR_2$. The $NAND$ of $x,y$ is equal to $1$ unless $x=y=1$. Hence we can write
+
+$$
+n = \lambda x,y.IF(x,IF(y,1,0),0)
+$$
+:::
 
 ![A list $(x_0,x_1,x_2)$ in the $\lambda$ calculus is constructed from the tail up, building the pair $(x_2,NIL)$, then the pair $(x_1,(x_2,NIL))$ and finally the pair $(x_0,(x_1,(x_2,NIL)))$. That is, a list is a pair where the first element of the pair is the first element of the list and the second element is the rest of the list. The figure on the left renders this "pairs inside pairs" construction, though it is often easier to think of a list as a "chain", as in the figure on the right, where the second element of each pair is thought of as a _link_, _pointer_  or _reference_ to the  remainder of the list.](../figure/lambdalist.png){#lambdalistfig .class width=300px height=300px}
 
@@ -441,18 +496,22 @@ That is, for every functions $f,end$ and input $x$, $RECURSE f end x$ continuous
 
 An _enhanced $\lambda$ expression_ is obtained by composing the objects above with the _application_ and _abstraction_ rules.
 We can now define the notion of computing a function using the $\lambda$ calculus.
-Below we'll use $LIST(x)$ for the $\lambda$ list corresponding to a string $x\in \{0,1\}^n$.
-That, is $LIST x = PAIR(x_0, PAIR( x_1 , PAIR(\cdots PAIR(x_{n-1} NIL))))$.
 We will define the _simplification_ of a $\lambda$ expression as the following recursive process:
 
-1. If the expression has the form $(exp_L exp_R)$, simplify $exp_L$ first, and then if it has the form $\lambda x. exp'_L$, replace the expression with $exp'_L[x \rightarrow L]$.
+1. If the expression has the form $(exp_L exp_R)$ then replace the expression with $exp'_L[x \rightarrow L]$.
 
 2. When we cannot simplify any further, rename the variables so that the first bound variable in the expression is $v_0$, the second one is $v_1$, and so on and so forth.
 
-The result of simplifying a $\lambda$ expression  is an equivalent expression, and hence if two expressions have the same simplification then they are equivalent.^[In the process above, we have picked a particular order of applying the simplification, where if we have an expression of the form $(\lambda x.f z)$ then we plug $z$ into the function $x \mapsto f$ before trying to simplify $z$. This is known as "call by name" (related to "lazy evaluation") in programming language terminology. We could have also chosen the opposite order, which is known as "call by value" (related to "eager evaluation"), but it turns out that "call by name" is better in this context. The notion of equivalence is independent of the order in which the rules are applied.]
+::: { .pause }
+Please make sure you understand why this recursive procedure simply corresponds to the "call by name" evaluation strategy.
+:::
+
+The result of simplifying a $\lambda$ expression  is an equivalent expression, and hence if two expressions have the same simplification then they are equivalent.
 
 :::  {.definition title="Computing a function via $\lambda$ calculus" #lambdacomputedef   }
 Let $F:\{0,1\}^* \rightarrow \{0,1\}^*$ be a function and $exp$ a $\lambda$ expression.
+For every $x\in \{0,1\}^n$, we  denote by $LIST(x)$ the  $\lambda$ list $PAIR(x_0, PAIR( x_1 , PAIR(\cdots PAIR(x_{n-1} NIL))))$ that corresponds to $x$.
+
 We say that _$exp$ computes $F$_ if for every $x\in \{0,1\}^*$, the expressions $(exp LIST(x))$ and $LIST(F(x))$ are equivalent, and moreover they have the same simplification.
 :::
 
@@ -477,23 +536,42 @@ Showing __(2)__ essentially amounts to writing a NAND++ interpreter in a functio
 We only sketch the proof. The "if" direction is simple. As mentioned above, evaluating $\lambda$ expressions basically amounts to "search and replace". It is also a fairly straightforward programming exercise to implement all the above basic operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND<< as well, which we can then transform to a NAND++ program.
 
 For the "only if" direction, we need to simulate a NAND++ program using a $\lambda$ expression.
-It turns out not to be so hard.
-A configuration  $\sigma$ of $P$ is a string of length $TB$ where $B$ is the (constant sized) block size, and so we can think of it as a list $\sigma=(\sigma^1,\ldots,\sigma^T)$ of $T$ lists of bits, each of length $B$.
-There is some constant index  $a\in [B]$ such that the $i$-th block is active if and only if $\sigma^i_a=1$, and similarly there are also indices $s,f$ that tell us if a block is the first or final block.
+First, by [NANDlambdaex](){.ref} we can compute the $NAND$ function, and hence _every_ finite function, using the $\lambda$ calculus.
+Thus the main task boils down to simulating the _arrays_ of NAND++ using the _lists_ of the enhanced λ calculus.
 
-For every index $c$, we can extract from the configuration $\sigma$  the $B$ sized string corresponding to the block $\sigma^i$ where $\sigma^i_c=1$ using a single $REDUCE$ operation.
-Therefore, we can extract the first block $\sigma^0$, as well as the active block $\sigma^i$, and using similar ideas we can also extract a constant number of blocks that follow the first blocks ($\sigma^1,\sigma^2,\ldots,\sigma^{c'}$ where $c'$ is the largest numerical index that appears in the program.)^[It's also not hard to modify the program so that the largest numerical index is zero, without changing its functionality]
+We will encode each array `A` of NAND++ program by a list $L$ of the NAND program.
+For the index variable `i`, we will have a special list $I$ that has $1$ only in the location corresponding to the value of `i`.
+To simulate moving `i` to the left, we need to remove the first item from the list, while to simulate moving `i` to the right, we add a zero to the head of list.^[In fact, it will be convenient for us to make sure all lists are of the same length, and so at the end of each step we will add a sufficient number of zeroes to the end of each list. This can be done with a simple `REDUCE` operation.]
 
-Using the first blocks and active block, we can update the configuration, execute the corresponding line, and also tell if this is an operation where the index `i` stays the same, increases, or decreases.
-If it stays the same then we can compute $NEXT_P$ via a $MAP$ operation, using the function that on input $C \in \{0,1\}^B$, keeps $C$ the same if $C_a=0$ (i.e., $C$ is not active) and otherwise updates it to the value in its next step.
-If `i` increases, then we can update $\sigma$ by a $REDUCE$ operation, with the function that on input a block $C$ and a list $S$, we output $PAIR(C,S)$ unless $C_a=1$ in which case we output $PAIR(C',PAIR(C'',TAIL(S)))$ where $(C',C'')$ are the new values of the blocks $i$ and $i+1$.
-The case for decreasing $i$ is analogous.
+To extract the `i`-th bit of the array corresponding to $L$, we need to compute the following function $get$ that on input a pair of lists $I$ and $L$ of bits of the same length $n$, $get(I,L)$ outputs $1$ if and only if there is some $j \in [n]$ such that the $j$-th element of both $I$ and $L$ is equal to $1$.
+This turns out to be not so hard.
+The key is to implement the function $zip$ that on input a pair of lists $I$ and $L$ of the same length $n$, outputs a _list of $n$ pairs_ $M$ such that the $j$-th element of $M$ (which we denote by $M_j$) is the pair $(I_j,L_j)$.
+Thus $zip$ "zips together" these two lists of elements into a single list of pairs.
+It is a good exercise to give a recursive implementation of $zip$, and so can implement it using the $RECURSE$ operator.
+Once we have $zip$, we can implement $get$ by applying an appropriate $REDUCE$ on the list $zip(I,L)$.
 
-Once we have a $\lambda$ expression $\varphi$ for computing $NEXT_P$, we can compute the final expression by defining
-$$APPLY = \lambda f,\sigma. IF(HALT \sigma,\sigma,f f \varphi \sigma)$$
-now for every configuration $\sigma_0$, $APPLY\; APPLY \sigma$ is the final configuration $\sigma_t$ obtained after running the next-step function continuosly.
-Indeed, note that if $\sigma_0$ is not halting, then $APPLY\; APPLY \sigma_0$ outputs $APPLY\; APPLY \varphi \sigma_0$ which (since $\varphi$ computes the $NEXT_P$) function is the same as $APPLY \;  APPLY \sigma_1$. By the same reasoning we see that we will eventually get $APPLY\;  APPLY \sigma_t$ where $\sigma_t$ is the halting configuration, but in this case we will get simply the output $\sigma_t$.^[If this looks like recursion then this is not accidental- this is a special case of a general technique for simulating recursive functions in the $\lambda$ calculus. See the discussion on the $Y$ combinator below.]
+Setting the list $L$ at the $i$-th location to a certain value requires computing the function $set(I,L,v)$ that outputs a list $L'$ such that $L'_j = L_j$ if $I_j = 0$ and $L'_j  = v$ otherwise. The function $set$ can be implemented by applying $MAP$ with an appropriate operator to the list $zip(I,L)$.
 
+We omit the full details of implementing $set$, $get$, but the bottom line is that for every NAND++ program $P$, we can obtain a λ expression $NEXT_P$ such that, if we let $\sigma = (loop,foo,bar,\ldots,I,X,Xvalid,Y,Yvalid,Baz,Blah,\ldots)$ be the set of Boolean values and lists that encode the current state of $P$ (with a list for each array and for the index variable `i`), then $NEXT_P \sigma$ will encode the state after performing one iteration of $P$.
+
+Now we can use the following "pseudocode" to simulate the program $P$.
+The function $SIM_P$ will obtain an encoding $\sigma_0$ of the initial state of $P$, and output the encoding $\sigma^*$ of the state of $P$ after it halts.
+It will be computed as follows:
+
+__Algorithm $SIM_P(\sigma)$:
+1. Let $\sigma' = NEXT_P \sigma$.
+2. If $loop(\sigma') = 0$ then return $\sigma'$.
+3. Otherwise return $SIM_P(\sigma')$.
+
+where $loop(\sigma')$ simply denotes extracting the contents of the variable $loop$ from the tuple $\sigma$.
+We can write it as the λ expression
+
+$$
+RECURSE \lambda m,\sigma. IF(loop(NEXT_P \sigma),m(NEXT_P \sigma),NEXT_P \sigma)
+$$
+
+Given $SIM_P$, we can compute the function computed by $P$ by  writing expressions for encoding the input as the initial state, and decoding the output from the final state.
+We omit the details, though this is fairly straightforward.^[For example, if $X$ is a list representing the input, then we can obtain a list $Xvalid$ of $1$'s of the same length by simply writing $Xvalid = MAP(X,\lambda x.1)$.]
 :::
 
 ### How basic is "basic"?
@@ -505,8 +583,12 @@ In other words, can we find a subset of these basic operations that can implemen
 
 
 
-> # { .pause  }
-This is a good point to pause and think how you would implement these operations yourself. For example, start by thinking how you could implement $MAP$ using $REDUCE$, and then try to continue and minimize things further, trying to implement $REDUCE$ with from $0,1,IF,PAIR,HEAD,TAIL$ together with the $\lambda$ operations. Remember that your functions can take functions as input and return functions as output.
+::: { .pause  }
+This is a good point to pause and think how you would implement these operations yourself. For example, start by thinking how you could implement $MAP$ using $REDUCE$, and then $REDUCE$ using $RECURSE$ combined with  $0,1,IF,PAIR,HEAD,TAIL,NIL,ISEMPTY$ together with the $\lambda$ operations.
+
+Now you can think how you could implement $PAIR$, $HEAD$ and $TAIL$ based on $0,1,IF$.
+The idea is that we can represent a  _pair_ as _function_.
+:::
 
 It turns out that there is in fact a proper subset of these basic operations that can be used to implement the rest.
 That subset is the empty set.
@@ -515,7 +597,10 @@ It's $\lambda$'s all the way down!
 The idea is that we encode $0$ and $1$  themselves as $\lambda$ expressions, and build things up from there.
 This notion is known as [Church encoding](https://en.wikipedia.org/wiki/Church_encoding), as was originated by Church in his effort to show that the $\lambda$ calculus can be a basis for all computation.
 
-We now outline how this can be done:
+> # {.theorem title="Enhanced λ calculus equivalent to pure λ calculus." #enhancedvanillalambdathm}
+There are λ expressions that implement the functions $0$,$1$,$IF$,$PAIR$, $HEAD$, $TAIL$, $NIL$, $ISEMPTY$, $MAP$, $REDUCE$, and $RECURSE$.
+
+We will not write the full formal proof of [enhancedvanillalambdathm](){.ref} but outline  the ideas involved in it:
 
 * We define $0$ to be the function that on two inputs $x,y$ outputs $y$, and $1$ to be the function that on two inputs $x,y$ outputs $x$. Of course we use Currying to achieve the effect of two inputs and hence $0 = \lambda x. \lambda y.y$ and $1 = \lambda x.\lambda y.x$.^[We could of course have flipped the definitions of $0$ and $1$, but we use the above because it is the common convention in the $\lambda$ calculus, where people think of $0$ and $1$ as "false" and "true".]
 
@@ -523,11 +608,11 @@ We now outline how this can be done:
 
 * To encode a pair $(x,y)$ we will produce a function $f_{x,y}$ that has $x$ and $y$ "in its belly" and such that $f_{x,y}g = g x y$ for every function $g$. That is, we write $PAIR = \lambda x,y. \lambda g. gxy$. Note that now we can extract the first element of a pair $p$ by writing $p1$ and the second element by writing $p0$, and so $HEAD = \lambda p. p1$ and $TAIL = \lambda p. p0$.
 
-* We define $NIL$ to be the function that ignores its input and always outputs $1$. That is, $NIL = \lambda x.1$. The $ISNIL$ function checks, given an input $p$, whether we get $1$ if we apply $p$ to the function $0_{x,y}$ that ignores both its inputs and always outputs $0$.
+* We define $NIL$ to be the function that ignores its input and always outputs $1$. That is, $NIL = \lambda x.1$. The $ISEMPTY$ function checks, given an input $p$, whether we get $1$ if we apply $p$ to the function $0_{x,y}$ that ignores both its inputs and always outputs $0$.
 For every valid pair $p0_{x,y} = 0$ while $NIL 0_{x,y}=1$.
-Formally, $ISNIL = \lambda p. p (\lambda x,y.0)$.
+Formally, $ISEMPTY = \lambda p. p (\lambda x,y.0)$.
 
-### List processing and recursion without recursion
+### List processing
 
 Now we come to the big hurdle, which is how to implement $MAP$, $FILTER$, and $REDUCE$ in the $\lambda$ calculus.
 It turns out that we can build $MAP$ and $FILTER$ from $REDUCE$.
@@ -538,98 +623,150 @@ We can define $REDUCE(L,g)$ recursively, by setting $REDUCE(NIL,g)=NIL$ and stip
 Thus, we might try to write a $\lambda$ expression for $REDUCE$ as follows
 
 $$
-REDUCE = \lambda L,g. IF(ISNIL(L),NIL,g HEAD(L) REDUCE(TAIL(L),g)) \label{reducereceq} \;.
+REDUCE = \lambda L,g. IF(ISEMPTY(L),NIL,g HEAD(L) REDUCE(TAIL(L),g)) \label{reducereceq} \;.
 $$
 
 The only fly in this ointment is that the $\lambda$ calculus does not have the notion of recursion, and so this is an invalid definition.
-This seems like a very serious hurdle: if we don't have loops, and don't have recursion, how are we ever going to be able to compute a function like $REDUCE$?
-
-The idea is to use the "self referential" properties of the $\lambda$ calculus.
-Since we are able to work with $\lambda$ expressions, we can possibly inside $REDUCE$ compute a $\lambda$ expression that amounts to running $REDUCE$ itself.
-This is very much like the common exercise of a program that prints its own code.
-For example, suppose that you have some programming language with an `eval` operation that given a string `code` and an input `x`, evaluates `code` on `x`.
-Then, if you have a program $P$ that can print its own code, you can use `eval` as an alternative to recursion: instead of using a recursive call on some input `x`, the program will compute its own code,  store it in some string variable `str` and then use `eval(str,x)`.
-You might find this confusing.
-_I_ definitely find this confusing.
-But hopefully the following will make things a little more concrete.
-
-^[TODO: add a direct example how to implement $REDUCE$ with $XOR$ without using the $Y$ combinator. Hopefully it can be done in a way that makes things more intuitive.]
-
-### The Y combinator
-
-The solution is to think of a recursion  as a sort of "differential equation" on functions.
-For example, suppose that all our lists contain either $0$ or $1$ and consider $REDUCE(L,XOR)$ which simply computes the _parity_ of the list elements.
-The ideas below will clearly generalize for implementing $REDUCE$ with any other function, and in fact for implementing recursive functions in general.
-We can define the parity function $par$ recursively as
-$$
-par(x_0,\ldots,x_n) = \begin{cases} 0 & |x|=0 \\ x_0 \oplus par(x_1,\ldots,x_n) & \text{otherwise} \end{cases}
-\label{eq:par-recurse}
-$$
-where $\oplus$ denotes the XOR operator.
-
-
-Our key insight would be to recast [eq:par-recurse](){.eqref} not as a _definition_ of the parity function but rather as an _equation_ on it.
-That is, we can think of [eq:par-recurse](){.eqref} as stating that
+But of course we can use our $RECURSE$ operator to solve this problem. We will replace the recursive call to "$REDUCE$" with a call to a function $me$ that is given as an extra argument, and then apply $RECURSE$ to this.
+Thus $REDUCE = RECURSE\;myREDUCE$ where
 
 $$
-par = PAREQ(par) \label{eq:pareq}
+myREDUCE = \lambda me,L,g. IF(ISEMPTY(L),NIL,g HEAD(L) me(TAIL(L),g)) \label{myreducereceq} \;.
 $$
 
-where $PAREQ$ is a _non-recursive_ function that takes a function $p$ as input, and returns the function $q$ defined as
+So everything boils down to implementing the $RECURSE$ operator, which we now deal with.
+
+
+### Recursion with recursion
+
+How can we impement recursion without recursion?
+We will illustrate this using a simple example - the $XOR$ function.
+As shown in [xorusingrecursion](){.ref}, we  can write the $XOR$ function of a list recursively as follows:
 
 $$
-q(x_0,\ldots,x_n) = \begin{cases} 0 & |x|=0 \\ x_0 \oplus p(x_1,\ldots,x_n) & \text{otherwise} \end{cases}
-\label{eq:par-nonrecurse}
+XOR(L) = \begin{cases} 0 & L \text{ is empty} \\ XOR_2(HEAD(L),XOR(TAIL(L))) & \text{otherwise}
+\end{cases}
 $$
 
-In fact, it's not hard to see that satisfying [eq:pareq](){.eqref} is _equivalent_ to satisfying [eq:par-recurse](){.eqref}, and hence $par$ is the _unique_ function that satisfies the condition [eq:pareq](){.eqref}.
-This means that to find a function $par$ computing parity, all we need is  a "magical function" $SOLVE$ that given a function $PAREQ$ finds  "fixed point" of $PAREQ$: a function $p$ such that $PAREQ(p) = p$.
-Given such a "magical function",  we could give a non-recursive definition for $par$ by writing $par = SOLVE(PAREQ)$.
+where $XOR_2:\{0,1\}^2 \rightarrow \{0,1\}$ is the XOR on two bits.
+In _Python_ we would write this as
 
-It turns out that we _can_ find such a "magical function" $SOLVE$ in the $\lambda$ calculus, and this is known as the [Y combinator](https://en.wikipedia.org/wiki/Fixed-point_combinator#Fixed_point_combinators_in_lambda_calculus).
+```python
+def xor2(a,b): return 1-b if a else b
+def head(L): return L[0]
+def tail(L): return L[1:]
 
-> # {.theorem title="Y combinator" #Ycombinatorthm}
-Let
+def xor(L): return xor2(head(L),xor(tail(L))) if L else 0
+
+print(xor([0,1,1,0,0,1]))
+# 1
+```
+
+Now, how could we eliminate this recursive call?
+The main idea is that since functions can take other functions as input, it is perfectly legal in Python (and the λ calculus of course) to give a function _itself_ as input.
+So, our idea is to try to come up with a _non recursive_ function `tempxor` that takes _two inputs_: a function and a list, and such that `tempxor(tempxor,L)` will output the XOR of `L`!
+
+::: { .pause }
+At this point you might want to stop and try to implement this on your own in Python or any other programming language of your choice (as long as it allows functions as inputs).
+:::
+
+Our first attempt might be to simply use the idea of replacing the recursive call by `me`.
+Let's define this function as `myxor`
+
+```python
+def myxor(me,L): return xor2(head(L),me(tail(L))) if L else 0
+```
+
+Let's test this out:
+
+```python
+myxor(myxor,[1,0,1])
+# TypeError: myxor() missing 1 required positional argument
+```
+
+The problem is that `myxor` expects _two_ inputs- a function and a list- while in the call to `me` we only provided a list.
+To correct this, we modify the call to also provide the function itself:
+
+```python
+def tempxor(me,L): return xor2(head(L),me(me,tail(L))) if L else 0
+
+tempxor(tempxor,[1,0,1])
+# 0
+tempxor(tempxor,[1,0,1,1])
+# 1
+```
+
+We see this now works! Note the call `me(me,..)` in the definition of `tempxor`: given a function `me` as input, `tempxor` will actually call the function on itself!
+Thus we can now define `xor(L)` as simply `return tempxor(tempxor,L)`.
+
+The approach above is not specific to XOR. Given a recursive function `f` that takes an input `x`, we can obtain a non recursive version as follows:
+
+1. Create the function `myf` that takes a pair of  inputs `me` and `x`, and replaces recursive calls to `f` with calls to `me`.
+2. Create the function `tempf` that converts  calls  in `myf` of the form `me(x)` to calls of the form `me(me,x)`.
+3. The function `f(x)` will be defined as `tempf(tempf,x)`
+
+Here is the way we implement the `RECURSE` operator in Python. It will take a function `myf` as above, and replace it with a function `g` such that `g(x)=myf(g,x)` for every `x`.
+
+```python
+def RECURSE(myf):
+    def tempf(me,x): return myf(lambda x: me(me,x),x)
+    return lambda x: tempf(tempf,x)
+
+xor = RECURSE(myxor)
+
+print(xor([0,1,1,0,0,1]))
+# 1
+
+print(xor([1,1,0,0,1,1,1,1]))
+# 0
+```
+__From Python to the  λ calculus.__ In the λ calculus, a two input function $g$ that takes a pair of inputs $me,x$ is written as $\lambda me.(\lambda x. g)$. So the function $x \mapsto me(me,x)$ is simply written as $me me$. (Can you see why?)
+So in the λ calculus, the function `tempf` will be `f (me me)` and the function `λ x. tempf(tempf,x)` is the same as `tempf tempf`.
+So the `RECURSE` operator in the λ calculus is simply the following:
+
 $$
-Y = \lambda f. (\lambda x. f (x x)) (\lambda y. f (y y))
-$$
-then for every $\lambda$ expression $F$, if we let $h=YF$ then $h=Fh$.
-
-> # {.proof data-ref="Ycombinatorthm"}
-Indeed, for every $\lambda$ expression $F$ of the form $\lambda t. e$, we can see that
->
-$$
-YF = (\lambda x. F(x x))(\lambda y. F(y y))
-$$
->
-But this is the same as applying $F$ to $g g$ where $g=\lambda y. F(y,y)$, or in other words
->
-$$
-YF = F \left( (\lambda y. F(y,y))(\lambda y. F(y,y)) \right)
-$$
->
-but by a change of variables the RHS is the same as $F(YF)$.
-
-
-Using the $Y$ combinator we can implement recursion in the $\lambda$-calculus, and hence loops.
-This can be used to complete the "if" direction of [lambdaturing-thm](){.ref}.
-
-For example, to compute parity we first give a recursive definition of parity using the $\lambda$-calculus as
-
-$$
-par L = IF(ISNIL(L), 0 , XOR HEAD(L) par(TAIL(L))) \label{eq:par-recurse-lambda}
+RECURSE =  \lambda f.\bigl( (\lambda m. f(m m))\;\; (\lambda m. f(m m)) \bigr)
 $$
 
-We then avoid the recursion by converting [eq:par-recurse-lambda](){.eqref} to the operator $PAREQ$ defined as
+The [online appendix](https://github.com/boazbk/nandnotebooks/blob/master/lambda.ipynb) contains  an implementation of the λ calculus using Python.
+Here is an implementation of the recursive  XOR function from that appendix:
 
-$$
-PAREQ  = \lambda p. \lambda L. IF(ISNIL(L), 0 , XOR HEAD(L) p(TAIL(L)))
-$$
+```python
+# XOR of two bits
+XOR2 = λ(a,b)(IF(a,IF(b,_0,_1),b))
 
-and then we can define $par$ as  $Y PAREQ$ since this will be the unique solution to $p= PAREQ p$.
+# Recursive XOR with recursive calls replaced by m parameter
+myXOR = λ(m,l)(IF(ISEMPTY(l),_0,XOR2(HEAD(l),m(TAIL(l)))))
+
+# Recurse operator (aka Y combinator)
+RECURSE = λf((λm(f(m*m)))(λm(f(m*m))))
+
+# XOR function
+XOR = RECURSE(myXOR)
+
+#TESTING:
+
+XOR(PAIR(_1,NIL)) # List [1]
+# equals 1
+
+XOR(PAIR(_1,PAIR(_0,PAIR(_1,NIL)))) # List [1,0,1]
+# equals 0
+```
+
+In this implementation, we also use `*` to denote function application (and so `f(m * m)` corresponds to $f(m m)$  above). We also avoid  and don't use the `.` notation but rather only parenthesis to d)
 
 
-__Infinite loops in $\lambda$-expressions.__
+::: {.remark title="The Y combinator" #Ycombinator}
+The $RECURSE$ operator above is better known as the
+[Y combinator](https://en.wikipedia.org/wiki/Fixed-point_combinator#Fixed_point_combinators_in_lambda_calculus).
+
+It is one of a family of a _fixed point operators_ that given a lambda expression $F$, find a _fixed point_ $f$ of $F$ such that $f = F f$.
+If you think about it, `xor` is the fixed point of `myxor` above: it is the function such that `xor = myxor\; xor`.
+
+:::
+
+
+::: {.remark title="Infinite loops in the λ calculus" #infiniteloops}
 The fact that $\lambda$-expressions can simulate NAND++ programs means that, like them, it can also enter into an infinite loop.
 For example, consider the $\lambda$ expression
 
@@ -650,6 +787,7 @@ $$
 $$
 
 We can see that continuing in this way we get longer and longer expressions, and this process never concludes.
+:::
 
 
 

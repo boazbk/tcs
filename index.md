@@ -146,6 +146,21 @@ index:
     draft: false
     notebook: http://tiny.cc/nandpl
 
+  - num: B.
+    name: The NAND++ programming language (appendix Jupyter notebook)
+    file: lec_B_NANDpp_prog_lang
+    draft: false
+    notebook: http://tiny.cc/nandpl
+
+
+  - num: C.
+    name: Lambda calculus (appendix Jupyter notebook)
+    file: lec_C_lambda
+    draft: false
+    notebook: https://github.com/boazbk/nandnotebooks/blob/master/lambda.ipynb
+
+
+
 ---
 
 _Work in progress_
