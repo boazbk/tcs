@@ -1,8 +1,7 @@
-% Defining running time
+% Running time definition
 % Boaz Barak
 
-
-﻿# Modeling running time
+# Modeling running time
 
 > # { .objectives }
 * Formally modeling  running time, and in particular notions such as $O(n)$ or $O(n^3)$ time algorithms. \
