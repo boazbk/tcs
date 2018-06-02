@@ -615,6 +615,16 @@ We will not write the full formal proof of [enhancedvanillalambdathm](){.ref} bu
 For every valid pair $p0_{x,y} = 0$ while $NIL 0_{x,y}=1$.
 Formally, $ISEMPTY = \lambda p. p (\lambda x,y.0)$.
 
+::: {.remark title="Church numerals (optional)" #Churchnumrem}
+There is nothing special about Boolean values. You can use similar tricks to implement _natural numbers_ using $\lambda$ terms.
+The standard way to do so is to represent the number $n$ by the function $ITER_n$ that on input a function $f$ outputs the function $x \mapsto f(f(\cdots f(x)))$ ($n$ times).
+That is, we represent the natural number $1$ as $\lambda f.f$, the number $2$ as $\lambda f.(\lambda x.f(fx))$,
+the number $3$ as $\lambda f.(\lambda x.f(f(fx)))$, and so on and so forth. (Note that this is not the same representation we used for $1$ in the Boolean context: this is fine; we already know that the same object can be represented in more than one way.)
+The number $0$ is represented by the function that maps any function $f$ to the identity function $\lambda x.x$.
+(That is, $0 = \lambda f.(\lambda x.x)$.)
+
+In this representation, we can compute $PLUS(n,m)$ as $\lambda f.\lambda x.(n f)((m f)x)$ and $TIMES(n,m)$ as $\lambda f.n(m f)$.
+:::
 ### List processing
 
 Now we come to the big hurdle, which is how to implement $MAP$, $FILTER$, and $REDUCE$ in the $\lambda$ calculus.
@@ -723,16 +733,16 @@ print(xor([0,1,1,0,0,1]))
 print(xor([1,1,0,0,1,1,1,1]))
 # 0
 ```
-__From Python to the  λ calculus.__ In the λ calculus, a two input function $g$ that takes a pair of inputs $me,x$ is written as $\lambda me.(\lambda x. g)$. So the function $x \mapsto me(me,x)$ is simply written as $me me$. (Can you see why?)
+__From Python to the  λ calculus.__ In the λ calculus, a two input function $g$ that takes a pair of inputs $me,x$ is written as $\lambda me.(\lambda x. g)$. So the function $x \mapsto me(me,x)$ is simply written as $me\;me$. (Can you see why?)
 So in the λ calculus, the function `tempf` will be `f (me me)` and the function `λ x. tempf(tempf,x)` is the same as `tempf tempf`.
 So the `RECURSE` operator in the λ calculus is simply the following:
 
 $$
-RECURSE =  \lambda f.\bigl( (\lambda m. f(m m))\;\; (\lambda m. f(m m)) \bigr)
+RECURSE =  \lambda f.\bigl( (\lambda m. f(m\; m))\;\; (\lambda m. f(m \;m)) \bigr)
 $$
 
 The [online appendix](https://github.com/boazbk/nandnotebooks/blob/master/lambda.ipynb) contains  an implementation of the λ calculus using Python.
-Here is an implementation of the recursive  XOR function from that appendix:
+Here is an implementation of the recursive  XOR function from that appendix:^[In this implementation we use `f * g` for applying `f` to `g` rather than `fg`. We also use `_0` and `_1` for the λ terms for $0$ and $1$ so as not to confuse with the Python constants.]
 
 ```python
 # XOR of two bits
@@ -764,8 +774,9 @@ The $RECURSE$ operator above is better known as the
 [Y combinator](https://en.wikipedia.org/wiki/Fixed-point_combinator#Fixed_point_combinators_in_lambda_calculus).
 
 It is one of a family of a _fixed point operators_ that given a lambda expression $F$, find a _fixed point_ $f$ of $F$ such that $f = F f$.
-If you think about it, `xor` is the fixed point of `myxor` above: it is the function such that `xor = myxor\; xor`.
-
+If you think about it, $XOR$ is the fixed point of $myXOR$ above.
+$XOR$ is the function such that for every $x$, if plug in  $XOR$ as the first argument of $myXOR$ then we get back $XOR$, or in other words $XOR = myXOR\; XOR$.
+Hence finding a _fixed point_ for $myXOR$ is the same as applying $RECURSE$ to it.
 :::
 
 
