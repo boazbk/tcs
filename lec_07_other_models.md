@@ -456,7 +456,7 @@ NOT = \lambda a. IF(a,0,1) \label{lambdanot}
 $$
 and
 $$
-XOR_2 = lambda a,b. IF(b,NOT(a),a) \label{lambdaxor}
+XOR_2 = \lambda a,b. IF(b,NOT(a),a) \label{lambdaxor}
 $$
 
 (We are using here a bit of syntactic sugar to describe the functions. To obtain the λ expression for XOR we will simply replace the expression  [lambdanot](){.eqref} in [lambdaxor](){.eqref}.)
@@ -650,9 +650,9 @@ $$
 So everything boils down to implementing the $RECURSE$ operator, which we now deal with.
 
 
-### Recursion with recursion
+### Recursion without recursion
 
-How can we impement recursion without recursion?
+How can we implement recursion without recursion?
 We will illustrate this using a simple example - the $XOR$ function.
 As shown in [xorusingrecursion](){.ref}, we  can write the $XOR$ function of a list recursively as follows:
 
