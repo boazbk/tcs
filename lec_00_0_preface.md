@@ -59,6 +59,7 @@ A traditional justification is that you might encounter these concepts in your c
 Perhaps you will come across a hard problem and realize it is NP complete, or find a need to use what you learned about regular expressions.
 This might very well be true, but the main benefit of this course is not in teaching you any practical tool or technique, but rather in giving you a _different way of thinking_: an ability to recognize computation even when it might not be obvious that it occurs, a way to model computational tasks and questions, and to reason about them.
 
+
 But, regardless of any use you will derive from it,   I believe this course is important because it teaches  concepts that are both beautiful and fundamental.
 The role that _energy_ and _matter_ played in the 20th century is played in the 21st by _computation_ and _information_, not just as tools for our technology and economy, but also as the basic building blocks we use to understand the world.
 This course will give you a taste of some of the theory behind those, and hopefully spark your curiosity to study more.

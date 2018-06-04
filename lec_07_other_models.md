@@ -9,6 +9,7 @@
 * See how many other models turn out to be "Turing complete"
 * Understand the Church-Turing thesis.
 
+
 >_"All problems in computer science can be solved by another level of indirection"_,  attributed to David Wheeler.
 
 >_"Because we shall later compute with expressions for functions, we need a distinction between functions and forms and a notation for expressing this distinction. This distinction and a notation for describing it, from which we deviate trivially, is given by Church."_,  John McCarthy, 1960 (in paper describing the LISP programming language)

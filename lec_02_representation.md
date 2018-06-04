@@ -3,7 +3,6 @@
 
 # Computation and Representation {#chaprepres }
 
-
 > # { .objectives }
 * Internalize the concept of _representing_ an object as a string (often of zeroes and ones).
 * Examples for common objects such as numbers, vectors, lists, graphs.

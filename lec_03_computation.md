@@ -4,7 +4,6 @@
 
 # Defining computation
 
-
 ># {.objectives  }
 * See that computation can be precisely modeled. \
 * Learn the NAND computational model, and why the specific choice of NAND is not important. \

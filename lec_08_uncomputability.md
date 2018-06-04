@@ -121,7 +121,6 @@ def EVAL(P,X):
             dir = -1
             maxseen = i
 
-
     # copy output
     i = 0
     res = []

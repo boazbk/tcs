@@ -6,8 +6,6 @@
 * See that NAND is a _universal basis_ for circuits, and examples for universal and non-universal families of gates.
 * Understand the _physical extended Church-Turing thesis_ that NAND programs capture _all_ feasible computation in the physical world, and its physical and philosophical implications.
 
-
-
 >_"In existing digital computing devices various mechanical or electrical devices have been used as
 elements: Wheels, which can be locked ... which on moving from one position to another transmit electric pulses that may cause other similar wheels
 to move; single or combined telegraph relays, actuated by an electromagnet and opening or closing

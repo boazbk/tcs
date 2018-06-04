@@ -12,7 +12,6 @@
 
 
 
-
 >_"[In 1951] I had a running compiler and nobody would touch it because, they carefully told me, computers could only do arithmetic; they could not do programs."_,  Grace Murray Hopper, 1986.
 
 

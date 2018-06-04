@@ -266,6 +266,7 @@ This notion of _self reference_ will appear time and again in this course, and a
 Because we can easily transform a NAND<< program into a NAND++ program, this means that even the seemingly "weaker" NAND++ programming language is powerful enough to simulate NAND<< programs.
 Indeed, as we already alluded to before, NAND++ is powerful enough to simulate also all other standard programming languages such as  Python, C, Lisp, etc.
 
+
 ### Representing NAND++ programs as strings
 
 Before we can prove  [univnandppnoneff](){.ref}, we need to make its statement precise by specifying a representation scheme for NAND++ programs.
