@@ -4,6 +4,7 @@
 # Mathematical Background { #chapmath }
 
 
+
 > # { .objectives }
 * Recall basic mathematical notions such as sets, functions, numbers, strings, graphs, logical operators and quantifiers.
 * Big  Oh notation.
