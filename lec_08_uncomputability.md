@@ -2,9 +2,10 @@
 % Boaz Barak
 
 
-# Is every function computable? {#chapcomputable }
+# Universality and uncomputability? {#chapcomputable }
 
 > # { .objectives }
+* The universal machine/program - "one program to rule them all"
 * See a fundamental result in computer science and mathematics: the existence of uncomputable functions.
 * See the canonical example for an uncomputable function: _the halting problem_.
 * Introduction to the technique of _reductions_ which will be used time and again in this course to show difficulty of computational tasks.
@@ -14,6 +15,127 @@
 >_"A function of a variable quantity is an analytic expression composed in any way whatsoever of the variable quantity and numbers or constant quantities."_,  Leonhard Euler, 1748.
 
 
+>_"The importance of the universal machine is clear. We do not need to have an infinity of different machines doing different jobs. ... The engineering problem of producing various machines for various jobs is replaced by the office work of 'programming' the universal machine"_, Alan Turing, 1948
+
+
+
+One of the most significant results we showed for NAND programs is the notion of _universality_: that a NAND program can evaluate other NAND programs.
+However, there was a significant caveat in this notion. To evaluate a NAND program of $s$ lines, we needed to use a bigger number of lines than $s$.
+(Equivalently, the function that evaluates a given circuit of $s$ gates on a given input, requires more than $s$ gates to compute.)
+
+
+It turns out that uniform models such as  NAND++ programs or Turing machines  allow us to "break out of this cycle" and obtain a truly _universal NAND++_ program $U$ that can evaluate all other programs, including programs that have more lines than $U$ itself.
+The existence of such a universal program has far reaching applications, and we will explore them in the rest of this course.
+We'll already see in this chapter a major application: the existence of _uncomputable functions_.
+
+## Universality: A NAND++ interpreter in NAND++
+
+Like a NAND program, a NAND++  program (or a Python or Javascript program, for that matter)  is ultimately a sequence of symbols and hence can obviously be represented as a binary string.
+We will spell out the exact details of representation later, but as usual, the details are not so important (e.g., we can use the ASCII encoding of the source code).
+What is crucial is that we can use such representation to evaluate any program.
+That is, we prove the following theorem:
+
+
+
+
+::: {.theorem title="Universality of NAND++" #univnandppnoneff}
+There is a NAND++ program $U$ that computes the partial function $EVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ defined as follows:
+$$
+EVAL(P,x)=P(x)
+$$
+for strings $P,x$ such that $P$ is a valid representation of a NAND++ program which produces an output on $x$.
+Moreover, for every input $x\in \{0,1\}^*$  on which $P$ does not halt,   $U(P,x)$ does not halt as well.
+:::
+
+:::  {.proofidea data-ref="univnandppnoneff"}
+Once you understand what the theorem says, it is not that hard to prove. The desired program $U$ is an _interpreter_ for NAND++ program. That is, $U$ gets a representation of the program $P$ (think of the source code), and some input $x$, and needs to simulate the execution of $P$ on $x$.
+
+Think of how you would do that in your favorite programming language.
+You would use some data structure, such as a dictionary, to store the values of all the variables and arrays of $P$.
+Then, you could simulate $P$ line by line, updating the data structure as you go along.
+The interpreter will continue the simulation until  `loop` is equal to $0$.
+
+Once you do that, translating this interpreter from your programming language to NAND++ can be done just as we have seen in [chapequivalentmodels](){.ref}.
+:::
+
+[univnandppnoneff](){.ref} yields a stronger notion than the universality we proved for NAND, in the sense that we show a _single_ universal  NAND++ program $U$ that can evaluate _all_ NAND programs, including those that have more lines than the lines in $U$.
+In particular, $U$ can even be used to evaluate itself!
+This notion of _self reference_ will appear time and again in this course, and as we will see, leads to several counter-intuitive phenomena in computing.
+
+Because we can transform other computational models, including NAND<<, $\lambda$ calculus, or a C program,  this means that even the seemingly "weak" NAND++ programming language is powerful enough to contain an interpreter for all these models.
+
+
+To show the full proof of  [univnandppnoneff](){.ref}, we need to make sure $EVAL$ is well defined by specifying a  representation for NAND++ programs.
+As mentioned, one perfectly fine choice is the ASCII representation of the source code.
+But for concreteness, we can use the following representation.
+
+
+_Representing NAND++ programs._ If $P$ is a NAND++ program with $a$ array variables and $b$ scalar variables, then every iteration of $P$ is obtained by computing a NAND program $P'$ with $a+b$ inputs and outputs that updates these variables (where the array variables are read and written to at the special location `i`).^[We  assume that the NAND++ program is _well formed_, in the sense that every array variable is accessed only with the index `i`.]
+So, we can use the list-of-triples representation of $P'$ to represent $P$.
+That is, we represent $P$ by a tuple $(a,b,L)$ where $L$ is a list of triples of numbers in $\{0,\ldots, a+b-1 \}$.
+Each triple $(j,k,\ell)$ in $L$ corresponds to a line of code in $P$ of the form `foo = NAND(bar,blah)`.
+The indices $j,k,\ell$ correspond to _array_ variables if they are in $\{0,\ldots,a-1\}$ and to _scalar_ variables if they are in $\{a,\ldots,a+b-1\}$.
+We will identify the arrays `X`,`Xvalid`,`Y`,`Yvalid` with the indices $0,1,2,3$ and the scalar `loop` with the index $a$. (Once again, the precise details of the representation do not matter much; we could have used any other.)
+
+
+
+
+
+::: {.proof data-ref="univnandppnoneff"}
+
+
+```python
+import math.floor
+
+def EVAL(P,X):
+    """Get NAND++ prog P and input X, produce output"""
+    a,b,L = *P
+    arrs = { }
+    vars = {j:0 for j in range(a,b) }
+
+
+    def setvar(j,v):
+        if j>a: vars[j] = v
+        else arrs[(j,i)] = v
+    def getvar(j):
+        if j>a: return vars.get(j,0)
+        return arrs.get((j,i),0)
+
+    def NAND(a,b): return 1-a*b
+
+    # copy input
+    for j in range(len(X)):
+        arrs[(0,j)] = X[j]  # X has index 0
+        arrs[(1,j)] = 1     # Xvalid has index 1
+
+    maxseen = 0
+    i = 0
+    dir = 1 # +1: increase, -1: decrease
+    while True:
+        for (j,k,l) in L:
+            setvar(j,NAND(getvar(k),getvar(l)))
+        if not getvar(a): break # loop has index a
+        i += dir
+        if not i: dir= 1
+        if i>maxseen:
+            dir = -1
+            maxseen = i
+
+
+    # copy output
+    i = 0
+    res = []
+    while getvar(3): # if Yvalid[i]=1
+        res += [getvar(2)] # add Y[i] to result
+        i += 1
+    return Y
+
+```
+:::
+
+
+
+## Is every function computable?
 
 We saw that NAND programs can compute every finite function.
 A natural guess is that NAND++ programs could compute every infinite function.

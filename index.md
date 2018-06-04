@@ -175,7 +175,8 @@ You can also download [all chapters in a single PDF file](lnotes_book.pdf) (abou
 
 See [this website](http://nandpl.org) for (a very much work in progress) implementation of the NAND\* programming languages that are used in in these notes.
 
-If you have any comments, suggestions, typo fixes, etc.. I would be very grateful if you post them as an [issue](https://github.com/boazbk/tcs/issues) or [pull request](https://github.com/boazbk/tcs/pulls) in the [GitHub repository](https://github.com/boazbk/tcs) where I am maintaining the source files for these notes.
+If you have any _comments, suggestions, typo fixes_, etc.. I would be very grateful if you post them as an [**issue**](https://github.com/boazbk/tcs/issues) or [**pull request**](https://github.com/boazbk/tcs/pulls) in the [**GitHub repository boazbk/tcs**](https://github.com/boazbk/tcs) where I am maintaining the source files for these notes.
+You can also post comments on each chapter in the links below.
 
 
 ---

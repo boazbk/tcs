@@ -51,12 +51,15 @@ While reading, I encourage you to stop and think about the following:
 
 * At any point in the text, try to think what are the natural questions that arise, and see whether or not they are answered in the following.
 
+This book contains some code snippets,  but this is by no means a programming course. You don't need to know how to program to follow this material. The reason we use code is that it is a _precise_ way to describe computation. Particular implementation details are not as important to us, and so we will emphasize code readability at the expense of  considerations such as error handling, encapsulation, etc.. that can be extremely important for real-world programming.
 
-### Is this effort worth it?
+### Is the effort worth it?
 
-A traditional justification for such a course is that you might encounter these concepts in your career.
+This is not an easy course, so why should you spend the effort taking it?
+A traditional justification is that you might encounter these concepts in your career.
 Perhaps you will come across a hard problem and realize it is NP complete, or find a need to use what you learned about regular expressions.
 This might very well be true, but the main benefit of this course is not in teaching you any practical tool or technique, but rather in giving you a _different way of thinking_: an ability to recognize computation even when it might not be obvious that it occurs, a way to model computational tasks and questions, and to reason about them.
+
 But, regardless of any use you will derive from it,   I believe this course is important because it teaches  concepts that are both beautiful and fundamental.
 The role that _energy_ and _matter_ played in the 20th century is played in the 21st by _computation_ and _information_, not just as tools for our technology and economy, but also as the basic building blocks we use to understand the world.
 This course will give you a taste of some of the theory behind those, and hopefully spark your curiosity to study more.
@@ -92,15 +95,15 @@ This can help in planning out a course based on this book.
 
 ## Acknowledgements
 
-These lecture notes are constantly evolving, and I am getting input from several people, for which I am deeply grateful.
+These lecture notes are constantly evolving, and I am getting input from many people, for which I am deeply grateful.
 Thanks to Michele Amoretti, Sam Benkelman, Jarosław Błasiok, Christy Cheng, Daniel Chiu, Chi-Ning Chou, Michael Colavita, Robert Darley Waddilove, Juan Esteller,  Leor Fishman, William Fu, Mark Goldstein,  Chan Kang, Estefania Lahera, Allison Lee, Ondřej Lengál, Raymond Lin, Emma Ling, Alex Lombardi, Lisa Lu, Aditya Mahadevan, Jacob Meyerson, Hamish Nicholson, Thomas Orton, Juan Perdomo, Aaron Sachs, Brian Sapozhnikov, Josh Seides, Alaisha Sharma, Hikari Sorensen, Alec Sun, Everett Sussman, Garrett Tanzer, Sarah Turnill, Salil Vadhan, Ryan Williams, Wanqian Yang, and Jessica Zhu for helpful feedback. I will keep adding names here as I get more comments.
 If you have any comments or suggestions, please do post them on the GitHub repository [https://github.com/boazbk/tcs](https://github.com/boazbk/tcs).
 
+Salil Vadhan co-taught with me the first iteration of this course, and gave me a tremendous amount of useful feedback and insights during this process.
 
 Thanks to Anil Ada, Venkat Guruswami,  and Ryan O'Donnell for helpful tips from their experience in teaching [CMU 15-251](http://www.cs.cmu.edu/~./15251/).
-
-Thanks to Juan Esteller and Gabe Montague for their  work on [implementing](http://nandpl.org) the NAND* languages.
+Juan Esteller and Gabe Montague originally implemented the NAND* languages and the [nandpl.org](http://nandpl.org) website in OCaml and Javascript .
 
 Thanks to David Steurer for writing the scripts (originally written for [our joint notes on the sum of squares algorithm](http://sumofsquares.org))  that I am using to produce these notes.
-David's scripts are themselves based on several other packages, including [pandoc](http://pandoc.org/), [LaTeX](https://www.latex-project.org/), and the Tufte [LaTeX](https://tufte-latex.github.io/tufte-latex/) and [CSS](https://edwardtufte.github.io/tufte-css/) packages.
+David's scripts are themselves based on several other packages, including [pandoc](http://pandoc.org/), [LaTeX](https://www.latex-project.org/), and the Tufte [LaTeX](https://tufte-latex.github.io/tufte-latex/) package.
 I used the [Atom editor]  to write these notes,  and used the [hyrdrogen package](https://atom.io/packages/hydrogen), which relies on the [Jupyter project](http://jupyter.org/), to write code snippets.
