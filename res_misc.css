@@ -1,0 +1,265 @@
+h1 {
+        counter-reset: h2counter 0 theorem-counter 0  exercise 0;
+}
+
+h2:before {
+        content:  counter(h2counter) ".\0000a0\0000a0";
+        counter-increment: h2counter;
+        counter-reset: h3counter;
+}
+
+h2.nocount:before {
+       content: none;
+       counter-increment: none;
+}
+
+h3:before {
+        content:  counter(h2counter) "." counter(h3counter) ".\0000a0\0000a0";
+        counter-increment: h3counter;
+}
+
+.exercise:before {
+    counter-increment: exercise;
+}
+
+
+
+
+
+.definition, .remark, .example, .exercise, .objectives, .pause , .recap {
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 36px;
+  display: block;
+  margin: 12px 0;
+  font-style: normal;
+}
+
+.pause {
+    background-color:  #9fc2fc;
+}
+
+.remark {
+    background-color:  #fcfbde;
+}
+
+.theorem , .lemma, .definition {
+    background-color: #e0f7d9;
+}
+.objectives , .recap {
+    background-color: #efcee7;
+}
+.example:before {
+  counter-increment: theorem-counter;
+  content: "Example "  counter(theorem-counter) ":" attr(title)  ".\0000a0\0000a0";
+  font-weight: bold;
+  font-style: normal;
+}
+
+
+.proof , .proofidea {
+    display: block;
+    margin: 12px 0;
+    font-style: normal;
+}
+.proof:before {
+    content: "Proof.";
+    font-style: italic;
+}
+
+.proofidea:before {
+    content: "Proof idea.";
+    font-style: italic;
+}
+
+.proof:after  {
+    content: "\25FC";
+}
+
+
+.exercise:before {
+  counter-increment: exercise;
+  content: "Exercise " counter(exercise) ":" attr(title) "\0000a0\0000a0";
+  font-weight: bold;
+  font-style: normal;
+}
+
+.pause:before {
+  content: "Stop and think.";
+  font-weight: bold;
+  font-style: normal;
+}
+
+.remark:before {
+  content: "Remark "   counter(theorem-counter)  ":"  attr(title);
+  counter-increment: theorem-counter;
+  font-weight: bold;
+  font-style: normal;
+}
+
+.objectives:before {
+  content: "Learning objectives.";
+  font-weight: bold;
+  font-style: normal;
+}
+
+
+
+.recap:before {
+  content: "Lecture recap.";
+  font-weight: bold;
+  font-style: normal;
+}
+
+.definition:before {
+  counter-increment: theorem-counter;
+  content: "Definition "   counter(theorem-counter)  ":" attr(title);
+  font-weight: bold;
+  font-style: normal;
+}
+.definition:after {
+  content: "";
+}
+
+
+.theorem , .lemma  {
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 36px;
+  display: block;
+  margin: 12px 0;
+  font-style: italic;
+}
+.theorem:before {
+  counter-increment: theorem-counter;
+  content: "Theorem "   counter(theorem-counter) ":" attr(title);
+  font-weight: bold;
+  font-style: normal;
+}
+
+.lemma:before {
+  counter-increment: theorem-counter;
+  content: "Lemma "   counter(theorem-counter)  ":" attr(title);
+  font-weight: bold;
+  font-style: normal;
+}
+
+
+
+.theorem:after {
+  content: "";
+}
+
+
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #f2f5f9; /* gray*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+.sidenav ul {
+    line-height: 80%;
+    list-style-type: none;
+    padding-left: 0px
+    margin-left:0px;
+}
+
+.sidenav ul ul {
+    margin-left:10px;
+    padding-left: 0px
+
+}
+
+
+.sidenav ul ul ul {
+    margin-left:20px;
+    padding-left: 0px
+}
+
+.sidenav ul ul  ul ul {
+    margin-left:30px;
+    padding-left: 0px
+}
+
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 8px 8px 8px 4px;
+    text-decoration: none;
+    font-size: 12px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+    color: #bc1027;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: fixed;
+    top: 0px;
+    left: 220px;
+    font-size: 36px;
+    margin-left: 50px;
+    display: none;
+    color: black;
+}
+
+/* Position and style the open button (top left corner) */
+.openbtn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    font-size: 36px;
+    margin-left: 10px;
+    cursor: pointer;
+    display: block;
+}
+
+.toppart {
+    margin-left: 80px;
+}
+
+#topBtn {
+  display: none;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  color: blue;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 4px;
+  background-color: white;
+  opacity: 0.5;
+}
+
+#topBtn:hover {
+  color: red;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+    transition: margin-left .5s;
+    padding: 20px;
+}
+
+/* On smaller screens drop the navigation  */
+@media only screen and (max-width: 600px) {
+    .sidenav { display: none;  }
+    .openbtn { display: none; }
+    .sidenav .closebtn { display: none }
+    .d-article  { left-margin: 0px;  }
+}
