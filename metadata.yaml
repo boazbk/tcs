@@ -1,8 +1,7 @@
 
 ---
 author: Boaz Barak
-date: Fall 2017
+date: 2018
 pagetitle: "Introduction to Theoretical Computer Science"
 header-includes:
-   - \newcommand{\{0,1\}}{\{0,1\}}
 ---
