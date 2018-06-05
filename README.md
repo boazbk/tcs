@@ -4,6 +4,17 @@ This is the git repository for a book in preparation for an introductory undergr
 
 Please use the [issues](https://github.com/boazbk/tcs/issues) and [pull requests](https://github.com/boazbk/tcs/pulls) to post any suggestions, comments, typo fixes, etc..
 
+I am working on improving the notes on the summer of 2018. My main priorities are:
+
+* Add explanations, proof ideas, examples.
+
+* Add exercises
+
+* Emphasize the "non importance" of the choice of particular models (NAND vs circuits, NAND++/NAND<< vs Turing machines/ RAM machines).
+
+* Write two chapters: space bounded computation and proofs and programs.
+
+
 
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/4.0/ or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 
