@@ -575,7 +575,6 @@ In contrast, for floating point numbers, multiplying by two corresponds to addin
 A negative number is represented using the [two's complement](https://goo.gl/wov5fa) approach.
 Strings are represented in a prefix free form by ensuring that a zero byte is at their end.
 
-
 ```c
 int      2          : 00000010 00000000 00000000 00000000
 int      4          : 00000100 00000000 00000000 00000000
