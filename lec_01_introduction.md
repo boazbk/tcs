@@ -299,7 +299,32 @@ More than anything, I hope I will manage to "infect" you with at least some of m
 
 ### Dependencies between chapters
 
-TO BE COMPLETED
+This book is divided into the following parts:
+
+* __Preliminaries:__ Introduction, mathematical background, and representing objects as strings.
+
+* __Part I: Finite computation:__ Boolean circuits / staightline programs. Universal gatesets, counting lower bound, representing programs as string and universality.
+
+* __Part II: Uniform computation:__ Turing machines / programs with loops. Equivalence of models (including RAM machines and $\lambda$ calculus), universality, uncomputability,  Gödel's incompleteness theorem, restricted models (regular and context free languages).
+
+* __Part III: Efficient computation:__ Definition of running time, time hierarchy theorem, $\mathbf{P}$ and $\mathbf{NP}$, $\mathbf{NP}$ completeness, space bounded computation.
+
+* __Part IV: Randomized computation:__ Probability, randomized algorithms, $\mathbb{BPP}$, amplification, $\mathbb{BPP} \subseteq \mathbb{P}_{/poly}$, pseudrandom generators and derandomization.
+
+* __Part V: Advanced topics:__ Cryptography, proofs and algorithms (interactive and zero knowledge proofs, Curry-Howard correspondence), quantum computing.
+
+The book proceeds in linear order, with each chapter building on the previous one, with the following exceptions:
+
+
+* All chapters in [advancedpart](){.ref} (Advanced topics) are independent of one another, and you can choose which one of them to read.
+
+* [godelchap](){.ref} (Gödel's incompleteness theorem), [restrictedchap](){.ref} (Restricted computational models),  and [spacechap](){.ref} (Space bounded computation), are not used in following  chapters. Hence you can choose to skip them.
+
+A course based on this book can use all of Parts I, II, and III  (possibly skipping over some or all of [godelchap](){.ref}, [restrictedchap](){.ref} or [spacechap](){.ref}), and then either cover all or some of Part IV, and add a "sprinkling" of advanced topics from Part V based on student or instructor interest.
+
+
+
+
 
 
 

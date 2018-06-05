@@ -2,7 +2,7 @@
 % Boaz Barak
 
 
-# Restricted computational models
+# Restricted computational models { #restrictedchap }
 
 > # { .objectives }
 * See that Turing completeness is not always a good thing

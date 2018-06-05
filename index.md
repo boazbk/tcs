@@ -105,56 +105,62 @@ index:
     notebook: false
 
   - num: 16.
+    name: Space bounded computation
+    file: lec_14a_space_complexity
+    draft: false
+    notebook: false
+
+  - num: 17.
     name: Review of probability
     file: lec_15_probability
     draft: false
     notebook: false
 
-  - num: 17.
+  - num: 18.
     name: Randomized algorithms
     file: lec_16_randomized_alg
     draft: false
     notebook: false
 
-  - num: 18.
+  - num: 19.
     name: Modelling probabilistic computation
     file: lec_17_model_rand
     draft: false
     notebook: false
 
-  - num: 19.
+  - num: 20.
     name: Cryptography
     file: lec_19_cryptography
     draft: false
     notebook: false
 
-  - num: 20.
+  - num: 21.
     name: Proofs and algorithms
     file: lec_24_proofs
     draft: false
     notebook: false
 
-  - num: 21.
+  - num: 22.
     name: Quantum computing
     file: lec_26_quantum_computing
     draft: false
     notebook: false
 
   - num: A.
-    name: The NAND programming language (appendix Jupyter notebook)
+    name: The NAND programming language (Jupyter notebook appendix)
     file: lec_A_NAND_prog_lang
     draft: false
     notebook: https://nbviewer.jupyter.org/github/boazbk/nandnotebooks/blob/master/NAND%20programming%20language.ipynb
 
   - num: B.
-    name: The NAND++ programming language (appendix Jupyter notebook)
+    name: The NAND++ programming language (Jupyter notebook appendix)
     file: lec_B_NANDpp_prog_lang
     draft: false
     notebook: https://nbviewer.jupyter.org/github/boazbk/nandnotebooks/blob/master/NANDpp_language.ipynb
 
 
   - num: C.
-    name: Lambda calculus (appendix Jupyter notebook)
+    name: Lambda calculus (Jupyter notebook appendix)
     file: lec_C_lambda
     draft: false
     notebook: https://nbviewer.jupyter.org/github/boazbk/nandnotebooks/blob/master/lambda.ipynb

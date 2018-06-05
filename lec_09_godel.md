@@ -2,11 +2,11 @@
 % Boaz Barak
 
 
-# Is every theorem provable?
+# Is every theorem provable? { #godelchap }
 
 > # { .objectives }
 * See more examples of uncomputable functions that are not as tied to computation.
-* See Godel's incompleteness theorem - a result that shook the world of mathematics in the early 20th century.
+* See Gödel's incompleteness theorem - a result that shook the world of mathematics in the early 20th century.
 
 
 
