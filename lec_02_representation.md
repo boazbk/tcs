@@ -569,7 +569,7 @@ There are several types of prefix-free representations of the code points, a pop
 We can use programming languages to probe how our computing environment represents various values.
 This is easier to do in "unsafe" programming languages such as `C` that allow direct access to the memory.
 
-Using a simple `C` program (which you can run [here](https://repl.it/repls/FunnyTechnologicalAdministrator)) we have produced the following representations of various values.
+Using a simple `C` program we have produced the following representations of various values.
 One can see that for integers, multiplying by 2 corresponds to a "left shift" inside each byte.
 In contrast, for floating point numbers, multiplying by two corresponds to adding one to the exponent part of the representation.
 A negative number is represented using the [two's complement](https://goo.gl/wov5fa) approach.
@@ -590,7 +590,7 @@ float    132.0: 00000000 00000000 00000100 01000011
 double   132.0: 00000000 00000000 00000000 00000000 00000000 10000000 01100000 01000000
 ```
 
-If you are curious, the code for this program is the following:
+If you are curious, the code for this program (which you can run [here](https://goo.gl/L8oMzn)) is the following:
 
 ```c
 #include <stdio.h>
