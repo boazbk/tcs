@@ -576,18 +576,18 @@ A negative number is represented using the [two's complement](https://goo.gl/wov
 Strings are represented in a prefix free form by ensuring that a zero byte is at their end.
 
 ```c
-int      2          : 00000010 00000000 00000000 00000000
-int      4          : 00000100 00000000 00000000 00000000
-int      513        : 00000001 00000010 00000000 00000000
-long     513        : 00000001 00000010 00000000 00000000 00000000 00000000 00000000 00000000
-int      -1         : 11111111 11111111 11111111 11111111
-int      -2         : 11111110 11111111 11111111 11111111
-string   Hello      : 01001000 01100101 01101100 01101100 01101111 00000000
-string   abcd       : 01100001 01100010 01100011 01100100 00000000
-float    33.0       : 00000000 00000000 00000100 01000010
-float    66.0       : 00000000 00000000 10000100 01000010
-float    132.0      : 00000000 00000000 00000100 01000011
-double   132.0      : 00000000 00000000 00000000 00000000 00000000 10000000 01100000 01000000
+int      2    : 00000010 00000000 00000000 00000000
+int      4    : 00000100 00000000 00000000 00000000
+int      513  : 00000001 00000010 00000000 00000000
+long     513  : 00000001 00000010 00000000 00000000 00000000 00000000 00000000 00000000
+int      -1   : 11111111 11111111 11111111 11111111
+int      -2   : 11111110 11111111 11111111 11111111
+string   Hello: 01001000 01100101 01101100 01101100 01101111 00000000
+string   abcd : 01100001 01100010 01100011 01100100 00000000
+float    33.0 : 00000000 00000000 00000100 01000010
+float    66.0 : 00000000 00000000 10000100 01000010
+float    132.0: 00000000 00000000 00000100 01000011
+double   132.0: 00000000 00000000 00000000 00000000 00000000 10000000 01100000 01000000
 ```
 
 If you are curious, the code for this program is the following:
@@ -616,25 +616,25 @@ char *bytes(void *p,int n){
 }
 
 void printint(int a) {
-  printf("%-8s %-10d : %s", "int", a, bytes(&a,sizeof(int)));
+  printf("%-8s %-5d: %s", "int", a, bytes(&a,sizeof(int)));
 }
 
 void printlong(long a) {
-  printf("%-8s %-10d : %s", "long", a, bytes(&a,sizeof(long)));
+  printf("%-8s %-5d: %s", "long", a, bytes(&a,sizeof(long)));
 }
 
 
 void printstring(char *s) {
-  printf("%-8s %-10s : %s", "string", s, bytes(s,strlen(s)+1));
+  printf("%-8s %-5s: %s", "string", s, bytes(s,strlen(s)+1));
 }
 
 
 void printfloat(float f) {
-  printf("%-8s %-10.1f : %s", "float", f, bytes(&f,sizeof(float)));
+  printf("%-8s %-5.1f: %s", "float", f, bytes(&f,sizeof(float)));
 }
 
 void printdouble(double f) {
-  printf("%-8s %-10.1f : %s", "double", f, bytes(&f,sizeof(double)));
+  printf("%-8s %-5.1f: %s", "double", f, bytes(&f,sizeof(double)));
 }
 
 
