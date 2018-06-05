@@ -565,6 +565,7 @@ There are several types of prefix-free representations of the code points, a pop
 <!-- (For example, the UTF-8 encoding for the "confused face" emoji 😕 is `11110000100111111001100010010101`) -->
 
 ::: {.example title="Representing objects in C (optional)" #Crepresentation}
+
 We can use programming languages to probe how our computing environment represents various values.
 This is easier to do in "unsafe" programming languages such as `C` that allow direct access to the memory.
 
@@ -575,7 +576,7 @@ A negative number is represented using the [two's complement](https://goo.gl/wov
 Strings are represented in a prefix free form by ensuring that a zero byte is at their end.
 
 
-```
+```c
 int      2          : 00000010 00000000 00000000 00000000
 int      4          : 00000100 00000000 00000000 00000000
 int      513        : 00000001 00000010 00000000 00000000
@@ -592,7 +593,7 @@ double   132.0      : 00000000 00000000 00000000 00000000 00000000 10000000 0110
 
 If you are curious, the code for this program is the following:
 
-```clang
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -664,6 +665,7 @@ int main(void) {
   return 0;
 }
 ```
+
 :::
 
 
