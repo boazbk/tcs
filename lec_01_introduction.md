@@ -1,4 +1,4 @@
-% Introduction
+% Introduction chapter
 % Boaz Barak
 
 
