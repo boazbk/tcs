@@ -564,7 +564,107 @@ Since it is a fixed-length representation it is automatically prefix free (can y
 There are several types of prefix-free representations of the code points, a popular one being [UTF-8](https://en.wikipedia.org/wiki/UTF-8) that encodes every codepoint into a string of length between $8$ and $32$.
 <!-- (For example, the UTF-8 encoding for the "confused face" emoji 😕 is `11110000100111111001100010010101`) -->
 
+::: {.example title="Representing objects in C (optional)" #Crepresentation}
+We can use programming languages to probe how our computing environment represents various values.
+This is easier to do in "unsafe" programming languages such as `C` that allow direct access to the memory.
 
+Using a simple `C` program (which you can run [here](https://repl.it/repls/FunnyTechnologicalAdministrator)) we have produced the following representations of various values.
+One can see that for integers, multiplying by 2 corresponds to a "left shift" inside each byte.
+In contrast, for floating point numbers, multiplying by two corresponds to adding one to the exponent part of the representation.
+A negative number is represented using the [two's complement](https://goo.gl/wov5fa) approach.
+Strings are represented in a prefix free form by ensuring that a zero byte is at their end.
+
+
+```
+int      2          : 00000010 00000000 00000000 00000000
+int      4          : 00000100 00000000 00000000 00000000
+int      513        : 00000001 00000010 00000000 00000000
+long     513        : 00000001 00000010 00000000 00000000 00000000 00000000 00000000 00000000
+int      -1         : 11111111 11111111 11111111 11111111
+int      -2         : 11111110 11111111 11111111 11111111
+string   Hello      : 01001000 01100101 01101100 01101100 01101111 00000000
+string   abcd       : 01100001 01100010 01100011 01100100 00000000
+float    33.0       : 00000000 00000000 00000100 01000010
+float    66.0       : 00000000 00000000 10000100 01000010
+float    132.0      : 00000000 00000000 00000100 01000011
+double   132.0      : 00000000 00000000 00000000 00000000 00000000 10000000 01100000 01000000
+```
+
+If you are curious, the code for this program is the following:
+
+```clang
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+char *bytes(void *p,int n){
+  int i;
+  int j;
+  char *a = (char *) p;
+  char *s = malloc(9*n+2);
+  s[9*n] = '\n';
+  s[9*n+1] = 0;
+
+
+  j = 0;
+  for(i=0;i< n*8;i++){
+    s[j] = a[i/8] & (128 >> (i % 8)) ? '1' : '0';
+    if (i% 8 == 7) { s[++j] = ' '; }
+    ++j;
+  }
+  return s;
+}
+
+void printint(int a) {
+  printf("%-8s %-10d : %s", "int", a, bytes(&a,sizeof(int)));
+}
+
+void printlong(long a) {
+  printf("%-8s %-10d : %s", "long", a, bytes(&a,sizeof(long)));
+}
+
+
+void printstring(char *s) {
+  printf("%-8s %-10s : %s", "string", s, bytes(s,strlen(s)+1));
+}
+
+
+void printfloat(float f) {
+  printf("%-8s %-10.1f : %s", "float", f, bytes(&f,sizeof(float)));
+}
+
+void printdouble(double f) {
+  printf("%-8s %-10.1f : %s", "double", f, bytes(&f,sizeof(double)));
+}
+
+
+
+int main(void) {
+
+  printint(2);
+  printint(4);
+  printint(513);
+  printlong(513);
+
+
+  printint(-1);
+
+  printint(-2);
+
+  printstring("Hello");
+
+  printstring("abcd");
+
+  printfloat(33);
+  printfloat(66);
+  printfloat(132);
+  printdouble(132);
+
+
+  return 0;
+}
+```
+:::
 
 
 
