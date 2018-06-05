@@ -6,7 +6,8 @@
 
 ># {.objectives  }
 * See that computation can be precisely modeled. \
-* Learn the NAND computational model, and why the specific choice of NAND is not important. \
+* Learn the computational model of _Boolean circuits_ / _straightline programs_.
+* See the NAND operation and also why the specific choice of NAND is not important. \
 * Examples of computing in the physical world. \
 * Equivalence of circuits and programs.
 
@@ -124,20 +125,23 @@ Clearly, it cannot get much more basic than these.
 However, the power of computation comes from _composing_ simple building blocks together.
 
 
-> # {.example title="Computing $XOR$ from $AND$,$OR$,$NOT$" #XORandornotexample}
+::: {.example title="Computing $XOR$ from $AND$,$OR$,$NOT$" #XORandornotexample}
 Let us see how we can obtain a different function from these building blocks:
 Define $XOR:\{0,1\}^2 \rightarrow \{0,1\}$ to be the function $XOR(a,b)= a + b \mod 2$. That is, $XOR(0,0)=XOR(1,1)=0$ and $XOR(1,0)=XOR(0,1)=1$.
 We claim that we can construct $XOR$ using only $AND$, $OR$, and $NOT$.
->
+
 Here is an algorithm to compute $XOR(a,b)$ using $AND,NOT,OR$ as basic operations:
->
+
 1. Compute $w1 = AND(a,b)$ \
 2. Compute $w2 = NOT(w1)$ \
 3. Compute $w3 = OR(a,b)$ \
 4. Output $AND(w2,w3)$ \
->
+
 We can also express this algorithm graphically, see [andornotcircxorfig](){.ref}. Such diagrams are often known as _Boolean circuits_, and each basic operation is known as a _gate_. This is a point of view that we will revisit often in this course.
->
+
+![A circuit with $AND$, $OR$ and $NOT$ gates (denoted as $\wedge,\vee,\neg$ respectively) for computing the $XOR$ function.](../figure/andornotcircforxor.png){#andornotcircxorfig  .class width=300px height=300px} \
+
+
 Last but not least, we can also express it in Python code (see below).
 
 
@@ -155,17 +159,17 @@ def XOR(a,b):
 print([f"XOR({a},{b})={XOR(a,b)}" for a in [0,1] for b in [0,1]])
 # ['XOR(0,0)=0', 'XOR(0,1)=1', 'XOR(1,0)=1', 'XOR(1,1)=0']
 ```
-
-
-![A circuit with $AND$, $OR$ and $NOT$ gates (denoted as $\wedge,\vee,\neg$ respectively) for computing the $XOR$ function.](../figure/andornotcircforxor.png){#andornotcircxorfig  .class width=300px height=300px}
-
+:::
 
 
 
-> # {.example title="Computing $XOR$ on three bits" #xorthree}
+
+
+
+::: {.example title="Computing $XOR$ on three bits" #xorthree}
 Extending the same ideas, we can use these basic operations to compute the function $XOR_3:\{0,1\}^3 \rightarrow \{0,1\}$ defined as $XOR_3(a,b,c) = a + b + c (\mod 2)$  by computing first $d=XOR(a,b)$ and then outputting $XOR(d,c)$.
 In Python this is done as follows:
->
+
 ```python
 def XOR3(a,b,c):
     w1 = AND(a,b)
@@ -180,6 +184,8 @@ def XOR3(a,b,c):
 print([f"XOR3({a},{b},{c})={XOR3(a,b,c)}" for a in [0,1] for b in [0,1] for c in [0,1]])
 # ['XOR3(0,0,0)=0', 'XOR3(0,0,1)=1', 'XOR3(0,1,0)=1', 'XOR3(0,1,1)=0', 'XOR3(1,0,0)=1', 'XOR3(1,0,1)=0', 'XOR3(1,1,0)=0', 'XOR3(1,1,1)=1']
 ```
+:::
+
 
 > # { .pause }
 Make sure you see how to generalize this and obtain a way to compute $XOR_n:\{0,1\}^n \rightarrow \{0,1\}$ for every $n$ using at most $4n$ basic steps involving applications of a function in $\{ AND, OR , NOT \}$ to omputs or previously computed values.
@@ -205,8 +211,9 @@ Once we can compute $AND$ and $NOT$, we can compute $OR$ using the so called ["D
 [univnandonethm](){.ref}'s proof is very simple, but you should make sure that __(i)__ you understand the statement of the theorem, and __(ii)__ you follow its proof completely. In particular, you should make sure you understand why De Morgan's law is true.
 
 
-> # {.remark title="Verify NAND's universality by Python (optional)" #verifynanduniversalitybyptyon}
+::: {.remark title="Verify NAND's universality by Python (optional)" #verifynanduniversalitybyptyon}
 If you are so inclined, you can also verify the proof of [univnandonethm](){.ref} by Python:
+
 ```python
 def NAND(a,b): return 1-a*b
 
@@ -216,7 +223,7 @@ def ORwithNAND(a,b):
 print([f"Test {a},{b}: {ORwithNAND(a,b)==OR(a,b)}" for a in [0,1] for b in [0,1]])
 # ['Test 0,0: True', 'Test 0,1: True', 'Test 1,0: True', 'Test 1,1: True']
 ```
-
+:::
 
 
 > # {.solvedexercise title="Compute majority with NAND" #majbynandex}
@@ -252,7 +259,8 @@ print([MAJ(a,b,c)==NAND(NAND(NAND(NAND(a,b),NAND(a,c)),NAND(NAND(a,b),NAND(a,c))
 ## Informally defining "basic operations" and "algorithms"
 
 [univnandonethm](){.ref} tells us that we can use applications of the single function $NAND$ to obtain $AND$, $OR$, $NOT$, and so by extension all the other functions that can be built up from them.
-This suggests making $NAND$ our notion of a "basic operation", and hence coming up with the following definition of an "algorithm":
+So, if we wanted to decide on a "basic operation", we might as well choose $NAND$, as we'll get "for free" the three other operations $AND$, $OR$ and $NOT$.
+This suggests  the following definition of an "algorithm":
 
 
 >__Semi-formal definition of an algorithm:__ An _algorithm_  consists of a sequence of steps of the form "store the NAND of variables `bar` and `blah` in variable `foo`".
@@ -293,7 +301,7 @@ Finally we will define _The NAND programming language_ that will be our formal m
 We have seen that using $NAND$, we can compute $AND$, $OR$, $NOT$ and $XOR$.
 But this still seems a far cry from being able to add and multiply numbers, not to mention more complex programs such as sorting and searching, solving equations, manipulating images, and so on.
 We now give a few examples demonstrating how we can use these simple operations to do some more complicated tasks.
-While we will not go as far as implementing   [Call of Duty](https://goo.gl/DdJZFF), we will at least show how we can compose $NAND$ operations to obtain tasks such as addition, multiplications, and comparisons.
+While we will not go as far as implementing   [Call of Duty](https://goo.gl/DdJZFF) using $NAND$, we will at least show how we can compose $NAND$ operations to obtain tasks such as addition, multiplications, and comparisons.
 
 ### NAND Circuits
 
