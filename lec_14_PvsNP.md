@@ -17,6 +17,8 @@
 
 >_"There should be no fear ... we will be protected by God."_, President Donald J. Trump, inauguration speech, 2017
 
+>_"You don't have to believe in God, but you should believe in The Book."_, Paul Erdős, 1985.^[Paul Erdős (1913-1996) was one of the most prolific mathematicians of all times. Though he was an atheist, Erdős often referred to "The Book" in which God keeps the most elegant proof of each mathematical theorem.]
+
 >_"No more half measures, Walter"_, Mike Ehrmantraut in "Breaking Bad", 2010.
 
 >_"The evidence in favor of  \[$\mathbf{P}\neq \mathbf{NP}$\] and \[ its algebraic counterpart \] is so overwhelming, and the consequences of their failure are so grotesque, that their status may perhaps be compared to that of physical laws rather than that of ordinary mathematical conjectures."_,  Volker Strassen, laudation for Leslie Valiant, 1986.
