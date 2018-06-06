@@ -140,7 +140,7 @@ If $y=0$ then we set $b=c$ and leave $a$ as it is.
 Since $|b-a|$ shrinks by a factor of $2$, within $\log_2 2^{T(n)}= T(n)$ steps, we will get to the point at which $b\leq a+1$, and then we can simply output $a$.
 Once we find the maximum, to obtain the "moreover" part we  use [search-dec-thm](){.ref} to find the actual $y^*$ that achieves it.
 
-> # {.remark title="Binary search example" #binarysearchrm}
+> # {.remark title="Need for binary search." #binarysearchrm}
 One example where we'd need to use the "binary search" approach of [optimizationnp](){.ref}  is for the problem of finding a maximum length path in a _weighted_ graph.
 In this case $G$ is a _weighted_ graph, and every edge of $G$ is given a weight which is a number between $0$ and $2^k$.
 [optimizationnp](){.ref} shows that we can find the maximum-weight simple path in $G$ (i.e., simple path maximizing the sum of the weights of its edges) in time polynomial in the number of vertices and in $k$.
@@ -378,7 +378,8 @@ Beyond all these, the quest to understand computational hardness $-$ including t
 This is not surprising since, as we mentioned before, from group theory to the theory of relativity, the pursuit of impossibility results has often been  one of the most fruitful enterprises of mankind.
 
 
-## Lecture summary
+
+::: { .recap }
 
 * The question of whether $\mathbf{P}=\mathbf{NP}$ is one of the most important and fascinating questions of computer science and science at large, touching on all fields of the natural and social sciences, as well as mathematics and engineering.
 
@@ -389,6 +390,9 @@ However, we have made essentially no headway in proving lower bounds for _genera
 Indeed, we currently do not even know how to rule out the possibility  that for every $n\in \N$, $SAT$ restricted to $n$-length inputs has a NAND program of $10n$ lines (even though there  _exist_  $n$-input functions that require $2^n/(10n)$ lines to compute).
 
 * Understanding how to cope with this computational intractability, and even benefit from it, comprises much of the research in theoretical computer science.
+
+:::
+
 
 ## Exercises
 
