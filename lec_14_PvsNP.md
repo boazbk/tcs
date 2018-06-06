@@ -40,7 +40,7 @@ So, as the saying goes, we'll keep an open mind, but not so open that our brains
 
 and
 
- * She does not "pussyfoot around" or take "half measures". If God  decided to make $3SAT$ easy, then $3SAT$ will have a $10^6\cdot n$ (or at worst $10^6 n^2$) -time algorithm (i.e., $3SAT$ will be in $TIME(cn)$ or $TIME(cn^2)$  for a not-too-large constant $c$). If she decided to make $3SAT$ hard, then for every $n \in \N$, $3SAT$ on $n$ variables cannot be solved by a NAND program of fewer than $2^{10^{-6}n}$ lines (which, through the relations between $SIZE(T(n))$, $TIME_{++}(T(n))$ and $TIME(T(n))$ that we've seen in [NANDpp-thm](){.ref} and [non-uniform](){.ref}, implies that $3SAT \not\in TIME(2^{o(n)})$).
+ * She does not "pussyfoot around" or take "half measures". If God  decided to make $3SAT$ _easy_, then $3SAT$ will have a $10^6\cdot n$ (or at worst $10^6 n^2$) -time algorithm (i.e., $3SAT$ will be in $TIME(cn)$ or $TIME(cn^2)$  for a not-too-large constant $c$). If she decided to make $3SAT$ _hard_, then for every $n \in \N$, $3SAT$ on $n$ variables cannot be solved by a NAND program of fewer than $2^{10^{-6}n}$ lines.^[Using the relations we've seen between $SIZE(T(n))$, $TIME_{++}(T(n))$ and $TIME(T(n))$ ( [NANDpp-thm](){.ref} and [non-uniform](){.ref} ) the latter implies that  that $3SAT \not\in TIME(2^{o(n)})$.]
 
 
 So far, most of our evidence points to the latter possibility of 3SAT being exponentially hard, but we have not ruled out the former possibility either.
