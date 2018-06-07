@@ -274,25 +274,30 @@ At the core of the $\lambda$ calculus  is a way to define "anonymous" functions.
 For example, instead of defining the squaring function as
 
 $$
-square(x) = x\cdot x
+square(x) = x\times x
 $$
 
 we write it as
 
 $$
-\lambda x. x\cdot x
+\lambda x. x\times x
 $$
 
-and so $(\lambda x.x*x)(7)=49$.
+and so $(\lambda x.x\times x)(7)=49$.
 
+::: {.remark title="Dropping parenthesis" #dropparenrem}
+To reduce notational clutter, when writing  $\lambda$ calculus expression we often drop the parenthesis for function evaluation. Hence instead of writing $f(x)$ for the result of applying the function $f$ to the input $x$, we can also write this as simply $f\; x$.
+Therefore we can write  $((\lambda x.x\times x) 7)=49$. In this chapter, we will use both the $f(x)$ and $f\; x$ notations for function application.
+:::
 
-In fact, in the $\lambda$ calculus we often denote the result of applying the function $f$ to an input $x$ as $fx$ rather than $f(x)$, and so we write $((\lambda x.x*x) 7)=49$.^[In this chapter, we will use both the $f(x)$ and $fx$ notations for function application, depending on clarity.]
-Clearly, the name of the argument doesn't matter, and so $\lambda y.y*y$ is the same as $\lambda x.x*x$.
+::: {.remark title="Renaming variables." #renamingvars}
+Clearly, the name of the argument to a function doesn't matter, and so $\lambda y.y\times y$ is the same as $\lambda x.x \times x$, as both are ways to write the squaring function.
+:::
 
 We can also apply functions on functions.
 For example, can you guess what number is the following expression equal to?
 
-$$(((\lambda f.(\lambda y.(f (f y)))) (\lambda x. x*x)) 3) \label{lambdaexampleeq}$$
+$$(((\lambda f.(\lambda y.(f \;(f\; y)))) (\lambda x. x\times x))\; 3) \label{lambdaexampleeq}$$
 
 ::: { .pause }
 The expression [lambdaexampleeq](){.eqref} might seem daunting, but before you look at the solution below, try to break it apart to its components, and evaluate each component at a time.
@@ -304,14 +309,14 @@ Working out this example would go a long way toward understanding the $\lambda$ 
 To understand better the $\lambda$ calculus. Let's evaluate [lambdaexampleeq](){.eqref}, one step at a time.
 As nice as it is for the $\lambda$ calculus to allow us anonymous functions, for complicated expressions adding names can be very helpful for understanding.
 So, let us write $F = \lambda f.(\lambda y.(f (f y)))$ and
-$g = \lambda x.x* x$.
+$g = \lambda x.x\times  x$.
 
 Therefore [lambdaexampleeq](){.eqref} becomes
 $$
-((F g) 3) \;.
+((F \; g)\;  3) \;.
 $$
 
-On input a function $f$, $F$ outputs the function $\lambda y.(f (f y))$, which in more standard notation is the mapping $y \mapsto f(f(y))$.
+On input a function $f$, $F$ outputs the function $\lambda y.(f (f\; y))$, which in more standard notation is the mapping $y \mapsto f(f(y))$.
 Our function $g$ is simply $g(x)=x^2$ and so $(F g)$ is the function that maps $y$ to $(y^2)^2$ or in other words to $y^4$.
 Hence $((F g) 3) = 3^4 = 81$.
 :::
@@ -328,7 +333,7 @@ maps $x$ to the function $y \mapsto x+y$.
 
 In particular, if we invoke this function on $a$ and then invoke the result on $b$ then we get $a+b$.
 We can use this approach to achieve the effect of functions with more than one input and so we will use the shorthand $\lambda x,y. e$ for $\lambda x. (\lambda y. e)$.
-Similarly, we will use $f(x,y,z)$ as shorthand for $(((f x) y) z)$ or equivalently (since function application will associate left to right)  $fxyz$.^[This technique of simulating multiple-input functions with single-input functions is known as [Currying](https://en.wikipedia.org/wiki/Currying) and is named after the logician [Haskell Curry](https://goo.gl/C9hKz1). Curry himself attributed this concept to [Moses Schönfinkel](https://goo.gl/qJqd47), though for some reason the term "Schönfinkeling" never caught on..]
+Similarly, we will use $f(x,y,z)$ as shorthand for $(((f \; x) \; y) \;  z)$ or equivalently (since function application will associate left to right)  $fxyz$.^[This technique of simulating multiple-input functions with single-input functions is known as [Currying](https://en.wikipedia.org/wiki/Currying) and is named after the logician [Haskell Curry](https://goo.gl/C9hKz1). Curry himself attributed this concept to [Moses Schönfinkel](https://goo.gl/qJqd47), though for some reason the term "Schönfinkeling" never caught on..]
 :::
 
 ![In the "currying" transformation, we can create the effect of a two parameter function $f(x,y)$ with the $\lambda$ expression $\lambda x.(\lambda y. f(x,y))$ which on input $x$ outputs a one-parameter function $f_x$ that has $x$ "hardwired" into it and such that $f_x(y)=f(x,y)$. This can be illustrated by a circuit diagram; see [Chelsea Voss's site](https://tromp.github.io/cl/diagrams.html).](../figure/currying.png){#currying .class width=300px height=300px}
@@ -337,24 +342,24 @@ Similarly, we will use $f(x,y,z)$ as shorthand for $(((f x) y) z)$ or equivalent
 ::: {.example title="Simplfying a $\lambda$ expression" #lambdaexptwo}
 Here is another example of a $\lambda$ expression:
 
-$$((\lambda x.(\lambda y.x)) 2) 9) \;. \label{lambdaexptwo}$$
+$$((\lambda x.(\lambda y.x)) \; 2)\; 9) \;. \label{lambdaexptwo}$$
 
 Let us denote $(\lambda y.x)$ by $F$. Then [lambdaexptwo](){.eqref} has the form
 
-$$((\lambda x. F) 2) 9)$$
+$$((\lambda x. F) \; 2) \; 9)$$
 
 Now $(\lambda x.F) 2$ is equal to $F[x \rightarrow 2]$.
-Since $F$ is $\lambda y.x$ this means that this is the function $|\lambda y.2$ that ignores its input and outputs $2$ no matter what it is equal to.
+Since $F$ is $\lambda y.x$ this means that $(\lambda x.F) 2$ is the function $\lambda y.2$ that ignores its input and outputs $2$ no matter what it is equal to.
 Hence [lambdaexptwo](){.eqref}  is equivalent to $(\lambda y. 2) 9$ which is the result of applying the function $y \mapsto 2$ on the input $9$, which is simply the number $2$.
 :::
 
 ### Formal description of the λ calculus.
 
-In the $\lambda$ calculus we start with some "basic expressions" such as $x$ or $y$ and build more complex expression using two rules:
+In the $\lambda$ calculus we start with  "basic expressions" that contain a single variable such as $x$ or $y$ and build more complex expressions using the following two rules:
 
-* __Application:__ If $exp$ and $exp'$ are $\lambda$ expressions, then the $\lambda$ expression $(exp exp')$ corresponds to applying the function described by $exp$ to the input $exp'$.
+* __Application:__ If $exp$ and $exp'$ are $\lambda$ expressions, then the $\lambda$ expression $(exp\; exp')$ corresponds to applying the function described by $exp$ to the input $exp'$.
 
-* __Abstraction:__ If $exp$ is a  $\lambda$ expression and $x$ is a variable, then the $\lambda$ expression $\lambda x.(exp)$  corresponds to the function that on any input $z$ returns the expression $exp[x \rightarrow z]$ replacing all (free) occurrences of $x$ in $exp$.^[Strictly speaking we should replace only the _free_ and not the ones that are _bound_ by some other $\lambda$ operator. For example, if we have the $\lambda$ expression $\lambda x.(\lambda x. x+1)(x)$ and invoke it on the number $7$ then we get $(\lambda x.x+1)(7)=8$ and not the nonsensical expression $(\lambda 7.7+1)(7)$. To avoid such annoyances, we can always ensure that every instance of $\lambda var.e$ uses a unique variable identifier $var$. See  [boundvarsec](){.ref} for more discussion on bound and free variables.]
+* __Abstraction:__ If $exp$ is a  $\lambda$ expression and $x$ is a variable, then the $\lambda$ expression $\lambda x.(exp)$  corresponds to the function that on any input $z$ returns the expression $exp[x \rightarrow z]$ replacing all (free) occurrences of $x$ in $exp$.^[Strictly speaking we should replace only the _free_ and not the ones that are _bound_ by some other $\lambda$ operator. For example, if we have the $\lambda$ expression $\lambda x.(\lambda x. x+1)(x)$ and invoke it on the number $7$ then we get $(\lambda x.x+1)(7)=8$ and not the nonsensical expression $(\lambda 7.7+1)(7)$. To avoid such annoyances, we can adopt the convention that every  instance of $\lambda var.e$ uses a unique variable identifier $var$. See  [boundvarsec](){.ref} for more discussion on bound and free variables.]
 
 We can now formally define $\lambda$ expressions:
 
@@ -372,7 +377,7 @@ Function application has a higher precedence than the $\lambda$ operator, and so
 
 This is similar to how we use the precedence rules in arithmetic operations to allow us to use fewer parenthesis and so write the expression $(7 \times 3) + 2$ as $7\times 3 + 2$.
 
-As mentioned in [curryingrem](){.ref}, we also use the shorthand $\lambda x,y.e$ for $\lambda x.(\lambda y.e)$. This plays nicely with the "Currying" transformation
+As mentioned in [curryingrem](){.ref}, we also use the shorthand $\lambda x,y.e$ for $\lambda x.(\lambda y.e)$ and the shorthand $f(x,y)$ for $(f\; x)\; y$. This plays nicely with the "Currying" transformation of simulating multi-input functions using $\lambda$ expressions.
 :::
 
 
@@ -382,11 +387,11 @@ Another rule that we can use is that the parameter does not matter and hence for
 Together these rules define the notion of _equivalence_ of $\lambda$ expressions:
 
 ::: {.definition title="Equivalence of $\lambda$ expressions" #lambdaequivalence}
-Two $\lambda$ expressions are _equivalent_ if they can be made into the same expression by repeated applications of the following rules:
+Two $\lambda$ expressions are _equivalent_ if they can be made into the same expression by repeated applications of the following rules:^[These two rules are commonly known as "$\beta$ reduction" and "$\alpha$ conversion" in the literature on the $\lambda$ calculus.]
 
-1. __Evaluation:__ The expression $(\lambda x.exp) exp'$ is equivalent to $exp[x \rightarrow exp']$.
+1. __Evaluation (aka $\beta$ reduction):__ The expression $(\lambda x.exp) exp'$ is equivalent to $exp[x \rightarrow exp']$.
 
-2. __Variable renaming:__ The expression $\lambda x.exp$ is equivalent to $\lambda y.exp[x \rightarrow y]$.
+2. __Variable renaming (aka $\alpha$ conversion):__ The expression $\lambda x.exp$ is equivalent to $\lambda y.exp[x \rightarrow y]$.
 :::
 
 If $exp$ is a $\lambda$ expression of the form $\lambda x.exp'$ then it naturally corresponds to the function that maps any input $z$ to $exp'[x \rightarrow z]$.
@@ -413,8 +418,8 @@ Hence we will use "call by name" henceforth.^["Call by value" is also sometimes 
 
 The key property of the $\lambda$ calculus (and functional languages in general) is that functions are "first-class citizens" in the sense that they can be used as parameters and return values of other functions.
 Thus, we can invoke one $\lambda$ expression on another.
-For example if  $DOUBLE$ is the $\lambda$ expression $\lambda f.(\lambda x. f(fx))$, then for every function $f$, $DOUBLE f$ corresponds to the function that invokes $f$ twice on $x$ (i.e., first computes $fx$ and then invokes $f$ on the result).
-In particular, if  $f=\lambda y.(y+1)$ then  $DOUBLE f = \lambda x.(x+2)$.
+For example if  $DOUBLE$ is the $\lambda$ expression $\lambda f.(\lambda x. f(fx))$, then for every function $f$, $DOUBLE\; f$ corresponds to the function that invokes $f$ twice on $x$ (i.e., first computes $fx$ and then invokes $f$ on the result).
+In particular, if  $f=\lambda y.(y+1)$ then  $DOUBLE\; f = \lambda x.(x+2)$.
 
 ::: {.remark title="(Lack of) types" #untypedrem}
 Unlike most programming languages, the pure $\lambda$-calculus doesn't have the notion of _types_.
@@ -470,24 +475,24 @@ XOR_2(HEAD(L),XOR(TAIL(L))) & \text{otherwise}
 \end{cases}
 $$
 
-This means that we can write $XOR$ as
+This means that  $XOR$ is equal to
 
 $$
-RECURSE (\lambda me,L. IF(ISEMPTY(L),0,XOR_2(HEAD(L),me(TAIL(L))))) \;.
+RECURSE \;  \bigl(\lambda me,L. IF(ISEMPTY(L),0,XOR_2(HEAD\;L\;\;,\;\;me(TAIL \; L)))\bigr) \;.
 $$
 
-(Can you see why?)
+That is, $XOR$ is obtained by applying the $RECURSE$ operator to the function that on inputs $me$, $L$, returns $0$ if $ISEMPTY(L)$ and otherwise returns $XOR_2$ applied to $HEAD(L)$ and to $me(TAIL(L))$.
 :::
 
 ::: {.solvedexercise title="Compute NAND using λ calculus" #NANDlambdaex}
-Give a λ expression $n$ such that  $nxy = NAND(x,y)$ for every $x,y \in \{0,1\}$.
+Give a λ expression $N$ such that  $N\;x\;y = NAND(x,y)$ for every $x,y \in \{0,1\}$.
 :::
 
 ::: {.solution data-ref="NANDlambdaex"}
 This can be done in a similar way to how we computed $XOR_2$. The $NAND$ of $x,y$ is equal to $1$ unless $x=y=1$. Hence we can write
 
 $$
-n = \lambda x,y.IF(x,IF(y,1,0),0)
+N = \lambda x,y.IF(x,IF(y,1,0),0)
 $$
 :::
 
@@ -499,9 +504,9 @@ An _enhanced $\lambda$ expression_ is obtained by composing the objects above wi
 We can now define the notion of computing a function using the $\lambda$ calculus.
 We will define the _simplification_ of a $\lambda$ expression as the following recursive process:
 
-1. If the expression has the form $(exp_L exp_R)$ then replace the expression with $exp'_L[x \rightarrow L]$.
+1. _(Evaluation / $\beta$ reduction.)_ If the expression has the form $(exp_L exp_R)$ then replace the expression with $exp'_L[x \rightarrow L]$.
 
-2. When we cannot simplify any further, rename the variables so that the first bound variable in the expression is $v_0$, the second one is $v_1$, and so on and so forth.
+2. _(Renaming / $\alpha$ conversion.)_ When we cannot simplify any further, rename the variables so that the first bound variable in the expression is $v_0$, the second one is $v_1$, and so on and so forth.
 
 ::: { .pause }
 Please make sure you understand why this recursive procedure simply corresponds to the "call by name" evaluation strategy.
@@ -571,7 +576,7 @@ where $loop(\sigma')$ simply denotes extracting the contents of the variable $lo
 We can write it as the λ expression
 
 $$
-RECURSE \lambda m,\sigma. IF(loop(NEXT_P \sigma),m(NEXT_P \sigma),NEXT_P \sigma)
+RECURSE \; \bigl(\lambda m,\sigma. IF(loop(NEXT_P \sigma)\;,\; m(NEXT_P \sigma)\;,\;NEXT_P \sigma) \bigr)
 $$
 
 Given $SIM_P$, we can compute the function computed by $P$ by  writing expressions for encoding the input as the initial state, and decoding the output from the final state.
@@ -599,16 +604,16 @@ That subset is the empty set.
 That is, we can implement _all_ the operations above using the $\lambda$ formalism only, even without using $0$'s and $1$'s.
 It's $\lambda$'s all the way down!
 The idea is that we encode $0$ and $1$  themselves as $\lambda$ expressions, and build things up from there.
-This notion is known as [Church encoding](https://en.wikipedia.org/wiki/Church_encoding), as was originated by Church in his effort to show that the $\lambda$ calculus can be a basis for all computation.
+This notion is known as [Church encoding](https://goo.gl/QZKM9M), as it was originated by Church in his effort to show that the $\lambda$ calculus can be a basis for all computation.
 
 > # {.theorem title="Enhanced λ calculus equivalent to pure λ calculus." #enhancedvanillalambdathm}
 There are λ expressions that implement the functions $0$,$1$,$IF$,$PAIR$, $HEAD$, $TAIL$, $NIL$, $ISEMPTY$, $MAP$, $REDUCE$, and $RECURSE$.
 
 We will not write the full formal proof of [enhancedvanillalambdathm](){.ref} but outline  the ideas involved in it:
 
-* We define $0$ to be the function that on two inputs $x,y$ outputs $y$, and $1$ to be the function that on two inputs $x,y$ outputs $x$. Of course we use Currying to achieve the effect of two inputs and hence $0 = \lambda x. \lambda y.y$ and $1 = \lambda x.\lambda y.x$.^[We could of course have flipped the definitions of $0$ and $1$, but we use the above because it is the common convention in the $\lambda$ calculus, where people think of $0$ and $1$ as "false" and "true".]
+* We define $0$ to be the function that on two inputs $x,y$ outputs $y$, and $1$ to be the function that on two inputs $x,y$ outputs $x$. Of course we use Currying to achieve the effect of two inputs and hence $0 = \lambda x. \lambda y.y$ and $1 = \lambda x.\lambda y.x$.^[This representation scheme is the common convention but  there are many other alternative representations for $0$ and $1$ that would have worked just as well.]
 
-* The above implementation makes the $IF$ function trivial: $IF(cond,a,b)$ is simply $cond \; a\; b$ since $0ab = b$ and $1ab = a$. (We can write $IF = \lambda x.x$ to achieve $IF \; cond \; a \; b = cond \; a \; b$.)
+* The above implementation makes the $IF$ function trivial: $IF(cond,a,b)$ is simply $cond \; a\; b$ since $0ab = b$ and $1ab = a$. We can write $IF = \lambda x.x$ to achieve $IF(cond,a,b) = (((IF cond) a) b) =  cond \; a \; b$.
 
 * To encode a pair $(x,y)$ we will produce a function $f_{x,y}$ that has $x$ and $y$ "in its belly" and such that $f_{x,y}g = g x y$ for every function $g$. That is, we write $PAIR = \lambda x,y. \lambda g. gxy$. Note that now we can extract the first element of a pair $p$ by writing $p1$ and the second element by writing $p0$, and so $HEAD = \lambda p. p1$ and $TAIL = \lambda p. p0$.
 
@@ -624,8 +629,9 @@ the number $3$ as $\lambda f.(\lambda x.f(f(fx)))$, and so on and so forth. (Not
 The number $0$ is represented by the function that maps any function $f$ to the identity function $\lambda x.x$.
 (That is, $0 = \lambda f.(\lambda x.x)$.)
 
-In this representation, we can compute $PLUS(n,m)$ as $\lambda f.\lambda x.(n f)((m f)x)$ and $TIMES(n,m)$ as $\lambda f.n(m f)$.
+In this representation, we can compute $PLUS(n,m)$ as $\lambda f.\lambda x.(n f)((m f)x)$ and $TIMES(n,m)$ as $\lambda f.n(m f)$. Subtraction and division are trickier, but can be achieved using recursion. (Working this out  is a great exercise.)
 :::
+
 ### List processing
 
 Now we come to the big hurdle, which is how to implement $MAP$, $FILTER$, and $REDUCE$ in the $\lambda$ calculus.
@@ -743,7 +749,7 @@ RECURSE =  \lambda f.\bigl( (\lambda m. f(m\; m))\;\; (\lambda m. f(m \;m)) \big
 $$
 
 The [online appendix](https://github.com/boazbk/nandnotebooks/blob/master/lambda.ipynb) contains  an implementation of the λ calculus using Python.
-Here is an implementation of the recursive  XOR function from that appendix:^[In this implementation we use `f * g` for applying `f` to `g` rather than `fg`. We also use `_0` and `_1` for the λ terms for $0$ and $1$ so as not to confuse with the Python constants.]
+Here is an implementation of the recursive  XOR function from that appendix:^[Because of specific issues of Python syntax, in this implementation we use `f * g` for applying `f` to `g` rather than `fg`, and use `λx(exp)` rather than `λx.exp` for abstraction. We also use `_0` and `_1` for the λ terms for $0$ and $1$ so as not to confuse with the Python constants.]
 
 ```python
 # XOR of two bits
@@ -766,8 +772,6 @@ XOR(PAIR(_1,NIL)) # List [1]
 XOR(PAIR(_1,PAIR(_0,PAIR(_1,NIL)))) # List [1,0,1]
 # equals 0
 ```
-
-In this implementation, we also use `*` to denote function application (and so `f(m * m)` corresponds to $f(m m)$  above). We also avoid  and don't use the `.` notation but rather only parenthesis to d)
 
 
 ::: {.remark title="The Y combinator" #Ycombinator}
