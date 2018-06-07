@@ -203,7 +203,7 @@ It turns out that a  similar idea as Karatsuba's can be used to speed up _matrix
 Matrices are a powerful way to represent linear equations and operations, widely used in a great many applications of scientific computing, graphics, machine learning, and many many more.
 >
 One of the basic operations one can do with two matrices is to _multiply_ them.
-For example, if $x =  \left( \begin{smallmatrix} x_{0,0} & x_{0,1}\\ x_{1,0}& x_{1,1} \end{smallmatrix} \right)$ and $y =  \left( \begin{smallmatrix} y_{0,0} & y_{0,1}\\ y_{1,0}& y_{1,1} \end{smallmatrix} \right)$ then the product of $x$ and $y$ is the matrix $\left( \begin{smallmatrix} x_{0,0}y_{0,0} + x_{0,1}y_{1,01} & x_{0,0}y_{1,0} + x_{0,1}y_{1,1}\\ x_{1,0}y_{0,0}+x_{1,1}y_{1,0}  & x_{1,0}y_{0,1}+x_{1,1}y_{1,1} \end{smallmatrix} \right)$.
+For example, if $x =   \begin{pmatrix} x_{0,0} & x_{0,1}\\ x_{1,0}& x_{1,1} \end{pmatrix}$ and $y =  \begin{pmatrix} y_{0,0} & y_{0,1}\\ y_{1,0}& y_{1,1} \end{pmatrix}$ then the product of $x$ and $y$ is the matrix $\begin{pmatrix} x_{0,0}y_{0,0} + x_{0,1}y_{1,01} & x_{0,0}y_{1,0} + x_{0,1}y_{1,1}\\ x_{1,0}y_{0,0}+x_{1,1}y_{1,0}  & x_{1,0}y_{0,1}+x_{1,1}y_{1,1} \end{pmatrix}$.
 You can see that we can compute this matrix by _eight_ products of numbers.
 >
 Now suppose that $n$ is even and $x$ and $y$ are a pair of  $n\times n$ matrices which we can think of as each composed of four $(n/2)\times (n/2)$ blocks $x_{0,0},x_{0,1},x_{1,0},x_{1,1}$ and $y_{0,0},y_{0,1},y_{1,0},y_{1,1}$.
@@ -211,7 +211,7 @@ Then the formula for the matrix product of $x$ and $y$ can be expressed in the s
 This means that we can use the formula above to give an algorithm that _doubles_ the dimension of the matrices at the expense of increasing the number of operation by a factor of $8$, which for $n=2^\ell$ will result in $8^\ell = n^3$ operations.
 >
 In 1969 Volker Strassen noted that we can compute the product of a pair of two by two matrices  using only _seven_ products of numbers by observing that each entry of the matrix $xy$ can be computed by adding and subtracting the following seven terms: $t_1 = (x_{0,0}+x_{1,1})(y_{0,0}+y_{1,1})$, $t_2 = (x_{0,0}+x_{1,1})y_{0,0}$, $t_3 = x_{0,0}(y_{0,1}-y_{1,1})$, $t_4 = x_{1,1}(y_{0,1}-y_{0,0})$, $t_5 = (x_{0,0}+x_{0,1})y_{1,1}$, $t_6 = (x_{1,0}-x_{0,0})(y_{0,0}+y_{0,1})$, $t_7 = (x_{0,1}-x_{1,1})(y_{1,0}+y_{1,1})$.
-Indeed, one can verify that $xy = \left(\begin{smallmatrix}   t_1 + t_4 - t_5 + t_7 & t_3 + t_5 \\ t_2 +t_4 & t_1 + t_3 - t_2 + t_6 \end{smallmatrix}\right)$.
+Indeed, one can verify that $xy = \left(\begin{pmatrix}   t_1 + t_4 - t_5 + t_7 & t_3 + t_5 \\ t_2 +t_4 & t_1 + t_3 - t_2 + t_6 \end{pmatrix}\right)$.
 This implies an algorithm with factor $7$ increased cost for doubling the dimension, which means that for $n=2^\ell$ the cost is $7^\ell = n^{\log_2 7} \sim n^{2.807}$.
 A long sequence of works has since improved this algorithm, and the [current record](https://en.wikipedia.org/wiki/Matrix_multiplication_algorithm#Sub-cubic_algorithms) has running time about $O(n^{2.373})$.
 Unlike the case of integer multiplication, at the moment we don't know of a nearly linear in the matrix size (i.e., an $O(n^2 polylog(n))$ time) algorithm for matrix multiplication.
