@@ -2,7 +2,7 @@
 % Boaz Barak
 
 
-# Universality and uncomputability? {#chapcomputable }
+# Universality and uncomputability {#chapcomputable }
 
 > # { .objectives }
 * The universal machine/program - "one program to rule them all"
