@@ -1132,6 +1132,12 @@ Let $P$ be a NAND++ program. Prove that there exists a NAND++ program $P'$ equiv
 :::
 
 
+> # {.exercise title="Single vs multiple bit" #singlebit-ex}
+Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}^*$, the function $F$ is computable if and only if the following function $G:\{0,1\}^* \rightarrow \{0,1\}$ is computable, where $G$ is defined as follows:
+$G(x,i,\sigma) = \begin{cases} F(x)_i & i < |F(x)|, \sigma =0 \\ 1 & i < |F(x)|, \sigma = 1 \\ 0 & i \geq |F(x)| \end{cases}$
+
+
+
 
 ## Bibliographical notes
 
