@@ -327,6 +327,75 @@ The one silver lining is that at the end of the day the notion of reductions is 
 
 ^[TODO: clean up this figure]
 
+
+### Direct  proof of the uncomputability of $HALT$
+
+It turns out that we can combine the ideas of the proofs of [uncomputable-func](){.ref}  and [halt-thm](){.ref} to obtain a short proof of the latter theorem, that does not appeal to the uncomputability of $F^*$.
+This short proof appeared in print in a 1965 letter to the editor of Christopher Strachey:^[Christopher Strachey was an English computer scientist and the inventor of the CPL programming language. He was also an early artificial intelligence visionary, programming a computer to play Checkers and even write love letters in the early 1950's, see [this New Yorker article](https://www.newyorker.com/tech/elements/christopher-stracheys-nineteen-fifties-love-machine).]
+
+
+>To the Editor, The Computer Journal.
+>
+>An Impossible Program
+>
+>Sir,
+>
+>A well-known piece of folk-lore among programmers holds that it is impossible to write a program which can examine any other program and tell, in every case, if it will terminate or get into a closed loop when it is run. I have never actually seen a proof of this in print, and though Alan Turing once gave me a verbal proof (in a railway carriage on the way to a Conference at the NPL in 1953), I unfortunately and promptly forgot the details. This left me with an uneasy feeling that the proof must be long or complicated, but in fact it is so short and simple that it may be of interest to casual readers. The version below uses CPL, but not in any essential way.
+>
+>Suppose `T[R]`` is a Boolean function taking a routine (or program) `R` with no formal or free variables as its arguments and that for all `R`, `T[R] = True` if `R` terminates if run and that `T[R] = False` if `R` does not terminate.
+>
+>Consider the routine P defined as follows
+>
+>`  rec routine P`
+>`  §L: if T[P] go to L`
+>`  Return §|`
+>
+>If `T[P] = True` the routine `P` will loop, and it will only terminate if `T[P] = False`. In each case `T[P]`` has exactly the wrong value, and this contradiction shows that the function T cannot exist.
+>
+>Churchill College,	Yours faithfully, \
+>Cambridge	C. Strachey
+
+::: { .pause }
+Try to stop and extract the  argument for proving [halt-thm](){.ref} from the letter above.
+:::
+
+Since CPL is not as common today, let us reproduce this proof.
+The idea is the following: suppose for the sake of contradiction that there exists a program `T` such that `T(f,x)` equals `True` iff `f` halts on input `x`.^[Strachey's letter considers  the no-input variant of $HALT$, but as we'll see, this is an immaterial distinction.]
+Then we can construct a program `P` and an input `x` such that `T(P,x)` gives the wrong answer.
+The idea is that on input `x`, the program `P` will do the following: run `T(x,x)`, and if the answer is `True` then go into an infinite loop, and otherwise halt.
+Now you can see that `T(P,P)` will give the wrong answer: if `P` halts when it gets its own code as input, then `T(P,P)` is supposed to be `True`, but then `P(P)` will go into an infinite loop. And if `P` does not halt, then `T(P,P)` is supposed to be `False` but then `P(P)` will halt.
+We can also code this up in Python:
+
+```python
+def CantSolveMe(T):
+    """
+    Gets function T that claims to solve HALT.
+    Returns a pair (P,x) of code and input on which
+    T(P,x) ≠ HALT(x)
+    """
+    def fool(x):
+        if T(x,x):
+            while True: pass
+        return "I halted"
+
+    return (fool,fool)
+```
+
+For example, consider the following Naive Python program `T` that guesses that a given function does not halt if its input contains `while` or `for`
+
+```python
+def T(f,x):
+    """Crude halting tester - decides it doesn't halt if it contains a loop."""
+    import inspect
+    source = inspect.getsource(f)
+    if source.find("while"): return False
+    if source.find("for"): return False
+    return True
+```
+
+If we now set `(f,x) = CantSolveMe(T)`, then `T(f,x)=False` but `f(x)` does in fact halt. This is of course not specific to this particular `T`: for every program `T`, if we run `(f,x) = CantSolveMe(T)` then we'll get an input on which `T` gives the wrong answer to $HALT$.
+
+
 ## Impossibility of general software verification
 
 
@@ -503,10 +572,6 @@ Moreover, even phrasing the right theorem to prove (i.e., the specification) if 
 
 ## Exercises
 
-> # {.exercise title="Halting problem" #halting-alt-ex}
-Give an alternative, more direct, proof for the uncomputability of the Halting problem.
-Let us define $H:\{0,1\}^* \rightarrow \{0,1\}$ to be the function such that $H(P)=1$ if, when we interpret $P$ as a program, then $H(P)$ equals $1$ if  $P(P)$ halts (i.e., invoke $P$ on its own string representation) and $H(P)$ equals $0$ otherwise.
-Prove that  there no  program $P^*$ that computes $H$, by building from such a supposed $P^*$ a program $Q$ such  that, under the assumption that $P^*$ computes $H$, $Q(Q)$ halts if and only if it does not halt.^[__Hint:__ See Christopher Strachey's letter in the biographical notes.]
 
 
 > # {.exercise #salil-ex}
@@ -521,8 +586,6 @@ For each of the following two functions, say whether it is decidable (computable
 
 ## Bibliographical notes
 
-^[TODO:  Add letter of Christopher Strachey to the editor of The Computer Journal.
-Explain right order of historical achievements.
 Talk about intuitionistic, logicist, and formalist approaches for the foundations of mathematics.
 Perhaps analogy to veganism.
 State the full Rice's Theorem and say that it follows from the same proof as in the exercise.]
