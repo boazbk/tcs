@@ -331,7 +331,7 @@ The one silver lining is that at the end of the day the notion of reductions is 
 ### Direct  proof of the uncomputability of $HALT$
 
 It turns out that we can combine the ideas of the proofs of [uncomputable-func](){.ref}  and [halt-thm](){.ref} to obtain a short proof of the latter theorem, that does not appeal to the uncomputability of $F^*$.
-This short proof appeared in print in a 1965 letter to the editor of Christopher Strachey:^[Christopher Strachey was an English computer scientist and the inventor of the CPL programming language. He was also an early artificial intelligence visionary, programming a computer to play Checkers and even write love letters in the early 1950's, see [this New Yorker article](https://www.newyorker.com/tech/elements/christopher-stracheys-nineteen-fifties-love-machine).]
+This short proof appeared in print in a 1965 letter to the editor of Christopher Strachey:^[Christopher Strachey was an English computer scientist and the inventor of the CPL programming language. He was also an early artificial intelligence visionary, programming a computer to play Checkers and even write love letters in the early 1950's, see [this New Yorker article](https://www.newyorker.com/tech/elements/christopher-stracheys-nineteen-fifties-love-machine) and [this website](http://www.alpha60.de/art/love_letters/).]
 
 
 >To the Editor, The Computer Journal.
@@ -352,8 +352,11 @@ This short proof appeared in print in a 1965 letter to the editor of Christopher
 >
 >If `T[P] = True` the routine `P` will loop, and it will only terminate if `T[P] = False`. In each case `T[P]`` has exactly the wrong value, and this contradiction shows that the function T cannot exist.
 >
->Churchill College,	Yours faithfully, \
->Cambridge	C. Strachey
+>Yours faithfully, \
+>C. Strachey
+>
+>Churchill College,
+>Cambridge
 
 ::: { .pause }
 Try to stop and extract the  argument for proving [halt-thm](){.ref} from the letter above.
@@ -459,15 +462,19 @@ Given a program $P$, Algorithm $B$ will construct the following program $P'$: on
 >
 Now if $P$ halts on $0$ then $P'(x)=0$ for every $x$, but if $P$ does not halt on $0$ then $P'$ will never halt on every input and in particular will not compute $ZEROFUNC$. Hence, $ZEROFUNC(P')=1$ if and only if $HALTONZERO(P)=1$. Thus if we  define algorithm  $B$ as $B(P)=A(P')$ (where a program $P$ is mapped to $P'$ as above) then we see that if $A$ computes $ZEROFUNC$ then $B$ computes $HALTONZERO$, contradicting [haltonzero-thm](){.ref} .
 
-We can simply prove the following:
+Another result along similar lines is the following:
 
-> # {.theorem title="Uncomputability of verifying parity" #spec-thm}
+
+> # {.theorem title="Uncomputability of verifying parity" #paritythm}
 The following function is uncomputable
 $$
 COMPUTES\text{-}PARITY(P) = \begin{cases} 1 & P \text{ computes the parity function } \\ 0 & \text{otherwise} \end{cases}
 $$
 
-We leave the proof of [spec-thm](){.ref} as an exercise.
+::: { .pause }
+We leave the proof of [paritythm](){.ref} as an exercise ([paritythmex](){.ref}).
+I strongly encourage you to stop here and try to solve this exercise.
+:::
 
 
 ### Rice's Theorem
@@ -571,6 +578,11 @@ Moreover, even phrasing the right theorem to prove (i.e., the specification) if 
 :::
 
 ## Exercises
+
+
+::: {.exercise title="Computing parity" #paritythmex}
+Prove [paritythm](){.ref} without using  Rice's Theorem.
+:::
 
 
 
