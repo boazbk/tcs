@@ -342,13 +342,13 @@ This short proof appeared in print in a 1965 letter to the editor of Christopher
 >
 >A well-known piece of folk-lore among programmers holds that it is impossible to write a program which can examine any other program and tell, in every case, if it will terminate or get into a closed loop when it is run. I have never actually seen a proof of this in print, and though Alan Turing once gave me a verbal proof (in a railway carriage on the way to a Conference at the NPL in 1953), I unfortunately and promptly forgot the details. This left me with an uneasy feeling that the proof must be long or complicated, but in fact it is so short and simple that it may be of interest to casual readers. The version below uses CPL, but not in any essential way.
 >
->Suppose `T[R]`` is a Boolean function taking a routine (or program) `R` with no formal or free variables as its arguments and that for all `R`, `T[R] = True` if `R` terminates if run and that `T[R] = False` if `R` does not terminate.
+>Suppose `T[R]` is a Boolean function taking a routine (or program) `R` with no formal or free variables as its arguments and that for all `R`, `T[R] = True` if `R` terminates if run and that `T[R] = False` if `R` does not terminate.
 >
 >Consider the routine P defined as follows
 >
->`  rec routine P`
->`  §L: if T[P] go to L`
->`  Return §|`
+>`  rec routine P` \
+>`  §L: if T[P] go to L` \
+>`  Return §`
 >
 >If `T[P] = True` the routine `P` will loop, and it will only terminate if `T[P] = False`. In each case `T[P]`` has exactly the wrong value, and this contradiction shows that the function T cannot exist.
 >
@@ -585,6 +585,9 @@ For each of the following two functions, say whether it is decidable (computable
 
 
 ## Bibliographical notes
+
+The universal program and uncomputability of $HALT$ was first shown by Turing in 1937, though closely related results were shown by Church a year before.
+These works built on Gödel's 1931 _incompleteness theorem_ that we will discuss in [godelchap](){.ref}.
 
 Talk about intuitionistic, logicist, and formalist approaches for the foundations of mathematics.
 Perhaps analogy to veganism.
