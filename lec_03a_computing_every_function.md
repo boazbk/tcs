@@ -719,6 +719,26 @@ A NAND program $P$ can only compute a function with a certain number $n$ of inpu
 >
 If $T:\N \rightarrow \N$ and $F:\{0,1\}^* \rightarrow \{0,1\}^*$, we will sometimes slightly abuse notation and write $F \in SIZE(T(n))$ to indicate that for every $n$ the restriction $F_n$ of $F$ to inputs in $\{0,1\}^n$ is in $SIZE(T(n))$. Hence we can write $INC \in SIZE(10n)$. We will come back to this issue of finite vs infinite functions later in this course.
 
+::: {.solvedexercise title="$SIZE$ closed under complement." #sizeclosundercomp}
+In this exercise we prove a certain "closure property" of the class $SIZE(T(n))$.
+That is, we show that if $f$ is in this class then (up to some small additive term) so is the complement of $f$, which is the function $g(x)=1-f(x)$.
+
+Prove that there is a constant $c$ such that for every $f:\{0,1\}^n \rightarrow \{0,1\}$ and $s\in \N$, if $f \in SIZE(s)$  then $1-f \in SIZE(s+c)$.
+:::
+
+::: {.solution data-ref="sizeclosundercomp"}
+If $f\in SIZE(s)$ then there is an $s$-line program $P$ that computes $f$.
+We can rename the variable `Y[0]` in $P$ to a unique variable `unique_temp` and add the line
+
+```python
+Y[0] = NAND(unique_temp,unique_temp)
+```
+
+at the very end to obtain a program $P'$ that computes $1-f$.
+:::
+
+
+
 > # { .recap }
 * We can define the notion of computing a function via a simplified "programming language", where computing a function $F$ in $T$ steps would correspond to having a $T$-line NAND program that computes $F$.
 * While the NAND programming only has one operation, other operations such as functions and conditional execution can be implemented using it.

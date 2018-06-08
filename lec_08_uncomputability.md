@@ -328,7 +328,7 @@ The one silver lining is that at the end of the day the notion of reductions is 
 ^[TODO: clean up this figure]
 
 
-### Direct  proof of the uncomputability of $HALT$
+### A direct proof of the uncomputability of $HALT$ (optional)
 
 It turns out that we can combine the ideas of the proofs of [uncomputable-func](){.ref}  and [halt-thm](){.ref} to obtain a short proof of the latter theorem, that does not appeal to the uncomputability of $F^*$.
 This short proof appeared in print in a 1965 letter to the editor of Christopher Strachey:^[Christopher Strachey was an English computer scientist and the inventor of the CPL programming language. He was also an early artificial intelligence visionary, programming a computer to play Checkers and even write love letters in the early 1950's, see [this New Yorker article](https://www.newyorker.com/tech/elements/christopher-stracheys-nineteen-fifties-love-machine) and [this website](http://www.alpha60.de/art/love_letters/).]
