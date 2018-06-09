@@ -334,6 +334,10 @@ A course based on this book can use all of Parts I, II, and III  (possibly skipp
 
 ## Exercises
 
+::: {.remark title="Disclaimer" #disclaimerrem}
+Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
+:::
+
 
 > # {.exercise }
 Rank the significance of the  following inventions in speeding up multiplication of large (that is 100 digit or more) numbers. That is, use "back of the envelope" estimates to order them in terms of the speedup factor they offered over the previous state of affairs.  \

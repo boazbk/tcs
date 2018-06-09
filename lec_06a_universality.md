@@ -401,6 +401,10 @@ Writing such an interpreter is nobody's idea of a fun afternoon, but the fact it
 
 ## Exercises
 
+::: {.remark title="Disclaimer" #disclaimerrem}
+Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
+:::
+
 > # {.exercise title="Pairing" #pair-ex}
 Let $PAIR:\N^2 \rightarrow \N$ be the function defined as $PAIR(x_0,x_1)= \tfrac{1}{2}(x_0+x_1)(x_0+x_1+1) + x_1$. \
 1. Prove that for every $x^0,x^1 \in \N$, $PAIR(x^0,x^1)$ is indeed a natural number. \

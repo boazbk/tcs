@@ -626,6 +626,10 @@ This turns out to be a special case of a general phenomena- the _universality_ o
 
 ## Exercises
 
+::: {.remark title="Disclaimer" #disclaimerrem}
+Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
+:::
+
 > # {.exercise title="Universal basis" #universal-basis}
 Define a set $\mathcal{G}$ of functions to be a _universal basis_ if we can compute $NAND$ using $\mathcal{G}$. For every one of the following sets, either prove that it is a universal basis or prove that it is not.
 1. $B = \{ \wedge, \vee, \neg \}$. (To make all of them be function on two inputs, define $\neg(x,y)=\overline{x}$.) \

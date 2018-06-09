@@ -437,6 +437,10 @@ In particular, out of all the example problems mentioned in the previous lecture
 
 ## Exercises
 
+::: {.remark title="Disclaimer" #disclaimerrem}
+Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
+:::
+
 For these exercises, a class $\overline{C}$ is the multi-bit output analog of the class $C$, where we consider programs that output more than one bit.
 
 > # {.exercise title="Composition of polynomial time" #poly-time-comp-ex}
