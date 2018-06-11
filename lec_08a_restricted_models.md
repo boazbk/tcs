@@ -367,11 +367,11 @@ The heart of the proof is the following claim:
 >
 If $exp=\emptyset$ then $\overline{exp} = (0|1)*$.
 Otherwise, we define $\overline{exp} = \overline{exp[0]}0 | \overline{exp[1]}1$ where $exp[\sigma]$ is the expression that matches $x$ if and only if $exp$ matches $x\sigma$.
-This gives us a  recursive definition for $\overline{exp}$.^[To ensure this is well defined we need to use the fact that $exp[\sigma]$exp[\sigma]$ is an expression of the same length or shorter than $exp$, and moreover there are no "cycles" in the form that there is no string $\sigma = \sigma_0\cdots \sigma_t$ such that $exp[\sigma]$, defined as $exp[\sigma_0][\sigma_1]\cdots [\sigma_t]$ is equal to $exp$. We can observe the latter by looking a string $x$ such that $\Phi_(exp)=1$ and $x$ ends with the minimal number of repetitions of the string $\sigma_0\cdots \sigma_t$. This $x$  will satisfy $\Phi_{exp[\sigma]}(x)=0$.]
+This gives us a  recursive definition for $\overline{exp}$.^[To ensure this is well defined we need to use the fact that $exp[\sigma]$ is an expression of the same length or shorter than $exp$, and moreover there are no "cycles" in the form that there is no string $\sigma = \sigma_0\cdots \sigma_t$ such that $exp[\sigma]$, defined as $exp[\sigma_0][\sigma_1]\cdots [\sigma_t]$ is equal to $exp$. We can observe the latter by looking a string $x$ such that $\Phi_(exp)=1$ and $x$ ends with the minimal number of repetitions of the string $\sigma_0\cdots \sigma_t$. This $x$  will satisfy $\Phi_{exp[\sigma]}(x)=0$.]
 >
 Let $x\in \{0,1\}^n$. We will prove by induction on $n$ that $exp$ matches $x$ if and only if $\overline{x}$ does _not_ match $x$.
 This is trivially true for the case that $n=0$.
-Now if $exp$ matches $x\in \{0,1\}^n$, then letting $x'= x_0\cdots x_{n-2}$ and $\sigma = x_{n-1}$, $exp$ matches $x$ if and only if $exp[\sigma]$ matches $x'$ which happens if and only if $\overline{exp[\sigma]}$ does _not_ match $x'$. But $\overline{exp}$ matches $x'\sigma$ if and only if $\overline{exp[\sigma]}$ matches $x'$, hence completing the proof of the claim
+Now if $exp$ matches $x\in \{0,1\}^n$, then letting $x'= x_0\cdots x_{n-2}$ and $\sigma = x_{n-1}$, $exp$ matches $x$ if and only if $exp[\sigma]$ matches $x'$ which happens if and only if $\overline{exp[\sigma]}$ does _not_ match $x'$. But $\overline{exp}$ matches $x'\sigma$ if and only if $\overline{exp[\sigma]}$ matches $x'$, hence completing the proof of the claim.
 
 Once we have the claim, we can reduce checking equivalence to checking emptiness. For every two expressions $exp$ and $exp'$ we can define $exp \vee exp'$ to be simply the expression $exp|exp'$ and $exp \wedge exp'$ as $\overline{\overline{exp} \vee \overline{exp'}}$.
 Now we can define

@@ -592,7 +592,7 @@ We can also generalize Rice's Theorem to any Turing complete model (see [turingc
 > # {.theorem title="Rice's Theorem for general models (optional)" #genericricethm}
 Let $\mathcal{F}$ be the set of all partial functions from $\{0,1\}^*$ to $\{0,1\}^*$ and $\mathcal{M}:\{0,1\}^* \rightarrow \mathcal{F}$ be a Turing complete model.
 Then for every function $\mathcal{P}:\mathcal{F} \rightarrow \{0,1\}$ that is not the constant zero or one function, the function
-$F_{\mathcal{P}}:\{0,1\}^* \rightarrow \bits$ defined as $F_{\mathcal{P}}(Q)= \mathcal{P}(\mathcal{M}(Q))$ is uncomputable (by NAND++ programs).
+$F_{\mathcal{P}}:\{0,1\}^* \rightarrow \{0,1\}$ defined as $F_{\mathcal{P}}(Q)= \mathcal{P}(\mathcal{M}(Q))$ is uncomputable (by NAND++ programs).
 
 ::: { .pause }
 The generality of [genericricethm](){.ref} comes at the expense of being cumbersome to state.
@@ -603,7 +603,7 @@ Once you do so, working out the proof is fairly straightforward.
 
 ::: {.proof data-ref="genericricethm"}
 We only sketch the proof. This is actually a fairly straightforward corollary of the "standard" Rice's Theorem ([rice-thm](){.ref}).
-Any non-trivial property of partial functions $\mathcal{P}:\mathcal{F} \rightarrow \{0,1\}$ gives rise to a semantic and non-trivial function on NAND++ programs $G_{\mathcal{P}}:\{0,1\}^* \rightarrow \{0,1\}$. That  is, $G_\mathcal{P}(P)$ equals $\mathcal{P}(F_P)$ whwere $F_P$ is the function computed by the program $P$.
+Any non-trivial property of partial functions $\mathcal{P}:\mathcal{F} \rightarrow \{0,1\}$ gives rise to a semantic and non-trivial function on NAND++ programs $G_{\mathcal{P}}:\{0,1\}^* \rightarrow \{0,1\}$. That  is, $G_{\mathcal{P}}(P)$ equals $\mathcal{P}(F_P)$ whwere $F_P$ is the function computed by the program $P$.
 By Rice's Theorem, $G_{\mathcal{P}}$ will be uncomputable.
 However, if $\mathcal{M}$ is a Turing-complete model, and we could compute the function $F_{\mathcal{P}}$ defined as $F_{\mathcal{P}}(Q)  = \mathcal{P}(\mathcal{M}(Q))$ then we could compute $G_{\mathcal{P}}$ by simply using
 $$
