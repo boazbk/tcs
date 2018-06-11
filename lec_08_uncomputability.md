@@ -399,6 +399,7 @@ def T(f,x):
 If we now set `(f,x) = CantSolveMe(T)`, then `T(f,x)=False` but `f(x)` does in fact halt. This is of course not specific to this particular `T`: for every program `T`, if we run `(f,x) = CantSolveMe(T)` then we'll get an input on which `T` gives the wrong answer to $HALT$.
 
 
+
 ## Impossibility of general software verification
 
 
@@ -477,7 +478,7 @@ I strongly encourage you to stop here and try to solve this exercise.
 :::
 
 
-### Rice's Theorem
+### Rice's Theorem { #ricethm }
 
 [spec-thm](){.ref} can be generalized far beyond the parity function
 and in fact it rules out  verifying any type of semantic specification on programs.
@@ -516,8 +517,15 @@ We say that two strings $P$ and $Q$ representing NAND++ programs are _functional
 Then the only semantic computable total functions $F:\{0,1\}^* \rightarrow \{0,1\}$ are the constant zero function and the constant one function.
 :::
 
+> # {.proofidea data-ref="rice-thm"}
+The idea behind the proof is to show that  every semantic non-trivial function $F$ is at least as hard to compute as $HALTONZERO$. This will conclude the proof since by [haltonzero-thm](){.ref}, $HALTONZERO$ is uncomputable.
+If a function $F$ is non trivial then there are two programs $P_0$ and $P_1$ such that $F(P_0)=0$ and $F(P_1)=1$. So, the goal would be to take a program $P$ and find a way to map it into a program $Q=R(P)$, such that __(i)__ if $P$ halts on zero then $Q$ computes the same partial function as $P_1$ and __(ii)__ if $P$ does not halt on zero then $Q$ computes the same partial function as $P_0$.
+Because $F$ is semantic, this would mean that $HALTONZERO(P) = F(R(P))$, and hence would show that if $F$ was computable, then $HALTONZERO$ would be computable as well, contradicting [haltonzero-thm](){.ref}.
+The details of how to construct this reductions are given below.
+
+
 ::: {.proof data-ref="rice-thm"}
-We will illustrate the proof idea by considering a particular semantic function $F$.
+We will not give the proof in full formality, but rather illustrate the proof idea by considering a particular semantic function $F$.
 Define $MONOTONE:\{0,1\}^* \rightarrow \{0,1\}$ as follows: $MONOTONE(P)=1$ if there does not exist  $n\in \N$ and two inputs $x,x' \in \{0,1\}^n$ such that for every $i\in [n]$ $x_i \leq x'_i$ but $P(x)$ outputs $1$ and $P(x')=0$.
 That is, $MONOTONE(P)=1$ if it's not possible to find an input $x$ such that flipping some bits of $x$ from $0$ to $1$ will change $P$'s output in the other direction from $1$ to $0$.
 We will prove that $MONOTONE$ is uncomputable, but the proof will easily generalize to any semantic function.
@@ -549,6 +557,61 @@ Hence in this case, $Q$ computes the non-monotone parity function, and we get th
 In both cases we see that $MONOTONE(Q)=1-HALTONZERO(P)$, which is what we wanted to prove.
 An examination of this proof shows that we did not use anything about $MONOTONE$ beyond the fact that it is semantic and non-trivial (in the sense that it is not the all zero, nor the all-ones function).
 :::
+
+### Halting and Rice's Therem for other Turing-complete models
+
+As we saw before, many natural computational models turn out to be _equivalent_ to one another, in the sense that we can transform a "program" of one  model (such as a $\lambda$ expression, or a game-of-life configurations) into another model (such as a NAND++ program).
+This equivalence implies that we can translate the uncomputability of the Halting problem for NAND++ programs into uncomputability for Halting in other models.
+For example:
+
+> # {.theorem title="Turing Machine Halting" #halt-tm}
+Let $TMHALT:\{0,1\}^* \rightarrow \{0,1\}$ be the function that on input  strings $M\in\{0,1\}^*$ and $x\in \{0,1\}^*$ outputs $1$ if the Turing machine described by $M$ halts on the input $x$ and outputs $0$ otherwise. Then $TMHALT$ is uncomputable.
+
+> # { .pause }
+Once again, this is a good point for you to stop and try to prove the result yourself before reading the proof below.
+
+> # {.proof }
+We have seen in [TM-equiv-thm](){.ref} that for every NAND++ program $P$ there is an equivalent Turing machine $M_P$ such that for every $x$, that computes the same function.
+The machine $M_P$ exactly simulated $P$, in the sense that  $M_P$ halts on $x$ if and only $P$ halts on $x$ (and moreover if they both halt, they produce the same output).
+Going back to the proof of [TM-equiv-thm](){.ref}, we can see that the transformation of the program $P$ to the Turing machine $M(P)$ was described in a _constructive_ way.
+>
+Specifically, we gave explicit instructions how to build the Turing machine $M(P)$ given the description of the program $P$.
+Thus, we can view the proof of [TM-equiv-thm](){.ref} as a high level description of an _algorithm_ to obtain $M_P$ from the program $P$, and using our "have your cake and eat it too" paradigm, this means that there exists also a NAND++ program $R$ such  that computes the map $P \mapsto M_P$.
+We see that
+$$
+HALT(P,x)=TMHALT(M_P,x)=TMHALT(R(P),x) \label{eqtmhalt}
+$$
+and hence if we assume (towards the sake of a contradiction) that $TMHALT$ is computable then [eqtmhalt](){.eqref} implies that $HALT$ is computable, hence contradicting [halt-thm](){.ref}.
+
+
+The same proof carries over to other computational models such as the _$\lambda$ calculus_, _two dimensional_ (or even one-dimensional) _automata_ etc.
+Hence for example, there is no algorithm to decide if a $\lambda$ expression evaluates the identity function, and no algorithm to decide whether an initial configuration of the game of life will result in eventually coloring the cell $(0,0)$ black or not.
+
+We can also generalize Rice's Theorem to any Turing complete model (see [turingcompletedef](){.ref}):
+
+> # {.theorem title="Rice's Theorem for general models (optional)" #genericricethm}
+Let $\mathcal{F}$ be the set of all partial functions from $\{0,1\}^*$ to $\{0,1\}^*$ and $\mathcal{M}:\{0,1\}^* \rightarrow \mathcal{F}$ be a Turing complete model.
+Then for every function $\mathcal{P}:\mathcal{F} \rightarrow \{0,1\}$ that is not the constant zero or one function, the function
+$F_{\mathcal{P}}:\{0,1\}^* \rightarrow \bits$ defined as $F_{\mathcal{P}}(Q)= \mathcal{P}(\mathcal{M}(Q))$ is uncomputable (by NAND++ programs).
+
+::: { .pause }
+The generality of [genericricethm](){.ref} comes at the expense of being cumbersome to state.
+However it simply says that Rice's Theorem holds for every Turing complete model, in the sense that every non-trivial semantic property (i.e., a property that is not always true or always false, and depends on the _function_ that a program computes rather than syntactic properties of its code) is uncomputable.
+Understanding how the formal statement of [genericricethm](){.ref} captures this is a great exercise.
+Once you do so, working out the proof is fairly straightforward.
+:::
+
+::: {.proof data-ref="genericricethm"}
+We only sketch the proof. This is actually a fairly straightforward corollary of the "standard" Rice's Theorem ([rice-thm](){.ref}).
+Any non-trivial property of partial functions $\mathcal{P}:\mathcal{F} \rightarrow \{0,1\}$ gives rise to a semantic and non-trivial function on NAND++ programs $G_{\mathcal{P}}:\{0,1\}^* \rightarrow \{0,1\}$. That  is, $G_\mathcal{P}(P)$ equals $\mathcal{P}(F_P)$ whwere $F_P$ is the function computed by the program $P$.
+By Rice's Theorem, $G_{\mathcal{P}}$ will be uncomputable.
+However, if $\mathcal{M}$ is a Turing-complete model, and we could compute the function $F_{\mathcal{P}}$ defined as $F_{\mathcal{P}}(Q)  = \mathcal{P}(\mathcal{M}(Q))$ then we could compute $G_{\mathcal{P}}$ by simply using
+$$
+G_{\mathcal{P}}(P) = F_{\mathcal{P}}(ENCODE_{\mathcal{M}}(P))
+$$
+where $ENCODE_{\mathcal{M}}$ is the function that maps a NAND++ program $P$ into a program in $\mathcal{M}$ that computes the same function. Such computale a function $ENCODE_{\mathcal{M}}$ exists by the definition of Turing completeness ([turingcompletedef](){.ref}).
+:::
+
 
 
 ### Is software verification doomed? (discussion)

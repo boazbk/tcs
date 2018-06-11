@@ -12,42 +12,18 @@
 
 >_"Happy families are all alike; every unhappy family is unhappy in its own way"_,  Leo Tolstoy (opening of  the book "Anna Karenina").
 
-As we saw before, many natural computational models turn out to be _equivalent_ to one another, in the sense that we can transform a "program" of one  model (such as a $\lambda$ expression, or a game-of-life configurations) into another model (such as a NAND++ program).
-This equivalence implies that we can translate the uncomputability of the Halting problem for NAND++ programs into uncomputability for Halting in other models.
-For example:
 
-> # {.theorem title="Turing Machine Halting" #halt-tm}
-Let $TMHALT:\{0,1\}^* \rightarrow \{0,1\}$ be the function that on input  strings $M\in\{0,1\}^*$ and $x\in \{0,1\}^*$ outputs $1$ if the Turing machine described by $M$ halts on the input $x$ and outputs $0$ otherwise. Then $TMHALT$ is uncomputable.
+We have seen that a great many models of computation are _Turing equivalent_, including our NAND++/NAND<< programs and Turing machines,  standard programming languages such as C/Python/Javascript etc.., and other models such as the $\lambda$ calculus and even the game of life.
+The flip side of this is that for all these models,  Rice's theorem (see [ricethm](){.ref}) holds as well, which means that  deciding any semantic  property of programs in such a model is _uncomputable_.
 
-> # { .pause }
-Once again, this is a good point for you to stop and try to prove the result yourself before reading the proof below.
-
-> # {.proof }
-We have seen in [TM-equiv-thm](){.ref} that for every NAND++ program $P$ there is an equivalent Turing machine $M_P$ such that for every $x$, that computes the same function.
-The machine $M_P$ exactly simulated $P$, in the sense that  $M_P$ halts on $x$ if and only $P$ halts on $x$ (and moreover if they both halt, they produce the same output).
-Going back to the proof of [TM-equiv-thm](){.ref}, we can see that the transformation of the program $P$ to the Turing machine $M(P)$ was described in a _constructive_ way.
->
-Specifically, we gave explicit instructions how to build the Turing machine $M(P)$ given the description of the program $P$.
-Thus, we can view the proof of [TM-equiv-thm](){.ref} as a high level description of an _algorithm_ to obtain $M_P$ from the program $P$, and using our "have your cake and eat it too" paradigm, this means that there exists also a NAND++ program $R$ such  that computes the map $P \mapsto M_P$.
-We see that
-$$
-HALT(P,x)=TMHALT(M_P,x)=TMHALT(R(P),x) \label{eqtmhalt}
-$$
-and hence if we assume (towards the sake of a contradiction) that $TMHALT$ is computable then [eqtmhalt](){.eqref} implies that $HALT$ is computable, hence contradicting [halt-thm](){.ref}.
-
-
-The same proof carries over to other computational models such as the _$\lambda$ calculus_, _two dimensional_ (or even one-dimensional) _automata_ etc.
-Hence for example, there is no algorithm to decide if a $\lambda$ expression evaluates the identity function, and no algorithm to decide whether an initial configuration of the game of life will result in eventually coloring the cell $(0,0)$ black or not.
-
-
-The uncomputability of  halting and other semantic specification problems motivates coming up with __restricted computational models__ that are __(a)__ powerful enough to capture a set of functions useful for certain applications but __(b)__ weak enough that we can still solve semantic specification problems on them.
+The uncomputability of  halting and other semantic specification problems for Turing equivalent  models motivates coming up with __restricted computational models__ that are __(a)__ powerful enough to capture a set of functions useful for certain applications but __(b)__ weak enough that we can still solve semantic specification problems on them.
 In this lecture we will discuss several such examples.
 
 
 ## Turing completeness as a bug
 
 We have seen that seemingly simple computational models or systems  can turn out to be Turing complete.
-The [following webpage](http://beza1e1.tuxen.de/articles/accidentally_turing_complete.html) lists several examples of formalisms that "accidentally" turned out to Turing complete, including supposedly limited languages such as the C preprocessor, CCS, SQL, sendmail configuration, as well as games such as Minecraft, Super Mario, and  the card game "Magic: The gathering".
+The [following webpage](https://goo.gl/xRXq7p) lists several examples of formalisms that "accidentally" turned out to Turing complete, including supposedly limited languages such as the C preprocessor, CCS, SQL, sendmail configuration, as well as games such as Minecraft, Super Mario, and  the card game "Magic: The gathering".
 This is not always a good thing, as it means that such formalisms can give rise to arbitrarily complex behavior.
 For example, the postscript format (a precursor of PDF) is a Turing-complete programming language meant to describe documents for printing.
 The expressive power of postscript can allow for short description of very complex images.
@@ -60,7 +36,7 @@ For example, one could imagine a piece of code that interacts between Alice, Bob
 
 
 Specifically Ethereum uses the Turing-complete programming  [solidity](https://solidity.readthedocs.io/en/develop/index.html) which has a syntax similar to Javascript.
-The flagship of Ethereum was an experiment known as  The "Decentralized Autonomous Organization" or [The DAO](https://en.wikipedia.org/wiki/The_DAO_(organization)).
+The flagship of Ethereum was an experiment known as  The "Decentralized Autonomous Organization" or [The DAO](https://goo.gl/NegW77).
 The idea was to create a smart contract that would create an autonomously run decentralized venture capital fund, without human managers, were shareholders could decide on investment opportunities.
 The DAO was  the biggest crowdfunding success in history and at its height was worth 150 million dollars, which was more than ten percent of the total Ethereum market.
 Investing in the DAO (or entering any other "smart contract") amounts to providing your funds to be run by a computer program. i.e., "code is law", or to use the words the DAO described itself: "The DAO is borne from immutable, unstoppable, and irrefutable computer code".
@@ -81,9 +57,8 @@ At its heart, the _search problem_ is quite simple.
 The user gives out a function $F:\{0,1\}^* \rightarrow \{0,1\}$, and the system applies this function to a set of candidates $\{ x_0, \ldots, x_k \}$, returning all the $x_i$'s such that $F(x_i)=1$.
 However, we typically do not want the system to get into an infinite loop just trying to evaluate this function!
 For this reason, such systems often do not allow the user to specify an _arbitrary_ function using some Turing-complete formalism, but rather a function that is described by a restricted computational model, and in particular one in which all functions halt.
-One of the most popular models for this application is the model of  [regular expressions](https://en.wikipedia.org/wiki/Regular_expression).
-You have probably come across regular expresions if you  ever used an advanced text editor, a command line shell, or have done any kind of manipulations of text files.^[Sections 1.3 and 1.4 in [Sipser's book](https://www.google.com/search?q=introduction+to+the+theory+of+computation) are excellent resources for regular expressions. Sipser's book also discusses the equivalence of regular expressions with _finite automata_.]
-
+One of the most popular models for this application is the model of  [regular expressions](https://goo.gl/2vTAFU).
+You have probably come across regular expressions if you  ever used an advanced text editor, a command line shell, or have done any kind of manipulations of text files.
 
 A _regular expression_ over some alphabet $\Sigma$ is obtained by combining elements of $\Sigma$ with the operation of concatenation, as well as $|$ (corresponding to _or_) and $*$ (corresponding to repetition zero or more times).^[Common implementations of regular expressions in programming languages and shells typically include some extra  operations on top of $|$ and $*$, but these can all be implemented as "syntactic sugar" using   the operators $|$ and $*$.]
 For example, the following regular expression over the alphabet $\{0,1\}$  corresponds to the set of all even length strings $x\in \{0,1\}^*$  where the digit at location $2i$ is the same as the one at location $2i+1$ for every $i$:
@@ -99,21 +74,35 @@ $$
 $$
 
 
-Formally, regular expressions are defined by the following recursive definition:^[Just like recursive functions, we can define a concept recursively. A definition of some class $\mathcal{C}$ of objects can be thought of as defining a function that maps an object $o$ to either $VALID$ or $INVALID$ depending on whether $o \in \mathcal{C}$. Thus we can think of   [regexp](){.ref} as defining a recursive function that maps a string $exp$ over $\Sigma \cup \{ "(",")","|", "*" \}$ to $VALID$ or $INVALID$ depending on whether $exp$ describes a valid regular expression.]
+Formally, regular expressions are defined by the following recursive definition:^[We have seen a recursive definition before in the setting of $\lambda$ expressions ([lambdaexpdef](){.ref}). Just like recursive functions, we can define a concept recursively. A definition of some class $\mathcal{C}$ of objects can be thought of as defining a function that maps an object $o$ to either $VALID$ or $INVALID$ depending on whether $o \in \mathcal{C}$. Thus we can think of   [regexp](){.ref} as defining a recursive function that maps a string $exp$ over $\Sigma \cup \{ "(",")","|", "*" \}$ to $VALID$ or $INVALID$ depending on whether $exp$ describes a valid regular expression.]
 
-> # {.definition title="Regular expression" #regexp}
+::: {.definition title="Regular expression" #regexp}
 A _regular expression_ $exp$ over an alphabet $\Sigma$ is a string over $\Sigma \cup \{ "(",")","|","*" \}$ that has one of the following forms:
-1. $exp = \sigma$ where $\sigma \in \Sigma$ \
-2. $exp = (exp' | exp'')$ where $exp', exp''$ are regular expressions. \
-3. $exp = (exp')(exp'')$ where $exp',exp''$ are regular expressions. (We often drop the parenthesis when there is no danger of confusion and so write this as $exp\; exp'$.) \
+
+1. $exp = \sigma$ where $\sigma \in \Sigma$
+
+2. $exp = (exp' | exp'')$ where $exp', exp''$ are regular expressions.
+
+3. $exp = (exp')(exp'')$ where $exp',exp''$ are regular expressions. (We often drop the parenthesis when there is no danger of confusion and so write this as $exp\; exp'$.)
+
 4. $exp = (exp')*$ where $exp'$ is a regular expression.
->
+
 Finally we also allow the following "edge cases": $exp = \emptyset$ and $exp = ""$.^[These are the regular expressions corresponding to accepting no strings, and accepting only the empty string respectively.]
+:::
 
 
-Every regular expression $exp$ computes a function $\Phi_{exp}:\Sigma^* \rightarrow \{0,1\}$, where $\Phi_{exp}(x)=1$ if $x$ _matches_ the regular expression.
-So, for example if $exp = (00|11)^*$ then $\Phi_{exp}(x)=1$ if and only if $x$ is of even length and $x_{2i}=x_{2i+1}$ for every $i < |x|/2$.
-Formally, the function is defined as follows:
+Every regular expression $exp$ correspond to a function $\Phi_{exp}:\Sigma^* \rightarrow \{0,1\}$ where  $\Phi_{exp}(x)=1$ if $x$ _matches_ the regular expression.
+The definition of "matching" is recursive as well. For example, if $exp$ and $exp'$ match the strings $x$ and $x'$, then the expression $exp\; exp'$ matches the concatenated string $xx'$.
+Similarly, if  $exp = (00|11)^*$ then $\Phi_{exp}(x)=1$ if and only if $x$ is of even length and $x_{2i}=x_{2i+1}$ for every $i < |x|/2$.
+We now turn to the formal definition of $\Phi_{exp}$.
+
+::: { .pause }
+The formal definition of $\Phi_{exp}$ is one of those definitions that is more cumbersome to write than to grasp. Thus it might be easier for you to first work it out on your own  and then check that your definition matches what is written below.
+:::
+
+::: {.definition title="Matching a regular expression" #matchingregexpdef}
+Let $exp$ be a regular expression.
+Then the  function $\Phi_{exp}$ is defined as follows:
 
 1. If $exp = \sigma$ then $\Phi_{exp}(x)=1$ iff $x=\sigma$. \
 2. If $exp = (exp' | exp'')$ then $\Phi_{exp}(x) = \Phi_{exp'}(x) \vee \Phi_{exp''}(x)$ where $\vee$ is the OR operator. \
@@ -121,8 +110,11 @@ Formally, the function is defined as follows:
 4. If $exp= (exp')*$ then $\Phi_{exp}(x)=1$ iff there are is $k\in \N$ and some $x_0,\ldots,x_{k-1} \in \Sigma^*$ such that $x$ is the concatenation $x_0 \cdots x_{k-1}$ and $\Phi_{exp'}(x_i)=1$ for every $i\in [k]$. \
 5. Finally, for the edge cases $\Phi_{\emptyset}$ is the constant zero function, and $\Phi_{""}$ is the function that only outputs $1$ on the constant string.
 
-We say that a function $F:\Sigma^* \rightarrow \{0,1\}$ is _regular_ if $F=\Phi_{exp}$ for some regular expression $exp$.
-We say that a set $L \subseteq \Sigma^*$ (also known as a _language_) is _regular_ if the function $F$ s.t. $F(x)=1$ iff $x\in L$ is regular.
+We say that a function $F:\Sigma^* \rightarrow \{0,1\}$ is _regular_ if $F=\Phi_{exp}$ for some regular expression $exp$.^[We use function notation in this book, but  many other texts  common  talk about _languages_, which are sets of string. We say that a set $L \subseteq \Sigma^*$ (also known as a _language_) is _regular_ if the corresponding function $F_L:\Sigma^* \rightarrow \{0,1\}$ s.t. $F_L(x)=1$ iff $x\in L$ is regular.]
+:::
+
+
+
 For example let $\Sigma=\{ a,b,c,d,0,1,2,3,4,5,6,7,8,9 \}$ and $F:\Sigma^* \rightarrow \{0,1\}$ be the function such that  $F(x)$ outputs $1$ iff $x$ consists of one or more of the letters $a$-$b$ followed by a sequence of one or more digits (without a leading zero).
 As shown by   [regexpeq](){.eqref}, the function $F:\Sigma^* \rightarrow \{0,1\}$ is computable by a regular expression.
 For example the string $abc12078$ matches the expression of [regexpeq](){.eqref} since $\Phi_{a|b|c|d}(a)=1$, ,$\Phi_{(a|b|c|d)^*}(bcd)=1$, $\Phi_{(1|2|\cdots|9)}(1)=1$, and $\Phi_{(0|\cdots|9)^*}(2078)=1$.
@@ -130,7 +122,7 @@ For example the string $abc12078$ matches the expression of [regexpeq](){.eqref}
 
 
 > # { .pause }
-The definitions above might not be easy to grasp in a first read, so you should probably pause here and go over it again   until you understand why it corresponds to our intuitive notion of regular expressions.
+The definitions above are not inherently difficult, but are a bit cumbersom. So you should pause here and go over it again   until you understand why it corresponds to our intuitive notion of regular expressions.
 This is important not just for understanding regular expressions themselves (which are used time and again in a great many applications) but also for getting better at understanding recursive definitions in general.
 
 
@@ -138,27 +130,132 @@ We can think of  regular expressions  as a type of  "programming language".
 That is, we can think of a regular expression $exp$ over the alphabet $\Sigma$ as a program that computes some function $\Phi:\Sigma^* \rightarrow \{0,1\}$.^[Regular expressions (and context free grammars, which we'll see below) are often thought of as _generative models_ rather than computational ones, since their definition does not immediately give rise to a way to _decide_ matches but rather to a way to generate matching strings by repeatedly choosing which rules to apply.]
 But it turns out that the "halting problem" for these programs is easy: they always halt.
 
+
+
+
+
 > # {.theorem title="Regular expression always halt" #regularexphalt}
 For every set $\Sigma$ and $exp \in (\Sigma \cup \{ "(",")","|","*" \})*$,  if $exp$ is a valid regular expression over $\Sigma$ then $\Phi_{exp}$ is a total function from $\Sigma^*$ to $\{0,1\}$.
 Moreover, there is an always halting NAND++ program $P_{exp}$ that computes $\Phi_{exp}$.
 
-> # {.proof data-ref="regularexphalt"}
-[regexp](){.ref} gives a way of recursively computing $\Phi_{exp}$.
+> # {.proofidea data-ref="regularexphalt"}
+The main idea behind the proof is to see that [matchingregexpdef](){.ref} actually specifies a recursive algorithm for _computing_ $\Phi_exp$.
+The details are specified below.
+
+
+::: {.proof data-ref="regularexphalt"}
+[matchingregexpdef](){.ref} gives a way of recursively computing $\Phi_{exp}$.
 The key observation is that in our recursive definition of regular expressions, whenever $exp$ is made up of one or two expressions $exp',exp''$ then these two regular expressions are _smaller_ than $exp$, and eventually (when they have size $1$) then they must correspond to the non-recursive case of a single alphabet symbol.
->
+
 Therefore, we can prove the theorem by induction over the length $m$ of $exp$ (i.e., the number of symbols in the string $exp$, also denoted as $|exp|$).
 For $m=1$, $exp$ is a single alhpabet symbol and the function $\Phi_{exp}$ is trivial.
 In the general case, for $m=|exp|$ we assume by the induction hypothesis that  we have proven the theorem for $|exp|  = 1,\ldots,m-1$.
 Then by the definition of regular expressions, $exp$ is made up of one or two sub-expressions $exp',exp''$ of length smaller than $m$, and hence by the induction hypothesis we assume that $\Phi_{exp'}$ and   $\Phi_{exp''}$ are total computable functions.
 But then we can follow the definition for the cases of concatenation, union, or the star operator to compute $\Phi_{exp}$ using $\Phi_{exp'}$ and $\Phi_{exp''}$.
+:::
+
+### Efficient matching of regular expressions (advanced, optional)
 
 The proof of [regularexphalt](){.ref} gives a recursive algorithm to evaluate whether a given string matches or not a regular expression.
 However, it turns out that there is a much more efficient algorithm to match regular expressions.
-One way to obtain such an algorithm is to replace this recursive algorithm with [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming), using the technique of [memoization](https://en.wikipedia.org/wiki/Memoization).^[If you haven't taken yet an algorithms course such as Harvard CS 124, you might not know these techniques. This is OK;  while  the more efficient algorithm is crucial for the many practical applications of regular expressions, it is not of great importance to this course.]
-It turns out that the resulting dynamic program only requires maintaining a finite (independent of the input length) amount of state, and hence it can be viewed as a [finite state machine](https://en.wikipedia.org/wiki/Finite-state_machine) or finite automata.
-The relation of regular expressions with finite automata is a beautiful topic, and one we may return to later in this course.
+One way to obtain such an algorithm is to replace this recursive algorithm with [dynamic programming](https://goo.gl/kgLdX1), using the technique of [memoization](https://en.wikipedia.org/wiki/Memoization).^[If you haven't taken yet an algorithms course, you might not know these techniques. This is OK;  while  the more efficient algorithm is crucial for the many practical applications of regular expressions, it is not of great importance to this course.]
+It turns out that the resulting dynamic program only requires maintaining a finite (independent of the input length) amount of state, and makes a single pass over its input.
+This means this algorithm  is  a [deterministic finite automaton (DFA)](https://goo.gl/SG6DS7).
+The relation of regular expressions with finite automata is a beautiful topic, on which we only touch upon in this texts. See books such as [Sipser's](https://math.mit.edu/~sipser/book.html), [Hopcroft, Motwani and Ullman](http://infolab.stanford.edu/~ullman/ialc.html), and [Kozen's](https://www.springer.com/us/book/9783642857065).
 
-### Limitations of regular expressions
+We now prove the algorithmic result that regular expression matching can be done by a linear (i.e.,  $O(n)$) time algorithm, and moreover one that uses a constant (i.e., $O(1)$) amount of memory, and makes a single pass over its input.
+Since we have not yet covered the topics of time and space complexity, the reader might want to skip ahead at this point, and return to this theorem later.
+
+::: {.theorem title="DFA and regular expression equivalence" #dfaregequiv}
+Let $exp$ be a regular expression. Then there is an $O(n)$ time $O(1)$ space single pass algorithm (i.e., deterministic finite automaton) that computes $\Phi_{exp}$.
+
+More formally, there is an enhanced NAND++ program $P$ that computes $\Phi_{exp}$ and moreover, $P$ uses   uses no array variable apart from `X`,`Xvalid`,`Y` and `Yvalid`,  uses only the `i++ (foo)` operation (hence never goes back, only forward), and halts when `i` reaches beyond the length of the input.
+:::
+
+
+::: {.proofidea data-ref="dfaregequiv"}
+The idea is to first obtain a more efficient recursive algorithm for computing $\Phi_{exp}$ and then turing this recursive algorithm into a constant-space single-pass algorithm using the technique of _memoization_.
+In this technique  we record in a table the results of every call to a function, and then if we make future calls with the same input, we retrieve the result from the table instead of re-computing it.
+This simple optimization can sometimes result in huge savings in running time.
+
+For this case, we can define a recursive algorithm to compute $\Phi_{exp}$ as follows: given $x\in \{0,1\}^n$, if $n=0$ then we output $1$ if $exp$ contains $""$, otherwise we output $\Phi_{exp[x_{n-1}]}(x_0\cdots x_{n-1})$ where $exp[\sigma]$ is the result of "restricting" the output of $exp$ to strings that end with $\sigma$.
+It can be shown that for every regular expression $exp$, we can construct such a regular expression $exp[\sigma]$ that would match a string $x$ if and only if $exp$ matches $x\sigma$.
+The resulting recursive algorithm runs in $O(n)$ time, we can then use memoization to make it into a single-pass constant space algorithm.
+Specifically, we will store a table of the (constantly many) expressions of length at most $|exp|$ that we need to deal with in the course of this algorithm, and iteratively for $i=0,1,\ldots,n-1$, compute whether or not each one of those expressions matches $x_0\cdots x_{i-1}$.
+:::
+
+::: {.proof data-ref="dfaregequiv"}
+For a regular expression $exp$  over an alphabet $\Sigma$ and symbol $\sigma \in \Sigma$, we will define $exp[\sigma]$ to be a regular expression such that $exp[\sigma]$ matches a string $x$ if and only if $exp$ matches the string $x\sigma$.
+We can define $exp[\sigma]$ recursively as follows.
+For simplicity it will be a little more convenient to work with regular expressions where no sub-expression matches the empty string, except the explicit $""$ expression.
+That means that if we have an expression of the form $exp' exp''$ where $exp''$ can match the empty string, then we replace $exp''$ with an expression $exp'''$ that matches all the strings that $exp''$ does except the empty string, and re-write the expression as $exp' | exp'exp'''$.
+Similarly, we will assume that all calls to the $*$ operator match at least one occurence, by enforcing that they are always of the form
+$exp| (exp*) exp$.
+(Once again, we can add an explicit expression for the empty string if we need to match it.)
+We call an expression that has the form above a _normal form expression_, and  leave as an exercise to the reader to show that every expression $exp$ has an equivalent expression that is in normal form.
+
+Given a normal form expression $exp$, we transform it to $exp[\sigma]$ as follows:
+
+1. If $exp = \tau$  for $\tau \in \Sigma$ then $exp[\sigma]=""$ if $\tau=\sigma$ and $exp[\sigma]=\emptyset$ otherwise.
+2. If $exp = exp' | exp''$ then $exp[\sigma] = exp'[\sigma] | exp''[\sigma]$.
+3. If $exp = exp' \; exp''$ then $exp = exp \; exp''[\sigma]$.^[Note that we use here the assumption that, because our expression is in normal form, $exp''$ does not match the empty string.]
+4. If $exp = exp | (exp*)exp$ then $exp[\sigma] = exp[\sigma] | (exp*)(exp[\sigma])$.
+5. If $exp = ""$ or $exp= \emptyset$ then $exp[\sigma] = \emptyset$.
+
+
+We leave it as an exercise to prove the following two claims:
+
+>__Claim 1:__ For every $x\in \{0,1\}^*$, $\Phi_{exp}(x\sigma)=1$ if and only if $\Phi_{exp[\sigma]}(x)=1$
+>
+>__Claim 2:__ For every normal form $exp$, $|exp[\sigma]| \leq |exp|$ where we denote by $|exp'|$ the number of symbols in the expression $exp'$.
+
+Both claims can be proved by induction by following the recursive definition.
+Note that for Claim 2, we treat $""$ as a single symbol, and also simplify expressions of the form $exp ""$ to $exp$.
+
+We can now define a recursive algorithm for computing $\Phi_{exp}$:
+
+>__Algorithm $MATCH(exp,x)$:__
+>
+>__Inputs:__ $exp$ is normal form regular expression, $x\in \Sigma^n$ for some $n\in \N$.
+>
+>1. If $x=""$ then return $1$ iff $exp$ has the form $exp = "" | exp'$ for some $exp'$. (For a normal-form expression, this is the only way it matches the empty string.)
+>
+>2. Otherwise, reurn $MATCH(exp[x_{n-1}],x_0\cdots x_{n-1})$.
+
+Algorithm $MATCH$ is a recursive algorithm that on input an expression $exp$ and a string $x\in \{0,1\}^n$, does some constant time computation and then calls itself on input some expression $exp'$ smaller than $exp$ and a string $x$ of length $n-1$.
+Thus, if we define $T(\ell,n)$ to be the running time of the algorithm on expressions of length at most $\ell$ and inputs of length $n$, then we see that this satisfies the equation $T(\ell,n) \leq T(\ell,n-1) + C(\ell)$ (where the $C(\ell)$ denotes the time it takes to scan over an $\ell$ length expression $exp$ to transform it to the expression $exp[\sigma]$.)
+Hence we see that for every constant $\ell$, the running time would be $O(n)$ where the hidden constant in the $O$ notation can depend on $\ell$.
+
+Moreover, since a regular expression over alphabet $\Sigma$ is simply a string over the alphabet $\Sigma \cup \{ (,),|,*,"", \emptyset \}$, to give a crude upper bound, there are at most $(|\Sigma|+10)^\ell$ expressions over this alphabet of length at most $\ell$.
+Now, instead of computing $MATCH$ recursively, we can compute it iteratively as follows:
+
+>__Algorithm $MATCH'(exp,x)$:__
+>
+>__Inputs:__ $exp$ is normal form regular expression, $x\in \Sigma^n$ for some $n\in \N$. Let $\ell = |exp|$.
+>
+>Define variables $v_{exp'}$ for every $exp'$ of length at most $\ell$.
+>Initially, $v_{exp'}=1$ if and only if $exp'$ matches the empty string.
+>
+>*  For $i=0,\ldots,n-1$ do the following:
+>   *  For every $exp'$ of length at most $\ell$:
+>      - Let $temp_{exp'} = v_{exp'[x_i]}$
+>   *  every $exp'$ of length at most $\ell$:
+>      - Let $v_{exp'} = temp_{exp'}$
+>
+>Output $v_{exp}$.
+
+This algorithm maintains the invariant that at the end of step $i$, the variable $v_{exp'}$ is equal  if and only if $exp'$ matches the string $x_0\cdots x_{i-1}$.
+Note that it only maintains a constant number of variables, and that it proceeds in one linear scan over the input, and so this proves the theorem.
+:::
+
+
+
+
+
+
+
+
+## Limitations of regular expressions
 
 The fact that functions computed by regular expressions always halt is of course one of the reasons why they are so useful.
 When you make a regular expression search, you are guaranteed that you will get a result.
@@ -219,16 +316,80 @@ So, if we want to use the pumping lemma to rule out the existence of a regular e
 This makes sense if you think about the intuition behind the pumping lemma: we need $w$ to be large enough as to force the use of the star operator.
 
 
-> # {.remark title="Regular expressions beyond searching" #netkat}
-Regular expressions are widely used beyond just searching. First, they are typically used to define _tokens_ in various formalisms such as programming data description languages. But they are also used beyond it. One nice example is the recent work on the [NetKAT network programming language](http://www.cs.cornell.edu/~jnfoster/papers/frenetic-netkat.pdf). In recent years, the world of networking moved from fixed topologies to  "software defined networks", that are run by programmable switches that can implement policies such as "if packet is SSL then forward it to A, otherwise forward it to B". By its nature, one would want to use a formalism for such policies that is guaranteed to always halt (and quickly!) and that where it is possible to answer semantic questions such as "does C see the packets moved from A to B" etc. The NetKAT language uses a variant of regular expressions to achieve that.
+## Other semantic properties of regular expressions
+
+
+Regular expressions are widely used beyond just searching. First, they are typically used to define _tokens_ in various formalisms such as programming data description languages. But they are also used beyond it. One nice example is the recent work on the [NetKAT network programming language](https://goo.gl/oeJNuw). In recent years, the world of networking moved from fixed topologies to  "software defined networks", that are run by programmable switches that can implement policies such as "if packet is SSL then forward it to A, otherwise forward it to B". By its nature, one would want to use a formalism for such policies that is guaranteed to always halt (and quickly!) and that where it is possible to answer semantic questions such as "does C see the packets moved from A to B" etc. The NetKAT language uses a variant of regular expressions to achieve that.
+
+Such applications use the  fact that, due to their restrictions, we can solve not just the  halting  problem for them, but also answer several other semantic questions as well, all of whom would not be solvable for Turing complete models due to Rice's Theorem ([rice-thm](){.ref}).
+For example, we can tell whether two regular expressions are _equivalent_, as well as whether a regular expression computes the constant zero function.
+
+> # {.theorem title="Emptiness of regular languages is computable." #regemptynessthem}
+There is an algorithm that given a regular expression $exp$, outputs $1$ if and only if $\Phi_{exp}$ is the constant zero function.
+
+> # {.proofidea data-ref="regemptynessthem"}
+The idea is that we can directly observe this from the structure of the expression. The only way it will output the constant zero function is if it has the form $\emptyset$ or is obtained by concatenating $\emptyset$ with other expressions.
+
+::: {.proof data-ref="regemptynessthem"}
+Define a regular expression to be "empty" if it computes the constant zero function.
+The algorithm simply follows the following rules:
+
+* If an expression has the form $\sigma$ or $""$ then it is not empty.
+* If $exp$ is not empty then $exp|exp'$ is not empty for every $exp'$.
+* If $exp$ is not empty then $exp^*$ is not empty.
+* If $exp$ and $exp'$ are both not empty then $exp\; exp'$  is not empty.
+* $\emptyset$ is empty.
+* $\sigma$ and $""$ are not empty.
+
+Using these rules it is straightforward to come up with a recursive algorithm to determine emptiness. We leave verifying the details to the reader.
+:::
+
+> # {.theorem title="Equivalence of regular expressions is computable." #regequivalencethm}
+There is an efficient  algorithm that on input two regular expressions $exp,exp'$, outputs $1$ if and only if $\Phi_{exp} = \Phi_{exp'}$.
+
+
+> # {.proofidea data-ref="regequivalencethm"}
+[regemptynessthem](){.ref} above is actually a special case of  [regequivalencethm](){.ref}, since emptiness is the same as checking equivalence with the expression $\emptyset$.
+However we prove  [regequivalencethm](){.ref} from [regemptynessthem](){.ref}.
+The idea is that given $exp$ and $exp'$, we will compute an expression $exp''$ such that $\Phi_{exp''}(x) = (\Phi_{exp}(x) \wedge \overline{\Phi_{exp'}(x)}) \; \vee  \; (\overline{\Phi_{exp}(x)} \wedge \Phi_{exp'}(x))$ (where $\overline{y}$ denotes the negation of $y$, i.e., $\overline{y}=1-y$).
+One can see that $exp$ is equivalent to $exp'$ if and only if $exp''$ is empty.
+To construct this expression, we need to show how given expressions $exp$ and $exp'$, we can construct expressions $exp\wedge exp'$ and $\overline{exp}$ that compute the functions $\Phi_{exp} \wedge \Phi_{exp'}$ and $\overline{\Phi_{exp}}$ respectively. (Computing the expression for $exp \vee exp'$ is straightforward using the $|$ operation of regular expressions.)
+Using De-Morgan's laws, it is enough to compute the negation, since the AND function can be expressed using OR and NOT.
+This is cumbersome but ultimately can be done, see details below.
+
+
+::: {.proof data-ref="regequivalencethm"}
+The heart of the proof is the following claim:
+
+>__Claim:__ For every regular expression $exp$ over the alphabet $\Sigma$ there is an expression $\overline{exp}$ such that $\Phi_{\overline{exp}}(x) = 1 - \Phi_{exp}(x)$ for every $x\in \Sigma^*$.
+>
+>__Proof:__ We'll prove the claim for the case of $\Sigma = \{0,1\}^*$. Extending this to other finite alphabets is straightforward. We prove the claim by recursion. We will use the ideas  from the proof of [dfaregequiv](){.ref}, and specifically we will assume that $exp$ is in normal form, and also use the notation $exp[\sigma]$, as defined in that proof.
+>
+If $exp=\emptyset$ then $\overline{exp} = (0|1)*$.
+Otherwise, we define $\overline{exp} = \overline{exp[0]}0 | \overline{exp[1]}1$ where $exp[\sigma]$ is the expression that matches $x$ if and only if $exp$ matches $x\sigma$.
+This gives us a  recursive definition for $\overline{exp}$.^[To ensure this is well defined we need to use the fact that $exp[\sigma]$exp[\sigma]$ is an expression of the same length or shorter than $exp$, and moreover there are no "cycles" in the form that there is no string $\sigma = \sigma_0\cdots \sigma_t$ such that $exp[\sigma]$, defined as $exp[\sigma_0][\sigma_1]\cdots [\sigma_t]$ is equal to $exp$. We can observe the latter by looking a string $x$ such that $\Phi_(exp)=1$ and $x$ ends with the minimal number of repetitions of the string $\sigma_0\cdots \sigma_t$. This $x$  will satisfy $\Phi_{exp[\sigma]}(x)=0$.]
+>
+Let $x\in \{0,1\}^n$. We will prove by induction on $n$ that $exp$ matches $x$ if and only if $\overline{x}$ does _not_ match $x$.
+This is trivially true for the case that $n=0$.
+Now if $exp$ matches $x\in \{0,1\}^n$, then letting $x'= x_0\cdots x_{n-2}$ and $\sigma = x_{n-1}$, $exp$ matches $x$ if and only if $exp[\sigma]$ matches $x'$ which happens if and only if $\overline{exp[\sigma]}$ does _not_ match $x'$. But $\overline{exp}$ matches $x'\sigma$ if and only if $\overline{exp[\sigma]}$ matches $x'$, hence completing the proof of the claim
+
+Once we have the claim, we can reduce checking equivalence to checking emptiness. For every two expressions $exp$ and $exp'$ we can define $exp \vee exp'$ to be simply the expression $exp|exp'$ and $exp \wedge exp'$ as $\overline{\overline{exp} \vee \overline{exp'}}$.
+Now we can define
+$$
+exp'' = (exp \wedge \overline{exp'}) \; \vee \; (\overline{exp} \wedge exp')
+$$
+and verify that $\Phi_{exp''}$ is the constant zero function if and only if $\Phi_{exp}(x) = \Phi_{exp'}(x)$ for every $x \in \Sigma^*$.
+:::
 
 
 
 ## Context free grammars
 
 If you have ever written a program, you've  experienced  a _syntax error_.
-You might have had also the experience of your program entering into an _infinite loop_.
+You might  also have had the experience of your program entering into an _infinite loop_.
 What is less likely is that the compiler or interpreter entered an infinite loop when trying to figure out if your program has a syntax error.
+
+
 When a person designs a programming language, they need to come up with a function $VALID:\{0,1\}^* \rightarrow \{0,1\}$ that determines the strings that correspond to valid programs in this language.
 The compiler or interpreter computes $VALID$ on the string corresponding to your source code to determine if there is a syntax error.
 To ensure that the compiler will always halt in this computation, language designers  typically _don't_ use a general Turing-complete mechanism to express the function $VALID$, but rather a restricted computational model.
@@ -239,27 +400,28 @@ Let us try to define a function $ARITH:\Sigma^* \rightarrow \{0,1\}$ that takes 
 Intuitively, we build expressions by applying an operation to smaller expressions, or enclosing them in parenthesis, where the "base case" corresponds to expressions that are simply numbers.
 A bit more precisely, we can make the following definitions:
 
-* A _number_ is either a sequence of digits.^[For simplicity we drop the condition that the sequence does not have a leading zero, though it is not hard to encode it in a context-free grammar as well.]
+* A _digit_ is one of the symbols $0,1,2,3,4,5,6,7,8,9$.
+
+* A _number_ is a sequence of digits.^[For simplicity we drop the condition that the sequence does not have a leading zero, though it is not hard to encode it in a context-free grammar as well.]
 
 * An _operation_ is one of $+,-,\times,\div$
 
 * An _expression_ has either the form "_number_" or the form  "_subexpression1 operation subexpression2_" or "(_subexpression_)".
 
-A context free grammar (CFG) is a formal way of specifying such conditions.^[Sections 2.1 and 2.3 in [Sipser's book](https://goo.gl/oe1BhY) are excellent resources for context free grammars.]
+A context free grammar (CFG) is a formal way of specifying such conditions.
 We can think of a CFG as a set of rules to _generate_  valid expressions.
 In the example above, the rule $expression \; \Rightarrow\; expression \; \times \; expression$ tells us that if we have built two valid expressions $exp1$ and $exp2$, then the expression $exp1 \; \times \; exp2$ is valid above.
 
 We can divide our rules to "base rules" and "recursive rules".
 The "base rules"  are rules  such as $number \; \Rightarrow \; 0$, $number \; \Rightarrow \; 1$, $number \; \Rightarrow \; 2$ and so on, that tell us that a single digit is a number.
 The "recursive rules" are rules  such as $number \; Rightarrow 1\, number$ that tell us that if we add a digit to a valid number then we still have a valid number.
+We now make the formal definition of context-free grammars:
 
 
 > # {.definition title="Context Free Grammar" #defcfg}
 Let $\Sigma$ be some finite set. A _context free grammar (CFG) over $\Sigma$_ is a triple $(V,R,s)$ where $V$ is a set disjoint from $\Sigma$ of _variables_, $R$ is a set of _rules_, which are pairs $(v,z)$ (which we will write as $v \Rightarrow z$) where $v\in V$ and $z\in (\Sigma \cup V)^*$, and $s\in V$ is the starting rule.
 
-
-
-
+::: {.example title="Context free grammar for arithmetic expressions." #cfgarithmeticex}
 
 The example above of well-formed arithmetic expressions can be captured formally by the following context free grammar:
 
@@ -277,10 +439,14 @@ The example above of well-formed arithmetic expressions can be captured formally
    - $expression \Rightarrow (expression)$
 
 * The starting variable is $expression$
+:::
 
-There are various notations to write context free grammars in the literature, with one of the most common being [Backus–Naur form](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form) where we write a rule of the form $v \Rightarrow a$ (where $v$ is a variable and $a$ is a string) in the form  `<v> := a`.
+
+
+
+There are various notations to write context free grammars in the literature, with one of the most common being [Backus–Naur form](https://goo.gl/R4qZji) where we write a rule of the form $v \Rightarrow a$ (where $v$ is a variable and $a$ is a string) in the form  `<v> := a`.
 If we have several rules of the form $v \mapsto a$, $v \mapsto b$, and $v \mapsto c$ then we can combine them as `<v> := a|b|c` (and this similarly extends for the case of more rules).
-For example, the Backus-Naur description for the context free grammar above is (using ASCII equivalents for operations):
+For example, the Backus-Naur description for the context free grammar above is the following (using ASCII equivalents for operations):
 
 ```python
 operation  := +|-|*|/
@@ -302,22 +468,22 @@ You can verify that a string over the alphabet $\{$ `(`,`)` $\}$ can be generate
 We can think of a CFG over the alphabet $\Sigma$ as defining a function that maps every string $x$ in $\Sigma^*$ to $1$ or $0$ depending on whether $x$ can be generated by the rules of the grammars.
 We now make this definition formally.
 
-> # {.definition title="Deriving a string from a grammar" #CFGderive}
+::: {.definition title="Deriving a string from a grammar" #CFGderive}
 If $G=(V,R,s)$ is a context-free grammar over $\Sigma$, then for two strings $\alpha,\beta \in (\Sigma \cup V)^*$ we say that $\beta$ _can be derived in one step_ from $\alpha$, denoted by  $\alpha \Rightarrow_G \beta$, if we can obtain $\beta$ from $\alpha$ by applying one of the rules of $G$. That is, we obtain $\beta$ by replacing in $\alpha$ one occurence of the variable $v$ with the string $z$, where $v \Rightarrow z$ is a rule of $G$.
->
-We say that $\beta$ _can be derived_ from $\alpha$, denoted by $\alpha \Rightarrow_G^* \beta$, if it can be derived by some finite number $k$ of steps. That is, if there are $\alpha_1,\ldots,\alpha_{k-1} \in (\Sigma \cup V)^*$, so that $\alpha \Rightarrow_G \alpha_1 \Rightarrow_G \alpha_2 \Rightarrow_G \cdots \Rightarrow_G \alpha_{k-1} \Rightarrow_G \beta$.
->
-We define the _function computed by_ $(V,R,s)$ to be the map $\Phi_{V,R,s}:\Sigma^* \rightarrow \{0,1\}$ such that $\Phi_{V,R,s}(x)=1$ iff  $s \Rightarrow^*_G x$.
->
-We say that $F:\Sigma^* \rightarrow \{0,1\}$ is _context free_ if $F = \Phi_{V,R,s}$ for some CFG $(V,R,s)$ we say that a set $L \subseteq \Sigma^*$ (also knoan as a _language_) is _context free_ if the function $F$ such that $F(x)=1$ iff $x\in L$ is context free.
 
+We say that $\beta$ _can be derived_ from $\alpha$, denoted by $\alpha \Rightarrow_G^* \beta$, if it can be derived by some finite number $k$ of steps. That is, if there are $\alpha_1,\ldots,\alpha_{k-1} \in (\Sigma \cup V)^*$, so that $\alpha \Rightarrow_G \alpha_1 \Rightarrow_G \alpha_2 \Rightarrow_G \cdots \Rightarrow_G \alpha_{k-1} \Rightarrow_G \beta$.
+
+
+We define the _function computed by_ $(V,R,s)$ to be the map $\Phi_{V,R,s}:\Sigma^* \rightarrow \{0,1\}$ such that $\Phi_{V,R,s}(x)=1$ iff  $s \Rightarrow^*_G x$.
+
+We say that $F:\Sigma^* \rightarrow \{0,1\}$ is _context free_ if $F = \Phi_{V,R,s}$ for some CFG $(V,R,s)$.^[As in the case of [matchingregexpdef](){.ref} we can also use _language_ rather than _function_ notation and   say that a language $L \subseteq \Sigma^*$ is _context free_ if the function $F$ such that $F(x)=1$ iff $x\in L$ is context free.]
+:::
 
 A priori it might not be clear that the map $\Phi_{V,R,s}$ is computable, but it turns out that we can in fact compute it.
-That is, the  "halting problem" for context free grammars is trivial, or in other words, we have the following theorem:
+That is, the  "halting problem" for context free grammars is trivial:
 
 > # {.theorem title="Context-free grammars always halt" #CFGhalt}
-For every CFG $(V,R,s)$ over $\Sigma$, the function $\Phi_{V,R,s}:\Sigma^* \rightarrow \{0,1\}$ is computable.^[While formally we only defined computability of functions over $\{0,1\}^*$, we can extend the definition to functions over any finite $\Sigma^*$ by using any one-to-one encoding of $\Sigma$ into $\{0,1\}^k$ for some finite $k$. It is a (good!) exercise to verify that if a function is computable with respect to one such encoding, then it is computable with respect to them all.]
-
+For every CFG $(V,R,s)$ over $\Sigma$, the function $\Phi_{V,R,s}:\Sigma^* \rightarrow \{0,1\}$ is computable.
 
 > # {.proof data-ref="CFGhalt"}
 We only sketch the proof.
@@ -329,7 +495,8 @@ We simply try all possible guesses for the first rule $s \rightarrow uv$   that 
 
 ### The power of context free grammars
 
-While we can (and people do) talk about context free grammars over any alphabet $\Sigma$, in the following we will restrict ourselves to $\Sigma=\{0,1\}$. This is of course not a big restriction, as any finite alphabet $\Sigma$ can be encoded as strings of some finite size.
+While we can (and people do) talk about context free grammars over any alphabet $\Sigma$, in the following we will restrict ourselves to $\Sigma=\{0,1\}$.
+This is of course not a big restriction, as any finite alphabet $\Sigma$ can be encoded as strings of some finite size.
 It turns out that context free grammars can capture every regular expression:
 
 > # {.theorem title="Context free grammars and regular expressions" #CFGreg}
@@ -346,10 +513,10 @@ Case 3 will be the only one that uses _recursion_. As before  we add a new start
 We leave it to the reader as (again a very good!) exercise to verify that in all three cases the grammars we produce  capture the same function as the original expression.
 
 It turns out that CFG's are strictly more powerful than regular expressions.
-In particular, as we've seen,  the "matching parenthesis" function   $MATCHPAREN$ can be computed by a context free grammar, whereas, as shown in [regexpparn](){.ref}, it cannot be computed by regular expressoins.
+In particular, as we've seen,  the "matching parenthesis" function   $MATCHPAREN$ can be computed by a context free grammar, whereas, as shown in [regexpparn](){.ref}, it cannot be computed by regular expressions.
 However, there are some simple languages that are _not_ captured by context free grammars, as can be shown via the following version of [pumping](){.ref}
 
-> # {.theorem title="Context-free pumping lemma" #cfgpumping}
+> # {.theorem title="Context-free pumping lemma (optional)" #cfgpumping}
 Let $(V,R,s)$ be a CFG over $\Sigma$, then there is some $n_0\in \N$ such that for every $x \in \Sigma^*$ with $|\sigma|>n_0$, if $\Phi_{V,R,s}(x)=1$ then $x=abcde$ such that $|b|+|c|+|d| \leq n_1$, $|b|+|d| \geq 1$, and $\Phi_{V,R,s}(ab^kcd^ke)=1$ for every $k\in \N$.
 
 > # {.proof data-ref="cfgpumping"}
@@ -365,20 +532,109 @@ Using [cfgpumping](){.ref} one can show that even the simple function $F(x)=1$ i
 While we present CFGs as merely _deciding_ whether the syntax is correct or not, the algorithm to compute $\Phi_{V,R,s}$ actually gives more information than that. That is, on input a string $x$, if $\Phi_{V,R,s}(x)=1$ then the algorithm yields the sequence of rules that one can apply from the starting vertex $s$ to obtain the final string $x$. We can think of these rules as determining a connected directed acylic graph (i.e., a _tree_) with $s$ being a source (or _root_) vertex and the sinks (or _leaves_)  corresponding to the substrings of $x$ that are obtained by the rules that do not have a variable in their second element. This tree is known as the _parse tree_ of $x$, and often yields very useful information about the structure of $x$.
 Often the first step in a compiler or interpreter for a programming language is a _parser_ that transforms the source into the parse tree (often known in this context as the [abstract syntax tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree)). There are also tools that can automatically convert a description of a context-free grammars into a _parser_ algorithm that computes the parse tree of a given string. (Indeed, the above recursive algorithm can be used to achieve this, but there are much more efficient versions, especially for grammars that have [particular forms](https://en.wikipedia.org/wiki/LR_parser), and programming language designers often try to ensure their languages have these more efficient grammars.)
 
-## Unrestricted grammars
 
+## Semantic properties of context free languages
+
+
+As in the case of regular expressions, the limitations of context free grammars do provide some advantages.
+For example, emptiness of context free grammars is decidable:
+
+> # {.theorem title="Emptiness for CFG's is desidable" #cfgemptinessthem}
+There is an algorithm that on input a context-free grammar $G$, outputs $1$ if and only if $\Phi_G$ is the constant zero function.
+
+> # {.proofidea data-ref="cfgemptinessthem"}
+The proof is easier to see if we transform the grammaer to Chomsky Normal Form as in [CFGhalt](){.ref}. Given a grammar $G$, we can recursively  define a non-terminal variable $v$ to be _non empty_ if there is either a rule of the form $v \Rightarrow \sigma$, or there is a rule of the form $v \Rightarrow uw$ where both $u$ and $w$ are non empty.
+Then the grammar is non empty if and only if the starting variable $s$ is non-empty.
+
+::: {.proof data-ref="cfgemptinessthem"}
+We assume that the grammar $G$ in Chomsky Normal Form as in [CFGhalt](){.ref}. We consider the following procedure for marking variables as "non empty":
+
+1. We start by marking  all variables $v$ that are involved in a rule of the form $v \Rightarrow \sigma$ as non empty.
+
+2. We then continue to mark $v$ as non empty if it is involved in a rule of the form $v \Rightarrow uw$ where $u,w$ have been marked before.
+
+We continue this way until we cannot mark any more variables.
+We then declare that the grammar is empty if and only if $s$ has not been marked.
+To see why this is a valid algorithm, note that if a variable $v$ has been marked as "non empty" then there is some string $\alpha\in \Sigma^*$ that can be derived from $v$.
+On the other hand, if $v$ has not been marked, then every sequence of derivations from $v$ will always have a variable that has not been replaced by alphabet symbols.
+Hence in particular  $\Phi_G$ is the all zero function if and only if the starting variable $s$  is not marked "non empty".
+:::
+
+### Uncomputability of context-free grammar equivalence (optional)
+
+By analogy to regular expressions, one might have hoped to get an algorithm for deciding whether two given context free grammars are equivalent.
+Alas, no such luck. It turns out that the equivalence problem for context free grammars is _uncomputable_.
+This is a direct corollary of the following theorem:
+
+> # {.theorem title="Fullness of CFG's is uncomputable." #fullnesscfgdef}
+For every set $\Sigma$, let $CFGFULL_\Sigma$ be the function that on input a context-free grammar $G$ over $\Sigma$, outputs $1$ if and only if $G$ computes the constant $1$ function.
+Then there is some finite  $\Sigma$ such that $CFGFULL_\Sigma$ is uncomputable.
+
+[fullnesscfgdef](){.ref} immediately implies that equivalence for context-free grammars is uncomputable, since computing "fullness" of a grammar $G$ over some alphabet $\Sigma = \{\sigma_0,\ldots,\sigma_{k-1} \}$ corresponds to checking whether $G$ is equivalent to the grammar $s \Rightarrow ""|s\sigma_0|\cdots|s\sigma_{k-1}$.
+Note that [fullnesscfgdef](){.ref} and [cfgemptinessthem](){.ref}  together imply that context-free grammars, unlike regular expressions, are _not_ closed under complement. (Can you see why?)
+
+
+> # {.proofidea data-ref="fullnesscfgdef"}
+We prove the theorem by reducing from the $HALTONZERO$  problem for Turing Machines.
+To do that we use the notion of _computation histories_ of Turing Machines.
+The idea is that we can encode the state of a Turing machine at some step in its computation by a string $s$, and we have some simple validity condition to check if a string $s'$ corresponds to taking exactly one step after the state $s$.
+We will let $\#$ and $;$ be some "separator characters" and then we can encode the computation of a Turing machine $M$ by a sequence $s_0\# s_1^R ; s_1 \# s_2^R ; \cdots ; s_{t-3} \# s_{t-2}^R ; s_{t-2} \# s_{t-1}^R$ where $s_0$ is the starting state (on the input $0$) and $s_{t-1}$ is a final state, and for every string $s = s_0\cdots s_{\ell-1}$, $s^R$ is the reversed string $s_{\ell-1} \cdots s_0$.
+We will show that for every  Turing machine $M$ there is some finite alphabet $\Sigma$ (containing $\#$ and $\;$) and a grammar $G_M$ that generate a string $\tau \in \Sigma^*$ if and only if $\tau$ _does not_ encode a valid computation history of $M$ on the input $0$.
+Hence $M$ halts on the empty input if and only if there is some $\tau$ that $G_M$ can not  generate, thus proving the theorem.
+
+::: {.proof data-ref="fullnesscfgdef"}
+We only sketch the proof. We first have to specify in more detail how we encode the state of a Turing machine as a string.
+If $M$ is a Turing machine with tape alphabet $\Sigma$ and with state space $Q$ (which we can assume without loss of generality to be disjoint from $\Sigma$), we can encode a state of $M$ where the tape contents are $z_0,\ldots,z_{t-1}$ (with everything above $t$ equaling $\varnothing$) and where the machine's head is in position $i$ and it has the state $q$ as the string $z_0\cdots  z_{i-1}q z_i \cdots z_{t-1}$ over the alphabet $\Sigma \cup Q$.
+Note that the only difference after one computational step is that the triple $z_{i-1} q z_i$ will change to either $q' z_{i-1} z'_i$ or $z_{i-1} z'_i q'$ depending on whether the machine moves left or right, where $z'_i$ is the value written to the tape at this stage, and $q'$ is the new state.
+
+To prove the theorem we need to show a grammar that can generate all strings over the alphabet $\Sigma \cup Q \cup \{ \#, ; \}$ _except_ those that correspond to valid histories of the form
+$$s_0\# s_1^R ; s_1 \# s_2^R ; \cdots ; s_{t-3} \# s_{t-2}^R ; s_{t-2} \# s_{t-1}^R$$
+where $s_0$ is a starting state and $s_{t-1}$ is an ending state.
+
+We will not spell out the full details but the main ideas are the following:
+
+* Checking that a state is a valid starting or ending state can be done via a regular expression, and hence both this condition and its negation can be captured by context free grammars.
+
+* We can also find a regular expression for a string being _not_ of the  form $((\Sigma \cup Q)^*\# (\Sigma \cup Q)^*;)^*$, and ensure the grammar accepts all strings that are not of that form.
+
+* Now if a string is of that form, then there are two ways it can fail to be a valid computation history:
+
+   1. If it contains a block of the form $\# s \; s' \#$ for $s' \neq s^R$: it is a fairly strarightforward exercise to construct a context-free grammar that accepts all strings that contain a block of this form.
+
+   2. If it contains a block of the form $s \# s'$ where $s'$ is _not_ the reverse of string describing a state obtained by taking one step from the state described by $s$. Since the only difference between this case and the case above happens in three adjacent positions that can take one of a finite number of values,  a grammar that accepts all strings containing a block of this form can be obtained as well.
+
+Once we have the above, we can reduce $HALTONZERO$ for a Turing Machine $M$ into the fullness problem for a context free grammar.
+Given a Turing machine $M$, we can construct an alphabet $\Sigma$ and  grammar $G$ such that $G$ is full if and only if $M$ does not halt on zero.
+Hence if $CFGFULL_\Sigma$ was computable then $HALTONZERO$ would have been computable as well,  contradicting [haltonzero-thm](){.ref}.^[[haltonzero-thm](){.ref} is stated for NAND++ programs and not Turing machines, but since we can transform any NAND++ program into an equivalent Turing machine, this implies the uncomputability of the halting on zero problem for Turing machines as well.]
+:::
+
+## Summary of semantic properties for regular expressions and context-free  grammars
+
+To summarize, we can often trade _expressiveness_ of the model for _amenability to analysis_. If we consider computational models that are _not_ Turing complete, then we are sometimes able to bypass Rice's Theorem and answer certain semantic questions about programs in such models.
+Here is a summary of some of what is known about semantic questions for the different models we have seen.
+
+| _Model_  \\  **Problem** | **Halting** | **Emptiness** | **Equivalence** |
+|--------------------------|-------------|---------------|-----------------|
+| _Regular Expressions_    | Decidable   | Decidable     | Decidable       |
+| _Context Free Grammars_  | Decidable   | Decidable     | Undecidable     |
+| _Turing complete models_ | Undecidable | Undecidable   | Undecidable     |
+
+
+::: {.remark title="Unrestricted Grammars (optional)" #unrestrictedgrammars}
 The reason we call context free grammars "context free" is because if we have a rule of the form $v \mapsto a$ it means that we can always replace $v$ with the string $a$, no matter the _context_ in which $v$ appears.
-More generally, we want to consider cases where our replacement rules depend on the context.^[TODO: add example]
-This gives rise to the notion of _general grammars_ that allow rules of the form $(a,b)$ where both $a$ and $b$ are strings over $(V \cup \Sigma)^*$.
+More generally, we might want to consider cases where our replacement rules depend on the context.
+
+This gives rise to the notion of _general grammars_ that allow rules of the form $a \Rightarrow b$ where both $a$ and $b$ are strings over $(V \cup \Sigma)^*$.
 The idea is that if, for example, we wanted to enforce the condition that we only apply some rule such as $v \mapsto 0w1$  when $v$ is surrounded by three zeroes on both sides, then we could do so by adding a rule of the form $000v000 \mapsto 0000w1000$ (and of course we can add much more general conditions).
+Alas, this generality comes at a cost - these general grammars are Turing complete and hence their halting problem is undecidable.
+:::
 
-TO BE CONTINUED, UNDECIDABILITY OF GENERAL GRAMMARS.
 
 
-## Lecture summary
 
+
+> # { .recap }
 * The uncomputability of the Halting problem for general models motivates the definition of restricted computational models.
-
 * In restricted models we might be able to answer questions such as: does a given program terminate, do two programs compute the same function?
 
 

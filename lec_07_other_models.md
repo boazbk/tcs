@@ -830,14 +830,28 @@ This is a system that consists of a large number (or even infinite) cells.
 Each cell only has a constant number of possible states.
 At each time step, a cell updates to a new  state by applying some  simple rule to the state of itself and its neighbors.
 
+
+::: {.definition title="Cellular Automata" #cellautomatadef}
+Let $\Sigma$ be a finite set containing the symbol $\varnothing$. A _two dimensional cellular automation_ over alphabet $\Sigma$ is described by a _transition rule_ $r:\Sigma^9 \rightarrow \Sigma$.
+An _configuration_ of the automaton is specified by an assignment $\sigma:\Z^2 \rightarrow \Sigma$ where for all but a finite number of $(x,y) \in \Z^2$, $\sigma(x,y)=\varnothing$.
+If $\sigma$ is a configuration and $r$ is a transition rule, then the _next step configuration_, denoted by $\sigma' = NEXT_r(\sigma)$ is defined as
+
+$$\sigma'(x,y) = r(\sigma(x,y),\sigma(x,y+1),\sigma(x,y-1),\sigma(x+1,y),\sigma(x+1,y+1),\sigma(x+1,y-1),\sigma(x-1,y),\sigma(x-1,y+1),\sigma(x-1,y-1) )$$
+
+In other words, the value of $\sigma'$  at a point $(x,y)$ is obtained by applying the rule $r$ to the values of $\sigma$ at $(x,y)$ and all its 8 neighbors in the grid (including both vertical, horizontal, and diagonal neighbors).^[There are variants where the transition rule does not depend on the current state and so only takes 8 inputs, and variants where it does not depend on the diagonal neighbors. These variations do not make a  difference in terms of the expressive power.]
+:::
+
+
+
 A canonical example of a cellular automaton is [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
 In this automata the cells are arranged in an infinite two dimensional grid.
-Each cell has only two states: "dead" (which we can encode as $0$) or "alive" (which we can encode as $1$).
+Each cell has only two states: "dead" (which we can encode as $0$ and identify with $\varnothing$) or "alive" (which we can encode as $1$).
 The next state of a cell depends on its previous state and the states of its 8 vertical, horizontal and diagonal neighbors.
 A dead cell becomes alive only if exactly three of its neighbors are alive.
 A live cell continues to live if it has two or three live neighbors.
 Even though the number of cells is potentially infinite, we can have a finite encoding for the state by only keeping track of the live cells.
 If we initialize the system in a configuration with a finite number of live cells, then the number of live cells will stay finite in all future steps.
+
 
 
 We can think of such a system as encoding a computation by starting it in some initial configuration, and then defining some halting condition (e.g., we halt if the cell at position $(0,0)$ becomes dead) and some way to define an output (e.g., we output the state of the cell at position $(1,1)$).
@@ -855,6 +869,29 @@ It turns out that even [one dimensional cellular automata](https://en.wikipedia.
 ![Evolution of a one dimensional automata. Each row in the figure corresponds to the configuration. The initial configuration corresponds to the top row and contains only a single "live" cell. This figure corresponds to the "Rule 110" automaton of Stefan Wolfram which is Turing Complete. Figure taken from [Wolfram MathWorld](http://mathworld.wolfram.com/Rule110.html).](../figure/Rule110Big.jpg){#onedimautfig .class width=300px height=300px}
 
 
+## Turing completeness and equivalence, a formal definition (optional) {#turingcompletesec }
+
+A _computational model_ is some way to define what it means for a _program_ (which is represented by a string) to compute a (partial) _function_.
+A _computational model_ $\mathcal{M}$ is _Turing  complete_, if we can map every Turing machine (or equivalently NAND++ program) $Q$ into a program $P$ for $\mathcal{M}$ that computes the same function as $Q$.
+It is _Turing equivalent_ if the other direction holds as well (i.e., we can map every program in $\mathcal{M}$ to a Turing machine/NAND++ program that computes the same function).
+Formally, we can define this notion as follows:
+
+::: {.definition title="Turing completeness and equivalence" #turingcompletedef}
+Let $\mathcal{F}$ be the set of all partial functions from $\{0,1\}^*$ to $\{0,1\}^*$. A _computational model_ is a map $\mathcal{M}:\{0,1\}^* \rightarrow \mathcal{F}$.
+We say that a program $P$ in the model $\mathcal{M}$ _computes_ a function $F\in \mathcal{F}$ if $\mathcal{M}(P) = F$.
+
+A computational model $\mathcal{M}$ is _Turing complete_ if there is a computable map $ENCODE_M:\{0,1\}^* \rightarrow \{0,1\}^*$ for every NAND++ program $P$ (represented as a string),  $\mathcal{M}(ENCODE_M(P))$ is equal to the partial function computed by $P$.^[We could have equally well made this definition using Turing machines, NAND<<, $\lambda$ calculus, and many other models.]
+A computational model $\mathcal{M}$ is _Turing equivalent_ if it is Turing complete and there exists a computable map $DECODE_M:\{0,1\}^* \rightarrow \{0,1\}^*$ such that or every string $Q\in \{0,1\}^*$,  $P=ENCODE_M(Q)$ is a string representation of a NAND++ program that  computes the function $\mathcal{M}(Q)$.
+:::
+
+Some examples of Turing Equivalent models include:
+
+* Turing machines
+* NAND++ programs
+* NAND<< programs
+* $\lambda$ calculus
+* Game of life (mapping programs and inputs/outputs to starting and ending configurations)
+* Programming languages such as Python/C/Javascript/OCaml... (allowing for unbounded storage)
 
 
 ## The Church-Turing Thesis (discussion)
@@ -872,7 +909,7 @@ These devices might potentially make some computations more _efficient_, but the
 
 
 
-## Our models vs standard texts
+## Our models vs other texts
 
 We can summarize the models we use versus those used in other texts in the following table:
 
