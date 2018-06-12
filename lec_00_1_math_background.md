@@ -182,9 +182,9 @@ For example, [onetoonedef](){.ref} says that a one to one function is a function
 Reading mathematical texts in this way takes time, but it gets easier with practice.
 Moreover, this is one of the most transferable skills you could take from this course.
 Our world is changing rapidly, not just in the realm of technology, but also in many other human endeavors, whether it is medicine, economics, law or even culture.
-Whatever your future aspirations, it is likely that you will often need throughout your life to understand texts that use new concepts that you have not seen before (for semi-random recent examples from current "hot areas", see [alphagozerofig](){.ref} and [zerocashfig](){.ref}).
+Whatever your future aspirations, it is likely that you will encounter texts that use new concepts that you have not seen before (for semi-random recent examples from current "hot areas", see [alphagozerofig](){.ref} and [zerocashfig](){.ref}).
 Being able to internalize and then apply new definitions can be hugely important.
-It is a skill that's much easier to acquire in the relatively safe and stable  context of a mathematical course, where at least you have the guarantee that the concepts are fully specified, and you have access to your teaching staff for questions.
+It is a skill that's much easier to acquire in the relatively safe and stable  context of a mathematical course, where one at least has  the guarantee that the concepts are fully specified, and you have access to your teaching staff for questions.
 
 
 ![A snippet from the "methods" section of the  ["AlphaGo Zero" paper](https://goo.gl/k8pVpL) by Silver et al, _Nature_, 2017. ](../figure/alphagozero.png){#alphagozerofig .class width=300px height=300px}
