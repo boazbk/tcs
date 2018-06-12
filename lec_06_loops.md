@@ -173,7 +173,7 @@ With the introduction of the special index variable `i`, in NAND++ things are di
 >
 To make sure there is no confusion, we will insist that plain variables (which we will also refer to as _scalar_ variables) are written with all lower case, and _array variables_ begin with an upper case letter.
 Moreover, it turns out that we can ensure without loss of generality that arrays are always indexed by the variable `i`.
-Hence all the variable identifiers in "well formed" NAND++ programs will either have the form `foo_123` (a sequence of lower case letters, underscores, and numbers, with no brackets or upper case letters) or the form `Bar[i]` (an identifier starting with an upper case letter, and ending with `[i]`).
+Hence all the variable identifiers in "well formed" NAND++ programs will either have the form `foo_123` (a sequence of lower case letters, underscores, and numbers, with no brackets or upper case letters) or the form `Bar[i]` (an identifier starting with an upper case letter, and ending with `[i]`).^[We will also assume that "well formed" NAND++ program contain the variables `zero`, `one` which are the corresponding constants and the `indexincreasing` variable which is discussed in [vanillatoenhancedsec](){.ref}.]
 >
 Some of our example programs, such as the program to compute XOR  in [XORNANDPP](){.ref}, are not well formed, in the sense that they index the `X` and `Y` arrays with `0` and not just `i`.
 However, it is not hard to transform them into well formed programs (see [noabsoluteindexex](){.ref})

@@ -831,18 +831,6 @@ Each cell only has a constant number of possible states.
 At each time step, a cell updates to a new  state by applying some  simple rule to the state of itself and its neighbors.
 
 
-::: {.definition title="Cellular Automata" #cellautomatadef}
-Let $\Sigma$ be a finite set containing the symbol $\varnothing$. A _two dimensional cellular automation_ over alphabet $\Sigma$ is described by a _transition rule_ $r:\Sigma^9 \rightarrow \Sigma$.
-An _configuration_ of the automaton is specified by an assignment $\sigma:\Z^2 \rightarrow \Sigma$ where for all but a finite number of $(x,y) \in \Z^2$, $\sigma(x,y)=\varnothing$.
-If $\sigma$ is a configuration and $r$ is a transition rule, then the _next step configuration_, denoted by $\sigma' = NEXT_r(\sigma)$ is defined as
-
-$$\sigma'(x,y) = r(\sigma(x,y),\sigma(x,y+1),\sigma(x,y-1),\sigma(x+1,y),\sigma(x+1,y+1),\sigma(x+1,y-1),\sigma(x-1,y),\sigma(x-1,y+1),\sigma(x-1,y-1) )$$
-
-In other words, the value of $\sigma'$  at a point $(x,y)$ is obtained by applying the rule $r$ to the values of $\sigma$ at $(x,y)$ and all its 8 neighbors in the grid (including both vertical, horizontal, and diagonal neighbors).^[There are variants where the transition rule does not depend on the current state and so only takes 8 inputs, and variants where it does not depend on the diagonal neighbors. These variations do not make a  difference in terms of the expressive power.]
-:::
-
-
-
 A canonical example of a cellular automaton is [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
 In this automata the cells are arranged in an infinite two dimensional grid.
 Each cell has only two states: "dead" (which we can encode as $0$ and identify with $\varnothing$) or "alive" (which we can encode as $1$).
@@ -859,10 +847,58 @@ Clearly, given any starting configuration $x$, we can simulate the game of life 
 Surprisingly, it turns out that the other direction is true as well: as simple as its rules seem, we can simulate a NAND++ program using the game of life (see [golfig](){.ref}).
 The [Wikipedia page](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) for the Game of Life contains some beautiful figures and animations of  configurations that produce some very interesting evolutions.
 See also the book [The Nature of Computation](http://nature-of-computation.org/).
-It turns out that even [one dimensional cellular automata](https://en.wikipedia.org/wiki/Rule_110) can be Turing complete, see [onedimautfig](){.ref}.
 
 
 ![A Game-of-Life configuration simulating a Turing Machine. Figure by [Paul Rendell](http://rendell-attic.org/gol/tm.htm).](../figure/turing_gol.jpg){#golfig .class width=300px height=300px}
+
+
+
+### Configurations of NAND++/Turing machines and one dimensional cellular automata
+
+
+It turns out that even [one dimensional cellular automata](https://en.wikipedia.org/wiki/Rule_110) can be Turing complete (see [onedimautfig](){.ref}).
+In a _one dimensional automata_, the cells are laid out in one infinitely long line. The next state of each cell is only a function of its past state and the state of both its neighbors.
+
+
+
+::: {.definition title="One dimensional cellular automata" #cellautomatadef}
+Let $\Sigma$ be a finite set containing the symbol $\varnothing$. A _one dimensional cellular automation_ over alphabet $\Sigma$ is described by a _transition rule_ $r:\Sigma^3 \rightarrow \Sigma$, which satisfies $r(\varnothing,\varnothing,\varnothing) = \varnothing$.
+
+An _configuration_ of the automaton is specified by a string $\alpha \in \Sigma^*$.  We can also think of $\alpha$ as the infinite sequence $(\alpha_0,\alpha_1,\ldots,\alpha_{n-1},\varnothing,\varnothing,\varnothing,\ldots)$, where $n=|\alpha|$.
+If $\alpha$ is a configuration and $r$ is a transition rule, then the _next step configuration_, denoted by $\alpha' = NEXT_r(\alpha)$ is defined as follows:
+$$alpha'_i = NEXT_r(\alpha_{i-1},\alpha_i,\alpha_{i+1})$$
+for $i=0,\ldots,n$.
+If $j$ is smaller than $0$ or larger than $n-1$ then we set $\alpha_j = \varnothing$.
+
+In other words, the next state of the automaton $r$ at point $i$ obtained by applying the rule $r$ to the values of $\alpha$ at $i$ and its two neighbors.
+:::
+
+> # {.theorem title="One dimensional automata are Turing complete" #onedimcathm}
+For every NAND++ program $P$, there is an alphabet $\Sigma$ and a rule $r:\Sigma^3 \rightarrow \Sigma$,  such that there is a computable map of $x \in \{0,1\}^*$ to a configuration $\alpha \in \Sigma^*$ such that $P$ halts on input $x$ with output $b \in \{0,1\}$ if and only if when the automata $r$ is initiated with the configuration $\alpha$, it eventually reaches a configuration $\beta$ such that $\beta_0=1$ and $\beta_1 = b$.
+
+
+::: {.proofidea data-ref="onedimcathm"}
+We just sketch the proof. If $P$ is a well formed NAND++ program with $a$ array variables and $b$ scalar variables, then a _configuration_ of $P$ contains its full state at after a particular iteration. That is, the contents of all the array and scalar variables, as well  as the value of the index variable `i`.
+We can encode such  a configuration of $P$ as a string $\alpha$ over an alphabet $\Sigma$  about $2^{a+b}$ symbols.
+The idea is that in all locations $j$ except  that corresponding to the current value of `i`, we will encode at $\alpha_j$ the values of the array  variables at location $j$. In the location corresponding to `i` we will also include in the encoding the values of all the scalar variables.
+
+Given this notion of an encoding, and the fact that `i` moves only one step  in each iteration, we can see that after one iteration of the program $P$, the configuration largely stays the same except the locations $i,i-1,i+1$ corresponding to the location of the current variable `i` and its immediate neighbors. Once we realize this, we can phrase the progression from one configuration to the next as a one dimensional ceullar automaton!
+From this observation, [onedimcathm](){.ref} follows in a fairly straightforward manner.
+:::
+
+
+::: {.proof data-ref="onedimcathm"}
+For every $j$, if $j$ is not equal to the current value $i$ of `i` then $\alpha_j$ will encode the values of all the $a$ array variables at the $j$-th location. For the particular location $i$, $\alpha_i$ will also encode the value of all the $b$ array variables. (Hence in this location $\alpha_i$ will equal a pair $(A,B)$ where $A\in \{0,1\}^a$ and $B\in \{0,1\}^b$.)
+At the end of an iteration,  `i` either increases or decreases, and also the scalar and array variables are updated.
+This means that if $\alpha'$ is the next configuration and $i$ is the original value of the variable `i`, then $\alpha'_i$ is equal to the new values that were written to the array variables in this iteration, while if `i` decreases $\alpha'_{i-1}$ now contains a string $B\in \{0,1\}^b$ encoding the values that were written to the scalar variables, and similarly if `i` increases then $\alpha'_{i+1}$ contains such a string.
+For all other locations $j$, $\alpha'_j = \alpha_j$.
+Note that we can assume that one of the scalar variables is `indexincreasing` and hence we can compute based on these variables whether `i` should increase or decrease.
+This means that for every location $j$, $\alpha'_j$ can be computed as a function of $\alpha_{j-1},\alpha_j,\alpha_{j+1}$.
+In other words, the evolution of the configurations of the NAND++ program $P$ forms a one dimensional cellular automaton!.
+
+TO BE COMPLETED
+:::
+
 
 
 
