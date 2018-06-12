@@ -873,43 +873,64 @@ If $j$ is smaller than $0$ or larger than $n-1$ then we set $\alpha_j = \varnoth
 In other words, the next state of the automaton $r$ at point $i$ obtained by applying the rule $r$ to the values of $\alpha$ at $i$ and its two neighbors.
 :::
 
-> # {.theorem title="One dimensional automata are Turing complete" #onedimcathm}
-For every NAND++ program $P$, there is an alphabet $\Sigma$ and a rule $r:\Sigma^3 \rightarrow \Sigma$,  such that there is a computable map of $x \in \{0,1\}^*$ to a configuration $\alpha \in \Sigma^*$ such that $P$ halts on input $x$ with output $b \in \{0,1\}$ if and only if when the automata $r$ is initiated with the configuration $\alpha$, it eventually reaches a configuration $\beta$ such that $\beta_0=1$ and $\beta_1 = b$.
+::: {.theorem title="One dimensional automata are Turing complete" #onedimcathm}
+For every NAND++ program $P$,  there is a one dimension cellular automaton that can simulate $P$ on every input $x$.
 
+Specifically, for every NAND++ program $P$, there is a finite alphabet $\Sigma$ and an automaton $\mathcal{A}$  over this alphabet, as well as an efficient mapping from the inputs to $P$ to starting configurations for  $\mathcal{A}$ and from configurations of $\mathcal{A}$ whose first coordinate has a special form into outputs of $P$.
+Namely, there is a computable map $ENCODE:\{0,1\}^* \rightarrow \Sigma^*$ and two special symbols $\sigma_0,\sigma_1 \in \Sigma$, such that for every $x\in \{0,1\}^*$, $P(x)$ halts with input $b\in \{0,1\}$ if and only if the automaton $\mathcal{A}$ initialized with configuration $ENCODE(x)$ eventually reaches a configuration with $\beta_0 = \sigma_b$.
+:::
+
+::: { .pause }
+The theorem is a little cumbersome to state but try to think how _you_ would formalize the notion of an "automaton simulating a NAND++ program".
+:::
 
 ::: {.proofidea data-ref="onedimcathm"}
-We just sketch the proof. If $P$ is a well formed NAND++ program with $a$ array variables and $b$ scalar variables, then a _configuration_ of $P$ contains its full state at after a particular iteration. That is, the contents of all the array and scalar variables, as well  as the value of the index variable `i`.
-We can encode such  a configuration of $P$ as a string $\alpha$ over an alphabet $\Sigma$  about $2^{a+b}$ symbols.
+A _configuration_ of $P$ contains its full state at after a particular iteration. That is, the contents of all the array and scalar variables, as well  as the value of the index variable `i`.
+We can encode such  a configuration of $P$ as a string $\alpha$ over an alphabet $\Sigma$  of  $2^a + 2^{a+b}$ symbols (where $a$ is the number of array variables  in $P$ and $b$ is the number of scalar variables).
 The idea is that in all locations $j$ except  that corresponding to the current value of `i`, we will encode at $\alpha_j$ the values of the array  variables at location $j$. In the location corresponding to `i` we will also include in the encoding the values of all the scalar variables.
 
 Given this notion of an encoding, and the fact that `i` moves only one step  in each iteration, we can see that after one iteration of the program $P$, the configuration largely stays the same except the locations $i,i-1,i+1$ corresponding to the location of the current variable `i` and its immediate neighbors. Once we realize this, we can phrase the progression from one configuration to the next as a one dimensional ceullar automaton!
 From this observation, [onedimcathm](){.ref} follows in a fairly straightforward manner.
 :::
 
-Before proving [onedimcathm](){.ref}, let us formally define the notion of a _configuration_ of a NAND++ program. We will come back to this notion in later chapters as well.
+Before proving [onedimcathm](){.ref}, let us formally define the notion of a _configuration_ of a NAND++ program (see also [nandppconfigfig](){.ref}). We will come back to this notion in later chapters as well.
 
 ![A _configuration_ of a (well formed) NAND++ program $P$ with $a$ array variables and $b$ scalar variables is a string $\alpha$ over the alphabet $\{0,1\}^a \cup \{0,1\}^{a+b}$. In exactly one index $i$, $\alpha_i \in \{0,1\}^{a+b}$. This corresponds to the index variable `i` $=i$, and $\alpha_i$ encodes both the contents of the scalar variables, as well as the array variables at the location $i$. For $j\neq i$, $\alpha_j$ encodes the contents of the array variables at the location $j$. The length of the string denotes the largest index that has been reached so far in the execution of the program.If in one iteration we move from $\alpha$ to $\alpha'$, then for every $j$, $\alpha'_j$ is a function of $\alpha_{j-1},\alpha_j,\alpha_{j+1}$.](../figure/nandppconfiguration2.png){#nandppconfigfig .class width=300px height=300px}
 
 
 ::: {.definition title="Configuration of NAND++ programs." #confignandppdef}
-Let $P$ be a well-formed NAND++ program with $a$ array variables and $b$ scalar variables. A _configuration_ of $P$ is a string $\alpha \in (\Sigma_a \cup \Sigma_{a,b})^*$  where $\Sigma_a = \{0,1\}^a$ and $\Sigma_{a,b} = \{0,1\}^a \times \{0,1\}^b$, and such that there is exactly one index $i$ such that $\alpha_i \in \Sigma_{a,b}$, while for all other $j \in \{0,\ldots,|\alpha|-1\}$, $\alpha_j \in \Sigma_a$.
+Let $P$ be a well-formed NAND++ program with $a$ array variables and $b$ scalar variables. A _configuration_ of $P$ is a string $\alpha \in (\{0,1\}^a \cup \{0,1\}^{a+b})^*$ such there is exactly coordinate $i \in \{0,\ldots,|\alpha|-1\}$, such that $\alpha_i \in \{0,1\}^{a+b}$ and for all other coordinates $j$, $\alpha_j \in \{0,1\}^a$.
 
-A configuration $\alpha$ corresponds to the state of $P$ at the beginning of some iteration  as follows: if $i$ is the index such that $\alpha_i \in \Sigma_{a,b}$, then the index variable `i` is equal to $i$,  the scalar variables of $b$ are equal to the second component of $\alpha_i$, while the
+A configuration $\alpha$ corresponds to the state of $P$ at the beginning of some iteration as follows:
+
+* The value of the index variable `i` is the index $i$ such that $\alpha_i \in \{0,1\}^{a+b}$.  The value of the $b$ scalar variables is encoded by the last $b$ bits of $\alpha_i$, while the value of the $a$ array variables at the location $i$ is encoded by the first $a$ bits of $\alpha_i$.
+
+* For every $j\neq i$, the value of the $a$ array variables at the location $j$ is encoded by $\alpha_j$.
+
+* The length of $\alpha$ corresponds to the largest position `i` that the program have reached up until this point in the execution. (And so in particular by our convention, the value of all array variables at locations greater or equal to $|\alpha|$ defaults to zero.)
+
+If $\alpha$ is a configuration of $P$, then $\alpha' = NEXT_P(\alpha)$ denotes the configuration of $P$ after completing one iteration.
+Note that $\alpha'_j = \alpha_j$ for all $j\not\in \{i-1,i,i+1\}$, and that more generally $\alpha'_j$ is a function of $\alpha_{j-1},\alpha_j,\alpha_{j+1}$.^[Since $P$ is well-formed, we assume it contains an `indexincreasing` variable that can be used to compute whether `i` increases or decreases at the end of an iteration.]
+:::
+
+::: {.remark title="Configurations of Turing Machines" #tmconfigrem}
+The same ideas  can (and often are) used to define configurations of _Turing Machines_. If $M$ is a Turing machine with tape alphabet $\Sigma$ and state space $Q$, then a configuration of $M$ can be encoded as a string $\alpha$ over the alphabet $\Sigma \cup (\Sigma \times Q)$, such that only a single coordinate (corresponding to the tape's head) is in the larger alphabet $\Sigma \times Q$, and the rest are in $\Sigma$.
+The configuration encodes the tape contents, current state, and head location in the natural way.
+All of our arguments that use NAND++ configurations can be carried out with Turing machine configurations as well.
+:::
+
 :::
 
 ::: {.proof data-ref="onedimcathm"}
-For every $j$, if $j$ is not equal to the current value $i$ of `i` then $\alpha_j$ will encode the values of all the $a$ array variables at the $j$-th location. For the particular location $i$, $\alpha_i$ will also encode the value of all the $b$ array variables. (Hence in this location $\alpha_i$ will equal a pair $(A,B)$ where $A\in \{0,1\}^a$ and $B\in \{0,1\}^b$.)
-At the end of an iteration,  `i` either increases or decreases, and also the scalar and array variables are updated.
-This means that if $\alpha'$ is the next configuration and $i$ is the original value of the variable `i`, then $\alpha'_i$ is equal to the new values that were written to the array variables in this iteration, while if `i` decreases $\alpha'_{i-1}$ now contains a string $B\in \{0,1\}^b$ encoding the values that were written to the scalar variables, and similarly if `i` increases then $\alpha'_{i+1}$ contains such a string.
-For all other locations $j$, $\alpha'_j = \alpha_j$.
-Note that we can assume that one of the scalar variables is `indexincreasing` and hence we can compute based on these variables whether `i` should increase or decrease.
-This means that for every location $j$, $\alpha'_j$ can be computed as a function of $\alpha_{j-1},\alpha_j,\alpha_{j+1}$.
-In other words, the evolution of the configurations of the NAND++ program $P$ forms a one dimensional cellular automaton!.
+Assume without loss of generality that  $P$ is a well-formed NAND++ program with $a$ array variables and $b$ scalar variables. (Otherwise we can translate it to such a program.)  Then $NEXT_P$ (the function of [confignandppdef](){.ref} that maps a configuration of $P$ into the next one) is in fact a valid rule for a  one dimensional automata. The only thing we have to do is to identify the default value of $\varnothing$ with the value $0^a$ (which corresponds to the index not being in this location and all array variables are set to $0$).
 
-TO BE COMPLETED
+
+For every input $x$, we can  compute $\alpha(x)$ to be the configuration corresponding to the initial state of $P$ when executed on input $x$.
+We can modify the program $P$ so that when it decides to halt, it will first wait until the index variable `i` reaches the $0$ position and also zero out all of its scalar and array variables except for `Y` and `Yvalid`.
+Hence the program eventually halts if and only the automaton eventually reaches a configuration $\beta$ in which $\beta_0$ encodes the value of `loop` as $0$, and moreover in this case, we can "read off" the output from $\beta_0$.
 :::
 
-
+The automaton arising from the proof of [onedimcathm](){.ref} has a large alphabet, and furthermore one whose size that depends on the program $P$ that is being simulated. It turns out that one can obtain an automaton with an alphabet of fixed size that is independent of the program being simulated, and in fact the alphabet of the automaton can be  the minimal set $\{0,1\}$! See [onedimautfig](){.ref} for an example of such an Turing-complete automaton.
 
 
 ![Evolution of a one dimensional automata. Each row in the figure corresponds to the configuration. The initial configuration corresponds to the top row and contains only a single "live" cell. This figure corresponds to the "Rule 110" automaton of Stefan Wolfram which is Turing Complete. Figure taken from [Wolfram MathWorld](http://mathworld.wolfram.com/Rule110.html).](../figure/Rule110Big.jpg){#onedimautfig .class width=300px height=300px}
