@@ -8,7 +8,7 @@
 * See that Turing completeness is not always a good thing
 * Two important examples of non-Turing-complete, always-halting formalisms: _regular expressions_ and _context-free grammars_.
 * The pumping lemmas for both these formalisms, and examples of non regular and non context-free functions.
-* Unrestricted grammars, and another example of an uncomputable function.
+* Examples of computable and uncomputable _semantic properties_ of regular expressions and context-free grammars. 
 
 >_"Happy families are all alike; every unhappy family is unhappy in its own way"_,  Leo Tolstoy (opening of  the book "Anna Karenina").
 
@@ -77,7 +77,7 @@ $$
 Formally, regular expressions are defined by the following recursive definition:^[We have seen a recursive definition before in the setting of $\lambda$ expressions ([lambdaexpdef](){.ref}). Just like recursive functions, we can define a concept recursively. A definition of some class $\mathcal{C}$ of objects can be thought of as defining a function that maps an object $o$ to either $VALID$ or $INVALID$ depending on whether $o \in \mathcal{C}$. Thus we can think of   [regexp](){.ref} as defining a recursive function that maps a string $exp$ over $\Sigma \cup \{ "(",")","|", "*" \}$ to $VALID$ or $INVALID$ depending on whether $exp$ describes a valid regular expression.]
 
 ::: {.definition title="Regular expression" #regexp}
-A _regular expression_ $exp$ over an alphabet $\Sigma$ is a string over $\Sigma \cup \{ "(",")","|","*" \}$ that has one of the following forms:
+A _regular expression_ $exp$ over an alphabet $\Sigma$ is a string over $\Sigma \cup \{ (,),|,*,\emptyset, "" \}$ that has one of the following forms:
 
 1. $exp = \sigma$ where $\sigma \in \Sigma$
 
@@ -135,7 +135,7 @@ But it turns out that the "halting problem" for these programs is easy: they alw
 
 
 > # {.theorem title="Regular expression always halt" #regularexphalt}
-For every set $\Sigma$ and $exp \in (\Sigma \cup \{ "(",")","|","*" \})*$,  if $exp$ is a valid regular expression over $\Sigma$ then $\Phi_{exp}$ is a total function from $\Sigma^*$ to $\{0,1\}$.
+For every set $\Sigma$ and $exp \in (\Sigma \cup \{ (,),|,*,\emptyset, "" \})^*$,  if $exp$ is a valid regular expression over $\Sigma$ then $\Phi_{exp}$ is a total function from $\Sigma^*$ to $\{0,1\}$.
 Moreover, there is an always halting NAND++ program $P_{exp}$ that computes $\Phi_{exp}$.
 
 > # {.proofidea data-ref="regularexphalt"}
@@ -148,7 +148,7 @@ The details are specified below.
 The key observation is that in our recursive definition of regular expressions, whenever $exp$ is made up of one or two expressions $exp',exp''$ then these two regular expressions are _smaller_ than $exp$, and eventually (when they have size $1$) then they must correspond to the non-recursive case of a single alphabet symbol.
 
 Therefore, we can prove the theorem by induction over the length $m$ of $exp$ (i.e., the number of symbols in the string $exp$, also denoted as $|exp|$).
-For $m=1$, $exp$ is a single alhpabet symbol and the function $\Phi_{exp}$ is trivial.
+For $m=1$, $exp$ is a single alphabet symbol and the function $\Phi_{exp}$ is trivial.
 In the general case, for $m=|exp|$ we assume by the induction hypothesis that  we have proven the theorem for $|exp|  = 1,\ldots,m-1$.
 Then by the definition of regular expressions, $exp$ is made up of one or two sub-expressions $exp',exp''$ of length smaller than $m$, and hence by the induction hypothesis we assume that $\Phi_{exp'}$ and   $\Phi_{exp''}$ are total computable functions.
 But then we can follow the definition for the cases of concatenation, union, or the star operator to compute $\Phi_{exp}$ using $\Phi_{exp'}$ and $\Phi_{exp''}$.
@@ -278,6 +278,11 @@ Let $exp$ be a regular expression. Then there is some number $n_0$ such that for
 > # {.proofidea data-ref="pumping"}
 The idea behind the proof is very simple (see [pumpinglemmafig](){.ref}). If we let $n_0$ be, say, twice the number of symbols that are used in the expression $exp$, then the only way that there is some $w$ with $|w|>n_0$ and $\Phi_{exp}(w)=1$ is that $exp$ contains the $*$ (i.e. star) operator and that there is a nonempty substring $y$ of $w$ that was matched by $(exp')^*$ for some sub-expression $exp'$ of $exp$.  We can now repeat $y$ any number of times and still get a matching string.
 
+::: { .pause }
+The pumping lemma is a bit cumbersome to state, but one way to remember it is that it simply says the following: _"if a string matching a regular expression is long enough, one of its substrings must be matched using the $*$ operator"_.
+:::
+
+
 > # {.proof data-ref="pumping"}
 To prove the lemma formally, we use induction on the length of the expression. Like all induction proofs, this is going to be somewhat lengthy, but at the end of the day it directly follows the intuition above that _somewhere_ we must have used the star operation. Reading this proof, and in particular understanding how the formal proof below corresponds to the intuitive idea above, is a very good way to get more comfort with inductive proofs of this form.
 >
@@ -315,6 +320,17 @@ In particular, the number $n_0$ in the statement of  [pumping](){.ref} depends o
 So, if we want to use the pumping lemma to rule out the existence of a regular expression $exp$ computing some function $F$, we need to be able to choose an appropriate $w$ that can be arbitrarily large and satisfies $F(w)=1$.
 This makes sense if you think about the intuition behind the pumping lemma: we need $w$ to be large enough as to force the use of the star operator.
 
+
+::: {.solvedexercise title="Palindromes is not regular" #palindromenotreg}
+Prove that the following function over the alphabet $\{0,1,; \}$ is not regular: $PAL(w)=1$  if and only if $w = u;u^R$ where $u \in \{0,1\}^*$ and $u^R$ denotes $u$ "reversed": the string $u_{|u|-1}\cdots u_0$.^[The _Palindrome_ function is most often defined without an explicit separator character $;$, but the version with such a separator is a bit cleaner and so we use it here. This does not make much difference, as  one can easily encode the separator as a special binary string instead.]
+:::
+
+::: {.solution data-ref="stringreversed"}
+We use the pumping lemma. Suppose towards the sake of contradiction that there is a regular expression $exp$ computing $PAL$, and let $n_0$ be the number obtained by the pumping lemma ([pumping](){.ref}).
+Consider the string $w = 0^{n_0};0^{n_0}$.
+Since the reverse of the all zero string is the all zero string, $PAL(w)=1$.
+Now, by the pumping lemma, if $PAL$ is computed by $exp$, then we can write $w=xyz$ such that $|xy| \leq n_0$, $|y|\geq 1$ and $PAL(xy^kz)=1$ for every $k\in \N$. In particular, it must hold that $PAL(xz)=1$, but this is a contradiction, since $xz=1^{n_0-|y|};1^{n_0}$ and so its two parts are not of the same length and in particular are not the reverse of one another.
+:::
 
 ## Other semantic properties of regular expressions
 
@@ -493,6 +509,13 @@ It turns out that we can convert every CFG to an equivalent version that has the
 Using this form we get a natural recursive algorithm for computing whether $s \Rightarrow_G^* x$ for a given grammar $G$ and string $x$.
 We simply try all possible guesses for the first rule $s \rightarrow uv$   that is used in such a derivation, and then all possible ways to partition $x$ as a concatenation $x=x'x''$. If we guessed the rule and the partition correctly, then this reduces our task to checking whether $u \Rightarrow_G^* x'$ and $v \Rightarrow_G^* x''$, which (as it involves shorter strings) can be done recursively. The base cases are when $x$ is empty or a single symbol, and can be easily handled.
 
+
+
+> # {.remark title="Parse trees" #parsetreesrem}
+While we present CFGs as merely _deciding_ whether the syntax is correct or not, the algorithm to compute $\Phi_{V,R,s}$ actually gives more information than that. That is, on input a string $x$, if $\Phi_{V,R,s}(x)=1$ then the algorithm yields the sequence of rules that one can apply from the starting vertex $s$ to obtain the final string $x$. We can think of these rules as determining a connected directed acylic graph (i.e., a _tree_) with $s$ being a source (or _root_) vertex and the sinks (or _leaves_)  corresponding to the substrings of $x$ that are obtained by the rules that do not have a variable in their second element. This tree is known as the _parse tree_ of $x$, and often yields very useful information about the structure of $x$.
+Often the first step in a compiler or interpreter for a programming language is a _parser_ that transforms the source into the parse tree (often known in this context as the [abstract syntax tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree)). There are also tools that can automatically convert a description of a context-free grammars into a _parser_ algorithm that computes the parse tree of a given string. (Indeed, the above recursive algorithm can be used to achieve this, but there are much more efficient versions, especially for grammars that have [particular forms](https://en.wikipedia.org/wiki/LR_parser), and programming language designers often try to ensure their languages have these more efficient grammars.)
+
+
 ### The power of context free grammars
 
 While we can (and people do) talk about context free grammars over any alphabet $\Sigma$, in the following we will restrict ourselves to $\Sigma=\{0,1\}$.
@@ -514,10 +537,60 @@ We leave it to the reader as (again a very good!) exercise to verify that in all
 
 It turns out that CFG's are strictly more powerful than regular expressions.
 In particular, as we've seen,  the "matching parenthesis" function   $MATCHPAREN$ can be computed by a context free grammar, whereas, as shown in [regexpparn](){.ref}, it cannot be computed by regular expressions.
-However, there are some simple languages that are _not_ captured by context free grammars, as can be shown via the following version of [pumping](){.ref}
+Here is another example:
 
-> # {.theorem title="Context-free pumping lemma (optional)" #cfgpumping}
+::: {.solvedexercise title="Context free grammar for palindromes" #reversedstringcfg}
+Let $PAL:\{0,1,;\}^* \rightarrow \{0,1\}$ be the function defined in [palindromenotreg](){.ref} where $PAL(w)=1$ iff $w$ has the form $u;u^R$.
+Then $PAL$ can be computed by a context-free grammar
+:::
+
+::: {.solution data-ref="reversedstringcfg"}
+A simple grammar computing $PAL$ can be described using Backus–Naur notation:
+
+```python
+start      := ; | 0 start 0 | 1 start 1
+```
+
+One can prove by induction that this grammar generates exactly the strings $w$ such that $PAL(w)=1$.
+:::
+
+A more  interesting example is computing the strings of the form $u;v$ that are _not_ palindromes:
+
+::: {.solvedexercise title="Non palindromes" #nonpalindrome}
+Prove that there is a context free grammar that computes $NPAL:\{0,1,;\}^* \rightarrow \{0,1\}$ where $NPAL(w)=0$ if $w=u;v$ but $v \neq u^R$.
+:::
+
+::: {.solution data-ref="nonpalindrome"}
+Using Backus–Naur notation we can describe such a grammar as follows
+
+```python
+palindrome      := ; | 0 palindrome 0 | 1 palindrome 1
+different       := 0 palindrome 1 | 1 palindrome 0
+start           := different | 0 start | 1 start | start 0 | start 1
+```
+
+In words, this means that we can characterize a string $w$ such that $NPAL(w)=1$ as having the following form
+
+$$
+w = \alpha b u ; u^R b' \beta
+$$
+
+where $\alpha,\beta,u$ are arbitrary strings and $b \neq b'$.
+Hence we can generate such a string by first generating a palindrome $u; u^R$ (`palindrome` variable), then adding either $0$ on the right and $1$ on the left to get something that is _not_ a palindrome (`different` variable), and then we can add arbitrary number of $0$'s and $1$'s on either end (the `start` variable).
+:::
+
+
+### Limitations of context-free grammars (optional)
+
+Even though context-free grammars are more powerful than regular expressions, there are some simple languages that are _not_ captured by context free grammars.
+One tool to show this is the context-free grammar analog of the "pumping lemma" ([pumping](){.ref}):
+
+> # {.theorem title="Context-free pumping lemma" #cfgpumping}
 Let $(V,R,s)$ be a CFG over $\Sigma$, then there is some $n_0\in \N$ such that for every $x \in \Sigma^*$ with $|\sigma|>n_0$, if $\Phi_{V,R,s}(x)=1$ then $x=abcde$ such that $|b|+|c|+|d| \leq n_1$, $|b|+|d| \geq 1$, and $\Phi_{V,R,s}(ab^kcd^ke)=1$ for every $k\in \N$.
+
+::: { .pause }
+The context-free pumping lemma is even more cumbersome to state than its regular analog, but you can remember it as saying the following: _"If a long enough string is matched by  a grammar, there must be a variable that is repeated in the derivation."_
+:::
 
 > # {.proof data-ref="cfgpumping"}
 We only sketch the proof. The idea is that if the total number of symbols in the rules $R$ is $k_0$, then the only way to get $|x|>k_0$ with $\Phi_{V,R,s}(x)=1$ is to use _recursion_.
@@ -526,11 +599,21 @@ Thus by the definition of the grammar, we can repeat the derivation to replace t
 
 Using [cfgpumping](){.ref} one can show that even the simple function $F(x)=1$ iff $x =  ww$ for some $w\in \{0,1\}^*$ is not context free. (In contrast, the function $F(x)=1$ iff $x=ww^R$ for $w\in \{0,1\}^*$ where for $w\in \{0,1\}^n$, $w^R=w_{n-1}w_{n-2}\cdots w_0$ is context free, can you see why?.)
 
+::: {.solvedexercise title="Equality is not context-free" #equalisnotcfg}
+Let $EQ:\{0,1,;\}^* \rightarrow \{0,1\}$ be the function such that $F(x)=1$ if and only if $x=u;u$ for some $u\in \{0,1\}^*$.
+Then $EQ$ is not context free.
+:::
 
-
-> # {.remark title="Parse trees" #parsetreesrem}
-While we present CFGs as merely _deciding_ whether the syntax is correct or not, the algorithm to compute $\Phi_{V,R,s}$ actually gives more information than that. That is, on input a string $x$, if $\Phi_{V,R,s}(x)=1$ then the algorithm yields the sequence of rules that one can apply from the starting vertex $s$ to obtain the final string $x$. We can think of these rules as determining a connected directed acylic graph (i.e., a _tree_) with $s$ being a source (or _root_) vertex and the sinks (or _leaves_)  corresponding to the substrings of $x$ that are obtained by the rules that do not have a variable in their second element. This tree is known as the _parse tree_ of $x$, and often yields very useful information about the structure of $x$.
-Often the first step in a compiler or interpreter for a programming language is a _parser_ that transforms the source into the parse tree (often known in this context as the [abstract syntax tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree)). There are also tools that can automatically convert a description of a context-free grammars into a _parser_ algorithm that computes the parse tree of a given string. (Indeed, the above recursive algorithm can be used to achieve this, but there are much more efficient versions, especially for grammars that have [particular forms](https://en.wikipedia.org/wiki/LR_parser), and programming language designers often try to ensure their languages have these more efficient grammars.)
+::: {.solution data-ref="equalisnotcfg"}
+We use the context-free pumping lemma. Suppose towards the sake of contradiction that there is a grammar $G$ that computes $EQ$, and let $n_0$ be the constant obtained from [cfgpumping](){.ref}.
+Consider the string $x= 1^{n_0}0^{n_0};1^{n_0}0^{n_0}$, and write it as $x=abcde$ as per [cfgpumping](){.ref}, with $|bcd| \leq n_0$ and with $|b|+|d| \geq 1$.
+By [cfgpumping](){.ref}, it should hold that $EQ(ace)=1$.
+However, by case analysis this can be shown to be a contradiction.
+First of all, unless $b$ is on the left side of the $;$ separator and $d$ is  on the right side, dropping $b$ and $d$ will definitely make the two parts different.
+But if it is the case that $b$ is on the left side and $d$ is on the right side, then by the condition that $|bcd| \leq n_0$ we know that $b$ is a string of only zeros and $d$ is a string of only ones.
+If we drop $b$ and $d$ then since one of them is non empty, we get that there are either less zeroes on the left side than on the right side, or there are less ones on the right side than on the left side.
+In either case, we get that $EQ(ace)=0$, obtaining the desired contradiction.
+:::
 
 
 ## Semantic properties of context free languages
@@ -574,38 +657,38 @@ Then there is some finite  $\Sigma$ such that $CFGFULL_\Sigma$ is uncomputable.
 Note that [fullnesscfgdef](){.ref} and [cfgemptinessthem](){.ref}  together imply that context-free grammars, unlike regular expressions, are _not_ closed under complement. (Can you see why?)
 
 
-> # {.proofidea data-ref="fullnesscfgdef"}
-We prove the theorem by reducing from the $HALTONZERO$  problem for Turing Machines.
-To do that we use the notion of _computation histories_ of Turing Machines.
-The idea is that we can encode the state of a Turing machine at some step in its computation by a string $s$, and we have some simple validity condition to check if a string $s'$ corresponds to taking exactly one step after the state $s$.
-We will let $\#$ and $;$ be some "separator characters" and then we can encode the computation of a Turing machine $M$ by a sequence $s_0\# s_1^R ; s_1 \# s_2^R ; \cdots ; s_{t-3} \# s_{t-2}^R ; s_{t-2} \# s_{t-1}^R$ where $s_0$ is the starting state (on the input $0$) and $s_{t-1}$ is a final state, and for every string $s = s_0\cdots s_{\ell-1}$, $s^R$ is the reversed string $s_{\ell-1} \cdots s_0$.
-We will show that for every  Turing machine $M$ there is some finite alphabet $\Sigma$ (containing $\#$ and $\;$) and a grammar $G_M$ that generate a string $\tau \in \Sigma^*$ if and only if $\tau$ _does not_ encode a valid computation history of $M$ on the input $0$.
-Hence $M$ halts on the empty input if and only if there is some $\tau$ that $G_M$ can not  generate, thus proving the theorem.
+::: {.proofidea data-ref="fullnesscfgdef"}
+We prove the theorem by reducing from the Halting  problem.
+To do that we use the notion of _configurations_ of NAND++ programs, as defined in [confignandppdef](){.ref}.
+Recall that a _configuration_ of a program $P$ is a string $s$ over some alphabet $\Sigma$ that encodes all the information about the program in current iteration
+
+We will let $\#$ and $;$ be some "separator characters" and then we can encode the _computation history_ of a NAND++ program $P$ on some input $x$ by a sequence $s_0\# s_1^R ; s_1 \# s_2^R ; \cdots ; s_{t-3} \# s_{t-2}^R ; s_{t-2} \# s_{t-1}^R$ where $s_0$ is the starting configuration (on the input $x$) and $s_{t-1}$ is a final configuration.
+We will show that for every  NAND++ program $P$ there is some finite alphabet $\Sigma$ (containing $\#$ and $\;$) and a grammar $G_P$ that generates a string $\tau \in \Sigma^*$ if and only if $\tau$ _does not_ encode a valid computation history of $P$ on the input $0$.
+Hence $P$ halts on the empty input if and only if there is some $\tau$ that $G_M$ can not  generate, thus proving the theorem.
+:::
+
 
 ::: {.proof data-ref="fullnesscfgdef"}
-We only sketch the proof. We first have to specify in more detail how we encode the state of a Turing machine as a string.
-If $M$ is a Turing machine with tape alphabet $\Sigma$ and with state space $Q$ (which we can assume without loss of generality to be disjoint from $\Sigma$), we can encode a state of $M$ where the tape contents are $z_0,\ldots,z_{t-1}$ (with everything above $t$ equaling $\varnothing$) and where the machine's head is in position $i$ and it has the state $q$ as the string $z_0\cdots  z_{i-1}q z_i \cdots z_{t-1}$ over the alphabet $\Sigma \cup Q$.
-Note that the only difference after one computational step is that the triple $z_{i-1} q z_i$ will change to either $q' z_{i-1} z'_i$ or $z_{i-1} z'_i q'$ depending on whether the machine moves left or right, where $z'_i$ is the value written to the tape at this stage, and $q'$ is the new state.
-
-To prove the theorem we need to show a grammar that can generate all strings over the alphabet $\Sigma \cup Q \cup \{ \#, ; \}$ _except_ those that correspond to valid histories of the form
+We only sketch the proof. We will show that if we can compute $CFGFULL$ then we can solve $HALT$, which has been proven uncomputable in [halt-thm](){.ref}.
+Let $P$ be an input program for $HALT$ and $x$ an input for $P$. We assume without loss of generality that $P$ is well formed with $a$ array variables and $b$ scalar variables as in [confignandppdef](){.ref}.
+To prove the theorem we will show a grammar that can generate all strings over the alphabet $\Sigma  = \{0,1\}^a \cup \{0,1\}^{a+b}  \cup \{ \#, ; \}$ _except_ those that correspond to valid histories of the form
 $$s_0\# s_1^R ; s_1 \# s_2^R ; \cdots ; s_{t-3} \# s_{t-2}^R ; s_{t-2} \# s_{t-1}^R$$
-where $s_0$ is a starting state and $s_{t-1}$ is an ending state.
+where $s_0$ is a starting configuration, $s_{t-1}$ is an ending configuration, and $s_{j+1} = NEXT_P(s_j)$ for every $j\in \{0,\ldots,t-2\}$.
 
 We will not spell out the full details but the main ideas are the following:
 
 * Checking that a state is a valid starting or ending state can be done via a regular expression, and hence both this condition and its negation can be captured by context free grammars.
 
-* We can also find a regular expression for a string being _not_ of the  form $((\Sigma \cup Q)^*\# (\Sigma \cup Q)^*;)^*$, and ensure the grammar accepts all strings that are not of that form.
+* We can also write a regular expression for the negation of the expression $\left((0|1)^*\#(0|1)^*;\right)*$  and so accept all strings that are not composed of blocks of this form.
 
-* Now if a string is of that form, then there are two ways it can fail to be a valid computation history:
+* As we've seen in  [nonpalindrome](){.ref}, we can find a context free grammar for all the strings  _not_ of the  form $u;u^R$ (see .ref) and so can ensure our grammar accepts all string that contains such a "non matching" block.
 
-   1. If it contains a block of the form $\# s \; s' \#$ for $s' \neq s^R$: it is a fairly strarightforward exercise to construct a context-free grammar that accepts all strings that contain a block of this form.
+* Now if a string is of the form $s_0\# s_1^R ; s_1 \# s_2^R ; \cdots ; s_{t-3} \# s_{t-2}^R ; s_{t-2} \# s_{t-1}^R$ then checking that it fails to be a valid computation history amoutns to verifying that it contains a block of the form $s^R;s'$ such that $s'$ is _not_ equal  to $NEXT_P(s)$. Since $NEXT_P$ only modifies $s$ in at most three locations, this can be done by extending the ideas in [nonpalindrome](){.ref}.
 
-   2. If it contains a block of the form $s \# s'$ where $s'$ is _not_ the reverse of string describing a state obtained by taking one step from the state described by $s$. Since the only difference between this case and the case above happens in three adjacent positions that can take one of a finite number of values,  a grammar that accepts all strings containing a block of this form can be obtained as well.
-
-Once we have the above, we can reduce $HALTONZERO$ for a Turing Machine $M$ into the fullness problem for a context free grammar.
-Given a Turing machine $M$, we can construct an alphabet $\Sigma$ and  grammar $G$ such that $G$ is full if and only if $M$ does not halt on zero.
-Hence if $CFGFULL_\Sigma$ was computable then $HALTONZERO$ would have been computable as well,  contradicting [haltonzero-thm](){.ref}.^[[haltonzero-thm](){.ref} is stated for NAND++ programs and not Turing machines, but since we can transform any NAND++ program into an equivalent Turing machine, this implies the uncomputability of the halting on zero problem for Turing machines as well.]
+The above allows us to translate for every NAND++ program $P$, the question of whether $P$ halts on zero to the question of whether a grammar $G_P$ generates all strings.
+The only caveat is that the alphabet of our grammar grows with $P$, and so this does not necessarily show that $CFGFULL_\Sigma$ is uncomputable for some _fixed_ alphabet $\Sigma$.
+However, we can use the following observation: the Halting problem is uncomputable even if we restrict attention to the single universal NAND++ program $U$, as solving $HALT(P,x)$ is the same as solving $HALT(U,P\circ x)$ where $\circ$ denotes concatenation and we identiy $P$  with its (prefix-free) encoding as a string.
+This shows that if $U$ is a universal NAND++ program with $a$ array variables and $b$ scalar variables, then $CFGFULL_\Sigma$ is uncomputable where $\Sigma = \{0,1\}^a \cup \{0,1\}^{a+b} \cup \{ \# , ; \}$.
 :::
 
 ## Summary of semantic properties for regular expressions and context-free  grammars
@@ -635,7 +718,9 @@ Alas, this generality comes at a cost - these general grammars are Turing comple
 
 > # { .recap }
 * The uncomputability of the Halting problem for general models motivates the definition of restricted computational models.
-* In restricted models we might be able to answer questions such as: does a given program terminate, do two programs compute the same function?
+* In some  restricted models we can  answer _semantic_ questions such as: does a given program terminate, or do two programs compute the same function?
+* _Regular expressions_ are a restricted model of computation that is often useful to capture tasks of string matching. We can test efficiently whether an expression matches a string, as well as answer questions such as Halting and Equivalence.
+* _Context free grammars_ is a stronger, yet still not Turing complete, model of computation. The halting problem for context free grammars is computable, but equivalence is not computable.
 
 
 ## Exercises
