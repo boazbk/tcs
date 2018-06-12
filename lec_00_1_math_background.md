@@ -147,12 +147,15 @@ Fully understanding them will require background that will take us weeks to deve
 The point is to show that you should not be afraid of even the most complicated looking definitions and mathematical terminology.
 No matter how convoluted the notation, and how many layers of indirection, you can always look at mathematical definitions and try to at least attempt at answering the following questions:
 
->
->1. What is the intuitive notion that this definition aims at modeling? \
->
->2. How is each new concept  defined in terms of other concepts? \
->
->3. Which of these prior concepts am I already familiar with, and which ones do I still need to look up?
+::: { .quote title="" #temp}
+1. What is the intuitive notion that this definition aims at modeling?
+
+2. How is each new concept  defined in terms of other concepts?
+
+3. Which of these prior concepts am I already familiar with, and which ones do I still need to look up?
+
+:::
+
 
 Dealing with mathematical text is in many ways not so different from dealing with any other complex text, whether it's a legal argument, a philosophical treatise, an English Renaissance play, or even the source code of an operating system.
 You should not expect it to be clear in a first reading, but you should not despair immediately, but rather engage with the text, trying to figure out both the high level intentions as well as the underlying details.
