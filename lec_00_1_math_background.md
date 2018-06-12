@@ -53,12 +53,9 @@ So you can  see why our main tools in this course will be mathematical proofs an
 > # {.remark title="This chapter: a reader's manual" #manualbackground}
 Depending on your background, you can approach this chapter in different ways:
 >
-* If you already have taken some proof-based courses, and are very familiar with the notions of discrete mathematics, you can take a quick look at [#secmathoverview](){.ref} to see the main tools we will use, and skip ahead to the rest of this book. Alternatively, you can  sit back, relax, and read this chapter just to get familiar with our notation, as well as to enjoy (or not) my philosophical musings and attempts at humor. You might also want to start brushing up on _discrete probability_, which we'll use later in this course.
+* If you already have taken some proof-based courses, and are very familiar with the notions of discrete mathematics, you can take a quick look at [secmathoverview](){.ref} to see the main tools we will use, and skip ahead to the rest of this book. Alternatively, you can  sit back, relax, and read this chapter just to get familiar with our notation, as well as to enjoy (or not) my philosophical musings and attempts at humor. You might also want to start brushing up on _discrete probability_, which we'll use later in this course.
 >
 * If your background is not as extensive, you should lean forward, and read this chapter with a pen and paper handy, making notes and working out derivations as you go along. We cannot fit a semester-length discrete math course in a single chapter, and hence will be necessarily brief in our discussions. Thus you might want to occasionally pause to watch  some discrete math lectures, read some of the resources mentioned above, and do some exercises to make sure you internalized the material.
-
-
-
 
 
 
@@ -86,16 +83,16 @@ The main notions we will use in this course are the following:
 * __Logical operations:__ The operations AND, OR, and NOT ($\wedge,\vee,\neg$) and the quantifiers "exists" and "forall" ($\exists$,$\forall$).
 
 
-* __Basic combinatorics:__ Notions such as $\binom{n}{k}$ (the number of $k$-sized subset of a set of size $n$).
+* __Basic combinatorics:__ Notions such as $\binom{n}{k}$ (the number of $k$-sized subsets of a set of size $n$).
 
 * __Graphs:__ Undirected and directed graphs, connectivity, paths, and cycles.
 
-* __Big Oh notation:__ $O,o,\Omega,\omega,\Theta$ notation for analyzing asymptotics of functions.
+* __Big Oh notation:__ $O,o,\Omega,\omega,\Theta$ notation for analyzing asymptotic growth of functions.
 
-* __Discrete probability:__ Later on in this course we will use _probability theory_, and specifically probability over _finite_ samples spaces such as tossing $n$ coins, including notions such as _random variables_, _expectation_, and _concentration_.  We will only use  probability theory in the second half of this course, and will review it  beforehand. However,  probabilistic reasoning is a subtle (and extremely useful!) skill, and it's always good to start early in acquiring it.
+* __Discrete probability:__ Later on in we will use _probability theory_, and specifically probability over _finite_ samples spaces such as tossing $n$ coins, including notions such as _random variables_, _expectation_, and _concentration_.  We will only use  probability theory in the second half of this text, and will review it  beforehand. However,  probabilistic reasoning is a subtle (and extremely useful!) skill, and it's always good to start early in acquiring it.
 
 
-While I highly recommend the resources linked above, in the rest of this chapter we briefly review the above notions.
+In the rest of this chapter we briefly review the above notions.
 This is partially to remind the reader and reinforce material that might not be fresh in your mind, and partially to introduce our notation and conventions which might occasionally differ from those you've encountered before.
 
 
@@ -128,32 +125,34 @@ Let's use [BGPintrodef](){.ref} and [shorsthmintro](){.ref} as examples.
 For starters,  let me tell you what this definition and this theorem are about.
 _Quantum computing_ is an approach to use  the peculiarities of quantum mechanics  to   build computing devices that can solve certain problems exponentially faster than current computers.
 Many large companies and [governments](http://www.businessinsider.com/justin-trudeau-quantum-computing-2016-4) are extremely excited about this possibility, and are investing hundreds of millions of dollars in trying to make this happen.
-To a first order of approximation, the reason they are so excited is [shorsthmintro](){.ref}, which says that the problem of _integer factoring_, with history going back thousands of years, and whose difficulty is (as we'll see) closely tied to the security of many current encryption schemes, can be solved efficiently using quantum computers.
+To a first order of approximation, the reason they are so excited is Shor's Algorithm (i.e., [shorsthmintro](){.ref}), which says that the problem of _integer factoring_, with history going back thousands of years, and whose difficulty is (as we'll see) closely tied to the security of many current encryption schemes, can be solved efficiently using quantum computers.
 
 
 [shorsthmintro](){.ref} was proven by Peter Shor in 1994.
-However, Shor could not even have _stated_ this theorem, let alone prove it, without having [BGPintrodef](){.ref} in place.
+However, Shor could not even have _stated_ this theorem, let alone prove it, without having the proper definition (i.e.,  [BGPintrodef](){.ref}) in place.
 [BGPintrodef](){.ref} defines the class $\mathbf{BQP}$ of functions that can be computed in polynomial time by quantum computers.
 Like any mathematical definition, it defines a new concept (in this case the class $\mathbf{BQP}$) in terms of other  concepts.
 In this case the concepts that are needed are
 
 * The notion of a _function_, which is a mapping of one set to another. In this particular case we use functions whose output is a single number that is either zero or one (i.e., a _bit_) and the input is a list of bits (i.e., a _string_) which can either have a fixed length $n$ (this is denoted as the set $\{0,1\}^n$) or have length that is not a priori bounded (this is denoted by $\{0,1\}^*$).
 
-* We define the notion of a _restriction_ of a function. If $F$ is a function that takes strings of arbitrary length as input (i.e., members of the set $\{0,1\}^*$) then $F_n$ is the restriction of $F$ to inputs of length $n$ (i.e., members of $\{0,1\}^n$).
+* _Restrictions_ of  functions. If $F$ is a function that takes strings of arbitrary length as input (i.e., members of the set $\{0,1\}^*$) then $F_n$ is the restriction of $F$ to inputs of length $n$ (i.e., members of $\{0,1\}^n$).
 
 * We use the notion of a _QNAND program_ which will be our computational model for quantum computers, and which we will encounter later on in the course. QNAND programs can compute functions with a fixed input length $n$, and we define the notion of computing a function $G$ as outputting on input $x$ the value $G(x)$ with probability at least $2/$.
 
 * We will also use the notion of a _NAND++ program_ which will be our computational model for "classical" computers.  We require that for every $n\in \N$, the QNAND program $Q_n$ for $F_n$ needs  to be efficiently generatable, in the sense that there is a polynomial-time classical program $P$ that on input a string of $n$ ones (which we  shorthand  as $1^n$) outputs $Q_n$.
 
-The point of this example is not for you to understand  [BGPintrodef](){.ref} and [shorsthmintro](){.ref}. Fully understanding them will require background that will take us weeks to develop.
+The point of this example is not for you to understand  [BGPintrodef](){.ref} and [shorsthmintro](){.ref}.
+Fully understanding them will require background that will take us weeks to develop.
 The point is to show that you should not be afraid of even the most complicated looking definitions and mathematical terminology.
 No matter how convoluted the notation, and how many layers of indirection, you can always look at mathematical definitions and try to at least attempt at answering the following questions:
 
-1. What is the intuitive notion that this definition aims at modeling?
-
-2. How is each new concept  defined in terms of other concepts?
-
-3. Which of these prior concepts am I already familiar with, and which ones do I still need to look up?
+>
+>1. What is the intuitive notion that this definition aims at modeling? \
+>
+>2. How is each new concept  defined in terms of other concepts? \
+>
+>3. Which of these prior concepts am I already familiar with, and which ones do I still need to look up?
 
 Dealing with mathematical text is in many ways not so different from dealing with any other complex text, whether it's a legal argument, a philosophical treatise, an English Renaissance play, or even the source code of an operating system.
 You should not expect it to be clear in a first reading, but you should not despair immediately, but rather engage with the text, trying to figure out both the high level intentions as well as the underlying details.
@@ -173,21 +172,24 @@ When reading this definition, or any other piece of mathematical text, it is oft
 For every identifier you encounter (for example $f,S,T,x,x'$ in this case), make sure that you realize what sort of object is it: is it a set, a function, an element, a number, a gremlin?
 Make sure you understand how are the identifiers _quantified_.
 For example, in [onetoonedef](){.ref} there is a _universal_ or "for all" (sometimes denotes by $\forall$) quantifier over pairs $(x,x')$ of distinct elements in $S$.
-Finally, an most importantly, make sure that aside from being able to parse the text formally, you also have an intuitive understanding of what is it that this text is actually saying.
+Finally, and most importantly, make sure that aside from being able to parse the definition formally, you also have an intuitive understanding of what is it that the text  is actually saying.
 For example, [onetoonedef](){.ref} says that a one to one function is a function where every input is mapped to a unique output.
 
 
 
 ![An annotated form of [onetoonedef](){.ref}, marking which type is every object, and with a doodle explaining what the definition says.](../figure/onetoonedef.png){#onetoonedefannotatedef .class width=300px height=300px}
 
-Reading mathematical texts in this way takes time, but it gets easier with practice. Moreover, this is one of the most transferable skills you could take from this course.
+Reading mathematical texts in this way takes time, but it gets easier with practice.
+Moreover, this is one of the most transferable skills you could take from this course.
 Our world is changing rapidly, not just in the realm of technology, but also in many other human endeavors, whether it is medicine, economics, law or even culture.
-Whatever your future aspirations, it is likely that you will often need throughout your life to understand texts that use new concepts that you have not seen before.
+Whatever your future aspirations, it is likely that you will often need throughout your life to understand texts that use new concepts that you have not seen before (for semi-random recent examples from current "hot areas", see [alphagozerofig](){.ref} and [zerocashfig](){.ref}).
 Being able to internalize and then apply new definitions can be hugely important.
 It is a skill that's much easier to acquire in the relatively safe and stable  context of a mathematical course, where at least you have the guarantee that the concepts are fully specified, and you have access to your teaching staff for questions.
 
 
+![A snippet from the "methods" section of the  ["AlphaGo Zero" paper](https://goo.gl/k8pVpL) by Silver et al, _Nature_, 2017. ](../figure/alphagozero.png){#alphagozerofig .class width=300px height=300px}
 
+![A snippet from the ["Zerocash" paper](http://zerocash-project.org/paper) of Ben-Sasson et al, that forms the basis of the cryptocurrency startup Zcash.](../figure/zerocash.png){#zerocashfig .class width=300px height=300px}
 
 
 
@@ -1024,9 +1026,6 @@ The main points where we diverge are:
 Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
 :::
 
-::: {.remark title="Disclaimer" #disclaimerrem}
-Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
-:::
 
 
 ># {.exercise title="Inclusion Exclusion" #inclex }

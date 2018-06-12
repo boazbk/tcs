@@ -172,7 +172,7 @@ index:
 _Work in progress_
 
 
-These is a textbook in preparation  for an introductory undergraduate course on theoretical computer science.
+This is a textbook in preparation  for an introductory undergraduate course on theoretical computer science.
 I am using this text for [Harvard CS 121](http://cs121.boazbarak.org).
 
 
