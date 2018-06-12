@@ -1,5 +1,5 @@
 # Acknowledgements for people that contributed comments or typos
- 
+
 If you make a pull request, please also add your name here in the alphabetical order
 
 * Michele Amoretti
@@ -43,4 +43,5 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Salil Vadhan
 * Ryan Williams
 * Wanqian Yang
+* Josh Zelinsky
 * Jessica Zhu

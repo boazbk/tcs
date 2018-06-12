@@ -886,6 +886,16 @@ Given this notion of an encoding, and the fact that `i` moves only one step  in 
 From this observation, [onedimcathm](){.ref} follows in a fairly straightforward manner.
 :::
 
+Before proving [onedimcathm](){.ref}, let us formally define the notion of a _configuration_ of a NAND++ program. We will come back to this notion in later chapters as well.
+
+![A _configuration_ of a (well formed) NAND++ program $P$ with $a$ array variables and $b$ scalar variables is a string $\alpha$ over the alphabet $\{0,1\}^a \cup \{0,1\}^{a+b}$. In exactly one index $i$, $\alpha_i \in \{0,1\}^{a+b}$. This corresponds to the index variable `i` $=i$, and $\alpha_i$ encodes both the contents of the scalar variables, as well as the array variables at the location $i$. For $j\neq i$, $\alpha_j$ encodes the contents of the array variables at the location $j$. The length of the string denotes the largest index that has been reached so far in the execution of the program.If in one iteration we move from $\alpha$ to $\alpha'$, then for every $j$, $\alpha'_j$ is a function of $\alpha_{j-1},\alpha_j,\alpha_{j+1}$.](../figure/nandppconfiguration2.png){#nandppconfigfig .class width=300px height=300px}
+
+
+::: {.definition title="Configuration of NAND++ programs." #confignandppdef}
+Let $P$ be a well-formed NAND++ program with $a$ array variables and $b$ scalar variables. A _configuration_ of $P$ is a string $\alpha \in (\Sigma_a \cup \Sigma_{a,b})^*$  where $\Sigma_a = \{0,1\}^a$ and $\Sigma_{a,b} = \{0,1\}^a \times \{0,1\}^b$, and such that there is exactly one index $i$ such that $\alpha_i \in \Sigma_{a,b}$, while for all other $j \in \{0,\ldots,|\alpha|-1\}$, $\alpha_j \in \Sigma_a$.
+
+A configuration $\alpha$ corresponds to the state of $P$ at the beginning of some iteration  as follows: if $i$ is the index such that $\alpha_i \in \Sigma_{a,b}$, then the index variable `i` is equal to $i$,  the scalar variables of $b$ are equal to the second component of $\alpha_i$, while the
+:::
 
 ::: {.proof data-ref="onedimcathm"}
 For every $j$, if $j$ is not equal to the current value $i$ of `i` then $\alpha_j$ will encode the values of all the $a$ array variables at the $j$-th location. For the particular location $i$, $\alpha_i$ will also encode the value of all the $b$ array variables. (Hence in this location $\alpha_i$ will equal a pair $(A,B)$ where $A\in \{0,1\}^a$ and $B\in \{0,1\}^b$.)
