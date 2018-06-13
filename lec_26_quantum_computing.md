@@ -84,7 +84,7 @@ However, when we want to describe the double slit experiment with photons rather
 Quantum mechanics associates a number $\alpha$ known as an _amplitude_ with each probabilistic experiment.
 This number $\alpha$ can be _negative_, and in fact even _complex_.
 We never observe the amplitudes directly, since whenever we _measure_ an event with amplitude $\alpha$, nature tosses a coin and determines that the event happens with probability $|\alpha|^2$.
-However, the sign (or in the complex case, phase) of the amplitudes can effect whether two different events have _constructive_ or _destructive_ interference.
+However, the sign (or in the complex case, phase) of the amplitudes can affect whether two different events have _constructive_ or _destructive_ interference.
 
 ::: { .pause }
 If you don't find the above description confusing and unintuitive, you probably didn't get it.
@@ -96,16 +96,18 @@ In classical probability, we model this by a probability distribution over the t
 In quantum mechanics, we model this also by  pair of numbers, which we call _amplitudes_. This is  a pair of (potentially negative or even complex) numbers $\alpha$ and $\beta$ such that $|\alpha|^2 + |\beta|^2 =1$.
 The probability that the event occurs is $|\alpha|^2$ and the probability that it does not occur is $|\beta|^2$.[^quantum]
 In isolation, these negative or complex numbers don't matter much, since we anyway square them to obtain probabilities.
-But the interaction of positive and negative probabilities can result in surprising _cancellations_ where somehow combining two scenarios where an event happens with positive probability results in a scenario where it  never does.
+But the interaction of positive and negative amplitudes can result in surprising _cancellations_ where somehow combining two scenarios where an event happens with positive probability results in a scenario where it  never does.
 
 
 Quantum mechanics is a mathematical theory that allows us to calculate and predict the results of the double-slit and many other experiments.
 If you think of quantum mechanics as an explanation as to what "really" goes on in the world, it can be rather confusing.
 However, if you simply "shut up and calculate" then it works amazingly well at predicting  experimental results.
 In particular, in the double slit experiment, for any position in the wall, we can compute  numbers $\alpha$ and $\beta$ such that photons from the first and second slit  hit that position with probabilities $|\alpha|^2$ and $|\beta|^2$ respectively.
-When we open both slits, the probability that the position will be hit is proportional to $|\alpha+\beta|^2$, and so in particular, if $\alpha=-\beta$ then it will be the case that, despite being hit when _either_ slit one or gun two are open, the position is _not hit at all_ when they both are.
-If you haven't seen it before, it may seem like complete nonsense and at this point I'll have to politely point you back to the part where I said we should not question
-quantum mechanics but simply "shut up and calculate".
+When we open both slits, the probability that the position will be hit is proportional to $|\alpha+\beta|^2$, and so in particular, if $\alpha=-\beta$ then it will be the case that, despite being hit when _either_ slit one or slit two are open, the position is _not hit at all_ when they both are.
+If you haven't seen it before, it may seem like complete nonsense.
+You're not alone in this: for years people have been trying to come up with [explanations](https://en.wikipedia.org/wiki/Interpretations_of_quantum_mechanics) for "the underlying reality" behind quantum mechanics, from [Bohmian mechanics](https://en.wikipedia.org/wiki/De_Broglie%E2%80%93Bohm_theory) to [Many worlds](https://en.wikipedia.org/wiki/Many-worlds_interpretation) and many others.
+However, none of those explanations have gained universal acceptance and all of those (by design) yield the same experimental predictions.
+Thus at this point many scientists prefer to just ignore the question of what is the "true reality" and simply "shut up and calculate".
 
 [^quantum]: I should warn that we are making here many simplifications. In particular while quantum amplitudes can be _complex_ numbers, we will usually restrict attention to _real_ (though potentially negative) numbers.  A;most all of the power and subtleties of quantum mechanics and quantum computing arise from allowing _negative_  numbers, and the generalization from real to complex numbers is much less important. We will also be focusing on so called "pure" quantum states, and ignore the fact that generally the states of a quantum subsystem are _mixed_ states that are a convex combination of pure states and can be described by a so called _density matrix_. This issue does not arise as much in quantum algorithms precisely because the goal is for a quantum computer is to be an isolated system that can evolve to continue to be in a pure state; in real world quantum computers however there will be interference from the outside world that causes the state to become mixed and increase its so called "von Neumann entropy". Fighting this interference and the second law of thermodynamics is much of what the challenge of building quantum computers is all about . More generally, this lecture is not meant to be a complete or accurate description of quantum mechanics, quantum information theory, or quantum computing, but rather just give a sense of the main points where it differs  from classical computing.
 
@@ -119,7 +121,7 @@ Namely, making a measurement of one object may  instantaneously  effect the stat
 
 Since the vector of amplitudes  is just a mathematical abstraction,  the EPR paper was considered to be merely a thought experiment for philosophers to be concerned about, without bearing on experiments.
 This changed when in 1965 John Bell showed an actual experiment to test the predictions of EPR and hence pit intuitive common sense against the quantum mechanics.
-Quantum mechanics won: it turns out that it _is_ in fact possible to use measurements to  instantaneously effect the state of objects far removed from one another.
+Quantum mechanics won: it turns out that it _is_ in fact possible to use measurements to create correlations between the states of objects far removed from one another that cannot be explained by any prior theory.
 Nonetheless, since the results of these experiments are so obviously wrong to anyone that has ever sat in an armchair,  that there are still a number of [Bell denialists](http://www.scottaaronson.com/blog/?p=2464) arguing that this can't be true and quantum mechanics is wrong.
 
 So, what is this Bell's Inequality?
@@ -178,7 +180,7 @@ Some of the counterintuitive properties that arise from  quantum mechanics inclu
 
 * **Interference** - As we've seen', quantum amplitudes can "cancel each other out".
 
-* **Measurement** -   The idea that amplitudes are negative as long as "no one is looking" and "collapse" (by squaring them) to positive probabilities when they are _measured_ is deeply disturbing. Indeed, as shown by EPR and Bell, this leads to various strange outcomes such as "spooky actions at a distance", where we can measure an object at one place and instantaneously (faster than the speed of light) cause a difference in the results of a measurements in a place far removed. Unfortunately (or fortunately?) these strange outcomes have been confirmed experimentally.
+* **Measurement** -   The idea that amplitudes are negative as long as "no one is looking" and "collapse" (by squaring them) to positive probabilities when they are _measured_ is deeply disturbing. Indeed, as shown by EPR and Bell, this leads to various strange outcomes such as "spooky actions at a distance", where we can create correlations between the results of measurements in  places far removed. Unfortunately (or fortunately?) these strange outcomes have been confirmed experimentally.
 
 * **Entanglement** - The notion that two parts of the system could be connected in this weird way where measuring one will affect the other is known as _quantum entanglement_.
 
