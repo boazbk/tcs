@@ -538,6 +538,7 @@ In 1994 Peter Shor showed that one would be wrong:
 There is a polynomial-time quantum algorithm that on input an integer $M$ (represented in base two), outputs the prime factorization of $M$.
 :::
 
+
 Another way to state [shorthm](){.ref}  is that if we define $FACTORING:\{0,1\}^* \rightarrow \{0,1\}$ to be the function that on input a pair $(M,i,j)$ (represented as a string), outputs the $j$-th bit of the $i$-th prime factor of $M$ (or zero if $i$ is at least the number of factors or $j$ is at least the number of bits of the $i$-th factor) then $FACTORING \in \mathbf{BQP}$.
 This is an exponential improvement over the best known classical algorithms, which take roughly $2^{\tilde{O}(n^{1/3})}$ time, where the $\tilde{O}$ notation hides factors that are polylogarithmic in $n$.
 We will not prove [shorthm](){.ref} in this chapter, will  sketch some of the ideas behind the proof.
