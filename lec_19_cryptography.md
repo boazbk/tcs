@@ -587,7 +587,7 @@ This is often the case with proofs: they teach us more  than just the validity o
 
 In _Zero Knowledge Proofs_  we try to achieve the opposite effect.
 We want a proof for a statement $X$ where we can _rigorously show_ that the proofs reveals _absolutely no additional information about $X$_ beyond the fact that it is true.
-This turns out to be an extremely useful object for a variety of tasks including authentication, secure protocols, voting, [anony  mity in cryptocurrencies](https://z.cash/technology/zksnarks.html), and more.
+This turns out to be an extremely useful object for a variety of tasks including authentication, secure protocols, voting, [anonymity in cryptocurrencies](https://z.cash/technology/zksnarks.html), and more.
 Constructing these objects relies on the theory of $\mathbf{NP}$ completeness.
 Thus this theory that originally was designed to give a _negative result_ (show that some problems are hard) ended up yielding _positive applications_, enabling us to achieve tasks that were not possible otherwise.
 

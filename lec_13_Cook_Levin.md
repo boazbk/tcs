@@ -5,7 +5,7 @@
 
 > # { .objectives }
 * Introduce the class $\mathbf{NP}$  capturing a great many important computational problems \
-* $\mathbf{NP}$-completness: evidence that a problem might be intractable. \
+* $\mathbf{NP}$-completeness: evidence that a problem might be intractable. \
 * The $\mathbf{P}$ vs $\mathbf{NP}$ problem.
 
 

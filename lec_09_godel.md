@@ -13,16 +13,154 @@
 >_"Take any definite unsolved problem, such as ... the existence of an infinite number of prime numbers of the form $2^n + 1$. However unapproachable these problems may seem to us and however helpless we stand before them, we have, nevertheless, the firm conviction that their solution must follow by a finite number of purely logical processes..."_ \
 >_"...This conviction of the solvability of every mathematical problem is a powerful incentive to the worker. We hear within us the perpetual call: There is the problem. Seek its solution. You can find it by pure reason, for in mathematics there is no ignorabimus."_, David Hilbert, 1900.
 
+>_"The meaning of a statement is its method of verification."_, Moritz Schlick, 1938 (aka "The verification principle" of logical positivism)
 
 
 
 
-## Unsolvability of Diophantine equations
 
 The problems of the previous lecture, while natural and important, still  intimately involved NAND++ programs or other computing mechanisms in their definitions.
 One could perhaps hope that as long as we steer clear of functions whose inputs are themselves programs, we can avoid the "curse of uncomputability".
 Alas, we have no such luck.
 
+In this chapter we will see an example of a natural and seemingly "computation free" problem that nevertheless turns out to be uncomputable: solving Diophantine equations.
+As a corollary, we will see one of the most striking results of 20th century mathematics: _Gödel's Incompleteness Theorem_, which showed that there are some mathematical statements (in fact, in number theory) that are _inherently unprovable_.
+We will actually start with the latter result, and then show the former.
+
+
+## Hilbert's Program and Gödel's Incompleteness Theorem
+
+>_"And what are these …vanishing increments? They are neither finite
+quantities, nor quantities infinitely small, nor yet nothing. May we not call them the ghosts of
+departed quantities?"_, George Berkeley, Bishop of Cloyne, 1734.
+
+The 1700's and  1800's were a time of great discoveries in mathematics but also of several crises.
+The discovery of calculus by Newton and Leibnitz in the late 1600's ushered a golden age of problem solving.
+Many longstanding challenges succumbed to the new tools that were discovered, and mathematicians got ever better at doing some truly impressive calculations.
+However, the rigorous foundations behind these calculations left much to be desired.
+Mathematicians manipulated infinitsemal quantities and infinite series cavalierly, and while most of the time they  ended up with the correct results, there were a few strange examples (such as trying to calculate the value of the infinite series $1-1+1-1+1+\ldots$) which seemed to give out different answers depending on the method of calculation.
+This led to a growing sense of unease in the foundations of the subject which was  addressed in works of mathematicians such as Cauchy, Weierstrass, and Reimann, who eventually  placed analysis on firmer foundations, giving rise to the $\epsilon$'s and $\delta$'s that students taking honors calculus grapple with to this day.
+
+In the beginning of the 20th century, there was an effort to replicate this effort,  in greater rigor, to all parts of mathematics.
+The hope was to show that all the true results of mathematics can be obtained by starting with a number of axioms, and deriving theorems from them using logical rules of inference.
+This effort was known as the _Hilbert program_, named after the influential mathematician David Hilbert.
+
+Alas, it turns out the results we've seen dealt a devastating blow to this program, as was shown by Kurt Gödel in 1931:
+
+> # {.theorem title="Gödel's Incompleteness Theorem: first version, informal version" #godethmtakeone}
+There is a mathematical statement that is _true_ but is not _provable_.
+
+
+Before proving [godethmtakeone](){.ref}, we need to specify what does it mean to be "provable" (and  even formally define the notion of a "mathematical statement").
+Thus we need to define the notion of a _proof system_.
+In geometry and other areas of mathematics, proof systems are often defined by starting with some basic assumptions or _axioms_ and then deriving more statements by using _inference rules_ such as the famous [Modus Ponens](https://en.wikipedia.org/wiki/Modus_ponens), but what axioms shall we use? What rules?
+
+Our idea will be to use an extremely general notion of proof, not even restricting ourselves to ones that have the form of axioms and inference.
+A _proof_ will be simply a piece of text- a finite string- that satisfies:
+
+1. _(effectiveness)_ Given a statement $x$ and a proof $w$ (both of which can be encoded as strings) we can verify that $w$ is a valid proof for $x$. (For example, by going line by line and checking that each line does indeed follow from the preceding ones using one of the allowed inference rules.)
+
+2. _(soundness)_ If there is a valid proof $w$ for $x$ then $x$ is true.
+
+Those seem like rather minimal requirements that one would want from every proof system.
+Requirement 2 (soundndess) is the very definition of a proof system: you shouldn't be able to prove things that are not true. Requirement 1 is also essential. If it there is no set of rules (i.e., an algorithm) to check that a proof is valid then in what sense is it a proof system? We could replace it with the system where the "proof" for a statement $x$ would simply be "trust me: it's true".
+
+A mathematical statement will also simply be a string.
+We will not assume anything about the truth of mathematical statement except the basic facts that  for every statement $X$, $X$ is true if and only if "NOT $X$" is false.
+We can now restate [godethmtakeone](){.ref} as follows:
+
+::: {.theorem title="Gödel's Incompleteness Theorem: first version" #godethmtakeone}
+Let $V:\{0,1\}^* \rightarrow \{0,1\}$ a computable purported verification procedure.
+Then there exists a pair of mathematical statements "$X$" and $Y$="not $X$" such that either:
+
+* _$V$ is  not sound:_ There exist $\pi_X,\pi_Y \in \{0,1\}^*$ such that $V(X,\pi_X)=V(Y,\pi_Y)=1$.
+
+* _$V$ is not complete:_ There does not exist any $\pi \in \{0,1\}^*$ such that $V(X,\pi_X)=1$
+:::
+
+
+
+
+
+
+
+
+
+
+Let us give a formal definition for this notion, specializing for the case of Diophantine equations:
+
+> # {.definition title="Proof systems for diophantine equations" #proofdef}
+A proof system for Diophantine equations is defined by a NAND++ program $V$.
+A _valid proof_ in the system corresponding to $V$ of the unsatisfiability of a diophantine equation "$P(\cdot,\cdots,\cdot)=0$"  is some string $w\in \{0,1\}^*$ such that $V(P,w)=1$.
+The proof system corresponding to $V$ is  _sound_ if there is no valid proof of a false statement. That is, for every diophantine equation "$P(\cdot,\cdots,\cdot)=0$", if there exists $w\in \{0,1\}^*$ such that $V(P,w)=1$ then for every $x_1,\ldots,x_t \in \Z$, $P(x_1,\ldots,x_t) \neq 0$.
+
+The formal definition is a bit of a mouthful, but what it states the natural notion of a logical proof for the unsatisfiability of an equation.
+By the  Church-Turing Thesis, we can replace NAND++ with any other reasonable computational model for proof verification.
+Hilbert believed that for all of mathematics, and in particular for settling diophantine equations, it should be possible to find some set of axioms and rules of inference that would allow to derive all true statements.
+However, he was wrong:
+
+
+> # {.theorem title="Gödel's Incompleteness Theorem" #godelthm}
+For every sound proof system $V$, there exists a diophantine equation "$P(\cdot,\cdots,\cdot)=0$" such that there is no $x_1,\ldots,x_t \in \N$ that satisfy it, but yet there is no proof in the system $V$  for the statement that the equation is unsatisfiable.
+
+> # {.proof data-ref="godelthm"}
+Suppose otherwise, that there exists such a system.
+Then we can define the following algorithm $S$ that computes the function $HASSOL:\{0,1\}^* \rightarrow \{0,1\}$ described in [MRDP-thm](){.ref}.
+The algorithm will work as follows:
+>
+* On input a Diophantine equation $P(x_1,\ldots,x_t)=0$, for $k=1,2,\ldots$ do the following:
+   >1. Check for all $x_1,\ldots,x_t \in \{0,\ldots, k\}$ whether $x_1,\ldots,x_t$  satisfies the equation. If so then halt and output $1$.
+   >2. For all  $n \in \{1,\ldots,k\}$ and all strings $w$ of length at most $k$, check whether $V(P,w)=1$. If so then halt and output $0$.
+>
+Under the assumption that for _every_ diophantine equation that is unsatisfiable, there is a proof that certifies it, this algorithm will always halt and output $0$ or $1$, and moreover, the answer will be correct. Hence we reach a contradiction to [MRDP-thm](){.ref}
+
+Note that if we considered proof systems for more general quantified integer statements, then  the existence of a true but yet unprovable statement would follow from [QIS-thm](){.ref}.
+Indeed, that was the content of Gödel's original incompleteness theorem which was proven in 1931 way before the MRDP Theorem (and initiated the line of research which resulted in the latter theorem).
+Another way to state the result is that every proof system that is rich enough to express quantified integer statements  is either inconsistent (can prove both a statement and its negation) or incomplete (cannot prove all true statements).
+
+
+Examining the proof of [godelthm](){.ref} shows that it yields a more general statement (see [godelthemex](){.ref}): for every uncomputable function $F:\{0,1\}^* \rightarrow \{0,1\}$ and every sound proof system, there is some input $x$ for which the proof system is not able to prove neither that $F(x)=0$ nor that $F(x) \neq 0$ (see [godelthemex](){.ref}).
+
+Also, the  proof of  [godelthm](){.ref} can be extended to yield Gödel's second incompleteness theorem which, informally speaking, says for that every proof system $S$ rich enough to express quantified integer statements, the following holds:
+
+* There is a quantified integer statement $\varphi$ that is true if and only if $S$ is consistent (i.e., if there is no statement $x$ such that $S$ can prove both $x$ and $NOT(x)$).
+
+* There is no proof in $S$ for $\varphi$.
+
+
+Thus once we pass a sufficient level of expressiveness, we cannot find a proof system that is strong enough to prove its own consistency.
+This in particular showed that Hilbert's second problem (which was about finding an axiomatic provably-consistent basis for arithmetic) was also unsolvable.
+
+
+### The Gödel statement
+
+One can extract from the proof of [godelthm](){.ref} a procedure that for every proof system $V$ (when thought of as a verification algorithm), yields a true statement $x^*$ that cannot be proven in $V$.
+But Gödel's proof gave a very  explicit description of such a statement $x$ which is closely related to the ["Liar's paradox"](https://en.wikipedia.org/wiki/Liar_paradox).
+That is, Gödel's statement $x^*$  was designed to be  true if and only if $\forall_{w\in \{0,1\}^*} V(x,w)=0$.
+In other words, it satisfied the following property
+
+$$
+x^* \text{ is true} \Leftrightarrow \text{$x^*$ does not have a proof in $V$} \label{godeleq}
+$$
+
+One can see that if $x^*$ is true, then it does not have a proof, but it is false then (assuming the proof system is sound) then it cannot have a proof, and hence $x^*$ must be both true and unprovable.
+One might wonder how is it possible to come up with an $x^*$ that satisfies a condition such as [godeleq](){.eqref} where the same string $x^*$ appears on both the righthand side  and the lefthand side of the equation.
+The idea is that the proof of [godelthm](){.ref} yields a way to transform  every statement $x$ into a statement $F(x)$ that is true if and only if $x$ does not have a proof in $V$.
+Thus $x^*$ needs to be a _fixed point_ of $F$: a sentence such that $x^* = F(x^*)$.
+It turns out that [we can always find](https://en.wikipedia.org/wiki/Kleene%27s_recursion_theorem) such a fixed point of $F$.
+We've already seen this phenomenon in the $\lambda$ calculus, where the $Y$ combinator maps every $F$ into a fixed point $Y F$ of $F$.
+This is very related to the idea of programs that can print their own code.
+Indeed, Scott Aaronson likes to describe Gödel's statement as follows:
+
+>The following sentence repeated twice, the second time in quotes, is not provable in the formal system $V$.
+“The following sentence repeated twice, the second time in quotes, is not provable in the formal system $V$.”
+
+In the argument above we actually showed that $x^*$ is _true_, under the assumption that $V$ is sound. Since $x^*$ is true and does not have a proof in $V$, this means that we cannot carry the above argument in the system $V$, which means that $V$  cannot prove its own soundness (or even consistency: that there is no proof of both a statement and its negation).
+Using this idea, it's not hard to get Gödel's second incompleteness theorem, which says that every sufficiently rich $V$ cannot prove its own consistency. That is, if we formalize the statement $c^*$ that is true if and only if $V$ is consistent (i.e., $V$ cannot prove both a statement and the statement's  negation), then $c^*$ cannot be proven in $V$.
+
+
+
+## Unsolvability of Diophantine equations
 
 
 Many of the functions people wanted to compute over the years involved solving equations.
@@ -301,110 +439,6 @@ $$
 We leave it to the reader to verify that $PCOORD(p,i)$ is true iff $p=p_i$.
 
 
-
-## Hilbert's Program and Gödel's Incompleteness Theorem
-
->_"And what are these …vanishing increments? They are neither finite
-quantities, nor quantities infinitely small, nor yet nothing. May we not call them the ghosts of
-departed quantities?"_, George Berkeley, Bishop of Cloyne, 1734.
-
-The 1700's and  1800's were a time of great discoveries in mathematics but also of several crises.
-The discovery of calculus by Newton and Leibnitz in the late 1600's ushered a golden age of problem solving.
-Many longstanding challenges succumbed to the new tools that were discovered, and mathematicians got ever better at doing some truly impressive calculations.
-However, the rigorous foundations behind these calculations left much to be desired.
-Mathematicians manipulated infinitsemal quantities and infinite series cavalierly, and while most of the time they  ended up with the correct results, there were a few strange examples (such as trying to calculate the value of the infinite series $1-1+1-1+1+\ldots$) which seemed to give out different answers depending on the method of calculation.
-This led to a growing sense of unease in the foundations of the subject which was  addressed in works of mathematicians such as Cauchy, Weierstrass, and Reimann, who eventually  placed analysis on firmer foundations, giving rise to the $\epsilon$'s and $\delta$'s that students taking honors calculus grapple with to this day.
-
-In the beginning of the 20th century, there was an effort to replicate this effort,  in greater rigor, to all parts of mathematics.
-The hope was to show that all the true results of mathematics can be obtained by starting with a number of axioms, and deriving theorems from them using logical rules of inference.
-This effort was known as the _Hilbert program_, named after the very same David Hilbert we mentioned above.
-Alas, [MRDP-thm](){.ref}  yields a devastating blow to this program, as it implies that for _any_ valid set of axioms and inference laws, there will be unsatisfiable Diophantine equations that cannot be proven unsatisfiable using these axioms and laws.
-
-
-To study the existence of  proofs, we need to make the notion of a _proof system_ more precise.
-What axioms shall we use? What rules?
-Our idea will be to use an extremely general notion of proof.
-A _proof_ will be simply a piece of text- a finite string- such that:
-
-1. _(effectiveness)_ Given a statement $x$ and a proof $w$ (both of which can be encoded as strings) we can verify that $w$ is a valid proof for $x$. (For example, by going line by line and checking that each line does indeed follow from the preceding ones using one of the allowed inference rules.)
-
-2. _(soundness)_ If there is a valid proof $w$ for $x$ then $x$ is true.
-
-Those seem like rather minimal requirements that one would want from every proof system.
-Requirement 2 (soundndess) is the very definition of a proof system: you shouldn't be able to prove things that are not true. Requirement 1 is also essential. If it there is no set of rules (i.e., an algorithm) to check that a proof is valid then in what sense is it a proof system? We could replace it with the system where the "proof" for a statement $x$ would simply be "trust me: it's true".
-
-
-
-Let us give a formal definition for this notion, specializing for the case of Diophantine equations:
-
-> # {.definition title="Proof systems for diophantine equations" #proofdef}
-A proof system for Diophantine equations is defined by a NAND++ program $V$.
-A _valid proof_ in the system corresponding to $V$ of the unsatisfiability of a diophantine equation "$P(\cdot,\cdots,\cdot)=0$"  is some string $w\in \{0,1\}^*$ such that $V(P,w)=1$.
-The proof system corresponding to $V$ is  _sound_ if there is no valid proof of a false statement. That is, for every diophantine equation "$P(\cdot,\cdots,\cdot)=0$", if there exists $w\in \{0,1\}^*$ such that $V(P,w)=1$ then for every $x_1,\ldots,x_t \in \Z$, $P(x_1,\ldots,x_t) \neq 0$.
-
-The formal definition is a bit of a mouthful, but what it states the natural notion of a logical proof for the unsatisfiability of an equation.
-By the  Church-Turing Thesis, we can replace NAND++ with any other reasonable computational model for proof verification.
-Hilbert believed that for all of mathematics, and in particular for settling diophantine equations, it should be possible to find some set of axioms and rules of inference that would allow to derive all true statements.
-However, he was wrong:
-
-
-> # {.theorem title="Gödel's Incompleteness Theorem" #godelthm}
-For every sound proof system $V$, there exists a diophantine equation "$P(\cdot,\cdots,\cdot)=0$" such that there is no $x_1,\ldots,x_t \in \N$ that satisfy it, but yet there is no proof in the system $V$  for the statement that the equation is unsatisfiable.
-
-> # {.proof data-ref="godelthm"}
-Suppose otherwise, that there exists such a system.
-Then we can define the following algorithm $S$ that computes the function $HASSOL:\{0,1\}^* \rightarrow \{0,1\}$ described in [MRDP-thm](){.ref}.
-The algorithm will work as follows:
->
-* On input a Diophantine equation $P(x_1,\ldots,x_t)=0$, for $k=1,2,\ldots$ do the following:
-   >1. Check for all $x_1,\ldots,x_t \in \{0,\ldots, k\}$ whether $x_1,\ldots,x_t$  satisfies the equation. If so then halt and output $1$.
-   >2. For all  $n \in \{1,\ldots,k\}$ and all strings $w$ of length at most $k$, check whether $V(P,w)=1$. If so then halt and output $0$.
->
-Under the assumption that for _every_ diophantine equation that is unsatisfiable, there is a proof that certifies it, this algorithm will always halt and output $0$ or $1$, and moreover, the answer will be correct. Hence we reach a contradiction to [MRDP-thm](){.ref}
-
-Note that if we considered proof systems for more general quantified integer statements, then  the existence of a true but yet unprovable statement would follow from [QIS-thm](){.ref}.
-Indeed, that was the content of Gödel's original incompleteness theorem which was proven in 1931 way before the MRDP Theorem (and initiated the line of research which resulted in the latter theorem).
-Another way to state the result is that every proof system that is rich enough to express quantified integer statements  is either inconsistent (can prove both a statement and its negation) or incomplete (cannot prove all true statements).
-
-
-Examining the proof of [godelthm](){.ref} shows that it yields a more general statement (see [godelthemex](){.ref}): for every uncomputable function $F:\{0,1\}^* \rightarrow \{0,1\}$ and every sound proof system, there is some input $x$ for which the proof system is not able to prove neither that $F(x)=0$ nor that $F(x) \neq 0$ (see [godelthemex](){.ref}).
-
-Also, the  proof of  [godelthm](){.ref} can be extended to yield Gödel's second incompleteness theorem which, informally speaking, says for that every proof system $S$ rich enough to express quantified integer statements, the following holds:
-
-* There is a quantified integer statement $\varphi$ that is true if and only if $S$ is consistent (i.e., if there is no statement $x$ such that $S$ can prove both $x$ and $NOT(x)$).
-
-* There is no proof in $S$ for $\varphi$.
-
-
-Thus once we pass a sufficient level of expressiveness, we cannot find a proof system that is strong enough to prove its own consistency.
-This in particular showed that Hilbert's second problem (which was about finding an axiomatic provably-consistent basis for arithmetic) was also unsolvable.
-
-
-### The Gödel statement
-
-One can extract from the proof of [godelthm](){.ref} a procedure that for every proof system $V$ (when thought of as a verification algorithm), yields a true statement $x^*$ that cannot be proven in $V$.
-But Gödel's proof gave a very  explicit description of such a statement $x$ which is closely related to the ["Liar's paradox"](https://en.wikipedia.org/wiki/Liar_paradox).
-That is, Gödel's statement $x^*$  was designed to be  true if and only if $\forall_{w\in \{0,1\}^*} V(x,w)=0$.
-In other words, it satisfied the following property
-
-$$
-x^* \text{ is true} \Leftrightarrow \text{$x^*$ does not have a proof in $V$} \label{godeleq}
-$$
-
-One can see that if $x^*$ is true, then it does not have a proof, but it is false then (assuming the proof system is sound) then it cannot have a proof, and hence $x^*$ must be both true and unprovable.
-One might wonder how is it possible to come up with an $x^*$ that satisfies a condition such as [godeleq](){.eqref} where the same string $x^*$ appears on both the righthand side  and the lefthand side of the equation.
-The idea is that the proof of [godelthm](){.ref} yields a way to transform  every statement $x$ into a statement $F(x)$ that is true if and only if $x$ does not have a proof in $V$.
-Thus $x^*$ needs to be a _fixed point_ of $F$: a sentence such that $x^* = F(x^*)$.
-It turns out that [we can always find](https://en.wikipedia.org/wiki/Kleene%27s_recursion_theorem) such a fixed point of $F$.
-We've already seen this phenomenon in the $\lambda$ calculus, where the $Y$ combinator maps every $F$ into a fixed point $Y F$ of $F$.
-This is very related to the idea of programs that can print their own code.
-Indeed, Scott Aaronson likes to describe Gödel's statement as follows:
-
->The following sentence repeated twice, the second time in quotes, is not provable in the formal system $V$.
-“The following sentence repeated twice, the second time in quotes, is not provable in the formal system $V$.”
-
-In the argument above we actually showed that $x^*$ is _true_, under the assumption that $V$ is sound. Since $x^*$ is true and does not have a proof in $V$, this means that we cannot carry the above argument in the system $V$, which means that $V$  cannot prove its own soundness (or even consistency: that there is no proof of both a statement and its negation).
-Using this idea, it's not hard to get Gödel's second incompleteness theorem, which says that every sufficiently rich $V$ cannot prove its own consistency. That is, if we formalize the statement $c^*$ that is true if and only if $V$ is consistent (i.e., $V$ cannot prove both a statement and the statement's  negation), then $c^*$ cannot be proven in $V$.
 
 ## Lecture summary
 

@@ -412,7 +412,7 @@ The _extended_ Church Turing is the statement that the same holds for _efficient
 In other words, the extended Church Turing thesis says that for every _scalable computing device_ $C$ (which has a finite description but can be in principle used to run computation on arbitrarily large inputs),  there are some constants $a,b$ such that for every  function $F:\{0,1\}^* \rightarrow \{0,1\}$ that $C$ can compute on $n$ length inputs using an $S(n)$ amount of physical resources, $F$ is in $TIME(aS(n)^b)$.
 
 All the current constructions of scalable computational  models and programming language  conform to the Extended Church-Turing Thesis, in the sense that they can be with polynomial overhead by Turing Machines (and hence also by NAND++ or NAND<< programs).
-consequently, the classes $\mathbf{P}$ and $\mathbb{EXP}$ are robust to the choice of model, and we can the programming language of our choice, or  high level descriptions of an algorithm, to determine whether or not a problem is in $\mathbf{P}$.
+consequently, the classes $\mathbf{P}$ and $\mathbb{EXP}$ are robust to the choice of model, and we  can use  the programming language of our choice, or  high level descriptions of an algorithm, to determine whether or not a problem is in $\mathbf{P}$.
 
 Like the Church-Turing thesis itself, the extended Church-Turing thesis is in the asymptotic setting and does not directly yield an experimentally testable prediction.
 However, it can be instantiated with more concrete bounds on the overhead, which would yield predictions such as the _Physical Extended Church-Turing Thesis_   we mentioned before, which would be  experimentally testable.

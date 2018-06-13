@@ -26,79 +26,101 @@ While the classification of particles and forces evolved with  time, to a large 
 In particular it was held as an axiom that if we knew fully the current _state_ of the universe (i.e., the particles and their properties such as location and velocity) then we could predict its future state at any point in time.
 In computational language, in all these theories the state of a system with $n$ particles could be stored in an array of $O(n)$ numbers, and predicting the evolution of the system  can be done by running some efficient (e.g., $poly(n)$ time) computation on this array.
 
+## The double slit experiment
+
+
 Alas, in the beginning of the 20th century, several experimental results were calling into question the "billiard ball" theory of the world.
 One such experiment is the famous [double slit](https://en.wikipedia.org/wiki/Double-slit_experiment) experiment.
 One way to describe it is as following.
-Suppose that we buy one of those baseball pitching machines, and aim it at a soft plastic wall.
-If we shoot baseballs at the wall, then we will dent it.
-Now, if we use another machine, aimed at a slightly different part of the wall,  and interleave between shooting at the wall with both machines, then we will now make _two_ dents in the wall.
-Obviously,  we expect the level of "denting" in any particular position of the wall to only be bigger when we shoot at it with two machines than when we shoot at it with one. (See [doublebaseballfig](){.ref})
+Suppose that we buy one of those baseball pitching machines, and aim it at a soft plastic wall, but put a metal barrier between the machine and the wall that has a single slit.
+If we shoot baseballs at the wall, then some of the baseballs would bounce off the metal barrier, while some would make it through the slit and dent the plastic wall.
+If we now carve out an additional slit in the metal barrier then more balls would get through, and so the plastic wall would be _even more dented_.
+(See [doublebaseballfig](){.ref})
 
 
-![In the "double baseball experiment" we shoot baseballs from two guns at a wall. There is only "constructive interference" in the sense that the dent in each position in the wall when both guns operate is the sum of the dents when each gun operates on its own.](../figure/double_baseball_experiment.png){#doublebaseballfig .class width=300px height=300px}
+![In the "double baseball experiment" we shoot baseballs from a gun at a soft wall through a hard barrier that has one or two slits open in it. There is only "constructive interference" in the sense that the dent in each position in the wall when both slits are open is the sum of the dents when each slit is open on its own.](../figure/double_baseball2.png){#doublebaseballfig .class width=300px height=300px}
 
 
-
-
-The above is (to my knowledge) an accurate description of what happens when we shoot baseballs at a wall.
+So far this is pure common sense, and it is indeed (to my knowledge) an accurate description of what happens when we shoot baseballs at a wall.
 However, this is not the same when we shoot _photons_.
-Amazingly, if we shoot with two "photon guns" (i.e., lasers) at a wall equipped with photon detectors, then some of the detectors will see _fewer_ hits when the two lasers operate than when only one of them does.^[Normally rather than shooting with  two lasers, people use a single laser with a barrier between the laser and the detectors that has either one or two _slits_ open in it, hence the name "double slit experiment", see [doubleslitfig](){.ref} and [doubleslittwofig](){.ref}. The variant of the experiment we describe was first performed by  Pfleegor and Mandel in 1967. A nice illustrated description of the double slit experiment appears in   [this video](https://www.youtube.com/watch?v=DfPeprQ7oGc)].]
-In particular there are positions in the wall that are hit when the first gun is turned on, and when the second gun is turned on, but are _not hit at all when both guns are turned on!_.
-It's almost as if the photons from both guns are aware of each other's existence, and behave differently when they know that in the future a photon would be shot from another gun. (Indeed, we stress that we can modulate the rate of firing so that photons are _not_ fired at the same time, and so there is no chance of "collision".)
+Amazingly, if we shoot with a "photon gun" (i.e., lasers) at a wall equipped with photon detectors through some barrier, then (as shown [doubleslitfig](){.ref}) we sometimes see  _fewer_ hits when the two slits are open than one only ones of them is!.^[A nice illustrated description of the double slit experiment appears in   [this video](https://www.youtube.com/watch?v=DfPeprQ7oGc).]
+In particular there are positions in the wall that are hit when the first slit is open, hit when the  second gun is open, but are _not hit at all when both slits are open!_.
 
 
-This and other experiments ultimately forced scientists to accept the following picture of the world.
-Let us go back to the baseball experiment, and consider a particular position in the wall.
-Suppose that the probability that a ball shot from the first machine hits that position is $p$, and the probability that a ball shot from the second machine hits the same position is $q$.
-Then, if we shoot $N$ balls out of each gun, we expect that this position will be hit $(p+q)N$ times.
-In the quantum world, for photons, we have almost the same picture, except that the probabilities can be _negative_.
-In particular, it can be the case that $p+q=0$, in which case the position would be hit with nonzero probability when gun number one is operating, and with nonzero probability when gun number two is operating, but with zero probability when both of them are operating.
-If we try to "catch photons in the act" and place  detectors right next to the mouth of each gun so we can see exactly the path that the photons took  then something even more bizarre happens.
-The mere fact that we _measure_ the  path changes the photon's behavior, and now this "destructive interference" pattern is gone and the detector  will be hit $p+q$ fraction of the time.
+
+![The setup of the double slit experiment in the case of photon or electron guns. We see also _destructive_ interference in the sense that there are some positions on the wall that get _fewer_ hits when both slits are open than they get when only one of the slits is open. Image credit: Wikipedia.](../figure/double-slit-setup.PNG){#doubleslitfig .class width=300px height=300px}
+
+
+It seems as if each photon coming out of the gun is aware of the global setup of the experiment, and behaves differently if two slits are open than if only one is.
+If we try to "catch the photon in the act" and place  a detector right next to each slit so we can see exactly the path each photon takes  then something even more bizarre happens.
+The mere fact that we _measure_ the  path changes the photon's behavior, and now this "destructive interference" pattern is gone and the number of times a position is hit when two slits are open is the sum of the number of times it is hit when each slit is open.
+
 
 > # { .pause }
 You should read the paragraphs above more than once and make sure you appreciate how truly mind boggling these results are.
 
-![The setup of the double slit experiment](../figure/double-slit-setup.PNG){#doubleslitfig .class width=300px height=300px}
 
-![Results of the double slit experiement.](../figure/double_slit2.jpg){#doubleslittwofig .class width=300px height=300px}
-
-
-## Negative probabilities
-
-What does it mean for a probability to be negative?
-The physicists' answer is that it does not mean much in isolation, but it can cause _interference_ when a positive and negative probability interact.
-Specifically, let's consider the simplest system of all: one that can be in only one of two states, call them "red" and "blue". (If you have some physics background then you  can think of an electron that can be in either "spin up" or "spin down" state.)
-In classical probability terms, we would model the state of such a system by a pair of two non-negative numbers $p,q$ such that $p+q=1$.
-If we observe (or _measure_, to use quantum mechanical parlance), the color of the system, we will see that it is red with probability $p$ and blue with probability $q$.
+## Quantum amplitudes
 
 
-In quantum mechanics, we model the state of such a system by a pair of two (potentially negative) numbers $\alpha,\beta$ such that $\alpha^2 + \beta^2 = 1$.
-If we measure the color of the system then we will see that it is red with probability $\alpha^2$ and blue with probability $\beta^2$.[^quantum]
-In isolation, these negative numbers don't matter much, since we anyway square them to obtain probabilities.
-But as we mention above, the interaction of positive and negative probabilities can result in surprising _cancellations_ where somehow combining two scenarios where a system is "blue" with positive probability results in a scenario where it is never blue.
+The double slit and other experiments ultimately forced scientists to accept the following picture of the world.
+Let us go back to the baseball experiment.
+Suppose that the probability a ball passes through the left slit is $p_L$ and the probability that it passes through the right slit is $p_R$.  Then, if we shoot $N$ balls out of each gun, we expect the wall  will be hit $(p_L+p_R)N$ times.
+
+In the quantum world, it can sometimes be the case that in both the first and second case the wall is hit with positive probabilities $p_L$ and $p_R$ respectively but somehow when both slits are open the wall (or a particular position in it) is not hit at all. It's almost as if the probabilities can "cancel each other out".
+
+To understand the way we model this in quantum mechanics, it is helpful to think of a "lazy evaluation" approach to probability.
+We can think of a probabilistic experiment such as shooting a baseball through two slits  in two different ways:
+
+* When a ball is shot, "nature" tosses a coin and decides if it will go through the left slit (which happens with a certain probability $p_L$), right slit (which happens with a certain probability $p_R$),  or bounce back. If it passes through one of the slits then it will hit the wall.
+Later we can look at the wall and find out whether or not this event happened, but the fact that the event happened or not is determined independently of whether or not we look at the wall.
+
+* The other viewpoint is that when a ball is shot, "nature" computes the probabilities $p_L$ and $p_R$ as before, but does _not_ yet "toss the coin" and determines what happened.
+Only when  we actually look at the wall, nature tosses a coin and with probability $p_L+p_R$ ensures we see a dent. That is, nature uses "lazy evaluation", and only determines the result of a probabilistic experiment when we decide to _measure_ it.
+
+While the first scenario seems much more natural, the end result in both is the same (the wall is hit with probability $p_L+p+_R$) and so the question of  whether we should model nature as following the first scenario or second one  seems like asking about the proverbial tree that falls in the forest with no one hearing about it.
+
+However, when we want to describe the double slit experiment with photons rather than baseballs, it is the second scenario that lends itself better to a quantum generalization.
+Quantum mechanics associates a number $\alpha$ known as an _amplitude_ with each probabilistic experiment.
+This number $\alpha$ can be _negative_, and in fact even _complex_.
+We never observe the amplitudes directly, since whenever we _measure_ an event with amplitude $\alpha$, nature tosses a coin and determines that the event happens with probability $|\alpha|^2$.
+However, the sign (or in the complex case, phase) of the amplitudes can effect whether two different events have _constructive_ or _destructive_ interference.
+
+::: { .pause }
+If you don't find the above description confusing and unintuitive, you probably didn't get it.
+Please make sure to re-read the above paragraphs until you are thoroughly confused.
+:::
+
+Specifically, consider an event that can either occur or not (e.g. "detector number 17 was hit by a photon").
+In classical probability, we model this by a probability distribution over the two outcomes: a pair of non-negative numbers $p$ and $q$ such that $p+q=1$, where $p$ corresponds to probability that the event occurs and $q$ corresponds to probability that the event does not occur.
+In quantum mechanics, we model this also by  pair of numbers, which we call _amplitudes_. This is  a pair of (potentially negative or even complex) numbers $\alpha$ and $\beta$ such that $|\alpha|^2 + |\beta|^2 =1$.
+The probability that the event occurs is $|\alpha|^2$ and the probability that it does not occur is $|\beta|^2$.[^quantum]
+In isolation, these negative or complex numbers don't matter much, since we anyway square them to obtain probabilities.
+But the interaction of positive and negative probabilities can result in surprising _cancellations_ where somehow combining two scenarios where an event happens with positive probability results in a scenario where it  never does.
 
 
 Quantum mechanics is a mathematical theory that allows us to calculate and predict the results of the double-slit and many other experiments.
-If you think of quantum as an explanation as to what "really" goes on in the world, it can be rather confusing.
-However, if you simply "shut up and calculate" then it works amazingly well at predicting the experimental results.
-In particular, in the double slit experiment, for any position in the wall, we can compute  numbers $\alpha$ and $\beta$ such that photons from the first and second gun  hit that position with probabilities $\alpha^2$ and $\beta^2$ respectively.
-When we activate both guns, the probability that the position will be hit is proportional to $(\alpha+\beta)^2$, and so in particular, if $\alpha=-\beta$ then it will be the case that, despite being hit when _either_ gun one or gun two are working, the position is _not hit at all_ when they both work.
+If you think of quantum mechanics as an explanation as to what "really" goes on in the world, it can be rather confusing.
+However, if you simply "shut up and calculate" then it works amazingly well at predicting  experimental results.
+In particular, in the double slit experiment, for any position in the wall, we can compute  numbers $\alpha$ and $\beta$ such that photons from the first and second slit  hit that position with probabilities $|\alpha|^2$ and $|\beta|^2$ respectively.
+When we open both slits, the probability that the position will be hit is proportional to $|\alpha+\beta|^2$, and so in particular, if $\alpha=-\beta$ then it will be the case that, despite being hit when _either_ slit one or gun two are open, the position is _not hit at all_ when they both are.
 If you haven't seen it before, it may seem like complete nonsense and at this point I'll have to politely point you back to the part where I said we should not question
 quantum mechanics but simply "shut up and calculate".
 
-[^quantum]: I should warn that we are making here many simplifications. In particular in quantum mechanics the "probabilities" can actually be _complex_ numbers,  though essentially all of the power and subtleties of quantum mechanics and quantum computing arise from allowing _negative_ real numbers, and the generalization from real to complex numbers is much less important. We will also be focusing on so called "pure" quantum states, and ignore the fact that generally the states of a quantum subsystem are _mixed_ states that are a convex combination of pure states and can be described by a so called _density matrix_. This issue does not arise as much in quantum algorithms precisely because the goal is for a quantum computer is to be an isolated system that can evolve to continue to be in a pure state; in real world quantum computers however there will be interference from the outside world that causes the state to become mixed and increase its so called "von Neumann entropy". Fighting this interference and the second law of thermodynamics is much of what the challenge of building quantum computers is all about . More generally, this lecture is not meant to be a complete or accurate description of quantum mechanics, quantum information theory, or quantum computing, but rather just give a sense of the main points where it differs  from classical computing.
+[^quantum]: I should warn that we are making here many simplifications. In particular while quantum amplitudes can be _complex_ numbers, we will usually restrict attention to _real_ (though potentially negative) numbers.  A;most all of the power and subtleties of quantum mechanics and quantum computing arise from allowing _negative_  numbers, and the generalization from real to complex numbers is much less important. We will also be focusing on so called "pure" quantum states, and ignore the fact that generally the states of a quantum subsystem are _mixed_ states that are a convex combination of pure states and can be described by a so called _density matrix_. This issue does not arise as much in quantum algorithms precisely because the goal is for a quantum computer is to be an isolated system that can evolve to continue to be in a pure state; in real world quantum computers however there will be interference from the outside world that causes the state to become mixed and increase its so called "von Neumann entropy". Fighting this interference and the second law of thermodynamics is much of what the challenge of building quantum computers is all about . More generally, this lecture is not meant to be a complete or accurate description of quantum mechanics, quantum information theory, or quantum computing, but rather just give a sense of the main points where it differs  from classical computing.
 
-### Bell's Inequality
+## Bell's Inequality
 
 There is something weird about quantum mechanics.
 In 1935 [Einstein, Podolsky and Rosen (EPR)](http://plato.stanford.edu/entries/qt-epr/) tried to pinpoint this issue by highlighting a previously unrealized corollary of this theory.
-People already understood  that the fact that  quantum measurement collapses a state to a definite state yields  the _uncertainty principle_, whereby if you measure a quantum system in one orthogonal basis, you will not know how it would have measured in an incoherent basis to it (such as position vs. momentum).
-What EPR showed was that quantum mechanics results in so called "spooky action at a distance" where if you have a system of two particles then measuring one of them would instantenously effect the state of the other.
-Since this "state" is just a mathematical description,  as far as I know the EPR paper was considered to be a thought experiment showing troubling aspects of quantum mechanics, without bearing on experiment.
-This changed when in 1965 John Bell showed an actual experiment to test the predictions of EPR and hence pit intuitive common sense against the predictions of quantum mechanics.
-Quantum mechanics won.
-Nonetheless, since the results of these experiments are so obviously wrong to anyone that has ever sat in an armchair,  that there are still a number of [Bell denialists](http://www.scottaaronson.com/blog/?p=2464) arguing that quantum mechanics is wrong in some way.
+They showed that the idea that nature does not determine the results of an experiment until it is measured results in so called  "spooky action at a distance".
+Namely, making a measurement of one object may  instantaneously  effect the state (i.e., the vector of amplitudes) of another object in the other end of the universe.
+
+
+Since the vector of amplitudes  is just a mathematical abstraction,  the EPR paper was considered to be merely a thought experiment for philosophers to be concerned about, without bearing on experiments.
+This changed when in 1965 John Bell showed an actual experiment to test the predictions of EPR and hence pit intuitive common sense against the quantum mechanics.
+Quantum mechanics won: it turns out that it _is_ in fact possible to use measurements to  instantaneously effect the state of objects far removed from one another.
+Nonetheless, since the results of these experiments are so obviously wrong to anyone that has ever sat in an armchair,  that there are still a number of [Bell denialists](http://www.scottaaronson.com/blog/?p=2464) arguing that this can't be true and quantum mechanics is wrong.
 
 So, what is this Bell's Inequality?
 Suppose that Alice and Bob try to convince you they have telepathic ability, and they aim to prove it via the following experiment.
@@ -110,7 +132,7 @@ We say that Alice and Bob win this experiment if $a \oplus b = x \wedge y$.
 In other words, Alice and Bob need to output two bits that _disagree_ if $x=y=1$ and _agree_ otherwise.
 
 
-[^paranoid]: If you are extremely paranoid about Alice and Bob communicating with one another, you can coordinate with your assistant to perform the experiment exactly at the same time, and make sure that the rooms are sufficiently far apart (e.g., are on two sides of the world, or maybe even one is on the moon and another is on earth) so that Alice and Bob couldn't communicate to each other in time  the results of the coin even if they do so at the speed of light.
+[^paranoid]: If you are extremely paranoid about Alice and Bob communicating with one another, you can coordinate with your assistant to perform the experiment exactly at the same time, and make sure that the rooms are sufficiently far apart (e.g., are on two different continents, or maybe even one is on the moon and another is on earth) so that Alice and Bob couldn't communicate to each other in time the results of their respective coins even if they do so at the speed of light.
 
 
 Now if Alice and Bob are not telepathic, then they need to agree in advance on some strategy.
@@ -120,16 +142,23 @@ However, by doing some case analysis, we can show that no matter what strategy t
 > # {.theorem title="Bell's Inequality" #bellthm}
 For every two functions $f,g:\{0,1\}\rightarrow\{0,1\}$, $\Pr_{x,y \in \{0,1\}}[  f(x) \oplus g(y) = x \wedge y] \leq 3/4$.
 
-> # {.proof data-ref="bellthm"}
-Since the probability is taken over all four choices of $x,y \in \{0,1\}$, the theorem can only be violated if there exist  $f,g$ that satisfy
-$f(x) \oplus g(y) = x \wedge y \;(*)$
-for every $x,y \in \{0,1\}^2$.
-In other words, we assume for the sake of contradiction that
-$f(x) = (x \wedge y) \oplus g(y)\;(*)$
-for every $x,y \in \{0,1\}^2$.
-So if $y=0$ it must be that $f(x)=(x \wedge 0) \oplus g(0) = 0 \oplus g(0)= g(0)$ for both  $x=0$ and $x=1$ and in particular $f(0)=f(1)$.
-On the other hand, if $y=1$ then plugging $x=0$ and $x=1$ to $(*)$ implies that $f(0)= g(1)$ and $f(1)=1 \oplus g(1)$.
-Yet this implies that $f(0) \neq f(1)$, containing a contradiction.
+::: {.proof data-ref="bellthm"}
+Since the probability is taken over all four choices of $x,y \in \{0,1\}$, the only way the theorem can be be violated if if there exist  two functions $f,g$ that satisfy
+$$f(x) \oplus g(y) = x \wedge y \;(*)$$
+for all the four choices of  $x,y \in \{0,1\}^2$.
+Let's plug in all these four choices and see what we get (below we use the equalities $z \oplus 0 = z$, $z \wedge 0=0$ and $z \wedge 1 = z$):
+
+$$
+\begin{aligned}
+f(0) &\oplus g(0) &= 0\;\;\;\; &(\text{plugging in } x=0,y=0) \\
+f(0) &\oplus g(1) &= 0\;\;\;\; &(\text{plugging in } x=0,y=1) \\
+f(1) &\oplus g(0) &= 0\;\;\;\; &(\text{plugging in } x=1,y=0) \\
+f(1) &\oplus g(1) &= 1\;\;\;\; &(\text{plugging in } x=1,y=1)
+\end{aligned}
+$$
+
+If we XOR together the first and second equalities we get $g(0) \oplus g(1) = 0$ while if we XOR together the third and fourth equalities we get $g(0) \oplus g(1) = 1$, thus obtaining a contradiction.
+:::
 
 
 
@@ -141,26 +170,26 @@ Specifically, it has been shown that using the weirdness of quantum mechanics, t
 
 [^telepathy]: More accurately, one either has to give up on a "billiard ball type" theory of the universe or believe in telepathy (believe it or not, some scientists went for the [latter option](https://en.wikipedia.org/wiki/Superdeterminism)).
 
-### Quantum weirdness
+## Quantum weirdness
 
 
 
-Some of the counterintuitive properties that arise from these negative probabilities include:
+Some of the counterintuitive properties that arise from  quantum mechanics include:
 
-* **Interference** - As we see here, probabilities can "cancel each other out".
+* **Interference** - As we've seen', quantum amplitudes can "cancel each other out".
 
-* **Measurement** -   The idea that probabilities are negative as long as "no one is looking" and "collapse" (by squaring them) to positive probabilities when they are _measured_ is deeply disturbing. Indeed, people have shown that it can yield to various strange outcomes such as "spooky actions at a distance", where we can measure an object at one place and instantaously (faster than the speed of light) cause a difference in the results of a measurements in a place far removed. Unfortunately (or fortunately?) these strange outcomes have been confirmed experimentally.
+* **Measurement** -   The idea that amplitudes are negative as long as "no one is looking" and "collapse" (by squaring them) to positive probabilities when they are _measured_ is deeply disturbing. Indeed, as shown by EPR and Bell, this leads to various strange outcomes such as "spooky actions at a distance", where we can measure an object at one place and instantaneously (faster than the speed of light) cause a difference in the results of a measurements in a place far removed. Unfortunately (or fortunately?) these strange outcomes have been confirmed experimentally.
 
 * **Entanglement** - The notion that two parts of the system could be connected in this weird way where measuring one will affect the other is known as _quantum entanglement_.
 
-Again, as counter-intuitive as these concepts are, they have been experimentally confirmed, so we just have to live with them.
+As counter-intuitive as these concepts are, they have been experimentally confirmed, so we just have to live with them.
 
 > # {.remark title="More on quantum" #quantumsources}
 The discussion in this  lecture is quite brief and somewhat superficial.
 The chapter on quantum computation in my [book with Arora](http://theory.cs.princeton.edu/complexity/) (see [draft here](http://theory.cs.princeton.edu/complexity/ab_quantumchap.pdf)) is one
 relatively short resource that contains essentially everything we discuss here and more.
 See also this [blog post of Aaronson](http://www.scottaaronson.com/blog/?p=208) for a high level explanation of Shor's algorithm which ends with links to several more detailed expositions.
-[This lecture](http://www.scottaaronson.com/democritus/lec14.html) of Aaronson for a great discussion of the feasibility of quantum computing (Aaronson's [course lecture notes](http://www.scottaaronson.com/democritus/default.html) and the [book](http://www.amazon.com/Quantum-Computing-since-Democritus-Aaronson/dp/0521199565) that they spawned are fantastic reads as well).
+[This lecture](http://www.scottaaronson.com/democritus/lec14.html) of Aaronson contains a great discussion of the feasibility of quantum computing (Aaronson's [course lecture notes](http://www.scottaaronson.com/democritus/default.html) and the [book](http://www.amazon.com/Quantum-Computing-since-Democritus-Aaronson/dp/0521199565) that they spawned are fantastic reads as well).
 The videos of [Umesh Variani'z EdX course](https://www.youtube.com/playlist?list=PLDAjb_zu5aoFazE31_8yT0OfzsTcmvAVg) are an accessible and recommended introduction to quantum computing.
 See the "bibliographical notes" section at the end of this lecture for more resources.
 
@@ -179,20 +208,25 @@ So, he asked whether one could design a quantum system such that its outcome $y$
 In 1985, David Deutsch formally suggested the notion of a quantum Turing machine, and the model has been since refined in works of Detusch and Josza and Bernstein and Vazirani.
 Such a system is now known as a _quantum computer_.
 
-[^Feynman]: As its title suggests, Feynman's [lecture](https://www.cs.berkeley.edu/~christos/classics/Feynman.pdf) was actually focused on the other side of simulating physics with a computer. However,  he mentioned that as a "side remark" one could wonder if it's possible to simulate physics with a new kind of computer - a "quantum computer" which would "not [be] a Turing machine, but a machine of a different kind". As far as I know, Feynman did not suggest that such a computer could be useful for computations completely outside the domain of quantum simulation, and in fact he found the question of whether quantum mechanics could be simulated by a classical computer to be  more interesting.
+[^Feynman]: As its title suggests, Feynman's [lecture](https://www.cs.berkeley.edu/~christos/classics/Feynman.pdf) was actually focused on the other side of simulating physics with a computer. However,  he mentioned that as a "side remark" one could wonder if it's possible to simulate physics with a new kind of computer - a "quantum computer" which would "not [be] a Turing machine, but a machine of a different kind". As far as I know, Feynman did not suggest that such a computer could be useful for computations completely outside the domain of quantum simulation. Indeed, he was more interested in the question of whether quantum mechanics could be simulated by a classical computer.
 
 
 For a while these hypothetical quantum computers seemed useful for one of two things.
-First, to provide a general-purpose mechanism to  simulate a variety of the real quantum systems that people care about.
+First, to provide a general-purpose mechanism to  simulate a variety of the real quantum systems that people care about, such as various interactions inside molecules in quantum chemistry.
 Second, as a challenge to the _Extended Church Turing hypothesis_ which says that every physically realizable computation device can be modeled (up to polynomial overhead) by Turing machines (or equivalently, NAND++ / NAND<< programs).
-However, (unless you care about quantum chemistry) it seemed like a challenge that might have little bearing to practice, given that this theoretical "extra power" of quantum computer seemed to offer little advantage in the majority of the  problems people  want to solve in areas such as  combinatorial optimization, machine learning,  data structures, etc..
 
-To a significant extent, this is still true today. We have no real evidence that quantum computers, if built, will offer truly significant[^Grover] advantage in 99% of the applications of computing.
-In particular, as far as we know, quantum computers will _not_ help us solve $\mathbf{NP}$ complete problems in polynomial or even sub-exponential time.[^overhead]
+Quantum chemistry is important (and in particular understanding it can be a bottleneck for designing new materials, drugs, and more), but it is still a rather niche area within the broader context of computing (and even scientific computing) applications.
+Hence for a while most researchers (to the extent they were aware of it), thought of quantum computers as a theoretical curiosity that  has little bearing to practice, given that this theoretical "extra power" of quantum computer seemed to offer little advantage in the majority of the  problems people  want to solve in areas such as  combinatorial optimization, machine learning,  data structures, etc..
+
+To some extent this is still true today. We have no real evidence that quantum computers, if built, will offer truly significant[^Grover] advantage in 95% of the applications of computing.[^overhead]
+In particular, as far as we know, quantum computers will _not_ help us solve $\mathbf{NP}$ complete problems in polynomial or even sub-exponential time.
+
+
 However, there is one cryptography-sized exception:
 In 1994 Peter Shor showed that quantum computers can solve the integer factoring and discrete logarithm in polynomial time.
 This result has captured the imagination of a great many people, and completely energized research into quantum computing.
 This is both because the hardness of these particular problems provides the foundations for securing such a huge part of our communications (and these days, our economy), as well as it was a powerful demonstration that quantum computers could turn out to be useful for problems that a-priori seemd to have nothing to do with quantum physics.
+
 As we'll discuss later, at the moment there are several intensive efforts to construct large scale quantum computers.
 It seems safe to say that, as far as we know, in the next five years or so there will not be a quantum computer large enough to factor, say, a $1024$ bit number, but there it is quite possible that some quantum computer will be built that is strong enough to achieve some task that is too inefficient to achieve with a non-quantum or "classical" computer  (or at least requires far more resources classically than it would for this computer).
 When and if such a computer is  built that can break reasonable parameters of Diffie Hellman, RSA and elliptic curve cryptography is anybody's guess.
@@ -200,21 +234,21 @@ It could also be a "self destroying prophecy" whereby the existence of a small-s
 
 [^legacy]: Of course, given that [we're still hearing](http://blog.cryptographyengineering.com/2016/03/attack-of-week-drown.html) of attacks exploiting "export grade" cryptography that was supposed to disappear in 1990's, I imagine that we'll still have products running 1024 bit RSA when everyone has a quantum laptop.
 
-[^overhead]: This "99 percent" is a figure of speech, but not completely so. It seems that for many web servers, the TLS protocol (which based on the current non-lattice based systems would be completely broken by quantum computing) is responsible [for about 1 percent of the CPU usage](https://goo.gl/mHpYpm).
+[^overhead]: This "95 percent" is a figure of speech, but not completely so. At the time of this writing, cryptocurrency mining  electricity consumption is estimated to use up at least [70Twh or 0.3 percent of the world's production](https://digiconomist.net/bitcoin-energy-consumption), which is about [2 to 5 percent](http://www.mdpi.com/2078-1547/6/1/117/html) of the total energy usage for the computing industry. All the current cryptocurrencies will be broken by quantum computers. Also, for many web servers the TLS protocol (which based on the current non-lattice based systems would be completely broken by quantum computing) is responsible [for about 1 percent of the CPU usage](https://goo.gl/mHpYpm).
 
 [^Grover]: I am using the theorist' definition of conflating "significant" with "super-polynomial". [Grover's algorithm](https://goo.gl/NQVLLF) does offer a very generic _quadratic_ advantage in computation. Whether that quadratic advantage will  ever be good enough to offset in practice the significant overhead in building a quantum computer remains an open question. We also don't have evidence that super-polynomial speedups _can't_ be achieved for some problems outside the Factoring/Dlog or quantum simulation domains, and there is at least [one company](http://www.dwavesys.com/) banking on such speedups actually being feasible.
 
-> # {.remark title="Quantum computing and $\mathbf{NP}$" #quantumnp}
+::: {.remark title="Quantum computing and $\mathbf{NP}$" #quantumnp}
 Despite popular accounts of quantum computers as having variables that can take "zero and one at the same time"  and therefore can "explore an exponential number of possibilities simultaneously", their true power is much more subtle and nuanced.
-In particular, as far as we know, quantum computers do _not_ enable us to solve $\mathbf{NP}$ complete problems such as 3SAT.
-In particular it is believed that for every large enough $n$, the restriction of 3SAT to length $n$ cannot be solved by quantum circuits (or equivalently QNAND programs) of polynomial, or even subexponential size.
+In particular, as far as we know, quantum computers do _not_ enable us to solve $\mathbf{NP}$ complete problems such as 3SAT in polynomial or even sub-exponential time.
 However, [Grover's search algorithm](https://goo.gl/NQVLLF) does give a more modest advantage (namely, quadratic) for quantum computers over classical ones for problems in $\mathbf{NP}$.
 In particular, due to Grover's search algorithm, we know that the $k$-SAT problem for $n$ variables can be solved in time $O(2^{n/2}poly(n))$ on a quantum computer for every $k$.
 In contrast, the best known algorithms for $k$-SAT on a classical computer take roughly $2^{(1-\tfrac{1}{k})n}$ steps.
+:::
 
 
 
-## The  computational model
+## Quantum systems
 
 Before we talk about _quantum_ computing, let us recall how we physically realize "vanilla" or _classical_ computing.
 We model a _logical bit_ that can equal $0$ or a $1$ by some physical system that can be in one of two states.
@@ -226,153 +260,63 @@ If we perform an operation such as writing to the 17-th bit the NAND of the 3rd 
 In the _probabilistic_ setting, we would model the state of the system by a _distribution_.
 For an individual bit, we could model it by a pair of non-negative numbers $\alpha,\beta$ such that $\alpha+\beta=1$, where $\alpha$ is the probability that the bit is zero and $\beta$ is the probability that the bit is one.
 For example,  applying the _negation_ (i.e., NOT) operation to this bit  corresponds to mapping the pair $(\alpha,\beta)$ to $(\beta,\alpha)$ since the probability that $NOT(\sigma)$ is equal to $1$ is the same as the probability that $\sigma$ is equal to $0$.
-This means that we can think of the NOT function as the linear map $N:\R^2 \rightarrow \R^2$ such that $N(\alpha,\beta)=(\beta,\alpha)$.
+This means that we can think of the NOT function as the linear map $N:\R^2 \rightarrow \R^2$ such that $N \begin{pmatrix} \alpha \\ \beta \end{pmatrix} = \begin{pmatrix} \beta \\ alpha \end{pmatrix}$ or equivalently as the matrix $\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$.
 
-If we think of the $n$-bit system as a whole, then since the $n$ bits can take  one of  $2^n$ possible values, we model the state of the system as a vector $p$ of $2^n$ probabilities $p_0,\ldots,p_{2^n}$, where for every $s\in \{0,1\}^n$, $p_s$ denotes the probability that the system is in the state $s$, identifying $\{0,1\}^n$ with $[2^n]$.
-Applying the operation above of setting the $17$-th bit to the NAND of the 3rd and 5th bits, corresponds to transforming the vector $p$ to the vector $Fp$ where $F:\R^{2^n} \rightarrow \R^{2^n}$ is the map such that
-$$
-F(p)_s = \begin{cases}0 & s_{17} \neq 1 - s_3\cdot s_5 \\ p_{s}+p_{s'} & \text{otherwise} \end{cases} \label{eqprobnandevolution}
-$$
-where $s'$ is the string that agrees with $s$ on all but the 17th coordinate.
+If we think of the $n$-bit system as a whole, then since the $n$ bits can take  one of  $2^n$ possible values, we model the state of the system as a vector $p$ of $2^n$ probabilities.
+For every $s\in \{0,1\}^n$, we denote by $e_s$ the $2^n$ dimensional vector that has $1$ in the coordinate corresponding  to $s$ (identifying it with a number in $[2^n]$), and so can write  $p$ as $\sum_{s\in \{0,1\}^n} p_s e_s$ where $p_s$ is the probability that the system is in the state $s$.
 
-> # { .pause }
-It might not be immediate to see why [eqprobnandevolution](){.eqref} describes the progression of such a system, so you should pause here and make sure you understand that. Understanding evolution of probabilistic systems is a prerequisite to understanding evolution of quantum systems.
-You should also make sure that you understand why the function $F:\R^{2^n} \rightarrow F:\R^{2^n}$ described in [eqprobnandevolution](){.eqref} is _linear_, in the sense that for every pair of vectors $p,q \in \R^{2^n}$ and numbers $a,b\in R$, $F(ap+bq)=aF(p)+bF(q)$.
->
+
+Applying the operation above of setting the $17$-th bit to the NAND of the 3rd and 5th bits, corresponds to transforming the vector $p$ to the vector $Fp$ where $F:\R^{2^n} \rightarrow \R^{2^n}$ is the linear map that maps $e_s$ to $e_{s_0\cdots s_{16}(1-s_3\cdot s_5)s_{18}\cdots s_{n-1}}$.^[Since $\{ e_s \}_{s\in \{0,1\}^n}$ is a _basis_ for $R^{2^n}$, it sufficies to define the map $F$ on vectors of this form.]
+
+::: { .pause }
+Please make sure you understand why performing the operation will take a system in state $p$ to a system in the state $Fp$.
+Understanding the evolution of probabilistic systems is a prerequisite to understanding the evolution of quantum systems.
+
 If your linear algebra is a bit rusty, now would be a good time to review it, and in particular make sure you are comfortable with the notions of _matrices_, _vectors_, (orthogonal and orthonormal) _bases_, and _norms_.
+:::
 
+### Quantum amplitudes
 
-### Quantum probabilities
-
-In the quantum setting, the state of an individual bit (or "qubit", to use quantum parlance) is modeled by a pair of numbers $(\alpha,\beta)$ such that $\alpha^2 + \beta^2 = 1$.
+In the quantum setting, the state of an individual bit (or "qubit", to use quantum parlance) is modeled by a pair of numbers $(\alpha,\beta)$ such that $|\alpha|^2 + |\beta|^2 = 1$.
+While in general these numbers can be _complex_, for the rest of this chapter, we will often assume they are _real_ (though potentially negative), and hence often drop the absolute value operator.
+(This  turns out not to make much of a difference in explanatory power.)
 As before, we think of $\alpha^2$ as the probability that the bit equals $0$ and $\beta^2$ as the probability that the bit equals $1$.
-Therefore, as before, we can model the NOT operation by the map $N:\R^2 \rightarrow \R^2$ where $N(\alpha,\beta)=(\beta,\alpha)$.
+As we did  before, we can model the NOT operation by the map $N:\R^2 \rightarrow \R^2$ where $N(\alpha,\beta)=(\beta,\alpha)$.
 
-Following quantum tradition, we will denote the vector $(1,0)$ by $|0\rangle$  and the vector $(0,1)$ by $|1\rangle$ (and moreover, think of these as column vectors).
-So NOT is the unique linear map $N:\R^2 \rightarrow \R^2$ that satisfies $N(|0\rangle)=|1\rangle$ and $N(|1\rangle)=|0\rangle$.
-(This is known as the Dirac "ket" notation.)
+Following quantum tradition, instead of using $e_0$ and $e_1$ as we did above, from now on we will denote the vector $(1,0)$ by $|0\rangle$  and the vector $(0,1)$ by $|1\rangle$ (and moreover, think of these as column vectors).
+This is known as the Dirac "ket" notation.
+This means that NOT is the unique linear map $N:\R^2 \rightarrow \R^2$ that satisfies $N |0\rangle=|1\rangle$ and $N |1\rangle =|0\rangle$.
+In other words, in the quantum case, as in the probabilistic case,  NOT corresponds to the matrix
+$$
+N = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} \;.
+$$
+
 
 
 In classical computation, we typically think that there are only two operations that we can do on a single bit: keep it the same or negate it.
-In the quantum setting, a single bit operation corresponds to any linear map $OP:\R^2 \rightarrow \R^2$ that is _norm preserving_ in the sense that  for every $\alpha,\beta$ such that $\alpha^2+\beta^2=1$,  if $(\alpha',\beta')= OP(\alpha,\beta)$ then $\alpha'^2 + \beta'^2 = 1$.
+In the quantum setting, a single bit operation corresponds to any linear map $OP:\R^2 \rightarrow \R^2$ that is _norm preserving_ in the sense that  for every $\alpha,\beta$,  if we apply $OP$ to the vector $\begin{pmatrix} \alpha \\ \beta \end{pmatrix}$ then we obtain a vector $\begin{pmatrix} \alpha' \\ \beta' \end{pmatrix}$ such that  $\alpha'^2 + \beta'^2 = \alpha^2 + \beta^2$.
 Such a linear map $OP$ corresponds to a [unitary](https://en.wikipedia.org/wiki/Unitary_matrix) two by two matrix.^[As we mentioned,  quantum mechanics actually models states as vectors with _complex_ coordinates. However, this does not make any qualitative difference to our discussion.]
-Keeping the bit the same corresponds to the matrix $I = \left( \begin{smallmatrix} 1&0\\ 0&1 \end{smallmatrix} \right)$ and the NOT operations corresponds to the matrix $N = \left( \begin{smallmatrix} 0&1\\ 1&0 \end{smallmatrix} \right)$.
+Keeping the bit the same corresponds to the matrix $I = \begin{pmatrix} 1&0\\ 0&1 \end{pmatrix}$ and (as we've seen) the NOT operations corresponds to the matrix $N = \begin{pmatrix} 0&1\\ 1&0 \end{pmatrix}$.
 But there are other operations we can use as well.
-One such useful operation is the _Hadamard_ operation, which corresponds to the matrix $H = \tfrac{1}{\sqrt{2}} \left( \begin{smallmatrix} +1&+1\\ +1&-1 \end{smallmatrix} \right)$.
+One such useful operation is the _Hadamard_ operation, which corresponds to the matrix
+$$H = \tfrac{1}{\sqrt{2}} \begin{pmatrix} +1 & +1\\ +1 & -1 \end{pmatrix} \;. $$
+
 In fact it turns out that Hadamard is all that we need to add to a classical universal basis to achieve the full power of quantum computing.
 
-### Quantum circuits and QNAND
+### Recap
 
-A _quantum circuit_ is analogous to a Boolean circuit, and can be described as a directed acyclic graph.
-One crucial difference that the _out degree_ of every vertex in a quantum circuit is at most one.
-This is because we cannot "reuse" quantum states without _measuring_ them (which collapses their "probabilities").
-Therefore, we cannot use the same bit as input for two different gates.^[This is known as the [No Cloning Theorem](https://goo.gl/jCVtEY).]
-Another more technical difference is that to express our operations as unitary matrices, we will need to make sure all our gates are _reversible_.
-This is not hard to ensure.
-For example, in the quantum context, instead of thinking of $NAND$ as a (non reversible) map from $\{0,1\}^2$ to $\{0,1\}$, we will think of it as the reversible  map on _three_ qubits that maps $a,b,c$ to $a,b,c\oplus NAND(a,b)$.
-Equivalently, the NAND operation corresponds to  the unitary map $U_{NAND}$ on $\R^{2^3}$ such that (identifying $\{0,1\}^3$ with $[8]$) for every $a,b,c \in \{0,1\}$, if $|abc\rangle$ is the basis element with $1$ in the $abc$-th coordinate and zero elsewhere, then $U(|abc\rangle)=|ab(c \oplus NAND(a,b))\rangle$.^[$U_{NAND}$ is a close variant of the so called [Toffoli gate](https://goo.gl/BE7aVG) and so QNAND programs correspond to quantum circuits with the Hadamard and Toffoli gates.]
+The _state_ of  a _quantum system_ of $n$ qubits is modeled by an $2^n$ dimensional vector $v$ of unit norm (i.e., squares of all coordinates sums up to $1$), which we write as $\sum_{x\in \{0,1\}^n} v_x |x \rangle$ where $|x\rangle$ is the column vector that has $0$ in all coordinates except the one corresponding to $x$ (identifying $\{0,1\}^n$ with the numbers $\{0,\ldots,2^n-1\}$).
+We use the convention that if $a,b$ are strings of lengths $k$ and $\ell$ respectively then we can write the $2^{k+\ell}$ dimensional vector with $1$ in the $ab$-th coordinate and zero elsewhere not just as  $|ab\rangle$  but also as $|a\rangle |b \rangle$.
+In particular, for every $x\in \{0,1\}^n$, we can write the vector $|x\rangle$ also as $|x_0\rangle |x_1\rangle \cdots |x_{n-1} \rangle$.
+This notation satisfies certain nice distributive laws such as $|a\rangle(|b\rangle + |b'\rangle)|c \rangle = |abc \rangle + |ab'c\rangle$.
 
+A _quantum operation_ on such a system is modeled by a $2^n \times 2^n$ _unitary matrix_ $U$ (one that satisfies $UU^\top = I$ where $U^\top$ is the _transpose_ operation, or conjugate transpose for complex matrices).
+If the system is in state $v$ and we apply to it the operation $U$, then the new state of the system is $Uv$.
 
-Just like in the classical case, there is an equivalence between circuits and straightline programs, and so we can define the programming language QNAND that is the quantum analog of our NAND programming language.
-To do so, we only add a single operation: `HAD(foo)` which applies the single-bit operation $H$ to the variable `foo`.
-We also use the following interpretation to make `NAND` reversible: `foo := bar NAND blah` means that we modify `foo` to be the XOR of its original value and the NAND of `bar` and `blah`.
-(In other words, apply the $8$ by $8$ unitary transformation $U_{NAND}$ defined above to the three qubits corresponding to `foo`, `bar` and `blah`.)
-If `foo` is initialized to zero then this makes no difference.
-
-If $P$ is a QNAND program with $n$ input variables, $\ell$ workspace variables, and $m$ output variables, then running it on the input $x\in \{0,1\}^n$ corresponds to setting up a system with $n+m+\ell$ qubits and performing the following process:
-
-1. We initialize the input variables to $x_0,\ldots,x_{n-1}$ and all other variables to $0$.
-
-2. We  execute the program line by line,  applying the corresponding physical operation $H$ or $U_{NAND}$ to the qubits that are referred to by the line.
-
-3. We _measure_ the output variables `y_0`$,\ldots,$ `y_`$\expr{m-1}$ and output the result.
-
-This seems quite simple, but maintaining the qubits in a way that we can apply the operations on one hand, but we don't accidentally measure them or corrupt them in another way, is a significant engineering challenge.
-
-> # {.remark title="Uniformity" #uniformity}
-Just like NAND, QNAND is a _non uniform_ model of computation, where we consider a different program for every input step.
-One can define quantum Turing machines or QNAND++ programs to capture the notion of _uniform_ quantum computation where a single algorithm is specified for all input lengths.
-The quantum analog of $\mathbf{P}$, known as $\mathbf{BQP}$ is defined using such notions.
-However, for the sake of simplicity, we omit the discussion of those models in this lecture.
-However, all of the discussion in this section holds equally well for the uniform and non-uniform models.
-
-### Analyzing QNAND execution
-
-The _state_ of an $n+\ell+m$-qubit system can be modeled, as we discussed, by a vector in $\R^{2^{n+\ell+m}}$.
-For an input $x$, the initial state  corresponds to the fact that we initialize the  system to  $x0^{\ell+m}$ (i.e., the inputs variable get the values of $x$ and all other variables get the value zero).
-We can think of this initial state as saying that if we measured all variables in the system then we'll get the value $x0^{\ell+m}$ with probability one, and hence it is modeled by   the vector $s^0 \in \R^{2^{n+\ell+m}}$ such that (identifying the coordinates with strings of length $n+\ell+m$) $s^0_{x0^{\ell+m}}=1$ and $s^0_z = 1$ for every $z \neq x0^{n+\ell+m}$.
-(Please pause here and see that you understand what the notation above means.)
-
-Every line in the program corresponds to applying a (rather simple) unitary map on $\R^{2^{n+\ell+m}}$, and so if $L_i$ is the map corresponding to the $i$-th line, then $s_{i+1}=L_i(s_i)$.
-If the program has $t$ lines then $s^* = L_{t-1}(L_{t-2}(\cdots L_0(s^0)))$ is the final state
-of the system.
-At the end of the process we _measure_ the bits, and so we get a particular Boolean assignment $z$ for its variables with probability $(s^*_z)^2$.
-Since we output the bits corresponding to the output variables, for every string $y\in \{0,1\}^m$, the output will equal $y$ with probability $\sum_{z\in S_y} (s^*_z)^2$ where $S_y$ is the set of all $z\in \{0,1\}^{n+\ell+m}$ that agree with $y$ in the last $m$ coordinates.
+When we _measure_ an $n$-qubit system in a state $v= \sum_{x\in \{0,1\}^n} v_x |x \rangle$, then we observe the value $x\in \{0,1\}^n$ with probability $|v_x|^2$.
 
 
-> # {.remark title="The obviously exponential fallacy" #exponential}
-A priori it might seem "obvious" that quantum computing is exponentially powerful, since to perform a quantum computation on $n$ bits we need to maintain the $2^n$ dimensional state vector and apply $2^n\times 2^n$ matrices to it.
-Indeed popular descriptions of quantum computing (too) often say something along the lines that the difference between quantum and classical computer is that a classic bit can either be zero or one while a qubit can be in both states at once, and so in many qubits a quantum computer can perform exponentially many computations at once.
->
-Depending on how you interpret it, this description is either false or would apply equally well to _probabilistic computation_, even though we've already seen that every randomized algorithm can be simulated by a similar-sized circuit, and in fact we conjecture that $\mathbf{BPP}=\mathbf{P}$.
->
-Moreover, this "obvious" approach for simulating a quantum computation will take not just exponential time but _exponential space_ as well, while it is not hard to show that using a simple recursive formula one can calculate the final quantum state using _polynomial space_ (in physics  this is known as "Feynman path integrals").
-So, the exponentially long vector description by itself does not imply that quantum computers are exponentially powerful.
-Indeed, we cannot _prove_ that they are (i.e., as far as we know, every QNAND program could be simulated by a NAND program with polynomial overhead), but we do have some problems (integer factoring most prominently) for which they do provide exponential speedup over the currently best _known_ classical (deterministic or probabilistic) algorithms.
-
-
-
-### Complexity classes
-
-If $F:\{0,1\}^n \rightarrow \{0,1\}$  is a finite function and $s\in \N$ then we say that $F\in QSIZE(s)$ if there exists a QNAND program $P$ of at most $s$ lines that comptues $F$, in the sense that for every $x\in \{0,1\}^n$, $\Pr[ P(x)=F(x) ] \geq 2/3$.^[The number $2/3$ is arbitrary. As  in the case of $\mathbf{BPP}$, we can amplify success probability of a quantum algorithm to our liking.]
-Equivalently, $F\in QSIZE(S)$ if there is a quantum circuit of at most $s$ gates that computes it.^[Recall that we use circuits over the basis consisting  of the  Hadamard gate and the "reversible NAND" or  "shifted Toffoli" gate $abc \mapsto ab(c \oplus (1-ab))$. However, using any other universal basis only changes the number of gates by a constant factor.]
-For an _infinite_ function $F:\{0,1\}^* \rightarrow \{0,1\}$, we say that $F\in \mathbf{BQP_{/poly}}$ if there is some polynomial $p:\N \rightarrow \N$ and a sequence $\{ Q_n \}_{n\in \N}$ of QNAND programs such that for every $n\in \N$, $Q_n$ has less than $p(n)$ lines and $Q_n$ computes the restriction of $F$ to inputs in $\{0,1\}^n$.
-We can also define the class $\mathbf{BQP}$ to be the uniform analog of $\mathbf{BQP_{/poly}}$.
-It can be defined using QNAND++ programs, but also has the following equivalent definition: $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{BQP}$ if there is polynomial-time (classical) NAND++ program $P$ such that for every $n\in \N$, $P(1^n)$ is a string representing a QNAND program $Q_n$ such that $Q_n$ computes the restriction of $F$ to inputs in $\{0,1\}^n$.
-
-> # { .pause }
-Parsing the above definitions can take a bit of time, but they are ultimately not very deep.
-One way to verify that you've understood these definitions it to see that you can prove __(1)__ $\mathbf{P} \subseteq \mathbf{BQP}$ and in fact the stronger statement $\mathbf{BPP} \subseteq \mathbf{BQP}$, __(2)__  $\mathbf{BQP} \subseteq \mathbf{EXP}$, and __(3)__ For every $\mathbf{NP}$-complete function $F$, if $F\in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$.
-
-The relation between $\mathbf{NP}$ and $\mathbf{BQP}$ is not known. It is believed that they are incomprable, in the sense that $\mathbf{NP} \nsubseteq \mathbf{BQP}$ (and in particular no $\mathbf{NP}$-complete function belongs to $\mathbf{BQP}$) but also $\mathbf{BQP} \nsubseteq \mathbf{NP}$ (and there are some interesting candidates for such problems).
-
-
-It can be shown that $QNANDEVAL$ (evluating a quantum circuit on an input) is computable by a polynomial size QNAND program, and moreover this program can even be generated _uniformly_ and hence $QNANDEVAL$ is in $\mathbf{BQP}$.
-This allows us to "port" many of the results of classical computational complexity into the quantum realm as well.
-
-
-
-
-
-
-
-
-
-### Physically realizing quantum computation
-
-To realize quantum computation one needs to create a system with $n$ independent binary states (i.e., "qubits"), and be able to manipulate small subsets of two or three of these qubits to change their state.
-While by the way we defined operations above it might seem that one needs to be able to perform arbitrary unitary operations on these two or three qubits, it turns out that there several choices for _universal sets_ -  a small constant number of gates that generate all others.
-The biggest challenge is how to keep the system from being measured and _collapsing_ to a single classical combination of states.
-This is sometimes known as the _coherence time_ of the system.
-The [threshold theorem](https://courses.cs.washington.edu/courses/cse599d/06wi/lecturenotes19.pdf) says that there is some absolute constant level of errors $\tau$ so that if errors are created at every gate at rate smaller than $\tau$ then we can recover from those and perform arbitrary long computations.
-(Of course there are different ways to model the errors and so there are actually several threshold _theorems_ corresponding to various noise models).
-
-There have been several proposals to build quantum computers:^[The text below was written in early 2016 and likely needs to be updated.]
-
-* [Superconducting quantum computers](https://en.wikipedia.org/wiki/Superconducting_quantum_computing) use super-conducting electric circuits to do quantum computation. [Recent works](http://arxiv.org/abs/1411.7403) have shown one can keep these superconducting qubits fairly robust to the point one can do some error correction on them (see also [here](http://arxiv.org/abs/1508.05882v2)).
-
-* [Trapped ion quantum computers](https://en.wikipedia.org/wiki/Trapped_ion_quantum_computer) Use the states of an ion to simulate a qubit. People have made some [recent advances](http://iontrap.umd.edu/wp-content/uploads/2016/02/1602.02840v1.pdf) on these computers too. While it's not clear that's the right measuring yard, the [current best implementation](http://arxiv.org/abs/1507.08852) of Shor's algorithm (for factoring 15) is done using an ion-trap computer.
-
-* [Topological quantum computers](https://en.wikipedia.org/wiki/Topological_quantum_computer) use a different technology, which is more stable by design but arguably harder to manipulate to create quantum computers.
-
-These approaches are not mutually exclusive and it could be that ultimately quantum computers are built by combining all of them together.
-I am not at all an expert on this matter, but it seems that progress has been slow but steady and it is quite possible that we'll see a 50 qubit computer sometime in the next 5 years.
-
-
-
-
-
-## Analysis of Bell's Inequality
+### Analysis of Bell's Inequality (optional)
 
 Now that we have the notation in place, we can show the strategy for showing "quantum telepathy".
 
@@ -386,7 +330,7 @@ $\Pr[ a \oplus b = x \wedge y ] \geq 0.8$.
 The main  idea is for Alice and Bob to first prepare a 2-qubit quantum system in the state (up to normalization)
 $|00\rangle+|11\rangle$ (this is known as an _EPR pair_).
 Alice takes the first qubit in this system to her room, and Bob takes the qubit to his room.
-Now, when Alice receives $x$ if $x=0$ she does nothing and if $x=1$ she applies the unitary map $R_{\pi/8}$ to her qubit where $R_\theta = \left( \begin{smallmatrix} cos \theta & \sin -\theta \\ \sin \theta & \cos \theta \end{smallmatrix} \right)$ is the unitary operation corresponding to rotation in the plane with angle $\theta$.
+Now, when Alice receives $x$ if $x=0$ she does nothing and if $x=1$ she applies the unitary map $R_{\pi/8}$ to her qubit where $R_\theta = \begin{pmatrix} cos \theta & \sin -\theta \\ \sin \theta & \cos \theta \end{pmatrix}$ is the unitary operation corresponding to rotation in the plane with angle $\theta$.
 When Bob receives $y$, if $y=0$ he does nothing and if $y=1$ he applies the unitary map $R_{-\pi/8}$ to his  qubit.
 Then each one of them measures their qubit and sends this as their response.
 Recall that to win the game Bob and Alice want their outputs to be more likely to differ if $x=y=1$ and to be more likely to agree otherwise.
@@ -401,6 +345,187 @@ The overall probability of winning the game is at least $\tfrac{1}{4}\cdot 1 + \
 > # {.remark title="Quantum vs probabilistic strategies" #quantumprob}
 It is instructive to understand what is it about quantum mechanics that enabled this gain in Bell's Inequality. For this, consider the following analogous probabilistic strategy for Alice and Bob. They agree that each one of them output $0$ if he or she get $0$ as input and outputs $1$ with probability $p$ if they get $1$ as input. In this case one can see that their success probability would be $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}(1-p)+\tfrac{1}{4}[2p(1-p)]=0.75 -0.5p^2 \leq 0.75$. The quantum strategy we described above can be thought of as a variant of the probabilistic strategy for parameter $p$ set to  $\sin^2 (\pi/8)=0.15$. But in the case $x=y=1$, instead of disagreeing only with probability $2p(1-p)=1/4$, because we can use these negative probabilities in the quantum world and rotate the state in opposite directions, and hence  the probability of disagreement ends up being $\sin^2 (\pi/4)=0.5$.
 
+## Quantum computation
+
+Recall that in the classical setting, we modeled computation as obtained by a sequence of _basic operations_.
+We had two types of computational models:
+
+* _Non uniform models of computation_ such as Boolean circuits and NAND program, where a finite function $f:\{0,1\}^n \rightarrow \{0,1\}$ is computable in size $T$ if it can be expressed as a combination of $T$ basic operations (gates in a circuit or lines in a NAND program)
+
+* _Uniform models of computation_ such as Turing machines and NAND++ programs, where an infinite function $F:\{0,1\}^* \rightarrow \{0,1\}$ is computable in time $T(n)$ if there is a single algorithm that on input $x\in \{0,1\}^n$ evaluates $F(x)$ using at most $T(n)$ basic steps.
+
+
+When considering _efficient computation_, we defined the class $\mathbf{P}$ to consist of all infinite functions $F:\{0,1\}^* \rightarrow \{0,1\}$ that can be computed by a Turing machine or NAND++ program in time $p(n)$  for some polynomial $p(\cdot)$.
+We defined the class  $\mathbf{P_{/poly}}$ to consists of all infinite functions $F:\{0,1\}^* \rightarrow \{0,1\}$ such that for every $n$, the restriction $F_n$ of $F$ to $\{0,1\}^n$ can be computed by a Boolean circuit or NAND program of size at most $p(n)$ for some polynomial $p(\cdot)$.
+
+We will do the same for _quantum computation_, focusing mostly on the _non uniform_ setting of quantum circuits, since that is simpler, and already illustrates the important differences with classical computing.
+
+
+### Quantum circuits and QNAND
+
+A _quantum circuit_ is analogous to a Boolean circuit, and can be described as a directed acyclic graph.
+One crucial difference that the _out degree_ of every vertex in a quantum circuit is at most one.
+This is because we cannot "reuse" quantum states without _measuring_ them (which collapses their "probabilities").
+Therefore, we cannot use the same bit as input for two different gates.^[This is known as the [No Cloning Theorem](https://goo.gl/jCVtEY).]
+Another more technical difference is that to express our operations as unitary matrices, we will need to make sure all our gates are _reversible_.
+This is not hard to ensure.
+For example, in the quantum context, instead of thinking of $NAND$ as a (non reversible) map from $\{0,1\}^2$ to $\{0,1\}$, we will think of it as the reversible  map on _three_ qubits that maps $a,b,c$ to $a,b,c\oplus NAND(a,b)$.
+Equivalently, the NAND operation corresponds to  the unitary map $U_{NAND}$ on $\R^{2^3}$ such that (identifying $\{0,1\}^3$ with $[8]$) for every $a,b,c \in \{0,1\}$, if $|abc\rangle$ is the basis element with $1$ in the $abc$-th coordinate and zero elsewhere, then $U |abc\rangle =|ab(c \oplus NAND(a,b))\rangle$.^[Readers familiar with quantum computing should note that $U_{NAND}$ is a close variant of the so called [Toffoli gate](https://goo.gl/BE7aVG) and so QNAND programs correspond to quantum circuits with the Hadamard and Toffoli gates.]
+
+If we have an $n$ qubit system, then for $i,j,k \in [n]$, we will denote by $U_{NAND}^{i,j,k}$ as the $2^n \times 2^n$ unitary matrix that corresponds to applying $U_{NAND}$ to the $i$-th, $j$-th, and $k$-th  bits, leaving the others intact.
+That is, for every $v = \sum_{x\in \{0,1\}^n} v_x |x \rangle$,
+$U_{NAND}^{i,j,k}v = \sum_{x\in \{0,1\}^n}v_x |x_0 \cdots x_{k-1}(x_k \oplus NAND(x_i,x_j))x_{k+1} \cdots x_{n-1} \rangle$.
+
+As mentioned above, we will also use the _Hadamard_ or $HAD$ operation,
+A _quantum circuit_ is obtained by applying a sequence of $U_{NAND}$ and $HAD$ gates, which correspond to the matrix
+$$H = \tfrac{1}{\sqrt{2}} \begin{pmatrix} +1 & +1\\ +1 & -1 \end{pmatrix} \;. $$
+Another way to write define $H$ is that for $b \in \{0,1\}$,  $H |b\rangle = \tfrac{1}{\sqrt{2}}|0\rangle + \tfrac{1}{\sqrt{2}} (-1)^b |1\rangle$.
+We define $HAD^i$ to be the $2^n \times 2^n$ unitary matrix that applies $HAD$ to the $i$-th qubit and leaves the others intact.
+Using the ket notation, we can write this as
+$$
+HAD^i \; \sum_{x\in \{0,1\}^n} v_x |x \rangle  \;=\; \tfrac{1}{\sqrt{2}}\sum_{x\in \{0,1\}^n}|x_0 \cdots x_{i-1}\rangle \left(|0\rangle + (-1)^{x_i}|1\rangle\right)|x_i \cdots x_{n-1} \rangle \;.
+$$
+
+A _quantum circuit_ is obtained by composing these basic operations on some $m$ qubits.
+If $m \geq n$, we use a circuit to compute a function $f:\{0,1\}^n \rightarrow \{0,1\}$:
+
+* On input $x$, we initialize the system to hold $x_0,\ldots,x_{n-1}$ in the first $n$ qubits, and initialize all remaining $m-n$ qubits to zero.
+
+* We execute each elementary operation one by one.
+
+* At the end of the computation, we _measure_ the system, and output the result of the last qubit (i.e. the qubit in location $m-1$).^[For simplicity we restrict attention to functions with a single bit of output, though the definition of quantum circuits naturally extends to circuits with multiple outputs.]
+
+* We say that the circuit _computes_ $f$ is the probability that this output equals $f(x)$ is at least $2/3$. Note that this probability is obtained by summing up the squares of the amplitudes of all coordinates in the final state of the system corresponding to vectors $|y \rangle$ where $y_{m-1}=f(x)$.
+
+
+
+Formally this is defined as follows:
+
+
+::: {.definition title="Quantum circuit" #quantumcircuitdef}
+A _quantum circuit of $m$ inputs and $s$ gates_  over the $\{ UNAND, HAD \}$ basis is a sequence of $s$ unitary $2^n \times 2^n$ matrices $U_0,\ldots,U_{s-1}$ such that each matrix $U_\ell$ is either of the form $NAND^{i,j,k}$ for $i,j,k\in [n]$ or $HAD^i$ for $i\in [n]$.
+
+A quantum circuit _computes_ a function $f:\{0,1\}^n \rightarrow \{0,1\}$ if the following is true for every $x\in \{0,1\}^n$:
+
+Let $v$ be the vector
+$$v \;=\; U_{s-1}U_{s-2}\cdots U_1 U_0 |x0^{m-n} \rangle$$
+and write $v$ as $\sum_{y\in \{0,1\}^m} v_y |y \rangle$.
+Then
+$$
+\sum_{y \in \{0,1\}^m \text{ s.t. } y_{m-1}=f(x)} |v_y|^2 \geq \frac{2}{3} \;.
+$$
+:::
+
+::: { .pause }
+Please stop here and see that this definition makes sense.
+:::
+
+Once we have the notion of quantum circuits, we can define the quantum analog of $\mathbf{P_{/poly}}$ (i.e., define the class of functions computable by _polynomial size quantum circuits_) as follows:
+
+> # {.definition title="$\mathbf{BQP_{/poly}}" #QBPpoly}
+Let $F:\{0,1\}^* \rightarrow \{0,1\}$.
+We say that $F\in \mathbf{BQP_{/poly}}$ if there exists some polynomial $p:\N \rightarrow \N$ such that for every $n\in \N$, if $F_n$ is the restriction of to inputs of length $n$, then there is a quantum circuit of size at most $p(n)$ that computes $F_n$.
+
+
+::: {.remark title="The obviously exponential fallacy" #exponential}
+A priori it might seem "obvious" that quantum computing is exponentially powerful, since to perform a quantum computation on $n$ bits we need to maintain the $2^n$ dimensional state vector and apply $2^n\times 2^n$ matrices to it.
+Indeed popular descriptions of quantum computing (too) often say something along the lines that the difference between quantum and classical computer is that a classic bit can either be zero or one while a qubit can be in both states at once, and so in many qubits a quantum computer can perform exponentially many computations at once.
+
+Depending on how you interpret it, this description is either false or would apply equally well to _probabilistic computation_, even though we've already seen that every randomized algorithm can be simulated by a similar-sized circuit, and in fact we conjecture that $\mathbf{BPP}=\mathbf{P}$.
+
+Moreover, this "obvious" approach for simulating a quantum computation will take not just exponential time but _exponential space_ as well, while it is not hard to show that using a simple recursive formula one can calculate the final quantum state using _polynomial space_ (in physics  this is known as "Feynman path integrals").
+So, the exponentially long vector description by itself does not imply that quantum computers are exponentially powerful.
+Indeed, we cannot _prove_ that they are (i.e., as far as we know, every QNAND program could be simulated by a NAND program with polynomial overhead), but we do have some problems (integer factoring most prominently) for which they do provide exponential speedup over the currently best _known_ classical (deterministic or probabilistic) algorithms.
+:::
+
+
+
+###  QNAND programs (optional)
+
+Just like in the classical case, there is an equivalence between circuits and straightline programs, and so we can define the programming language QNAND that is the quantum analog of our NAND programming language.
+To do so, we only add a single operation: `HAD(foo)` which applies the single-bit operation $H$ to the variable `foo`.
+We also use the following interpretation to make `NAND` reversible: `foo = NAND(bar,blah)` means that we modify `foo` to be the XOR of its original value and the NAND of `bar` and `blah`.
+(In other words, apply the $8$ by $8$ unitary transformation $U_{NAND}$ defined above to the three qubits corresponding to `foo`, `bar` and `blah`.)
+If `foo` is initialized to zero then this makes no difference.
+
+If $P$ is a QNAND program with $n$ input variables, $\ell$ workspace variables, and $m$ output variables, then running it on the input $x\in \{0,1\}^n$ corresponds to setting up a system with $n+m+\ell$ qubits and performing the following process:
+
+1. We initialize the input variables `X[`$0$`]` $\ldots$ `X[`$n-1$`]` to $x_0,\ldots,x_{n-1}$ and all other variables to $0$.
+
+2. We  execute the program line by line,  applying the corresponding physical operation $H$ or $U_{NAND}$ to the qubits that are referred to by the line.
+
+3. We _measure_ the output variables `Y[`$0$`]`, $\ldots$, `Y[`$m-1$`]` and output the result (if there is more than one output then we measure more variables).
+
+
+This seems quite simple, but maintaining the qubits in a way that we can apply the operations on one hand, but we don't accidentally measure them or corrupt them in another way, is a significant engineering challenge.
+
+### Uniform computation
+
+Just as in the classical case, we can define _uniform_ computational models.
+For example, we can define the _QNAND++ programming language_ to be QNAND augmented with loops and arrays just like NAND++  is obtained from NAND.
+Using this we can define the class $\mathbf{BQP}$ which is the uniform analog of $\mathbf{BQP_{/poly}}$.
+Just as in the classical case $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$, in the quantum case $\mathbf{BQP} \subseteq \mathbf{BQP_{/poly}}$.
+Similarly, people have defined  quantum analogs of Turing machines.
+
+Another way to define $\mathbf{BQP}$ is the following: a function $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{BQP}$ if __(1)__ $F\in \mathbf{BQP_{/poly}}$ and __(2)__ moreover for every $n$, the quantum circuit that verifies this can be generated by a _classical polynomial time NAND++ program_ (or, equivalently, a polynomial-time Turing machine).
+We use this definition here, though an equivalent one can be made using QNAND++ or quantum Turing machines:
+
+> # {.definition title="The class $\mathbf{BQP}$" #BQPdef}
+Let $F:\{0,1\}^* \rightarrow \{0,1\}$.
+We say that $F\in \mathbf{BQP}$ if there exists a polynomial time NAND++ program $P$ such that for every $n$, $P(1^n)$ is the description of a quantum circuit $C_n$ that computes the restriction of $F$ to $\{0,1\}^n$.
+
+
+
+
+
+
+
+> # { .pause }
+One way to verify that you've understood these definitions it to see that you can prove __(1)__ $\mathbf{P} \subseteq \mathbf{BQP}$ and in fact the stronger statement $\mathbf{BPP} \subseteq \mathbf{BQP}$, __(2)__  $\mathbf{BQP} \subseteq \mathbf{EXP}$, and __(3)__ For every $\mathbf{NP}$-complete function $F$, if $F\in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$.
+
+The relation between $\mathbf{NP}$ and $\mathbf{BQP}$ is not known. It is believed that they are incomparable, in the sense that $\mathbf{NP} \nsubseteq \mathbf{BQP}$ (and in particular no $\mathbf{NP}$-complete function belongs to $\mathbf{BQP}$) but also $\mathbf{BQP} \nsubseteq \mathbf{NP}$ (and there are some interesting candidates for such problems).
+
+
+It can be shown that $QNANDEVAL$ (evluating a quantum circuit on an input) is computable by a polynomial size QNAND program, and moreover this program can even be generated _uniformly_ and hence $QNANDEVAL$ is in $\mathbf{BQP}$.
+This allows us to "port" many of the results of classical computational complexity into the quantum realm as well.
+
+::: {.remark title="Restricting attention to circuits" #quantumnonuniformrem}
+Because the non uniform model is a little cleaner to work with, in the rest of this chapter we mostly restrict attention to this model, though all the algorithms  we discuss can be implemented in uniform computation as well.
+:::
+
+
+
+
+
+
+
+
+
+## Physically realizing quantum computation
+
+To realize quantum computation one needs to create a system with $n$ independent binary states (i.e., "qubits"), and be able to manipulate small subsets of two or three of these qubits to change their state.
+While by the way we defined operations above it might seem that one needs to be able to perform arbitrary unitary operations on these two or three qubits, it turns out that there several choices for _universal sets_ -  a small constant number of gates that generate all others.
+The biggest challenge is how to keep the system from being measured and _collapsing_ to a single classical combination of states.
+This is sometimes known as the _coherence time_ of the system.
+The [threshold theorem](https://courses.cs.washington.edu/courses/cse599d/06wi/lecturenotes19.pdf) says that there is some absolute constant level of errors $\tau$ so that if errors are created at every gate at rate smaller than $\tau$ then we can recover from those and perform arbitrary long computations.
+(Of course there are different ways to model the errors and so there are actually several threshold _theorems_ corresponding to various noise models).
+
+There have been several proposals to build quantum computers:
+
+* [Superconducting quantum computers](https://en.wikipedia.org/wiki/Superconducting_quantum_computing) use super-conducting electric circuits to do quantum computation. In the near future this is the direction where   [there has been most progress](https://arxiv.org/abs/1709.06678) towards "beating" classical computers.
+
+* [Trapped ion quantum computers](https://en.wikipedia.org/wiki/Trapped_ion_quantum_computer) Use the states of an ion to simulate a qubit. People have made some [recent advances](http://iontrap.umd.edu/wp-content/uploads/2016/02/1602.02840v1.pdf)on these computers too. While it's not at all clear that's the right measuring yard, the [current best implementation](http://arxiv.org/abs/1507.08852) of Shor's algorithm (for factoring 15) is done using an ion-trap computer.
+
+* [Topological quantum computers](https://en.wikipedia.org/wiki/Topological_quantum_computer) use a different technology. This technology is more  stable by design and hence error correction is less of an issue, but scaling it is harder.
+
+These approaches are not mutually exclusive and it could be that ultimately quantum computers are built by combining all of them together.
+In the near future, it seems that we will not be able to achieve full fledged large scale universal quantum computers, but rather more restricted machines, sometimes called "noisy intermediate scale quantum computers (NISQ)".
+See [this article by John Preskil](https://arxiv.org/abs/1801.00862) for some of the progress and applications of such more restricted devices.
+
+
+
+
+
 
 ## Shor's Algorithm
 
@@ -409,12 +534,12 @@ But could this "strangeness" be of any use to solve computational problems not d
 A priori, one could guess the answer is _no_.
 In 1994 Peter Shor showed that one would be wrong:
 
-> # {.theorem title="Shor's Algorithm" #shorthm}
-Let $FACT_n:\{0,1\}^n \rightarrow \{0,1\}^*$ be the function that on input a number $M$ (represented in base two), outputs the prime factorization of $M$.
-Then $FACT_n$ can be computed by a QNAND program of $O(n^3)$ lines.
+::: {.theorem title="Shor's Algorithm" #shorthm}
+There is a polynomial-time quantum algorithm that on input an integer $M$ (represented in base two), outputs the prime factorization of $M$.
 
+Another way to state [shorthm](){.ref}  is that if we define $FACTORING:\{0,1\}^* \rightarrow \{0,1\}$ to be the function that on input a pair $(M,i,j)$ (represented as a string), outputs the $j$-th bit of the $i$-th prime factor of $M$ (or zero if $i$ is at least the number of factors or $j$ is at least the number of bits of the $i$-th factor) then $FACTORING \in \mathbf{BQP}$.
 This is an exponential improvement over the best known classical algorithms, which take roughly $2^{\tilde{O}(n^{1/3})}$ time, where the $\tilde{O}$ notation hides factors that are polylogarithmic in $n$.
-In the rest of this section we will sketch some of the ideas behind Shor's algorithm.
+We will not prove [shorthm](){.ref} in this chapter, will  sketch some of the ideas behind the proof.
 
 
 > # {.remark title="Group theory" #grouptheorem}
@@ -439,21 +564,39 @@ The heart of Shor's algorithm is the following result:
 For every (efficiently presented) Abelian group $\mathbb{G}$, there is a quantum polynomial time algorithm that given a _periodic_ function $f:\mathbb{G} \rightarrow \{0,1\}^*$ finds a period of $f$.
 
 If $\mathbb{G}$ is an Abelian group with operation $\star$ and $z\in \mathbb{G}$ is not the $1$ element, then a function $f:\mathbb{G} \rightarrow \{0,1\}^*$ is _$z$ periodic_ if $f(x\star z)=f(x)$ for every $x\in \mathbb{G}$.
-The algorithm of [shorlem](){.ref} is "given"  the group $\mathbb{G}$ in the form of a classical algorithm (e.g., a NAND program) that computes the function $\star : \{0,1\}^n \times \{0,1\}^n \rightarrow \{0,1\}^n$, where $n$ is the number of bits that are required to represent an element of the group (which is logarithmic in the size of the group itself).
+The algorithm of [shorlem](){.ref} is "given"  the group
+$\mathbb{G}$ in the form of a classical algorithm (e.g., a NAND program) that computes the function $\star : \{0,1\}^n \times \{0,1\}^n \rightarrow \{0,1\}^n$, where $n$ is the number of bits that are required to represent an element of the group (which is logarithmic in the size of the group itself).
 Similarly, it is given the function $f$ in the form of a NAND program computing it.
 
 
-### From order finding to factoring and discrete log
+### From period finding to factoring and discrete log
 
-Using the function $f(a)=g^a$ one can use  period finding (for the group of  $\Z_{|\mathbb{G}|}= \{0,1,2,\ldots,|\mathbb{G}|-1\}$ with modular addition) to find the _order_ of any element in a group $\mathbb{G}$.
-We can then use order finding to  both factor integers in polynomial time and solve the discrete logarithm over arbitrary Abelian groups.
-This shows  that quantum computers will break not  RSA, Diffie Hellman and Elliptic Curve Cryptography, which are by far the most widely deployed  public key cryptosystems today.
-We merely sketch how one reduces the factoring and discrete logarithm problems to order finding: (see some of the sources above for the full details)
+Using the function $f(a)=g^a$ one can use  period finding (for the group of  $\Z_{|\mathbb{G}|}= \{0,1,2,\ldots,|\mathbb{G}|-1\}$ with modular addition) to find the _order_ of any element $g$ in a group $\mathbb{G}$, namely
+the smallest number $a$ such that $g^a = 1$.
+It turns out that  order finding can be used to factor integers in polynomial time.^[In fact, it can also be used to solve the _discrete logarithm problem_ over arbitrary Abelian groups, which means that quantum computers will break not only  RSA but also Diffie Hellman and Elliptic Curve Cryptography.]
+We now sketch how one reduces the factoring to order finding.
+For a num ber $M\in \N$, we denote by  $\Z^*_M$ as the group corresponding to the set  $\{ X \in [M]\;|\; gcd(X,M)=1 \}$  with the operation being multiplication modulo $M$. It is known as the _multiplicative group_ modulo $M$.
+An _order finding algorithm_ for $\Z^*_M$ is given as input a number $X\in \Z^*_M$, and outputs the smallest positive $a$ such that $X^a = 1 (\mod M)$.
+It is polynomial time if it runs in time polynomial in the representation of elements in this group (i.e., polynomial in $\log M$).
 
-* For __factoring__, let us restrict to the case $m=pq$ for distinct $p,q$. It turns out that in this case the multiplicative group modulo $m$ (known as $\Z^*_m$) has size $(p-1)(q-1)=m-p-q-1$ and moreover finding this size can be used to efficiently obtain the factors of $m$.
-One can show that if we pick a few random $x$'s in $\Z^*_m$ and compute their order, the least common multiplier of these orders is likely to be the group size.
 
-* For **discrete log** in a group $\mathbb{G}$, if we get $X=g^x$ and need to recover $x$, we can compute the order of various elements of the form $X^ag^b$. The order of such an element is a number $c$ satisfying   $c(xa+b) = 0 \pmod{|\mathbb{G}|}$. Again, with a few random examples we will get a non trivial equation on $x$ (where $c$ is not zero modulo $|\mathbb{G}|$) and would be to use our knowledge of $a,b,c$ to recover $x$.
+
+> # {.lemma #ordertofact}
+Suppose that there is a polynomial-time order finding algorithm for $\Z^*_M$ for every integer $M$.
+Then there is a polynomial time algorithm to find the factorization of a given integer $M$.
+
+
+::: {.proof data-ref="ordertofact"}
+We just sketch the proof. We restrict attention to the case that $M=PQ$ for two distinct primes $P$ and $Q$. (This turns out to be the most interesting  case for cryptography anyway.)
+In this case, it is known that the multiplicative group modulo $M$, denoted as $\Z^*_M$, has size $(P-1)(Q-1) = M - P - Q - 1$.
+Let's denote this size by $\varphi(M)$. If we know $\varphi(M)$ then we can compute the number $S=P+Q = M-1- \varphi(M)$, and from this we can recover both $P$ and $Q$ as the solutions to the quadratic equation $x(S-x)=M$.
+
+Hence it suffices to recover $\varphi(M)$.
+Now it turns out that for every $X \in \Z^*_M$, the _order_ of $X$ is a divisor of $\varphi(M)$.
+If we sample several random $X_0,\ldots,X_{k-1}$ from $\Z^*_M$ and compute their orders $a_0,\ldots,a_{k-1}$, then $\varphi(M)$ will be a multiple of all of them, and in fact it can be shown that it is very likely to be _least common multiple_ of these numbers.
+Using this we can recover $\varphi(M)$ (and from it the factorization of $M$) from the orders of several random numbers in $\{0,\ldots,M-1\}$.^[If we sample a  number $X\in \{0,\ldots,M-1\}$ that turns out not to lie in $\Z^*_M$ then we can recover the factorization of $M$ from the greated common divisor of $X$ and $M$.]
+:::
+
 
 
 ### Finding periods of a function: Simon's Algorithm
@@ -467,11 +610,13 @@ In this representation, wavelengths that divide the period $h^*$ would get signi
 
 ![If $f$ is a periodic function then when we represent it in the Fourier transform, we expect the coefficients corresponding to wavelengths that do not evenly divide the period to be very small, as they would tend to "cancel out".](../figure/quantum_fourier.jpg){#qfourierfig .class width=300px height=300px}
 
+
+
 Similarly, the main idea behind Shor's algorithm is to use a tool known as the [quantum fourier transform](https://en.wikipedia.org/wiki/Quantum_Fourier_transform) that given a circuit computing the function $f:\mathbb{H}\rightarrow\R$, creates a quantum state over roughly $\log |\mathbb{H}|$ qubits (and hence dimension $|\mathbb{H}|$) that corresponds to the Fourier transform of $f$.
 Hence when we measure this state,  we get a group element $h$ with probability proportional to the square of the corresponding Fourier coefficient.
 One can show that if $f$ is $h^*$-periodic then we can recover $h^*$ from this distribution.
 
-Shor carried out this approach for the group $\mathbb{H}=\Z^*_m$ for some $m$,^[For a number $m\in \N$, the group $\Z^*_m$ is  set $\{ k \in [m]\;|\; gcd(k,m)=1 \}$  with the operation being multiplication modulo $m$. It is known as the _multiplicative group_ modulo $m$.] but we will show this for the group $\mathbb{H} = \{0,1\}^n$ with the XOR operation.
+Shor carried out this approach for the group $\mathbb{H}=\Z^*_M$ for some $M$  but we will show this for the group $\mathbb{H} = \{0,1\}^n$ with the XOR operation.
 This case is known as _Simon's algorithm_ (given by Dan Simon in 1994) and actually preceded (and inspired) Shor's algorithm:
 
 > # {.theorem title="Simon's Algorithm" #simons}
@@ -689,6 +834,11 @@ Since we live in the two dimensional space spanned by $u$ and $|x\rangle$, it wo
 Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
 :::
 
+::: {.exercise title="Discrete logarithm from order finding" #dlogfromorder}
+Show a probabilistic polynomial time classical algorithm that given an Abelian finite group $\mathbb{G}$ (in the form of an algorithm that computes the group operation), a _generator_ $g$ for the group, and an element $h \in \mathbb{G}$, as well  access to a black box that on input $f\in \mathbb{G}$ outputs the _order_ of $f$ (the smallest $a$ such that $f^a =1$), computes the _discrete logarithm_ of $h$ with respect to $g$.
+That is the algorithm should output a number $x$ such that $g^x = h$.
+See footnote for hint.^[We are given $h=g^x$ and need to recover $x$. TO do so we can compute the order of various elements of the form $h^ag^b$. The order of such an element is a number $c$ satisfying   $c(xa+b) = 0 \pmod{|\mathbb{G}|}$. With a few random examples we will get a non trivial equation on $x$ (where $c$ is not zero modulo $|\mathbb{G}|$) and then we can use our knowledge of $a,b,c$ to recover $x$.]
+:::
 
 
 
