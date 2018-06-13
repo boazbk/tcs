@@ -422,7 +422,7 @@ Please stop here and see that this definition makes sense.
 
 Once we have the notion of quantum circuits, we can define the quantum analog of $\mathbf{P_{/poly}}$ (i.e., define the class of functions computable by _polynomial size quantum circuits_) as follows:
 
-> # {.definition title="$\mathbf{BQP_{/poly}}" #QBPpoly}
+> # {.definition title="$\mathbf{BQP_{/poly}}$" #QBPpoly}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$.
 We say that $F\in \mathbf{BQP_{/poly}}$ if there exists some polynomial $p:\N \rightarrow \N$ such that for every $n\in \N$, if $F_n$ is the restriction of to inputs of length $n$, then there is a quantum circuit of size at most $p(n)$ that computes $F_n$.
 
@@ -536,6 +536,7 @@ In 1994 Peter Shor showed that one would be wrong:
 
 ::: {.theorem title="Shor's Algorithm" #shorthm}
 There is a polynomial-time quantum algorithm that on input an integer $M$ (represented in base two), outputs the prime factorization of $M$.
+:::
 
 Another way to state [shorthm](){.ref}  is that if we define $FACTORING:\{0,1\}^* \rightarrow \{0,1\}$ to be the function that on input a pair $(M,i,j)$ (represented as a string), outputs the $j$-th bit of the $i$-th prime factor of $M$ (or zero if $i$ is at least the number of factors or $j$ is at least the number of bits of the $i$-th factor) then $FACTORING \in \mathbf{BQP}$.
 This is an exponential improvement over the best known classical algorithms, which take roughly $2^{\tilde{O}(n^{1/3})}$ time, where the $\tilde{O}$ notation hides factors that are polylogarithmic in $n$.
