@@ -48,7 +48,7 @@ This effort was known as the _Hilbert program_, named after the influential math
 Alas, it turns out the results we've seen dealt a devastating blow to this program, as was shown by Kurt Gödel in 1931:
 
 > # {.theorem title="Gödel's Incompleteness Theorem: first version, informal version" #godethmtakeone}
-There is a mathematical statement that is _true_ but is not _provable_.
+For every sound proof system for sufficiently rich mathematical statements, there is a mathematical statement that is _true_ but is not _provable_.
 
 
 Before proving [godethmtakeone](){.ref}, we need to specify what does it mean to be "provable" (and  even formally define the notion of a "mathematical statement").
@@ -66,76 +66,78 @@ Those seem like rather minimal requirements that one would want from every proof
 Requirement 2 (soundndess) is the very definition of a proof system: you shouldn't be able to prove things that are not true. Requirement 1 is also essential. If it there is no set of rules (i.e., an algorithm) to check that a proof is valid then in what sense is it a proof system? We could replace it with the system where the "proof" for a statement $x$ would simply be "trust me: it's true".
 
 A mathematical statement will also simply be a string.
-We will not assume anything about the truth of mathematical statement except the basic facts that  for every statement $X$, $X$ is true if and only if "NOT $X$" is false.
-We can now restate [godethmtakeone](){.ref} as follows:
+Mathematical statements states a fact about some mathematical object.
+For example, the following is a mathematical statement:
+
+>_"The number $2,696,635,869,504,783,333,238,805,675,613,588,278,597,832,162,617,892,474,670,798,113$ is prime"._
+
+(This happens to be a _false_ statement; can you see why?)
+
+Mathematical statements don't have to be about numbers. They can talk about any other mathematical object including sets, strings, functions, graphs and yes, even _programs_.
+Thus, another example of a mathematical statement is the following:
+
+:::  {.quote}
+The following Python function  halts on every positive integer `n`
+
+```python
+def f(n):
+    if n==1: return 1
+    return f(3*n+1) if n % 2 else f(n//2)
+```
+:::
+
+(We actually [don't know](https://goo.gl/Lx8HYv) if this statement is true or false.)
+
+
+We start by considering statements of the second type.
+Our first formalization of [godethmtakeone](){.ref} will be the following
+
 
 ::: {.theorem title="Gödel's Incompleteness Theorem: first version" #godethmtakeone}
-Let $V:\{0,1\}^* \rightarrow \{0,1\}$ a computable purported verification procedure.
-Then there exists a pair of mathematical statements "$X$" and $Y$="not $X$" such that either:
+Let $V:\{0,1\}^* \rightarrow \{0,1\}$ a computable purported verification procedure for mathematical statements of the form "Program $P$ halts on the zero input" and "Program $P$ does not halt on the zero input".
+Then either:
 
-* _$V$ is  not sound:_ There exist $\pi_X,\pi_Y \in \{0,1\}^*$ such that $V(X,\pi_X)=V(Y,\pi_Y)=1$.
+* _$V$ is  not sound:_ There exists a false statement $x$ and a string $w\in \{0,1\}^*$ such that $V(x,w)=1$.
 
-* _$V$ is not complete:_ There does not exist any $\pi \in \{0,1\}^*$ such that $V(X,\pi_X)=1$
+_or_
+
+* _$V$ is not complete:_ There exists a true statement $x$ such that for every $w\in \{0,1\}^*$, $V(x,w)=1$.
 :::
 
 
+> # {.proofidea data-ref="godethmtakeone"}
+If we had such a complete and sound proof system then we could solve the $HALTONZERO$ problem. On input a program $P$, we would search all purported proofs $w$  and halt as soon as we find a proof of either "$P$ halts on zero" or "$P$ does not halt on zero". If the system is sound and complete then we will eventually find such a proof, and it will provide us with the correct output.
 
 
+::: {.proof data-ref="godethmtakeone"}
+Assume for the sake of contradiction that there was such a proof system $V$. We will use $V$ to build an algorithm $A$ that computes $HALTONZERO$, hence contradicting [haltonzero-thm](){.ref}.
+Our algorithm $A$ will  will work as follows:
 
+::: {.quote}
+__Algorithm $A$:__
 
+* __Input:__ NAND++ program $P$
 
+* __Goal:__ Determine if $P$ halts on the input $0$.
 
+* __Assumption:__ We have access to a proof system $V$ such that for every statement $x$ of the form "Program $Q$ halts on $0$" or "Program $Q$ does not halt on $0$", there exists  some string $w\in \{0,1\}^*$ such that $V(x,w)=1$ if and only if $x$  is true.
 
+__Operation:__
 
-Let us give a formal definition for this notion, specializing for the case of Diophantine equations:
+* For $n=0,1,2,\ldots$:
+   - For $w\in \{0,1\}^n$:
+       - If $V(\text{"$P$ halts on $0$"},w)=1$ output $1$
+       - If $V(\text{"$P$ does not halt on $0$"},w)=1$ output $0$
+:::
 
-> # {.definition title="Proof systems for diophantine equations" #proofdef}
-A proof system for Diophantine equations is defined by a NAND++ program $V$.
-A _valid proof_ in the system corresponding to $V$ of the unsatisfiability of a diophantine equation "$P(\cdot,\cdots,\cdot)=0$"  is some string $w\in \{0,1\}^*$ such that $V(P,w)=1$.
-The proof system corresponding to $V$ is  _sound_ if there is no valid proof of a false statement. That is, for every diophantine equation "$P(\cdot,\cdots,\cdot)=0$", if there exists $w\in \{0,1\}^*$ such that $V(P,w)=1$ then for every $x_1,\ldots,x_t \in \Z$, $P(x_1,\ldots,x_t) \neq 0$.
+If $P$ halts on $0$ then under our assumption there exists $w$ that proves this fact, and so when Algorithm $A$ reaches $n=|w|$ we will eventually find this $w$ and output $1$, unless we already halted before.
+But we cannot halt before and output a wrong answer because it would contradict the soundness of the proof system.
+Similarly, this shows that if $P$ does _not_ halt on $0$ then (since we assume there is a proof of this fact too) our algorithm $A$ will eventually halt and output $0$.
+:::
 
-The formal definition is a bit of a mouthful, but what it states the natural notion of a logical proof for the unsatisfiability of an equation.
-By the  Church-Turing Thesis, we can replace NAND++ with any other reasonable computational model for proof verification.
-Hilbert believed that for all of mathematics, and in particular for settling diophantine equations, it should be possible to find some set of axioms and rules of inference that would allow to derive all true statements.
-However, he was wrong:
-
-
-> # {.theorem title="Gödel's Incompleteness Theorem" #godelthm}
-For every sound proof system $V$, there exists a diophantine equation "$P(\cdot,\cdots,\cdot)=0$" such that there is no $x_1,\ldots,x_t \in \N$ that satisfy it, but yet there is no proof in the system $V$  for the statement that the equation is unsatisfiable.
-
-> # {.proof data-ref="godelthm"}
-Suppose otherwise, that there exists such a system.
-Then we can define the following algorithm $S$ that computes the function $HASSOL:\{0,1\}^* \rightarrow \{0,1\}$ described in [MRDP-thm](){.ref}.
-The algorithm will work as follows:
->
-* On input a Diophantine equation $P(x_1,\ldots,x_t)=0$, for $k=1,2,\ldots$ do the following:
-   >1. Check for all $x_1,\ldots,x_t \in \{0,\ldots, k\}$ whether $x_1,\ldots,x_t$  satisfies the equation. If so then halt and output $1$.
-   >2. For all  $n \in \{1,\ldots,k\}$ and all strings $w$ of length at most $k$, check whether $V(P,w)=1$. If so then halt and output $0$.
->
-Under the assumption that for _every_ diophantine equation that is unsatisfiable, there is a proof that certifies it, this algorithm will always halt and output $0$ or $1$, and moreover, the answer will be correct. Hence we reach a contradiction to [MRDP-thm](){.ref}
-
-Note that if we considered proof systems for more general quantified integer statements, then  the existence of a true but yet unprovable statement would follow from [QIS-thm](){.ref}.
-Indeed, that was the content of Gödel's original incompleteness theorem which was proven in 1931 way before the MRDP Theorem (and initiated the line of research which resulted in the latter theorem).
-Another way to state the result is that every proof system that is rich enough to express quantified integer statements  is either inconsistent (can prove both a statement and its negation) or incomplete (cannot prove all true statements).
-
-
-Examining the proof of [godelthm](){.ref} shows that it yields a more general statement (see [godelthemex](){.ref}): for every uncomputable function $F:\{0,1\}^* \rightarrow \{0,1\}$ and every sound proof system, there is some input $x$ for which the proof system is not able to prove neither that $F(x)=0$ nor that $F(x) \neq 0$ (see [godelthemex](){.ref}).
-
-Also, the  proof of  [godelthm](){.ref} can be extended to yield Gödel's second incompleteness theorem which, informally speaking, says for that every proof system $S$ rich enough to express quantified integer statements, the following holds:
-
-* There is a quantified integer statement $\varphi$ that is true if and only if $S$ is consistent (i.e., if there is no statement $x$ such that $S$ can prove both $x$ and $NOT(x)$).
-
-* There is no proof in $S$ for $\varphi$.
-
-
-Thus once we pass a sufficient level of expressiveness, we cannot find a proof system that is strong enough to prove its own consistency.
-This in particular showed that Hilbert's second problem (which was about finding an axiomatic provably-consistent basis for arithmetic) was also unsolvable.
-
-
-### The Gödel statement
-
-One can extract from the proof of [godelthm](){.ref} a procedure that for every proof system $V$ (when thought of as a verification algorithm), yields a true statement $x^*$ that cannot be proven in $V$.
-But Gödel's proof gave a very  explicit description of such a statement $x$ which is closely related to the ["Liar's paradox"](https://en.wikipedia.org/wiki/Liar_paradox).
+::: {.remark title="The Gödel statement (optional)" #godelstmtrem}
+One can extract from the proof of [godethmtakeone](){.ref} a procedure that for every proof system $V$, yields a true statement $x^*$ that cannot be proven in $V$.
+But Gödel's proof gave a very  explicit description of such a statement $x^*$ which is closely related to the ["Liar's paradox"](https://en.wikipedia.org/wiki/Liar_paradox).
 That is, Gödel's statement $x^*$  was designed to be  true if and only if $\forall_{w\in \{0,1\}^*} V(x,w)=0$.
 In other words, it satisfied the following property
 
@@ -152,69 +154,28 @@ We've already seen this phenomenon in the $\lambda$ calculus, where the $Y$ comb
 This is very related to the idea of programs that can print their own code.
 Indeed, Scott Aaronson likes to describe Gödel's statement as follows:
 
->The following sentence repeated twice, the second time in quotes, is not provable in the formal system $V$.
-“The following sentence repeated twice, the second time in quotes, is not provable in the formal system $V$.”
+>The following sentence repeated twice, the second time in quotes, is not provable in the formal system $V$. "The following sentence repeated twice, the second time in quotes, is not provable in the formal system $V$."
 
 In the argument above we actually showed that $x^*$ is _true_, under the assumption that $V$ is sound. Since $x^*$ is true and does not have a proof in $V$, this means that we cannot carry the above argument in the system $V$, which means that $V$  cannot prove its own soundness (or even consistency: that there is no proof of both a statement and its negation).
-Using this idea, it's not hard to get Gödel's second incompleteness theorem, which says that every sufficiently rich $V$ cannot prove its own consistency. That is, if we formalize the statement $c^*$ that is true if and only if $V$ is consistent (i.e., $V$ cannot prove both a statement and the statement's  negation), then $c^*$ cannot be proven in $V$.
+Using this idea, it's not hard to get Gödel's second incompleteness theorem, which says that every sufficiently rich $V$ cannot prove its own consistency.
+That is, if we formalize the statement $c^*$ that is true if and only if $V$ is consistent (i.e., $V$ cannot prove both a statement and the statement's  negation), then $c^*$ cannot be proven in $V$.
+:::
 
 
+## Quantified integer statements
 
-## Unsolvability of Diophantine equations
+There is something "unsatisfying" about [godethmtakeone](){.ref}.
+Sure, it shows there are statements  that are unprovable, but they don't feel like "real" statements about math.
+After all, they talk about _programs_ rather than numbers,  matrices, or derivatives, or whatever it is they teach in math courses.
+It turns out that we can get an analogous result for statements such as "The number $2430598430967$ has no divisors smaller than $100$" that only talk about _natural numbers_.
+It doesn't get much more "real math" than this.^[The  19th century mathematician Leopold Kronecker  famously said that "God made the integers, all else is the work of man.".]
 
+To make this more precise, let us define the notion of _quantified integer statements_:
 
-Many of the functions people wanted to compute over the years involved solving equations.
-These have a much longer history than mechanical computers.
-The Babilonians already knew how to solve some quadratic equations in 2000BC, and the formula for all quadratics appears in the [Bakshali Manuscript](https://en.wikipedia.org/wiki/Bakhshali_manuscript) that was composed in India around the 3rd century.
-During the Renaissance, Italian mathematicians discovered generalization of these formulas for cubic and quartic (degrees $3$ and $4$) equations.
-Many of the greatest minds of the 17th and 18th century, including Euler, Lagrange, Leibnitz and Gauss worked on the problem of finding such a formula  for _quintic_ equations to no avail, until in the 19th century Ruffini, Abel and Galois  showed that no such formula exists, along the way giving birth to _group theory_.
-
-
-However, the fact that there is no closed-form formula does not mean we can not solve such equations.
-People have been solving higher degree equations numerically for ages.
-The Chinese manuscript [Jiuzhang Suanshu](https://en.wikipedia.org/wiki/The_Nine_Chapters_on_the_Mathematical_Art) from the first century mentions such approaches.
-Solving polynomial equations is by no means restricted only to ancient history or to students' homeworks.
-The [gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) method is the workhorse powering many of the machine learning tools that have revolutionized Computer Science over the last several years.
-
-But there are some equations that we simply do not know how to solve _by any means_.
-For example, it took more than 200 years until people succeeded in proving that the equation  $a^{11} + b^{11} = c^{11}$ has no solution in integers.^[This is a special case of what's known as  "Fermat's Last Theorem" which states that $a^n + b^n = c^n$ has no solution in integers for $n>2$. This was conjectured in 1637 by Pierre de Fermat but only proven by Andrew Wiles in 1991. The case $n=11$ (along with all other so called "regular prime exponents") was established by Kummer in 1850.]
-The notorious difficulty of so called _Diophantine equations_ (i.e., finding _integer_ roots of a polynomial) motivated the mathematician David Hilbert in 1900 to include the question of finding a general procedure for solving such equations  in his famous list of twenty-three open problems for mathematics of the 20th century.
-I  don't think Hilbert  doubted that such a procedure exists.
-After all, the whole history of mathematics up to this point involved the discovery of ever more powerful methods, and even impossibility results such as the inability to trisect an angle with a straightedge and compass, or the non-existence of an algebraic formula for qunitic equations, merely pointed out to the need to use more general methods.
-
-Alas, this turned out not to be the case for Diophantine equations: in 1970, Yuri Matiyasevich, building on a decades long line of work by  Martin Davis,  Hilary Putnam and Julia Robinson, showed that there is simply _no method_ to solve such equations in general:
-
-> # {.theorem title="MRDP Theorem" #MRDP-thm}
-Let  $SOLVE:\{0,1\}^* \rightarrow \{0,1\}^*$ be the function that takes as input a string describing a $100$-variable polynomial with integer coefficients $P(x_0,\ldots,x_{99})$  and outputs either $(z_0,\ldots,z_{99}) \in \N^{100}$ s.t.  $P(z_0,\ldots,z_{99})=0$  or the string ```no solution``` if no $P$ does not have non-negative integer roots.^[As usual, we assume some standard way to express numbers and text as binary strings. The constant $100$ is of course arbitrary; in fact the number of variables can be reduced to nine, at the expense of the polynomial having a constant (but very large) degree. It is also possible to restrict attention to polynomials of degree four and at most 58 variables. See [Jones's paper](https://www.jstor.org/stable/2273588) for more about this issue.]
-Then $SOLVE$ is uncomputable.
-Moreover, this holds even for the easier function $HASSOL:\{0,1\}^* \rightarrow \{0,1\}$ that given such a polynomial $P$ outputs $1$ if there are $z_0,\ldots,z_{99} \in \N$ s.t. $P(z_0,\ldots,z_{99})=0$ and outputs $0$ otherwise.
-
-
-The difficulty in finding a way to distinguish between "code" such as NAND++ programs, and "static content" such as polynomials is just another manifestation of the phenomenon that _code_ is the same as _data_.
-While a fool-proof solution for distinguishing between the two is inherently impossible, finding heuristics that do a reasonable job keeps many firewall and anti-virus manufacturers very busy
-(and finding ways to bypass these tools keeps many hackers busy as well).
-
-### "Baby" MRDP Theorem: hardness of quantified Diophantine equations
-
-Computing the function $HASSOL$ is equivalent to determining the truth of a logical statement of the following form:^[Recall  that $\exists$ denotes the _existential quantifier_; that is, a statement of the form $\exists_x \varphi(x)$ is true if there is _some_ assignment for $x$ that makes the Boolean function $\varphi(x)$ true.
-The dual quantifier is the _universal quantifier_, denoted by $\forall$, where a statement $\forall_x \varphi(x)$ is true if  _every_ assignement for $x$ makes the Boolean function $\varphi(x)$ true.
-Logical statements where all variables are _bound_ to some quantifier (and hence have no parameters) can be either true or false, but determining which is the case is sometimes highly nontrivial.
-If you could use a review of quantifiers, section 3.6 of the text by [Lehman, Leighton and Meyer](http://www.boazbarak.org/cs121/MIT6_042Notes.pdf) is an excellent source for this material.]
-
-$$
-\exists_{z_0,\ldots,z_{99} \in \N} \text{ s.t.} P(z_0,\ldots,z_{99})=0 \;. \label{eq:diophantine}
-$$
-
-
-[MRDP-thm](){.ref} states that there is no NAND++ program that can determine the truth of every statements of the form [eq:diophantine](){.eqref}.
-The proof is highly involved and we will not see it here.
-Rather  we will prove the following weaker result that there is no NAND++ program that can determine the truth of more general statements that mix together the existential ($\exists$) and universal ($\forall$) quantifiers.
-The reason this  result is weaker than [MRDP-thm](){.ref} is  because deciding the truth of  more general  statements (that involve both quantifier) is a potentially harder problem than only existential statements, and so it is potentially easier to prove that this problem is uncomputable. (If you find the last sentence confusing, it is worthwhile to reread it until you are sure you follow its logic; we are so used to trying to find solution for problems that it can be quite confusing to follow the arguments showing that problems are _uncomputable_.)
 
 > # {.definition title="Quantified integer statements" #QIS-def}
 A _quantified integer statement_ is a well-formed statement with no unbound variables involving integers, variables, the operators $>,<,\times,+,-,=$, the logical operations $\neg$ (NOT), $\wedge$ (AND), and $\vee$ (OR), as well as quantifiers of the form $\exists_{x\in\N}$ and $\forall_{y\in\N}$ where $x,y$ are variable names.
 
-[QIS-def](){.ref} is interesting in its own right and not just as a "toy version" of [MRDP-thm](){.ref}.
 We often care deeply about determining the truth of quantified integer statements.
 For example, the statement that [Fermat's Last Theorem](https://en.wikipedia.org/wiki/Fermat%27s_Last_Theorem)  is true for $n=3$ can be phrased as the quantified integer statement
 
@@ -240,38 +201,102 @@ $$
 where $DIVIDES(a,b)$ is the statement $\exists_{c\in\N} b\times c = a$.
 In English, this corresponds to the claim that for every $n$ there is some $p>n$ such that all of $p-1$'s prime factors are equal to $2$.
 
-__Syntactic sugar:__ To make our statements more readable, we  often use syntactic sugar and so write $x \neq y$ as shorthand for $\neg(x=y)$, and so on.
-In [eqinfprimespowertwoplusone](){.eqref} we also used the "implication operator" $a \Rightarrow b$ as "syntactic sugar" or shorthand for $\neg a \vee b$.
-Similarly, we will sometimes use the "if and only if operator" $a \Leftrightarrow$ as shorthand for $(a \Rightarrow b) \wedge (b \Rightarrow b$).
+
+::: {.remark title="Syntactis sugar for quantified integer statements" #synsugarqisrem}
+To make our statements more readable, we  often use syntactic sugar and so write $x \neq y$ as shorthand for $\neg(x=y)$, and so on.
+Similarly, the  "implication operator" $a \Rightarrow b$ is "syntactic sugar" or shorthand for $\neg a \vee b$, and the "if and only if operator" $a \Leftrightarrow$ is shorthand for $(a \Rightarrow b) \wedge (b \Rightarrow b$).
+We will also allow ourselves the use of "macros": plugging in one quantified integer statement in another, as we did with  $DIVIDES$ and $PRIME$ above.
+:::
 
 
 
 
 Much of number theory is concerned with determining the truth of quantified integer statements.
-Since our experience has been that, given enough time (which could sometimes be several centuries)  humanity has  managed to do so for the statements that it cared enough about, one could (as Hilbert did) hope that eventually we will discover a _general procedure_ to determine the truth of such statements.
-The following theorem shows that this is not the case:
+Since our experience has been that, given enough time (which could sometimes be several centuries)  humanity has  managed to do so for the statements that it cared enough about, one could (as Hilbert did) hope that eventually we would be able to prove or disprove all such statements.
+Alas, this turns out to be impossible:
+
+
+::: {.theorem title="Gödel's Incompleteness Theorem for quantified integer statements" #godelthmqis}
+Let $V:\{0,1\}^* \rightarrow \{0,1\}$ a computable purported verification procedure for quantified integer statements.
+Then either:
+
+* _$V$ is  not sound:_ There exists a false statement $x$ and a string $w\in \{0,1\}^*$ such that $V(x,w)=1$.
+
+_or_
+
+* _$V$ is not complete:_ There exists a true statement $x$ such that for every $w\in \{0,1\}^*$, $V(x,w)=1$.
+:::
+
+
+[godelthmqis](){.ref} is a direct corollary of the following result, just as [godethmtakeone](){.ref} was a direct corollary of the uncomputability of $HALTONZERO$:
 
 > # {.theorem title="Uncomputability of quantified integer statements" #QIS-thm}
 Let $QIS:\{0,1\}^* \rightarrow \{0,1\}$ be the function that given a (string representation of) a quantified integer statement outputs $1$ if it is true and $0$ if it is false.^[Since a quantified integer statement is simply a sequence of symbols, we can easily represent it as a string. We will assume that _every_ string represents some  quantified integer statement, by mapping strings that do not correspond to such a statement to an arbitrary statement such as $\exists_{x\in \N} x=1$.] Then $QIS$ is uncomputable.
 
-Note that [QIS-thm](){.ref} is an immediate corollary of [MRDP-thm](){.ref}.
-Indeed,   if you can compute $QIS$ then you can compute $HASSOL$ and hence if you _can't_ compute $HASSOL$ then you can't compute $QIS$ either.
-But [QIS-thm](){.ref} is easier (though not trivial) to prove, and we will provide the proof in the following section.
+In the rest of this chapter, we will show the proof of [QIS-Thm](){.ref}
 
-## Proving the unsolvability of quantified integer statements.
 
-In this section we will prove [QIS-thm](){.ref}.
-The proof will, as usual, go by reduction from the Halting problem, but we will do so in two steps:
 
-1. We will first use a reduction from the Halting problem to show that a deciding  _quantified mixed statements_ is uncomputable. Unquantified mixed statements involve both strings and integers.
+##  Diophantine equations
+
+
+Many of the functions people wanted to compute over the years involved solving equations.
+These have a much longer history than mechanical computers.
+The Babilonians already knew how to solve some quadratic equations in 2000BC, and the formula for all quadratics appears in the [Bakshali Manuscript](https://en.wikipedia.org/wiki/Bakhshali_manuscript) that was composed in India around the 3rd century.
+During the Renaissance, Italian mathematicians discovered generalization of these formulas for cubic and quartic (degrees $3$ and $4$) equations.
+Many of the greatest minds of the 17th and 18th century, including Euler, Lagrange, Leibnitz and Gauss worked on the problem of finding such a formula  for _quintic_ equations to no avail, until in the 19th century Ruffini, Abel and Galois  showed that no such formula exists, along the way giving birth to _group theory_.
+
+
+However, the fact that there is no closed-form formula does not mean we can not solve such equations.
+People have been solving higher degree equations numerically for ages.
+The Chinese manuscript [Jiuzhang Suanshu](https://en.wikipedia.org/wiki/The_Nine_Chapters_on_the_Mathematical_Art) from the first century mentions such approaches.
+Solving polynomial equations is by no means restricted only to ancient history or to students' homeworks.
+The [gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) method is the workhorse powering many of the machine learning tools that have revolutionized Computer Science over the last several years.
+
+But there are some equations that we simply do not know how to solve _by any means_.
+For example, it took more than 200 years until people succeeded in proving that the equation  $a^{11} + b^{11} = c^{11}$ has no solution in integers.^[This is a special case of what's known as  "Fermat's Last Theorem" which states that $a^n + b^n = c^n$ has no solution in integers for $n>2$. This was conjectured in 1637 by Pierre de Fermat but only proven by Andrew Wiles in 1991. The case $n=11$ (along with all other so called "regular prime exponents") was established by Kummer in 1850.]
+The notorious difficulty of so called _Diophantine equations_ (i.e., finding _integer_ roots of a polynomial) motivated the mathematician David Hilbert in 1900 to include the question of finding a general procedure for solving such equations  in his famous list of twenty-three open problems for mathematics of the 20th century.
+I  don't think Hilbert  doubted that such a procedure exists.
+After all, the whole history of mathematics up to this point involved the discovery of ever more powerful methods, and even impossibility results such as the inability to trisect an angle with a straightedge and compass, or the non-existence of an algebraic formula for qunitic equations, merely pointed out to the need to use more general methods.
+
+Alas, this turned out not to be the case for Diophantine equations: in 1970, Yuri Matiyasevich, building on a decades long line of work by  Martin Davis,  Hilary Putnam and Julia Robinson, showed that there is simply _no method_ to solve such equations in general:
+
+> # {.theorem title="MRDP Theorem" #MRDP-thm}
+Let  $DIO:\{0,1\}^* \rightarrow \{0,1\}$ be the function that takes as input a string describing a $100$-variable polynomial with integer coefficients $P(x_0,\ldots,x_{99})$  and outputs $1$ if and only if there exists  $z_0,\ldots,z_{99} \in \N$ s.t.  $P(z_0,\ldots,z_{99})=0$.
+Then $DIO$ is uncomputable.^[As usual, we assume some standard way to express numbers and text as binary strings. The constant $100$ is of course arbitrary; in fact the number of variables can be reduced to nine, at the expense of the polynomial having a constant (but very large) degree. It is also possible to restrict attention to polynomials of degree four and at most 58 variables. See [Jones's paper](https://www.jstor.org/stable/2273588) for more about this issue.]
+Then $DIO$ is uncomputable.
+
+
+
+The difficulty in finding a way to distinguish between "code" such as NAND++ programs, and "static content" such as polynomials is just another manifestation of the phenomenon that _code_ is the same as _data_.
+While a fool-proof solution for distinguishing between the two is inherently impossible, finding heuristics that do a reasonable job keeps many firewall and anti-virus manufacturers very busy
+(and finding ways to bypass these tools keeps many hackers busy as well).
+
+
+### "Baby" MRDP Theorem: hardness of quantified integer statements
+
+We will not prove the MRDP Theorem ([MRDP-thm](){.ref} ), however we will prove [QIS-thm](){.ref} that can is a weaker variant of the MRDP Theorem.
+The reason is that Diophantine equation is simply a special case of a quantified integer statement where the only quantifier is $\exists$.
+This means that deciding the truth of  quantifier integer statements  is a potentially harder problem than solving Diophantine equations, and so it is potentially _easier_ to prove that $QIS$ is uncomputable.
+
+::: { .pause }
+If you find the last sentence confusing, it is worthwhile to reread it until you are sure you follow its logic; we are so used to trying to find solution for problems that it can be quite confusing to follow the arguments showing that problems are _uncomputable_.
+:::
+
+
+Our proof of the uncomputability of $QIS$ (i.e. [QIS-thm](){.ref}) will, as usual, go by reduction from the Halting problem, but we will do so in two steps:
+
+1. We will first use a reduction from the Halting problem to show that  deciding  the truth of _quantified mixed statements_ is uncomputable. Unquantified mixed statements involve both strings and integers.
+Since quantified mixed statements are a more general concept than quantified integer statements, it is _easier_ to prove the uncomputability of deciding their truth.
 
 2. We will then reduce the problem of quantified mixed statements to quantifier integer statements.
 
 
 
-### Quantified mixed statements and computation traces
+### Step 1: Quantified mixed statements and computation traces
 
-As mentioned above, before proving [QIS-thm](){.ref}, we will give an easier result showing the uncomputability of deciding the truth of an even more general class of statements- one that involves not just integer-valued variables but also string-valued ones.
+We define _quantified mixed statements_ as statements involving not just integers and the usual arithmetic operators, but also _strings_ as well.
+
 
 > # {.definition title="Quantified mixed statements" #QMS-def}
 A _quantified mixed statement_ is a well-formed statement with no unbound variables involving integers, variables, the operators $>,<,\times,+,-,=$, the logical operations $\neg$ (NOT), $\wedge$ (AND), and $\vee$ (OR), as well as quantifiers of the form $\exists_{x\in\N}$, $\exists_{a\in\{0,1\}^*}$,  $\forall_{y\in\N}$, $\forall_{b\in\{0,1\}^*}$ where $x,y,a,b$ are variable names. These also include the operator $|a|$ which returns the length of a string valued variable $a$, as well as the operator $a_i$ where $a$ is a string-valued variable and $i$ is an integer valued expression which is true if $i$ is smaller than the length of $a$ and the $i^{th}$ coordinate of $a$ is $1$, and is false otherwise.
@@ -287,110 +312,23 @@ $$
 Quantified mixed statements are more general than quantified integer statements, and so the following theorem is potentially easier to prove than [QIS-thm](){.ref}:
 
 
+
 > # {.theorem title="Uncomputability of quantified mixed statements" #QMS-thm}
 Let $QMS:\{0,1\}^* \rightarrow \{0,1\}$ be the function that given a (string representation of) a quantified mixed  statement outputs $1$ if it is true and $0$ if it is false. Then $QMS$ is uncomputable.
 
-
-### "Unraveling" NAND++ programs and  quantified mixed integer statements
-
-We will first prove [QMS-thm](){.ref} and then use it to prove [QIS-thm](){.ref}.
-The proof is again by reduction to $HALT$ (see [QMS:reduction:fig](){.ref}).
-That is, we do so by giving a program that transforms any NAND++ program $P$ and input $x$ into a quantified mixed statement $\varphi_{P,x}$ such that $\varphi_{P,x}$  is true if and only if $P$ halts on input $x$.
-This will  complete  the proof, since it will imply that if $QMS$ is computable then so is the $HALT$ problem, which we have already shown is uncomputable.
-
-![We prove that $QMS$ is uncomputable by giving a reduction that maps every pair $(P,x)$ into a quantified mixed statements $\varphi_{P,x}$ that is true if and only if $P$ halts on $x$.](../figure/QMS_reduction.png){#QMS:reduction:fig .class width=300px height=300px}
-
-
-The idea behind the construction of the statement $\varphi_{P,x}$ is the following.
-The statement will be true if and only if there exists a string $\Delta \in \{0,1\}^*$ which corresponds to a summary of an _execution trace_ that proves that $P$ halts on input $x$.
-At a high level, the crucial insight  is that unlike when we actually run the computation, to verify the correctness of a execution trace  we only need to verify _local consistency_ between pairs of lines.
-
-
-Informally, an execution trace of a program $P$ on an input $x$ is a string that represents a "log" of all the lines executed and variables assigned in the course of the execution.
-For example, if we execute on [nandpl.org](http://www.nandpl.org) the parity program
-
-```python
-tmp_1  := seen_i NAND seen_i
-tmp_2  := x_i NAND tmp_1
-val   :=  tmp_2 NAND tmp_2
-ns   := s   NAND s
-y_0  := ns  NAND ns
-u    := val NAND s
-v    := s   NAND u
-w    := val NAND u
-s    := v   NAND w
-seen_i := zero NAND zero
-stop := validx_i NAND validx_i
-loop := stop     NAND stop
-```
-
-
-on the input `01`, the trace will be the following  text (truncated here, since it is not the most riveting of reading material):
-
-```
-Executing commmand "tmp_1 := seen_i NAND seen_i", seen_0 has value 0, seen_0 has value 0, tmp_1 assigned value 1
-Executing commmand "tmp_2 := x_i NAND tmp_1", x_0 has value 0, tmp_1 has value 1, tmp_2 assigned value 1
-Executing commmand "val_0 := tmp_2 NAND tmp_2", tmp_2 has value 1, tmp_2 has value 1, val_0 assigned value 0
-Executing commmand "ns_0 := s_0 NAND s_0", s_0 has value 0, s_0 has value 0, ns_0 assigned value 1
-Executing commmand "y_0 := ns_0 NAND ns_0", ns_0 has value 1, ns_0 has value 1, y_0 assigned value 0
-Executing commmand "u_0 := val_0 NAND s_0", val_0 has value 0, s_0 has value 0, u_0 assigned value 1
-Executing commmand "v_0 := s_0 NAND u_0", s_0 has value 0, u_0 has value 1, v_0 assigned value 1
-Executing commmand "w_0 := val_0 NAND u_0", val_0 has value 0, u_0 has value 1, w_0 assigned value 1
-Executing commmand "s_0 := v_0 NAND w_0", v_0 has value 1, w_0 has value 1, s_0 assigned value 0
-Executing commmand "seen_i := zero_0 NAND zero_0", zero_0 has value 0, zero_0 has value 0, seen_0 assigned value 1
-Executing commmand "stop_0 := validx_i NAND validx_i", validx_0 has value 1, validx_0 has value 1, stop_0 assigned value 0
-Executing commmand "loop := stop_0 NAND stop_0", stop_0 has value 0, stop_0 has value 0, loop assigned value 1
-Entering new iteration
-Executing commmand "tmp_1 := seen_i NAND seen_i", seen_1 has value 0, seen_1 has value 0, tmp_1 assigned value 1
-...
-...
-...
-Executing commmand "seen_i := zero_0 NAND zero_0", zero_0 has value 0, zero_0 has value 0, seen_2 assigned value 1
-Executing commmand "stop_0 := validx_i NAND validx_i", validx_2 has value 0, validx_2 has value 0, stop_0 assigned value 1
-Executing commmand "loop := stop_0 NAND stop_0", stop_0 has value 1, stop_0 has value 1, loop assigned value 0
-Result: 1 (1)
-```
-
-The line by line execution trace is quite long and tedious, but note that it is very easy to locally check, without the need to redo the computation ourselves: we just need to see that each line computes the NAND correctly, and that the value that it claims for the variables on the righthand side of the assignment is the same value that was written to them in the previous line that accessed them.
-
-
-More formally, we will use the notion of a _modification log_ or "Deltas" of a NAND++ program, as presented in [deltas](){.ref}.^[We could also have proven Godel's theorem using the sequence of all configurations, but the "deltas" have a simpler format.]
-Recall that  given a NAND++ program $P$ and an input $x\in \{0,1\}^n$, if $P$ has $s$ lines and takes $T$ iterations of its loop to halt on $x$, then the _modification log_ of $P$ on $x$ is the string $\Delta \in \{0,1\}^{sT+n}$ such that for every $\ell \in [n]$, $\Delta_\ell = x_\ell$ and for every $\ell \in \{n,n+1,\ldots,sT+n-1\}$, $\Delta_{\ell}$ corresponds to the value that is assigned to a variable during   step number $(\ell-n)$  of the execution.
-Note that for every $\ell \in \{n,n+1,\ldots,sT+n+-1\}$, $\Delta_\ell$ is the  NAND of $\Delta_j$ and $\Delta_k$ where $j$ and $k$ are the last lines in which the two variables referred to in the corresponding line are assigned a value.
-
-
-The idea of the reduction is that given a NAND++ program $P$ and an input $x$, we can come up with a mixed quantifier statement $\Psi_{P,x}(\Delta)$ such that for every $\Delta\in \{0,1\}^*$,  $\Psi_{P,x}(\Delta)$ is true if and only if $\Delta$ is a consistent modification log of $P$ on input $x$ that ends in a halting state (with the `loop` variable set to $0$).
-The full details are rather tedious,  but the high level point is that we can express the fact that $\Delta$ is consistent as the following conditions:
-
-* For every $i\in [n]$, $\Delta_i = x_i$. (Note that this is easily a mixed quantifier statement.)
-
-* For every $\ell \in \{n,\ldots,Ts+n-1\}$, $\Delta_\ell = 1 -\Delta_j\Delta_k$ where $j$ and $k$ are the locations in the log corresponding to the last steps before step $\ell-n$ in which the variables on the righthand side of the assignment were written to.  (This is a mixed quantifier statement as long as we can compute $j$ and $k$ using some arithmetic function of $i$, or some integer quantifier statement using $i$ as a parameter.)
-
-* If $t_0$ is the last step in which the  variable `loop` is written to, then $\Delta_{t_0+n}=0$. (Again this is a mixed quantifier statement if we can compute $t_0$ from the length of $\Delta$.)
-
-
-To ensure that we can implement the above as mixed quantifier statements we observe the following:
-
-
-1. Since the $INDEX$ function that maps the current step to the location of the value `i` was an explicit arithmetic function, we  can come up with a quantified integer statement $INDEX(t,i)$ that will be true if and only if the value of `i` when the program executes step $t$ equals $i$. (See [indexexpressionex](){.ref}.)
+> # {.proofidea data-ref="QMS-thm"}
+The idea behind the proof is similar to that used in showing that one-dimensional cellular automata are Turing complete ([onedimcathm](){.ref}) as well as showing that equivalence (or even "fullness") of context free grammars is uncomputable  ([fullnesscfgdef](){.ref}).
+A _configuration_ of a NAND++ program is a string $\alpha$ over some large-but-finite alphabet $\Sigma$ describing its current state, including the values of all arrays, scalars, and the index variable `i`.
+It can be shown that if $\alpha$ is the configuration at a certain step of the execution and  $\beta$ is the configuration at the next step, then $\beta_j = \alpha_j$ for all $j$ outside of $\{i-1,i,i+1\}$ where $i$ is the value of `i`.
+In particular, every value $\beta_j$ is simply a function of $\alpha_{j-1,j,j+1}$.
+Using these observations we can write a _quantified mixed statement_  $NEXT(\alpha,\beta)$ that will be true if and only if $\beta$ is the configuration encoding the next step after $\alpha$.
+Since a program $P$ halts on $0$ if and only if there is a sequence of configurations $\alpha_0,\ldots,\alpha_{t-1}$ starting with the initial configuration with input $0$ and ending in a halting configuration, we can define a quantified mixed statement to determine if there is such a statement by taking a universal quantifier over all strings $\alpha$ that encode a tuple $(\alpha_0,\alpha_1,\ldots,\alpha_{t-1})$ and then checking that $\alpha_0$ and $\alpha_{t-1}$ are valid, and that $NEXT(\alpha_j,\alpha_{j+1})$ for every $j\in \{0,\ldots,t-2\}$.
 
 
 
-2. We can come up with quantified integer statements $PREV_1(t,t')$  and $PREV_2(t,t'')$ that will satisfy the following. If at step $t-n$ the operation invokved is `foo := bar NAND baz` then $PREV_1(t,t')$ is true if and only if $t'$ is $n$ plus the last step before $t$ in which `bar` was written to  and $PREV_2(t,t'')$ is true if and only if $t''$ is $n$ plus the last step before $t$ in which `baz` was written to. (If one ore both of the righthand side variables are input variables, the $t'$ and/or $t'$ will correspond to the index in $[n]$ of that variable.) Therefore, checking the validity of $\Delta_t$ will amount to checing that $\forall_{t' \in \N} \forall_{t'' \in \N} \neg PREV_1(t,t') \vee \neg PERV_2(t,t'') \vee (\Delta_t = 1-\Delta_{t'}\Delta_{t''})$. Note that these statements will themselves use $INDEX$ because if `bar` and/or `baz` are indexed by `i` then part of the condition for $PREV_1(t,t')$ and $PREV_2(t,t'')$ will be to ensure that the `i` variable in these steps is the same as the variable in step $t-n$.
-Using this, plus the observation that the program has only a constant number of lines, we can create the statements $PREV_1$ and $PREV_2$. (See [prevex](){.ref})
+::: {.proof data-ref="QMS-thm"}
 
-
-3. We can come up with a quantified integer statement $LOOP(t)$ that will be true if and only if the variable written to  at step $t$ in the execution is equal to `loop`.
-
-
-Together these three steps enable the construction of the formula $\Psi_{P,x}(\Delta)$. (We omit the full details, which are messy but ultimately straightforward.)
-Given a construction of such a formula $\Psi_{P,x}(\Delta)$ we can see that $HALT(P,x)=1$ if and only if the following quantified mixed statement $\varphi_{P,x}$ is true
-$$
-\varphi_{P,x} = \exists_{\Delta \in \{0,1\}^*} \Psi_{P,x}(\Delta) \label{eq:QMSHALT}
-$$
-and hence we can write $HALT(P,x)= QMS(\varphi_{P,x})$.
-Since we can compute from $P,x$ the statement $\varphi_{P,x}$, we see that if $QMS$ is computable then so would have been $HALT$, yielding a proof by contradiction of [QMS-thm](){.ref}.
-
+:::
 
 
 
@@ -440,10 +378,9 @@ We leave it to the reader to verify that $PCOORD(p,i)$ is true iff $p=p_i$.
 
 
 
-## Lecture summary
 
+> # { .recap }
 * Uncomputable functions include also functions that seem to have nothing to do with NAND++ programs or other computational models such as determining the satisfiability of diophantine equations.
-
 * This also implies that for any soudn proof system (and in particular every finite axiomatic system) $S$,  there are interesting statements $X$ (namely of the form "$F(x)=0$" for an uncomputable function $F$) such that $S$ is not able to prove either $X$ or its negation.
 
 ## Exercises
