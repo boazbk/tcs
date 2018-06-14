@@ -68,7 +68,7 @@ We can create variables `zero` and `one` that  have the values  $0$ and $1$ resp
 
 ```python
 temp = NAND(X[0],X[0])
-one  = NAND(x[0],X[1])
+one  = NAND(temp,X[0])
 zero = NAND(one,one)
 ```
 
