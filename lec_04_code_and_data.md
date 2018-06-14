@@ -4,6 +4,7 @@
 # Code as data, data as code
 
 
+
 > # { .objectives }
 * Understand one of the most important concepts in computing: duality between code and data. \
 * Build up comfort in moving between different representations of programs. \
