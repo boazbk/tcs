@@ -307,13 +307,13 @@ This book is divided into the following parts:
 
 * __Preliminaries:__ Introduction, mathematical background, and representing objects as strings.
 
-* __Part I: Finite computation:__ Boolean circuits / staightline programs. Universal gatesets, counting lower bound, representing programs as string and universality.
+* __Part I: Finite computation:__ Boolean circuits / straightline  programs. Universal gatesets, counting lower bound, representing programs as string and universality.
 
 * __Part II: Uniform computation:__ Turing machines / programs with loops. Equivalence of models (including RAM machines and $\lambda$ calculus), universality, uncomputability,  Gödel's incompleteness theorem, restricted models (regular and context free languages).
 
 * __Part III: Efficient computation:__ Definition of running time, time hierarchy theorem, $\mathbf{P}$ and $\mathbf{NP}$, $\mathbf{NP}$ completeness, space bounded computation.
 
-* __Part IV: Randomized computation:__ Probability, randomized algorithms, $\mathbb{BPP}$, amplification, $\mathbb{BPP} \subseteq \mathbb{P}_{/poly}$, pseudrandom generators and derandomization.
+* __Part IV: Randomized computation:__ Probability, randomized algorithms, $\mathbf{BPP}$, amplification, $\mathbf{BPP} \subseteq \mathbf{P}_{/poly}$, pseudrandom generators and derandomization.
 
 * __Part V: Advanced topics:__ Cryptography, proofs and algorithms (interactive and zero knowledge proofs, Curry-Howard correspondence), quantum computing.
 

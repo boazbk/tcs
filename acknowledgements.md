@@ -27,6 +27,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Aditya Mahadevan
 * Jacob Meyerson
 * Hamish Nicholson
+* Sebastian Oberhoff
 * Thomas Orton
 * Juan Perdomo
 * Aaron Sachs
