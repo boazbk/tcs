@@ -327,7 +327,7 @@ Since a program $P$ halts on $0$ if and only if there is a sequence of configura
 
 
 ::: {.proof data-ref="QMS-thm"}
-
+TO BE COMPLETED
 :::
 
 
@@ -396,7 +396,7 @@ Let $FSQRT(n,m) = \forall_{j \in \N}((j \times j)>n) \vee (j<m) \vee (j=m)$. Pro
 Recall that in [computeidx-ex](){.ref} asked you to prove that at iteration $t$ of a NAND++ program the  the variable `i` is equal to $t-r(r+1)$ if $t \leq (r+1)^2$ and equals $(r+2)(r+1)t$ otherwise, where $r = \floor{\sqrt{t+1/4}-1/2}$.
 Prove that there is a quantified integer statement $INDEX$ with parameters $t,i$ such that $INDEX(t,i)$ is true if and $i$ is the value of `i` after $t$ iterations.
 
-> # {.exercise title="Expression for computing the previos line" #prevex}
+> # {.exercise title="Expression for computing the previous line" #prevex}
 Give the following quantified integer expressions: \
 1. $MOD(a,b,c)$ which is true if and only if $c = a \mod c$. Note if a program has $s$ lines then  the line executed at step $t$ is equal to $t \mod s$. \
 2. Suppose that $P$ is the  three line NAND program listed below.  Give a quantified integer statement $LAST(n,t,t')$  such that $LAST(t,t')$ is true if and only if $t'-n$ is the largest step smaller than $t-n$ in which the variable on the righthand side of the line executed at step $t-n$ is written to. If this variable is an input variable `x_i` then let $LAST(n,t,t')$ to be true if the current index location equals $t'$ and $t'<n$.
