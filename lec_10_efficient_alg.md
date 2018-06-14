@@ -262,12 +262,12 @@ $n$ linear equations in $n$ variables.
 That is, solve equations of the form
 
 $$
-\begin{gathered}
+\begin{aligned}
 a_{0,0}x_0 + a_{0,1}x_1 + \cdots + a_{0,{n-1}}x_{n-1} &= b_0 \\
 a_{1,0}x_0 + a_{1,1}x_1 + \cdots + a_{1,{n-1}}x_{n-1} &= b_1 \\
 \vdots     + \vdots      +  \vdots + \vdots              &= \vdots \\
 a_{n-1,0}x_0 + a_{n-1,1}x_1 + \cdots + a_{n-1,{n-1}}x_{n-1} &= b_{n-1}
-\end{gathered}
+\end{aligned}
 $$
 
 

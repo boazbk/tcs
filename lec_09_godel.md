@@ -47,7 +47,7 @@ This effort was known as the _Hilbert program_, named after the influential math
 
 Alas, it turns out the results we've seen dealt a devastating blow to this program, as was shown by Kurt Gödel in 1931:
 
-> # {.theorem title="Gödel's Incompleteness Theorem: first version, informal version" #godethmtakeone}
+> # {.theorem title="Gödel's Incompleteness Theorem:  informal version" #godethmtakeone}
 For every sound proof system for sufficiently rich mathematical statements, there is a mathematical statement that is _true_ but is not _provable_.
 
 
@@ -93,7 +93,7 @@ We start by considering statements of the second type.
 Our first formalization of [godethmtakeone](){.ref} will be the following
 
 
-::: {.theorem title="Gödel's Incompleteness Theorem: first version" #godethmtakeone}
+::: {.theorem title="Gödel's Incompleteness Theorem: computational variant" #godethmtakeone}
 Let $V:\{0,1\}^* \rightarrow \{0,1\}$ a computable purported verification procedure for mathematical statements of the form "Program $P$ halts on the zero input" and "Program $P$ does not halt on the zero input".
 Then either:
 
@@ -202,7 +202,7 @@ where $DIVIDES(a,b)$ is the statement $\exists_{c\in\N} b\times c = a$.
 In English, this corresponds to the claim that for every $n$ there is some $p>n$ such that all of $p-1$'s prime factors are equal to $2$.
 
 
-::: {.remark title="Syntactis sugar for quantified integer statements" #synsugarqisrem}
+::: {.remark title="Syntactic sugar for quantified integer statements" #synsugarqisrem}
 To make our statements more readable, we  often use syntactic sugar and so write $x \neq y$ as shorthand for $\neg(x=y)$, and so on.
 Similarly, the  "implication operator" $a \Rightarrow b$ is "syntactic sugar" or shorthand for $\neg a \vee b$, and the "if and only if operator" $a \Leftrightarrow$ is shorthand for $(a \Rightarrow b) \wedge (b \Rightarrow b$).
 We will also allow ourselves the use of "macros": plugging in one quantified integer statement in another, as we did with  $DIVIDES$ and $PRIME$ above.
@@ -233,11 +233,18 @@ _or_
 > # {.theorem title="Uncomputability of quantified integer statements" #QIS-thm}
 Let $QIS:\{0,1\}^* \rightarrow \{0,1\}$ be the function that given a (string representation of) a quantified integer statement outputs $1$ if it is true and $0$ if it is false.^[Since a quantified integer statement is simply a sequence of symbols, we can easily represent it as a string. We will assume that _every_ string represents some  quantified integer statement, by mapping strings that do not correspond to such a statement to an arbitrary statement such as $\exists_{x\in \N} x=1$.] Then $QIS$ is uncomputable.
 
+
+::: { .pause }
+Please stop here and make sure you understand why the uncomputability of $QIS$ (i.e., [QIS-thm](){.ref}) means that there is no sound and complete proof system for proving quantified integer statements (i.e., [godelthmqis](){.ref}).
+This follows in the same way that [godethmtakeone](){.ref} followed from the uncomputability of $HALTONZERO$.
+:::
+
+
 In the rest of this chapter, we will show the proof of [QIS-Thm](){.ref}
 
 
 
-##  Diophantine equations
+##  Diophantine equations and the MRDP Theorem
 
 
 Many of the functions people wanted to compute over the years involved solving equations.
@@ -261,26 +268,31 @@ After all, the whole history of mathematics up to this point involved the discov
 
 Alas, this turned out not to be the case for Diophantine equations: in 1970, Yuri Matiyasevich, building on a decades long line of work by  Martin Davis,  Hilary Putnam and Julia Robinson, showed that there is simply _no method_ to solve such equations in general:
 
-> # {.theorem title="MRDP Theorem" #MRDP-thm}
+::: {.theorem title="MRDP Theorem" #MRDP-thm}
 Let  $DIO:\{0,1\}^* \rightarrow \{0,1\}$ be the function that takes as input a string describing a $100$-variable polynomial with integer coefficients $P(x_0,\ldots,x_{99})$  and outputs $1$ if and only if there exists  $z_0,\ldots,z_{99} \in \N$ s.t.  $P(z_0,\ldots,z_{99})=0$.
-Then $DIO$ is uncomputable.^[As usual, we assume some standard way to express numbers and text as binary strings. The constant $100$ is of course arbitrary; in fact the number of variables can be reduced to nine, at the expense of the polynomial having a constant (but very large) degree. It is also possible to restrict attention to polynomials of degree four and at most 58 variables. See [Jones's paper](https://www.jstor.org/stable/2273588) for more about this issue.]
-Then $DIO$ is uncomputable.
+
+Then $DIO$ is uncomputable.^[As usual, we assume some standard way to express numbers and text as binary strings. The constant $100$ is of course arbitrary; the problem is known to be  uncomputable even for polynomials of degree four and at most 58 variables.
+In fact the number of variables can be reduced to nine, at the expense of the polynomial having a larger (but still constant) degree.  See [Jones's paper](https://www.jstor.org/stable/2273588) for more about this issue.]
+:::
 
 
-
+::: {.remark title="Active code vs static data" #codevsstaticrem}
 The difficulty in finding a way to distinguish between "code" such as NAND++ programs, and "static content" such as polynomials is just another manifestation of the phenomenon that _code_ is the same as _data_.
 While a fool-proof solution for distinguishing between the two is inherently impossible, finding heuristics that do a reasonable job keeps many firewall and anti-virus manufacturers very busy
 (and finding ways to bypass these tools keeps many hackers busy as well).
+:::
 
 
-### "Baby" MRDP Theorem: hardness of quantified integer statements
+## Hardness of quantified integer statements
 
-We will not prove the MRDP Theorem ([MRDP-thm](){.ref} ), however we will prove [QIS-thm](){.ref} that can is a weaker variant of the MRDP Theorem.
+We will not prove the MRDP Theorem ([MRDP-thm](){.ref}).
+However, as we mentioned, we will prove the uncomputability of $QIS$ (i.e.,  [QIS-thm](){.ref}), which is a special case of the MRDP Theorem.
 The reason is that Diophantine equation is simply a special case of a quantified integer statement where the only quantifier is $\exists$.
 This means that deciding the truth of  quantifier integer statements  is a potentially harder problem than solving Diophantine equations, and so it is potentially _easier_ to prove that $QIS$ is uncomputable.
 
 ::: { .pause }
-If you find the last sentence confusing, it is worthwhile to reread it until you are sure you follow its logic; we are so used to trying to find solution for problems that it can be quite confusing to follow the arguments showing that problems are _uncomputable_.
+If you find the last sentence confusing, it is worthwhile to reread it until you are sure you follow its logic.
+We are so accustomed to trying to find _solutions_ for problems that it can sometimes be hard to  follow the arguments for showing that problems are _uncomputable_.
 :::
 
 
@@ -293,9 +305,9 @@ Since quantified mixed statements are a more general concept than quantified int
 
 
 
-### Step 1: Quantified mixed statements and computation traces
+### Step 1: Quantified mixed statements and computation histories
 
-We define _quantified mixed statements_ as statements involving not just integers and the usual arithmetic operators, but also _strings_ as well.
+We define _quantified mixed statements_ as statements involving not just integers and the usual arithmetic operators, but also _string variables_ as well.
 
 
 > # {.definition title="Quantified mixed statements" #QMS-def}
@@ -322,18 +334,53 @@ A _configuration_ of a NAND++ program is a string $\alpha$ over some large-but-f
 It can be shown that if $\alpha$ is the configuration at a certain step of the execution and  $\beta$ is the configuration at the next step, then $\beta_j = \alpha_j$ for all $j$ outside of $\{i-1,i,i+1\}$ where $i$ is the value of `i`.
 In particular, every value $\beta_j$ is simply a function of $\alpha_{j-1,j,j+1}$.
 Using these observations we can write a _quantified mixed statement_  $NEXT(\alpha,\beta)$ that will be true if and only if $\beta$ is the configuration encoding the next step after $\alpha$.
-Since a program $P$ halts on $0$ if and only if there is a sequence of configurations $\alpha_0,\ldots,\alpha_{t-1}$ starting with the initial configuration with input $0$ and ending in a halting configuration, we can define a quantified mixed statement to determine if there is such a statement by taking a universal quantifier over all strings $\alpha$ that encode a tuple $(\alpha_0,\alpha_1,\ldots,\alpha_{t-1})$ and then checking that $\alpha_0$ and $\alpha_{t-1}$ are valid, and that $NEXT(\alpha_j,\alpha_{j+1})$ for every $j\in \{0,\ldots,t-2\}$.
+Since a program $P$ halts on input  $x$ if and only if there is a sequence of configurations $\alpha_0,\ldots,\alpha_{t-1}$ starting with the initial configuration with input $x$ and ending in a halting configuration, we can define a quantified mixed statement to determine if there is such a statement by taking a universal quantifier over all strings $\alpha$ that encode a tuple $(\alpha_0,\alpha_1,\ldots,\alpha_{t-1})$ and then checking that $\alpha_0$ and $\alpha_{t-1}$ are valid, and that $NEXT(\alpha_j,\alpha_{j+1})$ for every $j\in \{0,\ldots,t-2\}$.
 
 
 
 ::: {.proof data-ref="QMS-thm"}
-TO BE COMPLETED
+The proof will be obtained by a reduction from the Halting problem.
+Specifically, we will use the notion of a _configuration_ of a NAND++ program ([confignandppdef](){.ref}) that we have seen in the context of proving that one dimensional cellular automata are Turing complete.
+We need the following facts about configurations:
+
+* For every (well formed^[We can always transform a NAND++ program into an equivalent one that is well formed, and hence can assume this property without loss of generality.]) NAND++ program $P$, there is a finite alphabet $\Sigma$, and a _configuration_ of $P$ is a string $\alpha \in \Sigma^*$.
+
+* A configuration $\alpha$ encodes all the state of the program at a particular iteration, including the array, scalar, and index variables.
+
+* If $\alpha$ is a configuration, then $\beta = NEXT_P(\alpha)$  denotes the configuration of the computation after one more iteration. $\beta$ is a string over $\Sigma$ of length either $|\alpha|$ or $|\alpha|+1$, and every coordinate of $\beta$ is a function of just three coordinates in $\alpha$. That is, for every  $j\in \{0,\ldots,|\beta|-1\}$, $\beta_j = N_P(\alpha_{j-1},\alpha_j,\alpha_{j+1})$ where $N_P:\Sigma^3 \rightarrow \Sigma$ is some function  depending on $P$.^[The alphabet $\Sigma$ contains a special "default" element, which we can denote by $\varnothing$, such that if $j-1<0$ or $j$ or  $j+1$ are at least $|\alpha|$, we use $\varnothing$ as input instead of $\alpha_{j-1}$ or $\alpha_{j+1}$ respectively. We extend the length of $\beta$ to be one longer than $\alpha$ if and only if $N_P(\alpha_{|\alpha|-1},\varnothing,\varnothing) \neq \varnothing$.]
+
+* There are simple conditions to check whether a string $\alpha$ is a valid starting configuration corresponding to an input $x$, as well as to check  whether a string $\alpha$ is an halting configuration. In particular these conditions can be phrased as quantified mixed statements.
+
+* A program $P$ halts on input $x$  if and only if there exists a sequence of configurations $\alpha_0,\alpha_1,\ldots,\alpha_{T}$ such that __(i)__ $\alpha_0$ is a valid starting configuration of $P$ with  input $x$, __(ii)__ $\alpha_{T-1}$ is a valid halting configuration of $P$, and __(iii)__ $\alpha_{i+1} = NEXT_P(\alpha_i)$ for every $i\in \{0,\ldots,T-1\}$.
+
+Let $U$ be a universal NAND++ program. Such a program exists by  [univnandppnoneff](){.ref}. We define $HALT_U$  as the function such that $HALT_U(w)=1$ if and only if $U$ halts on the input $w$.
+The function $HALT_U$ is uncomputable, for every NAND++ program $P$ (which we identify with its representation as a string) and input $x\in \{0,1\}^*$ to $P$,  $HALT(P,x) = HALT_U(\langle P,x \rangle)$  where $\langle P,x \rangle$ is some encoding of the pair $(P,x)$ as a string.
+Hence if we could compute $HALT_U$ then we could compute $HALT$, contradicting [halt-thm](){.ref}.
+
+Let $\Sigma$ be the alphabet needed to encode configurations of $U$, and let $\ell = \ceil{\log (|\Sigma|+1)}$.
+Then we can encode any symbol in $\Sigma \cup \{ ; \}$ (where "$;$" is some separator symbol we'll use) as a string in $\{0,1\}^\ell$, and so in particular can encode a sequence $\alpha_0;\alpha_1; \cdots ; \alpha_{T}$ of configurations of $U$ as a single binary string $\overline{\alpha}$.
+Given any input $w\in \{0,1\}^*$, we will create a mixed integer statement $\varphi_w$ that will have the following form:
+
+$$
+\varphi_w = \exists_{\overline{\alpha} \in \{0,1\}^*} \text{$\overline{\alpha}$ encodes a valid sequence of configurations of a halting computation of $U$ on $w$}
+$$
+
+The reasons we can encode this condition as an MIS are the following:
+
+1. The conditions for checking that the initial configuration is valid are simple, and we can extract the first configuration from  $\overline{\alpha}$ by first looking at an index $i$ such that $\overline{\alpha}_{i} \cdots \overline{\alpha}_{i+\ell-1}$ encodes the separator symbol "$;$" and such that $i$ is the first such index, in the sense that _for every_ (i.e., $\forall$) index $j<i$, $\overline{\alpha}_{j} \cdots \overline{\alpha}_{j+\ell-1}$ does _not_ encode $;$.
+
+2. We can similarly check that the last configuration is halting.
+
+3. We can then check that for every block of $\overline{\alpha}$ that encodes a pair of configurations $\alpha ; \beta$ where $\alpha, \beta \in \Sigma^*$, $\beta = NEXT_U(\alpha)$. We can do so because every coordinate of $\beta$ depends on at most $3\ell$ coordinates of $\alpha$, and we can express any finite function $f:\{0,1\}^{3\ell} \rightarrow \{0,1\}$ using using the logical operations $AND$,$OR$, $NOT$ (for example by computing $f$ with $NAND$'s).
+
+Together the above yields a procedure that maps every $w\in \{0,1\}^*$ to a quantified mixed statement $\varphi_w$ usch taht $HALT_U(w)=1$ if and only if $QMS(\varphi_w)=1$.
+Hence the uncomputability of $HALT_U$ implies the uncomputability of $QMS$.
 :::
 
 
 
 
-### Reducing mixed statements to integer statements
+### Step 2: Reducing mixed statements to integer statements
 
 We now show how to prove [QIS-thm](){.ref} using [QMS-thm](){.ref}.
 The idea is again a proof by reduction.
@@ -343,6 +390,7 @@ To remove string-valued variables from a  statement, we  encode them by integers
 We will show  that we can encode a string $x\in \{0,1\}^*$ by a pair  of numbers $(X,n)\in \N$ s.t.
 
 * $n=|x|$
+
 * There is a quantified integer statement $COORD(X,i)$ that for every $i<n$, will be true  if $x_i=1$ and will be false otherwise.
 
 
@@ -366,8 +414,8 @@ Note that indeed if $X,n$ encodes the string $x\in \{0,1\}^*$, then for every $i
 Thus all that is left to conclude the proof of [QIS-thm](){.ref} is to prove [primeseq](){.ref}, which we now proceed to do.
 
 > # {.proof data-ref="primeseq"}
- The sequence of prime numbers we consider is the following:
-We fix $C$ to be a suficiently large constant ($C=2^{2^{34}}$ [will do](https://arxiv.org/pdf/1401.4233.pdf) and define $p_i$ to be the smallest prime number that is in the interval $[(i+C)^3+1,(i+C+1)^3-1]$.
+The sequence of prime numbers we consider is the following:
+We fix $C$ to be a suficiently large constant ($C=2^{2^{34}}$ [will do](https://arxiv.org/pdf/1401.4233.pdf)) and define $p_i$ to be the smallest prime number that is in the interval $[(i+C)^3+1,(i+C+1)^3-1]$.
 It is known  that there exists such a prime number for every $i\in\N$.
 Given this, the  definition of $PCOORD(p,i)$ is simple:
 $$
@@ -376,12 +424,13 @@ $$
 $$
 We leave it to the reader to verify that $PCOORD(p,i)$ is true iff $p=p_i$.
 
-
+To sum up we have shown that for every quantified mixed statement $\varphi$, we can compute a quantified integer statement $\xi$ such that $QMS(\varphi)=1$  if and only if $QIS(\xi)=1$.
+Hence the uncomputability of $QMS$  ([QMS-thm](){.ref}) implies the uncomputability of $QIS$, completing the proof of [QIS-thm](){.ref}, and so also the proof of Gödel's Incompleteness Theorem for quantified integer statements ([godelthmqis](){.ref}).
 
 
 > # { .recap }
 * Uncomputable functions include also functions that seem to have nothing to do with NAND++ programs or other computational models such as determining the satisfiability of diophantine equations.
-* This also implies that for any soudn proof system (and in particular every finite axiomatic system) $S$,  there are interesting statements $X$ (namely of the form "$F(x)=0$" for an uncomputable function $F$) such that $S$ is not able to prove either $X$ or its negation.
+* This also implies that for any sound proof system (and in particular every finite axiomatic system) $S$,  there are interesting statements $X$ (namely of the form "$F(x)=0$" for an uncomputable function $F$) such that $S$ is not able to prove either $X$ or its negation.
 
 ## Exercises
 
