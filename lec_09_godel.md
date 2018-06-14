@@ -101,7 +101,7 @@ Then either:
 
 _or_
 
-* _$V$ is not complete:_ There exists a true statement $x$ such that for every $w\in \{0,1\}^*$, $V(x,w)=1$.
+* _$V$ is not complete:_ There exists a true statement $x$ such that for every $w\in \{0,1\}^*$, $V(x,w)=0$.
 :::
 
 
@@ -224,7 +224,7 @@ Then either:
 
 _or_
 
-* _$V$ is not complete:_ There exists a true statement $x$ such that for every $w\in \{0,1\}^*$, $V(x,w)=1$.
+* _$V$ is not complete:_ There exists a true statement $x$ such that for every $w\in \{0,1\}^*$, $V(x,w)=0$.
 :::
 
 
