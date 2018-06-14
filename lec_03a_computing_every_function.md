@@ -431,10 +431,10 @@ The most significant digit $y_n$ of the output will of course be the last carry 
 >
 To transform this algorithm to a NAND program we just need to plug in the program for XOR, and use the observation (see [atleasttwo-ex](){.ref}) that
 $$
-\begin{split}
+\begin{gathered}
 MAJ(a,b,c)  &=  (a \wedge b) \vee (a \wedge c) \vee (b \wedge c)  \\
   &= NAND(NOT(NAND(NAND(a,b),NAND(a,c))),NAND(b,c))
-\end{split}
+\end{gathered}
 $$
 >
 We leave accounting for the number of lines, and verifying that it is smaller than $100n$, as an exercise to the reader.

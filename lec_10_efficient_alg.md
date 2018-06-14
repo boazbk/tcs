@@ -162,10 +162,10 @@ There are several algorithms to do so, but many of them rely on the [Max Flow Mi
 For example, this directly implies that the value of the minimum cut problem is the solution for the following [linear program](https://en.wikipedia.org/wiki/Linear_programming):^[A _linear program_ is the task of maximizing or minimizing a linear function of $n$ real variables $x_0,\ldots,x_{n-1}$ subject to certain linear equalities and inequalities on the variables.]
 
 $$
-\begin{split}
+\begin{gathered}
 \max_{x\in \R^m} F_s(x)-F_t(x) \text{s.t.}\\
 \forall_{u \not\in \{s,t\}} F_u(x)=0
-\end{split}
+\end{gathered}
 $$
 where for every vertex $u$ and $x\in \R^m$, $F_u(x) = \sum_{e \in E \text{s.t.} u \in e} x_e$.
 
@@ -262,12 +262,12 @@ $n$ linear equations in $n$ variables.
 That is, solve equations of the form
 
 $$
-\begin{split}
+\begin{gathered}
 a_{0,0}x_0 + a_{0,1}x_1 + \cdots + a_{0,{n-1}}x_{n-1} &= b_0 \\
 a_{1,0}x_0 + a_{1,1}x_1 + \cdots + a_{1,{n-1}}x_{n-1} &= b_1 \\
 \vdots     + \vdots      +  \vdots + \vdots              &= \vdots \\
 a_{n-1,0}x_0 + a_{n-1,1}x_1 + \cdots + a_{n-1,{n-1}}x_{n-1} &= b_{n-1}
-\end{split}
+\end{gathered}
 $$
 
 

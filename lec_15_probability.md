@@ -120,11 +120,11 @@ $$ \E[ X+Y ] = \E[X] + \E[Y] $$
 
 > # {.proof data-ref="linearityexp"}
 $$
-\begin{split}
+\begin{gathered}
 \E [X+Y] = \sum_{x\in \{0,1\}^n}2^{-n}\left(X(x)+Y(x)\right) =  \\
 \sum_{x\in \{0,1\}^b} 2^{-n}X(x) + \sum_{x\in \{0,1\}^b} 2^{-n}Y(x) = \\
 \E[X] + \E[Y]
-\end{split}
+\end{gathered}
 $$
 
 Similarly, $\E[kX] = k\E[X]$ for every $k \in \R$.
@@ -266,11 +266,11 @@ $$
 
 Note that if $X$ and $Y$ are independent random variables then (if we let $S_X,S_Y$ denote all the numbers that have positive probability of being the output of $X$ and $Y$, respectively) it holds that:
 $$
-\begin{split}
+\begin{gathered}
 \E[ XY ] = \sum_{a \in S_X,b \in S_Y} {\textstyle\Pr[X=a \wedge Y=b]}\cdot ab \; =^{(1)} \; \sum_{a \in S_X,b \in S_Y} {\textstyle \Pr[X=a]\Pr[Y=b]}\cdot ab =^{(2)} \\
 \left(\sum_{a \in S_X} {\textstyle \Pr[X=a]}\cdot a\right)\left(\sum_{b \in S_Y} {\textstyle \Pr[Y=b]}b\right) =^{(3)} \\
 \E[X] \E[Y]
-\end{split}
+\end{gathered}
 $$
 where the first equality  ($=^{(1)}$) follows from the independence of $X$ and $Y$, the second equality ($=^{(2)}$) follows by "opening the parentheses" of the righthand side, and the third inequality ($=^{(3)}$) follows from the definition of expectation.
 (This is not an "if and only if"; see [noindnocorex](){.ref}.)
@@ -281,12 +281,12 @@ Hence, if learning $X$ does not teach us anything about $Y$ (and so also about $
 Indeed, to prove this  we can write for every $a,b \in \R$:
 
 $$
-\begin{split}
+\begin{gathered}
 \Pr[ F(X)=a \wedge G(Y)=b ] = \sum_{x \text{ s.t.} F(x)=a, y \text{ s.t. } G(y)=b} \Pr[ X=x \wedge Y=y ] = \\
 \sum_{x \text{ s.t.} F(x)=a, y \text{ s.t. } G(y)=b} \Pr[ X=x ] \Pr[  Y=y ]  = \\
 \left( \sum_{x \text{ s.t.} F(x)=a } \Pr[X=x ] \right) \cdot \left( \sum_{y \text{ s.t.} G(y)=b } \Pr[Y=y ] \right) = \\
 \Pr[ F(X)=a] \Pr[G(Y)=b] .
-\end{split}
+\end{gathered}
 $$
 
 ### Collections of independent random variables.

@@ -192,10 +192,10 @@ where we replace an instance of $PRIME(q)$ with the statement $(q>1) \wedge \for
 The claim (mentioned in Hilbert's quote above) that are infinitely many primes of the form $p=2^n+1$ can be phrased as follows:
 
 $$
-\begin{split}
+\begin{gathered}
 \forall_{n\in\N}\exists_{p\in\N} (p>n) \wedge PRIME(p) \wedge \\
 \left(\forall_{k\in\N}  (k \neq 2 \; \wedge \; PRIME(k)) \Rightarrow \neg DIVIDES(k,p-1)\right)
-\end{split}
+\end{gathered}
 \label{eqinfprimespowertwoplusone}
 $$
 where $DIVIDES(a,b)$ is the statement $\exists_{c\in\N} b\times c = a$.
