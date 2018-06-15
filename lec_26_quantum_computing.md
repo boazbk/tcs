@@ -138,7 +138,7 @@ In other words, Alice and Bob need to output two bits that _disagree_ if $x=y=1$
 
 Now if Alice and Bob are not telepathic, then they need to agree in advance on some strategy.
 It's not hard for Alice and Bob to succeed with probability $3/4$: just always output the same bit.
-However, by doing some case analysis, we can show that no matter what strategy they use, Alice and Bob cannot succeed with higher probability than that:
+However, by doing some case analysis, we can show that no matter what strategy they use, Alice and Bob cannot succeed with higher probability than that:^[[bellthm](){.ref} below assumes that Alice and Bob use _deterministic_ strategies $f$ and $g$ respectively. More generally, Alice and Bob could use a _probabilistic_ strategy, or equivalently, each could choose $f$ and $g$ from some  _distributions_ $\mathcal{F}$ and $\mathcal{G}$ respectively.  However the _averaging principle_ ([averagingprinciplerem](){.ref}) implies that if all possible deterministic strategies succeed with probability at most $3/4$, then the same is true for probabilistic strategies.]
 
 > # {.theorem title="Bell's Inequality" #bellthm}
 For every two functions $f,g:\{0,1\}\rightarrow\{0,1\}$, $\Pr_{x,y \in \{0,1\}}[  f(x) \oplus g(y) = x \wedge y] \leq 3/4$.
@@ -163,10 +163,10 @@ If we XOR together the first and second equalities we get $g(0) \oplus g(1) = 0$
 
 
 
-[^CHSH]: This form of Bell's game was shown by [Clauser, Horne, Shimony, and Holt](https://en.wikipedia.org/wiki/CHSH_inequality). (I think)
+[^CHSH]: This form of Bell's game was shown by [Clauser, Horne, Shimony, and Holt](https://goo.gl/wvJGZU).
 
-An amazing [experimentally verified](http://arxiv.org/abs/1508.05949) fact is that quantum mechanics allows for telepathy.[^telepathy]
-Specifically, it has been shown that using the weirdness of quantum mechanics, there is in fact a strategy for Alice and Bob to succeed in this game with probability at least $0.8$ (see [bellstrategy](){.ref}).
+An amazing [experimentally verified](http://arxiv.org/abs/1508.05949) fact is that quantum mechanics allows for "telepathy".[^telepathy]
+Specifically, it has been shown that using the weirdness of quantum mechanics, there is in fact a strategy for Alice and Bob to succeed in this game with probability larger than $3/4$  (in fact, they can succeed with probability about $0.85$, see [bellstrategy](){.ref}).
 
 
 [^telepathy]: More accurately, one either has to give up on a "billiard ball type" theory of the universe or believe in telepathy (believe it or not, some scientists went for the [latter option](https://en.wikipedia.org/wiki/Superdeterminism)).
@@ -177,7 +177,7 @@ Specifically, it has been shown that using the weirdness of quantum mechanics, t
 
 Some of the counterintuitive properties that arise from  quantum mechanics include:
 
-* **Interference** - As we've seen', quantum amplitudes can "cancel each other out".
+* **Interference** - As we've seen, quantum amplitudes can "cancel each other out".
 
 * **Measurement** -   The idea that amplitudes are negative as long as "no one is looking" and "collapse" (by squaring them) to positive probabilities when they are _measured_ is deeply disturbing. Indeed, as shown by EPR and Bell, this leads to various strange outcomes such as "spooky actions at a distance", where we can create correlations between the results of measurements in  places far removed. Unfortunately (or fortunately?) these strange outcomes have been confirmed experimentally.
 
@@ -219,8 +219,11 @@ Second, as a challenge to the _Extended Church Turing hypothesis_ which says tha
 Quantum chemistry is important (and in particular understanding it can be a bottleneck for designing new materials, drugs, and more), but it is still a rather niche area within the broader context of computing (and even scientific computing) applications.
 Hence for a while most researchers (to the extent they were aware of it), thought of quantum computers as a theoretical curiosity that  has little bearing to practice, given that this theoretical "extra power" of quantum computer seemed to offer little advantage in the majority of the  problems people  want to solve in areas such as  combinatorial optimization, machine learning,  data structures, etc..
 
-To some extent this is still true today. We have no real evidence that quantum computers, if built, will offer truly significant[^Grover] advantage in 95% of the applications of computing.[^overhead]
-In particular, as far as we know, quantum computers will _not_ help us solve $\mathbf{NP}$ complete problems in polynomial or even sub-exponential time.
+To some extent this is still true today. As far as we know, quantum computers, if built, will _not_ provide exponential speed ups for 95% of the applications of computing.[^overhead]
+In particular, as far as we know, quantum computers will _not_ help us solve $\mathbf{NP}$ complete problems in polynomial or even sub-exponential time, though  _Grover's algorithm_ ( [quantumnp](){.ref}) does yield a quadratic advantage in many cases.
+
+
+
 
 
 However, there is one cryptography-sized exception:
@@ -237,7 +240,6 @@ It could also be a "self destroying prophecy" whereby the existence of a small-s
 
 [^overhead]: This "95 percent" is a figure of speech, but not completely so. At the time of this writing, cryptocurrency mining  electricity consumption is estimated to use up at least [70Twh or 0.3 percent of the world's production](https://digiconomist.net/bitcoin-energy-consumption), which is about [2 to 5 percent](http://www.mdpi.com/2078-1547/6/1/117/html) of the total energy usage for the computing industry. All the current cryptocurrencies will be broken by quantum computers. Also, for many web servers the TLS protocol (which based on the current non-lattice based systems would be completely broken by quantum computing) is responsible [for about 1 percent of the CPU usage](https://goo.gl/mHpYpm).
 
-[^Grover]: I am using the theorist' definition of conflating "significant" with "super-polynomial". [Grover's algorithm](https://goo.gl/NQVLLF) does offer a very generic _quadratic_ advantage in computation. Whether that quadratic advantage will  ever be good enough to offset in practice the significant overhead in building a quantum computer remains an open question. We also don't have evidence that super-polynomial speedups _can't_ be achieved for some problems outside the Factoring/Dlog or quantum simulation domains, and there is at least [one company](http://www.dwavesys.com/) banking on such speedups actually being feasible.
 
 ::: {.remark title="Quantum computing and $\mathbf{NP}$" #quantumnp}
 Despite popular accounts of quantum computers as having variables that can take "zero and one at the same time"  and therefore can "explore an exponential number of possibilities simultaneously", their true power is much more subtle and nuanced.
@@ -261,7 +263,7 @@ If we perform an operation such as writing to the 17-th bit the NAND of the 3rd 
 In the _probabilistic_ setting, we would model the state of the system by a _distribution_.
 For an individual bit, we could model it by a pair of non-negative numbers $\alpha,\beta$ such that $\alpha+\beta=1$, where $\alpha$ is the probability that the bit is zero and $\beta$ is the probability that the bit is one.
 For example,  applying the _negation_ (i.e., NOT) operation to this bit  corresponds to mapping the pair $(\alpha,\beta)$ to $(\beta,\alpha)$ since the probability that $NOT(\sigma)$ is equal to $1$ is the same as the probability that $\sigma$ is equal to $0$.
-This means that we can think of the NOT function as the linear map $N:\R^2 \rightarrow \R^2$ such that $N \begin{pmatrix} \alpha \\ \beta \end{pmatrix} = \begin{pmatrix} \beta \\ alpha \end{pmatrix}$ or equivalently as the matrix $\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$.
+This means that we can think of the NOT function as the linear map $N:\R^2 \rightarrow \R^2$ such that $N \begin{pmatrix} \alpha \\ \beta \end{pmatrix} = \begin{pmatrix} \beta \\ \alpha \end{pmatrix}$ or equivalently as the matrix $\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$.
 
 If we think of the $n$-bit system as a whole, then since the $n$ bits can take  one of  $2^n$ possible values, we model the state of the system as a vector $p$ of $2^n$ probabilities.
 For every $s\in \{0,1\}^n$, we denote by $e_s$ the $2^n$ dimensional vector that has $1$ in the coordinate corresponding  to $s$ (identifying it with a number in $[2^n]$), and so can write  $p$ as $\sum_{s\in \{0,1\}^n} p_s e_s$ where $p_s$ is the probability that the system is in the state $s$.
@@ -319,28 +321,39 @@ When we _measure_ an $n$-qubit system in a state $v= \sum_{x\in \{0,1\}^n} v_x |
 
 ### Analysis of Bell's Inequality (optional)
 
-Now that we have the notation in place, we can show the strategy for showing "quantum telepathy".
-
+Now that we have the notation in place, we can show a strategy for showing "quantum telepathy".
+Recall that in the classical case, Alice and Bob can succeed in the "Bell Game" with probability at most $3/4 = 0.75$.
+We now show that quantum mechanics allows them to succeed with probability at least $0.8$.^[The strategy we show is not the best one. Alice and Bob can in fact  succeed with probability $\cos^2(\pi/8) \sim 0.854$.]
 
 
 > # {.lemma #bellstrategy}
 There is a 2-qubit quantum state $s\in \R^4$ so that if Alice has access to the first qubit of $s$, can manipulate and measure it and output $a\in \{0,1\}$ and Bob has access to the second qubit of $s$ and can manipulate and measure it and output $b\in \{0,1\}$ then
 $\Pr[ a \oplus b = x \wedge y ] \geq 0.8$.
 
-> # {.proof data-ref="bellstrategy"}
+::: {.proof data-ref="bellstrategy"}
 The main  idea is for Alice and Bob to first prepare a 2-qubit quantum system in the state (up to normalization)
 $|00\rangle+|11\rangle$ (this is known as an _EPR pair_).
 Alice takes the first qubit in this system to her room, and Bob takes the qubit to his room.
 Now, when Alice receives $x$ if $x=0$ she does nothing and if $x=1$ she applies the unitary map $R_{\pi/8}$ to her qubit where $R_\theta = \begin{pmatrix} cos \theta & \sin -\theta \\ \sin \theta & \cos \theta \end{pmatrix}$ is the unitary operation corresponding to rotation in the plane with angle $\theta$.
 When Bob receives $y$, if $y=0$ he does nothing and if $y=1$ he applies the unitary map $R_{-\pi/8}$ to his  qubit.
 Then each one of them measures their qubit and sends this as their response.
+
+
 Recall that to win the game Bob and Alice want their outputs to be more likely to differ if $x=y=1$ and to be more likely to agree otherwise.
->
-If $x=y=0$ then the state does not change and Alice and Bob always output either both $0$ or both $1$, and hence in both case $a\oplus b = x \wedge y$.
-If $x=0$ and $y=1$ then after Alice measures her bit, if she gets $0$ then Bob's state is equal to $-\cos (\pi/8)|0\rangle-\sin(\pi/8)|1\rangle$ which will equal $0$ with probability $\cos^2 (\pi/8)$.
-The case that Alice gets $1$, or that $x=1$ and $y=0$, is symmetric, and so in all the cases where $x\neq y$ (and hence $x \wedge y=0$) the probability that $a=b$ will be $\cos^2(\pi/8) \geq 0.85$.
-For the case that $x=1$ and $y=1$, direct calculation via trigonomertic identities yields that all four options for $(a,b)$ are equally likely and hence in this case $a=b$ with probability $0.5$.
-The overall probability of winning the game is at least $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}\cdot 0.85 + \tfrac{1}{4} \cdot 0.5 =0.8$.
+We will split the analysis in one case for each of the four possible values of $x$ and $y$.
+
+__Case 1: $x=y=0$__ If $x=y=0$ then the state does not change.
+Because the state is   $|00\rangle + |11\rangle$, the measurements of Bob and Alice will always agree (if Alice measures $0$ then the state collapses to $|00 \rangle$ and so Bob measures $0$ as well, and similarly for $1$).
+Hence in the case $x=y=1$, Alice and Bob always  win.
+
+__Case 2: $x=0$,$y=1$__ If $x=0$ and $y=1$ then after Alice measures her bit, if she gets $0$ then Bob's state is equal to $-\cos (\pi/8)|0\rangle-\sin(\pi/8)|1\rangle$ which will equal $0$ with probability $\cos^2 (\pi/8) \geq 0.85$. The analysis when Alice gets $1$ from her measurement is the same, and hence they will win with probability $\cos^2 (\pi/8)$ as well. The same analysis also shows that Alice and Bob will win with probability $\cos^2 (\pi/8)$ in __Case 3__, where $x=1$ and $y=0$.
+
+
+__Case 4: $x=y=1$__ For the case that $x=1$ and $y=1$, direct calculation via trigonometric identities yields that all four options for $(a,b)$ are equally likely and hence in this case $a=b$ with probability $0.5$.
+
+
+Together we see that the overall probability of winning the game is at least $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}\cdot 0.85 + \tfrac{1}{4} \cdot 0.5 =0.8$.
+:::
 
 
 > # {.remark title="Quantum vs probabilistic strategies" #quantumprob}
@@ -430,7 +443,7 @@ We say that $F\in \mathbf{BQP_{/poly}}$ if there exists some polynomial $p:\N \r
 
 ::: {.remark title="The obviously exponential fallacy" #exponential}
 A priori it might seem "obvious" that quantum computing is exponentially powerful, since to perform a quantum computation on $n$ bits we need to maintain the $2^n$ dimensional state vector and apply $2^n\times 2^n$ matrices to it.
-Indeed popular descriptions of quantum computing (too) often say something along the lines that the difference between quantum and classical computer is that a classic bit can either be zero or one while a qubit can be in both states at once, and so in many qubits a quantum computer can perform exponentially many computations at once.
+Indeed popular descriptions of quantum computing (too) often say something along the lines that the difference between quantum and classical computer is that a classical bit can either be zero or one while a qubit can be in both states at once, and so in many qubits a quantum computer can perform exponentially many computations at once.
 
 Depending on how you interpret it, this description is either false or would apply equally well to _probabilistic computation_, even though we've already seen that every randomized algorithm can be simulated by a similar-sized circuit, and in fact we conjecture that $\mathbf{BPP}=\mathbf{P}$.
 
@@ -484,10 +497,11 @@ We say that $F\in \mathbf{BQP}$ if there exists a polynomial time NAND++ program
 > # { .pause }
 One way to verify that you've understood these definitions it to see that you can prove __(1)__ $\mathbf{P} \subseteq \mathbf{BQP}$ and in fact the stronger statement $\mathbf{BPP} \subseteq \mathbf{BQP}$, __(2)__  $\mathbf{BQP} \subseteq \mathbf{EXP}$, and __(3)__ For every $\mathbf{NP}$-complete function $F$, if $F\in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$.
 
-The relation between $\mathbf{NP}$ and $\mathbf{BQP}$ is not known. It is believed that they are incomparable, in the sense that $\mathbf{NP} \nsubseteq \mathbf{BQP}$ (and in particular no $\mathbf{NP}$-complete function belongs to $\mathbf{BQP}$) but also $\mathbf{BQP} \nsubseteq \mathbf{NP}$ (and there are some interesting candidates for such problems).
+The relation between $\mathbf{NP}$ and $\mathbf{BQP}$ is not known (see also [quantumnp](){.ref}).
+It is widely believed that $\mathbf{NP} \not\subseteq \mathbf{BQP}$ but it is  [possible](https://eccc.weizmann.ac.il/report/2018/107/) that they are incomparable, in the sense that $\mathbf{NP} \nsubseteq \mathbf{BQP}$ (and in particular no $\mathbf{NP}$-complete function belongs to $\mathbf{BQP}$) but also $\mathbf{BQP} \nsubseteq \mathbf{NP}$ (and there are some interesting candidates for such problems).
 
 
-It can be shown that $QNANDEVAL$ (evluating a quantum circuit on an input) is computable by a polynomial size QNAND program, and moreover this program can even be generated _uniformly_ and hence $QNANDEVAL$ is in $\mathbf{BQP}$.
+It can be shown that $QNANDEVAL$ (evaluating a quantum circuit on an input) is computable by a polynomial size QNAND program, and moreover this program can even be generated _uniformly_ and hence $QNANDEVAL$ is in $\mathbf{BQP}$.
 This allows us to "port" many of the results of classical computational complexity into the quantum realm as well.
 
 ::: {.remark title="Restricting attention to circuits" #quantumnonuniformrem}
@@ -513,14 +527,14 @@ The [threshold theorem](https://courses.cs.washington.edu/courses/cse599d/06wi/l
 
 There have been several proposals to build quantum computers:
 
-* [Superconducting quantum computers](https://en.wikipedia.org/wiki/Superconducting_quantum_computing) use super-conducting electric circuits to do quantum computation. In the near future this is the direction where   [there has been most progress](https://arxiv.org/abs/1709.06678) towards "beating" classical computers.
+* [Superconducting quantum computers](https://en.wikipedia.org/wiki/Superconducting_quantum_computing) use super-conducting electric circuits to do quantum computation. This is the direction where   [there has been most recent progress](https://arxiv.org/abs/1709.06678) towards "beating" classical computers.
 
-* [Trapped ion quantum computers](https://en.wikipedia.org/wiki/Trapped_ion_quantum_computer) Use the states of an ion to simulate a qubit. People have made some [recent advances](http://iontrap.umd.edu/wp-content/uploads/2016/02/1602.02840v1.pdf)on these computers too. While it's not at all clear that's the right measuring yard, the [current best implementation](http://arxiv.org/abs/1507.08852) of Shor's algorithm (for factoring 15) is done using an ion-trap computer.
+* [Trapped ion quantum computers](https://en.wikipedia.org/wiki/Trapped_ion_quantum_computer) Use the states of an ion to simulate a qubit. People have made some [recent advances](http://iontrap.umd.edu/wp-content/uploads/2016/02/1602.02840v1.pdf) on these computers too. While it's not at all clear that's the right measuring yard, the [current best implementation](http://arxiv.org/abs/1507.08852) of Shor's algorithm (for factoring 15) is done using an ion-trap computer.
 
-* [Topological quantum computers](https://en.wikipedia.org/wiki/Topological_quantum_computer) use a different technology. This technology is more  stable by design and hence error correction is less of an issue, but scaling it is harder.
+* [Topological quantum computers](https://en.wikipedia.org/wiki/Topological_quantum_computer) use a different technology. Topological qubits are more  stable by design and hence error correction is less of an issue, but constructing  them is extremely challenging.
 
 These approaches are not mutually exclusive and it could be that ultimately quantum computers are built by combining all of them together.
-In the near future, it seems that we will not be able to achieve full fledged large scale universal quantum computers, but rather more restricted machines, sometimes called "noisy intermediate scale quantum computers (NISQ)".
+In the near future, it seems that we will not be able to achieve full fledged large scale universal quantum computers, but rather more restricted machines, sometimes called "Noisy Intermediate-Scale Quantum Computers" or  "NISQ".
 See [this article by John Preskil](https://arxiv.org/abs/1801.00862) for some of the progress and applications of such more restricted devices.
 
 
@@ -540,45 +554,85 @@ There is a polynomial-time quantum algorithm that on input an integer $M$ (repre
 :::
 
 
-Another way to state [shorthm](){.ref}  is that if we define $FACTORING:\{0,1\}^* \rightarrow \{0,1\}$ to be the function that on input a pair $(M,i,j)$ (represented as a string), outputs the $j$-th bit of the $i$-th prime factor of $M$ (or zero if $i$ is at least the number of factors or $j$ is at least the number of bits of the $i$-th factor) then $FACTORING \in \mathbf{BQP}$.
+Another way to state [shorthm](){.ref}  is that if we define $FACTORING:\{0,1\}^* \rightarrow \{0,1\}$ to be the function that on input a pair of numbers $(M,X)$ outputs $1$ if and only if $M$ has a factor $P$ such that $2 \leq P \leq X$, then $FACTORING$ is in $\mathbf{BQP}$.
 This is an exponential improvement over the best known classical algorithms, which take roughly $2^{\tilde{O}(n^{1/3})}$ time, where the $\tilde{O}$ notation hides factors that are polylogarithmic in $n$.
 We will not prove [shorthm](){.ref} in this chapter, will  sketch some of the ideas behind the proof.
 
 
-> # {.remark title="Group theory" #grouptheorem}
-While we will define the concepts we use, some   background in group or number theory might be quite helpful for fully understanding this section.
->
+### Period finding
+
+At the heart of Shor's Theorem  is an efficient quantum algorithm for finding _periods_ of a given function.
+For example, a function $f:\R \rightarrow \R$ is _periodic_ if there is some $h>0$ such that $f(x+h)=f(x)$ for every $x$ (e.g., see [periodicfig](){.ref}).
+
+![Top: A periodic function. Bottom: An a-periodic function.](../figure/periodic_vs_aperiodic.png){#periodicfig .class width=300px height=300px}
+
+
+_Musical notes_ yield one type of periodic function.
+When you pull on a string on a musical instrument, it vibrates in a repeating pattern.
+Hence, if we plot the speed of the string (and so how much pressure it exerts on the air around it) as a function of time, it will some  periodic function.
+The length of the period is known as the _wave length_ of the note.
+The _frequency_ is the number of times the function repeats itself within a unit of time.
+For example, the "Middle C" note has a frequency of $261.63$ Hertz, which means its period is $1/(261.63)$ seconds.
+
+If we play a _chord_ by playing several notes at once, we get a more complex periodic function obtained by combining the functions of the three notes.
+The human ear contain many small hairs, each of which is sensitive to a narrow band of frequencies.
+Hence when we hear the sound corresponding to a chord, our ears actually separate it out to the components corresponding to each frequency (see [timefreqfig](){.ref}).
+
+
+![Left: The air-pressure when playing a "C Major" chord as a function of time. Right: The coefficients of the Fourier transform of the same function, we can see that it is the sum of three freuencies corresponding to the C, E and G notes (261.63, 329.63 and 392 Hertz respectively). Credit: Bjarke Mønsted's [Quora answer](https://www.quora.com/What-is-the-meaning-of-frequency-domain). ](../figure/timefreq.png){#timefreqfig .class width=300px height=300px}
+
+It turns out that (essentially) _every_ periodic function $f:\R \rightarrow \R$ can be decomposed into a sum of simple _wave_  functions (namely functions of the form $x \mapsto \sin(\theta x)$ or $x \mapsto \cos(\theta x)$).
+This is known as  the [Fourier Transform](https://en.wikipedia.org/wiki/Fourier_transform) (see [qfourierfig](){.ref}).
+The Fourier transform makes it easy to compute the period of a given function: it will simply be the least common multiple of the periods of the constituent waves.
+
+
+![If $f$ is a periodic function then when we represent it in the Fourier transform, we expect the coefficients corresponding to wavelengths that do not evenly divide the period to be very small, as they would tend to "cancel out".](../figure/quantum_fourier.jpg){#qfourierfig .class width=300px height=300px}
+
+
+### Periods over general groups
+
+At a high level, Shor's algorithm uses a  procedure known as the _Quantum Fourier Transform_ to recover the period of a function $F_M$ that is related to the input number $M$, and from this period, obtain the factorization of $M$.
+However, $F_M$'s domain will not be the real numbers but rather another _group_ $\mathbb{G}$.
+Therefore we will now need to take a short detour to (very basic) _group theory_, and define the notion of periodic functions over groups.
+
+
+
+
+::: {.remark title="Group theory" #grouptheorem}
+While we define the concepts we use, some   background in group or number theory might be quite helpful for fully understanding this section.
+
 We will not use anything more than the basic properties of finite Abelian groups.
 Specifically we use the following notions:
 A finite _group_ $\mathbb{G}$ can be thought of as simply a set of elements and some _binary operation_ $\star$ on these elements (i.e., if $g,h \in \mathbb{G}$ then $g \star h$ is an element of $\mathbb{G}$ as well).
 The operation satisfies the sort of properties that a product operation does.
 It is associative (i.e., $(g \star h)\star f = g \star (h \star f)$) and there is some element $1$ such that $g \star 1 = g$ for all $g$, where for every $g\in \mathbb{G}$ there exists an element $g^{-1}$ such that $g \star g^{-1} = 1$.
-Moreover, we assume the group is _Abelian_ or _commutative_, which means that $g \star h = h \star g$ for all $g,h \in \mathbb{G}$.
+A group is  _Abelian_ or _commutative_ if  $g \star h = h \star g$ for all $g,h \in \mathbb{G}$.
 We denote by $g^2$ the element $g\star g$, by $g^3$ the element $g \star g \star g$, and so on and so forth.
 The _order_ of $g\in \mathbb{G}$ is the smallest natural number $a$ such that $g^a = 1$.
-(It can be shown that such a number exists for every $g$ in a finite group, and moreover that it is always smaller than the size of the group.)
+(It can be shown that such a number exists for every $g$ in a finite group, and moreover that it is always smaller than or equal to the size of the group.)
+:::
 
+The heart of Shor's Algorithm is an algorithm that is given as input:
 
-### Period finding
+1. A group $\mathbb{G}$, in the sense of a (classical) circuit that on input (representations of) two group elements $g,h \in \mathbb{G}$, outputs the representation of $g \star h$, where $\star$ is the group operation.
 
-The heart of Shor's algorithm is the following result:
+2. Am circuit computing a   function $f:\mathbb{G} \rightarrow \{0,1\}^*$ such that there exists a _period_ for $f$ which is a (non identity) group element $h$ such that $f(g \star h) = f(g)$ for every $g\in \mathbb{G}$.
+
+and outputs such a period $h$.
+In other words, the heart of Shor's Algorithm is the following lemma:
 
 > # {.lemma #shorlem}
 For every (efficiently presented) Abelian group $\mathbb{G}$, there is a quantum polynomial time algorithm that given a _periodic_ function $f:\mathbb{G} \rightarrow \{0,1\}^*$ finds a period of $f$.
 
-If $\mathbb{G}$ is an Abelian group with operation $\star$ and $z\in \mathbb{G}$ is not the $1$ element, then a function $f:\mathbb{G} \rightarrow \{0,1\}^*$ is _$z$ periodic_ if $f(x\star z)=f(x)$ for every $x\in \mathbb{G}$.
-The algorithm of [shorlem](){.ref} is "given"  the group
-$\mathbb{G}$ in the form of a classical algorithm (e.g., a NAND program) that computes the function $\star : \{0,1\}^n \times \{0,1\}^n \rightarrow \{0,1\}^n$, where $n$ is the number of bits that are required to represent an element of the group (which is logarithmic in the size of the group itself).
-Similarly, it is given the function $f$ in the form of a NAND program computing it.
-
-
-### From period finding to factoring and discrete log
+### From period finding to factoring (optional)
 
 Using the function $f(a)=g^a$ one can use  period finding (for the group of  $\Z_{|\mathbb{G}|}= \{0,1,2,\ldots,|\mathbb{G}|-1\}$ with modular addition) to find the _order_ of any element $g$ in a group $\mathbb{G}$, namely
 the smallest number $a$ such that $g^a = 1$.
 It turns out that  order finding can be used to factor integers in polynomial time.^[In fact, it can also be used to solve the _discrete logarithm problem_ over arbitrary Abelian groups, which means that quantum computers will break not only  RSA but also Diffie Hellman and Elliptic Curve Cryptography.]
+
 We now sketch how one reduces the factoring to order finding.
-For a num ber $M\in \N$, we denote by  $\Z^*_M$ as the group corresponding to the set  $\{ X \in [M]\;|\; gcd(X,M)=1 \}$  with the operation being multiplication modulo $M$. It is known as the _multiplicative group_ modulo $M$.
+However, the reader can feel free to skip this part, as this involves fairly standard number theoretic calculations, that in particular were known well before Shor.
+For a number $M\in \N$, we denote by  $\Z^*_M$ as the group corresponding to the set  $\{ X \in [M]\;|\; gcd(X,M)=1 \}$  with the operation being multiplication modulo $M$. It is known as the _multiplicative group_ modulo $M$.
 An _order finding algorithm_ for $\Z^*_M$ is given as input a number $X\in \Z^*_M$, and outputs the smallest positive $a$ such that $X^a = 1 (\mod M)$.
 It is polynomial time if it runs in time polynomial in the representation of elements in this group (i.e., polynomial in $\log M$).
 
@@ -602,22 +656,20 @@ Using this we can recover $\varphi(M)$ (and from it the factorization of $M$) fr
 
 
 
-### Finding periods of a function: Simon's Algorithm
+## Finding periods of a function: Simon's Algorithm
 
-
-How do we  find the period of a function? Let us consider the simplest case, where $f$ is a function from $\R$ to $\R$ that is $h^*$ periodic for some number $h^*$, in the sense that $f$ repeats itself on the intervals $[0,h^*]$, $[h^*,2h^*]$, $[2h^*,3h^*]$, etc..
-How do we find this number $h^*$?
-A standard technique in finding the period of a function $f$ is to transform  $f$ from the _time_ to the _frequency_ domain.
-That is, we use the [Fourier transform](https://en.wikipedia.org/wiki/Fourier_transform) to represent $f$ as a sum of _wave functions_.
-In this representation, wavelengths that divide the period $h^*$ would get significant mass, while wavelengths that don't "cancel out".
-
-![If $f$ is a periodic function then when we represent it in the Fourier transform, we expect the coefficients corresponding to wavelengths that do not evenly divide the period to be very small, as they would tend to "cancel out".](../figure/quantum_fourier.jpg){#qfourierfig .class width=300px height=300px}
-
-
-
-Similarly, the main idea behind Shor's algorithm is to use a tool known as the [quantum fourier transform](https://en.wikipedia.org/wiki/Quantum_Fourier_transform) that given a circuit computing the function $f:\mathbb{H}\rightarrow\R$, creates a quantum state over roughly $\log |\mathbb{H}|$ qubits (and hence dimension $|\mathbb{H}|$) that corresponds to the Fourier transform of $f$.
+As mentioned, the main idea behind Shor's algorithm is to use a tool known as the [quantum fourier transform](https://en.wikipedia.org/wiki/Quantum_Fourier_transform).
+This is an algorithm that  given a circuit computing the function $f:\mathbb{H}\rightarrow\R$, creates a quantum state over roughly $\log |\mathbb{H}|$ qubits (and hence dimension $|\mathbb{H}|$) that corresponds to the Fourier transform of $f$.
 Hence when we measure this state,  we get a group element $h$ with probability proportional to the square of the corresponding Fourier coefficient.
-One can show that if $f$ is $h^*$-periodic then we can recover $h^*$ from this distribution.
+One can show that if $f$ is $h^*$-periodic then we can recover $h^*$ by taking a polynomial number of samples from this distribution.
+
+::: {.remark title="Quantum Fourier Transform" #QFT}
+Despite its name, the Quantum Fourier Transform does _not_ actually give a way to compute the Fourier Transform of a function $f:\mathbb{H} \rightarrow \R$.
+This would be impossible to do in $\poly(\log |\mathbb{H}|)$ time, as simply writing down the Fourier Transform would require $|\mathbb{H}|$ coefficients.
+Rather the Quantum Fourier Transform gives a _quantum state_ where the amplitude corresponding to an element $h$ is equal to the corresponding Fourier coefficient.
+This allows to sample from a distribution where $h$ is drawn with probability proportional to the square of its Fourier coefficient.
+This is not the same as computing the Fourier transform, but (as we'll see) is good enough for recovering the period.
+:::
 
 Shor carried out this approach for the group $\mathbb{H}=\Z^*_M$ for some $M$  but we will show this for the group $\mathbb{H} = \{0,1\}^n$ with the XOR operation.
 This case is known as _Simon's algorithm_ (given by Dan Simon in 1994) and actually preceded (and inspired) Shor's algorithm:
@@ -866,7 +918,7 @@ This [talk and panel](https://youtu.be/GdqC2bVLesQ?t=2m51s) moderated by Brian G
 The [Feynmann lecture on the Fourier Transform](http://www.feynmanlectures.caltech.edu/I_50.html) and [quantum mechanics in general](http://www.feynmanlectures.caltech.edu/III_toc.html) are very much worth reading.
 
 The [Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform), used as a component in Shor's algorithm, is one of the most useful algorithms across many applications areas.
-The stories of its discovery by Gauss in trying to calculate asteroid orbits and rediscovery by Turkey during  the cold war are fascinating as well.
+The stories of its discovery by Gauss in trying to calculate asteroid orbits and rediscovery by Tukey during  the cold war are fascinating as well.
 
 
 
@@ -877,3 +929,5 @@ Some topics related to this lecture that might be accessible to advanced student
 
 
 ## Acknowledgements
+
+Thanks to Scott Aaronson for many helpful comments about this chapter.

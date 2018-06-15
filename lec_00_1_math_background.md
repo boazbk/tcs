@@ -887,8 +887,10 @@ Hence the path from $u$ to $v$ is also a path in the graph $G'$, which means tha
 >The claim implies [graphcontlem](){.ref} since by the inductive assumption, $|C_{G'}(u)| \leq k$, and hence by the claim $|C_G(u)| \leq k+1$, which is what we wanted to prove. This concludes the proof of [graphcontlem](){.ref} and hence also of [graphconthmpf](){.ref}. __QED ([graphcontlem](){.ref})__, __QED ([graphconthmpf](){.ref})__
 
 
+::: {.remark title="Averaging Principle" #averagingprinciplerem}
 The proof above used the observation that if the _average_ of some $n$ numbers $x_0,\ldots,x_{n-1}$ is at most $X$, then there must _exists_ at least a single number $x_i \leq X$. (In this particular proof, the numbers were the degrees of vertices in $S$.)
 This is known as the _averaging principle_, and despite its simplicity, it is often extremely useful.
+:::
 
 > # { .pause }
 Reading a proof is no less of an important skill than producing one.
