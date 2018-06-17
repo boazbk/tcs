@@ -643,6 +643,10 @@ Suppose that there is a polynomial-time order finding algorithm for $\Z^*_M$ for
 Then there is a polynomial time algorithm to find the factorization of a given integer $M$.
 
 
+::: { .pause }
+As mentioned, though the proof of  [ordertofact](){.ref} is not complicated, it is not also particularly insightful nor relevant to quantum computation. Thus, the reader can feel free to "take it on faith" and skip the proof.
+:::
+
 ::: {.proof data-ref="ordertofact"}
 We just sketch the proof. We restrict attention to the case that $M=PQ$ for two distinct primes $P$ and $Q$. (This turns out to be the most interesting  case for cryptography anyway.)
 In this case, it is known that the multiplicative group modulo $M$, denoted as $\Z^*_M$, has size $(P-1)(Q-1) = M - P - Q - 1$.
