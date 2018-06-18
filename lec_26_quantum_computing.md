@@ -109,7 +109,7 @@ If you are confused by quantum mechanics,  you are not alone: for decades people
 However, none of these interpretation have gained universal acceptance and all of those (by design) yield the same experimental predictions.
 Thus at this point many scientists prefer to just ignore the question of what is the "true reality" and go back to simply "shutting up and calculating".
 
-[^quantum]: I should warn that we are making here many simplifications. In particular while quantum amplitudes can be _complex_ numbers, we will usually restrict attention to _real_ (though potentially negative) numbers.  A;most all of the power and subtleties of quantum mechanics and quantum computing arise from allowing _negative_  numbers, and the generalization from real to complex numbers is much less important. We will also be focusing on so called "pure" quantum states, and ignore the fact that generally the states of a quantum subsystem are _mixed_ states that are a convex combination of pure states and can be described by a so called _density matrix_. This issue does not arise as much in quantum algorithms precisely because the goal is for a quantum computer is to be an isolated system that can evolve to continue to be in a pure state; in real world quantum computers however there will be interference from the outside world that causes the state to become mixed and increase its so called "von Neumann entropy". Fighting this interference and the second law of thermodynamics is much of what the challenge of building quantum computers is all about . More generally, this lecture is not meant to be a complete or accurate description of quantum mechanics, quantum information theory, or quantum computing, but rather just give a sense of the main points where it differs  from classical computing.
+[^quantum]: I should warn that we are making here many simplifications. In particular while quantum amplitudes can be _complex_ numbers, we will usually restrict attention to _real_ (though potentially negative) numbers.  A;most all of the power and subtleties of quantum mechanics and quantum computing arise from allowing _negative_  numbers, and the generalization from real to complex numbers is much less important. We will also be focusing on so called "pure" quantum states, and ignore the fact that generally the states of a quantum subsystem are _mixed_ states that are a convex combination of pure states and can be described by a so called _density matrix_. This issue does not arise as much in quantum algorithms precisely because the goal is for a quantum computer is to be an isolated system that can evolve to continue to be in a pure state; in real world quantum computers however there will be interference from the outside world that causes the state to become mixed and increase its so called "von Neumann entropy". Fighting this interference and the second law of thermodynamics is much of what the challenge of building quantum computers is all about . More generally, this chapter is not meant to be a complete or accurate description of quantum mechanics, quantum information theory, or quantum computing, but rather just give a sense of the main points where it differs  from classical computing.
 
 ## Bell's Inequality
 
@@ -193,7 +193,7 @@ relatively short resource that contains essentially everything we discuss here a
 See also this [blog post of Aaronson](http://www.scottaaronson.com/blog/?p=208) for a high level explanation of Shor's algorithm which ends with links to several more detailed expositions.
 [This lecture](http://www.scottaaronson.com/democritus/lec14.html) of Aaronson contains a great discussion of the feasibility of quantum computing (Aaronson's [course lecture notes](http://www.scottaaronson.com/democritus/default.html) and the [book](http://www.amazon.com/Quantum-Computing-since-Democritus-Aaronson/dp/0521199565) that they spawned are fantastic reads as well).
 The videos of [Umesh Variani'z EdX course](https://www.youtube.com/playlist?list=PLDAjb_zu5aoFazE31_8yT0OfzsTcmvAVg) are an accessible and recommended introduction to quantum computing.
-See the "bibliographical notes" section at the end of this lecture for more resources.
+See the "bibliographical notes" section at the end of this chapter for more resources.
 
 ## Quantum computing and computation - an executive summary.
 
@@ -862,7 +862,7 @@ The stories of its discovery by Gauss in trying to calculate asteroid orbits and
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
+Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
 
 ## Acknowledgements

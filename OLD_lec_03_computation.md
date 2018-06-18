@@ -609,7 +609,7 @@ An historical review of calculating machines can be found in Chapter I of the 19
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include:
+Some topics related to this chapter that might be accessible to advanced students include:
 
 (to be completed)
 

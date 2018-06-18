@@ -170,7 +170,7 @@ the map $F:\{0,1\}^2 \rightarrow \{0,1\}^2$ defined as $F(x_0x_1)=x_0x_1$ and th
 
 ### More general sample spaces.
 
-While in this lecture we assume that the underlying probabilistic experiment   corresponds to tossing $n$ independent coins, everything we say easily generalizes to sampling $x$ from a more general finite or countable set $S$ (and not-so-easily generalizes to uncountable sets $S$ as well).
+While in this chapter we assume that the underlying probabilistic experiment   corresponds to tossing $n$ independent coins, everything we say easily generalizes to sampling $x$ from a more general finite or countable set $S$ (and not-so-easily generalizes to uncountable sets $S$ as well).
 A _probability distribution_  over a finite set $S$ is simply a function $\mu : S \rightarrow [0,1]$ such that
 $\sum_{x\in S}\mu(s)=1$.
 We think of this as the experiment where we obtain every $x\in S$ with probability $\mu(s)$, and sometimes denote this as $x\sim \mu$.
@@ -510,7 +510,7 @@ e. It is impossible to get such low probability since there are fewer than $2^{1
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
+Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
 
 

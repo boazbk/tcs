@@ -2,7 +2,7 @@
 % Boaz Barak
 
 
-# Defining computation
+# Defining computation {#compchap }
 
 ># {.objectives  }
 * See that computation can be precisely modeled. \
@@ -278,7 +278,7 @@ There are several concerns that are raised by this definition:
 
 
 > # { .pause }
-These concerns will to a large extent guide us in the upcoming lectures. Thus you would be well advised to re-read the above informal definition and see what you think about these issues.
+These concerns will to a large extent guide us in the upcoming chapters. Thus you would be well advised to re-read the above informal definition and see what you think about these issues.
 
 
 A large part of this course will be devoted to adressing the above issues.
@@ -650,7 +650,7 @@ Prove that for every $w,t$, the function $T_{w,t}$ can be computed by a NAND pro
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include:
+Some topics related to this chapter that might be accessible to advanced students include:
 
 * Efficient constructions of circuits: finding  circuits of minimal size that compute certain functions.
 

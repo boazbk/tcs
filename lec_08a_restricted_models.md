@@ -8,7 +8,7 @@
 * See that Turing completeness is not always a good thing
 * Two important examples of non-Turing-complete, always-halting formalisms: _regular expressions_ and _context-free grammars_.
 * The pumping lemmas for both these formalisms, and examples of non regular and non context-free functions.
-* Examples of computable and uncomputable _semantic properties_ of regular expressions and context-free grammars. 
+* Examples of computable and uncomputable _semantic properties_ of regular expressions and context-free grammars.
 
 >_"Happy families are all alike; every unhappy family is unhappy in its own way"_,  Leo Tolstoy (opening of  the book "Anna Karenina").
 
@@ -17,7 +17,7 @@ We have seen that a great many models of computation are _Turing equivalent_, in
 The flip side of this is that for all these models,  Rice's theorem (see [ricethm](){.ref}) holds as well, which means that  deciding any semantic  property of programs in such a model is _uncomputable_.
 
 The uncomputability of  halting and other semantic specification problems for Turing equivalent  models motivates coming up with __restricted computational models__ that are __(a)__ powerful enough to capture a set of functions useful for certain applications but __(b)__ weak enough that we can still solve semantic specification problems on them.
-In this lecture we will discuss several such examples.
+In this chapter we will discuss several such examples.
 
 
 ## Turing completeness as a bug
@@ -40,7 +40,7 @@ The flagship of Ethereum was an experiment known as  The "Decentralized Autonomo
 The idea was to create a smart contract that would create an autonomously run decentralized venture capital fund, without human managers, were shareholders could decide on investment opportunities.
 The DAO was  the biggest crowdfunding success in history and at its height was worth 150 million dollars, which was more than ten percent of the total Ethereum market.
 Investing in the DAO (or entering any other "smart contract") amounts to providing your funds to be run by a computer program. i.e., "code is law", or to use the words the DAO described itself: "The DAO is borne from immutable, unstoppable, and irrefutable computer code".
-Unfortunately, it turns out that (as we'll see in the next lecture) understanding the behavior of Turing-complete computer programs is quite a hard thing to do.
+Unfortunately, it turns out that (as we saw in [chapcomputable](){.ref}) understanding the behavior of Turing-complete computer programs is quite a hard thing to do.
 A hacker (or perhaps, some would say, a savvy investor) was able to fashion an input that would cause the DAO code to essentially enter into an infinite recursive loop in which it continuously transferred funds into their account, thereby [cleaning out about 60 million dollars](https://www.bloomberg.com/features/2017-the-ether-thief/) out of the DAO.
 While this transaction was "legal" in the sense that it complied with the code of the smart contract, it was obviously not what the humans who wrote this code had in mind.
 There was a lot of debate in the Ethereum community how to handle this, including some partially successful "Robin Hood" attempts to use the same loophole to drain the DAO funds into a secure account.
@@ -742,7 +742,7 @@ State the full Rice's Theorem and say that it follows from the same proof as in 
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
+Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
 
 ## Acknowledgements

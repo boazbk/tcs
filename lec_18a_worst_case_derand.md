@@ -21,7 +21,7 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
+Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
 
 ## Acknowledgements

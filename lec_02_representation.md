@@ -38,7 +38,7 @@ To a first approximation, computation can be thought of as a process that maps a
 When discussing computation, it is important to separate the question of  __what__ is the task we need to perform (i.e., the _specification_) from the question of __how__ we achieve this task (i.e., the _implementation_).
 For example, as we've seen, there is more than one way to achieve the computational task of computing the product of two integers.
 
-In this lecture we  focus on the **what** part, namely defining  computational tasks.
+In this chapter we  focus on the **what** part, namely defining  computational tasks.
 For starters, we need to define the inputs and outputs.
 A priori this seems nontrivial, since computation today is applied to a huge variety  of objects.
 We do not compute  merely on numbers, but also on texts, images, videos, connection graphs of social networks, MRI scans, gene data, and even other programs.
@@ -57,7 +57,7 @@ What's more, once information is in digital form, we can _compute_ over it, and 
 At the heart of this revolution is this simple but profound observation that we can represent an unbounded variety of objects using a finite set of symbols (and in fact  using only the two symbols ```0``` and ```1```).^[There is nothing "holy" about using zero and one as the basic symbols, and we can (indeed sometimes people do) use any other finite set of two or more symbols as the fundamental "alphabet". We use zero and one in this course mainly because it simplifies notation.]
 
 In later lectures, we will often fall back on taking this  representation for granted, and hence write something like "program $P$ takes $x$ as input" when $x$ might be a number, a vector, a graph, or any other objects,  when we really mean that $P$ takes as input the _representation_ of $x$ as a binary string.
-However, in this lecture, let us dwell a little bit on how such representations can be devised.
+However, in this chapter, let us dwell a little bit on how such representations can be devised.
 
 ## Examples of binary representations
 
@@ -748,7 +748,7 @@ This transformation of input to output can be done using a modern computer, a pe
 
 ![A computational process](../figure/computation.png){#figureid .class width=300px height=300px}
 
-In future lectures, we will turn to mathematically defining  computational process, but, as we discussed above for now we want to focus on _computational tasks_; i.e., focus on the __specification__ and not the __implementation__.
+In future chapters, we will turn to mathematically defining  computational process, but, as we discussed above for now we want to focus on _computational tasks_; i.e., focus on the __specification__ and not the __implementation__.
 Again, at an abstract level, a computational task can specify any relation that the output needs to have with the input.
 But for most of this course, we will focus on the simplest and most common task of _computing a  function_.
 Here are some examples:
@@ -787,7 +787,7 @@ We will be interested in questions such as:
 
 * Can a function being hard to compute ever be a _good thing_? Can we use it for applications in areas such as cryptography?
 
-In order to do that, we will need to mathematically define the notion of an _algorithm_, which is what we'll do in the next lecture.
+In order to do that, we will need to mathematically define the notion of an _algorithm_, which is what we'll do in [compchap](){.ref}.
 
 ### Distinguish functions from programs
 
@@ -935,14 +935,14 @@ f. Combine a-e to get a contradiction to the assumption that there is one-to-one
 
 The idea that we should separate the _definition_ or _specification_ of a function from its _implementation_ or _computation_ might seem "obvious", but it took some time for mathematicians to arrive at this viewpoint.
 Historically, a function $F$ was  identified by  rules or formulas showing  how to derive the output from the input.
-As we discuss in greater  depth in our lecture on uncomputability, in the 1800's this somewhat informal notion of a function started "breaking at the seams" and eventually mathematicians arrived at the more rigorous definition of  a function as an arbitrary assignment of input to outputs.
+As we discuss in greater  depth in  [chapcomputable](){.ref}, in the 1800's this somewhat informal notion of a function started "breaking at the seams" and eventually mathematicians arrived at the more rigorous definition of  a function as an arbitrary assignment of input to outputs.
 While many  functions may be described (or computed) by one or more  formulas, today we do not consider that to be an essential property of functions, and also allow functions that do not correspond to any "nice" formula.
 
 Gromov and Pomerantz's quotes are lifted from [Doron Zielberger's page](http://sites.math.rutgers.edu/~zeilberg/quotes.html).
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include:
+Some topics related to this chapter that might be accessible to advanced students include:
 
 * _Succinct_ data structures. These are representations that map objects from some set $\mathcal{O}$ into strings of length not much larger than the minimum of $\log_2 |\mathcal{O}|$ but still enable fast access to certain queries, see for example [this paper](https://people.csail.mit.edu/mip/papers/succinct/succinct.pdf).
 

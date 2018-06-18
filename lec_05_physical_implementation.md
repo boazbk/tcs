@@ -21,7 +21,7 @@ We have seen a _Python_ program that can evaluate NAND programs,
 and so if we have a NAND program $P$, we can use any computer with Python installed on it to evaluate $P$ on inputs of our choice.
 But do we really need modern computers and programming languages to run NAND programs?
 And can we understand more directly how we can map such programs to actual physical processes that produce an output from an input?
-This is the content of this lecture.
+This is the content of this chapter.
 
 We will also talk about the following "dual" question.
 Suppose we have some way to compute a function $F:\{0,1\}^n \rightarrow \{0,1\}$ using roughly an $s$ amount of "physical resources" such as material, energy, time, etc..
@@ -475,7 +475,7 @@ Aaronson's [survey on  NP complete problems and physical reality](http://www.arx
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include:
+Some topics related to this chapter that might be accessible to advanced students include:
 
 * The notion of the fundamental limits for information and their interplay with physics, is still not well understood.
 

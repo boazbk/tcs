@@ -303,7 +303,7 @@ Given that Goldbach's Conjecture has been open since 1742, it is unclear that hu
 ### Reductions
 
 The Halting problem turns out to be a linchpin of uncomputability, in the sense that [halt-thm](){.ref} has been used to show the uncomputability of a great many interesting functions.
-We will see several  examples in such results in the lecture and the exercises, but there are many more such results in the literature (see [haltreductions](){.ref}).
+We will see several  examples in such results in this chapter and the exercises, but there are many more such results in the literature (see [haltreductions](){.ref}).
 
 
 The idea behind such uncomputability results is conceptually simple but can  at first be quite confusing.
@@ -323,7 +323,7 @@ The one silver lining is that at the end of the day the notion of reductions is 
 
 
 
-![Some of the functions that have been proven uncomputable. An arrow from problem X to problem Y means that the proof that Y is uncomputable follows by reducing computing X to computing Y.  Black arrows correspond to proofs that are shown in this and the next lecture while pink arrows correspond to proofs that are known but not shown here. There are  many other functions that have been shown uncomputable via a reduction from the Halting function $HALT$. ](../figure/reductions_from_halting.png){#haltreductions .class width=300px height=300px}
+![Some of the functions that have been proven uncomputable. An arrow from problem X to problem Y means that the proof that Y is uncomputable follows by reducing computing X to computing Y.  Black arrows correspond to proofs that are shown in this text while pink arrows correspond to proofs that are known but not shown here. There are  many other functions that have been shown uncomputable via a reduction from the Halting function $HALT$. ](../figure/reductions_from_halting.png){#haltreductions .class width=300px height=300px}
 
 ^[TODO: clean up this figure]
 
@@ -680,7 +680,7 @@ See [here](https://gowers.wordpress.com/2017/09/19/two-infinities-that-are-surpr
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
+Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
 
 ## Acknowledgements

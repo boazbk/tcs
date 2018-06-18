@@ -18,7 +18,7 @@
 One of the most significant results we showed for NAND programs is the notion of _universality_: that a NAND program can evaluate other NAND programs.
 However, there was a significant caveat in this notion. To evaluate a NAND program of $s$ lines, we needed to use a bigger number of lines than $s$.
 It turns out that NAND++ allows us to "break out of this cycle" and obtain a truly _universal NAND++_ program $U$ that can evaluate all other programs, including programs that have more lines than $U$ itself.
-(As we'll see in the next lecture, this is not something special to NAND++ but is a feature of many other computational models.)
+(This is not something special to NAND++ but is a feature of many other computational models.)
 The existence of such a universal program has far reaching applications.
 Indeed, it is no exaggeration to say that the existence of a  universal program underlies the information technology revolution that began in the latter half of the 20th century (and is still ongoing).
 Up to that point in history, people have produced various special-purpose calculating devices, from the abacus, to the slide ruler, to machines to compute trigonometric series.
@@ -428,7 +428,7 @@ As we've seen in these lectures, in a qualitative sense these two models are als
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
+Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
 
 ## Acknowledgements

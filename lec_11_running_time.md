@@ -1,7 +1,7 @@
 % Running time definition
 % Boaz Barak
 
-# Modeling running time
+# Modeling running time { #chapmodelruntime }
 
 > # { .objectives }
 * Formally modeling  running time, and in particular notions such as $O(n)$ or $O(n^3)$ time algorithms. \
@@ -17,8 +17,8 @@ belong to the class of multitape Turing machines.", Juris Hartmanis and Richard 
 
 
 
-In the last lecture we saw examples of efficient algorithms, and made some claims about their running time, but did not give a mathematically precise definition for this concept.
-We do so in this lecture, using the NAND++ and NAND<< models we have seen before.
+In [chapefficient](){.ref} we saw examples of efficient algorithms, and made some claims about their running time, but did not give a mathematically precise definition for this concept.
+We do so in this chapter, using the NAND++ and NAND<< models we have seen before.
 Since we think of programs  that can take as input a string of arbitrary length, their running time is not a fixed number but rather what we are interested in is measuring the _dependence_ of the number of steps the program takes on the length of the input.
 That is, for any program $P$, we will be interested in the maximum number of steps that $P$ takes on inputs of length $n$ (which we often denote as $T(n)$).^[Because we are interested in the _maximum_ number of steps for inputs of a given length, this concept is often known as _worst case complexity_. The _minimum_ number of steps (or "best case" complexity) to compute a function on length $n$ inputs is typically not a meaningful quantity since essentially every natural problem will have some trivially easy instances. However, the _average case complexity_ (i.e., complexity on a "typical" or "random" input) is an interesting  concept which we'll return to when we discuss _cryptography_. That said, worst-case complexity is the most standard and basic of the complexity measures, and will be our focus in most of this course.]
 For example, if a function $F$ can be computed by a NAND<< (or NAND++) program that on inputs of length $n$ takes $O(n)$ steps then we will think of $F$ as "efficiently computable",  while if any such program  requires $2^{\Omega(n)}$ steps to compute $F$ then we consider $F$ "intractable".
@@ -71,7 +71,7 @@ Please make sure you understand why  [PandEXPdef](){.ref} and the bullets above 
 
 
 Since exponential time is much larger than polynomial time, clearly $\mathbf{P}\subseteq \mathbf{EXP}$.
-All of the problems we listed in the last lecture are in $\mathbf{EXP}$,^[Strictly speaking, many of these problems correspond to _non Boolean_ functions, but we will sometimes "abuse notation" and refer to non Boolean functions as belonging to $\mathbf{P}$ or $\mathbf{EXP}$. We can easily extend the definitions of these classes to non Boolean and partial functions. Also, for every non-Boolean function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, we can define a Boolean variant $Bool(F)$ such that $F$ can be computed in polynomial time if and only if  $Bool(F)$ is.] but as we've seen, for some of them there are much better algorithms that demonstrate that they are in fact in $\mathbf{P}$.
+All of the problems we listed in [chapefficient](){.ref} are in $\mathbf{EXP}$,^[Strictly speaking, many of these problems correspond to _non Boolean_ functions, but we will sometimes "abuse notation" and refer to non Boolean functions as belonging to $\mathbf{P}$ or $\mathbf{EXP}$. We can easily extend the definitions of these classes to non Boolean and partial functions. Also, for every non-Boolean function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, we can define a Boolean variant $Bool(F)$ such that $F$ can be computed in polynomial time if and only if  $Bool(F)$ is.] but as we've seen, for some of them there are much better algorithms that demonstrate that they are in fact in $\mathbf{P}$.
 
 
 | $\mathbf{P}$  | $\mathbf{EXP}$ (but not known to be in $\mathbf{P}$) |
@@ -84,7 +84,7 @@ All of the problems we listed in the last lecture are in $\mathbf{EXP}$,^[Strict
 | Determinant              | Permanent                 |
 | Primality                | Factoring                 |
 
-A table of the  examples from the previous lecture.
+A table of the  examples from [chapefficient](){.ref}.
 All these problems are in $\mathbf{EXP}$ but the only the ones on the left column are currently known to be in $\mathbf{P}$ (i.e., have a polynomial-time algorithm).
 
 
@@ -422,7 +422,7 @@ That said, as we mentioned before  _quantum computing_, if realized, does pose  
 However, even if the promises of quantum computing are fully realized, it still seems that the extended Church-Turing thesis is fundamentally or "morally" correct, in the sense that, while we do need to adapt the thesis to account for the possibility of quantum computing, its broad outline remains unchanged.
 We are still able to model computation mathematically, we can still treat programs as strings and have a universal program,  and we still have hierarchy and uncomputability results.^[Note that indeed, quantum computing is _not_ a challenge to the Church Turing itself, as a function is computable by a quantum computer if and only if it is computable by a "classical" computer or a NAND++ program. It is only the running time of computing the  function that can be affected by moving to the quantum model. ]
 Moreover, for most (though not all!) concrete problems we care about, the prospect of quantum computing does not seem to change their time complexity.
-In particular, out of all the example problems mentioned in the previous lecture, as far as we know, the complexity of only one--- integer factoring--- is affected by modifying our model to include quantum computers as well.
+In particular, out of all the example problems mentioned in [chapefficient](){.ref}, as far as we know, the complexity of only one--- integer factoring--- is affected by modifying our model to include quantum computers as well.
 
 ## Lecture summary
 
@@ -467,7 +467,7 @@ Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}$, $F\in \mathbf{P}$ if and
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
+Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
 
 ## Acknowledgements

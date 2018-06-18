@@ -25,7 +25,7 @@
 
 We have mentioned that the question of whether $\mathbf{P}=\mathbf{NP}$, which is equivalent to whether there is a polynomial-time algorithm for $3SAT$, is the great open question of Computer Science.
 But why is it so important?
-In this lecture, we will try to figure out the implications of such an algorithm.
+In this chapter, we will try to figure out the implications of such an algorithm.
 
 First, let us get one qualm out of the way.
 Sometimes people say, _"What if $\mathbf{P}=\mathbf{NP}$ but the best algorithm for 3SAT takes $n^{100}$ time?"_
@@ -44,7 +44,7 @@ and
 
 
 So far, most of our evidence points to the latter possibility of 3SAT being exponentially hard, but we have not ruled out the former possibility either.
-In this lecture we will explore some of its consequences.
+In this chapter  we will explore some of its consequences.
 
 ## Search-to-decision reduction
 
@@ -173,7 +173,7 @@ We will discuss _cryptography_ later in this course, but it turns out that if $\
 One approach is to treat finding an encryption key as an instance of a supervised learning problem.
 If there is an encryption scheme that maps a "plaintext" message $p$ and a key $\theta$ to a "ciphertext" $c$, then given examples of ciphertext/plaintext pairs of the form $(c_0,p_0),\ldots,(c_{m-1},p_{m-1})$, our goal is to find the key $\theta$ such that $E(\theta,p_i)=c_i$ where $E$ is the encryption algorithm.
 While you might think  getting such "labeled examples" is unrealistic, it turns out (as many amateur homebrew crypto designers learn the hard way) that this is actually quite common in real-life scenarios, and that it is also possible to relax the assumption to having more minimal prior information about the plaintext (e.g., that it is English text).
-We defer a more formal treatment to our lecture on cryptography.
+We defer a more formal treatment to [chapcryptography](){.ref}.
 
 
 
@@ -408,7 +408,7 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
+Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
 * Polynomial hieararchy hardness for circuit minimization and related problems, see for example [this paper](http://users.cms.caltech.edu/~umans/papers/BU07.pdf).
 

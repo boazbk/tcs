@@ -9,7 +9,7 @@
 * Understand one of the most important concepts in computing: duality between code and data. \
 * Build up comfort in moving between different representations of programs. \
 * Follow the construction of a "universal NAND program" that can evaluate other NAND programs given their representation. \
-* See and understand the  proof of a major result that compliments the result last lecture: some functions require an _exponential_ number of NAND lines to compute.
+* See and understand the  proof of a major result that compliments the result last chapter: some functions require an _exponential_ number of NAND lines to compute.
 * Understand the _physical extended Church-Turing thesis_ that NAND programs capture _all_ feasible computation in the physical world, and its physical and philosophical implications.
 
 
@@ -325,7 +325,7 @@ There are even simpler machine languages, such as the [LEG acrhitecture](https:/
 Other examples include the  [TinyRAM](http://www.scipr-lab.org/doc/TinyRAM-spec-0.991.pdf) architecture (motivated by  interactive proof systems that we will discuss much later in this course) and  the teaching-oriented [Ridiculously Simple Computer](https://www.ece.umd.edu/~blj/RiSC/) architecture.^[The reverse direction of compiling NAND to C code, is much easier. We show code for a `NAND2C` function in the appendix.]
 
 Going one by one over the instruction sets of such computers and translating them to NAND snippets is no  fun, but it is a feasible thing to do.
-In fact, ultimately this is very similar to the transformation that takes place in converting our high level code to actual silicon gates that (as we will see in the next lecture) are not so different from the operations of a NAND program.
+In fact, ultimately this is very similar to the transformation that takes place in converting our high level code to actual silicon gates that are not so different from the operations of a NAND program.
 Indeed, tools such as [MyHDL](http://www.myhdl.org/) that transform "Python to Silicon" can be used to convert a Python program to a NAND program.
 
 The NAND programming language is just a teaching tool, and by no means do I suggest that writing NAND programs, or compilers to NAND, is a practical, useful, or even enjoyable activity.
@@ -422,7 +422,7 @@ Can NAND programs simulate any physical computer?
 
 
 We can take a leap of faith and stipulate that NAND programs do actually encapsulate _every_ computation that we can think of.
-Such a statement (in the realm of infinite functions, which we'll encounter in a couple of lectures) is typically attributed to Alonzo Church and Alan Turing, and in that context is  known as the _Church Turing Thesis_.
+Such a statement (in the realm of infinite functions, which we'll encounter in [chaploops](){.ref}) is typically attributed to Alonzo Church and Alan Turing, and in that context is  known as the _Church Turing Thesis_.
 As we will discuss in future lectures, the Church-Turing Thesis is not a mathematical theorem or conjecture.
 Rather, like theories in physics, the Church-Turing Thesis is about mathematically modelling the real world.
 In the context of finite functions, we can make the following informal hypothesis or prediction:
@@ -506,7 +506,7 @@ However, the main take away is that while quantum computing does suggest we need
 
 > # {.remark title="PECTT in practice" #PECTTpractice}
 While even the precise phrasing of the PECTT, let alone understanding its correctness, is still a subject of research, some variant of it is already implicitly assumed in practice.
-A statement such as "this cryptosystem provides 128 bits of security" really means that __(a)__ it is conjectured that there is no Boolean circuit (or, equivalently, a NAND gate) of size much smaller than $2^{128}$ that can break the system,^[We say "conjectured" and not "proved" because, while we can phrase such a  statement as a precise mathematical conjecture, at the moment we are unable to _prove_ such a statement for any cryptosystem. This is related to the P vs NP question we will discuss in future lectures] and __(b)__ we assume that no other physical mechanism can do better, and hence it would take roughly a $2^{128}$ amount of "resources" to break the system.
+A statement such as "this cryptosystem provides 128 bits of security" really means that __(a)__ it is conjectured that there is no Boolean circuit (or, equivalently, a NAND gate) of size much smaller than $2^{128}$ that can break the system,^[We say "conjectured" and not "proved" because, while we can phrase such a  statement as a precise mathematical conjecture, at the moment we are unable to _prove_ such a statement for any cryptosystem. This is related to the $\mathbf{P}$ vs $\mathbf{NP}$ question we will discuss in future chapters.] and __(b)__ we assume that no other physical mechanism can do better, and hence it would take roughly a $2^{128}$ amount of "resources" to break the system.
 
 
 
@@ -560,12 +560,12 @@ Prove that there is a constant $c$ such that for every $n$, there is some functi
 ^[TODO: $EVAL$ is known as _Circuit Evaluation_ typically. More references regarding oblivious RAM etc..]
 
 Scott Aaronson's blog post on how [information is physical](http://www.scottaaronson.com/blog/?p=3327) is a good discussion on issues related to the physical extended Church-Turing Physics.
-Aaronson's [survey on  NP complete problems and physical reality](http://www.arxiv.org/abs/quant-ph/0502072) is also a great source for some of these issues, though might be easier to read after we reach the lectures on NP and NP completeness.
+Aaronson's [survey on  NP complete problems and physical reality](http://www.arxiv.org/abs/quant-ph/0502072) is also a great source for some of these issues, though might be easier to read after we reach [cooklevinchap](){.ref} on $\mathbf{NP}$  and $\mathbf{NP}$-completeness.
 
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include:
+Some topics related to this chapter that might be accessible to advanced students include:
 
 * Lower bounds. While we've seen the "most" functions mapping $n$ bits to one bit require NAND programs of exponential size $\Omega(2^n/n)$, we actually do not know of any _explicit_ function for which we can _prove_ that it requires, say, at least $n^{100}$ or even $100n$ size. At the moment, strongest such lower bound we know is that there are quite simple and explicit $n$-variable functions that require at least $(5-o(1))n$ lines to compute, see [this paper of Iwama et al](http://www.wisdom.weizmann.ac.il/~ranraz/publications/P5nlb.pdf) as well as this more recent [work of Kulikov et al](http://logic.pdmi.ras.ru/~kulikov/papers/2012_5n_lower_bound_cie.pdf).
 Proving lower bounds for restricted models of straightline programs (more often described as _circuits_) is an extremely interesting research area, for which [Jukna's book](http://www.thi.informatik.uni-frankfurt.de/~jukna/boolean/index.html) provides  very good introduction  and overview.

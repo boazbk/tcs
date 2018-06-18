@@ -476,7 +476,7 @@ Aaronson's [survey on  NP complete problems and physical reality](http://www.arx
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include:
+Some topics related to this chapter that might be accessible to advanced students include:
 
 * The notion of the fundamental limits for information and their interplay with physics, is still not well understood.
 

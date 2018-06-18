@@ -8,7 +8,7 @@
 
 
 
-These are lecture notes for an undergraduate introductory course on Theoretical Computer Science.
+This is a textbook for an undergraduate introductory course on Theoretical Computer Science.
 The educational goals of this course are to convey the following:
 
 * That  computation but arises in a variety of natural and manmade systems, and not only in  modern silicon-based computers.
@@ -27,7 +27,7 @@ Students should understand the concept that some problems are intractable, and h
 While this course only touches on  cryptography, students should understand the basic idea of how computational hardness can be utilized for cryptographic purposes.
 But more than any specific skill, this course aims to introduce students to a new way of thinking of computation as an object in its own right, and illustrate how this new way of thinking leads to far reaching insights and applications.
 
-My aim in writing these notes is to try to convey these concepts in the simplest possible way and try to make sure that the formal notation and model help elucidate, rather than obscure, the main ideas.
+My aim in writing this text is to try to convey these concepts in the simplest possible way and try to make sure that the formal notation and model help elucidate, rather than obscure, the main ideas.
 I also tried to take advantage of modern students' familiarity (or at least interest!) in programming, and hence use (highly simplified) programming languages as the main model of computation, as opposed to automata or Turing machines.
 That said, this course does not really assume fluency with any particular programming language, but more a familiarity with the general _notion_ of programming.
 We will use programming metaphors and idioms, occasionally mentioning concrete languages such as _Python_, _C_, or _Lisp_, but students should be able to follow these descriptions even if they are not familiar with these languages.
@@ -101,7 +101,7 @@ This can help in planning out a course based on this book.
 
 ## Acknowledgements
 
-These lecture notes are constantly evolving, and I am getting input from many people, for which I am deeply grateful.
+This text is  constantly evolving, and I am getting input from many people, for which I am deeply grateful.
 Thanks to Scott Aaronson, Michele Amoretti, Sam Benkelman, Jarosław Błasiok, Christy Cheng, Daniel Chiu, Chi-Ning Chou, Michael Colavita, Robert Darley Waddilove, Juan Esteller,  Leor Fishman, William Fu, Mark Goldstein,  Chan Kang, Estefania Lahera, Allison Lee, Ondřej Lengál, Raymond Lin, Emma Ling, Alex Lombardi, Lisa Lu, Aditya Mahadevan, Jacob Meyerson, Hamish Nicholson, Sebastian Oberhoff, Thomas Orton, Juan Perdomo, Aaron Sachs, Brian Sapozhnikov, Peter Schäfer, Josh Seides, Alaisha Sharma, Hikari Sorensen, Alec Sun, Everett Sussman, Garrett Tanzer, Sarah Turnill, Salil Vadhan, Ryan Williams, Wanqian Yang, Josh Zelinsky, and Jessica Zhu for helpful feedback. I will keep adding names here as I get more comments.
 If you have any comments or suggestions, please do post them on the GitHub repository [https://github.com/boazbk/tcs](https://github.com/boazbk/tcs).
 

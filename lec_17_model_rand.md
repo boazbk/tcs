@@ -1,7 +1,7 @@
 % Modeling randomized algorithms
 % Boaz Barak
 
-#  Modeling randomized computation
+#  Modeling randomized computation  { #chapmodelrand }
 
 > # { .objectives }
 * Formal definition of probabilistic polynomial time: $\mathbf{BPTIME}(T(n))$ and $\mathbf{BPP}$. \
@@ -28,7 +28,7 @@ Therefore, to use the resulting measurements for randomized algorithms, one typi
 
 ![A mechanical coin tosser built for Percy Diaconis by  Harvard technicians Steve Sansone and Rick Haggerty](../figure/coin_tosser.jpg){#coinfig .class width=300px height=300px}
 
-In this lecture we focus on the second point - formally modeling probabilistic computation and studying its power.
+In this chapter we focus on the second point - formally modeling probabilistic computation and studying its power.
 Modeling randomized computation is actually quite easy.
 We can add the following operations to our NAND, NAND++ and NAND<< programming languages:
 
@@ -109,7 +109,7 @@ This second or "auxiliary" input is sometimes referred to as a "random tape", wi
 ### Amplification
 
 
-The number $2/3$ might seem arbitrary, but as we've seen in the previous lecture it can be amplified to our liking:
+The number $2/3$ might seem arbitrary, but as we've seen in [randomizedalgchap](){.ref} it can be amplified to our liking:
 
 > # {.theorem title="Amplification" #amplificationthm}
 Let $P$ be an RNAND<< program,  $F\in \{0,1\}^* \rightarrow \{0,1\}$,
@@ -134,7 +134,7 @@ There is nothing special about NAND<< in [amplificationthm](){.ref}. The same pr
 ## $\mathbf{BPP}$ and $\mathbf{NP}$ completeness
 
 Since "noisy processes" abound in nature, randomized algorithms can be realized physically, and so it is reasonable to propose $\mathbf{BPP}$ rather than $\mathbf{P}$ as our mathematical model for "feasible" or "tractable" computation.
-One might wonder if this makes all the previous lectures irrelevant, and in particular does the theory of $\mathbf{NP}$ completeness still apply to probabilistic algorithms.
+One might wonder if this makes all the previous chapters irrelevant, and in particular does the theory of $\mathbf{NP}$ completeness still apply to probabilistic algorithms.
 Fortunately, the answer is _Yes_:
 
 > # {.theorem title="NP hardness and  BPP" #NPCandBPP}
@@ -275,7 +275,7 @@ For example, one can use the digits of $\pi$ for the random tape.
 Using these type of methods corresponds to   what von Neumann referred to as a "state of sin".
 (Though   this is a sin that he himself frequently committed, as generating true randomness in sufficient quantity was and still is often too expensive.)
 The reason that this is considered a "sin" is that such a  procedure will not work in general.
-For example, it is easy to  modify any probabilistic algorithm $A$ such as the ones we have seen in the previous lecture, to an algorithm $A'$ that is _guaranteed to fail_ if the random tape happens to equal the digits of $\pi$.
+For example, it is easy to  modify any probabilistic algorithm $A$ such as the ones we have seen in [#randomizedalgchap](){.ref}, to an algorithm $A'$ that is _guaranteed to fail_ if the random tape happens to equal the digits of $\pi$.
 This means that the procedure  "replace the random tape by the digits of $\pi$" does not yield a _general_ way to transform a probabilistic algorithm to a deterministic one that will solve the same problem.
 Of course,  this procedure does not _always_ fail, but we have no good way to determine when it fails and when it succeeds.
 This reasoning is not specific to $\pi$ and holds for every deterministically produced string, whether it obtained by  $\pi$,  $e$, the Fibonacci series, or anything else.
@@ -346,7 +346,7 @@ By _interesting_ we mean pseudorandom generators that satisfy that $\epsilon$ is
 Nevertheless, [prgexist](){.ref} (whose statement and proof is deferred to the end of this chapter) shows that if we only drop the last  condition (polynomial-time computability), then there do in fact exist pseudorandom generators where $m$ is _exponentially larger_  than $\ell$.
 
 > # { .pause }
-At this point you might want to skip ahead and  look at the _statement_ of [prgexist](){.ref}. However, since its _proof_ is somewhat subtle, I recommend you defer reading it until you've finished reading the rest of this lecture.
+At this point you might want to skip ahead and  look at the _statement_ of [prgexist](){.ref}. However, since its _proof_ is somewhat subtle, I recommend you defer reading it until you've finished reading the rest of this chap.
 
 ### From existence to constructivity
 
@@ -496,7 +496,7 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
+Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
 
 

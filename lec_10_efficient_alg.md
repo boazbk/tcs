@@ -1,7 +1,7 @@
 % Efficient computation
 % Boaz Barak
 
-#  Efficient computation
+#  Efficient computation { #chapefficient }
 
 > # { .objectives }
 * Describe at a high level some interesting computational problems. \
@@ -21,11 +21,11 @@ But now we return to _quantitative considerations_ and study the time that it ta
 One of the interesting phenomenona of computing is that there is often a kind of a "[thershold phenomenon](http://www.ma.huji.ac.il/~kalai/ML.pdf)" or "zero one law" for running time, where for many natural problems, they either can be solved in _polynomial_ running time (e.s., something like $O(n^2)$ or $O(n^3)$), or require _exponential_ (e.g., at least $2^{\Omega(n)}$ or $2^{\Omega(\sqrt{n})}$) running time.
 The reasons for this phenomenon are still not fully understood, but some light on this is shed by the concept of _NP completeness_, which we will encounter later.
 
-In this lecture we will survey some examples of computational problems, for some of which we know efficient (e.g., $n^c$-time for a small constant $c$) algorithms, and for others the best known algorithms are exponential.
+In this chapter we will survey some examples of computational problems, for some of which we know efficient (e.g., $n^c$-time for a small constant $c$) algorithms, and for others the best known algorithms are exponential.
 We want to get a feel as to the kinds of problems that lie on each side of this divide and also see how some seemingly minor changes in formulation can make the (known) complexity of a problem "jump" from polynomial to exponential.
 
 In this lecture, we will not formally define the notion of running time, and so use the same notion of an $O(n)$ or $O(n^2)$ time algorithms as the one you've seen in an intro to CS course: "I know it when I see it".
-In the next lecture, we will define this notion precisely, using our NAND++ and NAND<< programming languages.
+In [chapmodelruntime](){.ref}, we will define this notion precisely, using our NAND++ and NAND<< programming languages.
 One of the nice things about the theory of computation is that it turns out that, like in the context of computability, the details of the precise computational model or programming language don't matter that much, especially if you mostly care about the distinction between polynomial and exponential time.
 
 ## Problems on graphs
@@ -439,6 +439,6 @@ Eugene Lawler's quote on  the "mystical power of twoness"  was taken from the wo
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
+Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
 ## Acknowledgements

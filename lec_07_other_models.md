@@ -17,9 +17,9 @@
 
 So far we have defined the notion of computing a  function based on the rather esoteric NAND++ programming language.
 While we have shown this is equivalent with Turing machines, the latter also don't correspond closely to the way computation is typically done these days.
-In this lecture we justify this choice by showing that the definition of computable functions will remain the same under a wide variety of computational models.
+In this chapter we justify this choice by showing that the definition of computable functions will remain the same under a wide variety of computational models.
 In fact, a widely believed claim known as the _Church-Turing Thesis_ holds that _every_ "reasonable" definition of computable function is equivalent to ours.
-We will discuss the Church-Turing Thesis and the potential definitions of "reasonable" at the end of this lecture.
+We will discuss the Church-Turing Thesis and the potential definitions of "reasonable" in [churchturingdiscussionsec](){.ref}.
 
 ## RAM machines and NAND<<
 
@@ -961,7 +961,7 @@ Some examples of Turing Equivalent models include:
 * Programming languages such as Python/C/Javascript/OCaml... (allowing for unbounded storage)
 
 
-## The Church-Turing Thesis (discussion)
+## The Church-Turing Thesis (discussion) {#churchturingdiscussionsec }
 
 We have defined functions to be _computable_ if they can be computed by a NAND++ program, and we've seen that the definition would remain the same if we replaced NAND++ programs by Python programs, Turing machines, $\lambda$ calculus,  cellular automata, and many other computational models.
 The _Church-Turing thesis_ is that this is the only sensible definition of "computable" functions.
@@ -1034,7 +1034,7 @@ Prove that for every $\lambda$-expression $e$ with no free variables there is an
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include:
+Some topics related to this chapter that might be accessible to advanced students include:
 
 * Tao has [proposed](https://terrytao.wordpress.com/2014/02/04/finite-time-blowup-for-an-averaged-three-dimensional-navier-stokes-equation/) showing the Turing completeness of fluid dynamics (a "water computer") as a way of settling the question of the behavior of the Navier-Stokes equations, see this [popular article](https://www.quantamagazine.org/terence-tao-proposes-fluid-new-path-in-navier-stokes-problem-20140224/.)
 

@@ -1,7 +1,7 @@
 % Polynomial time reductions
 % Boaz Barak
 
-#  Polynomial-time reductions
+#  Polynomial-time reductions {#reductionchap }
 
 > # { .objectives }
 * Introduce the notion of _polynomial-time reductions_ as a way to relate the complexity of problems to one another. \
@@ -33,7 +33,7 @@ All of these have the following properties:
 * At the moment, for all these problems the best known algorithms are not much better than the trivial one in the worst case.
 
 
-In this lecture and the next one we will see that, despite their apparent differences, we can relate these problems by their complexity.
+In this chapter and  in [cooklevinchap](){.ref} we will see that, despite their apparent differences, we can relate these problems by their complexity.
 In fact, it turns out that all these problems are _computationally equivalent_, in the sense that solving one of them immediately implies solving the others.
 This phenomenon, known as _$\mathbf{NP}$ completeness_, is one of the surprising discoveries of theoretical computer science, and we will see that it has far-reaching ramifications.
 
@@ -97,7 +97,7 @@ We will now  use reductions to  relate the computational complexity of the   pro
 We start by  reducing 3SAT to the latter three problems, demonstrating that solving any one of them will solve 3SAT.
 Along the way we will introduce one more problem: the _independent set_  problem.
 Like the others, it shares the characteristics that it is an important and well-motivated computational problem, and that the best known algorithm for it takes exponential time.
-In the next lecture we will show the other direction: reducing each one of these problems to 3SAT in one fell swoop.
+In  [cooklevinchap](){.ref} we will show the other direction: reducing each one of these problems to 3SAT in one fell swoop.
 
 
 ![Our first stage in showing equivalence is to reduce  3SAT to the  three other problems](../figure/sat_to_others.png){#figureid .class width=300px height=300px}
@@ -276,7 +276,7 @@ Reduction of independent set to max cut taken from [these notes](https://people.
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
+Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
 
 ## Acknowledgements

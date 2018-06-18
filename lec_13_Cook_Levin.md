@@ -1,7 +1,7 @@
 % Cook-Levin Theorem
 % Boaz Barak
 
-#  NP, NP completeness, and the Cook-Levin Theorem
+#  NP, NP completeness, and the Cook-Levin Theorem {#cooklevinchap }
 
 > # { .objectives }
 * Introduce the class $\mathbf{NP}$  capturing a great many important computational problems \
@@ -23,7 +23,7 @@ It turns out we can reduce all three problems to 3SAT in one fell swoop.
 
 
 In fact, this result extends  far beyond these particular problems.
-All of the problems we discussed in the previous lecture, and a great many other problems, share the same  commonality:
+All of the problems we discussed in [reductionchap](){.ref}, and a great many other problems, share the same  commonality:
 they are all _search_ problems, where the goal is to decide, given an instance $x$, whether there exists a _solution_ $y$ that satisfies some condition that can be verified in polynomial time.
 For example, in 3SAT, the instance is a formula and the solution is an assignment to the variable; in Max-Cut the instance is a graph and the solution is a cut in the graph; and so on and so forth.
 It turns out that  _every_ such search problem can be reduced to 3SAT.
@@ -276,18 +276,15 @@ In particular $\psi$ is satisfiable if and only if $\varphi$ is, thus completing
 ### Wrapping up
 
 We have shown that for every function $F$ in $\mathbf{NP}$, $F \leq_p NANDSAT \leq_p 3NAND \leq_p 3SAT$, and so $3SAT$ is $\mathbf{NP}$-hard.
-Since in the previous lecture we saw that $3SAT \leq_p QUADEQ$, $3SAT \leq_p ISET$, $3SAT \leq_p MAXCUT$ and $3SAT \leq_p LONGPATH$, all these problems are $\mathbf{NP}$-hard as well.
+Since in [reductionchap](){.ref} we saw that $3SAT \leq_p QUADEQ$, $3SAT \leq_p ISET$, $3SAT \leq_p MAXCUT$ and $3SAT \leq_p LONGPATH$, all these problems are $\mathbf{NP}$-hard as well.
 Finally, since all the aforementioned problems are in $\mathbf{NP}$, they are all in fact $\mathbf{NP}$-complete and have equivalent complexity.
 There are thousands of other natural problems that are $\mathbf{NP}$-complete as well.
 Finding a polynomial-time algorithm for any one of them will imply a polynomial-time algorithm for all of them.
 
-## Lecture summary
-
+> # { .recap }
 * Many of the problems for which we don't know polynomial-time algorithms are $\mathbf{NP}$-complete, which means that finding a polynomial-time algorithm for one of them would imply a polynomial-time algorithm for _all_ of them.
-
 * It is conjectured that $\mathbf{NP}\neq \mathbf{P}$ which means that we believe that polynomial-time algorithms  for these  problems are not merely _unknown_ but are _nonexistent_.
-
-* While an $\mathbf{NP}$-hardness result means for example that a full-fledged "textbook" solution to a problem such as MAX-CUT that is as clean and general as the algorithm for MIN-CUT probably does not exist, it does not mean that we need to give up whenever we see a MAX-CUT instance.                       Later in this course we will discuss several strategies to deal with $\mathbf{NP}$-hardness, including  _average-case complexity_ and _approximation algorithms_.
+* While an $\mathbf{NP}$-hardness result means for example that a full-fledged "textbook" solution to a problem such as MAX-CUT that is as clean and general as the algorithm for MIN-CUT probably does not exist, it does not mean that we need to give up whenever we see a MAX-CUT instance. Later in this course we will discuss several strategies to deal with $\mathbf{NP}$-hardness, including  _average-case complexity_ and _approximation algorithms_.
 
 
 
@@ -309,7 +306,7 @@ Prove that if there is no $n^{O(\log^2 n)}$ time algorithm for $3SAT$ then there
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
+Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
 
 ## Acknowledgements

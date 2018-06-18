@@ -1,7 +1,7 @@
 % Programs with loops
 % Boaz Barak
 
-# Loops and infinity
+# Loops and infinity { #chaploops }
 
 > # { .objectives }
 * Learn the model of NAND++ programs that add loops and arrays to handle inputs of all lengths.
@@ -286,7 +286,7 @@ We say that a function $F$ is _NAND++ computable_ if there is a NAND++ program t
 :::
 
 We will often drop the "NAND++" qualifier and simply call a function _computable_ if it is NAND++ computable.
-This may seem "reckless" but, as we'll see in future lectures, it turns out that  being NAND++-computable is equivalent to being computable in essentially any reasonable model of computation.
+This may seem "reckless" but, as we'll see in [chapequivalentmodels](){.ref}, it turns out that  being NAND++-computable is equivalent to being computable in essentially any reasonable model of computation.
 
 ::: { .pause }
 [computablefuncdef](){.ref} is, as we mentioned above, one of the most important definitions in this book. Please re-read it (and [nandppcomputation](){.ref}) and make sure you understand it. Try to think how _you_ would define the notion of a NAND++ program $P$ computing a function, and make sure that you arrive at the same definition.
@@ -1151,7 +1151,7 @@ Salil Vadhan proposed the following analytically easier to describe sequence for
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
+Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
 
 ## Acknowledgements

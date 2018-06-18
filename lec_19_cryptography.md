@@ -1,7 +1,7 @@
 % Cryptography
 % Boaz Barak
 
-#  Cryptography
+#  Cryptography { #chapcryptography  }
 
 > # { .objectives }
 * Definition of perfect secrecy \
@@ -47,7 +47,7 @@ terabytes or more - at their disposal. In fact, with *public key* encryption,
 an attacker can generate as many ciphertexts as they wish.
 
 The key to this success has been a clearer understanding of both how to _define_ security for cryptographic tools and how to relate this security to _concrete computational problems_.
-Cryptography is a vast and continuously changing topic, but we will touch on some of these issues in this lecture.
+Cryptography is a vast and continuously changing topic, but we will touch on some of these issues in this chapter.
 
 ## Classical cryptosystems
 
@@ -159,7 +159,7 @@ A valid encryption scheme $(E,D)$ with length $L(\cdot)$ is _perfectly secret_ i
 * $Y'$ is obtained by sampling  $k\sim \{0,1\}^n$ and outputting $E_k(x')$.
 
 > # { .pause }
-This definition might take more than one reading to parse. Try to think of how this condition would correspond to your intuitive notion of "learning no information" about $x$ from observing $E_k(x)$, and to Shannon's quote in the beginning of this lecture.
+This definition might take more than one reading to parse. Try to think of how this condition would correspond to your intuitive notion of "learning no information" about $x$ from observing $E_k(x)$, and to Shannon's quote in the beginning of this chapter.
 In particular, suppose that you knew ahead of time that Alice sent either an encryption of $x$ or an encryption of $x'$. Would you learn anything new from observing the encryption of the message that Alice actually sent? It may help you to look at [perfectsecfig](){.ref}.
 
 ![For any key length $n$, we can visualize an encryption scheme $(E,D)$ as a graph with a  vertex for every one of the $2^{L(n)}$ possible plaintexts and for every one of the ciphertexts in $\{0,1\}^*$ of the form $E_k(x)$ for $k\in \{0,1\}^n$ and $x\in \{0,1\}^{L(n)}$. For every plaintext $x$ and key $k$, we add an edge labeled $k$ between $x$ and $E_k(x)$. By the validity condition, if we pick any fixed key $k$, the map $x \mapsto E_k(x)$ must be one-to-one. The condition of perfect secrecy simply corresponds to requiring that every two    plaintexts $x$ and $x'$ have exactly the same set of neighbors (or multi-set, if there are parallel edges).](../figure/perfectsecrecy.png){#perfectsecfig .class width=300px height=300px}
@@ -392,7 +392,7 @@ The two most widely used forms of (private key) encryption schemes in practice a
 A block cipher can be thought as a sort of a "random invertible map" from $\{0,1\}^n$ to $\{0,1\}^n$, and can be used to construct a pseudorandom generator and from it a stream cipher, or to encrypt data directly using other modes of operations.
 There are a great many other security notions and considerations for encryption schemes beyond computational secrecy.
 Many of those involve handling scenarios such as  _chosen plaintext_, _man in the middle_, and _chosen ciphertext_ attacks, where the adversary is not just merely a passive eavesdropper but can influence the communication in some way.
-While this lecture is meant to give you some taste of the ideas behind cryptography, there is much more to know before applying it correctly to obtain secure applications, and a great many people have managed to get it wrong.
+While this chapter is meant to give you some taste of the ideas behind cryptography, there is much more to know before applying it correctly to obtain secure applications, and a great many people have managed to get it wrong.
 
 ## Computational secrecy and $\mathbf{NP}$
 
@@ -523,7 +523,7 @@ In fact, it turns out that it is _necessary_ for $E$ to be randomized to obtain 
 It also turns out that, unlike the private key case, obtaining public key encryption for a _single bit of plaintext_ is sufficient for obtaining public key encryption for arbitrarily long messages.
 In particular this means that we cannot obtain a perfectly secret public key encryption scheme.
 
-We will not give full constructions for public key encryption schemes in this lecture, but will mention some of the ideas that underly the most widely used schemes today.
+We will not give full constructions for public key encryption schemes in this chapter, but will mention some of the ideas that underlie the most widely used schemes today.
 These generally belong to one of two families:
 
 * _Group theoretic constructions_ based on  problems such as _integer factoring_, and the  _discrete logarithm_ over finite fields or elliptic curves.
@@ -570,7 +570,7 @@ _Digital signature schemes_ are the analog of public key encryption for authenti
 
 Similarly, even for encryption, we often need to ensure security against _active attacks_, and so notions such as non-malleability and [adaptive chosen ciphertext](https://en.wikipedia.org/wiki/Adaptive_chosen-ciphertext_attack) security have been proposed.
 An encryption scheme is only as secure as the secret key, and mechanisms to make sure the key is generated properly, and is protected against refresh or even compromise (i.e., [forward secrecy](https://en.wikipedia.org/wiki/Forward_secrecy)) have been studied as well.
-Hopefully this lecture provides you with some appreciation for cryptography as an intellectual field, but does not imbue you with a false self of confidence in implementing it.
+Hopefully this chapter provides you with some appreciation for cryptography as an intellectual field, but does not imbue you with a false self of confidence in implementing it.
 
 ## Magic
 
@@ -665,7 +665,7 @@ The latter work gave  a general transformation from security against passive adv
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
+Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
 
 

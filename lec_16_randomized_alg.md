@@ -1,7 +1,7 @@
 % Probabilistic computation
 % Boaz Barak
 
-#  Probabilistic computation
+#  Probabilistic computation { #randomizedalgchap }
 
 > # { .objectives }
 * See  examples  of randomized algorithms \
@@ -27,9 +27,9 @@ He mentioned this idea to von Neumann, who became very excited about it, as inde
 Because this project was highly classified, Ulam, von Neumann and their collaborators came up with the codeword "Monte Carlo" for this approach (based on the famous casinos where Ulam's uncle gambled).
 The name stuck, and randomized algorithms are known as Monte Carlo algorithms to this day.^[Some texts also talk about "Las Vegas algorithms" that always return the right answer but whose running time is only polynomial on the average. Since this Monte Carlo vs Las Vegas terminology is confusing, we will not use these terms anymore, and simply talk about randomized algorithms.]
 
-In this lecture, we will see some examples of randomized algorithms that use randomness to compute a quantity in a faster or simpler way than was known otherwise.
+In this chapter, we will see some examples of randomized algorithms that use randomness to compute a quantity in a faster or simpler way than was known otherwise.
 We will  describe the algorithms in an informal / "pseudo-code" way, rather than as NAND or NAND++ programs.
-In the next lecture we will discuss how to augment the NAND and NAND++ models to incorporate the ability to "toss coins".
+In [chapmodelrand](){.ref} we will discuss how to augment the NAND and NAND++ models to incorporate the ability to "toss coins".
 
 
 ## Finding approximately good maximum cuts.
@@ -121,7 +121,7 @@ It is quite likely that even a deterministic algorithm will fail if this happens
 So, in practical terms, a probabilistic algorithm is just as good as a deterministic one.
 But it is still a theoretically fascinating question whether randomized algorithms actually yield more power, or is it the case that for any computational problem that can be solved by probabilistic algorithm, there is a deterministic algorithm with nearly the same performance.^[This question does have some significance to practice, since  hardware that generates  high quality randomness at speed is nontrivial to construct.]
 For example, we will see in [maxcutex](){.ref} that there is in fact a deterministic algorithm that can cut at least $m/2$ edges in an $m$-edge graph.
-We will discuss this question in generality   in  future lectures.
+We will discuss this question in generality   in  [chapmodelrand](){.ref}.
 For now, let us see a couple of  examples where randomization leads to algorithms that are better in some sense than what the known deterministic algorithms.
 
 ### Solving SAT through randomization
@@ -289,7 +289,7 @@ monte carlo history:  `http://permalink.lanl.gov/object/tr?what=info:lanl-repo/l
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
+Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
 
 

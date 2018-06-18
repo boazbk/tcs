@@ -801,6 +801,6 @@ b. For every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$, there is a NAND progr
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include:
+Some topics related to this chapter that might be accessible to advanced students include:
 
 (to be completed)

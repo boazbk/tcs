@@ -370,7 +370,7 @@ For an overview of what we'll see in this course, you could do far worse than re
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include:
+Some topics related to this chapter that might be accessible to advanced students include:
 
 * The _Fourier transform_, the _Fast_ Fourier transform algorithm and how to use it multiply polynomials and integers. [This lecture of Jeff Erickson](http://jeffe.cs.illinois.edu/teaching/algorithms/notes/02-fft.pdf) (taken from his [collection of notes](http://jeffe.cs.illinois.edu/teaching/algorithms/) ) is a very good starting point.  See also this [MIT lecture](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-design-and-analysis-of-algorithms-spring-2012/lecture-notes/MIT6_046JS12_lec05.pdf) and this [popular article](http://www.ams.org/samplings/feature-column/fcarc-multiplication).
 

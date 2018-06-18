@@ -19,7 +19,7 @@
 
 
 
-The problems of the previous lecture, while natural and important, still  intimately involved NAND++ programs or other computing mechanisms in their definitions.
+The problems shown uncomputable in  [chapcomputable](){.ref}, while natural and important, still  intimately involved NAND++ programs or other computing mechanisms in their definitions.
 One could perhaps hope that as long as we steer clear of functions whose inputs are themselves programs, we can avoid the "curse of uncomputability".
 Alas, we have no such luck.
 
@@ -470,7 +470,7 @@ Prove that for every uncomputable function $F:\{0,1\}^* \rightarrow \{0,1\}$ and
 
 ## Further explorations
 
-Some topics related to this lecture that might be accessible to advanced students include: (to be completed)
+Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
 
 ## Acknowledgements
