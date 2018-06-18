@@ -542,7 +542,7 @@ See [this article by John Preskil](https://arxiv.org/abs/1801.00862) for some of
 
 
 
-## Shor's Algorithm
+## Shor's Algorithm: Hearing the shape of prime factors
 
 Bell's Inequality is powerful demonstration that there is something very strange going on with quantum mechanics.
 But could this "strangeness" be of any use to solve computational problems not directly related to quantum systems?
@@ -588,14 +588,45 @@ The Fourier transform makes it easy to compute the period of a given function: i
 
 ![If $f$ is a periodic function then when we represent it in the Fourier transform, we expect the coefficients corresponding to wavelengths that do not evenly divide the period to be very small, as they would tend to "cancel out".](../figure/quantum_fourier.jpg){#qfourierfig .class width=300px height=300px}
 
+### Shor's Algorithm: A bird's eye view
 
-### Periods over general groups
+Shor's Algorithm is a quantum algorithm that on input a an integer $M$, outputs the prime factorization in time that is polynomial in $\log M$.
+While we will not provide a full description of the algorithm and its analysis in this chapter, we will illustrate some of the main ideas behind it.
 
-At a high level, Shor's algorithm uses a  procedure known as the _Quantum Fourier Transform_ to recover the period of a function $F_M$ that is related to the input number $M$, and from this period, obtain the factorization of $M$.
-However, $F_M$'s domain will not be the real numbers but rather another _group_ $\mathbb{G}$.
+
+The first step in the algorithm is to pick a random $A\in \{0,1\ldots,M-1\}$ and define the function $F_A:\{0,1\}^m \rightarrow \{0,1\}^m$ as $F_A(x)= A^x (\mod M)$ where we identify the string  $x \in \{0,1\}^m$ with  an integer using the binary representation, and similarly represent the integer $A^x (\mod M)$ as a string. (We will choose $m$ to be some polynomial in $m$ and so in particular $\{0,1\}^m$ is a  large enough set to represent all the numbers in $\{0,1,\ldots, M-1 \}$).
+
+Some not-too-hard calculations (which we leave as [shorex](){.ref}) show that: __(1)__ The function $F_A$ is  _periodic_ (i.e., there is some integer $p_A$ such that $F_A(x+p_A)=F_A(x)$ for almost^[We'll ignore this "almost" qualifier in the  discussion below. It causes some annoying, yet ultimately manageable, technical issues in the full-fledged algorithm.] every $x$) and more importantly __(2)__ Tf we can recover the period $p_A$ of $F_A$  for several randomly chosen $A$'s, then we can recover the factorization of $M$.
+Hence, factoring $M$ reduces to finding out the period of the function $F_A$.
+
+Using a simple trick known as "repeated squaring", it is possible to compute the map $x \mapsto f(x)$ in $\poly(m)$ time, which means we can also compute this map using a polynomial number of NAND gates,and so in particular we can generate in polynomial quantum time a quantum state $\rho$ that is (up to normalization) equal to
+
+$$
+\sum_{x\in \{0,1\}^m} |x\rangle |F_A(x) \rangle \;\;.
+$$
+
+In particular, if we were to _measure_ the state $\rho$, we would get a random pair of the form $(x,y)$ where $y= F_A(x)$.
+So far, this is not at all impressive. After all, we did not need the power of quantum computing to generate such pairs: we could simply generate a random $x$ and then compute $F_A(x)$.
+
+
+Another way to describe the state $\rho$ is that the coefficient of $|x \rangle |y \rangle$  in $\rho$ is proportional to $f_{A,y}(x)$  where $f_{A,y} : \{0,1\}^m \rightarrow \R$ is the function such that $A_{A,y}(x) = \begin{cases} 1 & y = A^x (\mod M) \\ 0 & \text{otherwise} \end{cases}$.
+The magic of Shor's algorithm comes from a procedure known as the [_Quantum Fourier Transform_](https://en.wikipedia.org/wiki/Quantum_Fourier_transform). It allows to change the state $\rho$ into the state $\hat{\rho}$ where the coefficient of $|x\rangle|y \rangle$ is now proportional to the _$x$-th Fourier coefficient_  of $f_{A,y}$.
+In other words, if  we measure the state $\hat{\rho}$, we will obtain a pair $(x,y)$ such that the probability of choosing $x$  is proportional to the square of the weight of the _frequency_ $x$ in the representation of the function $f_{A,y}$.
+Since for every $y$, the function $f_{A,y}$ is periodic with period $p_A$, it can be shown that the frequency $x$ will be (almost^[The "almost" qualifier again appears because the original function was only "almost" periodic, but it turns out this can be handled by using an "approximate greatest common divisor" algorithm instead of a standard g.c.d. below. The latter can be obtained using a tool known as the continued fraction representation of a number.]) a multiple of $p_A$.
+If we make several such samples $y_0,\ldots,y_k$ and obtain the frequencies $x_1,\ldots,x_k$, then the true period $p_A$ divides all of them, and it can be shown that it is going to be in fact the _greatest common divisor_ (g.c.d.) of all these frequecies: a value which can be computed in polynomial time.
+
+The above described Shor's algorithm while skipping over the main quantum ingredient: the quantum fourier transform algorithm.
+In the next section we will discuss the ideas behind this algorithm.
+We will be rather brief and imprecise.
+[quantumsources](){.ref} and [quantumbibnotessec](){.ref} contain links to where you can obtain more information about all these topics.
+
+
+
+## Quantum Fourier Transform
+
+To understand the Quantum Fourier Transform, we need to understand the Fourier Transform itself better.
+In particular, we will need to understand how it applies not just to functions whose input is a  real number but in fact to functions whose domain can be any arbitrary commutative _group_.
 Therefore we will now need to take a short detour to (very basic) _group theory_, and define the notion of periodic functions over groups.
-
-
 
 
 ::: {.remark title="Group theory" #grouptheorem}
@@ -607,80 +638,50 @@ A finite _group_ $\mathbb{G}$ can be thought of as simply a set of elements and 
 The operation satisfies the sort of properties that a product operation does.
 It is associative (i.e., $(g \star h)\star f = g \star (h \star f)$) and there is some element $1$ such that $g \star 1 = g$ for all $g$, where for every $g\in \mathbb{G}$ there exists an element $g^{-1}$ such that $g \star g^{-1} = 1$.
 A group is  _Abelian_ or _commutative_ if  $g \star h = h \star g$ for all $g,h \in \mathbb{G}$.
-We denote by $g^2$ the element $g\star g$, by $g^3$ the element $g \star g \star g$, and so on and so forth.
-The _order_ of $g\in \mathbb{G}$ is the smallest natural number $a$ such that $g^a = 1$.
-(It can be shown that such a number exists for every $g$ in a finite group, and moreover that it is always smaller than or equal to the size of the group.)
+
+
+Let $h \neq 1$ be a member of $\mathbb{G}$. We define a function $f:\mathbb{G} \rightarrow D$ to be _$h$-periodic_ if $f(x+h)=f(x)$ for every $x\in \mathbb{G}$.
 :::
 
-The heart of Shor's Algorithm is an algorithm that is given as input:
+The Fourier basis is a deep and vast topic, on which we will barely touch upon here.
+It can be shown that for every finite Abelian group $\mathbb{G}$ with operation $\star$, there exists a set of functions $\{ \chi_g \}_{g\in \mathbb{G}}$ each mapping $\mathbb{G}$ to $\mathbb{C}$, such that:
 
-1. A group $\mathbb{G}$, in the sense of a (classical) circuit that on input (representations of) two group elements $g,h \in \mathbb{G}$, outputs the representation of $g \star h$, where $\star$ is the group operation.
+1. For every $f:\mathbb{G} \rightarrow \mathbb{C}$,  $f$ can be expressed as sum of multiples of these function. That is, we can write $f = \sum_{g\in \mathbb{G}} \hat{g} \chi_g$.
 
-2. Am circuit computing a   function $f:\mathbb{G} \rightarrow \{0,1\}^*$ such that there exists a _period_ for $f$ which is a (non identity) group element $h$ such that $f(g \star h) = f(g)$ for every $g\in \mathbb{G}$.
+2. Each one of the functions $\chi_g$ is _homomorphic_ in the sense that $\chi_g(x \star x') = \chi_g(x) \chi_g(x')$ for every $x,x' \in \mathbb{G}$.
 
-and outputs such a period $h$.
-In other words, the heart of Shor's Algorithm is the following lemma:
+3. For every $g,g',x \in \mathbb{G}$, $\chi_g(x)\chi_{g'}(x) = \chi_{g \star g'}(x)$.
 
-> # {.lemma #shorlem}
-For every (efficiently presented) Abelian group $\mathbb{G}$, there is a quantum polynomial time algorithm that given a _periodic_ function $f:\mathbb{G} \rightarrow \{0,1\}^*$ finds a period of $f$.
+This set of functions is known as the _Fourier basis_.
+The _quantum Fourier transform_ over a group $\mathbb{G}$ is a way to transform a quantum state of the form
+$$
+\sum_{g \in \mathbb{G}} f(g) |g \rangle
+$$
+to a state of the form
 
-### From period finding to factoring (optional)
+$$
+\sum_{g \in \mathbb{G}} \hat{f}(g) |g \rangle
+$$
 
-Using the function $f(a)=g^a$ one can use  period finding (for the group of  $\Z_{|\mathbb{G}|}= \{0,1,2,\ldots,|\mathbb{G}|-1\}$ with modular addition) to find the _order_ of any element $g$ in a group $\mathbb{G}$, namely
-the smallest number $a$ such that $g^a = 1$.
-It turns out that  order finding can be used to factor integers in polynomial time.^[In fact, it can also be used to solve the _discrete logarithm problem_ over arbitrary Abelian groups, which means that quantum computers will break not only  RSA but also Diffie Hellman and Elliptic Curve Cryptography.]
+where $\hat{f}(g)$ is the coefficient of $\chi_g$ in the Fourier representation of $f$.
 
-We now sketch how one reduces the factoring to order finding.
-However, the reader can feel free to skip this part, as this involves fairly standard number theoretic calculations, that in particular were known well before Shor.
-For a number $M\in \N$, we denote by  $\Z^*_M$ as the group corresponding to the set  $\{ X \in [M]\;|\; gcd(X,M)=1 \}$  with the operation being multiplication modulo $M$. It is known as the _multiplicative group_ modulo $M$.
-An _order finding algorithm_ for $\Z^*_M$ is given as input a number $X\in \Z^*_M$, and outputs the smallest positive $a$ such that $X^a = 1 (\mod M)$.
-It is polynomial time if it runs in time polynomial in the representation of elements in this group (i.e., polynomial in $\log M$).
-
-
-
-> # {.lemma #ordertofact}
-Suppose that there is a polynomial-time order finding algorithm for $\Z^*_M$ for every integer $M$.
-Then there is a polynomial time algorithm to find the factorization of a given integer $M$.
-
-
-::: { .pause }
-As mentioned, though the proof of  [ordertofact](){.ref} is not complicated, it is not also particularly insightful nor relevant to quantum computation. Thus, the reader can feel free to "take it on faith" and skip the proof.
-:::
-
-::: {.proof data-ref="ordertofact"}
-We just sketch the proof. We restrict attention to the case that $M=PQ$ for two distinct primes $P$ and $Q$. (This turns out to be the most interesting  case for cryptography anyway.)
-In this case, it is known that the multiplicative group modulo $M$, denoted as $\Z^*_M$, has size $(P-1)(Q-1) = M - P - Q - 1$.
-Let's denote this size by $\varphi(M)$. If we know $\varphi(M)$ then we can compute the number $S=P+Q = M-1- \varphi(M)$, and from this we can recover both $P$ and $Q$ as the solutions to the quadratic equation $x(S-x)=M$.
-
-Hence it suffices to recover $\varphi(M)$.
-Now it turns out that for every $X \in \Z^*_M$, the _order_ of $X$ is a divisor of $\varphi(M)$.
-If we sample several random $X_0,\ldots,X_{k-1}$ from $\Z^*_M$ and compute their orders $a_0,\ldots,a_{k-1}$, then $\varphi(M)$ will be a multiple of all of them, and in fact it can be shown that it is very likely to be _least common multiple_ of these numbers.
-Using this we can recover $\varphi(M)$ (and from it the factorization of $M$) from the orders of several random numbers in $\{0,\ldots,M-1\}$.^[If we sample a  number $X\in \{0,\ldots,M-1\}$ that turns out not to lie in $\Z^*_M$ then we can recover the factorization of $M$ from the greated common divisor of $X$ and $M$.]
-:::
-
-
-
-## Finding periods of a function: Simon's Algorithm
-
-As mentioned, the main idea behind Shor's algorithm is to use a tool known as the [quantum fourier transform](https://en.wikipedia.org/wiki/Quantum_Fourier_transform).
-This is an algorithm that  given a circuit computing the function $f:\mathbb{H}\rightarrow\R$, creates a quantum state over roughly $\log |\mathbb{H}|$ qubits (and hence dimension $|\mathbb{H}|$) that corresponds to the Fourier transform of $f$.
-Hence when we measure this state,  we get a group element $h$ with probability proportional to the square of the corresponding Fourier coefficient.
-One can show that if $f$ is $h^*$-periodic then we can recover $h^*$ by taking a polynomial number of samples from this distribution.
 
 ::: {.remark title="Quantum Fourier Transform" #QFT}
-Despite its name, the Quantum Fourier Transform does _not_ actually give a way to compute the Fourier Transform of a function $f:\mathbb{H} \rightarrow \R$.
-This would be impossible to do in $\poly(\log |\mathbb{H}|)$ time, as simply writing down the Fourier Transform would require $|\mathbb{H}|$ coefficients.
+Despite its name, the Quantum Fourier Transform does _not_ actually give a way to compute the Fourier Transform of a function $f:\mathbb{G} \rightarrow \C$.
+This would be impossible to do in $\poly(\log |\mathbb{G}|)$ time, as simply writing down the Fourier Transform would require $|\mathbb{G}|$ coefficients.
 Rather the Quantum Fourier Transform gives a _quantum state_ where the amplitude corresponding to an element $h$ is equal to the corresponding Fourier coefficient.
 This allows to sample from a distribution where $h$ is drawn with probability proportional to the square of its Fourier coefficient.
 This is not the same as computing the Fourier transform, but (as we'll see) is good enough for recovering the period.
 :::
 
-Shor carried out this approach for the group $\mathbb{H}=\Z^*_M$ for some $M$  but we will show this for the group $\mathbb{H} = \{0,1\}^n$ with the XOR operation.
+
+## Quantum Fourier Transform over the Boolean Cube: Simon's Algorithm
+
+We now describe the simplest setting of the Wuantum Fourier Transform: the group $\mathbb{H} = \{0,1\}^n$ with the XOR operation.
 This case is known as _Simon's algorithm_ (given by Dan Simon in 1994) and actually preceded (and inspired) Shor's algorithm:
 
 > # {.theorem title="Simon's Algorithm" #simons}
-If $f:\{0,1\}^n\rightarrow\{0,1\}^*$ is polynomial time computable and satisfies the property that $f(x)=f(y)$ iff $x\oplus y = h^*$ then there exists
-a quantum polynomial-time algorithm that outputs a random $h\in \{0,1\}^n$ such that $\sum_{i=0}^{n-1}h_i h^*_i =0 \mod 2$.
+If $f:\{0,1\}^n\rightarrow\{0,1\}^*$ is polynomial time computable and satisfies the property that $f(x)=f(y)$ iff $x\oplus y = h^*$ then there exists a quantum polynomial-time algorithm that outputs a random $h\in \{0,1\}^n$ such that $\sum_{i=0}^{n-1}h_i h^*_i =0 \mod 2$.
 
 Note that given $O(n)$ such samples, we can recover $h^*$ with high probability by solving the corresponding linear equations.
 
@@ -689,17 +690,17 @@ The idea behind the proof is that the _Hadamard_ operation corresponds to the _F
 We can use that to create quantum state over $n$ qubits where the probability of obtaining some value $h$ is proportional to the  coefficient corresponding to $h$ in the Fourier transform of (a real-valued function  related to)  $f$.
 We can show that this coefficient will be zero if $h$ is not orthogonal to the period $h^*$ modulo $2$, and hence when we measuer this state we will obtain some $h$ satisfying $\sum_{i=0}^{n-1}h_ih^*_i = 0 \mod 2$.
 
-> # {.proof data-ref="simons"}
+::: {.proof data-ref="simons"}
 We can express the Hadamard operation $HAD$ as follows:
->
+
 $$ HAD|a\rangle = \tfrac{1}{\sqrt{2}}(|0\rangle+(-1)^a|1\rangle) \;.$$
->
+
 Given the state $|0^{n+m}\rangle$ we can apply this map to each one of the first $n$ qubits to get the state
 $$2^{-n/2}\sum_{x\in\{0,1\}^n}|x\rangle|0^m\rangle
 $$
 and then we can apply the gates of $f$ to map this to the state
 $$2^{-n/2}\sum_{x\in\{0,1\}^n}|x\rangle|f(x)\rangle \;.$$
->
+
 Now suppose that we apply the $HAD$ operation again to the first $n$ qubits.
 We can see that we get the state
 $$2^{-n}\sum_{x\in\{0,1\}^n}\prod_{i=0}^{n-1}(|0\rangle+(-1)^{x_i}|1\rangle)|f(x)\rangle \;.
@@ -721,9 +722,16 @@ Now under our assumptions for every particular $z$ in the image of $f$, there ex
 So, if $\sum_{i=0}^{n-1}h^*_iy_i =0 \mod 2$, we get that $|(-1)^{\sum_{i=0}^{n-1}x_iy_i =0 \mod 2}+(-1)^{\sum_{i=0}^{n-1}(x_i+h^*_i)y_i =0 \mod 2}|=2$ (positive interference) and otherwise we get $|(-1)^{\sum_{i=0}^{n-1}x_iy_i =0 \mod 2}+(-1)^{\sum_{i=0}^{n-1}(x_i+h^*_i)y_i =0 \mod 2}|=0$  (negative interference, i.e., cancellation).
 Therefore, if measure the end state then with probability one we the first $n$ bits will be a  string $y$ such that $\sum_{i=0}^{n-1}y_ih^*_i = 0 \mod 2$.
 
+Now if we repeat this process, say, $100n$ times, then we will obtain $100 n$ vectors $y^1,\ldots, y^n$ such that each $y^j$ of them satisfies the equation $\sum_{i=0}^{n-1} y^j_i h^*_i = 0 (\mod 2)$.
+In other words, we obtain $100 n$ linear equations modulo $2$ on the $n$ unknown variables $h^*_0,\ldots,h^*_{n-1}$.
+It is not hard to show that these equations are likely to be linearly independent, which means that we can completely recover $h^*$ by solving them.
+:::
 
-Simon's algorithm seems to really use the special bit-wise structure of the group $\{0,1\}^n$, so one could wonder if it has any relevance for the group $\Z^*_m$ for some exponentially large $m$.
-It turns out that the same insights that underlie the well known  Fast Fourier Transform (FFT) algorithm can be used to essentially follow the same strategy for this group as well.
+::: {.remark title="From Simon to Shor" #simontoshorrem}
+Simon's algorithm seems to really use the special bit-wise structure of the group $\{0,1\}^n$, so one could wonder if it has any relevance for the group $\Z^*_M$ for some exponentially large $M$, which is the case needed for Shor's algorithm.
+However, it  turns out that the same insights that underlie the well known  [Fast Fourier Transform (FFT)](https://en.wikipedia.org/wiki/Fast_Fourier_transform) algorithm can be used to follow the same strategy for this group as well.
+
+:::
 
 
 <!--
@@ -901,7 +909,7 @@ See footnote for hint.^[We are given $h=g^x$ and need to recover $x$. TO do so w
 
 
 
-## Bibliographical notes
+## Bibliographical notes { #quantumbibnotessec }
 
 Chapters 9 and 10 in the book _Quantum Computing Since Democritus_ give an informal but highly informative introduction to the topics of this lecture and much more.
 Shor's and Simon's algorithms are also covered in Chapter 10 of my book with Arora on computational complexity.
