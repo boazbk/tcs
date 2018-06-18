@@ -734,9 +734,9 @@ $$
 
 We can now use the distributive law and open up a term of the form
 
-$$f(x)\left(|0\rangle + (-1)^{x_0}|1\rangle\right) \cdots  \left(|0\rangle + (-1)^{x_{n-1}}|1\rangle\right)$$
+$$f(x)\bigl(|0\rangle + (-1)^{x_0}|1\rangle\bigr) \cdots  \bigl(|0\rangle + (-1)^{x_{n-1}}|1\rangle\bigr)$$
 
-to the following  sum over $2^n$ terms:^[If you find this confusing, try to  work out why $\left(|0\rangle + (-1)^{x_0}|1 \rangle\right) \left(|0\rangle + (-1)^{x_1}|1 \rangle \right) \left(|0\rangle + (-1)^{x_2}|1 \rangle \right)$ is the same as the sum over $2^3$ terms
+to the following  sum over $2^n$ terms:^[If you find this confusing, try to  work out why $\bigl(|0\rangle + (-1)^{x_0}|1 \rangle\bigr) \bigl(|0\rangle + (-1)^{x_1}|1 \rangle \bigr) \bigl(|0\rangle + (-1)^{x_2}|1 \rangle \bigr)$ is the same as the sum over $2^3$ terms
 $|000\rangle + (-1)^{x_2}|001\rangle + \cdots +(-1)^{x_0+x_1+x_2}|111\rangle$.]
 
 $$
@@ -749,14 +749,14 @@ $$
 But by changing the order of summations, we see that the final state is
 
 $$
-\sum_{y \in \{0,1\}^n} 2^{-n/2}\left(\sum_{x\in \{0,1\}^n} f(x) (-1)^{\sum x_i y_i} \right) | y \rangle
+\sum_{y \in \{0,1\}^n} 2^{-n/2}\bigl(\sum_{x\in \{0,1\}^n} f(x) (-1)^{\sum x_i y_i} \bigr) | y \rangle
 $$
 
 which exactly corresponds to $\hat{\rho}$.
 :::
 
 ::: {.remark title="From Fourier to Period finding: Simon's Algorithm" #simons}
-Using [QFTcube](){.ref} it is not hard to get an algorithm that can recover a string $h^* \in \{0,1\}^n$ given of an arbitrary function $F:\{0,1\}^n \rightarrow \{0,1\}^*$  that is _$h^*$ periodic_ in the sense that $F(x)=F(x')$ for distinct $x,x'$ if and only if $x' = x \oplus h^*$.
+Using [QFTcube](){.ref} it is not hard to get an algorithm that can recover a string $h^* \in \{0,1\}^n$ given a circuit that computes a function $F:\{0,1\}^n \rightarrow \{0,1\}^*$  that is _$h^*$ periodic_ in the sense that $F(x)=F(x')$ for distinct $x,x'$ if and only if $x' = x \oplus h^*$.
 The key observation is that if we compute the state $\sum_{x\in \{0,1\}^n} |x \rangle |F(x) \rangle$,  and perform the Quantum Fourier transform on the first $n$ qubits, then we would get a state such that the only basis elements with nonzero coefficients would be of the form $|y \rangle$ where
 
 $$
