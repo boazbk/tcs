@@ -789,7 +789,7 @@ $$\hat{f}(y) = \tfrac{1}{\sqrt{L}}\sum_{z \in Z_{L/2}} f(2z)(\omega^2)^{yz} + \t
 $$
 
 which reduces computing the Fourier transform of $f$ over the group $\Z_{2^\ell}$ to computing the Fourier transform of the functions
-$f_{even}$ and $f_odd}$ (corresponding to the applying $f$ to only the even and odd vectors respectively) which have $2^{\ell-1}$ inputs that we can identify with the group $\Z_{2^{\ell-1}}$.
+$f_{even}$ and $f_{odd}$ (corresponding to the applying $f$ to only the even and odd vectors respectively) which have $2^{\ell-1}$ inputs that we can identify with the group $\Z_{2^{\ell-1}}$.
 
 This observation is usually used to obtain a fast (e.g. $O(L \log L)$) time to compute the Fourier transform in a classical setting, but it can be used to obtain a quantum circuit of $poly(\log L)$ gates to transform a state of the form $\sum_{x\in \Z_L} f(x)|x\rangle$ to a state of the form $\sum_{y\in \Z_L} \hat{f}(y)|y \rangle$.
 :::
@@ -802,7 +802,7 @@ This observation is usually used to obtain a fast (e.g. $O(L \log L)$) time to c
 * The state of an $n$-qubit quantum system can be modeled as a $2^n$ dimensional vector
 * An operation on the state corresponds to applying a unitary matrix to this vector.
 * Quantum circuits are obtained by composing basic operations such as $HAD$ and $U_{NAND}$.
-* We can use quantum circuits to define the classes $\mathbf{BQP_{/poly}}$ and $\mathbf{BQP}$ which are the quantum analogs of $\mathbf{P_{/poly}$ and $\mathbf{BPP}$ respectively.
+* We can use quantum circuits to define the classes $\mathbf{BQP_{/poly}}$ and $\mathbf{BQP}$ which are the quantum analogs of $\mathbf{P_{/poly}}$ and $\mathbf{BPP}$ respectively.
 * There are some problems for which the best known quantum algorithm is _exponentially faster_ than the best known, but quantum computing is not a panacea. In particular, as far as we know, quantum computers could still require exponential time to solve $\mathbf{NP}$-complete problems such as $SAT$.
 
 
