@@ -5,9 +5,10 @@
 
 
 > # { .objectives }
-* Main aspects in which quantum mechanics differs from local deterministic theories. \
+* See main aspects in which quantum mechanics differs from local deterministic theories. \
 * Model of quantum circuits, or equivalently QNAND programs \
-* Simon's Algorithm: an example of potential exponential speedup using quantum computers that predated and inspired Shor's factoring algorithm.
+* The complexity class $\mathbf{BQP}$ and what we know about its relation to other classes \
+* Ideas behind Shor's Algorithm and the Quantum Fourier Transform
 
 
 
@@ -319,7 +320,7 @@ If the system is in state $v$ and we apply to it the operation $U$, then the new
 When we _measure_ an $n$-qubit system in a state $v= \sum_{x\in \{0,1\}^n} v_x |x \rangle$, then we observe the value $x\in \{0,1\}^n$ with probability $|v_x|^2$.
 
 
-### Analysis of Bell's Inequality (optional)
+## Analysis of Bell's Inequality (optional)
 
 Now that we have the notation in place, we can show a strategy for showing "quantum telepathy".
 Recall that in the classical case, Alice and Bob can succeed in the "Bell Game" with probability at most $3/4 = 0.75$.
@@ -383,8 +384,21 @@ This is because we cannot "reuse" quantum states without _measuring_ them (which
 Therefore, we cannot use the same bit as input for two different gates.^[This is known as the [No Cloning Theorem](https://goo.gl/jCVtEY).]
 Another more technical difference is that to express our operations as unitary matrices, we will need to make sure all our gates are _reversible_.
 This is not hard to ensure.
-For example, in the quantum context, instead of thinking of $NAND$ as a (non reversible) map from $\{0,1\}^2$ to $\{0,1\}$, we will think of it as the reversible  map on _three_ qubits that maps $a,b,c$ to $a,b,c\oplus NAND(a,b)$.
-Equivalently, the NAND operation corresponds to  the unitary map $U_{NAND}$ on $\R^{2^3}$ such that (identifying $\{0,1\}^3$ with $[8]$) for every $a,b,c \in \{0,1\}$, if $|abc\rangle$ is the basis element with $1$ in the $abc$-th coordinate and zero elsewhere, then $U |abc\rangle =|ab(c \oplus NAND(a,b))\rangle$.^[Readers familiar with quantum computing should note that $U_{NAND}$ is a close variant of the so called [Toffoli gate](https://goo.gl/BE7aVG) and so QNAND programs correspond to quantum circuits with the Hadamard and Toffoli gates.]
+For example, in the quantum context, instead of thinking of $NAND$ as a (non reversible) map from $\{0,1\}^2$ to $\{0,1\}$, we will think of it as the reversible  map on _three_ qubits that maps $a,b,c$ to $a,b,c\oplus NAND(a,b)$ (i.e., flip the last bit if $NAND$ of the first two bits is $1$).
+Equivalently, the NAND operation corresponds to  the $8\times 8$ unitary matrix  $U_{NAND}$  such that (identifying $\{0,1\}^3$ with $[8]$) for every $a,b,c \in \{0,1\}$, if $|abc\rangle$ is the basis element with $1$ in the $abc$-th coordinate and zero elsewhere, then $U_{NAND} |abc\rangle =|ab(c \oplus NAND(a,b))\rangle$.^[Readers familiar with quantum computing should note that $U_{NAND}$ is a close variant of the so called [Toffoli gate](https://goo.gl/BE7aVG) and so QNAND programs correspond to quantum circuits with the Hadamard and Toffoli gates.]
+If we order the rows and columns as $000,001,010,\ldots,111$, then $U_{NAND}$ can be written as the following matrix:
+
+$$
+U_{NAND}  = \begin{pmatrix} 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+                            1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+                            0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+                            0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+                            0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+                            0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+                            0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+                            0 & 0 & 0 & 0 & 0 & 0 & 0 & 1
+\end{pmatrix}
+$$
 
 If we have an $n$ qubit system, then for $i,j,k \in [n]$, we will denote by $U_{NAND}^{i,j,k}$ as the $2^n \times 2^n$ unitary matrix that corresponds to applying $U_{NAND}$ to the $i$-th, $j$-th, and $k$-th  bits, leaving the others intact.
 That is, for every $v = \sum_{x\in \{0,1\}^n} v_x |x \rangle$,
@@ -431,7 +445,7 @@ $$
 :::
 
 ::: { .pause }
-Please stop here and see that this definition makes sense.
+Please stop here and see that this definition makes sense to you.
 :::
 
 Once we have the notion of quantum circuits, we can define the quantum analog of $\mathbf{P_{/poly}}$ (i.e., define the class of functions computable by _polynomial size quantum circuits_) as follows:
@@ -447,7 +461,7 @@ Indeed popular descriptions of quantum computing (too) often say something along
 
 Depending on how you interpret it, this description is either false or would apply equally well to _probabilistic computation_, even though we've already seen that every randomized algorithm can be simulated by a similar-sized circuit, and in fact we conjecture that $\mathbf{BPP}=\mathbf{P}$.
 
-Moreover, this "obvious" approach for simulating a quantum computation will take not just exponential time but _exponential space_ as well, while it is not hard to show that using a simple recursive formula one can calculate the final quantum state using _polynomial space_ (in physics  this is known as "Feynman path integrals").
+Moreover, this "obvious" approach for simulating a quantum computation will take not just exponential time but _exponential space_ as well, while can be shown that using a simple recursive formula one can calculate the final quantum state using _polynomial space_ (in physics  this is known as "Feynman path integrals").
 So, the exponentially long vector description by itself does not imply that quantum computers are exponentially powerful.
 Indeed, we cannot _prove_ that they are (i.e., as far as we know, every QNAND program could be simulated by a NAND program with polynomial overhead), but we do have some problems (integer factoring most prominently) for which they do provide exponential speedup over the currently best _known_ classical (deterministic or probabilistic) algorithms.
 :::
@@ -471,17 +485,16 @@ If $P$ is a QNAND program with $n$ input variables, $\ell$ workspace variables, 
 3. We _measure_ the output variables `Y[`$0$`]`, $\ldots$, `Y[`$m-1$`]` and output the result (if there is more than one output then we measure more variables).
 
 
-This seems quite simple, but maintaining the qubits in a way that we can apply the operations on one hand, but we don't accidentally measure them or corrupt them in another way, is a significant engineering challenge.
 
 ### Uniform computation
 
 Just as in the classical case, we can define _uniform_ computational models.
 For example, we can define the _QNAND++ programming language_ to be QNAND augmented with loops and arrays just like NAND++  is obtained from NAND.
 Using this we can define the class $\mathbf{BQP}$ which is the uniform analog of $\mathbf{BQP_{/poly}}$.
-Just as in the classical case $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$, in the quantum case $\mathbf{BQP} \subseteq \mathbf{BQP_{/poly}}$.
-Similarly, people have defined  quantum analogs of Turing machines.
+Just as in the classical setting it holds that $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$, in the quantum setting it can be shown that  $\mathbf{BQP} \subseteq \mathbf{BQP_{/poly}}$.
+Just like the classical case, we can also use  [Quantum Turing Machines](https://en.wikipedia.org/wiki/Quantum_Turing_machine) instead of QNAND++ to define $\mathbf{BQP}$.
 
-Another way to define $\mathbf{BQP}$ is the following: a function $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{BQP}$ if __(1)__ $F\in \mathbf{BQP_{/poly}}$ and __(2)__ moreover for every $n$, the quantum circuit that verifies this can be generated by a _classical polynomial time NAND++ program_ (or, equivalently, a polynomial-time Turing machine).
+Yet another way to define $\mathbf{BQP}$ is the following: a function $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{BQP}$ if __(1)__ $F\in \mathbf{BQP_{/poly}}$ and __(2)__ moreover for every $n$, the quantum circuit that verifies this can be generated by a _classical polynomial time NAND++ program_ (or, equivalently, a polynomial-time Turing machine).^[This is analogous to the alternative characterization of $\mathbf{P}$ that appears in [Palternativeex](){.ref}.]
 We use this definition here, though an equivalent one can be made using QNAND++ or quantum Turing machines:
 
 > # {.definition title="The class $\mathbf{BQP}$" #BQPdef}
@@ -495,10 +508,11 @@ We say that $F\in \mathbf{BQP}$ if there exists a polynomial time NAND++ program
 
 
 > # { .pause }
-One way to verify that you've understood these definitions it to see that you can prove __(1)__ $\mathbf{P} \subseteq \mathbf{BQP}$ and in fact the stronger statement $\mathbf{BPP} \subseteq \mathbf{BQP}$, __(2)__  $\mathbf{BQP} \subseteq \mathbf{EXP}$, and __(3)__ For every $\mathbf{NP}$-complete function $F$, if $F\in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$.
+One way to verify that you've understood these definitions it to see that you can prove __(1)__ $\mathbf{P} \subseteq \mathbf{BQP}$ and in fact the stronger statement $\mathbf{BPP} \subseteq \mathbf{BQP}$, __(2)__  $\mathbf{BQP} \subseteq \mathbf{EXP}$, and __(3)__ For every $\mathbf{NP}$-complete function $F$, if $F\in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$. See [BQPcontainements](){.ref}.
 
 The relation between $\mathbf{NP}$ and $\mathbf{BQP}$ is not known (see also [quantumnp](){.ref}).
-It is widely believed that $\mathbf{NP} \not\subseteq \mathbf{BQP}$ but it is  [possible](https://eccc.weizmann.ac.il/report/2018/107/) that they are incomparable, in the sense that $\mathbf{NP} \nsubseteq \mathbf{BQP}$ (and in particular no $\mathbf{NP}$-complete function belongs to $\mathbf{BQP}$) but also $\mathbf{BQP} \nsubseteq \mathbf{NP}$ (and there are some interesting candidates for such problems).
+It is widely believed that $\mathbf{NP} \not\subseteq \mathbf{BQP}$, but there is no consensus whether or not $\mathbf{BQP} \subseteq \mathbf{NP}$.
+It is   [possible](https://eccc.weizmann.ac.il/report/2018/107/) that these two classes are _incomparable_, in the sense that $\mathbf{NP} \nsubseteq \mathbf{BQP}$ (and in particular no $\mathbf{NP}$-complete function belongs to $\mathbf{BQP}$) but also $\mathbf{BQP} \nsubseteq \mathbf{NP}$ (and there are some interesting candidates for such problems).
 
 
 It can be shown that $QNANDEVAL$ (evaluating a quantum circuit on an input) is computable by a polynomial size QNAND program, and moreover this program can even be generated _uniformly_ and hence $QNANDEVAL$ is in $\mathbf{BQP}$.
@@ -556,7 +570,7 @@ There is a polynomial-time quantum algorithm that on input an integer $M$ (repre
 
 Another way to state [shorthm](){.ref}  is that if we define $FACTORING:\{0,1\}^* \rightarrow \{0,1\}$ to be the function that on input a pair of numbers $(M,X)$ outputs $1$ if and only if $M$ has a factor $P$ such that $2 \leq P \leq X$, then $FACTORING$ is in $\mathbf{BQP}$.
 This is an exponential improvement over the best known classical algorithms, which take roughly $2^{\tilde{O}(n^{1/3})}$ time, where the $\tilde{O}$ notation hides factors that are polylogarithmic in $n$.
-We will not prove [shorthm](){.ref} in this chapter, will  sketch some of the ideas behind the proof.
+While we will not prove [shorthm](){.ref} in this chapter, will  sketch some of the ideas behind the proof.
 
 
 ### Period finding
@@ -569,14 +583,14 @@ For example, a function $f:\R \rightarrow \R$ is _periodic_ if there is some $h>
 
 _Musical notes_ yield one type of periodic function.
 When you pull on a string on a musical instrument, it vibrates in a repeating pattern.
-Hence, if we plot the speed of the string (and so how much pressure it exerts on the air around it) as a function of time, it will some  periodic function.
+Hence, if we plot the speed of the string (and so also the speed of the air around it) as a function of time, it will some  periodic function.
 The length of the period is known as the _wave length_ of the note.
 The _frequency_ is the number of times the function repeats itself within a unit of time.
 For example, the "Middle C" note has a frequency of $261.63$ Hertz, which means its period is $1/(261.63)$ seconds.
 
-If we play a _chord_ by playing several notes at once, we get a more complex periodic function obtained by combining the functions of the three notes.
-The human ear contain many small hairs, each of which is sensitive to a narrow band of frequencies.
-Hence when we hear the sound corresponding to a chord, our ears actually separate it out to the components corresponding to each frequency (see [timefreqfig](){.ref}).
+If we play a _chord_ by playing several notes at once, we get a more complex periodic function obtained by combining the functions of the individual  notes (see [timefreqfig](){.ref}).
+The human ear contains many small hairs, each of which is sensitive to a narrow band of frequencies.
+Hence when we hear the sound corresponding to a chord, the hairs in our ears actually separate it out to the components corresponding to each frequency.
 
 
 ![Left: The air-pressure when playing a "C Major" chord as a function of time. Right: The coefficients of the Fourier transform of the same function, we can see that it is the sum of three freuencies corresponding to the C, E and G notes (261.63, 329.63 and 392 Hertz respectively). Credit: Bjarke Mønsted's [Quora answer](https://www.quora.com/What-is-the-meaning-of-frequency-domain). ](../figure/timefreq.png){#timefreqfig .class width=300px height=300px}
@@ -590,16 +604,19 @@ The Fourier transform makes it easy to compute the period of a given function: i
 
 ### Shor's Algorithm: A bird's eye view
 
-Shor's Algorithm is a quantum algorithm that on input a an integer $M$, outputs the prime factorization in time that is polynomial in $\log M$.
-While we will not provide a full description of the algorithm and its analysis in this chapter, we will illustrate some of the main ideas behind it.
+On input a an integer $M$, Shor's algorithm outputs the prime factorization of $M$ in time that is polynomial in $\log M$.
+The main steps in the algorithm are the following:
 
 
-The first step in the algorithm is to pick a random $A\in \{0,1\ldots,M-1\}$ and define the function $F_A:\{0,1\}^m \rightarrow \{0,1\}^m$ as $F_A(x)= A^x (\mod M)$ where we identify the string  $x \in \{0,1\}^m$ with  an integer using the binary representation, and similarly represent the integer $A^x (\mod M)$ as a string. (We will choose $m$ to be some polynomial in $m$ and so in particular $\{0,1\}^m$ is a  large enough set to represent all the numbers in $\{0,1,\ldots, M-1 \}$).
+__Step 1: Reduce to period finding.__ The first step in the algorithm is to pick a random $A\in \{0,1\ldots,M-1\}$ and define the function $F_A:\{0,1\}^m \rightarrow \{0,1\}^m$ as $F_A(x)= A^x (\mod M)$ where we identify the string  $x \in \{0,1\}^m$ with  an integer using the binary representation, and similarly represent the integer $A^x (\mod M)$ as a string. (We will choose $m$ to be some polynomial in $m$ and so in particular $\{0,1\}^m$ is a  large enough set to represent all the numbers in $\{0,1,\ldots, M-1 \}$).
 
-Some not-too-hard calculations (which we leave as [shorex](){.ref}) show that: __(1)__ The function $F_A$ is  _periodic_ (i.e., there is some integer $p_A$ such that $F_A(x+p_A)=F_A(x)$ for almost^[We'll ignore this "almost" qualifier in the  discussion below. It causes some annoying, yet ultimately manageable, technical issues in the full-fledged algorithm.] every $x$) and more importantly __(2)__ Tf we can recover the period $p_A$ of $F_A$  for several randomly chosen $A$'s, then we can recover the factorization of $M$.
+Some not-too-hard calculations (which we leave as [shorex](){.ref}) show that: __(1)__ The function $F_A$ is  _periodic_ (i.e., there is some integer $p_A$ such that $F_A(x+p_A)=F_A(x)$ for almost^[We'll ignore this "almost" qualifier in the  discussion below. It causes some annoying, yet ultimately manageable, technical issues in the full-fledged algorithm.] every $x$) and more importantly __(2)__ If we can recover the period $p_A$ of $F_A$  for several randomly chosen $A$'s, then we can recover the factorization of $M$.
 Hence, factoring $M$ reduces to finding out the period of the function $F_A$.
 
-Using a simple trick known as "repeated squaring", it is possible to compute the map $x \mapsto f(x)$ in  time polynomial in $m$, which means we can also compute this map using a polynomial number of NAND gates,and so in particular we can generate in polynomial quantum time a quantum state $\rho$ that is (up to normalization) equal to
+
+
+__Step 2: Period finding via the Quantum Fourier Transform.__
+Using a simple trick known as "repeated squaring", it is possible to compute the map $x \mapsto F_A(x)$ in  time polynomial in $m$, which means we can also compute this map using a polynomial number of NAND gates,and so in particular we can generate in polynomial quantum time a quantum state $\rho$ that is (up to normalization) equal to
 
 $$
 \sum_{x\in \{0,1\}^m} |x\rangle |F_A(x) \rangle \;\;.
@@ -609,12 +626,15 @@ In particular, if we were to _measure_ the state $\rho$, we would get a random p
 So far, this is not at all impressive. After all, we did not need the power of quantum computing to generate such pairs: we could simply generate a random $x$ and then compute $F_A(x)$.
 
 
-Another way to describe the state $\rho$ is that the coefficient of $|x \rangle |y \rangle$  in $\rho$ is proportional to $f_{A,y}(x)$  where $f_{A,y} : \{0,1\}^m \rightarrow \R$ is the function such that $A_{A,y}(x) = \begin{cases} 1 & y = A^x (\mod M) \\ 0 & \text{otherwise} \end{cases}$.
+Another way to describe the state $\rho$ is that the coefficient of $|x \rangle |y \rangle$  in $\rho$ is proportional to $f_{A,y}(x)$  where $f_{A,y} : \{0,1\}^m \rightarrow \R$ is the function such that
+$$A_{A,y}(x) = \begin{cases} 1 & y = A^x (\mod M) \\ 0 & \text{otherwise} \end{cases} \;.$$
+
 The magic of Shor's algorithm comes from a procedure known as the [_Quantum Fourier Transform_](https://en.wikipedia.org/wiki/Quantum_Fourier_transform). It allows to change the state $\rho$ into the state $\hat{\rho}$ where the coefficient of $|x\rangle|y \rangle$ is now proportional to the _$x$-th Fourier coefficient_  of $f_{A,y}$.
 In other words, if  we measure the state $\hat{\rho}$, we will obtain a pair $(x,y)$ such that the probability of choosing $x$  is proportional to the square of the weight of the _frequency_ $x$ in the representation of the function $f_{A,y}$.
 Since for every $y$, the function $f_{A,y}$ has the period $p_A$, it can be shown that the frequency $x$ will be (almost^[The "almost" qualifier again appears because the original function was only "almost" periodic, but it turns out this can be handled by using an "approximate greatest common divisor" algorithm instead of a standard g.c.d. below. The latter can be obtained using a tool known as the continued fraction representation of a number.]) a multiple of $p_A$.
 If we make several such samples $y_0,\ldots,y_k$ and obtain the frequencies $x_1,\ldots,x_k$, then the true period $p_A$ divides all of them, and it can be shown that it is going to be in fact the _greatest common divisor_ (g.c.d.) of all these frequencies: a value which can be computed in polynomial time.
-.
+
+As mentioned  above,  we can recover the factorization of $M$ from the periods of $F_{A_0},\ldots,F_{A_t}$ for some randomly chosen $A_0,\ldots,A_t$ in $\{0,\ldots, M-1\}$ and $t$ which is polynomial in $\log M$.
 
 ::: {.remark title="Quantum Fourier Transform" #QFT}
 Despite its name, the Quantum Fourier Transform does _not_ actually give a way to compute the Fourier Transform of a function $f:\{0,1\}^m \rightarrow \R$.
@@ -642,26 +662,31 @@ Therefore we  now  take a short detour to (very basic) _group theory_, and defin
 ::: {.remark title="Group theory" #grouptheorem}
 While we define the concepts we use, some   background in group or number theory might be quite helpful for fully understanding this section.
 
+
 We will not use anything more than the basic properties of finite Abelian groups.
 Specifically we use the following notions:
-A finite _group_ $\mathbb{G}$ can be thought of as simply a set of elements and some _binary operation_ $\star$ on these elements (i.e., if $g,h \in \mathbb{G}$ then $g \star h$ is an element of $\mathbb{G}$ as well).
-The operation satisfies the sort of properties that a product operation does.
-It is associative (i.e., $(g \star h)\star f = g \star (h \star f)$) and there is some element $1$ such that $g \star 1 = g$ for all $g$, where for every $g\in \mathbb{G}$ there exists an element $g^{-1}$ such that $g \star g^{-1} = 1$.
-A group is  _Abelian_ or _commutative_ if  $g \star h = h \star g$ for all $g,h \in \mathbb{G}$.
+
+
+* A finite _group_ $\mathbb{G}$ can be thought of as simply a set of elements and some _binary operation_ $\star$ on these elements (i.e., if $g,h \in \mathbb{G}$ then $g \star h$ is an element of $\mathbb{G}$ as well).
+
+*  The operation $\star$ satisfies the sort of properties that a product operation does, namely, it is _associative_ (i.e., $(g \star h)\star f = g \star (h \star f)$) and there is some element $1$ such that $g \star 1 = g$ for all $g$, and for every $g\in \mathbb{G}$ there exists an element $g^{-1}$ such that $g \star g^{-1} = 1$.
+
+* A group is called  _commutative_ (also known as _Abelian_) if  $g \star h = h \star g$ for all $g,h \in \mathbb{G}$.
 :::
 
-The Fourier basis is a deep and vast topic, on which we will barely touch upon here.
+The Fourier transform is a deep and vast topic, on which we will barely touch upon here.
 Over the real numbers, the Fourier transform of a function $f$ is obtained by expressing $f$ in the form $\sum \hat{f}(\alpha)\chi_\alpha$ where the $\chi_\alpha$'s are "wave functions" (e.g. sines and cosines).
-However, turns out that the same notion exists for _every_ Abelian group $\mathbb{G}$.
+However, it turns out that the same notion exists for _every_ Abelian group $\mathbb{G}$.
 Specifically, for every such group $\mathbb{G}$, if $f$ is a function mapping $\mathbb{G}$ to $\mathbb{C}$, then we can write $f$ as
 
-$$f = \sum_{g \in \mathbb{G}} \hat{f}(g)\chi_g \;; \label{fourierexpansion}$$
+$$f = \sum_{g \in \mathbb{G}} \hat{f}(g)\chi_g \;\;, \label{fourierexpansion}$$
 
-where $\chi_g$ are functions mapping $\mathbb{G}$ to $\mathbb{C}$ that are analogs of the "wave functions" for the group $\mathbb{G}$ and for every $g\in \mathbb{G}$, $\hat{f}(g)$ is a complex number known as the _Fourier coefficient of $f$ corresponding to $g$_.^[The equation [fourierexpansion](){.eqref} means that if we think of $f$ as a $|\mathbb{G}|$ dimensional vector over the complex numbers, then we can write this vector as a sum (with certain coefficients) of the vectors $\{ \chi_g \}_{g\in \mathbb{G}}$. ]
-We call these functions the _Fourier characters_.
+where  the $\chi_g$'s are functions mapping $\mathbb{G}$ to $\mathbb{C}$ that are analogs of the "wave functions" for the group $\mathbb{G}$ and for every $g\in \mathbb{G}$, $\hat{f}(g)$ is a complex number known as the _Fourier coefficient of $f$ corresponding to $g$_.^[The equation [fourierexpansion](){.eqref} means that if we think of $f$ as a $|\mathbb{G}|$ dimensional vector over the complex numbers, then we can write this vector as a sum (with certain coefficients) of the vectors $\{ \chi_g \}_{g\in \mathbb{G}}$. ]
+The representation [{fourierexpansion}](){.eqref} is known as the _Fourier expansion_ or _Fourier transform_ of $f$, the numbers $( \hat{f}(g) )_{g\in\mathbb{G}}$ are known as the _Fourier coefficients_ of $f$ and the functions $( \chi_g )_{g\in\mathbb{G}}$
+are known as the _Fourier characters_.
 The central property of the Fourier characters  is that they are _homomorphisms_ of the group into the complex numbers, in the sense that for every $x,x' \in \mathbb{G}$, $\chi_g(x \star x')=\chi_g(x)\chi_g(x')$, where $\star$ is the group operation.
 One corollary of this property is that if $\chi_g(h)=1$ then $\chi_g$ is _$h$ periodic_ in the sense that $\chi_g(x \star h)=\chi_g(x)$ for every $x$.
-It turns out that if $f$ is periodic with minimal period $h$, then the only Fourier characters that have non zero coefficient in the expression [fourierexpansion](){.eqref} are those that are $h$ periodic as well.
+It turns out that if $f$ is periodic with minimal period $h$, then the only Fourier characters that have non zero coefficients in the expression [fourierexpansion](){.eqref} are those that are $h$ periodic as well.
 This can be used to recover the period of $f$ from its Fourier expansion.
 
 ### Quantum Fourier Transform over the Boolean Cube: Simon's Algorithm
@@ -709,16 +734,16 @@ $$
 
 We can now use the distributive law and open up a term of the form
 
-$$f(x)(|0\rangle + (-1)^{x_0}|1\rangle) \cdots  (|0\rangle + (-1)^{x_{n-1}}|1\rangle)$$
+$$f(x)\left(|0\rangle + (-1)^{x_0}|1\rangle\right) \cdots  \left(|0\rangle + (-1)^{x_{n-1}}|1\rangle\right)$$
 
-to the following  sum over $2^n$ terms:
+to the following  sum over $2^n$ terms:^[If you find this confusing, try to  work out why $\left(|0\rangle + (-1)^{x_0}|1 \rangle\right) \left(|0\rangle + (-1)^{x_1}|1 \rangle \right) \left(|0\rangle + (-1)^{x_2}|1 \rangle \right)$ is the same as the sum over $2^3$ terms
+$|000\rangle + (-1)^{x_2}|001\rangle + \cdots +(-1)^{x_0+x_1+x_2}|111\rangle$.]
 
 $$
 f(x) \sum_{y \in \{0,1\}^n} (-1)^{\sum y_ix_i}|y \rangle \;.
 $$
 
-(If you find this confusing, try to  work out why $(|0\rangle + (-1)^{x_0}|1 \rangle) (|0\rangle + (-1)^{x_1}|1 \rangle ) (|0\rangle + (-1)^{x_2}|1 \rangle )$ is the same as the sum over $2^3$ terms
-$|000\rangle + (-1)^{x_2}|001\rangle + \cdots +(-1)^{x_0+x_1+x_2}|111\rangle$.)
+
 
 
 But by changing the order of summations, we see that the final state is
@@ -730,6 +755,7 @@ $$
 which exactly corresponds to $\hat{\rho}$.
 :::
 
+::: {.remark title="From Fourier to Period finding: Simon's Algorithm" #simons}
 Using [QFTcube](){.ref} it is not hard to get an algorithm that can recover a string $h^* \in \{0,1\}^n$ given of an arbitrary function $F:\{0,1\}^n \rightarrow \{0,1\}^*$  that is _$h^*$ periodic_ in the sense that $F(x)=F(x')$ for distinct $x,x'$ if and only if $x' = x \oplus h^*$.
 The key observation is that if we compute the state $\sum_{x\in \{0,1\}^n} |x \rangle |F(x) \rangle$,  and perform the Quantum Fourier transform on the first $n$ qubits, then we would get a state such that the only basis elements with nonzero coefficients would be of the form $|y \rangle$ where
 
@@ -740,180 +766,64 @@ $$
 So, by measuring the state, we can obtain a sample of a random $y$ satisfying [eq:periodbooleanqft](){.eqref}.
 But since [eq:periodbooleanqft](){.eqref} is a _linear_ equation modulo $2$ about the unknown $n$ variables $h^*_0,\ldots,h^*_{n-1}$, if we repeat this procedure to get $n$ such equations, we will have at least as many equations as variables  and (it can be shown that) this will suffice to recover $h^*$.
 
-
-
-::: {.remark title="From Simon to Shor" #simontoshorrem}
-Simon's algorithm seems to really use the special bit-wise structure of the group $\{0,1\}^n$, so one could wonder if it has any relevance for the group $\Z^*_M$ for some exponentially large $M$, which is the case needed for Shor's algorithm.
-However, it  turns out that the same insights that underlie the well known  [Fast Fourier Transform (FFT)](https://en.wikipedia.org/wiki/Fast_Fourier_transform) algorithm can be used to follow the same strategy for this group as well.
-
+This result is known as [Simon's Algorithm](https://en.wikipedia.org/wiki/Simon%27s_problem), and it preceded and inspired Shor's algorithm.
 :::
 
 
-<!--
 
-## Quantum 101
+::: {.remark title="From Simon to Shor (advanced, optional)" #simontoshorrem}
+[QFTcube](){.ref} seemed to really use the special bit-wise structure of the group $\{0,1\}^n$,
+and so one could wonder if it can be extended to other groups.
+However, it turns out this can be the case.
+In particular, the key step in Shor's algorithm is to implement the Fourier transform for the group $\Z_L$ which is the set of numbers $\{0,\ldots,L-1\}$ with the operation being addition modulo $L$.
+In this case it turns out that the Fourier characters are the functions $\chi_y(x) = \omega^{yx}$ where $\omega = e^{2\pi i/L}$ ($i$ here denotes the complex number $\sqrt{-1}$).
+The $y$-th Fourier coefficient of a function $f:\Z_L \rightarrow \mathbb{C}$ is
 
-We now present some of the basic notions in quantum information.
-It is very useful to contrast these notions to the setting of _probabilistic_ systems and see how "negative probabilities" make a difference.^[This discussion is somewhat brief. The chapter on quantum computation in my [book with Arora](http://theory.cs.princeton.edu/complexity/) (see [draft here](http://theory.cs.princeton.edu/complexity/ab_quantumchap.pdf)) is one
-relatively short resource that contains essentially everything we discuss here.
-See also this [blog post of Aaronson](http://www.scottaaronson.com/blog/?p=208) for a high level explanation of Shor's algorithm which ends with links to several more detailed expositions.
-See also [this lecture](http://www.scottaaronson.com/democritus/lec14.html) of Aaronson for a great discussion of the feasibility of quantum computing (Aaronson's [course lecture notes](http://www.scottaaronson.com/democritus/default.html) and the [book](http://www.amazon.com/Quantum-Computing-since-Democritus-Aaronson/dp/0521199565) that they spawned are fantastic reads as well).]
+$$\hat{f}(y) = \tfrac{1}{\sqrt{L}}\sum_{x\in \Z_L} f(x)\omega^{xy} \;. \label{fouriercoeffmodular}$$
 
-__States:__ We will consider a simple quantum system that includes $n$ objects (e.g., electrons/photons/transistors/etc..) each of which can be in either an "on" or "off" state - i.e., each of them can encode a single _bit_ of information, but to emphasize the "quantumness" we will call it a _qubit_.
-A _probability distribution_ over such a system can be described as a $2^n$ dimensional vector $v$ with non-negative entries summing up to $1$, where for every $x\in\{0,1\}^n$, $v_x$ denotes the probability that the system is in state $x$.
-As we mentioned, quantum mechanics allows negative (in fact even complex) probabilities and so a _quantum state_ of the system can be described as a $2^n$ dimensional vector $v$ such that $\|v\|^2 = \sum_x |v_x|^2 = 1$.
+The key to implementing the Quantum Fourier Transform  for such groups is to use the same recursive equations that enable the classical [Fast Fourier Transform (FFT)](https://en.wikipedia.org/wiki/Fast_Fourier_transform) algorithm.
+Specifically, consider the case that $L=2^\ell$.
+We can separate the sum over $x$ in [fouriercoeffmodular](){.eqref} to the terms corresponding to even $x$'s (of the form $x=2z$) and odd $x$'s (of the form $x=2z+1$) too obtain
 
-__Measurement:__ Suppose that we were in the classical probabilistic setting, and that the $n$ bits are simply random coins.
-Thus we can describe the _state_ of the system by the $2^n$-dimensional vector $v$ such that $v_x=2^{-n}$ for all $x$.
-If we _measure_ the system and see what the coins came out, we will get the value $x$ with probability $v_x$.
-Naturally, if we measure the system twice we will get the same result.
-Thus, after we see that the coin is $x$, the new state of the system _collapses_ to a  vector $v$ such that $v_y = 1$ if $y=x$ and $v_y=0$ if $y\neq x$.
-In a quantum state, we do the same thing:  _measuring_ a vector $v$ corresponds to turning it with probability $|v_x|^2$ into a vector that has $1$ on coordinate $x$ and zero on all the other coordinates.
+$$\hat{f}(y) = \tfrac{1}{\sqrt{L}}\sum_{z \in Z_{L/2}} f(2z)(\omega^2)^{yz} + \tfrac{1}{\sqrt{L}}\sum_{z\in \Z_{L/2}}f(2z+1)(\omega^2)^{yz}\omega^y
+$$
 
+which reduces computing the Fourier transform of $f$ over the group $\Z_{2^\ell}$ to computing the Fourier transform of the functions
+$f_{even}$ and $f_odd}$ (corresponding to the applying $f$ to only the even and odd vectors respectively) which have $2^{\ell-1}$ inputs that we can identify with the group $\Z_{2^{\ell-1}}$.
 
-__Operations:__ In the classical probabilistic setting, if we have a system in state $v$ and we apply some function $f:\{0,1\}^n\rightarrow\{0,1\}^n$ then this transforms $v$ to the state $w$ such that $w_y = \sum_{x:f(x)=y} v_x$.
-Another way to state this, is that $w=M_f v$ where $M_f$ is the matrix such that $M_{f(x),x}=1$ for all $x$ and all other entries are $0$.
-If we toss a coin and decide with probability $1/2$ to apply $f$ and with probability $1/2$ to apply $g$, this corresponds to the matrix $(1/2)M_f + (1/2)M_g$.
-More generally, the set of operations that we can apply can be captured as the set of convex combinations of all such matrices- this is simply the set of non-negative matrices whose columns all sum up to $1$- the _stochastic_ matrices.
-In the quantum case, the operations we can apply to a quantum state are encoded as a _unitary_ matrix, which is a matrix $M$ such that $\|Mv\|=\|v\|$ for all vectors $v$.
-
-__Elementary operations:__ Of course, even in the probabilistic setting, not every function $f:\{0,1\}^n\rightarrow\{0,1\}^n$ is efficiently computable. We think of a function as efficiently computable if it is composed of polynomially many elementary operations, that involve at most $2$ or $3$ bits or so (i.e., Boolean _gates_).
-That is, we say that a matrix $M$ is _elementary_ if it only modifies three bits.
-That is,  $M$ is obtained by "lifting" some $8\times 8$ matrix $M'$ that operates on three bits $i,j,k$, leaving all the rest of the bits intact.
-Formally, given an $8\times 8$ matrix $M'$ (indexed by strings in $\{0,1\}^3$) and three distinct indices $i<j<k \in \{1,\ldots,n\}$ we define the _$n$-lift of $M'$ with indices $i,j,k$_ to be the $2^n\times 2^n$ matrix $M$ such that for every strings $x$ and $y$ that agree with each other on all coordinates except possibly $i,j,k$, $M_{x,y}=M'_{x_ix_jx_k,y_iy_jy_k}$ and otherwise $M_{x,y}=0$.
-Note that if $M'$ is of the form $M'_f$ for some function $f:\{0,1\}^3\rightarrow\{0,1\}^3$ then $M=M_g$ where $g:\{0,1\}^n\rightarrow\{0,1\}^n$ is defined as $g(x)=f(x_ix_jx_k)$.
-We define $M$ as an _elementary stochastic matrix_ or a _probabilistic gate_ if $M$ is equal to an $n$ lift of some stochastic $8\times 8$ matrix $M'$.
-The quantum case is similar: a _quantum gate_ is a $2^n\times 2^n$ matrix that is an $N$ lift of some unitary $8\times 8$ matrix $M'$.
-It is an exercise to prove that lifting preserves stochasticity and unitarity. That is,  every probabilistic gate is a stochastic matrix and every quantum gate is a unitary matrix.
-
-__Complexity:__ For every stochastic matrix $M$ we can define its _randomized complexity_, denoted as $R(M)$ to be the minimum number $T$ such that $M$ is can be (approximately) obtained by combining $T$ elemntary probabilistic gates. To be concrete, we can define $R(M)$ to be the minimum $T$ such that there exists $T$ elementary matrices $M_1,\ldots,M_T$
-such that for every $x$, $\sum_y |M_{y,x}-(M_T\cdots M_1)_{y,x}|<0.1$.
-(It can be shown that $R(M)$ is finite and in fact at most $10^n$ for every $M$; we can do so by writing $M$ as a convex combination of function and writing every function as a composition of functions that map a single string $x$ to $y$, keeping all other inputs intact.)
-We will say that a probabilistic process $M$ mapping distributions on $\{0,1\}^n$ to distributions on $\{0,1\}^n$ is  _efficiently classically computable_ if $R(M) \leq poly(n)$.
-If $M$ is a unitary matrix, then we define the _quantum complexity_ of $M$, denoted as $Q(M)$, to be the minimum number $T$ such that there are quantum gates $M_1,\ldots,M_T$ satisfying that for every $x$, $\sum_y |M_{y,x}-(M_T \cdots M_1)_{y,x}|^2 < 0.1$.
-We say that $M$ is _efficiently quantumly computable_ if $Q(M)\leq poly(n)$.
-
-
-__Computing functions:__ We have defined what it means for an operator to be probabilistically or quantumly efficiently computable, but we typically are interested in computing some function $f:\{0,1\}^m\rightarrow\{0,1\}^\ell$.
-The idea is that we say that $f$ is efficiently computable if the corresponding operator is efficiently computable, except that we also allow to use extra memory and so to embed $f$ in some $n=poly(m)$.
-We define $f$ to be  _efficiently classically computable_ if there is some $n=poly(m)$ such that the operator $M_g$ is efficiently classically computable where $g:\{0,1\}^n\rightarrow\{0,1\}^n$ is defined such that  $g(x_1,\ldots,x_n)=f(x_1,\ldots,x_m)$.
-In the quantum case we have a slight twist since the operator $M_g$ is not necessarily a unitary matrix.[^reversible]
-Therefore we say that $f$ is _efficiently quantumly computable_  if there is $n=poly(m)$ such that the operator $M_q$ is efficiently quantumly computable where $g:\{0,1\}^n\rightarrow\{0,1\}^n$ is defined as
-$g(x_1,\ldots,x_n) = x_1\cdots x_m \|( f(x_1\cdots x_m)0^{n-m-\ell}\; \oplus \; x_{m+1}\cdots x_n)$.
-
-[^reversible]: It is a good exercise to verify that for every $g:\{0,1\}^n\rightarrow\{0,1\}^n$, $M_g$ is unitary if and only if $g$ is a permutation.
-
-**Quantum and classical computation:** The way we defined what it means for a function to be efficiently quantumly computable, it might not be clear that if $f:\{0,1\}^m\rightarrow\{0,1\}^\ell$ is a function that we can compute by a polynomial size Boolean circuit (e.g., combining polynomially many AND, OR and NOT gates) then it is also quantumly efficiently computable.
-The idea is that for every gate $g:\{0,1\}^2\rightarrow\{0,1\}$ we can define an $8\times 8$ unitary matrix $M_h$ where $h:\{0,1\}^3\rightarrow\{0,1\}^3$ have the form $h(a,b,c)=a,b,c\oplus g(a,b)$.
-So, if $f$ has a circuit of $s$ gates, then we can dedicate an extra bit for every one of these gates and then run the corresponding $s$ unitary operations one by one, at the end of which we will get an operator that computes the mapping $x_1,\ldots,x_{m+\ell+s} = x_1\cdots x_m \| x_{m+1}\cdots x_{m+s} \oplus f(x_1,\ldots,x_m)\|g(x_1\ldots x_m)$ where
-the  the $\ell+i^{th}$ bit of $g(x_1,\ldots,x_n)$ is the result of applying the $i^{th}$ gate in the calculation of $f(x_1,\ldots,x_m)$.
-So this is "almost" what we wanted except that we have this "extra junk" that we need to get rid of. The idea is that we now simply run the same computation again which will basically we mean we XOR another copy of $g(x_1,\ldots,x_m)$ to the last $s$ bits, but since $g(x)\oplus g(x) = 0^s$ we get that we compute the map $x \mapsto x_1\cdots x_m \| (f(x_1,\ldots,x_m)0^s \;\oplus\; x_{m+1}\cdots x_{m+\ell+s})$ as desired.
-
-
-[^circuit]: It is a good exercise to show that if $M$ is a probabilistic process with $R(M) \leq T$ then there exists a probabilistic circuit  of size, say, $100 T n^2$ that approximately computes $M$ in the sense that for every input $x$, $\sum_{y\in\{0,1\}^n} \left| \Pr[C(x)=y] - M_{x,y} \right| < 1/3$.
-
--->
-
-
-
-
-<!--
-### Bra-ket notation
-
-Quantum computing is very confusing and counterintuitive for many reasons.
-But there is also a "cultural" reason why people sometimes find quantum arguments hard to follow.
-Quantum folks follow their own special [notation](https://en.wikipedia.org/wiki/Bra%E2%80%93ket_notation) for vectors.
-Many non quantum people find it ugly and confusing, while quantum folks secretly wish they people used it all the time, not just for non-quantum linear algebra, but also for restaurant bills and elemntary school math classes.
-
-The notation is actually not so confusing. If $x\in\{0,1\}^n$ then $|x\rangle$ denotes the $x^{th}$ standard basis vector in $2^n$ dimension.
-That is $|x\rangle$  $2^n$-dimensional column vector that has $1$ in the $x^{th}$ coordinate and zero everywhere else.
-So, we can describe the column vector that has $\alpha_x$ in the $x^{th}$ entry as $\sum_{x\in\{0,1\}^n} \alpha_x |x\rangle$.
-One more piece of notation that is useful is that if $x\in\{0,1\}^n$ and $y\in\{0,1\}^m$ then we identify $|x\rangle|y\rangle$ with $|xy\rangle$ (that is, the $2^{n+m}$ dimensional vector that has $1$ in the coordinate corresponding to the concatenation of $x$ and $y$, and zero everywhere else).
-This is more or less all you need to know about this notation to follow this lecture.[^bra]
-
-[^bra]: If you are curious, there is an analog notation for _row_ vectors as $\langle x|$. Generally if $u$ is a vector then $|u\rangle$ would be its form as a column vector and $\langle u|$ would be its form as a row product. Hence since $u^\top v = \iprod{u,v}$ the inner product of $u$ and $b$ can be thought of as $\langle u| |v\rangle$ . The _outer product_ (the matrix whose $i,j$ entry is $u_iv_j$) is denoted as $| u\rangle \langle v|$.
-
-A quantum gate is an operation on at most three bits, and so it can be completely specified by what it does to the $8$ vectors $|000\rangle,\ldots,|111\rangle$.
-Quantum states are always unit vectors and so we sometimes omit the normalization for convenience; for example we will identify the state $|0\rangle+|1\rangle$ with its normalized version $\tfrac{1}{\sqrt{2}}|0\rangle + \tfrac{1}{\sqrt{2}}|1\rangle$.
-
--->
+This observation is usually used to obtain a fast (e.g. $O(L \log L)$) time to compute the Fourier transform in a classical setting, but it can be used to obtain a quantum circuit of $poly(\log L)$ gates to transform a state of the form $\sum_{x\in \Z_L} f(x)|x\rangle$ to a state of the form $\sum_{y\in \Z_L} \hat{f}(y)|y \rangle$.
+:::
 
 
 
 
 
-<!--
-
-Now for every $x,y$, the state of the two qubits before measurement is the $4$ dimensional vector:
-$v_{x,y} = \tfrac{1}{\sqrt{2}}\left[ R_{x\pi/8}|0\rangle \otimes R_{-y\pi/8}|1\rangle \;+\; R_{x\pi/8}|0\rangle \otimes R_{-y\pi/8}|1\rangle  \right] \;(**)$
-
-If $v \in \mathbb{R\rangle^4$ is the state of the two qubits,[^real] then the probability that we get a particular output $(a,b)$ is simply the dot product squared of $v$ with $|ab\rangle$.
-Since $|1\rangle=R_{\pi/2}|0\rangle$, and $\iprod{R_\alpha u,R_\beta u\rangle^2 = \cos^2 (\beta-\alpha)$, we get that for every choice of the coins $x,y$ and $a,b$
-the probability that we get $a,b$ as output conditioned on $x,y$ is:
-
-$\tfrac{1}{2}\left[ \cos^2(a\pi/2-x\pi/8)\cos^2(b\pi/2+y\pi/8) + \sin^2(a\pi/2-x\pi/8)\sin^2(b\pi/2+y\pi/8) right]$
-
-One can calculate that if $x=y=0$ then this equals $1$ if $a=b$ and $0$ if $a \neq b$, which implies they win the game with probability $1$.
-If $x=y=1$ then this equals
-which by calculation yields success probability of at least 0.8 QED
-
-[^real]: In general the state of two qubits is a _complex_ $2^2=4$ dimensional vector but in this case since the initial state was real and our transformations are real, the state will always be a real vector with no imaginary components.
--->
-
-<!--
-[Bell's overview paper](http://philosophyfaculty.ucsd.edu/faculty/wuthrich/GSSPP09/Files/BellJohnS1981Speakable_BertlmannsSocks.pdf)
--->
-
-<!--
-## Grover's Algorithm
-
-Shor's Algorithm is an amazing achievement, but it only applies to very particular problems.
-It does not seem to be relevant to breaking AES, lattice based cryptography, or problems not related to quantum computing at all such as scheduling,  constraint satisfaction, traveling salesperson etc.. etc..
-Indeed, for the most general form of these search problems, classically we don't how to do anything much better than brute force search, which takes $2^n$ time over an $n$-bit domain. Lev Grover showed that quantum computers can obtain a quadratic improvement over this brute force search, solving SAT in $2^{n/2}$ time.
-The effect of Grover's algorithm on cryptography is fairly mild: one essentially needs to double the key lengths of symmetric primitives.
-But beyond cryptography, if large scale quantum computers end up being built, Grover search and its variants might end up being some of the most useful computational problems they will tackle.
-Grover's theorem is the following:
-
-
-> # {.theorem title="Grover search" #groverthm}
-There is a quantum $O(2^{n/2}poly(n))$-time algorithm that given a $poly(n)$-sized  circuit computing a function $f:\{0,1\}^n\rightarrow\{0,1\}$ outputs a string
-$x^*\in\{0,1\}^n$ such that $f(x^*)=1$.
-
-> # {.proof data-ref="groverthm"}
-The proof is not hard but we only sketch it here.
-The general idea can be illustrated in the case that there exists a single $x^*$ satisfying $f(x^*)=1$.
-(There is a classical reduction from the general case to this problem.)
-As in Simon's algorithm, we can efficiently initialize an $n$-qubit system to the uniform state $u = 2^{-n/2}\sum_{x\in\{0,1\}^n}|x\rangle$ which has $2^{-n/2}$ dot product with $|x^*\rangle$. Of course if we measure $u$, we only have probability $(2^{-n/2})^2 = 2^{-n}$ of obtaining the value $x^*$.
-Our goal would be to use $O(2^{n/2})$ calls to the oracle to transform the  system to a state $v$ with dot product at least some constant $\epsilon>0$ with the state $|x^*\rangle$.
->
-It is an exercise to show that using $Had$ gets we can efficiently compute the unitary operator $U$ such that $Uu = u$ and $Uv = -v$ for every $v$ orthogonal to $u$.
-Also, using the circuit for $f$, we can efficiently compute the unitary operator $U^*$ such that $U^*|x\rangle=|x\rangle$ for all $x\neq x^*$ and $U^*|x^*\rangle=-|x^*\rangle$.
-It turns out that $O(2^{n/2})$ applications of $UU^*$ to $u$ yield a vector $v$ with $\Omega(1)$ inner product with $|x^*\rangle$.
-To see why, consider what these operators do in the two dimensional linear subspace spanned by $u$ and $|x^*\rangle$. (Note that the initial state $u$ is in this subspace and all our operators preserve this property.)
-Let $u_\perp$ be the unit vector orthogonal to $u$ in this subspace and let $x^*_\perp$ be the unit vector orthogonal to $|x^*\rangle$ in this subspace.
-Restricted to this subspace, $U^*$ is a reflection along the axis $x^*_\perp$ and $U$ is a reflection along the axis $u$.
->
-Now, let $\theta$ be the angle between $u$ and $x^*_\perp$.
-These vectors are very close to each other and so $\theta$ is very small but not zero - it is equal to $\sin^{-1} 2^{-n/2}$ which is roughly $2^{-n/2}$.
-Now if our state $v$ has  angle $\alpha \geq 0$  with $u$, then as long as $\alpha$ is not too large (say $\alpha<\pi/8$) then this means that $v$ has angle
-$u+\theta$ with $x^*_\perp$.
-That means taht $U^*v$ will have angle $-\alpha-\theta$ with $x^*_\perp$ or $-\alpha-2\theta$ with $u$, and hence $UU^*v$ will have angle
-$\alpha+2\theta$ with $u$.
-Hence in one application from $UU^*$ we move $2\theta$ radians away from $u$, and in $O(2^{-n/2})$ steps the angle between $u$ and our state will be at least some constant $\epsilon>0$.
-Since we live in the two dimensional space spanned by $u$ and $|x\rangle$, it would mean that the dot product of our state and $|x\rangle$ will be at least some constant as well.
-
--->
-
-
-
-
-## Lecture summary
+> # { .recap }
+* The state of an $n$-qubit quantum system can be modeled as a $2^n$ dimensional vector
+* An operation on the state corresponds to applying a unitary matrix to this vector.
+* Quantum circuits are obtained by composing basic operations such as $HAD$ and $U_{NAND}$.
+* We can use quantum circuits to define the classes $\mathbf{BQP_{/poly}}$ and $\mathbf{BQP}$ which are the quantum analogs of $\mathbf{P_{/poly}$ and $\mathbf{BPP}$ respectively.
+* There are some problems for which the best known quantum algorithm is _exponentially faster_ than the best known, but quantum computing is not a panacea. In particular, as far as we know, quantum computers could still require exponential time to solve $\mathbf{NP}$-complete problems such as $SAT$.
 
 
 ## Exercises
 
 ::: {.remark title="Disclaimer" #disclaimerrem}
 Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
+:::
+
+::: {.exercise title="Quantum and classical complexity class relations" #BQPcontainements}
+Prove the following relations between quantum complexity classes and classical ones:
+
+1. $\mathbf{P_{/poly}} \subseteq \mathbf{BQP_{/poly}}$.^[_Hint:_ You can use $U_{NAND}$ to simulate NAND gates.]
+
+2. $\mathbf{P} \subseteq \mathbf{BQP}$.^[_Hint:_ Use the alternative characterization of $\mathbf{P}$ as in [Palternativeex](){.ref}.]
+
+3. $\mathbf{BPP} \subseteq \mathbf{BQP}$.^[_Hint:_ You can use the $HAD$ gate to simulate a coin toss.]
+
+4. $\mathbf{BQP} \subseteq \mathbf{EXP}$.^[_Hint:_ In exponential time simulating quantum computation boils down to matrix multiplication.]
+
+5. If $SAT \in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$.^[_Hint:_ If a reduction can be implemented in $\mathbf{P}$ it can be implemented in $\mathbf{BQP}$ as well.]
 :::
 
 ::: {.exercise title="Discrete logarithm from order finding" #dlogfromorder}
