@@ -741,6 +741,7 @@ So, by measuring the state, we can obtain a sample of a random $y$ satisfying [e
 But since [eq:periodbooleanqft](){.eqref} is a _linear_ equation modulo $2$ about the unknown $n$ variables $h^*_0,\ldots,h^*_{n-1}$, if we repeat this procedure to get $n$ such equations, we will have at least as many equations as variables  and (it can be shown that) this will suffice to recover $h^*$.
 
 
+
 ::: {.remark title="From Simon to Shor" #simontoshorrem}
 Simon's algorithm seems to really use the special bit-wise structure of the group $\{0,1\}^n$, so one could wonder if it has any relevance for the group $\Z^*_M$ for some exponentially large $M$, which is the case needed for Shor's algorithm.
 However, it  turns out that the same insights that underlie the well known  [Fast Fourier Transform (FFT)](https://en.wikipedia.org/wiki/Fast_Fourier_transform) algorithm can be used to follow the same strategy for this group as well.
