@@ -138,7 +138,7 @@ In this case the concepts that are needed are
 
 * _Restrictions_ of  functions. If $F$ is a function that takes strings of arbitrary length as input (i.e., members of the set $\{0,1\}^*$) then $F_n$ is the restriction of $F$ to inputs of length $n$ (i.e., members of $\{0,1\}^n$).
 
-* We use the notion of a _QNAND program_ which will be our computational model for quantum computers, and which we will encounter later on in the course. QNAND programs can compute functions with a fixed input length $n$, and we define the notion of computing a function $G$ as outputting on input $x$ the value $G(x)$ with probability at least $2/$.
+* We use the notion of a _QNAND program_ which will be our computational model for quantum computers, and which we will encounter later on in the course. QNAND programs can compute functions with a fixed input length $n$, and we define the notion of computing a function $G$ as outputting on input $x$ the value $G(x)$ with probability at least $2/3$.
 
 * We will also use the notion of a _NAND++ program_ which will be our computational model for "classical" computers.  We require that for every $n\in \N$, the QNAND program $Q_n$ for $F_n$ needs  to be efficiently generatable, in the sense that there is a polynomial-time classical program $P$ that on input a string of $n$ ones (which we  shorthand  as $1^n$) outputs $Q_n$.
 
