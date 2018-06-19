@@ -105,10 +105,10 @@ In this course, we will eventually tackle some fairly complex definitions.
 For example, let us consider one of the definitions that we will encounter  towards the very end of this text:
 
 > # {.definition title="The complexity class $\mathbf{BQP}$" #BGPintrodef}
-If $G:\{0,1\}^n \rightarrow \{0,1\}$  is a finite function and $Q$ is a QNAND program then we say that _$Q$ computes $G$_ if  for every $x\in \{0,1\}^n$, $\Pr[ Q(x)=G(x) ] \geq 2/3$.
+If $G:\{0,1\}^n \rightarrow \{0,1\}$  is a finite function and $Q$ is a Quantum circuit  then we say that _$Q$ computes $G$_ if  for every $x\in \{0,1\}^n$, $\Pr[ Q(x)=G(x) ] \geq 2/3$.
 >
 The class $\mathbf{BQP}$ (which stands for "bounded-error quantum polynomial time") is the set of all functions $F:\{0,1\}^* \rightarrow \{0,1\}$ such that there exists a polynomial-time NAND++ program $P$ that satisfies the following:
-for every $n\in \N$, $P(1^n)$ is a QNAND program $Q_n$ that computes $F_n$, where $F_n:\{0,1\}^n \rightarrow \{0,1\}$ is the restriction of $F$ to inputs of length $\{0,1\}^n$.
+for every $n\in \N$, $P(1^n)$ is a Quantum circuit $Q_n$ that computes $F_n$, where $F_n:\{0,1\}^n \rightarrow \{0,1\}$ is the restriction of $F$ to inputs of length $\{0,1\}^n$.
 That is, $F_n(x) = F(x)$ for every $x\in \{0,1\}^n$.
 
 We will also see the following theorem:
@@ -138,9 +138,9 @@ In this case the concepts that are needed are
 
 * _Restrictions_ of  functions. If $F$ is a function that takes strings of arbitrary length as input (i.e., members of the set $\{0,1\}^*$) then $F_n$ is the restriction of $F$ to inputs of length $n$ (i.e., members of $\{0,1\}^n$).
 
-* We use the notion of a _QNAND program_ which will be our computational model for quantum computers, and which we will encounter later on in the course. QNAND programs can compute functions with a fixed input length $n$, and we define the notion of computing a function $G$ as outputting on input $x$ the value $G(x)$ with probability at least $2/3$.
+* We use the notion of a _Quantum circuit_ which will be our computational model for quantum computers, and which we will encounter later on in the course. Quantum circuits can compute functions with a fixed input length $n$, and we define the notion of computing a function $G$ as outputting on input $x$ the value $G(x)$ with probability at least $2/3$.
 
-* We will also use the notion of a _NAND++ program_ which will be our computational model for "classical" computers.  We require that for every $n\in \N$, the QNAND program $Q_n$ for $F_n$ needs  to be efficiently generatable, in the sense that there is a polynomial-time classical program $P$ that on input a string of $n$ ones (which we  shorthand  as $1^n$) outputs $Q_n$.
+* We will also use the notion of a _NAND++ program_ which will be our computational model for "classical" computers.  We require that for every $n\in \N$, the quantum circuit $Q_n$ for $F_n$ can be generated efficiently, in the sense that there is a polynomial-time classical program $P$ that on input a string of $n$ ones (which we  shorthand  as $1^n$) outputs $Q_n$.
 
 The point of this example is not for you to understand  [BGPintrodef](){.ref} and [shorsthmintro](){.ref}.
 Fully understanding them will require background that will take us weeks to develop.
