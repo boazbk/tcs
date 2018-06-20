@@ -365,7 +365,7 @@ We now present a few more examples of computing natural functions by a sequence 
 Consider the task of computing, given as input a string $x\in \{0,1\}^n$ that represents a natural number $X\in \N$, the representation of $X+1$.
 That is, we want to compute the function $INC_n:\{0,1\}^n \rightarrow \{0,1\}^{n+1}$ such that for every $x_0,\ldots,x_{n-1}$, $INC_n(x)=y$  which satisfies $\sum_{i=0}^n y_i 2^i = \left( \sum_{i=0}^{n-1} x_i 2^i \right)+1$.
 >
-The increment operation can be very informally described as follows: _"Add $1$ to the most significant bit and propagate the carry"_.
+The increment operation can be very informally described as follows: _"Add $1$ to the least significant bit and propagate the carry"_.
 A little more precisely, in the case of the binary representation, to obtain the increment of $x$, we scan $x$ from the least significant bit onwards, and flip all $1$'s to $0$'s until we encounter a bit equal to $0$, in which case we flip it to $1$ and stop.
 (Please verify you understand why this is the case.)
 >
