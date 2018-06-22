@@ -30,6 +30,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Hamish Nicholson
 * Sebastian Oberhoff
 * Thomas Orton
+* Pablo Parrilo
 * Juan Perdomo
 * Aaron Sachs
 * Brian Sapozhnikov
