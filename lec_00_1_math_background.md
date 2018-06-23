@@ -1032,6 +1032,40 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 :::
 
 
+::: {.exercise title="Logical expressions" #logicalex}
+a. Write a logical expression $\varphi(x)$ involving the variables $x_0,x_1,x_2$ and the operators $\wedge$ (AND), $\vee$ (OR), and $\neg$ (NOT), such that $\varphi(x)$ is true if the majority of the inputs are _True_.
+
+b. Write a logical expression $\varphi(x)$ involving the variables $x_0,x_1,x_2$ and the operators $\wedge$ (AND), $\vee$ (OR), and $\neg$ (NOT), such that $\varphi(x)$ is true if the sum $\sum_{i=0}^{2} x_i$ (identifying "true" with $1$ and "false" with $0$)  is _odd_.
+:::
+
+::: {.exercise title="Quantifiers" #quantifiersex}
+Use the logical quantifiers $\forall$ (for all), $\exists$ (exists), as well as $\wedge,\vee,\neg$ and the arithmetic operations $+,\times,=,>,<$ to write the following:
+
+a. An expression $\varphi(n,k)$ such that for every natural numbers $n,k$, $\varphi(n,k)$ is true if and only if $k$  divides $n$.
+
+b. An expression $\varphi(n)$ such that for every natural number $n$, $\varphi(n)$ is true if and only if $n$ is a power of three.
+
+:::
+
+::: {.exercise title="Set construction notation" #setsdescription}
+Describe in words the following sets:
+
+a. $S = \{ x\in \{0,1\}^{100} : \forall_{i\in \{0,\ldots, 99\}} x_i = x_{99-i} \}$
+
+b. $T = \{ x\in \{0,1\}^* : \forall_{i,j \in \{2,\ldots,|x|-1 \} } i\cdot j \neq |x| \}$
+
+:::
+
+
+::: {.exercise title="Existence of one to one mappings" #cardinalitiesex}
+For each one of the following pairs of sets $(S,T)$, prove or disprove the following statement: there is a one to one function $f$ mapping $S$ to $T$.
+
+a. Let $n>10$. $S = \{0,1\}^n$ and $T= [n] \times [n] \times [n]$.
+
+b. Let $n>10$. $S$ is the set of all functions mapping $\{0,1\}^n$ to $\{0,1\}$. $T = \{0,1\}^{n^3}$.
+
+c. Let $n>100$. $S = \{k \in [n]  \;|\; k \text{ is prime} \}$, $T = \{0,1\}^{\ceil{\log n -1}}$.
+:::
 
 ># {.exercise title="Inclusion Exclusion" #inclex }
 a. Let $A,B$ be finite sets. Prove that $|A\cup B| = |A|+|B|-|A\cap B|$. \
@@ -1066,12 +1100,21 @@ Prove that for every undirected graph $G$ of $100$ vertices, if every vertex has
 > # {.exercise }
 Suppose that we toss three independent fair coins $a,b,c \in \{0,1\}$. What is the probability that the XOR of $a$,$b$, and $c$ is equal to $1$? What is the probability that the AND of these three values is equal to $1$? Are these two events independent?
 
-> # {.exercise}
-For every pair of functions $F,G$ below, determine which of the following relations holds: $F=O(G)$, $F=\Omega(G)$, $F=o(G)$ or $F=\omega(G)$. \
-a. $F(n)=n$, $G(n)=100n$. \
-b. $F(n)=n$, $G(n)=\sqrt{n}$.\
-c. $F(n)=n$, $G(n)=2^{(\log (n))^2}$.\
-d. $F(n)=n$, $G(n)=2^{\sqrt{\log n}}$
+
+::: {.exercise title="Oh notation" #ohnotationex}
+For every pair of functions $F,G$ below, determine which of the following relations holds: $F=O(G)$, $F=\Omega(G)$, $F=o(G)$ or $F=\omega(G)$.
+
+a. $F(n)=n$, $G(n)=100n$.
+
+b. $F(n)=n$, $G(n)=\sqrt{n}$.
+
+c. $F(n)=n\log n$, $G(n)=2^{(\log (n))^2}$.
+
+d. $F(n)=\sqrt{n}$, $G(n)=2^{\sqrt{\log n}}$
+
+e. $F(n) = \binom{n}{\ceil{0.2 n}}$ ,  $G(n) = 2^{0.1 n}$.
+
+:::
 
 > # {.exercise}
 Give an example of a pair of functions $F,G:\N \rightarrow \N$ such that neither $F=O(G)$ nor $G=O(F)$ holds.
@@ -1079,6 +1122,11 @@ Give an example of a pair of functions $F,G:\N \rightarrow \N$ such that neither
 
 > # {.exercise title="Topological sort" #topologicalsortex}
 Prove that for every directed acyclic graph (DAG) $G=(V,E)$, there exists a map $f:V \rightarrow \N$ such that $f(u)<f(v)$ for every edge $\overrightarrow{u \; v}$ in the graph.^[Hint: Use induction on the number of vertices. You might want to first prove the claim that every DAG contains a _sink_: a vertex without an outgoing edge.]
+
+
+::: {.exercise  #graphcycleex}
+Prove that for every undirected graph $G$ on $n$ vertices, if $G$ has at least $n$ edges then $G$ contains a cycle.
+:::
 
 ## Bibliographical notes
 
