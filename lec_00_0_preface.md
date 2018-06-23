@@ -113,3 +113,5 @@ Juan Esteller and Gabe Montague originally implemented the NAND* languages and t
 Thanks to David Steurer for writing the scripts (originally written for [our joint notes on the sum of squares algorithm](http://sumofsquares.org))  that I am using to produce these notes.
 David's scripts are themselves based on several other packages, including [pandoc](http://pandoc.org/), [LaTeX](https://www.latex-project.org/), and the Tufte [LaTeX](https://tufte-latex.github.io/tufte-latex/) package.
 I used the [Atom editor]  to write these notes,  and used the [hyrdrogen package](https://atom.io/packages/hydrogen), which relies on the [Jupyter project](http://jupyter.org/), to write code snippets.
+
+Finally, I'd like to thank my family: my wife Ravit and my children Alma and Goren. Working on this book (and the corresponding course) took much of my time, to the point that Alma wrote in an essay in her fifth grade class that "universities should not pressure professors to work too much", and all I have to show for it is about 500 pages of ultra boring mathematical text.
