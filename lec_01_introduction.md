@@ -339,30 +339,52 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 :::
 
 
-> # {.exercise }
-Rank the significance of the  following inventions in speeding up multiplication of large (that is 100 digit or more) numbers. That is, use "back of the envelope" estimates to order them in terms of the speedup factor they offered over the previous state of affairs.  \
-   >a. Discovery of the gradeschool style digit by digit algorithm (improving upon repeated addition) \
-   >b. Discovery of Karatsuba's algorithm (improving upon the digit by digit algorithm) \
-   >c. Invention of modern electronic computers (improving upon calculations with pen and paper)
+::: {.exercise }
+Rank the significance of the  following inventions in speeding up multiplication of large (that is 100 digit or more) numbers. That is, use "back of the envelope" estimates to order them in terms of the speedup factor they offered over the previous state of affairs.
 
-> # {.exercise}
-The 1977  Apple II personal computer had a processor speed of 1.023 Mhz or about $10^6$ operations per seconds. At the time of this writing the world's fastest supercomputer performs 93 "petaflops" ($10^{15}$ floating point operations per second) or about $10^{18}$ basic steps per second. For each one of the following running times (as a function of the input length $n$), compute for both computers how large an input  they could handle in a week of computation, if they run an algorithm that has this running time:  \
-   >a. $n$ operations. \
-   >b. $n^2$ operations. \
-   >c. $n\log n$ operations. \
-   >d. $2^n$ operations. \
-   >e. $n!$ operations.
+a. Discovery of the gradeschool style digit by digit algorithm (improving upon repeated addition)
 
+b. Discovery of Karatsuba's algorithm (improving upon the digit by digit algorithm)
 
-> # {.exercise title="Analysis of Karatsuba's Algorithm" #karatsuba-ex}
->  \
-   >a. Suppose that $T_1,T_2,T_3,\ldots$ is a sequence of numbers such that $T_2 \leq 10$ and for every $n$, $T_n \leq 3T_{\lceil n/2 \rceil} + Cn$. Prove that $T_n \leq 10Cn^{\log_2 3}$ for every $n$.^[__Hint:__ Use a proof by induction - suppose that this is true for all $n$'s from $1$ to $m$, prove that this is true also for $m+1$.] \
-   >b. Prove that the number of single digit operations that Karatsuba's algorithm takes to multiply two $n$ digit numbers is at most $1000n^{\log_2 3}$.
+c.  Invention of modern electronic computers (improving upon calculations with pen and paper).
+:::
 
+::: {.exercise}
+The 1977  Apple II personal computer had a processor speed of 1.023 Mhz or about $10^6$ operations per seconds. At the time of this writing the world's fastest supercomputer performs 93 "petaflops" ($10^{15}$ floating point operations per second) or about $10^{18}$ basic steps per second. For each one of the following running times (as a function of the input length $n$), compute for both computers how large an input  they could handle in a week of computation, if they run an algorithm that has this running time:
+
+a. $n$ operations.
+
+b. $n^2$ operations.
+
+c. $n\log n$ operations.
+
+d. $2^n$ operations.
+
+e. $n!$ operations.
+:::
+
+::: {.exercise title="Analysis of Karatsuba's Algorithm" #karatsuba-ex}
+
+a. Suppose that $T_1,T_2,T_3,\ldots$ is a sequence of numbers such that $T_2 \leq 10$ and for every $n$, $T_n \leq 3T_{\lceil n/2 \rceil} + Cn$. Prove that $T_n \leq 10Cn^{\log_2 3}$ for every $n$.^[__Hint:__ Use a proof by induction - suppose that this is true for all $n$'s from $1$ to $m$, prove that this is true also for $m+1$.] \
+
+b. Prove that the number of single digit operations that Karatsuba's algorithm takes to multiply two $n$ digit numbers is at most $1000n^{\log_2 3}$.
+
+:::
 
 > # {.exercise }
 Implement in the programming language of your choice functions ```Gradeschool_multiply(x,y)``` and ```Karatsuba_multiply(x,y)``` that take two arrays of digits ```x``` and ```y``` and return an array representing the product of ```x``` and ```y``` (where ```x``` is identified with the number ```x[0]+10*x[1]+100*x[2]+...``` etc..) using the gradeschool algorithm and the Karatsuba algorithm respectively. At what number of digits does the Karatsuba algorithm beat the gradeschool one?
 
+
+::: {.exercise title="Matrix Multiplication (optional, advanced)" #matrixex}
+In this exercise, we show that if  for some $\omega>2$, we can write the product of two $k\times k$ real-valued matrices $A,B$ using at most $k^\omega$ multiplications, then we can multiply two $n\times n$ matrices in roughly $n^\omega$ time for every large enough $n$.
+
+To make this precise, we need to make some notation that is unfortunately somewhat cumbersome. Assume that there is some $k\in \N$ and $m \leq k^\omega$ such that for every $k\times k$ matrices $A,B,C$ such that $C=AB$, we can write for every $i,j \in [k]$:
+$$
+C_{i,j} = \sum_{\ell=0}^m \alpha_{i,j}^\ell f_\ell(A)g_\ell(B)
+$$
+for some linear functions $f_0,\ldots,f_{m-1},g_0,\ldots,g_{m-1}:\mathbb{R}^{n^2} \rightarrow \mathbb{R}$ and coefficients $\{ \alpha_{i,j}^\ell \}_{i,j \in [k],\ell \in [m]}$.
+Prove that under this assumption  for every $\epsilon>0$, if $n$ is sufficiently large, then there is an algorithm that computes the product of two $n\times n$ matrices using at most $O(n^{\omega+\epsilon})$ arithmetic operations.^[_Hint:_ Start by showing this for the case that $n=k^t$ for some natural number $t$, in which case you can do so recursively by breaking the matrices into $k\times k$ blocks.]
+:::
 
 ## Bibliographical notes
 

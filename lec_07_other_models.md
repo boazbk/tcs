@@ -14,7 +14,6 @@
 
 >_"Because we shall later compute with expressions for functions, we need a distinction between functions and forms and a notation for expressing this distinction. This distinction and a notation for describing it, from which we deviate trivially, is given by Church."_,  John McCarthy, 1960 (in paper describing the LISP programming language)
 
-
 So far we have defined the notion of computing a  function based on the rather esoteric NAND++ programming language.
 While we have shown this is equivalent with Turing machines, the latter also don't correspond closely to the way computation is typically done these days.
 In this chapter we justify this choice by showing that the definition of computable functions will remain the same under a wide variety of computational models.
@@ -962,6 +961,11 @@ Some examples of Turing Equivalent models include:
 
 
 ## The Church-Turing Thesis (discussion) {#churchturingdiscussionsec }
+
+
+>_"[In 1934], Church had been speculating, and finally definitely proposed, that the $\lambda$-definable functions are all the effectively calculable functions .... When Church proposed this thesis, I sat down to disprove it ... but, quickly realizing that [my approach failed], I became overnight a supporter of the thesis."_, Stephen Kleene, 1979.
+
+>_"[The thesis is] not so much  a definition or to an axiom but ... a natural law."_, Emil Post, 1936. 
 
 We have defined functions to be _computable_ if they can be computed by a NAND++ program, and we've seen that the definition would remain the same if we replaced NAND++ programs by Python programs, Turing machines, $\lambda$ calculus,  cellular automata, and many other computational models.
 The _Church-Turing thesis_ is that this is the only sensible definition of "computable" functions.

@@ -11,8 +11,6 @@
 
 >_"In this paper we give theorems that suggest, but do not imply, that these problems, as well as many others, will remain  intractable perpetually"_, Richard Karp, 1972
 
->_"It is not the verifier who counts; not the man who points out how the solver of problems  stumbles, or where the doer of deeds could have done them better. The credit belongs to the man who actually searches over the exponential space of possiblities, whose face is marred by dust and sweat and blood; who strives valiantly; who errs, who comes short again and again ... who at the best knows in the end the triumph of high achievement, and who at the worst, if he fails, at least fails while daring greatly, so that his place shall never be with those cold and timid souls who neither know victory nor defeat."_, paraphrasing Theodore Roosevelt (1910).
-
 
 ## The class $\mathbf{NP}$
 

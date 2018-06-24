@@ -95,9 +95,10 @@ Please make sure to re-read the above paragraphs until you are thoroughly confus
 Specifically, consider an event that can either occur or not (e.g. "detector number 17 was hit by a photon").
 In classical probability, we model this by a probability distribution over the two outcomes: a pair of non-negative numbers $p$ and $q$ such that $p+q=1$, where $p$ corresponds to  the probability that the event occurs and $q$ corresponds to the probability that the event does not occur.
 In quantum mechanics, we model this also by  pair of numbers, which we call _amplitudes_. This is  a pair of (potentially negative or even complex) numbers $\alpha$ and $\beta$ such that $|\alpha|^2 + |\beta|^2 =1$.
-The probability that the event occurs is $|\alpha|^2$ and the probability that it does not occur is $|\beta|^2$.[^quantum]
+The probability that the event occurs is $|\alpha|^2$ and the probability that it does not occur is $|\beta|^2$.
 In isolation, these negative or complex numbers don't matter much, since we anyway square them to obtain probabilities.
-But the interaction of positive and negative amplitudes can result in surprising _cancellations_ where somehow combining two scenarios where an event happens with positive probability results in a scenario where it  never does.
+But the interaction of positive and negative amplitudes can result in surprising _cancellations_ where somehow combining two scenarios where an event happens with positive probability results in a scenario where it  never does.^[We will be making several simplifications in this chapter. In particular, we will usually restrict attention to _real_ (though potentially negative) numbers, which already captures much of the power and subtleties of quantum computing, and also restrict attention to _pure_ (as opposed to _mixed_) quantum states. More generally, this chapter is not meant to be a complete  description of quantum mechanics, quantum information theory, or quantum computing, but rather illustrate the main points where these differ  from classical computing.]
+
 
 
 Quantum mechanics is a mathematical theory that allows us to calculate and predict the results of the double-slit and many other experiments.
@@ -109,7 +110,6 @@ If you are confused by quantum mechanics,  you are not alone: for decades people
 However, none of these interpretation have gained universal acceptance and all of those (by design) yield the same experimental predictions.
 Thus at this point many scientists prefer to just ignore the question of what is the "true reality" and go back to simply "shutting up and calculating".
 
-[^quantum]: I should warn that we are making here many simplifications. In particular while quantum amplitudes can be _complex_ numbers, we will usually restrict attention to _real_ (though potentially negative) numbers.  A;most all of the power and subtleties of quantum mechanics and quantum computing arise from allowing _negative_  numbers, and the generalization from real to complex numbers is much less important. We will also be focusing on so called "pure" quantum states, and ignore the fact that generally the states of a quantum subsystem are _mixed_ states that are a convex combination of pure states and can be described by a so called _density matrix_. This issue does not arise as much in quantum algorithms precisely because the goal is for a quantum computer is to be an isolated system that can evolve to continue to be in a pure state; in real world quantum computers however there will be interference from the outside world that causes the state to become mixed and increase its so called "von Neumann entropy". Fighting this interference and the second law of thermodynamics is much of what the challenge of building quantum computers is all about . More generally, this chapter is not meant to be a complete or accurate description of quantum mechanics, quantum information theory, or quantum computing, but rather just give a sense of the main points where it differs  from classical computing.
 
 ## Bell's Inequality
 
@@ -126,15 +126,15 @@ Nonetheless, since the results of these experiments are so obviously wrong to an
 
 So, what is this Bell's Inequality?
 Suppose that Alice and Bob try to convince you they have telepathic ability, and they aim to prove it via the following experiment.
-Alice and Bob will be in separate closed rooms.[^paranoid]
+Alice and Bob will be in separate closed rooms.^[If you are extremely paranoid about Alice and Bob communicating with one another, you can coordinate with your assistant to perform the experiment exactly at the same time, and make sure that the rooms are sufficiently far apart (e.g., are on two different continents, or maybe even one is on the moon and another is on earth) so that Alice and Bob couldn't communicate to each other in time the results of their respective coins even if they do so at the speed of light.]
 You will interrogate Alice and your associate will interrogate Bob.
 You choose a random bit $x\in\{0,1\}$ and your associate chooses a random $y\in\{0,1\}$.
 We let $a$ be Alice's response and $b$ be Bob's response.
 We say that Alice and Bob win this experiment if $a \oplus b = x \wedge y$.
-In other words, Alice and Bob need to output two bits that _disagree_ if $x=y=1$ and _agree_ otherwise.
+In other words, Alice and Bob need to output two bits that _disagree_ if $x=y=1$ and _agree_ otherwise.^[This form of Bell's game was shown by [Clauser, Horne, Shimony, and Holt](https://goo.gl/wvJGZU).]
 
 
-[^paranoid]: If you are extremely paranoid about Alice and Bob communicating with one another, you can coordinate with your assistant to perform the experiment exactly at the same time, and make sure that the rooms are sufficiently far apart (e.g., are on two different continents, or maybe even one is on the moon and another is on earth) so that Alice and Bob couldn't communicate to each other in time the results of their respective coins even if they do so at the speed of light.
+
 
 
 Now if Alice and Bob are not telepathic, then they need to agree in advance on some strategy.
@@ -145,8 +145,10 @@ However, by doing some case analysis, we can show that no matter what strategy t
 For every two functions $f,g:\{0,1\}\rightarrow\{0,1\}$, $\Pr_{x,y \in \{0,1\}}[  f(x) \oplus g(y) = x \wedge y] \leq 3/4$.
 
 ::: {.proof data-ref="bellthm"}
-Since the probability is taken over all four choices of $x,y \in \{0,1\}$, the only way the theorem can be be violated if if there exist  two functions $f,g$ that satisfy
-$$f(x) \oplus g(y) = x \wedge y \;(*)$$
+Since the probability is taken over all four choices of $x,y \in \{0,1\}$, the only way the theorem can  be violated if if there exist  two functions $f,g$ that satisfy
+
+$$f(x) \oplus g(y) = x \wedge y$$
+
 for all the four choices of  $x,y \in \{0,1\}^2$.
 Let's plug in all these four choices and see what we get (below we use the equalities $z \oplus 0 = z$, $z \wedge 0=0$ and $z \wedge 1 = z$):
 
@@ -164,7 +166,7 @@ If we XOR together the first and second equalities we get $g(0) \oplus g(1) = 0$
 
 
 
-[^CHSH]: This form of Bell's game was shown by [Clauser, Horne, Shimony, and Holt](https://goo.gl/wvJGZU).
+
 
 An amazing [experimentally verified](http://arxiv.org/abs/1508.05949) fact is that quantum mechanics allows for "telepathy".[^telepathy]
 Specifically, it has been shown that using the weirdness of quantum mechanics, there is in fact a strategy for Alice and Bob to succeed in this game with probability larger than $3/4$  (in fact, they can succeed with probability about $0.85$, see [bellstrategy](){.ref}).
@@ -192,7 +194,7 @@ The chapter on quantum computation in my [book with Arora](http://theory.cs.prin
 relatively short resource that contains essentially everything we discuss here and more.
 See also this [blog post of Aaronson](http://www.scottaaronson.com/blog/?p=208) for a high level explanation of Shor's algorithm which ends with links to several more detailed expositions.
 [This lecture](http://www.scottaaronson.com/democritus/lec14.html) of Aaronson contains a great discussion of the feasibility of quantum computing (Aaronson's [course lecture notes](http://www.scottaaronson.com/democritus/default.html) and the [book](http://www.amazon.com/Quantum-Computing-since-Democritus-Aaronson/dp/0521199565) that they spawned are fantastic reads as well).
-The videos of [Umesh Variani'z EdX course](https://www.youtube.com/playlist?list=PLDAjb_zu5aoFazE31_8yT0OfzsTcmvAVg) are an accessible and recommended introduction to quantum computing.
+The videos of [Umesh Vazirani'z EdX course](https://www.youtube.com/playlist?list=PLDAjb_zu5aoFazE31_8yT0OfzsTcmvAVg) are an accessible and recommended introduction to quantum computing.
 See the "bibliographical notes" section at the end of this chapter for more resources.
 
 ## Quantum computing and computation - an executive summary.
@@ -207,7 +209,7 @@ In the 1981, physicist Richard Feynman proposed  to "turn this lemon to lemonade
 >If a physical system cannot be simulated by a computer in $T$ steps, the system can be considered as performing a computation that would take more than $T$ steps.
 
 So, he asked whether one could design a quantum system such that its outcome $y$ based on the initial condition $x$ would be some function $y=f(x)$ such that **(a)** we don't know how to efficiently compute in any other way, and **(b)** is actually useful for something.[^Feynman]
-In 1985, David Deutsch formally suggested the notion of a quantum Turing machine, and the model has been since refined in works of Detusch and Josza and Bernstein and Vazirani.
+In 1985, David Deutsch formally suggested the notion of a quantum Turing machine, and the model has been since refined in works of Deutsch and Josza and Bernstein and Vazirani.
 Such a system is now known as a _quantum computer_.
 
 [^Feynman]: As its title suggests, Feynman's [lecture](https://www.cs.berkeley.edu/~christos/classics/Feynman.pdf) was actually focused on the other side of simulating physics with a computer. However,  he mentioned that as a "side remark" one could wonder if it's possible to simulate physics with a new kind of computer - a "quantum computer" which would "not [be] a Turing machine, but a machine of a different kind". As far as I know, Feynman did not suggest that such a computer could be useful for computations completely outside the domain of quantum simulation. Indeed, he was more interested in the question of whether quantum mechanics could be simulated by a classical computer.
@@ -239,7 +241,7 @@ It could also be a "self destroying prophecy" whereby the existence of a small-s
 
 [^legacy]: Of course, given that [we're still hearing](http://blog.cryptographyengineering.com/2016/03/attack-of-week-drown.html) of attacks exploiting "export grade" cryptography that was supposed to disappear in 1990's, I imagine that we'll still have products running 1024 bit RSA when everyone has a quantum laptop.
 
-[^overhead]: This "95 percent" is a figure of speech, but not completely so. At the time of this writing, cryptocurrency mining  electricity consumption is estimated to use up at least [70Twh or 0.3 percent of the world's production](https://digiconomist.net/bitcoin-energy-consumption), which is about [2 to 5 percent](http://www.mdpi.com/2078-1547/6/1/117/html) of the total energy usage for the computing industry. All the current cryptocurrencies will be broken by quantum computers. Also, for many web servers the TLS protocol (which based on the current non-lattice based systems would be completely broken by quantum computing) is responsible [for about 1 percent of the CPU usage](https://goo.gl/mHpYpm).
+[^overhead]: This "95 percent" is a figure of speech, but not completely so. At the time of this writing, cryptocurrency mining  electricity consumption is estimated to use up at least [70Twh or 0.3 percent of the world's production](https://digiconomist.net/bitcoin-energy-consumption), which is about [2 to 5 percent](http://www.mdpi.com/2078-1547/6/1/117/html) of the total energy usage for the computing industry. All the current cryptocurrencies will be broken by quantum computers. Also, for many web servers the TLS protocol (which is based on the current non-lattice based systems would be completely broken by quantum computing) is responsible [for about 1 percent of the CPU usage](https://goo.gl/mHpYpm).
 
 
 ::: {.remark title="Quantum computing and $\mathbf{NP}$" #quantumnp}
@@ -309,34 +311,37 @@ In fact it turns out that Hadamard is all that we need to add to a classical uni
 
 ### Recap
 
-The _state_ of  a _quantum system_ of $n$ qubits is modeled by an $2^n$ dimensional vector $v$ of unit norm (i.e., squares of all coordinates sums up to $1$), which we write as $\sum_{x\in \{0,1\}^n} v_x |x \rangle$ where $|x\rangle$ is the column vector that has $0$ in all coordinates except the one corresponding to $x$ (identifying $\{0,1\}^n$ with the numbers $\{0,\ldots,2^n-1\}$).
+The _state_ of  a _quantum system_ of $n$ qubits is modeled by an $2^n$ dimensional vector $\psi$ of unit norm (i.e., squares of all coordinates sums up to $1$), which we write as $\psi=\sum_{x\in \{0,1\}^n} \psi_x |x \rangle$ where $|x\rangle$ is the column vector that has $0$ in all coordinates except the one corresponding to $x$ (identifying $\{0,1\}^n$ with the numbers $\{0,\ldots,2^n-1\}$).
 We use the convention that if $a,b$ are strings of lengths $k$ and $\ell$ respectively then we can write the $2^{k+\ell}$ dimensional vector with $1$ in the $ab$-th coordinate and zero elsewhere not just as  $|ab\rangle$  but also as $|a\rangle |b \rangle$.
 In particular, for every $x\in \{0,1\}^n$, we can write the vector $|x\rangle$ also as $|x_0\rangle |x_1\rangle \cdots |x_{n-1} \rangle$.
 This notation satisfies certain nice distributive laws such as $|a\rangle(|b\rangle + |b'\rangle)|c \rangle = |abc \rangle + |ab'c\rangle$.
 
 A _quantum operation_ on such a system is modeled by a $2^n \times 2^n$ _unitary matrix_ $U$ (one that satisfies $UU^\top = I$ where $U^\top$ is the _transpose_ operation, or conjugate transpose for complex matrices).
-If the system is in state $v$ and we apply to it the operation $U$, then the new state of the system is $Uv$.
+If the system is in state $\psi$ and we apply to it the operation $U$, then the new state of the system is $U\psi$.
 
-When we _measure_ an $n$-qubit system in a state $v= \sum_{x\in \{0,1\}^n} v_x |x \rangle$, then we observe the value $x\in \{0,1\}^n$ with probability $|v_x|^2$.
+When we _measure_ an $n$-qubit system in a state $\psi= \sum_{x\in \{0,1\}^n} \psi_x |x \rangle$, then we observe the value $x\in \{0,1\}^n$ with probability $|\psi_x|^2$. In this case, the system  _collapses_ to the state $|x \rangle$.
 
 
 ## Analysis of Bell's Inequality (optional)
 
-Now that we have the notation in place, we can show a strategy for showing "quantum telepathy".
+Now that we have the notation in place, we can show a strategy for Alice and Bob to display "quantum telepathy" in Bell's Game.
 Recall that in the classical case, Alice and Bob can succeed in the "Bell Game" with probability at most $3/4 = 0.75$.
 We now show that quantum mechanics allows them to succeed with probability at least $0.8$.^[The strategy we show is not the best one. Alice and Bob can in fact  succeed with probability $\cos^2(\pi/8) \sim 0.854$.]
 
 
 > # {.lemma #bellstrategy}
-There is a 2-qubit quantum state $s\in \R^4$ so that if Alice has access to the first qubit of $s$, can manipulate and measure it and output $a\in \{0,1\}$ and Bob has access to the second qubit of $s$ and can manipulate and measure it and output $b\in \{0,1\}$ then
+There is a 2-qubit quantum state $\psi\in \mathbb{C}^4$ so that if Alice has access to the first qubit of $\psi$, can manipulate and measure it and output $a\in \{0,1\}$ and Bob has access to the second qubit of $\psi$ and can manipulate and measure it and output $b\in \{0,1\}$ then
 $\Pr[ a \oplus b = x \wedge y ] \geq 0.8$.
 
 ::: {.proof data-ref="bellstrategy"}
-The main  idea is for Alice and Bob to first prepare a 2-qubit quantum system in the state (up to normalization)
-$|00\rangle+|11\rangle$ (this is known as an _EPR pair_).
-Alice takes the first qubit in this system to her room, and Bob takes the qubit to his room.
-Now, when Alice receives $x$ if $x=0$ she does nothing and if $x=1$ she applies the unitary map $R_{\pi/8}$ to her qubit where $R_\theta = \begin{pmatrix} cos \theta & \sin -\theta \\ \sin \theta & \cos \theta \end{pmatrix}$ is the unitary operation corresponding to rotation in the plane with angle $\theta$.
-When Bob receives $y$, if $y=0$ he does nothing and if $y=1$ he applies the unitary map $R_{-\pi/8}$ to his  qubit.
+Alice and Bob will start by preparing a  2-qubit quantum system in the state
+
+$$\psi = \tfrac{1}{\sqrt{2}}|00\rangle + \tfrac{1}{\sqrt{2}}|11\rangle$$
+
+(this state is known as an [EPR pair](https://en.wikipedia.org/wiki/EPR_paradox)).
+Alice takes the first qubit of the  system to her room, and Bob takes the qubit to his room.
+Now, when Alice receives $x$ if $x=0$ she does nothing and if $x=1$ she applies the unitary map $R_{-\pi/8}$ to her qubit where $R_\theta = \begin{pmatrix} cos \theta & -\sin \theta \\ \sin \theta & \cos \theta \end{pmatrix}$ is the unitary operation corresponding to rotation in the plane with angle $\theta$.
+When Bob receives $y$, if $y=0$ he does nothing and if $y=1$ he applies the unitary map $R_{\pi/8}$ to his  qubit.
 Then each one of them measures their qubit and sends this as their response.
 
 
@@ -344,16 +349,31 @@ Recall that to win the game Bob and Alice want their outputs to be more likely t
 We will split the analysis in one case for each of the four possible values of $x$ and $y$.
 
 __Case 1: $x=y=0$__ If $x=y=0$ then the state does not change.
-Because the state is   $|00\rangle + |11\rangle$, the measurements of Bob and Alice will always agree (if Alice measures $0$ then the state collapses to $|00 \rangle$ and so Bob measures $0$ as well, and similarly for $1$).
+Because the state $\psi$ is proportional to    $|00\rangle + |11\rangle$, the measurements of Bob and Alice will always agree (if Alice measures $0$ then the state collapses to $|00 \rangle$ and so Bob measures $0$ as well, and similarly for $1$).
 Hence in the case $x=y=1$, Alice and Bob always  win.
 
-__Case 2: $x=0$,$y=1$__ If $x=0$ and $y=1$ then after Alice measures her bit, if she gets $0$ then Bob's state is equal to $-\cos (\pi/8)|0\rangle-\sin(\pi/8)|1\rangle$ which will equal $0$ with probability $\cos^2 (\pi/8) \geq 0.85$. The analysis when Alice gets $1$ from her measurement is the same, and hence they will win with probability $\cos^2 (\pi/8)$ as well. The same analysis also shows that Alice and Bob will win with probability $\cos^2 (\pi/8)$ in __Case 3__, where $x=1$ and $y=0$.
+__Case 2: $x=0$,$y=1$__ If $x=0$ and $y=1$ then after Alice measures her bit, if she gets $0$ then the system collapses to the state $|00 \rangle$, in which case after Bob performs his rotation, his qubit is in the state  $\cos (\pi/8)|0\rangle+\sin(\pi/8)|1\rangle$.
+Thus, when Bob measures his qubit, he will get $0$ (and hence agree with Alice) with probability  $\cos^2 (\pi/8)  \geq 0.85$.
+Similarly, if Alice gets $1$ then the system collapses to $|11 \rangle$, in which case after rotation Bob's qubit will be in the state $-\sin (\pi/8)|0\rangle+\cos(\pi/8)|1\rangle$ and so once again he will agree with Alice with probability $\cos^2(\pi/8)$.
+The analysis for __Case 3__, where $x=1$ and $y=0$, is symetric, and hence they will agree with probability $\cos^2(\pi/8)$ in this case as well.^[We are using the (not too hard) observation that the result of this  experiment is the same regardless of the order in which Alice and Bob apply their rotations and measurements.]
 
 
-__Case 4: $x=y=1$__ For the case that $x=1$ and $y=1$, direct calculation via trigonometric identities yields that all four options for $(a,b)$ are equally likely and hence in this case $a=b$ with probability $0.5$.
+__Case 4: $x=y=1$__ For the case that $x=1$ and $y=1$, after both Alice and Bob perform their rotations, the state will be proportional to
+
+$$R_{-\pi/8}|0\rangle R_{\pi/8}|0 \rangle + R_{-\pi/8}|1\rangle R_{\pi/8}|1 \rangle \;.$$
+
+Opening up the coefficients and using $\cos(-x)=\cos(x)$ and $\sin(-x)=-\sin(x)$, we can see this is proportional to
+
+$$
+\cos^2(\pi/8)|00 \rangle + \cos(\pi/8)\sin(\pi/8)|01 \rangle - \sin(\pi/8)\cos(\pi/8)|10\rangle  + \sin^2(\pi/8)|11 \rangle -
+\sin^2(\pi/8)|00 \rangle + \sin(\pi/8)\cos(\pi/8)|01 \rangle - \cos(\pi/8)\sin(\pi/8)|10\rangle  + \cos^2(\pi/8)|11 \rangle \;.
+$$
+
+using the trigonometric identities $2\sin(\alpha)\cos(\alpha)= \sin(2\alpha)$ and $\cos^(\alpha) - \sin^2(\alpha) = \cos(2\alpha)$, we see that the probability of getting any one of $|00\rangle,|10\rangle,|01\rangle,|11\rangle$ is proportional to $\cos(\pi/4)=\sin(\pi/4)=\tfrac{1}{\sqrt{2}}$.
+Hence all four options for $(a,b)$ are equally likely, which mean that in this case $a=b$ with probability $0.5$.
 
 
-Together we see that the overall probability of winning the game is at least $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}\cdot 0.85 + \tfrac{1}{4} \cdot 0.5 =0.8$.
+Taking all the four cases together, we see that the overall probability of winning the game is at least $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}\cdot 0.85 + \tfrac{1}{4} \cdot 0.5 =0.8$.
 :::
 
 
@@ -376,12 +396,12 @@ We defined the class  $\mathbf{P_{/poly}}$ to consists of all infinite functions
 We will do the same for _quantum computation_, focusing mostly on the _non uniform_ setting of quantum circuits, since that is simpler, and already illustrates the important differences with classical computing.
 
 
-### Quantum circuits and QNAND
+### Quantum circuits
 
 A _quantum circuit_ is analogous to a Boolean circuit, and can be described as a directed acyclic graph.
 One crucial difference that the _out degree_ of every vertex in a quantum circuit is at most one.
 This is because we cannot "reuse" quantum states without _measuring_ them (which collapses their "probabilities").
-Therefore, we cannot use the same bit as input for two different gates.^[This is known as the [No Cloning Theorem](https://goo.gl/jCVtEY).]
+Therefore, we cannot use the same qubit as input for two different gates.^[This is known as the [No Cloning Theorem](https://goo.gl/jCVtEY).]
 Another more technical difference is that to express our operations as unitary matrices, we will need to make sure all our gates are _reversible_.
 This is not hard to ensure.
 For example, in the quantum context, instead of thinking of $NAND$ as a (non reversible) map from $\{0,1\}^2$ to $\{0,1\}$, we will think of it as the reversible  map on _three_ qubits that maps $a,b,c$ to $a,b,c\oplus NAND(a,b)$ (i.e., flip the last bit if $NAND$ of the first two bits is $1$).
@@ -423,7 +443,7 @@ If $m \geq n$, we use a circuit to compute a function $f:\{0,1\}^n \rightarrow \
 
 * At the end of the computation, we _measure_ the system, and output the result of the last qubit (i.e. the qubit in location $m-1$).^[For simplicity we restrict attention to functions with a single bit of output, though the definition of quantum circuits naturally extends to circuits with multiple outputs.]
 
-* We say that the circuit _computes_ $f$ is the probability that this output equals $f(x)$ is at least $2/3$. Note that this probability is obtained by summing up the squares of the amplitudes of all coordinates in the final state of the system corresponding to vectors $|y \rangle$ where $y_{m-1}=f(x)$.
+* We say that the circuit _computes_ $f$, if the probability that this output equals $f(x)$ is at least $2/3$. Note that this probability is obtained by summing up the squares of the amplitudes of all coordinates in the final state of the system corresponding to vectors $|y \rangle$ where $y_{m-1}=f(x)$.
 
 
 
@@ -431,7 +451,7 @@ Formally this is defined as follows:
 
 
 ::: {.definition title="Quantum circuit" #quantumcircuitdef}
-A _quantum circuit of $m$ inputs and $s$ gates_  over the $\{ UNAND, HAD \}$ basis is a sequence of $s$ unitary $2^n \times 2^n$ matrices $U_0,\ldots,U_{s-1}$ such that each matrix $U_\ell$ is either of the form $NAND^{i,j,k}$ for $i,j,k\in [n]$ or $HAD^i$ for $i\in [n]$.
+A _quantum circuit of $m$ inputs and $s$ gates_  over the $\{ U_{NAND}, HAD \}$ basis is a sequence of $s$ unitary $2^n \times 2^n$ matrices $U_0,\ldots,U_{s-1}$ such that each matrix $U_\ell$ is either of the form $NAND^{i,j,k}$ for $i,j,k\in [n]$ or $HAD^i$ for $i\in [n]$.
 
 A quantum circuit _computes_ a function $f:\{0,1\}^n \rightarrow \{0,1\}$ if the following is true for every $x\in \{0,1\}^n$:
 
@@ -452,7 +472,7 @@ Once we have the notion of quantum circuits, we can define the quantum analog of
 
 > # {.definition title="$\mathbf{BQP_{/poly}}$" #QBPpoly}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$.
-We say that $F\in \mathbf{BQP_{/poly}}$ if there exists some polynomial $p:\N \rightarrow \N$ such that for every $n\in \N$, if $F_n$ is the restriction of to inputs of length $n$, then there is a quantum circuit of size at most $p(n)$ that computes $F_n$.
+We say that $F\in \mathbf{BQP_{/poly}}$ if there exists some polynomial $p:\N \rightarrow \N$ such that for every $n\in \N$, if $F_n$ is the restriction of $F$ to inputs of length $n$, then there is a quantum circuit of size at most $p(n)$ that computes $F_n$.
 
 
 ::: {.remark title="The obviously exponential fallacy" #exponential}
@@ -558,7 +578,7 @@ See [this article by John Preskil](https://arxiv.org/abs/1801.00862) for some of
 
 ## Shor's Algorithm: Hearing the shape of prime factors
 
-Bell's Inequality is powerful demonstration that there is something very strange going on with quantum mechanics.
+Bell's Inequality is a powerful demonstration that there is something very strange going on with quantum mechanics.
 But could this "strangeness" be of any use to solve computational problems not directly related to quantum systems?
 A priori, one could guess the answer is _no_.
 In 1994 Peter Shor showed that one would be wrong:
@@ -570,7 +590,7 @@ There is a polynomial-time quantum algorithm that on input an integer $M$ (repre
 
 Another way to state [shorthm](){.ref}  is that if we define $FACTORING:\{0,1\}^* \rightarrow \{0,1\}$ to be the function that on input a pair of numbers $(M,X)$ outputs $1$ if and only if $M$ has a factor $P$ such that $2 \leq P \leq X$, then $FACTORING$ is in $\mathbf{BQP}$.
 This is an exponential improvement over the best known classical algorithms, which take roughly $2^{\tilde{O}(n^{1/3})}$ time, where the $\tilde{O}$ notation hides factors that are polylogarithmic in $n$.
-While we will not prove [shorthm](){.ref} in this chapter, will  sketch some of the ideas behind the proof.
+While we will not prove [shorthm](){.ref} in this chapter, we will  sketch some of the ideas behind the proof.
 
 
 ### Period finding

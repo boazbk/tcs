@@ -14,14 +14,13 @@
 
 
 
-
->_"There should be no fear ... we will be protected by God."_, President Donald J. Trump, inauguration speech, 2017
-
 >_"You don't have to believe in God, but you should believe in The Book."_, Paul Erdős, 1985.^[Paul Erdős (1913-1996) was one of the most prolific mathematicians of all times. Though he was an atheist, Erdős often referred to "The Book" in which God keeps the most elegant proof of each mathematical theorem.]
 
 >_"No more half measures, Walter"_, Mike Ehrmantraut in "Breaking Bad", 2010.
 
 >_"The evidence in favor of  \[$\mathbf{P}\neq \mathbf{NP}$\] and \[ its algebraic counterpart \] is so overwhelming, and the consequences of their failure are so grotesque, that their status may perhaps be compared to that of physical laws rather than that of ordinary mathematical conjectures."_,  Volker Strassen, laudation for Leslie Valiant, 1986.
+
+>_"Suppose aliens invade the earth and threaten to obliterate it in a year's time unless human beings can find the [fifth Ramsey number]. We could marshal the world's best minds and fastest computers, and within a year we could probably calculate the value. If the aliens demanded the [sixth Ramsey number], however, we would have no choice but to launch a preemptive attack."_, Paul Erdős, as quoted by Graham and Spencer, 1990.^[The $k$-th Ramsey number, denoted as $R(k,k)$, is the smallest number $n$ such that for every graph $G$ on $n$ vertices, both $G$ and its complement contain a $k$-sized independent set. If $\mathbf{P}=\mathbf{NP}$ then we can compute $R(k,k)$ in time polynomial in $2^k$, while otherwise it can potentially  take closer to $2^{2^{2k}}$ steps.]
 
 We have mentioned that the question of whether $\mathbf{P}=\mathbf{NP}$, which is equivalent to whether there is a polynomial-time algorithm for $3SAT$, is the great open question of Computer Science.
 But why is it so important?

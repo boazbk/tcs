@@ -867,69 +867,93 @@ It turns out that a great deal of the theory of computation can be studied in th
 Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
 :::
 
-> # {.exercise}
+::: {.exercise}
 Which one of these objects can be represented by a binary string? \
-   >a. An integer $x$  \
-   >b. An undirected graph $G$. \
-   >c. A directed graph $H$ \
-   >d. All of the above.
+
+a. An integer $x$
+
+b. An undirected graph $G$.
+
+c. A directed graph $H$
+
+d. All of the above.
+:::
 
 
-> # {.exercise title="Multiplying in different representation" #multrepres }
-Recall that the gradeschool algorithm for multiplying two numbers requires $O(n^2)$ operations. Suppose that instead of using decimal representation, we use one of the following representations $R(x)$ to represent a number $x$ between $0$ and $10^n-1$. For which one of these representations you can still multiply the numbers in $O(n^2)$ operations? \
-   >a. The standard binary representation: $B(x)=(x_0,\ldots,x_{k})$ where $x = \sum_{i=0}^{k} x_i 2^i$ and $k$ is the largest number s.t. $x \geq 2^k$.  \
-   >b. The reverse binary representation: $B(x) = (x_{k},\ldots,x_0)$ where $x_i$ is defined as above for $i=0,\ldots,k-1$. \
-   >c. Binary coded decimal representation: $B(x)=(y_0,\ldots,y_{n-1})$ where $y_i \in \{0,1\}^4$ represents the $i^{th}$ decimal digit of $x$ mapping $0$ to $0000$, $1$ to $0001$, $2$ to $0010$, etc. (i.e. $9$ maps to $1001$) \
-   >d. All of the above.
+
+::: {.exercise title="Multiplying in different representation" #multrepres }
+Recall that the gradeschool algorithm for multiplying two numbers requires $O(n^2)$ operations. Suppose that instead of using decimal representation, we use one of the following representations $R(x)$ to represent a number $x$ between $0$ and $10^n-1$. For which one of these representations you can still multiply the numbers in $O(n^2)$ operations?
+
+a. The standard binary representation: $B(x)=(x_0,\ldots,x_{k})$ where $x = \sum_{i=0}^{k} x_i 2^i$ and $k$ is the largest number s.t. $x \geq 2^k$.
+
+b. The reverse binary representation: $B(x) = (x_{k},\ldots,x_0)$ where $x_i$ is defined as above for $i=0,\ldots,k-1$. \
+
+c. Binary coded decimal representation: $B(x)=(y_0,\ldots,y_{n-1})$ where $y_i \in \{0,1\}^4$ represents the $i^{th}$ decimal digit of $x$ mapping $0$ to $0000$, $1$ to $0001$, $2$ to $0010$, etc. (i.e. $9$ maps to $1001$)
+
+d.  All of the above.
+:::
+
 
 > # {.exercise }
 Suppose that $R:\N \rightarrow \{0,1\}^*$ corresponds to  representing a number $x$ as a string of $x$ $1$'s, (e.g., $R(4)=1111$, $R(7)=1111111$, etc.).
 If $x,y$ are numbers between $0$ and $10^n -1$, can we still multiply $x$ and $y$ using $O(n^2)$ operations if we are given them in the representation $R(\cdot)$?
 
-> # {.exercise }
+::: {.exercise }
 Recall that if $F$ is a one-to-one and onto function mapping elements of a finite set $U$ into a finite set $V$ then the sizes of $U$ and $V$ are the same. Let $B:\N\rightarrow\{0,1\}^*$ be the function such that for every $x\in\N$, $B(x)$ is the binary representation of $x$. \
-   >a. Prove that $x < 2^k$ if and only if $|B(x)| \leq k$. \
-   >b. Use a. to compute the size of the set $\{ y \in \{0,1\}^* : |y| \leq k \}$ where $|y|$ denotes the length of the string $y$. \
-   >c. Use a. and b. to prove that $2^k-1 = 1 + 2 + 4+ \cdots + 2^{k-1}$.
 
-> # {.exercise  title="Prefix-free encoding of tuples" #prefix-free-tuples-ex}
-Suppose that $F:\N\rightarrow\{0,1\}^*$ is a one-to-one function that is _prefix free_ in the sense that there is no $a\neq b$ s.t.  $F(a)$ is a prefix of $F(b)$. \
-   >a. Prove that $F_2:\N\times \N \rightarrow \{0,1\}^*$, defined as $F_2(a,b) = F(a)F(b)$ (i.e., the concatenation of $F(a)$ and $F(b)$) is a one-to-one function. \
-   >b. Prove that $F_*:\N^*\rightarrow\{0,1\}^*$ defined as $F_*(a_1,\ldots,a_k) = F(a_1)\cdots F(a_k)$ is a one-to-one function, where $\N^*$ denotes the set of all finite-length lists of natural numbers.
+a. Prove that $x < 2^k$ if and only if $|B(x)| \leq k$. \
 
-> # {.exercise title="More efficient prefix-free transformation" #prefix-free-ex}
-Suppose that $F:O\rightarrow\{0,1\}^*$ is some (not necessarily prefix free) representation of the objects in the set $O$, and $G:\N\rightarrow\{0,1\}^*$ is a prefix-free representation of the natural numbers.  Define $F'(o)=G(|F(o)|)F(o)$ (i.e., the concatenation of the representation of the length $F(o)$ and $F(o)$). \
-   >a. Prove that $F'$ is a prefix-free representation of $O$. \
-   >b. Show that we can transform any representation to a prefix-free one by a modification that takes a $k$ bit string into a string of length at most $k+O(\log k)$.
-   >c. Show that we can transform any representation to a prefix-free one by a modification that takes a $k$ bit string into a string of length at most $k+ \log k + O(\log\log k)$.^[Hint: Think recursively how to represent the length of the string.]
+b. Use a. to compute the size of the set $\{ y \in \{0,1\}^* : |y| \leq k \}$ where $|y|$ denotes the length of the string $y$. \
 
-> # {.exercise title="Kraft's Inequality" #prefix-free-lb}
-Suppose that $S \subseteq \{0,1\}^n$ is some finite prefix-free set. \
-a. For every $k \leq n$ and length-$k$ string $x\in S$, let $L(x) \subseteq \{0,1\}^n$ denote all the length-$n$ strings whose first $k$ bits are $x_0,\ldots,x_{k-1}$. Prove that __(1)__ $|L(x)|=2^{n-|x|}$ and __(2)__ If $x \neq x'$ then $L(x)$ is disjoint from $L(x')$. \
-b. Prove that $\sum_{x\in S}2^{-|x|} \leq 1$. \
+c. Use a. and b. to prove that $2^k-1 = 1 + 2 + 4+ \cdots + 2^{k-1}$.
+:::
+
+
+::: {.exercise  title="Prefix-free encoding of tuples" #prefix-free-tuples-ex}
+Suppose that $F:\N\rightarrow\{0,1\}^*$ is a one-to-one function that is _prefix free_ in the sense that there is no $a\neq b$ s.t.  $F(a)$ is a prefix of $F(b)$.
+
+a. Prove that $F_2:\N\times \N \rightarrow \{0,1\}^*$, defined as $F_2(a,b) = F(a)F(b)$ (i.e., the concatenation of $F(a)$ and $F(b)$) is a one-to-one function.
+
+b. Prove that $F_*:\N^*\rightarrow\{0,1\}^*$ defined as $F_*(a_1,\ldots,a_k) = F(a_1)\cdots F(a_k)$ is a one-to-one function, where $\N^*$ denotes the set of all finite-length lists of natural numbers.
+:::
+
+::: {.exercise title="More efficient prefix-free transformation" #prefix-free-ex}
+Suppose that $F:O\rightarrow\{0,1\}^*$ is some (not necessarily prefix free) representation of the objects in the set $O$, and $G:\N\rightarrow\{0,1\}^*$ is a prefix-free representation of the natural numbers.  Define $F'(o)=G(|F(o)|)F(o)$ (i.e., the concatenation of the representation of the length $F(o)$ and $F(o)$).
+
+a. Prove that $F'$ is a prefix-free representation of $O$.
+
+b. Show that we can transform any representation to a prefix-free one by a modification that takes a $k$ bit string into a string of length at most $k+O(\log k)$.
+
+c. Show that we can transform any representation to a prefix-free one by a modification that takes a $k$ bit string into a string of length at most $k+ \log k + O(\log\log k)$.^[Hint: Think recursively how to represent the length of the string.]
+:::
+
+
+::: {.exercise title="Kraft's Inequality" #prefix-free-lb}
+Suppose that $S \subseteq \{0,1\}^n$ is some finite prefix-free set.
+
+a. For every $k \leq n$ and length-$k$ string $x\in S$, let $L(x) \subseteq \{0,1\}^n$ denote all the length-$n$ strings whose first $k$ bits are $x_0,\ldots,x_{k-1}$. Prove that __(1)__ $|L(x)|=2^{n-|x|}$ and __(2)__ If $x \neq x'$ then $L(x)$ is disjoint from $L(x')$.
+
+b. Prove that $\sum_{x\in S}2^{-|x|} \leq 1$.
+
 c. Prove that there is no prefix-free encoding of strings with less than logarithmic overhead. That is, prove that there is no function $PF:\{0,1\}^* \rightarrow \{0,1\}^*$ s.t. $|PF(x)| \leq |x|+0.9\log |x|$ for every $x\in \{0,1\}^*$ and such that the set $\{ PF(x) : x\in \{0,1\}^* \}$ is prefix-free.
+:::
 
 > # {.exercise title="Composition of one-to-one functions" #onetoonecompex}
 Prove that for every two one-to-one functions $F:S \rightarrow T$ and $G:T \rightarrow U$, the function $H:S \rightarrow U$ defined as $H(x)=G(F(x))$ is one to one.
 
 
-> # {.exercise title="Natural numbers and strings" #naturalsstringsmapex}
-1. We have shown that the natural numbers can be represented as strings. Prove that the other direction holds as well: that there is a one-to-one map $StN:\{0,1\}^* \rightarrow \N$. ($StN$ stands for "strings to numbers".) \
+::: {.exercise title="Natural numbers and strings" #naturalsstringsmapex}
+1. We have shown that the natural numbers can be represented as strings. Prove that the other direction holds as well: that there is a one-to-one map $StN:\{0,1\}^* \rightarrow \N$. ($StN$ stands for "strings to numbers".)
+
 2. Recall that Cantor proved that there is no one-to-one map $RtN:\R \rightarrow \N$. Show that Cantor's result implies [cantorthm](){.ref}.
+:::
 
-<!--
-> # {.exercise title="No lossless representation of reals (challenge)" #cantor-ex}
-In this exercise we will prove that there is no "lossless" representation of real numbers as strings. That is, that there is no one-to-one function $F$ mapping the real numbers $\R$ to the set of finite strings $\{0,1\}^*$. \
-a. Suppose, towards the sake of contradiction, that there exists such a function $F: \R \rightarrow \{0,1\}^*$. Prove that there exists an onto function $G:\{0,1\}^* \rightarrow \R$. \
-b. Prove that there is an onto function $G': \N \rightarrow \{0,1\}^*$. Conclude that  if there is an onto function $G:\{0,1\}^* \rightarrow \R$ then there exists an onto function $H: \N \rightarrow \R$. \
-c. For any real number $x$ and $i>0$,  define $D(x,i) \in \{0,\ldots, 9\}$ to be the $i^{th}$ decimal digit following the decimal point of $x$. That is, $D(x,i)$ is the remainder when we divide $\lfloor x 10^i \rfloor$ by $10$. For example $D(1/4,1)=2$, $D(1/4,2)=5$ and $D(1/4,i)=0$ for every $i>2$. Similarly,  $D(1/3,i)=3$ for every $i$.
-Prove that if $x$ is between $0$ and $1$ then $x = \sum_{i=1}^{\infty} 10^{-i}D(x,i)$.^[__Hint:__ If you are not familiar with infinite series, start by showing that this is true for the case where $x$ has finite decimal expansion, namely that there is some $n$ such that $D(x,i)=0$ for all $i>n$. Formally, what you need to prove for the infinite case is that for every $\epsilon>0$, there is some $n$ such that $|x-\sum_{i=1}^n 10^{-i}D(x,i)|<\epsilon$.] \
-d. Let $S$ be the set of all functions from $\N$ to $\{0,1\}$ prove that the map $D:\R \rightarrow S$ that maps a number $x$ to the function $i \mapsto D(x,i) (\mod 2)$ is onto.^[__Hint:__ Show that for every function $f:\N \rightarrow \{0,1\}$, the number $x = \sum_{i=0}^\infty 10^{-i-1}f(i)$ satisfies $D(x)=f$.] \
-e. Prove that there is no onto map from $\N$  to $S$.^[__Hint:__ Suppose that there was such a map $O$, the we can define the function $f \in S$ such that $f(i)=1-O(i)(i)$ and show that it is not in the image of $O$.] \
-f. Combine a-e to get a contradiction to the assumption that there is one-to-one map from $\R$ to $\{0,1\}^*$.
-^[TODO: can we have a proof that doesn't need people to know limits?]
+::: {.exercise title="Map lists of integers to a number" #listsinttonumex}
+Recall that for every set $S$, the set $S^*$ is defined as the set of all finite sequences of members of $S$ (i.e., $S^* = \{ (x_0,\ldots,x_{n-1}) \;|\; n\in\mathbb{N} \;,\; \forall_{i\in [n]} x_i \in S \}$ ). Prove that there is a one-one-map from $\mathbb{Z}^*$ to $\mathbb{N}$ where $\mathbb{Z}$ is the set of $\{ \ldots, -3 , -2 , -1,0,+1,+2,+3,\ldots \}$ of all integers.
+:::
 
--->
+
+
 
 ## Bibliographical notes
 
