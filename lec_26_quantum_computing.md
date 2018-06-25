@@ -97,7 +97,20 @@ In classical probability, we model this by a probability distribution over the t
 In quantum mechanics, we model this also by  pair of numbers, which we call _amplitudes_. This is  a pair of (potentially negative or even complex) numbers $\alpha$ and $\beta$ such that $|\alpha|^2 + |\beta|^2 =1$.
 The probability that the event occurs is $|\alpha|^2$ and the probability that it does not occur is $|\beta|^2$.
 In isolation, these negative or complex numbers don't matter much, since we anyway square them to obtain probabilities.
-But the interaction of positive and negative amplitudes can result in surprising _cancellations_ where somehow combining two scenarios where an event happens with positive probability results in a scenario where it  never does.^[We will be making several simplifications in this chapter. In particular, we will usually restrict attention to _real_ (though potentially negative) numbers, which already captures much of the power and subtleties of quantum computing, and also restrict attention to _pure_ (as opposed to _mixed_) quantum states. More generally, this chapter is not meant to be a complete  description of quantum mechanics, quantum information theory, or quantum computing, but rather illustrate the main points where these differ  from classical computing.]
+But the interaction of positive and negative amplitudes can result in surprising _cancellations_ where somehow combining two scenarios where an event happens with positive probability results in a scenario where it  never does.
+
+
+::: {.remark title="Complex vs real, other simplifications" #complexrem}
+If (like the author) you are a bit intimidated by complex numbers, don't worry: you can think of all amplitudes as _real_ (though potentially _negative_) numbers without loss of understanding.
+All the "magic" of quantum computing already arises in this case, and so we will often restrict attention to real amplitudes in this chapter.
+
+We will also only discuss so-called _pure_ quantum states, and not the more general notion of _mixed_ states.
+Pure states turn out to be sufficient for understanding the algorithmic aspects of quantum computing.
+
+More generally, this chapter is not meant to be a complete  description of quantum mechanics, quantum information theory, or quantum computing, but rather illustrate the main points where these differ  from classical computing.
+:::
+
+
 
 
 
@@ -559,9 +572,13 @@ This is sometimes known as the _coherence time_ of the system.
 The [threshold theorem](https://courses.cs.washington.edu/courses/cse599d/06wi/lecturenotes19.pdf) says that there is some absolute constant level of errors $\tau$ so that if errors are created at every gate at rate smaller than $\tau$ then we can recover from those and perform arbitrary long computations.
 (Of course there are different ways to model the errors and so there are actually several threshold _theorems_ corresponding to various noise models).
 
+![Superconducting quantum computer prototype at Google. Image credit: Google / MIT Technology Review.](../figure/googlequantum.jpg){#googlequantumfig .class width=300px height=300px}
+
 There have been several proposals to build quantum computers:
 
-* [Superconducting quantum computers](https://en.wikipedia.org/wiki/Superconducting_quantum_computing) use super-conducting electric circuits to do quantum computation. This is the direction where   [there has been most recent progress](https://arxiv.org/abs/1709.06678) towards "beating" classical computers.
+* [Superconducting quantum computers](https://en.wikipedia.org/wiki/Superconducting_quantum_computing) use superconducting electric circuits to do quantum computation. This is the direction where   [there has been most recent progress](https://arxiv.org/abs/1709.06678) towards "beating" classical computers (see [googlequantumfig](){.ref}).
+
+
 
 * [Trapped ion quantum computers](https://en.wikipedia.org/wiki/Trapped_ion_quantum_computer) Use the states of an ion to simulate a qubit. People have made some [recent advances](http://iontrap.umd.edu/wp-content/uploads/2016/02/1602.02840v1.pdf) on these computers too. While it's not at all clear that's the right measuring yard, the [current best implementation](http://arxiv.org/abs/1507.08852) of Shor's algorithm (for factoring 15) is done using an ion-trap computer.
 
@@ -863,6 +880,7 @@ There are many excellent videos available online covering some of these material
 The Fourier transform is covered in this
 videos of [Dr. Chris Geoscience](https://youtu.be/EYRmB1aNh9I?t=19s),  [Clare Zhang](https://www.youtube.com/watch?v=Y9pYHDSxc7g) and [Vi Hart](https://www.youtube.com/watch?v=i_0DXxNeaQ0).
 More specifically to quantum computing, the videos of  [Umesh Vazirani on the Quantum Fourier Transform](https://www.youtube.com/watch?v=BM429cOogYc) and  [Kelsey Houston-Edwards on Shor's Algorithm](https://www.youtube.com/watch?v=wUwZZaI5u0c) are very recommended.
+
 
 Chapter 10 in [Avi Wigderson's book](https://www.math.ias.edu/avi/book) gives a high level overview of quantum computing.
 Andrew Childs' [lecture notes on quantum algorithms](http://www.cs.umd.edu/~amchilds/qa/qa.pdf), as well as the lecture notes of [Umesh Vazirani](https://inst.eecs.berkeley.edu/~cs191/),
