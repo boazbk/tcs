@@ -80,6 +80,11 @@ Since in this case $n=20$, the standard algorithm would use at most  $4n^2=1600$
 To understand the difference, consider that a human being might do a single-digit operation in about 2 seconds, requiring just under an hour to complete the calculation of $x\times y$ using the grade algorithm.
 In contrast, even though it is more than a billion times faster, a modern PC that computes $x\times y$ using  naïve iterated addition would require about $10^{20}/10^9 = 10^{11}$ seconds (which is more than three millenia!) to compute the same result.
 
+::: { .pause }
+It is important to distinguish between the _value_ of a number, and the _length of its representation_ (i.e.,  the number of digits it has).
+There is a big difference between the two: having \$1,000,000,000 is not the same as having \$10!
+When talking about running time of algorithms, "less is more", and so an algorithm that runs in time proportional to the _number of digits_ of an input number (or even the number of digit squared) is much preferred to an algorithm that runs in time proportional to the _value_ of the input number.
+:::
 
 We see that computers have not made algorithms obsolete.
 On the contrary, the vast increase in our ability to measure, store, and communicate data has led to a much higher demand for developing better and more sophisticated algorithms that can allow us to make better decisions based on these data.
