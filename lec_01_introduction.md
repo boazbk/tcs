@@ -42,7 +42,7 @@ MMMMMMMMMMMMMMMDCCCCLVI
 
 Writing the distance to the sun in Roman numerals would require about 100,000 symbols: a 50 page book just containing this single number!
 
-This means that for someone that thinks of numbers in an additive  system like Roman numerals, quantities like the distance to the moon or sun are not merely large- they are _unspeakable_: cannot be expressed or even grasped.
+This means that for someone who thinks of numbers in an additive  system like Roman numerals, quantities like the distance to the moon or sun are not merely large- they are _unspeakable_: cannot be expressed or even grasped.
 It's no wonder that Eratosthene, who was the first person to calculate the earth's diameter (up to about ten percent error) and Hipparchus who was the first to calculate the distance to the moon, did not use a Roman-numeral type system but rather  the Babylonian sexadecimal (i.e., base 60) place-value system.
 
 The Babylonians also invented the precursors of "standard algorithms" that we were all taught in elementary school for adding and multiplying numbers.^[For more on the actual algorithms the Babylonians used, see [Knuth's paper](http://steiner.math.nthu.edu.tw/disk5/js/computer/1.pdf) and Neugebauer's [classic book](https://www.amazon.com/Exact-Sciences-Antiquity-Neugebauer/dp/0486223329).]
@@ -61,35 +61,34 @@ Let's start by more formally describing both algorithms:
 
 
 
->__Standard gradeschool multiplication algorithm:__ \
+>__Standard grade multiplication algorithm:__ \
 >__Input:__ Non-negative integers $x,y$ \
 >__Operation:__ \
 >1. Let $n$ be number of digits of $y$, and set $result \leftarrow 0$. \
 >2. For $i=0,\ldots,n-1$: set $result \leftarrow result + 10^i\times y_i \times x$, where $y_i$ is the $i$-th digit of $y$ (i.e. $y= 10^0 y_0 + 10^1y_1 + \cdots + y_{n-1}10^{n-1}$) \
 >3. Output $result$
 
-Both algorithms assume that we already know how to add numbers, and the second one also assumes that we can multiply a number by a power of $10$ (which is after all a simple shift) as well as multiply by a single digit (which like addition, is done by multiplying each digit and propagating carries).
+Both algorithms assume that we already know how to add numbers, and the second one also assumes that we can multiply a number by a power of $10$ (which is after all a simple shift) as well as multiply by a single-digit (which like addition, is done by multiplying each digit and propagating carries).
 Now suppose that $x$ and $y$ are two numbers of $n$ decimal digits each.
-Adding two such numbers takes at least $n$  single digit additions (depending on how many times we need to use a "carry"), and so adding $x$ to itself $y$ times will take at least  $n\cdot y$ single digit additions.
-In contrast, the standard gradeschool algorithm reduces this problem to taking $n$ products of $x$ with a single digit (which require up to $2n$ single digit operations each, depending on carries) and then adding all of those together (total of $n$ additions, which, again depending on carries, would cost at most $2n^2$ single digit operations) for a total of at most $4n^2$ single digit operations.
-How much faster would $4n^2$ operations be than $n\cdot y$? and would this make any difference in a modern computer?
+Adding two such numbers takes at least $n$  single-digit additions (depending on how many times we need to use a "carry"), and so adding $x$ to itself $y$ times will take at least  $n\cdot y$ single-digit additions.
+In contrast, the standard grade algorithm reduces this problem to taking $n$ products of $x$ with a single-digit (which require up to $2n$ single-digit operations each, depending on carries) and then adding all of those together (total of $n$ additions, which, again depending on carries, would cost at most $2n^2$ single-digit operations) for a total of at most $4n^2$ single-digit operations.
+How much faster would $4n^2$ operations be than $n\cdot y$? And would this make any difference in a modern computer?
 
 Let us consider the case of multiplying 64 bit or 20 digit numbers.^[This is a common size in several programming languages; for example the `long` data type in the Java programming language, and (depending on architecture) the `long` or `long long` types in C.]
 That is, the task of multiplying two numbers $x,y$ that are between $10^{19}$ and $10^{20}$.
-Since in this case $n=20$, the standard algorithm would use at most  $4n^2=1600$ single digit operations, while repeated addition would require at least $n\cdot y \geq 20\cdot 10^{19}$ single digit operations.
-To understand the difference, consider that a human being might do a single digit operation in about 2 seconds, requiring just under an hour to complete the calculation of $x\times y$ using the gradeschool algorithm.
+Since in this case $n=20$, the standard algorithm would use at most  $4n^2=1600$ single-digit operations, while repeated addition would require at least $n\cdot y \geq 20\cdot 10^{19}$ single-digit operations.
+To understand the difference, consider that a human being might do a single-digit operation in about 2 seconds, requiring just under an hour to complete the calculation of $x\times y$ using the grade algorithm.
 In contrast, even though it is more than a billion times faster, a modern PC that computes $x\times y$ using  naïve iterated addition would require about $10^{20}/10^9 = 10^{11}$ seconds (which is more than three millenia!) to compute the same result.
 
 
 We see that computers have not made algorithms obsolete.
-On the contrary, the vast increase in our ability to measure, store, and communicate data has led to a much higher demand on developing better and more sophisticated algorithms that can allow us to make better decisions based on these data.
+On the contrary, the vast increase in our ability to measure, store, and communicate data has led to a much higher demand for developing better and more sophisticated algorithms that can allow us to make better decisions based on these data.
 We also see that to a large extent the notion of _algorithm_ is independent of the actual computing device that will execute it.
-The digit-by-digit standard algorithm is vastly better than iterated addition regardless if the technology implementing it is a silicon based  chip or a third grader with pen and paper.
+The digit-by-digit multiplication algorithm is vastly better than iterated addition, regardless whether the technology we use to implement it is a silicon based  chip, or a third grader with pen and paper.
 
 
-Theoretical computer science is largely about studying the _inherent_ properties of algorithms and computation, that are independent of current technology.
-We ask questions that already pondered by the Babylonians, such as "what is the best way to multiply two numbers?" as well as those that rely on cutting-edge science such as "could we use the effects of quantum entanglement to factor numbers faster" and many in between.
-These types of questions are the topic of this course.
+Theoretical computer science is concerned with  the _inherent_ properties of algorithms and computation; namely, those properties that are _independent_ of current technology.
+We ask some questions that were already pondered by the Babylonians, such as "what is the best way to multiply two numbers?", but also questions that rely on cutting-edge science such as "could we use the effects of quantum entanglement to factor numbers faster?".
 
 In Computer Science parlance, a scheme such as the decimal (or sexadecimal) positional representation for numbers is known as a _data structure_, while the operations on this representations are known as _algorithms_.
 Data structures and algorithms have enabled amazing applications, but their importance goes beyond  their practical utility.
@@ -103,15 +102,15 @@ Another way to say it, is that he conjectured that in any multiplication algorit
 
 A young student named Anatoly Karatsuba was in the audience, and within a week he found an algorithm that requires only about $Cn^{1.6}$ operations for some constant $C$.
 Such a  number becomes  much smaller than $n^2$ as $n$ grows.^[At the time of this writing, the [standard Python multiplication implementation](https://svn.python.org/projects/python/trunk/Objects/longobject.c) switches from the elementary school algorithm to  Karatsuba's algorithm when multiplying numbers larger than 1000 bits long.]
-Amazingly,  Karatsuba's algorithm is based on a faster way to multiply _two digit_ numbers.
+Amazingly,  Karatsuba's algorithm is based on a faster way to multiply _two-digit_ numbers.
 
 Suppose that $x,y \in [100]=\{0,\ldots, 99 \}$ are a pair of two-digit numbers.
 Let's write $\overline{x}$ for the "tens" digit of $x$, and $\underline{x}$ for the "ones" digit, so that $x = 10\overline{x} + \underline{x}$, and write similarly $y = 10\overline{y} + \underline{y}$ for $\overline{y},\underline{y} \in [10]$.
-The gradeschool algorithm for multiplying $x$ and $y$ is illustrated in [gradeschoolmult](){.ref}.
+The grade school algorithm for multiplying $x$ and $y$ is illustrated in [gradeschoolmult](){.ref}.
 
-![The gradeschool multiplication algorithm illustrated for multiplying $x=10\overline{x}+\underline{x}$ and $y=10\overline{y}+\underline{y}$. It uses the formula $(10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10(\overline{x}\underline{y} + \underline{x}\overline{y}) + \underline{x}\underline{y}$.](../figure/gradeschoolmult.png){#gradeschoolmult .class width=300px height=300px}
+![The grade school multiplication algorithm illustrated for multiplying $x=10\overline{x}+\underline{x}$ and $y=10\overline{y}+\underline{y}$. It uses the formula $(10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10(\overline{x}\underline{y} + \underline{x}\overline{y}) + \underline{x}\underline{y}$.](../figure/gradeschoolmult.png){#gradeschoolmult .class width=300px height=300px}
 
-The gradeschool algorithm  works by transforming the task of multiplying a pair of two digit number into _four_ single-digit multiplications via the formula
+The grade school algorithm  works by transforming the task of multiplying a pair of two-digit number into _four_ single-digit multiplications via the formula
 
 $$
 (10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10(\overline{x}\underline{y} + \underline{x}\overline{y}) + \underline{x}\underline{y} \label{eq:gradeschooltwodigit}
@@ -124,7 +123,7 @@ $$
 (10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = (100-10)\overline{x}\overline{y}+10\left[(\overline{x}+\underline{x})(\overline{y}+\underline{y})\right]  -(10-1)\underline{x}\underline{y} \label{eq:karatsubatwodigit}
 $$
 
-which reduces multiplying the two-digit number $x$ and $y$ to computing the following three "simple" products:  $\overline{x}\overline{y}$, $\underline{x}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$.^[The  term $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ is not exactly a single digit multiplication as $\overline{x}+\underline{x}$ and $\overline{y}+\underline{y}$ are numbers between $0$ and $18$ and not between $0$ and $9$. As we'll see, it turns out that this  does not make much of a difference, since when we  use this algorithm recursively on $n$-digit numbers, this term will have at most $\ceil{n/2}+1$ digits, which is  essentially half the number of digits as the original input.]
+which reduces multiplying the two-digit number $x$ and $y$ to computing the following three "simple" products:  $\overline{x}\overline{y}$, $\underline{x}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$.^[The  term $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ is not exactly a single-digit multiplication as $\overline{x}+\underline{x}$ and $\overline{y}+\underline{y}$ are numbers between $0$ and $18$ and not between $0$ and $9$. As we'll see, it turns out that this  does not make much of a difference, since when we  use this algorithm recursively on $n$-digit numbers, this term will have at most $\ceil{n/2}+1$ digits, which is  essentially half the number of digits as the original input.]
 
 
 ![Karatsuba's multiplication algorithm illustrated for multiplying $x=10\overline{x}+\underline{x}$ and $y=10\overline{y}+\underline{y}$. We compute the three orange, green and purple products $\underline{x}\underline{y}$, $\overline{x}\overline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ and then add and subtract them to obtain the result.](../figure/karatsubatwodigit.png){#karatsubafig .class width=300px height=300px}
@@ -132,15 +131,15 @@ which reduces multiplying the two-digit number $x$ and $y$ to computing the foll
 
 Of course if all we wanted to was to multiply two digit numbers, we wouldn't really need any clever algorithms.
 It turns out that we can repeatedly apply the same idea, and use them to multiply $4$-digit numbers, $8$-digit numbers, $16$-digit numbers, and so on and so forth.
-If we used the gradeschool based approach then our cost for doubling the number of digits would be to _quadruple_ the number of multiplications, which for $n=2^\ell$ digits would result in about $4^\ell=n^2$ operations.
+If we used the grade school  approach then our cost for doubling the number of digits would be to _quadruple_ the number of multiplications, which for $n=2^\ell$ digits would result in about $4^\ell=n^2$ operations.
 In contrast, in Karatsuba's approach doubling the number of digits  only  _triples_ the number of operations,  which means that for $n=2^\ell$ digits we require about $3^\ell = n^{\log_2 3} \sim n^{1.58}$ operations.
 
 Specifically, we use a  _recursive_ strategy as follows:
 
 >__Karatsuba Multiplication:__ \
->__Input:__ Non negative integers $x,y$ each of at most $n$ digits \
+>__Input:__ nonnegative integers $x,y$ each of at most $n$ digits \
 >__Operation:__ \
->1. If $n \leq 2$ then return $x\cdot y$ (using a constant number of single digit multiplications) \
+>1. If $n \leq 2$ then return $x\cdot y$ (using a constant number of single-digit multiplications) \
 >2. Otherwise, let $m = \floor{n/2}$, and write $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \underline{y}$.^[Recall that for a number $x$, $\floor{x}$ is obtained by "rounding down" $x$ to the largest integer smaller or equal to  $x$.]  \
 >2. Use _recursion_ to compute  $A=\overline{x}\overline{y}$, $B=\underline{y}\underline{y}$ and $C=(\overline{x}+\underline{x})(\overline{y}+\underline{y})$. Note that all the numbers will have at most $m+1$ digits.  \
 >3. Return $(10^n-10^m)\cdot A  + 10^m \cdot B +(1-10^m)\cdot C$
@@ -149,37 +148,45 @@ To understand why the output will be correct, first note that for $n>2$, it will
 Now, since $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \underline{y}$,
 
 $$
-x \times y = 10^n \overline{x}\cdot \overline{y} + 10^{m}(\overline{x}\overline{y} +\underline{x}\underline{y}) + \underline{x}\underline{y} \label{eqkarastubaone}
+x \times y = 10^n \overline{x}\cdot \overline{y} + 10^{m}(\overline{x}\overline{y} +\underline{x}\underline{y}) + \underline{x}\underline{y}  \;. \label{eqkarastubaone}
 $$
 
-But we can also write the same expression as
+Rearranging the terms we see that
 
 $$
-x \times y = 10^n\overline{x}\cdot \overline{y} + 10^{m}\left[ (\overline{x}+\underline{x})(\overline{y}+\underline{y}) - \underline{x}\underline{y}  - \overline{x}\overline{y} \right]  + \underline{x}\underline{y}
+x\times y =   10^n\overline{x}\cdot \overline{y} + 10^{m}\left[ (\overline{x}+\underline{x})(\overline{y}+\underline{y}) - \underline{x}\underline{y}  - \overline{x}\overline{y} \right]  + \underline{x}\underline{y} \;,
  \label{eqkarastubatwo}
 $$
 
 which equals to the value $(10^n-10^m)\cdot A  + 10^m \cdot B +(1-10^m)\cdot C$ returned by the algorithm.
 
 
-The key observation is that the formula [eqkarastubatwo](){.eqref} reduces computing the product of two $n$ digit numbers to computing _three_ products of  $\floor{n/2}$ digit numbers (namely $\overline{x}\overline{y}$, $\underline{y}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ as well as performing a constant number (in fact eight) additions, subtractions, and multiplications by $10^n$ or $10^{\floor{n/2}}$ (the latter corresponding to simple shifts).
-Intuitively this means that as the number of digits _doubles_, the cost of multiplying _triples_  instead of quadrupling, as happens in the naive algorithm.
+The key observation is that  [eqkarastubatwo](){.eqref} reduces the task of computing the product of two $n$-digit numbers to computing _three_ products of  $\ceil{n/2}$-digit numbers.
+Specifically, we can compute $x\times y$ from the three products $\overline{x}\overline{y}$, $\underline{y}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$), using a constant number (in fact eight) of additions, subtractions, and multiplications by $10^n$ or $10^{\floor{n/2}}$.
+(Multiplication by a power of ten can be done very efficiently as it corresponds to simply shifting the digits.)
+Intuitively this means that as the number of digits _doubles_, the cost of performing a multiplication via Karatsuba's algorithm _triples_  instead of quadrupling, as happens in the naive algorithm.
 This implies that multiplying numbers of $n=2^\ell$ digits costs about $3^\ell = n^{\log_2 3} \sim n^{1.585}$ operations.
-In a [karatsuba-ex](){.ref}, you will formally show that the number of single digit operations that Karatsuba's algorithm uses for multiplying $n$ digit integers is at most $O(n^{\log_2 3})$ (see also [karatsubafig](){.ref}).
+In a [karatsuba-ex](){.ref}, you will formally show that the number of single-digit operations that Karatsuba's algorithm uses for multiplying $n$ digit integers is at most $O(n^{\log_2 3})$ (see also [karatsubafig](){.ref}).
 
-![Running time of Karatsuba's algorithm vs. the Gradeschool algorithm. (Python implementation available [online](https://goo.gl/zwzpYe).) Note the existence of a "cutoff" length, where for sufficiently large inputs Karatsuba becomes more efficient than the gradeschool algorithm. The precise cutoff location varies by implementation and platform details, but will always occur eventually.](../figure/karastubavsgschoolv2.png){#karatsubaruntimefig .class width=300px height=300px}
+![Running time of Karatsuba's algorithm vs. the Grade school algorithm. (Python implementation available [online](https://goo.gl/zwzpYe).) Note the existence of a "cutoff" length, where for sufficiently large inputs Karatsuba becomes more efficient than the grade algorithm. The precise cutoff location varies by implementation and platform details, but will always occur eventually.](../figure/karastubavsgschoolv2.png){#karatsubaruntimefig .class width=300px height=300px}
 
 ![Karatsuba's algorithm reduces an $n$-bit multiplication to three $n/2$-bit multiplications, which in turn are reduced to nine $n/4$-bit multiplications and so on. We can represent the computational cost of all these multiplications in a $3$-ary tree of depth $\log_2 n$, where at the root the extra cost is $cn$ operations, at the first level the extra cost is $c(n/2)$ operations, and at each of the $3^i$ nodes of  level $i$, the extra cost is $c(n/2^i)$. The total cost is $cn\sum_{i=0}^{\log_2 n} (3/2)^i \leq 2cn^{\log_2 3}$ by the formula for summing a geometric series.](../figure/karatsuba_analysis.png){#karatsuba-fig .class width=300px height=300px}
 
 
-> # {.remark title="Ceilings, floors, and rounding" #remfloors}
-One of the benefits of using big Oh notation is that we can allow ourselves to be a little looser with issues such as rounding numbers etc.. For example, the natural way to describe Karatsuba's algorithm's running time is as following the recursive equation $T(n)= 3T(n/2)+O(n)$ but of course if $n$ is not even then we cannot recursively invoke the algorithm on $n/2$-digit integers.
+::: {.remark title="Ceilings, floors, and rounding" #remfloors}
+One of the benefits of using big Oh notation is that we can allow ourselves to be a little looser with issues such as rounding numbers etc..
+For example, the natural way to describe Karatsuba's algorithm's running time is via the   following  recursive equation
+
+$$T(n)= 3T(n/2)+O(n)$$
+
+but of course if $n$ is not even then we cannot recursively invoke the algorithm on $n/2$-digit integers.
 Rather, the true recursion is $T(n) = 3T(\floor{n/2}+1)+ O(n)$.
-However, this will not make much difference when we don't worry about constant factors, since its not hard to show that $T(n+O(1)) \leq T(n)+ o(T(n))$ for the functions we care about (which turns out to  be enough to carry over the same recursion).
-Another way to show that this doesn't hurt us is to note that for every number $n$, we can find $n' \leq 2n$ such that $n'$ is a power of two.
+However, this will not make much difference when we don't worry about constant factors, since it's not hard to show that $T(n+O(1)) \leq T(n)+ o(T(n))$ for the functions we care about.
+Another way to show that this doesn't hurt us is to note that for every number $n$, we can find a number $n' \leq 2n$, such that $n'$ is a power of two.
 Thus we can always "pad" the input by adding some input bits to make sure the number of digits is a power of two, in which case we will never run into these rounding issues.
 These kind of tricks work not just in the context of multiplication algorithms but in many other cases as well.
-Thus most of the time we can safely ignore these kind of "rounding issues".
+Thus most of the time we can safely ignore these kinds of "rounding issues".
+:::
 
 
 
@@ -211,14 +218,15 @@ Then the formula for the matrix product of $x$ and $y$ can be expressed in the s
 This means that we can use the formula above to give an algorithm that _doubles_ the dimension of the matrices at the expense of increasing the number of operation by a factor of $8$, which for $n=2^\ell$ will result in $8^\ell = n^3$ operations.
 
 
-In 1969 Volker Strassen noted that we can compute the product of a pair of two by two matrices  using only _seven_ products of numbers by observing that each entry of the matrix $xy$ can be computed by adding and subtracting the following seven terms: $t_1 = (x_{0,0}+x_{1,1})(y_{0,0}+y_{1,1})$, $t_2 = (x_{0,0}+x_{1,1})y_{0,0}$, $t_3 = x_{0,0}(y_{0,1}-y_{1,1})$, $t_4 = x_{1,1}(y_{0,1}-y_{0,0})$, $t_5 = (x_{0,0}+x_{0,1})y_{1,1}$, $t_6 = (x_{1,0}-x_{0,0})(y_{0,0}+y_{0,1})$,
+In 1969 Volker Strassen noted that we can compute the product of a pair of two-by-two matrices  using only _seven_ products of numbers by observing that each entry of the matrix $xy$ can be computed by adding and subtracting the following seven terms: $t_1 = (x_{0,0}+x_{1,1})(y_{0,0}+y_{1,1})$, $t_2 = (x_{0,0}+x_{1,1})y_{0,0}$, $t_3 = x_{0,0}(y_{0,1}-y_{1,1})$, $t_4 = x_{1,1}(y_{0,1}-y_{0,0})$, $t_5 = (x_{0,0}+x_{0,1})y_{1,1}$, $t_6 = (x_{1,0}-x_{0,0})(y_{0,0}+y_{0,1})$,
 $t_7 = (x_{0,1}-x_{1,1})(y_{1,0}+y_{1,1})$.
 Indeed, one can verify that $xy = \begin{pmatrix}   t_1 + t_4 - t_5 + t_7 & t_3 + t_5 \\ t_2 +t_4 & t_1 + t_3 - t_2 + t_6 \end{pmatrix}$.
-This implies an algorithm with factor $7$ increased cost for doubling the dimension, which means that for $n=2^\ell$ the cost is $7^\ell = n^{\log_2 7} \sim n^{2.807}$.
-A long sequence of works has since improved this algorithm, and the [current record](https://en.wikipedia.org/wiki/Matrix_multiplication_algorithm#Sub-cubic_algorithms) has running time about $O(n^{2.373})$.
-Unlike the case of integer multiplication, at the moment we don't know of a nearly linear in the matrix size (i.e., an $O(n^2 polylog(n))$ time) algorithm for matrix multiplication.
-People have tried to use [group representations](https://en.wikipedia.org/wiki/Group_representation), which can be thought of as generalizations of the Fourier transform, to obtain faster algorithms, but this effort [has not yet succeeded](http://discreteanalysisjournal.com/article/1245-on-cap-sets-and-the-group-theoretic-approach-to-matrix-multiplication).
 
+
+Using this observation, we can obtain an algorithm such that doubling the dimension of the matrices results in increasing the number of operations by a factor of  $7$, which means that for $n=2^\ell$ the cost is $7^\ell = n^{\log_2 7} \sim n^{2.807}$.
+A long sequence of works has since improved this algorithm, and the [current record](https://en.wikipedia.org/wiki/Matrix_multiplication_algorithm#Sub-cubic_algorithms) has running time about $O(n^{2.373})$.
+However, unlike the case of integer multiplication, at the moment we don't know of any algorithm for matrix multiplication that runs in time linear or even close to linear in the size of the input matrices (e.g., an $O(n^2 polylog(n))$ time algorithm).
+People have tried to use [group representations](https://en.wikipedia.org/wiki/Group_representation), which can be thought of as generalizations of the Fourier transform, to obtain faster algorithms, but this effort [has not yet succeeded](http://discreteanalysisjournal.com/article/1245-on-cap-sets-and-the-group-theoretic-approach-to-matrix-multiplication).
 :::
 
 
@@ -232,19 +240,19 @@ These algorithms are being used not just for the "natural" applications of routi
 
 Google was founded based on the _PageRank_ algorithm, which is an efficient algorithm to approximate the "principal eigenvector" of (a dampened version of) the adjacency matrix of web graph.
 The _Akamai_ company was founded based on a new data structure, known as _consistent hashing_, for a hash table where buckets are stored at different servers.
-The _backpropagation algorithm_, that computes partial derivatives of a neural network in $O(n)$ instead of $O(n^2)$ time, underlies many of the recent phenomenal successes of  learning deep neural networks.
+The _backpropagation algorithm_, which computes partial derivatives of a neural network in $O(n)$ instead of $O(n^2)$ time, underlies many of the recent phenomenal successes of  learning deep neural networks.
 Algorithms for solving  linear equations under sparsity constraints, a concept known as _compressed sensing_, have been used to drastically reduce the amount and quality of data needed to analyze MRI images.
 This is absolutely crucial for MRI imaging of cancer tumors in children, where previously doctors needed to use anesthesia to suspend breath during the MRI exam, sometimes with dire consequences.
 
 Even for classical questions, studied through the ages, new discoveries are still being made.
-For the basic task, already of importance to the Greeks, of discovering whether an integer is prime or composite, efficient probabilistic algorithms were only discovered in the 1970s, while the first [deterministic polynomial-time algorithm](https://en.wikipedia.org/wiki/AKS_primality_test) was only found in 2002.
+For example, for the question of determining whether a given integer is  prime or composite, which has been studied since the days of  Pythagoras, efficient probabilistic algorithms were only discovered in the 1970s, while the first [deterministic polynomial-time algorithm](https://en.wikipedia.org/wiki/AKS_primality_test) was only found in 2002.
 For the related problem of actually finding the factors of a composite number, new algorithms were found in the 1980s, and (as we'll see later in this course) discoveries in the 1990s  raised the tantalizing prospect of obtaining faster algorithms through the use of quantum mechanical effects.
 
 Despite all this progress, there are still many more questions than answers in the world of algorithms.
 For almost all natural problems, we do not know whether the current algorithm is the "best", or whether a significantly  better one is still waiting to be discovered.
 As we already saw, even for the classical problem of multiplying numbers we have not yet answered the age-old question of __"is multiplication harder than addition?"__ .
 
-But at least we now know the right way to _ask_ it..
+But at least we now know the right way to _ask_ it.
 
 
 
@@ -257,26 +265,34 @@ What useful applications could possibly arise from an impossibility result?
 
 One motivation is pure intellectual curiosity.
 After all, this is a question even Archimedes could have been excited about.
-Another reason to study impossibility results is that they correspond to the fundamental limits of our world or in other words to _laws of nature_.
-In physics, it turns out that the impossibility of building a _perpetual motion machine_ corresponds to the _law of conservation of energy_.
-Other laws of nature also correspond to impossibility results:  the impossibility of building  a heat engine beating Carnot's bound corresponds to the second law of thermodynamics, while the impossibility of faster-than-light information transmission is a cornerstone of  special relativity.
-Within mathematics, while we all learned the solution for quadratic equations in high school, the impossibility of deneralizing this to equations of degree five or more gave  birth to _group theory_.
-In his 300 B.C. book _The Elements_, the Greek mathematician Euclid based geometry on five "axioms" or "postulates". Ever since then people have suspected that four axioms are enough, and try to base the "parallel postulate" (roughly speaking, that every line has a unique parallel line of each distance) from the other four.
-It turns out that this was impossible, and the impossibility result gave rise to so called "non-Euclidean geometries", which turn out to be crucial  for the theory of general relativity.^[It is fine if you have not yet encountered many of the above. I hope however it sparks your curiosity!]
+Another reason to study impossibility results is that they correspond to the fundamental limits of our world.
+In other words, they are _laws of nature_.
+In physics, the impossibility of building a _perpetual motion machine_ corresponds to the _law of conservation of energy_.
+The impossibility of building  a heat engine beating Carnot's bound corresponds to the second law of thermodynamics, while the impossibility of faster-than-light information transmission is a cornerstone of  special relativity.
 
-In an analogous way, impossibility results for computation correspond to "computational laws of nature" that tell us about the fundamental limits of any information processing apparatus, whether based on silicon, neurons, or quantum particles.^[Indeed,  some [exciting recent research](http://www.scottaaronson.com/barbados-2016.pdf)  has been trying to use computational complexity to shed light on fundamental questions in physics such understanding black holes and reconciling general relativity with quantum mechanics.]
+In mathematics, while we all learned the solution for quadratic equations in high school, the impossibility of generalizing this to equations of degree five or more gave  birth to _group theory_.
+Another example of an impossibility result comes from geometry.
+For two millennia, mathematicians tried to show that Euclid's fifth axiom or "postulate" could be derived from the first four.
+(This fifth postulate was known a the  "parallel postulate", and roughly speaking it states that every line has a unique parallel line of each distance.)
+It was shown to be impossible using constructions of so called "non-Euclidean geometries", which turn out to be crucial  for the theory of general relativity.
+
+::: {.remark title="" #}
+It is fine if you have not yet encountered many of the above examples. I hope however they spark your curiosity!
+:::
+
+In an analogous way, impossibility results for computation correspond to "computational laws of nature" that tell us about the fundamental limits of any information processing apparatus, whether based on silicon, neurons, or quantum particles.^[Indeed,  some [exciting recent research](http://www.scottaaronson.com/barbados-2016.pdf) is focused on  trying to use computational complexity to shed light on fundamental questions in physics such understanding black holes and reconciling general relativity with quantum mechanics.]
 Moreover, computer scientists have recently been finding creative approaches to _apply_ computational limitations to achieve certain useful tasks.
-For example, much of modern Internet traffic is encrypted using the RSA encryption scheme, which relies on its security on the (conjectured) _non existence_ of an efficient algorithm to perform the inverse operation for multiplication--- namely, factor large integers.
-More recently, the [Bitcoin](https://en.wikipedia.org/wiki/Bitcoin) system uses a digital analog of the "gold standard" where, instead of being based on a  precious metal, minting new currency corresponds to "mining"  solutions for computationally difficult problems.
+For example, much of modern Internet traffic is encrypted using the RSA encryption scheme, which relies on its security on the (conjectured) impossibility of efficiently  factoring large integers.
+More recently, the [Bitcoin](https://en.wikipedia.org/wiki/Bitcoin) system uses a digital analog of the "gold standard" where, instead of using a  precious metal,  new currency is obtained by "mining"  solutions for computationally difficult problems.
 
 
 
 > # { .recap }
-* Algorithms' history goes back thousands of years,  and were essential for much of human progress. These days algorithms form the basis of multi-billion dollar industries as well as life-saving technologies.
-* There can be several different algorithms to achieve the same computational task. Finding a faster algorithm can make a much bigger difference than better technology.
+* The history of algorithms goes back thousands of years;  they have been essential much of human progress and these days form the basis of multi-billion dollar industries, as well as life-saving technologies.
+* There is often more than one algorithm to achieve the same computational task. Finding a faster algorithm can often make a much bigger difference than improving computing hardware.
 * Better algorithms and data structures don't just speed up calculations, but can yield  new qualitative insights.
-* One of the main topics of this course is studying the question of what is  the _most efficient_ algorithm for a given  problem.
-* To answer such a question we need to find ways to _prove lower bounds_ on the computational resources needed to solve certain problems. That is, show an _impossiblity result_ ruling out the existence of "too good" algorithms.
+* One question we will study is to find out what  is  the _most efficient_ algorithm for a given  problem.
+* To show that an algorithm is the most efficient one for a given problem,  we need to be able to _prove_ that it is _impossible_ to solve the  problem using a smaller amount of computational resources.
 
 ## Roadmap to the rest of this course {#roadmapsec }
 
@@ -284,9 +300,9 @@ Often, when we try to solve a computational problem, whether it is solving a sys
 As long as we find some way to solve the problem, we are happy and  don't care so much about  formal descriptions of the algorithm.
 But when we want to answer a question such as "does there _exist_ an algorithm to solve the problem $P$?" we need to be much more precise.
 
-In particular, we will  need to __(1)__  define exactly what does it mean to solve $P$, and __(2)__  define exactly what is an algorithm.
+In particular, we will  need to __(1)__  define exactly what  it means to solve $P$, and __(2)__  define exactly what  an algorithm is.
 Even __(1)__ can sometimes be non-trivial but __(2)__ is particularly challenging; it is not at all clear how (and even whether) we can encompass all potential ways to design algorithms.
-We will consider several simple _models of computation_, and argue that, despite their simplicity, they do capture all "reasonable" approaches for computing, including all those that are currently used in modern computing devices.
+We will consider several simple _models of computation_, and argue that, despite their simplicity, they do capture all "reasonable" approaches to achieve computing, including all those that are currently used in modern computing devices.
 
 Once we have these formal models of computation, we can try to obtain _impossibility results_ for computational tasks, showing that some problems _can not be solved_ (or perhaps can not be solved within the resources of our universe).
 Archimedes once said that given a fulcrum and a long enough lever, he could move the world.
@@ -342,7 +358,7 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 ::: {.exercise }
 Rank the significance of the  following inventions in speeding up multiplication of large (that is 100 digit or more) numbers. That is, use "back of the envelope" estimates to order them in terms of the speedup factor they offered over the previous state of affairs.
 
-a. Discovery of the gradeschool style digit by digit algorithm (improving upon repeated addition)
+a. Discovery of the grade style digit by digit algorithm (improving upon repeated addition)
 
 b. Discovery of Karatsuba's algorithm (improving upon the digit by digit algorithm)
 
@@ -367,12 +383,12 @@ e. $n!$ operations.
 
 a. Suppose that $T_1,T_2,T_3,\ldots$ is a sequence of numbers such that $T_2 \leq 10$ and for every $n$, $T_n \leq 3T_{\lceil n/2 \rceil} + Cn$. Prove that $T_n \leq 10Cn^{\log_2 3}$ for every $n$.^[__Hint:__ Use a proof by induction - suppose that this is true for all $n$'s from $1$ to $m$, prove that this is true also for $m+1$.] \
 
-b. Prove that the number of single digit operations that Karatsuba's algorithm takes to multiply two $n$ digit numbers is at most $1000n^{\log_2 3}$.
+b. Prove that the number of single-digit operations that Karatsuba's algorithm takes to multiply two $n$ digit numbers is at most $1000n^{\log_2 3}$.
 
 :::
 
 > # {.exercise }
-Implement in the programming language of your choice functions ```Gradeschool_multiply(x,y)``` and ```Karatsuba_multiply(x,y)``` that take two arrays of digits ```x``` and ```y``` and return an array representing the product of ```x``` and ```y``` (where ```x``` is identified with the number ```x[0]+10*x[1]+100*x[2]+...``` etc..) using the gradeschool algorithm and the Karatsuba algorithm respectively. At what number of digits does the Karatsuba algorithm beat the gradeschool one?
+Implement in the programming language of your choice functions ```Gradeschool_multiply(x,y)``` and ```Karatsuba_multiply(x,y)``` that take two arrays of digits ```x``` and ```y``` and return an array representing the product of ```x``` and ```y``` (where ```x``` is identified with the number ```x[0]+10*x[1]+100*x[2]+...``` etc..) using the grade algorithm and the Karatsuba algorithm respectively. At what number of digits does the Karatsuba algorithm beat the grade one?
 
 
 ::: {.exercise title="Matrix Multiplication (optional, advanced)" #matrixex}
