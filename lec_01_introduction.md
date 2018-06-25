@@ -281,8 +281,9 @@ For two millennia, mathematicians tried to show that Euclid's fifth axiom or "po
 (This fifth postulate was known a the  "parallel postulate", and roughly speaking it states that every line has a unique parallel line of each distance.)
 It was shown to be impossible using constructions of so called "non-Euclidean geometries", which turn out to be crucial  for the theory of general relativity.
 
-::: {.remark title="" #}
-It is fine if you have not yet encountered many of the above examples. I hope however they spark your curiosity!
+::: {.remark title="" #id}
+It is fine if you have not yet encountered many of the above examples.
+I hope however that they spark your curiosity!
 :::
 
 In an analogous way, impossibility results for computation correspond to "computational laws of nature" that tell us about the fundamental limits of any information processing apparatus, whether based on silicon, neurons, or quantum particles.^[Indeed,  some [exciting recent research](http://www.scottaaronson.com/barbados-2016.pdf) is focused on  trying to use computational complexity to shed light on fundamental questions in physics such understanding black holes and reconciling general relativity with quantum mechanics.]
