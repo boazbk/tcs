@@ -43,9 +43,9 @@ MMMMMMMMMMMMMMMDCCCCLVI
 Writing the distance to the sun in Roman numerals would require about 100,000 symbols: a 50 page book just containing this single number!
 
 This means that for someone who thinks of numbers in an additive  system like Roman numerals, quantities like the distance to the moon or sun are not merely large- they are _unspeakable_: cannot be expressed or even grasped.
-It's no wonder that Eratosthene, who was the first person to calculate the earth's diameter (up to about ten percent error) and Hipparchus who was the first to calculate the distance to the moon, did not use a Roman-numeral type system but rather  the Babylonian sexadecimal (i.e., base 60) place-value system.
+It's no wonder that Eratosthenes, who was the first person to calculate the earth's diameter (up to about ten percent error) and Hipparchus who was the first to calculate the distance to the moon, did not use a Roman-numeral type system but rather  the Babylonian sexadecimal (i.e., base 60) place-value system.
 
-The Babylonians also invented the precursors of "standard algorithms" that we were all taught in elementary school for adding and multiplying numbers.^[For more on the actual algorithms the Babylonians used, see [Knuth's paper](http://steiner.math.nthu.edu.tw/disk5/js/computer/1.pdf) and Neugebauer's [classic book](https://www.amazon.com/Exact-Sciences-Antiquity-Neugebauer/dp/0486223329).]
+The Babylonians also invented the precursors of the "standard algorithms" that we were all taught in elementary school for adding and multiplying numbers.^[For more on the actual algorithms the Babylonians used, see [Knuth's paper](http://steiner.math.nthu.edu.tw/disk5/js/computer/1.pdf) and Neugebauer's [classic book](https://www.amazon.com/Exact-Sciences-Antiquity-Neugebauer/dp/0486223329).]
 These algorithms and their variants have  been  of course essential to people throughout history  working with abaci, papyrus, or pencil and paper, but in our computer age, do they really serve any purpose beyond torturing third graders?
 
 
@@ -70,11 +70,11 @@ Let's start by more formally describing both algorithms:
 
 Both algorithms assume that we already know how to add numbers, and the second one also assumes that we can multiply a number by a power of $10$ (which is after all a simple shift) as well as multiply by a single-digit (which like addition, is done by multiplying each digit and propagating carries).
 Now suppose that $x$ and $y$ are two numbers of $n$ decimal digits each.
-Adding two such numbers takes at least $n$  single-digit additions (depending on how many times we need to use a "carry"), and so adding $x$ to itself $y$ times will take at least  $n\cdot y$ single-digit additions.
+Adding two such numbers takes at least $n$ single-digit additions (depending on how many times we need to use a "carry"), and so adding $x$ to itself $y$ times will take at least  $n\cdot y$ single-digit additions.
 In contrast, the standard grade algorithm reduces this problem to taking $n$ products of $x$ with a single-digit (which require up to $2n$ single-digit operations each, depending on carries) and then adding all of those together (total of $n$ additions, which, again depending on carries, would cost at most $2n^2$ single-digit operations) for a total of at most $4n^2$ single-digit operations.
 How much faster would $4n^2$ operations be than $n\cdot y$? And would this make any difference in a modern computer?
 
-Let us consider the case of multiplying 64 bit or 20 digit numbers.^[This is a common size in several programming languages; for example the `long` data type in the Java programming language, and (depending on architecture) the `long` or `long long` types in C.]
+Let us consider the case of multiplying 64-bit or 20-digit numbers.^[This is a common size in several programming languages; for example the `long` data type in the Java programming language, and (depending on architecture) the `long` or `long long` types in C.]
 That is, the task of multiplying two numbers $x,y$ that are between $10^{19}$ and $10^{20}$.
 Since in this case $n=20$, the standard algorithm would use at most  $4n^2=1600$ single-digit operations, while repeated addition would require at least $n\cdot y \geq 20\cdot 10^{19}$ single-digit operations.
 To understand the difference, consider that a human being might do a single-digit operation in about 2 seconds, requiring just under an hour to complete the calculation of $x\times y$ using the grade algorithm.
@@ -229,7 +229,7 @@ Indeed, one can verify that $xy = \begin{pmatrix}   t_1 + t_4 - t_5 + t_7 & t_3 
 
 
 Using this observation, we can obtain an algorithm such that doubling the dimension of the matrices results in increasing the number of operations by a factor of  $7$, which means that for $n=2^\ell$ the cost is $7^\ell = n^{\log_2 7} \sim n^{2.807}$.
-A long sequence of works has since improved this algorithm, and the [current record](https://en.wikipedia.org/wiki/Matrix_multiplication_algorithm#Sub-cubic_algorithms) has running time about $O(n^{2.373})$.
+A long sequence of work has since improved this algorithm, and the [current record](https://en.wikipedia.org/wiki/Matrix_multiplication_algorithm#Sub-cubic_algorithms) has running time about $O(n^{2.373})$.
 However, unlike the case of integer multiplication, at the moment we don't know of any algorithm for matrix multiplication that runs in time linear or even close to linear in the size of the input matrices (e.g., an $O(n^2 polylog(n))$ time algorithm).
 People have tried to use [group representations](https://en.wikipedia.org/wiki/Group_representation), which can be thought of as generalizations of the Fourier transform, to obtain faster algorithms, but this effort [has not yet succeeded](http://discreteanalysisjournal.com/article/1245-on-cap-sets-and-the-group-theoretic-approach-to-matrix-multiplication).
 :::
@@ -362,7 +362,7 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 
 
 ::: {.exercise }
-Rank the significance of the  following inventions in speeding up multiplication of large (that is 100 digit or more) numbers. That is, use "back of the envelope" estimates to order them in terms of the speedup factor they offered over the previous state of affairs.
+Rank the significance of the following inventions in speeding up multiplication of large (that is 100-digit or more) numbers. That is, use "back of the envelope" estimates to order them in terms of the speedup factor they offered over the previous state of affairs.
 
 a. Discovery of the grade style digit by digit algorithm (improving upon repeated addition)
 
