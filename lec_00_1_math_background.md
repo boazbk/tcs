@@ -993,6 +993,22 @@ __Proofs by induction:__ We can think of such proofs as a variant of the above, 
 The website for CMU course 15-251 contains a [useful handout](http://www.cs.cmu.edu/~./15251/notes/induction-pitfalls.pdf) on potential pitfalls when making proofs by induction.
 
 
+::: {.remark title="Hierarchical Proofs (optional)" #lamportrem}
+Mathematical proofs are ultimately written in English prose.
+The well-known computer scientist [Leslie Lamport](https://en.wikipedia.org/wiki/Leslie_Lamport) argued that this is a problem, and proofs should be written in a more formal and rigorous way.
+In his [manuscript](https://lamport.azurewebsites.net/pubs/proof.pdf) he proposes an approach for _structured hierarchical proofs_, that have the following form:
+
+* A proof for a statement of the form "If $A$ then $B$" is a sequence of numbered claims, starting with the assumption that $A$ is true, and ending with the claim that $B$ is true.
+
+* Every claim is followed by a proof showing how it is derived from the previous assumptions or claims.
+
+* The proof for each claim is itself a sequence of subclaims.
+
+The advantage of Lamport's format is that it is very clear for every sentence in the proof what is the role that it plays.
+It is also much easier to transform such proofs into machine-checkable format.
+The disadvantage is that such proofs can be more tedious to read and write, with less differentiation on the important parts of the arguments versus the more routine ones.
+:::
+
 
 ## Non-standard notation
 
