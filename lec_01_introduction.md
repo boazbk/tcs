@@ -10,7 +10,7 @@
 * Introduce and motivate the study of computation for its own sake, irrespective of particular implementations.
 * The notion of an _algorithm_ and some of its history.
 * Algorithms as not just  _tools_, but also _ways of thinking and understanding_.
-* Taste of Big Oh analysis and surprising creativity in efficient algorithms.
+* Taste of Big-$O$ analysis and surprising creativity in efficient algorithms.
 
 >_"Computer Science is no more about computers than astronomy is about telescopes"_,  attributed to Edsger Dijkstra.^[This quote is typically read as disparaging the importance of actual physical computers in Computer Science, but note that telescopes are absolutely essential to astronomy as they provide us with the means to connect  theoretical predictions with actual experimental observations.]
 
@@ -103,7 +103,7 @@ Structures from computer science, such as bits, strings, graphs, and even the no
 ## Extended Example: A faster way to multiply {#karatsubasec }
 
 Once you think of the standard digit-by-digit multiplication algorithm, it seems like obviously the "right" way to multiply numbers.
-Indeed, in 1960, the famous mathematician Andrey Kolmogorov organized a seminar at Moscow State University in which he conjectured that every algorithm for multiplying two $n$-digit numbers would require a number of basic operations that is proportional to $n^2$.^[That is, he conjectured that the number of operations would be at least some $n^2/C$ operations for some constant $C$ or, using "Big Oh notation", $\Omega(n^2)$ operations. See the _mathematical background_ chapter for a precise definition of big Oh notation.]
+Indeed, in 1960, the famous mathematician Andrey Kolmogorov organized a seminar at Moscow State University in which he conjectured that every algorithm for multiplying two $n$ digit numbers would require a number of basic operations that is proportional to $n^2$.^[That is, he conjectured that the number of operations would be at least some $n^2/C$ operations for some constant $C$ or, using "Big-$O$ notation", $\Omega(n^2)$ operations. See the _mathematical background_ chapter for a precise definition of Big-$O$ notation.]
 Another way to say it, is that he conjectured that in any multiplication algorithm, doubling the number of digits would _quadruple_ the number of basic operations required.
 
 A young student named Anatoly Karatsuba was in the audience, and within a week he found an algorithm that requires only about $Cn^{1.6}$ operations for some constant $C$.
@@ -163,8 +163,7 @@ $$
 x\times y =   10^n\overline{x}\cdot \overline{y} + 10^{m}\left[ (\overline{x}+\underline{x})(\overline{y}+\underline{y}) - \underline{x}\underline{y}  - \overline{x}\overline{y} \right]  + \underline{x}\underline{y} \;,
  \label{eqkarastubatwo}
 $$
-
-which equals to the value $(10^n-10^m)\cdot A  + 10^m \cdot B +(1-10^m)\cdot C$ returned by the algorithm.
+which equals $(10^n-10^m)\cdot A  + 10^m \cdot B +(1-10^m)\cdot C$, the value returned by the algorithm.
 
 
 The key observation is that  [eqkarastubatwo](){.eqref} reduces the task of computing the product of two $n$-digit numbers to computing _three_ products of  $\ceil{n/2}$-digit numbers.
@@ -180,7 +179,7 @@ In a [karatsuba-ex](){.ref}, you will formally show that the number of single-di
 
 
 ::: {.remark title="Ceilings, floors, and rounding" #remfloors}
-One of the benefits of using big Oh notation is that we can allow ourselves to be a little looser with issues such as rounding numbers etc..
+One of the benefits of using Big-$O$ notation is that we can allow ourselves to be a little looser with issues such as rounding numbers etc..
 For example, the natural way to describe Karatsuba's algorithm's running time is via the   following  recursive equation
 
 $$T(n)= 3T(n/2)+O(n)$$

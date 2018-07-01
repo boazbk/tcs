@@ -117,7 +117,7 @@ We now sketch the main observations we use to show that this "peeling off" costs
 >
 1. If $P$ is a NAND<< program that computes $F$ in $T(n)$ time, then on inputs of length $n$, all integers used by $P$ are of magnitude at most $T(n)$. This means that the largest value `i` can ever reach is at most $T(n)$ and so each one of $P$'s variables can be thought of as an array of at most $T(n)$ indices, each of which holds a  natural number of magnitude at most $T(n)$ (and hence one that can be encoded using $O(\log T(n))$ bits). Such an array can be encoded by a bit array of length $O(T(n)\log T(n))$. \
 2. All the arithmetic operations on integers use the gradeschool algorithms, that take time that is polynomial in the number of bits of the integers, which is  $poly(\log T(n))$ in our case. \
-3. Using the `i++` and `i-``-` operations we can load an integer (represented in binary) from the variable `foo` into the index `i` using a cost of $O(T(n)^2)$. The idea is that we create an array `marker` that contains a single $1$ coordinate and all the rest are zeroes. We will repeat the following for at most $T(n)$ steps: at each step we decrease `foo` by one (at a cost of $O(\log T(n))$) and move the $1$ in `marker` one step to the right (at a cost of $O(T(n))$). We stop when `foo` reaches $0$, at which point `marker` has $1$ in the location  encoded by the number that was in `foo`, and so if we move `i` until `marker_i` equals to $1$ then we reach our desired location. \
+3. Using the `i++` and `i-``-` operations we can load an integer (represented in binary) from the variable `foo` into the index `i` using a cost of $O(T(n)^2)$. The idea is that we create an array `marker` that contains a single $1$ coordinate and all the rest are zeroes. We will repeat the following for at most $T(n)$ steps: at each step we decrease `foo` by one (at a cost of $O(\log T(n))$) and move the $1$ in `marker` one step to the right (at a cost of $O(T(n))$). We stop when `foo` reaches $0$, at which point `marker` has $1$ in the location  encoded by the number that was in `foo`, and so if we move `i` until `marker_i` is equal to $1$ then we reach our desired location. \
 4. Once that is done, all that is left is to simulate `i++` and `i-``-` in NAND++ using our "breadcrumbs" and "wait for the bus"  technique. To simulate $T$ steps of increasing and decreasing the index, we will need at most $O(T^2)$ steps of NAND++  (see [obliviousfig](){.ref}). In the worst case for every increasing or decreasing step we will need to wait a full round until `i` reaches $0$ and gets back to the same location, in which case the total cost will be $O(1+2+3+4+\cdots+T)=O(T^2)$ steps. \
 >
 Together these observations imply that the simulation of $T$ steps of NAND<< can be done in $poly(T)$ step. (In fact the cost is  $O(T^4 polylog(T))= O(T^5)$ steps, and can even be improved further though this does not matter much.)
@@ -159,7 +159,7 @@ TIMEDEVAL(P,x,1^T)=P(x)
 $$
 if $P$  is a valid representation of a NAND<< program which produces an output on $x$ within at most $T$ steps.
 If $P$ does not produce an output within this time then $TIMEDEVAL$ outputs an encoding of a special `fail` symbol.
-Moreover, for every program $P$, the running time of $U$ on input $P,x,1^T$ is $O(T)$. (The hidden constant in the Oh notation can depend on the program $P$ but is at most polynomial in the length of $P$'s description as a string.).
+Moreover, for every program $P$, the running time of $U$ on input $P,x,1^T$ is $O(T)$. (The hidden constant in the $O$-notation can depend on the program $P$ but is at most polynomial in the length of $P$'s description as a string.).
 
 > # { .pause }
 Before reading the proof of [univ-nandpp](){.ref}, try to think how you would compute $TIMEDEVAL$ using your favorite programming language. That is, how you would write a program `TIMEDEVAL(P,x,T)` that gets a NAND<< program  `P` (represented in some convenient form), a string `x`, and an integer `T`, and simulates `P` for `T` steps.
@@ -479,7 +479,7 @@ Some topics related to this chapter that might be accessible to advanced student
 
 > # {.proof data-ref="oblivious-thm"}
 We start by ensuring that the time at which the program halts does not depend on the input but only its length. To do so, we can transform a program running in $T(n)$ time to a "clocked" version that will always takes $T(n)$ steps regardless of the input.
-We achieve this by adding a `noop` variable and modify the program to do nothing if `noop` equals to $1$.
+We achieve this by adding a `noop` variable and modify the program to do nothing if `noop` equals $1$.
 Hence, when the original program would assign $0$ to `loop`, we modify `noop` to $1$, and only halt after $T(|x|)$ steps when $x$ is the input.
 >
 The heart of the proof of [oblivious-thm](){.ref} is to ensure that movements of the  index `i` only depend on the input length.
