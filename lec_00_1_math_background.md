@@ -966,7 +966,10 @@ Suppose that $b^2 \geq 4ac$.
 Then $d = b^2 - 4ac$ is a non-negative number and hence it has a square root $s$.
 Thus $x = (-b+s)/(2a)$ satisfies
 $$
-ax^2 + bx + c = a(-b+s)^2/(4a^2) + b(-b+s)/(2a) + c = (b^2-2bs+s^2)/(4a)+(-b^2+bs)/(2a)+c \;. \label{eq:quadeq}
+\begin{align*}
+ax^2 + bx + c &= a(-b+s)^2/(4a^2) + b(-b+s)/(2a) + c \\
+ &= (b^2-2bs+s^2)/(4a)+(-b^2+bs)/(2a)+c \;. \label{eq:quadeq}
+\end{align*}
 $$
 Rearranging the terms of [eq:quadeq](){.eqref} we get
 $$
