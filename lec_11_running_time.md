@@ -159,7 +159,7 @@ TIMEDEVAL(P,x,1^T)=P(x)
 $$
 if $P$  is a valid representation of a NAND<< program which produces an output on $x$ within at most $T$ steps.
 If $P$ does not produce an output within this time then $TIMEDEVAL$ outputs an encoding of a special `fail` symbol.
-Moreover, for every program $P$, the running time of $U$ on input $P,x,1^T$ is $O(T)$. (The hidden constant in the Oh notation can depend on the program $P$ but is at most polynomial in the length of $P$'s description as a string.).
+Moreover, for every program $P$, the running time of $U$ on input $P,x,1^T$ is $O(T)$. (The hidden constant in the $O$-notation can depend on the program $P$ but is at most polynomial in the length of $P$'s description as a string.).
 
 > # { .pause }
 Before reading the proof of [univ-nandpp](){.ref}, try to think how you would compute $TIMEDEVAL$ using your favorite programming language. That is, how you would write a program `TIMEDEVAL(P,x,T)` that gets a NAND<< program  `P` (represented in some convenient form), a string `x`, and an integer `T`, and simulates `P` for `T` steps.
@@ -479,7 +479,7 @@ Some topics related to this chapter that might be accessible to advanced student
 
 > # {.proof data-ref="oblivious-thm"}
 We start by ensuring that the time at which the program halts does not depend on the input but only its length. To do so, we can transform a program running in $T(n)$ time to a "clocked" version that will always takes $T(n)$ steps regardless of the input.
-We achieve this by adding a `noop` variable and modify the program to do nothing if `noop` equals to $1$.
+We achieve this by adding a `noop` variable and modify the program to do nothing if `noop` equals $1$.
 Hence, when the original program would assign $0$ to `loop`, we modify `noop` to $1$, and only halt after $T(|x|)$ steps when $x$ is the input.
 >
 The heart of the proof of [oblivious-thm](){.ref} is to ensure that movements of the  index `i` only depend on the input length.

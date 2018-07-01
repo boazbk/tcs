@@ -6,7 +6,7 @@
 
 > # { .objectives }
 * Recall basic mathematical notions such as sets, functions, numbers, strings, graphs, logical operators and quantifiers.
-* Big  Oh notation.
+* Big-$O$ notation.
 * Proofs by induction.
 * See which of the above is familiar, and which needs review or further study.
 * Practice with reading mathematical _definitions_, _statements_, and _proofs_.
@@ -87,7 +87,7 @@ The main notions we will use in this course are the following:
 
 * __Graphs:__ Undirected and directed graphs, connectivity, paths, and cycles.
 
-* __Big Oh notation:__ $O,o,\Omega,\omega,\Theta$ notation for analyzing asymptotic growth of functions.
+* __Big-$O$ notation:__ $O,o,\Omega,\omega,\Theta$ notation for analyzing asymptotic growth of functions.
 
 * __Discrete probability:__ Later on in we will use _probability theory_, and specifically probability over _finite_ samples spaces such as tossing $n$ coins, including notions such as _random variables_, _expectation_, and _concentration_.  We will only use  probability theory in the second half of this text, and will review it  beforehand. However,  probabilistic reasoning is a subtle (and extremely useful!) skill, and it's always good to start early in acquiring it.
 
@@ -627,23 +627,23 @@ For example, variables such as $i,j,k,\ell,m,n$ will often denote integers, and 
 When reading or writing mathematical texts, we usually don't have the advantage of a "compiler" that will check type safety for us. Hence it is important to keep track of the type of each variable, and see that the operations that are performed on it "make sense".
 
 
-### Asymptotics and big-Oh notation
+### Asymptotics and Big-$O$ notation
 
 >_"$\log\log\log n$ has been proved to go to infinity, but has never been observed to do so."_, Anonymous, quoted by Carl Pomerance (2000)
 
 It is often very cumbersome to describe precisely  quantities such as running time and is also not needed, since we are typically mostly interested in the "higher order terms".
 That is, we want to understand the _scaling behavior_ of the quantity as the input variable grows.
 For example, as far as running time goes, the difference between an $n^5$-time algorithm and an $n^2$-time one is much more significant than the difference between an $100n^2 + 10n$ time algorithm and an $10n^2$ time algorithm.
-For this purpose, Oh notation is extremely useful as a way to "declutter" our text and focus our attention on what really matters.
-For example, using Oh notation, we can say that both $100n^2 + 10n$ and $10n^2$ are simply $\Theta(n^2)$ (which informally means "the same up to constant factors"), while $n^2 = o(n^5)$ (which informally means that $n^2$ is "much smaller than" $n^5$).^[While Big Oh notation is often used to analyze running time of algorithms, this is by no means the only application. At the end of the day, Big Oh notation is just a way to express asymptotic inequalities between functions on integers. It can be used regardless of whether these functions are a measure of running time, memory usage, or any other quantity that may have nothing to do with computation.]
+For this purpose, $O$-notation is extremely useful as a way to "declutter" our text and focus our attention on what really matters.
+For example, using $O$-notation, we can say that both $100n^2 + 10n$ and $10n^2$ are simply $\Theta(n^2)$ (which informally means "the same up to constant factors"), while $n^2 = o(n^5)$ (which informally means that $n^2$ is "much smaller than" $n^5$).^[While Big-$O$ notation is often used to analyze running time of algorithms, this is by no means the only application. At the end of the day, Big-$O$ notation is just a way to express asymptotic inequalities between functions on integers. It can be used regardless of whether these functions are a measure of running time, memory usage, or any other quantity that may have nothing to do with computation.]
 
 
 Generally (though still informally), if $F,G$ are two functions mapping natural numbers to non-negative reals,  then "$F=O(G)$" means that  $F(n) \leq G(n)$ if we don't care about constant factors, while  "$F=o(G)$" means that $F$ is much smaller than $G$, in the sense that no matter by what constant factor we multiply $F$, if we take $n$ to be large enough then  $G$ will be bigger (for this reason, sometimes $F=o(G)$ is written as $F \ll G$).
 We will write $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$, which one can think of as saying that $F$ is the same as $G$ if we don't care about constant factors.
-More formally, we define Big Oh notation as follows:
+More formally, we define Big-$O$ notation as follows:
 
 
-> # {.definition title="Big Oh notation" #bigohdef}
+> # {.definition title="Big-$O$ notation" #bigohdef}
 For $F,G: \N \rightarrow \R_+$, we define $F=O(G)$ if there exist numbers $a,N_0 \in \N$ such that $F(n) \leq a\cdot G(n)$ for every $n>N_0$.
 We define $F=\Omega(G)$ if $G=O(F)$.
 >
@@ -652,7 +652,7 @@ We write $F =\omega(G)$ if $G=o(F)$.
 We write $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$.
 
 
-We can also use the notion of _limits_ to define big and little oh notation.
+We can also use the notion of _limits_ to define Big- and Little-$O$ notation.
 You can verify that $F=o(G)$ (or, equivalently, $G=\omega(F)$) if and only if $\lim\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)} = 0$.
 Similarly, if the limit $\lim\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)}$ exists and is a finite number then $F=O(G)$.
 If you are familiar with the notion of _supremum_, then you can verify that $F=O(G)$ if and only if $\limsup\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)} < \infty$.
@@ -661,25 +661,25 @@ If you are familiar with the notion of _supremum_, then you can verify that $F=O
 
 
 
-> # {.remark title="Big Oh and equality" #equalitybighohrem}
-Using the equality sign for Oh notation is extremely common, but is somewhat of a misnomer, since a statement such as $F = O(G)$ really means that $F$ is in the set $\{ G' : \exists_{N,c} \text{ s.t. } \forall_{n>N} G'(n) \leq c G(n) \}$.
+> # {.remark title="Big-$O$ and equality" #equalitybighohrem}
+Using the equality sign for $O$-notation is extremely common, but is somewhat of a misnomer, since a statement such as $F = O(G)$ really means that $F$ is in the set $\{ G' : \exists_{N,c} \text{ s.t. } \forall_{n>N} G'(n) \leq c G(n) \}$.
 For this reason, some texts write $F \in O(G)$ instead of $F = O(G)$.
 If anything, it would have made more sense use _inequalities_ and  write $F \leq O(G)$ and $F \geq \Omega(G)$, reserving equality for $F = \Theta(G)$,  but by now the equality notation is quite firmly entrenched.
 Nevertheless, you should remember that a statement such as $F = O(G)$ means that $F$ is "at most" $G$ in some rough sense when we ignore constants, and a statement such as $F = \Omega(G)$ means that $F$ is "at least" $G$ in the same rough sense.
 
-It's often convenient to use "anonymous functions" in the context of Oh notation, and also  to emphasize the input parameter to the function.
+It's often convenient to use "anonymous functions" in the context of $O$-notation, and also  to emphasize the input parameter to the function.
 For example, when we write a statement such as $F(n) = O(n^3)$, we mean that  $F=O(G)$ where $G$ is the function defined by $G(n)=n^3$.
-Chapter 7 in [Jim Apsnes' notes on discrete math](http://www.cs.yale.edu/homes/aspnes/classes/202/notes.pdf) provides a good summary of Oh notation, see also [this tutorial](http://discrete.gr/complexity/) for a gentler and more programmer-oriented introduction.
+Chapter 7 in [Jim Apsnes' notes on discrete math](http://www.cs.yale.edu/homes/aspnes/classes/202/notes.pdf) provides a good summary of $O$ notation, see also [this tutorial](http://discrete.gr/complexity/) for a gentler and more programmer-oriented introduction.
 
 
 
-### Some "rules of thumbs" for big Oh notation
+### Some "rules of thumbs" for Big-$O$ notation
 
 There are some simple heuristics that can help when trying to compare two functions $F$ and $G$:
 
-* Multiplicative constants don't matter in Oh notation, and so if $F(n)=O(G(n))$ then $100F(n)=O(G(n))$.
+* Multiplicative constants don't matter in $O$-notation, and so if $F(n)=O(G(n))$ then $100F(n)=O(G(n))$.
 
-* When adding two functions, we only care about the larger one. For example, for the purpose of Oh notation, $n^3+100n^2$ is the same as $n^3$, and in general in any polynomial, we only care about the larger exponent.
+* When adding two functions, we only care about the larger one. For example, for the purpose of $O$-notation, $n^3+100n^2$ is the same as $n^3$, and in general in any polynomial, we only care about the larger exponent.
 
 * For every two constants $a,b>0$, $n^a = O(n^b)$ if and only if $a \leq b$, and $n^a = o(n^b)$ if and only if $a<b$. For example, combining the two observations above, $100n^2 + 10n + 100 = o(n^3)$.
 
@@ -687,7 +687,7 @@ There are some simple heuristics that can help when trying to compare two functi
 
 * Similarly, logarithmic is always smaller than polynomial: $(\log n)^a$ (which we write as $\log^a n$) is $o(n^\epsilon)$ for every two constants $a,\epsilon>0$. For example, combining the observations above, $100n^2 \log^{100} n = o(n^3)$.
 
-In most (though not all!) cases we use Oh notation, the constants hidden by it are not too huge and so on an intuitive level, you can think of $F=O(G)$ as saying something like $F(n) \leq 1000 G(n)$ and $F=\Omega(G)$ as saying something $F(n) \geq 0.001 G(n)$.
+In most (though not all!) cases we use $O$-notation, the constants hidden by it are not too huge and so on an intuitive level, you can think of $F=O(G)$ as saying something like $F(n) \leq 1000 G(n)$ and $F=\Omega(G)$ as saying something $F(n) \geq 0.001 G(n)$.
 
 
 ## Proofs
@@ -1023,7 +1023,7 @@ The main points where we diverge are:
 * We can use basic objects to define more complex notions. For example, _graphs_ can be defined as a list of _pairs_.
 * Given precise _definitions_ of objects, we can state unambiguous and precise _statements_. We can then use mathematical _proofs_ to determine whether these statements are true or false.
 * A mathematical proof is not a formal ritual but rather a clear, precise and "bulletproof" argument certifying the truth of a certain statement.
-* Big oh notation is an extremely useful formalism to suppress  less significant details and allow us to focus on the high level behavior of quantities of interest.
+* Big-$O$ notation is an extremely useful formalism to suppress less significant details and allow us to focus on the high level behavior of quantities of interest.
 * The only way to get comfort with mathematical notions is to apply them in the contexts of solving problems. You should expect to need to go back time and again to the definitions and notation in this lecture as you work through problems in this course.
 
 
@@ -1103,7 +1103,7 @@ Prove that for every undirected graph $G$ of $100$ vertices, if every vertex has
 Suppose that we toss three independent fair coins $a,b,c \in \{0,1\}$. What is the probability that the XOR of $a$,$b$, and $c$ is equal to $1$? What is the probability that the AND of these three values is equal to $1$? Are these two events independent?
 
 
-::: {.exercise title="Oh notation" #ohnotationex}
+::: {.exercise title="$O$-notation" #ohnotationex}
 For every pair of functions $F,G$ below, determine which of the following relations holds: $F=O(G)$, $F=\Omega(G)$, $F=o(G)$ or $F=\omega(G)$.
 
 a. $F(n)=n$, $G(n)=100n$.
