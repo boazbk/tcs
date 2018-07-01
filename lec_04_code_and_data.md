@@ -535,7 +535,7 @@ c. There is an $O(\sqrt{s})$ line NAND program that given as input program $P$ o
 > # {.exercise title="Equals function" #equals}
 For every $k \in \N$, show that there is an $O(k)$ line NAND program that computes the function $EQUALS_k:\{0,1\}^{2k} \rightarrow \{0,1\}$ where $EQUALS(x,x')=1$ if and only if $x=x'$.
 
-> # {.exercise title="Equals to constant function" #equalstwo}
+> # {.exercise title="Equal to constant function" #equalstwo}
 For every $k \in \N$ and $x' \in \{0,1\}^k$, show that there is an $O(k)$ line NAND program that computes the function $EQUALS_{x'} : \{0,1\}^k \rightarrow \{0,1\}$ that on input $x\in \{0,1\}^k$ outputs $1$ if and only if $x=x'$.
 
 
