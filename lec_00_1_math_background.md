@@ -5,12 +5,11 @@
 
 
 > # { .objectives }
-* Recall basic mathematical notions such as sets, functions, numbers, strings, graphs, logical operators and quantifiers.
-* Big-$O$ notation.
+* Recall basic mathematical notions such as sets, functions, numbers, logical operators and quantifiers, strings, and graphs.
+* Rigorously define Big-$O$ notation.
 * Proofs by induction.
-* See which of the above is familiar, and which needs review or further study.
 * Practice with reading mathematical _definitions_, _statements_, and _proofs_.
-* How to transform an intuitive argument into a rigorous proof.
+* Transform an intuitive argument into a rigorous proof.
 
 
 
