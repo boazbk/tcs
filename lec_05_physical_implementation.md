@@ -325,7 +325,7 @@ As we will discuss later, cellular automata such as Conway's "Game of Life" can 
 ## Circuit evaluation algorithm
 
 A Boolean circuit is a labeled graph, and hence we can use the _adjacency list_ representation to represent an $s$-vertex circuit over an arity-$k$ basis $B$ by $s$ elements of $B$ (that can be identified with numbers in $[|B|]$) and $s$ lists of $k$ numbers in $[s]$.
-Hence for every fixed basis $B$ we can represent such a circuit by a string of length $O(s \log s)$.^[The implicit constant in the $O$ notation can depend on the basis $B$.]
+Hence for every fixed basis $B$ we can represent such a circuit by a string of length $O(s \log s)$.^[The implicit constant in the $O$-notation can depend on the basis $B$.]
 We can define  $CIRCEVAL_{B,s,n,m}$ to be the function  that takes as input a pair $(C,x)$ where $C$ is string describing an $s$-size  $n$-input $m$-output circuit over $B$, and an input $x\in \{0,1\}^n$, and returns the evaluation of $C$ on the input $x$.
 
 [NAND-all-circ-thm](){.ref} implies that every circuit $C$ of $s$ gates over a $k$-ary basis $B$ can be transformed into a NAND program of $s'=O(s\cdot 2^k)$ lines, and hence we can combine this transformation with last lecture's evaluation procedure for NAND programs to conclude that $CIRCEVAL$ for circuits of $s$ gates over $B$ can be computed by a NAND program of $O(s'^2 \log s)= O(s^2 2^{2k}(\log s + k))$ lines.^[In fact, as we mentioned, it is possible to improve this to $O(s' \log^2 s')=O(s2^k(\log s + k)^2)$ lines.]
