@@ -61,7 +61,7 @@ Let's start by more formally describing both algorithms:
 
 
 
->__Standard grade multiplication algorithm:__ \
+>__Standard grade-school multiplication algorithm:__ \
 >__Input:__ Non-negative integers $x,y$ \
 >__Operation:__ \
 >1. Let $n$ be number of digits of $y$, and set $result \leftarrow 0$. \
@@ -70,14 +70,14 @@ Let's start by more formally describing both algorithms:
 
 Both algorithms assume that we already know how to add numbers, and the second one also assumes that we can multiply a number by a power of $10$ (which is after all a simple shift) as well as multiply by a single-digit (which like addition, is done by multiplying each digit and propagating carries).
 Now suppose that $x$ and $y$ are two numbers of $n$ decimal digits each.
-Adding two such numbers takes at least $n$ single-digit additions (depending on how many times we need to use a "carry"), and so adding $x$ to itself $y$ times will take at least  $n\cdot y$ single-digit additions.
-In contrast, the standard grade algorithm reduces this problem to taking $n$ products of $x$ with a single-digit (which require up to $2n$ single-digit operations each, depending on carries) and then adding all of those together (total of $n$ additions, which, again depending on carries, would cost at most $2n^2$ single-digit operations) for a total of at most $4n^2$ single-digit operations.
+Adding two such numbers takes at least $n$  single-digit additions (depending on how many times we need to use a "carry"), and so adding $x$ to itself $y$ times will take at least  $n\cdot y$ single-digit additions.
+In contrast, the standard grade-school algorithm reduces this problem to taking $n$ products of $x$ with a single-digit (which require up to $2n$ single-digit operations each, depending on carries) and then adding all of those together (total of $n$ additions, which, again depending on carries, would cost at most $2n^2$ single-digit operations) for a total of at most $4n^2$ single-digit operations.
 How much faster would $4n^2$ operations be than $n\cdot y$? And would this make any difference in a modern computer?
 
 Let us consider the case of multiplying 64-bit or 20-digit numbers.^[This is a common size in several programming languages; for example the `long` data type in the Java programming language, and (depending on architecture) the `long` or `long long` types in C.]
 That is, the task of multiplying two numbers $x,y$ that are between $10^{19}$ and $10^{20}$.
 Since in this case $n=20$, the standard algorithm would use at most  $4n^2=1600$ single-digit operations, while repeated addition would require at least $n\cdot y \geq 20\cdot 10^{19}$ single-digit operations.
-To understand the difference, consider that a human being might do a single-digit operation in about 2 seconds, requiring just under an hour to complete the calculation of $x\times y$ using the grade algorithm.
+To understand the difference, consider that a human being might do a single-digit operation in about 2 seconds, requiring just under an hour to complete the calculation of $x\times y$ using the grade-school algorithm.
 In contrast, even though it is more than a billion times faster, a modern PC that computes $x\times y$ using  naïve iterated addition would require about $10^{20}/10^9 = 10^{11}$ seconds (which is more than three millenia!) to compute the same result.
 
 
@@ -112,11 +112,11 @@ Amazingly,  Karatsuba's algorithm is based on a faster way to multiply _two-digi
 
 Suppose that $x,y \in [100]=\{0,\ldots, 99 \}$ are a pair of two-digit numbers.
 Let's write $\overline{x}$ for the "tens" digit of $x$, and $\underline{x}$ for the "ones" digit, so that $x = 10\overline{x} + \underline{x}$, and write similarly $y = 10\overline{y} + \underline{y}$ for $\overline{y},\underline{y} \in [10]$.
-The grade school algorithm for multiplying $x$ and $y$ is illustrated in [gradeschoolmult](){.ref}.
+The grade-school algorithm for multiplying $x$ and $y$ is illustrated in [gradeschoolmult](){.ref}.
 
-![The grade school multiplication algorithm illustrated for multiplying $x=10\overline{x}+\underline{x}$ and $y=10\overline{y}+\underline{y}$. It uses the formula $(10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10(\overline{x}\underline{y} + \underline{x}\overline{y}) + \underline{x}\underline{y}$.](../figure/gradeschoolmult.png){#gradeschoolmult .class width=300px height=300px}
+![The grade-school multiplication algorithm illustrated for multiplying $x=10\overline{x}+\underline{x}$ and $y=10\overline{y}+\underline{y}$. It uses the formula $(10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10(\overline{x}\underline{y} + \underline{x}\overline{y}) + \underline{x}\underline{y}$.](../figure/gradeschoolmult.png){#gradeschoolmult .class width=300px height=300px}
 
-The grade school algorithm  works by transforming the task of multiplying a pair of two-digit number into _four_ single-digit multiplications via the formula
+The grade-school algorithm works by transforming the task of multiplying a pair of two-digit number into _four_ single-digit multiplications via the formula
 
 $$
 (10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10(\overline{x}\underline{y} + \underline{x}\overline{y}) + \underline{x}\underline{y} \label{eq:gradeschooltwodigit}
@@ -137,7 +137,7 @@ which reduces multiplying the two-digit number $x$ and $y$ to computing the foll
 
 Of course if all we wanted to was to multiply two digit numbers, we wouldn't really need any clever algorithms.
 It turns out that we can repeatedly apply the same idea, and use them to multiply $4$-digit numbers, $8$-digit numbers, $16$-digit numbers, and so on and so forth.
-If we used the grade school  approach then our cost for doubling the number of digits would be to _quadruple_ the number of multiplications, which for $n=2^\ell$ digits would result in about $4^\ell=n^2$ operations.
+If we used the grade-school  approach then our cost for doubling the number of digits would be to _quadruple_ the number of multiplications, which for $n=2^\ell$ digits would result in about $4^\ell=n^2$ operations.
 In contrast, in Karatsuba's approach doubling the number of digits  only  _triples_ the number of operations,  which means that for $n=2^\ell$ digits we require about $3^\ell = n^{\log_2 3} \sim n^{1.58}$ operations.
 
 Specifically, we use a  _recursive_ strategy as follows:
@@ -173,7 +173,7 @@ Intuitively this means that as the number of digits _doubles_, the cost of perfo
 This implies that multiplying numbers of $n=2^\ell$ digits costs about $3^\ell = n^{\log_2 3} \sim n^{1.585}$ operations.
 In a [karatsuba-ex](){.ref}, you will formally show that the number of single-digit operations that Karatsuba's algorithm uses for multiplying $n$ digit integers is at most $O(n^{\log_2 3})$ (see also [karatsubafig](){.ref}).
 
-![Running time of Karatsuba's algorithm vs. the Grade school algorithm. (Python implementation available [online](https://goo.gl/zwzpYe).) Note the existence of a "cutoff" length, where for sufficiently large inputs Karatsuba becomes more efficient than the grade algorithm. The precise cutoff location varies by implementation and platform details, but will always occur eventually.](../figure/karastubavsgschoolv2.png){#karatsubaruntimefig .class width=300px height=300px}
+![Running time of Karatsuba's algorithm vs. the grade-school algorithm. (Python implementation available [online](https://goo.gl/zwzpYe).) Note the existence of a "cutoff" length, where for sufficiently large inputs Karatsuba becomes more efficient than the grade-school algorithm. The precise cutoff location varies by implementation and platform details, but will always occur eventually.](../figure/karastubavsgschoolv2.png){#karatsubaruntimefig .class width=300px height=300px}
 
 ![Karatsuba's algorithm reduces an $n$-bit multiplication to three $n/2$-bit multiplications, which in turn are reduced to nine $n/4$-bit multiplications and so on. We can represent the computational cost of all these multiplications in a $3$-ary tree of depth $\log_2 n$, where at the root the extra cost is $cn$ operations, at the first level the extra cost is $c(n/2)$ operations, and at each of the $3^i$ nodes of  level $i$, the extra cost is $c(n/2^i)$. The total cost is $cn\sum_{i=0}^{\log_2 n} (3/2)^i \leq 2cn^{\log_2 3}$ by the formula for summing a geometric series.](../figure/karatsuba_analysis.png){#karatsuba-fig .class width=300px height=300px}
 
@@ -364,7 +364,7 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 ::: {.exercise }
 Rank the significance of the following inventions in speeding up multiplication of large (that is 100-digit or more) numbers. That is, use "back of the envelope" estimates to order them in terms of the speedup factor they offered over the previous state of affairs.
 
-a. Discovery of the grade style digit by digit algorithm (improving upon repeated addition)
+a. Discovery of the grade-school digit by digit algorithm (improving upon repeated addition)
 
 b. Discovery of Karatsuba's algorithm (improving upon the digit by digit algorithm)
 
@@ -394,7 +394,7 @@ b. Prove that the number of single-digit operations that Karatsuba's algorithm t
 :::
 
 > # {.exercise }
-Implement in the programming language of your choice functions ```Gradeschool_multiply(x,y)``` and ```Karatsuba_multiply(x,y)``` that take two arrays of digits ```x``` and ```y``` and return an array representing the product of ```x``` and ```y``` (where ```x``` is identified with the number ```x[0]+10*x[1]+100*x[2]+...``` etc..) using the grade algorithm and the Karatsuba algorithm respectively. At what number of digits does the Karatsuba algorithm beat the grade one?
+Implement in the programming language of your choice functions ```Gradeschool_multiply(x,y)``` and ```Karatsuba_multiply(x,y)``` that take two arrays of digits ```x``` and ```y``` and return an array representing the product of ```x``` and ```y``` (where ```x``` is identified with the number ```x[0]+10*x[1]+100*x[2]+...``` etc..) using the grade-school algorithm and the Karatsuba algorithm respectively. At what number of digits does the Karatsuba algorithm beat the grade-school one?
 
 
 ::: {.exercise title="Matrix Multiplication (optional, advanced)" #matrixex}

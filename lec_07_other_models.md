@@ -143,7 +143,7 @@ Setindex(Blah)
 Two[i] = something
 ```
 
-Computing `embed` is left for you the reader as [pair-ex](){.ref}, but let us hint that this can be done by simply following the gradeschool algorithms for multiplication, addition, and division.
+Computing `embed` is left for you the reader as [pair-ex](){.ref}, but let us hint that this can be done by simply following the grade-school algorithms for multiplication, addition, and division.
 
 ### All the rest
 
