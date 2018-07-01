@@ -357,8 +357,8 @@ That is, $(xy)_i$ equals $x_i$ if $i<n$ and equals $y_{i-n}$ if $n \leq i < n+m$
 If $S$ and $T$ are sets, a _function_ $F$ mapping $S$ to $T$, denoted by $F:S \rightarrow T$, associates with every element $x\in S$ an element $F(x)\in T$.
 The set $S$ is known as the _domain_ of $F$ and the set $T$ is known as the _range_ or _co-domain_ of $F$.
 Just as with sets, we can write a function either by listing the table of all the values it gives for elements in $S$ or using a rule.
-For example if $S = \{0,1,2,3,4,5,6,7,8,9 \}$ and $T = \{0,1 \}$.
-Then  the function $F$ defined by the input output behavior as in the table below, is  the same as defining $F(x)= (x \mod 2)$.
+For example if $S = \{0,1,2,3,4,5,6,7,8,9 \}$ and $T = \{0,1 \}$, then the table below defines a function $F: S \rightarrow T$.
+Note that this function is the same as the function defined by the rule $F(x)= (x \mod 2)$.
 
 | Input | Output |
 |:------|:-------|
@@ -380,7 +380,7 @@ Then  the function $F$ defined by the input output behavior as in the table belo
 If $F:S \rightarrow T$ satisfies that $F(x)\neq F(y)$ for all $x \neq y$ then we say that $F$ is _one-to-one_ (also known as an _injective_ function or simply an _injection_).
 If $F$ satisfies that for every $y\in T$ there is some $x$ such that $F(x)=y$ then we say that $F$ is _onto_ (also known as a _surjective_ function or simply a _surjection_).
 A  function that is both one-to-one and onto is known as a _bijective_ function or simply a _bijection_.
-If  $S=T$ then a bijection from $S$ to $T$ is also known as a _permutation_.
+A bijection from a set $S$ to itself is also known as a _permutation_ of $S$.
 If  $F:S \rightarrow T$ is a bijection  then  for every $y\in T$ there is a unique $x\in S$ s.t. $F(x)=y$.
 We denote this value $x$ by $F^{-1}(y)$.
 Note that $F^{-1}$ is itself a bijection from $T$ to $S$ (can you see why?).
@@ -388,17 +388,17 @@ Note that $F^{-1}$ is itself a bijection from $T$ to $S$ (can you see why?).
 
 Giving a bijection between two sets is often a good way to show they have  the same size.
 In fact, the standard mathematical definition of the notion that "$S$ and $T$ have the same cardinality" is that there exists a bijection $f:S \rightarrow T$.
-In particular, the cardinality of a set $S$ is defined $n$ if there is a bijection from $S$ to the set $\{0,\ldots,n-1\}$.
+In particular, the cardinality of a set $S$ is defined to be $n$ if there is a bijection from $S$ to the set $\{0,\ldots,n-1\}$.
 As we will see later in this course, this is a definition that can  generalizes to defining the cardinality of _infinite_ sets.
 
 
 
 __Partial functions:__ We will sometimes be interested in _partial_ functions from $S$ to $T$.
-This is a generalization of the notion of a function to consider also $F$ that is not necessarily defined on every element of $S$.
+This is a generalization of the notion of a function to consider also mappings $F$ that are not necessarily defined on every element of $S$.
 For example, the partial function $F(x)= \sqrt{x}$ is only defined on non-negative real numbers.
 When we want to distinguish between partial functions and  standard (i.e., non-partial) functions, we will call the latter _total_ functions.
 When we say "function" without any qualifier then we mean a _total_ function.
-That is, the notion of partial functions is a strict generalization of functions, and so a partial function _not_ necessarily a function.
+That is, the notion of partial functions is a strict generalization of functions, and so a partial function is _not_ necessarily a function.
 The set of partial functions is a proper superset of the set of total functions, since a partial function is allowed to be defined on all its input elements.
 When we want to emphasize that a function $f$ from $A$ to $B$ might not be total, we will write $f: A \rightarrow_p B$.
 We can think of a partial function $F$ from $S$ to $T$ also as a total function from $S$ to $T \cup \{ \bot \}$ where $\bot$ is some special "failure symbol", and so instead of saying that $F$ is undefined at $x$, we can say that $F(x)=\bot$.
@@ -408,7 +408,7 @@ Verifying that you can prove the following results is an excellent way to brush 
 
 * If $F:S \rightarrow T$ and $G:T \rightarrow U$ are one-to-one functions, then their _composition_ $H:S \rightarrow U$ defined as $H(s)=G(F(s))$ is also one to one.
 
-* If $F:S \rightarrow T$ is one to one, then there exists an onto function $G:T \rightarrow S$ such that $G(F(s))=s$ for every $s\in S$.
+* If $F:S \rightarrow T$ is one to one and $S$ is nonempty, then there exists an onto function $G:T \rightarrow S$ such that $G(F(s))=s$ for every $s\in S$.
 
 * If $G:T \rightarrow S$ is onto then there exists a one-to-one function $F:S \rightarrow T$ such that $G(F(s))=s$ for every $s\in S$.
 
