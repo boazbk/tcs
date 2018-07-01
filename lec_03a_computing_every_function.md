@@ -396,7 +396,7 @@ with the equivalent NAND expressions.
 
 ### Example: Multiplying $n$ bit numbers
 
-We have seen in [addexample](){.ref} how to use the gradeschool algorithm to show that NAND programs can add $n$-bit numbers for every $n$.
+We have seen in [addexample](){.ref} how to use the grade-school algorithm to show that NAND programs can add $n$-bit numbers for every $n$.
 By following through this example, we can obtain the following result
 
 
@@ -416,13 +416,13 @@ See [addnumoflinesfig](){.ref} for a figure illustrating the number of lines our
 ![The number of lines in our NAND program to add two $n$ bit numbers, as a function of $n$, for $n$'s between $1$ and $100$.](../figure/addnumberoflines.png){#addnumoflinesfig .class width=300px height=300px}
 
 <!--
-![Translating the gradeschool addition algorithm into a NAND program. If at the $i^{th}$ stage, the $i^{th}$  digits of the two numbers are $x_i$ and $x_{n+i}$ and the carry is $c_i$, then the $i^{th}$ digit of the sum will be $(x_i XOR x_{n+i}) XOR c_i$ and the new carry $c_{i+1}$ will be equal to $1$ if any two values among $c_i,x_i,x_{n+i}$ are $1$.](../figure/addition-alg-nand.png){#addition-fig .class width=300px height=300px}
+![Translating the grade-school addition algorithm into a NAND program. If at the $i^{th}$ stage, the $i^{th}$  digits of the two numbers are $x_i$ and $x_{n+i}$ and the carry is $c_i$, then the $i^{th}$ digit of the sum will be $(x_i XOR x_{n+i}) XOR c_i$ and the new carry $c_{i+1}$ will be equal to $1$ if any two values among $c_i,x_i,x_{n+i}$ are $1$.](../figure/addition-alg-nand.png){#addition-fig .class width=300px height=300px}
 -->
 
 
 <!--
 > # {.proof data-ref="addition-thm"}
-To prove this theorem we repeatedly appeal to the notion of composition, and to the "gradeschool" algorithm for addition.
+To prove this theorem we repeatedly appeal to the notion of composition, and to the "grade-school" algorithm for addition.
 To add the numbers $(x_0,\ldots,x_{n-1})$ and $(x_n,\ldots,x_{2n-1})$, we set $c_0=0$ and  do the following for $i=0,\ldots,n-1$: \
   >* Compute $z_i  = XOR(x_i,x_{n+i})$ (add the two corresponding digits) \
   >* Compute $y_i = XOR(z_i,c_i)$ (add in the carry to get the final digit) \
@@ -446,7 +446,7 @@ See the website [http://nandpl.org](http://nandpl.org) for an applet that produc
 ### Multiplying numbers
 -->
 
-Once we have addition, we can use the gradeschool algorithm to obtain multiplication as well, thus obtaining the following theorem:
+Once we have addition, we can use the grade-school algorithm to obtain multiplication as well, thus obtaining the following theorem:
 
 
 > # {.theorem title="Multiplication NAND programs" #theoremid}

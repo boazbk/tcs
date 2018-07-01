@@ -392,7 +392,7 @@ For example, this is how this circuit looks like for $n=4$.
 > # {.example title="Addition using NANDs" #additionnandcirc}
 Once we have the increment operation, we can certainly compute addition by repeatedly incrementing (i.e., compute $x+y$ by performing $INC(x)$ $y$ times).
 However, that would be quite inefficient and unnecessary.
-With the same idea of keeping track of carries we can implement the "gradeschool" algorithm for addition to compute the function $ADD_n:\{0,1\}^{2n} \rightarrow \{0,1\}^{n+1}$ that on input $x\in \{0,1\}^{2n}$ outputs the binary representation of the sum of the numbers represented by $x_0,\ldots,x_{n-1}$ and $x_{n+1},\ldots,x_n$:
+With the same idea of keeping track of carries we can implement the "grade-school" algorithm for addition to compute the function $ADD_n:\{0,1\}^{2n} \rightarrow \{0,1\}^{n+1}$ that on input $x\in \{0,1\}^{2n}$ outputs the binary representation of the sum of the numbers represented by $x_0,\ldots,x_{n-1}$ and $x_{n+1},\ldots,x_n$:
 >
 1. Set $c_0=0$.
 2. For $i=0,\ldots,n-1$:

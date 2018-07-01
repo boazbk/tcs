@@ -485,7 +485,7 @@ We omit the full inductive proof, though working out it for yourself can be an e
 
 Using composition, we can show how to add _two bit_ numbers.
 That is, the function $ADD_2:\{0,1\}^4\rightarrow\{0,1\}^3$ that takes two numbers $x,x'$ each between $0$ and $3$ (each represented with two bits using the binary representation) and outputs their sum, which is a number between $0$ and $6$ that can be represented using three bits.
-The gradeschool algorithm gives us a way to compute $ADD_2$ using $ADD_1$.
+The grade-school algorithm gives us a way to compute $ADD_2$ using $ADD_1$.
 That is, we can add each digit using $ADD_1$ and then take care of the carry.
 That is, if the two input numbers have the form $x_0+2x_1$ and $x_2+2x_3$, then the output number $y_0+y_12+y_32^2$ can be computed via the following "pseudocode" (see also [addtwofig](){.ref})
 
@@ -496,7 +496,7 @@ y_1,c'_2 := ADD_1(z_1,c_1) // second output is sum + carry
 y_2       := c_2 OR c'_2    // top digit is 1 if one of the top carries is 1
 ```
 
-![Adding two $2$-bit numbers via the grade school algorithm.](../figure/add2.png){#addtwofig .class width=300px height=300px}
+![Adding two $2$-bit numbers via the grade-school algorithm.](../figure/add2.png){#addtwofig .class width=300px height=300px}
 
 To transform this pseudocode into an actual program or circuit, we can use [seqcompositionthm](){.ref} and [parcompositionthm](){.ref}.
 That is, we first compute $(y_0,c_1,z_1,c_2) = ADD_1 \| ADD_1 (x_0,x_2,x_1,x_3)$, which we can do in $10$ lines  via [parcompositionthm](){.ref}, then apply  $ADD_1$ to $(z_1,c_1)$, and finally use the fact that $OR(a,b)=NAND(NOT(a),NOT(b))$ and $NOT(a)=NAND(a,a)$ to compute `c_2 OR c'_2` via three lines of NAND.
