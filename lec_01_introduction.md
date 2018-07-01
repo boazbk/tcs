@@ -163,8 +163,7 @@ $$
 x\times y =   10^n\overline{x}\cdot \overline{y} + 10^{m}\left[ (\overline{x}+\underline{x})(\overline{y}+\underline{y}) - \underline{x}\underline{y}  - \overline{x}\overline{y} \right]  + \underline{x}\underline{y} \;,
  \label{eqkarastubatwo}
 $$
-
-which equals $(10^n-10^m)\cdot A  + 10^m \cdot B +(1-10^m)\cdot C$ returned by the algorithm.
+which equals $(10^n-10^m)\cdot A  + 10^m \cdot B +(1-10^m)\cdot C$, the value returned by the algorithm.
 
 
 The key observation is that  [eqkarastubatwo](){.eqref} reduces the task of computing the product of two $n$-digit numbers to computing _three_ products of  $\ceil{n/2}$-digit numbers.
