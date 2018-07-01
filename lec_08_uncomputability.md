@@ -177,7 +177,7 @@ Indeed, suppose, towards the sake of contradiction,  that there was some program
 Then on input $x$, the program $P$ outputs $F^*(x)$.
 But by definition, the program should also output $1-F^*(x)$, hence yielding a contradiction.
 
-![We construct an uncomputable function by defining for every two strings $x,y$ the value $1-P_y(x)$ which equals to $0$ if the program described by $y$ outputs $1$ on $x$, and equals to $1$ otherwise.  We then define $F^*(x)$ to be the "diagonal" of this table, namely $F^*(x)=1-P_x(x)$ for every $x$. The function $F^*$ is uncomputable, because if it was computable by some program whose string description is $x^*$ then we would get that $P_{x^*}(x^*)=F(x^*)=1-P_{x^*}(x^*)$.](../figure/diagonal_proof.png){#diagonal-fig .class width=300px height=300px}
+![We construct an uncomputable function by defining for every two strings $x,y$ the value $1-P_y(x)$ which equals $0$ if the program described by $y$ outputs $1$ on $x$, and $1$ otherwise.  We then define $F^*(x)$ to be the "diagonal" of this table, namely $F^*(x)=1-P_x(x)$ for every $x$. The function $F^*$ is uncomputable, because if it was computable by some program whose string description is $x^*$ then we would get that $P_{x^*}(x^*)=F(x^*)=1-P_{x^*}(x^*)$.](../figure/diagonal_proof.png){#diagonal-fig .class width=300px height=300px}
 
 
 > # { .pause }
@@ -199,7 +199,7 @@ That is, perhaps it is a function that no one actually _wants_ to compute.
 It turns out that there are natural uncomputable functions:
 
 > # {.theorem title="Uncomputability of Halting function" #halt-thm}
-Let $HALT:\{0,1\}^* \rightarrow \{0,1\}$ be the function such that $HALT(P,x)=1$ if the NAND++ program $P$ halts on input $x$ and equals to $0$ if it does not.
+Let $HALT:\{0,1\}^* \rightarrow \{0,1\}$ be the function such that $HALT(P,x)=1$ if the NAND++ program $P$ halts on input $x$ and equals $0$ if it does not.
 Then $HALT$ is not computable.
 
 Before turning to prove [halt-thm](){.ref}, we note that $HALT$ is a very natural function to want to compute.
