@@ -394,7 +394,7 @@ As we will see later in this course, this is a definition that can  generalizes 
 
 
 __Partial functions:__ We will sometimes be interested in _partial_ functions from $S$ to $T$.
-This is a generalization of the notion of a function to consider also mappings $F$ that are not necessarily defined on every element of $S$.
+This is a generalization of the notion of a function, where we allow mappings $F$ such that $F(s)$ may not exist for some values $s \in S$.
 For example, the partial function $F(x)= \sqrt{x}$ is only defined on non-negative real numbers.
 When we want to distinguish between partial functions and  standard (i.e., non-partial) functions, we will call the latter _total_ functions.
 When we say "function" without any qualifier then we mean a _total_ function.
