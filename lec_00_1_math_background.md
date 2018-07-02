@@ -241,7 +241,7 @@ Since order matters, this is not the same tuple as the $4$-tuple $(1,1,5,2)$ or 
 We use the terms _tuples_ and _lists_ interchangeably.
 A tuple where every element comes from some finite set $\Sigma$ (such as $\{0,1\}$) is also known as a _string_.
 Analogously to sets, we denote the _length_ of a tuple $T$ by $|T|$.
-Just like sets, we can also think of an infinite analogs of tuples, such as the ordered collection $(1,2,4,9,\ldots )$ of all perfect squares.
+Just like sets, we can also think of infinite analogues of tuples, such as the ordered collection $(1,2,4,9,\ldots )$ of all perfect squares.
 Infinite ordered collections are known as _sequences_; we might sometimes use the term "infinite sequence" to emphasize this, and use "finite sequence" as a synonym for a tuple.^[We can identify a sequence $(a_0,a_1,a_2,\ldots)$ of elements in some set $S$ with a _function_ $A:\N \rightarrow S$ (where $a_n = A(n)$ for every $n\in \N$). Similarly, we can identify a $k$-tuple $(a_0,\ldots,a_{k-1})$ of elements in $S$ with a function $A:[k] \rightarrow S$.]
 
 
