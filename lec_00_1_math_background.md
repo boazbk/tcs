@@ -45,7 +45,7 @@ For example, we will look at questions such as  _"is there an efficient algorith
 To even _phrase_ such a question, we need to give a precise _definition_ of the notion of an _algorithm_, and of what it means for an algorithm to be _efficient_.
 Also, if the answer to this or similar questions turns out to be _negative_, then this cannot be shown by simply writing and executing some code.
 After all, there is no empirical experiment that will prove the _non existence_ of an algorithm.
-Thus, our only way to show this type of _negative results_ is to use _mathematical proofs_.
+Thus, our only way to show this type of _negative result_ is to use _mathematical proofs_.
 So you can  see why our main tools in this course will be mathematical proofs and definitions.
 
 
@@ -209,7 +209,7 @@ A _set_ is an unordered collection of objects.
 For example, when we write $S = \{ 2,4, 7 \}$, we mean that $S$ denotes the set that contains the numbers $2$, $4$, and $7$.
 (We use the notation "$2 \in S$" to denote that $2$ is an element of $S$.)
 Note that the set $\{ 2, 4, 7 \}$ and $\{ 7 , 4, 2 \}$ are identical, since they contain the same elements.
-Also, a set either contains an element or does not contain it -there is no notion of containing it  "twice"- and so we could even write the same set $S$ as  $\{ 2, 2, 4, 7\}$ (though that would be a little weird).
+Also, a set either contains an element or does not contain it -- there is no notion of containing it  "twice" -- and so we could even write the same set $S$ as  $\{ 2, 2, 4, 7\}$ (though that would be a little weird).
 The _cardinality_ of a finite set $S$, denoted by $|S|$, is the number of distinct elements it contains.^[Later in this course we  will discuss how to extend the notion of cardinality to _infinite_ sets.]
 So, in the example above, $|S|=3$.
 A set $S$ is a _subset_ of a set $T$, denoted by $S \subseteq T$, if every element of $S$ is also an element of $T$. (We can also describe this by saying that  $T$ is a _superset_ of $S$.)
@@ -241,7 +241,7 @@ Since order matters, this is not the same tuple as the $4$-tuple $(1,1,5,2)$ or 
 We use the terms _tuples_ and _lists_ interchangeably.
 A tuple where every element comes from some finite set $\Sigma$ (such as $\{0,1\}$) is also known as a _string_.
 Analogously to sets, we denote the _length_ of a tuple $T$ by $|T|$.
-Just like sets, we can also think of an infinite analogs of tuples, such as the ordered collection $(1,2,4,9,\ldots )$ of all perfect squares.
+Just like sets, we can also think of infinite analogues of tuples, such as the ordered collection $(1,2,4,9,\ldots )$ of all perfect squares.
 Infinite ordered collections are known as _sequences_; we might sometimes use the term "infinite sequence" to emphasize this, and use "finite sequence" as a synonym for a tuple.^[We can identify a sequence $(a_0,a_1,a_2,\ldots)$ of elements in some set $S$ with a _function_ $A:\N \rightarrow S$ (where $a_n = A(n)$ for every $n\in \N$). Similarly, we can identify a $k$-tuple $(a_0,\ldots,a_{k-1})$ of elements in $S$ with a function $A:[k] \rightarrow S$.]
 
 
@@ -294,11 +294,10 @@ For starters we define
 $$
 \N = \{ 0, 1,2, \ldots \}
 $$
-
 to be the set of all _natural numbers_, i.e., non-negative integers.
 For any natural number $n$, we define the set $[n]$ as $\{0,\ldots, n-1\} = \{ k\in \N : k < n \}$.^[We start our indexing of both $\N$ and $[n]$ from $0$, while many other  texts index  those sets from $1$. Starting from zero or one is simply a convention that doesn't make much difference, as long as one is consistent about it.]
 
-We will also occasionally use the set $\Z=\{\ldots,-2,-1,0,+1,+2,\ldots \}$ of (negative and non-negative) _whole numbers_,^[The letter Z stands for the German word "Zahlen", which means _numbers_.] as well as the set $\R$ of _real_ numbers. (This is the set that includes not just the whole numbers, but also fractional and even irrational numbers; e.g., $\R$ contains numbers  such as $+0.5$, $-\pi$, etc.)
+We will also occasionally use the set $\Z=\{\ldots,-2,-1,0,+1,+2,\ldots \}$ of (negative and non-negative) _integers_,^[The letter Z stands for the German word "Zahlen", which means _numbers_.] as well as the set $\R$ of _real_ numbers. (This is the set that includes not just the integers, but also fractional and even irrational numbers; e.g., $\R$ contains numbers  such as $+0.5$, $-\pi$, etc.)
 We denote by $\R_+$  the set $\{ x\in \R : x > 0 \}$ of _positive_  real numbers.
 This set is sometimes also denoted as $(0,\infty)$.
 
@@ -307,7 +306,6 @@ __Strings:__ Another set we will use time and again is
 $$
 \{0,1\}^n = \{ (x_0,\ldots,x_{n-1}) \;:\; x_0,\ldots,x_{n-1} \in \{0,1\}  \}
 $$
-
 which is the set of all $n$-length binary strings for some natural number $n$.
 That is $\{0,1\}^n$ is the set of all $n$-tuples  of zeroes and ones.
 This is consistent with our notation above: $\{0,1\}^2$ is the Cartesian product $\{0,1\} \times \{0,1\}$, $\{0,1\}^3$ is the product $\{0,1\} \times \{0,1\} \times \{0,1\}$ and so on.
@@ -333,7 +331,6 @@ Another way to write this set is as
 $$
 \{0,1\}^* = \{0,1\}^0 \cup \{0,1\}^1 \cup \{0,1\}^2 \cup \cdots
 $$
-
 or more concisely as
 
 $$
@@ -343,17 +340,13 @@ $$
 The set $\{0,1\}^*$ contains also the "string of length $0$" or "the empty string", which we will denote by $\mathtt{""}$.^[We follow programming languages in this notation; other texts sometimes use $\epsilon$ or $\lambda$ to denote the empty string. However, this doesn't matter much since we will rarely encounter this "edge case".]
 
 
-
-
 __Generalizing the star operation:__ For every set $\Sigma$, we define
 
 $$\Sigma^* = \cup_{n\in \N} \Sigma^n \;.$$
-
 For example, if $\Sigma = \{a,b,c,d,\ldots,z \}$ then $\Sigma^*$ denotes the set of all finite length strings over the alphabet a-z.
 
 __Concatenation:__ The _concatenation_ of two strings $x\in \Sigma^n$ and $y\in \Sigma^m$ is the $(n+m)$-length string $xy$ obtained by writing $y$ after $x$.
 That is, $(xy)_i$ equals $x_i$ if $i<n$ and equals $y_{i-n}$ if $n \leq i < n+m$.
-
 
 
 ### Functions {#functionsec }
@@ -591,7 +584,6 @@ for (int i=0 ; i<n ; i=i+1) {
     printf("*");
 }
 ```
-
 the variable `i` is bound to the `for` operator but the variable `n` is free.
 
 The main property of bound variables is that we can change them to a different name (as long as it doesn't conflict with another used variable)  without changing the meaning of the statement.
@@ -601,7 +593,6 @@ Thus for example the statement
 $$
 \exists_{x,y \in \N} (x \neq 1) \wedge (x \neq n) \wedge (n = x \times y) \label{aboutnstmttwo}
 $$
-
 is equivalent to [aboutnstmt](){.eqref} in the sense that it is true for exactly the same set of $n$'s. Similarly, the code
 
 ```clang
@@ -669,11 +660,11 @@ Nevertheless, you should remember that a statement such as $F = O(G)$ means that
 
 It's often convenient to use "anonymous functions" in the context of $O$-notation, and also  to emphasize the input parameter to the function.
 For example, when we write a statement such as $F(n) = O(n^3)$, we mean that  $F=O(G)$ where $G$ is the function defined by $G(n)=n^3$.
-Chapter 7 in [Jim Apsnes' notes on discrete math](http://www.cs.yale.edu/homes/aspnes/classes/202/notes.pdf) provides a good summary of $O$ notation, see also [this tutorial](http://discrete.gr/complexity/) for a gentler and more programmer-oriented introduction.
+Chapter 7 in [Jim Apsnes' notes on discrete math](http://www.cs.yale.edu/homes/aspnes/classes/202/notes.pdf) provides a good summary of $O$ notation; see also [this tutorial](http://discrete.gr/complexity/) for a gentler and more programmer-oriented introduction.
 
 
 
-### Some "rules of thumbs" for Big-$O$ notation
+### Some "rules of thumb" for Big-$O$ notation
 
 There are some simple heuristics that can help when trying to compare two functions $F$ and $G$:
 
@@ -721,7 +712,7 @@ Writing a _program_ involves:
 
 In programs as in proofs, step 1 is often the most important one.
 A key difference is that the reader for proofs is a human being and for programs is a compiler.^[This difference might be eroding with time, as more proofs are being written in a _machine verifiable form_ and progress in artificial intelligence allows expressing programs in more human friendly ways, such as "programming by example". Interestingly, much of the progress in automatic proof verification and proof assistants relies on a [much deeper correspondence](http://homepages.inf.ed.ac.uk/wadler/papers/propositions-as-types/propositions-as-types.pdf) between _proofs_ and _programs_. We _might_ see this correspondence later in this course.]
-Thus our emphasis is on _readability_ and having a _clear logical flow_ for the proof (which is not a bad idea for programs as well..).
+Thus our emphasis is on _readability_ and having a _clear logical flow_ for the proof (which is not a bad idea for programs as well...).
 When writing a proof, you should think of your audience as an intelligent but highly skeptical and somewhat petty reader, that will "call foul" at every step that is not well justified.
 
 
@@ -747,7 +738,7 @@ It is crucial that at this point you pause and verify that you completely unders
 To prove [graphconthm](){.ref} we need to show that there is no $2$-vertex connected graph with fewer than $1$ edges, $3$-vertex connected graph with fewer than $2$ edges, and so on and so forth.
 One of the best ways to prove a theorem is to first try to _disprove it_.
 By trying and failing to come up with a counterexample, we often understand why the theorem can not be false.
-For example, if you try to draw a $4$-vertex graph with only two edges, you can see that there are basically only two  choices for such a graph as depicted in [figurefourvertexgraph](){.ref}, and in both  there will remain a vertex that is not connected.
+For example, if you try to draw a $4$-vertex graph with only two edges, you can see that there are basically only two  choices for such a graph as depicted in [figurefourvertexgraph](){.ref}, and in both there will remain some vertices that cannot be connected.
 
 
 ![In a four vertex graph with two edges, either both edges have a shared vertex or they don't. In both cases the graph will not be connected.](../figure/4graph2edge.png){#figurefourvertexgraph .class width=300px height=300px}
@@ -758,7 +749,7 @@ We can keep trying to draw such examples until we convince ourselves that the th
 
 > # { .pause }
 If you have not seen the proof of this theorem before (or don't remember it), this would be an excellent point to pause and try to prove it yourself.
-ONe way to do it would be to describe an _algorithm_ that on input a graph $G$ on $n$ vertices and $n-2$ or fewer edges, finds a pair $u,v$ of vertices such that $u$ is disconnected from $v$.
+One way to do it would be to describe an _algorithm_ that on input a graph $G$ on $n$ vertices and $n-2$ or fewer edges, finds a pair $u,v$ of vertices such that $u$ is disconnected from $v$.
 
 
 
@@ -779,7 +770,7 @@ By repeatedly applying Modus Ponens, we can deduce from __(a)__ and __(b)__ that
 Proofs by inductions are closely related to algorithms by recursion.
 In both cases we reduce solving a larger problem to solving a smaller instance of itself. In a recursive algorithm to solve some problem P on an input of length $k$  we ask ourselves "what if someone handed me a way to solve P on instances smaller than $k$?". In an inductive proof to prove a statement Q parameterized by a number $k$, we ask ourselves "what if I already knew that $Q(k')$ is true for $k'<k$".
 Both induction and recursion are crucial concepts for this course and Computer Science at large (and even other areas of inquiry, including not just mathematics but other sciences as well). Both can be initially (and even post-initially) confusing, but with time and practice they become clearer.
-For more on proofs by induction and recursion, you might find the  following [Stanford CS 103 handout](http://web.stanford.edu/class/cs103/handouts/240%20Guide%20to%20Induction.pdf), [this MIT 6.00 lecture](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00sc-introduction-to-computer-science-and-programming-spring-2011/unit-1/lecture-6-recursion/) or [this excerpt of the Lehman-Leighoton book](http://www.boazbarak.org/cs121/LL_induction.pdf) useful.
+For more on proofs by induction and recursion, you might find the  following [Stanford CS 103 handout](http://web.stanford.edu/class/cs103/handouts/240%20Guide%20to%20Induction.pdf), [this MIT 6.00 lecture](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00sc-introduction-to-computer-science-and-programming-spring-2011/unit-1/lecture-6-recursion/) or [this excerpt of the Lehman-Leighton book](http://www.boazbarak.org/cs121/LL_induction.pdf) useful.
 
 
 
@@ -841,7 +832,7 @@ This suffices to complete an inductive proof of statement $Q(k)$.
 All of the above was a discussion of how we _discover_ the proof, and convince _ourselves_ that the statement is true.
 However, once we do that, we still need to write it down.
 When writing the proof,   we use the benefit of hindsight, and try to streamline what was a messy journey into a linear and easy-to-follow flow of logic that starts with the word __"Proof:"__ and ends with  __"QED"__ or the symbol $\blacksquare$.^[QED stands for "quod erat demonstrandum", which is "What was to be demonstrated." or  "The very thing it was required to have shown." in Latin.]
-All our discussions, examples and digressions can be very insightful, but we keep them outside the space delimited between these two words, where (as described by this [excellent handout](http://web.stanford.edu/class/cs103/handouts/110%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
+All our discussions, examples and digressions can be very insightful, but we keep them outside the space delimited between these two words, where (as described by this [excellent handout](http://web.stanford.edu/class/cs103/handouts/120%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
 Just like we do in programming, we can break the proof into little "subroutines" or "functions" (known as _lemmas_ or _claims_ in math language), which will be smaller statements that help us prove the main result.
 However, it should always be crystal-clear to the reader in what stage we are of the proof.
 Just like it should always be clear to which function a line of code belongs to, it should always be clear whether an individual sentence  is part of a  proof of some intermediate result, or is part of the argument showing that this intermediate result implies the theorem.
@@ -1030,7 +1021,7 @@ The main points where we diverge are:
 
 * Like most Computer Science texts, we default to the logarithm in base two. Thus, $\log n$ is the same as $\log_2 n$.
 
-* We will also use the notation $f(n)=poly(n)$ as a short hand for $f(n)=n^{O(1)}$ (i.e., as shorthand for saying that there is some constants $a,b$ such that $f(n) \leq a\cdot n^b$ for every sufficiently large $n$). Similarly, we will use $f(n)=polylog(n)$ as shorthand for $f(n)=poly(\log n)$ (i.e., as shorthand for saying that there are some constant $a,b$ such that $f(n) \leq a\cdot (\log n)^b$ for every sufficiently large $n$).
+* We will also use the notation $f(n)=poly(n)$ as a short hand for $f(n)=n^{O(1)}$ (i.e., as shorthand for saying that there are some constants $a,b$ such that $f(n) \leq a\cdot n^b$ for every sufficiently large $n$). Similarly, we will use $f(n)=polylog(n)$ as shorthand for $f(n)=poly(\log n)$ (i.e., as shorthand for saying that there are some constants $a,b$ such that $f(n) \leq a\cdot (\log n)^b$ for every sufficiently large $n$).
 
 
 
@@ -1057,7 +1048,7 @@ b. Write a logical expression $\varphi(x)$ involving the variables $x_0,x_1,x_2$
 :::
 
 ::: {.exercise title="Quantifiers" #quantifiersex}
-Use the logical quantifiers $\forall$ (for all), $\exists$ (exists), as well as $\wedge,\vee,\neg$ and the arithmetic operations $+,\times,=,>,<$ to write the following:
+Use the logical quantifiers $\forall$ (for all), $\exists$ (there exists), as well as $\wedge,\vee,\neg$ and the arithmetic operations $+,\times,=,>,<$ to write the following:
 
 a. An expression $\varphi(n,k)$ such that for every natural numbers $n,k$, $\varphi(n,k)$ is true if and only if $k$  divides $n$.
 
