@@ -429,6 +429,11 @@ See [chernoffstirlingex](){.ref}  for a proof of the    simple (but highly usefu
 Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
 :::
 
+
+> # {.exercise }
+Suppose that we toss three independent fair coins $a,b,c \in \{0,1\}$. What is the probability that the XOR of $a$,$b$, and $c$ is equal to $1$? What is the probability that the AND of these three values is equal to $1$? Are these two events independent?
+
+
 > # {.exercise }
 Give an example of random variables $X,Y: \{0,1\}^3 \rightarrow \R$ such that
 $\E[XY] \neq \E[X]\E[Y]$.

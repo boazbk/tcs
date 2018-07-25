@@ -43,7 +43,7 @@ In this course,  we will be mostly interested in the concept of _computation_.
 For example, we will look at questions such as  _"is there an efficient algorithm to find the prime factors of a given integer?"_.^[Actually, scientists currently do not know the answer to this question, but we will see that settling it in either direction has very interesting applications touching on areas as far apart as Internet security and quantum mechanics.]
 To even _phrase_ such a question, we need to give a precise _definition_ of the notion of an _algorithm_, and of what it means for an algorithm to be _efficient_.
 Also, if the answer to this or similar questions turns out to be _negative_, then this cannot be shown by simply writing and executing some code.
-After all, there is no empirical experiment that will prove the _non existence_ of an algorithm.
+After all, there is no empirical experiment that will prove the _nonexistence_ of an algorithm.
 Thus, our only way to show this type of _negative result_ is to use _mathematical proofs_.
 So you can  see why our main tools in this course will be mathematical proofs and definitions.
 
@@ -75,7 +75,7 @@ The main notions we will use in this course are the following:
 
 * __Some special sets:__ The set $\N$ of natural numbers. We will index from zero in this course and so write $\N = \{0,1,2,\ldots \}$. We will use $[n]$ for the set $\{0,1,2,\ldots,n-1\}$. We use $\{0,1\}^*$ for the set of all binary strings and $\{0,1\}^n$ for the set of strings of length $n$. If $x$ is a string of length $n$, then we refer to its coordinate by $x_0,\ldots,x_{n-1}$.
 
-* __Functions:__ The _domain_ and _range_ of a function, properties such as being _one-to-one_ (also known as _injective_) or _onto_ (also known as _surjective_) functions, as well as  _partial functions_ (that, unlike standard or "total" functions, are not necessarily defined on all elements of their domain).
+* __Functions:__ The _domain_ and _codomain_ of a function, properties such as being _one-to-one_ (also known as _injective_) or _onto_ (also known as _surjective_) functions, as well as  _partial functions_ (that, unlike standard or "total" functions, are not necessarily defined on all elements of their domain).
 
 * __Logical operations:__ The operations AND, OR, and NOT ($\wedge,\vee,\neg$) and the quantifiers "there exists" and "for all" ($\exists$,$\forall$).
 
@@ -138,7 +138,9 @@ In this case the concepts that are needed are
 
 * We use the notion of a _Quantum circuit_ which will be our computational model for quantum computers, and which we will encounter later on in the course. Quantum circuits can compute functions with a fixed input length $n$, and we define the notion of computing a function $G$ as outputting on input $x$ the value $G(x)$ with probability at least $2/3$.
 
-* We will also use the notion of _Turing machines_  which will be our computational model for "classical" computers.^[As we'll see,  there is a great variety of ways to model "classical computers", including RAM machines, $\lambda$-calculus, and  _NAND++ programs_.]  We require that for every $n\in \N$, the quantum circuit $Q_n$ for $F_n$ can be generated efficiently, in the sense that there is a polynomial-time classical program $P$ that on input a string of $n$ ones (which we  shorthand  as $1^n$) outputs $Q_n$.
+* We will also use the notion of _Turing machines_  which will be our computational model for "classical" computers.^[As we'll see,  there is a great variety of ways to model "classical computers", including RAM machines, $\lambda$-calculus, and  _NAND++ programs_.]
+
+* We require that for every $n\in \N$, the quantum circuit $Q_n$ for $F_n$ can be generated efficiently, in the sense that there is a polynomial-time classical program $P$ that on input a string of $n$ ones (which we  shorthand  as $1^n$) outputs $Q_n$.
 
 The point of this example is not for you to understand  [BGPintrodef](){.ref} and [shorsthmintro](){.ref}.
 Fully understanding them will require background that will take us weeks to develop.
@@ -156,9 +158,10 @@ No matter how convoluted the notation, and how many layers of indirection, you c
 
 
 Dealing with mathematical text is in many ways not so different from dealing with any other complex text, whether it's a legal argument, a philosophical treatise, an English Renaissance play, or even the source code of an operating system.
-You should not expect it to be clear in a first reading, but you should not despair immediately, but rather engage with the text, trying to figure out both the high level intentions as well as the underlying details.
-Luckily, mathematicians have a greater discipline of introducing definitions in linear order, and making sure that every concept is defined only in terms of concepts that have been previously defined.
-As you read through the rest of this chapter and this text, try to ask yourself the questions 1-3 above every time that you encounter a new definition.
+You should not expect it to be clear in a first reading, but you need not despair.
+Rather you should engage with the text, trying to figure out both the high level intentions as well as the underlying details.
+Luckily, compared to philosophers or even programmers, mathematicians have a greater discipline of introducing definitions in linear order,  making sure that every new concept is defined only in terms of  previously defined notions.
+As you read through the rest of this chapter and this text, try to ask yourself  questions 1-3 above every time that you encounter a new definition.
 
 ### Example: Defining a one to one function
 
@@ -166,15 +169,15 @@ Here is a simpler mathematical definition, which you may have encountered in the
 
 
 > # {.definition title="One to one function" #onetoonedef}
-A function $f:S \rightarrow T$ is _one to one_ if for every $x \neq x'$ in $S$, $f(x) \neq f(x')$.
+A function $f:S \rightarrow T$ is _one to one_ if for every two elements $x,x' \in S$, if $x \neq x'$ then  $f(x) \neq f(x')$.
 
 This definition captures a simple concept, but even so it uses quite a bit of notation.
 When reading this definition, or any other piece of mathematical text, it is often useful to annotate it with a pen as you're going through it, as in [onetoonedefannotatedef](){.ref}.
 For every identifier you encounter (for example $f,S,T,x,x'$ in this case), make sure that you realize what sort of object is it: is it a set, a function, an element, a number, a gremlin?
-Make sure you understand how are the identifiers _quantified_.
+Make sure you understand how  the identifiers are _quantified_.
 For example, in [onetoonedef](){.ref} there is a _universal_ or "for all" (sometimes denotes by $\forall$) quantifier over pairs $(x,x')$ of distinct elements in $S$.
 Finally, and most importantly, make sure that aside from being able to parse the definition formally, you also have an intuitive understanding of what is it that the text  is actually saying.
-For example, [onetoonedef](){.ref} says that a one to one function is a function where every input is mapped to a unique output.
+For example, [onetoonedef](){.ref} says that a one to one function is a function where every output is obtained by a unique input.
 
 
 
@@ -206,7 +209,7 @@ For example, when we write $S = \{ 2,4, 7 \}$, we mean that $S$ denotes the set 
 (We use the notation "$2 \in S$" to denote that $2$ is an element of $S$.)
 Note that the set $\{ 2, 4, 7 \}$ and $\{ 7 , 4, 2 \}$ are identical, since they contain the same elements.
 Also, a set either contains an element or does not contain it -- there is no notion of containing it  "twice" -- and so we could even write the same set $S$ as  $\{ 2, 2, 4, 7\}$ (though that would be a little weird).
-The _cardinality_ of a finite set $S$, denoted by $|S|$, is the number of distinct elements it contains.^[Later in this course we  will discuss how to extend the notion of cardinality to _infinite_ sets.]
+The _cardinality_ of a finite set $S$, denoted by $|S|$, is the number of  elements it contains.^[Later in this course we  will discuss how to extend the notion of cardinality to _infinite_ sets.]
 So, in the example above, $|S|=3$.
 A set $S$ is a _subset_ of a set $T$, denoted by $S \subseteq T$, if every element of $S$ is also an element of $T$. (We can also describe this by saying that  $T$ is a _superset_ of $S$.)
 For example, $\{2,7\} \subseteq \{ 2,4,7\}$.
@@ -215,17 +218,17 @@ The set that contains no elements is known as the _empty set_ and it is denoted 
 
 We can define sets by either listing all their elements or by writing down a rule that they satisfy such as
 $$
-EVEN = \{ x  \;:\; \text{ $x=2y$ for some non-negative integer $y$} \} \;.
+\text{EVEN} = \{ x  \;:\; \text{ $x=2y$ for some non-negative integer $y$} \} \;.
 $$
 
 Of course there is more than one way to write the same set, and often we will use intuitive notation listing a few examples that illustrate the rule.
-For example,  we can also define $EVEN$ as
+For example,  we can also define $\text{EVEN}$ as
 
 $$
-EVEN = \{ 0,2,4, \ldots \} \;.
+\text{EVEN} = \{ 0,2,4, \ldots \} \;.
 $$
 
-Note that a set can be either finite  (such as the set $\{2,4,7\}$ ) or infinite (such as the set $EVEN$).
+Note that a set can be either finite  (such as the set $\{2,4,7\}$ ) or infinite (such as the set $\text{EVEN}$).
 Also, the elements of a set don't have to be numbers.
 We can talk about the sets such as the set $\{a,e,i,o,u \}$ of all the vowels in the English language, or the  set $\{$ `New York`, `Los Angeles`, `Chicago`, `Houston`, `Philadelphia`, `Phoenix`, `San Antonio`, `San Diego`, `Dallas` $\}$  of all cities in the U.S. with population more than  one million  per the 2010 census.
 A set can even have other sets as elements, such as the set $\{ \emptyset, \{1,2\},\{2,3\},\{1,3\} \}$ of all even-sized subsets of $\{1,2,3\}$.
@@ -282,7 +285,7 @@ print(product(A,B))
 ```
 
 
-### Special sets
+### Special sets { #specialsets }
 
 There are several sets that we will use in this course time and again, and so find it useful to introduce explicit notation for them.
 For starters we define
@@ -341,17 +344,17 @@ __Generalizing the star operation:__ For every set $\Sigma$, we define
 $$\Sigma^* = \cup_{n\in \N} \Sigma^n \;.$$
 For example, if $\Sigma = \{a,b,c,d,\ldots,z \}$ then $\Sigma^*$ denotes the set of all finite length strings over the alphabet a-z.
 
-__Concatenation:__ The _concatenation_ of two strings $x\in \Sigma^n$ and $y\in \Sigma^m$ is the $(n+m)$-length string $xy$ obtained by writing $y$ after $x$.
-That is, $(xy)_i$ equals $x_i$ if $i<n$ and equals $y_{i-n}$ if $n \leq i < n+m$.
+__Concatenation:__ As mentioned in [specialsets](){.ref}, the _concatenation_ of two strings $x\in \Sigma^n$ and $y\in \Sigma^m$ is the $(n+m)$-length string $xy$ obtained by writing $y$ after $x$.
 
 
 ### Functions {#functionsec }
 
-If $S$ and $T$ are sets, a _function_ $F$ mapping $S$ to $T$, denoted by $F:S \rightarrow T$, associates with every element $x\in S$ an element $F(x)\in T$.
-The set $S$ is known as the _domain_ of $F$ and the set $T$ is known as the _range_ or _co-domain_ of $F$.
+If $S$ and $T$ are nonempty sets, a _function_ $F$ mapping $S$ to $T$, denoted by $F:S \rightarrow T$, associates with every element $x\in S$ an element $F(x)\in T$.
+The set $S$ is known as the _domain_ of $F$ and the set $T$ is known as the  _codomain_ of $F$.
+The _image_ of a function $F$ is the set $\{ F(x) \;|\; x\in S\}$ which is the subset of $F$'s codomain consisting of all  output elements that are mapped from some input.^[Some texts use _range_ to denote the image of a function, while other texts use _range_ to denote the codomain of a function. Hence we will avoid using the term "range" altogether.]
 Just as with sets, we can write a function either by listing the table of all the values it gives for elements in $S$ or using a rule.
 For example if $S = \{0,1,2,3,4,5,6,7,8,9 \}$ and $T = \{0,1 \}$, then the table below defines a function $F: S \rightarrow T$.
-Note that this function is the same as the function defined by the rule $F(x)= (x \mod 2)$.
+Note that this function is the same as the function defined by the rule $F(x)= (x \mod 2)$.^[For two natural numbers $x$ and $a$, $x \mod a$ (where $\mod$ is shorthand for ["modulo"](https://goo.gl/b7Fdzm)) denotes the _remainder_ of $x$ when it is divided by $a$. That is, it is the number $r$ in $\{0,\ldots,a-1\}$ such that $x = ak +r$ for some integer $k$. We sometimes also use the notation $x = y (\mod a)$ to denote the assertion that $x \mod a$ is the same as $y \mod a$.]
 
 | Input | Output |
 |:------|:-------|
@@ -371,7 +374,7 @@ Note that this function is the same as the function defined by the rule $F(x)= (
 
 
 If $F:S \rightarrow T$ satisfies that $F(x)\neq F(y)$ for all $x \neq y$ then we say that $F$ is _one-to-one_ (also known as an _injective_ function or simply an _injection_).
-If $F$ satisfies that for every $y\in T$ there is some $x$ such that $F(x)=y$ then we say that $F$ is _onto_ (also known as a _surjective_ function or simply a _surjection_).
+If $F$ satisfies that for every $y\in T$ there is some $x\in S$ such that $F(x)=y$ then we say that $F$ is _onto_ (also known as a _surjective_ function or simply a _surjection_).
 A  function that is both one-to-one and onto is known as a _bijective_ function or simply a _bijection_.
 A bijection from a set $S$ to itself is also known as a _permutation_ of $S$.
 If  $F:S \rightarrow T$ is a bijection  then  for every $y\in T$ there is a unique $x\in S$ s.t. $F(x)=y$.
@@ -387,13 +390,13 @@ As we will see later in this course, this is a definition that can  generalizes 
 
 
 __Partial functions:__ We will sometimes be interested in _partial_ functions from $S$ to $T$.
-This is a generalization of the notion of a function, where we allow mappings $F$ such that $F(s)$ may not exist for some values $s \in S$.
+A partial function is allowed to be undefined on some subset of $S$.
+That is, if $F$ is a partial function from $S$ to $T$, then for every $s\in S$, either there is (as in the case of standard functions) an element $F(s)$ in $T$, or $F(s)$ is undefined.
 For example, the partial function $F(x)= \sqrt{x}$ is only defined on non-negative real numbers.
 When we want to distinguish between partial functions and  standard (i.e., non-partial) functions, we will call the latter _total_ functions.
 When we say "function" without any qualifier then we mean a _total_ function.
-That is, the notion of partial functions is a strict generalization of functions, and so a partial function is _not_ necessarily a function.
-The set of partial functions is a proper superset of the set of total functions, since a partial function is allowed to be defined on all its input elements.
-When we want to emphasize that a function $f$ from $A$ to $B$ might not be total, we will write $f: A \rightarrow_p B$.
+
+The notion of partial functions is a strict generalization of functions, and so every function is a partial function, but not every  partial function is a function. (That is, for every nonempty $S$ and $T$, the set of partial functions from $S$ to $T$ is a proper superset of the set of total functions from $S$ to $T$.) When we want to emphasize that a function $f$ from $A$ to $B$ might not be total, we will write $f: A \rightarrow_p B$.
 We can think of a partial function $F$ from $S$ to $T$ also as a total function from $S$ to $T \cup \{ \bot \}$ where $\bot$ is some special "failure symbol", and so instead of saying that $F$ is undefined at $x$, we can say that $F(x)=\bot$.
 
 __Basic facts about functions:__
@@ -401,13 +404,13 @@ Verifying that you can prove the following results is an excellent way to brush 
 
 * If $F:S \rightarrow T$ and $G:T \rightarrow U$ are one-to-one functions, then their _composition_ $H:S \rightarrow U$ defined as $H(s)=G(F(s))$ is also one to one.
 
-* If $F:S \rightarrow T$ is one to one and $S$ is nonempty, then there exists an onto function $G:T \rightarrow S$ such that $G(F(s))=s$ for every $s\in S$.
+* If $F:S \rightarrow T$ is one to one, then there exists an onto function $G:T \rightarrow S$ such that $G(F(s))=s$ for every $s\in S$.
 
 * If $G:T \rightarrow S$ is onto then there exists a one-to-one function $F:S \rightarrow T$ such that $G(F(s))=s$ for every $s\in S$.
 
 * If $S$ and $T$ are finite sets then the following conditions are equivalent to one another: __(a)__ $|S| \leq |T|$, __(b)__ there is a one-to-one function $F:S \rightarrow T$, and __(c)__ there is an onto function $G:T \rightarrow S$.
 
-![We can represent finite functions as a directed graph where we put an edge from $x$ to $f(x)$. The _onto_ condition corresponds to requiring that every vertex in the range of the function has in-degree _at least_ one. The _one-to-one_ condition  corresponds to requiring that every vertex in the range of the function has in-degree _at most_ one. In the examples above $F$ is an onto function, $G$ is one to one, and $H$ is neither onto nor one to one.](../figure/functionsdiagram.png){#functionsdiagrampng .class width=300px height=300px}
+![We can represent finite functions as a directed graph where we put an edge from $x$ to $f(x)$. The _onto_ condition corresponds to requiring that every vertex in the codomain of the function has in-degree _at least_ one. The _one-to-one_ condition  corresponds to requiring that every vertex in the codomain of the function has in-degree _at most_ one. In the examples above $F$ is an onto function, $G$ is one to one, and $H$ is neither onto nor one to one.](../figure/functionsdiagram.png){#functionsdiagrampng .class width=300px height=300px}
 
 > # { .pause }
 You can find the proofs of these results in many discrete math texts, including for example, section 4.5 in the [Leham-Leighton-Meyer notes](http://www.boazbarak.org/cs121/LLM_data_types.pdf).
@@ -431,7 +434,7 @@ Moreover, this also shows that $G$ is _onto_, since it means that for every $s\i
 ### Graphs { #graphsec }
 
 _Graphs_ are ubiquitous in Computer Science, and  many other fields as well.
-They are used to model a variety of data types including social networks, road networks, deep nueral nets, gene interactions, correlations between observations, and a great many more.
+They are used to model a variety of data types including social networks, road networks, deep neural nets, gene interactions, correlations between observations, and a great many more.
 The formal definitions of graphs are below, but if you have not encountered them before then I urge you to read up on them in one of the sources linked above.
 Graphs come in two basic flavors: _undirected_ and _directed_.^[It is possible, and sometimes useful, to think of an undirected graph as simply a  directed graph with  the special property that for every pair $u,v$ either both the edges $\overrightarrow{u v}$ and $\overleftarrow{u v}$ are present or neither of them is. However, in many settings there is  a significant difference between  undirected and directed graphs, and so it's typically best to think of them as separate categories.]
 
@@ -444,7 +447,7 @@ Every edge is a size two subset of $V$.
 We say that two vertices $u,v \in V$ are _neighbors_, denoted by $u \sim v$, if the edge $\{u,v\}$ is in $E$.
 
 Given this definition, we can define several other properties of graphs and their vertices.
-We define _degree_ of $u$ to be the number of neighbors $u$ has.
+We define the _degree_ of $u$ to be the number of neighbors $u$ has.
 A _path_ in the graph is a tuple $(u_0,\ldots,u_k) \in V^k$, for some $k>0$ such that $u_{i+1}$ is a neighbor of $u_i$ for every $i\in [k]$.
 A _simple path_ is a path $(u_0,\ldots,u_{k-1})$ where all the $u_i$'s are distinct.
 A _cycle_ is a path $(u_0,\ldots,u_k)$ where $u_0=u_{k}$.
@@ -560,9 +563,9 @@ $$
 
 ### Parsing formulas: bound and free variables {#boundvarsec }
 
-In mathematics as in code, we often have symbolic "variables" or "parameters".
+In mathematics, as in coding, we often have symbolic "variables" or "parameters".
 It is important to be able to understand, given some formula, whether a given variable is _bound_ or _free_ in this formula.
-For example, in the following statement $n$ is free but $a,b$ are bound by the $\exists$ quantifier:
+For example, in the following statement $n$ is free but $a$ and $b$ are bound by the $\exists$ quantifier:
 
 $$
 \exists_{a,b \in \N} (a \neq 1) \wedge (a \neq n) \wedge (n = a \times b) \label{aboutnstmt}
@@ -631,7 +634,7 @@ More formally, we define Big-$O$ notation as follows:
 
 
 > # {.definition title="Big-$O$ notation" #bigohdef}
-For $F,G: \N \rightarrow \R_+$, we define $F=O(G)$ if there exist numbers $a,N_0 \in \N$ such that $F(n) \leq a\cdot G(n)$ for every $n>N_0$.
+For $F,G: \N \rightarrow \R_+$, we define $F=O(G)$ if there exist numbers $a,N_0 \in \N$ such that $F(n) \leq a\cdot G(n)$ for every $n>N_0$.^[Recall that $\R_+$, which is also sometimes denoted as $(0,\infty)$, is the set of positive real numbers, so the above is just a way of saying that $F$ and $G$'s outputs are always positive numbers.]
 We define $F=\Omega(G)$ if $G=O(F)$.
 >
 We write $F =o(G)$ if for every $\epsilon>0$ there is some $N_0$ such that $F(n) <\epsilon G(n)$ for every $n>N_0$.
@@ -1101,9 +1104,6 @@ Describe the following statement in English words: $\forall_{n\in\N} \exists_{p>
 > # {.exercise }
 Prove that for every undirected graph $G$ of $100$ vertices, if every vertex has degree at most $4$, then there exists a subset $S$ of at $20$ vertices such that no two vertices in $S$ are neighbors of one another.
 
-
-> # {.exercise }
-Suppose that we toss three independent fair coins $a,b,c \in \{0,1\}$. What is the probability that the XOR of $a$,$b$, and $c$ is equal to $1$? What is the probability that the AND of these three values is equal to $1$? Are these two events independent?
 
 
 ::: {.exercise title="$O$-notation" #ohnotationex}

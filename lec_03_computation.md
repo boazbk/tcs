@@ -137,12 +137,14 @@ Here is an algorithm to compute $XOR(a,b)$ using $AND,NOT,OR$ as basic operation
 3. Compute $w3 = OR(a,b)$ \
 4. Output $AND(w2,w3)$ \
 
-We can also express this algorithm graphically, see [andornotcircxorfig](){.ref}. Such diagrams are often known as _Boolean circuits_, and each basic operation is known as a _gate_. This is a point of view that we will revisit often in this course.
+We can also express this algorithm graphically:
 
 ![A circuit with $AND$, $OR$ and $NOT$ gates (denoted as $\wedge,\vee,\neg$ respectively) for computing the $XOR$ function.](../figure/andornotcircforxor.png){#andornotcircxorfig  .class width=300px height=300px} \
 
 
-Last but not least, we can also express it in Python code (see below).
+Such diagrams are often known as _Boolean circuits_, and each basic operation is known as a _gate_. This is a point of view that we will revisit often in this course.
+
+Last but not least, we can also express it in Python code:
 
 
 ```python
@@ -236,9 +238,9 @@ We can very naturally express the statement "At least two of $a,b,c$ are equal t
 So we can write
 $$MAJ_3(a,b,c) = OR(OR(AND(a,b),AND(a,c)),AND(b,c)) \label{eqmajusingandor} \;.$$
 >
-Now we can use the equivalence $AND(a,b)=NOT(NAND(a,b))$, $OR(a,b)=NAND(NOT(a),NOT(b))$, and $NOT(a)=NAND(a,a)$ to replace the righthand side of [{eqmajusingandor}](){.eqref} with an expression involving only $NAND$, yielding
+Now we can use the equivalence $AND(a,b)=NOT(NAND(a,b))$, $OR(a,b)=NAND(NOT(a),NOT(b))$, and $NOT(a)=NAND(a,a)$ to replace the righthand side of [{eqmajusingandor}](){.eqref} with an expression involving only $NAND$, yielding that $MAJ_3(a,b,c)$ is equivalent the (somewhat unwieldy) expression
 $$
-MAJ_3(a,b,c) = NAND(NAND(NAND(NAND(a,b),NAND(a,c)),NAND(NAND(a,b),NAND(a,c))),NAND(b,c))
+NAND(NAND(NAND(NAND(a,b),NAND(a,c)),NAND(NAND(a,b),NAND(a,c))),NAND(b,c))
 $$
 >
 This corresponds to the following circuit with $NAND$ gates: \
@@ -305,7 +307,7 @@ While we will not go as far as implementing   [Call of Duty](https://goo.gl/DdJZ
 
 ### NAND Circuits
 
-We can describe the computation of a  function $F:\{0,1\}^n \rightarrow \{0,1\}$ via a composition of $NAND$ operations in terms of a _circuit_, as was done in [andornotcircxorfig](){.ref}.
+We can describe the computation of a  function $F:\{0,1\}^n \rightarrow \{0,1\}$ via a composition of $NAND$ operations in terms of a _circuit_, as was done in [XORandornotexample](){.ref}.
 Since in our case, all the gates are the same function (i.e., $NAND$), the description of the circuit is even simpler.
 We can think of the circuit as a directed graph.
 It has a vertex for every one of the input bits, and also for every intermediate  value  we use in our computation.
