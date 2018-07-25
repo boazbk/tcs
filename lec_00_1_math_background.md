@@ -5,12 +5,11 @@
 
 
 > # { .objectives }
-* Recall basic mathematical notions such as sets, functions, numbers, strings, graphs, logical operators and quantifiers.
-* Big-$O$ notation.
+* Recall basic mathematical notions such as sets, functions, numbers, logical operators and quantifiers, strings, and graphs.
+* Rigorously define Big-$O$ notation.
 * Proofs by induction.
-* See which of the above is familiar, and which needs review or further study.
 * Practice with reading mathematical _definitions_, _statements_, and _proofs_.
-* How to transform an intuitive argument into a rigorous proof.
+* Transform an intuitive argument into a rigorous proof.
 
 
 
@@ -70,18 +69,15 @@ The main notions we will use in this course are the following:
 
 * __Proofs:__ First and foremost, this course will involve a heavy dose of formal mathematical reasoning, which includes mathematical _definitions_, _statements_, and _proofs_.
 
-* __Sets:__ Including notation such as membership ($\in$), containment ($\subseteq$), and set operations such as union, intersection,  set difference  and Cartesian product ($\cup,\cap,\setminus$ and $\times$).
+* __Sets:__ The basic set _relationships_ of membership ($\in$), containment ($\subseteq$), and set _operations_, principally union, intersection, set difference and Cartesian product ($\cup,\cap,\setminus$ and $\times$).
 
+* __Tuples and strings:__ The set $\Sigma^k$ of length-$k$ strings/lists over elements in $\Sigma$, where $\Sigma$ is some finite set which is called the _alphabet_ (quite often $\Sigma = \{0,1\}$). We use $\Sigma^*$ for the set of all strings of finite length.
 
-* __Tuples and strings:__ We use the notation $\Sigma^k$ for the set of length $k$ strings/lists over elements in $\Sigma$, where $\Sigma$ is some finite set which is called the _alphabet_ (quite often $\Sigma = \{0,1\}$). We use $\Sigma^*$ for the set of all strings of finite length.
+* __Some special sets:__ The set $\N$ of natural numbers. We will index from zero in this course and so write $\N = \{0,1,2,\ldots \}$. We will use $[n]$ for the set $\{0,1,2,\ldots,n-1\}$. We use $\{0,1\}^*$ for the set of all binary strings and $\{0,1\}^n$ for the set of strings of length $n$. If $x$ is a string of length $n$, then we refer to its coordinate by $x_0,\ldots,x_{n-1}$.
 
-* __Some special sets:__ We will use the set $\N$ of natural numbers. We will index from zero in this course and so write $\N = \{0,1,2,\ldots \}$. We will use $[n]$ for the set $\{0,1,2,\ldots,n-1\}$. We use $\{0,1\}^*$ for the set of all binary strings and $\{0,1\}^n$ for the set of strings of length $n$. If $x$ is a string of length $n$, then we refer to its coordinate by $x_0,\ldots,x_{n-1}$.
+* __Functions:__ The _domain_ and _range_ of a function, properties such as being _one-to-one_ (also known as _injective_) or _onto_ (also known as _surjective_) functions, as well as  _partial functions_ (that, unlike standard or "total" functions, are not necessarily defined on all elements of their domain).
 
-
-* __Functions:__ Including the notions of the _domain_ and _range_ of a function, properties such  being  _one-to-one_ (also known as _injective_) or _onto_ (also known as _surjective_) functions, as well as  _partial functions_ (that, unlike standard or "total" functions, are not necessarily defined on all elements of their domain).
-
-* __Logical operations:__ The operations AND, OR, and NOT ($\wedge,\vee,\neg$) and the quantifiers "exists" and "forall" ($\exists$,$\forall$).
-
+* __Logical operations:__ The operations AND, OR, and NOT ($\wedge,\vee,\neg$) and the quantifiers "there exists" and "for all" ($\exists$,$\forall$).
 
 * __Basic combinatorics:__ Notions such as $\binom{n}{k}$ (the number of $k$-sized subsets of a set of size $n$).
 
@@ -89,7 +85,7 @@ The main notions we will use in this course are the following:
 
 * __Big-$O$ notation:__ $O,o,\Omega,\omega,\Theta$ notation for analyzing asymptotic growth of functions.
 
-* __Discrete probability:__ Later on in we will use _probability theory_, and specifically probability over _finite_ samples spaces such as tossing $n$ coins, including notions such as _random variables_, _expectation_, and _concentration_.  We will only use  probability theory in the second half of this text, and will review it  beforehand. However,  probabilistic reasoning is a subtle (and extremely useful!) skill, and it's always good to start early in acquiring it.
+* __Discrete probability:__ Later on in we will use _probability theory_, and specifically probability over _finite_ samples spaces such as tossing $n$ coins, including notions such as _random variables_, _expectation_, and _concentration_.  We will only use  probability theory in the second half of this text, and will review it  beforehand. However, probabilistic reasoning is a subtle (and extremely useful!) skill, and it's always good to start early in acquiring it.
 
 
 In the rest of this chapter we briefly review the above notions.
@@ -354,8 +350,8 @@ That is, $(xy)_i$ equals $x_i$ if $i<n$ and equals $y_{i-n}$ if $n \leq i < n+m$
 If $S$ and $T$ are sets, a _function_ $F$ mapping $S$ to $T$, denoted by $F:S \rightarrow T$, associates with every element $x\in S$ an element $F(x)\in T$.
 The set $S$ is known as the _domain_ of $F$ and the set $T$ is known as the _range_ or _co-domain_ of $F$.
 Just as with sets, we can write a function either by listing the table of all the values it gives for elements in $S$ or using a rule.
-For example if $S = \{0,1,2,3,4,5,6,7,8,9 \}$ and $T = \{0,1 \}$.
-Then  the function $F$ defined by the input output behavior as in the table below, is  the same as defining $F(x)= (x \mod 2)$.
+For example if $S = \{0,1,2,3,4,5,6,7,8,9 \}$ and $T = \{0,1 \}$, then the table below defines a function $F: S \rightarrow T$.
+Note that this function is the same as the function defined by the rule $F(x)= (x \mod 2)$.
 
 | Input | Output |
 |:------|:-------|
@@ -377,7 +373,7 @@ Then  the function $F$ defined by the input output behavior as in the table belo
 If $F:S \rightarrow T$ satisfies that $F(x)\neq F(y)$ for all $x \neq y$ then we say that $F$ is _one-to-one_ (also known as an _injective_ function or simply an _injection_).
 If $F$ satisfies that for every $y\in T$ there is some $x$ such that $F(x)=y$ then we say that $F$ is _onto_ (also known as a _surjective_ function or simply a _surjection_).
 A  function that is both one-to-one and onto is known as a _bijective_ function or simply a _bijection_.
-If  $S=T$ then a bijection from $S$ to $T$ is also known as a _permutation_.
+A bijection from a set $S$ to itself is also known as a _permutation_ of $S$.
 If  $F:S \rightarrow T$ is a bijection  then  for every $y\in T$ there is a unique $x\in S$ s.t. $F(x)=y$.
 We denote this value $x$ by $F^{-1}(y)$.
 Note that $F^{-1}$ is itself a bijection from $T$ to $S$ (can you see why?).
@@ -385,17 +381,17 @@ Note that $F^{-1}$ is itself a bijection from $T$ to $S$ (can you see why?).
 
 Giving a bijection between two sets is often a good way to show they have  the same size.
 In fact, the standard mathematical definition of the notion that "$S$ and $T$ have the same cardinality" is that there exists a bijection $f:S \rightarrow T$.
-In particular, the cardinality of a set $S$ is defined $n$ if there is a bijection from $S$ to the set $\{0,\ldots,n-1\}$.
+In particular, the cardinality of a set $S$ is defined to be $n$ if there is a bijection from $S$ to the set $\{0,\ldots,n-1\}$.
 As we will see later in this course, this is a definition that can  generalizes to defining the cardinality of _infinite_ sets.
 
 
 
 __Partial functions:__ We will sometimes be interested in _partial_ functions from $S$ to $T$.
-This is a generalization of the notion of a function to consider also $F$ that is not necessarily defined on every element of $S$.
+This is a generalization of the notion of a function, where we allow mappings $F$ such that $F(s)$ may not exist for some values $s \in S$.
 For example, the partial function $F(x)= \sqrt{x}$ is only defined on non-negative real numbers.
 When we want to distinguish between partial functions and  standard (i.e., non-partial) functions, we will call the latter _total_ functions.
 When we say "function" without any qualifier then we mean a _total_ function.
-That is, the notion of partial functions is a strict generalization of functions, and so a partial function _not_ necessarily a function.
+That is, the notion of partial functions is a strict generalization of functions, and so a partial function is _not_ necessarily a function.
 The set of partial functions is a proper superset of the set of total functions, since a partial function is allowed to be defined on all its input elements.
 When we want to emphasize that a function $f$ from $A$ to $B$ might not be total, we will write $f: A \rightarrow_p B$.
 We can think of a partial function $F$ from $S$ to $T$ also as a total function from $S$ to $T \cup \{ \bot \}$ where $\bot$ is some special "failure symbol", and so instead of saying that $F$ is undefined at $x$, we can say that $F(x)=\bot$.
@@ -405,7 +401,7 @@ Verifying that you can prove the following results is an excellent way to brush 
 
 * If $F:S \rightarrow T$ and $G:T \rightarrow U$ are one-to-one functions, then their _composition_ $H:S \rightarrow U$ defined as $H(s)=G(F(s))$ is also one to one.
 
-* If $F:S \rightarrow T$ is one to one, then there exists an onto function $G:T \rightarrow S$ such that $G(F(s))=s$ for every $s\in S$.
+* If $F:S \rightarrow T$ is one to one and $S$ is nonempty, then there exists an onto function $G:T \rightarrow S$ such that $G(F(s))=s$ for every $s\in S$.
 
 * If $G:T \rightarrow S$ is onto then there exists a one-to-one function $F:S \rightarrow T$ such that $G(F(s))=s$ for every $s\in S$.
 
