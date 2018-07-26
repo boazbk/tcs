@@ -46,7 +46,7 @@ However, for simplicity we we will not define randomized computation in full gen
 
 
 > # {.definition title="BPP" #BPPdef}
-Let $F:\in \{0,1\}^*\rightarrow \{0,1\}$.
+Let $F: \{0,1\}^*\rightarrow \{0,1\}$.
 We say that $F\in \mathbf{BPP}$ if there exist  constants $a,b\in \N$ and an RNAND++ program $P$ such that for every $x\in \{0,1\}^*$, on input $x$, the program $P$ halts within at most $a|x|^b$ steps and
 $$
 \Pr[ P(x)= F(x)] \geq \tfrac{2}{3}
@@ -83,7 +83,7 @@ The program $P'$ will first copy the bits in  positions $n,n+1,n+2,\ldots,n+an^b
 We will also assume we have access to an extra index variable `j` which we can increase and decrease (which of course can be simulated via syntactic sugar).
 The program $P'$ will run the same operations of $P$ except that it will replace a line of the form
 `foo := RAND` with the two lines
-`foo := r_j` amd `j   := j + 1`
+`foo := r_j` and `j   := j + 1`.
 >
 One can easily verify that __(1)__ $P'$ runs in polynomial time and __(2)__  if the last $an^b$ bits of the input of $P'$ are chosen at random then its execution when its first $n$ inputs are $x$ is identical to an execution of $P(x)$.
 By __(2)__ we mean that for every $r\in \{0,1\}^{an^b}$ corresponding to the result of the `RAND` operations made by $P$ on its execution on $x$, the output of $P$ on input $x$ and with random choices $r$ is equal to $P'(xr)$.
@@ -337,7 +337,7 @@ Still, there are two questions we haven't answered:
 
 * _What reason do we have to believe that pseudorandom generators with non-trivial parameters exist?_
 
-* _Even if they do exist, why would such generators be useful to derandomize randomized algorithms?_ After all, [prgdef](){.ref} does not involve RNAND++ or RNAND<<programs but deterministic NAND programs with no randomness and no loops.
+* _Even if they do exist, why would such generators be useful to derandomize randomized algorithms?_ After all, [prgdef](){.ref} does not involve RNAND++ or RNAND<< programs but deterministic NAND programs with no randomness and no loops.
 
 We will now (partially) answer both questions.
 
@@ -346,7 +346,7 @@ By _interesting_ we mean pseudorandom generators that satisfy that $\epsilon$ is
 Nevertheless, [prgexist](){.ref} (whose statement and proof is deferred to the end of this chapter) shows that if we only drop the last  condition (polynomial-time computability), then there do in fact exist pseudorandom generators where $m$ is _exponentially larger_  than $\ell$.
 
 > # { .pause }
-At this point you might want to skip ahead and  look at the _statement_ of [prgexist](){.ref}. However, since its _proof_ is somewhat subtle, I recommend you defer reading it until you've finished reading the rest of this chap.
+At this point you might want to skip ahead and  look at the _statement_ of [prgexist](){.ref}. However, since its _proof_ is somewhat subtle, I recommend you defer reading it until you've finished reading the rest of this chapter.
 
 ### From existence to constructivity
 
@@ -389,13 +389,13 @@ We now proceed with the proof details.
 
 
 > # {.proof data-ref="derandBPPthm"}
-Let $F\in \mathbf{BPP}$ and let $P$ be a NAND++ program and $a,b,c,d$ constants such that for every $x\in \{0,1\}^n$, $P(x)$ runs in at most $c\dot n^d$ steps and  $\Pr_{r\sim \{0,1\}^m}[ P(x;r) = F(x) ] \geq 2/3$.
-By "unrolling the loop" and hardwiring the input $x$, we can obtain for every input $x\in \{0,1\}^n$ a NAND program $Q_x$ of at most, say, $T=10c\dot n^d$ lines, that takes $m$ bits  of input and such that $Q(r)=P(x;r)$.
+Let $F\in \mathbf{BPP}$ and let $P$ be a NAND++ program and $a,b,c,d$ constants such that for every $x\in \{0,1\}^n$, $P(x)$ runs in at most $c \cdot n^d$ steps and  $\Pr_{r\sim \{0,1\}^m}[ P(x;r) = F(x) ] \geq 2/3$.
+By "unrolling the loop" and hardwiring the input $x$, we can obtain for every input $x\in \{0,1\}^n$ a NAND program $Q_x$ of at most, say, $T=10c \cdot n^d$ lines, that takes $m$ bits  of input and such that $Q(r)=P(x;r)$.
 >
 Now suppose that $G:\{0,1\}^\ell \rightarrow \{0,1\}$ is a $(T,0.1)$ pseudorandom generator.
 Then we could deterministically estimate the probability  $p(x)= \Pr_{r\sim \{0,1\}^m}[ Q_x(r) = 1 ]$ up to $0.1$ accuracy in time  $O(T \cdot 2^\ell \cdot m \cdot cost(G))$ where $cost(G)$ is the time that it takes to compute a single output bit of $G$.
 The reason is that we know that $\tilde{p}(x)= \Pr_{s \sim \{0,1\}^\ell}[ Q_x(G(s)) = 1]$ will give us such an estimate for $p(x)$, and we can compute the probability $\tilde{p}(x)$ by simply trying all $2^\ell$ possibillites for $s$.
-Now, under the optimal PRG conjecture we can set  $T = 2^{\delta \ell}$ or equivalently $\ell = \tfrac{1}{\delta}\log T$, and our total computation time is polynomial in $2^\ell = T^{1/\delta}$, and since $T \leq 10c \dot n^d$, this running time will be polynomial in $n$.
+Now, under the optimal PRG conjecture we can set  $T = 2^{\delta \ell}$ or equivalently $\ell = \tfrac{1}{\delta}\log T$, and our total computation time is polynomial in $2^\ell = T^{1/\delta}$, and since $T \leq 10c \cdot n^d$, this running time will be polynomial in $n$.
 This completes the proof, since  we are guaranteed that  $\Pr_{r\sim \{0,1\}^m}[ Q_x(r) = F(x) ] \geq 2/3$, and hence estimating the  probability $p(x)$ to within $0.1$ accuracy is sufficient to compute $F(x)$.
 
 
@@ -437,7 +437,7 @@ The proof uses an extremely useful technique known  as the "probabilistic method
 The idea is to give a "non constructive" proof of existence of the pseudorandom generator $G$ by showing that if $G$ was chosen at random, then the probability that it would be a valid $(T,\epsilon)$ pseudorandom generator is positive.
 In  particular this means that there _exists_ a single $G$ that is a valid $(T,\epsilon)$ pseudorandom generator.
 The probabilistic method is just a _proof technique_ to demonstrate the existence of such a function.
-Ultimately, our goal is to show the existence of  a _deterministic_ function $G$ that satisfies
+Ultimately, our goal is to show the existence of  a _deterministic_ function $G$ that satisfies the condition.
 
 The above discussion might be rather abstract at this point, but would become clearer after seeing the proof.
 
@@ -451,12 +451,12 @@ __Claim I:__ For every fixed NAND program $P$, if we pick $G:\{0,1\}^\ell \right
 >
 Before proving Claim I, let us see why it implies [prgexist](){.ref}.
 We can identify a function $G:\{0,1\}^\ell \rightarrow \{0,1\}^m$ with its "truth table" or simply the list of evaluations on all its possible $2^\ell$ inputs. Since each output is an $m$ bit string,
-we can also think of $G$ as a string in $\{0,1\}^{m\cdot 2^\ell}$. We define $\mathcal{G}^m_\ell$ to be the set of all functions from $\{0,1\}^\ell$ to $\{0,1\}^\ell$. As discussed above we can identify $\mathcal{F}_\ell^m$ with $\{0,1\}^{m\cdot 2^\ell}$ and choosing a random function $G \sim \mathcal{F}_\ell^m$ corresponds to choosing a random $m\cdot 2^\ell$-long bit string.
+we can also think of $G$ as a string in $\{0,1\}^{m\cdot 2^\ell}$. We define $\mathcal{F}^m_\ell$ to be the set of all functions from $\{0,1\}^\ell$ to $\{0,1\}^m$. As discussed above we can identify $\mathcal{F}_\ell^m$ with $\{0,1\}^{m\cdot 2^\ell}$ and choosing a random function $G \sim \mathcal{F}_\ell^m$ corresponds to choosing a random $m\cdot 2^\ell$-long bit string.
 >
 For every NAND program $P$ let $B_P$ be the event that, if we choose $G$ at random from $\mathcal{F}_\ell^m$ then  [eq:prg](){.eqref} is violated with respect to the program $P$.
 It is important to understand what is the sample space that the event $B_P$ is defined over, namely this event depends on the choice of $G$ and so $B_P$ is a subset of $\mathcal{F}_\ell^m$. An equivalent way to define the  event $B_P$ is that it is the subset of  all functions  mapping $\{0,1\}^\ell$ to $\{0,1\}^m$  that violate [eq:prg](){.eqref}, or in other words:
 $$
-B_P = \left\{ G \in \mathcal{F}_\ell^m  \; \big| \; \left| \tfrac{1}{2^\ell}\sum_{s\in \{0,1\}^\ell} P(G(s)) - \tfrac{1}{2^m}\sum_{r \in \{0,1\}^m}P(r)  \right| > \epsilon  \right\} \;\;. \label{eq:eventdefine}
+B_P = \left\{ G \in \mathcal{F}_\ell^m  \; \big| \; \left| \tfrac{1}{2^\ell}\sum_{s\in \{0,1\}^\ell} P(G(s)) - \tfrac{1}{2^m}\sum_{r \in \{0,1\}^m}P(r)  \right| > \epsilon  \right\} \;\; \label{eq:eventdefine}
 $$
 (We've replaced here the probability statements in [eq:prg](){.eqref} with the equivalent sums so as to reduce confusion as to what is the sample space that $B_P$ is defined over.)
 >
@@ -472,7 +472,7 @@ Choosing a random $G: \{0,1\}^\ell \rightarrow \{0,1\}^m$ amounts to choosing $L
 Hence the claim amounts to showing that for every fixed function $P:\{0,1\}^m \rightarrow \{0,1\}$,
 if $L >  2^{C (\log T + \log \epsilon)}$ (which by setting $C>4$, we can ensure is larger than $10 T^2/\epsilon^2$) then the probability that
 $$
-\left| \tfrac{1}{L}\sum_{i=0}^{L-1} P(y_s)  -  \Pr_{s \sim \{0,1\}^m}[P(s)=1] \right| > \epsilon \label{eq:prgchernoff}
+\left| \tfrac{1}{L}\sum_{i=0}^{L-1} P(y_i)  -  \Pr_{s \sim \{0,1\}^m}[P(s)=1] \right| > \epsilon \label{eq:prgchernoff}
 $$
 is at most $2^{-T^2}$.
 [{eq:prgchernoff}](){.eqref} follows directly from the Chernoff bound.
