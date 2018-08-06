@@ -63,7 +63,7 @@ A _proof_ will be simply a piece of text- a finite string- that satisfies:
 2. _(soundness)_ If there is a valid proof $w$ for $x$ then $x$ is true.
 
 Those seem like rather minimal requirements that one would want from every proof system.
-Requirement 2 (soundndess) is the very definition of a proof system: you shouldn't be able to prove things that are not true. Requirement 1 is also essential. If it there is no set of rules (i.e., an algorithm) to check that a proof is valid then in what sense is it a proof system? We could replace it with the system where the "proof" for a statement $x$ would simply be "trust me: it's true".
+Requirement 2 (soundness) is the very definition of a proof system: you shouldn't be able to prove things that are not true. Requirement 1 is also essential. If it there is no set of rules (i.e., an algorithm) to check that a proof is valid then in what sense is it a proof system? We could replace it with the system where the "proof" for a statement $x$ would simply be "trust me: it's true".
 
 A mathematical statement will also simply be a string.
 Mathematical statements states a fact about some mathematical object.
@@ -401,7 +401,7 @@ Hence if $QIS$ was computable then $QMS$ would be computable as well, leading to
 To achieve our encoding we use the following technical result :
 
 > # {.lemma title="Constructible prime sequence" #primeseq}
-There is a sequence of prime numbers $p_0 < p_1 < p_3 < \cdots$ such that there is  a quantified integer statement $PCOORD(p,i)$ that is true if and only if $p=p_i$.
+There is a sequence of prime numbers $p_0 < p_1 < p_2 < \cdots$ such that there is  a quantified integer statement $PCOORD(p,i)$ that is true if and only if $p=p_i$.
 
 Using [primeseq](){.ref} we can encode a $x\in\{0,1\}^*$ by the numbers $(X,n)$ where  $X = \prod_{x_i=1} p_i$ and $n=|x|$.
 We can then define the statement $COORD(X,i)$ as
@@ -447,7 +447,7 @@ Prove that there is a quantified integer statement $INDEX$ with parameters $t,i$
 
 > # {.exercise title="Expression for computing the previous line" #prevex}
 Give the following quantified integer expressions: \
-1. $MOD(a,b,c)$ which is true if and only if $c = a \mod c$. Note if a program has $s$ lines then  the line executed at step $t$ is equal to $t \mod s$. \
+1. $MOD(a,b,c)$ which is true if and only if $b = a \mod c$. Note if a program has $s$ lines then  the line executed at step $t$ is equal to $t \mod s$. \
 2. Suppose that $P$ is the  three line NAND program listed below.  Give a quantified integer statement $LAST(n,t,t')$  such that $LAST(t,t')$ is true if and only if $t'-n$ is the largest step smaller than $t-n$ in which the variable on the righthand side of the line executed at step $t-n$ is written to. If this variable is an input variable `x_i` then let $LAST(n,t,t')$ to be true if the current index location equals $t'$ and $t'<n$.
 
 ```python
