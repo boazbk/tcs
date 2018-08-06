@@ -439,7 +439,7 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 :::
 
 > # {.exercise title="Expression for floor" #floorexpressionex}
-Let $FSQRT(n,m) = \forall_{j \in \N}((j \times j)>n) \vee (j<m) \vee (j=m)$. Prove that $FSQRT(m,n)$ is true if and only if $m =\floor{\sqrt{m}}$.
+Let $FSQRT(n,m) = \forall_{j \in \N} ((j \times j)>m) \vee (j \leq n)$. Prove that $FSQRT(n,m)$ is true if and only if $n =\floor{\sqrt{m}}$.
 
 > # {.exercise title="Expression for computing the index" #indexexpressionex}
 Recall that in [computeidx-ex](){.ref} asked you to prove that at iteration $t$ of a NAND++ program the  the variable `i` is equal to $t-r(r+1)$ if $t \leq (r+1)^2$ and equals $(r+2)(r+1)t$ otherwise, where $r = \floor{\sqrt{t+1/4}-1/2}$.
