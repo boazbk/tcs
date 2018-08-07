@@ -47,6 +47,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Sarah Turnill
 * Salil Vadhan
 * Ryan Williams
+* Licheng Xu
 * Wanqian Yang
 * Josh Zelinsky
 * Jessica Zhu
