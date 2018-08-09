@@ -167,7 +167,7 @@ which equals $(10^n-10^m)\cdot A  + 10^m \cdot B +(1-10^m)\cdot C$, the value re
 
 
 The key observation is that  [eqkarastubatwo](){.eqref} reduces the task of computing the product of two $n$-digit numbers to computing _three_ products of  $\ceil{n/2}$-digit numbers.
-Specifically, we can compute $x\times y$ from the three products $\overline{x}\overline{y}$, $\underline{y}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$), using a constant number (in fact eight) of additions, subtractions, and multiplications by $10^n$ or $10^{\floor{n/2}}$.
+Specifically, we can compute $x\times y$ from the three products $\overline{x}\overline{y}$, $\underline{x}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$), using a constant number (in fact eight) of additions, subtractions, and multiplications by $10^n$ or $10^{\floor{n/2}}$.
 (Multiplication by a power of ten can be done very efficiently as it corresponds to simply shifting the digits.)
 Intuitively this means that as the number of digits _doubles_, the cost of performing a multiplication via Karatsuba's algorithm _triples_  instead of quadrupling, as happens in the naive algorithm.
 This implies that multiplying numbers of $n=2^\ell$ digits costs about $3^\ell = n^{\log_2 3} \sim n^{1.585}$ operations.
