@@ -175,7 +175,7 @@ Hence, if we used such simple concatenation then we would not be able to tell if
 
 The way to tackle this is to find a general representation for _pairs_ of numbers.
 If we were using a pen and paper, we would simply use a separator such as the semicolon symbol to represent, for example, the pair consisting of the numbers represented by $(0,1)$ and $(1,1,0,0,0,1)$ as the length-$9$ string $s$ "$01;110001$".
-By adding a little redundancy, We can do just that in the digital domain.
+By adding a little redundancy, we can do just that in the digital domain.
 The idea is that we will map the three element set $\Sigma = \{0,1,;\}$  to the four element set $\{0,1\}^2$ via the one-to-one map that takes $0$ to $00$, $1$ to $11$ and $;$ to $01$.
 
 > # {.example title="Representing a rational number as a string" #represnumberbypairs}
@@ -194,7 +194,7 @@ More generally, we obtained a representation of the non-negative rational number
 
 
 More generally, the above encoding yields a  one-to-one map $E$ from strings over the alphabet $\Sigma$ to binary string, such that for every $s\in \Sigma^*$, $|E(s)|=2|s|$.
-Using this, we get get a one to one map $E': (\{0,1\}^*)\times (\{0,1\}^*) \rightarrow \{0,1\}^*$ mapping _pairs_ of binary strings into a single binary string.
+Using this, we get a one to one map $E': (\{0,1\}^*)\times (\{0,1\}^*) \rightarrow \{0,1\}^*$ mapping _pairs_ of binary strings into a single binary string.
 Given every pair $(a,b)$ of binary strings, we will first map it in a one-to way to a string $s \in \Sigma^*$ using `;` as a separator, and then map $s$ to a single (longer) binary string using the encoding $E$.
 The same idea can be used to represent triples, quadruples, and generally all tuples of strings as a single string (can you see why?).
 

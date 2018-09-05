@@ -175,7 +175,7 @@ In a [karatsuba-ex](){.ref}, you will formally show that the number of single-di
 
 ![Running time of Karatsuba's algorithm vs. the grade-school algorithm. (Python implementation available [online](https://goo.gl/zwzpYe).) Note the existence of a "cutoff" length, where for sufficiently large inputs Karatsuba becomes more efficient than the grade-school algorithm. The precise cutoff location varies by implementation and platform details, but will always occur eventually.](../figure/karastubavsgschoolv2.png){#karatsubaruntimefig .class width=300px height=300px}
 
-![Karatsuba's algorithm reduces an $n$-bit multiplication to three $n/2$-bit multiplications, which in turn are reduced to nine $n/4$-bit multiplications and so on. We can represent the computational cost of all these multiplications in a $3$-ary tree of depth $\log_2 n$, where at the root the extra cost is $cn$ operations, at the first level the extra cost is $c(n/2)$ operations, and at each of the $3^i$ nodes of  level $i$, the extra cost is $c(n/2^i)$. The total cost is $cn\sum_{i=0}^{\log_2 n} (3/2)^i \leq 2cn^{\log_2 3}$ by the formula for summing a geometric series.](../figure/karatsuba_analysis.png){#karatsuba-fig .class width=300px height=300px}
+![Karatsuba's algorithm reduces an $n$-bit multiplication to three $n/2$-bit multiplications, which in turn are reduced to nine $n/4$-bit multiplications and so on. We can represent the computational cost of all these multiplications in a $3$-ary tree of depth $\log_2 n$, where at the root the extra cost is $cn$ operations, at the first level the extra cost is $c(n/2)$ operations, and at each of the $3^i$ nodes of  level $i$, the extra cost is $c(n/2^i)$. The total cost is $cn\sum_{i=0}^{\log_2 n} (3/2)^i \leq 10cn^{\log_2 3}$ by the formula for summing a geometric series.](../figure/karatsuba_analysis.png){#karatsuba-fig .class width=300px height=300px}
 
 
 ::: {.remark title="Ceilings, floors, and rounding" #remfloors}
@@ -278,7 +278,7 @@ The impossibility of building  a heat engine beating Carnot's bound corresponds 
 In mathematics, while we all learned the solution for quadratic equations in high school, the impossibility of generalizing this to equations of degree five or more gave  birth to _group theory_.
 Another example of an impossibility result comes from geometry.
 For two millennia, mathematicians tried to show that Euclid's fifth axiom or "postulate" could be derived from the first four.
-(This fifth postulate was known a the  "parallel postulate", and roughly speaking it states that every line has a unique parallel line of each distance.)
+(This fifth postulate was known as the  "parallel postulate", and roughly speaking it states that every line has a unique parallel line of each distance.)
 It was shown to be impossible using constructions of so called "non-Euclidean geometries", which turn out to be crucial  for the theory of general relativity.
 
 ::: {.remark title="" #id}
@@ -387,7 +387,7 @@ e. $n!$ operations.
 
 ::: {.exercise title="Analysis of Karatsuba's Algorithm" #karatsuba-ex}
 
-a. Suppose that $T_1,T_2,T_3,\ldots$ is a sequence of numbers such that $T_2 \leq 10$ and for every $n$, $T_n \leq 3T_{\lceil n/2 \rceil} + Cn$. Prove that $T_n \leq 10Cn^{\log_2 3}$ for every $n$.^[__Hint:__ Use a proof by induction - suppose that this is true for all $n$'s from $1$ to $m$, prove that this is true also for $m+1$.] \
+a. Suppose that $T_1,T_2,T_3,\ldots$ is a sequence of numbers such that $T_2 \leq 10$ and for every $n$, $T_n \leq 3T_{\lceil n/2 \rceil} + Cn$ for some $C \geq 1$. Prove that $T_n \leq 10Cn^{\log_2 3}$ for every $n>2$.^[__Hint:__ Use a proof by induction - suppose that this is true for all $n$'s from $1$ to $m$, prove that this is true also for $m+1$.] \
 
 b. Prove that the number of single-digit operations that Karatsuba's algorithm takes to multiply two $n$ digit numbers is at most $1000n^{\log_2 3}$.
 

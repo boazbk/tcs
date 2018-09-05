@@ -6,6 +6,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Michele Amoretti
 * Sam Benkelman
 * Jarosław Błasiok
+* Emily Chan
 * Christy Cheng
 * Daniel Chiu
 * Chi-Ning Chou

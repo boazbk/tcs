@@ -104,7 +104,7 @@ For example, let us consider one of the definitions that we will encounter  towa
 If $G:\{0,1\}^n \rightarrow \{0,1\}$  is a finite function and $Q$ is a Quantum circuit  then we say that _$Q$ computes $G$_ if  for every $x\in \{0,1\}^n$, $\Pr[ Q(x)=G(x) ] \geq 2/3$.
 
 
-The class $\mathbf{BQP}$ (which stands for "bounded-error quantum polynomial time") is the set of all functions $F:\{0,1\}^* \rightarrow \{0,1\}$ such that there exists a polynomial-time Turing Machine $M$ that satisfies the following: for every $n\in \N$, $M(1^n)$ is a Quantum circuit $Q_n$ that computes $F_n$, where $F_n:\{0,1\}^n \rightarrow \{0,1\}$ is the restriction of $F$ to inputs of length $\{0,1\}^n$.
+The class $\mathbf{BQP}$ (which stands for "bounded-error quantum polynomial time") is the set of all functions $F:\{0,1\}^* \rightarrow \{0,1\}$ such that there exists a polynomial-time Turing Machine $M$ that satisfies the following: for every $n\in \N$, $M(1^n)$ is a Quantum circuit $Q_n$ that computes $F_n$, where $F_n:\{0,1\}^n \rightarrow \{0,1\}$ is the restriction of $F$ to inputs of length $n$.
 That is, $\Pr[ M(1^n)(x) = F(x)] \geq 2/3$ for every $n\in \N$ and $x\in \{0,1\}^n$.
 :::
 
@@ -609,7 +609,7 @@ However, there are some cultural differences.
 In programming languages, we often try to use meaningful variable names such as `NumberOfVertices` while in math we often use short identifiers such as $n$.
 (Part of it might have to do with the tradition of mathematical proofs as being handwritten and verbally presented, as opposed to typed up and compiled.)
 >
-One consequence of that is that in mathematics we often end up reusing identifier, and also "run out" of letters and hence use greek letters too, as well as distinguish between small and capital letters.
+One consequence of that is that in mathematics we often end up reusing identifiers, and also "run out" of letters and hence use Greek letters too, as well as distinguish between small and capital letters.
 Similarly, mathematical notation tends to use quite a lot of "overloading", using operators such as $+$ for a great variety of objects (e.g., real numbers, matrices, finite field elements, etc..), and assuming that the meaning can be inferred from the context.
 >
 Both fields have a notion of "types", and in math we often try to reserve certain letters for variables of a particular type.
@@ -769,7 +769,7 @@ By repeatedly applying Modus Ponens, we can deduce from __(a)__ and __(b)__ that
 Proofs by inductions are closely related to algorithms by recursion.
 In both cases we reduce solving a larger problem to solving a smaller instance of itself. In a recursive algorithm to solve some problem P on an input of length $k$  we ask ourselves "what if someone handed me a way to solve P on instances smaller than $k$?". In an inductive proof to prove a statement Q parameterized by a number $k$, we ask ourselves "what if I already knew that $Q(k')$ is true for $k'<k$".
 Both induction and recursion are crucial concepts for this course and Computer Science at large (and even other areas of inquiry, including not just mathematics but other sciences as well). Both can be initially (and even post-initially) confusing, but with time and practice they become clearer.
-For more on proofs by induction and recursion, you might find the  following [Stanford CS 103 handout](http://web.stanford.edu/class/cs103/handouts/240%20Guide%20to%20Induction.pdf), [this MIT 6.00 lecture](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00sc-introduction-to-computer-science-and-programming-spring-2011/unit-1/lecture-6-recursion/) or [this excerpt of the Lehman-Leighton book](http://www.boazbarak.org/cs121/LL_induction.pdf) useful.
+For more on proofs by induction and recursion, you might find the  following [Stanford CS 103 handout](https://cs121.boazbarak.org/StanfordCS103Induction.pdf), [this MIT 6.00 lecture](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00sc-introduction-to-computer-science-and-programming-spring-2011/unit-1/lecture-6-recursion/) or [this excerpt of the Lehman-Leighton book](https://cs121.boazbarak.org/LL_induction.pdf) useful.
 
 
 
@@ -1034,7 +1034,7 @@ The main points where we diverge are:
 * Given precise _definitions_ of objects, we can state unambiguous and precise _statements_. We can then use mathematical _proofs_ to determine whether these statements are true or false.
 * A mathematical proof is not a formal ritual but rather a clear, precise and "bulletproof" argument certifying the truth of a certain statement.
 * Big-$O$ notation is an extremely useful formalism to suppress less significant details and allow us to focus on the high level behavior of quantities of interest.
-* The only way to get comfort with mathematical notions is to apply them in the contexts of solving problems. You should expect to need to go back time and again to the definitions and notation in this lecture as you work through problems in this course.
+* The only way to get comfortable with mathematical notions is to apply them in the contexts of solving problems. You should expect to need to go back time and again to the definitions and notation in this lecture as you work through problems in this course.
 
 
 ## Exercises
