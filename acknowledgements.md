@@ -29,6 +29,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Lisa Lu
 * Aditya Mahadevan
 * Jacob Meyerson
+* George Moe
 * Hamish Nicholson
 * Sebastian Oberhoff
 * Thomas Orton

@@ -434,7 +434,7 @@ $$
 We denote $x_i = E(o_i)$ and $x'_i = E(o'_i)$.
 By our assumption and the  definition of $E'$, $x_0x_1 \cdots x_{k-1} = x'_0 x'_1 \cdots x'_{k'-1}$.
 Without loss of generality we can assume $k' \leq k$.
-Let $i$ be the smallest number such that $x_j = x'_j$ for all $j<i$. (If $x'_0 \neq x_0$ then $i=0$; if $x_j = x'_j$ for all $j<k$ then we let $i=k$; note that the fact that the _concatenation_ of $x_0,\ldots,x_{k-1}$ is equal to the concatenation of $x'_0,\ldots,x'_{k'-1}$ does not mean the individual components have to agree.)
+Let $i$ be the larget number such that $x_j = x'_j$ for all $j<i$. (If $x'_0 \neq x_0$ then $i=0$; if $x_j = x'_j$ for all $j<k$ then we let $i=k$; note that the fact that the _concatenation_ of $x_0,\ldots,x_{k-1}$ is equal to the concatenation of $x'_0,\ldots,x'_{k'-1}$ does not mean the individual components have to agree.)
 >
 Since $x_j=x'_j$ for all $j<i$, the strings $x_{i}\cdots x_{k-1}$ and $x'_i \cdots x'_{k'-1}$ are   identical, and we denote this string by $s$. If $i<k$ then both $x_i$ and $x'_i$ are prefixes of $s$ which means that one of them is a prefix of the other, since by the  choice of $i$, $x_i \neq x'_i$ we get that both of them are valid representation of distinct objects which contradicts prefix freeness. If $i=k$ then the string $s$ must be empty, but this would mean that $i=k'$ as well, which means that $x_i=x'_i$ for all $i$, which means that the original tuples of objects must have been the same.
 
