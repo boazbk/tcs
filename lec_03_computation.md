@@ -117,7 +117,7 @@ $$OR(a,b) = \begin{cases} 0 & a=b=0 \\ 1 & \text{otherwise} \end{cases}$$
 
 $$AND(a,b) = \begin{cases} 1 & a=b=1 \\ 0 & \text{otherwise} \end{cases}$$
 
-* $NOT:\{0,1\} \rightarrow \{0,1\}$ defind as $NOT(a) = 1-a$.
+* $NOT:\{0,1\} \rightarrow \{0,1\}$ defined as $NOT(a) = 1-a$.
 
 
 Each one of these functions takes either one or two single bits as input, and produces a single bit as output.
@@ -190,7 +190,7 @@ print([f"XOR3({a},{b},{c})={XOR3(a,b,c)}" for a in [0,1] for b in [0,1] for c in
 
 
 > # { .pause }
-Make sure you see how to generalize this and obtain a way to compute $XOR_n:\{0,1\}^n \rightarrow \{0,1\}$ for every $n$ using at most $4n$ basic steps involving applications of a function in $\{ AND, OR , NOT \}$ to omputs or previously computed values.
+Make sure you see how to generalize this and obtain a way to compute $XOR_n:\{0,1\}^n \rightarrow \{0,1\}$ for every $n$ using at most $4n$ basic steps involving applications of a function in $\{ AND, OR , NOT \}$ to outputs or previously computed values.
 
 
 ### The NAND function
@@ -201,7 +201,7 @@ $$NAND(a,b) = \begin{cases} 0 & a=b=1 \\ 1 & \text{otherwise} \end{cases}$$
 
 As its name implies, $NAND$ is the NOT  of AND (i.e., $NAND(a,b)= NOT(AND(a,b))$), and so we can clearly compute $NAND$ using $AND$  and $NOT$. Interestingly, the opposite direction also holds:
 
-> # {.theorem title="NAND computes AND,OR,NOT." #univnandonethm}
+> # {.theorem title="NAND computes AND,OR,NOT" #univnandonethm}
 We can compute $AND$, $OR$, and $NOT$ by composing only the $NAND$ function.
 
 > # {.proof data-ref="univnandonethm"}
@@ -276,7 +276,7 @@ There are several concerns that are raised by this definition:
 
 2. Second, the choice of $NAND$ as a basic operation seems arbitrary. Why just $NAND$? Why not $AND$, $OR$ or $NOT$? Why not allow operations like addition and multiplication? What about any other logical constructions such `if`/`then` or `while`?
 
-3. Third, do we even know that this definition has anything to do with actual computing? If someone gave us a description of such an algorithm, could we use it to actually compute the function the real world?
+3. Third, do we even know that this definition has anything to do with actual computing? If someone gave us a description of such an algorithm, could we use it to actually compute the function in the real world?
 
 
 > # { .pause }
@@ -288,17 +288,17 @@ We will see that:
 
 1. We can make the definition of an algorithm fully formal, and so give a precise mathematical meaning to statements such as "Algorithm $A$ computes function $F$".
 
-2. While the choice of $NAND$ is arbitrary, and we could just as well chose some other functions, we will also see this choice does not matter much. Our notion of an algorithm is not more restrictive because we only think of $NAND$ as a basic step. We have already seen that allowing $AND$,$OR$, $NOT$ as basic operations will not add any power (because we can compute them from $NAND$'s via [univnandonethm](){.ref}). We will see that the same is true for addition, multiplication, and essentially every other operation that could be reasonably thought of as a basic step.
+2. While the choice of $NAND$ is arbitrary, and we could just as well chose some other functions, we will also see this choice does not matter much. Our notion of an algorithm is not more restrictive because we only think of $NAND$ as a basic step. We have already seen that allowing $AND$, $OR$, $NOT$ as basic operations will not add any power (because we can compute them from $NAND$'s via [univnandonethm](){.ref}). We will see that the same is true for addition, multiplication, and essentially every other operation that could be reasonably thought of as a basic step.
 
 3. It turns out that we can and do compute such "$NAND$ based algorithms" in the real world. First of all, such an algorithm is clearly well specified, and so can be executed by a human with a pen and paper. Second, there are a variety of ways to _mechanize_ this computation. We've already seen that we can write Python code that corresponds to following such a list of instructions. But in fact we can directly implement operations such as $NAND$, $AND$, $OR$, $NOT$ etc.. via electronic signals using components known as _transistors_. This is how modern electronic computers operate.
 
 In the remainder of this chapter, we will begin to answer some of these questions.
-We will see more example of the power of simple operations like $NAND$ (or equivalently, $AND$/$OR$/$NOT$, as well as many other choices) to compute more complex operations including addition, multiplication, sorting and more.
+We will see more example of the power of simple operations like $NAND$ (or equivalently, $AND$, $OR$, $NOT$, as well as many other choices) to compute more complex operations including addition, multiplication, sorting and more.
 We will then discuss how to _physically implement_ simple operations such as NAND using a variety of technologies.
-Finally we will define _The NAND programming language_ that will be our formal model of computation.
+Finally we will define the _NAND programming language_ that will be our formal model of computation.
 
 
-## From NAND to infinity and beyond..
+## From NAND to infinity and beyond...
 
 We have seen that using $NAND$, we can compute $AND$, $OR$, $NOT$ and $XOR$.
 But this still seems a far cry from being able to add and multiply numbers, not to mention more complex programs such as sorting and searching, solving equations, manipulating images, and so on.
@@ -413,7 +413,7 @@ _Computation_ is an abstract notion, that is distinct from its physical _impleme
 While most modern computing devices are obtained by mapping logical gates to semi-conductor based transistors, over history people have computed using a huge variety of mechanisms,  including mechanical systems, gas and liquid (known as _fluidics_), biological and chemical processes, and even living creatures (e.g., see [crabfig](){.ref} or  [this video](https://www.youtube.com/watch?v=czk4xgdhdY4) for how crabs or slime mold can be used to do computations).
 
 
-In this section we will  review some of these implementations, both so  you can get an appreciation of how it is possible to directly translate NAND programs to the physical world, without going through the entire stack of architecture, operating systems, compilers, etc... as well as to emphasize that silicon-based processors are by no means the only way to perform computation.
+In this section we will  review some of these implementations, both so  you can get an appreciation of how it is possible to directly translate NAND programs to the physical world, without going through the entire stack of architecture, operating systems, compilers, etc. as well as to emphasize that silicon-based processors are by no means the only way to perform computation.
 Indeed, as we will see much later in this course, a very exciting recent line of works involves using different media for computation that would allow us to take advantage of _quantum mechanical effects_ to enable different types of algorithms.
 
 ![Crab-based logic gates from the paper "Robust soldier-crab ball gate" by Gunji, Nishiyama and Adamatzky. This is an example of an AND gate that relies on the tendency of two swarms of crabs arriving from different directions to combine to a single swarm that continues in the average of the directions.](../figure/crab-gate.jpg){#crabfig .class width=200px height=200px}
@@ -430,7 +430,7 @@ In a _complementary transistor_ this is reversed: if the gate is "OFF" then curr
 ![We can implement the logic of transistors using water. The water pressure from the gate closes or opens a faucet between the source and the sink.](../figure/transistor_water.png){#transistor-water-fig .class width=300px height=300px}
 
 There are several ways to implement the logic of a transistor.
-For example, we can use faucets to implement it using water pressure (e.g. [transistor-water-fig](){.ref}).^[This might seem as curiosity but there is a field known as [fluidics](https://en.wikipedia.org/wiki/Fluidics) concerned with implementing logical operations using liquids or gasses. Some of the motivations include operating in extreme environmental conditions such as in space or  a battlefield, where standard electronic equipment would not survive.]
+For example, we can use faucets to implement it using water pressure (e.g. [transistor-water-fig](){.ref}).^[This might seem as merely a  curiosity but there is a field known as [fluidics](https://en.wikipedia.org/wiki/Fluidics) concerned with implementing logical operations using liquids or gasses. Some of the motivations include operating in extreme environmental conditions such as in space or  a battlefield, where standard electronic equipment would not survive.]
 However, the standard implementation uses electrical current.
 One of the original implementations used   _vacuum tubes_.
 As its name implies, a vacuum tube is a tube containing nothing (i.e., vacuum) and where a priori electrons could freely flow from source (a wire) to the sink (a plate). However, there is a gate (a grid)  between the two, where modulating its voltage  can block the  flow of electrons.
@@ -483,7 +483,7 @@ Even larger systems such as [flocks of birds](https://www.cs.princeton.edu/~chaz
 
 _Cellular automata_ is a model of a system composed of a sequence of _cells_, which of which can have a finite state.
 At each step, a cell updates its state based on the states of its _neighboring cells_ and some simple rules.
-As we will discuss later in this course, cellular automata such as Conway's "Game of Life" can be used to simulate computation gates, see [gameoflifefig](){.ref}.
+As we will discuss later in this course, cellular automata such as Conway's "Game of Life" can be used to simulate computation gates (see [gameoflifefig](){.ref}).
 
 ![An AND gate using a "Game of Life" configuration. Figure taken from [Jean-Philippe Rennard's paper](http://www.rennard.org/alife/CollisionBasedRennard.pdf).](../figure/game_of_life_and.png){#gameoflifefig .class width=300px height=300px}
 
@@ -495,7 +495,7 @@ Brains have served humanity throughout history, doing computations  that range f
 The exact working of the brain is still not fully understood, but it seems that to a first approximation it can be modeled by a (very large) _neural network_.
 
 A neural network is a Boolean circuit that instead of $NAND$ (or even $AND$/$OR$/$NOT$) uses some other gates as the basic basis.
-For example, ine particular basis we can use are _threshold gates_.
+For example, one particular basis we can use are _threshold gates_.
 For every vector $w= (w_0,\ldots,w_{k-1})$ of integers  and  integer $t$ (some or all of whom  could be negative),
 the _threshold function corresponding to $w,t$_ is the function
 $T_{w,t}:\{0,1\}^k \rightarrow \{0,1\}$ that maps $x\in \{0,1\}^k$ to $1$ if and only if $\sum_{i=0}^{k-1} w_i x_i \geq t$.
@@ -618,7 +618,7 @@ Once again by a similar inductive proof we can show that the program $P$ we cons
 
 
 > # {.remark title="Constructive proof" #circbypython}
-The proof of [nandcircuitthm](){.ref} is _constructive_, in the sense that it yield an explicit transformation from a program to a circuit and vice versa.
+The proof of [nandcircuitthm](){.ref} is _constructive_, in the sense that it yields an explicit transformation from a program to a circuit and vice versa.
 The appendix contains code of a _Python_ function that outputs the circuit corresponding to a program.
 
 
@@ -626,7 +626,7 @@ The appendix contains code of a _Python_ function that outputs the circuit corre
 There is nothing special about NAND. For every set of functions $\mathcal{G} = \{ G_0,\ldots,G_{k-1} \}$, we can define a notion of circuits that use elements of  $\mathcal{G}$ as gates, and a notion of a "$\mathcal{G}$ programming language" where every line involves assigning to a variable `foo` the result of applying some $G_i \in \mathcal{G}$ to previously defined or input variables.
 We can use the same proof idea of  [nandcircuitthm](){.ref} to show that $\mathcal{G}$ circuits and $\mathcal{G}$ programs are equivalent.
 We have seen that for $\mathcal{G} = \{ AND,OR, NOT\}$, the resulting  circuits/programs  are equivalent in power to the NAND programming language, as we can compute $NAND$ using $AND$/$OR$/$NOT$ and vice versa.
-This turns out to be a special case of a general phenomena- the _universality_ of $NAND$ and other gate sets- that we will explore more in depth later in this course.
+This turns out to be a special case of a general phenomena— the _universality_ of $NAND$ and other gate sets — that we will explore more in depth later in this course.
 
 
 
