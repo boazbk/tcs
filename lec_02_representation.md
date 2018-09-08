@@ -193,9 +193,9 @@ More generally, we obtained a representation of the non-negative rational number
 5. Representing a string over $\Sigma$ as a longer string over $\{0,1\}$.
 
 
-More generally, the above encoding yields a  one-to-one map $E$ from strings over the alphabet $\Sigma$ to binary string, such that for every $s\in \Sigma^*$, $|E(s)|=2|s|$.
-Using this, we get a one to one map $E': (\{0,1\}^*)\times (\{0,1\}^*) \rightarrow \{0,1\}^*$ mapping _pairs_ of binary strings into a single binary string.
-Given every pair $(a,b)$ of binary strings, we will first map it in a one-to way to a string $s \in \Sigma^*$ using `;` as a separator, and then map $s$ to a single (longer) binary string using the encoding $E$.
+More generally, the above encoding yields a  one-to-one map $E$ from strings over the alphabet $\Sigma$ to binary strings, such that for every $s\in \Sigma^*$, $|E(s)|=2|s|$.
+Using this, we get a one-to-one map $E': (\{0,1\}^*)\times (\{0,1\}^*) \rightarrow \{0,1\}^*$ mapping _pairs_ of binary strings into a single binary string.
+Given every pair $(a,b)$ of binary strings, we will first map it in a one-to-one way to a string $s \in \Sigma^*$ using `;` as a separator, and then map $s$ to a single (longer) binary string using the encoding $E$.
 The same idea can be used to represent triples, quadruples, and generally all tuples of strings as a single string (can you see why?).
 
 
@@ -458,7 +458,7 @@ Define the function $PF:\{0,1\}^* \rightarrow \{0,1\}^*$ as follows $PF(x)=x_0 x
 >
 To prove the lemma we need to show that __(1)__ $\overline{E}$ is one-to-one and __(2)__ $\overline{E}$ is prefix free.
 In fact __(2)__ implies __(1)__, since if $\overline{E}(o)$ is never a prefix of $\overline{E}(o')$ for every $o \neq o'$ then in particular  $\overline{E}$ is one-to-one.
-Now suppose, toward the sake of contradiction, that there are $o \neq o'$ in $\mathcal{O}$ such that $\overline{E}(o)$ is  a prefix of $\overline{E}(o')$. (That is, if $y=\overline{E}(o)$ and $y'=\overline{E}(o')$, then  $y_j = y'_j$ for every $i<|y|$.)
+Now suppose, toward the sake of contradiction, that there are $o \neq o'$ in $\mathcal{O}$ such that $\overline{E}(o)$ is  a prefix of $\overline{E}(o')$. (That is, if $y=\overline{E}(o)$ and $y'=\overline{E}(o')$, then  $y_j = y'_j$ for every $j<|y|$.)
 >
 Define $x = E(o)$ and $x'=E(o')$.
 Note that since $E$ is one-to-one, $x \neq x'$.
@@ -842,7 +842,7 @@ Hence such tasks are also known as _promise problems_.
 
 
 Another generalization is to consider _relations_ that may have more than one possible admissible output.
-For example, consider the task of finding any solution for a given set of equation.
+For example, consider the task of finding any solution for a given set of equations.
 A _relation_ $R$ maps a string $x\in \{0,1\}^*$ into a _set of strings_ $R(x)$ (for example, $x$ might describe a set of equations, in which case  $R(x)$ would correspond to  the set of all solutions to $x$).
 We can also identify a relation $R$ with the set of pairs of strings $(x,y)$ where $y\in R(x)$.
 A computational process solves a relation if for every $x\in \{0,1\}^*$, it outputs some string $y\in R(x)$.

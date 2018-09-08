@@ -9,6 +9,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Jarosław Błasiok
 * Emily Chan
 * Christy Cheng
+* Michelle Chiang
 * Daniel Chiu
 * Chi-Ning Chou
 * Michael Colavita
@@ -17,6 +18,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Michael Fine
 * Leor Fishman
 * William Fu
+* Piotr Galuszka
 * Mark Goldstein
 * Chan Kang
 * Nina Katz-Christy
@@ -50,6 +52,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Garrett Tanzer
 * Sarah Turnill
 * Salil Vadhan
+* Patrick Watts
 * Ryan Williams
 * Licheng Xu
 * Wanqian Yang
