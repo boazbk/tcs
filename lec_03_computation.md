@@ -376,7 +376,7 @@ Thus we can compute the increment of $x_0,\ldots,x_{n-1}$ by doing the following
 1. Set $c_0=1$ (we pretend we have a "carry" of $1$ initially)
 2. For $i=0,\ldots, n-1$ do the following:
    a. Let $y_i = XOR(x_i,c_i)$.
-   b. If $y_i=x_i=1$ then $c_{i+1}=1$, else $c_{i+1}=0$.
+   b. If $c_i=x_i=1$ then $c_{i+1}=1$, else $c_{i+1}=0$.
 3. Set $y_n = c_n$.
 >
 The above is a very precise description of an algorithm to compute the increment operation, and can be easily transformed into _Python_ code that performs the same computation, but it does not seem to directly yield a NAND circuit to compute this.
