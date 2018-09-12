@@ -491,7 +491,7 @@ Give a λ expression $N$ such that  $N\;x\;y = NAND(x,y)$ for every $x,y \in \{0
 This can be done in a similar way to how we computed $XOR_2$. The $NAND$ of $x,y$ is equal to $1$ unless $x=y=1$. Hence we can write
 
 $$
-N = \lambda x,y.IF(x,IF(y,1,0),0)
+N = \lambda x,y.IF(x,IF(y,0,1),1)
 $$
 :::
 
