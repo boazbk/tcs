@@ -343,7 +343,7 @@ We can of course represent objects other than numbers as binary strings.
 Let us give a general definition for representation:
 
 > # {.definition title="String representation" #binaryrepdef}
-Let $\cO$ be some set. A _representation scheme_ for $\mathcal{O}$ consists of a pair $(E,D)$ where  $E:\mathcal{O} \rightarrow \{0,1\}^*$ is a total one-to-one function, $D:\{0,1\}^* \rightarrow_p \mathcal{O}$ is a (possibly partial)  function,
+Let $\mathcal{O}$ be some set. A _representation scheme_ for $\mathcal{O}$ consists of a pair $(E,D)$ where  $E:\mathcal{O} \rightarrow \{0,1\}^*$ is a total one-to-one function, $D:\{0,1\}^* \rightarrow_p \mathcal{O}$ is a (possibly partial)  function,
 and such that  $D$ and $E$ satisfy that $D(E(o))=o$ for every $o\in \mathcal{O}$.
 $E$ is known as the _encoding_ function and $D$ is known as the _decoding_ function.
 
