@@ -4,13 +4,13 @@
 # Computation and Representation {#chaprepres }
 
 > # { .objectives }
-* Internalize the concept of _representing_ an object as a string (often of zeroes and ones).
-* Examples for common objects such as numbers, vectors, lists, graphs.
+* _Representation_ an object as a string (often of zeroes and ones).
+* Examples of representations for common objects such as numbers, vectors, lists, graphs.
 * Prefix free representations.
 * Distinguish between _specification_ and _implementation_, or equivalently between _algorithms/programs_ and _mathematical functions_.
 
 
->_"The alphabet was a great invention, which enabled men to store and to learn with little effort what others had learned the hard way-that is, to learn from books rather than from direct, possibly painful, contact with the real world."_, B.F. Skinner
+>_"The alphabet was a great invention, which enabled men to store and to learn with little effort what others had learned the hard way -- that is, to learn from books rather than from direct, possibly painful, contact with the real world."_, B.F. Skinner
 
 
 >_"The name of the song is called `HADDOCK'S EYES.'"_ [said the Knight]
@@ -127,7 +127,7 @@ If you don't remember the definitions of _one-to-one_, _onto_, _total_ and _part
 
 > # {.remark title="Meaning of representation" #represphilrem}
 It is natural for us to think of $236$ as a the "actual" number, and of $00110111$ as "merely" its representation.
-However, for most Europeans in the middle ages `CCXXXVI` would be the "actual" number and $236$ (if they have heard about it) would be the weird Hindu-Arabic positional representation.^[While the Babylonians already invented a positional system much earlier, the decimal  positional system we use today was invented by Indian mathematicians around the third century. It was taken up by Arab mathematicians in the 8th century. It was mainly introduced to Europe in the 1202 book _"Liber Abaci"_ by  Leonardo of Pisa, also known as Fibonacci, but has  not displaced Roman numerals in common usage until the 15th century.]
+However, for most Europeans in the middle ages `CCXXXVI` would be the "actual" number and $236$ (if they have heard about it) would be the weird Hindu-Arabic positional representation.^[While the Babylonians already invented a positional system much earlier, the decimal  positional system we use today was invented by Indian mathematicians around the third century. It was taken up by Arab mathematicians in the 8th century. It was mainly introduced to Europe in the 1202 book _"Liber Abaci"_ by  Leonardo of Pisa, also known as Fibonacci, but did not displace Roman numerals in common usage until the 15th century.]
 When our AI robot overlords materialize, they will probably think of $00110111$ as the "actual" number and of $236$ as "merely" a representation that they need to use when they give commands to humans.
 >
 So what is the "actual" number? This is a question that philosophers of mathematics have pondered over the generations.
@@ -155,7 +155,7 @@ For example, in this particular representation the two strings $1$ and $0$ both 
 We can also allow a _partial_ decoding function for representations.
 For example,   in the representation above there is no number that is represented by the empty string.
 But this is still a fine representation, since the decoding partial function is onto and the encoding function is the one-to-one total function $E:\Z \rightarrow \{0,1\}^*$ which maps an integer of the form $a\times k$, where $a\in \{\pm 1 \}$ and $k\in \N$ to the bit $(-1)^a$ concatenated with  the binary representation of $k$.
-That is, every integer can be represented as a string, and two distinct integers have distinct representations.
+That is, every integer can be represented as a string, and every two distinct integers have distinct representations.
 
 
 > # {.remark title="Interpretation and context" #contextreprem}
@@ -243,7 +243,7 @@ Then there is no one-to-one map $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$.^[$Ft
 There _does_ exist a one-to-one map $FtR:\{0,1\}^\infty \rightarrow \R$.^[$FtR$ stands for "functions to reals."]
 
 [sequencestostrings](){.ref} and [sequencestoreals](){.ref} together  imply [cantorthm](){.ref}.
-To see why, suppose, towards the sake of contradiction, that there did exist a one-to-one function $RtS:\R \rightarrow \{0,1\}^*$.
+To see why, suppose, for the sake of contradiction, that there did exist a one-to-one function $RtS:\R \rightarrow \{0,1\}^*$.
 By [sequencestoreals](){.ref}, there exists a one-to-one function $FtR:\{0,1\}^\infty \rightarrow \R$.
 Thus, under this assumption, since the composition of two one-to-one functions is one-to-one (see [onetoonecompex](){.ref}), the function $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$ defined as $FtS(f)=RtS(FtR(f))$ will be one to one, contradicting [sequencestostrings](){.ref}.
 See [proofofcantorfig](){.ref} for a graphical illustration of this argument.
@@ -254,7 +254,7 @@ Now all that is left is to prove these two lemmas.
 We start by proving  [sequencestostrings](){.ref} which is really the heart of [cantorthm](){.ref}.
 
 > # {.proof data-ref="sequencestoreals"}
-Let us assume, towards the sake of contradiction, that there exists a one-to-one function $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$.
+Let us assume, for the sake of contradiction, that there exists a one-to-one function $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$.
 Then, there is an _onto_ function $StF:\{0,1\}^* \rightarrow \{0,1\}^\infty$ (e.g., see [onetooneimpliesonto](){.ref}).
 We will derive a contradiction by coming up with some function $f^* : \N \rightarrow \{0,1\}$ such that $f^* \neq StF(x)$ for every $x\in \{0,1\}^*$.
 >
@@ -458,7 +458,7 @@ Define the function $PF:\{0,1\}^* \rightarrow \{0,1\}^*$ as follows $PF(x)=x_0 x
 >
 To prove the lemma we need to show that __(1)__ $\overline{E}$ is one-to-one and __(2)__ $\overline{E}$ is prefix free.
 In fact __(2)__ implies __(1)__, since if $\overline{E}(o)$ is never a prefix of $\overline{E}(o')$ for every $o \neq o'$ then in particular  $\overline{E}$ is one-to-one.
-Now suppose, toward the sake of contradiction, that there are $o \neq o'$ in $\mathcal{O}$ such that $\overline{E}(o)$ is  a prefix of $\overline{E}(o')$. (That is, if $y=\overline{E}(o)$ and $y'=\overline{E}(o')$, then  $y_j = y'_j$ for every $j<|y|$.)
+Now suppose, toward a contradiction, that there are $o \neq o'$ in $\mathcal{O}$ such that $\overline{E}(o)$ is  a prefix of $\overline{E}(o')$. (That is, if $y=\overline{E}(o)$ and $y'=\overline{E}(o')$, then  $y_j = y'_j$ for every $j<|y|$.)
 >
 Define $x = E(o)$ and $x'=E(o')$.
 Note that since $E$ is one-to-one, $x \neq x'$.
@@ -476,9 +476,9 @@ We leave proving this as an exercise (see [prefix-free-ex](){.ref}).
 
 The proofs of [prefixfreethm](){.ref} and [predixfreeransformation](){.ref} are _constructive_ in the sense that they give us:
 
-* A way to transform the encoding and decoding functions of any representation of an object $O$ to a encoding and decoding functions that are prefix free.
+* a way to transform the encoding and decoding functions of any representation of an object $O$ to a encoding and decoding functions that are prefix free;
 
-* A way to extend prefix free encoding and decoding of single objects to encoding and decoding of _lists_ of objects by concatenation.
+* a way to extend prefix free encoding and decoding of single objects to encoding and decoding of _lists_ of objects by concatenation.
 
 Specifically, we could transform any pair of Python functions `encode` and `decode` to functions `pfencode` and `pfdecode` that correspond to a prefix free encoding and decoding.
 Similarly, given `pfencode` and `pfdecode` for single objects, we can extend them to encoding of lists.
@@ -759,7 +759,7 @@ Here are some examples:
 
 * Given (a representation of) a graph $G$ and two vertices $s$ and $t$, compute the length of the shortest path in $G$ between $s$ and $t$, or do the same for the _longest_ path (with no repeated vertices) between $s$ and $t$. Both these tasks correspond to computing a function from $\{0,1\}^*$ to $\{0,1\}^*$, though it turns out that there is a huge difference in their computational difficulty.
 
-* Given the code of a Python program, is there an input that would force it into an infinite loop. This corresponds to computing a partial function from $\{0,1\}^*$ to $\{0,1\}$; though it is easy to make it into a total function by mapping every string into the trivial Python program that stops without doing anything. We will see that we _do_ understand the computational status of this problem, but the answer is quite surprising.
+* Given the code of a Python program, determine whether there is an input that would force it into an infinite loop. This corresponds to computing a partial function from $\{0,1\}^*$ to $\{0,1\}$; though it is easy to make it into a total function by mapping every string into the trivial Python program that stops without doing anything. We will see that we _do_ understand the computational status of this problem, but the answer is quite surprising.
 
 *  Given (a representation of) an image $I$, decide if $I$ is a photo of a cat or a dog. This correspond to computing  some (partial) function from $\{0,1\}^*$ to $\{0,1\}$.
 
@@ -935,7 +935,7 @@ a. For every $k \leq n$ and length-$k$ string $x\in S$, let $L(x) \subseteq \{0,
 
 b. Prove that $\sum_{x\in S}2^{-|x|} \leq 1$.
 
-c. Prove that there is no prefix-free encoding of strings with less than logarithmic overhead. That is, prove that there is no function $PF:\{0,1\}^* \rightarrow \{0,1\}^*$ s.t. $|PF(x)| \leq |x|+0.9\log |x|$ for every $x\in \{0,1\}^*$ and such that the set $\{ PF(x) : x\in \{0,1\}^* \}$ is prefix-free.
+c. Prove that there is no prefix-free encoding of strings with less than logarithmic overhead. That is, prove that there is no function $PF:\{0,1\}^* \rightarrow \{0,1\}^*$ s.t. $|PF(x)| \leq |x|+0.9\log |x|$ for every $x\in \{0,1\}^*$ and such that the set $\{ PF(x) : x\in \{0,1\}^* \}$ is prefix-free. The factor $0.9$ is arbitrary; all that matters is that it is less than $1$.
 :::
 
 > # {.exercise title="Composition of one-to-one functions" #onetoonecompex}
@@ -972,4 +972,4 @@ Some topics related to this chapter that might be accessible to advanced student
 
 * We've mentioned that all  representations of the real numbers are inherently _approximate_. Thus an important endeavor is to understand what guarantees we can offer on the approximation quality of the output of an algorithm, as a function of the approximation quality of the inputs. This is known as the question of [numerical stability](https://en.wikipedia.org/wiki/Numerical_stability).
 
-* The linear algebraic view of graphs. The adjacency matrix representation of graphs is not merely a convenient way to map a graph into a binary string, but it turns out that many natural notions and operations on matrices are useful for graphs as well. (For example, Google's PageRank algorithm relies on this viewpoint.)  The notes of [this course](http://www.cs.yale.edu/homes/spielman/561/) are an excellent source for this area, known as _spectral graph theory_. We might discuss this view much later in this course when we talk about _random walks_.
+* _The linear algebraic view of graphs_: The adjacency matrix representation of graphs is not merely a convenient way to map a graph into a binary string, but it turns out that many natural notions and operations on matrices are useful for graphs as well. (For example, Google's PageRank algorithm relies on this viewpoint.)  The notes of [this course](http://www.cs.yale.edu/homes/spielman/561/) are an excellent source for this area, known as _spectral graph theory_. We might discuss this view much later in this course when we talk about _random walks_.
