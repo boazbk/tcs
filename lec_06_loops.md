@@ -100,7 +100,7 @@ Enhanced NAND++ programs add the following features on top of NAND:
 
 * We add  _arrays_ to the language by allowing variable identifiers to have the form `Foo[i]`. `Foo` is an array of Boolean values, and `Foo[i]` refers to the value of this array at location equal to the current value of  the variable `i`.
 
-* The input and output `X` and `Y` are now considered _arrays_ with values of zeroes and ones. Since both input and output could have arbitrary length, we also add two new arrays `Xvalid` and `Yvalid` to mark their length. We define `Xvalid[` $i$ `]` $=1$  if and only if $i$ is smaller than the length of the input, and similarly we will set `Yvalid[` $j$ `]` to equal $1$ if and only if $j$ is smaller than the length of the output.
+* The input and output `X` and `Y` are now considered _arrays_ with values of zeroes and ones. Since both input and output could have arbitrary length, we also add two new arrays `Xvalid` and `Yvalid` to mark their length. We define `Xvalid[` $i$ `]` $=1$  if and only if $i$ is smaller than the length of the input, and similarly we will set `Yvalid[` $j$ `]` to equal $1$ if and only if $j$ is smaller than the length of the output.^[`Xvalid` and `Yvalid` are used to mark the end of the input and output. This does not mean that the program will "blow up" if it tries to access for example `X[`$j$`]` for a value $j$ for which `Xvalid[`$j$`]`$=0$. All it means is that this value (which will default to $0$) does not correspond to an actual input bit, and we can use `Xvalid` to determine that this is the case. Perhaps  more descriptive (though also more cumbersome) names would have been `Xlongerthan` and `Ylongerthan`.]
 
 
 
@@ -183,17 +183,27 @@ However, it is not hard to transform them into well formed programs (see [noabso
 
 Since our goal in theoretical computer science is not as much to _construct_
 programs  as to _analyze_ them, we want to use as simple as possible computational models.
-Hence our actual NAND++ programming language will be even more "bare bones" than enhanced NAND++.
-In particular, NAND++ does _not_ contain the commands `i += foo` and `i -= bar` to control the integer-valued variable `i`.
-Rather in NAND++ the variable `i` always progresses according to the same sequence.
-In the first iteration `i`$=0$, in the second one `i`$=1$, in the third iteration, `i=`$0$ again, and then in the fourth to seventh iterations `i` travels to $2$ and back to $0$ again, and so on and so forth.
+Hence our actual "plain vanilla" NAND++ programming language will be even more "bare bones" than enhanced NAND++.^[We will often use the adjective "vanilla" when we want to emphasize the difference between standard NAND++ and its enhanced variant.]
+In particular, standard NAND++ does _not_ contain the commands `i += foo` and `i -= bar` to control the integer-valued variable `i`.
+If we don't have these commands, how would we ever be able to access arbitrary elements of our arrays?
+The idea is that standard NAND++ prescribes a _pre-fixed schedule_ that `i` progresses in, regardless of the code of the program or the particular input.
+Just like a bus takes always the same route, and you need to wait until it reaches your station, if you want to access, for example, location 132 in the array `Foo`, you can wait until the iteration in which `i` will equal 132, at which point `Foo[i]` will refer to the 132-th bit of the array `Foo`.
+
+So what is this schedule that `i` progresses in? There are many choices for such a schedule that would have worked, but we fix a particular choice for simplicity.
+Initially when we run a NAND++ program, the variable `i` equals $0$.
+When we finish executing all the lines of code for the first time, if `loop` equals $0$ we halt.
+Otherwise we continue to the second iteration, but this time the variable `i` will equal $1$.
+At the end of this iteration once again we halt if `loop` equals $0$, and otherwise we proceed to the third iteration where `i` gets the value of $0$ again. We continue in this way with the fourth iteration having `i`$=1$ and in the fifth iteration `i` is equal to $2$, after which it decreases step by step to $0$ agin and so on and so forth.
 Generally, in the $k$-th iteration the value of `i` equals $I(k)$ where $I=(I(0),I(1),I(2),\ldots)$ is the following sequence (see [indextimefig](){.ref}):
 
 $$
 0,1,0,1,2,1,0,1,2,3,2,1,0,1,\ldots
 $$
 
-![The value of `i` as a function of the current iteration. The variable `i` progresses according to the sequence $0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots$.  At the $k$-th iteration the value of `i` equals $k-r(r+1)$ if $k \leq (r+1)^2$ and $(r+1)(r+2)-k$ if $k<(r+1)^2$ where $r= \floor{\sqrt{k+1/4}-1/2}$.](../figure/indextime.png){#indextimefig .class width=300px height=300px}
+The above is a perfectly fine description of the sequence $I(0),I(1),I(2),\ldots$ but it is also possible to find an explicit mathematical formula for $I(k)$.
+Specifically, it is an annoying but not  hard exercise to show that $I(k)$ is equal to the minimum of $|k-r(r+1)|$ where this minimum is taken over all integers $r$ in $\{0,\ldots,k\}$. It can also be shown that the value of $r$ that achieves this minimum is between $\floor{\sqrt{k}-1}$ and $\ceil{\sqrt{k}}$.
+
+![The value of `i` as a function of the current iteration. The variable `i` progresses according to the sequence $0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots$.  Via some cumbersome but routine calculation, it can be shown that at the $k$-th iteration the value of `i` equals $k-r(r+1)$ if $k \leq (r+1)^2$ and $(r+1)(r+2)-k$ if $k<(r+1)^2$ where $r= \floor{\sqrt{k+1/4}-1/2}$.](../figure/indextime.png){#indextimefig .class width=300px height=300px}
 
 ::: {.example title="XOR in vanilla NAND++" #XORNANDPP}
 Here is the XOR function in NAND++ (using our standard syntactic sugar to make it more readable):
@@ -223,7 +233,7 @@ where $r= \floor{\sqrt{k+1/4}-1/2}$.
 :::
 
 ::: {.solution data-ref="computeindex"}
-We say that a NAND program completed its _$r$-th round_ when the index variable `i` completed the sequence:
+We say that a NAND program completed its _$r$-th round_ when the index variable `i` reaches the $0$ point for $r+1$ times and hence completes the sequence:
 
 $$
 0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots,0,1,\ldots,r,r-1,\ldots,0
@@ -678,6 +688,17 @@ We say that the Turing machine $M$ _computes_ a (partial) function $F:\{0,1\}^* 
 You should make sure you see why this formal definition corresponds to our informal description of a Turing Machine.
 To get more intuition on Turing Machines, you can play with some of the online available simulators such as [Martin Ugarte's](https://turingmachinesimulator.com/), [Anthony Morphett's](http://morphett.info/turing/turing.html), or [Paul Rendell's](http://rendell-attic.org/gol/TMapplet/index.htm).
 :::
+
+::: {.remark title="Transition functions vs computed functions, comparison to Sipser" #transitionfunc}
+One should not confuse the _transition function_ of a Turing machine $M$ with the function that the machine computes. The transition function is a _finite_ function, with $k|\Sigma|$ inputs and $2k|\Sigma|$ outputs. (Can you see why?)
+The machine can compute an _infinite_ function $F$ that takes as input a string $x\in \{0,1\}^*$ of arbitrary length and might also produce an arbitrary length string as output.
+
+In our formal definition, we identified the machine with its transition function since the transition function tells us everything we need to know about the Turing machine, and hence serves as a good mathematical representation of it. This choice of representation is somewhat arbitrary, and is based on our convention that the state space is always the numbers $\{0,\ldots,k-1\}$, where we use $0$ as our starting state and $k-1$ as our halting state. Other texts use different conventions and so their mathematical definition of a Turing machine might look superficially different, although ultimately it describes the same computational process and has the same computational powers.
+
+For example, [Sipser's text](http://tiny.cc/sipserbook) allows a more general set of states $Q$ and allow to designate arbitrary elements of $Q$ as starting and halting states, though by simple relabeling of the states one can see that this has no effect on the computational power of the model. Sipser also  restricts attention to Turing machines that output only a single bit. In such cases, it is convenient to have _two_ halting states:  one of them is designated as  the "$0$ halting state" (often known as the _rejecting state_) and the other as  the "$1$ halting state" (often known as the _accepting state_). Thus instead of writing $0$ or $1$, the machine will enter into one of these states and halt. This again makes no difference to the computational power, though we prefer to consider the more general model with multi-bit outputs. Finally, Sipser considers also functions with input in $\Sigma^*$ for an arbitrary alphabet $\Sigma$ (and hence distiguishes between the _input alphabet_ which he denotes as $\Sigma$ and the _tape alphabet_ which he denotes as $\Gamma$), while we restrict attention to functions with binary strings as input. The bottom line is that Sipser defines Turing machines as a _seven tuple_ consisting of the state space, input alphabet, tape alphabet, transition function, starting state, accpeting state, and rejecting state. Yet, this is simply a different representation of the same concept, just as a graph can be represented in either adjacency list or adjacency matrix form.
+:::
+
+### Turing machines and NAND++ programs
 
 As mentioned, Turing machines turn out to be equivalent to NAND++ programs:
 
