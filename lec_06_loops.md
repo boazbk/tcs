@@ -276,7 +276,7 @@ Let $P$ be a NAND++ program. For every input $x\in \{0,1\}^*$, we define the _ou
 
 * Run the program line by line. At the end of the program, if `loop`$=1$ then increment/decrement `i` according to the schedule $0,1,0,1,2,1,0,1,\ldots$ and go back to the first line.
 
-* If `loop`$=0$ at the end of the program, then we halt and ouptput `Y[`$0$`]` , $\ldots$, `Y[`$m-1$`]` where $m$ is the smallest integer such that `Yvalid[`$m$`]`$=0$.
+* If `loop`$=0$ at the end of the program, then we halt and output `Y[`$0$`]` , $\ldots$, `Y[`$m-1$`]` where $m$ is the smallest integer such that `Yvalid[`$m$`]`$=0$.
 
 If the program does not halt on input $x$, then we say it has no output, and we denote this as $P(x) = \bot$.
 :::
