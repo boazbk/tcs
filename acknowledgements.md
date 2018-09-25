@@ -43,6 +43,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Peter Schäfer
 * Josh Seides
 * Alaisha Sharma
+* Noah Singer
 * Miguel Solano
 * Hikari Sorensen
 * David Steurer

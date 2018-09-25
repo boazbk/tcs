@@ -425,24 +425,32 @@ In particular, try to think of what a reduction from $HALT$ to $HALTONZERO$ woul
 Doing so is an excellent way to get some initial comfort with the notion of proofs by _reduction_, which is a notion that will recur time and again in this course.
 
 
-> # {.proof data-ref="haltonzero-thm"}
+::: # {.proof data-ref="haltonzero-thm"}
 The proof is by reduction from $HALT$. Suppose, towards the sake of contradiction, that  $HALTONZERO$ is computable.
 In other words, suppose towards the sake of contradiction that there exists an algorithm $A$ such that $A(P')=HALTONZERO(P')$ for every $P'\in \{0,1\}^*$.
 Then, we will construct an algorithm $B$ that solves $HALT$.
+
+Our Algorithm $B$ works as follows:
+
+
+>__Algorithm $B(P,x)$:__  \
 >
-On input a program $P$ and some input $x$, the algorithm $B$ will construct a program $P'$ such that $P'(0)=P(x)$  and then feed this to $A$, returning $A(P')$.
-We will describe this algorithm in terms of how one can use the input $x$ to modify the source code of $P$ to obtain the source code of the program $P'$.
-However, it is clearly possible to do these modification also on the level of the string representations of the programs $P$ and $P'$.
->
-Constructing the program $P'$  is in fact rather simple.
-The algorithm $B$ will obtain $P'$ by modifying $P$ to  ignore its input and use $x$ instead.
-In particular, for $n=|x|$, the program $P'$ will have have variables `myx_0`,$\ldots$,`my_`$\expr{n-1}$ that are set to the constants `zero` or `one` based on the value of $x$.
-That is, it will contain lines of the form `myx_`$\expr{i}$` := ` $\expr{x_i}$ for every $i < n$.
-Similarly, $P'$ will have  variables `myvalidx_0`,$\ldots$,`myvalidx_`$\expr{n-1}$ that are all set to `one`.
-Algorithm $B$ will include in the program $P'$ a copy of  $P$ modified to change any reference to `x_`$\expr{i}$ to `myx_`$\expr{i}$ and any reference to `validx_`$\expr{i}$ to `myvalidx_`$\expr{i}$.
-Clearly, regardless of its input, $P'$ always emulates the behavior of  $P$ on input $x$.
-In particular $P'$ will halt on the input $0$ if and only if $P$ halts on the input $x$.
-Thus if the hypothetical algorithm $A$ satisfies $A(P')=HALTONZERO(P')$ for every $P'$ then the algorithm $B$ we construct satisfies $B(P,x)=HALT(P,x)$ for every $P,x$, contradicting the uncomputability of $HALT$.
+>1. On input a program $P \in \{0,1\}^*$ and $x\in \{0,1\}^*$, construct the following program $Q$: "on input $z\in \{0,1\}^*$, evaluate $P$ on the input $x$ an return the result".  \
+>2. Return $A(Q)$.
+
+That is, on input a pair $(P,x)$ the algorithm  $B$ uses this pair to construct a program $Q$, feeds this program to $A$, and outputs the result. The program $Q$ is one that ignores its input and simply runs $P$ on $x$. Note however that our algorithm $B$ does _not_ actually execute the program $Q$: it merely constructs it and feeds it to $A$.
+
+Since this is our first such proof, we will supply more details than usual of how exactly does the algorithm $B$ uses the input $x$ to modify the source code of $P$ to obtain the source code of the program $Q$.
+In fact, constructing the program $Q$  is  rather simple.
+We can do so by modifying $P$  to  ignore its input and use $x$ instead.
+Specifically, if $x$ is of length $n$ we can do so by adding $2n$ lines of initialization code that sets arrays `MyX` and `MyXvalid` to the values corresponding to $x$ (i.e., `MyX[`$i$`]`$=x_i$ and `MyXvalid[`$i$`]`$=1$ for every $i \in [n]$).
+The rest of the program $Q$ is obtained by replacing all references to `X` and `Xvalid` with references to `MyX` and `MyXvalid` respectively.
+
+One can see that on every input $z\in \{0,1\}^*$, (and in particular for $z=0$) executing $Q$ on input $z$ will correspond to executing $P$ on the input $x$.
+In particular $Q$ will halt on the input $0$ if and only if $P$ halts on the input $x$.
+Thus if the hypothetical algorithm $A$ satisfies $A(Q)=HALTONZERO(Q)$ for every $Q$ then the algorithm $B$ we construct satisfies $B(P,x)=HALT(P,x)$ for every $P,x$, contradicting the uncomputability of $HALT$.
+:::
+
 
 
 > # {.remark title="The hardwiring technique" #hardwiringrem}
@@ -531,11 +539,11 @@ That is, $MONOTONE(P)=1$ if it's not possible to find an input $x$ such that fli
 We will prove that $MONOTONE$ is uncomputable, but the proof will easily generalize to any semantic function.
 For starters we note that $MONOTONE$ is not actually the all zeroes or all one function:
 
-* The program $INF$ that simply goes into an infinite loop satisfies $MONOTONE(INF)=1$, since there are no inputs $x,x'$ on which $INF(x)=1$ and $INF(x')=1$.
+* The program $INF$ that simply goes into an infinite loop satisfies $MONOTONE(INF)=1$, since $INF$ is not defined _anywhere_ and so in particular  there are no two inputs $x,x'$ where $x_i \leq x'_i$ for every $i$ but  $INF(x)=0$ and $INF(x')=1$.
 
 * The program $PAR$  that we've seen, which computes the XOR or parity of its input, is not monotone (e.g., $PAR(1,1,0,0,\ldots,0)=0$ but $PAR(1,0,0,\ldots,0)=0$) and hence $MONOTONE(PAR)=0$.
 
-(It is important to note that in the above we talk about _programs_ $INF$ and $PAR$ and not the corresesponding functions that they compute.)
+(It is important to note that in the above we talk about _programs_ $INF$ and $PAR$ and not the corresponding functions that they compute.)
 
 We will now give a reduction from $HALTONZERO$ to $MONOTONE$.
 That is, we assume towards a contradiction that there exists an algorithm $A$ that computes $MONOTONE$ and we will build an algorithm $B$ that computes $HALTONZERO$.
@@ -550,10 +558,10 @@ Our algorithm $B$ will work as follows:
 To complete the proof we need to show that $B$ outputs the correct answer, under our assumption that $A$ computes $MONOTONE$.
 In other words, we need to show that $HALTONZERO(P)=1-MONOTONE(Q)$.
 However, note that if $P$ does _not_ halt on zero, then the program $Q$ enters into an infinite loop in step a. and will never reach step b.
-Hence in this case the program $Q$ has the same functionality as $INF$.^[Note that the program $Q$ has different code than $INF$. It is not the same program, but it does have the same behavior (in this case) of never halting on any input.]
+Hence in this case the program $Q$ is functionally equivalent to $INF$.^[Note that the program $Q$ has different code than $INF$. It is not the same program, but it does have the same behavior (in this case) of never halting on any input.]
 Thus, $MONOTONE(Q)=MONOTONE(INF)=1$.
 If $P$ _does_ halt on zero, then step a. in $Q$ will eventually conclude and $Q$'s output will be determined by step b., where it simply outputs the parity of its input.
-Hence in this case, $Q$ computes the non-monotone parity function, and we get that $MONOTONE(Q)=MONOTONE(PAR)=0$.
+Hence in this case, $Q$ computes the non-monotone parity function (i.e., is functionally equivalent to $PAR$), and so we get that $MONOTONE(Q)=MONOTONE(PAR)=0$.
 In both cases we see that $MONOTONE(Q)=1-HALTONZERO(P)$, which is what we wanted to prove.
 An examination of this proof shows that we did not use anything about $MONOTONE$ beyond the fact that it is semantic and non-trivial (in the sense that it is not the all zero, nor the all-ones function).
 :::
