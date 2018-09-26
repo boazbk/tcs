@@ -391,7 +391,8 @@ For example, this is how this circuit looks like for $n=4$.
 ![](../figure/incrementnandcirc.png){#figid .class width=100px height=300px} \
 
 
-::: # {.example title="Addition using NANDs" #additionnandcirc}
+
+:::  {.example title="Addition using NANDs" #additionnandcirc}
 Once we have the increment operation, we can certainly compute addition by repeatedly incrementing (i.e., compute $x+y$ by performing $INC(x)$ $y$ times).
 However, that would be quite inefficient and unnecessary.
 With the same idea of keeping track of carries we can implement the "grade-school" algorithm for addition to compute the function $ADD_n:\{0,1\}^{2n} \rightarrow \{0,1\}^{n+1}$ that on input $x\in \{0,1\}^{2n}$ outputs the binary representation of the sum of the numbers represented by $x_0,\ldots,x_{n-1}$ and $x_{n+1},\ldots,x_n$:
@@ -400,7 +401,7 @@ With the same idea of keeping track of carries we can implement the "grade-schoo
 2. For $i=0,\ldots,n-1$:
    i. Let $y_i = x_i + x_{n+i} + c_i (\mod 2)$.
    ii. If $x_i + x_{n+i} + c_i \geq 2$ then $c_{i+1}=1$.
-3. Let $y_n = c_n$  
+3. Let $y_n = c_n$
 
 Once again, this can be translated into a NAND circuit.
 To transform Step 2.b to a NAND circuit we use the fact (shown in [majbynandex](){.ref}) that the function $MAJ_3:\{0,1\}^3 \rightarrow \{0,1\}$ can be computed  using $NAND$s.

@@ -425,7 +425,7 @@ In particular, try to think of what a reduction from $HALT$ to $HALTONZERO$ woul
 Doing so is an excellent way to get some initial comfort with the notion of proofs by _reduction_, which is a notion that will recur time and again in this course.
 
 
-::: # {.proof data-ref="haltonzero-thm"}
+:::  {.proof data-ref="haltonzero-thm"}
 The proof is by reduction from $HALT$. Suppose, towards the sake of contradiction, that  $HALTONZERO$ is computable.
 In other words, suppose towards the sake of contradiction that there exists an algorithm $A$ such that $A(P')=HALTONZERO(P')$ for every $P'\in \{0,1\}^*$.
 Then, we will construct an algorithm $B$ that solves $HALT$.
