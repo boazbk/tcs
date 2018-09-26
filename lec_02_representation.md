@@ -672,9 +672,9 @@ int main(void) {
 ### Representing vectors, matrices, images
 
 Once we can represent numbers, and lists of numbers, then we can obviously represent _vectors_ (which are just lists of numbers).
-Similarly, we can represent lists of lists and so in particular _matrices_.
+Similarly, we can represent lists of lists, and thus in particular  can represent _matrices_.
 To represent an image, we can represent the color at each pixel by a list of three numbers corresponding to the intensity of Red, Green and Blue.^[We can restrict to three basic colors since ([most](https://en.wikipedia.org/wiki/Tetrachromacy)) humans only have three types of cones in their retinas. We would have needed 16 basic colors to represent colors visible to the [Mantis Shrimp](https://en.wikipedia.org/wiki/Mantis_shrimp).]
-Thus an image of $n$ pixels would be represented of a list of $n$ such length-three lists.
+Thus an image of $n$ pixels would be represented by a list of $n$ such length-three lists.
 A video can be represented as a list of images.^[Of course these representations are rather wasteful and [much](https://en.wikipedia.org/wiki/JPEG) [more](https://en.wikipedia.org/wiki/H.264/MPEG-4_AVC) compact representations are typically used for images and videos, though this will not be our concern in this course.]
 
 ### Representing graphs
@@ -796,7 +796,7 @@ It does not help that programming languages (my favorite Python included) use th
 This confusion also stems from thousands of years of mathematical history, where people typically defined functions by means of a way to compute them.
 
 For example, consider the  multiplication function on natural numbers.
-This is the function $MULT:\N\times N \rightarrow \N$ that maps a pair $(x,y)$ of natural numbers to the number $x \cdot y$.
+This is the function $MULT:\N\times \N \rightarrow \N$ that maps a pair $(x,y)$ of natural numbers to the number $x \cdot y$.
 As we mentioned, it can be implemented in more than one way:
 
 ```python

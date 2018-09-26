@@ -82,7 +82,7 @@ print(solve_eq(10,39))
 
 We can define algorithms informally as follows:
 
->__Informal definition of an algorithm:__ An _Algorithm_ is a set of instructions of how to compute an input from an output by following a sequence of "elementary steps".
+>__Informal definition of an algorithm:__ An _Algorithm_ is a set of instructions of how to compute an output from an input by following a sequence of "elementary steps".
 >
 >
 An algorithm $A$ _computes_ a function $F$ if for every input $x$, if we follow the instruction of $A$ on the input $x$, we obtain the output $F(x)$.
@@ -375,7 +375,7 @@ Thus we can compute the increment of $x_0,\ldots,x_{n-1}$ by doing the following
 >
 1. Set $c_0=1$ (we pretend we have a "carry" of $1$ initially)
 2. For $i=0,\ldots, n-1$ do the following:
-   a. Let $y_i = XOR(x_i,c_i)$.
+  a. Let $y_i = XOR(x_i,c_i)$.
    b. If $c_i=x_i=1$ then $c_{i+1}=1$, else $c_{i+1}=0$.
 3. Set $y_n = c_n$.
 >
@@ -391,19 +391,20 @@ For example, this is how this circuit looks like for $n=4$.
 ![](../figure/incrementnandcirc.png){#figid .class width=100px height=300px} \
 
 
-> # {.example title="Addition using NANDs" #additionnandcirc}
+::: # {.example title="Addition using NANDs" #additionnandcirc}
 Once we have the increment operation, we can certainly compute addition by repeatedly incrementing (i.e., compute $x+y$ by performing $INC(x)$ $y$ times).
 However, that would be quite inefficient and unnecessary.
 With the same idea of keeping track of carries we can implement the "grade-school" algorithm for addition to compute the function $ADD_n:\{0,1\}^{2n} \rightarrow \{0,1\}^{n+1}$ that on input $x\in \{0,1\}^{2n}$ outputs the binary representation of the sum of the numbers represented by $x_0,\ldots,x_{n-1}$ and $x_{n+1},\ldots,x_n$:
->
+
 1. Set $c_0=0$.
 2. For $i=0,\ldots,n-1$:
-   a. Let $y_i = x_i + x_{n+i} + c_i (\mod 2)$.
-   b. If $x_i + x_{n+i} + c_i \geq 2$ then $c_{i+1}=1$.
-3. Let $y_n = c_n$
->
+   i. Let $y_i = x_i + x_{n+i} + c_i (\mod 2)$.
+   ii. If $x_i + x_{n+i} + c_i \geq 2$ then $c_{i+1}=1$.
+3. Let $y_n = c_n$  
+
 Once again, this can be translated into a NAND circuit.
 To transform Step 2.b to a NAND circuit we use the fact (shown in [majbynandex](){.ref}) that the function $MAJ_3:\{0,1\}^3 \rightarrow \{0,1\}$ can be computed  using $NAND$s.
+:::
 
 
 ## Physical implementations of computing devices.
@@ -560,7 +561,7 @@ We can now formally define the notion of a function being computed by a NAND pro
 Let $F:\{0,1\}^n \rightarrow \{0,1\}^m$ be some function, and let $P$ be a NAND program. We say that $P$ _computes_ the function $F$ if:
 >
 1. $P$ has $n$ input variables `X[`$0$`]`$,\ldots,$`X[`$n-1$`]` and $m$ output variables `Y[`$0$`]`,$\ldots$,`Y[`$m-1$`]`. \
-2. For every $x\in \{0,1\}^n$, if we execute $P$ when we assign to `X[`$0$`]`$,\ldots,$`X[`$n-1$`]` the values $x_0,\ldots,x_{n-1}$, then at the end of the execution, the output variables `Y[`$0$`]`,$\ldots$,`Y[`$m-1$`]` have the values $y_0,\ldots,y_{m-1}$.
+2. For every $x\in \{0,1\}^n$, if we execute $P$ when we assign to `X[`$0$`]`$,\ldots,$`X[`$n-1$`]` the values $x_0,\ldots,x_{n-1}$, then at the end of the execution, the output variables `Y[`$0$`]`,$\ldots$,`Y[`$m-1$`]` have the values $y_0,\ldots,y_{m-1}$ where $y=F(x)$.
 
 > # { .pause }
 [NANDcomp](){.ref} is one of the most important definitions in this book. Please make sure to read it time and again until you are sure that you understand it. A full formal specification of the execution model of NAND programs appears in the appendix.

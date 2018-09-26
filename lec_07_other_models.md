@@ -175,7 +175,7 @@ We implement `push(foo)` by
 
 ```python
 Stack[stackpointer]=foo
-foo += one
+stackpointer += one
 ```
 
 and implement `bar = pop()` by
@@ -503,7 +503,7 @@ An _enhanced $\lambda$ expression_ is obtained by composing the objects above wi
 We can now define the notion of computing a function using the $\lambda$ calculus.
 We will define the _simplification_ of a $\lambda$ expression as the following recursive process:
 
-1. _(Evaluation / $\beta$ reduction.)_ If the expression has the form $(exp_L exp_R)$ then replace the expression with $exp'_L[x \rightarrow L]$.
+1. _(Evaluation / $\beta$ reduction.)_ If the expression has the form $(exp_L exp_R)$ then replace the expression with $exp'_L[x \rightarrow exp_R]$.
 
 2. _(Renaming / $\alpha$ conversion.)_ When we cannot simplify any further, rename the variables so that the first bound variable in the expression is $v_0$, the second one is $v_1$, and so on and so forth.
 
@@ -965,7 +965,7 @@ Some examples of Turing Equivalent models include:
 
 >_"[In 1934], Church had been speculating, and finally definitely proposed, that the $\lambda$-definable functions are all the effectively calculable functions .... When Church proposed this thesis, I sat down to disprove it ... but, quickly realizing that [my approach failed], I became overnight a supporter of the thesis."_, Stephen Kleene, 1979.
 
->_"[The thesis is] not so much  a definition or to an axiom but ... a natural law."_, Emil Post, 1936. 
+>_"[The thesis is] not so much  a definition or to an axiom but ... a natural law."_, Emil Post, 1936.
 
 We have defined functions to be _computable_ if they can be computed by a NAND++ program, and we've seen that the definition would remain the same if we replaced NAND++ programs by Python programs, Turing machines, $\lambda$ calculus,  cellular automata, and many other computational models.
 The _Church-Turing thesis_ is that this is the only sensible definition of "computable" functions.
