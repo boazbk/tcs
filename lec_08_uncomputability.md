@@ -435,7 +435,7 @@ Our Algorithm $B$ works as follows:
 
 >__Algorithm $B(P,x)$:__  \
 >
->1. On input a program $P \in \{0,1\}^*$ and $x\in \{0,1\}^*$, construct the following program $Q$: "on input $z\in \{0,1\}^*$, evaluate $P$ on the input $x$ an return the result".  \
+>1. On input a program $P \in \{0,1\}^*$ and $x\in \{0,1\}^*$, construct the following program $Q$: "on input $z\in \{0,1\}^*$, evaluate $P$ on the input $x$ and return the result".  \
 >2. Return $A(Q)$.
 
 That is, on input a pair $(P,x)$ the algorithm  $B$ uses this pair to construct a program $Q$, feeds this program to $A$, and outputs the result. The program $Q$ is one that ignores its input and simply runs $P$ on $x$. Note however that our algorithm $B$ does _not_ actually execute the program $Q$: it merely constructs it and feeds it to $A$.
