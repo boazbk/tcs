@@ -894,13 +894,17 @@ From this observation, [onedimcathm](){.ref} follows in a fairly straightforward
 
 Before proving [onedimcathm](){.ref}, let us formally define the notion of a _configuration_ of a NAND++ program (see also [nandppconfigfig](){.ref}). We will come back to this notion in later chapters as well.
 
-![A _configuration_ of a (well formed) NAND++ program $P$ with $a$ array variables and $b$ scalar variables is a string $\alpha$ over the alphabet $\{0,1\}^a \cup \{0,1\}^{a+b}$. In exactly one index $i$, $\alpha_i \in \{0,1\}^{a+b}$. This corresponds to the index variable `i` $=i$, and $\alpha_i$ encodes both the contents of the scalar variables, as well as the array variables at the location $i$. For $j\neq i$, $\alpha_j$ encodes the contents of the array variables at the location $j$. The length of the string denotes the largest index that has been reached so far in the execution of the program.If in one iteration we move from $\alpha$ to $\alpha'$, then for every $j$, $\alpha'_j$ is a function of $\alpha_{j-1},\alpha_j,\alpha_{j+1}$.](../figure/nandppconfiguration2.png){#nandppconfigfig .class width=300px height=300px}
+![A _configuration_ of a (well formed) NAND++ program $P$ with $a$ array variables and $b$ scalar variables is a a list  $\alpha$ of strings  in $\{0,1\}^a \cup \{0,1\}^{a+b}$. In exactly one index $i$, $\alpha_i \in \{0,1\}^{a+b}$. This corresponds to the index variable `i` $=i$, and $\alpha_i$ encodes both the contents of the scalar variables, as well as the array variables at the location $i$. For $j\neq i$, $\alpha_j$ encodes the contents of the array variables at the location $j$. The length of the list $\alpha$ denotes the largest index that has been reached so far in the execution of the program. If in one iteration we move from $\alpha$ to $\alpha'$, then for every $j$, $\alpha'_j$ is a function of $\alpha_{j-1},\alpha_j,\alpha_{j+1}$.](../figure/nandppconfiguration2.png){#nandppconfigfig .class width=300px height=300px}
 
 
 ::: {.definition title="Configuration of NAND++ programs." #confignandppdef}
-Let $P$ be a well-formed NAND++ program with $a$ array variables and $b$ scalar variables. A _configuration_ of $P$ is a string $\alpha \in (\{0,1\}^a \cup \{0,1\}^{a+b})^*$ such there is exactly coordinate $i \in \{0,\ldots,|\alpha|-1\}$, such that $\alpha_i \in \{0,1\}^{a+b}$ and for all other coordinates $j$, $\alpha_j \in \{0,1\}^a$.
+Let $P$ be a well-formed NAND++ program with $a$ array variables and $b$ scalar variables.
+A _configuration_ of $P$ is a list of strings $\alpha = (\alpha_0,\ldots,\alpha_{t-1})$ such that for every $j \in [t]$, $\alpha_j$ is either in $\{0,1\}^a$ or in $\{0,1\}^{a+b}$. Moreover,  there  is exactly a single coordinate $i \in [t]$, such that
+$\alpha_i \in \{0,1\}^{a+b}$ and for all other coordinates $j \neq i$,
+$\alpha_j \in \{0,1\}^a$.
 
-A configuration $\alpha$ corresponds to the state of $P$ at the beginning of some iteration as follows:
+A configuration $\alpha$ corresponds to the state of $P$ at the
+beginning of some iteration as follows:
 
 * The value of the index variable `i` is the index $i$ such that $\alpha_i \in \{0,1\}^{a+b}$.  The value of the $b$ scalar variables is encoded by the last $b$ bits of $\alpha_i$, while the value of the $a$ array variables at the location $i$ is encoded by the first $a$ bits of $\alpha_i$.
 
@@ -910,10 +914,12 @@ A configuration $\alpha$ corresponds to the state of $P$ at the beginning of som
 
 If $\alpha$ is a configuration of $P$, then $\alpha' = NEXT_P(\alpha)$ denotes the configuration of $P$ after completing one iteration.
 Note that $\alpha'_j = \alpha_j$ for all $j\not\in \{i-1,i,i+1\}$, and that more generally $\alpha'_j$ is a function of $\alpha_{j-1},\alpha_j,\alpha_{j+1}$.^[Since $P$ is well-formed, we assume it contains an `indexincreasing` variable that can be used to compute whether `i` increases or decreases at the end of an iteration.]
+
+__Configurations as  binary strings._ We can represent  a configuration $(\alpha_0,\ldots,\alpha_{t-1})$ as a  binary string in $\{0,1\}^*$ by concatenating prefix-free encoding of $\alpha_0,\ldots,\alpha_{t-1}$. For example, we can encode the configuration as the string $\alpha_0 \| \alpha_1 \| \cdots \| \alpha_{t-1}$ over the three-symbol alphabet $\{0,1,\|\}$ and then use the map $0 \mapsto 00, 1 \mapsto 11, \| \mapsto 01$ to encode it as a binary string. When we refer to a configuration as a binary string (for example when feeding it as input to other programs) we will assume that this string represents the configuration via such an encoding. Hence we can think of $NEXT_P$ as a function mapping $\{0,1\}^*$ to $\{0,1\}^*$.
 :::
 
 ::: {.remark title="Configurations of Turing Machines" #tmconfigrem}
-The same ideas  can (and often are) used to define configurations of _Turing Machines_. If $M$ is a Turing machine with tape alphabet $\Sigma$ and state space $Q$, then a configuration of $M$ can be encoded as a string $\alpha$ over the alphabet $\Sigma \cup (\Sigma \times Q)$, such that only a single coordinate (corresponding to the tape's head) is in the larger alphabet $\Sigma \times Q$, and the rest are in $\Sigma$.
+The same ideas  can (and often are) used to define configurations of _Turing Machines_. If $M$ is a Turing machine with tape alphabet $\Sigma$ and state space $Q$, then a configuration of $M$ can be encoded as a string $\alpha$ over the alphabet  $\Sigma \cup (\Sigma \times Q)$, such that only a single coordinate (corresponding to the tape's head) is in the larger alphabet $\Sigma \times Q$, and the rest are in $\Sigma$. Once again, such a configuration can also be encoded as a binary string.
 The configuration encodes the tape contents, current state, and head location in the natural way.
 All of our arguments that use NAND++ configurations can be carried out with Turing machine configurations as well.
 :::

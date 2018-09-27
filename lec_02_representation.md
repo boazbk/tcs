@@ -174,14 +174,15 @@ For example, recall that we represent $4$ as $(0,0,1)$ and  $35$ as $(1,1,0,0,0,
 Hence, if we used such simple concatenation then we would not be able to tell if the string $(0,0,1,1,1,0,0,0,1)$ is supposed to represent $4/35$ or  $12/17$.^[The above assumes we use the simple binary representation of natural numbers as strings. If we want to handle negative numbers then we should add the sign bit as well, though it would not make any qualitative difference to this discussion.]
 
 The way to tackle this is to find a general representation for _pairs_ of numbers.
-If we were using a pen and paper, we would simply use a separator such as the semicolon symbol to represent, for example, the pair consisting of the numbers represented by $(0,1)$ and $(1,1,0,0,0,1)$ as the length-$9$ string $s$ "$01;110001$".
+If we were using a pen and paper, we would simply use a separator such as the  symbol $\|$ to represent, for example, the pair consisting of the numbers represented by $(0,1)$ and $(1,1,0,0,0,1)$ as the length-$9$ string $s$ "$01\|110001$".
+This is just like people add spaces and punctuation to separate words in English.
 By adding a little redundancy, we can do just that in the digital domain.
-The idea is that we will map the three element set $\Sigma = \{0,1,;\}$  to the four element set $\{0,1\}^2$ via the one-to-one map that takes $0$ to $00$, $1$ to $11$ and $;$ to $01$.
+The idea is that we will map the three element set $\Sigma = \{0,1,\|\}$  to the four element set $\{0,1\}^2$ via the one-to-one map that takes $0$ to $00$, $1$ to $11$ and $\|$ to $01$.
 
 > # {.example title="Representing a rational number as a string" #represnumberbypairs}
 Consider the rational number $r=19/236$. In our convention, we represent $19$ as the string $11001$ and $236$ as the string $00110111$, and so we could rerpresent $r$ as the _pair_ of strings $(11001,00110111)$.
-We can then represent this pair as the length $14$ string $11001;00110111$ over the alphabet $\{0,1,;\}$.
-Now, applying the map $0 \mapsto 00$, $1\mapsto 11$, $; \mapsto 01$, we can represent the latter string as the length $28$ string  $s=1111000011010000111100111111$ over the alphabet $\{0,1\}$.
+We can then represent this pair as the length $14$ string $11001\|00110111$ over the alphabet $\{0,1,\|\}$.
+Now, applying the map $0 \mapsto 00$, $1\mapsto 11$, $\| \mapsto 01$, we can represent the latter string as the length $28$ string  $s=1111000011010000111100111111$ over the alphabet $\{0,1\}$.
 So we represent the rational number $r=19/36$ be the binary string $s=1111000011010000111100111111$.
 >
 More generally, we obtained a representation of the non-negative rational numbers as binary strings by composing the following representations:
@@ -189,13 +190,13 @@ More generally, we obtained a representation of the non-negative rational number
 1. Representing a non-negative rational number as a pair of natural numbers. \
 2. Representing a natural number by a string via the binary representation. (We can use the representation of integers to handle rational numbers that can be negative. )\
 3. Combining 1 and 2 to obtain representation of a rational number as a pair of strings. \
-4. Representing a pair of strings over $\{0,1\}$ as a single string over $\Sigma = \{0,1,;\}$. \
+4. Representing a pair of strings over $\{0,1\}$ as a single string over $\Sigma = \{0,1,\|\}$. \
 5. Representing a string over $\Sigma$ as a longer string over $\{0,1\}$.
 
 
 More generally, the above encoding yields a  one-to-one map $E$ from strings over the alphabet $\Sigma$ to binary strings, such that for every $s\in \Sigma^*$, $|E(s)|=2|s|$.
 Using this, we get a one-to-one map $E': (\{0,1\}^*)\times (\{0,1\}^*) \rightarrow \{0,1\}^*$ mapping _pairs_ of binary strings into a single binary string.
-Given every pair $(a,b)$ of binary strings, we will first map it in a one-to-one way to a string $s \in \Sigma^*$ using `;` as a separator, and then map $s$ to a single (longer) binary string using the encoding $E$.
+Given every pair $(a,b)$ of binary strings, we will first map it in a one-to-one way to a string $s \in \Sigma^*$ using $\|$ as a separator, and then map $s$ to a single (longer) binary string using the encoding $E$.
 The same idea can be used to represent triples, quadruples, and generally all tuples of strings as a single string (can you see why?).
 
 
@@ -390,7 +391,7 @@ Now the size of $\{0,1\}^n$ is $2^n$, and the size of $\{0,1\}^{\leq n}$ is only
 
 ### Prefix free encoding { #prefixfreesec }
 
-In our discussion of the representation of rational numbers, we used the "hack" of encoding the alphabet $\{$,`0`,`1`,`;`$\}$ to represent tuples of strings as a single string.
+In our discussion of the representation of rational numbers, we used the "hack" of encoding the alphabet $\{ 0,1, \|\}$  to represent tuples of strings as a single string.
 This turns out to be a special case of the  general paradigm of _prefix free_ encoding.
 An encoding function $E:\mathcal{O} \rightarrow \{0,1\}^*$ is _prefix free_ if  there are no two objects $o \neq o'$ such that the representation $E(o)$  is a _prefix_ of the representation $E(o')$. The definition of prefix is as you would expect: a length $n$ string $x$ is a prefix of a length $n' \geq n$ string $x'$ if $x_i=x'_i$ for every $1 \leq i \leq n$.
 Given a representation scheme for $\mathcal{O}$ with a prefix-free encoding map, we can use simple concatenation to encode tuples of objects in $\mathcal{O}$:
