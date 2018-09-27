@@ -616,8 +616,8 @@ We will not write the full formal proof of [enhancedvanillalambdathm](){.ref} bu
 
 * To encode a pair $(x,y)$ we will produce a function $f_{x,y}$ that has $x$ and $y$ "in its belly" and such that $f_{x,y}g = g x y$ for every function $g$. That is, we write $PAIR = \lambda x,y. \lambda g. gxy$. Note that now we can extract the first element of a pair $p$ by writing $p1$ and the second element by writing $p0$, and so $HEAD = \lambda p. p1$ and $TAIL = \lambda p. p0$.
 
-* We define $NIL$ to be the function that ignores its input and always outputs $1$. That is, $NIL = \lambda x.1$. The $ISEMPTY$ function checks, given an input $p$, whether we get $1$ if we apply $p$ to the function $0_{x,y}$ that ignores both its inputs and always outputs $0$.
-For every valid pair $p0_{x,y} = 0$ while $NIL 0_{x,y}=1$.
+* We define $NIL$ to be the function that ignores its input and always outputs $1$. That is, $NIL = \lambda x.1$. The $ISEMPTY$ function checks, given an input $p$, whether we get $1$ if we apply $p$ to the function $z = \lambda x,y.0$ that ignores both its inputs and always outputs $0$.
+For every valid pair of the form $p = PAIR x y$, $p z = p x y = 0$ while $NIL z=1$.
 Formally, $ISEMPTY = \lambda p. p (\lambda x,y.0)$.
 
 ::: {.remark title="Church numerals (optional)" #Churchnumrem}
