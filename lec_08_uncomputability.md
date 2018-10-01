@@ -311,14 +311,23 @@ If we know that $HALT$ is uncomputable, and we want to show that some other func
 That is, we show that _if_ we had a NAND++ program that computes $BLAH$ _then_ we could have a NAND++ program that computes $HALT$.
 (Indeed, this is exactly how we showed that $HALT$ itself is uncomputable, by showing this follows from  the uncomputability of the function $F^*$ from [uncomputable-func](){.ref}.)
 
-For example, to prove that $BLAH$ is uncomputable,  we could show that there is a  computable function $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every $x\in \{0,1\}^*$, $HALT(x)=BLAH(R(x))$.
+For example, to prove that $BLAH$ is uncomputable,  we could show that there is a  computable function $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every pair $P$ and $x$, $HALT(P,x)=BLAH(R(P,x))$.
 Such a function is known as a _reduction_, because we are _reducing_ the task of computing $HALT$ to the task of computing $BLAH$.
 The confusing part about reductions is that we are assuming something we _believe_ is false (that $BLAH$ has an algorithm) to derive something that we _know_ is false (that $HALT$ has an algorithm).
-For this reason Michael Sipser described such results as having the form "If pigs could whistle then horses could fly".
+For this reason Michael Sipser describes such results as having the form _"If pigs could whistle then horses could fly"_.
+
+A reduction-based proof has two components. For starters, since we need $R$ to be computable, we should describe the algorithm to compute it. This algorithm is known as a _reduction_ since   the transformation  $R$ modifies an input to $HALT$ to an input to $BLAH$, and hence _reduces_ the task of computing $HALT$ to the task of computing $BLAH$.
+The second component of a reduction-based proof is the _analysis_.
+For example, in the example above, we need to prove $HALT(P,x) = BLAH(R(P,x))$.
+The equality $HALT(P,x) = BLAH(R(P,x))$ boils down to proving two implications.
+We need to prove that __(i)__ if $P$ halts on $x$ then $BLAH(R(P,x))=1$  and __(ii)__ if $P$ does not halt on $x$ then $BLAH(R(P,x))=0$.
+When you're coming up with a reduction based proof, it is useful to separate the two components of _describing_ the reduction and _analyzing_ it.
+Furthermore it is often useful to separate the analysis into two components corresponding to the implications __(i)__ and __(ii)__ above.
+
 
 At the end of the day reduction-based proofs are just like  other proofs by contradiction, but the fact that they involve hypothetical algorithms that don't really exist tends to make such proofs quite confusing.
 The one silver lining is that at the end of the day the notion of reductions is mathematically quite simple, and so it's not that bad even if you have to go back to first principles every time you need to remember what is the direction that a reduction should go in.
-(If this discussion itself is confusing, feel free to ignore it; it might become clearer after you see an example of a reduction such as the proof of [spec-thm](){.ref}.)
+(If this discussion itself is confusing, feel free to ignore it; it might become clearer after you see an example of a reduction such as the proof of [haltonzero-thm](){.ref} or [spec-thm](){.ref}.)
 
 
 
@@ -426,28 +435,46 @@ Doing so is an excellent way to get some initial comfort with the notion of proo
 
 
 :::  {.proof data-ref="haltonzero-thm"}
-The proof is by reduction from $HALT$. Suppose, towards the sake of contradiction, that  $HALTONZERO$ is computable.
-In other words, suppose towards the sake of contradiction that there exists an algorithm $A$ such that $A(P')=HALTONZERO(P')$ for every $P'\in \{0,1\}^*$.
-Then, we will construct an algorithm $B$ that solves $HALT$.
+The proof is by reduction from $HALT$. We will assume, towards the sake of contradiction, that  $HALTONZERO$ is computable by some algorithm $A$, and use this hypothetical algorithm $A$ to construct an algorithm $B$ to compute $HALT$, hence obtaining a contradiction to [halt-thm](){.ref}.
+
+Since this is our first proof by reduction from the Halting problem, we will spell it out in more details than usual. Such a proof by reduction consists of two steps:
+
+1. _Description of the reduction:_ We will describe the operation of our algorithm $B$, and how it makes "function calls" to the hypothetical algorithm $A$.
+
+2. _Analysis of the reduction:_ We will then prove that under the hypothesis that Algorithm $A$ computes $HALTONZERO$,  Algorithm $B$ will compute $HALT$.
+
+
 
 Our Algorithm $B$ works as follows:
 
 
 >__Algorithm $B(P,x)$:__  \
 >
->1. On input a program $P \in \{0,1\}^*$ and $x\in \{0,1\}^*$, construct the following program $Q$: "on input $z\in \{0,1\}^*$, evaluate $P$ on the input $x$ and return the result".  \
->2. Return $A(Q)$.
+>__Input:__ A program $P \in \{0,1\}^*$ and $x\in \{0,1\}^*$ \
+>__Assumption:__ Access to an algorithm $A$ such that $H(Q)=HALTONZERO(Q)$ for every program $Q$. \
+>
+>__Operation:__ \
+>1. Let $Q$ denote the program that does the following: _"on input $z\in \{0,1\}^*$, evaluate $P$ on the input $x$ and return the result"_  \
+>2. Feed $Q$ into Algorithm $A$ and denote $y = A(Q)$ be the resulting output. \
+>3. Output $y$.
+
 
 That is, on input a pair $(P,x)$ the algorithm  $B$ uses this pair to construct a program $Q$, feeds this program to $A$, and outputs the result. The program $Q$ is one that ignores its input and simply runs $P$ on $x$. Note however that our algorithm $B$ does _not_ actually execute the program $Q$: it merely constructs it and feeds it to $A$.
 
-Since this is our first such proof, we will supply more details than usual of how exactly does the algorithm $B$ uses the input $x$ to modify the source code of $P$ to obtain the source code of the program $Q$.
+We now discuss exactly how does  algorithm $B$ performs step 1 of  obtaining the source code of the program $Q$ from the pair $(P,x)$.
 In fact, constructing the program $Q$  is  rather simple.
 We can do so by modifying $P$  to  ignore its input and use $x$ instead.
 Specifically, if $x$ is of length $n$ we can do so by adding $2n$ lines of initialization code that sets arrays `MyX` and `MyXvalid` to the values corresponding to $x$ (i.e., `MyX[`$i$`]`$=x_i$ and `MyXvalid[`$i$`]`$=1$ for every $i \in [n]$).
 The rest of the program $Q$ is obtained by replacing all references to `X` and `Xvalid` with references to `MyX` and `MyXvalid` respectively.
-
 One can see that on every input $z\in \{0,1\}^*$, (and in particular for $z=0$) executing $Q$ on input $z$ will correspond to executing $P$ on the input $x$.
-In particular $Q$ will halt on the input $0$ if and only if $P$ halts on the input $x$.
+
+The above completes the _description_ of the reduction. The _analysis_ is obtained by proving the following claim:
+
+__CLAIM:__ Define by $Q(P,x)$ the program $Q$ that Algorithm $B$ constructs in step 1 when given as input $P$ and $x$. Then for every program $P$ and input $x$, $Q(P,x)$ halts on the input $0$ if and only if $P$ halts on the input $x$.
+
+__Proof of claim:__  Let $P,x$ be some program and input and let $Q=Q(P,x)$. Since $Q$ ignores its input and simply evaluates $P$ on the input $x$, for every input $z$ for $Q$, and so in particular for the input $z=0$, $Q$ will halt on the input $z$ if and only if $P$ halts on the input $x$.
+
+The claim implies that $HALTONZERO(Q(P,x))=HALT(P,x)$.
 Thus if the hypothetical algorithm $A$ satisfies $A(Q)=HALTONZERO(Q)$ for every $Q$ then the algorithm $B$ we construct satisfies $B(P,x)=HALT(P,x)$ for every $P,x$, contradicting the uncomputability of $HALT$.
 :::
 
