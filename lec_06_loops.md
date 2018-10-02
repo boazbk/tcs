@@ -330,7 +330,9 @@ We say that a NAND++ program $P$ computes a partial function $F$ if for every $x
 :::
 
 > # {.remark title="Decidable languages" #decidablelanguages}
-If $F:\{0,1\}^* \rightarrow \{0,1\}$ is a Boolean function, then computing $F$ is equivalent to deciding membership in the set $L=\{ x\in \{0,1\}^* \;|\; F(x)=1 \}$. Subsets of $\{0,1\}^*$ are known as _languages_ in the literature. Such a language  $L \subseteq \{0,1\}^*$ is known as _decidable_ or _recursive_ if the corresponding function $F$ is computable.
+Many other texts use the term _decidable languages_ (also known as _recursive languages_) instead of _computable functions_. This terminology has its roots in formal language theory as was pursued by linguists such as Noam Chomsky. A _formal language_ is simply a subset $L \subseteq \{0,1\}^*$ (or more generally $L \subseteq \Sigma^*$ for some finite alphabet $\Sigma$). The _membership_ or _decision_ problem for a language $L$, is the task of determining, given $x\in \{0,1\}^*$, whether or not $x\in L$.
+One can see that this task is equivalent to computing the Boolean function  $F:\{0,1\}^* \rightarrow \{0,1\}$ which is defined as $F(x)=1$ iff $x\in L$.
+Thus saying that the function $F$ is computable is equivalent to saying that the corresponding language $L$ is decidable. 
 The corresponding concept to a _partial function_ is known as a [promise problem](https://goo.gl/sBczFM).
 
 
