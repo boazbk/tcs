@@ -26,16 +26,17 @@ We have seen that seemingly simple computational models or systems  can turn out
 The [following webpage](https://goo.gl/xRXq7p) lists several examples of formalisms that "accidentally" turned out to Turing complete, including supposedly limited languages such as the C preprocessor, CCS, SQL, sendmail configuration, as well as games such as Minecraft, Super Mario, and  the card game "Magic: The gathering".
 This is not always a good thing, as it means that such formalisms can give rise to arbitrarily complex behavior.
 For example, the postscript format (a precursor of PDF) is a Turing-complete programming language meant to describe documents for printing.
-The expressive power of postscript can allow for short description of very complex images.
-But it also gives rise to some nasty surprises, such as the attacks described in  [this page](http://hacking-printers.net/wiki/index.php/PostScript) ranging from using infinite loops as a denial of service attack, to accessing the printer's file system.
+The expressive power of postscript can allow for short descriptions of very complex images, but it also gives rise to some nasty surprises, such as the attacks described in  [this page](http://hacking-printers.net/wiki/index.php/PostScript) ranging from using infinite loops as a denial of service attack, to accessing the printer's file system.
 
+
+::: {.example title="The DAO Hack" #ethereum}
 An interesting recent example of the pitfalls of Turing-completeness arose in the context of the cryptocurrency [Ethereum](https://www.ethereum.org/).
-The distinguishing feature of this currency is the ability to design "smart contracts" using an expressive (and in particular Turing-complete) language.
+The distinguishing feature of this currency is the ability to design "smart contracts" using an expressive (and in particular Turing-complete) programming language.
 In our current "human operated" economy, Alice and Bob might  sign a contract to  agree that if condition X happens then they will jointly invest in Charlie's company. Ethereum allows Alice and Bob to create a joint venture where Alice and Bob pool their funds together into an account that will be governed by some program $P$ that  decides under what conditions it disburses funds from it.
 For example, one could imagine a piece of code that interacts between Alice, Bob, and some program running on Bob's car that allows Alice to rent out Bob's car without any human intervention or overhead.
 
 
-Specifically Ethereum uses the Turing-complete programming  [solidity](https://solidity.readthedocs.io/en/develop/index.html) which has a syntax similar to Javascript.
+Specifically Ethereum uses the Turing-complete programming language  [solidity](https://solidity.readthedocs.io/en/develop/index.html) which has a syntax similar to Javascript.
 The flagship of Ethereum was an experiment known as  The "Decentralized Autonomous Organization" or [The DAO](https://goo.gl/NegW77).
 The idea was to create a smart contract that would create an autonomously run decentralized venture capital fund, without human managers, were shareholders could decide on investment opportunities.
 The DAO was  the biggest crowdfunding success in history and at its height was worth 150 million dollars, which was more than ten percent of the total Ethereum market.
@@ -46,13 +47,14 @@ While this transaction was "legal" in the sense that it complied with the code o
 There was a lot of debate in the Ethereum community how to handle this, including some partially successful "Robin Hood" attempts to use the same loophole to drain the DAO funds into a secure account.
 Eventually it turned out that the code is mutable, stoppable, and refutable after all, and the Ethereum community decided to do a "hard fork" (also known as a "bailout") to revert history to before this transaction.
 Some elements of the community strongly opposed this decision, and so an alternative currency called [Ethereum Classic](https://ethereumclassic.github.io/)  was created that preserved the original history.
+:::
 
 
 
 ## Regular expressions
 
 
-One of the most common tasks in computing is to _search_ for a piece of text.
+_Searching_ for a piece of text is a common task in computing.
 At its heart, the _search problem_ is quite simple.
 The user gives out a function $F:\{0,1\}^* \rightarrow \{0,1\}$, and the system applies this function to a set of candidates $\{ x_0, \ldots, x_k \}$, returning all the $x_i$'s such that $F(x_i)=1$.
 However, we typically do not want the system to get into an infinite loop just trying to evaluate this function!
@@ -67,7 +69,7 @@ $$
 (00|11)*
 $$
 
-The following regular expression over the alphabet $\{ a,b,c,d,0,1,2,3,4,5,6,7,8,9 \}$ corresponds to the set of all strings that consist of a sequence of one or more of the letters $a$-$b$ followed by a sequence of one or more digits (without a leading zero):
+The following regular expression over the alphabet $\{ a,b,c,d,0,1,2,3,4,5,6,7,8,9 \}$ corresponds to the set of all strings that consist of a sequence of one or more of the letters $a$-$d$ followed by a sequence of one or more digits (without a leading zero):
 
 $$
 (a|b|c|d)(a|b|c|d)^*(1|2|3|4|5|6|7|8|9)(0|1|2|3|4|5|6|7|8|9)^* \label{regexpeq}
@@ -108,17 +110,20 @@ Then the  function $\Phi_{exp}$ is defined as follows:
 2. If $exp = (exp' | exp'')$ then $\Phi_{exp}(x) = \Phi_{exp'}(x) \vee \Phi_{exp''}(x)$ where $\vee$ is the OR operator. \
 3. If $exp = (exp')(exp'')$ then $\Phi_{exp}(x) = 1$ iff there is some $x',x'' \in \Sigma^*$ such that $x$ is the concatenation of $x'$ and $x''$ and $\Phi_{exp'}(x')=\Phi_{exp''}(x'')=1$.  \
 4. If $exp= (exp')*$ then $\Phi_{exp}(x)=1$ iff there are is $k\in \N$ and some $x_0,\ldots,x_{k-1} \in \Sigma^*$ such that $x$ is the concatenation $x_0 \cdots x_{k-1}$ and $\Phi_{exp'}(x_i)=1$ for every $i\in [k]$. \
-5. Finally, for the edge cases $\Phi_{\emptyset}$ is the constant zero function, and $\Phi_{""}$ is the function that only outputs $1$ on the constant string.
+5. Finally, for the edge cases $\Phi_{\emptyset}$ is the constant zero function, and $\Phi_{""}$ is the function that only outputs $1$ on the empty string $""$.
 
-We say that a function $F:\Sigma^* \rightarrow \{0,1\}$ is _regular_ if $F=\Phi_{exp}$ for some regular expression $exp$.^[We use function notation in this book, but  many other texts  common  talk about _languages_, which are sets of string. We say that a set $L \subseteq \Sigma^*$ (also known as a _language_) is _regular_ if the corresponding function $F_L:\Sigma^* \rightarrow \{0,1\}$ s.t. $F_L(x)=1$ iff $x\in L$ is regular.]
+We say that a regular expresion  $exp$ over $\Sigma$ _matches_ a string $x \in \Sigma^*$  if $\Phi_{exp}(x)=1$.
+We say that a function $F:\Sigma^* \rightarrow \{0,1\}$ is _regular_ if $F=\Phi_{exp}$ for some regular expression $exp$.^[We use _function notation_ in this book, but   other texts  often use the notion of  _languages_, which are sets of string. We say that a language $L \subseteq \Sigma^*$  is _regular_ if and only if the corresponding function $F_L$ is regular, where $F_L:\Sigma^* \rightarrow \{0,1\}$ is the function that outputs $1$ on $x$ iff $x\in L$.]
 :::
 
 
+::: {.example title="A regular function" #regularexpmatching}
+Let $\Sigma=\{ a,b,c,d,0,1,2,3,4,5,6,7,8,9 \}$ and $F:\Sigma^* \rightarrow \{0,1\}$ be the function such that  $F(x)$ outputs $1$ iff $x$ consists of one or more of the letters $a$-$d$ followed by a sequence of one or more digits (without a leading zero).
+As shown by   [regexpeq](){.eqref}, the function $F$ is  regular.
+Specifically, $F = \Phi_{(a|b|c|d)^*(0|1|2|3|4|5|6|7|8|9)(0|1|2|3|4|5|6|7|8|9)^*}$.^[Formally we should write $((a|b)|c)|d)$ instead of $a|b|c|d$ but for clarity we will use using the convention that OR and concatenation are left-associative, and that we give precedence to $*$, then concatenation, and then OR. Most of the time we will  only explicitly write down the parenthesis that are not implied by these rules.]
 
-For example let $\Sigma=\{ a,b,c,d,0,1,2,3,4,5,6,7,8,9 \}$ and $F:\Sigma^* \rightarrow \{0,1\}$ be the function such that  $F(x)$ outputs $1$ iff $x$ consists of one or more of the letters $a$-$b$ followed by a sequence of one or more digits (without a leading zero).
-As shown by   [regexpeq](){.eqref}, the function $F:\Sigma^* \rightarrow \{0,1\}$ is computable by a regular expression.
-For example the string $abc12078$ matches the expression of [regexpeq](){.eqref} since $\Phi_{a|b|c|d}(a)=1$, ,$\Phi_{(a|b|c|d)^*}(bcd)=1$, $\Phi_{(1|2|\cdots|9)}(1)=1$, and $\Phi_{(0|\cdots|9)^*}(2078)=1$.
-
+If we wanted to verify, for example, that $\Phi_{(a|b|c|d)^*(0|1|2|3|4|5|6|7|8|9)(0|1|2|3|4|5|6|7|8|9)^*}$ does output $1$ on the string  $abc12078$, we can do so by noticing that the expression $(a|b|c|d)^*$ matches the string $abc$, the expression $(0|1|2|3|4|5|6|7|8|9)$ matches the string $1$, and the expression $(0|1|2|3|4|5|6|7|8|9)^*$ matches the string $2078$. Each one of those boils down to a simpler expression. For example, the expression $(a|b|c|d)^*$ matches the string $abc$ because all the three one-character strings $a$, $b$, and $c$, are matched by the expression $a|b|c|d$.
+:::
 
 
 > # { .pause }
@@ -127,19 +132,16 @@ This is important not just for understanding regular expressions themselves (whi
 
 
 We can think of  regular expressions  as a type of  "programming language".
-That is, we can think of a regular expression $exp$ over the alphabet $\Sigma$ as a program that computes some function $\Phi:\Sigma^* \rightarrow \{0,1\}$.^[Regular expressions (and context free grammars, which we'll see below) are often thought of as _generative models_ rather than computational ones, since their definition does not immediately give rise to a way to _decide_ matches but rather to a way to generate matching strings by repeatedly choosing which rules to apply.]
-But it turns out that the "halting problem" for these programs is easy: they always halt.
-
-
-
-
+That is, we can think of a regular expression $exp$ over the alphabet $\Sigma$ as a program that computes the function $\Phi_{exp}:\Sigma^* \rightarrow \{0,1\}$.^[Regular expressions (and context free grammars, which we'll see below) are often thought of as _generative models_ rather than computational ones, since their definition does not immediately give rise to a way to _decide_ matches but rather to a way to generate matching strings by repeatedly choosing which rules to apply.]
+It turns out that this  "regular expression programming language" is simple in the sense that for every regular expression $exp$, we can compute the function $\Phi_{exp}$ by a Turing Machine / NAND++ program that always halts:
 
 > # {.theorem title="Regular expression always halt" #regularexphalt}
-For every set $\Sigma$ and $exp \in (\Sigma \cup \{ (,),|,*,\emptyset, "" \})^*$,  if $exp$ is a valid regular expression over $\Sigma$ then $\Phi_{exp}$ is a total function from $\Sigma^*$ to $\{0,1\}$.
-Moreover, there is an always halting NAND++ program $P_{exp}$ that computes $\Phi_{exp}$.
+For every finite set $\Sigma$ and $exp \in (\Sigma \cup \{ (,),|,*,\emptyset, "" \})^*$,  if $exp$ is a valid regular expression over $\Sigma$ then $\Phi_{exp}$ is a total computable function from $\Sigma^*$ to $\{0,1\}$.
+That is, there is an always halting NAND++ program $P_{exp}$ that computes $\Phi_{exp}$.^[Formally, we only defined the notion of NAND++ programs that compute functions whose inputs are _binary_ strings, but as usual we can represent non-binary strings over the binary alphabet. Specifically, since $\Sigma$ is a finite set, we can always represent an element of it by a binary string of length $\ceil{\log |\Sigma|}$, and so can represent a string $x \in \Sigma^*$ as a string $\hat{x} \in \{0,1\}^*$ of length $\ceil{\log |\Sigma|}|x|$.]
 
 > # {.proofidea data-ref="regularexphalt"}
 The main idea behind the proof is to see that [matchingregexpdef](){.ref} actually specifies a recursive algorithm for _computing_ $\Phi_exp$.
+Specifically, each one of our operations -concatenation, OR, and  star- can be thought of as reducing the task of testing whether an expression $exp$ matches a string $x$ to testing whether some sub-expressions of $exp$ match substrings of $x$. Since these sub-expressions are always shorter than the original expression, this yields a recursive algorithm for checking if $exp$ matches $x$ which will eventually terminate at the base cases of the expressions that correspond to a single symbol or the empty string.
 The details are specified below.
 
 
@@ -148,10 +150,29 @@ The details are specified below.
 The key observation is that in our recursive definition of regular expressions, whenever $exp$ is made up of one or two expressions $exp',exp''$ then these two regular expressions are _smaller_ than $exp$, and eventually (when they have size $1$) then they must correspond to the non-recursive case of a single alphabet symbol.
 
 Therefore, we can prove the theorem by induction over the length $m$ of $exp$ (i.e., the number of symbols in the string $exp$, also denoted as $|exp|$).
-For $m=1$, $exp$ is a single alphabet symbol and the function $\Phi_{exp}$ is trivial.
-In the general case, for $m=|exp|$ we assume by the induction hypothesis that  we have proven the theorem for $|exp|  = 1,\ldots,m-1$.
-Then by the definition of regular expressions, $exp$ is made up of one or two sub-expressions $exp',exp''$ of length smaller than $m$, and hence by the induction hypothesis we assume that $\Phi_{exp'}$ and   $\Phi_{exp''}$ are total computable functions.
-But then we can follow the definition for the cases of concatenation, union, or the star operator to compute $\Phi_{exp}$ using $\Phi_{exp'}$ and $\Phi_{exp''}$.
+For $m=1$, $exp$ is either a single alphabet symbol, $""$ or $\emptyset$, and so computing the function $\Phi_{exp}$ is straightforward.
+In the general case, for $m=|exp|$ we assume by the induction hypothesis that  we have proven the theorem for all expressions of length smaller than $m$.
+Now, such an expression of length larger than one can obtained one of three cases using the OR, concatenation, or star operations. We now show that $\Phi_{exp}$ will be computable in all these cases:
+
+__Case 1:__ $exp = (exp' | exp'')$ where $exp', exp''$ are shorter regular expressions.
+
+In this case by the inductive hypothesis we can compute $\Phi_{exp'}$ and $\Phi_{exp''}$ and so can compute $\Phi_{exp}(x)$ as $\Phi_{exp'}(x) \vee \Phi_{exp''}(x)$  (where $\vee$ is the OR operator).
+
+__Case 2:__  $exp = (exp')(exp'')$ where $exp',exp''$ are regular expressions.
+
+In this case by the inductive hypothesis we can compute $\Phi_{exp'}$ and $\Phi_{exp''}$ and so can compute $\Phi_{exp}(x)$ as
+
+$$\bigvee_{i=0}^{|x|-1}(\Phi_{exp'}(x_0\cdots x_{i-1})  \wedge \Phi_{exp''}(x_i \cdots x_{|x|-1}))$$
+
+where $\wedge$ is the AND operator and for $i<j$, $x_j \cdots x_{i}$ refers to the empty string.
+
+
+__Case 3:__   $exp = (exp')*$ where $exp'$ is a regular expression.
+
+In this case by the inductive hypothesis we can compute $\Phi_{exp'}$ and so we can compute $\Phi_{exp}(x)$ by enumerating over all $k$ from $1$ to $|x|$, and all ways to write $x$ as the concatenation of $k$ strings $x_0 \cdots x_{k-1}$ (we can do so by enumerating over all possible $k-1$ positions in which one string stops and the other begins). If for one of those partitions, $\Phi_{exp'}(x_0)=\cdots = \Phi_{exp'}(x_{k-1})=1$ then we output $1$. Otherwise we output $0$.
+
+
+These three cases exhaust all the possiblities for an expression of length larger than one, and hence this completes the proof.
 :::
 
 ### Efficient matching of regular expressions (advanced, optional)
@@ -206,7 +227,9 @@ Given a normal form expression $exp$, we transform it to $exp[\sigma]$ as follow
 We leave it as an exercise to prove the following two claims:
 
 >__Claim 1:__ For every $x\in \{0,1\}^*$, $\Phi_{exp}(x\sigma)=1$ if and only if $\Phi_{exp[\sigma]}(x)=1$
->
+
+
+
 >__Claim 2:__ For every normal form $exp$, $|exp[\sigma]| \leq |exp|$ where we denote by $|exp'|$ the number of symbols in the expression $exp'$.
 
 Both claims can be proved by induction by following the recursive definition.
@@ -214,13 +237,17 @@ Note that for Claim 2, we treat $""$ as a single symbol, and also simplify expre
 
 We can now define a recursive algorithm for computing $\Phi_{exp}$:
 
->__Algorithm $MATCH(exp,x)$:__
->
->__Inputs:__ $exp$ is normal form regular expression, $x\in \Sigma^n$ for some $n\in \N$.
->
->1. If $x=""$ then return $1$ iff $exp$ has the form $exp = "" | exp'$ for some $exp'$. (For a normal-form expression, this is the only way it matches the empty string.)
->
->2. Otherwise, reurn $MATCH(exp[x_{n-1}],x_0\cdots x_{n-1})$.
+:::
+__Algorithm $MATCH(exp,x)$:__ \
+
+__Inputs:__ $exp$ is normal form regular expression, $x\in \Sigma^n$ for some $n\in \N$. \
+
+1. If $x=""$ then return $1$ iff $exp$ has the form $exp = "" | exp'$ for some $exp'$. (For a normal-form expression, this is the only way it matches the empty string.) \
+
+2. Otherwise, return $MATCH(exp[x_{n-1}],x_0\cdots x_{n-1})$.
+:::
+
+
 
 Algorithm $MATCH$ is a recursive algorithm that on input an expression $exp$ and a string $x\in \{0,1\}^n$, does some constant time computation and then calls itself on input some expression $exp'$ smaller than $exp$ and a string $x$ of length $n-1$.
 Thus, if we define $T(\ell,n)$ to be the running time of the algorithm on expressions of length at most $\ell$ and inputs of length $n$, then we see that this satisfies the equation $T(\ell,n) \leq T(\ell,n-1) + C(\ell)$ (where the $C(\ell)$ denotes the time it takes to scan over an $\ell$ length expression $exp$ to transform it to the expression $exp[\sigma]$.)
@@ -229,22 +256,22 @@ Hence we see that for every constant $\ell$, the running time would be $O(n)$ wh
 Moreover, since a regular expression over alphabet $\Sigma$ is simply a string over the alphabet $\Sigma \cup \{ (,),|,*,"", \emptyset \}$, to give a crude upper bound, there are at most $(|\Sigma|+10)^\ell$ expressions over this alphabet of length at most $\ell$.
 Now, instead of computing $MATCH$ recursively, we can compute it iteratively as follows:
 
->__Algorithm $MATCH'(exp,x)$:__
->
->__Inputs:__ $exp$ is normal form regular expression, $x\in \Sigma^n$ for some $n\in \N$. Let $\ell = |exp|$.
->
->Define variables $v_{exp'}$ for every $exp'$ of length at most $\ell$.
->Initially, $v_{exp'}=1$ if and only if $exp'$ matches the empty string.
->
->*  For $i=0,\ldots,n-1$ do the following:
->   *  For every $exp'$ of length at most $\ell$:
->      - Let $temp_{exp'} = v_{exp'[x_i]}$
->   *  every $exp'$ of length at most $\ell$:
->      - Let $v_{exp'} = temp_{exp'}$
->
->Output $v_{exp}$.
+:::
+__Algorithm $MATCH'(exp,x)$:__ \
 
-This algorithm maintains the invariant that at the end of step $i$, the variable $v_{exp'}$ is equal  if and only if $exp'$ matches the string $x_0\cdots x_{i-1}$.
+__Inputs:__ $exp$ is normal form regular expression, $x\in \Sigma^n$ for some $n\in \N$. Let $\ell = |exp|$. \
+
+Define variables $v_{exp'}$ for every $exp'$ of length at most $\ell$.
+Initially, $v_{exp'}=1$ if and only if $exp'$ matches the empty string.
+
+*  For $i=0,\ldots,n-1$ do the following:
+   * For every $exp'$ of length at most $\ell$: Let $temp_{exp'} = v_{exp'[x_i]}$
+   * Copy the $temp$ variables to the $v$ variables: let $v_{exp'} = temp_{exp'}$ for every $exp'$ of length at most $\ell$.
+
+Output $v_{exp}$.
+:::
+
+Algorithm $MATCH'$  maintains the invariant that at the end of step $i$, the variable $v_{exp'}$ is equal  if and only if $exp'$ matches the string $x_0\cdots x_{i-1}$.
 Note that it only maintains a constant number of variables, and that it proceeds in one linear scan over the input, and so this proves the theorem.
 :::
 
@@ -340,7 +367,7 @@ Regular expressions are widely used beyond just searching. First, they are typic
 Such applications use the  fact that, due to their restrictions, we can solve not just the  halting  problem for them, but also answer several other semantic questions as well, all of whom would not be solvable for Turing complete models due to Rice's Theorem ([rice-thm](){.ref}).
 For example, we can tell whether two regular expressions are _equivalent_, as well as whether a regular expression computes the constant zero function.
 
-> # {.theorem title="Emptiness of regular languages is computable." #regemptynessthem}
+> # {.theorem title="Emptiness of regular languages is computable" #regemptynessthem}
 There is an algorithm that given a regular expression $exp$, outputs $1$ if and only if $\Phi_{exp}$ is the constant zero function.
 
 > # {.proofidea data-ref="regemptynessthem"}
@@ -622,7 +649,7 @@ In either case, we get that $EQ(ace)=0$, obtaining the desired contradiction.
 As in the case of regular expressions, the limitations of context free grammars do provide some advantages.
 For example, emptiness of context free grammars is decidable:
 
-> # {.theorem title="Emptiness for CFG's is desidable" #cfgemptinessthem}
+> # {.theorem title="Emptiness for CFG's is decidable" #cfgemptinessthem}
 There is an algorithm that on input a context-free grammar $G$, outputs $1$ if and only if $\Phi_G$ is the constant zero function.
 
 > # {.proofidea data-ref="cfgemptinessthem"}
