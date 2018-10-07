@@ -184,59 +184,80 @@ These three cases exhaust all the possibilities for an expression of length larg
 ### Efficient matching of regular expressions (advanced, optional)
 
 The proof of [regularexphalt](){.ref} gives a recursive algorithm to evaluate whether a given string matches or not a regular expression.
+But it is not a very efficient algorithm.
+
 However, it turns out that there is a much more efficient algorithm to match regular expressions.
+In particular, for every regular expression $exp$  there is an algorithm that on input $x\in \{0,1\}^n$, computes $\Phi_{exp}(x)$ in "$O(n)$ running time".^[For now we use the colloquial notion of running time as is used in introduction to programming courses and whiteboard coding interviews. We will see in [chapmodelruntime](){.ref} how to formally define running time.]
 One way to obtain such an algorithm is to replace this recursive algorithm with [dynamic programming](https://goo.gl/kgLdX1), using the technique of [memoization](https://en.wikipedia.org/wiki/Memoization).^[If you haven't taken yet an algorithms course, you might not know these techniques. This is OK;  while  the more efficient algorithm is crucial for the many practical applications of regular expressions, it is not of great importance to this course.]
-It turns out that the resulting dynamic program only requires maintaining a finite (independent of the input length) amount of state, and makes a single pass over its input.
-This means this algorithm  is  a [deterministic finite automaton (DFA)](https://goo.gl/SG6DS7).
+
+
+It turns out that the resulting dynamic program not only runs in $O(n)$ time, but in fact uses only a constant amount of memory, and makes a single pass over its input.
+Such an algorithm is also known as   a [deterministic finite automaton (DFA)](https://goo.gl/SG6DS7).
+It is also known that _every_ function that can be computed by a deterministic finite automaton is regular.
 The relation of regular expressions with finite automata is a beautiful topic, on which we only touch upon in this texts. See books such as [Sipser's](https://math.mit.edu/~sipser/book.html), [Hopcroft, Motwani and Ullman](http://infolab.stanford.edu/~ullman/ialc.html), and [Kozen's](https://www.springer.com/us/book/9783642857065).
 
 We now prove the algorithmic result that regular expression matching can be done by a linear (i.e.,  $O(n)$) time algorithm, and moreover one that uses a constant (i.e., $O(1)$) amount of memory, and makes a single pass over its input.
 Since we have not yet covered the topics of time and space complexity, the reader might want to skip ahead at this point, and return to this theorem later.
 
-::: {.theorem title="DFA and regular expression equivalence" #dfaregequiv}
-Let $exp$ be a regular expression. Then there is an $O(n)$ time $O(1)$ space single pass algorithm (i.e., deterministic finite automaton) that computes $\Phi_{exp}$.
-
-More formally, there is an enhanced NAND++ program $P$ that computes $\Phi_{exp}$ and moreover, $P$ uses   uses no array variable apart from `X`,`Xvalid`,`Y` and `Yvalid`,  uses only the `i++ (foo)` operation (hence never goes back, only forward), and halts when `i` reaches beyond the length of the input.
+::: {.theorem title="DFA for regular expression matching" #dfaregequiv}
+Let $exp$ be a regular expression. Then there is an $O(n)$ time algorithm that computes $\Phi_{exp}$.
+Moreover, this algorithm only makes a single pass over the input, and utilizes only a constant amount of working memory. That is, it is a  deterministic finite automaton.
 :::
 
+::: {.remark title="Formally modeling DFAs" #formalstatement}
+To make the notion of a single-pass constant-memory algorithm precise, we can use the concept of enhanced NAND++ programs.
+Specifically, a deterministic finite automate can be defined as  an enhanced NAND++ program $P$ that  $P$ uses   uses no array variable apart from `X`,`Xvalid`,`Y` and `Yvalid`,  uses only the `i++ (foo)` operation (hence never goes back, only forward), and halts when `i` reaches beyond the length of the input.
+:::
 
 ::: {.proofidea data-ref="dfaregequiv"}
 The idea is to first obtain a more efficient recursive algorithm for computing $\Phi_{exp}$ and then turning this recursive algorithm into a constant-space single-pass algorithm using the technique of _memoization_.
 In this technique  we record in a table the results of every call to a function, and then if we make future calls with the same input, we retrieve the result from the table instead of re-computing it.
 This simple optimization can sometimes result in huge savings in running time.
 
-For this case, we can define a recursive algorithm to compute $\Phi_{exp}$ as follows: given $x\in \{0,1\}^n$, if $n=0$ then we output $1$ if $exp$ contains $""$, otherwise we output $\Phi_{exp[x_{n-1}]}(x_0\cdots x_{n-1})$ where $exp[\sigma]$ is the result of "restricting" the output of $exp$ to strings that end with $\sigma$.
-It can be shown that for every regular expression $exp$, we can construct such a regular expression $exp[\sigma]$ that would match a string $x$ if and only if $exp$ matches $x\sigma$.
-The resulting recursive algorithm runs in $O(n)$ time, we can then use memoization to make it into a single-pass constant space algorithm.
+In this case, we can define a recursive algorithm that on input a regular expression $exp$ and a string $x \in \{0,1\}^n$, computes $\Phi_{exp}(x)$ as follows:
+
+*  If $n=0$ (i.e., $x$ is the empty string) then we output $1$ iff $exp$ contains $""$.
+
+* If $n>0$,  we let $\sigma = x_{n-1}$ and  let  $exp' = exp[\sigma]$ to be the regular expression that matches a string $x$ iff $exp$ matches the string $x\sigma$. (It can be shown that such a regular expression $exp'$ exists and is in fact no longer than $exp$.) We use a recursive call to return $\Phi_{exp'}(x_0\cdots x_{n-1})$.
+
+The running time of this recursive algorithm can be computed by the formula $T(n) = T(n-1) + O(1)$ which solves to $O(n)$ (where the constant in the running time can depend on the length of the regular expression $exp$).
+If we want to get the stronger result of a _constant space algorithm_ (i.e., DFA) then we can use  _memoization_.
 Specifically, we will store a table of the (constantly many) expressions of length at most $|exp|$ that we need to deal with in the course of this algorithm, and iteratively for $i=0,1,\ldots,n-1$, compute whether or not each one of those expressions matches $x_0\cdots x_{i-1}$.
 :::
 
 ::: {.proof data-ref="dfaregequiv"}
-For a regular expression $exp$  over an alphabet $\Sigma$ and symbol $\sigma \in \Sigma$, we will define $exp[\sigma]$ to be a regular expression such that $exp[\sigma]$ matches a string $x$ if and only if $exp$ matches the string $x\sigma$.
-We can define $exp[\sigma]$ recursively as follows.
-For simplicity it will be a little more convenient to work with regular expressions where no sub-expression matches the empty string, except the explicit $""$ expression.
+For simplicity, in this proof, it will be a little more convenient to work with regular expressions where no sub-expression matches the empty string, except the explicit $""$ expression.
 That means that if we have an expression of the form $exp' exp''$ where $exp''$ can match the empty string, then we replace $exp''$ with an expression $exp'''$ that matches all the strings that $exp''$ does except the empty string, and re-write the expression as $exp' | exp'exp'''$.
-Similarly, we will assume that all calls to the $*$ operator match at least one occurence, by enforcing that they are always of the form
+Similarly, we will assume that all calls to the $*$ operator match at least one occurrence, by enforcing that they are always of the form
 $exp| (exp*) exp$.
 (Once again, we can add an explicit expression for the empty string if we need to match it.)
 We call an expression that has the form above a _normal form expression_, and  leave as an exercise to the reader to show that every expression $exp$ has an equivalent expression that is in normal form.
+Below we will always assume that all our expressions are of normal form.
 
-Given a normal form expression $exp$, we transform it to $exp[\sigma]$ as follows:
+__Restricting regular expressions:__  The central definition for this proof is the notion of a _restriction_ of a regular expression. For a regular expression $exp$  over an alphabet $\Sigma$ and symbol $\sigma \in \Sigma$, we will define $exp[\sigma]$ to be a regular expression such that $exp[\sigma]$ matches a string $x$ if and only if $exp$ matches the string $x\sigma$.
+For example, if $exp$ is the regular expression $01|(01)*(01)$ (i.e., one or more occurences of $01$) then $exp[1]$ will be $0|(01)*0$ and $exp[0]$ will be $\emptyset$.
+
+Given a normal form expression $exp$ and $\sigma\in \{0,1\}$, we can compute  $exp[\sigma]$  recursively as follows:
 
 1. If $exp = \tau$  for $\tau \in \Sigma$ then $exp[\sigma]=""$ if $\tau=\sigma$ and $exp[\sigma]=\emptyset$ otherwise.
+
 2. If $exp = exp' | exp''$ then $exp[\sigma] = exp'[\sigma] | exp''[\sigma]$.
+
 3. If $exp = exp' \; exp''$ then $exp = exp \; exp''[\sigma]$.^[Note that we use here the assumption that, because our expression is in normal form, $exp''$ does not match the empty string.]
+
 4. If $exp = exp | (exp*)exp$ then $exp[\sigma] = exp[\sigma] | (exp*)(exp[\sigma])$.
+
 5. If $exp = ""$ or $exp= \emptyset$ then $exp[\sigma] = \emptyset$.
 
 
 We leave it as an exercise to prove the following two claims:
 
->__Claim 1:__ For every $x\in \{0,1\}^*$, $\Phi_{exp}(x\sigma)=1$ if and only if $\Phi_{exp[\sigma]}(x)=1$
+__Claim 1:__ For every $x\in \{0,1\}^*$, $\Phi_{exp}(x\sigma)=1$ if and only if $\Phi_{exp[\sigma]}(x)=1$
 
 
 
->__Claim 2:__ For every normal form $exp$, $|exp[\sigma]| \leq |exp|$ where we denote by $|exp'|$ the number of symbols in the expression $exp'$.
+__Claim 2:__ For every normal form $exp$, $|exp[\sigma]| \leq |exp|$ where we denote by $|exp'|$ the number of symbols in the expression $exp'$.
+
 
 Both claims can be proved by induction by following the recursive definition.
 Note that for Claim 2, we treat $""$ as a single symbol, and also simplify expressions of the form $exp ""$ to $exp$.
@@ -261,28 +282,30 @@ Algorithm $MATCH$ is a recursive algorithm that on input an expression $exp$ and
 Thus, if we define $T(\ell,n)$ to be the running time of the algorithm on expressions of length at most $\ell$ and inputs of length $n$, then we see that this satisfies the equation $T(\ell,n) \leq T(\ell,n-1) + C(\ell)$ (where the $C(\ell)$ denotes the time it takes to scan over an $\ell$ length expression $exp$ to transform it to the expression $exp[\sigma]$.)
 Hence we see that for every constant $\ell$, the running time would be $O(n)$ where the hidden constant in the $O$ notation can depend on $\ell$.
 
-Moreover, since a regular expression over alphabet $\Sigma$ is simply a string over the alphabet $\Sigma \cup \{ (,),|,*,"", \emptyset \}$, to give a crude upper bound, there are at most $(|\Sigma|+10)^\ell$ expressions over this alphabet of length at most $\ell$.
-Now, instead of computing $MATCH$ recursively, we can compute it iteratively as follows:
+At this point, we have already proven a highly non-trivial statement: the existence of a linear-time algorithm for matching regular expressions. The reader may well be content with this, and stop reading the proof at this point.
+However, as mentioned above, we can do even more and in fact have a _constant space_ algorithm for this.
+To do so, we will turn our recursive algorithm into an iterative _dynamic program_.
+Specifically, we replace our recursive algorithm $MATCH$ with the following iterative algorithm $MATCH'$:
 
 ::: { .quote title="" #temp}
-
 __Algorithm $MATCH'(exp,x)$:__ \
 
 __Inputs:__ $exp$ is normal form regular expression, $x\in \Sigma^n$ for some $n\in \N$. Let $\ell = |exp|$. \
 
-Define variables $v_{exp'}$ for every $exp'$ of length at most $\ell$.
+Define a Boolean variable $v_{exp'}$ for every $exp'$ of length at most $\ell$.^[Since a regular expression over alphabet $\Sigma$ is simply a string over the alphabet $\Sigma \cup \{ (,),|,*,"", \emptyset \}$,  there are at most $(|\Sigma|+10)^\ell$ expressions over this alphabet of length at most $\ell$.]
 Initially, $v_{exp'}=1$ if and only if $exp'$ matches the empty string.
 
 *  For $i=0,\ldots,n-1$ do the following:
-   * For every $exp'$ of length at most $\ell$: Let $temp_{exp'} = v_{exp'[x_i]}$
+   * For every $exp'$ of length at most $\ell$: Let $temp_{exp'} = v_{exp'[x_i]}$.^[The computation of $exp'[x_i]$ is done as before, but only requires an amount of memory that depends on the constant $\ell$, since $|exp'| \leq \ell$.]
    * Copy the $temp$ variables to the $v$ variables: let $v_{exp'} = temp_{exp'}$ for every $exp'$ of length at most $\ell$.
 
 Output $v_{exp}$.
-
 :::
 
 Algorithm $MATCH'$  maintains the invariant that at the end of step $i$, the variable $v_{exp'}$ is equal  if and only if $exp'$ matches the string $x_0\cdots x_{i-1}$.
-Note that it only maintains a constant number of variables, and that it proceeds in one linear scan over the input, and so this proves the theorem.
+In particular, at the very end, $v_{exp}$ is equal to $1$ if and only if $exp$ matches the full string $x_0 \cdots x_{n-1}$.
+Note that $MATCH'$ only maintains a constant number of variables, and that it proceeds in one linear scan over the input, and so this proves the theorem.
+:::
 
 
 
@@ -366,7 +389,7 @@ Prove that the following function over the alphabet $\{0,1,; \}$ is not regular:
 We use the pumping lemma. Suppose towards the sake of contradiction that there is a regular expression $exp$ computing $PAL$, and let $n_0$ be the number obtained by the pumping lemma ([pumping](){.ref}).
 Consider the string $w = 0^{n_0};0^{n_0}$.
 Since the reverse of the all zero string is the all zero string, $PAL(w)=1$.
-Now, by the pumping lemma, if $PAL$ is computed by $exp$, then we can write $w=xyz$ such that $|xy| \leq n_0$, $|y|\geq 1$ and $PAL(xy^kz)=1$ for every $k\in \N$. In particular, it must hold that $PAL(xz)=1$, but this is a contradiction, since $xz=1^{n_0-|y|};1^{n_0}$ and so its two parts are not of the same length and in particular are not the reverse of one another.
+Now, by the pumping lemma, if $PAL$ is computed by $exp$, then we can write $w=xyz$ such that $|xy| \leq n_0$, $|y|\geq 1$ and $PAL(xy^kz)=1$ for every $k\in \N$. In particular, it must hold that $PAL(xz)=1$, but this is a contradiction, since $xz=0^{n_0-|y|};0^{n_0}$ and so its two parts are not of the same length and in particular are not the reverse of one another.
 :::
 
 ## Other semantic properties of regular expressions
@@ -397,7 +420,7 @@ The algorithm simply follows the following rules:
 Using these rules it is straightforward to come up with a recursive algorithm to determine emptiness. We leave verifying the details to the reader.
 :::
 
-> # {.theorem title="Equivalence of regular expressions is computable." #regequivalencethm}
+> # {.theorem title="Equivalence of regular expressions is computable" #regequivalencethm}
 There is an efficient  algorithm that on input two regular expressions $exp,exp'$, outputs $1$ if and only if $\Phi_{exp} = \Phi_{exp'}$.
 
 
@@ -467,7 +490,8 @@ In the example above, the rule $expression \; \Rightarrow\; expression \; \times
 
 We can divide our rules to "base rules" and "recursive rules".
 The "base rules"  are rules  such as $number \; \Rightarrow \; 0$, $number \; \Rightarrow \; 1$, $number \; \Rightarrow \; 2$ and so on, that tell us that a single digit is a number.
-The "recursive rules" are rules  such as $number \; Rightarrow 1\, number$ that tell us that if we add a digit to a valid number then we still have a valid number.
+The "recursive rules" are rules  such as $number \; \Rightarrow \;  number \, 0$,
+$number \; \Rightarrow \; number \, 1$ and so on, that tell us that if we add a digit to a valid number then we still have a valid number.
 We now make the formal definition of context-free grammars:
 
 
@@ -700,7 +724,7 @@ To do that we use the notion of _configurations_ of NAND++ programs, as defined 
 Recall that a _configuration_ of a program $P$ is a string $s$ over some alphabet $\Sigma$ that encodes all the information about the program in current iteration
 
 We will let $\#$ and $;$ be some "separator characters" and then we can encode the _computation history_ of a NAND++ program $P$ on some input $x$ by a sequence $s_0\# s_1^R ; s_1 \# s_2^R ; \cdots ; s_{t-3} \# s_{t-2}^R ; s_{t-2} \# s_{t-1}^R$ where $s_0$ is the starting configuration (on the input $x$) and $s_{t-1}$ is a final configuration.
-We will show that for every  NAND++ program $P$ there is some finite alphabet $\Sigma$ (containing $\#$ and $\;$) and a grammar $G_P$ that generates a string $\tau \in \Sigma^*$ if and only if $\tau$ _does not_ encode a valid computation history of $P$ on the input $0$.
+We will show that for every  NAND++ program $P$ there is some finite alphabet $\Sigma$ (containing $\#$ and $;$) and a grammar $G_P$ that generates a string $\tau \in \Sigma^*$ if and only if $\tau$ _does not_ encode a valid computation history of $P$ on the input $0$.
 Hence $P$ halts on the empty input if and only if there is some $\tau$ that $G_M$ can not  generate, thus proving the theorem.
 :::
 
