@@ -669,6 +669,48 @@ Specifically, a computation of a Turing Machine $M$ with $k$ states and alphabet
 
 ^[TODO: update figure to $\{0,\ldots,k-1\}$.]
 
+::: {.example title="A Turing machine for palindromes" #turingmachinepalindrome}
+Let $PAL$ (for _palindromes_) be the function that on input $x\in \{0,1\}^*$, outputs $1$ if and only if $x$ is an (even length) _palindrome_, in the sense that $x = w_0 \cdots w_{n-1}w_{n-1}w_{n-2}\cdots w_0$ for some $n\in \N$ and $w\in \{0,1\}^n$.
+
+We now show a Turing Machine $M$ that computes $PAL$. To specify $M$ we need to specify __(i)__ $M$'s tape alphabet $\Sigma$ which should contain at least the symboles $0$,$1$, $\triangleright$ and $\varnothing$, and __(ii)__ $M$'s _transition function_ which determines what action $M$ takes when it reads a given symbol while it is in a particular state.
+
+In our case, $M$ will use the alphabet $\{ 0,1,\triangleright, \varnothing, \times \}$ and will have $k=14$ states. Though the states are simply numbers between $0$ and $k-1$, for convenience we will give them the following labels:
+| State | Label          |
+|-------|----------------|
+| 0     | `START`        |
+| 1     | `RIGHT_0`       |
+| 2     | `RIGHT_1`       |
+| 3     | `LOOK_FOR_0`     |
+| 4     | `LOOK_FOR_1`     |
+| 5     | `RETURN`       |
+| 6     | `REJECT`       |
+| 7     | `ACCEPT`       |
+| 8     | `OUTPUT_0`      |
+| 9     | `OUTPUT_1`      |
+| 10    | `0_AND_BLANK`    |
+| 11    | `1_AND_BLANK`    |
+| 12    | `BLANK_AND_STOP` |
+| 13    | `STOP`         |
+
+
+We describe the operation of our  Turing Machine $M$ in words:
+
+* $M$ starts  in state `START` and will go right, looking for the first symbol that is $0$ or $1$. If we find $\varnothing$ before we hit such a symbol then we will move to the `OUTPUT_1` state that we describe below.
+
+* Once $M$ found such a symbol $b \in \{0,1\}$, $M$ deletes $b$ from the tape by writing  the $\times$ symbol, it enters either the `RIGHT_0` or `RIGHT_1` mode according to the value of $b$ and starts moving rightwards until it hits the first $\varnothing$ or $\times$ symbol.
+
+* Once we found this symbol we
+ into the state `LOOK_FOR_0` or `LOOK_FOR_1` depending on whether we were in the state `RIGHT_0` or `RIGHT_1` and make one left move.
+
+* In the state `LOOK_FOR_`$b$, we check whether the value on the tape is $b$. If it is, then we delete it by changing its value to $\times$, and move to the state `RETURN`. Otherwise, we change to the `OUTPUT_0` state.
+
+* The `RETURN` state means we go back to the beginning. Specifically, we move leftward until we hit the first symbol that is not $0$ or $1$, in which case we change our state to `START`.
+
+* The `OUTPUT_`$b$ states mean that we are going to output the value $b$. In both these states we go left until we hit $\triangleright$. Once we do so, we make a right step, and change to the `1_AND_BLANK` or `0_AND_BLANK` states respectively. In the latter states, we write the corresponding value, and then move right and change to the `BLANK_AND_STOP` state, in which we write $\varnothing$ to the tape and move to the final `STOP` state.
+
+The above description can be turned into a table  describing for each one of the $14\cdot 5$ combination of state and symbol, what the Turing machine will do when it is in that state and it reads that symbol. This table is known as the _transition function_ of the Turing machine.
+:::
+
 
 The formal definition of Turing machines is as follows:
 
@@ -711,10 +753,39 @@ For example, [Sipser's text](http://tiny.cc/sipserbook) allows a more general se
 
 ### Turing machines as programming languages
 
-The formalization 
+The name "Turing machine", with its "tape" and "head" evokes a physical object, while a program is  ultimately, a piece of text. But we can think of a Turing machine as a program as well.
+For example, consider the Turing Machine $M$ of [turingmachinepalindrome](){.ref} that computes the function $PAL$ such that $PAL(x)=1$ iff $x$ is a palindrome.
+We can also describe this machine as a _program_ using the  Python-like pseudocode of the form below
+
+```python
+# Gets an array Tape that is initialized to [">", x_0 , x_1 , .... , x_(n-1), "∅", "∅", ...]
+# At the end of the execution, Tape[1] is equal to 1 if x is a palindrome and is equal to 0 otherwise
+def PAL(Tape):
+    head = 0
+    state = 0 # START
+    while (state != 13):
+        if (state == 0 && Tape[head]=='0'):
+            state = 3 # LOOK_FOR_0
+            Tape[head] = 'x'
+            head += 1 # move right
+        if (state==0 && Tape[head]=='1')
+            state = 4 # LOOK_FOR_1
+            Tape[head] = 'x'
+            head += 1 # move right
+        ... # more if statements here
+```
+
+The particular details of this program are not important. What is important is that we can describe Turing machines as _programs_.
+Moreover, note that when translating a Turing machine into a program, the _Tape_ becomes a _list_ or _array_ that can hold values from the finite set $\Sigma$.^[Most programming languages use arrays of fixed size, while a  Turing machine's tape is unbounded, though of course there is no need to store an infinite number of $\varnothing$ symbols. If you want, you can think of the tape as a list that starts off at some a length that is just long enough to store the input, but is dynamically grown in size as the Turing machine's head explores new positions.]
+The  head position can be thought of as an integer valued variable that can hold integers of unbounded size.
+In contrast, the current state can only hold one of a fixed number of values.
+In particular, if the number of states is $k$, then we can represent the state of the Turing machine using $\ceil{\log k}$ bits. Equivalently, if our programming language had only _Boolean_ (i.e., $0$/$1$-valued) variables, then we could replace the variable `state` with $\ceil{\log k}$ such variables.
+Similarly, we can represent  each element  of the alphabet $\Sigma$ using $\ceil{\log |\Sigma|}$ bits.
+Hence if our programming language had only Boolean valued arrays, we could replace the array `Tape` with $\ceil{\log |\Sigma|}$ such arrays.
+
 ### Turing machines and NAND++ programs
 
-As mentioned, Turing machines turn out to be equivalent to NAND++ programs:
+Given the above discussion, it might not be surprising that  Turing machines turn out to be equivalent to NAND++ programs. Nevertheless, this is an important result, and the first of many other such equivalence results we will see in this book.
 
 > # {.theorem title="Turing machines and NAND++ programs" #TM-equiv-thm}
 For every $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND++ program if and only if there is a Turing Machine $M$ that computes $F$.
