@@ -56,10 +56,16 @@ Some elements of the community strongly opposed this decision, and so an alterna
 
 _Searching_ for a piece of text is a common task in computing.
 At its heart, the _search problem_ is quite simple.
-The user gives out a function $F:\{0,1\}^* \rightarrow \{0,1\}$, and the system applies this function to a set of candidates $\{ x_0, \ldots, x_k \}$, returning all the $x_i$'s such that $F(x_i)=1$.
-However, we typically do not want the system to get into an infinite loop just trying to evaluate this function!
-For this reason, such systems often do not allow the user to specify an _arbitrary_ function using some Turing-complete formalism, but rather a function that is described by a restricted computational model, and in particular one in which all functions halt.
-One of the most popular models for this application is the model of  [regular expressions](https://goo.gl/2vTAFU).
+The system has a collection $X = \{ x_0, \ldots, x_k \}$ of strings (for example filenames on a hard-drive, or names of students inside a database), and the user wants to find out the subset of all the $x \in X$ that are _matched_ by some pattern.
+(For example all files that end with the string `.txt`.)
+In full generality, we could allow the user to specify the pattern by giving out an arbitrary function $F:\{0,1\}^* \rightarrow \{0,1\}$, where $F(x)=1$ corresponds to the pattern matching $x$.
+For example, the user could give a _program_ $P$ in some  Turing-complete programming language such as _Python_, and the system will return  all the $x_i$'s such that $P(x_i)=1$.
+However, we don't want our system to get  into an infinite loop just trying to evaluate this function!
+
+Because the Halting problem for Turing-complete computational models is uncomputable, a system would not be able to verify that a given program $P$ does not halt.
+For this reason, typical systems for searching files or databases do _not_ allow users to specify functions in full-fledged programming languages.
+Rather, they use _restricted computational models_ that rich enough to capture many of the queries needed in practice (e.g., all filenames ending with `.txt`, or all phone numbers of the form `(xxx) xxx-xxxx` inside a textfile), but restricted enough so that they cannot result in an finite loop.
+One of the most popular models for this application is   [regular expressions](https://goo.gl/2vTAFU).
 You have probably come across regular expressions if you  ever used an advanced text editor, a command line shell, or have done any kind of manipulations of text files.
 
 A _regular expression_ over some alphabet $\Sigma$ is obtained by combining elements of $\Sigma$ with the operation of concatenation, as well as $|$ (corresponding to _or_) and $*$ (corresponding to repetition zero or more times).^[Common implementations of regular expressions in programming languages and shells typically include some extra  operations on top of $|$ and $*$, but these can all be implemented as "syntactic sugar" using   the operators $|$ and $*$.]
@@ -69,7 +75,7 @@ $$
 (00|11)*
 $$
 
-The following regular expression over the alphabet $\{ a,b,c,d,0,1,2,3,4,5,6,7,8,9 \}$ corresponds to the set of all strings that consist of a sequence of one or more of the letters $a$-$d$ followed by a sequence of one or more digits (without a leading zero):
+The following regular expression over the alphabet $\{ a,\ldots,z,0,\ldots,9 \}$ corresponds to the set of all strings that consist of a sequence of one or more of the letters $a$-$d$ followed by a sequence of one or more digits (without a leading zero):
 
 $$
 (a|b|c|d)(a|b|c|d)^*(1|2|3|4|5|6|7|8|9)(0|1|2|3|4|5|6|7|8|9)^* \label{regexpeq}
@@ -93,7 +99,7 @@ Finally we also allow the following "edge cases": $exp = \emptyset$ and $exp = "
 :::
 
 
-Every regular expression $exp$ correspond to a function $\Phi_{exp}:\Sigma^* \rightarrow \{0,1\}$ where  $\Phi_{exp}(x)=1$ if $x$ _matches_ the regular expression.
+Every regular expression $exp$ corresponds to a function $\Phi_{exp}:\Sigma^* \rightarrow \{0,1\}$ where  $\Phi_{exp}(x)=1$ if $x$ _matches_ the regular expression.
 The definition of "matching" is recursive as well. For example, if $exp$ and $exp'$ match the strings $x$ and $x'$, then the expression $exp\; exp'$ matches the concatenated string $xx'$.
 Similarly, if  $exp = (00|11)^*$ then $\Phi_{exp}(x)=1$ if and only if $x$ is of even length and $x_{2i}=x_{2i+1}$ for every $i < |x|/2$.
 We now turn to the formal definition of $\Phi_{exp}$.
@@ -120,9 +126,9 @@ We say that a function $F:\Sigma^* \rightarrow \{0,1\}$ is _regular_ if $F=\Phi_
 ::: {.example title="A regular function" #regularexpmatching}
 Let $\Sigma=\{ a,b,c,d,0,1,2,3,4,5,6,7,8,9 \}$ and $F:\Sigma^* \rightarrow \{0,1\}$ be the function such that  $F(x)$ outputs $1$ iff $x$ consists of one or more of the letters $a$-$d$ followed by a sequence of one or more digits (without a leading zero).
 As shown by   [regexpeq](){.eqref}, the function $F$ is  regular.
-Specifically, $F = \Phi_{(a|b|c|d)^*(0|1|2|3|4|5|6|7|8|9)(0|1|2|3|4|5|6|7|8|9)^*}$.^[Formally we should write $((a|b)|c)|d)$ instead of $a|b|c|d$ but for clarity we will use using the convention that OR and concatenation are left-associative, and that we give precedence to $*$, then concatenation, and then OR. Most of the time we will  only explicitly write down the parenthesis that are not implied by these rules.]
+Specifically, $F = \Phi_{(a|b|c|d)(a|b|c|d)^*(0|1|2|3|4|5|6|7|8|9)(0|1|2|3|4|5|6|7|8|9)^*}$.^[Formally we should write $((a|b)|c)|d)$ instead of $a|b|c|d$ but for clarity we will use using the convention that OR and concatenation are left-associative, and that we give precedence to $*$, then concatenation, and then OR. Most of the time we will  only explicitly write down the parenthesis that are not implied by these rules.]
 
-If we wanted to verify, for example, that $\Phi_{(a|b|c|d)^*(0|1|2|3|4|5|6|7|8|9)(0|1|2|3|4|5|6|7|8|9)^*}$ does output $1$ on the string  $abc12078$, we can do so by noticing that the expression $(a|b|c|d)^*$ matches the string $abc$, the expression $(0|1|2|3|4|5|6|7|8|9)$ matches the string $1$, and the expression $(0|1|2|3|4|5|6|7|8|9)^*$ matches the string $2078$. Each one of those boils down to a simpler expression. For example, the expression $(a|b|c|d)^*$ matches the string $abc$ because all the three one-character strings $a$, $b$, and $c$, are matched by the expression $a|b|c|d$.
+If we wanted to verify, for example, that $\Phi_{(a|b|c|d)(a|b|c|d)^*(0|1|2|3|4|5|6|7|8|9)(0|1|2|3|4|5|6|7|8|9)^*}$ does output $1$ on the string  $abc12078$, we can do so by noticing that the expression $(a|b|c|d)$ matches the string $a$, $(a|b|c|d)^*$ matches  $bc$,   $(0|1|2|3|4|5|6|7|8|9)$ matches the string $1$, and the expression $(0|1|2|3|4|5|6|7|8|9)^*$ matches the string $2078$. Each one of those boils down to a simpler expression. For example, the expression $(a|b|c|d)^*$ matches the string $bc$ because both of the one-character strings $b$ and $c$ are matched by the expression $a|b|c|d$.
 :::
 
 
@@ -172,7 +178,7 @@ __Case 3:__   $exp = (exp')*$ where $exp'$ is a regular expression.
 In this case by the inductive hypothesis we can compute $\Phi_{exp'}$ and so we can compute $\Phi_{exp}(x)$ by enumerating over all $k$ from $1$ to $|x|$, and all ways to write $x$ as the concatenation of $k$ strings $x_0 \cdots x_{k-1}$ (we can do so by enumerating over all possible $k-1$ positions in which one string stops and the other begins). If for one of those partitions, $\Phi_{exp'}(x_0)=\cdots = \Phi_{exp'}(x_{k-1})=1$ then we output $1$. Otherwise we output $0$.
 
 
-These three cases exhaust all the possiblities for an expression of length larger than one, and hence this completes the proof.
+These three cases exhaust all the possibilities for an expression of length larger than one, and hence this completes the proof.
 :::
 
 ### Efficient matching of regular expressions (advanced, optional)
@@ -195,7 +201,7 @@ More formally, there is an enhanced NAND++ program $P$ that computes $\Phi_{exp}
 
 
 ::: {.proofidea data-ref="dfaregequiv"}
-The idea is to first obtain a more efficient recursive algorithm for computing $\Phi_{exp}$ and then turing this recursive algorithm into a constant-space single-pass algorithm using the technique of _memoization_.
+The idea is to first obtain a more efficient recursive algorithm for computing $\Phi_{exp}$ and then turning this recursive algorithm into a constant-space single-pass algorithm using the technique of _memoization_.
 In this technique  we record in a table the results of every call to a function, and then if we make future calls with the same input, we retrieve the result from the table instead of re-computing it.
 This simple optimization can sometimes result in huge savings in running time.
 
@@ -237,7 +243,8 @@ Note that for Claim 2, we treat $""$ as a single symbol, and also simplify expre
 
 We can now define a recursive algorithm for computing $\Phi_{exp}$:
 
-:::
+::: { .quote title="" #temp}
+
 __Algorithm $MATCH(exp,x)$:__ \
 
 __Inputs:__ $exp$ is normal form regular expression, $x\in \Sigma^n$ for some $n\in \N$. \
@@ -245,6 +252,7 @@ __Inputs:__ $exp$ is normal form regular expression, $x\in \Sigma^n$ for some $n
 1. If $x=""$ then return $1$ iff $exp$ has the form $exp = "" | exp'$ for some $exp'$. (For a normal-form expression, this is the only way it matches the empty string.) \
 
 2. Otherwise, return $MATCH(exp[x_{n-1}],x_0\cdots x_{n-1})$.
+
 :::
 
 
@@ -256,7 +264,8 @@ Hence we see that for every constant $\ell$, the running time would be $O(n)$ wh
 Moreover, since a regular expression over alphabet $\Sigma$ is simply a string over the alphabet $\Sigma \cup \{ (,),|,*,"", \emptyset \}$, to give a crude upper bound, there are at most $(|\Sigma|+10)^\ell$ expressions over this alphabet of length at most $\ell$.
 Now, instead of computing $MATCH$ recursively, we can compute it iteratively as follows:
 
-:::
+::: { .quote title="" #temp}
+
 __Algorithm $MATCH'(exp,x)$:__ \
 
 __Inputs:__ $exp$ is normal form regular expression, $x\in \Sigma^n$ for some $n\in \N$. Let $\ell = |exp|$. \
@@ -269,11 +278,12 @@ Initially, $v_{exp'}=1$ if and only if $exp'$ matches the empty string.
    * Copy the $temp$ variables to the $v$ variables: let $v_{exp'} = temp_{exp'}$ for every $exp'$ of length at most $\ell$.
 
 Output $v_{exp}$.
+
 :::
 
 Algorithm $MATCH'$  maintains the invariant that at the end of step $i$, the variable $v_{exp'}$ is equal  if and only if $exp'$ matches the string $x_0\cdots x_{i-1}$.
 Note that it only maintains a constant number of variables, and that it proceeds in one linear scan over the input, and so this proves the theorem.
-:::
+
 
 
 

@@ -15,7 +15,7 @@
 
 
 
-The NAND programming language has one very significant drawback: a finite NAND program $P$ can only compute a finite function $F$, and in particular the number of inputs of $F$ is always smaller than (twice) the number of lines of $P$.^[This conceptual point holds for any straightline programming language, and is independent  of the particular syntactical choices we made for NAND. The particular ratio of "twice" is true for NAND because input variables cannot be written to, and hence a NAND program of $s$ lines includes at most $2s$ input variables. Coupled with the fact that a NAND program can't include `X[` $i$ `]` if it doesn't include `X[` $j$ `]` for $j<i$, this implies that the length of the input is at most $2s$.]
+The NAND programming language (or equivalently, the Boolean circuits model) has one very significant drawback: a finite NAND program $P$ can only compute a finite function $F$, and in particular the number of inputs of $F$ is always smaller than (twice) the number of lines of $P$.^[This conceptual point holds for any straightline programming language, and is independent  of the particular syntactical choices we made for NAND. The particular ratio of "twice" is true for NAND because input variables cannot be written to, and hence a NAND program of $s$ lines includes at most $2s$ input variables. Coupled with the fact that a NAND program can't include `X[` $i$ `]` if it doesn't include `X[` $j$ `]` for $j<i$, this implies that the length of the input is at most $2s$. Similarly, a Boolean circuit whose gates correspond to two-input functions cannot have more inputs than twice the number of gates.]
 
 This does not capture our intuitive notion of an algorithm as a _single recipe_ to compute a potentially infinite function.
 For example, the standard elementary school multiplication algorithm is a _single_ algorithm that multiplies numbers of all lengths, but yet we cannot express this algorithm as a single NAND program, but rather need a different NAND program for every input length.
@@ -332,7 +332,7 @@ We say that a NAND++ program $P$ computes a partial function $F$ if for every $x
 > # {.remark title="Decidable languages" #decidablelanguages}
 Many other texts use the term _decidable languages_ (also known as _recursive languages_) instead of _computable functions_. This terminology has its roots in formal language theory as was pursued by linguists such as Noam Chomsky. A _formal language_ is simply a subset $L \subseteq \{0,1\}^*$ (or more generally $L \subseteq \Sigma^*$ for some finite alphabet $\Sigma$). The _membership_ or _decision_ problem for a language $L$, is the task of determining, given $x\in \{0,1\}^*$, whether or not $x\in L$.
 One can see that this task is equivalent to computing the Boolean function  $F:\{0,1\}^* \rightarrow \{0,1\}$ which is defined as $F(x)=1$ iff $x\in L$.
-Thus saying that the function $F$ is computable is equivalent to saying that the corresponding language $L$ is decidable. 
+Thus saying that the function $F$ is computable is equivalent to saying that the corresponding language $L$ is decidable.
 The corresponding concept to a _partial function_ is known as a [promise problem](https://goo.gl/sBczFM).
 
 
