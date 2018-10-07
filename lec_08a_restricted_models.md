@@ -201,8 +201,12 @@ Since we have not yet covered the topics of time and space complexity, the reade
 
 ::: {.theorem title="DFA for regular expression matching" #dfaregequiv}
 Let $exp$ be a regular expression. Then there is an $O(n)$ time algorithm that computes $\Phi_{exp}$.
+
 Moreover, this algorithm only makes a single pass over the input, and utilizes only a constant amount of working memory. That is, it is a  deterministic finite automaton.
 :::
+
+We note that this theorem is very interesting even if one ignores the part following the "moreover". Hence, the reader is very welcome to ignore this part in the first pass over the theorem and its proof.
+
 
 ::: {.remark title="Formally modeling DFAs" #formalstatement}
 To make the notion of a single-pass constant-memory algorithm precise, we can use the concept of enhanced NAND++ programs.
@@ -221,6 +225,8 @@ In this case, we can define a recursive algorithm that on input a regular expres
 * If $n>0$,  we let $\sigma = x_{n-1}$ and  let  $exp' = exp[\sigma]$ to be the regular expression that matches a string $x$ iff $exp$ matches the string $x\sigma$. (It can be shown that such a regular expression $exp'$ exists and is in fact no longer than $exp$.) We use a recursive call to return $\Phi_{exp'}(x_0\cdots x_{n-1})$.
 
 The running time of this recursive algorithm can be computed by the formula $T(n) = T(n-1) + O(1)$ which solves to $O(n)$ (where the constant in the running time can depend on the length of the regular expression $exp$).
+
+
 If we want to get the stronger result of a _constant space algorithm_ (i.e., DFA) then we can use  _memoization_.
 Specifically, we will store a table of the (constantly many) expressions of length at most $|exp|$ that we need to deal with in the course of this algorithm, and iteratively for $i=0,1,\ldots,n-1$, compute whether or not each one of those expressions matches $x_0\cdots x_{i-1}$.
 :::
@@ -262,7 +268,7 @@ __Claim 2:__ For every normal form $exp$, $|exp[\sigma]| \leq |exp|$ where we de
 Both claims can be proved by induction by following the recursive definition.
 Note that for Claim 2, we treat $""$ as a single symbol, and also simplify expressions of the form $exp ""$ to $exp$.
 
-We can now define a recursive algorithm for computing $\Phi_{exp}$:
+__A recursive linear time algorithm for regular expression matching:__ We can now define a recursive algorithm for computing $\Phi_{exp}$:
 
 ::: { .quote title="" #temp}
 
@@ -282,7 +288,7 @@ Algorithm $MATCH$ is a recursive algorithm that on input an expression $exp$ and
 Thus, if we define $T(\ell,n)$ to be the running time of the algorithm on expressions of length at most $\ell$ and inputs of length $n$, then we see that this satisfies the equation $T(\ell,n) \leq T(\ell,n-1) + C(\ell)$ (where the $C(\ell)$ denotes the time it takes to scan over an $\ell$ length expression $exp$ to transform it to the expression $exp[\sigma]$.)
 Hence we see that for every constant $\ell$, the running time would be $O(n)$ where the hidden constant in the $O$ notation can depend on $\ell$.
 
-At this point, we have already proven a highly non-trivial statement: the existence of a linear-time algorithm for matching regular expressions. The reader may well be content with this, and stop reading the proof at this point.
+__Proving the "moreover" part:__ At this point, we have already proven a highly non-trivial statement: the existence of a linear-time algorithm for matching regular expressions. The reader may well be content with this, and stop reading the proof at this point.
 However, as mentioned above, we can do even more and in fact have a _constant space_ algorithm for this.
 To do so, we will turn our recursive algorithm into an iterative _dynamic program_.
 Specifically, we replace our recursive algorithm $MATCH$ with the following iterative algorithm $MATCH'$:
@@ -498,7 +504,7 @@ We now make the formal definition of context-free grammars:
 > # {.definition title="Context Free Grammar" #defcfg}
 Let $\Sigma$ be some finite set. A _context free grammar (CFG) over $\Sigma$_ is a triple $(V,R,s)$ where $V$ is a set disjoint from $\Sigma$ of _variables_, $R$ is a set of _rules_, which are pairs $(v,z)$ (which we will write as $v \Rightarrow z$) where $v\in V$ and $z\in (\Sigma \cup V)^*$, and $s\in V$ is the starting rule.
 
-::: {.example title="Context free grammar for arithmetic expressions." #cfgarithmeticex}
+::: {.example title="Context free grammar for arithmetic expressions" #cfgarithmeticex}
 
 The example above of well-formed arithmetic expressions can be captured formally by the following context free grammar:
 
