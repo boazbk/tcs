@@ -62,7 +62,15 @@ while i<len(X):
 Y[0] = s
 ```
 
-We will now discuss how we can extend the  NAND programming language so that it can capture these kinds of  constructs.
+In this chapter we will show how we can extend the   NAND programming language so that it can capture these kinds of  constructs.
+We will see two ways to do so:
+
+* The _NAND++ Programming language_ extends   NAND  with the notion of _loops_ and _arrays_ to allow a finite program that can compute a function with arbitrarily long inputs.
+
+* _Turing machines_ are the classical way to give a finite description of an algorithm for arbitrarily long inputs.
+
+It turns out that these two models are _equivalent_, and in fact they are equivalent to a great many other computational models including  programming languages you  may be familiar with such as C, Java, Python, Javascript, OCaml, and so on and so forth. This notion, known as  _Turing equivalence_ or _Turing completeness_, will be discussed in [chapequivalentmodels](){.ref}.
+We start off by presenting NAND++ and then show Turing machines, though it is also possible to present them in the opposite orders.
 
 
 ## The NAND++ Programming language
@@ -701,6 +709,9 @@ In our formal definition, we identified the machine with its transition function
 For example, [Sipser's text](http://tiny.cc/sipserbook) allows a more general set of states $Q$ and allow to designate arbitrary elements of $Q$ as starting and halting states, though by simple relabeling of the states one can see that this has no effect on the computational power of the model. Sipser also  restricts attention to Turing machines that output only a single bit. In such cases, it is convenient to have _two_ halting states:  one of them is designated as  the "$0$ halting state" (often known as the _rejecting state_) and the other as  the "$1$ halting state" (often known as the _accepting state_). Thus instead of writing $0$ or $1$, the machine will enter into one of these states and halt. This again makes no difference to the computational power, though we prefer to consider the more general model with multi-bit outputs. Finally, Sipser considers also functions with input in $\Sigma^*$ for an arbitrary alphabet $\Sigma$ (and hence distiguishes between the _input alphabet_ which he denotes as $\Sigma$ and the _tape alphabet_ which he denotes as $\Gamma$), while we restrict attention to functions with binary strings as input. The bottom line is that Sipser defines Turing machines as a _seven tuple_ consisting of the state space, input alphabet, tape alphabet, transition function, starting state, accpeting state, and rejecting state. Yet, this is simply a different representation of the same concept, just as a graph can be represented in either adjacency list or adjacency matrix form.
 :::
 
+### Turing machines as programming languages
+
+The formalization 
 ### Turing machines and NAND++ programs
 
 As mentioned, Turing machines turn out to be equivalent to NAND++ programs:
