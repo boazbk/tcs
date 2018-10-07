@@ -716,7 +716,7 @@ By analogy to regular expressions, one might have hoped to get an algorithm for 
 Alas, no such luck. It turns out that the equivalence problem for context free grammars is _uncomputable_.
 This is a direct corollary of the following theorem:
 
-> # {.theorem title="Fullness of CFG's is uncomputable." #fullnesscfgdef}
+> # {.theorem title="Fullness of CFG's is uncomputable" #fullnesscfgdef}
 For every set $\Sigma$, let $CFGFULL_\Sigma$ be the function that on input a context-free grammar $G$ over $\Sigma$, outputs $1$ if and only if $G$ computes the constant $1$ function.
 Then there is some finite  $\Sigma$ such that $CFGFULL_\Sigma$ is uncomputable.
 
@@ -763,7 +763,7 @@ This shows that if $U$ is a universal NAND++ program with $a$ array variables an
 To summarize, we can often trade _expressiveness_ of the model for _amenability to analysis_. If we consider computational models that are _not_ Turing complete, then we are sometimes able to bypass Rice's Theorem and answer certain semantic questions about programs in such models.
 Here is a summary of some of what is known about semantic questions for the different models we have seen.
 
-| _Model_  \\  **Problem** | **Halting** | **Emptiness** | **Equivalence** |
+| _Model_                  | **Halting** | **Emptiness** | **Equivalence** |
 |--------------------------|-------------|---------------|-----------------|
 | _Regular Expressions_    | Decidable   | Decidable     | Decidable       |
 | _Context Free Grammars_  | Decidable   | Decidable     | Undecidable     |
