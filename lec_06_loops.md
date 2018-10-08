@@ -297,7 +297,7 @@ If the program does not halt on input $x$, then we say it has no output, and we 
 We can now define what it means for a function to be _computable_:
 
 ::: {.definition title="Computable functions" #computablefuncdef}
-Let $F:\{0,1\}^* \rightarrow \{0,1\}^*$ be a function and let $P$ be a
+Let $F:\{0,1\}^* \rightarrow \{0,1\}^*$ be a (total) function and let $P$ be a
 NAND++ program.
 We say that $P$ _computes_ $F$ if for every $x\in \{0,1\}^*$, $P(x)=F(x)$.
 
@@ -320,8 +320,15 @@ In particular there can be more than one program to compute the same function.
 Being "NAND++ computable" is a property of _functions_, not of programs.
 
 
+> # {.remark title="Decidable languages" #decidablelanguages}
+Many other texts use the term _decidable languages_ (also known as _recursive languages_) instead of _computable functions_. This terminology has its roots in formal language theory as was pursued by linguists such as Noam Chomsky. A _formal language_ is simply a subset $L \subseteq \{0,1\}^*$ (or more generally $L \subseteq \Sigma^*$ for some finite alphabet $\Sigma$). The _membership_ or _decision_ problem for a language $L$, is the task of determining, given $x\in \{0,1\}^*$, whether or not $x\in L$.
+One can see that this task is equivalent to computing the Boolean function  $F:\{0,1\}^* \rightarrow \{0,1\}$ which is defined as $F(x)=1$ iff $x\in L$.
+Thus saying that the function $F$ is computable is equivalent to saying that the corresponding language $L$ is decidable.
+The corresponding concept to a _partial function_ is known as a [promise problem](https://goo.gl/sBczFM).
 
-::: {.remark title="Infinite loops" #infiniteloops}
+
+### Infinite loops and partial functions
+
 One crucial difference between NAND and NAND++ programs is the following.
 Looking at a NAND program $P$, we can always tell how many inputs and how many outputs it has (by simply looking  at the `X` and `Y` variables).
 Furthermore, we  are guaranteed that if we invoke $P$ on any input then _some_ output will be produced.
@@ -334,15 +341,20 @@ For example, the following NAND++ program would go into an infinite loop if the 
 loop = NAND(X[0],X[0])
 ```
 
-If a program $P$ fails to stop and produce an output on some an input $x$, then it cannot compute any total function. However, it can still compute a _partial_ function.^[A _partial function_ $F$ from a set $A$ to a set $B$ is a function that is only defined on a _subset_ of $A$, (see [functionsec](){.ref}). We can also think of such a function as mapping $A$ to $B \cup \{ \bot \}$ where $\bot$ is a special "failure" symbol such that $F(a)=\bot$  indicates the function $F$ is not defined on $a$.]
-We say that a NAND++ program $P$ computes a partial function $F$ if for every $x$ on which $F$ is defined, on input $x$, $P$ halts and outputs $F(x)$.
+If a program $P$ fails to stop and produce an output on some an input $x$, then it cannot compute any total function $F$, since clearly on input $x$, $P$  will fail to output $F(x)$. However, $P$ can still compute a _partial_ function.^[A _partial function_ $F$ from a set $A$ to a set $B$ is a function that is only defined on a _subset_ of $A$, (see [functionsec](){.ref}). We can also think of such a function as mapping $A$ to $B \cup \{ \bot \}$ where $\bot$ is a special "failure" symbol such that $F(a)=\bot$  indicates the function $F$ is not defined on $a$.]
+
+For example, consider the partial function $DIV$ that on input a pair $(a,b)$ of natural numbers, outputs $\ceil{a/b}$ if $b \beq 0$, and is undefined otherwise. We can define a program $P$ that computes $DIV$ on input $a,b$ by outputting the first $c=0,1,2,\ldots$ such that $cb \geq a$. If $a>0$ and $b=0$ then the program $P$ will never halt, but this is OK, since $DIV$ is undefined on such inputs. If $a=0$ and $b=0$, the program $P$ will output $0$, which is also OK, since we don't care about what the program outputs on inputs on which $DIV$ is undefined. Formally, we define computability of  partial functions as follows:
+
+::: {.definition title="Computable (partial or total) functions" #computablepartialfuncdef}
+Let $F$ be either a  total or partial function mapping $\{0,1\}^*$ to $\{0,1\}^*$ and let $P$ be a
+NAND++ program.
+We say that $P$ _computes_ $F$ if for every $x\in \{0,1\}^*$ on which $F$ is defined, $P(x)=F(x)$.^[Note that if $F$ is a total function, then it is defined on every $x\in \{0,1\}^*$ and hence in this case, this definition is identical to [computablefuncdef](){.ref}.]
+
+We say that a (partial or total) function $F$ is _NAND++ computable_ if there is a NAND++ program that computes it.
 :::
 
-> # {.remark title="Decidable languages" #decidablelanguages}
-Many other texts use the term _decidable languages_ (also known as _recursive languages_) instead of _computable functions_. This terminology has its roots in formal language theory as was pursued by linguists such as Noam Chomsky. A _formal language_ is simply a subset $L \subseteq \{0,1\}^*$ (or more generally $L \subseteq \Sigma^*$ for some finite alphabet $\Sigma$). The _membership_ or _decision_ problem for a language $L$, is the task of determining, given $x\in \{0,1\}^*$, whether or not $x\in L$.
-One can see that this task is equivalent to computing the Boolean function  $F:\{0,1\}^* \rightarrow \{0,1\}$ which is defined as $F(x)=1$ iff $x\in L$.
-Thus saying that the function $F$ is computable is equivalent to saying that the corresponding language $L$ is decidable.
-The corresponding concept to a _partial function_ is known as a [promise problem](https://goo.gl/sBczFM).
+
+
 
 
 
