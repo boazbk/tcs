@@ -722,40 +722,63 @@ Then there is some finite  $\Sigma$ such that $CFGFULL_\Sigma$ is uncomputable.
 
 [fullnesscfgdef](){.ref} immediately implies that equivalence for context-free grammars is uncomputable, since computing "fullness" of a grammar $G$ over some alphabet $\Sigma = \{\sigma_0,\ldots,\sigma_{k-1} \}$ corresponds to checking whether $G$ is equivalent to the grammar $s \Rightarrow ""|s\sigma_0|\cdots|s\sigma_{k-1}$.
 Note that [fullnesscfgdef](){.ref} and [cfgemptinessthem](){.ref}  together imply that context-free grammars, unlike regular expressions, are _not_ closed under complement. (Can you see why?)
+Since we can encode every element of $\Sigma$ using $\ceil \log |\Sigma| \rceil$ bits (and this finite encoding can be easily carried out within a grammar) [fullnesscfgdef](){.ref} implies that fullness is also uncomputable for grammars over the binary alphabet.
 
 
 ::: {.proofidea data-ref="fullnesscfgdef"}
 We prove the theorem by reducing from the Halting  problem.
 To do that we use the notion of _configurations_ of NAND++ programs, as defined in [confignandppdef](){.ref}.
-Recall that a _configuration_ of a program $P$ is a string $s$ over some alphabet $\Sigma$ that encodes all the information about the program in current iteration
+Recall that a _configuration_ of a program $P$ is a binary string $s$  that encodes all the information about the program in the current iteration.
 
-We will let $\#$ and $;$ be some "separator characters" and then we can encode the _computation history_ of a NAND++ program $P$ on some input $x$ by a sequence $s_0\# s_1^R ; s_1 \# s_2^R ; \cdots ; s_{t-3} \# s_{t-2}^R ; s_{t-2} \# s_{t-1}^R$ where $s_0$ is the starting configuration (on the input $x$) and $s_{t-1}$ is a final configuration.
-We will show that for every  NAND++ program $P$ there is some finite alphabet $\Sigma$ (containing $\#$ and $;$) and a grammar $G_P$ that generates a string $\tau \in \Sigma^*$ if and only if $\tau$ _does not_ encode a valid computation history of $P$ on the input $0$.
-Hence $P$ halts on the empty input if and only if there is some $\tau$ that $G_M$ can not  generate, thus proving the theorem.
+We define $\Sigma$ to be $\{0,1\}$ plus some separator characters  and  define $INVALID_P:\Sigma^* \rightarrow \{0,1\}$ to be the function that maps every string $L\in \Sigma^*$ to $1$ if and only $L$ does _not_ encode a sequence of configurations that correspond to a valid halting history of the computation of $P$ on the empty input.
+
+The heart of the proof is to show that $INVALID_P$ is  context-free. Once we do that, we see that $P$ halts on the empty input if and only if $INVALID_P(L)=1$ for _every_ $L$.
+To show that, we will encode the list in a special way that makes it amenable to deciding via a context-free grammar.
+Specifically we will reverse all the odd-numbered strings.
 :::
 
 
 ::: {.proof data-ref="fullnesscfgdef"}
-We only sketch the proof. We will show that if we can compute $CFGFULL$ then we can solve $HALT$, which has been proven uncomputable in [halt-thm](){.ref}.
-Let $P$ be an input program for $HALT$ and $x$ an input for $P$. We assume without loss of generality that $P$ is well formed with $a$ array variables and $b$ scalar variables as in [confignandppdef](){.ref}.
-To prove the theorem we will show a grammar that can generate all strings over the alphabet $\Sigma  = \{0,1\}^a \cup \{0,1\}^{a+b}  \cup \{ \#, ; \}$ _except_ those that correspond to valid histories of the form
-$$s_0\# s_1^R ; s_1 \# s_2^R ; \cdots ; s_{t-3} \# s_{t-2}^R ; s_{t-2} \# s_{t-1}^R$$
-where $s_0$ is a starting configuration, $s_{t-1}$ is an ending configuration, and $s_{j+1} = NEXT_P(s_j)$ for every $j\in \{0,\ldots,t-2\}$.
+We only sketch the proof. We will show that if we can compute $CFGFULL$ then we can solve $HALTONZERO$, which has been proven uncomputable in [haltonzero-thm](){.ref}.
+Let $P$ be an input program for $HALTONZERO$. We will use the notion of _configurations_ of a NAND++ program, as defined in [confignandppdef](){.ref}.
+Recall that a configuration of a NAND++ program $P$ and input $x$ captures the full state of $P$ (contents of all the variables) at some iteration of the computation.
+The particular details of configurations are not so important, but what you need to remember is that:
 
-We will not spell out the full details but the main ideas are the following:
+* A configuration can be encoded by a binary string $\sigma \in \{0,1\}^*$.
 
-* Checking that a state is a valid starting or ending state can be done via a regular expression, and hence both this condition and its negation can be captured by context free grammars.
+* The _initial_ configuration of $P$  on the empty input is some fixed string.
 
-* We can also write a regular expression for the negation of the expression $\left((0|1)^*\#(0|1)^*;\right)*$  and so accept all strings that are not composed of blocks of this form.
+* A _halting configuration_ will have the value of the variable `loop` (which can be easily "read off" from it) set to $1$.
 
-* As we've seen in  [nonpalindrome](){.ref}, we can find a context free grammar for all the strings  _not_ of the  form $u;u^R$ (see .ref) and so can ensure our grammar accepts all string that contains such a "non matching" block.
+* If $\sigma$ is a configuration at some step $i$ of the computation, we denote by $NEXT_P(\sigma)$ as the configuration at the  next step. $NEXT_P(\sigma)$ is a string that agrees with $\sigma$ on all but a constant number of coordinates (those encoding the position corresponding to the variable `i` and the two adjacent ones). On those  coordinates, the value of $NEXT_P(\sigma)$ can be computed by some finite function.
 
-* Now if a string is of the form $s_0\# s_1^R ; s_1 \# s_2^R ; \cdots ; s_{t-3} \# s_{t-2}^R ; s_{t-2} \# s_{t-1}^R$ then checking that it fails to be a valid computation history amoutns to verifying that it contains a block of the form $s^R;s'$ such that $s'$ is _not_ equal  to $NEXT_P(s)$. Since $NEXT_P$ only modifies $s$ in at most three locations, this can be done by extending the ideas in [nonpalindrome](){.ref}.
+We will let the alphabet $\Sigma = \{0,1\} \cup \{ \| , \# \}$. A _computation history_  of $P$ on the input $0$ is a string $L\in \Sigma$ that corresponds to a list $\| \sigma_0 \# \sigma_1 \| \sigma_2 \# \sigma_3 \cdots \sigma_{t-2} \| \sigma_{t-1} \#$ (i.e., $\|$ comes before an even numbered block, and $\|$ comes before an odd numbered one) such that if $i$ is even then $\sigma_i$ is the string encoding the configuration of $P$ on input $0$ at the beginning of its $i$-th iteration, and if $i$ is odd then it is the same except the string is _reversed_. (That is, for odd $i$,  $rev(\sigma_i)$  encodes the configuration of $P$ on input $0$ at the beginning of its $i$-th iteration.)^[Reversing the odd-numbered block is a technical trick to help with making the function $INVALID_P$ we'll define below context free.]
 
-The above allows us to translate for every NAND++ program $P$, the question of whether $P$ halts on zero to the question of whether a grammar $G_P$ generates all strings.
-The only caveat is that the alphabet of our grammar grows with $P$, and so this does not necessarily show that $CFGFULL_\Sigma$ is uncomputable for some _fixed_ alphabet $\Sigma$.
-However, we can use the following observation: the Halting problem is uncomputable even if we restrict attention to the single universal NAND++ program $U$, as solving $HALT(P,x)$ is the same as solving $HALT(U,P\circ x)$ where $\circ$ denotes concatenation and we identiy $P$  with its (prefix-free) encoding as a string.
-This shows that if $U$ is a universal NAND++ program with $a$ array variables and $b$ scalar variables, then $CFGFULL_\Sigma$ is uncomputable where $\Sigma = \{0,1\}^a \cup \{0,1\}^{a+b} \cup \{ \# , ; \}$.
+We now define $INVALID_P:\Sigma^* \rightarrow \{0,1\}$ as follows:
+
+$$INVALID_P(L) = \begin{cases}0 & \text{$L$ is a valid computation history of $P$ on $0$} \\
+                            1 & \text{otherwise} \end{cases}
+$$
+
+We will show the following claim:
+
+__CLAIM:__   $INVALID_P$ is context-free.
+
+The claim implies the theorem.  Since $P$ halts on $0$ if and only if there exists a valid computation history,  $INVALID_P$ is the constant one function if and only if $P$ does _not_ halt on $0$.
+In particular, this allows us to reduce determining whether $P$ halts on $0$ to determining whether the grammar $G_P$ corresponding to $INVALID_P$ is full.
+
+We now turn to the proof of the claim. We will not show all the details, but the main point $INVALID_P(L)=1$ if one of the following three  conditions hold:
+
+1. $L$ is not of the right format of the form $\langle \text{binary-string} \rangle \#  \langle \text{binary-string} \rangle \| \langle \text{binary-string} \rangle \# \cdots$.
+
+2. $L$ contains a substring of the form $\| \sigma \# \sigma' \|$ such that $\sigma' \neq rev(NEXT_P(\sigma))$
+
+3.  $L$ contains a substring of the form $\# \sigma \| \sigma' \#$ such that $\sigma' \neq NEXT_P(rev(\sigma))$
+
+Since context-free functions are closed under the OR operation, the claim will follow if we show that we can verify conditions 1, 2 and 3 via a context-free grammar. For condition 1 this is very simple: checking that $L$ _is_ of this format can be done using a regular expression, and since regular expressions are closed under negation, this means that checking that $L$ is _not_ of this format can also be done by a regular expression and hence by a context-free grammar.
+
+For conditions 2 and 3, this follows via very similar reasoning to that showing that the function $F$ such that $F(u\#v)=1$ iff $u \neq rev(v)$ is context-free, see   [nonpalindrome](){.ref}. After all,  the $NEXT_P$ function only modifies its input in a constant number of places. We leave filling out the details as an exercise to the reader.
+Since $INVALID_P(L)=1$ if and only if $L$ satisfies one of the conditions 1., 2. or 3., and all three conditions can be tested for via a context-free grammar, this completes the proof of the claim and hence the theorem.
 :::
 
 ## Summary of semantic properties for regular expressions and context-free  grammars
