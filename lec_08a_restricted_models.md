@@ -232,41 +232,29 @@ Specifically, we will store a table of the (constantly many) expressions of leng
 :::
 
 ::: {.proof data-ref="dfaregequiv"}
-For simplicity, in this proof, it will be a little more convenient to work with regular expressions where no sub-expression matches the empty string, except the explicit $""$ expression.
-That means that if we have an expression of the form $exp' exp''$ where $exp''$ can match the empty string, then we replace $exp''$ with an expression $exp'''$ that matches all the strings that $exp''$ does except the empty string, and re-write the expression as $exp' | exp'exp'''$.
-Similarly, we will assume that all calls to the $*$ operator match at least one occurrence, by enforcing that they are always of the form
-$exp| (exp*) exp$.
-(Once again, we can add an explicit expression for the empty string if we need to match it.)
-We call an expression that has the form above a _normal form expression_, and  leave as an exercise to the reader to show that every expression $exp$ has an equivalent expression that is in normal form.
-Below we will always assume that all our expressions are of normal form.
-
-__Restricting regular expressions:__  The central definition for this proof is the notion of a _restriction_ of a regular expression. For a regular expression $exp$  over an alphabet $\Sigma$ and symbol $\sigma \in \Sigma$, we will define $exp[\sigma]$ to be a regular expression such that $exp[\sigma]$ matches a string $x$ if and only if $exp$ matches the string $x\sigma$.
+The central definition for this proof is the notion of a _restriction_ of a regular expression.
+For a regular expression $exp$  over an alphabet $\Sigma$ and symbol $\sigma \in \Sigma$, we will define $exp[\sigma]$ to be a regular expression such that $exp[\sigma]$ matches a string $x$ if and only if $exp$ matches the string $x\sigma$.
 For example, if $exp$ is the regular expression $01|(01)*(01)$ (i.e., one or more occurences of $01$) then $exp[1]$ will be $0|(01)*0$ and $exp[0]$ will be $\emptyset$.
 
-Given a normal form expression $exp$ and $\sigma\in \{0,1\}$, we can compute  $exp[\sigma]$  recursively as follows:
+Given an  expression $exp$ and $\sigma\in \{0,1\}$, we can compute  $exp[\sigma]$  recursively as follows:
 
 1. If $exp = \tau$  for $\tau \in \Sigma$ then $exp[\sigma]=""$ if $\tau=\sigma$ and $exp[\sigma]=\emptyset$ otherwise.
 
 2. If $exp = exp' | exp''$ then $exp[\sigma] = exp'[\sigma] | exp''[\sigma]$.
 
-3. If $exp = exp' \; exp''$ then $exp = exp \; exp''[\sigma]$.^[Note that we use here the assumption that, because our expression is in normal form, $exp''$ does not match the empty string.]
+3. If $exp = exp' \; exp''$ then $exp[\sigma] = exp' \; exp''[\sigma]$ if $exp''$ can not match the empty string. Otherwise, $exp[\sigma] = exp' \; exp''[\sigma] | exp'[\sigma]$
 
-4. If $exp = exp | (exp*)exp$ then $exp[\sigma] = exp[\sigma] | (exp*)(exp[\sigma])$.
+
+4. If $exp = (exp')^*$ then $exp[\sigma] =  (exp')^*(exp'[\sigma])$.
 
 5. If $exp = ""$ or $exp= \emptyset$ then $exp[\sigma] = \emptyset$.
 
 
-We leave it as an exercise to prove the following two claims:
+We leave it as an exercise to prove the following  claim: (which can be shown by induction following the recusrive definition of $\Phi_{exp}$)
 
-__Claim 1:__ For every $x\in \{0,1\}^*$, $\Phi_{exp}(x\sigma)=1$ if and only if $\Phi_{exp[\sigma]}(x)=1$
+__Claim:__ For every $x\in \{0,1\}^*$, $\Phi_{exp}(x\sigma)=1$ if and only if $\Phi_{exp[\sigma]}(x)=1$
 
-
-
-__Claim 2:__ For every normal form $exp$, $|exp[\sigma]| \leq |exp|$ where we denote by $|exp'|$ the number of symbols in the expression $exp'$.
-
-
-Both claims can be proved by induction by following the recursive definition.
-Note that for Claim 2, we treat $""$ as a single symbol, and also simplify expressions of the form $exp ""$ to $exp$.
+The claim above suggests the following algorithm:
 
 __A recursive linear time algorithm for regular expression matching:__ We can now define a recursive algorithm for computing $\Phi_{exp}$:
 
@@ -282,11 +270,20 @@ __Inputs:__ $exp$ is normal form regular expression, $x\in \Sigma^n$ for some $n
 
 :::
 
+Algorithm $MATCH$ is a recursive algorithm that on input an expression $exp$ and a string $x\in \{0,1\}^n$, does some constant time computation and then calls itself on input some expression $exp'$  and a string $x$ of length $n-1$.
+It will terminate after $n$ steps when it reaches a string of length $0$.
+
+There is one subtle issue and that is that to bound the running time, we need to show that if we let $exp_i$ be the regular expression that this algorithm obtains at step $i$, then $exp_i$ does not become itself much larger than the original expression $exp$. If $exp$ is a regular expression, then for every $n\in \N$ and  string $\alpha \in \{0,1\}^n$, we will denote by $exp[\alpha]$ the expression $(((exp[\alpha_0])[\alpha_1]) \cdots)[\alpha_{n-1}]$. That is, $exp[\alpha]$ is the expression obtained by considering the restriction $exp_0=exp[\alpha_0]$, and then considering the restriction $x_1 = exp_0[\alpha_1]$ and so on and so forth. We can also think of $exp[\alpha]$ as the regular expression that matches $x$ if and only if $exp$ matches $x\alpha_{n-1}\alpha_{n-2}\cdots \alpha_0$. Note that the expressions considered by Algorithm $MATCH$ all have the form $exp[\alpha]$ for some  string $\alpha$ where $exp$ is the  original input expression.
+Thus the following claim will help us bound our algorithms complexity:^[This claim is strongly related to the [Myhill-Nerode Theorem](https://goo.gl/mnKVMP). One direction of this theorem can be thought of as saying that if $exp$ is a regular expression then there is at most a finite number of strings $z_0,\ldots,z_{k-1}$ such that $\Phi_{exp[z_i]} \neq \Phi_{exp[z_j]}$ for every $0 \leq i\neq j < k$.]
 
 
-Algorithm $MATCH$ is a recursive algorithm that on input an expression $exp$ and a string $x\in \{0,1\}^n$, does some constant time computation and then calls itself on input some expression $exp'$ smaller than $exp$ and a string $x$ of length $n-1$.
-Thus, if we define $T(\ell,n)$ to be the running time of the algorithm on expressions of length at most $\ell$ and inputs of length $n$, then we see that this satisfies the equation $T(\ell,n) \leq T(\ell,n-1) + C(\ell)$ (where the $C(\ell)$ denotes the time it takes to scan over an $\ell$ length expression $exp$ to transform it to the expression $exp[\sigma]$.)
-Hence we see that for every constant $\ell$, the running time would be $O(n)$ where the hidden constant in the $O$ notation can depend on $\ell$.
+
+__Claim:__ For every regular expresion $exp$, the set $S(exp) = \{ exp[\alpha] | \alpha \in \{0,1\}^* \}$ is finite.
+
+__Proof of claim:__ We prove this by induction on the structure of $exp$. If $exp$ is a symbol, the empty string, or the empty set, then this is straightforward to show as the most expressions $S(exp)$ can contain are the expression itself, $""$, and $\emptyset$. If $exp = exp' exp''$ then all the restrictions of $exp$ to strings $\alpha$ will involve concatenations of the form $exp'[\alpha'] exp''[\alpha'']$  for some  strings $\alpha',\alpha''$ which are substrings of $\alpha$. Hence $S(exp)$ is contained in the set $\{ e'e'' \;|\; e' \in S(exp') , e'' \in S(\exp'') \}$ whose size is at most $|S(exp')|\cdot |S(exp'')|$. If $exp = (exp')^*$ then $exp[\alpha]$ has the form $(exp)^* exp'[\alpha]$ or it is simply the empty set, and so $|S(exp)| \leq |S(exp')|+1$.
+
+The bottom line is that for every expression $exp$, there is some number $\ell(exp)$ which denotes the length of the longest regular expression in $S(exp)$, and all the expressions we encounter in running $MATCH$ will be of length at most $\ell(exp)$.
+Therefore, the running time of $MATCH$ will be $O(n)$ where the implicit constant in the Oh notation can (and will) depend on $exp$.
 
 __Proving the "moreover" part:__ At this point, we have already proven a highly non-trivial statement: the existence of a linear-time algorithm for matching regular expressions. The reader may well be content with this, and stop reading the proof at this point.
 However, as mentioned above, we can do even more and in fact have a _constant space_ algorithm for this.
@@ -296,7 +293,7 @@ Specifically, we replace our recursive algorithm $MATCH$ with the following iter
 ::: { .quote title="" #temp}
 __Algorithm $MATCH'(exp,x)$:__ \
 
-__Inputs:__ $exp$ is normal form regular expression, $x\in \Sigma^n$ for some $n\in \N$. Let $\ell = |exp|$. \
+__Inputs:__ $exp$ is normal form regular expression, $x\in \Sigma^n$ for some $n\in \N$. Let $\ell = \max_{exp' \in S(exp)}|exp'|$. \
 
 Define a Boolean variable $v_{exp'}$ for every $exp'$ of length at most $\ell$.^[Since a regular expression over alphabet $\Sigma$ is simply a string over the alphabet $\Sigma \cup \{ (,),|,*,"", \emptyset \}$,  there are at most $(|\Sigma|+10)^\ell$ expressions over this alphabet of length at most $\ell$.]
 Initially, $v_{exp'}=1$ if and only if $exp'$ matches the empty string.
