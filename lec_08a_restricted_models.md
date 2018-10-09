@@ -282,8 +282,8 @@ __Claim:__ For every regular expresion $exp$, the set $S(exp) = \{ exp[\alpha] |
 
 __Proof of claim:__ We prove this by induction on the structure of $exp$. If $exp$ is a symbol, the empty string, or the empty set, then this is straightforward to show as the most expressions $S(exp)$ can contain are the expression itself, $""$, and $\emptyset$. If $exp = exp' exp''$ then all the restrictions of $exp$ to strings $\alpha$ will involve concatenations of the form $exp'[\alpha'] exp''[\alpha'']$  for some  strings $\alpha',\alpha''$ which are substrings of $\alpha$. Hence $S(exp)$ is contained in the set $\{ e'e'' \;|\; e' \in S(exp') , e'' \in S(\exp'') \}$ whose size is at most $|S(exp')|\cdot |S(exp'')|$. If $exp = (exp')^*$ then $exp[\alpha]$ has the form $(exp)^* exp'[\alpha]$ or it is simply the empty set, and so $|S(exp)| \leq |S(exp')|+1$.
 
-The bottom line is that for every expression $exp$, there is some number $\ell(exp)$ which denotes the length of the longest regular expression in $S(exp)$, and all the expressions we encounter in running $MATCH$ will be of length at most $\ell(exp)$.
-Therefore, the running time of $MATCH$ will be $O(n)$ where the implicit constant in the Oh notation can (and will) depend on $exp$.
+The bottom line is that while running our algorithm on a regular expression $exp$, all the expressions we will ever enounter will be in the finite set $S(exp)$, no matter how large the input $x$ is.
+Therefore, the running time of $MATCH$ will be $O(n)$ where the implicit constant in the Oh notation can (and will) depend on $exp$ but crucially, not on the length of the input $x$.
 
 __Proving the "moreover" part:__ At this point, we have already proven a highly non-trivial statement: the existence of a linear-time algorithm for matching regular expressions. The reader may well be content with this, and stop reading the proof at this point.
 However, as mentioned above, we can do even more and in fact have a _constant space_ algorithm for this.
