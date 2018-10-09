@@ -595,7 +595,7 @@ Otherwise, we fall into one of the following case: __case 1:__ $exp = exp'exp''$
 >
 In case 1, we can define the new grammar as follows: we add a new starting variable $s \not\in V \cup V'$ and the rule $s \mapsto  s's''$.
 In case 2, we can define the new grammar as follows: we add a new starting variable $s \not\in V \cup V'$ and the rules $s \mapsto s'$ and $s \mapsto s''$.
-Case 3 will be the only one that uses _recursion_. As before  we add a new starting variable $s \not\in V \cup V'$, but now add the rules $s \mapsto ""$ (i.e., the empty string) and also add for every rule of the form $(s',\alpha) \in R'$ the rule $s \mapsto s\alpha$ to $R$.
+Case 3 will be the only one that uses _recursion_. As before  we add a new starting variable $s \not\in V \cup V'$, but now add the rules $s \mapsto ""$ (i.e., the empty string) and also add, for every rule of the form $(s',\alpha) \in R'$, the rule $s \mapsto s\alpha$ to $R$.
 >
 We leave it to the reader as (again a very good!) exercise to verify that in all three cases the grammars we produce  capture the same function as the original expression.
 
@@ -621,7 +621,7 @@ One can prove by induction that this grammar generates exactly the strings $w$ s
 A more  interesting example is computing the strings of the form $u;v$ that are _not_ palindromes:
 
 ::: {.solvedexercise title="Non palindromes" #nonpalindrome}
-Prove that there is a context free grammar that computes $NPAL:\{0,1,;\}^* \rightarrow \{0,1\}$ where $NPAL(w)=0$ if $w=u;v$ but $v \neq u^R$.
+Prove that there is a context free grammar that computes $NPAL:\{0,1,;\}^* \rightarrow \{0,1\}$ where $NPAL(w)=1$ if $w=u;v$ but $v \neq u^R$.
 :::
 
 ::: {.solution data-ref="nonpalindrome"}
@@ -650,7 +650,7 @@ Even though context-free grammars are more powerful than regular expressions, th
 One tool to show this is the context-free grammar analog of the "pumping lemma" ([pumping](){.ref}):
 
 > # {.theorem title="Context-free pumping lemma" #cfgpumping}
-Let $(V,R,s)$ be a CFG over $\Sigma$, then there is some $n_0\in \N$ such that for every $x \in \Sigma^*$ with $|\sigma|>n_0$, if $\Phi_{V,R,s}(x)=1$ then $x=abcde$ such that $|b|+|c|+|d| \leq n_1$, $|b|+|d| \geq 1$, and $\Phi_{V,R,s}(ab^kcd^ke)=1$ for every $k\in \N$.
+Let $(V,R,s)$ be a CFG over $\Sigma$, then there is some $n_0\in \N$ such that for every $x \in \Sigma^*$ with $|x|>n_0$, if $\Phi_{V,R,s}(x)=1$ then $x=abcde$ such that $|b|+|c|+|d| \leq n_1$, $|b|+|d| \geq 1$, and $\Phi_{V,R,s}(ab^kcd^ke)=1$ for every $k\in \N$.
 
 ::: { .pause }
 The context-free pumping lemma is even more cumbersome to state than its regular analog, but you can remember it as saying the following: _"If a long enough string is matched by  a grammar, there must be a variable that is repeated in the derivation."_
@@ -658,7 +658,7 @@ The context-free pumping lemma is even more cumbersome to state than its regular
 
 > # {.proof data-ref="cfgpumping"}
 We only sketch the proof. The idea is that if the total number of symbols in the rules $R$ is $k_0$, then the only way to get $|x|>k_0$ with $\Phi_{V,R,s}(x)=1$ is to use _recursion_.
-That is there must be some $v \in V$ such that by a sequence of rules we are able to derive from $v$ the value $bvd$ for some strings $b,d \in \Sigma^*$ and then further on derive from $v$ the string $c\in \Sigma^*$ such that $bcd$ is a substring of $x$. If try to take the minimal such $v$ then we can ensure that $|bcd|$ is at most some constant depending on $k_0$ and we can set $n_0$ to be that constant ($n_0=10|R|k_0$ will do, since we will not need more than $|R|$ applications of rules, and each such application can grow the string by at most $k_0$ symbols).
+That is, there must be some variable $v \in V$ such that we are able to derive from $v$ the value $bvd$ for some strings $b,d \in \Sigma^*$, and then further on derive from $v$ some string $c\in \Sigma^*$ such that $bcd$ is a substring of $x$. If we try to take the minimal such $v$, then we can ensure that $|bcd|$ is at most some constant depending on $k_0$ and we can set $n_0$ to be that constant ($n_0=10 \cdot |R| \cdot k_0$ will do, since we will not need more than $|R|$ applications of rules, and each such application can grow the string by at most $k_0$ symbols).
 Thus by the definition of the grammar, we can repeat the derivation to replace the substring $bcd$ in $x$ with $b^kcd^k$ for every $k\in \N$ while retaining the property that the output of $\Phi_{V,R,s}$ is still one.
 
 Using [cfgpumping](){.ref} one can show that even the simple function $F(x)=1$ iff $x =  ww$ for some $w\in \{0,1\}^*$ is not context free. (In contrast, the function $F(x)=1$ iff $x=ww^R$ for $w\in \{0,1\}^*$ where for $w\in \{0,1\}^n$, $w^R=w_{n-1}w_{n-2}\cdots w_0$ is context free, can you see why?.)
@@ -690,7 +690,7 @@ For example, emptiness of context free grammars is decidable:
 There is an algorithm that on input a context-free grammar $G$, outputs $1$ if and only if $\Phi_G$ is the constant zero function.
 
 > # {.proofidea data-ref="cfgemptinessthem"}
-The proof is easier to see if we transform the grammaer to Chomsky Normal Form as in [CFGhalt](){.ref}. Given a grammar $G$, we can recursively  define a non-terminal variable $v$ to be _non empty_ if there is either a rule of the form $v \Rightarrow \sigma$, or there is a rule of the form $v \Rightarrow uw$ where both $u$ and $w$ are non empty.
+The proof is easier to see if we transform the grammar to Chomsky Normal Form as in [CFGhalt](){.ref}. Given a grammar $G$, we can recursively  define a non-terminal variable $v$ to be _non empty_ if there is either a rule of the form $v \Rightarrow \sigma$, or there is a rule of the form $v \Rightarrow uw$ where both $u$ and $w$ are non empty.
 Then the grammar is non empty if and only if the starting variable $s$ is non-empty.
 
 ::: {.proof data-ref="cfgemptinessthem"}
@@ -766,7 +766,7 @@ In particular, this allows us to reduce determining whether $P$ halts on $0$ to 
 
 We now turn to the proof of the claim. We will not show all the details, but the main point $INVALID_P(L)=1$ if one of the following three  conditions hold:
 
-1. $L$ is not of the right format of the form $\langle \text{binary-string} \rangle \#  \langle \text{binary-string} \rangle \| \langle \text{binary-string} \rangle \# \cdots$.
+1. $L$ is not of the right format, i.e. not of the form $\langle \text{binary-string} \rangle \#  \langle \text{binary-string} \rangle \| \langle \text{binary-string} \rangle \# \cdots$.
 
 2. $L$ contains a substring of the form $\| \sigma \# \sigma' \|$ such that $\sigma' \neq rev(NEXT_P(\sigma))$
 

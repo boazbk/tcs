@@ -334,7 +334,7 @@ A _configuration_ of a NAND++ program is a string $\alpha$ over some large-but-f
 It can be shown that if $\alpha$ is the configuration at a certain step of the execution and  $\beta$ is the configuration at the next step, then $\beta_j = \alpha_j$ for all $j$ outside of $\{i-1,i,i+1\}$ where $i$ is the value of `i`.
 In particular, every value $\beta_j$ is simply a function of $\alpha_{j-1,j,j+1}$.
 Using these observations we can write a _quantified mixed statement_  $NEXT(\alpha,\beta)$ that will be true if and only if $\beta$ is the configuration encoding the next step after $\alpha$.
-Since a program $P$ halts on input  $x$ if and only if there is a sequence of configurations $\alpha_0,\ldots,\alpha_{t-1}$ starting with the initial configuration with input $x$ and ending in a halting configuration, we can define a quantified mixed statement to determine if there is such a statement by taking a universal quantifier over all strings $\alpha$ that encode a tuple $(\alpha_0,\alpha_1,\ldots,\alpha_{t-1})$ and then checking that $\alpha_0$ and $\alpha_{t-1}$ are valid, and that $NEXT(\alpha_j,\alpha_{j+1})$ for every $j\in \{0,\ldots,t-2\}$.
+Since a program $P$ halts on input  $x$ if and only if there is a sequence of configurations $\alpha_0,\ldots,\alpha_{t-1}$ starting with the initial configuration with input $x$ and ending in a halting configuration, we can define a quantified mixed statement to determine if there is such a statement by taking an existential quantifier over all strings $\alpha$ that encode a tuple $(\alpha_0,\alpha_1,\ldots,\alpha_{t-1})$ and checking whether a string $\alpha$ exists such that $\alpha_0$ and $\alpha_{t-1}$ are valid, and that $NEXT(\alpha_j,\alpha_{j+1})$ for every $j\in \{0,\ldots,t-2\}$.
 
 
 
@@ -354,7 +354,7 @@ We need the following facts about configurations:
 * A program $P$ halts on input $x$  if and only if there exists a sequence of configurations $\alpha_0,\alpha_1,\ldots,\alpha_{T}$ such that __(i)__ $\alpha_0$ is a valid starting configuration of $P$ with  input $x$, __(ii)__ $\alpha_{T-1}$ is a valid halting configuration of $P$, and __(iii)__ $\alpha_{i+1} = NEXT_P(\alpha_i)$ for every $i\in \{0,\ldots,T-1\}$.
 
 Let $U$ be a universal NAND++ program. Such a program exists by  [univnandppnoneff](){.ref}. We define $HALT_U$  as the function such that $HALT_U(w)=1$ if and only if $U$ halts on the input $w$.
-The function $HALT_U$ is uncomputable, for every NAND++ program $P$ (which we identify with its representation as a string) and input $x\in \{0,1\}^*$ to $P$,  $HALT(P,x) = HALT_U(\langle P,x \rangle)$  where $\langle P,x \rangle$ is some encoding of the pair $(P,x)$ as a string.
+We claim that the function $HALT_U$ is uncomputable: For every NAND++ program $P$ (which we identify with its representation as a string) and input $x\in \{0,1\}^*$ to $P$, $HALT(P,x) = HALT_U(\langle P,x \rangle)$  where $\langle P,x \rangle$ is some encoding of the pair $(P,x)$ as a string.
 Hence if we could compute $HALT_U$ then we could compute $HALT$, contradicting [halt-thm](){.ref}.
 
 Let $\Sigma$ be the alphabet needed to encode configurations of $U$, and let $\ell = \ceil{\log (|\Sigma|+1)}$.
@@ -373,7 +373,7 @@ The reasons we can encode this condition as an MIS are the following:
 
 3. We can then check that for every block of $\overline{\alpha}$ that encodes a pair of configurations $\alpha ; \beta$ where $\alpha, \beta \in \Sigma^*$, $\beta = NEXT_U(\alpha)$. We can do so because every coordinate of $\beta$ depends on at most $3\ell$ coordinates of $\alpha$, and we can express any finite function $f:\{0,1\}^{3\ell} \rightarrow \{0,1\}$ using using the logical operations $AND$,$OR$, $NOT$ (for example by computing $f$ with $NAND$'s).
 
-Together the above yields a procedure that maps every $w\in \{0,1\}^*$ to a quantified mixed statement $\varphi_w$ usch taht $HALT_U(w)=1$ if and only if $QMS(\varphi_w)=1$.
+Together the above yields a procedure that maps every $w\in \{0,1\}^*$ to a quantified mixed statement $\varphi_w$ such that $HALT_U(w)=1$ if and only if $QMS(\varphi_w)=1$.
 Hence the uncomputability of $HALT_U$ implies the uncomputability of $QMS$.
 :::
 
