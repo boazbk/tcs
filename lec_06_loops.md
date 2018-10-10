@@ -176,16 +176,16 @@ Working out the above two example can go a long way towards understanding NAND++
 See the appendix for a full specification of the language.
 :::
 
-> # {.remark title="Variables as arrays" #arrays}
+### Variables as arrays and well-formed programs
+
 In NAND we allowed variables to have names such as `foo_17` or even `Bar[23]` but the numerical part of the identifier played essentially the same role as alphabetical part. In particular, NAND would be just as powerful if we didn't allow any numbers in the variable identifiers.
 With the introduction of the special index variable `i`, in NAND++ things are different, and we do have actual arrays.
->
-To make sure there is no confusion, we will insist that plain variables (which we will also refer to as _scalar_ variables) are written with all lower case, and _array variables_ begin with an upper case letter.
+
+To make sure there is no confusion, we will use the convention that plain variables (which we will also refer to as _scalar_ variables) are written with all lower case, and _array variables_ begin with an upper case letter.
 Moreover, it turns out that we can ensure without loss of generality that arrays are always indexed by the variable `i`.
-Hence all the variable identifiers in "well formed" NAND++ programs will either have the form `foo_123` (a sequence of lower case letters, underscores, and numbers, with no brackets or upper case letters) or the form `Bar[i]` (an identifier starting with an upper case letter, and ending with `[i]`).^[We will also assume that "well formed" NAND++ program contain the variables `zero`, `one` which are the corresponding constants and the `indexincreasing` variable which is discussed in [vanillatoenhancedsec](){.ref}.]
->
-Some of our example programs, such as the program to compute XOR  in [XORNANDPP](){.ref}, are not well formed, in the sense that they index the `X` and `Y` arrays with `0` and not just `i`.
-However, it is not hard to transform them into well formed programs (see [noabsoluteindexex](){.ref})
+(That is, if `Foo` is an array, then whenever `Foo` is referred to in the program, it is always in the form `Foo[i]` and never as `Foo[17]`, `Foo[159]` or any other constant numerical index.)
+Hence all the variable identifiers in "well formed" NAND++ programs will either have the form `foo_123` (a sequence of lower case letters, underscores, and numbers, with no brackets or upper case letters) or the form `Bar[i]` (an identifier starting with an upper case letter, and ending with `[i]`).
+See  [wellformedlem](){.ref} for a more formal treatment of the notion of "well formed programs".
 
 
 ### "Oblivious" / "Vanilla" NAND++
@@ -548,33 +548,58 @@ The way we use `GOTO` to implement a higher level functionality in NAND++ is rem
 
 ![XKCD's take on the `GOTO` statement.](../figure/xkcdgoto.png){#xkcdgotofig .class width=300px height=300px}
 
-### Another application of GOTO: well formed programs
+### Well formed programs: The NAND++ style manual
 
 The notion of passing between different variants of programs can  be extremely useful, as often, given a program $P$ that we want to analyze, it would be simpler for us to first modify it to an equivalent program $P'$ that has some convenient properties.
-The following solved exercise is an example of that:
+You can think of this as the NAND++ equivalent of enforcing "coding conventions" that are often used for programming languages.
+For example, while this is not part of the Python language, Google's  [Python style guide](https://github.com/google/styleguide/blob/gh-pages/pyguide.md) stipulates that variables that are initialized to a value and never changed (i.e., constants) are typed with all capital letters. (Similar requirements are used in  other [style guides](https://www.kernel.org/doc/html/v4.10/process/coding-style.html).)
+Of course this does not really restrict the power of Google-conforming Python programs, since every Python program can be transformed to an equivalent one that satisfies this requirement.
+In fact, many programming languages have automatic programs known as [linters](https://www.pylint.org/)  that can detect and sometimes modify the program to fit certain standards.
 
-::: {.solvedexercise title="Making an (enhanced) NAND++ program well formed." #noabsoluteindexex}
-Prove that for every  NAND++ program $P$, there is an   NAND++ program $P'$ equivalent to $P$ that is _well formed_, in the sense that __(1)__ all array variables start with a capital letter, __(2)__ all scalar variables are all lower case, numbers, and underscores, and __(3)__ every access to an array variable has the form `Foo[i]`.
-(That is, we only access the array variable at the location `i` and not any other location.)
+The following solved exercise is an example of that. We will define the notion of a _well-formed program_ and show that every NAND++ program can be transformed into an equivalent one that is well formed.
+
+::: {.definition title="Well-formed programs" #wellformeddef}
+We say that an (enhanced or vanilla) NAND++ program $P$ is _well formed_ if it satisfies the following properties:
+
+* Every reference to a variable in $P$ either has the form `foo` or `foo_123` (a _scalar variable:_ alphanumerical string starting with a lowercase letter and no brackets) or the form `Bar[i]` or `Bar_12[i]` (an _array variable_ alphanumerical string starting with a capital letter and ending with `[i]`).
+
+* $P$ contains the scalar variables `zero`, `one` and `indexincreasing` such that `zero` and `one` are always the constants $0$ and $1$ respectively, and the program contains code that ensures that at the end of each iteration, `indexincreasing` is equal to $1$ if in the next iteration `i` will increase by one above its current value, and is equal to $0$ if in the next iteration `i` will decrease by one.
+
+* $P$ contains the array variables `Visited` and `Atstart` and code to ensure  that `Atstart[` $i$ `]` equals $1$ if and only if $i=0$, and `Visited[`$i$`]` equals $1$ for all the positions $i$ such that the program finished an iteration with the index variable `i` equalling $i$.
+
+* $P$ contains code to set `loop` to $1$ at the beginning of the first iteration, and to ensure that if `loop` is ever set to $0$ then it stays at $0$, and moreover that if `loop` equals $0$ then the values of `Y` and `Yvalid` cannot change.
+:::
+
+The following exercise shows that we can transform every NAND++ program $P$ into a well-formed program $P'$ that is equivalent to it. Hence if we are given a NAND++ program $P$, we can (and will) often assume without loss of generality that it is well-formed.
+
+> # {.lemma #wellformedlem}
+For every  (enhanced or vanilla) NAND++ program $P$, there exists an (enhanced or vanilla, respectively)   NAND++ program $P'$ equivalent to $P$ that is _well formed_ as pre [wellformeddef](){.ref}.
+That is, for every input $x\in \{0,1\}^*$, either both $P$ and $P'$ do not halt on $x$, or both $P$ and $P'$ halt on $x$ and produce the same output $y\in \{0,1\}^*$.
+
+
+
+
+
+::: {.solvedexercise title="Making an NAND++ program well formed." #wellformedex}
+Prove [wellformedlem](){.ref}
 :::
 
 ::: { .pause }
 As usual, I would recommend you try to solve this exercise yourself before looking up the solution.
-Also, try to think how you would achieve the same result for _standard_ (i.e. non enhanced) NAND++ programs. (Doing so is an excellent exercise in its own right, see [standardnoabsoluteindexex](){.ref})
 :::
 
 ::: {.solution data-ref="wellformednandpp"}
-Since variable identifiers on their own have no meaning in (enhanced) NAND++ (other than the special ones `X`, `Xvalid`, `Y`, `Yvalid` and `loop`, that already have the desired properties), we can easily achieve properties __(1)__ and __(2)__ using "search and replace".
+Since variable identifiers on their own have no meaning in (enhanced) NAND++ (other than the special ones `X`, `Xvalid`, `Y`, `Yvalid` and `loop`, that already have the desired properties), we can easily achieve the property that scalars variables start with lowercase and arrays with uppercase   using "search and replace".
 We just have to take care that we don't make two distinct identifiers become the same.
 For example, we can do so by changing all scalar variable identifiers to lower case, and adding to them the prefix `scalar_`, and adding the prefix `Array_` to all array variable identifiers.
 
-Property __(3)__ is more challenging.
+The property that an array variable is never references with a numerical index is more challenging.
 We need to remove all references to an array variable with an actual numerical index rather than `i`.
 One thought might be to simply convert a a reference of the form `Arr[17]` to the scalar variable `arr_17`.
 However, this will not necessarily preserve the functionality of the program.
 The reason is that we want to ensure that when `i`$=17$ then `Arr[i]` would give us the same value as `arr_17`.
 
-Nevertheless, we can use the  approach above with a slight twist. We will demonstrate the solution in a concrete case.(Needless to say, if you needed to solve this question in a problem set or an exam, such a demonstration of a special case would not be sufficient; but this example should be sufficient for you to extrapolate a full solution.) Suppose that there are only three references to array variables with numerical indices in the program: `Foo[5]`, `Bar[12]` and `Blah[22]`.
+Nevertheless, we can use the  approach above with a slight twist. We will demonstrate the solution in a concrete case.(Needless to say, if you needed to solve this question in a problem set or an exam, such a demonstration of a special case would not be sufficient; but this example should be good enough for you to extrapolate a full solution.) Suppose that there are only three references to array variables with numerical indices in the program: `Foo[5]`, `Bar[12]` and `Blah[22]`.
 We will include three scalar variables `foo_5`, `bar_12` and `blah_22` which will serve as a _cache_ for the values of these arrays.
 We will change all references to `Foo[5]` to `foo_5`, `Bar[12]` to `bar_12` and so on and so forth.
 But in addition to that, whenever in the code we refer to `Foo[i]` we will check if `i`$=5$ and if so use the value `foo_5` instead, and similarly with  `Bar[i]`  or `Blah[i]`.
@@ -634,6 +659,8 @@ LABEL("program body")
 original code of program..
 ```
 
+Using `IF` statements (which can easily be replaced with syntactic sugar) we can handle the conditions that `loop`, `Y`, and `Yvalid` are  not written to  once `loop` is set to $0$.
+We leave completing all the details as an exercise to the reader (see [standardnoabsoluteindexex](){.ref}).
 :::
 
 
@@ -1248,9 +1275,7 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 
 
 ::: {.exercise title="Well formed NAND++ programs" #standardnoabsoluteindexex}
-In this exercise we prove the analog of [noabsoluteindexex](){.ref} for standard (i.e., non enahnced) NAND++ programs. We focus on the more challenging property of ensuring every access to an array variable is through the index `i`. (The other properties of "well formedness" are just as easy to achieve for standard NAND++ programs as they are for enhanced ones.)
-
-Let $P$ be a NAND++ program. Prove that there exists a NAND++ program $P'$ equivalent to $P$ such that every variable in $P'$ is either a scalar (non array variable), or is an array indexed by `i`.
+Complete  [noabsoluteindexex](){.ref} in the vanilla  NAND++ case to give a full proof that for every standard (i.e., non-enahanced) NAND++ program $P$ there exists a standard NAND++ program $P'$  such that $P'$ is well formed and  $P'$ is equivalent to $P$.
 :::
 
 

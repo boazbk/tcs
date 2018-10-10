@@ -893,12 +893,20 @@ From this observation, [onedimcathm](){.ref} follows in a fairly straightforward
 :::
 
 Before proving [onedimcathm](){.ref}, let us formally define the notion of a _configuration_ of a NAND++ program (see also [nandppconfigfig](){.ref}). We will come back to this notion in later chapters as well.
+We restrict attention to so called _well formed_ NAND++ programs (see [wellformeddef](){.ref}), that have a clean separation of array and scalar variables.
+Of course, this is not really a restriction since every NAND++ program $P$ can be transformed into an equivalent one that is well formed (see [wellformedlem](){.ref}).
 
 ![A _configuration_ of a (well formed) NAND++ program $P$ with $a$ array variables and $b$ scalar variables is a a list  $\alpha$ of strings  in $\{0,1\}^a \cup \{0,1\}^{a+b}$. In exactly one index $i$, $\alpha_i \in \{0,1\}^{a+b}$. This corresponds to the index variable `i` $=i$, and $\alpha_i$ encodes both the contents of the scalar variables, as well as the array variables at the location $i$. For $j\neq i$, $\alpha_j$ encodes the contents of the array variables at the location $j$. The length of the list $\alpha$ denotes the largest index that has been reached so far in the execution of the program. If in one iteration we move from $\alpha$ to $\alpha'$, then for every $j$, $\alpha'_j$ is a function of $\alpha_{j-1},\alpha_j,\alpha_{j+1}$.](../figure/nandppconfiguration2.png){#nandppconfigfig .class width=300px height=300px}
 
+::: { .pause }
+[confignandppdef](){.ref} has many technical details, but is not actually deep and complicated.
+You would probably understand it better if before starting to read it, you take a moment to stop and think how _you_ would encode as a string the state of a NAND++ program at a given point in an execution.
+
+Think what are all the components that you need to know in order to be able to continue the execution from this point onwards, and what is a simple way to encode them using a list of strings (which in turn can be encoded as a string). In particular, with an eye towards our future applications, try to think of an encoding which will make it as simple as possible to map  a configuration at step $t$ to the configuration at step $t+1$.
+:::
 
 ::: {.definition title="Configuration of NAND++ programs." #confignandppdef}
-Let $P$ be a well-formed NAND++ program with $a$ array variables and $b$ scalar variables.
+Let $P$ be a well-formed NAND++ program (as per [wellformeddef](){.ref}) with $a$ array variables and $b$ scalar variables.
 A _configuration_ of $P$ is a list of strings $\alpha = (\alpha_0,\ldots,\alpha_{t-1})$ such that for every $j \in [t]$, $\alpha_j$ is either in $\{0,1\}^a$ or in $\{0,1\}^{a+b}$. Moreover,  there  is exactly a single coordinate $i \in [t]$, such that
 $\alpha_i \in \{0,1\}^{a+b}$ and for all other coordinates $j \neq i$,
 $\alpha_j \in \{0,1\}^a$.
@@ -914,9 +922,34 @@ beginning of some iteration as follows:
 
 If $\alpha$ is a configuration of $P$, then $\alpha' = NEXT_P(\alpha)$ denotes the configuration of $P$ after completing one iteration.
 Note that $\alpha'_j = \alpha_j$ for all $j\not\in \{i-1,i,i+1\}$, and that more generally $\alpha'_j$ is a function of $\alpha_{j-1},\alpha_j,\alpha_{j+1}$.^[Since $P$ is well-formed, we assume it contains an `indexincreasing` variable that can be used to compute whether `i` increases or decreases at the end of an iteration.]
-
-_Configurations as  binary strings._ We can represent  a configuration $(\alpha_0,\ldots,\alpha_{t-1})$ as a  binary string in $\{0,1\}^*$ by concatenating prefix-free encoding of $\alpha_0,\ldots,\alpha_{t-1}$. For example, we can encode the configuration as the string $\alpha_0 \| \alpha_1 \| \cdots \| \alpha_{t-1}$ over the three-symbol alphabet $\{0,1,\|\}$ and then use the map $0 \mapsto 00, 1 \mapsto 11, \| \mapsto 01$ to encode it as a binary string. When we refer to a configuration as a binary string (for example when feeding it as input to other programs) we will assume that this string represents the configuration via such an encoding. Hence we can think of $NEXT_P$ as a function mapping $\{0,1\}^*$ to $\{0,1\}^*$.
 :::
+
+::: {.remark title="Configurations as binary strings" #confencoding}
+We can represent  a configuration $(\alpha_0,\ldots,\alpha_{t-1})$ as a  binary string in $\{0,1\}^*$ by concatenating prefix-free encodings of $\alpha_0,\ldots,\alpha_{t-1}$. Specifically we will use a fixed length encoding of $\{0,1\}^a \cup \{0,1\}^{a+b}$ to $\{0,1\}^{a+b+3}$ by padding every string string $\alpha_i$ by concatenating it with  a string of the form $10^k1$ for some $k>0$ to ensure it is of this length. The encoding of $(\alpha_0,\ldots,\alpha_{t-1})$ as a binary string consists of the concatenation of all these fixed-length encodings of $\alpha_0,\ldots,\alpha_{t-1}$.
+
+When we refer to a configuration as a binary string (for example when feeding it as input to other programs) we will assume that this string represents the configuration via the above encoding. Hence we can think of $NEXT_P$ as a function mapping $\{0,1\}^*$ to $\{0,1\}^*$.
+Note that this function satisfies that for every string $\sigma \in \{0,1\}^*$ encoding a valid configuration, $NEXT_p(\sigma)$ differs from $\sigma$ in at most $3(a+b+3)$ coordinates which is a constant independent of the length of the input or the number of times the program was executed.
+:::
+
+[confignandppdef](){.ref} is a little cumbersome, but ultimately a configuration is simply a string that encodes a _snapshot_ of the state of the NAND++ program at a given point in the execution. (In operating-systems lingo, it would be a  ["core dump"](https://goo.gl/AsccXh).)
+Such a snapshot needs to encode the following components:
+
+1. The current value of the index variable `i`.
+
+2. For every scalar variable `foo`, the value of `foo`.
+
+3. For every array variable `Bar`, the value `Bar[`$i$`]` for every $i \in \{0,\ldots, m-1\}$ where $m-1$ is the largest value that the index variable `i` ever achieved in the computation.
+
+The function $NEXT_P$ takes a string $\sigma \in \{0,1\}^*$ that encodes the configuration after $t$ iterations, and maps it to the string $\sigma'$ that encodes the configuration after $t-1$.
+The specific details of how we represent configurations and how $NEXT_P$ are not so important as much as the following points:
+
+* $\sigma$ and $\sigma'$ agree with each other in all but a constant number of coordinates.
+
+* Every bit of $\sigma'$ is a function of a constant number of bits of $\sigma$.
+
+Specifically, For every NAND++ program $P$ there is a constant $C>0$ and a finite function $MAP_P:\{0,1\}^{2C} \rightarrow \{0,1, \bot \}$ such that for every $i \in \N$ and string $\sigma$ that encodes a valid configuration of $P$, the $i$-the bit of $NEXT_P(\sigma)$ is obtained by applying the finite function $MAP_P$ to the  $2C$ bits of $\sigma$ corresponding to coordinates $i-C,i-C+1,\ldots,i+C$.^[If one of those is "out of bounds"- corresponds to $\sigma_j$ for $j<0$ or $j \geq |\sigma|$ - then we replace it with $0$. If $i \geq |NEXT_P(\sigma)|$ then we think of the $i$-th bit of $NEXT_P(\sigma)$ as equaling $\bot$.]
+
+
 
 ::: {.remark title="Configurations of Turing Machines" #tmconfigrem}
 The same ideas  can (and often are) used to define configurations of _Turing Machines_. If $M$ is a Turing machine with tape alphabet $\Sigma$ and state space $Q$, then a configuration of $M$ can be encoded as a string $\alpha$ over the alphabet  $\Sigma \cup (\Sigma \times Q)$, such that only a single coordinate (corresponding to the tape's head) is in the larger alphabet $\Sigma \times Q$, and the rest are in $\Sigma$. Once again, such a configuration can also be encoded as a binary string.
@@ -924,10 +957,10 @@ The configuration encodes the tape contents, current state, and head location in
 All of our arguments that use NAND++ configurations can be carried out with Turing machine configurations as well.
 :::
 
-:::
 
 ::: {.proof data-ref="onedimcathm"}
-Assume without loss of generality that  $P$ is a well-formed NAND++ program with $a$ array variables and $b$ scalar variables. (Otherwise we can translate it to such a program.)  Then $NEXT_P$ (the function of [confignandppdef](){.ref} that maps a configuration of $P$ into the next one) is in fact a valid rule for a  one dimensional automata. The only thing we have to do is to identify the default value of $\varnothing$ with the value $0^a$ (which corresponds to the index not being in this location and all array variables are set to $0$).
+Assume without loss of generality that  $P$ is a well-formed NAND++ program with $a$ array variables and $b$ scalar variables. (Otherwise we can translate it to such a program.)  Let $\Sigma = \{0,1\}^{a+b+3}$ (a space which, as we saw, is large enough to encode every coordinate of a configuration), and hence think of a configuration as a string in $\sigma \in \Sigma^*$ such that the $i$-th coordinate in $\sigma' = NEXT_P(\sigma)$  only depends on the $i-1$-th, $i$-th, and $i+1$-th coordinate of $\sigma$.
+Thus $NEXT_P$ (the function of [confignandppdef](){.ref} that maps a configuration of $P$ into the next one) is in fact a valid rule for a  one dimensional automata. The only thing we have to do is to identify the default value of $\varnothing$ with the value $0^a$ (which corresponds to the index not being in this location and all array variables are set to $0$).
 
 
 For every input $x$, we can  compute $\alpha(x)$ to be the configuration corresponding to the initial state of $P$ when executed on input $x$.
