@@ -366,7 +366,7 @@ Then we can encode any symbol in $\Sigma \cup \{ ; \}$ (where "$;$" is some sepa
 Given any input $w\in \{0,1\}^*$, we will create a mixed integer statement $\varphi_w$ that will have the following form:
 
 $$
-\varphi_w = \exists_{H \in \{0,1\}^*} \text{$H}$ encodes a valid sequence of configurations of a halting computation of $U$ on $w$}
+\varphi_w = \exists_{H \in \{0,1\}^*} \text{$H$ encodes a valid sequence of configurations of a halting computation of $U$ on $w$}
 $$
 
 The reasons we can encode this condition as an MIS are the following:
