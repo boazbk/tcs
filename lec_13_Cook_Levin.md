@@ -12,6 +12,9 @@
 >_"In this paper we give theorems that suggest, but do not imply, that these problems, as well as many others, will remain  intractable perpetually"_, Richard Karp, 1972
 
 
+>_"Sad to say, but it will be many more years, if ever before we really understand the Mystical Power of Twoness... 2-SAT is easy, 3-SAT is hard, 2-dimensional matching is easy, 3-dimensional matching is hard. Why? oh, Why?"_ Eugene Lawler
+
+
 ## The class $\mathbf{NP}$
 
 
@@ -301,6 +304,10 @@ Prove that if there is no $n^{O(\log^2 n)}$ time algorithm for $3SAT$ then there
 ## Bibliographical notes
 
 ^[TODO: credit surveys of Avi, Madhu]
+
+
+Eugene Lawler's quote on  the "mystical power of twoness"  was taken from the wonderful book "The Nature of Computation" by Moore and Mertens. See also [this memorial essay on Lawler](https://pure.tue.nl/ws/files/1506049/511307.pdf) by Lenstra.
+
 
 ## Further explorations
 
