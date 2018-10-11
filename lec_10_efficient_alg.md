@@ -20,7 +20,7 @@ _"I think the bubble sort would be the wrong way to go."_, Barack Obama.
 :::
 
 
-So far we were concerned with which functions are computable and which ones are not.
+So far we have been concerned with which functions are computable and which ones are not.
 But now we return to _quantitative considerations_ and study the time that it takes to compute functions mapping strings to strings, as a function of the input length.
 This is of course extremely important in the practice of computing, and the reason why we often care so much about the difference between $O(n \log n)$ time algorithm and $O(n^2)$ time one.
 In contexts such as  introduction to programming courses, coding interviews, and actual algorithm design, terms such as "$O(n)$ runnning time" are often used in an informal way.
@@ -44,7 +44,7 @@ In [chapmodelruntime](){.ref}, we will define this notion precisely, using our N
 
 One of the nice things about the theory of computation is that it turns out that, like in the context of computability, the details of th precise computational model or programming language don't matter that much.
 Specifically, in this course, we will often not be as concerned with the difference between $O(n)$ and $O(n^2)$, as much as the difference between _polynomial_ and _exponential_ running time.
-One of the interesting phenomenona of computing is that there is often a kind of a "[thershold phenomenon](http://www.ma.huji.ac.il/~kalai/ML.pdf)" or "zero-one law" for running time, where  many natural problems can either be solved in polynomial running time with a not-too-large exponent (e.s., something like $O(n^2)$ or $O(n^3)$), or require exponential (e.g., at least $2^{\Omega(n)}$ or $2^{\Omega(\sqrt{n})}$) time to solve.
+One of the interesting phenomenona of computing is that there is often a kind of a "[threshold phenomenon](http://www.ma.huji.ac.il/~kalai/ML.pdf)" or "zero-one law" for running time, where  many natural problems can either be solved in polynomial running time with a not-too-large exponent (e.g., something like $O(n^2)$ or $O(n^3)$), or require exponential (e.g., at least $2^{\Omega(n)}$ or $2^{\Omega(\sqrt{n})}$) time to solve.
 The reasons for this phenomenon are still not fully understood, but some light on this is shed by the concept of _NP completeness_, which we will encounter later.
 As we will see, questions about polynomial versus exponential time are  often _insensitive_ to the choice of the particular computational model, just like we saw that the question of whether a function $F$ is computable is insensitive to whether you use NAND++, $\lambda$-calculus, Turing machines, or Javascript as your model of computation.
 
@@ -52,7 +52,7 @@ As we will see, questions about polynomial versus exponential time are  often _i
 
 ## Problems on graphs
 
-We nor present a  few examples of computational problems that people are interesting in solving.
+We now present a  few examples of computational problems that people are interested in solving.
 Many of the problems will involve _graphs_.
 We have already encountered graphs in the context of Boolean circuits, but let us now quickly recall the basic notation.
 A  graph  $G$ consists of a set of _vertices_ $V$ and _edges_ $E$ where each edge is a pair of vertices.
@@ -74,7 +74,7 @@ Graphs can also denote correlations in data (e.g., graph of observations of feat
 
 
 We now give some examples of computational problems on graphs.
-As mentioned above, to keep things simple, we will restrict attention to undirected simple graphs.
+As mentioned above, to keep things simple, we will restrict our attention to undirected simple graphs.
 In all cases the input graph $G=(V,E)$ will have $n$ vertices and $m$ edges.
 
 
@@ -190,19 +190,19 @@ However, this turns out not to be case.
 As we've seen in this course time and again, there is a difference between the _function_ $MINCUT$ and the _algorithm_ __MINCUTNAIVE__ to solve it.
 There can be more than one algorithm to compute the same function, and some of those algorithms might be more efficient than others.
 Luckily this is one of those cases.
-There do exist much faster algorithms that compute $MINCUT$ in _polynomial time_ (which, as mentioned in the mathematical background lecture, we denote by $poly(n)$) for this problem.
-There are several algorithms to do so, but many of them rely on the [Max Flow Min Cut Theorem](https://en.wikipedia.org/wiki/Max-flow_min-cut_theorem) that says that the minimum cut between $s$ and $t$ equals the maximum amount of _flow_ we can send from $s$ to $t$, if every edge has unit capacity.^[A _flow_ of capacity $c$ from a _source_ $s$ to a _sink_ $t$ in a graph can be thought of as describing how one would send some quantity from $s$ to $t$ in the graph (e.g., sending $c$ liters of water (or any other matter    one can partition arbitrarily), on pipes described by the edges). Mathematically, a flow is captured by assigning numbers to edges, and requiring that on any vertex apart from $s$ and $t$, the amount flowing it is equal to the amount flowing out, while in $s$ there are $c$ units flowing out and in $t$ there are $c$ units flowing in.]
+There do exist much faster algorithms that compute $MINCUT$ in _polynomial time_ (which, as mentioned in the mathematical background lecture, we denote by $poly(n)$).
+Many of these algorithms rely on the [Max Flow Min Cut Theorem](https://en.wikipedia.org/wiki/Max-flow_min-cut_theorem) that says that the minimum cut between $s$ and $t$ equals the maximum amount of _flow_ we can send from $s$ to $t$, if every edge has unit capacity.^[A _flow_ of capacity $c$ from a _source_ $s$ to a _sink_ $t$ in a graph can be thought of as describing how one would send some quantity from $s$ to $t$ in the graph (e.g., sending $c$ liters of water (or any other matter    one can partition arbitrarily), on pipes described by the edges). Mathematically, a flow is captured by assigning numbers to edges, and requiring that on any vertex apart from $s$ and $t$, the amount flowing it is equal to the amount flowing out, while in $s$ there are $c$ units flowing out and in $t$ there are $c$ units flowing in.]
 For example, this directly implies that the value of the minimum cut problem is the solution for the following [linear program](https://en.wikipedia.org/wiki/Linear_programming):^[A _linear program_ is the task of maximizing or minimizing a linear function of $n$ real variables $x_0,\ldots,x_{n-1}$ subject to certain linear equalities and inequalities on the variables.]
 
 $$
 \begin{gathered}
-\max_{x\in \R^m} F_s(x)-F_t(x) \;\;\text{   s.t.}\\
-\forall_{u \not\in \{s,t\}} F_u(x)=0
+\max_{x\in \R^m} F_s(x)-F_t(x) \text{s.t.}\\
+\forall_{u \not\in \{s,t\}} F_u(x)=0, \forall_{e \in E} 0 \leq x_e, \forall_{e \in E} x_e \leq 1
 \end{gathered}
 $$
-where for every vertex $u$ and $x\in \R^m$, $F_u(x) = \sum_{e \in E \text{s.t.} u \in e} x_e$.
+where for every vertex $u \in V$ and assignment of _real_-valued flows to the $m$ edges $x\in \R^m$, $F_u(x) = \sum_{e \in E \; \text{s.t.} \; u \in e} x_e$ represents the net flow through vertex $u$. In other words, we have reduced the minimum cut problem to solving the linear programming problem of finding the assignment of flows $x$ that maximizes the total flow from source $s$ to sink $t$ (since $F_s(x) = c$ and $F_t(x) = -c$), subject to two constraints: 1) The net flow through every vertex $u$ aside from $s$ and $t$ is $0$, and 2) The flow on every edge is between $0$ and $1$, inclusive.
 
-Since there is a polynomial-time algorithm for linear programming, the minimum cut (or, equivalently, maximum flow) problem can be solved in polynomial time.
+Since there is a polynomial-time algorithm for linear programming (such as [this](https://en.wikipedia.org/wiki/Karmarkar%27s_algorithm)), the minimum cut (or, equivalently, maximum flow) problem can be solved in polynomial time.
 In fact, there are much better algorithms for this problem, even for weighted directed graphs, with currently the record standing at $O(\min\{ m^{10/7}, m\sqrt{n}\})$.^[TODO: add references in biliographical notes: Madry, Lee-Sidford]
 
 
@@ -235,7 +235,7 @@ On the other hand, _maximizing_  a convex function (or equivalently, minimizing 
 A _linear_ function is both convex and concave, which is the reason both the maximization and minimization problems for linear functions can be done efficiently.
 
 The minimum cut problem is not a priori a convex minimization task, because the set of potential cuts is   _discrete_. However, it turns out that we can embed it in a continuous and convex set via the (linear) maximum flow problem.
-The "max flow min cut" theorem ensuring that this embedding is "tight" in the sense that the minimum "fractional cut" that we obtain through the maximum-flow linear program will be the same as the true minimum cut.
+The "max flow min cut" theorem ensures that this embedding is "tight" in the sense that the minimum "fractional cut" that we obtain through the maximum-flow linear program will be the same as the true minimum cut.
 Unfortunately, we don't know of such a tight embedding in the setting of the _maximum_ cut problem.
 
 The issue of convexity arises time and again in the context of computation.
@@ -350,7 +350,7 @@ It also arises in physics where it can be used to describe the quantum state of 
 If the entries of $A$ are integers, then we can also define a _Boolean_ function $perm_2(A)$ which will output the result of the permanent modulo $2$.
 A priori computing this would seem to require enumerating over all $n!$ possiblities.
 However, it turns out we can compute $perm_2(A)$ in polynomial time!
-The key is that modulo $2$, $-x$ and $+x$ are the same quantity and hence the permanent  moulo $2$ is the same as taking the following quantity modulo $2$:
+The key is that modulo $2$, $-x$ and $+x$ are the same quantity and hence the permanent  modulo $2$ is the same as taking the following quantity modulo $2$:
 
 $$
 \sum_{\pi \in S_n} sign(\pi)\prod_{i=0}^{n-1}A_{i,\pi(i)} \label{eq:det}
@@ -359,7 +359,7 @@ $$
 where the _sign_  of a permutation $\pi$ is a number in $\{+1,-1\}$ which can be defined in several ways, one of which is that $sign(\pi)$  equals  $+1$ if the number of swaps that "Bubble" sort performs starting an array sorted according to $\pi$ is even, and it equals $-1$ if this number is odd.^[It turns out that this definition is independent of the sorting algorithm, and for example if $sign(\pi)=-1$ then one cannot sort an array ordered according to $\pi$ using an even number of swaps.]
 
 From a first look, [eq:det](){.eqref} does not seem like it makes much progress.
-After all, all we did is replace  one  formula involving a sum over $n!$ terms with an even more complicated formula involving a sum over $n!$ tersm.
+After all, all we did is replace  one  formula involving a sum over $n!$ terms with an even more complicated formula involving a sum over $n!$ terms.
 But fortunately [eq:det](){.eqref} also has an alternative description: it is simply the [determinant](https://en.wikipedia.org/wiki/Determinant) of the matrix $A$, which can be computed using a process similar to Gaussian elimination.
 
 ### The permanent (mod 3) problem
