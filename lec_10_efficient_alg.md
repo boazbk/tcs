@@ -215,14 +215,16 @@ Mathematically, we can write these conditions as follows:
 
 $$
 \begin{aligned}
-\sum_{e \ni s} x_e = - \sum_{e\ni t} x_e  & \\
-\sum_{e\ni v} x_e=0 & \forall_{v \in V \setminus \{s,t\}} \\
--1 \leq x_e \leq 1 & \forall_{e\in E}
+\sum_{e \ni s} x_e  + \sum_{e\ni t} x_e &=0  && \\
+\sum_{e\ni v} x_e &=0 \; &&\forall_{v \in V \setminus \{s,t\}} \\
+-1 \leq x_e \leq 1 &  \; &&\forall_{e\in E}
 \end{aligned}
+\label{eqlinprogmincut}
 $$
 where for every vertex $v$,  summing over $e \ni v$ means summing over all the edges that touch $v$.
 
-The maximum flow problem can be thought of as the task of maximizing $\sum_{e \ni s} x_e$ over all the vectors $x\in\R^m$ that satisfy the above condition. This is a special case of a very general task known as [linear programming](https://en.wikipedia.org/wiki/Linear_programming), where one wants to find the maximum of $f(x)$ over $x \in \R^m$ that satisfies certain linear inequalities where $f:\R^m \rightarrow \R$ is a linear function.
+The maximum flow problem can be thought of as the task of maximizing $\sum_{e \ni s} x_e$ over all the vectors $x\in\R^m$ that satisfy the above conditions [eqlinprogmincut](){.eqref}.
+This is a special case of a very general task known as [linear programming](https://en.wikipedia.org/wiki/Linear_programming), where one wants to find the maximum of $f(x)$ over $x \in \R^m$ that satisfies certain linear inequalities where $f:\R^m \rightarrow \R$ is a linear function.
 Luckily, there are [polynomial-time algorithms](https://en.wikipedia.org/wiki/Linear_programming#Algorithms) for solving linear programming, and hence we can solve the  maximum flow  (and so, equivalently, minimum cut) problem  in polynomial time.
 In fact, there are much better algorithms for maximum-flow/minimum-cut, even for weighted directed graphs, with currently the record standing at $O(\min\{ m^{10/7}, m\sqrt{n}\})$.^[TODO: add references in biliographical notes: Madry, Lee-Sidford]
 
@@ -344,7 +346,7 @@ One example, is the problem (discussed below) of finding the prime factors of a 
 The natural algorithm is to search for such a factor by trying all numbers from $1$ to $N$, but that would take $N$ steps which is _exponential_ in the input length, which is number of bits needed to describe $N$.^[The running time of this algorithm can be easily improved to roughly $\sqrt{N}$, but this is still exponential (i.e., $2^{n/2}$) in the number $n$ of bits to describe $N$.]
 It is an important and long open question whether there is such an algorithm  that runs in time polynomial in the input length (i.e., polynomial in $\log N$).
 
-### Solving quadratic equations
+### Solving quadraftic equations
 
 Suppose that we want to solve not just _linear_ but also  equations involving  _quadratic_ terms of the form $a_{i,j,k}x_jx_k$.
 That is, suppose that we are given a set of quadratic polynomials $p_1,\ldots,p_m$ and consider the equations $\{ p_i(x) = 0 \}$.
