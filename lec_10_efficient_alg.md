@@ -198,22 +198,33 @@ As we've seen in this course time and again, there is a difference between the _
 There can be more than one algorithm to compute the same function, and some of those algorithms might be more efficient than others.
 Luckily this is one of those cases.
 There do exist much faster algorithms that compute $MINCUT$ in _polynomial time_ (which, as mentioned in the mathematical background lecture, we denote by $poly(n)$).
-There are several algorithms to do so, but many of them rely on the [Max-Flow Min-Cut Theorem](https://en.wikipedia.org/wiki/Max-flow_min-cut_theorem) that says that the minimum cut between $s$ and $t$ equals the maximum amount of _flow_ we can send from $s$ to $t$, if every edge has unit capacity.^[A _flow_ of capacity $c$ from a _source_ $s$ to a _sink_ $t$ in a graph can be thought of as describing how one would send some quantity from $s$ to $t$ in the graph (e.g., sending $c$ liters of water (or any other matter    one can partition arbitrarily), on pipes described by the edges). Mathematically, a flow is captured by assigning numbers to edges, and requiring that on any vertex apart from $s$ and $t$, the amount flowing it is equal to the amount flowing out, while in $s$ there are $c$ units flowing out and in $t$ there are $c$ units flowing in.]
-For example, this directly implies that the value of the minimum cut problem is the solution for the following [linear program](https://en.wikipedia.org/wiki/Linear_programming):^[A _linear program_ is the task of maximizing or minimizing a linear function of $n$ real variables $x_0,\ldots,x_{n-1}$ subject to certain linear equalities and inequalities on the variables.]
+
+There are several algorithms to do so, but many of them rely on the [Max-Flow Min-Cut Theorem](https://en.wikipedia.org/wiki/Max-flow_min-cut_theorem) that says that the minimum cut between $s$ and $t$ equals the maximum amount of _flow_ we can send from $s$ to $t$, if every edge has unit capacity.
+Specifically, imagine that every edge of the graph corresponded to a pipe that could carry one unit of water per one unit of time (say 1 liter of water per second).
+Now suppose we want to send a maximum amount of water per time unit from our _source_ $s$ to the _sink_ $t$.
+If there is an $s,t$-cut of at most $k$ edges, then this maximum will be at most $k$.
+Indeed, such a cut $S$ will be a "bottleneck" since at most $k$ units can flow from $S$ to its complement $\overline{S}$.
+The above reasoning can be used to show that the maximum flow from $s$ to $t$ is _at most_ the value of the minimum $s,t$-cut.
+The surprising and non-trivial content of the Max-Flow Min-Cut Theorem is that the maximum flow is also _at leat_ the value of the minimum cut, and hence computing the cut is the same as computing the flow.
+
+A _flow_ on a graph $G$ of $m$ edges can be thought of as a vector $x\in \R^m$ where for every edge $e$, $x_e$ corresponds to the amount of water per time-unit that flows on $e$.
+We think of an edge $e$ an an ordered pair $(u,v)$ (we can choose the order arbitrarily) and let $x_e$ be the amount of flow that goes from $u$ to $v$. (If the flow is in the other directoin then we make $x_e$ negative.) Since every edge has capacity one, we know that $-1 \leq x_e \leq 1$ for every edge $e$.
+A valid flow has the property that the amount of water leaving the source $s$ is the same as the amount entering the sink $t$, and that for every other vertex $v$, the amount of water entering and leaving $v$ is the same.
+
+Mathematically, we can write these conditions as follows:
 
 $$
-\begin{gathered}
-\max_{x\in \R^m} F_s(x)-F_t(x) \text{s.t.}\\
-\forall_{u \not\in \{s,t\}} F_u(x)=0, \forall_{e \in E} 0 \leq x_e, \forall_{e \in E} x_e \leq 1\end{gathered}
+\begin{aligned}
+\sum_{e \ni s} x_e = - \sum_{e\ni t} x_e  & \\
+\sum_{e\ni v} x_e=0 & \forall_{v \in V \setminus \{s,t\}} \\
+-1 \leq x_e \leq 1 & \forall_{e\in E}
+\end{aligned}
 $$
-where for every vertex $u \in V$ and assignment of _real_-valued flows to the $m$ edges $x\in \R^m$, $F_u(x) = \sum_{e \in E \; \text{s.t.} \; u \in e} x_e$ represents the net flow through vertex $u$.
-In other words, we have reduced the minimum cut problem to solving the linear programming problem of finding the assignment of flows $x$ that maximizes the total flow from the source $s$ to the sink $t$ (since $F_s(x) = c$ and $F_t(x) = -c$), subject to two constraints: __i.__ The net flow through every vertex $u$ aside from $s$ and $t$ is $0$ (everything that flows in, also flows out), and __ii.__ The flow on every edge is non-negative and at most one.
-It is not hard to show that a cut of value $k$ implies a "bottleneck" that prevents sending more than $k$ units of flow from $s$ to $t$.
-The content of the Max-Flow Min-Cut Theorem is that if there is no cut with value smaller than $k$, then we can actually send $k$ such units.
+where for every vertex $v$,  summing over $e \ni v$ means summing over all the edges that touch $v$.
 
-
-Since there are [polynomial-time algorithms](https://en.wikipedia.org/wiki/Linear_programming#Algorithms) for linear programming, the minimum cut (or, equivalently, maximum flow) problem can be solved in polynomial time.
-In fact, there are much better algorithms for this problem, even for weighted directed graphs, with currently the record standing at $O(\min\{ m^{10/7}, m\sqrt{n}\})$.^[TODO: add references in biliographical notes: Madry, Lee-Sidford]
+The maximum flow problem can be thought of as the task of maximizing $\sum_{e \ni s} x_e$ over all the vectors $x\in\R^m$ that satisfy the above condition. This is a special case of a very general task known as [linear programming](https://en.wikipedia.org/wiki/Linear_programming), where one wants to find the maximum of $f(x)$ over $x \in \R^m$ that satisfies certain linear inequalities where $f:\R^m \rightarrow \R$ is a linear function.
+Luckily, there are [polynomial-time algorithms](https://en.wikipedia.org/wiki/Linear_programming#Algorithms) for solving linear programming, and hence we can solve the  maximum flow  (and so, equivalently, minimum cut) problem  in polynomial time.
+In fact, there are much better algorithms for maximum-flow/minimum-cut, even for weighted directed graphs, with currently the record standing at $O(\min\{ m^{10/7}, m\sqrt{n}\})$.^[TODO: add references in biliographical notes: Madry, Lee-Sidford]
 
 
 ### Finding the maximum cut in a graph
@@ -380,7 +391,7 @@ It also arises in physics where it can be used to describe the quantum state of 
 If the entries of $A$ are integers, then we can also define a _Boolean_ function $perm_2(A)$ which will output the result of the permanent modulo $2$.
 A priori computing this would seem to require enumerating over all $n!$ possiblities.
 However, it turns out we can compute $perm_2(A)$ in polynomial time!
-The key is that modulo $2$, $-x$ and $+x$ are the same quantity and hence the permanent  moulo $2$ is the same as taking the following quantity modulo $2$:
+The key is that modulo $2$, $-x$ and $+x$ are the same quantity and hence the permanent  modulo $2$ is the same as taking the following quantity modulo $2$:
 
 $$
 \sum_{\pi \in S_n} sign(\pi)\prod_{i=0}^{n-1}A_{i,\pi(i)} \label{eq:det}
@@ -389,7 +400,7 @@ $$
 where the _sign_  of a permutation $\pi$ is a number in $\{+1,-1\}$ which can be defined in several ways, one of which is that $sign(\pi)$  equals  $+1$ if the number of swaps that "Bubble" sort performs starting an array sorted according to $\pi$ is even, and it equals $-1$ if this number is odd.^[It turns out that this definition is independent of the sorting algorithm, and for example if $sign(\pi)=-1$ then one cannot sort an array ordered according to $\pi$ using an even number of swaps.]
 
 From a first look, [eq:det](){.eqref} does not seem like it makes much progress.
-After all, all we did is replace  one  formula involving a sum over $n!$ terms with an even more complicated formula involving a sum over $n!$ tersm.
+After all, all we did is replace  one  formula involving a sum over $n!$ terms with an even more complicated formula involving a sum over $n!$ terms.
 But fortunately [eq:det](){.eqref} also has an alternative description: it is yet another way to describe  the [determinant](https://en.wikipedia.org/wiki/Determinant) of the matrix $A$, which as mentioned can be computed using a process similar to Gaussian elimination.
 
 ### The permanent (mod 3) problem
