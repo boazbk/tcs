@@ -4,9 +4,9 @@
 # Computation and Representation {#chaprepres }
 
 > # { .objectives }
-* _Representation_ an object as a string (often of zeroes and ones).
+* _Representating_ an object as a string (often of zeroes and ones).
 * Examples of representations for common objects such as numbers, vectors, lists, graphs.
-* Prefix free representations.
+* Prefix-free representations.
 * Distinguish between _specification_ and _implementation_, or equivalently between _algorithms/programs_ and _mathematical functions_.
 
 
@@ -389,14 +389,14 @@ Now the size of $\{0,1\}^n$ is $2^n$, and the size of $\{0,1\}^{\leq n}$ is only
 
 
 
-### Prefix free encoding { #prefixfreesec }
+### Prefix-free encoding { #prefixfreesec }
 
 In our discussion of the representation of rational numbers, we used the "hack" of encoding the alphabet $\{ 0,1, \|\}$  to represent tuples of strings as a single string.
-This turns out to be a special case of the  general paradigm of _prefix free_ encoding.
-An encoding function $E:\mathcal{O} \rightarrow \{0,1\}^*$ is _prefix free_ if  there are no two objects $o \neq o'$ such that the representation $E(o)$  is a _prefix_ of the representation $E(o')$. The definition of prefix is as you would expect: a length $n$ string $x$ is a prefix of a length $n' \geq n$ string $x'$ if $x_i=x'_i$ for every $1 \leq i \leq n$.
+This turns out to be a special case of the  general paradigm of _prefix-free_ encoding.
+An encoding function $E:\mathcal{O} \rightarrow \{0,1\}^*$ is _prefix-free_ if  there are no two objects $o \neq o'$ such that the representation $E(o)$  is a _prefix_ of the representation $E(o')$. The definition of prefix is as you would expect: a length $n$ string $x$ is a prefix of a length $n' \geq n$ string $x'$ if $x_i=x'_i$ for every $1 \leq i \leq n$.
 Given a representation scheme for $\mathcal{O}$ with a prefix-free encoding map, we can use simple concatenation to encode tuples of objects in $\mathcal{O}$:
 
-> # {.theorem title="Prefix free implies tuple encoding" #prefixfreethm}
+> # {.theorem title="Prefix-free implies tuple encoding" #prefixfreethm}
 Suppose that $(E,D)$ is a representation scheme for $\mathcal{O}$ and $E$ is prefix free.
 Then there exists a representation scheme $(E',D')$ for $\mathcal{O}^*$ such that for every $(o_0,\ldots,o_{k-1}) \in \mathcal{O}^*$, $E'(o_0,\ldots,o_{k-1}) = E(o_0)E(o_1)\cdots E(o_{k-1})$.
 
@@ -437,14 +437,14 @@ By our assumption and the  definition of $E'$, $x_0x_1 \cdots x_{k-1} = x'_0 x'_
 Without loss of generality we can assume $k' \leq k$.
 Let $i$ be the larget number such that $x_j = x'_j$ for all $j<i$. (If $x'_0 \neq x_0$ then $i=0$; if $x_j = x'_j$ for all $j<k$ then we let $i=k$; note that the fact that the _concatenation_ of $x_0,\ldots,x_{k-1}$ is equal to the concatenation of $x'_0,\ldots,x'_{k'-1}$ does not mean the individual components have to agree.)
 >
-Since $x_j=x'_j$ for all $j<i$, the strings $x_{i}\cdots x_{k-1}$ and $x'_i \cdots x'_{k'-1}$ are   identical, and we denote this string by $s$. If $i<k$ then both $x_i$ and $x'_i$ are prefixes of $s$ which means that one of them is a prefix of the other, since by the  choice of $i$, $x_i \neq x'_i$ we get that both of them are valid representation of distinct objects which contradicts prefix freeness. If $i=k$ then the string $s$ must be empty, but this would mean that $i=k'$ as well, which means that $x_i=x'_i$ for all $i$, which means that the original tuples of objects must have been the same.
+Since $x_j=x'_j$ for all $j<i$, the strings $x_{i}\cdots x_{k-1}$ and $x'_i \cdots x'_{k'-1}$ are   identical, and we denote this string by $s$. If $i<k$ then both $x_i$ and $x'_i$ are prefixes of $s$ which means that one of them is a prefix of the other, since by the  choice of $i$, $x_i \neq x'_i$ we get that both of them are valid representation of distinct objects which contradicts prefix-freeness. If $i=k$ then the string $s$ must be empty, but this would mean that $i=k'$ as well, which means that $x_i=x'_i$ for all $i$, which means that the original tuples of objects must have been the same.
 
 
 
-### Making representations prefix free
+### Making representations prefix-free
 
-Some natural representations are prefix free.
-For example, every _fixed output length_ representation (i.e., one-to-one function $E:\mathcal{O} \rightarrow \{0,1\}^n$) is automatically prefix free, since a string $x$ can only be a prefix of an equal-length $x'$ if $x$ and $x'$ are identical.
+Some natural representations are prefix-free.
+For example, every _fixed output length_ representation (i.e., one-to-one function $E:\mathcal{O} \rightarrow \{0,1\}^n$) is automatically prefix-free, since a string $x$ can only be a prefix of an equal-length $x'$ if $x$ and $x'$ are identical.
 Moreover, the approach we used for representing rational numbers can be used to show the following:
 
 > # {.lemma #predixfreeransformation}
@@ -455,9 +455,9 @@ Then there is a one-to-one prefix-free encoding $\overline{E}$ such that $|\over
 For the sake of completeness, we will include the proof below, but it is a good idea for you to pause here and try to prove it yourself, using the same technique we used for representing rational numbers.
 
 > # {.proof data-ref="predixfreeransformation"}
-Define the function $PF:\{0,1\}^* \rightarrow \{0,1\}^*$ as follows $PF(x)=x_0 x_0 x_1 x_1 \ldots x_{n-1}x_{n-1}01$ for every $x\in \{0,1\}^*$. If $E:\mathcal{O} \rightarrow \{0,1\}^*$ is the (potentially not prefix free) representation for $\mathcal{O}$, then we transform it into a prefix free representation $\overline{E}:\mathcal{O} \rightarrow \{0,1\}^*$ by defining $\overline{E}(o)=PF(E(o))$.
+Define the function $PF:\{0,1\}^* \rightarrow \{0,1\}^*$ as follows $PF(x)=x_0 x_0 x_1 x_1 \ldots x_{n-1}x_{n-1}01$ for every $x\in \{0,1\}^*$. If $E:\mathcal{O} \rightarrow \{0,1\}^*$ is the (potentially not prefix-free) representation for $\mathcal{O}$, then we transform it into a prefix-free representation $\overline{E}:\mathcal{O} \rightarrow \{0,1\}^*$ by defining $\overline{E}(o)=PF(E(o))$.
 >
-To prove the lemma we need to show that __(1)__ $\overline{E}$ is one-to-one and __(2)__ $\overline{E}$ is prefix free.
+To prove the lemma we need to show that __(1)__ $\overline{E}$ is one-to-one and __(2)__ $\overline{E}$ is prefix-free.
 In fact __(2)__ implies __(1)__, since if $\overline{E}(o)$ is never a prefix of $\overline{E}(o')$ for every $o \neq o'$ then in particular  $\overline{E}$ is one-to-one.
 Now suppose, toward a contradiction, that there are $o \neq o'$ in $\mathcal{O}$ such that $\overline{E}(o)$ is  a prefix of $\overline{E}(o')$. (That is, if $y=\overline{E}(o)$ and $y'=\overline{E}(o')$, then  $y_j = y'_j$ for every $j<|y|$.)
 >
@@ -479,9 +479,10 @@ The proofs of [prefixfreethm](){.ref} and [predixfreeransformation](){.ref} are 
 
 * a way to transform the encoding and decoding functions of any representation of an object $O$ to a encoding and decoding functions that are prefix free;
 
-* a way to extend prefix free encoding and decoding of single objects to encoding and decoding of _lists_ of objects by concatenation.
+* a way to extend prefix-free encoding and decoding of single objects to encoding and decoding of _lists_ of objects by concatenation.
 
-Specifically, we could transform any pair of Python functions `encode` and `decode` to functions `pfencode` and `pfdecode` that correspond to a prefix free encoding and decoding.
+
+Specifically, we could transform any pair of Python functions `encode` and `decode` to functions `pfencode` and `pfdecode` that correspond to a prefix-free encoding and decoding.
 Similarly, given `pfencode` and `pfdecode` for single objects, we can extend them to encoding of lists.
 Let us show how this works for the case of the `int2bits` and `bits2int` functions we defined above.
 
@@ -490,7 +491,7 @@ Let us show how this works for the case of the `int2bits` and `bits2int` functio
 # objects to lists of bits and vice versa,
 # and returns functions pfencode and pfdecode that
 # maps objects to lists of bits and vice versa
-# in a prefix free way.
+# in a prefix-free way.
 # Also returns a function pfvalid that says
 # whether a list is a valid encoding
 def prefixfree(encode, decode):
@@ -559,9 +560,9 @@ print(bits2intlist(intlist2bits([12,8])))
 
 ### Representing letters and text
 
-We can represent a letter or symbol by a string, and then if this representation is prefix free, we can represent a sequence of symbols by simply concatenating the representation of each symbol.
+We can represent a letter or symbol by a string, and then if this representation is prefix-free, we can represent a sequence of symbols by simply concatenating the representation of each symbol.
 One such representation is the [ASCII](https://en.wikipedia.org/wiki/ASCII) that represents $128$ letters and symbols as strings of $7$ bits.
-Since it is a fixed-length representation it is automatically prefix free (can you see why?). [Unicode](https://en.wikipedia.org/wiki/Unicode) is a representation of (at the time of this writing) about 128,000 symbols into numbers (known as _code points_) between $0$ and  $1,114,111$.
+Since it is a fixed-length representation it is automatically prefix-free (can you see why?). [Unicode](https://en.wikipedia.org/wiki/Unicode) is a representation of (at the time of this writing) about 128,000 symbols into numbers (known as _code points_) between $0$ and  $1,114,111$.
 There are several types of prefix-free representations of the code points, a popular one being [UTF-8](https://en.wikipedia.org/wiki/UTF-8) that encodes every codepoint into a string of length between $8$ and $32$.
 <!-- (For example, the UTF-8 encoding for the "confused face" emoji 😕 is `11110000100111111001100010010101`) -->
 
@@ -574,7 +575,7 @@ Using a simple `C` program we have produced the following representations of var
 One can see that for integers, multiplying by 2 corresponds to a "left shift" inside each byte.
 In contrast, for floating point numbers, multiplying by two corresponds to adding one to the exponent part of the representation.
 A negative number is represented using the [two's complement](https://goo.gl/wov5fa) approach.
-Strings are represented in a prefix free form by ensuring that a zero byte is at their end.
+Strings are represented in a prefix-free form by ensuring that a zero byte is at their end.
 
 ```c
 int      2    : 00000010 00000000 00000000 00000000
@@ -911,7 +912,7 @@ c. Use a. and b. to prove that $2^k-1 = 1 + 2 + 4+ \cdots + 2^{k-1}$.
 
 
 ::: {.exercise  title="Prefix-free encoding of tuples" #prefix-free-tuples-ex}
-Suppose that $F:\N\rightarrow\{0,1\}^*$ is a one-to-one function that is _prefix free_ in the sense that there is no $a\neq b$ s.t.  $F(a)$ is a prefix of $F(b)$.
+Suppose that $F:\N\rightarrow\{0,1\}^*$ is a one-to-one function that is _prefix-free_ in the sense that there is no $a\neq b$ s.t.  $F(a)$ is a prefix of $F(b)$.
 
 a. Prove that $F_2:\N\times \N \rightarrow \{0,1\}^*$, defined as $F_2(a,b) = F(a)F(b)$ (i.e., the concatenation of $F(a)$ and $F(b)$) is a one-to-one function.
 
@@ -919,7 +920,7 @@ b. Prove that $F_*:\N^*\rightarrow\{0,1\}^*$ defined as $F_*(a_1,\ldots,a_k) = F
 :::
 
 ::: {.exercise title="More efficient prefix-free transformation" #prefix-free-ex}
-Suppose that $F:O\rightarrow\{0,1\}^*$ is some (not necessarily prefix free) representation of the objects in the set $O$, and $G:\N\rightarrow\{0,1\}^*$ is a prefix-free representation of the natural numbers.  Define $F'(o)=G(|F(o)|)F(o)$ (i.e., the concatenation of the representation of the length $F(o)$ and $F(o)$).
+Suppose that $F:O\rightarrow\{0,1\}^*$ is some (not necessarily prefix-free) representation of the objects in the set $O$, and $G:\N\rightarrow\{0,1\}^*$ is a prefix-free representation of the natural numbers.  Define $F'(o)=G(|F(o)|)F(o)$ (i.e., the concatenation of the representation of the length $F(o)$ and $F(o)$).
 
 a. Prove that $F'$ is a prefix-free representation of $O$.
 
