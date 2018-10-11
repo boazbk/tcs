@@ -905,6 +905,8 @@ You would probably understand it better if before starting to read it, you take 
 Think what are all the components that you need to know in order to be able to continue the execution from this point onwards, and what is a simple way to encode them using a list of strings (which in turn can be encoded as a string). In particular, with an eye towards our future applications, try to think of an encoding which will make it as simple as possible to map  a configuration at step $t$ to the configuration at step $t+1$.
 :::
 
+![A configuration of a NAND++ program that computes the increment function mapping a number $x$  (in binary LSB-first representation)  to the number $x+1$. Figure taken from an online available  [Jupyter Notebook](https://github.com/boazbk/nandnotebooks/blob/master/NANDpp_configurations.ipynb).](../figure/configuration.png){#confnandfig .class width=300px height=300px}
+
 ::: {.definition title="Configuration of NAND++ programs." #confignandppdef}
 Let $P$ be a well-formed NAND++ program (as per [wellformeddef](){.ref}) with $a$ array variables and $b$ scalar variables.
 A _configuration_ of $P$ is a list of strings $\alpha = (\alpha_0,\ldots,\alpha_{t-1})$ such that for every $j \in [t]$, $\alpha_j$ is either in $\{0,1\}^a$ or in $\{0,1\}^{a+b}$. Moreover,  there  is exactly a single coordinate $i \in [t]$, such that
