@@ -305,6 +305,10 @@ Prove that if there is no $n^{O(\log^2 n)}$ time algorithm for $3SAT$ then there
 
 ^[TODO: credit surveys of Avi, Madhu]
 
+
+Eugene Lawler's quote on  the "mystical power of twoness"  was taken from the wonderful book "The Nature of Computation" by Moore and Mertens. See also [this memorial essay on Lawler](https://pure.tue.nl/ws/files/1506049/511307.pdf) by Lenstra.
+
+
 ## Further explorations
 
 Some topics related to this chapter that might be accessible to advanced students include: (to be completed)

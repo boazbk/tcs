@@ -117,7 +117,14 @@ Since we only add to the queue  vertices $w$ with $D[w]=\infty$ (and then immedi
 It returns the correct answer since add the vertices to the queue in the order of their distance from $s$, and hence we will reach $t$ after we have explored all the vertices that are closer to $s$ than $t$.
 Hence algorithm __BFSPATH__ computes $MINPATH$.
 
-
+::: {.remark title="On data structures" #datastructuresrem}
+If you've ever taken an algorithms course, you have probably encountered many _data structures_ such as __lists__, __arrays__, __queues__, __stacks__, __heaps__, __search trees__, __hash tables__ and many mores. Data structures are extremely important in computer science, and each one of those offers different tradeoffs between overhead in storage, operations supported, cost in time for each operation, and more.
+For example, if we store $n$ items in a list, we will need a linear (i.e., $O(n)$ time) scan to retreive one of them, while we achieve  the same operation in $O(1)$ time if we used a hash table.
+However,  when we only care about polynomial-time algorithms, such factors of $O(n)$ in the running time will not make much difference.
+Similarly, if we don't care about the difference between $O(n)$ and $O(n^2)$, then it doesn't matter if we represent graphs as adjacency lists or adjacency  matrices.
+Hence we will often describe our algorithms at a very high level, without specifying the particular data structures that are used to implement them.
+It should however be always clear that there exists _some_ data structure that will be sufficient for our purposes.
+:::
 
 
 ### Finding the longest path in a graph
@@ -284,7 +291,7 @@ One would be wrong.
 Despite much effort, do not know of a significantly better than brute force algorithm for 3SAT (the best known algorithms take roughy $1.3^n$ steps).
 
 Interestingly, a similar issue arises time and again in computation, where the difference between two and three often corresponds to the difference between tractable and intractable.
-As Lawler's quote alludes to, we do not fully understand the reasons for this phenomenon, though the notions of $\mathbf{NP}$ completeness we will see later does offer a partial explanation.
+We do not fully understand the reasons for this phenomenon, though the notions of $\mathbf{NP}$ completeness we will see later does offer a partial explanation.
 It may be related to the fact that optimzing a polynomial often amounts to equations on its derivative. The derivative of a  a quadratic polynomial is linear, while the derivative of a cubic is quadratic, and, as we will see, the difference between solving linear and quadratic equations can be quite profound.
 
 
@@ -296,10 +303,10 @@ That is, solve equations of the form
 
 $$
 \begin{aligned}
-a_{0,0}x_0 + a_{0,1}x_1 + \cdots + a_{0,{n-1}}x_{n-1} &= b_0 \\
-a_{1,0}x_0 + a_{1,1}x_1 + \cdots + a_{1,{n-1}}x_{n-1} &= b_1 \\
-\vdots     + \vdots      +  \vdots + \vdots              &= \vdots \\
-a_{n-1,0}x_0 + a_{n-1,1}x_1 + \cdots + a_{n-1,{n-1}}x_{n-1} &= b_{n-1}
+a_{0,0}x_0 &+ a_{0,1}x_1 &&+ \cdots &&+ a_{0,{n-1}}x_{n-1} &&= b_0 \\
+a_{1,0}x_0 &+ a_{1,1}x_1 &&+ \cdots &&+ a_{1,{n-1}}x_{n-1} &&= b_1 \\
+\vdots     &+ \vdots     &&+  \vdots &&+ \vdots              &&= \vdots \\
+a_{n-1,0}x_0 &+ a_{n-1,1}x_1 &&+ \cdots &&+ a_{n-1,{n-1}}x_{n-1} &&= b_{n-1}
 \end{aligned}
 $$
 
@@ -339,6 +346,26 @@ Once again, we do not know a much better algorithm for this problem than the one
 
 We now list a few more examples of interesting problems that are a little more advanced but are of significant interest in areas such as physics, economics, number theory, and cryptography.
 
+### Determinant of a matrix
+
+The [determinant](https://en.wikipedia.org/wiki/Determinant) of a $n\times n$ matrix $A$, denoted by $\mathrm{det}(A)$, is an extremely important quantity in linear algebra.
+For example, it is known that $\mathrm{det}(A) \neq 0$ if and only if $A$ is _nonsingular_, which means that it has an inverse $A^{-1}$, and hence we can always uniquely solve  equations of the form $Ax = b$ where $x$ and $b$ are $n$-dimensional vectors.
+More generally, the determinant can be thought of as a quantiative measure as to what extent $A$ is far from being singular.
+If the rows of $A$ are "almost" linearly dependent (for example, if  the third row is very close to being a linear combination of the first two rows) then the determinant will be small, while if they are far from it (for example, if they are are _orthogonal_ to one another, then the determinant will be large).
+In particular, for every matrix $A$, the absolute value of the determinant of $A$ is at most the product of the norms (i.e., square root of sum of squares of entries) of the rows, with equality if and only if the rows are orthogonal to one another.
+
+The determinant can be defined in several ways. For example, it is known that $\mathrm{det}$ is the only function that satisfies the following conditions:
+
+1. $\mathrm{det}(AB) = \mathrm{det}(A)\mathrm{det}(B)$ for every square matrices $A,B$.
+
+2. $\mathrm{det}(cA) = c\mathrm{det}(A)$ for every number $c$.
+
+3. $\mathrm{det}(I)=1$ where $I$ is the identity matrix.
+
+4. $\mathrm{det}(S)=-1$ where $S$ is a "swap matrix" that corresponds to swapping two rows or two columns of $I$. That is, there are two coordinates $a,b$ such that for every $i,j$,  $S_{i,j} = \begin{cases}1 & i=j\;, i \not\in \{a,b \} \\ 1 & \{i,j\}=\{a,b\} \\ 0 & \text{otherwise}\end{cases}$.
+
+Note that conditions 1. and 2. together imply that $\mathrm{det}(A^{-1}) =  \mathrm{det}(A)^{-1}$ for every invertible matrix $A$.
+Using these rules and the [Gaussian elimination](https://en.wikipedia.org/wiki/Gaussian_elimination) algorithm, it is possible to tell whether $A$ is singular or not, and in the latter case, decompose $A$ as a product of the identity and a polynomial number of swap matrices times some number $c$. Hence we can compute the determinant for an $n\times n$ matrix using a polynomial time of arithmetic operations.^[The cost for performing each arithmetic operation depends on the number of bits needed to represent each entry, and accounting for this can sometimes be subtle, though ultimately doable.]
 
 ### The permanent (mod 2) problem
 
@@ -360,7 +387,7 @@ where the _sign_  of a permutation $\pi$ is a number in $\{+1,-1\}$ which can be
 
 From a first look, [eq:det](){.eqref} does not seem like it makes much progress.
 After all, all we did is replace  one  formula involving a sum over $n!$ terms with an even more complicated formula involving a sum over $n!$ tersm.
-But fortunately [eq:det](){.eqref} also has an alternative description: it is simply the [determinant](https://en.wikipedia.org/wiki/Determinant) of the matrix $A$, which can be computed using a process similar to Gaussian elimination.
+But fortunately [eq:det](){.eqref} also has an alternative description: it is yet another way to describe  the [determinant](https://en.wikipedia.org/wiki/Determinant) of the matrix $A$, which as mentioned can be computed using a process similar to Gaussian elimination.
 
 ### The permanent (mod 3) problem
 
@@ -450,6 +477,7 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 :::
 
 > # {.exercise title="exponential time algorithm for longest path" #longest-path-ex}
+The naive algorithm for computing the longest path in a given graph could take more than $n!$ steps.
 Give a $poly(n)2^n$ time algorithm for the longest path problem in $n$ vertex graphs.^[__Hint:__ Use dynamic programming to compute for every $s,t \in [n]$ and $S \subseteq [n]$ the value $P(s,t,S)$ which equals $1$ if there is a simple path from $s$ to $t$ that uses exactly the vertices in $S$. Do this iteratively for $S$'s of growing sizes.]
 
 > # {.exercise title="2SAT algorithm" #twosat_ex}
@@ -457,16 +485,8 @@ For every 2CNF $\varphi$,  define the graph $G_\varphi$ on $2n$ vertices corresp
 Prove that $\varphi$ is unsatisfiable if and only if there is some $i$ such that there is a path from $x_i$ to $\overline{x}_i$ and from $\overline{x}_i$ to $x_i$ in $G_\varphi$.
 Show how to use this to solve 2SAT in polynomial time.
 
-> # {.exercise title="Regular expressions" #regularexp}
-A _regular_ expression over the binary alphabet is a string consisting of the symbols $\{ 0 , 1 , \emptyset , ( , ) , * , | \}$.
-An expression $exp$ corresponds to a function mapping $\{0,1\}^* \rightarrow \{0,1\}$, where the `0` and `1` expressions correspond to the functions that map only output $1$ on the strings `0` and `1` respectively, and if $exp,exp'$ are expressions corresponnding to the functions, $f'$ then $(exp)|(exp')$ corresponds to the function $f \vee f'$, $(exp)(exp')$ corresponds to the function $g$ such that for $x\in \{0,1\}^n$, $g(x)=1$ if there is some $i \in [n]$ such that $f(x_0,\ldots,x_i)=1$ and $f(x_{i+1},\ldots,x_{n-1})=1$, and $(exp)*$ corresponds to the function $g$ such that $g(x)=1$ if either $x=\emptyset$ or  there are strings $x_1,\ldots,x_k$ such that $x$ is the concatenation of $x_1,\ldots,x_k$ and $f(x_i)=1$ for every $i\in [k]$. \
-Prove that for every regular expression $exp$, the function corresponding to $exp$ is computable in polynomial time.
-Can you show that it is computable in $O(n)$ time?
-
 
 ## Bibliographical notes
-
-Eugene Lawler's quote on  the "mystical power of twoness"  was taken from the wonderful book "The Nature of Computation" by Moore and Mertens. See also [this memorial essay on Lawler](https://pure.tue.nl/ws/files/1506049/511307.pdf) by Lenstra.
 
 ^[TODO: add reference to best algorithm for longest path - probably the Bjorklund algorithm]
 
