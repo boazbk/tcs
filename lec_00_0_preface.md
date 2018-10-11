@@ -6,6 +6,7 @@
 >_"We make ourselves no promises, but we cherish the hope that the unobstructed pursuit of useless knowledge will prove to have consequences in the future as in the past"_ ...
 >_"An institution which sets free successive generations of human souls is amply justified whether or not this graduate or that makes a so-called useful contribution to human knowledge. A poem, a symphony, a painting, a mathematical truth, a new scientific fact, all bear in themselves all the justification that universities, colleges, and institutes of research need or require"_, Abraham Flexner, [The Usefulness of Useless Knowledge](https://library.ias.edu/files/UsefulnessHarpers.pdf), 1939.
 
+>_"I suggest that you take the hardest courses that you can, because you learn the most when you challenge yourself... CS 121 I found pretty hard."_, [Mark Zuckerberg](https://youtu.be/xFFs9UgOAlE?t=3646), 2005.
 
 
 This is a textbook for an undergraduate introductory course on Theoretical Computer Science.
@@ -91,7 +92,7 @@ Some more minor differences are the following:
 
 *  For measuring time complexity, we use the standard RAM machine model  used (implicitly) in algorithms courses, rather than Turing machines. While these are of course polynomially equivalent,  this choice  makes the distinction between notions such  as $O(n)$ or $O(n^2)$ time more meaningful, and ensures the time complexity classes correspond to the informal definitions of linear and quadratic time that students encounter in their algorithms lectures (or their whiteboard coding interviews..).
 
-* A much  more minor notational difference is that rather than talking about _languages_ (i.e., subsets $L\subseteq \{0,1\}^*$), we talk about Boolean functions (i.e., functions $f:\{0,1\}^*\rightarrow \{0,1\}$). These are of course equivalent, but the function notation extends more naturally to more general computational tasks.
+* A  more minor notational difference is that rather than talking about _languages_ (i.e., subsets $L\subseteq \{0,1\}^*$), we talk about Boolean functions (i.e., functions $f:\{0,1\}^*\rightarrow \{0,1\}$). These are of course equivalent, but the function notation extends more naturally to more general computational tasks. Using functions means we have to be extra vigilant about students distinguishing between the _specification_ of a computational task (e.g., the _function_) and its _implementation_ (e.g., the _program_). On the other hand, this point is so important that it is worth repeatedly emphasizing and drilling into the students, regardless of the notation used.
 
 Reducing the time dedicated to automata and context free languages allows instructors to spend more time on topics that I believe that  a modern course in the theory of computing needs to touch upon, including randomness and computation,  the interactions between _proofs_ and _programs_ (including Gödel's incompleteness theorem, interactive proof systems, and even a bit on the $\lambda$-calculus and the Curry-Howard correspondence), cryptography,  and  quantum computing.
 
@@ -108,7 +109,7 @@ This can help in planning a course based on this book.
 ## Acknowledgements
 
 This text is  constantly evolving, and I am getting input from many people, for which I am deeply grateful.
-Thanks to Scott Aaronson, Michele Amoretti, Marguerite Basta, Sam Benkelman, Jarosław Błasiok, Emily Chan, Christy Cheng, Michelle Chiang, Daniel Chiu, Chi-Ning Chou, Michael Colavita, Robert Darley Waddilove, Juan Esteller,  Leor Fishman, William Fu, Piotr Galuszka, Mark Goldstein,  Chan Kang, Nina Katz-Christy, Estefania Lahera, Allison Lee, Ondřej Lengál, Raymond Lin, Emma Ling, Alex Lombardi, Lisa Lu, Aditya Mahadevan, Jacob Meyerson, George Moe, Hamish Nicholson, Sebastian Oberhoff, Thomas Orton, Pablo Parrilo, Juan Perdomo, Aaron Sachs, Brian Sapozhnikov, Peter Schäfer, Josh Seides, Alaisha Sharma, Hikari Sorensen, Alec Sun, Everett Sussman, Marika Swanberg, Garrett Tanzer, Sarah Turnill, Salil Vadhan, Patrick Watts, Ryan Williams, Licheng Xu, Wanqian Yang, Josh Zelinsky, and Jessica Zhu for helpful feedback.
+Thanks to Scott Aaronson, Michele Amoretti, Marguerite Basta, Sam Benkelman, Jarosław Błasiok, Emily Chan, Christy Cheng, Michelle Chiang, Daniel Chiu, Chi-Ning Chou, Michael Colavita, Robert Darley Waddilove, Juan Esteller,  Leor Fishman, William Fu, Piotr Galuszka, Mark Goldstein,  Chan Kang, Nina Katz-Christy, Estefania Lahera, Allison Lee, Ondřej Lengál, Raymond Lin, Emma Ling, Alex Lombardi, Lisa Lu, Aditya Mahadevan, Jacob Meyerson, George Moe, Hamish Nicholson, Sandip Nirmel, Sebastian Oberhoff, Thomas Orton, Pablo Parrilo, Juan Perdomo, Aaron Sachs, Brian Sapozhnikov, Peter Schäfer, Josh Seides, Alaisha Sharma, Noah Singer, Hikari Sorensen, Alec Sun, Everett Sussman, Marika Swanberg, Garrett Tanzer, Sarah Turnill, Salil Vadhan, Patrick Watts, Ryan Williams, Licheng Xu, Wanqian Yang, Elizabeth Yeoh-Wang, Josh Zelinsky, and Jessica Zhu for helpful feedback.
 
 I will keep adding names here as I get more comments.
 If you have any comments or suggestions, please do post them on the GitHub repository [https://github.com/boazbk/tcs](https://github.com/boazbk/tcs).

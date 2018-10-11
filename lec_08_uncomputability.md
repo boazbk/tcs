@@ -311,14 +311,23 @@ If we know that $HALT$ is uncomputable, and we want to show that some other func
 That is, we show that _if_ we had a NAND++ program that computes $BLAH$ _then_ we could have a NAND++ program that computes $HALT$.
 (Indeed, this is exactly how we showed that $HALT$ itself is uncomputable, by showing this follows from  the uncomputability of the function $F^*$ from [uncomputable-func](){.ref}.)
 
-For example, to prove that $BLAH$ is uncomputable,  we could show that there is a  computable function $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every $x\in \{0,1\}^*$, $HALT(x)=BLAH(R(x))$.
+For example, to prove that $BLAH$ is uncomputable,  we could show that there is a  computable function $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every pair $P$ and $x$, $HALT(P,x)=BLAH(R(P,x))$.
 Such a function is known as a _reduction_, because we are _reducing_ the task of computing $HALT$ to the task of computing $BLAH$.
 The confusing part about reductions is that we are assuming something we _believe_ is false (that $BLAH$ has an algorithm) to derive something that we _know_ is false (that $HALT$ has an algorithm).
-For this reason Michael Sipser described such results as having the form "If pigs could whistle then horses could fly".
+For this reason Michael Sipser describes such results as having the form _"If pigs could whistle then horses could fly"_.
+
+A reduction-based proof has two components. For starters, since we need $R$ to be computable, we should describe the algorithm to compute it. This algorithm is known as a _reduction_ since   the transformation  $R$ modifies an input to $HALT$ to an input to $BLAH$, and hence _reduces_ the task of computing $HALT$ to the task of computing $BLAH$.
+The second component of a reduction-based proof is the _analysis_.
+For example, in the example above, we need to prove $HALT(P,x) = BLAH(R(P,x))$.
+The equality $HALT(P,x) = BLAH(R(P,x))$ boils down to proving two implications.
+We need to prove that __(i)__ if $P$ halts on $x$ then $BLAH(R(P,x))=1$  and __(ii)__ if $P$ does not halt on $x$ then $BLAH(R(P,x))=0$.
+When you're coming up with a reduction based proof, it is useful to separate the two components of _describing_ the reduction and _analyzing_ it.
+Furthermore it is often useful to separate the analysis into two components corresponding to the implications __(i)__ and __(ii)__ above.
+
 
 At the end of the day reduction-based proofs are just like  other proofs by contradiction, but the fact that they involve hypothetical algorithms that don't really exist tends to make such proofs quite confusing.
 The one silver lining is that at the end of the day the notion of reductions is mathematically quite simple, and so it's not that bad even if you have to go back to first principles every time you need to remember what is the direction that a reduction should go in.
-(If this discussion itself is confusing, feel free to ignore it; it might become clearer after you see an example of a reduction such as the proof of [spec-thm](){.ref}.)
+(If this discussion itself is confusing, feel free to ignore it; it might become clearer after you see an example of a reduction such as the proof of [haltonzero-thm](){.ref} or [spec-thm](){.ref}.)
 
 
 
@@ -425,24 +434,50 @@ In particular, try to think of what a reduction from $HALT$ to $HALTONZERO$ woul
 Doing so is an excellent way to get some initial comfort with the notion of proofs by _reduction_, which is a notion that will recur time and again in this course.
 
 
-> # {.proof data-ref="haltonzero-thm"}
-The proof is by reduction from $HALT$. Suppose, towards the sake of contradiction, that  $HALTONZERO$ is computable.
-In other words, suppose towards the sake of contradiction that there exists an algorithm $A$ such that $A(P')=HALTONZERO(P')$ for every $P'\in \{0,1\}^*$.
-Then, we will construct an algorithm $B$ that solves $HALT$.
+:::  {.proof data-ref="haltonzero-thm"}
+The proof is by reduction from $HALT$. We will assume, towards the sake of contradiction, that  $HALTONZERO$ is computable by some algorithm $A$, and use this hypothetical algorithm $A$ to construct an algorithm $B$ to compute $HALT$, hence obtaining a contradiction to [halt-thm](){.ref}.
+
+Since this is our first proof by reduction from the Halting problem, we will spell it out in more details than usual. Such a proof by reduction consists of two steps:
+
+1. _Description of the reduction:_ We will describe the operation of our algorithm $B$, and how it makes "function calls" to the hypothetical algorithm $A$.
+
+2. _Analysis of the reduction:_ We will then prove that under the hypothesis that Algorithm $A$ computes $HALTONZERO$,  Algorithm $B$ will compute $HALT$.
+
+
+
+Our Algorithm $B$ works as follows:
+
+
+>__Algorithm $B(P,x)$:__  \
 >
-On input a program $P$ and some input $x$, the algorithm $B$ will construct a program $P'$ such that $P'(0)=P(x)$  and then feed this to $A$, returning $A(P')$.
-We will describe this algorithm in terms of how one can use the input $x$ to modify the source code of $P$ to obtain the source code of the program $P'$.
-However, it is clearly possible to do these modification also on the level of the string representations of the programs $P$ and $P'$.
+>__Input:__ A program $P \in \{0,1\}^*$ and $x\in \{0,1\}^*$ \
+>__Assumption:__ Access to an algorithm $A$ such that $H(Q)=HALTONZERO(Q)$ for every program $Q$. \
 >
-Constructing the program $P'$  is in fact rather simple.
-The algorithm $B$ will obtain $P'$ by modifying $P$ to  ignore its input and use $x$ instead.
-In particular, for $n=|x|$, the program $P'$ will have have variables `myx_0`,$\ldots$,`my_`$\expr{n-1}$ that are set to the constants `zero` or `one` based on the value of $x$.
-That is, it will contain lines of the form `myx_`$\expr{i}$` := ` $\expr{x_i}$ for every $i < n$.
-Similarly, $P'$ will have  variables `myvalidx_0`,$\ldots$,`myvalidx_`$\expr{n-1}$ that are all set to `one`.
-Algorithm $B$ will include in the program $P'$ a copy of  $P$ modified to change any reference to `x_`$\expr{i}$ to `myx_`$\expr{i}$ and any reference to `validx_`$\expr{i}$ to `myvalidx_`$\expr{i}$.
-Clearly, regardless of its input, $P'$ always emulates the behavior of  $P$ on input $x$.
-In particular $P'$ will halt on the input $0$ if and only if $P$ halts on the input $x$.
-Thus if the hypothetical algorithm $A$ satisfies $A(P')=HALTONZERO(P')$ for every $P'$ then the algorithm $B$ we construct satisfies $B(P,x)=HALT(P,x)$ for every $P,x$, contradicting the uncomputability of $HALT$.
+>__Operation:__ \
+>1. Let $Q$ denote the program that does the following: _"on input $z\in \{0,1\}^*$, evaluate $P$ on the input $x$ and return the result"_  \
+>2. Feed $Q$ into Algorithm $A$ and denote $y = A(Q)$ be the resulting output. \
+>3. Output $y$.
+
+
+That is, on input a pair $(P,x)$ the algorithm  $B$ uses this pair to construct a program $Q$, feeds this program to $A$, and outputs the result. The program $Q$ is one that ignores its input and simply runs $P$ on $x$. Note however that our algorithm $B$ does _not_ actually execute the program $Q$: it merely constructs it and feeds it to $A$.
+
+We now discuss exactly how does  algorithm $B$ performs step 1 of  obtaining the source code of the program $Q$ from the pair $(P,x)$.
+In fact, constructing the program $Q$  is  rather simple.
+We can do so by modifying $P$  to  ignore its input and use $x$ instead.
+Specifically, if $x$ is of length $n$ we can do so by adding $2n$ lines of initialization code that sets arrays `MyX` and `MyXvalid` to the values corresponding to $x$ (i.e., `MyX[`$i$`]`$=x_i$ and `MyXvalid[`$i$`]`$=1$ for every $i \in [n]$).
+The rest of the program $Q$ is obtained by replacing all references to `X` and `Xvalid` with references to `MyX` and `MyXvalid` respectively.
+One can see that on every input $z\in \{0,1\}^*$, (and in particular for $z=0$) executing $Q$ on input $z$ will correspond to executing $P$ on the input $x$.
+
+The above completes the _description_ of the reduction. The _analysis_ is obtained by proving the following claim:
+
+__CLAIM:__ Define by $Q(P,x)$ the program $Q$ that Algorithm $B$ constructs in step 1 when given as input $P$ and $x$. Then for every program $P$ and input $x$, $Q(P,x)$ halts on the input $0$ if and only if $P$ halts on the input $x$.
+
+__Proof of claim:__  Let $P,x$ be some program and input and let $Q=Q(P,x)$. Since $Q$ ignores its input and simply evaluates $P$ on the input $x$, for every input $z$ for $Q$, and so in particular for the input $z=0$, $Q$ will halt on the input $z$ if and only if $P$ halts on the input $x$.
+
+The claim implies that $HALTONZERO(Q(P,x))=HALT(P,x)$.
+Thus if the hypothetical algorithm $A$ satisfies $A(Q)=HALTONZERO(Q)$ for every $Q$ then the algorithm $B$ we construct satisfies $B(P,x)=HALT(P,x)$ for every $P,x$, contradicting the uncomputability of $HALT$.
+:::
+
 
 
 > # {.remark title="The hardwiring technique" #hardwiringrem}
@@ -531,11 +566,11 @@ That is, $MONOTONE(P)=1$ if it's not possible to find an input $x$ such that fli
 We will prove that $MONOTONE$ is uncomputable, but the proof will easily generalize to any semantic function.
 For starters we note that $MONOTONE$ is not actually the all zeroes or all one function:
 
-* The program $INF$ that simply goes into an infinite loop satisfies $MONOTONE(INF)=1$, since there are no inputs $x,x'$ on which $INF(x)=1$ and $INF(x')=1$.
+* The program $INF$ that simply goes into an infinite loop satisfies $MONOTONE(INF)=1$, since $INF$ is not defined _anywhere_ and so in particular  there are no two inputs $x,x'$ where $x_i \leq x'_i$ for every $i$ but  $INF(x)=0$ and $INF(x')=1$.
 
 * The program $PAR$  that we've seen, which computes the XOR or parity of its input, is not monotone (e.g., $PAR(1,1,0,0,\ldots,0)=0$ but $PAR(1,0,0,\ldots,0)=0$) and hence $MONOTONE(PAR)=0$.
 
-(It is important to note that in the above we talk about _programs_ $INF$ and $PAR$ and not the corresesponding functions that they compute.)
+(It is important to note that in the above we talk about _programs_ $INF$ and $PAR$ and not the corresponding functions that they compute.)
 
 We will now give a reduction from $HALTONZERO$ to $MONOTONE$.
 That is, we assume towards a contradiction that there exists an algorithm $A$ that computes $MONOTONE$ and we will build an algorithm $B$ that computes $HALTONZERO$.
@@ -550,10 +585,10 @@ Our algorithm $B$ will work as follows:
 To complete the proof we need to show that $B$ outputs the correct answer, under our assumption that $A$ computes $MONOTONE$.
 In other words, we need to show that $HALTONZERO(P)=1-MONOTONE(Q)$.
 However, note that if $P$ does _not_ halt on zero, then the program $Q$ enters into an infinite loop in step a. and will never reach step b.
-Hence in this case the program $Q$ has the same functionality as $INF$.^[Note that the program $Q$ has different code than $INF$. It is not the same program, but it does have the same behavior (in this case) of never halting on any input.]
+Hence in this case the program $Q$ is functionally equivalent to $INF$.^[Note that the program $Q$ has different code than $INF$. It is not the same program, but it does have the same behavior (in this case) of never halting on any input.]
 Thus, $MONOTONE(Q)=MONOTONE(INF)=1$.
 If $P$ _does_ halt on zero, then step a. in $Q$ will eventually conclude and $Q$'s output will be determined by step b., where it simply outputs the parity of its input.
-Hence in this case, $Q$ computes the non-monotone parity function, and we get that $MONOTONE(Q)=MONOTONE(PAR)=0$.
+Hence in this case, $Q$ computes the non-monotone parity function (i.e., is functionally equivalent to $PAR$), and so we get that $MONOTONE(Q)=MONOTONE(PAR)=0$.
 In both cases we see that $MONOTONE(Q)=1-HALTONZERO(P)$, which is what we wanted to prove.
 An examination of this proof shows that we did not use anything about $MONOTONE$ beyond the fact that it is semantic and non-trivial (in the sense that it is not the all zero, nor the all-ones function).
 :::

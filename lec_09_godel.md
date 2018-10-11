@@ -30,15 +30,13 @@ We will actually start with the latter result, and then show the former.
 
 ## Hilbert's Program and Gödel's Incompleteness Theorem
 
->_"And what are these …vanishing increments? They are neither finite
-quantities, nor quantities infinitely small, nor yet nothing. May we not call them the ghosts of
-departed quantities?"_, George Berkeley, Bishop of Cloyne, 1734.
+>_"And what are these …vanishing increments? They are neither finite quantities, nor quantities infinitely small, nor yet nothing. May we not call them the ghosts of departed quantities?"_, George Berkeley, Bishop of Cloyne, 1734.
 
 The 1700's and  1800's were a time of great discoveries in mathematics but also of several crises.
 The discovery of calculus by Newton and Leibnitz in the late 1600's ushered a golden age of problem solving.
 Many longstanding challenges succumbed to the new tools that were discovered, and mathematicians got ever better at doing some truly impressive calculations.
 However, the rigorous foundations behind these calculations left much to be desired.
-Mathematicians manipulated infinitsemal quantities and infinite series cavalierly, and while most of the time they  ended up with the correct results, there were a few strange examples (such as trying to calculate the value of the infinite series $1-1+1-1+1+\ldots$) which seemed to give out different answers depending on the method of calculation.
+Mathematicians manipulated infinitesimal quantities and infinite series cavalierly, and while most of the time they  ended up with the correct results, there were a few strange examples (such as trying to calculate the value of the infinite series $1-1+1-1+1+\ldots$) which seemed to give out different answers depending on the method of calculation.
 This led to a growing sense of unease in the foundations of the subject which was  addressed in works of mathematicians such as Cauchy, Weierstrass, and Riemann, who eventually  placed analysis on firmer foundations, giving rise to the $\epsilon$'s and $\delta$'s that students taking honors calculus grapple with to this day.
 
 In the beginning of the 20th century, there was an effort to replicate this effort,  in greater rigor, to all parts of mathematics.
@@ -69,7 +67,7 @@ A mathematical statement will also simply be a string.
 Mathematical statements states a fact about some mathematical object.
 For example, the following is a mathematical statement:
 
->_"The number $2,696,635,869,504,783,333,238,805,675,613,588,278,597,832,162,617,892,474,670,798,113$ is prime"._
+>_"The number $2$,$696$,$635$,$869$,$504$,$783$,$333$,$238$,$805$,$675$,$613$,$588$,$278$,$597$,$832$,$162$,$617$,$892$,$474$,$670$,$798$,$113$ is prime"._
 
 (This happens to be a _false_ statement; can you see why?)
 
@@ -125,9 +123,9 @@ __Algorithm $A$:__
 __Operation:__
 
 * For $n=0,1,2,\ldots$:
-   - For $w\in \{0,1\}^n$:
-       - If $V(\text{"$P$ halts on $0$"},w)=1$ output $1$
-       - If $V(\text{"$P$ does not halt on $0$"},w)=1$ output $0$
+  - For $w\in \{0,1\}^n$:
+    - If $V(\text{"$P$ halts on $0$"},w)=1$ output $1$
+    - If $V(\text{"$P$ does not halt on $0$"},w)=1$ output $0$
 :::
 
 If $P$ halts on $0$ then under our assumption there exists $w$ that proves this fact, and so when Algorithm $A$ reaches $n=|w|$ we will eventually find this $w$ and output $1$, unless we already halted before.
@@ -167,8 +165,10 @@ That is, if we formalize the statement $c^*$ that is true if and only if $V$ is 
 There is something "unsatisfying" about [godethmtakeone](){.ref}.
 Sure, it shows there are statements  that are unprovable, but they don't feel like "real" statements about math.
 After all, they talk about _programs_ rather than numbers,  matrices, or derivatives, or whatever it is they teach in math courses.
-It turns out that we can get an analogous result for statements such as "The number $2430598430967$ has no divisors smaller than $100$" that only talk about _natural numbers_.
-It doesn't get much more "real math" than this.^[The  19th century mathematician Leopold Kronecker  famously said that "God made the integers, all else is the work of man.".]
+It turns out that we can get an analogous result for statements such as "there are no integers $x$ and $y$ such that $x^2 - 2 = y^7$", or "there are integers $x,y,z$ such that $x^2 + y^6 = z^{11}$" that only talk about _natural numbers_.^[I do not know if these statements are actually true or false, see [here](https://goo.gl/qsU9zy).]
+It doesn't get much more "real math" than this.
+Indeed, the  19th century mathematician Leopold Kronecker  famously said that "God made the integers, all else is the work of man."
+
 
 To make this more precise, let us define the notion of _quantified integer statements_:
 
@@ -177,13 +177,13 @@ To make this more precise, let us define the notion of _quantified integer state
 A _quantified integer statement_ is a well-formed statement with no unbound variables involving integers, variables, the operators $>,<,\times,+,-,=$, the logical operations $\neg$ (NOT), $\wedge$ (AND), and $\vee$ (OR), as well as quantifiers of the form $\exists_{x\in\N}$ and $\forall_{y\in\N}$ where $x,y$ are variable names.
 
 We often care deeply about determining the truth of quantified integer statements.
-For example, the statement that [Fermat's Last Theorem](https://en.wikipedia.org/wiki/Fermat%27s_Last_Theorem)  is true for $n=3$ can be phrased as the quantified integer statement
+For example, the statement that [Fermat's Last Theorem](https://goo.gl/fvkuqj)  is true for $n=3$ can be phrased as the quantified integer statement
 
 $$
 \neg \exists_{a\in\N} \exists_{b\in\N} \exists_{c\in\N} (a>0) \wedge (b>0) \wedge (c>0) \wedge \left( a\times a \times a  + b \times b \times b = c\times c \times c \right) \;.
 $$
 
-The [twin prime conjecture](https://en.wikipedia.org/wiki/Twin_prime), that states that there is an infinite number of numbers $p$ such that both $p$ and $p+2$ are primes  can be phrased as the quantified integer statement
+The [twin prime conjecture](https://goo.gl/GRiVz3), that states that there is an infinite number of numbers $p$ such that both $p$ and $p+2$ are primes  can be phrased as the quantified integer statement
 $$
 \forall_{n\in\N} \exists_{p\in\N} (p>n) \wedge PRIME(p) \wedge PRIME(p+2)
 $$
@@ -236,11 +236,11 @@ Let $QIS:\{0,1\}^* \rightarrow \{0,1\}$ be the function that given a (string rep
 
 ::: { .pause }
 Please stop here and make sure you understand why the uncomputability of $QIS$ (i.e., [QIS-thm](){.ref}) means that there is no sound and complete proof system for proving quantified integer statements (i.e., [godelthmqis](){.ref}).
-This follows in the same way that [godethmtakeone](){.ref} followed from the uncomputability of $HALTONZERO$.
+This follows in the same way that [godethmtakeone](){.ref} followed from the uncomputability of $HALTONZERO$, but working out the details is a great exercise (see [godelfromqisex](){.ref})
 :::
 
 
-In the rest of this chapter, we will show the proof of [QIS-Thm](){.ref}
+In the rest of this chapter, we will show the proof of [QIS-Thm](){.ref}.
 
 
 
@@ -266,7 +266,8 @@ The notorious difficulty of so called _Diophantine equations_ (i.e., finding _in
 I  don't think Hilbert  doubted that such a procedure exists.
 After all, the whole history of mathematics up to this point involved the discovery of ever more powerful methods, and even impossibility results such as the inability to trisect an angle with a straightedge and compass, or the non-existence of an algebraic formula for qunitic equations, merely pointed out to the need to use more general methods.
 
-Alas, this turned out not to be the case for Diophantine equations: in 1970, Yuri Matiyasevich, building on a decades long line of work by  Martin Davis,  Hilary Putnam and Julia Robinson, showed that there is simply _no method_ to solve such equations in general:
+Alas, this turned out not to be the case for Diophantine equations.
+In 1970, Yuri Matiyasevich, building on a decades long line of work by  Martin Davis,  Hilary Putnam and Julia Robinson, showed that there is simply _no method_ to solve such equations in general:
 
 ::: {.theorem title="MRDP Theorem" #MRDP-thm}
 Let  $DIO:\{0,1\}^* \rightarrow \{0,1\}$ be the function that takes as input a string describing a $100$-variable polynomial with integer coefficients $P(x_0,\ldots,x_{99})$  and outputs $1$ if and only if there exists  $z_0,\ldots,z_{99} \in \N$ s.t.  $P(z_0,\ldots,z_{99})=0$.
@@ -287,7 +288,7 @@ While a fool-proof solution for distinguishing between the two is inherently imp
 
 We will not prove the MRDP Theorem ([MRDP-thm](){.ref}).
 However, as we mentioned, we will prove the uncomputability of $QIS$ (i.e.,  [QIS-thm](){.ref}), which is a special case of the MRDP Theorem.
-The reason is that Diophantine equation is simply a special case of a quantified integer statement where the only quantifier is $\exists$.
+The reason is that a Diophantine equation is  a special case of a quantified integer statement where the only quantifier is $\exists$.
 This means that deciding the truth of  quantifier integer statements  is a potentially harder problem than solving Diophantine equations, and so it is potentially _easier_ to prove that $QIS$ is uncomputable.
 
 ::: { .pause }
@@ -330,11 +331,12 @@ Let $QMS:\{0,1\}^* \rightarrow \{0,1\}$ be the function that given a (string rep
 
 > # {.proofidea data-ref="QMS-thm"}
 The idea behind the proof is similar to that used in showing that one-dimensional cellular automata are Turing complete ([onedimcathm](){.ref}) as well as showing that equivalence (or even "fullness") of context free grammars is uncomputable  ([fullnesscfgdef](){.ref}).
-A _configuration_ of a NAND++ program is a string $\alpha$ over some large-but-finite alphabet $\Sigma$ describing its current state, including the values of all arrays, scalars, and the index variable `i`.
+We use the notion of a _configuration_ of a NAND++ program as in [confignandppdef](){.ref}.
+Such a configuration can be thought of as a string $\alpha$ over some large-but-finite alphabet $\Sigma$ describing its current state, including the values of all arrays, scalars, and the index variable `i`.
 It can be shown that if $\alpha$ is the configuration at a certain step of the execution and  $\beta$ is the configuration at the next step, then $\beta_j = \alpha_j$ for all $j$ outside of $\{i-1,i,i+1\}$ where $i$ is the value of `i`.
 In particular, every value $\beta_j$ is simply a function of $\alpha_{j-1,j,j+1}$.
 Using these observations we can write a _quantified mixed statement_  $NEXT(\alpha,\beta)$ that will be true if and only if $\beta$ is the configuration encoding the next step after $\alpha$.
-Since a program $P$ halts on input  $x$ if and only if there is a sequence of configurations $\alpha_0,\ldots,\alpha_{t-1}$ starting with the initial configuration with input $x$ and ending in a halting configuration, we can define a quantified mixed statement to determine if there is such a statement by taking a universal quantifier over all strings $\alpha$ that encode a tuple $(\alpha_0,\alpha_1,\ldots,\alpha_{t-1})$ and then checking that $\alpha_0$ and $\alpha_{t-1}$ are valid, and that $NEXT(\alpha_j,\alpha_{j+1})$ for every $j\in \{0,\ldots,t-2\}$.
+Since a program $P$ halts on input  $x$ if and only if there is a sequence of configurations $\alpha^0,\ldots,\alpha^{t-1}$ (known as a _computation history_) starting with the initial configuration with input $x$ and ending in a halting configuration, we can define a quantified mixed statement to determine if there is such a statement by taking a universal quantifier over all strings $H$ (for _history_) that encode a tuple $(\alpha^0,\alpha^1,\ldots,\alpha^{t-1})$ and then checking that $\alpha^0$ and $\alpha^{t-1}$ are valid starting and halting configurations, and that $NEXT(\alpha^j,\alpha^{j+1})$ is true for every $j\in \{0,\ldots,t-2\}$.
 
 
 
@@ -343,38 +345,43 @@ The proof will be obtained by a reduction from the Halting problem.
 Specifically, we will use the notion of a _configuration_ of a NAND++ program ([confignandppdef](){.ref}) that we have seen in the context of proving that one dimensional cellular automata are Turing complete.
 We need the following facts about configurations:
 
-* For every (well formed^[We can always transform a NAND++ program into an equivalent one that is well formed, and hence can assume this property without loss of generality.]) NAND++ program $P$, there is a finite alphabet $\Sigma$, and a _configuration_ of $P$ is a string $\alpha \in \Sigma^*$.
+* For every (well formed^[We can always transform a NAND++ program into an equivalent one that is well formed (see [wellformedlem](){.ref}), and hence can assume this property without loss of generality.]) NAND++ program $P$, there is a finite alphabet $\Sigma$, and a _configuration_ of $P$ is a string $\alpha \in \Sigma^*$.
+
 
 * A configuration $\alpha$ encodes all the state of the program at a particular iteration, including the array, scalar, and index variables.
 
-* If $\alpha$ is a configuration, then $\beta = NEXT_P(\alpha)$  denotes the configuration of the computation after one more iteration. $\beta$ is a string over $\Sigma$ of length either $|\alpha|$ or $|\alpha|+1$, and every coordinate of $\beta$ is a function of just three coordinates in $\alpha$. That is, for every  $j\in \{0,\ldots,|\beta|-1\}$, $\beta_j = N_P(\alpha_{j-1},\alpha_j,\alpha_{j+1})$ where $N_P:\Sigma^3 \rightarrow \Sigma$ is some function  depending on $P$.^[The alphabet $\Sigma$ contains a special "default" element, which we can denote by $\varnothing$, such that if $j-1<0$ or $j$ or  $j+1$ are at least $|\alpha|$, we use $\varnothing$ as input instead of $\alpha_{j-1}$ or $\alpha_{j+1}$ respectively. We extend the length of $\beta$ to be one longer than $\alpha$ if and only if $N_P(\alpha_{|\alpha|-1},\varnothing,\varnothing) \neq \varnothing$.]
+* If $\alpha$ is a configuration, then $\beta = NEXT_P(\alpha)$  denotes the configuration of the computation after one more iteration. $\beta$ is a string over $\Sigma$ of length either $|\alpha|$ or $|\alpha|+1$, and every coordinate of $\beta$ is a function of just three coordinates in $\alpha$. That is, for every  $j\in \{0,\ldots,|\beta|-1\}$, $\beta_j = MAP_P(\alpha_{j-1},\alpha_j,\alpha_{j+1})$ where $MAP_P:\Sigma^3 \rightarrow \Sigma$ is some function  depending on $P$.^[The alphabet $\Sigma$ contains a special "default" element, which we can denote by $\varnothing$, such that if $j-1<0$ or $j$ or  $j+1$ are at least $|\alpha|$, we use $\varnothing$ as input instead of $\alpha_{j-1}$ or $\alpha_{j+1}$ respectively. We extend the length of $\beta$ to be one longer than $\alpha$ if and only if $N_P(\alpha_{|\alpha|-1},\varnothing,\varnothing) \neq \varnothing$.]
 
 * There are simple conditions to check whether a string $\alpha$ is a valid starting configuration corresponding to an input $x$, as well as to check  whether a string $\alpha$ is an halting configuration. In particular these conditions can be phrased as quantified mixed statements.
 
-* A program $P$ halts on input $x$  if and only if there exists a sequence of configurations $\alpha_0,\alpha_1,\ldots,\alpha_{T}$ such that __(i)__ $\alpha_0$ is a valid starting configuration of $P$ with  input $x$, __(ii)__ $\alpha_{T-1}$ is a valid halting configuration of $P$, and __(iii)__ $\alpha_{i+1} = NEXT_P(\alpha_i)$ for every $i\in \{0,\ldots,T-1\}$.
+* A program $P$ halts on input $x$  if and only if there exists a sequence of configurations $H = (\alpha^0,\alpha^1,\ldots,\alpha^{T-1})$ such that __(i)__ $\alpha^0$ is a valid starting configuration of $P$ with  input $x$, __(ii)__ $\alpha^{T-1}$ is a valid halting configuration of $P$, and __(iii)__ $\alpha^{i+1} = NEXT_P(\alpha^i)$ for every $i\in \{0,\ldots,T-2\}$.
 
 Let $U$ be a universal NAND++ program. Such a program exists by  [univnandppnoneff](){.ref}. We define $HALT_U$  as the function such that $HALT_U(w)=1$ if and only if $U$ halts on the input $w$.
-The function $HALT_U$ is uncomputable, for every NAND++ program $P$ (which we identify with its representation as a string) and input $x\in \{0,1\}^*$ to $P$,  $HALT(P,x) = HALT_U(\langle P,x \rangle)$  where $\langle P,x \rangle$ is some encoding of the pair $(P,x)$ as a string.
+We claim that the function $HALT_U$ is uncomputable.
+Indeed, for every NAND++ program $P$ (which we identify with its representation as a string) and input $x\in \{0,1\}^*$ to $P$,  $HALT(P,x) = HALT_U(\langle P,x \rangle)$  where $\langle P,x \rangle$ is some encoding of the pair $(P,x)$ as a string.
 Hence if we could compute $HALT_U$ then we could compute $HALT$, contradicting [halt-thm](){.ref}.
 
 Let $\Sigma$ be the alphabet needed to encode configurations of $U$, and let $\ell = \ceil{\log (|\Sigma|+1)}$.
-Then we can encode any symbol in $\Sigma \cup \{ ; \}$ (where "$;$" is some separator symbol we'll use) as a string in $\{0,1\}^\ell$, and so in particular can encode a sequence $\alpha_0;\alpha_1; \cdots ; \alpha_{T}$ of configurations of $U$ as a single binary string $\overline{\alpha}$.
+Then we can encode any symbol in $\Sigma \cup \{ ; \}$ (where "$;$" is some separator symbol we'll use) as a string in $\{0,1\}^\ell$, and so in particular can encode a sequence $\alpha^0;\alpha^1; \cdots ; \alpha^{T}$ of configurations of $U$ as a single binary string which we'll also name as $H$.
 Given any input $w\in \{0,1\}^*$, we will create a mixed integer statement $\varphi_w$ that will have the following form:
 
 $$
-\varphi_w = \exists_{\overline{\alpha} \in \{0,1\}^*} \text{$\overline{\alpha}$ encodes a valid sequence of configurations of a halting computation of $U$ on $w$}
+\varphi_w = \exists_{H \in \{0,1\}^*} \text{$H$ encodes a valid sequence of configurations of a halting computation of $U$ on $w$}
 $$
 
 The reasons we can encode this condition as an MIS are the following:
 
-1. The conditions for checking that the initial configuration is valid are simple, and we can extract the first configuration from  $\overline{\alpha}$ by first looking at an index $i$ such that $\overline{\alpha}_{i} \cdots \overline{\alpha}_{i+\ell-1}$ encodes the separator symbol "$;$" and such that $i$ is the first such index, in the sense that _for every_ (i.e., $\forall$) index $j<i$, $\overline{\alpha}_{j} \cdots \overline{\alpha}_{j+\ell-1}$ does _not_ encode $;$.
+1. The conditions for checking that the initial configuration is valid are simple, and we can extract the first configuration from  $H$ by first looking at an index $i$ which is a multiple of $\ell$ such that $H_{i} \cdots H_{i+\ell-1}$ encodes the separator symbol "$;$" and such that $i$ is the first such index. Another way to say it is that $i$ is the position of  the first separator if __there exists__ $k$ such that $i=k\times \ell$ and  $H_{i,\ldots,i+\ell-1}$ and __for every__ $j\in \N$, if $j<i$ then $H_{j,\ldots,j+\ell-1}$ does _not_ encode "$;$".  This can be captured using the operators allowed in a quantified mixed statetment and the $\forall$ and $\exists$ quantifiers.
 
-2. We can similarly check that the last configuration is halting.
+2. We can similarly check that the last configuration is halting. Extracting the position $i$ that encodes the last separator can be done in a way analogous to that of extracting the first one.
 
-3. We can then check that for every block of $\overline{\alpha}$ that encodes a pair of configurations $\alpha ; \beta$ where $\alpha, \beta \in \Sigma^*$, $\beta = NEXT_U(\alpha)$. We can do so because every coordinate of $\beta$ depends on at most $3\ell$ coordinates of $\alpha$, and we can express any finite function $f:\{0,1\}^{3\ell} \rightarrow \{0,1\}$ using using the logical operations $AND$,$OR$, $NOT$ (for example by computing $f$ with $NAND$'s).
+3. We can define a quantified mixed predicate $NEXT(\alpha,\beta)$ that is true if and only if $\beta = NEXT_U(\beta)$ (i.e., $\beta$ encodes the configuration obtained by proceeding from $\alpha$ in one computational step). Indeed $NEXT(\alpha,\beta)$ is true if __for every__  $i \in \{0,\ldots,|\beta|\}$ which is a multiple of $\ell$, $\beta_{i,\ldots,i+\ell-1} = MAP_U(\alpha_{i-\ell,\cdots,i+2\ell-1})$ where $MAP_U:\{0,1\}^{3\ell} \rightarrow \{0,1\}^\ell$ is the finite function above (identifying elements of $\Sigma$ with their encoding in $\{0,1\}^\ell$). Since $MAP_U$ is a finite function, we can express it using the logical  operations $AND$,$OR$, $NOT$ (for example by computing $MAP_U$ with $NAND$'s).
 
-Together the above yields a procedure that maps every $w\in \{0,1\}^*$ to a quantified mixed statement $\varphi_w$ usch taht $HALT_U(w)=1$ if and only if $QMS(\varphi_w)=1$.
-Hence the uncomputability of $HALT_U$ implies the uncomputability of $QMS$.
+4. We can then write the condition that __for every__ substring of $H$ that has the form $\alpha ENC(;) \beta$ with $\alpha,\beta \in \{0,1\}^\ell$ and $ENC(;)$ being the encoding of the separator "$;$", it holds that $NEXT(\alpha,\beta)$ is true.
+
+Together the above yields a computable procedure that maps every input $w\in \{0,1\}^*$ to $HALT_U$ into a quantified mixed statement $\varphi_w$ such that $HALT_U(w)=1$ if and only if $QMS(\varphi_w)=1$.
+This reduces computing $HALT_U$ to computing $QMS$, and hence the
+uncomputability of $HALT_U$ implies the uncomputability of $QMS$.
 :::
 
 
@@ -394,11 +401,14 @@ We will show  that we can encode a string $x\in \{0,1\}^*$ by a pair  of numbers
 * There is a quantified integer statement $COORD(X,i)$ that for every $i<n$, will be true  if $x_i=1$ and will be false otherwise.
 
 
-This will mean that we can replace a quantifier such as $\forall_{x\in \{0,1\}^*}$ with $\forall_{X\in \N}\forall_{n\in\N}$  (and similarly replace existential quantifiers over strings). We can  later replace all calls to $|x|$ by $n$ and all calls to $x_i$ by $COORD(X,i)$.
-Hence an encoding of the form above yields a proof of [QIS-thm](){.ref}, since we can use it to map every mixed quantified statement $\varphi$ to quantified integer statement $\xi$ such that $QMS(\varphi)=QIS(\xi)$.
-Hence if $QIS$ was computable then $QMS$ would be computable as well, leading to a contradiction.
+This will mean that we can replace a "for all" quantifier over strings such as $\forall_{x\in \{0,1\}^*}$ with a pair of quantifiers over _integers_ of the form  $\forall_{X\in \N}\forall_{n\in\N}$  (and similarly replace an existential quantifier of the form $\exists_{x\in \{0,1\}^*}$ with a pair of quantifiers $\exists_{X\in \N}\exists_{n\in\N}$) . We can  later replace all calls to $|x|$ by $n$ and all calls to $x_i$ by $COORD(X,i)$.
+This means that if we are able to define $COORD$ via a quantified integer statement, then we obtain a proof of [QIS-thm](){.ref}, since we can use it to map every mixed quantified statement $\varphi$ to an equivalent quantified integer statement $\xi$ such that $\xi$ is true if and only if $\varphi$ is true, and hence $QMS(\varphi)=QIS(\xi)$.
+Such a procedure implies that the task of computing $QMS$ reduces to the task of computing $QIS$, which means that the uncomputability of $QMS$ implies the uncomputability of $QIS$.
 
-To achieve our encoding we use the following technical result :
+
+
+The above shows that proof of the theorem all boils down to finding the right encoding of strings as integers, and the right way to implement $COORD$ as a quantified integer statement.
+To achieve this  we use the following technical result :
 
 > # {.lemma title="Constructible prime sequence" #primeseq}
 There is a sequence of prime numbers $p_0 < p_1 < p_2 < \cdots$ such that there is  a quantified integer statement $PCOORD(p,i)$ that is true if and only if $p=p_i$.
@@ -436,6 +446,10 @@ Hence the uncomputability of $QMS$  ([QMS-thm](){.ref}) implies the uncomputabil
 
 ::: {.remark title="Disclaimer" #disclaimerrem}
 Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
+:::
+
+::: {.exercise title="Gödel's Theorem from uncomputability of $QIS$" #godelfromqisex}
+Prove [godelthmqis](){.ref} using  [QIS-thm](){.ref}
 :::
 
 > # {.exercise title="Expression for floor" #floorexpressionex}

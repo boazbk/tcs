@@ -175,7 +175,7 @@ We implement `push(foo)` by
 
 ```python
 Stack[stackpointer]=foo
-foo += one
+stackpointer += one
 ```
 
 and implement `bar = pop()` by
@@ -503,7 +503,7 @@ An _enhanced $\lambda$ expression_ is obtained by composing the objects above wi
 We can now define the notion of computing a function using the $\lambda$ calculus.
 We will define the _simplification_ of a $\lambda$ expression as the following recursive process:
 
-1. _(Evaluation / $\beta$ reduction.)_ If the expression has the form $(exp_L exp_R)$ then replace the expression with $exp'_L[x \rightarrow L]$.
+1. _(Evaluation / $\beta$ reduction.)_ If the expression has the form $(exp_L exp_R)$ then replace the expression with $exp'_L[x \rightarrow exp_R]$.
 
 2. _(Renaming / $\alpha$ conversion.)_ When we cannot simplify any further, rename the variables so that the first bound variable in the expression is $v_0$, the second one is $v_1$, and so on and so forth.
 
@@ -616,8 +616,8 @@ We will not write the full formal proof of [enhancedvanillalambdathm](){.ref} bu
 
 * To encode a pair $(x,y)$ we will produce a function $f_{x,y}$ that has $x$ and $y$ "in its belly" and such that $f_{x,y}g = g x y$ for every function $g$. That is, we write $PAIR = \lambda x,y. \lambda g. gxy$. Note that now we can extract the first element of a pair $p$ by writing $p1$ and the second element by writing $p0$, and so $HEAD = \lambda p. p1$ and $TAIL = \lambda p. p0$.
 
-* We define $NIL$ to be the function that ignores its input and always outputs $1$. That is, $NIL = \lambda x.1$. The $ISEMPTY$ function checks, given an input $p$, whether we get $1$ if we apply $p$ to the function $0_{x,y}$ that ignores both its inputs and always outputs $0$.
-For every valid pair $p0_{x,y} = 0$ while $NIL 0_{x,y}=1$.
+* We define $NIL$ to be the function that ignores its input and always outputs $1$. That is, $NIL = \lambda x.1$. The $ISEMPTY$ function checks, given an input $p$, whether we get $1$ if we apply $p$ to the function $z = \lambda x,y.0$ that ignores both its inputs and always outputs $0$.
+For every valid pair of the form $p = PAIR x y$, $p z = p x y = 0$ while $NIL z=1$.
 Formally, $ISEMPTY = \lambda p. p (\lambda x,y.0)$.
 
 ::: {.remark title="Church numerals (optional)" #Churchnumrem}
@@ -893,14 +893,28 @@ From this observation, [onedimcathm](){.ref} follows in a fairly straightforward
 :::
 
 Before proving [onedimcathm](){.ref}, let us formally define the notion of a _configuration_ of a NAND++ program (see also [nandppconfigfig](){.ref}). We will come back to this notion in later chapters as well.
+We restrict attention to so called _well formed_ NAND++ programs (see [wellformeddef](){.ref}), that have a clean separation of array and scalar variables.
+Of course, this is not really a restriction since every NAND++ program $P$ can be transformed into an equivalent one that is well formed (see [wellformedlem](){.ref}).
 
-![A _configuration_ of a (well formed) NAND++ program $P$ with $a$ array variables and $b$ scalar variables is a string $\alpha$ over the alphabet $\{0,1\}^a \cup \{0,1\}^{a+b}$. In exactly one index $i$, $\alpha_i \in \{0,1\}^{a+b}$. This corresponds to the index variable `i` $=i$, and $\alpha_i$ encodes both the contents of the scalar variables, as well as the array variables at the location $i$. For $j\neq i$, $\alpha_j$ encodes the contents of the array variables at the location $j$. The length of the string denotes the largest index that has been reached so far in the execution of the program.If in one iteration we move from $\alpha$ to $\alpha'$, then for every $j$, $\alpha'_j$ is a function of $\alpha_{j-1},\alpha_j,\alpha_{j+1}$.](../figure/nandppconfiguration2.png){#nandppconfigfig .class width=300px height=300px}
+![A _configuration_ of a (well formed) NAND++ program $P$ with $a$ array variables and $b$ scalar variables is a a list  $\alpha$ of strings  in $\{0,1\}^a \cup \{0,1\}^{a+b}$. In exactly one index $i$, $\alpha_i \in \{0,1\}^{a+b}$. This corresponds to the index variable `i` $=i$, and $\alpha_i$ encodes both the contents of the scalar variables, as well as the array variables at the location $i$. For $j\neq i$, $\alpha_j$ encodes the contents of the array variables at the location $j$. The length of the list $\alpha$ denotes the largest index that has been reached so far in the execution of the program. If in one iteration we move from $\alpha$ to $\alpha'$, then for every $j$, $\alpha'_j$ is a function of $\alpha_{j-1},\alpha_j,\alpha_{j+1}$.](../figure/nandppconfiguration2.png){#nandppconfigfig .class width=300px height=300px}
 
+::: { .pause }
+[confignandppdef](){.ref} has many technical details, but is not actually deep and complicated.
+You would probably understand it better if before starting to read it, you take a moment to stop and think how _you_ would encode as a string the state of a NAND++ program at a given point in an execution.
+
+Think what are all the components that you need to know in order to be able to continue the execution from this point onwards, and what is a simple way to encode them using a list of strings (which in turn can be encoded as a string). In particular, with an eye towards our future applications, try to think of an encoding which will make it as simple as possible to map  a configuration at step $t$ to the configuration at step $t+1$.
+:::
+
+![A configuration of a NAND++ program that computes the increment function mapping a number $x$  (in binary LSB-first representation)  to the number $x+1$. Figure taken from an online available  [Jupyter Notebook](https://github.com/boazbk/nandnotebooks/blob/master/NANDpp_configurations.ipynb).](../figure/configuration.png){#confnandfig .class width=300px height=300px}
 
 ::: {.definition title="Configuration of NAND++ programs." #confignandppdef}
-Let $P$ be a well-formed NAND++ program with $a$ array variables and $b$ scalar variables. A _configuration_ of $P$ is a string $\alpha \in (\{0,1\}^a \cup \{0,1\}^{a+b})^*$ such there is exactly coordinate $i \in \{0,\ldots,|\alpha|-1\}$, such that $\alpha_i \in \{0,1\}^{a+b}$ and for all other coordinates $j$, $\alpha_j \in \{0,1\}^a$.
+Let $P$ be a well-formed NAND++ program (as per [wellformeddef](){.ref}) with $a$ array variables and $b$ scalar variables.
+A _configuration_ of $P$ is a list of strings $\alpha = (\alpha_0,\ldots,\alpha_{t-1})$ such that for every $j \in [t]$, $\alpha_j$ is either in $\{0,1\}^a$ or in $\{0,1\}^{a+b}$. Moreover,  there  is exactly a single coordinate $i \in [t]$, such that
+$\alpha_i \in \{0,1\}^{a+b}$ and for all other coordinates $j \neq i$,
+$\alpha_j \in \{0,1\}^a$.
 
-A configuration $\alpha$ corresponds to the state of $P$ at the beginning of some iteration as follows:
+A configuration $\alpha$ corresponds to the state of $P$ at the
+beginning of some iteration as follows:
 
 * The value of the index variable `i` is the index $i$ such that $\alpha_i \in \{0,1\}^{a+b}$.  The value of the $b$ scalar variables is encoded by the last $b$ bits of $\alpha_i$, while the value of the $a$ array variables at the location $i$ is encoded by the first $a$ bits of $\alpha_i$.
 
@@ -912,16 +926,43 @@ If $\alpha$ is a configuration of $P$, then $\alpha' = NEXT_P(\alpha)$ denotes t
 Note that $\alpha'_j = \alpha_j$ for all $j\not\in \{i-1,i,i+1\}$, and that more generally $\alpha'_j$ is a function of $\alpha_{j-1},\alpha_j,\alpha_{j+1}$.^[Since $P$ is well-formed, we assume it contains an `indexincreasing` variable that can be used to compute whether `i` increases or decreases at the end of an iteration.]
 :::
 
+::: {.remark title="Configurations as binary strings" #confencoding}
+We can represent  a configuration $(\alpha_0,\ldots,\alpha_{t-1})$ as a  binary string in $\{0,1\}^*$ by concatenating prefix-free encodings of $\alpha_0,\ldots,\alpha_{t-1}$. Specifically we will use a fixed length encoding of $\{0,1\}^a \cup \{0,1\}^{a+b}$ to $\{0,1\}^{a+b+3}$ by padding every string string $\alpha_i$ by concatenating it with  a string of the form $10^k1$ for some $k>0$ to ensure it is of this length. The encoding of $(\alpha_0,\ldots,\alpha_{t-1})$ as a binary string consists of the concatenation of all these fixed-length encodings of $\alpha_0,\ldots,\alpha_{t-1}$.
+
+When we refer to a configuration as a binary string (for example when feeding it as input to other programs) we will assume that this string represents the configuration via the above encoding. Hence we can think of $NEXT_P$ as a function mapping $\{0,1\}^*$ to $\{0,1\}^*$.
+Note that this function satisfies that for every string $\sigma \in \{0,1\}^*$ encoding a valid configuration, $NEXT_p(\sigma)$ differs from $\sigma$ in at most $3(a+b+3)$ coordinates which is a constant independent of the length of the input or the number of times the program was executed.
+:::
+
+[confignandppdef](){.ref} is a little cumbersome, but ultimately a configuration is simply a string that encodes a _snapshot_ of the state of the NAND++ program at a given point in the execution. (In operating-systems lingo, it would be a  ["core dump"](https://goo.gl/AsccXh).)
+Such a snapshot needs to encode the following components:
+
+1. The current value of the index variable `i`.
+
+2. For every scalar variable `foo`, the value of `foo`.
+
+3. For every array variable `Bar`, the value `Bar[`$i$`]` for every $i \in \{0,\ldots, m-1\}$ where $m-1$ is the largest value that the index variable `i` ever achieved in the computation.
+
+The function $NEXT_P$ takes a string $\sigma \in \{0,1\}^*$ that encodes the configuration after $t$ iterations, and maps it to the string $\sigma'$ that encodes the configuration after $t-1$.
+The specific details of how we represent configurations and how $NEXT_P$ are not so important as much as the following points:
+
+* $\sigma$ and $\sigma'$ agree with each other in all but a constant number of coordinates.
+
+* Every bit of $\sigma'$ is a function of a constant number of bits of $\sigma$.
+
+Specifically, For every NAND++ program $P$ there is a constant $C>0$ and a finite function $MAP_P:\{0,1\}^{2C} \rightarrow \{0,1, \bot \}$ such that for every $i \in \N$ and string $\sigma$ that encodes a valid configuration of $P$, the $i$-the bit of $NEXT_P(\sigma)$ is obtained by applying the finite function $MAP_P$ to the  $2C$ bits of $\sigma$ corresponding to coordinates $i-C,i-C+1,\ldots,i+C$.^[If one of those is "out of bounds"- corresponds to $\sigma_j$ for $j<0$ or $j \geq |\sigma|$ - then we replace it with $0$. If $i \geq |NEXT_P(\sigma)|$ then we think of the $i$-th bit of $NEXT_P(\sigma)$ as equaling $\bot$.]
+
+
+
 ::: {.remark title="Configurations of Turing Machines" #tmconfigrem}
-The same ideas  can (and often are) used to define configurations of _Turing Machines_. If $M$ is a Turing machine with tape alphabet $\Sigma$ and state space $Q$, then a configuration of $M$ can be encoded as a string $\alpha$ over the alphabet $\Sigma \cup (\Sigma \times Q)$, such that only a single coordinate (corresponding to the tape's head) is in the larger alphabet $\Sigma \times Q$, and the rest are in $\Sigma$.
+The same ideas  can (and often are) used to define configurations of _Turing Machines_. If $M$ is a Turing machine with tape alphabet $\Sigma$ and state space $Q$, then a configuration of $M$ can be encoded as a string $\alpha$ over the alphabet  $\Sigma \cup (\Sigma \times Q)$, such that only a single coordinate (corresponding to the tape's head) is in the larger alphabet $\Sigma \times Q$, and the rest are in $\Sigma$. Once again, such a configuration can also be encoded as a binary string.
 The configuration encodes the tape contents, current state, and head location in the natural way.
 All of our arguments that use NAND++ configurations can be carried out with Turing machine configurations as well.
 :::
 
-:::
 
 ::: {.proof data-ref="onedimcathm"}
-Assume without loss of generality that  $P$ is a well-formed NAND++ program with $a$ array variables and $b$ scalar variables. (Otherwise we can translate it to such a program.)  Then $NEXT_P$ (the function of [confignandppdef](){.ref} that maps a configuration of $P$ into the next one) is in fact a valid rule for a  one dimensional automata. The only thing we have to do is to identify the default value of $\varnothing$ with the value $0^a$ (which corresponds to the index not being in this location and all array variables are set to $0$).
+Assume without loss of generality that  $P$ is a well-formed NAND++ program with $a$ array variables and $b$ scalar variables. (Otherwise we can translate it to such a program.)  Let $\Sigma = \{0,1\}^{a+b+3}$ (a space which, as we saw, is large enough to encode every coordinate of a configuration), and hence think of a configuration as a string in $\sigma \in \Sigma^*$ such that the $i$-th coordinate in $\sigma' = NEXT_P(\sigma)$  only depends on the $i-1$-th, $i$-th, and $i+1$-th coordinate of $\sigma$.
+Thus $NEXT_P$ (the function of [confignandppdef](){.ref} that maps a configuration of $P$ into the next one) is in fact a valid rule for a  one dimensional automata. The only thing we have to do is to identify the default value of $\varnothing$ with the value $0^a$ (which corresponds to the index not being in this location and all array variables are set to $0$).
 
 
 For every input $x$, we can  compute $\alpha(x)$ to be the configuration corresponding to the initial state of $P$ when executed on input $x$.
@@ -965,7 +1006,7 @@ Some examples of Turing Equivalent models include:
 
 >_"[In 1934], Church had been speculating, and finally definitely proposed, that the $\lambda$-definable functions are all the effectively calculable functions .... When Church proposed this thesis, I sat down to disprove it ... but, quickly realizing that [my approach failed], I became overnight a supporter of the thesis."_, Stephen Kleene, 1979.
 
->_"[The thesis is] not so much  a definition or to an axiom but ... a natural law."_, Emil Post, 1936. 
+>_"[The thesis is] not so much  a definition or to an axiom but ... a natural law."_, Emil Post, 1936.
 
 We have defined functions to be _computable_ if they can be computed by a NAND++ program, and we've seen that the definition would remain the same if we replaced NAND++ programs by Python programs, Turing machines, $\lambda$ calculus,  cellular automata, and many other computational models.
 The _Church-Turing thesis_ is that this is the only sensible definition of "computable" functions.

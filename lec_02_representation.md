@@ -4,13 +4,13 @@
 # Computation and Representation {#chaprepres }
 
 > # { .objectives }
-* Internalize the concept of _representing_ an object as a string (often of zeroes and ones).
-* Examples for common objects such as numbers, vectors, lists, graphs.
+* _Representating_ an object as a string (often of zeroes and ones).
+* Examples of representations for common objects such as numbers, vectors, lists, graphs.
 * Prefix-free representations.
 * Distinguish between _specification_ and _implementation_, or equivalently between _algorithms/programs_ and _mathematical functions_.
 
 
->_"The alphabet was a great invention, which enabled men to store and to learn with little effort what others had learned the hard way-that is, to learn from books rather than from direct, possibly painful, contact with the real world."_, B.F. Skinner
+>_"The alphabet was a great invention, which enabled men to store and to learn with little effort what others had learned the hard way -- that is, to learn from books rather than from direct, possibly painful, contact with the real world."_, B.F. Skinner
 
 
 >_"The name of the song is called `HADDOCK'S EYES.'"_ [said the Knight]
@@ -127,7 +127,7 @@ If you don't remember the definitions of _one-to-one_, _onto_, _total_ and _part
 
 > # {.remark title="Meaning of representation" #represphilrem}
 It is natural for us to think of $236$ as a the "actual" number, and of $00110111$ as "merely" its representation.
-However, for most Europeans in the middle ages `CCXXXVI` would be the "actual" number and $236$ (if they have heard about it) would be the weird Hindu-Arabic positional representation.^[While the Babylonians already invented a positional system much earlier, the decimal  positional system we use today was invented by Indian mathematicians around the third century. It was taken up by Arab mathematicians in the 8th century. It was mainly introduced to Europe in the 1202 book _"Liber Abaci"_ by  Leonardo of Pisa, also known as Fibonacci, but has  not displaced Roman numerals in common usage until the 15th century.]
+However, for most Europeans in the middle ages `CCXXXVI` would be the "actual" number and $236$ (if they have heard about it) would be the weird Hindu-Arabic positional representation.^[While the Babylonians already invented a positional system much earlier, the decimal  positional system we use today was invented by Indian mathematicians around the third century. It was taken up by Arab mathematicians in the 8th century. It was mainly introduced to Europe in the 1202 book _"Liber Abaci"_ by  Leonardo of Pisa, also known as Fibonacci, but did not displace Roman numerals in common usage until the 15th century.]
 When our AI robot overlords materialize, they will probably think of $00110111$ as the "actual" number and of $236$ as "merely" a representation that they need to use when they give commands to humans.
 >
 So what is the "actual" number? This is a question that philosophers of mathematics have pondered over the generations.
@@ -155,7 +155,7 @@ For example, in this particular representation the two strings $1$ and $0$ both 
 We can also allow a _partial_ decoding function for representations.
 For example,   in the representation above there is no number that is represented by the empty string.
 But this is still a fine representation, since the decoding partial function is onto and the encoding function is the one-to-one total function $E:\Z \rightarrow \{0,1\}^*$ which maps an integer of the form $a\times k$, where $a\in \{\pm 1 \}$ and $k\in \N$ to the bit $(-1)^a$ concatenated with  the binary representation of $k$.
-That is, every integer can be represented as a string, and two distinct integers have distinct representations.
+That is, every integer can be represented as a string, and every two distinct integers have distinct representations.
 
 
 > # {.remark title="Interpretation and context" #contextreprem}
@@ -174,14 +174,15 @@ For example, recall that we represent $4$ as $(0,0,1)$ and  $35$ as $(1,1,0,0,0,
 Hence, if we used such simple concatenation then we would not be able to tell if the string $(0,0,1,1,1,0,0,0,1)$ is supposed to represent $4/35$ or  $12/17$.^[The above assumes we use the simple binary representation of natural numbers as strings. If we want to handle negative numbers then we should add the sign bit as well, though it would not make any qualitative difference to this discussion.]
 
 The way to tackle this is to find a general representation for _pairs_ of numbers.
-If we were using a pen and paper, we would simply use a separator such as the semicolon symbol to represent, for example, the pair consisting of the numbers represented by $(0,1)$ and $(1,1,0,0,0,1)$ as the length-$9$ string $s$ "$01;110001$".
+If we were using a pen and paper, we would simply use a separator such as the  symbol $\|$ to represent, for example, the pair consisting of the numbers represented by $(0,1)$ and $(1,1,0,0,0,1)$ as the length-$9$ string $s$ "$01\|110001$".
+This is just like people add spaces and punctuation to separate words in English.
 By adding a little redundancy, we can do just that in the digital domain.
-The idea is that we will map the three element set $\Sigma = \{0,1,;\}$  to the four element set $\{0,1\}^2$ via the one-to-one map that takes $0$ to $00$, $1$ to $11$ and $;$ to $01$.
+The idea is that we will map the three element set $\Sigma = \{0,1,\|\}$  to the four element set $\{0,1\}^2$ via the one-to-one map that takes $0$ to $00$, $1$ to $11$ and $\|$ to $01$.
 
 > # {.example title="Representing a rational number as a string" #represnumberbypairs}
 Consider the rational number $r=19/236$. In our convention, we represent $19$ as the string $11001$ and $236$ as the string $00110111$, and so we could rerpresent $r$ as the _pair_ of strings $(11001,00110111)$.
-We can then represent this pair as the length $14$ string $11001;00110111$ over the alphabet $\{0,1,;\}$.
-Now, applying the map $0 \mapsto 00$, $1\mapsto 11$, $; \mapsto 01$, we can represent the latter string as the length $28$ string  $s=1111000011010000111100111111$ over the alphabet $\{0,1\}$.
+We can then represent this pair as the length $14$ string $11001\|00110111$ over the alphabet $\{0,1,\|\}$.
+Now, applying the map $0 \mapsto 00$, $1\mapsto 11$, $\| \mapsto 01$, we can represent the latter string as the length $28$ string  $s=1111000011010000111100111111$ over the alphabet $\{0,1\}$.
 So we represent the rational number $r=19/36$ be the binary string $s=1111000011010000111100111111$.
 >
 More generally, we obtained a representation of the non-negative rational numbers as binary strings by composing the following representations:
@@ -189,13 +190,13 @@ More generally, we obtained a representation of the non-negative rational number
 1. Representing a non-negative rational number as a pair of natural numbers. \
 2. Representing a natural number by a string via the binary representation. (We can use the representation of integers to handle rational numbers that can be negative. )\
 3. Combining 1 and 2 to obtain representation of a rational number as a pair of strings. \
-4. Representing a pair of strings over $\{0,1\}$ as a single string over $\Sigma = \{0,1,;\}$. \
+4. Representing a pair of strings over $\{0,1\}$ as a single string over $\Sigma = \{0,1,\|\}$. \
 5. Representing a string over $\Sigma$ as a longer string over $\{0,1\}$.
 
 
 More generally, the above encoding yields a  one-to-one map $E$ from strings over the alphabet $\Sigma$ to binary strings, such that for every $s\in \Sigma^*$, $|E(s)|=2|s|$.
 Using this, we get a one-to-one map $E': (\{0,1\}^*)\times (\{0,1\}^*) \rightarrow \{0,1\}^*$ mapping _pairs_ of binary strings into a single binary string.
-Given every pair $(a,b)$ of binary strings, we will first map it in a one-to-one way to a string $s \in \Sigma^*$ using `;` as a separator, and then map $s$ to a single (longer) binary string using the encoding $E$.
+Given every pair $(a,b)$ of binary strings, we will first map it in a one-to-one way to a string $s \in \Sigma^*$ using $\|$ as a separator, and then map $s$ to a single (longer) binary string using the encoding $E$.
 The same idea can be used to represent triples, quadruples, and generally all tuples of strings as a single string (can you see why?).
 
 
@@ -243,7 +244,7 @@ Then there is no one-to-one map $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$.^[$Ft
 There _does_ exist a one-to-one map $FtR:\{0,1\}^\infty \rightarrow \R$.^[$FtR$ stands for "functions to reals."]
 
 [sequencestostrings](){.ref} and [sequencestoreals](){.ref} together  imply [cantorthm](){.ref}.
-To see why, suppose, towards the sake of contradiction, that there did exist a one-to-one function $RtS:\R \rightarrow \{0,1\}^*$.
+To see why, suppose, for the sake of contradiction, that there did exist a one-to-one function $RtS:\R \rightarrow \{0,1\}^*$.
 By [sequencestoreals](){.ref}, there exists a one-to-one function $FtR:\{0,1\}^\infty \rightarrow \R$.
 Thus, under this assumption, since the composition of two one-to-one functions is one-to-one (see [onetoonecompex](){.ref}), the function $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$ defined as $FtS(f)=RtS(FtR(f))$ will be one to one, contradicting [sequencestostrings](){.ref}.
 See [proofofcantorfig](){.ref} for a graphical illustration of this argument.
@@ -254,7 +255,7 @@ Now all that is left is to prove these two lemmas.
 We start by proving  [sequencestostrings](){.ref} which is really the heart of [cantorthm](){.ref}.
 
 > # {.proof data-ref="sequencestoreals"}
-Let us assume, towards the sake of contradiction, that there exists a one-to-one function $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$.
+Let us assume, for the sake of contradiction, that there exists a one-to-one function $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$.
 Then, there is an _onto_ function $StF:\{0,1\}^* \rightarrow \{0,1\}^\infty$ (e.g., see [onetooneimpliesonto](){.ref}).
 We will derive a contradiction by coming up with some function $f^* : \N \rightarrow \{0,1\}$ such that $f^* \neq StF(x)$ for every $x\in \{0,1\}^*$.
 >
@@ -264,7 +265,7 @@ Since two functions are identical if and only if they agree on every input, to d
 (All these quantifiers can be confusing, so let's again recap where we are and where we want to get to. We assumed by contradiction there  is a one-to-one $FtS$ and hence an onto $StF$. To get our desired contradiction we need to show the _existence_ of  a single $f^*$ such that for _every_ $x\in \{0,1\}^*$ there _exists_ $n\in \N$ on which $f^*$ and $g=StF(x)$ disagree.)
 >
 The idea is to construct $f^*$ iteratively: for every $x\in \{0,1\}^*$ we will "ruin" $f^*$ in one input $n(x)\in \N$ to ensure that $f^*(n(x)) \neq g(n(x))$ where $g=StF(x)$.
-If we are successful then this would ensure that $f^* \neq STF(x)$ for every $x$.
+If we are successful then this would ensure that $f^* \neq StF(x)$ for every $x$.
 Specifically, for every $x\in \{0,1\}^*$, let $n(x) \in N$ be the number $x_0 + 2x_1 + 4x_2 + \cdots +2^{k-1}x_{k-1} + 2^{k}$ where $k=|x|$.
 That is, $n(x) = 2^k + \sum_{i=0}^{k-1}2^i x_i$.
 If $x\neq x'$ then $n(x) \neq n(x')$  (we leave verifying this as an exercise to you, the reader).
@@ -381,7 +382,7 @@ Let $k=|S|$ and $m=|T|$ and so write the elements of $S$ and $T$ as $S = \{ s_0 
 For the "if" direction, if $k \leq m$ we can simply define $E(s_i)=t_i$ for every $i\in [k]$.
 Clearly for $i \neq j$, $t_i = E(s_i) \neq E(s_j) = t_j$, and hence this function is one-to-one.
 In the other direction, suppose that $k>m$ and  $E: S \rightarrow T$ is some function. Then $E$ cannot be one-to-one.
-Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$. If $t_j$ was marked before, then we have found two objects in $S$ mapping to the same element $t_j$. Otherwise, since $T$ has $m$ elements,  when we get to $i=m-1$ we mark all the objects in $T$. Hence, in this case $E(s_m)$ must map to an element that was already marked before.^[This direction is sometimes known as the "Pigeon Hole Principle": the principle that if you have pigeon coop with $m$ holes, and $k>m$ pigeons, then there must be two pigeon in the same hole. ]
+Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$. If $t_j$ was marked before, then we have found two objects in $S$ mapping to the same element $t_j$. Otherwise, since $T$ has $m$ elements,  when we get to $i=m-1$ we mark all the objects in $T$. Hence, in this case $E(s_m)$ must map to an element that was already marked before.^[This direction is sometimes known as the "Pigeon Hole Principle": the principle that if you have a pigeon coop with $m$ holes, and $k>m$ pigeons, then there must be two pigeons in the same hole. ]
 
 Now the size of $\{0,1\}^n$ is $2^n$, and the size of $\{0,1\}^{\leq n}$ is only slightly bigger: $2^0 + 2^1 + \ldots + 2^n = 2^{n+1}-1$ by the formula for a [geometric series](https://en.wikipedia.org/wiki/Geometric_progression).
 
@@ -390,13 +391,13 @@ Now the size of $\{0,1\}^n$ is $2^n$, and the size of $\{0,1\}^{\leq n}$ is only
 
 ### Prefix-free encoding { #prefixfreesec }
 
-In our discussion of the representation of rational numbers, we used the "hack" of encoding the alphabet $\{$,`0`,`1`,`;`$\}$ to represent tuples of strings as a single string.
+In our discussion of the representation of rational numbers, we used the "hack" of encoding the alphabet $\{ 0,1, \|\}$  to represent tuples of strings as a single string.
 This turns out to be a special case of the  general paradigm of _prefix-free_ encoding.
 An encoding function $E:\mathcal{O} \rightarrow \{0,1\}^*$ is _prefix-free_ if  there are no two objects $o \neq o'$ such that the representation $E(o)$  is a _prefix_ of the representation $E(o')$. The definition of prefix is as you would expect: a length $n$ string $x$ is a prefix of a length $n' \geq n$ string $x'$ if $x_i=x'_i$ for every $1 \leq i \leq n$.
 Given a representation scheme for $\mathcal{O}$ with a prefix-free encoding map, we can use simple concatenation to encode tuples of objects in $\mathcal{O}$:
 
 > # {.theorem title="Prefix-free implies tuple encoding" #prefixfreethm}
-Suppose that $(E,D)$ is a representation scheme for $\mathcal{O}$ and $E$ is prefix-free.
+Suppose that $(E,D)$ is a representation scheme for $\mathcal{O}$ and $E$ is prefix free.
 Then there exists a representation scheme $(E',D')$ for $\mathcal{O}^*$ such that for every $(o_0,\ldots,o_{k-1}) \in \mathcal{O}^*$, $E'(o_0,\ldots,o_{k-1}) = E(o_0)E(o_1)\cdots E(o_{k-1})$.
 
 > # { .pause }
@@ -458,7 +459,7 @@ Define the function $PF:\{0,1\}^* \rightarrow \{0,1\}^*$ as follows $PF(x)=x_0 x
 >
 To prove the lemma we need to show that __(1)__ $\overline{E}$ is one-to-one and __(2)__ $\overline{E}$ is prefix-free.
 In fact __(2)__ implies __(1)__, since if $\overline{E}(o)$ is never a prefix of $\overline{E}(o')$ for every $o \neq o'$ then in particular  $\overline{E}$ is one-to-one.
-Now suppose, toward the sake of contradiction, that there are $o \neq o'$ in $\mathcal{O}$ such that $\overline{E}(o)$ is  a prefix of $\overline{E}(o')$. (That is, if $y=\overline{E}(o)$ and $y'=\overline{E}(o')$, then  $y_j = y'_j$ for every $j<|y|$.)
+Now suppose, toward a contradiction, that there are $o \neq o'$ in $\mathcal{O}$ such that $\overline{E}(o)$ is  a prefix of $\overline{E}(o')$. (That is, if $y=\overline{E}(o)$ and $y'=\overline{E}(o')$, then  $y_j = y'_j$ for every $j<|y|$.)
 >
 Define $x = E(o)$ and $x'=E(o')$.
 Note that since $E$ is one-to-one, $x \neq x'$.
@@ -476,9 +477,10 @@ We leave proving this as an exercise (see [prefix-free-ex](){.ref}).
 
 The proofs of [prefixfreethm](){.ref} and [predixfreeransformation](){.ref} are _constructive_ in the sense that they give us:
 
-* A way to transform the encoding and decoding functions of any representation of an object $O$ to a encoding and decoding functions that are prefix-free.
+* a way to transform the encoding and decoding functions of any representation of an object $O$ to a encoding and decoding functions that are prefix free;
 
-* A way to extend prefix-free encoding and decoding of single objects to encoding and decoding of _lists_ of objects by concatenation.
+* a way to extend prefix-free encoding and decoding of single objects to encoding and decoding of _lists_ of objects by concatenation.
+
 
 Specifically, we could transform any pair of Python functions `encode` and `decode` to functions `pfencode` and `pfdecode` that correspond to a prefix-free encoding and decoding.
 Similarly, given `pfencode` and `pfdecode` for single objects, we can extend them to encoding of lists.
@@ -672,9 +674,9 @@ int main(void) {
 ### Representing vectors, matrices, images
 
 Once we can represent numbers, and lists of numbers, then we can obviously represent _vectors_ (which are just lists of numbers).
-Similarly, we can represent lists of lists and so in particular _matrices_.
+Similarly, we can represent lists of lists, and thus in particular  can represent _matrices_.
 To represent an image, we can represent the color at each pixel by a list of three numbers corresponding to the intensity of Red, Green and Blue.^[We can restrict to three basic colors since ([most](https://en.wikipedia.org/wiki/Tetrachromacy)) humans only have three types of cones in their retinas. We would have needed 16 basic colors to represent colors visible to the [Mantis Shrimp](https://en.wikipedia.org/wiki/Mantis_shrimp).]
-Thus an image of $n$ pixels would be represented of a list of $n$ such length-three lists.
+Thus an image of $n$ pixels would be represented by a list of $n$ such length-three lists.
 A video can be represented as a list of images.^[Of course these representations are rather wasteful and [much](https://en.wikipedia.org/wiki/JPEG) [more](https://en.wikipedia.org/wiki/H.264/MPEG-4_AVC) compact representations are typically used for images and videos, though this will not be our concern in this course.]
 
 ### Representing graphs
@@ -759,7 +761,7 @@ Here are some examples:
 
 * Given (a representation of) a graph $G$ and two vertices $s$ and $t$, compute the length of the shortest path in $G$ between $s$ and $t$, or do the same for the _longest_ path (with no repeated vertices) between $s$ and $t$. Both these tasks correspond to computing a function from $\{0,1\}^*$ to $\{0,1\}^*$, though it turns out that there is a huge difference in their computational difficulty.
 
-* Given the code of a Python program, is there an input that would force it into an infinite loop. This corresponds to computing a partial function from $\{0,1\}^*$ to $\{0,1\}$; though it is easy to make it into a total function by mapping every string into the trivial Python program that stops without doing anything. We will see that we _do_ understand the computational status of this problem, but the answer is quite surprising.
+* Given the code of a Python program, determine whether there is an input that would force it into an infinite loop. This corresponds to computing a partial function from $\{0,1\}^*$ to $\{0,1\}$; though it is easy to make it into a total function by mapping every string into the trivial Python program that stops without doing anything. We will see that we _do_ understand the computational status of this problem, but the answer is quite surprising.
 
 *  Given (a representation of) an image $I$, decide if $I$ is a photo of a cat or a dog. This correspond to computing  some (partial) function from $\{0,1\}^*$ to $\{0,1\}$.
 
@@ -796,7 +798,7 @@ It does not help that programming languages (my favorite Python included) use th
 This confusion also stems from thousands of years of mathematical history, where people typically defined functions by means of a way to compute them.
 
 For example, consider the  multiplication function on natural numbers.
-This is the function $MULT:\N\times N \rightarrow \N$ that maps a pair $(x,y)$ of natural numbers to the number $x \cdot y$.
+This is the function $MULT:\N\times \N \rightarrow \N$ that maps a pair $(x,y)$ of natural numbers to the number $x \cdot y$.
 As we mentioned, it can be implemented in more than one way:
 
 ```python
@@ -935,7 +937,7 @@ a. For every $k \leq n$ and length-$k$ string $x\in S$, let $L(x) \subseteq \{0,
 
 b. Prove that $\sum_{x\in S}2^{-|x|} \leq 1$.
 
-c. Prove that there is no prefix-free encoding of strings with less than logarithmic overhead. That is, prove that there is no function $PF:\{0,1\}^* \rightarrow \{0,1\}^*$ s.t. $|PF(x)| \leq |x|+0.9\log |x|$ for every $x\in \{0,1\}^*$ and such that the set $\{ PF(x) : x\in \{0,1\}^* \}$ is prefix-free.
+c. Prove that there is no prefix-free encoding of strings with less than logarithmic overhead. That is, prove that there is no function $PF:\{0,1\}^* \rightarrow \{0,1\}^*$ s.t. $|PF(x)| \leq |x|+0.9\log |x|$ for every $x\in \{0,1\}^*$ and such that the set $\{ PF(x) : x\in \{0,1\}^* \}$ is prefix-free. The factor $0.9$ is arbitrary; all that matters is that it is less than $1$.
 :::
 
 > # {.exercise title="Composition of one-to-one functions" #onetoonecompex}
@@ -962,7 +964,7 @@ Historically, a function $F$ was  identified by  rules or formulas showing  how 
 As we discuss in greater  depth in  [chapcomputable](){.ref}, in the 1800's this somewhat informal notion of a function started "breaking at the seams" and eventually mathematicians arrived at the more rigorous definition of  a function as an arbitrary assignment of input to outputs.
 While many  functions may be described (or computed) by one or more  formulas, today we do not consider that to be an essential property of functions, and also allow functions that do not correspond to any "nice" formula.
 
-Gromov and Pomerantz's quotes are lifted from [Doron Zielberger's page](http://sites.math.rutgers.edu/~zeilberg/quotes.html).
+Gromov and Pomerantz's quotes are lifted from [Doron Zeilberger's page](http://sites.math.rutgers.edu/~zeilberg/quotes.html).
 
 ## Further explorations
 
@@ -972,4 +974,4 @@ Some topics related to this chapter that might be accessible to advanced student
 
 * We've mentioned that all  representations of the real numbers are inherently _approximate_. Thus an important endeavor is to understand what guarantees we can offer on the approximation quality of the output of an algorithm, as a function of the approximation quality of the inputs. This is known as the question of [numerical stability](https://en.wikipedia.org/wiki/Numerical_stability).
 
-* The linear algebraic view of graphs. The adjacency matrix representation of graphs is not merely a convenient way to map a graph into a binary string, but it turns out that many natural notions and operations on matrices are useful for graphs as well. (For example, Google's PageRank algorithm relies on this viewpoint.)  The notes of [this course](http://www.cs.yale.edu/homes/spielman/561/) are an excellent source for this area, known as _spectral graph theory_. We might discuss this view much later in this course when we talk about _random walks_.
+* _The linear algebraic view of graphs_: The adjacency matrix representation of graphs is not merely a convenient way to map a graph into a binary string, but it turns out that many natural notions and operations on matrices are useful for graphs as well. (For example, Google's PageRank algorithm relies on this viewpoint.)  The notes of [this course](http://www.cs.yale.edu/homes/spielman/561/) are an excellent source for this area, known as _spectral graph theory_. We might discuss this view much later in this course when we talk about _random walks_.

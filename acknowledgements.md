@@ -34,6 +34,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Jacob Meyerson
 * George Moe
 * Hamish Nicholson
+* Sandip Nirmel
 * Sebastian Oberhoff
 * Thomas Orton
 * Pablo Parrilo
@@ -44,6 +45,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Josh Seides
 * Alaisha Sharma
 * Matthew Smedberg
+* Noah Singer
 * Miguel Solano
 * Hikari Sorensen
 * David Steurer
@@ -57,5 +59,6 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Ryan Williams
 * Licheng Xu
 * Wanqian Yang
+* Elizabeth Yeoh-Wang
 * Josh Zelinsky
 * Jessica Zhu

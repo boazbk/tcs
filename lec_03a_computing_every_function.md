@@ -591,26 +591,26 @@ To prove [NAND-univ-thm](){.ref}, we need to give a NAND program  for _every_ po
 We will restrict our attention to the case of Boolean functions (i.e., $m=1$).
 In [mult-bit-ex](){.ref} you will show how to extend the proof for all values of $m$.
 A function $F: \{0,1\}^n\rightarrow \{0,1\}$ can be specified by a table of  its values for each one of the $2^n$ inputs.
-For example, the table below describes one particular function $G: \{0,1\}^4 \rightarrow \{0,1\}$:^[In case you are curious, this is the function that computes the digits of $\pi$ in the binary basis.]
+For example, the table below describes one particular function $G: \{0,1\}^4 \rightarrow \{0,1\}$:^[In case you are curious, this is the function that computes the digits of $\pi$ in the binary basis. Note that as per the convention of this course, if we think of strings as numbers then we right them with the least significant digit first.]
 
 
 | Input ($x$) | Output ($G(x)$) |
 |:------------|:----------------|
 | $0000$      | 1               |
-| $0001$      | 1               |
-| $0010$      | 0               |
-| $0011$      | 0               |
-| $0100$      | 1               |
-| $0101$      | 0               |
-| $0110$      | 0               |
-| $0111$      | 1               |
-| $1000$      | 0               |
-| $1001$      | 0               |
+| $1000$      | 1               |
+| $0100$      | 0               |
+| $1100$      | 0               |
+| $0010$      | 1               |
 | $1010$      | 0               |
-| $1011$      | 0               |
-| $1100$      | 1               |
-| $1101$      | 1               |
+| $0110$      | 0               |
 | $1110$      | 1               |
+| $0001$      | 0               |
+| $1001$      | 0               |
+| $0101$      | 0               |
+| $1101$      | 0               |
+| $0011$      | 1               |
+| $1011$      | 1               |
+| $0111$      | 1               |
 | $1111$      | 1               |
 
 
@@ -627,24 +627,24 @@ Therefore the following is NAND "pseudocode" to compute $G$:
 
 ```python
 G0000 = 1
-G0001 = 1
-G0010 = 0
-G0011 = 0
-G0100 = 1
-G0101 = 0
-G0110 = 0
-G0111 = 1
-G1000 = 0
-G1001 = 0
+G1000 = 1
+G0100 = 0
+G1100 = 0
+G0010 = 1
 G1010 = 0
-G1011 = 0
-G1100 = 1
-G1101 = 1
+G0110 = 0
 G1110 = 1
+G0001 = 0
+G1001 = 0
+G0101 = 0
+G1101 = 0
+G0011 = 1
+G1011 = 1
+G0111 = 1
 G1111 = 1
-Y[0] = LOOKUP(G0000,G0001,G0010,G0011,G0100,
-              G0101,G0110,G0111,G1000,G1001,
-              G1010,G1011,G1100,G1101,G1111,
+Y[0] = LOOKUP(G0000,G1000,G0100,G1100,G0010,
+              G1010,G0110,G1110,G0001,G1001,
+              G0101,G1101,G0011,G1011,G1111,
               X[0],X[1],X[2],X[3])
 ```
 
@@ -655,7 +655,7 @@ There was nothing about the above reasoning that was particular to this program.
 
 1. Initialize $2^n$ variables of the form `F00...0` till `F11...1` so that for every $z\in\{0,1\}^n$,  the variable corresponding to $z$ is assigned the value $F(z)$.
 
-2. Compute $LOOKUP_n$ on the $2^n$ variables initialized in the previous step, with the index variable being the input variables `X[`$\expr{0}$ `]`,...,`X[`$\expr{2^n-1}$ `]`. That is, just like in the pseudocode for `G` above, we use `Y[0] = LOOKUP(F00..00,F00...01,...,F11..1,X[0],..,x[`$\expr{n-1}$`])`
+2. Compute $LOOKUP_n$ on the $2^n$ variables initialized in the previous step, with the index variable being the input variables `X[`$\expr{0}$ `]`,...,`X[`$\expr{2^n-1}$ `]`. That is, just like in the pseudocode for `G` above, we use `Y[0] = LOOKUP(F00..00,F10...00,...,F11..1,X[0],..,x[`$\expr{n-1}$`])`
 
 The total number of lines in the program will be $2^n$ plus the $4\cdot 2^n$ lines that we pay for computing $LOOKUP_n$.
 This completes the proof of [NAND-univ-thm](){.ref}.

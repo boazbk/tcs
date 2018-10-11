@@ -15,11 +15,12 @@
 
 
 
-The NAND programming language has one very significant drawback: a finite NAND program $P$ can only compute a finite function $F$, and in particular the number of inputs of $F$ is always smaller than (twice) the number of lines of $P$.^[This conceptual point holds for any straightline programming language, and is independent  of the particular syntactical choices we made for NAND. The particular ratio of "twice" is true for NAND because input variables cannot be written to, and hence a NAND program of $s$ lines includes at most $2s$ input variables. Coupled with the fact that a NAND program can't include `X[` $i$ `]` if it doesn't include `X[` $j$ `]` for $j<i$, this implies that the length of the input is at most $2s$.]
+The NAND programming language (or equivalently, the Boolean circuits model) has one very significant drawback: a finite NAND program $P$ can only compute a finite function $F$, and in particular the number of inputs of $F$ is always smaller than (twice) the number of lines of $P$.^[This conceptual point holds for any straightline programming language, and is independent  of the particular syntactical choices we made for NAND. The particular ratio of "twice" is true for NAND because input variables cannot be written to, and hence a NAND program of $s$ lines includes at most $2s$ input variables. Coupled with the fact that a NAND program can't include `X[` $i$ `]` if it doesn't include `X[` $j$ `]` for $j<i$, this implies that the length of the input is at most $2s$. Similarly, a Boolean circuit whose gates correspond to two-input functions cannot have more inputs than twice the number of gates.]
 
 This does not capture our intuitive notion of an algorithm as a _single recipe_ to compute a potentially infinite function.
-For example, the standard elementary school multiplication algorithm is a _single_ algorithm that multiplies numbers of all lengths, but yet we cannot express this algorithm as a single NAND program, but rather need a different NAND program for every input length.
+For example, the standard elementary school multiplication algorithm is a _single_ algorithm that multiplies numbers of all lengths, but yet we cannot express this algorithm as a single NAND program, but rather need a different NAND program for every input length (see [multschoolfig](){.ref}).
 
+![Once you know how to multiply multi-digit numbers, you can do so for every number $n$ of digits, but if you had to describe multiplication using NAND programs or Boolean circuits, you would need a different program/circuit for every length $n$ of the input.](../figure/multiplicationschool.png){#multschoolfig .class width=300px height=300px}
 
 Let us consider the case of the simple _parity_ or _XOR_ function  $XOR:\{0,1\}^* \rightarrow \{0,1\}$, where $XOR(x)$ equals $1$ iff the number of $1$'s in $x$ is odd.
 As simple as it is, the $XOR$ function cannot be computed by a NAND program.
@@ -61,7 +62,15 @@ while i<len(X):
 Y[0] = s
 ```
 
-We will now discuss how we can extend the  NAND programming language so that it can capture these kinds of  constructs.
+In this chapter we will show how we can extend the   NAND programming language so that it can capture these kinds of  constructs.
+We will see two ways to do so:
+
+* The _NAND++ Programming language_ extends   NAND  with the notion of _loops_ and _arrays_ to allow a finite program that can compute a function with arbitrarily long inputs.
+
+* _Turing machines_ are the classical way to give a finite description of an algorithm for arbitrarily long inputs.
+
+It turns out that these two models are _equivalent_, and in fact they are equivalent to a great many other computational models including  programming languages you  may be familiar with such as C, Java, Python, Javascript, OCaml, and so on and so forth. This notion, known as  _Turing equivalence_ or _Turing completeness_, will be discussed in [chapequivalentmodels](){.ref}.
+We start off by presenting NAND++ and then show Turing machines, though it is also possible to present them in the opposite orders.
 
 
 ## The NAND++ Programming language
@@ -100,7 +109,7 @@ Enhanced NAND++ programs add the following features on top of NAND:
 
 * We add  _arrays_ to the language by allowing variable identifiers to have the form `Foo[i]`. `Foo` is an array of Boolean values, and `Foo[i]` refers to the value of this array at location equal to the current value of  the variable `i`.
 
-* The input and output `X` and `Y` are now considered _arrays_ with values of zeroes and ones. Since both input and output could have arbitrary length, we also add two new arrays `Xvalid` and `Yvalid` to mark their length. We define `Xvalid[` $i$ `]` $=1$  if and only if $i$ is smaller than the length of the input, and similarly we will set `Yvalid[` $j$ `]` to equal $1$ if and only if $j$ is smaller than the length of the output.
+* The input and output `X` and `Y` are now considered _arrays_ with values of zeroes and ones. Since both input and output could have arbitrary length, we also add two new arrays `Xvalid` and `Yvalid` to mark their length. We define `Xvalid[` $i$ `]` $=1$  if and only if $i$ is smaller than the length of the input, and similarly we will set `Yvalid[` $j$ `]` to equal $1$ if and only if $j$ is smaller than the length of the output.^[`Xvalid` and `Yvalid` are used to mark the end of the input and output. This does not mean that the program will "blow up" if it tries to access for example `X[`$j$`]` for a value $j$ for which `Xvalid[`$j$`]`$=0$. All it means is that this value (which will default to $0$) does not correspond to an actual input bit, and we can use `Xvalid` to determine that this is the case. Perhaps  more descriptive (though also more cumbersome) names would have been `Xlongerthan` and `Ylongerthan`.]
 
 
 
@@ -167,33 +176,43 @@ Working out the above two example can go a long way towards understanding NAND++
 See the appendix for a full specification of the language.
 :::
 
-> # {.remark title="Variables as arrays" #arrays}
+### Variables as arrays and well-formed programs
+
 In NAND we allowed variables to have names such as `foo_17` or even `Bar[23]` but the numerical part of the identifier played essentially the same role as alphabetical part. In particular, NAND would be just as powerful if we didn't allow any numbers in the variable identifiers.
 With the introduction of the special index variable `i`, in NAND++ things are different, and we do have actual arrays.
->
-To make sure there is no confusion, we will insist that plain variables (which we will also refer to as _scalar_ variables) are written with all lower case, and _array variables_ begin with an upper case letter.
+
+To make sure there is no confusion, we will use the convention that plain variables (which we will also refer to as _scalar_ variables) are written with all lower case, and _array variables_ begin with an upper case letter.
 Moreover, it turns out that we can ensure without loss of generality that arrays are always indexed by the variable `i`.
-Hence all the variable identifiers in "well formed" NAND++ programs will either have the form `foo_123` (a sequence of lower case letters, underscores, and numbers, with no brackets or upper case letters) or the form `Bar[i]` (an identifier starting with an upper case letter, and ending with `[i]`).^[We will also assume that "well formed" NAND++ program contain the variables `zero`, `one` which are the corresponding constants and the `indexincreasing` variable which is discussed in [vanillatoenhancedsec](){.ref}.]
->
-Some of our example programs, such as the program to compute XOR  in [XORNANDPP](){.ref}, are not well formed, in the sense that they index the `X` and `Y` arrays with `0` and not just `i`.
-However, it is not hard to transform them into well formed programs (see [noabsoluteindexex](){.ref})
+(That is, if `Foo` is an array, then whenever `Foo` is referred to in the program, it is always in the form `Foo[i]` and never as `Foo[17]`, `Foo[159]` or any other constant numerical index.)
+Hence all the variable identifiers in "well formed" NAND++ programs will either have the form `foo_123` (a sequence of lower case letters, underscores, and numbers, with no brackets or upper case letters) or the form `Bar[i]` (an identifier starting with an upper case letter, and ending with `[i]`).
+See  [wellformedlem](){.ref} for a more formal treatment of the notion of "well formed programs".
 
 
 ### "Oblivious" / "Vanilla" NAND++
 
 Since our goal in theoretical computer science is not as much to _construct_
 programs  as to _analyze_ them, we want to use as simple as possible computational models.
-Hence our actual NAND++ programming language will be even more "bare bones" than enhanced NAND++.
-In particular, NAND++ does _not_ contain the commands `i += foo` and `i -= bar` to control the integer-valued variable `i`.
-Rather in NAND++ the variable `i` always progresses according to the same sequence.
-In the first iteration `i`$=0$, in the second one `i`$=1$, in the third iteration, `i=`$0$ again, and then in the fourth to seventh iterations `i` travels to $2$ and back to $0$ again, and so on and so forth.
+Hence our actual "plain vanilla" NAND++ programming language will be even more "bare bones" than enhanced NAND++.^[We will often use the adjective "vanilla" when we want to emphasize the difference between standard NAND++ and its enhanced variant.]
+In particular, standard NAND++ does _not_ contain the commands `i += foo` and `i -= bar` to control the integer-valued variable `i`.
+If we don't have these commands, how would we ever be able to access arbitrary elements of our arrays?
+The idea is that standard NAND++ prescribes a _pre-fixed schedule_ that `i` progresses in, regardless of the code of the program or the particular input.
+Just like a bus takes always the same route, and you need to wait until it reaches your station, if you want to access, for example, location 132 in the array `Foo`, you can wait until the iteration in which `i` will equal 132, at which point `Foo[i]` will refer to the 132-th bit of the array `Foo`.
+
+So what is this schedule that `i` progresses in? There are many choices for such a schedule that would have worked, but we fix a particular choice for simplicity.
+Initially when we run a NAND++ program, the variable `i` equals $0$.
+When we finish executing all the lines of code for the first time, if `loop` equals $0$ we halt.
+Otherwise we continue to the second iteration, but this time the variable `i` will equal $1$.
+At the end of this iteration once again we halt if `loop` equals $0$, and otherwise we proceed to the third iteration where `i` gets the value of $0$ again. We continue in this way with the fourth iteration having `i`$=1$ and in the fifth iteration `i` is equal to $2$, after which it decreases step by step to $0$ agin and so on and so forth.
 Generally, in the $k$-th iteration the value of `i` equals $I(k)$ where $I=(I(0),I(1),I(2),\ldots)$ is the following sequence (see [indextimefig](){.ref}):
 
 $$
 0,1,0,1,2,1,0,1,2,3,2,1,0,1,\ldots
 $$
 
-![The value of `i` as a function of the current iteration. The variable `i` progresses according to the sequence $0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots$.  At the $k$-th iteration the value of `i` equals $k-r(r+1)$ if $k \leq (r+1)^2$ and $(r+1)(r+2)-k$ if $k<(r+1)^2$ where $r= \floor{\sqrt{k+1/4}-1/2}$.](../figure/indextime.png){#indextimefig .class width=300px height=300px}
+The above is a perfectly fine description of the sequence $I(0),I(1),I(2),\ldots$ but it is also possible to find an explicit mathematical formula for $I(k)$.
+Specifically, it is an annoying but not  hard exercise to show that $I(k)$ is equal to the minimum of $|k-r(r+1)|$ where this minimum is taken over all integers $r$ in $\{0,\ldots,k\}$. It can also be shown that the value of $r$ that achieves this minimum is between $\floor{\sqrt{k}-1}$ and $\ceil{\sqrt{k}}$.
+
+![The value of `i` as a function of the current iteration. The variable `i` progresses according to the sequence $0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots$.  Via some cumbersome but routine calculation, it can be shown that at the $k$-th iteration the value of `i` equals $k-r(r+1)$ if $k \leq (r+1)^2$ and $(r+1)(r+2)-k$ if $k<(r+1)^2$ where $r= \floor{\sqrt{k+1/4}-1/2}$.](../figure/indextime.png){#indextimefig .class width=300px height=300px}
 
 ::: {.example title="XOR in vanilla NAND++" #XORNANDPP}
 Here is the XOR function in NAND++ (using our standard syntactic sugar to make it more readable):
@@ -223,7 +242,7 @@ where $r= \floor{\sqrt{k+1/4}-1/2}$.
 :::
 
 ::: {.solution data-ref="computeindex"}
-We say that a NAND program completed its _$r$-th round_ when the index variable `i` completed the sequence:
+We say that a NAND program completed its _$r$-th round_ when the index variable `i` reaches the $0$ point for $r+1$ times and hence completes the sequence:
 
 $$
 0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots,0,1,\ldots,r,r-1,\ldots,0
@@ -266,7 +285,7 @@ Let $P$ be a NAND++ program. For every input $x\in \{0,1\}^*$, we define the _ou
 
 * Run the program line by line. At the end of the program, if `loop`$=1$ then increment/decrement `i` according to the schedule $0,1,0,1,2,1,0,1,\ldots$ and go back to the first line.
 
-* If `loop`$=0$ at the end of the program, then we halt and ouptput `Y[`$0$`]` , $\ldots$, `Y[`$m-1$`]` where $m$ is the smallest integer such that `Yvalid[`$m$`]`$=0$.
+* If `loop`$=0$ at the end of the program, then we halt and output `Y[`$0$`]` , $\ldots$, `Y[`$m-1$`]` where $m$ is the smallest integer such that `Yvalid[`$m$`]`$=0$.
 
 If the program does not halt on input $x$, then we say it has no output, and we denote this as $P(x) = \bot$.
 :::
@@ -278,7 +297,7 @@ If the program does not halt on input $x$, then we say it has no output, and we 
 We can now define what it means for a function to be _computable_:
 
 ::: {.definition title="Computable functions" #computablefuncdef}
-Let $F:\{0,1\}^* \rightarrow \{0,1\}^*$ be a function and let $P$ be a
+Let $F:\{0,1\}^* \rightarrow \{0,1\}^*$ be a (total) function and let $P$ be a
 NAND++ program.
 We say that $P$ _computes_ $F$ if for every $x\in \{0,1\}^*$, $P(x)=F(x)$.
 
@@ -301,8 +320,15 @@ In particular there can be more than one program to compute the same function.
 Being "NAND++ computable" is a property of _functions_, not of programs.
 
 
+> # {.remark title="Decidable languages" #decidablelanguages}
+Many other texts use the term _decidable languages_ (also known as _recursive languages_) instead of _computable functions_. This terminology has its roots in formal language theory as was pursued by linguists such as Noam Chomsky. A _formal language_ is simply a subset $L \subseteq \{0,1\}^*$ (or more generally $L \subseteq \Sigma^*$ for some finite alphabet $\Sigma$). The _membership_ or _decision_ problem for a language $L$, is the task of determining, given $x\in \{0,1\}^*$, whether or not $x\in L$.
+One can see that this task is equivalent to computing the Boolean function  $F:\{0,1\}^* \rightarrow \{0,1\}$ which is defined as $F(x)=1$ iff $x\in L$.
+Thus saying that the function $F$ is computable is equivalent to saying that the corresponding language $L$ is decidable.
+The corresponding concept to a _partial function_ is known as a [promise problem](https://goo.gl/sBczFM).
 
-::: {.remark title="Infinite loops" #infiniteloops}
+
+### Infinite loops and partial functions
+
 One crucial difference between NAND and NAND++ programs is the following.
 Looking at a NAND program $P$, we can always tell how many inputs and how many outputs it has (by simply looking  at the `X` and `Y` variables).
 Furthermore, we  are guaranteed that if we invoke $P$ on any input then _some_ output will be produced.
@@ -315,13 +341,20 @@ For example, the following NAND++ program would go into an infinite loop if the 
 loop = NAND(X[0],X[0])
 ```
 
-If a program $P$ fails to stop and produce an output on some an input $x$, then it cannot compute any total function. However, it can still compute a _partial_ function.^[A _partial function_ $F$ from a set $A$ to a set $B$ is a function that is only defined on a _subset_ of $A$, (see [functionsec](){.ref}). We can also think of such a function as mapping $A$ to $B \cup \{ \bot \}$ where $\bot$ is a special "failure" symbol such that $F(a)=\bot$  indicates the function $F$ is not defined on $a$.]
-We say that a NAND++ program $P$ computes a partial function $F$ if for every $x$ on which $F$ is defined, on input $x$, $P$ halts and outputs $F(x)$.
+If a program $P$ fails to stop and produce an output on some an input $x$, then it cannot compute any total function $F$, since clearly on input $x$, $P$  will fail to output $F(x)$. However, $P$ can still compute a _partial_ function.^[A _partial function_ $F$ from a set $A$ to a set $B$ is a function that is only defined on a _subset_ of $A$, (see [functionsec](){.ref}). We can also think of such a function as mapping $A$ to $B \cup \{ \bot \}$ where $\bot$ is a special "failure" symbol such that $F(a)=\bot$  indicates the function $F$ is not defined on $a$.]
+
+For example, consider the partial function $DIV$ that on input a pair $(a,b)$ of natural numbers, outputs $\ceil{a/b}$ if $b > 0$, and is undefined otherwise. We can define a program $P$ that computes $DIV$ on input $a,b$ by outputting the first $c=0,1,2,\ldots$ such that $cb \geq a$. If $a>0$ and $b=0$ then the program $P$ will never halt, but this is OK, since $DIV$ is undefined on such inputs. If $a=0$ and $b=0$, the program $P$ will output $0$, which is also OK, since we don't care about what the program outputs on inputs on which $DIV$ is undefined. Formally, we define computability of  partial functions as follows:
+
+::: {.definition title="Computable (partial or total) functions" #computablepartialfuncdef}
+Let $F$ be either a  total or partial function mapping $\{0,1\}^*$ to $\{0,1\}^*$ and let $P$ be a
+NAND++ program.
+We say that $P$ _computes_ $F$ if for every $x\in \{0,1\}^*$ on which $F$ is defined, $P(x)=F(x)$.^[Note that if $F$ is a total function, then it is defined on every $x\in \{0,1\}^*$ and hence in this case, this definition is identical to [computablefuncdef](){.ref}.]
+
+We say that a (partial or total) function $F$ is _NAND++ computable_ if there is a NAND++ program that computes it.
 :::
 
-> # {.remark title="Decidable languages" #decidablelanguages}
-If $F:\{0,1\}^* \rightarrow \{0,1\}$ is a Boolean function, then computing $F$ is equivalent to deciding membership in the set $L=\{ x\in \{0,1\}^* \;|\; F(x)=1 \}$. Subsets of $\{0,1\}^*$ are known as _languages_ in the literature. Such a language  $L \subseteq \{0,1\}^*$ is known as _decidable_ or _recursive_ if the corresponding function $F$ is computable.
-The corresponding concept to a _partial function_ is known as a [promise problem](https://goo.gl/sBczFM).
+
+
 
 
 
@@ -515,33 +548,58 @@ The way we use `GOTO` to implement a higher level functionality in NAND++ is rem
 
 ![XKCD's take on the `GOTO` statement.](../figure/xkcdgoto.png){#xkcdgotofig .class width=300px height=300px}
 
-### Another application of GOTO: well formed programs
+### Well formed programs: The NAND++ style manual
 
 The notion of passing between different variants of programs can  be extremely useful, as often, given a program $P$ that we want to analyze, it would be simpler for us to first modify it to an equivalent program $P'$ that has some convenient properties.
-The following solved exercise is an example of that:
+You can think of this as the NAND++ equivalent of enforcing "coding conventions" that are often used for programming languages.
+For example, while this is not part of the Python language, Google's  [Python style guide](https://github.com/google/styleguide/blob/gh-pages/pyguide.md) stipulates that variables that are initialized to a value and never changed (i.e., constants) are typed with all capital letters. (Similar requirements are used in  other [style guides](https://www.kernel.org/doc/html/v4.10/process/coding-style.html).)
+Of course this does not really restrict the power of Google-conforming Python programs, since every Python program can be transformed to an equivalent one that satisfies this requirement.
+In fact, many programming languages have automatic programs known as [linters](https://www.pylint.org/)  that can detect and sometimes modify the program to fit certain standards.
 
-::: {.solvedexercise title="Making an (enhanced) NAND++ program well formed." #noabsoluteindexex}
-Prove that for every  NAND++ program $P$, there is an   NAND++ program $P'$ equivalent to $P$ that is _well formed_, in the sense that __(1)__ all array variables start with a capital letter, __(2)__ all scalar variables are all lower case, numbers, and underscores, and __(3)__ every access to an array variable has the form `Foo[i]`.
-(That is, we only access the array variable at the location `i` and not any other location.)
+The following solved exercise is an example of that. We will define the notion of a _well-formed program_ and show that every NAND++ program can be transformed into an equivalent one that is well formed.
+
+::: {.definition title="Well-formed programs" #wellformeddef}
+We say that an (enhanced or vanilla) NAND++ program $P$ is _well formed_ if it satisfies the following properties:
+
+* Every reference to a variable in $P$ either has the form `foo` or `foo_123` (a _scalar variable:_ alphanumerical string starting with a lowercase letter and no brackets) or the form `Bar[i]` or `Bar_12[i]` (an _array variable_ alphanumerical string starting with a capital letter and ending with `[i]`).
+
+* $P$ contains the scalar variables `zero`, `one` and `indexincreasing` such that `zero` and `one` are always the constants $0$ and $1$ respectively, and the program contains code that ensures that at the end of each iteration, `indexincreasing` is equal to $1$ if in the next iteration `i` will increase by one above its current value, and is equal to $0$ if in the next iteration `i` will decrease by one.
+
+* $P$ contains the array variables `Visited` and `Atstart` and code to ensure  that `Atstart[` $i$ `]` equals $1$ if and only if $i=0$, and `Visited[`$i$`]` equals $1$ for all the positions $i$ such that the program finished an iteration with the index variable `i` equalling $i$.
+
+* $P$ contains code to set `loop` to $1$ at the beginning of the first iteration, and to ensure that if `loop` is ever set to $0$ then it stays at $0$, and moreover that if `loop` equals $0$ then the values of `Y` and `Yvalid` cannot change.
+:::
+
+The following exercise shows that we can transform every NAND++ program $P$ into a well-formed program $P'$ that is equivalent to it. Hence if we are given a NAND++ program $P$, we can (and will) often assume without loss of generality that it is well-formed.
+
+> # {.lemma #wellformedlem}
+For every  (enhanced or vanilla) NAND++ program $P$, there exists an (enhanced or vanilla, respectively)   NAND++ program $P'$ equivalent to $P$ that is _well formed_ as pre [wellformeddef](){.ref}.
+That is, for every input $x\in \{0,1\}^*$, either both $P$ and $P'$ do not halt on $x$, or both $P$ and $P'$ halt on $x$ and produce the same output $y\in \{0,1\}^*$.
+
+
+
+
+
+::: {.solvedexercise title="Making an NAND++ program well formed." #wellformedex}
+Prove [wellformedlem](){.ref}
 :::
 
 ::: { .pause }
 As usual, I would recommend you try to solve this exercise yourself before looking up the solution.
-Also, try to think how you would achieve the same result for _standard_ (i.e. non enhanced) NAND++ programs. (Doing so is an excellent exercise in its own right, see [standardnoabsoluteindexex](){.ref})
 :::
 
 ::: {.solution data-ref="wellformednandpp"}
-Since variable identifiers on their own have no meaning in (enhanced) NAND++ (other than the special ones `X`, `Xvalid`, `Y`, `Yvalid` and `loop`, that already have the desired properties), we can easily achieve properties __(1)__ and __(2)__ using "search and replace".
+Since variable identifiers on their own have no meaning in (enhanced) NAND++ (other than the special ones `X`, `Xvalid`, `Y`, `Yvalid` and `loop`, that already have the desired properties), we can easily achieve the property that scalars variables start with lowercase and arrays with uppercase   using "search and replace".
 We just have to take care that we don't make two distinct identifiers become the same.
 For example, we can do so by changing all scalar variable identifiers to lower case, and adding to them the prefix `scalar_`, and adding the prefix `Array_` to all array variable identifiers.
 
-Property __(3)__ is more challenging.
+The property that an array variable is never references with a numerical index is more challenging.
 We need to remove all references to an array variable with an actual numerical index rather than `i`.
 One thought might be to simply convert a a reference of the form `Arr[17]` to the scalar variable `arr_17`.
 However, this will not necessarily preserve the functionality of the program.
 The reason is that we want to ensure that when `i`$=17$ then `Arr[i]` would give us the same value as `arr_17`.
 
-Nevertheless, we can use the  approach above with a slight twist. We will demonstrate the solution in a concrete case.(Needless to say, if you needed to solve this question in a problem set or an exam, such a demonstration of a special case would not be sufficient; but this example should be sufficient for you to extrapolate a full solution.) Suppose that there are only three references to array variables with numerical indices in the program: `Foo[5]`, `Bar[12]` and `Blah[22]`.
+Nevertheless, we can use the  approach above with a slight twist. We will demonstrate the solution in a concrete case.(Needless to say, if you needed to solve this question in a problem set or an exam, such a demonstration of a special case would not be sufficient; but this example should be good enough for you to extrapolate a full solution.) Suppose that there are only three references to array variables with numerical indices in the program: `Foo[5]`, `Bar[12]` and `Blah[22]`.
 We will include three scalar variables `foo_5`, `bar_12` and `blah_22` which will serve as a _cache_ for the values of these arrays.
 We will change all references to `Foo[5]` to `foo_5`, `Bar[12]` to `bar_12` and so on and so forth.
 But in addition to that, whenever in the code we refer to `Foo[i]` we will check if `i`$=5$ and if so use the value `foo_5` instead, and similarly with  `Bar[i]`  or `Blah[i]`.
@@ -601,6 +659,8 @@ LABEL("program body")
 original code of program..
 ```
 
+Using `IF` statements (which can easily be replaced with syntactic sugar) we can handle the conditions that `loop`, `Y`, and `Yvalid` are  not written to  once `loop` is set to $0$.
+We leave completing all the details as an exercise to the reader (see [standardnoabsoluteindexex](){.ref}).
 :::
 
 
@@ -648,6 +708,48 @@ Specifically, a computation of a Turing Machine $M$ with $k$ states and alphabet
 
 ^[TODO: update figure to $\{0,\ldots,k-1\}$.]
 
+::: {.example title="A Turing machine for palindromes" #turingmachinepalindrome}
+Let $PAL$ (for _palindromes_) be the function that on input $x\in \{0,1\}^*$, outputs $1$ if and only if $x$ is an (even length) _palindrome_, in the sense that $x = w_0 \cdots w_{n-1}w_{n-1}w_{n-2}\cdots w_0$ for some $n\in \N$ and $w\in \{0,1\}^n$.
+
+We now show a Turing Machine $M$ that computes $PAL$. To specify $M$ we need to specify __(i)__ $M$'s tape alphabet $\Sigma$ which should contain at least the symboles $0$,$1$, $\triangleright$ and $\varnothing$, and __(ii)__ $M$'s _transition function_ which determines what action $M$ takes when it reads a given symbol while it is in a particular state.
+
+In our case, $M$ will use the alphabet $\{ 0,1,\triangleright, \varnothing, \times \}$ and will have $k=14$ states. Though the states are simply numbers between $0$ and $k-1$, for convenience we will give them the following labels:
+| State | Label          |
+|-------|----------------|
+| 0     | `START`        |
+| 1     | `RIGHT_0`       |
+| 2     | `RIGHT_1`       |
+| 3     | `LOOK_FOR_0`     |
+| 4     | `LOOK_FOR_1`     |
+| 5     | `RETURN`       |
+| 6     | `REJECT`       |
+| 7     | `ACCEPT`       |
+| 8     | `OUTPUT_0`      |
+| 9     | `OUTPUT_1`      |
+| 10    | `0_AND_BLANK`    |
+| 11    | `1_AND_BLANK`    |
+| 12    | `BLANK_AND_STOP` |
+| 13    | `STOP`         |
+
+
+We describe the operation of our  Turing Machine $M$ in words:
+
+* $M$ starts  in state `START` and will go right, looking for the first symbol that is $0$ or $1$. If we find $\varnothing$ before we hit such a symbol then we will move to the `OUTPUT_1` state that we describe below.
+
+* Once $M$ found such a symbol $b \in \{0,1\}$, $M$ deletes $b$ from the tape by writing  the $\times$ symbol, it enters either the `RIGHT_0` or `RIGHT_1` mode according to the value of $b$ and starts moving rightwards until it hits the first $\varnothing$ or $\times$ symbol.
+
+* Once we found this symbol we
+ into the state `LOOK_FOR_0` or `LOOK_FOR_1` depending on whether we were in the state `RIGHT_0` or `RIGHT_1` and make one left move.
+
+* In the state `LOOK_FOR_`$b$, we check whether the value on the tape is $b$. If it is, then we delete it by changing its value to $\times$, and move to the state `RETURN`. Otherwise, we change to the `OUTPUT_0` state.
+
+* The `RETURN` state means we go back to the beginning. Specifically, we move leftward until we hit the first symbol that is not $0$ or $1$, in which case we change our state to `START`.
+
+* The `OUTPUT_`$b$ states mean that we are going to output the value $b$. In both these states we go left until we hit $\triangleright$. Once we do so, we make a right step, and change to the `1_AND_BLANK` or `0_AND_BLANK` states respectively. In the latter states, we write the corresponding value, and then move right and change to the `BLANK_AND_STOP` state, in which we write $\varnothing$ to the tape and move to the final `STOP` state.
+
+The above description can be turned into a table  describing for each one of the $14\cdot 5$ combination of state and symbol, what the Turing machine will do when it is in that state and it reads that symbol. This table is known as the _transition function_ of the Turing machine.
+:::
+
 
 The formal definition of Turing machines is as follows:
 
@@ -679,7 +781,50 @@ You should make sure you see why this formal definition corresponds to our infor
 To get more intuition on Turing Machines, you can play with some of the online available simulators such as [Martin Ugarte's](https://turingmachinesimulator.com/), [Anthony Morphett's](http://morphett.info/turing/turing.html), or [Paul Rendell's](http://rendell-attic.org/gol/TMapplet/index.htm).
 :::
 
-As mentioned, Turing machines turn out to be equivalent to NAND++ programs:
+::: {.remark title="Transition functions vs computed functions, comparison to Sipser" #transitionfunc}
+One should not confuse the _transition function_ of a Turing machine $M$ with the function that the machine computes. The transition function is a _finite_ function, with $k|\Sigma|$ inputs and $2k|\Sigma|$ outputs. (Can you see why?)
+The machine can compute an _infinite_ function $F$ that takes as input a string $x\in \{0,1\}^*$ of arbitrary length and might also produce an arbitrary length string as output.
+
+In our formal definition, we identified the machine with its transition function since the transition function tells us everything we need to know about the Turing machine, and hence serves as a good mathematical representation of it. This choice of representation is somewhat arbitrary, and is based on our convention that the state space is always the numbers $\{0,\ldots,k-1\}$, where we use $0$ as our starting state and $k-1$ as our halting state. Other texts use different conventions and so their mathematical definition of a Turing machine might look superficially different, although ultimately it describes the same computational process and has the same computational powers.
+
+For example, [Sipser's text](http://tiny.cc/sipserbook) allows a more general set of states $Q$ and allow to designate arbitrary elements of $Q$ as starting and halting states, though by simple relabeling of the states one can see that this has no effect on the computational power of the model. Sipser also  restricts attention to Turing machines that output only a single bit. In such cases, it is convenient to have _two_ halting states:  one of them is designated as  the "$0$ halting state" (often known as the _rejecting state_) and the other as  the "$1$ halting state" (often known as the _accepting state_). Thus instead of writing $0$ or $1$, the machine will enter into one of these states and halt. This again makes no difference to the computational power, though we prefer to consider the more general model with multi-bit outputs. Finally, Sipser considers also functions with input in $\Sigma^*$ for an arbitrary alphabet $\Sigma$ (and hence distiguishes between the _input alphabet_ which he denotes as $\Sigma$ and the _tape alphabet_ which he denotes as $\Gamma$), while we restrict attention to functions with binary strings as input. The bottom line is that Sipser defines Turing machines as a _seven tuple_ consisting of the state space, input alphabet, tape alphabet, transition function, starting state, accpeting state, and rejecting state. Yet, this is simply a different representation of the same concept, just as a graph can be represented in either adjacency list or adjacency matrix form.
+:::
+
+### Turing machines as programming languages
+
+The name "Turing machine", with its "tape" and "head" evokes a physical object, while a program is  ultimately, a piece of text. But we can think of a Turing machine as a program as well.
+For example, consider the Turing Machine $M$ of [turingmachinepalindrome](){.ref} that computes the function $PAL$ such that $PAL(x)=1$ iff $x$ is a palindrome.
+We can also describe this machine as a _program_ using the  Python-like pseudocode of the form below
+
+```python
+# Gets an array Tape that is initialized to [">", x_0 , x_1 , .... , x_(n-1), "∅", "∅", ...]
+# At the end of the execution, Tape[1] is equal to 1 if x is a palindrome and is equal to 0 otherwise
+def PAL(Tape):
+    head = 0
+    state = 0 # START
+    while (state != 13):
+        if (state == 0 && Tape[head]=='0'):
+            state = 3 # LOOK_FOR_0
+            Tape[head] = 'x'
+            head += 1 # move right
+        if (state==0 && Tape[head]=='1')
+            state = 4 # LOOK_FOR_1
+            Tape[head] = 'x'
+            head += 1 # move right
+        ... # more if statements here
+```
+
+The particular details of this program are not important. What is important is that we can describe Turing machines as _programs_.
+Moreover, note that when translating a Turing machine into a program, the _Tape_ becomes a _list_ or _array_ that can hold values from the finite set $\Sigma$.^[Most programming languages use arrays of fixed size, while a  Turing machine's tape is unbounded, though of course there is no need to store an infinite number of $\varnothing$ symbols. If you want, you can think of the tape as a list that starts off at some a length that is just long enough to store the input, but is dynamically grown in size as the Turing machine's head explores new positions.]
+The  head position can be thought of as an integer valued variable that can hold integers of unbounded size.
+In contrast, the current state can only hold one of a fixed number of values.
+In particular, if the number of states is $k$, then we can represent the state of the Turing machine using $\ceil{\log k}$ bits. Equivalently, if our programming language had only _Boolean_ (i.e., $0$/$1$-valued) variables, then we could replace the variable `state` with $\ceil{\log k}$ such variables.
+Similarly, we can represent  each element  of the alphabet $\Sigma$ using $\ceil{\log |\Sigma|}$ bits.
+Hence if our programming language had only Boolean valued arrays, we could replace the array `Tape` with $\ceil{\log |\Sigma|}$ such arrays.
+
+### Turing machines and NAND++ programs
+
+Given the above discussion, it might not be surprising that  Turing machines turn out to be equivalent to NAND++ programs. Nevertheless, this is an important result, and the first of many other such equivalence results we will see in this book.
 
 > # {.theorem title="Turing machines and NAND++ programs" #TM-equiv-thm}
 For every $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND++ program if and only if there is a Turing Machine $M$ that computes $F$.
@@ -1130,9 +1275,7 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 
 
 ::: {.exercise title="Well formed NAND++ programs" #standardnoabsoluteindexex}
-In this exercise we prove the analog of [noabsoluteindexex](){.ref} for standard (i.e., non enahnced) NAND++ programs. We focus on the more challenging property of ensuring every access to an array variable is through the index `i`. (The other properties of "well formedness" are just as easy to achieve for standard NAND++ programs as they are for enhanced ones.)
-
-Let $P$ be a NAND++ program. Prove that there exists a NAND++ program $P'$ equivalent to $P$ such that every variable in $P'$ is either a scalar (non array variable), or is an array indexed by `i`.
+Complete  [noabsoluteindexex](){.ref} in the vanilla  NAND++ case to give a full proof that for every standard (i.e., non-enahanced) NAND++ program $P$ there exists a standard NAND++ program $P'$  such that $P'$ is well formed and  $P'$ is equivalent to $P$.
 :::
 
 

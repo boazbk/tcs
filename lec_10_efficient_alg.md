@@ -13,24 +13,46 @@
 
 >_"For practical purposes, the difference between algebraic and exponential order is often more crucial than the difference between finite and non-finite."_, Jack Edmunds, "Paths, Trees, and Flowers", 1963
 
->_"Sad to say, but it will be many more years, if ever before we really understand the Mystical Power of Twoness... 2-SAT is easy, 3-SAT is hard, 2-dimensional matching is easy, 3-dimensional matching is hard. Why? oh, Why?"_ Eugene Lawler
+::: {.quote }
+_"What is the most efficient way to sort a million 32-bit integers?"_, Eric Schmidt to Barack Obama, 2008 \\
+
+_"I think the bubble sort would be the wrong way to go."_, Barack Obama.
+:::
 
 
-So far we were concerned with which functions are computable and which ones are not.
+So far we have been concerned with which functions are computable and which ones are not.
 But now we return to _quantitative considerations_ and study the time that it takes to compute functions mapping strings to strings, as a function of the input length.
-One of the interesting phenomenona of computing is that there is often a kind of a "[thershold phenomenon](http://www.ma.huji.ac.il/~kalai/ML.pdf)" or "zero one law" for running time, where for many natural problems, they either can be solved in _polynomial_ running time (e.s., something like $O(n^2)$ or $O(n^3)$), or require _exponential_ (e.g., at least $2^{\Omega(n)}$ or $2^{\Omega(\sqrt{n})}$) running time.
-The reasons for this phenomenon are still not fully understood, but some light on this is shed by the concept of _NP completeness_, which we will encounter later.
+This is of course extremely important in the practice of computing, and the reason why we often care so much about the difference between $O(n \log n)$ time algorithm and $O(n^2)$ time one.
+In contexts such as  introduction to programming courses, coding interviews, and actual algorithm design, terms such as "$O(n)$ runnning time" are often used in an informal way.
+That is, people don't have a precise definition of what a linear-time algorithm is, but rather assume that "they'll know it when they see it".
+However, in this course we will make precise definitions, using our mathematical models of computation.
+This will allow us to ask (and sometimes answer) questions such as:
+
+* "Is there a function that can be computed in $O(n^2)$ time but not in $O(n)$ time?"
+
+* "Are there natural problems for which the _best_ algorithm (and not just the _best known_) requires $2^{\Omega(n)}$ time?"
+
+
+
+
 
 In this chapter we will survey some examples of computational problems, for some of which we know efficient (e.g., $n^c$-time for a small constant $c$) algorithms, and for others the best known algorithms are exponential.
 We want to get a feel as to the kinds of problems that lie on each side of this divide and also see how some seemingly minor changes in formulation can make the (known) complexity of a problem "jump" from polynomial to exponential.
-
-In this lecture, we will not formally define the notion of running time, and so use the same notion of an $O(n)$ or $O(n^2)$ time algorithms as the one you've seen in an intro to CS course: "I know it when I see it".
+We will not formally define the notion of running time in this chapter, and so will use the same "I know it when I see it" notion of an $O(n)$ or $O(n^2)$ time algorithms as  one you've seen in introduction to computer science courses.
 In [chapmodelruntime](){.ref}, we will define this notion precisely, using our NAND++ and NAND<< programming languages.
-One of the nice things about the theory of computation is that it turns out that, like in the context of computability, the details of the precise computational model or programming language don't matter that much, especially if you mostly care about the distinction between polynomial and exponential time.
+
+
+One of the nice things about the theory of computation is that it turns out that, like in the context of computability, the details of th precise computational model or programming language don't matter that much.
+Specifically, in this course, we will often not be as concerned with the difference between $O(n)$ and $O(n^2)$, as much as the difference between _polynomial_ and _exponential_ running time.
+One of the interesting phenomenona of computing is that there is often a kind of a "[threshold phenomenon](http://www.ma.huji.ac.il/~kalai/ML.pdf)" or "zero-one law" for running time, where  many natural problems can either be solved in polynomial running time with a not-too-large exponent (e.g., something like $O(n^2)$ or $O(n^3)$), or require exponential (e.g., at least $2^{\Omega(n)}$ or $2^{\Omega(\sqrt{n})}$) time to solve.
+The reasons for this phenomenon are still not fully understood, but some light on this is shed by the concept of _NP completeness_, which we will encounter later.
+As we will see, questions about polynomial versus exponential time are  often _insensitive_ to the choice of the particular computational model, just like we saw that the question of whether a function $F$ is computable is insensitive to whether you use NAND++, $\lambda$-calculus, Turing machines, or Javascript as your model of computation.
+
+
 
 ## Problems on graphs
 
-We nor present a  few examples of computational problems that people are interesting in solving.
+We now present a  few examples of computational problems that people are interested in solving.
 Many of the problems will involve _graphs_.
 We have already encountered graphs in the context of Boolean circuits, but let us now quickly recall the basic notation.
 A  graph  $G$ consists of a set of _vertices_ $V$ and _edges_ $E$ where each edge is a pair of vertices.
@@ -52,7 +74,7 @@ Graphs can also denote correlations in data (e.g., graph of observations of feat
 
 
 We now give some examples of computational problems on graphs.
-As mentioned above, to keep things simple, we will restrict attention to undirected simple graphs.
+As mentioned above, to keep things simple, we will restrict our attention to undirected simple graphs.
 In all cases the input graph $G=(V,E)$ will have $n$ vertices and $m$ edges.
 
 
@@ -60,32 +82,49 @@ In all cases the input graph $G=(V,E)$ will have $n$ vertices and $m$ edges.
 
 The _shortest path problem_ is the task of, given a graph $G=(V,E)$ and two vertices $s,t \in V$, to find the length of the  shortest path between $s$ and $t$ (if such a path exists).
 That is, we want to find the smallest number $k$ such that there are vertices $v_0,v_1,\ldots,v_k$ with $v_0=s$, $v_k=t$ and for every $i\in\{0,\ldots,k-1\}$ an edge between $v_i$ and $v_{i+1}$.
+Formally, we define $MINPATH:\{0,1\}^* \rightarrow \{0,1\}^*$ to be the function that on input a triple $(G,s,t)$ (represented as a string) outputs the number $k$ which is the length of the shortest path in $G$ between $s$ and $t$ or a string representing `no path` if no such path exists.
+(In practice people often want to also find the actual path and not just its length; it turns out that the algorithms to compute the length of the path often yield the actual path itself as a byproduct, and so everything we say about the task of computing the length also applies to the task of finding the path.)
+
+
+
 If each vertex has at least two neighbors then there can be an _exponential_ number of paths from $s$ to $t$, but fortunately we do not have to enumerate them all to find the shortest path.
 We can do so by performing a [breadth first search (BFS)](https://en.wikipedia.org/wiki/Breadth-first_search), enumerating $s$'s neighbors, and then neighbors' neighbors, etc.. in order.
 If we maintain the neighbors in a list we can perform a BFS in $O(n^2)$ time, while using  a queue we can do this in $O(m)$ time.^[A _queue_ stores a list of elements in "First In First Out (FIFO)" order and so each "pop" operation removes an element from the queue in the order that they were "pushed" into it; see the [Wikipedia page](https://goo.gl/HY9BJD). Since we assume $m \geq n-1$, $O(m)$ is the same as $O(n+m)$.  [Dijkstra's algorithm](https://goo.gl/PJyc4D) is a well-known generalization of BFS to _weighted_ graphs.]
 
-More formally, the algorithm for shortest path can be described as follows:
+More formally, the algorithm for computing the function $MINPATH$  can be described as follows:
 
-__Algorithm $SHORTESTPATH$:__
+
+::: {.quote}
+__Algorithm BFSPATH:__
 
 * __Input:__ Graph $G=(V,E)$, vertices $s,t$
 
-* __Goal:__ Find the  shortest path $v_0,v_1,\ldots,v_k$ such that $v_0=s$, $v_k=t$ and $\{ v_i,v_{i+1} \} \in E$ for every $i\in [k]$, if such a path exists.
+* __Goal:__ Find the  length $k$ of the shortest path $v_0,v_1,\ldots,v_k$ such that $v_0=s$, $v_k=t$ and $\{ v_i,v_{i+1} \} \in E$ for every $i\in [k]$, if such a path exists.
 
 * __Operation:__
 
-    1. We will maintain a label $L[v]$ for every vertex $v$. Initially no vertex is labeled except for $s$ that is labeled with "start". \
-    2. We maintain a _queue_ $Q$ of vertices, initially $Q$ contains only $s$. \
-    3. While $Q$ is not empty do the following: \
-        a. Pop the vertex $v$ from the top of the queue.  \
-        b. If $v=t$ exit  output the path which is the reverse order of $v,L[v],L[L[v]],L[L[L[v]]],\ldots,s$. \
-        c. Otherwise, label all the unlabeled neighbors of $v$ with $v$ and add them to $Q$ \
-    4. Output "no path"
+  1. We maintain a _queue_ $Q$ of vertices, initially $Q$ contains only the pair $s$.
+  2. We maintain a _dictionary_^[A _dictionary_ or [associative array](https://goo.gl/bULvSe) data structure $D$ allows to associate with every key $v$ (which can be thought of as a string) a value  $D[v]$.] $D$ keyed by the vertices, for every vertex $v$, $D[v]$ is either equal to a natural number  or to $\infty$. Initially we set set $D[s]=0$ and $D[v]=\infty$ for every $v\in V \setminus \{s \}$.
+  3. While $Q$ is not empty do the following: \
+     a. Pop a vertex  $v$ from the top of the queue.  \
+     b. If $v=t$ then halt and output $D[v]$.
+     c. Otherwise, for every neighbor $w$ of $v$ such that $D[w]=\infty$, set $D[w]=D[v]+1$ and add $w$ to the queue.
+  4. Output "no path"
+:::
 
-Since we only add to the queue unlabeled vertices, we never push to the queue a vertex more than once, and hence the algorithm takes $n$ "push" and "pop" operations.
+
+Since we only add to the queue  vertices $w$ with $D[w]=\infty$ (and then immediately set $D[w]$ to an actual number), we never push to the queue a vertex more than once, and hence the algorithm takes $n$ "push" and "pop" operations.
 It returns the correct answer since add the vertices to the queue in the order of their distance from $s$, and hence we will reach $t$ after we have explored all the vertices that are closer to $s$ than $t$.
+Hence algorithm __BFSPATH__ computes $MINPATH$.
 
-
+::: {.remark title="On data structures" #datastructuresrem}
+If you've ever taken an algorithms course, you have probably encountered many _data structures_ such as __lists__, __arrays__, __queues__, __stacks__, __heaps__, __search trees__, __hash tables__ and many mores. Data structures are extremely important in computer science, and each one of those offers different tradeoffs between overhead in storage, operations supported, cost in time for each operation, and more.
+For example, if we store $n$ items in a list, we will need a linear (i.e., $O(n)$ time) scan to retreive one of them, while we achieve  the same operation in $O(1)$ time if we used a hash table.
+However,  when we only care about polynomial-time algorithms, such factors of $O(n)$ in the running time will not make much difference.
+Similarly, if we don't care about the difference between $O(n)$ and $O(n^2)$, then it doesn't matter if we represent graphs as adjacency lists or adjacency  matrices.
+Hence we will often describe our algorithms at a very high level, without specifying the particular data structures that are used to implement them.
+It should however be always clear that there exists _some_ data structure that will be sufficient for our purposes.
+:::
 
 
 ### Finding the longest path in a graph
@@ -112,7 +151,9 @@ Given a graph $G=(V,E)$, a _cut_  is a subset $S$ of $V$ such that $S$ is neithe
 The edges cut by $S$ are those edges where one of their endpoints is in $S$ and the other is in $\overline{S} = V \setminus S$.
 We denote this set of edges by $E(S,\overline{S})$.
 If $s,t \in V$ then an _$s,t$ cut_ is a cut such that $s\in S$ and $t\in \overline{S}$. (See [cutingraphfig](){.ref}.)
-The _minimum $s,t$ cut problem_  is the task of finding, given $s$ and $t$, the minimum number $k$ such that there is an $s,t$ cut cutting $k$ edges (the problem is also sometimes phrased as finding the set that achieves this minimum).^[One can also define the problem of finding the _global minimum cut_ (i.e., the non-empty and non-everything set $S$ that minimizes the number of edges cut). One can verify that a polynomial time algorithm for the minimum $s,t$ cut can be used to solve the global cut in polynomial time as well (can you see why?).]
+The _minimum $s,t$ cut problem_  is the task of finding, given $s$ and $t$, the minimum number $k$ such that there is an $s,t$ cut cutting $k$ edges (once again, the problem is also sometimes phrased as finding the set that achieves this minimum; it turns out that algorithms to compute the number often yield the set as well).^[One can also define the problem of finding the _global minimum cut_ (i.e., the non-empty and non-everything set $S$ that minimizes the number of edges cut). A polynomial time algorithm for the minimum $s,t$ cut can be used to solve the global minimum cut in polynomial time as well (can you see why?).]
+Formally, we  define $MINCUT:\{0,1\}^* \rightarrow \{0,1\}^*$ to be the function that on input a triple $(G,s,t)$ of a graph and two vertices (represented as a string), outputs the minimum number $k$ such that there exists a set $S$ containing $s$ and not $t$ with exactly $k$ edges that touch $S$ and its complement.
+
 
 ![A _cut_ in a graph $G=(V,E)$ is simply a subset $S$ of its vertices. The edges that are _cut_ by $S$ are all those whose one endpoint is in $S$ and the other one is in $\overline{S} = V \setminus S$. The cut edges are colored red in this figure.](../figure/cutingraph.png){#cutingraphfig .class width=300px height=300px}
 
@@ -123,60 +164,62 @@ Similar applications arise in scheduling and planning.
 In the setting of [image segmentation](https://en.wikipedia.org/wiki/Image_segmentation), one can define a graph whose vertices are pixels and whose edges correspond to neighboring pixels of distinct colors.
 If we want to separate the foreground from the background then we can  pick (or guess) a foreground pixel $s$ and background pixel $t$ and ask for a minimum cut between them.
 
-__Solving the minimum cut problem:__
-Here is an algorithm to solve the minimum cut problem:
+Here is an algorithm to compute $MINCUT$:
 
+::: {.quote}
 __Algorithm MINCUTNAIVE:__
 
 * __Input:__ Graph $G=(V,E)$ and two distinct vertices $s,t \in V$
 
-* __Goal:__ Return $S$ s.t. $s\in S$ and $t\not\in S$ that minimizes  $|E(S,\overline{S})|$.
+* __Goal:__ Return $k = \min_{S \subseteq V, s\in S, t\not\in S} |E(S,\overline{S})|$
 
-* __Operation:__
+* __Operation:__ \
 
-    1. If $V=\{s,t\}$ then return $\{s \}$. \
-    2. Otherwise choose $v\in V \setminus \{s,t\}$, and define $G',G''$ to be two graphs with vertex set $V\setminus \{v \}$, where in $G'$ the edge set $E'$ is obtained by making all of $v$'s neighbors be neighbors of $s$, and in $G''$ the edge set $E''$ is obtained by making all of $v$'s neighbors be neighbors of $t$. That is, $E'$ has the same edges as $E$ except that in edges involving $v$  we replace $v$ with $s$, and $E''$  has the same edges as $E$ except that in edges involving $v$  we replace $v$ with $t$. \
-    3. Compute recursively $S'=MINCUTNAIVE(G',s,t)$ and $S''=MINCUTNAIVE(G'',s,t)$.  \
-    4. If $S'\cup \{v\}$ cuts fewer edges in $G$ than $S''$ then return $S' \cup \{ v \}$. Otherwise return \ $S''$.
+  1. Let $k_0 \leftarrow |E|+1$ \
+  2. For every set $S \subseteq V$ such that $s\in S$ and $t\not\in T$ do: \
+     a. Set $k=0$. \
+     b. For every edge $\{u,v\} \in E$, if $u\in S$ and $v\not\in S$ then set $k \leftarrow  k+1$. \
+     c. If $k < k_0$ then let $k_0 \leftarrow k$
+  3. Return $k_0$
+:::
 
 > # { .pause }
 It is an excellent exercise for you to pause at this point and verify:
-__(i)__ that you understand what this algorithm does, __(2)__ that you understand why this algorithm will in fact return the minimum cut in the graph, and __(3)__ that you can analyze the running time of this algorithm.
+__(i)__ that you understand what this algorithm does, __(2)__ that you understand why this algorithm will in fact return the value of the minimum cut in the graph, and __(3)__ that you can analyze the running time of this algorithm.
 
-We can prove by induction that Algorithm  $MINCUTNAIVE$ does indeed return the minimum cut.
-Indeed, it definitely does so for graphs of two vertices.
-Now we assume by induction that $MINCUTNAIVE$ solves the minimum cut problem for graphs of at most $n-1$ vertices, and we will prove that it does so for graphs of $n$ vertices.
-Indeed, under the inductive hypothesis, our recursive calls in step 3 return the minimum cuts $S'$ and $S''$ of the $n-1$ vertex graphs $G'$ and $G''$ respectively.
-But if $v$ is the vertex we choose in step 2, we can think of $G'$ as simply a graph where we "merged" $s$ and $v$ to be a single vertex with the neighbors of both $s$ and $v$, and $G''$ as the graph where we merged $t$ and $v$.
-So the $s,t$ cuts in $G'$ correspond to $s,t$ cuts in $G$ that don't separate $s$ and $v$, while $s,t$ cuts in $G''$ correspond to $s,t$ cuts in $G$ that don't separate $t$ and $v$.
-Since in the minimum  cut $S$, either $s$ or $t$ will be in the same side as $v$, the best one out of the minimal cuts from $G'$ and $G''$ will be the minimum cut in $G$.
+The precise running time of algorithm __MINCUTNAIVE__ will depend on the data structures we use to store the graph and the sets, but even if we had the best data structures, the running time of __MINCUTNAIVE__  will be terrible.
+Indeed, if a graph has $n$ vertices, then for every pair $s,t$ of distinct vertices, there are $2^{n-2}$ sets $S$ that contain $s$ but don't contain $t$. (Can you see why?) Since we are enumerating over all of those in Step 2, even if we could compute for each such set $S$ the value $|E(S,\overline{S})|$ in constant time, our running time would  still be exponential.
 
-The running time $T(n)$ of $MINCUTNAIVE$ on $n$ vertex graphs can be described by the recursive equation $T(n)=2T(n-1)+f(n)$ where $f(n)$ is the time to execute the non recursive steps 1,2 and 4.
-In an algorithms course we might want to worry about the exact data structures we use to implement these steps, but for this course it is enough that we can do these steps in polynomial time (which is not hard to see).
-Nevertheless, this running time bound is terrible: even if $f(n)$ was equal to $1$ we would still get that $T(n) \geq 2^n$!
-Indeed, this recursive algorithm is nothing but a fancy description of the trivial algorithm that enumerates over all the roughly $2^n$ (in fact, precisely $2^{n-2}$) sets $S$ that contain $s$ and don't contain $t$.
 
 Since minimum cut is a problem we want to solve, this seems like bad news.
-Luckily however we are able to find much faster algorithms that run in _polynomial time_ (which, as mentioned in the mathematical background lecture, we denote by $poly(n)$) for this problem.
-There are several algorithms to do so, but many of them rely on the [Max Flow Min Cut Theorem](https://en.wikipedia.org/wiki/Max-flow_min-cut_theorem) that says that the minimum cut between $s$ and $t$ equals the maximum amount of _flow_ we can send from $s$ to $t$, if every edge has unit capacity.^[A _flow_ of capacity $c$ from a _source_ $s$ to a _sink_ $t$ in a graph can be thought of as describing how one would send some quantity from $s$ to $t$ in the graph (e.g., sending $c$ liters of water (or any other matter    one can partition arbitrarily), on pipes described by the edges). Mathematically, a flow is captured by assigning numbers to edges, and requiring that on any vertex apart from $s$ and $t$, the amount flowing it is equal to the amount flowing out, while in $s$ there are $c$ units flowing out and in $t$ there are $c$ units flowing in.]
+After all, __MINCUTNAIVE__ is the most natural algorithm to solve the problem, and if it takes exponential time, then perhaps the problem can't be solved efficiently at all.
+However, this turns out not to be case.
+As we've seen in this course time and again, there is a difference between the _function_ $MINCUT$ and the _algorithm_ __MINCUTNAIVE__ to solve it.
+There can be more than one algorithm to compute the same function, and some of those algorithms might be more efficient than others.
+Luckily this is one of those cases.
+There do exist much faster algorithms that compute $MINCUT$ in _polynomial time_ (which, as mentioned in the mathematical background lecture, we denote by $poly(n)$).
+There are several algorithms to do so, but many of them rely on the [Max-Flow Min-Cut Theorem](https://en.wikipedia.org/wiki/Max-flow_min-cut_theorem) that says that the minimum cut between $s$ and $t$ equals the maximum amount of _flow_ we can send from $s$ to $t$, if every edge has unit capacity.^[A _flow_ of capacity $c$ from a _source_ $s$ to a _sink_ $t$ in a graph can be thought of as describing how one would send some quantity from $s$ to $t$ in the graph (e.g., sending $c$ liters of water (or any other matter    one can partition arbitrarily), on pipes described by the edges). Mathematically, a flow is captured by assigning numbers to edges, and requiring that on any vertex apart from $s$ and $t$, the amount flowing it is equal to the amount flowing out, while in $s$ there are $c$ units flowing out and in $t$ there are $c$ units flowing in.]
 For example, this directly implies that the value of the minimum cut problem is the solution for the following [linear program](https://en.wikipedia.org/wiki/Linear_programming):^[A _linear program_ is the task of maximizing or minimizing a linear function of $n$ real variables $x_0,\ldots,x_{n-1}$ subject to certain linear equalities and inequalities on the variables.]
 
 $$
 \begin{gathered}
 \max_{x\in \R^m} F_s(x)-F_t(x) \text{s.t.}\\
-\forall_{u \not\in \{s,t\}} F_u(x)=0
-\end{gathered}
+\forall_{u \not\in \{s,t\}} F_u(x)=0, \forall_{e \in E} 0 \leq x_e, \forall_{e \in E} x_e \leq 1\end{gathered}
 $$
-where for every vertex $u$ and $x\in \R^m$, $F_u(x) = \sum_{e \in E \text{s.t.} u \in e} x_e$.
+where for every vertex $u \in V$ and assignment of _real_-valued flows to the $m$ edges $x\in \R^m$, $F_u(x) = \sum_{e \in E \; \text{s.t.} \; u \in e} x_e$ represents the net flow through vertex $u$.
+In other words, we have reduced the minimum cut problem to solving the linear programming problem of finding the assignment of flows $x$ that maximizes the total flow from the source $s$ to the sink $t$ (since $F_s(x) = c$ and $F_t(x) = -c$), subject to two constraints: __i.__ The net flow through every vertex $u$ aside from $s$ and $t$ is $0$ (everything that flows in, also flows out), and __ii.__ The flow on every edge is non-negative and at most one.
+It is not hard to show that a cut of value $k$ implies a "bottleneck" that prevents sending more than $k$ units of flow from $s$ to $t$.
+The content of the Max-Flow Min-Cut Theorem is that if there is no cut with value smaller than $k$, then we can actually send $k$ such units.
 
-Since there is a polynomial-time algorithm for linear programming, the minimum cut (or, equivalently, maximum flow) problem can be solved in polynomial time.
-In fact, there are much better algorithms for this problem, with currently the record standing at $O(\min\{ m^{10/7}, m\sqrt{n}\})$.^[TODO: add references in biliographical notes: Madry, Lee-Sidford]
+
+Since there are [polynomial-time algorithms](https://en.wikipedia.org/wiki/Linear_programming#Algorithms) for linear programming, the minimum cut (or, equivalently, maximum flow) problem can be solved in polynomial time.
+In fact, there are much better algorithms for this problem, even for weighted directed graphs, with currently the record standing at $O(\min\{ m^{10/7}, m\sqrt{n}\})$.^[TODO: add references in biliographical notes: Madry, Lee-Sidford]
 
 
 ### Finding the maximum cut in a graph
 
 We can also define the _maximum cut_ problem of finding, given a graph $G=(V,E)$ the subset $S\subseteq V$
-that _maximizes_ the number of edges cut by $S$.^[We can also consider the variant where one is given $s,t$ and looks for the $s,t$-cut that maximizes the number of edges cut. The two variants are equivalent up to $O(n^2)$ factors in the running time, but the we use the  global max cut forumlation since it  is more common in the literature.]
+that _maximizes_ the number of edges cut by $S$.^[We can also consider the variant where one is given $s,t$ and looks for the $s,t$-cut that maximizes the number of edges cut. The two variants are equivalent up to $O(n^2)$ factors in the running time, but  we use the  global max cut forumlation since it  is more common in the literature.]
 Like its cousin the minimum cut problem, the maximum cut problem is also very well motivated.
 For example, it  arises in VLSI design, and also has some surprising relation to analyzing the
 [Ising model](https://en.wikipedia.org/wiki/Ising_model) in statistical physics.
@@ -251,7 +294,7 @@ One would be wrong.
 Despite much effort, do not know of a significantly better than brute force algorithm for 3SAT (the best known algorithms take roughy $1.3^n$ steps).
 
 Interestingly, a similar issue arises time and again in computation, where the difference between two and three often corresponds to the difference between tractable and intractable.
-As Lawler's quote alludes to, we do not fully understand the reasons for this phenomenon, though the notions of $\mathbf{NP}$ completeness we will see later does offer a partial explanation.
+We do not fully understand the reasons for this phenomenon, though the notions of $\mathbf{NP}$ completeness we will see later does offer a partial explanation.
 It may be related to the fact that optimzing a polynomial often amounts to equations on its derivative. The derivative of a  a quadratic polynomial is linear, while the derivative of a cubic is quadratic, and, as we will see, the difference between solving linear and quadratic equations can be quite profound.
 
 
@@ -263,10 +306,10 @@ That is, solve equations of the form
 
 $$
 \begin{aligned}
-a_{0,0}x_0 + a_{0,1}x_1 + \cdots + a_{0,{n-1}}x_{n-1} &= b_0 \\
-a_{1,0}x_0 + a_{1,1}x_1 + \cdots + a_{1,{n-1}}x_{n-1} &= b_1 \\
-\vdots     + \vdots      +  \vdots + \vdots              &= \vdots \\
-a_{n-1,0}x_0 + a_{n-1,1}x_1 + \cdots + a_{n-1,{n-1}}x_{n-1} &= b_{n-1}
+a_{0,0}x_0 &+ a_{0,1}x_1 &&+ \cdots &&+ a_{0,{n-1}}x_{n-1} &&= b_0 \\
+a_{1,0}x_0 &+ a_{1,1}x_1 &&+ \cdots &&+ a_{1,{n-1}}x_{n-1} &&= b_1 \\
+\vdots     &+ \vdots     &&+  \vdots &&+ \vdots              &&= \vdots \\
+a_{n-1,0}x_0 &+ a_{n-1,1}x_1 &&+ \cdots &&+ a_{n-1,{n-1}}x_{n-1} &&= b_{n-1}
 \end{aligned}
 $$
 
@@ -306,6 +349,26 @@ Once again, we do not know a much better algorithm for this problem than the one
 
 We now list a few more examples of interesting problems that are a little more advanced but are of significant interest in areas such as physics, economics, number theory, and cryptography.
 
+### Determinant of a matrix
+
+The [determinant](https://en.wikipedia.org/wiki/Determinant) of a $n\times n$ matrix $A$, denoted by $\mathrm{det}(A)$, is an extremely important quantity in linear algebra.
+For example, it is known that $\mathrm{det}(A) \neq 0$ if and only if $A$ is _nonsingular_, which means that it has an inverse $A^{-1}$, and hence we can always uniquely solve  equations of the form $Ax = b$ where $x$ and $b$ are $n$-dimensional vectors.
+More generally, the determinant can be thought of as a quantiative measure as to what extent $A$ is far from being singular.
+If the rows of $A$ are "almost" linearly dependent (for example, if  the third row is very close to being a linear combination of the first two rows) then the determinant will be small, while if they are far from it (for example, if they are are _orthogonal_ to one another, then the determinant will be large).
+In particular, for every matrix $A$, the absolute value of the determinant of $A$ is at most the product of the norms (i.e., square root of sum of squares of entries) of the rows, with equality if and only if the rows are orthogonal to one another.
+
+The determinant can be defined in several ways. For example, it is known that $\mathrm{det}$ is the only function that satisfies the following conditions:
+
+1. $\mathrm{det}(AB) = \mathrm{det}(A)\mathrm{det}(B)$ for every square matrices $A,B$.
+
+2. $\mathrm{det}(cA) = c\mathrm{det}(A)$ for every number $c$.
+
+3. $\mathrm{det}(I)=1$ where $I$ is the identity matrix.
+
+4. $\mathrm{det}(S)=-1$ where $S$ is a "swap matrix" that corresponds to swapping two rows or two columns of $I$. That is, there are two coordinates $a,b$ such that for every $i,j$,  $S_{i,j} = \begin{cases}1 & i=j\;, i \not\in \{a,b \} \\ 1 & \{i,j\}=\{a,b\} \\ 0 & \text{otherwise}\end{cases}$.
+
+Note that conditions 1. and 2. together imply that $\mathrm{det}(A^{-1}) =  \mathrm{det}(A)^{-1}$ for every invertible matrix $A$.
+Using these rules and the [Gaussian elimination](https://en.wikipedia.org/wiki/Gaussian_elimination) algorithm, it is possible to tell whether $A$ is singular or not, and in the latter case, decompose $A$ as a product of the identity and a polynomial number of swap matrices times some number $c$. Hence we can compute the determinant for an $n\times n$ matrix using a polynomial time of arithmetic operations.^[The cost for performing each arithmetic operation depends on the number of bits needed to represent each entry, and accounting for this can sometimes be subtle, though ultimately doable.]
 
 ### The permanent (mod 2) problem
 
@@ -327,7 +390,7 @@ where the _sign_  of a permutation $\pi$ is a number in $\{+1,-1\}$ which can be
 
 From a first look, [eq:det](){.eqref} does not seem like it makes much progress.
 After all, all we did is replace  one  formula involving a sum over $n!$ terms with an even more complicated formula involving a sum over $n!$ tersm.
-But fortunately [eq:det](){.eqref} also has an alternative description: it is simply the [determinant](https://en.wikipedia.org/wiki/Determinant) of the matrix $A$, which can be computed using a process similar to Gaussian elimination.
+But fortunately [eq:det](){.eqref} also has an alternative description: it is yet another way to describe  the [determinant](https://en.wikipedia.org/wiki/Determinant) of the matrix $A$, which as mentioned can be computed using a process similar to Gaussian elimination.
 
 ### The permanent (mod 3) problem
 
@@ -417,6 +480,7 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 :::
 
 > # {.exercise title="exponential time algorithm for longest path" #longest-path-ex}
+The naive algorithm for computing the longest path in a given graph could take more than $n!$ steps.
 Give a $poly(n)2^n$ time algorithm for the longest path problem in $n$ vertex graphs.^[__Hint:__ Use dynamic programming to compute for every $s,t \in [n]$ and $S \subseteq [n]$ the value $P(s,t,S)$ which equals $1$ if there is a simple path from $s$ to $t$ that uses exactly the vertices in $S$. Do this iteratively for $S$'s of growing sizes.]
 
 > # {.exercise title="2SAT algorithm" #twosat_ex}
@@ -424,16 +488,8 @@ For every 2CNF $\varphi$,  define the graph $G_\varphi$ on $2n$ vertices corresp
 Prove that $\varphi$ is unsatisfiable if and only if there is some $i$ such that there is a path from $x_i$ to $\overline{x}_i$ and from $\overline{x}_i$ to $x_i$ in $G_\varphi$.
 Show how to use this to solve 2SAT in polynomial time.
 
-> # {.exercise title="Regular expressions" #regularexp}
-A _regular_ expression over the binary alphabet is a string consisting of the symbols $\{ 0 , 1 , \emptyset , ( , ) , * , | \}$.
-An expression $exp$ corresponds to a function mapping $\{0,1\}^* \rightarrow \{0,1\}$, where the `0` and `1` expressions correspond to the functions that map only output $1$ on the strings `0` and `1` respectively, and if $exp,exp'$ are expressions corresponnding to the functions, $f'$ then $(exp)|(exp')$ corresponds to the function $f \vee f'$, $(exp)(exp')$ corresponds to the function $g$ such that for $x\in \{0,1\}^n$, $g(x)=1$ if there is some $i \in [n]$ such that $f(x_0,\ldots,x_i)=1$ and $f(x_{i+1},\ldots,x_{n-1})=1$, and $(exp)*$ corresponds to the function $g$ such that $g(x)=1$ if either $x=\emptyset$ or  there are strings $x_1,\ldots,x_k$ such that $x$ is the concatenation of $x_1,\ldots,x_k$ and $f(x_i)=1$ for every $i\in [k]$. \
-Prove that for every regular expression $exp$, the function corresponding to $exp$ is computable in polynomial time.
-Can you show that it is computable in $O(n)$ time?
-
 
 ## Bibliographical notes
-
-Eugene Lawler's quote on  the "mystical power of twoness"  was taken from the wonderful book "The Nature of Computation" by Moore and Mertens. See also [this memorial essay on Lawler](https://pure.tue.nl/ws/files/1506049/511307.pdf) by Lenstra.
 
 ^[TODO: add reference to best algorithm for longest path - probably the Bjorklund algorithm]
 
