@@ -171,7 +171,7 @@ __Algorithm MINCUTNAIVE:__
   1. Let $k_0 \leftarrow |E|+1$ \
   2. For every set $S \subseteq V$ such that $s\in S$ and $t\not\in T$ do: \
      a. Set $k=0$. \
-     b. For every edge $\{u,v\} \in E$, if $u\in S$ and $v\not\in S$ then set $k \leftfarrow  k+1$. \
+     b. For every edge $\{u,v\} \in E$, if $u\in S$ and $v\not\in S$ then set $k \leftarrow  k+1$. \
      c. If $k < k_0$ then let $k_0 \leftarrow k$
   3. Return $k_0$
 :::
