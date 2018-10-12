@@ -374,14 +374,14 @@ The determinant can be defined in several ways. For example, it is known that $\
 
 1. $\mathrm{det}(AB) = \mathrm{det}(A)\mathrm{det}(B)$ for every square matrices $A,B$.
 
-2. $\mathrm{det}(cA) = c\mathrm{det}(A)$ for every number $c$.
+2. For every $n\times n$ _triangular_ matrix $T$ with diagonal entries $d_0,\ldots, d_{n-1}$, $\mathrm{det}(T)=\prod_{i=0}^n d_i$. In particular $\mathrm{det}(I)=1$ where $I$ is the identity matrix.^[A _triangular_ matrix is one in which either all entries below the diagonal, or all entries above the diagonal, are zero.]
 
-3. $\mathrm{det}(I)=1$ where $I$ is the identity matrix.
-
-4. $\mathrm{det}(S)=-1$ where $S$ is a "swap matrix" that corresponds to swapping two rows or two columns of $I$. That is, there are two coordinates $a,b$ such that for every $i,j$,  $S_{i,j} = \begin{cases}1 & i=j\;, i \not\in \{a,b \} \\ 1 & \{i,j\}=\{a,b\} \\ 0 & \text{otherwise}\end{cases}$.
+3. $\mathrm{det}(S)=-1$ where $S$ is a "swap matrix" that corresponds to swapping two rows or two columns of $I$. That is, there are two coordinates $a,b$ such that for every $i,j$,  $S_{i,j} = \begin{cases}1 & i=j\;, i \not\in \{a,b \} \\ 1 & \{i,j\}=\{a,b\} \\ 0 & \text{otherwise}\end{cases}$.
 
 Note that conditions 1. and 2. together imply that $\mathrm{det}(A^{-1}) =  \mathrm{det}(A)^{-1}$ for every invertible matrix $A$.
-Using these rules and the [Gaussian elimination](https://en.wikipedia.org/wiki/Gaussian_elimination) algorithm, it is possible to tell whether $A$ is singular or not, and in the latter case, decompose $A$ as a product of the identity and a polynomial number of swap matrices times some number $c$. Hence we can compute the determinant for an $n\times n$ matrix using a polynomial time of arithmetic operations.^[The cost for performing each arithmetic operation depends on the number of bits needed to represent each entry, and accounting for this can sometimes be subtle, though ultimately doable.]
+Using these rules and the [Gaussian elimination](https://en.wikipedia.org/wiki/Gaussian_elimination) algorithm, it is possible to tell whether $A$ is singular or not, and in the latter case, decompose $A$ as a product of a polynomial number of swap matrices and triangular matrices.
+(Indeed one can verify that the row operations in Gaussian elimination corresponds to either multiplying by a swap matrix or by a triangular matrix.)
+Hence we can compute the determinant for an $n\times n$ matrix using a polynomial time of arithmetic operations.^[The cost for performing each arithmetic operation depends on the number of bits needed to represent each entry, and accounting for this can sometimes be subtle, though ultimately doable.]
 
 ### The permanent (mod 2) problem
 
