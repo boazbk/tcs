@@ -188,7 +188,7 @@ Hence all the variable identifiers in "well formed" NAND++ programs will either 
 See  [wellformedlem](){.ref} for a more formal treatment of the notion of "well formed programs".
 
 
-### "Oblivious" / "Vanilla" NAND++
+### "Oblivious" / "Vanilla" NAND++ { #vanillanandpp }
 
 Since our goal in theoretical computer science is not as much to _construct_
 programs  as to _analyze_ them, we want to use as simple as possible computational models.
