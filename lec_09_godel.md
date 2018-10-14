@@ -264,7 +264,7 @@ But there are some equations that we simply do not know how to solve _by any mea
 For example, it took more than 200 years until people succeeded in proving that the equation  $a^{11} + b^{11} = c^{11}$ has no solution in integers.^[This is a special case of what's known as  "Fermat's Last Theorem" which states that $a^n + b^n = c^n$ has no solution in integers for $n>2$. This was conjectured in 1637 by Pierre de Fermat but only proven by Andrew Wiles in 1991. The case $n=11$ (along with all other so called "regular prime exponents") was established by Kummer in 1850.]
 The notorious difficulty of so called _Diophantine equations_ (i.e., finding _integer_ roots of a polynomial) motivated the mathematician David Hilbert in 1900 to include the question of finding a general procedure for solving such equations  in his famous list of twenty-three open problems for mathematics of the 20th century.
 I  don't think Hilbert  doubted that such a procedure exists.
-After all, the whole history of mathematics up to this point involved the discovery of ever more powerful methods, and even impossibility results such as the inability to trisect an angle with a straightedge and compass, or the non-existence of an algebraic formula for qunitic equations, merely pointed out to the need to use more general methods.
+After all, the whole history of mathematics up to this point involved the discovery of ever more powerful methods, and even impossibility results such as the inability to trisect an angle with a straightedge and compass, or the non-existence of an algebraic formula for quintic equations, merely pointed out to the need to use more general methods.
 
 Alas, this turned out not to be the case for Diophantine equations.
 In 1970, Yuri Matiyasevich, building on a decades long line of work by  Martin Davis,  Hilary Putnam and Julia Robinson, showed that there is simply _no method_ to solve such equations in general:
@@ -289,7 +289,7 @@ While a fool-proof solution for distinguishing between the two is inherently imp
 We will not prove the MRDP Theorem ([MRDP-thm](){.ref}).
 However, as we mentioned, we will prove the uncomputability of $QIS$ (i.e.,  [QIS-thm](){.ref}), which is a special case of the MRDP Theorem.
 The reason is that a Diophantine equation is  a special case of a quantified integer statement where the only quantifier is $\exists$.
-This means that deciding the truth of  quantifier integer statements  is a potentially harder problem than solving Diophantine equations, and so it is potentially _easier_ to prove that $QIS$ is uncomputable.
+This means that deciding the truth of  quantified integer statements  is a potentially harder problem than solving Diophantine equations, and so it is potentially _easier_ to prove that $QIS$ is uncomputable.
 
 ::: { .pause }
 If you find the last sentence confusing, it is worthwhile to reread it until you are sure you follow its logic.
