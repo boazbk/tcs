@@ -107,7 +107,7 @@ These steps can be executed by:
 
 Let us try to "err on the side of simplicity" and model computation in the simplest possible way.
 We will think of the most basic of computational steps.
-For example, are some very simple functions:
+For example, here are some very simple functions:
 
 * $OR:\{0,1\}^2 \rightarrow \{0,1\}$ defined as
 
@@ -283,7 +283,7 @@ There are several concerns that are raised by this definition:
 These concerns will to a large extent guide us in the upcoming chapters. Thus you would be well advised to re-read the above informal definition and see what you think about these issues.
 
 
-A large part of this course will be devoted to adressing the above issues.
+A large part of this course will be devoted to addressing the above issues.
 We will see that:
 
 1. We can make the definition of an algorithm fully formal, and so give a precise mathematical meaning to statements such as "Algorithm $A$ computes function $F$".
@@ -293,7 +293,7 @@ We will see that:
 3. It turns out that we can and do compute such "$NAND$ based algorithms" in the real world. First of all, such an algorithm is clearly well specified, and so can be executed by a human with a pen and paper. Second, there are a variety of ways to _mechanize_ this computation. We've already seen that we can write Python code that corresponds to following such a list of instructions. But in fact we can directly implement operations such as $NAND$, $AND$, $OR$, $NOT$ etc.. via electronic signals using components known as _transistors_. This is how modern electronic computers operate.
 
 In the remainder of this chapter, we will begin to answer some of these questions.
-We will see more example of the power of simple operations like $NAND$ (or equivalently, $AND$, $OR$, $NOT$, as well as many other choices) to compute more complex operations including addition, multiplication, sorting and more.
+We will see more examples of the power of simple operations like $NAND$ (or equivalently, $AND$, $OR$, $NOT$, as well as many other choices) to compute more complex operations including addition, multiplication, sorting and more.
 We will then discuss how to _physically implement_ simple operations such as NAND using a variety of technologies.
 Finally we will define the _NAND programming language_ that will be our formal model of computation.
 

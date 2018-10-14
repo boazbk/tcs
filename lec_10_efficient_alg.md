@@ -52,15 +52,15 @@ As we will see, questions about polynomial versus exponential time are  often _i
 
 ## Problems on graphs
 
-We now present a  few examples of computational problems that people are interested in solving.
+We now present a few examples of computational problems that people are interested in solving.
 Many of the problems will involve _graphs_.
 We have already encountered graphs in the context of Boolean circuits, but let us now quickly recall the basic notation.
-A  graph  $G$ consists of a set of _vertices_ $V$ and _edges_ $E$ where each edge is a pair of vertices.
+A graph $G$ consists of a set of _vertices_ $V$ and _edges_ $E$ where each edge is a pair of vertices.
 In a _directed_ graph, an edge is an ordered pair $(u,v)$, which we sometimes denote as $\overrightarrow{u\;v}$.
 In an _undirected_ graph, an edge is an unordered pair (or simply a set) $\{ u,v \}$ which we sometimes denote as $\overline{u\; v}$ or $u \sim v$.^[An equivalent viewpoint is that an undirected graph is like a directed graph with the property that whenever the edge $\overrightarrow{u\; v}$ is present then so is the edge $\overrightarrow{v\; u}$.]
 We will assume graphs are undirected and _simple_ (i.e., containing no parallel edges or self-loops) unless stated otherwise.
 
-We typically will think of the  vertices in a graph as simply the set  $[n]$ of the numbers from $0$ till $n-1$.
+We typically will think of the vertices in a graph as simply the set  $[n]$ of the numbers from $0$ till $n-1$.
 Graphs can be represented either in the _adjacency list_ representation, which is a list of $n$ lists, with the $i^{th}$ list corresponding to the neighbors of the $i^{th}$ vertex, or the _adjacency matrix_ representation, which is an $n\times n$ matrix $A$ with $A_{i,j}$ equalling $1$ if the edge $\overrightarrow{u\; v}$ is present and equalling $0$ otherwise.^[In an undirected graph, the adjacency matrix $A$ is _symmetric_, in the sense that it satisfies $A_{i,j}=A_{j,i}$.]
 We can transform between these two representations using $O(n^2)$ operations, and hence for our purposes we will mostly consider them as equivalent.
 We will sometimes consider _labeled_ or _weighted_ graphs, where we assign a label or a number to the edges or vertices of the graph, but mostly we will try to keep things simple and stick to the basic notion of an unlabeled, unweighted, simple undirected graph.
@@ -68,7 +68,7 @@ We will sometimes consider _labeled_ or _weighted_ graphs, where we assign a lab
 There is a reason that graphs are so ubiquitous in computer science and other sciences.
 They can be used to model a great many of the data that we encounter.
 These are not just the "obvious" networks such as the road network (which can be thought of as a graph of whose vertices are locations with edges corresponding to road segments), or the web (which can be thought of as a graph whose vertices are web pages with edges corresponding to links), or social networks (which can be thought of as a graph whose vertices are people and the edges correspond to friend relation).
-Graphs can also denote correlations in data (e.g., graph of observations of features with edges corresponding to features that tend to appear together), casual relations (e.g., gene regulatory networks, where a gene  is connected to gene products it derives), or the state space of a system (e.g., graph of configurations of a physical system, with edges corresponding to states that can be reached from one another in one step).
+Graphs can also denote correlations in data (e.g., graph of observations of features with edges corresponding to features that tend to appear together), causal relations (e.g., gene regulatory networks, where a gene  is connected to gene products it derives), or the state space of a system (e.g., graph of configurations of a physical system, with edges corresponding to states that can be reached from one another in one step).
 
 ![Some examples of graphs found on the Internet.](../figure/graphs.png){#figureid .class width=300px height=300px}
 
@@ -304,7 +304,7 @@ This reduces 2SAT to the (efficiently solvable) problem of determining connectiv
 The 3SAT problem is the task of determining satisfiability  for 3CNFs.
 One might think that changing from two to   three would not make that much of a difference for complexity.
 One would be wrong.
-Despite much effort, do not know of a significantly better than brute force algorithm for 3SAT (the best known algorithms take roughy $1.3^n$ steps).
+Despite much effort, we do not know of a significantly better than brute force algorithm for 3SAT (the best known algorithms take roughy $1.3^n$ steps).
 
 Interestingly, a similar issue arises time and again in computation, where the difference between two and three often corresponds to the difference between tractable and intractable.
 We do not fully understand the reasons for this phenomenon, though the notions of $\mathbf{NP}$ completeness we will see later does offer a partial explanation.
@@ -393,7 +393,7 @@ It also arises in physics where it can be used to describe the quantum state of 
 If the entries of $A$ are integers, then we can also define a _Boolean_ function $perm_2(A)$ which will output the result of the permanent modulo $2$.
 A priori computing this would seem to require enumerating over all $n!$ possiblities.
 However, it turns out we can compute $perm_2(A)$ in polynomial time!
-The key is that modulo $2$, $-x$ and $+x$ are the same quantity and hence the permanent  modulo $2$ is the same as taking the following quantity modulo $2$:
+The key is that modulo $2$, $-x$ and $+x$ are the same quantity and hence the permanent modulo $2$ is the same as taking the following quantity modulo $2$:
 
 $$
 \sum_{\pi \in S_n} sign(\pi)\prod_{i=0}^{n-1}A_{i,\pi(i)} \label{eq:det}
@@ -429,7 +429,7 @@ The min-max theorem turns out to be a corollary of linear programming duality, a
 
 ### Finding a Nash equilibrium
 
-Fortunately, not all real-world games are zero sum, and we do have  more general games, where the payoff of one player does not necessarily qual the loss of the other.
+Fortunately, not all real-world games are zero sum, and we do have  more general games, where the payoff of one player does not necessarily equal the loss of the other.
 [John Nash](https://en.wikipedia.org/wiki/John_Forbes_Nash_Jr.) won the Nobel prize for showing that there is a notion of _equilibrium_ for such games as well.
 In many economic texts it is taken as an article of faith that when actual agents are involved in such a game then they reach a Nash equilibrium.
 However, unlike zero sum games, we do not know of an efficient algorithm for finding a Nash equilibrium given the description of a general (non zero sum) game.
