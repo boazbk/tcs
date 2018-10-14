@@ -194,7 +194,7 @@ More generally, we obtained a representation of the non-negative rational number
 5. Representing a string over $\Sigma$ as a longer string over $\{0,1\}$.
 
 
-More generally, the above encoding yields a  one-to-one map $E$ from strings over the alphabet $\Sigma$ to binary strings, such that for every $s\in \Sigma^*$, $|E(s)|=2|s|$.
+More generally, the above encoding yields a one-to-one map $E$ from strings over the alphabet $\Sigma$ to binary strings, such that for every $s\in \Sigma^*$, $|E(s)|=2|s|$.
 Using this, we get a one-to-one map $E': (\{0,1\}^*)\times (\{0,1\}^*) \rightarrow \{0,1\}^*$ mapping _pairs_ of binary strings into a single binary string.
 Given every pair $(a,b)$ of binary strings, we will first map it in a one-to-one way to a string $s \in \Sigma^*$ using $\|$ as a separator, and then map $s$ to a single (longer) binary string using the encoding $E$.
 The same idea can be used to represent triples, quadruples, and generally all tuples of strings as a single string (can you see why?).

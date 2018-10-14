@@ -38,7 +38,7 @@ For example, one could imagine a piece of code that interacts between Alice, Bob
 
 Specifically Ethereum uses the Turing-complete programming language  [solidity](https://solidity.readthedocs.io/en/develop/index.html) which has a syntax similar to Javascript.
 The flagship of Ethereum was an experiment known as  The "Decentralized Autonomous Organization" or [The DAO](https://goo.gl/NegW77).
-The idea was to create a smart contract that would create an autonomously run decentralized venture capital fund, without human managers, were shareholders could decide on investment opportunities.
+The idea was to create a smart contract that would create an autonomously run decentralized venture capital fund, without human managers, where shareholders could decide on investment opportunities.
 The DAO was  the biggest crowdfunding success in history and at its height was worth 150 million dollars, which was more than ten percent of the total Ethereum market.
 Investing in the DAO (or entering any other "smart contract") amounts to providing your funds to be run by a computer program. i.e., "code is law", or to use the words the DAO described itself: "The DAO is borne from immutable, unstoppable, and irrefutable computer code".
 Unfortunately, it turns out that (as we saw in [chapcomputable](){.ref}) understanding the behavior of Turing-complete computer programs is quite a hard thing to do.
@@ -64,7 +64,7 @@ However, we don't want our system to get  into an infinite loop just trying to e
 
 Because the Halting problem for Turing-complete computational models is uncomputable, a system would not be able to verify that a given program $P$ does not halt.
 For this reason, typical systems for searching files or databases do _not_ allow users to specify functions in full-fledged programming languages.
-Rather, they use _restricted computational models_ that rich enough to capture many of the queries needed in practice (e.g., all filenames ending with `.txt`, or all phone numbers of the form `(xxx) xxx-xxxx` inside a textfile), but restricted enough so that they cannot result in an finite loop.
+Rather, they use _restricted computational models_ that are rich enough to capture many of the queries needed in practice (e.g., all filenames ending with `.txt`, or all phone numbers of the form `(xxx) xxx-xxxx` inside a textfile), but restricted enough so that they cannot result in an finite loop.
 One of the most popular models for this application is   [regular expressions](https://goo.gl/2vTAFU).
 You have probably come across regular expressions if you  ever used an advanced text editor, a command line shell, or have done any kind of manipulations of text files.
 

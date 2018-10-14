@@ -212,7 +212,7 @@ $$
 The above is a perfectly fine description of the sequence $I(0),I(1),I(2),\ldots$ but it is also possible to find an explicit mathematical formula for $I(k)$.
 Specifically, it is an annoying but not  hard exercise to show that $I(k)$ is equal to the minimum of $|k-r(r+1)|$ where this minimum is taken over all integers $r$ in $\{0,\ldots,k\}$. It can also be shown that the value of $r$ that achieves this minimum is between $\floor{\sqrt{k}-1}$ and $\ceil{\sqrt{k}}$.
 
-![The value of `i` as a function of the current iteration. The variable `i` progresses according to the sequence $0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots$.  Via some cumbersome but routine calculation, it can be shown that at the $k$-th iteration the value of `i` equals $k-r(r+1)$ if $k \leq (r+1)^2$ and $(r+1)(r+2)-k$ if $k<(r+1)^2$ where $r= \floor{\sqrt{k+1/4}-1/2}$.](../figure/indextime.png){#indextimefig .class width=300px height=300px}
+![The value of `i` is a function of the current iteration. The variable `i` progresses according to the sequence $0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots$.  Via some cumbersome but routine calculation, it can be shown that at the $k$-th iteration the value of `i` equals $k-r(r+1)$ if $k \leq (r+1)^2$ and $(r+1)(r+2)-k$ if $k<(r+1)^2$ where $r= \floor{\sqrt{k+1/4}-1/2}$.](../figure/indextime.png){#indextimefig .class width=300px height=300px}
 
 ::: {.example title="XOR in vanilla NAND++" #XORNANDPP}
 Here is the XOR function in NAND++ (using our standard syntactic sugar to make it more readable):
@@ -234,7 +234,7 @@ It would be very instructive for you to compare the enhanced NAND++ program for 
 :::
 
 ::: {.solvedexercise title="Computing index location" #computeindex}
-Prove that at the $k$-iteration of the loop, the value of the variable `i` is equal to $index(k)$ where $index:\N \rightarrow \N$ is defined as follows:
+Prove that at the $k$-th iteration of the loop, the value of the variable `i` is equal to $index(k)$ where $index:\N \rightarrow \N$ is defined as follows:
 $$
 index(k) = \begin{cases} k- r(r+1) & k \leq (r+1)^2 \\ (r+1)(r+2)-k & \text{otherwise} \end{cases} \label{eqindex}
 $$
