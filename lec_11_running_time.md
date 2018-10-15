@@ -339,7 +339,7 @@ This  indeed turns out to be the case:
 
 
 > # {.theorem  title="Nonuniform computation contains uniform computation" #non-uniform-thm}
-There is some $c\in \N$ s.t. for every $F:\{0,1\}^* \rightarrow \{0,1\}$ in  $TIME_{++}(T(n))$ and every  sufficiently large $n\in N$,  $F_n$ is in $SIZE(c T(n))$.
+There is some $c\in \N$ s.t. for every nice $T:\N \rightarrow \N$ and  $F:\{0,1\}^* \rightarrow \{0,1\}$ in  $TIME_{++}(T(n))$ and every  sufficiently large $n\in N$,  $F_n$ is in $SIZE(c T(n))$.
 
 ::: {.proofidea data-ref="non-uniform-thm"}
 To prove [non-uniform-thm](){.ref} we use the technique of "unraveling  the loop". That is, we can use "copy paste" to replace a program $P$ that uses a loop that iterates for at most $T$ times with a "loop free" program that has about $T$ times as many lines as $P$.
@@ -376,7 +376,7 @@ That is all there is to the proof of [non-uniform-thm](){.ref}
 
 ::: {.proof data-ref="non-uniform-thm"}
 The proof follows by the argument of "unraveling the loop".
-If $P$ is a NAND++ program of $L$ lines and $T:\N \rightarrow \N$ is a function such that for every input $x\in \{0,1\}^n$, $P$ halts after executing at most $T(n)$ lines (and hence iterating at most $T(n)/L$ times) then we can obtain a NAND program $Q$ on $n$ inputs as follows:
+If $P$ is a NAND++ program of $L$ lines and $T:\N \rightarrow \N$ is a function such that for every input $x\in \{0,1\}^n$, $P$ halts after executing at most $T(n)$ lines (and hence iterating at most $\floor{T(n)/L}$ times) then we can obtain a NAND program $Q$ on $n$ inputs as follows:
 
 ```python
 Xvalid[0] = one
@@ -392,9 +392,12 @@ IF (loop) P{i<-1}
 ...
 IF (loop) P{i<-R}
 ```
-where for every number $j$, we denote by `P{i<-`$j$`}` the NAND program that is obtained by replacing all references of the form `Foo[i]` (which are allowed in NAND++, but illegal in NAND that has no index variable `i`) with references of the form `Foo[`$j$`]` (which are allowed in NAND, since $j$ is simply a number.)
-We simply repeat the lines of the form `IF (loop) P{i<-`$j$`}` for $T-1$ times, replacing each time $j$ by $0,1,0,1,2,\ldots$ as in the definition of (standard or "vanilla") NAND++ in [#vanillanandpp](){.ref}.
+where for every number $j$, we denote by `P{i<-`$j$`}` the NAND program that is obtained by replacing all references of the form `Foo[i]` (which are allowed in NAND++, but illegal in NAND that has no index variable `i`) with references of the form `Foo[`$j$`]` (which are allowed in NAND, since $j$ is simply a number).
+We simply repeat the lines of the form `IF (loop) P{i<-`$j$`}` for $\floor{T(n)/L}-1$ times, replacing each time $j$ by $0,1,0,1,2,\ldots$ as in the definition of (standard or "vanilla") NAND++ in [#vanillanandpp](){.ref}.
 We replace `IF` with the appropriate syntactic sugar, which will incur a multiplicative overhead of at most $4$ in the number of lines.
+After this replacement, each line of the form `IF (loop) P{i<-`$j$`}` corresponds to at most $4L$ lines of standard sugar-free NAND.
+Since there are at most $tfrac{T(n)}{L}-1$ of such repetitions, they contribute a total cost of at most $4\cdot T(n)$.
+The initialization of `Xvalid` and the first iteration contribute another $n+L$ lines which is less than $2T(n)$ (as for nice functions $T(n) \geq n$) and hence the total number of lines is at most $6 \cdot T(n)$.^[The constant $6$ can be improved, but this does not really make much difference.]
 :::
 
 

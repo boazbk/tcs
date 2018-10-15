@@ -541,7 +541,7 @@ int Second(int n) {
 
 `First` and `Second` are two distinct C programs, but they compute the same function.
 A _semantic_ property, such  as "computing a function $f:\N \rightarrow \N$ where $f(m) \geq m$ for every $m$", would be either _true_ for both programs or _false_ for both programs, since it depends on the _function_ the programs compute and not on their code.
-A _syntactic_ property, such as "containing the variable `k`" or "using a `while` operation" might be true for one of the programs and false for the other, since it can depend on properties of the programs' _code_.
+A _syntactic_ property, such as "containing the variable `k`" or "using a `while` operation" might be true for one of the programs and false for the other, since it can depend on properties of the programs' _code_.^[While we contrast "semantic" with "syntactic" in this informal discussion, we  only formally define the notion of a _semantic_ function in this book. A famous example of a syntactically correct but semantically meaningless sentence in English is Chomsky's ["Colorless green ideas sleep furiously."](https://goo.gl/4gXoiV)]
 
 Often the properties of programs that we are most interested in are the _semantic_ ones, since we want to understand the programs' functionality. Unfortunately, the following theorem shows that such properties are uncomputable in general:
 
@@ -593,7 +593,31 @@ In both cases we see that $MONOTONE(Q)=1-HALTONZERO(P)$, which is what we wanted
 An examination of this proof shows that we did not use anything about $MONOTONE$ beyond the fact that it is semantic and non-trivial (in the sense that it is not the all zero, nor the all-ones function).
 :::
 
-### Halting and Rice's Therem for other Turing-complete models
+::: {.remark title="Semantic is not the same as uncomputable" #syntacticcomputablefunctions}
+Rice's Theorem is so powerful and such a popular way of proving uncomputability that people sometimes get confused and think that it is
+the _only_ way to prove uncomputability. In particular, a common misconception is  that if a function $F$ is _not_ semantic then it is _computable_.
+This is not at all the case.
+For example, consider the following function $HALTNOYALE:\{0,1\}^* \rightarrow \{0,1\}$. This is a function that on input a string that represents a NAND++ program $P$, outputs $1$ if and only if both __(i)__ $P$ halts on the input $0$, and __(ii)__ the program $P$ does not contain a variable with the identifier `Yale`. The function $HALTNOYALE$ is clearly not semantic, as  it will output two different values when given as input one of the following two functionally equivalent programs:
+
+```python
+Yale[0] = NAND(X[0],X[0])
+Y[0] = NAND(X[0],Yale[0])
+```
+
+and
+
+```python
+Harvard[0] = NAND(X[0],X[0])
+Y[0] = NAND(X[0],Harvard[0])
+```
+
+However, $HALTNOYALE$ is uncomputable since  every program $P$ can be transformed into an equivalent (and in fact improved `:)`) program $P'$ that does not contain the variable `Yale`. Hence if we could compute $HALTONYALE$ then we could compute also $HALTONZERO$.
+
+Moreover, as we will see in [godelchap](){.ref}, there are uncomputable functions whose inputs are not programs, and hence for which the adjective "semantic" is not applicable.
+:::
+
+
+### Halting and Rice's Theorem for other Turing-complete models
 
 As we saw before, many natural computational models turn out to be _equivalent_ to one another, in the sense that we can transform a "program" of one  model (such as a $\lambda$ expression, or a game-of-life configurations) into another model (such as a NAND++ program).
 This equivalence implies that we can translate the uncomputability of the Halting problem for NAND++ programs into uncomputability for Halting in other models.
