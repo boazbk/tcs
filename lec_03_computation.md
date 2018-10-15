@@ -285,9 +285,9 @@ Specifically, we can use the equivalence $AND(a,b)=NOT(NAND(a,b))$, $OR(a,b)=NAN
 
 $$
 \begin{gathered}
-NAND \left( NAND\bigl(\; NAND(NAND(a,b),NAND(a,c)), \\
-NAND(NAND(a,b),NAND(a,c))\; \bigr),\\
-NAND(b,c) \right)
+NAND \biggl(\, NAND\Bigl(\, NAND\bigl(NAND(a,b),NAND(a,c)\bigr), \\
+NAND\bigl(NAND(a,b),NAND(a,c)\bigr)\, \Bigr),\\
+NAND(b,c) \, \biggr)
 \end{gathered}
 $$
 
