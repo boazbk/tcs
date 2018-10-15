@@ -92,7 +92,7 @@ In this chapter we will use an ultra-simple "programming language" to give a _fo
 However, it will take us some time to get there.
 We will start by discussing what are "elementary operations" and also how do we map a description of an algorithm into an actual physical process that produces an output from an input in the real world.
 
-### Defining "elementary operations"
+
 
 An algorithm breaks down a complex calculation into a series of simpler steps.
 These steps can be executed by:
@@ -105,7 +105,7 @@ These steps can be executed by:
 
 * Response to a stimulus by a member of a collection (e.g., a bee in a colony, a trader in a market).
 
-#### Boolean formulas with AND, OR, and NOT.
+### Boolean formulas with AND, OR, and NOT.
 
 Let us try to "err on the side of simplicity" and model computation in the simplest possible way.
 For example, here are some very simple functions:
@@ -285,7 +285,7 @@ Specifically, we can use the equivalence $AND(a,b)=NOT(NAND(a,b))$, $OR(a,b)=NAN
 
 $$
 \begin{gathered}
-NAND left( NAND\bigl(\; NAND(NAND(a,b),NAND(a,c)), \\
+NAND \left( NAND\bigl(\; NAND(NAND(a,b),NAND(a,c)), \\
 NAND(NAND(a,b),NAND(a,c))\; \bigr),\\
 NAND(b,c) \right)
 \end{gathered}
