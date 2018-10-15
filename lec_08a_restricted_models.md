@@ -222,7 +222,7 @@ In this case, we can define a recursive algorithm that on input a regular expres
 
 *  If $n=0$ (i.e., $x$ is the empty string) then we output $1$ iff $exp$ contains $""$.
 
-* If $n>0$,  we let $\sigma = x_{n-1}$ and  let  $exp' = exp[\sigma]$ to be the regular expression that matches a string $x$ iff $exp$ matches the string $x\sigma$. (It can be shown that such a regular expression $exp'$ exists and is in fact no longer than $exp$.) We use a recursive call to return $\Phi_{exp'}(x_0\cdots x_{n-1})$.
+* If $n>0$,  we let $\sigma = x_{n-1}$ and  let  $exp' = exp[\sigma]$ to be the regular expression that matches a string $x$ iff $exp$ matches the string $x\sigma$. (It can be shown that such a regular expression $exp'$ exists and is in fact of equal or smaller "complexity" to $exp$ for some appropriate notion of complexity.) We use a recursive call to return $\Phi_{exp'}(x_0\cdots x_{n-1})$.
 
 The running time of this recursive algorithm can be computed by the formula $T(n) = T(n-1) + O(1)$ which solves to $O(n)$ (where the constant in the running time can depend on the length of the regular expression $exp$).
 
@@ -273,17 +273,24 @@ __Inputs:__ $exp$ is normal form regular expression, $x\in \Sigma^n$ for some $n
 Algorithm $MATCH$ is a recursive algorithm that on input an expression $exp$ and a string $x\in \{0,1\}^n$, does some constant time computation and then calls itself on input some expression $exp'$  and a string $x$ of length $n-1$.
 It will terminate after $n$ steps when it reaches a string of length $0$.
 
-There is one subtle issue and that is that to bound the running time, we need to show that if we let $exp_i$ be the regular expression that this algorithm obtains at step $i$, then $exp_i$ does not become itself much larger than the original expression $exp$. If $exp$ is a regular expression, then for every $n\in \N$ and  string $\alpha \in \{0,1\}^n$, we will denote by $exp[\alpha]$ the expression $(((exp[\alpha_0])[\alpha_1]) \cdots)[\alpha_{n-1}]$. That is, $exp[\alpha]$ is the expression obtained by considering the restriction $exp_0=exp[\alpha_0]$, and then considering the restriction $x_1 = exp_0[\alpha_1]$ and so on and so forth. We can also think of $exp[\alpha]$ as the regular expression that matches $x$ if and only if $exp$ matches $x\alpha_{n-1}\alpha_{n-2}\cdots \alpha_0$. Note that the expressions considered by Algorithm $MATCH$ all have the form $exp[\alpha]$ for some  string $\alpha$ where $exp$ is the  original input expression.
+There is one subtle issue and that is that to bound the running time, we need to show that if we let $exp_i$ be the regular expression that this algorithm obtains at step $i$, then $exp_i$ does not become itself much larger than the original expression $exp$. If $exp$ is a regular expression, then for every $n\in \N$ and  string $\alpha \in \{0,1\}^n$, we will denote by $exp[\alpha]$ the expression $(((exp[\alpha_0])[\alpha_1]) \cdots)[\alpha_{n-1}]$.
+That is, $exp[\alpha]$ is the expression obtained by considering the restriction $exp_0=exp[\alpha_0]$, and then considering the restriction $x_1 = exp_0[\alpha_1]$ and so on and so forth. We can also think of $exp[\alpha]$ as the regular expression that matches $x$ if and only if $exp$ matches $x\alpha_{n-1}\alpha_{n-2}\cdots \alpha_0$.
+
+The expressions considered by Algorithm $MATCH$ all have the form $exp[\alpha]$ for some  string $\alpha$ where $exp$ is the  original input expression.
 Thus the following claim will help us bound our algorithms complexity:^[This claim is strongly related to the [Myhill-Nerode Theorem](https://goo.gl/mnKVMP). One direction of this theorem can be thought of as saying that if $exp$ is a regular expression then there is at most a finite number of strings $z_0,\ldots,z_{k-1}$ such that $\Phi_{exp[z_i]} \neq \Phi_{exp[z_j]}$ for every $0 \leq i\neq j < k$.]
 
 
 
 __Claim:__ For every regular expresion $exp$, the set $S(exp) = \{ exp[\alpha] | \alpha \in \{0,1\}^* \}$ is finite.
 
-__Proof of claim:__ We prove this by induction on the structure of $exp$. If $exp$ is a symbol, the empty string, or the empty set, then this is straightforward to show as the most expressions $S(exp)$ can contain are the expression itself, $""$, and $\emptyset$. If $exp = exp' exp''$ then all the restrictions of $exp$ to strings $\alpha$ will involve concatenations of the form $exp'[\alpha'] exp''[\alpha'']$  for some  strings $\alpha',\alpha''$ which are substrings of $\alpha$. Hence $S(exp)$ is contained in the set $\{ e'e'' \;|\; e' \in S(exp') , e'' \in S(\exp'') \}$ whose size is at most $|S(exp')|\cdot |S(exp'')|$. If $exp = (exp')^*$ then $exp[\alpha]$ has the form $(exp)^* exp'[\alpha]$ or it is simply the empty set, and so $|S(exp)| \leq |S(exp')|+1$.
+__Proof of claim:__ We prove this by induction on the structure of $exp$. If $exp$ is a symbol, the empty string, or the empty set, then this is straightforward to show as the most expressions $S(exp)$ can contain are the expression itself, $""$, and $\emptyset$. Otherwise we split to the two cases __(i)__ $exp = exp'^*$  and __(ii)__ $exp = exp'exp''$, where $exp',exp''$ are smaller expressions (and hence by the induction hypothesis $S(exp')$ and $S(exp'')$ are finite).
+In the case __(i)__,  if $exp = (exp')^*$ then $exp[\alpha]$ is either equal to $(exp')^* exp'[\alpha]$ or it is simply the empty set if $exp'[\alpha]=\emptyset$. Since $exp'[\alpha]$ is in the set $S(exp')$, the number of distinct expressions in  $S(exp)$ is at most  $|S(exp')|+1$.
+In the case __(ii)__,  if $exp = exp' exp''$ then all the restrictions of $exp$ to strings $\alpha$ will either have the form $exp' exp''[\alpha]$ or the form $exp' exp''[\alpha] | exp'[\alpha']$ where $\alpha'$ is some string such that $\alpha = \alpha' \alpha''$ and $exp[\alpha'']$ matches the empty string.
+Since $exp''[\alpha] \in S(exp'')$ and $exp'[\alpha'] \in S(exp')$, the number of the possible distinct  expressions of the form $exp[\alpha]$  is at most $|S(exp'')| + |S(exp'')|\cdot |S(exp')|$.  This completes the proof of the claim.
 
-The bottom line is that while running our algorithm on a regular expression $exp$, all the expressions we will ever enounter will be in the finite set $S(exp)$, no matter how large the input $x$ is.
-Therefore, the running time of $MATCH$ will be $O(n)$ where the implicit constant in the Oh notation can (and will) depend on $exp$ but crucially, not on the length of the input $x$.
+
+The bottom line is that while running our algorithm on a regular expression $exp$, all the expressions we will ever encounter will be in the finite set $S(exp)$, no matter how large the input $x$ is.
+Therefore, the running time of $MATCH$ is $O(n)$ where the implicit constant in the Oh notation can (and will) depend on $exp$ but crucially, not on the length of the input $x$.
 
 __Proving the "moreover" part:__ At this point, we have already proven a highly non-trivial statement: the existence of a linear-time algorithm for matching regular expressions. The reader may well be content with this, and stop reading the proof at this point.
 However, as mentioned above, we can do even more and in fact have a _constant space_ algorithm for this.
@@ -293,21 +300,26 @@ Specifically, we replace our recursive algorithm $MATCH$ with the following iter
 ::: { .quote title="" #temp}
 __Algorithm $MATCH'(exp,x)$:__ \
 
-__Inputs:__ $exp$ is normal form regular expression, $x\in \Sigma^n$ for some $n\in \N$. Let $\ell = \max_{exp' \in S(exp)}|exp'|$. \
+__Inputs:__ $exp$ is normal form regular expression, $x\in \Sigma^n$ for some $n\in \N$.
 
-Define a Boolean variable $v_{exp'}$ for every $exp'$ of length at most $\ell$.^[Since a regular expression over alphabet $\Sigma$ is simply a string over the alphabet $\Sigma \cup \{ (,),|,*,"", \emptyset \}$,  there are at most $(|\Sigma|+10)^\ell$ expressions over this alphabet of length at most $\ell$.]
-Initially, $v_{exp'}=1$ if and only if $exp'$ matches the empty string.
+__Operation:__
 
-*  For $i=0,\ldots,n-1$ do the following:
-   * For every $exp'$ of length at most $\ell$: Let $temp_{exp'} = v_{exp'[x_i]}$.^[The computation of $exp'[x_i]$ is done as before, but only requires an amount of memory that depends on the constant $\ell$, since $|exp'| \leq \ell$.]
-   * Copy the $temp$ variables to the $v$ variables: let $v_{exp'} = temp_{exp'}$ for every $exp'$ of length at most $\ell$.
+1. Let $S = S(exp)$. Note that this is a finite set, and by its definition, for every $exp' \in S$ and $\sigma \in \{0,1\}$, $exp'[\sigma]$ is in $S$ as well.
 
-Output $v_{exp}$.
+2. Define a Boolean variable $v_{exp'}$ for every $exp' \in S$. Initially we set $v_{exp'}=1$ if and only if $exp'$ matches the empty string.
+
+3.  For $i=0,\ldots,n-1$ do the following:
+
+    a.  _Copy the variables $\{ v_{exp'} \}$ to temporary variables:_ For every $exp' \in S$, we set $temp_{exp'} = v_{exp'}$.
+
+    b.  _Update the variables $\{ v_{exp'} \}$ based on the $i$-th bit of $x$:_ Let $\sigma = x_i$ and set $v_{exp'} = temp_{exp'[\sigma]}$ for every $exp' \in S$.
+
+3. Output $v_{exp}$.
 :::
 
-Algorithm $MATCH'$  maintains the invariant that at the end of step $i$, the variable $v_{exp'}$ is equal  if and only if $exp'$ matches the string $x_0\cdots x_{i-1}$.
+Algorithm $MATCH'$  maintains the invariant that at the end of step $i$, for every $exp' \in S$, the variable $v_{exp'}$ is equal  if and only if $exp'$ matches the string $x_0\cdots x_{i-1}$.
 In particular, at the very end, $v_{exp}$ is equal to $1$ if and only if $exp$ matches the full string $x_0 \cdots x_{n-1}$.
-Note that $MATCH'$ only maintains a constant number of variables, and that it proceeds in one linear scan over the input, and so this proves the theorem.
+Note that $MATCH'$ only maintains a constant number of variables (as $S$ is finite), and that it proceeds in one linear scan over the input, and so this proves the theorem.
 :::
 
 
