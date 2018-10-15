@@ -94,6 +94,11 @@ We will start by discussing what are "elementary operations" and also how do we 
 
 
 
+
+### Boolean formulas with AND, OR, and NOT.
+
+
+
 An algorithm breaks down a complex calculation into a series of simpler steps.
 These steps can be executed by:
 
@@ -105,9 +110,8 @@ These steps can be executed by:
 
 * Response to a stimulus by a member of a collection (e.g., a bee in a colony, a trader in a market).
 
-### Boolean formulas with AND, OR, and NOT.
 
-Let us try to "err on the side of simplicity" and model computation in the simplest possible way.
+To formally define algorithms, let us try to "err on the side of simplicity" and model our "basic steps" as truly minimal.
 For example, here are some very simple functions:
 
 * $OR:\{0,1\}^2 \rightarrow \{0,1\}$ defined as
@@ -580,7 +584,7 @@ $x\in \{0,1\}^n$, then eventually marbles will come out of its outgoing pipes ac
 ![A "gadget" in a pipe that ensures that at most one marble can pass through it. The first marble that passes causes the barrier to lift and block new ones.](../figure/gadget.png){#gadgetfig .class width=300px height=300px}
 
 
-## The NAND Programming language
+## The NAND Programming language { #nandsec }
 
 We now turn to formally defining the notion of algorithm.
 We use a _programming language_ to do so.
@@ -676,12 +680,23 @@ Once again by a similar inductive proof we can show that the program $P$ we cons
 The proof of [nandcircuitthm](){.ref} is _constructive_, in the sense that it yields an explicit transformation from a program to a circuit and vice versa.
 The appendix contains code of a _Python_ function that outputs the circuit corresponding to a program.
 
+### Circuits with other gate sets (optional)
 
-> # {.remark title="Circuits with other gate sets (advanced note)" #othergatesets}
 There is nothing special about NAND. For every set of functions $\mathcal{G} = \{ G_0,\ldots,G_{k-1} \}$, we can define a notion of circuits that use elements of  $\mathcal{G}$ as gates, and a notion of a "$\mathcal{G}$ programming language" where every line involves assigning to a variable `foo` the result of applying some $G_i \in \mathcal{G}$ to previously defined or input variables.
-We can use the same proof idea of  [nandcircuitthm](){.ref} to show that $\mathcal{G}$ circuits and $\mathcal{G}$ programs are equivalent.
-We have seen that for $\mathcal{G} = \{ AND,OR, NOT\}$, the resulting  circuits/programs  are equivalent in power to the NAND programming language, as we can compute $NAND$ using $AND$/$OR$/$NOT$ and vice versa.
+Specifically, we can make the following definition:
+
+> # {.definition title="General straightline programs" #genstraightlineprogs}
+Let $\mathcal{F} = \{ f_0,\ldots, f_{t-1} \}$ be a finite  collection of Boolean functions, such that
+$f_i:\{0,1\}^{k_i} \rightarrow \{0,1\}$ for some $k_i \in \N$.
+An _$\mathcal{F}$ program_ is a sequence of lines, each of which assigns to some  variable  the result of applying some $f_i \in \mathcal{F}$ to $k_i$ other variables. As above, we use `X[`$i$`]` and `Y[`$j$`]` to denote the input and output variables.
+
+
+_NAND programs_ corresponds to $\mathcal{F}$ programs for the set  $\mathcal{F}$ that only contains the $NAND$ function, but we can can talk about $\{ AND, OR , NOT \}$ programs, $\{ XOR,0,1\}$ programs, or use any other set.
+We can also define _$\mathcal{F}$ circuits_, which will be directed graphs in which the _gates_ corresponds to applying a function $f_i \in \mathcal{F}$, and will each have $k_i$ incoming wires and a single outgoing wire.^[There is a minor technical complication when using gates corresponding to _non symmetric_ functions. A function $f:\{0,1\}^k \rightarrow \{0,1\}$ is _symmetric_ if re-oredring its inputs does not make a difference to the output. For example, the functions $NAND$, $AND$, $OR$ are symmetric. If we consider circuits with gates that are non-symmetric functions, then we need to label each wire entering a gate as to which parameter of the function it correspond to.]
+As in [nandcircuitthm](){.ref}, we can show  that $\mathcal{F}$ circuits and $\mathcal{F}$ programs are equivalent.
+We have seen that for $\mathcal{F} = \{ AND,OR, NOT\}$, the resulting  circuits/programs  are equivalent in power to the NAND programming language, as we can compute $NAND$ using $AND$/$OR$/$NOT$ and vice versa.
 This turns out to be a special case of a general phenomena— the _universality_ of $NAND$ and other gate sets — that we will explore more in depth later in this course.
+However, there are some sets $\mathcal{F}$ that are _not_ equivalent in power to $NAND$: see [universalbasisex](){.ref} for more.
 
 
 
@@ -699,12 +714,22 @@ This turns out to be a special case of a general phenomena— the _universality_
 Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
 :::
 
-> # {.exercise title="Universal basis" #universal-basis}
-Define a set $\mathcal{G}$ of functions to be a _universal basis_ if we can compute $NAND$ using $\mathcal{G}$. For every one of the following sets, either prove that it is a universal basis or prove that it is not.
-1. $B = \{ \wedge, \vee, \neg \}$. (To make all of them be function on two inputs, define $\neg(x,y)=\overline{x}$.) \
-2. $B = \{ \wedge, \vee \}$. \
-3. $B= \{ \oplus,0,1 \}$ where $\oplus:\{0,1\}^2 \rightarrow \{0,1\}$ is the XOR function and $0$ and $1$ are the constant functions that output $0$ and $1$. \
-4. $B = \{ LOOKUP_1,0,1 \}$ where $0$ and $1$ are the constant functions as above and  $LOOKUP_1:\{0,1\}^3 \rightarrow \{0,1\}$ satisfies $LOOKUP_1(a,b,c)$ equals $a$ if $c=0$ and equals $b$ if $c=1$.
+::: {.exercise title="Universal basis" #universalbasisex}
+Define a set $\mathcal{F}$ of functions to be a _universal basis_ if we can compute $NAND$ using $\mathcal{F}$. For every one of the following sets, either prove that it is a universal basis or prove that it is not.
+
+1. $\mathcal{F} = \{ AND, OR , NOT \}$.
+
+2. $\mathcal{F} = \{ AND, OR  \}$.
+
+3. $\mathcal{F} = \{ OR, NOT  \}$.
+
+4. $\mathcal{F} = \{ NOR   \}$ where $NOR(a,b) = NOT(OR(a,b))$.
+
+5. $\mathcal{F} =  \{ XOR,0,1 \}$ where $0$ and $1$ are the constant functions that take no input and output $0$ and $1$.
+
+6. $\mathcal{F} = \{ LOOKUP_1,0,1 \}$ where $0$ and $1$ are the constant functions as above and  $LOOKUP_1:\{0,1\}^3 \rightarrow \{0,1\}$ satisfies $LOOKUP_1(a,b,c)$ equals $a$ if $c=0$ and equals $b$ if $c=1$.
+:::
+
 
 > # {.exercise title="Bound on universal basis size (challenge)" #universal-bound}
 Prove that for every subset $B$ of the functions from $\{0,1\}^k$ to $\{0,1\}$,
