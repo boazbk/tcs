@@ -18,12 +18,14 @@
 
 
 In [chapefficient](){.ref} we saw examples of efficient algorithms, and made some claims about their running time, but did not give a mathematically precise definition for this concept.
-We do so in this chapter, using the NAND++ and NAND<< models we have seen before.
+We do so in this chapter, using the NAND++  and NAND<<  models we have seen before.^[NAND++ programs are a variant of Turing machines, while NAND<<  programs are a way to model RAM machines, and hence all of the discussion in this chapter applies to those and many other models as well.]
 Since we think of programs  that can take as input a string of arbitrary length, their running time is not a fixed number but rather what we are interested in is measuring the _dependence_ of the number of steps the program takes on the length of the input.
 That is, for any program $P$, we will be interested in the maximum number of steps that $P$ takes on inputs of length $n$ (which we often denote as $T(n)$).^[Because we are interested in the _maximum_ number of steps for inputs of a given length, this concept is often known as _worst case complexity_. The _minimum_ number of steps (or "best case" complexity) to compute a function on length $n$ inputs is typically not a meaningful quantity since essentially every natural problem will have some trivially easy instances. However, the _average case complexity_ (i.e., complexity on a "typical" or "random" input) is an interesting  concept which we'll return to when we discuss _cryptography_. That said, worst-case complexity is the most standard and basic of the complexity measures, and will be our focus in most of this course.]
-For example, if a function $F$ can be computed by a NAND<< (or NAND++) program that on inputs of length $n$ takes $O(n)$ steps then we will think of $F$ as "efficiently computable",  while if any such program  requires $2^{\Omega(n)}$ steps to compute $F$ then we consider $F$ "intractable".
+For example, if a function $F$ can be computed by a NAND<< (or NAND++ program/Turing machine) program that on inputs of length $n$ takes $O(n)$ steps then we will think of $F$ as "efficiently computable",  while if any such program  requires $2^{\Omega(n)}$ steps to compute $F$ then we consider $F$ "intractable".
 
-We start by defining running time separately for both NAND<< and NAND++ programs. We will later see that the two measures are actually not that far from one another.
+
+We start by defining running time separately for both NAND<< and NAND++ programs.
+We will later see that the two measures are closely related.
 Roughly speaking, we will say that a function $F$ is computable in time $T(n)$ there exists a NAND<< program that when given an input $x$, will halt and output the value $F(x)$ within at most $T(|x|)$ steps. The formal definition is as follow:
 
 ::: {.definition title="Running time" #time-def}
@@ -109,9 +111,9 @@ All these problems are in $\mathbf{EXP}$ but the only the ones on the left colum
 
 
 
-## NAND<< vs NAND++
+## Efficient simulation of RAM machines: NAND<< vs NAND++
 
-We have seen that for every NAND<< program $P$ there is a NAND++ program $P'$ that computes the same function as $P$.
+We have seen in [RAMTMequivalencethm](){.ref} that for every NAND<< program $P$ there is a NAND++ program $P'$ that computes the same function as $P$.
 It turns out that the $P'$ is not much slower than $P$.
 That is, we can prove the following theorem:
 
@@ -124,7 +126,8 @@ That is, $TIME_{<<}(T(n)) \subseteq TIME_{++}(aT(n)^b)$
 
 
 The constant $b$ can be easily shown to be at most five, and with more effort can be optimized further.
-[NANDpp-thm](){.ref} means that the definition of the classes $\mathbf{P}$ and $\mathbf{EXP}$ are robust to the choice of model, and will not make a difference whether we use NAND++ or NAND<<. The same proof also shows that _Turing Machines_ can simulate NAND<< (and hence _RAM machines_).
+[NANDpp-thm](){.ref} means that the definition of the classes $\mathbf{P}$ and $\mathbf{EXP}$ are robust to the choice of model, and will not make a difference whether we use NAND++ or NAND<<.
+The same proof also shows that _Turing Machines_ can simulate NAND<<.
 In fact, similar results are known for many models including cellular automata, C/Python/Javascript programs, parallel computers,   and a great many other models, which justifies the choice of $\mathbf{P}$ as capturing a technology-independent notion of tractability.
 As we discussed before,  this  equivalence between NAND++ and NAND<<  (as well as other models) allows us to pick our favorite one depending on the task at hand (i.e., "have our cake and eat it too").
 When we want to _design_ an algorithm, we can use the extra power and convenience afforded by NAND<<.
@@ -312,7 +315,9 @@ We will however see that there is a single unproven conjecture that would imply 
 
 ![Some complexity classes and some of the functions we know (or conjecture) to be contained in them.](../figure/time_complexity_map.png){#figureid .class width=300px height=300px}
 
-
+::: {.remark title="Time hierarchy for NAND++ and Turing machines" #timehierarchyfornandpp}
+The time hierarchy theorem relies on the existence of an efficient universal NAND<< program, as proven in [univ-nandpp](){.ref}. We have mentioned that other models, such as NAND++ programs and Turing machines, are polynomially
+:::
 
 
 ## Unrolling the loop: Uniform vs non uniform computation
