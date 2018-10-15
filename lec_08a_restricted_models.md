@@ -346,22 +346,22 @@ The pumping lemma is a bit cumbersome to state, but one way to remember it is th
 :::
 
 
-> # {.proof data-ref="pumping"}
+::: {.proof data-ref="pumping"}
 To prove the lemma formally, we use induction on the length of the expression. Like all induction proofs, this is going to be somewhat lengthy, but at the end of the day it directly follows the intuition above that _somewhere_ we must have used the star operation. Reading this proof, and in particular understanding how the formal proof below corresponds to the intuitive idea above, is a very good way to get more comfort with inductive proofs of this form.
->
+
 Our inductive hypothesis is that for an $n$ length expression,  $n_0=2n$ satisfies the conditions of the lemma. The base case is when the expression is a single symbol or that it is $\emptyset$ or $""$ in which case the condition is satisfied just because there is no matching string of length more than one.
 Otherwise, $exp$ is of the form __(a)__ $exp' | exp''$, __(b)__, $(exp')(exp'')$, __(c)__ or $(exp')^*$ where in all these cases the subexpressions have fewer symbols than $exp$ and hence satisfy the induction hypothesis.
->
+
 In case __(a)__, every string $w$ matching $exp$ must match either $exp'$ or $exp''$.
 In the former case, since $exp'$ satisfies the induction hypothesis, if $|w|>n_0$ then we can write $w=xyz$ such that  $xy^kz$ matches $exp'$ for every $k$, and hence this is matched by $exp$ as well.
->
+
 In case __(b)__, if $w$ matches $(exp')(exp'')$. then we can write $w=w'w''$ where $w'$ matches $exp'$ and $w''$ matches $exp''$. Again we split to subcases. If $|w'|>2|exp'|$, then by the induction hypothesis we can write $w' = xyz$ of the form above such that $xy^kz$ matches $exp'$ for every $k$ and then $xy^kzw''$ matches $(exp')(exp'')$.  This completes the proof since $|xy| \leq 2|exp'|$ and so in particular $|xy| \leq 2(|exp'|+|exp''|) \leq 2|exp$, and hence $zw''$ can be play the role of $z$ in the proof. Otherwise, if $|w'| \leq 2|exp'|$ then since $|w|$ is larger than $2|exp|$ and $w=w'w''$ and $exp=exp'exp''$, we get that $|w'|+|w''|>2(|exp'|+|exp''|)$.
 Thus, if $|w'| \leq 2|exp'|$  it must be that $|w''|>2|exp''|$ and hence by the induction hypothesis we can write $w''=xyz$ such that $xy^kz$ matches $exp''$ for every $k$ and $|xy| \leq 2|exp''|$. Therefore we get that $w'xy^kz$ matches $(exp')(exp'')$ for every $k$ and since $|w'| \leq 2|exp'|$, $|w'xy| \leq 2(|exp'|+|exp'|)$ and this completes the proof since   $w'x$ can play the role of $x$ in the statement.
->
+
 Now in the case __(c)__, if $w$ matches $(exp')^*$ then $w= w_0\cdots w_t$ where $w_i$ is a nonempty string that matches $exp'$ for every $i$.
 If $|w_0|>2|exp'|$ then we can use the same approach as in the concatenation case above.
 Otherwise, we simply note that if $x$ is the empty string, $y=w_0$, and $z=w_1\cdots w_t$ then $xy^kz$ will match $(exp')^*$ for every $k$.
-
+:::
 
 > # {.remark title="Recursive definitions and inductive proofs" #recursiveproofs}
 When an object is _recursively defined_ (as in the case of regular expressions) then it is natural to prove  properties of such objects by  _induction_. That is, if we want to prove that all objects of this type have property $P$, then it is natural to use an inductive steps that says that if $o',o'',o'''$ etc have property $P$ then so is an object $o$ that is obtained by composing them.
@@ -371,7 +371,7 @@ When an object is _recursively defined_ (as in the case of regular expressions) 
 
 Given the pumping lemma, we can easily prove [regexpparn](){.ref}:
 
-> # {.proof data-ref="regexpparn"}
+::: {.proof data-ref="regexpparn"}
 Suppose, towards the sake of contradiction, that there is an expression $exp$ such that $\Phi_{exp}= MATCHPAREN$. Let $n_0$ be the number from [regexpparn](){.ref} and let
 $w =\langle^{n_0}\rangle^{n_0}$ (i.e., $n_0$ left parenthesis followed by $n_0$ right parenthesis). Then we see that if we write $w=xyz$ as in [regexpparn](){.ref}, the condition $|xy| \leq n_0$ implies that $y$ consists solely of left parenthesis. Hence the string $xy^2z$ will contain more left parenthesis than right parenthesis.
 Hence $MATCHPAREN(xy^2z)=0$ but by the pumping lemma $\Phi_{exp}(xy^2z)=1$, contradicting our assumption that $\Phi_{exp}=MATCHPAREN$.
@@ -382,7 +382,10 @@ To understand the pumping lemma, it is important to follow the order of quantifi
 In particular, the number $n_0$ in the statement of  [pumping](){.ref} depends on the regular expression (in particular we can choose $n_0$ to be twice the number of symbols in the expression).
 So, if we want to use the pumping lemma to rule out the existence of a regular expression $exp$ computing some function $F$, we need to be able to choose an appropriate $w$ that can be arbitrarily large and satisfies $F(w)=1$.
 This makes sense if you think about the intuition behind the pumping lemma: we need $w$ to be large enough as to force the use of the star operator.
+:::
 
+
+![A cartoon of a proof using the pumping lemma that a function $F$ is not regular. The pumping lemma states that if $F$ is regular then _there exists_ a number $n_0$ such that _for every_ large enough $w$ with $F(w)=1$, _there exists_ a partition of $w$ to $w=xyz$ satisfying certain conditions such that _for every_ $k\in \N$, $F(xy^kz)=1$. You can imagine  a pumping-lemma based proof as a game between you and the adversary. Every _there exists_ quantifier corresponds to an object you are free to choose on your own (and base your choice on previously chosen objects). Every _for every_ quantifier corresponds to an object the adversary can choose arbitrarily (and again based on prior choices) as long as it satisfies the conditions. A valid proof corresponds to a strategy by which no matter what the adversary does, you can win the game by obtaining a contradiction which would be a choice of $k$ that would result in $F(xy^ky)=0$, hence violating the conclusion of the pumping lemma.](../figure/pumpinglemmaproof.png){#pumpingprooffig .class width=300px height=300px}
 
 ::: {.solvedexercise title="Palindromes is not regular" #palindromenotreg}
 Prove that the following function over the alphabet $\{0,1,; \}$ is not regular: $PAL(w)=1$  if and only if $w = u;u^R$ where $u \in \{0,1\}^*$ and $u^R$ denotes $u$ "reversed": the string $u_{|u|-1}\cdots u_0$.^[The _Palindrome_ function is most often defined without an explicit separator character $;$, but the version with such a separator is a bit cleaner and so we use it here. This does not make much difference, as  one can easily encode the separator as a special binary string instead.]
@@ -394,6 +397,10 @@ Consider the string $w = 0^{n_0};0^{n_0}$.
 Since the reverse of the all zero string is the all zero string, $PAL(w)=1$.
 Now, by the pumping lemma, if $PAL$ is computed by $exp$, then we can write $w=xyz$ such that $|xy| \leq n_0$, $|y|\geq 1$ and $PAL(xy^kz)=1$ for every $k\in \N$. In particular, it must hold that $PAL(xz)=1$, but this is a contradiction, since $xz=0^{n_0-|y|};0^{n_0}$ and so its two parts are not of the same length and in particular are not the reverse of one another.
 :::
+
+For yet another example of a pumping-lemma based proof, see [pumpingprooffig](){.ref} which illustrates a cartoon of the proof of the non-regularity of the  function $F:\{0,1\}^* \rightarrow \{0,1\}$ which is defined as $F(x)=1$ iff $x=0^n1^n$ for some $n\in \N$ (i.e., $x$ consists of a string of consecutive zeroes, followed by a string of consecutive ones of the same length).
+
+
 
 ## Other semantic properties of regular expressions
 
