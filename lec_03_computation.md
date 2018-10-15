@@ -105,8 +105,9 @@ These steps can be executed by:
 
 * Response to a stimulus by a member of a collection (e.g., a bee in a colony, a trader in a market).
 
+#### Boolean formulas with AND, OR, and NOT.
+
 Let us try to "err on the side of simplicity" and model computation in the simplest possible way.
-We will think of the most basic of computational steps.
 For example, here are some very simple functions:
 
 * $OR:\{0,1\}^2 \rightarrow \{0,1\}$ defined as
@@ -119,14 +120,56 @@ $$AND(a,b) = \begin{cases} 1 & a=b=1 \\ 0 & \text{otherwise} \end{cases}$$
 
 * $NOT:\{0,1\} \rightarrow \{0,1\}$ defined as $NOT(a) = 1-a$.
 
-
-Each one of these functions takes either one or two single bits as input, and produces a single bit as output.
+The $AND$, $OR$ and $NOT$  functions are the basic logical operators that are used in logic and many computer system.
+Each one of them takes either one or two single bits as input, and produces a single bit as output.
 Clearly, it cannot get much more basic than these.
 However, the power of computation comes from _composing_ simple building blocks together.
 
+Here is an example. Consider the function $MAJ:\{0,1\}^3 \rightarrow \{0,1\}$ that is defined as follows:
+
+$$MAJ(x) = \begin{cases}1 & x_0 + x_1 + x_2 \geq 2 \\ 0 & \text{otherwise}\end{cases} \;.$$
+That is, for every $x\in \{0,1\}^3$, $MAJ(x)=1$ if and only if the majority (i.e., at least two out of the three) of $x$'s coordinates are equal to $1$.
+Can you come up with a formula involving $AND$, $OR$ and $NOT$ to compute $MAJ$?
+
+::: { .pause }
+It is useful for you to pause at this point and work out the formula for yourself. As a hint, although it is needed to compute some functions, you will not need to use the $NOT$ operator to compute $MAJ$.
+:::
+
+Let us first try to rephrase $MAJ(x)$ in words: "$MAJ(x)=1$ if and only if there exists some pair of distinct coordinates $i,j$ such that both $x_i$ and $x_j$ are equal to $1$." In other words it means that $MAJ(x)=1$ iff   _either_ both $x_0=1$ _and_ $x_1=1$,  _or_ both $x_1=1$ _and_ $x_2=1$, _or_ both $x_0=1$ _and_ $x_2=1$.
+Since the $OR$ of three conditions $c_0,c_1,c_2$ can be written as $OR(c_0,OR(c_1,c_2))$, we can now translate this into a formula as follows:
+
+$$
+MAJ(x_0,x_1,x_2) = OR\left(\, AND(x_0,x_1)\;,\; OR \bigl( AND(x_1,x_2) \;,\; AND(x_0,x_2) \bigr) \, \right) \;. \label{eqmajandornot}
+$$
+
+It is common to use $a \vee b$ for $OR(a,b)$ and $a \wedge b$ for $AND(a,b)$, as well as write $a \vee b \vee c$ as shorthand for $(a \vee b) \vee c$. ($NOT(a)$ is often written as either $\neg a$ or $\overline{a}$; we will use both notations in this book.) With this notation,
+[eqmajandornot](){.eqref}  can also be written as
+
+$$MAJ(x_0,x_1,x_2) = (x_0 \wedge x_1) \vee (x_1 \wedge x_2) \vee (x_0 \wedge x_3)\;.$$
+
+
+
+We can also write  [eqmajandornot](){.eqref} in a   "programming language" format, expressing it as a set of instructions for computing $MAJ$ given the basic operations $AND,OR,NOT$:
+
+```python
+def MAJ(X[0],X[1],X[2]):
+    firstpair  = AND(X[0],X[1])
+    secondpair = AND(X[1],X[2])
+    thirdpair  = AND(X[0],X[2])
+    temp       = OR(secondpair,thirdpair)
+    return OR(firstpair,temp)
+```
+
+Yet a third way to describe the same computation is by a _Boolean circuit_.
+Think of having _wires_ that can carry a signal that is either the value $0$ or $1$. ^[In practice, this is [often  implemented](https://goo.gl/gntTQE) by electric potential or _voltage_ on a wire, where for example voltage above a certain level is interpreted as a logical value of $1$, and below a certain level is interpreted as a logical value of $0$.]
+An _OR gate_ is a gadget that has two incoming wires and one outgoing wires, and is designed so that if the signals on the incoming wires are $a$ and $b$ respectively (for $a,b \in \{0,1\}$), then the signal on the outgoing wire will be $OR(a,b)$.
+AND and NOT gates are defined similarly.
+Using this, we can express [eqmajandornot](){.eqref} as a circuit as well:
+
+![](../figure/majandorcirc.pnj){#figid .class width=300px height=300px} \
 
 ::: {.example title="Computing $XOR$ from $AND$,$OR$,$NOT$" #XORandornotexample}
-Let us see how we can obtain a different function from these building blocks:
+Let us see how we can obtain a different function from these building blocks.
 Define $XOR:\{0,1\}^2 \rightarrow \{0,1\}$ to be the function $XOR(a,b)= a + b \mod 2$. That is, $XOR(0,0)=XOR(1,1)=0$ and $XOR(1,0)=XOR(0,1)=1$.
 We claim that we can construct $XOR$ using only $AND$, $OR$, and $NOT$.
 
@@ -137,15 +180,12 @@ Here is an algorithm to compute $XOR(a,b)$ using $AND,NOT,OR$ as basic operation
 3. Compute $w3 = OR(a,b)$ \
 4. Output $AND(w2,w3)$ \
 
-We can also express this algorithm graphically:
+We can also express this algorithm as a circuit:
 
-![A circuit with $AND$, $OR$ and $NOT$ gates (denoted as $\wedge,\vee,\neg$ respectively) for computing the $XOR$ function.](../figure/andornotcircforxor.png){#andornotcircxorfig  .class width=300px height=300px} \
+![A circuit with $AND$, $OR$ and $NOT$ gates (denoted as $\wedge,\vee,\neg$ respectively) for computing the $XOR$ function.](../figure/xorandornotcirc.png){#andornotcircxorfig  .class width=300px height=300px} \
 
-
-Such diagrams are often known as _Boolean circuits_, and each basic operation is known as a _gate_. This is a point of view that we will revisit often in this course.
-
-Last but not least, we can also express it in Python code:
-
+Last but not least, we can also express it in a programming language.
+Specifically, the following is a _Python_ program that computes the $XOR$ function:
 
 ```python
 def AND(a,b): return a*b
@@ -190,12 +230,13 @@ print([f"XOR3({a},{b},{c})={XOR3(a,b,c)}" for a in [0,1] for b in [0,1] for c in
 
 
 > # { .pause }
-Make sure you see how to generalize this and obtain a way to compute $XOR_n:\{0,1\}^n \rightarrow \{0,1\}$ for every $n$ using at most $4n$ basic steps involving applications of a function in $\{ AND, OR , NOT \}$ to outputs or previously computed values.
+Try to generalize the above examples to  obtain a way to compute $XOR_n:\{0,1\}^n \rightarrow \{0,1\}$ for every $n$ using at most $4n$ basic steps involving applications of a function in $\{ AND, OR , NOT \}$ to outputs or previously computed values.
 
 
 ### The NAND function
 
-Here is another function we can compute using $AND,OR,NOT$. The $NAND$ function maps $\{0,1\}^2$ to $\{0,1\}$ and is defined as
+Here is another function we can compute using $AND,OR,NOT$.
+The $NAND$ function maps $\{0,1\}^2$ to $\{0,1\}$ and is defined as
 
 $$NAND(a,b) = \begin{cases} 0 & a=b=1 \\ 1 & \text{otherwise} \end{cases}$$
 
@@ -207,7 +248,7 @@ We can compute $AND$, $OR$, and $NOT$ by composing only the $NAND$ function.
 > # {.proof data-ref="univnandonethm"}
 We start with the following observation. For every $a\in \{0,1\}$, $AND(a,a)=a$. Hence, $NAND(a,a)=NOT(AND(a,a))=NOT(a)$.
 This means that $NAND$ can compute $NOT$, and since by the principle of "double negation",  $AND(a,b)=NOT(NOT(AND(a,b)))$ this means that we can use $NAND$ to compute $AND$ as well.
-Once we can compute $AND$ and $NOT$, we can compute $OR$ using the so called ["De Morgan's Law"](https://goo.gl/TH86dH): $OR(a,b)=NOT(AND(NOT(a),NOT(b)))$ for every $a,b \in \{0,1\}$.
+Once we can compute $AND$ and $NOT$, we can compute $OR$ using the so called ["De Morgan's Law"](https://goo.gl/TH86dH):  $OR(a,b)=NOT(AND(NOT(a),NOT(b)))$ (which can also be written as $a \vee b = \overline{\overline{a} \wedge \overline{b}}$) for every $a,b \in \{0,1\}$.
 
 > # { .pause }
 [univnandonethm](){.ref}'s proof is very simple, but you should make sure that __(i)__ you understand the statement of the theorem, and __(ii)__ you follow its proof completely. In particular, you should make sure you understand why De Morgan's law is true.
@@ -229,23 +270,32 @@ print([f"Test {a},{b}: {ORwithNAND(a,b)==OR(a,b)}" for a in [0,1] for b in [0,1]
 
 
 > # {.solvedexercise title="Compute majority with NAND" #majbynandex}
-Let $MAJ_3: \{0,1\}^3 \rightarrow \{0,1\}$ be the function that on input $a,b,c$ outputs $1$ iff $a+b+c \geq 2$. Show how to compute $MAJ_3$ using a composition of $NAND$'s.
+Let $MAJ: \{0,1\}^3 \rightarrow \{0,1\}$ be the function that on input $a,b,c$ outputs $1$ iff $a+b+c \geq 2$. Show how to compute $MAJ$ using a composition of $NAND$'s.
 
-> # {.solution data-ref="majbynandex"}
-To solve this problem, we will first express  $MAJ_3$  using $AND$, $OR$, $NOT$, and then use
-[univnandonethm](){.ref}  to replace those with only $NAND$.
-We can very naturally express the statement "At least two of $a,b,c$ are equal to $1$" using OR's and AND's. Specifically, this is true if at least one of the values $AND(a,b)$, $AND(a,c)$, $AND(b,c)$ is true.
-So we can write
-$$MAJ_3(a,b,c) = OR(OR(AND(a,b),AND(a,c)),AND(b,c)) \label{eqmajusingandor} \;.$$
->
-Now we can use the equivalence $AND(a,b)=NOT(NAND(a,b))$, $OR(a,b)=NAND(NOT(a),NOT(b))$, and $NOT(a)=NAND(a,a)$ to replace the righthand side of [{eqmajusingandor}](){.eqref} with an expression involving only $NAND$, yielding that $MAJ_3(a,b,c)$ is equivalent the (somewhat unwieldy) expression
+::: {.solution data-ref="majbynandex"}
+Recall that [eqmajandornot](){.eqref} stated that
+
 $$
-NAND(NAND(NAND(NAND(a,b),NAND(a,c)),NAND(NAND(a,b),NAND(a,c))),NAND(b,c))
+MAJ(x_0,x_1,x_2) = OR\left(\, AND(x_0,x_1)\;,\; OR \bigl( AND(x_1,x_2) \;,\; AND(x_0,x_2) \bigr) \, \right) \;. \label{eqmajandornotrestated}
 $$
->
-This corresponds to the following circuit with $NAND$ gates: \
->
-![](../figure/majoritycirc.png){#figid .class width=300px height=300px}  \
+
+We we can use [univnandonethm](){.ref}  to replace all the occurrences of $AND$ and $OR$   with $NAND$'s.
+Specifically, we can use the equivalence $AND(a,b)=NOT(NAND(a,b))$, $OR(a,b)=NAND(NOT(a),NOT(b))$, and $NOT(a)=NAND(a,a)$ to replace the righthand side of
+[eqmajandornotrestated](){.eqref} with an expression involving only $NAND$, yielding that $MAJ(a,b,c)$ is equivalent the (somewhat unwieldy) expression
+
+$$
+\begin{gathered}
+NAND left( NAND\bigl(\; NAND(NAND(a,b),NAND(a,c)), \\
+NAND(NAND(a,b),NAND(a,c))\; \bigr),\\
+NAND(b,c) \right)
+\end{gathered}
+$$
+
+
+This corresponds to the following circuit with $NAND$ gates:
+
+![](../figure/majcircnand.png){#figid .class width=300px height=300px}  \
+:::
 
 
 <!--
@@ -265,10 +315,13 @@ So, if we wanted to decide on a "basic operation", we might as well choose $NAND
 This suggests  the following definition of an "algorithm":
 
 
->__Semi-formal definition of an algorithm:__ An _algorithm_  consists of a sequence of steps of the form "store the NAND of variables `bar` and `blah` in variable `foo`".
-> \
->
+::: {.quote}
+__Semi-formal definition of an algorithm:__ An _algorithm_  consists of a sequence of steps of the form "store the NAND of variables `bar` and `blah` in variable `foo`".
+
+
 An algorithm $A$ _computes_ a function $F$ if for every input $x$ to $F$, if we feed $x$ as input to the algorithm, the value computed in its last step is $F(x)$.
+:::
+
 
 There are several concerns that are raised by this definition:
 
