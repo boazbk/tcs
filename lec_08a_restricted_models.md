@@ -466,8 +466,8 @@ There is an efficient  algorithm that on input two regular expressions $exp,exp'
 
 
 ::: {.proof data-ref="regequivalencethm"}
-[regemptynessthem](){.ref} above is actually a special case of  [regequivalencethm](){.ref}, since emptiness is the same as checking equivalence with the expression $\emptyset$.
-However we prove  [regequivalencethm](){.ref} from [regemptynessthem](){.ref}.
+[regemptynessthm](){.ref} above is actually a special case of  [regequivalencethm](){.ref}, since emptiness is the same as checking equivalence with the expression $\emptyset$.
+However we prove  [regequivalencethm](){.ref} from [regemptynessthm](){.ref}.
 The idea is that given $exp$ and $exp'$, we will compute an expression $exp''$ such that $\Phi_{exp''}(x) = (\Phi_{exp}(x) \wedge \overline{\Phi_{exp'}(x)}) \; \vee  \; (\overline{\Phi_{exp}(x)} \wedge \Phi_{exp'}(x))$ (where $\overline{y}$ denotes the negation of $y$, i.e., $\overline{y}=1-y$).
 One can see that $exp$ is equivalent to $exp'$ if and only if $exp''$ is empty.
 To construct this expression, we need to show how given expressions $exp$ and $exp'$, we can construct expressions $exp\wedge exp'$ and $\overline{exp}$ that compute the functions $\Phi_{exp} \wedge \Phi_{exp'}$ and $\overline{\Phi_{exp}}$ respectively. (Computing the expression for $exp \vee exp'$ is straightforward using the $|$ operation of regular expressions.)
@@ -741,7 +741,7 @@ Then there is some finite  $\Sigma$ such that $CFGFULL_\Sigma$ is uncomputable.
 
 [fullnesscfgdef](){.ref} immediately implies that equivalence for context-free grammars is uncomputable, since computing "fullness" of a grammar $G$ over some alphabet $\Sigma = \{\sigma_0,\ldots,\sigma_{k-1} \}$ corresponds to checking whether $G$ is equivalent to the grammar $s \Rightarrow ""|s\sigma_0|\cdots|s\sigma_{k-1}$.
 Note that [fullnesscfgdef](){.ref} and [cfgemptinessthem](){.ref}  together imply that context-free grammars, unlike regular expressions, are _not_ closed under complement. (Can you see why?)
-Since we can encode every element of $\Sigma$ using $\ceil \log |\Sigma| \rceil$ bits (and this finite encoding can be easily carried out within a grammar) [fullnesscfgdef](){.ref} implies that fullness is also uncomputable for grammars over the binary alphabet.
+Since we can encode every element of $\Sigma$ using $\ceil{\log |\Sigma|}$ bits (and this finite encoding can be easily carried out within a grammar) [fullnesscfgdef](){.ref} implies that fullness is also uncomputable for grammars over the binary alphabet.
 
 
 ::: {.proofidea data-ref="fullnesscfgdef"}
