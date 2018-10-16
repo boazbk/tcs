@@ -196,10 +196,11 @@ Such an algorithm is also known as   a [deterministic finite automaton (DFA)](ht
 It is also known that _every_ function that can be computed by a deterministic finite automaton is regular.
 The relation of regular expressions with finite automata is a beautiful topic, on which we only touch upon in this texts. See books such as [Sipser's](https://math.mit.edu/~sipser/book.html), [Hopcroft, Motwani and Ullman](http://infolab.stanford.edu/~ullman/ialc.html), and [Kozen's](https://www.springer.com/us/book/9783642857065).
 
-We now prove the algorithmic result that regular expression matching can be done by a linear (i.e.,  $O(n)$) time algorithm, and moreover one that uses a constant (i.e., $O(1)$) amount of memory, and makes a single pass over its input.
-Since we have not yet covered the topics of time and space complexity, the reader might want to skip ahead at this point, and return to this theorem later.
+We now prove the algorithmic result that regular expression matching can be done by a linear (i.e.,  $O(n)$) time algorithm, and moreover one that uses a constant amount of memory, and makes a single pass over its input.^[We say that an algorithm $A$ for matching regular expressions uses a constant, or $O(1)$, memory, if for every regular expression $exp$ there exists some number $C$ such that for every input $x\in \{0,1\}^*$, $A$ utilizes at most $C$ bits of working memory to compute $\Phi_{exp}(x)$, no matter how long $x$ is.]
+Since we have not yet covered the topics of time and space complexity, we we describe the algorithm in high level terms, without making the computational model precise.
+In [spacechap](){.ref} we will define space complexity formally, and prove the equivalence of deterministic finite automata and regular expression (see also [regdfaequivthmstate](){.ref} below), which will also imply [dfaforregthm](){.ref}.
 
-::: {.theorem title="DFA for regular expression matching" #dfaregequiv}
+::: {.theorem title="DFA for regular expression matching" #dfaforregthm}
 Let $exp$ be a regular expression. Then there is an $O(n)$ time algorithm that computes $\Phi_{exp}$.
 
 Moreover, this algorithm only makes a single pass over the input, and utilizes only a constant amount of working memory. That is, it is a  deterministic finite automaton.
@@ -208,12 +209,8 @@ Moreover, this algorithm only makes a single pass over the input, and utilizes o
 We note that this theorem is very interesting even if one ignores the part following the "moreover". Hence, the reader is very welcome to ignore this part in the first pass over the theorem and its proof.
 
 
-::: {.remark title="Formally modeling DFAs" #formalstatement}
-To make the notion of a single-pass constant-memory algorithm precise, we can use the concept of enhanced NAND++ programs.
-Specifically, a deterministic finite automate can be defined as  an enhanced NAND++ program $P$ that  $P$ uses   uses no array variable apart from `X`,`Xvalid`,`Y` and `Yvalid`,  uses only the `i++ (foo)` operation (hence never goes back, only forward), and halts when `i` reaches beyond the length of the input.
-:::
 
-::: {.proofidea data-ref="dfaregequiv"}
+::: {.proofidea data-ref="dfaforregthm"}
 The idea is to first obtain a more efficient recursive algorithm for computing $\Phi_{exp}$ and then turning this recursive algorithm into a constant-space single-pass algorithm using the technique of _memoization_.
 In this technique  we record in a table the results of every call to a function, and then if we make future calls with the same input, we retrieve the result from the table instead of re-computing it.
 This simple optimization can sometimes result in huge savings in running time.
@@ -231,7 +228,7 @@ If we want to get the stronger result of a _constant space algorithm_ (i.e., DFA
 Specifically, we will store a table of the (constantly many) expressions of length at most $|exp|$ that we need to deal with in the course of this algorithm, and iteratively for $i=0,1,\ldots,n-1$, compute whether or not each one of those expressions matches $x_0\cdots x_{i-1}$.
 :::
 
-::: {.proof data-ref="dfaregequiv"}
+::: {.proof data-ref="dfaforregthm"}
 The central definition for this proof is the notion of a _restriction_ of a regular expression.
 For a regular expression $exp$  over an alphabet $\Sigma$ and symbol $\sigma \in \Sigma$, we will define $exp[\sigma]$ to be a regular expression such that $exp[\sigma]$ matches a string $x$ if and only if $exp$ matches the string $x\sigma$.
 For example, if $exp$ is the regular expression $01|(01)*(01)$ (i.e., one or more occurences of $01$) then $exp[1]$ will be $0|(01)*0$ and $exp[0]$ will be $\emptyset$.
@@ -320,6 +317,28 @@ __Operation:__
 Algorithm $MATCH'$  maintains the invariant that at the end of step $i$, for every $exp' \in S$, the variable $v_{exp'}$ is equal  if and only if $exp'$ matches the string $x_0\cdots x_{i-1}$.
 In particular, at the very end, $v_{exp}$ is equal to $1$ if and only if $exp$ matches the full string $x_0 \cdots x_{n-1}$.
 Note that $MATCH'$ only maintains a constant number of variables (as $S$ is finite), and that it proceeds in one linear scan over the input, and so this proves the theorem.
+:::
+
+### Equivalence of DFA's and regular expressions (optional)
+
+Surprisingly, regular expressions and constant-space algorithms turn out to be _equivalent_ in power.
+That is, the following theorem is known
+
+> # {.theorem title="Regular expressions are equivalent to constant-space algorithms" #regdfaequivthmstate}
+Let $\Sigma$ be a finite set and $F:\Sigma^* \rightarrow \{0,1\}$. Then $F$ is regular if and only if there exists a $O(1)$-space
+algorithm to compute $F$. Moreover, if $F$ can be computed by a $O(1)$-space algorithm, then it can also be computed by such an algorithm that makes a single pass over its input, i.e., a _determistic finite automaton_.
+
+
+One direction of [regdfaequivthmstate](){.ref} (namely that if $F$ is regular then it is computable by a constant-space one-pass algorithm) follows from [dfaforregthm](){.ref}. The other direction can be shown using similar ideas.
+We defer the full proof of [regdfaequivthmstate](){.ref} to [spacechap](){.ref}, where we will formally define _space complexity_.
+However, we do state here an important corollary:
+
+> # {.lemma title="Regular expressions closed under complement" #regcomplementlem}
+If $F:\Sigma^* \rightarrow \{0,1\}$ is regular then so is the function $\overline{F}$, where $\overline{F}(x) = 1 - F(x)$ for every $x\in \Sigma^*$.
+
+::: {.proof data-ref="regcomplementlem"}
+If $F$ is regular then by [dfaforregthm](){.ref} it can be computed by a constant-space algorithm $A$. But then the algorithm $\overline{A}$ which does the same computation and outputs the negation of the output of $A$ also utilizes constant space and computes $\overline{F}$.
+By [regdfaequivthmstate](){.ref}  this implies that $\overline{F}$ is regular as well.
 :::
 
 
@@ -422,13 +441,13 @@ Regular expressions are widely used beyond just searching. First, they are typic
 Such applications use the  fact that, due to their restrictions, we can solve not just the  halting  problem for them, but also answer several other semantic questions as well, all of whom would not be solvable for Turing complete models due to Rice's Theorem ([rice-thm](){.ref}).
 For example, we can tell whether two regular expressions are _equivalent_, as well as whether a regular expression computes the constant zero function.
 
-> # {.theorem title="Emptiness of regular languages is computable" #regemptynessthem}
+> # {.theorem title="Emptiness of regular languages is computable" #regemptynessthm}
 There is an algorithm that given a regular expression $exp$, outputs $1$ if and only if $\Phi_{exp}$ is the constant zero function.
 
-> # {.proofidea data-ref="regemptynessthem"}
+> # {.proofidea data-ref="regemptynessthm"}
 The idea is that we can directly observe this from the structure of the expression. The only way it will output the constant zero function is if it has the form $\emptyset$ or is obtained by concatenating $\emptyset$ with other expressions.
 
-::: {.proof data-ref="regemptynessthem"}
+::: {.proof data-ref="regemptynessthm"}
 Define a regular expression to be "empty" if it computes the constant zero function.
 The algorithm simply follows the following rules:
 
@@ -446,37 +465,21 @@ Using these rules it is straightforward to come up with a recursive algorithm to
 There is an efficient  algorithm that on input two regular expressions $exp,exp'$, outputs $1$ if and only if $\Phi_{exp} = \Phi_{exp'}$.
 
 
-> # {.proofidea data-ref="regequivalencethm"}
+::: {.proof data-ref="regequivalencethm"}
 [regemptynessthem](){.ref} above is actually a special case of  [regequivalencethm](){.ref}, since emptiness is the same as checking equivalence with the expression $\emptyset$.
 However we prove  [regequivalencethm](){.ref} from [regemptynessthem](){.ref}.
 The idea is that given $exp$ and $exp'$, we will compute an expression $exp''$ such that $\Phi_{exp''}(x) = (\Phi_{exp}(x) \wedge \overline{\Phi_{exp'}(x)}) \; \vee  \; (\overline{\Phi_{exp}(x)} \wedge \Phi_{exp'}(x))$ (where $\overline{y}$ denotes the negation of $y$, i.e., $\overline{y}=1-y$).
 One can see that $exp$ is equivalent to $exp'$ if and only if $exp''$ is empty.
 To construct this expression, we need to show how given expressions $exp$ and $exp'$, we can construct expressions $exp\wedge exp'$ and $\overline{exp}$ that compute the functions $\Phi_{exp} \wedge \Phi_{exp'}$ and $\overline{\Phi_{exp}}$ respectively. (Computing the expression for $exp \vee exp'$ is straightforward using the $|$ operation of regular expressions.)
-Using De-Morgan's laws, it is enough to compute the negation, since the AND function can be expressed using OR and NOT.
-This is cumbersome but ultimately can be done, see details below.
 
-
-::: {.proof data-ref="regequivalencethm"}
-The heart of the proof is the following claim:
-
->__Claim:__ For every regular expression $exp$ over the alphabet $\Sigma$ there is an expression $\overline{exp}$ such that $\Phi_{\overline{exp}}(x) = 1 - \Phi_{exp}(x)$ for every $x\in \Sigma^*$.
->
->__Proof:__ We'll prove the claim for the case of $\Sigma = \{0,1\}^*$. Extending this to other finite alphabets is straightforward. We prove the claim by recursion. We will use the ideas  from the proof of [dfaregequiv](){.ref}, and specifically we will assume that $exp$ is in normal form, and also use the notation $exp[\sigma]$, as defined in that proof.
->
-If $exp=\emptyset$ then $\overline{exp} = (0|1)*$.
-Otherwise, we define $\overline{exp} = \overline{exp[0]}0 | \overline{exp[1]}1$ where $exp[\sigma]$ is the expression that matches $x$ if and only if $exp$ matches $x\sigma$.
-This gives us a  recursive definition for $\overline{exp}$.^[To ensure this is well defined we need to use the fact that $exp[\sigma]$ is an expression of the same length or shorter than $exp$, and moreover there are no "cycles" in the form that there is no string $\sigma = \sigma_0\cdots \sigma_t$ such that $exp[\sigma]$, defined as $exp[\sigma_0][\sigma_1]\cdots [\sigma_t]$ is equal to $exp$. We can observe the latter by looking a string $x$ such that $\Phi_(exp)=1$ and $x$ ends with the minimal number of repetitions of the string $\sigma_0\cdots \sigma_t$. This $x$  will satisfy $\Phi_{exp[\sigma]}(x)=0$.]
->
-Let $x\in \{0,1\}^n$. We will prove by induction on $n$ that $exp$ matches $x$ if and only if $\overline{x}$ does _not_ match $x$.
-This is trivially true for the case that $n=0$.
-Now if $exp$ matches $x\in \{0,1\}^n$, then letting $x'= x_0\cdots x_{n-2}$ and $\sigma = x_{n-1}$, $exp$ matches $x$ if and only if $exp[\sigma]$ matches $x'$ which happens if and only if $\overline{exp[\sigma]}$ does _not_ match $x'$. But $\overline{exp}$ matches $x'\sigma$ if and only if $\overline{exp[\sigma]}$ matches $x'$, hence completing the proof of the claim.
-
-Once we have the claim, we can reduce checking equivalence to checking emptiness. For every two expressions $exp$ and $exp'$ we can define $exp \vee exp'$ to be simply the expression $exp|exp'$ and $exp \wedge exp'$ as $\overline{\overline{exp} \vee \overline{exp'}}$.
+Specifically, by [regcomplementlem](){.ref}, regular functions are closed under negation, which means that for every regular expression $exp$ over the alphabet $\Sigma$ there is an expression $\overline{exp}$ such that $\Phi_{\overline{exp}}(x) = 1 - \Phi_{exp}(x)$ for every $x\in \Sigma^*$.
+For every two expressions $exp$ and $exp'$ we can define $exp \vee exp'$ to be simply the expression $exp|exp'$ and $exp \wedge exp'$ as $\overline{\overline{exp} \vee \overline{exp'}}$.
 Now we can define
 $$
 exp'' = (exp \wedge \overline{exp'}) \; \vee \; (\overline{exp} \wedge exp')
 $$
 and verify that $\Phi_{exp''}$ is the constant zero function if and only if $\Phi_{exp}(x) = \Phi_{exp'}(x)$ for every $x \in \Sigma^*$.
+Since by [regemptynessthm](){.ref} we can verify emptiness of $exp''$, we can also verify equivalence of $exp$ and $exp'$.
 :::
 
 
