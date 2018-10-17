@@ -269,21 +269,22 @@ def U(P,x,1^T):
     # if s in [t] corresponds to scalar then Var_values[s] is value of variable corresponding to s.
     # if s corresponds to array then Var_values[t*i+s] is value of variable corresponding to s at position i
 
+    def varid(name):
+        # scan the array Var_numbers and
+        # return the number between 0 and t-1
+        ...
+
     def get_scalar_value(name):
-        s = first s such that (name,s) is in Var_numbers
-        return Var_values[s]
+        return Var_values[varid(name)]
 
     def get_array_value(name,i):
-        s = first s such that (name,s) is in Var_numbers
-        return Var_values[t*i+s]
+        return Var_values[t*i+varid(name)]
 
     def set_scalar_value(name,val):
-        s = first s such that (name,s) is in Var_numbers
-        Var_values[s] = val
+        Var_values[varid(name)] = val
 
-    def set_scalar_value(name,i,val):
-        s = first s such that (name,s) is in Var_numbers
-        Var_values[t*i+s] = val
+    def set_array_value(name,i,val):
+        Var_values[t*i+varid(name)] = val
 
     for i=0..|x|-1:
         set_array_value("X",i,x[i])
@@ -294,13 +295,20 @@ def U(P,x,1^T):
 
     do {
         line = P[current_line] # extract current line of P
+
+        # code to execute line
+        # We use get/set procedures above to update vars
         ...
-        # execute line, using get_scalar_value, get_array_value, set_scalar_value, set_array_value
+        # Update counters
         current_line = current_line + 1 (mod L)
         number_steps = number_steps + 1
 
     } until get_scalar_value("loop")==0 or (number_steps >= T)
-    ... # recover output from get_array_value("Y",0) etc..
+
+    # Produce output:
+    if get_scalar_value("loop")==1: return "FAIL"
+    m = smallest m s.t. get_array_value("Yvalid",m)=0
+    return [get_array_value("Y",i) for i=0..m-1]
 ```
 :::
 
@@ -451,10 +459,6 @@ The proof follows by the argument of "unraveling the loop".
 If $P$ is a NAND++ program of $L$ lines and $T:\N \rightarrow \N$ is a function such that for every input $x\in \{0,1\}^n$, $P$ halts after executing at most $T(n)$ lines (and hence iterating at most $\floor{T(n)/L}$ times) then we can obtain a NAND program $Q$ on $n$ inputs as follows:
 
 ```python
-Xvalid[0] = one
-Xvalid[1] = one
-...
-Xvalid[n-1] = one
 P{i<-0}
 IF (loop) P〈i<-1〉
 IF (loop) P〈i<-0〉
@@ -467,57 +471,98 @@ IF (loop) P〈i<-1〉
 IF (loop) P〈i<-R〉
 ```
 where for every number $j$, we denote by `P〈i<-`$j$`〉` the NAND program that is obtained by replacing all references of the form `Foo[i]` (which are allowed in NAND++, but illegal in NAND that has no index variable `i`) with references of the form `Foo[`$j$`]` (which are allowed in NAND, since $j$ is simply a number).
+Whenever we see a reference to the variable `Xvalid[`$i$`]` in the program we will replace it with `one` or `zero` depending on whether $i<n$.
+Similarly, we will replace all references to `X[`$i$`]` for $i \geq n$ with `zero`. (We can use our standard syntactic sugar to create the constant `zero` and `one` variables.)
+
 We simply repeat the lines of the form `IF (loop) P〈i<-`$j$`〉` for $\floor{T(n)/L}-1$ times, replacing each time $j$ by $0,1,0,1,2,\ldots$ as in the definition of (standard or "vanilla") NAND++ in [#vanillanandpp](){.ref}.
 We replace `IF` with the appropriate syntactic sugar, which will incur a multiplicative overhead of at most $4$ in the number of lines.
 After this replacement, each line of the form `IF (loop) P〈i<-`$j$`〉` corresponds to at most $4L$ lines of standard sugar-free NAND.
-Since there are at most $tfrac{T(n)}{L}-1$ of such repetitions, they contribute a total cost of at most $4\cdot T(n)$.
-The initialization of `Xvalid` and the first iteration contribute another $n+L$ lines which is less than $2T(n)$ (as for nice functions $T(n) \geq n$) and hence the total number of lines is at most $6 \cdot T(n)$.^[The constant $6$ can be improved, but this does not really make much difference.]
+Thus the total cost is at most $4L \cdot (\tfrac{T(n)}{L}) \leq 4 \cdot T(n)$ lines.^[The constant $4$ can be improved, but this does not really make much difference.]
 :::
 
 
 By combining [non-uniform-thm](){.ref}  with [polyRAMTM-thm](){.ref}, we get that if $F\in TIME(T(n))$ then there are some constants $a,b$ such that for every large enough $n$, $F_n \in SIZE(aT(n)^b)$. (In fact, by direct inspection of the proofs we can see that $a=b=5$  would work.)
-The transformation of the NAND++ program $P$ to the NAND program $Q_P$ is itself algorithmic.
-Thus we can also phrase this result as follows:
 
 
-> # {.theorem title="NAND++ to NAND compiler" #nand-compiler}
-There is an $O(n)$-time NAND<< program $COMPILE$ such that on input a NAND++ program $P$,  and strings of the form $1^n,1^m,1^T$  outputs a NAND program $Q_P$ of at most $O(T)$ lines with $n$ bits of inputs and $m$ bits of output, such that: For every $x\in\{0,1\}^n$, if $P$ halts on input $x$ within fewer than $T$ steps and outputs some string $y\in\{0,1\}^m$, then $Q_P(x)=y$.
+### Algorithmic transformation of NAND++ to NAND and "Proof by Python" (optional)
 
 
-The program $COMPILE$ of [nand-compiler](){.ref} is fairly easy to implement.
-In particular this is done by the following very simple python function
+The proof of [non-uniform-thm](){.ref} is _algorithmic_, in the sense that the proof yields a polynomial-time algorithm that  given a NAND++ program $P$ and parameters $T$ and $n$, produces a NAND program $Q$ of $O(T)$ lines that agrees with $P$ on all inputs $x\in \{0,1\}^n$ (as long as $P$ runs for less than $T$ steps these inputs.)
+Thus the same proof gives  the following theorem:
+
+
+::: {.theorem title="NAND++ to NAND compiler" #nand-compiler}
+There is an $O(n)$-time NAND<< program $COMPILE$ such that on input a NAND++ program $P$,  and strings of the form $1^n,1^m,1^T$  outputs a NAND program $Q_P$ of at most $O(T)$ lines with $n$ bits of inputs and $m$ bits of output satisfying the following property.
+
+For every $x\in\{0,1\}^n$, if $P$ halts on input $x$ within fewer than $T$ steps and outputs some string $y\in\{0,1\}^m$, then $Q_P(x)=y$.
+:::
+
+We omit the proof of the [nand-compiler](){.ref}  since it follows in a fairly straightforward way from the proof of [non-uniform-thm](){.ref}.
+However, for the sake of concreteness, here is a _Python_ implementation of the function $COMPILE$.
+(The reader can feel free to skip it.)
+
 
 ```python
-#Input:  Source code of a NAND++ program P,
-#        time bound T, input length n
-#Output: n-input NAND program of T|P| lines
-#        computing same function as P
-#For simplicity we assume that program P
-#has a constant m number of outputs,
-#and includes code that ensure it does not modify
-#its input if loop=0
-def expand(P,T,n):
-    result = r'''temp = NAND(X[0],X[0])
-one = NAND(X[0],temp)
-zero = NAND(one,one)'''
-    for i in range(n):
-        result += f"Xvalid[{i}]= one\n"
+def COMPILE(P,T,n,m):
+    '''
+    Gets P = NAND PP program
+    T - time bound, n - number of inputs, m - number of outputs
+    Produces NAND program of O(T) lines that computes
+    the restriction of P to inputs of length n and T steps
+    '''
+    lines = [l for l in P.split('\n') if l] # lines of P
 
-    for t in range(T):
-        j=index(t)
-        result += P.replace('[i]',f'[{j}]')
+    # initialization
+    result = r'''
+temp = NAND(X[0],X[0])
+one = NAND(X[0],temp)
+zero = NAND(one,one)
+nothalted = NAND(X[0],temp)
+halted = NAND(one,one)
+'''[1:]
+
+    # assign_to = IF(halted,assign_to,new_value)
+    IFCODE = r'''
+iftemp_0 = NAND(new_value,nothalted)
+iftemp_1 = NAND(assign_to,halted)
+assign_to = NAND(iftemp_0,iftemp_1)
+'''[1:]
+
+    UPDATEHALTED = r'''
+halted = NAND(nothalted,loop)
+nothalted = NAND(halted,halted)
+    '''[1:]
+
+    for t in range(T // len(lines)):
+        j = indexat(t)
+        for line in lines:
+            if j>= m:
+                line = line.replace('Y[i]','temp')
+            if j< n:
+                line = line.replace('Xvalid[i]','one')
+            else:
+                line = line.replace('Xvalid[i]','zero')
+                line = line.replace('X[i]','zero')
+
+            line = line.replace('[i]',f'[{j}]')
+            idx = line.find("=")
+            lefthand = line[:idx].strip()
+            righthand = line[idx+1:].strip()
+            result += "new_value = " + righthand + "\n"
+            result += IFCODE.replace("assign_to",lefthand)
+        result += UPDATEHALTED
+
     return result
 
-# Returns value of index variable i in  iteration  t
-def index(t):
-    r = math.floor(math.sqrt(t+1/4)-1/2)
-    return (t-r*(r+1) if t <= (r+1)*(r+1) else (r+1)*(r+2)-t)
+from math import sqrt
+def indexat(k):
+    return min([abs(k-int(r)*(int(r)+1)) for r in [sqrt(k)-0.5,sqrt(k)+0.5]])
 ```
 
 Since NAND<< programs can be simulated by NAND++ programs with polynomial overhead, we see that we can simulate a $T(n)$ time NAND<< program on length $n$ inputs with a $poly(T(n))$ size NAND program.
 
 > # { .pause }
-To make sure you understand this transformation, it is an excellent exercise to verify the following equivalent characterization of the class $\mathbf{P}$ (see [Palternativeex](){.ref}). Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}$, $F\in \mathbf{P}$ if and only if there is a polynomial-time NAND++ (or NAND<<, it doesn't matter) program $P$ such that for every $n\in \N$, $P(1^n)$ outputs a description of an $n$ inpute NAND program $Q_n$ that computes the restriction $F_n$ of $F$ to inputs in $\{0,1\}^n$. (Note that since $P$ runs in polynomial time and hence has an output of at most polynomial length, $Q_n$ has at most a polynomial number of lines.)
+To make sure you understand this transformation, it is an excellent exercise to verify the following equivalent characterization of the class $\mathbf{P}$ (see [Palternativeex](){.ref}). Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}$, $F\in \mathbf{P}$ if and only if there is a polynomial-time NAND++ (or NAND<<, it doesn't matter) program $P$ such that for every $n\in \N$, $P(1^n)$ outputs a description of an $n$ input NAND program $Q_n$ that computes the restriction $F_n$ of $F$ to inputs in $\{0,1\}^n$. (Note that since $P$ runs in polynomial time and hence has an output of at most polynomial length, $Q_n$ has at most a polynomial number of lines.)
 
 ### The class $\mathbf{P_{/poly}}$
 
@@ -526,7 +571,13 @@ We can define the "non uniform" analog of the class $\mathbf{P}$ as follows:
 > # {.definition title="$\mathbf{P_{/poly}}$" #Ppoly}
 For every $F:\{0,1\}^* \rightarrow \{0,1\}$, we say that $F\in \mathbf{P_{/poly}}$ if there is some polynomial $p:\N \rightarrow \R$ such that for every $n\in \N$, $F_n \in SIZE(p(n))$ where $F_n$ is the restriction of $F$ to inputs in $\{0,1\}^n$.
 
-An immediate corollary of [non-uniform-thm](){.ref} is that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$.
+[non-uniform-thm](){.ref} implies that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$.
+
+::: { .pause }
+Please make sure you understand why this is the case.
+:::
+
+
 Using the equivalence of NAND programs and Boolean circuits, we can also define $P_{/poly}$ as the class of functions $F:\{0,1\}^* \rightarrow \{0,1\}$  such that the restriction of $F$ to $\{0,1\}^n$ is computable by a Boolean circuit of $poly(n)$ size (say with gates in the set $\wedge,\vee,\neg$ though any universal gateset will do); see [Ppolyfig](){.ref}.
 
 ![We can think of an infinite function $F:\{0,1\}^* \rightarrow \{0,1\}$ as a collection of finite functions $F_0,F_1,F_2,\ldots$ where $F_n:\{0,1\}^n \rightarrow \{0,1\}$ is the restriction of $F$ to inputs of length $n$. We say $F$ is in $\mathbf{P_{/poly}}$ if for every $n$, the function $F_n$  is computable by a polynomial size NAND program, or equivalently, a polynomial sized Boolean circuit. (We drop in this figure the "edge case" of $F_0$ though as a constant function, it can always be computed by a constant sized NAND program.)](../figure/Ppoly.png){#Ppolyfig .class width=300px height=300px}
@@ -559,9 +610,21 @@ To make sure you understand the definition of $\mathbf{P_{/poly}}$, I highly enc
 One can ask if  there is an inverse relation.
 Suppose that $F$ is such that $F_n$ has a "short" NAND program for every $n$.
 Can we say that it must be in $TIME(T(n))$ for some "small" $T$?
+The answer is an emphatic __no__.
+Not only is $\mathbf{P_{/poly}}$ not contained in $\mathbf{P}$, in fact $\mathbf{P_{/poly}}$ contains functions that are _uncomputable_!
 
-The answer is __no__.
-Indeed, consider the following "unary halting function" $UH:\{0,1\}^* \rightarrow \{0,1\}$ defined as follows.
+
+> # {.theorem title="$\mathbf{P_{/poly}}$ contains uncomputable functions" #Ppolyuncomputable}
+There exists an _uncomputable_ function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F \in \mathbf{P_{/poly}}$.
+
+
+> # {.proofidea data-ref="PnewPpoly"}
+Since $\mathbf{P_{/poly}}$ corresponds to non uniform computation, a function $F$ is in $\mathbf{P_{/poly}}$ if for every $n\in \N$, the restriction $F_n$ to inputs of length $n$ has a small circuit/program, even if the circuits for different values of $n$ are completely different from one another. In particular, if $F$ has the property that for every equal-length inputs $x$ and $x'$, $F(x)=F(x')$ then this means that $F_n$ is either the constant function zero or the constant function one for every $n\in \N$.
+Since the constant function has a (very!) small circuit, such a function $F$ will always be in $\mathbf{P_{/poly}}$ (indeed even in smaller classes).
+Yet by a reduction from the Halting problem, we can obtain a function with this property that is uncomputable.
+
+::: {.proof data-ref="PnewPpoly"}
+Consider the following "unary halting function" $UH:\{0,1\}^* \rightarrow \{0,1\}$ defined as follows.
 We let $S:\N \rightarrow \{0,1\}^*$ be the function that on input $n\in \N$, outputs the string that corresponds to the binary representation of the  number $n$ without the most significant $1$ digit.
 Note that $S$ is _onto_.
 For every $x\in \{0,1\}$, we define $UH(x)=HALTONZERO(S(|x|))$.
@@ -570,6 +633,7 @@ That is, if $n$ is the length of $x$, then $UH(x)=1$ if and only if the string $
 
 $UH$ is uncomputable, since otherwise we could compute $HALTONZERO$ by  transforming the input program $P$ into the integer $n$ such that $P=S(n)$ and then  then running $UH(1^n)$ (i.e., $UH$ on the string of $n$ ones).
 On the other hand, for every $n$, $UH_n(x)$ is either equal to $0$ for all inputs $x$ or equal to $1$ on all inputs $x$, and hence can be computed by a NAND program of a _constant_ number of lines.
+:::
 
 
 The issue here is of course _uniformity_.
