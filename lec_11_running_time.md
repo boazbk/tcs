@@ -501,6 +501,41 @@ We omit the proof of the [nand-compiler](){.ref}  since it follows in a fairly s
 However, for the sake of concreteness, here is a _Python_ implementation of the function $COMPILE$.
 (The reader can feel free to skip it.)
 
+For starters, let us consider an imperfect but very simple program that unrolls the loop.
+The following program will work correctly for the case that $m=1$ and that the underlying NAND++ program had the property that it only modifies the value of the `Y[0]` variable once. (A property that can be ensured by adding appropriate flag variables and some `IF` syntactic sugar.)
+
+```python
+def COMPILE(P,T,n):
+    '''
+    Gets P = NAND++ program
+    T - time bound, n - number of inputs, single output
+    Produces NAND program of T lines that computes
+    the restriction of P to inputs of length n and T steps.
+
+    assumes program contains "one" and "zero" variables and that Y[0] is never modified after the correct value is
+    written, so it is safe to run for an additional number of loops.
+    '''
+    numlines = P.count("\n")
+
+    result = ""
+    for t in range(T // numlines):
+        i = index(t) # value of i in T-th iteration
+        Xvalid_i = ('one' if i < n else 'zero' )
+        X_i = ('X[i]' if i< n else 'zero')
+        Q = P.replace('Validx[i]',Xvalid_i).replace('X[i]',X_i)
+        result += Q.replace('[i]',f'[{i}]')
+    return result
+```
+
+The `index` function takes a number $t$ and returns the value of the index variable `i` in the $t$-th iteration. Recall that this value in NAND++ follows the sequence $0,1,0,1,2,1,0,1,2,\ldots$ and it can be computed in Python as follows:
+
+```python
+from math import sqrt
+def index(k):
+    return min([abs(k-int(r)*(int(r)+1)) for r in [sqrt(k)-0.5,sqrt(k)+0.5]])
+```
+
+Below is a more "robust" implementation of `COMPILE`, that works for an arbitrarily large number of outputs, and makes no assumptions on the structure of the input program.
 
 ```python
 def COMPILE(P,T,n,m):
@@ -534,7 +569,7 @@ nothalted = NAND(halted,halted)
     '''[1:]
 
     for t in range(T // len(lines)):
-        j = indexat(t)
+        j = index(t)
         for line in lines:
             if j>= m:
                 line = line.replace('Y[i]','temp')
@@ -553,10 +588,6 @@ nothalted = NAND(halted,halted)
         result += UPDATEHALTED
 
     return result
-
-from math import sqrt
-def indexat(k):
-    return min([abs(k-int(r)*(int(r)+1)) for r in [sqrt(k)-0.5,sqrt(k)+0.5]])
 ```
 
 Since NAND<< programs can be simulated by NAND++ programs with polynomial overhead, we see that we can simulate a $T(n)$ time NAND<< program on length $n$ inputs with a $poly(T(n))$ size NAND program.
