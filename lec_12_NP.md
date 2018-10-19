@@ -134,14 +134,14 @@ Namely, the equations are that each of the $x_i$'s should be equal to either $0$
 To show that $3SAT \leq_p QUADEQ$ we need to give a polynomial-time reduction that maps a 3SAT formula $\varphi$ into a  set of quadratic equations $E$ such that $E$ has a solution if and only if $\varphi$ is satisfiable.
 The idea is that we can transform a 3SAT formula $\varphi$ first to a set of _cubic_ equations by mapping every constraint of the form $(x_{12} \vee  \overline{x}_{15} \vee x_{24})$ into an equation of the form $(1-x_{12})x_{15}(1-x_{24})=0$. We can then turn this into a _quadratic equation_ by mapping any cubic equation of the form $x_ix_jx_k =0$ into the two quadratic equations $y_{i,j}=x_ix_j$ and $y_{i,j}x_k=0$.
 
-> # {.proof data-ref="quadeq-thm"}
+::: {.proof data-ref="quadeq-thm"}
 To prove [quadeq-thm](){.ref} we need to give a   polynomial-time transformation of every 3SAT formula $\varphi$ into a set of quadratic equations $E$, and prove that $3SAT(\varphi)=QUADEQ(E)$.
->
+
 We now describe the transformation of a formula $\varphi$ to equations $E$ and show the completeness and soundness conditions.
 Recall that a _3SAT formula_ $\varphi$ is a formula such as $(x_{17} \vee \overline{x}_{101} \vee x_{57}) \wedge ( x_{18} \vee \overline{x}_{19} \vee \overline{x}_{101}) \wedge \cdots$.
 That is, $\varphi$ is composed of the AND of $m$ _3SAT clauses_ where a 3SAT clause is the OR of three variables or their negation.
 A _quadratic equations_  instance $E$ is composed of a list of equations, each of involving a sum of variables or their products, such as $x_{19}x_{52} - x_{12} + 2x_{33} = 2$, etc.. We will include the constraints $x_i^2-x_i=0$ for every $i\in [n]$ in our equations, which means that we can restrict attention to assignments where $x_i \in \{0,1\}$ for every $i$.
->
+
 There is a natural way to map a 3SAT instance into a set of _cubic_ equations, and that is to map a clause such as $(x_{17} \vee \overline{x}_{101} \vee x_{57})$ (which is equivalent to the negation of $\overline{x}_{17} \wedge x_{101} \wedge \overline{x}_{57}$) to the equation $(1-x_{17})x_{101}(1-x_{57})=0$.
 We can  map a formula $\varphi$ with $m$ clauses into a set $E$ of $m$ such equations such that there is an $x$ with $\varphi(x)=1$ if and only if there is an assignment to the variables that satisfies all the equations of $E$.
 To make the equations _quadratic_ we introduce for every $i,j\in [n]$ a variable $y_{i,j}$ and include the constraint $y_{i,j}-x_ix_j=0$ in the equations.
@@ -152,6 +152,10 @@ We can now replace the cubic term $x_{17}x_{101}x_{57}$ with the quadratic term 
 This can be done for every cubic equation in the same way, replacing any cubic term $x_ix_jx_k$ with the term $y_{i,j}x_k$.
 The bottom line is that we get a set $E$ of quadratic equations in the variables $x_0,\ldots,x_{n-1},y_{0,0},\ldots,y_{n-1,n-1}$ such that the 3SAT formula $\varphi$ is satisfiable if and only if the equations $E$ have a solution.
 
+This reduction can be easily implemented in about a dozen lines of Python or any other programming language, see [sattoqefig](){.ref}.
+:::
+
+![Reducing 3SAT to satisfiability of quadratic equations. On the righthand side is Python code implementing the reduction of [quadeq-thm](){.ref} and on the lefthand side is the output of this reduction on an example 3SAT instance. ](../figure/SAT2QE.png){#sattoqefig .class width=300px height=300px}
 
 ## The independent set problem
 
@@ -170,22 +174,46 @@ $3SAT \leq_p ISET$.
 > # {.proofidea data-ref="isetnpc"}
 The idea is that finding a satisfying assignment to a 3SAT formula corresponds to satisfying many local constraints without creating any conflicts. One can think of "$x_{17}=0$"  and "$x_{17}=1$" as two conflicting events, and of the constraints $x_{17} \vee \overline{x}_5 \vee x_9$ as creating a conflict between the events "$x_{17}=0$", "$x_5=1$" and "$x_9=0$", saying that these  three cannot simultaneosly co-occur. Using these ideas, we can we can think of solving a  3SAT problem as trying to schedule non conflicting events, though the devil is, as usual, in the details.
 
-> # {.proof data-ref="isetnpc"}
-Given a 3SAT formula $\varphi$ on $n$ variables and with $m$ clauses, we will create a graph $G$ with $2n+3m$ vertices as follows: (see [threesattoisfig](){.ref} for an example)
->
-* For every variable $x_i$ of $\varphi$, we create a pair of vertices that are labeled "$x_i=0$" and "$x_i=1$", and put an edge between them. Note that this means that every independent set $S$ in the graph can  contain at most one of those vertices. \
-* For every clause in $\varphi$ involving the variables $x_i,x_j,x_k$,  note that the clause is the OR of these  three variables or their negations and so there are some $a,b,c \in \{0,1\}$ such that the clause is not satisfied if and only if $x_i=a$, $x_j=b$, and $x_k=c$. We add three vertices to the graph with the labels "$x_i \neq a$", "$x_j \neq b$" and "$x_k \neq c$" and connect them with a triangle. This means that every independent set $S$ in the graph can contain at most one of the members of this triangle. Moreover, we put an edge between the vertex labeled "$x_i \neq a$" and the vertex we labeled "$x_i = a$" which means that no independent set in the graph can contain both of them, and add analogous edges connecting "$x_j \neq b$" with "$x_j =b$" and "$x_k \neq c$" with "$x_k = c$".
->
-The construction of $G$ based on $\varphi$ can clearly be carried out in polynomial time.
-Hence to prove the theorem we need to show that  $\varphi$ is satisfiable if and only if $G$ contains an independent set of $n+m$ vertices. We now show both directions of this equivalence:
->
-* __Completeness:__ The "completeness" direction is to show that if $\varphi$ has a satisfying assignment $x^*$, then $G$ has an independent set $S^*$ of  $n+m$ vertices. Let us now show this. Indeed, suppose that $\varphi$ has a satisfying assignment $x^* \in \{0,1\}^n$. Then there exists an $n+m$-vertex independent set $S^*$ in $G$ that is constructed as follows: for every $i$, we include in $S^*$ the vertex labeled "$x_i = x^*_i$" and for every clause we choose one of the vertices in the clause whose label agrees with $x^*$ (i.e., a vertex of the form $x_j \neq b$ where $b\neq x^*_j$) and add it to $S^*$. There must exist such a vertex as otherwise it would hold that $x^*$ does not satisfy this clause (can you see why?). Moreover, such a vertex would not have a neighbor in $S^*$ since we don't add any other vertex from the triangle and in the case above the vertex "$x_j =b$" is not a member of $S^*$ since $b \neq x^*$. Since we added one vertex per variable and one vertex per clause, we get that $S^*$ has $n+m$ vertices, and by the reasoning above it is an independent set.
->
-* __Soundness:__ The "soundness" direction is to show that if $G$ has an independent set $S^*$ of $n+m$ vertices, then $\varphi$ has a satisfying assignment $x^* \in \{0,1\}^n$. Let us now show this. Indeed, suppose that $G$ has an independent set $S^*$ with $n+m$ vertices. Out of the $2n$ vertices corresponding to variables and their negation, $S^*$ can contain at most $n$, since otherwise it would contain a neighboring  pair of vertices of the form "$x_i=0$" and "$x_i=1$". Out of the $3m$ vertices corresponding to clauses, $S^*$ can contain at most $m$ since otherwise it would contain a pair of vertices inside the same triangle. Hence the only way $S^*$ has $n+m$ vertices is if it contains exactly $n$ vertices out of those correpsonding to variables and exactly $m$ vertices out of those corresponding to clauses. Now define $x^* \in \{0,1\}^n$ as follows: for every $i\in [n]$, we set $x^*_i = a$ if the vertex "$x_i=a$" is in $S^*$ (since $S^*$ is an independent set and contains $n$ of these vertices, it will contain  exactly one vertex of this form). We claim that $x^*$ is a satisfying assignment for $\varphi$. Indeed, suppose not, and for every clause of $\varphi$, let $x_i=a,x_j=b,x_k=c$ be the assignment that is "forbidden" by this clause. Then since $S^*$ contains one vertex out of "$x_i \neq a$" , "$x_j \neq b$" and "$x_k \neq c$" it must be that $x^*$ does not match this assignment, as otherwise $S^*$ would not be an independent set.
->
-This completes the proof of [isetnpc](){.ref}
+::: {.proof data-ref="isetnpc"}
+Given a 3SAT formula $\varphi$ on $n$ variables and with $m$ clauses, we will create a graph $G$ with $3m$ vertices as follows: (see [threesattoisfig](){.ref} for an example)
 
-![An example of the reduction of $3SAT$ to $IS$. We reduce the formula of $4$ variables and $3$ clauses into a graph of $8+3\cdot 3 = 17$ vertices. On the lefthand side is the resulting graph, where the green vertices correspond to the variable and the light blue vertices correspond to the clauses. On the righthand side is the $7$ vertex independent set corresponding to a particular satisfying assignment. This example is taken from a jupyter notebook, the code of which is available.](../figure/3sat2is.png){#threesattoisfig .class width=300px height=300px}
+* A clause $C$ in $\varphi$ has the form $C = y \vee y' \vee y''$  where $y,y',y''$ are _literals_ (variables or their negation). For each such clause $C$, we will add three vertices to $G$, and label them  $(C,y)$, $(C,y')$, and $(C,y'')$ respectively. We will also add the three edges between all pairs of these vertices, so they form a _triangle_. Since there are $m$ clauses in $\varphi$, the graph $G$ will have $3m$ vertices.
+
+* In addition to the above edges, we also add an edge between every pair vertices of the form $(C,y)$ and $(C',y')$ where $y$ and $y'$ are _conflicting_ literals. That is, we add an edge between $(C,y)$ and $(C,y')$  if there is an $i$ such that $y=x_i$ and $y' = \overline{x}_i$ or vice versa.
+
+
+The above construction of $G$ based on $\varphi$ can clearly be carried out in polynomial time.
+Hence to prove the theorem we need to show that  $\varphi$ is satisfiable if and only if $G$ contains an independent set of $m$ vertices. We now show both directions of this equivalence:
+
+__Part 1: Completeness.__ The "completeness" direction is to show that if $\varphi$ has a satisfying assignment $x^*$, then $G$ has an independent set $S^*$ of  $m$ vertices. Let us now show this.
+
+Indeed, suppose that $\varphi$ has a satisfying assignment $x^* \in \{0,1\}^n$.  Then for every clause $C = y \vee y' \vee y''$ of $\varphi$, one of the literals $y,y',y''$ must evaluate  to _true_ under the assignment $x^*$ (as otherwise it would not satisfy $\varphi$). We let $S$ be a set of $m$ vertices that is obtained by choosing for every clause $C$ one vertex of the form $(C,y)$ such that $y$ evaluates to true under $x^*$. (If there is more than one such vertex for the same $C$, we arbitrarily choose one of them.)
+
+We claim that $S$ is an independent set. Indeed, suppose otherwise that there was a pair of vertices $(C,y)$ and $(C',y')$ in $S$ that have an edge between them. Since we picked one vertex out of each triangle corresponding to a clause, it must be that $C \neq C'$. Hence the only way that there is an edge between $(C,y)$ and $(C,y')$ is if $y$ and $y'$ are conflicting literals (i.e. $y=x_i$ and $y'=\overline{x}_i$ for some $i$). But that would that they can't both evaluate to _true_ under the assignment $x^*$, which contradicts the way we constructed the set $S$. This completes the proof of the completeness condition.
+
+__Part 2: Soundness.__ The "soundness" direction is to show that if $G$ has an independent set $S^*$ of $m$ vertices, then $\varphi$ has a satisfying assignment $x^* \in \{0,1\}^n$. Let us now show this.
+
+Indeed, suppose that $G$ has an independent set $S*$ with $m$ vertices.
+We will define an assignment $x^* \in \{0,1\}^n$  for the variables of $\varphi$ as follows. For every $i\in [n]$, we set $x^*_i$ according to the following rules:
+
+* If $S^*$ contains a vertex of the form $(C,x_i)$ then we set $x^*_i=1$.
+
+* If $S^*$ contains a vertex of the form $(C,\overline{x_i})$ then we set $x^*_i=0$.
+
+* If $S^*$ does not contain a vertex of either of these forms, then it does not matter which value we give to $x^*_i$, but for concreteness we'll set $x^*_i=0$.
+
+The first observation is that $x^*$ is indeed well defined, in the sense that the rules above do not conflict with one another, and ask to set $x^*_i$ to be both $0$ and $1$. This follows from the fact that $S^*$ is an _independent set_ and hence if it contains a vertex of the form $(C,x_i)$ then it cannot contain a vertex of the form $(C',\overline{x_i})$.
+
+We now claim that $x^*$ is a satisfying assignment for $\varphi$. Indeed, since $S^*$ is an independent set, it cannot have more than one vertex inside each one of the $m$ triangles $(C,y),(C,y'),(C,y'')$ corresponding to a clause of $\varphi$.
+Hence since $|S^*|=m$, it must have exactly one vertex in each such triangle. For every clause $C$ of $\varphi$, if $(C,y)$ is the vertex in $S^*$ in the triangle corresponding to $C$, then by the way we defined $x^*$, the literal $y$ must evaluate to _true_, which means that $x^*$ satisfies this clause.
+Therefore $x^*$ satisfies all clauses of $\varphi$, which is the definition of a satisfying assignment.
+
+This completes the proof of [isetnpc](){.ref}
+:::
+
+
+![The reduction of 3SAT to Independent Set. On the righthand side is _Python_ code that implements this reduction. On the lefthand side is a sample output of the reduction. We use black for the "triangle edges" and red for the "conflict edges". Note that the satisfying assignment $x^* = 0110$ corresponds to the independent set $(0,\neg x_3)$, $(1, \neg x_0)$, $(2,x_2)$.](../figure/3sat2ISreduction.png){threesattoisfig .class width=300px height=300px}
+
 
 ## Reducing Independent Set to Maximum Cut
 
@@ -196,19 +224,25 @@ $ISET \leq_p MAXCUT$
 We will map a graph $G$ into a graph $H$ such that a large independent set in $G$ becomes a partition cutting many edges in $H$. We can think of a cut in $H$ as coloring each vertex either "blue" or  "red". We will add a special "source" vertex $s^*$, connect it to all other vertices, and assume without loss of generality that it is colored blue. Hence the more vertices we color red, the more edges from $s^*$ we cut. Now, for every edge $u,v$  in the original graph $G$ we will add a special "gadget" which will be a small subgraph that  involves $u$,$v$, the source $s^*$, and two other additional vertices. We design the gadget in a way so that if the red vertices are not an independent set in $G$ then the corresponding cut in $H$ will be "penalized" in the sense that it would not cut as many edges. Once we set for ourselves this objective, it is not hard to find a gadget that achieves it$-$ see the proof below.
 
 
-> # {.proof data-ref="isettomaxcut"}
+::: {.proof data-ref="isettomaxcut"}
 We will transform a graph $G$ of $n$ vertices and $m$ edges into a graph $H$ of $n+1+2m$ vertices and $n+5m$ edges in the following way:  the graph $H$ will contain all vertices of $G$ (though not the edges between them!) and in addition to that will contain: \
 * A special vertex $s^*$ that is connected to all the vertices of $G$ \
 * For every edge $e=\{u,v\} \in E(G)$, two vertices $e_0,e_1$ such that $e_0$ is connected to $u$ and $e_1$ is connected to $v$, and moreover we add the edges $\{e_0,e_1 \},\{ e_0,s^* \},\{e_1,s^*\}$ to $H$.
->
+
 [isettomaxcut](){.ref} will follow by showing that $G$ contains an independent set of size at least $k$ if and only if $H$ has a cut cutting at least $k+4m$ edges. We now prove both directions of this equivalence:
->
-* __Completeness:__ If $I$ is an independent $k$-sized set in $G$, then we can define $S$ to be a cut in $H$ of the following form: we  let $S$ contain all the vertices of $I$ and for every edge $e=\{u,v \} \in E(G)$, if $u\in I$ and $v\not\in I$ then we add $e_1$ to $S$; if $u\not\in I$ and $v\in I$ then we add $e_0$ to $S$; and if $u\not\in I$ and $v\not\in I$ then we add both $e_0$ and $e_1$ to $S$. (We don't need to worry about the case that both $u$ and $v$ are in $I$ since it is an independent set.) We can verify that in all cases the number of edges from $S$ to its complement in the gadget corresponding to $e$ will be four (see [ISETtoMAXCUTfig](){.ref}). Since $s^*$ is not in $S$, we also have $k$ edges from $s^*$ to $I$, for a total of $k+4m$ edges.
->
-* __Soundness:__ Suppose that $S$ is a cut in $H$ that cuts at least $C=k+4m$ edges. We can assume that $s^*$ is not in $S$ (otherwise we can "flip" $S$ to its complement $\overline{S}$, since this does not change the size of the cut). Now let $I$ be the set of vertices in $S$ that correspond to the original vertices of $G$. If $I$ was an independent set of size $k$ then would be done. This might not always be the case but we will see that if $I$ is not an independent set then its also larger than $k$. Specifically, we define $m_{in}=|E(I,I)|$ be the set of edges in $G$ that are contained in $I$ and let $m_{out}=m-m_{in}$ (i.e., if $I$ is an independent set then $m_{in}=0$ and $m_{out}=m$). By the properties of our gadget we know that for every  edge $\{u,v\}$ of $G$, we can cut at most three edges when both $u$ and $v$ are in $S$, and at most four edges otherwise. Hence the number $C$ of edges cut by $S$   satisfies $C \leq |I| + 3m_{in}+4m_{out} = |I|+ 3m_{in} + 4(m-m_{in})=|I|+4m-m_{in}$. Since $C = k +4m$ we get that $|I|-m_{in} \geq k$. Now we can transform $I$ into an independent set $I'$ by going over  every one of the $m_{in}$ edges that are inside $I$ and removing one of the endpoints of the edge from it. The resulting set $I'$ is an indepenent set in the graph $G$ of size $|I|-m_{in} \geq k$ and so this concludes the proof of the soundness condition.
 
 
-![In the reduction of independent set to max cut, we have a "gadget" corresponding to every edge $e=\{u,v\}$ in the original graph. If we think of the side of the cut containing the special source vertex $s^*$ as "blue" and the other side as "red", then the leftmost and center figures show that if $u$ and $v$ are not both red then we can cut four edges from the gadget. In contrast, by enumerating all possiblities one can verify that if both $u$ and $v$ are red, then no matter how we color the intermediate vertices $e_0,e_1$, we will cut at most three edges from the gadget.  ](../figure/ISETtoMAXCUT.png){#ISETtoMAXCUTfig .class width=300px height=300px}
+__Part 1: Completeness.__ If $I$ is an independent $k$-sized set in $G$, then we can define $S$ to be a cut in $H$ of the following form: we  let $S$ contain all the vertices of $I$ and for every edge $e=\{u,v \} \in E(G)$, if $u\in I$ and $v\not\in I$ then we add $e_1$ to $S$; if $u\not\in I$ and $v\in I$ then we add $e_0$ to $S$; and if $u\not\in I$ and $v\not\in I$ then we add both $e_0$ and $e_1$ to $S$. (We don't need to worry about the case that both $u$ and $v$ are in $I$ since it is an independent set.) We can verify that in all cases the number of edges from $S$ to its complement in the gadget corresponding to $e$ will be four (see [ISETtoMAXCUTfig](){.ref}). Since $s^*$ is not in $S$, we also have $k$ edges from $s^*$ to $I$, for a total of $k+4m$ edges.
+
+
+__Part 2: Soundness.__ Suppose that $S$ is a cut in $H$ that cuts at least $C=k+4m$ edges. We can assume that $s^*$ is not in $S$ (otherwise we can "flip" $S$ to its complement $\overline{S}$, since this does not change the size of the cut). Now let $I$ be the set of vertices in $S$ that correspond to the original vertices of $G$. If $I$ was an independent set of size $k$ then would be done. This might not always be the case but we will see that if $I$ is not an independent set then its also larger than $k$. Specifically, we define $m_{in}=|E(I,I)|$ be the set of edges in $G$ that are contained in $I$ and let $m_{out}=m-m_{in}$ (i.e., if $I$ is an independent set then $m_{in}=0$ and $m_{out}=m$). By the properties of our gadget we know that for every  edge $\{u,v\}$ of $G$, we can cut at most three edges when both $u$ and $v$ are in $S$, and at most four edges otherwise. Hence the number $C$ of edges cut by $S$   satisfies $C \leq |I| + 3m_{in}+4m_{out} = |I|+ 3m_{in} + 4(m-m_{in})=|I|+4m-m_{in}$. Since $C = k +4m$ we get that $|I|-m_{in} \geq k$. Now we can transform $I$ into an independent set $I'$ by going over  every one of the $m_{in}$ edges that are inside $I$ and removing one of the endpoints of the edge from it. The resulting set $I'$ is an independent set in the graph $G$ of size $|I|-m_{in} \geq k$ and so this concludes the proof of the soundness condition.
+:::
+
+
+![In the reduction of independent set to max cut, we have a "gadget" corresponding to every edge $e=\{u,v\}$ in the original graph. If we think of the side of the cut containing the special source vertex $s^*$ as "blue" and the other side as "red", then the leftmost and center figures show that if $u$ and $v$ are not both red then we can cut four edges from the gadget. In contrast, by enumerating all possibilities one can verify that if both $u$ and $v$ are red, then no matter how we color the intermediate vertices $e_0,e_1$, we will cut at most three edges from the gadget.  ](../figure/ISETtoMAXCUT.png){#ISETtoMAXCUTfig .class width=300px height=300px}
+
+
+![The reduction of independent set to max cut. On the righthand side is Python code implementing the reduction. On the lefthand side is an example output of the reduction where we apply it to the independent set instance that is obtained by running the reduction of [isetnpc](){.ref} on the 3CNF formula $(x_0 \vee \overline{x}_3 \vee x_2) \wedge (\overline{x}_0 \vee x_1 \vee \overline{x}_2) \wedge (\overline{x}_1 \vee x_2 \vee x_3)$.](../figure/is2maxcut.png){#isettomaxcutcodefig .class width=300px height=300px}
 
 ## Reducing 3SAT to Longest Path
 
