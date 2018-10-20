@@ -51,7 +51,7 @@ There is a NAND++ program $U$ that computes the partial function $EVAL:\{0,1\}^*
 $$
 EVAL(P,x)=P(x)
 $$
-for strings $P,x$ such that $P$ is a valid representation of a NAND++ program which produces an output on $x$.
+for strings $P,x$ such that $P$ is a valid representation of a NAND++ program which halts and produces an output on $x$.
 Moreover, for every input $x\in \{0,1\}^*$  on which $P$ does not halt,   $U(P,x)$ does not halt as well.
 :::
 
@@ -63,8 +63,10 @@ You would use some data structure, such as a dictionary, to store the values of 
 Then, you could simulate $P$ line by line, updating the data structure as you go along.
 The interpreter will continue the simulation until  `loop` is equal to $0$.
 
-Once you do that, translating this interpreter from your programming language to NAND++ can be done just as we have seen in [chapequivalentmodels](){.ref}.
+Once you do that, translating this interpreter from your programming language to NAND++ can be done just as we have seen in [chapequivalentmodels](){.ref}. The end result is what's known as a "meta-circular evaluator": an interpreter for a programming language in the same one. This is a concept that has a long history in computer science starting from the original universal Turing machine. See also [lispinterpreterfig](){.ref}.
 :::
+
+![A particularly elegant example of a "meta-circular evaluator" comes from John McCarthy's 1960 paper, where he defined the Lisp programming language and gave a Lisp function that evaluates an arbitrary Lisp program (see above). Lisp was not initially intended as a practical programming language and this  example was merely meant as an illustration that the Lisp universal function is more elegant than the universal Turing machine, but McCarthy's graduate student Steve Russell suggested that it can be implemented. As McCarthy later recalled, _"I said to him, ho, ho, you're confusing theory with practice, this eval is intended for reading, not for computing. But he went ahead and did it. That is, he compiled the eval in my paper into IBM 704 machine code, fixing a bug, and then advertised this as a Lisp interpreter, which it certainly was"._ ](../figure/lispinterpreter.png){#lispinterpreterfig .class width=300px height=300px}
 
 [univnandppnoneff](){.ref} yields a stronger notion than the universality we proved for NAND, in the sense that we show a _single_ universal  NAND++ program $U$ that can evaluate _all_ NAND programs, including those that have more lines than the lines in $U$.^[This also occurs in practice. For example  the `C` compiler can be and is used to execute programs that are more complicated than itself.]
 In particular, $U$ can even be used to evaluate itself!
@@ -145,9 +147,9 @@ def EVAL(P,X):
 Translating this _Python_ code to NAND++ code line by line is a mechanical, even if somewhat laborious, process. However, to prove the theorem we don't need to write the code fully, but can use our "eat the cake and have it too" paradigm.
 That is, while we can assume that our input program $P$ is written in the lowly NAND++ programming languages, in writing the program $U$ we are allowed to use richer models such as NAND<< (since they are equivalent by [RAMTMequivalencethm](){.ref}).
 Translating the above Python code to NAND<< is truly straightforward.
-The only issue is that NAND<< doesn't have the dictionary data structure built in, but we can represent a dictionary of the form $\{ key_0:val_0 , \ldots, key_{m-1}:val_{m-1} \}$  by simply a string which is the list of pairs $(key_0,val_0),\ldots,(key_{m-1},val_{m-1})$ (where each pair is represented as a string in some prefix-free way). To retrieve an element with key $k$ we can scan the list from beginning to end and compare  each $key_i$ with $k$.
+The only issue is that NAND<< doesn't have the dictionary data structure built in, but we can represent a dictionary of the form $\{ key_0:val_0 , \ldots, key_{m-1}:val_{m-1} \}$  by simply a string (stored in an array) which is the list of pairs $(key_0,val_0),\ldots,(key_{m-1},val_{m-1})$ (where each pair is represented as a string in some prefix-free way). To retrieve an element with key $k$ we can scan the list from beginning to end and compare  each $key_i$ with $k$.
 Similarly we scan the list to update the dictionary with a new value, either modifying it or appending the $(key,val)$ pair at the end.
-The above is a very inefficient way to implement the dictionary data structure in practice, but it suffices for the purpose of proving the theorem.^[Reading and writing to a dictionary of $m$ values in this implementation takes $\Omega(m)$ steps, while it is possible to do this in $O(1)$ steps using hash functions. Since NAND<< models a _RAM machine_ which corresponds to modern electronic computers, we can also implement hash-function based dictionaries in NAND<<.]
+The above is a very inefficient way to implement the dictionary data structure in practice, but it suffices for the purpose of proving the theorem.^[Reading and writing to a dictionary of $m$ values in this implementation takes $\Omega(m)$ steps, while it is in fact possible to do this in $O(1)$ steps using a _hash table_. Since NAND<< models a _RAM machine_ which corresponds to modern electronic computers, we can also implement a hash table  in NAND<<.]
 :::
 
 
