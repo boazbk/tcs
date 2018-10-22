@@ -58,7 +58,9 @@ Thus, we will model all the problems as functions mapping $\{0,1\}^*$ to $\{0,1\
 Suppose that $F,G:\{0,1\}^* \rightarrow \{0,1\}$ are two functions.
 How can we show that they are "computationally equivalent"?
 The idea is that we show that an efficient algorithm for $F$ would imply an efficient algorithm for $G$ and vice versa.
-The key to this is the notion of a _reduction_:^[Several notions of reductions are defined in the literature. The notion defined in [reduction-def](){.ref}  is often known as a _mapping reduction_, _many to one reduction_ or a  _Karp reduction_.]
+The key to this is the notion of a _reduction_.
+Roughly speaking, we will say that _$F$ reduces to $G$_ (denoted as $F \leq_p G$) if $F$ is "no harder" than $G$, in the sense that a polynomial-time algorithm for $G$ implies a polynomial-time algorithm for $F$.
+The formal definition is as follows:^[Several notions of reductions are defined in the literature. The notion defined in [reduction-def](){.ref}  is often known as a _mapping reduction_, _many to one reduction_ or a  _Karp reduction_.]
 
 > # {.definition title="Reductions" #reduction-def}
 Let $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$. We say that _$F$ reduces to $G$_, denoted by $F \leq_p G$ if there is a polynomial-time computable $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every $x\in \{0,1\}^*$,
@@ -67,10 +69,27 @@ F(x) = G(R(x)) \;. \label{eq:reduction}
 $$
 We say that $F$ and $G$ have _equivalent complexity_ if $F \leq_p G$ and $G \leq_p F$.
 
-If $F \leq_p G$ and $G$ is computable in polynomial time (i.e., $G \in \mathbf{P}$), then $F$ is computable in polynomial time as well.
-Indeed, [eq:reduction](){.eqref} shows how to compute $F$ by applying the polynomial-time reduction $R$ and then the  polynomial-time algorithm  for computing $F$.
-One can think of $F \leq_p G$ as saying that (as far as polynomial-time computation is concerned) $F$ is "easier or equal in difficulty to" $G$.
-With this interpretation, we would expect that if $F \leq_p G$ and $G \leq_p H$, then it would hold that $F \leq_p H$; and indeed this is the case:
+::: {.solvedexercise title="Reductions and $\mathbf{P}$" #reductionsandP}
+Prove that if $F \leq_p G$ and $G \in \mathbf{P}$ then $F\in \mathbf{P}$.
+:::
+
+::: { .pause }
+As usual, solving this exercise on your own is an excellent way to make sure you understand [reduction-def](){.ref}. This exercise justifies the informal description of $F \leq_p G$ as saying that "$F$ is no harder than $G$."
+:::
+
+::: {.solution data-ref="reductionsandP"}
+Suppose there was an algorithm $B$ that  compute $F$ in time $p(n)$ where $p$ is its input size. Then, [eq:reduction](){.eqref} directly gives an algorithm  $A$ to compute $F$.
+Indeed, on input $x\in \{0,1\}^*$, Algorithm $A$ will run the polynomial-time reduction $R$ to obtain $y=R(x)$ and then return $B(y)$.
+By [eq:reduction](){.eqref}, $G(R(x)) = F(x)$ and hence Algorithm $A$ will indeed compute $F$.
+
+We now show that $A$ runs in polynomial time.
+By assumption, $R$ can be computed in  time $q(n)$ for some polynomial $q$.
+In particular, this means that  $|y| \leq q(|x|)$ (as just writing down $y$ takes $|y|$ steps).
+This, computing $B(y)$  will take at most $p(|y|) \leq p(q(|x|))$ steps.
+Thus the total running time of $A$ on inputs of length $n$ is at most the time to compute $y$, which is bounded by $q(n)$, and the time to compute $B(y)$, which is bounded by $p(q(n))$, and since the composition of two polynomials is a polynomial, $A$ runs in polynomial time.
+:::
+
+Since we think of  $F \leq_p G$ as saying that (as far as polynomial-time computation is concerned) $F$ is "easier or equal in difficulty to" $G$, we would expect that  if $F \leq_p G$ and $G \leq_p H$, then it would hold that $F \leq_p H$. Indeed this is the case:
 
 > # {.lemma #transitivitylem}
 For every $F,G,H :\{0,1\}^* \rightarrow \{0,1\}$, if $F \leq_p G$ and $G \leq_p H$ then $F \leq_p H$.

@@ -73,6 +73,26 @@ This is in contrast to the class $\mathbf{P}$ which (as you should verify) _does
 
 * $MAXCUT$ is in $\mathbf{NP}$ since for every graph $G$ and integer $k$, $MAXCUT(G,k)=1$ if and only if there exists a cut $(S,\overline{S})$ in $G$ that cuts at least $k$ edges, and we can check this condition in polynomial time.
 
+::: {.solvedexercise title="Reductions and $\mathbf{NP}$" #reductionnpex}
+Let $F,G:\{0,1\}^* \rightarrow \{0,1\}$. Show that if $F \leq_p G$ and $G\in \mathbf{NP}$ then $F \in \mathbf{NP}$.
+:::
+
+::: { .pause }
+We have informally equated that notion of $F \leq_p G$ with $F$ being "no harder than $G$" and in particular have seen in [reductionsandP](){.ref} that if $G \in \mathbf{P}$ and $F \leq_p G$, then $F \in \mathbf{P}$ as well.
+
+This exercise shows that if $F \leq_p G$ then it is also "no harder to verify" than $G$. That is, regardless of whether or not it is in $\mathbf{P}$, if $G$  has the property that solutions to it can be efficiently verified, then so does $F$.
+:::
+
+::: {.solution data-ref="reductionnpex"}
+Suppose that $G$ is in $\mathbf{NP}$ and in particular there exists $a,b$ and $V \in \mathbf{P}$ such that for every $y \in \{0,1\}^*$, $G(y)=1 \Leftrightarrow \exists_{w\in \{0,1\}^{a|y|^b}} V(yw)=1$.
+Define $V'(x,w)=1$ iff $V(R(x)w)=1$ where $R$ is the polynomial-time reduction demonstrating that $F \leq_p G$.
+Then for every $x\in \{0,1\}^*$,
+
+$$F(x)=1 \Leftrightarrow G(R(x)) =1 \Leftrightarrow \exists_{w \in \{0,1\}^{a|R(x)|^b} V(R(x)w) = 1 \Leftrightarrow \exists_{w\in \{0,1\}^{a|R(x)|^b} } V'(x,w)=1 }$$
+
+Since there are some constants $a',b'$ such that $|R(x)| \leq a'|x|^{b'}$ for every $x\in \{0,1\}^*$, by simple padding we can modify $V'$ to an algorithm that certifies that $F \in \mathbf{NP}$.
+:::
+
 ### From $\mathbf{NP}$ to 3SAT
 
 There are many, many, _many_, more examples of interesting functions we would like to compute that are easily shown to be in $\mathbf{NP}$. What is quite amazing is that if we can solve 3SAT then we can solve all of them!
