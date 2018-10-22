@@ -251,17 +251,17 @@ __Part 2: Soundness.__ Suppose that $S$ is a cut in $H$ that cuts at least $C=k+
 One of the most basic algorithms in  Computer Science is Dijkstra's algorithm to find the _shortest path_ between two vertices.
 We now show that in contrast, an efficient algorithm for the _longest path_ problem would imply a polynomial-time algorithm for 3SAT.
 
-> # {.theorem title="Hardness of longest path" #longpath-thm}
+> # {.theorem title="Hardness of longest path" #longpaththm}
 $$3SAT \leq_p LONGPATH$$
 
-> # {.proofidea data-ref="longpath-thm"}
-To prove [longpath-thm](){.ref} need to show how to transform a 3CNF formula $\varphi$ into a graph $G$ and two vertices $s,t$ such that $G$ has a path of length at least $k$ if and only if $\varphi$ is satisfiable.
+> # {.proofidea data-ref="longpaththm"}
+To prove [longpaththm](){.ref} need to show how to transform a 3CNF formula $\varphi$ into a graph $G$ and two vertices $s,t$ such that $G$ has a path of length at least $k$ if and only if $\varphi$ is satisfiable.
 The idea of the reduction is sketched in [longpathfig](){.ref} and [longpathfigtwo](){.ref}.
 We will construct a graph that contains a potentially long "snaking path" that corresponds to all variables in the formula.
 We will add a "gadget" corresponding to each clause of $\varphi$ in a way that we would only be able to use the gadgets if we have a satisfying assignment.
 
 
-> # {.proof data-ref="longpath-thm"}
+> # {.proof data-ref="longpaththm"}
 We build a graph $G$ that "snakes" from $s$ to $t$ as follows.
 After $s$ we add a sequence of $n$ long loops.
 Each loop has an "upper path" and a "lower path".
@@ -286,7 +286,15 @@ But if we do that, then the only way if we are able to reach $t$ is if the paths
 
 
 
+::: { .recap }
+* The computational complexity of many seemingly unrelated computational problems can be related to one another through the use of _reductions_.
 
+* If $F \leq_p G$ then a polynomial-time algorithm for $G$ can be transformed into a polynomial-time algorithm for $F$.
+
+* Equivalently, if $F \leq_p G$ and $F$ does _not_ have a polynomial-time algorithm then neither does $G$.
+
+* We've developed many techniques to show that $3SAT \leq_p F$ for interesting functions $F$.  Sometimes we can do so by using _transitivity_ of reductions: if $3SAT \leq_p G$ and $G \leq_p F$ then $3SAT \leq_p F$.
+:::
 
 ## Exercises
 

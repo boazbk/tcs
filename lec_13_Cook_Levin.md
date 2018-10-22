@@ -48,7 +48,7 @@ The string $w$ in [{NP:eq}](){.eqref} is sometimes known as a _solution_, _certi
 
 > # {.remark title="$\mathbf{NP}$ and proof systems" #NPproofs}
 The definition of $\mathbf{NP}$ means that for every  $F\in \mathbf{NP}$ and string $x\in \{0,1\}^*$, $F(x)=1$ if and only if there is a _short and efficiently verifiable proof_ of this fact.
-That is, we can think of the function $G$ in [NP-def](){.ref} as a _verifier_ algorithm, similar to what we've seen in [proofdef](){.ref}.
+That is, we can think of the function $G$ in [NP-def](){.ref} as a _verifier_ algorithm, similar to what we've seen in [godelproofdef](){.ref}.
 The verifier checks whether a given string $w\in \{0,1\}^*$ is a valid proof for the statement "$F(x)=1$".
 Essentially all proof systems considered in mathematics involve line-by-line checks that can be carried out in polynomial time.
 Thus the heart of $\mathbf{NP}$ is asking for statements that have _short_ (i.e., polynomial in the size of the statements) proof.
@@ -84,10 +84,10 @@ The following is one of the most fundamental theorems in Computer Science:
 > # {.theorem title="Cook-Levin Theorem" #cook-levin-thm}
 For every $F\in \mathbf{NP}$, $F \leq_p 3SAT$.
 
-We will soon show the proof of [cook-levin-thm](){.ref}, but note that it immediately implies that $QUADEQ$, $LONGPATH$, and $MAXCUT$ all reduce to $3SAT$.
-In fact, combining it with the reductions we've seen, it implies that all these problems are _equivalent!_
-For example, to reduce $QUADEQ$ to $LONGPATH$, we can first reduce $QUADEQ$ to $3SAT$ using [cook-levin-thm](){.ref} and use the reduction we've seen from $3SAT$ to $LONGPATH$.
-There is of course nothing special about $QUADEQ$ here$-$ by combining [cook-levin-thm](){.eqref} with the reduction we saw, we see that just like $3SAT$,  _every_ $F\in \mathbf{NP}$ reduces to $LONGPATH$, and the same is true for $QUADEQ$ and $MAXCUT$.
+We will soon show the proof of [cook-levin-thm](){.ref}, but note that it immediately implies  that $QUADEQ$, $LONGPATH$, and $MAXCUT$ all reduce to $3SAT$.
+Combining it with the reductions we've seen in [reductionchap](){.ref}, it implies that all these problems are _equivalent!_
+For example, to reduce $QUADEQ$ to $LONGPATH$, we can first reduce $QUADEQ$ to $3SAT$ using [cook-levin-thm](){.ref} and use the reduction we've seen  in [longpaththm](){.ref} from $3SAT$ to $LONGPATH$.
+There is of course nothing special about $QUADEQ$ here: by combining [cook-levin-thm](){.eqref} with the reduction we saw, we see that just like $3SAT$,  _every_ $F\in \mathbf{NP}$ reduces to $LONGPATH$, and the same is true for $QUADEQ$ and $MAXCUT$.
 All these problems are in some sense "the hardest in $\mathbf{NP}$" since an efficient algorithm for any one of them would imply an efficient algorithm for _all_ the problems in $\mathbf{NP}$.
 This motivates the following definition:
 

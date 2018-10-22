@@ -28,7 +28,7 @@ As a corollary, we will see one of the most striking results of 20th century mat
 We will actually start with the latter result, and then show the former.
 
 
-## Hilbert's Program and Gödel's Incompleteness Theorem
+## Hilbert's Program and Gödel's Incompleteness Theorem  { #godelproofdef }
 
 >_"And what are these …vanishing increments? They are neither finite quantities, nor quantities infinitely small, nor yet nothing. May we not call them the ghosts of departed quantities?"_, George Berkeley, Bishop of Cloyne, 1734.
 
