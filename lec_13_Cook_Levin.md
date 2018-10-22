@@ -423,6 +423,8 @@ Finally, since all the aforementioned problems are in $\mathbf{NP}$, they are al
 There are thousands of other natural problems that are $\mathbf{NP}$-complete as well.
 Finding a polynomial-time algorithm for any one of them will imply a polynomial-time algorithm for all of them.
 
+![An instance of the _independent set_ problem  obtained by applying the reductions $NANDSAT \leq_p 3NAND \leq_p 3SAT \leq_p ISAT$ starting with the `xor5` NAND program.](../figure/indsetfromnandsat.png){#indsetfromnandsatfig .class width=300px height=300px}
+
 > # { .recap }
 * Many of the problems for which we don't know polynomial-time algorithms are $\mathbf{NP}$-complete, which means that finding a polynomial-time algorithm for one of them would imply a polynomial-time algorithm for _all_ of them.
 * It is conjectured that $\mathbf{NP}\neq \mathbf{P}$ which means that we believe that polynomial-time algorithms  for these  problems are not merely _unknown_ but are _nonexistent_.
