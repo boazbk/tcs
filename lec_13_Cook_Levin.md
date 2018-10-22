@@ -73,15 +73,65 @@ This is in contrast to the class $\mathbf{P}$ which (as you should verify) _does
 
 * $MAXCUT$ is in $\mathbf{NP}$ since for every graph $G$ and integer $k$, $MAXCUT(G,k)=1$ if and only if there exists a cut $(S,\overline{S})$ in $G$ that cuts at least $k$ edges, and we can check this condition in polynomial time.
 
+### Basic facts about $\mathbf{NP}$
+
+The definition of $\mathbf{NP}$ is one of the most important definitions of this book, and  is worth while taking the time to digest and internalize.
+The following solved exercises establish some basic properties of this class.
+As usual, I highly recommend that you try to work out the solutions yourself.
+
+::: {.solvedexercise title="$\mathbf{P} \subseteq \mathbf{NP}$" #PinNP}
+Prove that $\mathbf{P} \subseteq \mathbf{NP}$.
+:::
+
+::: {.solution data-ref="PinNP"}
+Suppose that $F \in \mathbf{P}$. Define the following function $V$: $V(x0^n)=1$ iff $n=|x|$ and $F(x)=1$. ($V$ outputs $0$ on all other inputs.)
+Since $F\in \mathbf{P}$ we can clearly compute $V$ in polynomial time as well.
+
+Let $x\in \{0,1\}^n$ be some string.
+If $F(x)=1$ then $V(x0^n)=1$. On the other hand, if $F(x)=0$ then for every $w\in \{0,1\}^n$, $V(xw)=0$.
+Therefore, setting $a=b=1$, we see that $V$ satisfies  [{NP:eq}](){.eqref}, and establishes that $F \in \mathbf{NP}$.
+:::
+
+::: {.remark title="$\mathbf{NP}$ does _not_ mean non-polynomial!" #NPandNOTPolynomial}
+People sometimes think that $\mathbf{NP}$ stands for "non polynomial time".
+As [PinNP](){.ref}, this is far from the truth, and in fact every polynomial-time computable function is in $\mathbf{NP}$ as well.
+
+If $F$ is in $\mathbf{NP}$ it certainly does _not_ mean that $F$ is hard to compute (though it does not, as far as we know, necessarily mean that it's easy to compute either).
+Rather, it means that $F$ is _easy to verify_, in the technical sense of [NP-def](){.ref}
+:::
+
+::: {.solvedexercise title="$\mathbf{NP} \subseteq \mathbf{EXP}$" #NPinEXP}
+Prove that $\mathbf{NP} \subseteq \mathbf{EXP}$.
+:::
+
+::: {.solution data-ref="NPinEXP"}
+Suppose that $F\in \mathbf{NP}$ and let $V$ be the polynomial-time computable function that satisfies [{NP:eq}](){.eqref} and $a,b$ the corresponding constants. Then the following is an exponential-time  algorithm $A$ to compute $F$:
+
+::: {.quote}
+__Algorithm $A$:__
+
+__Input:__ $x \in \{0,1\}^*$, let $n=|x|$
+
+__Operation:__
+
+1. For every $w\in \{0,1\}^{an^b}$, if $V(xw)=1$ then halt and output $1$.
+
+2. Output $0$.
+:::
+
+Since $V \in \mathbf{P}$, for every $x\in \{0,1\}^n$, Algorithm $A$ runs in time $poly(n)2^{an^b}$.
+Moreover by [{NP:eq}](){.eqref}, $A$ will output $1$ on $x$ if and only if $F(x)=1$.
+:::
+
+We have previously informally equated that notion of $F \leq_p G$ with $F$ being "no harder than $G$" and in particular have seen in [reductionsandP](){.ref} that if $G \in \mathbf{P}$ and $F \leq_p G$, then $F \in \mathbf{P}$ as well.
+The following exercise shows that if $F \leq_p G$ then it is also "no harder to verify" than $G$.
+That is, regardless of whether or not it is in $\mathbf{P}$, if $G$  has the property that solutions to it can be efficiently verified, then so does $F$.
+
+
 ::: {.solvedexercise title="Reductions and $\mathbf{NP}$" #reductionnpex}
 Let $F,G:\{0,1\}^* \rightarrow \{0,1\}$. Show that if $F \leq_p G$ and $G\in \mathbf{NP}$ then $F \in \mathbf{NP}$.
 :::
 
-::: { .pause }
-We have informally equated that notion of $F \leq_p G$ with $F$ being "no harder than $G$" and in particular have seen in [reductionsandP](){.ref} that if $G \in \mathbf{P}$ and $F \leq_p G$, then $F \in \mathbf{P}$ as well.
-
-This exercise shows that if $F \leq_p G$ then it is also "no harder to verify" than $G$. That is, regardless of whether or not it is in $\mathbf{P}$, if $G$  has the property that solutions to it can be efficiently verified, then so does $F$.
-:::
 
 ::: {.solution data-ref="reductionnpex"}
 Suppose that $G$ is in $\mathbf{NP}$ and in particular there exists $a,b$ and $V \in \mathbf{P}$ such that for every $y \in \{0,1\}^*$, $G(y)=1 \Leftrightarrow \exists_{w\in \{0,1\}^{a|y|^b}} V(yw)=1$.
@@ -95,6 +145,8 @@ Since there are some constants $a',b'$ such that $|R(x)| \leq a'|x|^{b'}$ for ev
 
 ### From $\mathbf{NP}$ to 3SAT
 
+We have seen everal example of problems for which we do not know if their best algorithm is polynomial or exponential, but we can show that they are in $\mathbf{NP}$.
+That is, we don't know if they are easy to _solve_, but we do know that it is easy to _verify_ a given solution.
 There are many, many, _many_, more examples of interesting functions we would like to compute that are easily shown to be in $\mathbf{NP}$. What is quite amazing is that if we can solve 3SAT then we can solve all of them!
 
 The following is one of the most fundamental theorems in Computer Science:
@@ -107,7 +159,11 @@ For every $F\in \mathbf{NP}$, $F \leq_p 3SAT$.
 We will soon show the proof of [cook-levin-thm](){.ref}, but note that it immediately implies  that $QUADEQ$, $LONGPATH$, and $MAXCUT$ all reduce to $3SAT$.
 Combining it with the reductions we've seen in [reductionchap](){.ref}, it implies that all these problems are _equivalent!_
 For example, to reduce $QUADEQ$ to $LONGPATH$, we can first reduce $QUADEQ$ to $3SAT$ using [cook-levin-thm](){.ref} and use the reduction we've seen  in [longpaththm](){.ref} from $3SAT$ to $LONGPATH$.
-There is of course nothing special about $QUADEQ$ here: by combining [cook-levin-thm](){.eqref} with the reduction we saw, we see that just like $3SAT$,  _every_ $F\in \mathbf{NP}$ reduces to $LONGPATH$, and the same is true for $QUADEQ$ and $MAXCUT$.
+That is, since $QUADEQ \in \mathbf{NP}$, [cook-levin-thm](){.ref} implies that $QUADEQ \leq_p 3SAT$, and  [longpaththm](){.ref}  implies that $3SAT \leq_p LONGPATH$, which by the transitivity of reductions ([transitivitylem](){.ref}) means that $QUADEQ \leq_p LONGPATH$.
+Similarly, since $LONGPATH \in \mathbf{NP}$, we can use [cook-levin-thm](){.ref} and [quadeq-thm](){.ref} to show that $LONGPATH \leq_p 3SAT \leq_p QUADEQ$, concluding that $LONGPATH$ and $QUADEQ$ are computationally equivalent.
+
+
+There is of course nothing special about $QUADEQ$ and $LONGPATH$ here: by combining [cook-levin-thm](){.eqref} with the reductions we saw, we see that just like $3SAT$,  _every_ $F\in \mathbf{NP}$ reduces to $LONGPATH$, and the same is true for $QUADEQ$ and $MAXCUT$.
 All these problems are in some sense "the hardest in $\mathbf{NP}$" since an efficient algorithm for any one of them would imply an efficient algorithm for _all_ the problems in $\mathbf{NP}$.
 This motivates the following definition:
 
@@ -117,22 +173,21 @@ $F \leq_p G$.
 >
 We say that $G:\{0,1\}^* \rightarrow \{0,1\}$ is _$\mathbf{NP}$ complete_ if $G$ is $\mathbf{NP}$ hard and $G$ is in $\mathbf{NP}$.
 
-[cook-levin-thm](){.ref} and the reductions we've seen in the last lecture show that despite their superficial differences, 3SAT, quadratic equations, longest path, independent set, and maximum cut, are all $\mathbf{NP}$-complete. Many thousands of additional problems have been shown to be $\mathbf{NP}$-complete, arising from all the sciences, mathematics, economics, engineering and many other fields.^[For some partial lists, see [this Wikipedia page](https://en.wikipedia.org/wiki/List_of_NP-complete_problems) and [this website](https://www.nada.kth.se/~viggo/problemlist/compendium.html).]
+The Cook-Levin Theorem ([cook-levin-thm](){.ref}) can be rephrased as saying that $3SAT$ is $\mathbf{NP}$ hard, and since it is also in $\mathbf{NP}$, this means that $3SAT$ is $\mathbf{NP}$ complete.
+Together with the reductions of [reductionchap](){.ref},  [cook-levin-thm](){.ref} shows that despite their superficial differences, 3SAT, quadratic equations, longest path, independent set, and maximum cut, are all $\mathbf{NP}$-complete.
+Many thousands of additional problems have been shown to be $\mathbf{NP}$-complete, arising from all the sciences, mathematics, economics, engineering and many other fields.^[For some partial lists, see [this Wikipedia page](https://goo.gl/NomnoU) and [this website](https://goo.gl/nfJHWv).]
 
 ### What does this mean?
 
-
-
-Clearly $\mathbf{NP} \supseteq \mathbf{P}$, since if we can decide efficiently whether $F(x)=1$, we can simply ignore any "solution" that we are presented with. (However, it is still an excellent idea for you to pause here and verify that you see why every $F\in \mathbf{P}$ will be in $\mathbf{NP}$ as per [NP-def](){.ref}.)
-Also, $\mathbf{NP} \subseteq \mathbf{EXP}$, since all the problems in $\mathbf{NP}$ can be solved in exponential time by enumerating all the possible solutions. (Again, please verify that you understand why this follows from the definition.)
-
-_The_ most famous conjecture in Computer Science is that $\mathbf{P} \neq \mathbf{NP}$.
-One way to refute this conjecture is to give a polynomial-time algorithm for even a single one of the $\mathbf{NP}$-complete problems such as 3SAT, Max Cut, or the thousands of others that have been studied in all fields of human endeavors.
+As we've seen in [PinNP](){.ref}, $\mathbf{P} \subseteq \mathbf{NP}$.
+_The_ most famous conjecture in Computer Science is that this containment is _strict_.
+That is, it is widely conjectured that $\mathbf{P} \neq \mathbf{NP}$.
+One way to refute the conjecture that $\mathbf{P} \neq \mathbf{NP}$ is to give a polynomial-time algorithm for even a single one of the $\mathbf{NP}$-complete problems such as 3SAT, Max Cut, or the thousands of others that have been studied in all fields of human endeavors.
 The fact that these problems have been studied by so many people, and yet not a single polynomial-time algorithm for any of them has been found, supports that conjecture that indeed $\mathbf{P} \neq \mathbf{NP}$.
 In fact, for many of these problems (including all the ones we mentioned above), we don't even know of a $2^{o(n)}$-time algorithm!
 However, to the frustration of computer scientists, we have not yet been able to prove that $\mathbf{P}\neq\mathbf{NP}$ or even rule out the existence of an $O(n)$-time algorithm for 3SAT.
 Resolving whether or not $\mathbf{P}=\mathbf{NP}$ is known as the [$\mathbf{P}$ vs $\mathbf{NP}$ problem](https://en.wikipedia.org/wiki/P_versus_NP_problem).
-A million-dollar prize has been [offered](http://www.claymath.org/millennium-problems/p-vs-np-problem) for the solution of this problem, a [popular book](https://www.amazon.com/dp/B00BKZYGUY) has been written, and every year a new paper comes out claiming a proof of $\mathbf{P}=\mathbf{NP}$ or $\mathbf{P}\neq\mathbf{NP}$, only to wither under scrutiny.^[The following [web page](https://www.win.tue.nl/~gwoegi/P-versus-NP.htm) keeps a catalog of these failed attempts. At the time of writing it lists  about 110 papers claiming to resolve the question, of which about 60 claim to prove that $\mathbf{P}=\mathbf{NP}$ and about 50 claim to prove that $\mathbf{P} \neq \mathbf{NP}$.]
+A million-dollar prize has been [offered](http://www.claymath.org/millennium-problems/p-vs-np-problem) for the solution of this problem, a [popular book](https://www.amazon.com/dp/B00BKZYGUY) has been written, and every year a new paper comes out claiming a proof of $\mathbf{P}=\mathbf{NP}$ or $\mathbf{P}\neq\mathbf{NP}$, only to wither under scrutiny.^[The following [web page](https://goo.gl/bFHsd9) keeps a catalog of these failed attempts. At the time of this writing, it lists  about 110 papers claiming to resolve the question, of which about 60 claim to prove that $\mathbf{P}=\mathbf{NP}$ and about 50 claim to prove that $\mathbf{P} \neq \mathbf{NP}$.]
 The following [120 page survey of Aaronson](https://eccc.weizmann.ac.il/report/2017/004/), as well as [chapter 3 in Wigderson's upcoming book](https://www.math.ias.edu/avi/book) are excellent sources for summarizing what is known about this problem.
 
 
@@ -167,55 +222,82 @@ To prove [cook-levin-thm](){.ref} we need to show that $F \leq_p 3SAT$ for every
 We will do so in three stages.
 We define two intermediate problems: $NANDSAT$ and $3NAND$.
 We will shortly show the definitions of these two problems, but
-[cook-levin-thm](){.ref} will follow from the following three lemmas:
+[cook-levin-thm](){.ref} will follow from combining the following three results:
 
-> # {.lemma #nand-thm}
-$NANDSAT$ is $\mathbf{NP}$-hard.
+1. $NANDSAT$ is $\mathbf{NP}$ hard ([nand-thm](){.ref}).
 
-> # {.lemma  #threenand-thm}
-$NANDSAT \leq_p 3NAND$.
+2. $NANDSAT \leq_p 3NAND$  ([threenand-thm](){.ref}).
 
-> # {.lemma  #threenand-sat-thm}
-$3NAND \leq_p 3SAT$.
+3. $3NAND \leq_p 3SAT$   ([threenand-sat-thm](){.ref}).
+
+By the transitivity of reductions, it will follow that for every $F \in \mathbf{NP}$,
+
+$$
+F \leq_p NANDSAT \leq_p 3NAND \leq_p 3SAT
+$$
+
+hence establishing  [cook-levin-thm](){.ref}.
 
 
 
-From the transitivity of reductions,  [nand-thm](){.ref}, [threenand-thm](){.ref}, and [threenand-sat-thm](){.ref} together immediately imply that $3SAT$ is  $\mathbf{NP}$-hard, hence establishing [cook-levin-thm](){.ref}.
-(Can you see why?)
-We now prove these three lemmas one by one, providing the requisite definitions as we go along.
+
+
+
+We now prove these three results one by one, providing the requisite definitions as we go along.
 
 ### The $NANDSAT$ Problem, and why it is $\mathbf{NP}$ hard.
 
 We define the $NANDSAT$ problem as follows. On input a string $Q\in \{0,1\}^*$, we define $NANDSAT(Q)=1$ if and only if $Q$ is a valid representation of an $n$-input and single-output NAND  program and there exists some $w\in \{0,1\}^n$ such that $Q(w)=1$.
 While we don't need this to prove [nand-thm](){.ref}, note that $NANDSAT$ is in $\mathbf{NP}$ since we can verify that $Q(w)=1$ using the polyonmial-time algorithm for evaluating NAND programs.^[$Q$ is a NAND program and not a NAND++ program, and hence it is only defined on inputs of some particular size $n$. Evaluating $Q$ on any input $w\in \{0,1\}^n$ can be done in time polynomial in the number of lines of $Q$.]
-We now present the proof of [nand-thm](){.ref}.
+We now prove that $NANDSAT$ is $\mathbf{NP}$ hard.
+
+> # {.lemma #nand-thm}
+$NANDSAT$ is $\mathbf{NP}$ hard.
+
 
 > # {.proofidea data-ref="nand-thm"}
 To prove [nand-thm](){.ref}  we need to show that for every $F\in \mathbf{NP}$, $F \leq_p NANDSAT$.
-The high-level idea is that by the definition  of $\mathbf{NP}$, there is some NAND++ program $P^*$ and some polynomial $T(\cdot)$ such that $F(x)=1$ if and only if there exists some $w$ such that $P^*(xw)$ outputs $1$ within $T(|x|)$ steps.
-Now by "unrolling the loop" of the NAND++ program $P^*$ we can convert it into a  NAND program $Q$ that on input $w$ will simulate $P^*(xw)$ for $T(|x|)$ steps.
-We will then get that $NANDSAT(Q)=1$ if and only if $F(x)=1$.
+The high-level idea is that by the definition  of $\mathbf{NP}$, there is some NAND++ program $P^*$ and some polynomial $T(\cdot)$ such that $F(x)=1$ if and only if there exists some $w \in \{0,1\}^{a|x|^b}$ such that $P^*(xw)$ outputs $1$ within $T(|x|)$ steps.
+Now by "unrolling the loop" of the NAND++ program $P^*$ we can convert it into an $O(T(n))$  NAND program $Q'$ with $n + an^b$ inputs and a single output such that for every $x\in \{0,1\}^n$ and $w\in \{0,1\}^{an^b}$, $Q'(xw)=P^*(xw)$. on input $x \in \{0,1\}$  that on input $w$ will simulate $P^*(xw)$ for $T(|x|)$ steps.
+The next step is to _hardwire_ the input $x$ to $Q'$ to obtain an $O(T(n))$ line NAND program $Q$ with $m=an^b$ inputs such that for every $w\in \{0,1\}^m$, $Q'(w)=Q(xw)$.
+By construction it will be the case that for every $x\in \{0,1\}^n$, $F(x)=1$ if and only if there exists $w\in \{0,1\}^{an^b}$ such that $Q(w)=1$, and hence this shows that $F \leq_p NANDSAT$.
 
-
-> # {.proof data-ref="nand-thm"}
-We now present the details.
-Let $F \in \mathbf{NP}$.  By [NP-def](){.ref} there exists $G \in \mathbf{P}$ and $a,b \in \N$ such that for every $x\in \{0,1\}^*$, $F(x)=1$  if and only if there exists $w\in \{0,1\}^{a|x|^b}$ such that $G(xw)=1$.
-Since $G\in \mathbf{P}$ there is some NAND++ program $P^*$ that computes $G$ in at most ${n'}^c$ time for some constant $c$ where $n'$ is the size of its input.
-Moreover, as shown in [simpleNANDthm](){.ref}, we can assume without loss of generality that $P^*$ is simple in the sense of [simpleNANDpp](){.ref}.
->
-To prove [nand-thm](){.ref} we need to give a polynomial-time computable map of every $x^* \in \{0,1\}^*$ to a NAND program $Q$ such that $F(x^*)=NANDSAT(Q)$.
-Let  $x^*\in \{0,1\}^*$ be such a string and let $n=|x^*|$ be its length. In time polynomial in $n$, we can obtain a NAND program $Q^*$ of $n+an^b$ inputs and $|P^*|\cdot (n+an^b)^c$ lines (where $|P^*|$ denotes the number of lines of $P^*$) such that $Q^*(xw)=P^*(xw)$ for every $x\in \{0,1\}^n$ and $w\in \{0,1\}^{an^b}$. Indeed, we can do this by simply copying and pasting $(n+an^b)^c$ times the code of $P^*$ one after the other, and replacing all references to `i` in the $j$-th copy with $INDEX(j)$.^[Recall that $INDEX(j)$ is the value of the `i` index variable in the $j$-th iteration. The particular formula for $INDEX(j)$ was given in [eqindex](){.eqref} but all we care is that it is computable in time polynomial in $j$.] We also replace references to `validx_`$\expr{k}$ with `one` if $k<n+an^b$ and `zero` otherwise.
-By the definition of NAND++ and the fact that the original program $P^*$ was simple and halted within at most $(n+an^b)^c$ steps, the NAND program $Q^*$ agrees with $P^*$ on every input of the form $xw \in \{0,1\}^{n+an^b}$.^[We only used the fact that $P^*$ is simple to ensure that we have access to the `one` and `zero` variables, and that assignments to the output variable `y_0` are "guarded" in the sense that adding extra copies of $P^*$ after it has already halted will not change the output. It is not hard to ensure these properties, as shown in [simpleNANDthm](){.ref}.]
->
-Now we  transform $Q^*$ into $Q$  by "hardwiring" its first $n$ inputs to corresond to $x^*$.
-That is, we obtain a program $Q$ such that $Q(w)=Q^*(x^*w)$ for every $w\in \{0,1\}^{an^b}$ by replacing all references to the variables `x_`$\expr{j}$ for $j<n$ with either `one` or `zero` depending on the value of $x^*_j$. (We also map `x_`$\expr{n}$,$\ldots$,`x_`$\expr{n+an^b}$ to `x_`$\expr{0}$, $\ldots$, `x_`$\expr{an^b-1}$ so that the number of inputs is reduced from $n+an^b$ to $an^b$.)
-You can verify that by this construction, $Q$ has $an^b$ inputs and for every $w\in \{0,1\}^{an^b}$, $Q(w)=Q^*(x^*w)$.
-We now claim that $NANDSAT(Q)=F(x^*)$. Indeed note that $F(x^*)=1$ if and only if there exists $w\in \{0,1\}^{an^b}$ s.t. $P^*(x^*w)=1$. But since $Q^*(xw)=P^*(xw)$ for every $x,w$ of these lengths, and $Q(w)=Q^*(x^*w)$ it follows that this holds if and only if there exists $w\in \{0,1\}^{an^b}$ such that $Q(w)=1$.
-But the latter condition holds exactly when $NANDSAT(Q)=1$.
 
 > # { .pause }
-The proof above is a little bit technical but ultimately follows quite directly from the definition of $\mathbf{NP}$, as well as of NAND and NAND++ programs. If you find it confusing, try to pause here and work out the proof yourself from these definitions, using the idea of "unrolling the loop" of a NAND++ program.
-It might also be useful for you to think how you would implement in your favorite programming language the function `expand` which on input a NAND++ program $P$ and numbers $T,n$ would output an $n$-input NAND program $Q$ of $O(|T|)$ lines such that for every input $x\in \{0,1\}^n$, if $P$ halts on $x$ within at most $T$ steps and outputs $y$, then $Q(x)=y$.
+The proof is a little bit technical but ultimately follows quite directly from the definition of $\mathbf{NP}$, as well as of NAND and NAND++ programs. If you find it confusing, try to pause here and work out the proof yourself from these definitions, using the idea of "unrolling the loop" of a NAND++ program.
+It might also be useful for you to think how you would implement in your favorite programming language the function `unroll` which on input a NAND++ program $P$ and numbers $T,n$ would output an $n$-input NAND program $Q$ of $O(|T|)$ lines such that for every input $z\in \{0,1\}^n$, if $P$ halts on $z$ within at most $T$ steps and outputs $y$, then $Q(z)=y$.
+
+
+::: {.proof data-ref="nand-thm"}
+We now present the details.
+Let $F \in \mathbf{NP}$.
+To prove [nand-thm](){.ref} we need to give a polynomial-time computable function that will map every $x^* \in \{0,1\}^*$ to a NAND program $Q$ such that $F(x)=NANDSAT(Q)$.
+
+Let  $x^* \in \{0,1\}^*$ be such a string and let $n=|x^*|$ be its length.
+By [NP-def](){.ref} there exists $V \in \mathbf{P}$ and $a,b \in \N$ such that $F(x^*)=1$  if and only if there exists $w\in \{0,1\}^{an^b}$ such that $V(x^*w)=1$.
+
+Let $m=an^b$. Since $V\in \mathbf{P}$ there is some NAND++ program $P^*$ that computes $V$ on inputs of the form $xw$ with $x\in \{0,1\}^n$ and $w\in \{0,1\}^m$ in at most ${(n+m)}^c$ time for some constant $c$.
+Using our "unrolling the loop NAND++ to NAND compiler" of [nand-compiler](){.ref}, we can obtain a NAND program $Q'$ that has $n+m$ inputs and at most $O((n+m)^c)$ lines such that $Q'(xw)= P^*(xw)$ for every $x\in \{0,1\}^n$ and $w \in \{0,1\}^m$.
+
+Now we can use the following simple but useful "hardwiring" technique to obtain a program:
+
+> # {.lemma #hardwiringlem}
+Given a $T$-line NAND program $Q'$ of $n+m$ inputs and $x^* \in \{0,1\}^n$, we can obtain in polynomial a program $Q$ with $m$ inputs of $T+3$ lines such that for ever $w\in \{0,1\}^m$, $Q(w)= Q'(x^*w)$.
+
+::: {.proof data-ref="hardwiringlem"}
+To compute $Q$, we simply do a "search and replace" for all references in $Q'$ to `X[`$i$`]` for $i \in [n]$, and transform them to either the variable `zero` or `one` depending on whether $x^*_i$ is equal to $0$ or $1$ respectively.
+By adding three lines to the beginning of $Q'$, we can ensure that the `zero` and `one` variables  will have the correct value.
+The only thing that then remains to do another search and replace to transform all references to the variables `X[`$n$`]`,$\ldots$, `X[$n+m-1$`]` to the variables `X[`$0$`]`, $\ldots$, `X[`$m-1$`]` so that the $m$ inputs to the new program $Q$ will correspond to last $m$ inputs of the original program $Q'$.
+See [hardwiringfig](){.ref} for an implementation of this reduction in Python.
+:::
+
+Using [hardwiringlem](){.ref}, we obtain a program $Q$ of $m$ inputs such that $Q(w)=Q'(x^*w)=P^*(x^*w)$ for every $w\in \{0,1\}^m$.
+Since we know that $F(x^*)=1$ if and only if there exists $w\in \{0,1\}^m$ such that $P^*(x^*w)=1$, this means that $F(x^*)=1$ if and only if $NANDSAT(Q)=1$, which is what we wanted to prove.
+:::
+
+
+![Given an $T$-line NAND program $Q$ that has $n+m$ inputs and some $x^*\in \{0,1\}^n$, we can transform $Q$ into a $T+3$ line NAND program $Q'$ that computes the map $w \mapsto Q(x^*w)$ for $w\in \{0,1\}^m$ by simply adding code to compute the `zero` and `one` constants,  replacing all references to `X[`$i$`]` with either `zero` or `one` depending on the value of $x^*_i$, and then replacing the remaining references to `X[`$j$`]` with `X[`$j-n$`]`. Above is Python code that implements this transformation, as well as an example of its execution on a simple program.](../figure/hardwiring.png){#hardwiringfig .class width=300px height=300px}
+
 
 
 
@@ -231,46 +313,68 @@ $$
 
 The output of $3NAND$ on input $\varphi$ is $1$ if and only if there is an  assignment to the variables of $\varphi$ that makes it evaluate to "true"  (that is, there is some assignment $z \in \{0,1\}^r$ satisfying all of the constraints of $\varphi$).
 As usual, we can represent $\varphi$ as a string, and so think of $3NAND$ as a function mapping $\{0,1\}^*$ to $\{0,1\}$.
-We now prove [threenand-thm](){.ref}.
+We now prove that $3NAND$ is $\mathbf{NP}$ hard:
+
+
+> # {.lemma  #threenand-thm}
+$NANDSAT \leq_p 3NAND$.
+
+
 
 > # {.proofidea data-ref="threenand-thm"}
-To prove [threenand-thm](){.ref} we need to give a polynomial-time map from every NAND program $Q$ to a 3NAND formula $\varphi$ such that there exists $w$ such that $Q(w)=1$ if and only if there exists $z$ satisfying $\varphi$.
-This will actually follow directly from our notion of "modification logs" or  "deltas" of NAND++ programs (see [deltas](){.ref}).
-We will have a variable of $\varphi$ corresponding to every line of $Q$, with a constraint  ensuring that if line $i$ has the form `foo := bar NAND blah` then the variable corresponding to line $i$ should be the NAND of the variables corresponding to the lines in which `bar` and `blah` were just written to.
-We will also have variables associated with the input $w$, and use them in lines such as  `foo := x_17 NAND x_33` or `foo := bar NAND x_55`. Finally we add a constraint that requires the last assignment to `y_0` to equal $1$. By construction, satisfying assignments to our formula $\varphi$ will correspond to valid modification logs of executions of $Q$ that end with it outputting $1$. Hence in particular there exists a satisfying assignment to $\varphi$ if and only if there is some input $w\in \{0,1\}^n$ on which the execution of $Q$ on $w$ ends in $1$.
+To prove [threenand-thm](){.ref} we need to give a polynomial-time map from every NAND program $Q$ to a 3NAND formula $\Psi$ such that there exists $w$ such that $Q(w)=1$ if and only if there exists $z$ satisfying $\Psi$.
+For every line $i$ of $Q$, we define a corresponding  variable $z_i$ of $\Psi$.
+If the line $i$ has the form `foo = NAND(bar,blah)` then we will add the clause $z_i = NAND(z_j,z_k)$ where $j$ and $k$ are the last lines in which `bar` and `blah` were written to. We will also set variables corresponding to the input variables, as well as add a clause to ensure that the final output is $1$.
+The resulting reduction can be implemented in about a dozen lines of Python, see [andsattothreenandfig](){.ref}.
 
 
 
+![Python code to reduce an instance $Q$ of $NANDSAT$ to an instance $\Psi$ of $3NAND$. In the example above we transform the NAND program `xor5` which has $5$ input variables and $16$ lines, into a $3NAND$ formula $\Psi$ that has $24$ variables and $20$ clauses. Since `xor5` outputs $1$ on the input $1,0,0,1,1$, there exists an assignment $z \in \{0,1\}^{24}$ to $\Psi$ such that $(z_0,z_1,z_2,z_3,z_4)=(1,0,0,1,1)$ and $\Psi$ evaluates to _true_ on $z$. ](../figure/nandsatto3nandreduction.png){#nandsattothreenandfig .class width=300px height=300px}
 
-> # {.proof data-ref="threenand-thm"}
+
+::: {.proof data-ref="threenand-thm"}
 To prove [threenand-thm](){.ref} we need to give a reduction from $NANDSAT$ to $3NAND$.
 Let  $Q$ be a NAND program with $n$ inputs, one output, and  $m$ lines.
 We can assume without loss of generality that $Q$ contains the variables `one` and `zero` as usual.
->
-We map $Q$ to  a $3NAND$ formula $\varphi$ as follows:
->
-* $\varphi$ has $m+n$ variables $z_0,\ldots,z_{m+n-1}$ \
-* For every $\ell\in \{n,n+1,\ldots,n+m \}$, if the $\ell-n$-th line of the program $Q$ is `foo := bar NAND blah` then we add to $\varphi$  the constraint $z_\ell = NAND(z_j,z_k)$ where $j-n$ and $k-n$ correspond to the last lines in which the variables `bar` and `blah` (respectively) were written to. If one or both of `bar` and `blah` was not written to before then we use $z_{\ell_0}$ instead of the corresponding value $z_j$ or $z_k$  in the  constraint, where $\ell_0-n$ is the line in which `zero` is assigned a value.
-If  one or both of `bar` and `blah` is an input variable `x_i` then we we use $z_i$ in the constraint. \
+
+
+We map $Q$ to  a $3NAND$ formula $\Psi$ as follows:
+
+* $\Psi$ has $m+n$ variables $z_0,\ldots,z_{m+n-1}$.
+
+* The first $n$ variables $z_0,\ldots,z_{n-1}$ will corresponds to the inputs of $Q$. The next $m$ variables $z_n,\ldots,z_{n+m-1}$ will correspond to the $m$ lines of $Q$.
+
+* For every $\ell\in \{n,n+1,\ldots,n+m \}$, if the $\ell-n$-th line of the program $Q$ is `foo = NAND(bar,blah)` then we add to $\Psi$  the constraint $z_\ell = NAND(z_j,z_k)$ where $j-n$ and $k-n$ correspond to the last lines in which the variables `bar` and `blah` (respectively) were written to. If one or both of `bar` and `blah` was not written to before then we use $z_{\ell_0}$ instead of the corresponding value $z_j$ or $z_k$  in the  constraint, where $\ell_0-n$ is the line in which `zero` is assigned a value.
+If  one or both of `bar` and `blah` is an input variable `X[i]` then we we use $z_i$ in the constraint.
+
+
 * Let $\ell^*$ be the last line in which the output `y_0` is assigned a value. Then we add the constraint $z_{\ell^*} = NAND(z_{\ell_0},z_{\ell_0})$ where $\ell_0-n$ is as above the last line in which `zero` is assigned a value. Note that this is effectively the constraint $z_{\ell^*}=NAND(0,0)=1$.
->
-To complete the proof we need to show that there exists $w\in \{0,1\}^n$ s.t. $Q(w)=1$ if and only if there exists $z\in \{0,1\}^{n+m}$ that satisfies all constraints in $\varphi$.
+
+
+To complete the proof we need to show that there exists $w\in \{0,1\}^n$ s.t. $Q(w)=1$ if and only if there exists $z\in \{0,1\}^{n+m}$ that satisfies all constraints in $\Psi$.
 We now show both sides of this equivalence.
->
-* __Completeness:__ Suppose that there is $w\in \{0,1\}^n$ s.t. $Q(w)=1$. Let $z\in \{0,1\}^{n+m}$ be defined as follows: for $i\in [n]$, $z_i=w_i$ and for $i\in \{n,n+1,\ldots,n+m\}$ $z_i$ equals the value that is assigned in the $(i-n)$-th line of $Q$ when executed on $w$. Then by construction $z$ satisfies all of the constraints of $\varphi$ (including the constraint that $z_{\ell^*}=NAND(0,0)=1$ since $Q(w)=1$.)
->
-* __Soundness:__ Suppose that there exists $z\in \{0,1\}^{n+m}$ satisfying $\varphi$. Soundness will follow by showing that  $Q(z_0,\ldots,z_{n-1})=1$ (and hence in particular there exists $w\in \{0,1\}^n$, namely $w=z_0\cdots z_{n-1}$, such that $Q(w)=1$). To do this we will prove the following claim $(*)$: for every $\ell \in [m]$, $z_{\ell+n}$ equals the value assigned in the $\ell$-th step of the execution of the program $Q$ on $z_0,\ldots,z_{n-1}$. Note that because $z$ satisfies the constraints of $\varphi$, $(*)$ is sufficient to prove the soundness condition since these constraints imply that the last value assigned to the variable `y_0` in the execution of $Q$ on $z_0\cdots w_{n-1}$  is equal to $1$. To prove $(*)$ suppose, towards a contradiction, that it is false, and let $\ell$ be the smallest number such that $z_{\ell+n}$ is _not_ equal to the value assigned in the $\ell$-th step of the exeuction of $Q$ on $z_0,\ldots,z_{n-1}$. But since $z$ satisfies the constraints of $\varphi$, we get that $z_{\ell+n}=NAND(z_i,z_j)$ where (by the assumption above that $\ell$ is _smallest_ with this property) these values  _do_ correspond to the values last assigned to the variables on the righthand side of the assignment operator in the $\ell$-th line of the program. But this means that the value assigned in the $\ell$-th step is indeed simply the NAND of $z_i$ and $z_j$, contradicting our assumption on the choice of $\ell$.
 
 
-![We reduce $NANDSAT$ to $3NAND$ by mapping a program $P$ to a formula $\psi$ where we have a variable for each line and input variable of $P$, and add a constraint to ensure that the variables are consistent with the program. We also add a constraint that the final output is $1$. One can show that there is an input $x$ such that $P(x)=1$ if and only if there is a satisfying assignment for $\psi$. (NOTATION IN FIGURE NEEDS TO BE UPDATED)](../figure/3NANDreduction.png){#figureid .class width=300px height=300px}
+__Part I: Completeness.__ Suppose that there is $w\in \{0,1\}^n$ s.t. $Q(w)=1$. Let $z\in \{0,1\}^{n+m}$ be defined as follows: for $i\in [n]$, $z_i=w_i$ and for $i\in \{n,n+1,\ldots,n+m\}$ $z_i$ equals the value that is assigned in the $(i-n)$-th line of $Q$ when executed on $w$. Then by construction $z$ satisfies all of the constraints of $\Psi$ (including the constraint that $z_{\ell^*}=NAND(0,0)=1$ since $Q(w)=1$.)
 
+__Part II: Soundness.__ Suppose that there exists $z\in \{0,1\}^{n+m}$ satisfying $\Psi$. Soundness will follow by showing that  $Q(z_0,\ldots,z_{n-1})=1$ (and hence in particular there exists $w\in \{0,1\}^n$, namely $w=z_0\cdots z_{n-1}$, such that $Q(w)=1$). To do this we will prove the following claim $(*)$: for every $\ell \in [m]$, $z_{\ell+n}$ equals the value assigned in the $\ell$-th step of the execution of the program $Q$ on $z_0,\ldots,z_{n-1}$. Note that because $z$ satisfies the constraints of $\Psi$, $(*)$ is sufficient to prove the soundness condition since these constraints imply that the last value assigned to the variable `y_0` in the execution of $Q$ on $z_0\cdots w_{n-1}$  is equal to $1$. To prove $(*)$ suppose, towards a contradiction, that it is false, and let $\ell$ be the smallest number such that $z_{\ell+n}$ is _not_ equal to the value assigned in the $\ell$-th step of the exeuction of $Q$ on $z_0,\ldots,z_{n-1}$. But since $z$ satisfies the constraints of $\Psi$, we get that $z_{\ell+n}=NAND(z_i,z_j)$ where (by the assumption above that $\ell$ is _smallest_ with this property) these values  _do_ correspond to the values last assigned to the variables on the righthand side of the assignment operator in the $\ell$-th line of the program. But this means that the value assigned in the $\ell$-th step is indeed simply the NAND of $z_i$ and $z_j$, contradicting our assumption on the choice of $\ell$.
+:::
+
+
+
+
+![A $3NAND$ instance that is obtained by taking a NAND++ program for computing the $AND$ function, unrolling it to obtain a $NANDSAT$ instance, and then composing it with the reduction of [threenand-thm](){.ref}.](../figure/threenandresultreduction.png){#resultreduction .class width=300px height=300px}
 
 
 ### From $3NAND$ to $3SAT$
 
 
 
-To conclude the proof of [cook-levin-thm](){.ref}, we need to show [threenand-sat-thm](){.ref} and show that $3NAND \leq_p 3SAT$. We now do so.
+To conclude the proof of [cook-levin-thm](){.ref}, we need to show [threenand-sat-thm](){.ref} and show that $3NAND \leq_p 3SAT$:
+
+> # {.lemma  #threenand-sat-thm}
+$3NAND \leq_p 3SAT$.
+
 
 > # {.proofidea data-ref="threenand-sat-thm"}
 To prove [threenand-sat-thm](){.ref} we need to map a 3NAND formula $\varphi$ into a 3SAT formula $\psi$ such that $\varphi$ is satisfiable if and only if $\psi$ is. The idea is that we can transform every NAND constraint of the form $a=NAND(b,c)$ into the AND of  ORs involving the variables $a,b,c$ and their negations, where each of the ORs contains  at most three terms. The construction is fairly straightforward, and the details are given below.
@@ -278,21 +382,28 @@ To prove [threenand-sat-thm](){.ref} we need to map a 3NAND formula $\varphi$ in
 > # { .pause }
 It is a good exercise for you to try to find a 3CNF formula $\xi$ on three variables $a,b,c$ such that $\xi(a,b,c)$ is true if and only if $a = NAND(b,c)$. Once you do so, try to see why this implies a reduction from $3NAND$ to $3SAT$,  and hence completes the proof of [threenand-sat-thm](){.ref}
 
-> # {.proof data-ref="threenand-sat-thm"}
+![Code and example output for the reduction given in [threenand-sat-thm](){.ref} of $3NAND$ to $3SAT$.](../figure/3nandto3sat.png){#threenandtothreesat .class width=300px height=300px}
+
+
+::: {.proof data-ref="threenand-sat-thm"}
 The constraint
 $$
 z_i = NAND(z_j,z_k) \label{eq:NANDconstraint}
 $$
 is satisfied if $z_i=1$ whenever $(z_j,z_k) \neq (1,1)$.
 By going through all cases, we can verify that  [eq:NANDconstraint](){.eqref} is equivalent to the constraint
+
 $$
  (\overline{z_i} \vee \overline{z_j} \vee\overline{z_k} ) \wedge          (z_i     \vee z_j )
          \wedge  (z_i     \vee z_k) \;\;. \label{eq:CNFNAND}
 $$
+
 Indeed if $z_j=z_k=1$ then the first constraint of [eq:CNFNAND](){.ref} is only true if $z_i=0$.
 On the other hand, if either of $z_j$ or $z_k$ equals $0$ then unless $z_i=1$  either the second or third constraints will fail. This means that, given any 3NAND formula $\varphi$ over $n$ variables $z_0,\ldots,z_{n-1}$, we can obtain a 3SAT formula $\psi$ over the same variables by replacing every $3NAND$ constraint of $\varphi$ with three $3OR$ constraints as in [eq:CNFNAND](){.ref}.^[The resulting forumula will have some of the OR's involving only two variables.  If we wanted to insist on each formula involving three distinct variables we can always add a "dummy variable" $z_{n+m}$ and include it in all the OR's involving only two variables, and add a constraint requiring this dummy variable to be zero.]
 Because of the equivalence of [eq:NANDconstraint](){.eqref} and [eq:CNFNAND](){.eqref}, the formula $\psi$ satisfies that $\psi(z_0,\ldots,z_{n-1})=\varphi(z_0,\ldots,z_{n-1})$ for every assignment $z_0,\ldots,z_{n-1} \in \{0,1\}^n$ to the variables.
 In particular $\psi$ is satisfiable if and only if $\varphi$ is, thus completing the proof.
+:::
+
 
 ### Wrapping up
 
