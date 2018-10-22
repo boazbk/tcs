@@ -79,7 +79,7 @@ The definition of $\mathbf{NP}$ is one of the most important definitions of this
 The following solved exercises establish some basic properties of this class.
 As usual, I highly recommend that you try to work out the solutions yourself.
 
-::: {.solvedexercise title="$\mathbf{P} \subseteq \mathbf{NP}$" #PinNP}
+::: {.solvedexercise title="Verifying is no harder than solving" #PinNP}
 Prove that $\mathbf{P} \subseteq \mathbf{NP}$.
 :::
 
@@ -100,7 +100,7 @@ If $F$ is in $\mathbf{NP}$ it certainly does _not_ mean that $F$ is hard to comp
 Rather, it means that $F$ is _easy to verify_, in the technical sense of [NP-def](){.ref}.
 :::
 
-::: {.solvedexercise title="$\mathbf{NP} \subseteq \mathbf{EXP}$" #NPinEXP}
+::: {.solvedexercise title="$\mathbf{NP}$ is in exponential time" #NPinEXP}
 Prove that $\mathbf{NP} \subseteq \mathbf{EXP}$.
 :::
 
@@ -153,7 +153,7 @@ $$F(x)=1 \Leftrightarrow G(R(x)) =1 \Leftrightarrow \exists_{w \in \{0,1\}^{a|R(
 Since there are some constants $a',b'$ such that $|R(x)| \leq a'|x|^{b'}$ for every $x\in \{0,1\}^*$, by simple padding we can modify $V'$ to an algorithm that certifies that $F \in \mathbf{NP}$.
 :::
 
-### From $\mathbf{NP}$ to 3SAT
+## From $\mathbf{NP}$ to 3SAT: The Cook-Levin Theorem
 
 We have seen everal example of problems for which we do not know if their best algorithm is polynomial or exponential, but we can show that they are in $\mathbf{NP}$.
 That is, we don't know if they are easy to _solve_, but we do know that it is easy to _verify_ a given solution.
@@ -220,7 +220,7 @@ However, it is believed that there exist problems in $\mathbf{NP}$ that are neit
 
 
 
-## The Cook-Levin Theorem
+###  The Cook-Levin Theorem: Proof outline
 
 
 We will now prove the Cook-Levin Theorem, which  is the underpinning to  a great web of reductions from 3SAT to thousands of problems across great many fields.
@@ -249,13 +249,9 @@ $$
 hence establishing  [cook-levin-thm](){.ref}.
 
 
+We will prove these three results [nand-thm](){.ref}, [threenand-thm](){.ref} and  [threenand-sat-thm](){.ref} one by one, providing the requisite definitions as we go along.
 
-
-
-
-We now prove these three results one by one, providing the requisite definitions as we go along.
-
-### The $NANDSAT$ Problem, and why it is $\mathbf{NP}$ hard.
+## The $NANDSAT$ Problem, and why it is $\mathbf{NP}$ hard.
 
 We define the $NANDSAT$ problem as follows. On input a string $Q\in \{0,1\}^*$, we define $NANDSAT(Q)=1$ if and only if $Q$ is a valid representation of an $n$-input and single-output NAND  program and there exists some $w\in \{0,1\}^n$ such that $Q(w)=1$.
 While we don't need this to prove [nand-thm](){.ref}, note that $NANDSAT$ is in $\mathbf{NP}$ since we can verify that $Q(w)=1$ using the polyonmial-time algorithm for evaluating NAND programs.^[$Q$ is a NAND program and not a NAND++ program, and hence it is only defined on inputs of some particular size $n$. Evaluating $Q$ on any input $w\in \{0,1\}^n$ can be done in time polynomial in the number of lines of $Q$.]
@@ -291,13 +287,13 @@ Using our "unrolling the loop NAND++ to NAND compiler" of [nand-compiler](){.ref
 
 Now we can use the following simple but useful "hardwiring" technique to obtain a program:
 
-> # {.lemma #hardwiringlem}
+> # {.lemma title="Hardwiring Lemma" #hardwiringlem}
 Given a $T$-line NAND program $Q'$ of $n+m$ inputs and $x^* \in \{0,1\}^n$, we can obtain in polynomial a program $Q$ with $m$ inputs of $T+3$ lines such that for ever $w\in \{0,1\}^m$, $Q(w)= Q'(x^*w)$.
 
 ::: {.proof data-ref="hardwiringlem"}
 To compute $Q$, we simply do a "search and replace" for all references in $Q'$ to `X[`$i$`]` for $i \in [n]$, and transform them to either the variable `zero` or `one` depending on whether $x^*_i$ is equal to $0$ or $1$ respectively.
 By adding three lines to the beginning of $Q'$, we can ensure that the `zero` and `one` variables  will have the correct value.
-The only thing that then remains to do another search and replace to transform all references to the variables `X[`$n$`]`,$\ldots$, `X[$n+m-1$`]` to the variables `X[`$0$`]`, $\ldots$, `X[`$m-1$`]` so that the $m$ inputs to the new program $Q$ will correspond to last $m$ inputs of the original program $Q'$.
+The only thing that then remains to do another search and replace to transform all references to the variables `X[`$n$`]`,$\ldots$, `X[`$n+m-1$`]` to the variables `X[`$0$`]`, $\ldots$, `X[`$m-1$`]` so that the $m$ inputs to the new program $Q$ will correspond to last $m$ inputs of the original program $Q'$.
 See [hardwiringfig](){.ref} for an implementation of this reduction in Python.
 :::
 
@@ -311,7 +307,7 @@ Since we know that $F(x^*)=1$ if and only if there exists $w\in \{0,1\}^m$ such 
 
 
 
-### The $3NAND$ problem
+## The $3NAND$ problem
 
 The $3NAND$ problem is defined as follows: the input is a logical formula $\varphi$ on a set of  variables $z_0,\ldots,z_{r-1}$
 which is an AND of constraints of the form $z_i = NAND(z_j,z_k)$.
@@ -376,7 +372,7 @@ __Part II: Soundness.__ Suppose that there exists $z\in \{0,1\}^{n+m}$ satisfyin
 ![A $3NAND$ instance that is obtained by taking a NAND++ program for computing the $AND$ function, unrolling it to obtain a $NANDSAT$ instance, and then composing it with the reduction of [threenand-thm](){.ref}.](../figure/threenandresultreduction.png){#resultreduction .class width=300px height=300px}
 
 
-### From $3NAND$ to $3SAT$
+## From $3NAND$ to $3SAT$
 
 
 
@@ -415,7 +411,7 @@ In particular $\psi$ is satisfiable if and only if $\varphi$ is, thus completing
 :::
 
 
-### Wrapping up
+## Wrapping up
 
 We have shown that for every function $F$ in $\mathbf{NP}$, $F \leq_p NANDSAT \leq_p 3NAND \leq_p 3SAT$, and so $3SAT$ is $\mathbf{NP}$-hard.
 Since in [reductionchap](){.ref} we saw that $3SAT \leq_p QUADEQ$, $3SAT \leq_p ISET$, $3SAT \leq_p MAXCUT$ and $3SAT \leq_p LONGPATH$, all these problems are $\mathbf{NP}$-hard as well.
