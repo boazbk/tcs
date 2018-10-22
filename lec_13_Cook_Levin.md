@@ -92,12 +92,12 @@ If $F(x)=1$ then $V(x0^n)=1$. On the other hand, if $F(x)=0$ then for every $w\i
 Therefore, setting $a=b=1$, we see that $V$ satisfies  [{NP:eq}](){.eqref}, and establishes that $F \in \mathbf{NP}$.
 :::
 
-::: {.remark title="$\mathbf{NP}$ does _not_ mean non-polynomial!" #NPandNOTPolynomial}
+::: {.remark title="$\mathbf{NP}$ does not mean non-polynomial!" #NPandNOTPolynomial}
 People sometimes think that $\mathbf{NP}$ stands for "non polynomial time".
-As [PinNP](){.ref}, this is far from the truth, and in fact every polynomial-time computable function is in $\mathbf{NP}$ as well.
+As [PinNP](){.ref} shows, this is far from the truth, and in fact every polynomial-time computable function is in $\mathbf{NP}$ as well.
 
 If $F$ is in $\mathbf{NP}$ it certainly does _not_ mean that $F$ is hard to compute (though it does not, as far as we know, necessarily mean that it's easy to compute either).
-Rather, it means that $F$ is _easy to verify_, in the technical sense of [NP-def](){.ref}
+Rather, it means that $F$ is _easy to verify_, in the technical sense of [NP-def](){.ref}.
 :::
 
 ::: {.solvedexercise title="$\mathbf{NP} \subseteq \mathbf{EXP}$" #NPinEXP}
@@ -123,7 +123,17 @@ Since $V \in \mathbf{P}$, for every $x\in \{0,1\}^n$, Algorithm $A$ runs in time
 Moreover by [{NP:eq}](){.eqref}, $A$ will output $1$ on $x$ if and only if $F(x)=1$.
 :::
 
-We have previously informally equated that notion of $F \leq_p G$ with $F$ being "no harder than $G$" and in particular have seen in [reductionsandP](){.ref} that if $G \in \mathbf{P}$ and $F \leq_p G$, then $F \in \mathbf{P}$ as well.
+[PinNP](){.ref} and [NPinEXP](){.ref} together imply that
+
+$$\mathbf{P} \subseteq \mathbf{NP} \subseteq \mathbf{NP}\;.$$
+
+The time hierarchy theorem ([time-hierarchy-thm](){.ref}) implies that $\mathbf{P} \subsetneq \mathbf{EXP}$ and hence at least
+one of the two inclusions $\mathbf{P} \subseteq \mathbf{NP}$ or $\mathbf{NP} \subseteq \mathbf{EXP}$ is _strict_.
+It is believed that both of them are in fact strict inclusions.
+That is, it is believed that there are functions in $\mathbf{NP}$ that cannot be computed in polynomial time (this is the $\mathbf{P} \neq \mathbf{NP}$ conjecture)  and that there are functions $F$ in $\mathbf{EXP}$ for which we cannot even efficiently _certify_ that $F(x)=1$ for a given input $x$.^[One function $F$ that is believed to lie outside $\mathbf{NP}$ is the function $\overline{3SAT}$ defined as  $\overline{3SAT}(\varphi)= 1 - 3SAT(\varphi)$ for every 3CNF formula $\varphi$. The conjecture that $\overline{3SAT}\not\in \mathbf{NP}$ is known as the "$\mathbf{NP} \neq \mathbf{coNP}$" conjecture. It implies the $\mathbf{P} \neq \mathbf{NP}$ conjecture (can you see why?).]
+
+
+We have previously informally equated the notion of $F \leq_p G$ with $F$ being "no harder than $G$" and in particular have seen in [reductionsandP](){.ref} that if $G \in \mathbf{P}$ and $F \leq_p G$, then $F \in \mathbf{P}$ as well.
 The following exercise shows that if $F \leq_p G$ then it is also "no harder to verify" than $G$.
 That is, regardless of whether or not it is in $\mathbf{P}$, if $G$  has the property that solutions to it can be efficiently verified, then so does $F$.
 
