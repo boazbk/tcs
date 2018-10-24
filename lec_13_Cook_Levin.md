@@ -55,9 +55,9 @@ Thus the heart of $\mathbf{NP}$ is asking for statements that have _short_ (i.e.
 As we will see  later on, for this reason Kurt Gödel phrased the question of whether $\mathbf{NP}=\mathbf{P}$ as asking whether "the mental work of a mathematician [in proving theorems]  could be completely replaced by a machine".
 
 > # { .pause }
-The [NP-def](){.ref} is _assymetric_ in the sense that there is a difference between an output of $1$ and an output of $0$.
+[NP-def](){.ref} is _assymetric_ in the sense that there is a difference between an output of $1$ and an output of $0$.
 You should make sure you understand why this definition does _not_ guarantee that if $F \in \mathbf{NP}$ then the function $1-F$ is in $\mathbf{NP}$ as well.
-In fact, this is believed _not_ to be the case in general.
+In fact, this is believed _not_ to be the case in general.^[For example, as shown below, $3SAT \in \mathbf{NP}$, but the function $\overline{3SAT}$ that on input a 3CNF formula $\varphi$ outputs $1$ if and only if $\varphi$ is _not_ satisfiable is not known (nor believed) to be in  $\mathbf{NP}$.]
 This is in contrast to the class $\mathbf{P}$ which (as you should verify) _does_ satisfy that if $F\in \mathbf{P}$ then $1-F$ is in $\mathbf{P}$ as well.
 
 ### Examples:
