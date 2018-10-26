@@ -36,11 +36,15 @@ Formally, $\mathbf{NP}$ is defined as follows:
 
 ![The class $\mathbf{NP}$ corresponds to problems where solutions can be _efficiently verified_.  That is, this is the class of functions $F$ such that $F(x)=1$ if there is a "solution" $w$ of length polynomial in $|x|$ that can be verified by a polynomial-time algorithm $V$. ](../figure/NPdeffig.png){#NPdeffigfig .class width=300px height=300px}
 
-> # {.definition title="NP" #NP-def}
-We say that $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{NP}$ if there exists some constants $a,b \in \N$ and $V:\{0,1\}^* \rightarrow \{0,1\}$ such that $V\in \mathbf{P}$ and for every $x\in \{0,1\}^n$
+::: {.definition title="NP" #NP-def}
+We say that $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{NP}$ if there exists some constants $a,b \in \N$ and $V:\{0,1\}^* \rightarrow \{0,1\}$ such that $V\in \mathbf{P}$ and for every $x\in \{0,1\}^n$,
 $$
-F(x)=1 \Leftrightarrow \exists_{w \in \{0,1\}^{an^b}} \text{ s.t. } V(xw)=1 \label{NP:eq}
+F(x)=1 \Leftrightarrow \exists_{w \in \{0,1\}^{an^b}} \text{ s.t. } V(xw)=1 \;. \label{NP:eq}
 $$
+
+In other words, for $F$ to be in $\mathbf{NP}$, there needs to exist some polynomial-time computable verification function $V$, such that if $F(x)=1$ then there must exist $w$ (of length polynomial in $|x|$) such that $V(xw)=1$, and if $F(x)=0$ then for _every_ such $w$, $V(xw)=0$.
+Since the existence of this string $w$ certifies that $F(x)=1$, $w$ is often referred to as a _certificate_, _witness_, or _proof_ that $F(x)=1$.
+:::
 
 See also [NPdeffigfig](){.ref} for an illustration of [NP-def](){.ref}.
 The name $\mathbf{NP}$ stands for "nondeterministic polynomial time" and is used for historical reasons; see the bibiographical notes.
@@ -48,19 +52,19 @@ The string $w$ in [{NP:eq}](){.eqref} is sometimes known as a _solution_, _certi
 
 > # {.remark title="$\mathbf{NP}$ and proof systems" #NPproofs}
 The definition of $\mathbf{NP}$ means that for every  $F\in \mathbf{NP}$ and string $x\in \{0,1\}^*$, $F(x)=1$ if and only if there is a _short and efficiently verifiable proof_ of this fact.
-That is, we can think of the function $G$ in [NP-def](){.ref} as a _verifier_ algorithm, similar to what we've seen in [godelproofdef](){.ref}.
+That is, we can think of the function $V$ in [NP-def](){.ref} as a _verifier_ algorithm, similar to what we've seen in [godelproofdef](){.ref}.
 The verifier checks whether a given string $w\in \{0,1\}^*$ is a valid proof for the statement "$F(x)=1$".
 Essentially all proof systems considered in mathematics involve line-by-line checks that can be carried out in polynomial time.
 Thus the heart of $\mathbf{NP}$ is asking for statements that have _short_ (i.e., polynomial in the size of the statements) proof.
-As we will see  later on, for this reason Kurt Gödel phrased the question of whether $\mathbf{NP}=\mathbf{P}$ as asking whether "the mental work of a mathematician [in proving theorems]  could be completely replaced by a machine".
+Indeed, as we will see  in [#chappvsnp](){.ref},  Kurt Gödel phrased the question of whether $\mathbf{NP}=\mathbf{P}$ as asking whether "the mental work of a mathematician [in proving theorems]  could be completely replaced by a machine".
 
 > # { .pause }
 [NP-def](){.ref} is _assymetric_ in the sense that there is a difference between an output of $1$ and an output of $0$.
-You should make sure you understand why this definition does _not_ guarantee that if $F \in \mathbf{NP}$ then the function $1-F$ is in $\mathbf{NP}$ as well.
-In fact, this is believed _not_ to be the case in general.^[For example, as shown below, $3SAT \in \mathbf{NP}$, but the function $\overline{3SAT}$ that on input a 3CNF formula $\varphi$ outputs $1$ if and only if $\varphi$ is _not_ satisfiable is not known (nor believed) to be in  $\mathbf{NP}$.]
+You should make sure you understand why this definition does _not_ guarantee that if $F \in \mathbf{NP}$ then the function $1-F$ (i.e., the map $x \mapsto 1-F(x)$) is in $\mathbf{NP}$ as well.
+In fact, it is believed that there do exist functions $F$ satisfying  $F\in \mathbf{NP}$ but $1-F \not\in \mathbf{NP}$.^[For example, as shown below, $3SAT \in \mathbf{NP}$, but the function $\overline{3SAT}$ that on input a 3CNF formula $\varphi$ outputs $1$ if and only if $\varphi$ is _not_ satisfiable is not known (nor believed) to be in  $\mathbf{NP}$.]
 This is in contrast to the class $\mathbf{P}$ which (as you should verify) _does_ satisfy that if $F\in \mathbf{P}$ then $1-F$ is in $\mathbf{P}$ as well.
 
-### Examples:
+### Examples of $\mathbf{NP}$ functions
 
 * $3SAT$ is in $\mathbf{NP}$ since for every $\ell$-variable formula $\varphi$, $3SAT(\varphi)=1$ if and only if there exists a satisfying assignment $x \in \{0,1\}^\ell$ such that $\varphi(x)=1$, and we can check this condition in polynomial time.^[Note that an $\ell$ variable formula $\varphi$ is represented by a string of length at least $\ell$, and we can use some "padding" in our encoding so that the assignment to $\varphi$'s variables  is encoded by a string of length exactly $|\varphi|$. We can always use this padding trick, and so one can think of the condition [{NP:eq}](){.eqref} as simply stipulating that the "solution" $y$ to the problem $x$ is of size at most $poly(|x|)$.]
 

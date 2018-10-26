@@ -1,7 +1,7 @@
 % P vs NP
 % Boaz Barak
 
-#  What if P equals NP?
+#  What if P equals NP? { #chappvsnp }
 
 
 
@@ -75,27 +75,43 @@ We can continue in this way to recover all the bits.
 
 
 
-> # {.proof data-ref="search-dec-thm"}
+::: {.proof data-ref="search-dec-thm"}
 If $\mathbf{P}=\mathbf{NP}$ then for every polynomial-time algorithm $V$ and $a,b \in \N$, there is a polynomial-time algorithm $STARTSWITH_V$ that on input $x\in \{0,1\}^*$ and $z\in \{0,1\}^\ell$, outputs $1$ if and only if there exists some $y\in \{0,1\}^{an^b}$ such that the first $\ell$ bits of $y$ are equal to $z$ and $V(xy)=1$.
 Indeed, we leave it as an exercise to verify that the $STARTSWITH_V$ function is in $\mathbf{NP}$ and hence can be solved in polynomial time if $\mathbf{P}=\mathbf{NP}$.
->
-Now for any such polynomial-time $V$ and $a,b\in\N$, we can implement $FIND_V(x)$ as follows: \
-1. For $\ell=0,\ldots,an^b-1$ do the following: \
-  >a. Let $b_0 = STARTSWITH_V(xz_{0}\cdots z_{\ell-1}0)$ and $b_1 = STARTSWITH_V(xz_{0}\cdots z_{\ell-1}1)$ \
-  >b. If $b_0=1$ then $z_\ell=0$, otherwise $z_\ell=1$. \
+
+Now for any such polynomial-time $V$ and $a,b\in\N$, we can implement $FIND_V(x)$ as follows:
+
+::: {.quote}
+__Algorithm $FIND_V$:__
+
+__Input:__ $x\in \{0,1\}^n$
+
+__Goal:__ Find $z\in \{0,1\}^{an^b}$ such that $V(xz)=1$, if such $z$ exists.
+
+__Operation:__
+
+1. For $\ell=0,\ldots,an^b-1$ do the following:
+
+   a. Let $b_0 = STARTSWITH_V(xz_{0}\cdots z_{\ell-1}0)$ and $b_1 = STARTSWITH_V(xz_{0}\cdots z_{\ell-1}1)$
+
+   b. If $b_0=1$ then $z_\ell=0$, otherwise $z_\ell=1$.
+
 2. Output $z_0,\ldots,z_{an^b-1}$.
->
+:::
+
+
 To analyze the $FIND$ algorithm, note that it makes $2an^{b-1}$ invocations to $STARTSWITH_V$ and hence if the latter is polynomial-time, then so is $FIND_V$.
 Now suppose that $x$ is such that there exists _some_ $y$ satisfying $V(xy)=1$.
 We claim that at every step $\ell=0,\ldots,an^b-1$, we maintain the invariant that there exists $y\in \{0,1\}^{an^b}$ whose first $\ell$ bits are $z$ s.t. $V(xy)=1$.
 Note that this claim implies the theorem, since in particular it means that for $\ell = an^b-1$, $z$ satisfies $V(xz)=1$.
->
+
 We prove the claim by induction.
 For $\ell=0$, this holds vacuously.
 Now for every $\ell > 0$, if the call $STARTSWITH_V(xz_0\cdots z_{\ell-1}0)$ returns  $1$, then we are guaranteed the invariant by definition of $STARTSWITH_V$.
 Now under our inductive hypothesis, there is $y_\ell,\ldots,y_{an^b-1}$ such that
 $P(xz_0,\ldots,z_{\ell-1}y_\ell,\ldots,y_{an^b-1})=1$.
 If the call to  $STARTSWITH_V(xz_0\cdots z_{\ell-1}0)$ returns $0$ then it must be the case that $y_\ell=1$, and hence when we set $z_\ell=1$ we maintain the invariant.
+:::
 
 ## Optimization
 
@@ -126,7 +142,7 @@ To understand the statement of the theorem, think of how it would subsume the ex
 The proof follows by generalizing our ideas from the longest path. If $\mathbf{P}=\mathbf{NP}$ then we can test for every number $k$ in $poly(|x|,m)$ time  whether $\max_{y \in \{0,1\}^m} f(x,y) \geq k$. If $f(x,y)$ is an integer between $0$ and $poly(|x|+|y|)$ (as  is the case in the example of longest path) then we can just try out all possiblities for $k$ to find the maximum. Otherwise, we can use _binary search_ to hone down on the right value. Once we do so, we can use search-to-decision to actually find the string $y^*$ that  achieves the maximum.
 
 
-> # {.proof data-ref="optimizationnp"}
+::: {.proof data-ref="optimizationnp"}
 For every such $f$, we can define the following Boolean function: $F:\{0,1\}^* \rightarrow \{0,1\}$: $F(x,1^n,k)=1$ iff there exists $y\in \{0,1\}^m$ s.t. $f(x,y) \geq k$.
 Since $f$ is computable in polynomial time, $F$ is in $\mathbf{NP}$, and so, under our assumption that $\mathbf{P}=\mathbf{NP}$, $F$ itself can be computed in polynomial time.
 Now, for every $n$, we can compute the largest $k$ such that $F(1^n,k)=1$ by a binary search.
@@ -138,16 +154,17 @@ If $y=1$ then we set $a=c$ and leave $b$ as it is.
 If $y=0$ then we set $b=c$ and leave $a$ as it is.
 Since $|b-a|$ shrinks by a factor of $2$, within $\log_2 2^{T(n)}= T(n)$ steps, we will get to the point at which $b\leq a+1$, and then we can simply output $a$.
 Once we find the maximum, to obtain the "moreover" part we  use [search-dec-thm](){.ref} to find the actual $y^*$ that achieves it.
+:::
 
-> # {.remark title="Need for binary search." #binarysearchrm}
+::: {.remark title="Need for binary search." #binarysearchrm}
 One example where we'd need to use the "binary search" approach of [optimizationnp](){.ref}  is for the problem of finding a maximum length path in a _weighted_ graph.
 In this case $G$ is a _weighted_ graph, and every edge of $G$ is given a weight which is a number between $0$ and $2^k$.
 [optimizationnp](){.ref} shows that we can find the maximum-weight simple path in $G$ (i.e., simple path maximizing the sum of the weights of its edges) in time polynomial in the number of vertices and in $k$.
->
+
 Beyond just this examle there is a vast field of [mathematical optimization](https://en.wikipedia.org/wiki/Mathematical_optimization) that studies problems of the same form as in [optimizationnp](){.ref}. In the context of optimization, $x$ typically denotes a set of constraints over some variables (that can be Boolean, integer, or real valued), $y$ encodes an assignment to these variables,  and $f(x,y)$ is the value of some _objective function_ that we want to maximize.
 Given that we don't know efficient algorithms for $\mathbf{NP}$ complete problems, researchers in optimization research study special cases of functions $f$ (such as linear programming and semidefinite programming) where it _is_ possible to optimize the value efficiently.
 Optimization is widely used in a great many scientific agreas including  machine learning, engineering, economics and operations research.
-
+:::
 
 ### Example: Supervised learning
 
@@ -191,7 +208,7 @@ This means that for every reasonable proof system $V$, the following function $S
 That is, $SHORTPROOF_V(x,1^m)=1$ if there is a proof (in the system $V$) of length at most $m$  bits that $x$ is true.
 Thus, if $\mathbf{P}=\mathbf{NP}$, then despite Gödel's Incompleteness Theorems, we can still automate mathematics in the sense of finding proofs that are not too long for every statement that has one. (Frankly speaking, if the shortest proof for some statement requires  a terabyte, then human mathematicians won't ever find this proof either.)
 For this reason, Gödel himself felt that the question of whether $SHORTPROOF_V$ has a polynomial time algorithm is of great interest.
-As he wrote [in a letter to John von Neumann](https://rjlipton.wordpress.com/the-gdel-letter/) in 1956 (before the concept of $\mathbf{NP}$ or even "polynomial time" was formally defined):
+As Gödel wrote [in a letter to John von Neumann](https://rjlipton.wordpress.com/the-gdel-letter/) in 1956 (before the concept of $\mathbf{NP}$ or even "polynomial time" was formally defined):
 
 >One can obviously easily construct a Turing machine, which for every formula $F$ in first order predicate logic and every natural number $n$, allows one to decide if there is a proof of $F$ of length $n$ (length = number of symbols). Let $\psi(F,n)$ be the number of steps the machine requires for this and let $\varphi(n) = \max_F \psi(F,n)$. The question is how fast $\varphi(n)$ grows for an optimal machine. One can show that $\varphi \geq k \cdot n$ [for some constant $k>0$]. If there really were a machine with $\varphi(n) \sim k \cdot n$ (or even $\sim k\cdot n^2$), this would have consequences of the greatest importance. Namely, it would obviously mean that in spite of the undecidability of the Entscheidungsproblem,^[The undecidability of [Entscheidungsproblem](https://en.wikipedia.org/wiki/Entscheidungsproblem) refers to the uncomputability of the function that maps a statement in [first order logic](https://en.wikipedia.org/wiki/First-order_logic) to $1$ if and only if that statement has a proof.] the mental work of a mathematician concerning Yes-or-No questions could be completely replaced by a machine. After all, one would simply have to choose the natural number $n$ so large that when the machine does not deliver a result, it makes no sense to think more about the problem.
 
@@ -245,10 +262,11 @@ $$
 $$
 where $Q$ is either $\exists$ or $\forall$ depending on whether $a$ is odd or even, respectively.
 
-> # {.proof data-ref="PH-collapse-thm"}
+::: {.proof data-ref="PH-collapse-thm"}
 We prove the theorem by induction. We assume that there is a polynomial-time algorithm $SOLVE_{a-1}$ that can solve the problem [eq:QBF](){.eqref} for $a-1$ and use that to solve the problem for $a$.
 On input a NAND program $P$, we will create the NAND program $S_P$ that on input $x_1\in \{0,1\}^n$, outputs $1-SOLVE_{a-1}(1-P_{x_1})$ where $P_{x_1}$ is a NAND program that on input $x_2,\ldots,x_a \in \{0,1\}^n$ outputs $P(x_1,\ldots,x_n)$.
-Now note that by the definition of $SOLVE$
+
+By the definition of $SOLVE$
 $$
 \begin{aligned}
 \exists_{x_1\in \{0,1\}^n} S_P(x_1) &= \\
@@ -257,8 +275,10 @@ $$
 \exists_{x_1} \forall_{x_2} \cdots Q_{x_a} P(x_1,\ldots,x_a).
 \end{aligned}
 $$
->
+
 Hence we see that if we can solve the satisfiability problem for $S_P$, then we can solve [eq:QBF](){.eqref}.
+:::
+
 
 This algorithm can also solve the search problem as well: find the value $x_1$ that certifies the truth of [eq:QBF](){.eqref}.
 We note that while this algorithm is in polynomial time, the exponent of this polynomial blows up quite fast.
