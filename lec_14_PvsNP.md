@@ -100,7 +100,7 @@ __Operation:__
 :::
 
 
-To analyze the $FIND$ algorithm, note that it makes $2an^{b-1}$ invocations to $STARTSWITH_V$ and hence if the latter is polynomial-time, then so is $FIND_V$.
+To analyze the $FIND$ algorithm, note that it makes $2an^{b}$ invocations to $STARTSWITH_V$ and hence if the latter is polynomial-time, then so is $FIND_V$.
 Now suppose that $x$ is such that there exists _some_ $y$ satisfying $V(xy)=1$.
 We claim that at every step $\ell=0,\ldots,an^b-1$, we maintain the invariant that there exists $y\in \{0,1\}^{an^b}$ whose first $\ell$ bits are $z$ s.t. $V(xy)=1$.
 Note that this claim implies the theorem, since in particular it means that for $\ell = an^b-1$, $z$ satisfies $V(xz)=1$.
