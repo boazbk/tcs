@@ -129,7 +129,7 @@ Moreover by [{NP:eq}](){.eqref}, $A$ will output $1$ on $x$ if and only if $F(x)
 
 [PinNP](){.ref} and [NPinEXP](){.ref} together imply that
 
-$$\mathbf{P} \subseteq \mathbf{NP} \subseteq \mathbf{NP}\;.$$
+$$\mathbf{P} \subseteq \mathbf{NP} \subseteq \mathbf{EXP}\;.$$
 
 The time hierarchy theorem ([time-hierarchy-thm](){.ref}) implies that $\mathbf{P} \subsetneq \mathbf{EXP}$ and hence at least
 one of the two inclusions $\mathbf{P} \subseteq \mathbf{NP}$ or $\mathbf{NP} \subseteq \mathbf{EXP}$ is _strict_.
