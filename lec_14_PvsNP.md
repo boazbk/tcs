@@ -39,7 +39,7 @@ So, as the saying goes, we'll keep an open mind, but not so open that our brains
 
 and
 
- * She does not "pussyfoot around" or take "half measures". If God  decided to make $3SAT$ _easy_, then $3SAT$ will have a $10^6\cdot n$ (or at worst $10^6 n^2$) -time algorithm (i.e., $3SAT$ will be in $TIME(cn)$ or $TIME(cn^2)$  for a not-too-large constant $c$). If she decided to make $3SAT$ _hard_, then for every $n \in \N$, $3SAT$ on $n$ variables cannot be solved by a NAND program of fewer than $2^{10^{-6}n}$ lines.^[Using the relations we've seen between $SIZE(T(n))$, $TIME_{++}(T(n))$ and $TIME(T(n))$ ( [NANDpp-thm](){.ref} and [non-uniform](){.ref} ) the latter implies that  that $3SAT \not\in TIME(2^{o(n)})$.]
+ * She does not "pussyfoot around" or take "half measures". If God  decided to make $3SAT$ _easy_, then $3SAT$ will have a $10^6\cdot n$ (or at worst $10^6 n^2$) -time algorithm (i.e., $3SAT$ will be in $TIME(cn)$ or $TIME(cn^2)$  for a not-too-large constant $c$). If she decided to make $3SAT$ _hard_, then for every $n \in \N$, $3SAT$ on $n$ variables cannot be solved by a NAND program of fewer than $2^{10^{-6}n}$ lines.^[Using the relations we've seen between $SIZE(T(n))$  and $TIME(T(n))$ (i.e., [non-uniform-thm](){.ref}), $3SAT \not\in SIZE(T(n))$ then it is also in $TIME(T(n)^\epsilon)$ for some constant $\epsilon$ that can be shown to be at least $1/5$.]
 
 
 So far, most of our evidence points to the latter possibility of 3SAT being exponentially hard, but we have not ruled out the former possibility either.
@@ -135,33 +135,50 @@ Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time computable
 Moreover under the same assumption, there is a polynomial-time algorithm $FINDOPT$ such that for every $x\in \{0,1\}^*$, $FINDOPT(x,1^m)$ outputs $y^* \in \{0,1\}^*$ such that $f(x,y^*)=OPT(x,y^*)$.
 
 > # { .pause }
-To understand the statement of the theorem, think of how it would subsume the example above of  a polynomial time algorithm for finding the maximum length path in a graph. In this case the function $f$ would be a map that on input a pair $x,y$, outputs $0$ if $x$ does not represent a graph $G$ and $y$ does not represent a path in $G$, and otherwise outputs the length of this path. Since a path in an $n$ vertex graph can be represented by at most $n \log n$ bits, for every $x$ representing a graph of $n$ vertices, finding $\max_{y\in \{0,1\}^{n \log n}}f(x,y)$   corresponds to finding the length of the maximum path in the graph corresponding to $x$, and finding $y^*$ that achieves this maximum corresponds to actually finding the path.
+The statement of [optimizationnp](){.ref} is a bit cumbersome.  To understand it, think  how it would subsume the example above of  a polynomial time algorithm for finding the maximum length path in a graph. In this case the function $f$ would be the map that on input a pair $x,y$ outputs $0$ if the pair $(x,y)$ does not represent some graph and a simple path inside the graph respectively;  otherwise $f(x,y)$ would equal the length of the path $y$ in the graph $x$. Since a path in an $n$ vertex graph can be represented by at most $n \log n$ bits, for every $x$ representing a graph of $n$ vertices, finding $\max_{y\in \{0,1\}^{n \log n}}f(x,y)$   corresponds to finding the length of the maximum simple path in the graph corresponding to $x$, and finding the string $y^*$ that achieves this maximum corresponds to actually finding the path.
 
 
 > # {.proofidea data-ref="optimizationnp"}
-The proof follows by generalizing our ideas from the longest path. If $\mathbf{P}=\mathbf{NP}$ then we can test for every number $k$ in $poly(|x|,m)$ time  whether $\max_{y \in \{0,1\}^m} f(x,y) \geq k$. If $f(x,y)$ is an integer between $0$ and $poly(|x|+|y|)$ (as  is the case in the example of longest path) then we can just try out all possiblities for $k$ to find the maximum. Otherwise, we can use _binary search_ to hone down on the right value. Once we do so, we can use search-to-decision to actually find the string $y^*$ that  achieves the maximum.
+The proof follows by generalizing our ideas from the longest path example above.
+Let $f$ be as in the theorem statement.
+If  $\mathbf{P}=\mathbf{NP}$ then for every  for every string $x\in \{0,1\}^*$ and number $k$, we can test in in $poly(|x|,m)$ time  whether there exists $y$ such that $f(x,y) \geq k$, or in other words test whether  $\max_{y \in \{0,1\}^m} f(x,y) \geq k$.
+If $f(x,y)$ is an integer between $0$ and $poly(|x|+|y|)$ (as  is the case in the example of longest path) then we can just try out all possiblities for $k$ to find the maximum number $k$ for which $\max_y f(x,y) \geq k$.
+Otherwise, we can use _binary search_ to hone down on the right value. Once we do so, we can use search-to-decision to actually find the string $y^*$ that  achieves the maximum.
 
 
 ::: {.proof data-ref="optimizationnp"}
-For every such $f$, we can define the following Boolean function: $F:\{0,1\}^* \rightarrow \{0,1\}$: $F(x,1^n,k)=1$ iff there exists $y\in \{0,1\}^m$ s.t. $f(x,y) \geq k$.
-Since $f$ is computable in polynomial time, $F$ is in $\mathbf{NP}$, and so, under our assumption that $\mathbf{P}=\mathbf{NP}$, $F$ itself can be computed in polynomial time.
-Now, for every $n$, we can compute the largest $k$ such that $F(1^n,k)=1$ by a binary search.
-We maintain two numbers $a,b$ such that we are guaranteed that $a \leq \max_{x\in \{0,1\}^n} f(x) < b$.
-Initially we set $a=0$ and $b=2^{T(n)}$ where $T(n)$ is the running time of $f$.
-(A function with $T(n)$ running time can't output more than $T(n)$ bits and so can't output a number larger than $2^{T(n)}$.)
-At each point in time, we compute the midpoint $c = \floor{(a+b)/2})$ and let $y=F(1^n,c)$.
-If $y=1$ then we set $a=c$ and leave $b$ as it is.
-If $y=0$ then we set $b=c$ and leave $a$ as it is.
+For every  $f$ as in the theorem statement, we can define the  Boolean function $F:\{0,1\}^* \rightarrow \{0,1\}$ as follows.
+
+$$F(x,1^m,k)= \begin{cases} 1 & \exists_{y\in \{0,1\}^m} f(x,y) \geq k \\ 0 & \text{otherwise} \end{cases}$$
+
+Since $f$ is computable in polynomial time, $F$ is in $\mathbf{NP}$, and so  under our assumption that $\mathbf{P}=\mathbf{NP}$, $F$ itself can be computed in polynomial time.
+Now, for every $x$ and $m$, we can compute the largest $k$ such that $F(x,1^m,k)=1$ by a binary search.
+Specifically, we will do this as follows:
+
+1. We maintain two numbers $a,b$ such that we are guaranteed that $a \leq \max_{y\in \{0,1\}^m} f(x,y) < b$.
+
+2. Initially we set $a=0$ and $b=2^{T(n)}$ where $T(n)$ is the running time of $f$. (A function with $T(n)$ running time can't output more than $T(n)$ bits and so can't output a number larger than $2^{T(n)}$.)
+
+3. At each point in time, we compute the midpoint $c = \floor{(a+b)/2})$ and let $y=F(1^n,c)$.
+
+   a. If $y=1$ then we set $a=c$ and leave $b$ as it is.
+
+   b. If $y=0$ then we set $b=c$ and leave $a$ as it is.
+
+4. We then go back to step 3, until $b \leq a+1$.
+
 Since $|b-a|$ shrinks by a factor of $2$, within $\log_2 2^{T(n)}= T(n)$ steps, we will get to the point at which $b\leq a+1$, and then we can simply output $a$.
-Once we find the maximum, to obtain the "moreover" part we  use [search-dec-thm](){.ref} to find the actual $y^*$ that achieves it.
+Once we find the maximum value of $k$ such that $F(x,1^m,k)=1$, we can use the search to decision reduction of [search-dec-thm](){.ref} to obtain the actual value $y^* \in \{0,1\}^m$ such that $f(x,y^*)=k$.
 :::
 
 ::: {.remark title="Need for binary search." #binarysearchrm}
-One example where we'd need to use the "binary search" approach of [optimizationnp](){.ref}  is for the problem of finding a maximum length path in a _weighted_ graph.
-In this case $G$ is a _weighted_ graph, and every edge of $G$ is given a weight which is a number between $0$ and $2^k$.
+In many examples, such as the case of finding longest path, we don't need to use the binary search step in [optimizationnp](){.ref}, and can simply enumerate over all possible values for $k$ until we find the correct one.
+One example where we do need to use this binary search step   is in the case of  the problem of finding a maximum length path in a _weighted_ graph.
+This is the problem where  $G$ is a weighted graph, and every edge of $G$ is given a weight which is a number between $0$ and $2^k$.
 [optimizationnp](){.ref} shows that we can find the maximum-weight simple path in $G$ (i.e., simple path maximizing the sum of the weights of its edges) in time polynomial in the number of vertices and in $k$.
 
-Beyond just this example there is a vast field of [mathematical optimization](https://en.wikipedia.org/wiki/Mathematical_optimization) that studies problems of the same form as in [optimizationnp](){.ref}. In the context of optimization, $x$ typically denotes a set of constraints over some variables (that can be Boolean, integer, or real valued), $y$ encodes an assignment to these variables,  and $f(x,y)$ is the value of some _objective function_ that we want to maximize.
+Beyond just this example there is a vast field of [mathematical optimization](https://en.wikipedia.org/wiki/Mathematical_optimization) that studies problems of the same form as in [optimizationnp](){.ref}.
+In the context of optimization, $x$ typically denotes a set of constraints over some variables (that can be Boolean, integer, or real valued), $y$ encodes an assignment to these variables,  and $f(x,y)$ is the value of some _objective function_ that we want to maximize.
 Given that we don't know efficient algorithms for $\mathbf{NP}$ complete problems, researchers in optimization research study special cases of functions $f$ (such as linear programming and semidefinite programming) where it _is_ possible to optimize the value efficiently.
 Optimization is widely used in a great many scientific agreas including  machine learning, engineering, economics and operations research.
 :::
@@ -175,7 +192,7 @@ Our goal is to come up with a _hypothesis_ or _predictor_ $h:\{0,1\}^n \rightarr
 The idea in supervised learning is to use the _Occam's Razor principle_: the simplest hypothesis that explains the data is likely to be correct.
 There are several ways to model this, but one popular approach is to pick some fairly simple function $H:\{0,1\}^{k+n} \rightarrow \{0,1\}$. We think of the first $k$ inputs as the _parameters_ and the last $n$ inputs as the example data.
 (For example, we can think of the first $k$ inputs of $H$ as specifying the weights and connections for some neural network that will then be applied on the latter $n$ inputs.)
-We can then phrase the supervised learning problem as finding, given a set of labeled examples $S=\{ (x_0,y_0),\ldots,(x_{m-1},y_{m-1}) \}$, the set of parameters $\theta_0,\ldots,\theta_{k-1} \in \{0,1\}$ that minimizes the number of errors made by the predictor $x \mapsto H(\theta,x)$.
+We can then phrase the supervised learning problem as finding, given a set of labeled examples $S=\{ (x_0,y_0),\ldots,(x_{m-1},y_{m-1}) \}$, the set of parameters $\theta_0,\ldots,\theta_{k-1} \in \{0,1\}$ that minimizes the number of errors made by the predictor $x \mapsto H(\theta,x)$.^[This is often known as [Empirical Risk Minimization](https://goo.gl/F9AgG8).]
 
 In other words, we can define for every set $S$ as above the function $F_S:\{0,1\}^k \rightarrow [m]$ such that $F_S(\theta) = \sum_{(x,y)\in S} |H(\theta,x)-y|$.
 Now, finding the value $\theta$ that minimizes $F_S(\theta)$ is equivalent to solving the supervised learning problem with respect to $H$.
@@ -197,7 +214,7 @@ We defer a more formal treatment to [chapcryptography](){.ref}.
 
 ## Finding mathematical proofs
 
-In the context of Gödel's Theorem, we discussed the notion of a _proof system_ (see [proofdef](){.ref}).
+In the context of Gödel's Theorem, we discussed the notion of a _proof system_ (see [godelproofdef](){.ref}).
 Generally speaking, a _proof system_ can be thought of as an algorithm $V:\{0,1\}^* \rightarrow \{0,1\}$ (known as the _verifier_) such that given a _statement_ $x\in \{0,1\}^*$ and a _candidate proof_ $w\in \{0,1\}^*$, $V(x,w)=1$ if and only if $w$ encodes a valid proof for the statement $x$.
 Any type of proof system that is used in mathematics for geometry, number theory, analysis, etc., is an instance of this form.
 In fact, standard mathematical proof systems have an even simpler form where the proof $w$ encodes a _sequence_ of lines $w^0,\ldots,w^m$ (each of which is itself a binary string) such that each line $w^i$ is either an _axiom_ or follows from some prior lines through an application of some _inference rule_.
@@ -228,72 +245,132 @@ For many reasonable proof systems (including the one that Gödel referred to), $
 
 
 
-## Quantifier elimination
+## Quantifier elimination (advanced)
 
-So, if $\mathbf{P}=\mathbf{NP}$ then we can solve all $\mathbf{NP}$ _search_ problems in polynomial time. But can we do more? Yes we can!
+If $\mathbf{P}=\mathbf{NP}$ then we can solve all $\mathbf{NP}$ _search_ and _optimization_ problems in polynomial time.
+But can we do more? It turns out that the answer is that _Yes we can!_
 
 
-An $\mathbf{NP}$ decision problem can be thought of as the task of deciding the truth of a statement of the form
+An $\mathbf{NP}$ decision problem can be thought of as the task of deciding, given some string $x\in \{0,1\}^*$ the truth of a statement of the form
 $$
-\exists_x P(x)
+\exists_{y\in \{0,1\}^{p(|x|)}} V(xy)=1
 $$
-for some NAND program $P$.
-But we can think of more general statements such as
+for some polynomial-time algorithm $V$ and polynomial $p:\N \rightarrow \N$.
+
+But we can consider more general statements such as
 $$
-\exists_x \forall_y P(x,y)
+\exists_{y \in \{0,1\}^{p_0(|x|)}} \forall_{z \in \{0,1\}^{p_1(|x|)}} V(xyz)=1 \label{existsforalleq}
 $$
 or
 $$
-\exists_x \forall_y \exists_z P(x,y,z) \;.
+\exists_{y \in \{0,1\}^{p_0(|x|)}} \forall_{z\in \{0,1\}^{p_1(|x|)}}\exists_{w\in \{0,1\}^{p_2(|x|)}} V(xyzw)=1 \label{existsforallexistseq}
 $$
+and so on and so forth.
 
-For example, given an $n$-input NAND program $P$, we might want to find the _smallest_ NAND program $P'$ that is computes the same function as $P$. The question of whether there is such a $P'$ of size at most $k$ can be phrased as
-$$
-\exists_{P'} \forall_x   |P'| \leq k \wedge P(x)=P'(x) \;.
-$$
+For example, given an $n$-input NAND program $P$, we might want to find the _smallest_ NAND program $P'$ that  computes the same function as $P$.
+The question of whether there is such a $P'$ that can be described by a string of at most $s$ bits can be phrased as
 
-It turns out that if $\mathbf{P}=\mathbf{NP}$ then we can solve these kinds of problems as well.^[Since NAND programs are equivalent to Boolean circuits, this  is known as the [circuit minimization problem](https://en.wikipedia.org/wiki/Logic_optimization)  and is widely studied in Engineering.]
-
-> # {.theorem title="Polynomial hierarchy collapse" #PH-collapse-thm}
-If $\mathbf{P}=\mathbf{NP}$ then for every  $a\in \N$ there is a polynomial-time algorithm
-that on input a NAND program $P$ on $an$ inputs, returns $1$ if and only if
 $$
-\exists_{x_1\in \{0,1\}^n} \forall_{x_2\in \{0,1\}^n} \cdots  Q_{x_a\in \{0,1\}^n} P(x_1,\ldots,x_a) \label{eq:QBF}
+\exists_{P' \in \{0,1\}^{s}} \forall_{x\in \{0,1\}^n} P(x)=P'(x) \label{circmineq}
 $$
-where $Q$ is either $\exists$ or $\forall$ depending on whether $a$ is odd or even, respectively.
+which has the form [existsforalleq](){.eqref}.
 
-::: {.proof data-ref="PH-collapse-thm"}
-We prove the theorem by induction. We assume that there is a polynomial-time algorithm $SOLVE_{a-1}$ that can solve the problem [eq:QBF](){.eqref} for $a-1$ and use that to solve the problem for $a$.
-On input a NAND program $P$, we will create the NAND program $S_P$ that on input $x_1\in \{0,1\}^n$, outputs $1-SOLVE_{a-1}(1-P_{x_1})$ where $P_{x_1}$ is a NAND program that on input $x_2,\ldots,x_a \in \{0,1\}^n$ outputs $P(x_1,\ldots,x_n)$.
 
-By the definition of $SOLVE$
+It turns out that if $\mathbf{P}=\mathbf{NP}$ then we can solve these kinds of problems as well.^[Since NAND programs are equivalent to Boolean circuits, the search problem  corresponding to [circmineq](){.eqref}  known as the [circuit minimization problem](https://goo.gl/iykqbh)  and is widely studied in Engineering.
+You can skip ahead to [selfimprovingsat](){.ref} to see a particularly complelling application of this.]
+
+
+
+::: {.theorem title="Polynomial hierarchy collapse" #PH-collapse-thm}
+If $\mathbf{P}=\mathbf{NP}$ then for every  $a\in \N$, polynomial $p:\N \rightarrow \N$ and polynomial-time algorithm $V$,  there is a polynomial-time algorithm $SOLVE_{V,a}$ that on input $x\in \{0,1\}^n$ returns $1$ if and only if
 $$
-\begin{aligned}
-\exists_{x_1\in \{0,1\}^n} S_P(x_1) &= \\
-\exists_{x_1} \overline{SOLVE_{a-1}(\overline{P_{x_1}})} &= \\
-\exists_{x_1} \overline{\exists_{x_2}\cdots Q'_{x_a} \overline{P(x_1,\ldots,x_a)}} &= \\
-\exists_{x_1} \forall_{x_2} \cdots Q_{x_a} P(x_1,\ldots,x_a).
-\end{aligned}
+\exists_{y_0\in \{0,1\}^m} \forall_{y_1\in \{0,1\}^m} \cdots  \mathcal{Q}_{y_{a-1}\in \{0,1\}^m} V(xy_0y_1 \cdots y_{a-1})=1 \label{eq:QBF}
 $$
-
-Hence we see that if we can solve the satisfiability problem for $S_P$, then we can solve [eq:QBF](){.eqref}.
+where $m=p(n)$ and $\mathcal{Q}$ is either $\exists$ or $\forall$ depending on whether $a$ is odd or even, respectively.^[For the ease of notation, we assume that all the strings we quantify over have the same length $m=p(n)$, but using simple padding one can show that this captures the general case of strings of different polynomial lengths.]
 :::
 
 
-This algorithm can also solve the search problem as well: find the value $x_1$ that certifies the truth of [eq:QBF](){.eqref}.
+> # {.proofidea data-ref="PH-collapse-thm"}
+To understand the idea behind the proof, consider the special case where we want to decide, given $x\in \{0,1\}^n$, whether for every $y \in \{0,1\}^n$ there exists $z\in \{0,1\}^n$ such that $V(xyz)=1$. Consider the function $F$ such that $F(xy)=1$ if there exists $z\in \{0,1\}^n$ such that $V(xyz)=1$.
+Since $V$ runs in polynomial-time $F\in \mathbf{NP}$ and hence if $\mathbf{P}=\mathbf{NP}$, then there is an algorithm $V'$  that on input $x,y$ outputs $1$ if and only if there exists $z\in \{0,1\}^n$ such that $V(xyz)=1$.
+Now we can see that the original statement we consider is true if and only if for every $y\in \{0,1\}^n$, $V'(xy)=1$, which means it is false if and only if the following condition $(*)$ holds: there exists some $y\in \{0,1\}^n$ such that $V'(xy)=0$.
+But for every $x\in \{0,1\}^n$, the question of whether the condition $(*)$  is itself in $\mathbf{NP}$ (as we assumed $V'$ can be computed in polynomial time) and hence under the assumption that $\mathbf{P}=\mathbf{NP}$ we can determine in polynomial time whether the condition $(*)$, and hence our original statement, is true.
+
+
+
+::: {.proof data-ref="PH-collapse-thm"}
+We prove the theorem by induction. We assume that there is a polynomial-time algorithm $SOLVE_{V,a-1}$ that can solve the problem [eq:QBF](){.eqref} for $a-1$ and use that to solve the problem for $a$. For $a=1$, $SOLVE_{V,a-1}(x)=1$ iff $V(x)=1$ which is a polynomial-time computation since $V$ runs in polynomial time.
+For every $x,y_0$, define the statement $\varphi_{x,y_0}$ to be the following:
+
+$$
+\varphi_{x,y_0} = \forall_{y_1\in \{0,1\}^m} \exists_{y_2 \in \{0,1\}^m} \cdots  \mathcal{Q}_{y_{a-1}\in \{0,1\}^m} V(xy_0y_1 \cdots y_{a-1})=1
+$$
+
+By the definition of $SOLVE_{V,a}$, for every $x\in \{0,1\}^n$, our goal is that $SOLVE_{V,a}(x)=1$ if and only if there exists $y_0 \in \{0,1\}^m$  such that
+$\varphi_{x,y_0}$ is true.
+
+The _negation_ of $\varphi_{x,y_0}$ is the statement
+
+$$
+\overline{\varphi}_{x,y_0} = \exists_{y_1\in \{0,1\}^m} \forall_{y_2 \in \{0,1\}^m}\cdots  \overline{\mathcal{Q}}_{y_{a-1}\in \{0,1\}^m} V(xy_0y_1 \cdots y_{a-1})=0
+$$
+where $\overline{\mathcal{Q}}$ is $\exists$ if $\overline{\mathcal{Q}}$ was $\forall$ and $\overline{\mathcal{Q}}$  is $\forall$ otherwise.
+(Please stop and verify that you understand why this is true.)
+
+The crucial observation is that $\overline{\varphi}_{x,y_0}$ is exactly a statement of the form we consider with $a-1$ quantifiers instead of $a$, and hence by our inductive hypothesis there is some polynomial time algorithm $\overline{S}$ that on input $xy_0$ outputs $1$ if and only if $\overline{\varphi}_{x,y_0}$ is true.
+If we let $S$ be the algorithm that on input $x,y_0$ outputs $1-\overline{S}(xy_0)$ then we see that $S$ outputs $1$ if and only if $\varphi_{x,y_0}$ is true.
+Hence we can rephrase the original statement [eq:QBF](){.eqref} as follows:
+
+$$\exists_{y_0 \in \{0,1\}^m} S(xy_0)=1 \label{equivalentqbfinducteq} $$
+
+but since  $S$ is a polynomial-time algorithm,  [equivalentqbfinducteq](){.ref} is clearly a statement in $\mathbf{NP}$ and hence under our assumption that $\mathbf{P}=\mathbf{NP}$ there is a polynomial time algorithm that on input $x\in \{0,1\}^n$, will determine if [equivalentqbfinducteq](){.eqref} is true and so also if the original statement [eq:QBF](){.eqref} is true.
+:::
+
+
+The algorithm of [PH-collapse-thm](){.ref} can also solve the search problem as well: find the value $y_0$ that certifies the truth of [eq:QBF](){.eqref}.
 We note that while this algorithm is in polynomial time, the exponent of this polynomial blows up quite fast.
 If the original NANDSAT algorithm required $\Omega(n^2)$ time, solving $a$ levels of quantifiers  would require time $\Omega(n^{2^a})$.^[We do not know whether such loss is inherent. As far as we can tell, it's possible that the _quantified boolean formula_ problem has a linear-time algorithm. We will, however, see later in this course  that it satisfies a notion known as $\mathbf{PSPACE}$-hardness that is even stronger than $\mathbf{NP}$-hardness.]
 
 
+### Application: self improving algorithm for $3SAT$ {#selfimprovingsat }
+
+Suppose that we found a polynomial-time algorithm $A$ for $3SAT$ that is "good but not great".
+For example, maybe our algorithm runs in time $cn^2$ for some not too small constant $c$.
+However, it's possible that the _best possible_ SAT algorithm is actually much more efficient than that.
+Perhaps, as we guessed before, there is a circuit $C^*$ of at most $10^6 n$ gates that computes 3SAT on $n$ variables, and we simply haven't discovered it yet.
+We can use [PH-collapse-thm](){.ref} to "bootstrap" our original "good but not great" 3SAT algorithm to discover the optimal one.
+The idea is that we can phrase the question of whether there exists a size $s$ circuit that computes 3SAT for all length $n$ inputs as follows: _there exists_ a size $\leq s$ circuit $C$ such that _for every_ formula $\varphi$ described by a string of length at most $n$, if $C(\varphi)=1$ then _there exists_ an assignment $x$ to the variables of $\varphi$ that satisfies it.
+One can see that this is a statement of the form [existsforallexistseq](){.eqref} and hence if $\mathbf{P}=\mathbf{NP}$ we can solve it in polynomial time as well.
+We can therefore imagine investing huge computational resources in running $A$ one time to discover the circuit  $C^*$ and then using $C^*$ for all further computation.
 
 
-### Approximating counting problems
+
+## Approximating counting problems (advanced, optional)
 
 
 Given a NAND program $P$, if $\mathbf{P}=\mathbf{NP}$ then we can find an input $x$ (if one exists) such that $P(x)=1$. But what if there is more than one $x$ like that?
 Clearly we can't efficiently output all such $x$'s; there might be exponentially many.
 But we can get an arbitrarily good multiplicative  approximation (i.e., a $1\pm \epsilon$ factor for arbitrarily small $\epsilon>0$) for the  number of such $x$'s, as well as output a (nearly) uniform member of this set.
-We will defer the details to later in this course, when we learn about _randomized computation_.
+We  defer the details to later in this course, when we learn about _randomized computation_.
+However, we  state (without proof) the following theorem for now:
+
+::: {.theorem title="Approximate counting if $\mathbf{P}=\mathbf{NP}$" #approxcountingnp}
+Let $V:\{0,1\}^* \rightarrow \{0,1\}$ be some polynomial-time algorithm, and suppose that $\mathbf{P}=\mathbf{NP}$.
+Then there exists an algorithm $COUNT_V$ that on input $x,1^m,\epsilon$, runs in time polynomial in $|x|,m,1/\epsilon$ and outputs a number
+$K \in \{0,\ldots, 2^m\}$ such that
+
+$$(1-\epsilon)K \leq \Bigl|\{ y \in \{0,1\}^m \;:\; V(xy)=1 \} \Bigr| \leq (1+\epsilon)K
+$$
+
+That is, $K$ gives an approximation up to a factor of $1 \pm \epsilon$ for the number of _witnesses_ for $x$ with respect to the verifying algorithm $V$.
+:::
+
+::: { .pause }
+Once again, to understand this theorem it can be useful to see how it implies that if $\mathbf{P}=\mathbf{NP}$ then there is a polynomial-time algorithm that given a graph $G$ and a number $k$, can compute a number $K$ that is within a $1 \pm 0.01$ factor equal to the number of simple paths in $G$ of langth $k$. (That is, $K$ is between $0.99$ to $1.01$ times the number of such paths.)
+:::
+
+
+
 
 ## What does all of this imply?
 
