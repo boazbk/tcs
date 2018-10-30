@@ -318,8 +318,8 @@ The _negation_ of $\varphi_{x,y_0}$ is the statement
 $$
 \overline{\varphi}_{x,y_0} = \exists_{y_1\in \{0,1\}^m} \forall_{y_2 \in \{0,1\}^m}\cdots  \overline{\mathcal{Q}}_{y_{a-1}\in \{0,1\}^m} V(xy_0y_1 \cdots y_{a-1})=0
 $$
-where $\overline{\mathcal{Q}}$ is $\exists$ if $\overline{\mathcal{Q}}$ was $\forall$ and $\overline{\mathcal{Q}}$  is $\forall$ otherwise.
-(Please stop and verify that you understand why this is true.)
+where $\overline{\mathcal{Q}}$ is $\exists$ if $\mathcal{Q}$ was $\forall$ and $\overline{\mathcal{Q}}$  is $\forall$ otherwise.
+(Please stop and verify that you understand why this is true, this is a generalization of the fact that if $\Psi$ is some logical condition then the negation of $\exists_y \forall_z \Psi(y,z)$ is $\forall_y \exists_z \neg \Psi(y,z)$.)
 
 The crucial observation is that $\overline{\varphi}_{x,y_0}$ is exactly a statement of the form we consider with $a-1$ quantifiers instead of $a$, and hence by our inductive hypothesis there is some polynomial time algorithm $\overline{S}$ that on input $xy_0$ outputs $1$ if and only if $\overline{\varphi}_{x,y_0}$ is true.
 If we let $S$ be the algorithm that on input $x,y_0$ outputs $1-\overline{S}(xy_0)$ then we see that $S$ outputs $1$ if and only if $\varphi_{x,y_0}$ is true.
