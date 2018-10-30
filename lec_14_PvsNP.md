@@ -171,6 +171,17 @@ Since $|b-a|$ shrinks by a factor of $2$, within $\log_2 2^{T(n)}= T(n)$ steps, 
 Once we find the maximum value of $k$ such that $F(x,1^m,k)=1$, we can use the search to decision reduction of [search-dec-thm](){.ref} to obtain the actual value $y^* \in \{0,1\}^m$ such that $f(x,y^*)=k$.
 :::
 
+
+::: {.example title="Integer programming" #optimization}
+One application for [optimizationnp](){.ref} is in solving _optimization problems_.
+For example, the task of _linear programming_ is to find $y \in \R^n$ that maximizes some linear objective $\sum_{i=0}^{n-1}c_i y_i$ subject to the constraint that $y$ satisfies linear inequalities of the form $\sum_{i=0}^{n-1} a_i y_i \leq c$.
+As we discussed in [mincutsec](){.ref}, there is a known polynomial-time algorithm for linear programming.
+However, if we want to place additional constraints on $y$, such as requiring the coordinates of $y$ to be _integer_ or _$0/1$ valued_ then the best-known algorithms run in exponential time in the worst case.
+However, if $\mathbf{P}=\mathbf{NP}$ then [optimizationnp](){.ref} tells us that we would be able to solve all problems of this form in polynomial time.
+For every string $x$ that describes a set of constraints and objective, we will define a function $f$ such that if $y$ satisfies the constraints of $x$ then $f(x,y)$ is the value of the objective, and otherwise we set $f(x,y) = -M$ where $M$ is some large number. We can then use [optimizationnp](){.ref} to compute the $y$ that maximizes $f(x,y)$ and that will give us the assignment for the variables that satisfies our constraints and maximizes the objective. (If the computation results in $y$ such that $f(x,y)=-M$ then we can double $M$ and try again; if the true maximum objective is achieved by some string $y^*$, then eventually $M$ will be large enough so that $-M$ would be smaller than the objective achieved by $y^*$, and hence when we run procedure of  [optimizationnp](){.ref} we would get a value larger than $-M$.)
+:::
+
+
 ::: {.remark title="Need for binary search." #binarysearchrm}
 In many examples, such as the case of finding longest path, we don't need to use the binary search step in [optimizationnp](){.ref}, and can simply enumerate over all possible values for $k$ until we find the correct one.
 One example where we do need to use this binary search step   is in the case of  the problem of finding a maximum length path in a _weighted_ graph.

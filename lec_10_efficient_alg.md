@@ -145,7 +145,7 @@ The best algorithm for the longest path improves on this, but not by much: it ta
 ![A _knight's tour_ can be thought of as a maximally long path on the graph corresponding to a chessboard where we put an edge between any two squares that can be reached by one step via a legal knight move.](../figure/knights_tour.jpg){#knighttourpath .class width=300px height=300px}
 
 
-### Finding the minimum cut in a graph
+### Finding the minimum cut in a graph { #mincutsec }
 
 Given a graph $G=(V,E)$, a _cut_  is a subset $S$ of $V$ such that $S$ is neither empty nor is it all of $V$.
 The edges cut by $S$ are those edges where one of their endpoints is in $S$ and the other is in $\overline{S} = V \setminus S$.
