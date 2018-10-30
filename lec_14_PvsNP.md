@@ -256,16 +256,20 @@ $$
 \exists_{y\in \{0,1\}^{p(|x|)}} V(xy)=1
 $$
 for some polynomial-time algorithm $V$ and polynomial $p:\N \rightarrow \N$.
+That is, we are trying to determine, given some string $x$, whether  _there exists_ a string $y$ such that $x$ and $y$ satisfy some polynomial-time checkable condition $V$.
+For example, in the _independent set_ problem, the string $x$ represents a graph $G$ and a number $k$, the string $y$ represents some subset $S$ of $G$'s vertices, and the condition that we check is whether $|S| \geq k$ and there is no edge $\{u,v\}$ in $G$ such that both $u\in S$ and $v\in S$.
 
-But we can consider more general statements such as
+We can consider more general statements such as checking, given a string $x\in \{0,1\}^*$, the truth of a statement of the form
 $$
-\exists_{y \in \{0,1\}^{p_0(|x|)}} \forall_{z \in \{0,1\}^{p_1(|x|)}} V(xyz)=1 \label{existsforalleq}
+\exists_{y \in \{0,1\}^{p_0(|x|)}} \forall_{z \in \{0,1\}^{p_1(|x|)}} V(xyz)=1 \;, \label{existsforalleq}
 $$
-or
+which in words corresponds to checking, given some string $x$, whether _there exists_ a string $y$ such that _for every_ string $z$, the triple $(x,y,z)$ satisfy some polynomial-time checkable condition.
+We can also consider more levels of quantifiers such as checking the truth of the  statement
 $$
 \exists_{y \in \{0,1\}^{p_0(|x|)}} \forall_{z\in \{0,1\}^{p_1(|x|)}}\exists_{w\in \{0,1\}^{p_2(|x|)}} V(xyzw)=1 \label{existsforallexistseq}
 $$
 and so on and so forth.
+
 
 For example, given an $n$-input NAND program $P$, we might want to find the _smallest_ NAND program $P'$ that  computes the same function as $P$.
 The question of whether there is such a $P'$ that can be described by a string of at most $s$ bits can be phrased as
@@ -273,12 +277,12 @@ The question of whether there is such a $P'$ that can be described by a string o
 $$
 \exists_{P' \in \{0,1\}^{s}} \forall_{x\in \{0,1\}^n} P(x)=P'(x) \label{circmineq}
 $$
-which has the form [existsforalleq](){.eqref}.
-
-
-It turns out that if $\mathbf{P}=\mathbf{NP}$ then we can solve these kinds of problems as well.^[Since NAND programs are equivalent to Boolean circuits, the search problem  corresponding to [circmineq](){.eqref}  known as the [circuit minimization problem](https://goo.gl/iykqbh)  and is widely studied in Engineering.
+which has the form [existsforalleq](){.eqref}.^[Since NAND programs are equivalent to Boolean circuits, the search problem  corresponding to [circmineq](){.eqref}  known as the [circuit minimization problem](https://goo.gl/iykqbh)  and is widely studied in Engineering.
 You can skip ahead to [selfimprovingsat](){.ref} to see a particularly complelling application of this.]
+Another example of a statement involving $a$ levels of quantifiers would be to check, given a chess position $x$, whether there is a strategy that guarantees that White wins within $a$ steps.
+For example is $a=3$ we woud want to check if given the borad position $x$, _there exists_ a move $y$ for White such that _for every_ move $z$ for Black _there exists_ a move $w$ for White that ends in a a checkmate.
 
+It turns out that if $\mathbf{P}=\mathbf{NP}$ then we can solve these kinds of problems as well:
 
 
 ::: {.theorem title="Polynomial hierarchy collapse" #PH-collapse-thm}
