@@ -275,7 +275,7 @@ Some have even [argued](https://en.wikipedia.org/wiki/Roger_Penrose#Physics_and_
 
 The best answer we have so far is that there  truly is no way to solve $HALT$, whether using Macs, PCs, quantum computers, humans,  or any other combination of mechanical and biological devices.
 Indeed this assertion is the content of the Church-Turing Thesis.
-This of course does not mean that for _every_ possible  program $P$, it is hard to decide if $P$ enter an infinite loop.
+This of course does not mean that for _every_ possible  program $P$, it is hard to decide if $P$ enters an infinite loop.
 Some programs don't even have loops at all (and hence trivially halt), and  there are   many other far less trivial examples of programs that we can certify to never enter an infinite loop  (or programs that we know for sure that _will_ enter such a loop).
 However, there is no  _general procedure_ that would determine for an _arbitrary_ program $P$ whether it halts or not.
 Moreover, there are some very simple programs for which it not known whether they halt or not.
