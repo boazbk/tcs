@@ -204,7 +204,7 @@ In English, this corresponds to the claim that for every $n$ there is some $p>n$
 
 ::: {.remark title="Syntactic sugar for quantified integer statements" #synsugarqisrem}
 To make our statements more readable, we  often use syntactic sugar and so write $x \neq y$ as shorthand for $\neg(x=y)$, and so on.
-Similarly, the  "implication operator" $a \Rightarrow b$ is "syntactic sugar" or shorthand for $\neg a \vee b$, and the "if and only if operator" $a \Leftrightarrow$ is shorthand for $(a \Rightarrow b) \wedge (b \Rightarrow b$).
+Similarly, the  "implication operator" $a \Rightarrow b$ is "syntactic sugar" or shorthand for $\neg a \vee b$, and the "if and only if operator" $a \Leftrightarrow$ is shorthand for $(a \Rightarrow b) \wedge (b \Rightarrow a$).
 We will also allow ourselves the use of "macros": plugging in one quantified integer statement in another, as we did with  $DIVIDES$ and $PRIME$ above.
 :::
 
