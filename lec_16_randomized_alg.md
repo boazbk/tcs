@@ -34,14 +34,12 @@ In [chapmodelrand](){.ref} we will discuss how to augment the NAND and NAND++ mo
 
 ## Finding approximately good maximum cuts.
 
-Now that we have reviewed the basics of probability, let us see how we can use randomness to achieve algorithmic tasks.
 We start with the following example.
 Recall the _maximum cut problem_, of finding, given a graph $G=(V,E)$, the cut that maximizes the number of edges.
 This problem is $\mathbf{NP}$-hard, which means that we do not know of any efficient algorithm that can solve it, but randomization enables a simple algorithm that can cut at least half of the edges:
 
 > # {.theorem title="Approximating max cut" #maxcutthm}
-There is an efficient probabilistic algorithm that on input an $n$-vertex $m$-edge graph  $G$,
-outputs a set $S$ such that the expected number of edges cut is at least $m/2$.
+There is an efficient probabilistic algorithm that on input an $n$-vertex $m$-edge graph  $G$, outputs a cut $(S,\overline{S})$ that cuts at least $m/2$ of the edges of $G$ in expectation.
 
 > # {.proofidea data-ref="maxcutthm"}
 We simply choose a _random cut_: we choose a subset $S$ of vertices by choosing every vertex $v$ to be a member of $S$ with probability $1/2$ independently. It's not hard to see that each edge is cut with probability $1/2$ and so the expected number of cut edges is $m/2$.
@@ -60,7 +58,7 @@ __Operation:__
 
 2. Let $S \subseteq V$ be the set $\{ v_i \;:\; x_i = 1 \;,\; i\in [n] \}$ that includes all vertices corresponding to coordinates of $x$ where $x_i=1$.
 
-3. Output the cut $(S,\overline{S})$ where
+3. Output the cut $(S,\overline{S})$.
 :::
 
 We claim that the expected number of edges cut by the algorithm is $m/2$.
@@ -90,17 +88,14 @@ Specifically, if we assume otherwise, then this means that with probability more
 But since there we can never cut more than the total of  $1000$ edges, this would mean that the expected  number of edges cut is less than $0.999 \cdot 499 + 0.001 \cdot 1000 < 500$, contradicting [maxcutthm](){.ref}.
 
 ::: {.proof data-ref="cutprob"}
-Let $p$ be the probability that we cut at least $m/2$  edges.
-Suppose, towards the sake of contradiction, that $p<1/m$, or, in other words
-that with probability more than $1-p$ we cut at most $m/2-0.5$ edges.
-(The latter holds since we can only cut an integer number of edges, and since $m/2$ is a multiple of $0.5$, any integer smaller than it has  at least $0.5$ difference from it.)
-
-Since we can never cut more than $m$ edges, under our assumption, we can bound the expected number of edges cut by
+Let $p$ be the probability that we cut at least $m/2$  edges and suppose, towards a contradiction, that $p<1/(2m)$.
+Since the number of edges cut is an integer, and $m/2$ is a multiple of $0.5$, by definition of $p$, with probability $1-p$ we cut at most $m/2 - 0.5$ edges.
+Moreover, since we can never cut more than $m$ edges, under our assumption that $p<m/2$, we can bound the expected number of edges cut by
 
 $$
-pm + (1-p)(m/2-0.5)  \leq pm + m/2-0.5
+pm + (1-p)(m/2-0.5)  \leq  pm + m/2-0.5
 $$
-but if $p<1/(2m)$ then $pm<0.5$ and so the righthand side is smaller than $m/2$, contradicting our assumption.
+but if $p<1/(2m)$ then $pm<0.5$ and so the righthand side is smaller than $m/2$, which contradicts the fact that (as proven in [maxcutthm](){.ref}) the expected number of edges cut is at least $m/2$.
 :::
 
 __Success amplification.__  [cutprob](){.ref} shows that our algorithm succeeds at least _some_ of the time, but we'd like to succeed almost _all_ of the time. The approach to do that is to simply _repeat_ our algorithm many times, with fresh randomness each time, and output the best cut we get in one of these repetitions.
@@ -158,7 +153,21 @@ In such a case, to simplify $A$'s success, we cannot simply repeat it $k$ times 
 But we can output the _majority value_ of these repetitions.
 By the Chernoff bound ([chernoffthm](){.ref}),  with probability _exponentially close_ to $1$ (i.e., $1-2^{\Omega(k)}$), the fraction of the repetitions where $A$ will output $F(x)$ will be at least, say $0.89$, and in such cases we will of course output the correct answer.
 
+The above translates into the following theorem
 
+::: {.theorem title="Two-sided amplification" #amplifyalg}
+If $F:\{0,1\}^* \rightarrow \{0,1\}$ is a function such that there is a polynomial-time algorithm $A$ satisfying
+$$
+\Pr[A(x) = F(x)] \geq 0.51
+$$
+for every $x\in \{0,1\}^*$, then there is a polynomial time algorithm $B$ satisfying
+$$
+\Pr[ A(x) = F(x) ] \geq 1 - 2^{-|x|}
+$$
+for every $x\in \{0,1\}^*$.
+:::
+
+We omit the proof of [amplifyalg](){.ref}, since we will prove a more general result later on in [amplificationthm](){.ref}.
 
 
 
@@ -188,7 +197,7 @@ For now, let us see a couple of  examples where randomization leads to algorithm
 
 ### Solving SAT through randomization
 
-The 3SAT is $\mathbf{NP}$ hard, and so it is unlikely that it has a polynomial (or even subexponential) time algorithm.
+The 3SAT problem is $\mathbf{NP}$ hard, and so it is unlikely that it has a polynomial (or even subexponential) time algorithm.
 But this does not mean that we can't do at least somewhat better than the trivial $2^n$  algorithm for $n$-variable 3SAT.
 The best known worst-case algorithms for 3SAT are randomized, and are related to  the following simple algorithm, variants of which are also used in practice:
 
@@ -226,20 +235,28 @@ If we set $T=100\cdot \sqrt{3}^{n}$ and $S= n/2$, then the probability we output
 ::: {.proof data-ref="walksatthm"}
 Suppose that $\varphi$ is a satisfiable formula and let $x^*$ be a satisfying assignment for it.
 For every $x\in \{0,1\}^n$, denote by $\Delta(x,x^*)$ the number of coordinates that differ between $x$ and $x^*$.
-We claim that $(*)$: in every local improvement step, with probability at least $1/3$ we will reduce $\Delta(x,x^*)$ by one.
-Hence, if the original guess $x$ satisfied $\Delta(x,x^*) \leq n/2$ (an event that, as we will show, happens with probability at least $1/2$) then with probability at least $(1/3)^{n/2} = \sqrt{3}^{-n/2}$ after $n/2$ steps we will reach a satisfying assignment.
-This is a pretty lousy probability of success, but if we repeat this $100 \sqrt{3}^{n}$ times then it is likely that it that it will happen once.
+The hear of the proof, is the following claim:
 
-To prove the claim $(*)$ note that  any clause that  $x$ does not satisfy, it differs from  $x^*$  by at least one literal.
-So when we change $x$ by one of the three literals in the clause, we have probability at least $1/3$ of decreasing the distance.
+__Claim I:__ For every $x,x^*$ as above, in every local improvement step, the value $\Delta(x,x^*)$  is decreased by one with probability at least $1/3$.
 
-We now prove our earlier claim  that with probability $1/2$ over $x\in \{0,1\}^n$, $\Delta(x,x^*) \leq n/2$.
-Consider the map $FLIP:\{0,1\}^n \rightarrow \{0,1\}^n$ where $FLIP(x_0,\ldots,x_{n-1}) = (1-x_0,\ldots,1-x_{n-1})$.
-We leave it to the reader to verify that __(1)__ $FLIP$ is one to one, and __(2)__ $\Delta(FLIP(x),x^*) = n-\Delta(x,x^*)$ (and so in particular if $x\in \overline{A}$ then $FLIP(x)\in A$).
-Thus, if   $A = \{ x\in \{0,1\}^n : \Delta(x,x^*) \leq n/2 \}$ then $FLIP$ is a one-to-one map from $\overline{A}$ to $A$, implying that $|A| \geq |\overline{A}|$ and hence $\Pr[A] \geq 1/2$ (see [flipaanalysisfig](){.ref}).
+__Proof of Claim I:__ Since $x^*$ is a _satisfying_ assignment, if $C$ is a clause that   $x$ does _not_ satisfy, then at least one of the variables involve in $C$ must get different values in $x$ and $x^*$.
+Thus  when we change $x$ by one of the three literals in the clause, we have probability at least $1/3$ of decreasing the distance.
 
-The above means that in any single repetition of the outer loop, we will end up with a satisfying assignment with probability $\tfrac{1}{2} \cdot \sqrt{3}^{-n}$.
-Hence the probability that we never do so in $100 \sqrt{3}^{n}$ repetitions is at most $(1-\tfrac{1}{2\sqrt{3}^{n}})^{100\cdot \sqrt{3}^n} \leq (1/e)^{50}$.
+The second claim is that our starting point is not that bad:
+
+__Claim 2:__ With probability at least $1/2$ over a random $x\in \{0,1\}^n$, $\Delta(x,x^*) \leq n/2$.
+
+__Proof of Claim II:__  Consider the map $FLIP:\{0,1\}^n \rightarrow \{0,1\}^n$ that simply "flips" all the bits of its input from $0$ to $1$ and vice versa. That is,  $FLIP(x_0,\ldots,x_{n-1}) = (1-x_0,\ldots,1-x_{n-1})$.
+Clearly $FLIP$ is one to one. Moreover, if $x$ is of distance $k$ to $x^*$, then $FLIP(x)$ is distance $n-k$ to $x^*$.
+Now let $B$ be the "bad event" in which $x$ is of distance $>n/2$ from $x^*$.
+Then the set $A = FLIP(B) = \{ FLIP(x) \;:\; x\in \{0,1\}^n \}$ satisfies $|A|=|B|$ and that if $x\in A$ then $x$ is of distance $<n/2$ from $x^*$.
+Since $A$ and $B$ are disjoint events, $\Pr[A] + \Pr[B] \leq 1$. Since the yhave the same cardinality, they have the same probability and so we get that $2\Pr[B] \leq 1$ or $\Pr[B] \leq 1/2$. (See also [flipaanalysisfig](){.ref}).
+
+
+Claims I and II imply that each one of the $T$ iterations of the outer loop succeeds with probability at least $0.5 \cdot \sqrt{3}^{-n/2}$.
+Indeed, by Claim II, the original guess $x$ will satisfy $\Delta(x,x^*) \leq n/2$, and by Claim I, even conditioned on all the history so far, for each one of the $S=n/2$ steps we have probability $\geq 1/3$ of being "lucky" and decreasing the distance at one. The chance we will be lucky in all $n/2$ steps is hence at least $(1/3)^{n/2} = \sqrt{3}^{n/2}$.
+
+Since any  single iteration  of the outer loop succeeds with probability at least $\tfrac{1}{2} \cdot \sqrt{3}^{-n}$, the probability that we never do so in $T=100 \sqrt{3}^{n}$ repetitions is at most $(1-\tfrac{1}{2\sqrt{3}^{n}})^{100\cdot \sqrt{3}^n} \leq (1/e)^{50}$.
 :::
 
 ![For every $x^* \in \{0,1\}^n$, we can sort all strings in $\{0,1\}^n$ according to their distance from $x^*$ (top to bottom in the above figure), where we let $A = \{ x\in \{0,1\}^n \;|\; dist(x,x^* \leq n/2 \}$ be the "top half" of strings. If we define $FLIP:\{0,1\}^n \rightarrow \{0,1\}$ to be the map that "flips" the bits of a given string $x$ then it maps every $x\in \overline{A}$ to an output $FLIP(x)\in A$ in a one-to-one way, and so it demonstrates that $|\overline{A}| \leq |A|$ which implies that $\Pr[A] \geq \Pr[\overline{A}]$ and hence $\Pr[A] \geq 1/2$.](../figure/flipaanalysis.png){#flipaanalysisfig .class width=300px height=300px}
