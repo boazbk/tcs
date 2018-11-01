@@ -40,6 +40,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Pablo Parrilo
 * Juan Perdomo
 * Aaron Sachs
+* Abdelrhman Saleh
 * Brian Sapozhnikov
 * Peter Schäfer
 * Josh Seides

@@ -66,16 +66,59 @@ This is in contrast to the class $\mathbf{P}$ which (as you should verify) _does
 
 ### Examples of $\mathbf{NP}$ functions
 
-* $3SAT$ is in $\mathbf{NP}$ since for every $\ell$-variable formula $\varphi$, $3SAT(\varphi)=1$ if and only if there exists a satisfying assignment $x \in \{0,1\}^\ell$ such that $\varphi(x)=1$, and we can check this condition in polynomial time.^[Note that an $\ell$ variable formula $\varphi$ is represented by a string of length at least $\ell$, and we can use some "padding" in our encoding so that the assignment to $\varphi$'s variables  is encoded by a string of length exactly $|\varphi|$. We can always use this padding trick, and so one can think of the condition [{NP:eq}](){.eqref} as simply stipulating that the "solution" $y$ to the problem $x$ is of size at most $poly(|x|)$.]
+::: {.example title="$3SAT \in \mathbf{NP}$" #threesatinnpex}
+$3SAT$ is in $\mathbf{NP}$ since for every $\ell$-variable formula $\varphi$, $3SAT(\varphi)=1$ if and only if there exists a satisfying assignment $x \in \{0,1\}^\ell$ such that $\varphi(x)=1$, and we can check this condition in polynomial time.
+
+The above reasoning explains why $3SAT$ is in $\mathbf{NP}$,  but since this is our first example, we will now belabor the point and expand out in full formality what is the precise representation of the witness $w$ and the algorithm $V$ that demonstrate that  $3SAT$ is in  $\mathbf{NP}$.
 
 
-* $QUADEQ$ is in $\mathbf{NP}$ since for every $\ell$-variable instance of quadratic equations $E$, $QUADEQ(E)=1$ if and only if there exists an assignment $x\in \{0,1\}^\ell$ that satisfies $E$, and we can check this condition in polynomial time.
+Specifically, we can represent a 3CNF formula $\varphi$ with $k$ variables and $m$ clauses  as a string of length $n=O(m\log k)$, since every one of the $m$ clauses involves three variables and their negation, and the identity of each variable can be represented using $\lceil \log_2 k \rceil$.
+We assume that every variable participates in some clause (as otherwise it can be ignored) and hence that $m \geq k$, which in particular means that $n$ is larger than both $m$ and $k$.
 
-* $ISET$ is in $\mathbf{NP}$ since for every graph $G$ and integer $k$, $ISET(G,k)=1$ if and only if there exists a set $S$ of $k$ vertices that contains no pair of neighbors in $G$, and we can check this condition in polynomial time.
+We can represent an assignment to the $k$ variables using a $k$-length string, which, since $n > k$, can be "padded" to a string $w\in \{0,1\}^n$ in some standard way. (For example, if $y\in \{0,1\}^k$ is the assignment, we can let $w=y10^{n-k-1}$; given the string $w$ we can "read off" $y$, by chopping off all the zeroes at the end of $w$ until we encounter the first $1$, which we remove as well.)
 
-* $LONGPATH$ is in $\mathbf{NP}$ since for every graph $G$ and integer $k$, $LONGPATH(G,k)=1$ if and only if there exists a simple path $P$ in $G$ that is of length at least $k$, and we can check this condition in polynomial time.
 
-* $MAXCUT$ is in $\mathbf{NP}$ since for every graph $G$ and integer $k$, $MAXCUT(G,k)=1$ if and only if there exists a cut $(S,\overline{S})$ in $G$ that cuts at least $k$ edges, and we can check this condition in polynomial time.
+Now checking whether a given assignment $y\in \{0,1\}^k$ satisfies a given $k$-variable 3CNF $\varphi$ can be done in polynomial time through the following algorithm $V$:
+
+::: {.quote}
+
+__Algorithm $V$:__
+
+__Input:__
+
+1. 3CNF formula $\varphi$ with $k$ variables and $m$ clauses (encoded as a string of length $n=O(m\log k))$
+
+2. Assignment $y\in \{0,1\}^k$ to the variables of $\varphi$ (encoded using padding as a string $w \in \{0,1\}^n$)
+
+__Output:__ $1$ if and only if $y$ satisfies $\varphi$.
+
+__Operation:__
+
+1. For every clause $C = (\ell_1 \vee \ell_2 \vee \ell_3)$ of $\varphi$ (where $\ell_1,\ell_2,\ell_3$ are literals), if all three literals evaluate to _false_ under the assignment $y$ then halt and output $0$.
+
+2. Output $1$.
+:::
+
+Algorithm $V$ runs in time polynomial in the length $n$ of $\varphi$'s description as a string. Indeed there are $m$ clauses, and checking the evaluation of  a literal of the form $y_i$ or $\neg y_j$ can be done by scanning the $k$-length string $y$, and hence the running time of Algorithm $V$ is at most $O(mk)=O(n^2)$, as both $k$ and $m$ are smaller than $n$.
+
+By its definition the algorithm outputs $1$ if and only if the assignment $y$ satisfies  all the clauses of the 3CNF formula $\varphi$, which means that $3SAT(\varphi)=1$ if and only if there exists some $w\in \{0,1\}^n$ such that $V(\varphi w)=1$ which is precisely the condition needed to show that  $3SAT \in \mathbf{NP}$ per [NP-def](){.ref}.
+:::
+
+::: {.remark title="Padding a witness" #padding}
+The "padding trick" we used in [threesatinnpex](){.ref}  can always be used to expand a witness of length smaller than $an^b$ to a witness of exactly that length.
+Therefore one can think of the condition [{NP:eq}](){.eqref} in [NP-def](){.ref}as simply stipulating that the "solution" $w$ to the problem $x$ is of length _at most_ polynomial in $|x|$.
+:::
+
+Here are some more examples for problems in $\mathbf{NP}$. For each one of these problems we merely sketch how the witness is represented and why it is efficiently checkable, but working out the details can be a good way to get more comfortable with [NP-def](){.ref}:
+
+* $QUADEQ$ is in $\mathbf{NP}$ since for every $\ell$-variable instance of quadratic equations $E$, $QUADEQ(E)=1$ if and only if there exists an assignment $x\in \{0,1\}^\ell$ that satisfies $E$. We can check the condition that $x$ satisfies $E$ in polynomial time by enumerating over all the equations in $E$, and for each such equation $e$, plug in the values of $x$ and verify that $e$ is satisfied.
+
+* $ISET$ is in $\mathbf{NP}$ since for every graph $G$ and integer $k$, $ISET(G,k)=1$ if and only if there exists a set $S$ of $k$ vertices that contains no pair of neighbors in $G$. We can check the condition that $S$ is an independent set of size $\geq k$ in polynomial time by first checking that $|S| \geq k$ and then enumerating over all edges $\{u,v \}$ in $G$, and for each such edge verify that either $u\not\in S$ or $v\not\in S$.
+
+* $LONGPATH$ is in $\mathbf{NP}$ since for every graph $G$ and integer $k$, $LONGPATH(G,k)=1$ if and only if there exists a simple path $P$ in $G$ that is of length at least $k$. We can check the condition that $P$ is a simple path of length $k$ in polynomial time  by checking that it has the form $(v_0,v_1,\ldots,v_k)$ where each $v_i$ is a vertex in $G$, no $v_i$ is repeated, and for every $i \in [k]$, the edge $\{v_i,v_{i+1}\}$ is present in the graph.
+
+* $MAXCUT$ is in $\mathbf{NP}$ since for every graph $G$ and integer $k$, $MAXCUT(G,k)=1$ if and only if there exists a cut $(S,\overline{S})$ in $G$ that cuts at least $k$ edges. We can check that condition that $(S,\overline{S})$ is a cut of value at least $k$ in polynomial time by checking that $S$ is a subset of $G$'s vertices and enumerating over all the edges $\{u,v\}$ of $G$, counting those edges such that $u\in S$ and $v\not\in S$ or vice versa.
+
 
 ### Basic facts about $\mathbf{NP}$
 

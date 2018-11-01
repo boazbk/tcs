@@ -46,12 +46,32 @@ outputs a set $S$ such that the expected number of edges cut is at least $m/2$.
 > # {.proofidea data-ref="maxcutthm"}
 We simply choose a _random cut_: we choose a subset $S$ of vertices by choosing every vertex $v$ to be a member of $S$ with probability $1/2$ independently. It's not hard to see that each edge is cut with probability $1/2$ and so the expected number of cut edges is $m/2$.
 
-> # {.proof data-ref="maxcutthm"}
-The algorithm is extremely simple: we choose $x$ uniformly at random in $\{0,1\}^n$ and let $S$ be the set corresponding to $\{ i : x_i =1 \}$.
-For every edge $e$, we let $X_e$ be the random variable such that $X_e(x)=1$ if the edge $e$ is cut by $x$, and $X_e(x)=0$ otherwise.
-For every edge $e =\{ i,j \}$, $X_e(x)=1$ if and only if $x_i \neq x_j$.
-Since the pair $(x_i,x_j)$ obtains each of the values $00,01,10,11$ with probability $1/4$, the probability that $x_i \neq x_j$ is $1/2$.
-Hence, $\E[X_e]=1/2$ and if we let $X = \sum_{e} X_e$ over all the edges in the graph then $\E[X]=m(1/2)=m/2$.
+::: {.proof data-ref="maxcutthm"}
+The algorithm is extremely simple:
+
+::: {.quote}
+__Algorithm Random Cut:__
+
+__Input:__ Graph $G=(V,E)$ with $n$ vertices and $m$ edges. Denote $V = \{ v_0,v_1,\ldots, v_{n-1}\}$.
+
+__Operation:__
+
+1. Pick $x$ uniformly at random in $\{0,1\}^n$.
+
+2. Let $S \subseteq V$ be the set $\{ v_i \;:\; x_i = 1 \;,\; i\in [n] \}$ that includes all vertices corresponding to coordinates of $x$ where $x_i=1$.
+
+3. Output the cut $(S,\overline{S})$ where
+:::
+
+We claim that the expected number of edges cut by the algorithm is $m/2$.
+Indeed, for every edge $e \in E$, let $X_e$ be the random variable such that $X_e(x)=1$ if the edge $e$ is cut by $x$, and $X_e(x)=0$ otherwise.
+For every such edge $e =\{ i,j \}$, $X_e(x)=1$ if and only if $x_i \neq x_j$.
+Since the pair $(x_i,x_j)$ obtains each of the values $00,01,10,11$ with probability $1/4$, the probability that $x_i \neq x_j$ is $1/2$ and hence $\E[X_e]=1/2$.
+If we let $X$ be the random variable corresponding to the total number of edges cut by $S$ then $X = \sum_{e\in E} X_e$ and hence by linearity of expectation
+
+$$\E[X] = \sum_{e\in E} \E[X_e] = m(1/2) = m/2 \;.$$
+:::
+
 
 ### Amplification
 
@@ -64,29 +84,68 @@ We start by arguing that the probability the algorithm above succeeds in cutting
 The probability that a random cut in an $m$ edge graph cuts at least $m/2$ edges is at least $1/(2m)$.
 
 > # {.proofidea data-ref="cutprob"}
-To see the idea behind the proof, think of the case that $m=1000$, and suppose that the probability we cut at least $500$ edges is only $0.001$, or that in other words, with probability at least $0.999$ the event $A$  that we cut  $499$ or fewer edges holds. Then this is a contradiction for the  fact we proved above that  the expected number of cut edges is $m/2=500$. Indeed, even if we cut all the $1000$ edges  whenever $A$ does not hold, the maximum value of the expectation will be smaller than $0.001 \cdot 1000 + 0.999\cdot 499 < 1 + 499 = 500$.
+To see the idea behind the proof, think of the case that $m=1000$.
+In this case one can show that we will cut at least $500$ edges with probability at least $1/1000$.
+Specifically, if we assume otherwise, then this means that with probability more than $0.999$ the algorithm  cuts $499$ or fewer edges.
+But since there we can never cut more than the total of  $1000$ edges, this would mean that the expected  number of edges cut is less than $0.999 \cdot 499 + 0.001 \cdot 1000 < 500$, contradicting [maxcutthm](){.ref}.
 
-> # {.proof data-ref="cutprob"}
+::: {.proof data-ref="cutprob"}
 Let $p$ be the probability that we cut at least $m/2$  edges.
 Suppose, towards the sake of contradiction, that $p<1/m$, or, in other words
 that with probability more than $1-p$ we cut at most $m/2-0.5$ edges.
 (The latter holds since we can only cut an integer number of edges, and since $m/2$ is a multiple of $0.5$, any integer smaller than it has  at least $0.5$ difference from it.)
+
 Since we can never cut more than $m$ edges, under our assumption, we can bound the expected number of edges cut by
+
 $$
 pm + (1-p)(m/2-0.5)  \leq pm + m/2-0.5
 $$
 but if $p<1/(2m)$ then $pm<0.5$ and so the righthand side is smaller than $m/2$, contradicting our assumption.
-
+:::
 
 __Success amplification.__  [cutprob](){.ref} shows that our algorithm succeeds at least _some_ of the time, but we'd like to succeed almost _all_ of the time. The approach to do that is to simply _repeat_ our algorithm many times, with fresh randomness each time, and output the best cut we get in one of these repetitions.
 It turns out that with extremely high probability we will get a cut of size at least $m/2$:
-For example, if we repeat this experiment, for example, $2000m$ times, then the probability that we will never be able to cut at least $m/2$ edges is at most
+For example, if we repeat this experiment, for example, $2000m$ times, then (using the inequality $(1-1/k)^k \leq 1/e \leq 1/2$) we can show that the probability that we will never be able to cut at least $m/2$ edges is at most
 
 $$
-(1-1/(2m))^{2000 m} \leq 2^{-1000}
+(1-1/(2m))^{2000 m} \leq 2^{-1000} \;.
 $$
 
-(using the inequality $(1-1/k)^k \leq 1/e \leq 1/2$).
+More generally, the same calculations can be used to  show the following lemma:
+
+> # {.lemma #cutalgorithmamplificationlem}
+There is a algorithm that on input a graph $G=(V,E)$ and a number $k$, runs in time polynomial in $|V|$ and $k$ and outputs a cut $(S,\overline{S})$ such that
+$$
+\Pr[ \text{number of edges cut by $(S,\overline{S})$ } \geq |E|/2 ] \geq  1- 2^{-k} \;.
+$$
+
+
+::: {.proof data-ref="cutalgorithmamplificationlem"}
+The algorithm will work as follows:
+
+::: {.quote}
+__Algorithm AMPLIFY RANDOM CUT:__
+
+__Input:__ Graph $G=(V,E)$ with $n$ vertices and $m$ edges. Denote $V = \{ v_0,v_1,\ldots, v_{n-1}\}$. Number $k>0$.
+
+__Operation:__
+
+1. Repeat the following $200km$ times:
+
+   a. Pick $x$ uniformly at random in $\{0,1\}^n$.
+
+   b. Let $S \subseteq V$ be the set $\{ v_i \;:\; x_i = 1 \;,\; i\in [n] \}$ that includes all vertices corresponding to coordinates of $x$ where $x_i=1$.
+
+   c. If  $(S,\overline{S})$ cuts at least $m/2$ then halt and output $(S,\overline{S})$.
+
+2. Output "failed"
+
+:::
+
+We leave completing the analysis as an exercise to the reader (see [cutalgorithmamplificationlemex](){.ref}).
+:::
+
+
 
 ### Two-sided amplification
 
@@ -98,6 +157,9 @@ We say that $A$ has _two sided errors_ if there is positive probability that $A(
 In such a case, to simplify $A$'s success, we cannot simply repeat it $k$ times and output $1$ if a single one of those repetitions resulted in $1$, nor can we output $0$ if a single one of the repetitions resulted in $0$.
 But we can output the _majority value_ of these repetitions.
 By the Chernoff bound ([chernoffthm](){.ref}),  with probability _exponentially close_ to $1$ (i.e., $1-2^{\Omega(k)}$), the fraction of the repetitions where $A$ will output $F(x)$ will be at least, say $0.89$, and in such cases we will of course output the correct answer.
+
+
+
 
 
 ### What does this mean?
@@ -130,44 +192,57 @@ The 3SAT is $\mathbf{NP}$ hard, and so it is unlikely that it has a polynomial (
 But this does not mean that we can't do at least somewhat better than the trivial $2^n$  algorithm for $n$-variable 3SAT.
 The best known worst-case algorithms for 3SAT are randomized, and are related to  the following simple algorithm, variants of which are also used in practice:
 
+
+::: {.quote}
+
 __Algorithm WalkSAT:__
 
-* On input an $n$ variable 3CNF formula $\varphi$ do the following for $T$ steps:
+__Input:__ An $n$ variable 3CNF formula $\varphi$.
 
-    * Choose a random assignment $x\in \{0,1\}^n$ and repeat the following for $S$ steps: \
-        1. If $x$ satisfies $\varphi$ then output $x$. \
-        2. Otherwise, choose a random clause $(\ell_i \vee \ell_j \vee \ell_k)$ that $x$ does not satisfy, and choose a random literal in $\ell_i,\ell_j,\ell_k$ and modify $x$ to satisfy this literal. \
-        3. Go back to step 1.
+__Parameters:__ $T,S \in \N$
 
- * If all the $T\cdot S$ repetitions above did not result in a satisfying assignment then output `Unsatisfiable`
+__Operation:__
+
+1. Repeat the following $T$ steps:
+
+   a. Choose a random assignment $x\in \{0,1\}^n$ and repeat the following for $S$ steps:
+
+       1. If $x$ satisfies $\varphi$ then output $x$.
+
+       2. Otherwise, choose a random clause $(\ell_i \vee \ell_j \vee \ell_k)$ that $x$ does not satisfy,  choose a random literal in $\ell_i,\ell_j,\ell_k$ and modify $x$ to satisfy this literal.
+
+
+2. If all the $T\cdot S$ repetitions above did not result in a satisfying assignment then output `Unsatisfiable`
+:::
 
 
 The running time of this algorithm is $S\cdot T \cdot poly(n)$, and so the key question is how small can we make $S$ and $T$ so that the probability that WalkSAT outputs `Unsatisfiable` on a satisfiable formula $\varphi$ will be small.
-It is known that we can do so with $ST = \tilde{O}((4/3)^n)$ (see [walksatex](){.ref} for a weaker result), but we'll show below a simpler analysis yielding $ST= \tilde{O}(\sqrt{3}^n) = \tilde{O}(1.74^n)$ which is still much better than the trivial $2^n$ bound.^[At the time of this writing, the best known [randomized](https://arxiv.org/pdf/1103.2165.pdf) algorithms for 3SAT run in time roughly $O(1.308^n)$ and the best known [deterministic](https://arxiv.org/pdf/1102.3766v1.pdf) algorithms run in time $O(1.3303^n)$ in the worst case. As mentioned above, the simple WalkSAT algorithm takes $\tilde{O}((4/3)^n)=\tilde{O}(1.333..^n)$ time.]
+It is known that we can do so with $ST = \tilde{O}((4/3)^n) = \tilde{O}(1.333\ldots^n)$ (see [walksatex](){.ref} for a weaker result), but we'll show below a simpler analysis yielding $ST= \tilde{O}(\sqrt{3}^n) = \tilde{O}(1.74^n)$ which is still much better than the trivial $2^n$ bound.^[At the time of this writing, the best known [randomized](https://arxiv.org/pdf/1103.2165.pdf) algorithms for 3SAT run in time roughly $O(1.308^n)$ and the best known [deterministic](https://arxiv.org/pdf/1102.3766v1.pdf) algorithms run in time $O(1.3303^n)$ in the worst case.]
 
 > # {.theorem title="WalkSAT simple analysis" #walksatthm}
 If we set $T=100\cdot \sqrt{3}^{n}$ and $S= n/2$, then the probability we output `Unsatisfiable` for a satisfiable $\varphi$ is at most $1/2$.
 
 
-> # {.proof data-ref="walksatthm"}
+::: {.proof data-ref="walksatthm"}
 Suppose that $\varphi$ is a satisfiable formula and let $x^*$ be a satisfying assignment for it.
 For every $x\in \{0,1\}^n$, denote by $\Delta(x,x^*)$ the number of coordinates that differ between $x$ and $x^*$.
 We claim that $(*)$: in every local improvement step, with probability at least $1/3$ we will reduce $\Delta(x,x^*)$ by one.
 Hence, if the original guess $x$ satisfied $\Delta(x,x^*) \leq n/2$ (an event that, as we will show, happens with probability at least $1/2$) then with probability at least $(1/3)^{n/2} = \sqrt{3}^{-n/2}$ after $n/2$ steps we will reach a satisfying assignment.
 This is a pretty lousy probability of success, but if we repeat this $100 \sqrt{3}^{n}$ times then it is likely that it that it will happen once.
->
+
 To prove the claim $(*)$ note that  any clause that  $x$ does not satisfy, it differs from  $x^*$  by at least one literal.
 So when we change $x$ by one of the three literals in the clause, we have probability at least $1/3$ of decreasing the distance.
->
+
 We now prove our earlier claim  that with probability $1/2$ over $x\in \{0,1\}^n$, $\Delta(x,x^*) \leq n/2$.
-Indeed,  consider the map $FLIP:\{0,1\}^n \rightarrow \{0,1\}^n$ where $FLIP(x_0,\ldots,x_{n-1}) = (1-x_0,\ldots,1-x_{n-1})$.
+Consider the map $FLIP:\{0,1\}^n \rightarrow \{0,1\}^n$ where $FLIP(x_0,\ldots,x_{n-1}) = (1-x_0,\ldots,1-x_{n-1})$.
 We leave it to the reader to verify that __(1)__ $FLIP$ is one to one, and __(2)__ $\Delta(FLIP(x),x^*) = n-\Delta(x,x^*)$ (and so in particular if $x\in \overline{A}$ then $FLIP(x)\in A$).
 Thus, if   $A = \{ x\in \{0,1\}^n : \Delta(x,x^*) \leq n/2 \}$ then $FLIP$ is a one-to-one map from $\overline{A}$ to $A$, implying that $|A| \geq |\overline{A}|$ and hence $\Pr[A] \geq 1/2$ (see [flipaanalysisfig](){.ref}).
->
+
 The above means that in any single repetition of the outer loop, we will end up with a satisfying assignment with probability $\tfrac{1}{2} \cdot \sqrt{3}^{-n}$.
 Hence the probability that we never do so in $100 \sqrt{3}^{n}$ repetitions is at most $(1-\tfrac{1}{2\sqrt{3}^{n}})^{100\cdot \sqrt{3}^n} \leq (1/e)^{50}$.
+:::
 
-![For every $x^* \in \{0,1\}^n$, we can sort all string in $\{0,1\}^n$ according to their distance from $x^*$ (top to bottom in the above figure), where we let $A = \{ x\in \{0,1\}^n \;|\; dist(x,x^* \leq n/2 \}$ be the "top half" of strings. If we define $FLIP:\{0,1\}^n \rightarrow \{0,1\}$ to be the map that "flips" the bits of a given string $x$ then it maps every $x\in \overline{A}$ to an output $FLIP(x)\in A$ in a one-to-one way, and so it demonstrates that $|\overline{A}| \leq |A|$ which implies that $\Pr[A] \geq \Pr[\overline{A}]$ and hence $\Pr[A] \geq 1/2$.](../figure/flipaanalysis.png){#flipaanalysisfig .class width=300px height=300px}
+![For every $x^* \in \{0,1\}^n$, we can sort all strings in $\{0,1\}^n$ according to their distance from $x^*$ (top to bottom in the above figure), where we let $A = \{ x\in \{0,1\}^n \;|\; dist(x,x^* \leq n/2 \}$ be the "top half" of strings. If we define $FLIP:\{0,1\}^n \rightarrow \{0,1\}$ to be the map that "flips" the bits of a given string $x$ then it maps every $x\in \overline{A}$ to an output $FLIP(x)\in A$ in a one-to-one way, and so it demonstrates that $|\overline{A}| \leq |A|$ which implies that $\Pr[A] \geq \Pr[\overline{A}]$ and hence $\Pr[A] \geq 1/2$.](../figure/flipaanalysis.png){#flipaanalysisfig .class width=300px height=300px}
 
 ### Bipartite matching.
 
@@ -238,27 +313,32 @@ We omit the (not too complicated)  proof of [szlem](){.ref}.
 We remark that it holds not just over the real numbers but over any field as well.
 Since the matching polynomial $P$  of [matchpolylem](){.ref} has degree at most $n$, [szlem](){.ref} leads directly to a simple algorithm for testing if it is nonzero:
 
+
+::: {.quote}
 __Algorithm Perfect-Matching:__
 
 __Input:__ Bipartite graph $G$ on $2n$ vertices $\{ \ell_0,\ldots,\ell_{n-1} , r_0,\ldots,r_{n-1} \}$.
 
 __Operation:__
 
-1. For every $i,j \in [n]$, choose $x_{i,j}$ independently at random from $[2n]=\{0,\ldots 2n-1\}$. \
+1. For every $i,j \in [n]$, choose $x_{i,j}$ independently at random from $[2n]=\{0,\ldots 2n-1\}$.
 
-2. Compute the determinant of the matrix $A(x)$ whose $(i,j)^{th}$ entry corresponds equals $x_{i,j}$ if the edge $\{\ell_i,r_j\}$ is present and is equal to $0$ otherwise. \
+2. Compute the determinant of the matrix $A(x)$ whose $(i,j)^{th}$ entry corresponds equals $x_{i,j}$ if the edge $\{\ell_i,r_j\}$ is present and is equal to $0$ otherwise.
 
 3. Output `no perfect matching`  if this determinant is zero, and output `perfect matching` otherwise.
+:::
 
 This algorithm can be improved further (e.g., see [matchingmodex](){.ref}).
 While it is not necessarily faster than the cut-based algorithms for perfect matching, it does have some advantages and in particular it turns out to be more amenable for parallelization. (It also has the significant disadvantage that it does not produce a matching but only states that one exists.)
 The Schwartz–Zippel Lemma, and the associated zero testing algorithm for polynomials, is widely used across computer science, including in several settings where we have no known deterministic algorithm matching their performance.
 
 
-## Lecture summary
 
+::: { .recap }
 * Using  concentration results we can _amplify_ in polynomial time the success probability of a probabilistic algorithm from a mere $1/p(n)$ to $1-2^{-q(n)}$ for every polynomials $p$ and $q$.
+
 * There are several randomized algorithms that are better in various senses  (e.g., simpler, faster, or other advantages) than the best known deterministic algorithm for the same problem.
+:::
 
 ## Exercises
 
@@ -266,6 +346,9 @@ The Schwartz–Zippel Lemma, and the associated zero testing algorithm for polyn
 Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
 :::
 
+::: {.exercise title="Amplification for max cut" #cutalgorithmamplificationlemex}
+Prove [cutalgorithmamplificationlem](){.ref}
+:::
 
 > # {.exercise title="Deterministic max cut algorithm" #maxcutex}
 ^[TODO: add exercise to give a deterministic max cut algorithm that gives $m/2$ edges. Talk about greedy approach.]
