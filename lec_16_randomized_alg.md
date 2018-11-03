@@ -236,7 +236,7 @@ If we set $T=100\cdot \sqrt{3}^{n}$ and $S= n/2$, then the probability we output
 ::: {.proof data-ref="walksatthm"}
 Suppose that $\varphi$ is a satisfiable formula and let $x^*$ be a satisfying assignment for it.
 For every $x\in \{0,1\}^n$, denote by $\Delta(x,x^*)$ the number of coordinates that differ between $x$ and $x^*$.
-The hear of the proof, is the following claim:
+The heart of the proof, is the following claim:
 
 __Claim I:__ For every $x,x^*$ as above, in every local improvement step, the value $\Delta(x,x^*)$  is decreased by one with probability at least $1/3$.
 
@@ -251,7 +251,7 @@ __Proof of Claim II:__  Consider the map $FLIP:\{0,1\}^n \rightarrow \{0,1\}^n$ 
 Clearly $FLIP$ is one to one. Moreover, if $x$ is of distance $k$ to $x^*$, then $FLIP(x)$ is distance $n-k$ to $x^*$.
 Now let $B$ be the "bad event" in which $x$ is of distance $>n/2$ from $x^*$.
 Then the set $A = FLIP(B) = \{ FLIP(x) \;:\; x\in \{0,1\}^n \}$ satisfies $|A|=|B|$ and that if $x\in A$ then $x$ is of distance $<n/2$ from $x^*$.
-Since $A$ and $B$ are disjoint events, $\Pr[A] + \Pr[B] \leq 1$. Since the yhave the same cardinality, they have the same probability and so we get that $2\Pr[B] \leq 1$ or $\Pr[B] \leq 1/2$. (See also [flipaanalysisfig](){.ref}).
+Since $A$ and $B$ are disjoint events, $\Pr[A] + \Pr[B] \leq 1$. Since they have the same cardinality, they have the same probability and so we get that $2\Pr[B] \leq 1$ or $\Pr[B] \leq 1/2$. (See also [flipaanalysisfig](){.ref}).
 
 
 Claims I and II imply that each one of the $T$ iterations of the outer loop succeeds with probability at least $0.5 \cdot \sqrt{3}^{-n/2}$.
