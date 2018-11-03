@@ -83,9 +83,10 @@ The probability that a random cut in an $m$ edge graph cuts at least $m/2$ edges
 
 > # {.proofidea data-ref="cutprob"}
 To see the idea behind the proof, think of the case that $m=1000$.
-In this case one can show that we will cut at least $500$ edges with probability at least $1/1000$.
+In this case one can show that we will cut at least $500$ edges with probability at least $0.001$ (and so in particular larger than $1/(2m)=1/2000$).
 Specifically, if we assume otherwise, then this means that with probability more than $0.999$ the algorithm  cuts $499$ or fewer edges.
-But since there we can never cut more than the total of  $1000$ edges, this would mean that the expected  number of edges cut is less than $0.999 \cdot 499 + 0.001 \cdot 1000 < 500$, contradicting [maxcutthm](){.ref}.
+But since there we can never cut more than the total of  $1000$ edges, given this assumption the highest value the expected number of edges cut is if we cut exactly $499$ edges with probability $0.999$ and cut $1000$ edges with probability $0.001$.
+Yet even in this case the expected number of edges will be $0.999 \cdot 499 + 0.001 \cdot 1000 < 500$, which contradicts the fact that we've calculated the expectation to be at least $500$ in [maxcutthm](){.ref}.
 
 ::: {.proof data-ref="cutprob"}
 Let $p$ be the probability that we cut at least $m/2$  edges and suppose, towards a contradiction, that $p<1/(2m)$.
