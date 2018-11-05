@@ -460,10 +460,18 @@ Namely, if we're wrong on the first count, then we'll be right on the second one
 > # {.theorem title="Sipser–Gács Theorem" #BPPvsNP}
 If $\mathbf{P}=\mathbf{NP}$ then $\mathbf{BPP}=\mathbf{P}$.
 
-> # {.proofidea data-ref="BPPvsNP"}
+::: {.proofidea data-ref="BPPvsNP"}
 The construction follows  the "quantifier elimination" idea which we have seen in [PH-collapse-thm](){.ref}.
 We will show that for  every $F \in \mathbf{BPP}$, we can reduce the question of some input $x$ satisfies $F(x)=1$ to the question of whether a formula of the form $\exists_{u\in \{0,1\}^m} \forall_{v \in \{0,1\}^k} P(x,y)$ is true where $m,k$ are polynomial in the length of $x$ and $P$ is polynomial-time computable.
 By [PH-collapse-thm](){.ref}, if $\mathbf{P}=\mathbf{NP}$ then we can decide in polynomial time  whether such a formula is true or false.
+
+The idea behind this construction is that using amplification we can obtain a randomized algorithm $A$ for computing $F$ using $m$ coins such that for every $x\in \{0,1\}^n$, if $F(x)=0$ then the set $S \subseteq \{0,1\}^m$ of coins that make $A$ output $1$ is extremely tiny, and if $F(x)=1$ then it is very large. Now in the  case $F(x)=1$, one can show that this means that there exists a small number $k$ of "shifts" $s_0,\ldots,s_{k-1}$ such that the union of the sets $S \oplus s_i$ covers $\{0,1\}^m$, while in the case $F(x)=0$ this union will always be of size at most $k|S|$ which is much smaller than $2^m$. We can express the condition that  there exists $s_0,\ldots,s_{k-1}$ such that $\cup_{i\in [k]} (S \oplus s_i) = \{0,1\}^m$ as a statement with a constant number of quantifiers.
+:::
+
+![If $F\in \mathbf{BPP}$ then through amplification we can ensure that there is an algorithm $A$ to compute $F$ on $n$-length inputs and using $m$ coins such that $\Pr_{r\in \{0,1\}^m}[ A(xr)\neq F(x)] \ll 1/poly(m)$. Hence if $F(x)=1$ then almost all of the $2^m$ choices for $r$ will cause $A(xr)$ to output $1$, while if $F(x)=0$ then $A(xr)=0$ for almost all $r$'s.](../figure/strongamplification.png){#strongampbppfig .class width=300px height=300px}
+
+
+![To prove the Sipser–Gács Theorem we consider several "shifts" of the set $S \subseteq \{0,1\}^m$ of the coins $r$ such that $A(xr)=1$. If $F(x)=1$ then we can find a set of $k$ shifts $s_0,\ldots,s_{k-1}$ for which $\cup_{i\in [k]} (S \oplus s_i) = \{0,1\}^m$. If $F(x)=0$ then for every such set $|cup_{i\in [k]} S_i| \leq k |S| \ll 2^m$. We can phrase the question of whether there is such a set of shift using a constant number of quantifiers, and so can solve it in polynomial time if $\mathbf{P}=\mathbf{NP}$.](../figure/sipsergacs.png){#sipsergacsfig .class width=300px height=300px}
 
 
 > # {.proof data-ref="BPPvsNP"}
