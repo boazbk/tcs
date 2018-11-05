@@ -42,7 +42,7 @@ The result of applying this operation is that `foo` is assigned a random bit in 
 (Every time the `RAND` operation is invoked it returns a fresh independent random bit.)
 We call the resulting languages RNAND, RNAND++, and RNAND<< respectively.
 
-We can use this to define the notion of a function being computed by a randomized $T(n)$ time algorithm for every nice time bound $T:\N \rightarrow \N$, as well as the notion of a finite function being computed by a size $S$ randomized NAND program (or, equivalently, a randomized circuit with $S$ gates that correspond to either NAND or coin-tossing).
+We can use this to define the notion of a function being computed by a randomized $T(n)$ time algorithm for every nice time bound $T:\N \rightarrow \N$, as well as the notion of a finite function being computed by a size $S$ randomized NAND program (or, equivalently, a randomized circuit with $S$ gates that correspond to either the NAND or coin-tossing operations).
 However, for simplicity  we will not define randomized computation in full generality, but simply focus on the class of functions that are computable by randomized algorithms _running in polynomial time_, which by historical convention is known as $\mathbf{BPP}$:
 
 
@@ -56,7 +56,7 @@ where this  probability is taken over the result of the RAND operations of $P$.^
 :::
 
 
-The same polynomial-overhead simulation of NAND<< programs by  NAND++ programs we saw in [NANDpp-thm](){.ref} extends to _randomized_ programs as well.
+The same polynomial-overhead simulation of NAND<< programs by  NAND++ programs we saw in [polyRAMTM-thm](){.ref} extends to _randomized_ programs as well.
 Hence the class $\mathbf{BPP}$ is the same regardless of whether it is defined via RNAND++ or RNAND<< programs.
 
 
@@ -84,7 +84,7 @@ We start by showing the "only if" direction.
 Let $F\in \mathbf{BPP}$ and let $P$ be an RNAND<< program that computes $F$ as per [BPPdef](){.ref}, and let $a,b\in \N$ be such that on every input of length $n$, the program $P$ halts within at most $an^b$ steps.
 We will construct a  polynomial-time NAND<< program $P'$ that computes a function $G$ satisfying the conditions of [eqBPPauxiliary](){.eqref}.
 
-The idea behind the program $P'$ is very  simple:
+The program $P'$ is very  simple:
 
 
 ::: {.quote}
@@ -149,7 +149,7 @@ We use the Chernoff bound to argue that if we run the program $O(k/\epsilon^2)$ 
 Amplification can be thought of as a "polling" of the choices for randomness for the algorithm, see [amplificationfig](){.ref}.
 
 ::: {.proof data-ref="amplificationthm"}
-We can run $P$ on input $x$ for $t=10k/\epsilon^2$ times, using fresh randomness each one, to compute outputs $y_0,\ldots,y_{t-1}$. We output the value $y$ that appeared the largest number of times.
+We can run $P$ on input $x$ for $t=10k/\epsilon^2$ times, using fresh randomness in each execution, and compute the outputs $y_0,\ldots,y_{t-1}$. We output the value $y$ that appeared the largest number of times.
 Let $X_i$ be the random variable that is equal to $1$ if $y_i = F(x)$ and equal to $0$ otherwise.
 The random variables $X_0,\ldots,X_{t-1}$ are i.i.d.  and satisfy $\E [X_i] = \Pr[ X_i = 1] \geq 1/2 + \epsilon$, and hence by linearity of expectation $\mathbb{E}[\sum_{i=0}^{t-1} X_i] \geq t(1/2 + \epsilon)$.
 For the plurality value to be _incorrect_, it must hold that $\sum_{i=0}^{t-1} X_i \leq t/2$, which means that $\sum_{i=0}^{t-1}X_i$ is at least $\epsilon t$ far from its expectation
@@ -236,15 +236,14 @@ We omit the formal proof, as doing it by yourself is an excellent way to get com
 
 ### Simulating randomized algorithms by circuits or straightline programs.
 
-We have seen in [non-uniform-thm](){.ref} that if  $F$ is in $\mathbf{P}$, then there is a polynomial $p:\N \rightarrow \N$ such that for every $n$, the restriction $F_n$ of $F$ to inputs $\{0,1\}^n$ is in $SIZE(p(n))$.
+We have seen in [non-uniform-thm](){.ref} that if  $F$ is in $\mathbf{P}$, then there is a polynomial $p:\N \rightarrow \N$ such that for every $n$, the restriction $F_n$ of $F$ to inputs $\{0,1\}^n$ is in $SIZE(p(n))$. (In other words, that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$.)
 A priori it is not at all clear that the same holds for a function in $\mathbf{BPP}$, but this does turn out to be the case.
 
 
 ![The possible guarantees for a randomized algorithm $A$ computing some function $F$. In the tables above the columns correspond to different inputs, the rows to different choices of the random tape. A cell at position $r,x$ is colored green if $A(x;r)=F(x)$ (i.e., the algorithm outputs the correct answer) and red otherwise. The standard $\mathbf{BPP}$ guarantee corresponds to the middle figure, where  for every input $x$, at least two thirds of the choices $r$ for a random tape will result in $A$ computing the correct value. That is, every column is colored green in at least two thirds of its coordinates.  In the left figure we have an "average case" guarantee where the algorithm is only guaranteed to output the correct answer with probabilty two thirds over a _random_ input (i.e., at most one third of the total entries of the table are colored red, but there could be an all red column). The right figure corresponds to the "offline $\mathbf{BPP}$" case, with probability at least two thirds over the random choice $r$, $r$ will be good for _every_ input. That is, at least two thirds of the rows are all green. [rnandthm](){.ref} ($\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$) is proven by amplifying the success of a $\mathbf{BPP}$ algorithm until we have the "offline $\mathbf{BPP}$" guarantee, and then hardwiring the choice of the randomness $r$ to obtain a nonuniform deterministic algorithm.](../figure/randomizedcomp.png){#randomizedcompfig .class width=300px height=300px}
 
-> # {.theorem title="Randomness does not help for non uniform computation: $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$" #rnandthm}
-For every $F\in \mathbf{BPP}$, there exist some $a,b\in \N$ such that for every $n>0$, $F_n \in SIZE(an^b)$ where $F_n$ is the restriction
-of $F$ to inputs in $\{0,1\}^n$.
+> # {.theorem title="Randomness does not help for non uniform computation" #rnandthm}
+$\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$. That is, for every $F\in \mathbf{BPP}$, there exist some $a,b\in \N$ such that for every $n>0$, $F_n \in SIZE(an^b)$ where $F_n$ is the restriction of $F$ to inputs in $\{0,1\}^n$.
 
 
 > # {.proofidea data-ref="rnandthm"}
@@ -285,7 +284,8 @@ This demonstrates that $F_n$ has a polynomial sized NAND program, hence completi
 The proof of [rnandthm](){.ref} actually yields more than its statement. We can use the same "unrolling the loop" arguments we've used before to show that the restriction to $\{0,1\}^n$ of every function in $\mathbf{BPP}$ is also computable by a polynomial-size RNAND program (i.e., NAND program with the `RAND` operation), but like in the $\mathbf{P}$ vs $SIZE(poly(n))$ case, there are functions outside $\mathbf{BPP}$ whose restrictions can be  computed  by polynomial-size  RNAND programs.
 Nevertheless the proof of [rnandthm](){.ref} shows that even such functions can be computed by polynomial sized NAND programs without using the `rand` operations.
 This can be phrased as saying   that $BPSIZE(T(n)) \subseteq SIZE(O(n T(n)))$ (where $BPSIZE$ is defined in the natural way using RNAND progams).
-[rnandthm](){.ref} can also be phrased as saying  that $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$, and the stronger result can be phrased as $\mathbf{BPP_{/poly}} = \mathbf{P_{/poly}}$.
+The stronger version of  [rnandthm](){.ref} we mentioned can be phrased as saying that  $\mathbf{BPP_{/poly}} = \mathbf{P_{/poly}}$.
+
 
 
 
@@ -377,7 +377,6 @@ Still, there are two questions we haven't answered:
 * _Even if they do exist, why would such generators be useful to derandomize randomized algorithms?_ After all, [prgdef](){.ref} does not involve RNAND++ or RNAND<< programs but deterministic NAND programs with no randomness and no loops.
 
 We will now (partially) answer both questions.
-
 For the first question, let us come clean and confess we do not know how to _prove_ that interesting pseudorandom generators exist.
 By _interesting_ we mean pseudorandom generators that satisfy that $\epsilon$ is some small constant (say $\epsilon<1/3$), $m>\ell$, and the function $G$ itself can be computed in $poly(m)$ time.
 Nevertheless, [prgexist](){.ref} (whose statement and proof is deferred to the end of this chapter) shows that if we only drop the last  condition (polynomial-time computability), then there do in fact exist pseudorandom generators where $m$ is _exponentially larger_  than $\ell$.
@@ -413,7 +412,7 @@ We emphasize again that the optimal PRG conjecture is, as its name implies, a _c
 In particular, it is stronger than the conjecture that $\mathbf{P} \neq \mathbf{NP}$.
 But we do have some evidence for its truth.
 There is a spectrum of different types of pseudorandom generators, and there are weaker assumption than the optimal PRG conjecture that suffice to prove that $\mathbf{BPP}=\mathbf{P}$.
-In particular this is known to hold under the assumption that there exists a function $F\in \mathbb{TIME}(2^{O(n)})$ and $\epsilon >0$ such that for every sufficiently large  $n$, $F_n$ is not in $SIZE(2^{\epsilon n})$.
+In particular this is known to hold under the assumption that there exists a function $F\in \mathbf{TIME}(2^{O(n)})$ and $\epsilon >0$ such that for every sufficiently large  $n$, $F_n$ is not in $SIZE(2^{\epsilon n})$.
 The name "Optimal PRG conjecture" is non standard. This conjecture is sometimes known in the literature as the existence of exponentially strong pseudorandom functions.^[For more on the many interesting results and connections in the study of _pseudorandomness_, see [this monograph of Salil Vadhan](https://people.seas.harvard.edu/~salil/pseudorandomness/).]
 
 ### Usefulness of pseudorandom generators
@@ -529,7 +528,7 @@ $$
 \cup_{i \in [100m-1]} |S_x \oplus s_i| \leq \sum_{i=0}^{100m-1} |S_x \oplus s_i| = \sum_{i=0}^{100m -1} |S_x| = 100m|S_x| \;.
 $$
 
-To prove __CLAIM II__, we will use the _probabilistic method_. Note that this is a completely different use of probability than in the theorem statement, we  just use the methods of probability to prove an _existential_ statement.
+To prove __CLAIM II__, we will use a technique known as the  _probabilistic method_ (see the proof of [prgexist](){.ref} for a more extensive discussion). Note that this is a completely different use of probability than in the theorem statement, we  just use the methods of probability to prove an _existential_ statement.
 
 __Proof of CLAIM II:__ Let $S \subseteq \{0,1\}^m$ with $|S| \geq 0.5 \cdot 2^m$ be as in the claim's statement.
 Consider the following probabilistic experiment: we choose $100m$ random shifts $s_0,\ldots,s_{100m-1}$ independently at random in $\{0,1\}^m$, and consider the event $GOOD$ that $\cup_{i\in [100m]}(S \oplus s_i) = \{0,1\}^m$.
