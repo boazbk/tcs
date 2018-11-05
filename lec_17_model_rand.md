@@ -517,7 +517,7 @@ $$
 or equivalently
 
 $$
-\exists_{s_0,\ldots, s_{100m-1} \in \{0,1\}^m} \forall_{w\in \{0,1\}^m} \Bigl( A(x(w\oplus s_0))=1 \vee  \A(x(w\oplus s_1))=1 \vee \cdots \vee A(x(w\oplus s_{100m-1}))=1    \Bigr)
+\exists_{s_0,\ldots, s_{100m-1} \in \{0,1\}^m} \forall_{w\in \{0,1\}^m} \Bigl( A(x(w\oplus s_0))=1 \vee  A(x(w\oplus s_1))=1 \vee \cdots \vee A(x(w\oplus s_{100m-1}))=1    \Bigr)
 $$
 
 which (since $A$ is computable in polynomial time) is exactly the type of statement shown in  [PH-collapse-thm](){.ref} to be decidable in polynomial time if $\mathbf{P}=\mathbf{NP}$.
