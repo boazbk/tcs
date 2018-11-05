@@ -275,7 +275,7 @@ In particular,  when running a local improvement algorithm such as Gradient Desc
 
 
 Not all computational problems arise from graphs.
-We now list some other examples of computational problems that  of great interest.
+We now list some other examples of computational problems that are of great interest.
 
 
 ### The 2SAT problem
