@@ -163,7 +163,7 @@ $$
 $$
 for every $x\in \{0,1\}^*$, then there is a polynomial time algorithm $B$ satisfying
 $$
-\Pr[ A(x) = F(x) ] \geq 1 - 2^{-|x|}
+\Pr[ B(x) = F(x) ] \geq 1 - 2^{-|x|}
 $$
 for every $x\in \{0,1\}^*$.
 :::
