@@ -176,7 +176,7 @@ This is a textbook in preparation  for an introductory undergraduate course on t
 I am using this text for [Harvard CS 121](http://cs121.boazbarak.org).
 
 
-You can also download [all chapters in a single PDF file](lnotes_book.pdf) (about 550 pages, 12MB).
+You can also download [all chapters in a single PDF file](lnotes_book.pdf) (about 620 pages, 18MB).
 See also the [table of contents](contents.pdf).
 
 See [this website](http://nandpl.org) for (a very much work in progress) implementation of the NAND\* programming languages that are used in in these notes.
