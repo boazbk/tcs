@@ -69,6 +69,8 @@ F(x) = G(R(x)) \;. \label{eq:reduction}
 $$
 We say that $F$ and $G$ have _equivalent complexity_ if $F \leq_p G$ and $G \leq_p F$.
 
+![If $F \leq_p G$ then we can transform a polynomial-time algorithm $B$  that computes $G$ into a polynomial-time algorithm $A$ that computes $F$. To compute $F(x)$ we can run the reduction $R$ guaranteed by the fact that $F \leq_p G$ to obtain $y=F(x)$ and then run our algorithm $B$ for $G$ to compute $G(y)$. ](../figure/reductionoutline.png){#reductionsfig .class width=300px height=300px}
+
 ::: {.solvedexercise title="Reductions and $\mathbf{P}$" #reductionsandP}
 Prove that if $F \leq_p G$ and $G \in \mathbf{P}$ then $F\in \mathbf{P}$.
 :::
@@ -78,7 +80,7 @@ As usual, solving this exercise on your own is an excellent way to make sure you
 :::
 
 ::: {.solution data-ref="reductionsandP"}
-Suppose there was an algorithm $B$ that  compute $F$ in time $p(n)$ where $p$ is its input size. Then, [eq:reduction](){.eqref} directly gives an algorithm  $A$ to compute $F$.
+Suppose there was an algorithm $B$ that  compute $F$ in time $p(n)$ where $p$ is its input size. Then, [eq:reduction](){.eqref} directly gives an algorithm  $A$ to compute $F$ (see [reductionsfig](){.ref}).
 Indeed, on input $x\in \{0,1\}^*$, Algorithm $A$ will run the polynomial-time reduction $R$ to obtain $y=R(x)$ and then return $B(y)$.
 By [eq:reduction](){.eqref}, $G(R(x)) = F(x)$ and hence Algorithm $A$ will indeed compute $F$.
 
@@ -98,15 +100,16 @@ For every $F,G,H :\{0,1\}^* \rightarrow \{0,1\}$, if $F \leq_p G$ and $G \leq_p 
 We leave the proof of [transitivitylem](){.ref} as [transitivity-reductions-ex](){.ref}. Pausing now and doing this exercise is an excellent way to verify that you understood the definition of reductions.
 
 
-> # {.remark title="Polynomial reductions" #polynomialred}
+::: {.remark title="Polynomial reductions, completeness and soundness" #polynomialred}
 We have seen reductions before in the context of proving the uncomputability of problems such as $HALTONZERO$ and others.
 The most crucial difference between the notion in [reduction-def](){.ref} and previously occuring notions is that in the context of relating the time complexity of problems, we need the reduction to be computable in _polynomial time_, as opposed to merely computable.
 [reduction-def](){.ref} also restricts reductions to have a very specific format. That is, to show that $F \leq_p G$, rather than allowing a general algorithm for $F$ that uses a "magic box" that computes $G$, we only allow an algorithm that computes $F(x)$ by outputting $G(R(x))$. This restricted form is convenient for us, but people have defined and used  more general  reductions as well.
->
-Since both $F$ and $G$ are Boolean functions, the condition $F(x)=G(R(x))$ in [eq:reduction](){.eqref} is equivalent to the following two impliciations: __(i)__ if $F(x)=1$ then $G(R(x))=1$, and __(ii)__ if $G(R(x))=1$ then $F(x)=1$.
-Traditionally, condition __(i)__ is often known as _completness_ and condition __(ii)__ is often known as _soundness_.
+
+Since both $F$ and $G$ are Boolean functions, the condition $F(x)=G(R(x))$ in [eq:reduction](){.eqref} is equivalent to the following two implications: __(i)__ if $F(x)=1$ then $G(R(x))=1$, and __(ii)__ if $G(R(x))=1$ then $F(x)=1$.
+Traditionally, condition __(i)__ is  known as   _completness_ and condition __(ii)__ is  known as _soundness_.
 We can think of this as saying that the reduction $R$ is _complete_ if  every $1$-input of $F$ (i.e. $x$ such that $F(x)=1$)  is mapped by $R$ to a $1$-input of $G$, and that it is _sound_ if no $0$-input of $F$ will ever be mapped to a $1$-input of $G$.
 As we will see below, it is often the case that establishing __(ii)__ is the more challenging part.
+:::
 
 
 
@@ -161,20 +164,32 @@ Recall that a _3SAT formula_ $\varphi$ is a formula such as $(x_{17} \vee \overl
 That is, $\varphi$ is composed of the AND of $m$ _3SAT clauses_ where a 3SAT clause is the OR of three variables or their negation.
 A _quadratic equations_  instance $E$ is composed of a list of equations, each of involving a sum of variables or their products, such as $x_{19}x_{52} - x_{12} + 2x_{33} = 2$, etc.. We will include the constraints $x_i^2-x_i=0$ for every $i\in [n]$ in our equations, which means that we can restrict attention to assignments where $x_i \in \{0,1\}$ for every $i$.
 
-There is a natural way to map a 3SAT instance into a set of _cubic_ equations, and that is to map a clause such as $(x_{17} \vee \overline{x}_{101} \vee x_{57})$ (which is equivalent to the negation of $\overline{x}_{17} \wedge x_{101} \wedge \overline{x}_{57}$) to the equation $(1-x_{17})x_{101}(1-x_{57})=0$.
-We can  map a formula $\varphi$ with $m$ clauses into a set $E$ of $m$ such equations such that there is an $x$ with $\varphi(x)=1$ if and only if there is an assignment to the variables that satisfies all the equations of $E$.
-To make the equations _quadratic_ we introduce for every $i,j\in [n]$ a variable $y_{i,j}$ and include the constraint $y_{i,j}-x_ix_j=0$ in the equations.
-This is a quadratic equation that ensures that $y_{i,j}=x_ix_j$ for every $i,j\in [n]$.
+There is a natural way to map a 3SAT instance into a set of _cubic_ equations $E'$, and that is to map a clause such as $(x_{17} \vee \overline{x}_{101} \vee x_{57})$ (which is equivalent to the negation of $\overline{x}_{17} \wedge x_{101} \wedge \overline{x}_{57}$) to the equation $(1-x_{17})x_{101}(1-x_{57})=0$.
+Therefore, we can map a formula $\varphi$  with $n$ variables $m$ clauses into a set $E'$ of $m+n$ cubic equations on $n$ variables (that is, one equation per each clause, plus one equation of the form $x_i^2-x_i=0$ for each variable to ensure that its value is in $\{0,1\}$) such that every assignment $a\in \{0,1\}^n$ to the $n$ variables satisfies the original formula if and only if it satisfies the equations of $E'$.
+
+
+To make the equations _quadratic_ we introduce for every two distinct $i,j \in [n]$  a variable $y_{i,j}$ and include the constraint $y_{i,j}-x_ix_j=0$ in the equations.
+This is a quadratic equation that ensures that $y_{i,j}=x_ix_j$ for every such $i,j\in [n]$.
 Now we can turn any cubic equation in the $x$'s into a quadratic equation in the $x$ and $y$ variables.
 For example, we can "open up the parentheses" of an equation such as $(1-x_{17})x_{101}(1-x_{57})=0$ to $x_{101} -x_{17}x_{101}-x_{101}x_{57}+x_{17}x_{101}x_{57}=0$.
 We can now replace the cubic term $x_{17}x_{101}x_{57}$ with the quadratic term $y_{17,101}x_{57}$.
 This can be done for every cubic equation in the same way, replacing any cubic term $x_ix_jx_k$ with the term $y_{i,j}x_k$.
-The bottom line is that we get a set $E$ of quadratic equations in the variables $x_0,\ldots,x_{n-1},y_{0,0},\ldots,y_{n-1,n-1}$ such that the 3SAT formula $\varphi$ is satisfiable if and only if the equations $E$ have a solution.
+The end result will be a set of $m+n+\binom{n}{2}$ equations (one equation per clause, one equation per variable to ensure $x_i^2-x_i=0$, and one equation per pair $i,j$ to ensure $y_{i,j}=x_ix_j=0$) on the $n + \binom{n}{2}$ variables $x_0,\ldots,x_{n-1}$ and $y_{i,j}$ for all pairs of distinct variables $i,j$.^[$\binom{n}{2} = \tfrac{1}{2}n(n-1)$ is the number of all size two subsets of $[n]$. We  consider $\{i,j\}$ to be the same as $\{j,i\}$ since $x_ix_j = x_jx_i$ for every $i,j$.]
+
+To complete the proof we need to show that if we transform $\varphi$ to $E$ in this way then  the 3SAT formula $\varphi$ is satisfiable if and only if the equations $E$ have a solution.
+This is essentially immediate from the construction, but as this is our first reduction, we spell this out fully:
+
+* __Completeness:__ We claim that if  $\varphi$ is satisfiable then the equations $E$ have a solution. To prove this we need to show how to transform a satisfying assignment $a\in \{0,1\}^n$ to the variables of $\varphi$ (that is, $a_i$ is the value assigned to $x_i$) to a solution to the variables of $E$. Specifically, if $a\in \{0,1\}^n$ is such an assignment then by design $a$ satisfies all the _cubic_ equations $E'$ that we constructed above. But then, if we assign to the $n+\binom{n}{2}$ variables the values $a_0,\ldots,a_{n-1}$ and $\{ a_ia_j \}$ for all $\{i,j\} \subseteq [n]$ then by construction this will satisfy all the quadratic equations of $E$ as well.
+
+* __Soundness:__ We claim that if the equations $E$ have a solution then $\varphi$ is satisfiable. Indeed, suppose that $z \in \R^{n + \binom{n}{2}}$ is a solution to the equations $E$. A priori $z$ could be any vector of $n+ \binom{n}{2}$ numbers, but the fact that $E$ contains the equations $x_i^2 - x_i =0$ and $y_{i,j} - x_ix_j = 0$ means that if $z$ satisfies these equations then the values it assigns to $x_i$ must be in $\{0,1\}$ for every $i$, and the value it assigns to $y_{i,j}$ must be $x_ix_j$ for every $\{i,j\} \subseteq [n]$.
+Therefore by the way we constructed our equations, the value assigned $x$ must be a solution of the original cubic equations $E'$ and hence also of the original formula $\varphi$, which in particular implies $\varphi$ is satisfiable.
 
 This reduction can be easily implemented in about a dozen lines of Python or any other programming language, see [sattoqefig](){.ref}.
 :::
 
 ![Reducing 3SAT to satisfiability of quadratic equations. On the righthand side is Python code implementing the reduction of [quadeq-thm](){.ref} and on the lefthand side is the output of this reduction on an example 3SAT instance. ](../figure/SAT2QE.png){#sattoqefig .class width=300px height=300px}
+
+
 
 ## The independent set problem
 
@@ -195,6 +210,8 @@ The idea is that finding a satisfying assignment to a 3SAT formula corresponds t
 
 ::: {.proof data-ref="isetnpc"}
 Given a 3SAT formula $\varphi$ on $n$ variables and with $m$ clauses, we will create a graph $G$ with $3m$ vertices as follows: (see [threesattoisfig](){.ref} for an example)
+
+
 
 * A clause $C$ in $\varphi$ has the form $C = y \vee y' \vee y''$  where $y,y',y''$ are _literals_ (variables or their negation). For each such clause $C$, we will add three vertices to $G$, and label them  $(C,y)$, $(C,y')$, and $(C,y'')$ respectively. We will also add the three edges between all pairs of these vertices, so they form a _triangle_. Since there are $m$ clauses in $\varphi$, the graph $G$ will have $3m$ vertices.
 
@@ -231,7 +248,9 @@ This completes the proof of [isetnpc](){.ref}
 :::
 
 
-![The reduction of 3SAT to Independent Set. On the righthand side is _Python_ code that implements this reduction. On the lefthand side is a sample output of the reduction. We use black for the "triangle edges" and red for the "conflict edges". Note that the satisfying assignment $x^* = 0110$ corresponds to the independent set $(0,\neg x_3)$, $(1, \neg x_0)$, $(2,x_2)$.](../figure/3sat2ISreduction.png){threesattoisfig .class width=300px height=300px}
+![The reduction of 3SAT to Independent Set. On the righthand side is _Python_ code that implements this reduction. On the lefthand side is a sample output of the reduction. We use black for the "triangle edges" and red for the "conflict edges". Note that the satisfying assignment $x^* = 0110$ corresponds to the independent set $(0,\neg x_3)$, $(1, \neg x_0)$, $(2,x_2)$.](../figure/3sat2ISreduction.png){#threesattoisfig .class width=300px height=300px}
+
+
 
 
 ## Reducing Independent Set to Maximum Cut
