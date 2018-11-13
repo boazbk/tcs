@@ -93,7 +93,7 @@ Confederate generals used Vigenère regularly during the civil war, and their me
 ![Confederate encryption of the message  "Gen'l Pemberton: You can expect no help from this side of the river. Let Gen'l Johnston know, if possible, when you can attack the same point on the enemy's lines. Inform me also and I will endeavor to make a diversion. I have sent some caps. I subjoin a despatch from General Johnston."](../figure/confederate_message.jpg){#tmplabelfig}
 
 
-The  _Enigma_ cipher had was a mechanical cipher (looking like a typewriter) where each letter typed would get mapped into a different letter depending on the (rather complicated) key and current state
+The  _Enigma_ cipher had was a mechanical cipher (looking like a typewriter, see [enigmafig](){.ref}) where each letter typed would get mapped into a different letter depending on the (rather complicated) key and current state
 of the machine which had several rotors that rotated at different paces. An identically wired machine at the other end could be used to decrypt.
 Just as many ciphers in history, this has also been believed by the Germans to be "impossible to break" and even quite late in the war they refused to believe it was broken despite
 mounting evidence to that effect. (In fact, some German generals refused to believe it was broken even _after_ the war.)
@@ -102,6 +102,8 @@ As part of this effort the Brits built arguably the world's first large scale me
 They were also helped along the way by some quirks and errors of the German operators.
 For example, the fact that their messages ended with "Heil Hitler" turned out to be quite useful.
 
+
+![In the  _Enigma_ mechanical cipher the secret key would be the settings of the rotors and internal wires. As the operator types up their message, the encrypted version appeared in the display area above, and the internal state of the cipher was updated (and so typing the same letter twice would generally result in two different letters output). Decrypting follows the same process: if the sender and receiver are using the same key then typing the ciphertext would result in the plaintext appearing in the display.](../figure/enigma.jpg){#enigmafig .class width=300px height=300px}
 
 Here is one entertaining anecdote: the Enigma machine would never map a letter to itself.
 In March 1941, Mavis Batey, a cryptanalyst at Bletchley Park received a very long message that she tried to decrypt.
@@ -574,14 +576,18 @@ They realized that protecting the _integrity_ of communication is no less import
 Thus they imagined that Alice could "run encryption in reverse" in order to certify or _sign_ messages.
 
 
+
 At the point, Diffie and Hellman were in a position not unlike  physicists who predicted that a certain particle should exist but without any experimental verification.
-Luckily they [met Ralph Merkle](http://cr.yp.to/bib/1988/diffie.pdf), and his ideas about a probabilistic _key exchange protocol_, together with a suggestion from their Stanford colleague [John Gill](https://profiles.stanford.edu/john-gill), inspired them to come up with what today is known as the [Diffie Hellman Key Exchange](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange) (which unbeknownst to them was found two years earlier at GCHQ by Malcolm Williamson).
+Luckily they [met Ralph Merkle](http://cr.yp.to/bib/1988/diffie.pdf), and his ideas about a probabilistic _key exchange protocol_, together with a suggestion from their Stanford colleague [John Gill](http://hdl.handle.net/11299/107353), inspired them to come up with what today is known as the [Diffie Hellman Key Exchange](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange) (which unbeknownst to them was found two years earlier at GCHQ by Malcolm Williamson).
 They published their paper ["New Directions in Cryptography"](https://www-ee.stanford.edu/~hellman/publications/24.pdf) in 1976, and it is considered to have brought about the birth of modern cryptography.
 
 The Diffie-Hellman Key Exchange is still widely used today for secure communication.
 However, it still felt short of providing Diffie and Hellman's  elusive trapdoor function.
 This was done the next year by Rivest, Shamir and Adleman who came up with the RSA trapdoor function, which through the framework of Diffie and Hellman yielded not just encryption but also signatures.^[A close variant of the  RSA function was   discovered earlier by Clifford Cocks at GCHQ, though as far as I can tell Cocks, Ellis and Williamson did not realize the application to digital signatures.]
 From this point on began a flurry of advances in cryptography which hasn't died down till this day.
+
+![Top left: Ralph Merkle, Martin Hellman and Whit Diffie, who together came up in 1976 with the concept of _public key encryption_ and a _key exchange protocol_. Bottom left: Adi Shamir, Ron Rivest, and Leonard Adleman who, following Diffie and Hellman's paper, discovered the RSA function that can be used for public key encryption and digital signatures. Interestingly, one can see the equation $\mathbf{P}=\mathbf{NP}$ on the blackboard behind them. Right: John Gill, who was the first person to suggest  to Diffie and Hellman that they use modular exponentiation as an easy-to-compute but hard-to-invert function. ](../figure/rsadhmg.png){#diffiehellmanmerklegillfig .class width=300px height=300px}
+
 
 ### Defining public key encryption
 
