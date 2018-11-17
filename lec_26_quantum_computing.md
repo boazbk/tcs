@@ -33,10 +33,9 @@ In computational language, in all these theories the state of a system with $n$ 
 Alas, in the beginning of the 20th century, several experimental results were calling into question the "billiard ball" theory of the world.
 One such experiment is the famous [double slit](https://en.wikipedia.org/wiki/Double-slit_experiment) experiment.
 One way to describe it is as following.
-Suppose that we buy one of those baseball pitching machines, and aim it at a soft plastic wall, but put a metal barrier between the machine and the wall that has a single slit.
-If we shoot baseballs at the wall, then some of the baseballs would bounce off the metal barrier, while some would make it through the slit and dent the plastic wall.
+Suppose that we buy one of those baseball pitching machines, and aim it at a soft plastic wall, but put a _metal barrier with a single slit_ between the machine and the plastic wall (see [doublebaseballfig](){.ref}).
+If we shoot baseballs at the plastic wall, then some of the baseballs would bounce off the metal barrier, while some would make it through the slit and dent the wall.
 If we now carve out an additional slit in the metal barrier then more balls would get through, and so the plastic wall would be _even more dented_.
-(See [doublebaseballfig](){.ref})
 
 
 ![In the "double baseball experiment" we shoot baseballs from a gun at a soft wall through a hard barrier that has one or two slits open in it. There is only "constructive interference" in the sense that the dent in each position in the wall when both slits are open is the sum of the dents when each slit is open on its own.](../figure/double_baseball2.png){#doublebaseballfig .class width=300px height=300px}
@@ -44,7 +43,7 @@ If we now carve out an additional slit in the metal barrier then more balls woul
 
 So far this is pure common sense, and it is indeed (to my knowledge) an accurate description of what happens when we shoot baseballs at a wall.
 However, this is not the same when we shoot _photons_.
-Amazingly, if we shoot with a "photon gun" (i.e., lasers) at a wall equipped with photon detectors through some barrier, then (as shown [doubleslitfig](){.ref}) we sometimes see  _fewer_ hits when the two slits are open than one only ones of them is!.^[A nice illustrated description of the double slit experiment appears in   [this video](https://www.youtube.com/watch?v=DfPeprQ7oGc).]
+Amazingly, if we shoot with a "photon gun" (i.e., a laser) at a wall equipped with photon detectors through some barrier, then (as shown in [doubleslitfig](){.ref}) we sometimes see  _fewer_ hits when the two slits are open than one only ones of them is!.^[A nice illustrated description of the double slit experiment appears in   [this video](https://www.youtube.com/watch?v=DfPeprQ7oGc).]
 In particular there are positions in the wall that are hit when the first slit is open, hit when the  second gun is open, but are _not hit at all when both slits are open!_.
 
 
@@ -248,8 +247,9 @@ This result has captured the imagination of a great many people, and completely 
 This is both because the hardness of these particular problems provides the foundations for securing such a huge part of our communications (and these days, our economy), as well as it was a powerful demonstration that quantum computers could turn out to be useful for problems that a-priori seemd to have nothing to do with quantum physics.
 
 As we'll discuss later, at the moment there are several intensive efforts to construct large scale quantum computers.
-It seems safe to say that, as far as we know, in the next five years or so there will not be a quantum computer large enough to factor, say, a $1024$ bit number, but there it is quite possible that some quantum computer will be built that is strong enough to achieve some task that is too inefficient to achieve with a non-quantum or "classical" computer  (or at least requires far more resources classically than it would for this computer).
-When and if such a computer is  built that can break reasonable parameters of Diffie Hellman, RSA and elliptic curve cryptography is anybody's guess.
+It seems safe to say that, as far as we know, in the next five years or so there will not be a quantum computer large enough to factor, say, a $1024$ bit number.
+On the other hand, it does seem quite likely that in the very near future there will be quantum computers which achieve _some_ task exponentially faster than the best-known way to achieve the same task with a classical computer.
+When and if  a quantum computer is  built that is strong enough to  break reasonable parameters of Diffie Hellman, RSA and elliptic curve cryptography is anybody's guess.
 It could also be a "self destroying prophecy" whereby the existence of a small-scale quantum computer would cause everyone to shift away to lattice-based crypto which in turn will diminish the motivation to invest the huge resources needed to build a large scale quantum computer.[^legacy]
 
 [^legacy]: Of course, given that [we're still hearing](http://blog.cryptographyengineering.com/2016/03/attack-of-week-drown.html) of attacks exploiting "export grade" cryptography that was supposed to disappear in 1990's, I imagine that we'll still have products running 1024 bit RSA when everyone has a quantum laptop.
@@ -361,32 +361,41 @@ Then each one of them measures their qubit and sends this as their response.
 Recall that to win the game Bob and Alice want their outputs to be more likely to differ if $x=y=1$ and to be more likely to agree otherwise.
 We will split the analysis in one case for each of the four possible values of $x$ and $y$.
 
-__Case 1: $x=y=0$__ If $x=y=0$ then the state does not change.
-Because the state $\psi$ is proportional to    $|00\rangle + |11\rangle$, the measurements of Bob and Alice will always agree (if Alice measures $0$ then the state collapses to $|00 \rangle$ and so Bob measures $0$ as well, and similarly for $1$).
+__Case 1: $x=0$ and $y=0$.__ If $x=y=0$ then the state does not change.
+* Because the state $\psi$ is proportional to    $|00\rangle + |11\rangle$, the measurements of Bob and Alice will always agree (if Alice measures $0$ then the state collapses to $|00 \rangle$ and so Bob measures $0$ as well, and similarly for $1$).
 Hence in the case $x=y=1$, Alice and Bob always  win.
 
-__Case 2: $x=0$,$y=1$__ If $x=0$ and $y=1$ then after Alice measures her bit, if she gets $0$ then the system collapses to the state $|00 \rangle$, in which case after Bob performs his rotation, his qubit is in the state  $\cos (\pi/8)|0\rangle+\sin(\pi/8)|1\rangle$.
+__Case 2: $x=0$ and $y=1$.__ If $x=0$ and $y=1$ then after Alice measures her bit, if she gets $0$ then the system collapses to the state $|00 \rangle$, in which case after Bob performs his rotation, his qubit is in the state  $\cos (\pi/8)|0\rangle+\sin(\pi/8)|1\rangle$.
 Thus, when Bob measures his qubit, he will get $0$ (and hence agree with Alice) with probability  $\cos^2 (\pi/8)  \geq 0.85$.
 Similarly, if Alice gets $1$ then the system collapses to $|11 \rangle$, in which case after rotation Bob's qubit will be in the state $-\sin (\pi/8)|0\rangle+\cos(\pi/8)|1\rangle$ and so once again he will agree with Alice with probability $\cos^2(\pi/8)$.
-The analysis for __Case 3__, where $x=1$ and $y=0$, is symetric, and hence they will agree with probability $\cos^2(\pi/8)$ in this case as well.^[We are using the (not too hard) observation that the result of this  experiment is the same regardless of the order in which Alice and Bob apply their rotations and measurements.]
+
+The analysis for __Case 3__, where $x=1$ and $y=0$, is completely analogous to Case 2. Hence Alice and Bob will agree with probability $\cos^2(\pi/8)$ in this case as well.^[We are using the (not too hard) observation that the result of this  experiment is the same regardless of the order in which Alice and Bob apply their rotations and measurements.]
 
 
-__Case 4: $x=y=1$__ For the case that $x=1$ and $y=1$, after both Alice and Bob perform their rotations, the state will be proportional to
+__Case 4: $x=1$ and $y=1$.__ For the case that $x=1$ and $y=1$, after both Alice and Bob perform their rotations, the state will be proportional to
 
-$$R_{-\pi/8}|0\rangle R_{\pi/8}|0 \rangle + R_{-\pi/8}|1\rangle R_{\pi/8}|1 \rangle \;.$$
+$$R_{-\pi/8}|0\rangle R_{\pi/8}|0 \rangle + R_{-\pi/8}|1\rangle R_{\pi/8}|1 \rangle \;. \label{quantumbellcasefoureq}$$
 
-Opening up the coefficients and using $\cos(-x)=\cos(x)$ and $\sin(-x)=-\sin(x)$, we can see this is proportional to
+
+Intuitively, since we rotate one state by 45 degrees and the other state by -45 degrees, they will become orthogonal to each other, and the measurements will behave like independent coin tosses that agree with probability 1/2.
+However, for the sake of completeness, we now show the full calculation.
+
+Opening up the coefficients and using $\cos(-x)=\cos(x)$ and $\sin(-x)=-\sin(x)$, we can see that [quantumbellcasefoureq](){.eqref} is proportional to
 
 $$
-\cos^2(\pi/8)|00 \rangle + \cos(\pi/8)\sin(\pi/8)|01 \rangle - \sin(\pi/8)\cos(\pi/8)|10\rangle  + \sin^2(\pi/8)|11 \rangle -
-\sin^2(\pi/8)|00 \rangle + \sin(\pi/8)\cos(\pi/8)|01 \rangle - \cos(\pi/8)\sin(\pi/8)|10\rangle  + \cos^2(\pi/8)|11 \rangle \;.
+\begin{aligned}
+\cos^2(\pi/8)|00 \rangle &+ \cos(\pi/8)\sin(\pi/8)|01 \rangle \\
+- \sin(\pi/8)\cos(\pi/8)|10\rangle  &+ \sin^2(\pi/8)|11 \rangle \\
+-  \sin^2(\pi/8)|00 \rangle &+ \sin(\pi/8)\cos(\pi/8)|01 \rangle \\
+-  \cos(\pi/8)\sin(\pi/8)|10\rangle  &+ \cos^2(\pi/8)|11 \rangle \;.
+\end{aligned}
 $$
 
-using the trigonometric identities $2\sin(\alpha)\cos(\alpha)= \sin(2\alpha)$ and $\cos^(\alpha) - \sin^2(\alpha) = \cos(2\alpha)$, we see that the probability of getting any one of $|00\rangle,|10\rangle,|01\rangle,|11\rangle$ is proportional to $\cos(\pi/4)=\sin(\pi/4)=\tfrac{1}{\sqrt{2}}$.
+Using the trigonometric identities $2\sin(\alpha)\cos(\alpha)= \sin(2\alpha)$ and $\cos^(\alpha) - \sin^2(\alpha) = \cos(2\alpha)$, we see that the probability of getting any one of $|00\rangle,|10\rangle,|01\rangle,|11\rangle$ is proportional to $\cos(\pi/4)=\sin(\pi/4)=\tfrac{1}{\sqrt{2}}$.
 Hence all four options for $(a,b)$ are equally likely, which mean that in this case $a=b$ with probability $0.5$.
 
 
-Taking all the four cases together, we see that the overall probability of winning the game is at least $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}\cdot 0.85 + \tfrac{1}{4} \cdot 0.5 =0.8$.
+Taking all the four cases together,  the overall probability of winning the game is at least $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}\cdot 0.85 + \tfrac{1}{4} \cdot 0.5 =0.8$.
 :::
 
 
@@ -398,7 +407,7 @@ It is instructive to understand what is it about quantum mechanics that enabled 
 Recall that in the classical setting, we modeled computation as obtained by a sequence of _basic operations_.
 We had two types of computational models:
 
-* _Non uniform models of computation_ such as Boolean circuits and NAND program, where a finite function $f:\{0,1\}^n \rightarrow \{0,1\}$ is computable in size $T$ if it can be expressed as a combination of $T$ basic operations (gates in a circuit or lines in a NAND program)
+* _Non uniform models of computation_ such as Boolean circuits and NAND programs, where a finite function $f:\{0,1\}^n \rightarrow \{0,1\}$ is computable in size $T$ if it can be expressed as a combination of $T$ basic operations (gates in a circuit or lines in a NAND program)
 
 * _Uniform models of computation_ such as Turing machines and NAND++ programs, where an infinite function $F:\{0,1\}^* \rightarrow \{0,1\}$ is computable in time $T(n)$ if there is a single algorithm that on input $x\in \{0,1\}^n$ evaluates $F(x)$ using at most $T(n)$ basic steps.
 
@@ -541,11 +550,11 @@ We say that $F\in \mathbf{BQP}$ if there exists a polynomial time NAND++ program
 
 
 > # { .pause }
-One way to verify that you've understood these definitions it to see that you can prove __(1)__ $\mathbf{P} \subseteq \mathbf{BQP}$ and in fact the stronger statement $\mathbf{BPP} \subseteq \mathbf{BQP}$, __(2)__  $\mathbf{BQP} \subseteq \mathbf{EXP}$, and __(3)__ For every $\mathbf{NP}$-complete function $F$, if $F\in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$. See [BQPcontainements](){.ref}.
+One way to verify that you've understood these definitions it to see that you can prove __(1)__ $\mathbf{P} \subseteq \mathbf{BQP}$ and in fact the stronger statement $\mathbf{BPP} \subseteq \mathbf{BQP}$, __(2)__  $\mathbf{BQP} \subseteq \mathbf{EXP}$, and __(3)__ For every $\mathbf{NP}$-complete function $F$, if $F\in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$.  [BQPcontainements](){.ref} asks you to work these out.
 
 The relation between $\mathbf{NP}$ and $\mathbf{BQP}$ is not known (see also [quantumnp](){.ref}).
 It is widely believed that $\mathbf{NP} \not\subseteq \mathbf{BQP}$, but there is no consensus whether or not $\mathbf{BQP} \subseteq \mathbf{NP}$.
-It is   [possible](https://eccc.weizmann.ac.il/report/2018/107/) that these two classes are _incomparable_, in the sense that $\mathbf{NP} \nsubseteq \mathbf{BQP}$ (and in particular no $\mathbf{NP}$-complete function belongs to $\mathbf{BQP}$) but also $\mathbf{BQP} \nsubseteq \mathbf{NP}$ (and there are some interesting candidates for such problems).
+It is   [quite possible](https://eccc.weizmann.ac.il/report/2018/107/) that these two classes are _incomparable_, in the sense that $\mathbf{NP} \nsubseteq \mathbf{BQP}$ (and in particular no $\mathbf{NP}$-complete function belongs to $\mathbf{BQP}$) but also $\mathbf{BQP} \nsubseteq \mathbf{NP}$ (and there are some interesting candidates for such problems).
 
 
 It can be shown that $QNANDEVAL$ (evaluating a quantum circuit on an input) is computable by a polynomial size QNAND program, and moreover this program can even be generated _uniformly_ and hence $QNANDEVAL$ is in $\mathbf{BQP}$.
@@ -576,7 +585,7 @@ The [threshold theorem](https://courses.cs.washington.edu/courses/cse599d/06wi/l
 
 There have been several proposals to build quantum computers:
 
-* [Superconducting quantum computers](https://en.wikipedia.org/wiki/Superconducting_quantum_computing) use superconducting electric circuits to do quantum computation. This is the direction where   [there has been most recent progress](https://arxiv.org/abs/1709.06678) towards "beating" classical computers (see [googlequantumfig](){.ref}).
+* [Superconducting quantum computers](https://en.wikipedia.org/wiki/Superconducting_quantum_computing) use superconducting electric circuits to do quantum computation. This is the direction where   [there has been most recent progress](https://arxiv.org/abs/1709.06678) towards "beating" classical computers.
 
 
 
@@ -620,7 +629,7 @@ For example, a function $f:\R \rightarrow \R$ is _periodic_ if there is some $h>
 
 _Musical notes_ yield one type of periodic function.
 When you pull on a string on a musical instrument, it vibrates in a repeating pattern.
-Hence, if we plot the speed of the string (and so also the speed of the air around it) as a function of time, it will some  periodic function.
+Hence, if we plot the speed of the string (and so also the speed of the air around it) as a function of time, it will correspond to  some  _periodic_ function.
 The length of the period is known as the _wave length_ of the note.
 The _frequency_ is the number of times the function repeats itself within a unit of time.
 For example, the "Middle C" note has a frequency of $261.63$ Hertz, which means its period is $1/(261.63)$ seconds.
@@ -647,8 +656,11 @@ The main steps in the algorithm are the following:
 
 __Step 1: Reduce to period finding.__ The first step in the algorithm is to pick a random $A\in \{0,1\ldots,M-1\}$ and define the function $F_A:\{0,1\}^m \rightarrow \{0,1\}^m$ as $F_A(x)= A^x (\mod M)$ where we identify the string  $x \in \{0,1\}^m$ with  an integer using the binary representation, and similarly represent the integer $A^x (\mod M)$ as a string. (We will choose $m$ to be some polynomial in $m$ and so in particular $\{0,1\}^m$ is a  large enough set to represent all the numbers in $\{0,1,\ldots, M-1 \}$).
 
-Some not-too-hard calculations (which we leave as [shorex](){.ref}) show that: __(1)__ The function $F_A$ is  _periodic_ (i.e., there is some integer $p_A$ such that $F_A(x+p_A)=F_A(x)$ for almost^[We'll ignore this "almost" qualifier in the  discussion below. It causes some annoying, yet ultimately manageable, technical issues in the full-fledged algorithm.] every $x$) and more importantly __(2)__ If we can recover the period $p_A$ of $F_A$  for several randomly chosen $A$'s, then we can recover the factorization of $M$.
+Some not-too-hard (though somewhat technical) calculations show that: __(1)__ The function $F_A$ is  _periodic_ (i.e., there is some integer $p_A$ such that $F_A(x+p_A)=F_A(x)$ for almost^[We'll ignore this "almost" qualifier in the  discussion below. It causes some annoying, yet ultimately manageable, technical issues in the full-fledged algorithm.] every $x$) and more importantly __(2)__ If we can recover the period $p_A$ of $F_A$  for several randomly chosen $A$'s, then we can recover the factorization of $M$.
 Hence, factoring $M$ reduces to finding out the period of the function $F_A$.
+[dlogfromorder](){.ref} asks you to work out this for the related task of computing the _discrete logarithm_ (which underlies the security of the Diffie-Hellman key exchange and elliptic curve cryptography).
+
+
 
 
 
@@ -664,7 +676,7 @@ So far, this is not at all impressive. After all, we did not need the power of q
 
 
 Another way to describe the state $\rho$ is that the coefficient of $|x \rangle |y \rangle$  in $\rho$ is proportional to $f_{A,y}(x)$  where $f_{A,y} : \{0,1\}^m \rightarrow \R$ is the function such that
-$$A_{A,y}(x) = \begin{cases} 1 & y = A^x (\mod M) \\ 0 & \text{otherwise} \end{cases} \;.$$
+$$f_{A,y}(x) = \begin{cases} 1 & y = A^x (\mod M) \\ 0 & \text{otherwise} \end{cases} \;.$$
 
 The magic of Shor's algorithm comes from a procedure known as the [_Quantum Fourier Transform_](https://en.wikipedia.org/wiki/Quantum_Fourier_transform). It allows to change the state $\rho$ into the state $\hat{\rho}$ where the coefficient of $|x\rangle|y \rangle$ is now proportional to the _$x$-th Fourier coefficient_  of $f_{A,y}$.
 In other words, if  we measure the state $\hat{\rho}$, we will obtain a pair $(x,y)$ such that the probability of choosing $x$  is proportional to the square of the weight of the _frequency_ $x$ in the representation of the function $f_{A,y}$.
@@ -672,6 +684,30 @@ Since for every $y$, the function $f_{A,y}$ has the period $p_A$, it can be show
 If we make several such samples $y_0,\ldots,y_k$ and obtain the frequencies $x_1,\ldots,x_k$, then the true period $p_A$ divides all of them, and it can be shown that it is going to be in fact the _greatest common divisor_ (g.c.d.) of all these frequencies: a value which can be computed in polynomial time.
 
 As mentioned  above,  we can recover the factorization of $M$ from the periods of $F_{A_0},\ldots,F_{A_t}$ for some randomly chosen $A_0,\ldots,A_t$ in $\{0,\ldots, M-1\}$ and $t$ which is polynomial in $\log M$.
+
+The resulting algorithm can be described in a high (and somewhat inaccurate) level as follows:
+
+::: {.quote}
+__Shor's Algorithm:__ _(sketch)_
+
+__Input:__ Number $M\in \N$.
+
+__Output:__ Prime factorization of $M$.
+
+__Operations:__
+
+1. Repeat the following  $k=poly(\log M)$ number of times:
+
+   a. Choose $A \in \{0,\ldots,M-1\}$ at random, and let $f_A:\Z_M \rightarrow \Z_M$ be the map $x \mapsto A^x \mod M$.
+
+   b. For $t=poly(\log M)$, repeat $t$ times the following step: _Quantum Fourier Transform_ to create a quantum state $| \psi \rangle$ over $poly(\log(m))$ qubits, such that if we measure $| \psi \rangle$ we obtain a pair of strings $(j,y)$ with probability proportional to the square of the  coefficient corresponding to the wave function $x \mapsto \cos(x \pi j/M)$ or $x \mapsto \sin(x \pi j/M)$ in the Fourier transform of the function $f_{A,y}:\Z_m \rightarrow \{0,1\}$ defined as $f_{A,y}(x)=1$ iff $f_A(x)=y$.
+
+   c. If $j_1,\ldots,j_t$ are the coefficients we obtained in the previous step, then the least common multiple of $M/j_1,\ldots,M/j_t$ is likely to be the _period_ of the function $f_A$.
+
+2. If we let $A_0,\ldots,A_{k-1}$ and $p_0,\ldots,p_{k-1}$ be the numbers we chose in the previous step and the corresponding periods of the functions $f_{A_0},\ldots,f_{A_{k-1}}$ then we can use classical results in number theory to obtain from these a non-trivial prime factor $Q$ of $M$ (if such exists). We can now run the algorithm again with the (smaller) input $M/Q$ to obtain all other factors.
+:::
+
+Reducing factoring to order finding is cummbersome, but can be done in polynomial time using a classical computer. The key quantum ingredient in Shor's algorithm is the _quantum fourier transform_.
 
 ::: {.remark title="Quantum Fourier Transform" #QFT}
 Despite its name, the Quantum Fourier Transform does _not_ actually give a way to compute the Fourier Transform of a function $f:\{0,1\}^m \rightarrow \R$.
@@ -792,7 +828,8 @@ $$
 which exactly corresponds to $\hat{\rho}$.
 :::
 
-::: {.remark title="From Fourier to Period finding: Simon's Algorithm" #simons}
+### From Fourier to Period finding: Simon's Algorithm (advanced, optional)
+
 Using [QFTcube](){.ref} it is not hard to get an algorithm that can recover a string $h^* \in \{0,1\}^n$ given a circuit that computes a function $F:\{0,1\}^n \rightarrow \{0,1\}^*$  that is _$h^*$ periodic_ in the sense that $F(x)=F(x')$ for distinct $x,x'$ if and only if $x' = x \oplus h^*$.
 The key observation is that if we compute the state $\sum_{x\in \{0,1\}^n} |x \rangle |F(x) \rangle$,  and perform the Quantum Fourier transform on the first $n$ qubits, then we would get a state such that the only basis elements with nonzero coefficients would be of the form $|y \rangle$ where
 
@@ -804,15 +841,18 @@ So, by measuring the state, we can obtain a sample of a random $y$ satisfying [e
 But since [eq:periodbooleanqft](){.eqref} is a _linear_ equation modulo $2$ about the unknown $n$ variables $h^*_0,\ldots,h^*_{n-1}$, if we repeat this procedure to get $n$ such equations, we will have at least as many equations as variables  and (it can be shown that) this will suffice to recover $h^*$.
 
 This result is known as [Simon's Algorithm](https://en.wikipedia.org/wiki/Simon%27s_problem), and it preceded and inspired Shor's algorithm.
-:::
 
 
 
-::: {.remark title="From Simon to Shor (advanced, optional)" #simontoshorrem}
+
+
+### From Simon to Shor (advanced, optional)
+
 [QFTcube](){.ref} seemed to really use the special bit-wise structure of the group $\{0,1\}^n$,
 and so one could wonder if it can be extended to other groups.
-However, it turns out this can be the case.
-In particular, the key step in Shor's algorithm is to implement the Fourier transform for the group $\Z_L$ which is the set of numbers $\{0,\ldots,L-1\}$ with the operation being addition modulo $L$.
+However, it turns out that we can in fact achieve such a generalization.
+
+The key step in Shor's algorithm is to implement the Fourier transform for the group $\Z_L$ which is the set of numbers $\{0,\ldots,L-1\}$ with the operation being addition modulo $L$.
 In this case it turns out that the Fourier characters are the functions $\chi_y(x) = \omega^{yx}$ where $\omega = e^{2\pi i/L}$ ($i$ here denotes the complex number $\sqrt{-1}$).
 The $y$-th Fourier coefficient of a function $f:\Z_L \rightarrow \mathbb{C}$ is
 
@@ -829,7 +869,10 @@ which reduces computing the Fourier transform of $f$ over the group $\Z_{2^\ell}
 $f_{even}$ and $f_{odd}$ (corresponding to the applying $f$ to only the even and odd vectors respectively) which have $2^{\ell-1}$ inputs that we can identify with the group $\Z_{2^{\ell-1}}$.
 
 This observation is usually used to obtain a fast (e.g. $O(L \log L)$) time to compute the Fourier transform in a classical setting, but it can be used to obtain a quantum circuit of $poly(\log L)$ gates to transform a state of the form $\sum_{x\in \Z_L} f(x)|x\rangle$ to a state of the form $\sum_{y\in \Z_L} \hat{f}(y)|y \rangle$.
-:::
+
+The case that $L$ is not an exact power of two causes some complications in both the classical case of the Fast Fourier Transform and the quantum setting of Shor's algorithm.
+However, it is possible to handle these.
+The idea is that we can embed $Z_L$ in the group $\Z_{A\cdot L}$ for any integer $A$, and we can find  an integer $A$ such that $A\cdot L$ will be  close enough to a power of $2$ (i.e., a number of the form $2^m$ for some $m$), so that if we do the Fourier transform over the group $\Z_{2^m}$ then we will not introduce too many errors.
 
 
 
@@ -866,7 +909,7 @@ Prove the following relations between quantum complexity classes and classical o
 ::: {.exercise title="Discrete logarithm from order finding" #dlogfromorder}
 Show a probabilistic polynomial time classical algorithm that given an Abelian finite group $\mathbb{G}$ (in the form of an algorithm that computes the group operation), a _generator_ $g$ for the group, and an element $h \in \mathbb{G}$, as well  access to a black box that on input $f\in \mathbb{G}$ outputs the _order_ of $f$ (the smallest $a$ such that $f^a =1$), computes the _discrete logarithm_ of $h$ with respect to $g$.
 That is the algorithm should output a number $x$ such that $g^x = h$.
-See footnote for hint.^[We are given $h=g^x$ and need to recover $x$. TO do so we can compute the order of various elements of the form $h^ag^b$. The order of such an element is a number $c$ satisfying   $c(xa+b) = 0 \pmod{|\mathbb{G}|}$. With a few random examples we will get a non trivial equation on $x$ (where $c$ is not zero modulo $|\mathbb{G}|$) and then we can use our knowledge of $a,b,c$ to recover $x$.]
+See footnote for hint.^[We are given $h=g^x$ and need to recover $x$. To do so we can compute the order of various elements of the form $h^ag^b$. The order of such an element is a number $c$ satisfying   $c(xa+b) = 0 \pmod{|\mathbb{G}|}$. With a few random examples we will get a non trivial equation on $x$ (where $c$ is not zero modulo $|\mathbb{G}|$) and then we can use our knowledge of $a,b,c$ to recover $x$.]
 :::
 
 
