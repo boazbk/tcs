@@ -386,7 +386,7 @@ At this point you might want to skip ahead and  look at the _statement_ of [prge
 The fact that there _exists_ a pseudorandom generator does not mean that there is one that can be efficiently computed.
 However, it turns out that we can turn complexity "on its head" and use the assumed _non existence_ of fast algorithms for problems such as 3SAT to obtain pseudorandom generators that can then be used to transform randomized algorithms into deterministic ones.
 This is known as the _Hardness vs Randomness_ paradigm.
-A number of results along those lines, most of whom are ourside the scope of this course, have led researchers to believe the following conjecture:
+A number of results along those lines, most of which are outside the scope of this course, have led researchers to believe the following conjecture:
 
 ::: {.quote}
 __Optimal PRG conjecture:__ There is a polynomial-time computable function $PRG:\{0,1\}^* \rightarrow \{0,1\}$ that yields an _exponentially secure pseudorandom generator_.
