@@ -93,7 +93,7 @@ Confederate generals used Vigenère regularly during the civil war, and their me
 ![Confederate encryption of the message  "Gen'l Pemberton: You can expect no help from this side of the river. Let Gen'l Johnston know, if possible, when you can attack the same point on the enemy's lines. Inform me also and I will endeavor to make a diversion. I have sent some caps. I subjoin a despatch from General Johnston."](../figure/confederate_message.jpg){#tmplabelfig}
 
 
-The  _Enigma_ cipher had was a mechanical cipher (looking like a typewriter, see [enigmafig](){.ref}) where each letter typed would get mapped into a different letter depending on the (rather complicated) key and current state
+The  _Enigma_ cipher was a mechanical cipher (looking like a typewriter, see [enigmafig](){.ref}) where each letter typed would get mapped into a different letter depending on the (rather complicated) key and current state
 of the machine which had several rotors that rotated at different paces. An identically wired machine at the other end could be used to decrypt.
 Just as many ciphers in history, this has also been believed by the Germans to be "impossible to break" and even quite late in the war they refused to believe it was broken despite
 mounting evidence to that effect. (In fact, some German generals refused to believe it was broken even _after_ the war.)
