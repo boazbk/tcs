@@ -397,19 +397,20 @@ Specifically, there exists a constant  $\delta >0$ such that for every $\ell$ an
 ::: { .pause }
 The "optimal PRG conjecture" is worth while reading more than once. What it posits is that we can obtain $(T,\epsilon)$ pseudorandom generator $G$ such that every output bit of $G$ can be computed in time polynomial in the length $\ell$ of the input, where $T$ is exponentially large in $\ell$ and $\epsilon$ is exponentially small in $\ell$. (Note that we could not hope for the entire output to be computable in $\ell$, as just writing the output down will take too long.)
 
-To understand why we call such a pseudorandom generator "optimal," it is a great exercise to convince yourself that there exists no $(T,\epsilon)$ pseudorandom generator unless $T$ is smaller than (say) $2^{2\ell}$ and $\epsilon$ is at least (say) $2^{-2\ell}$.
-For the former case note that if we allow a NAND program with much more than $2^\ell$ lines then this NAND program could "hardwire" inside it all the outputs of $G$ on all its $2^\ell$ inputs, and use that to distinguish between a string of the form $G(s)$ and a uniformly chosen string in $\{0,1\}^m$.
-For the latter case note that by trying to "guess" the input $s$, we can achieve a $2^{-\ell}$ advantage in distinguishing a pseudorandom and uniform input.
-But working out these details is a highly recommended exercise.
+To understand why we call such a pseudorandom generator "optimal," it is a great exercise to convince yourself that, for example, there does not exist a $(2^{1.1\ell},2^{-1.1\ell})$ pseudorandom generator (in fact, the number $\delta$ in the conjecture must be smaller than $1$).
+To see that we can't have $T \gg 2^{\ell}$, note  that if we allow a NAND program with much more than $2^\ell$ lines then this NAND program could "hardwire" inside it all the outputs of $G$ on all its $2^\ell$ inputs, and use that to distinguish between a string of the form $G(s)$ and a uniformly chosen string in $\{0,1\}^m$.
+To see that we can't have $\epsilon \ll 2^{-\ell}$, note that by guessing the input $s$ (which will be successful with probability $2^{-2\ell}$), we can obtain a small (i.e., $O(\ell)$ line) NAND program  that achieves a $2^{-\ell}$ advantage in distinguishing a pseudorandom and uniform input.
+Working out these details is a highly recommended exercise.
 :::
 
 
 We emphasize again that the optimal PRG conjecture is, as its name implies, a _conjecture_, and we still do not know how to _prove_ it.
 In particular, it is stronger than the conjecture that $\mathbf{P} \neq \mathbf{NP}$.
 But we do have some evidence for its truth.
-There is a spectrum of different types of pseudorandom generators, and there are weaker assumption than the optimal PRG conjecture that suffice to prove that $\mathbf{BPP}=\mathbf{P}$.
+There is a spectrum of different types of pseudorandom generators, and there are weaker assumptions than the optimal PRG conjecture that suffice to prove that $\mathbf{BPP}=\mathbf{P}$.
 In particular this is known to hold under the assumption that there exists a function $F\in \mathbf{TIME}(2^{O(n)})$ and $\epsilon >0$ such that for every sufficiently large  $n$, $F_n$ is not in $SIZE(2^{\epsilon n})$.
-The name "Optimal PRG conjecture" is non standard. This conjecture is sometimes known in the literature as the existence of exponentially strong pseudorandom functions.^[For more on the many interesting results and connections in the study of _pseudorandomness_, see [this monograph of Salil Vadhan](https://people.seas.harvard.edu/~salil/pseudorandomness/).]
+The name "Optimal PRG conjecture" is non standard.
+This conjecture is sometimes known in the literature as the existence of _exponentially strong pseudorandom functions_.^[A pseudorandom generator of the form we posit, where each output bit can be computed individually in time polynomial in the seed length, is commonly known as a _pseudorandom function generator_. For more on the many interesting results and connections in the study of _pseudorandomness_, see [this monograph of Salil Vadhan](https://people.seas.harvard.edu/~salil/pseudorandomness/).]
 
 ### Usefulness of pseudorandom generators
 

@@ -618,17 +618,18 @@ A _computationally secret public key encryption_ with plaintext length $L:\N \ri
 
 [publickeyencdef](){.ref} allows $E$ and $D$ to be _randomized_ algorithms.
 In fact, it turns out that it is _necessary_ for $E$ to be randomized to obtain computational secrecy.
-It also turns out that, unlike the private key case, obtaining public key encryption for a _single bit of plaintext_ is sufficient for obtaining public key encryption for arbitrarily long messages.
-In particular this means that we cannot obtain a perfectly secret public key encryption scheme.
+It also turns out that, unlike the private key case, we can transform a public-key encryption that works for messages that are _only one bit long_ into a public-key encryption scheme that can encrypt arbitrarily long messages, and in particular messages that are _longer than the key_.
+In particular this means that we cannot obtain a perfectly secret public-key encryption scheme even for one-bit long messages (since it would imply a perfectly secret public-key, and hence in particular private-key, encryption with messages longer than the key).
 
 We will not give full constructions for public key encryption schemes in this chapter, but will mention some of the ideas that underlie the most widely used schemes today.
 These generally belong to one of two families:
 
-* _Group theoretic constructions_ based on  problems such as _integer factoring_, and the  _discrete logarithm_ over finite fields or elliptic curves.
+* _Group theoretic constructions_ based on  problems such as _integer factoring_ and the  _discrete logarithm_ over finite fields or elliptic curves.
 
 * _Lattice/coding based constructions_ based on problems such as the _closest vector in a lattice_ or  _bounded distance decoding_.
 
-Group theory based encryptions are more widely implemented, but the lattice/coding schemes are recently on the rise, particularly because encryption schemes based on the former can be broken by _quantum computers_, which we'll discuss later in  this  course.^[If you want to learn more about the different types of public key assumptions, you can take a look [at my own survey on this topic](https://eccc.weizmann.ac.il/report/2017/065/).]
+Group-theory based encryptions such as the RSA cryptosystem, the Diffie-Hellman protocol, and Elliptic-Curve Cryptography, are currently more widely implemented.
+But the lattice/coding schemes are recently on the rise, particularly because the known group theoretic encryption schemes can be broken by _quantum computers_, which we'll discuss later in  this  course.^[If you want to learn more about the different types of public key assumptions, you can take a look [at my own survey on this topic](https://eccc.weizmann.ac.il/report/2017/065/).]
 
 ### Diffie-Hellman key exchange
 

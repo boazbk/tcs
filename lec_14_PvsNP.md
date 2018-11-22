@@ -92,9 +92,11 @@ __Operation:__
 
 1. For $\ell=0,\ldots,an^b-1$ do the following:
 
-   a. Let $b_0 = STARTSWITH_V(xz_{0}\cdots z_{\ell-1}0)$ and $b_1 = STARTSWITH_V(xz_{0}\cdots z_{\ell-1}1)$
+   a. Let $b_0 = STARTSWITH_V(xz_{0}\cdots z_{\ell-1}0)$ and  $b_1 = STARTSWITH_V(xz_{0}\cdots z_{\ell-1}1)$.
 
-   b. If $b_0=1$ then $z_\ell=0$, otherwise $z_\ell=1$.
+   b. If $b_0=b_1=0$ then halt and output "no $z$ exists". _(In this there is no extension of $xz_0\ldots z_{\ell-1}$ that would cause $V$ to output $1$.)_
+
+   c. If $b=1$ _(i.e., can extend $xz_0\ldots z_{\ell-1}$ with $0$)_ then $z_\ell=0$,  otherwise _(i.e., can extend $xz_0\ldots z_{\ell-1}$ with $1$)_ $z_\ell=1$.
 
 2. Output $z_0,\ldots,z_{an^b-1}$.
 :::
