@@ -25,14 +25,14 @@ Modern science (arguably starting with Newton) has embraced Democritus' point of
 
 While the classification of particles and forces evolved with  time, to a large extent the "big picture" has not changed from  Newton till Einstein.
 In particular it was held as an axiom that if we knew fully the current _state_ of the universe (i.e., the particles and their properties such as location and velocity) then we could predict its future state at any point in time.
-In computational language, in all these theories the state of a system with $n$ particles could be stored in an array of $O(n)$ numbers, and predicting the evolution of the system  can be done by running some efficient (e.g., $poly(n)$ time) computation on this array.
+In computational language, in all these theories the state of a system with $n$ particles could be stored in an array of $O(n)$ numbers, and predicting the evolution of the system  can be done by running some efficient (e.g., $poly(n)$ time) deterministic computation on this array.
 
 ## The double slit experiment
 
 
-Alas, in the beginning of the 20th century, several experimental results were calling into question the "billiard ball" theory of the world.
-One such experiment is the famous [double slit](https://en.wikipedia.org/wiki/Double-slit_experiment) experiment.
-One way to describe it is as following.
+Alas, in the beginning of the 20th century, several experimental results were calling into question this "clockwork" or "billiard ball" theory of the world.
+One such experiment is the famous [double slit experiment](https://en.wikipedia.org/wiki/Double-slit_experiment).
+Here is one way to describe it.
 Suppose that we buy one of those baseball pitching machines, and aim it at a soft plastic wall, but put a _metal barrier with a single slit_ between the machine and the plastic wall (see [doublebaseballfig](){.ref}).
 If we shoot baseballs at the plastic wall, then some of the baseballs would bounce off the metal barrier, while some would make it through the slit and dent the wall.
 If we now carve out an additional slit in the metal barrier then more balls would get through, and so the plastic wall would be _even more dented_.
@@ -41,9 +41,9 @@ If we now carve out an additional slit in the metal barrier then more balls woul
 ![In the "double baseball experiment" we shoot baseballs from a gun at a soft wall through a hard barrier that has one or two slits open in it. There is only "constructive interference" in the sense that the dent in each position in the wall when both slits are open is the sum of the dents when each slit is open on its own.](../figure/double_baseball2.png){#doublebaseballfig .class width=300px height=300px}
 
 
-So far this is pure common sense, and it is indeed (to my knowledge) an accurate description of what happens when we shoot baseballs at a wall.
+So far this is pure common sense, and it is indeed (to my knowledge) an accurate description of what happens when we shoot baseballs at a plastic wall.
 However, this is not the same when we shoot _photons_.
-Amazingly, if we shoot with a "photon gun" (i.e., a laser) at a wall equipped with photon detectors through some barrier, then (as shown in [doubleslitfig](){.ref}) we sometimes see  _fewer_ hits when the two slits are open than one only ones of them is!.^[A nice illustrated description of the double slit experiment appears in   [this video](https://www.youtube.com/watch?v=DfPeprQ7oGc).]
+Amazingly, if we shoot with a "photon gun" (i.e., a laser) at a wall equipped with photon detectors through some barrier, then (as shown in [doubleslitfig](){.ref}) in some positions of the wall we will see  _fewer_ hits when the two slits are open than one only ones of them is!.^[A nice illustrated description of the double slit experiment appears in   [this video](https://www.youtube.com/watch?v=DfPeprQ7oGc).]
 In particular there are positions in the wall that are hit when the first slit is open, hit when the  second gun is open, but are _not hit at all when both slits are open!_.
 
 
@@ -63,16 +63,18 @@ You should read the paragraphs above more than once and make sure you appreciate
 ## Quantum amplitudes
 
 
-The double slit and other experiments ultimately forced scientists to accept the following picture of the world.
-Let us go back to the baseball experiment.
-Suppose that the probability a ball passes through the left slit is $p_L$ and the probability that it passes through the right slit is $p_R$.  Then, if we shoot $N$ balls out of each gun, we expect the wall  will be hit $(p_L+p_R)N$ times.
+The double slit and other experiments ultimately forced scientists to accept a very counterintuitive picture of the world.
+It is not merely about nature being randomized, but rather it is about the probabilities in some sense "going negative" and cancelling each other!
 
-In the quantum world, it can sometimes be the case that in both the first and second case the wall is hit with positive probabilities $p_L$ and $p_R$ respectively but somehow when both slits are open the wall (or a particular position in it) is not hit at all. It's almost as if the probabilities can "cancel each other out".
+To see what we mean by this, let us go back to the baseball experiment.
+Suppose that the probability a ball passes through the left slit is $p_L$ and the probability that it passes through the right slit is $p_R$.  Then, if we shoot $N$ balls out of each gun, we expect the wall  will be hit $(p_L+p_R)N$ times.
+In contrast, in the quantum world of photons instead of baseballs, it can sometimes be the case that in both the first and second case the wall is hit with positive probabilities $p_L$ and $p_R$ respectively but somehow when both slits are open the wall (or a particular position in it) is not hit at all.
+It's almost as if the probabilities can "cancel each other out".
 
 To understand the way we model this in quantum mechanics, it is helpful to think of a "lazy evaluation" approach to probability.
 We can think of a probabilistic experiment such as shooting a baseball through two slits  in two different ways:
 
-* When a ball is shot, "nature" tosses a coin and decides if it will go through the left slit (which happens with a certain probability $p_L$), right slit (which happens with a certain probability $p_R$),  or bounce back. If it passes through one of the slits then it will hit the wall.
+* When a ball is shot, "nature" tosses a coin and decides if it will go through the left slit (which happens with  probability $p_L$), right slit (which happens with  probability $p_R$),  or bounce back. If it passes through one of the slits then it will hit the wall.
 Later we can look at the wall and find out whether or not this event happened, but the fact that the event happened or not is determined independently of whether or not we look at the wall.
 
 * The other viewpoint is that when a ball is shot, "nature" computes the probabilities $p_L$ and $p_R$ as before, but does _not_ yet "toss the coin" and determines what happened.
@@ -86,10 +88,6 @@ This number $\alpha$ can be _negative_, and in fact even _complex_.
 We never observe the amplitudes directly, since whenever we _measure_ an event with amplitude $\alpha$, nature tosses a coin and determines that the event happens with probability $|\alpha|^2$.
 However, the sign (or in the complex case, phase) of the amplitudes can affect whether two different events have _constructive_ or _destructive_ interference.
 
-::: { .pause }
-If you don't find the above description confusing and unintuitive, you probably didn't get it.
-Please make sure to re-read the above paragraphs until you are thoroughly confused.
-:::
 
 Specifically, consider an event that can either occur or not (e.g. "detector number 17 was hit by a photon").
 In classical probability, we model this by a probability distribution over the two outcomes: a pair of non-negative numbers $p$ and $q$ such that $p+q=1$, where $p$ corresponds to  the probability that the event occurs and $q$ corresponds to the probability that the event does not occur.
@@ -98,6 +96,24 @@ The probability that the event occurs is $|\alpha|^2$ and the probability that i
 In isolation, these negative or complex numbers don't matter much, since we anyway square them to obtain probabilities.
 But the interaction of positive and negative amplitudes can result in surprising _cancellations_ where somehow combining two scenarios where an event happens with positive probability results in a scenario where it  never does.
 
+::: { .pause }
+If you don't find the above description confusing and unintuitive, you probably didn't get it.
+Please make sure to re-read the above paragraphs until you are thoroughly confused.
+:::
+
+
+
+
+
+
+Quantum mechanics is a mathematical theory that allows us to calculate and predict the results of the double-slit and many other experiments.
+If you think of quantum mechanics as an explanation as to what "really" goes on in the world, it can be rather confusing.
+However, if you simply "shut up and calculate" then it works amazingly well at predicting  experimental results.
+In particular, in the double slit experiment, for any position in the wall, we can compute  numbers $\alpha$ and $\beta$ such that photons from the first and second slit  hit that position with probabilities $|\alpha|^2$ and $|\beta|^2$ respectively.
+When we open both slits, the probability that the position will be hit is proportional to $|\alpha+\beta|^2$, and so in particular, if $\alpha=-\beta$ then it will be the case that, despite being hit when _either_ slit one or slit two are open, the position is _not hit at all_ when they both are.
+If you are confused by quantum mechanics,  you are not alone: for decades people have been trying to come up with [explanations](https://en.wikipedia.org/wiki/Interpretations_of_quantum_mechanics) for "the underlying reality" behind quantum mechanics, including [Bohmian Mechanics](https://en.wikipedia.org/wiki/De_Broglie%E2%80%93Bohm_theory),  [Many Worlds](https://en.wikipedia.org/wiki/Many-worlds_interpretation) and others.
+However, none of these interpretations have gained universal acceptance and all of those (by design) yield the same experimental predictions.
+Thus at this point many scientists prefer to just ignore the question of what is the "true reality" and go back to simply "shutting up and calculating".
 
 ::: {.remark title="Complex vs real, other simplifications" #complexrem}
 If (like the author) you are a bit intimidated by complex numbers, don't worry: you can think of all amplitudes as _real_ (though potentially _negative_) numbers without loss of understanding.
@@ -109,18 +125,6 @@ Pure states turn out to be sufficient for understanding the algorithmic aspects 
 More generally, this chapter is not meant to be a complete  description of quantum mechanics, quantum information theory, or quantum computing, but rather illustrate the main points where these differ  from classical computing.
 :::
 
-
-
-
-
-Quantum mechanics is a mathematical theory that allows us to calculate and predict the results of the double-slit and many other experiments.
-If you think of quantum mechanics as an explanation as to what "really" goes on in the world, it can be rather confusing.
-However, if you simply "shut up and calculate" then it works amazingly well at predicting  experimental results.
-In particular, in the double slit experiment, for any position in the wall, we can compute  numbers $\alpha$ and $\beta$ such that photons from the first and second slit  hit that position with probabilities $|\alpha|^2$ and $|\beta|^2$ respectively.
-When we open both slits, the probability that the position will be hit is proportional to $|\alpha+\beta|^2$, and so in particular, if $\alpha=-\beta$ then it will be the case that, despite being hit when _either_ slit one or slit two are open, the position is _not hit at all_ when they both are.
-If you are confused by quantum mechanics,  you are not alone: for decades people have been trying to come up with [explanations](https://en.wikipedia.org/wiki/Interpretations_of_quantum_mechanics) for "the underlying reality" behind quantum mechanics, from [Bohmian mechanics](https://en.wikipedia.org/wiki/De_Broglie%E2%80%93Bohm_theory) to [Many worlds](https://en.wikipedia.org/wiki/Many-worlds_interpretation) as well as many others.
-However, none of these interpretation have gained universal acceptance and all of those (by design) yield the same experimental predictions.
-Thus at this point many scientists prefer to just ignore the question of what is the "true reality" and go back to simply "shutting up and calculating".
 
 
 ## Bell's Inequality
@@ -151,7 +155,7 @@ In other words, Alice and Bob need to output two bits that _disagree_ if $x=y=1$
 
 Now if Alice and Bob are not telepathic, then they need to agree in advance on some strategy.
 It's not hard for Alice and Bob to succeed with probability $3/4$: just always output the same bit.
-However, by doing some case analysis, we can show that no matter what strategy they use, Alice and Bob cannot succeed with higher probability than that:^[[bellthm](){.ref} below assumes that Alice and Bob use _deterministic_ strategies $f$ and $g$ respectively. More generally, Alice and Bob could use a _probabilistic_ strategy, or equivalently, each could choose $f$ and $g$ from some  _distributions_ $\mathcal{F}$ and $\mathcal{G}$ respectively.  However the _averaging principle_ ([averagingprinciplerem](){.ref}) implies that if all possible deterministic strategies succeed with probability at most $3/4$, then the same is true for probabilistic strategies.]
+Moreover, by doing some case analysis, we can show that no matter what strategy they use, Alice and Bob cannot succeed with higher probability than that:^[[bellthm](){.ref} below assumes that Alice and Bob use _deterministic_ strategies $f$ and $g$ respectively. More generally, Alice and Bob could use a _randomized_ strategy, or equivalently, each could choose $f$ and $g$ from some  _distributions_ $\mathcal{F}$ and $\mathcal{G}$ respectively.  However the _averaging principle_ ([averagingprinciplerem](){.ref}) implies that if all possible deterministic strategies succeed with probability at most $3/4$, then the same is true for all randomized strategies.]
 
 > # {.theorem title="Bell's Inequality" #bellthm}
 For every two functions $f,g:\{0,1\}\rightarrow\{0,1\}$, $\Pr_{x,y \in \{0,1\}}[  f(x) \oplus g(y) = x \wedge y] \leq 3/4$.
@@ -860,13 +864,20 @@ $$\hat{f}(y) = \tfrac{1}{\sqrt{L}}\sum_{x\in \Z_L} f(x)\omega^{xy} \;. \label{fo
 
 The key to implementing the Quantum Fourier Transform  for such groups is to use the same recursive equations that enable the classical [Fast Fourier Transform (FFT)](https://en.wikipedia.org/wiki/Fast_Fourier_transform) algorithm.
 Specifically, consider the case that $L=2^\ell$.
-We can separate the sum over $x$ in [fouriercoeffmodular](){.eqref} to the terms corresponding to even $x$'s (of the form $x=2z$) and odd $x$'s (of the form $x=2z+1$) too obtain
+We can separate the sum over $x$ in [fouriercoeffmodular](){.eqref} to the terms corresponding to even $x$'s (of the form $x=2z$) and odd $x$'s (of the form $x=2z+1$) to obtain
 
-$$\hat{f}(y) = \tfrac{1}{\sqrt{L}}\sum_{z \in Z_{L/2}} f(2z)(\omega^2)^{yz} + \tfrac{1}{\sqrt{L}}\sum_{z\in \Z_{L/2}}f(2z+1)(\omega^2)^{yz}\omega^y
+$$\hat{f}(y) = \tfrac{1}{\sqrt{L}}\sum_{z \in Z_{L/2}} f(2z)(\omega^2)^{yz} + \tfrac{\omega^y}{\sqrt{L}}\sum_{z\in \Z_{L/2}}f(2z+1)(\omega^2)^{yz} \label{eqfftrecurse}
 $$
 
 which reduces computing the Fourier transform of $f$ over the group $\Z_{2^\ell}$ to computing the Fourier transform of the functions
-$f_{even}$ and $f_{odd}$ (corresponding to the applying $f$ to only the even and odd vectors respectively) which have $2^{\ell-1}$ inputs that we can identify with the group $\Z_{2^{\ell-1}}$.
+$f_{even}$ and $f_{odd}$ (corresponding to the applying $f$ to only the even and odd $x$'s respectively) which have $2^{\ell-1}$ inputs that we can identify with the group $\Z_{2^{\ell-1}}=\Z_{L/2}$.
+
+Specifically, the Fourier characters of the group $\Z_{L/2}$ are the functions $\chi_y(x) = e^{2\pi i/(L/2) yx} = (\omega^2)^{yx}$ for every $x,y \in \Z_{L/2}$.
+Moreover, since $\omega^L = 1$, $(\omega^2)^y = (\omega^2)^{y \mod L/2}$ for every $y\in \N$.
+Thus [eqfftrecurse](){.eqref} translates into
+$$\hat{f}(y) = \hat{f}_{even}(y \mod L/2) + \omega^y \hat{f}_{odd}(y \mod L/2) \;.
+$$
+
 
 This observation is usually used to obtain a fast (e.g. $O(L \log L)$) time to compute the Fourier transform in a classical setting, but it can be used to obtain a quantum circuit of $poly(\log L)$ gates to transform a state of the form $\sum_{x\in \Z_L} f(x)|x\rangle$ to a state of the form $\sum_{y\in \Z_L} \hat{f}(y)|y \rangle$.
 
