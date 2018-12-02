@@ -193,7 +193,7 @@ __Operation:__
 
 2. We will initialize the table by setting the $i$-th value of `Vartable`  to $x_i$ for every $i\in [n]$.
 
-3. We will go over the list $L$ in order, and for every triple  $(i,j,k)$ in $L$, we let $a$ be `GET(Vartable,`$j$`)`, $b$ be `GET(Vartable`$k$`)`, and then set the value corresponding to $i$ to the NAND of $a$ and $b$. That is, let `Vartable = UPDATE(Vartable,`$i$,`NAND(`$a$`,`$b$`))`.
+3. We will go over the list $L$ in order, and for every triple  $(i,j,k)$ in $L$, we let $a$ be `GET(Vartable,`$j$`)`, $b$ be `GET(Vartable,`$k$`)`, and then set the value corresponding to $i$ to the NAND of $a$ and $b$. That is, let `Vartable = UPDATE(Vartable,`$i$,`NAND(`$a$`,`$b$`))`.
 
 4. Finally, we output the value `GET(Vartable,`$t-m+j$`)` for every $j\in [m]$.
 
