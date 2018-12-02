@@ -146,7 +146,7 @@ For every finite set $\Sigma$ and $exp \in (\Sigma \cup \{ (,),|,*,\emptyset, ""
 That is, there is an always halting NAND++ program $P_{exp}$ that computes $\Phi_{exp}$.^[Formally, we only defined the notion of NAND++ programs that compute functions whose inputs are _binary_ strings, but as usual we can represent non-binary strings over the binary alphabet. Specifically, since $\Sigma$ is a finite set, we can always represent an element of it by a binary string of length $\ceil{\log |\Sigma|}$, and so can represent a string $x \in \Sigma^*$ as a string $\hat{x} \in \{0,1\}^*$ of length $\ceil{\log |\Sigma|}|x|$.]
 
 > # {.proofidea data-ref="regularexphalt"}
-The main idea behind the proof is to see that [matchingregexpdef](){.ref} actually specifies a recursive algorithm for _computing_ $\Phi_exp$.
+The main idea behind the proof is to see that [matchingregexpdef](){.ref} actually specifies a recursive algorithm for _computing_ $\Phi_{exp}$.
 Specifically, each one of our operations -concatenation, OR, and  star- can be thought of as reducing the task of testing whether an expression $exp$ matches a string $x$ to testing whether some sub-expressions of $exp$ match substrings of $x$. Since these sub-expressions are always shorter than the original expression, this yields a recursive algorithm for checking if $exp$ matches $x$ which will eventually terminate at the base cases of the expressions that correspond to a single symbol or the empty string.
 The details are specified below.
 
