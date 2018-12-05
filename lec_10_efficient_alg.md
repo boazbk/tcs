@@ -130,7 +130,7 @@ It should however be always clear that there exists _some_ data structure that w
 ### Finding the longest path in a graph
 
 The _longest path problem_ is the task of, given a graph $G=(V,E)$ and two vertices $s,t \in V$, to find the length of the _longest_ simple (i.e., non intersecting) path between $s$ and $t$.
-If the graph is a road network, then the longest path might seem less motivated than the shortest path, but of course graphs can be and are used to model a variety of phenomena, and in many such cases the longest path (and some of its variants) are highly moticated.
+If the graph is a road network, then the longest path might seem less motivated than the shortest path, but of course graphs can be and are used to model a variety of phenomena, and in many such cases the longest path (and some of its variants) are highly motivated.
 In particular, finding the longest path is a generalization of the famous  [Hamiltonian path problem](https://en.wikipedia.org/wiki/Hamiltonian_path_problem) which asks for  a _maximally long_ simple path (i.e., path that visits all $n$ vertices once) between $s$ and $t$, as well as   the notorious [traveling salesman problem (TSP)](https://en.wikipedia.org/wiki/Travelling_salesman_problem) of finding (in a weighted graph) a path visiting all vertices of cost at most $w$.
 TSP is a classical optimization problem, with applications ranging from  planning and logistics to DNA sequencing and astronomy.
 
@@ -346,7 +346,7 @@ One example, is the problem (discussed below) of finding the prime factors of a 
 The natural algorithm is to search for such a factor by trying all numbers from $1$ to $N$, but that would take $N$ steps which is _exponential_ in the input length, which is number of bits needed to describe $N$.^[The running time of this algorithm can be easily improved to roughly $\sqrt{N}$, but this is still exponential (i.e., $2^{n/2}$) in the number $n$ of bits to describe $N$.]
 It is an important and long open question whether there is such an algorithm  that runs in time polynomial in the input length (i.e., polynomial in $\log N$).
 
-### Solving quadraftic equations
+### Solving quadratic equations
 
 Suppose that we want to solve not just _linear_ but also  equations involving  _quadratic_ terms of the form $a_{i,j,k}x_jx_k$.
 That is, suppose that we are given a set of quadratic polynomials $p_1,\ldots,p_m$ and consider the equations $\{ p_i(x) = 0 \}$.
