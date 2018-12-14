@@ -121,12 +121,12 @@ GOTO("increment_temp",cond)
 
 ### Two dimensional arrays in NAND++
 
-To implement two dimensional arrays, we embed want to embed them in a one dimensional array.
+To implement two dimensional arrays, we want to embed them in a one dimensional array.
 The idea is that we come up with a _one to one_ function $embed:\N \times \N \rightarrow \N$, and so embed the location $(i,j)$ of the two dimensional array `Two` in the location $embed(i,j)$ of the array `One`.
 
 Since the set $\N \times \N$ seems "much bigger" than the set $\N$, a priori it might not be clear that such a one to one mapping exists. However, once you think about it more, it is not that hard to construct.
 For example, you could ask a child to use scissors and glue to transform a 10" by 10" piece of paper into a  1" by 100" strip.
-If you think about it, this is essentially  a one to one map from $[10]\times [10]$ to $[10]$. We can generalize this to obtain a one to one map from $[n]\times [n]$ to $[n^2]$ and more generally a one to one map from $\N \times \N$ to $\N$.
+If you think about it, this is essentially  a one to one map from $[10]\times [10]$ to $[100]$. We can generalize this to obtain a one to one map from $[n]\times [n]$ to $[n^2]$ and more generally a one to one map from $\N \times \N$ to $\N$.
 Specifically, the following map $embed$ would do (see [pairingfuncfig](){.ref}):
 
 $$embed(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+x\;\;.$$
@@ -521,7 +521,7 @@ We say that _$exp$ computes $F$_ if for every $x\in \{0,1\}^*$, the expressions 
 :::
 
 
-The basic operations of of the enhanced $\lambda$ calculus more or less amount to the Lisp/Scheme programming language.^[In Lisp, the $PAIR$, $HEAD$ and $TAIL$ functions are [traditionally called](https://goo.gl/BLRd6S) `cons`, `car` and `cdr`.]
+The basic operations of the enhanced $\lambda$ calculus more or less amount to the Lisp/Scheme programming language.^[In Lisp, the $PAIR$, $HEAD$ and $TAIL$ functions are [traditionally called](https://goo.gl/BLRd6S) `cons`, `car` and `cdr`.]
 Given that, it is perhaps not surprising that the  enhanced $\lambda$-calculus is equivalent to NAND++:
 
 > # {.theorem title="Lambda calculus and NAND++" #lambdaturing-thm}
