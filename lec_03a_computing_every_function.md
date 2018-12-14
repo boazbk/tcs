@@ -497,9 +497,6 @@ The "pseudocode" for this program will be
 
 ```python
 Z[0] = LOOKUP_1(X[0],X[1],X[4])
-```
-```python
-Z[0] = LOOKUP_1(X[0],X[1],X[4])
 Z[1] = LOOKUP_1(X[2],X[3],X[4])
 Y[0] = LOOKUP_1(Z[0],Z[1],X[5])
 ```
