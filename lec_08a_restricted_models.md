@@ -197,7 +197,7 @@ It is also known that _every_ function that can be computed by a deterministic f
 The relation of regular expressions with finite automata is a beautiful topic, on which we only touch upon in this texts. See books such as [Sipser's](https://math.mit.edu/~sipser/book.html), [Hopcroft, Motwani and Ullman](http://infolab.stanford.edu/~ullman/ialc.html), and [Kozen's](https://www.springer.com/us/book/9783642857065).
 
 We now prove the algorithmic result that regular expression matching can be done by a linear (i.e.,  $O(n)$) time algorithm, and moreover one that uses a constant amount of memory, and makes a single pass over its input.^[We say that an algorithm $A$ for matching regular expressions uses a constant, or $O(1)$, memory, if for every regular expression $exp$ there exists some number $C$ such that for every input $x\in \{0,1\}^*$, $A$ utilizes at most $C$ bits of working memory to compute $\Phi_{exp}(x)$, no matter how long $x$ is.]
-Since we have not yet covered the topics of time and space complexity, we we describe the algorithm in high level terms, without making the computational model precise.
+Since we have not yet covered the topics of time and space complexity, we describe the algorithm in high level terms, without making the computational model precise.
 In [spacechap](){.ref} we will define space complexity formally, and prove the equivalence of deterministic finite automata and regular expression (see also [regdfaequivthmstate](){.ref} below), which will also imply [dfaforregthm](){.ref}.
 
 ::: {.theorem title="DFA for regular expression matching" #dfaforregthm}
