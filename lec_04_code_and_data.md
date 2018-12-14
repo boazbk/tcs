@@ -54,7 +54,7 @@ where we denote by $P(x)$ the output of the program represented by the string $P
 The above is one of those observations that are simultaneously both simple and profound. Please make sure that you understand __(1)__ how for every fixed choice of representing programs as strings, the function $EVAL$ above is well defined, and __(2)__ what this function actually does.
 
 
-$EVAL$ takes strings arbitrarily of length, and hence cannot be computed by a NAND program, that has a fixed length of inputs.
+$EVAL$ takes strings of arbitrary length, and hence cannot be computed by a NAND program, that has a fixed length of inputs.
 However, one of the most interesting consequences of the fact that we can represent programs as strings is the following theorem:
 
 > # {.theorem title="Bounded Universality of NAND programs" #bounded-univ}
@@ -263,7 +263,7 @@ We will use variables `Vartable[`$0$`]`,$\ldots$,`Vartable[`$2^\ell-1$`]`, where
 However, NAND doesn't have integer-valued variables, so we cannot write code such as
 `Vartable[i]` for some variable `i`.
 However, we _can_ implement the function `GET(Vartable,i)` that outputs the `i`-th bit of the array `Vartable`.
-Indeed, this is nothing by the function `LOOKUP` that we have seen in [lookup-thm](){.ref}!
+Indeed, this is nothing but the function `LOOKUP` that we have seen in [lookup-thm](){.ref}!
 
 > # { .pause }
 Please make sure that you understand why `GET` and `LOOKUP` are the same function.
