@@ -5,7 +5,7 @@
 
 > # { .objectives }
 * Learn the model of NAND++ programs that add loops and arrays to handle inputs of all lengths.
-* See some basic syntactic sugar and eauivalence of variants of  NAND++  programs.
+* See some basic syntactic sugar and equivalence of variants of  NAND++  programs.
 * See equivalence between NAND++ programs and Turing Machines.
 
 

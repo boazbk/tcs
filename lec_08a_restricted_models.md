@@ -118,7 +118,7 @@ Then the  function $\Phi_{exp}$ is defined as follows:
 4. If $exp= (exp')*$ then $\Phi_{exp}(x)=1$ iff there are is $k\in \N$ and some $x_0,\ldots,x_{k-1} \in \Sigma^*$ such that $x$ is the concatenation $x_0 \cdots x_{k-1}$ and $\Phi_{exp'}(x_i)=1$ for every $i\in [k]$. \
 5. Finally, for the edge cases $\Phi_{\emptyset}$ is the constant zero function, and $\Phi_{""}$ is the function that only outputs $1$ on the empty string $""$.
 
-We say that a regular expresion  $exp$ over $\Sigma$ _matches_ a string $x \in \Sigma^*$  if $\Phi_{exp}(x)=1$.
+We say that a regular expression  $exp$ over $\Sigma$ _matches_ a string $x \in \Sigma^*$  if $\Phi_{exp}(x)=1$.
 We say that a function $F:\Sigma^* \rightarrow \{0,1\}$ is _regular_ if $F=\Phi_{exp}$ for some regular expression $exp$.^[We use _function notation_ in this book, but   other texts  often use the notion of  _languages_, which are sets of string. We say that a language $L \subseteq \Sigma^*$  is _regular_ if and only if the corresponding function $F_L$ is regular, where $F_L:\Sigma^* \rightarrow \{0,1\}$ is the function that outputs $1$ on $x$ iff $x\in L$.]
 :::
 

@@ -4,7 +4,7 @@
 # Computation and Representation {#chaprepres }
 
 > # { .objectives }
-* _Representating_ an object as a string (often of zeroes and ones).
+* _Representing_ an object as a string (often of zeroes and ones).
 * Examples of representations for common objects such as numbers, vectors, lists, graphs.
 * Prefix-free representations.
 * Distinguish between _specification_ and _implementation_, or equivalently between _algorithms/programs_ and _mathematical functions_.

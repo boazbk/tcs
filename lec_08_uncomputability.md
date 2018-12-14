@@ -52,7 +52,7 @@ $$
 EVAL(P,x)=P(x)
 $$
 for strings $P,x$ such that $P$ is a valid representation of a NAND++ program which halts and produces an output on $x$.
-Moreover, for every input $x\in \{0,1\}^*$  on which $P$ does not halt,   $U(P,x)$ does not halt as well.
+Moreover, for every input $x\in \{0,1\}^*$  on which $P$ does not halt, $U(P,x)$ does not halt as well.
 :::
 
 :::  {.proofidea data-ref="univnandppnoneff"}
@@ -694,7 +694,7 @@ Moreover, even phrasing the right theorem to prove (i.e., the specification) if 
 ::: { .recap }
 * There is a _universal_ NAND++ program $U$ such that on input a description of a NAND++ program $P$ and some input $x$,  $U(P,x)$ halts and  outputs $P(x)$ if (and only if) $P$ halts on input $x$. Unlike in the case of finite computation (i.e., NAND programs / circuits), the input to the program $U$ can be a program $P$ that has more lines than $U$ itself.
 
-* Unlike the finite case, there are actually functions that are _iherenently uncomputable_ in the sense that they cannot be computed by _any_ NAND++ program.
+* Unlike the finite case, there are actually functions that are _inherently uncomputable_ in the sense that they cannot be computed by _any_ NAND++ program.
 
 * These include not only some "degenerate" or "esoteric" functions but also functions that people have deeply cared about and conjectured that could be computed.
 

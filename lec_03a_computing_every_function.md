@@ -449,7 +449,7 @@ See the website [http://nandpl.org](http://nandpl.org) for an applet that produc
 Once we have addition, we can use the grade-school algorithm to obtain multiplication as well, thus obtaining the following theorem:
 
 
-> # {.theorem title="Multiplication NAND programs" #theoremid}
+> # {.theorem title="Multiplication using NAND programs" #theoremid}
 For every $n$, let $MULT_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{2n}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the product of the numbers that $x$ and $x'$ represent. Then there is a NAND program that computes the function $MULT_n$. Moreover, the number of lines in this program is smaller than $1000n^2$.
 
 We omit the proof, though in [multiplication-ex](){.ref} we ask you to supply a "constructive proof" in the form of a program (in your favorite programming language) that on input a number $n$, outputs the code of a NAND program of at most $1000n^2$ lines that computes the $MULT_n$ function.

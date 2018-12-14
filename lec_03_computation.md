@@ -110,7 +110,6 @@ These steps can be executed by:
 
 * Response to a stimulus by a member of a collection (e.g., a bee in a colony, a trader in a market).
 
-
 To formally define algorithms, let us try to "err on the side of simplicity" and model our "basic steps" as truly minimal.
 For example, here are some very simple functions:
 
@@ -124,7 +123,7 @@ $$AND(a,b) = \begin{cases} 1 & a=b=1 \\ 0 & \text{otherwise} \end{cases}$$
 
 * $NOT:\{0,1\} \rightarrow \{0,1\}$ defined as $NOT(a) = 1-a$.
 
-The $AND$, $OR$ and $NOT$  functions are the basic logical operators that are used in logic and many computer system.
+The $AND$, $OR$ and $NOT$ functions are the basic logical operators that are used in logic and many computer system.
 Each one of them takes either one or two single bits as input, and produces a single bit as output.
 Clearly, it cannot get much more basic than these.
 However, the power of computation comes from _composing_ simple building blocks together.

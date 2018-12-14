@@ -32,7 +32,7 @@ Roughly speaking, we will say that a function $F$ is computable in time $T(n)$ t
 ::: {.definition title="Running time" #time-def}
 Let $T:\N \rightarrow \N$ be some function mapping natural numbers to natural numbers.
 We say that a  function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _computable in $T(n)$ NAND<< time_
-if there exists a NAND<< program $P$ such that for every  every sufficiently large $n$ and  every $x\in \{0,1\}^n$, when given  input $x$, the program $P$ halts after executing at most $T(n)$ lines and outputs $F(x)$.^[The relaxation of considering only "sufficiently large" $n$'s is not very important but it is convenient since it allows us to avoid dealing explicitly with un-interesting "edge cases". In most cases we will anyway be interested in determining running time only up to constant and even polynomial factors. Note that we can always compute a function on a finite number of inputs using a lookup table.]
+if there exists a NAND<< program $P$ such that for every sufficiently large $n$ and  every $x\in \{0,1\}^n$, when given  input $x$, the program $P$ halts after executing at most $T(n)$ lines and outputs $F(x)$.^[The relaxation of considering only "sufficiently large" $n$'s is not very important but it is convenient since it allows us to avoid dealing explicitly with un-interesting "edge cases". In most cases we will anyway be interested in determining running time only up to constant and even polynomial factors. Note that we can always compute a function on a finite number of inputs using a lookup table.]
 
 Similarly, we say that $F$ is _computable in $T(n)$ NAND++ time_ if there is a NAND++ program $P$ computing $F$ such  that on every sufficiently large $n$ and $x\in \{0,1\}^n$, on input $x$, $P$ executes at most  $T(n)$ lines before it halts with the output $F(x)$.
 
@@ -411,7 +411,7 @@ We have seen two ways to define that $F$ is computable within a roughly $T(n)$ a
 
 1. There is a _single algorithm_ $P$ that computes $F$ within $T(n)$ steps on all inputs of length $n$. In such a case we say that  $F$ is  _uniformly_ computable (or more often, simply "computable") within $T(n)$ steps.
 
-2. For every $n$, there is a $T(n)$ NAND program $Q_n$ that computes $F_n$. In such a case we say that $F$ has can be computed via a _non uniform_ $T(n)$ bounded sequence of algorithms.
+2. For every $n$, there is a $T(n)$ NAND program $Q_n$ that computes $F_n$. In such a case we say that $F$ can be computed via a _non uniform_ $T(n)$ bounded sequence of algorithms.
 
 Unlike the first condition, where there is a single algorithm or "recipe" to compute $F$ on all possible inputs, in the second condition we allow the restriction $F_n$ to be computed by a  completely different  program $Q_n$ for every $n$.
 One can see that the second condition is much more relaxed, and hence we might expect that every function satisfying the first condition satisfies the second one as well (up to a small overhead in the bound $T(n)$).
@@ -609,7 +609,7 @@ Please make sure you understand why this is the case.
 :::
 
 
-Using the equivalence of NAND programs and Boolean circuits, we can also define $P_{/poly}$ as the class of functions $F:\{0,1\}^* \rightarrow \{0,1\}$  such that the restriction of $F$ to $\{0,1\}^n$ is computable by a Boolean circuit of $poly(n)$ size (say with gates in the set $\wedge,\vee,\neg$ though any universal gateset will do); see [Ppolyfig](){.ref}.
+Using the equivalence of NAND programs and Boolean circuits, we can also define $\mathbf{P_{/poly}} $ as the class of functions $F:\{0,1\}^* \rightarrow \{0,1\}$  such that the restriction of $F$ to $\{0,1\}^n$ is computable by a Boolean circuit of $poly(n)$ size (say with gates in the set $\wedge,\vee,\neg$ though any universal gateset will do); see [Ppolyfig](){.ref}.
 
 ![We can think of an infinite function $F:\{0,1\}^* \rightarrow \{0,1\}$ as a collection of finite functions $F_0,F_1,F_2,\ldots$ where $F_n:\{0,1\}^n \rightarrow \{0,1\}$ is the restriction of $F$ to inputs of length $n$. We say $F$ is in $\mathbf{P_{/poly}}$ if for every $n$, the function $F_n$  is computable by a polynomial size NAND program, or equivalently, a polynomial sized Boolean circuit. (We drop in this figure the "edge case" of $F_0$ though as a constant function, it can always be computed by a constant sized NAND program.)](../figure/Ppoly.png){#Ppolyfig .class width=300px height=300px}
 
@@ -626,7 +626,7 @@ Let $F:\{0,1\}^* \rightarrow \{0,1\}$. Then $F\in\mathbf{P_{/poly}}$ if and only
 
 ::: {.proof data-ref="ppolyadvice"}
 We only sketch the proof.
-For the "only if" direction, if $F\in \mathbf{P_{/poly}}$ then we can use for $a_n$  simply the description of the corresponding NAND program $Q_n$, and for $P$ the program that computes in polynomial time the $NANDEVAL$ function that on input an $n$-input NAND program $Q$ and a string $x\in \{0,1\}^n$, outputs $Q(n)$>
+For the "only if" direction, if $F\in \mathbf{P_{/poly}}$ then we can use for $a_n$  simply the description of the corresponding NAND program $Q_n$, and for $P$ the program that computes in polynomial time the $NANDEVAL$ function that on input an $n$-input NAND program $Q$ and a string $x\in \{0,1\}^n$, outputs $Q(n)$.
 
 For the "if" direction, we can use the same "unrolling the loop" technique of [non-uniform-thm](){.ref} to show that if $P$ is a polynomial-time NAND++ program, then for every $n\in \N$, the map $x \mapsto P(a_n,x)$ can be computed by a polynomial size NAND program $Q_n$.
 :::
@@ -662,7 +662,7 @@ For every $x\in \{0,1\}$, we define $UH(x)=HALTONZERO(S(|x|))$.
 That is, if $n$ is the length of $x$, then $UH(x)=1$ if and only if the string $S(n)$ encodes a NAND++ program that halts on the input $0$.
 
 
-$UH$ is uncomputable, since otherwise we could compute $HALTONZERO$ by  transforming the input program $P$ into the integer $n$ such that $P=S(n)$ and then  then running $UH(1^n)$ (i.e., $UH$ on the string of $n$ ones).
+$UH$ is uncomputable, since otherwise we could compute $HALTONZERO$ by  transforming the input program $P$ into the integer $n$ such that $P=S(n)$ and then running $UH(1^n)$ (i.e., $UH$ on the string of $n$ ones).
 On the other hand, for every $n$, $UH_n(x)$ is either equal to $0$ for all inputs $x$ or equal to $1$ on all inputs $x$, and hence can be computed by a NAND program of a _constant_ number of lines.
 :::
 
@@ -671,7 +671,7 @@ The issue here is of course _uniformity_.
 For a function $F:\{0,1\}^* \rightarrow \{0,1\}$, if $F$ is in $TIME(T(n))$ then we have a _single_ algorithm that can compute $F_n$ for every $n$.
 On the other hand,  $F_n$ might be in  $SIZE(T(n))$ for every $n$ using a completely different algorithm for every input length.
 For this reason we typically use $\mathbf{P_{/poly}}$ not as a model of _efficient_ computation but rather as a way to model _inefficient computation_.
-For example, in cryptography people often define  an encryption  scheme to be secure if breaking it for a key of length $n$ requires more then a polynomial number of NAND lines.
+For example, in cryptography people often define  an encryption  scheme to be secure if breaking it for a key of length $n$ requires more than a polynomial number of NAND lines.
 Since $\mathbf{P} \subseteq \mathbf{P_{/poly}}$, this in particular precludes a polynomial time algorithm for doing so, but there are technical reasons why working in a non uniform model makes more sense in cryptography.
 It also allows to talk about security in non asymptotic terms such as a scheme having "$128$ bits of security".
 
