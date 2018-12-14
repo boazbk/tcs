@@ -5,7 +5,7 @@
 
 > # { .objectives }
 * Learn the model of NAND++ programs that add loops and arrays to handle inputs of all lengths.
-* See some basic syntactic sugar and eauivalence of variants of  NAND++  programs.
+* See some basic syntactic sugar and equivalence of variants of  NAND++  programs.
 * See equivalence between NAND++ programs and Turing Machines.
 
 
@@ -212,7 +212,7 @@ $$
 The above is a perfectly fine description of the sequence $I(0),I(1),I(2),\ldots$ but it is also possible to find an explicit mathematical formula for $I(k)$.
 Specifically, it is an annoying but not  hard exercise to show that $I(k)$ is equal to the minimum of $|k-r(r+1)|$ where this minimum is taken over all integers $r$ in $\{0,\ldots,k\}$. It can also be shown that the value of $r$ that achieves this minimum is between $\floor{\sqrt{k}-1}$ and $\ceil{\sqrt{k}}$.
 
-![The value of `i` is a function of the current iteration. The variable `i` progresses according to the sequence $0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots$.  Via some cumbersome but routine calculation, it can be shown that at the $k$-th iteration the value of `i` equals $k-r(r+1)$ if $k \leq (r+1)^2$ and $(r+1)(r+2)-k$ if $k<(r+1)^2$ where $r= \floor{\sqrt{k+1/4}-1/2}$.](../figure/indextime.png){#indextimefig .class width=300px height=300px}
+![The value of `i` is a function of the current iteration. The variable `i` progresses according to the sequence $0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots$.  Via some cumbersome but routine calculation, it can be shown that at the $k$-th iteration the value of `i` equals $k-r(r+1)$ if $k \leq (r+1)^2$ and $(r+1)(r+2)-k$ if $k>(r+1)^2$ where $r= \floor{\sqrt{k+1/4}-1/2}$.](../figure/indextime.png){#indextimefig .class width=300px height=300px}
 
 ::: {.example title="XOR in vanilla NAND++" #XORNANDPP}
 Here is the XOR function in NAND++ (using our standard syntactic sugar to make it more readable):
@@ -884,7 +884,7 @@ The overall operation of the Turing machine will be as follows:
 
 3. The machine will $M_P$  then simulates each iterations of $P$ by applying the constant function to update the state and the location of the  head, as long as the `loop` variable of $P$ equals $1$.
 
-4. When the loop variable equals $1$, the machine $M_P$ will scan the output arrays and copy them to the beginning of the tape. (Again we can add some states and alphabet symbols to achieve this.)
+4. When the loop variable equals $0$, the machine $M_P$ will scan the output arrays and copy them to the beginning of the tape. (Again we can add some states and alphabet symbols to achieve this.)
 
 5. At the end of this scan the machine $M_P$ will enter its halting state.
 
