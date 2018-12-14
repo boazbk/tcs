@@ -299,7 +299,7 @@ We are so accustomed to trying to find _solutions_ for problems that it can some
 
 Our proof of the uncomputability of $QIS$ (i.e. [QIS-thm](){.ref}) will, as usual, go by reduction from the Halting problem, but we will do so in two steps:
 
-1. We will first use a reduction from the Halting problem to show that  deciding  the truth of _quantified mixed statements_ is uncomputable. Unquantified mixed statements involve both strings and integers.
+1. We will first use a reduction from the Halting problem to show that  deciding  the truth of _quantified mixed statements_ is uncomputable. Quantified mixed statements involve both strings and integers.
 Since quantified mixed statements are a more general concept than quantified integer statements, it is _easier_ to prove the uncomputability of deciding their truth.
 
 2. We will then reduce the problem of quantified mixed statements to quantifier integer statements.
