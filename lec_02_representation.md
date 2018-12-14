@@ -725,10 +725,10 @@ def nxgraph(G):
 
 ### Representing lists
 
-If we have a way of represent objects from a set $\mathcal{O}$ as  binary strings, then we can represent lists of these objects by applying a prefix-free transformation.
+If we have a way of representing objects from a set $\mathcal{O}$ as  binary strings, then we can represent lists of these objects by applying a prefix-free transformation.
 Moreover, we can use a trick similar to the above to handle  _nested_ lists.
 The idea is that if we have some representation $E:\mathcal{O} \rightarrow \{0,1\}^*$, then we can represent nested lists of items from $\mathcal{O}$ using strings over the five element alphabet $\Sigma = \{$ `0`,`1`,`[` , `]` , `,` $\}$.
-For example, if $o_1$ is represented by `0011`, $o_2$ is represented by `10011`, and $o_3$ is represented by `00111`, then we can represent the nested list $(o_1,(o_2,o_3))$ as the string `"[0011,[1011,00111]]"` over the alphabet $\Sigma$.
+For example, if $o_1$ is represented by `0011`, $o_2$ is represented by `10011`, and $o_3$ is represented by `00111`, then we can represent the nested list $(o_1,(o_2,o_3))$ as the string `"[0011,[10011,00111]]"` over the alphabet $\Sigma$.
 By encoding every element of $\Sigma$ itself as a three-bit string,
 we can transform any representation for objects $\mathcal{O}$ into a representation that allows to represent (potentially nested) lists of these objects.
 
