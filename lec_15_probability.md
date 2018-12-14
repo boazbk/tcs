@@ -73,7 +73,7 @@ Hence, for every one of the $2^{n-1}$ prefixes $(x_0,\ldots,x_{n-2})$, there is 
 We can also use the  _intersection_ ($\cap$) and _union_ ($\cup$) operators to talk about the probability of both event $A$ _and_ event $B$ happening, or the probability of event $A$ _or_ event $B$ happening.
 For example, the probability $p$ that $x$ has an _even_ number of ones _and_ $x_0=1$ is the same as
 $\Pr[A\cap B]$ where $A=\{ x\in \{0,1\}^n : \sum_{i=0}^{n-1} x_i =0 \mod 2 \}$ and $B=\{ x\in \{0,1\}^n : x_0 = 1 \}$.
-This probability is equal to $1/4$. (It is a great exercise for you to pause here and verify that you understand why this is the case.)
+This probability is equal to $1/4$ for $n > 1$. (It is a great exercise for you to pause here and verify that you understand why this is the case.)
 
 
 Because intersection corresponds to considering  the logical AND of the conditions that two events happen, while union corresponds to considering the logical OR, we will sometimes use the $\wedge$ and $\vee$ operators instead of $\cap$ and $\cup$, and so write this probability $p=\Pr[A \cap B]$ defined above also as
