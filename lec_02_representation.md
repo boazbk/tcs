@@ -327,7 +327,7 @@ We will show that $|FtR(f)-FtR(g)| > 0.5\cdot 10^{-k}$.
 This will complete the proof since  in particular it implies  $FtR(f) \neq FtR(g)$.
 >
 Assume without loss of generality that $f(k)=0$ and $g(k)=1$ (otherwise switch the roles of $f$ and $g$).
-Define  $S = \sum_{i=0}^{k-1} 10^{-i}f(i) = \sum_{i=0}^{k-1} 10^{-i}f(i)$ (the equality holds since $f$ and $g$ agree up to $k$).
+Define  $S = \sum_{i=0}^{k-1} 10^{-i}f(i) = \sum_{i=0}^{k-1} 10^{-i}g(i)$ (the equality holds since $f$ and $g$ agree up to $k$).
 Now, since $g(k)=1$,
 $$FtR(g) = \sum_{i=0}^\infty g(i)10^{-i} \geq \sum_{i=0}^k g(i)10^{-i} = S + 10^{-k} \;.$$
 On the other hand, since $f(k)=0$ and $f(k+1+j) \leq 1$ for every $j\geq 0$,
