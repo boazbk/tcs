@@ -184,6 +184,9 @@ See [this website](http://nandpl.org) for (a very much work in progress) impleme
 If you have any _comments, suggestions, typo fixes_, etc.. I would be very grateful if you post them as an [**issue**](https://github.com/boazbk/tcs/issues) or [**pull request**](https://github.com/boazbk/tcs/pulls) in the [**GitHub repository boazbk/tcs**](https://github.com/boazbk/tcs) where I am maintaining the source files for these notes.
 You can also post comments on each chapter in the links below.
 
+I am revising this book in the spring of 2019. For a stable version, see [December 2018 versoin](https://boazbarak.org/files/introtcs_Dec2018.pdf).
+
+
 
 ---
 showindex: false

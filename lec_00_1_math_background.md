@@ -28,8 +28,9 @@
 
 In this chapter, we  review some of the mathematical concepts that we will use in this course.
 Most of these are not very complicated, but do require some practice and exercise to get comfortable with.
-If you have not previously encountered some of these concepts, there are several excellent freely-available resources online that cover them.
-In particular, the [CS 121 webpage](http://www.boazbarak.org/cs121/background/) contains a program for self study of all the needed notions using the lecture notes, videos, and assignments of MIT course [6.042j Mathematics for Computer science](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/). (The MIT lecture notes were also used in the past in [Harvard CS 20](https://www.seas.harvard.edu/courses/cs20/).)
+If you have not previously encountered some of these concepts, there are several excellent freely-available resources online that cover them, see the "Bibliographical Notes" section ([notesmathchap](){.ref}).
+
+
 
 ## A mathematician's apology
 
@@ -47,14 +48,15 @@ After all, there is no empirical experiment that will prove the _nonexistence_ o
 Thus, our only way to show this type of _negative result_ is to use _mathematical proofs_.
 So you can  see why our main tools in this course will be mathematical proofs and definitions.
 
+##  This chapter: a reader's manual   { #manualbackground}
+
+Depending on your background, you can approach this chapter in two different ways:
+
+* If you already have taken some proof-based courses, and are very familiar with the notions of discrete mathematics, you can take a quick look at [secmathoverview](){.ref} to see the main tools we will use, [notationsec](){.ref} for our notation and conventions, and then skip ahead to the rest of this book. Alternatively, you can  sit back, relax, and read this chapter just to get familiar with our notation, as well as to enjoy (or not) my philosophical musings and attempts at humor. You might also want to start brushing up on _discrete probability_, which we'll use later in this course.
 
 
-> # {.remark title="This chapter: a reader's manual" #manualbackground}
-Depending on your background, you can approach this chapter in different ways:
->
-* If you already have taken some proof-based courses, and are very familiar with the notions of discrete mathematics, you can take a quick look at [secmathoverview](){.ref} to see the main tools we will use, and skip ahead to the rest of this book. Alternatively, you can  sit back, relax, and read this chapter just to get familiar with our notation, as well as to enjoy (or not) my philosophical musings and attempts at humor. You might also want to start brushing up on _discrete probability_, which we'll use later in this course.
->
-* If your background is not as extensive, you should lean forward, and read this chapter with a pen and paper handy, making notes and working out derivations as you go along. We cannot fit a semester-length discrete math course in a single chapter, and hence will be necessarily brief in our discussions. Thus you might want to occasionally pause to watch  some discrete math lectures, read some of the resources mentioned above, and do some exercises to make sure you internalized the material.
+
+* If your background is not as extensive, you should lean forward, and read this chapter with a pen and paper handy, making notes and working out derivations as you go along. We cannot fit a semester-length discrete math course in a single chapter, and hence will be necessarily brief in our discussions. Thus you might want to occasionally pause to watch some discrete math lectures, read some of the resources mentioned in [notesmathchap](){.ref}, and do some exercises to make sure you internalized the material.
 
 
 
@@ -93,79 +95,78 @@ This is partially to remind the reader and reinforce material that might not be 
 
 
 
-
-
 ## Reading mathematical texts
 
-In this course, we will eventually tackle some fairly complex definitions.
-For example, let us consider one of the definitions that we will encounter  towards the very end of this text:
+Mathematical texts, such as this book, can often be intimidating at first, as they use a lot of mathematical jargon that can seem dense and confusing to the uninitiated.
+Mathematicians use jargon for the same reason that it is used in many other professions such engineering, law, medicine, etc.
+We want to make terms _precise_ and introduce shorthand for concepts that are frequently reused.
+Mathematical text tends to "pack a lot of punch" per sentence, and so the key is to read it slowly and carefully, parsing each symbol at a time.
 
-::: {.definition title="The complexity class $\mathbf{BQP}$" #BGPintrodef}
-If $G:\{0,1\}^n \rightarrow \{0,1\}$  is a finite function and $Q$ is a Quantum circuit  then we say that _$Q$ computes $G$_ if  for every $x\in \{0,1\}^n$, $\Pr[ Q(x)=G(x) ] \geq 2/3$.
+The basic components of a mathematical text are:
 
+* __Definitions:__  Mathematicians always define new concepts in terms of old concepts.  Here is an example of a definition:
 
-The class $\mathbf{BQP}$ (which stands for "bounded-error quantum polynomial time") is the set of all functions $F:\{0,1\}^* \rightarrow \{0,1\}$ such that there exists a polynomial-time Turing Machine $M$ that satisfies the following: for every $n\in \N$, $M(1^n)$ is a Quantum circuit $Q_n$ that computes $F_n$, where $F_n:\{0,1\}^n \rightarrow \{0,1\}$ is the restriction of $F$ to inputs of length $n$.
-That is, $\Pr[ M(1^n)(x) = F(x)] \geq 2/3$ for every $n\in \N$ and $x\in \{0,1\}^n$.
-:::
+> # {.definition title="Perfect Square" #perfectsquaredef}
+A natural number $n$ is  a _perfect square_ if there exists a natural number $k$ such that $n = k\cdot k$.
 
+[perfectsquaredef](){.ref} uses the concept  of a natural number, and the concept of multiplication, to define the new term "perfect square".
 
-We will also see the following theorem:
+When you see a new definition or concept, always ask yourself the following questions:
 
-> # {.theorem title="Shor's Algorithm" #shorsthmintro}
-Let $F:\{0,1\}^* \rightarrow \{0,1\}$ be the function that on input a string representation of a pair $(m,i)$ of natural numbers, outputs $1$ if and only if the $i$-th bit of the smallest prime factor of $m$ is equal to $1$. Then $F \in \mathbf{BQP}$.
-
-
-
-While it should make sense to you by the end of the term, at the current point in time it is perfectly fine if    [BGPintrodef](){.ref} and [shorsthmintro](){.ref} seem to you as a meaningless combination of inscrutable terms.
-Indeed, to a large extent they _are_ such a combination, as they contains many terms that we have not defined (and that we would need to build on a semester's worth of material to be able to define).
-Yet, even when faced with what seems like completely incomprehensible gibberish, it is still possible for us to try to make _some_ sense of it, and try to at least to be able to "know what we don't know".
-Let's use [BGPintrodef](){.ref} and [shorsthmintro](){.ref} as examples.
-For starters,  let me tell you what this definition and this theorem are about.
-_Quantum computing_ is an approach to use  the peculiarities of quantum mechanics  to   build computing devices that can solve certain problems exponentially faster than current computers.
-Many large companies and [governments](http://www.businessinsider.com/justin-trudeau-quantum-computing-2016-4) are extremely excited about this possibility, and are investing hundreds of millions of dollars in trying to make this happen.
-To a first order of approximation, the reason they are so excited is Shor's Algorithm (i.e., [shorsthmintro](){.ref}), which says that the problem of _integer factoring_, with history going back thousands of years, and whose difficulty is (as we'll see) closely tied to the security of many current encryption schemes, can be solved efficiently using quantum computers.
-
-
-[shorsthmintro](){.ref} was proven by Peter Shor in 1994.
-However, Shor could not even have _stated_ this theorem, let alone prove it, without having the proper definition (i.e.,  [BGPintrodef](){.ref}) in place.
-[BGPintrodef](){.ref} defines the class $\mathbf{BQP}$ of functions that can be computed in polynomial time by quantum computers.
-Like any mathematical definition, it defines a new concept (in this case the class $\mathbf{BQP}$) in terms of other  concepts.
-In this case the concepts that are needed are
-
-* The notion of a _function_, which is a mapping of one set to another. In this particular case we use functions whose output is a single number that is either zero or one (i.e., a _bit_) and the input is a list of bits (i.e., a _string_) which can either have a fixed length $n$ (this is denoted as the set $\{0,1\}^n$) or have length that is not a priori bounded (this is denoted by $\{0,1\}^*$).
-
-* _Restrictions_ of  functions. If $F$ is a function that takes strings of arbitrary length as input (i.e., members of the set $\{0,1\}^*$) then $F_n$ is the restriction of $F$ to inputs of length $n$ (i.e., members of $\{0,1\}^n$).
-
-* We use the notion of a _Quantum circuit_ which will be our computational model for quantum computers, and which we will encounter later on in the course. Quantum circuits can compute functions with a fixed input length $n$, and we define the notion of computing a function $G$ as outputting on input $x$ the value $G(x)$ with probability at least $2/3$.
-
-* We will also use the notion of _Turing machines_  which will be our computational model for "classical" computers.^[As we'll see,  there is a great variety of ways to model "classical computers", including RAM machines, $\lambda$-calculus, and  _NAND++ programs_.]
-
-* We require that for every $n\in \N$, the quantum circuit $Q_n$ for $F_n$ can be generated efficiently, in the sense that there is a polynomial-time classical program $P$ that on input a string of $n$ ones (which we  shorthand  as $1^n$) outputs $Q_n$.
-
-The point of this example is not for you to understand  [BGPintrodef](){.ref} and [shorsthmintro](){.ref}.
-Fully understanding them will require background that will take us weeks to develop.
-The point is to show that you should not be afraid of even the most complicated looking definitions and mathematical terminology.
-No matter how convoluted the notation, and how many layers of indirection, you can always look at mathematical definitions and try to at least attempt at answering the following questions:
-
-::: { .quote title="" #temp}
 1. What is the intuitive notion that this definition aims at modeling?
 
-2. How is each new concept  defined in terms of other concepts?
+2. How is the new concept  defined in terms of other concepts?
 
 3. Which of these prior concepts am I already familiar with, and which ones do I still need to look up?
 
+4. Can I come up with examples of objects that satisfy this definition? and examples of objects that do not?
+
+As you read through the rest of this chapter and this text, try to ask yourself  the questions 1-4 above every time that you encounter a new definition.
+
+
+::: { .pause }
+You can try this out for the definition of a "perfect square". Can you come up with examples of numbers that are perfect squares, and examples of numbers that are not perfect squares? How do you _prove_ that a number is _not_ a perfect square.
+
+You can also try to consider more refined questions such as finding out if there exists a perfect square that is the sum of two other perfect squares. You can also try to see how you would define notions such as being a "perfect cube". (Can you try to think if  there is a perfect cube which is the sum of two other perfect cubes?)
 :::
+
+
+* __Theorems, lemmas, claims:__ These are true statements about the concepts that we defined. For example, here is a true statement:
+
+> # {.lemma #perfectsquarelem}
+For every perfect square $a$ and perfect square $b$, $a\cdot b$ is a perfect square.
+
+Deciding whether to call a particular statement a "Theorem", a "Lemma" or a "Claim" is a judgement call, and does not make a mathematical difference. All three correspond to true statements which can be proven. The difference is that a _Theorem_ refers to a significant result, that we would want to remember and highlight.  A _Lemma_ often refers to a  technical result, that is not necessarily important in its own right, but can be often very useful in proving other theorems. A _Claim_ is a "throw away" statement, that we need to use in order to prove some other bigger results, but do not care so much about for its own sake.
+
+
+
+* __Proofs:__ These are the justifications that demonstrates that our theorems. We discuss proofs more in [proofsbackgroundsec](){.ref} below, but the mathematical standard of proof is very high. Namely we need an "airtight" argument that demonstrates that the statement is true beyond a shadow of a doubt.
+For example, just checking that [perfectsquarelam](){.ref} is true for the $a=25$ and $b=4$ (in which case $a\cdot b  =100$ is indeed a perfect square) doesn't cut it. In contrast, here is a valid proof for [perfectsquarelam](){.ref}:
+
+
+::: {.proof data-ref="perfectsquarelem"}
+Let $a$ and $b$ be perfect squares. Then by the definition of a perfect square, there exist natural numbers $a',b'$ such that $a=a' \cdot a'$ and $b= b' \cdot b'$.
+Define $c = a\cdot b$. Then by the above
+
+$$
+c = (a' \cdot a')\cdot(b' \cdot b') = (a' \cdot b') \cdot (a' \cdot b') \label{eqcommutativeperfectsquare}
+$$
+.^[The last inequality follows from the associativity and commutativity of multiplication; i.e., the fact that $(x \cdot y) \cdot z = x\cdot (y \cdot z)$ and $x\cdot y = y \cdot x$ for every numbers $x,y,z$). These are the kind of properties that in a course of this level we can assume that the reader knows and can "fill in the blank", and hence do not need to state explicitly. However, if you have any doubt, always err on the side of supplying more, rather than less, detail.]
+
+Since $a',b'$ are natural numbers, $c' = a'\cdot b'$ is a natural number as well and hence [eqcommutativeperfectsquare](){.eqref} implies that $c = c' \cdot c'$ is a perfect square.
+:::
+
+As mentioned in the preface, as a general rule, it is more important you understand the  __definitions__ than the __theorems__, and it is more important you understand  a __theorem statement__  than its __proof__.
 
 
 Dealing with mathematical text is in many ways not so different from dealing with any other complex text, whether it's a legal argument, a philosophical treatise, an English Renaissance play, or even the source code of an operating system.
 You should not expect it to be clear in a first reading, but you need not despair.
 Rather you should engage with the text, trying to figure out both the high level intentions as well as the underlying details.
 Luckily, compared to philosophers or even programmers, mathematicians have a greater discipline of introducing definitions in linear order,  making sure that every new concept is defined only in terms of  previously defined notions.
-As you read through the rest of this chapter and this text, try to ask yourself  questions 1-3 above every time that you encounter a new definition.
 
 ### Example: Defining a one to one function
 
-Here is a simpler mathematical definition, which you may have encountered in the past (and will encounter again shortly):
+Here is a mathematical definition which you may have encountered in the past (and will encounter again shortly):
 
 
 > # {.definition title="One to one function" #onetoonedef}
@@ -336,7 +337,7 @@ $$
 \{0,1\}^* = \cup_{n\in\N} \{0,1\}^n \;.
 $$
 
-The set $\{0,1\}^*$ contains also the "string of length $0$" or "the empty string", which we will denote by $\mathtt{""}$.^[We follow programming languages in this notation; other texts sometimes use $\epsilon$ or $\lambda$ to denote the empty string. However, this doesn't matter much since we will rarely encounter this "edge case".]
+The set $\{0,1\}^*$ contains also the "string of length $0$" or "the empty string", which we will denote by $\mathtt{""}$.^[In using this notation we follow the convention of many  programming languages. Other texts sometimes use $\epsilon$ or $\lambda$ to denote the empty string. However, this doesn't matter much since we will rarely encounter this "edge case".]
 
 
 __Generalizing the star operation:__ For every set $\Sigma$, we define
@@ -680,7 +681,7 @@ There are some simple heuristics that can help when trying to compare two functi
 In most (though not all!) cases we use $O$-notation, the constants hidden by it are not too huge and so on an intuitive level, you can think of $F=O(G)$ as saying something like $F(n) \leq 1000 G(n)$ and $F=\Omega(G)$ as saying something $F(n) \geq 0.001 G(n)$.
 
 
-## Proofs
+## Proofs { #proofsbackgroundsec }
 
 
 
@@ -1004,27 +1005,54 @@ The disadvantage is that such proofs can be more tedious to read and write, with
 :::
 
 
-## Non-standard notation
+## Notation and conventions { #notationsec }
 
-Most of the notation we discussed above is standard and is used in most mathematical texts.
-The main points where we diverge are:
+Most of the notation we discussed above is standard and is used in most mathematical texts. The main points where we diverge are:
 
 * We index the natural numbers $\N$ starting with $0$ (though many other texts, especially in computer science, do the same).
 
 * We also index the set $[n]$ starting with $0$, and hence define it as $\{0,\ldots,n-1\}$. In most texts it is defined as $\{1,\ldots, n \}$. Similarly, we index coordinates of our strings starting with $0$, and hence a string $x\in \{0,1\}^n$ is written as $x_0x_1\cdots x_{n-1}$.
 
+* If $n$ is a natural number then $1^n$ refers not to the number $1$ but rather to the length $n$ string $11\cdots 1$ (that is a string of $n$ ones). Similarly, $0^n$ refers to the length $n$ string $00 \cdots 0$.
 
+* _Partial_ functions  are functions that are not necessarily  defined on all inputs. When we write $f:A \rightarrow B$ this means that $f$ is  a _total_ function unless we say otherwise. When we want to emphasize that $f$ can be  a partial function, we will sometimes write $f: A \rightarrow_p B$.
 
-* We use _partial_ functions which are functions that are not necessarily  defined on all inputs. When we write $f:A \rightarrow B$ this will refer to a _total_ function unless we say otherwise. When we want to emphasize that $f$ can be  a partial function, we will sometimes write $f: A \rightarrow_p B$.
+* As we will see later on in the course, we will mostly describe our computational problems in the terms of computing a _Boolean function_ $f: \{0,1\}^* \rightarrow \{0,1\}$. In contrast, many other  textbooks refer to the same task as  _deciding a language_ $L \subseteq \{0,1\}^*$. These two viewpoints are equivalent, since for every set $L\subseteq \{0,1\}^*$ there is a corresponding  function $f = 1_L$ such that $f(x)=1$ if and only if $x\in L$. Computing _partial functions_ corresponds to the task known in the literature as a solving a _promise problem_.^[Because the language notation is so prevalent in other textbooks, we will occasionally remind the reader of this correspondence.]
 
-* As we will see later on in the course, we will mostly describe our computational problems in the terms of computing a _Boolean function_ $f: \{0,1\}^* \rightarrow \{0,1\}$. In contrast, most textbooks will refer to this as the task of _deciding a language_ $L \subseteq \{0,1\}^*$. These two viewpoints are equivalent, since for every set $L\subseteq \{0,1\}^*$ there is a corresponding  function $f = 1_L$ such that $f(x)=1$ if and only if $x\in L$. Computing _partial functions_ corresponds to the task known in the literature as a solving a _promise problem_.^[Because the language notation is so prevalent in textbooks, we will occasionally remind the reader of this correspondence.]
-
-* Some other notation we use is $\ceil{x}$ and $\floor{x}$ for the "ceiling" and "floor" operators that correspond to "rounding up" or "rounding down" a number to the nearest integer. We use $(x \mod y)$ to denote the "remainder" of $x$ when divided by $y$. That is, $(x \mod y) = x - y\floor{x/y}$. In context when an integer is expected we'll typically "silently round" the quantities to an integer. For example, if we say that $x$ is a string of length $\sqrt{n}$ then we'll typically mean that $x$ is  of length $\lceil \sqrt{n} \rceil$. (In most such cases, it will not make a difference  whether we round up or down.)
+* We use $\ceil{x}$ and $\floor{x}$ for the "ceiling" and "floor" operators that correspond to "rounding up" or "rounding down" a number to the nearest integer. We use $(x \mod y)$ to denote the "remainder" of $x$ when divided by $y$. That is, $(x \mod y) = x - y\floor{x/y}$. In context when an integer is expected we'll typically "silently round" the quantities to an integer. For example, if we say that $x$ is a string of length $\sqrt{n}$ then we'll typically mean that $x$ is  of length $\lceil \sqrt{n} \rceil$. (In most such cases, it will not make a difference  whether we round up or down.)
 
 
 * Like most Computer Science texts, we default to the logarithm in base two. Thus, $\log n$ is the same as $\log_2 n$.
 
 * We will also use the notation $f(n)=poly(n)$ as a short hand for $f(n)=n^{O(1)}$ (i.e., as shorthand for saying that there are some constants $a,b$ such that $f(n) \leq a\cdot n^b$ for every sufficiently large $n$). Similarly, we will use $f(n)=polylog(n)$ as shorthand for $f(n)=poly(\log n)$ (i.e., as shorthand for saying that there are some constants $a,b$ such that $f(n) \leq a\cdot (\log n)^b$ for every sufficiently large $n$).
+
+* As in often the case in mathematical literature, we use the apostrophe character to enrich our set of identifier. Typically if $x$ denotes some object, then $x'$, $x''$, etc. will denote other objects of the same type.
+
+### Conventions
+
+Mathematics (as is coding)  is full of variables. Whenever you see a variable, it is always important to keep track of what is its _type_: is it a number, a function, a string, a graph, a program? To make this easier, we try to stick to certain conventions by which we use certain identifiers for variables of the same type.
+Some of these conventions are listed in the following table.
+Note that these are conventions and not immutable laws. Sometimes we might deviate from them.
+Also, such conventions do not replace the need to explicitly declare for each new variable the type of object that it denotes.
+
+
+
+| *Identifier*      | *Is often used to denote an object of the type*                                                                                                                                                                                                                                         |
+|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| $i,j,k,\ell,m,n$  | Natural numbers (i.e., in $\mathbb{N} = \{0,1,2,\ldots \}$)                                                                                                                                                                                                                             |
+| $\epsilon,\delta$ | Small positive real numbers  (very close to $0$)                                                                                                                                                                                                                                        |
+| $x,y,z,w$         | Strings in $\{0,1\}^*$, though sometimes we will use these identifiers numbers or other objects. We will often identify an object with its representation as a string.                                                                                                                  |
+| $G$               | A _graph_. The set of vertices of $G$ is often denoted by $V$, and often it is simply the set $[n]=\{0,\ldots, n\}$. The set of edges of $G$ is often denoted by $E$.                                                                                                                   |
+| $S$               | Sets                                                                                                                                                                                                                                                                                    |
+| $f,g,h$           | Functions. We will often (thogh not always) use lowercase identifiers for _finite functions_, which map  $\{0,1\}^n$ to $\{0,1\}^m$ (often $m=1$).                                                                                                                                      |
+| $F,G,H$           | Infinite (unbounded input) functions mapping $\{0,1\}^*$ to $\{0,1\}^*$ or $\{0,1\}^*$ to $\{0,1\}^m$ for some $m$. Note that the identifiers $G,H$ are sometimes used to denote a function and sometimes a graph. It will always be clear from the context which of these is the case. |
+| $A,B,C$           | Boolean circuits                                                                                                                                                                                                                                                                        |
+| $M$               | Turing machines                                                                                                                                                                                                                                                                         |
+| $P,Q$             | Programs                                                                                                                                                                                                                                                                                |
+| $T$               | A function mapping $\mathbb{N}$ to $\mathbb{N}$ that corresponds to a time bound.                                                                                                                                                                                                       |
+| $c$               | A positive number (often an unspecified constant: for example if $T(n)=O(n)$ then there is some number $c$ such that $T(n) \leq c \cdot n$ every $n>0$). We sometimes use $a,b$ in a similar way.                                                                                       |
+| $\Sigma$          | Finite set (often used as the _alphabet_ for a set of strings).                                                                                                                                                                                                                            |
+
 
 
 
@@ -1137,7 +1165,15 @@ Prove that for every directed acyclic graph (DAG) $G=(V,E)$, there exists a map 
 Prove that for every undirected graph $G$ on $n$ vertices, if $G$ has at least $n$ edges then $G$ contains a cycle.
 :::
 
-## Bibliographical notes
+## Bibliographical notes { #notesmathchap }
 
-The section heading "A Mathematician's Apology", refers of course to Hardy's [classic book](https://en.wikipedia.org/wiki/A_Mathematician%27s_Apology).
+The section heading "A Mathematician's Apology", refers of course to Hardy's classic book [@Hardy41].
 Even when Hardy is wrong, he is very much worth reading.
+
+There are many online sources for the mathematical background needed for this book. In particular, the lecture notes for MIT 6.042 "Mathematics for Computer Science" [@LehmanLeightonMeyer] are extremely comprehensive, and videos and assignments for this course are available online.
+Similarly, [Berkeley CS 70: "Discrete Mathematics and Probability Theoru"](http://www.eecs70.org/) has extensive lecture notes online.
+The book of Rosen [@Rosen19discrete] also covers much of this  material.
+See also Jim Aspens' online book [@AspensDiscreteMath].
+
+The book by Lewis and Zax [@LewisZax19], as well as the online book of Fleck [@Fleck], give a more gentle overview of the much of the same material. Solow's book [@Solow14] is a good gentle introduction to proof reading and writing. Kun's book [@Kun18] gives an introduction to mathematics aimed at readers with programming background.
+Stanford's [CS 103 course](https://cs103.stanford.edu)  has a wonderful collections of handouts on mathematical proof techniques and discrete mathematics.
