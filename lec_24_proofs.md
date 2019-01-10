@@ -1,7 +1,7 @@
 % Proofs and algorithms
 % Boaz Barak
 
-#  Proofs and algorithms
+#  Proofs and algorithms  { #chapproofs }
 
 >_"Let's not try to define knowledge, but try to define zero-knowledge."_, Shafi Goldwasser.
 
