@@ -1058,6 +1058,9 @@ Most of the notation we use in this book is standard and is used in most mathema
 
 * As in often the case in mathematical literature, we use the apostrophe character to enrich our set of identifier. Typically if $x$ denotes some object, then $x'$, $x''$, etc. will denote other objects of the same type.
 
+* To save on "cognitive load" we will often use round constants such as $10,100,1000$ in the statements of both theorems and problem set questions. When you see such a "round" constant, you can typically assume that it has no special significance and was just chosen arbitrarily. For example, if you see a theorem of the form "Algorithm $A$ takes at most $1000\cdot n^2$ steps to compute function $F$ on inputs of length $n$" then probably the number $1000$ is an abitrary sufficiently large constant, and one could prove the same theorem with a bound of the form $c \cdot n^2$ for a constant $c$ that is smaller than $1000$. Similarly, if a problem-set question asks you to prove that some quantity is at least $n/100$, it is quite possible that in truth the quantity is at least $n/d$ for some constant $d$ that is smaller than $100$.
+
+
 ### Conventions
 
 Mathematics (as is coding)  is full of variables. Whenever you see a variable, it is always important to keep track of what is its _type_: is it a number, a function, a string, a graph, a program? To make this easier, we try to stick to certain conventions by which we use certain identifiers for variables of the same type.

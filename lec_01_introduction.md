@@ -422,7 +422,11 @@ Prove that under this assumption  for every $\epsilon>0$, if $n$ is sufficiently
 
 ## Bibliographical notes { #bnotesintrosec }
 
-For an overview of what we'll see in this course, you could do far worse than read [Bernard Chazelle's wonderful essay on the Algorithm as an Idiom of modern science](https://www.cs.princeton.edu/~chazelle/pubs/algorithm.html). Many of the  algorithms we mention in this chapter are covered in algorithms textbooks such as those by Cormen, Leiserson, Rivert, and Stein [@CLRS], Kleinberg and Tardos [@KleinbergTardos06],  and Dasgupta, Papadimitriou and Vazirani [@DasguptaPV08].
+For a brief overview of what we'll see in this book, you could do far worse than read [Bernard Chazelle's wonderful essay on the Algorithm as an Idiom of modern science](https://www.cs.princeton.edu/~chazelle/pubs/algorithm.html).
+The book of Moore and Mertens [@MooreMertens11] gives a wonderful and comprehensive overview of the theory of computation, including much of the content discussed in this chapter and the rest of this book.
+Aaronson's book [@Aaronson13democritus] is another great read that touches upon many of the same themes.
+
+Many of the  algorithms we mention in this chapter are covered in algorithms textbooks such as those by Cormen, Leiserson, Rivert, and Stein [@CLRS], Kleinberg and Tardos [@KleinbergTardos06],  and Dasgupta, Papadimitriou and Vazirani [@DasguptaPV08].
 
 
 The story of Karatsuba's discovery of his multiplication algorithm is recounted by him in [@Karatsuba95]. As mentioned above, further improvements were made by Toom and Cook [@Toom63, @Cook66],  Schönhage and Strassen [@SchonhageStrassen71], and Fürer [@Furer07].
