@@ -38,7 +38,7 @@ This gives us hope for a _technology independent_ way of defining computation, w
 
 
 The name "algorithm" is derived from the Latin transliteration of  Muhammad ibn Musa al-Khwarizmi's name.
-Al-Khwarizmi was a Persian scholar during the 9th century whose books introduced the western world to the decimal positional numeral system, as well as the solutions of linear and quadratic equations (see [alKhwarizmi](){.ref}).
+Al-Khwarizmi was a Persian scholar during the 9th century whose books introduced the western world to the decimal positional numeral system, as well as to the solutions of linear and quadratic equations (see [alKhwarizmi](){.ref}).
 However Al-Khwarizmi's descriptions of algorithms were rather informal by today's standards.
 Rather than use "variables" such as $x,y$, he used concrete numbers such as 10 and 39, and trusted the reader to be able to extrapolate from these examples.^[Indeed, extrapolation from examples is still the way most of us first learn algorithms such as addition and multiplication, see [childrenalg](){.ref})]
 
@@ -54,10 +54,10 @@ Here is how al-Khwarizmi described the algorithm for solving an equation of the 
 ![An explanation for children of the two digit addition algorithm](../figure/addition_regrouping.jpg){#childrenalg .class width=300px height=300px}
 
 
-For the purposes of this course, we will need a much more precise way to describe algorithms.
+For the purposes of this book, we will need a much more precise way to describe algorithms.
 Fortunately (or is it unfortunately?), at least at the moment, computers lag far behind school-age children in learning from examples.
 Hence in the 20th century people have come up with  exact formalisms for describing algorithms, namely _programming languages_.
-Here is al-Khwarizmi's quadratic equation solving  algorithm described in the _Python_ programming language:^[As mentioned in [programmingrem](){.ref}], this is not a programming course, and it is absolutely fine if you don't know Python. Still the code below should be fairly self-explanatory.]
+Here is al-Khwarizmi's quadratic equation solving  algorithm described in the _Python_ programming language:^[This is not a programming textbook, and it is absolutely fine if you don't know Python. Still the code below should be fairly self-explanatory.]
 
 ```python
 from math import sqrt
@@ -82,10 +82,12 @@ print(solve_eq(10,39))
 
 We can define algorithms informally as follows:
 
->__Informal definition of an algorithm:__ An _Algorithm_ is a set of instructions of how to compute an output from an input by following a sequence of "elementary steps".
->
->
-An algorithm $A$ _computes_ a function $F$ if for every input $x$, if we follow the instruction of $A$ on the input $x$, we obtain the output $F(x)$.
+::: {.quote }
+__Informal definition of an algorithm:__ An _Algorithm_ is a set of instructions of how to compute an output from an input by following a sequence of "elementary steps".
+
+An algorithm $A$ _computes_ a function $F$ if for every input $x$, if we follow the instructions of $A$ on the input $x$, we obtain the output $F(x)$.
+:::
+
 
 
 In this chapter we will use an ultra-simple "programming language" to give a _formal_ (that is, _precise_) definition of  algorithms. (In fact, our programming language will be so  simple that it is hardly worthy of this name.)
@@ -100,7 +102,7 @@ We will start by discussing what are "elementary operations" and also how do we 
 
 
 An algorithm breaks down a complex calculation into a series of simpler steps.
-These steps can be executed by:
+These steps can be executed in a variety of different ways, including:
 
 * Writing down symbols on a piece of paper
 
@@ -124,9 +126,9 @@ $$AND(a,b) = \begin{cases} 1 & a=b=1 \\ 0 & \text{otherwise} \end{cases}$$
 
 * $NOT:\{0,1\} \rightarrow \{0,1\}$ defined as $NOT(a) = 1-a$.
 
-The $AND$, $OR$ and $NOT$  functions are the basic logical operators that are used in logic and many computer system.
-Each one of them takes either one or two single bits as input, and produces a single bit as output.
-Clearly, it cannot get much more basic than these.
+The $AND$, $OR$ and $NOT$  functions are the basic logical operators  used in logic and many computer system.
+Each one of these functions takes either one or two single bits as input, and produces a single bit as output.
+Clearly, it cannot get much more basic than that.
 However, the power of computation comes from _composing_ simple building blocks together.
 
 Here is an example. Consider the function $MAJ:\{0,1\}^3 \rightarrow \{0,1\}$ that is defined as follows:
@@ -235,6 +237,7 @@ print([f"XOR3({a},{b},{c})={XOR3(a,b,c)}" for a in [0,1] for b in [0,1] for c in
 
 > # { .pause }
 Try to generalize the above examples to  obtain a way to compute $XOR_n:\{0,1\}^n \rightarrow \{0,1\}$ for every $n$ using at most $4n$ basic steps involving applications of a function in $\{ AND, OR , NOT \}$ to outputs or previously computed values.
+
 
 
 ### The NAND function
