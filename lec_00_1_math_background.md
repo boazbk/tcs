@@ -647,7 +647,7 @@ for (int j=0 ; j<n ; j=j+1) {
 
 produces the same result as the code above that used `i` instead of `j`.
 
-::: {.remark title="Aside: mathematical vs programming notation" #notation}
+::: {.remark title="Aside: mathematical vs programming notation" #notationrem}
 Mathematical notation has a lot of similarities with programming language, and for the same reasons.
 Both are formalisms meant to convey complex concepts in a precise way.
 However, there are some cultural differences.
@@ -662,7 +662,7 @@ For example, variables such as $i,j,k,\ell,m,n$ will often denote integers, and 
 (see [notationsec](){.ref} for more on these conventions).
 When reading or writing mathematical texts, we usually don't have the advantage of a "compiler" that will check type safety for us. Hence it is important to keep track of the type of each variable, and see that the operations that are performed on it "make sense".
 
-Kun's book [@Kun18] contains extensive discussions on the similarities and  differences between the cultures of mathematics and programming.
+Kun's book [@Kun18] contains an extensive discussion on the similarities and  differences between the cultures of mathematics and programming.
 :::
 
 
@@ -1010,7 +1010,7 @@ __Claim:__ $G$ must contain a vertex $v$ of in-degree zero.
 __Proof of Claim:__ Suppose otherwise that every vertex $v\in V$ has an in-neighbor. Let $v_0$ be some vertex of $G$, let $v_1$ be an in-neighbor of $v_0$, $v_2$ be an in-neighbor of $v_1$, and continue in this way for $n$ steps until we construct a list $v_0,v_1,\ldots,v_n$ such that for every $i\in [n]$, $v_{i+1}$ is an in-neighbor of $v_i$, or in other words the edge $v_{i+1} \rightarrow v_i$ is present in the graph. Since there are only $n$ vertices in this graph, one of the $n+1$ vertices in this sequence must repeat itself, and so there exists $i<j$ such that $v_i=v_j$. But then the sequence $v_j \rightarrow v_{j-1} \rightarrow \cdots \rightarrow v_i$ is a cycle in $G$, contradicting our assumption that it is acyclic. __(QED Claim)__
 
 Given the claim, we can let $v_0$ be some vertex of in-degree zero in $G$, and let $G'$ be the graph obtained by removing $v_0$ from $G$.
-$G'$ has $n-1$ vertices and hence per the inductive hypothesis has a layering $f':(V \setminus \{v_0}) \rightarrow \N$.
+$G'$ has $n-1$ vertices and hence per the inductive hypothesis has a layering $f':(V \setminus \{v_0\}) \rightarrow \N$.
 We define $f:V \rightarrow \N$ as follows:
 
 $$f(v) = \begin{cases}f'(v)+1 & v \neq v_0 \\ 0 & v=v_0 \end{cases}\;.$$
@@ -1077,7 +1077,7 @@ Also, such conventions do not replace the need to explicitly declare for each ne
 | $x,y,z,w$         | Strings in $\{0,1\}^*$, though sometimes we will use these identifiers numbers or other objects. We will often identify an object with its representation as a string.                                                                                                                  |
 | $G$               | A _graph_. The set of vertices of $G$ is often denoted by $V$, and often it is simply the set $[n]=\{0,\ldots, n\}$. The set of edges of $G$ is often denoted by $E$.                                                                                                                   |
 | $S$               | Sets                                                                                                                                                                                                                                                                                    |
-| $f,g,h$           | Functions. We will often (thogh not always) use lowercase identifiers for _finite functions_, which map  $\{0,1\}^n$ to $\{0,1\}^m$ (often $m=1$).                                                                                                                                      |
+| $f,g,h$           | Functions. We will often (though not always) use lowercase identifiers for _finite functions_, which map  $\{0,1\}^n$ to $\{0,1\}^m$ (often $m=1$).                                                                                                                                      |
 | $F,G,H$           | Infinite (unbounded input) functions mapping $\{0,1\}^*$ to $\{0,1\}^*$ or $\{0,1\}^*$ to $\{0,1\}^m$ for some $m$. Note that the identifiers $G,H$ are sometimes used to denote a function and sometimes a graph. It will always be clear from the context which of these is the case. |
 | $A,B,C$           | Boolean circuits                                                                                                                                                                                                                                                                        |
 | $M$               | Turing machines                                                                                                                                                                                                                                                                         |

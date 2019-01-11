@@ -118,7 +118,7 @@ In either case, $\floor{x/2}$ corresponds to the number obtained when we "chop o
 Hence we can define  $NtS$ recursively as follows:
 
 $$NtS(x) = \begin{cases}
-            \text{""}    &  x=0
+            \text{""}    &  x=0 \\
             NTS(\floor{x/2}) parity(x) & x>0
 \end{cases}$$
 where $parity(x)$ is defined to equal $1$ if $x$ is odd and to equal $0$ if $x$ is even. (The function $NtS$ is well defined since for every $x>0$, $\floor{x/2} < x$.)
@@ -443,7 +443,7 @@ $$FtR(f) = \sum_{i=0}^\infty f(i)10^{-i} = S + \sum_{i=k+1}^\infty f(i) 10^{-i} 
 
 Now $\sum_{j=0}^\infty 10^{-j}$ is simply the number $1.11111\ldots =  11/9$, and hence we get that
 $$
-FtR(f) \leq S + 11/9 \cdot 10^{-k-1} = S + \trfrac{11}{90} \cdot 10^{-k} < S + 0.2 \cdot 10^{-k}
+FtR(f) \leq S + 11/9 \cdot 10^{-k-1} = S + \tfrac{11}{90} \cdot 10^{-k} < S + 0.2 \cdot 10^{-k}
 $$
 while $FtR(g) \geq S + 10^{-k}$ which means the difference between them is larger than $0.5 \cdot 10^{-k}$.
 :::
@@ -1075,7 +1075,7 @@ The ASCII encoding can be used to encode a string of $n$ English letters as an $
 
 
 ::: {.exercise title="Representing graphs: upper bound" #representinggraphsex}
-Show that there is a string representation of directed graphs with vertex set $[n]$ and degree at most $10$ that uses at most $1000 n\log n$ bits. More formally, show the following. Suppose we  define for every $n\in\mathbb{N}$, the set $G_n$ as the set containing all directed graphs (with no self loops) over the vertex set $[n]$ where every vertex has degree at most $10$. Then, prove that  for every sufficiently large $n$,[^large] there exists a one-to-one  function $E:G_n \rightarrow \{0,1\}^{\lfloor 1000 n \log n \rfloor}$.
+Show that there is a string representation of directed graphs with vertex set $[n]$ and degree at most $10$ that uses at most $1000 n\log n$ bits. More formally, show the following. Suppose we  define for every $n\in\mathbb{N}$, the set $G_n$ as the set containing all directed graphs (with no self loops) over the vertex set $[n]$ where every vertex has degree at most $10$. Then, prove that  for every sufficiently large $n$, there exists a one-to-one  function $E:G_n \rightarrow \{0,1\}^{\lfloor 1000 n \log n \rfloor}$.
 :::
 
 
