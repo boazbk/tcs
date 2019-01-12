@@ -274,11 +274,12 @@ More generally, we obtained a representation of the non-negative rational number
 
 
 The same idea can be used to represent triples, quadruples, and generally all tuples of strings as a single string (can you see why?).
+Indeed, this is one instance of a very general principle that we use time and again in both the theory and practice of computer science (for example, in Object Oriented programming):
 
 
 
 ::: { .bigidea #representtuplesidea }
-If we have a way to represent objects of type T as strings, then we can also represent a  _list_ of objects of type T as a string, and hence also _lists of lists_ of objects of this type and so on and so forth.
+If we can represent objects of type T as strings, then we can also represent more complex objects built out of T as strings (such as pairs or lists of elements in T, nested lists and so on and so forth).
 :::
 
 We will come back to this point when we discuss  _prefix free encoding_ in [prefixfreesec](){.ref}.

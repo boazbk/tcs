@@ -253,6 +253,53 @@ print([f"XOR3({a},{b},{c})={XOR3(a,b,c)}" for a in [0,1] for b in [0,1] for c in
 > # { .pause }
 Try to generalize the above examples to  obtain a way to compute $XOR_n:\{0,1\}^n \rightarrow \{0,1\}$ for every $n$ using at most $4n$ basic steps involving applications of a function in $\{ AND, OR , NOT \}$ to outputs or previously computed values.
 
+## Boolean Circuits
+
+As we've seen above _Boolean Circuit_ is obtained by connecting AND, OR, and NOT gates via wires so as to produce an output from an input.
+Formally, we define a circuit as a directed acyclic graph (DAG).
+The vertices of the graph correspond to the gates and inputs of the circuit, and the edges of the graph correspond to the wires.
+This is captured by the following definition:
+
+::: {.definition title="Boolean Circuits" #booleancircdef}
+Let $n,m,s$ be positive integers with $s \geq m$. A _Boolean circuit_ with $n$ inputs, $m$ outputs, and $s$ gates, is a labeled directed acyclic graph (DAG) $G=(V,E)$ with $s+n$ vertices satisfying the following properties:
+
+* Exactly $n$ of the vertices have no in-neighbors. These vertices are known as _inputs_ and are labeled with the $n$ labels `X[`$0$`]`, $\ldots$, `X[`$n-1$`]`.
+
+* The other $s$ vertices are known as _gates_. Each one of them is labeled with $\wedge$, $\vee$ or $\neg$. Gates labeled with $\wedge$ or $\vee$ have two in-neighbors. Gates labeled with $\neg$ have one in-neighbor. We will allow parallel edges (and so for example an AND gate can  have both its in-neighbors be the same vertex).
+
+* $m$ of the gates are  also a labeled with the $m$ labels   `Y[`$0$`]`, $\ldots$, `Y[`$m-1$`]` (in addition to their label $\wedge$/$vee$/$\neg$). These are known as _outputs_.
+:::
+
+If $C$ is a circuit with $n$ inputs and $m$ outputs, and $x\in \{0,1\}^n$, then we can compute the output of $C$ on the input $x$ in the natural way: assign the input vertices `X[`$0$`]` , `X[`$n-1$`]` the values $x_0,\ldots,x_{n-1}$,  apply each gate on the values of its in-neighbors, and then output the values that correspond to the output  vertices.
+Formally, this is defined as follows:
+
+::: {.definition title="Computing a function via a Boolean circuit" #circuitcomputedef}
+Let $C$ be a Boolean circuit with $n$ inputs and $m$ outputs.
+For every $x\in \{0,1\}^n$, the _output_ of $C$ on the input $x$, denoted by $C(x)$, is defined as the result of the following process:
+
+
+We let $h:V \rightarrow \N$ be a _minimal layering_ of $C$ (see [minimallayeruniquethm](){.ref}).
+We let $L$ be the maximum layer of $h$, and for $\ell=0,1,\ldots,L$  we do the following:
+
+* For every $v$ in the $\ell$-th layer (i.e., $v$ such that $h(v)=\ell$) do:
+
+  - If $v$ is an input vertex labeled with `X[`$i$`]` for some $i\in [n]$, then we assign to $v$ the value $x_i$.^[Since $h$ is a minimal layering, all the input vertices will be in the $0$-th layer.]
+
+  - If $v$ is a gate vertex labeled with $\wedge$ and with two in-neighbors $u,w$ then we assign to $v$ the AND of the values assigned to $u$ and $w$.^[Note that since $u,w$ are in-neighbors of $v$, they  are in lower layer than $v$, and hence their value has already been assigned.]
+
+  - If $v$ is a gate vertex labeled with $\vee$ and with two in-neighbors $u,w$ then we assign to $v$ the OR of the values assigned to $u$ and $w$.
+
+  - If $v$ is a gate vertex labeled with $\neg$ and with one in-neighbor $u$ then we assign to $v$ the negation of the value assigned to $u$.
+
+* The result of this process is the value $y\in \{0,1\}^m$ such that for every $j\in [m]$, $y_j$ is the value assigned to the vertex with label `Y[`$j$`]`
+
+Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$. We say that the circuit $C$ _computes_ $f$ if for every $x\in \{0,1\}^n$, $C(x)=f(x)$.
+:::
+
+
+
+
+
 
 
 ### The NAND function
