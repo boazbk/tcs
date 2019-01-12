@@ -211,12 +211,26 @@ print([f"XOR({a},{b})={XOR(a,b)}" for a in [0,1] for b in [0,1]])
 
 
 
+::: {.solvedexercise title="Compute $XOR$ on three bits of input" #xorthreebits}
+Let $XOR_3:\{0,1\}^3 \rightarrow \{0,1\}$ be the function defined as $XOR_3(a,b,c) = a + b +c \mod 2$. That is, $XOR_3(a,b,c)=1$ if $a+b+c$ is odd, and $XOR_3(a,b,c)=0$ otherwise.
+Show that you can compute $XOR_3$ using AND, OR, and NOT.
+You can express it as a forumla, use a programming language such as Python, or use a Boolean circuit.
+:::
 
+::: {.solution data-ref="xorthreebits"}
+Addition modulo two satisfies the similar properties such as associativity, commutativity, etc.. as standard addition.
+This means that, if we define $a \oplus b$ to equal $a + b \mod 2$,
+then
+$$
+XOR_3(a,b,c) = (a \oplus b) \oplus c
+$$
+or in other words
+$$
+XOR_3(a,b,c) = XOR(XOR(a,b),c) \;.
+$$
 
-
-::: {.example title="Computing $XOR$ on three bits" #xorthree}
-Extending the same ideas, we can use these basic operations to compute the function $XOR_3:\{0,1\}^3 \rightarrow \{0,1\}$ defined as $XOR_3(a,b,c) = a + b + c (\mod 2)$  by computing first $d=XOR(a,b)$ and then outputting $XOR(d,c)$.
-In Python this is done as follows:
+Since we know how to compute $XOR$ using AND, OR, and NOT, we can compose this to compute $XOR_3$ using the same building blocks.
+In Python this corresponds to the following program:
 
 ```python
 def XOR3(a,b,c):
@@ -229,6 +243,7 @@ def XOR3(a,b,c):
     w7 = OR(w4,c)
     return AND(w6,w7)
 
+# Let's test this out
 print([f"XOR3({a},{b},{c})={XOR3(a,b,c)}" for a in [0,1] for b in [0,1] for c in [0,1]])
 # ['XOR3(0,0,0)=0', 'XOR3(0,0,1)=1', 'XOR3(0,1,0)=1', 'XOR3(0,1,1)=0', 'XOR3(1,0,0)=1', 'XOR3(1,0,1)=0', 'XOR3(1,1,0)=0', 'XOR3(1,1,1)=1']
 ```

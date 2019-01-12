@@ -1033,7 +1033,44 @@ In fact, just like understanding code, it is a highly non-trivial skill in itsel
 Therefore I strongly suggest that you re-read the above proof, asking yourself at every sentence whether the assumption it makes are justified, and whether this sentence truly demonstrates what it purports to achieve.
 Another good habit is to ask yourself when reading a proof for every variable you encounter (such as $u$, $i$, $G'$, $f'$ etc. in the above proof) the following questions: __(1)__ What _type_ of variable is it? is it a number? a graph? a vertex? a function? and __(2)__ What do we know about it? Is it an arbitrary member of the set? Have we shown some facts about it?, and __(3)__ What are we _trying_ to show about it?.
 
+### Minimality and uniqueness
 
+[topologicalsortthm](){.ref} guarantees that for every DAG $G=(V,E)$ there exists some layering $f:V \rightarrow \N$ but this layering is not necessarily  _unique_.
+For example, if $f:V \rightarrow \N$ is a valid layering of the graph then so is the function $f'$ defined as $f'(v) = 2\cdot f(v)$.
+However, it turns out that the _minimal_ layering is unique.
+A minimal layering is one where every vertex is given the absolute smallest layer number that we possibly can.
+We now formally define minimality and state the uniqueness theorem:
+
+::: {.theorem title="Minimal layering is unique" #minimallayeruniquethm}
+Let $G=(V,E)$ be a DAG. We say that a layering $f:V \rightarrow \N$ is _minimal_ if for every vertex $v \in V$, if $v$ has no in-neighbors then $f(v)=0$ and if $v$ has in-neighbors then there exists an in-neighbor $u$ of $v$ such that $f(u) = f(v)-1$.
+
+For every layering $f,g:V \rightarrow \N$ of $G$, if both $f$ and $g$ are minimal then $f=g$.
+:::
+
+The definition of minimality in [minimallayeruniquethm](){.ref} implies that for every vertex $v \in V$, we cannot move it to a lower layer without making the  layering invalid. If $v$ is a source (i.e., has in-degree zero) then a minimal layering $f$ must put it in layer $0$, and for every other $v$, if $f(v)=i$, then we cannot modify this to set $f(v) \leq i-1$ since there is an-neighbor $u$ of $v$ satisfying $f(u)=i-1$.
+What [minimallayeruniquethm](){.ref} says is that a minimal layering $f$ is _unique_ in the sense that every other minimal layering is equal to $f$.
+
+> # {.proofidea data-ref="minimallayeruniquethm"}
+The idea is to prove the theorem by induction on the layers.
+If $f$ and $g$ are minimal then they must agree on the source vertices, since both $f$ and $g$ should assign these vertices to layer $0$.
+We can then show that if $f$ and $g$ agree up to layer $i-1$, then the minimality property implies that they need to agree in layer $i$ as well. In the actual proof we use a small trick to save on writing. Rather than proving the  statement that $f=g$ (or in other words that  $f(v)=g(v)$ for every $v\in V$), we prove the weaker statement that $f(v) \leq g(v)$ for every $v\in V$.
+(This is a weaker statement since the condition that $f(v)$ is lesser or equal than to $g(v)$ is implied by the condition that $f(v)$ is equal to $g(v)$.)
+However, since $f$ and $g$ are just labels we give to two minimal layerings, by simply changing the names "$f$" and "$g$" the same proof also shows that $g(v) \leq f(v)$ for every $v\in V$ and hence that $f=g$.
+
+
+::: {.proof data-ref="minimallayeruniquethm"}
+Let $G=(V,E)$ be a DAG and $f,g:V \rightarrow \N$ be two minimal valid layering of $G$. We will prove that for every $v \in V$, $f(v) \leq g(v)$.
+Since we didn't assume anything about $f,g$ except their minimality, the same proof will imply that for every $v\in V$, $g(v) \leq f(v)$ and hence that $f(v)=g(v)$ for every $v\in V$, which is what we needed to show.
+
+We will prove that $f(v) \leq g(v)$ for every $v \in V$ by induction on $i = f(v)$. The case $i=0$ is immediate: since in this case $f(v)=0$, $g(v)$ must be at least $f(v)$.
+For the case $i>0$, by the minimality of $f$, if $f(v)=i$ then there must exist some in-neighbor $u$ of $v$ such that $f(u) = i-1$.
+By the induction hypothesis we get that $g(u) \geq i-1$, and since $g$ is a valid layering it must hold that $g(v) > g(u)$ which means that $g(v) \geq i = f(v)$.
+:::
+
+::: { .pause }
+The proof of [minimallayeruniquethm](){.ref} is fully  rigorous, but is written in a somewhat terse manner.
+Make sure that you read through it and understand _why_ this is indeed an airtight proof of the Theorem's statement.
+:::
 
 ## Notation and conventions { #notationsec }
 
