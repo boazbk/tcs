@@ -903,20 +903,34 @@ However, there are some sets $\mathcal{F}$ that are _not_ equivalent in power to
 ## Exercises
 
 
-::: {.exercise title="Universal basis" #universalbasisex}
-Define a set $\mathcal{F}$ of functions to be a _universal basis_ if we can compute $NAND$ using $\mathcal{F}$. For every one of the following sets, either prove that it is a universal basis or prove that it is not.
+::: {.exercise title="OR,NOT is universal" #ornotex}
+Prove that the set $\{ OR , NOT \}$ is _universal_, in the sense that one can compute NAND from it.
+:::
 
-1. $\mathcal{F} = \{ AND, OR , NOT \}$.
+::: {.exercise title="AND,OR is not universal" #andorex}
+Prove that for every $n$-bit input circuit $C$ that contains only AND, and OR gates, as well as gates that compute the constant functions $0$ and $1$, $C$ is _monotone_, in the sense that if $x,x' \in \{0,1\}^n$, $x_i \leq x'_i$ for every $i\in [n]$, then $C(x) \leq C(x')$.
 
-2. $\mathcal{F} = \{ AND, OR  \}$.
+Conclude that the set $\{ AND , OR, 0 , 1\}$ is _not_ universal.
+:::
 
-3. $\mathcal{F} = \{ OR, NOT  \}$.
 
-4. $\mathcal{F} = \{ NOR   \}$ where $NOR(a,b) = NOT(OR(a,b))$.
+::: {.exercise title="XOR is not universal" #xorex}
+Prove that for every $n$-bit input circuit $C$ that contains only XOR,  gates, as well as gates that compute the constant functions $0$ and $1$, $C$ is _affine or linear modulo two_, in the sense that there exists some $a\in \{0,1\}^n$ and $b\in \{0,1\}$ such that for every $x\in \{0,1\}^n$, $C(x) = \sum_{i=0}^{n-1}a_ix_i + b \mod 2$.
 
-5. $\mathcal{F} =  \{ XOR,0,1 \}$ where $0$ and $1$ are the constant functions that take no input and output $0$ and $1$.
+Conclude that the set $\{ XOR , 0 , 1\}$ is _not_ universal.
+:::
 
-6. $\mathcal{F} = \{ LOOKUP_1,0,1 \}$ where $0$ and $1$ are the constant functions as above and  $LOOKUP_1:\{0,1\}^3 \rightarrow \{0,1\}$ satisfies $LOOKUP_1(a,b,c)$ equals $a$ if $c=0$ and equals $b$ if $c=1$.
+::: {.exercise title="MAJ,NOT is universal" #majnotex}
+Prove that $\{ MAJ,NOT \}$ is a universal set of gates.
+:::
+
+::: {.exercise title="NOR is universal" #norex}
+Let $NOR:\{0,1\}^2 \rightarrow \{0,1\}$ defined as $NOR(a,b) = NOT(OR(a,b))$. Prove that $\{ NOR \}$ is a universal set of gates.
+:::
+
+
+::: {.exercise title="Lookup is universal" #lookupex}
+Prove that $\{ LOOKUP_1,0,1 \}$ is a universal set of gates where $0$ and $1$ are the constant functions   $LOOKUP_1:\{0,1\}^3 \rightarrow \{0,1\}$ satisfies $LOOKUP_1(a,b,c)$ equals $a$ if $c=0$ and equals $b$ if $c=1$.
 :::
 
 
@@ -924,19 +938,30 @@ Define a set $\mathcal{F}$ of functions to be a _universal basis_ if we can comp
 Prove that for every subset $B$ of the functions from $\{0,1\}^k$ to $\{0,1\}$,
 if $B$ is universal then there is a $B$-circuit of at most $O(k)$ gates to compute the $NAND$ function (you can start by showing that there is a $B$ circuit of at most $O(k^{16})$ gates).^[Thanks to Alec Sun for solving this problem.]
 
+
+
 > # {.exercise title="Threshold using NANDs" #threshold-nand-ex}
-Prove that for every $w,t$, the function $T_{w,t}$ can be computed by a NAND-CIRC program of at most $O(k^3)$ lines.^[TODO: check the right bound, and give it as a challenge program. Also say the conditions under which this can be improved to $O(k)$ or $\tilde{O}(k)$.]
+Prove that there is some constant $c$ such that for every $n>1$, and integers $a_0,\ldots,a_{n-1},b \in \{-2^n,-2^n+1,\ldots,-1,0,+1,\ldots,2^n\}$, there is a NAND circuit with at most $c\dot n^4$ gates that computes the _threshold_ function $f_{a_0,\ldots,a_{n-1},b}:\{0,1\}^n \rightarrow \{0,1\}$ that on input $x\in \{0,1\}^n$ outputs $1$ if and only if $\sum_{i=0}^{n-1} a_i x_i > b$.
+
+
+::: {.exercise title="Majority with NANDs efficiently" #majwithNAND}
+Prove that there is some constant $c$ such that for every $n>1$, there is a NAND circuit of at most $c\cdot n$ gates that computes the function  $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$ is the majority function on $n$ input bits. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$.^[_Hint:_ One approach to solve this is using recursion and analyzing it using the so called  "Master Theorem".]
+:::
 
 
 ## Biographical notes
 
 Boolean algebra was first investigated by  Boole  and DeMorgan in the 1840's [@Boole1847mathematical, @DeMorgan1847] but the definition of Boolean circuits and connection to electrical relay circuits was given in  Shannon's Masters Thesis  [@Shannon1938].
 (Howard Gardener called Shannon's thesis "possibly the most important, and also the most famous, master's thesis of the [20th] century".)
+Savage's book [@Savage1998models], like this one, introduces the theory of computation starting with Boolean circuits as the first model.
 Jukna's book [@Jukna12] contains a modern exposition of Boolean circuits.
 
 
 The NAND function was shown to be universal by Sheffer [@Sheffer1913] (though apparently this was shown even earlier by Peirce, see [@Peirce1976 , @Burks1978charles]).
 Whitehead and Russell used NAND as the basis for their logic in their magnum opus _Principia Mathematica_ [@WhiteheadRussell1912].
+Nissan and Shocken's book [@NisanShocken2005]  builds a computing system  starting from NAND gates  and ending with  high level programs  games ("NAND to Tetris"); see also  the website [nandtotetris.org](https://www.nand2tetris.org/).
+
+
 
 
 
