@@ -326,7 +326,7 @@ As a corollary,  for every $k>0$, $LOOKUP_k$ can be computed by a Boolean circui
 
 We now prove [lookup-thm](){.ref}.
 The idea is actually quite simple.
-Consider the function LOOKUP_3 : \{0,1\}^{2^3+3} \rightarrow \{0,1\}$ that takes a an input of $8+3=11$ bits and output a single bit.
+Consider the function $LOOKUP_3 : \{0,1\}^{2^3+3} \rightarrow \{0,1\}$ that takes a an input of $8+3=11$ bits and output a single bit.
 We can write this function in pseudocode as follows:
 
 ```python
@@ -349,7 +349,7 @@ For the  case $k=1$, $LOOKUP_1$ is the same as `IF` for which we given a NAND-CI
 
 Now let us consider the case of $k=2$.
 Given input $x=(x_0,x_1,x_2,x_3)$ for $LOOKUP_2$ and an index $i=(i_0,i_1)$, if the most significant bit $i_0$ of the index  is $0$ then $LOOKUP_2(x,i)$ will equal $x_0$ if $i_1=0$ and equal $x_1$ if $i_1=1$.
-Similarly, if the most significant bit $i_10 is $1$ then $LOOKUP_2(x,i)$ will equal $x_2$ if $i_1=0$ and will equal $x_3$ if $i_1=1$.
+Similarly, if the most significant bit $i_0$ is $1$ then $LOOKUP_2(x,i)$ will equal $x_2$ if $i_1=0$ and will equal $x_3$ if $i_1=1$.
 Another way to say this is that we can write $LOOKUP_2$ as follows:
 
 ```python
@@ -596,7 +596,9 @@ In particular, as we've seen, there can be more than one program to compute the 
 
 ![A rough illustration of the relations between the different classes of functions computed by NAND-CIRC programs of given size. For every $n,m$, the class $SIZE_{n,m}(s)$ is a subset of the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$, and if $s \leq s'$ then $SIZE_{n,m}(s) \subseteq SIZE_{n,m}(s')$. [NAND-univ-thm](){.ref} shows that $SIZE_{n,m}(O(m\cdot 2^n))$ is equal to the set of all functions, and using [tight-upper-bound](){.ref} this can be improved to $O(m \cdot 2^n/n)$. If we consider all functions mapping $n$ bits to $n$ bits, then addition of two $n/2$ bit numbers can be done in $O(n)$ lines, while we don't know of such a program for _multiplying_ two $n$ bit numbers, though we do know it can be done in $O(n^2)$ and in fact even better size. In the above  $FACTOR_n$ corresponds to the inverse problem of multiplying- finding the _prime factorization_ of a given number. At the moment  we do not know  of any NAND-CIRC program with a polynomial (or even sub-exponential) number of lines that can compute $FACTOR_n$. ](../figure/sizeclasses.png){#sizeclassesfig .class width=300px height=300px}
 
-::: # {.remark title="Finite vs infinite functions" #infinitefunc}
+
+
+:::  {.remark title="Finite vs infinite functions" #infinitefunc}
 A NAND-CIRC program $P$ can only compute a function with a certain number $n$ of inputs and a certain number $m$ of outputs. Hence for example there is no single NAND-CIRC program that can compute the increment function $INC:\{0,1\}^* \rightarrow \{0,1\}^*$ that maps a string $x$ (which we identify with a number via the binary representation) to the string that represents $x+1$. Rather for every $n>0$, there is a NAND-CIRC program $P_n$ that computes the restriction $INC_n$ of the function $INC$ to inputs of length $n$. Since it can be shown that for every $n>0$ such a program $P_n$ exists of length at most $10n$, $INC_n \in SIZE(10n)$ for every $n>0$.
 
 If $T:\N \rightarrow \N$ and $F:\{0,1\}^* \rightarrow \{0,1\}^*$, we will sometimes slightly abuse notation and write $F \in SIZE(T(n))$ to indicate that for every $n$ the restriction $F_{\upharpoonright n}$ of $F$ to inputs in $\{0,1\}^n$ is in $SIZE(T(n))$. Hence we can write $INC \in SIZE(10n)$. We will come back to this issue of finite vs infinite functions later in this course.
