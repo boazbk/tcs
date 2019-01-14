@@ -692,5 +692,5 @@ b. For every function $f:\{0,1\}^n \rightarrow \{0,1\}^m$, there is a NAND-CIRC 
 ## Bibliographical notes
 
 
-See Jukna's  book [@Jukna12] for much more extensive discussion on circuits.
+See Jukna's  and Wegener's books [@Jukna12, @wegener1987complexity] for much more extensive discussion on circuits.
 Shannon showed that every Boolean function can be computed by a circuit of exponential size [@Shannon1938]. The improved bound of $O(2^n/n)$ is due to Lupanov [@Lupanov1958].

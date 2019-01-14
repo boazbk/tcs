@@ -1,7 +1,7 @@
 % Quantum computing
 % Boaz Barak
 
-#  Quantum computing
+#  Quantum computing { #quantumchap }
 
 
 > # { .objectives }

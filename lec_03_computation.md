@@ -955,6 +955,7 @@ Boolean algebra was first investigated by  Boole  and DeMorgan in the 1840's [@B
 (Howard Gardener called Shannon's thesis "possibly the most important, and also the most famous, master's thesis of the [20th] century".)
 Savage's book [@Savage1998models], like this one, introduces the theory of computation starting with Boolean circuits as the first model.
 Jukna's book [@Jukna12] contains a modern exposition of Boolean circuits.
+See also Wegener's book [@wegener1987complexity].
 
 
 The NAND function was shown to be universal by Sheffer [@Sheffer1913] (though apparently this was shown even earlier by Peirce, see [@Peirce1976 , @Burks1978charles]).
