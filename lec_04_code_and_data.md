@@ -72,7 +72,7 @@ defined as follows. We let $S$ be the number of bits that are needed to represen
 A _program_ is a piece of text, and so it can be fed as input to other programs.
 :::
 
-
+![A _universal circuit_ $U$ is a circuit that gets as input the description of an arbitrary (smaller) circuit $C$ as a binary string, and an input $x$, and outputs the string $C(x)$ which is the evaluation of $C$ on $x$. We can also think of $U$ as a straightline program that gets as input the code of a straightline program $C$ and an input $x$, and outputs $C(x)$.](../figure/universalcircuit.png){#universalcircfig .class width=300px height=300px}
 
 Of course to fully specify $EVAL_{s,n,m}$, we need to fix a precise representation scheme  for NAND-CIRC programs as binary strings.
 We can simply use the ASCII representation, though  below we will choose a  more convenient representation.
@@ -80,28 +80,29 @@ But regardless of the choice of representation,
 [bounded-univ](){.ref} is an immediate corollary of [NAND-univ-thm](){.ref}, which states that _every_ finite function, and so in particular the function $EVAL_{S,n,m}$ above, can be computed by _some_ NAND-CIRC program.
 
 > # { .pause }
-Once again, [bounded-univ](){.ref}  is subtle but important. Make sure you understand what this thorem means, and why it is a corollary of [NAND-univ-thm](){.ref}.
+Once again, [bounded-univ](){.ref}  is subtle but important. Make sure you understand what this theorem means, and why it is a corollary of [NAND-univ-thm](){.ref}.
 
 [bounded-univ](){.ref} can be thought of as providing  a "NAND-CIRC interpreter in NAND-CIRC".
 That is, for a particular size bound, we give a _single_ NAND-CIRC program $U$ that can evaluate all NAND-CIRC programs of that size.
 We call this  NAND-CIRC program $U$ that computes $EVAL_{s,n,m}$ a _bounded universal program_.
+Using the equivalence between straight-line programs and circuits, we can also think of $U$ as a _universal circuit_ (see [universalcircfig](){.ref}).
 "Universal" stands for the fact that this is a _single program_ that can evaluate _arbitrary_ code,  where "bounded" stands for the fact that  $U$ only evaluates programs of bounded size.
-Of course this limitation is inherent for the NAND-CIRC programming language, since  a circuit of $s$ gates can take at most $2s$  inputs.
+Of course this limitation is inherent for the NAND-CIRC programming language, since  a program of $s$ lines (or, equivalently, a circuit of $s$ gates) can take at most $2s$  inputs.
 We will later on introduce the concept of _loops_, that  allows  to escape this limitation.
 
 
-It turns out that we don't even need to pay that much of an overhead for universality
+It turns out that we don't even need to pay that much of an overhead for universality. Namely, the size of $U$ needs  only be  _polynomial_ in the size of the input program.
 
 > # {.theorem title="Efficient bounded universality of NAND-CIRC programs" #eff-bounded-univ}
 For every $s,n,m \in \N$ there is a NAND-CIRC program of at most $O(s^2 \log s)$ lines that computes the  function
 $EVAL_{S,n,m}:\{0,1\}^{S+n} \rightarrow \{0,1\}^m$ defined above.
 
-Unlike [bounded-univ](){.ref}, [eff-bounded-univ](){.ref} is not a trivial corollary of the fact that every function can be computed, and  takes much more effort to prove.
-It requires us to present a concrete NAND-CIRC program for the $EVAL_{s,n,m}$ function.
+Unlike [bounded-univ](){.ref}, [eff-bounded-univ](){.ref} is not a trivial corollary of the fact that every finite function can be computed by some circuit.
+Proving [bounded-univ](){.ref} requires us to present a concrete NAND-CIRC program for the $EVAL_{s,n,m}$ function.
 We will do so in several stages.
 
 1. First, we will spell out precisely how to  represent NAND-CIRC programs as strings.
-We can prove  [eff-bounded-univ](){.ref}  using the ASCII representation, but a "cleaner" representation will be more convenient for us.
+We can prove  [eff-bounded-univ](){.ref}  using the ASCII representation, but a "cleaner" representation will turn out to be more convenient.
 
 2. Then, we will show how we can write a  program to compute $EVAL_{s,n,m}$ in _Python_.^[We will not use much about Python, and a reader that has familiarity with programming in any language should be able to follow along.]
 
@@ -118,7 +119,8 @@ A NAND-CIRC program is simply a sequence of lines of the form
 blah = NAND(baz,boo)
 ```
 
-There is of course nothing special about these particular identifiers. Hence to represent a NAND-CIRC program mathematically, we can simply identify the variables with natural numbers, and think of each line as a triple $(i,j,k)$ which corresponds to saying that we assign to the $i$-th variable  the NAND of the values of the $j$-th and $k$-th variables.
+There is of course nothing special about the  particular names we use for variables.
+Hence to represent a NAND-CIRC program mathematically, we can simply identify the variables with natural numbers, and think of each line as a triple $(i,j,k)$ which corresponds to saying that we assign to the $i$-th variable  the NAND of the values of the $j$-th and $k$-th variables.
 We will use the set $[t]= \{0,1,\ldots,t-1\}$ as our set of variables, and for concreteness we will let the input variables be the first $n$ numbers, and the output variables be the last $m$ numbers (i.e., the numbers $(t-m,\dots,t-1)$).
 This motivates the following definition:
 
@@ -126,10 +128,12 @@ This motivates the following definition:
 Let $P$ be a NAND-CIRC program of $n$ inputs, $m$ outputs, and $s$ lines, and let $t$ be the number of distinct variables used by $P$.
 The _list of tuples representation of $P$_ is the triple $(n,m,L)$ where $L$ is a list of triples of the form $(i,j,k)$ for $i,j,k \in [t]$.
 
-For every variable  of $P$, we assign a number in $[t]$ as follows:
+We assign a number  for  variable  of $P$ as follows:
 
 * For every $i\in [n]$, the variable `X[`$i$`]` is assigned the number $i$.
+
 * For every $j\in [m]$, the variable `Y[`$j$`]` is assigned the number $t-m+j$.
+
 * Every other variable is assigned a number in $\{n,n+1,\ldots,t-m-1\}$ in the order of which it appears.
 :::
 
@@ -151,17 +155,12 @@ is represented as the tuple $(2,1,L)$ where $L=((2, 0, 1), (3, 0, 2), (4, 1, 2),
 
 
 
-Transforming a NAND-CIRC program from its representation as code to the representation as a list of tuples is a fairly straightforward programming exercise, and in particular can be done in a few lines of _Python_.^[If you're curious what these few lines are, see the GitHub repository.]
+Transforming a NAND-CIRC program from its representation as code to the representation as a list of tuples is a fairly straightforward programming exercise, and in particular can be done in a few lines of _Python_.^[If you're curious what these few lines are, see our [GitHub repository](https://github.com/boazbk/tcscode).]
 Note that this representation loses information such as the particular names we used for the variables, but this is OK since these names do not make a difference to the functionality of the program.
+To represent these $s$ triples numbers as a string requires $O(s \log s)$ bits, as each number in $[t]$ can be represented in the binary basis using $\ceil{\log t}$ bits, and $t \leq 3s$.^[The maximum value $t$ can take is $s+n$ and since every line touches at most two inputs, we can assume that $s \geq n/2$ or $n \leq 2s$ as otherwise there would be an input that is not used in any line of the program.]
+For a fixed $s,n,m$, we can represent the list of triples of a program with $n$ inputs, $m$ outputs, and $s$ lines by simply concatenating the representation of the $3s$ numbers, with each represented as a string of length $\ceil{\log 3s}$ using the binary basis.
+Hence we can think of $EVAL_{s,n,m}$ as mapping  $\{0,1\}^{3s\ceil{\log 3s} + n}$ to $\{0,1\}^m$.
 
-### Representing a program as a string
-
-To obtain a representation that we can use as input to a NAND-CIRC program, we need to take a step further and map the triple $(n,m,L)$ to a binary string.
-Here there are many different choices, but let us fix one of them.
-If the list $L$ has $s$ triples in it, we will represent it as simply the string $str(L)$ which will be the concatenation of the $3s$ numbers in the binary basis, which can be encoded as a string of length $3s\ell$ where $\ell = \ceil{\log 3s}$ is a number of bits that is guaranteed to be sufficient to  represent numbers in $[t]$ (since $t \leq 3s$).
-We will represent the program $(n,m,L)$ as the string $\expr{n}\expr{m}\expr{s}str(L)$ where $\expr{n}$  and $\expr{m}$ are some  prefix-free representations of $n$,  $m$ and $s$ (see [prefixfreesec](){.ref}).
-Hence an $s$ line program will be represented by a string of length $O(s \log s)$.
-In the context of computing $EVAL_{s,n,m}$ the number of lines, inputs, and outputs, is fixed, and so we can drop $n,m,s$ and simply think of it as a function that maps $\{0,1\}^{3s\ell + n}$ to $\{0,1\}^m$, where $\ell  = \ceil{\log 3s}$.
 
 
 
@@ -180,6 +179,8 @@ For example, you can try thinking how you would write a program `NANDEVAL(n,m,s,
 
 Here is a description of such an algorithm:
 
+
+::: { .algorithm title="Eval NAND-CIRC programs" #evalnandcircalg }
 __Input:__ Numbers $n,m$ and a list $L$ of $s$ triples  of numbers in $[t]$ for some $t\leq 3s$, as well as a string $x\in \{0,1\}^n$.
 
 __Goal:__ Evaluate the program represented by $(n,m,L)$ on the input $x\in \{0,1\}^n$.
@@ -193,6 +194,7 @@ __Operation:__
 3. We will go over the list $L$ in order, and for every triple  $(i,j,k)$ in $L$, we let $a$ be `GET(Vartable,`$j$`)`, $b$ be `GET(Vartable,`$k$`)`, and then set the value corresponding to $i$ to the NAND of $a$ and $b$. That is, let `Vartable = UPDATE(Vartable,`$i$,`NAND(`$a$`,`$b$`))`.
 
 4. Finally, we output the value `GET(Vartable,`$t-m+j$`)` for every $j\in [m]$.
+:::
 
 
 > # { .pause }
@@ -202,13 +204,12 @@ Please make sure you understand this algorithm and why it does produce the right
 
 To make things more concrete, let us see how we implement the above algorithm in the _Python_ programming language.
 We will construct a function `NANDEVAL` that  on input $n,m,L,x$  will output the result of evaluating the program represented by $(n,m,L)$ on $x$.^[To keep things simple, we will not worry about the case that $L$ does not represent a valid program of $n$ inputs and $m$ outputs. Also, there is nothing special about Python. We could have easily presented a corresponding function in JavaScript, C, OCaml, or any other programming language.]
-(We will compute the value $s$ to be the size of $L$ and the value $t$ to be the maximum number appearing in $L$ plus one.)
 
 ```python
 def NANDEVAL(n,m,L,X):
     # Evaluate a NAND-CIRC program from its list of triple representation.
     s = len(L) # number of lines
-    t = max(max(a,b,c) for (a,b,c) in L)+1 # maximum index in L + 1
+    t = max(max(a,b,c) for (a,b,c) in L)+1 # maximum index appearing + 1
 
     Vartable = [0] * t # we'll simply use an array to store data
 
@@ -246,7 +247,7 @@ Hence (since $n,m \leq s$ and $t \leq 3s$),  the program above will use  $O(s)$ 
 
 We now turn to describing the proof of  [eff-bounded-univ](){.ref}.
 To do this, it is of course not enough to give a Python program.
-Rather, we need to show  how we compute the function  $EVAL_{s,n,m}$  by a NAND-CIRC program.
+Rather, we need to show  how we compute the function  $EVAL_{s,n,m}$  itself using a NAND-CIRC program.
 In other words, our job is to transform, for every $s,n,m$, the Python code above to a NAND-CIRC program $U_{s,n,m}$ that  computes the function $EVAL_{s,n,m}$.
 
 > # { .pause }
@@ -286,9 +287,7 @@ def UPDATE(V,i,b):
 ```
 
 
-Once we can compute `GET` and `UPDATE`, the rest of the implementation amounts to "book keeping" that needs to be done carefully, but is not too insightful.
-Hence we omit the details from this chapter.
-See the appendix for the full details of how to compute the universal NAND evaluator in NAND.
+Once we can compute `GET` and `UPDATE`, the rest of the implementation amounts to "book keeping" that needs to be done carefully, but is not too insightful, and hence we omit the full details.
 
 Since the loop over `j` in `UPDATE` is run $2^\ell$ times, and computing `EQUALS_j` takes $O(\ell)$ lines, the total number of lines to compute `UPDATE` is $O(2^\ell \cdot \ell) = O(s \log s)$. Since we run this function $s$ times, the total number of lines for computing $EVAL_{s,n,m}$ is $O(s^2 \log s)$.
 This completes (up to the omitted details) the proof of [eff-bounded-univ](){.ref}.
@@ -301,7 +300,7 @@ It turns out that it is  possible to improve the bound of [eff-bounded-univ](){.
 The key is to consider the description of NAND-CIRC programs as circuits, and in particular as directed acyclic graphs (DAGs) of bounded in degree.
 A universal NAND-CIRC program $U_s$ for $s$ line programs  will correspond to a _universal graph_ $H_s$ for such $s$ vertex DAGs.
 We can think of such as graph $U_s$ as fixed "wiring" for communication network, that should be able to accommodate any arbitrary pattern of communication between $s$ vertices (where this pattern corresponds to an $s$ line NAND-CIRC program).
-It turns out that there exist such efficient [routing networks](https://goo.gl/NnkkjM) exist  that allow embedding any $s$ vertex circuit inside a universal graph of size $O(s \log s)$, see [this recent paper](https://eprint.iacr.org/2016/017) for more on this issue.
+It turns out that there exist such efficient [routing networks](https://goo.gl/NnkkjM) exist  that allow embedding any $s$ vertex circuit inside a universal graph of size $O(s \log s)$, see the bibliographical notes [bibnotescodeasdata](){.ref} for more on this issue.
 :::
 
 
@@ -312,25 +311,23 @@ It turns out that there exist such efficient [routing networks](https://goo.gl/N
 To prove [eff-bounded-univ](){.ref} we essentially translated every line of the Python program for `EVAL` into an equivalent NAND snippet.
 It turns out that none of our reasoning  was specific to the  particular function $EVAL$.
 It is possible to translate _every_ Python program into an equivalent `NAND` program of comparable efficiency.^[More concretely, if the Python program takes $T(n)$ operations on inputs of length at most $n$ then we can find a NAND-CIRC program of $O(T(n) \log T(n))$ lines that agrees with the Python program on inputs of length $n$.]
-Actually doing so requires taking care of many details and is beyond the scope of this course, but let me convince you why you should believe it is possible in principle.
-We can use [CPython](https://en.wikipedia.org/wiki/CPython) (the reference implementation for Python), to evaluate every Python program using a `C` program.
+Actually doing so requires taking care of many details and is beyond the scope of this book, but let me try to convince you why you should believe it is possible in principle.
+
+For starters, one can can use [CPython](https://en.wikipedia.org/wiki/CPython) (the reference implementation for Python), to evaluate every Python program using a `C` program.
 We can combine this with a C compiler to transform a Python program to various flavors of "machine language".
-
-
-So, to transform a Python program into an equivalent NAND-CIRC program, it is enough to show how to transform a machine language program into an equivalent NAND-CIRC program.
-One minimalistic (and hence convenient) family of machine languages is known as the _ARM architecture_ which powers a great many mobile devices including essentially all Android devices.^[ARM stands for "Advanced RISC Machine" where RISC in turn stands for "Reduced instruction set computer".]
+So, to transform a Python program into an equivalent NAND-CIRC program, it is enough to show how to transform a _machine language_ program into an equivalent NAND-CIRC program.
+One minimalistic (and hence convenient) family of machine languages is known as the _ARM architecture_ which powers many mobile devices including essentially all Android devices.^[ARM stands for "Advanced RISC Machine" where RISC in turn stands for "Reduced instruction set computer".]
 There are even simpler machine languages, such as the [LEG acrhitecture](https://github.com/frasercrmck/llvm-leg) for which a  backend for the [LLVM compiler](http://llvm.org/) was implemented (and hence can be the target of compiling any of [large and growing list](https://en.wikipedia.org/wiki/LLVM#Front_ends) of languages that this compiler supports).
-Other examples include the  [TinyRAM](http://www.scipr-lab.org/doc/TinyRAM-spec-0.991.pdf) architecture (motivated by  interactive proof systems that we will discuss much later in this course) and  the teaching-oriented [Ridiculously Simple Computer](https://www.ece.umd.edu/~blj/RiSC/) architecture.^[The reverse direction of compiling NAND to C code, is much easier. We show code for a `NAND2C` function in the appendix.]
-
+Other examples include the  [TinyRAM](http://www.scipr-lab.org/doc/TinyRAM-spec-0.991.pdf) architecture (motivated by  interactive proof systems that we will discuss in [chapproofs](){.ref}) and  the teaching-oriented [Ridiculously Simple Computer](https://www.ece.umd.edu/~blj/RiSC/) architecture.
 Going one by one over the instruction sets of such computers and translating them to NAND snippets is no  fun, but it is a feasible thing to do.
 In fact, ultimately this is very similar to the transformation that takes place in converting our high level code to actual silicon gates that are not so different from the operations of a NAND-CIRC program.
 Indeed, tools such as [MyHDL](http://www.myhdl.org/) that transform "Python to Silicon" can be used to convert a Python program to a NAND-CIRC program.
 
-The NAND-CIRC programming language is just a teaching tool, and by no means do I suggest that writing NAND-CIRC programs, or compilers to NAND, is a practical, useful, or even enjoyable activity.
-What I do want is to make sure you understand why it _can_ be done, and to have the confidence that if your life (or at least your grade in this course) depended on it, then you would be able to do this.
+The NAND-CIRC programming language is just a teaching tool, and by no means do I suggest that writing NAND-CIRC programs, or compilers to NAND, is a practical, useful, or  enjoyable activity.
+What I do want is to make sure you understand why it _can_ be done, and to have the confidence that if your life (or at least your grade) depended on it, then you would be able to do this.
 Understanding how programs in high level languages such as Python are eventually transformed into concrete low-level representation such as NAND is fundamental to computer science.
 
-The astute reader might notice that the above paragraphs only outlined why it should be possible to find for every _particular_ Python-computable function $F$, a _particular_ comparably efficient NAND-CIRC program $P$ that computes $F$.
+The astute reader might notice that the above paragraphs only outlined why it should be possible to find for every _particular_ Python-computable function $f$, a _particular_ comparably efficient NAND-CIRC program $P$ that computes $f$.
 But this still seems to fall short of our goal of writing a "Python interpreter in NAND" which would mean  that for every parameter $n$, we come up with a _single_ NAND-CIRC program $UNIV_n$ such that given a description of a Python program $P$, a particular input $x$, and a bound $T$ on the number of operations (where the length of $P$, $x$ and the magnitude of $T$ are all at most $n$) would return the result of executing $P$ on $x$ for at most $T$ steps.
 After all, the transformation above would transform every Python program into a different NAND-CIRC program, but would not yield "one NAND-CIRC program to rule them all" that can evaluate every Python program up to some given complexity.
 However, it turns out that it is enough to show such a transformation for a single Python program.
@@ -348,13 +345,14 @@ One of the consequences of our representation is the following:
 
 
 > # {.theorem title="Counting programs" #program-count}
-$$|Size(s)| \leq 2^{O(s \log s)}.$$
+For every $n,m,s$ with $s \geq m, s \geq n/2$,
+$$|SIZE_{n,m}(s)| \leq 2^{O(s \log s)}.$$
 That is, there are at most $2^{O(s\log s)}$ functions computed by  NAND-CIRC programs of at most $s$ lines.
 
 Moreover, the implicit constant in the $O(\cdot)$ notation in [program-count](){.ref} is at most $10$.^[By this we mean that for all sufficiently large $s$, $|Size(s)|\leq 2^{10s\log s}$.]
 
 > # {.proofidea data-ref="program-count"}
-The idea behind the proof is that we can represent every $s$ line program by a binary string of  $O(s \log s)$ bits.
+The idea behind the proof is that, as we've seen, we can represent every $s$ line program by a binary string of  $O(s \log s)$ bits.
 Therefore the  number of functions  computed by $s$-line programs cannot be larger than the number of such strings, which is $2^{O(s \log s)}$.
 In the actual proof, given below, we  count the number of representations a little more carefully, talking directly about triples rather than binary strings, although the idea remains the same.
 
@@ -364,20 +362,13 @@ Every NAND-CIRC program $P$ with $s$ lines has at most $3s$ variables.
 Hence, using our canonical representation, $P$ can be represented by the numbers $n,m$ of $P$'s inputs and outputs, as well as by the list $L$ of $s$ triples of natural numbers, each of which is smaller or equal to $3s$.
 
 If two programs compute distinct functions then they have distinct representations.
-So we will simply count the number of such representations: for every $s' \leq s$, the number of $s'$-long lists of triples of numbers in $[3s]$ is $(3s)^{3s'}$, which in particular is smaller than $(3s)^{3s}$.
-So, for every $s' \leq s$ and $n,m$, the total number of representations of $s'$-line programs with $n$ inputs and $m$ outputs is smaller than $(3s)^{3s}$.
+(Make sure you understand why the above statement is true!)
+This means that our representation scheme yields a _one to one function_ from $SIZE_{n,m}(s)$ to the set $[3s]^{3s}$ of all length-$s$ lists of triples of numbers in $[3s]$.^[Strictly speaking, the lists have length _at most_ $s$, but we can always add "dummy instructions" to a program with smaller than $s$ lines that would not modify its input/output behavior but ensure that its length is exactly $s$.]
+Therefore
 
-Since a program of at most $s$ lines has at most $s$ inputs and outputs, the total number of representations of all programs of at most $s$ lines is smaller than
-$$
-s\times s \times s \times (3s)^{3s} = (3s)^{3s+3} \label{eqcountbound}
-$$
-(the factor $s\times s\ times s$ arises from taking all of the at most $s$ options for the number of inputs $n$, all of the at most $s$ options for the number of outputs $m$, and all of the at most $s$ options for the number of lines $s'$).
-We claim that for $s$ large enough, the righthand side of [eqcountbound](){.eqref} (and hence the total number of representations of programs of at most $s$ lines) is smaller than $2^{4 s \log s}$.
-Indeed, we can write $3s = 2^{\log(3s)}=2^{\log 3  + \log s} \leq 2^{2+\log s}$, and hence the righthand side of [eqcountbound](){.eqref} is at most $\left(2^{2+ \log s}\right)^{3s+3} = 2^{(2+\log s)(3s+3)} \leq 2^{4s\log s}$ for $s$ large enough.
+$$|SIZE_{n,m}(s)| \leq (3s)^{3s} = 2^{3s \log (3s)} = 2^{3s \log s + 3\log 3 s} \;.$$
 
-For every function $F \in Size(s)$ there is a program $P$ of at most $s$ lines that computes it, and we can map $F$ to its representation as a tuple $(n,m,L)$.
-If $F \neq F'$ then a program $P$ that computes $F$ must have an input on which it disagrees with any program $P'$ that computes $F'$, and hence in particular $P$ and $P'$ have distinct representations.
-Thus we see that the map of $Size(s)$ to its representation is one to one, and so in particular $|Size(s)|$ is at most the number of distinct representations which is it at most $2^{4s\log s}$.
+Since $s = o(s \log s)$, for sufficiently large $n$, this bound will be smaller than $2^{4s\log s}$.
 :::
 
 
@@ -390,7 +381,7 @@ A function mapping $\{0,1\}^2$ to $\{0,1\}$ can be identified with the table of 
 a function mapping $\{0,1\}^3$ to $\{0,1\}$ can be identified with the table of its eight values on the inputs $000,001,010,011,100,101,110,111$.
 More generally, every function $F:\{0,1\}^n \rightarrow \{0,1\}$ can be identified with the table of its  $2^n$  values  on the inputs $\{0,1\}^n$.
 Hence the number of functions mapping $\{0,1\}^n$ to $\{0,1\}$ is equal to the number of such tables which (since we can choose either $0$ or $1$ for every row) is exactly $2^{2^n}$. Note that this is _double exponential_ in $n$, and hence even for small values of $n$ (e.g., $n=10$) the number of functions from $\{0,1\}^n$ to $\{0,1\}$ is truly astronomical.^["Astronomical" here is an understatement: there are much fewer than $2^{2^{10}}$ stars, or even particles, in the observable universe.]
-This has the following interesting corollary:
+This has the following important corollary:
 
 > # {.theorem title="Counting argument lower bound" #counting-lb}
 There is a function $F:\{0,1\}^n\rightarrow \{0,1\}$ such that the  shortest NAND-CIRC program to compute $F$ requires $2^n/(100n)$ lines.
@@ -405,7 +396,7 @@ We have seen before that _every_ function mapping $\{0,1\}^n$ to $\{0,1\}$ can b
 We now see that this is  tight in the sense that some functions do require such an astronomical number of lines to compute.
 
 ::: { .bigidea #countinglb }
-Some functions $f:\{0,1\}^n \rightarrow \{0,1\}$ _cannot_ be  computed  by a Boolean circuit using a fewer than exponential number of gates.
+Some functions  $f:\{0,1\}^n \rightarrow \{0,1\}$   _cannot_ be  computed  by a Boolean circuit using a fewer than exponential number of gates.
 :::
 
 In fact, as we explore in the exercises below, this is the case for _most_ functions.
@@ -418,6 +409,18 @@ functions cannot be computed using much smaller programs. However there are many
 The list of triples is not the shortest representation for NAND-CIRC programs.
 We have seen that every NAND-CIRC program of $s$ lines and $n$ inputs can be represented by a directed graph of $s+n$ vertices, of which $n$ have in-degree zero, and the $s$ others have in-degree at most two. Using the adjacency list representation, such a graph can be represented using roughly $2s\log(s+n) \leq 2s (\log s + O(1))$ bits.
 Using this representation we can reduce the implicit constant in [program-count](){.ref} arbitrarily close to $2$.
+
+
+## Size hierarchy theorem (advanced optional)
+
+By [NAND-univ-thm](){.ref} the class $SIZE_{n}(4 \cdot 2^n)$ contains _all_ functions from $\{0,1\}^n$ to $\{0,1\}$.
+In fact, as discussed in [tight-upper-bound](){.ref} this can be improved to show that there is some constant $C$ such that $SIZE_n(C \cdot 2^n / n)$ contains all functions from $\{0,1\}^n$ to $\{0,1\}$ (in fact, $C=4$ will do).
+On the other hand,  [counting-lb](){.ref} shows that if $c >0$ is small enough ($c = 1/4$ will do) then $SIZE_n(c 2^n / n)$ does _not_ contain all functions.
+Thus, these two results together show that there exists some constants $C>c>0$ such that for every sufficiently large $n$,
+$$
+SIZE_n(c 2^n /n) \subsetneq  SIZE_n(C 2^n /n) \;.
+$$
+
 
 
 
@@ -564,7 +567,7 @@ Prove that there is a constant $c$ such that for every $n$, there is some functi
 
 
 
-## Bibliographical notes
+## Bibliographical notes {#bibnotescodeasdata }
 
 
 The $EVAL$ function is usually known as _universal circuit_.
