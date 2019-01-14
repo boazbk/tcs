@@ -232,14 +232,14 @@ We omit the formal proof, as doing it by yourself is an excellent way to get com
 
 ### Simulating randomized algorithms by circuits or straightline programs.
 
-We have seen in [non-uniform-thm](){.ref} that if  $F$ is in $\mathbf{P}$, then there is a polynomial $p:\N \rightarrow \N$ such that  for every $n$, the restriction $F_n$ of $F$ to inputs $\{0,1\}^n$ is in $SIZE(p(n))$. (In other words, that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$.)
+We have seen in [non-uniform-thm](){.ref} that if  $F$ is in $\mathbf{P}$, then there is a polynomial $p:\N \rightarrow \N$ such that  for every $n$, the restriction $F_{\upharpoonright n}$ of $F$ to inputs $\{0,1\}^n$ is in $SIZE(p(n))$. (In other words, that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$.)
 A priori it is not at all clear that the same holds for a function in $\mathbf{BPP}$, but this does turn out to be the case.
 
 
 ![The possible guarantees for a randomized algorithm $A$ computing some function $F$. In the tables above, the columns correspond to different inputs and the rows to different choices of the random tape. A cell at position $r,x$ is colored green if $A(x;r)=F(x)$ (i.e., the algorithm outputs the correct answer) and red otherwise. The standard $\mathbf{BPP}$ guarantee corresponds to the middle figure, where  for every input $x$, at least two thirds of the choices $r$ for a random tape will result in $A$ computing the correct value. That is, every column is colored green in at least two thirds of its coordinates.  In the left figure we have an "average case" guarantee where the algorithm is only guaranteed to output the correct answer with probabilty two thirds over a _random_ input (i.e., at most one third of the total entries of the table are colored red, but there could be an all red column). The right figure corresponds to the "offline $\mathbf{BPP}$" case, with probability at least two thirds over the random choice $r$, $r$ will be good for _every_ input. That is, at least two thirds of the rows are all green. [rnandthm](){.ref} ($\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$) is proven by amplifying the success of a $\mathbf{BPP}$ algorithm until we have the "offline $\mathbf{BPP}$" guarantee, and then hardwiring the choice of the randomness $r$ to obtain a nonuniform deterministic algorithm.](../figure/randomizedcomp.png){#randomizedcompfig .class width=300px height=300px}
 
 > # {.theorem title="Randomness does not help for non uniform computation" #rnandthm}
-$\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$. That is, for every $F\in \mathbf{BPP}$, there exist some $a,b\in \N$ such that for every $n>0$, $F_n \in SIZE(an^b)$ where $F_n$ is the restriction of $F$ to inputs in $\{0,1\}^n$.
+$\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$. That is, for every $F\in \mathbf{BPP}$, there exist some $a,b\in \N$ such that for every $n>0$, $F_{\upharpoonright n} \in SIZE(an^b)$ where $F_{\upharpoonright n}$ is the restriction of $F$ to inputs in $\{0,1\}^n$.
 
 
 > # {.proofidea data-ref="rnandthm"}
@@ -273,7 +273,7 @@ for every $x\in \{0,1\}^n$.
 
 Now let us use the standard "unravelling the loop" the technique and transform $P'$ into a NAND-CIRC program $Q$ of polynomial in $n$ size, such that $Q(xr)=P'(x;r)$ for every $x\in \{0,1\}^n$ and $r \in \{0,1\}^m$.
 Then by "hardwiring" the values $r^*_0,\ldots,r^*_{m-1}$ in place of the last $m$ inputs of $Q$, we obtain a new NAND-CIRC program $Q_{r^*}$ that satisfies by [hardwirecorrecteq](){.eqref} that $Q_{r^*}(x)=F(x)$ for every $x\in \{0,1\}^n$.
-This demonstrates that $F_n$ has a polynomial sized NAND-CIRC program, hence completing the proof of [rnandthm](){.ref}.
+This demonstrates that $F_{\upharpoonright n}$ has a polynomial sized NAND-CIRC program, hence completing the proof of [rnandthm](){.ref}.
 :::
 
 > # {.remark title="Randomness and non uniformity" #nonuniform}
@@ -408,7 +408,7 @@ We emphasize again that the optimal PRG conjecture is, as its name implies, a _c
 In particular, it is stronger than the conjecture that $\mathbf{P} \neq \mathbf{NP}$.
 But we do have some evidence for its truth.
 There is a spectrum of different types of pseudorandom generators, and there are weaker assumptions than the optimal PRG conjecture that suffice to prove that $\mathbf{BPP}=\mathbf{P}$.
-In particular this is known to hold under the assumption that there exists a function $F\in \mathbf{TIME}(2^{O(n)})$ and $\epsilon >0$ such that for every sufficiently large  $n$, $F_n$ is not in $SIZE(2^{\epsilon n})$.
+In particular this is known to hold under the assumption that there exists a function $F\in \mathbf{TIME}(2^{O(n)})$ and $\epsilon >0$ such that for every sufficiently large  $n$, $F_{\upharpoonright n}$ is not in $SIZE(2^{\epsilon n})$.
 The name "Optimal PRG conjecture" is non standard.
 This conjecture is sometimes known in the literature as the existence of _exponentially strong pseudorandom functions_.^[A pseudorandom generator of the form we posit, where each output bit can be computed individually in time polynomial in the seed length, is commonly known as a _pseudorandom function generator_. For more on the many interesting results and connections in the study of _pseudorandomness_, see [this monograph of Salil Vadhan](https://people.seas.harvard.edu/~salil/pseudorandomness/).]
 

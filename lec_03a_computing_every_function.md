@@ -5,9 +5,8 @@
 # Syntactic sugar, and computing every function
 
 > # { .objectives }
-* Get comfort with syntactic sugar or automatic translation of higher level logic to NAND code. \
-* More techniques for translating informal or higher level language algorithms into NAND. \
-* Learn proof of major result: every finite function can be computed by some NAND-CIRC program. \
+* Get comfort with syntactic sugar or automatic translation of higher level logic to  low level gates. \
+* Learn proof of major result: every finite function can be computed by a Boolean circuit. \
 * Start thinking _quantitatively_ about number of lines required for computation.
 
 
@@ -318,6 +317,10 @@ This turns out to be the case:
 ># {.theorem title="Lookup function" #lookup-thm}
 For every $k$, there is a NAND-CIRC program that computes the function $LOOKUP_k: \{0,1\}^{2^k+k}\rightarrow \{0,1\}$. Moreover, the number of lines in this program is at most  $4\cdot 2^k$.
 
+As a corollary,  for every $k>0$, $LOOKUP_k$ can be computed by a Boolean circuit (with AND, OR and NOT gates) of at most $8 \cdot 2^k$.
+
+
+
 
 ### Constructing a NAND-CIRC program for $LOOKUP$
 
@@ -548,44 +551,71 @@ Since $n/2 \leq 2^k \leq n$, we can bound the total cost of computing $F(x)$ (in
 
 
 
-### The class $SIZE_{n,m}(T)$
+## The class $SIZE_{n,m}(T)$
 
-For every $n,m,T \in \N$, we denote by $SIZE_{n,m}(T)$, the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$ that can be computed by NAND-CIRC programs  of at most $T$ lines.
-[NAND-univ-thm](){.ref} shows that  $SIZE_{n,m}(4 m 2^n)$ is the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$.
+
+We now make a fundamental definition, we let $SIZE_{n,m}(s)$ denote the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$ that can be computed by NAND circuits of at most $s$ gates (or equivalently, by NAND-CIRC programs of at most $s$ lines):
+
+> # {.definition title="Size class" #sizedef}
+Let $n,m,s \in \N$ be numbers with $s \geq m$.
+The set $SIZE_{n,m}(s)$ denotes the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ such that there exists a NAND circuit of at most $s$ gates that computes $f$.
+We denote by $SIZE_n(s)$ the set $SIZE_{n,1}(s)$.
+
+While we defined $SIZE_{n,m}(s)$ with respect to NAND gates, we would get essentially the same class if we defined it with respect to AND/OR/NOT gates:
+
+> # {.lemma #nandaonsizelem}
+Let $SIZE^{AON}_{n,m,s}$ denote the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that can be computed by an AND/OR/NOT Boolean circuit  of at most $s$ gates.
+Then,
+$$
+SIZE_{n,m}(s/2) \subseteq SIZE^{AON}_{n,m}(s) \subseteq SIZE_{n,m}(3s)
+$$
+
+::: {.proof data-ref="nandaonsizelem"}
+If $f$ can be computed by a NAND circuit of at most $s/2$ gates, then by replacing each NAND with the two gates NOT and AND, we can obtain an AND/OR/NOT Boolean circuit  of at most $s$ gates that computes $f$.
+On the other hand, if $f$ can be computed by a Boolean AND/OR/NOT circuit of at most $s$ gates, then by [NANDuniversamthm](){.ref} it can be computed by a NAND circuit of at most $3s$ gates.
+:::
+
+
+
+
+![A "category error" is a question such as "is a cucumber even or odd?" which does not even make sense. In this book the category errors one needs to watch out for are confusing _functions_ and _programs_ (i.e., confusing _specifications_ and _implementations_). If $C$ is a circuit or program, then asking if $C \in SIZE_{n,1}(s)$ is a category error, since $SIZE_{n,1}(s)$ is a set of _functions_ and not programs or circuits.](../figure/cucumber.png){#cucumberfig .class width=300px height=300px}
+
+
 The results we've seen before can be phrased as showing  that $ADD_n \in SIZE_{2n,n+1}(100 n)$
 and $MULT_n \in SIZE_{2n,2n}(10000 n^{\log_2 3})$.
+[NAND-univ-thm](){.ref} shows that  $SIZE_{n,m}(4 m 2^n)$ is equal the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$.
 See [sizeclassesfig](){.ref}.
 
 > # { .pause }
-Note that $SIZE_{n,m}(T)$ does _not_  correspond to a set of programs!
-Rather, it is a set of _functions_.
+Note that $SIZE_{n,m}(s)$ does __not___  correspond to a set of programs!
+Rather, it is a set of _functions_ (see [cucumberfig](){.ref}).
 This distinction between _programs_ and _functions_ will be crucial for us in this course.
 You should always remember that while a program _computes_ a function, it is not _equal_ to a function.
 In particular, as we've seen, there can be more than one program to compute the same function.
 
 
-![A rough illustration of the relations between the different classes of functions computed by NAND-CIRC programs of given size. For every $n,m$, the class $SIZE_{n,m}(T)$ is a subset of the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$, and if $T \leq T;$ then $SIZE_{n,m}(T) \subseteq SIZE_{n,m}(T')$. [NAND-univ-thm](){.ref} shows that $SIZE_{n,m}(O(m\cdot 2^n))$ is equal to the set of all functions, and using [tight-upper-bound](){.ref} this can be improved to $O(m \cdot 2^n/n)$. If we consider all functions mapping $n$ bits to $n$ bits, then addition of two $n/2$ bit numbers can be done in $O(n)$ lines, while we don't know of such a program for _multiplying_ two $n$ bit numbers, though we do know it can be done in $O(n^2)$ and in fact even better size. In the above  $FACTOR_n$ corresponds to the inverse problem of multiplying- finding the _prime factorization_ of a given number. At the moment  we do not know  of any NAND-CIRC program with a polynomial (or even sub-exponential) number of lines that can compute $FACTOR_n$. ](../figure/sizeclasses.png){#sizeclassesfig .class width=300px height=300px}
+![A rough illustration of the relations between the different classes of functions computed by NAND-CIRC programs of given size. For every $n,m$, the class $SIZE_{n,m}(s)$ is a subset of the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$, and if $s \leq s'$ then $SIZE_{n,m}(s) \subseteq SIZE_{n,m}(s')$. [NAND-univ-thm](){.ref} shows that $SIZE_{n,m}(O(m\cdot 2^n))$ is equal to the set of all functions, and using [tight-upper-bound](){.ref} this can be improved to $O(m \cdot 2^n/n)$. If we consider all functions mapping $n$ bits to $n$ bits, then addition of two $n/2$ bit numbers can be done in $O(n)$ lines, while we don't know of such a program for _multiplying_ two $n$ bit numbers, though we do know it can be done in $O(n^2)$ and in fact even better size. In the above  $FACTOR_n$ corresponds to the inverse problem of multiplying- finding the _prime factorization_ of a given number. At the moment  we do not know  of any NAND-CIRC program with a polynomial (or even sub-exponential) number of lines that can compute $FACTOR_n$. ](../figure/sizeclasses.png){#sizeclassesfig .class width=300px height=300px}
 
 ::: # {.remark title="Finite vs infinite functions" #infinitefunc}
 A NAND-CIRC program $P$ can only compute a function with a certain number $n$ of inputs and a certain number $m$ of outputs. Hence for example there is no single NAND-CIRC program that can compute the increment function $INC:\{0,1\}^* \rightarrow \{0,1\}^*$ that maps a string $x$ (which we identify with a number via the binary representation) to the string that represents $x+1$. Rather for every $n>0$, there is a NAND-CIRC program $P_n$ that computes the restriction $INC_n$ of the function $INC$ to inputs of length $n$. Since it can be shown that for every $n>0$ such a program $P_n$ exists of length at most $10n$, $INC_n \in SIZE(10n)$ for every $n>0$.
 
-If $T:\N \rightarrow \N$ and $F:\{0,1\}^* \rightarrow \{0,1\}^*$, we will sometimes slightly abuse notation and write $F \in SIZE(T(n))$ to indicate that for every $n$ the restriction $F_n$ of $F$ to inputs in $\{0,1\}^n$ is in $SIZE(T(n))$. Hence we can write $INC \in SIZE(10n)$. We will come back to this issue of finite vs infinite functions later in this course.
+If $T:\N \rightarrow \N$ and $F:\{0,1\}^* \rightarrow \{0,1\}^*$, we will sometimes slightly abuse notation and write $F \in SIZE(T(n))$ to indicate that for every $n$ the restriction $F_{\upharpoonright n}$ of $F$ to inputs in $\{0,1\}^n$ is in $SIZE(T(n))$. Hence we can write $INC \in SIZE(10n)$. We will come back to this issue of finite vs infinite functions later in this course.
 :::
 
 
 ::: {.solvedexercise title="$SIZE$ closed under complement." #sizeclosundercomp}
-In this exercise we prove a certain "closure property" of the class $SIZE(T(n))$.
+In this exercise we prove a certain "closure property" of the class $SIZE_n(s)$.
 That is, we show that if $f$ is in this class then (up to some small additive term) so is the complement of $f$, which is the function $g(x)=1-f(x)$.
 
-Prove that there is a constant $c$ such that for every $f:\{0,1\}^n \rightarrow \{0,1\}$ and $s\in \N$, if $f \in SIZE(s)$  then $1-f \in SIZE(s+c)$.
+Prove that there is a constant $c$ such that for every $f:\{0,1\}^n \rightarrow \{0,1\}$ and $s\in \N$, if $f \in SIZE_n(s)$  then $1-f \in SIZE_n(s+c)$.
 :::
 
 ::: {.solution data-ref="sizeclosundercomp"}
-If $f\in SIZE(s)$ then there is an $s$-line program $P$ that computes $f$.
-We can rename the variable `Y[0]` in $P$ to a unique variable `unique_temp` and add the line
+If $f\in SIZE(s)$ then there is an $s$-line NAND-CIRC program $P$ that computes $f$.
+We can rename the variable `Y[0]` in $P$ to a  variable `temp` and add the line
 
 ```python
-Y[0] = NAND(unique_temp,unique_temp)
+Y[0] = NAND(temp,temp)
 ```
 
 at the very end to obtain a program $P'$ that computes $1-f$.
@@ -596,8 +626,8 @@ at the very end to obtain a program $P'$ that computes $1-f$.
 > # { .recap }
 * We can define the notion of computing a function via a simplified "programming language", where computing a function $F$ in $T$ steps would correspond to having a $T$-line NAND-CIRC program that computes $F$.
 * While the NAND-CIRC programming only has one operation, other operations such as functions and conditional execution can be implemented using it.
-* Every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a NAND-CIRC program of at most $O(m 2^n)$ lines (and in fact at most $O(m 2^n/n)$ lines).
-* Sometimes (or maybe always?) we can translate an _efficient_ algorithm to compute $F$ into a NAND-CIRC program that computes $F$  with a  number of lines comparable to the number of steps in this algorithm.
+* Every function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a circuit  of at most $O(m 2^n)$ gates (and in fact at most $O(m 2^n/n)$ gates).
+* Sometimes (or maybe always?) we can translate an _efficient_ algorithm to compute $f$ into a circuit that computes $f$  with a  number of gates comparable to the number of steps in this algorithm.
 
 
 
@@ -633,8 +663,8 @@ where $MAJ(a,b,c) = 1$ iff $a+b+c \geq 2$.
 
 > # {.exercise title="Conditional statements" #conditional-statements}
 In this exercise we will show that even though the NAND-CIRC programming language does not have an `if .. then .. else ..` statement, we can still implement it.
-Suppose that there is an $s$-line NAND-CIRC program to compute $F:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND-CIRC program to compute $F':\{0,1\}^n \rightarrow \{0,1\}$.
-Prove that there is a program of at most $s+s'+10$ lines to compute the function $G:\{0,1\}^{n+1} \rightarrow \{0,1\}$ where $G(x_0,\ldots,x_{n-1},x_n)$ equals $F(x_0,\ldots,x_{n-1})$ if $x_n=0$ and equals $F'(x_0,\ldots,x_{n-1})$ otherwise.
+Suppose that there is an $s$-line NAND-CIRC program to compute $f:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND-CIRC program to compute $f':\{0,1\}^n \rightarrow \{0,1\}$.
+Prove that there is a program of at most $s+s'+10$ lines to compute the function $g:\{0,1\}^{n+1} \rightarrow \{0,1\}$ where $g(x_0,\ldots,x_{n-1},x_n)$ equals $f(x_0,\ldots,x_{n-1})$ if $x_n=0$ and equals $f'(x_0,\ldots,x_{n-1})$ otherwise.
 
 
 
@@ -648,13 +678,17 @@ Write a program using your favorite programming language that on input an intege
 Write a program using your favorite programming language that on input an integer $n$, outputs a NAND-CIRC program that computes $MULT_n$ and has at most $10000 n^{1.9}$ lines.^[__Hint:__ Use Karatsuba's algorithm] What is the smallest number of lines you can use to multiply two 2048 bit numbers?
 
 
-> # {.exercise title="Multibit function" #mult-bit-ex}
- Prove that \
-a. If there is an $s$-line NAND-CIRC program to compute $F:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND-CIRC program to compute $F':\{0,1\}^n \rightarrow \{0,1\}$ then there is an $s+s'$-line program to compute the function $G:\{0,1\}^n \rightarrow \{0,1\}^2$ such that $G(x)=(F(x),F'(x))$. \
-b. For every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$, there is a NAND-CIRC program of at most $10m\cdot 2^n$ lines that computes $F$.
+::: {.exercise title="Multibit function" #mult-bit-ex}
+ Prove that
+
+a. If there is an $s$-line NAND-CIRC program to compute $f:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND-CIRC program to compute $f':\{0,1\}^n \rightarrow \{0,1\}$ then there is an $s+s'$-line program to compute the function $g:\{0,1\}^n \rightarrow \{0,1\}^2$ such that $g(x)=(f(x),f'(x))$.
+
+b. For every function $f:\{0,1\}^n \rightarrow \{0,1\}^m$, there is a NAND-CIRC program of at most $10m\cdot 2^n$ lines that computes $f$.
+:::
 
 
 ## Bibliographical notes
 
 
+See Jukna's  book [@Jukna12] for much more extensive discussion on circuits.
 Shannon showed that every Boolean function can be computed by a circuit of exponential size [@Shannon1938]. The improved bound of $O(2^n/n)$ is due to Lupanov [@Lupanov1958].

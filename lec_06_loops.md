@@ -975,7 +975,7 @@ seen_i := zero NAND zero
 In particular we have the following theorem
 
 > # {.theorem title="Expansion of NAND++ to NAND" #NANDexpansionthm}
-For every simple NAND-TM program $P$ and function $F:\{0,1\}^* \rightarrow \{0,1\}$, if $P$ computes $F$ then for every $n\in\N$ there exists $T\in \N$ such that $expand_{T,n}(P)$ computes $F_n$.
+For every simple NAND-TM program $P$ and function $F:\{0,1\}^* \rightarrow \{0,1\}$, if $P$ computes $F$ then for every $n\in\N$ there exists $T\in \N$ such that $expand_{T,n}(P)$ computes $F_{\upharpoonright n}$.
 
 ```python
 # Expand a NAND-TM program and a given time bound T and n to an n-input T-line NAND-CIRC program
@@ -1011,7 +1011,7 @@ Moreover, we replace the variable `validx_i` with either `one` or `zero` dependi
 >
 Now, if a simple  NAND-TM program $P$ computes some function $F:\{0,1\}^* \rightarrow \{0,1\}$, then for every $x\in \{0,1\}^*$  there is some number $T_P(x)$ such that on input $x$ halts within $T(x)$ iterations of its main loop and outputs $F(x)$.
 Moreover, since $P$ is simple, even if we run it for more iterations than that, the output value will not change.
-For every $n \in \N$, define $T_P(n) = \max_{x\in \{0,1\}^n} T(x)$. Then $P'=expand_{T_P(n),n}(P)$ computes the function $F_n:\{0,1\}^n \rightarrow \{0,1\}$ which is the restriction of $F$ to $\{0,1\}^n$.
+For every $n \in \N$, define $T_P(n) = \max_{x\in \{0,1\}^n} T(x)$. Then $P'=expand_{T_P(n),n}(P)$ computes the function $F_{\upharpoonright n}:\{0,1\}^n \rightarrow \{0,1\}$ which is the restriction of $F$ to $\{0,1\}^n$.
 
 
 

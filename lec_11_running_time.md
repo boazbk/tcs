@@ -406,20 +406,20 @@ For infinite functions $F:\{0,1\}^* \rightarrow \{0,1\}^*$, we can define the "c
 Is there a relation between the two?
 
 For simplicity, let  us restrict attention to  Boolean (i.e., single-bit output) functions $F:\{0,1\}^* \rightarrow \{0,1\}$.
-For every such function, define $F_n : \{0,1\}^n \rightarrow \{0,1\}$ to be the restriction of $F$ to inputs of size $n$.
+For every such function, define $F_{\upharpoonright n} : \{0,1\}^n \rightarrow \{0,1\}$ to be the restriction of $F$ to inputs of size $n$.
 We have seen two ways to define that $F$ is computable within a roughly $T(n)$ amount of resources:
 
 1. There is a _single algorithm_ $P$ that computes $F$ within $T(n)$ steps on all inputs of length $n$. In such a case we say that  $F$ is  _uniformly_ computable (or more often, simply "computable") within $T(n)$ steps.
 
-2. For every $n$, there is a $T(n)$ NAND-CIRC program $Q_n$ that computes $F_n$. In such a case we say that $F$ has can be computed via a _non uniform_ $T(n)$ bounded sequence of algorithms.
+2. For every $n$, there is a $T(n)$ NAND-CIRC program $Q_n$ that computes $F_{\upharpoonright n}$. In such a case we say that $F$ has can be computed via a _non uniform_ $T(n)$ bounded sequence of algorithms.
 
-Unlike the first condition, where there is a single algorithm or "recipe" to compute $F$ on all possible inputs, in the second condition we allow the restriction $F_n$ to be computed by a  completely different  program $Q_n$ for every $n$.
+Unlike the first condition, where there is a single algorithm or "recipe" to compute $F$ on all possible inputs, in the second condition we allow the restriction $F_{\upharpoonright n}$ to be computed by a  completely different  program $Q_n$ for every $n$.
 One can see that the second condition is much more relaxed, and hence we might expect that every function satisfying the first condition satisfies the second one as well (up to a small overhead in the bound $T(n)$).
 This  indeed turns out to be the case:
 
 
 > # {.theorem  title="Nonuniform computation contains uniform computation" #non-uniform-thm}
-There is some $c\in \N$ s.t. for every nice $T:\N \rightarrow \N$ and  $F:\{0,1\}^* \rightarrow \{0,1\}$ in  $TIME_{++}(T(n))$ and every  sufficiently large $n\in N$,  $F_n$ is in $SIZE(c T(n))$.
+There is some $c\in \N$ s.t. for every nice $T:\N \rightarrow \N$ and  $F:\{0,1\}^* \rightarrow \{0,1\}$ in  $TIME_{++}(T(n))$ and every  sufficiently large $n\in N$,  $F_{\upharpoonright n}$ is in $SIZE(c T(n))$.
 
 ::: {.proofidea data-ref="non-uniform-thm"}
 To prove [non-uniform-thm](){.ref} we use the technique of "unraveling  the loop". That is, we can use "copy paste" to replace a program $P$ that uses a loop that iterates for at most $T$ times with a "loop free" program that has about $T$ times as many lines as $P$.
@@ -481,7 +481,7 @@ Thus the total cost is at most $4L \cdot (\tfrac{T(n)}{L}) \leq 4 \cdot T(n)$ li
 :::
 
 
-By combining [non-uniform-thm](){.ref}  with [polyRAMTM-thm](){.ref}, we get that if $F\in TIME(T(n))$ then there are some constants $a,b$ such that for every large enough $n$, $F_n \in SIZE(aT(n)^b)$. (In fact, by direct inspection of the proofs we can see that $a=b=5$  would work.)
+By combining [non-uniform-thm](){.ref}  with [polyRAMTM-thm](){.ref}, we get that if $F\in TIME(T(n))$ then there are some constants $a,b$ such that for every large enough $n$, $F_{\upharpoonright n} \in SIZE(aT(n)^b)$. (In fact, by direct inspection of the proofs we can see that $a=b=5$  would work.)
 
 
 ### Algorithmic transformation of NAND++ to NAND and "Proof by Python" (optional)
@@ -593,14 +593,14 @@ nothalted = NAND(halted,halted)
 Since NAND<< programs can be simulated by NAND-TM programs with polynomial overhead, we see that we can simulate a $T(n)$ time NAND<< program on length $n$ inputs with a $poly(T(n))$ size NAND-CIRC program.
 
 > # { .pause }
-To make sure you understand this transformation, it is an excellent exercise to verify the following equivalent characterization of the class $\mathbf{P}$ (see [Palternativeex](){.ref}). Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}$, $F\in \mathbf{P}$ if and only if there is a polynomial-time NAND++ (or NAND<<, it doesn't matter) program $P$ such that for every $n\in \N$, $P(1^n)$ outputs a description of an $n$ input NAND-CIRC program $Q_n$ that computes the restriction $F_n$ of $F$ to inputs in $\{0,1\}^n$. (Note that since $P$ runs in polynomial time and hence has an output of at most polynomial length, $Q_n$ has at most a polynomial number of lines.)
+To make sure you understand this transformation, it is an excellent exercise to verify the following equivalent characterization of the class $\mathbf{P}$ (see [Palternativeex](){.ref}). Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}$, $F\in \mathbf{P}$ if and only if there is a polynomial-time NAND++ (or NAND<<, it doesn't matter) program $P$ such that for every $n\in \N$, $P(1^n)$ outputs a description of an $n$ input NAND-CIRC program $Q_n$ that computes the restriction $F_{\upharpoonright n}$ of $F$ to inputs in $\{0,1\}^n$. (Note that since $P$ runs in polynomial time and hence has an output of at most polynomial length, $Q_n$ has at most a polynomial number of lines.)
 
 ### The class $\mathbf{P_{/poly}}$
 
 We can define the "non uniform" analog of the class $\mathbf{P}$ as follows:
 
 > # {.definition title="$\mathbf{P_{/poly}}$" #Ppoly}
-For every $F:\{0,1\}^* \rightarrow \{0,1\}$, we say that $F\in \mathbf{P_{/poly}}$ if there is some polynomial $p:\N \rightarrow \R$ such that for every $n\in \N$, $F_n \in SIZE(p(n))$ where $F_n$ is the restriction of $F$ to inputs in $\{0,1\}^n$.
+For every $F:\{0,1\}^* \rightarrow \{0,1\}$, we say that $F\in \mathbf{P_{/poly}}$ if there is some polynomial $p:\N \rightarrow \R$ such that for every $n\in \N$, $F_{\upharpoonright n} \in SIZE(p(n))$ where $F_{\upharpoonright n}$ is the restriction of $F$ to inputs in $\{0,1\}^n$.
 
 [non-uniform-thm](){.ref} implies that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$.
 
@@ -611,7 +611,7 @@ Please make sure you understand why this is the case.
 
 Using the equivalence of NAND-CIRC programs and Boolean circuits, we can also define $P_{/poly}$ as the class of functions $F:\{0,1\}^* \rightarrow \{0,1\}$  such that the restriction of $F$ to $\{0,1\}^n$ is computable by a Boolean circuit of $poly(n)$ size (say with gates in the set $\wedge,\vee,\neg$ though any universal gateset will do); see [Ppolyfig](){.ref}.
 
-![We can think of an infinite function $F:\{0,1\}^* \rightarrow \{0,1\}$ as a collection of finite functions $F_0,F_1,F_2,\ldots$ where $F_n:\{0,1\}^n \rightarrow \{0,1\}$ is the restriction of $F$ to inputs of length $n$. We say $F$ is in $\mathbf{P_{/poly}}$ if for every $n$, the function $F_n$  is computable by a polynomial size NAND-CIRC program, or equivalently, a polynomial sized Boolean circuit. (We drop in this figure the "edge case" of $F_0$ though as a constant function, it can always be computed by a constant sized NAND-CIRC program.)](../figure/Ppoly.png){#Ppolyfig .class width=300px height=300px}
+![We can think of an infinite function $F:\{0,1\}^* \rightarrow \{0,1\}$ as a collection of finite functions $F_0,F_1,F_2,\ldots$ where $F_{\upharpoonright n}:\{0,1\}^n \rightarrow \{0,1\}$ is the restriction of $F$ to inputs of length $n$. We say $F$ is in $\mathbf{P_{/poly}}$ if for every $n$, the function $F_{\upharpoonright n}$  is computable by a polynomial size NAND-CIRC program, or equivalently, a polynomial sized Boolean circuit. (We drop in this figure the "edge case" of $F_0$ though as a constant function, it can always be computed by a constant sized NAND-CIRC program.)](../figure/Ppoly.png){#Ppolyfig .class width=300px height=300px}
 
 The notation $\mathbf{P_{/poly}}$ is used for historical reasons.
 It was introduced by Karp and Lipton, who considered this class as corresponding to functions that can be computed by polynomial-time Turing Machines (or equivalently, NAND-TM programs) that are given for any input length $n$ a polynomial in $n$ long _advice string_.
@@ -639,7 +639,7 @@ To make sure you understand the definition of $\mathbf{P_{/poly}}$, I highly enc
 
 [non-uniform-thm](){.ref} shows that every function in $TIME(T(n))$ is in $SIZE(poly(T(n)))$.
 One can ask if  there is an inverse relation.
-Suppose that $F$ is such that $F_n$ has a "short" NAND-CIRC program for every $n$.
+Suppose that $F$ is such that $F_{\upharpoonright n}$ has a "short" NAND-CIRC program for every $n$.
 Can we say that it must be in $TIME(T(n))$ for some "small" $T$?
 The answer is an emphatic __no__.
 Not only is $\mathbf{P_{/poly}}$ not contained in $\mathbf{P}$, in fact $\mathbf{P_{/poly}}$ contains functions that are _uncomputable_!
@@ -650,7 +650,7 @@ There exists an _uncomputable_ function $F:\{0,1\}^* \rightarrow \{0,1\}$ such t
 
 
 > # {.proofidea data-ref="PnewPpoly"}
-Since $\mathbf{P_{/poly}}$ corresponds to non uniform computation, a function $F$ is in $\mathbf{P_{/poly}}$ if for every $n\in \N$, the restriction $F_n$ to inputs of length $n$ has a small circuit/program, even if the circuits for different values of $n$ are completely different from one another. In particular, if $F$ has the property that for every equal-length inputs $x$ and $x'$, $F(x)=F(x')$ then this means that $F_n$ is either the constant function zero or the constant function one for every $n\in \N$.
+Since $\mathbf{P_{/poly}}$ corresponds to non uniform computation, a function $F$ is in $\mathbf{P_{/poly}}$ if for every $n\in \N$, the restriction $F_{\upharpoonright n}$ to inputs of length $n$ has a small circuit/program, even if the circuits for different values of $n$ are completely different from one another. In particular, if $F$ has the property that for every equal-length inputs $x$ and $x'$, $F(x)=F(x')$ then this means that $F_{\upharpoonright n}$ is either the constant function zero or the constant function one for every $n\in \N$.
 Since the constant function has a (very!) small circuit, such a function $F$ will always be in $\mathbf{P_{/poly}}$ (indeed even in smaller classes).
 Yet by a reduction from the Halting problem, we can obtain a function with this property that is uncomputable.
 
@@ -668,8 +668,8 @@ On the other hand, for every $n$, $UH_n(x)$ is either equal to $0$ for all input
 
 
 The issue here is of course _uniformity_.
-For a function $F:\{0,1\}^* \rightarrow \{0,1\}$, if $F$ is in $TIME(T(n))$ then we have a _single_ algorithm that can compute $F_n$ for every $n$.
-On the other hand,  $F_n$ might be in  $SIZE(T(n))$ for every $n$ using a completely different algorithm for every input length.
+For a function $F:\{0,1\}^* \rightarrow \{0,1\}$, if $F$ is in $TIME(T(n))$ then we have a _single_ algorithm that can compute $F_{\upharpoonright n}$ for every $n$.
+On the other hand,  $F_{\upharpoonright n}$ might be in  $SIZE(T(n))$ for every $n$ using a completely different algorithm for every input length.
 For this reason we typically use $\mathbf{P_{/poly}}$ not as a model of _efficient_ computation but rather as a way to model _inefficient computation_.
 For example, in cryptography people often define  an encryption  scheme to be secure if breaking it for a key of length $n$ requires more then a polynomial number of NAND lines.
 Since $\mathbf{P} \subseteq \mathbf{P_{/poly}}$, this in particular precludes a polynomial time algorithm for doing so, but there are technical reasons why working in a non uniform model makes more sense in cryptography.
@@ -694,9 +694,9 @@ To summarize, the two models of computation we have described so far are:
 
 For a function $F:\{0,1\}^* \rightarrow \{0,1\}$ and some nice time bound $T:\N \rightarrow \N$, we know that:
 
-* If $F$ is computable in time $T(n)$ then there is a sequence $\{ P_n \}$ of NAND-CIRC programs with $|P_n| = poly(T(n))$ such that $P_n$ computes $F_n$ (i.e., restriction of $F$ to $\{0,1\}^n$) for every $n$.
+* If $F$ is computable in time $T(n)$ then there is a sequence $\{ P_n \}$ of NAND-CIRC programs with $|P_n| = poly(T(n))$ such that $P_n$ computes $F_{\upharpoonright n}$ (i.e., restriction of $F$ to $\{0,1\}^n$) for every $n$.
 
-* The reverse direction is not necessarily true - there are examples of functions $F:\{0,1\}^n \rightarrow \{0,1\}$ such that $F_n$ can be computed by even a constant size NAND-CIRC program but $F$ is uncomputable.
+* The reverse direction is not necessarily true - there are examples of functions $F:\{0,1\}^n \rightarrow \{0,1\}$ such that $F_{\upharpoonright n}$ can be computed by even a constant size NAND-CIRC program but $F$ is uncomputable.
 
 This means that non uniform complexity is more useful to establish _hardness_ of a function than its _easiness_.
 

@@ -417,7 +417,7 @@ We had two types of computational models:
 
 
 When considering _efficient computation_, we defined the class $\mathbf{P}$ to consist of all infinite functions $F:\{0,1\}^* \rightarrow \{0,1\}$ that can be computed by a Turing machine or NAND-TM program in time $p(n)$  for some polynomial $p(\cdot)$.
-We defined the class  $\mathbf{P_{/poly}}$ to consists of all infinite functions $F:\{0,1\}^* \rightarrow \{0,1\}$ such that for every $n$, the restriction $F_n$ of $F$ to $\{0,1\}^n$ can be computed by a Boolean circuit or NAND-CIRC program of size at most $p(n)$ for some polynomial $p(\cdot)$.
+We defined the class  $\mathbf{P_{/poly}}$ to consists of all infinite functions $F:\{0,1\}^* \rightarrow \{0,1\}$ such that for every $n$, the restriction $F_{\upharpoonright n}$ of $F$ to $\{0,1\}^n$ can be computed by a Boolean circuit or NAND-CIRC program of size at most $p(n)$ for some polynomial $p(\cdot)$.
 
 We will do the same for _quantum computation_, focusing mostly on the _non uniform_ setting of quantum circuits, since that is simpler, and already illustrates the important differences with classical computing.
 
@@ -498,7 +498,7 @@ Once we have the notion of quantum circuits, we can define the quantum analog of
 
 > # {.definition title="$\mathbf{BQP_{/poly}}$" #QBPpoly}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$.
-We say that $F\in \mathbf{BQP_{/poly}}$ if there exists some polynomial $p:\N \rightarrow \N$ such that for every $n\in \N$, if $F_n$ is the restriction of $F$ to inputs of length $n$, then there is a quantum circuit of size at most $p(n)$ that computes $F_n$.
+We say that $F\in \mathbf{BQP_{/poly}}$ if there exists some polynomial $p:\N \rightarrow \N$ such that for every $n\in \N$, if $F_{\upharpoonright n}$ is the restriction of $F$ to inputs of length $n$, then there is a quantum circuit of size at most $p(n)$ that computes $F_{\upharpoonright n}$.
 
 
 ::: {.remark title="The obviously exponential fallacy" #exponential}
