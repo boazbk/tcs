@@ -7,7 +7,7 @@
 > # { .objectives }
 * Get comfort with syntactic sugar or automatic translation of higher level logic to NAND code. \
 * More techniques for translating informal or higher level language algorithms into NAND. \
-* Learn proof of major result: every finite function can be computed by some NAND program. \
+* Learn proof of major result: every finite function can be computed by some NAND-CIRC program. \
 * Start thinking _quantitatively_ about number of lines required for computation.
 
 
@@ -20,7 +20,7 @@
 
 
 
-The NAND programing language is pretty much as "bare bones" as programming languages come.
+The NAND-CIRC programing language is pretty much as "bare bones" as programming languages come.
 After all, it only has a single operation.
 But, it turns out we can implement some "added features" on top of it.
 That is, we can show how we can implement those features using the underlying mechanisms of the language.
@@ -44,19 +44,19 @@ foo    = NAND(notbar,notbar)
 the reason being that for every $a\in \{0,1\}$, $NAND(a,a)=NOT(a AND a)=NOT(a)$ and so in these two lines `notbar` is assigned the negation of `bar` and so `foo` is assigned the negation of the negation of `bar`, which is simply `bar`.
 
 
-Thus in describing NAND programs we can (and will) allow ourselves to use the variable assignment operation, with the understanding that in actual programs we will replace every line of the first form with the two lines of the second form.
+Thus in describing NAND-CIRC programs we can (and will) allow ourselves to use the variable assignment operation, with the understanding that in actual programs we will replace every line of the first form with the two lines of the second form.
 In programming language parlance this is known as "syntactic sugar", since we are not changing the definition of the language, but merely introducing some convenient notational shortcuts.^[This concept is also known as "macros" or "meta-programming" and is sometimes implemented via a preprocessor or macro language in a programming language or a text editor. One modern example is the [Babel](https://babeljs.io/) JavaScript syntax transformer, that converts JavaScript programs written using the latest features into a format that older Browsers can accept. It even has a [plug-in](https://babeljs.io/docs/plugins/) architecture, that allows users to add their own syntactic sugar to the language.]
-We will use several such "syntactic sugar" constructs to make our descriptions of NAND programs shorter and simpler.
-However, these descriptions are  merely shorthand for the equivalent standard or "sugar free" NAND program that is obtained after removing the use of all these constructs.
-In particular, when we  say that a function $F$ has an $s$-line NAND program, we mean a standard NAND program, that does not use any syntactic sugar.
-The website [http://www.nandpl.org](http://www.nandpl.org) contains an online "unsweetener" that can take a NAND program that uses  these features and modifies it to an equivalent program that does not use them.
+We will use several such "syntactic sugar" constructs to make our descriptions of NAND-CIRC programs shorter and simpler.
+However, these descriptions are  merely shorthand for the equivalent standard or "sugar free" NAND-CIRC program that is obtained after removing the use of all these constructs.
+In particular, when we  say that a function $F$ has an $s$-line NAND-CIRC program, we mean a standard NAND-CIRC program, that does not use any syntactic sugar.
+The website [http://www.nandpl.org](http://www.nandpl.org) contains an online "unsweetener" that can take a NAND-CIRC program that uses  these features and modifies it to an equivalent program that does not use them.
 
 ## Some useful syntactic sugar
 
 In this section, we will list some additional examples of "syntactic sugar" transformations.
 Going over all these examples can be somewhat tedious, but we do it for two reasons:
 
-1. To convince you that despite its seeming simplicity and limitations, the NAND programming language is actually quite powerful and can capture many of the fancy programming constructs such as `if` statements and function definitions  that exists in more fashionable languages.
+1. To convince you that despite its seeming simplicity and limitations, the NAND-CIRC programming language is actually quite powerful and can capture many of the fancy programming constructs such as `if` statements and function definitions  that exists in more fashionable languages.
 
 2. So you can realize how lucky you are to be  taking a theory of computation course and not a compilers course... `:)`
 
@@ -103,7 +103,7 @@ When doing that we will need to  ensure that all other variables appearing in `f
 
 ### Example: Computing Majority via NAND's
 
-Function definition allow us to express NAND programs much more cleanly and succinctly. For example, because we can compute AND,OR, NOT using NANDs, we can compute the _Majority_ function as well.
+Function definition allow us to express NAND-CIRC programs much more cleanly and succinctly. For example, because we can compute AND,OR, NOT using NANDs, we can compute the _Majority_ function as well.
 
 ```python
 def NOT(a): return NAND(a,a)
@@ -314,7 +314,7 @@ The key observation is that all of these are _not_ extra features to NAND, but o
 
 ### More indices
 
-As stated, the NAND programming language only allows for "one dimensional arrays", in the sense that we can use variables such as `Foo[7]` or `Foo[29]` but not `Foo[5][15]`.
+As stated, the NAND-CIRC programming language only allows for "one dimensional arrays", in the sense that we can use variables such as `Foo[7]` or `Foo[29]` but not `Foo[5][15]`.
 However we can easily embed two dimensional arrays in one-dimensional ones using a one-to-one function $PAIR:\N^2 \rightarrow \N$.
 (For example, we can use $PAIR(x,y)=2^x3^y$, but there are also more efficient embeddings, see [embedtuples-ex](){.ref}.)
 Hence we can replace any  variable of the form `Foo[`$\expr{i}$`][`$\expr{j}$`]`  with `foo[`$\expr{PAIR(i,j)}$ `]`, and similarly for three dimensional arrays.
@@ -396,27 +396,27 @@ with the equivalent NAND expressions.
 
 ### Example: Multiplying $n$ bit numbers
 
-We have seen in [addexample](){.ref} how to use the grade-school algorithm to show that NAND programs can add $n$-bit numbers for every $n$.
+We have seen in [addexample](){.ref} how to use the grade-school algorithm to show that NAND-CIRC programs can add $n$-bit numbers for every $n$.
 By following through this example, we can obtain the following result
 
 
 
-> # {.theorem title="Addition using NAND programs" #addition-thm}
-For every $n$, let $ADD_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{n+1}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the sum of the numbers that $x$ and $x'$ represent. Then there is a NAND program that computes the function $ADD_n$. Moreover, the number of lines in this program is smaller than $100n$.
+> # {.theorem title="Addition using NAND-CIRC programs" #addition-thm}
+For every $n$, let $ADD_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{n+1}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the sum of the numbers that $x$ and $x'$ represent. Then there is a NAND-CIRC program that computes the function $ADD_n$. Moreover, the number of lines in this program is smaller than $100n$.
 
 We omit the full formal proof of [addition-thm](){.ref}, but it can be obtained by going through the code in [addexample](){.ref} and:
 
 1. Proving that for every $n$, this code does indeed compute the addition of two $n$ bit numbers.
 
-2. Proving that for every $n$, if we expand the code out to its "unsweetened" version (i.e., to a standard NAND program), then the number of lines will be at most $100n$.
+2. Proving that for every $n$, if we expand the code out to its "unsweetened" version (i.e., to a standard NAND-CIRC program), then the number of lines will be at most $100n$.
 
 See [addnumoflinesfig](){.ref} for a figure illustrating the number of lines our program has as a function of $n$. It turns out that this implementation of $ADD_n$ uses about $13n$ lines.
 
 
-![The number of lines in our NAND program to add two $n$ bit numbers, as a function of $n$, for $n$'s between $1$ and $100$.](../figure/addnumberoflines.png){#addnumoflinesfig .class width=300px height=300px}
+![The number of lines in our NAND-CIRC program to add two $n$ bit numbers, as a function of $n$, for $n$'s between $1$ and $100$.](../figure/addnumberoflines.png){#addnumoflinesfig .class width=300px height=300px}
 
 <!--
-![Translating the grade-school addition algorithm into a NAND program. If at the $i^{th}$ stage, the $i^{th}$  digits of the two numbers are $x_i$ and $x_{n+i}$ and the carry is $c_i$, then the $i^{th}$ digit of the sum will be $(x_i XOR x_{n+i}) XOR c_i$ and the new carry $c_{i+1}$ will be equal to $1$ if any two values among $c_i,x_i,x_{n+i}$ are $1$.](../figure/addition-alg-nand.png){#addition-fig .class width=300px height=300px}
+![Translating the grade-school addition algorithm into a NAND-CIRC program. If at the $i^{th}$ stage, the $i^{th}$  digits of the two numbers are $x_i$ and $x_{n+i}$ and the carry is $c_i$, then the $i^{th}$ digit of the sum will be $(x_i XOR x_{n+i}) XOR c_i$ and the new carry $c_{i+1}$ will be equal to $1$ if any two values among $c_i,x_i,x_{n+i}$ are $1$.](../figure/addition-alg-nand.png){#addition-fig .class width=300px height=300px}
 -->
 
 
@@ -429,7 +429,7 @@ To add the numbers $(x_0,\ldots,x_{n-1})$ and $(x_n,\ldots,x_{2n-1})$, we set $c
   >* Compute $c_{i+1} = MAJ(x_i,x_{n+i},c_i)$ where $MAJ:\{0,1\}^3 \rightarrow \{0,1\}$ is the function that maps $(a,b,c)$ to $1$ if $a+b+c \geq 2$. (The new carry is $1$ if and only if at least two of the values $x_i,x_{n+i},y_i$ were equal to $1$.)
 The most significant digit $y_n$ of the output will of course be the last carry $c_n$.
 >
-To transform this algorithm to a NAND program we just need to plug in the program for XOR, and use the observation (see [atleasttwo-ex](){.ref}) that
+To transform this algorithm to a NAND-CIRC program we just need to plug in the program for XOR, and use the observation (see [atleasttwo-ex](){.ref}) that
 $$
 \begin{gathered}
 MAJ(a,b,c)  &=  (a \wedge b) \vee (a \wedge c) \vee (b \wedge c)  \\
@@ -441,7 +441,7 @@ We leave accounting for the number of lines, and verifying that it is smaller th
 
 
 
-See the website [http://nandpl.org](http://nandpl.org) for an applet that produces, given $n$, a  NAND program that computes $ADD_n$.^[TODO: maybe add the example of the code of $ADD_4$? (using syntactic sugar)]
+See the website [http://nandpl.org](http://nandpl.org) for an applet that produces, given $n$, a  NAND-CIRC program that computes $ADD_n$.^[TODO: maybe add the example of the code of $ADD_4$? (using syntactic sugar)]
 
 ### Multiplying numbers
 -->
@@ -449,16 +449,16 @@ See the website [http://nandpl.org](http://nandpl.org) for an applet that produc
 Once we have addition, we can use the grade-school algorithm to obtain multiplication as well, thus obtaining the following theorem:
 
 
-> # {.theorem title="Multiplication NAND programs" #theoremid}
-For every $n$, let $MULT_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{2n}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the product of the numbers that $x$ and $x'$ represent. Then there is a NAND program that computes the function $MULT_n$. Moreover, the number of lines in this program is smaller than $1000n^2$.
+> # {.theorem title="Multiplication NAND-CIRC programs" #theoremid}
+For every $n$, let $MULT_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{2n}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the product of the numbers that $x$ and $x'$ represent. Then there is a NAND-CIRC program that computes the function $MULT_n$. Moreover, the number of lines in this program is smaller than $1000n^2$.
 
-We omit the proof, though in [multiplication-ex](){.ref} we ask you to supply a "constructive proof" in the form of a program (in your favorite programming language) that on input a number $n$, outputs the code of a NAND program of at most $1000n^2$ lines that computes the $MULT_n$ function.
-In fact, we can use Karatsuba's algorithm to show that there is a NAND program of $O(n^{\log_2 3})$ lines to compute $MULT_n$ (and one can even get further asymptotic improvements using the newer algorithms).
+We omit the proof, though in [multiplication-ex](){.ref} we ask you to supply a "constructive proof" in the form of a program (in your favorite programming language) that on input a number $n$, outputs the code of a NAND-CIRC program of at most $1000n^2$ lines that computes the $MULT_n$ function.
+In fact, we can use Karatsuba's algorithm to show that there is a NAND-CIRC program of $O(n^{\log_2 3})$ lines to compute $MULT_n$ (and one can even get further asymptotic improvements using the newer algorithms).
 
 
 ## Functions beyond arithmetic and LOOKUP
 
-We have seen that NAND programs can add and multiply numbers.  But can they compute other type of functions, that have nothing to do with arithmetic?
+We have seen that NAND-CIRC programs can add and multiply numbers.  But can they compute other type of functions, that have nothing to do with arithmetic?
 Here is one example:
 
 
@@ -471,20 +471,20 @@ $$
 where $x_i$ denotes the $i^{th}$ entry of $x$, using the binary representation to identify $i$ with a number in $\{0,\ldots,2^k - 1 \}$.
 
 The function $LOOKUP_1: \{0,1\}^3 \rightarrow \{0,1\}$ maps $(x_0,x_1,i) \in \{0,1\}^3$ to $x_i$.
-It is actually the same as the $IF$/$MUX$ function we have seen above, that has a 4 line NAND program.
+It is actually the same as the $IF$/$MUX$ function we have seen above, that has a 4 line NAND-CIRC program.
 However, can we compute higher levels of $LOOKUP$?
 This turns out to be the case:
 
 ># {.theorem title="Lookup function" #lookup-thm}
-For every $k$, there is a NAND program that computes the function $LOOKUP_k: \{0,1\}^{2^k+k}\rightarrow \{0,1\}$. Moreover, the number of lines in this program is at most  $4\cdot 2^k$.
+For every $k$, there is a NAND-CIRC program that computes the function $LOOKUP_k: \{0,1\}^{2^k+k}\rightarrow \{0,1\}$. Moreover, the number of lines in this program is at most  $4\cdot 2^k$.
 
 
 
-### Constructing a NAND program for $LOOKUP$
+### Constructing a NAND-CIRC program for $LOOKUP$
 
 We now prove [lookup-thm](){.ref}.
 We will do so by induction.
-That is, we show how to use a NAND program for computing $LOOKUP_k$ to compute $LOOKUP_{k+1}$.
+That is, we show how to use a NAND-CIRC program for computing $LOOKUP_k$ to compute $LOOKUP_{k+1}$.
 Let us first see how we do this for $LOOKUP_2$.
 Given input $x=(x_0,x_1,x_2,x_3)$ and an index $i=(i_0,i_1)$, if the most significant bit $i_1$ of the index  is $0$ then $LOOKUP_2(x,i)$ will equal $x_0$ if $i_0=0$ and equal $x_1$ if $i_0=1$.
 Similarly, if the most significant bit $i_1$ is $1$ then $LOOKUP_2(x,i)$ will equal $x_2$ if $i_0=0$ and will equal $x_3$ if $i_0=1$.
@@ -504,7 +504,7 @@ Z[1] = LOOKUP_1(X[2],X[3],X[4])
 Y[0] = LOOKUP_1(Z[0],Z[1],X[5])
 ```
 (Note that since we call this function with $(x_0,x_1,x_2,x_3,i_0,i_1)$, the inputs `x_4` and `x_5` correspond to  $i_0$ and $i_1$.)
-We can obtain  an actual "sugar free" NAND program of at most $12$ lines  by replacing the calls to `LOOKUP_1` by an appropriate copy of the program above.
+We can obtain  an actual "sugar free" NAND-CIRC program of at most $12$ lines  by replacing the calls to `LOOKUP_1` by an appropriate copy of the program above.
 
 We can generalize this to compute $LOOKUP_3$ using two invocations of $LOOKUP_2$ and one invocation of $LOOKUP_1$. That is, given input $x=(x_0,\ldots,x_7)$ and $i=(i_0,i_1,i_2)$ for $LOOKUP_3$, if the most significant bit of the index $i_2$ is $0$, then the output of $LOOKUP_3$ will equal $LOOKUP_2(x_0,x_1,x_2,x_3,i_0,i_1)$, while if this index $i_2$ is $1$ then the output will be $LOOKUP_2(x_4,x_5,x_6,x_7,i_0,i_1)$, meaning that the following pseudocode can compute $LOOKUP_3$,
 
@@ -533,7 +533,7 @@ Thus we can compute $LOOKUP_k(x,i)$ by first computing $a$ and $b$ and then outp
 
 
 [lookup-rec-lem](){.ref} directly implies [lookup-thm](){.ref}.
-We prove by induction on $k$ that there is a NAND program of at most $4\cdot 2^k$ lines for $LOOKUP_k$.
+We prove by induction on $k$ that there is a NAND-CIRC program of at most $4\cdot 2^k$ lines for $LOOKUP_k$.
 For $k=1$ this follows by the  four line program for $LOOKUP_1$ we've seen before.
 For $k>1$, we use the following pseudocode
 
@@ -569,17 +569,17 @@ completing the proof of [lookup-thm](){.ref}. (See [lookuplinesfig](){.ref} for 
 
 ## Computing _every_ function
 
-At this point we know the following facts about NAND programs:
+At this point we know the following facts about NAND-CIRC programs:
 
 1. They can compute at least some non trivial functions.
 
-2. Coming up with NAND programs for various functions is a very tedious task.
+2. Coming up with NAND-CIRC programs for various functions is a very tedious task.
 
-Thus I would not blame the reader if they were not particularly looking forward to a long sequence of examples of functions that can be computed by NAND programs.
-However, it turns out we are not going to need this, as we can show in one fell swoop that NAND programs can compute _every_ finite function:
+Thus I would not blame the reader if they were not particularly looking forward to a long sequence of examples of functions that can be computed by NAND-CIRC programs.
+However, it turns out we are not going to need this, as we can show in one fell swoop that NAND-CIRC programs can compute _every_ finite function:
 
 > # {.theorem title="Universality of NAND" #NAND-univ-thm}
-For every $n,m$ and function $F: \{0,1\}^n\rightarrow \{0,1\}^m$, there is a NAND program that computes the function $F$. Moreover, there is such a program with at most $O(m 2^n)$ lines.
+For every $n,m$ and function $F: \{0,1\}^n\rightarrow \{0,1\}^m$, there is a NAND-CIRC program that computes the function $F$. Moreover, there is such a program with at most $O(m 2^n)$ lines.
 
 The implicit constant in the $O(\cdot)$ notation can be shown to be at most $10$.
 We also note that the bound of [NAND-univ-thm](){.ref} can be improved to $O(m 2^n/n)$, see
@@ -587,7 +587,7 @@ We also note that the bound of [NAND-univ-thm](){.ref} can be improved to $O(m 2
 
 ### Proof of NAND's Universality
 
-To prove [NAND-univ-thm](){.ref}, we need to give a NAND program  for _every_ possible function.
+To prove [NAND-univ-thm](){.ref}, we need to give a NAND-CIRC program  for _every_ possible function.
 We will restrict our attention to the case of Boolean functions (i.e., $m=1$).
 In [mult-bit-ex](){.ref} you will show how to extend the proof for all values of $m$.
 A function $F: \{0,1\}^n\rightarrow \{0,1\}$ can be specified by a table of  its values for each one of the $2^n$ inputs.
@@ -648,10 +648,10 @@ Y[0] = LOOKUP(G0000,G1000,G0100,G1100,G0010,
               X[0],X[1],X[2],X[3])
 ```
 
-Recall that we can translate this pseudocode into an actual NAND program by adding three lines to define variables `zero` and `one` that are initialized to $0$ and $1$ repsectively, and then  replacing a statement such as `Gxxx = 0` with `Gxxx = NAND(one,one)` and a statement such as `Gxxx = 1` with `Gxxx = NAND(zero,zero)`.
-The call to `LOOKUP` will be replaced by the NAND program that computes $LOOKUP_4$, but we will replace the variables `X[16]`,$\ldots$,`X[19]` in this program with `X[0]`,$\ldots$,`X[3]` and the variables `X[0]`,$\ldots$,`X[15]` with `G000`, $\ldots$, `G1111`.
+Recall that we can translate this pseudocode into an actual NAND-CIRC program by adding three lines to define variables `zero` and `one` that are initialized to $0$ and $1$ repsectively, and then  replacing a statement such as `Gxxx = 0` with `Gxxx = NAND(one,one)` and a statement such as `Gxxx = 1` with `Gxxx = NAND(zero,zero)`.
+The call to `LOOKUP` will be replaced by the NAND-CIRC program that computes $LOOKUP_4$, but we will replace the variables `X[16]`,$\ldots$,`X[19]` in this program with `X[0]`,$\ldots$,`X[3]` and the variables `X[0]`,$\ldots$,`X[15]` with `G000`, $\ldots$, `G1111`.
 
-There was nothing about the above reasoning that was particular to this program. Given every function $F: \{0,1\}^n \rightarrow \{0,1\}$, we can write a NAND program that does the following:
+There was nothing about the above reasoning that was particular to this program. Given every function $F: \{0,1\}^n \rightarrow \{0,1\}$, we can write a NAND-CIRC program that does the following:
 
 1. Initialize $2^n$ variables of the form `F00...0` till `F11...1` so that for every $z\in\{0,1\}^n$,  the variable corresponding to $z$ is assigned the value $F(z)$.
 
@@ -660,18 +660,18 @@ There was nothing about the above reasoning that was particular to this program.
 The total number of lines in the program will be $2^n$ plus the $4\cdot 2^n$ lines that we pay for computing $LOOKUP_n$.
 This completes the proof of [NAND-univ-thm](){.ref}.
 
-The [NAND programming language website](http://nandpl.org) allows you to construct a NAND program for an arbitrary function.
+The [NAND-CIRC programming language website](http://nandpl.org) allows you to construct a NAND-CIRC program for an arbitrary function.
 
 
 > # {.remark title="Result in perspective" #discusscomputation}
-While [NAND-univ-thm](){.ref} seems striking at first, in retrospect, it is perhaps not that surprising that every finite function can be computed with a NAND program. After all, a finite function $F: \{0,1\}^n \rightarrow \{0,1\}^m$ can be represented by simply the list of its  outputs for each one of the $2^n$ input values.
-So it makes sense that we could write a NAND program of similar size to compute it.
+While [NAND-univ-thm](){.ref} seems striking at first, in retrospect, it is perhaps not that surprising that every finite function can be computed with a NAND-CIRC program. After all, a finite function $F: \{0,1\}^n \rightarrow \{0,1\}^m$ can be represented by simply the list of its  outputs for each one of the $2^n$ input values.
+So it makes sense that we could write a NAND-CIRC program of similar size to compute it.
 What is more interesting is that  _some_ functions, such as addition and multiplication,  have a much more efficient representation: one that only requires $O(n^2)$ or even smaller number of lines.
 
 
 ### Improving  by a factor of $n$ (optional) {#tight-upper-bound}
 
-By being a little more careful, we can improve the bound of [NAND-univ-thm](){.ref} and show that every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a NAND program of at most $O(m 2^n/n)$ lines.
+By being a little more careful, we can improve the bound of [NAND-univ-thm](){.ref} and show that every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a NAND-CIRC program of at most $O(m 2^n/n)$ lines.
 As before, it is enough to prove the case that $m=1$.
 >
 The idea is to use the technique known as _memoization_.
@@ -698,7 +698,7 @@ Since $n/2 \leq 2^k \leq n$, we can bound the total cost of computing $F(x)$ (in
 
 ### The class $SIZE_{n,m}(T)$
 
-For every $n,m,T \in \N$, we denote by $SIZE_{n,m}(T)$, the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$ that can be computed by NAND programs  of at most $T$ lines.
+For every $n,m,T \in \N$, we denote by $SIZE_{n,m}(T)$, the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$ that can be computed by NAND-CIRC programs  of at most $T$ lines.
 [NAND-univ-thm](){.ref} shows that  $SIZE_{n,m}(4 m 2^n)$ is the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$.
 The results we've seen before can be phrased as showing  that $ADD_n \in SIZE_{2n,n+1}(100 n)$
 and $MULT_n \in SIZE_{2n,2n}(10000 n^{\log_2 3})$.
@@ -712,10 +712,10 @@ You should always remember that while a program _computes_ a function, it is not
 In particular, as we've seen, there can be more than one program to compute the same function.
 
 
-![A rough illustration of the relations between the different classes of functions computed by NAND programs of given size. For every $n,m$, the class $SIZE_{n,m}(T)$ is a subset of the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$, and if $T \leq T;$ then $SIZE_{n,m}(T) \subseteq SIZE_{n,m}(T')$. [NAND-univ-thm](){.ref} shows that $SIZE_{n,m}(O(m\cdot 2^n))$ is equal to the set of all functions, and using [tight-upper-bound](){.ref} this can be improved to $O(m \cdot 2^n/n)$. If we consider all functions mapping $n$ bits to $n$ bits, then addition of two $n/2$ bit numbers can be done in $O(n)$ lines, while we don't know of such a program for _multiplying_ two $n$ bit numbers, though we do know it can be done in $O(n^2)$ and in fact even better size. In the above  $FACTOR_n$ corresponds to the inverse problem of multiplying- finding the _prime factorization_ of a given number. At the moment  we do not know  of any NAND program with a polynomial (or even sub-exponential) number of lines that can compute $FACTOR_n$. ](../figure/sizeclasses.png){#sizeclassesfig .class width=300px height=300px}
+![A rough illustration of the relations between the different classes of functions computed by NAND-CIRC programs of given size. For every $n,m$, the class $SIZE_{n,m}(T)$ is a subset of the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$, and if $T \leq T;$ then $SIZE_{n,m}(T) \subseteq SIZE_{n,m}(T')$. [NAND-univ-thm](){.ref} shows that $SIZE_{n,m}(O(m\cdot 2^n))$ is equal to the set of all functions, and using [tight-upper-bound](){.ref} this can be improved to $O(m \cdot 2^n/n)$. If we consider all functions mapping $n$ bits to $n$ bits, then addition of two $n/2$ bit numbers can be done in $O(n)$ lines, while we don't know of such a program for _multiplying_ two $n$ bit numbers, though we do know it can be done in $O(n^2)$ and in fact even better size. In the above  $FACTOR_n$ corresponds to the inverse problem of multiplying- finding the _prime factorization_ of a given number. At the moment  we do not know  of any NAND-CIRC program with a polynomial (or even sub-exponential) number of lines that can compute $FACTOR_n$. ](../figure/sizeclasses.png){#sizeclassesfig .class width=300px height=300px}
 
 > # {.remark title="Finite vs infinite functions" #infinitefunc}
-A NAND program $P$ can only compute a function with a certain number $n$ of inputs and a certain number $m$ of outputs. Hence for example there is no single NAND program that can compute the increment function $INC:\{0,1\}^* \rightarrow \{0,1\}^*$ that maps a string $x$ (which we identify with a number via the binary representation) to the string that represents $x+1$. Rather for every $n>0$, there is a NAND program $P_n$ that computes the restriction $INC_n$ of the function $INC$ to inputs of length $n$. Since it can be shown that for every $n>0$ such a program $P_n$ exists of length at most $10n$, $INC_n \in SIZE(10n)$ for every $n>0$.
+A NAND-CIRC program $P$ can only compute a function with a certain number $n$ of inputs and a certain number $m$ of outputs. Hence for example there is no single NAND-CIRC program that can compute the increment function $INC:\{0,1\}^* \rightarrow \{0,1\}^*$ that maps a string $x$ (which we identify with a number via the binary representation) to the string that represents $x+1$. Rather for every $n>0$, there is a NAND-CIRC program $P_n$ that computes the restriction $INC_n$ of the function $INC$ to inputs of length $n$. Since it can be shown that for every $n>0$ such a program $P_n$ exists of length at most $10n$, $INC_n \in SIZE(10n)$ for every $n>0$.
 >
 If $T:\N \rightarrow \N$ and $F:\{0,1\}^* \rightarrow \{0,1\}^*$, we will sometimes slightly abuse notation and write $F \in SIZE(T(n))$ to indicate that for every $n$ the restriction $F_n$ of $F$ to inputs in $\{0,1\}^n$ is in $SIZE(T(n))$. Hence we can write $INC \in SIZE(10n)$. We will come back to this issue of finite vs infinite functions later in this course.
 
@@ -740,10 +740,10 @@ at the very end to obtain a program $P'$ that computes $1-f$.
 
 
 > # { .recap }
-* We can define the notion of computing a function via a simplified "programming language", where computing a function $F$ in $T$ steps would correspond to having a $T$-line NAND program that computes $F$.
-* While the NAND programming only has one operation, other operations such as functions and conditional execution can be implemented using it.
-* Every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a NAND program of at most $O(m 2^n)$ lines (and in fact at most $O(m 2^n/n)$ lines).
-* Sometimes (or maybe always?) we can translate an _efficient_ algorithm to compute $F$ into a NAND program that computes $F$  with a  number of lines comparable to the number of steps in this algorithm.
+* We can define the notion of computing a function via a simplified "programming language", where computing a function $F$ in $T$ steps would correspond to having a $T$-line NAND-CIRC program that computes $F$.
+* While the NAND-CIRC programming only has one operation, other operations such as functions and conditional execution can be implemented using it.
+* Every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a NAND-CIRC program of at most $O(m 2^n)$ lines (and in fact at most $O(m 2^n/n)$ lines).
+* Sometimes (or maybe always?) we can translate an _efficient_ algorithm to compute $F$ into a NAND-CIRC program that computes $F$  with a  number of lines comparable to the number of steps in this algorithm.
 
 
 
@@ -760,7 +760,7 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 
 
 > # {.exercise title="Computing MUX" #mux-ex}
-Prove that the NAND program below computes the function $MUX$ (or $LOOKUP_1$) where $MUX(a,b,c)$ equals $a$ if $c=0$ and equals $b$ if $c=1$:
+Prove that the NAND-CIRC program below computes the function $MUX$ (or $LOOKUP_1$) where $MUX(a,b,c)$ equals $a$ if $c=0$ and equals $b$ if $c=1$:
 
 ```python
 t = NAND(X[2],X[2])
@@ -771,30 +771,30 @@ Y[0] = NAND(u,v)
 
 
 > # {.exercise title="At least two / Majority" #atleasttwo-ex}
-Give a NAND program of at most 6 lines to compute  $MAJ:\{0,1\}^3 \rightarrow \{0,1\}$
+Give a NAND-CIRC program of at most 6 lines to compute  $MAJ:\{0,1\}^3 \rightarrow \{0,1\}$
 where $MAJ(a,b,c) = 1$ iff $a+b+c \geq 2$.
 
 > # {.exercise title="Conditional statements" #conditional-statements}
-In this exercise we will show that even though the NAND programming language does not have an `if .. then .. else ..` statement, we can still implement it.
-Suppose that there is an $s$-line NAND program to compute $F:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND program to compute $F':\{0,1\}^n \rightarrow \{0,1\}$.
+In this exercise we will show that even though the NAND-CIRC programming language does not have an `if .. then .. else ..` statement, we can still implement it.
+Suppose that there is an $s$-line NAND-CIRC program to compute $F:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND-CIRC program to compute $F':\{0,1\}^n \rightarrow \{0,1\}$.
 Prove that there is a program of at most $s+s'+10$ lines to compute the function $G:\{0,1\}^{n+1} \rightarrow \{0,1\}$ where $G(x_0,\ldots,x_{n-1},x_n)$ equals $F(x_0,\ldots,x_{n-1})$ if $x_n=0$ and equals $F'(x_0,\ldots,x_{n-1})$ otherwise.
 
 
 
 > # {.exercise title="Addition" #addition-ex}
-Write a program using your favorite programming language that on input an integer $n$, outputs a NAND program that computes $ADD_n$. Can you ensure that the program it outputs for $ADD_n$ has fewer than $10n$ lines?
+Write a program using your favorite programming language that on input an integer $n$, outputs a NAND-CIRC program that computes $ADD_n$. Can you ensure that the program it outputs for $ADD_n$ has fewer than $10n$ lines?
 
 > # {.exercise title="Multiplication" #multiplication-ex}
-Write a program using your favorite programming language that on input an integer $n$, outputs a NAND program that computes $MULT_n$. Can you ensure that the program it outputs for $MULT_n$ has fewer than $1000\cdot n^2$ lines?
+Write a program using your favorite programming language that on input an integer $n$, outputs a NAND-CIRC program that computes $MULT_n$. Can you ensure that the program it outputs for $MULT_n$ has fewer than $1000\cdot n^2$ lines?
 
 > # {.exercise title="Efficient multiplication (challenge)" #eff-multiplication-ex}
-Write a program using your favorite programming language that on input an integer $n$, outputs a NAND program that computes $MULT_n$ and has at most $10000 n^{1.9}$ lines.^[__Hint:__ Use Karatsuba's algorithm] What is the smallest number of lines you can use to multiply two 2048 bit numbers?
+Write a program using your favorite programming language that on input an integer $n$, outputs a NAND-CIRC program that computes $MULT_n$ and has at most $10000 n^{1.9}$ lines.^[__Hint:__ Use Karatsuba's algorithm] What is the smallest number of lines you can use to multiply two 2048 bit numbers?
 
 
 > # {.exercise title="Multibit function" #mult-bit-ex}
  Prove that \
-a. If there is an $s$-line NAND program to compute $F:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND program to compute $F':\{0,1\}^n \rightarrow \{0,1\}$ then there is an $s+s'$-line program to compute the function $G:\{0,1\}^n \rightarrow \{0,1\}^2$ such that $G(x)=(F(x),F'(x))$. \
-b. For every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$, there is a NAND program of at most $10m\cdot 2^n$ lines that computes $F$.
+a. If there is an $s$-line NAND-CIRC program to compute $F:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND-CIRC program to compute $F':\{0,1\}^n \rightarrow \{0,1\}$ then there is an $s+s'$-line program to compute the function $G:\{0,1\}^n \rightarrow \{0,1\}^2$ such that $G(x)=(F(x),F'(x))$. \
+b. For every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$, there is a NAND-CIRC program of at most $10m\cdot 2^n$ lines that computes $F$.
 
 
 ## Bibliographical notes

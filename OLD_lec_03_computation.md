@@ -4,7 +4,7 @@
 ># {.objectives  }
 * See that computation can be precisely modeled. \
 * Learn the NAND computational model. \
-* Comfort switching between description of NAND programs as _code_ and as _tuples_. \
+* Comfort switching between description of NAND-CIRC programs as _code_ and as _tuples_. \
 * Begin acquiring skill of translating informal algorithms into NAND code.
 
 
@@ -74,7 +74,7 @@ print(solve_eq(2,35))
 
 
 
-## The NAND Programming language
+## The NAND-CIRC Programming language
 
 We can try to use a modern programming language such as Python or C for our formal model of computation, but it would be quite hard to reason about, given that the [Python language reference](https://docs.python.org/2/reference/) has more than 100 pages.
 Thus we will define computation using an extremely simple "programming language": one that has only a single operation.
@@ -86,22 +86,22 @@ We  start by defining a programming language that can only compute _finite_ func
 That is, functions $F$ that map $\{0,1\}^n$ to $\{0,1\}^m$ for some natural numbers $m,n$.
 Later we will discuss how to extend the language to allow for a single program that can compute a function of every length, but the finite case is already quite interesting and will give us a simple setting for exploring some of the salient features of computing.
 
-The _NAND programming language_ has no loops, functions, or if statements.
+The _NAND-CIRC programming language_ has no loops, functions, or if statements.
 It has only a single operation: `NAND`.
-That is, every line in a NAND program has the form:
+That is, every line in a NAND-CIRC program has the form:
 
 ```
 foo := bar NAND baz
 ```
 
 where `foo`, `bar`, `baz` are variable names.^[The terms `foo` and `bar` are [often used](https://en.wikipedia.org/wiki/Foobar) to describe generic variable names in the context of programming, and we will follow this convention throughout the course.
-See the appendix and the website [http://nandpl.org](http://nandpl.org) for a full specification of the NAND programming language.]
+See the appendix and the website [http://nandpl.org](http://nandpl.org) for a full specification of the NAND-CIRC programming language.]
 When this line is executed,  the variable `foo` is assigned the _negation of the logical AND_ of (i.e., the NAND operation applied to) the values of the two variables `bar` and `baz`.^[The _logical AND_ of two bits $x,x'\in \{0,1\}$  is equal to $1$ if $x=x'=1$ and is equal to $0$ otherwise. Thus its negation satisfies $NAND(0,0)=NAND(0,1)=NAND(1,0)=1$, while $NAND(1,1)=0$. If a variable hasn't been assigned a value, then its default value is zero.]
 
-All variables in the NAND programming language are _Boolean_: can take values that are either zero or one.
-Variables such as `x_22` or `y_18` (that is, of the form `x_`$\expr{i}$  or `y_`$\expr{i}$  where $i$ is a natural number)  have a special meaning.^[In these lecture notes, we  use the convention that when we write $\expr{e}$  then we mean the numerical value of this expression. So for example if $k=10$ then we can write `x_`$\expr{k+7}$ to mean  `x_17`. This is just for the notes: in the NAND programming language itself the indices have to be absolute numerical constants.]
+All variables in the NAND-CIRC programming language are _Boolean_: can take values that are either zero or one.
+Variables such as `x_22` or `y_18` (that is, of the form `x_`$\expr{i}$  or `y_`$\expr{i}$  where $i$ is a natural number)  have a special meaning.^[In these lecture notes, we  use the convention that when we write $\expr{e}$  then we mean the numerical value of this expression. So for example if $k=10$ then we can write `x_`$\expr{k+7}$ to mean  `x_17`. This is just for the notes: in the NAND-CIRC programming language itself the indices have to be absolute numerical constants.]
 The variables beginning with `x_` are _input_ variables and those beginning with `y_` are _output_ variables.
-Thus for example the following four line NAND program takes an input of two bits and outputs a single bit:
+Thus for example the following four line NAND-CIRC program takes an input of two bits and outputs a single bit:
 
 
 ```python
@@ -117,7 +117,7 @@ Can you guess what function from $\{0,1\}^2$ to $\{0,1\}$ this program computes?
 
 To find the function that this program computes, we can run it on all the four possible two bit inputs: $00$,$01$,$10$, and $11$.
 For example, let us consider the execution of this program on the input $00$, keeping track of the values of the variables as the program runs line by line.
-On the website [http://nandpl.org](http://nandpl.org) we can run NAND programs in a "debug" mode, which will produce an _execution trace_ of the program.^[At present the web interface is not yet implemented, and you can run NAND program using an OCaml interpreter that you can download from that website. The implementation is in a fluid state and so the text below might not exactly match the output of the interpreter.]
+On the website [http://nandpl.org](http://nandpl.org) we can run NAND-CIRC programs in a "debug" mode, which will produce an _execution trace_ of the program.^[At present the web interface is not yet implemented, and you can run NAND-CIRC program using an OCaml interpreter that you can download from that website. The implementation is in a fluid state and so the text below might not exactly match the output of the interpreter.]
 When we run the program above on the input $01$, we get the following trace:
 
 ```
@@ -209,15 +209,15 @@ and so you can see that the output $(0,1)$ is indeed the binary encoding of $1+1
 
 ### Formal definitions
 
-For a NAND program $P$, its _input length_ is the largest number $n$ such that $P$ contains a variable of the form `x_`$\expr{n-1}$.
-$P$'s  _output length_  is the largest number $m$ such that $P$ contains a variable of the form `y_`$\expr{m-1}$.^[As mentioned in the appendix, we require that all output variables are assigned a value, and that the largest index used in an $s$ line NAND program is smaller than $s$. In particular this means that an $s$ line program can have at most $s$ inputs and outputs.]
-Intuitively, if $P$ is a NAND program with input length $n$ and output length $m$, and $F:\{0,1\}^n \rightarrow \{0,1\}^m$ is some function, then  $P$ computes $F$ if for every $x\in \{0,1\}^n$ and $y=F(x)$, whenever $P$ is executed with the `x_`$\expr{i}$ variable initialized to $x_i$ for all $i\in [n]$, at the end of the execution the variable `y_`$\expr{j}$ will equal $y_j$ for all $j\in [m]$.
+For a NAND-CIRC program $P$, its _input length_ is the largest number $n$ such that $P$ contains a variable of the form `x_`$\expr{n-1}$.
+$P$'s  _output length_  is the largest number $m$ such that $P$ contains a variable of the form `y_`$\expr{m-1}$.^[As mentioned in the appendix, we require that all output variables are assigned a value, and that the largest index used in an $s$ line NAND-CIRC program is smaller than $s$. In particular this means that an $s$ line program can have at most $s$ inputs and outputs.]
+Intuitively, if $P$ is a NAND-CIRC program with input length $n$ and output length $m$, and $F:\{0,1\}^n \rightarrow \{0,1\}^m$ is some function, then  $P$ computes $F$ if for every $x\in \{0,1\}^n$ and $y=F(x)$, whenever $P$ is executed with the `x_`$\expr{i}$ variable initialized to $x_i$ for all $i\in [n]$, at the end of the execution the variable `y_`$\expr{j}$ will equal $y_j$ for all $j\in [m]$.
 
-To make sure we have a precise and unambiguous definition of computation, we will now model NAND programs using sets and tuples, and recast the notion of computing a function in these terms.
+To make sure we have a precise and unambiguous definition of computation, we will now model NAND-CIRC programs using sets and tuples, and recast the notion of computing a function in these terms.
 
 
-> # {.definition title="NAND program" #NANDprogram}
-A _NAND program_ is a 4-tuple $P=(V,X,Y,L)$ of the following form:
+> # {.definition title="NAND-CIRC program" #NANDprogram}
+A _NAND-CIRC program_ is a 4-tuple $P=(V,X,Y,L)$ of the following form:
 >
 * $V$ (called the _variables_) is some finite set.
 >
@@ -232,7 +232,7 @@ The _number of inputs_ of $P=(V,X,Y,Z)$ is equal to $|X|$ and the _number of out
 
 
 > # { .pause }
-This definition is somewhat long and cumbersome, but really corresponds to a straightforward modelling of NAND programs, under the map that $V$ is the set of all variables appearing in the program, $X$ corresponds to the tuple $($`x_`$\expr{0}$, `x_`$\expr{1}$, $\ldots$, `x_`$\expr{n-1}$ $)$, $Y$ corresponds to the tuple $($ `y_`$\expr{0}$, `y_`$\expr{1}$, $\ldots$, `y_`$\expr{m-1}$, $)$ and $L$ corresponds to the list of triples of the form $($ `foo` $,$ `bar`, $,$ `baz` $)$ for every line `foo := bar NAND baz` in the program.
+This definition is somewhat long and cumbersome, but really corresponds to a straightforward modelling of NAND-CIRC programs, under the map that $V$ is the set of all variables appearing in the program, $X$ corresponds to the tuple $($`x_`$\expr{0}$, `x_`$\expr{1}$, $\ldots$, `x_`$\expr{n-1}$ $)$, $Y$ corresponds to the tuple $($ `y_`$\expr{0}$, `y_`$\expr{1}$, $\ldots$, `y_`$\expr{m-1}$, $)$ and $L$ corresponds to the list of triples of the form $($ `foo` $,$ `bar`, $,$ `baz` $)$ for every line `foo := bar NAND baz` in the program.
 Please pause here and verify that you understand this correspondence.
 
 
@@ -260,8 +260,8 @@ But since we have the freedom of choosing arbitrary sets for our variables, we c
 
 ### Computing a function: formal definition
 
-Now that we defined NAND programs formally, we turn to formally defining  the notion of computing a function.
-Before we do that, we will need to talk about the notion of the _configuration_ of a NAND program.
+Now that we defined NAND-CIRC programs formally, we turn to formally defining  the notion of computing a function.
+Before we do that, we will need to talk about the notion of the _configuration_ of a NAND-CIRC program.
 Such a configuration simply corresponds to the  current line that is executed and the current values of all variables at a certain point in the execution.
 Thus we will model it as a pair $(\ell,\sigma)$ where $\ell$ is a number between $0$ and the total number of lines in the program, and $\sigma$ maps every variable to its current value.^[The number $\ell$ can be thought of as the "program counter" and refers to the line that is just about to be executed, when we number the lines from $0$ till $s-1$ for some $s\in \N$. The program counter starts at $0$, and after executing the last line (i.e., line number $s-1$), it equals $s$.]
 The initial configuration has the form $(0,\sigma_0)$ where $0$ corresponds to the first line, and $\sigma_0$ is the assignment of zeroes to all variables and $x_i$'s to the input variables.
@@ -284,16 +284,16 @@ As always, it is a good practice to verify that this formal definition matches t
 
 
 
-> # {.definition title="Configuration of a NAND program" #NANDconfiguration}
-Let $P=(V,X,Y,L)$ be a NAND program, and let $n=|X|$, $m=|Y|$ and $s=|L|$. A _configuration_ of $P$ is a pair $(\ell,\sigma)$ where $\ell \in [s+1]$ and $\sigma$ is a  function $\sigma:V \rightarrow \{0,1\}$ that maps every variable of $P$ into a bit in $\{0,1\}$.
+> # {.definition title="Configuration of a NAND-CIRC program" #NANDconfiguration}
+Let $P=(V,X,Y,L)$ be a NAND-CIRC program, and let $n=|X|$, $m=|Y|$ and $s=|L|$. A _configuration_ of $P$ is a pair $(\ell,\sigma)$ where $\ell \in [s+1]$ and $\sigma$ is a  function $\sigma:V \rightarrow \{0,1\}$ that maps every variable of $P$ into a bit in $\{0,1\}$.
 We define $CONF(P) = [s+1] \times \{ \sigma \;|\; \sigma:V \rightarrow \{0,1\} \}$ to be the set of all configurations of $P$.^[Note that $|CONF(P)| = (s+1)2^{|V|}$: can you see why?]
 >
 If $P$ has $n$ inputs, then for every $x\in \{0,1\}^n$, the _initial configuration of $P$ with input $x$_ is the pair $(0,\sigma_0)$ where $\sigma_0:V \rightarrow \{0,1\}$ is the function defined as $\sigma_0(X_i)=x_i$ for every $i\in [n]$ and $\sigma_0(v)=0$ for all variables not in $X$.
 
-An execution of a NAND program can be thought of as simply progressing, line by line, from the initial configuration to the next one:
+An execution of a NAND-CIRC program can be thought of as simply progressing, line by line, from the initial configuration to the next one:
 
 > # {.definition title="NAND next step function" #nextstepNAND}
-For every NAND program $P=(V,X,Y,L)$, the _next step function of $P$_, denoted by $NEXT_P$, is the function $NEXT_P:CONF(P) \rightarrow CONF(P)$ that defined as follows:
+For every NAND-CIRC program $P=(V,X,Y,L)$, the _next step function of $P$_, denoted by $NEXT_P$, is the function $NEXT_P:CONF(P) \rightarrow CONF(P)$ that defined as follows:
 >
 For every $(\ell,\sigma)  \in CONF(P)$, if $\ell=|L|$ then $NEXT_P(\ell,\sigma)=(\ell,\sigma)$.
 Otherwise $NEXT_P(\ell,\sigma) = (\ell+1,\sigma')$ where $\sigma':V \rightarrow \{0,1\}$ is defined as follows:
@@ -320,16 +320,16 @@ Let $P=(V,X,Y,L)$ and $n=|X|$, $m=|Y|$ and $s=|L|$.
 Let $F:\{0,1\}^n \rightarrow \{0,1\}^m$.
 We say that _$P$ computes $F$_ if for every $x\in \{0,1\}^n$, if $y=F(x)$ then $conf_s(P,x)=(s,\sigma)$ where $\sigma(Y_j) = y_j$ for every $j\in [m]$.
 >
-For every $s\in \N$, we define $SIZE(s)$ to be the set of all functions that are computable by a NAND program of at most $s$ lines.
+For every $s\in \N$, we define $SIZE(s)$ to be the set of all functions that are computable by a NAND-CIRC program of at most $s$ lines.
 
 
 > # { .pause }
 The formal specification of any programming language, no matter how simple, is often cumbersome, and the definitions above are no exception.
-You should go back and read them and make sure that you understand why they correspond to our informal description of computing a function via NAND programs.
-From this point on, we will not distinguish between the representation of  a NAND program in terms of lines of codes, and its representation as a tuple $P=(V,X,Y,L)$.
+You should go back and read them and make sure that you understand why they correspond to our informal description of computing a function via NAND-CIRC programs.
+From this point on, we will not distinguish between the representation of  a NAND-CIRC program in terms of lines of codes, and its representation as a tuple $P=(V,X,Y,L)$.
 
 Let $XOR_n:\{0,1\}^n \rightarrow \{0,1\}$ be the function that maps $x\in \{0,1\}^n$ to $\sum_{i=0}^n x_i (\mod 2)$.
-The NAND program we presented above yields a proof of the following theorem
+The NAND-CIRC program we presented above yields a proof of the following theorem
 
 > # {.theorem title="Computing XOR" #xortwothm}
 $XOR_2 \in SIZE(4)$
@@ -346,7 +346,7 @@ Similarly, while we allowed in  [NANDprogram](){.ref} the  variables to be membe
 This motivates the following definition:
 
 > # {.definition title="Canonical variables" #NANDcanonical}
-Let $P=(V,X,Y,L)$ be a NAND program and let $n=|X|$ and $m=|Y|$.
+Let $P=(V,X,Y,L)$ be a NAND-CIRC program and let $n=|X|$ and $m=|Y|$.
 We say that $P$ has _canonical variables_ if $V=[t]$ for some $t\in \N$, $X=(0,1,\ldots,n-1)$ and $Y=(t-m,t-m+1,\ldots,t-1)$.
 
 That is, in a canonical form program, the variables are the set $[t]$, where the input variables correspond to  the first $n$ variables and the outputs to the last $m$ variables.
@@ -354,17 +354,17 @@ Every program can be converted to an equivalent program of canonical form:
 
 
 > # {.theorem title="Convert to canonical variables" #canonicalvarsthm}
-For every $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s\in\N$, $F$ can be computed by an $s$-line NAND program if and only if it can be computed by an $s$-line NAND program with canonical variables.
+For every $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s\in\N$, $F$ can be computed by an $s$-line NAND-CIRC program if and only if it can be computed by an $s$-line NAND-CIRC program with canonical variables.
 
 > # {.proof data-ref="canonicalvarsthm"}
-The "if" direction is trivial, since a NAND program with canonical variables is just a special case of a NAND program.
-For the "only if" direction, let $P=(V,X,Y,L)$ be an $s$-line NAND program computing $F$, and let $t=|V|$.
+The "if" direction is trivial, since a NAND-CIRC program with canonical variables is just a special case of a NAND-CIRC program.
+For the "only if" direction, let $P=(V,X,Y,L)$ be an $s$-line NAND-CIRC program computing $F$, and let $t=|V|$.
 We define a bijection $\pi:V \rightarrow [t]$ as follows: $\pi(X_i)=i$ for all $i\in [n]$, $\pi(Y_j)=t-m+j$ for all $j\in [m]$ and we map the remaining $t-m-n$ elements of $V$ to $\{ n,\ldots,t-1-m\}$ in some arbitrary one to one way. (We can do so because the $X$'s and $Y$'s are distinct and disjoint.)
 Now define $P' = (\pi(V),\pi(X),\pi(Y),\pi(L))$, where by this we mean that we apply $\pi$ individually to every element of of $V$,$X$, $Y$, and the triples of $L$.
 Since (as we leave you to verify) the definition of configurations and computing a function are invariant under bijections of $V$, $P'$ computes the same function as $P$.
 
 
-Given [canonicalvarsthm](){.ref}, since we only care about the functionality (and size) of programs, and not the labels of variables, we will always be able to assume "without loss of generality" that a given NAND program $P$ has canonical form.
+Given [canonicalvarsthm](){.ref}, since we only care about the functionality (and size) of programs, and not the labels of variables, we will always be able to assume "without loss of generality" that a given NAND-CIRC program $P$ has canonical form.
 A canonical form program $P$ can also be represented as a triple $(n,m,L)$ where $n,m$ are (as usual) the inputs and outputs, and $L$ is the lines.
 This is because we recover the original representation $(V,X,Y,L)$ by simply setting $X=(0,1,\ldots,n-1)$, $Y =(t-m,t-m+1,\ldots,t-1)$ and $V=[t]$ where $t$ is one plus the largest number appearing in a triple of $L$.
 In the following we will freely move between these two representations.
@@ -385,7 +385,7 @@ We will get to computing more interesting functions, but for starters let us pro
 $XOR_4 \in SIZE(12)$
 
 We can prove [xorfourthm](){.ref} by explicitly writing down a 12 line program.
-But writing NAND programs by hand can get real old real fast.
+But writing NAND-CIRC programs by hand can get real old real fast.
 So, we will prove more general results about _composing_ functions:
 
 > # {.theorem title="Sequential composition of functions" #seqcompositionthm}
@@ -397,9 +397,9 @@ If $F:\{0,1\}^n \rightarrow \{0,1\}^m$ is a function in $SIZE(L)$ and $G:\{0,1\}
 $F \| G: \{0,1\}^{n+n'} \rightarrow \{0,1\}^{m+m'}$ is defined as the function that maps $x \in \{0,1\}^{n+n'}$ to $F(x_0,\ldots,x_{n-1})G(x_n,\ldots,x_{n+n'-1})$.
 
 > # { .pause }
-We will  prove [seqcompositionthm](){.ref} and [parcompositionthm](){.ref} using our formal definition of NAND programs. But it is also possible to directly give syntactic transformations of the code of programs computing $F$ and $G$ to programs computing $G\circ F$ and $F \oplus G$ respectively.
+We will  prove [seqcompositionthm](){.ref} and [parcompositionthm](){.ref} using our formal definition of NAND-CIRC programs. But it is also possible to directly give syntactic transformations of the code of programs computing $F$ and $G$ to programs computing $G\circ F$ and $F \oplus G$ respectively.
 It is a good exercise for you to pause here and see that you know how to give such a transformation.
-Try to think how you would write a _program_ (in the programming language of your choice) that given two strings `C` and `D` that contain the code of NAND programs for computing $F$ and $G$, would output a string `E` that contains that code of a NAND program for $G\circ F$ (or $F \| G$).
+Try to think how you would write a _program_ (in the programming language of your choice) that given two strings `C` and `D` that contain the code of NAND-CIRC programs for computing $F$ and $G$, would output a string `E` that contains that code of a NAND-CIRC program for $G\circ F$ (or $F \| G$).
 
 
 Before proving [seqcompositionthm](){.ref} and [parcompositionthm](){.ref}, note that they do imply [xorfourthm](){.ref}.
@@ -419,7 +419,7 @@ Since $XOR_2$ is in $SIZE(4)$, it follows that $XOR_4 \in SIZE(4+(4+4))=SIZE(12)
 
 Using the same idea we can prove the following more general result:
 
-> # {.theorem title="Computing parity via NAND programs" #paritycircuitthm}
+> # {.theorem title="Computing parity via NAND-CIRC programs" #paritycircuitthm}
 For every $n>1$, $XOR_n \in SIZE(10n)$
 
 We leave proving [paritycircuitthm](){.ref} as [paritycircuitex](){.ref}.
@@ -560,7 +560,7 @@ Executing step 17: "y_2 := u NAND v"	 u   = 0, v   = 1, y_2 is assigned 1,
 Output is y_0=1, y_1=0, y_2=1
 ```
 
-### Composition in NAND programs
+### Composition in NAND-CIRC programs
 
 We can generalize the above examples to handle not just sequential and parallel but all forms of _composition_.
 That is, if we have an $s$ line program $P$ that computes the function $F$, and a program $P'$ that can compute the function $G$ using $t$ standard NAND lines and $k$ calls to a "black box" for computing $F$, then we can obtain a $t + ks$ line program $P''$ to compute $G$ (without any "magic boxes") by replacing every call to $F$ in $P'$ with a copy of $P$ (while appropriately renaming the variables).
@@ -571,9 +571,9 @@ That is, if we have an $s$ line program $P$ that computes the function $F$, and 
 
 ## Lecture summary
 
-* We can define the notion of computing a function via a simplified "programming language", where computing a function $F$ in $T$ steps would correspond to having a $T$-line NAND program that computes $F$.
+* We can define the notion of computing a function via a simplified "programming language", where computing a function $F$ in $T$ steps would correspond to having a $T$-line NAND-CIRC program that computes $F$.
 
-* An equivalent formulation is that a function is computable by a NAND program if it can be computed by a NAND circuit.
+* An equivalent formulation is that a function is computable by a NAND-CIRC program if it can be computed by a NAND circuit.
 
 
 
@@ -586,14 +586,14 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 
 > # {.exercise  #exid}
 Which of the following statements is false?
-   a. There is a NAND program to add two $4$-bit numbers that has at most $100$ lines. \
-   b. Every NAND program to add two $4$-bit numbers has  at most $100$ lines. \
-   c. Every NAND program to  add two $4$-bit numbers  has least  $5$ lines. \
+   a. There is a NAND-CIRC program to add two $4$-bit numbers that has at most $100$ lines. \
+   b. Every NAND-CIRC program to add two $4$-bit numbers has  at most $100$ lines. \
+   c. Every NAND-CIRC program to  add two $4$-bit numbers  has least  $5$ lines. \
 
 
 
 > # {.exercise  #exid}
-Write a NAND program that adds two $3$-bit numbers.
+Write a NAND-CIRC program that adds two $3$-bit numbers.
 
 
 > # {.exercise  #paritycircuitex}
@@ -603,7 +603,7 @@ Prove [paritycircuitthm](){.ref}.^[__Hint:__ Prove by induction that for every $
 
 ## Bibliographical notes
 
-The exact notion of  "NAND programs" we use is nonstandard, but these are equivalent to standard models in the literature  such as _straightline programs_ and _Boolean circuits_.
+The exact notion of  "NAND-CIRC programs" we use is nonstandard, but these are equivalent to standard models in the literature  such as _straightline programs_ and _Boolean circuits_.
 
 An historical review of calculating machines can be found in Chapter I of the 1946 ["operating manual" for the Harvard Mark I computer](http://www.boazbarak.org/cs121/MarkI_operMan_1946.pdf), written by Lieutenant Grace Murray Hopper and the staff of the Harvard Computation Laboratory.
 

@@ -301,7 +301,7 @@ We will prove these three results [nand-thm](){.ref}, [threenand-thm](){.ref} an
 ## The $NANDSAT$ Problem, and why it is $\mathbf{NP}$ hard.
 
 We define the $NANDSAT$ problem as follows. On input a string $Q\in \{0,1\}^*$, we define $NANDSAT(Q)=1$ if and only if $Q$ is a valid representation of an $n$-input and single-output NAND  program and there exists some $w\in \{0,1\}^n$ such that $Q(w)=1$.
-While we don't need this to prove [nand-thm](){.ref}, note that $NANDSAT$ is in $\mathbf{NP}$ since we can verify that $Q(w)=1$ using the polyonmial-time algorithm for evaluating NAND programs.^[$Q$ is a NAND program and not a NAND++ program, and hence it is only defined on inputs of some particular size $n$. Evaluating $Q$ on any input $w\in \{0,1\}^n$ can be done in time polynomial in the number of lines of $Q$.]
+While we don't need this to prove [nand-thm](){.ref}, note that $NANDSAT$ is in $\mathbf{NP}$ since we can verify that $Q(w)=1$ using the polyonmial-time algorithm for evaluating NAND-CIRC programs.^[$Q$ is a NAND-CIRC program and not a NAND-TM program, and hence it is only defined on inputs of some particular size $n$. Evaluating $Q$ on any input $w\in \{0,1\}^n$ can be done in time polynomial in the number of lines of $Q$.]
 We now prove that $NANDSAT$ is $\mathbf{NP}$ hard.
 
 > # {.lemma #nand-thm}
@@ -310,32 +310,32 @@ $NANDSAT$ is $\mathbf{NP}$ hard.
 
 > # {.proofidea data-ref="nand-thm"}
 To prove [nand-thm](){.ref}  we need to show that for every $F\in \mathbf{NP}$, $F \leq_p NANDSAT$.
-The high-level idea is that by the definition  of $\mathbf{NP}$, there is some NAND++ program $P^*$ and some polynomial $T(\cdot)$ such that $F(x)=1$ if and only if there exists some $w \in \{0,1\}^{a|x|^b}$ such that $P^*(xw)$ outputs $1$ within $T(|x|)$ steps.
-Now by "unrolling the loop" of the NAND++ program $P^*$ we can convert it into an $O(T(n))$  NAND program $Q'$ with $n + an^b$ inputs and a single output such that for every $x\in \{0,1\}^n$ and $w\in \{0,1\}^{an^b}$, $Q'(xw)=P^*(xw)$. on input $x \in \{0,1\}$  that on input $w$ will simulate $P^*(xw)$ for $T(|x|)$ steps.
-The next step is to _hardwire_ the input $x$ to $Q'$ to obtain an $O(T(n))$ line NAND program $Q$ with $m=an^b$ inputs such that for every $w\in \{0,1\}^m$, $Q'(w)=Q(xw)$.
+The high-level idea is that by the definition  of $\mathbf{NP}$, there is some NAND-TM program $P^*$ and some polynomial $T(\cdot)$ such that $F(x)=1$ if and only if there exists some $w \in \{0,1\}^{a|x|^b}$ such that $P^*(xw)$ outputs $1$ within $T(|x|)$ steps.
+Now by "unrolling the loop" of the NAND-TM program $P^*$ we can convert it into an $O(T(n))$  NAND-CIRC program $Q'$ with $n + an^b$ inputs and a single output such that for every $x\in \{0,1\}^n$ and $w\in \{0,1\}^{an^b}$, $Q'(xw)=P^*(xw)$. on input $x \in \{0,1\}$  that on input $w$ will simulate $P^*(xw)$ for $T(|x|)$ steps.
+The next step is to _hardwire_ the input $x$ to $Q'$ to obtain an $O(T(n))$ line NAND-CIRC program $Q$ with $m=an^b$ inputs such that for every $w\in \{0,1\}^m$, $Q'(w)=Q(xw)$.
 By construction it will be the case that for every $x\in \{0,1\}^n$, $F(x)=1$ if and only if there exists $w\in \{0,1\}^{an^b}$ such that $Q(w)=1$, and hence this shows that $F \leq_p NANDSAT$.
 
 
 > # { .pause }
-The proof is a little bit technical but ultimately follows quite directly from the definition of $\mathbf{NP}$, as well as of NAND and NAND++ programs. If you find it confusing, try to pause here and work out the proof yourself from these definitions, using the idea of "unrolling the loop" of a NAND++ program.
-It might also be useful for you to think how you would implement in your favorite programming language the function `unroll` which on input a NAND++ program $P$ and numbers $T,n$ would output an $n$-input NAND program $Q$ of $O(|T|)$ lines such that for every input $z\in \{0,1\}^n$, if $P$ halts on $z$ within at most $T$ steps and outputs $y$, then $Q(z)=y$.
+The proof is a little bit technical but ultimately follows quite directly from the definition of $\mathbf{NP}$, as well as of NAND and NAND-TM programs. If you find it confusing, try to pause here and work out the proof yourself from these definitions, using the idea of "unrolling the loop" of a NAND-TM program.
+It might also be useful for you to think how you would implement in your favorite programming language the function `unroll` which on input a NAND-TM program $P$ and numbers $T,n$ would output an $n$-input NAND-CIRC program $Q$ of $O(|T|)$ lines such that for every input $z\in \{0,1\}^n$, if $P$ halts on $z$ within at most $T$ steps and outputs $y$, then $Q(z)=y$.
 
 
 ::: {.proof data-ref="nand-thm"}
 We now present the details.
 Let $F \in \mathbf{NP}$.
-To prove [nand-thm](){.ref} we need to give a polynomial-time computable function that will map every $x^* \in \{0,1\}^*$ to a NAND program $Q$ such that $F(x)=NANDSAT(Q)$.
+To prove [nand-thm](){.ref} we need to give a polynomial-time computable function that will map every $x^* \in \{0,1\}^*$ to a NAND-CIRC program $Q$ such that $F(x)=NANDSAT(Q)$.
 
 Let  $x^* \in \{0,1\}^*$ be such a string and let $n=|x^*|$ be its length.
 By [NP-def](){.ref} there exists $V \in \mathbf{P}$ and $a,b \in \N$ such that $F(x^*)=1$  if and only if there exists $w\in \{0,1\}^{an^b}$ such that $V(x^*w)=1$.
 
-Let $m=an^b$. Since $V\in \mathbf{P}$ there is some NAND++ program $P^*$ that computes $V$ on inputs of the form $xw$ with $x\in \{0,1\}^n$ and $w\in \{0,1\}^m$ in at most ${(n+m)}^c$ time for some constant $c$.
-Using our "unrolling the loop NAND++ to NAND compiler" of [nand-compiler](){.ref}, we can obtain a NAND program $Q'$ that has $n+m$ inputs and at most $O((n+m)^c)$ lines such that $Q'(xw)= P^*(xw)$ for every $x\in \{0,1\}^n$ and $w \in \{0,1\}^m$.
+Let $m=an^b$. Since $V\in \mathbf{P}$ there is some NAND-TM program $P^*$ that computes $V$ on inputs of the form $xw$ with $x\in \{0,1\}^n$ and $w\in \{0,1\}^m$ in at most ${(n+m)}^c$ time for some constant $c$.
+Using our "unrolling the loop NAND++ to NAND compiler" of [nand-compiler](){.ref}, we can obtain a NAND-CIRC program $Q'$ that has $n+m$ inputs and at most $O((n+m)^c)$ lines such that $Q'(xw)= P^*(xw)$ for every $x\in \{0,1\}^n$ and $w \in \{0,1\}^m$.
 
 Now we can use the following simple but useful "hardwiring" technique to obtain a program:
 
 > # {.lemma title="Hardwiring Lemma" #hardwiringlem}
-Given a $T$-line NAND program $Q'$ of $n+m$ inputs and $x^* \in \{0,1\}^n$, we can obtain in polynomial a program $Q$ with $m$ inputs of $T+3$ lines such that for ever $w\in \{0,1\}^m$, $Q(w)= Q'(x^*w)$.
+Given a $T$-line NAND-CIRC program $Q'$ of $n+m$ inputs and $x^* \in \{0,1\}^n$, we can obtain in polynomial a program $Q$ with $m$ inputs of $T+3$ lines such that for ever $w\in \{0,1\}^m$, $Q(w)= Q'(x^*w)$.
 
 ::: {.proof data-ref="hardwiringlem"}
 To compute $Q$, we simply do a "search and replace" for all references in $Q'$ to `X[`$i$`]` for $i \in [n]$, and transform them to either the variable `zero` or `one` depending on whether $x^*_i$ is equal to $0$ or $1$ respectively.
@@ -349,7 +349,7 @@ Since we know that $F(x^*)=1$ if and only if there exists $w\in \{0,1\}^m$ such 
 :::
 
 
-![Given an $T$-line NAND program $Q$ that has $n+m$ inputs and some $x^*\in \{0,1\}^n$, we can transform $Q$ into a $T+3$ line NAND program $Q'$ that computes the map $w \mapsto Q(x^*w)$ for $w\in \{0,1\}^m$ by simply adding code to compute the `zero` and `one` constants,  replacing all references to `X[`$i$`]` with either `zero` or `one` depending on the value of $x^*_i$, and then replacing the remaining references to `X[`$j$`]` with `X[`$j-n$`]`. Above is Python code that implements this transformation, as well as an example of its execution on a simple program.](../figure/hardwiring.png){#hardwiringfig .class width=300px height=300px}
+![Given an $T$-line NAND-CIRC program $Q$ that has $n+m$ inputs and some $x^*\in \{0,1\}^n$, we can transform $Q$ into a $T+3$ line NAND-CIRC program $Q'$ that computes the map $w \mapsto Q(x^*w)$ for $w\in \{0,1\}^m$ by simply adding code to compute the `zero` and `one` constants,  replacing all references to `X[`$i$`]` with either `zero` or `one` depending on the value of $x^*_i$, and then replacing the remaining references to `X[`$j$`]` with `X[`$j-n$`]`. Above is Python code that implements this transformation, as well as an example of its execution on a simple program.](../figure/hardwiring.png){#hardwiringfig .class width=300px height=300px}
 
 
 
@@ -375,19 +375,19 @@ $NANDSAT \leq_p 3NAND$.
 
 
 > # {.proofidea data-ref="threenand-thm"}
-To prove [threenand-thm](){.ref} we need to give a polynomial-time map from every NAND program $Q$ to a 3NAND formula $\Psi$ such that there exists $w$ such that $Q(w)=1$ if and only if there exists $z$ satisfying $\Psi$.
+To prove [threenand-thm](){.ref} we need to give a polynomial-time map from every NAND-CIRC program $Q$ to a 3NAND formula $\Psi$ such that there exists $w$ such that $Q(w)=1$ if and only if there exists $z$ satisfying $\Psi$.
 For every line $i$ of $Q$, we define a corresponding  variable $z_i$ of $\Psi$.
 If the line $i$ has the form `foo = NAND(bar,blah)` then we will add the clause $z_i = NAND(z_j,z_k)$ where $j$ and $k$ are the last lines in which `bar` and `blah` were written to. We will also set variables corresponding to the input variables, as well as add a clause to ensure that the final output is $1$.
 The resulting reduction can be implemented in about a dozen lines of Python, see [andsattothreenandfig](){.ref}.
 
 
 
-![Python code to reduce an instance $Q$ of $NANDSAT$ to an instance $\Psi$ of $3NAND$. In the example above we transform the NAND program `xor5` which has $5$ input variables and $16$ lines, into a $3NAND$ formula $\Psi$ that has $24$ variables and $20$ clauses. Since `xor5` outputs $1$ on the input $1,0,0,1,1$, there exists an assignment $z \in \{0,1\}^{24}$ to $\Psi$ such that $(z_0,z_1,z_2,z_3,z_4)=(1,0,0,1,1)$ and $\Psi$ evaluates to _true_ on $z$. ](../figure/nandsatto3nandreduction.png){#nandsattothreenandfig .class width=300px height=300px}
+![Python code to reduce an instance $Q$ of $NANDSAT$ to an instance $\Psi$ of $3NAND$. In the example above we transform the NAND-CIRC program `xor5` which has $5$ input variables and $16$ lines, into a $3NAND$ formula $\Psi$ that has $24$ variables and $20$ clauses. Since `xor5` outputs $1$ on the input $1,0,0,1,1$, there exists an assignment $z \in \{0,1\}^{24}$ to $\Psi$ such that $(z_0,z_1,z_2,z_3,z_4)=(1,0,0,1,1)$ and $\Psi$ evaluates to _true_ on $z$. ](../figure/nandsatto3nandreduction.png){#nandsattothreenandfig .class width=300px height=300px}
 
 
 ::: {.proof data-ref="threenand-thm"}
 To prove [threenand-thm](){.ref} we need to give a reduction from $NANDSAT$ to $3NAND$.
-Let  $Q$ be a NAND program with $n$ inputs, one output, and  $m$ lines.
+Let  $Q$ be a NAND-CIRC program with $n$ inputs, one output, and  $m$ lines.
 We can assume without loss of generality that $Q$ contains the variables `one` and `zero` as usual.
 
 
@@ -416,7 +416,7 @@ __Part II: Soundness.__ Suppose that there exists $z\in \{0,1\}^{n+m}$ satisfyin
 
 
 
-![A $3NAND$ instance that is obtained by taking a NAND++ program for computing the $AND$ function, unrolling it to obtain a $NANDSAT$ instance, and then composing it with the reduction of [threenand-thm](){.ref}.](../figure/threenandresultreduction.png){#resultreduction .class width=300px height=300px}
+![A $3NAND$ instance that is obtained by taking a NAND-TM program for computing the $AND$ function, unrolling it to obtain a $NANDSAT$ instance, and then composing it with the reduction of [threenand-thm](){.ref}.](../figure/threenandresultreduction.png){#resultreduction .class width=300px height=300px}
 
 
 ## From $3NAND$ to $3SAT$
@@ -468,7 +468,7 @@ Finding a polynomial-time algorithm for any one of them will imply a polynomial-
 
 
 
-![An instance of the _independent set_ problem  obtained by applying the reductions $NANDSAT \leq_p 3NAND \leq_p 3SAT \leq_p ISAT$ starting with the `xor5` NAND program.](../figure/indsetfromnandsat.png){#indsetfromnandsatfig .class width=300px height=300px}
+![An instance of the _independent set_ problem  obtained by applying the reductions $NANDSAT \leq_p 3NAND \leq_p 3SAT \leq_p ISAT$ starting with the `xor5` NAND-CIRC program.](../figure/indsetfromnandsat.png){#indsetfromnandsatfig .class width=300px height=300px}
 
 
 

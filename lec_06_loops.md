@@ -4,9 +4,9 @@
 # Loops and infinity { #chaploops }
 
 > # { .objectives }
-* Learn the model of NAND++ programs that add loops and arrays to handle inputs of all lengths.
+* Learn the model of NAND-TM programs that add loops and arrays to handle inputs of all lengths.
 * See some basic syntactic sugar and eauivalence of variants of  NAND++  programs.
-* See equivalence between NAND++ programs and Turing Machines.
+* See equivalence between NAND-TM programs and Turing Machines.
 
 
 >_"We thus see that when $n=1$, nine operation-cards are used; that when $n=2$, fourteen Operation-cards are used; and that when $n>2$, twenty-five operation-cards are used; but that no more are needed, however great $n$ may be; and not only this, but that these same twenty-five cards suffice for the successive computation of all the numbers"_, Ada Augusta, countess of Lovelace, 1843^[Translation of  "Sketch of the Analytical Engine" by L. F. Menabrea, Note G.]
@@ -15,16 +15,16 @@
 
 
 
-The NAND programming language (or equivalently, the Boolean circuits model) has one very significant drawback: a finite NAND program $P$ can only compute a finite function $F$, and in particular the number of inputs of $F$ is always smaller than (twice) the number of lines of $P$.^[This conceptual point holds for any straightline programming language, and is independent  of the particular syntactical choices we made for NAND. The particular ratio of "twice" is true for NAND because input variables cannot be written to, and hence a NAND program of $s$ lines includes at most $2s$ input variables. Coupled with the fact that a NAND program can't include `X[` $i$ `]` if it doesn't include `X[` $j$ `]` for $j<i$, this implies that the length of the input is at most $2s$. Similarly, a Boolean circuit whose gates correspond to two-input functions cannot have more inputs than twice the number of gates.]
+The NAND-CIRC programming language (or equivalently, the Boolean circuits model) has one very significant drawback: a finite NAND-CIRC program $P$ can only compute a finite function $F$, and in particular the number of inputs of $F$ is always smaller than (twice) the number of lines of $P$.^[This conceptual point holds for any straightline programming language, and is independent  of the particular syntactical choices we made for NAND. The particular ratio of "twice" is true for NAND because input variables cannot be written to, and hence a NAND-CIRC program of $s$ lines includes at most $2s$ input variables. Coupled with the fact that a NAND-CIRC program can't include `X[` $i$ `]` if it doesn't include `X[` $j$ `]` for $j<i$, this implies that the length of the input is at most $2s$. Similarly, a Boolean circuit whose gates correspond to two-input functions cannot have more inputs than twice the number of gates.]
 
 This does not capture our intuitive notion of an algorithm as a _single recipe_ to compute a potentially infinite function.
-For example, the standard elementary school multiplication algorithm is a _single_ algorithm that multiplies numbers of all lengths, but yet we cannot express this algorithm as a single NAND program, but rather need a different NAND program for every input length (see [multschoolfig](){.ref}).
+For example, the standard elementary school multiplication algorithm is a _single_ algorithm that multiplies numbers of all lengths, but yet we cannot express this algorithm as a single NAND-CIRC program, but rather need a different NAND-CIRC program for every input length (see [multschoolfig](){.ref}).
 
-![Once you know how to multiply multi-digit numbers, you can do so for every number $n$ of digits, but if you had to describe multiplication using NAND programs or Boolean circuits, you would need a different program/circuit for every length $n$ of the input.](../figure/multiplicationschool.png){#multschoolfig .class width=300px height=300px}
+![Once you know how to multiply multi-digit numbers, you can do so for every number $n$ of digits, but if you had to describe multiplication using NAND-CIRC programs or Boolean circuits, you would need a different program/circuit for every length $n$ of the input.](../figure/multiplicationschool.png){#multschoolfig .class width=300px height=300px}
 
 Let us consider the case of the simple _parity_ or _XOR_ function  $XOR:\{0,1\}^* \rightarrow \{0,1\}$, where $XOR(x)$ equals $1$ iff the number of $1$'s in $x$ is odd.
-As simple as it is, the $XOR$ function cannot be computed by a NAND program.
-Rather, for every $n$, we can compute $XOR_n$ (the restriction of $XOR$ to $\{0,1\}^n$) using a different NAND program. For example, here is the NAND program to compute $XOR_5$: (see also [XOR5fig](){.ref})
+As simple as it is, the $XOR$ function cannot be computed by a NAND-CIRC program.
+Rather, for every $n$, we can compute $XOR_n$ (the restriction of $XOR$ to $\{0,1\}^n$) using a different NAND-CIRC program. For example, here is the NAND-CIRC program to compute $XOR_5$: (see also [XOR5fig](){.ref})
 
 ```python
 Temp[0] = NAND(X[0],X[1])
@@ -62,10 +62,10 @@ while i<len(X):
 Y[0] = s
 ```
 
-In this chapter we will show how we can extend the   NAND programming language so that it can capture these kinds of  constructs.
+In this chapter we will show how we can extend the   NAND-CIRC programming language so that it can capture these kinds of  constructs.
 We will see two ways to do so:
 
-* The _NAND++ Programming language_ extends   NAND  with the notion of _loops_ and _arrays_ to allow a finite program that can compute a function with arbitrarily long inputs.
+* The _NAND-TM Programming language_ extends   NAND  with the notion of _loops_ and _arrays_ to allow a finite program that can compute a function with arbitrarily long inputs.
 
 * _Turing machines_ are the classical way to give a finite description of an algorithm for arbitrarily long inputs.
 
@@ -73,14 +73,14 @@ It turns out that these two models are _equivalent_, and in fact they are equiva
 We start off by presenting NAND++ and then show Turing machines, though it is also possible to present them in the opposite orders.
 
 
-## The NAND++ Programming language
+## The NAND-TM Programming language
 
-The NAND++ programming language aims to capture the notion of a _single uniform algorithm_ that can compute a function that takes inputs of _arbitrary lengths_.
-To do so, we need to extend the NAND programming language with two constructs:
+The NAND-TM programming language aims to capture the notion of a _single uniform algorithm_ that can compute a function that takes inputs of _arbitrary lengths_.
+To do so, we need to extend the NAND-CIRC programming language with two constructs:
 
-* _Loops_: NAND is a _straightline_ programming language- a NAND program of $s$ lines takes exactly $s$ steps of computation and hence in particular cannot even touch more than $3s$ variables. _Loops_ allow us to capture in a short program the instructions for a computation that can take an arbitrary amount of time.
+* _Loops_: NAND is a _straightline_ programming language- a NAND-CIRC program of $s$ lines takes exactly $s$ steps of computation and hence in particular cannot even touch more than $3s$ variables. _Loops_ allow us to capture in a short program the instructions for a computation that can take an arbitrary amount of time.
 
-* _Arrays_: A NAND program of $s$ lines touches at most $3s$ variables. While we allow in NAND variables such as `Foo[17]` or `Bar[22]`, they are not true arrays, since the number inside the brackets is a constant that is "hardwired" into the program. In particular a NAND program of $s$ lines cannot read an input `X[` $i$ `]` for $i>2s$.
+* _Arrays_: A NAND-CIRC program of $s$ lines touches at most $3s$ variables. While we allow in NAND variables such as `Foo[17]` or `Bar[22]`, they are not true arrays, since the number inside the brackets is a constant that is "hardwired" into the program. In particular a NAND-CIRC program of $s$ lines cannot read an input `X[` $i$ `]` for $i>2s$.
 
 
 Thus a good way to remember  NAND++ is  using the following informal equation:
@@ -94,14 +94,14 @@ It turns out that adding loops and arrays is enough to not only enable computing
 But we're getting ahead of ourselves: this issue will be discussed in [chapequivalentmodels](){.ref}.
 
 
-### Enhanced NAND++ programs
+### Enhanced NAND-TM programs
 
-We now turn to describing the syntax of NAND++ programs.
-We'll start by describing what we call the "enhanced NAND++ programming language".
+We now turn to describing the syntax of NAND-TM programs.
+We'll start by describing what we call the "enhanced NAND-TM programming language".
 Enhanced NAND++ has some extra features on top of NAND++ that make it easier to describe.
 However, we will see in [enhancednandequivalence](){.ref}  that these extra features can be implemented as "syntactic sugar" on top of standard or "vanilla" NAND++, and hence these two programming languages are equivalent in power.
 
-Enhanced NAND++ programs add the following features on top of NAND:
+Enhanced NAND-TM programs add the following features on top of NAND:
 
 * We add a special Boolean variable `loop`. If `loop` is equal to $1$ at the end of the execution then execution loops back to the first line of the program.
 
@@ -114,7 +114,7 @@ Enhanced NAND++ programs add the following features on top of NAND:
 
 
 :::  {.example title="XOR in Enhanced NAND++" #XORENANDPP}
-The following is an enhanced NAND++ program to compute the XOR function
+The following is an enhanced NAND-TM program to compute the XOR function
 on inputs of arbitrary length.
 That is $XOR:\{0,1\}^* \rightarrow \{0,1\}$ such that $XOR(x) = \sum_{i=0}^{|x|-1} x_i \mod 2$ for every $x\in \{0,1\}^*$.
 
@@ -131,10 +131,10 @@ i += Xvalid[i]
 :::
 
 ::: {.example title="Increment in Enhanced NAND++" #INCENANDPP}
-We now present enhanced NAND++ program to compute the _increment function_.
+We now present enhanced NAND-TM program to compute the _increment function_.
 That is, $INC:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every $x\in \{0,1\}^n$, $INC(x)$ is the $n+1$ bit long string $y$ such that if $X = \sum_{i=0}^{n-1}x_i \cdot 2^i$ is the number represented by $x$, then $y$ is the binary representation of the number $X+1$.
 
-We start by showing the program using the "syntactic sugar" we've seen before of using shorthand for some NAND programs we have seen before to compute simple functions such as `IF`, `XOR` and `AND` (as well as the constant `one` function as well as the function `COPY` that just maps a bit to itself).
+We start by showing the program using the "syntactic sugar" we've seen before of using shorthand for some NAND-CIRC programs we have seen before to compute simple functions such as `IF`, `XOR` and `AND` (as well as the constant `one` function as well as the function `COPY` that just maps a bit to itself).
 
 ```python
 carry = IF(started,carry,one(started))
@@ -145,7 +145,7 @@ Yvalid[i] = one(started)
 loop = COPY(Xvalid[i])
 i += loop
 ```
-The above is not, strictly speaking, a valid enhanced NAND++ program.
+The above is not, strictly speaking, a valid enhanced NAND-TM program.
 If we "open up" all of the syntactic sugar, we get the following valid program to compute this syntactic sugar.
 
 ```python
@@ -184,7 +184,7 @@ With the introduction of the special index variable `i`, in NAND++ things are di
 To make sure there is no confusion, we will use the convention that plain variables (which we will also refer to as _scalar_ variables) are written with all lower case, and _array variables_ begin with an upper case letter.
 Moreover, it turns out that we can ensure without loss of generality that arrays are always indexed by the variable `i`.
 (That is, if `Foo` is an array, then whenever `Foo` is referred to in the program, it is always in the form `Foo[i]` and never as `Foo[17]`, `Foo[159]` or any other constant numerical index.)
-Hence all the variable identifiers in "well formed" NAND++ programs will either have the form `foo_123` (a sequence of lower case letters, underscores, and numbers, with no brackets or upper case letters) or the form `Bar[i]` (an identifier starting with an upper case letter, and ending with `[i]`).
+Hence all the variable identifiers in "well formed" NAND-TM programs will either have the form `foo_123` (a sequence of lower case letters, underscores, and numbers, with no brackets or upper case letters) or the form `Bar[i]` (an identifier starting with an upper case letter, and ending with `[i]`).
 See  [wellformedlem](){.ref} for a more formal treatment of the notion of "well formed programs".
 
 
@@ -192,14 +192,14 @@ See  [wellformedlem](){.ref} for a more formal treatment of the notion of "well 
 
 Since our goal in theoretical computer science is not as much to _construct_
 programs  as to _analyze_ them, we want to use as simple as possible computational models.
-Hence our actual "plain vanilla" NAND++ programming language will be even more "bare bones" than enhanced NAND++.^[We will often use the adjective "vanilla" when we want to emphasize the difference between standard NAND++ and its enhanced variant.]
+Hence our actual "plain vanilla" NAND-TM programming language will be even more "bare bones" than enhanced NAND++.^[We will often use the adjective "vanilla" when we want to emphasize the difference between standard NAND++ and its enhanced variant.]
 In particular, standard NAND++ does _not_ contain the commands `i += foo` and `i -= bar` to control the integer-valued variable `i`.
 If we don't have these commands, how would we ever be able to access arbitrary elements of our arrays?
 The idea is that standard NAND++ prescribes a _pre-fixed schedule_ that `i` progresses in, regardless of the code of the program or the particular input.
 Just like a bus takes always the same route, and you need to wait until it reaches your station, if you want to access, for example, location 132 in the array `Foo`, you can wait until the iteration in which `i` will equal 132, at which point `Foo[i]` will refer to the 132-th bit of the array `Foo`.
 
 So what is this schedule that `i` progresses in? There are many choices for such a schedule that would have worked, but we fix a particular choice for simplicity.
-Initially when we run a NAND++ program, the variable `i` equals $0$.
+Initially when we run a NAND-TM program, the variable `i` equals $0$.
 When we finish executing all the lines of code for the first time, if `loop` equals $0$ we halt.
 Otherwise we continue to the second iteration, but this time the variable `i` will equal $1$.
 At the end of this iteration once again we halt if `loop` equals $0$, and otherwise we proceed to the third iteration where `i` gets the value of $0$ again. We continue in this way with the fourth iteration having `i`$=1$ and in the fifth iteration `i` is equal to $2$, after which it decreases step by step to $0$ agin and so on and so forth.
@@ -230,7 +230,7 @@ is XOR'ed with the $i$-th bit of the input only at the first time we see it.
 :::
 
 ::: { .pause }
-It would be very instructive for you to compare the enhanced NAND++ program for XOR of [XORENANDPP](){.ref} with the standard NAND++ program of [XORNANDPP](){.ref}.
+It would be very instructive for you to compare the enhanced NAND-TM program for XOR of [XORENANDPP](){.ref} with the standard NAND-TM program of [XORNANDPP](){.ref}.
 :::
 
 ::: {.solvedexercise title="Computing index location" #computeindex}
@@ -242,7 +242,7 @@ where $r= \floor{\sqrt{k+1/4}-1/2}$.
 :::
 
 ::: {.solution data-ref="computeindex"}
-We say that a NAND program completed its _$r$-th round_ when the index variable `i` reaches the $0$ point for $r+1$ times and hence completes the sequence:
+We say that a NAND-CIRC program completed its _$r$-th round_ when the index variable `i` reaches the $0$ point for $r+1$ times and hence completes the sequence:
 
 $$
 0,1,0,1,2,1,0,1,2,3,2,1,0,\ldots,0,1,\ldots,r,r-1,\ldots,0
@@ -279,7 +279,7 @@ We start by formalizing the notion of a NAND++ computation:
 
 
 :::  {.definition title="NAND++ computation" #nandppcomputation}
-Let $P$ be a NAND++ program. For every input $x\in \{0,1\}^*$, we define the _output of $P$ on input $x$_ (denotes as $P(x)$) to be the result of the following process:
+Let $P$ be a NAND-TM program. For every input $x\in \{0,1\}^*$, we define the _output of $P$ on input $x$_ (denotes as $P(x)$) to be the result of the following process:
 
 *  Initialize  the variables `X[`$i$`]`$=x_i$ and `Xvalid[`$i$`]`$=1$ for all $i\in [n]$ (where $n=|x|$). All other variables (including `i` and `loop`) default to $0$.
 
@@ -291,24 +291,24 @@ If the program does not halt on input $x$, then we say it has no output, and we 
 :::
 
 ::: {.remark title="Enhanced NAND++ computation" #nandppcomputationrem}
-[nandppcomputation](){.ref} can be easily adapted for _enhanced_ NAND++ programs. The only modification is the natural one: instead of `i` travelling according to the sequence $0,1,0,1,2,1,0,1,\ldots$, `i` is increased/decreased based on the `i += foo` and `i -= bar` operations.
+[nandppcomputation](){.ref} can be easily adapted for _enhanced_ NAND-TM programs. The only modification is the natural one: instead of `i` travelling according to the sequence $0,1,0,1,2,1,0,1,\ldots$, `i` is increased/decreased based on the `i += foo` and `i -= bar` operations.
 :::
 
 We can now define what it means for a function to be _computable_:
 
 ::: {.definition title="Computable functions" #computablefuncdef}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}^*$ be a (total) function and let $P$ be a
-NAND++ program.
+NAND-TM program.
 We say that $P$ _computes_ $F$ if for every $x\in \{0,1\}^*$, $P(x)=F(x)$.
 
-We say that a function $F$ is _NAND++ computable_ if there is a NAND++ program that computes it.
+We say that a function $F$ is _NAND++ computable_ if there is a NAND-TM program that computes it.
 :::
 
 We will often drop the "NAND++" qualifier and simply call a function _computable_ if it is NAND++ computable.
 This may seem "reckless" but, as we'll see in [chapequivalentmodels](){.ref}, it turns out that  being NAND++-computable is equivalent to being computable in essentially any reasonable model of computation.
 
 ::: { .pause }
-[computablefuncdef](){.ref} is, as we mentioned above, one of the most important definitions in this book. Please re-read it (and [nandppcomputation](){.ref}) and make sure you understand it. Try to think how _you_ would define the notion of a NAND++ program $P$ computing a function, and make sure that you arrive at the same definition.
+[computablefuncdef](){.ref} is, as we mentioned above, one of the most important definitions in this book. Please re-read it (and [nandppcomputation](){.ref}) and make sure you understand it. Try to think how _you_ would define the notion of a NAND-TM program $P$ computing a function, and make sure that you arrive at the same definition.
 :::
 
 This is a good point to remind the reader of  the distinction between _functions_ and _programs_:
@@ -329,13 +329,13 @@ The corresponding concept to a _partial function_ is known as a [promise problem
 
 ### Infinite loops and partial functions
 
-One crucial difference between NAND and NAND++ programs is the following.
-Looking at a NAND program $P$, we can always tell how many inputs and how many outputs it has (by simply looking  at the `X` and `Y` variables).
+One crucial difference between NAND and NAND-TM programs is the following.
+Looking at a NAND-CIRC program $P$, we can always tell how many inputs and how many outputs it has (by simply looking  at the `X` and `Y` variables).
 Furthermore, we  are guaranteed that if we invoke $P$ on any input then _some_ output will be produced.
 
-In contrast, given any particular NAND++ program $P'$, we cannot determine a priori the length of the output.
+In contrast, given any particular NAND-TM program $P'$, we cannot determine a priori the length of the output.
 In fact, we don't even know  if an output would be produced at all!
-For example, the following NAND++ program would go into an infinite loop if the first bit of the input is zero:
+For example, the following NAND-TM program would go into an infinite loop if the first bit of the input is zero:
 
 ```python
 loop = NAND(X[0],X[0])
@@ -347,10 +347,10 @@ For example, consider the partial function $DIV$ that on input a pair $(a,b)$ of
 
 ::: {.definition title="Computable (partial or total) functions" #computablepartialfuncdef}
 Let $F$ be either a  total or partial function mapping $\{0,1\}^*$ to $\{0,1\}^*$ and let $P$ be a
-NAND++ program.
+NAND-TM program.
 We say that $P$ _computes_ $F$ if for every $x\in \{0,1\}^*$ on which $F$ is defined, $P(x)=F(x)$.^[Note that if $F$ is a total function, then it is defined on every $x\in \{0,1\}^*$ and hence in this case, this definition is identical to [computablefuncdef](){.ref}.]
 
-We say that a (partial or total) function $F$ is _NAND++ computable_ if there is a NAND++ program that computes it.
+We say that a (partial or total) function $F$ is _NAND++ computable_ if there is a NAND-TM program that computes it.
 :::
 
 
@@ -368,10 +368,10 @@ We now show these two versions are equivalent in power:
 
 > # {.theorem title="Equivalence of enhanced and standard NAND++" #enhancednandequivalence}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}^*$.
-Then $F$ is computable by a NAND++ program if and only if $F$ is computable by an enhanced NAND++ program.
+Then $F$ is computable by a NAND-TM program if and only if $F$ is computable by an enhanced NAND-TM program.
 
 > # {.proofidea data-ref="enhancednandequivalence"}
-To prove the theorem we need to show  __(1)__ that for every NAND++ program $P$ there is an enhanced NAND++ program $Q$ that computes the same function as $P$, and __(2)__  that for every enhanced NAND++ program $Q$, there is a NAND++ program $P$ that computes the same function as $Q$.
+To prove the theorem we need to show  __(1)__ that for every NAND-TM program $P$ there is an enhanced NAND-TM program $Q$ that computes the same function as $P$, and __(2)__  that for every enhanced NAND-TM program $Q$, there is a NAND-TM program $P$ that computes the same function as $Q$.
 >
 Showing __(1)__ is quite straightforward: all we need to do is to show that we can ensure that `i` follows the sequence $0,1,0,1,2,1,0,1,\ldots$ using the `i += foo` and `i -= foo` operations.
 The idea is that we use a `Visited` array to keep track at which places we visited, as well as a special `Atstart` array for which we ensure that `Atstart[`$0$`]`$=1$ but `Atstart[`$i$`]`$=0$ for every $i>0$.
@@ -381,15 +381,15 @@ Showing __(2)__ is a little more involved. Our main observation is that we can s
 
 
 We split the full proof of  [enhancednandequivalence](){.ref} into two parts.
-In [vanillatoenhancedsec](){.ref} we show the easier direction of simulating standard NAND++ programs by enhanced ones.
-In [nhanvedtovanillasec](){.ref} we show the harder direction of simulating enhanced NAND++ programs by standard ones.
-Along the way we will show how we can simulate the `GOTO` operation in NAND++ programs.
+In [vanillatoenhancedsec](){.ref} we show the easier direction of simulating standard NAND-TM programs by enhanced ones.
+In [nhanvedtovanillasec](){.ref} we show the harder direction of simulating enhanced NAND-TM programs by standard ones.
+Along the way we will show how we can simulate the `GOTO` operation in NAND-TM programs.
 
 
 
-### Simulating NAND++ programs by enhanced NAND++ programs. { #vanillatoenhancedsec }
+### Simulating NAND-TM programs by enhanced NAND-TM programs. { #vanillatoenhancedsec }
 
-Let $P$ be a standard NAND++ program. To create an enhanced NAND++ program that computes the same function, we will add a variable `indexincreasing` and code to ensure that at the end of the iteration, if `indexincreasing` equals $1$ then `i` needs to increase by $1$ and otherwise `i` needs to decrease by $1$.
+Let $P$ be a standard NAND-TM program. To create an enhanced NAND-TM program that computes the same function, we will add a variable `indexincreasing` and code to ensure that at the end of the iteration, if `indexincreasing` equals $1$ then `i` needs to increase by $1$ and otherwise `i` needs to decrease by $1$.
 Once we ensure that, we can emulate $P$ by simply adding the following lines to the end of the program
 
 ```python
@@ -399,7 +399,7 @@ i -= NOT(indexincreasing)
 
 where `one` and `zero` are variables which are always set to be zero or one, and `IF` is shorthand for NAND implementation of our usual $IF$ function (i.e., $IF(a,b,c)$ equals $b$ if $a=1$ and $c$ otherwise).
 
-To compute `indexincreasing` we use the fact that the sequence $0,1,0,1,2,1,0,1,\ldots$ of  `i`'s travels in  a standard NAND++ program is obtained from the following rules:
+To compute `indexincreasing` we use the fact that the sequence $0,1,0,1,2,1,0,1,\ldots$ of  `i`'s travels in  a standard NAND-TM program is obtained from the following rules:
 
 1. At the beginning `i` is increasing.
 2. If `i` reaches a point which it hasn't seen before, then it starts decreasing.
@@ -423,13 +423,13 @@ at the very end of the program.
 
 ![We can know if the index variable `i` should increase or decrease by keeping an array `atstart` letting us know when `i` reaches $0$, and hence `i` starts increasing, and `breadcrumb` letting us know when we reach a point we haven't seen before, and hence `i` starts decreasing.  TODO: update figure to `Atstart` and `Visited` notation. ](../figure/breadcrumbs.png){#breadcrumbspng .class width=300px height=300px}
 
-Given any standard NAND++ program $P$, we can add the above lines of code to it to obtain an enhanced NAND++ program $Q$ that will behave in exactly the same way as $P$ and hence will compute the same function.
+Given any standard NAND-TM program $P$, we can add the above lines of code to it to obtain an enhanced NAND-TM program $Q$ that will behave in exactly the same way as $P$ and hence will compute the same function.
 This completes the proof of the first part of [enhancednandequivalence](){.ref}.
 
 
-### Simulating enhanced NAND++ programs by NAND++ programs. { #nhanvedtovanillasec }
+### Simulating enhanced NAND-TM programs by NAND-TM programs. { #nhanvedtovanillasec }
 
-To simulate enhanced NAND++ programs by vanilla ones, we will do as follows.
+To simulate enhanced NAND-TM programs by vanilla ones, we will do as follows.
 We introduce an array `Markposition` which normally would be all zeroes.
 We then replace the line `i += foo` with code that achieves the following:
 
@@ -438,7 +438,7 @@ We then replace the line `i += foo` with code that achieves the following:
 3. We then want to add code that will do nothing until we get to the position `i+1`. We can check this condition by verifying that both `Markposition[i]`$=1$  and `indexincreasing`$=1$ at the end of the iteration.
 
 We will start by describing how we can achieve this under the assumption that we have access to `GOTO` and `LABEL` operations.
-`LABEL(l)` simply marks a line of code with the string `l`. `GOTO(l,cond)` jumps in execution to the position labeled `l` if `cond` is equal to $1$.^[Since this is a NAND++ program, we assume that if the label `l` is _before_ the `GOTO` then jumping in execution means that another iteration of the program is finished, and the index variable `i` is increased or decreased as usual.]
+`LABEL(l)` simply marks a line of code with the string `l`. `GOTO(l,cond)` jumps in execution to the position labeled `l` if `cond` is equal to $1$.^[Since this is a NAND-TM program, we assume that if the label `l` is _before_ the `GOTO` then jumping in execution means that another iteration of the program is finished, and the index variable `i` is increased or decreased as usual.]
 
 If the original program had the form:
 
@@ -556,10 +556,10 @@ For example, while this is not part of the Python language, Google's  [Python st
 Of course this does not really restrict the power of Google-conforming Python programs, since every Python program can be transformed to an equivalent one that satisfies this requirement.
 In fact, many programming languages have automatic programs known as [linters](https://www.pylint.org/)  that can detect and sometimes modify the program to fit certain standards.
 
-The following solved exercise is an example of that. We will define the notion of a _well-formed program_ and show that every NAND++ program can be transformed into an equivalent one that is well formed.
+The following solved exercise is an example of that. We will define the notion of a _well-formed program_ and show that every NAND-TM program can be transformed into an equivalent one that is well formed.
 
 ::: {.definition title="Well-formed programs" #wellformeddef}
-We say that an (enhanced or vanilla) NAND++ program $P$ is _well formed_ if it satisfies the following properties:
+We say that an (enhanced or vanilla) NAND-TM program $P$ is _well formed_ if it satisfies the following properties:
 
 * Every reference to a variable in $P$ either has the form `foo` or `foo_123` (a _scalar variable:_ alphanumerical string starting with a lowercase letter and no brackets) or the form `Bar[i]` or `Bar_12[i]` (an _array variable_ alphanumerical string starting with a capital letter and ending with `[i]`).
 
@@ -570,17 +570,17 @@ We say that an (enhanced or vanilla) NAND++ program $P$ is _well formed_ if it s
 * $P$ contains code to set `loop` to $1$ at the beginning of the first iteration, and to ensure that if `loop` is ever set to $0$ then it stays at $0$, and moreover that if `loop` equals $0$ then the values of `Y` and `Yvalid` cannot change.
 :::
 
-The following exercise shows that we can transform every NAND++ program $P$ into a well-formed program $P'$ that is equivalent to it. Hence if we are given a NAND++ program $P$, we can (and will) often assume without loss of generality that it is well-formed.
+The following exercise shows that we can transform every NAND-TM program $P$ into a well-formed program $P'$ that is equivalent to it. Hence if we are given a NAND-TM program $P$, we can (and will) often assume without loss of generality that it is well-formed.
 
 > # {.lemma #wellformedlem}
-For every  (enhanced or vanilla) NAND++ program $P$, there exists an (enhanced or vanilla, respectively)   NAND++ program $P'$ equivalent to $P$ that is _well formed_ as pre [wellformeddef](){.ref}.
+For every  (enhanced or vanilla) NAND-TM program $P$, there exists an (enhanced or vanilla, respectively)   NAND-TM program $P'$ equivalent to $P$ that is _well formed_ as pre [wellformeddef](){.ref}.
 That is, for every input $x\in \{0,1\}^*$, either both $P$ and $P'$ do not halt on $x$, or both $P$ and $P'$ halt on $x$ and produce the same output $y\in \{0,1\}^*$.
 
 
 
 
 
-::: {.solvedexercise title="Making an NAND++ program well formed." #wellformedex}
+::: {.solvedexercise title="Making an NAND-TM program well formed." #wellformedex}
 Prove [wellformedlem](){.ref}
 :::
 
@@ -822,37 +822,37 @@ In particular, if the number of states is $k$, then we can represent the state o
 Similarly, we can represent  each element  of the alphabet $\Sigma$ using $\ceil{\log |\Sigma|}$ bits.
 Hence if our programming language had only Boolean valued arrays, we could replace the array `Tape` with $\ceil{\log |\Sigma|}$ such arrays.
 
-### Turing machines and NAND++ programs
+### Turing machines and NAND-TM programs
 
-Given the above discussion, it might not be surprising that  Turing machines turn out to be equivalent to NAND++ programs. Nevertheless, this is an important result, and the first of many other such equivalence results we will see in this book.
+Given the above discussion, it might not be surprising that  Turing machines turn out to be equivalent to NAND-TM programs. Nevertheless, this is an important result, and the first of many other such equivalence results we will see in this book.
 
-> # {.theorem title="Turing machines and NAND++ programs" #TM-equiv-thm}
-For every $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND++ program if and only if there is a Turing Machine $M$ that computes $F$.
+> # {.theorem title="Turing machines and NAND-TM programs" #TM-equiv-thm}
+For every $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND-TM program if and only if there is a Turing Machine $M$ that computes $F$.
 
 > # {.proofidea data-ref="TM-equiv-thm"}
-Once again, to prove such an equivalence theorem, we need to show two directions. We need to be able to __(1)__  transform a Turing machine $M$ to a NAND++ program $P$ that computes the same function as $P$  and __(2)__ transform a NAND++ program $P$ into a Turing machine $M$ that computes the same function as $P$.
+Once again, to prove such an equivalence theorem, we need to show two directions. We need to be able to __(1)__  transform a Turing machine $M$ to a NAND-TM program $P$ that computes the same function as $P$  and __(2)__ transform a NAND-TM program $P$ into a Turing machine $M$ that computes the same function as $P$.
 >
 The idea of the proof is illustrated in [tmvsnandppfig](){.ref}.
-To show __(1)__, given a Turing machine $M$, we will create a NAND program $P$ that will have an array `Tape` for the tape of $M$ and scalar (i.e., non array) variable(s) `state` for the state of $M$.
+To show __(1)__, given a Turing machine $M$, we will create a NAND-CIRC program $P$ that will have an array `Tape` for the tape of $M$ and scalar (i.e., non array) variable(s) `state` for the state of $M$.
 Specifically, since the state of a Turing machine is not in $\{0,1\}$ but rather in a larger set $[k]$, we will use $\ceil{\log k}$ variables `state_`$0$ , $\ldots$, `state_`$\ceil{\log k}-1$ variables to store the representation of the state.
 Similarly, to encode the larger alphabet $\Sigma$ of the tape, we will use $\ceil{\log |\Sigma|}$ arrays `Tape_`$0$ , $\ldots$, `Tape_`$\ceil{\log |\Sigma|}-1$, such that the $i^{th}$ location of these arrays encodes the $i^{th}$ symbol in the tape for every tape.
-Using the fact that _every_ function can be computed by a NAND program, we will be able to compute the transition function of $M$, replacing moving left and right by decrementing and incrementing `i` respectively.
+Using the fact that _every_ function can be computed by a NAND-CIRC program, we will be able to compute the transition function of $M$, replacing moving left and right by decrementing and incrementing `i` respectively.
 >
 We show __(2)__ using very similar ideas. Given a program $P$ that uses $a$ array variables and $b$ scalar variables, we will create a Turing machine with about $2^b$ states to encode the values of scalar variables, and an alphabet of about $2^a$ so we can encode the arrays using our tape. (The reason the sizes are only "about" $2^a$ and $2^b$ is that we will need to add some symbols and steps for bookkeeping purposes.) The Turing Machine $M$ will simulate each iteration of the program $P$ by updating its state and tape accordingly.
 
-![Comparing a Turing Machine to a NAND++ program. Both have an unbounded memory component (the _tape_ for a Turing machine, and the _arrays_ for a NAND++ program), as well as a constant local memory (_state_ for a Turing machine, and _scalar variables_ for a NAND++ program). Both can only access at each step one location of the unbounded memory, this is the "head" location for a Turing machine, and the value of the index variable `i` for a NAND++ program.  ](../figure/tmvsnandpp.png){#tmvsnandppfig .class width=300px height=300px}
+![Comparing a Turing Machine to a NAND-TM program. Both have an unbounded memory component (the _tape_ for a Turing machine, and the _arrays_ for a NAND-TM program), as well as a constant local memory (_state_ for a Turing machine, and _scalar variables_ for a NAND-TM program). Both can only access at each step one location of the unbounded memory, this is the "head" location for a Turing machine, and the value of the index variable `i` for a NAND-TM program.  ](../figure/tmvsnandpp.png){#tmvsnandppfig .class width=300px height=300px}
 
 :::  {.proof data-ref="TM-equiv-thm"}
-We now prove the "if" direction of [TM-equiv-thm](){.ref}, namely we show that given a Turing machine $M$, we can find a NAND++ program $P_M$ such that for every input $x$, if $M$ halts on input $x$ with output $y$ then $P_M(x)=y$.
-Because by [enhancednandequivalence](){.ref} enhanced and plain NAND++ are equivalent in power, it is sufficient to construct an enhanced NAND++ program that has this property.
+We now prove the "if" direction of [TM-equiv-thm](){.ref}, namely we show that given a Turing machine $M$, we can find a NAND-TM program $P_M$ such that for every input $x$, if $M$ halts on input $x$ with output $y$ then $P_M(x)=y$.
+Because by [enhancednandequivalence](){.ref} enhanced and plain NAND++ are equivalent in power, it is sufficient to construct an enhanced NAND-TM program that has this property.
 Moreover, since our goal is just to show such a program $P_M$ _exists_, we don't need to write out the full code of $P_M$ line by line, and can take advantage of our various "syntactic sugar" in describing it.
 
-The key observation is that by [NAND-univ-thm](){.ref} we can compute _every_ finite function using a NAND program.
+The key observation is that by [NAND-univ-thm](){.ref} we can compute _every_ finite function using a NAND-CIRC program.
 In particular, consider the function  $M:[k]\times \Sigma \rightarrow [k] \times \Sigma  \times \{\mathbb{L},\mathbb{R} \}$ corresponding to our Turing Machine.
 We can encode $[k]$ using $\{0,1\}^\ell$, $\Sigma$ using $\{0,1\}^{\ell'}$, and $\{\mathbb{L},\mathbb{R} \}$  using $\{0,1\}$, where $\ell = \ceil{\log k}$ and $\ell' = \ceil{\log |\Sigma|}$.
 Hence we can identify $M$ with a function $\overline{M}:\{0,1\}^\ell \times \{0,1\}^{\ell'} \rightarrow \{0,1\}^\ell \times \{0,1\}^{\ell'} \times \{0,1\}$,
-and by [NAND-univ-thm](){.ref} there exists a  finite length NAND program `ComputeM` that computes this function $\overline{M}$.
-The enhanced NAND++ program to simulate $M$ will be the following:
+and by [NAND-univ-thm](){.ref} there exists a  finite length NAND-CIRC program `ComputeM` that computes this function $\overline{M}$.
+The enhanced NAND-TM program to simulate $M$ will be the following:
 
 ```python
 copy X/Xvalid to Tape..
@@ -870,7 +870,7 @@ In the description above we also take advantage of our `GOTO` syntactic sugar as
 Copying `X[`$0$`]`, $\ldots$, `X[`$n-1$`]` (where $n$ is the smallest integer such that `Xvalid[`$n$`]`$=0$) to   locations `Tape[`$1$`]` , $\ldots$, `Tape[`$n$`]` can be done by a simple loop, and we can use a similar loop at the end to copy the tape into the `Y` array (marking where to stop using `Yvalid`).
 Since every step of the main loop of the above program perfectly mimics the computation of the Turing Machine $M$ as `ComputeM` computes the transition of the Turing Machine, and the program carries out exactly the definition of computation by a Turing Machine as per [TM-def](){.ref}.
 
-For the other direction, suppose that $P$ is a (standard) NAND++ program with $s$ lines, $\ell$ scalar variables, and $\ell'$ array variables. We will show that there exists a Turing machine $M_P$ with $2^\ell+C$ states and alphabet $\Sigma$ of size $C' + 2^{\ell'}$ that computes the same functions as $P$ (where $C$, $C'$ are some constants to be determined later).
+For the other direction, suppose that $P$ is a (standard) NAND-TM program with $s$ lines, $\ell$ scalar variables, and $\ell'$ array variables. We will show that there exists a Turing machine $M_P$ with $2^\ell+C$ states and alphabet $\Sigma$ of size $C' + 2^{\ell'}$ that computes the same functions as $P$ (where $C$, $C'$ are some constants to be determined later).
 >
 Specifically, consider the function $\overline{P}:\{0,1\}^\ell \times \{0,1\}^{\ell'} \rightarrow \{0,1\}^\ell \times \{0,1\}^{\ell'}$ that on input the contents of $P$'s  scalar variables and the contents of the array variables at location `i` in the beginning of an iteration, outputs all the new values of these variables at the end of the iteration.
 We can assume without loss of generality that $P$ contains the variables `indexincreasing`, `Atzero` and `Visited` as we've seen before, and so we can compute whether `i` will increase or decrease based on the state of these variables.
@@ -891,24 +891,24 @@ The overall operation of the Turing machine will be as follows:
 The above is not a full formal description of a Turing Machine, but our goal is just to show that such a machine exists. One can see that $M_P$ simulates every step of $P$, and hence computes the same function as $P$.
 :::
 
-::: {.remark title="Turing Machines and NAND++ programs" #tmsandnandpp}
-Once you understand the definitions of both NAND++ programs and Turing Machines, [TM-equiv-thm](){.ref} is fairly straightforward.
-Indeed, NAND++ programs are not as much a different model from Turing Machines as a reformulation of the same model in programming language notation.
+::: {.remark title="Turing Machines and NAND-TM programs" #tmsandnandpp}
+Once you understand the definitions of both NAND-TM programs and Turing Machines, [TM-equiv-thm](){.ref} is fairly straightforward.
+Indeed, NAND-TM programs are not as much a different model from Turing Machines as a reformulation of the same model in programming language notation.
 >
-Specifically, NAND++ programs correspond to a type of Turing Machines known as _single tape oblivious Turing machines_.
+Specifically, NAND-TM programs correspond to a type of Turing Machines known as _single tape oblivious Turing machines_.
 :::
 
 
 ::: {.remark title="Running time equivalence (optional)" #polyequivrem}
-If we examine the proof of [TM-equiv-thm](){.ref} then we can see  that the equivalence between NAND++ programs and Turing machines is up to polynomial overhead in the number of steps required to compute the function.
+If we examine the proof of [TM-equiv-thm](){.ref} then we can see  that the equivalence between NAND-TM programs and Turing machines is up to polynomial overhead in the number of steps required to compute the function.
 
-Specifically, in the Transformation of a NAND++ program to a Turing machine we used one step of the machine to compute one iteration of the NAND++ program, and so if the NAND++ program $P$ took $T$ iterations to compute the function $F$ on some input $x\in \{0,1\}^n$ and $|F(x)|=m$, then the number of steps that the Turing machine $M_P$ takes is $O(T+n+m)$ (where the extra $O(n+m)$ is to copy the input and output).
-In the other direction, our program to simulate a machine $M$  took one iteration to simulate a step of $M$, but we used some syntactic sugar, and in particular allowed ourself to use an _enhanced_ NAND++ program.
+Specifically, in the Transformation of a NAND-TM program to a Turing machine we used one step of the machine to compute one iteration of the NAND-TM program, and so if the NAND-TM program $P$ took $T$ iterations to compute the function $F$ on some input $x\in \{0,1\}^n$ and $|F(x)|=m$, then the number of steps that the Turing machine $M_P$ takes is $O(T+n+m)$ (where the extra $O(n+m)$ is to copy the input and output).
+In the other direction, our program to simulate a machine $M$  took one iteration to simulate a step of $M$, but we used some syntactic sugar, and in particular allowed ourself to use an _enhanced_ NAND-TM program.
 A careful examination of the proof of [enhancednandequivalence](){.ref} shows that our transformation of an enhanced to a standard NAND++ (using the "breadcrumbs" and "wait for the bus" strategies) would at the worst case expand $T$ iterations into $O(T^2)$ iterations.
 This turns out the most expensive step of all the other syntactic sugar we used.
-Hence if the Turing machine $M$ takes $T$ steps to compute $F(x)$ (where $|x|=n$ and $|F(x)|=m$) then the (standard) NAND++ program $P_M$ will take $O(T^2+n+m)$ steps to compute $F(x)$.
+Hence if the Turing machine $M$ takes $T$ steps to compute $F(x)$ (where $|x|=n$ and $|F(x)|=m$) then the (standard) NAND-TM program $P_M$ will take $O(T^2+n+m)$ steps to compute $F(x)$.
 We will come back to this question of measuring number of computation steps later in this course.
-For now the main take away point is that NAND++ programs and Turing Machines are roughly equivalent in power even when taking running time into account.
+For now the main take away point is that NAND-TM programs and Turing Machines are roughly equivalent in power even when taking running time into account.
 :::
 
 
@@ -920,40 +920,40 @@ For now the main take away point is that NAND++ programs and Turing Machines are
 ## Uniformity, and NAND vs NAND++ (discussion)
 
 
-While NAND++ adds an extra operation over NAND, it is not exactly accurate to say that NAND++ programs are "more powerful" than NAND programs.
-NAND programs, having no loops, are simply not applicable for computing functions with more inputs than they have lines.
+While NAND++ adds an extra operation over NAND, it is not exactly accurate to say that NAND-TM programs are "more powerful" than NAND-CIRC programs.
+NAND-CIRC programs, having no loops, are simply not applicable for computing functions with more inputs than they have lines.
 The key difference between NAND and NAND++ is that NAND++ allows us to express the fact that the algorithm for computing parities of length-$100$ strings is really the same one as the algorithm for computing parities of length-$5$ strings (or similarly the fact that the algorithm for adding $n$-bit numbers is the same for every $n$, etc.).
-That is, one can think of the NAND++ program for general parity as the "seed" out of which we can grow NAND programs for length $10$, length $100$, or length $1000$ parities as needed.
+That is, one can think of the NAND-TM program for general parity as the "seed" out of which we can grow NAND-CIRC programs for length $10$, length $100$, or length $1000$ parities as needed.
 This notion of a single algorithm that can compute functions of all input lengths is known as _uniformity_ of computation and hence we think of NAND++ as  _uniform_ model of computation, as opposed to NAND which is a _nonuniform_ model, where we have to specify a different program for every input length.
 
 
-Looking ahead, we will see that this uniformity leads to another crucial difference between NAND++ and NAND programs.
-NAND++ programs can have inputs and outputs that are longer than the description of the program and in particular we can have a NAND++ program that "self replicates" in the sense that it can print its own code.
+Looking ahead, we will see that this uniformity leads to another crucial difference between NAND++ and NAND-CIRC programs.
+NAND-TM programs can have inputs and outputs that are longer than the description of the program and in particular we can have a NAND-TM program that "self replicates" in the sense that it can print its own code.
 This notion of "self replication", and the related notion of "self reference" is crucial to many aspects of computation, as well  of course to life itself, whether in the form of digital or biological programs.
 
 For now, what you ought to remember is the following differences between _uniform_ and _non uniform_ computational models:
 
-* __Non uniform computational models:__ Examples are _NAND programs_ and _Boolean circuits_. These are models where each individual program/circuit can compute a _finite_ function $F:\{0,1\}^n \rightarrow \{0,1\}^m$. We have seen that _every_ finite function can be computed by _some_ program/circuit.
+* __Non uniform computational models:__ Examples are _NAND-CIRC programs_ and _Boolean circuits_. These are models where each individual program/circuit can compute a _finite_ function $F:\{0,1\}^n \rightarrow \{0,1\}^m$. We have seen that _every_ finite function can be computed by _some_ program/circuit.
 To discuss computation of an _infinite_ function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ we need to allow a _sequence_ $\{ P_n \}_{n\in \N}$ of programs/circuits (one for every input length), but this does not capture the notion of a _single algorithm_ to compute the function $F$.
 
-* __Uniform computational models:__ Examples are (standard or enhanced) _NAND++ programs_ and _Turing Machines_. These are model where a single program/machine can take inputs of _arbitrary length_ and hence compute an _infinite_ function $F:\{0,1\}^* \rightarrow \{0,1\}^*$.
+* __Uniform computational models:__ Examples are (standard or enhanced) _NAND-TM programs_ and _Turing Machines_. These are model where a single program/machine can take inputs of _arbitrary length_ and hence compute an _infinite_ function $F:\{0,1\}^* \rightarrow \{0,1\}^*$.
 The number of steps that a program/machine takes on some input is not a priori bounded in advance and in particular there is a chance that it will enter into an _infinite loop_.
-Unlike the nonuniform case, we have _not_ shown that every infinite function can be computed by some NAND++ program/Turing Machine. We will come back to this point in [chapcomputable](){.ref}.
+Unlike the nonuniform case, we have _not_ shown that every infinite function can be computed by some NAND-TM program/Turing Machine. We will come back to this point in [chapcomputable](){.ref}.
 
 <!--
 
 ### Growing a NAND tree
 
 
-If $P$ is a NAND++ program and $n,T\in \N$ are some numbers, then we can easily obtain a NAND program $P'=expand_{T,n}(P)$ that, given any $x\in \{0,1\}^n$, runs $T$ loop iterations of the program $P$ and outputs the result.
+If $P$ is a NAND-TM program and $n,T\in \N$ are some numbers, then we can easily obtain a NAND-CIRC program $P'=expand_{T,n}(P)$ that, given any $x\in \{0,1\}^n$, runs $T$ loop iterations of the program $P$ and outputs the result.
 If $P$ is a simple program, then we are guaranteed that, if $P$ does not enter an infinite loop on $x$, then as long as we make $T$ large enough, $P'(x)$ will equal $P(x)$.
-To obtain the program $P'$ we can simply place $T$ copies of the program $P$ one after the other, doing a "search and replace" in the $k$-th copy of any instances of `_i` with the value $index(k)$, where the function $index$ is defined as in [eqindex](){.eqref}. For example, [expandnandpng](){.ref} illustrates  the expansion of the  NAND++ program for parity.
+To obtain the program $P'$ we can simply place $T$ copies of the program $P$ one after the other, doing a "search and replace" in the $k$-th copy of any instances of `_i` with the value $index(k)$, where the function $index$ is defined as in [eqindex](){.eqref}. For example, [expandnandpng](){.ref} illustrates  the expansion of the  NAND-TM program for parity.
 
 
-![The circuit corresponding to a  NAND program for parity obtained by expanding the NAND++ program](../figure/paritynandppcircuit.png){#expandnandpng .class width=300px height=300px}
+![The circuit corresponding to a  NAND-CIRC program for parity obtained by expanding the NAND-TM program](../figure/paritynandppcircuit.png){#expandnandpng .class width=300px height=300px}
 
 We can also obtain such an expansion by using the `for .. do { .. }` syntactic sugar.
-For example, the NAND program below corresponds to running the parity program for 17 iterations, and computing $XOR_5:\{0,1\}^5 \rightarrow \{0,1\}$. Its standard "unsweetened" version will have $17 \cdot 10$ lines.^[This is of course not the most efficient way to compute $XOR_5$. Generally, the NAND program to compute $XOR_n$ obtained by expanding out the  NAND++ program will require $\Theta(n^2)$ lines, as opposed to the $O(n)$ lines that is possible to achieve directly in NAND. However, in most cases this difference will not be so crucial for us.]
+For example, the NAND-CIRC program below corresponds to running the parity program for 17 iterations, and computing $XOR_5:\{0,1\}^5 \rightarrow \{0,1\}$. Its standard "unsweetened" version will have $17 \cdot 10$ lines.^[This is of course not the most efficient way to compute $XOR_5$. Generally, the NAND-CIRC program to compute $XOR_n$ obtained by expanding out the  NAND-TM program will require $\Theta(n^2)$ lines, as opposed to the $O(n)$ lines that is possible to achieve directly in NAND. However, in most cases this difference will not be so crucial for us.]
 
 ```python
 for i in [0,1,0,1,2,1,0,1,2,3,2,1,0,1,2,3,4] do {
@@ -975,10 +975,10 @@ seen_i := zero NAND zero
 In particular we have the following theorem
 
 > # {.theorem title="Expansion of NAND++ to NAND" #NANDexpansionthm}
-For every simple NAND++ program $P$ and function $F:\{0,1\}^* \rightarrow \{0,1\}$, if $P$ computes $F$ then for every $n\in\N$ there exists $T\in \N$ such that $expand_{T,n}(P)$ computes $F_n$.
+For every simple NAND-TM program $P$ and function $F:\{0,1\}^* \rightarrow \{0,1\}$, if $P$ computes $F$ then for every $n\in\N$ there exists $T\in \N$ such that $expand_{T,n}(P)$ computes $F_n$.
 
 ```python
-# Expand a NAND++ program and a given time bound T and n to an n-input T-line NAND program
+# Expand a NAND-TM program and a given time bound T and n to an n-input T-line NAND-CIRC program
 def expand(P,T,n):
     result = ""
 
@@ -1001,7 +1001,7 @@ def index(k):
 
 > # {.proof data-ref="NANDexpansionthm"}
 We'll start with a "proof by code". Above is a  Python program `expand` to compute $expand_{T,n}(P)$.
-On  input the code $P$ of a NAND++ program and numbers $T,n$, `expand` outputs the code of the NAND program $P'$ that works on length $n$ inputs and is obtained by running $T$ iterations of $P$:
+On  input the code $P$ of a NAND-TM program and numbers $T,n$, `expand` outputs the code of the NAND-CIRC program $P'$ that works on length $n$ inputs and is obtained by running $T$ iterations of $P$:
 >
 If the original program had $s$ lines, then for every $\ell \in [sT]$, line  $\ell$ in the output of `expand(P,T,n)` corresponds exactly to the line executed in step $\ell$ of the execution $P(x)$.^[In the notation above (as elsewhere),  we index both  lines and steps from $0$.]
 Indeed, in step $\ell$ of the execution of $P(x)$, the line executed is $k=\ell \bmod s$, and line $\ell$ in the output of `expand(P,T,n)` is a copy of line $k$ in $P$.
@@ -1009,7 +1009,7 @@ If that line involved unindexed variables, then it is copied as is in the return
 Otherwise, if it involved the index `_i` then we replace `i` with the current value of $i$.
 Moreover, we replace the variable `validx_i` with either `one` or `zero` depending on whether $i < n$.
 >
-Now, if a simple  NAND++ program $P$ computes some function $F:\{0,1\}^* \rightarrow \{0,1\}$, then for every $x\in \{0,1\}^*$  there is some number $T_P(x)$ such that on input $x$ halts within $T(x)$ iterations of its main loop and outputs $F(x)$.
+Now, if a simple  NAND-TM program $P$ computes some function $F:\{0,1\}^* \rightarrow \{0,1\}$, then for every $x\in \{0,1\}^*$  there is some number $T_P(x)$ such that on input $x$ halts within $T(x)$ iterations of its main loop and outputs $F(x)$.
 Moreover, since $P$ is simple, even if we run it for more iterations than that, the output value will not change.
 For every $n \in \N$, define $T_P(n) = \max_{x\in \{0,1\}^n} T(x)$. Then $P'=expand_{T_P(n),n}(P)$ computes the function $F_n:\{0,1\}^n \rightarrow \{0,1\}$ which is the restriction of $F$ to $\{0,1\}^n$.
 
@@ -1017,16 +1017,16 @@ For every $n \in \N$, define $T_P(n) = \max_{x\in \{0,1\}^n} T(x)$. Then $P'=exp
 
 
 
-## NAND++ Programs as tuples
+## NAND-TM Programs as tuples
 
-Just like we did with NAND programs, we can represent NAND++ programs as tuples.
+Just like we did with NAND-CIRC programs, we can represent NAND-TM programs as tuples.
 A minor difference is that since in NAND++ it makes sense to keep track of indices, we will represent a  variable `foo_`$\expr{j}$ as a pair of numbers $(a,j)$ where $a$ corresponds to the identifier `foo`.
-Thus we will use a 6-tuple of the form $(a,j,b,k,c,\ell)$ to represent each line of the form `foo_`$\expr{j}$ ` := ` `bar_`$\expr{k}$ ` NAND ` `baz_`$\expr{\ell}$, where $a,b,c$ correspond to the variable identifiers `foo`, `bar` and `baz` respectively.^[This difference between three tuples and six tuples is made for convenience and is not particularly important. We could have also  represented NAND programs using six-tuples and NAND++ using three-tuples. Also recall that we use the convention that an unindexed variable identifier `foo` is equivalent to `foo_0`.]
-If one of the indices is the special variable `i` then we will use the number $s$ for it where $s$ is the number of lines (as no index is allowed to be this large in a NAND++ program).
-We can now define NAND++ programs in a way analogous to [NANDprogram](){.ref}:
+Thus we will use a 6-tuple of the form $(a,j,b,k,c,\ell)$ to represent each line of the form `foo_`$\expr{j}$ ` := ` `bar_`$\expr{k}$ ` NAND ` `baz_`$\expr{\ell}$, where $a,b,c$ correspond to the variable identifiers `foo`, `bar` and `baz` respectively.^[This difference between three tuples and six tuples is made for convenience and is not particularly important. We could have also  represented NAND-CIRC programs using six-tuples and NAND++ using three-tuples. Also recall that we use the convention that an unindexed variable identifier `foo` is equivalent to `foo_0`.]
+If one of the indices is the special variable `i` then we will use the number $s$ for it where $s$ is the number of lines (as no index is allowed to be this large in a NAND-TM program).
+We can now define NAND-TM programs in a way analogous to [NANDprogram](){.ref}:
 
 > # {.definition title="NAND++" #NANDpp}
-A _NAND++ program_ is a 6-tuple $P=(V,X,Y,VALIDX,LOOP,L)$ of the following form:
+A _NAND-TM program_ is a 6-tuple $P=(V,X,Y,VALIDX,LOOP,L)$ of the following form:
 >
 * $V$ (called the _variable identifiers_) is some finite set.
 >
@@ -1044,26 +1044,26 @@ Moreover $a_t \not\in  \{X,VALIDX\}$ for every $t\in [s]$ and $b_t,c_t \not\in \
 >
 
 > # { .pause }
-This definition is long but ultimately translating a NAND++ program from code to tuples can be done in  a fairly straightforward way. Please read the definition again to see that you can follow this transformation.
-Note that there is a difference between the way we represent NAND++ and NAND programs.
-In NAND programs, we used a different element of $V$ to represent, for example, `x_17` and `x_35`.
+This definition is long but ultimately translating a NAND-TM program from code to tuples can be done in  a fairly straightforward way. Please read the definition again to see that you can follow this transformation.
+Note that there is a difference between the way we represent NAND++ and NAND-CIRC programs.
+In NAND-CIRC programs, we used a different element of $V$ to represent, for example, `x_17` and `x_35`.
 For NAND++ we will represent these two variables by $(X,17)$ and $(X,35)$ respectively where $X$ is the input identifier.
 For this reason, in our definition of NAND++, $X$ is a single element of $V$ as opposed to a tuple of elements as in [NANDprogram](){.ref}.
 For the same reason, $Y$ is a single element and not a tuple as well.
 
-Just as was the case for NAND programs, we can define a _canonical form_ for NAND++ variables.
+Just as was the case for NAND-CIRC programs, we can define a _canonical form_ for NAND++ variables.
 Specifically in the canonical form we will use $V=[t]$ for some $t>3$, $X=0$,$Y=1$,$VALIDX=2$ and $LOOP=3$.
 Moreover, if $P$ is _simple_ in the sense of [simpleNANDpp](){.ref} then we will assume that the `halted` variable is encoded by $4$, and the `indexincreasing` variable is encoded by $5$.
-The canonical form representation of  a NAND++ program is specified simply by a length $s$ list of $6$-tuples of natural numbers $(a,j,b,k,c,\ell)$ where $a,b,c \in [t]$ and $j,k,\ell \in [s+1]$.
+The canonical form representation of  a NAND-TM program is specified simply by a length $s$ list of $6$-tuples of natural numbers $(a,j,b,k,c,\ell)$ where $a,b,c \in [t]$ and $j,k,\ell \in [s+1]$.
 
-Here is a Python code to evaluate a NAND++ program given the list of 6-tuples representation:
+Here is a Python code to evaluate a NAND-TM program given the list of 6-tuples representation:
 
 ```python
 
 ```
 
 ```python
-# Evaluates a  NAND++ program P on input x
+# Evaluates a  NAND-TM program P on input x
 # P is given in the list of tuples representation
 # untested code
 def EVALpp(P,x):
@@ -1098,14 +1098,14 @@ def EVALpp(P,x):
 
 ### Configurations
 
-Just like we did for NAND programs, we can define the notion of a _configuration_ and a _next step function_ for NAND++ programs.
+Just like we did for NAND-CIRC programs, we can define the notion of a _configuration_ and a _next step function_ for NAND-TM programs.
 That is, a configuration of a program $P$ records all the state of $P$ at a given point in the execution, and contains everything we need to know in order to continue from this state.
 The next step function of $P$ maps a configuration of $P$ into the configuration that occurs after executing one more line of $P$.
 
 > # { .pause }
-Before reading onwards, try to think how _you_ would define the notion of a configuration of a NAND++ program.
+Before reading onwards, try to think how _you_ would define the notion of a configuration of a NAND-TM program.
 
-While we can define configurations in full generality, for concreteness we will restrict our attention to configurations of "simple" programs NAND++ programs in the sense of [simpleNANDpp](){.ref}, that are given in a canonical form.
+While we can define configurations in full generality, for concreteness we will restrict our attention to configurations of "simple" programs NAND-TM programs in the sense of [simpleNANDpp](){.ref}, that are given in a canonical form.
 Let $P$ be a canonical form simple program, represented as a list of $6$ tuples $L=((a_0,j_0,b_0,k_0,c_0,\ell_0),\ldots,(a_{s-1},j_{s-1},b_{s-1},k_{s-1},c_{s-1},\ell_{s-1}))$.
 Let $s$ be the number of lines and $t$ be one more than the largest number appearing among the $a$'s, $b$'s or $c$'s.
 
@@ -1122,7 +1122,7 @@ Each block $\sigma^i$ will be a string of length $B$ (for some constant $B$ depe
 
 
 > # {.remark title="High level points about configurations" #configdetails}
-For the sake of completeness, we will describe below precisely how  configurations of NAND++ programs and the next-step function are defined.
+For the sake of completeness, we will describe below precisely how  configurations of NAND-TM programs and the next-step function are defined.
 However, the details are as important as the high level points, which are the following:
 A configuration encodes all the information of the state of the program at a given step in the computation, including the values of all variables (both the Boolean variables and the special index variable `i`) and the current line number that is to be executed.
 The next step function of a program $P$ updates that configuration by computing one line of the program, and updating the value of the variable that is assigned a value in this program.
@@ -1131,7 +1131,7 @@ If the line is the last one in the program, the next step function also determin
 
 
 
-We now describe a precise encoding for the configurations of a NAND++ program.
+We now describe a precise encoding for the configurations of a NAND-TM program.
 Many of the choices below are made for convenience and other choices would be just as valid.
 We will think of encoding each block as using the alphabet $\Sigma = \{ \mathtt{BB}, \mathtt{EB}, 0 , 1 \}$. ($\mathtt{BB}$ and $\mathtt{EB}$ stand for "begin block" and "end block" respectively; we can later encode this as a binary string using the map $0 \mapsto 00, 1\mapsto 11, \mathtt{BB} \mapsto 01, \mathtt{EB} \mapsto 10$.)
 In this alphebt $\Sigma$, every block $\sigma^i$ will have the form
@@ -1156,17 +1156,17 @@ Note that in the alphabet $\Sigma$, our encoding takes $2$ symbols for $\mathtt{
 Hence in the binary alphabet, each block $\sigma^i$ will be encoded as a string of length $B=2(5+t+\log(\ceil{s+1}))$ bits, and a configuration will be encoded as a binary string of length $(r+1)B$ where $r$ is the largest index that the variable `i` has reached so far in the execution.
 See [configurationsnandpppng](){.ref} for an illustration of the configuration.
 
-![A configuration of an $s$-line $t$-variable simple NAND++ program can be encoded as a string in $\{0,1\}^{rB}$, the $i$-th block encodes the value of all variables of the form `foo_`$\expr{i}$, as well as whether the block is first, last or active in the sense that `i`=$i$ and in the latter case, also the index of the current line being executed.](../figure/nandppconfiguration.png){#configurationsnandpppng .class width=300px height=300px}
+![A configuration of an $s$-line $t$-variable simple NAND-TM program can be encoded as a string in $\{0,1\}^{rB}$, the $i$-th block encodes the value of all variables of the form `foo_`$\expr{i}$, as well as whether the block is first, last or active in the sense that `i`=$i$ and in the latter case, also the index of the current line being executed.](../figure/nandppconfiguration.png){#configurationsnandpppng .class width=300px height=300px}
 
 
-For a simple $s$-line $t$-variable NAND++ program $P$ the _next configuration function_ $NEXT_P:\{0,1\}^* \rightarrow  \{0,1\}^*$ is defined in the natural way.^[We define $NEXT_P$ as a _partial_ function, that is only defined on strings that are valid encoding of a configuration, and in particular have only a single block with its active bit set, and where the initial and final bits are also only set for the first and last block respectively. It is of course possible to extend $NEXT_P$ to be a total function by defining it on invalid configurations in some way.]
+For a simple $s$-line $t$-variable NAND-TM program $P$ the _next configuration function_ $NEXT_P:\{0,1\}^* \rightarrow  \{0,1\}^*$ is defined in the natural way.^[We define $NEXT_P$ as a _partial_ function, that is only defined on strings that are valid encoding of a configuration, and in particular have only a single block with its active bit set, and where the initial and final bits are also only set for the first and last block respectively. It is of course possible to extend $NEXT_P$ to be a total function by defining it on invalid configurations in some way.]
 That is,  on input a configuration $\sigma$, one can compute $\sigma'=NEXT_P(\sigma)$ as follows:
 
 1. Scan the configuration $\sigma$ to find the index $i$ of the active block (block where the _active_ bit is set to $1$) and the current line $p$ that needs to be executed (which is enc). We  denote the new active block and current line in the configuration $\sigma'$ by $(i',p')$.
 
 2. If $p=s$ then this $\sigma$ a halting configuration and $NEXT_p(\sigma) = \sigma$. Otherwise we continue to the following steps:
 
-3.  Execute the line $p$: if the $p$-th tuple in the program is $(a,j,b,k,c,\ell)$ then we update $\sigma$ to $\sigma'$ based on the value of this program. That is,  in the configuration $\sigma'$, we encode the value of of the variable corresponding to $(a,j)$ as the NAND of the values of variables corresponding to  $(b,k)$ and $(c,\ell)$.^[Recall that according to the way we represent NAND++ programs as 6-tuples, if $a$ is the number corresponding to the identifier `foo` then $(a,j)$ corresponds to `foo_`$\expr{j}$ if $j<s$, and corresponds to `foo_`$\expr{i}$ if $j=s$ where $i$ is the current value of the index variable `i`.]
+3.  Execute the line $p$: if the $p$-th tuple in the program is $(a,j,b,k,c,\ell)$ then we update $\sigma$ to $\sigma'$ based on the value of this program. That is,  in the configuration $\sigma'$, we encode the value of of the variable corresponding to $(a,j)$ as the NAND of the values of variables corresponding to  $(b,k)$ and $(c,\ell)$.^[Recall that according to the way we represent NAND-TM programs as 6-tuples, if $a$ is the number corresponding to the identifier `foo` then $(a,j)$ corresponds to `foo_`$\expr{j}$ if $j<s$, and corresponds to `foo_`$\expr{i}$ if $j=s$ where $i$ is the current value of the index variable `i`.]
 
 4. Updating the value of $i$: if $p=s-1$ (i.e., $p$ corresponds to the last line of the program), then we check whether the value of the `loop` or `loop_0` variable (which by our convention is encoded as the variable with index $3$ in the first block) and if so set in $\sigma'$ the value $p'=s$ which corresponds to a halting configuration. Otherwise, $i$ is either incremented and decremented based on  `indexincreasing` (which we can read from the first block). That is, we let $i'$ be either $i+1$ and $i-1$ based on `indexincreasing` and modify the active block in $\sigma'$ to be $i'$. (If $i$ is the final block and $i'=i+1$ then we create a new block and mark it to be the last one.)
 
@@ -1181,7 +1181,7 @@ Here is some Python code for the next step function:
 ```python
 # compute the next-step configuration
 # Inputs:
-# P: NAND++ program in list of 6-tuples representation  (assuming it has an "indexincreasing" variable)
+# P: NAND-TM program in list of 6-tuples representation  (assuming it has an "indexincreasing" variable)
 # conf: encoding of configuration as a string using the alphabet "B","E","0","1".
 def next_step(P,conf):
     s = len(P) # numer of lines
@@ -1238,13 +1238,13 @@ def next_step(P,conf):
 
 ### Deltas
 
-Sometimes it is  easier to keep track of merely the _changes_ (sometimes known as "deltas") in the state of a NAND++ program, rather than the full configuration.
-Since every step of a NAND++ program assigns a value to a single variable, this motivates the following definition:
+Sometimes it is  easier to keep track of merely the _changes_ (sometimes known as "deltas") in the state of a NAND-TM program, rather than the full configuration.
+Since every step of a NAND-TM program assigns a value to a single variable, this motivates the following definition:
 
-> # {.definition title="Modification logs of NAND++ program" #deltas}
-The _modification log_ (or "deltas") of an $s$-line simple NAND++ program $P$ on an input $x\in \{0,1\}^n$ is the string $\Delta$ of length $sT+n$ whose first $n$ bits are equal to $x$ and the last $sT$ bits correspond to the value assigned in each step of the program. That is, for every $i\in [n]$, $\Delta_i=x_i$  and for every $\ell \in [sT]$,  $\Delta_{\ell+n}$ is equal to the value that is assigned by the line executed in step $\ell$ of the execution of $P$ on input $x$, where $T$ is the number of iterations of the loop that $P$ does on input $x$.
+> # {.definition title="Modification logs of NAND-TM program" #deltas}
+The _modification log_ (or "deltas") of an $s$-line simple NAND-TM program $P$ on an input $x\in \{0,1\}^n$ is the string $\Delta$ of length $sT+n$ whose first $n$ bits are equal to $x$ and the last $sT$ bits correspond to the value assigned in each step of the program. That is, for every $i\in [n]$, $\Delta_i=x_i$  and for every $\ell \in [sT]$,  $\Delta_{\ell+n}$ is equal to the value that is assigned by the line executed in step $\ell$ of the execution of $P$ on input $x$, where $T$ is the number of iterations of the loop that $P$ does on input $x$.
 
-If $\Delta$  is the "deltas" of $P$ on input $x \in \{0,1\}^n$, then for every $\ell\in [Ts]$, $\Delta_\ell$  is the same as the value assigned by line $\ell$  of the NAND program $expand_{T',n}(P)$ where $s$ is the number of lines in $P$, and for every $T'$ which is at least the number of loop iterations that $P$ takes on input $x$.
+If $\Delta$  is the "deltas" of $P$ on input $x \in \{0,1\}^n$, then for every $\ell\in [Ts]$, $\Delta_\ell$  is the same as the value assigned by line $\ell$  of the NAND-CIRC program $expand_{T',n}(P)$ where $s$ is the number of lines in $P$, and for every $T'$ which is at least the number of loop iterations that $P$ takes on input $x$.
 
 > # {.remark title="Snapshots and deltas: what you need to remember" #snapshotsremark}
 The details of the definitions of configuration and deltas are not as important as the main points which are: \
@@ -1261,10 +1261,10 @@ Both configurations and Deltas are technical ways to capture the fact that compu
 
 
 > # { .recap }
-* NAND++ programs introduce the notion of _loops_, and allow us to capture a single algorithm that can evaluate functions of any input length.
-* Enhanced NAND++ programs, which allow control on the index variable `i`, are equivalent in power to standard NAND++ programs.
-* NAND++ programs are also equivalent in power to _Turing machines_.
-* Running a NAND++ program for any finite number of steps corresponds to a NAND program. However, the key feature of NAND++ is that the number of iterations can depend on the input, rather than being a fixed upper bound in advance.
+* NAND-TM programs introduce the notion of _loops_, and allow us to capture a single algorithm that can evaluate functions of any input length.
+* Enhanced NAND-TM programs, which allow control on the index variable `i`, are equivalent in power to standard NAND-TM programs.
+* NAND-TM programs are also equivalent in power to _Turing machines_.
+* Running a NAND-TM program for any finite number of steps corresponds to a NAND-CIRC program. However, the key feature of NAND++ is that the number of iterations can depend on the input, rather than being a fixed upper bound in advance.
 
 ## Exercises
 
@@ -1274,8 +1274,8 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 
 
 
-::: {.exercise title="Well formed NAND++ programs" #standardnoabsoluteindexex}
-Complete  [noabsoluteindexex](){.ref} in the vanilla  NAND++ case to give a full proof that for every standard (i.e., non-enahanced) NAND++ program $P$ there exists a standard NAND++ program $P'$  such that $P'$ is well formed and  $P'$ is equivalent to $P$.
+::: {.exercise title="Well formed NAND-TM programs" #standardnoabsoluteindexex}
+Complete  [noabsoluteindexex](){.ref} in the vanilla  NAND++ case to give a full proof that for every standard (i.e., non-enahanced) NAND-TM program $P$ there exists a standard NAND-TM program $P'$  such that $P'$ is well formed and  $P'$ is equivalent to $P$.
 :::
 
 

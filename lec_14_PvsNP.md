@@ -39,7 +39,7 @@ So, as the saying goes, we'll keep an open mind, but not so open that our brains
 
 and
 
- * She does not "pussyfoot around" or take "half measures". If God  decided to make $3SAT$ _easy_, then $3SAT$ will have a $10^6\cdot n$ (or at worst $10^6 n^2$) -time algorithm (i.e., $3SAT$ will be in $TIME(cn)$ or $TIME(cn^2)$  for a not-too-large constant $c$). If she decided to make $3SAT$ _hard_, then for every $n \in \N$, $3SAT$ on $n$ variables cannot be solved by a NAND program of fewer than $2^{10^{-6}n}$ lines.^[Using the relations we've seen between $SIZE(T(n))$  and $TIME(T(n))$ (i.e., [non-uniform-thm](){.ref}), $3SAT \not\in SIZE(T(n))$ then it is also in $TIME(T(n)^\epsilon)$ for some constant $\epsilon$ that can be shown to be at least $1/5$.]
+ * She does not "pussyfoot around" or take "half measures". If God  decided to make $3SAT$ _easy_, then $3SAT$ will have a $10^6\cdot n$ (or at worst $10^6 n^2$) -time algorithm (i.e., $3SAT$ will be in $TIME(cn)$ or $TIME(cn^2)$  for a not-too-large constant $c$). If she decided to make $3SAT$ _hard_, then for every $n \in \N$, $3SAT$ on $n$ variables cannot be solved by a NAND-CIRC program of fewer than $2^{10^{-6}n}$ lines.^[Using the relations we've seen between $SIZE(T(n))$  and $TIME(T(n))$ (i.e., [non-uniform-thm](){.ref}), $3SAT \not\in SIZE(T(n))$ then it is also in $TIME(T(n)^\epsilon)$ for some constant $\epsilon$ that can be shown to be at least $1/5$.]
 
 
 So far, most of our evidence points to the latter possibility of 3SAT being exponentially hard, but we have not ruled out the former possibility either.
@@ -284,13 +284,13 @@ $$
 and so on and so forth.
 
 
-For example, given an $n$-input NAND program $P$, we might want to find the _smallest_ NAND program $P'$ that  computes the same function as $P$.
+For example, given an $n$-input NAND-CIRC program $P$, we might want to find the _smallest_ NAND-CIRC program $P'$ that  computes the same function as $P$.
 The question of whether there is such a $P'$ that can be described by a string of at most $s$ bits can be phrased as
 
 $$
 \exists_{P' \in \{0,1\}^{s}} \forall_{x\in \{0,1\}^n} P(x)=P'(x) \label{circmineq}
 $$
-which has the form [existsforalleq](){.eqref}.^[Since NAND programs are equivalent to Boolean circuits, the search problem  corresponding to [circmineq](){.eqref}  known as the [circuit minimization problem](https://goo.gl/iykqbh)  and is widely studied in Engineering.
+which has the form [existsforalleq](){.eqref}.^[Since NAND-CIRC programs are equivalent to Boolean circuits, the search problem  corresponding to [circmineq](){.eqref}  known as the [circuit minimization problem](https://goo.gl/iykqbh)  and is widely studied in Engineering.
 You can skip ahead to [selfimprovingsat](){.ref} to see a particularly complelling application of this.]
 Another example of a statement involving $a$ levels of quantifiers would be to check, given a chess position $x$, whether there is a strategy that guarantees that White wins within $a$ steps.
 For example is $a=3$ we woud want to check if given the borad position $x$, _there exists_ a move $y$ for White such that _for every_ move $z$ for Black _there exists_ a move $w$ for White that ends in a a checkmate.
@@ -365,7 +365,7 @@ We can therefore imagine investing huge computational resources in running $A$ o
 ## Approximating counting problems (advanced, optional)
 
 
-Given a NAND program $P$, if $\mathbf{P}=\mathbf{NP}$ then we can find an input $x$ (if one exists) such that $P(x)=1$. But what if there is more than one $x$ like that?
+Given a NAND-CIRC program $P$, if $\mathbf{P}=\mathbf{NP}$ then we can find an input $x$ (if one exists) such that $P(x)=1$. But what if there is more than one $x$ like that?
 Clearly we can't efficiently output all such $x$'s; there might be exponentially many.
 But we can get an arbitrarily good multiplicative  approximation (i.e., a $1\pm \epsilon$ factor for arbitrarily small $\epsilon>0$) for the  number of such $x$'s, as well as output a (nearly) uniform member of this set.
 We  defer the details to later in this course, when we learn about _randomized computation_.
@@ -442,7 +442,7 @@ Today, many (though not all) mathematicians interpret this result as saying that
 Could the same hold for $\mathbf{P} \neq \mathbf{NP}$?
 
 In short, the answer is _No_.
-For example, suppose that we are trying to decide between the "3SAT is easy" conjecture (there is an $10^6n$ time algorithm for 3SAT) and the "3SAT is hard" conjecture (for every $n$, any NAND program that solves $n$ variable 3SAT takes $2^{10^{-6}n}$ lines). Then, since for  $n = 10^8$, $2^{10^{-6}n} > 10^6 n$, this boils down to the finite question of deciding whether or not there is a $10^{13}$-line NAND program deciding 3SAT on formulas with $10^8$ variables.
+For example, suppose that we are trying to decide between the "3SAT is easy" conjecture (there is an $10^6n$ time algorithm for 3SAT) and the "3SAT is hard" conjecture (for every $n$, any NAND-CIRC program that solves $n$ variable 3SAT takes $2^{10^{-6}n}$ lines). Then, since for  $n = 10^8$, $2^{10^{-6}n} > 10^6 n$, this boils down to the finite question of deciding whether or not there is a $10^{13}$-line NAND-CIRC program deciding 3SAT on formulas with $10^8$ variables.
 If there is such a program then there is a finite proof of its existence, namely the  approximately 1TB file describing the program, and for which the verification is the (finite in principle though infeasible in practice) process of checking that it succeeds on all inputs.^[This inefficiency is not necessarily inherent. Later in this course we may discuss results in program-checking, interactive proofs, and average-case complexity, that can be used for efficient verification of  proofs of related statements. In contrast, the  inefficiency of verifying  _failure_ of all programs could well be inherent.]
 If there isn't such a program, then there is also a finite proof of that, though any such proof would take longer since we would need to enumerate over all _programs_ as well.
 Ultimately, since it boils down to a finite statement about bits and numbers; either the statement or its negation must follow from the standard axioms of arithmetic in a finite number of arithmetic steps.
@@ -499,8 +499,8 @@ This is not surprising since, as we mentioned before, from group theory to the t
 * Our current evidence and understanding supports the "SAT hard" scenario that there is no much-better-than-brute-force algorithm for 3SAT or many other $\mathbf{NP}$-hard problems.
 
 * We are very far from _proving_ this, however. Researchers have studied proving lower bounds on the number of gates to compute explicit functions in _restricted forms_ of circuits, and have made some advances in this effort, along the way generating mathematical tools that have found other uses.
-However, we have made essentially no headway in proving lower bounds for _general_ models of computation such as NAND and NAND++ programs.
-Indeed, we currently do not even know how to rule out the possibility  that for every $n\in \N$, $SAT$ restricted to $n$-length inputs has a NAND program of $10n$ lines (even though there  _exist_  $n$-input functions that require $2^n/(10n)$ lines to compute).
+However, we have made essentially no headway in proving lower bounds for _general_ models of computation such as NAND and NAND-TM programs.
+Indeed, we currently do not even know how to rule out the possibility  that for every $n\in \N$, $SAT$ restricted to $n$-length inputs has a NAND-CIRC program of $10n$ lines (even though there  _exist_  $n$-input functions that require $2^n/(10n)$ lines to compute).
 
 * Understanding how to cope with this computational intractability, and even benefit from it, comprises much of the research in theoretical computer science.
 

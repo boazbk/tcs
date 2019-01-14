@@ -391,7 +391,7 @@ The formal definition is below:
 
 ::: {.definition title="Computational secrecy" #compsecdef}
 Let $(E,D)$ be a valid encryption scheme where for keys of length $n$, the plaintexts are of length $L(n)$ and the ciphertexts are of length $m(n)$.
-We say that $(E,D)$ is _computationally secret_ if for every polynomial $p:\N \rightarrow \N$, and large enough $n$, if $P$ is an $m(n)$-input and single output NAND program of at most $p(n)$ lines, and $x_0,x_1 \in \{0,1\}^{L(n)}$  then
+We say that $(E,D)$ is _computationally secret_ if for every polynomial $p:\N \rightarrow \N$, and large enough $n$, if $P$ is an $m(n)$-input and single output NAND-CIRC program of at most $p(n)$ lines, and $x_0,x_1 \in \{0,1\}^{L(n)}$  then
 
 $$
 \left| \E_{k \sim \{0,1\}^n} [P(E_k(x_0))] -   \E_{k \sim \{0,1\}^n} [P(E_k(x_1))] \right| < \tfrac{1}{p(n)} \label{eqindist}
@@ -441,7 +441,7 @@ To decrypt a string $y \in \{0,1\}^m$ we output $y \oplus G(k)$.
 This is a valid encryption since $G$ is computable in polynomial time and $(x \oplus G(k)) \oplus G(k) = x \oplus (G(k) \oplus G(k))=x$ for every $x\in \{0,1\}^L$.
 
 Computational secrecy follows from the condition of a pseudorandom generator.
-Suppose, towards a contradiction, that there is a polynomial $p$, NAND program $Q$ of at most $p(L)$ lines and  $x,x' \in \{0,1\}^{L(n)}$  such that
+Suppose, towards a contradiction, that there is a polynomial $p$, NAND-CIRC program $Q$ of at most $p(L)$ lines and  $x,x' \in \{0,1\}^{L(n)}$  such that
 $$
 \left| \E_{k \sim \{0,1\}^n}[ Q(E_k(x))] - \E_{k \sim \{0,1\}^n}[Q(E_k(x'))] \right| > \tfrac{1}{p(L)}
 $$
@@ -472,7 +472,7 @@ $$
 \left| \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \E_{r \sim \{0,1\}^L} [ Q(r \oplus x)] \right| > \tfrac{1}{2p(L)} \;. \label{distingprgeq}
 $$
 
-But if we now define the NAND program $P_x$ that on input $r\in \{0,1\}^L$ outputs $Q(r \oplus x)$ then (since XOR of $L$ bits can be computed in $O(L)$ lines), we get that $P_x$ has $p(L)+O(L)$ lines and by [distingprgeq](){.eqref} it can distinguish between an input of the form $G(k)$ and an input of the form $r \sim \{0,1\}^k$ with advantage better than $\tfrac{1}{2p(L)}$.
+But if we now define the NAND-CIRC program $P_x$ that on input $r\in \{0,1\}^L$ outputs $Q(r \oplus x)$ then (since XOR of $L$ bits can be computed in $O(L)$ lines), we get that $P_x$ has $p(L)+O(L)$ lines and by [distingprgeq](){.eqref} it can distinguish between an input of the form $G(k)$ and an input of the form $r \sim \{0,1\}^k$ with advantage better than $\tfrac{1}{2p(L)}$.
 Since a polynomial is dominated by an exponential, if we make $L$ large enough, this will contradict the $(2^{\delta n},2^{-\delta n})$ security of the pseudorandom generator $G$.
 :::
 
@@ -492,7 +492,7 @@ We now give an example of how this can be done:
 ::: {.theorem title="Breaking encryption using $\mathbf{NP}$ algorithm" #breakingcryptowithnp}
 If $\mathbf{P}=\mathbf{NP}$ then there is no computationally secret encryption scheme  with $L(n) > n$.
 
-Furthermore, for every valid encryption scheme $(E,D)$ with $L(n) > n+100$ there is a polynomial $p$ such that for every large enough $n$ there exist $x_0,x_1 \in \{0,1\}^{L(n)}$ and a $p(n)$-line NAND program $EVE$ s.t.
+Furthermore, for every valid encryption scheme $(E,D)$ with $L(n) > n+100$ there is a polynomial $p$ such that for every large enough $n$ there exist $x_0,x_1 \in \{0,1\}^{L(n)}$ and a $p(n)$-line NAND-CIRC program $EVE$ s.t.
 $$
 \Pr_{i \sim \{0,1\}, k \sim \{0,1\}^n}[ EVE(E_k(x_i))=i ] \geq 0.99 \;.
 $$
@@ -613,7 +613,7 @@ A _computationally secret public key encryption_ with plaintext length $L:\N \ri
 
 * For every $n$, if $(e,d)$ is output by $KG(1^n)$ with positive probability, and $x\in \{0,1\}^{L(n)}$, then $D_d(E_e(x))=x$ with probability one.
 
-* For every polynomial $p$, and sufficiently large $n$, if $P$ is a NAND program of at most $p(n)$ lines then for every $x,x'\in \{0,1\}^{L(n)}$, $\left| \E[ P(e,E_e(x))] - \E[P(e,E_e(x'))] \right| < 1/p(n)$, where this probability is taken over the coins of $KG$ and $E$.
+* For every polynomial $p$, and sufficiently large $n$, if $P$ is a NAND-CIRC program of at most $p(n)$ lines then for every $x,x'\in \{0,1\}^{L(n)}$, $\left| \E[ P(e,E_e(x))] - \E[P(e,E_e(x'))] \right| < 1/p(n)$, where this probability is taken over the coins of $KG$ and $E$.
 :::
 
 [publickeyencdef](){.ref} allows $E$ and $D$ to be _randomized_ algorithms.

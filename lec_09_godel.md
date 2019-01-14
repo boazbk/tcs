@@ -19,7 +19,7 @@
 
 
 
-The problems shown uncomputable in  [chapcomputable](){.ref}, while natural and important, still  intimately involved NAND++ programs or other computing mechanisms in their definitions.
+The problems shown uncomputable in  [chapcomputable](){.ref}, while natural and important, still  intimately involved NAND-TM programs or other computing mechanisms in their definitions.
 One could perhaps hope that as long as we steer clear of functions whose inputs are themselves programs, we can avoid the "curse of uncomputability".
 Alas, we have no such luck.
 
@@ -114,7 +114,7 @@ Our algorithm $A$ will  will work as follows:
 ::: {.quote}
 __Algorithm $A$:__
 
-* __Input:__ NAND++ program $P$
+* __Input:__ NAND-TM program $P$
 
 * __Goal:__ Determine if $P$ halts on the input $0$.
 
@@ -278,7 +278,7 @@ In fact the number of variables can be reduced to nine, at the expense of the po
 
 
 ::: {.remark title="Active code vs static data" #codevsstaticrem}
-The difficulty in finding a way to distinguish between "code" such as NAND++ programs, and "static content" such as polynomials is just another manifestation of the phenomenon that _code_ is the same as _data_.
+The difficulty in finding a way to distinguish between "code" such as NAND-TM programs, and "static content" such as polynomials is just another manifestation of the phenomenon that _code_ is the same as _data_.
 While a fool-proof solution for distinguishing between the two is inherently impossible, finding heuristics that do a reasonable job keeps many firewall and anti-virus manufacturers very busy
 (and finding ways to bypass these tools keeps many hackers busy as well).
 :::
@@ -331,7 +331,7 @@ Let $QMS:\{0,1\}^* \rightarrow \{0,1\}$ be the function that given a (string rep
 
 > # {.proofidea data-ref="QMS-thm"}
 The idea behind the proof is similar to that used in showing that one-dimensional cellular automata are Turing complete ([onedimcathm](){.ref}) as well as showing that equivalence (or even "fullness") of context free grammars is uncomputable  ([fullnesscfgdef](){.ref}).
-We use the notion of a _configuration_ of a NAND++ program as in [confignandppdef](){.ref}.
+We use the notion of a _configuration_ of a NAND-TM program as in [confignandppdef](){.ref}.
 Such a configuration can be thought of as a string $\alpha$ over some large-but-finite alphabet $\Sigma$ describing its current state, including the values of all arrays, scalars, and the index variable `i`.
 It can be shown that if $\alpha$ is the configuration at a certain step of the execution and  $\beta$ is the configuration at the next step, then $\beta_j = \alpha_j$ for all $j$ outside of $\{i-1,i,i+1\}$ where $i$ is the value of `i`.
 In particular, every value $\beta_j$ is simply a function of $\alpha_{j-1,j,j+1}$.
@@ -342,10 +342,10 @@ Since a program $P$ halts on input  $x$ if and only if there is a sequence of co
 
 ::: {.proof data-ref="QMS-thm"}
 The proof will be obtained by a reduction from the Halting problem.
-Specifically, we will use the notion of a _configuration_ of a NAND++ program ([confignandppdef](){.ref}) that we have seen in the context of proving that one dimensional cellular automata are Turing complete.
+Specifically, we will use the notion of a _configuration_ of a NAND-TM program ([confignandppdef](){.ref}) that we have seen in the context of proving that one dimensional cellular automata are Turing complete.
 We need the following facts about configurations:
 
-* For every (well formed^[We can always transform a NAND++ program into an equivalent one that is well formed (see [wellformedlem](){.ref}), and hence can assume this property without loss of generality.]) NAND++ program $P$, there is a finite alphabet $\Sigma$, and a _configuration_ of $P$ is a string $\alpha \in \Sigma^*$.
+* For every (well formed^[We can always transform a NAND-TM program into an equivalent one that is well formed (see [wellformedlem](){.ref}), and hence can assume this property without loss of generality.]) NAND-TM program $P$, there is a finite alphabet $\Sigma$, and a _configuration_ of $P$ is a string $\alpha \in \Sigma^*$.
 
 
 * A configuration $\alpha$ encodes all the state of the program at a particular iteration, including the array, scalar, and index variables.
@@ -356,9 +356,9 @@ We need the following facts about configurations:
 
 * A program $P$ halts on input $x$  if and only if there exists a sequence of configurations $H = (\alpha^0,\alpha^1,\ldots,\alpha^{T-1})$ such that __(i)__ $\alpha^0$ is a valid starting configuration of $P$ with  input $x$, __(ii)__ $\alpha^{T-1}$ is a valid halting configuration of $P$, and __(iii)__ $\alpha^{i+1} = NEXT_P(\alpha^i)$ for every $i\in \{0,\ldots,T-2\}$.
 
-Let $U$ be a universal NAND++ program. Such a program exists by  [univnandppnoneff](){.ref}. We define $HALT_U$  as the function such that $HALT_U(w)=1$ if and only if $U$ halts on the input $w$.
+Let $U$ be a universal NAND-TM program. Such a program exists by  [univnandppnoneff](){.ref}. We define $HALT_U$  as the function such that $HALT_U(w)=1$ if and only if $U$ halts on the input $w$.
 We claim that the function $HALT_U$ is uncomputable.
-Indeed, for every NAND++ program $P$ (which we identify with its representation as a string) and input $x\in \{0,1\}^*$ to $P$,  $HALT(P,x) = HALT_U(\langle P,x \rangle)$  where $\langle P,x \rangle$ is some encoding of the pair $(P,x)$ as a string.
+Indeed, for every NAND-TM program $P$ (which we identify with its representation as a string) and input $x\in \{0,1\}^*$ to $P$,  $HALT(P,x) = HALT_U(\langle P,x \rangle)$  where $\langle P,x \rangle$ is some encoding of the pair $(P,x)$ as a string.
 Hence if we could compute $HALT_U$ then we could compute $HALT$, contradicting [halt-thm](){.ref}.
 
 Let $\Sigma$ be the alphabet needed to encode configurations of $U$, and let $\ell = \ceil{\log (|\Sigma|+1)}$.
@@ -439,7 +439,7 @@ Hence the uncomputability of $QMS$  ([QMS-thm](){.ref}) implies the uncomputabil
 
 
 > # { .recap }
-* Uncomputable functions include also functions that seem to have nothing to do with NAND++ programs or other computational models such as determining the satisfiability of diophantine equations.
+* Uncomputable functions include also functions that seem to have nothing to do with NAND-TM programs or other computational models such as determining the satisfiability of diophantine equations.
 * This also implies that for any sound proof system (and in particular every finite axiomatic system) $S$,  there are interesting statements $X$ (namely of the form "$F(x)=0$" for an uncomputable function $F$) such that $S$ is not able to prove either $X$ or its negation.
 
 ## Exercises
@@ -456,13 +456,13 @@ Prove [godelthmqis](){.ref} using  [QIS-thm](){.ref}
 Let $FSQRT(n,m) = \forall_{j \in \N} ((j \times j)>m) \vee (j \leq n)$. Prove that $FSQRT(n,m)$ is true if and only if $n =\floor{\sqrt{m}}$.
 
 > # {.exercise title="Expression for computing the index" #indexexpressionex}
-Recall that in [computeidx-ex](){.ref} asked you to prove that at iteration $t$ of a NAND++ program the  the variable `i` is equal to $t-r(r+1)$ if $t \leq (r+1)^2$ and equals $(r+2)(r+1)t$ otherwise, where $r = \floor{\sqrt{t+1/4}-1/2}$.
+Recall that in [computeidx-ex](){.ref} asked you to prove that at iteration $t$ of a NAND-TM program the  the variable `i` is equal to $t-r(r+1)$ if $t \leq (r+1)^2$ and equals $(r+2)(r+1)t$ otherwise, where $r = \floor{\sqrt{t+1/4}-1/2}$.
 Prove that there is a quantified integer statement $INDEX$ with parameters $t,i$ such that $INDEX(t,i)$ is true if and $i$ is the value of `i` after $t$ iterations.
 
 > # {.exercise title="Expression for computing the previous line" #prevex}
 Give the following quantified integer expressions: \
 1. $MOD(a,b,c)$ which is true if and only if $b = a \mod c$. Note if a program has $s$ lines then  the line executed at step $t$ is equal to $t \mod s$. \
-2. Suppose that $P$ is the  three line NAND program listed below.  Give a quantified integer statement $LAST(n,t,t')$  such that $LAST(t,t')$ is true if and only if $t'-n$ is the largest step smaller than $t-n$ in which the variable on the righthand side of the line executed at step $t-n$ is written to. If this variable is an input variable `x_i` then let $LAST(n,t,t')$ to be true if the current index location equals $t'$ and $t'<n$.
+2. Suppose that $P$ is the  three line NAND-CIRC program listed below.  Give a quantified integer statement $LAST(n,t,t')$  such that $LAST(t,t')$ is true if and only if $t'-n$ is the largest step smaller than $t-n$ in which the variable on the righthand side of the line executed at step $t-n$ is written to. If this variable is an input variable `x_i` then let $LAST(n,t,t')$ to be true if the current index location equals $t'$ and $t'<n$.
 
 ```python
 y_0    := foo_i  NAND foo_i

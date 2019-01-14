@@ -5,7 +5,7 @@
 
 > # { .objectives }
 * Learn about RAM machines and $\lambda$ calculus, which are important models of computation.
-* See the equivalence between these models and NAND++ programs.
+* See the equivalence between these models and NAND-TM programs.
 * See how many other models turn out to be "Turing complete"
 * Understand the Church-Turing thesis.
 
@@ -14,7 +14,7 @@
 
 >_"Because we shall later compute with expressions for functions, we need a distinction between functions and forms and a notation for expressing this distinction. This distinction and a notation for describing it, from which we deviate trivially, is given by Church."_,  John McCarthy, 1960 (in paper describing the LISP programming language)
 
-So far we have defined the notion of computing a  function based on the rather esoteric NAND++ programming language.
+So far we have defined the notion of computing a  function based on the rather esoteric NAND-TM programming language.
 While we have shown this is equivalent with Turing machines, the latter also don't correspond closely to the way computation is typically done these days.
 In this chapter we justify this choice by showing that the definition of computable functions will remain the same under a wide variety of computational models.
 In fact, a widely believed claim known as the _Church-Turing Thesis_ holds that _every_ "reasonable" definition of computable function is equivalent to ours.
@@ -52,12 +52,12 @@ Specifically, we define the _NAND<< programming language_ as follows:
 The full description of the NAND<< programing language is in the appendix.^[One restriction mentioned there is that the integer values in a variable always range between $0$ and $T-1$ where $T$ is the number of steps the program took so far. Hence all the arithmetic operations will "truncate" their results so that the output is in this range. This restriction does not make a difference for any of the discussion in this chapter, but will help us make a more accurate accounting of the running time in the future.] However, the most important fact you need to know about it is the following:
 
 > # {.theorem title="NAND++ (TM's) and NAND<< (RAM) are equivalent" #RAMTMequivalencethm}
-For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND++ program if and only if $F$ is computable by a NAND<< program.
+For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND-TM program if and only if $F$ is computable by a NAND<< program.
 
 
 ::: {.proofidea data-ref="RAMTMequivalencethm"}
-Clearly NAND<< is only more  powerful  than NAND++, and so if a function $F$ is computable by a NAND++ program then it can be computed by a NAND<< program.
-The challenging direction is of course to transform a NAND<< program $P$ to an equivalent NAND++ program $Q$.
+Clearly NAND<< is only more  powerful  than NAND++, and so if a function $F$ is computable by a NAND-TM program then it can be computed by a NAND<< program.
+The challenging direction is of course to transform a NAND<< program $P$ to an equivalent NAND-TM program $Q$.
 To describe the proof in full we will need to cover the full formal specification of the NAND<< language, and show how we can implement every one of its features as syntactic sugar on top of NAND++.
 
 This can be done but going over all the operations in detail is rather tedious. Hence we will focus on describing the main ideas behind this transformation.
@@ -131,7 +131,7 @@ Specifically, the following map $embed$ would do (see [pairingfuncfig](){.ref}):
 
 $$embed(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+x\;\;.$$
 
-We ask you to prove that $embed$ is indeed one to one, as well as computable by a NAND++ program, in [pair-ex](){.ref}.
+We ask you to prove that $embed$ is indeed one to one, as well as computable by a NAND-TM program, in [pair-ex](){.ref}.
 
 ![Illustration of the map $embed(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+x$ for $x,y \in [10]$, one can see that for every distinct pairs $(x,y)$ and $(x',y')$, $embed(x,y) \neq embed(x',y')$. ](../figure/pairing_function.png){#pairingfuncfig .class width=300px height=300px}
 
@@ -148,7 +148,7 @@ Computing `embed` is left for you the reader as [pair-ex](){.ref}, but let us hi
 ### All the rest
 
 Once we have two dimensional arrays and indexed access, simulating NAND<< with NAND++ is just a matter of implementing the standard algorithms for arithmetic operations and comparators in NAND++.
-While this is cumbersome, it is not difficult, and the end result is to show that every NAND<< program $P$ can be simulated by an equivalent NAND++ program $Q$, thus completing the proof of [RAMTMequivalencethm](){.ref}.
+While this is cumbersome, it is not difficult, and the end result is to show that every NAND<< program $P$ can be simulated by an equivalent NAND-TM program $Q$, thus completing the proof of [RAMTMequivalencethm](){.ref}.
 
 
 ### Turing equivalence (discussion)
@@ -162,7 +162,7 @@ Any of the  standard programming language such as `C`, `Java`, `Python`, `Pascal
 (Indeed, ultimately they can all be executed by machines which have a fixed number of registers and a large memory array.)
 Hence using [RAMTMequivalencethm](){.ref}, we can simulate any program in such a programming language by a NAND++  program.
 In the other direction, it is a fairly easy programming exercise to write an interpreter for NAND++ in any of the above programming languages.
-Hence we can also simulate NAND++ programs (and so by [TM-equiv-thm](){.ref}, Turing machines) using these programming languages.
+Hence we can also simulate NAND-TM programs (and so by [TM-equiv-thm](){.ref}, Turing machines) using these programming languages.
 This property of being equivalent in power to Turing Machines / NAND++ is called _Turing Equivalent_ (or sometimes _Turing Complete_).
 Thus all programming languages we are familiar with are Turing equivalent.^[Some programming language have hardwired fixed (even if extremely large) bounds on the amount of memory they can access, which formally prevent them from being applicable to computing infinite functions and hence simulating Turing machines. We ignore such issues in this discussion and assume access to some storage device without a fixed upper bound on its capacity.]
 
@@ -264,7 +264,7 @@ Hence, in cases where the precise representation doesn't make a difference, we w
 The [$\lambda$ calculus](https://goo.gl/B9HwT8) is another way to define computable functions.
 It was proposed by Alonzo Church in the 1930's around the same time as Alan Turing's proposal of the Turing Machine.
 Interestingly, while Turing Machines are not used for practical computation,  the $\lambda$ calculus has inspired functional programming languages such as LISP, ML and Haskell, and  indirectly the development of many other programming languages as well.
-In this section we will present the $\lambda$ calculus and show that its power is equivalent to NAND++ programs (and hence also to Turing machines).
+In this section we will present the $\lambda$ calculus and show that its power is equivalent to NAND-TM programs (and hence also to Turing machines).
 An [online appendix](https://github.com/boazbk/nandnotebooks/blob/master/lambda.ipynb) contains a Jupyter notebook with a Python implementation of the $\lambda$ calculus that you can experiment with to get a better feel for this topic.
 
 
@@ -525,10 +525,10 @@ The basic operations of of the enhanced $\lambda$ calculus more or less amount t
 Given that, it is perhaps not surprising that the  enhanced $\lambda$-calculus is equivalent to NAND++:
 
 > # {.theorem title="Lambda calculus and NAND++" #lambdaturing-thm}
-For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable in the enhanced $\lambda$ calculus if and only if it is computable by a NAND++ program.
+For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable in the enhanced $\lambda$ calculus if and only if it is computable by a NAND-TM program.
 
 ::: {.proofidea data-ref="lambdaturing-thm"}
-To prove the theorem, we need to show that __(1)__ if $F$ is computable by a $\lambda$ calculus expression then it is computable by a NAND++ program, and __(2)__ if $F$ is computable by a NAND++ program, then it is computable by an enhanced $\lambda$ calculus expression.
+To prove the theorem, we need to show that __(1)__ if $F$ is computable by a $\lambda$ calculus expression then it is computable by a NAND-TM program, and __(2)__ if $F$ is computable by a NAND-TM program, then it is computable by an enhanced $\lambda$ calculus expression.
 
 Showing __(1)__ is fairly straightforward. Applying the simplification rules to a $\lambda$ expression basically amounts to "search and replace" which we can implement easily in, say, NAND<<, or for that matter Python (both of which are equivalent to NAND++ in power).
 Showing __(2)__ essentially amounts to writing a NAND++ interpreter in a functional programming language such as LISP  or Scheme. Showing how this can be done is a good exercise in mastering some functional programming techniques that are useful in their own right.
@@ -538,13 +538,13 @@ Showing __(2)__ essentially amounts to writing a NAND++ interpreter in a functio
 
 
 ::: {.proof data-ref="lambdaturing-thm"}
-We only sketch the proof. The "if" direction is simple. As mentioned above, evaluating $\lambda$ expressions basically amounts to "search and replace". It is also a fairly straightforward programming exercise to implement all the above basic operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND<< as well, which we can then transform to a NAND++ program.
+We only sketch the proof. The "if" direction is simple. As mentioned above, evaluating $\lambda$ expressions basically amounts to "search and replace". It is also a fairly straightforward programming exercise to implement all the above basic operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND<< as well, which we can then transform to a NAND-TM program.
 
-For the "only if" direction, we need to simulate a NAND++ program using a $\lambda$ expression.
+For the "only if" direction, we need to simulate a NAND-TM program using a $\lambda$ expression.
 First, by [NANDlambdaex](){.ref} we can compute the $NAND$ function, and hence _every_ finite function, using the $\lambda$ calculus.
 Thus the main task boils down to simulating the _arrays_ of NAND++ using the _lists_ of the enhanced λ calculus.
 
-We will encode each array `A` of NAND++ program by a list $L$ of the NAND program.
+We will encode each array `A` of NAND-TM program by a list $L$ of the NAND-CIRC program.
 For the index variable `i`, we will have a special list $I$ that has $1$ only in the location corresponding to the value of `i`.
 To simulate moving `i` to the left, we need to remove the first item from the list, while to simulate moving `i` to the right, we add a zero to the head of list.^[In fact, it will be convenient for us to make sure all lists are of the same length, and so at the end of each step we will add a sufficient number of zeroes to the end of each list. This can be done with a simple `REDUCE` operation.]
 
@@ -557,7 +557,7 @@ Once we have $zip$, we can implement $get$ by applying an appropriate $REDUCE$ o
 
 Setting the list $L$ at the $i$-th location to a certain value requires computing the function $set(I,L,v)$ that outputs a list $L'$ such that $L'_j = L_j$ if $I_j = 0$ and $L'_j  = v$ otherwise. The function $set$ can be implemented by applying $MAP$ with an appropriate operator to the list $zip(I,L)$.
 
-We omit the full details of implementing $set$, $get$, but the bottom line is that for every NAND++ program $P$, we can obtain a λ expression $NEXT_P$ such that, if we let $\sigma = (loop,foo,bar,\ldots,I,X,Xvalid,Y,Yvalid,Baz,Blah,\ldots)$ be the set of Boolean values and lists that encode the current state of $P$ (with a list for each array and for the index variable `i`), then $NEXT_P \sigma$ will encode the state after performing one iteration of $P$.
+We omit the full details of implementing $set$, $get$, but the bottom line is that for every NAND-TM program $P$, we can obtain a λ expression $NEXT_P$ such that, if we let $\sigma = (loop,foo,bar,\ldots,I,X,Xvalid,Y,Yvalid,Baz,Blah,\ldots)$ be the set of Boolean values and lists that encode the current state of $P$ (with a list for each array and for the index variable `i`), then $NEXT_P \sigma$ will encode the state after performing one iteration of $P$.
 
 Now we can use the following "pseudocode" to simulate the program $P$.
 The function $SIM_P$ will obtain an encoding $\sigma_0$ of the initial state of $P$, and output the encoding $\sigma^*$ of the state of $P$ after it halts.
@@ -785,7 +785,7 @@ Hence finding a _fixed point_ for $myXOR$ is the same as applying $RECURSE$ to i
 
 
 ::: {.remark title="Infinite loops in the λ calculus" #infiniteloops}
-The fact that $\lambda$-expressions can simulate NAND++ programs means that, like them, it can also enter into an infinite loop.
+The fact that $\lambda$-expressions can simulate NAND-TM programs means that, like them, it can also enter into an infinite loop.
 For example, consider the $\lambda$ expression
 
 $$
@@ -843,7 +843,7 @@ If we initialize the system in a configuration with a finite number of live cell
 
 We can think of such a system as encoding a computation by starting it in some initial configuration, and then defining some halting condition (e.g., we halt if the cell at position $(0,0)$ becomes dead) and some way to define an output (e.g., we output the state of the cell at position $(1,1)$).
 Clearly, given any starting configuration $x$, we can simulate the game of life starting from $x$ using a NAND<< (or NAND++) program, and hence every "Game-of-Life computable" function is computable by a NAND<< program.
-Surprisingly, it turns out that the other direction is true as well: as simple as its rules seem, we can simulate a NAND++ program using the game of life (see [golfig](){.ref}).
+Surprisingly, it turns out that the other direction is true as well: as simple as its rules seem, we can simulate a NAND-TM program using the game of life (see [golfig](){.ref}).
 The [Wikipedia page](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) for the Game of Life contains some beautiful figures and animations of  configurations that produce some very interesting evolutions.
 See also the book [The Nature of Computation](http://nature-of-computation.org/).
 
@@ -873,14 +873,14 @@ In other words, the next state of the automaton $r$ at point $i$ obtained by app
 :::
 
 ::: {.theorem title="One dimensional automata are Turing complete" #onedimcathm}
-For every NAND++ program $P$,  there is a one dimension cellular automaton that can simulate $P$ on every input $x$.
+For every NAND-TM program $P$,  there is a one dimension cellular automaton that can simulate $P$ on every input $x$.
 
-Specifically, for every NAND++ program $P$, there is a finite alphabet $\Sigma$ and an automaton $\mathcal{A}$  over this alphabet, as well as an efficient mapping from the inputs to $P$ to starting configurations for  $\mathcal{A}$ and from configurations of $\mathcal{A}$ whose first coordinate has a special form into outputs of $P$.
+Specifically, for every NAND-TM program $P$, there is a finite alphabet $\Sigma$ and an automaton $\mathcal{A}$  over this alphabet, as well as an efficient mapping from the inputs to $P$ to starting configurations for  $\mathcal{A}$ and from configurations of $\mathcal{A}$ whose first coordinate has a special form into outputs of $P$.
 Namely, there is a computable map $ENCODE:\{0,1\}^* \rightarrow \Sigma^*$ and two special symbols $\sigma_0,\sigma_1 \in \Sigma$, such that for every $x\in \{0,1\}^*$, $P(x)$ halts with input $b\in \{0,1\}$ if and only if the automaton $\mathcal{A}$ initialized with configuration $ENCODE(x)$ eventually reaches a configuration with $\beta_0 = \sigma_b$.
 :::
 
 ::: { .pause }
-The theorem is a little cumbersome to state but try to think how _you_ would formalize the notion of an "automaton simulating a NAND++ program".
+The theorem is a little cumbersome to state but try to think how _you_ would formalize the notion of an "automaton simulating a NAND-TM program".
 :::
 
 ::: {.proofidea data-ref="onedimcathm"}
@@ -892,23 +892,23 @@ Given this notion of an encoding, and the fact that `i` moves only one step  in 
 From this observation, [onedimcathm](){.ref} follows in a fairly straightforward manner.
 :::
 
-Before proving [onedimcathm](){.ref}, let us formally define the notion of a _configuration_ of a NAND++ program (see also [nandppconfigfig](){.ref}). We will come back to this notion in later chapters as well.
-We restrict attention to so called _well formed_ NAND++ programs (see [wellformeddef](){.ref}), that have a clean separation of array and scalar variables.
-Of course, this is not really a restriction since every NAND++ program $P$ can be transformed into an equivalent one that is well formed (see [wellformedlem](){.ref}).
+Before proving [onedimcathm](){.ref}, let us formally define the notion of a _configuration_ of a NAND-TM program (see also [nandppconfigfig](){.ref}). We will come back to this notion in later chapters as well.
+We restrict attention to so called _well formed_ NAND-TM programs (see [wellformeddef](){.ref}), that have a clean separation of array and scalar variables.
+Of course, this is not really a restriction since every NAND-TM program $P$ can be transformed into an equivalent one that is well formed (see [wellformedlem](){.ref}).
 
-![A _configuration_ of a (well formed) NAND++ program $P$ with $a$ array variables and $b$ scalar variables is a a list  $\alpha$ of strings  in $\{0,1\}^a \cup \{0,1\}^{a+b}$. In exactly one index $i$, $\alpha_i \in \{0,1\}^{a+b}$. This corresponds to the index variable `i` $=i$, and $\alpha_i$ encodes both the contents of the scalar variables, as well as the array variables at the location $i$. For $j\neq i$, $\alpha_j$ encodes the contents of the array variables at the location $j$. The length of the list $\alpha$ denotes the largest index that has been reached so far in the execution of the program. If in one iteration we move from $\alpha$ to $\alpha'$, then for every $j$, $\alpha'_j$ is a function of $\alpha_{j-1},\alpha_j,\alpha_{j+1}$.](../figure/nandppconfiguration2.png){#nandppconfigfig .class width=300px height=300px}
+![A _configuration_ of a (well formed) NAND-TM program $P$ with $a$ array variables and $b$ scalar variables is a a list  $\alpha$ of strings  in $\{0,1\}^a \cup \{0,1\}^{a+b}$. In exactly one index $i$, $\alpha_i \in \{0,1\}^{a+b}$. This corresponds to the index variable `i` $=i$, and $\alpha_i$ encodes both the contents of the scalar variables, as well as the array variables at the location $i$. For $j\neq i$, $\alpha_j$ encodes the contents of the array variables at the location $j$. The length of the list $\alpha$ denotes the largest index that has been reached so far in the execution of the program. If in one iteration we move from $\alpha$ to $\alpha'$, then for every $j$, $\alpha'_j$ is a function of $\alpha_{j-1},\alpha_j,\alpha_{j+1}$.](../figure/nandppconfiguration2.png){#nandppconfigfig .class width=300px height=300px}
 
 ::: { .pause }
 [confignandppdef](){.ref} has many technical details, but is not actually deep and complicated.
-You would probably understand it better if before starting to read it, you take a moment to stop and think how _you_ would encode as a string the state of a NAND++ program at a given point in an execution.
+You would probably understand it better if before starting to read it, you take a moment to stop and think how _you_ would encode as a string the state of a NAND-TM program at a given point in an execution.
 
 Think what are all the components that you need to know in order to be able to continue the execution from this point onwards, and what is a simple way to encode them using a list of strings (which in turn can be encoded as a string). In particular, with an eye towards our future applications, try to think of an encoding which will make it as simple as possible to map  a configuration at step $t$ to the configuration at step $t+1$.
 :::
 
-![A configuration of a NAND++ program that computes the increment function mapping a number $x$  (in binary LSB-first representation)  to the number $x+1$. Figure taken from an online available  [Jupyter Notebook](https://github.com/boazbk/nandnotebooks/blob/master/NANDpp_configurations.ipynb).](../figure/configuration.png){#confnandfig .class width=300px height=300px}
+![A configuration of a NAND-TM program that computes the increment function mapping a number $x$  (in binary LSB-first representation)  to the number $x+1$. Figure taken from an online available  [Jupyter Notebook](https://github.com/boazbk/nandnotebooks/blob/master/NANDpp_configurations.ipynb).](../figure/configuration.png){#confnandfig .class width=300px height=300px}
 
-::: {.definition title="Configuration of NAND++ programs." #confignandppdef}
-Let $P$ be a well-formed NAND++ program (as per [wellformeddef](){.ref}) with $a$ array variables and $b$ scalar variables.
+::: {.definition title="Configuration of NAND-TM programs." #confignandppdef}
+Let $P$ be a well-formed NAND-TM program (as per [wellformeddef](){.ref}) with $a$ array variables and $b$ scalar variables.
 A _configuration_ of $P$ is a list of strings $\alpha = (\alpha_0,\ldots,\alpha_{t-1})$ such that for every $j \in [t]$, $\alpha_j$ is either in $\{0,1\}^a$ or in $\{0,1\}^{a+b}$. Moreover,  there  is exactly a single coordinate $i \in [t]$, such that
 $\alpha_i \in \{0,1\}^{a+b}$ and for all other coordinates $j \neq i$,
 $\alpha_j \in \{0,1\}^a$.
@@ -933,7 +933,7 @@ When we refer to a configuration as a binary string (for example when feeding it
 Note that this function satisfies that for every string $\sigma \in \{0,1\}^*$ encoding a valid configuration, $NEXT_p(\sigma)$ differs from $\sigma$ in at most $3(a+b+3)$ coordinates which is a constant independent of the length of the input or the number of times the program was executed.
 :::
 
-[confignandppdef](){.ref} is a little cumbersome, but ultimately a configuration is simply a string that encodes a _snapshot_ of the state of the NAND++ program at a given point in the execution. (In operating-systems lingo, it would be a  ["core dump"](https://goo.gl/AsccXh).)
+[confignandppdef](){.ref} is a little cumbersome, but ultimately a configuration is simply a string that encodes a _snapshot_ of the state of the NAND-TM program at a given point in the execution. (In operating-systems lingo, it would be a  ["core dump"](https://goo.gl/AsccXh).)
 Such a snapshot needs to encode the following components:
 
 1. The current value of the index variable `i`.
@@ -949,7 +949,7 @@ The specific details of how we represent configurations and how $NEXT_P$ are not
 
 * Every bit of $\sigma'$ is a function of a constant number of bits of $\sigma$.
 
-Specifically, For every NAND++ program $P$ there is a constant $C>0$ and a finite function $MAP_P:\{0,1\}^{2C} \rightarrow \{0,1, \bot \}$ such that for every $i \in \N$ and string $\sigma$ that encodes a valid configuration of $P$, the $i$-the bit of $NEXT_P(\sigma)$ is obtained by applying the finite function $MAP_P$ to the  $2C$ bits of $\sigma$ corresponding to coordinates $i-C,i-C+1,\ldots,i+C$.^[If one of those is "out of bounds"- corresponds to $\sigma_j$ for $j<0$ or $j \geq |\sigma|$ - then we replace it with $0$. If $i \geq |NEXT_P(\sigma)|$ then we think of the $i$-th bit of $NEXT_P(\sigma)$ as equaling $\bot$.]
+Specifically, For every NAND-TM program $P$ there is a constant $C>0$ and a finite function $MAP_P:\{0,1\}^{2C} \rightarrow \{0,1, \bot \}$ such that for every $i \in \N$ and string $\sigma$ that encodes a valid configuration of $P$, the $i$-the bit of $NEXT_P(\sigma)$ is obtained by applying the finite function $MAP_P$ to the  $2C$ bits of $\sigma$ corresponding to coordinates $i-C,i-C+1,\ldots,i+C$.^[If one of those is "out of bounds"- corresponds to $\sigma_j$ for $j<0$ or $j \geq |\sigma|$ - then we replace it with $0$. If $i \geq |NEXT_P(\sigma)|$ then we think of the $i$-th bit of $NEXT_P(\sigma)$ as equaling $\bot$.]
 
 
 
@@ -961,7 +961,7 @@ All of our arguments that use NAND++ configurations can be carried out with Turi
 
 
 ::: {.proof data-ref="onedimcathm"}
-Assume without loss of generality that  $P$ is a well-formed NAND++ program with $a$ array variables and $b$ scalar variables. (Otherwise we can translate it to such a program.)  Let $\Sigma = \{0,1\}^{a+b+3}$ (a space which, as we saw, is large enough to encode every coordinate of a configuration), and hence think of a configuration as a string in $\sigma \in \Sigma^*$ such that the $i$-th coordinate in $\sigma' = NEXT_P(\sigma)$  only depends on the $i-1$-th, $i$-th, and $i+1$-th coordinate of $\sigma$.
+Assume without loss of generality that  $P$ is a well-formed NAND-TM program with $a$ array variables and $b$ scalar variables. (Otherwise we can translate it to such a program.)  Let $\Sigma = \{0,1\}^{a+b+3}$ (a space which, as we saw, is large enough to encode every coordinate of a configuration), and hence think of a configuration as a string in $\sigma \in \Sigma^*$ such that the $i$-th coordinate in $\sigma' = NEXT_P(\sigma)$  only depends on the $i-1$-th, $i$-th, and $i+1$-th coordinate of $\sigma$.
 Thus $NEXT_P$ (the function of [confignandppdef](){.ref} that maps a configuration of $P$ into the next one) is in fact a valid rule for a  one dimensional automata. The only thing we have to do is to identify the default value of $\varnothing$ with the value $0^a$ (which corresponds to the index not being in this location and all array variables are set to $0$).
 
 
@@ -979,22 +979,22 @@ The automaton arising from the proof of [onedimcathm](){.ref} has a large alphab
 ## Turing completeness and equivalence, a formal definition (optional) {#turingcompletesec }
 
 A _computational model_ is some way to define what it means for a _program_ (which is represented by a string) to compute a (partial) _function_.
-A _computational model_ $\mathcal{M}$ is _Turing  complete_, if we can map every Turing machine (or equivalently NAND++ program) $Q$ into a program $P$ for $\mathcal{M}$ that computes the same function as $Q$.
-It is _Turing equivalent_ if the other direction holds as well (i.e., we can map every program in $\mathcal{M}$ to a Turing machine/NAND++ program that computes the same function).
+A _computational model_ $\mathcal{M}$ is _Turing  complete_, if we can map every Turing machine (or equivalently NAND-TM program) $Q$ into a program $P$ for $\mathcal{M}$ that computes the same function as $Q$.
+It is _Turing equivalent_ if the other direction holds as well (i.e., we can map every program in $\mathcal{M}$ to a Turing machine/NAND-TM program that computes the same function).
 Formally, we can define this notion as follows:
 
 ::: {.definition title="Turing completeness and equivalence" #turingcompletedef}
 Let $\mathcal{F}$ be the set of all partial functions from $\{0,1\}^*$ to $\{0,1\}^*$. A _computational model_ is a map $\mathcal{M}:\{0,1\}^* \rightarrow \mathcal{F}$.
 We say that a program $P$ in the model $\mathcal{M}$ _computes_ a function $F\in \mathcal{F}$ if $\mathcal{M}(P) = F$.
 
-A computational model $\mathcal{M}$ is _Turing complete_ if there is a computable map $ENCODE_M:\{0,1\}^* \rightarrow \{0,1\}^*$ for every NAND++ program $P$ (represented as a string),  $\mathcal{M}(ENCODE_M(P))$ is equal to the partial function computed by $P$.^[We could have equally well made this definition using Turing machines, NAND<<, $\lambda$ calculus, and many other models.]
-A computational model $\mathcal{M}$ is _Turing equivalent_ if it is Turing complete and there exists a computable map $DECODE_M:\{0,1\}^* \rightarrow \{0,1\}^*$ such that or every string $Q\in \{0,1\}^*$,  $P=ENCODE_M(Q)$ is a string representation of a NAND++ program that  computes the function $\mathcal{M}(Q)$.
+A computational model $\mathcal{M}$ is _Turing complete_ if there is a computable map $ENCODE_M:\{0,1\}^* \rightarrow \{0,1\}^*$ for every NAND-TM program $P$ (represented as a string),  $\mathcal{M}(ENCODE_M(P))$ is equal to the partial function computed by $P$.^[We could have equally well made this definition using Turing machines, NAND<<, $\lambda$ calculus, and many other models.]
+A computational model $\mathcal{M}$ is _Turing equivalent_ if it is Turing complete and there exists a computable map $DECODE_M:\{0,1\}^* \rightarrow \{0,1\}^*$ such that or every string $Q\in \{0,1\}^*$,  $P=ENCODE_M(Q)$ is a string representation of a NAND-TM program that  computes the function $\mathcal{M}(Q)$.
 :::
 
 Some examples of Turing Equivalent models include:
 
 * Turing machines
-* NAND++ programs
+* NAND-TM programs
 * NAND<< programs
 * $\lambda$ calculus
 * Game of life (mapping programs and inputs/outputs to starting and ending configurations)
@@ -1008,13 +1008,13 @@ Some examples of Turing Equivalent models include:
 
 >_"[The thesis is] not so much  a definition or to an axiom but ... a natural law."_, Emil Post, 1936.
 
-We have defined functions to be _computable_ if they can be computed by a NAND++ program, and we've seen that the definition would remain the same if we replaced NAND++ programs by Python programs, Turing machines, $\lambda$ calculus,  cellular automata, and many other computational models.
+We have defined functions to be _computable_ if they can be computed by a NAND-TM program, and we've seen that the definition would remain the same if we replaced NAND-TM programs by Python programs, Turing machines, $\lambda$ calculus,  cellular automata, and many other computational models.
 The _Church-Turing thesis_ is that this is the only sensible definition of "computable" functions.
 Unlike the "Physical Extended Church Turing Thesis" (PECTT) which we saw before, the Church Turing thesis does not make a concrete physical prediction that can be experimentally tested, but it certainly motivates predictions such as the PECTT.
 One can think of the Church-Turing Thesis as either advocating a definitional choice, making some prediction about all potential computing devices, or suggesting some laws of nature that constrain the natural world.
 In Scott Aaronson's words, "whatever it is, the Church-Turing thesis can only be regarded as extremely successful".
 No candidate computing device (including quantum computers, and also much less reasonable models such as the hypothetical "closed time curve" computers we mentioned before) has so far mounted a serious challenge to the Church Turing thesis.
-These devices might potentially make some computations more _efficient_, but they do not change the difference between what is finitely computable and what is not.^[The _extended_ Church Turing thesis, which we'll discuss later in this course, is that NAND++ programs even capture the limit of what can be _efficiently_ computable. Just like the PECTT, quantum computing presents the main challenge to this thesis.]
+These devices might potentially make some computations more _efficient_, but they do not change the difference between what is finitely computable and what is not.^[The _extended_ Church Turing thesis, which we'll discuss later in this course, is that NAND-TM programs even capture the limit of what can be _efficiently_ computable. Just like the PECTT, quantum computing presents the main challenge to this thesis.]
 
 
 
@@ -1028,23 +1028,23 @@ We can summarize the models we use versus those used in other texts in the follo
 
 | Model                        | These notes          | Other texts                             |
 |------------------------------|----------------------|-----------------------------------------|
-| Nonuniform                   | NAND programs        | Boolean circuits, straightline programs |
+| Nonuniform                   | NAND-CIRC programs        | Boolean circuits, straightline programs |
 | Uniform  (random access)     | NAND<< programs      | RAM machines                            |
-| Uniform  (sequential access) | NAND++ programs      | Oblivious one-tape Turing machines      |
+| Uniform  (sequential access) | NAND-TM programs      | Oblivious one-tape Turing machines      |
 
     \
 
 
 
 Later on in this course we may study _memory bounded_ computation.
-It turns out that NAND++ programs with a constant amount of memory are equivalent to the model of _finite automata_ (the adjectives "deterministic" or "nondeterministic" are sometimes added as well, this model is also known as _finite state machines_) which in turns captures the notion of _regular languages_ (those that can be described by [regular expressions](https://en.wikipedia.org/wiki/Regular_expression)).
+It turns out that NAND-TM programs with a constant amount of memory are equivalent to the model of _finite automata_ (the adjectives "deterministic" or "nondeterministic" are sometimes added as well, this model is also known as _finite state machines_) which in turns captures the notion of _regular languages_ (those that can be described by [regular expressions](https://en.wikipedia.org/wiki/Regular_expression)).
 
 
 
 
 
 > # { .recap }
-* While we defined computable functions using NAND++ programs, we could just as well have done so using many other models, including not just NAND<< but also Turing machines, RAM machines, the $\lambda$-calculus and many other models.
+* While we defined computable functions using NAND-TM programs, we could just as well have done so using many other models, including not just NAND<< but also Turing machines, RAM machines, the $\lambda$-calculus and many other models.
 * Very simple models turn out to be "Turing complete" in the sense that they can simulate arbitrarily complex computation.
 
 
@@ -1054,7 +1054,7 @@ It turns out that NAND++ programs with a constant amount of memory are equivalen
 Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
 :::
 
-^[TODO: Add an exercise showing that NAND++ programs where the integers are represented using the _unary_ basis are equivalent up to polylog terms with multi-tape Turing machines.]
+^[TODO: Add an exercise showing that NAND-TM programs where the integers are represented using the _unary_ basis are equivalent up to polylog terms with multi-tape Turing machines.]
 
 ::: {.exercise title="Pairing" #pair-ex}
 Let $embed:\N^2 \rightarrow \N$ be the function defined as $embed(x_0,x_1)= \tfrac{1}{2}(x_0+x_1)(x_0+x_1+1) + x_1$. \
@@ -1063,9 +1063,9 @@ Let $embed:\N^2 \rightarrow \N$ be the function defined as $embed(x_0,x_1)= \tfr
 
 2. Prove that $embed$ is one-to-one \
 
-3. Construct a NAND++ program $P$ such that for every $x^0,x^1 \in \N$, $P(pf(x^0)pf(x^1))=pf(embed(x^0,x^1))$, where $pf$ is the prefix-free encoding map defined above. You can use the syntactic sugar for inner loops, conditionals, and incrementing/decrementing the counter. \
+3. Construct a NAND-TM program $P$ such that for every $x^0,x^1 \in \N$, $P(pf(x^0)pf(x^1))=pf(embed(x^0,x^1))$, where $pf$ is the prefix-free encoding map defined above. You can use the syntactic sugar for inner loops, conditionals, and incrementing/decrementing the counter. \
 
-4. Construct NAND++ programs $P_0,P_1$ such that for for every $x^0,x^1 \in \N$ and $i \in N$, $P_i(pf(embed(x^0,x^1)))=pf(x^i)$. You can use the syntactic sugar for inner loops, conditionals, and incrementing/decrementing the counter.
+4. Construct NAND-TM programs $P_0,P_1$ such that for for every $x^0,x^1 \in \N$ and $i \in N$, $P_i(pf(embed(x^0,x^1)))=pf(x^i)$. You can use the syntactic sugar for inner loops, conditionals, and incrementing/decrementing the counter.
 
 :::
 

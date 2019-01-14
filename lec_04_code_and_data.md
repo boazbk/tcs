@@ -8,9 +8,9 @@
 > # { .objectives }
 * Understand one of the most important concepts in computing: duality between code and data. \
 * Build up comfort in moving between different representations of programs. \
-* Follow the construction of a "universal NAND program" that can evaluate other NAND programs given their representation. \
+* Follow the construction of a "universal NAND-CIRC program" that can evaluate other NAND-CIRC programs given their representation. \
 * See and understand the  proof of a major result that compliments the result last chapter: some functions require an _exponential_ number of NAND lines to compute.
-* Understand the _physical extended Church-Turing thesis_ that NAND programs capture _all_ feasible computation in the physical world, and its physical and philosophical implications.
+* Understand the _physical extended Church-Turing thesis_ that NAND-CIRC programs capture _all_ feasible computation in the physical world, and its physical and philosophical implications.
 
 
 
@@ -23,10 +23,10 @@
 
 
 
-A NAND program can be thought of as simply a sequence of symbols, each of which can be encoded with zeros and ones using (for example) the ASCII standard.
-Thus we can represent every NAND program as a binary string.
+A NAND-CIRC program can be thought of as simply a sequence of symbols, each of which can be encoded with zeros and ones using (for example) the ASCII standard.
+Thus we can represent every NAND-CIRC program as a binary string.
 This statement seems obvious but it is actually quite profound.
-It means that we can treat a NAND program both as instructions to carrying computation and also as _data_ that could potentially be input to other computations.
+It means that we can treat a NAND-CIRC program both as instructions to carrying computation and also as _data_ that could potentially be input to other computations.
 
 
 This correspondence between _code_ and _data_ is one of the most fundamental aspects of computing.
@@ -41,7 +41,7 @@ For example, DNA can be thought of as both a program and data (in the words of S
 
 ## A NAND interpreter in NAND
 
-For every NAND program $P$, we can represent $P$ as a binary string.
+For every NAND-CIRC program $P$, we can represent $P$ as a binary string.
 In particular, this means that for any choice of such representation, the following is a well defined mathematical function
 $EVAL:\{0,1\}^* \times \{0,1\}^* \rightarrow \{0,1\}^*$
 
@@ -54,67 +54,67 @@ where we denote by $P(x)$ the output of the program represented by the string $P
 The above is one of those observations that are simultaneously both simple and profound. Please make sure that you understand __(1)__ how for every fixed choice of representing programs as strings, the function $EVAL$ above is well defined, and __(2)__ what this function actually does.
 
 
-$EVAL$ takes strings arbitrarily of length, and hence cannot be computed by a NAND program, that has a fixed length of inputs.
+$EVAL$ takes strings arbitrarily of length, and hence cannot be computed by a NAND-CIRC program, that has a fixed length of inputs.
 However, one of the most interesting consequences of the fact that we can represent programs as strings is the following theorem:
 
-> # {.theorem title="Bounded Universality of NAND programs" #bounded-univ}
-For every $s,n,m \in \N$ there is a NAND program that computes the  function
+> # {.theorem title="Bounded Universality of NAND-CIRC programs" #bounded-univ}
+For every $s,n,m \in \N$ there is a NAND-CIRC program that computes the  function
 $$
 EVAL_{s,n,m}:\{0,1\}^{S+n} \rightarrow \{0,1\}^m
 $$
-defined as follows. We let $S$ be the number of bits that are needed to represents programs of $s$ lines. For every string $(P,x)$ where $P \in \{0,1\}^S$ and $x\in\{0,1\}^n$, if $P$ describes an $s$ line NAND program with $n$ input bits and $m$ outputs bits, then   $EVAL_{s,n,m}(P,x)$ is the output of this program on input $x$.^[If $P$ does not describe a program then we don't care what $EVAL_{s,n,m}(P,x)$ is. For concreteness you can think of the value as  $0^m$.]
+defined as follows. We let $S$ be the number of bits that are needed to represents programs of $s$ lines. For every string $(P,x)$ where $P \in \{0,1\}^S$ and $x\in\{0,1\}^n$, if $P$ describes an $s$ line NAND-CIRC program with $n$ input bits and $m$ outputs bits, then   $EVAL_{s,n,m}(P,x)$ is the output of this program on input $x$.^[If $P$ does not describe a program then we don't care what $EVAL_{s,n,m}(P,x)$ is. For concreteness you can think of the value as  $0^m$.]
 
 
-Of course to fully specify $EVAL_{s,n,m}$, we need to fix a precise representation scheme  for NAND programs as binary strings.
+Of course to fully specify $EVAL_{s,n,m}$, we need to fix a precise representation scheme  for NAND-CIRC programs as binary strings.
 We can simply use the ASCII representation, though  below we will choose a  more convenient representation.
 But regardless of the choice of representation,
-[bounded-univ](){.ref} is an immediate corollary of [NAND-univ-thm](){.ref}, which states that _every_ finite function, and so in particular the function $EVAL_{S,n,m}$ above, can be computed by _some_ NAND program.
+[bounded-univ](){.ref} is an immediate corollary of [NAND-univ-thm](){.ref}, which states that _every_ finite function, and so in particular the function $EVAL_{S,n,m}$ above, can be computed by _some_ NAND-CIRC program.
 
 > # { .pause }
 Once again, [bounded-univ](){.ref}  is subtle but important. Make sure you understand what this thorem means, and why it is a corollary of [NAND-univ-thm](){.ref}.
 
 [bounded-univ](){.ref} can be thought of as providing  a "NAND interpreter in NAND".
-That is, for a particular size bound, we give a _single_ NAND program that can evaluate all NAND programs of that size.
-We call this  NAND program $U$ that computes $EVAL_{s,n,m}$ a _bounded universal program_.
+That is, for a particular size bound, we give a _single_ NAND-CIRC program that can evaluate all NAND-CIRC programs of that size.
+We call this  NAND-CIRC program $U$ that computes $EVAL_{s,n,m}$ a _bounded universal program_.
 "Universal" stands for the fact that this is a _single program_ that can evaluate _arbitrary_ code,  where "bounded" stands for the fact that  $U$ only evaluates programs of bounded size.
-Of course this limitation is inherent for the NAND programming language where an $N$-line program can never compute a function with more than $N$ inputs.
+Of course this limitation is inherent for the NAND-CIRC programming language where an $N$-line program can never compute a function with more than $N$ inputs.
 (We will later on introduce the concept of _loops_, that  allows  to escape this limitation.)
 
 
 It turns out that we don't even need to pay that much of an overhead for universality
 
-> # {.theorem title="Efficient bounded universality of NAND programs" #eff-bounded-univ}
-For every $s,n,m \in \N$ there is a NAND program of at most $O(s^2 \log s)$ lines that computes the  function
+> # {.theorem title="Efficient bounded universality of NAND-CIRC programs" #eff-bounded-univ}
+For every $s,n,m \in \N$ there is a NAND-CIRC program of at most $O(s^2 \log s)$ lines that computes the  function
 $EVAL_{S,n,m}:\{0,1\}^{S+n} \rightarrow \{0,1\}^m$ defined above.
 
 Unlike [bounded-univ](){.ref}, [eff-bounded-univ](){.ref} is not a trivial corollary of the fact that every function can be computed, and  takes much more effort to prove.
-It requires us to present a concrete NAND program for the $EVAL_{s,n,m}$ function.
+It requires us to present a concrete NAND-CIRC program for the $EVAL_{s,n,m}$ function.
 We will do so in several stages.
 
-1. First, we will spell out precisely how to  represent NAND programs as strings.
+1. First, we will spell out precisely how to  represent NAND-CIRC programs as strings.
 We can prove  [eff-bounded-univ](){.ref}  using the ASCII representation, but a "cleaner" representation will be more convenient for us.
 
 2. Then, we will show how we can write a  program to compute $EVAL_{s,n,m}$ in _Python_.^[We will not use much about Python, and a reader that has familiarity with programming in any language should be able to follow along.]
 
-3. Finally, we will show how we can transform this Python program into a NAND program.
+3. Finally, we will show how we can transform this Python program into a NAND-CIRC program.
 
-### Concrete representation for NAND programs
+### Concrete representation for NAND-CIRC programs
 
 ![In the Harvard Mark I computer, a program was represented as a list of triples of numbers, which were then encoded by perforating holes in a control card.](../figure/tapemarkI.png){#figureid .class width=300px height=300px}
 
 
-A NAND program is simply a sequence of lines of the form
+A NAND-CIRC program is simply a sequence of lines of the form
 
 ```python
 blah = NAND(baz,boo)
 ```
 
-There is of course nothing special about these particular identifiers. Hence to represent a NAND program mathematically, we can simply identify the variables with natural numbers, and think of each line as a triple $(i,j,k)$ which corresponds to saying that we assign to the $i$-th variable  the NAND of the values of the $j$-th and $k$-th variables.
+There is of course nothing special about these particular identifiers. Hence to represent a NAND-CIRC program mathematically, we can simply identify the variables with natural numbers, and think of each line as a triple $(i,j,k)$ which corresponds to saying that we assign to the $i$-th variable  the NAND of the values of the $j$-th and $k$-th variables.
 We will use the set $[t]= \{0,1,\ldots,t-1\}$ as our set of variables, and for concreteness we will let the input variables be the first $n$ numbers, and the output variables be the last $m$ numbers (i.e., the numbers $(t-m,\dots,t-1)$).
 This motivates the following definition:
 
 > # {.definition title="List of tuples representation" #nandtuplesdef}
-Let $P$ be a NAND program of $n$ inputs, $m$ outputs, and $s$ lines, and let $t$ be the number of distinct variables used by $P$.
+Let $P$ be a NAND-CIRC program of $n$ inputs, $m$ outputs, and $s$ lines, and let $t$ be the number of distinct variables used by $P$.
 The _list of tuples representation of $P$_ is the triple $(n,m,L)$ where $L$ is a list of triples of the form $(i,j,k)$ for $i,j,k \in [t]$.
 >
 For every variable  of $P$, we assign a number in $[t]$ as follows:
@@ -123,10 +123,10 @@ For every variable  of $P$, we assign a number in $[t]$ as follows:
 * For every $j\in [m]$, the variable `Y[`$j$`]` is assigned the number $t-m+j$. \
 * Every other variable is assigned a number in $\{n,n+1,\ldots,t-m-1\}$ in the order of which it appears.
 
-The list of tuples representation will be our default choice for representing NAND programs, and since "list of tuples representation" is a bit of a mouthful, we will often call this simply the  _representation_ for a program $P$.
+The list of tuples representation will be our default choice for representing NAND-CIRC programs, and since "list of tuples representation" is a bit of a mouthful, we will often call this simply the  _representation_ for a program $P$.
 
 > # {.example title="Representing the XOR program" #representXOR}
-Our favorite NAND program, the XOR program:
+Our favorite NAND-CIRC program, the XOR program:
 >
 `u = NAND(X[0],X[1])` \
 `v = NAND(X[0],u)` \
@@ -140,7 +140,7 @@ Is represented as the tuple $(2,1,L)$ where $L=((2, 0, 1), (3, 0, 2), (4, 1, 2),
 \iffalse
 
 ```python
-%run "../code/NAND programming language.ipynb"
+%run "../code/NAND-CIRC programming language.ipynb"
 ```
 
 ```python
@@ -154,12 +154,12 @@ nandrepresent(XOR)
 ```
 \fi
 
-Transforming a NAND program from its representation as code to the representation as a list of tuples is a fairly straightforward programming exercise, and in particular can be done in a few lines of _Python_.^[If you're curious what these 15 lines are, see the appendix.]
+Transforming a NAND-CIRC program from its representation as code to the representation as a list of tuples is a fairly straightforward programming exercise, and in particular can be done in a few lines of _Python_.^[If you're curious what these 15 lines are, see the appendix.]
 Note that this representation loses information such as the particular names we used for the variables, but this is OK since these names do not make a difference to the functionality of the program.
 
 ### Representing a program as a string
 
-To obtain a representation that we can use as input to a NAND program, we need to take a step further and map the triple $(n,m,L)$ to a binary string.
+To obtain a representation that we can use as input to a NAND-CIRC program, we need to take a step further and map the triple $(n,m,L)$ to a binary string.
 Here there are many different choices, but let us fix one of them.
 If the list $L$ has $s$ triples in it, we will represent it as simply the string $str(L)$ which will be the concatenation of the $3s$ numbers in the binary basis, which can be encoded as a string of length $3s\ell$ where $\ell = \ceil{\log 3s}$ is a number of bits that is guaranteed to be sufficient to  represent numbers in $[t]$ (since $t \leq 3s$).
 We will represent the program $(n,m,L)$ as the string $\expr{n}\expr{m}\expr{s}str(L)$ where $\expr{n}$  and $\expr{m}$ are some  prefix-free representations of $n$,  $m$ and $s$ (see [prefixfreesec](){.ref}).
@@ -173,7 +173,7 @@ In the context of computing $EVAL_{s,n,m}$ the number of lines, inputs, and outp
 
 ### A NAND interpeter in "pseudocode"
 
-To prove [eff-bounded-univ](){.ref} it suffices  to give a NAND program of $O(s^2 \log s) \leq  O((s\log s)^2)$ lines that can evaluate NAND programs of $s$ lines.
+To prove [eff-bounded-univ](){.ref} it suffices  to give a NAND-CIRC program of $O(s^2 \log s) \leq  O((s\log s)^2)$ lines that can evaluate NAND-CIRC programs of $s$ lines.
 Let us start by thinking how we would evaluate such programs  if we weren't restricted to the NAND operations.
 That is, let us describe informally an _algorithm_ that on input $n,m,s$, a list of triples $L$, and a string $x\in \{0,1\}^n$, evaluates the program represented by $(n,m,L)$ on the string $x$.
 
@@ -209,7 +209,7 @@ We will construct a function `NANDEVAL` that  on input $n,m,L,x$  will output th
 
 ```python
 def NANDEVAL(n,m,L,X):
-    # Evaluate a NAND program from its list of triple representation.
+    # Evaluate a NAND-CIRC program from its list of triple representation.
     s = len(L) # number of lines
     t = max(max(a,b,c) for (a,b,c) in L)+1 # maximum index in L + 1
 
@@ -249,14 +249,14 @@ Hence (since $n,m \leq s$ and $t \leq 3s$),  the program above will use  $O(s)$ 
 
 We now turn to describing the proof of  [eff-bounded-univ](){.ref}.
 To do this, it is of course not enough to give a Python program.
-Rather, we need to show  how we compute the function  $EVAL_{s,n,m}$  by a NAND program.
-In other words, our job is to transform, for every $s,n,m$, the Python code above to a NAND program $U_{s,n,m}$ that  computes the function $EVAL_{s,n,m}$.
+Rather, we need to show  how we compute the function  $EVAL_{s,n,m}$  by a NAND-CIRC program.
+In other words, our job is to transform, for every $s,n,m$, the Python code above to a NAND-CIRC program $U_{s,n,m}$ that  computes the function $EVAL_{s,n,m}$.
 
 > # { .pause }
 Before reading further, try to think how _you_ could give a "constructive proof" of [eff-bounded-univ](){.ref}.
-That is, think of how you would write, in the programming language of your choice, a function `universal(s,n,m)` that on input $s,n,m$ outputs the code for the NAND program $U_{s,n,m}$ such that $U_{s,n,m}$ computes $EVAL_{s,n,m}$.
+That is, think of how you would write, in the programming language of your choice, a function `universal(s,n,m)` that on input $s,n,m$ outputs the code for the NAND-CIRC program $U_{s,n,m}$ such that $U_{s,n,m}$ computes $EVAL_{s,n,m}$.
 Note that there is a subtle but crucial difference between this function and the Python `NANDEVAL` program described above.
-Rather than actually evaluating a given program $P$ on some input $w$, the function `universal` should output the _code_ of a NAND program that computes the map $(P,x) \mapsto P(x)$.
+Rather than actually evaluating a given program $P$ on some input $w$, the function `universal` should output the _code_ of a NAND-CIRC program that computes the map $(P,x) \mapsto P(x)$.
 
 Our construction will follow very closely the Python implementation of `EVAL` above.
 We will use variables `Vartable[`$0$`]`,$\ldots$,`Vartable[`$2^\ell-1$`]`, where $\ell = \ceil{\log 3s}$ to store our variables.
@@ -273,7 +273,7 @@ We saw that we can compute `LOOKUP` on arrays of size $2^\ell$ in time $O(2^\ell
 To compute the `update` function on input `V`,`i`,`b`, we need to scan the array `V`, and for  $j \in [2^\ell]$, have our $j$-th output be `V[`$j$`]` unless $j$ is equal to `i`, in which case the $j$-th output is `b`.
 We can do this as follows:
 
-1. For every $j\in [2^\ell]$, there is an $O(\ell)$ line NAND program to compute the function $EQUALS_j: \{0,1\}^\ell \rightarrow \{0,1\}$ that on input $i$ outputs $1$ if and only if $i$ is equal to (the binary representation of) $j$. (We leave verifying this as [equals](){.ref} and [equalstwo](){.ref}.)
+1. For every $j\in [2^\ell]$, there is an $O(\ell)$ line NAND-CIRC program to compute the function $EQUALS_j: \{0,1\}^\ell \rightarrow \{0,1\}$ that on input $i$ outputs $1$ if and only if $i$ is equal to (the binary representation of) $j$. (We leave verifying this as [equals](){.ref} and [equalstwo](){.ref}.)
 
 2. We have seen that we can compute the function $IF:\{0,1\}^3 \rightarrow \{0,1\}$ such that $IF(a,b,c)$ equals $b$ if $a=1$ and $c$ if $a=0$.
 
@@ -298,12 +298,12 @@ This completes (up to the omitted details) the proof of [eff-bounded-univ](){.re
 
 
 > # {.remark title="Improving to quasilinear overhead (advanced optional note)" #quasilinearevalrem}
-The NAND program above is less efficient that its Python counterpart, since NAND does not offer arrays with efficient random access. Hence for example the `LOOKUP` operation on an array of $s$ bits takes $\Omega(s)$ lines in NAND even though it takes $O(1)$ steps (or maybe $O(\log s)$ steps, depending how we count) in _Python_.
+The NAND-CIRC program above is less efficient that its Python counterpart, since NAND does not offer arrays with efficient random access. Hence for example the `LOOKUP` operation on an array of $s$ bits takes $\Omega(s)$ lines in NAND even though it takes $O(1)$ steps (or maybe $O(\log s)$ steps, depending how we count) in _Python_.
 >
-It turns out that it is  possible to improve the bound of [eff-bounded-univ](){.ref}, and  evaluate $s$ line NAND programs using a NAND program of  $O(s \log s)$ lines.
-The key is to consider the description of NAND programs as circuits, and in particular as directed acyclic graphs (DAGs) of bounded in degree.
-A universal NAND program $U_s$ for $s$ line programs  will correspond to a _universal graph_ $H_s$ for such $s$ vertex DAGs.
-We can think of such as graph $U_s$ as fixed "wiring" for communication network, that should be able to accommodate any arbitrary pattern of communication between $s$ vertices (where this pattern corresponds to an $s$ line NAND program).
+It turns out that it is  possible to improve the bound of [eff-bounded-univ](){.ref}, and  evaluate $s$ line NAND-CIRC programs using a NAND-CIRC program of  $O(s \log s)$ lines.
+The key is to consider the description of NAND-CIRC programs as circuits, and in particular as directed acyclic graphs (DAGs) of bounded in degree.
+A universal NAND-CIRC program $U_s$ for $s$ line programs  will correspond to a _universal graph_ $H_s$ for such $s$ vertex DAGs.
+We can think of such as graph $U_s$ as fixed "wiring" for communication network, that should be able to accommodate any arbitrary pattern of communication between $s$ vertices (where this pattern corresponds to an $s$ line NAND-CIRC program).
 It turns out that there exist such efficient [routing networks](https://goo.gl/NnkkjM) exist  that allow embedding any $s$ vertex circuit inside a universal graph of size $O(s \log s)$, see [this recent paper](https://eprint.iacr.org/2016/017) for more on this issue.
 
 
@@ -313,45 +313,45 @@ It turns out that there exist such efficient [routing networks](https://goo.gl/N
 
 To prove [eff-bounded-univ](){.ref} we essentially translated every line of the Python program for `EVAL` into an equivalent NAND snippet.
 It turns out that none of our reasoning  was specific to the  particular function $EVAL$.
-It is possible to translate _every_ Python program into an equivalent `NAND` program of comparable efficiency.^[More concretely, if the Python program takes $T(n)$ operations on inputs of length at most $n$ then we can find a NAND program of $O(T(n) \log T(n))$ lines that agrees with the Python program on inputs of length $n$.]
+It is possible to translate _every_ Python program into an equivalent `NAND` program of comparable efficiency.^[More concretely, if the Python program takes $T(n)$ operations on inputs of length at most $n$ then we can find a NAND-CIRC program of $O(T(n) \log T(n))$ lines that agrees with the Python program on inputs of length $n$.]
 Actually doing so requires taking care of many details and is beyond the scope of this course, but let me convince you why you should believe it is possible in principle.
 We can use [CPython](https://en.wikipedia.org/wiki/CPython) (the reference implementation for Python), to evaluate every Python program using a `C` program.
 We can combine this with a C compiler to transform a Python program to various flavors of "machine language".
 
 
-So, to transform a Python program into an equivalent NAND program, it is enough to show how to transform a machine language program into an equivalent NAND program.
+So, to transform a Python program into an equivalent NAND-CIRC program, it is enough to show how to transform a machine language program into an equivalent NAND-CIRC program.
 One minimalistic (and hence convenient) family of machine languages is known as the _ARM architecture_ which powers a great many mobile devices including essentially all Android devices.^[ARM stands for "Advanced RISC Machine" where RISC in turn stands for "Reduced instruction set computer".]
 There are even simpler machine languages, such as the [LEG acrhitecture](https://github.com/frasercrmck/llvm-leg) for which a  backend for the [LLVM compiler](http://llvm.org/) was implemented (and hence can be the target of compiling any of [large and growing list](https://en.wikipedia.org/wiki/LLVM#Front_ends) of languages that this compiler supports).
 Other examples include the  [TinyRAM](http://www.scipr-lab.org/doc/TinyRAM-spec-0.991.pdf) architecture (motivated by  interactive proof systems that we will discuss much later in this course) and  the teaching-oriented [Ridiculously Simple Computer](https://www.ece.umd.edu/~blj/RiSC/) architecture.^[The reverse direction of compiling NAND to C code, is much easier. We show code for a `NAND2C` function in the appendix.]
 
 Going one by one over the instruction sets of such computers and translating them to NAND snippets is no  fun, but it is a feasible thing to do.
-In fact, ultimately this is very similar to the transformation that takes place in converting our high level code to actual silicon gates that are not so different from the operations of a NAND program.
-Indeed, tools such as [MyHDL](http://www.myhdl.org/) that transform "Python to Silicon" can be used to convert a Python program to a NAND program.
+In fact, ultimately this is very similar to the transformation that takes place in converting our high level code to actual silicon gates that are not so different from the operations of a NAND-CIRC program.
+Indeed, tools such as [MyHDL](http://www.myhdl.org/) that transform "Python to Silicon" can be used to convert a Python program to a NAND-CIRC program.
 
-The NAND programming language is just a teaching tool, and by no means do I suggest that writing NAND programs, or compilers to NAND, is a practical, useful, or even enjoyable activity.
+The NAND-CIRC programming language is just a teaching tool, and by no means do I suggest that writing NAND-CIRC programs, or compilers to NAND, is a practical, useful, or even enjoyable activity.
 What I do want is to make sure you understand why it _can_ be done, and to have the confidence that if your life (or at least your grade in this course) depended on it, then you would be able to do this.
 Understanding how programs in high level languages such as Python are eventually transformed into concrete low-level representation such as NAND is fundamental to computer science.
 
-The astute reader might notice that the above paragraphs only outlined why it should be possible to find for every _particular_ Python-computable function $F$, a _particular_ comparably efficient NAND program $P$ that computes $F$.
-But this still seems to fall short of our goal of writing a "Python interpreter in NAND" which would mean  that for every parameter $n$, we come up with a _single_ NAND program $UNIV_n$ such that given a description of a Python program $P$, a particular input $x$, and a bound $T$ on the number of operations (where the length of $P$, $x$ and the magnitude of $T$ are all at most $n$) would return the result of executing $P$ on $x$ for at most $T$ steps.
-After all, the transformation above would transform every Python program into a different NAND program, but would not yield "one NAND program to rule them all" that can evaluate every Python program up to some given complexity.
+The astute reader might notice that the above paragraphs only outlined why it should be possible to find for every _particular_ Python-computable function $F$, a _particular_ comparably efficient NAND-CIRC program $P$ that computes $F$.
+But this still seems to fall short of our goal of writing a "Python interpreter in NAND" which would mean  that for every parameter $n$, we come up with a _single_ NAND-CIRC program $UNIV_n$ such that given a description of a Python program $P$, a particular input $x$, and a bound $T$ on the number of operations (where the length of $P$, $x$ and the magnitude of $T$ are all at most $n$) would return the result of executing $P$ on $x$ for at most $T$ steps.
+After all, the transformation above would transform every Python program into a different NAND-CIRC program, but would not yield "one NAND-CIRC program to rule them all" that can evaluate every Python program up to some given complexity.
 However, it turns out that it is enough to show such a transformation for a single Python program.
 The reason is that we can write a Python interpreter _in Python_: a Python program $U$ that takes a bit string, interprets it as Python code, and then runs that code.
-Hence, we only need to show a NAND program $U^*$ that computes the same function as the particular Python program $U$, and this will give us a way to evaluate _all_ Python programs.
+Hence, we only need to show a NAND-CIRC program $U^*$ that computes the same function as the particular Python program $U$, and this will give us a way to evaluate _all_ Python programs.
 
 What we are seeing time and again is the notion of _universality_ or _self reference_ of computation, which is the sense that all reasonably rich models of computation are expressive enough that they can "simulate themselves".
 The importance of this phenomena to both the theory and practice of computing, as well as far beyond it, including the foundations of mathematics and basic questions in science, cannot be overstated.
 
 
 
-## Counting programs, and lower bounds on the size of NAND programs
+## Counting programs, and lower bounds on the size of NAND-CIRC programs
 
 One of the consequences of our representation is the following:
 
 
 > # {.theorem title="Counting programs" #program-count}
 $$|Size(s)| \leq 2^{O(s \log s)}.$$
-That is, there are at most $2^{O(s\log s)}$ functions computed by  NAND programs of at most $s$ lines.
+That is, there are at most $2^{O(s\log s)}$ functions computed by  NAND-CIRC programs of at most $s$ lines.
 
 Moreover, the implicit constant in the $O(\cdot)$ notation in [program-count](){.ref} is at most $10$.^[By this we mean that for all sufficiently large $s$, $|Size(s)|\leq 2^{10s\log s}$.]
 
@@ -362,7 +362,7 @@ In the actual proof, given below, we  count the number of representations a litt
 
 
 > # {.proof data-ref="program-count"}
-Every NAND program $P$ with $s$ lines has at most $3s$ variables.
+Every NAND-CIRC program $P$ with $s$ lines has at most $3s$ variables.
 Hence, using our canonical representation, $P$ can be represented by the numbers $n,m$ of $P$'s inputs and outputs, as well as by the list $L$ of $s$ triples of natural numbers, each of which is smaller or equal to $3s$.
 >
 If two programs compute distinct functions then they have distinct representations.
@@ -382,7 +382,7 @@ If $F \neq F'$ then a program $P$ that computes $F$ must have an input on which 
 Thus we see that the map of $Size(s)$ to its representation is one to one, and so in particular $|Size(s)|$ is at most the number of distinct representations which is it at most $2^{4s\log s}$.
 
 > # {.remark title="Counting by ASCII representation" #countingfromascii}
-We can also establish [program-count](){.ref} directly from the ASCII representation of the source code.  Since an $s$-line NAND program has at most $3s$ distinct variables,  we can change all the non input/output variables of such a program to have the form `Temp[`$i$`]`  for $i$ between $0$ and $3s-1$ without changing the function that it computes. This means that  after removing  extra whitespaces, every line of such a program (which will  be of the form form `var = NAND(var',var'')` for variable identifiers which will be either `X[###]`,`Y[###]` or `Temp[###]` where `###` is some number smaller than $3s$) will require at most, say, $20 + 3\log_{10} (3s) \leq O(\log s)$ characters. Since each one of those characters can be encoded using seven bits in the ASCII representation, we see that the number of functions computed by $s$-line NAND programs is at most $2^{O(s \log s)}$.
+We can also establish [program-count](){.ref} directly from the ASCII representation of the source code.  Since an $s$-line NAND-CIRC program has at most $3s$ distinct variables,  we can change all the non input/output variables of such a program to have the form `Temp[`$i$`]`  for $i$ between $0$ and $3s-1$ without changing the function that it computes. This means that  after removing  extra whitespaces, every line of such a program (which will  be of the form form `var = NAND(var',var'')` for variable identifiers which will be either `X[###]`,`Y[###]` or `Temp[###]` where `###` is some number smaller than $3s$) will require at most, say, $20 + 3\log_{10} (3s) \leq O(\log s)$ characters. Since each one of those characters can be encoded using seven bits in the ASCII representation, we see that the number of functions computed by $s$-line NAND-CIRC programs is at most $2^{O(s \log s)}$.
 
 
 A function mapping $\{0,1\}^2$ to $\{0,1\}$ can be identified with the table of its four values on the inputs $00,01,10,11$;
@@ -392,10 +392,10 @@ Hence the number of functions mapping $\{0,1\}^n$ to $\{0,1\}$ is equal to the n
 This has the following interesting corollary:
 
 > # {.theorem title="Counting argument lower bound" #counting-lb}
-There is a function $F:\{0,1\}^n\rightarrow \{0,1\}$ such that the  shortest NAND program to compute $F$ requires $2^n/(100n)$ lines.
+There is a function $F:\{0,1\}^n\rightarrow \{0,1\}$ such that the  shortest NAND-CIRC program to compute $F$ requires $2^n/(100n)$ lines.
 
 > # {.proof data-ref="counting-lb"}
-Suppose, towards the sake of contradiction, that every function $F:\{0,1\}^n\rightarrow\{0,1\}$ can be computed by a NAND program of at most $s=2^n/(100n)$ lines.
+Suppose, towards the sake of contradiction, that every function $F:\{0,1\}^n\rightarrow\{0,1\}$ can be computed by a NAND-CIRC program of at most $s=2^n/(100n)$ lines.
 Then the by [program-count](){.ref} the total number of such functions would be at most $2^{10s\log s} \leq 2^{10 \log s \cdot 2^n/(100 n)}$.
 Since $\log s = n - \log (100 n) \leq n$ this means that the total number of such functions would be at most $2^{2^n/10}$, contradicting the fact that there are $2^{2^n}$ of them.
 
@@ -404,12 +404,12 @@ We now see that this is  tight in the sense that some functions do require such 
 In fact, as we explore in the exercises below, this is the case for _most_ functions.
 Hence  functions that can be computed in a small number of lines (such as addition, multiplication, finding short paths in graphs, or even the $EVAL$ function) are the exception, rather than the rule.
 
-![All functions mapping $n$ bits to $m$ bits can be computed by NAND programs of $O(m 2^n/n)$ lines, but most
+![All functions mapping $n$ bits to $m$ bits can be computed by NAND-CIRC programs of $O(m 2^n/n)$ lines, but most
 functions cannot be computed using much smaller programs. However there are many important exceptions which are functions such as addition, multiplication, program evaluation, and many others, that can be computed in polynomial time with a small exponent.](../figure/map_of_size.png){#size-bounds-fig .class width=300px height=300px}
 
 > # {.remark title="Advanced note: more efficient representation" #efficientrepresentation}
-The list of triples is not the shortest representation for NAND programs.
-We have seen that every NAND program of $s$ lines and $n$ inputs can be represented by a directed graph of $s+n$ vertices, of which $n$ have in-degree zero, and the $s$ others have in-degree at most two. Using the adjacency list representation, such a graph can be represented using roughly $2s\log(s+n) \leq 2s (\log s + O(1))$ bits.
+The list of triples is not the shortest representation for NAND-CIRC programs.
+We have seen that every NAND-CIRC program of $s$ lines and $n$ inputs can be represented by a directed graph of $s+n$ vertices, of which $n$ have in-degree zero, and the $s$ others have in-degree at most two. Using the adjacency list representation, such a graph can be represented using roughly $2s\log(s+n) \leq 2s (\log s + O(1))$ bits.
 Using this representation we can reduce the implicit constant in [program-count](){.ref} arbitrarily close to $2$.
 
 
@@ -418,16 +418,16 @@ Using this representation we can reduce the implicit constant in [program-count]
 
 We've seen that  NAND gates can be implemented using very different systems in the physical world.
 What about the reverse direction?
-Can NAND programs simulate any physical computer?
+Can NAND-CIRC programs simulate any physical computer?
 
 
-We can take a leap of faith and stipulate that NAND programs do actually encapsulate _every_ computation that we can think of.
+We can take a leap of faith and stipulate that NAND-CIRC programs do actually encapsulate _every_ computation that we can think of.
 Such a statement (in the realm of infinite functions, which we'll encounter in [chaploops](){.ref}) is typically attributed to Alonzo Church and Alan Turing, and in that context is  known as the _Church Turing Thesis_.
 As we will discuss in future lectures, the Church-Turing Thesis is not a mathematical theorem or conjecture.
 Rather, like theories in physics, the Church-Turing Thesis is about mathematically modelling the real world.
 In the context of finite functions, we can make the following informal hypothesis or prediction:
 
->_If a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed in the physical world using $s$ amount of "physical resources" then it can be computed by a NAND program of roughly $s$ lines._
+>_If a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed in the physical world using $s$ amount of "physical resources" then it can be computed by a NAND-CIRC program of roughly $s$ lines._
 
 We call this hypothesis the **"Physical Extended Church-Turing Thesis"** or _PECTT_ for short.
 A priori it might seem rather extreme to hypothesize that our meager NAND model captures all possible physical computation.
@@ -435,11 +435,11 @@ But yet, in more than a century of computing technologies, no one has yet built 
 
 We now  discuss  the "fine print" of the PECTT in more detail, as well as the (so far unsuccessful) challenges that have been raised against it.
 There is no single universally-agreed-upon formalization of "roughly $s$ physical resources",  but
-we can approximate this notion by considering the size of any  physical computing device and the time it takes to compute the output, and ask that  any such device can be simulated by a NAND program with a number of lines that is a polynomial (with not too large exponent) in the size of the system and the time it takes it to operate.
+we can approximate this notion by considering the size of any  physical computing device and the time it takes to compute the output, and ask that  any such device can be simulated by a NAND-CIRC program with a number of lines that is a polynomial (with not too large exponent) in the size of the system and the time it takes it to operate.
 
 
-In other words, we can phrase the PECTT as stipulating that any function that can be computed by a device of volume $V$ and time $t$, must be computable by a NAND program that has at most $\alpha(Vt)^\beta$ lines for some constants $\alpha,\beta$.
-The exact values for $\alpha,\beta$ are not so clear, but it is generally accepted that if $F:\{0,1\}^n \rightarrow \{0,1\}$ is an _exponentially hard_ function, in the sense that it has no NAND program of fewer than, say, $2^{n/2}$ lines, then a demonstration of a physical device that can compute $F$ for moderate input lengths (e.g., $n=500$) would be a violation of the PECTT.
+In other words, we can phrase the PECTT as stipulating that any function that can be computed by a device of volume $V$ and time $t$, must be computable by a NAND-CIRC program that has at most $\alpha(Vt)^\beta$ lines for some constants $\alpha,\beta$.
+The exact values for $\alpha,\beta$ are not so clear, but it is generally accepted that if $F:\{0,1\}^n \rightarrow \{0,1\}$ is an _exponentially hard_ function, in the sense that it has no NAND-CIRC program of fewer than, say, $2^{n/2}$ lines, then a demonstration of a physical device that can compute $F$ for moderate input lengths (e.g., $n=500$) would be a violation of the PECTT.
 
 
 > # {.remark title="Advanced note: making PECTT concrete" #concretepectt}
@@ -447,8 +447,8 @@ We can attempt at a more exact phrasing of the PECTT as follows.
 Suppose that $Z$ is a physical system that accepts $n$ binary stimuli and has a binary output, and can be enclosed in a sphere of volume $V$.
 We say that the system $Z$ _computes_ a function $F:\{0,1\}^n \rightarrow \{0,1\}$ within $t$ seconds if whenever we set the stimuli to some value  $x\in \{0,1\}^n$,  if we measure the output after $t$ seconds then we obtain $F(x)$.
 >
-We can phrase the PECTT as stipulating  that if there exists such a system $Z$ that  computes $F$ within $t$ seconds, then  there exists  a NAND program that computes $F$ and has at most $\alpha(Vt)^2$ lines, where $\alpha$ is some normalization constant.^[We can also consider variants where we use [surface area](https://goo.gl/ALgbVS) instead of volume, or take $(Vt)$ to a  different power than $2$.  However, none of these choices makes a qualitative difference  to the discussion below.]
-In particular, suppose that $F:\{0,1\}^n \rightarrow \{0,1\}$ is a function that requires $2^n/(100n)>2^{0.8n}$ lines for any NAND program (such a function exists by [counting-lb](){.ref}).
+We can phrase the PECTT as stipulating  that if there exists such a system $Z$ that  computes $F$ within $t$ seconds, then  there exists  a NAND-CIRC program that computes $F$ and has at most $\alpha(Vt)^2$ lines, where $\alpha$ is some normalization constant.^[We can also consider variants where we use [surface area](https://goo.gl/ALgbVS) instead of volume, or take $(Vt)$ to a  different power than $2$.  However, none of these choices makes a qualitative difference  to the discussion below.]
+In particular, suppose that $F:\{0,1\}^n \rightarrow \{0,1\}$ is a function that requires $2^n/(100n)>2^{0.8n}$ lines for any NAND-CIRC program (such a function exists by [counting-lb](){.ref}).
 Then the PECTT would imply that either the volume or the time of a system that computes $F$ will have to be at least $2^{0.2 n}/\sqrt{\alpha}$.
 Since this quantity grows _exponentially_ in $n$, it is not hard to set parameters so that even for moderately large values of $n$, such a system could not fit in our universe.
 >
@@ -459,7 +459,7 @@ The _Planck length_ $\ell_P$ (which is, roughly speaking, the shortest distance 
 The _Planck time_ $t_P$ (which is the time it takes for light to travel one Planck length) is about $2^{-150}$ seconds.
 In the above setting, if a function $F$ takes, say, 1KB of input (e.g., roughly $10^4$ bits, which can encode a $100$ by $100$ bitmap image), and requires at least $2^{0.8 n}= 2^{0.8 \cdot 10^4}$ NAND lines to compute, then any physical system that computes it would require either volume of $2^{0.2\cdot  10^4}$ Planck length cubed, which is more than $2^{1500}$ meters cubed or take at least $2^{0.2 \cdot 10^4}$ Planck Time units, which is larger than $2^{1500}$ seconds.
 To get a sense of how big that number is, note that the universe is only about $2^{60}$ seconds old, and its observable radius is only roughly $2^{90}$ meters.
-The above discussion suggests that it is possible to _empirically falsify_ the PECTT by presenting a smaller-than-universe-size system that computes such a function.^[There are of course several hurdles to refuting the PECTT in this way, one of which is that we can't actually test the system on all possible inputs. However,  it turns out that we can get around this issue using notions such as  _interactive proofs_ and _program checking_ that we might encounter later in this book. Another, perhaps more salient problem, is that while we know many hard functions exist, at the moment there is _no single explicit function_ $F:\{0,1\}^n \rightarrow \{0,1\}$ for which we can _prove_ an $\omega(n)$ (let alone  $\Omega(2^n/n)$) lower bound  on the number of lines that a NAND program needs to compute it.]
+The above discussion suggests that it is possible to _empirically falsify_ the PECTT by presenting a smaller-than-universe-size system that computes such a function.^[There are of course several hurdles to refuting the PECTT in this way, one of which is that we can't actually test the system on all possible inputs. However,  it turns out that we can get around this issue using notions such as  _interactive proofs_ and _program checking_ that we might encounter later in this book. Another, perhaps more salient problem, is that while we know many hard functions exist, at the moment there is _no single explicit function_ $F:\{0,1\}^n \rightarrow \{0,1\}$ for which we can _prove_ an $\omega(n)$ (let alone  $\Omega(2^n/n)$) lower bound  on the number of lines that a NAND-CIRC program needs to compute it.]
 
 ### Attempts at refuting  the PECTT
 
@@ -467,7 +467,7 @@ One of the admirable traits of mankind is the refusal to accept limitations.
 In the best case this is manifested by people achieving longstanding "impossible" challenges such as heavier-than-air flight, putting a person on the moon, circumnavigating the globe, or even resolving [Fermat's Last Theorem](https://en.wikipedia.org/wiki/Fermat%27s_Last_Theorem).
 In the worst case it is manifested by people continually following the footsteps of previous failures to try to do proven-impossible tasks such as build a [perpetual motion machine](https://en.wikipedia.org/wiki/Perpetual_motion), [trisect an angle](https://en.wikipedia.org/wiki/Angle_trisection) with a compass and straightedge, or refute [Bell's inequality](https://en.wikipedia.org/wiki/Bell%27s_theorem).
 The Physical Extended Church Turing thesis (in its various forms) has attracted both types of people.
-Here are some physical devices that have been speculated to  achieve computational tasks that cannot be done by not-too-large  NAND programs:
+Here are some physical devices that have been speculated to  achieve computational tasks that cannot be done by not-too-large  NAND-CIRC programs:
 
 * **Spaghetti sort:** One of the first lower bounds that Computer Science students encounter is that sorting $n$ numbers requires making $\Omega(n \log n)$ comparisons. The "spaghetti sort" is a description of a proposed "mechanical computer" that would do this faster. The idea is that to sort $n$ numbers $x_1,\ldots,x_n$, we could cut $n$ spaghetti noodles into lengths $x_1,\ldots,x_n$, and then if we simply hold them together in our hand and bring them down to a flat surface, they will emerge in sorted order. There are a great many reasons why this is not truly a challenge to the PECTT hypothesis, and I will not ruin the reader's fun in finding them out by her or himself.
 
@@ -487,12 +487,12 @@ In fact, we do not even know how to precisely _phrase_ this question, let alone 
 * **Relativity computer and time travel.** The formulation above assumed the notion of time, but under the theory of relativity time is in the eye of the observer. One approach to solve hard problems is to leave the computer to run for a lot of time from _his_ perspective, but to ensure that this is actually a short while from _our_ perspective. One approach to do so is for the user to start the computer and then go for a quick jog at close to the speed of light before checking on its status. Depending on how fast one goes, few seconds from the point of view of the user might correspond to centuries in computer time (it might even finish updating its Windows operating system!). Of course the catch here is that the energy required from  the user is proportional to how close one needs to get to the speed of light. A more interesting proposal is to use time travel via _closed timelike curves (CTCs)_. In this case we could run an arbitrarily long computation by doing some calculations, remembering  the current state, and the travelling back in time to continue where we left off. Indeed, if CTCs exist then we'd probably have to revise the PECTT (though in this case I will simply travel back in time and edit these notes, so I can claim I never conjectured it in the first place...)
 
 
-* **Humans.** Another computing system that has been proposed as a counterexample to the PECTT is a 3 pound computer of  about 0.1m radius, namely the human brain. Humans can walk around, talk, feel, and do others things that are not commonly  done by NAND programs, but can they compute partial functions that NAND programs cannot?
+* **Humans.** Another computing system that has been proposed as a counterexample to the PECTT is a 3 pound computer of  about 0.1m radius, namely the human brain. Humans can walk around, talk, feel, and do others things that are not commonly  done by NAND-CIRC programs, but can they compute partial functions that NAND-CIRC programs cannot?
 There are certainly computational tasks that _at the moment_  humans do better than computers (e.g., play some [video games](http://www.theverge.com/2016/11/4/13518210/deepmind-starcraft-ai-google-blizzard), at the moment), but based on our current understanding of the brain, humans (or other animals) have no _inherent_ computational advantage over computers.
-The brain has about $10^{11}$ neurons, each operating in a speed of about $1000$ operations per seconds. Hence a rough first approximation is that a NAND program of about $10^{14}$ lines could simulate one second of a brain's activity.^[This is a very rough approximation that could be wrong to a few orders of magnitude in either direction. For one, there are other structures in the brain apart from neurons that one might need to simulate, hence requiring higher overhead. On ther other hand, it is by no mean clear that we need to fully clone the brain in order to achieve the same computational tasks that it does.]
-Note that the fact that such a NAND program (likely) exists does not mean it is easy to _find_ it.
+The brain has about $10^{11}$ neurons, each operating in a speed of about $1000$ operations per seconds. Hence a rough first approximation is that a NAND-CIRC program of about $10^{14}$ lines could simulate one second of a brain's activity.^[This is a very rough approximation that could be wrong to a few orders of magnitude in either direction. For one, there are other structures in the brain apart from neurons that one might need to simulate, hence requiring higher overhead. On ther other hand, it is by no mean clear that we need to fully clone the brain in order to achieve the same computational tasks that it does.]
+Note that the fact that such a NAND-CIRC program (likely) exists does not mean it is easy to _find_ it.
 After all, constructing this program took evolution billions of years.
-Much of the recent efforts in artificial intelligence research is focused on finding programs that replicate some of the brain's capabilities and they take massive computational effort to discover, these programs often turn out to be much smaller than the pessimistic estimates above. For example, at the time of this writing, Google's [neural network for machine translation](https://arxiv.org/pdf/1609.08144.pdf) has about $10^4$ nodes (and can be simulated by a NAND program of comparable size). Philosophers, priests and many others have since time immemorial argued that there is something about humans that cannot be captured by  mechanical devices such as computers; whether or not that is the case, the evidence is thin that humans can perform computational tasks that are inherently impossible to achieve by computers of similar complexity.^[There are some well known scientists that have [advocated](http://www.telegraph.co.uk/science/2017/03/14/can-solve-chess-problem-holds-key-human-consciousness/) that humans have inherent computational advantages over computers. See also [this](https://arxiv.org/abs/1508.05929).]
+Much of the recent efforts in artificial intelligence research is focused on finding programs that replicate some of the brain's capabilities and they take massive computational effort to discover, these programs often turn out to be much smaller than the pessimistic estimates above. For example, at the time of this writing, Google's [neural network for machine translation](https://arxiv.org/pdf/1609.08144.pdf) has about $10^4$ nodes (and can be simulated by a NAND-CIRC program of comparable size). Philosophers, priests and many others have since time immemorial argued that there is something about humans that cannot be captured by  mechanical devices such as computers; whether or not that is the case, the evidence is thin that humans can perform computational tasks that are inherently impossible to achieve by computers of similar complexity.^[There are some well known scientists that have [advocated](http://www.telegraph.co.uk/science/2017/03/14/can-solve-chess-problem-holds-key-human-consciousness/) that humans have inherent computational advantages over computers. See also [this](https://arxiv.org/abs/1508.05929).]
 
 
 * **Quantum computation.** The most compelling attack on the Physical Extended Church Turing Thesis comes from the notion of _quantum computing_.
@@ -500,8 +500,8 @@ The idea was initiated by the observation that systems with strong quantum effec
 Turning this observation on its head, people have proposed using such systems to perform computations that we do not know how to do otherwise.
 At the time of this writing, Scalable quantum computers have not yet been built, but it is a fascinating possibility, and one that does not seem to contradict any known law of nature.
 We will discuss quantum computing in much more detail later in this course.
-Modeling it will  essentially involve extending the NAND programming language to the "QNAND" programming language that has one more (very special) operation.
-However, the main take away is that while quantum computing does suggest we need to amend the PECTT, it does _not_ require a complete revision of our worldview. Indeed, almost all of the content of this course remains the same whether the underlying computational model is the "classical" model of NAND programs or the quantum model of QNAND programs (also known as _quantum circuits_).
+Modeling it will  essentially involve extending the NAND-CIRC programming language to the "QNAND" programming language that has one more (very special) operation.
+However, the main take away is that while quantum computing does suggest we need to amend the PECTT, it does _not_ require a complete revision of our worldview. Indeed, almost all of the content of this course remains the same whether the underlying computational model is the "classical" model of NAND-CIRC programs or the quantum model of QNAND-CIRC programs (also known as _quantum circuits_).
 
 
 > # {.remark title="PECTT in practice" #PECTTpractice}
@@ -513,10 +513,10 @@ A statement such as "this cryptosystem provides 128 bits of security" really mea
 
 > # { .recap }
 * We can think of programs both as describing a _process_, as well as simply a list of symbols that can be considered as _data_ that can be fed as input to other programs.
-* We can write a NAND program that evaluates arbitrary NAND programs. Moreover, the efficiency loss in doing so is not too large.
-* We can even write a NAND program that evaluates programs in other programming languages such as Python, C, Lisp, Java, Go, etc.
-* By a leap of faith, we could hypothesize that the number of lines in the smallest NAND program for a function $F$ captures roughly the amount of physical resources required to compute $F$. This statement is known as the _Physical Extended Church-Turing Thesis (PECTT)_.
-* NAND programs capture a surprisingly wide array of computational models. The strongest currently known challenge to the PECTT comes from the potential for using quantum mechanical effects to speed-up computation, a model known as _quantum computers_.
+* We can write a NAND-CIRC program that evaluates arbitrary NAND-CIRC programs. Moreover, the efficiency loss in doing so is not too large.
+* We can even write a NAND-CIRC program that evaluates programs in other programming languages such as Python, C, Lisp, Java, Go, etc.
+* By a leap of faith, we could hypothesize that the number of lines in the smallest NAND-CIRC program for a function $F$ captures roughly the amount of physical resources required to compute $F$. This statement is known as the _Physical Extended Church-Turing Thesis (PECTT)_.
+* NAND-CIRC programs capture a surprisingly wide array of computational models. The strongest currently known challenge to the PECTT comes from the potential for using quantum mechanical effects to speed-up computation, a model known as _quantum computers_.
 
 
 ## Exercises
@@ -527,16 +527,16 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 
 > # {.exercise #reading-comp}
 Which one of the following statements is false: \
-a. There is an $O(s^3)$ line NAND program that given as input program $P$ of $s$ lines in the list-of-tuples representation computes the output  of $P$ when all its input are equal to $1$. \
-b. There is an $O(s^3)$ line NAND program that given as input program $P$ of $s$ characters encoded as a string of $7s$ bits using the ASCII encoding, computes the output  of $P$ when all its input are equal to $1$. \
-c. There is an $O(\sqrt{s})$ line NAND program that given as input program $P$ of $s$ lines in the list-of-tuples representation computes the output  of $P$ when all its input are equal to $1$.
+a. There is an $O(s^3)$ line NAND-CIRC program that given as input program $P$ of $s$ lines in the list-of-tuples representation computes the output  of $P$ when all its input are equal to $1$. \
+b. There is an $O(s^3)$ line NAND-CIRC program that given as input program $P$ of $s$ characters encoded as a string of $7s$ bits using the ASCII encoding, computes the output  of $P$ when all its input are equal to $1$. \
+c. There is an $O(\sqrt{s})$ line NAND-CIRC program that given as input program $P$ of $s$ lines in the list-of-tuples representation computes the output  of $P$ when all its input are equal to $1$.
 
 
 > # {.exercise title="Equals function" #equals}
-For every $k \in \N$, show that there is an $O(k)$ line NAND program that computes the function $EQUALS_k:\{0,1\}^{2k} \rightarrow \{0,1\}$ where $EQUALS(x,x')=1$ if and only if $x=x'$.
+For every $k \in \N$, show that there is an $O(k)$ line NAND-CIRC program that computes the function $EQUALS_k:\{0,1\}^{2k} \rightarrow \{0,1\}$ where $EQUALS(x,x')=1$ if and only if $x=x'$.
 
 > # {.exercise title="Equal to constant function" #equalstwo}
-For every $k \in \N$ and $x' \in \{0,1\}^k$, show that there is an $O(k)$ line NAND program that computes the function $EQUALS_{x'} : \{0,1\}^k \rightarrow \{0,1\}$ that on input $x\in \{0,1\}^k$ outputs $1$ if and only if $x=x'$.
+For every $k \in \N$ and $x' \in \{0,1\}^k$, show that there is an $O(k)$ line NAND-CIRC program that computes the function $EQUALS_{x'} : \{0,1\}^k \rightarrow \{0,1\}$ that on input $x\in \{0,1\}^k$ outputs $1$ if and only if $x=x'$.
 
 
 
@@ -545,7 +545,7 @@ For every $k \in \N$ and $x' \in \{0,1\}^k$, show that there is an $O(k)$ line N
 Suppose $n>1000$ and that we choose a function $F:\{0,1\}^n \rightarrow \{0,1\}$ at random, choosing for every $x\in \{0,1\}^n$ the value $F(x)$ to be the result of tossing an independent unbiased coin. Prove that the probability that there is a $2^n/(1000n)$ line program that computes $F$ is at most $2^{-100}$.^[__Hint:__ An equivalent way to say this is that you need to prove that the set of functions that can be computed using at most $2^n/(1000n)$ has fewer than $2^{-100}2^{2^n}$ elements. Can you see why?]
 
 > # {.exercise title="Circuit hierarchy theorem (challenge)"  #hierarchy-thm}
-Prove that there is a constant $c$ such that for every $n$, there is some function $F:\{0,1\}^n \rightarrow \{0,1\}$ s.t. __(1)__ $F$ _can_ be computed by a NAND program of at most $c n^5$ lines, but __(2)__ $F$ can _not_ be computed by a NAND program of at most $n^4 /c$ lines.^[__Hint:__ Find an approriate value of $t$ and a function $G:\{0,1\}^t \rightarrow \{0,1\}$ that can be computed in $O(2^t/t)$ lines but _can't_ be computed in $\Omega(2^t/t)$ lines, and then extend this to a function mapping $\{0,1\}^n$ to $\{0,1\}$.]
+Prove that there is a constant $c$ such that for every $n$, there is some function $F:\{0,1\}^n \rightarrow \{0,1\}$ s.t. __(1)__ $F$ _can_ be computed by a NAND-CIRC program of at most $c n^5$ lines, but __(2)__ $F$ can _not_ be computed by a NAND-CIRC program of at most $n^4 /c$ lines.^[__Hint:__ Find an approriate value of $t$ and a function $G:\{0,1\}^t \rightarrow \{0,1\}$ that can be computed in $O(2^t/t)$ lines but _can't_ be computed in $\Omega(2^t/t)$ lines, and then extend this to a function mapping $\{0,1\}^n$ to $\{0,1\}$.]
 
 
 ^[TODO: add exercise to do  evaluation of $T$ line   programs in $\tilde{O}(T^{1.5})$ time.]
@@ -567,5 +567,5 @@ Aaronson's [survey on  NP complete problems and physical reality](http://www.arx
 
 Some topics related to this chapter that might be accessible to advanced students include:
 
-* Lower bounds. While we've seen the "most" functions mapping $n$ bits to one bit require NAND programs of exponential size $\Omega(2^n/n)$, we actually do not know of any _explicit_ function for which we can _prove_ that it requires, say, at least $n^{100}$ or even $100n$ size. At the moment, strongest such lower bound we know is that there are quite simple and explicit $n$-variable functions that require at least $(5-o(1))n$ lines to compute, see [this paper of Iwama et al](http://www.wisdom.weizmann.ac.il/~ranraz/publications/P5nlb.pdf) as well as this more recent [work of Kulikov et al](http://logic.pdmi.ras.ru/~kulikov/papers/2012_5n_lower_bound_cie.pdf).
+* Lower bounds. While we've seen the "most" functions mapping $n$ bits to one bit require NAND-CIRC programs of exponential size $\Omega(2^n/n)$, we actually do not know of any _explicit_ function for which we can _prove_ that it requires, say, at least $n^{100}$ or even $100n$ size. At the moment, strongest such lower bound we know is that there are quite simple and explicit $n$-variable functions that require at least $(5-o(1))n$ lines to compute, see [this paper of Iwama et al](http://www.wisdom.weizmann.ac.il/~ranraz/publications/P5nlb.pdf) as well as this more recent [work of Kulikov et al](http://logic.pdmi.ras.ru/~kulikov/papers/2012_5n_lower_bound_cie.pdf).
 Proving lower bounds for restricted models of straightline programs (more often described as _circuits_) is an extremely interesting research area, for which [Jukna's book](http://www.thi.informatik.uni-frankfurt.de/~jukna/boolean/index.html) provides  very good introduction  and overview.

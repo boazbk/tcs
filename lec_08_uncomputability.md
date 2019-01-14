@@ -19,18 +19,18 @@
 
 
 
-One of the most significant results we showed for NAND programs is the notion of _universality_: that a NAND program can evaluate other NAND programs.
-However, there was a significant caveat in this notion. To evaluate a NAND program of $s$ lines, we needed to use a bigger number of lines than $s$.
+One of the most significant results we showed for NAND-CIRC programs is the notion of _universality_: that a NAND-CIRC program can evaluate other NAND-CIRC programs.
+However, there was a significant caveat in this notion. To evaluate a NAND-CIRC program of $s$ lines, we needed to use a bigger number of lines than $s$.
 (Equivalently, the function that evaluates a given circuit of $s$ gates on a given input, requires more than $s$ gates to compute.)
 
 
-It turns out that uniform models such as  NAND++ programs or Turing machines  allow us to "break out of this cycle" and obtain a truly _universal NAND++_ program $U$ that can evaluate all other programs, including programs that have more lines than $U$ itself.
+It turns out that uniform models such as  NAND-TM programs or Turing machines  allow us to "break out of this cycle" and obtain a truly _universal NAND++_ program $U$ that can evaluate all other programs, including programs that have more lines than $U$ itself.
 The existence of such a universal program has far reaching applications.
 Indeed, it is no exaggeration to say that the existence of a  universal program underlies the information technology revolution that began in the latter half of the 20th century (and is still ongoing).
 Up to that point in history, people have produced various special-purpose calculating devices, from the abacus, to the slide ruler, to machines to compute trigonometric series.
 But as Turing  (who was perhaps the one to see most clearly the ramifications of universality) observed, a _general purpose computer_ is much more powerful.
 That is, we only need to build a device that can compute the single function $U$, and we have the ability, _via software_ to extend it to do arbitrary computations.
-If we want to compute a new NAND++ program $P$, we do not need to build a new machine, but rather can represent $P$ as a string (or _code_) and use it as input for the universal program $U$.
+If we want to compute a new NAND-TM program $P$, we do not need to build a new machine, but rather can represent $P$ as a string (or _code_) and use it as input for the universal program $U$.
 Beyond the practical applications, the existence of a universal algorithm also surprising theoretical ramification, and in particular can be used to show the existence of _uncomputable functions_, upending the intuitions of  mathematicians over the centuries from Euler to Hilbert.
 In this chapter we will prove the existence of the universal program, as well as show its implications for uncomputability.
 
@@ -38,7 +38,7 @@ In this chapter we will prove the existence of the universal program, as well as
 
 ## Universality: A NAND++ interpreter in NAND++
 
-Like a NAND program, a NAND++  program (or a Python or Javascript program, for that matter)  is ultimately a sequence of symbols and hence can obviously be represented as a binary string.
+Like a NAND-CIRC program, a NAND++  program (or a Python or Javascript program, for that matter)  is ultimately a sequence of symbols and hence can obviously be represented as a binary string.
 We will spell out the exact details of one such  representation later, but as usual, the details are not so important (e.g., we can use the ASCII encoding of the source code).
 What is crucial is that we can use such representations to evaluate any program.
 That is, we prove the following theorem:
@@ -47,16 +47,16 @@ That is, we prove the following theorem:
 
 
 ::: {.theorem title="Universality of NAND++" #univnandppnoneff}
-There is a NAND++ program $U$ that computes the partial function $EVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ defined as follows:
+There is a NAND-TM program $U$ that computes the partial function $EVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ defined as follows:
 $$
 EVAL(P,x)=P(x)
 $$
-for strings $P,x$ such that $P$ is a valid representation of a NAND++ program which halts and produces an output on $x$.
+for strings $P,x$ such that $P$ is a valid representation of a NAND-TM program which halts and produces an output on $x$.
 Moreover, for every input $x\in \{0,1\}^*$  on which $P$ does not halt,   $U(P,x)$ does not halt as well.
 :::
 
 :::  {.proofidea data-ref="univnandppnoneff"}
-Once you understand what the theorem says, it is not that hard to prove. The desired program $U$ is an _interpreter_ for NAND++ program. That is, $U$ gets a representation of the program $P$ (think of the source code), and some input $x$, and needs to simulate the execution of $P$ on $x$.
+Once you understand what the theorem says, it is not that hard to prove. The desired program $U$ is an _interpreter_ for NAND-TM program. That is, $U$ gets a representation of the program $P$ (think of the source code), and some input $x$, and needs to simulate the execution of $P$ on $x$.
 
 Think of how you would do that in your favorite programming language.
 You would use some data structure, such as a dictionary, to store the values of all the variables and arrays of $P$.
@@ -68,19 +68,19 @@ Once you do that, translating this interpreter from your programming language to
 
 ![A particularly elegant example of a "meta-circular evaluator" comes from John McCarthy's 1960 paper, where he defined the Lisp programming language and gave a Lisp function that evaluates an arbitrary Lisp program (see above). Lisp was not initially intended as a practical programming language and this  example was merely meant as an illustration that the Lisp universal function is more elegant than the universal Turing machine, but McCarthy's graduate student Steve Russell suggested that it can be implemented. As McCarthy later recalled, _"I said to him, ho, ho, you're confusing theory with practice, this eval is intended for reading, not for computing. But he went ahead and did it. That is, he compiled the eval in my paper into IBM 704 machine code, fixing a bug, and then advertised this as a Lisp interpreter, which it certainly was"._ ](../figure/lispinterpreter.png){#lispinterpreterfig .class width=300px height=300px}
 
-[univnandppnoneff](){.ref} yields a stronger notion than the universality we proved for NAND, in the sense that we show a _single_ universal  NAND++ program $U$ that can evaluate _all_ NAND programs, including those that have more lines than the lines in $U$.^[This also occurs in practice. For example  the `C` compiler can be and is used to execute programs that are more complicated than itself.]
+[univnandppnoneff](){.ref} yields a stronger notion than the universality we proved for NAND, in the sense that we show a _single_ universal  NAND-TM program $U$ that can evaluate _all_ NAND-CIRC programs, including those that have more lines than the lines in $U$.^[This also occurs in practice. For example  the `C` compiler can be and is used to execute programs that are more complicated than itself.]
 In particular, $U$ can even be used to evaluate itself!
 This notion of _self reference_ will appear time and again in this course, and as we will see, leads to several counter-intuitive phenomena in computing.
 
-Because we can transform other computational models, including NAND<<, $\lambda$ calculus, or a C program,  this means that even the seemingly "weak" NAND++ programming language is powerful enough to contain an interpreter for all these models.
+Because we can transform other computational models, including NAND<<, $\lambda$ calculus, or a C program,  this means that even the seemingly "weak" NAND-TM programming language is powerful enough to contain an interpreter for all these models.
 
 
-To show the full proof of  [univnandppnoneff](){.ref}, we need to make sure $EVAL$ is well defined by specifying a  representation for NAND++ programs.
+To show the full proof of  [univnandppnoneff](){.ref}, we need to make sure $EVAL$ is well defined by specifying a  representation for NAND-TM programs.
 As mentioned, one perfectly fine choice is the ASCII representation of the source code.
 But for concreteness, we can use the following representation:
 
 
->_Representing NAND++ programs._ If $P$ is a NAND++ program with $a$ array variables and $b$ scalar variables, then every iteration of $P$ is obtained by computing a NAND program $P'$ with $a+b$ inputs and outputs that updates these variables (where the array variables are read and written to at the special location `i`).^[We  assume that the NAND++ program is _well formed_, in the sense that every array variable is accessed only with the index `i`.]
+>_Representing NAND-TM programs._ If $P$ is a NAND-TM program with $a$ array variables and $b$ scalar variables, then every iteration of $P$ is obtained by computing a NAND-CIRC program $P'$ with $a+b$ inputs and outputs that updates these variables (where the array variables are read and written to at the special location `i`).^[We  assume that the NAND-TM program is _well formed_, in the sense that every array variable is accessed only with the index `i`.]
 So, we can use the list-of-triples representation of $P'$ to represent $P$.
 That is, we represent $P$ by a tuple $(a,b,L)$ where $L$ is a list of triples of numbers in $\{0,\ldots, a+b-1 \}$.
 Each triple $(j,k,\ell)$ in $L$ corresponds to a line of code in $P$ of the form `foo = NAND(bar,blah)`.
@@ -93,7 +93,7 @@ We will identify the arrays `X`,`Xvalid`,`Y`,`Yvalid` with the indices $0,1,2,3$
 
 ::: {.proof data-ref="univnandppnoneff"}
 We will only sketch the proof, giving the major ideas.
-First, we observe that we can easily write a _Python_ program that, on input a representation $P=(a,b,L)$ of a NAND++ program and an input $X$, evaluates $P$ on $X$.
+First, we observe that we can easily write a _Python_ program that, on input a representation $P=(a,b,L)$ of a NAND-TM program and an input $X$, evaluates $P$ on $X$.
 Here is the code of this program for concreteness, though you can feel free to skip it if you are not familiar (or interested) in Python:
 
 ```python
@@ -145,7 +145,7 @@ def EVAL(P,X):
 ```
 
 Translating this _Python_ code to NAND++ code line by line is a mechanical, even if somewhat laborious, process. However, to prove the theorem we don't need to write the code fully, but can use our "eat the cake and have it too" paradigm.
-That is, while we can assume that our input program $P$ is written in the lowly NAND++ programming languages, in writing the program $U$ we are allowed to use richer models such as NAND<< (since they are equivalent by [RAMTMequivalencethm](){.ref}).
+That is, while we can assume that our input program $P$ is written in the lowly NAND-TM programming languages, in writing the program $U$ we are allowed to use richer models such as NAND<< (since they are equivalent by [RAMTMequivalencethm](){.ref}).
 Translating the above Python code to NAND<< is truly straightforward.
 The only issue is that NAND<< doesn't have the dictionary data structure built in, but we can represent a dictionary of the form $\{ key_0:val_0 , \ldots, key_{m-1}:val_{m-1} \}$  by simply a string (stored in an array) which is the list of pairs $(key_0,val_0),\ldots,(key_{m-1},val_{m-1})$ (where each pair is represented as a string in some prefix-free way). To retrieve an element with key $k$ we can scan the list from beginning to end and compare  each $key_i$ with $k$.
 Similarly we scan the list to update the dictionary with a new value, either modifying it or appending the $(key,val)$ pair at the end.
@@ -156,8 +156,8 @@ The above is a very inefficient way to implement the dictionary data structure i
 
 ## Is every function computable?
 
-We saw that NAND programs can compute every finite function.
-A natural guess is that NAND++ programs could compute every infinite function.
+We saw that NAND-CIRC programs can compute every finite function.
+A natural guess is that NAND-TM programs could compute every infinite function.
 However, this turns out to be _false_, even for  functions with $0/1$ output.
 That is, there exists a function $F:\{0,1\}^* \rightarrow \{0,1\}$ that is  _uncomputable_!
 This is actually quite surprising, if you think about it.
@@ -165,16 +165,16 @@ Our intuitive notion of a "function" (and the notion most scholars had until the
 The notion of an "uncomputable function" thus seems to be a contradiction in terms, but yet the following theorem shows that such creatures do exist:
 
 > # {.theorem title="Uncomputable functions" #uncomputable-func}
-There exists a function $F^*:\{0,1\}^* \rightarrow \{0,1\}$ that is not computable by any NAND++ program.
+There exists a function $F^*:\{0,1\}^* \rightarrow \{0,1\}$ that is not computable by any NAND-TM program.
 
 > # {.proof data-ref="uncomputable-func"}
 The proof is illustrated in [diagonal-fig](){.ref}.
 We start by defining the following function $G:\{0,1\}^* \rightarrow \{0,1\}$:
 >
-For every string $x\in\{0,1\}^*$, if $x$ satisfies __(1)__ $x$ is a valid representation of a NAND++ program $P_x$ and __(2)__ when the program $P_x$ is executed on the input $x$ it  halts and  produces an output,  then we define $G(x)$ as the first  bit of this output.  Otherwise (i.e., if $x$ is not a valid representation of a program, or the program $P_x$  never halts on $x$)  we define $G(x)=0$.
+For every string $x\in\{0,1\}^*$, if $x$ satisfies __(1)__ $x$ is a valid representation of a NAND-TM program $P_x$ and __(2)__ when the program $P_x$ is executed on the input $x$ it  halts and  produces an output,  then we define $G(x)$ as the first  bit of this output.  Otherwise (i.e., if $x$ is not a valid representation of a program, or the program $P_x$  never halts on $x$)  we define $G(x)=0$.
 We define $F^*(x) := 1 - G(x)$.
 >
-We claim that there is no NAND++ program that computes $F^*$.
+We claim that there is no NAND-TM program that computes $F^*$.
 Indeed, suppose, towards the sake of contradiction,  that there was some program $P$ that computed $F^*$, and let $x$ be the binary string that represents the program $P$.
 Then on input $x$, the program $P$ outputs $F^*(x)$.
 But by definition, the program should also output $1-F^*(x)$, hence yielding a contradiction.
@@ -189,7 +189,7 @@ It is not often the case that a few lines of mathematical reasoning establish a 
 
 The type of argument used to prove [uncomputable-func](){.ref} is known as  _diagonalization_ since it can be described as defining a function based on the diagonal entries of a table as in [diagonal-fig](){.ref}.
 The proof can be thought of as an infinite version of the  _counting_ argument we used for showing lower bound for NAND progams in [counting-lb](){.ref}.
-Namely, we show that it's not possible to compute all functions from $\{0,1\}^* \rightarrow \{0,1\}$ by NAND++ programs simply because there are more functions like that then there are NAND++ programs.
+Namely, we show that it's not possible to compute all functions from $\{0,1\}^* \rightarrow \{0,1\}$ by NAND-TM programs simply because there are more functions like that then there are NAND-TM programs.
 
 
 
@@ -201,7 +201,7 @@ That is, perhaps it is a function that no one actually _wants_ to compute.
 It turns out that there are natural uncomputable functions:
 
 > # {.theorem title="Uncomputability of Halting function" #halt-thm}
-Let $HALT:\{0,1\}^* \rightarrow \{0,1\}$ be the function such that $HALT(P,x)=1$ if the NAND++ program $P$ halts on input $x$ and equals $0$ if it does not.
+Let $HALT:\{0,1\}^* \rightarrow \{0,1\}$ be the function such that $HALT(P,x)=1$ if the NAND-TM program $P$ halts on input $x$ and equals $0$ if it does not.
 Then $HALT$ is not computable.
 
 Before turning to prove [halt-thm](){.ref}, we note that $HALT$ is a very natural function to want to compute.
@@ -225,10 +225,10 @@ That is, we will assume towards a contradiction that $HALT$ is computable, and u
 
 ::: {.proof data-ref="halt-thm"}
 The proof will use the previously established [uncomputable-func](){.ref} , as illustrated in [halt-fig](){.ref}.
-That is, we will assume, towards a contradiction, that there is NAND++ program $P^*$ that can compute the $HALT$ function, and use that to derive that there is some NAND++ program $Q^*$ that computes the function  $F^*$ defined above, contradicting [uncomputable-func](){.ref}. (This is known as a proof by _reduction_, since we reduce the task of computing $F^*$ to the task of computing $HALT$. By the contrapositive, this means the uncomputability of $F^*$ implies the uncomputability of $HALT$.)
+That is, we will assume, towards a contradiction, that there is NAND-TM program $P^*$ that can compute the $HALT$ function, and use that to derive that there is some NAND-TM program $Q^*$ that computes the function  $F^*$ defined above, contradicting [uncomputable-func](){.ref}. (This is known as a proof by _reduction_, since we reduce the task of computing $F^*$ to the task of computing $HALT$. By the contrapositive, this means the uncomputability of $F^*$ implies the uncomputability of $HALT$.)
 
-Indeed, suppose that  $P^*$ was a NAND++ program that computes $HALT$.
-Then we can write a NAND++ program $Q^*$ that does the following on input $x\in \{0,1\}^*$:^[Note that we are using here a "high level" description of NAND++ programs. We know that we can implement the steps below, for example by first writing them in NAND<< and then transforming the NAND<< program to NAND++. Step 1 involves simply running the program $P^*$ on some input.]
+Indeed, suppose that  $P^*$ was a NAND-TM program that computes $HALT$.
+Then we can write a NAND-TM program $Q^*$ that does the following on input $x\in \{0,1\}^*$:^[Note that we are using here a "high level" description of NAND-TM programs. We know that we can implement the steps below, for example by first writing them in NAND<< and then transforming the NAND<< program to NAND++. Step 1 involves simply running the program $P^*$ on some input.]
 
 >__Program $Q^*(x)$__
 >
@@ -266,11 +266,11 @@ An excellent way to get a better understanding of [halt-thm](){.ref} is to do [h
 
 Many people's first instinct when they see the proof of [halt-thm](){.ref} is to not believe it.
 That is, most people  do  believe the mathematical statement, but intuitively it doesn't seem that the Halting problem is really that hard.
-After all, being uncomputable only means that $HALT$ cannot be computed by a NAND++ program.
+After all, being uncomputable only means that $HALT$ cannot be computed by a NAND-TM program.
 But  programmers seem to solve $HALT$ all the time by informally or formally arguing that their programs halt.
 While it does occasionally happen that a program unexpectedly enters an infinite loop, is there really no way to solve the halting problem?
 Some people argue that _they_ can, if they think hard enough, determine whether any concrete program that they are given will halt or not.
-Some have even [argued](https://en.wikipedia.org/wiki/Roger_Penrose#Physics_and_consciousness) that humans in general have the ability to do that, and hence humans have inherently superior intelligence to computers or anything else modeled by NAND++ programs (aka Turing machines).^[This argument has also  been connected to the issues of consciousness and free will. I am not completely sure of its relevance  but perhaps the reasoning is  that humans have the ability to solve the halting problem but they exercise their free will and consciousness by choosing not to do so.]
+Some have even [argued](https://en.wikipedia.org/wiki/Roger_Penrose#Physics_and_consciousness) that humans in general have the ability to do that, and hence humans have inherently superior intelligence to computers or anything else modeled by NAND-TM programs (aka Turing machines).^[This argument has also  been connected to the issues of consciousness and free will. I am not completely sure of its relevance  but perhaps the reasoning is  that humans have the ability to solve the halting problem but they exercise their free will and consciousness by choosing not to do so.]
 
 
 The best answer we have so far is that there  truly is no way to solve $HALT$, whether using Macs, PCs, quantum computers, humans,  or any other combination of mechanical and biological devices.
@@ -310,7 +310,7 @@ We will see several  examples in such results in this chapter and the exercises,
 
 The idea behind such uncomputability results is conceptually simple but can  at first be quite confusing.
 If we know that $HALT$ is uncomputable, and we want to show that some other function $BLAH$ is uncomputable, then we can do so via a _contrapositive_ argument (i.e., proof by contradiction).
-That is, we show that _if_ we had a NAND++ program that computes $BLAH$ _then_ we could have a NAND++ program that computes $HALT$.
+That is, we show that _if_ we had a NAND-TM program that computes $BLAH$ _then_ we could have a NAND-TM program that computes $HALT$.
 (Indeed, this is exactly how we showed that $HALT$ itself is uncomputable, by showing this follows from  the uncomputability of the function $F^*$ from [uncomputable-func](){.ref}.)
 
 For example, to prove that $BLAH$ is uncomputable,  we could show that there is a  computable function $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every pair $P$ and $x$, $HALT(P,x)=BLAH(R(P,x))$.
@@ -427,7 +427,7 @@ Alas it turns out that the task of checking that a given program conforms with s
 We start by proving a simple generalization of the Halting problem:
 
 > # {.theorem title="Halting without input" #haltonzero-thm}
-Let $HALTONZERO:\{0,1\}^* \rightarrow\{0,1\}$ be the function that on input $P\in \{0,1\}^*$, maps $P$ to $1$ if and only if the NAND++ program represented by $P$ halts when supplied the single bit $0$ as input.
+Let $HALTONZERO:\{0,1\}^* \rightarrow\{0,1\}$ be the function that on input $P\in \{0,1\}^*$, maps $P$ to $1$ if and only if the NAND-TM program represented by $P$ halts when supplied the single bit $0$ as input.
 Then $HALTONZERO$ is uncomputable.
 
 > # { .pause }
@@ -492,7 +492,7 @@ This technique is quite common in reductions and elsewhere, and we will often us
 Once we show the uncomputability of $HALTONZERO$ we can extend to various other natural functions:
 
 > # {.theorem title="Computing all zero function" #allzero-thm}
-Let $ZEROFUNC:\{0,1\}^* \rightarrow \{0,1\}$ be the function that on input $P\in \{0,1\}^*$, maps $P$ to $1$ if and only if the NAND++ program represented by $P$ outputs $0$ on every input $x\in \{0,1\}^*$. Then $ZEROFUNC$ is uncomputable.
+Let $ZEROFUNC:\{0,1\}^* \rightarrow \{0,1\}$ be the function that on input $P\in \{0,1\}^*$, maps $P$ to $1$ if and only if the NAND-TM program represented by $P$ outputs $0$ on every input $x\in \{0,1\}^*$. Then $ZEROFUNC$ is uncomputable.
 
 > # {.proof data-ref="allzero-thm"}
 The proof is by reduction to $HALTONZERO$. Suppose, towards the sake of contradiction, that there was an algorithm $A$ such that $A(P')=ZEROFUNC(P')$ for every $P'\in \{0,1\}^*$. Then we will construct an algorithm $B$ that solves $HALTONZERO$.
@@ -549,7 +549,7 @@ Often the properties of programs that we are most interested in are the _semanti
 
 
 ::: {.theorem title="Rice's Theorem (slightly restricted version)" #rice-thm}
-We say that two strings $P$ and $Q$ representing NAND++ programs are _functionally equivalent_, denoted by $P \equiv Q$, if for every $x\in \{0,1\}^*$, either both $P$ and $Q$ don't halt on $x$, or $P(x)=Q(x)$. We say that a function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _semantic_ if for every functionally equivalent $P$ and $Q$,  $F(P)=F(Q)$.
+We say that two strings $P$ and $Q$ representing NAND-TM programs are _functionally equivalent_, denoted by $P \equiv Q$, if for every $x\in \{0,1\}^*$, either both $P$ and $Q$ don't halt on $x$, or $P(x)=Q(x)$. We say that a function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _semantic_ if for every functionally equivalent $P$ and $Q$,  $F(P)=F(Q)$.
 
 Then the only semantic computable total functions $F:\{0,1\}^* \rightarrow \{0,1\}$ are the constant zero function and the constant one function.
 :::
@@ -599,7 +599,7 @@ An examination of this proof shows that we did not use anything about $MONOTONE$
 Rice's Theorem is so powerful and such a popular way of proving uncomputability that people sometimes get confused and think that it is
 the _only_ way to prove uncomputability. In particular, a common misconception is  that if a function $F$ is _not_ semantic then it is _computable_.
 This is not at all the case.
-For example, consider the following function $HALTNOYALE:\{0,1\}^* \rightarrow \{0,1\}$. This is a function that on input a string that represents a NAND++ program $P$, outputs $1$ if and only if both __(i)__ $P$ halts on the input $0$, and __(ii)__ the program $P$ does not contain a variable with the identifier `Yale`. The function $HALTNOYALE$ is clearly not semantic, as  it will output two different values when given as input one of the following two functionally equivalent programs:
+For example, consider the following function $HALTNOYALE:\{0,1\}^* \rightarrow \{0,1\}$. This is a function that on input a string that represents a NAND-TM program $P$, outputs $1$ if and only if both __(i)__ $P$ halts on the input $0$, and __(ii)__ the program $P$ does not contain a variable with the identifier `Yale`. The function $HALTNOYALE$ is clearly not semantic, as  it will output two different values when given as input one of the following two functionally equivalent programs:
 
 ```python
 Yale[0] = NAND(X[0],X[0])
@@ -621,8 +621,8 @@ Moreover, as we will see in [godelchap](){.ref}, there are uncomputable function
 
 ### Halting and Rice's Theorem for other Turing-complete models
 
-As we saw before, many natural computational models turn out to be _equivalent_ to one another, in the sense that we can transform a "program" of one  model (such as a $\lambda$ expression, or a game-of-life configurations) into another model (such as a NAND++ program).
-This equivalence implies that we can translate the uncomputability of the Halting problem for NAND++ programs into uncomputability for Halting in other models.
+As we saw before, many natural computational models turn out to be _equivalent_ to one another, in the sense that we can transform a "program" of one  model (such as a $\lambda$ expression, or a game-of-life configurations) into another model (such as a NAND-TM program).
+This equivalence implies that we can translate the uncomputability of the Halting problem for NAND-TM programs into uncomputability for Halting in other models.
 For example:
 
 > # {.theorem title="Turing Machine Halting" #halt-tm}
@@ -632,12 +632,12 @@ Let $TMHALT:\{0,1\}^* \rightarrow \{0,1\}$ be the function that on input  string
 Once again, this is a good point for you to stop and try to prove the result yourself before reading the proof below.
 
 > # {.proof }
-We have seen in [TM-equiv-thm](){.ref} that for every NAND++ program $P$ there is an equivalent Turing machine $M_P$ such that for every $x$, that computes the same function.
+We have seen in [TM-equiv-thm](){.ref} that for every NAND-TM program $P$ there is an equivalent Turing machine $M_P$ such that for every $x$, that computes the same function.
 The machine $M_P$ exactly simulated $P$, in the sense that  $M_P$ halts on $x$ if and only $P$ halts on $x$ (and moreover if they both halt, they produce the same output).
 Going back to the proof of [TM-equiv-thm](){.ref}, we can see that the transformation of the program $P$ to the Turing machine $M(P)$ was described in a _constructive_ way.
 >
 Specifically, we gave explicit instructions how to build the Turing machine $M(P)$ given the description of the program $P$.
-Thus, we can view the proof of [TM-equiv-thm](){.ref} as a high level description of an _algorithm_ to obtain $M_P$ from the program $P$, and using our "have your cake and eat it too" paradigm, this means that there exists also a NAND++ program $R$ such  that computes the map $P \mapsto M_P$.
+Thus, we can view the proof of [TM-equiv-thm](){.ref} as a high level description of an _algorithm_ to obtain $M_P$ from the program $P$, and using our "have your cake and eat it too" paradigm, this means that there exists also a NAND-TM program $R$ such  that computes the map $P \mapsto M_P$.
 We see that
 $$
 HALT(P,x)=TMHALT(M_P,x)=TMHALT(R(P),x) \label{eqtmhalt}
@@ -653,7 +653,7 @@ We can also generalize Rice's Theorem to any Turing complete model (see [turingc
 > # {.theorem title="Rice's Theorem for general models (optional)" #genericricethm}
 Let $\mathcal{F}$ be the set of all partial functions from $\{0,1\}^*$ to $\{0,1\}^*$ and $\mathcal{M}:\{0,1\}^* \rightarrow \mathcal{F}$ be a Turing complete model.
 Then for every function $\mathcal{P}:\mathcal{F} \rightarrow \{0,1\}$ that is not the constant zero or one function, the function
-$F_{\mathcal{P}}:\{0,1\}^* \rightarrow \{0,1\}$ defined as $F_{\mathcal{P}}(Q)= \mathcal{P}(\mathcal{M}(Q))$ is uncomputable (by NAND++ programs).
+$F_{\mathcal{P}}:\{0,1\}^* \rightarrow \{0,1\}$ defined as $F_{\mathcal{P}}(Q)= \mathcal{P}(\mathcal{M}(Q))$ is uncomputable (by NAND-TM programs).
 
 ::: { .pause }
 The generality of [genericricethm](){.ref} comes at the expense of being cumbersome to state.
@@ -664,13 +664,13 @@ Once you do so, working out the proof is fairly straightforward.
 
 ::: {.proof data-ref="genericricethm"}
 We only sketch the proof. This is actually a fairly straightforward corollary of the "standard" Rice's Theorem ([rice-thm](){.ref}).
-Any non-trivial property of partial functions $\mathcal{P}:\mathcal{F} \rightarrow \{0,1\}$ gives rise to a semantic and non-trivial function on NAND++ programs $G_{\mathcal{P}}:\{0,1\}^* \rightarrow \{0,1\}$. That  is, $G_{\mathcal{P}}(P)$ equals $\mathcal{P}(F_P)$ whwere $F_P$ is the function computed by the program $P$.
+Any non-trivial property of partial functions $\mathcal{P}:\mathcal{F} \rightarrow \{0,1\}$ gives rise to a semantic and non-trivial function on NAND-TM programs $G_{\mathcal{P}}:\{0,1\}^* \rightarrow \{0,1\}$. That  is, $G_{\mathcal{P}}(P)$ equals $\mathcal{P}(F_P)$ whwere $F_P$ is the function computed by the program $P$.
 By Rice's Theorem, $G_{\mathcal{P}}$ will be uncomputable.
 However, if $\mathcal{M}$ is a Turing-complete model, and we could compute the function $F_{\mathcal{P}}$ defined as $F_{\mathcal{P}}(Q)  = \mathcal{P}(\mathcal{M}(Q))$ then we could compute $G_{\mathcal{P}}$ by simply using
 $$
 G_{\mathcal{P}}(P) = F_{\mathcal{P}}(ENCODE_{\mathcal{M}}(P))
 $$
-where $ENCODE_{\mathcal{M}}$ is the function that maps a NAND++ program $P$ into a program in $\mathcal{M}$ that computes the same function. Such computale a function $ENCODE_{\mathcal{M}}$ exists by the definition of Turing completeness ([turingcompletedef](){.ref}).
+where $ENCODE_{\mathcal{M}}$ is the function that maps a NAND-TM program $P$ into a program in $\mathcal{M}$ that computes the same function. Such computale a function $ENCODE_{\mathcal{M}}$ exists by the definition of Turing completeness ([turingcompletedef](){.ref}).
 :::
 
 
@@ -692,9 +692,9 @@ Moreover, even phrasing the right theorem to prove (i.e., the specification) if 
 
 
 ::: { .recap }
-* There is a _universal_ NAND++ program $U$ such that on input a description of a NAND++ program $P$ and some input $x$,  $U(P,x)$ halts and  outputs $P(x)$ if (and only if) $P$ halts on input $x$. Unlike in the case of finite computation (i.e., NAND programs / circuits), the input to the program $U$ can be a program $P$ that has more lines than $U$ itself.
+* There is a _universal_ NAND-TM program $U$ such that on input a description of a NAND-TM program $P$ and some input $x$,  $U(P,x)$ halts and  outputs $P(x)$ if (and only if) $P$ halts on input $x$. Unlike in the case of finite computation (i.e., NAND-CIRC programs / circuits), the input to the program $U$ can be a program $P$ that has more lines than $U$ itself.
 
-* Unlike the finite case, there are actually functions that are _iherenently uncomputable_ in the sense that they cannot be computed by _any_ NAND++ program.
+* Unlike the finite case, there are actually functions that are _iherenently uncomputable_ in the sense that they cannot be computed by _any_ NAND-TM program.
 
 * These include not only some "degenerate" or "esoteric" functions but also functions that people have deeply cared about and conjectured that could be computed.
 
@@ -717,9 +717,9 @@ Prove [paritythm](){.ref} without using  Rice's Theorem.
 > # {.exercise #salil-ex}
 For each of the following two functions, say whether it is decidable (computable) or not:
 >
-1. Given a NAND++ program $P$, an input $x$, and a number $k$, when we run $P$ on $x$, does the index variable `i` ever reach $k$?
+1. Given a NAND-TM program $P$, an input $x$, and a number $k$, when we run $P$ on $x$, does the index variable `i` ever reach $k$?
 >
-2. Given a NAND++ program $P$, an input $x$, and a number $k$, when we run $P$ on $x$, does $P$ ever write to an array at index $k$?
+2. Given a NAND-TM program $P$, an input $x$, and a number $k$, when we run $P$ on $x$, does $P$ ever write to an array at index $k$?
 
 
 

@@ -139,11 +139,11 @@ This is important not just for understanding regular expressions themselves (whi
 
 We can think of  regular expressions  as a type of  "programming language".
 That is, we can think of a regular expression $exp$ over the alphabet $\Sigma$ as a program that computes the function $\Phi_{exp}:\Sigma^* \rightarrow \{0,1\}$.^[Regular expressions (and context free grammars, which we'll see below) are often thought of as _generative models_ rather than computational ones, since their definition does not immediately give rise to a way to _decide_ matches but rather to a way to generate matching strings by repeatedly choosing which rules to apply.]
-It turns out that this  "regular expression programming language" is simple in the sense that for every regular expression $exp$, we can compute the function $\Phi_{exp}$ by a Turing Machine / NAND++ program that always halts:
+It turns out that this  "regular expression programming language" is simple in the sense that for every regular expression $exp$, we can compute the function $\Phi_{exp}$ by a Turing Machine / NAND-TM program that always halts:
 
 > # {.theorem title="Regular expression always halt" #regularexphalt}
 For every finite set $\Sigma$ and $exp \in (\Sigma \cup \{ (,),|,*,\emptyset, "" \})^*$,  if $exp$ is a valid regular expression over $\Sigma$ then $\Phi_{exp}$ is a total computable function from $\Sigma^*$ to $\{0,1\}$.
-That is, there is an always halting NAND++ program $P_{exp}$ that computes $\Phi_{exp}$.^[Formally, we only defined the notion of NAND++ programs that compute functions whose inputs are _binary_ strings, but as usual we can represent non-binary strings over the binary alphabet. Specifically, since $\Sigma$ is a finite set, we can always represent an element of it by a binary string of length $\ceil{\log |\Sigma|}$, and so can represent a string $x \in \Sigma^*$ as a string $\hat{x} \in \{0,1\}^*$ of length $\ceil{\log |\Sigma|}|x|$.]
+That is, there is an always halting NAND-TM program $P_{exp}$ that computes $\Phi_{exp}$.^[Formally, we only defined the notion of NAND-TM programs that compute functions whose inputs are _binary_ strings, but as usual we can represent non-binary strings over the binary alphabet. Specifically, since $\Sigma$ is a finite set, we can always represent an element of it by a binary string of length $\ceil{\log |\Sigma|}$, and so can represent a string $x \in \Sigma^*$ as a string $\hat{x} \in \{0,1\}^*$ of length $\ceil{\log |\Sigma|}|x|$.]
 
 > # {.proofidea data-ref="regularexphalt"}
 The main idea behind the proof is to see that [matchingregexpdef](){.ref} actually specifies a recursive algorithm for _computing_ $\Phi_{exp}$.
@@ -355,7 +355,7 @@ The fact that functions computed by regular expressions always halt is of course
 When you make a regular expression search, you are guaranteed that you will get a result.
 This is   why operating systems, for example, restrict you for searching a file via regular expressions and don't allow searching by specifying an arbitrary function via a general-purpose programming language.
 But this always-halting property comes at a cost.
-Regular expressions cannot compute every function that is computable by NAND++ programs.
+Regular expressions cannot compute every function that is computable by NAND-TM programs.
 In fact there are some very simple (and useful!) functions that they cannot compute, such as the following:
 
 > # {.lemma title="Matching parenthesis" #regexpparn}
@@ -746,7 +746,7 @@ Since we can encode every element of $\Sigma$ using $\ceil{\log |\Sigma|}$ bits 
 
 ::: {.proofidea data-ref="fullnesscfgdef"}
 We prove the theorem by reducing from the Halting  problem.
-To do that we use the notion of _configurations_ of NAND++ programs, as defined in [confignandppdef](){.ref}.
+To do that we use the notion of _configurations_ of NAND-TM programs, as defined in [confignandppdef](){.ref}.
 Recall that a _configuration_ of a program $P$ is a binary string $s$  that encodes all the information about the program in the current iteration.
 
 We define $\Sigma$ to be $\{0,1\}$ plus some separator characters  and  define $INVALID_P:\Sigma^* \rightarrow \{0,1\}$ to be the function that maps every string $L\in \Sigma^*$ to $1$ if and only $L$ does _not_ encode a sequence of configurations that correspond to a valid halting history of the computation of $P$ on the empty input.
@@ -759,8 +759,8 @@ Specifically we will reverse all the odd-numbered strings.
 
 ::: {.proof data-ref="fullnesscfgdef"}
 We only sketch the proof. We will show that if we can compute $CFGFULL$ then we can solve $HALTONZERO$, which has been proven uncomputable in [haltonzero-thm](){.ref}.
-Let $P$ be an input program for $HALTONZERO$. We will use the notion of _configurations_ of a NAND++ program, as defined in [confignandppdef](){.ref}.
-Recall that a configuration of a NAND++ program $P$ and input $x$ captures the full state of $P$ (contents of all the variables) at some iteration of the computation.
+Let $P$ be an input program for $HALTONZERO$. We will use the notion of _configurations_ of a NAND-TM program, as defined in [confignandppdef](){.ref}.
+Recall that a configuration of a NAND-TM program $P$ and input $x$ captures the full state of $P$ (contents of all the variables) at some iteration of the computation.
 The particular details of configurations are not so important, but what you need to remember is that:
 
 * A configuration can be encoded by a binary string $\sigma \in \{0,1\}^*$.

@@ -1,10 +1,10 @@
-# Physical implementations of NAND programs
+# Physical implementations of NAND-CIRC programs
 
 > # { .objectives }
-* Understand how NAND programs can map to physical processes in a variety of ways.
-* Learn the model of _Boolean circuits_ and get proficient in moving between description of a NAND program as a code and as a circuit or _labeled graph_.
+* Understand how NAND-CIRC programs can map to physical processes in a variety of ways.
+* Learn the model of _Boolean circuits_ and get proficient in moving between description of a NAND-CIRC program as a code and as a circuit or _labeled graph_.
 * See that NAND is a _universal basis_ for circuits, and examples for universal and non-universal families of gates.
-* Understand the _physical extended Church-Turing thesis_ that NAND programs capture _all_ feasible computation in the physical world, and its physical and philosophical implications.
+* Understand the _physical extended Church-Turing thesis_ that NAND-CIRC programs capture _all_ feasible computation in the physical world, and its physical and philosophical implications.
 
 
 >_"In existing digital computing devices various mechanical or electrical devices have been used as
@@ -13,20 +13,20 @@ to move; single or combined telegraph relays, actuated by an electromagnet and o
 electric circuits; combinations of these two elements;—and finally there exists the plausible and
 tempting possibility of using vacuum tubes"_, John von Neumann, first draft of a report on the EDVAC, 1945
 
-We have defined NAND programs as a model for computation, but is this model only a mathematical abstraction, or is it
+We have defined NAND-CIRC programs as a model for computation, but is this model only a mathematical abstraction, or is it
 connected in some way to physical reality?
-For example, if a function $F:\{0,1\}^n \rightarrow \{0,1\}$ can be computed by a NAND program of $s$ lines, is it possible, given an actual input $x\in \{0,1\}^n$, to compute $F(x)$ in the real world using an amount of resources that is roughly proportional to $s$?
+For example, if a function $F:\{0,1\}^n \rightarrow \{0,1\}$ can be computed by a NAND-CIRC program of $s$ lines, is it possible, given an actual input $x\in \{0,1\}^n$, to compute $F(x)$ in the real world using an amount of resources that is roughly proportional to $s$?
 
 In some sense, we already know that the answer to this question is __Yes__.
-We have seen a _Python_ program that can evaluate NAND programs,
-and so if we have a NAND program $P$, we can use any computer with Python installed on it to evaluate $P$ on inputs of our choice.
-But do we really need modern computers and programming languages to run NAND programs?
+We have seen a _Python_ program that can evaluate NAND-CIRC programs,
+and so if we have a NAND-CIRC program $P$, we can use any computer with Python installed on it to evaluate $P$ on inputs of our choice.
+But do we really need modern computers and programming languages to run NAND-CIRC programs?
 And can we understand more directly how we can map such programs to actual physical processes that produce an output from an input?
 This is the content of this lecture.
 
 We will also talk about the following "dual" question.
 Suppose we have some way to compute a function $F:\{0,1\}^n \rightarrow \{0,1\}$ using roughly an $s$ amount of "physical resources" such as material, energy, time, etc..
-Does this mean that there is also a NAND program to compute $F$ using a number of lines that is not much bigger than $s$?
+Does this mean that there is also a NAND-CIRC program to compute $F$ using a number of lines that is not much bigger than $s$?
 This might seem like a wishful fantasy, but we will see that the answer to this question might  be (up to some important caveats) essentially __Yes__ as well.
 
 ## Physical implementation of computing devices.
@@ -36,7 +36,7 @@ _Computation_ is an abstract notion, that is distinct from its physical _impleme
 While most modern computing devices are obtained by mapping logical gates to semi-conductor based transistors, over history people have computed using a huge variety of mechanisms,  including mechanical systems, gas and liquid (known as _fluidics_), biological and chemical processes, and even living creatures (e.g., see [crabfig](){.ref} or  [this video](https://www.youtube.com/watch?v=czk4xgdhdY4) for how crabs or slime mold can be used to do computations).
 
 
-In this lecture we review some of these implementations, both so  you can get an appreciation of how it is possible to directly translate NAND programs to the physical world, without going through the entire stack of architecture, operating systems, compilers, etc... as well as to emphasize that silicon-based processors are by no means the only way to perform computation.
+In this lecture we review some of these implementations, both so  you can get an appreciation of how it is possible to directly translate NAND-CIRC programs to the physical world, without going through the entire stack of architecture, operating systems, compilers, etc... as well as to emphasize that silicon-based processors are by no means the only way to perform computation.
 Indeed, as we will see much later in this course, a very exciting recent line of works involves using different media for computation that would allow us to take advantage of _quantum mechanical effects_ to enable different types of algorithms.
 
 ![Crab-based logic gates from the paper "Robust soldier-crab ball gate" by Gunji, Nishiyama and Adamatzky. This is an example of an AND gate that relies on the tendency of two swarms of crabs arriving from different directions to combine to a single swarm that continues in the average of the directions.](../figure/crab-gate.jpg){#crabfig .class width=200px height=200px}
@@ -88,13 +88,13 @@ To compute a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ using a circuit, we fe
 
 The number $k$ is known as the _arity_ of the basis $B$.
 We think of $k$ as a small number (such as $k=2$ or $k=3$) and so the idea behind a Boolean circuit is that we can compute complex functions by combining together the simple components which are the functions in $B$.
-It turns out that NAND programs correspond to circuits where the basis is the single function $NAND:\{0,1\}^2 \rightarrow \{0,1\}$.
+It turns out that NAND-CIRC programs correspond to circuits where the basis is the single function $NAND:\{0,1\}^2 \rightarrow \{0,1\}$.
 We now show this more formally.
 
 ## Representing programs as graphs
 
 
-We now define NAND programs as circuits, using the notion of _directed acyclic graphs_ (DAGs).
+We now define NAND-CIRC programs as circuits, using the notion of _directed acyclic graphs_ (DAGs).
 
 
 
@@ -109,11 +109,11 @@ We denote the circuit  as $C=(V,E,L)$ where $V,E$ are the vertices and edges of 
 The _size_ of a circuit $C$, denoted by $|C|$, is the number of gates that it contains.
 
 The definition of NAND circuits is not ultimately that complicated, but may take  a second or third read  to fully parse.
-It might help to look at [XORcircuitfig](){.ref}, which describes the NAND circuit that corresponds to the 4-line NAND program we presented above for the $XOR_2$ function.
+It might help to look at [XORcircuitfig](){.ref}, which describes the NAND circuit that corresponds to the 4-line NAND-CIRC program we presented above for the $XOR_2$ function.
 
 
 
-![A NAND circuit for computing the $XOR_2$ function. Note that it has exactly four gates, corresponding to the four lines of the NAND program we presented above. The green labels $u,v,w$ for non-output gates are just for illustration and comparison with the NAND program, and are not formally part of the circuit.](../figure/XORcircuit.png){#XORcircuitfig .class width=300px height=300px}
+![A NAND circuit for computing the $XOR_2$ function. Note that it has exactly four gates, corresponding to the four lines of the NAND-CIRC program we presented above. The green labels $u,v,w$ for non-output gates are just for illustration and comparison with the NAND-CIRC program, and are not formally part of the circuit.](../figure/XORcircuit.png){#XORcircuitfig .class width=300px height=300px}
 
 A NAND circuit corresponds to computation in the following way.
 To compute some output on an input $x\in \{0,1\}^n$, we start by assigning to the input vertex labeled with `x_`$\expr{i}$ the value $x_i$, and then proceed by assigning for every gate $v$ the value that is   the NAND of the values assigned to its in-neighbors (if it has less than two in-neighbors, we replace the value of the missing neighbors by zero).
@@ -132,15 +132,15 @@ You should make sure you understand _why_ [NANDcirccomputedef](){.ref} captures 
 Moreover, a priori it is not clear that for every circuit $C$ and assignment $x$ there is a map $Z:V \rightarrow \{0,1\}$ that satisfies the conditions of [NANDcirccomputedef](){.ref}.
 However, this follows from [circuitprogequivthm](){.ref}
 
-The following theorem says that these two notions of computing a function are actually equivalent: we can transform a NAND program into a NAND circuit computing the same function, and vice versa.
+The following theorem says that these two notions of computing a function are actually equivalent: we can transform a NAND-CIRC program into a NAND circuit computing the same function, and vice versa.
 
 > # {.theorem title="Equivalence of circuits and straightline programs" #circuitprogequivthm}
-For every $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s\in \N$, $F$ can be computed by an $s$-line NAND program if and only if $F$ can be computed by an $n$-input $m$-output NAND circuit of $s$ gates.
+For every $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s\in \N$, $F$ can be computed by an $s$-line NAND-CIRC program if and only if $F$ can be computed by an $n$-input $m$-output NAND circuit of $s$ gates.
 
-![The transformation of a NAND program to a circuit demonstrated on the program for the $ATLEASTTWO$ function. Given a program of $s$ lines and $n$ inputs, we construct a circuit that is a graph with $s+n$ vertices, $s$ of which are gates and $n$ of which are inputs. The neighbors of the vertex corresponding to a line of the program are the vertex corresponding to the lines in which the two variables on the righthand side of the assignment operators were last written to.](../figure/NANDcircuit_trans.png){#NANDcircuit_transfig .class width=300px height=300px}
+![The transformation of a NAND-CIRC program to a circuit demonstrated on the program for the $ATLEASTTWO$ function. Given a program of $s$ lines and $n$ inputs, we construct a circuit that is a graph with $s+n$ vertices, $s$ of which are gates and $n$ of which are inputs. The neighbors of the vertex corresponding to a line of the program are the vertex corresponding to the lines in which the two variables on the righthand side of the assignment operators were last written to.](../figure/NANDcircuit_trans.png){#NANDcircuit_transfig .class width=300px height=300px}
 
 The idea behind the proof is simple (see [NANDcircuit_transfig](){.ref} for an example).
-Just like we did to the XOR program, if we have a NAND program $P$ of $s$ lines, $n$ inputs, and $m$ outputs, we can transform it into a NAND circuit with $n$ inputs and $s$ gates (i.e., a graph of $n+s$ vertices, $n$ of which are _sources_), where each gate corresponds to a line in the program $P$. If  line $\ell$ involves the NAND of two variables `foo` and `bar` then if $\ell'$ and $\ell''$ are the lines  where `foo` and `bar` were last assigned a value, then we add edges going into the gate corresponding to $\ell$ from the gates corresponding to $\ell',\ell''$. (If one of the variables was an input variable, then we add an edge from that variable, if one of them was an uninitialized then we add no edge, and use the convention that it amounts to defaulting to zero.)
+Just like we did to the XOR program, if we have a NAND-CIRC program $P$ of $s$ lines, $n$ inputs, and $m$ outputs, we can transform it into a NAND circuit with $n$ inputs and $s$ gates (i.e., a graph of $n+s$ vertices, $n$ of which are _sources_), where each gate corresponds to a line in the program $P$. If  line $\ell$ involves the NAND of two variables `foo` and `bar` then if $\ell'$ and $\ell''$ are the lines  where `foo` and `bar` were last assigned a value, then we add edges going into the gate corresponding to $\ell$ from the gates corresponding to $\ell',\ell''$. (If one of the variables was an input variable, then we add an edge from that variable, if one of them was an uninitialized then we add no edge, and use the convention that it amounts to defaulting to zero.)
 In the other direction, we can transform a NAND circuit $C$ of  $n$ inputs, $m$ outputs and $s$ gates to an $s$-line program by essentially inverting this process.
 For every gate in the program, we will have a line in the program which assigns to a variable the NAND of the variables corresponding to the in-neighbors of this gate.
 If the gate is an output gate labeled with `y_`$\expr{j}$ then the  corresponding line will assign the value to the variable `y_`$\expr{j}$.
@@ -149,7 +149,7 @@ We now show the formal proof.
 
 > # {.proof data-ref="circuitprogequivthm"}
 We start with the "only if" direction.
-That is, we show how to transform a NAND program to a circuit.
+That is, we show how to transform a NAND-CIRC program to a circuit.
 Suppose that $P$ is an $S$ line program that computes $F$.
 We will build a NAND circuit $C=(V,E,L)$ that computes $F$ as follows.
 The vertex set $V$ will have the $n+s$ elements $\{ (0,0), \ldots, (0,n-1),(1,0),\ldots,(1,s-1) \}$.
@@ -158,7 +158,7 @@ For every line $\ell$ in the program $P$ of the form `foo := bar NAND baz`, we p
 If the variable `bar` and/or `baz` was not assigned a value prior to the $\ell$-th line and is not an input variable then we don't add a corresponding edge.
 If the variable `bar` and/or `baz` is an input variable `x_`$\expr{i}$ then we add the edge $\overrightarrow{(0,i)\;(1,\ell)}$.
 We label the vertices of the form $(0,i)$ with `x_`$\expr{i}$ for every $i\in [n]$.
-For every $j\in[m]$, let $\ell$ be the last line in which the variable `y_`$\expr{j}$ is assigned a value,^[As noted in the appendix, valid NAND programs must assign a value to all their output variables.] and label the vertex $(1,\ell)$ with `y_`$\expr{j}$.
+For every $j\in[m]$, let $\ell$ be the last line in which the variable `y_`$\expr{j}$ is assigned a value,^[As noted in the appendix, valid NAND-CIRC programs must assign a value to all their output variables.] and label the vertex $(1,\ell)$ with `y_`$\expr{j}$.
 Note that the vertices of the form $(0,i)$ have  in-degree zero, and all edges of the form $\overrightarrow{(1,\ell')\;(1,\ell)}$ satisfy $\ell>\ell'$.
 Hence this graph is a DAG, as in any cycle there would have to be at least on edge going from a vertex of the form $(1,\ell)$ to a vertex of the form $(1,\ell')$ for $\ell'<\ell$ (can you see why?).
 Also, since we don't allow a variable of the form `y_`$\expr{j}$ on the right-hand side of a NAND operation, the output vertices have out-degree zero.
@@ -170,7 +170,7 @@ Now, as per [NANDcirccomputedef](){.ref}, define the map $Z:V \rightarrow \{0,1\
 Then, by our construction of the circuit, the map satisfies the condition that for vertex $v$ with in-neighbors $u$ and $w$, the value $Z(v)$ is the NAND of $Z(u)$ and $Z(w)$ (replacing missing neighbors with the value $0$), and hence in particular for every $j\in [m]$, the value assigned in the last line that touches `y_`$\expr{j}$ equals $y_j$.
 Thus the circuit $C$ does compute the same function $F$.
 >
-For the "if" direction, we need to transform an $s$-gate circuit $C=(V,E,L)$ that computes $F:\{0,1\}^n \rightarrow \{0,1\}^m$ into an $S$-line NAND program $P$ that computes the same function.
+For the "if" direction, we need to transform an $s$-gate circuit $C=(V,E,L)$ that computes $F:\{0,1\}^n \rightarrow \{0,1\}^m$ into an $S$-line NAND-CIRC program $P$ that computes the same function.
 We start by doing a [topological sort](https://en.wikipedia.org/wiki/Topological_sorting) of the graph $C$.
 That is we sort the vertex set $V$ as $\{v_0,\ldots,v_{n+S-1} \}$ such that  $\overrightarrow{v_i v_j} \in E$, $v_i < v_j$.
 Such a sorting can be found for every DAG (see also [topologicalsortex](){.ref}).
@@ -266,10 +266,10 @@ The _output_ of the circuit $C$ on input $x$, denoted by $C(x)$, is the string  
 We say that the circuit $C$ _computes the function $F$_ if for every $x\in \{0,1\}^n$,  $C(x)=F(x)$.
 
 
-We have seen in [NAND-univ-thm](){.ref} that  _every_ function $f:\{0,1\}^k \rightarrow \{0,1\}$ has a NAND program with at most $10\cdot 2^k$ lines, and hence [NAND-circ-thm](){.ref} implies the following theorem (see [NAND-all-circ-thm-ex](){.ref}):^[The bound  that comes out of the proof of [NAND-univ-thm](){.ref} is $5\cdot 2^k$ and in fact can be easily optimized further. As $k$ grows, we can also use the bound of $O(2^k/k)$ mentioned in [tight-upper-bound](){.ref}.]
+We have seen in [NAND-univ-thm](){.ref} that  _every_ function $f:\{0,1\}^k \rightarrow \{0,1\}$ has a NAND-CIRC program with at most $10\cdot 2^k$ lines, and hence [NAND-circ-thm](){.ref} implies the following theorem (see [NAND-all-circ-thm-ex](){.ref}):^[The bound  that comes out of the proof of [NAND-univ-thm](){.ref} is $5\cdot 2^k$ and in fact can be easily optimized further. As $k$ grows, we can also use the bound of $O(2^k/k)$ mentioned in [tight-upper-bound](){.ref}.]
 
-> # {.theorem title="NAND programs simulate all circuits" #NAND-all-circ-thm}
-For every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $B$ a subset of the functions from $\{0,1\}^k$ to $\{0,1\}$, if we let $S_{NAND}(f)$ denote the smallest number of lines in a NAND program that computes $F$ and $S_B(f)$ denote the smallest number of vertices in a Boolean circuit with the basis $B$, then
+> # {.theorem title="NAND-CIRC programs simulate all circuits" #NAND-all-circ-thm}
+For every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ and $B$ a subset of the functions from $\{0,1\}^k$ to $\{0,1\}$, if we let $S_{NAND}(f)$ denote the smallest number of lines in a NAND-CIRC program that computes $F$ and $S_B(f)$ denote the smallest number of vertices in a Boolean circuit with the basis $B$, then
 $$
 S_{NAND}(f) \leq (10\cdot 2^k)S_B(f)
 $$
@@ -301,7 +301,7 @@ The function $NAND:\{0,1\}^2 \rightarrow \{0,1\}$  is the threshold function cor
 Threshold gates can be thought of as an approximation for    _neuron cells_ that make up the core of human and animal brains. To a first approximation, a neuron has $k$ inputs and a single output and the neurons  "fires" or "turns on" its output when those signals pass some threshold.^[Typically we think of an input to neurons as being a real number rather than a binary string, but  we can reduce to the binary case by  representing a real number in the binary basis, and multiplying the weight of the bit corresponding to the $i^{th}$ digit by $2^i$.]
 Hence circuits with threshold gates are sometimes known as _neural networks_.
 Unlike the cases above, when we considered $k$ to be a small constant, in such  neural networks we often do not put any bound on the number of inputs.
-However, since any threshold function on $k$ inputs can be computed by a NAND program of $poly(k)$  lines (see [threshold-nand-ex](){.ref}), the  power of NAND programs and neural networks is not very different.
+However, since any threshold function on $k$ inputs can be computed by a NAND-CIRC program of $poly(k)$  lines (see [threshold-nand-ex](){.ref}), the  power of NAND-CIRC programs and neural networks is not very different.
 
 
 
@@ -329,12 +329,12 @@ A Boolean circuit is a labeled graph, and hence we can use the _adjacency list_ 
 Hence for every fixed basis $B$ we can represent such a circuit by a string of length $O(s \log s)$.^[The implicit constant in the $O$-notation can depend on the basis $B$.]
 We can define  $CIRCEVAL_{B,s,n,m}$ to be the function  that takes as input a pair $(C,x)$ where $C$ is string describing an $s$-size  $n$-input $m$-output circuit over $B$, and an input $x\in \{0,1\}^n$, and returns the evaluation of $C$ on the input $x$.
 
-[NAND-all-circ-thm](){.ref} implies that every circuit $C$ of $s$ gates over a $k$-ary basis $B$ can be transformed into a NAND program of $s'=O(s\cdot 2^k)$ lines, and hence we can combine this transformation with last lecture's evaluation procedure for NAND programs to conclude that $CIRCEVAL$ for circuits of $s$ gates over $B$ can be computed by a NAND program of $O(s'^2 \log s)= O(s^2 2^{2k}(\log s + k))$ lines.^[In fact, as we mentioned, it is possible to improve this to $O(s' \log^2 s')=O(s2^k(\log s + k)^2)$ lines.]
+[NAND-all-circ-thm](){.ref} implies that every circuit $C$ of $s$ gates over a $k$-ary basis $B$ can be transformed into a NAND-CIRC program of $s'=O(s\cdot 2^k)$ lines, and hence we can combine this transformation with last lecture's evaluation procedure for NAND-CIRC programs to conclude that $CIRCEVAL$ for circuits of $s$ gates over $B$ can be computed by a NAND-CIRC program of $O(s'^2 \log s)= O(s^2 2^{2k}(\log s + k))$ lines.^[In fact, as we mentioned, it is possible to improve this to $O(s' \log^2 s')=O(s2^k(\log s + k)^2)$ lines.]
 
 
 ### Advanced note: evaluating circuits in quasilinear time.
 
-We can improve the evaluation procedure, and evaluate $s$-size constant fan-in circuits (or NAND programs) in  $O(s polylog(s))$ lines.^[TODO: add details here, use the notion of oblivious routing to embed any graph in a universal graph.]
+We can improve the evaluation procedure, and evaluate $s$-size constant fan-in circuits (or NAND-CIRC programs) in  $O(s polylog(s))$ lines.^[TODO: add details here, use the notion of oblivious routing to embed any graph in a universal graph.]
 
 
 
@@ -342,16 +342,16 @@ We can improve the evaluation procedure, and evaluate $s$-size constant fan-in c
 
 We've seen that  NAND gates can be implemented using very different systems in the physical world.
 What about the reverse direction?
-Can NAND programs simulate any physical computer?  
+Can NAND-CIRC programs simulate any physical computer?  
 
 
-We can take a leap of faith and stipulate that NAND programs do actually encapsulate _every_ computation that we can think of.
+We can take a leap of faith and stipulate that NAND-CIRC programs do actually encapsulate _every_ computation that we can think of.
 Such a statement (in the realm of infinite functions, which we'll encounter in a couple of lectures) is typically attributed to Alonzo Church and Alan Turing, and in that context is  known as the _Church Turing Thesis_.
 As we will discuss in future lectures, the Church-Turing Thesis is not a mathematical theorem or conjecture.
 Rather, like theories in physics, the Church-Turing Thesis is about mathematically modelling the real world.
 In the context of finite functions, we can make the following informal hypothesis or prediction:
 
->_If a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed in the physical world using $s$ amount of "physical resources" then it can be computed by a NAND program of roughly $s$ lines._
+>_If a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed in the physical world using $s$ amount of "physical resources" then it can be computed by a NAND-CIRC program of roughly $s$ lines._
 
 We call this hypothesis the **"Physical Extended Church-Turing Thesis"** or _PECTT_ for short.
 A priori it might seem rather extreme to hypothesize that our meager NAND model captures all possible physical computation.
@@ -359,18 +359,18 @@ But yet, in more than a century of computing technologies, no one has yet built 
 
 We now  discuss  the "fine print" of the PECTT in more detail, as well as the (so far unsuccessful) challenges that have been raised against it.
 There is no single universally-agreed-upon formalization of "roughly $s$ physical resources",  but
-we can approximate this notion by considering the size of any  physical computing device and the time it takes to compute the output, and ask that  any such device can be simulated by a NAND program with a number of lines that is a polynomial (with not too large exponent) in the size of the system and the time it takes it to operate.
+we can approximate this notion by considering the size of any  physical computing device and the time it takes to compute the output, and ask that  any such device can be simulated by a NAND-CIRC program with a number of lines that is a polynomial (with not too large exponent) in the size of the system and the time it takes it to operate.
 
 
-In other words, we can phrase the PECTT as stipulating that any function that can be computed by a device of volume $V$ and time $t$, must be computable by a NAND program that has at most $\alpha(Vt)^\beta$ lines for some constants $\alpha,\beta$.
-The exact values for $\alpha,\beta$ are not so clear, but it is generally accepted that if $F:\{0,1\}^n \rightarrow \{0,1\}$ is an _exponentially hard_ function, in the sense that it has no NAND program of fewer than, say, $2^{n/2}$ lines, then a demonstration of a physical device that can compute $F$ for moderate input lengths (e.g., $n=500$) would be a violation of the PECTT.
+In other words, we can phrase the PECTT as stipulating that any function that can be computed by a device of volume $V$ and time $t$, must be computable by a NAND-CIRC program that has at most $\alpha(Vt)^\beta$ lines for some constants $\alpha,\beta$.
+The exact values for $\alpha,\beta$ are not so clear, but it is generally accepted that if $F:\{0,1\}^n \rightarrow \{0,1\}$ is an _exponentially hard_ function, in the sense that it has no NAND-CIRC program of fewer than, say, $2^{n/2}$ lines, then a demonstration of a physical device that can compute $F$ for moderate input lengths (e.g., $n=500$) would be a violation of the PECTT.
 
 >__Advanced note: making things concrete:__
 We can attempt at a more exact phrasing of the PECTT as follows.
 Suppose that $Z$ is a physical system that accepts $n$ binary stimuli and has a binary output, and can be enclosed in a sphere of volume $V$.
 We say that the system $Z$ _computes_ a function $F:\{0,1\}^n \rightarrow \{0,1\}$ within $t$ seconds if whenever we set the stimuli to some value  $x\in \{0,1\}^n$,  if we measure the output after $t$ seconds.
-We can phrase the PECTT as stipulating  that whenever there exists such a system $Z$  computes $F$ within $t$ seconds,  there exists  a NAND program that computes $F$ of at most $\alpha(Vt)^2$ lines, where $\alpha$ is some normalization constant.^[We can also consider variants where we use [surface area](https://en.wikipedia.org/wiki/Holographic_principle) instead of volume, or use a different power than $2$.  However, none of these choices makes a qualitative difference  to the discussion below.]
-In particular, suppose that $F:\{0,1\}^n \rightarrow \{0,1\}$ is a function that requires $2^n/(100n)>2^{0.8n}$ lines for any NAND program (we have seen that such functions exist in the last lecture).
+We can phrase the PECTT as stipulating  that whenever there exists such a system $Z$  computes $F$ within $t$ seconds,  there exists  a NAND-CIRC program that computes $F$ of at most $\alpha(Vt)^2$ lines, where $\alpha$ is some normalization constant.^[We can also consider variants where we use [surface area](https://en.wikipedia.org/wiki/Holographic_principle) instead of volume, or use a different power than $2$.  However, none of these choices makes a qualitative difference  to the discussion below.]
+In particular, suppose that $F:\{0,1\}^n \rightarrow \{0,1\}$ is a function that requires $2^n/(100n)>2^{0.8n}$ lines for any NAND-CIRC program (we have seen that such functions exist in the last lecture).
 Then the PECTT would imply that either the volume or the time of a system that computes $F$ will have to be at least $2^{0.2 n}/\sqrt{\alpha}$.
 To fully make it  concrete, we need to decide on the units for measuring time and volume, and the normalization constant $\alpha$.
 One  conservative choice is to assume that we could squeeze computation to the absolute physical limits (which are many orders of magnitude beyond current technology).
@@ -379,7 +379,7 @@ The _Planck length_ $\ell_P$ (which is, roughly speaking, the shortest distance 
 The _Planck time_ $t_P$ (which is the time it takes for light to travel one Planck length) is about $2^{-150}$ seconds.
 In the above setting, if a function $F$ takes, say, 1KB of input (e.g., roughly $10^4$ bits, which can encode a $100$ by $100$ bitmap image), and requires at least $2^{0.8 n}= 2^{0.8 \cdot 10^4}$ NAND lines to compute, then any physical system that computes it would require either volume of $2^{0.2\cdot  10^4}$ Planck length cubed, which is more than $2^{1500}$ meters cubed or take at least $2^{0.2 \cdot 10^4}$ Planck Time units, which is larger than $2^{1500}$ seconds.
 To get a sense of how big that number is, note that the universe is only about $2^{60}$ seconds old, and its observable radius is only roughly $2^{90}$ meters.
-This suggests that it is possible to _empirically falsify_ the PECTT by presenting a smaller-than-universe-size system that solves such a function.^[There are of course several hurdles to refuting the PECTT in this way, one of which is that we can't actually test the system on all possible inputs. However,  it turns we can get around this issue using notions such as  _interactive proofs_ and _program checking_ that we will see later in this course. Another, perhaps more salient problem, is that while we know many hard functions exist, at the moment there is _no single explicit function_ $F:\{0,1\}^n \rightarrow \{0,1\}$ for which we can _prove_ an $\omega(n)$ (let alone  $\Omega(2^n/n)$) lower bound  on the number of lines that a NAND program needs to compute it.]
+This suggests that it is possible to _empirically falsify_ the PECTT by presenting a smaller-than-universe-size system that solves such a function.^[There are of course several hurdles to refuting the PECTT in this way, one of which is that we can't actually test the system on all possible inputs. However,  it turns we can get around this issue using notions such as  _interactive proofs_ and _program checking_ that we will see later in this course. Another, perhaps more salient problem, is that while we know many hard functions exist, at the moment there is _no single explicit function_ $F:\{0,1\}^n \rightarrow \{0,1\}$ for which we can _prove_ an $\omega(n)$ (let alone  $\Omega(2^n/n)$) lower bound  on the number of lines that a NAND-CIRC program needs to compute it.]
 
 ### Attempts at refuting  the PECTT
 
@@ -387,7 +387,7 @@ One of the admirable traits of mankind is the refusal to accept limitations.
 In the best case this is manifested by people achieving longstanding "impossible" challenges such as heavier-than-air flight, putting a person on the moon, circumnavigating the globe, or even resolving [Fermat's Last Theorem](https://en.wikipedia.org/wiki/Fermat%27s_Last_Theorem).
 In the worst case it is manifested by people continually following the footsteps of previous failures to try to do proven-impossible tasks such as build a [perpetual motion machine](https://en.wikipedia.org/wiki/Perpetual_motion), [trisect an angle](https://en.wikipedia.org/wiki/Angle_trisection) with a compass and straightedge, or refute [Bell's inequality](https://en.wikipedia.org/wiki/Bell%27s_theorem).
 The Physical Extended Church Turing thesis (in its various forms) has attracted both types of people.
-Here are some physical devices that have been speculated to  achieve computational tasks that cannot be done by not-too-large  NAND programs:
+Here are some physical devices that have been speculated to  achieve computational tasks that cannot be done by not-too-large  NAND-CIRC programs:
 
 * **Spaghetti sort:** One of the first lower bounds that Computer Science students encounter is that sorting $n$ numbers requires making $\Omega(n \log n)$ comparisons. The "spaghetti sort" is a description of a proposed "mechanical computer" that would do this faster. The idea is that to sort $n$ numbers $x_1,\ldots,x_n$, we could cut $n$ spaghetti noodles into lengths $x_1,\ldots,x_n$, and then if we simply hold them together in our hand and bring them down to a flat surface, they will emerge in sorted order. There are a great many reasons why this is not truly a challenge to the PECTT hypothesis, and I will not ruin the reader's fun in finding them out by her or himself.
 
@@ -407,12 +407,12 @@ In fact, we do not even know how to precisely _phrase_ this question, let alone 
 * **Relativity computer and time travel.** The formulation above assumed the notion of time, but under the theory of relativity time is in the eye of the observer. One approach to solve hard problems is to leave the computer to run for a lot of time from _his_ perspective, but to ensure that this is actually a short while from _our_ perspective. One approach to do so is for the user to start the computer and then go for a quick jog at close to the speed of light before checking on its status. Depending on how fast one goes, few seconds from the point of view of the user might correspond to centuries in computer time (it might even finish updating its Windows operating system!). Of course the catch here is that the energy required from  the user is proportional to how close one needs to get to the speed of light. A more interesting proposal is to use time travel via _closed timelike curves (CTCs)_. In this case we could run an arbitrarily long computation by doing some calculations, remembering  the current state, and the travelling back in time to continue where we left off. Indeed, if CTCs exist then we'd probably have to revise the PECTT (though in this case I will simply travel back in time and edit these notes, so I can claim I never conjectured it in the first place...)
 
 
-* **Humans.** Another computing system that has been proposed as a counterexample to the PECTT is a 3 pound computer of  about 0.1m radius, namely the human brain. Humans can walk around, talk, feel, and do others things that are not commonly  done by NAND programs, but can they compute partial functions that NAND programs cannot?
+* **Humans.** Another computing system that has been proposed as a counterexample to the PECTT is a 3 pound computer of  about 0.1m radius, namely the human brain. Humans can walk around, talk, feel, and do others things that are not commonly  done by NAND-CIRC programs, but can they compute partial functions that NAND-CIRC programs cannot?
 There are certainly computational tasks that _at the moment_  humans do better than computers (e.g., play some [video games](http://www.theverge.com/2016/11/4/13518210/deepmind-starcraft-ai-google-blizzard), at the moment), but based on our current understanding of the brain, humans (or other animals) have no _inherent_ computational advantage over computers.
-The brain has about $10^{11}$ neurons, each operating in a speed of about $1000$ operations per seconds. Hence a rough first approximation is that a NAND program of about $10^{14}$ lines could simulate one second of a brain's activity.^[This is a very rough approximation that could be wrong to a few orders of magnitude in either direction. For one, there are other structures in the brain apart from neurons that one might need to simulate, hence requiring higher overhead. On ther other hand, it is by no mean clear that we need to fully clone the brain in order to achieve the same computational tasks that it does.]
-Note that the fact that such a NAND program (likely) exists does not mean it is easy to _find_ it.
+The brain has about $10^{11}$ neurons, each operating in a speed of about $1000$ operations per seconds. Hence a rough first approximation is that a NAND-CIRC program of about $10^{14}$ lines could simulate one second of a brain's activity.^[This is a very rough approximation that could be wrong to a few orders of magnitude in either direction. For one, there are other structures in the brain apart from neurons that one might need to simulate, hence requiring higher overhead. On ther other hand, it is by no mean clear that we need to fully clone the brain in order to achieve the same computational tasks that it does.]
+Note that the fact that such a NAND-CIRC program (likely) exists does not mean it is easy to _find_ it.
 After all, constructing this program took evolution billions of years.
-Much of the recent efforts in artificial intelligence research is focused on finding programs that replicate some of the brain's capabilities and they take massive computational effort to discover, these programs often turn out to be much smaller than the pessimistic estimates above. For example, at the time of this writing, Google's [neural network for machine translation](https://arxiv.org/pdf/1609.08144.pdf) has about $10^4$ nodes (and can be simulated by a NAND program of comparable size). Philosophers, priests and many others have since time immemorial argued that there is something about humans that cannot be captured by  mechanical devices such as computers; whether or not that is the case, the evidence is thin that humans can perform computational tasks that are inherently impossible to achieve by computers of similar complexity.^[There are some well known scientists that have [advocated](http://www.telegraph.co.uk/science/2017/03/14/can-solve-chess-problem-holds-key-human-consciousness/) that humans have inherent computational advantages over computers. See also [this](https://arxiv.org/abs/1508.05929).]
+Much of the recent efforts in artificial intelligence research is focused on finding programs that replicate some of the brain's capabilities and they take massive computational effort to discover, these programs often turn out to be much smaller than the pessimistic estimates above. For example, at the time of this writing, Google's [neural network for machine translation](https://arxiv.org/pdf/1609.08144.pdf) has about $10^4$ nodes (and can be simulated by a NAND-CIRC program of comparable size). Philosophers, priests and many others have since time immemorial argued that there is something about humans that cannot be captured by  mechanical devices such as computers; whether or not that is the case, the evidence is thin that humans can perform computational tasks that are inherently impossible to achieve by computers of similar complexity.^[There are some well known scientists that have [advocated](http://www.telegraph.co.uk/science/2017/03/14/can-solve-chess-problem-holds-key-human-consciousness/) that humans have inherent computational advantages over computers. See also [this](https://arxiv.org/abs/1508.05929).]
 
 
 * **Quantum computation.** The most compelling attack on the Physical Extended Church Turing Thesis comes from the notion of _quantum computing_.
@@ -420,8 +420,8 @@ The idea was initiated by the observation that systems with strong quantum effec
 Turning this observation on its head, people have proposed using such systems to perform computations that we do not know how to do otherwise.
 At the time of this writing, Scalable quantum computers have not yet been built, but it is a fascinating possibility, and one that does not seem to contradict any known law of nature.
 We will discuss quantum computing in much more detail later in this course.
-Modeling it will  essentially involve extending the NAND programming language to the "QNAND" programming language that has one more (very special) operation.
-However, the main take away is that while quantum computing does suggest we need to amend the PECTT, it does _not_ require a complete revision of our worldview. Indeed, almost all of the content of this course remains the same whether the underlying computational model is the "classical" model of NAND programs or the quantum model of QNAND programs (also known as _quantum circuits_).
+Modeling it will  essentially involve extending the NAND-CIRC programming language to the "QNAND" programming language that has one more (very special) operation.
+However, the main take away is that while quantum computing does suggest we need to amend the PECTT, it does _not_ require a complete revision of our worldview. Indeed, almost all of the content of this course remains the same whether the underlying computational model is the "classical" model of NAND-CIRC programs or the quantum model of QNAND-CIRC programs (also known as _quantum circuits_).
 
 
 > # {.remark title="PECTT in practice" #PECTTpractice}
@@ -434,11 +434,11 @@ A statement such as "this cryptosystem provides 128 bits of security" really mea
 
 * NAND gates can be implemented by a variety of physical means.
 
-* NAND programs are equivalent (up to constants) to Boolean circuits using any finite universal basis.
+* NAND-CIRC programs are equivalent (up to constants) to Boolean circuits using any finite universal basis.
 
-* By a leap of faith, we could hypothesize that the number of lines in the smallest NAND program for a function $F$ captures roughly the amount of physical resources required to compute $F$. This statement is known as the _Physical Extended Church-Turing Thesis (PECTT)_.
+* By a leap of faith, we could hypothesize that the number of lines in the smallest NAND-CIRC program for a function $F$ captures roughly the amount of physical resources required to compute $F$. This statement is known as the _Physical Extended Church-Turing Thesis (PECTT)_.
 
-* NAND programs capture a surprisingly wide array of computational models. The strongest currently known challenge to the PECTT comes from the potential for using quantum mechanical effects to speed-up computation, a model known as _quantum computers_.
+* NAND-CIRC programs capture a surprisingly wide array of computational models. The strongest currently known challenge to the PECTT comes from the potential for using quantum mechanical effects to speed-up computation, a model known as _quantum computers_.
 
 ## Exercises
 
@@ -446,10 +446,10 @@ A statement such as "this cryptosystem provides 128 bits of security" really mea
 Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
 :::
 
-> # {.exercise title="Relating NAND circuits and NAND programs" #nand-circuits-thm-ex}
+> # {.exercise title="Relating NAND circuits and NAND-CIRC programs" #nand-circuits-thm-ex}
 Prove [NAND-circ-thm](){.ref}.
 
-> # {.exercise title="Simulating all circuits with NAND programs" #NAND-all-circ-thm-ex}
+> # {.exercise title="Simulating all circuits with NAND-CIRC programs" #NAND-all-circ-thm-ex}
 Prove [NAND-all-circ-thm](){.ref}
 
 
@@ -465,7 +465,7 @@ Prove that for every subset $B$ of the functions from $\{0,1\}^k$ to $\{0,1\}$,
 if $B$ is universal then there is a $B$-circuit of at most $O(k)$ gates to compute the $NAND$ function (you can start by showing that there is a $B$ circuit of at most $O(k^{16})$ gates).^[Thanks to Alec Sun for solving this problem.]
 
 > # {.exercise title="Threshold using NANDs" #threshold-nand-ex}
-Prove that for every $w,t$, the function $T_{w,t}$ can be computed by a NAND program of at most $O(k^3)$ lines.^[TODO: check the right bound, and give it as a challenge program. Also say the conditions under which this can be improved to $O(k)$ or $\tilde{O}(k)$.]
+Prove that for every $w,t$, the function $T_{w,t}$ can be computed by a NAND-CIRC program of at most $O(k^3)$ lines.^[TODO: check the right bound, and give it as a challenge program. Also say the conditions under which this can be improved to $O(k)$ or $\tilde{O}(k)$.]
 
 
 

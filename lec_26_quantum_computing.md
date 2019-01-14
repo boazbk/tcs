@@ -6,7 +6,7 @@
 
 > # { .objectives }
 * See main aspects in which quantum mechanics differs from local deterministic theories. \
-* Model of quantum circuits, or equivalently QNAND programs \
+* Model of quantum circuits, or equivalently QNAND-CIRC programs \
 * The complexity class $\mathbf{BQP}$ and what we know about its relation to other classes \
 * Ideas behind Shor's Algorithm and the Quantum Fourier Transform
 
@@ -411,13 +411,13 @@ It is instructive to understand what is it about quantum mechanics that enabled 
 Recall that in the classical setting, we modeled computation as obtained by a sequence of _basic operations_.
 We had two types of computational models:
 
-* _Non uniform models of computation_ such as Boolean circuits and NAND programs, where a finite function $f:\{0,1\}^n \rightarrow \{0,1\}$ is computable in size $T$ if it can be expressed as a combination of $T$ basic operations (gates in a circuit or lines in a NAND program)
+* _Non uniform models of computation_ such as Boolean circuits and NAND-CIRC programs, where a finite function $f:\{0,1\}^n \rightarrow \{0,1\}$ is computable in size $T$ if it can be expressed as a combination of $T$ basic operations (gates in a circuit or lines in a NAND-CIRC program)
 
-* _Uniform models of computation_ such as Turing machines and NAND++ programs, where an infinite function $F:\{0,1\}^* \rightarrow \{0,1\}$ is computable in time $T(n)$ if there is a single algorithm that on input $x\in \{0,1\}^n$ evaluates $F(x)$ using at most $T(n)$ basic steps.
+* _Uniform models of computation_ such as Turing machines and NAND-TM programs, where an infinite function $F:\{0,1\}^* \rightarrow \{0,1\}$ is computable in time $T(n)$ if there is a single algorithm that on input $x\in \{0,1\}^n$ evaluates $F(x)$ using at most $T(n)$ basic steps.
 
 
-When considering _efficient computation_, we defined the class $\mathbf{P}$ to consist of all infinite functions $F:\{0,1\}^* \rightarrow \{0,1\}$ that can be computed by a Turing machine or NAND++ program in time $p(n)$  for some polynomial $p(\cdot)$.
-We defined the class  $\mathbf{P_{/poly}}$ to consists of all infinite functions $F:\{0,1\}^* \rightarrow \{0,1\}$ such that for every $n$, the restriction $F_n$ of $F$ to $\{0,1\}^n$ can be computed by a Boolean circuit or NAND program of size at most $p(n)$ for some polynomial $p(\cdot)$.
+When considering _efficient computation_, we defined the class $\mathbf{P}$ to consist of all infinite functions $F:\{0,1\}^* \rightarrow \{0,1\}$ that can be computed by a Turing machine or NAND-TM program in time $p(n)$  for some polynomial $p(\cdot)$.
+We defined the class  $\mathbf{P_{/poly}}$ to consists of all infinite functions $F:\{0,1\}^* \rightarrow \{0,1\}$ such that for every $n$, the restriction $F_n$ of $F$ to $\{0,1\}^n$ can be computed by a Boolean circuit or NAND-CIRC program of size at most $p(n)$ for some polynomial $p(\cdot)$.
 
 We will do the same for _quantum computation_, focusing mostly on the _non uniform_ setting of quantum circuits, since that is simpler, and already illustrates the important differences with classical computing.
 
@@ -431,7 +431,7 @@ Therefore, we cannot use the same qubit as input for two different gates.^[This 
 Another more technical difference is that to express our operations as unitary matrices, we will need to make sure all our gates are _reversible_.
 This is not hard to ensure.
 For example, in the quantum context, instead of thinking of $NAND$ as a (non reversible) map from $\{0,1\}^2$ to $\{0,1\}$, we will think of it as the reversible  map on _three_ qubits that maps $a,b,c$ to $a,b,c\oplus NAND(a,b)$ (i.e., flip the last bit if $NAND$ of the first two bits is $1$).
-Equivalently, the NAND operation corresponds to  the $8\times 8$ unitary matrix  $U_{NAND}$  such that (identifying $\{0,1\}^3$ with $[8]$) for every $a,b,c \in \{0,1\}$, if $|abc\rangle$ is the basis element with $1$ in the $abc$-th coordinate and zero elsewhere, then $U_{NAND} |abc\rangle =|ab(c \oplus NAND(a,b))\rangle$.^[Readers familiar with quantum computing should note that $U_{NAND}$ is a close variant of the so called [Toffoli gate](https://goo.gl/BE7aVG) and so QNAND programs correspond to quantum circuits with the Hadamard and Toffoli gates.]
+Equivalently, the NAND operation corresponds to  the $8\times 8$ unitary matrix  $U_{NAND}$  such that (identifying $\{0,1\}^3$ with $[8]$) for every $a,b,c \in \{0,1\}$, if $|abc\rangle$ is the basis element with $1$ in the $abc$-th coordinate and zero elsewhere, then $U_{NAND} |abc\rangle =|ab(c \oplus NAND(a,b))\rangle$.^[Readers familiar with quantum computing should note that $U_{NAND}$ is a close variant of the so called [Toffoli gate](https://goo.gl/BE7aVG) and so QNAND-CIRC programs correspond to quantum circuits with the Hadamard and Toffoli gates.]
 If we order the rows and columns as $000,001,010,\ldots,111$, then $U_{NAND}$ can be written as the following matrix:
 
 $$
@@ -509,20 +509,20 @@ Depending on how you interpret it, this description is either false or would app
 
 Moreover, this "obvious" approach for simulating a quantum computation will take not just exponential time but _exponential space_ as well, while can be shown that using a simple recursive formula one can calculate the final quantum state using _polynomial space_ (in physics  this is known as "Feynman path integrals").
 So, the exponentially long vector description by itself does not imply that quantum computers are exponentially powerful.
-Indeed, we cannot _prove_ that they are (i.e., as far as we know, every QNAND program could be simulated by a NAND program with polynomial overhead), but we do have some problems (integer factoring most prominently) for which they do provide exponential speedup over the currently best _known_ classical (deterministic or probabilistic) algorithms.
+Indeed, we cannot _prove_ that they are (i.e., as far as we know, every QNAND-CIRC program could be simulated by a NAND-CIRC program with polynomial overhead), but we do have some problems (integer factoring most prominently) for which they do provide exponential speedup over the currently best _known_ classical (deterministic or probabilistic) algorithms.
 :::
 
 
 
-###  QNAND programs (optional)
+###  QNAND-CIRC programs (optional)
 
-Just like in the classical case, there is an equivalence between circuits and straightline programs, and so we can define the programming language QNAND that is the quantum analog of our NAND programming language.
+Just like in the classical case, there is an equivalence between circuits and straightline programs, and so we can define the programming language QNAND that is the quantum analog of our NAND-CIRC programming language.
 To do so, we only add a single operation: `HAD(foo)` which applies the single-bit operation $H$ to the variable `foo`.
 We also use the following interpretation to make `NAND` reversible: `foo = NAND(bar,blah)` means that we modify `foo` to be the XOR of its original value and the NAND of `bar` and `blah`.
 (In other words, apply the $8$ by $8$ unitary transformation $U_{NAND}$ defined above to the three qubits corresponding to `foo`, `bar` and `blah`.)
 If `foo` is initialized to zero then this makes no difference.
 
-If $P$ is a QNAND program with $n$ input variables, $\ell$ workspace variables, and $m$ output variables, then running it on the input $x\in \{0,1\}^n$ corresponds to setting up a system with $n+m+\ell$ qubits and performing the following process:
+If $P$ is a QNAND-CIRC program with $n$ input variables, $\ell$ workspace variables, and $m$ output variables, then running it on the input $x\in \{0,1\}^n$ corresponds to setting up a system with $n+m+\ell$ qubits and performing the following process:
 
 1. We initialize the input variables `X[`$0$`]` $\ldots$ `X[`$n-1$`]` to $x_0,\ldots,x_{n-1}$ and all other variables to $0$.
 
@@ -535,17 +535,17 @@ If $P$ is a QNAND program with $n$ input variables, $\ell$ workspace variables, 
 ### Uniform computation
 
 Just as in the classical case, we can define _uniform_ computational models.
-For example, we can define the _QNAND++ programming language_ to be QNAND augmented with loops and arrays just like NAND++  is obtained from NAND.
+For example, we can define the _QNAND-TM programming language_ to be QNAND augmented with loops and arrays just like NAND++  is obtained from NAND.
 Using this we can define the class $\mathbf{BQP}$ which is the uniform analog of $\mathbf{BQP_{/poly}}$.
 Just as in the classical setting it holds that $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$, in the quantum setting it can be shown that  $\mathbf{BQP} \subseteq \mathbf{BQP_{/poly}}$.
 Just like the classical case, we can also use  [Quantum Turing Machines](https://en.wikipedia.org/wiki/Quantum_Turing_machine) instead of QNAND++ to define $\mathbf{BQP}$.
 
-Yet another way to define $\mathbf{BQP}$ is the following: a function $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{BQP}$ if __(1)__ $F\in \mathbf{BQP_{/poly}}$ and __(2)__ moreover for every $n$, the quantum circuit that verifies this can be generated by a _classical polynomial time NAND++ program_ (or, equivalently, a polynomial-time Turing machine).^[This is analogous to the alternative characterization of $\mathbf{P}$ that appears in [Palternativeex](){.ref}.]
+Yet another way to define $\mathbf{BQP}$ is the following: a function $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{BQP}$ if __(1)__ $F\in \mathbf{BQP_{/poly}}$ and __(2)__ moreover for every $n$, the quantum circuit that verifies this can be generated by a _classical polynomial time NAND-TM program_ (or, equivalently, a polynomial-time Turing machine).^[This is analogous to the alternative characterization of $\mathbf{P}$ that appears in [Palternativeex](){.ref}.]
 We use this definition here, though an equivalent one can be made using QNAND++ or quantum Turing machines:
 
 > # {.definition title="The class $\mathbf{BQP}$" #BQPdef}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$.
-We say that $F\in \mathbf{BQP}$ if there exists a polynomial time NAND++ program $P$ such that for every $n$, $P(1^n)$ is the description of a quantum circuit $C_n$ that computes the restriction of $F$ to $\{0,1\}^n$.
+We say that $F\in \mathbf{BQP}$ if there exists a polynomial time NAND-TM program $P$ such that for every $n$, $P(1^n)$ is the description of a quantum circuit $C_n$ that computes the restriction of $F$ to $\{0,1\}^n$.
 
 
 
@@ -561,7 +561,7 @@ It is widely believed that $\mathbf{NP} \not\subseteq \mathbf{BQP}$, but there i
 It is   [quite possible](https://eccc.weizmann.ac.il/report/2018/107/) that these two classes are _incomparable_, in the sense that $\mathbf{NP} \nsubseteq \mathbf{BQP}$ (and in particular no $\mathbf{NP}$-complete function belongs to $\mathbf{BQP}$) but also $\mathbf{BQP} \nsubseteq \mathbf{NP}$ (and there are some interesting candidates for such problems).
 
 
-It can be shown that $QNANDEVAL$ (evaluating a quantum circuit on an input) is computable by a polynomial size QNAND program, and moreover this program can even be generated _uniformly_ and hence $QNANDEVAL$ is in $\mathbf{BQP}$.
+It can be shown that $QNANDEVAL$ (evaluating a quantum circuit on an input) is computable by a polynomial size QNAND-CIRC program, and moreover this program can even be generated _uniformly_ and hence $QNANDEVAL$ is in $\mathbf{BQP}$.
 This allows us to "port" many of the results of classical computational complexity into the quantum realm as well.
 
 ::: {.remark title="Restricting attention to circuits" #quantumnonuniformrem}

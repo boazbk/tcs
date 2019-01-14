@@ -147,13 +147,13 @@ index:
     notebook: false
 
   - num: A.
-    name: The NAND programming language (Jupyter notebook appendix)
+    name: The NAND-CIRC programming language (Jupyter notebook appendix)
     file: lec_A_NAND_prog_lang
     draft: false
     notebook: https://nbviewer.jupyter.org/github/boazbk/nandnotebooks/blob/master/NAND%20programming%20language.ipynb
 
   - num: B.
-    name: The NAND++ programming language (Jupyter notebook appendix)
+    name: The NAND-TM programming language (Jupyter notebook appendix)
     file: lec_B_NANDpp_prog_lang
     draft: false
     notebook: https://nbviewer.jupyter.org/github/boazbk/nandnotebooks/blob/master/NANDpp_language.ipynb

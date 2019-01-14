@@ -5,7 +5,7 @@
 
 > # { .objectives }
 * Formal definition of probabilistic polynomial time: the class  $\mathbf{BPP}$. \
-* Proof that that every function in $\mathbf{BPP}$ can be computed by $poly(n)$-sized NAND programs/circuits. \
+* Proof that that every function in $\mathbf{BPP}$ can be computed by $poly(n)$-sized NAND-CIRC programs/circuits. \
 * Relations between $\mathbf{BPP}$ and $\mathbf{NP}$. \
 * Pseudorandom generators
 
@@ -42,7 +42,7 @@ The result of applying this operation is that `foo` is assigned a random bit in 
 (Every time the `RAND` operation is invoked it returns a fresh independent random bit.)
 We call the resulting languages RNAND, RNAND++, and RNAND<< respectively.
 
-We can use this to define the notion of a function being computed by a randomized $T(n)$ time algorithm for every nice time bound $T:\N \rightarrow \N$, as well as the notion of a finite function being computed by a size $S$ randomized NAND program (or, equivalently, a randomized circuit with $S$ gates that correspond to either the NAND or coin-tossing operations).
+We can use this to define the notion of a function being computed by a randomized $T(n)$ time algorithm for every nice time bound $T:\N \rightarrow \N$, as well as the notion of a finite function being computed by a size $S$ randomized NAND-CIRC program (or, equivalently, a randomized circuit with $S$ gates that correspond to either the NAND or coin-tossing operations).
 However, for simplicity  we will not define randomized computation in full generality, but simply focus on the class of functions that are computable by randomized algorithms _running in polynomial time_, which by historical convention is known as $\mathbf{BPP}$:
 
 
@@ -56,7 +56,7 @@ where this  probability is taken over the result of the RAND operations of $P$.^
 :::
 
 
-The same polynomial-overhead simulation of NAND<< programs by  NAND++ programs we saw in [polyRAMTM-thm](){.ref} extends to _randomized_ programs as well.
+The same polynomial-overhead simulation of NAND<< programs by  NAND-TM programs we saw in [polyRAMTM-thm](){.ref} extends to _randomized_ programs as well.
 Hence the class $\mathbf{BPP}$ is the same regardless of whether it is defined via RNAND++ or RNAND<< programs.
 
 
@@ -156,7 +156,7 @@ For the plurality value to be _incorrect_, it must hold that $\sum_{i=0}^{t-1} X
 
 ![If $F\in\mathbf{BPP}$ then there is randomized polynomial-time algorithm $P$ with the following property: In the case $F(x)=0$ two thirds of the "population" of random choices satisfy $P(x;r)=0$ and in the case $F(x)=1$ two thirds of the population satisfy $P(x;r)=1$.  We can think of amplification as a form of "polling" of the choices of randomness. By the Chernoff   bound, if we poll a sample of $O(\tfrac{\log(1/\delta)}{\epsilon^2})$ random choices $r$, then with probability at least $1-\delta$,  the fraction of $r$'s in the sample satisfying $P(x;r)=1$ will give us an estimate of the fraction of the population within an $\epsilon$ margin of error. This is the same calculation used by pollsters to determine the needed sample size in their polls.](../figure/BPPamplification.png){#amplificationfig   .class width=300px height=300px}
 
-There is nothing special about NAND<< in [amplificationthm](){.ref}. The same proof can be used to amplify randomized NAND or NAND++ programs as well.
+There is nothing special about NAND<< in [amplificationthm](){.ref}. The same proof can be used to amplify randomized NAND or NAND-TM programs as well.
 
 ## $\mathbf{BPP}$ and $\mathbf{NP}$ completeness
 
@@ -178,12 +178,12 @@ Suppose that $F$ is $\mathbf{NP}$-hard and $F\in \mathbf{BPP}$.
 We will now show that this implies that $\mathbf{NP} \subseteq \mathbf{BPP}$.
 Let $G \in \mathbf{NP}$.
 By the definition of $\mathbf{NP}$-hardness, it follows that $G \leq_p F$, or that in other words there exists a polynomial-time computable function $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that $G(x)=F(R(x))$ for every $x\in \{0,1\}^*$.
-Now if $F$ is in $\mathbf{BPP}$ then there is a polynomial-time RNAND++ program  $P$ such that
+Now if $F$ is in $\mathbf{BPP}$ then there is a polynomial-time RNAND-TM program  $P$ such that
 $$
 \Pr[ P(y)= F(y) ] \geq 2/3 \label{FinBPPeq}
 $$
 for _every_ $y\in \{0,1\}^*$ (where the probability is taken over the random coin tosses of $P$).
-Hence we can get a polynomial-time  RNAND++ program $P'$ to compute $G$ by setting $P'(x)=P(R(x))$.
+Hence we can get a polynomial-time  RNAND-TM program $P'$ to compute $G$ by setting $P'(x)=P(R(x))$.
 By [FinBPPeq](){.eqref} $\Pr[ P'(x) = F(R(x))] \geq 2/3$ and since $F(R(x))=G(x)$ this implies that $\Pr[ P'(x) = G(x)] \geq 2/3$, which proves that $G \in \mathbf{BPP}$.
 
 Most of the results we've seen about $\mathbf{NP}$ hardness, including the search to decision reduction of [search-dec-thm](){.ref}, the decision to optimization reduction of [optimizationnp](){.ref}, and the quantifier elimination result of [PH-collapse-thm](){.ref}, all carry over in the same way if we replace $\mathbf{P}$ with $\mathbf{BPP}$ as our model of efficient computation.
@@ -207,7 +207,7 @@ Given what we've seen so far about the relations of other complexity classes suc
 
 One would be correct about the former, but wrong about the latter.
 As we will see, we do in fact have  reasons to believe that $\mathbf{BPP}=\mathbf{P}$.
-This can be thought of as supporting the _extended Church Turing hypothesis_ that deterministic polynomial-time NAND++ program (or, equivalently, polynomial-time Turing machines)  capture what can be feasibly computed in the physical world.
+This can be thought of as supporting the _extended Church Turing hypothesis_ that deterministic polynomial-time NAND-TM program (or, equivalently, polynomial-time Turing machines)  capture what can be feasibly computed in the physical world.
 
 We now survey some of the relations that are known between $\mathbf{BPP}$ and other complexity classes we have encountered. (See also [BPPscenariosfig](){.ref}.)
 
@@ -245,11 +245,11 @@ $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$. That is, for every $F\in \mathbf{BP
 > # {.proofidea data-ref="rnandthm"}
 The idea behind the proof is that we can first amplify by repetition the probability of success from $2/3$ to $1-0.1 \cdot 2^{-n}$.
 This will allow us to show that there exists a single fixed choice of "favorable coins" that would cause the algorithm to output the right answer on _all_ of the possible $2^n$ inputs.
-We can then use the standard "unravelling the loop" technique to transform an RNAND++ program to an RNAND program, and  "hardwire" the favorable choice of random coins to  transform the RNAND program into a plain old deterministic NAND program.
+We can then use the standard "unravelling the loop" technique to transform an RNAND-TM program to an RNAND-CIRC program, and  "hardwire" the favorable choice of random coins to  transform the RNAND-CIRC program into a plain old deterministic NAND-CIRC program.
 
 ::: {.proof data-ref="rnandthm"}
-Suppose that $F\in \mathbf{BPP}$. Let $P$ be a polynomial-time RNAND++ program that computes $F$ as per [BPPdef](){.ref}.
-Using [amplificationthm](){.ref}, we can  _amplify_ the success probability of $P$ to obtain an RNAND++ program $P'$ that is at most a factor of $O(n)$ slower (and hence still polynomial time)
+Suppose that $F\in \mathbf{BPP}$. Let $P$ be a polynomial-time RNAND-TM program that computes $F$ as per [BPPdef](){.ref}.
+Using [amplificationthm](){.ref}, we can  _amplify_ the success probability of $P$ to obtain an RNAND-TM program $P'$ that is at most a factor of $O(n)$ slower (and hence still polynomial time)
 such that for every $x\in \{0,1\}^n$
 
 $$
@@ -271,14 +271,14 @@ $$
 for every $x\in \{0,1\}^n$.
 
 
-Now let us use the standard "unravelling the loop" the technique and transform $P'$ into a NAND program $Q$ of polynomial in $n$ size, such that $Q(xr)=P'(x;r)$ for every $x\in \{0,1\}^n$ and $r \in \{0,1\}^m$.
-Then by "hardwiring" the values $r^*_0,\ldots,r^*_{m-1}$ in place of the last $m$ inputs of $Q$, we obtain a new NAND program $Q_{r^*}$ that satisfies by [hardwirecorrecteq](){.eqref} that $Q_{r^*}(x)=F(x)$ for every $x\in \{0,1\}^n$.
-This demonstrates that $F_n$ has a polynomial sized NAND program, hence completing the proof of [rnandthm](){.ref}.
+Now let us use the standard "unravelling the loop" the technique and transform $P'$ into a NAND-CIRC program $Q$ of polynomial in $n$ size, such that $Q(xr)=P'(x;r)$ for every $x\in \{0,1\}^n$ and $r \in \{0,1\}^m$.
+Then by "hardwiring" the values $r^*_0,\ldots,r^*_{m-1}$ in place of the last $m$ inputs of $Q$, we obtain a new NAND-CIRC program $Q_{r^*}$ that satisfies by [hardwirecorrecteq](){.eqref} that $Q_{r^*}(x)=F(x)$ for every $x\in \{0,1\}^n$.
+This demonstrates that $F_n$ has a polynomial sized NAND-CIRC program, hence completing the proof of [rnandthm](){.ref}.
 :::
 
 > # {.remark title="Randomness and non uniformity" #nonuniform}
-The proof of [rnandthm](){.ref} actually yields more than its statement. We can use the same "unrolling the loop" arguments we've used before to show that the restriction to $\{0,1\}^n$ of every function in $\mathbf{BPP}$ is also computable by a polynomial-size RNAND program (i.e., NAND program with the `RAND` operation). Like in the $\mathbf{P}$ vs $SIZE(poly(n))$ case, there are also functions outside $\mathbf{BPP}$ whose restrictions can be  computed  by polynomial-size  RNAND programs.
-Nevertheless the proof of [rnandthm](){.ref} shows that even such functions can be computed by polynomial sized NAND programs without using the `rand` operations.
+The proof of [rnandthm](){.ref} actually yields more than its statement. We can use the same "unrolling the loop" arguments we've used before to show that the restriction to $\{0,1\}^n$ of every function in $\mathbf{BPP}$ is also computable by a polynomial-size RNAND-CIRC program (i.e., NAND-CIRC program with the `RAND` operation). Like in the $\mathbf{P}$ vs $SIZE(poly(n))$ case, there are also functions outside $\mathbf{BPP}$ whose restrictions can be  computed  by polynomial-size  RNAND-CIRC programs.
+Nevertheless the proof of [rnandthm](){.ref} shows that even such functions can be computed by polynomial sized NAND-CIRC programs without using the `rand` operations.
 This can be phrased as saying   that $BPSIZE(T(n)) \subseteq SIZE(O(n T(n)))$ (where $BPSIZE$ is defined in the natural way using RNAND progams).
 The stronger version of  [rnandthm](){.ref} we mentioned can be phrased as saying that  $\mathbf{BPP_{/poly}} = \mathbf{P_{/poly}}$.
 
@@ -293,8 +293,8 @@ The proof of [rnandthm](){.ref} can be summarized as follows:  we can replace a 
 Another way to say it is that for the purposes of computing functions, we do not need "online" access to random coins and can generate a set of  coins "offline" ahead of time, before we see the actual input.
 
 But this does not really help us with answering the question of whether $\mathbf{BPP}$ equals $\mathbf{P}$, since we still need to find a way to generate these "offline" coins in the first place.
-To derandomize an RNAND++ program we will need to come up with a _single_ deterministic algorithm that will work for _all input lengths_.
-That is, unlike in the case of RNAND programs, we cannot choose for every input length $n$ some string $r^* \in \{0,1\}^{poly(n)}$ to use as our random coins.
+To derandomize an RNAND-TM program we will need to come up with a _single_ deterministic algorithm that will work for _all input lengths_.
+That is, unlike in the case of RNAND-CIRC programs, we cannot choose for every input length $n$ some string $r^* \in \{0,1\}^{poly(n)}$ to use as our random coins.
 
 
 
@@ -344,7 +344,7 @@ We make the following definition:
 
 > # {.definition title="Pseudorandom generator" #prgdef}
 A function $G:\{0,1\}^\ell \rightarrow \{0,1\}^m$ is a _$(T,\epsilon)$-pseudorandom generator_ if for every
-NAND program $P$ with $m$ inputs and one output of at most $T$ lines,
+NAND-CIRC program $P$ with $m$ inputs and one output of at most $T$ lines,
 $$
 \left| \Pr_{s\sim \{0,1\}^\ell}[P(G(s))=1] - \Pr_{r \sim \{0,1\}^m}[P(r)=1] \right| < \epsilon \label{eq:prg}
 $$
@@ -361,16 +361,16 @@ Note that it takes several parameters:
 
 * $\ell$ is the input length and $m$ is the output length. If $\ell \geq m$ then it is trivial to come up with such a generator: on input $s\in \{0,1\}^\ell$, we can output $s_0,\ldots,s_{m-1}$. In this case $\Pr_{s\sim \{0,1\}^\ell}[ P(G(s))=1]$ will simply equal $\Pr_{r\in \{0,1\}^m}[ P(r)=1]$, no matter how many lines $P$ has. So, the smaller $\ell$ is and the larger $m$ is, the stronger the generator, and to get anything non-trivial, we need $m>\ell$.
 
-Furthermore note that although our eventual goal is to fool probabilistic randomized algorithms that take an unbounded number of inputs,  [prgdef](){.ref} refers to _finite_ and _deterministic_ NAND programs.
+Furthermore note that although our eventual goal is to fool probabilistic randomized algorithms that take an unbounded number of inputs,  [prgdef](){.ref} refers to _finite_ and _deterministic_ NAND-CIRC programs.
 :::
 
 We can think of a pseudorandom generator as a "randomness amplifier." It takes an input $s$ of $\ell$ bits chosen at random and expands these $\ell$ bits into an output $r$ of $m>\ell$ _pseudorandom_ bits.
-If $\epsilon$ is small enough then the pseudorandom bits will "look random" to any NAND program that is not too big.
+If $\epsilon$ is small enough then the pseudorandom bits will "look random" to any NAND-CIRC program that is not too big.
 Still, there are two questions we haven't answered:
 
 * _What reason do we have to believe that pseudorandom generators with non-trivial parameters exist?_
 
-* _Even if they do exist, why would such generators be useful to derandomize randomized algorithms?_ After all, [prgdef](){.ref} does not involve RNAND++ or RNAND<< programs, but rather deterministic NAND programs with no randomness and no loops.
+* _Even if they do exist, why would such generators be useful to derandomize randomized algorithms?_ After all, [prgdef](){.ref} does not involve RNAND++ or RNAND<< programs, but rather deterministic NAND-CIRC programs with no randomness and no loops.
 
 We will now (partially) answer both questions.
 For the first question, let us come clean and confess we do not know how to _prove_ that interesting pseudorandom generators exist.
@@ -398,8 +398,8 @@ Specifically, there exists a constant  $\delta >0$ such that for every $\ell$ an
 The "optimal PRG conjecture" is worth while reading more than once. What it posits is that we can obtain $(T,\epsilon)$ pseudorandom generator $G$ such that every output bit of $G$ can be computed in time polynomial in the length $\ell$ of the input, where $T$ is exponentially large in $\ell$ and $\epsilon$ is exponentially small in $\ell$. (Note that we could not hope for the entire output to be computable in $\ell$, as just writing the output down will take too long.)
 
 To understand why we call such a pseudorandom generator "optimal," it is a great exercise to convince yourself that, for example, there does not exist a $(2^{1.1\ell},2^{-1.1\ell})$ pseudorandom generator (in fact, the number $\delta$ in the conjecture must be smaller than $1$).
-To see that we can't have $T \gg 2^{\ell}$, note  that if we allow a NAND program with much more than $2^\ell$ lines then this NAND program could "hardwire" inside it all the outputs of $G$ on all its $2^\ell$ inputs, and use that to distinguish between a string of the form $G(s)$ and a uniformly chosen string in $\{0,1\}^m$.
-To see that we can't have $\epsilon \ll 2^{-\ell}$, note that by guessing the input $s$ (which will be successful with probability $2^{-2\ell}$), we can obtain a small (i.e., $O(\ell)$ line) NAND program  that achieves a $2^{-\ell}$ advantage in distinguishing a pseudorandom and uniform input.
+To see that we can't have $T \gg 2^{\ell}$, note  that if we allow a NAND-CIRC program with much more than $2^\ell$ lines then this NAND-CIRC program could "hardwire" inside it all the outputs of $G$ on all its $2^\ell$ inputs, and use that to distinguish between a string of the form $G(s)$ and a uniformly chosen string in $\{0,1\}^m$.
+To see that we can't have $\epsilon \ll 2^{-\ell}$, note that by guessing the input $s$ (which will be successful with probability $2^{-2\ell}$), we can obtain a small (i.e., $O(\ell)$ line) NAND-CIRC program  that achieves a $2^{-\ell}$ advantage in distinguishing a pseudorandom and uniform input.
 Working out these details is a highly recommended exercise.
 :::
 
@@ -429,8 +429,8 @@ We now proceed with the proof details.
 
 
 ::: {.proof data-ref="derandBPPthm"}
-Let $F\in \mathbf{BPP}$ and let $P$ be a NAND++ program and $a,b,c,d$ constants such that for every $x\in \{0,1\}^n$, $P(x)$ runs in at most $c \cdot n^d$ steps and  $\Pr_{r\sim \{0,1\}^m}[ P(x;r) = F(x) ] \geq 2/3$.
-By "unrolling the loop" and hardwiring the input $x$, we can obtain for every input $x\in \{0,1\}^n$ a NAND program $Q_x$ of at most, say, $T=10c \cdot n^d$ lines, that takes $m$ bits  of input and such that $Q(r)=P(x;r)$.
+Let $F\in \mathbf{BPP}$ and let $P$ be a NAND-TM program and $a,b,c,d$ constants such that for every $x\in \{0,1\}^n$, $P(x)$ runs in at most $c \cdot n^d$ steps and  $\Pr_{r\sim \{0,1\}^m}[ P(x;r) = F(x) ] \geq 2/3$.
+By "unrolling the loop" and hardwiring the input $x$, we can obtain for every input $x\in \{0,1\}^n$ a NAND-CIRC program $Q_x$ of at most, say, $T=10c \cdot n^d$ lines, that takes $m$ bits  of input and such that $Q(r)=P(x;r)$.
 
 Now suppose that $G:\{0,1\}^\ell \rightarrow \{0,1\}$ is a $(T,0.1)$ pseudorandom generator.
 Then we could deterministically estimate the probability  $p(x)= \Pr_{r\sim \{0,1\}^m}[ Q_x(r) = 1 ]$ up to $0.1$ accuracy in time  $O(T \cdot 2^\ell \cdot m \cdot cost(G))$ where $cost(G)$ is the time that it takes to compute a single output bit of $G$.
@@ -571,13 +571,13 @@ The above discussion might be rather abstract at this point, but would become cl
 Let $\epsilon,T,\ell,m$ be as in the lemma's statement. We need to show that there exists a function $G:\{0,1\}^\ell \rightarrow \{0,1\}^m$ that "fools" every $T$ line program $P$ in the sense of [eq:prg](){.eqref}.
 We will show that this follows from the following claim:
 
-__Claim I:__ For every fixed NAND program $P$, if we pick $G:\{0,1\}^\ell \rightarrow \{0,1\}^m$ _at random_ then the probability that [eq:prg](){.eqref} is violated is at most $2^{-T^2}$.
+__Claim I:__ For every fixed NAND-CIRC program $P$, if we pick $G:\{0,1\}^\ell \rightarrow \{0,1\}^m$ _at random_ then the probability that [eq:prg](){.eqref} is violated is at most $2^{-T^2}$.
 
 Before proving Claim I, let us see why it implies [prgexist](){.ref}.
 We can identify a function $G:\{0,1\}^\ell \rightarrow \{0,1\}^m$ with its "truth table" or simply the list of evaluations on all its possible $2^\ell$ inputs. Since each output is an $m$ bit string,
 we can also think of $G$ as a string in $\{0,1\}^{m\cdot 2^\ell}$. We define $\mathcal{F}^m_\ell$ to be the set of all functions from $\{0,1\}^\ell$ to $\{0,1\}^m$. As discussed above we can identify $\mathcal{F}_\ell^m$ with $\{0,1\}^{m\cdot 2^\ell}$ and choosing a random function $G \sim \mathcal{F}_\ell^m$ corresponds to choosing a random $m\cdot 2^\ell$-long bit string.
 
-For every NAND program $P$ let $B_P$ be the event that, if we choose $G$ at random from $\mathcal{F}_\ell^m$ then  [eq:prg](){.eqref} is violated with respect to the program $P$.
+For every NAND-CIRC program $P$ let $B_P$ be the event that, if we choose $G$ at random from $\mathcal{F}_\ell^m$ then  [eq:prg](){.eqref} is violated with respect to the program $P$.
 It is important to understand what is the sample space that the event $B_P$ is defined over, namely this event depends on the choice of $G$ and so $B_P$ is a subset of $\mathcal{F}_\ell^m$. An equivalent way to define the  event $B_P$ is that it is the subset of  all functions  mapping $\{0,1\}^\ell$ to $\{0,1\}^m$  that violate [eq:prg](){.eqref}, or in other words:
 
 $$
@@ -589,10 +589,10 @@ $$
 To understand this proof it is crucial that you pause here and see how  the definition of $B_P$ above corresponds to [eq:eventdefine](){.eqref}. This may well take re-reading the above text once or twice, but it is a good exercise at parsing probabilistic statements and learning how to identify the _sample space_ that these statements correspond to.
 
 
-Now, we've shown in [program-count](){.ref} that up to renaming variables (which makes no difference to program's functionality) there are $2^{O(T\log T)}$ NAND programs of at most $T$ lines.
-Since $T\log T < T^2$ for sufficiently large $T$, this means that if  Claim I  is true, then by the union bound it holds that the probability of the union of $B_P$ over _all_ NAND programs of at most $T$ lines is at most $2^{O(T\log T)}2^{-T^2} < 0.1$ for sufficiently large $T$.
+Now, we've shown in [program-count](){.ref} that up to renaming variables (which makes no difference to program's functionality) there are $2^{O(T\log T)}$ NAND-CIRC programs of at most $T$ lines.
+Since $T\log T < T^2$ for sufficiently large $T$, this means that if  Claim I  is true, then by the union bound it holds that the probability of the union of $B_P$ over _all_ NAND-CIRC programs of at most $T$ lines is at most $2^{O(T\log T)}2^{-T^2} < 0.1$ for sufficiently large $T$.
 What is important for us about the number $0.1$ is that it is smaller than $1$.
-In particular this means that there _exists_ a single $G^* \in \mathcal{F}_\ell^m$ such that $G^*$ _does not_ violate [eq:prg](){.eqref} with respect to any NAND program of at most $T$ lines, but that precisely means that $G^*$ is a $(T,\epsilon)$ pseudorandom generator.
+In particular this means that there _exists_ a single $G^* \in \mathcal{F}_\ell^m$ such that $G^*$ _does not_ violate [eq:prg](){.eqref} with respect to any NAND-CIRC program of at most $T$ lines, but that precisely means that $G^*$ is a $(T,\epsilon)$ pseudorandom generator.
 
 Hence to  conclude the proof of [prgexist](){.ref}, it suffices to prove Claim I.
 Choosing a random $G: \{0,1\}^\ell \rightarrow \{0,1\}^m$ amounts to choosing $L=2^\ell$ random strings $y_0,\ldots,y_{L-1} \in \{0,1\}^m$ and letting $G(x)=y_x$ (identifying $\{0,1\}^\ell$ and $[L]$ via the binary representation).

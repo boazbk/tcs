@@ -550,6 +550,10 @@ If the function $f$ is _onto_ then every vertex in $B$ has in-degree at least on
 if $f$ is a bijection then every vertex in $B$ has in-degree exactly equal to one.
 :::
 
+::: {.remark title="Labeled graphs (optional)" #labeledrem}
+For some applications one needs to consider _labeled graphs_, where the vertices or edges have some _labels_ (which can be numbers, strings, or members of some other set) associated with them.
+We can think of such a  graph as  having an associated  (possibly partial) _labelling  function_ $L:V \cup E \rightarrow \mathcal{L}$, where $\mathcal{L}$ is the set of potential labels. However we will typically not refer explicitly to this labeling function and simply say  things such as "vertex $v$ has the label $\alpha$".
+:::
 
 
 
