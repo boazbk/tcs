@@ -29,7 +29,7 @@ The name stuck, and randomized algorithms are known as Monte Carlo algorithms to
 
 In this chapter, we will see some examples of randomized algorithms that use randomness to compute a quantity in a faster or simpler way than was known otherwise.
 We will  describe the algorithms in an informal / "pseudo-code" way, rather than as NAND or NAND-TM programs.
-In [chapmodelrand](){.ref} we will discuss how to augment the NAND and NAND++ models to incorporate the ability to "toss coins".
+In [chapmodelrand](){.ref} we will discuss how to augment the NAND and NAND-TM models to incorporate the ability to "toss coins".
 
 
 ## Finding approximately good maximum cuts.

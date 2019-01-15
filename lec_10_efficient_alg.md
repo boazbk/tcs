@@ -39,14 +39,14 @@ This will allow us to ask (and sometimes answer) questions such as:
 In this chapter we will survey some examples of computational problems, for some of which we know efficient (e.g., $n^c$-time for a small constant $c$) algorithms, and for others the best known algorithms are exponential.
 We want to get a feel as to the kinds of problems that lie on each side of this divide and also see how some seemingly minor changes in formulation can make the (known) complexity of a problem "jump" from polynomial to exponential.
 We will not formally define the notion of running time in this chapter, and so will use the same "I know it when I see it" notion of an $O(n)$ or $O(n^2)$ time algorithms as  one you've seen in introduction to computer science courses.
-In [chapmodelruntime](){.ref}, we will define this notion precisely, using our NAND++ and NAND<< programming languages.
+In [chapmodelruntime](){.ref}, we will define this notion precisely, using our NAND-TM and NAND<< programming languages.
 
 
 One of the nice things about the theory of computation is that it turns out that, like in the context of computability, the details of th precise computational model or programming language don't matter that much.
 Specifically, in this course, we will often not be as concerned with the difference between $O(n)$ and $O(n^2)$, as much as the difference between _polynomial_ and _exponential_ running time.
 One of the interesting phenomenona of computing is that there is often a kind of a "[threshold phenomenon](http://www.ma.huji.ac.il/~kalai/ML.pdf)" or "zero-one law" for running time, where  many natural problems can either be solved in polynomial running time with a not-too-large exponent (e.g., something like $O(n^2)$ or $O(n^3)$), or require exponential (e.g., at least $2^{\Omega(n)}$ or $2^{\Omega(\sqrt{n})}$) time to solve.
 The reasons for this phenomenon are still not fully understood, but some light on this is shed by the concept of _NP completeness_, which we will encounter later.
-As we will see, questions about polynomial versus exponential time are  often _insensitive_ to the choice of the particular computational model, just like we saw that the question of whether a function $F$ is computable is insensitive to whether you use NAND++, $\lambda$-calculus, Turing machines, or Javascript as your model of computation.
+As we will see, questions about polynomial versus exponential time are  often _insensitive_ to the choice of the particular computational model, just like we saw that the question of whether a function $F$ is computable is insensitive to whether you use NAND-TM, $\lambda$-calculus, Turing machines, or Javascript as your model of computation.
 
 
 

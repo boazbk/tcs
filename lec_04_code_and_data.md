@@ -1,7 +1,7 @@
 % Code as data
 % Boaz Barak
 
-# Code as data, data as code
+# Code as data, data as code { #codeanddatachap }
 
 
 
@@ -425,17 +425,17 @@ That is, the set of functions that can be computed using $c 2^n/n$ gates is a _s
 In fact, we can use the same results to show a more general result: as a general rule, if we increase our "budget" of gates by a constant factor, then we can compute new functions:
 
 
-> # {.theorem title="Size Hierarchy Theorem" #sizehiearchyth}
+> # {.theorem title="Size Hierarchy Theorem" #sizehiearchythm}
 There exists some constant $C$ such that for _every_ $n \leq s \leq 2^n/(4n)$, there exists some function $f$ that _can not_ be computed using $s$ gates but _can_ be computed using $C\cdot s$ gates.
 
 
-> # {.proofidea data-ref="sizehiearchyth"}
+> # {.proofidea data-ref="sizehiearchythm"}
 The idea is to "scale down" the result of [counting-lb](){.ref}.
 We set $\ell$ to be such that $s$ is about exponential in $\ell$, and so that $Cs$ gates are enough to compute all functions on $\ell$ bits but $s$ gates are not enough to compute some function $g:\{0,1\}^\ell \rightarrow \{0,1\}$.
 We can then let $f:\{0,1\}^n \rightarrow \{0,1\}$ be a function that ignores all but the first input $\ell$ bits, and returns the result of applying $g$  to these bits.
 
 
-::: {.proof data-ref="sizehiearchyth,}
+::: {.proof data-ref="sizehiearchythm,}
 Let $s$ be as in the theorem statement, and let $\ell$ be the largest integer such that $10s \geq 2^\ell/(10\ell)$.
 (By this choice $10s < 2^{\ell-1}/(10\ell-1)$ which means that $5s < 2^\ell/(10\ell)$.)
 Let $g:\{0,1\}^\ell \rightarrow \{0,1\}$ be a function outside $SIZE_\ell(2^\ell/(10\ell)) \supseteq SIZE_\ell(5s)$ (the existence of such a function is guaranteed by [counting-lb](){.ref}).
@@ -462,6 +462,12 @@ But this contradicts the assumption that $g \not\in SIZE_\ell(5s)$.
 :::
 
 
+
+
+
+![An illustration of some of what we know about the size complexity classes (not to scale!). This figure depicts  classes of the form $SIZE_{n,n}(s)$ but the state of affairs for other size complexity classes such as $SIZE_{n,1}(s)$ is similar. We know by [NAND-univ-thm](){.ref} (with the improvement of [tight-upper-bound](){.ref}) that all functions mapping $n$ bits to $n$ bits can be computed by a circuit of size $c \cdot 2^n$ for $c \leq 10$, while on the other hand the counting lower bound ([counting-lb](){.ref}, see also [countingmultibitex](){.ref}) shows that _some_ such functions will require $0.1 \cdot 2^n$, and the size hierarchy theorem ([sizehiearchythm](){.ref}) shows the existence of functions in $SIZE(S) \setminus SIZE(s)$ whenever $s=o(S)$, see also [sizehiearchyex](){.ref}.
+We also consider some specific examples: addition of two $n/2$ bit numbers can be done in $O(n)$ lines, while we don't know of such a program for _multiplying_ two $n$ bit numbers, though we do know it can be done in $O(n^2)$ and in fact even better size. In the above  $FACTOR_n$ corresponds to the inverse problem of multiplying- finding the _prime factorization_ of a given number. At the moment  we do not know  of any circuit  a polynomial (or even sub-exponential) number of lines that can compute $FACTOR_n$. ](../figure/sizecomplexity.png){#sizeclassesfig .class width=300px height=300px}
+
 ::: {.remark title="Explicit functions" #explicitfunc}
 While the size hierarchy theorem guarantees that there exists _some_ function that _can_ be computed using, for example, $n^2$ gates, but not using $100n$ gates, we do not know of any explicit example of such a function.
 While we suspect that integer multiplication is such an example, we do not have any proof that this is the case.
@@ -471,7 +477,7 @@ While we suspect that integer multiplication is such an example, we do not have 
 
 
 
-## The physical extended Church-Turing thesis (discussion)
+## The physical extended Church-Turing thesis (discussion) { #PECTTsec }
 
 We've seen that  NAND gates can be implemented using very different systems in the physical world.
 What about the reverse direction?
@@ -573,10 +579,24 @@ A statement such as "this cryptosystem provides 128 bits of security" really mea
 
 > # { .recap }
 * We can think of programs both as describing a _process_, as well as simply a list of symbols that can be considered as _data_ that can be fed as input to other programs.
-* We can write a NAND-CIRC program that evaluates arbitrary NAND-CIRC programs. Moreover, the efficiency loss in doing so is not too large.
+* We can write a NAND-CIRC program that evaluates arbitrary NAND-CIRC programs (or equivalently a circuit that evaluates other circuits). Moreover, the efficiency loss in doing so is not too large.
 * We can even write a NAND-CIRC program that evaluates programs in other programming languages such as Python, C, Lisp, Java, Go, etc.
-* By a leap of faith, we could hypothesize that the number of lines in the smallest NAND-CIRC program for a function $F$ captures roughly the amount of physical resources required to compute $F$. This statement is known as the _Physical Extended Church-Turing Thesis (PECTT)_.
-* NAND-CIRC programs capture a surprisingly wide array of computational models. The strongest currently known challenge to the PECTT comes from the potential for using quantum mechanical effects to speed-up computation, a model known as _quantum computers_.
+* By a leap of faith, we could hypothesize that the number of gates in the smallest circuit that computes a function $f$ captures roughly the amount of physical resources required to compute $f$. This statement is known as the _Physical Extended Church-Turing Thesis (PECTT)_.
+* Boolean circuits (or equivalently AON-CIRC or NAND-CIRC programs) capture a surprisingly wide array of computational models. The strongest currently known challenge to the PECTT comes from the potential for using quantum mechanical effects to speed-up computation, a model known as _quantum computers_.
+
+
+## Finite computation recap
+
+The main take-aways from [compchap](){.ref}, [finiteuniversalchap](){.ref}, and [codeanddatachap](){.ref} are:
+
+* We can formally define the notion of a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ being computed using $s$ basic operations. Whether these operations are AND/OR/NOT, NAND, or some other universal basis does not make much difference. We can describe such a computation either using a _circuit_ or using a _straightline program_.
+
+* _Every_ function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed using a circuit of _at most_ $O(m \cdot 2^n / n)$ gates. _Some_ functions require _at least_ $\Omega(m \cdot 2^n /n)$ gates. We define $SIZE_{n,m}(s)$ to be the set of functions from $\{0,1\}^n$ to $\{0,1\}^m$ that can be computed using at most $s$ gates.
+
+* We can describe a circuit/program $P$ as a string. For every $s$, there is a _universal_ circuit/program $U_s$ that can evaluate programs of length $s$ given their description as strings. We use this representation also to prove that some functions cannot be computed by circuit of smaller-than-exponential size.
+
+* If there is a circuit of $s$ gates that computes a function $f$, then we can build a physical device to compute $f$ using about $s$ components (such as transistors). If $f$ is a function for which _every_ circuit requires at least $s$ gates then the "Physical Extended Church-Turing Thesis" postulates that _every_ physical device to compute $f$ will require about $s$ "physical resources". The main challenge to the PECTT is _quantum computing_ which we will discuss in [quantumchap](){.ref}.
+
 
 
 ## Exercises
@@ -601,12 +621,18 @@ For every $k \in \N$ and $x' \in \{0,1\}^k$, show that there is an $O(k)$ line N
 
 
 
+::: {.exercise title="Counting lower bound for multibit functions" #countingmultibitex}
+Prove that there exist a number $\epsilon>0$ such that for every $n,m$ there exists a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that requires at least $\epsilon m \cdot 2^n / n$ NAND gates to compute. See footnote for hint.^[How many functions from $\{0,1\}^n$ to $\{0,1\}^m$ exist?]
+:::
 
-> # {.exercise title="Random functions are hard (challenge)" #rand-lb-id}
+::: {.exercise title="Size hierarchy theorem for multibit functions" #sizehiearchyex}
+Prove that there exists a number $C$ such that for every $n,m$ and $s < m\cdot 2^n / (Cn)$ there exists a function $f \in SIZE_{n,m}(C\cdot s) \setminus SIZE_{n,m}(s)$.
+See footnote for hint.^[Follow the proof of [sizehiearchythm](){.ref}, replacing the use of the counting argument with [countingmultibitex](){.ref}.]
+:::
+
+> # {.exercise title="Random functions are hard" #rand-lb-id}
 Suppose $n>1000$ and that we choose a function $F:\{0,1\}^n \rightarrow \{0,1\}$ at random, choosing for every $x\in \{0,1\}^n$ the value $F(x)$ to be the result of tossing an independent unbiased coin. Prove that the probability that there is a $2^n/(1000n)$ line program that computes $F$ is at most $2^{-100}$.^[__Hint:__ An equivalent way to say this is that you need to prove that the set of functions that can be computed using at most $2^n/(1000n)$ has fewer than $2^{-100}2^{2^n}$ elements. Can you see why?]
 
-> # {.exercise title="Circuit hierarchy theorem (challenge)"  #hierarchy-thm}
-Prove that there is a constant $c$ such that for every $n$, there is some function $F:\{0,1\}^n \rightarrow \{0,1\}$ s.t. __(1)__ $F$ _can_ be computed by a NAND-CIRC program of at most $c n^5$ lines, but __(2)__ $F$ can _not_ be computed by a NAND-CIRC program of at most $n^4 /c$ lines.^[__Hint:__ Find an approriate value of $t$ and a function $G:\{0,1\}^t \rightarrow \{0,1\}$ that can be computed in $O(2^t/t)$ lines but _can't_ be computed in $\Omega(2^t/t)$ lines, and then extend this to a function mapping $\{0,1\}^n$ to $\{0,1\}$.]
 
 
 

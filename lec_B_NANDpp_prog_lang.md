@@ -1,4 +1,4 @@
-% NAND++ appendix
+% NAND-TM appendix
 % Boaz Barak
 
 # The NAND plus plus Programming Language

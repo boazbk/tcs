@@ -24,7 +24,7 @@ However, there was a significant caveat in this notion. To evaluate a NAND-CIRC 
 (Equivalently, the function that evaluates a given circuit of $s$ gates on a given input, requires more than $s$ gates to compute.)
 
 
-It turns out that uniform models such as  NAND-TM programs or Turing machines  allow us to "break out of this cycle" and obtain a truly _universal NAND++_ program $U$ that can evaluate all other programs, including programs that have more lines than $U$ itself.
+It turns out that uniform models such as  NAND-TM programs or Turing machines  allow us to "break out of this cycle" and obtain a truly _universal NAND-TM_ program $U$ that can evaluate all other programs, including programs that have more lines than $U$ itself.
 The existence of such a universal program has far reaching applications.
 Indeed, it is no exaggeration to say that the existence of a  universal program underlies the information technology revolution that began in the latter half of the 20th century (and is still ongoing).
 Up to that point in history, people have produced various special-purpose calculating devices, from the abacus, to the slide ruler, to machines to compute trigonometric series.
@@ -36,9 +36,9 @@ In this chapter we will prove the existence of the universal program, as well as
 
 
 
-## Universality: A NAND++ interpreter in NAND++
+## Universality: A NAND-TM interpreter in NAND-TM
 
-Like a NAND-CIRC program, a NAND++  program (or a Python or Javascript program, for that matter)  is ultimately a sequence of symbols and hence can obviously be represented as a binary string.
+Like a NAND-CIRC program, a NAND-TM  program (or a Python or Javascript program, for that matter)  is ultimately a sequence of symbols and hence can obviously be represented as a binary string.
 We will spell out the exact details of one such  representation later, but as usual, the details are not so important (e.g., we can use the ASCII encoding of the source code).
 What is crucial is that we can use such representations to evaluate any program.
 That is, we prove the following theorem:
@@ -46,7 +46,7 @@ That is, we prove the following theorem:
 
 
 
-::: {.theorem title="Universality of NAND++" #univnandppnoneff}
+::: {.theorem title="Universality of NAND-TM" #univnandppnoneff}
 There is a NAND-TM program $U$ that computes the partial function $EVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ defined as follows:
 $$
 EVAL(P,x)=P(x)
@@ -63,7 +63,7 @@ You would use some data structure, such as a dictionary, to store the values of 
 Then, you could simulate $P$ line by line, updating the data structure as you go along.
 The interpreter will continue the simulation until  `loop` is equal to $0$.
 
-Once you do that, translating this interpreter from your programming language to NAND++ can be done just as we have seen in [chapequivalentmodels](){.ref}. The end result is what's known as a "meta-circular evaluator": an interpreter for a programming language in the same one. This is a concept that has a long history in computer science starting from the original universal Turing machine. See also [lispinterpreterfig](){.ref}.
+Once you do that, translating this interpreter from your programming language to NAND-TM can be done just as we have seen in [chapequivalentmodels](){.ref}. The end result is what's known as a "meta-circular evaluator": an interpreter for a programming language in the same one. This is a concept that has a long history in computer science starting from the original universal Turing machine. See also [lispinterpreterfig](){.ref}.
 :::
 
 ![A particularly elegant example of a "meta-circular evaluator" comes from John McCarthy's 1960 paper, where he defined the Lisp programming language and gave a Lisp function that evaluates an arbitrary Lisp program (see above). Lisp was not initially intended as a practical programming language and this  example was merely meant as an illustration that the Lisp universal function is more elegant than the universal Turing machine, but McCarthy's graduate student Steve Russell suggested that it can be implemented. As McCarthy later recalled, _"I said to him, ho, ho, you're confusing theory with practice, this eval is intended for reading, not for computing. But he went ahead and did it. That is, he compiled the eval in my paper into IBM 704 machine code, fixing a bug, and then advertised this as a Lisp interpreter, which it certainly was"._ ](../figure/lispinterpreter.png){#lispinterpreterfig .class width=300px height=300px}
@@ -85,7 +85,7 @@ So, we can use the list-of-triples representation of $P'$ to represent $P$.
 That is, we represent $P$ by a tuple $(a,b,L)$ where $L$ is a list of triples of numbers in $\{0,\ldots, a+b-1 \}$.
 Each triple $(j,k,\ell)$ in $L$ corresponds to a line of code in $P$ of the form `foo = NAND(bar,blah)`.
 The indices $j,k,\ell$ correspond to _array_ variables if they are in $\{0,\ldots,a-1\}$ and to _scalar_ variables if they are in $\{a,\ldots,a+b-1\}$.
-We will identify the arrays `X`,`Xvalid`,`Y`,`Yvalid` with the indices $0,1,2,3$ and the scalar `loop` with the index $a$. (Once again, the precise details of the representation do not matter much; we could have used any other.)
+We will identify the arrays `X`,`X_nonblank`,`Y`,`Y_nonblank` with the indices $0,1,2,3$ and the scalar `loop` with the index $a$. (Once again, the precise details of the representation do not matter much; we could have used any other.)
 
 
 
@@ -98,14 +98,14 @@ Here is the code of this program for concreteness, though you can feel free to s
 
 ```python
 def EVAL(P,X):
-    """Get NAND++ prog P represented as (a,b,L) and input X, produce output"""
+    """Get NAND-TM prog P represented as (a,b,L) and input X, produce output"""
     a,b,L = *P
     vars = { } # scalar variables: for j in {a..a+b-1}, vars[j] is value of scalar variable j
 
     arrs = { } # array variables: for j in {0..a-1}, arrs[(j,i)] is -ith position of array j
 
     # Special variable indices:
-    # X:0, Xvalid:1, Y:2, Yvalid:3, loop:a
+    # X:0, X_nonblank:1, Y:2, Y_nonblank:3, loop:a
 
     def setvar(j,v): # set variable j to value v
         if j>a: vars[j] = v # j is scalar
@@ -120,7 +120,7 @@ def EVAL(P,X):
     # copy input
     for j in range(len(X)):
         arrs[(0,j)] = X[j]  # X has index 0
-        arrs[(1,j)] = 1     # Xvalid has index 1
+        arrs[(1,j)] = 1     # X_nonblank has index 1
 
     maxseen = 0
     i = 0
@@ -138,13 +138,13 @@ def EVAL(P,X):
     # copy output
     i = 0
     res = []
-    while getvar(3): # if Yvalid[i]=1
+    while getvar(3): # if Y_nonblank[i]=1
         res += [getvar(2)] # add Y[i] to result
         i += 1
     return Y
 ```
 
-Translating this _Python_ code to NAND++ code line by line is a mechanical, even if somewhat laborious, process. However, to prove the theorem we don't need to write the code fully, but can use our "eat the cake and have it too" paradigm.
+Translating this _Python_ code to NAND-TM code line by line is a mechanical, even if somewhat laborious, process. However, to prove the theorem we don't need to write the code fully, but can use our "eat the cake and have it too" paradigm.
 That is, while we can assume that our input program $P$ is written in the lowly NAND-TM programming languages, in writing the program $U$ we are allowed to use richer models such as NAND<< (since they are equivalent by [RAMTMequivalencethm](){.ref}).
 Translating the above Python code to NAND<< is truly straightforward.
 The only issue is that NAND<< doesn't have the dictionary data structure built in, but we can represent a dictionary of the form $\{ key_0:val_0 , \ldots, key_{m-1}:val_{m-1} \}$  by simply a string (stored in an array) which is the list of pairs $(key_0,val_0),\ldots,(key_{m-1},val_{m-1})$ (where each pair is represented as a string in some prefix-free way). To retrieve an element with key $k$ we can scan the list from beginning to end and compare  each $key_i$ with $k$.
@@ -228,7 +228,7 @@ The proof will use the previously established [uncomputable-func](){.ref} , as i
 That is, we will assume, towards a contradiction, that there is NAND-TM program $P^*$ that can compute the $HALT$ function, and use that to derive that there is some NAND-TM program $Q^*$ that computes the function  $F^*$ defined above, contradicting [uncomputable-func](){.ref}. (This is known as a proof by _reduction_, since we reduce the task of computing $F^*$ to the task of computing $HALT$. By the contrapositive, this means the uncomputability of $F^*$ implies the uncomputability of $HALT$.)
 
 Indeed, suppose that  $P^*$ was a NAND-TM program that computes $HALT$.
-Then we can write a NAND-TM program $Q^*$ that does the following on input $x\in \{0,1\}^*$:^[Note that we are using here a "high level" description of NAND-TM programs. We know that we can implement the steps below, for example by first writing them in NAND<< and then transforming the NAND<< program to NAND++. Step 1 involves simply running the program $P^*$ on some input.]
+Then we can write a NAND-TM program $Q^*$ that does the following on input $x\in \{0,1\}^*$:^[Note that we are using here a "high level" description of NAND-TM programs. We know that we can implement the steps below, for example by first writing them in NAND<< and then transforming the NAND<< program to NAND-TM. Step 1 involves simply running the program $P^*$ on some input.]
 
 >__Program $Q^*(x)$__
 >
@@ -466,8 +466,8 @@ That is, on input a pair $(P,x)$ the algorithm  $B$ uses this pair to construct 
 We now discuss exactly how does  algorithm $B$ performs step 1 of  obtaining the source code of the program $Q$ from the pair $(P,x)$.
 In fact, constructing the program $Q$  is  rather simple.
 We can do so by modifying $P$  to  ignore its input and use $x$ instead.
-Specifically, if $x$ is of length $n$ we can do so by adding $2n$ lines of initialization code that sets arrays `MyX` and `MyXvalid` to the values corresponding to $x$ (i.e., `MyX[`$i$`]`$=x_i$ and `MyXvalid[`$i$`]`$=1$ for every $i \in [n]$).
-The rest of the program $Q$ is obtained by replacing all references to `X` and `Xvalid` with references to `MyX` and `MyXvalid` respectively.
+Specifically, if $x$ is of length $n$ we can do so by adding $2n$ lines of initialization code that sets arrays `MyX` and `MyX_nonblank` to the values corresponding to $x$ (i.e., `MyX[`$i$`]`$=x_i$ and `MyX_nonblank[`$i$`]`$=1$ for every $i \in [n]$).
+The rest of the program $Q$ is obtained by replacing all references to `X` and `X_nonblank` with references to `MyX` and `MyX_nonblank` respectively.
 One can see that on every input $z\in \{0,1\}^*$, (and in particular for $z=0$) executing $Q$ on input $z$ will correspond to executing $P$ on the input $x$.
 
 The above completes the _description_ of the reduction. The _analysis_ is obtained by proving the following claim:

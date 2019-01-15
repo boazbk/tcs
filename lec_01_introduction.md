@@ -336,13 +336,13 @@ More than anything, I hope I will manage to "infect" you with at least some of m
 
 ### Dependencies between chapters
 
-This book is divided into the following parts:
+This book is divided into the following parts ,see [dependencystructurefig](){.ref}.
 
 * __Preliminaries:__ Introduction, mathematical background, and representing objects as strings.
 
-* __Part I: Finite computation:__ Boolean circuits / straightline  programs. Universal gate sets, counting lower bound, representing programs as string and universality.
+* __Part I: Finite computation:__ Boolean circuits / straightline  programs. Universal gate sets, existence of a circuit for every function, representing circuits as strings and the universal circuit, and the counting lower bound.
 
-* __Part II: Uniform computation:__ Turing machines / programs with loops. Equivalence of models (including RAM machines and $\lambda$ calculus), universality, uncomputability,  Gödel's incompleteness theorem, restricted models (regular and context free languages).
+* __Part II: Uniform computation:__ Turing machines / programs with loops. Equivalence of models (including RAM machines and $\lambda$ calculus), universal Turing machine, uncomputable functions the Halting problem and Rice's Theorem, Gödel's incompleteness theorem, restricted models (regular and context free languages).
 
 * __Part III: Efficient computation:__ Definition of running time, time hierarchy theorem, $\mathbf{P}$ and $\mathbf{NP}$, $\mathbf{NP}$ completeness, space bounded computation.
 
@@ -350,17 +350,18 @@ This book is divided into the following parts:
 
 * __Part V: Advanced topics:__ Cryptography, proofs and algorithms (interactive and zero knowledge proofs, Curry-Howard correspondence), quantum computing.
 
-The book proceeds in linear order, with each chapter building on the previous one, with the following exceptions:
+![The dependency structure of the different parts. Part I introduces the model of Boolean circuits to study _finite functions_ with an emphasis on _quantitative_ questions (how many gates to compute a function).  Part II introduces the model of Turing machines to study functions that have _unbounded input lengths_ with an emphasis on _qualitative_ questions (is this function computable or not). Much of Part II does not depend on  Part I, as Turing machines can be used as the first computational model. Part III depends on both parts as it introduces a _quantitative_ study of functions with unbounded input length. The more advancec parts IV (randomized computation) and V (advanced topics) rely on the material of Parts I, II and III.](../figure/dependencystructure.png){#dependencystructurefig .class width=300px height=300px}
 
 
-* All chapters in [advancedpart](){.ref} (Advanced topics) are independent of one another, and you can choose which one of them to read.
+The book largely proceeds in linear order, with each chapter building on the previous ones, with the following exceptions:
 
-* [godelchap](){.ref} (Gödel's incompleteness theorem), [restrictedchap](){.ref} (Restricted computational models),  and [spacechap](){.ref} (Space bounded computation), are not used in following  chapters. Hence you can choose to skip them.
+* Part II (Uniform Computation) does not have a strong dependency  on Part I (Finite computation) and it should be possible to teach them in the reverse order.
 
-A course based on this book can use all of Parts I, II, and III  (possibly skipping over some or all of [godelchap](){.ref}, [restrictedchap](){.ref} or [spacechap](){.ref}), and then either cover all or some of Part IV, and add a "sprinkling" of advanced topics from Part V based on student or instructor interest.
+* All chapters in [advancedpart](){.ref} (Advanced topics) are independent of one another and can be covered in any order.
 
+* [godelchap](){.ref} (Gödel's incompleteness theorem), [restrictedchap](){.ref} (Restricted computational models),  and [spacechap](){.ref} (Space bounded computation), are not used in following  chapters. Hence you can choose whether to cover or skip any of them them.
 
-
+A course based on this book can use all of Parts I, II, and III  (possibly skipping over some or all of [godelchap](){.ref}, [restrictedchap](){.ref} or [spacechap](){.ref}), and then either cover all or some of Part IV (randomized computation), and add a "sprinkling" of advanced topics from Part V based on student or instructor interest.
 
 
 

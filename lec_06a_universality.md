@@ -2,8 +2,8 @@
 
 > # { .objectives }
 * See the  NAND<< programming language.
-* Understand how NAND<< can be implemented as syntactic sugar on top of NAND++
-* Understand the construction of a _universal_ NAND<< (and hence NAND++) program.
+* Understand how NAND<< can be implemented as syntactic sugar on top of NAND-TM
+* Understand the construction of a _universal_ NAND<< (and hence NAND-TM) program.
 
 >_"All problems in computer science can be solved by another level of indirection"_,  attributed to David Wheeler.
 
@@ -17,8 +17,8 @@
 
 One of the most significant results we showed for NAND-CIRC programs is the notion of _universality_: that a NAND-CIRC program can evaluate other NAND-CIRC programs.
 However, there was a significant caveat in this notion. To evaluate a NAND-CIRC program of $s$ lines, we needed to use a bigger number of lines than $s$.
-It turns out that NAND++ allows us to "break out of this cycle" and obtain a truly _universal NAND++_ program $U$ that can evaluate all other programs, including programs that have more lines than $U$ itself.
-(This is not something special to NAND++ but is a feature of many other computational models.)
+It turns out that NAND-TM allows us to "break out of this cycle" and obtain a truly _universal NAND-TM_ program $U$ that can evaluate all other programs, including programs that have more lines than $U$ itself.
+(This is not something special to NAND-TM but is a feature of many other computational models.)
 The existence of such a universal program has far reaching applications.
 Indeed, it is no exaggeration to say that the existence of a  universal program underlies the information technology revolution that began in the latter half of the 20th century (and is still ongoing).
 Up to that point in history, people have produced various special-purpose calculating devices, from the abacus, to the slide ruler, to machines to compute trigonometric series.
@@ -29,8 +29,8 @@ Beyond the practical applications, the existence of a universal algorithm also s
 In this chapter we will prove the existence of the universal program, as well as show its implications for uncomputability.
 
 
-To describe the universal program, it will be convenient for us to introduce some extra "syntactic sugar" for NAND++. We'll use the name NAND<< for  the language of NAND++ with this extra syntactic sugar.
-The classes of functions computable by  NAND++ and NAND<< programs are identical, but NAND<< can sometimes be more convenient to work with.
+To describe the universal program, it will be convenient for us to introduce some extra "syntactic sugar" for NAND-TM. We'll use the name NAND<< for  the language of NAND-TM with this extra syntactic sugar.
+The classes of functions computable by  NAND-TM and NAND<< programs are identical, but NAND<< can sometimes be more convenient to work with.
 Moreover, NAND<< will be useful for us later in the course when we will turn to modelling _running time_ of algorithms.^[Looking ahead, as we will see in the next lecture, NAND-TM programs are essentially equivalent to _Turing Machines_ (more precisely, their single-tape, oblivious  variant), while NAND<< programs are equivalent to _RAM machines_. Turing machines are typically the standard model used in computability and complexity theory, while RAM machines are used in algorithm design. As we will see, their powers are equivalent up to polynomial factors in the running time.]
 
 
@@ -41,9 +41,9 @@ Moreover, NAND<< will be useful for us later in the course when we will turn to 
 
 ## The NAND<< programming language
 
-We now  define a seemingly more powerful programming language than NAND++: NAND<< (pronounced _"NAND shift"_).
-NAND<< has some  additional operators, but as we will see, it can ultimately be implemented by applying certain "syntactic sugar" constructs on top of NAND++.
-Nonetheless, NAND<<  will still serve (especially later in the course) as a useful computational model.^[If you have encountered computability or computational complexity before, we can already "let you in on the secret". NAND++ is equivalent to the model known as _single tape oblivious Turing machines_, while NAND<< is (essentially) equivalent to the model known as _RAM machines_. For the purposes of the current lecture, the NAND++ / Turing-Machine model is  indistinguishable from the NAND<< /  RAM-Machine model (due to a notion known as "Turing completeness") but the difference between them can matter if one is interested in a fine enough resolution of computational efficiency.]
+We now  define a seemingly more powerful programming language than NAND-TM: NAND<< (pronounced _"NAND shift"_).
+NAND<< has some  additional operators, but as we will see, it can ultimately be implemented by applying certain "syntactic sugar" constructs on top of NAND-TM.
+Nonetheless, NAND<<  will still serve (especially later in the course) as a useful computational model.^[If you have encountered computability or computational complexity before, we can already "let you in on the secret". NAND-TM is equivalent to the model known as _single tape oblivious Turing machines_, while NAND<< is (essentially) equivalent to the model known as _RAM machines_. For the purposes of the current lecture, the NAND-TM / Turing-Machine model is  indistinguishable from the NAND<< /  RAM-Machine model (due to a notion known as "Turing completeness") but the difference between them can matter if one is interested in a fine enough resolution of computational efficiency.]
 
 There are two key differences between NAND<< and NAND:
 
@@ -71,7 +71,7 @@ The semantics of these operations are as expected except that we maintain the in
 If an operation would result in assigning to a variable `foo` a number that is smaller than $0$, then we assign $0$ to `foo`, and if it assigns to `foo` a number that is larger than the iteration counter, then we assign the value of the iteration counter to `foo`.
 Just like C, we interpret any nonzero value as "true"  or $1$, and hence `foo := bar NAND baz` will assign to `foo` the value $0$ if both `bar` and `baz` are not zero, and $1$ otherwise.
 
-Apart from those operations, NAND<< is identical to NAND++.
+Apart from those operations, NAND<< is identical to NAND-TM.
 For consistency, we still treat the variable `i` as special, in the sense that we only allow it to be used as an index, even though the other variables contain integers as well, and so we don't allow variables such as `foo_bar` though we can simulate it by first writing `i := bar` and then `foo_i`.
 We also maintain the invariant that at the beginning of each iteration, the value of `i` is set to the same value that it would have in a NAND-TM program (i.e., the function of the iteration counter stated in [computeidx-ex](){.ref}), though this can be of course overwritten by explicitly assigning a value to `i`.
 Once again, see the appendix for a more formal specification of NAND<<.
@@ -80,12 +80,12 @@ Once again, see the appendix for a more formal specification of NAND<<.
 Most of the time we will be interested in applying NAND<< programs on bits, and hence we will assume that both inputs and outputs are bits. We can enforce the  latter condition by not allowing `y_` variables to be on the lefthand side of any operation other than NAND.
 However, the same model can be used to talk about functions that map tuples of integers to tuples of integers, and so we may very occasionally abuse notation and talk about NAND<< programs that compute on integers.
 
-### Simulating NAND<< in NAND++
+### Simulating NAND<< in NAND-TM
 
 
-The most important fact we need to know about NAND<< is that it can be implemented by mere "syntactic sugar" and hence does not give us more computational power than NAND++, as stated in the following theorem:
+The most important fact we need to know about NAND<< is that it can be implemented by mere "syntactic sugar" and hence does not give us more computational power than NAND-TM, as stated in the following theorem:
 
-> # {.theorem title="NAND++ and NAND<< are equivalent" #NANDequiv-thm}
+> # {.theorem title="NAND-TM and NAND<< are equivalent" #NANDequiv-thm}
 For every (partial) function $F:\{0,1\}^* \rightarrow \{0,1\}^*$,
 $F$ is computable by a NAND-TM program if and only if $F$ is computable by a NAND<< program.
 
@@ -93,20 +93,20 @@ $F$ is computable by a NAND-TM program if and only if $F$ is computable by a NAN
 The rest of this section is devoted to outlining the proof of  [NANDequiv-thm](){.ref}.
 The "only if" direction of the theorem  is immediate.
 After all, every NAND-TM program $P$ is in particular also a NAND<< program, and hence if $F$ is computable by a NAND-TM program then it is also computable by a NAND<< program.
-To show the "if" direction, we need to show how we can implement all the operations of NAND<< in NAND++.
-In other words, we need to give a "NAND<< to NAND++ compiler".
+To show the "if" direction, we need to show how we can implement all the operations of NAND<< in NAND-TM.
+In other words, we need to give a "NAND<< to NAND-TM compiler".
 
 Writing a compiler in full detail, and then proving that it is correct, is possible (and [has been done](http://gallium.inria.fr/~xleroy/publi/compcert-CACM.pdf)) but is quite a time consuming enterprise, and not very illuminating.
 For our purposes, we need to convince ourselves that [NANDequiv-thm](){.ref} and that such a transformation exists, and we will do so by outlining the key ideas behind it.^[The webpage [nandpl.org](http://nandpl.org) should eventually contain  a  program that transforms a NAND<< program into an equivalent NAND-TM program.]
 
 Let $P$ be a NAND<< program, we need to transform $P$ into a NAND-TM program $P'$ that computes the same function as $P$.
-The idea will be that $P'$ will simulate $P$ "in its belly". We will use the variables of $P'$ to encode the state of the simulated program $P$, and every single NAND<< step of the program $P$ will be translated into several NAND++ steps by $P'$.
+The idea will be that $P'$ will simulate $P$ "in its belly". We will use the variables of $P'$ to encode the state of the simulated program $P$, and every single NAND<< step of the program $P$ will be translated into several NAND-TM steps by $P'$.
 We will do so in several steps:
 
 
-__Step 1: Controlling the index and inner loops.__ We have seen that we can add syntactic sugar for inner loops and incrementing/derementing the index (i.e., operations such as  `i++ (foo)` and `i-- (bar)`) to NAND++. Hence we can assume access to these operations in constructing $P'$. In particular, we can use such an inner loop to perform tasks such as copying the contents of one array (e.g., variables `foo_0`, $\ldots$, `foo_`$\expr{k-1}$ for some $k$) to another.
+__Step 1: Controlling the index and inner loops.__ We have seen that we can add syntactic sugar for inner loops and incrementing/derementing the index (i.e., operations such as  `i++ (foo)` and `i-- (bar)`) to NAND-TM. Hence we can assume access to these operations in constructing $P'$. In particular, we can use such an inner loop to perform tasks such as copying the contents of one array (e.g., variables `foo_0`, $\ldots$, `foo_`$\expr{k-1}$ for some $k$) to another.
 
-__Step 2: Operations on integers.__ We can use some standard prefix-free encoding to represent an integer as an array of bits. For example, we can use the map $pf:\Z \rightarrow \{0,1\}^*$ defined as follows. Given an integer $z\in \Z$, if $z \geq 0$ then we define the string $pf(z)$ as $z_0z_0z_1z_1 \ldots z_{n-1}z_{n-1}01$ (where $n$ is the smallest number s.t. $2^n > z$ and $z_i$ is the binary digit of $x$ corresponding to $2^i$). If $z<0$ then we define $pf(z)=10pf(|z|)$. We can then use the standard grade-school algorithms to define NAND++ macros that perform arithmetic operations on the representation of integers (e.g., addition, multiplication, division, etc.).
+__Step 2: Operations on integers.__ We can use some standard prefix-free encoding to represent an integer as an array of bits. For example, we can use the map $pf:\Z \rightarrow \{0,1\}^*$ defined as follows. Given an integer $z\in \Z$, if $z \geq 0$ then we define the string $pf(z)$ as $z_0z_0z_1z_1 \ldots z_{n-1}z_{n-1}01$ (where $n$ is the smallest number s.t. $2^n > z$ and $z_i$ is the binary digit of $x$ corresponding to $2^i$). If $z<0$ then we define $pf(z)=10pf(|z|)$. We can then use the standard grade-school algorithms to define NAND-TM macros that perform arithmetic operations on the representation of integers (e.g., addition, multiplication, division, etc.).
 
 
 __Step 3: Move index to specified location.__ We can  use the above operations to move the index to a location encoded by an integer. To do so, we can first move  `i` to the zero location by decreasing it until the `atstart_i` equals $1$ (where, as we've seen before, `atstart` is an array we can set up so `attstart_0` is $1$ and `atstart_`$\expr{j}$ is zero for $j\neq 0$). Now, if the variables `foo_0`,`foo_1`,... encode the number $k\in \N$ we can set the value of `i` to $k$ as follows.
@@ -116,7 +116,7 @@ In this loop we will do the following: __(1)__ If `foo` encodes $0$ then set `ba
 
 __Step 4: Maintaining an iteration counter and index.__ The NAND-TM program $P'$ will simulate execution of the NAND<< program $P$. Every step of $P$ will be simulated by several steps of $P'$. We can use the above operations to maintain a variable `itercounter` and `index` that will encode the current step of $P$ that is being executed and the current value of the special index variable `i` in the simulated program $P$ (which does not have to be the same as the value of `i` in the NAND-TM program $P'$).
 
-__Step 5: Embedding two dimensional arrays into one dimension.__ If `foo` and `bar`  the encode the natural numbers $x,y \in \N$, then we can use NAND++ to compute the map $PAIR:\N^2 \rightarrow \N$ where $PAIR(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+x$. In [pair-ex](){.ref} we ask you to verify that $PAIR$ is a one-to-one map from $\N^2$ to $\N$ and that there are NAND-TM programs $P_0,P_1$ such that for every $x_0,x_1 \in \N$ and $i \in \{0,1\}$, $P_i(PAIR(x_0,x_1))=x_i$.
+__Step 5: Embedding two dimensional arrays into one dimension.__ If `foo` and `bar`  the encode the natural numbers $x,y \in \N$, then we can use NAND-TM to compute the map $PAIR:\N^2 \rightarrow \N$ where $PAIR(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+x$. In [pair-ex](){.ref} we ask you to verify that $PAIR$ is a one-to-one map from $\N^2$ to $\N$ and that there are NAND-TM programs $P_0,P_1$ such that for every $x_0,x_1 \in \N$ and $i \in \{0,1\}$, $P_i(PAIR(x_0,x_1))=x_i$.
 Using this  $PAIR$ map, we can assume we have access to two dimensional arrays in our NAND-TM program.
 
 
@@ -178,16 +178,16 @@ if(computedlength) {
 
 ## The "Best of both worlds" paradigm
 
-The equivalence between NAND++ and NAND<< allows us to choose the most convenient language for the task at hand:
+The equivalence between NAND-TM and NAND<< allows us to choose the most convenient language for the task at hand:
 
-* When we want to give a theorem about all programs, we can use NAND++ because it is simpler and easier to analyze. In particular, if we want to show that a certain function _can not_ be computed, then we will use NAND++.
+* When we want to give a theorem about all programs, we can use NAND-TM because it is simpler and easier to analyze. In particular, if we want to show that a certain function _can not_ be computed, then we will use NAND-TM.
 
 * When we want to show the existence of a program computing a certain function, we can use NAND<<, because it is higher level and easier to program in. In particular, if we want to show that a function _can_ be computed then we can use NAND<<. In fact, because NAND<< has much of  the features of high level programming languages, we will often describe NAND<< programs in an informal manner, trusting that the reader can fill in the details and translate the high level description to the precise program. (This is just like the way people typically use informal or "pseudocode" descriptions of algorithms, trusting that their  audience will know to translate these descriptions to code if needed.)
 
-Our usage of NAND++ and NAND<< is very similar to the way people use in practice  high and low level programming languages.
+Our usage of NAND-TM and NAND<< is very similar to the way people use in practice  high and low level programming languages.
 When one wants to produce a device that executes programs, it is convenient  to do so for very simple and "low level" programming language. When one wants to describe an algorithm, it is convenient to use as high level a formalism as possible.
 
-![By having the two equivalent languages NAND++ and NAND<<, we can "have our cake and eat it too", using NAND++ when we want to prove that programs _can't_ do something, and using NAND<< or other high level languages when we want to prove that programs _can_ do something.](../figure/have_your_cake_and_eat_it_too-img-intro.png){#cakefig .class width=300px height=300px}
+![By having the two equivalent languages NAND-TM and NAND<<, we can "have our cake and eat it too", using NAND-TM when we want to prove that programs _can't_ do something, and using NAND<< or other high level languages when we want to prove that programs _can_ do something.](../figure/have_your_cake_and_eat_it_too-img-intro.png){#cakefig .class width=300px height=300px}
 
 
 
@@ -230,12 +230,12 @@ For example, we might describe the [breadth first search](https://en.wikipedia.o
 We call such a description a _high level description_.
 
 
-If we wanted to give more details on how to implement  breadth first search in a programming language such as Python or C (or NAND<< /  NAND++ for that matter), we would  describe how we implement the queue data structure using an array, and similarly how we would use arrays to implement the marking.
+If we wanted to give more details on how to implement  breadth first search in a programming language such as Python or C (or NAND<< /  NAND-TM for that matter), we would  describe how we implement the queue data structure using an array, and similarly how we would use arrays to implement the marking.
 We call such a "intermediate level" description an _implementation level_ or _pseudocode_ description.
 Finally, if we want to describe the implementation precisely, we would give the full code of the program (or another fully precise representation, such as in the form of a list of tuples).
 We call this a _formal_ or _low level_ description.
 
-While initially we might have described NAND, NAND++, and NAND<< programs at the full formal level (and the [NAND website](http://www.nandpl.org) contains more such examples), as the course continues we will move to implementation and high level description.
+While initially we might have described NAND, NAND-TM, and NAND<< programs at the full formal level (and the [NAND website](http://www.nandpl.org) contains more such examples), as the course continues we will move to implementation and high level description.
 After all, our focus is typically not to use these models for actual computation, but rather to analyze the general phenomenon of  computation.
 That said, if you don't understand how the high level description translates to an actual implementation, you should always feel welcome to ask for more details of your teachers and teaching fellows.
 
@@ -243,7 +243,7 @@ A similar distinction applies to the notion of _representation_ of objects as st
 Sometimes, to be precise, we give a _low level specification_ of exactly how an object maps into a binary string.
 For example, we might describe an encoding of $n$ vertex graphs as length $n^2$ binary strings, by saying that we map a graph $G$ over the vertex $[n]$ to a string $x\in \{0,1\}^{n^2}$ such that the $n\cdot i + j$-th coordinate of $x$ is $1$ if and only if the edge $\overrightarrow{i \; j}$  is present in $G$.
 We can also use an _intermediate_ or _implementation level_ description, by simply saying that we represent a graph using the adjacency matrix representation.
-Finally, because we translating between the various representations of graphs (and objects in general) can be done via a NAND<< (and hence a NAND++) program, when talking in a high level we  also suppress discussion of  representation altogether.
+Finally, because we translating between the various representations of graphs (and objects in general) can be done via a NAND<< (and hence a NAND-TM) program, when talking in a high level we  also suppress discussion of  representation altogether.
 For example, the fact that graph connectivity  is a computable function is true regardless of whether we represent graphs as adjacency lists, adjacency matrices, list of edge-pairs, and so on and so forth.
 Hence, in cases where the precise representation doesn't make a difference, we would often talk about our algorithms as taking as input an object $O$ (that can be a graph, a vector, a program, etc.) without specifying how $O$ is encoded as a string.
 
@@ -251,15 +251,15 @@ Hence, in cases where the precise representation doesn't make a difference, we w
 
 
 
-## Universality: A NAND++ interpreter in NAND++
+## Universality: A NAND-TM interpreter in NAND-TM
 
-Like a NAND-CIRC program, a NAND++ or a NAND<< program is ultimately a sequence of symbols and hence can obviously be represented as a binary string.
+Like a NAND-CIRC program, a NAND-TM or a NAND<< program is ultimately a sequence of symbols and hence can obviously be represented as a binary string.
 We will spell out the exact details of representation later, but as usual, the details are not so important (e.g., we can use the ASCII encoding of the source code).
 What is crucial is that we can use such representation to evaluate any program.
 That is, we prove the following theorem:
 
 
-> # {.theorem title="Universality of NAND++" #univnandppnoneff}
+> # {.theorem title="Universality of NAND-TM" #univnandppnoneff}
 There is a NAND-TM program $U$ that computes the partial function $EVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ defined as follows:
 $$
 EVAL(P,x)=P(x)
@@ -272,7 +272,7 @@ In particular, $U$ can even be used to evaluate itself!
 This notion of _self reference_ will appear time and again in this course, and as we will see, leads to several counterintuitive phenomena in computing.
 
 Because we can easily transform a NAND<< program into a NAND-TM program, this means that even the seemingly "weaker" NAND-TM programming language is powerful enough to simulate NAND<< programs.
-Indeed, as we already alluded to before, NAND++ is powerful enough to simulate also all other standard programming languages such as  Python, C, Lisp, etc.
+Indeed, as we already alluded to before, NAND-TM is powerful enough to simulate also all other standard programming languages such as  Python, C, Lisp, etc.
 
 
 ### Representing NAND-TM programs as strings
@@ -325,7 +325,7 @@ will be
 __Binary encoding:__ The above is a way to represent any NAND-TM program as a list of numbers. We can of course encode such a list as a binary string in a number of ways. For concreteness, since all the numbers involved are between $0$ and $s$ (where $s$ is the number of lines),  we can simply use a string of length $6\ceil{\log (s+1)}$ to represent them, starting with the prefix $0^{s+1}1$ to encode $s$. For convenience we will assume that any string that is not formatted in this way encodes the single line program `y_0 := x_0 NAND x_0`. This way we can assume that every string $P\in\{0,1\}^*$ represents _some_ NAND-TM program.
 
 
-### A NAND++ interpreter in NAND<<
+### A NAND-TM interpreter in NAND<<
 
 Here is the "pseudocode"/"sugar added" version of an  interpreter for NAND-TM programs (given in the list of 6 tuples representation) in NAND<<.
 We assume below that the input is given as integers `x_0`,\ldots,`x_`$\expr{6\cdot lines-1}$ where $lines$ is the number of lines in the program.
@@ -380,15 +380,15 @@ while (true) {
 }
 ```
 
-Since we can transform _every_ NAND<< program to a NAND++ one, we can also implement this interpreter in NAND++, hence completing the proof of [univnandppnoneff](){.ref}.
+Since we can transform _every_ NAND<< program to a NAND-TM one, we can also implement this interpreter in NAND-TM, hence completing the proof of [univnandppnoneff](){.ref}.
 
 
 
-### A  Python interpreter in NAND++
+### A  Python interpreter in NAND-TM
 
-At this point you probably can guess that it is possible to write an interpreter for  languages such as  C or Python in NAND<< and hence in NAND++ as well.
-After all, with NAND++ / NAND<< we have access to an unbounded array of memory, which we can use to simulate memory allocation and access, and can do all the basic computation steps offered by modern CPUs.
-Writing such an interpreter is nobody's idea of a fun afternoon, but the fact it can be done gives credence to the belief that NAND++ _is_ a good model for general-purpose computing.
+At this point you probably can guess that it is possible to write an interpreter for  languages such as  C or Python in NAND<< and hence in NAND-TM as well.
+After all, with NAND-TM / NAND<< we have access to an unbounded array of memory, which we can use to simulate memory allocation and access, and can do all the basic computation steps offered by modern CPUs.
+Writing such an interpreter is nobody's idea of a fun afternoon, but the fact it can be done gives credence to the belief that NAND-TM _is_ a good model for general-purpose computing.
 
 
 

@@ -31,7 +31,7 @@ Therefore, to use the resulting measurements for randomized algorithms, one typi
 
 In this chapter we focus on the second question: formally modeling probabilistic computation and studying its power.
 Modeling randomized computation is actually quite easy.
-We can add the following operations to our NAND, NAND++ and NAND<< programming languages:
+We can add the following operations to our NAND, NAND-TM and NAND<< programming languages:
 
 ```python
 foo = RAND()
@@ -40,7 +40,7 @@ foo = RAND()
 where `foo` is a variable.
 The result of applying this operation is that `foo` is assigned a random bit in $\{0,1\}$.
 (Every time the `RAND` operation is invoked it returns a fresh independent random bit.)
-We call the resulting languages RNAND, RNAND++, and RNAND<< respectively.
+We call the resulting languages RNAND, RNAND-TM, and RNAND<< respectively.
 
 We can use this to define the notion of a function being computed by a randomized $T(n)$ time algorithm for every nice time bound $T:\N \rightarrow \N$, as well as the notion of a finite function being computed by a size $S$ randomized NAND-CIRC program (or, equivalently, a randomized circuit with $S$ gates that correspond to either the NAND or coin-tossing operations).
 However, for simplicity  we will not define randomized computation in full generality, but simply focus on the class of functions that are computable by randomized algorithms _running in polynomial time_, which by historical convention is known as $\mathbf{BPP}$:
@@ -57,7 +57,7 @@ where this  probability is taken over the result of the RAND operations of $P$.^
 
 
 The same polynomial-overhead simulation of NAND<< programs by  NAND-TM programs we saw in [polyRAMTM-thm](){.ref} extends to _randomized_ programs as well.
-Hence the class $\mathbf{BPP}$ is the same regardless of whether it is defined via RNAND++ or RNAND<< programs.
+Hence the class $\mathbf{BPP}$ is the same regardless of whether it is defined via RNAND-TM or RNAND<< programs.
 
 
 ### An alternative view: random coins as an "extra input"
@@ -128,7 +128,7 @@ The characterization of $\mathbf{BPP}$ [randextrainput](){.ref} is reminiscent o
 :::
 
 
-__"Random tapes"__ [randextrainput](){.ref} motivates sometimes considering the randomness of an RNAND++ (or RNAND<<) program  as an extra input. As such, if $A$ is a randomized algorithm that on inputs of length $n$ makes at most $p(n)$ coin tosses, we will often use the notation $A(x;r)$ (where $x\in \{0,1\}^n$ and $r\in \{0,1\}^{p(n)}$) to refer to the result of executing $x$ when the coin tosses of $A$ correspond to the coordinates of $r$. This second, or "auxiliary," input is sometimes referred to as a "random tape." This terminology originates from the  model of randomized Turing machines.
+__"Random tapes"__ [randextrainput](){.ref} motivates sometimes considering the randomness of an RNAND-TM (or RNAND<<) program  as an extra input. As such, if $A$ is a randomized algorithm that on inputs of length $n$ makes at most $p(n)$ coin tosses, we will often use the notation $A(x;r)$ (where $x\in \{0,1\}^n$ and $r\in \{0,1\}^{p(n)}$) to refer to the result of executing $x$ when the coin tosses of $A$ correspond to the coordinates of $r$. This second, or "auxiliary," input is sometimes referred to as a "random tape." This terminology originates from the  model of randomized Turing machines.
 
 
 ### Amplification
@@ -370,7 +370,7 @@ Still, there are two questions we haven't answered:
 
 * _What reason do we have to believe that pseudorandom generators with non-trivial parameters exist?_
 
-* _Even if they do exist, why would such generators be useful to derandomize randomized algorithms?_ After all, [prgdef](){.ref} does not involve RNAND++ or RNAND<< programs, but rather deterministic NAND-CIRC programs with no randomness and no loops.
+* _Even if they do exist, why would such generators be useful to derandomize randomized algorithms?_ After all, [prgdef](){.ref} does not involve RNAND-TM or RNAND<< programs, but rather deterministic NAND-CIRC programs with no randomness and no loops.
 
 We will now (partially) answer both questions.
 For the first question, let us come clean and confess we do not know how to _prove_ that interesting pseudorandom generators exist.

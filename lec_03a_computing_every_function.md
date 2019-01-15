@@ -2,7 +2,7 @@
 % Boaz Barak
 
 
-# Syntactic sugar, and computing every function
+# Syntactic sugar, and computing every function {#finiteuniversalchap }
 
 > # { .objectives }
 * Get comfort with syntactic sugar or automatic translation of higher level logic to  low level gates. \
@@ -427,12 +427,27 @@ Thus I would not blame the reader if they were not particularly looking forward 
 However, it turns out we are not going to need this, as we can show in one fell swoop that NAND-CIRC programs can compute _every_ finite function:
 
 > # {.theorem title="Universality of NAND" #NAND-univ-thm}
-For every $n,m$ and function $f: \{0,1\}^n\rightarrow \{0,1\}^m$, there is a NAND-CIRC program that computes the function $f$. Moreover, there is such a program with at most $O(m 2^n)$ lines.
+There exists some constant $c>0$ such that for every $n,m>0$ and function $f: \{0,1\}^n\rightarrow \{0,1\}^m$, there is a NAND circuit  with at most $c \cdot m 2^n$ gates that computes the function $f$ .
 
-The implicit constant in the $O(\cdot)$ notation can be shown to be at most $10$.
-We also note that the bound of [NAND-univ-thm](){.ref} can be improved to $O(m 2^n/n)$, see
-[tight-upper-bound](){.ref}.
-Of course, the above means that we can compute every function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ by a NAND circuit (or a Boolean circuit with AND/OR/NOT gates) of size $O(m\cdot 2^n)$
+Note that up to constants, the models of NAND circuits, NAND-CIRC programs, AON-CIRC programs, and Boolean circuits, are all equivalent to one another, and hence [AND-univ-thm](){.ref} holds for all these models.
+
+
+::: {.remark title="Improved bound" #improvedboundrem}
+As we'll see in the proof, the constant $c$ will be smaller than $10$.
+In fact, with a tighter proof, we can even shave an extra factor of $n$, as well as optimize the constant, to obtain the following stronger result:
+
+> # {.lemma #stronguniversallem}
+For every $\epsilon>0$, $m\in \N$ and sufficiently large $n$, if $f:\{0,1\}^n \rightarrow \{0,1\}^m$ then $f$ can be computed by a NAND circuit of at most
+$$
+(1+\epsilon)\tfrac{m\cdot 2^n}{n}
+$$
+gates.
+
+We will not prove [stronguniversallem](){.ref} in this book, but discuss how to obtain a bound of the form $O(\tfrac{m \cdot 2^n}{n})$ in [tight-upper-bound](){.ref}. See also the biographical notes.
+:::
+
+
+
 
 ::: { .bigidea #universalaity }
 _Every_ finite function can be computed by a large enough Boolean circuit.
@@ -440,7 +455,7 @@ _Every_ finite function can be computed by a large enough Boolean circuit.
 
 ### Proof of NAND's Universality
 
-To prove [NAND-univ-thm](){.ref}, we need to give a NAND-CIRC program  for _every_ possible function.
+To prove [NAND-univ-thm](){.ref}, we need to give a NAND circuit, or equivalently a NAND-CIRC program,  for _every_ possible function.
 We will restrict our attention to the case of Boolean functions (i.e., $m=1$).
 In [mult-bit-ex](){.ref} you will show how to extend the proof for all values of $m$.
 A function $F: \{0,1\}^n\rightarrow \{0,1\}$ can be specified by a table of  its values for each one of the $2^n$ inputs.
@@ -523,7 +538,7 @@ What is more interesting is that  _some_ functions, such as addition and multipl
 
 ### Improving  by a factor of $n$ (optional) {#tight-upper-bound}
 
-By being a little more careful, we can improve the bound of [NAND-univ-thm](){.ref} and show that every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a NAND-CIRC program of at most $O(m 2^n/n)$ lines.
+As discussed in [improvedboundrem](){.ref},  by being a little more careful, we can improve the bound of [NAND-univ-thm](){.ref} and show that every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a NAND-CIRC program of at most $O(m 2^n/n)$ lines.
 As before, it is enough to prove the case that $m=1$.
 
 The idea is to use the technique known as _memoization_.
@@ -592,9 +607,6 @@ Rather, it is a set of _functions_ (see [cucumberfig](){.ref}).
 This distinction between _programs_ and _functions_ will be crucial for us in this course.
 You should always remember that while a program _computes_ a function, it is not _equal_ to a function.
 In particular, as we've seen, there can be more than one program to compute the same function.
-
-
-![A rough illustration of the relations between the different classes of functions computed by NAND-CIRC programs of given size. For every $n,m$, the class $SIZE_{n,m}(s)$ is a subset of the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$, and if $s \leq s'$ then $SIZE_{n,m}(s) \subseteq SIZE_{n,m}(s')$. [NAND-univ-thm](){.ref} shows that $SIZE_{n,m}(O(m\cdot 2^n))$ is equal to the set of all functions, and using [tight-upper-bound](){.ref} this can be improved to $O(m \cdot 2^n/n)$. If we consider all functions mapping $n$ bits to $n$ bits, then addition of two $n/2$ bit numbers can be done in $O(n)$ lines, while we don't know of such a program for _multiplying_ two $n$ bit numbers, though we do know it can be done in $O(n^2)$ and in fact even better size. In the above  $FACTOR_n$ corresponds to the inverse problem of multiplying- finding the _prime factorization_ of a given number. At the moment  we do not know  of any NAND-CIRC program with a polynomial (or even sub-exponential) number of lines that can compute $FACTOR_n$. ](../figure/sizeclasses.png){#sizeclassesfig .class width=300px height=300px}
 
 
 
@@ -693,4 +705,5 @@ b. For every function $f:\{0,1\}^n \rightarrow \{0,1\}^m$, there is a NAND-CIRC 
 
 
 See Jukna's  and Wegener's books [@Jukna12, @wegener1987complexity] for much more extensive discussion on circuits.
-Shannon showed that every Boolean function can be computed by a circuit of exponential size [@Shannon1938]. The improved bound of $O(2^n/n)$ is due to Lupanov [@Lupanov1958].
+Shannon showed that every Boolean function can be computed by a circuit of exponential size [@Shannon1938]. The improved bound of $c \cdot 2^n/n$ (with the optimal value of $c$ for many bases) is due to Lupanov [@Lupanov1958]. An exposition of this for the case of NAND is given in Chapter 4 of his   book [@lupanov1984].
+(Thanks to Sasha Golovnev for tracking down this reference!)

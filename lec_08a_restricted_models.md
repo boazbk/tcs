@@ -13,7 +13,7 @@
 >_"Happy families are all alike; every unhappy family is unhappy in its own way"_,  Leo Tolstoy (opening of  the book "Anna Karenina").
 
 
-We have seen that a great many models of computation are _Turing equivalent_, including our NAND++/NAND<< programs and Turing machines,  standard programming languages such as C/Python/Javascript etc.., and other models such as the $\lambda$ calculus and even the game of life.
+We have seen that a great many models of computation are _Turing equivalent_, including our NAND-TM/NAND<< programs and Turing machines,  standard programming languages such as C/Python/Javascript etc.., and other models such as the $\lambda$ calculus and even the game of life.
 The flip side of this is that for all these models,  Rice's theorem (see [ricethm](){.ref}) holds as well, which means that  deciding any semantic  property of programs in such a model is _uncomputable_.
 
 The uncomputability of  halting and other semantic specification problems for Turing equivalent  models motivates coming up with __restricted computational models__ that are __(a)__ powerful enough to capture a set of functions useful for certain applications but __(b)__ weak enough that we can still solve semantic specification problems on them.

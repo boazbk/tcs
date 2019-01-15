@@ -345,7 +345,7 @@ We can use transistors to implement various Boolean functions such as $AND$, $OR
 For each a two-input gate $G:\{0,1\}^2 \rightarrow \{0,1\}$,  such an implementation would be a system with two input wires $x,y$ and one output wire $z$, such that if we identify high voltage with "$1$" and low voltage with "$0$", then the wire  $z$ will equal to "$1$" if and only if applying $G$ to  the values of the wires $x$ and $y$ is $1$ (see [logicgatestransistorsfig](){.ref} and [transistor-nand-fig](){.ref}).
 This means that there exists a AND/OR/NOT circuit to  compute a function $g:\{0,1\}^n \rightarrow \{0,1\}^m$, then we can compute $g$ in the physical world using transistors as well.
 
-![Implementing logical gates using transistors. Figure taken from [Rory Mangles' website](http://www.northdownfarm.co.uk/rory/tim/basiclogic.htm).](../figure/DTL Logic.PNG){#logicgatestransistorsfig   .class width=300px height=300px}
+![Implementing logical gates using transistors. Figure taken from [Rory Mangles' website](http://www.northdownfarm.co.uk/rory/tim/basiclogic.htm).](../figure/DTLLogic.PNG){#logicgatestransistorsfig   .class width=300px height=300px}
 
 ![Implementing a NAND gate using transistors.](../figure/nand_transistor.png){#transistor-nand-fig .class width=300px height=300px}
 
@@ -960,4 +960,5 @@ See also Wegener's book [@wegener1987complexity].
 
 The NAND function was shown to be universal by Sheffer [@Sheffer1913] (though apparently this was shown even earlier by Peirce, see [@Peirce1976 , @Burks1978charles]).
 Whitehead and Russell used NAND as the basis for their logic in their magnum opus _Principia Mathematica_ [@WhiteheadRussell1912].
+In her Ph.D thesis, Ernst [@Ernst2009phd] investigates empirically the minimal NAND circuits for various functions.
 Nissan and Shocken's book [@NisanShocken2005]  builds a computing system  starting from NAND gates  and ending with  high level programs  games ("NAND to Tetris"); see also  the website [nandtotetris.org](https://www.nand2tetris.org/).

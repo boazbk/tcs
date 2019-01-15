@@ -330,7 +330,7 @@ Let  $x^* \in \{0,1\}^*$ be such a string and let $n=|x^*|$ be its length.
 By [NP-def](){.ref} there exists $V \in \mathbf{P}$ and $a,b \in \N$ such that $F(x^*)=1$  if and only if there exists $w\in \{0,1\}^{an^b}$ such that $V(x^*w)=1$.
 
 Let $m=an^b$. Since $V\in \mathbf{P}$ there is some NAND-TM program $P^*$ that computes $V$ on inputs of the form $xw$ with $x\in \{0,1\}^n$ and $w\in \{0,1\}^m$ in at most ${(n+m)}^c$ time for some constant $c$.
-Using our "unrolling the loop NAND++ to NAND compiler" of [nand-compiler](){.ref}, we can obtain a NAND-CIRC program $Q'$ that has $n+m$ inputs and at most $O((n+m)^c)$ lines such that $Q'(xw)= P^*(xw)$ for every $x\in \{0,1\}^n$ and $w \in \{0,1\}^m$.
+Using our "unrolling the loop NAND-TM to NAND compiler" of [nand-compiler](){.ref}, we can obtain a NAND-CIRC program $Q'$ that has $n+m$ inputs and at most $O((n+m)^c)$ lines such that $Q'(xw)= P^*(xw)$ for every $x\in \{0,1\}^n$ and $w \in \{0,1\}^m$.
 
 Now we can use the following simple but useful "hardwiring" technique to obtain a program:
 
