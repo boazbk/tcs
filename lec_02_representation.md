@@ -311,7 +311,7 @@ Floating point is [often problematic](http://www.theregister.co.uk/2006/08/12/fl
 
 
 
-### Can we represent reals _exactly_?
+### Can we represent reals _exactly_? {#cantorsec }
 
 Given the issues with floating point representation, we could ask whether we could represent real numbers _exactly_ as strings.
 Unfortunately, the following theorem shows that this cannot be done:

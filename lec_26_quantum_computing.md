@@ -233,7 +233,7 @@ Such a system is now known as a _quantum computer_.
 
 For a while these hypothetical quantum computers seemed useful for one of two things.
 First, to provide a general-purpose mechanism to  simulate a variety of the real quantum systems that people care about, such as various interactions inside molecules in quantum chemistry.
-Second, as a challenge to the _Extended Church Turing hypothesis_ which says that every physically realizable computation device can be modeled (up to polynomial overhead) by Turing machines (or equivalently, NAND-TM / NAND<< programs).
+Second, as a challenge to the _Extended Church Turing hypothesis_ which says that every physically realizable computation device can be modeled (up to polynomial overhead) by Turing machines (or equivalently, NAND-TM / NAND-RAM programs).
 
 Quantum chemistry is important (and in particular understanding it can be a bottleneck for designing new materials, drugs, and more), but it is still a rather niche area within the broader context of computing (and even scientific computing) applications.
 Hence for a while most researchers (to the extent they were aware of it), thought of quantum computers as a theoretical curiosity that  has little bearing to practice, given that this theoretical "extra power" of quantum computer seemed to offer little advantage in the majority of the  problems people  want to solve in areas such as  combinatorial optimization, machine learning,  data structures, etc..

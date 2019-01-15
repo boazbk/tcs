@@ -39,7 +39,7 @@ This will allow us to ask (and sometimes answer) questions such as:
 In this chapter we will survey some examples of computational problems, for some of which we know efficient (e.g., $n^c$-time for a small constant $c$) algorithms, and for others the best known algorithms are exponential.
 We want to get a feel as to the kinds of problems that lie on each side of this divide and also see how some seemingly minor changes in formulation can make the (known) complexity of a problem "jump" from polynomial to exponential.
 We will not formally define the notion of running time in this chapter, and so will use the same "I know it when I see it" notion of an $O(n)$ or $O(n^2)$ time algorithms as  one you've seen in introduction to computer science courses.
-In [chapmodelruntime](){.ref}, we will define this notion precisely, using our NAND-TM and NAND<< programming languages.
+In [chapmodelruntime](){.ref}, we will define this notion precisely, using our NAND-TM and NAND-RAM programming languages.
 
 
 One of the nice things about the theory of computation is that it turns out that, like in the context of computability, the details of th precise computational model or programming language don't matter that much.

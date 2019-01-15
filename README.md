@@ -11,7 +11,7 @@ I am working on improving this text during the summer of 2018. My main prioritie
 
 * Add exercises
 
-* Emphasize the "non importance" of the choice of particular models (NAND vs circuits, NAND-TM/NAND<< vs Turing machines/ RAM machines).
+* Emphasize the "non importance" of the choice of particular models (NAND vs circuits, NAND-TM/NAND-RAM vs Turing machines/ RAM machines).
 
 * Write two chapters: space bounded computation and proofs and programs.
 

@@ -634,7 +634,19 @@ See footnote for hint.^[Follow the proof of [sizehiearchythm](){.ref}, replacing
 Suppose $n>1000$ and that we choose a function $F:\{0,1\}^n \rightarrow \{0,1\}$ at random, choosing for every $x\in \{0,1\}^n$ the value $F(x)$ to be the result of tossing an independent unbiased coin. Prove that the probability that there is a $2^n/(1000n)$ line program that computes $F$ is at most $2^{-100}$.^[__Hint:__ An equivalent way to say this is that you need to prove that the set of functions that can be computed using at most $2^n/(1000n)$ has fewer than $2^{-100}2^{2^n}$ elements. Can you see why?]
 
 
+::: {.exercise }
+The following is a tuple representing a NAND program:  $(3, 1, ((3, 2, 2),   (4, 1, 1), (5, 3, 4),   (6, 2, 1),  (7, 6, 6), (8, 0, 0), (9, 7, 8),   (10, 5, 0),   (11, 9, 10))$.
 
+1.  Write a table with the eight values $P(000)$, $P(001)$, $P(010)$, $P(011)$, $P(100)$, $P(101)$, $P(110)$, $P(111)$ in this order.
+
+2.  Describe what the programs  does in words.
+:::
+
+::: {.exercise title="EVAL with XOR" #XOREVAL}
+For every sufficiently large $n$, let $E_n:\{0,1\}^{n^2} \rightarrow \{0,1\}$ be the function that takes an $n^2$-length string  that encodes a pair $(P,x)$ where $x\in \{0,1\}^n$ and $P$ is a NAND program of $n$ inputs, a single output, and  at most $n^{1.1}$ lines, and returns the output of $P$ on $x$.^[Note that if $n$ is big enough, then it is easy to represent such a pair using $n^2$ bits, since we can represent the program using $O(n^{1.1}\log n)$ bits, and we can always pad our representation to have exactly $n^2$ length.] That is, $E_n(P,x)=P(x)$.
+
+Prove that for every sufficiently large $n$, there _does not exist_ an XOR circuit $C$ that computes the function $E_n$, where a XOR circuit has the $XOR$ gate as well as the constants $0$ and $1$ (see [xorex](){.ref}).  That is, prove that there is some constant $n_0$ such that for every $n>n_0$ and XOR circuit $C$ of $n^2$ inputs and a single output, there exists a pair $(P,x)$ such that $C(P,x) \neq E_n(P,x)$.
+:::
 
 
 

@@ -72,7 +72,7 @@ Once you do that, translating this interpreter from your programming language to
 In particular, $U$ can even be used to evaluate itself!
 This notion of _self reference_ will appear time and again in this course, and as we will see, leads to several counter-intuitive phenomena in computing.
 
-Because we can transform other computational models, including NAND<<, $\lambda$ calculus, or a C program,  this means that even the seemingly "weak" NAND-TM programming language is powerful enough to contain an interpreter for all these models.
+Because we can transform other computational models, including NAND-RAM, $\lambda$ calculus, or a C program,  this means that even the seemingly "weak" NAND-TM programming language is powerful enough to contain an interpreter for all these models.
 
 
 To show the full proof of  [univnandppnoneff](){.ref}, we need to make sure $EVAL$ is well defined by specifying a  representation for NAND-TM programs.
@@ -145,11 +145,11 @@ def EVAL(P,X):
 ```
 
 Translating this _Python_ code to NAND-TM code line by line is a mechanical, even if somewhat laborious, process. However, to prove the theorem we don't need to write the code fully, but can use our "eat the cake and have it too" paradigm.
-That is, while we can assume that our input program $P$ is written in the lowly NAND-TM programming languages, in writing the program $U$ we are allowed to use richer models such as NAND<< (since they are equivalent by [RAMTMequivalencethm](){.ref}).
-Translating the above Python code to NAND<< is truly straightforward.
-The only issue is that NAND<< doesn't have the dictionary data structure built in, but we can represent a dictionary of the form $\{ key_0:val_0 , \ldots, key_{m-1}:val_{m-1} \}$  by simply a string (stored in an array) which is the list of pairs $(key_0,val_0),\ldots,(key_{m-1},val_{m-1})$ (where each pair is represented as a string in some prefix-free way). To retrieve an element with key $k$ we can scan the list from beginning to end and compare  each $key_i$ with $k$.
+That is, while we can assume that our input program $P$ is written in the lowly NAND-TM programming languages, in writing the program $U$ we are allowed to use richer models such as NAND-RAM (since they are equivalent by [RAMTMequivalencethm](){.ref}).
+Translating the above Python code to NAND-RAM is truly straightforward.
+The only issue is that NAND-RAM doesn't have the dictionary data structure built in, but we can represent a dictionary of the form $\{ key_0:val_0 , \ldots, key_{m-1}:val_{m-1} \}$  by simply a string (stored in an array) which is the list of pairs $(key_0,val_0),\ldots,(key_{m-1},val_{m-1})$ (where each pair is represented as a string in some prefix-free way). To retrieve an element with key $k$ we can scan the list from beginning to end and compare  each $key_i$ with $k$.
 Similarly we scan the list to update the dictionary with a new value, either modifying it or appending the $(key,val)$ pair at the end.
-The above is a very inefficient way to implement the dictionary data structure in practice, but it suffices for the purpose of proving the theorem.^[Reading and writing to a dictionary of $m$ values in this implementation takes $\Omega(m)$ steps, while it is in fact possible to do this in $O(1)$ steps using a _hash table_. Since NAND<< models a _RAM machine_ which corresponds to modern electronic computers, we can also implement a hash table  in NAND<<.]
+The above is a very inefficient way to implement the dictionary data structure in practice, but it suffices for the purpose of proving the theorem.^[Reading and writing to a dictionary of $m$ values in this implementation takes $\Omega(m)$ steps, while it is in fact possible to do this in $O(1)$ steps using a _hash table_. Since NAND-RAM models a _RAM machine_ which corresponds to modern electronic computers, we can also implement a hash table  in NAND-RAM.]
 :::
 
 
@@ -228,7 +228,7 @@ The proof will use the previously established [uncomputable-func](){.ref} , as i
 That is, we will assume, towards a contradiction, that there is NAND-TM program $P^*$ that can compute the $HALT$ function, and use that to derive that there is some NAND-TM program $Q^*$ that computes the function  $F^*$ defined above, contradicting [uncomputable-func](){.ref}. (This is known as a proof by _reduction_, since we reduce the task of computing $F^*$ to the task of computing $HALT$. By the contrapositive, this means the uncomputability of $F^*$ implies the uncomputability of $HALT$.)
 
 Indeed, suppose that  $P^*$ was a NAND-TM program that computes $HALT$.
-Then we can write a NAND-TM program $Q^*$ that does the following on input $x\in \{0,1\}^*$:^[Note that we are using here a "high level" description of NAND-TM programs. We know that we can implement the steps below, for example by first writing them in NAND<< and then transforming the NAND<< program to NAND-TM. Step 1 involves simply running the program $P^*$ on some input.]
+Then we can write a NAND-TM program $Q^*$ that does the following on input $x\in \{0,1\}^*$:^[Note that we are using here a "high level" description of NAND-TM programs. We know that we can implement the steps below, for example by first writing them in NAND-RAM and then transforming the NAND-RAM program to NAND-TM. Step 1 involves simply running the program $P^*$ on some input.]
 
 >__Program $Q^*(x)$__
 >

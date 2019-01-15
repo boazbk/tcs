@@ -5,7 +5,7 @@
 
 > # { .objectives }
 * Learn about RAM machines and $\lambda$ calculus, which are important models of computation.
-* See the equivalence between these models and NAND-TM programs.
+* See the equivalence between these models and Turing machines.
 * See how many other models turn out to be "Turing complete"
 * Understand the Church-Turing thesis.
 
@@ -14,66 +14,73 @@
 
 >_"Because we shall later compute with expressions for functions, we need a distinction between functions and forms and a notation for expressing this distinction. This distinction and a notation for describing it, from which we deviate trivially, is given by Church."_,  John McCarthy, 1960 (in paper describing the LISP programming language)
 
-So far we have defined the notion of computing a  function based on the rather esoteric NAND-TM programming language.
-While we have shown this is equivalent with Turing machines, the latter also don't correspond closely to the way computation is typically done these days.
+So far we have defined the notion of computing a  function based on Turing machines, which  don't really correspond  to the way computation is done in practice.
 In this chapter we justify this choice by showing that the definition of computable functions will remain the same under a wide variety of computational models.
 In fact, a widely believed claim known as the _Church-Turing Thesis_ holds that _every_ "reasonable" definition of computable function is equivalent to ours.
 We will discuss the Church-Turing Thesis and the potential definitions of "reasonable" in [churchturingdiscussionsec](){.ref}.
 
-## RAM machines and NAND<<
+## RAM machines and NAND-RAM
 
 One of the limitations of NAND-TM (and Turing machines) is that we can only access one location of our arrays/tape at a time.
-If currently `i`$=22$ and we want to access `Foo[`$957$`]` then it will take us at least 923 steps to get there.
+If  `i`$=22$ and we want to access `Foo[`$957$`]` then it will take us at least 923 steps to get there.
 In contrast, almost every programming language has a formalism for directly accessing memory locations.
-Hardware implementations also provide so called _Random Access Memory (RAM)_ which can be thought of as a large array `Mem`, such that given an index $p$ (i.e., memory address, or a _pointer_), we can read from and write to the $p^{th}$ location of `Mem`.^["Random access memory" is quite a misnomer, since it has nothing to do with probability. Alas at this point the term is quite entrenched. Still, we will try to call use the term _indexed_ access instead.]
+Hardware implementations also provide so called _Random Access Memory (RAM)_ which can be thought of as a large array `Memory`, such that given an index $p$ (i.e., memory address, or a _pointer_), we can read from and write to the $p^{th}$ location of `Memory`.^["Random access memory" is quite a misnomer, since it has nothing to do with probability.  _Indexed access_ would have been more appropriate. However, the term "random access" is standard in both the theoretical and practical literature, and hence we will use it as well.]
 
 The computational model that allows access to such a memory is known as a _RAM machine_ (sometimes also known as the _Word RAM model_).
 In this model the memory is an array of unbounded size where each cell can store a single _word_, which we think of as a string in $\{0,1\}^w$ and also as a number in $[2^w]$.
-The parameter $w$ is known as the _word size_ and is chosen as some function of the input length $n$.
+For example, many modern computing architectures use  $64$ bit words, in which every memory location holds a string in $\{0,1\}^{64}$ which can also be thought of as a number between $0$ and $2^{64}-1= 9,223,372,036,854,775,807$.
+The parameter $w$ is known as the _word size_ and (when doing theory) is chosen as some function of the input length $n$.
 A typical choice is that $w = c\log n$ for some constant $c$.
 This is sometimes known as the "transdichotomous RAM model".
-In addition to the memory array, the word RAM model also contains a  constant number of _registers_ $r_1,\ldots,r_k$ that also contain a single word.
+In addition to the memory array, a RAM machine also contains a  constant number of _registers_ $r_0,\ldots,r_{k-1}$, each of which can  also contain a single word.
 The operations in this model include loops, arithmetic on registers, and reading and writing from a memory location addressed by the register.
 
-We will use an extension of NAND-TM to capture the RAM model.
-Specifically, we define the _NAND<< programming language_ as follows:
+Just as we did with Turing machines, we will use an extension of the NAND-TM programming language to capture RAM machines.
+Specifically, we define the _NAND-RAM programming language_ as follows:
 
 * The variables are allowed to be (non negative) _integer valued_ rather than only Boolean. That is, a scalar variable `foo` holds an non negative integer in $\N$ (rather than only a bit in $\{0,1\}$), and an array variable `Bar` holds an array of integers.
 
-* We allow _indexed access_ to arrays. If `foo` is a scalar and `Bar` is an array, then `Bar[foo]` refers to the location of `Bar` indexed by the value of `foo`.
+* We allow _indexed access_ to arrays. If `foo` is a scalar and `Bar` is an array, then `Bar[foo]` refers to the location of `Bar` indexed by the value of `foo`. (Note that this means we don't need to have a special index variable `i` any more.)
 
 * As is often the case in programming language, we will assume that for Boolean operations such as `NAND`, a zero valued integer is considered as _false_, and a nonzero valued integer is considered as _true_.
 
+To make NAND-RAM more realistic and similar to modern computer architecture, we will make it "batteries included" and so have the following features as part of the built-in language (as opposed to using "syntactic sugar"):
 
-* In addition to `NAND` we will also allow the basic arithmetic operations of addition, subtraction, multiplication, (integer) division, as well as comparisons (equal, greater than, less than, etc..)
+* In addition to `NAND`, NAND-RAM also includes all the  basic arithmetic operations of addition, subtraction, multiplication, (integer) division, as well as comparisons (equal, greater than, less than, etc..)
 
-* We will also include as part of the language basic control flow structures such as `if` and `while`
+* We will also include as part of the language basic control flow structures such as `if` and `while`.
 
-The full description of the NAND<< programing language is in the appendix.^[One restriction mentioned there is that the integer values in a variable always range between $0$ and $T-1$ where $T$ is the number of steps the program took so far. Hence all the arithmetic operations will "truncate" their results so that the output is in this range. This restriction does not make a difference for any of the discussion in this chapter, but will help us make a more accurate accounting of the running time in the future.] However, the most important fact you need to know about it is the following:
+The full description of the NAND-RAM programing language is in the appendix.^[One restriction mentioned there is that the integer values in a variable always range between $0$ and $T-1$ where $T$ is the number of steps the program took so far. Hence all the arithmetic operations will "truncate" their results so that the output is in this range. This restriction does not make a difference for any of the discussion in this chapter, but will help us make a more accurate accounting of the running time in the future.] However, the most important fact you need to know about it is the following:
 
-> # {.theorem title="NAND-TM (TM's) and NAND<< (RAM) are equivalent" #RAMTMequivalencethm}
-For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND-TM program if and only if $F$ is computable by a NAND<< program.
+> # {.theorem title="NAND-TM (TM's) and NAND-RAM (RAM) are equivalent" #RAMTMequivalencethm}
+For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND-TM program if and only if $F$ is computable by a NAND-RAM program.
 
 
 ::: {.proofidea data-ref="RAMTMequivalencethm"}
-Clearly NAND<< is only more  powerful  than NAND-TM, and so if a function $F$ is computable by a NAND-TM program then it can be computed by a NAND<< program.
-The challenging direction is of course to transform a NAND<< program $P$ to an equivalent NAND-TM program $Q$.
-To describe the proof in full we will need to cover the full formal specification of the NAND<< language, and show how we can implement every one of its features as syntactic sugar on top of NAND-TM.
+Clearly NAND-RAM is only more  powerful  than NAND-TM, and so if a function $F$ is computable by a NAND-TM program then it can be computed by a NAND-RAM program.
+The challenging direction is of course to transform a NAND-RAM program $P$ to an equivalent NAND-TM program $Q$.
+To describe the proof in full we will need to cover the full formal specification of the NAND-RAM language, and show how we can implement every one of its features as syntactic sugar on top of NAND-TM.
 
 This can be done but going over all the operations in detail is rather tedious. Hence we will focus on describing the main ideas behind this transformation.
 The transformation has two steps:
 
-1. _Indexed access of bit arrays:_ NAND<< generalizes NAND-TM in two main ways: __(a)__ adding _indexed access_ to the arrays (ie.., `Foo[bar]` syntax) and __(b)__ moving from _Boolean valued_ variables to _integer valued_ ones. We will start by showing how to handle __(a)__.
+1. _Indexed access of bit arrays:_ NAND-RAM generalizes NAND-TM in two main ways: __(a)__ adding _indexed access_ to the arrays (ie.., `Foo[bar]` syntax) and __(b)__ moving from _Boolean valued_ variables to _integer valued_ ones. We will start by showing how to handle __(a)__.
 Namely, we will show how we can implement in NAND-TM the operation `Setindex(Bar)` such that if `Bar` is an array that encodes some integer $j$, then after executing `Setindex(Bar)` the value of `i` will equal to $j$. This will allow us to simulate syntax of the form `Foo[Bar]` by `Setindex(Bar)` followed by `Foo[i]`.
 
 2. _Two dimensional bit arrays:_ We will then show how we can use "syntactic sugar" to  augment NAND-TM  with _two dimensional arrays_. That is, have _two indices_ `i` and `j` and _two dimensional arrays_, such that we can use the syntax `Foo[i][j]` to access the (`i`,`j`)-th location of `Foo`
 
 3. _Arrays of integers:_ Finally we will encode a one dimensional array `Arr` of _integers_ by a two dimensional `Arrbin` of _bits_. The idea is simple: if $a_{i,0},\ldots,a_{i,\ell}$ is a binary  (prefix-free) representation of `Arr[`$i$`]`, then `Arrbin[`$i$`][`$j$`]` will be equal to $a_{i,j}$.
 
-Once we have arrays of integers, we can use our usual syntactic sugar for functions, `GOTO` etc. to implement the arithmetic  and control flow operations of NAND<<.
+Once we have arrays of integers, we can use our usual syntactic sugar for functions, `GOTO` etc. to implement the arithmetic  and control flow operations of NAND-RAM.
 :::
 
+## The gory details
+
 We do not show the full formal proof of  [RAMTMequivalencethm](){.ref} but focus on the most important parts: implementing indexed access, and simulating two dimensional arrays with one dimensional ones.
+Even these are already quite tedious to describe, as will not be surprising to anyone that has ever written a compiler.
+Hence you can feel free to merely skim this section.
+The important point is not for you to know all details by heart but to be convinced that in principle it _is_ possible to transform a NAND-RAM program to an equivalent NAND-TM program, and even be convinced that, with sufficient time and effort, _you_ could do it if you wanted to.
+
 
 ### Indexed access in NAND-TM
 
@@ -91,15 +98,20 @@ This can be achieved as follows:
 
 3. While the number encoded by `Temp` differs from the number encoded by `Bar`:
    a. Increment `Temp`
-   b. Set `i += one`
+   b. GOTO the same line (along the performing a `MODANDJUMP` operation that increments `i` by one).
 
 At the end of the loop, `i` is equal to the value at `Bar`, and so we can use this to read or write to arrays at the location corresponding to this value.
 In code, we can implement the above operations as follows:
 
 ```python
-# set i to 0, assume Atzero, one are initialized
+# assume Atzero is an array such that Atzero[0]=1
+# and Atzero[j]=0 for all j>0
+
+# set i to 0.
 LABEL("zero_idx")
-i -= one
+dir0 = zero
+dir1 = one
+# corresponds to i <- i-1
 GOTO("zero_idx",NOT(Atzero[i]))
 
 ...
@@ -111,12 +123,17 @@ Temp[1] = 0
 # set i to Bar, assume we know how to increment, compare
 LABEL("increment_temp")
 cond = EQUAL(Temp,Bar)
-i += cond
+dir0 = one
+dir1 = one
+# corresponds to i <- i+1
 INC(Temp)
 GOTO("increment_temp",cond)
 # if we reach this point, i is number encoded by Bar
 
 ...
+
+# final instruction of program
+MODANDJUMP(dir0,dir1)
 ```
 
 ### Two dimensional arrays in NAND-TM
@@ -147,18 +164,18 @@ Computing `embed` is left for you the reader as [pair-ex](){.ref}, but let us hi
 
 ### All the rest
 
-Once we have two dimensional arrays and indexed access, simulating NAND<< with NAND-TM is just a matter of implementing the standard algorithms for arithmetic operations and comparators in NAND-TM.
-While this is cumbersome, it is not difficult, and the end result is to show that every NAND<< program $P$ can be simulated by an equivalent NAND-TM program $Q$, thus completing the proof of [RAMTMequivalencethm](){.ref}.
+Once we have two dimensional arrays and indexed access, simulating NAND-RAM with NAND-TM is just a matter of implementing the standard algorithms for arithmetic operations and comparators in NAND-TM.
+While this is cumbersome, it is not difficult, and the end result is to show that every NAND-RAM program $P$ can be simulated by an equivalent NAND-TM program $Q$, thus completing the proof of [RAMTMequivalencethm](){.ref}.
 
 
-### Turing equivalence (discussion)
+## Turing equivalence (discussion)
 
 
 ![A punched card corresponding to a Fortran statement.](../figure/FortranProg.jpg){#fortranfig .class width=300px height=300px}
 
 
 
-Any of the  standard programming language such as `C`, `Java`, `Python`, `Pascal`, `Fortran` have very similar operations to NAND<<.
+Any of the  standard programming language such as `C`, `Java`, `Python`, `Pascal`, `Fortran` have very similar operations to NAND-RAM.
 (Indeed, ultimately they can all be executed by machines which have a fixed number of registers and a large memory array.)
 Hence using [RAMTMequivalencethm](){.ref}, we can simulate any program in such a programming language by a NAND-TM  program.
 In the other direction, it is a fairly easy programming exercise to write an interpreter for NAND-TM in any of the above programming languages.
@@ -166,9 +183,9 @@ Hence we can also simulate NAND-TM programs (and so by [TM-equiv-thm](){.ref}, T
 This property of being equivalent in power to Turing Machines / NAND-TM is called _Turing Equivalent_ (or sometimes _Turing Complete_).
 Thus all programming languages we are familiar with are Turing equivalent.^[Some programming language have hardwired fixed (even if extremely large) bounds on the amount of memory they can access, which formally prevent them from being applicable to computing infinite functions and hence simulating Turing machines. We ignore such issues in this discussion and assume access to some storage device without a fixed upper bound on its capacity.]
 
-::: {.remark title="Recursion in NAND<< (advanced)" #recursion}
-One concept that appears in some of these languages but we did not include in NAND<< programs is _recursion_.
-However, recursion (and function calls in general) can be implemented in NAND<< using the  [stack data structure](https://goo.gl/JweMj).
+::: {.remark title="Recursion in NAND-RAM (advanced)" #recursion}
+One concept that appears in some of these languages but we did not include in NAND-RAM programs is _recursion_.
+However, recursion (and function calls in general) can be implemented in NAND-RAM using the  [stack data structure](https://goo.gl/JweMj).
 A _stack_ is a data structure containing a sequence of elements, where we can "push"  elements into it and "pop" them from it in "first in last out" order.
 We can implement   a stack  by an array of integers `Stack` and a scalar variable `stackpointer` that will be the number  of items in the stack.
 We implement `push(foo)` by
@@ -195,18 +212,18 @@ You can find  online  tutorials on how recursion is implemented via stack in you
 :::
 
 
-## The "Best of both worlds" paradigm (discussion)
+### The "Best of both worlds" paradigm
 
-The equivalence between NAND-TM and NAND<< allows us to choose the most convenient language for the task at hand:
+The equivalence between NAND-TM and NAND-RAM allows us to choose the most convenient language for the task at hand:
 
 * When we want to give a theorem about all programs, we can use NAND-TM because it is simpler and easier to analyze. In particular, if we want to show that a certain function _can not_ be computed, then we will use NAND-TM.
 
-* When we want to show the existence of a program computing a certain function, we can use NAND<<, because it is higher level and easier to program in. In particular, if we want to show that a function _can_ be computed then we can use NAND<<. In fact, because NAND<< has much of  the features of high level programming languages, we will often describe NAND<< programs in an informal manner, trusting that the reader can fill in the details and translate the high level description to the precise program. (This is just like the way people typically use informal or "pseudocode" descriptions of algorithms, trusting that their  audience will know to translate these descriptions to code if needed.)
+* When we want to show the existence of a program computing a certain function, we can use NAND-RAM, because it is higher level and easier to program in. In particular, if we want to show that a function _can_ be computed then we can use NAND-RAM. In fact, because NAND-RAM has much of  the features of high level programming languages, we will often describe NAND-RAM programs in an informal manner, trusting that the reader can fill in the details and translate the high level description to the precise program. (This is just like the way people typically use informal or "pseudocode" descriptions of algorithms, trusting that their  audience will know to translate these descriptions to code if needed.)
 
-Our usage of NAND-TM and NAND<< is very similar to the way people use in practice  high and low level programming languages.
+Our usage of NAND-TM and NAND-RAM is very similar to the way people use in practice  high and low level programming languages.
 When one wants to produce a device that executes programs, it is convenient  to do so for very simple and "low level" programming language. When one wants to describe an algorithm, it is convenient to use as high level a formalism as possible.
 
-![By having the two equivalent languages NAND-TM and NAND<<, we can "have our cake and eat it too", using NAND-TM when we want to prove that programs _can't_ do something, and using NAND<< or other high level languages when we want to prove that programs _can_ do something.](../figure/have_your_cake_and_eat_it_too-img-intro.png){#cakefig .class width=300px height=300px}
+![By having the two equivalent languages NAND-TM and NAND-RAM, we can "have our cake and eat it too", using NAND-TM when we want to prove that programs _can't_ do something, and using NAND-RAM or other high level languages when we want to prove that programs _can_ do something.](../figure/have_your_cake_and_eat_it_too-img-intro.png){#cakefig .class width=300px height=300px}
 
 
 
@@ -222,6 +239,12 @@ That is, we need to discuss the _level of abstraction_ in describing algorithms.
 In algorithms courses, one typically describes  algorithms in English, assuming readers can "fill in the details" and would be able to convert such an algorithm into an implementation if needed.
 For example, we might describe the [breadth first search](https://goo.gl/ug7Jaj) algorithm to find if two vertices $u,v$ are connected as follows:
 
+
+::: { .algorithm title="Breadth First Search" #bfsalg }
+__Input:__ Graph $G$, vertices $u,v$
+
+__Operation:__
+
 1. Put $u$ in  queue $Q$.
 
 2. While $Q$ is not empty:
@@ -230,11 +253,12 @@ For example, we might describe the [breadth first search](https://goo.gl/ug7Jaj)
    * Mark $w$ and add all unmarked neighbors of $w$ to $Q$.
 
 3. Declare "unconnected".
+:::
 
 We call such a description a _high level description_.
 
 
-If we wanted to give more details on how to implement  breadth first search in a programming language such as Python or C (or NAND<< /  NAND-TM for that matter), we would  describe how we implement the queue data structure using an array, and similarly how we would use arrays to implement the marking.
+If we wanted to give more details on how to implement  breadth first search in a programming language such as Python or C (or NAND-RAM /  NAND-TM for that matter), we would  describe how we implement the queue data structure using an array, and similarly how we would use arrays to implement the marking.
 We call such an "intermediate level" description an _implementation level_ or _pseudocode_ description.
 Finally, if we want to describe the implementation precisely, we would give the full code of the program (or another fully precise representation, such as in the form of a list of tuples).
 We call this a _formal_ or _low level_ description.
@@ -242,9 +266,11 @@ We call this a _formal_ or _low level_ description.
 ![We can describe an algorithm at different levels of granularity/detail and precision. At the highest level we just write the idea in words, omitting all details on representation and implementation. In the intermediate level (also known as _implementation_ or _pseudocode_) we give enough details of the implementation that would allow someone to derive it, though we still fall short of providing the full code. The lowest level is where the actual code or mathematical description is fully spelled out. These different levels of detail all have their uses, and moving between them is one of the most important skills for a computer scientist. ](../figure/levelsofdescription.png){#levelsdescfig .class width=300px height=300px}
 
 
-While initially we might have described NAND, NAND-TM, and NAND<< programs at the full formal level (and the [NAND website](http://www.nandpl.org) contains more such examples), as the course continues we will move to implementation and high level description.
-After all, our focus is typically not to use these models for actual computation, but rather to analyze the general phenomenon of  computation.
-That said, if you don't understand how the high level description translates to an actual implementation, you should always feel welcome to ask for more details of your teachers and teaching fellows.
+While initially we might have described NAND-CIRC, NAND-TM, and NAND-RAM programs at the full formal level, as  we progress in this book we will move to implementation and high level description.
+After all, our goal is  not to use these models for actual computation, but rather to analyze the general phenomenon of  computation.
+That said, if you don't understand how the high level description translates to an actual implementation, going "down to the metal" is often an excellent exercise.
+(One of the most important skills for a computer scientist is the ability to move up and down hierarchies of abstractions.)
+
 
 A similar distinction applies to the notion of _representation_ of objects as strings.
 Sometimes, to be precise, we give a _low level specification_ of exactly how an object maps into a binary string.
@@ -252,7 +278,7 @@ For example, we might describe an encoding of $n$ vertex graphs as length $n^2$ 
 We can also use an _intermediate_ or _implementation level_ description, by simply saying that we represent a graph using the adjacency matrix representation.
 
 
-Finally, because we are translating between the various representations of graphs (and objects in general) can be done via a NAND<< (and hence a NAND-TM) program, when talking in a high level we  also suppress discussion of  representation altogether.
+Finally, because we are translating between the various representations of graphs (and objects in general) can be done via a NAND-RAM (and hence a NAND-TM) program, when talking in a high level we  also suppress discussion of  representation altogether.
 For example, the fact that graph connectivity  is a computable function is true regardless of whether we represent graphs as adjacency lists, adjacency matrices, list of edge-pairs, and so on and so forth.
 Hence, in cases where the precise representation doesn't make a difference, we would often talk about our algorithms as taking as input an object $O$ (that can be a graph, a vector, a program, etc.) without specifying how $O$ is encoded as a string.
 
@@ -265,7 +291,7 @@ The [$\lambda$ calculus](https://goo.gl/B9HwT8) is another way to define computa
 It was proposed by Alonzo Church in the 1930's around the same time as Alan Turing's proposal of the Turing Machine.
 Interestingly, while Turing Machines are not used for practical computation,  the $\lambda$ calculus has inspired functional programming languages such as LISP, ML and Haskell, and  indirectly the development of many other programming languages as well.
 In this section we will present the $\lambda$ calculus and show that its power is equivalent to NAND-TM programs (and hence also to Turing machines).
-An [online appendix](https://github.com/boazbk/nandnotebooks/blob/master/lambda.ipynb) contains a Jupyter notebook with a Python implementation of the $\lambda$ calculus that you can experiment with to get a better feel for this topic.
+Our [Github rpository](https://github.com/boazbk/tcscode) contains a Jupyter notebook with a Python implementation of the $\lambda$ calculus that you can experiment with to get a better feel for this topic.
 
 
 __The $\lambda$ operator.__
@@ -530,7 +556,7 @@ For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable in the
 ::: {.proofidea data-ref="lambdaturing-thm"}
 To prove the theorem, we need to show that __(1)__ if $F$ is computable by a $\lambda$ calculus expression then it is computable by a NAND-TM program, and __(2)__ if $F$ is computable by a NAND-TM program, then it is computable by an enhanced $\lambda$ calculus expression.
 
-Showing __(1)__ is fairly straightforward. Applying the simplification rules to a $\lambda$ expression basically amounts to "search and replace" which we can implement easily in, say, NAND<<, or for that matter Python (both of which are equivalent to NAND-TM in power).
+Showing __(1)__ is fairly straightforward. Applying the simplification rules to a $\lambda$ expression basically amounts to "search and replace" which we can implement easily in, say, NAND-RAM, or for that matter Python (both of which are equivalent to NAND-TM in power).
 Showing __(2)__ essentially amounts to writing a NAND-TM interpreter in a functional programming language such as LISP  or Scheme. Showing how this can be done is a good exercise in mastering some functional programming techniques that are useful in their own right.
 :::
 
@@ -538,7 +564,7 @@ Showing __(2)__ essentially amounts to writing a NAND-TM interpreter in a functi
 
 
 ::: {.proof data-ref="lambdaturing-thm"}
-We only sketch the proof. The "if" direction is simple. As mentioned above, evaluating $\lambda$ expressions basically amounts to "search and replace". It is also a fairly straightforward programming exercise to implement all the above basic operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND<< as well, which we can then transform to a NAND-TM program.
+We only sketch the proof. The "if" direction is simple. As mentioned above, evaluating $\lambda$ expressions basically amounts to "search and replace". It is also a fairly straightforward programming exercise to implement all the above basic operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND-RAM as well, which we can then transform to a NAND-TM program.
 
 For the "only if" direction, we need to simulate a NAND-TM program using a $\lambda$ expression.
 First, by [NANDlambdaex](){.ref} we can compute the $NAND$ function, and hence _every_ finite function, using the $\lambda$ calculus.
@@ -811,7 +837,7 @@ We can see that continuing in this way we get longer and longer expressions, and
 
 ## Other models
 
-There is a great variety of models that are computationally equivalent to Turing machines (and hence to NAND-TM/NAND<< program).
+There is a great variety of models that are computationally equivalent to Turing machines (and hence to NAND-TM/NAND-RAM program).
 Chapter 8 of the book [The Nature of Computation](http://nature-of-computation.org/) is a wonderful resource for some of those models.
 We briefly mention a few examples.
 
@@ -842,7 +868,7 @@ If we initialize the system in a configuration with a finite number of live cell
 
 
 We can think of such a system as encoding a computation by starting it in some initial configuration, and then defining some halting condition (e.g., we halt if the cell at position $(0,0)$ becomes dead) and some way to define an output (e.g., we output the state of the cell at position $(1,1)$).
-Clearly, given any starting configuration $x$, we can simulate the game of life starting from $x$ using a NAND<< (or NAND-TM) program, and hence every "Game-of-Life computable" function is computable by a NAND<< program.
+Clearly, given any starting configuration $x$, we can simulate the game of life starting from $x$ using a NAND-RAM (or NAND-TM) program, and hence every "Game-of-Life computable" function is computable by a NAND-RAM program.
 Surprisingly, it turns out that the other direction is true as well: as simple as its rules seem, we can simulate a NAND-TM program using the game of life (see [golfig](){.ref}).
 The [Wikipedia page](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) for the Game of Life contains some beautiful figures and animations of  configurations that produce some very interesting evolutions.
 See also the book [The Nature of Computation](http://nature-of-computation.org/).
@@ -987,7 +1013,7 @@ Formally, we can define this notion as follows:
 Let $\mathcal{F}$ be the set of all partial functions from $\{0,1\}^*$ to $\{0,1\}^*$. A _computational model_ is a map $\mathcal{M}:\{0,1\}^* \rightarrow \mathcal{F}$.
 We say that a program $P$ in the model $\mathcal{M}$ _computes_ a function $F\in \mathcal{F}$ if $\mathcal{M}(P) = F$.
 
-A computational model $\mathcal{M}$ is _Turing complete_ if there is a computable map $ENCODE_M:\{0,1\}^* \rightarrow \{0,1\}^*$ for every NAND-TM program $P$ (represented as a string),  $\mathcal{M}(ENCODE_M(P))$ is equal to the partial function computed by $P$.^[We could have equally well made this definition using Turing machines, NAND<<, $\lambda$ calculus, and many other models.]
+A computational model $\mathcal{M}$ is _Turing complete_ if there is a computable map $ENCODE_M:\{0,1\}^* \rightarrow \{0,1\}^*$ for every NAND-TM program $P$ (represented as a string),  $\mathcal{M}(ENCODE_M(P))$ is equal to the partial function computed by $P$.^[We could have equally well made this definition using Turing machines, NAND-RAM, $\lambda$ calculus, and many other models.]
 A computational model $\mathcal{M}$ is _Turing equivalent_ if it is Turing complete and there exists a computable map $DECODE_M:\{0,1\}^* \rightarrow \{0,1\}^*$ such that or every string $Q\in \{0,1\}^*$,  $P=ENCODE_M(Q)$ is a string representation of a NAND-TM program that  computes the function $\mathcal{M}(Q)$.
 :::
 
@@ -995,7 +1021,7 @@ Some examples of Turing Equivalent models include:
 
 * Turing machines
 * NAND-TM programs
-* NAND<< programs
+* NAND-RAM programs
 * $\lambda$ calculus
 * Game of life (mapping programs and inputs/outputs to starting and ending configurations)
 * Programming languages such as Python/C/Javascript/OCaml... (allowing for unbounded storage)
@@ -1029,7 +1055,7 @@ We can summarize the models we use versus those used in other texts in the follo
 | Model                        | These notes          | Other texts                             |
 |------------------------------|----------------------|-----------------------------------------|
 | Nonuniform                   | NAND-CIRC programs        | Boolean circuits, straightline programs |
-| Uniform  (random access)     | NAND<< programs      | RAM machines                            |
+| Uniform  (random access)     | NAND-RAM programs      | RAM machines                            |
 | Uniform  (sequential access) | NAND-TM programs      | Oblivious one-tape Turing machines      |
 
     \
@@ -1044,7 +1070,7 @@ It turns out that NAND-TM programs with a constant amount of memory are equivale
 
 
 > # { .recap }
-* While we defined computable functions using NAND-TM programs, we could just as well have done so using many other models, including not just NAND<< but also Turing machines, RAM machines, the $\lambda$-calculus and many other models.
+* While we defined computable functions using NAND-TM programs, we could just as well have done so using many other models, including not just NAND-RAM but also Turing machines, RAM machines, the $\lambda$-calculus and many other models.
 * Very simple models turn out to be "Turing complete" in the sense that they can simulate arbitrarily complex computation.
 
 
@@ -1075,13 +1101,13 @@ Prove that for every $\lambda$-expression $e$ with no free variables there is an
 
 ## Bibliographical notes
 
-^[TODO: Recommend Chapter 7 in the nature of computation]
-
-## Further explorations
-
-Some topics related to this chapter that might be accessible to advanced students include:
-
-* Tao has [proposed](https://terrytao.wordpress.com/2014/02/04/finite-time-blowup-for-an-averaged-three-dimensional-navier-stokes-equation/) showing the Turing completeness of fluid dynamics (a "water computer") as a way of settling the question of the behavior of the Navier-Stokes equations, see this [popular article](https://www.quantamagazine.org/terence-tao-proposes-fluid-new-path-in-navier-stokes-problem-20140224/.)
+Chapter 7 in the wonderful book of Moore and Mertens [@MooreMertens11] contains a great exposition much of this material.
+Chapter 3 in Savage's book [@Savage1998models] contains a more formal description of RAM machines.
+The $\lambda$-calculus was described by Church in [@church1941].
+Pierce's book [@pierce2002types] is a canonical textbook, see also [@barendregt1984].
 
 
-## Acknowledgements
+
+
+
+Tao has [proposed](https://terrytao.wordpress.com/2014/02/04/finite-time-blowup-for-an-averaged-three-dimensional-navier-stokes-equation/) showing the Turing completeness of fluid dynamics (a "water computer") as a way of settling the question of the behavior of the Navier-Stokes equations, see this [popular article](https://www.quantamagazine.org/terence-tao-proposes-fluid-new-path-in-navier-stokes-problem-20140224/.)

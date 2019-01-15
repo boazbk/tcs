@@ -31,7 +31,7 @@ Therefore, to use the resulting measurements for randomized algorithms, one typi
 
 In this chapter we focus on the second question: formally modeling probabilistic computation and studying its power.
 Modeling randomized computation is actually quite easy.
-We can add the following operations to our NAND, NAND-TM and NAND<< programming languages:
+We can add the following operations to our NAND, NAND-TM and NAND-RAM programming languages:
 
 ```python
 foo = RAND()
@@ -40,7 +40,7 @@ foo = RAND()
 where `foo` is a variable.
 The result of applying this operation is that `foo` is assigned a random bit in $\{0,1\}$.
 (Every time the `RAND` operation is invoked it returns a fresh independent random bit.)
-We call the resulting languages RNAND, RNAND-TM, and RNAND<< respectively.
+We call the resulting languages RNAND, RNAND-TM, and RNAND-RAM respectively.
 
 We can use this to define the notion of a function being computed by a randomized $T(n)$ time algorithm for every nice time bound $T:\N \rightarrow \N$, as well as the notion of a finite function being computed by a size $S$ randomized NAND-CIRC program (or, equivalently, a randomized circuit with $S$ gates that correspond to either the NAND or coin-tossing operations).
 However, for simplicity  we will not define randomized computation in full generality, but simply focus on the class of functions that are computable by randomized algorithms _running in polynomial time_, which by historical convention is known as $\mathbf{BPP}$:
@@ -48,7 +48,7 @@ However, for simplicity  we will not define randomized computation in full gener
 
 ::: {.definition title="BPP" #BPPdef}
 Let $F: \{0,1\}^*\rightarrow \{0,1\}$.
-We say that $F\in \mathbf{BPP}$ if there exist  constants $a,b\in \N$ and an RNAND<< program $P$ such that for every $x\in \{0,1\}^*$, on input $x$, the program $P$ halts within at most $a|x|^b$ steps and
+We say that $F\in \mathbf{BPP}$ if there exist  constants $a,b\in \N$ and an RNAND-RAM program $P$ such that for every $x\in \{0,1\}^*$, on input $x$, the program $P$ halts within at most $a|x|^b$ steps and
 $$
 \Pr[ P(x)= F(x)] \geq \tfrac{2}{3}
 $$
@@ -56,8 +56,8 @@ where this  probability is taken over the result of the RAND operations of $P$.^
 :::
 
 
-The same polynomial-overhead simulation of NAND<< programs by  NAND-TM programs we saw in [polyRAMTM-thm](){.ref} extends to _randomized_ programs as well.
-Hence the class $\mathbf{BPP}$ is the same regardless of whether it is defined via RNAND-TM or RNAND<< programs.
+The same polynomial-overhead simulation of NAND-RAM programs by  NAND-TM programs we saw in [polyRAMTM-thm](){.ref} extends to _randomized_ programs as well.
+Hence the class $\mathbf{BPP}$ is the same regardless of whether it is defined via RNAND-TM or RNAND-RAM programs.
 
 
 ### An alternative view: random coins as an "extra input"
@@ -81,14 +81,14 @@ The idea behind the proof is that, as illustrated in [randomalgsviewsfig](){.ref
 
 ::: {.proof data-ref="randextrainput"}
 We start by showing the "only if" direction.
-Let $F\in \mathbf{BPP}$ and let $P$ be an RNAND<< program that computes $F$ as per [BPPdef](){.ref}, and let $a,b\in \N$ be such that on every input of length $n$, the program $P$ halts within at most $an^b$ steps.
-We will construct a  polynomial-time NAND<< program $P'$ that computes a function $G$ satisfying the conditions of [eqBPPauxiliary](){.eqref}.
+Let $F\in \mathbf{BPP}$ and let $P$ be an RNAND-RAM program that computes $F$ as per [BPPdef](){.ref}, and let $a,b\in \N$ be such that on every input of length $n$, the program $P$ halts within at most $an^b$ steps.
+We will construct a  polynomial-time NAND-RAM program $P'$ that computes a function $G$ satisfying the conditions of [eqBPPauxiliary](){.eqref}.
 
 The program $P'$ is very  simple:
 
 
 ::: {.quote}
-__Program $P'$:__  (Deterministic NAND<< program)
+__Program $P'$:__  (Deterministic NAND-RAM program)
 
 __Inputs:__
 
@@ -96,7 +96,7 @@ __Inputs:__
 
 * $r \in \{0,1\}^{an^b}$
 
-__Goal:__ Output $y$ that has the same distribution as the output of the RNAND<< program $P$ on input $x$.
+__Goal:__ Output $y$ that has the same distribution as the output of the RNAND-RAM program $P$ on input $x$.
 
 __Operation:__
 
@@ -104,13 +104,13 @@ __Operation:__
 
 2. Let `coincounter` be a variable and set it to $0$.
 
-3. Simulate an execution the RNAND<< program $P$, replacing any line of the form `foo = RAND()` with the two lines: `foo = Coins[coincounter]` and `coincounter = coincounter + 1`.
+3. Simulate an execution the RNAND-RAM program $P$, replacing any line of the form `foo = RAND()` with the two lines: `foo = Coins[coincounter]` and `coincounter = coincounter + 1`.
 :::
 
-The program $P'$ is a deterministic polynomial time NAND<< program, and so computes some function $G \in \mathbf{P}$. By its construction, the distribution of $P'(xr)$ for random $r\in \{0,1\}^{2n^b}$ is identical to the distribution of $P(x)$ (where in the latter case the sample space is the results of the `RAND()` calls), and hence in particular it will hold that $\Pr_{r\in \{0,1\}^{an^b}}[P'(xr)= F(x)] \geq 2/3$.
+The program $P'$ is a deterministic polynomial time NAND-RAM program, and so computes some function $G \in \mathbf{P}$. By its construction, the distribution of $P'(xr)$ for random $r\in \{0,1\}^{2n^b}$ is identical to the distribution of $P(x)$ (where in the latter case the sample space is the results of the `RAND()` calls), and hence in particular it will hold that $\Pr_{r\in \{0,1\}^{an^b}}[P'(xr)= F(x)] \geq 2/3$.
 
 
-For the other direction, given a function $G\in \mathbf{P}$ satisfying the condition [eqBPPauxiliary](){.eqref} and a NAND<< program $P'$ that computes $G$ in polynomial time, we can construct an RNAND<< program $P$ that computes $F$ in polynomial time.
+For the other direction, given a function $G\in \mathbf{P}$ satisfying the condition [eqBPPauxiliary](){.eqref} and a NAND-RAM program $P'$ that computes $G$ in polynomial time, we can construct an RNAND-RAM program $P$ that computes $F$ in polynomial time.
 On input $x\in \{0,1\}^n$, the program $P$ will simply use the `RNAND()` instruction $an^b$ times to fill an array `R[`$0$`]` , $\ldots$, `R[`$an^b-1$`]` and then execute the original program $P'$ on input $xr$ where $r_i$ is the $i$-th element of the array `R`.
 Once again, it is clear that if $P'$ runs in polynomial time then so will $P$, and for every input $x$ and $r\in \{0,1\}^{an^b}$, the output of $P$ on input $x$ and where the coin tosses outcome is $r$ is equal to $P'(xr)$.
 :::
@@ -128,7 +128,7 @@ The characterization of $\mathbf{BPP}$ [randextrainput](){.ref} is reminiscent o
 :::
 
 
-__"Random tapes"__ [randextrainput](){.ref} motivates sometimes considering the randomness of an RNAND-TM (or RNAND<<) program  as an extra input. As such, if $A$ is a randomized algorithm that on inputs of length $n$ makes at most $p(n)$ coin tosses, we will often use the notation $A(x;r)$ (where $x\in \{0,1\}^n$ and $r\in \{0,1\}^{p(n)}$) to refer to the result of executing $x$ when the coin tosses of $A$ correspond to the coordinates of $r$. This second, or "auxiliary," input is sometimes referred to as a "random tape." This terminology originates from the  model of randomized Turing machines.
+__"Random tapes"__ [randextrainput](){.ref} motivates sometimes considering the randomness of an RNAND-TM (or RNAND-RAM) program  as an extra input. As such, if $A$ is a randomized algorithm that on inputs of length $n$ makes at most $p(n)$ coin tosses, we will often use the notation $A(x;r)$ (where $x\in \{0,1\}^n$ and $r\in \{0,1\}^{p(n)}$) to refer to the result of executing $x$ when the coin tosses of $A$ correspond to the coordinates of $r$. This second, or "auxiliary," input is sometimes referred to as a "random tape." This terminology originates from the  model of randomized Turing machines.
 
 
 ### Amplification
@@ -137,7 +137,7 @@ __"Random tapes"__ [randextrainput](){.ref} motivates sometimes considering the 
 The number $2/3$ might seem arbitrary, but as we've seen in [randomizedalgchap](){.ref} it can be amplified to our liking:
 
 > # {.theorem title="Amplification" #amplificationthm}
-Let $P$ be an RNAND<< program,  $F\in \{0,1\}^* \rightarrow \{0,1\}$,
+Let $P$ be an RNAND-RAM program,  $F\in \{0,1\}^* \rightarrow \{0,1\}$,
 and $T:\N \rightarrow \N$ be a nice time bound such that for every $x\in \{0,1\}^*$, on input $x$ the program $P$ runs in at most $T(|x|)$ steps and moreover $\Pr[ P(x)=F(x) ] \geq \tfrac{1}{2}+\epsilon$ for some $\epsilon>0$.
 Then for every $k$, there is a program $P'$  taking at most $O(k\cdot T(n)/\epsilon^2)$ steps such that on input $x\in \{0,1\}^*$, $\Pr[ P'(x)= F(x)] > 1 - 2^{-k}$.
 
@@ -156,7 +156,7 @@ For the plurality value to be _incorrect_, it must hold that $\sum_{i=0}^{t-1} X
 
 ![If $F\in\mathbf{BPP}$ then there is randomized polynomial-time algorithm $P$ with the following property: In the case $F(x)=0$ two thirds of the "population" of random choices satisfy $P(x;r)=0$ and in the case $F(x)=1$ two thirds of the population satisfy $P(x;r)=1$.  We can think of amplification as a form of "polling" of the choices of randomness. By the Chernoff   bound, if we poll a sample of $O(\tfrac{\log(1/\delta)}{\epsilon^2})$ random choices $r$, then with probability at least $1-\delta$,  the fraction of $r$'s in the sample satisfying $P(x;r)=1$ will give us an estimate of the fraction of the population within an $\epsilon$ margin of error. This is the same calculation used by pollsters to determine the needed sample size in their polls.](../figure/BPPamplification.png){#amplificationfig   .class width=300px height=300px}
 
-There is nothing special about NAND<< in [amplificationthm](){.ref}. The same proof can be used to amplify randomized NAND or NAND-TM programs as well.
+There is nothing special about NAND-RAM in [amplificationthm](){.ref}. The same proof can be used to amplify randomized NAND or NAND-TM programs as well.
 
 ## $\mathbf{BPP}$ and $\mathbf{NP}$ completeness
 
@@ -370,7 +370,7 @@ Still, there are two questions we haven't answered:
 
 * _What reason do we have to believe that pseudorandom generators with non-trivial parameters exist?_
 
-* _Even if they do exist, why would such generators be useful to derandomize randomized algorithms?_ After all, [prgdef](){.ref} does not involve RNAND-TM or RNAND<< programs, but rather deterministic NAND-CIRC programs with no randomness and no loops.
+* _Even if they do exist, why would such generators be useful to derandomize randomized algorithms?_ After all, [prgdef](){.ref} does not involve RNAND-TM or RNAND-RAM programs, but rather deterministic NAND-CIRC programs with no randomness and no loops.
 
 We will now (partially) answer both questions.
 For the first question, let us come clean and confess we do not know how to _prove_ that interesting pseudorandom generators exist.

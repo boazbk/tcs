@@ -18,25 +18,25 @@
 
 
 In [chapefficient](){.ref} we saw examples of efficient algorithms, and made some claims about their running time, but did not give a mathematically precise definition for this concept.
-We do so in this chapter, using the NAND-TM  and NAND<<  models we have seen before.^[NAND-TM programs are a variant of Turing machines, while NAND<<  programs are a way to model RAM machines, and hence all of the discussion in this chapter applies to those and many other models as well.]
+We do so in this chapter, using the NAND-TM  and NAND-RAM  models we have seen before.^[NAND-TM programs are a variant of Turing machines, while NAND-RAM  programs are a way to model RAM machines, and hence all of the discussion in this chapter applies to those and many other models as well.]
 Since we think of programs  that can take as input a string of arbitrary length, their running time is not a fixed number but rather what we are interested in is measuring the _dependence_ of the number of steps the program takes on the length of the input.
 That is, for any program $P$, we will be interested in the maximum number of steps that $P$ takes on inputs of length $n$ (which we often denote as $T(n)$).^[Because we are interested in the _maximum_ number of steps for inputs of a given length, this concept is often known as _worst case complexity_. The _minimum_ number of steps (or "best case" complexity) to compute a function on length $n$ inputs is typically not a meaningful quantity since essentially every natural problem will have some trivially easy instances. However, the _average case complexity_ (i.e., complexity on a "typical" or "random" input) is an interesting  concept which we'll return to when we discuss _cryptography_. That said, worst-case complexity is the most standard and basic of the complexity measures, and will be our focus in most of this course.]
-For example, if a function $F$ can be computed by a NAND<< (or NAND-TM program/Turing machine) program that on inputs of length $n$ takes $O(n)$ steps then we will think of $F$ as "efficiently computable",  while if any such program  requires $2^{\Omega(n)}$ steps to compute $F$ then we consider $F$ "intractable".
+For example, if a function $F$ can be computed by a NAND-RAM (or NAND-TM program/Turing machine) program that on inputs of length $n$ takes $O(n)$ steps then we will think of $F$ as "efficiently computable",  while if any such program  requires $2^{\Omega(n)}$ steps to compute $F$ then we consider $F$ "intractable".
 
 ## Formally defining running time
 
-We start by defining running time separately for both NAND<< and NAND-TM programs.
+We start by defining running time separately for both NAND-RAM and NAND-TM programs.
 We will later see that the two measures are closely related.
-Roughly speaking, we will say that a function $F$ is computable in time $T(n)$ there exists a NAND<< program that when given an input $x$,  halts and outputs  $F(x)$ within at most $T(|x|)$ steps. The formal definition is as follow:
+Roughly speaking, we will say that a function $F$ is computable in time $T(n)$ there exists a NAND-RAM program that when given an input $x$,  halts and outputs  $F(x)$ within at most $T(|x|)$ steps. The formal definition is as follow:
 
 ::: {.definition title="Running time" #time-def}
 Let $T:\N \rightarrow \N$ be some function mapping natural numbers to natural numbers.
-We say that a  function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _computable in $T(n)$ NAND<< time_
-if there exists a NAND<< program $P$ such that for every  every sufficiently large $n$ and  every $x\in \{0,1\}^n$, when given  input $x$, the program $P$ halts after executing at most $T(n)$ lines and outputs $F(x)$.^[The relaxation of considering only "sufficiently large" $n$'s is not very important but it is convenient since it allows us to avoid dealing explicitly with un-interesting "edge cases". In most cases we will anyway be interested in determining running time only up to constant and even polynomial factors. Note that we can always compute a function on a finite number of inputs using a lookup table.]
+We say that a  function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _computable in $T(n)$ NAND-RAM time_
+if there exists a NAND-RAM program $P$ such that for every  every sufficiently large $n$ and  every $x\in \{0,1\}^n$, when given  input $x$, the program $P$ halts after executing at most $T(n)$ lines and outputs $F(x)$.^[The relaxation of considering only "sufficiently large" $n$'s is not very important but it is convenient since it allows us to avoid dealing explicitly with un-interesting "edge cases". In most cases we will anyway be interested in determining running time only up to constant and even polynomial factors. Note that we can always compute a function on a finite number of inputs using a lookup table.]
 
 Similarly, we say that $F$ is _computable in $T(n)$ NAND-TM time_ if there is a NAND-TM program $P$ computing $F$ such  that on every sufficiently large $n$ and $x\in \{0,1\}^n$, on input $x$, $P$ executes at most  $T(n)$ lines before it halts with the output $F(x)$.
 
-We let  $TIME_{<<}(T(n))$ denote the set of Boolean functions that are computable in $T(n)$ NAND<< time, and define  $TIME_{++}(T(n))$ analogously.
+We let  $TIME_{<<}(T(n))$ denote the set of Boolean functions that are computable in $T(n)$ NAND-RAM time, and define  $TIME_{++}(T(n))$ analogously.
 The set $TIME(T(n))$ (without any subscript) corresponds to $TIME_{<<}(T(n))$.
 :::
 
@@ -45,13 +45,13 @@ The set $TIME(T(n))$ (without any subscript) corresponds to $TIME_{<<}(T(n))$.
 
 In the definition of time complexity, we count the number of times a line is _executed_, not the number of lines in the program. For example, if a NAND-TM program $P$ has 20 lines, and on some input $x$  it takes a 1,000  iterations of its loop before it halts, then the number of lines executed on this input is 20,000.
 
-To make this count meaningful, we use the "vanilla" flavors of NAND-TM and NAND<<, "unpacking" any syntactic sugar. For example, if a NAND-TM program $P$ contains a line with the syntactic sugar  `foo = MACRO(bar)` where `MACRO` is some macro/function that is defined elsewhere using 100 lines of vanilla NAND-TM, then executing this line counts as executing 100 steps rather than a single one.
+To make this count meaningful, we use the "vanilla" flavors of NAND-TM and NAND-RAM, "unpacking" any syntactic sugar. For example, if a NAND-TM program $P$ contains a line with the syntactic sugar  `foo = MACRO(bar)` where `MACRO` is some macro/function that is defined elsewhere using 100 lines of vanilla NAND-TM, then executing this line counts as executing 100 steps rather than a single one.
 :::
 
-Unlike the notion of computability, the exact running time can be a function of the model we use. However, it turns out that if we only care about "coarse enough" resolution (as will most often be the case) then the choice of the model,  whether it is NAND<<, NAND-TM, or Turing or RAM machines of various flavors,  does not matter. (This is known as the _extended_ Church-Turing Thesis). Nevertheless, to be concrete, we will use NAND<< programs as our "default" computational model for measuring time, which is why we say that $F$ is computable in $T(n)$ time without any qualifications, or write $TIME(T(n))$ without any subscript, we mean that this holds with respect to NAND<< machines.
+Unlike the notion of computability, the exact running time can be a function of the model we use. However, it turns out that if we only care about "coarse enough" resolution (as will most often be the case) then the choice of the model,  whether it is NAND-RAM, NAND-TM, or Turing or RAM machines of various flavors,  does not matter. (This is known as the _extended_ Church-Turing Thesis). Nevertheless, to be concrete, we will use NAND-RAM programs as our "default" computational model for measuring time, which is why we say that $F$ is computable in $T(n)$ time without any qualifications, or write $TIME(T(n))$ without any subscript, we mean that this holds with respect to NAND-RAM machines.
 
-::: {.remark title="Why NAND<<?" #whyNANDshiftrem}
-Given that so far we have emphasized NAND-TM as our "main" model of computation, the reader might wonder why we use NAND<< as the default yardstick where running time is involved. As we will see, this choice does not make much difference, but NAND<< or _RAM Machines_ correspond more closely to the notion of running time as discussed in algorithms text or the practice of computer science.
+::: {.remark title="Why NAND-RAM?" #whyNANDshiftrem}
+Given that so far we have emphasized NAND-TM as our "main" model of computation, the reader might wonder why we use NAND-RAM as the default yardstick where running time is involved. As we will see, this choice does not make much difference, but NAND-RAM or _RAM Machines_ correspond more closely to the notion of running time as discussed in algorithms text or the practice of computer science.
 :::
 
 ### Nice time bounds
@@ -65,7 +65,7 @@ A function $T:\N \rightarrow \N$ is a _nice time bound function_ (or nice functi
 
 1. $T(n) \geq n$ \
 2. $T(n) \geq T(n')$ whenever $n \geq n'$ \
-3. There is a NAND<< program that on input numbers $n,i$, given in binary, can compute in $O(T(n))$ steps the $i$-th bit of a prefix-free representation of $T(n)$ (represented as a string in some prefix-free way).
+3. There is a NAND-RAM program that on input numbers $n,i$, given in binary, can compute in $O(T(n))$ steps the $i$-th bit of a prefix-free representation of $T(n)$ (represented as a string in some prefix-free way).
 :::
 
 All the "normal" time complexity bounds we encounter in applications such as $T(n)= 100 n$, $T(n) =  n^2 \log n$,$T(n) = 2^{\sqrt{n}}$, etc.  are "nice".
@@ -84,9 +84,9 @@ The two main time complexity classes we will be interested in are the following:
 In other words, these are defined as follows:
 
 ::: {.definition title="$\mathbf{P}$ and $\mathbf{EXP}$" #PandEXPdef}
-Let $F:\{0,1\}^* \rightarrow \{0,1\}$. We say that $F\in \mathbf{P}$ if there is a polynomial $p:\N \rightarrow \R$ and a NAND<< program $P$ such that for every $x\in \{0,1\}^*$, $P(x)$ runs in at most $p(|x|)$ steps and outputs $F(x)$.
+Let $F:\{0,1\}^* \rightarrow \{0,1\}$. We say that $F\in \mathbf{P}$ if there is a polynomial $p:\N \rightarrow \R$ and a NAND-RAM program $P$ such that for every $x\in \{0,1\}^*$, $P(x)$ runs in at most $p(|x|)$ steps and outputs $F(x)$.
 
-We say that $F\in \mathbf{EXP}$ if there is a polynomial $p:\N \rightarrow \R$ and a NAND<< program $P$ such that for every $x\in \{0,1\}^*$, $P(x)$ runs in at most $2^{p(|x|)}$ steps and outputs $F(x)$.
+We say that $F\in \mathbf{EXP}$ if there is a polynomial $p:\N \rightarrow \R$ and a NAND-RAM program $P$ such that for every $x\in \{0,1\}^*$, $P(x)$ runs in at most $2^{p(|x|)}$ steps and outputs $F(x)$.
 :::
 
 > # { .pause }
@@ -122,7 +122,7 @@ Specifically the formal definition is as follows:
 
 ::: {.definition title="Time complexity for partial and non-Boolean functions" #partialnonbooleanfunctionsdef}
 Let $T:\N \rightarrow \N$ be a nice function, and let $F$ be a (possibly partial) function mapping $\{0,1\}^*$ to $\{0,1\}^*$.
-We say that $F$ is in $\overline{TIME}_{<<}(T(n))$ (respectively $\overline{TIME}_{++}(T(n))$) if there exists a NAND<< (respectively NAND-TM) program $P$ such that for every sufficiently large $n$ and   $x\in \{0,1\}^n$ on which $F$ is defined,  on input $x$ the program $P$ halts after executing at most $T(n)$ steps and outputs $F(x)$.
+We say that $F$ is in $\overline{TIME}_{<<}(T(n))$ (respectively $\overline{TIME}_{++}(T(n))$) if there exists a NAND-RAM (respectively NAND-TM) program $P$ such that for every sufficiently large $n$ and   $x\in \{0,1\}^n$ on which $F$ is defined,  on input $x$ the program $P$ halts after executing at most $T(n)$ steps and outputs $F(x)$.
 
 We let $\overline{TIME}(T(n))$ (without a subscript) denote the set $\overline{TIME}_{<<}(T(n))$ and let $\overline{\mathbf{P}} = \cup_{c\in \{1,2,3,\ldots \}} \overline{TIME}(n^c)$ and $\overline{\mathbf{EXP}} = \cup_{c\in \{1,2,3,\ldots \}} \overline{TIME}(2^{n^c})$.
 :::
@@ -130,14 +130,14 @@ We let $\overline{TIME}(T(n))$ (without a subscript) denote the set $\overline{T
 
 
 
-## Efficient simulation of RAM machines: NAND<< vs NAND-TM
+## Efficient simulation of RAM machines: NAND-RAM vs NAND-TM
 
-We have seen in [RAMTMequivalencethm](){.ref} that for every NAND<< program $P$ there is a NAND-TM program $P'$ that computes the same function as $P$.
+We have seen in [RAMTMequivalencethm](){.ref} that for every NAND-RAM program $P$ there is a NAND-TM program $P'$ that computes the same function as $P$.
 It turns out that the $P'$ is not much slower than $P$.
 That is, we can prove the following theorem:
 
 
-> # {.theorem title="Efficient simulation of NAND<<  with NAND-TM" #polyRAMTM-thm}
+> # {.theorem title="Efficient simulation of NAND-RAM  with NAND-TM" #polyRAMTM-thm}
 There are absolute constants $a,b$ such that for every  function $F$ and nice  function  $T:\N \rightarrow \N$,  if $F \in TIME_{<<}(T(n))$ then there is a NAND-TM program $P'$ that computes $F$ in $T'(n)=a\cdot T(n)^b$.
 That is, $TIME_{<<}(T(n)) \subseteq TIME_{++}(aT(n)^b)$
 
@@ -145,25 +145,25 @@ That is, $TIME_{<<}(T(n)) \subseteq TIME_{++}(aT(n)^b)$
 
 
 The constant $b$ can be easily shown to be at most five, and with more effort can be optimized further.
-[polyRAMTM-thm](){.ref} means that the definition of the classes $\mathbf{P}$ and $\mathbf{EXP}$ are robust to the choice of model, and will not make a difference whether we use NAND-TM or NAND<<.
-The same proof also shows that _Turing Machines_ can simulate NAND<< programs (and hence RAM machines).
+[polyRAMTM-thm](){.ref} means that the definition of the classes $\mathbf{P}$ and $\mathbf{EXP}$ are robust to the choice of model, and will not make a difference whether we use NAND-TM or NAND-RAM.
+The same proof also shows that _Turing Machines_ can simulate NAND-RAM programs (and hence RAM machines).
 In fact, similar results are known for many models including cellular automata, C/Python/Javascript programs, parallel computers,   and a great many other models, which justifies the choice of $\mathbf{P}$ as capturing a technology-independent notion of tractability.
-As we discussed before,  this  equivalence between NAND-TM and NAND<<  (as well as other models) allows us to pick our favorite model depending on the task at hand (i.e., "have our cake and eat it too").
-When we want to _design_ an algorithm, we can use the extra power and convenience afforded by NAND<<.
+As we discussed before,  this  equivalence between NAND-TM and NAND-RAM  (as well as other models) allows us to pick our favorite model depending on the task at hand (i.e., "have our cake and eat it too").
+When we want to _design_ an algorithm, we can use the extra power and convenience afforded by NAND-RAM.
 When we want to _analyze_ a program or prove a _negative result_, we can restrict attention to   NAND-TM programs.
 
 
 > # {.proofidea data-ref="polyRAMTM-thm"}
-The idea behind the proof is simple. It  follows closely the proof of  [RAMTMequivalencethm](){.ref}, where we have shown  that every function $F$ that is computable by a NAND<< program $P$ is computable by a NAND-TM program $P'$.  To prove [polyRAMTM-thm](){.ref}, we follow the exact same proof but just check that the overhead of the simulation of $P$ by $P'$ is polynomial.
+The idea behind the proof is simple. It  follows closely the proof of  [RAMTMequivalencethm](){.ref}, where we have shown  that every function $F$ that is computable by a NAND-RAM program $P$ is computable by a NAND-TM program $P'$.  To prove [polyRAMTM-thm](){.ref}, we follow the exact same proof but just check that the overhead of the simulation of $P$ by $P'$ is polynomial.
 The proof has many details, but is not deep. It is therefore much more important that you understand the _statement_ of this theorem than its proof.
 
 ::: {.proof data-ref="polyRAMTM-thm"}
-As mentioned above, we  follow the proof of [RAMTMequivalencethm](){.ref} (simulation of NAND<< programs using NAND-TM programs) and use the exact same simulation, but with a more careful accounting of the number of steps that the simulation costs.
-Recall, that the simulation of NAND<< works by "peeling off" features of NAND<< one by one, until we are left with NAND-TM.
+As mentioned above, we  follow the proof of [RAMTMequivalencethm](){.ref} (simulation of NAND-RAM programs using NAND-TM programs) and use the exact same simulation, but with a more careful accounting of the number of steps that the simulation costs.
+Recall, that the simulation of NAND-RAM works by "peeling off" features of NAND-RAM one by one, until we are left with NAND-TM.
 
-We will not provide the full details but will present the main ideas used in showing that every feature of NAND<< can be simulated by NAND-TM with at  most a polynomial overhead:
+We will not provide the full details but will present the main ideas used in showing that every feature of NAND-RAM can be simulated by NAND-TM with at  most a polynomial overhead:
 
-1. Recall that every NAND<< variable or array element can contain an integer between $0$ and $T$ where $T$ is the number of lines that have been executed so far. Therefore if  $P$ is a NAND<< program that computes $F$ in $T(n)$ time, then on inputs of length $n$, all integers used by $P$ are of magnitude at most $T(n)$. This means that the largest value `i` can ever reach is at most $T(n)$ and so each one of $P$'s variables can be thought of as an array of at most $T(n)$ indices, each of which holds a  natural number of magnitude at most $T(n)$, which can be represented using $O(\log T(n))$ bits.
+1. Recall that every NAND-RAM variable or array element can contain an integer between $0$ and $T$ where $T$ is the number of lines that have been executed so far. Therefore if  $P$ is a NAND-RAM program that computes $F$ in $T(n)$ time, then on inputs of length $n$, all integers used by $P$ are of magnitude at most $T(n)$. This means that the largest value `i` can ever reach is at most $T(n)$ and so each one of $P$'s variables can be thought of as an array of at most $T(n)$ indices, each of which holds a  natural number of magnitude at most $T(n)$, which can be represented using $O(\log T(n))$ bits.
 
 2.  As in the proof of [RAMTMequivalencethm](){.ref}, we can think of the integer array `Foo` as a two dimensional _bit_ array `Foo_2D` (where `Foo_2D[`$i$`][`$j$`]` is the $j$-th bit of `Foo[`$i$`]`) and then encode the latter as a _one dimensional_ bit array `Foo_1D` by mapping  `Foo_2D[`$i$`][`$j$`]` to `Foo_1D[`$embed(i,j)$`]` where $embed:\N \times N \rightarrow \N$ is some one-to-one function that embeds the two dimensional space $\N\times \N$ into the one dimensional $\N$. Specifically, if we use $embed(i,j)= \tfrac{1}{2}(i+j)(i+j+1) + j$ as in [pair-ex](){.ref}, then we can see that if $i,j \leq O(T(n))$, then $embed(i,j) \leq O(T(n)^2)$. We also use the fact that $embed$ is itself computable in polynomial time in the length of its input.
 
@@ -176,7 +176,7 @@ We will not provide the full details but will present the main ideas used in sho
 5. To transform the above from _enhanced_ to _standard_ (i.e., "vanilla") NAND-TM, all that is left is to follow our proof of [enhancednandequivalence](){.ref} and show we can simulate `i+= foo` and `i-= bar` in vanilla  NAND-TM using our "breadcrumbs" and "wait for the bus"  techniques. To simulate $T$ steps of enhanced NAND-TM we will need at most $O(T^2)$ steps of vanilla NAND-TM  (see [obliviousfig](){.ref}). Indeed, suppose that the largest point that the index `i` reached in the computation so far is $R$, and we are in the worst case where we are trying, for example, to increment `i` while it is in a "decreasing" phase. Within at most $2R$ steps we will be back in the same position at an "increasing" phase. Using this argument we can see that in the worst case, if we need to simulate $T$ steps of enhanced NAND-TM we will use $O(1 + 2 + \cdots + T) = O(T^2)$ steps of vanilla NAND-TM.
 
 
-Together these observations imply that the simulation of $T$ steps of NAND<< can be done in $O(T^a)$ steps of vanilla NAND-TM for some constant $a$, i.e., time polynomial in $T$. (A rough accounting can show that this constant $a$ is at most five; a more careful analysis can improve it further though this does not matter much.)
+Together these observations imply that the simulation of $T$ steps of NAND-RAM can be done in $O(T^a)$ steps of vanilla NAND-TM for some constant $a$, i.e., time polynomial in $T$. (A rough accounting can show that this constant $a$ is at most five; a more careful analysis can improve it further though this does not matter much.)
 :::
 
 
@@ -186,7 +186,7 @@ Together these observations imply that the simulation of $T$ steps of NAND<< can
 
 
 > # {.remark title="Turing machines and other models" #othermodels}
-If we follow the equivalence results between NAND-TM/NAND<< and  other models, including Turing machines, RAM machines, Game of life, $\lambda$ calculus, and many others, then we can see that these results also have at most a polynomial overhead in the simulation in each way.^[For the  $\lambda$ calculus, one needs to be careful about the order of application of the reduction steps, which can matter for computational efficiency, see for example [this paper](https://lmcs.episciences.org/1627).]
+If we follow the equivalence results between NAND-TM/NAND-RAM and  other models, including Turing machines, RAM machines, Game of life, $\lambda$ calculus, and many others, then we can see that these results also have at most a polynomial overhead in the simulation in each way.^[For the  $\lambda$ calculus, one needs to be careful about the order of application of the reduction steps, which can matter for computational efficiency, see for example [this paper](https://lmcs.episciences.org/1627).]
 It is a good exercise to go through, for example, the proof of [TM-equiv-thm](){.ref} and verify that it establishes that Turing machines and NAND-TM programs are equivalent up to polynomial overhead.
 
 
@@ -200,19 +200,19 @@ More generally, for every function $F:\{0,1\}^* \rightarrow \{0,1\}$, the answer
 
 
 
-## Efficient universal machine: a NAND<< interpreter in NAND<<
+## Efficient universal machine: a NAND-RAM interpreter in NAND-RAM
 
 We have seen in [univnandppnoneff](){.ref} the "universal program" or "interpreter" $U$ for NAND-TM.
-Examining that proof, and combining it with  [polyRAMTM-thm](){.ref} , we can see that the program $U$ has a _polynomial_ overhead, in the sense that it can simulate $T$ steps of a given NAND-TM (or NAND<<) program $P$ on an input $x$ in $O(T^a)$ steps for some constant $a$.
-But in fact, by directly simulating NAND<< programs, we can do better with only a _constant_ multiplicative overhead:
+Examining that proof, and combining it with  [polyRAMTM-thm](){.ref} , we can see that the program $U$ has a _polynomial_ overhead, in the sense that it can simulate $T$ steps of a given NAND-TM (or NAND-RAM) program $P$ on an input $x$ in $O(T^a)$ steps for some constant $a$.
+But in fact, by directly simulating NAND-RAM programs, we can do better with only a _constant_ multiplicative overhead:
 
 
-> # {.theorem title="Efficient universality of NAND<<" #univ-nandpp}
-There is  a NAND<< program $U$ that computes the  partial function $TIMEDEVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ defined as follows:
+> # {.theorem title="Efficient universality of NAND-RAM" #univ-nandpp}
+There is  a NAND-RAM program $U$ that computes the  partial function $TIMEDEVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ defined as follows:
 $$
 TIMEDEVAL(P,x,1^T)=P(x)
 $$
-if $P$  is a valid representation of a NAND<< program which produces an output on $x$ within at most $T$ steps.
+if $P$  is a valid representation of a NAND-RAM program which produces an output on $x$ within at most $T$ steps.
 If $P$ does not produce an output within this time then $TIMEDEVAL$ outputs an encoding of a special `fail` symbol.
 Moreover, for every program $P$, the running time of $U$ on input $P,x,1^T$ is $O(T)$. (The hidden constant in the $O$-notation can depend on the program $P$ but is at most polynomial in the length of $P$'s description as a string.).
 
@@ -227,18 +227,18 @@ There  is nothing deep about representing inputs this way: this is merely a conv
 
 
 > # { .pause }
-Before reading the proof of [univ-nandpp](){.ref}, try to think how you would compute $TIMEDEVAL$ using your favorite programming language. That is, how you would write a program `Timed_Eval(P,x,T)` that gets a NAND<< program  `P` (represented in some convenient form), a string `x`, and an integer `T`, and simulates `P` for `T` steps.
+Before reading the proof of [univ-nandpp](){.ref}, try to think how you would compute $TIMEDEVAL$ using your favorite programming language. That is, how you would write a program `Timed_Eval(P,x,T)` that gets a NAND-RAM program  `P` (represented in some convenient form), a string `x`, and an integer `T`, and simulates `P` for `T` steps.
 You will likely find that your program requires $O(T)$ steps to perform this simulation.
 As in the case of [polyRAMTM-thm](){.ref}, the proof of [univ-nandpp](){.ref} is not very deep and it more important to understand its _statement_.
-If  you understand how  you would go about writing an interpreter for NAND<< using a modern programming language such as Python, then you know everything you need to know about this theorem.
+If  you understand how  you would go about writing an interpreter for NAND-RAM using a modern programming language such as Python, then you know everything you need to know about this theorem.
 
 
 ::: {.proof data-ref="univ-nandpp"}
-To present a universal NAND<< program in full we would need to describe a precise representation scheme, as well as the full NAND<< instructions for the program.
+To present a universal NAND-RAM program in full we would need to describe a precise representation scheme, as well as the full NAND-RAM instructions for the program.
 While this can be done, it is more important to focus on the main ideas, and so we just sketch the proof here.
-A  specification of NAND<< is given in the Appendix, and for the purposes of this simulation, we can simply use the representation of the code NAND<< as an ASCII string.
+A  specification of NAND-RAM is given in the Appendix, and for the purposes of this simulation, we can simply use the representation of the code NAND-RAM as an ASCII string.
 
-The program $U$ gets as input a NAND<< program $P$, an input $x$, and a time bound $T$ (given in the form $1^T$) and needs to simulate the execution of $P$ for $T$ steps.
+The program $U$ gets as input a NAND-RAM program $P$, an input $x$, and a time bound $T$ (given in the form $1^T$) and needs to simulate the execution of $P$ for $T$ steps.
 To do so, $U$ will do the following:
 
 1. $U$ will maintain variables  `current_line`, and `number_steps` for the current line to be executed and the number of steps executed so far.
@@ -248,7 +248,7 @@ To do so, $U$ will do the following:
 3. $U$ will maintain an array `Var_values` that will contain the current values of all $P$'s variables. If the $s$-th variable of $P$ is a scalar variable, then its value will be stored in location `Var_values[`$s$`]`.
 If it is an array variable then the value of its $i$-th element will be stored in location `Var_values[`$t\cdot i + s$`]`.
 
-4. To simulate a single step of $P$, the program $U$ will recover the line corresponding to `line_counter`  and execute it. Since NAND<< has a constant number of arithmetic operations, we can simulate choosing which operation to execute with a sequence of a constantly many  if-then-else's.  When executing these operations, $U$ will use the variable `step_counter` that keeps track of the iteration counter of $P$.
+4. To simulate a single step of $P$, the program $U$ will recover the line corresponding to `line_counter`  and execute it. Since NAND-RAM has a constant number of arithmetic operations, we can simulate choosing which operation to execute with a sequence of a constantly many  if-then-else's.  When executing these operations, $U$ will use the variable `step_counter` that keeps track of the iteration counter of $P$.
 
 
 Simulating a  single step of $P$ will take $O(|P|)$ steps for the program $U$ where $|P|$ is the length of the description of $P$ as a string (which in particular is an upper bound on the number $t$ of variable $P$ uses). Hence the total running time will be $O(|P|T)$  which is $O(T)$ when suppressing constants  that depend on  the program $P$.
@@ -340,7 +340,7 @@ Recall the Halting function $HALT:\{0,1\}^* \rightarrow \{0,1\}$ that was define
 $HALT(P,x)$ equals $1$ for every program $P$ and input $x$ s.t.  $P$ halts on input $x$, and is equal to $0$ otherwise.
 We cannot use the  Halting function  of course, as it is uncomputable and hence  not in $TIME(T'(n))$ for any function $T'$. However, we will use the following variant of it:
 
-We define the _Bounded Halting_ function $HALT_T(P,x)$ to equal $1$ for every NAND<< program $P$ such that $|P| \leq \log \log |x|$, and such that $P$ halts on the input $x$ within $100 T(|x|)$ steps. $HALT_T$ equals $0$ on all other inputs.^[The constant $100$ and the function $\log \log n$ are  rather arbitrary, and are chosen for convenience in this proof.]
+We define the _Bounded Halting_ function $HALT_T(P,x)$ to equal $1$ for every NAND-RAM program $P$ such that $|P| \leq \log \log |x|$, and such that $P$ halts on the input $x$ within $100 T(|x|)$ steps. $HALT_T$ equals $0$ on all other inputs.^[The constant $100$ and the function $\log \log n$ are  rather arbitrary, and are chosen for convenience in this proof.]
 
 [time-hierarchy-thm](){.ref} is an immediate consequence of the following two claims:
 
@@ -353,17 +353,17 @@ __Claim 2:__ $HALT_T \not\in TIME(T(n))$.
 Please make sure you understand why indeed the theorem follows directly from the combination of these two claims. We now turn to proving them.
 
 __Proof of claim 1:__  We can easily check in linear time whether an input has the form $P,x$ where $|P| \leq \log\log |x|$.
-Since $T(\cdot)$ is a nice function, we can evaluate it in $O(T(n))$ time. Thus, we can perform the check above, compute $T(|P|+|x|)$ and use the universal NAND<< program of [univ-nandpp](){.ref} to evaluate $HALT_T$ in at most $poly(|P|) T(n)$ steps.^[Recall that we use $poly(m)$ to denote a quantity that is bounded by $am^b$ for some constants $a,b$ and every sufficiently large $m$.]
+Since $T(\cdot)$ is a nice function, we can evaluate it in $O(T(n))$ time. Thus, we can perform the check above, compute $T(|P|+|x|)$ and use the universal NAND-RAM program of [univ-nandpp](){.ref} to evaluate $HALT_T$ in at most $poly(|P|) T(n)$ steps.^[Recall that we use $poly(m)$ to denote a quantity that is bounded by $am^b$ for some constants $a,b$ and every sufficiently large $m$.]
 Since $(\log \log n)^a = o(\log n)$ for every $a$, this will be smaller than $T(n)\log n$ for every sufficiently large $n$, hence completing the proof.
 
 
 __Proof of claim 2:__ This proof is the heart of [time-hierarchy-thm](){.ref}, and is very reminiscent of the proof that $HALT$ is not computable.
-Assume, toward the sake of contradiction, that there is some NAND<< program $P^*$ that computes $HALT_T(P,x)$ within $T(|P|+|x|)$ steps. We are going to show a contradiction by creating a program $Q$ and showing that under our assumptions, if $Q$ runs for less than $T(n)$ steps when given (a padded version of)  its own code as input then it actually runs for more than $T(n)$ steps and vice versa. (It is worth re-reading the last sentence twice or thrice to make sure you understand this logic. It is very similar to the direct proof of the uncomputability of the halting problem where we obtained a contradiction by using an assumed "halting solver" to construct  a program that, given its own code as input, halts if and only if it does not halt.)
+Assume, toward the sake of contradiction, that there is some NAND-RAM program $P^*$ that computes $HALT_T(P,x)$ within $T(|P|+|x|)$ steps. We are going to show a contradiction by creating a program $Q$ and showing that under our assumptions, if $Q$ runs for less than $T(n)$ steps when given (a padded version of)  its own code as input then it actually runs for more than $T(n)$ steps and vice versa. (It is worth re-reading the last sentence twice or thrice to make sure you understand this logic. It is very similar to the direct proof of the uncomputability of the halting problem where we obtained a contradiction by using an assumed "halting solver" to construct  a program that, given its own code as input, halts if and only if it does not halt.)
 
 
 We will define $Q$ to be the program that on input a string $z$   does the following:
 
-1. If $z$ does not have the form $z=P1^m$ where $P$ represents a NAND<< program and $|P|< 0.1 \log\log m$ then return $0$.
+1. If $z$ does not have the form $z=P1^m$ where $P$ represents a NAND-RAM program and $|P|< 0.1 \log\log m$ then return $0$.
 
 2. Compute $b= P^*(P,z)$ (at a cost of at most $T(|P|+|z|)$ steps, under our assumptions).
 
@@ -391,7 +391,7 @@ We will however see that there is a single unproven conjecture that would imply 
 ![Some complexity classes and some of the functions we know (or conjecture) to be contained in them.](../figure/time_complexity_map.png){#figureid .class width=300px height=300px}
 
 ::: {.remark title="Time hierarchy for NAND-TM and Turing machines" #timehierarchyfornandpp}
-The time hierarchy theorem relies on the existence of an efficient universal NAND<< program, as proven in [univ-nandpp](){.ref}. We have mentioned that other models, such as NAND-TM programs and Turing machines, are polynomially
+The time hierarchy theorem relies on the existence of an efficient universal NAND-RAM program, as proven in [univ-nandpp](){.ref}. We have mentioned that other models, such as NAND-TM programs and Turing machines, are polynomially
 :::
 
 
@@ -492,7 +492,7 @@ Thus the same proof gives  the following theorem:
 
 
 ::: {.theorem title="NAND-TM to NAND compiler" #nand-compiler}
-There is an $O(n)$-time NAND<< program $COMPILE$ such that on input a NAND-TM program $P$,  and strings of the form $1^n,1^m,1^T$  outputs a NAND-CIRC program $Q_P$ of at most $O(T)$ lines with $n$ bits of inputs and $m$ bits of output satisfying the following property.
+There is an $O(n)$-time NAND-RAM program $COMPILE$ such that on input a NAND-TM program $P$,  and strings of the form $1^n,1^m,1^T$  outputs a NAND-CIRC program $Q_P$ of at most $O(T)$ lines with $n$ bits of inputs and $m$ bits of output satisfying the following property.
 
 For every $x\in\{0,1\}^n$, if $P$ halts on input $x$ within fewer than $T$ steps and outputs some string $y\in\{0,1\}^m$, then $Q_P(x)=y$.
 :::
@@ -590,10 +590,10 @@ nothalted = NAND(halted,halted)
     return result
 ```
 
-Since NAND<< programs can be simulated by NAND-TM programs with polynomial overhead, we see that we can simulate a $T(n)$ time NAND<< program on length $n$ inputs with a $poly(T(n))$ size NAND-CIRC program.
+Since NAND-RAM programs can be simulated by NAND-TM programs with polynomial overhead, we see that we can simulate a $T(n)$ time NAND-RAM program on length $n$ inputs with a $poly(T(n))$ size NAND-CIRC program.
 
 > # { .pause }
-To make sure you understand this transformation, it is an excellent exercise to verify the following equivalent characterization of the class $\mathbf{P}$ (see [Palternativeex](){.ref}). Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}$, $F\in \mathbf{P}$ if and only if there is a polynomial-time NAND-TM (or NAND<<, it doesn't matter) program $P$ such that for every $n\in \N$, $P(1^n)$ outputs a description of an $n$ input NAND-CIRC program $Q_n$ that computes the restriction $F_{\upharpoonright n}$ of $F$ to inputs in $\{0,1\}^n$. (Note that since $P$ runs in polynomial time and hence has an output of at most polynomial length, $Q_n$ has at most a polynomial number of lines.)
+To make sure you understand this transformation, it is an excellent exercise to verify the following equivalent characterization of the class $\mathbf{P}$ (see [Palternativeex](){.ref}). Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}$, $F\in \mathbf{P}$ if and only if there is a polynomial-time NAND-TM (or NAND-RAM, it doesn't matter) program $P$ such that for every $n\in \N$, $P(1^n)$ outputs a description of an $n$ input NAND-CIRC program $Q_n$ that computes the restriction $F_{\upharpoonright n}$ of $F$ to inputs in $\{0,1\}^n$. (Note that since $P$ runs in polynomial time and hence has an output of at most polynomial length, $Q_n$ has at most a polynomial number of lines.)
 
 ### The class $\mathbf{P_{/poly}}$
 
@@ -707,7 +707,7 @@ The _extended_ Church Turing is the statement that the same holds for _efficient
 
 In other words, the extended Church Turing thesis says that for every _scalable computing device_ $C$ (which has a finite description but can be in principle used to run computation on arbitrarily large inputs),  there are some constants $a,b$ such that for every  function $F:\{0,1\}^* \rightarrow \{0,1\}$ that $C$ can compute on $n$ length inputs using an $S(n)$ amount of physical resources, $F$ is in $TIME(aS(n)^b)$.
 
-All the current constructions of scalable computational  models and programming language  conform to the Extended Church-Turing Thesis, in the sense that they can be with polynomial overhead by Turing Machines (and hence also by NAND-TM or NAND<< programs).
+All the current constructions of scalable computational  models and programming language  conform to the Extended Church-Turing Thesis, in the sense that they can be with polynomial overhead by Turing Machines (and hence also by NAND-TM or NAND-RAM programs).
 consequently, the classes $\mathbf{P}$ and $\mathbf{EXP}$ are robust to the choice of model, and we  can use  the programming language of our choice, or  high level descriptions of an algorithm, to determine whether or not a problem is in $\mathbf{P}$.
 
 Like the Church-Turing thesis itself, the extended Church-Turing thesis is in the asymptotic setting and does not directly yield an experimentally testable prediction.
@@ -727,7 +727,7 @@ In particular, out of all the example problems mentioned in [chapefficient](){.r
 
 * There are many natural problems that have polynomial-time  algorithms, and other natural problems that we'd love to solve, but for which the best known algorithms are exponential.
 
-* The definition of polynomial time, and hence the class $\mathbf{P}$, is robust to the choice of model, whether it is Turing machines, NAND-TM, NAND<<, modern programming languages, and many other models.
+* The definition of polynomial time, and hence the class $\mathbf{P}$, is robust to the choice of model, whether it is Turing machines, NAND-TM, NAND-RAM, modern programming languages, and many other models.
 
 * The time hierarchy theorem shows that there are _some_ problems that can be solved in exponential, but not in polynomial time. However, we do not know if that is the case for the natural examples that we described in this lecture.
 
