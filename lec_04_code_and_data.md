@@ -411,7 +411,7 @@ We have seen that every NAND-CIRC program of $s$ lines and $n$ inputs can be rep
 Using this representation we can reduce the implicit constant in [program-count](){.ref} arbitrarily close to $2$.
 
 
-## Size hierarchy theorem (advanced optional)
+## Size hierarchy theorem (advanced, optional)
 
 By [NAND-univ-thm](){.ref} the class $SIZE_{n}(4 \cdot 2^n)$ contains _all_ functions from $\{0,1\}^n$ to $\{0,1\}$.
 In fact, as discussed in [tight-upper-bound](){.ref} this can be improved to show that there is some constant $C$ such that $SIZE_n(C \cdot 2^n / n)$ contains all functions from $\{0,1\}^n$ to $\{0,1\}$ (in fact, $C=4$ will do).
@@ -420,6 +420,53 @@ Thus, these two results together show that there exists some constants $C>c>0$ s
 $$
 SIZE_n(c 2^n /n) \subsetneq  SIZE_n(C 2^n /n) \;.
 $$
+That is, the set of functions that can be computed using $c 2^n/n$ gates is a _strict subset_ of the set of functions that can be computed using $C 2^n / n$ gates.
+
+In fact, we can use the same results to show a more general result: as a general rule, if we increase our "budget" of gates by a constant factor, then we can compute new functions:
+
+
+> # {.theorem title="Size Hierarchy Theorem" #sizehiearchyth}
+There exists some constant $C$ such that for _every_ $n \leq s \leq 2^n/(4n)$, there exists some function $f$ that _can not_ be computed using $s$ gates but _can_ be computed using $C\cdot s$ gates.
+
+
+> # {.proofidea data-ref="sizehiearchyth"}
+The idea is to "scale down" the result of [counting-lb](){.ref}.
+We set $\ell$ to be such that $s$ is about exponential in $\ell$, and so that $Cs$ gates are enough to compute all functions on $\ell$ bits but $s$ gates are not enough to compute some function $g:\{0,1\}^\ell \rightarrow \{0,1\}$.
+We can then let $f:\{0,1\}^n \rightarrow \{0,1\}$ be a function that ignores all but the first input $\ell$ bits, and returns the result of applying $g$  to these bits.
+
+
+::: {.proof data-ref="sizehiearchyth,}
+Let $s$ be as in the theorem statement, and let $\ell$ be the largest integer such that $10s \geq 2^\ell/(10\ell)$.
+(By this choice $10s < 2^{\ell-1}/(10\ell-1)$ which means that $5s < 2^\ell/(10\ell)$.)
+Let $g:\{0,1\}^\ell \rightarrow \{0,1\}$ be a function outside $SIZE_\ell(2^\ell/(10\ell)) \supseteq SIZE_\ell(5s)$ (the existence of such a function is guaranteed by [counting-lb](){.ref}).
+We let $f:\{0,1\}^n \rightarrow \{0,1\}$ be the function defined as $f(x_0,\ldots,x_{n-1}) = g(x_0,\ldots,x_{\ell-1})$.
+We claim that there is some constant $C$ such that:
+
+* $f \in SIZE_n(C \cdot s)$.
+
+* $f \not\in SIZE_n(s)$.
+
+For the former, by the [NAND-univ-thm](){.ref} (more precisely its  strengthened variant discussed in [tight-upper-bound](){.ref}), if $C'$ is sufficiently large then $SIZE_\ell(C' \cdot 2^\ell / \ell)$ contains _all_ functions mapping $\{0,1\}^\ell$ to $\{0,1\}$. Therefore we can compute $g$, and hence $f$ as well, using a circuit of at most
+$C' \cdot 2^\ell / \ell$ gates which is at most $C s$ for $C=10C'$.
+
+For the latter, suppose towards the sake of contradiction that $f$ _can_ be computed by an $n$-input NAND-CIRC program $P$ of at most $s$ lines.
+Now consider the following program $P'$ which is obtained by $P$ as follows:
+
+1. We add three lines to ensure access to the variable `zero` that is always equal to $0$.
+
+2. We replace every instance in which $P$ refers to a variable of the form `X[`$i$`]` for $i>\ell$ with the variable `zero`.
+
+The new program $P'$ only takes $\ell$ inputs and has at most $s+3$ lines. Moreover, for every $x\in \{0,1\}^\ell$, $P'(x)=P(x0^{n-\ell})$.
+This means that under our assumption that $P$ computes $f$, $P'(x)=f(x0^{n-\ell})=g(x)$ for every $x\in \{0,1\}^\ell$.
+But this contradicts the assumption that $g \not\in SIZE_\ell(5s)$.
+:::
+
+
+::: {.remark title="Explicit functions" #explicitfunc}
+While the size hierarchy theorem guarantees that there exists _some_ function that _can_ be computed using, for example, $n^2$ gates, but not using $100n$ gates, we do not know of any explicit example of such a function.
+While we suspect that integer multiplication is such an example, we do not have any proof that this is the case.
+:::
+
 
 
 
