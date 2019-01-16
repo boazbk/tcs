@@ -602,7 +602,7 @@ and $MULT_n \in SIZE_{2n,2n}(10000 n^{\log_2 3})$.
 See [sizeclassesfig](){.ref}.
 
 > # { .pause }
-Note that $SIZE_{n,m}(s)$ does __not___  correspond to a set of programs!
+Note that $SIZE_{n,m}(s)$ does __not__  correspond to a set of programs!
 Rather, it is a set of _functions_ (see [cucumberfig](){.ref}).
 This distinction between _programs_ and _functions_ will be crucial for us in this course.
 You should always remember that while a program _computes_ a function, it is not _equal_ to a function.

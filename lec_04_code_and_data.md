@@ -402,8 +402,6 @@ Some functions  $f:\{0,1\}^n \rightarrow \{0,1\}$   _cannot_ be  computed  by a 
 In fact, as we explore in the exercises below, this is the case for _most_ functions.
 Hence  functions that can be computed in a small number of lines (such as addition, multiplication, finding short paths in graphs, or even the $EVAL$ function) are the exception, rather than the rule.
 
-![All functions mapping $n$ bits to $m$ bits can be computed by NAND-CIRC programs of $O(m 2^n/n)$ lines, but most
-functions cannot be computed using much smaller programs. However there are many important exceptions which are functions such as addition, multiplication, program evaluation, and many others, that can be computed in polynomial time with a small exponent.](../figure/map_of_size.png){#size-bounds-fig .class width=300px height=300px}
 
 > # {.remark title="Advanced note: more efficient representation" #efficientrepresentation}
 The list of triples is not the shortest representation for NAND-CIRC programs.

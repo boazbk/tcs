@@ -31,26 +31,28 @@ In this model the memory is an array of unbounded size where each cell can store
 For example, many modern computing architectures use  $64$ bit words, in which every memory location holds a string in $\{0,1\}^{64}$ which can also be thought of as a number between $0$ and $2^{64}-1= 9,223,372,036,854,775,807$.
 The parameter $w$ is known as the _word size_ and (when doing theory) is chosen as some function of the input length $n$.
 A typical choice is that $w = c\log n$ for some constant $c$.
-This is sometimes known as the "transdichotomous RAM model".
 In addition to the memory array, a RAM machine also contains a  constant number of _registers_ $r_0,\ldots,r_{k-1}$, each of which can  also contain a single word.
 The operations in this model include loops, arithmetic on registers, and reading and writing from a memory location addressed by the register.
 
-Just as we did with Turing machines, we will use an extension of the NAND-TM programming language to capture RAM machines.
-Specifically, we define the _NAND-RAM programming language_ as follows:
 
-* The variables are allowed to be (non negative) _integer valued_ rather than only Boolean. That is, a scalar variable `foo` holds an non negative integer in $\N$ (rather than only a bit in $\{0,1\}$), and an array variable `Bar` holds an array of integers.
+We will not give a formal definition of RAM Machines here, though the bibliographical notes section ([othermodelsbibnotes](){.ref}) contains sources for such definitions.
+Rather, we will use an extension of the NAND-TM programming language to capture RAM algorithms.
+Specifically, we define the _NAND-RAM programming language_ to be the following extension of NAND-TM:
+
+* The variables are allowed to be (non negative) _integer valued_ rather than only Boolean. That is, a scalar variable `foo` holds an non negative integer in $\N$ (rather than only a bit in $\{0,1\}$), and an array variable `Bar` holds an array of integers. As in the case of  RAM machines, we will not allow integers of unbounded size. Concretely, each variable holds a number between $0$ and $T$, where $T$ is the number of steps that have been executed by the program so far.^[You can ignore this restriction for now:  if we want  to hold larger numbers, we can simply execute dummy instructions. This restriction will be useful in later chapters, where we will be interested in a more realistic accounting of running time.]
 
 * We allow _indexed access_ to arrays. If `foo` is a scalar and `Bar` is an array, then `Bar[foo]` refers to the location of `Bar` indexed by the value of `foo`. (Note that this means we don't need to have a special index variable `i` any more.)
 
-* As is often the case in programming language, we will assume that for Boolean operations such as `NAND`, a zero valued integer is considered as _false_, and a nonzero valued integer is considered as _true_.
+* As is often the case in programming languages, we will assume that for Boolean operations such as `NAND`, a zero valued integer is considered as _false_, and a nonzero valued integer is considered as _true_.
 
-To make NAND-RAM more realistic and similar to modern computer architecture, we will make it "batteries included" and so have the following features as part of the built-in language (as opposed to using "syntactic sugar"):
+To make NAND-RAM more realistic and similar to modern computer architecture, we make NAND-RAM "batteries included" and so  the following features are built-in into NAND-TM (as opposed to using "syntactic sugar"):^[The difference between having "built in" vs "syntactic sugar" features is immaterial at this point in the book, but we do so with an eye toward the later parts of this book,  when we start counting the number of operations of our algorithms. Even then, the effect of including these features vs  implementing them via syntactic sugar will not be very dramatic.]
 
 * In addition to `NAND`, NAND-RAM also includes all the  basic arithmetic operations of addition, subtraction, multiplication, (integer) division, as well as comparisons (equal, greater than, less than, etc..)
 
 * We will also include as part of the language basic control flow structures such as `if` and `while`.
 
-The full description of the NAND-RAM programing language is in the appendix.^[One restriction mentioned there is that the integer values in a variable always range between $0$ and $T-1$ where $T$ is the number of steps the program took so far. Hence all the arithmetic operations will "truncate" their results so that the output is in this range. This restriction does not make a difference for any of the discussion in this chapter, but will help us make a more accurate accounting of the running time in the future.] However, the most important fact you need to know about it is the following:
+The full description of the NAND-RAM programing language is in the appendix.
+However, the most important fact you need to know about NAND-RAM is the following:
 
 > # {.theorem title="NAND-TM (TM's) and NAND-RAM (RAM) are equivalent" #RAMTMequivalencethm}
 For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND-TM program if and only if $F$ is computable by a NAND-RAM program.
@@ -74,7 +76,7 @@ Namely, we will show how we can implement in NAND-TM the operation `Setindex(Bar
 Once we have arrays of integers, we can use our usual syntactic sugar for functions, `GOTO` etc. to implement the arithmetic  and control flow operations of NAND-RAM.
 :::
 
-## The gory details
+## The gory details (optional)
 
 We do not show the full formal proof of  [RAMTMequivalencethm](){.ref} but focus on the most important parts: implementing indexed access, and simulating two dimensional arrays with one dimensional ones.
 Even these are already quite tedious to describe, as will not be surprising to anyone that has ever written a compiler.
@@ -214,18 +216,20 @@ You can find  online  tutorials on how recursion is implemented via stack in you
 
 ### The "Best of both worlds" paradigm
 
-The equivalence between NAND-TM and NAND-RAM allows us to choose the most convenient language for the task at hand:
+The equivalence between Turing Machines and RAM machines allows us to choose the most convenient language for the task at hand:
 
-* When we want to give a theorem about all programs, we can use NAND-TM because it is simpler and easier to analyze. In particular, if we want to show that a certain function _can not_ be computed, then we will use NAND-TM.
+* When we want to _prove a theorem_ about all programs/algorithms, we can use Turing machines (or NAND-TM) since they are simpler and easier to analyze. In particular, if we want to show that a certain function _can not_ be computed, then we will use Turing machines.
 
-* When we want to show the existence of a program computing a certain function, we can use NAND-RAM, because it is higher level and easier to program in. In particular, if we want to show that a function _can_ be computed then we can use NAND-RAM. In fact, because NAND-RAM has much of  the features of high level programming languages, we will often describe NAND-RAM programs in an informal manner, trusting that the reader can fill in the details and translate the high level description to the precise program. (This is just like the way people typically use informal or "pseudocode" descriptions of algorithms, trusting that their  audience will know to translate these descriptions to code if needed.)
+* When we want to show that a function _can be computed_ we can use RAM machines  or  NAND-RAM, because they are easier to  program in and correspond more closely to high level programming languages we are used to. In fact,  we will often describe NAND-RAM programs in an informal manner, trusting that the reader can fill in the details and translate the high level description to the precise program. (This is just like the way people typically use informal or "pseudocode" descriptions of algorithms, trusting that their  audience will know to translate these descriptions to code if needed.)
 
-Our usage of NAND-TM and NAND-RAM is very similar to the way people use in practice  high and low level programming languages.
+Our usage of Turing Machines / NAND-TM and RAM Machines / NAND-RAM is very similar to the way people use in practice  high and low level programming languages.
 When one wants to produce a device that executes programs, it is convenient  to do so for very simple and "low level" programming language. When one wants to describe an algorithm, it is convenient to use as high level a formalism as possible.
 
 ![By having the two equivalent languages NAND-TM and NAND-RAM, we can "have our cake and eat it too", using NAND-TM when we want to prove that programs _can't_ do something, and using NAND-RAM or other high level languages when we want to prove that programs _can_ do something.](../figure/have_your_cake_and_eat_it_too-img-intro.png){#cakefig .class width=300px height=300px}
 
-
+::: { .bigidea #eatandhavecake }
+Using equivalence results such as those between Turing and RAM machines, we can "have our cake and eat it too". We can use a  simpler model such as Turing machines when we want to prove something _can't_ be done, and use a   feature-rich model such as RAM machines when we want to prove  something _can_ be done.
+:::
 
 
 
@@ -1099,15 +1103,19 @@ Let $embed:\N^2 \rightarrow \N$ be the function defined as $embed(x_0,x_1)= \tfr
 Prove that for every $\lambda$-expression $e$ with no free variables there is an equivalent $\lambda$-expression $f$ using only the variables $x,y,z$.^[__Hint:__ You can reduce the number of variables a function takes by "pairing them up". That is, define a $\lambda$ expression $PAIR$ such that for every $x,y$ $PAIR xy$ is some function $f$ such that $f0=x$ and $f1=y$. Then use $PAIR$ to iteratively reduce the number of variables used.]
 
 
-## Bibliographical notes
+## Bibliographical notes { #othermodelsbibnotes }
 
 Chapter 7 in the wonderful book of Moore and Mertens [@MooreMertens11] contains a great exposition much of this material.
-Chapter 3 in Savage's book [@Savage1998models] contains a more formal description of RAM machines.
+Chapter 3 in Savage's book [@Savage1998models] contains a more formal description of RAM machines, see also the paper [@hagerup1998].
+A study of RAM algorithms that are independent of the input size (known as the "transdichotomous RAM model") was initiated by [@fredman1993].
+
+The RAM model can be very useful in studying the concrete complexity of practical algorithms.
+However, the exact set of operations that are allowed in the RAM model at unit cost can vary between texts and contexts.
+One needs to be careful in making such definitions, especially if the word size grows, as was already shown by Shamir [@shamir1979].
+
 The $\lambda$-calculus was described by Church in [@church1941].
 Pierce's book [@pierce2002types] is a canonical textbook, see also [@barendregt1984].
 
 
 
-
-
-Tao has [proposed](https://terrytao.wordpress.com/2014/02/04/finite-time-blowup-for-an-averaged-three-dimensional-navier-stokes-equation/) showing the Turing completeness of fluid dynamics (a "water computer") as a way of settling the question of the behavior of the Navier-Stokes equations, see this [popular article](https://www.quantamagazine.org/terence-tao-proposes-fluid-new-path-in-navier-stokes-problem-20140224/.)
+Tao has [proposed](https://terrytao.wordpress.com/2014/02/04/finite-time-blowup-for-an-averaged-three-dimensional-navier-stokes-equation/) showing the Turing completeness of fluid dynamics (a "water computer") as a way of settling the question of the behavior of the Navier-Stokes equations, see this [popular article](https://www.quantamagazine.org/terence-tao-proposes-fluid-new-path-in-navier-stokes-problem-20140224/).
