@@ -202,7 +202,7 @@ More generally, for every function $F:\{0,1\}^* \rightarrow \{0,1\}$, the answer
 
 ## Efficient universal machine: a NAND-RAM interpreter in NAND-RAM
 
-We have seen in [univnandppnoneff](){.ref} the "universal program" or "interpreter" $U$ for NAND-TM.
+We have seen in [universaltmthm](){.ref} the "universal program" or "interpreter" $U$ for NAND-TM.
 Examining that proof, and combining it with  [polyRAMTM-thm](){.ref} , we can see that the program $U$ has a _polynomial_ overhead, in the sense that it can simulate $T$ steps of a given NAND-TM (or NAND-RAM) program $P$ on an input $x$ in $O(T^a)$ steps for some constant $a$.
 But in fact, by directly simulating NAND-RAM programs, we can do better with only a _constant_ multiplicative overhead:
 
@@ -700,7 +700,7 @@ For a function $F:\{0,1\}^* \rightarrow \{0,1\}$ and some nice time bound $T:\N 
 
 This means that non uniform complexity is more useful to establish _hardness_ of a function than its _easiness_.
 
-## Extended Church-Turing Thesis
+## Extended Church-Turing Thesis { #ECTTsec }
 
 We have mentioned the Church-Turing thesis, that posits that the definition of computable functions using NAND-TM programs captures the definition that would be obtained by all physically realizable computing devices.
 The _extended_ Church Turing is the statement that the same holds for _efficiently computable_ functions, which is typically interpreted as saying that NAND-TM programs can simulate  every physically realizable computing device with polynomial overhead.

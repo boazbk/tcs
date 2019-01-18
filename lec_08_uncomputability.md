@@ -19,137 +19,152 @@
 
 
 
-One of the most significant results we showed for NAND-CIRC programs is the notion of _universality_: that a NAND-CIRC program can evaluate other NAND-CIRC programs.
+One of the most significant results we showed for Boolean circuits / NAND-CIRC programs  is the notion of _universality_: that a NAND-CIRC program can evaluate other NAND-CIRC programs.
 However, there was a significant caveat in this notion. To evaluate a NAND-CIRC program of $s$ lines, we needed to use a bigger number of lines than $s$.
-(Equivalently, the function that evaluates a given circuit of $s$ gates on a given input, requires more than $s$ gates to compute.)
+Equivalently, the function that evaluates a given circuit of $s$ gates on a given input, requires more than $s$ gates to compute.
 
 
-It turns out that uniform models such as  NAND-TM programs or Turing machines  allow us to "break out of this cycle" and obtain a truly _universal NAND-TM_ program $U$ that can evaluate all other programs, including programs that have more lines than $U$ itself.
-The existence of such a universal program has far reaching applications.
-Indeed, it is no exaggeration to say that the existence of a  universal program underlies the information technology revolution that began in the latter half of the 20th century (and is still ongoing).
+It turns out that uniform models such as  Turing machines  or NAND-TM programs allow us to "break out of this cycle" and obtain a truly _universal NAND-TM programs_  $P_U$ that can evaluate all other programs, including programs that have more lines than $P_U$ itself.
+(Similarly, there is a _Universal Turing Machine_ $M_U$ that can simulate all other machines, including machines with larger state and alphabet than $M_U$.)
+
+It is no exaggeration to say that the existence of such a  universal program underlies the information technology revolution that began in the latter half of the 20th century (and is still ongoing).
 Up to that point in history, people have produced various special-purpose calculating devices, from the abacus, to the slide ruler, to machines to compute trigonometric series.
 But as Turing  (who was perhaps the one to see most clearly the ramifications of universality) observed, a _general purpose computer_ is much more powerful.
-That is, we only need to build a device that can compute the single function $U$, and we have the ability, _via software_ to extend it to do arbitrary computations.
-If we want to compute a new NAND-TM program $P$, we do not need to build a new machine, but rather can represent $P$ as a string (or _code_) and use it as input for the universal program $U$.
+That is, we only need to build a device that can compute the single universal function, and we have the ability, _via software_ to extend it to do arbitrary computations.
+If we want to simulate a new Turing machine $M$, we do not need to build a new physical machine, but rather can represent $M$ as a string (or _code_) and use it as input for the universal machine $U$.
 Beyond the practical applications, the existence of a universal algorithm also surprising theoretical ramification, and in particular can be used to show the existence of _uncomputable functions_, upending the intuitions of  mathematicians over the centuries from Euler to Hilbert.
-In this chapter we will prove the existence of the universal program, as well as show its implications for uncomputability.
+In this chapter we will prove the existence of the universal program, and also show its implications for uncomputability.
 
 
+## Universality or a self-circular evaluator
 
-## Universality: A NAND-TM interpreter in NAND-TM
-
-Like a NAND-CIRC program, a NAND-TM  program (or a Python or Javascript program, for that matter)  is ultimately a sequence of symbols and hence can obviously be represented as a binary string.
-We will spell out the exact details of one such  representation later, but as usual, the details are not so important (e.g., we can use the ASCII encoding of the source code).
-What is crucial is that we can use such representations to evaluate any program.
-That is, we prove the following theorem:
+We now prove the existence of a universal Turing machine:
 
 
-
-
-::: {.theorem title="Universality of NAND-TM" #univnandppnoneff}
-There is a NAND-TM program $U$ that computes the partial function $EVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ defined as follows:
+::: {.theorem title="Universal Turing Machine" #universaltmthm}
+There is a Turing machine $U$ that computes the partial function $EVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ defined as follows:
 $$
-EVAL(P,x)=P(x)
+EVAL(M,x)=M(x)
 $$
-for strings $P,x$ such that $P$ is a valid representation of a NAND-TM program which halts and produces an output on $x$.
-Moreover, for every input $x\in \{0,1\}^*$  on which $P$ does not halt,   $U(P,x)$ does not halt as well.
+for strings $M,x$ such that $M$ is a valid representation of a Turing machine which halts and produces an output on $x$.
+Moreover, for every input $x\in \{0,1\}^*$  on which $M$ does not halt,   $U(M,x)$ does not halt as well.
 :::
 
-:::  {.proofidea data-ref="univnandppnoneff"}
-Once you understand what the theorem says, it is not that hard to prove. The desired program $U$ is an _interpreter_ for NAND-TM program. That is, $U$ gets a representation of the program $P$ (think of the source code), and some input $x$, and needs to simulate the execution of $P$ on $x$.
+By the equivalence results we have seen between different models such as Turing machines, NAND-TM programs, RAM machines, etc.., [universaltmthm](){.ref} implies that:
+
+* There exists a  NAND-TM program that computes the map $P,x \mapsto P(x)$ where $P$ is a NAND-TM program.
+
+* There exists a NAND-RAM program that computes the map $M,x \mapsto M(x)$ where $M$ is a Turing machine.
+
+and more generally,
+
+* For every $\mathcal{X}$ and $\mathcal{Y}$ in the set  $\{$  Turing Machines, RAM Machines, NAND-TM, NAND-RAM, $\lambda$-calculus, JavaScript, Python, $\ldots$ $\}$ of Turing equivalent models, there exists a program/machine in $\mathcal{X}$ that computes the map $P,x \mapsto P(x)$ for every program/machine in $\mathcal{Y}$.
+
+
+
+
+
+
+
+
+:::  {.proofidea data-ref="universaltmthm"}
+Once you understand what the theorem says, it is not that hard to prove. The desired program $U$ is an _interpreter_ for Turing machines. That is, $U$ gets a representation of the machine $M$ (think of it as  source code), and some input $x$, and needs to simulate the execution of $M$ on $x$.
 
 Think of how you would do that in your favorite programming language.
-You would use some data structure, such as a dictionary, to store the values of all the variables and arrays of $P$.
-Then, you could simulate $P$ line by line, updating the data structure as you go along.
-The interpreter will continue the simulation until  `loop` is equal to $0$.
+You would use some data structure, such as a list, to store the memory contents of $M$.
+Then you can simulate $M$ step by step, updating the data structure as you go along.
+The interpreter will continue the simulation until  the machine halts.
 
 Once you do that, translating this interpreter from your programming language to NAND-TM can be done just as we have seen in [chapequivalentmodels](){.ref}. The end result is what's known as a "meta-circular evaluator": an interpreter for a programming language in the same one. This is a concept that has a long history in computer science starting from the original universal Turing machine. See also [lispinterpreterfig](){.ref}.
 :::
 
 ![A particularly elegant example of a "meta-circular evaluator" comes from John McCarthy's 1960 paper, where he defined the Lisp programming language and gave a Lisp function that evaluates an arbitrary Lisp program (see above). Lisp was not initially intended as a practical programming language and this  example was merely meant as an illustration that the Lisp universal function is more elegant than the universal Turing machine, but McCarthy's graduate student Steve Russell suggested that it can be implemented. As McCarthy later recalled, _"I said to him, ho, ho, you're confusing theory with practice, this eval is intended for reading, not for computing. But he went ahead and did it. That is, he compiled the eval in my paper into IBM 704 machine code, fixing a bug, and then advertised this as a Lisp interpreter, which it certainly was"._ ](../figure/lispinterpreter.png){#lispinterpreterfig .class width=300px height=300px}
 
-[univnandppnoneff](){.ref} yields a stronger notion than the universality we proved for NAND, in the sense that we show a _single_ universal  NAND-TM program $U$ that can evaluate _all_ NAND-CIRC programs, including those that have more lines than the lines in $U$.^[This also occurs in practice. For example  the `C` compiler can be and is used to execute programs that are more complicated than itself.]
+[universaltmthm](){.ref} yields a stronger notion than the universality we proved for Bollean circuits / NAND-CIRC, in the sense that we show a _single_ universal  Turing machine $U$ that can evaluate _all_ Turing machines, including those that have more states than $U$.
 In particular, $U$ can even be used to evaluate itself!
 This notion of _self reference_ will appear time and again in this course, and as we will see, leads to several counter-intuitive phenomena in computing.
+This is not limited to theory, for example  the `C` compiler can be and is used to execute programs that are more complicated than itself. In fact, usually version $x$ of a compiler is used to compile the (updated) version $x+1$.
+This is also related to the fact that a program in `C` (or any other language) can print its own source code, see  [selfreplicatingcfig](){.ref}.
 
-Because we can transform other computational models, including NAND-RAM, $\lambda$ calculus, or a C program,  this means that even the seemingly "weak" NAND-TM programming language is powerful enough to contain an interpreter for all these models.
+![A self-replicating `C` program from the classic essay of Thompson  [@thompson1984reflections]](../figure/selfreplicatingcprog.png){#selfreplicatingcfig .class width=300px height=300px}
+
+Because we can transform other computational models, including NAND-RAM, $\lambda$ calculus, or a C program, to NAND-TM  this means that even the seemingly "weak" NAND-TM programming language is powerful enough to contain an interpreter for all these models.
 
 
-To show the full proof of  [univnandppnoneff](){.ref}, we need to make sure $EVAL$ is well defined by specifying a  representation for NAND-TM programs.
-As mentioned, one perfectly fine choice is the ASCII representation of the source code.
-But for concreteness, we can use the following representation:
-
-
->_Representing NAND-TM programs._ If $P$ is a NAND-TM program with $a$ array variables and $b$ scalar variables, then every iteration of $P$ is obtained by computing a NAND-CIRC program $P'$ with $a+b$ inputs and outputs that updates these variables (where the array variables are read and written to at the special location `i`).^[We  assume that the NAND-TM program is _well formed_, in the sense that every array variable is accessed only with the index `i`.]
-So, we can use the list-of-triples representation of $P'$ to represent $P$.
-That is, we represent $P$ by a tuple $(a,b,L)$ where $L$ is a list of triples of numbers in $\{0,\ldots, a+b-1 \}$.
-Each triple $(j,k,\ell)$ in $L$ corresponds to a line of code in $P$ of the form `foo = NAND(bar,blah)`.
-The indices $j,k,\ell$ correspond to _array_ variables if they are in $\{0,\ldots,a-1\}$ and to _scalar_ variables if they are in $\{a,\ldots,a+b-1\}$.
-We will identify the arrays `X`,`X_nonblank`,`Y`,`Y_nonblank` with the indices $0,1,2,3$ and the scalar `loop` with the index $a$. (Once again, the precise details of the representation do not matter much; we could have used any other.)
+To prove (and even state!)  [universaltmthm](){.ref}, we need to make sure $EVAL$ is well defined by specifying a  representation for Turing machines as strings.
+For example, we can represent Turing machines using ASCII representation of the source code of the corresponding NAND-TM program.
+However, we will represent a machine $M$ simply by stating the number $k$ of states, the size $\ell$ of the alphabet, and $k\times\ell$ table of values of its transition function $\delta_M$.
+We can represent each one of those numbers as a binary string.
 
 
 
 
 
-::: {.proof data-ref="univnandppnoneff"}
+
+
+::: {.proof data-ref="universaltmthm"}
 We will only sketch the proof, giving the major ideas.
-First, we observe that we can easily write a _Python_ program that, on input a representation $P=(a,b,L)$ of a NAND-TM program and an input $X$, evaluates $P$ on $X$.
-Here is the code of this program for concreteness, though you can feel free to skip it if you are not familiar (or interested) in Python:
+First, we observe that we can easily write a _Python_ program that, on input a representation $(k,\ell,\delta_M)$ of a Turing macihne $M$ and an input $x$, evaluates $M$ on $X$.
+Here is the code of this program for concreteness, though you can feel free to skip it if you are not familiar with (or interested in)  Python:
 
 ```python
-def EVAL(P,X):
-    """Get NAND-TM prog P represented as (a,b,L) and input X, produce output"""
-    a,b,L = *P
-    vars = { } # scalar variables: for j in {a..a+b-1}, vars[j] is value of scalar variable j
+# constants
+Φ = 2 # empty symbol
+Δ = 3 # starting symbol
+L = 0 # go left
+R = 1 # go right
+S = 2 # stay
+H = 3 # halt
 
-    arrs = { } # array variables: for j in {0..a-1}, arrs[(j,i)] is -ith position of array j
+def EVAL(k,l,T,x):
+    """Evaluate a Turing machine on input x
+       Turing machine is represented by:
+       k: number of states
+       l: number of symbols in alphabet (containing {0,1,Φ,Δ})
+       T: transition function T[(s,a)] = (_s,_a,_d)
+          where s is old state, a is symbol read
+          _s is new state, _a is symbol written,
+          _d in {L,R,S,H} is where head movement
+    """
 
-    # Special variable indices:
-    # X:0, X_nonblank:1, Y:2, Y_nonblank:3, loop:a
+    Tape = [ Δ  ]
+    for i in range(len(x)): Tape.append(int(x[i]))
 
-    def setvar(j,v): # set variable j to value v
-        if j>a: vars[j] = v # j is scalar
-        else arrs[(j,i)] = v # j is array
+    i = 0 # current position
+    s = 0 # current state
 
-    def getvar(j): # get value of var j (if j array then at current index i)
-        if j>a: return vars.get(j,0)
-        return arrs.get((j,i),0)
-
-    def NAND(a,b): return 1-a*b
-
-    # copy input
-    for j in range(len(X)):
-        arrs[(0,j)] = X[j]  # X has index 0
-        arrs[(1,j)] = 1     # X_nonblank has index 1
-
-    maxseen = 0
-    i = 0
-    dir = 1 # +1: increase, -1: decrease
     while True:
-        for (j,k,l) in L:
-            setvar(j,NAND(getvar(k),getvar(l)))
-        if not getvar(a): break # loop has index a
-        i += dir
-        if not i: dir= 1
-        if i>maxseen:
-            dir = -1
-            maxseen = i
+        a = Tape[i]
+        _s,_a,_d = T[(s,a)]
+        Tape[i] = _a
+        s = _s
+        if _d == H: break
+        if _d == L: i = max(i-1,0)
+        if _d == R: i += 1
+        if i>= len(Tape): Tape.append(Φ)
 
-    # copy output
-    i = 0
-    res = []
-    while getvar(3): # if Y_nonblank[i]=1
-        res += [getvar(2)] # add Y[i] to result
-        i += 1
+
+    Y = []
+    j = 1
+    while j<len(Tape) and Tape[j] != Φ:
+        Y.append(Tape[j])
+        j += 1
+
     return Y
 ```
 
-Translating this _Python_ code to NAND-TM code line by line is a mechanical, even if somewhat laborious, process. However, to prove the theorem we don't need to write the code fully, but can use our "eat the cake and have it too" paradigm.
-That is, while we can assume that our input program $P$ is written in the lowly NAND-TM programming languages, in writing the program $U$ we are allowed to use richer models such as NAND-RAM (since they are equivalent by [RAMTMequivalencethm](){.ref}).
+The above does not prove the theorem as stated, since we need to show a _Turing machine_ that computes $EVAL$ rather than a Python program.
+With enough effort, we can  translate this Python code line by line to a Turing machine.
+However, to prove the theorem we don't need to do this, but can use our "eat the cake and have it too" paradigm.
+That is, while we can assume that our input machine is a Turing machine, in writing the code for the interpteter we are allowed to use a richer model such as NAND-RAM since it is equivalent in power to Turing  machines per  [RAMTMequivalencethm](){.ref}).
+
+
 Translating the above Python code to NAND-RAM is truly straightforward.
-The only issue is that NAND-RAM doesn't have the dictionary data structure built in, but we can represent a dictionary of the form $\{ key_0:val_0 , \ldots, key_{m-1}:val_{m-1} \}$  by simply a string (stored in an array) which is the list of pairs $(key_0,val_0),\ldots,(key_{m-1},val_{m-1})$ (where each pair is represented as a string in some prefix-free way). To retrieve an element with key $k$ we can scan the list from beginning to end and compare  each $key_i$ with $k$.
-Similarly we scan the list to update the dictionary with a new value, either modifying it or appending the $(key,val)$ pair at the end.
-The above is a very inefficient way to implement the dictionary data structure in practice, but it suffices for the purpose of proving the theorem.^[Reading and writing to a dictionary of $m$ values in this implementation takes $\Omega(m)$ steps, while it is in fact possible to do this in $O(1)$ steps using a _hash table_. Since NAND-RAM models a _RAM machine_ which corresponds to modern electronic computers, we can also implement a hash table  in NAND-RAM.]
+The only issue is that NAND-RAM doesn't have the _dictionary_ data structure built in, but we can represent a dictionary $D$ of the form $\{ key_0:val_0 , \ldots, key_{m-1}:val_{m-1} \}$   as simply a list of pairs.
+To compute $D[k]$ we can scan over all the pairs until we find one of the form $(k,v)$ in which case we return $v$.
+Similarly we scan the list to update the dictionary with a new value, either modifying it or appending the pair $(key,val)$  at the end.
+
+The above is a very inefficient way to implement the dictionary data structure in practice, but it suffices for the purpose of proving the theorem.^[Reading and writing to a dictionary of $m$ values in this implementation takes $\Omega(m)$ steps, but it is in fact possible to do this in $O(\log m)$ steps using a _search tree_ data structure or even $O(1)$ (for "typical" instances)  using a _hash table_.   NAND-RAM and RAM machines correspond to the architecture of modern electronic computers, and so we can  implement hash tables and search trees in NAND-RAM just as they are implemented in other programming languages.]
 :::
 
 
@@ -164,22 +179,31 @@ This is actually quite surprising, if you think about it.
 Our intuitive notion of a "function" (and the notion most scholars had until the 20th century) is that a function $f$ defines some implicit or explicit way of computing the output $f(x)$ from the input $x$.^[In the 1800's, with the invention of the  Fourier series and with the systematic study of  continuity and differentiability, people have starting looking at more general kinds of functions, but the modern definition of a function as an arbitrary mapping was not yet universally accepted. For example, in 1899 Poincare wrote "we have seen a mass of bizarre functions which appear to be forced to resemble as little as possible honest functions which serve some purpose. ... they are invented on purpose to show that our ancestor's reasoning was at fault, and we shall never get anything more than that out of them".]
 The notion of an "uncomputable function" thus seems to be a contradiction in terms, but yet the following theorem shows that such creatures do exist:
 
-> # {.theorem title="Uncomputable functions" #uncomputable-func}
-There exists a function $F^*:\{0,1\}^* \rightarrow \{0,1\}$ that is not computable by any NAND-TM program.
 
-> # {.proof data-ref="uncomputable-func"}
+
+
+> # {.theorem title="Uncomputable functions" #uncomputable-func}
+There exists a function $F^*:\{0,1\}^* \rightarrow \{0,1\}$ that is not computable by any Turing machine.
+
+> # {.proofidea data-ref="uncomputable-func"}
+The idea behind the proof follows quite closely Cantor's proof that the reals are uncountable ([cantorthm](){.ref}), and in fact the theorem can also be obtained fairly directly from that result (see [uncountablefuncex](){.ref}).
+However, it is instructive to see the direct proof.
+The idea is to construct $F^*$ in a way that will ensure that every possible machine $M$ will in fact fail to compute $F^*$. We can do so by looking at the string representation $\alpha_M$ of the machine $M$, and define $F^*(\alpha_M)$ to equal $1$ if $M(\alpha_M)=0$ and to equal $0$ otherwise. This will guarantee that $F^*(\alpha_M) \neq M(\alpha_M)$ and hence that $F^*$ is not computable by $M$.
+
+::: {.proof data-ref="uncomputable-func"}
 The proof is illustrated in [diagonal-fig](){.ref}.
 We start by defining the following function $G:\{0,1\}^* \rightarrow \{0,1\}$:
->
-For every string $x\in\{0,1\}^*$, if $x$ satisfies __(1)__ $x$ is a valid representation of a NAND-TM program $P_x$ and __(2)__ when the program $P_x$ is executed on the input $x$ it  halts and  produces an output,  then we define $G(x)$ as the first  bit of this output.  Otherwise (i.e., if $x$ is not a valid representation of a program, or the program $P_x$  never halts on $x$)  we define $G(x)=0$.
-We define $F^*(x) := 1 - G(x)$.
->
-We claim that there is no NAND-TM program that computes $F^*$.
-Indeed, suppose, towards the sake of contradiction,  that there was some program $P$ that computed $F^*$, and let $x$ be the binary string that represents the program $P$.
-Then on input $x$, the program $P$ outputs $F^*(x)$.
-But by definition, the program should also output $1-F^*(x)$, hence yielding a contradiction.
 
-![We construct an uncomputable function by defining for every two strings $x,y$ the value $1-P_y(x)$ which equals $0$ if the program described by $y$ outputs $1$ on $x$, and $1$ otherwise.  We then define $F^*(x)$ to be the "diagonal" of this table, namely $F^*(x)=1-P_x(x)$ for every $x$. The function $F^*$ is uncomputable, because if it was computable by some program whose string description is $x^*$ then we would get that $P_{x^*}(x^*)=F(x^*)=1-P_{x^*}(x^*)$.](../figure/diagonal_proof.png){#diagonal-fig .class width=300px height=300px}
+For every string $x\in\{0,1\}^*$, if $x$ satisfies __(1)__ $x$ is a valid representation of Turing machine $M_x$ and __(2)__ when the program $M_x$ is executed on the input $x$ it  halts and  produces an output,  then we define $G(x)$ as the first  bit of this output.  Otherwise (i.e., if $x$ is not a valid representation of a Turing machine, or the machine $M_x$  never halts on $x$)  we define $G(x)=0$.
+We define $F^*(x) := 1 - G(x)$.
+
+We claim that there is no Turing machine that computes $F^*$.
+Indeed, suppose, towards the sake of contradiction,  that there was some machine $M$ that computed $F^*$, and let $x$ be the binary string that represents the machine $M$.
+Then, since $M$ computes $F^*$, on input $x$, $F^*(x)$ equals the output of the machine $M$ on $x$.
+But by the definition of $F^*$, $F^*(x)$ must be different than the output of $M$ on the string $x$ that represents it,  hence yielding a contradiction.
+:::
+
+![We construct an uncomputable function by defining for every two strings $x,y$ the value $1-M_y(x)$ which equals $0$ if the machine described by $y$ outputs $1$ on $x$, and $1$ otherwise.  We then define $F^*(x)$ to be the "diagonal" of this table, namely $F^*(x)=1-M_x(x)$ for every $x$. The function $F^*$ is uncomputable, because if it was computable by some machine  whose string description is $x^*$ then we would get that $M_{x^*}(x^*)=F(x^*)=1-M_{x^*}(x^*)$.](../figure/diagonal_proof.png){#diagonal-fig .class width=300px height=300px}
 
 
 > # { .pause }
@@ -188,9 +212,8 @@ I suggest that you pause here and go back to read it again and think about it - 
 It is not often the case that a few lines of mathematical reasoning establish a  deeply profound fact - that there are problems we simply _cannot_ solve and the "firm conviction" that Hilbert alluded to above is simply false.
 
 The type of argument used to prove [uncomputable-func](){.ref} is known as  _diagonalization_ since it can be described as defining a function based on the diagonal entries of a table as in [diagonal-fig](){.ref}.
-The proof can be thought of as an infinite version of the  _counting_ argument we used for showing lower bound for NAND progams in [counting-lb](){.ref}.
-Namely, we show that it's not possible to compute all functions from $\{0,1\}^* \rightarrow \{0,1\}$ by NAND-TM programs simply because there are more functions like that then there are NAND-TM programs.
-
+The proof can be thought of as an infinite version of the  _counting_ argument we used for showing lower bound for NAND-CIRC progams in [counting-lb](){.ref}.
+Namely, we show that it's not possible to compute all functions from $\{0,1\}^* \rightarrow \{0,1\}$ by Turing machines  simply because there are more functions like that then there are Turing machines.
 
 
 ## The Halting problem
@@ -218,7 +241,7 @@ $$
 $$
 That is, we will use the universal program that computes $EVAL$  to derive the uncomputability of $HALT$ from the uncomputability of $F^*$ shown in [uncomputable-func](){.ref}.
 Specifically, the proof will be by contradiction.
-That is, we will assume towards a contradiction that $HALT$ is computable, and use that assumption, together with the universal program of [univnandppnoneff](){.ref}, to derive that $F^*$ is computable, which will contradict  [uncomputable-func](){.ref}.
+That is, we will assume towards a contradiction that $HALT$ is computable, and use that assumption, together with the universal program of [universaltmthm](){.ref}, to derive that $F^*$ is computable, which will contradict  [uncomputable-func](){.ref}.
 :::
 
 ![We prove that $HALT$ is uncomputable using a _reduction_ from computing the previously shown uncomputable function $F^*$ to computing $HALT$. We assume that we had an algorithm that computes $HALT$ and use that to obtain an algorithm that computes $F^*$.](../figure/halt-reduction.png){#halt-fig .class width=300px height=300px}
@@ -703,9 +726,6 @@ Moreover, even phrasing the right theorem to prove (i.e., the specification) if 
 
 ## Exercises
 
-::: {.remark title="Disclaimer" #disclaimerrem}
-Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
-:::
 
 
 ::: {.exercise title="Computing parity" #paritythmex}
@@ -729,19 +749,11 @@ For each of the following two functions, say whether it is decidable (computable
 The universal program and uncomputability of $HALT$ was first shown by Turing in 1937, though closely related results were shown by Church a year before.
 These works built on Gödel's 1931 _incompleteness theorem_ that we will discuss in [godelchap](){.ref}.
 
-Talk about intuitionistic, logicist, and formalist approaches for the foundations of mathematics.
-Perhaps analogy to veganism.
-State the full Rice's Theorem and say that it follows from the same proof as in the exercise.]
+Adam Yedida has written [software](https://github.com/adamyedidia/parsimony) to help in producing universal Turing machines with a small number of states.
+This is related to the recreational pastime of ["Code Golfing"](https://codegolf.stackexchange.com/) which is about solving a certain computational task using the as short as possible program.
 
-The diagonlization argument used to prove uncomputability of $F^*$ is of course derived from Cantor's argument for the uncountability of the reals.
-In a twist of fate, using  techniques originating from the works  Gödel and Turing,  Paul Cohen showed in 1963 that Cantor's Continuum Hypothesis is independent of the axioms of set theory, which means that neither it nor its negation is provable from these axioms and hence in some sense  can be considered as "neither true nor false".^[The [Continuum Hypothesis](https://goo.gl/9ieBVq) is the conjecture that for every subset $S$ of $\mathbb{R}$, either there is a one-to-one and onto map between $S$ and $\N$ or there is a one-to-one and onto map between $S$ and $\mathbb{R}$. It was conjectured by Cantor and listed by Hilbert in 1900 as one of the most important problems in mathematics.]
+
+The diagonalization argument used to prove uncomputability of $F^*$ is of course derived from Cantor's argument for the uncountability of the reals.
+In a twist of fate, using  techniques originating from the works  Gödel and Turing,  Paul Cohen showed in 1963 that Cantor's _Continuum Hypothesis_ is independent of the axioms of set theory, which means that neither it nor its negation is provable from these axioms and hence in some sense  can be considered as "neither true nor false".
+The [Continuum Hypothesis](https://goo.gl/9ieBVq) is the conjecture that for every subset $S$ of $\mathbb{R}$, either there is a one-to-one and onto map between $S$ and $\N$ or there is a one-to-one and onto map between $S$ and $\mathbb{R}$. It was conjectured by Cantor and listed by Hilbert in 1900 as one of the most important problems in mathematics.
 See [here](https://gowers.wordpress.com/2017/09/19/two-infinities-that-are-surprisingly-equal/) for recent progress on a related question.
-
-
-
-## Further explorations
-
-Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
-
-
-## Acknowledgements

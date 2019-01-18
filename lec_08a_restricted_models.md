@@ -746,7 +746,7 @@ Since we can encode every element of $\Sigma$ using $\ceil{\log |\Sigma|}$ bits 
 
 ::: {.proofidea data-ref="fullnesscfgdef"}
 We prove the theorem by reducing from the Halting  problem.
-To do that we use the notion of _configurations_ of NAND-TM programs, as defined in [confignandppdef](){.ref}.
+To do that we use the notion of _configurations_ of NAND-TM programs, as defined in [configtmdef](){.ref}.
 Recall that a _configuration_ of a program $P$ is a binary string $s$  that encodes all the information about the program in the current iteration.
 
 We define $\Sigma$ to be $\{0,1\}$ plus some separator characters  and  define $INVALID_P:\Sigma^* \rightarrow \{0,1\}$ to be the function that maps every string $L\in \Sigma^*$ to $1$ if and only $L$ does _not_ encode a sequence of configurations that correspond to a valid halting history of the computation of $P$ on the empty input.
@@ -759,7 +759,7 @@ Specifically we will reverse all the odd-numbered strings.
 
 ::: {.proof data-ref="fullnesscfgdef"}
 We only sketch the proof. We will show that if we can compute $CFGFULL$ then we can solve $HALTONZERO$, which has been proven uncomputable in [haltonzero-thm](){.ref}.
-Let $P$ be an input program for $HALTONZERO$. We will use the notion of _configurations_ of a NAND-TM program, as defined in [confignandppdef](){.ref}.
+Let $P$ be an input program for $HALTONZERO$. We will use the notion of _configurations_ of a NAND-TM program, as defined in [configtmdef](){.ref}.
 Recall that a configuration of a NAND-TM program $P$ and input $x$ captures the full state of $P$ (contents of all the variables) at some iteration of the computation.
 The particular details of configurations are not so important, but what you need to remember is that:
 

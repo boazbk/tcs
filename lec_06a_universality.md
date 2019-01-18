@@ -259,7 +259,7 @@ What is crucial is that we can use such representation to evaluate any program.
 That is, we prove the following theorem:
 
 
-> # {.theorem title="Universality of NAND-TM" #univnandppnoneff}
+> # {.theorem title="Universality of NAND-TM" #universaltmthm}
 There is a NAND-TM program $U$ that computes the partial function $EVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ defined as follows:
 $$
 EVAL(P,x)=P(x)
@@ -277,7 +277,7 @@ Indeed, as we already alluded to before, NAND-TM is powerful enough to simulate 
 
 ### Representing NAND-TM programs as strings
 
-Before we can prove  [univnandppnoneff](){.ref}, we need to make its statement precise by specifying a representation scheme for NAND-TM programs.
+Before we can prove  [universaltmthm](){.ref}, we need to make its statement precise by specifying a representation scheme for NAND-TM programs.
 As mentioned above,  simply representing the program as a string using ASCII or UTF-8 encoding  will work just fine, but we will use a somewhat more convenient and concrete representation, which is the natural generalization of the "list of triples" representation for NAND-CIRC programs.
 We will assume that all variables are of the form `foo_##` where `foo` is an identifier and  `##` is some number or the index `i`.  If a variable `foo` does not have an index then we add the index zero to it.
 We represent an instruction of the form
@@ -380,7 +380,7 @@ while (true) {
 }
 ```
 
-Since we can transform _every_ NAND-RAM program to a NAND-TM one, we can also implement this interpreter in NAND-TM, hence completing the proof of [univnandppnoneff](){.ref}.
+Since we can transform _every_ NAND-RAM program to a NAND-TM one, we can also implement this interpreter in NAND-TM, hence completing the proof of [universaltmthm](){.ref}.
 
 
 

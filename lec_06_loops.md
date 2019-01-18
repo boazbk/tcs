@@ -808,6 +808,12 @@ Unlike the nonuniform case, we have _not_ shown that every infinite function can
 
 ## Exercises
 
+
+::: {.exercise title="Explicit NAND TM programming" #majoritynandtm}
+Produce the code of a (syntactic-sugar free) NAND-TM program $P$ that computes the (unbounded input length) _Majority_ function $Maj:\{0,1\}^* \rightarrow \{0,1\}$ where for every $x\in \{0,1\}^*$, $Maj(x)=1$ if and only if $\sum_{i=0}^{|x|} x_i > |x|/2$.   We say "produce" rather than "write" because you do not have to write the code of $P$ by hand, but rather can use the programming language of your choice to compute this code.
+:::
+
+
 ::: {.exercise}
 Prove the following closure properties of the set $\mathbf{R}$ defined in [classRdef](){.ref}:
 
@@ -840,8 +846,9 @@ You can use the equivalence between Turing machines and NAND-TM programs.
 :::
 
 
-::: {.exercise title="All functions are uncomputable" #uncountablefunc}
+::: {.exercise title="Not every function  is computable" #uncountablefuncex}
 Prove that the set of _all_ total functions from $\{0,1\}^* \rightarrow \{0,1\}$ is _not_ countable. You can use the results of [cantorsec](){.ref}.
+(We will see an _explicit_ uncomputable function in [chapcomputable](){.ref}.)
 :::
 
 
