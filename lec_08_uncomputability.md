@@ -121,29 +121,38 @@ def EVAL(k,l,T,x):
        Turing machine is represented by:
        k: number of states
        l: number of symbols in alphabet (containing {0,1,Φ,Δ})
-       T: transition function T[(s,a)] = (_s,_a,_d)
+       T: transition function T[(s,a)] is equal to (_s,_a,_d)
           where s is old state, a is symbol read
-          _s is new state, _a is symbol written,
-          _d in {L,R,S,H} is where head movement
+          _s is new state
+          _a is symbol to write
+          _d in {L,R,S,H} is head movement
     """
 
-    Tape = [ Δ  ]
+
+    Tape = [ Δ  ] # List/array containing contents of tape
+
+    # Initialize with input
     for i in range(len(x)): Tape.append(int(x[i]))
 
     i = 0 # current position
     s = 0 # current state
 
     while True:
-        a = Tape[i]
-        _s,_a,_d = T[(s,a)]
-        Tape[i] = _a
-        s = _s
+        a = Tape[i]  # read symbol
+        _s,_a,_d = T[(s,a)] # lookup transition table
+        Tape[i] = _a # write symbol
+        s = _s # update state
+
+        # move head:
         if _d == H: break
         if _d == L: i = max(i-1,0)
         if _d == R: i += 1
+
+        # add empty symbols to tape if needed
         if i>= len(Tape): Tape.append(Φ)
 
 
+    # Scan tape for output
     Y = []
     j = 1
     while j<len(Tape) and Tape[j] != Φ:
@@ -156,7 +165,7 @@ def EVAL(k,l,T,x):
 The above does not prove the theorem as stated, since we need to show a _Turing machine_ that computes $EVAL$ rather than a Python program.
 With enough effort, we can  translate this Python code line by line to a Turing machine.
 However, to prove the theorem we don't need to do this, but can use our "eat the cake and have it too" paradigm.
-That is, while we can assume that our input machine is a Turing machine, in writing the code for the interpteter we are allowed to use a richer model such as NAND-RAM since it is equivalent in power to Turing  machines per  [RAMTMequivalencethm](){.ref}).
+That is, while we need to evaluate a Turing machine, in writing the code for the interpreter we are allowed to use a richer model such as NAND-RAM since it is equivalent in power to Turing  machines per  [RAMTMequivalencethm](){.ref}).
 
 
 Translating the above Python code to NAND-RAM is truly straightforward.
@@ -171,12 +180,12 @@ The above is a very inefficient way to implement the dictionary data structure i
 
 ## Is every function computable?
 
-We saw that NAND-CIRC programs can compute every finite function.
-A natural guess is that NAND-TM programs could compute every infinite function.
-However, this turns out to be _false_, even for  functions with $0/1$ output.
+We saw that NAND-CIRC programs can compute every finite function $f:\{0,1\}^n \rightarrow \{0,1\}$.
+A natural guess is that NAND-TM programs could compute every infinite function $F:\{0,1\}^* \rightarrow \{0,1\}$.
+However, this turns out to be _false_.
 That is, there exists a function $F:\{0,1\}^* \rightarrow \{0,1\}$ that is  _uncomputable_!
 This is actually quite surprising, if you think about it.
-Our intuitive notion of a "function" (and the notion most scholars had until the 20th century) is that a function $f$ defines some implicit or explicit way of computing the output $f(x)$ from the input $x$.^[In the 1800's, with the invention of the  Fourier series and with the systematic study of  continuity and differentiability, people have starting looking at more general kinds of functions, but the modern definition of a function as an arbitrary mapping was not yet universally accepted. For example, in 1899 Poincare wrote "we have seen a mass of bizarre functions which appear to be forced to resemble as little as possible honest functions which serve some purpose. ... they are invented on purpose to show that our ancestor's reasoning was at fault, and we shall never get anything more than that out of them".]
+Our intuitive notion of a "function" (and the notion most scholars had until the 20th century) is that a function $f$ defines some implicit or explicit way of computing the output $f(x)$ from the input $x$.
 The notion of an "uncomputable function" thus seems to be a contradiction in terms, but yet the following theorem shows that such creatures do exist:
 
 
@@ -746,14 +755,25 @@ For each of the following two functions, say whether it is decidable (computable
 
 ## Bibliographical notes
 
-The universal program and uncomputability of $HALT$ was first shown by Turing in 1937, though closely related results were shown by Church a year before.
+
+Section 7.2 in [@MooreMertens11] gives  a highly recommended overview of uncomputability.
+Gödel, Escher, Bach [@hofstadter1999] is a classic popular science book that touches on uncomputability, and unprovability, and specifically Gödel's Theorem that we will see in [godelchap](){.ref}.
+See also the recent book by Holt [@Holt2018].
+
+
+The history of the definition of a function is intertwined with the development of mathematics as a field.
+For many years, a function was identified (as per Euler's quote above) with the means to calculate the output from the input.
+In the 1800's, with the invention of the  Fourier series and with the systematic study of  continuity and differentiability, people have starting looking at more general kinds of functions, but the modern definition of a function as an arbitrary mapping was not yet universally accepted.
+For example, in 1899 Poincare wrote _"we have seen a mass of bizarre functions which appear to be forced to resemble as little as possible honest functions which serve some purpose. ... they are invented on purpose to show that our ancestor's reasoning was at fault, and we shall never get anything more than that out of them"._
+Some of this fascinating history is discussed in [@grabiner1983gave, @Kleiner91, @Lutzen2002,  @grabiner2005the ].
+
+
+
+
+The universal program and uncomputability of $HALT$ was first shown by Turing in his seminal paper [@Turing37], though closely related results were shown by Church a year before.
 These works built on Gödel's 1931 _incompleteness theorem_ that we will discuss in [godelchap](){.ref}.
 
-Adam Yedida has written [software](https://github.com/adamyedidia/parsimony) to help in producing universal Turing machines with a small number of states.
+Adam Yedidia has written [software](https://github.com/adamyedidia/parsimony) to help in producing universal Turing machines with a small number of states.
 This is related to the recreational pastime of ["Code Golfing"](https://codegolf.stackexchange.com/) which is about solving a certain computational task using the as short as possible program.
 
-
-The diagonalization argument used to prove uncomputability of $F^*$ is of course derived from Cantor's argument for the uncountability of the reals.
-In a twist of fate, using  techniques originating from the works  Gödel and Turing,  Paul Cohen showed in 1963 that Cantor's _Continuum Hypothesis_ is independent of the axioms of set theory, which means that neither it nor its negation is provable from these axioms and hence in some sense  can be considered as "neither true nor false".
-The [Continuum Hypothesis](https://goo.gl/9ieBVq) is the conjecture that for every subset $S$ of $\mathbb{R}$, either there is a one-to-one and onto map between $S$ and $\N$ or there is a one-to-one and onto map between $S$ and $\mathbb{R}$. It was conjectured by Cantor and listed by Hilbert in 1900 as one of the most important problems in mathematics.
-See [here](https://gowers.wordpress.com/2017/09/19/two-infinities-that-are-surprisingly-equal/) for recent progress on a related question.
+The diagonalization argument used to prove uncomputability of $F^*$ is derived from Cantor's argument for the uncountability of the reals discussed in [chaprepres](){.ref}.

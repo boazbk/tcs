@@ -1136,7 +1136,7 @@ Prove [nextstepfunctionlem](){.ref} and use it to complete the proof of [onedimc
 
 ## Bibliographical notes { #othermodelsbibnotes }
 
-Chapters 7 and 8  in the wonderful book of Moore and Mertens [@MooreMertens11] contains a great exposition much of this material.
+Chapters 7   in the wonderful book of Moore and Mertens [@MooreMertens11] contains a great exposition much of this material.
 Chapter 3 in Savage's book [@Savage1998models] contains a more formal description of RAM machines, see also the paper [@hagerup1998].
 A study of RAM algorithms that are independent of the input size (known as the "transdichotomous RAM model") was initiated by [@fredman1993].
 

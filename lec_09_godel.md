@@ -476,17 +476,18 @@ For every representation of logical statements as strings, we can define  an axi
 A system is _sound_  if whenever there is no false $s$ such that there is  a proof that $s$ is true
 Prove that for every uncomputable function $F:\{0,1\}^* \rightarrow \{0,1\}$ and every sound axiomatic proof system $S$ (that is characterized by a finite number of axioms and inference rules), there is some input $x$ for which the proof system $S$ is not able to prove neither that $F(x)=0$ nor that $F(x) \neq 0$.
 
-^[TODO: Maybe add an exercise to give a MIS that corresponds to any regular expression.]
-
 
 ## Bibliographical notes
 
+As mentioned before, Gödel, Escher, Bach [@hofstadter1999] is a highly recommended book covering Gödel's Theorem.
+A classic popular science book about Fermat's Last Theorem is [@singh1997fermat].
 
-## Further explorations
+Cantor's are used for both Turing's and Gödel's theorems.
+In a twist of fate, using  techniques originating from the works  Gödel and Turing,  Paul Cohen showed in 1963 that Cantor's _Continuum Hypothesis_ is independent of the axioms of set theory, which means that neither it nor its negation is provable from these axioms and hence in some sense  can be considered as "neither true nor false" (see [@cohen2008set]).
+The [Continuum Hypothesis](https://goo.gl/9ieBVq) is the conjecture that for every subset $S$ of $\mathbb{R}$, either there is a one-to-one and onto map between $S$ and $\N$ or there is a one-to-one and onto map between $S$ and $\mathbb{R}$.
+It was conjectured by Cantor and listed by Hilbert in 1900 as one of the most important problems in mathematics.
+See also the non-conventional survey of Shelah [@shelah2003logical].
+See [here](https://gowers.wordpress.com/2017/09/19/two-infinities-that-are-surprisingly-equal/) for recent progress on a related question.
 
-Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
-
-
-## Acknowledgements
 
 Thanks to Alex Lombardi for pointing out  an embarrassing mistake in the description of Fermat's Last Theorem. (I  said that it was open for exponent 11 before Wiles' work.)
