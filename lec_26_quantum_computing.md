@@ -1,5 +1,8 @@
-% Quantum computing
-% Boaz Barak
+---
+title: "Quantum computing"
+filename: "lec_26_quantum_computing"
+chapternum: "22"
+---
 
 #  Quantum computing { #quantumchap }
 

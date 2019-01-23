@@ -1,5 +1,8 @@
-% Cryptography
-% Boaz Barak
+---
+title: "Cryptography"
+filename: "lec_19_cryptography"
+chapternum: "20"
+---
 
 #  Cryptography { #chapcryptography  }
 

@@ -1,5 +1,8 @@
-% Representation
-% Boaz Barak
+---
+title: "Computation and Representation"
+filename: "lec_02_representation"
+chapternum: "2"
+---
 
 # Computation and Representation {#chaprepres }
 

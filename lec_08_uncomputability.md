@@ -1,5 +1,8 @@
-% Uncomputability
-% Boaz Barak
+---
+title: "Universality and uncomputability"
+filename: "lec_08_uncomputability"
+chapternum: "8"
+---
 
 
 # Universality and uncomputability {#chapcomputable }

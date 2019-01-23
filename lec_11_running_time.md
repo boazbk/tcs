@@ -1,5 +1,8 @@
-% Running time definition
-% Boaz Barak
+---
+title: " Modeling running time"
+filename: "lec_11_running_time"
+chapternum: "12"
+---
 
 # Modeling running time { #chapmodelruntime }
 
@@ -474,7 +477,7 @@ where for every number $j$, we denote by `P〈i<-`$j$`〉` the NAND-CIRC program
 Whenever we see a reference to the variable `X_nonblank[`$i$`]` in the program we will replace it with `one` or `zero` depending on whether $i<n$.
 Similarly, we will replace all references to `X[`$i$`]` for $i \geq n$ with `zero`. (We can use our standard syntactic sugar to create the constant `zero` and `one` variables.)
 
-We simply repeat the lines of the form `IF (loop) P〈i<-`$j$`〉` for $\floor{T(n)/L}-1$ times, replacing each time $j$ by $0,1,0,1,2,\ldots$ as in the definition of (standard or "vanilla") NAND-TM in [#vanillanandpp](){.ref}.
+We simply repeat the lines of the form `IF (loop) P〈i<-`$j$`〉` for $\floor{T(n)/L}-1$ times, replacing each time $j$ by $0,1,0,1,2,\ldots$ as in the definition of (standard or "vanilla") NAND-TM in [vanillanandpp](){.ref}.
 We replace `IF` with the appropriate syntactic sugar, which will incur a multiplicative overhead of at most $4$ in the number of lines.
 After this replacement, each line of the form `IF (loop) P〈i<-`$j$`〉` corresponds to at most $4L$ lines of standard sugar-free NAND.
 Thus the total cost is at most $4L \cdot (\tfrac{T(n)}{L}) \leq 4 \cdot T(n)$ lines.^[The constant $4$ can be improved, but this does not really make much difference.]

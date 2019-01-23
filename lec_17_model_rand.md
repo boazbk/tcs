@@ -1,5 +1,8 @@
-% Modeling randomized algorithms
-% Boaz Barak
+---
+title: "Modeling randomized computation"
+filename: "lec_17_model_rand"
+chapternum: "19"
+---
 
 #  Modeling randomized computation  { #chapmodelrand }
 

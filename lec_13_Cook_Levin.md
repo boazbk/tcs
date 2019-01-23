@@ -1,5 +1,8 @@
-% Cook-Levin Theorem
-% Boaz Barak
+---
+title: "NP, NP completeness, and the Cook-Levin Theorem"
+filename: "lec_13_Cook_Levin"
+chapternum: "14"
+---
 
 #  NP, NP completeness, and the Cook-Levin Theorem {#cooklevinchap }
 

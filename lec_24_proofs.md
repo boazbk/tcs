@@ -1,5 +1,8 @@
-% Proofs and algorithms
-% Boaz Barak
+---
+title: "Proofs and algorithms"
+filename: "lec_24_proofs"
+chapternum: "21"
+---
 
 #  Proofs and algorithms  { #chapproofs }
 

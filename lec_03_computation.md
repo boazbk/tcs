@@ -1,5 +1,8 @@
-% Defining computation
-% Boaz Barak
+---
+title: "Defining Computation"
+filename: "lec_03_computation"
+chapternum: "3"
+---
 
 
 # Defining computation {#compchap }

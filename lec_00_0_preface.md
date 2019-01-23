@@ -1,5 +1,9 @@
-% Preface
-% Boaz Barak
+---
+title: "Preface"
+filename: "lec_00_0_preface"
+chapternum: "p"
+---
+
 
 # Preface
 
@@ -137,13 +141,20 @@ Thanks to Scott Aaronson, Michele Amoretti, Marguerite Basta, Sam Benkelman, Jar
 I will keep adding names here as I get more comments.
 If you have any comments or suggestions, please do post them on the GitHub repository [https://github.com/boazbk/tcs](https://github.com/boazbk/tcs).
 
-Salil Vadhan co-taught with me the first iteration of this course, and gave me a tremendous amount of useful feedback and insights during this process. Michele Amoretti and Marika Swanberg read carefully several chapters of this text and gave extremely helpful detailed comments.
+Salil Vadhan co-taught with me the first iteration of this course, and gave me a tremendous amount of useful feedback and insights during this process.
+Michele Amoretti and Marika Swanberg read carefully several chapters of this text and gave extremely helpful detailed comments.
 
 Thanks to Anil Ada, Venkat Guruswami,  and Ryan O'Donnell for helpful tips from their experience in teaching [CMU 15-251](http://www.cs.cmu.edu/~./15251/).
-Juan Esteller and Gabe Montague originally implemented the NAND* languages and the [nandpl.org](http://nandpl.org) website in OCaml and Javascript .
+Juan Esteller and Gabe Montague originally implemented the NAND* programming languages in OCaml and Javascript .
 
-Thanks to David Steurer for writing the scripts (originally written for [our joint notes on the sum of squares algorithm](http://sumofsquares.org))  that I used to produce this text from the Markdown source.
-David's scripts are themselves based on several other packages, including [pandoc](http://pandoc.org/), [LaTeX](https://www.latex-project.org/), and the Tufte [LaTeX](https://tufte-latex.github.io/tufte-latex/) package.
-I used the [Atom editor]  to write this book, and  the [Jupyter project](http://jupyter.org/), to write some the interactive notebook appendices as well some of the code snippets.
+I am using many open source software packages in the production of these notes for which I am grateful.
+In particular I am thankful to Donald Knuth and Leslie Lamport for [LaTeX](https://www.latex-project.org/) and
+to John MacFarlane for [Pandoc](http://pandoc.org/).
+David Steurer wrote the original scripts to produce this text.
+The current version uses Sergio Correia's [panflute](http://scorreia.com/software/panflute/).
+The templates for the LaTeX and HTML versions are derived from   [Tufte LaTeX](https://tufte-latex.github.io/tufte-latex/), [Gitbook](https://www.gitbook.com/) and [Bookdown](https://bookdown.org/).
+I used the [Atom editor]  to write this book, and  the [Jupyter project](http://jupyter.org/) to write the supplemental code snippets.
 
-Finally, I'd like to thank my family: my wife Ravit, and my children Alma and Goren. Working on this book (and the corresponding course) took much of my time, to the point that Alma wrote in an essay in her fifth grade class that "universities should not pressure professors to work too much", and all I have to show for it is about 500 pages of ultra boring mathematical text.
+Finally, I'd like to thank my family: my wife Ravit, and my children Alma and Goren.
+Working on this book (and the corresponding course) took so much of my time that Alma wrote an essay for her fifth-grade class saying that "universities should not pressure professors to work too much".
+I'm afraid all I have to show for this effort is  600 pages of ultra boring mathematical text.

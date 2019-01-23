@@ -1,5 +1,8 @@
-% Code as data
-% Boaz Barak
+---
+title: "Code as Data, Data as Code"
+filename: "lec_04_code_and_data"
+chapternum: "5"
+---
 
 # Code as data, data as code { #codeanddatachap }
 

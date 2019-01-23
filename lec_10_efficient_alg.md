@@ -1,5 +1,8 @@
-% Efficient computation
-% Boaz Barak
+---
+title: "Efficient computation"
+filename: "lec_10_efficient_alg"
+chapternum: "11"
+---
 
 #  Efficient computation { #chapefficient }
 

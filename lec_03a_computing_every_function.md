@@ -1,5 +1,8 @@
-% Computing every function
-% Boaz Barak
+---
+title: "Syntactic sugar, and computing every function"
+filename: "lec_03a_computing_every_function"
+chapternum: "4"
+---
 
 
 # Syntactic sugar, and computing every function {#finiteuniversalchap }
@@ -523,7 +526,7 @@ There was nothing about the above reasoning that was particular to this program.
 
 1. Initialize $2^n$ variables of the form `F00...0` till `F11...1` so that for every $z\in\{0,1\}^n$,  the variable corresponding to $z$ is assigned the value $F(z)$.
 
-2. Compute $LOOKUP_n$ on the $2^n$ variables initialized in the previous step, with the index variable being the input variables `X[`$\expr{0}$ `]`,...,`X[`$\expr{2^n-1}$ `]`. That is, just like in the pseudocode for `G` above, we use `Y[0] = LOOKUP(F00..00,...,F11..1,X[0],..,x[`$\expr{n-1}$`])`
+2. Compute $LOOKUP_n$ on the $2^n$ variables initialized in the previous step, with the index variable being the input variables `X[`$0$ `]`,...,`X[`$2^n-1$ `]`. That is, just like in the pseudocode for `G` above, we use `Y[0] = LOOKUP(F00..00,...,F11..1,X[0],..,x[`$n-1$`])`
 
 The total number of lines in the program will be $2^n$ plus the $4\cdot 2^n$ lines that we pay for computing $LOOKUP_n$.
 This completes the proof of [NAND-univ-thm](){.ref}.
@@ -548,13 +551,13 @@ For every $a \in \{0,1\}^{n-k}$ we define $F_a:\{0,1\}^k \rightarrow \{0,1\}$ to
 On input $x=x_0,\ldots,x_{n-1}$, we can compute $F(x)$ as follows:
 First we  compute a $2^{n-k}$ long string $P$ whose $a^{th}$ entry (identifying $\{0,1\}^{n-k}$ with $[2^{n-k}]$) equals $F_a(x_{n-k},\ldots,x_{n-1})$.
 One can verify that $F(x)=LOOKUP_{n-k}(P,x_0,\ldots,x_{n-k-1})$.
-Since we can compute $LOOKUP_{n-k}$ using $O(2^{n-k})$ lines, if we can compute the string $P$ (i.e., compute variables `P_`$\expr{0}$, ..., `P_`$\expr{2^{n-k}-1}$) using $T$ lines, then we can compute $F$ in $O(2^{n-k})+T$ lines.
+Since we can compute $LOOKUP_{n-k}$ using $O(2^{n-k})$ lines, if we can compute the string $P$ (i.e., compute variables `P_`$0$, ..., `P_`$2^{n-k}-1$) using $T$ lines, then we can compute $F$ in $O(2^{n-k})+T$ lines.
 
 The trivial way to compute the string $P$ would be to use $O(2^k)$ lines to compute for every $a$ the map $x_0,\ldots,x_{k-1} \mapsto F_a(x_0,\ldots,x_{k-1})$ as in the proof of [NAND-univ-thm](){.ref}.
 Since there are $2^{n-k}$ $a$'s,  that would be a total cost of $O(2^{n-k} \cdot 2^k) = O(2^n)$ which would not improve at all on the bound of [NAND-univ-thm](){.ref}.
 However, a more careful observation shows that we are making some _redundant_ computations.
 After all, there are only $2^{2^k}$ distinct functions mapping $k$ bits to one bit.
-If $a$ and $a'$ satisfy that $F_a = F_{a'}$ then we don't need to spend $2^k$ lines computing both $F_a(x)$ and $F_{a'}(x)$ but rather can only compute the variable `P_`$\expr{a}$ and then copy `P_`$\expr{a}$ to `P_`$\expr{a'}$ using $O(1)$ lines.
+If $a$ and $a'$ satisfy that $F_a = F_{a'}$ then we don't need to spend $2^k$ lines computing both $F_a(x)$ and $F_{a'}(x)$ but rather can only compute the variable `P_`$a$ and then copy `P_`$a$ to `P_`$a'$ using $O(1)$ lines.
 Since we have $2^{2^k}$ unique functions, we can bound the total cost to compute $P$ by $O(2^{2^k}2^k)+O(2^{n-k})$.
 
 Now it just becomes a matter of calculation.

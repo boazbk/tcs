@@ -1,5 +1,8 @@
-% Polynomial time reductions
-% Boaz Barak
+---
+title: "Polynomial time reductions"
+filename: "lec_12_NP"
+chapternum: "13"
+---
 
 #  Polynomial-time reductions {#reductionchap }
 

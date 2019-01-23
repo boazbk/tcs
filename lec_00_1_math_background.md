@@ -1,5 +1,8 @@
-% Mathematical background
-% Boaz Barak
+---
+title: "Mathematical Background"
+filename: "lec_00_1_math_background"
+chapternum: "1"
+---
 
 # Mathematical Background { #chapmath }
 
@@ -472,7 +475,7 @@ The formal definitions of graphs are below for the sake of completeness, but if 
 
 Graphs come in two basic flavors: _undirected_ and _directed_.^[It is possible, and sometimes useful, to think of an undirected graph as the special case of an  directed graph  that has  the special property that for every pair $u,v$ either both the edges $(u,v)$ and $(v,u)$   are present or neither of them is. However, in many settings there is  a significant difference between  undirected and directed graphs, and so it's typically best to think of them as separate categories.]
 
-![An example of an undirected and a directed graph. The undirected graph has vertex set $\{1,2,3,4\}$ and edge set $\{ \{1,2\},\{2,3\},\{2,4\} \}$. The directed graph has vertex set $\{a,b,c\}$ and the edge set $\{ (a,b),(b,c),(c,a),(a,c) \}$.](../figure/graphsexampe.png){#graphsexampefig .class width=300px height=300px}
+![An example of an undirected and a directed graph. The undirected graph has vertex set $\{1,2,3,4\}$ and edge set $\{ \{1,2\},\{2,3\},\{2,4\} \}$. The directed graph has vertex set $\{a,b,c\}$ and the edge set $\{ (a,b),(b,c),(c,a),(a,c) \}$.](../figure/graphsexampe.png){#graphsexampefig .margin offset="1.5in"}
 
 
 > # {.definition title="Undirected graphs" #undirgraph}

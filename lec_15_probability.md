@@ -1,5 +1,8 @@
-% Probability 101
-% Boaz Barak
+---
+title: "Probability theory 101"
+filename: "lec_15_probability"
+chapternum: "17"
+---
 
 #  Probability Theory 101
 
@@ -48,7 +51,7 @@ Each particular outcome $x\in \{0,1\}^n$ is obtained with probability $2^{-n}$.
 For example, if we toss three coins, then we obtain each of the 8 outcomes $000,001,010,011,100,101,110,111$ with probability $2^{-3}=1/8$ (see also [coinexperimentfig](){.ref}).
 We can  describe the experiment of tossing $n$ coins as choosing a string $x$ uniformly at random from $\{0,1\}^n$, and hence we'll use the shorthand $x\sim \{0,1\}^n$ for $x$ that is chosen according to this experiment.
 
-![The probabilistic experiment of tossing three coins corresponds  to making $2\times 2 \times 2 = 8$ choices, each with equal probability. In this example, the blue set corresponds to the event $A = \{ x\in \{0,1\}^3 \;|\; x_0 = 0 \}$ where the first coin toss is equal to $0$,  and the pink set corresponds to the event $B = \{ x\in \{0,1\}^3 \;|\; x_1 = 1 \}$ where the second coin toss is equal to $1$ (with their intersection having a purplish color). As we can see, each of these events contains $4$ elements (out of $8$ total) and so has probability $1/2$. The intersection of $A$ and $B$ contains two elements, and so the probability that both of these events occur is $\tfrac{2}{8}=\tfrac{1}{4}$](../figure/coinexperiment.png){#coinexperimentfig .class width=300px height=300px}
+![The probabilistic experiment of tossing three coins corresponds  to making $2\times 2 \times 2 = 8$ choices, each with equal probability. In this example, the blue set corresponds to the event $A = \{ x\in \{0,1\}^3 \;|\; x_0 = 0 \}$ where the first coin toss is equal to $0$,  and the pink set corresponds to the event $B = \{ x\in \{0,1\}^3 \;|\; x_1 = 1 \}$ where the second coin toss is equal to $1$ (with their intersection having a purplish color). As we can see, each of these events contains $4$ elements (out of $8$ total) and so has probability $1/2$. The intersection of $A$ and $B$ contains two elements, and so the probability that both of these events occur is $2/8 = 1/4$.](../figure/coinexperiment.png){#coinexperimentfig .class width=300px height=300px}
 
 An _event_ is simply a subset $A$ of $\{0,1\}^n$.
 The _probability of $A$_, denoted by $\Pr_{x\sim \{0,1\}^n}[A]$ (or $\Pr[A]$ for short, when the sample space is understood from the context), is  the probability that an $x$ chosen uniformly at random will be  contained in $A$.

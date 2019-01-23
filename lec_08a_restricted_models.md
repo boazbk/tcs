@@ -1,5 +1,8 @@
-% Restricted models
-% Boaz Barak
+---
+title: "Restricted computational models"
+filename: "lec_08a_restricted_models"
+chapternum: "9"
+---
 
 
 # Restricted computational models { #restrictedchap }

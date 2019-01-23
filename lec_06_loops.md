@@ -1,5 +1,8 @@
-% Programs with loops
-% Boaz Barak
+---
+title: "Loops and infinity"
+filename: "lec_06_loops"
+chapternum: "6"
+---
 
 # Loops and infinity { #chaploops }
 

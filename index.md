@@ -1,5 +1,8 @@
 ---
+indexpage: true
+indexcontents: ""
 suppress-bibliography: true
+title: "Introduction to Theoretical Computer Science"
 index:
   - num:  ""
     name: Preface
@@ -169,6 +172,10 @@ index:
 
 ---
 
+# Introduction to Theoretical Computer Science
+
+__Boaz Barak__
+
 _Work in progress_
 
 
@@ -176,15 +183,16 @@ This is a textbook in preparation  for an introductory undergraduate course on t
 I am using this text for [Harvard CS 121](http://cs121.boazbarak.org).
 
 
-You can also download [all chapters in a single PDF file](lnotes_book.pdf) (about 620 pages, 18MB).
+You can also download [all chapters in a single PDF file](https://files.boazbarak.org/introtcs/lnotes_book.pdf) (about 620 pages, 18MB).
 See also the [table of contents](contents.pdf).
 
-See [this website](http://nandpl.org) for (a very much work in progress) implementation of the NAND\* programming languages that are used in in these notes.
 
 If you have any _comments, suggestions, typo fixes_, etc.. I would be very grateful if you post them as an [**issue**](https://github.com/boazbk/tcs/issues) or [**pull request**](https://github.com/boazbk/tcs/pulls) in the [**GitHub repository boazbk/tcs**](https://github.com/boazbk/tcs) where I am maintaining the source files for these notes.
 You can also post comments on each chapter in the links below.
+The repository [github.com/boazbk/tcscode](https://github.com/boazbk/tcscode)  will eventually contain all supplemantary code and online appendices for this book.
 
-I am revising this book in the spring of 2019. For a stable version, see [December 2018 versoin](https://boazbarak.org/files/introtcs_Dec2018.pdf).
+I am revising the book in the spring of 2019. For prior versions of the book, see the [GitHub release](https://github.com/boazbk/tcs/releases).
+The most updated version of this book is below:
 
 
 

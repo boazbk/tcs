@@ -1,5 +1,8 @@
-% P vs NP
-% Boaz Barak
+---
+title: "What if P equals NP?"
+filename: "lec_14_PvsNP"
+chapternum: "15"
+---
 
 #  What if P equals NP? { #chappvsnp }
 

@@ -1,5 +1,8 @@
-% Probabilistic computation
-% Boaz Barak
+---
+title: "Probabilistic computation"
+filename: "lec_16_randomized_alg"
+chapternum: "18"
+---
 
 #  Probabilistic computation { #randomizedalgchap }
 

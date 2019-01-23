@@ -1,5 +1,8 @@
-% Godel's incompleteness theorem
-% Boaz Barak
+---
+title: "Is every theorem provable?"
+filename: "lec_09_godel"
+chapternum: "10"
+---
 
 
 # Is every theorem provable? { #godelchap }

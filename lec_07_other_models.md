@@ -1,5 +1,8 @@
-% Other computational models
-% Boaz Barak
+---
+title: "Equivalent models of computation"
+filename: "lec_07_other_models"
+chapternum: "7"
+---
 
 # Equivalent models of computation { #chapequivalentmodels }
 
@@ -1006,7 +1009,7 @@ Let $M$ be a Turing machine and let $NEXT_M:\overline{\Sigma}^* \rightarrow \ove
 We leave proving [nextstepfunctionlem](){.ref} as [nextstepfunctionlemex](){.ref}.
 It is not a hard exercise, but doing it is a great way to ensure that you are comfortable with the definition of configurations.
 
-Once we have [nextstepfunctionlem](){.ref} in place, we see that the function $NEXT_M$ that maps a configuration of $P$ into the next one is in fact a valid rule for a  one dimensional automata, hence completing the proof of [](){.ref}.
+Once we have [nextstepfunctionlem](){.ref} in place, we see that the function $NEXT_M$ that maps a configuration of $P$ into the next one is in fact a valid rule for a  one dimensional automata, hence completing the proof of [onedimcathm](){.ref}.
 The automaton arising from the proof of [onedimcathm](){.ref} has a large alphabet, and furthermore one whose size that depends on the machine $M$ that is being simulated. It turns out that one can obtain an automaton with an alphabet of fixed size that is independent of the program being simulated, and in fact the alphabet of the automaton can be  the minimal set $\{0,1\}$! See [onedimautfig](){.ref} for an example of such an Turing-complete automaton.
 
 
