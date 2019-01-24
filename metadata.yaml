@@ -1,7 +1,8 @@
+---
 booktitle: "Introduction to Theoretical Computer Science"
 author:    "Boaz Barak"
 log: True
-logdir:    ""
+logdir:    "log"
 latexsectionheaders:
     1: "chapter"
     2: "section"
@@ -14,37 +15,14 @@ latexinlinecode: ""
 title: ""
 filename: ""
 compiletime: ""
+pdfurl: "http://files.boazbarak.org/introtcs/lnotes_book.pdf"
 searchindex: "html/search_index.json"
 binarybaseurl: "https://files.boazbarak.org/introtcs"
-description: "Textbook on theoretical computer science"
-url: 'https\://introtcs.org'
+description: "Textbook on Theoretical Computer Science by Boaz Barak"
+url: 'https://introtcs.org/'
 github-repo: "boazbk/tcs"
-cover-image: "images/cover.png"
-apple-touch-icon: "touch-icon.png"
+cover-image: "icons/cover.png"
+apple-touch-icon: "icons/apple-touch-icon-120x120.png"
 apple-touch-icon-size: 120
-favicon: "favicon.ico"
-bookdown::gitbook:
-  config:
-    toc:
-      collapse: subsection
-      scroll_highlight: yes
-      before: null
-      after: null
-    toolbar:
-      position: fixed
-    edit : null
-    download: ["book.pdf" ]
-    search: yes
-    fontsettings:
-      theme: white
-      family: sans
-      size: 2
-    sharing:
-      facebook: yes
-      twitter: yes
-      google: no
-      linkedin: no
-      weibo: no
-      instapaper: no
-      vk: no
-      all: ['facebook', 'google', 'twitter', 'linkedin', 'weibo', 'instapaper']
+favicon: "icons/favicon.ico"
+...

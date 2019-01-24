@@ -175,7 +175,7 @@ An _OR gate_ is a gadget that has two incoming wires and one outgoing wires, and
 AND and NOT gates are defined similarly.
 Using this, we can express [eqmajandornot](){.eqref} as a circuit as well:
 
-![](../figure/majandorcirc.pnj){#figid .class width=300px height=300px} \
+![](../figure/majcircuit.png){#figid .class width=300px height=300px} \
 
 
 ### Extended example: Computing $XOR$ from $AND$,$OR$,$NOT$.
