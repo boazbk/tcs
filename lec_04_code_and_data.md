@@ -27,10 +27,15 @@ chapternum: "5"
 
 
 A NAND-CIRC program can be thought of as simply a sequence of symbols, each of which can be encoded with zeros and ones using (for example) the ASCII standard.
-Thus we can represent every NAND-CIRC program as a binary string.
+Thus we can represent every NAND-CIRC program (and hence also every Boolean circuit) as a binary string.
 This statement seems obvious but it is actually quite profound.
-It means that we can treat a NAND-CIRC program both as instructions to carrying computation and also as _data_ that could potentially be input to other computations.
+It means that we can treat circuits or  NAND-CIRC programs both as instructions to carrying computation and also as _data_ that could potentially be input to other computations.
 
+
+
+::: { .bigidea #programisinput }
+A _program_ is a piece of text, and so it can be fed as input to other programs.
+:::
 
 This correspondence between _code_ and _data_ is one of the most fundamental aspects of computing.
 It  underlies  the notion of _general purpose_ computers, that are not pre-wired to compute only one task, and it is also the basis of our  hope for obtaining _general_ artificial intelligence.
@@ -44,36 +49,38 @@ For example, DNA can be thought of as both a program and data (in the words of S
 
 ## A NAND interpreter in NAND
 
-For every NAND-CIRC program $P$, we can represent $P$ as a binary string.
-In particular, this means that for any choice of such representation, the following is a well defined mathematical function
-$EVAL:\{0,1\}^* \times \{0,1\}^* \rightarrow \{0,1\}^*$
+Since we can represent programs as strings, we can also think of a program as an input to a function.
+In particular, for every choice of a representation scheme for NAND-CIRC programs, the following is a well defined mathematical function:
 
 $$
 EVAL(P,x) = \begin{cases} P(x) & |x|= \text{no. of $P$'s inputs} \\ 0 & \text{otherwise} \end{cases}
 $$
-where we denote by $P(x)$ the output of the program represented by the string $P$ on the input $x$.
+where $P$ and $x$ are strings in $\{0,1\}^*$, and we denote by $P(x)$ the output of the program represented by the string $P$ on the input $x$.
 
 > # { .pause }
 The above is one of those observations that are simultaneously both simple and profound. Please make sure that you understand __(1)__ how for every fixed choice of representing programs as strings, the function $EVAL$ above is well defined, and __(2)__ what this function actually does.
 
+$EVAL$ takes strings of  _arbitrary length_, and hence cannot be computed by a NAND-CIRC program, since such programs take inputs of finite length.
+However, for every fixed number of lines $s$, inputs $n$, and outputs $m$, we can define $EVAL_{s,n,m}$ to be the function that on input a string $P$ representing an $s$-line $n$-input $m$-output program, and a string $x\in \{0,1\}^n$, output the value $P(x)$.^[If $P \in \{0,1\}^S$ is a string that  does not describe a valid program then we don't care what $EVAL_{s,n,m}(P,x)$ is. For concreteness we can define $EVAL_{s,n,m}(P,x)$ to equal   $0^m$ in such a case.]
+Specifically, we will fix some representation scheme for NAND-CIRC programs and  let $S(s)$ denote the number of bits needed to represent programs of $s$ lines.
+Then $EVAL_{s,n,m}$ takes inputs of length $S+n$ (that is a string $P \in \{0,1\}^S$ representing the program and a string $x\in \{0,1\}^n$ which corresponds to the input) and outputs the string $P(x) \in \{0,1\}^m$.
 
-
-
-$EVAL$ takes strings arbitrarily of length, and hence cannot be computed by a NAND-CIRC program, that has a fixed length of inputs.
-However, one of the most interesting consequences of the fact that we can represent programs as strings is the following theorem:
+One of the first examples of _self circularity_ we will see in this book is the following theorem:
 
 ::: {.theorem title="Bounded Universality of NAND-CIRC programs" #bounded-univ}
-For every $s,n,m \in \N$ with $s\geq m$ there is a NAND-CIRC program that computes the  function
-$$
-EVAL_{s,n,m}:\{0,1\}^{S+n} \rightarrow \{0,1\}^m
-$$
-defined as follows. We let $S$ be the number of bits that are needed to represents programs of $s$ lines. For every string $(P,x)$ where $P \in \{0,1\}^S$ and $x\in\{0,1\}^n$, if $P$ describes an $s$ line NAND-CIRC program with $n$ input bits and $m$ outputs bits, then   $EVAL_{s,n,m}(P,x)$ is the output of this program on input $x$.^[If $P \in \{0,1\}^S$ is a string that  does not describe a valid program then we don't care what $EVAL_{s,n,m}(P,x)$ is. For concreteness we can define $EVAL_{s,n,m}(P,x)$ to equal   $0^m$ in such a case.]
+For every $s,n,m \in \N$ with $s\geq m$ there is a NAND-CIRC program $U_{s,n,m}$ that computes the  function $EVAL_{s,n,m}$.
 :::
 
+That is, the NAND-CIRC program $U_{s,n,m}$ takes the description of _any other NAND-CIRC program_ $P$ (of the right length and inputs/outputs) and  _any input_ $x$, and computes the result of evaluating the program $P$ on the input $x$.
+Given the equivalence between NAND-CIRC programs and Boolean circuits, we can also think of $U_{s,n,m}$ as a circuit that takes as input the description of other circuits and their inputs, and returns their evaluation, see [universalcircfig](){.ref}.
 
-::: { .bigidea #programisinput }
-A _program_ is a piece of text, and so it can be fed as input to other programs.
-:::
+
+We call this  NAND-CIRC program $U_{s,n,m}$ that computes $EVAL_{s,n,m}$ a _bounded universal program_ (or a _universal circuit_).
+"Universal" stands for the fact that this is a _single program_ that can evaluate _arbitrary_ code,  where "bounded" stands for the fact that  $U_{s,n,m}$ only evaluates programs of bounded size.
+Of course this limitation is inherent for the NAND-CIRC programming language, since  a program of $s$ lines (or, equivalently, a circuit of $s$ gates) can take at most $2s$  inputs.
+Later, in [chaploops](){.ref}, we will  introduce the concept of _loops_, that  allows  to escape this limitation.
+
+
 
 ![A _universal circuit_ $U$ is a circuit that gets as input the description of an arbitrary (smaller) circuit $C$ as a binary string, and an input $x$, and outputs the string $C(x)$ which is the evaluation of $C$ on $x$. We can also think of $U$ as a straightline program that gets as input the code of a straightline program $C$ and an input $x$, and outputs $C(x)$.](../figure/universalcircuit.png){#universalcircfig .class width=300px height=300px}
 
@@ -85,14 +92,8 @@ But regardless of the choice of representation,
 > # { .pause }
 Once again, [bounded-univ](){.ref}  is subtle but important. Make sure you understand what this theorem means, and why it is a corollary of [NAND-univ-thm](){.ref}.
 
-[bounded-univ](){.ref} can be thought of as providing  a "NAND-CIRC interpreter in NAND-CIRC".
-That is, for a particular size bound, we give a _single_ NAND-CIRC program $U$ that can evaluate all NAND-CIRC programs of that size.
-We call this  NAND-CIRC program $U$ that computes $EVAL_{s,n,m}$ a _bounded universal program_.
-Using the equivalence between straight-line programs and circuits, we can also think of $U$ as a _universal circuit_ (see [universalcircfig](){.ref}).
-"Universal" stands for the fact that this is a _single program_ that can evaluate _arbitrary_ code,  where "bounded" stands for the fact that  $U$ only evaluates programs of bounded size.
-Of course this limitation is inherent for the NAND-CIRC programming language, since  a program of $s$ lines (or, equivalently, a circuit of $s$ gates) can take at most $2s$  inputs.
-We will later on introduce the concept of _loops_, that  allows  to escape this limitation.
 
+### Efficient universal programs
 
 It turns out that we don't even need to pay that much of an overhead for universality. Namely, the size of $U$ needs  only be  _polynomial_ in the size of the input program.
 
@@ -123,8 +124,14 @@ blah = NAND(baz,boo)
 ```
 
 There is of course nothing special about the  particular names we use for variables.
-Hence to represent a NAND-CIRC program mathematically, we can simply identify the variables with natural numbers, and think of each line as a triple $(i,j,k)$ which corresponds to saying that we assign to the $i$-th variable  the NAND of the values of the $j$-th and $k$-th variables.
-We will use the set $[t]= \{0,1,\ldots,t-1\}$ as our set of variables, and for concreteness we will let the input variables be the first $n$ numbers, and the output variables be the last $m$ numbers (i.e., the numbers $(t-m,\dots,t-1)$).
+Although they would be harder to read, we could write all our programs using only working variables such as `temp_0`, `temp_1` etc.
+Therefore, our representation for NAND-CIRC programs will ignore the actual names of the variables, and just associate a _number_ with each variable.
+Thus we will encode a _line_ of the program as just a triple of numbers.
+If the line has the form `foo = NAND(bar,blah)` then we encode it with the triple $(i,j,k)$ where  $i$ is the number corresponding to the variable `foo` and $j$ and $k$ are the numbers corresponding to `bar` and `blah` respectively.
+
+More concretely, we use the set $[t]= \{0,1,\ldots,t-1\}$ as our set of variables.
+The first $n$ numbers $\{0,\ldots,n-1\}$ will correspond to the _input_ variables, the last $m$ numbers $\{t-m,\ldots,t-1\}$ will correspond to the _output_ variables, and the intermediate numbers $\{ n,\ldots, t-m-1\}$ will correspond to the remaining "workspace" variables.
+
 This motivates the following definition:
 
 ::: {.definition title="List of tuples representation" #nandtuplesdef}

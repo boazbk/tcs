@@ -3,6 +3,7 @@ indexpage: true
 indexcontents: ""
 suppress-bibliography: true
 title: "index"
+filename: "lnotes_book"
 ---
 
 # Introduction to Theoretical Computer Science
@@ -18,7 +19,7 @@ I am using this text for [Harvard CS 121](http://cs121.boazbarak.org).
 
 See below for individual chapters. You can also download:
 
-* [Book in a single PDF file](https://files.boazbarak.org/introtcs/lnotes_book.pdf) (about 620 pages, 18MB).
+* [Book in a single PDF file](https://files.boazbarak.org/introtcs/lnotes_book.pdf) (about 600 pages, 6MB).
 
 * [Table of contents](https://files.boazbarak.org/introtcs/contents.pdf).
 

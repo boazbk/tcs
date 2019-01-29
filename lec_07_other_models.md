@@ -401,7 +401,7 @@ By our rules of associativity, this is the same as $(f a b)$ which we'll sometim
 
 
 
-## Formal description of the λ calculus.
+### Formal description of the λ calculus.
 
 We now provide a formal description of the λ calculus.
 We start with  "basic expressions" that contain a single variable such as $x$ or $y$ and build more complex expressions using the following two rules:
@@ -478,7 +478,7 @@ Every object in the λ calculus can also be thought of as a λ expression and he
 All functions take one input and return one output, and if you feed a function an input of a form  it didn't expect, it still evaluates the λ expression  via "search and replace", replacing all instances of its parameter with copies of the input expression you fed it.
 :::
 
-### "Enhanced" lambda calculus
+## The "Enhanced" λ calculus
 
 We now discuss the λ calculus as a computational model.
 We will start by describing an "enhanced" version of the λ calculus that contains some "superfluous features" but is easier to wrap your head around.
@@ -487,31 +487,42 @@ Then we will show how all the  features of "enhanced λ calculus" can be impleme
 
 The  _enhanced λ calculus_ includes the following set of  objects and operations:
 
-* __Boolean constants and IF function:__   The enhanced λ calculus has the constants $0$ and $1$ and  the $IF$ function such that $IF cond\;a\;b$  outputs $a$ if $cond=1$ and $b$ otherwise. (We use _currying_ to implement multi-input functions, and so $IF$ can be thought of as the function $cond \mapsto (a \mapsto (cond\cdot a + (1-cond)\cdot b))$, can you see why?.) Using $IF$ and the constants $0,1$ we can also compute logical operations such as $AND,OR,NOT,NAND$. For example, $NOT = \lambda a. IF a 0 1$ and $AND = \lambda a,b. IF a b 0$.
+* __Boolean constants and IF function:__   The enhanced λ calculus has the constants $0$ and $1$ and  the $IF$ function such that for every $cond \in \{0,1\}$ and λ expressions $a,b$,  $IF cond\;a\;b$  outputs $a$ if $cond=1$ and outputs $b$  if $cond=0$.^[We use _currying_ to implement multi-input functions, and so $IF$ is the  function $cond \mapsto f_cond$ where $f_1$ is the function $x \mapsto (y \mapsto x)$ and $f_0$ is the function $x \mapsto (y \mapsto y)$. Can you see why? If not, then working this out is a great exercise.]
+Using $IF$ and the constants $0,1$ we can also compute logical operations such as $AND,OR,NOT,NAND$. For example, $NOT = \lambda a. IF a 0 1$ and $AND = \lambda a,b. IF a b 0$.
 
 
+* __Pairs:__ We have the  function $PAIR$ such that $PAIR\; x\; y$ returns the pair $(x,y)$ that holds  $x$ and $y$. We also have the functions $HEAD$ and $TAIL$ to extract the first and second member of a pair respectively. Hence, $HEAD (PAIR a b) = a$ and $TAIL (PAIR a b) = b$.
 
-* __Pairs:__ We have the  function $PAIR$ such that $PAIR\; x\; y$ returns the pair $(x,y)$ that holds  $x$ and $y$. We also have the functions $HEAD$ and $TAIL$ to extract the first and second member of a pair. Hence $HEAD (PAIR a b) = a$ and $TAIL (PAIR a b) = b$.
-
-* __Lists and strings:__ Using $PAIR$ we can also construct _lists_.
-We will denote by $\langle a,b,c \rangle$ the list containing the elements $a$, $b$ and $c$ (in this order).
-We construct this list by repeated application of the $PAIR$ operation.
-Specifically, we let $NIL$ be the empty list $\langle \rangle$, we let $PAIR c NIL$ be the list $\langle c\rangle$ containing the element $c$, $PAIR b (C NIL)$ be the list $\langle b , c \rangle$, and $PAIR a (PAIR b (PAIR c NIL))$ be the list $\langle a,b,c \rangle$ and so on and so forth.^[Note that if $L$ is a list, then $HEAD L$ is its first element, but $TAIL L$ is not the last element but rather all the elements except the first.]
-The function $ISEMPTY$ returns $1$ on $NIL$ and returns $0$ on every other list. A _string_ is  simply a list of bits.
+* __Lists and strings:__ Using $PAIR$ we can also construct _lists_. The idea is that $PAIR\; a\; L$ corresponds to the list obtained by adding the element $a$ to the beginning of a list $L$. By repeating this operation, we can construct lists of any length. Specifically, we will have a   special λ expression $NIL$ that corresponds to the _empty list_, which we also denote by $\langle \rangle$.
+If $c$ is some λ expression, then $PAIR\; c \; NIL$ corresponds to the single-element list $\langle c \rangle$. Now for every λ expressions $b,c$, the expression $PAIR \; b \; (PAIR C NIL)$ corresponds to the two-element  list $\langle b , c \rangle$.  Similarly the expression  $PAIR \; a (PAIR \; b \; (PAIR \; c \; NIL))$ corresponds to the  list $\langle a,b,c \rangle$ and so on and so forth.^[Note that if $L$ is a list, then $HEAD L$ is its first element, but $TAIL L$ is not the last element but rather all the elements except the first. The second element of a list $L$ can be extracted using $HEAD (TAIL L)$. Once again, working out why this is the case is a great exercise.] The function $ISEMPTY$ returns $1$ on $NIL$ and returns $0$ on every other list. A _string_ is  simply a list of bits.
 
 
-* __List operations:__ The enhanced λ calculus also contains the list-processing functions $MAP$, $REDUCE$, and $FILTER$. Given a list $L= \langle x_0,\ldots,x_{n-1}\rangle$ and a function $f$, $MAP\; L f$ applies $f$ on every member of the list to obtain $L= \langle f x_0,\ldots,f x_{n-1}\rangle$.
-Given the list $L$ as above and $f$, $FILTER\; L\; f$ returns the list $\langle x_i \rangle_{f x_i = 1}$  containing all the elements of $L$ for which $f$ outputs $1$.
-The function $REDUCE$ "combines" a list  $L= \langle x_0,\ldots,x_{n-1}\rangle$  by  outputting
-$$
-f(x_0,f(x_1,\cdots f(x_{n-3},f(x_{n-2},f(x_{n-1},NIL))\cdots)
-$$
-For example $REDUCE \; L \; +$ would output the sum of all the elements of the list $L$.
-See [reduceetalfig](){.ref} for an illustration of these three operations.
+* __List operations:__ The enhanced λ calculus also contains the _list-processing functions_ $MAP$, $REDUCE$, and $FILTER$. Given a list $L= \langle x_0,\ldots,x_{n-1}\rangle$ and a function $f$, $MAP\; L \; f$ applies $f$ on every member of the list to obtain the new list $L'= \langle f(x_0),\ldots,f(x_{n-1})\rangle$.
+Given a list $L$ as above and a function $f$ whose output is either $0$ or $1$, $FILTER\; L\; f$ returns the list $\langle x_i \rangle_{f x_i = 1}$  containing all the elements of $L$ for which $f$ outputs $1$.
+The function $REDUCE$ applies a "combining" operation to  a list. For example, $REDUCE\; L \; + \; 0$ will return the sum of all the elements in the list $L$.
+The sum of a list is defined recursively as follows: the sum of the empty list is $0$, and the sum of a non-empty list $L$ is obtained by recursively summing $TAIL\;L$ (i.e., all elements of $L$ except the first) and adding the result to $HEAD\;L$ (which is the first element of $L$).
+More generally, $REDUCE$ takes a list $L$, an operation $f$ (which we think of as taking two arguments) and a λ expression $z$ (which we think of as the "neutral element" for the operation $f$, such as $0$ for addition and $1$ for multiplication).
+The output is defined via
+
+$$REDUCE\;L\;f\;z = \begin{cases}z & L=NIL \\ f\;(HEAD L) \; (REDUCE\;(TAIL L)\;f\;z)  & \text{otherwise}\end{cases}\;.$$
+See [reduceetalfig](){.ref} for an illustration of the three list-processing operations.
 
 * __Recursion:__  Finally, we want to be able to execute _recursive functions_.  Since in λ calculus functions are _anonymous_, we can't write a definition of the form $f(x) = blah$  where $blah$ includes calls to $f$.
-Instead we use functions $f$ that take an additional function $me$ as a  parameter and replace $me$ with a recursive call to $f$.
-The operator $RECURSE$ will take a function $f$ of the form $f=\lambda me,x.exp$ as input and will return some function $g$ that has the property that $g = \lambda x.exp[me \rightarrow g]$.
+Instead we use functions $f$ that take an additional input $me$ as a  parameter.
+The operator $RECURSE$ will take such a function $f$ as input and return a "recursive version" of $f$ where all the calls to $me$ are replaced by recursive calls to this function. That is, if we have a function $F$ taking two parameters $me$ and $x$, then $RECURSE\; F$ will be the function $f$ taking one parameter $x$ such that $f(x) = F(f,x)$ for every $x$.
+
+
+::: {.solvedexercise title="Compute NAND using λ calculus" #NANDlambdaex}
+Give a λ expression $N$ such that  $N\;x\;y = NAND(x,y)$ for every $x,y \in \{0,1\}$.
+:::
+
+::: {.solution data-ref="NANDlambdaex"}
+This can be done in a similar way to how we computed $XOR_2$. The $NAND$ of $x,y$ is equal to $1$ unless $x=y=1$. Hence we can write
+
+$$
+N = \lambda x,y.IF(x,IF(y,0,1),1)
+$$
+:::
 
 ::: {.example title="Computing XOR" #xorusingrecursion}
 Let us see how we can compute the XOR of a list in the enhanced λ calculus.
@@ -541,23 +552,16 @@ RECURSE \;  \bigl(\lambda me,L. IF(ISEMPTY(L),0,XOR_2(HEAD\;L\;\;,\;\;me(TAIL \;
 $$
 
 That is, $XOR$ is obtained by applying the $RECURSE$ operator to the function that on inputs $me$, $L$, returns $0$ if $ISEMPTY(L)$ and otherwise returns $XOR_2$ applied to $HEAD(L)$ and to $me(TAIL(L))$.
+
+We could have also computed $XOR$ using the $REDUCE$ operation, we leave working this out as an exercise to the reader.
 :::
 
-::: {.solvedexercise title="Compute NAND using λ calculus" #NANDlambdaex}
-Give a λ expression $N$ such that  $N\;x\;y = NAND(x,y)$ for every $x,y \in \{0,1\}$.
-:::
-
-::: {.solution data-ref="NANDlambdaex"}
-This can be done in a similar way to how we computed $XOR_2$. The $NAND$ of $x,y$ is equal to $1$ unless $x=y=1$. Hence we can write
-
-$$
-N = \lambda x,y.IF(x,IF(y,0,1),1)
-$$
-:::
 
 ![A list $\langle x_0,x_1,x_2 \rangle$ in the λ calculus is constructed from the tail up, building the pair $\langle x_2,NIL\rangle$, then the pair $\langle x_1, \langle x_2,NIL\rangle \rangle$ and finally the pair $\langle x_0,\langle x_1,\langle x_2,NIL \rangle\rangle\rangle$. That is, a list is a pair where the first element of the pair is the first element of the list and the second element is the rest of the list. The figure on the left renders this "pairs inside pairs" construction, though it is often easier to think of a list as a "chain", as in the figure on the right, where the second element of each pair is thought of as a _link_, _pointer_  or _reference_ to the  remainder of the list.](../figure/lambdalist.png){#lambdalistfig .class width=300px height=300px}
 
 ![Illustration of the $MAP$, $FILTER$ and $REDUCE$ operations.](../figure/reducemapfilter.png){#reduceetalfig .class width=300px height=300px}
+
+### Enhanced λ expressions
 
 An _enhanced λ expression_ is obtained by composing the objects above with the _application_ and _abstraction_ rules.
 We can now define the notion of computing a function using the λ calculus.
@@ -580,18 +584,19 @@ For every $x\in \{0,1\}^n$, we  denote by $LIST(x)$ the  λ list $PAIR(x_0, PAIR
 We say that _$exp$ computes $F$_ if for every $x\in \{0,1\}^*$, the expressions $(exp LIST(x))$ and $LIST(F(x))$ are equivalent, and moreover they have the same simplification.
 :::
 
+### Enhanced λ calculus is Turing-complete
 
 The basic operations of the enhanced λ calculus more or less amount to the Lisp or Scheme programming languages.^[In Lisp, the $PAIR$, $HEAD$ and $TAIL$ functions are [traditionally called](https://goo.gl/BLRd6S) `cons`, `car` and `cdr`.]
-Given that, it is perhaps not surprising that the  enhanced λ-calculus is equivalent to NAND-TM:
+Given that, it is perhaps not surprising that the  enhanced λ-calculus is equivalent to Turing machines:
 
 > # {.theorem title="Lambda calculus and NAND-TM" #lambdaturing-thm}
-For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable in the enhanced λ calculus if and only if it is computable by a NAND-TM program.
+For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable in the enhanced λ calculus if and only if it is computable by a Turing machine.
 
 ::: {.proofidea data-ref="lambdaturing-thm"}
 To prove the theorem, we need to show that __(1)__ if $F$ is computable by a λ calculus expression then it is computable by a Turing machine, and __(2)__ if $F$ is computable by a Turing machine, then it is computable by an enhanced λ calculus expression.
 
 Showing __(1)__ is fairly straightforward. Applying the simplification rules to a λ expression basically amounts to "search and replace" which we can implement easily in, say, NAND-RAM, or for that matter Python (both of which are equivalent to Turing machines in power).
-Showing __(2)__ essentially amounts to writing a NAND-TM interpreter in a functional programming language such as LISP  or Scheme. Showing how this can be done is a good exercise in mastering some functional programming techniques that are useful in their own right.
+Showing __(2)__ essentially amounts to simulating a Turing machine (or writing a NAND-TM interpreter) in a functional programming language such as LISP  or Scheme. Showing how this can be done is a good exercise in mastering some functional programming techniques that are useful in their own right.
 :::
 
 
@@ -600,7 +605,7 @@ Showing __(2)__ essentially amounts to writing a NAND-TM interpreter in a functi
 ::: {.proof data-ref="lambdaturing-thm"}
 We only sketch the proof. The "if" direction is simple. As mentioned above, evaluating λ expressions basically amounts to "search and replace". It is also a fairly straightforward programming exercise to implement all the above basic operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND-RAM as well, which we can then transform to a NAND-TM program.
 
-For the "only if" direction, we need to simulate a NAND-TM program using a λ expression.
+For the "only if" direction, we need to simulate a Turing machine, or equivalently a NAND-TM program, using a λ expression.
 First, by [NANDlambdaex](){.ref} we can compute the $NAND$ function, and hence _every_ finite function, using the λ calculus.
 Thus proving the theory  boils down to simulating the _arrays_ of NAND-TM using the _lists_ of the enhanced λ calculus.
 
@@ -646,9 +651,10 @@ $$
 
 Given $SIM_P$, we can compute the function computed by $P$ by  writing expressions for encoding the input as the initial state, and decoding the output from the final state.
 We omit the details, though this is fairly straightforward.^[For example, if `X` is a list representing the input, then we can obtain a list `X_nonblank` of $1$'s of the same length by simply writing `X_nonblank` $= MAP($`X`$,\lambda x.1)$.]
+:::
 
 
-### How basic is "basic"?
+## The pure λ calculus
 
 While the collection of "basic" functions we allowed for λ calculus is smaller than what's provided by most Lisp dialects, coming from NAND-TM it still seems a little "bloated".
 Can we make do with less?
@@ -722,7 +728,7 @@ $$
 So everything boils down to implementing the $RECURSE$ operator, which we now deal with.
 
 
-### Recursion without recursion
+### The Y combinator, or recursion without recursion
 
 How can we implement recursion without recursion?
 We will illustrate this using a simple example - the $XOR$ function.
@@ -884,7 +890,7 @@ We can see that continuing in this way we get longer and longer expressions, and
 
 
 
-## Other models
+## More Turing-complete computational models
 
 There is a great variety of models that are computationally equivalent to Turing machines (and hence to NAND-TM/NAND-RAM program).
 We briefly mention a few examples.
@@ -1036,7 +1042,7 @@ We can use the same approach to  define configurations of a _NAND-TM program_. S
 
 
 
-## Turing completeness and equivalence, a formal definition (optional) {#turingcompletesec }
+### Turing completeness and equivalence, a formal definition (optional) {#turingcompletesec }
 
 A _computational model_ is some way to define what it means for a _program_ (which is represented by a string) to compute a (partial) _function_.
 A _computational model_ $\mathcal{M}$ is _Turing  complete_, if we can map every Turing machine (or equivalently NAND-TM program) $Q$ into a program $P$ for $\mathcal{M}$ that computes the same function as $Q$.
