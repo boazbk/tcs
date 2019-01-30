@@ -19,6 +19,7 @@ pdfurl: "http://files.boazbarak.org/introtcs/lnotes_book.pdf"
 searchindex: "html/search_index.json"
 binarybaseurl: "https://files.boazbarak.org/introtcs"
 description: "Textbook on Theoretical Computer Science by Boaz Barak"
+lang: "en"
 url: 'https://introtcs.org/'
 github-repo: "boazbk/tcs"
 cover-image: "icons/cover.png"
