@@ -29,7 +29,7 @@ If  `i`$=22$ and we want to access `Foo[`$957$`]` then it will take us at least 
 In contrast, almost every programming language has a formalism for directly accessing memory locations.
 Hardware implementations also provide so called _Random Access Memory (RAM)_ which can be thought of as a large array `Memory`, such that given an index $p$ (i.e., memory address, or a _pointer_), we can read from and write to the $p^{th}$ location of `Memory`.^["Random access memory" is quite a misnomer, since it has nothing to do with probability.  _Indexed access_ would have been more appropriate. However, the term "random access" is standard in both the theoretical and practical literature, and hence we will use it as well.]
 
-![A _RAM Machine_ contains a finite number of local registers, each of which holds an integer, and an unbounded memory array. It can perform arithmetic operations on its register as well as load to a register $r$ the contents of the memory at the address indexed by the number in register $r'$.](../figure/rammachine.png){#rammachinefig .class width=300px height=300px}
+![A _RAM Machine_ contains a finite number of local registers, each of which holds an integer, and an unbounded memory array. It can perform arithmetic operations on its register as well as load to a register $r$ the contents of the memory at the address indexed by the number in register $r'$.](../figure/rammachine.png){#rammachinefig .margin width=300px height=300px}
 
 
 The computational model that allows access to such a memory is known as a _RAM machine_ (sometimes also known as the _Word RAM model_), as depicted in [rammachinefig](){.ref}.
@@ -159,7 +159,7 @@ $$embed(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+x\;\;.$$
 
 We ask you to prove that $embed$ is indeed one to one, as well as computable by a NAND-TM program, in [pair-ex](){.ref}.
 
-![Illustration of the map $embed(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+x$ for $x,y \in [10]$, one can see that for every distinct pairs $(x,y)$ and $(x',y')$, $embed(x,y) \neq embed(x',y')$. ](../figure/pairing_function.png){#pairingfuncfig .class width=300px height=300px}
+![Illustration of the map $embed(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+x$ for $x,y \in [10]$, one can see that for every distinct pairs $(x,y)$ and $(x',y')$, $embed(x,y) \neq embed(x',y')$. ](../figure/pairing_function.png){#pairingfuncfig .margin width=300px height=300px}
 
 So, we can replace code of the form `Two[Foo][Bar] = something` (i.e., access the two dimensional array `Two` at the integers encoded by the one dimensional arrays `Foo` and `Bar`) by code of the form:
 
@@ -180,7 +180,7 @@ While this is cumbersome, it is not difficult, and the end result is to show tha
 ## Turing equivalence (discussion)
 
 
-![A punched card corresponding to a Fortran statement.](../figure/FortranProg.jpg){#fortranfig .class width=300px height=300px}
+![A punched card corresponding to a Fortran statement.](../figure/FortranProg.jpg){#fortranfig .margin width=300px height=300px}
 
 
 
@@ -233,7 +233,7 @@ The equivalence between Turing Machines and RAM machines allows us to choose the
 Our usage of Turing Machines / NAND-TM and RAM Machines / NAND-RAM is very similar to the way people use in practice  high and low level programming languages.
 When one wants to produce a device that executes programs, it is convenient  to do so for very simple and "low level" programming language. When one wants to describe an algorithm, it is convenient to use as high level a formalism as possible.
 
-![By having the two equivalent languages NAND-TM and NAND-RAM, we can "have our cake and eat it too", using NAND-TM when we want to prove that programs _can't_ do something, and using NAND-RAM or other high level languages when we want to prove that programs _can_ do something.](../figure/have_your_cake_and_eat_it_too-img-intro.png){#cakefig .class width=300px height=300px}
+![By having the two equivalent languages NAND-TM and NAND-RAM, we can "have our cake and eat it too", using NAND-TM when we want to prove that programs _can't_ do something, and using NAND-RAM or other high level languages when we want to prove that programs _can_ do something.](../figure/have_your_cake_and_eat_it_too-img-intro.png){#cakefig .margin width=300px height=300px}
 
 ::: { .bigidea #eatandhavecake }
 Using equivalence results such as those between Turing and RAM machines, we can "have our cake and eat it too". We can use a  simpler model such as Turing machines when we want to prove something _can't_ be done, and use a   feature-rich model such as RAM machines when we want to prove  something _can_ be done.
@@ -275,7 +275,7 @@ We call such an "intermediate level" description an _implementation level_ or _p
 Finally, if we want to describe the implementation precisely, we would give the full code of the program (or another fully precise representation, such as in the form of a list of tuples).
 We call this a _formal_ or _low level_ description.
 
-![We can describe an algorithm at different levels of granularity/detail and precision. At the highest level we just write the idea in words, omitting all details on representation and implementation. In the intermediate level (also known as _implementation_ or _pseudocode_) we give enough details of the implementation that would allow someone to derive it, though we still fall short of providing the full code. The lowest level is where the actual code or mathematical description is fully spelled out. These different levels of detail all have their uses, and moving between them is one of the most important skills for a computer scientist. ](../figure/levelsofdescription.png){#levelsdescfig .class width=300px height=300px}
+![We can describe an algorithm at different levels of granularity/detail and precision. At the highest level we just write the idea in words, omitting all details on representation and implementation. In the intermediate level (also known as _implementation_ or _pseudocode_) we give enough details of the implementation that would allow someone to derive it, though we still fall short of providing the full code. The lowest level is where the actual code or mathematical description is fully spelled out. These different levels of detail all have their uses, and moving between them is one of the most important skills for a computer scientist. ](../figure/levelsofdescription.png){#levelsdescfig .margin width=300px height=300px}
 
 
 While we started off by describing NAND-CIRC, NAND-TM, and NAND-RAM programs at the full formal level, as  we progress in this book we will move to implementation and high level description.
@@ -397,7 +397,7 @@ If $f= \lambda x.(\lambda y.e)$ then $(f a) b)$ corresponds to applying $f a$ an
 By our rules of associativity, this is the same as $(f a b)$ which we'll sometimes also write as $f(a,b)$.
 
 
-![In the "currying" transformation, we can create the effect of a two parameter function $f(x,y)$ with the λ expression $\lambda x.(\lambda y. f(x,y))$ which on input $x$ outputs a one-parameter function $f_x$ that has $x$ "hardwired" into it and such that $f_x(y)=f(x,y)$. This can be illustrated by a circuit diagram; see [Chelsea Voss's site](https://tromp.github.io/cl/diagrams.html).](../figure/currying.png){#currying .class width=300px height=300px}
+![In the "currying" transformation, we can create the effect of a two parameter function $f(x,y)$ with the λ expression $\lambda x.(\lambda y. f(x,y))$ which on input $x$ outputs a one-parameter function $f_x$ that has $x$ "hardwired" into it and such that $f_x(y)=f(x,y)$. This can be illustrated by a circuit diagram; see [Chelsea Voss's site](https://tromp.github.io/cl/diagrams.html).](../figure/currying.png){#currying .margin width=300px height=300px}
 
 
 
@@ -557,9 +557,9 @@ We could have also computed $XOR$ using the $REDUCE$ operation, we leave working
 :::
 
 
-![A list $\langle x_0,x_1,x_2 \rangle$ in the λ calculus is constructed from the tail up, building the pair $\langle x_2,NIL\rangle$, then the pair $\langle x_1, \langle x_2,NIL\rangle \rangle$ and finally the pair $\langle x_0,\langle x_1,\langle x_2,NIL \rangle\rangle\rangle$. That is, a list is a pair where the first element of the pair is the first element of the list and the second element is the rest of the list. The figure on the left renders this "pairs inside pairs" construction, though it is often easier to think of a list as a "chain", as in the figure on the right, where the second element of each pair is thought of as a _link_, _pointer_  or _reference_ to the  remainder of the list.](../figure/lambdalist.png){#lambdalistfig .class width=300px height=300px}
+![A list $\langle x_0,x_1,x_2 \rangle$ in the λ calculus is constructed from the tail up, building the pair $\langle x_2,NIL\rangle$, then the pair $\langle x_1, \langle x_2,NIL\rangle \rangle$ and finally the pair $\langle x_0,\langle x_1,\langle x_2,NIL \rangle\rangle\rangle$. That is, a list is a pair where the first element of the pair is the first element of the list and the second element is the rest of the list. The figure on the left renders this "pairs inside pairs" construction, though it is often easier to think of a list as a "chain", as in the figure on the right, where the second element of each pair is thought of as a _link_, _pointer_  or _reference_ to the  remainder of the list.](../figure/lambdalist.png){#lambdalistfig .margin width=300px height=300px}
 
-![Illustration of the $MAP$, $FILTER$ and $REDUCE$ operations.](../figure/reducemapfilter.png){#reduceetalfig .class width=300px height=300px}
+![Illustration of the $MAP$, $FILTER$ and $REDUCE$ operations.](../figure/reducemapfilter.png){#reduceetalfig .margin width=300px height=300px}
 
 ### Enhanced λ expressions
 
@@ -928,7 +928,7 @@ The [Wikipedia page](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) for 
 See also the book [The Nature of Computation](http://nature-of-computation.org/).
 
 
-![A Game-of-Life configuration simulating a Turing Machine. Figure by [Paul Rendell](http://rendell-attic.org/gol/tm.htm).](../figure/turing_gol.jpg){#golfig .class width=300px height=300px}
+![A Game-of-Life configuration simulating a Turing Machine. Figure by [Paul Rendell](http://rendell-attic.org/gol/tm.htm).](../figure/turing_gol.jpg){#golfig .margin width=300px height=300px}
 
 
 
@@ -977,7 +977,7 @@ We will come back to this notion in later chapters as well.
 
 ![A _configuration_ of a Turing machine $M$ with alphabet $\Sigma$ and state space $[k]$ encodes the state of $M$ at a particular step in its  execution as a string $\alpha$ over the alphabet $\overline{\Sigma} = \Sigma \times (\{\cdot \} \times [k])$. The string is of length $t$ where $t$ is such that $M$'s tape contains $\varnothing$ in all positions $t$ and larger and $M$'s head is in a position smaller than $t$.
 If $M$'s head is in the $i$-th position, then for $j \neq i$, $\alpha_j$ encodes the value of the $j$-th cell of $M$'s tape, while $\alpha_i$ encodes both this value as well as the current state of $M$.
-If the machine writes the value $\tau$, changes state to $t$, and moves right, then in the next configuration will contain at position $i$ the value  $(\tau,\cdot)$ and at position $i+1$ the value $(\alpha_{i+1},t)$.](../figure/turingmachineconf.png){#turingconfigfig .class width=300px height=300px}
+If the machine writes the value $\tau$, changes state to $t$, and moves right, then in the next configuration will contain at position $i$ the value  $(\tau,\cdot)$ and at position $i+1$ the value $(\alpha_{i+1},t)$.](../figure/turingmachineconf.png){#turingconfigfig .margin width=300px height=300px}
 
 ::: { .pause }
 [configtmdef](){.ref} below has some technical details, but is not actually that deep or complicated.
@@ -1019,7 +1019,7 @@ Once we have [nextstepfunctionlem](){.ref} in place, we see that the function $N
 The automaton arising from the proof of [onedimcathm](){.ref} has a large alphabet, and furthermore one whose size that depends on the machine $M$ that is being simulated. It turns out that one can obtain an automaton with an alphabet of fixed size that is independent of the program being simulated, and in fact the alphabet of the automaton can be  the minimal set $\{0,1\}$! See [onedimautfig](){.ref} for an example of such an Turing-complete automaton.
 
 
-![Evolution of a one dimensional automata. Each row in the figure corresponds to the configuration. The initial configuration corresponds to the top row and contains only a single "live" cell. This figure corresponds to the "Rule 110" automaton of Stefan Wolfram which is Turing Complete. Figure taken from [Wolfram MathWorld](http://mathworld.wolfram.com/Rule110.html).](../figure/Rule110Big.jpg){#onedimautfig .class width=300px height=300px}
+![Evolution of a one dimensional automata. Each row in the figure corresponds to the configuration. The initial configuration corresponds to the top row and contains only a single "live" cell. This figure corresponds to the "Rule 110" automaton of Stefan Wolfram which is Turing Complete. Figure taken from [Wolfram MathWorld](http://mathworld.wolfram.com/Rule110.html).](../figure/Rule110Big.jpg){#onedimautfig .margin width=300px height=300px}
 
 
 

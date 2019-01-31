@@ -217,7 +217,7 @@ For example, [onetoonedef](){.ref} says that a one to one function is a function
 
 
 
-![An annotated form of [onetoonedef](){.ref}, marking which type is every object, and with a doodle explaining what the definition says.](../figure/onetoonedef.png){#onetoonedefannotatedef .class width=300px height=300px}
+![An annotated form of [onetoonedef](){.ref}, marking which type is every object, and with a doodle explaining what the definition says.](../figure/onetoonedef.png){#onetoonedefannotatedef .margin width=300px height=300px}
 
 Reading mathematical texts in this way takes time, but it gets easier with practice.
 Moreover, this is one of the most transferable skills you could take from this course.
@@ -227,9 +227,9 @@ Being able to internalize and then apply new definitions can be hugely important
 It is a skill that's much easier to acquire in the relatively safe and stable  context of a mathematical course, where one at least has  the guarantee that the concepts are fully specified, and you have access to your teaching staff for questions.
 
 
-![A snippet from the "methods" section of the  ["AlphaGo Zero" paper](https://goo.gl/k8pVpL) by Silver et al, _Nature_, 2017. ](../figure/alphagozero.png){#alphagozerofig .class width=300px height=300px}
+![A snippet from the "methods" section of the  ["AlphaGo Zero" paper](https://goo.gl/k8pVpL) by Silver et al, _Nature_, 2017. ](../figure/alphagozero.png){#alphagozerofig .margin width=300px height=300px}
 
-![A snippet from the ["Zerocash" paper](http://zerocash-project.org/paper) of Ben-Sasson et al, that forms the basis of the cryptocurrency startup Zcash.](../figure/zerocash.png){#zerocashfig .class width=300px height=300px}
+![A snippet from the ["Zerocash" paper](http://zerocash-project.org/paper) of Ben-Sasson et al, that forms the basis of the cryptocurrency startup Zcash.](../figure/zerocash.png){#zerocashfig .margin width=300px height=300px}
 
 
 
@@ -446,7 +446,7 @@ Verifying that you can prove the following results is an excellent way to brush 
 
 * If $S$ and $T$ are finite sets then the following conditions are equivalent to one another: __(a)__ $|S| \leq |T|$, __(b)__ there is a one-to-one function $F:S \rightarrow T$, and __(c)__ there is an onto function $G:T \rightarrow S$.^[This is actually true even for _infinite_ $S$ and $T$: in that case __(b)__ is the commonly accepted _definition_ for $|S| \leq |T|$.]
 
-![We can represent finite functions as a directed graph where we put an edge from $x$ to $f(x)$. The _onto_ condition corresponds to requiring that every vertex in the codomain of the function has in-degree _at least_ one. The _one-to-one_ condition  corresponds to requiring that every vertex in the codomain of the function has in-degree _at most_ one. In the examples above $F$ is an onto function, $G$ is one to one, and $H$ is neither onto nor one to one.](../figure/functionsdiagram.png){#functionsdiagrampng .class width=300px height=300px}
+![We can represent finite functions as a directed graph where we put an edge from $x$ to $f(x)$. The _onto_ condition corresponds to requiring that every vertex in the codomain of the function has in-degree _at least_ one. The _one-to-one_ condition  corresponds to requiring that every vertex in the codomain of the function has in-degree _at most_ one. In the examples above $F$ is an onto function, $G$ is one to one, and $H$ is neither onto nor one to one.](../figure/functionsdiagram.png){#functionsdiagrampng .margin width=300px height=300px}
 
 > # { .pause }
 You can find the proofs of these results in many discrete math texts, including for example, Section 4.5 in the [Lehman-Leighton-Meyer notes](https://cs121.boazbarak.org/LLM_data_types.pdf).
@@ -703,7 +703,7 @@ You can verify that $F=o(G)$ (or, equivalently, $G=\omega(F)$) if and only if $\
 Similarly, if the limit $\lim\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)}$ exists and is a finite number then $F=O(G)$.
 If you are familiar with the notion of _supremum_, then you can verify that $F=O(G)$ if and only if $\limsup\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)} < \infty$.
 
-![If $F(n)=o(G(n))$ then for sufficiently large $n$, $F(n)$ will be smaller than $G(n)$. For example, if Algorithm $A$ runs in time $1000\cdot n+10^6$ and Algorithm $B$ runs in time $0.01\cdot n^2$ then even though $B$ might be more efficient for smaller inputs, when the inputs get sufficiently large, $A$ will run _much_ faster than $B$. ](../figure/nvsnsquared.png){#nvsnsquaredfig .class width=300px height=300px}
+![If $F(n)=o(G(n))$ then for sufficiently large $n$, $F(n)$ will be smaller than $G(n)$. For example, if Algorithm $A$ runs in time $1000\cdot n+10^6$ and Algorithm $B$ runs in time $0.01\cdot n^2$ then even though $B$ might be more efficient for smaller inputs, when the inputs get sufficiently large, $A$ will run _much_ faster than $B$. ](../figure/nvsnsquared.png){#nvsnsquaredfig .margin width=300px height=300px}
 
 
 
@@ -895,7 +895,7 @@ In this section we will prove the following: every directed acyclic graph (DAG, 
 This result is known as [topological sorting](https://goo.gl/QUskBc) and is used in many applications, including task scheduling, build systems, software package management, spreadsheet cell calculations, and many others (see [topologicalsortfig](){.ref}).
 In fact, we will also use it ourselves later on in this book.
 
-![An example of _topological sorting_. We consider a directed graph corresponding to a  prerequisite graph of the courses in some Computer Science program. The edge $u \rightarrow v$ means that the course $u$ is a prerequisite for the course $v$. A _layering_ or "topological sorting" of this  graph is the same as mapping the courses to semesters so that if we decide to take the course $v$ in semester $f(v)$, then we have already taken all the prerequisites for $v$ (i.e., its in-neighbors) in prior semesters.](../figure/topologicalsort.png){#topologicalsortfig .class width=300px height=300px}
+![An example of _topological sorting_. We consider a directed graph corresponding to a  prerequisite graph of the courses in some Computer Science program. The edge $u \rightarrow v$ means that the course $u$ is a prerequisite for the course $v$. A _layering_ or "topological sorting" of this  graph is the same as mapping the courses to semesters so that if we decide to take the course $v$ in semester $f(v)$, then we have already taken all the prerequisites for $v$ (i.e., its in-neighbors) in prior semesters.](../figure/topologicalsort.png){#topologicalsortfig .margin width=300px height=300px}
 
 We start with the following definition. A _layering_ of a directed graph is a way to assign for every vertex $v$ a natural number (corresponding to its layer), such that $v$'s in-neighbors are in lower-numbered layers than $v$, and $v$'s out-neighbors are in higher-numbered layers.
 The formal definition is as follows:
@@ -953,7 +953,7 @@ The technical term for this proof approach is _proof by induction_.
 
 
 
-![Some examples of DAGs of one, two and three vertices, and valid ways to assign layers to the vertices.](../figure/topologicalsortexamples.png){#topsortexamplesfig .class width=300px height=300px}
+![Some examples of DAGs of one, two and three vertices, and valid ways to assign layers to the vertices.](../figure/topologicalsortexamples.png){#topsortexamplesfig .margin width=300px height=300px}
 
 
 _Induction_ is simply an application of the self-evident  [Modus Ponens rule](https://en.wikipedia.org/wiki/Modus_ponens) that says that if

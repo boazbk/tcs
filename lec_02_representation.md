@@ -36,7 +36,7 @@ chapternum: "2"
 
 To a first approximation, computation can be thought of as a process that maps an _input_ to an _output_.
 
-![Our basic notion of _computation_ is some process that maps an input to an output](../figure/input_output.png){#figureid .class width=300px height=300px}
+![Our basic notion of _computation_ is some process that maps an input to an output](../figure/input_output.png){#figureid .margin width=300px height=300px}
 
 When discussing computation, it is important to separate the question of  __what__ is the task we need to perform (i.e., the _specification_) from the question of __how__ we achieve this task (i.e., the _implementation_).
 For example, as we've seen, there is more than one way to achieve the computational task of computing the product of two integers.
@@ -47,7 +47,7 @@ A priori this seems nontrivial, since computation today is applied to a huge var
 We do not compute  merely on numbers, but also on texts, images, videos, connection graphs of social networks, MRI scans, gene data, and even other programs.
 We will represent all these objects as __strings of zeroes and ones__, that is objects such as $0011101$ or $1011$ or any other finite list of $1$'s and $0$'s.
 
-![We represent numbers, texts, images, networks and many other objects using strings of zeroes and ones. Writing the zeroes and ones themselves in green font over a black background is optional.](../figure/zeroes-ones.jpg){#figureid .class width=300px height=300px}
+![We represent numbers, texts, images, networks and many other objects using strings of zeroes and ones. Writing the zeroes and ones themselves in green font over a black background is optional.](../figure/zeroes-ones.jpg){#figureid .margin width=300px height=300px}
 
 Today, we are so used to the notion of digital representation that we are not surprised by the existence of such an encoding.
 Indeed, at the time of writing, the full contents of the English Wikipedia, including all the text and media, can be encoded in a string in $\{0,1\}^n$ for $n \sim 10^{12}$ (i.e., about 100 Gigabytes).
@@ -84,7 +84,7 @@ We start with the most simple setting of a representation scheme, which is the t
 Over the years people have represented numbers in a variety of ways, including Roman numerals, the decimal system, as well as many other ways.
 
 
-![Representing each one the digits $0,1,2,\ldots,9$ as a $12\times 8$ bitmap image, which can be thought of as a string in $\{0,1\}^{96}$. Using this scheme we can represent a natural number $x$ of $n$ decimal digits as a string in $\{0,1\}^{96n}$. Image taken from [blog post of A. C. Andersen](http://blog.andersen.im/2010/12/autonomous-neural-development-and-pruning/).](../figure/digitsbitmap.png){#bitmapdigitsfig .class width=300px height=300px}
+![Representing each one the digits $0,1,2,\ldots,9$ as a $12\times 8$ bitmap image, which can be thought of as a string in $\{0,1\}^{96}$. Using this scheme we can represent a natural number $x$ of $n$ decimal digits as a string in $\{0,1\}^{96n}$. Image taken from [blog post of A. C. Andersen](http://blog.andersen.im/2010/12/autonomous-neural-development-and-pruning/).](../figure/digitsbitmap.png){#bitmapdigitsfig .margin width=300px height=300px}
 
 There are great many ways to represent natural numbers as binary strings.
 For example, we could represent a number $x$ by breaking it apart to its decimal digits, and represent each one as a binary string corresponding to its graphical representation (see [bitmapdigitsfig](){.ref}).
@@ -304,7 +304,7 @@ The reader might be (rightly) worried about this issue of approximation. In many
 This representation is called "floating point" because we can think of the number $a$ as specifying a sequence of binary digits, and $b$ as describing the location of the "binary point" within this sequence.
 The use of floating  representation is the reason why in many programming systems  printing the expression `0.1+0.2` will result in `0.30000000000000004` and not `0.3`, see [here](http://floating-point-gui.de/), [here](https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html) and [here](https://randomascii.wordpress.com/2012/04/05/floating-point-complexities/) for more (see also [xkcdfloatingfig](){.ref}).
 
-![XKCD cartoon on floating-point arithmetic.](../figure/e_to_the_pi_minus_pi.png){#xkcdfloatingfig .class width=300px height=300px}
+![XKCD cartoon on floating-point arithmetic.](../figure/e_to_the_pi_minus_pi.png){#xkcdfloatingfig .margin width=300px height=300px}
 
 
 Floating-point bugs can sometimes be no joking matter.
@@ -349,7 +349,7 @@ By [sequencestoreals](){.ref}, there exists a one-to-one function $FtR:\{0,1\}^\
 Thus, under this assumption, since the composition of two one-to-one functions is one-to-one (see [onetoonecompex](){.ref}), the function $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$ defined as $FtS(f)=RtS(FtR(f))$ will be one to one, contradicting [sequencestostrings](){.ref}.
 See [proofofcantorfig](){.ref} for a graphical illustration of this argument.
 
-![We prove [cantorthm](){.ref} by combining [sequencestostrings](){.ref} and [sequencestoreals](){.ref}.  [sequencestoreals](){.ref}, which uses standard calculus tools, shows the existence of a one-to-one map $FtR$ from the set $\{0,1\}^\infty$ to the real numbers. So, if a hypothetical one-to-one map $RtS:\R \rightarrow \{0,1\}^*$ existed, then we could compose them to get a one-to-one map $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$. Yet this contradicts [sequencestostrings](){.ref}- the heart of the proof- which rules out the existence of such a map.](../figure/proofofcantor.png){#proofofcantorfig .class width=300px height=300px}
+![We prove [cantorthm](){.ref} by combining [sequencestostrings](){.ref} and [sequencestoreals](){.ref}.  [sequencestoreals](){.ref}, which uses standard calculus tools, shows the existence of a one-to-one map $FtR$ from the set $\{0,1\}^\infty$ to the real numbers. So, if a hypothetical one-to-one map $RtS:\R \rightarrow \{0,1\}^*$ existed, then we could compose them to get a one-to-one map $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$. Yet this contradicts [sequencestostrings](){.ref}- the heart of the proof- which rules out the existence of such a map.](../figure/proofofcantor.png){#proofofcantorfig .margin width=300px height=300px}
 
 Now all that is left is to prove these two lemmas.
 We start by proving  [sequencestostrings](){.ref} which is really the heart of [cantorthm](){.ref}.
@@ -387,7 +387,7 @@ Hence $StF(x) \neq f^*$ for every $x\in \{0,1\}^*$, contradicting the assumption
 This proof is known as the "diagonal" argument, as the construction of $f^*$  can be thought of as going over the diagonal elements of a table that in the $n$-th row and $m$-column contains $StF(x)(m)$ where $x$ is the string such that $n(x)=n$, see [diagrealsfig](){.ref}.
 :::
 
-![We construct a function $f^*$ such that $f^* \neq StF(x)$ for every $x\in \{0,1\}^*$ by ensuring that $f^*(n(x)) \neq StF(x)(n(x))$ for every $x\in \{0,1\}^*$. We can think of this as building a table where the columns correspond to numbers $m\in \N$ and the rows correspond to $x\in \{0,1\}^*$ (sorted according to $n(x)$). If the entry in the $x$-th row and the $m$-th column corresponds to $g(m))$ where $g=StF(x)$ then $f^*$ is obtained by going over the "diagonal" elements in this table (the entries corresponding to the $x$-th row  and $n(x)$-th column) and enduring that $f^*(x)(n(x)) \neq StF(x)(n(x))$. ](../figure/diagreals2.png){#diagrealsfig .class width=300px height=300px}
+![We construct a function $f^*$ such that $f^* \neq StF(x)$ for every $x\in \{0,1\}^*$ by ensuring that $f^*(n(x)) \neq StF(x)(n(x))$ for every $x\in \{0,1\}^*$. We can think of this as building a table where the columns correspond to numbers $m\in \N$ and the rows correspond to $x\in \{0,1\}^*$ (sorted according to $n(x)$). If the entry in the $x$-th row and the $m$-th column corresponds to $g(m))$ where $g=StF(x)$ then $f^*$ is obtained by going over the "diagonal" elements in this table (the entries corresponding to the $x$-th row  and $n(x)$-th column) and enduring that $f^*(x)(n(x)) \neq StF(x)(n(x))$. ](../figure/diagreals2.png){#diagrealsfig .margin width=300px height=300px}
 
 
 ::: {.remark title="Generalizing beyond strings and reals" #generalizepowerset}
@@ -550,7 +550,7 @@ Thus I highly recommend that you pause here, make sure you understand  statement
 
 
 
-![If we have a prefix-free representation of each object then we can concatenate the representations of $k$ objects to obtain a representation for the tuple $(o_0,\ldots,o_{k-1})$.](../figure/repres_list.png){#figureid .class width=300px height=300px}
+![If we have a prefix-free representation of each object then we can concatenate the representations of $k$ objects to obtain a representation for the tuple $(o_0,\ldots,o_{k-1})$.](../figure/repres_list.png){#figureid .margin width=300px height=300px}
 
 > # {.proofidea data-ref="prefixfreethm"}
 The idea behind the proof is simple.
@@ -856,7 +856,7 @@ We can transform an undirected graph to a directed graph by replacing every edge
 Another representation for graphs is the _adjacency list_ representation. That is, we identify the vertex set $V$ of a graph with the set $[n]$ where $n=|V|$, and  represent the graph $G=(V,E)$ a a list of $n$ lists, where the $i$-th list consists of the out-neighbors of vertex $i$.
 The difference between these representations can be important for some applications, though for us would typically be immaterial.
 
-![Representing the graph $G=(\{0,1,2,3,4\},\{ (1,0),(4,0),(1,4),(4,1),(2,1),(3,2),(4,3) \})$ in the adjacency matrix and adjacency list representations.](../figure/representing_graphs.png){#representinggraphsfig .class width=300px height=300px}
+![Representing the graph $G=(\{0,1,2,3,4\},\{ (1,0),(4,0),(1,4),(4,1),(2,1),(3,2),(4,3) \})$ in the adjacency matrix and adjacency list representations.](../figure/representing_graphs.png){#representinggraphsfig .margin width=300px height=300px}
 
 Once again, we can also define these encoding and decoding functions in python:
 
@@ -880,7 +880,7 @@ def matrix2graph(M):
 matrix2graph([[0,1,0],[0,0,1],[1,0,0]])
 ```
 
-![Output of `matrix2graph` on the matrix `[[0,1,0],[0,0,1],[1,0,0]]`](../figure/graphfrommat.png){#figid .class width=300px height=300px} \
+![Output of `matrix2graph` on the matrix `[[0,1,0],[0,0,1],[1,0,0]]`](../figure/graphfrommat.png){#figid .margin width=300px height=300px} \
 
 <!---
 import warnings
@@ -928,7 +928,7 @@ Abstractly, a _computational process_ is some process that takes an input which 
 This transformation of input to output can be done using a modern computer, a person following instructions, the evolution of some natural system, or any other means.
 
 
-![A computational process](../figure/computation.png){#figureid .class width=300px height=300px}
+![A computational process](../figure/computation.png){#figureid .margin width=300px height=300px}
 
 In future chapters, we will turn to mathematically defining  computational process, but, as we discussed above for now we want to focus on _computational tasks_; i.e., focus on the __specification__ and not the __implementation__.
 Again, at an abstract level, a computational task can specify any relation that the output needs to have with the input.
@@ -952,7 +952,7 @@ Computing such functions corresponds to answering a YES/NO question, and hence t
 Given any function $F:\{0,1\}^* \rightarrow \{0,1\}$ and $x\in \{0,1\}^*$, the task of computing $F(x)$ corresponds to the task of deciding whether or not $x\in L$ where $L = \{ x : F(x)=1 \}$ is known as the _language_ that corresponds to the function $F$.^[The language terminology is due to historical connections between the theory of computation and formal linguistics as developed by Noam Chomsky.]
 Hence many texts refer to such as computational task as _deciding a language_.
 
-![A subset $L \subseteq \{0,1\}^*$ can be identified with the function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F(x)=1$ if $x\in L$ and $F(x)=0$ if $x\not\in L$. Functions with a single bit of output are called _Boolean functions_, while subsets of strings are called _languages_. The above shows that the two are essentially the same object, and we can identify the task of deciding membership in $L$ (known as _deciding a language_ in the literature) with the task of computing the function $F$.](../figure/booleanfunc.png){#booleanlangfig .class width=300px height=300px}
+![A subset $L \subseteq \{0,1\}^*$ can be identified with the function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F(x)=1$ if $x\in L$ and $F(x)=0$ if $x\not\in L$. Functions with a single bit of output are called _Boolean functions_, while subsets of strings are called _languages_. The above shows that the two are essentially the same object, and we can identify the task of deciding membership in $L$ (known as _deciding a language_ in the literature) with the task of computing the function $F$.](../figure/booleanfunc.png){#booleanlangfig .margin width=300px height=300px}
 
 
 
@@ -971,7 +971,7 @@ We will be interested in questions such as:
 
 In order to do that, we will need to mathematically define the notion of an _algorithm_, which is what we'll do in [compchap](){.ref}.
 
-### Distinguish functions from programs
+### Distinguish functions from programs!
 
 You should always watch out for potential confusions between **specifications** and **implementations** or equivalently between **mathematical functions**  and **algorithms/programs**.
 It does not help that programming languages (Python included) use the term _"functions"_ to denote (parts of) _programs_.
@@ -1010,8 +1010,14 @@ Both `mult1` and `mult2` produce the same output given the same pair of inputs.
 Hence, even though these are two different _programs_, they compute the same _mathematical function_.
 This distinction between a _program_ or _algorithm_ $A$, and the _function_ $F$ that $A$ _computes_ will be absolutely crucial for us in this course (see also [functionornotfig](){.ref}).
 
-![A _function_ is a mapping of inputs to outputs. A _program_ is a set of instructions of how to obtain an output given an input. A program _computes_ a function, but it is not the same as a function, popular programming language terminology notwithstanding.](../figure/functionornot.png){#functionornotfig .class width=300px height=300px}
+![A _function_ is a mapping of inputs to outputs. A _program_ is a set of instructions of how to obtain an output given an input. A program _computes_ a function, but it is not the same as a function, popular programming language terminology notwithstanding.](../figure/functionornot.png){#functionornotfig .margin width=300px height=300px}
 
+::: { .bigidea #functionprogramidea }
+A _function_ is not the same as  a _program_. A program _computes_ a function.
+:::
+
+Distinguishing _functions_ from _programs_ (or other ways for computing, including _circuits_ and _machines_) is a crucial theme for this course.
+For this reason, this is often a running theme in questions that I (and many other instructors) assign in homeworks and exams (hint, hint..).
 
 
 ::: {.remark title="Computation beyond functions (advanced, optional)" #beyonfdunc}

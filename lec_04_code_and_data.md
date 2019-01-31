@@ -44,7 +44,7 @@ Indeed many security exploits involve cases such as "buffer overflows" when atta
 The idea of code as data reaches beyond the realm of electronic computers.
 For example, DNA can be thought of as both a program and data (in the words of Schrödinger, who wrote  before DNA's discovery a book that inspired Watson and Crick, it is both "architect's plan and builder's craft").
 
-![As illustrated in this xkcd cartoon, many exploits, including buffer overflow, SQL injections, and more, utilize the blurry line between "active programs" and "static strings".](../figure/exploits_of_a_mom.png){#XKCDmomexploitsfig .class width=300px height=300px}
+![As illustrated in this xkcd cartoon, many exploits, including buffer overflow, SQL injections, and more, utilize the blurry line between "active programs" and "static strings".](../figure/exploits_of_a_mom.png){#XKCDmomexploitsfig .margin width=300px height=300px}
 
 
 ## A NAND interpreter in NAND
@@ -82,7 +82,7 @@ Later, in [chaploops](){.ref}, we will  introduce the concept of _loops_, that  
 
 
 
-![A _universal circuit_ $U$ is a circuit that gets as input the description of an arbitrary (smaller) circuit $C$ as a binary string, and an input $x$, and outputs the string $C(x)$ which is the evaluation of $C$ on $x$. We can also think of $U$ as a straightline program that gets as input the code of a straightline program $C$ and an input $x$, and outputs $C(x)$.](../figure/universalcircuit.png){#universalcircfig .class width=300px height=300px}
+![A _universal circuit_ $U$ is a circuit that gets as input the description of an arbitrary (smaller) circuit $C$ as a binary string, and an input $x$, and outputs the string $C(x)$ which is the evaluation of $C$ on $x$. We can also think of $U$ as a straightline program that gets as input the code of a straightline program $C$ and an input $x$, and outputs $C(x)$.](../figure/universalcircuit.png){#universalcircfig .margin width=300px height=300px}
 
 Of course to fully specify $EVAL_{s,n,m}$, we need to fix a precise representation scheme  for NAND-CIRC programs as binary strings.
 We can simply use the ASCII representation, though  below we will choose a  more convenient representation.
@@ -114,7 +114,7 @@ We can prove  [eff-bounded-univ](){.ref}  using the ASCII representation, but a 
 
 ### Concrete representation for NAND-CIRC programs
 
-![In the Harvard Mark I computer, a program was represented as a list of triples of numbers, which were then encoded by perforating holes in a control card.](../figure/tapemarkI.png){#figureid .class width=300px height=300px}
+![In the Harvard Mark I computer, a program was represented as a list of triples of numbers, which were then encoded by perforating holes in a control card.](../figure/tapemarkI.png){#figureid .margin width=300px height=300px}
 
 
 A NAND-CIRC program is simply a sequence of lines of the form
@@ -474,7 +474,7 @@ But this contradicts the assumption that $g \not\in SIZE_\ell(5s)$.
 
 
 ![An illustration of some of what we know about the size complexity classes (not to scale!). This figure depicts  classes of the form $SIZE_{n,n}(s)$ but the state of affairs for other size complexity classes such as $SIZE_{n,1}(s)$ is similar. We know by [NAND-univ-thm](){.ref} (with the improvement of [tight-upper-bound](){.ref}) that all functions mapping $n$ bits to $n$ bits can be computed by a circuit of size $c \cdot 2^n$ for $c \leq 10$, while on the other hand the counting lower bound ([counting-lb](){.ref}, see also [countingmultibitex](){.ref}) shows that _some_ such functions will require $0.1 \cdot 2^n$, and the size hierarchy theorem ([sizehiearchythm](){.ref}) shows the existence of functions in $SIZE(S) \setminus SIZE(s)$ whenever $s=o(S)$, see also [sizehiearchyex](){.ref}.
-We also consider some specific examples: addition of two $n/2$ bit numbers can be done in $O(n)$ lines, while we don't know of such a program for _multiplying_ two $n$ bit numbers, though we do know it can be done in $O(n^2)$ and in fact even better size. In the above  $FACTOR_n$ corresponds to the inverse problem of multiplying- finding the _prime factorization_ of a given number. At the moment  we do not know  of any circuit  a polynomial (or even sub-exponential) number of lines that can compute $FACTOR_n$. ](../figure/sizecomplexity.png){#sizeclassesfig .class width=300px height=300px}
+We also consider some specific examples: addition of two $n/2$ bit numbers can be done in $O(n)$ lines, while we don't know of such a program for _multiplying_ two $n$ bit numbers, though we do know it can be done in $O(n^2)$ and in fact even better size. In the above  $FACTOR_n$ corresponds to the inverse problem of multiplying- finding the _prime factorization_ of a given number. At the moment  we do not know  of any circuit  a polynomial (or even sub-exponential) number of lines that can compute $FACTOR_n$. ](../figure/sizecomplexity.png){#sizeclassesfig .margin width=300px height=300px}
 
 ::: {.remark title="Explicit functions" #explicitfunc}
 While the size hierarchy theorem guarantees that there exists _some_ function that _can_ be computed using, for example, $n^2$ gates, but not using $100n$ gates, we do not know of any explicit example of such a function.
@@ -550,7 +550,7 @@ Yet, some people claimed that there is in fact a very simple physical device tha
 The problem with this device of course is that nature, just like people, often gets stuck in "local optima". That is, the resulting configuration will not be one that achieves the  absolute minimum of the total energy but rather one that can't be improved with local changes.
 [Aaronson](http://www.scottaaronson.com/papers/npcomplete.pdf) has carried out actual experiments (see [aaronsonsoapfig](){.ref}), and  saw that while this device often is successful for three or four pegs, it starts yielding suboptimal results once the number of pegs grows beyond that.
 
-![Scott Aaronson [tests](http://www.scottaaronson.com/blog/?p=266) a candidate device for computing Steiner trees using soap bubbles.](../figure/aaronsonsoapbubble.jpg){#aaronsonsoapfig .class width=300px height=300px}
+![Scott Aaronson [tests](http://www.scottaaronson.com/blog/?p=266) a candidate device for computing Steiner trees using soap bubbles.](../figure/aaronsonsoapbubble.jpg){#aaronsonsoapfig .margin width=300px height=300px}
 
 * **DNA computing.** People have suggested using the properties of DNA to do hard computational problems. The main advantage of DNA is the ability to potentially encode a lot of information in relatively small physical space, as well as compute on this information in a highly parallel manner. At the time of this writing, it was [demonstrated](http://science.sciencemag.org/content/337/6102/1628.full) that one can use DNA to store about $10^{16}$ bits of information in a region of radius about milimiter, as opposed to about $10^{10}$ bits with the best known hard disk technology. This does not posit a real challenge to the PECTT but does suggest that one should be conservative about the choice of constant and not assume that current hard disk + silicon technologies are the absolute best possible.^[We were extremely conservative in the suggested parameters for the PECTT, having assumed that as many as $\ell_P^{-2}10^{-6} \sim 10^{61}$ bits could potentially be stored in a milimeter radius region.]
 

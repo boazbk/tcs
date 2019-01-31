@@ -184,7 +184,7 @@ Together these observations imply that the simulation of $T$ steps of NAND-RAM c
 
 
 
-![The path an index variable takes in a NAND-TM program. If we need to simulate $T$ steps of  an enhanced NAND-TM program using vanilla NAND-TM then in the worst case we will need to wait at every time for the next time `i` arrives at the same location, which will yield a cost of $O(1+2+\cdots+T)=O(T^2)$ steps. ](../figure/oblivious_simulation.png){#obliviousfig .class width=300px height=300px}
+![The path an index variable takes in a NAND-TM program. If we need to simulate $T$ steps of  an enhanced NAND-TM program using vanilla NAND-TM then in the worst case we will need to wait at every time for the next time `i` arrives at the same location, which will yield a cost of $O(1+2+\cdots+T)=O(T^2)$ steps. ](../figure/oblivious_simulation.png){#obliviousfig .margin width=300px height=300px}
 
 
 
@@ -391,7 +391,7 @@ We have seen that we have no shortage of natural functions for which the best _k
 However,  unlike in the finite vs. infinite case, for all of the examples above at the moment we do not know how to rule out even an $O(n)$ time algorithm.
 We will however see that there is a single unproven conjecture that would imply such a result for most of these problems.
 
-![Some complexity classes and some of the functions we know (or conjecture) to be contained in them.](../figure/time_complexity_map.png){#figureid .class width=300px height=300px}
+![Some complexity classes and some of the functions we know (or conjecture) to be contained in them.](../figure/time_complexity_map.png){#figureid .margin width=300px height=300px}
 
 ::: {.remark title="Time hierarchy for NAND-TM and Turing machines" #timehierarchyfornandpp}
 The time hierarchy theorem relies on the existence of an efficient universal NAND-RAM program, as proven in [univ-nandpp](){.ref}. We have mentioned that other models, such as NAND-TM programs and Turing machines, are polynomially
@@ -614,7 +614,7 @@ Please make sure you understand why this is the case.
 
 Using the equivalence of NAND-CIRC programs and Boolean circuits, we can also define $P_{/poly}$ as the class of functions $F:\{0,1\}^* \rightarrow \{0,1\}$  such that the restriction of $F$ to $\{0,1\}^n$ is computable by a Boolean circuit of $poly(n)$ size (say with gates in the set $\wedge,\vee,\neg$ though any universal gateset will do); see [Ppolyfig](){.ref}.
 
-![We can think of an infinite function $F:\{0,1\}^* \rightarrow \{0,1\}$ as a collection of finite functions $F_0,F_1,F_2,\ldots$ where $F_{\upharpoonright n}:\{0,1\}^n \rightarrow \{0,1\}$ is the restriction of $F$ to inputs of length $n$. We say $F$ is in $\mathbf{P_{/poly}}$ if for every $n$, the function $F_{\upharpoonright n}$  is computable by a polynomial size NAND-CIRC program, or equivalently, a polynomial sized Boolean circuit. (We drop in this figure the "edge case" of $F_0$ though as a constant function, it can always be computed by a constant sized NAND-CIRC program.)](../figure/Ppoly.png){#Ppolyfig .class width=300px height=300px}
+![We can think of an infinite function $F:\{0,1\}^* \rightarrow \{0,1\}$ as a collection of finite functions $F_0,F_1,F_2,\ldots$ where $F_{\upharpoonright n}:\{0,1\}^n \rightarrow \{0,1\}$ is the restriction of $F$ to inputs of length $n$. We say $F$ is in $\mathbf{P_{/poly}}$ if for every $n$, the function $F_{\upharpoonright n}$  is computable by a polynomial size NAND-CIRC program, or equivalently, a polynomial sized Boolean circuit. (We drop in this figure the "edge case" of $F_0$ though as a constant function, it can always be computed by a constant sized NAND-CIRC program.)](../figure/Ppoly.png){#Ppolyfig .margin width=300px height=300px}
 
 The notation $\mathbf{P_{/poly}}$ is used for historical reasons.
 It was introduced by Karp and Lipton, who considered this class as corresponding to functions that can be computed by polynomial-time Turing Machines (or equivalently, NAND-TM programs) that are given for any input length $n$ a polynomial in $n$ long _advice string_.
@@ -812,7 +812,7 @@ $$
 0,1,0,1,2,1,0,1,2,3,2,1,0,1,\ldots \label{eq:pattern}
 $$
 >
->![We simulate a NAND-TM program by an oblivious program in which the index moves according to the pattern of [eq:pattern](){.eqref}.](../figure/oblivious_simulation.png){#oblivious-fig .class width=300px height=300px}
+>![We simulate a NAND-TM program by an oblivious program in which the index moves according to the pattern of [eq:pattern](){.eqref}.](../figure/oblivious_simulation.png){#oblivious-fig .margin width=300px height=300px}
 >
 That is, `i` will sweep back and forth from index $0$ till the current last index $n$, which will be incremented every round, see [oblivious-fig](){.ref}.
 In the worst case, in every step we want to decrease `i`  when we are at an "upward sweep", and increase `i` when we are in a "downward sweep", but because the value of `i` is always between $0$ and the current step $t$, we can always achieve the desired value within the next sweep. This means that to make $t$ steps, at the worst case we will need to complete $t$ full back-and-forth sweeps. The total number of movements in these sweeps will be  $2 + 4 + 6 + \ldots + 2t = O(t^2)$ steps, and with an $O(\log t)$ overhead, we can  keep track of which step we are in at the computation, and  compare the current value of `i` with the desired value.

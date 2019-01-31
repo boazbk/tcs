@@ -60,7 +60,7 @@ In 1587, Mary the queen of Scots, and the heir to the throne of England, wanted 
 England, so that she could ascend to the throne and finally escape the house arrest under which she had been for the last 18 years.
 As part of this complicated plot, she sent a coded letter to Sir Anthony Babington.
 
-![Snippet from encrypted communication between queen Mary and Sir Babington](../figure/encrypted_letter.jpg){#maryscottletterfig .class width=300px height=300px}
+![Snippet from encrypted communication between queen Mary and Sir Babington](../figure/encrypted_letter.jpg){#maryscottletterfig .margin width=300px height=300px}
 
 
 Mary used what's known as a _substitution cipher_ where each letter is transformed into a different obscure symbol (see [maryscottletterfig](){.ref}).
@@ -75,7 +75,7 @@ Trusting in superficial security measures (such as using "inscrutable" symbols) 
 (As in many things, this is the subject of a great XKCD cartoon, see [XKCDnavajofig](){.ref}.)
 
 
-![XKCD's take on the added security of using uncommon symbols](../figure/code_talkers.png){#XKCDnavajofig .class width=300px height=300px}
+![XKCD's take on the added security of using uncommon symbols](../figure/code_talkers.png){#XKCDnavajofig .margin width=300px height=300px}
 
 
 
@@ -106,7 +106,7 @@ They were also helped along the way by some quirks and errors of the German oper
 For example, the fact that their messages ended with "Heil Hitler" turned out to be quite useful.
 
 
-![In the  _Enigma_ mechanical cipher the secret key would be the settings of the rotors and internal wires. As the operator types up their message, the encrypted version appeared in the display area above, and the internal state of the cipher was updated (and so typing the same letter twice would generally result in two different letters output). Decrypting follows the same process: if the sender and receiver are using the same key then typing the ciphertext would result in the plaintext appearing in the display.](../figure/enigma.jpg){#enigmafig .class width=300px height=300px}
+![In the  _Enigma_ mechanical cipher the secret key would be the settings of the rotors and internal wires. As the operator types up their message, the encrypted version appeared in the display area above, and the internal state of the cipher was updated (and so typing the same letter twice would generally result in two different letters output). Decrypting follows the same process: if the sender and receiver are using the same key then typing the ciphertext would result in the plaintext appearing in the display.](../figure/enigma.jpg){#enigmafig .margin width=300px height=300px}
 
 Here is one entertaining anecdote: the Enigma machine would never map a letter to itself.
 In March 1941, Mavis Batey, a cryptanalyst at Bletchley Park received a very long message that she tried to decrypt.
@@ -235,7 +235,7 @@ In particular, suppose that you knew ahead of time that Alice sent either an enc
 :::
 
 
-![For any key length $n$, we can visualize an encryption scheme $(E,D)$ as a graph with a  vertex for every one of the $2^{L(n)}$ possible plaintexts and for every one of the ciphertexts in $\{0,1\}^*$ of the form $E_k(x)$ for $k\in \{0,1\}^n$ and $x\in \{0,1\}^{L(n)}$. For every plaintext $x$ and key $k$, we add an edge labeled $k$ between $x$ and $E_k(x)$. By the validity condition, if we pick any fixed key $k$, the map $x \mapsto E_k(x)$ must be one-to-one. The condition of perfect secrecy simply corresponds to requiring that every two    plaintexts $x$ and $x'$ have exactly the same set of neighbors (or multi-set, if there are parallel edges).](../figure/perfectsecrecy.png){#perfectsecfig .class width=300px height=300px}
+![For any key length $n$, we can visualize an encryption scheme $(E,D)$ as a graph with a  vertex for every one of the $2^{L(n)}$ possible plaintexts and for every one of the ciphertexts in $\{0,1\}^*$ of the form $E_k(x)$ for $k\in \{0,1\}^n$ and $x\in \{0,1\}^{L(n)}$. For every plaintext $x$ and key $k$, we add an edge labeled $k$ between $x$ and $E_k(x)$. By the validity condition, if we pick any fixed key $k$, the map $x \mapsto E_k(x)$ must be one-to-one. The condition of perfect secrecy simply corresponds to requiring that every two    plaintexts $x$ and $x'$ have exactly the same set of neighbors (or multi-set, if there are parallel edges).](../figure/perfectsecrecy.png){#perfectsecfig .margin width=300px height=300px}
 
 ### Example: Perfect secrecy in the battlefield
 
@@ -276,7 +276,7 @@ However it turns out we can in fact obtain perfectly secret encryption scheme fa
 Such a scheme for two-bit messages is illustrated in [onetimepadtwofig](){.ref}
 
 
-![A perfectly secret encryption scheme for two-bit keys and messages. The blue vertices represent plaintexts and the red vertices represent ciphertexts, each edge mapping a plaintext $x$ to a ciphertext $y=E_k(x)$ is labeled with the corresponding key $k$. Since there are four possible keys, the degree of the graph is four and it is in fact a complete bipartite graph. The encryption scheme is valid in the sense that for every $k\in \{0,1\}^2$, the map $x \mapsto E_k(x)$ is one-to-one, which in other words means that the set of edges labeled with $k$ is a _matching_.](../figure/onetimepadtwobits.png){#onetimepadtwofig .class width=300px height=300px}
+![A perfectly secret encryption scheme for two-bit keys and messages. The blue vertices represent plaintexts and the red vertices represent ciphertexts, each edge mapping a plaintext $x$ to a ciphertext $y=E_k(x)$ is labeled with the corresponding key $k$. Since there are four possible keys, the degree of the graph is four and it is in fact a complete bipartite graph. The encryption scheme is valid in the sense that for every $k\in \{0,1\}^2$, the map $x \mapsto E_k(x)$ is one-to-one, which in other words means that the set of edges labeled with $k$ is a _matching_.](../figure/onetimepadtwobits.png){#onetimepadtwofig .margin width=300px height=300px}
 
 In fact, this can be generalized to any number of bits:
 
@@ -302,7 +302,7 @@ Indeed, for every particular $y\in \{0,1\}^n$, the value $y$ is output by $Y_x$ 
 :::
 
 
-![In the _one time pad_ encryption scheme we encrypt a plaintext $x\in \{0,1\}^n$ with a key $k\in \{0,1\}^n$ by the ciphertext $x \oplus k$ where $\oplus$ denotes the bitwise XOR operation.](../figure/onetimepad.png){#onetimepadfig .class width=300px height=300px}
+![In the _one time pad_ encryption scheme we encrypt a plaintext $x\in \{0,1\}^n$ with a key $k\in \{0,1\}^n$ by the ciphertext $x \oplus k$ where $\oplus$ denotes the bitwise XOR operation.](../figure/onetimepad.png){#onetimepadfig .margin width=300px height=300px}
 
 
 > # { .pause }
@@ -337,12 +337,12 @@ is shared by Lt. Richard Hallock, Carrie Berry, Frank Lewis, and Lt. Karl Elmqui
 In the 37 years of its existence, the project has resulted in a treasure chest of intelligence, exposing hundreds of KGB agents and Russian spies in the U.S. and other countries,
 including Julius Rosenberg, Harry Gold, Klaus Fuchs, Alger Hiss, Harry Dexter White  and many others.
 
-![Gene Grabeel, who founded the U.S. Russian SigInt program on 1 Feb 1943.  Photo taken in 1942, see Page 7 in the Venona historical study.](../figure/genevenona.png){#genegrabeelfig .class width=300px height=300px}
+![Gene Grabeel, who founded the U.S. Russian SigInt program on 1 Feb 1943.  Photo taken in 1942, see Page 7 in the Venona historical study.](../figure/genevenona.png){#genegrabeelfig .margin width=300px height=300px}
 
 
 
 
-![An encryption scheme where the number of keys is smaller than the number of plaintexts corresponds to a bipartite graph where the degree is smaller than the number of vertices on the left side. Together with the validity condition this implies that  there will be two left vertices $x,x'$ with non-identical neighborhoods, and hence the scheme does _not_ satisfy perfect secrecy.](../figure/longkeygraph.png){#longkeygraphfig .class width=300px height=300px}
+![An encryption scheme where the number of keys is smaller than the number of plaintexts corresponds to a bipartite graph where the degree is smaller than the number of vertices on the left side. Together with the validity condition this implies that  there will be two left vertices $x,x'$ with non-identical neighborhoods, and hence the scheme does _not_ satisfy perfect secrecy.](../figure/longkeygraph.png){#longkeygraphfig .margin width=300px height=300px}
 
 
 
@@ -427,7 +427,7 @@ It is widely used in practice with keys on the order of a few tens or hundreds o
 
 
 
-![In  a _stream cipher_ or "derandomized one-time pad" we use a pseudorandom generator $G:\{0,1\}^n \rightarrow \{0,1\}^L$ to obtain an encryption scheme with a key length of $n$ and plaintexts of length $L$. We encrypt the plaintext $x\in \{0,1\}^L$ with key $k\in \{0,1\}^n$ by the ciphertext $x \oplus G(k)$.](../figure/derandonetimepad.png){#derandonetimepadfig .class width=300px height=300px}
+![In  a _stream cipher_ or "derandomized one-time pad" we use a pseudorandom generator $G:\{0,1\}^n \rightarrow \{0,1\}^L$ to obtain an encryption scheme with a key length of $n$ and plaintexts of length $L$. We encrypt the plaintext $x\in \{0,1\}^L$ with key $k\in \{0,1\}^n$ by the ciphertext $x \oplus G(k)$.](../figure/derandonetimepad.png){#derandonetimepadfig .margin width=300px height=300px}
 
 
 > # {.theorem title="Derandomized one-time pad" #PRGtoENC}
@@ -589,7 +589,7 @@ However, it still felt short of providing Diffie and Hellman's  elusive trapdoor
 This was done the next year by Rivest, Shamir and Adleman who came up with the RSA trapdoor function, which through the framework of Diffie and Hellman yielded not just encryption but also signatures.^[A close variant of the  RSA function was   discovered earlier by Clifford Cocks at GCHQ, though as far as I can tell Cocks, Ellis and Williamson did not realize the application to digital signatures.]
 From this point on began a flurry of advances in cryptography which hasn't died down till this day.
 
-![Top left: Ralph Merkle, Martin Hellman and Whit Diffie, who together came up in 1976 with the concept of _public key encryption_ and a _key exchange protocol_. Bottom left: Adi Shamir, Ron Rivest, and Leonard Adleman who, following Diffie and Hellman's paper, discovered the RSA function that can be used for public key encryption and digital signatures. Interestingly, one can see the equation $\mathbf{P}=\mathbf{NP}$ on the blackboard behind them. Right: John Gill, who was the first person to suggest  to Diffie and Hellman that they use modular exponentiation as an easy-to-compute but hard-to-invert function. ](../figure/rsadhmg.png){#diffiehellmanmerklegillfig .class width=300px height=300px}
+![Top left: Ralph Merkle, Martin Hellman and Whit Diffie, who together came up in 1976 with the concept of _public key encryption_ and a _key exchange protocol_. Bottom left: Adi Shamir, Ron Rivest, and Leonard Adleman who, following Diffie and Hellman's paper, discovered the RSA function that can be used for public key encryption and digital signatures. Interestingly, one can see the equation $\mathbf{P}=\mathbf{NP}$ on the blackboard behind them. Right: John Gill, who was the first person to suggest  to Diffie and Hellman that they use modular exponentiation as an easy-to-compute but hard-to-invert function. ](../figure/rsadhmg.png){#diffiehellmanmerklegillfig .margin width=300px height=300px}
 
 
 ### Defining public key encryption
@@ -607,7 +607,7 @@ The bigger we make $n$, the more secure the encryption will be, but also the les
 
 
 
-![In a _public key encryption_, Alice generates a private/public keypair $(e,d)$,  publishes $e$ and keeps $d$ secret. To encrypt a message for Alice, one only needs to know $e$. To decrypt it we need to know $d$.](../figure/publickeyenc.png){#publickeyencfig .class width=300px height=300px}
+![In a _public key encryption_, Alice generates a private/public keypair $(e,d)$,  publishes $e$ and keeps $d$ secret. To encrypt a message for Alice, one only needs to know $e$. To decrypt it we need to know $d$.](../figure/publickeyenc.png){#publickeyencfig .margin width=300px height=300px}
 
 We now make this a formal definition:
 

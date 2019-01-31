@@ -81,7 +81,7 @@ The interpreter will continue the simulation until  the machine halts.
 Once you do that, translating this interpreter from your programming language to NAND-TM can be done just as we have seen in [chapequivalentmodels](){.ref}. The end result is what's known as a "meta-circular evaluator": an interpreter for a programming language in the same one. This is a concept that has a long history in computer science starting from the original universal Turing machine. See also [lispinterpreterfig](){.ref}.
 :::
 
-![A particularly elegant example of a "meta-circular evaluator" comes from John McCarthy's 1960 paper, where he defined the Lisp programming language and gave a Lisp function that evaluates an arbitrary Lisp program (see above). Lisp was not initially intended as a practical programming language and this  example was merely meant as an illustration that the Lisp universal function is more elegant than the universal Turing machine, but McCarthy's graduate student Steve Russell suggested that it can be implemented. As McCarthy later recalled, _"I said to him, ho, ho, you're confusing theory with practice, this eval is intended for reading, not for computing. But he went ahead and did it. That is, he compiled the eval in my paper into IBM 704 machine code, fixing a bug, and then advertised this as a Lisp interpreter, which it certainly was"._ ](../figure/lispinterpreter.png){#lispinterpreterfig .class width=300px height=300px}
+![A particularly elegant example of a "meta-circular evaluator" comes from John McCarthy's 1960 paper, where he defined the Lisp programming language and gave a Lisp function that evaluates an arbitrary Lisp program (see above). Lisp was not initially intended as a practical programming language and this  example was merely meant as an illustration that the Lisp universal function is more elegant than the universal Turing machine, but McCarthy's graduate student Steve Russell suggested that it can be implemented. As McCarthy later recalled, _"I said to him, ho, ho, you're confusing theory with practice, this eval is intended for reading, not for computing. But he went ahead and did it. That is, he compiled the eval in my paper into IBM 704 machine code, fixing a bug, and then advertised this as a Lisp interpreter, which it certainly was"._ ](../figure/lispinterpreter.png){#lispinterpreterfig .margin width=300px height=300px}
 
 [universaltmthm](){.ref} yields a stronger notion than the universality we proved for Bollean circuits / NAND-CIRC, in the sense that we show a _single_ universal  Turing machine $U$ that can evaluate _all_ Turing machines, including those that have more states than $U$.
 In particular, $U$ can even be used to evaluate itself!
@@ -89,7 +89,7 @@ This notion of _self reference_ will appear time and again in this course, and a
 This is not limited to theory, for example  the `C` compiler can be and is used to execute programs that are more complicated than itself. In fact, usually version $x$ of a compiler is used to compile the (updated) version $x+1$.
 This is also related to the fact that a program in `C` (or any other language) can print its own source code, see  [selfreplicatingcfig](){.ref}.
 
-![A self-replicating `C` program from the classic essay of Thompson  [@thompson1984reflections]](../figure/selfreplicatingcprog.png){#selfreplicatingcfig .class width=300px height=300px}
+![A self-replicating `C` program from the classic essay of Thompson  [@thompson1984reflections]](../figure/selfreplicatingcprog.png){#selfreplicatingcfig .margin width=300px height=300px}
 
 Because we can transform other computational models, including NAND-RAM, $\lambda$ calculus, or a C program, to NAND-TM  this means that even the seemingly "weak" NAND-TM programming language is powerful enough to contain an interpreter for all these models.
 
@@ -215,7 +215,7 @@ Then, since $M$ computes $F^*$, on input $x$, $F^*(x)$ equals the output of the 
 But by the definition of $F^*$, $F^*(x)$ must be different than the output of $M$ on the string $x$ that represents it,  hence yielding a contradiction.
 :::
 
-![We construct an uncomputable function by defining for every two strings $x,y$ the value $1-M_y(x)$ which equals $0$ if the machine described by $y$ outputs $1$ on $x$, and $1$ otherwise.  We then define $F^*(x)$ to be the "diagonal" of this table, namely $F^*(x)=1-M_x(x)$ for every $x$. The function $F^*$ is uncomputable, because if it was computable by some machine  whose string description is $x^*$ then we would get that $M_{x^*}(x^*)=F(x^*)=1-M_{x^*}(x^*)$.](../figure/diagonal_proof.png){#diagonal-fig .class width=300px height=300px}
+![We construct an uncomputable function by defining for every two strings $x,y$ the value $1-M_y(x)$ which equals $0$ if the machine described by $y$ outputs $1$ on $x$, and $1$ otherwise.  We then define $F^*(x)$ to be the "diagonal" of this table, namely $F^*(x)=1-M_x(x)$ for every $x$. The function $F^*$ is uncomputable, because if it was computable by some machine  whose string description is $x^*$ then we would get that $M_{x^*}(x^*)=F(x^*)=1-M_{x^*}(x^*)$.](../figure/diagonal_proof.png){#diagonal-fig .margin width=300px height=300px}
 
 
 > # { .pause }
@@ -256,7 +256,7 @@ Specifically, the proof will be by contradiction.
 That is, we will assume towards a contradiction that $HALT$ is computable, and use that assumption, together with the universal program of [universaltmthm](){.ref}, to derive that $F^*$ is computable, which will contradict  [uncomputable-func](){.ref}.
 :::
 
-![We prove that $HALT$ is uncomputable using a _reduction_ from computing the previously shown uncomputable function $F^*$ to computing $HALT$. We assume that we had an algorithm that computes $HALT$ and use that to obtain an algorithm that computes $F^*$.](../figure/halt-reduction.png){#halt-fig .class width=300px height=300px}
+![We prove that $HALT$ is uncomputable using a _reduction_ from computing the previously shown uncomputable function $F^*$ to computing $HALT$. We assume that we had an algorithm that computes $HALT$ and use that to obtain an algorithm that computes $F^*$.](../figure/halt-reduction.png){#halt-fig .margin width=300px height=300px}
 
 ::: {.proof data-ref="halt-thm"}
 The proof will use the previously established [uncomputable-func](){.ref} , as illustrated in [halt-fig](){.ref}.
@@ -334,7 +334,7 @@ while True:
 
 Given that Goldbach's Conjecture has been open since 1742, it is unclear that humans have any magical ability to say whether this (or other similar programs) will halt or not.
 
-![[XKCD](https://xkcd.com/1266/)'s take on solving the Halting problem, using the principle that "in the long run, we'll all be dead".](../figure/halting_problem_2x.png){#xkcdhaltingfig .class width=300px height=300px}
+![[XKCD](https://xkcd.com/1266/)'s take on solving the Halting problem, using the principle that "in the long run, we'll all be dead".](../figure/halting_problem_2x.png){#xkcdhaltingfig .margin width=300px height=300px}
 
 
 ### Reductions
@@ -369,7 +369,7 @@ The one silver lining is that at the end of the day the notion of reductions is 
 
 
 
-![Some of the functions that have been proven uncomputable. An arrow from problem X to problem Y means that the proof that Y is uncomputable follows by reducing computing X to computing Y.  Black arrows correspond to proofs that are shown in this text while pink arrows correspond to proofs that are known but not shown here. There are  many other functions that have been shown uncomputable via a reduction from the Halting function $HALT$. ](../figure/reductions_from_halting.png){#haltreductions .class width=300px height=300px}
+![Some of the functions that have been proven uncomputable. An arrow from problem X to problem Y means that the proof that Y is uncomputable follows by reducing computing X to computing Y.  Black arrows correspond to proofs that are shown in this text while pink arrows correspond to proofs that are known but not shown here. There are  many other functions that have been shown uncomputable via a reduction from the Halting function $HALT$. ](../figure/reductions_from_halting.png){#haltreductions .margin width=300px height=300px}
 
 ^[TODO: clean up this figure]
 

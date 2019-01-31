@@ -7,9 +7,9 @@ chapternum: "6"
 # Loops and infinity { #chaploops }
 
 > # { .objectives }
-* Learn the model of Turing machines that can compute functions of arbitrary input lengths.
+* Learn the model of _Turing machines_, which can compute functions of _arbitrary input lengths_.
 * See a programming-language description of Turing machines, using
-NAND-TM programs that add loops and arrays to NAND-CIRC.
+NAND-TM programs, which add _loops_ and _arrays_ to NAND-CIRC.
 * See some basic syntactic sugar and equivalence of variants of Turing machines and NAND-TM programs.
 
 >_"We thus see that when $n=1$, nine operation-cards are used; that when $n=2$, fourteen Operation-cards are used; and that when $n>2$, twenty-five operation-cards are used; but that no more are needed, however great $n$ may be; and not only this, but that these same twenty-five cards suffice for the successive computation of all the numbers"_, Ada Augusta, countess of Lovelace, 1843^[Translation of  "Sketch of the Analytical Engine" by L. F. Menabrea, Note G.]
@@ -25,7 +25,7 @@ The model of Boolean circuits  (or equivalently, the NAND-CIRC programming langu
 This does not capture our intuitive notion of an algorithm as a _single recipe_ to compute a potentially infinite function.
 For example, the standard elementary school multiplication algorithm is a _single_ algorithm that multiplies numbers of all lengths, but yet we cannot express this algorithm as a single NAND-CIRC program, but rather need a different NAND-CIRC program for every input length (see [multschoolfig](){.ref}).
 
-![Once you know how to multiply multi-digit numbers, you can do so for every number $n$ of digits, but if you had to describe multiplication using NAND-CIRC programs or Boolean circuits, you would need a different program/circuit for every length $n$ of the input.](../figure/multiplicationschool.png){#multschoolfig .class width=300px height=300px}
+![Once you know how to multiply multi-digit numbers, you can do so for every number $n$ of digits, but if you had to describe multiplication using NAND-CIRC programs or Boolean circuits, you would need a different program/circuit for every length $n$ of the input.](../figure/multiplicationschool.png){#multschoolfig .margin width=300px height=300px}
 
 Let us consider the case of the simple _parity_ or _XOR_ function  $XOR:\{0,1\}^* \rightarrow \{0,1\}$, where $XOR(x)$ equals $1$ iff the number of $1$'s in $x$ is odd.
 As simple as it is, the $XOR$ function cannot be computed by a NAND-CIRC program.
@@ -50,7 +50,7 @@ Temp[14] = NAND(X[4],Temp[12])
 Y[0] = NAND(Temp[13],Temp[14])
 ```
 
-![The circuit for computing the XOR of $5$ bits. Note how it merely repeats four times  the circuit to compute the XOR of $2$ bits.](../figure/XOR5circuit.png){#XOR5fig .class width=300px height=300px}
+![The circuit for computing the XOR of $5$ bits. Note how it merely repeats four times  the circuit to compute the XOR of $2$ bits.](../figure/XOR5circuit.png){#XOR5fig .margin width=300px height=300px}
 
 
 This is rather repetitive, and more importantly, does not capture the fact that there is a _single_ algorithm to compute the parity on all inputs.
@@ -89,20 +89,20 @@ We start off by presenting  Turing machines and then show their equivalence to N
 
 
 
-![Aside from his many other achievements, Alan Turing was an excellent long distance runner who just fell shy of making England's olympic team. A fellow runner once asked him why he punished himself so much in training. Alan said "I have such a stressful job that the only way I can get it out of my mind is by running hard; it’s the only way I can get some release."](../figure/alan-turing-running.jpg){#turingrunning .class width=300px height=300px}
+![Aside from his many other achievements, Alan Turing was an excellent long distance runner who just fell shy of making England's olympic team. A fellow runner once asked him why he punished himself so much in training. Alan said "I have such a stressful job that the only way I can get it out of my mind is by running hard; it’s the only way I can get some release."](../figure/alan-turing-running.jpg){#turingrunning .margin width=300px height=300px}
 
 
 The "granddaddy" of all models of computation is the _Turing Machine_, which is the standard  model of computation in most textbooks.^[This definitional choice does not make much difference since, as we  show here, NAND-TM  programs are equivalent to Turing machines in their computing power.]
 Turing machines were defined in 1936 by Alan Turing in an attempt to formally capture all the functions that can be computed by human "computers" (see [humancomputersfig](){.ref}) that follow a well-defined set of rules, such as the standard algorithms for addition or multiplication.
 
-![Until the advent of electronic computers, the word "computer" was used to describe a person that performed calculations. These human computers  were absolutely essential to many achievements including mapping the stars, breaking the Enigma cipher, and the NASA space mission. Photo taken from from [@sobel2017the].](../figure/HumanComputers.jpg){#humancomputersfig .class width=300px height=300px}
+![Until the advent of electronic computers, the word "computer" was used to describe a person that performed calculations. These human computers  were absolutely essential to many achievements including mapping the stars, breaking the Enigma cipher, and the NASA space mission. Photo taken from from [@sobel2017the].](../figure/HumanComputers.jpg){#humancomputersfig .margin width=300px height=300px}
 
 Turing thought of such a person as having access to as much "scratch paper" as they need.
 For simplicity we can think of this scratch paper as a one dimensional piece of graph paper (or _tape_, as it is commonly referred to),  which is divided to "cells", where each "cell" can hold a single symbol (e.g., one digit or letter, and more generally some element of a finite _alphabet_).
 At any point in time, the person can read from and write to a single cell of the paper, and based on the contents can update his/her finite mental  state, and/or move to the cell immediately to the left or right of the current one.
 
 
-![Steam-powered Turing Machine mural, painted by CSE grad students the University of Washington on the night before spring qualifying examinations, 1987. Image from [https://www.cs.washington.edu/building/art/SPTM](https://www.cs.washington.edu/building/art/SPTM). ](../figure/SPTM.jpg){#steamturingmachine .class width=300px height=300px}
+![Steam-powered Turing Machine mural, painted by CSE grad students the University of Washington on the night before spring qualifying examinations, 1987. Image from [https://www.cs.washington.edu/building/art/SPTM](https://www.cs.washington.edu/building/art/SPTM). ](../figure/SPTM.jpg){#steamturingmachine .margin width=300px height=300px}
 
 
 
@@ -124,7 +124,7 @@ Specifically, a computation of a Turing Machine $M$ with $k$ states and alphabet
 * When the machine halts then its output is obtained by reading off the tape from the second  location (just after the $\triangleright$) onwards, stopping at the first point where the symbol is not $0$ or $1$.
 
 
-![A Turing machine has access to a _tape_ of unbounded length. At each point in the execution, the machine can read a single symbol of the tape, and based on that and its current state, write a new symbol, update the tape, decide whether to move left, right, stay, or halt.](../figure/turingmachine.png){#turing-machine-fig .class width=300px height=300px}
+![A Turing machine has access to a _tape_ of unbounded length. At each point in the execution, the machine can read a single symbol of the tape, and based on that and its current state, write a new symbol, update the tape, decide whether to move left, right, stay, or halt.](../figure/turingmachine.png){#turing-machine-fig .margin width=300px height=300px}
 
 
 ::: {.example title="A Turing machine for palindromes" #turingmachinepalindrome}
@@ -502,7 +502,7 @@ Using the fact that _every_ function can be computed by a NAND-CIRC program, we 
 We show __(2)__ using very similar ideas. Given a program $P$ that uses $a$ array variables and $b$ scalar variables, we will create a Turing machine with about $2^b$ states to encode the values of scalar variables, and an alphabet of about $2^a$ so we can encode the arrays using our tape. (The reason the sizes are only "about" $2^a$ and $2^b$ is that we will need to add some symbols and steps for bookkeeping purposes.) The Turing Machine $M$ will simulate each iteration of the program $P$ by updating its state and tape accordingly.
 :::
 
-![Comparing a Turing Machine to a NAND-TM program. Both have an unbounded memory component (the _tape_ for a Turing machine, and the _arrays_ for a NAND-TM program), as well as a constant local memory (_state_ for a Turing machine, and _scalar variables_ for a NAND-TM program). Both can only access at each step one location of the unbounded memory, this is the "head" location for a Turing machine, and the value of the index variable `i` for a NAND-TM program.  ](../figure/tmvsnandpp.png){#tmvsnandppfig .class width=300px height=300px}
+![Comparing a Turing Machine to a NAND-TM program. Both have an unbounded memory component (the _tape_ for a Turing machine, and the _arrays_ for a NAND-TM program), as well as a constant local memory (_state_ for a Turing machine, and _scalar variables_ for a NAND-TM program). Both can only access at each step one location of the unbounded memory, this is the "head" location for a Turing machine, and the value of the index variable `i` for a NAND-TM program.  ](../figure/tmvsnandpp.png){#tmvsnandppfig .margin width=300px height=300px}
 
 :::  {.proof data-ref="TM-equiv-thm"}
 We start by proving  the "if" direction of [TM-equiv-thm](){.ref}. Namely we show that given a Turing machine $M$, we can find a NAND-TM program $P_M$ such that for every input $x$, if $M$ halts on input $x$ with output $y$ then $P_M(x)=y$.
@@ -650,7 +650,7 @@ Similarly, Python bytecode has instructions such as  `POP_JUMP_IF_TRUE` that imp
 The way we use `GOTO` to implement a higher level functionality in NAND-TM is reminiscent of the way these various jump instructions are used to implement higher level looping constructs.
 :::
 
-![XKCD's take on the `GOTO` statement.](../figure/xkcdgoto.png){#xkcdgotofig .class width=300px height=300px}
+![XKCD's take on the `GOTO` statement.](../figure/xkcdgoto.png){#xkcdgotofig .margin width=300px height=300px}
 
 ### Well formed programs: The NAND-TM style manual
 

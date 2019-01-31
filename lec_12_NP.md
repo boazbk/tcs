@@ -72,7 +72,7 @@ F(x) = G(R(x)) \;. \label{eq:reduction}
 $$
 We say that $F$ and $G$ have _equivalent complexity_ if $F \leq_p G$ and $G \leq_p F$.
 
-![If $F \leq_p G$ then we can transform a polynomial-time algorithm $B$  that computes $G$ into a polynomial-time algorithm $A$ that computes $F$. To compute $F(x)$ we can run the reduction $R$ guaranteed by the fact that $F \leq_p G$ to obtain $y=F(x)$ and then run our algorithm $B$ for $G$ to compute $G(y)$. ](../figure/reductionoutline.png){#reductionsfig .class width=300px height=300px}
+![If $F \leq_p G$ then we can transform a polynomial-time algorithm $B$  that computes $G$ into a polynomial-time algorithm $A$ that computes $F$. To compute $F(x)$ we can run the reduction $R$ guaranteed by the fact that $F \leq_p G$ to obtain $y=F(x)$ and then run our algorithm $B$ for $G$ to compute $G(y)$. ](../figure/reductionoutline.png){#reductionsfig .margin width=300px height=300px}
 
 ::: {.solvedexercise title="Reductions and $\mathbf{P}$" #reductionsandP}
 Prove that if $F \leq_p G$ and $G \in \mathbf{P}$ then $F\in \mathbf{P}$.
@@ -125,7 +125,7 @@ Like the others, it shares the characteristics that it is an important and well-
 In  [cooklevinchap](){.ref} we will show the other direction: reducing each one of these problems to 3SAT in one fell swoop.
 
 
-![Our first stage in showing equivalence is to reduce  3SAT to the  three other problems](../figure/sat_to_others.png){#figureid .class width=300px height=300px}
+![Our first stage in showing equivalence is to reduce  3SAT to the  three other problems](../figure/sat_to_others.png){#figureid .margin width=300px height=300px}
 
 
 ### Reducing 3SAT to quadratic equations
@@ -190,7 +190,7 @@ Therefore by the way we constructed our equations, the value assigned $x$ must b
 This reduction can be easily implemented in about a dozen lines of Python or any other programming language, see [sattoqefig](){.ref}.
 :::
 
-![Reducing 3SAT to satisfiability of quadratic equations. On the righthand side is Python code implementing the reduction of [quadeq-thm](){.ref} and on the lefthand side is the output of this reduction on an example 3SAT instance. ](../figure/SAT2QE.png){#sattoqefig .class width=300px height=300px}
+![Reducing 3SAT to satisfiability of quadratic equations. On the righthand side is Python code implementing the reduction of [quadeq-thm](){.ref} and on the lefthand side is the output of this reduction on an example 3SAT instance. ](../figure/SAT2QE.png){#sattoqefig .margin width=300px height=300px}
 
 
 
@@ -251,7 +251,7 @@ This completes the proof of [isetnpc](){.ref}
 :::
 
 
-![The reduction of 3SAT to Independent Set. On the righthand side is _Python_ code that implements this reduction. On the lefthand side is a sample output of the reduction. We use black for the "triangle edges" and red for the "conflict edges". Note that the satisfying assignment $x^* = 0110$ corresponds to the independent set $(0,\neg x_3)$, $(1, \neg x_0)$, $(2,x_2)$.](../figure/3sat2ISreduction.png){#threesattoisfig .class width=300px height=300px}
+![The reduction of 3SAT to Independent Set. On the righthand side is _Python_ code that implements this reduction. On the lefthand side is a sample output of the reduction. We use black for the "triangle edges" and red for the "conflict edges". Note that the satisfying assignment $x^* = 0110$ corresponds to the independent set $(0,\neg x_3)$, $(1, \neg x_0)$, $(2,x_2)$.](../figure/3sat2ISreduction.png){#threesattoisfig .margin width=300px height=300px}
 
 
 
@@ -280,10 +280,10 @@ __Part 2: Soundness.__ Suppose that $S$ is a cut in $H$ that cuts at least $C=k+
 :::
 
 
-![In the reduction of independent set to max cut, we have a "gadget" corresponding to every edge $e=\{u,v\}$ in the original graph. If we think of the side of the cut containing the special source vertex $s^*$ as "blue" and the other side as "red", then the leftmost and center figures show that if $u$ and $v$ are not both red then we can cut four edges from the gadget. In contrast, by enumerating all possibilities one can verify that if both $u$ and $v$ are red, then no matter how we color the intermediate vertices $e_0,e_1$, we will cut at most three edges from the gadget.  ](../figure/ISETtoMAXCUT.png){#ISETtoMAXCUTfig .class width=300px height=300px}
+![In the reduction of independent set to max cut, we have a "gadget" corresponding to every edge $e=\{u,v\}$ in the original graph. If we think of the side of the cut containing the special source vertex $s^*$ as "blue" and the other side as "red", then the leftmost and center figures show that if $u$ and $v$ are not both red then we can cut four edges from the gadget. In contrast, by enumerating all possibilities one can verify that if both $u$ and $v$ are red, then no matter how we color the intermediate vertices $e_0,e_1$, we will cut at most three edges from the gadget.  ](../figure/ISETtoMAXCUT.png){#ISETtoMAXCUTfig .margin width=300px height=300px}
 
 
-![The reduction of independent set to max cut. On the righthand side is Python code implementing the reduction. On the lefthand side is an example output of the reduction where we apply it to the independent set instance that is obtained by running the reduction of [isetnpc](){.ref} on the 3CNF formula $(x_0 \vee \overline{x}_3 \vee x_2) \wedge (\overline{x}_0 \vee x_1 \vee \overline{x}_2) \wedge (\overline{x}_1 \vee x_2 \vee x_3)$.](../figure/is2maxcut.png){#isettomaxcutcodefig .class width=300px height=300px}
+![The reduction of independent set to max cut. On the righthand side is Python code implementing the reduction. On the lefthand side is an example output of the reduction where we apply it to the independent set instance that is obtained by running the reduction of [isetnpc](){.ref} on the 3CNF formula $(x_0 \vee \overline{x}_3 \vee x_2) \wedge (\overline{x}_0 \vee x_1 \vee \overline{x}_2) \wedge (\overline{x}_1 \vee x_2 \vee x_3)$.](../figure/is2maxcut.png){#isettomaxcutcodefig .margin width=300px height=300px}
 
 ## Reducing 3SAT to Longest Path
 
@@ -320,10 +320,10 @@ But if we do that, then the only way if we are able to reach $t$ is if the paths
 
 
 
-![We can transform a 3SAT formula $\varphi$ into a graph $G$ such that the longest path in the graph $G$ would correspond to a satisfying assignment in $\varphi$. In this graph, the black colored part corresponds to the variables of $\varphi$ and the blue colored part corresponds to the vertices. A sufficiently long path would have to first "snake" through the black part, for each variable choosing either the "upper path" (corresponding to assigning it the value `True`) or the "lower path" (corresponding to assigning it the value `False`). Then to achieve maximum length the path would traverse through the blue part, where to go between two vertices corresponding to a clause such as $x_{17} \vee \overline{x}_{32} \vee x_{57}$, the corresponding vertices would have to have been not traversed before. ](../figure/3sat_longest_path_red_without_path.png){#longpathfig .class width=300px height=300px}
+![We can transform a 3SAT formula $\varphi$ into a graph $G$ such that the longest path in the graph $G$ would correspond to a satisfying assignment in $\varphi$. In this graph, the black colored part corresponds to the variables of $\varphi$ and the blue colored part corresponds to the vertices. A sufficiently long path would have to first "snake" through the black part, for each variable choosing either the "upper path" (corresponding to assigning it the value `True`) or the "lower path" (corresponding to assigning it the value `False`). Then to achieve maximum length the path would traverse through the blue part, where to go between two vertices corresponding to a clause such as $x_{17} \vee \overline{x}_{32} \vee x_{57}$, the corresponding vertices would have to have been not traversed before. ](../figure/3sat_longest_path_red_without_path.png){#longpathfig .margin width=300px height=300px}
 
 
-![The graph above with the longest path marked on it, the part of the path corresponding to variables is in green and  part corresponding to the clauses is in pink.](../figure/3sat_to_longest_path_reduction.png){#longpathfigtwo .class width=300px height=300px}
+![The graph above with the longest path marked on it, the part of the path corresponding to variables is in green and  part corresponding to the clauses is in pink.](../figure/3sat_to_longest_path_reduction.png){#longpathfigtwo .margin width=300px height=300px}
 
 
 

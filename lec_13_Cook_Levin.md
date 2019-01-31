@@ -37,7 +37,7 @@ we define the class $\mathbf{NP}$ to  contain all Boolean functions that corresp
 that is, functions that  output $1$ on $x$ if and only if there exists a solution $w$ such that the pair $(x,w)$ satisfies some polynomial-time checkable condition.
 Formally, $\mathbf{NP}$ is defined as follows:
 
-![The class $\mathbf{NP}$ corresponds to problems where solutions can be _efficiently verified_.  That is, this is the class of functions $F$ such that $F(x)=1$ if there is a "solution" $w$ of length polynomial in $|x|$ that can be verified by a polynomial-time algorithm $V$. ](../figure/NPdeffig.png){#NPdeffigfig .class width=300px height=300px}
+![The class $\mathbf{NP}$ corresponds to problems where solutions can be _efficiently verified_.  That is, this is the class of functions $F$ such that $F(x)=1$ if there is a "solution" $w$ of length polynomial in $|x|$ that can be verified by a polynomial-time algorithm $V$. ](../figure/NPdeffig.png){#NPdeffigfig .margin width=300px height=300px}
 
 ::: {.definition title="NP" #NP-def}
 We say that $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{NP}$ if there exists some constants $a,b \in \N$ and $V:\{0,1\}^* \rightarrow \{0,1\}$ such that $V\in \mathbf{P}$ and for every $x\in \{0,1\}^n$,
@@ -251,7 +251,7 @@ A million-dollar prize has been [offered](http://www.claymath.org/millennium-pro
 The following [120 page survey of Aaronson](https://eccc.weizmann.ac.il/report/2017/004/), as well as [chapter 3 in Wigderson's upcoming book](https://www.math.ias.edu/avi/book) are excellent sources for summarizing what is known about this problem.
 
 
-![The world if $\mathbf{P}\neq \mathbf{NP}$ (left) and $\mathbf{P}=\mathbf{NP}$ (right). In the former case the set of $\mathbf{NP}$-complete problems is disjoint from $\mathbf{P}$ and Ladner's theorem shows that there exist problems that are neither in $\mathbf{P}$ nor are $\mathbf{NP}$-complete. (There are remarkably few natural candidates for such problems, with some prominent examples being decision variants of problems such as integer factoring, lattice shortest vector, and finding Nash equilibria.) In the latter case that $\mathbf{P}=\mathbf{NP}$ the notion of $\mathbf{NP}$-completeness loses its meaning, as essentially all functions in $\mathbf{P}$ (save for the trivial constant zero and constant one functions) are $\mathbf{NP}$-complete.](../figure/PNPscenarios.png){#PNPscenariosfig .class width=300px height=300px}
+![The world if $\mathbf{P}\neq \mathbf{NP}$ (left) and $\mathbf{P}=\mathbf{NP}$ (right). In the former case the set of $\mathbf{NP}$-complete problems is disjoint from $\mathbf{P}$ and Ladner's theorem shows that there exist problems that are neither in $\mathbf{P}$ nor are $\mathbf{NP}$-complete. (There are remarkably few natural candidates for such problems, with some prominent examples being decision variants of problems such as integer factoring, lattice shortest vector, and finding Nash equilibria.) In the latter case that $\mathbf{P}=\mathbf{NP}$ the notion of $\mathbf{NP}$-completeness loses its meaning, as essentially all functions in $\mathbf{P}$ (save for the trivial constant zero and constant one functions) are $\mathbf{NP}$-complete.](../figure/PNPscenarios.png){#PNPscenariosfig .margin width=300px height=300px}
 
 One of the mysteries of computation is that people have observed a  certain empirical "zero-one law" or "dichotomy" in the computational complexity of natural problems, in the sense that many natural problems are either in $\mathbf{P}$ (often in $TIME(O(n))$ or $TIME(O(n^2))$), or they are are $\mathbf{NP}$ hard.
 This is related to the fact that for most natural problems, the best known algorithm is either exponential or polynomial, with not too many examples where the best running time is some strange intermediate complexity such as $2^{2^{\sqrt{\log n}}}$.
@@ -260,7 +260,7 @@ However, it is believed that there exist problems in $\mathbf{NP}$ that are neit
 
 
 
-![A rough illustration of the (conjectured) status of problems in exponential time. Darker colors correspond to higher running time, and the circle in the middle is the problems in $\mathbf{P}$. $\mathbf{NP}$ is a (conjectured to be proper) superclass of $\mathbf{P}$ and the $\mathbf{NP}$-complete problems (or $\mathbf{NPC}$ for short) are the "hardest" problems in $\mathbf{NP}$, in the sense that a solution for one of them implies a solution for all other problems in $\mathbf{NP}$. It is conjectured that all the $\mathbf{NP}$-complete problems require at least $\exp(n^\epsilon)$ time to solve for a constant $\epsilon>0$, and many require  $\exp(\Omega(n))$ time. The _permanent_ is not believed to be contained in $\mathbf{NP}$ though it is $\mathbf{NP}$-hard, which means that a polynomial-time algorithm for it implies that $\mathbf{P}=\mathbf{NP}$.](../figure/PNPmap.png){#figureid .class width=300px height=300px}
+![A rough illustration of the (conjectured) status of problems in exponential time. Darker colors correspond to higher running time, and the circle in the middle is the problems in $\mathbf{P}$. $\mathbf{NP}$ is a (conjectured to be proper) superclass of $\mathbf{P}$ and the $\mathbf{NP}$-complete problems (or $\mathbf{NPC}$ for short) are the "hardest" problems in $\mathbf{NP}$, in the sense that a solution for one of them implies a solution for all other problems in $\mathbf{NP}$. It is conjectured that all the $\mathbf{NP}$-complete problems require at least $\exp(n^\epsilon)$ time to solve for a constant $\epsilon>0$, and many require  $\exp(\Omega(n))$ time. The _permanent_ is not believed to be contained in $\mathbf{NP}$ though it is $\mathbf{NP}$-hard, which means that a polynomial-time algorithm for it implies that $\mathbf{P}=\mathbf{NP}$.](../figure/PNPmap.png){#figureid .margin width=300px height=300px}
 
 
 ^[TODO: maybe add examples of NP hard problems as a barrier to understanding - problems  from economics, physics, etc.. that prevent having a closed-form solutions]
@@ -352,7 +352,7 @@ Since we know that $F(x^*)=1$ if and only if there exists $w\in \{0,1\}^m$ such 
 :::
 
 
-![Given an $T$-line NAND-CIRC program $Q$ that has $n+m$ inputs and some $x^*\in \{0,1\}^n$, we can transform $Q$ into a $T+3$ line NAND-CIRC program $Q'$ that computes the map $w \mapsto Q(x^*w)$ for $w\in \{0,1\}^m$ by simply adding code to compute the `zero` and `one` constants,  replacing all references to `X[`$i$`]` with either `zero` or `one` depending on the value of $x^*_i$, and then replacing the remaining references to `X[`$j$`]` with `X[`$j-n$`]`. Above is Python code that implements this transformation, as well as an example of its execution on a simple program.](../figure/hardwiring.png){#hardwiringfig .class width=300px height=300px}
+![Given an $T$-line NAND-CIRC program $Q$ that has $n+m$ inputs and some $x^*\in \{0,1\}^n$, we can transform $Q$ into a $T+3$ line NAND-CIRC program $Q'$ that computes the map $w \mapsto Q(x^*w)$ for $w\in \{0,1\}^m$ by simply adding code to compute the `zero` and `one` constants,  replacing all references to `X[`$i$`]` with either `zero` or `one` depending on the value of $x^*_i$, and then replacing the remaining references to `X[`$j$`]` with `X[`$j-n$`]`. Above is Python code that implements this transformation, as well as an example of its execution on a simple program.](../figure/hardwiring.png){#hardwiringfig .margin width=300px height=300px}
 
 
 
@@ -385,7 +385,7 @@ The resulting reduction can be implemented in about a dozen lines of Python, see
 
 
 
-![Python code to reduce an instance $Q$ of $NANDSAT$ to an instance $\Psi$ of $3NAND$. In the example above we transform the NAND-CIRC program `xor5` which has $5$ input variables and $16$ lines, into a $3NAND$ formula $\Psi$ that has $24$ variables and $20$ clauses. Since `xor5` outputs $1$ on the input $1,0,0,1,1$, there exists an assignment $z \in \{0,1\}^{24}$ to $\Psi$ such that $(z_0,z_1,z_2,z_3,z_4)=(1,0,0,1,1)$ and $\Psi$ evaluates to _true_ on $z$. ](../figure/nandsatto3nandreduction.png){#nandsattothreenandfig .class width=300px height=300px}
+![Python code to reduce an instance $Q$ of $NANDSAT$ to an instance $\Psi$ of $3NAND$. In the example above we transform the NAND-CIRC program `xor5` which has $5$ input variables and $16$ lines, into a $3NAND$ formula $\Psi$ that has $24$ variables and $20$ clauses. Since `xor5` outputs $1$ on the input $1,0,0,1,1$, there exists an assignment $z \in \{0,1\}^{24}$ to $\Psi$ such that $(z_0,z_1,z_2,z_3,z_4)=(1,0,0,1,1)$ and $\Psi$ evaluates to _true_ on $z$. ](../figure/nandsatto3nandreduction.png){#nandsattothreenandfig .margin width=300px height=300px}
 
 
 ::: {.proof data-ref="threenand-thm"}
@@ -419,7 +419,7 @@ __Part II: Soundness.__ Suppose that there exists $z\in \{0,1\}^{n+m}$ satisfyin
 
 
 
-![A $3NAND$ instance that is obtained by taking a NAND-TM program for computing the $AND$ function, unrolling it to obtain a $NANDSAT$ instance, and then composing it with the reduction of [threenand-thm](){.ref}.](../figure/threenandresultreduction.png){#resultreduction .class width=300px height=300px}
+![A $3NAND$ instance that is obtained by taking a NAND-TM program for computing the $AND$ function, unrolling it to obtain a $NANDSAT$ instance, and then composing it with the reduction of [threenand-thm](){.ref}.](../figure/threenandresultreduction.png){#resultreduction .margin width=300px height=300px}
 
 
 ## From $3NAND$ to $3SAT$
@@ -438,7 +438,7 @@ To prove [threenand-sat-thm](){.ref} we need to map a 3NAND formula $\varphi$ in
 > # { .pause }
 It is a good exercise for you to try to find a 3CNF formula $\xi$ on three variables $a,b,c$ such that $\xi(a,b,c)$ is true if and only if $a = NAND(b,c)$. Once you do so, try to see why this implies a reduction from $3NAND$ to $3SAT$,  and hence completes the proof of [threenand-sat-thm](){.ref}
 
-![Code and example output for the reduction given in [threenand-sat-thm](){.ref} of $3NAND$ to $3SAT$.](../figure/3nandto3sat.png){#threenandtothreesat .class width=300px height=300px}
+![Code and example output for the reduction given in [threenand-sat-thm](){.ref} of $3NAND$ to $3SAT$.](../figure/3nandto3sat.png){#threenandtothreesat .margin width=300px height=300px}
 
 
 ::: {.proof data-ref="threenand-sat-thm"}
@@ -471,7 +471,7 @@ Finding a polynomial-time algorithm for any one of them will imply a polynomial-
 
 
 
-![An instance of the _independent set_ problem  obtained by applying the reductions $NANDSAT \leq_p 3NAND \leq_p 3SAT \leq_p ISAT$ starting with the `xor5` NAND-CIRC program.](../figure/indsetfromnandsat.png){#indsetfromnandsatfig .class width=300px height=300px}
+![An instance of the _independent set_ problem  obtained by applying the reductions $NANDSAT \leq_p 3NAND \leq_p 3SAT \leq_p ISAT$ starting with the `xor5` NAND-CIRC program.](../figure/indsetfromnandsat.png){#indsetfromnandsatfig .margin width=300px height=300px}
 
 
 

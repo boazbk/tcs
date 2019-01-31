@@ -21,7 +21,7 @@ In early computer systems, much effort was taken to drive _out_ randomness and n
 Hardware components were prone to non-deterministic behavior from a number of causes, whether it was vacuum tubes overheating or actual physical bugs causing short circuits (see [bugfig](){.ref}).
 This motivated John von Neumann, one of the early computing pioneers, to write a paper on how to _error correct_ computation, introducing the notion of _redundancy_.
 
-![A 1947 entry in the [log book](http://americanhistory.si.edu/collections/search/object/nmah_334663) of the Harvard MARK II computer containing an actual bug that caused a hardware malfunction. By Courtesy of the Naval Surface Warfare Center.](../figure/bug.jpg){#bugfig .class width=300px height=300px}
+![A 1947 entry in the [log book](http://americanhistory.si.edu/collections/search/object/nmah_334663) of the Harvard MARK II computer containing an actual bug that caused a hardware malfunction. By Courtesy of the Naval Surface Warfare Center.](../figure/bug.jpg){#bugfig .margin width=300px height=300px}
 
 So it is  quite surprising that randomness turned out not just a hindrance but also a _resource_ for computation, enabling to achieve tasks much more efficiently than previously known.
 One of the  first applications  involved the very same John von Neumann.
@@ -263,7 +263,7 @@ Indeed, by Claim II, the original guess $x$ will satisfy $\Delta(x,x^*) \leq n/2
 Since any  single iteration  of the outer loop succeeds with probability at least $\tfrac{1}{2} \cdot \sqrt{3}^{-n}$, the probability that we never do so in $T=100 \sqrt{3}^{n}$ repetitions is at most $(1-\tfrac{1}{2\sqrt{3}^{n}})^{100\cdot \sqrt{3}^n} \leq (1/e)^{50}$.
 :::
 
-![For every $x^* \in \{0,1\}^n$, we can sort all strings in $\{0,1\}^n$ according to their distance from $x^*$ (top to bottom in the above figure), where we let $A = \{ x\in \{0,1\}^n \;|\; dist(x,x^* \leq n/2 \}$ be the "top half" of strings. If we define $FLIP:\{0,1\}^n \rightarrow \{0,1\}$ to be the map that "flips" the bits of a given string $x$ then it maps every $x\in \overline{A}$ to an output $FLIP(x)\in A$ in a one-to-one way, and so it demonstrates that $|\overline{A}| \leq |A|$ which implies that $\Pr[A] \geq \Pr[\overline{A}]$ and hence $\Pr[A] \geq 1/2$.](../figure/flipaanalysis.png){#flipaanalysisfig .class width=300px height=300px}
+![For every $x^* \in \{0,1\}^n$, we can sort all strings in $\{0,1\}^n$ according to their distance from $x^*$ (top to bottom in the above figure), where we let $A = \{ x\in \{0,1\}^n \;|\; dist(x,x^* \leq n/2 \}$ be the "top half" of strings. If we define $FLIP:\{0,1\}^n \rightarrow \{0,1\}$ to be the map that "flips" the bits of a given string $x$ then it maps every $x\in \overline{A}$ to an output $FLIP(x)\in A$ in a one-to-one way, and so it demonstrates that $|\overline{A}| \leq |A|$ which implies that $\Pr[A] \geq \Pr[\overline{A}]$ and hence $\Pr[A] \geq 1/2$.](../figure/flipaanalysis.png){#flipaanalysisfig .margin width=300px height=300px}
 
 ### Bipartite matching.
 
@@ -274,7 +274,7 @@ The goal is to determine whether there is a _perfect matching_, a subset $M \sub
 That is, $M$ matches every vertex in $L$ to a unique vertex in $R$.
 
 
-![The bipartite matching problem in the graph $G=(L\cup R,E)$ can be reduced to the minimum $s,t$ cut problem in the graph $G'$ obtained by adding vertices $s,t$ to $G$, connecting $s$ with $L$ and connecting $t$ with $R$.](../figure/matchingfig.png){#matchingfig .class width=300px height=300px}
+![The bipartite matching problem in the graph $G=(L\cup R,E)$ can be reduced to the minimum $s,t$ cut problem in the graph $G'$ obtained by adding vertices $s,t$ to $G$, connecting $s$ with $L$ and connecting $t$ with $R$.](../figure/matchingfig.png){#matchingfig .margin width=300px height=300px}
 
 The bipartite matching problem turns out to have a polynomial-time algorithm, since we can reduce finding a matching in $G$ to finding a maximum flow (or equivalently, minimum cut) in a related graph $G'$ (see [matchingfig](){.ref}).
 However, we will see a different probabilistic algorithm to determine whether a graph contains such a matching.
@@ -309,7 +309,7 @@ The  intuition behind our randomized algorithm for zero testing is the following
 
 >_If a polynomial is not identically zero, then it can't have "too many" roots._
 
-![A degree $d$ curve in one variable can have at most $d$ roots. In higher dimensions, a $n$-variate degree-$d$ polynomial can have an infinite number roots though the set of roots will be an $n-1$ dimensional surface. Over a finite field $\mathbb{F}$, an $n$-variate degree $d$ polynomial has at most $d|\mathbb{F}|^{n-1}$ roots.](../figure/curves.png){#curvesfig .class width=300px height=300px}
+![A degree $d$ curve in one variable can have at most $d$ roots. In higher dimensions, a $n$-variate degree-$d$ polynomial can have an infinite number roots though the set of roots will be an $n-1$ dimensional surface. Over a finite field $\mathbb{F}$, an $n$-variate degree $d$ polynomial has at most $d|\mathbb{F}|^{n-1}$ roots.](../figure/curves.png){#curvesfig .margin width=300px height=300px}
 
 This intuition sort of makes sense.
 For one variable polynomials, we know that a nonzero linear function has at most one root, a quadratic function (e.g., a parabola) has at most two roots, and generally a degree $d$ equation has at most $d$ roots.

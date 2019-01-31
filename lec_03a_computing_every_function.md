@@ -227,72 +227,24 @@ In the above we used the _loop_ `for i in range(n)`  but we can expand this out 
 The crucial point is that (unlike most programming languages) we do not allow the number of times the loop is executed to  depend on the input, and so it is always possible to "expand out" the loop by simply copying the code the requisite number of times.
 
 
-By expanding out all the features, for every value of $n$ we can translate the above program into a standard ("sugar free") NAND-CIRC program. Here is what we get for $n=2$:
+By expanding out all the features, for every value of $n$ we can translate the above program into a standard ("sugar free") NAND-CIRC program. [add2bitnumbersfig](){.ref} depicts  what we get for $n=2$.
 
-```python
-Temp[0] = NAND(X[0],X[0])
-Temp[1] = NAND(X[0],Temp[0])
-Temp[2] = NAND(Temp[1],Temp[1])
-Temp[3] = NAND(X[0],X[2])
-Temp[4] = NAND(X[0],Temp[3])
-Temp[5] = NAND(X[2],Temp[3])
-Temp[6] = NAND(Temp[4],Temp[5])
-Temp[7] = NAND(Temp[2],Temp[6])
-Temp[8] = NAND(Temp[2],Temp[7])
-Temp[9] = NAND(Temp[6],Temp[7])
-Y[0] = NAND(Temp[8],Temp[9])
-Temp[11] = NAND(Temp[2],X[0])
-Temp[12] = NAND(Temp[11],Temp[11])
-Temp[13] = NAND(X[0],X[2])
-Temp[14] = NAND(Temp[13],Temp[13])
-Temp[15] = NAND(Temp[12],Temp[12])
-Temp[16] = NAND(Temp[14],Temp[14])
-Temp[17] = NAND(Temp[15],Temp[16])
-Temp[18] = NAND(Temp[2],X[2])
-Temp[19] = NAND(Temp[18],Temp[18])
-Temp[20] = NAND(Temp[17],Temp[17])
-Temp[21] = NAND(Temp[19],Temp[19])
-Temp[22] = NAND(Temp[20],Temp[21])
-Temp[23] = NAND(X[1],X[3])
-Temp[24] = NAND(X[1],Temp[23])
-Temp[25] = NAND(X[3],Temp[23])
-Temp[26] = NAND(Temp[24],Temp[25])
-Temp[27] = NAND(Temp[22],Temp[26])
-Temp[28] = NAND(Temp[22],Temp[27])
-Temp[29] = NAND(Temp[26],Temp[27])
-Y[1] = NAND(Temp[28],Temp[29])
-Temp[31] = NAND(Temp[22],X[1])
-Temp[32] = NAND(Temp[31],Temp[31])
-Temp[33] = NAND(X[1],X[3])
-Temp[34] = NAND(Temp[33],Temp[33])
-Temp[35] = NAND(Temp[32],Temp[32])
-Temp[36] = NAND(Temp[34],Temp[34])
-Temp[37] = NAND(Temp[35],Temp[36])
-Temp[38] = NAND(Temp[22],X[3])
-Temp[39] = NAND(Temp[38],Temp[38])
-Temp[40] = NAND(Temp[37],Temp[37])
-Temp[41] = NAND(Temp[39],Temp[39])
-Y[2] = NAND(Temp[40],Temp[41])
-```
-
-Which corresponds to the following circuit:
-
-![](../figure/add2bitcirc.png){#figid .class width=300px height=300px} \
+![The NAND-CIRC program and corresponding NAND circuit for adding two-digit binary numbers that are obtained by "expanding out" all the syntactic sugar. The program/circuit has 43 lines/gates which is by no means necessary. It is possible to add $n$ bit numbers using $9n$ NAND gates, see [halffulladderex](){.ref}.](../figure/add2bitnumbers.png){#add2bitnumbersfig .class width=300px height=300px}
 
 By going through the above program carefully and accounting for the number of gates, we can see that it yields a proof of the following theorem (see also [addnumoflinesfig](){.ref}):
 
 > # {.theorem title="Addition using NAND-CIRC programs" #addition-thm}
-For every $n$, let $ADD_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{n+1}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the sum of the numbers that $x$ and $x'$ represent. Then there is a NAND-CIRC program that computes the function $ADD_n$. Moreover, the number of lines in this program is smaller than $20n$.
+For every $n\in \N$, let $ADD_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{n+1}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the sum of the numbers that $x$ and $x'$ represent. Then there is a constant $c \leq 30$ such that for every $n$ there is a NAND-CIRC program of at most $c$ lines computing $ADD_n$.^[The value of $c$ can be improved to $9$, see   [halffulladderex](){.ref}.]
 
 
-![The number of lines in our NAND-CIRC program to add two $n$ bit numbers, as a function of $n$, for $n$'s between $1$ and $100$.](../figure/addnumberoflines.png){#addnumoflinesfig .class width=300px height=300px}
+![The number of lines in our  NAND-CIRC program to add two $n$ bit numbers, as a function of $n$, for $n$'s between $1$ and $100$. This is not the most efficient program for this task, but the important point is that it has the form $O(n)$.](../figure/addnumberoflines.png){#addnumoflinesfig .margin width=300px height=300px}
 
 
 Once we have addition, we can use the grade-school algorithm to obtain multiplication as well, thus obtaining the following theorem:
 
 
 > # {.theorem title="Multiplication NAND-CIRC programs" #theoremid}
-For every $n$, let $MULT_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{2n}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the product of the numbers that $x$ and $x'$ represent. Then there is a NAND-CIRC program that computes the function $MULT_n$. Moreover, the number of lines in this program is smaller than $1000n^2$.
+For every $n$, let $MULT_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{2n}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the product of the numbers that $x$ and $x'$ represent. Then there is a constant $c$ such that for every $n$, there is a  NAND-CIRC program of at most $cn^2$ that computes the function $MULT_n$.
 
 We omit the proof, though in [multiplication-ex](){.ref} we ask you to supply a "constructive proof" in the form of a program (in your favorite programming language) that on input a number $n$, outputs the code of a NAND-CIRC program of at most $1000n^2$ lines that computes the $MULT_n$ function.
 In fact, we can use Karatsuba's algorithm to show that there is a NAND-CIRC program of $O(n^{\log_2 3})$ lines to compute $MULT_n$ (and one can even get further asymptotic improvements using the newer algorithms).
@@ -416,7 +368,7 @@ $$
 which solves for $L(k) \leq 4(2^k-1)$.
 (See [lookuplinesfig](){.ref} for a plot of the actual number of lines in our implementation of $LOOKUP_k$.)
 
-![The number of lines in our implementation of  the `LOOKUP_k` function as a function of $k$ (i.e., the length of the index). The number of lines in our implementation is roughly $3 \cdot 2^k$.](../figure/lookup_numlines.png){#lookuplinesfig .class width=300px height=300px}
+![The number of lines in our implementation of  the `LOOKUP_k` function as a function of $k$ (i.e., the length of the index). The number of lines in our implementation is roughly $3 \cdot 2^k$.](../figure/lookup_numlines.png){#lookuplinesfig .margin width=300px height=300px}
 
 ## Computing _every_ function
 
@@ -539,7 +491,7 @@ So it makes sense that we could write a NAND-CIRC program of similar size to com
 What is more interesting is that  _some_ functions, such as addition and multiplication,  have a much more efficient representation: one that only requires $O(n^2)$ or even smaller number of lines.
 
 
-### Improving  by a factor of $n$ (optional) {#tight-upper-bound}
+### Improving by a factor of $n$ (optional) {#tight-upper-bound}
 
 As discussed in [improvedboundrem](){.ref},  by being a little more careful, we can improve the bound of [NAND-univ-thm](){.ref} and show that every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a NAND-CIRC program of at most $O(m 2^n/n)$ lines.
 As before, it is enough to prove the case that $m=1$.
@@ -596,7 +548,7 @@ On the other hand, if $f$ can be computed by a Boolean AND/OR/NOT circuit of at 
 
 
 
-![A "category error" is a question such as "is a cucumber even or odd?" which does not even make sense. In this book the category errors one needs to watch out for are confusing _functions_ and _programs_ (i.e., confusing _specifications_ and _implementations_). If $C$ is a circuit or program, then asking if $C \in SIZE_{n,1}(s)$ is a category error, since $SIZE_{n,1}(s)$ is a set of _functions_ and not programs or circuits.](../figure/cucumber.png){#cucumberfig .class width=300px height=300px}
+![A "category error" is a question such as "is a cucumber even or odd?" which does not even make sense. In this book the category errors one needs to watch out for are confusing _functions_ and _programs_ (i.e., confusing _specifications_ and _implementations_). If $C$ is a circuit or program, then asking if $C \in SIZE_{n,1}(s)$ is a category error, since $SIZE_{n,1}(s)$ is a set of _functions_ and not programs or circuits.](../figure/cucumber.png){#cucumberfig .margin width=300px height=300px}
 
 
 The results we've seen before can be phrased as showing  that $ADD_n \in SIZE_{2n,n+1}(100 n)$
@@ -683,6 +635,16 @@ In this exercise we will show that even though the NAND-CIRC programming languag
 Suppose that there is an $s$-line NAND-CIRC program to compute $f:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND-CIRC program to compute $f':\{0,1\}^n \rightarrow \{0,1\}$.
 Prove that there is a program of at most $s+s'+10$ lines to compute the function $g:\{0,1\}^{n+1} \rightarrow \{0,1\}$ where $g(x_0,\ldots,x_{n-1},x_n)$ equals $f(x_0,\ldots,x_{n-1})$ if $x_n=0$ and equals $f'(x_0,\ldots,x_{n-1})$ otherwise.
 
+
+::: {.exercise title="Half and full adders" #halffulladderex}
+1. A _half adder_ is the function $HA:\{0,1\}^2 :\rightarrow \{0,1\}^2$ that corresponds to adding two binary bits. That is, for every $a,b \in \{0,1\}$, $HA(a,b)= (e,f)$ where $2e+f = a +b$. Prove that there is a NAND circuit of at most five NAND gates that computes $HA$.
+
+2. A _full adder_ is the function $FA:\{0,1\}^3 \rightarrow \{0,1\}$ that takes in two bits and a "carry" bit and outputs their sum. That is, for every $a,b,c \in \{0,1\}$, FA(a,b,c) = (e,f)$ such that $2e+f = a+b+c$. Prove that there is a NAND circuit of at most nine NAND gates that computes $FA$.
+
+3. Prove that if there is a NAND circuit of $c$ gates that computes $FA$, then there  is a circuit of $cn$ gates that computes $ADD_n$ where (as in [addition-thm](){.ref}) $ADD_n:\{0,1\}^{2n} \rightarrow \{0,1\}^n$ is the function that outputs the addition of two input $n$-bit numbers. See footnote for hint.^[Use a "cascade" of adding the bits one after the other, starting with the least significant digit, just like in the elementary-school algorithm.]
+
+4. Show that for every $n$ there is a NAND-CIRC program to compute $ADD_n$ with at most $9n$ lines.
+:::
 
 
 > # {.exercise title="Addition" #addition-ex}
