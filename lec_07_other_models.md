@@ -29,7 +29,7 @@ If  `i`$=22$ and we want to access `Foo[`$957$`]` then it will take us at least 
 In contrast, almost every programming language has a formalism for directly accessing memory locations.
 Hardware implementations also provide so called _Random Access Memory (RAM)_ which can be thought of as a large array `Memory`, such that given an index $p$ (i.e., memory address, or a _pointer_), we can read from and write to the $p^{th}$ location of `Memory`.^["Random access memory" is quite a misnomer, since it has nothing to do with probability.  _Indexed access_ would have been more appropriate. However, the term "random access" is standard in both the theoretical and practical literature, and hence we will use it as well.]
 
-![A _RAM Machine_ contains a finite number of local registers, each of which holds an integer, and an unbounded memory array. It can perform arithmetic operations on its register as well as load to a register $r$ the contents of the memory at the address indexed by the number in register $r'$.](../figure/rammachine.png){#rammachinefig .margin width=300px height=300px}
+![A _RAM Machine_ contains a finite number of local registers, each of which holds an integer, and an unbounded memory array. It can perform arithmetic operations on its register as well as load to a register $r$ the contents of the memory at the address indexed by the number in register $r'$.](../figure/rammachine.png){#rammachinefig  width=300px height=300px}
 
 
 The computational model that allows access to such a memory is known as a _RAM machine_ (sometimes also known as the _Word RAM model_), as depicted in [rammachinefig](){.ref}.
@@ -275,7 +275,7 @@ We call such an "intermediate level" description an _implementation level_ or _p
 Finally, if we want to describe the implementation precisely, we would give the full code of the program (or another fully precise representation, such as in the form of a list of tuples).
 We call this a _formal_ or _low level_ description.
 
-![We can describe an algorithm at different levels of granularity/detail and precision. At the highest level we just write the idea in words, omitting all details on representation and implementation. In the intermediate level (also known as _implementation_ or _pseudocode_) we give enough details of the implementation that would allow someone to derive it, though we still fall short of providing the full code. The lowest level is where the actual code or mathematical description is fully spelled out. These different levels of detail all have their uses, and moving between them is one of the most important skills for a computer scientist. ](../figure/levelsofdescription.png){#levelsdescfig .margin width=300px height=300px}
+![We can describe an algorithm at different levels of granularity/detail and precision. At the highest level we just write the idea in words, omitting all details on representation and implementation. In the intermediate level (also known as _implementation_ or _pseudocode_) we give enough details of the implementation that would allow someone to derive it, though we still fall short of providing the full code. The lowest level is where the actual code or mathematical description is fully spelled out. These different levels of detail all have their uses, and moving between them is one of the most important skills for a computer scientist. ](../figure/levelsofdescription.png){#levelsdescfig  width=300px height=300px}
 
 
 While we started off by describing NAND-CIRC, NAND-TM, and NAND-RAM programs at the full formal level, as  we progress in this book we will move to implementation and high level description.
@@ -557,9 +557,9 @@ We could have also computed $XOR$ using the $REDUCE$ operation, we leave working
 :::
 
 
-![A list $\langle x_0,x_1,x_2 \rangle$ in the λ calculus is constructed from the tail up, building the pair $\langle x_2,NIL\rangle$, then the pair $\langle x_1, \langle x_2,NIL\rangle \rangle$ and finally the pair $\langle x_0,\langle x_1,\langle x_2,NIL \rangle\rangle\rangle$. That is, a list is a pair where the first element of the pair is the first element of the list and the second element is the rest of the list. The figure on the left renders this "pairs inside pairs" construction, though it is often easier to think of a list as a "chain", as in the figure on the right, where the second element of each pair is thought of as a _link_, _pointer_  or _reference_ to the  remainder of the list.](../figure/lambdalist.png){#lambdalistfig .margin width=300px height=300px}
+![A list $\langle x_0,x_1,x_2 \rangle$ in the λ calculus is constructed from the tail up, building the pair $\langle x_2,NIL\rangle$, then the pair $\langle x_1, \langle x_2,NIL\rangle \rangle$ and finally the pair $\langle x_0,\langle x_1,\langle x_2,NIL \rangle\rangle\rangle$. That is, a list is a pair where the first element of the pair is the first element of the list and the second element is the rest of the list. The figure on the left renders this "pairs inside pairs" construction, though it is often easier to think of a list as a "chain", as in the figure on the right, where the second element of each pair is thought of as a _link_, _pointer_  or _reference_ to the  remainder of the list.](../figure/lambdalist.png){#lambdalistfig  width=300px height=300px}
 
-![Illustration of the $MAP$, $FILTER$ and $REDUCE$ operations.](../figure/reducemapfilter.png){#reduceetalfig .margin width=300px height=300px}
+![Illustration of the $MAP$, $FILTER$ and $REDUCE$ operations.](../figure/reducemapfilter.png){#reduceetalfig  width=300px height=300px}
 
 ### Enhanced λ expressions
 
@@ -977,7 +977,7 @@ We will come back to this notion in later chapters as well.
 
 ![A _configuration_ of a Turing machine $M$ with alphabet $\Sigma$ and state space $[k]$ encodes the state of $M$ at a particular step in its  execution as a string $\alpha$ over the alphabet $\overline{\Sigma} = \Sigma \times (\{\cdot \} \times [k])$. The string is of length $t$ where $t$ is such that $M$'s tape contains $\varnothing$ in all positions $t$ and larger and $M$'s head is in a position smaller than $t$.
 If $M$'s head is in the $i$-th position, then for $j \neq i$, $\alpha_j$ encodes the value of the $j$-th cell of $M$'s tape, while $\alpha_i$ encodes both this value as well as the current state of $M$.
-If the machine writes the value $\tau$, changes state to $t$, and moves right, then in the next configuration will contain at position $i$ the value  $(\tau,\cdot)$ and at position $i+1$ the value $(\alpha_{i+1},t)$.](../figure/turingmachineconf.png){#turingconfigfig .margin width=300px height=300px}
+If the machine writes the value $\tau$, changes state to $t$, and moves right, then in the next configuration will contain at position $i$ the value  $(\tau,\cdot)$ and at position $i+1$ the value $(\alpha_{i+1},t)$.](../figure/turingmachineconf.png){#turingconfigfig  width=300px height=300px}
 
 ::: { .pause }
 [configtmdef](){.ref} below has some technical details, but is not actually that deep or complicated.

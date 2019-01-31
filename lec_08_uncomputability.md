@@ -215,7 +215,7 @@ Then, since $M$ computes $F^*$, on input $x$, $F^*(x)$ equals the output of the 
 But by the definition of $F^*$, $F^*(x)$ must be different than the output of $M$ on the string $x$ that represents it,  hence yielding a contradiction.
 :::
 
-![We construct an uncomputable function by defining for every two strings $x,y$ the value $1-M_y(x)$ which equals $0$ if the machine described by $y$ outputs $1$ on $x$, and $1$ otherwise.  We then define $F^*(x)$ to be the "diagonal" of this table, namely $F^*(x)=1-M_x(x)$ for every $x$. The function $F^*$ is uncomputable, because if it was computable by some machine  whose string description is $x^*$ then we would get that $M_{x^*}(x^*)=F(x^*)=1-M_{x^*}(x^*)$.](../figure/diagonal_proof.png){#diagonal-fig .margin width=300px height=300px}
+![We construct an uncomputable function by defining for every two strings $x,y$ the value $1-M_y(x)$ which equals $0$ if the machine described by $y$ outputs $1$ on $x$, and $1$ otherwise.  We then define $F^*(x)$ to be the "diagonal" of this table, namely $F^*(x)=1-M_x(x)$ for every $x$. The function $F^*$ is uncomputable, because if it was computable by some machine  whose string description is $x^*$ then we would get that $M_{x^*}(x^*)=F(x^*)=1-M_{x^*}(x^*)$.](../figure/diagonal_proof.png){#diagonal-fig  width=300px height=300px}
 
 
 > # { .pause }
@@ -256,7 +256,7 @@ Specifically, the proof will be by contradiction.
 That is, we will assume towards a contradiction that $HALT$ is computable, and use that assumption, together with the universal program of [universaltmthm](){.ref}, to derive that $F^*$ is computable, which will contradict  [uncomputable-func](){.ref}.
 :::
 
-![We prove that $HALT$ is uncomputable using a _reduction_ from computing the previously shown uncomputable function $F^*$ to computing $HALT$. We assume that we had an algorithm that computes $HALT$ and use that to obtain an algorithm that computes $F^*$.](../figure/halt-reduction.png){#halt-fig .margin width=300px height=300px}
+![We prove that $HALT$ is uncomputable using a _reduction_ from computing the previously shown uncomputable function $F^*$ to computing $HALT$. We assume that we had an algorithm that computes $HALT$ and use that to obtain an algorithm that computes $F^*$.](../figure/halt-reduction.png){#halt-fig  width=300px height=300px}
 
 ::: {.proof data-ref="halt-thm"}
 The proof will use the previously established [uncomputable-func](){.ref} , as illustrated in [halt-fig](){.ref}.
@@ -369,9 +369,7 @@ The one silver lining is that at the end of the day the notion of reductions is 
 
 
 
-![Some of the functions that have been proven uncomputable. An arrow from problem X to problem Y means that the proof that Y is uncomputable follows by reducing computing X to computing Y.  Black arrows correspond to proofs that are shown in this text while pink arrows correspond to proofs that are known but not shown here. There are  many other functions that have been shown uncomputable via a reduction from the Halting function $HALT$. ](../figure/reductions_from_halting.png){#haltreductions .margin width=300px height=300px}
-
-^[TODO: clean up this figure]
+![Some uncomputability results. An arrow from problem X to problem Y means that we use the uncomputability of X to prove the uncomputability of Y by reducing computing X to computing Y.  All of these results except for the MRDP Theorem appear in either the text or exercises. The Halting Problem $HALT$ serves as our starting point for all these uncomputability results as well as many others.](../figure/reductions_from_halting.png){#haltreductions  width=300px height=300px}
 
 
 ### A direct proof of the uncomputability of $HALT$ (optional)
