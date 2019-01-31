@@ -531,6 +531,12 @@ Let $n,m,s \in \N$ be numbers with $s \geq m$.
 The set $SIZE_{n,m}(s)$ denotes the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ such that there exists a NAND circuit of at most $s$ gates that computes $f$.
 We denote by $SIZE_n(s)$ the set $SIZE_{n,1}(s)$.
 
+[funcvscircfig](){.ref} depicts the sets $SIZE_{n,1}(s)$, note that $SIZE_{n,m}(s)$ is a set of _functions_, not of _programs!_ (asking if a program or a circuit is a member of $SIZE_{n,m}(s)$ is a _category  error_ as in the sense of  [cucumberfig](){.ref}).
+
+
+![There are $2^{2^n}$ functions mapping $\{0,1\}^n$ to $\{0,1\}$, and an infinite number of circuits with $n$ bit inputs and a single bit of output. Every circuit computes one function, but every function can be computed by many circuits. We say that $f \in SIZE_{n,1}(s)$ if the smallest circuit that computes $f$ has $s$ or fewer gates. For example $XOR_n \in SIZE_{n,1}(4n)$. [NAND-univ-thm](){.ref} shows that _every_ function $g$ is computable by some circuit of at most $c\cdot 2^n/n$ gates, and hence $SIZE_{n,1}(c\cdot 2^n/n)$ corresponds to the set of _all_ functions from $\{0,1\}^n$ to $\{0,1\}$.](../figure/funcvscircs.png){#funcvscircfig .class width=300px height=300px}
+
+
 While we defined $SIZE_{n,m}(s)$ with respect to NAND gates, we would get essentially the same class if we defined it with respect to AND/OR/NOT gates:
 
 > # {.lemma #nandaonsizelem}
