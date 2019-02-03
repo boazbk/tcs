@@ -236,8 +236,11 @@ When one wants to produce a device that executes programs, it is convenient  to 
 ![By having the two equivalent languages NAND-TM and NAND-RAM, we can "have our cake and eat it too", using NAND-TM when we want to prove that programs _can't_ do something, and using NAND-RAM or other high level languages when we want to prove that programs _can_ do something.](../figure/have_your_cake_and_eat_it_too-img-intro.png){#cakefig .margin width=300px height=300px}
 
 ::: { .bigidea #eatandhavecake }
-Using equivalence results such as those between Turing and RAM machines, we can "have our cake and eat it too". We can use a  simpler model such as Turing machines when we want to prove something _can't_ be done, and use a   feature-rich model such as RAM machines when we want to prove  something _can_ be done.
+Using equivalence results such as those between Turing and RAM machines, we can "have our cake and eat it too".
+
+We can use a  simpler model such as Turing machines when we want to prove something _can't_ be done, and use a   feature-rich model such as RAM machines when we want to prove  something _can_ be done.
 :::
+
 
 
 
@@ -284,6 +287,7 @@ That said, if you don't understand how the high level description translates to 
 (One of the most important skills for a computer scientist is the ability to move up and down hierarchies of abstractions.)
 
 
+
 A similar distinction applies to the notion of _representation_ of objects as strings.
 Sometimes, to be precise, we give a _low level specification_ of exactly how an object maps into a binary string.
 For example, we might describe an encoding of $n$ vertex graphs as length $n^2$ binary strings, by saying that we map a graph $G$ over the vertices $[n]$ to a string $x\in \{0,1\}^{n^2}$ such that the $n\cdot i + j$-th coordinate of $x$ is $1$ if and only if the edge $\overrightarrow{i \; j}$  is present in $G$.
@@ -293,6 +297,13 @@ We can also use an _intermediate_ or _implementation level_ description, by simp
 Finally, because we are translating between the various representations of graphs (and objects in general) can be done via a NAND-RAM (and hence a NAND-TM) program, when talking in a high level we  also suppress discussion of  representation altogether.
 For example, the fact that graph connectivity  is a computable function is true regardless of whether we represent graphs as adjacency lists, adjacency matrices, list of edge-pairs, and so on and so forth.
 Hence, in cases where the precise representation doesn't make a difference, we would often talk about our algorithms as taking as input an object $O$ (that can be a graph, a vector, a program, etc.) without specifying how $O$ is encoded as a string.
+
+### Definition of "Algorithm" { #defalgsec }
+
+Up until now we have use the term "algorithm" informally.
+However, Turing Machines and the range of equivalent models give a way to precisely  and formally define algorithms.
+Hence whenever we refer to an _algorithm_ in this book, we will mean that it is an instance of one of the  Turing equivalent models, such as Turing machines, NAND-TM, RAM machines, etc.
+Because of the equivalence of all these models, in many contexts, it will not matter which of these we use.
 
 
 
