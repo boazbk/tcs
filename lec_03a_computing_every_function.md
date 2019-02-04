@@ -437,8 +437,8 @@ For example, the table below describes one particular function $G: \{0,1\}^4 \ri
 | $1111$      | 1               |
 
 
+Table: An example of a function $G:\{0,1\}^4 \rightarrow \{0,1\}$. {#tablefunctiong}
 
- \
 
 
 
@@ -446,35 +446,23 @@ We can see that for every $x\in \{0,1\}^4$, $G(x)=LOOKUP_4(1100100100001111,x)$.
 Therefore the following is NAND "pseudocode" to compute $G$:
 
 
-
-
 ```python
 G0000 = 1
 G1000 = 1
 G0100 = 0
-G1100 = 0
-G0010 = 1
-G1010 = 0
-G0110 = 0
-G1110 = 1
-G0001 = 0
-G1001 = 0
-G0101 = 0
-G1101 = 0
-G0011 = 1
-G1011 = 1
+...
 G0111 = 1
 G1111 = 1
-Y[0] = LOOKUP(G0000,G1000,G0100,G1100,G0010,
-              G1010,G0110,G1110,G0001,G1001,
-              G0101,G1101,G0011,G1011,G1111,
+Y[0] = LOOKUP_4(G0000,G1000,...,G1111,
               X[0],X[1],X[2],X[3])
 ```
 
-We can translate this pseudocode into an actual NAND-CIRC program by adding three lines to define variables `zero` and `one` that are initialized to $0$ and $1$ repsectively, and then  replacing a statement such as `Gxxx = 0` with `Gxxx = NAND(one,one)` and a statement such as `Gxxx = 1` with `Gxxx = NAND(zero,zero)`.
-The call to `LOOKUP` will be replaced by the NAND-CIRC program that computes $LOOKUP_4$, but we will replace the variables `X[16]`,$\ldots$,`X[19]` in this program with `X[0]`,$\ldots$,`X[3]` and the variables `X[0]`,$\ldots$,`X[15]` with `G000`, $\ldots$, `G1111`.
 
-There was nothing about the above reasoning that was particular to this program. Given every function $F: \{0,1\}^n \rightarrow \{0,1\}$, we can write a NAND-CIRC program that does the following:
+We can translate this pseudocode into an actual NAND-CIRC program by adding three lines to define variables `zero` and `one` that are initialized to $0$ and $1$ repsectively, and then  replacing a statement such as `Gxxx = 0` with `Gxxx = NAND(one,one)` and a statement such as `Gxxx = 1` with `Gxxx = NAND(zero,zero)`.
+The call to `LOOKUP_4` will be replaced by the NAND-CIRC program that computes $LOOKUP_4$, plugging in the appropriate inputs.
+
+There was nothing about the above reasoning that was particular to the function $G$ of [tablefunctiong](){.ref}.
+Given _every_ function $F: \{0,1\}^n \rightarrow \{0,1\}$, we can write a NAND-CIRC program that does the following:
 
 1. Initialize $2^n$ variables of the form `F00...0` till `F11...1` so that for every $z\in\{0,1\}^n$,  the variable corresponding to $z$ is assigned the value $F(z)$.
 
