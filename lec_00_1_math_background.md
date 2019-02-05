@@ -1114,21 +1114,28 @@ Also, such conventions do not replace the need to explicitly declare for each ne
 
 
 
-| *Identifier*      | *Is often used to denote an object of the type*                                                                                                                                                                                                                                         |
-|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| $i,j,k,\ell,m,n$  | Natural numbers (i.e., in $\mathbb{N} = \{0,1,2,\ldots \}$)                                                                                                                                                                                                                             |
-| $\epsilon,\delta$ | Small positive real numbers  (very close to $0$)                                                                                                                                                                                                                                        |
-| $x,y,z,w$         | Strings in $\{0,1\}^*$, though sometimes we will use these identifiers numbers or other objects. We will often identify an object with its representation as a string.                                                                                                                  |
-| $G$               | A _graph_. The set of vertices of $G$ is often denoted by $V$, and often it is simply the set $[n]=\{0,\ldots, n\}$. The set of edges of $G$ is often denoted by $E$.                                                                                                                   |
-| $S$               | Sets                                                                                                                                                                                                                                                                                    |
-| $f,g,h$           | Functions. We will often (though not always) use lowercase identifiers for _finite functions_, which map  $\{0,1\}^n$ to $\{0,1\}^m$ (often $m=1$).                                                                                                                                      |
-| $F,G,H$           | Infinite (unbounded input) functions mapping $\{0,1\}^*$ to $\{0,1\}^*$ or $\{0,1\}^*$ to $\{0,1\}^m$ for some $m$. Note that the identifiers $G,H$ are sometimes used to denote a function and sometimes a graph. It will always be clear from the context which of these is the case. |
-| $A,B,C$           | Boolean circuits                                                                                                                                                                                                                                                                        |
-| $M$               | Turing machines                                                                                                                                                                                                                                                                         |
-| $P,Q$             | Programs                                                                                                                                                                                                                                                                                |
-| $T$               | A function mapping $\mathbb{N}$ to $\mathbb{N}$ that corresponds to a time bound.                                                                                                                                                                                                       |
-| $c$               | A positive number (often an unspecified constant: for example if $T(n)=O(n)$ then there is some number $c$ such that $T(n) \leq c \cdot n$ every $n>0$). We sometimes use $a,b$ in a similar way.                                                                                       |
-| $\Sigma$          | Finite set (often used as the _alphabet_ for a set of strings).                                                                                                                                                                                                                            |
+```table
+---
+caption: 'Commonly used mathematical notation'
+alignment: LL
+table-width: 2/3
+id: notationtable
+---
+*Identifier*	*Is often used to denote an object of the type*
+$i,j,k,\ell,m,n$	Natural numbers (i.e., in $\mathbb{N} = \{0,1,2,\ldots \}$)
+$\epsilon,\delta$	Small positive real numbers  (very close to $0$)
+$x,y,z,w$	Strings in $\{0,1\}^*$, though sometimes we will use these identifiers numbers or other objects. We will often identify an object with its representation as a string.
+$G$	A _graph_. The set of vertices of $G$ is often denoted by $V$, and often it is simply the set $[n]=\{0,\ldots, n\}$. The set of edges of $G$ is often denoted by $E$.
+$S$	Sets
+$f,g,h$	Functions. We will often (thogh not always) use lowercase identifiers for _finite functions_, which map  $\{0,1\}^n$ to $\{0,1\}^m$ (often $m=1$).
+$F,G,H$	Infinite (unbounded input) functions mapping $\{0,1\}^*$ to $\{0,1\}^*$ or $\{0,1\}^*$ to $\{0,1\}^m$ for some $m$. Note that the identifiers $G,H$ are sometimes used to denote a function and sometimes a graph. It will always be clear from the context which of these is the case.
+$A,B,C$	Boolean circuits
+$M$	Turing machines
+$P,Q$	Programs
+$T$	A function mapping $\mathbb{N}$ to $\mathbb{N}$ that corresponds to a time bound.
+$c$	A positive number (often an unspecified constant: for example if $T(n)=O(n)$ then there is some number $c$ such that $T(n) \leq c \cdot n$ every $n>0$). We sometimes use $a,b$ in a similar way.
+$\Sigma$	Finite set (often used as  the _alphabet_ for a set of strings).
+```
 
 
 
