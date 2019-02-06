@@ -30,8 +30,8 @@ addition, and this proves something of a stumbling block."_,  Alan Cobham, 1964
 
 
 The origin of much of science and medicine can be traced back to the ancient Babylonians.
-But perhaps their greatest contribution to humanity was the invention of the _place-value number system_.
-This is the idea that we can represent any number using a fixed number of digits, whereby the _position_ of the digit is used to determine the corresponding value, as opposed to system such as  Roman numerals, where every symbol has a fixed numerical value regardless of position.
+However, the Babylonians' most significant contribution to humanity was arguably the invention of the _place-value number system_.
+The place-value system represents any number using a collection of digits, whereby the _position_ of the digit is used to determine its value, as opposed to a system such as  Roman numerals, where every symbol has a fixed numerical value regardless of position.
 For example, the distance to the moon is 238,900 of our miles or 259,956 Roman miles.
 The latter quantity, expressed in standard Roman numerals is
 
@@ -47,13 +47,13 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 MMMMMMMMMMMMMMMMMMMDCCCCLVI
 ```
 
-Writing the distance to the sun in Roman numerals would require about 100,000 symbols: a 50 page book just containing this single number!
+Writing the distance to the sun in Roman numerals would require about 100,000 symbols: a 50-page book just containing this single number!
 
-This means that for someone who thinks of numbers in an additive  system like Roman numerals, quantities like the distance to the moon or sun are not merely large- they are _unspeakable_: cannot be expressed or even grasped.
+The above means that for someone who thinks of numbers in an additive system like Roman numerals, quantities like the distance to the moon or sun are not merely large- they are _unspeakable_: cannot be expressed or even grasped.
 It's no wonder that Eratosthenes, who was the first person to calculate the earth's diameter (up to about ten percent error) and Hipparchus who was the first to calculate the distance to the moon, did not use a Roman-numeral type system but rather  the Babylonian sexadecimal (i.e., base 60) place-value system.
 
 The Babylonians also invented the precursors of the "standard algorithms" that we were all taught in elementary school for adding and multiplying numbers.^[For more on the actual algorithms the Babylonians used, see [Knuth's paper](http://steiner.math.nthu.edu.tw/disk5/js/computer/1.pdf) and Neugebauer's [classic book](https://www.amazon.com/Exact-Sciences-Antiquity-Neugebauer/dp/0486223329).]
-These algorithms and their variants have  been  of course essential to people throughout history  working with abaci, papyrus, or pencil and paper, but in our computer age, do they really serve any purpose beyond torturing third graders?
+These algorithms and their variants have been of course essential to people throughout history working with abaci, papyrus, or pencil and paper, but in our computer age, do they still serve any purpose beyond torturing third graders?
 
 
 To answer this question, let us try to see in what sense is the standard digit by digit multiplication algorithm "better" than the straightforward implementation of multiplication as iterated addition.
@@ -83,19 +83,19 @@ __Operation:__
 :::
 
 
-Both algorithms assume that we already know how to add numbers, and the second one also assumes that we can multiply a number by a power of $10$ (which is after all a simple shift) as well as multiply by a single-digit (which like addition, is done by multiplying each digit and propagating carries).
+Both algorithms assume that we already know how to add numbers, and the second one also assumes that we can multiply a number by a power of $10$ (which is, after all, a simple shift) as well as multiply by a single-digit (which like addition, is done by multiplying each digit and propagating carries).
 
 
 Suppose that $x$ and $y$ are two numbers of $n$ decimal digits each.
 Adding two such numbers takes at least $n$  single-digit additions (depending on how many times we need to use a "carry"), and so adding $x$ to itself $y$ times as per [naivemultalg](){.ref} will take at least  $n\cdot y$ single-digit additions.
 In contrast, the grade-school algorithm (i.e., [gradeschoolalg](){.ref}) reduces this problem to taking $n$ products of $x$ with a single-digit (which require up to $2n$ single-digit operations each, depending on carries) and then adding all of those together (total of $n$ additions, which, again depending on carries, would cost at most $2n^2$ single-digit operations) for a total of at most $4n^2$ single-digit operations.
-How much faster would $4n^2$ operations be than $n\cdot y$? And would this make any difference in a modern computer?
+How much faster would $4n^2$ operations be than $n\cdot y$? Also, would this make any difference in a modern computer?
 
-Let us consider the case of multiplying 64-bit or 20-digit numbers.^[This is a common size in several programming languages; for example the `long` data type in the Java programming language, and (depending on architecture) the `long` or `long long` types in C.]
-That is, the task of multiplying two numbers $x,y$ that are between $10^{19}$ and $10^{20}$.
+Let us consider the case of multiplying 64-bit or 20-digit numbers.^[This is a typical size in several programming languages; for example the `long` data type in the Java programming language, and (depending on architecture) the `long` or `long long` types in C.]
+That is the task of multiplying two numbers $x,y$ that are between $10^{19}$ and $10^{20}$.
 Since in this case $n=20$, the grade-school algorithm ([gradeschoolalg](){.ref})  would use at most  $4n^2=1600$ single-digit operations, while repeated addition ([naivemultalg](){.ref}) would require at least $n\cdot y \geq 20\cdot 10^{19}$ single-digit operations.
 To understand the difference, consider that a human being can perform a single-digit operation in about 2 seconds, requiring just under an hour to complete the calculation of $x\times y$ using the grade-school algorithm.
-In contrast, even though it is more than a billion times faster than a human, a modern PC that computes $x\times y$ using  naïve iterated addition would require about $10^{20}/10^9 = 10^{11}$ seconds (which is more than three millennia!) to compute the same result.
+In contrast, even though it is more than a billion times faster than a human, a modern PC that computes $x\times y$ using naïve iterated addition would require about $10^{20}/10^9 = 10^{11}$ seconds (which is more than three millennia!) to compute the same result.
 
 
 ::: {.remark title="Value vs. length of a number." #lengthofinput}
@@ -106,23 +106,23 @@ When talking about running time of algorithms, "less is more", and so an algorit
 
 
 We see that computers have not made algorithms obsolete.
-On the contrary, the vast increase in our ability to measure, store, and communicate data has led to a much higher demand for developing better and more sophisticated algorithms that can allow us to make better decisions based on these data.
-We also see that to a large extent the notion of _algorithm_ is independent of the actual computing device that will execute it.
-The digit-by-digit multiplication algorithm is vastly better than iterated addition, regardless whether the technology we use to implement it is a silicon-based  chip, or a third grader with pen and paper.
+On the contrary, the vast increase in our ability to measure, store, and communicate data has led to much higher demand for developing better and more sophisticated algorithms that can allow us to make better decisions based on these data.
+We also see that in no small extent the notion of _algorithm_ is independent of the actual computing device that executes it.
+The digit-by-digit multiplication algorithm is vastly better than iterated addition, regardless whether the technology we use to implement it is a silicon-based chip, or a third grader with pen and paper.
 
 
-Theoretical computer science is concerned with  the _inherent_ properties of algorithms and computation; namely, those properties that are _independent_ of current technology.
+Theoretical computer science is concerned with the _inherent_ properties of algorithms and computation; namely, those properties that are _independent_ of current technology.
 We ask some questions that were already pondered by the Babylonians, such as "what is the best way to multiply two numbers?", but also questions that rely on cutting-edge science such as "could we use the effects of quantum entanglement to factor numbers faster?".
 
-In Computer Science parlance, a scheme such as the decimal (or sexadecimal) positional representation for numbers is known as a _data structure_, while operations on such  representations are known as _algorithms_.
-Data structures and algorithms have enabled amazing applications that have transformed human society, but their importance goes beyond  their practical utility.
+In Computer Science parlance, a scheme such as the decimal (or sexadecimal) positional representation for numbers is known as a _data structure_, while operations on such representations are known as _algorithms_.
+Data structures and algorithms have enabled amazing applications that have transformed human society, but their importance goes beyond their practical utility.
 Structures from computer science, such as bits, strings, graphs, and even the notion of a program itself, as well as concepts such as universality and replication, have not just found (many) practical uses but contributed a new language and a new way to view the world.
 
 ## Extended Example: A faster way to multiply {#karatsubasec }
 
-Once you think of the standard digit-by-digit multiplication algorithm, it seems like obviously the "right" way to multiply numbers.
+Once you think of the standard digit-by-digit multiplication algorithm, it seems that it is clearly the "right" way to multiply numbers.
 Indeed, in 1960, the famous mathematician Andrey Kolmogorov organized a seminar at Moscow State University in which he conjectured that every algorithm for multiplying two $n$ digit numbers would require a number of basic operations that is proportional to $n^2$.^[That is, he conjectured that the number of operations would be at least some $n^2/C$ operations for some constant $C$ or, using "Big-$O$ notation", $\Omega(n^2)$ operations. See the _mathematical background_ chapter for a precise definition of Big-$O$ notation.]
-Another way to say it, is that he conjectured that in any multiplication algorithm, doubling the number of digits would _quadruple_ the number of basic operations required.
+In other words, Kolmogorov conjectured that in any multiplication algorithm, doubling the number of digits would _quadruple_ the number of basic operations required.
 
 A young student named Anatoly Karatsuba was in the audience, and within a week he found an algorithm that requires only about $Cn^{1.6}$ operations for some constant $C$.
 Such a  number becomes  much smaller than $n^2$ as $n$ grows.^[At the time of this writing, the [standard Python multiplication implementation](https://svn.python.org/projects/python/trunk/Objects/longobject.c) switches from the elementary school algorithm to  Karatsuba's algorithm when multiplying numbers larger than 1000 bits long.]
@@ -141,7 +141,7 @@ $$
 $$
 
 
-Karatsuba's algorithm is based on the observation that we can express this also as
+Karatsuba's algorithm is based on the observation that we can express [eq:gradeschooltwodigit](){.ref} also as
 
 $$
 (10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = (100-10)\overline{x}\overline{y}+10\left[(\overline{x}+\underline{x})(\overline{y}+\underline{y})\right]  -(10-1)\underline{x}\underline{y} \label{eq:karatsubatwodigit}
@@ -156,9 +156,9 @@ which reduces multiplying the two-digit number $x$ and $y$ to computing the foll
 ![Running time of Karatsuba's algorithm vs. the grade-school algorithm. (Python implementation available [online](https://goo.gl/zwzpYe).) Note the existence of a "cutoff" length, where for sufficiently large inputs Karatsuba becomes more efficient than the grade-school algorithm. The precise cutoff location varies by implementation and platform details, but will always occur eventually.](../figure/karastubavsgschoolv2.png){#karatsubaruntimefig .margin width=300px height=300px}
 
 
-Of course if all we wanted to was to multiply two digit numbers, we wouldn't really need any clever algorithms.
+Of course, if all we wanted was to multiply two digit numbers, we wouldn't need any clever algorithms.
 It turns out that we can repeatedly apply the same idea, and use them to multiply $4$-digit numbers, $8$-digit numbers, $16$-digit numbers, and so on and so forth.
-If we used the grade-school  approach then our cost for doubling the number of digits would be to _quadruple_ the number of multiplications, which for $n=2^\ell$ digits would result in about $4^\ell=n^2$ operations.
+If we used the grade-school approach, then our cost for doubling the number of digits would be to _quadruple_ the number of multiplications, which for $n=2^\ell$ digits would result in about $4^\ell=n^2$ operations.
 In contrast, in Karatsuba's approach doubling the number of digits  only  _triples_ the number of operations,  which means that for $n=2^\ell$ digits we require about $3^\ell = n^{\log_2 3} \sim n^{1.58}$ operations.
 
 Specifically, we use a  _recursive_ strategy as follows:
@@ -203,17 +203,18 @@ In particular, by iteratively repeating this reasoning, we can see that  multipl
 
 
 ::: {.remark title="Ceilings, floors, and rounding" #remfloors}
-One of the benefits of using Big-$O$ notation is that we can allow ourselves to be a little looser with issues such as rounding numbers etc..
+One of the benefits of using Big-$O$ notation is that we can allow ourselves to be a little looser with issues such as rounding numbers.
 For example, the natural way to describe Karatsuba's algorithm's running time is via the   following  recursive equation
 
-$$T(n)= 3T(n/2)+O(n)$$
+$$T(n)= 3T(n/2)+O(n)\;. \label{eqnaiverecursion}$$
 
-but of course if $n$ is not even then we cannot recursively invoke the algorithm on $n/2$-digit integers.
-Rather, the true recursion is $T(n) = 3T(\floor{n/2}+1)+ O(n)$.
-However, this will not make much difference when we don't worry about constant factors, since it's not hard to show that $T(n+O(1)) \leq T(n)+ o(T(n))$ for the functions we care about.
-Another way to show that this doesn't hurt us is to note that for every number $n$, we can find a number $n' \leq 2n$, such that $n'$ is a power of two.
-Thus we can always "pad" the input by adding some input bits to make sure the number of digits is a power of two, in which case we will never run into these rounding issues.
-These kind of tricks work not just in the context of multiplication algorithms but in many other cases as well.
+But if $n$ is not even then we cannot recursively invoke the algorithm on $n/2$-digit integers.
+Rather, the true recursive equation is
+
+$$T(n) = 3T(\floor{n/2}+1)+ O(n)  \label{floorrecursion}\;.$$
+
+However, you can verify that the difference between [eqnaiverecursion](){.eqref} and [floorrecursion](){.eqref} is insignificant when we are only concerned with "Big Oh analysis".
+These kinds of tricks work not just in the context of multiplication algorithms but in many other cases as well.
 Thus most of the time we can safely ignore  "rounding issues" in the lengths of the input in the analysis of algorithms.
 :::
 
@@ -222,20 +223,19 @@ Thus most of the time we can safely ignore  "rounding issues" in the lengths of 
 
 ### Beyond Karatsuba's algorithm
 
-It turns out that the ideas of Karatsuba can be further extended to yield asymptotically faster multiplication algorithms, as was shown by Toom and Cook in the 1960s.
-But this was not the end of the line.
-In 1971, Schönhage and Strassen gave an even faster algorithm using the _Fast Fourier Transform_; their idea was to somehow treat integers as "signals" and do the multiplication more efficiently by moving to the Fourier domain.^[The _Fourier transform_ is a central tool in mathematics and engineering, used in a great number of applications. If you have not seen it yet, you will hopefully encounter it at some point in your studies.]
-The latest asymptotic improvement was given by Fürer in 2007 (though it only starts beating  the Schönhage-Strassen algorithm for truly astronomical numbers).
-And yet, despite all this progress, we still don't know whether or not there is an $O(n)$ time algorithm for multiplying two $n$ digit numbers!
+Toom and Cook extended in the ideas of Karatsuba to get even faster multiplication algorithms, but this was not the end of the line.
+In 1971, Schönhage and Strassen improved on the Toom-Cook algorithm using the _Fast Fourier Transform_; their idea was to somehow treat integers as "signals" and do the multiplication more efficiently by moving to the Fourier domain.^[The _Fourier transform_ is a central tool in mathematics and engineering, used in a great many applications. If you have not seen it yet, you will hopefully encounter it at some point in your studies.]
+The latest asymptotic improvement was given by Fürer in 2007 (though it only starts beating the Schönhage-Strassen algorithm for truly astronomical numbers).
+Yet, despite all this progress, we still don't know whether or not there is an $O(n)$ time algorithm for multiplying two $n$ digit numbers!
 
 
 
 
 
 :::  {.remark title="Matrix Multiplication (advanced note)" #matrixmult}
-(We will  have several such "advanced" or "optional" notes and sections throughout this book. These may assume background that not every student has, and  can be safely skipped over as none of the future parts will depend on them.)
+(This book contains many "advanced" or "optional" notes and sections. These may assume background that not every student has, and  can be safely skipped over as none of the future parts depends on them.)
 
-It turns out that a  similar idea as Karatsuba's can be used to speed up _matrix_ multiplications as well.
+Ideas similar to Karatsuba's can be used to speed up _matrix_ multiplications as well.
 Matrices are a powerful way to represent linear equations and operations, widely used in a great many applications of scientific computing, graphics, machine learning, and many many more.
 
 One of the basic operations one can do with two matrices is to _multiply_ them.
@@ -244,7 +244,7 @@ You can see that we can compute this matrix by _eight_ products of numbers.
 
 Now suppose that $n$ is even and $x$ and $y$ are a pair of  $n\times n$ matrices which we can think of as each composed of four $(n/2)\times (n/2)$ blocks $x_{0,0},x_{0,1},x_{1,0},x_{1,1}$ and $y_{0,0},y_{0,1},y_{1,0},y_{1,1}$.
 Then the formula for the matrix product of $x$ and $y$ can be expressed in the same way as above, just replacing products $x_{a,b}y_{c,d}$ with _matrix_ products, and addition with matrix addition.
-This means that we can use the formula above to give an algorithm that _doubles_ the dimension of the matrices at the expense of increasing the number of operation by a factor of $8$, which for $n=2^\ell$ will result in $8^\ell = n^3$ operations.
+This means that we can use the formula above to give an algorithm that _doubles_ the dimension of the matrices at the expense of increasing the number of operation by a factor of $8$, which for $n=2^\ell$ results in $8^\ell = n^3$ operations.
 
 
 In 1969 Volker Strassen noted that we can compute the product of a pair of two-by-two matrices  using only _seven_ products of numbers by observing that each entry of the matrix $xy$ can be computed by adding and subtracting the following seven terms: $t_1 = (x_{0,0}+x_{1,1})(y_{0,0}+y_{1,1})$, $t_2 = (x_{0,0}+x_{1,1})y_{0,0}$, $t_3 = x_{0,0}(y_{0,1}-y_{1,1})$, $t_4 = x_{1,1}(y_{0,1}-y_{0,0})$, $t_5 = (x_{0,0}+x_{0,1})y_{1,1}$, $t_6 = (x_{1,0}-x_{0,0})(y_{0,0}+y_{0,1})$,
@@ -262,16 +262,16 @@ People have tried to use [group representations](https://en.wikipedia.org/wiki/G
 ## Algorithms beyond arithmetic
 
 The quest for better algorithms is by no means restricted to arithmetical tasks such as adding, multiplying or solving equations.
-Many _graph algorithms_, including algorithms for finding paths, matchings, spanning tress, cuts, and flows, have been discovered in the last several decades, and this is still an intensive area of research.
-(For example,  the last few years saw many advances in algorithms for the _maximum flow_ problem, borne out of surprising connections with electrical circuits and linear equation solvers.)
-These algorithms are being used not just for the "natural" applications of routing network traffic or GPS-based navigation, but also for applications as varied as drug discovery through searching for structures in  gene-interaction graphs to computing risks from correlations in financial investments.
+Many _graph algorithms_, including algorithms for finding paths, matchings, spanning trees, cuts, and flows, have been discovered in the last several decades, and this is still an intensive area of research.
+(For example,  the last few years saw many advances in algorithms for the _maximum flow_ problem, borne out of unexpected connections with electrical circuits and linear equation solvers.)
+These algorithms are being used not just for the "natural" applications of routing network traffic or GPS-based navigation, but also for applications as varied as drug discovery through searching for structures in gene-interaction graphs to computing risks from correlations in financial investments.
 
 
-Google was founded based on the _PageRank_ algorithm, which is an efficient algorithm to approximate the "principal eigenvector" of (a dampened version of) the adjacency matrix of web graph.
+Google was founded based on the _PageRank_ algorithm, which is an efficient algorithm to approximate the "principal eigenvector" of (a dampened version of) the adjacency matrix of the web graph.
 The _Akamai_ company was founded based on a new data structure, known as _consistent hashing_, for a hash table where buckets are stored at different servers.
 The _backpropagation algorithm_, which computes partial derivatives of a neural network in $O(n)$ instead of $O(n^2)$ time, underlies many of the recent phenomenal successes of  learning deep neural networks.
 Algorithms for solving  linear equations under sparsity constraints, a concept known as _compressed sensing_, have been used to drastically reduce the amount and quality of data needed to analyze MRI images.
-This is absolutely crucial for MRI imaging of cancer tumors in children, where previously doctors needed to use anesthesia to suspend breath during the MRI exam, sometimes with dire consequences.
+This made a critical difference for MRI imaging of cancer tumors in children, where previously doctors needed to use anesthesia to suspend breath during the MRI exam, sometimes with dire consequences.
 
 Even for classical questions, studied through the ages, new discoveries are still being made.
 For example, for the question of determining whether a given integer is  prime or composite, which has been studied since the days of  Pythagoras, efficient probabilistic algorithms were only discovered in the 1970s, while the first [deterministic polynomial-time algorithm](https://en.wikipedia.org/wiki/AKS_primality_test) was only found in 2002.
