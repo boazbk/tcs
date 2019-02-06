@@ -13,7 +13,7 @@ chapternum: "0"
 * Introduce and motivate the study of computation for its own sake, irrespective of particular implementations.
 * The notion of an _algorithm_ and some of its history.
 * Algorithms as not just  _tools_, but also _ways of thinking and understanding_.
-* Taste of Big-$O$ analysis and surprising creativity in efficient algorithms.
+* Taste of Big-$O$ analysis and the surprising creativity in the design of efficient algorithms.
 
 >_"Computer Science is no more about computers than astronomy is about telescopes"_,  attributed to Edsger Dijkstra.^[This quote is typically read as disparaging the importance of actual physical computers in Computer Science, but note that telescopes are absolutely essential to astronomy as they provide us with the means to connect  theoretical predictions with actual experimental observations.]
 
@@ -95,7 +95,7 @@ Let us consider the case of multiplying 64-bit or 20-digit numbers.^[This is a c
 That is, the task of multiplying two numbers $x,y$ that are between $10^{19}$ and $10^{20}$.
 Since in this case $n=20$, the grade-school algorithm ([gradeschoolalg](){.ref})  would use at most  $4n^2=1600$ single-digit operations, while repeated addition ([naivemultalg](){.ref}) would require at least $n\cdot y \geq 20\cdot 10^{19}$ single-digit operations.
 To understand the difference, consider that a human being can perform a single-digit operation in about 2 seconds, requiring just under an hour to complete the calculation of $x\times y$ using the grade-school algorithm.
-In contrast, even though it is more than a billion times faster than a human, a modern PC that computes $x\times y$ using  naïve iterated addition would require about $10^{20}/10^9 = 10^{11}$ seconds (which is more than three millenia!) to compute the same result.
+In contrast, even though it is more than a billion times faster than a human, a modern PC that computes $x\times y$ using  naïve iterated addition would require about $10^{20}/10^9 = 10^{11}$ seconds (which is more than three millennia!) to compute the same result.
 
 
 ::: {.remark title="Value vs. length of a number." #lengthofinput}
@@ -108,7 +108,7 @@ When talking about running time of algorithms, "less is more", and so an algorit
 We see that computers have not made algorithms obsolete.
 On the contrary, the vast increase in our ability to measure, store, and communicate data has led to a much higher demand for developing better and more sophisticated algorithms that can allow us to make better decisions based on these data.
 We also see that to a large extent the notion of _algorithm_ is independent of the actual computing device that will execute it.
-The digit-by-digit multiplication algorithm is vastly better than iterated addition, regardless whether the technology we use to implement it is a silicon based  chip, or a third grader with pen and paper.
+The digit-by-digit multiplication algorithm is vastly better than iterated addition, regardless whether the technology we use to implement it is a silicon-based  chip, or a third grader with pen and paper.
 
 
 Theoretical computer science is concerned with  the _inherent_ properties of algorithms and computation; namely, those properties that are _independent_ of current technology.
