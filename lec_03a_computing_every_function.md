@@ -229,7 +229,7 @@ The crucial point is that (unlike most programming languages) we do not allow th
 
 By expanding out all the features, for every value of $n$ we can translate the above program into a standard ("sugar free") NAND-CIRC program. [add2bitnumbersfig](){.ref} depicts  what we get for $n=2$.
 
-![The NAND-CIRC program and corresponding NAND circuit for adding two-digit binary numbers that are obtained by "expanding out" all the syntactic sugar. The program/circuit has 43 lines/gates which is by no means necessary. It is possible to add $n$ bit numbers using $9n$ NAND gates, see [halffulladderex](){.ref}.](../figure/add2bitnumbers.png){#add2bitnumbersfig .class width=300px height=300px}
+![The NAND-CIRC program and corresponding NAND circuit for adding two-digit binary numbers that are obtained by "expanding out" all the syntactic sugar. The program/circuit has 43 lines/gates which is by no means necessary. It is possible to add $n$ bit numbers using $9n$ NAND gates, see [halffulladderex](){.ref}.](../figure/add2bitnumbers.png){#add2bitnumbersfig .class  }
 
 By going through the above program carefully and accounting for the number of gates, we can see that it yields a proof of the following theorem (see also [addnumoflinesfig](){.ref}):
 
@@ -237,7 +237,7 @@ By going through the above program carefully and accounting for the number of ga
 For every $n\in \N$, let $ADD_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{n+1}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the sum of the numbers that $x$ and $x'$ represent. Then there is a constant $c \leq 30$ such that for every $n$ there is a NAND-CIRC program of at most $c$ lines computing $ADD_n$.^[The value of $c$ can be improved to $9$, see   [halffulladderex](){.ref}.]
 
 
-![The number of lines in our  NAND-CIRC program to add two $n$ bit numbers, as a function of $n$, for $n$'s between $1$ and $100$. This is not the most efficient program for this task, but the important point is that it has the form $O(n)$.](../figure/addnumberoflines.png){#addnumoflinesfig .margin width=300px height=300px}
+![The number of lines in our  NAND-CIRC program to add two $n$ bit numbers, as a function of $n$, for $n$'s between $1$ and $100$. This is not the most efficient program for this task, but the important point is that it has the form $O(n)$.](../figure/addnumberoflines.png){#addnumoflinesfig .margin  }
 
 
 Once we have addition, we can use the grade-school algorithm to obtain multiplication as well, thus obtaining the following theorem:
@@ -368,7 +368,7 @@ $$
 which solves for $L(k) \leq 4(2^k-1)$.
 (See [lookuplinesfig](){.ref} for a plot of the actual number of lines in our implementation of $LOOKUP_k$.)
 
-![The number of lines in our implementation of  the `LOOKUP_k` function as a function of $k$ (i.e., the length of the index). The number of lines in our implementation is roughly $3 \cdot 2^k$.](../figure/lookup_numlines.png){#lookuplinesfig .margin width=300px height=300px}
+![The number of lines in our implementation of  the `LOOKUP_k` function as a function of $k$ (i.e., the length of the index). The number of lines in our implementation is roughly $3 \cdot 2^k$.](../figure/lookup_numlines.png){#lookuplinesfig .margin  }
 
 ## Computing _every_ function
 
@@ -522,7 +522,7 @@ We denote by $SIZE_n(s)$ the set $SIZE_{n,1}(s)$.
 [funcvscircfig](){.ref} depicts the sets $SIZE_{n,1}(s)$, note that $SIZE_{n,m}(s)$ is a set of _functions_, not of _programs!_ (asking if a program or a circuit is a member of $SIZE_{n,m}(s)$ is a _category  error_ as in the sense of  [cucumberfig](){.ref}).
 
 
-![There are $2^{2^n}$ functions mapping $\{0,1\}^n$ to $\{0,1\}$, and an infinite number of circuits with $n$ bit inputs and a single bit of output. Every circuit computes one function, but every function can be computed by many circuits. We say that $f \in SIZE_{n,1}(s)$ if the smallest circuit that computes $f$ has $s$ or fewer gates. For example $XOR_n \in SIZE_{n,1}(4n)$. [NAND-univ-thm](){.ref} shows that _every_ function $g$ is computable by some circuit of at most $c\cdot 2^n/n$ gates, and hence $SIZE_{n,1}(c\cdot 2^n/n)$ corresponds to the set of _all_ functions from $\{0,1\}^n$ to $\{0,1\}$.](../figure/funcvscircs.png){#funcvscircfig .class width=300px height=300px}
+![There are $2^{2^n}$ functions mapping $\{0,1\}^n$ to $\{0,1\}$, and an infinite number of circuits with $n$ bit inputs and a single bit of output. Every circuit computes one function, but every function can be computed by many circuits. We say that $f \in SIZE_{n,1}(s)$ if the smallest circuit that computes $f$ has $s$ or fewer gates. For example $XOR_n \in SIZE_{n,1}(4n)$. [NAND-univ-thm](){.ref} shows that _every_ function $g$ is computable by some circuit of at most $c\cdot 2^n/n$ gates, and hence $SIZE_{n,1}(c\cdot 2^n/n)$ corresponds to the set of _all_ functions from $\{0,1\}^n$ to $\{0,1\}$.](../figure/funcvscircs.png){#funcvscircfig .class  }
 
 
 While we defined $SIZE_{n,m}(s)$ with respect to NAND gates, we would get essentially the same class if we defined it with respect to AND/OR/NOT gates:
@@ -542,7 +542,7 @@ On the other hand, if $f$ can be computed by a Boolean AND/OR/NOT circuit of at 
 
 
 
-![A "category error" is a question such as "is a cucumber even or odd?" which does not even make sense. In this book the category errors one needs to watch out for are confusing _functions_ and _programs_ (i.e., confusing _specifications_ and _implementations_). If $C$ is a circuit or program, then asking if $C \in SIZE_{n,1}(s)$ is a category error, since $SIZE_{n,1}(s)$ is a set of _functions_ and not programs or circuits.](../figure/cucumber.png){#cucumberfig .margin width=300px height=300px}
+![A "category error" is a question such as "is a cucumber even or odd?" which does not even make sense. In this book the category errors one needs to watch out for are confusing _functions_ and _programs_ (i.e., confusing _specifications_ and _implementations_). If $C$ is a circuit or program, then asking if $C \in SIZE_{n,1}(s)$ is a category error, since $SIZE_{n,1}(s)$ is a set of _functions_ and not programs or circuits.](../figure/cucumber.png){#cucumberfig .margin  }
 
 
 The results we've seen before can be phrased as showing  that $ADD_n \in SIZE_{2n,n+1}(100 n)$

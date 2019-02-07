@@ -73,7 +73,7 @@ They can be used to model a great many of the data that we encounter.
 These are not just the "obvious" networks such as the road network (which can be thought of as a graph of whose vertices are locations with edges corresponding to road segments), or the web (which can be thought of as a graph whose vertices are web pages with edges corresponding to links), or social networks (which can be thought of as a graph whose vertices are people and the edges correspond to friend relation).
 Graphs can also denote correlations in data (e.g., graph of observations of features with edges corresponding to features that tend to appear together), causal relations (e.g., gene regulatory networks, where a gene  is connected to gene products it derives), or the state space of a system (e.g., graph of configurations of a physical system, with edges corresponding to states that can be reached from one another in one step).
 
-![Some examples of graphs found on the Internet.](../figure/graphs.png){#figureid .margin width=300px height=300px}
+![Some examples of graphs found on the Internet.](../figure/graphs.png){#figureid .margin  }
 
 
 We now give some examples of computational problems on graphs.
@@ -145,7 +145,7 @@ Specifically, in a graph of degree at most $d$, we can enumerate over all paths 
 This would take about $O(d^k)$ steps, and since the longest simple path can't have length more than the number of vertices, this means that the brute force algorithms runs in  $O(d^n)$ time (which we can bound by $O(n^n)$ since the maximum degree is $n$).
 The best algorithm for the longest path improves on this, but not by much: it takes $\Omega(c^n)$ time for some constant $c>1$.^[At the moment the best record is $c \sim 1.65$ or so. Even obtaining an $O(2^n)$ time bound is not that simple, see [longest-path-ex](){.ref}.]
 
-![A _knight's tour_ can be thought of as a maximally long path on the graph corresponding to a chessboard where we put an edge between any two squares that can be reached by one step via a legal knight move.](../figure/knights_tour.jpg){#knighttourpath .margin width=300px height=300px}
+![A _knight's tour_ can be thought of as a maximally long path on the graph corresponding to a chessboard where we put an edge between any two squares that can be reached by one step via a legal knight move.](../figure/knights_tour.jpg){#knighttourpath .margin  }
 
 
 ### Finding the minimum cut in a graph { #mincutsec }
@@ -158,7 +158,7 @@ The _minimum $s,t$ cut problem_  is the task of finding, given $s$ and $t$, the 
 Formally, we  define $MINCUT:\{0,1\}^* \rightarrow \{0,1\}^*$ to be the function that on input a triple $(G,s,t)$ of a graph and two vertices (represented as a string), outputs the minimum number $k$ such that there exists a set $S$ containing $s$ and not $t$ with exactly $k$ edges that touch $S$ and its complement.
 
 
-![A _cut_ in a graph $G=(V,E)$ is simply a subset $S$ of its vertices. The edges that are _cut_ by $S$ are all those whose one endpoint is in $S$ and the other one is in $\overline{S} = V \setminus S$. The cut edges are colored red in this figure.](../figure/cutingraph.png){#cutingraphfig .margin width=300px height=300px}
+![A _cut_ in a graph $G=(V,E)$ is simply a subset $S$ of its vertices. The edges that are _cut_ by $S$ are all those whose one endpoint is in $S$ and the other one is in $\overline{S} = V \setminus S$. The cut edges are colored red in this figure.](../figure/cutingraph.png){#cutingraphfig .margin  }
 
 The minimum $s,t$ cut problem appears in many applications.
 Minimum cuts often correspond to  _bottlenecks_.
@@ -245,9 +245,9 @@ We do not know of an algorithm that solves this problem much faster than the tri
 
 ###  A note on convexity
 
-![In a _convex_ function $f$ (left figure), for every $x$ and $y$ and $p\in [0,1]$ it holds that $f(px+(1-p)y) \leq p\cdot f(x)+(1-p)\cdot f(y)$. In particular this means that every _local minimum_ of $f$ is also a _global minimum_. In contrast in a _non convex_ function there can be many local minima.](../figure/convexvsnot.png){#figid .margin width=300px height=300px}
+![In a _convex_ function $f$ (left figure), for every $x$ and $y$ and $p\in [0,1]$ it holds that $f(px+(1-p)y) \leq p\cdot f(x)+(1-p)\cdot f(y)$. In particular this means that every _local minimum_ of $f$ is also a _global minimum_. In contrast in a _non convex_ function there can be many local minima.](../figure/convexvsnot.png){#figid .margin  }
 
-![In the high dimensional case, if $f$ is a _convex_ function (left figure) the global minimum is the only local minimum, and we can find it by a local-search algorithm which can be thought of as dropping  a marble and letting it "slide down" until it reaches the global minimum. In contrast, a non-convex function (right figure) might have an exponential number of local minima in which any local-search algorithm could get stuck.](../figure/convexandnon.jpg){#figureid .margin width=300px height=300px}
+![In the high dimensional case, if $f$ is a _convex_ function (left figure) the global minimum is the only local minimum, and we can find it by a local-search algorithm which can be thought of as dropping  a marble and letting it "slide down" until it reaches the global minimum. In contrast, a non-convex function (right figure) might have an exponential number of local minima in which any local-search algorithm could get stuck.](../figure/convexandnon.jpg){#figureid .margin  }
 
 There is an underlying reason for the sometimes radical difference between the difficulty of maximizing and minimizing a function over a domain.
 If $D \subseteq \R^n$, then a function $f:D \rightarrow R$ is _convex_ if for every $x,y \in D$ and $p\in [0,1]$
@@ -469,7 +469,7 @@ While the brute force algorithms would require $2^{\Omega(n)}$ time to factor an
 
 ## Our current knowledge
 
-![The current computational status of several interesting problems. For all of them we either know a polynomial-time algorithm or the known algorithms require at least $2^{n^c}$ for some $c>0$. In fact for all except the _factoring_ problem, we either know an $O(n^3)$ time algorithm or the best known algorithm require at least $2^{\Omega(n)}$ time where $n$ is a natural parameter such that there is a brute force algorithm taking roughly $2^n$ or $n!$ time. Whether this "cliff" between the easy and hard problem is a real phenomenon or a reflection of our ignorane is still an open question.](../figure/poly_vs_exp.png){#current_status .margin width=300px height=300px}
+![The current computational status of several interesting problems. For all of them we either know a polynomial-time algorithm or the known algorithms require at least $2^{n^c}$ for some $c>0$. In fact for all except the _factoring_ problem, we either know an $O(n^3)$ time algorithm or the best known algorithm require at least $2^{\Omega(n)}$ time where $n$ is a natural parameter such that there is a brute force algorithm taking roughly $2^n$ or $n!$ time. Whether this "cliff" between the easy and hard problem is a real phenomenon or a reflection of our ignorane is still an open question.](../figure/poly_vs_exp.png){#current_status .margin  }
 
 The difference between an  exponential and polynomial time algorithm might seem merely "quantiative" but it is in fact extremely significant.
 As we've already seen, the brute force exponential time algorithm runs out of steam very very fast, and as Edmonds says, in practice there might not be much difference between a problem where the best algorithm is exponential and a problem that is not solvable at all.

@@ -51,7 +51,7 @@ There is a Turing machine $U$ such that on every string $M$ which represents a T
 That is, if the machine $M$ halts on $x$ and outputs some $y\in \{0,1\}^*$, then $U(M,x)=y$, and if $M$ does not halt on $x$, then  $U(M,x)$ does not halt as well.
 :::
 
-![A _Universal Turing Machine_ is a single Turing Machine $U$ that can evaluate, given input the (description as a string of) arbitrary Turing machine $M$ and input $x$, the output of $M$ on $x$. In contrast to the universal circuit depicted in [universalcircfig](){.ref},  the machine $M$ can be much more complex (e.g., more states or tape alphabet symbols) than $U$. ](../figure/universaltm.png){#universaltmfig .class width=300px height=300px}
+![A _Universal Turing Machine_ is a single Turing Machine $U$ that can evaluate, given input the (description as a string of) arbitrary Turing machine $M$ and input $x$, the output of $M$ on $x$. In contrast to the universal circuit depicted in [universalcircfig](){.ref},  the machine $M$ can be much more complex (e.g., more states or tape alphabet symbols) than $U$. ](../figure/universaltm.png){#universaltmfig .class  }
 
 
 A Turing machine $U$ that satisfies the conditions of [universaltmthm](){.ref} is known as a _universal Turing machine_.
@@ -81,7 +81,7 @@ Once you do that, translating this interpreter from your favorite programming la
 The end result is what's known as a "meta-circular evaluator": an interpreter for a programming language in the same one. This is a concept that has a long history in computer science starting from the original universal Turing machine. See also [lispinterpreterfig](){.ref}.
 :::
 
-![__a)__ A particularly elegant example of a "meta-circular evaluator" comes from John McCarthy's 1960 paper, where he defined the Lisp programming language and gave a Lisp function that evaluates an arbitrary Lisp program (see above). Lisp was not initially intended as a practical programming language and this  example was merely meant as an illustration that the Lisp universal function is more elegant than the universal Turing machine. It was McCarthy's graduate student Steve Russell who suggested that it can be implemented. As McCarthy later recalled, _"I said to him, ho, ho, you're confusing theory with practice, this eval is intended for reading, not for computing. But he went ahead and did it. That is, he compiled the eval in my paper into IBM 704 machine code, fixing a bug, and then advertised this as a Lisp interpreter, which it certainly was"._ __b)__ A self-replicating C program from the classic essay of Thompson  [@thompson1984reflections].](../figure/lispandselfreplicatingprograms.png){#lispinterpreterfig  width=300px height=300px}
+![__a)__ A particularly elegant example of a "meta-circular evaluator" comes from John McCarthy's 1960 paper, where he defined the Lisp programming language and gave a Lisp function that evaluates an arbitrary Lisp program (see above). Lisp was not initially intended as a practical programming language and this  example was merely meant as an illustration that the Lisp universal function is more elegant than the universal Turing machine. It was McCarthy's graduate student Steve Russell who suggested that it can be implemented. As McCarthy later recalled, _"I said to him, ho, ho, you're confusing theory with practice, this eval is intended for reading, not for computing. But he went ahead and did it. That is, he compiled the eval in my paper into IBM 704 machine code, fixing a bug, and then advertised this as a Lisp interpreter, which it certainly was"._ __b)__ A self-replicating C program from the classic essay of Thompson  [@thompson1984reflections].](../figure/lispandselfreplicatingprograms.png){#lispinterpreterfig   }
 
 [universaltmthm](){.ref} yields a stronger notion than the universality we proved for Boolean circuits / NAND-CIRC, in the sense that we show a _single_ universal  Turing machine $U$ that can evaluate _all_ Turing machines, including those that have more states than $U$ (see [universaltmfig](){.ref}).
 In particular, $U$ can even be used to evaluate itself!
@@ -219,7 +219,7 @@ Then, since $M$ computes $F^*$, on input $x$, $F^*(x)$ equals the output of the 
 But by the definition of $F^*$, $F^*(x)$ must be different than the output of $M$ on the string $x$ that represents it,  hence yielding a contradiction.
 :::
 
-![We construct an uncomputable function by defining for every two strings $x,y$ the value $1-M_y(x)$ which equals $0$ if the machine described by $y$ outputs $1$ on $x$, and $1$ otherwise.  We then define $F^*(x)$ to be the "diagonal" of this table, namely $F^*(x)=1-M_x(x)$ for every $x$. The function $F^*$ is uncomputable, because if it was computable by some machine  whose string description is $x^*$ then we would get that $M_{x^*}(x^*)=F(x^*)=1-M_{x^*}(x^*)$.](../figure/diagonal_proof.png){#diagonal-fig  width=300px height=300px}
+![We construct an uncomputable function by defining for every two strings $x,y$ the value $1-M_y(x)$ which equals $0$ if the machine described by $y$ outputs $1$ on $x$, and $1$ otherwise.  We then define $F^*(x)$ to be the "diagonal" of this table, namely $F^*(x)=1-M_x(x)$ for every $x$. The function $F^*$ is uncomputable, because if it was computable by some machine  whose string description is $x^*$ then we would get that $M_{x^*}(x^*)=F(x^*)=1-M_{x^*}(x^*)$.](../figure/diagonal_proof.png){#diagonal-fig   }
 
 
 > # { .pause }
@@ -366,7 +366,7 @@ while True:
 
 Given that Goldbach's Conjecture has been open since 1742, it is unclear that humans have any magical ability to say whether this (or other similar programs) will halt or not.
 
-![[XKCD](https://xkcd.com/1266/)'s take on solving the Halting problem, using the principle that "in the long run, we'll all be dead".](../figure/halting_problem_2x.png){#xkcdhaltingfig .margin width=300px height=300px}
+![[XKCD](https://xkcd.com/1266/)'s take on solving the Halting problem, using the principle that "in the long run, we'll all be dead".](../figure/halting_problem_2x.png){#xkcdhaltingfig .margin  }
 
 
 ### A direct proof of the uncomputability of $HALT$ (optional) { #haltalternativesec }
@@ -447,7 +447,7 @@ The Halting problem turns out to be a linchpin of uncomputability, in the sense 
 We will see several  examples in such results in this chapter and the exercises, but there are many more such results (see [haltreductions](){.ref}).
 
 
-![Some uncomputability results. An arrow from problem X to problem Y means that we use the uncomputability of X to prove the uncomputability of Y by reducing computing X to computing Y.  All of these results except for the MRDP Theorem appear in either the text or exercises. The Halting Problem $HALT$ serves as our starting point for all these uncomputability results as well as many others.](../figure/reductions_from_halting.png){#haltreductions  width=300px height=300px}
+![Some uncomputability results. An arrow from problem X to problem Y means that we use the uncomputability of X to prove the uncomputability of Y by reducing computing X to computing Y.  All of these results except for the MRDP Theorem appear in either the text or exercises. The Halting Problem $HALT$ serves as our starting point for all these uncomputability results as well as many others.](../figure/reductions_from_halting.png){#haltreductions   }
 
 
 The idea behind such uncomputability results is conceptually simple but can at first be quite confusing.
@@ -484,7 +484,7 @@ The proof of [haltonzero-thm](){.ref} is below, but before reading it you might 
 In particular, try to think of what a reduction from $HALT$ to $HALTONZERO$ would look like.
 Doing so is an excellent way to get some initial comfort with the notion of proofs by reduction, which a technique we will be using time and again in this book.
 
-![To prove [haltonzero-thm](){.ref}, we show that $HALTONZERO$ is uncomputable by giving a _reduction_ from the task of computing $HALT$ to the task of computing $HALTONZERO$. This shows that if there was a hypothetical algorithm $A$ computing $HALTONZERO$, then there would be an algorithm $B$ computing $HALT$, contradicting [halt-thm](){.ref}. Since neither $A$ nor $B$ actually exists, this is an example of an implication of the form "if Pigs could whistle then horses could fly".](../figure/haltonzerored.png){#haltonzerofig  .class width=300px height=300px}
+![To prove [haltonzero-thm](){.ref}, we show that $HALTONZERO$ is uncomputable by giving a _reduction_ from the task of computing $HALT$ to the task of computing $HALTONZERO$. This shows that if there was a hypothetical algorithm $A$ computing $HALTONZERO$, then there would be an algorithm $B$ computing $HALT$, contradicting [halt-thm](){.ref}. Since neither $A$ nor $B$ actually exists, this is an example of an implication of the form "if pigs could whistle then horses could fly".](../figure/haltonzerored.png){#haltonzerofig  .class  }
 
 :::  {.proof data-ref="haltonzero-thm"}
 The proof is by reduction from $HALT$, see [haltonzerofig](){.ref}. We will assume, towards the sake of contradiction, that  $HALTONZERO$ is computable by some algorithm $A$, and use this hypothetical algorithm $A$ to construct an algorithm $B$ to compute $HALT$, hence obtaining a contradiction to [halt-thm](){.ref}.
@@ -804,7 +804,7 @@ While the general tasks of verifying this may be uncomputable, researchers have 
 That said, verification, especially of large and complex programs, remains a highly challenging task in practice as well, and the number of programs that have been formally proven correct is still quite small.
 Moreover, even phrasing the right theorem to prove (i.e., the specification) if often a highly non-trivial endeavor.
 
-![The set $\mathbf{R}$ of computable Boolean functions ([classRdef](){.ref}) is a proper subset of the set of all functions mapping $\{0,1\}^*$ to $\{0,1\}$. In this chapter we saw a few examples of elements in the latter set that are not in the former.](../figure/inclusion_noncomputable.png){#inclusionuncomputablefig .class width=300px height=300px}
+![The set $\mathbf{R}$ of computable Boolean functions ([classRdef](){.ref}) is a proper subset of the set of all functions mapping $\{0,1\}^*$ to $\{0,1\}$. In this chapter we saw a few examples of elements in the latter set that are not in the former.](../figure/inclusion_noncomputable.png){#inclusionuncomputablefig .class  .full }
 
 
 ::: { .recap }

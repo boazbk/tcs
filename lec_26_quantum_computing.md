@@ -41,7 +41,7 @@ If we shoot baseballs at the plastic wall, then some of the baseballs would boun
 If we now carve out an additional slit in the metal barrier then more balls would get through, and so the plastic wall would be _even more dented_.
 
 
-![In the "double baseball experiment" we shoot baseballs from a gun at a soft wall through a hard barrier that has one or two slits open in it. There is only "constructive interference" in the sense that the dent in each position in the wall when both slits are open is the sum of the dents when each slit is open on its own.](../figure/double_baseball2.png){#doublebaseballfig .margin width=300px height=300px}
+![In the "double baseball experiment" we shoot baseballs from a gun at a soft wall through a hard barrier that has one or two slits open in it. There is only "constructive interference" in the sense that the dent in each position in the wall when both slits are open is the sum of the dents when each slit is open on its own.](../figure/double_baseball2.png){#doublebaseballfig .margin  }
 
 
 So far this is pure common sense, and it is indeed (to my knowledge) an accurate description of what happens when we shoot baseballs at a plastic wall.
@@ -51,7 +51,7 @@ In particular there are positions in the wall that are hit when the first slit i
 
 
 
-![The setup of the double slit experiment in the case of photon or electron guns. We see also _destructive_ interference in the sense that there are some positions on the wall that get _fewer_ hits when both slits are open than they get when only one of the slits is open. Image credit: Wikipedia.](../figure/double-slit-setup.PNG){#doubleslitfig .margin width=300px height=300px}
+![The setup of the double slit experiment in the case of photon or electron guns. We see also _destructive_ interference in the sense that there are some positions on the wall that get _fewer_ hits when both slits are open than they get when only one of the slits is open. Image credit: Wikipedia.](../figure/double-slit-setup.PNG){#doubleslitfig .margin  }
 
 
 It seems as if each photon coming out of the gun is aware of the global setup of the experiment, and behaves differently if two slits are open than if only one is.
@@ -588,7 +588,7 @@ This is sometimes known as the _coherence time_ of the system.
 The [threshold theorem](https://courses.cs.washington.edu/courses/cse599d/06wi/lecturenotes19.pdf) says that there is some absolute constant level of errors $\tau$ so that if errors are created at every gate at rate smaller than $\tau$ then we can recover from those and perform arbitrary long computations.
 (Of course there are different ways to model the errors and so there are actually several threshold _theorems_ corresponding to various noise models).
 
-![Superconducting quantum computer prototype at Google. Image credit: Google / MIT Technology Review.](../figure/googlequantum.jpg){#googlequantumfig .margin width=300px height=300px}
+![Superconducting quantum computer prototype at Google. Image credit: Google / MIT Technology Review.](../figure/googlequantum.jpg){#googlequantumfig .margin  }
 
 There have been several proposals to build quantum computers:
 
@@ -631,7 +631,7 @@ While we will not prove [shorthm](){.ref} in this chapter, we will  sketch some 
 At the heart of Shor's Theorem  is an efficient quantum algorithm for finding _periods_ of a given function.
 For example, a function $f:\R \rightarrow \R$ is _periodic_ if there is some $h>0$ such that $f(x+h)=f(x)$ for every $x$ (e.g., see [periodicfig](){.ref}).
 
-![Top: A periodic function. Bottom: An a-periodic function.](../figure/periodic_vs_aperiodic.png){#periodicfig .margin width=300px height=300px}
+![Top: A periodic function. Bottom: An a-periodic function.](../figure/periodic_vs_aperiodic.png){#periodicfig .margin  }
 
 
 _Musical notes_ yield one type of periodic function.
@@ -646,14 +646,14 @@ The human ear contains many small hairs, each of which is sensitive to a narrow 
 Hence when we hear the sound corresponding to a chord, the hairs in our ears actually separate it out to the components corresponding to each frequency.
 
 
-![Left: The air-pressure when playing a "C Major" chord as a function of time. Right: The coefficients of the Fourier transform of the same function, we can see that it is the sum of three freuencies corresponding to the C, E and G notes (261.63, 329.63 and 392 Hertz respectively). Credit: Bjarke Mønsted's [Quora answer](https://www.quora.com/What-is-the-meaning-of-frequency-domain). ](../figure/timefreq.png){#timefreqfig .margin width=300px height=300px}
+![Left: The air-pressure when playing a "C Major" chord as a function of time. Right: The coefficients of the Fourier transform of the same function, we can see that it is the sum of three freuencies corresponding to the C, E and G notes (261.63, 329.63 and 392 Hertz respectively). Credit: Bjarke Mønsted's [Quora answer](https://www.quora.com/What-is-the-meaning-of-frequency-domain). ](../figure/timefreq.png){#timefreqfig .margin  }
 
 It turns out that (essentially) _every_ periodic function $f:\R \rightarrow \R$ can be decomposed into a sum of simple _wave_  functions (namely functions of the form $x \mapsto \sin(\theta x)$ or $x \mapsto \cos(\theta x)$).
 This is known as  the [Fourier Transform](https://en.wikipedia.org/wiki/Fourier_transform) (see [qfourierfig](){.ref}).
 The Fourier transform makes it easy to compute the period of a given function: it will simply be the least common multiple of the periods of the constituent waves.
 
 
-![If $f$ is a periodic function then when we represent it in the Fourier transform, we expect the coefficients corresponding to wavelengths that do not evenly divide the period to be very small, as they would tend to "cancel out".](../figure/quantum_fourier.jpg){#qfourierfig .margin width=300px height=300px}
+![If $f$ is a periodic function then when we represent it in the Fourier transform, we expect the coefficients corresponding to wavelengths that do not evenly divide the period to be very small, as they would tend to "cancel out".](../figure/quantum_fourier.jpg){#qfourierfig .margin  }
 
 ### Shor's Algorithm: A bird's eye view
 

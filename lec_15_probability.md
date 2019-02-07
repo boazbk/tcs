@@ -51,7 +51,7 @@ Each particular outcome $x\in \{0,1\}^n$ is obtained with probability $2^{-n}$.
 For example, if we toss three coins, then we obtain each of the 8 outcomes $000,001,010,011,100,101,110,111$ with probability $2^{-3}=1/8$ (see also [coinexperimentfig](){.ref}).
 We can  describe the experiment of tossing $n$ coins as choosing a string $x$ uniformly at random from $\{0,1\}^n$, and hence we'll use the shorthand $x\sim \{0,1\}^n$ for $x$ that is chosen according to this experiment.
 
-![The probabilistic experiment of tossing three coins corresponds  to making $2\times 2 \times 2 = 8$ choices, each with equal probability. In this example, the blue set corresponds to the event $A = \{ x\in \{0,1\}^3 \;|\; x_0 = 0 \}$ where the first coin toss is equal to $0$,  and the pink set corresponds to the event $B = \{ x\in \{0,1\}^3 \;|\; x_1 = 1 \}$ where the second coin toss is equal to $1$ (with their intersection having a purplish color). As we can see, each of these events contains $4$ elements (out of $8$ total) and so has probability $1/2$. The intersection of $A$ and $B$ contains two elements, and so the probability that both of these events occur is $2/8 = 1/4$.](../figure/coinexperiment.png){#coinexperimentfig .margin width=300px height=300px}
+![The probabilistic experiment of tossing three coins corresponds  to making $2\times 2 \times 2 = 8$ choices, each with equal probability. In this example, the blue set corresponds to the event $A = \{ x\in \{0,1\}^3 \;|\; x_0 = 0 \}$ where the first coin toss is equal to $0$,  and the pink set corresponds to the event $B = \{ x\in \{0,1\}^3 \;|\; x_1 = 1 \}$ where the second coin toss is equal to $1$ (with their intersection having a purplish color). As we can see, each of these events contains $4$ elements (out of $8$ total) and so has probability $1/2$. The intersection of $A$ and $B$ contains two elements, and so the probability that both of these events occur is $2/8 = 1/4$.](../figure/coinexperiment.png){#coinexperimentfig .margin  }
 
 An _event_ is simply a subset $A$ of $\{0,1\}^n$.
 The _probability of $A$_, denoted by $\Pr_{x\sim \{0,1\}^n}[A]$ (or $\Pr[A]$ for short, when the sample space is understood from the context), is  the probability that an $x$ chosen uniformly at random will be  contained in $A$.
@@ -154,7 +154,7 @@ Hence, $\Pr[A\cup B] = \E[ 1_{A \cup B} ] \leq \E[1_A+1_B] = \E[1_A]+\E[1_B] = \
 
 The way we often use this in theoretical computer science is to argue that, for example, if there is a list of 100 bad events that can happen, and each one of them happens with probability at most $1/10000$, then with probability at least $1-100/10000 = 0.99$, no bad event happens.
 
-![The _union bound_ tells us that the probability of $A$ or $B$ happening is at most the sum of the individual probabilities. We can see it by noting that for every two sets $|A\cup B| \leq |A|+|B|$ (with equality only if $A$ and $B$ have no intersection).](../figure/unionbound.png){#unionboundfig .margin width=300px height=300px}
+![The _union bound_ tells us that the probability of $A$ or $B$ happening is at most the sum of the individual probabilities. We can see it by noting that for every two sets $|A\cup B| \leq |A|+|B|$ (with equality only if $A$ and $B$ have no intersection).](../figure/unionbound.png){#unionboundfig .margin  }
 
 ### Distributions over strings
 
@@ -198,7 +198,7 @@ If $\Pr[A \cap B] > \Pr[A]\cdot \Pr[B]$ then we say that $A$ and $B$ are _positi
 
 
 ![Two events $A$ and $B$ are _independent_ if $\Pr[A \cap B]=\Pr[A]\cdot \Pr[B]$. In the two figures above, the empty $x\times x$ square is the sample space, and $A$ and $B$ are two events in this sample space. In the left figure, $A$ and $B$ are independent, while in the right figure they are negatively correlated, since $B$ is less likely to occur if we condition on $A$ (and vice versa). Mathematically, one can see this by noticing that in the left figure the areas of $A$ and $B$ respectively are $a\cdot x$ and $b\cdot x$, and so their probabilities are $\tfrac{a\cdot x}{x^2}=\tfrac{a}{x}$ and
-$\tfrac{b\cdot x}{x^2}=\tfrac{b}{x}$ respectively, while the area of $A \cap B$ is $a\cdot b$ which corresponds to the probability $\tfrac{a\cdot b}{x^2}$. In the right figure, the area of the triangle $B$ is $\tfrac{b\cdot x}{2}$ which corresponds to a probability of  $\tfrac{b}{2x}$, but the area of $A \cap B$ is $\tfrac{b' \cdot a}{2}$ for some $b'<b$. This means that the probability of $A \cap B$ is $\tfrac{b'\cdot a}{2x^2} < \tfrac{b}{2x} \cdot \tfrac{a}{x}$, or in other words $\Pr[A \cap B ] < \Pr[A] \cdot \Pr[B]$.](../figure/independence.png){#independencefig .margin width=300px height=300px}
+$\tfrac{b\cdot x}{x^2}=\tfrac{b}{x}$ respectively, while the area of $A \cap B$ is $a\cdot b$ which corresponds to the probability $\tfrac{a\cdot b}{x^2}$. In the right figure, the area of the triangle $B$ is $\tfrac{b\cdot x}{2}$ which corresponds to a probability of  $\tfrac{b}{2x}$, but the area of $A \cap B$ is $\tfrac{b' \cdot a}{2}$ for some $b'<b$. This means that the probability of $A \cap B$ is $\tfrac{b'\cdot a}{2x^2} < \tfrac{b}{2x} \cdot \tfrac{a}{x}$, or in other words $\Pr[A \cap B ] < \Pr[A] \cdot \Pr[B]$.](../figure/independence.png){#independencefig .margin  }
 
 
 If we consider the above examples on the experiment of choosing $x\in \{0,1\}^3$ then we can see that
@@ -240,7 +240,7 @@ For example, if $x\sim \{0,1\}^3$, then the events $\{ x_0=1 \}$, $\{ x_1 = 1\}$
 On the other hand, the events $\{x_0 = 1 \}$, $\{x_1 = 1\}$ and $\{ x_0 + x_1 = 0 \mod 2 \}$ are _not_ mutually independent, even though every pair of these events is independent (can you see why? see also [independencecoinsfig](){.ref}).
 
 
-![Consider the sample space $\{0,1\}^n$ and the events $A,B,C,D,E$ corresponding to $A$: $x_0=1$, $B$: $x_1=1$, $C$: $x_0+x_1+x_2 \geq 2$, $D$: $x_0+x_1+x_2 = 0 mod 2$ and $D$: $x_0+x_1 = 0 mod 2$. We can see that $A$ and $B$ are independent, $C$ is positively correlated with $A$ and positively correlated with $B$, the three events $A,B,D$ are mutually independent, and while every pair out of $A,B,E$ is independent, the three events $A,B,E$ are not mutually independent since their intersection has probability $\tfrac{2}{8}=\tfrac{1}{4}$ instead of $\tfrac{1}{2}\cdot \tfrac{1}{2} \cdot \tfrac{1}{2} = \tfrac{1}{8}$.](../figure/independencecoins.png){#independencecoinsfig .margin width=300px height=300px}
+![Consider the sample space $\{0,1\}^n$ and the events $A,B,C,D,E$ corresponding to $A$: $x_0=1$, $B$: $x_1=1$, $C$: $x_0+x_1+x_2 \geq 2$, $D$: $x_0+x_1+x_2 = 0 mod 2$ and $D$: $x_0+x_1 = 0 mod 2$. We can see that $A$ and $B$ are independent, $C$ is positively correlated with $A$ and positively correlated with $B$, the three events $A,B,D$ are mutually independent, and while every pair out of $A,B,E$ is independent, the three events $A,B,E$ are not mutually independent since their intersection has probability $\tfrac{2}{8}=\tfrac{1}{4}$ instead of $\tfrac{1}{2}\cdot \tfrac{1}{2} \cdot \tfrac{1}{2} = \tfrac{1}{8}$.](../figure/independencecoins.png){#independencecoinsfig .margin  }
 
 ### Independent random variables
 
@@ -332,7 +332,7 @@ Rather, 99.9\% of the time you will pay me 10 dollars, and you will hit the jack
 However, if we repeat this experiment again and again (with fresh and hence _independent_ coins), then in the long run we do expect your average earning to be 90 dollars, which is the reason why casinos can make money in a predictable way even though every individual bet is random.
 For example, if we toss $n$ coins, then as $n$ grows, the number of coins that come up ones will be more and more _concentrated_ around $n/2$ according to  the famous "bell curve" (see [bellfig](){.ref}).
 
-![The probabilities that we obtain a particular sum when we toss $n=10,20,100,1000$ coins converge quickly to the Gaussian/normal distribution.](../figure/binomial.png){#bellfig .margin width=300px height=300px}
+![The probabilities that we obtain a particular sum when we toss $n=10,20,100,1000$ coins converge quickly to the Gaussian/normal distribution.](../figure/binomial.png){#bellfig .margin  }
 
 Much of probability theory is concerned with so called _concentration_ or _tail_ bounds, which are upper bounds on the probability that a random variable $X$ deviates too much from its expectation.
 The first and simplest one of them is Markov's inequality:
@@ -349,7 +349,7 @@ Note that by definition, for every $x$, $Y(x) \leq X/(k\mu)$.
 We need to show $\E[Y] \leq 1/k$.
 But this follows since  $\E[Y] \leq \E[X/k(\mu)] = \E[X]/(k\mu) = \mu/(k\mu)=1/k$.
 
-![Markov's Inequality tells us that a non-negative random variable $X$ cannot be much larger than its expectation, with high probability. For example, if the expectation of $X$ is $\mu$, then the probability that $X>4\mu$ must be at most $1/4$, as otherwise just the contribution from this part of the sample space will be too large.](../figure/markovineq.png){#markovfig .margin width=300px height=300px}
+![Markov's Inequality tells us that a non-negative random variable $X$ cannot be much larger than its expectation, with high probability. For example, if the expectation of $X$ is $\mu$, then the probability that $X>4\mu$ must be at most $1/4$, as otherwise just the contribution from this part of the sample space will be too large.](../figure/markovineq.png){#markovfig .margin  }
 
 
 __Going beyond Markov's Inequality:__
@@ -401,7 +401,7 @@ That is, we have an _exponential decay_ of the probability of deviation.
 
 
 
-![In the _normal distribution_ or the Bell curve, the probability of deviating $k$ standard deviations from the expectation shrinks _exponentially_ in $k^2$, and specifically with probability at least $1-2e^{-k^2/2}$,  a random variable $X$ of expectation $\mu$ and standard deviation $\sigma$ satisfies $\mu -k\sigma \leq X \leq \mu+k\sigma$. This figure  gives more precise bounds for $k=1,2,3,4,5,6$. (Image credit:Imran Baghirov)](../figure/sixsigma.jpg){#empiricalbellfig   .margin width=300px height=300px}
+![In the _normal distribution_ or the Bell curve, the probability of deviating $k$ standard deviations from the expectation shrinks _exponentially_ in $k^2$, and specifically with probability at least $1-2e^{-k^2/2}$,  a random variable $X$ of expectation $\mu$ and standard deviation $\sigma$ satisfies $\mu -k\sigma \leq X \leq \mu+k\sigma$. This figure  gives more precise bounds for $k=1,2,3,4,5,6$. (Image credit:Imran Baghirov)](../figure/sixsigma.jpg){#empiricalbellfig   .margin  }
 
 
 The following extremely useful theorem shows that such exponential decay occurs every time we have a sum of independent and bounded variables. This theorem is known under many names in different communities, though it is mostly called the [Chernoff bound](https://en.wikipedia.org/wiki/Chernoff_bound) in the computer science literature:

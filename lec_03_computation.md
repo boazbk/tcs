@@ -30,11 +30,11 @@ You might think that the "best"  algorithm for multiplying numbers will differ i
 However, as we saw in the introduction ([chapintro](){.ref}), an algorithm that is asymptotically better would eventually beat a worse one regardless of the underlying technology.
 This gives us hope for a _technology independent_ way of defining computation, which is what we will do in this chapter.
 
-![Calculating wheels by Charles Babbage. Image taken from the Mark I 'operating manual'](../figure/wheels_babbage.png){#babbagewheels .margin width=300px height=300px}
+![Calculating wheels by Charles Babbage. Image taken from the Mark I 'operating manual'](../figure/wheels_babbage.png){#babbagewheels .margin  }
 
 
 
-![A 1944 _Popular Mechanics_ article on the [Harvard Mark I computer](http://sites.harvard.edu/~chsi/markone/about.html).](../figure/PopularMechanics1944smaller.jpg){#markIcomp .margin width=300px height=300px}
+![A 1944 _Popular Mechanics_ article on the [Harvard Mark I computer](http://sites.harvard.edu/~chsi/markone/about.html).](../figure/PopularMechanics1944smaller.jpg){#markIcomp .margin  }
 
 
 ## Defining computation
@@ -52,9 +52,9 @@ Here is how al-Khwarizmi described the algorithm for solving an equation of the 
 
 
 
-![Text pages from Algebra manuscript with geometrical solutions to two quadratic equations. Shelfmark: MS. Huntington 214 fol. 004v-005r](../figure/alKhwarizmi.jpg){#alKhwarizmi .margin width=300px height=300px}
+![Text pages from Algebra manuscript with geometrical solutions to two quadratic equations. Shelfmark: MS. Huntington 214 fol. 004v-005r](../figure/alKhwarizmi.jpg){#alKhwarizmi .margin  }
 
-![An explanation for children of the two digit addition algorithm](../figure/addition_regrouping.jpg){#childrenalg .margin width=300px height=300px}
+![An explanation for children of the two digit addition algorithm](../figure/addition_regrouping.jpg){#childrenalg .margin  }
 
 
 For the purposes of this book, we will need a much more precise way to describe algorithms.
@@ -175,7 +175,7 @@ An _OR gate_ is a gadget that has two incoming wires and one outgoing wires, and
 AND and NOT gates are defined similarly.
 Using this, we can express [eqmajandornot](){.eqref} as a circuit as well:
 
-![](../figure/majcircuit.png){#figid .margin width=300px height=300px} \
+![](../figure/majcircuit.png){#figid .margin  } \
 
 
 ### Extended example: Computing $XOR$ from $AND$,$OR$,$NOT$.
@@ -193,7 +193,7 @@ Here is an algorithm to compute $XOR(a,b)$ using $AND,NOT,OR$ as basic operation
 
 We can also express this algorithm as a circuit:
 
-![A circuit with $AND$, $OR$ and $NOT$ gates (denoted as $\wedge,\vee,\neg$ respectively) for computing the $XOR$ function.](../figure/xorandornotcirc.png){#andornotcircxorfig  .margin width=300px height=300px} \
+![A circuit with $AND$, $OR$ and $NOT$ gates (denoted as $\wedge,\vee,\neg$ respectively) for computing the $XOR$ function.](../figure/xorandornotcirc.png){#andornotcircxorfig  .margin  } \
 
 Last but not least, we can also express it in a programming language.
 Specifically, the following is a _Python_ program that computes the $XOR$ function:
@@ -308,7 +308,7 @@ While most modern computing devices are obtained by mapping logical gates to sem
 In this section we will  review some of these implementations, both so  you can get an appreciation of how it is possible to directly translate NAND-CIRC programs to the physical world, without going through the entire stack of architecture, operating systems, compilers, etc. as well as to emphasize that silicon-based processors are by no means the only way to perform computation.
 Indeed, as we will see much later in this course, a very exciting recent line of works involves using different media for computation that would allow us to take advantage of _quantum mechanical effects_ to enable different types of algorithms.
 
-![Crab-based logic gates from the paper "Robust soldier-crab ball gate" by Gunji, Nishiyama and Adamatzky. This is an example of an AND gate that relies on the tendency of two swarms of crabs arriving from different directions to combine to a single swarm that continues in the average of the directions.](../figure/crab-gate.jpg){#crabfig .margin width=200px height=200px}
+![Crab-based logic gates from the paper "Robust soldier-crab ball gate" by Gunji, Nishiyama and Adamatzky. This is an example of an AND gate that relies on the tendency of two swarms of crabs arriving from different directions to combine to a single swarm that continues in the average of the directions.](../figure/crab-gate.jpg){#crabfig .margin}
 
 
 
@@ -319,7 +319,7 @@ The gate controls whether current flows from the source to the sink.
 In a _standard transistor_, if the gate is "ON" then current can flow from the source to the sink and if it is "OFF" then it can't.
 In a _complementary transistor_ this is reversed: if the gate is "OFF" then current can flow from the source to the sink and if it is "ON" then it can't.
 
-![We can implement the logic of transistors using water. The water pressure from the gate closes or opens a faucet between the source and the sink.](../figure/transistor_water.png){#transistor-water-fig .margin width=300px height=300px}
+![We can implement the logic of transistors using water. The water pressure from the gate closes or opens a faucet between the source and the sink.](../figure/transistor_water.png){#transistor-water-fig .margin  }
 
 There are several ways to implement the logic of a transistor.
 For example, we can use faucets to implement it using water pressure (e.g. [transistor-water-fig](){.ref}).^[This might seem as merely a  curiosity but there is a field known as [fluidics](https://en.wikipedia.org/wiki/Fluidics) concerned with implementing logical operations using liquids or gasses. Some of the motivations include operating in extreme environmental conditions such as in space or  a battlefield, where standard electronic equipment would not survive.]
@@ -333,11 +333,11 @@ In the 1960's computers were started to be implemented using _integrated circuit
 In 1965, Gordon Moore predicted that the number of transistors per circuit would double every  year (see [moorefig](){.ref}), and that this would lead to "such wonders as home computers —or at least terminals connected to a central computer— automatic controls for automobiles, and personal portable communications equipment".
 Since then, (adjusted versions of) this so-called "Moore's law" has been running strong, though exponential growth cannot be sustained forever, and some physical limitations are already [becoming apparent](http://www.nature.com/news/the-chips-are-down-for-moore-s-law-1.19338).
 
-![The number of transistors per integrated circuits from 1959 till 1965 and a prediction that exponential growth will continue at least another decade. Figure taken from "Cramming More Components onto Integrated Circuits", Gordon Moore, 1965](../figure/gordon_moore.png){#moorefig .margin width=300px height=300px}
+![The number of transistors per integrated circuits from 1959 till 1965 and a prediction that exponential growth will continue at least another decade. Figure taken from "Cramming More Components onto Integrated Circuits", Gordon Moore, 1965](../figure/gordon_moore.png){#moorefig .margin  }
 
-![Gordon Moore's cartoon "predicting" the implications of radically improving transistor density.](../figure/moore_cartoon.png){#moore-cartoon-fig .margin width=300px height=300px}
+![Gordon Moore's cartoon "predicting" the implications of radically improving transistor density.](../figure/moore_cartoon.png){#moore-cartoon-fig .margin  }
 
-![The exponential growth in computing power over the last 120 years. Graph by Steve Jurvetson, extending a prior graph of Ray Kurzweil.](../figure/1200px-Moore's_Law_over_120_Years.png){#kurzweil-fig .margin width=300px height=300px}
+![The exponential growth in computing power over the last 120 years. Graph by Steve Jurvetson, extending a prior graph of Ray Kurzweil.](../figure/1200px-Moore's_Law_over_120_Years.png){#kurzweil-fig .margin  }
 
 
 
@@ -348,9 +348,9 @@ We can use transistors to implement various Boolean functions such as $AND$, $OR
 For each a two-input gate $G:\{0,1\}^2 \rightarrow \{0,1\}$,  such an implementation would be a system with two input wires $x,y$ and one output wire $z$, such that if we identify high voltage with "$1$" and low voltage with "$0$", then the wire  $z$ will equal to "$1$" if and only if applying $G$ to  the values of the wires $x$ and $y$ is $1$ (see [logicgatestransistorsfig](){.ref} and [transistor-nand-fig](){.ref}).
 This means that there exists a AND/OR/NOT circuit to  compute a function $g:\{0,1\}^n \rightarrow \{0,1\}^m$, then we can compute $g$ in the physical world using transistors as well.
 
-![Implementing logical gates using transistors. Figure taken from [Rory Mangles' website](http://www.northdownfarm.co.uk/rory/tim/basiclogic.htm).](../figure/DTLLogic.PNG){#logicgatestransistorsfig   .margin width=300px height=300px}
+![Implementing logical gates using transistors. Figure taken from [Rory Mangles' website](http://www.northdownfarm.co.uk/rory/tim/basiclogic.htm).](../figure/DTLLogic.PNG){#logicgatestransistorsfig   .margin  }
 
-![Implementing a NAND gate using transistors.](../figure/nand_transistor.png){#transistor-nand-fig .margin width=300px height=300px}
+![Implementing a NAND gate using transistors.](../figure/nand_transistor.png){#transistor-nand-fig .margin  }
 
 
 
@@ -365,7 +365,7 @@ One motivation for DNA computing is to achieve  increased parallelism or storage
 Computing in biological systems is not restricted of course to DNA.
 Even larger systems such as [flocks of birds](https://www.cs.princeton.edu/~chazelle/pubs/cacm12-natalg.pdf) can be considered as computational processes.
 
-![Performance of DNA-based logic gates. Figure taken from paper of [Bonnet et al](http://science.sciencemag.org/content/early/2013/03/27/science.1232758.full), Science, 2013.](../figure/transcriptor.jpg){#transcriptorfig .margin width=300px height=300px}
+![Performance of DNA-based logic gates. Figure taken from paper of [Bonnet et al](http://science.sciencemag.org/content/early/2013/03/27/science.1232758.full), Science, 2013.](../figure/transcriptor.jpg){#transcriptorfig .margin  }
 
 ### Cellular automata and the game of life
 
@@ -373,7 +373,7 @@ _Cellular automata_ is a model of a system composed of a sequence of _cells_, wh
 At each step, a cell updates its state based on the states of its _neighboring cells_ and some simple rules.
 As we will discuss later in this course, cellular automata such as Conway's "Game of Life" can be used to simulate computation gates (see [gameoflifefig](){.ref}).
 
-![An AND gate using a "Game of Life" configuration. Figure taken from [Jean-Philippe Rennard's paper](http://www.rennard.org/alife/CollisionBasedRennard.pdf).](../figure/game_of_life_and.png){#gameoflifefig .margin width=300px height=300px}
+![An AND gate using a "Game of Life" configuration. Figure taken from [Jean-Philippe Rennard's paper](http://www.rennard.org/alife/CollisionBasedRennard.pdf).](../figure/game_of_life_and.png){#gameoflifefig .margin  }
 
 
 ### Neural networks
@@ -408,11 +408,11 @@ In fact, there is even a commercially-available educational game that uses marbl
 
 
 
-![A physical implementation of a NAND gate using marbles. Each  wire in a Boolean circuit is modeled by a pair of pipes representing the values $0$ and $1$ respectively, and hence a gate has four input pipes (two for each logical input) and two output pipes. If one of the input pipes representing the value $0$ has a marble in it then that marble will flow to the output pipe representing the value $1$. (The dashed line represent a gadget that will ensure that at most one marble is allowed to flow onward in the pipe.) If both the input pipes representing the value $1$ have marbles in them, then the first marble will be stuck but the second one will flow onwards to the output pipe representing the value $0$.](../figure/marble.png){#marblefig .margin width=300px height=300px}
+![A physical implementation of a NAND gate using marbles. Each  wire in a Boolean circuit is modeled by a pair of pipes representing the values $0$ and $1$ respectively, and hence a gate has four input pipes (two for each logical input) and two output pipes. If one of the input pipes representing the value $0$ has a marble in it then that marble will flow to the output pipe representing the value $1$. (The dashed line represent a gadget that will ensure that at most one marble is allowed to flow onward in the pipe.) If both the input pipes representing the value $1$ have marbles in them, then the first marble will be stuck but the second one will flow onwards to the output pipe representing the value $0$.](../figure/marble.png){#marblefig .margin  }
 
-![A "gadget" in a pipe that ensures that at most one marble can pass through it. The first marble that passes causes the barrier to lift and block new ones.](../figure/gadget.png){#gadgetfig .margin width=300px height=300px}
+![A "gadget" in a pipe that ensures that at most one marble can pass through it. The first marble that passes causes the barrier to lift and block new ones.](../figure/gadget.png){#gadgetfig .margin  }
 
-![The game ["Turing Tumble"](https://www.turingtumble.com/) contains an imlementation of logical gates using marbles.](../figure/turingtumble.png){#turingtumblefig .margin width=300px height=300px}
+![The game ["Turing Tumble"](https://www.turingtumble.com/) contains an imlementation of logical gates using marbles.](../figure/turingtumble.png){#turingtumblefig .margin  }
 
 
 ## Boolean Circuits
@@ -593,7 +593,7 @@ def prog2circuit(code,gateset=None):
     return C
 ```
 
-![Two equivalent description of the same AND/OR/NOT computation as both an AON program and a Boolan circuit.](../figure/aoncircequiv.png){#aoncircequivfig .margin width=300px height=300px}
+![Two equivalent description of the same AND/OR/NOT computation as both an AON program and a Boolan circuit.](../figure/aoncircequiv.png){#aoncircequivfig .margin  }
 
 
 ## The NAND function
@@ -657,7 +657,7 @@ $$
 
 This corresponds to the following circuit with $NAND$ gates:
 
-![](../figure/majcircnand.png){#figid .margin width=300px height=300px}  \
+![](../figure/majcircnand.png){#figid .margin  }  \
 :::
 
 
@@ -693,7 +693,7 @@ However, the following is a direct construction of computing $XOR$ by a sequence
 
 We can also represent this algorithm graphically as a circuit:
 
-![](../figure/xornandcirc.png){#figid .margin width=300px height=300px} \
+![](../figure/xornandcirc.png){#figid .margin  } \
 :::
 
 
@@ -814,7 +814,7 @@ As before we can show that NAND circuits are equivalent to NAND-CIRC programs (s
 For every $f:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s \geq m$, $f$ is computable by a NAND-CIRC program of $s$ lines if and only if $f$ is computable by  a NAND circuit of $s$ gates.
 
 
-![The NAND code and the corresponding circuit for a program to compute the _increment_ function that maps a string $x\in \{0,1\}^3$ (which we think of as a number in $[7]$) to the string $y\in \{0,1\}^4$ that represents $x+1$. Note how every line in the program corresponds to a gate in the circuit.](../figure/progandcircinc3.png){#progandcircfig .margin width=300px height=300px}
+![The NAND code and the corresponding circuit for a program to compute the _increment_ function that maps a string $x\in \{0,1\}^3$ (which we think of as a number in $[7]$) to the string $y\in \{0,1\}^4$ that represents $x+1$. Note how every line in the program corresponds to a gate in the circuit.](../figure/progandcircinc3.png){#progandcircfig .margin  }
 
 
 We omit the proof  of [NANDcircslequivthm](){.ref} since it follows along exactly the same lines as the equivalence of Boolean circuits and AON-CIRC program  ([slcircuitequivthm](){.ref}).
