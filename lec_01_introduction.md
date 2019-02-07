@@ -348,7 +348,7 @@ This book is divided into the following parts ,see [dependencystructurefig](){.r
 
 * __Preliminaries:__ Introduction, mathematical background, and representing objects as strings.
 
-* __Part I: Finite computation:__ Boolean circuits / straightline  programs. Universal gate sets, existence of a circuit for every function, representing circuits as strings and the universal circuit, and the counting lower bound.
+* __Part I: Finite computation:__ Boolean circuits / straight-line  programs. Universal gate sets, existence of a circuit for every function, representing circuits as strings and the universal circuit, and the counting lower bound.
 
 * __Part II: Uniform computation:__ Turing machines / programs with loops. Equivalence of models (including RAM machines and $\lambda$ calculus), universal Turing machine, uncomputable functions the Halting problem and Rice's Theorem, Gödel's incompleteness theorem, restricted models (regular and context free languages).
 

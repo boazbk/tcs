@@ -233,7 +233,7 @@ We omit the formal proof, as doing it by yourself is an excellent way to get com
 
 
 
-### Simulating randomized algorithms by circuits or straightline programs.
+### Simulating randomized algorithms by circuits or straight-line programs.
 
 We have seen in [non-uniform-thm](){.ref} that if  $F$ is in $\mathbf{P}$, then there is a polynomial $p:\N \rightarrow \N$ such that  for every $n$, the restriction $F_{\upharpoonright n}$ of $F$ to inputs $\{0,1\}^n$ is in $SIZE(p(n))$. (In other words, that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$.)
 A priori it is not at all clear that the same holds for a function in $\mathbf{BPP}$, but this does turn out to be the case.

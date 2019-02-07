@@ -1107,33 +1107,34 @@ Most of the notation we use in this book is standard and is used in most mathema
 
 ### Conventions
 
-Mathematics (as is coding)  is full of variables. Whenever you see a variable, it is always important to keep track of what is its _type_: is it a number, a function, a string, a graph, a program? To make this easier, we try to stick to certain conventions by which we use certain identifiers for variables of the same type.
-Some of these conventions are listed in the following table.
-Note that these are conventions and not immutable laws. Sometimes we might deviate from them.
+Like programming, mathematics is full of _variables_. Whenever you see a variable, it is always important to keep track of what is its _type_ (e.g., whether the variable is a number, a string, a function, a graph, etc.).
+To make this easier, we try to stick to certain conventions and consistently use certain identifiers for variables of the same type.
+Some of these conventions are listed in [notationtable](){.ref} below.
+These conventions are not immutable laws and we might occasionally deviate from them.
 Also, such conventions do not replace the need to explicitly declare for each new variable the type of object that it denotes.
 
 
 
 ```table
 ---
-caption: 'Commonly used mathematical notation'
+caption: 'Conventions for identifiers in this book'
 alignment: LL
-table-width: 2/3
+table-width: 1/3
 id: notationtable
 ---
-*Identifier*	*Is often used to denote an object of the type*
-$i,j,k,\ell,m,n$	Natural numbers (i.e., in $\mathbb{N} = \{0,1,2,\ldots \}$)
+*Identifier*	*Often denotes  object of type*
+$i$,$j$,$k$,$\ell$,$m$,$n$	Natural numbers (i.e., in $\mathbb{N} = \{0,1,2,\ldots \}$)
 $\epsilon,\delta$	Small positive real numbers  (very close to $0$)
-$x,y,z,w$	Strings in $\{0,1\}^*$, though sometimes we will use these identifiers numbers or other objects. We will often identify an object with its representation as a string.
-$G$	A _graph_. The set of vertices of $G$ is often denoted by $V$, and often it is simply the set $[n]=\{0,\ldots, n\}$. The set of edges of $G$ is often denoted by $E$.
-$S$	Sets
-$f,g,h$	Functions. We will often (thogh not always) use lowercase identifiers for _finite functions_, which map  $\{0,1\}^n$ to $\{0,1\}^m$ (often $m=1$).
-$F,G,H$	Infinite (unbounded input) functions mapping $\{0,1\}^*$ to $\{0,1\}^*$ or $\{0,1\}^*$ to $\{0,1\}^m$ for some $m$. Note that the identifiers $G,H$ are sometimes used to denote a function and sometimes a graph. It will always be clear from the context which of these is the case.
+$x,y,z,w$	Typically strings in $\{0,1\}^*$ though sometimes numbers or other objects. We often identify an object with its representation as a string.
+$G$	A _graph_. The set of $G$'s vertices is typically denoted by $V$. Often $V=[n]$. The set of $G$'s edges is typically denoted by $E$.
+$S$	Set
+$f,g,h$	Functions. We  often (though not always) use lowercase identifiers for _finite functions_, which map  $\{0,1\}^n$ to $\{0,1\}^m$ (often $m=1$).
+$F,G,H$	Infinite (unbounded input) functions mapping $\{0,1\}^*$ to $\{0,1\}^*$ or $\{0,1\}^*$ to $\{0,1\}^m$ for some $m$. Based on context, the identifiers $G,H$ are sometimes used to denote functions and sometimes graphs.
 $A,B,C$	Boolean circuits
-$M$	Turing machines
+$M,N$	Turing machines
 $P,Q$	Programs
 $T$	A function mapping $\mathbb{N}$ to $\mathbb{N}$ that corresponds to a time bound.
-$c$	A positive number (often an unspecified constant: for example if $T(n)=O(n)$ then there is some number $c$ such that $T(n) \leq c \cdot n$ every $n>0$). We sometimes use $a,b$ in a similar way.
+$c$	A positive number (often an unspecified constant; e.g.,  $T(n)=O(n)$ corresponds to the existence of $c$ s.t. $T(n) \leq c \cdot n$ every $n>0$). We sometimes use $a,b$ in a similar way.
 $\Sigma$	Finite set (often used as  the _alphabet_ for a set of strings).
 ```
 

@@ -9,7 +9,7 @@ chapternum: "3"
 
 ># {.objectives  }
 * See that computation can be precisely modeled. \
-* Learn the computational model of _Boolean circuits_ / _straightline programs_.
+* Learn the computational model of _Boolean circuits_ / _straight-line programs_.
 * See the NAND operation and also why the specific choice of NAND is not important. \
 * Examples of computing in the physical world. \
 * Equivalence of circuits and programs.
@@ -467,14 +467,14 @@ Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$. We say that the circuit $C$ _computes_ 
 :::
 
 
-## Equivalence of circuits and straightline programs
+## Equivalence of circuits and straight-line programs
 
 We have seen two ways to describe how to compute a function $f$ using AND, OR and NOT:
 
 
 * A _Boolean circuit_, defined in [booleancircdef](){.ref},  computes $f$ by connecting via wires AND, OR, and NOT gates to the inputs.
 
-* We can also describe such a   computation using a _straightline program_ that has lines of the form `foo = AND(bar,blah)`, `foo = OR(bar,blah)` and `foo = NOT(bar)` where `foo`, `bar` and `blah` are variable names. (We call this a _straightline program_ since it contains no loops or if/then statements.)
+* We can also describe such a   computation using a _straight-line program_ that has lines of the form `foo = AND(bar,blah)`, `foo = OR(bar,blah)` and `foo = NOT(bar)` where `foo`, `bar` and `blah` are variable names. (We call this a _straight-line program_ since it contains no loops or if/then statements.)
 
 We will now formally define the AON-CIRC programming language ("AON" stands for AND/OR/NOT) which has the above operations, and show that it is equivalent to Boolean circuits.
 
@@ -511,7 +511,7 @@ def EVAL(code,X):
 
 It turns out that AON-CIRC programs and Boolean circuits have exactly the same power:
 
-> # {.theorem title="Equivalence of circuits and straightline programs" #slcircuitequivthm}
+> # {.theorem title="Equivalence of circuits and straight-line programs" #slcircuitequivthm}
 Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s \geq m$ be some number. Then $f$ is computable by a Boolean circuit  of $s$ gates if and only if $f$ is computable by an AON-CIRC program of $s$ lines.
 
 
@@ -572,7 +572,7 @@ def circuit2prog(C):
 
 ```python
 def prog2circuit(code,gateset=None):
-    """Transform a straightline program into a circuit.
+    """Transform a straight-line program into a circuit.
        Takes as input the basic gates one uses (otherwise use all functions currently defined)"""
     if not gateset: gateset = globals()
     n,m = numinout(code) # helper function - extract number of inputs and outputs from code
@@ -810,7 +810,7 @@ Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$ be some function, and let $P$ be a NAND-
 
 As before we can show that NAND circuits are equivalent to NAND-CIRC programs (see [progandcircfig](){.ref}):
 
-> # {.theorem title="NAND circuits and straightline program equivalence" #NANDcircslequivthm}
+> # {.theorem title="NAND circuits and straight-line program equivalence" #NANDcircslequivthm}
 For every $f:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s \geq m$, $f$ is computable by a NAND-CIRC program of $s$ lines if and only if $f$ is computable by  a NAND circuit of $s$ gates.
 
 
@@ -884,11 +884,11 @@ For every sufficiently large $s,n,m$  and $f:\{0,1\}^n \rightarrow \{0,1\}^m$, t
 
 * $f$ can be computed by a Boolean circuit (with $\wedge,\vee,\neg$ gates) of at most $O(s)$   gates.
 
-* $f$ can be computed by an AON-CIRC straightline program of at most $O(s)$ lines.
+* $f$ can be computed by an AON-CIRC straight-line program of at most $O(s)$ lines.
 
 * $f$ can be computed by a NAND circuit of at most $O(s)$ gates.
 
-* $f$ can be computed by a NAND-CIRC straightline program of at most $O(s)$ lines.
+* $f$ can be computed by a NAND-CIRC straight-line program of at most $O(s)$ lines.
 :::
 
 By "$O(s)$" we mean that the bound is at most $c\cdot s$ where $c$ is a constant that is independent of $n$.
@@ -921,7 +921,7 @@ A function corresponds to a _specification_ of a computational task, and it is a
 There is nothing special about AND/OR/NOT or  NAND. For every set of functions $\mathcal{G} = \{ G_0,\ldots,G_{k-1} \}$, we can define a notion of circuits that use elements of  $\mathcal{G}$ as gates, and a notion of a "$\mathcal{G}$ programming language" where every line involves assigning to a variable `foo` the result of applying some $G_i \in \mathcal{G}$ to previously defined or input variables.
 Specifically, we can make the following definition:
 
-> # {.definition title="General straightline programs" #genstraightlineprogs}
+> # {.definition title="General straight-line programs" #genstraight-lineprogs}
 Let $\mathcal{F} = \{ f_0,\ldots, f_{t-1} \}$ be a finite  collection of Boolean functions, such that
 $f_i:\{0,1\}^{k_i} \rightarrow \{0,1\}$ for some $k_i \in \N$.
 An _$\mathcal{F}$ program_ is a sequence of lines, each of which assigns to some  variable  the result of applying some $f_i \in \mathcal{F}$ to $k_i$ other variables. As above, we use `X[`$i$`]` and `Y[`$j$`]` to denote the input and output variables.
@@ -947,7 +947,7 @@ There are also some  sets $\mathcal{F}$ that are more restricted in power, for e
 * We can use $NAND$ to compute many other functions, including majority, increment, and others.
 * There are other equivalent choices, including the set $\{AND,OR,NOT\}$.
 * We can formally define the notion of a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ being computable using the _NAND-CIRC Programming language_.
-* For every set of basic operations, the notions of being computable by a  circuit and being computable by a straightline program are equivalent.
+* For every set of basic operations, the notions of being computable by a  circuit and being computable by a straight-line program are equivalent.
 
 ## Exercises
 
@@ -999,6 +999,16 @@ Prove that there is some constant $c$ such that for every $n>1$, there is a NAND
 
 
 ## Biographical notes
+
+Charles Babbage (1791-1871) was a visionary scientist, mathematician, and inventor (see [@swade2002the, @collier2000charles]).
+More than a century before the invention of modern electronic computers, Babbage realized that computation can be in principle mechanized.
+His first design for a mechanical computer was the _difference engine_ that was designed to do polynomial interpolation.
+He then designed the _analytical engine_ which was a much more general machine and the first prototype for a programmable general purpose computer.
+Unfortunately, Babbage was never able to complete the design of his prototypes.
+One of the earliest people to realize the engine's potential and far reaching implications was Ada Lovelace (see the notes to [chaploops](){.ref}).
+
+
+
 
 Boolean algebra was first investigated by  Boole  and DeMorgan in the 1840's [@Boole1847mathematical, @DeMorgan1847] but the definition of Boolean circuits and connection to electrical relay circuits was given in  Shannon's Masters Thesis  [@Shannon1938].
 (Howard Gardener called Shannon's thesis "possibly the most important, and also the most famous, master's thesis of the [20th] century".)

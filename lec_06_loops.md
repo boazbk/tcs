@@ -12,7 +12,7 @@ chapternum: "6"
 NAND-TM programs, which add _loops_ and _arrays_ to NAND-CIRC.
 * See some basic syntactic sugar and equivalence of variants of Turing machines and NAND-TM programs.
 
->_"We thus see that when $n=1$, nine operation-cards are used; that when $n=2$, fourteen Operation-cards are used; and that when $n>2$, twenty-five operation-cards are used; but that no more are needed, however great $n$ may be; and not only this, but that these same twenty-five cards suffice for the successive computation of all the numbers"_, Ada Augusta, countess of Lovelace, 1843^[Translation of  "Sketch of the Analytical Engine" by L. F. Menabrea, Note G.]
+>_"The bounds of arithmetic were however outstepped the moment the idea of applying the [punched] cards had occurred; and the Analytical Engine does not occupy common ground with mere "calculating machines."" ... In enabling mechanism to combine together general symbols, in successions of unlimited variety and extent, a uniting link is established between the operations of matter and the abstract mental processes of the most abstract branch of mathematical science. "_, Ada Augusta, countess of Lovelace, 1843^[Translation of  "Sketch of the Analytical Engine" by L. F. Menabrea, Note A.]
 
 
 >_"What is the difference between a Turing machine and the modern computer? It's the same as that between Hillary's ascent of Everest and the establishment of a Hilton hotel on its peak."_ , Alan Perlis, 1982.
@@ -20,7 +20,7 @@ NAND-TM programs, which add _loops_ and _arrays_ to NAND-CIRC.
 
 
 
-The model of Boolean circuits  (or equivalently, the NAND-CIRC programming language) has one very significant drawback: a Boolean circuit  can only compute a _finite_ function $f$, and in particular the number of inputs of $f$ is always smaller than (twice) the number of gates of the circuit.^[Since very NAND gate has two inputs, the number of inputs that an $s$-gate NAND circuit can depend on is at most $2s$. However, the conceptual point of being only able to handle a finite number of inputs  holds for any model of circuits  or straightline programming language.]
+The model of Boolean circuits  (or equivalently, the NAND-CIRC programming language) has one very significant drawback: a Boolean circuit  can only compute a _finite_ function $f$, and in particular the number of inputs of $f$ is always smaller than (twice) the number of gates of the circuit.^[Since very NAND gate has two inputs, the number of inputs that an $s$-gate NAND circuit can depend on is at most $2s$. However, the conceptual point of being only able to handle a finite number of inputs  holds for any model of circuits  or straight-line programming language.]
 
 This does not capture our intuitive notion of an algorithm as a _single recipe_ to compute a potentially infinite function.
 For example, the standard elementary school multiplication algorithm is a _single_ algorithm that multiplies numbers of all lengths, but yet we cannot express this algorithm as a single NAND-CIRC program, but rather need a different NAND-CIRC program for every input length (see [multschoolfig](){.ref}).
@@ -127,27 +127,37 @@ Specifically, a computation of a Turing Machine $M$ with $k$ states and alphabet
 ![A Turing machine has access to a _tape_ of unbounded length. At each point in the execution, the machine can read a single symbol of the tape, and based on that and its current state, write a new symbol, update the tape, decide whether to move left, right, stay, or halt.](../figure/turingmachine.png){#turing-machine-fig  width=300px height=300px}
 
 
-::: {.example title="A Turing machine for palindromes" #turingmachinepalindrome}
+### Example:  A Turing machine for palindromes  { #turingmachinepalindrome }
+
 Let $PAL$ (for _palindromes_) be the function that on input $x\in \{0,1\}^*$, outputs $1$ if and only if $x$ is an (even length) _palindrome_, in the sense that $x = w_0 \cdots w_{n-1}w_{n-1}w_{n-2}\cdots w_0$ for some $n\in \N$ and $w\in \{0,1\}^n$.
 
 We now show a Turing Machine $M$ that computes $PAL$. To specify $M$ we need to specify __(i)__ $M$'s tape alphabet $\Sigma$ which should contain at least the symboles $0$,$1$, $\triangleright$ and $\varnothing$, and __(ii)__ $M$'s _transition function_ which determines what action $M$ takes when it reads a given symbol while it is in a particular state.
 
 In our case, $M$ will use the alphabet $\{ 0,1,\triangleright, \varnothing, \times \}$ and will have $k=14$ states. Though the states are simply numbers between $0$ and $k-1$, for convenience we will give them the following labels:
-| State | Label          |
-|-------|----------------|
-| 0     | `START`        |
-| 1     | `RIGHT_0`       |
-| 2     | `RIGHT_1`       |
-| 3     | `LOOK_FOR_0`     |
-| 4     | `LOOK_FOR_1`     |
-| 5     | `RETURN`       |
-| 6     | `REJECT`       |
-| 7     | `ACCEPT`       |
-| 8     | `OUTPUT_0`      |
-| 9     | `OUTPUT_1`      |
-| 10    | `0_AND_BLANK`    |
-| 11    | `1_AND_BLANK`    |
-| 12    | `BLANK_AND_STOP` |
+
+```table
+---
+caption: ''
+alignment: ''
+table-width: ''
+id: ''
+---
+State, Label
+0, `START`
+1,`RIGHT_0`
+2,`RIGHT_1`
+3,`LOOK_FOR_0`
+4,`LOOK_FOR_1`
+5,`RETURN`
+6,`REJECT`
+7,`ACCEPT`
+8,`OUTPUT_0`
+9,`OUTPUT_1`
+10,`0_AND_BLANK`
+11,`1_AND_BLANK`
+12,`BLANK_AND_STOP`
+```
+
 
 
 We describe the operation of our  Turing Machine $M$ in words:
@@ -166,7 +176,10 @@ We describe the operation of our  Turing Machine $M$ in words:
 * The `OUTPUT_`$b$ states mean that we are going to output the value $b$. In both these states we go left until we hit $\triangleright$. Once we do so, we make a right step, and change to the `1_AND_BLANK` or `0_AND_BLANK` states respectively. In the latter states, we write the corresponding value, and then move right and change to the `BLANK_AND_STOP` state, in which we write $\varnothing$ to the tape and halt.
 
 The above description can be turned into a table  describing for each one of the $13\cdot 5$ combination of state and symbol, what the Turing machine will do when it is in that state and it reads that symbol. This table is known as the _transition function_ of the Turing machine.
-:::
+
+
+### Turing machines: a formal definition
+
 
 
 The formal definition of Turing machines is as follows:
@@ -215,7 +228,7 @@ Sipser considers also functions with input in $\Sigma^*$ for an arbitrary alphab
 The bottom line is that Sipser defines Turing machines as a _seven tuple_ consisting of the state space, input alphabet, tape alphabet, transition function, starting state, accpeting state, and rejecting state. Yet, this is simply a different representation of the same concept, just as a graph can be represented in either adjacency list or adjacency matrix form.
 :::
 
-## Computable functions
+### Computable functions
 
 
 We now turn to making one of the most important definitions in this book, that of _computable functions_.
@@ -270,7 +283,7 @@ Thus saying that the function $F$ is computable is equivalent to saying that the
 
 ### Infinite loops and partial functions
 
-One crucial difference between circuits/straightline programs and Turing machines is the following.
+One crucial difference between circuits/straight-line programs and Turing machines is the following.
 Looking at a NAND-CIRC program $P$, we can always tell how many inputs and how many outputs it has (by simply looking  at the `X` and `Y` variables).
 Furthermore, we  are guaranteed that if we invoke $P$ on any input then _some_ output will be produced.
 
@@ -355,7 +368,7 @@ We now introduce the _NAND-TM programming language_, which  aims to capture the 
 The main difference between NAND-TM and NAND-CIRC is that NAND-TM will need to model a _single uniform algorithm_ that can compute a function that takes inputs of _arbitrary lengths_.
 To do so, we  extend the NAND-CIRC programming language with two constructs:
 
-* _Loops_: NAND-CIRC is a _straightline_ programming language- a NAND-CIRC program of $s$ lines takes exactly $s$ steps of computation and hence in particular cannot even touch more than $3s$ variables. _Loops_ allow us to capture in a short program the instructions for a computation that can take an arbitrary amount of time.
+* _Loops_: NAND-CIRC is a _straight-line_ programming language- a NAND-CIRC program of $s$ lines takes exactly $s$ steps of computation and hence in particular cannot even touch more than $3s$ variables. _Loops_ allow us to capture in a short program the instructions for a computation that can take an arbitrary amount of time.
 
 * _Arrays_: A NAND-CIRC program of $s$ lines touches at most $3s$ variables. While we can use variables with names such as  `Foo_17` or `Bar[22]`, they are not true arrays, since the number in the identifier is a  constant that is "hardwired" into the program.
 
@@ -405,15 +418,22 @@ In particular we will use this convention for the input and output arrays `X` an
 As the name implies, NAND-TM programs are a direct implementation of Turing machines in programming language form.
 we will show the equivalence below but you can already see how the components of Turing machines and NAND-TM programs correspond to one another:
 
-| **Turing Machine**                                                                                                                                                        | **NAND-TM program**                                                                                                                                                                                                          |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| *State:* single register that takes values in $[k]$                                                                                                                       | *Scalar variables:* Several variables such as `foo`, `bar` etc.. each taking values in $\{0,1\}$.                                                                                                                            |
-| *Tape:* One tape containing values in a finite set $\Sigma$. Potentially infinite but $T[t]$ defaults to $\varnothing$ for all locations $t$ that have not been accessed. | *Arrays:* Several arrays such as `Foo`, `Bar` etc.. for each such array `Arr` and index $j$, the value of `Arr` at position $j$ is either $0$ or $1$. The value defaults to $0$ for position that have not been written to.  |
-| *Head location:* A number $i\in \mathbb{N}$ that encodes the position  of the head.                                                                                       | *Index variable:* The variable `i` that  can be used to access the arrays.                                                                                                                                                   |
-| *Accessing memory:* At every step the Turing machine has access to its local state, but can only access the tape at the position of the current head location.            | *Accessing memory:* At every step a NAND-TM program has access to all the scalar variables, but can only access the arrays at the location `i` of the index variable                                                         |
-| *Control of location:* In each step the machine can move the head location by at most one position.                                                                       | *Control of index variable:* In each iteration of its main loop the program can modify the index `i` by at most one.                                                                                                         |
 
-Table: The analogs between Turing Machines and NAND-TM programs.
+```table
+---
+caption: 'Turing Machine and NAND-TM analogs'
+alignment: 'LL'
+table-width: '1/1'
+id: TMvsNANDTMtable
+---
+**Turing Machine** | **NAND-TM program**
+*State:* single register that takes values in $[k]$ | *Scalar variables:* Several variables such as `foo`, `bar` etc.. each taking values in $\{0,1\}$.
+*Tape:* One tape containing values in a finite set $\Sigma$. Potentially infinite but $T[t]$ defaults to $\varnothing$ for all locations $t$ that have not been accessed. | *Arrays:* Several arrays such as `Foo`, `Bar` etc.. for each such array `Arr` and index $j$, the value of `Arr` at position $j$ is either $0$ or $1$. The value defaults to $0$ for position that have not been written to.
+*Head location:* A number $i\in \mathbb{N}$ that encodes the position  of the head. | *Index variable:* The variable `i` that  can be used to access the arrays.
+*Accessing memory:* At every step the Turing machine has access to its local state, but can only access the tape at the position of the current head location. | *Accessing memory:* At every step a NAND-TM program has access to all the scalar variables, but can only access the arrays at the location `i` of the index variable
+*Control of location:* In each step the machine can move the head location by at most one position. | *Control of index variable:* In each iteration of its main loop the program can modify the index `i` by at most one.
+```
+
 
 ### Examples
 
@@ -551,17 +571,34 @@ The overall operation of the Turing machine will be as follows:
 The above is not a full formal description of a Turing Machine, but our goal is just to show that such a machine exists. One can see that $M_P$ simulates every step of $P$, and hence computes the same function as $P$.
 :::
 
-::: {.remark title="Turing Machines and NAND-TM programs" #tmsandnandpp}
-Once you understand the definitions of both NAND-TM programs and Turing Machines, [TM-equiv-thm](){.ref} is fairly straightforward.
-Indeed, NAND-TM programs are not as much a different model from Turing Machines as a reformulation of the same model in programming language notation.
-:::
-
 
 ::: {.remark title="Running time equivalence (optional)" #polyequivrem}
 If we examine the proof of [TM-equiv-thm](){.ref} then we can see  that the every iteration of the loop of a NAND-TM program corresponds to one step in the execution of the Turing machine.
 We will come back to this question of measuring number of computation steps later in this course.
 For now the main take away point is that NAND-TM programs and Turing Machines are essentially equivalent in power even when taking running time into account.
 :::
+
+### Specification vs implementation (again)
+
+Once you understand the definitions of both NAND-TM programs and Turing Machines, [TM-equiv-thm](){.ref} is fairly straightforward.
+Indeed, NAND-TM programs are not as much a different model from Turing Machines as they are simply a  reformulation of the same model using programming language notation.
+You can think of the difference between a Turing machine and a NAND-TM program as the difference between representing a number using decimal or binary notation.
+In contrast, the difference between a _function_ $F$ and a Turing machine that computes $F$ is much more profound: it is like the difference between an equation $E$ and a number that is a solution for $E$.
+For this reason, while we take special care in distinguishing _functions_ from _programs_ or _machines_, we will often identify the two latter concepts.
+We will move freely between describing an algorithm as a Turing machine or as a NAND-TM program (as well as some of the other equivalent computational models we will see in [chapequivalentmodels](){.ref} and beyond).
+
+
+```table
+---
+caption: 'Specification vs Implementation formalisms'
+alignment: 'LL'
+table-width: ''
+id: specvsimp
+---
+*Specification* ; *Implementation*
+__Functions__ mapping $\{0,1\}^*$ to $\{0,1\}$ or to $\{0,1\}^*$. ; __Algorithms__, __Turing Machines__, __Programs__
+```
+
 
 ## NAND-TM syntactic sugar
 
@@ -857,6 +894,14 @@ Prove that the set of _all_ total functions from $\{0,1\}^* \rightarrow \{0,1\}$
 
 
 ## Bibliographical notes
+
+Augusta Ada Byron, countess of Lovelace (1815-1852) lived  a short but turbulent life, though is today most well known for her collaboration with Charles Babbage
+(see [@stein1987ada] for a biography).
+Ada took an immense interest in Babbage's _analytical engine_, which we mentioned in [compchap](){.ref}.
+In 1842-3, she translated from Italian a paper of Menabrea on the engine,  adding copious notes (longer than the paper itself) including some examples of programs.
+Because of these programs, some call Ada "the first computer programmer" though recent evidence shows they were likely written by Babbage himself [@holt2001ada].
+Regardless, Ada was clearly one of very few people (perhaps the only one outside of Babbage himself) to fully appreciate how significant and revolutionary the idea of mechanizing computation truly is.
+
 
 The books of Shetterly [@shetterly2016hidden] and Sobel [@sobel2017the] discuss the history of  human computers (which were more often than not women) and their important contributions to scientific discoveries.
 

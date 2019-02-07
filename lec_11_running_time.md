@@ -691,7 +691,7 @@ Thus, for "natural" functions, if you pretend that $TIME(T(n))$  is roughly the 
 
 To summarize, the two models of computation we have described so far are:
 
-* NAND-CIRC programs, which have no loops, can only compute finite functions, and the time to execute them is exactly the number of lines they contain. These are also known as _straightline programs_ or _Boolean circuits_.
+* NAND-CIRC programs, which have no loops, can only compute finite functions, and the time to execute them is exactly the number of lines they contain. These are also known as _straight-line programs_ or _Boolean circuits_.
 
 * NAND-TM programs, which include loops, and hence a single program can compute a function with unbounded input length. These are equivalent (up to polynomial factors) to _Turing Machines_ or (up to polylogarithmic factors) to _RAM machines_.
 

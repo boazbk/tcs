@@ -519,7 +519,7 @@ Indeed, we cannot _prove_ that they are (i.e., as far as we know, every QNAND-CI
 
 ###  QNAND-CIRC programs (optional)
 
-Just like in the classical case, there is an equivalence between circuits and straightline programs, and so we can define the programming language QNAND that is the quantum analog of our NAND-CIRC programming language.
+Just like in the classical case, there is an equivalence between circuits and straight-line programs, and so we can define the programming language QNAND that is the quantum analog of our NAND-CIRC programming language.
 To do so, we only add a single operation: `HAD(foo)` which applies the single-bit operation $H$ to the variable `foo`.
 We also use the following interpretation to make `NAND` reversible: `foo = NAND(bar,blah)` means that we modify `foo` to be the XOR of its original value and the NAND of `bar` and `blah`.
 (In other words, apply the $8$ by $8$ unitary transformation $U_{NAND}$ defined above to the three qubits corresponding to `foo`, `bar` and `blah`.)

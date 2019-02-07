@@ -1056,16 +1056,19 @@ We can use the same approach to  define configurations of a _NAND-TM program_. S
 ### Turing completeness and equivalence, a formal definition (optional) {#turingcompletesec }
 
 A _computational model_ is some way to define what it means for a _program_ (which is represented by a string) to compute a (partial) _function_.
-A _computational model_ $\mathcal{M}$ is _Turing  complete_, if we can map every Turing machine (or equivalently NAND-TM program) $Q$ into a program $P$ for $\mathcal{M}$ that computes the same function as $Q$.
-It is _Turing equivalent_ if the other direction holds as well (i.e., we can map every program in $\mathcal{M}$ to a Turing machine/NAND-TM program that computes the same function).
-Formally, we can define this notion as follows:
+A _computational model_ $\mathcal{M}$ is _Turing  complete_, if we can map every Turing machine (or equivalently NAND-TM program) $N$ into a program $P$ for $\mathcal{M}$ that computes the same function as $Q$.
+It is _Turing equivalent_ if the other direction holds as well (i.e., we can map every program in $\mathcal{M}$ to a Turing machine  that computes the same function).
+Formally, we can define this notion as follows:^[The formal definition is very cumbersome to state, and not crucial for the remainder of this book. Feel free to skip it as long as you understand the general concept of Turing equivalence. This notion is sometimes referred to in the literature as [Gödel numbering](https://goo.gl/rzuNPu) or [admissalbe numbering](https://goo.gl/xXJoUG).]
 
-::: {.definition title="Turing completeness and equivalence" #turingcompletedef}
-Let $\mathcal{F}$ be the set of all partial functions from $\{0,1\}^*$ to $\{0,1\}^*$. A _computational model_ is a map $\mathcal{M}:\{0,1\}^* \rightarrow \mathcal{F}$.
-We say that a program $P$ in the model $\mathcal{M}$ _computes_ a function $F\in \mathcal{F}$ if $\mathcal{M}(P) = F$.
+::: {.definition title="Turing completeness and equivalence (optional)" #turingcompletedef}
+Let $\mathcal{F}$ be the set of all partial functions from $\{0,1\}^*$ to $\{0,1\}^*$.
+A _computational model_ is a map $\mathcal{M}:\{0,1\}^* \rightarrow \mathcal{F}$.
 
-A computational model $\mathcal{M}$ is _Turing complete_ if there is a computable map $ENCODE_M:\{0,1\}^* \rightarrow \{0,1\}^*$ for every NAND-TM program $P$ (represented as a string),  $\mathcal{M}(ENCODE_M(P))$ is equal to the partial function computed by $P$.^[We could have equally well made this definition using Turing machines, NAND-RAM, λ calculus, and many other models.]
-A computational model $\mathcal{M}$ is _Turing equivalent_ if it is Turing complete and there exists a computable map $DECODE_M:\{0,1\}^* \rightarrow \{0,1\}^*$ such that or every string $Q\in \{0,1\}^*$,  $P=ENCODE_M(Q)$ is a string representation of a NAND-TM program that  computes the function $\mathcal{M}(Q)$.
+We say that a program $P \in \{0,1\}^*$  _$\mathcal{M}$-computes_ a function $F\in \mathcal{F}$ if $\mathcal{M}(P) = F$.
+
+A computational model $\mathcal{M}$ is _Turing complete_ if there is a computable map $ENCODE_{\mathcal{M}}:\{0,1\}^* \rightarrow \{0,1\}^*$ for every Turing machine $N$ (represented as a string),  $\mathcal{M}(ENCODE_{\mathcal{M}}(N))$ is equal to the partial function computed by $P$.
+
+A computational model $\mathcal{M}$ is _Turing equivalent_ if it is Turing complete and there exists a computable map $DECODE_{\mathcal{M}}:\{0,1\}^* \rightarrow \{0,1\}^*$ such that or every string $P\in \{0,1\}^*$,  $N=DECODE_{\mathcal{M}}(P)$ is a string representation of a Turing machine that computes  the function $\mathcal{M}(P)$.
 :::
 
 Some examples of Turing equivalent models include:
@@ -1105,7 +1108,7 @@ We can summarize the models we have seen in the following table:
 
 | **Computational problems**                                          | **Type of model**                                           | **Examples**                                                             |
 |---------------------------------------------------------------------|-------------------------------------------------------------|--------------------------------------------------------------------------|
-| Finite functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$                | Non uniform computation (algorithm depends on input length) | Boolean circuits, NAND circuits, straightline programs (e.g., NAND-CIRC) |
+| Finite functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$                | Non uniform computation (algorithm depends on input length) | Boolean circuits, NAND circuits, straight-line programs (e.g., NAND-CIRC) |
 | Functions with unbounded inputs $F:\{0,1\}^* \rightarrow \{0,1\}^*$ | Sequential access to memory                                 | Turing machines, NAND-TM programs                                        |
 | --                                                                  | Indexed access / RAM                                        | RAM machines, NAND-RAM, modern programming languages                     |
 | --                                                                  | Other                                                       | Lambda calculus, cellular automata                                       |

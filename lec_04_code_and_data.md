@@ -82,7 +82,7 @@ Later, in [chaploops](){.ref}, we will  introduce the concept of _loops_, that  
 
 
 
-![A _universal circuit_ $U$ is a circuit that gets as input the description of an arbitrary (smaller) circuit $C$ as a binary string, and an input $x$, and outputs the string $C(x)$ which is the evaluation of $C$ on $x$. We can also think of $U$ as a straightline program that gets as input the code of a straightline program $C$ and an input $x$, and outputs $C(x)$.](../figure/universalcircuit.png){#universalcircfig .margin width=300px height=300px}
+![A _universal circuit_ $U$ is a circuit that gets as input the description of an arbitrary (smaller) circuit $C$ as a binary string, and an input $x$, and outputs the string $C(x)$ which is the evaluation of $C$ on $x$. We can also think of $U$ as a straight-line program that gets as input the code of a straight-line program $C$ and an input $x$, and outputs $C(x)$.](../figure/universalcircuit.png){#universalcircfig .margin width=300px height=300px}
 
 Of course to fully specify $EVAL_{s,n,m}$, we need to fix a precise representation scheme  for NAND-CIRC programs as binary strings.
 We can simply use the ASCII representation, though  below we will choose a  more convenient representation.
@@ -597,7 +597,7 @@ A statement such as "this cryptosystem provides 128 bits of security" really mea
 
 The main take-aways from [compchap](){.ref}, [finiteuniversalchap](){.ref}, and [codeanddatachap](){.ref} are:
 
-* We can formally define the notion of a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ being computed using $s$ basic operations. Whether these operations are AND/OR/NOT, NAND, or some other universal basis does not make much difference. We can describe such a computation either using a _circuit_ or using a _straightline program_.
+* We can formally define the notion of a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ being computed using $s$ basic operations. Whether these operations are AND/OR/NOT, NAND, or some other universal basis does not make much difference. We can describe such a computation either using a _circuit_ or using a _straight-line program_.
 
 * _Every_ function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed using a circuit of _at most_ $O(m \cdot 2^n / n)$ gates. _Some_ functions require _at least_ $\Omega(m \cdot 2^n /n)$ gates. We define $SIZE_{n,m}(s)$ to be the set of functions from $\{0,1\}^n$ to $\{0,1\}^m$ that can be computed using at most $s$ gates.
 
@@ -661,6 +661,8 @@ Prove that for every sufficiently large $n$, there _does not exist_ an XOR circu
 
 
 ## Bibliographical notes {#bibnotescodeasdata }
+
+
 
 
 The $EVAL$ function is usually known as _universal circuit_.
