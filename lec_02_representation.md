@@ -296,8 +296,8 @@ For example, we can represent $\pi$ by $22/7$ with an  error of about $10^{-3}$ 
 
 The above representation of real numbers via rational numbers that approximate them is a fine choice of a representation.
 However, typically in computing it is more common to use the _floating point representation scheme_   to represent real numbers.
-In the floating point representation scheme we represent $x$ by the pair $(a,b)$ of (positive or negative) integers of some prescribed sizes (determined by the desired accuracy) such that $a \times 2^{b}$ is closest to $x$.^[You can think of this as related to  [scientific notation](https://goo.gl/MUJnVE). In scientific notation we represent a number $y$ as $a \times 10^b$ for  integers $a,b$. Sometimes we write this as  $y=a \mathtt{E} b$. For example, in many programming languages `1.21E2` is the same as `121.0`.
-In scientific notation, to represent $\pi$ up to accuracy $10^{-3}$ we will simply use $3141 \times 10^{-3}$ and to represent it up to accuracy $10^{-4}$ we will use $31415 \times 10^{-4}$.]
+In the floating point representation scheme we represent $x$ by the pair $(a,b)$ of (positive or negative) integers of some prescribed sizes (determined by the desired accuracy) such that $a \times 2^{b}$ is closest to $x$.^[The floating point representation is the base-two version of  [scientific notation](https://goo.gl/MUJnVE). In scientific notation we represent a number $y$ as $a \times 10^b$ for  $a,b$.
+Often this is written as  $y=a \text{\texttt{E}} b$. For example, in many programming languages `1.21E2` is the same as `121.0`.]
 
 
 The reader might be (rightly) worried about this issue of approximation. In many (though not all) computational applications, one can make the accuracy tight enough so that this does not affect the final result, though sometimes we do need to be careful.

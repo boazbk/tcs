@@ -372,7 +372,7 @@ $$
 \{0,1\}^* = \cup_{n\in\N} \{0,1\}^n \;.
 $$
 
-The set $\{0,1\}^*$ contains also the "string of length $0$" or "the empty string", which we will denote by $\mathtt{""}$.^[In using this notation we follow the convention of many  programming languages. Other texts sometimes use $\epsilon$ or $\lambda$ to denote the empty string. However, this doesn't matter much since we will rarely encounter this "edge case".]
+The set $\{0,1\}^*$ contains also the "string of length $0$" or "the empty string", which we will denote by $""$.^[In using this notation we follow the convention of many  programming languages. Other texts sometimes use $\epsilon$ or $\lambda$ to denote the empty string. However, this doesn't matter much since we will rarely encounter this "edge case".]
 
 
 __Generalizing the star operation:__ For every set $\Sigma$, we define

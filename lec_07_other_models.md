@@ -417,9 +417,9 @@ By our rules of associativity, this is the same as $(f a b)$ which we'll sometim
 We now provide a formal description of the λ calculus.
 We start with  "basic expressions" that contain a single variable such as $x$ or $y$ and build more complex expressions using the following two rules:
 
-* __Application:__ If $exp$ and $exp'$ are λ expressions, then the λ expression $(exp\; exp')$ corresponds to applying the function described by $exp$ to the input $exp'$.
+* __Application:__ If $e$ and $e'$ are λ expressions, then the λ expression $(e \; e')$ corresponds to applying the function described by $e$ to the input $e'$.
 
-* __Abstraction:__ If $exp$ is a  λ expression and $x$ is a variable, then the λ expression $\lambda x.(exp)$  corresponds to the function that on any input $z$ returns the expression $exp[x \rightarrow z]$ replacing all (free) occurrences of $x$ in $exp$.^[Strictly speaking we should replace only the _free_ and not the ones that are _bound_ by some other λ operator. For example, if we have the λ expression $\lambda x.(\lambda x. x+1)(x)$ and invoke it on the number $7$ then we get $(\lambda x.x+1)(7)=8$ and not the nonsensical expression $(\lambda 7.7+1)(7)$. To avoid such annoyances, we can adopt the convention that every  instance of $\lambda var.e$ uses a unique variable identifier $var$. See  [boundvarsec](){.ref} for more discussion on bound and free variables.]
+* __Abstraction:__ If $e$ is a  λ expression and $x$ is a variable, then the λ expression $\lambda x.(e)$  corresponds to the function that on any input $z$ returns the expression $e[x \rightarrow z]$ replacing all (free) occurrences of $x$ in $e$.^[Strictly speaking we should replace only the _free_ and not the ones that are _bound_ by some other λ operator. For example, if we have the λ expression $\lambda x.(\lambda x. x+1)(x)$ and invoke it on the number $7$ then we get $(\lambda x.x+1)(7)=8$ and not the nonsensical expression $(\lambda 7.7+1)(7)$. To avoid such annoyances, we can adopt the convention that every  instance of $\lambda \mathit{var}.e$ uses a unique variable identifier $\mathit{var}$. See  [boundvarsec](){.ref} for more discussion on bound and free variables.]
 
 Formally   λ expressions are defined as follows:
 
@@ -427,13 +427,15 @@ Formally   λ expressions are defined as follows:
 A _λ expression_ is either a single variable identifier or an expression that is built from other expressions using the _application_ and _abstraction_ operations.
 :::
 
-[lambdaexpdef](){.ref} is a _recursive_ definition. That is, we define the concept of λ expression in terms of itself.
-This might seem confusing at first, but in fact you have known recursive definitions since you were an elementary school student.
-Consider how we define an _arithmetic expression_: it is an expression that is either a number, or is built  from other expressions $exp,exp'$ using $(exp + exp')$, $(exp - exp')$, $(exp \times exp')$, or $(exp \div exp')$.
+[lambdaexpdef](){.ref} is a _recursive definition_ since we defined the concept of λ expressions in terms of itself.
+Specifically, a  λ expression can either be the "base case" of the form $\mathit{foo}$ for a variable identifier $\mathit{foo}$, or it can be of the form $(e e')$ or $\lambda  \mathit{bar}.(e)$ where $e$ and $e'$ are other λ expressions and $\mathit{bar}$ is a variable identifier.
+Such a recursive definition might seem confusing at first, but in fact you have known recursive definitions since you were an elementary school student.
+Consider how we define an _arithmetic expression_: it is an expression that is either just a number, or has one of the forms $(e + e')$, $(e - e')$, $(e \times e')$, or $(e \div e')$, where $e$ and $e'$ are other arithmetic expressions.
 
 
 ::: {.remark title="Precedence and parenthesis." #precedencerem}
-We will use the following rules to allow us to drop some parenthesis. Function application associates from left to right, and so $fgh$ is the same as $(fg)h$.
+We will use the following rules to allow us to drop some parenthesis.
+Function application associates from left to right, and so $fgh$ is the same as $(fg)h$.
 Function application has a higher precedence than the λ operator, and so $\lambda x.fgx$ is the same as $\lambda x.((fg)x)$.
 
 This is similar to how we use the precedence rules in arithmetic operations to allow us to use fewer parenthesis and so write the expression $(7 \times 3) + 2$ as $7\times 3 + 2$.

@@ -366,7 +366,7 @@ while True:
 
 Given that Goldbach's Conjecture has been open since 1742, it is unclear that humans have any magical ability to say whether this (or other similar programs) will halt or not.
 
-![[XKCD](https://xkcd.com/1266/)'s take on solving the Halting problem, using the principle that "in the long run, we'll all be dead".](../figure/halting_problem_2x.png){#xkcdhaltingfig .margin  }
+![[SMBC](http://smbc-comics.com/comic/halting)'s take on solving the Halting problem.](../figure/smbchalting.png){#xkcdhaltingfig .margin  }
 
 
 ### A direct proof of the uncomputability of $HALT$ (optional) { #haltalternativesec }
