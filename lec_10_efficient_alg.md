@@ -17,7 +17,7 @@ chapternum: "11"
 >_"For practical purposes, the difference between algebraic and exponential order is often more crucial than the difference between finite and non-finite."_, Jack Edmunds, "Paths, Trees, and Flowers", 1963
 
 ::: {.quote }
-_"What is the most efficient way to sort a million 32-bit integers?"_, Eric Schmidt to Barack Obama, 2008 \\
+_"What is the most efficient way to sort a million 32-bit integers?"_, Eric Schmidt to Barack Obama, 2008
 
 _"I think the bubble sort would be the wrong way to go."_, Barack Obama.
 :::
