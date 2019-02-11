@@ -936,7 +936,7 @@ If we initialize the system in a configuration with a finite number of live cell
 
 We can think of such a system as encoding a computation by starting it in some initial configuration, and then defining some halting condition (e.g., we halt if the cell at position $(0,0)$ becomes dead) and some way to define an output (e.g., we output the state of the cell at position $(1,1)$).
 Clearly, given any starting configuration $x$, we can simulate the game of life starting from $x$ using a NAND-RAM (or NAND-TM) program, and hence every "Game-of-Life computable" function is computable by a NAND-RAM program.
-Surprisingly, it turns out that the other direction is true as well: as simple as its rules seem, we can simulate a NAND-TM program using the game of life (see [golfig](){.ref}).
+Surprisingly, it turns out that the other direction is true as well: as simple as its rules seem, we can simulate a Turing machine using the game of life (see [golfig](){.ref}).
 The [Wikipedia page](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) for the Game of Life contains some beautiful figures and animations of  configurations that produce some very interesting evolutions.
 See also the book [The Nature of Computation](http://nature-of-computation.org/).
 

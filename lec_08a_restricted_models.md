@@ -88,10 +88,6 @@ $$
 (a|b|c|d)(a|b|c|d)^*(1|2|3|4|5|6|7|8|9)(0|1|2|3|4|5|6|7|8|9)^* \;. \label{regexpeq}
 $$
 
-::: {.remark title="Binary alphabet" #binaryalphabetreg}
-Regular expression can be defined over any finite alphabet $\Sigma$, but as usual, we will focus our attention on the _binary case_, where $\Sigma = \{0,1\}$.
-Most (if not all) of the theoretical and practical general insights about regular expressions can be gleaned from studying the binary case.
-:::
 
 Formally, regular expressions are defined by the following recursive definition:^[We have seen  recursive definitions before in the setting of $\lambda$ expressions ([lambdaexpdef](){.ref}). In a _recursive definition_ we start by defining the base case of the simplest regular expressions, and then describe how we can build more complex expressions from simpler ones.]
 
@@ -124,8 +120,8 @@ The formal definition of $\Phi_{e}$ is one of those definitions that is more cum
 :::
 
 ::: {.definition title="Matching a regular expression" #matchingregexpdef}
-Let $e$ be a regular expression.
-Then the  function $\Phi_{e}$ is defined as follows:
+Let $e$ be a regular expression over the alphabet $\Sigma$.
+The  function $\Phi_{e}:\Sigma^* \rightarrow \{0,1\}$ is defined as follows:
 
 1. If $e = \sigma$ then $\Phi_{e}(x)=1$ iff $x=\sigma$.
 
@@ -138,9 +134,13 @@ Then the  function $\Phi_{e}$ is defined as follows:
 5. Finally, for the edge cases $\Phi_{\emptyset}$ is the constant zero function, and $\Phi_{""}$ is the function that only outputs $1$ on the empty string $""$.
 
 We say that a regular expresion  $e$ over $\Sigma$ _matches_ a string $x \in \Sigma^*$  if $\Phi_{e}(x)=1$.
-We say that a function $F:\Sigma^* \rightarrow \{0,1\}$ is _regular_ if $F=\Phi_{e}$ for some regular expression $e$.^[We use _function notation_ in this book, but   other texts  often use the notion of  _languages_, which are sets of string. We say that a language $L \subseteq \Sigma^*$  is _regular_ if and only if the corresponding function $F_L$ is regular, where $F_L:\Sigma^* \rightarrow \{0,1\}$ is the function that outputs $1$ on $x$ iff $x\in L$.]
+We say that a function $F:\Sigma^* \rightarrow \{0,1\}$ is _regular_ if $F=\Phi_{e}$ for some regular expression $e$.^[We use _function notation_ in this book, but   other texts  often use the notion of  _languages_, which are sets of strings. We say that a language $L \subseteq \Sigma^*$  is _regular_ if and only if the corresponding function $F_L$ is regular, where $F_L:\Sigma^* \rightarrow \{0,1\}$ is the function that outputs $1$ on $x$ iff $x\in L$.]
 :::
 
+
+> # { .pause }
+The definitions above are not inherently difficult, but are a bit cumbersome. So you should pause here and go over it again   until you understand why it corresponds to our intuitive notion of regular expressions.
+This is important not just for understanding regular expressions themselves (which are used time and again in a great many applications) but also for getting better at understanding recursive definitions in general.
 
 
 ::: {.example title="A regular function" #regularexpmatching}
@@ -152,10 +152,11 @@ is the expression we saw in [regexpeq](){.eqref}.
 If we wanted to verify, for example, that $\Phi_e(abc12078)=1$, we can do so by noticing that the expression $(a|b|c|d)$ matches the string $a$, $(a|b|c|d)^*$ matches  $bc$,   $(0|1|2|3|4|5|6|7|8|9)$ matches the string $1$, and the expression $(0|1|2|3|4|5|6|7|8|9)^*$ matches the string $2078$. Each one of those boils down to a simpler expression. For example, the expression $(a|b|c|d)^*$ matches the string $bc$ because both of the one-character strings $b$ and $c$ are matched by the expression $a|b|c|d$.
 :::
 
+::: {.remark title="Binary alphabet" #binaryalphabetreg}
+Regular expression can be defined over any finite alphabet $\Sigma$, but as usual, we will focus our attention on the _binary case_, where $\Sigma = \{0,1\}$.
+Most (if not all) of the theoretical and practical general insights about regular expressions can be gleaned from studying the binary case.
+:::
 
-> # { .pause }
-The definitions above are not inherently difficult, but are a bit cumbersome. So you should pause here and go over it again   until you understand why it corresponds to our intuitive notion of regular expressions.
-This is important not just for understanding regular expressions themselves (which are used time and again in a great many applications) but also for getting better at understanding recursive definitions in general.
 
 
 We can think of  regular expressions  as a type of  "programming language".
@@ -758,7 +759,7 @@ If $G=(V,R,s)$ is a context-free grammar over $\Sigma$, then for two strings $\a
 We say that $\beta$ _can be derived_ from $\alpha$, denoted by $\alpha \Rightarrow_G^* \beta$, if it can be derived by some finite number $k$ of steps.
 That is, if there are $\alpha_1,\ldots,\alpha_{k-1} \in (\Sigma \cup V)^*$, so that $\alpha \Rightarrow_G \alpha_1 \Rightarrow_G \alpha_2 \Rightarrow_G \cdots \Rightarrow_G \alpha_{k-1} \Rightarrow_G \beta$.
 
-We say that $x\in \Sigma^*$ is _matched_ by $G=(V,R,s)$ if $x$ can be derived from the starting variable $s$ (i.e., if $s \Righarrow_G^* x$).
+We say that $x\in \Sigma^*$ is _matched_ by $G=(V,R,s)$ if $x$ can be derived from the starting variable $s$ (i.e., if $s \Rightarrow_G^* x$).
 We define the _function computed by_ $(V,R,s)$ to be the map $\Phi_{V,R,s}:\Sigma^* \rightarrow \{0,1\}$ such that $\Phi_{V,R,s}(x)=1$ iff  $x$ is matched by $(V,R,s)$.
 A function  $F:\Sigma^* \rightarrow \{0,1\}$ is _context free_ if $F = \Phi_{V,R,s}$ for some CFG $(V,R,s)$.^[As in the case of [matchingregexpdef](){.ref} we can also use _language_ rather than _function_ notation and   say that a language $L \subseteq \Sigma^*$ is _context free_ if the function $F$ such that $F(x)=1$ iff $x\in L$ is context free.]
 :::
@@ -960,35 +961,40 @@ Specifically we will reverse all the odd-numbered strings.
 
 
 ::: {.proof data-ref="fullnesscfgdef"}
-We only sketch the proof. We will show that if we can compute $CFGFULL$ then we can solve $HALTONZERO$, which has been proven uncomputable in [haltonzero-thm](){.ref}.
-Let $P$ be an input program for $HALTONZERO$. We will use the notion of _configurations_ of a NAND-TM program, as defined in [configtmdef](){.ref}.
-Recall that a configuration of a NAND-TM program $P$ and input $x$ captures the full state of $P$ (contents of all the variables) at some iteration of the computation.
+We only sketch the proof.
+We will show that if we can compute $CFGFULL$ then we can solve $HALTONZERO$, which has been proven uncomputable in [haltonzero-thm](){.ref}.
+Let $M$ be an input Turing machine for $HALTONZERO$. We will use the notion of _configurations_ of a Turing machine, as defined in [configtmdef](){.ref}.
+
+Recall that a _configuration_ of Turing machine $M$ and input $x$ captures the full state of $M$ at some point of the computation.
 The particular details of configurations are not so important, but what you need to remember is that:
 
 * A configuration can be encoded by a binary string $\sigma \in \{0,1\}^*$.
 
-* The _initial_ configuration of $P$  on the empty input is some fixed string.
+* The _initial_ configuration of $M$  on the input $0$ is some fixed string.
 
-* A _halting configuration_ will have the value of the variable `loop` (which can be easily "read off" from it) set to $1$.
+* A _halting configuration_ will have the value a certain state  (which can be easily "read off" from it) set to $1$.
 
-* If $\sigma$ is a configuration at some step $i$ of the computation, we denote by $NEXT_P(\sigma)$ as the configuration at the  next step. $NEXT_P(\sigma)$ is a string that agrees with $\sigma$ on all but a constant number of coordinates (those encoding the position corresponding to the variable `i` and the two adjacent ones). On those  coordinates, the value of $NEXT_P(\sigma)$ can be computed by some finite function.
+* If $\sigma$ is a configuration at some step $i$ of the computation, we denote by $NEXT_M(\sigma)$ as the configuration at the  next step. $NEXT_M(\sigma)$ is a string that agrees with $\sigma$ on all but a constant number of coordinates (those encoding the position corresponding to the head position  and the two adjacent ones). On those  coordinates, the value of $NEXT_M(\sigma)$ can be computed by some finite function.
 
-We will let the alphabet $\Sigma = \{0,1\} \cup \{ \| , \# \}$. A _computation history_  of $P$ on the input $0$ is a string $L\in \Sigma$ that corresponds to a list $\| \sigma_0 \# \sigma_1 \| \sigma_2 \# \sigma_3 \cdots \sigma_{t-2} \| \sigma_{t-1} \#$ (i.e., $\|$ comes before an even numbered block, and $\|$ comes before an odd numbered one) such that if $i$ is even then $\sigma_i$ is the string encoding the configuration of $P$ on input $0$ at the beginning of its $i$-th iteration, and if $i$ is odd then it is the same except the string is _reversed_. (That is, for odd $i$,  $rev(\sigma_i)$  encodes the configuration of $P$ on input $0$ at the beginning of its $i$-th iteration.)^[Reversing the odd-numbered block is a technical trick to help with making the function $INVALID_P$ we'll define below context free.]
+We will let the alphabet $\Sigma = \{0,1\} \cup \{ \| , \# \}$.
+A _computation history_  of $M$ on the input $0$ is a string $L\in \Sigma$ that corresponds to a list $\| \sigma_0 \# \sigma_1 \| \sigma_2 \# \sigma_3 \cdots \sigma_{t-2} \| \sigma_{t-1} \#$ (i.e., $\|$ comes before an even numbered block, and $\|$ comes before an odd numbered one) such that if $i$ is even then $\sigma_i$ is the string encoding the configuration of $P$ on input $0$ at the beginning of its $i$-th iteration, and if $i$ is odd then it is the same except the string is _reversed_.
+(That is, for odd $i$,  $rev(\sigma_i)$  encodes the configuration of $P$ on input $0$ at the beginning of its $i$-th iteration.)^[Reversing the odd-numbered block is a technical trick to help with making the function $INVALID_M$ we'll define below context free.]
 
-We now define $INVALID_P:\Sigma^* \rightarrow \{0,1\}$ as follows:
+We now define $INVALID_M:\Sigma^* \rightarrow \{0,1\}$ as follows:
 
-$$INVALID_P(L) = \begin{cases}0 & \text{$L$ is a valid computation history of $P$ on $0$} \\
+$$INVALID_M(L) = \begin{cases}0 & \text{$L$ is a valid computation history of $M$ on $0$} \\
                             1 & \text{otherwise} \end{cases}
 $$
 
 We will show the following claim:
 
-__CLAIM:__   $INVALID_P$ is context-free.
+__CLAIM:__   $INVALID_M$ is context-free.
 
-The claim implies the theorem.  Since $P$ halts on $0$ if and only if there exists a valid computation history,  $INVALID_P$ is the constant one function if and only if $P$ does _not_ halt on $0$.
-In particular, this allows us to reduce determining whether $P$ halts on $0$ to determining whether the grammar $G_P$ corresponding to $INVALID_P$ is full.
+The claim implies the theorem.  Since $M$ halts on $0$ if and only if there exists a valid computation history,  $INVALID_M$ is the constant one function if and only if $M$ does _not_ halt on $0$.
+In particular, this allows us to reduce determining whether $M$ halts on $0$ to determining whether the grammar $G_M$ corresponding to $INVALID_M$ is full.
 
-We now turn to the proof of the claim. We will not show all the details, but the main point $INVALID_P(L)=1$ if one of the following three  conditions hold:
+We now turn to the proof of the claim.
+We will not show all the details, but the main point $INVALID_M(L)=1$ if _at least one_ of the following three  conditions hold:
 
 1. $L$ is not of the right format, i.e. not of the form $\langle \text{binary-string} \rangle \#  \langle \text{binary-string} \rangle \| \langle \text{binary-string} \rangle \# \cdots$.
 
@@ -996,22 +1002,34 @@ We now turn to the proof of the claim. We will not show all the details, but the
 
 3.  $L$ contains a substring of the form $\# \sigma \| \sigma' \#$ such that $\sigma' \neq NEXT_P(rev(\sigma))$
 
-Since context-free functions are closed under the OR operation, the claim will follow if we show that we can verify conditions 1, 2 and 3 via a context-free grammar. For condition 1 this is very simple: checking that $L$ _is_ of this format can be done using a regular expression, and since regular expressions are closed under negation, this means that checking that $L$ is _not_ of this format can also be done by a regular expression and hence by a context-free grammar.
+Since context-free functions are closed under the OR operation, the claim will follow if we show that we can verify conditions 1, 2 and 3 via a context-free grammar.
 
-For conditions 2 and 3, this follows via very similar reasoning to that showing that the function $F$ such that $F(u\#v)=1$ iff $u \neq rev(v)$ is context-free, see   [nonpalindrome](){.ref}. After all,  the $NEXT_P$ function only modifies its input in a constant number of places. We leave filling out the details as an exercise to the reader.
-Since $INVALID_P(L)=1$ if and only if $L$ satisfies one of the conditions 1., 2. or 3., and all three conditions can be tested for via a context-free grammar, this completes the proof of the claim and hence the theorem.
+For condition 1 this is very simple: checking that $L$ _is_ of the correct format can be done using a regular expression.
+Since regular expressions are closed under negation, this means that checking that $L$ is _not_ of this format can also be done by a regular expression and hence by a context-free grammar.
+
+For conditions 2 and 3, this follows via very similar reasoning to that showing that the function $F$ such that $F(u\#v)=1$ iff $u \neq rev(v)$ is context-free, see   [nonpalindrome](){.ref}.
+After all,  the $NEXT_M$ function only modifies its input in a constant number of places. We leave filling out the details as an exercise to the reader.
+Since $INVALID_M(L)=1$ if and only if $L$ satisfies one of the conditions 1., 2. or 3., and all three conditions can be tested for via a context-free grammar, this completes the proof of the claim and hence the theorem.
 :::
 
 ## Summary of semantic properties for regular expressions and context-free  grammars
 
-To summarize, we can often trade _expressiveness_ of the model for _amenability to analysis_. If we consider computational models that are _not_ Turing complete, then we are sometimes able to bypass Rice's Theorem and answer certain semantic questions about programs in such models.
+To summarize, we can often trade _expressiveness_ of the model for _amenability to analysis_.
+If we consider computational models that are _not_ Turing complete, then we are sometimes able to bypass Rice's Theorem and answer certain semantic questions about programs in such models.
 Here is a summary of some of what is known about semantic questions for the different models we have seen.
 
-| _Model_                  | **Halting** | **Emptiness** | **Equivalence** |
-|--------------------------|-------------|---------------|-----------------|
-| _Regular Expressions_    | Decidable   | Decidable     | Decidable       |
-| _Context Free Grammars_  | Decidable   | Decidable     | Undecidable     |
-| _Turing complete models_ | Undecidable | Undecidable   | Undecidable     |
+```table
+---
+caption: 'Computability of semantic properties'
+alignment: ''
+table-width: ''
+id: semantictable
+---
+_Model_, **Halting**, **Emptiness**, **Equivalence**
+_Regular expressions_, Computable, Computable,Computable
+_Context free grammars_, Computable, Computable, Uncomputable
+_Turing-complete models_, Uncomputable, Uncomputable, Uncomputable
+```
 
 
 ::: {.remark title="Unrestricted Grammars (optional)" #unrestrictedgrammars}
@@ -1036,9 +1054,6 @@ Alas, this generality comes at a cost - these general grammars are Turing comple
 
 ## Exercises
 
-::: {.remark title="Disclaimer" #disclaimerrem}
-Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
-:::
 
 
 
@@ -1047,7 +1062,7 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 
 The relation of regular expressions with finite automata is a beautiful topic, on which we only touch upon in this texts.
 It is covered more extensively in [@SipserBook, @hopcroft , @kozen1997automata].
-These texts also discuss the relation between context-free grammars and pushdown automata.
+These texts also discuss topics such as _non deterministic finite automata_ (NFA) and the relation between context-free grammars and pushdown automata.
 
 
 
