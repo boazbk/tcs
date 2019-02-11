@@ -3,6 +3,8 @@ booktitle: "Introduction to Theoretical Computer Science"
 author:    "Boaz Barak"
 log: True
 logdir:    "log"
+sourcedir: "content/"
+bibfile:   "introtcs.bib"
 latexsectionheaders:
     1: "chapter"
     2: "section"
