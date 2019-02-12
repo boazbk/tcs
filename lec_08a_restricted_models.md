@@ -290,7 +290,9 @@ where $C(\ell)$, as before, denotes the time to compute $e[\sigma]$ for expressi
 
 To get some intuition for the expression [matchregexprecursion](){.ref}, let us open up the recursion for one level, writing $T(e,n)$ as
 
-$$T(e,n) = \max \{ T(e[0][0],n-2) + C(|e[0]|), T(e[0][1],n-2) + C(|e[0]|), T(e[1][0],n-2) + C(|e[1]|),  T(e[1][1],n-2) + C(|e[1]|) \} + C(|e|)\;.$$
+$$T(e,n) &= \max \{ T(e[0][0],n-2) + C(|e[0]|), \\ &T(e[0][1],n-2) + C(|e[0]|), \\
+&T(e[1][0],n-2) + C(|e[1]|),  \\
+&T(e[1][1],n-2) + C(|e[1]|) \} + C(|e|)\;.$$
 
 Continuing this way, we can see that $T(e,n) \leq n \cdot C(\ell) + O(1)$ where $\ell$ is the largest length of any expression $e'$ that we encounter along the way.
 Therefore, the following claim  suffices to show that [regexpmatchlinearalg](){.ref} runs in linear time:
@@ -1054,18 +1056,58 @@ Alas, this generality comes at a cost - these general grammars are Turing comple
 
 ## Exercises
 
+::: {.exercise title="Closure properties of regular functions" #closureregex}
+Suppose that $F,G:\{0,1\}^* \rightarrow \{0,1\}$ are regular. For each one of the following definitions of the function $H$, either prove that $H$ is always regular or give a counterexample for regular $F,G$ that would make $H$ not regular.
+
+1. $H(x) = F(x) \vee G(x)$.
+
+2. $H(x) = F(x) \wedge G(x)$
+
+3. $H(x) = NAND(F(x),G(x))$.
+
+4. $H(x) = F(x^R)$ where $x^R$ is the reverse of $x$: $x^R = x_{n-1}x_{n-2} \cdots x_o$ for $n=|x|$.
+
+5. $H(x) = \begin{cases}1 & x=uv \text{ s.t. } F(u)=G(v)=1 \\  0 & \text{otherwise} \end{cases}$
+
+6. $H(x) = \begin{cases}1 & x=uu \text{ s.t. } F(u)=G(u)=1 \\  0 & \text{otherwise} \end{cases}$
 
 
+7. $H(x) = \begin{cases}1 & x=uu^R \text{ s.t. } F(u)=G(u)=1 \\  0 & \text{otherwise} \end{cases}$
+:::
 
+
+::: {.exercise title="Closure properties of context-free functions" #closurecfgex}
+Suppose that $F,G:\{0,1\}^* \rightarrow \{0,1\}$ are context free. For each one of the following definitions of the function $H$, either prove that $H$ is always context free or give a counterexample for regular $F,G$ that would make $H$ not context free.
+
+1. $H(x) = F(x) \vee G(x)$.
+
+2. $H(x) = F(x) \wedge G(x)$
+
+3. $H(x) = NAND(F(x),G(x))$.
+
+4. $H(x) = F(x^R)$ where $x^R$ is the reverse of $x$: $x^R = x_{n-1}x_{n-2} \cdots x_o$ for $n=|x|$.
+
+5. $H(x) = \begin{cases}1 & x=uv \text{ s.t. } F(u)=G(v)=1 \\  0 & \text{otherwise} \end{cases}$
+
+6. $H(x) = \begin{cases}1 & x=uu \text{ s.t. } F(u)=G(u)=1 \\  0 & \text{otherwise} \end{cases}$
+
+
+7. $H(x) = \begin{cases}1 & x=uu^R \text{ s.t. } F(u)=G(u)=1 \\  0 & \text{otherwise} \end{cases}$
+:::
+
+::: {.exercise  #noncontextfreeex}
+Prove that the function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F(x)=1$ if and only if $|x|$ is a power of two is not context free.
+:::
 
 ## Bibliographical notes
 
 The relation of regular expressions with finite automata is a beautiful topic, on which we only touch upon in this texts.
 It is covered more extensively in [@SipserBook, @hopcroft , @kozen1997automata].
 These texts also discuss topics such as _non deterministic finite automata_ (NFA) and the relation between context-free grammars and pushdown automata.
-
-
-
-
-
-## Acknowledgements
+The [Chomsky Hierarchy](https://en.wikipedia.org/wiki/Chomsky_hierarchy) is a hierarchy of grammars from the least restrictive (most powerful) Type 0 grammars, which correspond to _recursively enumerable_ languages (see [recursiveenumerableex](){.ref}) to the most restrictive Type 3 grammars, which correspond to regular languages.
+Context-free languages correspond to Type 2 grammars.
+Type 1 grammars are _context sensitive grammars_.
+These are more powerful than context-free grammars but still less powerful than Turing machines.
+In particular functions/languages corresponding to context-sensitive grammars  are always computable, and in fact can be computed by a [linear bounded automatons](https://en.wikipedia.org/wiki/Linear_bounded_automaton) which are non-deterministic algorithms that take $O(n)$ space.
+For this reason, the class of functions/languages corresponding to context-sensitive grammars  is also known as the complexity class $\mathbf{NSPACE}O(n)$; we discuss space-bounded complexity in [spacechap](){.ref}).
+While Rice's Theorem tells us that we cannot compute any non-trivial semantic property of Type 0 grammars, the situation is more complex for other types of grammars: some semantic properties can be determined and some cannot, depending on the grammar's place in the hierarchy.

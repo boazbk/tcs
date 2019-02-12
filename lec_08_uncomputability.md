@@ -856,6 +856,18 @@ For each of the following two functions, say whether it is computable or not:
 2. Given a NAND-TM program $P$, an input $x$, and a number $k$, when we run $P$ on $x$, does $P$ ever write to an array at index $k$?
 :::
 
+::: {.definition title="Recursively enumerable" #recursiveenumerableex}
+Define a function $F:\{0,1\}^* :\rightarrow \{0,1\}$ to be _recursively enumerable_ if there exists a Turing machine $M$ such that such that for every $x\in \{0,1\}^*$, if $F(x)=1$ then $M(x)=1$, and if $F(x)=0$ then $M(x)=\bot$. (i.e., if $F(x)=0$ then $M$ does not halt on $x$.)
+
+1. Prove that every computable $F$ is also recursively enumerable.
+
+2. Prove that there exists $F$ that is not computable but is recursively enumerable. See footnote for hint.^[$HALT$ has this property.]
+
+3. Prove that there exists a function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F$ is not recursively enumerable. See footnote for hint.^[You can either use the diagonalization method to prove this directly or show that the set of all recursively enumerable functions is _countable_.]
+
+4. Prove that there exists a function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F$ is recursively enumerable but the function $\overline{F}$ defined as $\overline{F}(x)=1-F(x)$ is _not_ recursively enumerable. See footnote for hint.^[$HALT$ has this property: show that if both $HALT$ and $1-HALT$ were recursively enumerable then $HALT$ would be in fact computable.]
+:::
+
 ::: {.exercise title="Rice's Theorem: standard form" #ricesstandardex}
 In this exercise we will prove Rice's Theorem in the form that it is typically stated in the literature.
 
@@ -896,3 +908,6 @@ The diagonalization argument used to prove uncomputability of $F^*$ is derived f
 
 Rice's Theorem was proven in [@rice1953classes].
 It is typically stated in a form somewhat different than what we used, see [ricesstandardex](){.ref}.
+
+We do not discuss in the chapter the concept of _recursively enumerable_ languages, but it is covered briefly in [recursiveenumerableex](){.ref}.
+As usual, we use function, as opposto language, notation.
