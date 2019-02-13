@@ -290,9 +290,10 @@ where $C(\ell)$, as before, denotes the time to compute $e[\sigma]$ for expressi
 
 To get some intuition for the expression [matchregexprecursion](){.ref}, let us open up the recursion for one level, writing $T(e,n)$ as
 
-$$T(e,n) &= \max \{ T(e[0][0],n-2) + C(|e[0]|), \\ &T(e[0][1],n-2) + C(|e[0]|), \\
+$$\begin{aligned}T(e,n) &= \max \{ T(e[0][0],n-2) + C(|e[0]|), \\ &T(e[0][1],n-2) + C(|e[0]|), \\
 &T(e[1][0],n-2) + C(|e[1]|),  \\
-&T(e[1][1],n-2) + C(|e[1]|) \} + C(|e|)\;.$$
+&T(e[1][1],n-2) + C(|e[1]|) \} + C(|e|)\;.\end{aligned}$$
+
 
 Continuing this way, we can see that $T(e,n) \leq n \cdot C(\ell) + O(1)$ where $\ell$ is the largest length of any expression $e'$ that we encounter along the way.
 Therefore, the following claim  suffices to show that [regexpmatchlinearalg](){.ref} runs in linear time:
