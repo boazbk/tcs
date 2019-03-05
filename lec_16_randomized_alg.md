@@ -1,9 +1,12 @@
-% Probabilistic computation
-% Boaz Barak
+---
+title: "Probabilistic computation"
+filename: "lec_16_randomized_alg"
+chapternum: "18"
+---
 
 #  Probabilistic computation { #randomizedalgchap }
 
-> # { .objectives }
+> ### { .objectives }
 * See  examples  of randomized algorithms \
 * Get more comfort with analyzing probabilistic processes and tail bounds \
 * Success amplification using tail bounds \
@@ -18,9 +21,9 @@ In early computer systems, much effort was taken to drive _out_ randomness and n
 Hardware components were prone to non-deterministic behavior from a number of causes, whether it was vacuum tubes overheating or actual physical bugs causing short circuits (see [bugfig](){.ref}).
 This motivated John von Neumann, one of the early computing pioneers, to write a paper on how to _error correct_ computation, introducing the notion of _redundancy_.
 
-![A 1947 entry in the [log book](http://americanhistory.si.edu/collections/search/object/nmah_334663) of the Harvard MARK II computer containing an actual bug that caused a hardware malfunction. By Courtesy of the Naval Surface Warfare Center.](../figure/bug.jpg){#bugfig .class width=300px height=300px}
+![A 1947 entry in the [log book](http://americanhistory.si.edu/collections/search/object/nmah_334663) of the Harvard MARK II computer containing an actual bug that caused a hardware malfunction. By Courtesy of the Naval Surface Warfare Center.](../figure/bug.jpg){#bugfig .margin  }
 
-So it is  quite surprising that randomness turned out not just a hindrance but also a _resource_ for computation, enabling to achieve tasks much more efficiently than previously known.
+So it is  quite surprising that randomness turned out not just a hindrance but also a _resource_ for computation, enabling us to achieve tasks much more efficiently than previously known.
 One of the  first applications  involved the very same John von Neumann.
 While he was sick in bed and playing cards, Stan Ulam came up with the observation that calculating statistics of a system could be done much faster by running several randomized simulations.
 He mentioned this idea to von Neumann, who became very excited about it; indeed, it turned out to be crucial for the neutron transport calculations that were needed for development of the Atom bomb and later on the hydrogen bomb.
@@ -28,8 +31,8 @@ Because this project was highly classified, Ulam, von Neumann and their collabor
 The name stuck, and randomized algorithms are known as Monte Carlo algorithms to this day.^[Some texts also talk about "Las Vegas algorithms" that always return the right answer but whose running time is only polynomial on the average. Since this Monte Carlo vs Las Vegas terminology is confusing, we will not use these terms anymore, and simply talk about randomized algorithms.]
 
 In this chapter, we will see some examples of randomized algorithms that use randomness to compute a quantity in a faster or simpler way than was known otherwise.
-We will  describe the algorithms in an informal / "pseudo-code" way, rather than as NAND or NAND++ programs.
-In [chapmodelrand](){.ref} we will discuss how to augment the NAND and NAND++ models to incorporate the ability to "toss coins".
+We will  describe the algorithms in an informal / "pseudo-code" way, rather than as NAND or NAND-TM programs.
+In [chapmodelrand](){.ref} we will discuss how to augment the NAND and NAND-TM models to incorporate the ability to "toss coins".
 
 
 ## Finding approximately good maximum cuts.
@@ -38,10 +41,10 @@ We start with the following example.
 Recall the _maximum cut problem_ of finding, given a graph $G=(V,E)$, the cut that maximizes the number of edges.
 This problem is $\mathbf{NP}$-hard, which means that we do not know of any efficient algorithm that can solve it, but randomization enables a simple algorithm that can cut at least half of the edges:
 
-> # {.theorem title="Approximating max cut" #maxcutthm}
+> ### {.theorem title="Approximating max cut" #maxcutthm}
 There is an efficient probabilistic algorithm that on input an $n$-vertex $m$-edge graph  $G$, outputs a cut $(S,\overline{S})$ that cuts at least $m/2$ of the edges of $G$ in expectation.
 
-> # {.proofidea data-ref="maxcutthm"}
+> ### {.proofidea data-ref="maxcutthm"}
 We simply choose a _random cut_: we choose a subset $S$ of vertices by choosing every vertex $v$ to be a member of $S$ with probability $1/2$ independently. It's not hard to see that each edge is cut with probability $1/2$ and so the expected number of cut edges is $m/2$.
 
 ::: {.proof data-ref="maxcutthm"}
@@ -78,10 +81,10 @@ But, as we saw before, expectation does not immediately imply concentration, and
 Luckily, we can _amplify_ the probability of success by repeating the process several times and outputting the best cut we find.
 We start by arguing that the probability the algorithm above succeeds in cutting at least $m/2$ edges is not _too_ tiny.
 
-> # {.lemma #cutprob}
+> ### {.lemma #cutprob}
 The probability that a random cut in an $m$ edge graph cuts at least $m/2$ edges is at least $1/(2m)$.
 
-> # {.proofidea data-ref="cutprob"}
+> ### {.proofidea data-ref="cutprob"}
 To see the idea behind the proof, think of the case that $m=1000$.
 In this case one can show that we will cut at least $500$ edges with probability at least $0.001$ (and so in particular larger than $1/(2m)=1/2000$).
 Specifically, if we assume otherwise, then this means that with probability more than $0.999$ the algorithm  cuts $499$ or fewer edges.
@@ -109,7 +112,7 @@ $$
 
 More generally, the same calculations can be used to  show the following lemma:
 
-> # {.lemma #cutalgorithmamplificationlem}
+> ### {.lemma #cutalgorithmamplificationlem}
 There is a algorithm that on input a graph $G=(V,E)$ and a number $k$, runs in time polynomial in $|V|$ and $k$ and outputs a cut $(S,\overline{S})$ such that
 $$
 \Pr[ \text{number of edges cut by $(S,\overline{S})$ } \geq |E|/2 ] \geq  1- 2^{-k} \;.
@@ -229,7 +232,7 @@ __Operation:__
 The running time of this algorithm is $S\cdot T \cdot poly(n)$, and so the key question is how small we can make $S$ and $T$ so that the probability that WalkSAT outputs `Unsatisfiable` on a satisfiable formula $\varphi$ is small.
 It is known that we can do so with $ST = \tilde{O}((4/3)^n) = \tilde{O}(1.333\ldots^n)$ (see [walksatex](){.ref} for a weaker result), but we'll show below a simpler analysis yielding $ST= \tilde{O}(\sqrt{3}^n) = \tilde{O}(1.74^n)$, which is still much better than the trivial $2^n$ bound.^[At the time of this writing, the best known [randomized](https://arxiv.org/pdf/1103.2165.pdf) algorithms for 3SAT run in time roughly $O(1.308^n)$, and the best known [deterministic](https://arxiv.org/pdf/1102.3766v1.pdf) algorithms run in time $O(1.3303^n)$ in the worst case.]
 
-> # {.theorem title="WalkSAT simple analysis" #walksatthm}
+> ### {.theorem title="WalkSAT simple analysis" #walksatthm}
 If we set $T=100\cdot \sqrt{3}^{n}$ and $S= n/2$, then the probability we output `Unsatisfiable` for a satisfiable $\varphi$ is at most $1/2$.
 
 
@@ -260,7 +263,7 @@ Indeed, by Claim II, the original guess $x$ will satisfy $\Delta(x,x^*) \leq n/2
 Since any  single iteration  of the outer loop succeeds with probability at least $\tfrac{1}{2} \cdot \sqrt{3}^{-n}$, the probability that we never do so in $T=100 \sqrt{3}^{n}$ repetitions is at most $(1-\tfrac{1}{2\sqrt{3}^{n}})^{100\cdot \sqrt{3}^n} \leq (1/e)^{50}$.
 :::
 
-![For every $x^* \in \{0,1\}^n$, we can sort all strings in $\{0,1\}^n$ according to their distance from $x^*$ (top to bottom in the above figure), where we let $A = \{ x\in \{0,1\}^n \;|\; dist(x,x^* \leq n/2 \}$ be the "top half" of strings. If we define $FLIP:\{0,1\}^n \rightarrow \{0,1\}$ to be the map that "flips" the bits of a given string $x$ then it maps every $x\in \overline{A}$ to an output $FLIP(x)\in A$ in a one-to-one way, and so it demonstrates that $|\overline{A}| \leq |A|$ which implies that $\Pr[A] \geq \Pr[\overline{A}]$ and hence $\Pr[A] \geq 1/2$.](../figure/flipaanalysis.png){#flipaanalysisfig .class width=300px height=300px}
+![For every $x^* \in \{0,1\}^n$, we can sort all strings in $\{0,1\}^n$ according to their distance from $x^*$ (top to bottom in the above figure), where we let $A = \{ x\in \{0,1\}^n \;|\; dist(x,x^* \leq n/2 \}$ be the "top half" of strings. If we define $FLIP:\{0,1\}^n \rightarrow \{0,1\}$ to be the map that "flips" the bits of a given string $x$ then it maps every $x\in \overline{A}$ to an output $FLIP(x)\in A$ in a one-to-one way, and so it demonstrates that $|\overline{A}| \leq |A|$ which implies that $\Pr[A] \geq \Pr[\overline{A}]$ and hence $\Pr[A] \geq 1/2$.](../figure/flipaanalysis.png){#flipaanalysisfig .margin  }
 
 ### Bipartite matching.
 
@@ -271,7 +274,7 @@ The goal is to determine whether there is a _perfect matching_, a subset $M \sub
 That is, $M$ matches every vertex in $L$ to a unique vertex in $R$.
 
 
-![The bipartite matching problem in the graph $G=(L\cup R,E)$ can be reduced to the minimum $s,t$ cut problem in the graph $G'$ obtained by adding vertices $s,t$ to $G$, connecting $s$ with $L$ and connecting $t$ with $R$.](../figure/matchingfig.png){#matchingfig .class width=300px height=300px}
+![The bipartite matching problem in the graph $G=(L\cup R,E)$ can be reduced to the minimum $s,t$ cut problem in the graph $G'$ obtained by adding vertices $s,t$ to $G$, connecting $s$ with $L$ and connecting $t$ with $R$.](../figure/matchingfig.png){#matchingfig .margin  }
 
 The bipartite matching problem turns out to have a polynomial-time algorithm, since we can reduce finding a matching in $G$ to finding a maximum flow (or equivalently, minimum cut) in a related graph $G'$ (see [matchingfig](){.ref}).
 However, we will see a different probabilistic algorithm to determine whether a graph contains such a matching.
@@ -282,7 +285,7 @@ A matching $M$ corresponds to a _permutation_ $\pi \in S_n$ (i.e., one-to-one an
 Define an $n\times n$ matrix $A=A(G)$ where $A_{i,j}=1$ if and only if the edge $\{\ell_i,r_j\}$ is present and $A_{i,j}=0$ otherwise.
 The correspondence between matchings and permutations implies the following claim:
 
-> # {.lemma title="Matching polynomial" #matchpolylem}
+> ### {.lemma title="Matching polynomial" #matchpolylem}
 Define $P=P(G)$ to be the polynomial mapping $\R^{n^2}$ to $\R$ where
 $$
 P(x_{0,0},\ldots,x_{n-1,n-1}) = \sum_{\pi \in S_n} \left( \prod_{i=0}^{n-1} sign(\pi)A_{i,\pi(i)} \right) \prod_{i=0}^{n-1} x_{i,\pi(i)} \label{matchpolyeq}
@@ -290,7 +293,7 @@ $$
 Then $G$ has a perfect matching if and only if $P$ is not identically zero.
 That is, $G$ has a perfect matching if and only if there exists some assignment $x=(x_{i,j})_{i,j\in [n]} \in \R^{n^2}$ such that $P(x) \neq 0$.^[The [sign](https://goo.gl/ELnXhq) of a permutation $\pi:[n] \rightarrow [n]$, denoted by $sign(\pi)$, can be defined in several equivalent ways, one of which is that $sign(\pi)=(-1)^{INV(\pi)}$ where $INV(pi)=|\{(x,y) \in [n] \;|\; x<y \; \wedge \; \pi(x)>\pi(y)\}$ (i.e., $INV(\pi)$ is the number of pairs of elements that are  _inverted_ by $\pi$). The importance of the term $sign(\pi)$ is that it makes $P$ equal to the _determinant_ of the matrix $(x_{i,j})$ and hence efficiently computable.]
 
-> # {.proof data-ref="matchpolylem"}
+> ### {.proof data-ref="matchpolylem"}
 If $G$ has a perfect matching $M^*$, then  let $\pi^*$ be the permutation corresponding to $M$ and let $x^* \in \Z^{n^2}$ defined as follows: $x_{i,j}=1$ if $j=\pi(i)$ and $x_{i,j}=0$.
 Note that for every $\pi \neq \pi^*$, $\prod_{i=0}^{n-1} x_{i,\pi(i)}=0$ but $\prod_{i=0}^{n-1} x^*_{i,\pi^*(i)}=1$. Hence $P(x^*)$ will equal $\prod_{i=0}^{n-1} A_{i,\pi^*(i)}$.
 But since $M^*$ is a perfect matching in $G$, $\prod_{i=0}^{n-1} A_{i,\pi^*(i)} = 1$.
@@ -306,7 +309,7 @@ The  intuition behind our randomized algorithm for zero testing is the following
 
 >_If a polynomial is not identically zero, then it can't have "too many" roots._
 
-![A degree $d$ curve in one variable can have at most $d$ roots. In higher dimensions, a $n$-variate degree-$d$ polynomial can have an infinite number roots though the set of roots will be an $n-1$ dimensional surface. Over a finite field $\mathbb{F}$, an $n$-variate degree $d$ polynomial has at most $d|\mathbb{F}|^{n-1}$ roots.](../figure/curves.png){#curvesfig .class width=300px height=300px}
+![A degree $d$ curve in one variable can have at most $d$ roots. In higher dimensions, a $n$-variate degree-$d$ polynomial can have an infinite number roots though the set of roots will be an $n-1$ dimensional surface. Over a finite field $\mathbb{F}$, an $n$-variate degree $d$ polynomial has at most $d|\mathbb{F}|^{n-1}$ roots.](../figure/curves.png){#curvesfig .margin  }
 
 This intuition sort of makes sense.
 For one variable polynomials, we know that a nonzero linear function has at most one root, a quadratic function (e.g., a parabola) has at most two roots, and generally a degree $d$ equation has at most $d$ roots.
@@ -322,7 +325,7 @@ However, to transform this into an actual algorithm, we need to make both the in
 Choosing a random real number is quite problematic, especially when you have only a finite number of coins at your disposal, and so we start by reducing the task to a finite setting.
 We will use the following result
 
-> # {.theorem title="Schwartz–Zippel lemma" #szlem}
+> ### {.theorem title="Schwartz–Zippel lemma" #szlem}
 For every integer $q$, and polynomial $P:\R^n \rightarrow \R$ with integer coefficients.
 If $P$ has degree at most $d$ and is not identically zero, then it has at most $dq^{n-1}$ roots
 in the set $[q]^n = \{ (x_0,\ldots,x_{n-1}) : x_i \in \{0,\ldots,q-1\} \}$.
@@ -368,19 +371,19 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 Prove [cutalgorithmamplificationlem](){.ref}
 :::
 
-> # {.exercise title="Deterministic max cut algorithm" #maxcutex}
+> ### {.exercise title="Deterministic max cut algorithm" #maxcutex}
 ^[TODO: add exercise to give a deterministic max cut algorithm that gives $m/2$ edges. Talk about greedy approach.]
 
-> # {.exercise title="Simulating distributions using coins" #coindistex}
+> ### {.exercise title="Simulating distributions using coins" #coindistex}
 Our model for probability involves tossing $n$ coins, but sometimes algorithm require sampling from other distributions, such as selecting a uniform number in $\{0,\ldots,M-1\}$ for some $M$.
 Fortunately,  we can simulate this with an exponentially small probability of error: prove that for every $M$, if $n>k\lceil \log M \rceil$, then there is a function $F:\{0,1\}^n \rightarrow \{0,\ldots,M-1\} \cup \{ \bot \}$ such that __(1)__ The probability that $F(x)=\bot$ is at most $2^{-k}$ and __(2)__ the  distribution of $F(x)$ conditioned on $F(x) \neq \bot$ is equal to the uniform distribution over $\{0,\ldots,M-1\}$.^[__Hint:__ Think of $x\in \{0,1\}^n$ as choosing $k$ numbers $y_1,\ldots,y_k \in \{0,\ldots, 2^{\lceil \log M \rceil}-1 \}$. Output the first such number that is in $\{0,\ldots,M-1\}$. ]
 
-> # {.exercise title="Better walksat analysis" #walksatex}
+> ### {.exercise title="Better walksat analysis" #walksatex}
 1. Prove that for  every $\epsilon>0$, if $n$ is large enough then for every $x^*\in \{0,1\}^n$  $\Pr_{x \sim \{0,1\}^n}[ \Delta(x,x^*) \leq n/3 ] \leq 2^{-(1-H(1/3)-\epsilon)n}$ where $H(p)=p\log(1/p) + (1-p)\log(1/(1-p))$ is the same function as in [entropybinomex](){.ref}. \
 2. Prove that $2^{1-H(1/4)+(1/4) \log 3}=(3/2)$.
 2. Use the above to prove that for every $\delta>0$ and large enough $n$, if we set $T=1000\cdot (3/2+\delta)^n$ and $S=n/4$  in the WalkSAT algorithm then for every satisfiable 3CNF $\varphi$, the probability that we output `unsatisfiable` is at most $1/2$. \
 
-> # {.exercise title="Faster bipartite matching (challenge)" #matchingmodex}
+> ### {.exercise title="Faster bipartite matching (challenge)" #matchingmodex}
 ^[TODO: add exercise to improve the matching algorithm by working modulo a prime]
 
 

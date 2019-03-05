@@ -1,9 +1,12 @@
-% Efficient computation
-% Boaz Barak
+---
+title: "Efficient computation"
+filename: "lec_10_efficient_alg"
+chapternum: "11"
+---
 
 #  Efficient computation { #chapefficient }
 
-> # { .objectives }
+> ### { .objectives }
 * Describe at a high level some interesting computational problems. \
 * The difference between polynomial and exponential time.  \
 * Examples of techniques for obtaining efficient algorithms \
@@ -14,7 +17,7 @@
 >_"For practical purposes, the difference between algebraic and exponential order is often more crucial than the difference between finite and non-finite."_, Jack Edmunds, "Paths, Trees, and Flowers", 1963
 
 ::: {.quote }
-_"What is the most efficient way to sort a million 32-bit integers?"_, Eric Schmidt to Barack Obama, 2008 \\
+_"What is the most efficient way to sort a million 32-bit integers?"_, Eric Schmidt to Barack Obama, 2008
 
 _"I think the bubble sort would be the wrong way to go."_, Barack Obama.
 :::
@@ -39,14 +42,14 @@ This will allow us to ask (and sometimes answer) questions such as:
 In this chapter we will survey some examples of computational problems, for some of which we know efficient (e.g., $n^c$-time for a small constant $c$) algorithms, and for others the best known algorithms are exponential.
 We want to get a feel as to the kinds of problems that lie on each side of this divide and also see how some seemingly minor changes in formulation can make the (known) complexity of a problem "jump" from polynomial to exponential.
 We will not formally define the notion of running time in this chapter, and so will use the same "I know it when I see it" notion of an $O(n)$ or $O(n^2)$ time algorithms as  one you've seen in introduction to computer science courses.
-In [chapmodelruntime](){.ref}, we will define this notion precisely, using our NAND++ and NAND<< programming languages.
+In [chapmodelruntime](){.ref}, we will define this notion precisely, using our NAND-TM and NAND-RAM programming languages.
 
 
 One of the nice things about the theory of computation is that it turns out that, like in the context of computability, the details of th precise computational model or programming language don't matter that much.
 Specifically, in this course, we will often not be as concerned with the difference between $O(n)$ and $O(n^2)$, as much as the difference between _polynomial_ and _exponential_ running time.
 One of the interesting phenomenona of computing is that there is often a kind of a "[threshold phenomenon](http://www.ma.huji.ac.il/~kalai/ML.pdf)" or "zero-one law" for running time, where  many natural problems can either be solved in polynomial running time with a not-too-large exponent (e.g., something like $O(n^2)$ or $O(n^3)$), or require exponential (e.g., at least $2^{\Omega(n)}$ or $2^{\Omega(\sqrt{n})}$) time to solve.
 The reasons for this phenomenon are still not fully understood, but some light on this is shed by the concept of _NP completeness_, which we will encounter later.
-As we will see, questions about polynomial versus exponential time are  often _insensitive_ to the choice of the particular computational model, just like we saw that the question of whether a function $F$ is computable is insensitive to whether you use NAND++, $\lambda$-calculus, Turing machines, or Javascript as your model of computation.
+As we will see, questions about polynomial versus exponential time are  often _insensitive_ to the choice of the particular computational model, just like we saw that the question of whether a function $F$ is computable is insensitive to whether you use NAND-TM, $\lambda$-calculus, Turing machines, or Javascript as your model of computation.
 
 
 
@@ -70,7 +73,7 @@ They can be used to model a great many of the data that we encounter.
 These are not just the "obvious" networks such as the road network (which can be thought of as a graph of whose vertices are locations with edges corresponding to road segments), or the web (which can be thought of as a graph whose vertices are web pages with edges corresponding to links), or social networks (which can be thought of as a graph whose vertices are people and the edges correspond to friend relation).
 Graphs can also denote correlations in data (e.g., graph of observations of features with edges corresponding to features that tend to appear together), causal relations (e.g., gene regulatory networks, where a gene  is connected to gene products it derives), or the state space of a system (e.g., graph of configurations of a physical system, with edges corresponding to states that can be reached from one another in one step).
 
-![Some examples of graphs found on the Internet.](../figure/graphs.png){#figureid .class width=300px height=300px}
+![Some examples of graphs found on the Internet.](../figure/graphs.png){#figureid .margin  }
 
 
 We now give some examples of computational problems on graphs.
@@ -142,7 +145,7 @@ Specifically, in a graph of degree at most $d$, we can enumerate over all paths 
 This would take about $O(d^k)$ steps, and since the longest simple path can't have length more than the number of vertices, this means that the brute force algorithms runs in  $O(d^n)$ time (which we can bound by $O(n^n)$ since the maximum degree is $n$).
 The best algorithm for the longest path improves on this, but not by much: it takes $\Omega(c^n)$ time for some constant $c>1$.^[At the moment the best record is $c \sim 1.65$ or so. Even obtaining an $O(2^n)$ time bound is not that simple, see [longest-path-ex](){.ref}.]
 
-![A _knight's tour_ can be thought of as a maximally long path on the graph corresponding to a chessboard where we put an edge between any two squares that can be reached by one step via a legal knight move.](../figure/knights_tour.jpg){#knighttourpath .class width=300px height=300px}
+![A _knight's tour_ can be thought of as a maximally long path on the graph corresponding to a chessboard where we put an edge between any two squares that can be reached by one step via a legal knight move.](../figure/knights_tour.jpg){#knighttourpath .margin  }
 
 
 ### Finding the minimum cut in a graph { #mincutsec }
@@ -155,7 +158,7 @@ The _minimum $s,t$ cut problem_  is the task of finding, given $s$ and $t$, the 
 Formally, we  define $MINCUT:\{0,1\}^* \rightarrow \{0,1\}^*$ to be the function that on input a triple $(G,s,t)$ of a graph and two vertices (represented as a string), outputs the minimum number $k$ such that there exists a set $S$ containing $s$ and not $t$ with exactly $k$ edges that touch $S$ and its complement.
 
 
-![A _cut_ in a graph $G=(V,E)$ is simply a subset $S$ of its vertices. The edges that are _cut_ by $S$ are all those whose one endpoint is in $S$ and the other one is in $\overline{S} = V \setminus S$. The cut edges are colored red in this figure.](../figure/cutingraph.png){#cutingraphfig .class width=300px height=300px}
+![A _cut_ in a graph $G=(V,E)$ is simply a subset $S$ of its vertices. The edges that are _cut_ by $S$ are all those whose one endpoint is in $S$ and the other one is in $\overline{S} = V \setminus S$. The cut edges are colored red in this figure.](../figure/cutingraph.png){#cutingraphfig .margin  }
 
 The minimum $s,t$ cut problem appears in many applications.
 Minimum cuts often correspond to  _bottlenecks_.
@@ -183,7 +186,7 @@ __Algorithm MINCUTNAIVE:__
   3. Return $k_0$
 :::
 
-> # { .pause }
+> ### { .pause }
 It is an excellent exercise for you to pause at this point and verify:
 __(i)__ that you understand what this algorithm does, __(2)__ that you understand why this algorithm will in fact return the value of the minimum cut in the graph, and __(3)__ that you can analyze the running time of this algorithm.
 
@@ -242,9 +245,9 @@ We do not know of an algorithm that solves this problem much faster than the tri
 
 ###  A note on convexity
 
-![In a _convex_ function $f$ (left figure), for every $x$ and $y$ and $p\in [0,1]$ it holds that $f(px+(1-p)y) \leq p\cdot f(x)+(1-p)\cdot f(y)$. In particular this means that every _local minimum_ of $f$ is also a _global minimum_. In contrast in a _non convex_ function there can be many local minima.](../figure/convexvsnot.png){#figid .class width=300px height=300px}
+![In a _convex_ function $f$ (left figure), for every $x$ and $y$ and $p\in [0,1]$ it holds that $f(px+(1-p)y) \leq p\cdot f(x)+(1-p)\cdot f(y)$. In particular this means that every _local minimum_ of $f$ is also a _global minimum_. In contrast in a _non convex_ function there can be many local minima.](../figure/convexvsnot.png){#figid .margin  }
 
-![In the high dimensional case, if $f$ is a _convex_ function (left figure) the global minimum is the only local minimum, and we can find it by a local-search algorithm which can be thought of as dropping  a marble and letting it "slide down" until it reaches the global minimum. In contrast, a non-convex function (right figure) might have an exponential number of local minima in which any local-search algorithm could get stuck.](../figure/convexandnon.jpg){#figureid .class width=300px height=300px}
+![In the high dimensional case, if $f$ is a _convex_ function (left figure) the global minimum is the only local minimum, and we can find it by a local-search algorithm which can be thought of as dropping  a marble and letting it "slide down" until it reaches the global minimum. In contrast, a non-convex function (right figure) might have an exponential number of local minima in which any local-search algorithm could get stuck.](../figure/convexandnon.jpg){#figureid .margin  }
 
 There is an underlying reason for the sometimes radical difference between the difficulty of maximizing and minimizing a function over a domain.
 If $D \subseteq \R^n$, then a function $f:D \rightarrow R$ is _convex_ if for every $x,y \in D$ and $p\in [0,1]$
@@ -336,7 +339,7 @@ As we discussed above,  if we are willing to allow some loss in precision, we ev
 In contrast, if we insist on _integer_ solutions, the task of solving for linear equalities or inequalities is known as [integer programming](https://en.wikipedia.org/wiki/Integer_programming), and the best known algorithms are exponential time in the worst case.
 
 
-> # {.remark title="Bit complexity of numbers" #numbersbits}
+> ### {.remark title="Bit complexity of numbers" #numbersbits}
 Whenever we discuss problems whose inputs correspond to numbers, the input length corresponds to how many  bits are needed to describe the number (or, as is equivalent up to a constant factor, the number of digits in base 10, 16 or any other constant).
 The difference between the length of the input and the magnitude of the number itself can be of course quite profound.
 For example, most people would agree that there is a huge difference between having a billion (i.e. $10^9$) dollars and having nine dollars.
@@ -466,7 +469,7 @@ While the brute force algorithms would require $2^{\Omega(n)}$ time to factor an
 
 ## Our current knowledge
 
-![The current computational status of several interesting problems. For all of them we either know a polynomial-time algorithm or the known algorithms require at least $2^{n^c}$ for some $c>0$. In fact for all except the _factoring_ problem, we either know an $O(n^3)$ time algorithm or the best known algorithm require at least $2^{\Omega(n)}$ time where $n$ is a natural parameter such that there is a brute force algorithm taking roughly $2^n$ or $n!$ time. Whether this "cliff" between the easy and hard problem is a real phenomenon or a reflection of our ignorane is still an open question.](../figure/poly_vs_exp.png){#current_status .class width=300px height=300px}
+![The current computational status of several interesting problems. For all of them we either know a polynomial-time algorithm or the known algorithms require at least $2^{n^c}$ for some $c>0$. In fact for all except the _factoring_ problem, we either know an $O(n^3)$ time algorithm or the best known algorithm require at least $2^{\Omega(n)}$ time where $n$ is a natural parameter such that there is a brute force algorithm taking roughly $2^n$ or $n!$ time. Whether this "cliff" between the easy and hard problem is a real phenomenon or a reflection of our ignorane is still an open question.](../figure/poly_vs_exp.png){#current_status .margin  }
 
 The difference between an  exponential and polynomial time algorithm might seem merely "quantiative" but it is in fact extremely significant.
 As we've already seen, the brute force exponential time algorithm runs out of steam very very fast, and as Edmonds says, in practice there might not be much difference between a problem where the best algorithm is exponential and a problem that is not solvable at all.
@@ -492,11 +495,11 @@ We just don't know if any of the examples above fall into that category.
 Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
 :::
 
-> # {.exercise title="exponential time algorithm for longest path" #longest-path-ex}
+> ### {.exercise title="exponential time algorithm for longest path" #longest-path-ex}
 The naive algorithm for computing the longest path in a given graph could take more than $n!$ steps.
 Give a $poly(n)2^n$ time algorithm for the longest path problem in $n$ vertex graphs.^[__Hint:__ Use dynamic programming to compute for every $s,t \in [n]$ and $S \subseteq [n]$ the value $P(s,t,S)$ which equals $1$ if there is a simple path from $s$ to $t$ that uses exactly the vertices in $S$. Do this iteratively for $S$'s of growing sizes.]
 
-> # {.exercise title="2SAT algorithm" #twosat_ex}
+> ### {.exercise title="2SAT algorithm" #twosat_ex}
 For every 2CNF $\varphi$,  define the graph $G_\varphi$ on $2n$ vertices corresponding to the literals $x_1,\ldots,x_n,\overline{x}_1,\ldots,\overline{x}_n$, such that there is an edge $\overrightarrow{\ell_i\; \ell_j}$ iff the constraint $\overline{\ell}_i \vee \ell_j$ is in $\varphi$.
 Prove that $\varphi$ is unsatisfiable if and only if there is some $i$ such that there is a path from $x_i$ to $\overline{x}_i$ and from $\overline{x}_i$ to $x_i$ in $G_\varphi$.
 Show how to use this to solve 2SAT in polynomial time.

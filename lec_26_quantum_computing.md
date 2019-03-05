@@ -1,12 +1,15 @@
-% Quantum computing
-% Boaz Barak
+---
+title: "Quantum computing"
+filename: "lec_26_quantum_computing"
+chapternum: "22"
+---
 
-#  Quantum computing
+#  Quantum computing { #quantumchap }
 
 
-> # { .objectives }
+> ### { .objectives }
 * See main aspects in which quantum mechanics differs from local deterministic theories. \
-* Model of quantum circuits, or equivalently QNAND programs \
+* Model of quantum circuits, or equivalently QNAND-CIRC programs \
 * The complexity class $\mathbf{BQP}$ and what we know about its relation to other classes \
 * Ideas behind Shor's Algorithm and the Quantum Fourier Transform
 
@@ -38,7 +41,7 @@ If we shoot baseballs at the plastic wall, then some of the baseballs would boun
 If we now carve out an additional slit in the metal barrier then more balls would get through, and so the plastic wall would be _even more dented_.
 
 
-![In the "double baseball experiment" we shoot baseballs from a gun at a soft wall through a hard barrier that has one or two slits open in it. There is only "constructive interference" in the sense that the dent in each position in the wall when both slits are open is the sum of the dents when each slit is open on its own.](../figure/double_baseball2.png){#doublebaseballfig .class width=300px height=300px}
+![In the "double baseball experiment" we shoot baseballs from a gun at a soft wall through a hard barrier that has one or two slits open in it. There is only "constructive interference" in the sense that the dent in each position in the wall when both slits are open is the sum of the dents when each slit is open on its own.](../figure/double_baseball2.png){#doublebaseballfig .margin  }
 
 
 So far this is pure common sense, and it is indeed (to my knowledge) an accurate description of what happens when we shoot baseballs at a plastic wall.
@@ -48,7 +51,7 @@ In particular there are positions in the wall that are hit when the first slit i
 
 
 
-![The setup of the double slit experiment in the case of photon or electron guns. We see also _destructive_ interference in the sense that there are some positions on the wall that get _fewer_ hits when both slits are open than they get when only one of the slits is open. Image credit: Wikipedia.](../figure/double-slit-setup.PNG){#doubleslitfig .class width=300px height=300px}
+![The setup of the double slit experiment in the case of photon or electron guns. We see also _destructive_ interference in the sense that there are some positions on the wall that get _fewer_ hits when both slits are open than they get when only one of the slits is open. Image credit: Wikipedia.](../figure/double-slit-setup.PNG){#doubleslitfig .margin  }
 
 
 It seems as if each photon coming out of the gun is aware of the global setup of the experiment, and behaves differently if two slits are open than if only one is.
@@ -56,7 +59,7 @@ If we try to "catch the photon in the act" and place  a detector right next to e
 The mere fact that we _measure_ the  path changes the photon's behavior, and now this "destructive interference" pattern is gone and the number of times a position is hit when two slits are open is the sum of the number of times it is hit when each slit is open.
 
 
-> # { .pause }
+> ### { .pause }
 You should read the paragraphs above more than once and make sure you appreciate how truly mind boggling these results are.
 
 
@@ -157,7 +160,7 @@ Now if Alice and Bob are not telepathic, then they need to agree in advance on s
 It's not hard for Alice and Bob to succeed with probability $3/4$: just always output the same bit.
 Moreover, by doing some case analysis, we can show that no matter what strategy they use, Alice and Bob cannot succeed with higher probability than that:^[[bellthm](){.ref} below assumes that Alice and Bob use _deterministic_ strategies $f$ and $g$ respectively. More generally, Alice and Bob could use a _randomized_ strategy, or equivalently, each could choose $f$ and $g$ from some  _distributions_ $\mathcal{F}$ and $\mathcal{G}$ respectively.  However the _averaging principle_ ([averagingprinciplerem](){.ref}) implies that if all possible deterministic strategies succeed with probability at most $3/4$, then the same is true for all randomized strategies.]
 
-> # {.theorem title="Bell's Inequality" #bellthm}
+> ### {.theorem title="Bell's Inequality" #bellthm}
 For every two functions $f,g:\{0,1\}\rightarrow\{0,1\}$, $\Pr_{x,y \in \{0,1\}}[  f(x) \oplus g(y) = x \wedge y] \leq 3/4$.
 
 ::: {.proof data-ref="bellthm"}
@@ -204,7 +207,7 @@ Some of the counterintuitive properties that arise from  quantum mechanics inclu
 
 As counter-intuitive as these concepts are, they have been experimentally confirmed, so we just have to live with them.
 
-> # {.remark title="More on quantum" #quantumsources}
+> ### {.remark title="More on quantum" #quantumsources}
 The discussion in this  lecture is quite brief and somewhat superficial.
 The chapter on quantum computation in my [book with Arora](http://theory.cs.princeton.edu/complexity/) (see [draft here](http://theory.cs.princeton.edu/complexity/ab_quantumchap.pdf)) is one
 relatively short resource that contains essentially everything we discuss here and more.
@@ -233,7 +236,7 @@ Such a system is now known as a _quantum computer_.
 
 For a while these hypothetical quantum computers seemed useful for one of two things.
 First, to provide a general-purpose mechanism to  simulate a variety of the real quantum systems that people care about, such as various interactions inside molecules in quantum chemistry.
-Second, as a challenge to the _Extended Church Turing hypothesis_ which says that every physically realizable computation device can be modeled (up to polynomial overhead) by Turing machines (or equivalently, NAND++ / NAND<< programs).
+Second, as a challenge to the _Extended Church Turing hypothesis_ which says that every physically realizable computation device can be modeled (up to polynomial overhead) by Turing machines (or equivalently, NAND-TM / NAND-RAM programs).
 
 Quantum chemistry is important (and in particular understanding it can be a bottleneck for designing new materials, drugs, and more), but it is still a rather niche area within the broader context of computing (and even scientific computing) applications.
 Hence for a while most researchers (to the extent they were aware of it), thought of quantum computers as a theoretical curiosity that  has little bearing to practice, given that this theoretical "extra power" of quantum computer seemed to offer little advantage in the majority of the  problems people  want to solve in areas such as  combinatorial optimization, machine learning,  data structures, etc..
@@ -346,7 +349,7 @@ Recall that in the classical case, Alice and Bob can succeed in the "Bell Game" 
 We now show that quantum mechanics allows them to succeed with probability at least $0.8$.^[The strategy we show is not the best one. Alice and Bob can in fact  succeed with probability $\cos^2(\pi/8) \sim 0.854$.]
 
 
-> # {.lemma #bellstrategy}
+> ### {.lemma #bellstrategy}
 There is a 2-qubit quantum state $\psi\in \mathbb{C}^4$ so that if Alice has access to the first qubit of $\psi$, can manipulate and measure it and output $a\in \{0,1\}$ and Bob has access to the second qubit of $\psi$ and can manipulate and measure it and output $b\in \{0,1\}$ then
 $\Pr[ a \oplus b = x \wedge y ] \geq 0.8$.
 
@@ -403,7 +406,7 @@ Taking all the four cases together,  the overall probability of winning the game
 :::
 
 
-> # {.remark title="Quantum vs probabilistic strategies" #quantumprob}
+> ### {.remark title="Quantum vs probabilistic strategies" #quantumprob}
 It is instructive to understand what is it about quantum mechanics that enabled this gain in Bell's Inequality. For this, consider the following analogous probabilistic strategy for Alice and Bob. They agree that each one of them output $0$ if he or she get $0$ as input and outputs $1$ with probability $p$ if they get $1$ as input. In this case one can see that their success probability would be $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}(1-p)+\tfrac{1}{4}[2p(1-p)]=0.75 -0.5p^2 \leq 0.75$. The quantum strategy we described above can be thought of as a variant of the probabilistic strategy for parameter $p$ set to  $\sin^2 (\pi/8)=0.15$. But in the case $x=y=1$, instead of disagreeing only with probability $2p(1-p)=1/4$, because we can use these negative probabilities in the quantum world and rotate the state in opposite directions, and hence  the probability of disagreement ends up being $\sin^2 (\pi/4)=0.5$.
 
 ## Quantum computation
@@ -411,13 +414,13 @@ It is instructive to understand what is it about quantum mechanics that enabled 
 Recall that in the classical setting, we modeled computation as obtained by a sequence of _basic operations_.
 We had two types of computational models:
 
-* _Non uniform models of computation_ such as Boolean circuits and NAND programs, where a finite function $f:\{0,1\}^n \rightarrow \{0,1\}$ is computable in size $T$ if it can be expressed as a combination of $T$ basic operations (gates in a circuit or lines in a NAND program)
+* _Non uniform models of computation_ such as Boolean circuits and NAND-CIRC programs, where a finite function $f:\{0,1\}^n \rightarrow \{0,1\}$ is computable in size $T$ if it can be expressed as a combination of $T$ basic operations (gates in a circuit or lines in a NAND-CIRC program)
 
-* _Uniform models of computation_ such as Turing machines and NAND++ programs, where an infinite function $F:\{0,1\}^* \rightarrow \{0,1\}$ is computable in time $T(n)$ if there is a single algorithm that on input $x\in \{0,1\}^n$ evaluates $F(x)$ using at most $T(n)$ basic steps.
+* _Uniform models of computation_ such as Turing machines and NAND-TM programs, where an infinite function $F:\{0,1\}^* \rightarrow \{0,1\}$ is computable in time $T(n)$ if there is a single algorithm that on input $x\in \{0,1\}^n$ evaluates $F(x)$ using at most $T(n)$ basic steps.
 
 
-When considering _efficient computation_, we defined the class $\mathbf{P}$ to consist of all infinite functions $F:\{0,1\}^* \rightarrow \{0,1\}$ that can be computed by a Turing machine or NAND++ program in time $p(n)$  for some polynomial $p(\cdot)$.
-We defined the class  $\mathbf{P_{/poly}}$ to consists of all infinite functions $F:\{0,1\}^* \rightarrow \{0,1\}$ such that for every $n$, the restriction $F_n$ of $F$ to $\{0,1\}^n$ can be computed by a Boolean circuit or NAND program of size at most $p(n)$ for some polynomial $p(\cdot)$.
+When considering _efficient computation_, we defined the class $\mathbf{P}$ to consist of all infinite functions $F:\{0,1\}^* \rightarrow \{0,1\}$ that can be computed by a Turing machine or NAND-TM program in time $p(n)$  for some polynomial $p(\cdot)$.
+We defined the class  $\mathbf{P_{/poly}}$ to consists of all infinite functions $F:\{0,1\}^* \rightarrow \{0,1\}$ such that for every $n$, the restriction $F_{\upharpoonright n}$ of $F$ to $\{0,1\}^n$ can be computed by a Boolean circuit or NAND-CIRC program of size at most $p(n)$ for some polynomial $p(\cdot)$.
 
 We will do the same for _quantum computation_, focusing mostly on the _non uniform_ setting of quantum circuits, since that is simpler, and already illustrates the important differences with classical computing.
 
@@ -431,7 +434,7 @@ Therefore, we cannot use the same qubit as input for two different gates.^[This 
 Another more technical difference is that to express our operations as unitary matrices, we will need to make sure all our gates are _reversible_.
 This is not hard to ensure.
 For example, in the quantum context, instead of thinking of $NAND$ as a (non reversible) map from $\{0,1\}^2$ to $\{0,1\}$, we will think of it as the reversible  map on _three_ qubits that maps $a,b,c$ to $a,b,c\oplus NAND(a,b)$ (i.e., flip the last bit if $NAND$ of the first two bits is $1$).
-Equivalently, the NAND operation corresponds to  the $8\times 8$ unitary matrix  $U_{NAND}$  such that (identifying $\{0,1\}^3$ with $[8]$) for every $a,b,c \in \{0,1\}$, if $|abc\rangle$ is the basis element with $1$ in the $abc$-th coordinate and zero elsewhere, then $U_{NAND} |abc\rangle =|ab(c \oplus NAND(a,b))\rangle$.^[Readers familiar with quantum computing should note that $U_{NAND}$ is a close variant of the so called [Toffoli gate](https://goo.gl/BE7aVG) and so QNAND programs correspond to quantum circuits with the Hadamard and Toffoli gates.]
+Equivalently, the NAND operation corresponds to  the $8\times 8$ unitary matrix  $U_{NAND}$  such that (identifying $\{0,1\}^3$ with $[8]$) for every $a,b,c \in \{0,1\}$, if $|abc\rangle$ is the basis element with $1$ in the $abc$-th coordinate and zero elsewhere, then $U_{NAND} |abc\rangle =|ab(c \oplus NAND(a,b))\rangle$.^[Readers familiar with quantum computing should note that $U_{NAND}$ is a close variant of the so called [Toffoli gate](https://goo.gl/BE7aVG) and so QNAND-CIRC programs correspond to quantum circuits with the Hadamard and Toffoli gates.]
 If we order the rows and columns as $000,001,010,\ldots,111$, then $U_{NAND}$ can be written as the following matrix:
 
 $$
@@ -496,9 +499,9 @@ Please stop here and see that this definition makes sense to you.
 
 Once we have the notion of quantum circuits, we can define the quantum analog of $\mathbf{P_{/poly}}$ (i.e., define the class of functions computable by _polynomial size quantum circuits_) as follows:
 
-> # {.definition title="$\mathbf{BQP_{/poly}}$" #QBPpoly}
+> ### {.definition title="$\mathbf{BQP_{/poly}}$" #QBPpoly}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$.
-We say that $F\in \mathbf{BQP_{/poly}}$ if there exists some polynomial $p:\N \rightarrow \N$ such that for every $n\in \N$, if $F_n$ is the restriction of $F$ to inputs of length $n$, then there is a quantum circuit of size at most $p(n)$ that computes $F_n$.
+We say that $F\in \mathbf{BQP_{/poly}}$ if there exists some polynomial $p:\N \rightarrow \N$ such that for every $n\in \N$, if $F_{\upharpoonright n}$ is the restriction of $F$ to inputs of length $n$, then there is a quantum circuit of size at most $p(n)$ that computes $F_{\upharpoonright n}$.
 
 
 ::: {.remark title="The obviously exponential fallacy" #exponential}
@@ -509,20 +512,20 @@ Depending on how you interpret it, this description is either false or would app
 
 Moreover, this "obvious" approach for simulating a quantum computation will take not just exponential time but _exponential space_ as well, while can be shown that using a simple recursive formula one can calculate the final quantum state using _polynomial space_ (in physics  this is known as "Feynman path integrals").
 So, the exponentially long vector description by itself does not imply that quantum computers are exponentially powerful.
-Indeed, we cannot _prove_ that they are (i.e., as far as we know, every QNAND program could be simulated by a NAND program with polynomial overhead), but we do have some problems (integer factoring most prominently) for which they do provide exponential speedup over the currently best _known_ classical (deterministic or probabilistic) algorithms.
+Indeed, we cannot _prove_ that they are (i.e., as far as we know, every QNAND-CIRC program could be simulated by a NAND-CIRC program with polynomial overhead), but we do have some problems (integer factoring most prominently) for which they do provide exponential speedup over the currently best _known_ classical (deterministic or probabilistic) algorithms.
 :::
 
 
 
-###  QNAND programs (optional)
+###  QNAND-CIRC programs (optional)
 
-Just like in the classical case, there is an equivalence between circuits and straightline programs, and so we can define the programming language QNAND that is the quantum analog of our NAND programming language.
+Just like in the classical case, there is an equivalence between circuits and straight-line programs, and so we can define the programming language QNAND that is the quantum analog of our NAND-CIRC programming language.
 To do so, we only add a single operation: `HAD(foo)` which applies the single-bit operation $H$ to the variable `foo`.
 We also use the following interpretation to make `NAND` reversible: `foo = NAND(bar,blah)` means that we modify `foo` to be the XOR of its original value and the NAND of `bar` and `blah`.
 (In other words, apply the $8$ by $8$ unitary transformation $U_{NAND}$ defined above to the three qubits corresponding to `foo`, `bar` and `blah`.)
 If `foo` is initialized to zero then this makes no difference.
 
-If $P$ is a QNAND program with $n$ input variables, $\ell$ workspace variables, and $m$ output variables, then running it on the input $x\in \{0,1\}^n$ corresponds to setting up a system with $n+m+\ell$ qubits and performing the following process:
+If $P$ is a QNAND-CIRC program with $n$ input variables, $\ell$ workspace variables, and $m$ output variables, then running it on the input $x\in \{0,1\}^n$ corresponds to setting up a system with $n+m+\ell$ qubits and performing the following process:
 
 1. We initialize the input variables `X[`$0$`]` $\ldots$ `X[`$n-1$`]` to $x_0,\ldots,x_{n-1}$ and all other variables to $0$.
 
@@ -535,17 +538,17 @@ If $P$ is a QNAND program with $n$ input variables, $\ell$ workspace variables, 
 ### Uniform computation
 
 Just as in the classical case, we can define _uniform_ computational models.
-For example, we can define the _QNAND++ programming language_ to be QNAND augmented with loops and arrays just like NAND++  is obtained from NAND.
+For example, we can define the _QNAND-TM programming language_ to be QNAND augmented with loops and arrays just like NAND-TM  is obtained from NAND.
 Using this we can define the class $\mathbf{BQP}$ which is the uniform analog of $\mathbf{BQP_{/poly}}$.
 Just as in the classical setting it holds that $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$, in the quantum setting it can be shown that  $\mathbf{BQP} \subseteq \mathbf{BQP_{/poly}}$.
-Just like the classical case, we can also use  [Quantum Turing Machines](https://en.wikipedia.org/wiki/Quantum_Turing_machine) instead of QNAND++ to define $\mathbf{BQP}$.
+Just like the classical case, we can also use  [Quantum Turing Machines](https://en.wikipedia.org/wiki/Quantum_Turing_machine) instead of QNAND-TM to define $\mathbf{BQP}$.
 
-Yet another way to define $\mathbf{BQP}$ is the following: a function $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{BQP}$ if __(1)__ $F\in \mathbf{BQP_{/poly}}$ and __(2)__ moreover for every $n$, the quantum circuit that verifies this can be generated by a _classical polynomial time NAND++ program_ (or, equivalently, a polynomial-time Turing machine).^[This is analogous to the alternative characterization of $\mathbf{P}$ that appears in [Palternativeex](){.ref}.]
-We use this definition here, though an equivalent one can be made using QNAND++ or quantum Turing machines:
+Yet another way to define $\mathbf{BQP}$ is the following: a function $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{BQP}$ if __(1)__ $F\in \mathbf{BQP_{/poly}}$ and __(2)__ moreover for every $n$, the quantum circuit that verifies this can be generated by a _classical polynomial time NAND-TM program_ (or, equivalently, a polynomial-time Turing machine).^[This is analogous to the alternative characterization of $\mathbf{P}$ that appears in [Palternativeex](){.ref}.]
+We use this definition here, though an equivalent one can be made using QNAND-TM or quantum Turing machines:
 
-> # {.definition title="The class $\mathbf{BQP}$" #BQPdef}
+> ### {.definition title="The class $\mathbf{BQP}$" #BQPdef}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$.
-We say that $F\in \mathbf{BQP}$ if there exists a polynomial time NAND++ program $P$ such that for every $n$, $P(1^n)$ is the description of a quantum circuit $C_n$ that computes the restriction of $F$ to $\{0,1\}^n$.
+We say that $F\in \mathbf{BQP}$ if there exists a polynomial time NAND-TM program $P$ such that for every $n$, $P(1^n)$ is the description of a quantum circuit $C_n$ that computes the restriction of $F$ to $\{0,1\}^n$.
 
 
 
@@ -553,7 +556,7 @@ We say that $F\in \mathbf{BQP}$ if there exists a polynomial time NAND++ program
 
 
 
-> # { .pause }
+> ### { .pause }
 One way to verify that you've understood these definitions it to see that you can prove __(1)__ $\mathbf{P} \subseteq \mathbf{BQP}$ and in fact the stronger statement $\mathbf{BPP} \subseteq \mathbf{BQP}$, __(2)__  $\mathbf{BQP} \subseteq \mathbf{EXP}$, and __(3)__ For every $\mathbf{NP}$-complete function $F$, if $F\in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$.  [BQPcontainements](){.ref} asks you to work these out.
 
 The relation between $\mathbf{NP}$ and $\mathbf{BQP}$ is not known (see also [quantumnp](){.ref}).
@@ -561,7 +564,7 @@ It is widely believed that $\mathbf{NP} \not\subseteq \mathbf{BQP}$, but there i
 It is   [quite possible](https://eccc.weizmann.ac.il/report/2018/107/) that these two classes are _incomparable_, in the sense that $\mathbf{NP} \nsubseteq \mathbf{BQP}$ (and in particular no $\mathbf{NP}$-complete function belongs to $\mathbf{BQP}$) but also $\mathbf{BQP} \nsubseteq \mathbf{NP}$ (and there are some interesting candidates for such problems).
 
 
-It can be shown that $QNANDEVAL$ (evaluating a quantum circuit on an input) is computable by a polynomial size QNAND program, and moreover this program can even be generated _uniformly_ and hence $QNANDEVAL$ is in $\mathbf{BQP}$.
+It can be shown that $QNANDEVAL$ (evaluating a quantum circuit on an input) is computable by a polynomial size QNAND-CIRC program, and moreover this program can even be generated _uniformly_ and hence $QNANDEVAL$ is in $\mathbf{BQP}$.
 This allows us to "port" many of the results of classical computational complexity into the quantum realm as well.
 
 ::: {.remark title="Restricting attention to circuits" #quantumnonuniformrem}
@@ -585,7 +588,7 @@ This is sometimes known as the _coherence time_ of the system.
 The [threshold theorem](https://courses.cs.washington.edu/courses/cse599d/06wi/lecturenotes19.pdf) says that there is some absolute constant level of errors $\tau$ so that if errors are created at every gate at rate smaller than $\tau$ then we can recover from those and perform arbitrary long computations.
 (Of course there are different ways to model the errors and so there are actually several threshold _theorems_ corresponding to various noise models).
 
-![Superconducting quantum computer prototype at Google. Image credit: Google / MIT Technology Review.](../figure/googlequantum.jpg){#googlequantumfig .class width=300px height=300px}
+![Superconducting quantum computer prototype at Google. Image credit: Google / MIT Technology Review.](../figure/googlequantum.jpg){#googlequantumfig .margin  }
 
 There have been several proposals to build quantum computers:
 
@@ -628,7 +631,7 @@ While we will not prove [shorthm](){.ref} in this chapter, we will  sketch some 
 At the heart of Shor's Theorem  is an efficient quantum algorithm for finding _periods_ of a given function.
 For example, a function $f:\R \rightarrow \R$ is _periodic_ if there is some $h>0$ such that $f(x+h)=f(x)$ for every $x$ (e.g., see [periodicfig](){.ref}).
 
-![Top: A periodic function. Bottom: An a-periodic function.](../figure/periodic_vs_aperiodic.png){#periodicfig .class width=300px height=300px}
+![Top: A periodic function. Bottom: An a-periodic function.](../figure/periodic_vs_aperiodic.png){#periodicfig .margin  }
 
 
 _Musical notes_ yield one type of periodic function.
@@ -643,14 +646,14 @@ The human ear contains many small hairs, each of which is sensitive to a narrow 
 Hence when we hear the sound corresponding to a chord, the hairs in our ears actually separate it out to the components corresponding to each frequency.
 
 
-![Left: The air-pressure when playing a "C Major" chord as a function of time. Right: The coefficients of the Fourier transform of the same function, we can see that it is the sum of three freuencies corresponding to the C, E and G notes (261.63, 329.63 and 392 Hertz respectively). Credit: Bjarke Mønsted's [Quora answer](https://www.quora.com/What-is-the-meaning-of-frequency-domain). ](../figure/timefreq.png){#timefreqfig .class width=300px height=300px}
+![Left: The air-pressure when playing a "C Major" chord as a function of time. Right: The coefficients of the Fourier transform of the same function, we can see that it is the sum of three freuencies corresponding to the C, E and G notes (261.63, 329.63 and 392 Hertz respectively). Credit: Bjarke Mønsted's [Quora answer](https://www.quora.com/What-is-the-meaning-of-frequency-domain). ](../figure/timefreq.png){#timefreqfig .margin  }
 
 It turns out that (essentially) _every_ periodic function $f:\R \rightarrow \R$ can be decomposed into a sum of simple _wave_  functions (namely functions of the form $x \mapsto \sin(\theta x)$ or $x \mapsto \cos(\theta x)$).
 This is known as  the [Fourier Transform](https://en.wikipedia.org/wiki/Fourier_transform) (see [qfourierfig](){.ref}).
 The Fourier transform makes it easy to compute the period of a given function: it will simply be the least common multiple of the periods of the constituent waves.
 
 
-![If $f$ is a periodic function then when we represent it in the Fourier transform, we expect the coefficients corresponding to wavelengths that do not evenly divide the period to be very small, as they would tend to "cancel out".](../figure/quantum_fourier.jpg){#qfourierfig .class width=300px height=300px}
+![If $f$ is a periodic function then when we represent it in the Fourier transform, we expect the coefficients corresponding to wavelengths that do not evenly divide the period to be very small, as they would tend to "cancel out".](../figure/quantum_fourier.jpg){#qfourierfig .margin  }
 
 ### Shor's Algorithm: A bird's eye view
 
@@ -792,7 +795,7 @@ where $f = \sum_{y} \hat{f}(y)\chi_y$ and $\chi_y:\{0,1\}^n \rightarrow \mathbb{
 :::
 
 
-> # {.proofidea data-ref="QFTcube"}
+> ### {.proofidea data-ref="QFTcube"}
 The idea behind the proof is that the _Hadamard_ operation corresponds to the _Fourier transform_ over the group $\{0,1\}^n$ (with the XOR operations). To show this, we just need to do the calculations.
 
 ::: {.proof data-ref="QFTcube"}
@@ -889,7 +892,7 @@ The idea is that we can embed $Z_L$ in the group $\Z_{A\cdot L}$ for any integer
 
 
 
-> # { .recap }
+> ### { .recap }
 * The state of an $n$-qubit quantum system can be modeled as a $2^n$ dimensional vector
 * An operation on the state corresponds to applying a unitary matrix to this vector.
 * Quantum circuits are obtained by composing basic operations such as $HAD$ and $U_{NAND}$.

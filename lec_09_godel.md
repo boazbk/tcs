@@ -1,10 +1,13 @@
-% Godel's incompleteness theorem
-% Boaz Barak
+---
+title: "Is every theorem provable?"
+filename: "lec_09_godel"
+chapternum: "10"
+---
 
 
 # Is every theorem provable? { #godelchap }
 
-> # { .objectives }
+> ### { .objectives }
 * See more examples of uncomputable functions that are not as tied to computation.
 * See Gödel's incompleteness theorem - a result that shook the world of mathematics in the early 20th century.
 
@@ -19,7 +22,7 @@
 
 
 
-The problems shown uncomputable in  [chapcomputable](){.ref}, while natural and important, still  intimately involved NAND++ programs or other computing mechanisms in their definitions.
+The problems shown uncomputable in  [chapcomputable](){.ref}, while natural and important, still  intimately involved NAND-TM programs or other computing mechanisms in their definitions.
 One could perhaps hope that as long as we steer clear of functions whose inputs are themselves programs, we can avoid the "curse of uncomputability".
 Alas, we have no such luck.
 
@@ -45,7 +48,7 @@ This effort was known as the _Hilbert program_, named after the influential math
 
 Alas, it turns out the results we've seen dealt a devastating blow to this program, as was shown by Kurt Gödel in 1931:
 
-> # {.theorem title="Gödel's Incompleteness Theorem:  informal version" #godethmtakeone}
+> ### {.theorem title="Gödel's Incompleteness Theorem:  informal version" #godethmtakeone}
 For every sound proof system for sufficiently rich mathematical statements, there is a mathematical statement that is _true_ but is not _provable_.
 
 
@@ -103,7 +106,7 @@ _or_
 :::
 
 
-> # {.proofidea data-ref="godethmtakeone"}
+> ### {.proofidea data-ref="godethmtakeone"}
 If we had such a complete and sound proof system then we could solve the $HALTONZERO$ problem. On input a program $P$, we would search all purported proofs $w$  and halt as soon as we find a proof of either "$P$ halts on zero" or "$P$ does not halt on zero". If the system is sound and complete then we will eventually find such a proof, and it will provide us with the correct output.
 
 
@@ -114,7 +117,7 @@ Our algorithm $A$ will  will work as follows:
 ::: {.quote}
 __Algorithm $A$:__
 
-* __Input:__ NAND++ program $P$
+* __Input:__ NAND-TM program $P$
 
 * __Goal:__ Determine if $P$ halts on the input $0$.
 
@@ -173,7 +176,7 @@ Indeed, the  19th century mathematician Leopold Kronecker  famously said that "G
 To make this more precise, let us define the notion of _quantified integer statements_:
 
 
-> # {.definition title="Quantified integer statements" #QIS-def}
+> ### {.definition title="Quantified integer statements" #QIS-def}
 A _quantified integer statement_ is a well-formed statement with no unbound variables involving integers, variables, the operators $>,<,\times,+,-,=$, the logical operations $\neg$ (NOT), $\wedge$ (AND), and $\vee$ (OR), as well as quantifiers of the form $\exists_{x\in\N}$ and $\forall_{y\in\N}$ where $x,y$ are variable names.
 
 We often care deeply about determining the truth of quantified integer statements.
@@ -230,7 +233,7 @@ _or_
 
 [godelthmqis](){.ref} is a direct corollary of the following result, just as [godethmtakeone](){.ref} was a direct corollary of the uncomputability of $HALTONZERO$:
 
-> # {.theorem title="Uncomputability of quantified integer statements" #QIS-thm}
+> ### {.theorem title="Uncomputability of quantified integer statements" #QIS-thm}
 Let $QIS:\{0,1\}^* \rightarrow \{0,1\}$ be the function that given a (string representation of) a quantified integer statement outputs $1$ if it is true and $0$ if it is false.^[Since a quantified integer statement is simply a sequence of symbols, we can easily represent it as a string. We will assume that _every_ string represents some  quantified integer statement, by mapping strings that do not correspond to such a statement to an arbitrary statement such as $\exists_{x\in \N} x=1$.] Then $QIS$ is uncomputable.
 
 
@@ -278,7 +281,7 @@ In fact the number of variables can be reduced to nine, at the expense of the po
 
 
 ::: {.remark title="Active code vs static data" #codevsstaticrem}
-The difficulty in finding a way to distinguish between "code" such as NAND++ programs, and "static content" such as polynomials is just another manifestation of the phenomenon that _code_ is the same as _data_.
+The difficulty in finding a way to distinguish between "code" such as NAND-TM programs, and "static content" such as polynomials is just another manifestation of the phenomenon that _code_ is the same as _data_.
 While a fool-proof solution for distinguishing between the two is inherently impossible, finding heuristics that do a reasonable job keeps many firewall and anti-virus manufacturers very busy
 (and finding ways to bypass these tools keeps many hackers busy as well).
 :::
@@ -299,7 +302,7 @@ We are so accustomed to trying to find _solutions_ for problems that it can some
 
 Our proof of the uncomputability of $QIS$ (i.e. [QIS-thm](){.ref}) will, as usual, go by reduction from the Halting problem, but we will do so in two steps:
 
-1. We will first use a reduction from the Halting problem to show that  deciding  the truth of _quantified mixed statements_ is uncomputable. Unquantified mixed statements involve both strings and integers.
+1. We will first use a reduction from the Halting problem to show that  deciding  the truth of _quantified mixed statements_ is uncomputable. Quantified mixed statements involve both strings and integers.
 Since quantified mixed statements are a more general concept than quantified integer statements, it is _easier_ to prove the uncomputability of deciding their truth.
 
 2. We will then reduce the problem of quantified mixed statements to quantifier integer statements.
@@ -311,7 +314,7 @@ Since quantified mixed statements are a more general concept than quantified int
 We define _quantified mixed statements_ as statements involving not just integers and the usual arithmetic operators, but also _string variables_ as well.
 
 
-> # {.definition title="Quantified mixed statements" #QMS-def}
+> ### {.definition title="Quantified mixed statements" #QMS-def}
 A _quantified mixed statement_ is a well-formed statement with no unbound variables involving integers, variables, the operators $>,<,\times,+,-,=$, the logical operations $\neg$ (NOT), $\wedge$ (AND), and $\vee$ (OR), as well as quantifiers of the form $\exists_{x\in\N}$, $\exists_{a\in\{0,1\}^*}$,  $\forall_{y\in\N}$, $\forall_{b\in\{0,1\}^*}$ where $x,y,a,b$ are variable names. These also include the operator $|a|$ which returns the length of a string valued variable $a$, as well as the operator $a_i$ where $a$ is a string-valued variable and $i$ is an integer valued expression which is true if $i$ is smaller than the length of $a$ and the $i^{th}$ coordinate of $a$ is $1$, and is false otherwise.
 
 For example, the true statement that for every string $a$ there is a string $b$ that corresponds to $a$ in reverse order can be phrased as the following quantified mixed statement
@@ -326,12 +329,12 @@ Quantified mixed statements are more general than quantified integer statements,
 
 
 
-> # {.theorem title="Uncomputability of quantified mixed statements" #QMS-thm}
+> ### {.theorem title="Uncomputability of quantified mixed statements" #QMS-thm}
 Let $QMS:\{0,1\}^* \rightarrow \{0,1\}$ be the function that given a (string representation of) a quantified mixed  statement outputs $1$ if it is true and $0$ if it is false. Then $QMS$ is uncomputable.
 
-> # {.proofidea data-ref="QMS-thm"}
+> ### {.proofidea data-ref="QMS-thm"}
 The idea behind the proof is similar to that used in showing that one-dimensional cellular automata are Turing complete ([onedimcathm](){.ref}) as well as showing that equivalence (or even "fullness") of context free grammars is uncomputable  ([fullnesscfgdef](){.ref}).
-We use the notion of a _configuration_ of a NAND++ program as in [confignandppdef](){.ref}.
+We use the notion of a _configuration_ of a NAND-TM program as in [configtmdef](){.ref}.
 Such a configuration can be thought of as a string $\alpha$ over some large-but-finite alphabet $\Sigma$ describing its current state, including the values of all arrays, scalars, and the index variable `i`.
 It can be shown that if $\alpha$ is the configuration at a certain step of the execution and  $\beta$ is the configuration at the next step, then $\beta_j = \alpha_j$ for all $j$ outside of $\{i-1,i,i+1\}$ where $i$ is the value of `i`.
 In particular, every value $\beta_j$ is simply a function of $\alpha_{j-1,j,j+1}$.
@@ -342,10 +345,10 @@ Since a program $P$ halts on input  $x$ if and only if there is a sequence of co
 
 ::: {.proof data-ref="QMS-thm"}
 The proof will be obtained by a reduction from the Halting problem.
-Specifically, we will use the notion of a _configuration_ of a NAND++ program ([confignandppdef](){.ref}) that we have seen in the context of proving that one dimensional cellular automata are Turing complete.
+Specifically, we will use the notion of a _configuration_ of a NAND-TM program ([configtmdef](){.ref}) that we have seen in the context of proving that one dimensional cellular automata are Turing complete.
 We need the following facts about configurations:
 
-* For every (well formed^[We can always transform a NAND++ program into an equivalent one that is well formed (see [wellformedlem](){.ref}), and hence can assume this property without loss of generality.]) NAND++ program $P$, there is a finite alphabet $\Sigma$, and a _configuration_ of $P$ is a string $\alpha \in \Sigma^*$.
+* For every (well formed^[We can always transform a NAND-TM program into an equivalent one that is well formed (see [wellformedlem](){.ref}), and hence can assume this property without loss of generality.]) NAND-TM program $P$, there is a finite alphabet $\Sigma$, and a _configuration_ of $P$ is a string $\alpha \in \Sigma^*$.
 
 
 * A configuration $\alpha$ encodes all the state of the program at a particular iteration, including the array, scalar, and index variables.
@@ -356,9 +359,9 @@ We need the following facts about configurations:
 
 * A program $P$ halts on input $x$  if and only if there exists a sequence of configurations $H = (\alpha^0,\alpha^1,\ldots,\alpha^{T-1})$ such that __(i)__ $\alpha^0$ is a valid starting configuration of $P$ with  input $x$, __(ii)__ $\alpha^{T-1}$ is a valid halting configuration of $P$, and __(iii)__ $\alpha^{i+1} = NEXT_P(\alpha^i)$ for every $i\in \{0,\ldots,T-2\}$.
 
-Let $U$ be a universal NAND++ program. Such a program exists by  [univnandppnoneff](){.ref}. We define $HALT_U$  as the function such that $HALT_U(w)=1$ if and only if $U$ halts on the input $w$.
+Let $U$ be a universal NAND-TM program. Such a program exists by  [universaltmthm](){.ref}. We define $HALT_U$  as the function such that $HALT_U(w)=1$ if and only if $U$ halts on the input $w$.
 We claim that the function $HALT_U$ is uncomputable.
-Indeed, for every NAND++ program $P$ (which we identify with its representation as a string) and input $x\in \{0,1\}^*$ to $P$,  $HALT(P,x) = HALT_U(\langle P,x \rangle)$  where $\langle P,x \rangle$ is some encoding of the pair $(P,x)$ as a string.
+Indeed, for every NAND-TM program $P$ (which we identify with its representation as a string) and input $x\in \{0,1\}^*$ to $P$,  $HALT(P,x) = HALT_U(\langle P,x \rangle)$  where $\langle P,x \rangle$ is some encoding of the pair $(P,x)$ as a string.
 Hence if we could compute $HALT_U$ then we could compute $HALT$, contradicting [halt-thm](){.ref}.
 
 Let $\Sigma$ be the alphabet needed to encode configurations of $U$, and let $\ell = \ceil{\log (|\Sigma|+1)}$.
@@ -410,7 +413,7 @@ Such a procedure implies that the task of computing $QMS$ reduces to the task of
 The above shows that proof of the theorem all boils down to finding the right encoding of strings as integers, and the right way to implement $COORD$ as a quantified integer statement.
 To achieve this  we use the following technical result :
 
-> # {.lemma title="Constructible prime sequence" #primeseq}
+> ### {.lemma title="Constructible prime sequence" #primeseq}
 There is a sequence of prime numbers $p_0 < p_1 < p_2 < \cdots$ such that there is  a quantified integer statement $PCOORD(p,i)$ that is true if and only if $p=p_i$.
 
 Using [primeseq](){.ref} we can encode a $x\in\{0,1\}^*$ by the numbers $(X,n)$ where  $X = \prod_{x_i=1} p_i$ and $n=|x|$.
@@ -423,7 +426,7 @@ Note that indeed if $X,n$ encodes the string $x\in \{0,1\}^*$, then for every $i
 
 Thus all that is left to conclude the proof of [QIS-thm](){.ref} is to prove [primeseq](){.ref}, which we now proceed to do.
 
-> # {.proof data-ref="primeseq"}
+> ### {.proof data-ref="primeseq"}
 The sequence of prime numbers we consider is the following:
 We fix $C$ to be a suficiently large constant ($C=2^{2^{34}}$ [will do](https://arxiv.org/pdf/1401.4233.pdf)) and define $p_i$ to be the smallest prime number that is in the interval $[(i+C)^3+1,(i+C+1)^3-1]$.
 It is known  that there exists such a prime number for every $i\in\N$.
@@ -438,8 +441,8 @@ To sum up we have shown that for every quantified mixed statement $\varphi$, we 
 Hence the uncomputability of $QMS$  ([QMS-thm](){.ref}) implies the uncomputability of $QIS$, completing the proof of [QIS-thm](){.ref}, and so also the proof of Gödel's Incompleteness Theorem for quantified integer statements ([godelthmqis](){.ref}).
 
 
-> # { .recap }
-* Uncomputable functions include also functions that seem to have nothing to do with NAND++ programs or other computational models such as determining the satisfiability of diophantine equations.
+> ### { .recap }
+* Uncomputable functions include also functions that seem to have nothing to do with NAND-TM programs or other computational models such as determining the satisfiability of diophantine equations.
 * This also implies that for any sound proof system (and in particular every finite axiomatic system) $S$,  there are interesting statements $X$ (namely of the form "$F(x)=0$" for an uncomputable function $F$) such that $S$ is not able to prove either $X$ or its negation.
 
 ## Exercises
@@ -452,17 +455,17 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 Prove [godelthmqis](){.ref} using  [QIS-thm](){.ref}
 :::
 
-> # {.exercise title="Expression for floor" #floorexpressionex}
+> ### {.exercise title="Expression for floor" #floorexpressionex}
 Let $FSQRT(n,m) = \forall_{j \in \N} ((j \times j)>m) \vee (j \leq n)$. Prove that $FSQRT(n,m)$ is true if and only if $n =\floor{\sqrt{m}}$.
 
-> # {.exercise title="Expression for computing the index" #indexexpressionex}
-Recall that in [computeidx-ex](){.ref} asked you to prove that at iteration $t$ of a NAND++ program the  the variable `i` is equal to $t-r(r+1)$ if $t \leq (r+1)^2$ and equals $(r+2)(r+1)t$ otherwise, where $r = \floor{\sqrt{t+1/4}-1/2}$.
+> ### {.exercise title="Expression for computing the index" #indexexpressionex}
+Recall that in [computeidx-ex](){.ref} asked you to prove that at iteration $t$ of a NAND-TM program the  the variable `i` is equal to $t-r(r+1)$ if $t \leq (r+1)^2$ and equals $(r+2)(r+1)t$ otherwise, where $r = \floor{\sqrt{t+1/4}-1/2}$.
 Prove that there is a quantified integer statement $INDEX$ with parameters $t,i$ such that $INDEX(t,i)$ is true if and $i$ is the value of `i` after $t$ iterations.
 
-> # {.exercise title="Expression for computing the previous line" #prevex}
+> ### {.exercise title="Expression for computing the previous line" #prevex}
 Give the following quantified integer expressions: \
 1. $MOD(a,b,c)$ which is true if and only if $b = a \mod c$. Note if a program has $s$ lines then  the line executed at step $t$ is equal to $t \mod s$. \
-2. Suppose that $P$ is the  three line NAND program listed below.  Give a quantified integer statement $LAST(n,t,t')$  such that $LAST(t,t')$ is true if and only if $t'-n$ is the largest step smaller than $t-n$ in which the variable on the righthand side of the line executed at step $t-n$ is written to. If this variable is an input variable `x_i` then let $LAST(n,t,t')$ to be true if the current index location equals $t'$ and $t'<n$.
+2. Suppose that $P$ is the  three line NAND-CIRC program listed below.  Give a quantified integer statement $LAST(n,t,t')$  such that $LAST(t,t')$ is true if and only if $t'-n$ is the largest step smaller than $t-n$ in which the variable on the righthand side of the line executed at step $t-n$ is written to. If this variable is an input variable `x_i` then let $LAST(n,t,t')$ to be true if the current index location equals $t'$ and $t'<n$.
 
 ```python
 y_0    := foo_i  NAND foo_i
@@ -471,22 +474,23 @@ loop := validx_i NAND validx_i
 ```
 
 
-> # {.exercise title="axiomatic proof systems" #godelthemex}
+> ### {.exercise title="axiomatic proof systems" #godelthemex}
 For every representation of logical statements as strings, we can define  an axiomatic proof system to consist of a finite set of strings $A$ and a finite set of rules $I_0,\ldots,I_{m-1}$ with $I_j: (\{0,1\}^*)^{k_j} \rightarrow \{0,1\}^*$ such that a proof $(s_1,\ldots,s_n)$ that $s_n$ is true is valid if for every $i$, either $s_i \in A$ or is some $j\in [m]$ and  are $i_1,\ldots,i_{k_j} < i$ such that $s_i = I_j(s_{i_1},\ldots,i_{k_j})$.
 A system is _sound_  if whenever there is no false $s$ such that there is  a proof that $s$ is true
 Prove that for every uncomputable function $F:\{0,1\}^* \rightarrow \{0,1\}$ and every sound axiomatic proof system $S$ (that is characterized by a finite number of axioms and inference rules), there is some input $x$ for which the proof system $S$ is not able to prove neither that $F(x)=0$ nor that $F(x) \neq 0$.
 
-^[TODO: Maybe add an exercise to give a MIS that corresponds to any regular expression.]
-
 
 ## Bibliographical notes
 
+As mentioned before, Gödel, Escher, Bach [@hofstadter1999] is a highly recommended book covering Gödel's Theorem.
+A classic popular science book about Fermat's Last Theorem is [@singh1997fermat].
 
-## Further explorations
+Cantor's are used for both Turing's and Gödel's theorems.
+In a twist of fate, using  techniques originating from the works  Gödel and Turing,  Paul Cohen showed in 1963 that Cantor's _Continuum Hypothesis_ is independent of the axioms of set theory, which means that neither it nor its negation is provable from these axioms and hence in some sense  can be considered as "neither true nor false" (see [@cohen2008set]).
+The [Continuum Hypothesis](https://goo.gl/9ieBVq) is the conjecture that for every subset $S$ of $\mathbb{R}$, either there is a one-to-one and onto map between $S$ and $\N$ or there is a one-to-one and onto map between $S$ and $\mathbb{R}$.
+It was conjectured by Cantor and listed by Hilbert in 1900 as one of the most important problems in mathematics.
+See also the non-conventional survey of Shelah [@shelah2003logical].
+See [here](https://gowers.wordpress.com/2017/09/19/two-infinities-that-are-surprisingly-equal/) for recent progress on a related question.
 
-Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
-
-
-## Acknowledgements
 
 Thanks to Alex Lombardi for pointing out  an embarrassing mistake in the description of Fermat's Last Theorem. (I  said that it was open for exponent 11 before Wiles' work.)
