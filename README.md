@@ -5,15 +5,19 @@ The book is posted (in both html and pdf formats)  on the web page [http://intro
 
 Please use the [issues](https://github.com/boazbk/tcs/issues) and [pull requests](https://github.com/boazbk/tcs/pulls) to post any suggestions, comments, typo fixes, etc..
 
-I am working on improving this text during the summer of 2018. My main priorities are:
+I am working on improving this text during the spring of 2019.
 
-* Add explanations, proof ideas, examples.
+My priorities are:
+
+* Make the book less "idiosyncratic" - emphasize the models of Boolean Circuits, Turing Machines and RAM machines as opposed to their programming-language variants. As a byproduct I am renaming the programming languages to NAND-CIRC, NAND-TM and NAND-RAM to emphasize their roots and connections to standard models.
 
 * Add exercises
 
-* Emphasize the "non importance" of the choice of particular models (NAND vs circuits, NAND++/NAND<< vs Turing machines/ RAM machines).
+* More explanations, proof ideas, revisions.
 
 * Write two chapters: space bounded computation and proofs and programs.
+
+* Adding supplemental code, which will eventually be on [github.com/boazbk/tcscode](https://github.com/boazbk/tcscode)
 
 
 

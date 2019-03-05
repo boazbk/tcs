@@ -1,5 +1,8 @@
-% Space bounded computation
-% Boaz Barak
+---
+title: "Space bounded computation"
+filename: "lec_14a_space_complexity"
+chapternum: "16"
+---
 
 
 
