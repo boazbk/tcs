@@ -26,8 +26,7 @@ In this chapter we  discuss several such examples.
 ## Turing completeness as a bug
 
 We have seen that seemingly simple computational models or systems  can turn out to be Turing complete.
-The [following webpage](https://goo.gl/xRXq7p) lists several examples of models that "accidentally" turned out to Turing complete (without their designers' intent), including supposedly limited languages such as the C preprocessor, CCS, SQL, sendmail configuration, as well as games such as Minecraft, Super Mario, and  the card game "Magic: The gathering".
-
+The [following webpage](https://goo.gl/xRXq7p) lists several examples of formalisms that "accidentally" turned out to Turing complete, including supposedly limited languages such as the C preprocessor, CSS, SQL, sendmail configuration, as well as games such as Minecraft, Super Mario, and  the card game "Magic: The gathering".
 Turing completeness is not always a good thing, as it means that such formalisms can give rise to arbitrarily complex behavior.
 For example, the postscript format (a precursor of PDF) is a Turing-complete programming language meant to describe documents for printing.
 The expressive power of postscript can allow for short descriptions of very complex images, but it also gave rise to some nasty surprises, such as the attacks described in  [this page](http://hacking-printers.net/wiki/index.php/PostScript) ranging from using infinite loops as a denial of service attack, to accessing the printer's file system.
