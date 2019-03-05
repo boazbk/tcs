@@ -1,7 +1,10 @@
-% Proofs and algorithms
-% Boaz Barak
+---
+title: "Proofs and algorithms"
+filename: "lec_24_proofs"
+chapternum: "21"
+---
 
-#  Proofs and algorithms
+#  Proofs and algorithms  { #chapproofs }
 
 >_"Let's not try to define knowledge, but try to define zero-knowledge."_, Shafi Goldwasser.
 

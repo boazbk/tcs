@@ -20,6 +20,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * William Fu
 * Piotr Galuszka
 * Mark Goldstein
+* Alexander Golovnev
 * Chan Kang
 * Nina Katz-Christy
 * Vidak Kazic
@@ -62,4 +63,5 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Wanqian Yang
 * Elizabeth Yeoh-Wang
 * Josh Zelinsky
+* Grace Zhang
 * Jessica Zhu
