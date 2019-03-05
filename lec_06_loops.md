@@ -564,7 +564,7 @@ The overall operation of the Turing machine will be as follows:
 
 3. The machine will $M_P$  then simulates each iterations of $P$ by applying the constant function to update the state and the location of the  head, as long as the `loop` variable of $P$ equals $1$.
 
-4. When the loop variable equals $1$, the machine $M_P$ will scan the output arrays and copy them to the beginning of the tape. (Again we can add some states and alphabet symbols to achieve this.)
+4. When the loop variable equals $0$, the machine $M_P$ will scan the output arrays and copy them to the beginning of the tape. (Again we can add some states and alphabet symbols to achieve this.)
 
 5. At the end of this scan the machine $M_P$ will enter its halting state.
 

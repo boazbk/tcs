@@ -271,7 +271,7 @@ We will use variables `Vartable[`$0$`]`,$\ldots$,`Vartable[`$2^\ell-1$`]`, where
 However, NAND doesn't have integer-valued variables, so we cannot write code such as
 `Vartable[i]` for some variable `i`.
 However, we _can_ implement the function `GET(Vartable,i)` that outputs the `i`-th bit of the array `Vartable`.
-Indeed, this is nothing by the function `LOOKUP` that we have seen in [lookup-thm](){.ref}!
+Indeed, this is nothing but the function `LOOKUP` that we have seen in [lookup-thm](){.ref}!
 
 > ### { .pause }
 Please make sure that you understand why `GET` and `LOOKUP` are the same function.
