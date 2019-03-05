@@ -447,10 +447,21 @@ We will now do this  more formally.
 If you have not had much experience with limits of a real series before, then the formal proof below might be a little hard to follow.
 This part is not the core of Cantor's argument, nor are such limits important to the remainder of this book, so feel free to also just take [sequencestoreals](){.ref} on faith and skip the proof.
 
+
+::: {.proofidea data-ref="sequencestoreals"}
+As discussed above, we define $FtR(f)$ to be the number between $0$ and $2$ whose decimal expansion is $f(0).f(1) f(2) \ldots$, or in other words  $FtR(f) = \sum_{i=0}^{\infty} f(i) \cdot 10^{-i}$. 
+To prove that $FtR$ is one to one, we need to show that if $f \neq g$ then $FtR(f) \neq FtR(g)$.
+To do that we let $k\in \N$ be the first input on which $f$ and $g$ disagree.
+Then the numbers $FtR(f)$ and $FtR(g)$ agree in the first $k-2$ digits following the decimal point and disagree in the $k-1$-th digit. One can then calculate and verify that this means that $|FtR(f)-FtR(g)| > 0.5 \cdot 10^{-k}$ which in particular means that these two numbers are distinct from one another.^[You could wonder why we don't deduce automatically that two numbers that differ in a digit are not the same. The issue is that we have to be a little more careful when talking about infinite expansions. For example the number half has two decimal expansions $0.5$ and $0.49999\cdots$. However, this issue does not come up if (as in our case) we restrict attention only to numbers with decimal expansions that do not involve the digit $9$.]
+:::
+
 ::: {.proof data-ref="sequencestoreals"}
 For every $f\in \{0,1\}^\infty$ and $n\in \N$, we define $S(f)_n = \sum_{i=0}^n f(i)10^{-i}$.
 It is a known result in calculus (whose proof  we won't repeat here) that for every $f:\N \rightarrow \{0,1\}$, the sequence $( S(f)_n )_{n=0}^\infty$ has a _limit_.
-That is, for every $f$ there exists some value $x(f)$ (which is usually denoted as $\sum_{i=0}^\infty f(i)\cdot 10^{-i}$) such that for every $\epsilon>0$, if $n$ is sufficiently large then $|S_f(n)-x(f)| < \epsilon$.
+In other words, for every $f$ there is a value $\alpha(f) \in \R$ such that for every $\epsilon>0$, if $n$ is sufficiently large then $|S(f)_n - \alpha|<\epsilon$.
+The value $\alpha(f)$ is denoted by $\sum_{i=0}^\infty f(i) \cdot 10^{-i}$.
+We define the function $FtR$ by setting $FtR(f) = \alpha(f)$. 
+
 
 We define $FtR(f)$ to be this value $x(f)$.
 In other words, we define
