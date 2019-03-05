@@ -7,7 +7,7 @@ chapternum: "10"
 
 # Is every theorem provable? { #godelchap }
 
-> # { .objectives }
+> ### { .objectives }
 * See more examples of uncomputable functions that are not as tied to computation.
 * See Gödel's incompleteness theorem - a result that shook the world of mathematics in the early 20th century.
 
@@ -48,7 +48,7 @@ This effort was known as the _Hilbert program_, named after the influential math
 
 Alas, it turns out the results we've seen dealt a devastating blow to this program, as was shown by Kurt Gödel in 1931:
 
-> # {.theorem title="Gödel's Incompleteness Theorem:  informal version" #godethmtakeone}
+> ### {.theorem title="Gödel's Incompleteness Theorem:  informal version" #godethmtakeone}
 For every sound proof system for sufficiently rich mathematical statements, there is a mathematical statement that is _true_ but is not _provable_.
 
 
@@ -106,7 +106,7 @@ _or_
 :::
 
 
-> # {.proofidea data-ref="godethmtakeone"}
+> ### {.proofidea data-ref="godethmtakeone"}
 If we had such a complete and sound proof system then we could solve the $HALTONZERO$ problem. On input a program $P$, we would search all purported proofs $w$  and halt as soon as we find a proof of either "$P$ halts on zero" or "$P$ does not halt on zero". If the system is sound and complete then we will eventually find such a proof, and it will provide us with the correct output.
 
 
@@ -176,7 +176,7 @@ Indeed, the  19th century mathematician Leopold Kronecker  famously said that "G
 To make this more precise, let us define the notion of _quantified integer statements_:
 
 
-> # {.definition title="Quantified integer statements" #QIS-def}
+> ### {.definition title="Quantified integer statements" #QIS-def}
 A _quantified integer statement_ is a well-formed statement with no unbound variables involving integers, variables, the operators $>,<,\times,+,-,=$, the logical operations $\neg$ (NOT), $\wedge$ (AND), and $\vee$ (OR), as well as quantifiers of the form $\exists_{x\in\N}$ and $\forall_{y\in\N}$ where $x,y$ are variable names.
 
 We often care deeply about determining the truth of quantified integer statements.
@@ -233,7 +233,7 @@ _or_
 
 [godelthmqis](){.ref} is a direct corollary of the following result, just as [godethmtakeone](){.ref} was a direct corollary of the uncomputability of $HALTONZERO$:
 
-> # {.theorem title="Uncomputability of quantified integer statements" #QIS-thm}
+> ### {.theorem title="Uncomputability of quantified integer statements" #QIS-thm}
 Let $QIS:\{0,1\}^* \rightarrow \{0,1\}$ be the function that given a (string representation of) a quantified integer statement outputs $1$ if it is true and $0$ if it is false.^[Since a quantified integer statement is simply a sequence of symbols, we can easily represent it as a string. We will assume that _every_ string represents some  quantified integer statement, by mapping strings that do not correspond to such a statement to an arbitrary statement such as $\exists_{x\in \N} x=1$.] Then $QIS$ is uncomputable.
 
 
@@ -314,7 +314,7 @@ Since quantified mixed statements are a more general concept than quantified int
 We define _quantified mixed statements_ as statements involving not just integers and the usual arithmetic operators, but also _string variables_ as well.
 
 
-> # {.definition title="Quantified mixed statements" #QMS-def}
+> ### {.definition title="Quantified mixed statements" #QMS-def}
 A _quantified mixed statement_ is a well-formed statement with no unbound variables involving integers, variables, the operators $>,<,\times,+,-,=$, the logical operations $\neg$ (NOT), $\wedge$ (AND), and $\vee$ (OR), as well as quantifiers of the form $\exists_{x\in\N}$, $\exists_{a\in\{0,1\}^*}$,  $\forall_{y\in\N}$, $\forall_{b\in\{0,1\}^*}$ where $x,y,a,b$ are variable names. These also include the operator $|a|$ which returns the length of a string valued variable $a$, as well as the operator $a_i$ where $a$ is a string-valued variable and $i$ is an integer valued expression which is true if $i$ is smaller than the length of $a$ and the $i^{th}$ coordinate of $a$ is $1$, and is false otherwise.
 
 For example, the true statement that for every string $a$ there is a string $b$ that corresponds to $a$ in reverse order can be phrased as the following quantified mixed statement
@@ -329,10 +329,10 @@ Quantified mixed statements are more general than quantified integer statements,
 
 
 
-> # {.theorem title="Uncomputability of quantified mixed statements" #QMS-thm}
+> ### {.theorem title="Uncomputability of quantified mixed statements" #QMS-thm}
 Let $QMS:\{0,1\}^* \rightarrow \{0,1\}$ be the function that given a (string representation of) a quantified mixed  statement outputs $1$ if it is true and $0$ if it is false. Then $QMS$ is uncomputable.
 
-> # {.proofidea data-ref="QMS-thm"}
+> ### {.proofidea data-ref="QMS-thm"}
 The idea behind the proof is similar to that used in showing that one-dimensional cellular automata are Turing complete ([onedimcathm](){.ref}) as well as showing that equivalence (or even "fullness") of context free grammars is uncomputable  ([fullnesscfgdef](){.ref}).
 We use the notion of a _configuration_ of a NAND-TM program as in [configtmdef](){.ref}.
 Such a configuration can be thought of as a string $\alpha$ over some large-but-finite alphabet $\Sigma$ describing its current state, including the values of all arrays, scalars, and the index variable `i`.
@@ -413,7 +413,7 @@ Such a procedure implies that the task of computing $QMS$ reduces to the task of
 The above shows that proof of the theorem all boils down to finding the right encoding of strings as integers, and the right way to implement $COORD$ as a quantified integer statement.
 To achieve this  we use the following technical result :
 
-> # {.lemma title="Constructible prime sequence" #primeseq}
+> ### {.lemma title="Constructible prime sequence" #primeseq}
 There is a sequence of prime numbers $p_0 < p_1 < p_2 < \cdots$ such that there is  a quantified integer statement $PCOORD(p,i)$ that is true if and only if $p=p_i$.
 
 Using [primeseq](){.ref} we can encode a $x\in\{0,1\}^*$ by the numbers $(X,n)$ where  $X = \prod_{x_i=1} p_i$ and $n=|x|$.
@@ -426,7 +426,7 @@ Note that indeed if $X,n$ encodes the string $x\in \{0,1\}^*$, then for every $i
 
 Thus all that is left to conclude the proof of [QIS-thm](){.ref} is to prove [primeseq](){.ref}, which we now proceed to do.
 
-> # {.proof data-ref="primeseq"}
+> ### {.proof data-ref="primeseq"}
 The sequence of prime numbers we consider is the following:
 We fix $C$ to be a suficiently large constant ($C=2^{2^{34}}$ [will do](https://arxiv.org/pdf/1401.4233.pdf)) and define $p_i$ to be the smallest prime number that is in the interval $[(i+C)^3+1,(i+C+1)^3-1]$.
 It is known  that there exists such a prime number for every $i\in\N$.
@@ -441,7 +441,7 @@ To sum up we have shown that for every quantified mixed statement $\varphi$, we 
 Hence the uncomputability of $QMS$  ([QMS-thm](){.ref}) implies the uncomputability of $QIS$, completing the proof of [QIS-thm](){.ref}, and so also the proof of Gödel's Incompleteness Theorem for quantified integer statements ([godelthmqis](){.ref}).
 
 
-> # { .recap }
+> ### { .recap }
 * Uncomputable functions include also functions that seem to have nothing to do with NAND-TM programs or other computational models such as determining the satisfiability of diophantine equations.
 * This also implies that for any sound proof system (and in particular every finite axiomatic system) $S$,  there are interesting statements $X$ (namely of the form "$F(x)=0$" for an uncomputable function $F$) such that $S$ is not able to prove either $X$ or its negation.
 
@@ -455,14 +455,14 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 Prove [godelthmqis](){.ref} using  [QIS-thm](){.ref}
 :::
 
-> # {.exercise title="Expression for floor" #floorexpressionex}
+> ### {.exercise title="Expression for floor" #floorexpressionex}
 Let $FSQRT(n,m) = \forall_{j \in \N} ((j \times j)>m) \vee (j \leq n)$. Prove that $FSQRT(n,m)$ is true if and only if $n =\floor{\sqrt{m}}$.
 
-> # {.exercise title="Expression for computing the index" #indexexpressionex}
+> ### {.exercise title="Expression for computing the index" #indexexpressionex}
 Recall that in [computeidx-ex](){.ref} asked you to prove that at iteration $t$ of a NAND-TM program the  the variable `i` is equal to $t-r(r+1)$ if $t \leq (r+1)^2$ and equals $(r+2)(r+1)t$ otherwise, where $r = \floor{\sqrt{t+1/4}-1/2}$.
 Prove that there is a quantified integer statement $INDEX$ with parameters $t,i$ such that $INDEX(t,i)$ is true if and $i$ is the value of `i` after $t$ iterations.
 
-> # {.exercise title="Expression for computing the previous line" #prevex}
+> ### {.exercise title="Expression for computing the previous line" #prevex}
 Give the following quantified integer expressions: \
 1. $MOD(a,b,c)$ which is true if and only if $b = a \mod c$. Note if a program has $s$ lines then  the line executed at step $t$ is equal to $t \mod s$. \
 2. Suppose that $P$ is the  three line NAND-CIRC program listed below.  Give a quantified integer statement $LAST(n,t,t')$  such that $LAST(t,t')$ is true if and only if $t'-n$ is the largest step smaller than $t-n$ in which the variable on the righthand side of the line executed at step $t-n$ is written to. If this variable is an input variable `x_i` then let $LAST(n,t,t')$ to be true if the current index location equals $t'$ and $t'<n$.
@@ -474,7 +474,7 @@ loop := validx_i NAND validx_i
 ```
 
 
-> # {.exercise title="axiomatic proof systems" #godelthemex}
+> ### {.exercise title="axiomatic proof systems" #godelthemex}
 For every representation of logical statements as strings, we can define  an axiomatic proof system to consist of a finite set of strings $A$ and a finite set of rules $I_0,\ldots,I_{m-1}$ with $I_j: (\{0,1\}^*)^{k_j} \rightarrow \{0,1\}^*$ such that a proof $(s_1,\ldots,s_n)$ that $s_n$ is true is valid if for every $i$, either $s_i \in A$ or is some $j\in [m]$ and  are $i_1,\ldots,i_{k_j} < i$ such that $s_i = I_j(s_{i_1},\ldots,i_{k_j})$.
 A system is _sound_  if whenever there is no false $s$ such that there is  a proof that $s$ is true
 Prove that for every uncomputable function $F:\{0,1\}^* \rightarrow \{0,1\}$ and every sound axiomatic proof system $S$ (that is characterized by a finite number of axioms and inference rules), there is some input $x$ for which the proof system $S$ is not able to prove neither that $F(x)=0$ nor that $F(x) \neq 0$.

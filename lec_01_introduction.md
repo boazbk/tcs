@@ -9,7 +9,7 @@ chapternum: "0"
 
 
 
-> # { .objectives }
+> ### { .objectives }
 * Introduce and motivate the study of computation for its own sake, irrespective of particular implementations.
 * The notion of an _algorithm_ and some of its history.
 * Algorithms as not just  _tools_, but also _ways of thinking and understanding_.
@@ -312,7 +312,7 @@ More recently, the [Bitcoin](https://en.wikipedia.org/wiki/Bitcoin) system uses 
 
 
 
-> # { .recap }
+> ### { .recap }
 * The history of algorithms goes back thousands of years;  they have been essential much of human progress and these days form the basis of multi-billion dollar industries, as well as life-saving technologies.
 * There is often more than one algorithm to achieve the same computational task. Finding a faster algorithm can often make a much bigger difference than improving computing hardware.
 * Better algorithms and data structures don't just speed up calculations, but can yield  new qualitative insights.
@@ -412,7 +412,7 @@ b. Prove that the number of single-digit operations that Karatsuba's algorithm t
 
 :::
 
-> # {.exercise }
+> ### {.exercise }
 Implement in the programming language of your choice functions ```Gradeschool_multiply(x,y)``` and ```Karatsuba_multiply(x,y)``` that take two arrays of digits ```x``` and ```y``` and return an array representing the product of ```x``` and ```y``` (where ```x``` is identified with the number ```x[0]+10*x[1]+100*x[2]+...``` etc..) using the grade-school algorithm and the Karatsuba algorithm respectively. At what number of digits does the Karatsuba algorithm beat the grade-school one?
 
 

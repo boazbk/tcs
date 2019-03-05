@@ -7,7 +7,7 @@ chapternum: "1"
 # Mathematical Background { #chapmath }
 
 
-> # { .objectives }
+> ### { .objectives }
 * Recall basic mathematical notions such as sets, functions, numbers, logical operators and quantifiers, strings, and graphs.
 * Rigorously define Big-$O$ notation.
 * Proofs by induction.
@@ -133,7 +133,7 @@ The basic components of a mathematical text are __definitions__, __assertions__ 
 
 Mathematicians often define new concepts in terms of old concepts.  Here is an example of a definition:
 
-> # {.definition title="Perfect Square" #perfectsquaredef}
+> ### {.definition title="Perfect Square" #perfectsquaredef}
 A natural number $n$ is  a _perfect square_ if there exists a natural number $k$ such that $n = k\cdot k$.
 
 [perfectsquaredef](){.ref} uses the concept  of a natural number, and the concept of multiplication, to define the new term "perfect square".
@@ -172,7 +172,7 @@ A definition does not have to occur only in the context of a formal "Definition"
 
 These are true statements about the concepts that we defined. For example, here is a true statement:
 
-> # {.lemma #perfectsquarelem}
+> ### {.lemma #perfectsquarelem}
 For every perfect square $a$ and perfect square $b$, $a\cdot b$ is a perfect square.
 
 Deciding whether to call a particular statement a "Theorem", a "Lemma" or a "Claim" is a judgement call, and does not make a mathematical difference. All three correspond to true statements which can be proven. The difference is that a _Theorem_ refers to a significant result, that we would want to remember and highlight.  A _Lemma_ often refers to a  technical result, that is not necessarily important in its own right, but can be often very useful in proving other theorems. A _Claim_ is a "throw away" statement, that we need to use in order to prove some other bigger results, but do not care so much about for its own sake.
@@ -204,7 +204,7 @@ As mentioned in the preface, as a general rule, it is more important you underst
 Here is a mathematical definition which you may have encountered in the past (and will encounter again shortly):
 
 
-> # {.definition title="One to one function" #onetoonedef}
+> ### {.definition title="One to one function" #onetoonedef}
 A function $f:S \rightarrow T$ is _one to one_ if for every two elements $x,x' \in S$, if $x \neq x'$ then  $f(x) \neq f(x')$.
 
 This definition captures a simple concept, but even so it uses quite a bit of notation.
@@ -405,7 +405,7 @@ Note that this function is the same as the function defined by the rule $F(x)= (
 | 8     | 0      |
 | 9     | 1      |
 
-\
+Table: An example of a function.
 
 
 
@@ -448,17 +448,17 @@ Verifying that you can prove the following results is an excellent way to brush 
 
 ![We can represent finite functions as a directed graph where we put an edge from $x$ to $f(x)$. The _onto_ condition corresponds to requiring that every vertex in the codomain of the function has in-degree _at least_ one. The _one-to-one_ condition  corresponds to requiring that every vertex in the codomain of the function has in-degree _at most_ one. In the examples above $F$ is an onto function, $G$ is one to one, and $H$ is neither onto nor one to one.](../figure/functionsdiagram.png){#functionsdiagrampng .margin  }
 
-> # { .pause }
+> ### { .pause }
 You can find the proofs of these results in many discrete math texts, including for example, Section 4.5 in the [Lehman-Leighton-Meyer notes](https://cs121.boazbarak.org/LLM_data_types.pdf).
 However, I strongly suggest you try to prove them on your own, or at least convince yourself that they are true by proving special cases of those for small sizes (e.g., $|S|=3,|T|=4,|U|=5$).
 
 Let us prove one of these facts as an example:
 
-> # {.lemma #onetooneimpliesonto}
+> ### {.lemma #onetooneimpliesonto}
 If $S,T$ are non-empty sets and $F:S \rightarrow T$ is one to one, then there exists an onto function $G:T \rightarrow S$ such that $G(F(s))=s$ for every $s\in S$.
 
 
-> # {.proof data-ref="onetooneimpliesonto"}
+> ### {.proof data-ref="onetooneimpliesonto"}
 Let $S$, $T$ and  $F:S \rightarrow T$ be as in the Lemma's statement, and choose some $s_0 \in S$.
 We will define the function $G:T \rightarrow S$ as follows: for every $t\in T$, if there is some $s\in S$ such that $F(s)=t$ then set $G(t)=s$ (the choice of $s$ is well defined since by the one-to-one property of $F$, there cannot be two distinct $s,s'$  that both map to $t$).
 Otherwise, set $G(t)=s_0$.
@@ -478,7 +478,7 @@ Graphs come in two basic flavors: _undirected_ and _directed_.^[It is possible, 
 ![An example of an undirected and a directed graph. The undirected graph has vertex set $\{1,2,3,4\}$ and edge set $\{ \{1,2\},\{2,3\},\{2,4\} \}$. The directed graph has vertex set $\{a,b,c\}$ and the edge set $\{ (a,b),(b,c),(c,a),(a,c) \}$.](../figure/graphsexampe.png){#graphsexampefig .margin offset="1.5in"}
 
 
-> # {.definition title="Undirected graphs" #undirgraph}
+> ### {.definition title="Undirected graphs" #undirgraph}
 An _undirected graph_ $G = (V,E)$ consists of a set $V$ of _vertices_ and a set $E$ of edges.
 Every edge is a size two subset of $V$.
 We say that two vertices $u,v \in V$ are _neighbors_, if the edge $\{u,v\}$ is in $E$.
@@ -493,28 +493,28 @@ We say that the graph $G$ is _connected_ if every  pair of vertices in it is con
 
 Here are some basic facts about undirected graphs. We give some informal arguments below, but leave the full proofs as exercises. (The proofs can also be found in most basic texts on  graph theory.)
 
-> # {.lemma #degreesegeslem}
+> ### {.lemma #degreesegeslem}
 In any undirected graph $G=(V,E)$, the sum of the degrees of all vertices is equal to twice the number of edges.
 
 [degreesegeslem](){.ref} can be shown by seeing that every edge $\{ u,v\}$ contributes twice to the sum of the degrees (once for $u$ and the second time for $v$.)
 
-> # {.lemma #conntranslem}
+> ### {.lemma #conntranslem}
 The connectivity relation is _transitive_, in the sense that if $u$ is connected to $v$, and $v$ is connected to $w$, then $u$ is connected to $w$.
 
 [conntranslem](){.ref} can be shown by simply attaching a path of the form $(u,u_1,u_2,\ldots,u_{k-1},v)$ to a path of the form $(v,u'_1,\ldots,u'_{k'-1},w)$ to obtain the path $(u,u_1,\ldots,u_{k-1},v,u'_1,\ldots,u'_{k'-1},w)$ that connects $u$ to $w$.
 
 
-> # {.lemma #simplepathlem}
+> ### {.lemma #simplepathlem}
 For every undirected graph $G=(V,E)$ and connected pair $u,v$, the shortest path from $u$ to $v$ is simple.
 In particular, for every connected pair there exists a simple path that connects them.
 
 [simplepathlem](){.ref} can be shown by "shortcutting" any non simple path of the form $(u,u_1,\ldots,u_{i-1},w,u_{i+1},\ldots,u_{j-1},w,u_{j+1},\ldots,u_{k-1},v)$ where the same vertex $w$ appears in both the $i$-th and $j$-position, to obtain the shorter path $(u,u_1,\ldots,u_{i-1},w,u_{j+1},\ldots,u_{k-1},v)$.
 
-> # { .pause }
+> ### { .pause }
 If you haven't seen these proofs before, it is indeed a great exercise to transform the above informal argument into fully rigorous proofs.
 
 
-> # {.definition title="Directed graphs" #directedgraphdef}
+> ### {.definition title="Directed graphs" #directedgraphdef}
 A _directed graph_ $G=(V,E)$ consists of a set $V$ and a set $E \subseteq V\times V$  of _ordered pairs_ of $V$. We sometimes denote the edge $(u,v)$ also as $u \rightarrow v$.
 If the edge $u \rightarrow v$ is present in the graph then we say that $v$ is an _out-neighbor_ of $u$ and $u$ is an _in-neighbor_ of $v$.
 
@@ -524,21 +524,21 @@ A _path_ in the graph is a tuple $(u_0,\ldots,u_k) \in V^k$, for some $k>0$ such
 As in the undirected case, a _simple path_ is a path $(u_0,\ldots,u_{k-1})$ where all the $u_i$'s are distinct and a  _cycle_ is a path $(u_0,\ldots,u_k)$ where $u_0=u_{k}$.
 One type of directed graphs we often care about is _directed acyclic graphs_ or _DAGs_, which, as their name implies, are directed graphs without any cycles:
 
-> # {.definition title="Directed Acyclic Graphs" #DAGdef}
+> ### {.definition title="Directed Acyclic Graphs" #DAGdef}
 We say that $G=(V,E)$ is a _directed acyclic graph (DAG)_ if it is a directed graph and there does not exist a list of vertices $u_0,u_1,\ldots,u_k \in V$ such that $u_0=u_k$ and for every $i\in [k]$, the edge $u_i \rightarrow u_{i+1}$ is  in $E$.
 
 The lemmas we mentioned above have analogs for directed graphs.
 We again leave the proofs (which are essentially identical to their undirected analogs) as exercises for the reader:
 
-> # {.lemma #diredgreesegeslem}
+> ### {.lemma #diredgreesegeslem}
 In any directed graph $G=(V,E)$, the sum of the in-degrees  is equal to the sum of the out-degrees, which is equal to the number of edges.
 
 
-> # {.lemma #dirconntranslem}
+> ### {.lemma #dirconntranslem}
 In any directed graph $G$, if there is a path from $u$ to $v$ and a path from $v$ to $w$, then there is a path from $u$ to $w$.
 
 
-> # {.lemma #dirsimplepathlem}
+> ### {.lemma #dirsimplepathlem}
 For every directed graph $G=(V,E)$ and a  pair $u,v$ such that there is a path from $u$ to $v$, the _shortest path_ from $u$ to $v$ is simple.
 
 
@@ -810,10 +810,10 @@ Here are some examples:
 __Proofs by contradiction:__ One way to prove that $X$ is true is to show that if $X$ was false then we would get a contradiction as a result. Such proofs often start with a sentence such as "Suppose, towards a contradiction, that $X$ is false" and end with deriving some contradiction (such as a violation of one of the assumptions in the theorem statement).
 Here is an example:
 
-> # {.lemma }
+> ### {.lemma }
 There are no natural numbers $a,b$ such that $\sqrt{2} = \tfrac{a}{b}$.
 
-> # {.proof }
+> ### {.proof }
 Suppose, towards the sake of contradiction that this is false, and so let $a\in \N$ be the smallest number such that there exists some $b\in\N$ satisfying $\sqrt{2}=\tfrac{a}{b}$.
 Squaring this equation we get that $2=a^2/b^2$ or $a^2=2b^2$ $(*)$. But this means that $a^2$ is _even_, and since the product of two odd  numbers is odd, it means that $a$ is even as well, or in other words, $a = 2a'$ for some $a' \in \N$. Yet plugging this into $(*)$ shows  that $4a'^2 = 2b^2$ which means  $b^2 = 2a'^2$ is an even number as well. By the same considerations as above we gat that $b$ is even and hence $a/2$ and $b/2$ are two natural numbers  satisfying $\tfrac{a/2}{b/2}=\sqrt{2}$, contradicting the minimality of $a$.
 
@@ -821,11 +821,11 @@ Squaring this equation we get that $2=a^2/b^2$ or $a^2=2b^2$ $(*)$. But this mea
 __Proofs of a universal statement:__ Often we want to prove a statement $X$ of the form "Every object of type $O$ has property $P$." Such proofs often start with a sentence such as "Let $o$ be an object of type $O$" and end by showing that $o$ has the property $P$.
 Here is a simple example:
 
-> # {.lemma }
+> ### {.lemma }
 For every natural number $n\in N$, either $n$ or $n+1$ is even.
 
 
-> # {.proof}
+> ### {.proof}
 Let $n\in N$ be some number.
 If $n/2$ is a whole number then we are done, since then $n=2(n/2)$ and hence it is even.
 Otherwise, $n/2+1/2$ is a whole number, and hence $2(n/2+1/2)=n+1$ is even.
@@ -833,10 +833,10 @@ Otherwise, $n/2+1/2$ is a whole number, and hence $2(n/2+1/2)=n+1$ is even.
 __Proofs of an implication:__ Another common case is that the statement $X$ has the form "$A$ implies $B$". Such proofs often start with a sentence such as "Assume that $A$ is true" and end with a derivation of $B$ from $A$.
 Here is a simple example:
 
-> # {.lemma }
+> ### {.lemma }
 If $b^2 \geq 4ac$ then there is a solution to the quadratic equation $ax^2 + bx + c =0$.
 
-> # {.proof }
+> ### {.proof }
 Suppose that $b^2 \geq 4ac$.
 Then $d = b^2 - 4ac$ is a non-negative number and hence it has a square root $s$.
 Thus $x = (-b+s)/(2a)$ satisfies
@@ -900,20 +900,20 @@ In fact, we will also use it ourselves later on in this book.
 We start with the following definition. A _layering_ of a directed graph is a way to assign for every vertex $v$ a natural number (corresponding to its layer), such that $v$'s in-neighbors are in lower-numbered layers than $v$, and $v$'s out-neighbors are in higher-numbered layers.
 The formal definition is as follows:
 
-> # {.definition title="Layering of a DAG" #layeringdef}
+> ### {.definition title="Layering of a DAG" #layeringdef}
 Let $G=(V,E)$ be a directed graph. A _layering_ of $G$ is a function $f:V \rightarrow \N$ such that for every edge $u \rightarrow v$ of $G$, $f(u) < f(v)$.
 
 In this section we prove that a directed graph is acylic if and only if it has a valid layering.
 
-> # {.theorem title="Topological Sort" #topologicalsortthm}
+> ### {.theorem title="Topological Sort" #topologicalsortthm}
 Let $G$ be a directed graph. Then $G$ is acyclic if and only if there exists a  layering $f$ of $G$.
 
 To prove such a theorem, we need to first understand what it means. Since it is an "if and only if" statement, [topologicalsortthm](){.ref} corresponds to two statements:
 
-> # {.lemma #acyclictosortlem}
+> ### {.lemma #acyclictosortlem}
 For every directed graph $G$, if $G$ is acyclic then it has a layering.
 
-> # {.lemma #sorttoacycliclem}
+> ### {.lemma #sorttoacycliclem}
 For every directed graph $G$, if $G$ has a layering, then it is acyclic.
 
 To prove [topologicalsortthm](){.ref} we need to prove both [acyclictosortlem](){.ref} and [sorttoacycliclem](){.ref}.
@@ -932,7 +932,7 @@ but this is a contradiction since $u_0=u_k$ and hence $f(u_0)=f(u_k)$.
 
 [acyclictosortlem](){.ref} corresponds to the more difficult (and useful) direction. To prove it, we need to show how given an arbitrary DAG $G$, we can come up with a layering of the vertices of $G$ so that all edges "go up".
 
-> # { .pause }
+> ### { .pause }
 If you have not seen the proof of this theorem before (or don't remember it), this would be an excellent point to pause and try to prove it yourself.
 One way to do it would be to describe an _algorithm_ that on input a directed acyclic graph $G$ on $n$ vertices and $n-2$ or fewer edges, constructs  an array $F$ of length $n$ such that for every edge $u \rightarrow v$ in the graph $F[u] < F[v]$.
 
@@ -973,7 +973,7 @@ We can repeat the same reasoning again and again to obtain that  $Q(k)$ is true 
 The statement __(a)__ is called the "base case", while __(b)__ is called the "inductive step".
 The assumption in __(b)__ that $Q(i)$ holds for $i<k$ is called the "inductive hypothesis".^[The form of induction described here is sometimes called "strong induction" as opposed to "weak induction" where we replace __(b)__ by the statement __(b')__ that if $Q(k-1)$ is true then $Q(k)$ is true. Weak induction can be thought of as the special case of strong induction where we don't use the assumption that $Q(0),\ldots,Q(k-2)$ are true.]
 
-> # {.remark title="Induction and recursion" #inducrecrem}
+> ### {.remark title="Induction and recursion" #inducrecrem}
 Proofs by inductions are closely related to algorithms by recursion.
 In both cases we reduce solving a larger problem to solving a smaller instance of itself. In a recursive algorithm to solve some problem P on an input of length $k$  we ask ourselves "what if someone handed me a way to solve P on instances smaller than $k$?". In an inductive proof to prove a statement Q parameterized by a number $k$, we ask ourselves "what if I already knew that $Q(k')$ is true for $k'<k$".
 Both induction and recursion are crucial concepts for this course and Computer Science at large (and even other areas of inquiry, including not just mathematics but other sciences as well). Both can be initially (and even post-initially) confusing, but with time and practice they become clearer.
@@ -1034,7 +1034,7 @@ Thus $f$ is a valid layering for $G$ which completes the proof.^[If we were bein
 :::
 
 
-> # { .pause }
+> ### { .pause }
 Reading a proof is no less of an important skill than producing one.
 In fact, just like understanding code, it is a highly non-trivial skill in itself.
 Therefore I strongly suggest that you re-read the above proof, asking yourself at every sentence whether the assumption it makes are justified, and whether this sentence truly demonstrates what it purports to achieve.
@@ -1057,7 +1057,7 @@ For every layering $f,g:V \rightarrow \N$ of $G$, if both $f$ and $g$ are minima
 The definition of minimality in [minimallayeruniquethm](){.ref} implies that for every vertex $v \in V$, we cannot move it to a lower layer without making the  layering invalid. If $v$ is a source (i.e., has in-degree zero) then a minimal layering $f$ must put it in layer $0$, and for every other $v$, if $f(v)=i$, then we cannot modify this to set $f(v) \leq i-1$ since there is an-neighbor $u$ of $v$ satisfying $f(u)=i-1$.
 What [minimallayeruniquethm](){.ref} says is that a minimal layering $f$ is _unique_ in the sense that every other minimal layering is equal to $f$.
 
-> # {.proofidea data-ref="minimallayeruniquethm"}
+> ### {.proofidea data-ref="minimallayeruniquethm"}
 The idea is to prove the theorem by induction on the layers.
 If $f$ and $g$ are minimal then they must agree on the source vertices, since both $f$ and $g$ should assign these vertices to layer $0$.
 We can then show that if $f$ and $g$ agree up to layer $i-1$, then the minimality property implies that they need to agree in layer $i$ as well. In the actual proof we use a small trick to save on writing. Rather than proving the  statement that $f=g$ (or in other words that  $f(v)=g(v)$ for every $v\in V$), we prove the weaker statement that $f(v) \leq g(v)$ for every $v\in V$.
@@ -1141,7 +1141,7 @@ $\Sigma$	Finite set (often used as  the _alphabet_ for a set of strings).
 
 
 
-> # { .recap }
+> ### { .recap }
 * The basic "mathematical data structures" we'll need are _numbers_, _sets_, _tuples_, _strings_, _graphs_ and _functions_.
 * We can use basic objects to define more complex notions. For example, _graphs_ can be defined as a list of _pairs_.
 * Given precise _definitions_ of objects, we can state unambiguous and precise _statements_. We can then use mathematical _proofs_ to determine whether these statements are true or false.
@@ -1170,7 +1170,7 @@ b. An expression $\varphi(n)$ such that for every natural number $n$, $\varphi(n
 :::
 
 
-> # {.exercise }
+> ### {.exercise }
 Describe the following statement in English words: $\forall_{n\in\N} \exists_{p>n} \forall{a,b \in \N} (a\times b \neq p) \vee (a=1)$.
 
 
@@ -1208,21 +1208,21 @@ c. Let $A_0,\ldots,A_{k-1}$ be finite subsets of $\{1,\ldots, n\}$, such that $|
 Prove that if $S,T$ are finite and $F:S \rightarrow T$ is one to one then $|S| \leq |T|$.
 :::
 
-> # {.exercise }
+> ### {.exercise }
 Prove that if $S,T$ are finite and $F:S \rightarrow T$ is onto then $|S| \geq |T|$.
 
 
-> # {.exercise }
+> ### {.exercise }
 Prove that for every finite $S,T$, there are $(|T|+1)^{|S|}$ partial functions from $S$ to $T$.
 
 
 
 
-> # {.exercise }
+> ### {.exercise }
 Suppose that $\{ S_n \}_{n\in \N}$ is a sequence such that $S_0 \leq 10$ and for $n>1$ $S_n \leq 5 S_{\lfloor \tfrac{n}{5} \rfloor} + 2n$.
 Prove by induction that  $S_n \leq 100 n \log n$ for every $n$.
 
-> # {.exercise }
+> ### {.exercise }
 Prove that for every undirected graph $G$ of $100$ vertices, if every vertex has degree at most $4$, then there exists a subset $S$ of at $20$ vertices such that no two vertices in $S$ are neighbors of one another.
 
 
@@ -1241,7 +1241,7 @@ d. $F(n)=\sqrt{n}$, $G(n)=2^{\sqrt{\log n}}$
 e. $F(n) = \binom{n}{\ceil{0.2 n}}$ ,  $G(n) = 2^{0.1 n}$ (where $\binom{n}{k}$ is the number of $k$-sized subsets of a set of size $n$) and $g(n) = 2^{0.1 n}$.^[_Hint:_ one way to do this is to use [Stirling's approximation for the factorial function.](https://goo.gl/cqEmS2).]
 :::
 
-> # {.exercise}
+> ### {.exercise}
 Give an example of a pair of functions $F,G:\N \rightarrow \N$ such that neither $F=O(G)$ nor $G=O(F)$ holds.
 
 

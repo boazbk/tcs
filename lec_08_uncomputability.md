@@ -7,7 +7,7 @@ chapternum: "8"
 
 # Universality and uncomputability {#chapcomputable }
 
-> # { .objectives }
+> ### { .objectives }
 * The universal machine/program - "one program to rule them all"
 * A fundamental result in computer science and mathematics: the existence of uncomputable functions.
 * The _halting problem_: the canonical example for an uncomputable function.
@@ -198,10 +198,10 @@ The notion of an "uncomputable function" thus seems to be a contradiction in ter
 
 
 
-> # {.theorem title="Uncomputable functions" #uncomputable-func}
+> ### {.theorem title="Uncomputable functions" #uncomputable-func}
 There exists a function $F^*:\{0,1\}^* \rightarrow \{0,1\}$ that is not computable by any Turing machine.
 
-> # {.proofidea data-ref="uncomputable-func"}
+> ### {.proofidea data-ref="uncomputable-func"}
 The idea behind the proof follows quite closely Cantor's proof that the reals are uncountable ([cantorthm](){.ref}), and in fact the theorem can also be obtained fairly directly from that result (see [uncountablefuncex](){.ref}).
 However, it is instructive to see the direct proof.
 The idea is to construct $F^*$ in a way that will ensure that every possible machine $M$ will in fact fail to compute $F^*$. We can do so by looking at the string representation $\alpha_M$ of the machine $M$, and define $F^*(\alpha_M)$ to equal $1$ if $M(\alpha_M)=0$ and to equal $0$ otherwise. This will guarantee that $F^*(\alpha_M) \neq M(\alpha_M)$ and hence that $F^*$ is not computable by $M$.
@@ -222,7 +222,7 @@ But by the definition of $F^*$, $F^*(x)$ must be different than the output of $M
 ![We construct an uncomputable function by defining for every two strings $x,y$ the value $1-M_y(x)$ which equals $0$ if the machine described by $y$ outputs $1$ on $x$, and $1$ otherwise.  We then define $F^*(x)$ to be the "diagonal" of this table, namely $F^*(x)=1-M_x(x)$ for every $x$. The function $F^*$ is uncomputable, because if it was computable by some machine  whose string description is $x^*$ then we would get that $M_{x^*}(x^*)=F(x^*)=1-M_{x^*}(x^*)$.](../figure/diagonal_proof.png){#diagonal-fig   }
 
 
-> # { .pause }
+> ### { .pause }
 The proof of [uncomputable-func](){.ref} is short but subtle.
 I suggest that you pause here and go back to read it again and think about it - this is a proof that  is worth reading at least twice if not three or four times.
 It is not often the case that a few lines of mathematical reasoning establish a  deeply profound fact - that there are problems we simply _cannot_ solve.
@@ -247,7 +247,7 @@ But is this function the equivalent of the "tree that falls in the forest with n
 That is, perhaps it is a function that no one actually _wants_ to compute.
 It turns out that there are natural uncomputable functions:
 
-> # {.theorem title="Uncomputability of Halting function" #halt-thm}
+> ### {.theorem title="Uncomputability of Halting function" #halt-thm}
 Let $HALT:\{0,1\}^* \rightarrow \{0,1\}$ be the function such that for every string $M\in \{0,1\}^*$, $HALT(M,x)=1$ if Turing machine $M$ halts on the input $x$ and  $HALT(M,x)=0$ otherwise.
 Then $HALT$ is not computable.
 
@@ -319,7 +319,7 @@ Hence we reach a contradiction to our original assumption that $M$ computes $HAL
 :::
 
 
-> # { .pause }
+> ### { .pause }
 Once again, this is a proof that's worth reading more than once.
 The uncomputability of the halting problem is one of the fundamental theorems of computer science, and is the starting point for much of the investigations we will see later.
 An excellent way to get a better understanding of [halt-thm](){.ref} is to go over [haltalternativesec](){.ref}, which presents  an alternative proof of the same result.
@@ -476,10 +476,10 @@ We define the function $HALTONZERO:\{0,1\}^* \rightarrow \{0,1\}$ as follows. Gi
 A priori $HALTONZERO$ seems like a potentially easier function to compute than the full-fledged $HALT$ function, and so we could perhaps hope that it is not uncomputable.
 Alas, the following theorem shows that this is not the case:
 
-> # {.theorem title="Halting without input" #haltonzero-thm}
+> ### {.theorem title="Halting without input" #haltonzero-thm}
 $HALTONZERO$ is uncomputable.
 
-> # { .pause }
+> ### { .pause }
 The proof of [haltonzero-thm](){.ref} is below, but before reading it you might want to pause for a couple of minutes and think how you would prove it yourself.
 In particular, try to think of what a reduction from $HALT$ to $HALTONZERO$ would look like.
 Doing so is an excellent way to get some initial comfort with the notion of proofs by reduction, which a technique we will be using time and again in this book.
@@ -547,7 +547,7 @@ Thus if the hypothetical algorithm $A$ satisfies $A(M)=HALTONZERO(M)$ for every 
 
 
 
-> # {.remark title="The hardwiring technique" #hardwiringrem}
+> ### {.remark title="The hardwiring technique" #hardwiringrem}
 In the proof of [haltonzero-thm](){.ref} we used the technique of  "hardwiring" an input  $x$ to a program/machine $P$.
 That is, modifying a program $P$ that it uses "hardwired constants" for some of all of its input.
 This technique is quite common in reductions and elsewhere, and we will often use it again in this course.
@@ -576,7 +576,7 @@ We have already seen some examples of uncomputable semantic functions, namely $H
 We start by observing one more such example:
 
 
-> # {.theorem title="Computing all zero function" #allzero-thm}
+> ### {.theorem title="Computing all zero function" #allzero-thm}
 Let $ZEROFUNC:\{0,1\}^* \rightarrow \{0,1\}$ be the function such that for every $M\in \{0,1\}^*$, $ZEROFUNC(M)=1$ if and only if $M$ represents a Turing machine such that $M$ outputs $0$ on every input $x\in \{0,1\}^*$. Then $ZEROFUNC$ is uncomputable.
 
 ::: { .pause }
@@ -601,7 +601,7 @@ We see that in both cases, $ZEROFUNC(M)=HALTONZERO(N)$ and hence the value that 
 Another result along similar lines is the following:
 
 
-> # {.theorem title="Uncomputability of verifying parity" #paritythm}
+> ### {.theorem title="Uncomputability of verifying parity" #paritythm}
 The following function is uncomputable
 $$
 COMPUTES\text{-}PARITY(P) = \begin{cases} 1 & P \text{ computes the parity function } \\ 0 & \text{otherwise} \end{cases}
@@ -765,10 +765,10 @@ As we saw before, many natural computational models turn out to be _equivalent_ 
 This equivalence implies that we can translate the uncomputability of the Halting problem for NAND-TM programs into uncomputability for Halting in other models.
 For example:
 
-> # {.theorem title="NAND-TM Machine Halting" #halt-tm}
+> ### {.theorem title="NAND-TM Machine Halting" #halt-tm}
 Let $NANDTMHALT:\{0,1\}^* \rightarrow \{0,1\}$ be the function that on input  strings $P\in\{0,1\}^*$ and $x\in \{0,1\}^*$ outputs $1$ if the NAND-TM program described by $P$ halts on the input $x$ and outputs $0$ otherwise. Then $NANDTMHALT$ is uncomputable.
 
-> # { .pause }
+> ### { .pause }
 Once again, this is a good point for you to stop and try to prove the result yourself before reading the proof below.
 
 :::  {.proof }

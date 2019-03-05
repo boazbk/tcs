@@ -6,7 +6,7 @@ chapternum: "14"
 
 #  NP, NP completeness, and the Cook-Levin Theorem {#cooklevinchap }
 
-> # { .objectives }
+> ### { .objectives }
 * Introduce the class $\mathbf{NP}$  capturing a great many important computational problems \
 * $\mathbf{NP}$-completeness: evidence that a problem might be intractable. \
 * The $\mathbf{P}$ vs $\mathbf{NP}$ problem.
@@ -53,7 +53,7 @@ See also [NPdeffigfig](){.ref} for an illustration of [NP-def](){.ref}.
 The name $\mathbf{NP}$ stands for "nondeterministic polynomial time" and is used for historical reasons; see the bibiographical notes.
 The string $w$ in [{NP:eq}](){.eqref} is sometimes known as a _solution_, _certificate_, or _witness_ for the instance $x$.
 
-> # {.remark title="$\mathbf{NP}$ and proof systems" #NPproofs}
+> ### {.remark title="$\mathbf{NP}$ and proof systems" #NPproofs}
 The definition of $\mathbf{NP}$ means that for every  $F\in \mathbf{NP}$ and string $x\in \{0,1\}^*$, $F(x)=1$ if and only if there is a _short and efficiently verifiable proof_ of this fact.
 That is, we can think of the function $V$ in [NP-def](){.ref} as a _verifier_ algorithm, similar to what we've seen in [godelproofdef](){.ref}.
 The verifier checks whether a given string $w\in \{0,1\}^*$ is a valid proof for the statement "$F(x)=1$".
@@ -61,7 +61,7 @@ Essentially all proof systems considered in mathematics involve line-by-line che
 Thus the heart of $\mathbf{NP}$ is asking for statements that have _short_ (i.e., polynomial in the size of the statements) proof.
 Indeed, as we will see  in [#chappvsnp](){.ref},  Kurt Gödel phrased the question of whether $\mathbf{NP}=\mathbf{P}$ as asking whether "the mental work of a mathematician [in proving theorems]  could be completely replaced by a machine".
 
-> # { .pause }
+> ### { .pause }
 [NP-def](){.ref} is _assymetric_ in the sense that there is a difference between an output of $1$ and an output of $0$.
 You should make sure you understand why this definition does _not_ guarantee that if $F \in \mathbf{NP}$ then the function $1-F$ (i.e., the map $x \mapsto 1-F(x)$) is in $\mathbf{NP}$ as well.
 In fact, it is believed that there do exist functions $F$ satisfying  $F\in \mathbf{NP}$ but $1-F \not\in \mathbf{NP}$.^[For example, as shown below, $3SAT \in \mathbf{NP}$, but the function $\overline{3SAT}$ that on input a 3CNF formula $\varphi$ outputs $1$ if and only if $\varphi$ is _not_ satisfiable is not known (nor believed) to be in  $\mathbf{NP}$.]
@@ -213,7 +213,7 @@ The following is one of the most fundamental theorems in Computer Science:
 
 
 
-> # {.theorem title="Cook-Levin Theorem" #cook-levin-thm}
+> ### {.theorem title="Cook-Levin Theorem" #cook-levin-thm}
 For every $F\in \mathbf{NP}$, $F \leq_p 3SAT$.
 
 We will soon show the proof of [cook-levin-thm](){.ref}, but note that it immediately implies  that $QUADEQ$, $LONGPATH$, and $MAXCUT$ all reduce to $3SAT$.
@@ -227,7 +227,7 @@ There is of course nothing special about $QUADEQ$ and $LONGPATH$ here: by combin
 All these problems are in some sense "the hardest in $\mathbf{NP}$" since an efficient algorithm for any one of them would imply an efficient algorithm for _all_ the problems in $\mathbf{NP}$.
 This motivates the following definition:
 
-> # {.definition title="$\mathbf{NP}$-hardness and $\mathbf{NP}$-completeness" #NPC-def}
+> ### {.definition title="$\mathbf{NP}$-hardness and $\mathbf{NP}$-completeness" #NPC-def}
 We say that $G:\{0,1\}^* \rightarrow \{0,1\}$ is _$\mathbf{NP}$ hard_ if for every $F\in \mathbf{NP}$,
 $F \leq_p G$.
 >
@@ -307,11 +307,11 @@ We define the $NANDSAT$ problem as follows. On input a string $Q\in \{0,1\}^*$, 
 While we don't need this to prove [nand-thm](){.ref}, note that $NANDSAT$ is in $\mathbf{NP}$ since we can verify that $Q(w)=1$ using the polyonmial-time algorithm for evaluating NAND-CIRC programs.^[$Q$ is a NAND-CIRC program and not a NAND-TM program, and hence it is only defined on inputs of some particular size $n$. Evaluating $Q$ on any input $w\in \{0,1\}^n$ can be done in time polynomial in the number of lines of $Q$.]
 We now prove that $NANDSAT$ is $\mathbf{NP}$ hard.
 
-> # {.lemma #nand-thm}
+> ### {.lemma #nand-thm}
 $NANDSAT$ is $\mathbf{NP}$ hard.
 
 
-> # {.proofidea data-ref="nand-thm"}
+> ### {.proofidea data-ref="nand-thm"}
 To prove [nand-thm](){.ref}  we need to show that for every $F\in \mathbf{NP}$, $F \leq_p NANDSAT$.
 The high-level idea is that by the definition  of $\mathbf{NP}$, there is some NAND-TM program $P^*$ and some polynomial $T(\cdot)$ such that $F(x)=1$ if and only if there exists some $w \in \{0,1\}^{a|x|^b}$ such that $P^*(xw)$ outputs $1$ within $T(|x|)$ steps.
 Now by "unrolling the loop" of the NAND-TM program $P^*$ we can convert it into an $O(T(n))$  NAND-CIRC program $Q'$ with $n + an^b$ inputs and a single output such that for every $x\in \{0,1\}^n$ and $w\in \{0,1\}^{an^b}$, $Q'(xw)=P^*(xw)$. on input $x \in \{0,1\}$  that on input $w$ will simulate $P^*(xw)$ for $T(|x|)$ steps.
@@ -319,7 +319,7 @@ The next step is to _hardwire_ the input $x$ to $Q'$ to obtain an $O(T(n))$ line
 By construction it will be the case that for every $x\in \{0,1\}^n$, $F(x)=1$ if and only if there exists $w\in \{0,1\}^{an^b}$ such that $Q(w)=1$, and hence this shows that $F \leq_p NANDSAT$.
 
 
-> # { .pause }
+> ### { .pause }
 The proof is a little bit technical but ultimately follows quite directly from the definition of $\mathbf{NP}$, as well as of NAND and NAND-TM programs. If you find it confusing, try to pause here and work out the proof yourself from these definitions, using the idea of "unrolling the loop" of a NAND-TM program.
 It might also be useful for you to think how you would implement in your favorite programming language the function `unroll` which on input a NAND-TM program $P$ and numbers $T,n$ would output an $n$-input NAND-CIRC program $Q$ of $O(|T|)$ lines such that for every input $z\in \{0,1\}^n$, if $P$ halts on $z$ within at most $T$ steps and outputs $y$, then $Q(z)=y$.
 
@@ -337,7 +337,7 @@ Using our "unrolling the loop NAND-TM to NAND compiler" of [nand-compiler](){.re
 
 Now we can use the following simple but useful "hardwiring" technique to obtain a program:
 
-> # {.lemma title="Hardwiring Lemma" #hardwiringlem}
+> ### {.lemma title="Hardwiring Lemma" #hardwiringlem}
 Given a $T$-line NAND-CIRC program $Q'$ of $n+m$ inputs and $x^* \in \{0,1\}^n$, we can obtain in polynomial a program $Q$ with $m$ inputs of $T+3$ lines such that for ever $w\in \{0,1\}^m$, $Q(w)= Q'(x^*w)$.
 
 ::: {.proof data-ref="hardwiringlem"}
@@ -372,12 +372,12 @@ As usual, we can represent $\varphi$ as a string, and so think of $3NAND$ as a f
 We now prove that $3NAND$ is $\mathbf{NP}$ hard:
 
 
-> # {.lemma  #threenand-thm}
+> ### {.lemma  #threenand-thm}
 $NANDSAT \leq_p 3NAND$.
 
 
 
-> # {.proofidea data-ref="threenand-thm"}
+> ### {.proofidea data-ref="threenand-thm"}
 To prove [threenand-thm](){.ref} we need to give a polynomial-time map from every NAND-CIRC program $Q$ to a 3NAND formula $\Psi$ such that there exists $w$ such that $Q(w)=1$ if and only if there exists $z$ satisfying $\Psi$.
 For every line $i$ of $Q$, we define a corresponding  variable $z_i$ of $\Psi$.
 If the line $i$ has the form `foo = NAND(bar,blah)` then we will add the clause $z_i = NAND(z_j,z_k)$ where $j$ and $k$ are the last lines in which `bar` and `blah` were written to. We will also set variables corresponding to the input variables, as well as add a clause to ensure that the final output is $1$.
@@ -428,14 +428,14 @@ __Part II: Soundness.__ Suppose that there exists $z\in \{0,1\}^{n+m}$ satisfyin
 
 To conclude the proof of [cook-levin-thm](){.ref}, we need to show [threenand-sat-thm](){.ref} and show that $3NAND \leq_p 3SAT$:
 
-> # {.lemma  #threenand-sat-thm}
+> ### {.lemma  #threenand-sat-thm}
 $3NAND \leq_p 3SAT$.
 
 
-> # {.proofidea data-ref="threenand-sat-thm"}
+> ### {.proofidea data-ref="threenand-sat-thm"}
 To prove [threenand-sat-thm](){.ref} we need to map a 3NAND formula $\varphi$ into a 3SAT formula $\psi$ such that $\varphi$ is satisfiable if and only if $\psi$ is. The idea is that we can transform every NAND constraint of the form $a=NAND(b,c)$ into the AND of  ORs involving the variables $a,b,c$ and their negations, where each of the ORs contains  at most three terms. The construction is fairly straightforward, and the details are given below.
 
-> # { .pause }
+> ### { .pause }
 It is a good exercise for you to try to find a 3CNF formula $\xi$ on three variables $a,b,c$ such that $\xi(a,b,c)$ is true if and only if $a = NAND(b,c)$. Once you do so, try to see why this implies a reduction from $3NAND$ to $3SAT$,  and hence completes the proof of [threenand-sat-thm](){.ref}
 
 ![Code and example output for the reduction given in [threenand-sat-thm](){.ref} of $3NAND$ to $3SAT$.](../figure/3nandto3sat.png){#threenandtothreesat .margin  }
@@ -475,7 +475,7 @@ Finding a polynomial-time algorithm for any one of them will imply a polynomial-
 
 
 
-> # { .recap }
+> ### { .recap }
 * Many of the problems for which we don't know polynomial-time algorithms are $\mathbf{NP}$-complete, which means that finding a polynomial-time algorithm for one of them would imply a polynomial-time algorithm for _all_ of them.
 * It is conjectured that $\mathbf{NP}\neq \mathbf{P}$ which means that we believe that polynomial-time algorithms  for these  problems are not merely _unknown_ but are _nonexistent_.
 * While an $\mathbf{NP}$-hardness result means for example that a full-fledged "textbook" solution to a problem such as MAX-CUT that is as clean and general as the algorithm for MIN-CUT probably does not exist, it does not mean that we need to give up whenever we see a MAX-CUT instance. Later in this course we will discuss several strategies to deal with $\mathbf{NP}$-hardness, including  _average-case complexity_ and _approximation algorithms_.
@@ -489,7 +489,7 @@ Finding a polynomial-time algorithm for any one of them will imply a polynomial-
 Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
 :::
 
-> # {.exercise title="Poor man's Ladner's Theorem" #ladner-ex}
+> ### {.exercise title="Poor man's Ladner's Theorem" #ladner-ex}
 Prove that if there is no $n^{O(\log^2 n)}$ time algorithm for $3SAT$ then there is some $F\in \mathbf{NP}$ such that $F \not\in \mathbf{P}$ and $F$ is not $\mathbf{NP}$ complete.^[__Hint:__ Use the function $F$ that on input a formula $\varphi$ and a string of the form $1^t$, outputs $1$ if and only if $\varphi$ is satisfiable and $t=|\varphi|^{\log|\varphi|}$.]
 
 

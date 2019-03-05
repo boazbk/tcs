@@ -6,7 +6,7 @@ chapternum: "11"
 
 #  Efficient computation { #chapefficient }
 
-> # { .objectives }
+> ### { .objectives }
 * Describe at a high level some interesting computational problems. \
 * The difference between polynomial and exponential time.  \
 * Examples of techniques for obtaining efficient algorithms \
@@ -186,7 +186,7 @@ __Algorithm MINCUTNAIVE:__
   3. Return $k_0$
 :::
 
-> # { .pause }
+> ### { .pause }
 It is an excellent exercise for you to pause at this point and verify:
 __(i)__ that you understand what this algorithm does, __(2)__ that you understand why this algorithm will in fact return the value of the minimum cut in the graph, and __(3)__ that you can analyze the running time of this algorithm.
 
@@ -339,7 +339,7 @@ As we discussed above,  if we are willing to allow some loss in precision, we ev
 In contrast, if we insist on _integer_ solutions, the task of solving for linear equalities or inequalities is known as [integer programming](https://en.wikipedia.org/wiki/Integer_programming), and the best known algorithms are exponential time in the worst case.
 
 
-> # {.remark title="Bit complexity of numbers" #numbersbits}
+> ### {.remark title="Bit complexity of numbers" #numbersbits}
 Whenever we discuss problems whose inputs correspond to numbers, the input length corresponds to how many  bits are needed to describe the number (or, as is equivalent up to a constant factor, the number of digits in base 10, 16 or any other constant).
 The difference between the length of the input and the magnitude of the number itself can be of course quite profound.
 For example, most people would agree that there is a huge difference between having a billion (i.e. $10^9$) dollars and having nine dollars.
@@ -495,11 +495,11 @@ We just don't know if any of the examples above fall into that category.
 Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
 :::
 
-> # {.exercise title="exponential time algorithm for longest path" #longest-path-ex}
+> ### {.exercise title="exponential time algorithm for longest path" #longest-path-ex}
 The naive algorithm for computing the longest path in a given graph could take more than $n!$ steps.
 Give a $poly(n)2^n$ time algorithm for the longest path problem in $n$ vertex graphs.^[__Hint:__ Use dynamic programming to compute for every $s,t \in [n]$ and $S \subseteq [n]$ the value $P(s,t,S)$ which equals $1$ if there is a simple path from $s$ to $t$ that uses exactly the vertices in $S$. Do this iteratively for $S$'s of growing sizes.]
 
-> # {.exercise title="2SAT algorithm" #twosat_ex}
+> ### {.exercise title="2SAT algorithm" #twosat_ex}
 For every 2CNF $\varphi$,  define the graph $G_\varphi$ on $2n$ vertices corresponding to the literals $x_1,\ldots,x_n,\overline{x}_1,\ldots,\overline{x}_n$, such that there is an edge $\overrightarrow{\ell_i\; \ell_j}$ iff the constraint $\overline{\ell}_i \vee \ell_j$ is in $\varphi$.
 Prove that $\varphi$ is unsatisfiable if and only if there is some $i$ such that there is a path from $x_i$ to $\overline{x}_i$ and from $\overline{x}_i$ to $x_i$ in $G_\varphi$.
 Show how to use this to solve 2SAT in polynomial time.

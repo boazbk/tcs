@@ -6,7 +6,7 @@ chapternum: "19"
 
 #  Modeling randomized computation  { #chapmodelrand }
 
-> # { .objectives }
+> ### { .objectives }
 * Formal definition of probabilistic polynomial time: the class  $\mathbf{BPP}$. \
 * Proof that that every function in $\mathbf{BPP}$ can be computed by $poly(n)$-sized NAND-CIRC programs/circuits. \
 * Relations between $\mathbf{BPP}$ and $\mathbf{NP}$. \
@@ -72,14 +72,14 @@ The equivalence to the [BPPdef](){.ref} is shown in the following theorem:
 ![The two equivalent views of randomized algorithms. We can think of such an algorithm as having access to an internal `RAND()` operation that outputs a random independent value in $\{0,1\}$ whenever it is invoked, or we can think of it as a deterministic algorithm that in addition to the standard input $x \in \{0,1\}^n$ obtains an additional auxiliary input $r \in \{0,1\}^m$ that is chosen uniformly at random.](../figure/randomalgstwoviews.png){#randomalgsviewsfig .margin  }
 
 
-> # {.theorem title="Alternative characterization of $\mathbf{BPP}$" #randextrainput}
+> ### {.theorem title="Alternative characterization of $\mathbf{BPP}$" #randextrainput}
 Let $F:\{0,1\}^*  \rightarrow \{0,1\}$. Then $F\in \mathbf{BPP}$ if and only if there exists $a,b\in \N$ and $G:\{0,1\}^* \rightarrow \{0,1\}$ such that $G$ is in $\mathbf{P}$ and for every $x\in \{0,1\}^*$,
 $$
 \Pr_{r\sim \{0,1\}^{a|x|^b}} [ G(xr)=F(x)] \geq \tfrac{2}{3}  \label{eqBPPauxiliary}\;.
 $$
 
 
-> # {.proofidea data-ref="randextrainput"}
+> ### {.proofidea data-ref="randextrainput"}
 The idea behind the proof is that, as illustrated in [randomalgsviewsfig](){.ref}, we can simply replace sampling a random coin with reading a bit from the extra "random input" $r$ and vice versa. To prove this rigorously we  need to work through some slightly cumbersome formal notation.  This might be one of those proofs that is easier to work out on your own than to read.
 
 ::: {.proof data-ref="randextrainput"}
@@ -139,12 +139,12 @@ __"Random tapes"__ [randextrainput](){.ref} motivates sometimes considering the 
 
 The number $2/3$ might seem arbitrary, but as we've seen in [randomizedalgchap](){.ref} it can be amplified to our liking:
 
-> # {.theorem title="Amplification" #amplificationthm}
+> ### {.theorem title="Amplification" #amplificationthm}
 Let $P$ be an RNAND-RAM program,  $F\in \{0,1\}^* \rightarrow \{0,1\}$,
 and $T:\N \rightarrow \N$ be a nice time bound such that for every $x\in \{0,1\}^*$, on input $x$ the program $P$ runs in at most $T(|x|)$ steps and moreover $\Pr[ P(x)=F(x) ] \geq \tfrac{1}{2}+\epsilon$ for some $\epsilon>0$.
 Then for every $k$, there is a program $P'$  taking at most $O(k\cdot T(n)/\epsilon^2)$ steps such that on input $x\in \{0,1\}^*$, $\Pr[ P'(x)= F(x)] > 1 - 2^{-k}$.
 
-> # {.proofidea data-ref="amplificationthm"}
+> ### {.proofidea data-ref="amplificationthm"}
 The proof is the same as we've seen before in the maximum cut and other examples.
 We use the Chernoff bound to argue that if we run the program $O(k/\epsilon^2)$ times, each time using fresh and independent random coins, then the probability that the majority of the answers will not be correct will be less than $2^{-k}$.
 Amplification can be thought of as a "polling" of the choices for randomness for the algorithm (see [amplificationfig](){.ref}).
@@ -167,16 +167,16 @@ Since "noisy processes" abound in nature, randomized algorithms can be realized 
 One might wonder if this makes all the previous chapters irrelevant, and in particular if the theory of $\mathbf{NP}$ completeness still applies to probabilistic algorithms.
 Fortunately, the answer is _Yes_:
 
-> # {.theorem title="NP hardness and  BPP" #NPCandBPP}
+> ### {.theorem title="NP hardness and  BPP" #NPCandBPP}
 Suppose that $F$ is $\mathbf{NP}$-hard and $F\in \mathbf{BPP}$. Then $\mathbf{NP} \subseteq \mathbf{BPP}$.
 
 Before seeing the proof, note that [NPCandBPP](){.ref} implies that if there was a randomized polynomial time algorithm for any $\mathbf{NP}$-complete problem such as $3SAT$, $ISET$ etc., then there would be such an algorithm for _every_ problem in $\mathbf{NP}$.
 Thus, regardless of whether our model of computation is deterministic or randomized algorithms, $\mathbf{NP}$ complete problems retain their status as the "hardest problems in $\mathbf{NP}$."
 
-> # {.proofidea data-ref="NPCandBPP"}
+> ### {.proofidea data-ref="NPCandBPP"}
 The idea is to simply run the reduction as usual, and plug it into the randomized algorithm instead of a deterministic one. It would be an excellent exercise, and a way to reinforce the definitions of $\mathbf{NP}$-hardness and randomized algorithms, for you to work out the proof for yourself. However for the sake of completeness, we include this proof below.
 
-> # {.proof data-ref="NPCandBPP"}
+> ### {.proof data-ref="NPCandBPP"}
 Suppose that $F$ is $\mathbf{NP}$-hard and $F\in \mathbf{BPP}$.
 We will now show that this implies that $\mathbf{NP} \subseteq \mathbf{BPP}$.
 Let $G \in \mathbf{NP}$.
@@ -224,10 +224,10 @@ Interestingly, in the latter case, $\mathbf{P}=\mathbf{BPP}$.](../figure/BPPscen
 
 It is not hard to see that if $F$ is in $\mathbf{BPP}$ then it can be computed in _exponential_ time.
 
-> # {.theorem title="Simulating randomized algorithms in exponential time" #BPPEXP}
+> ### {.theorem title="Simulating randomized algorithms in exponential time" #BPPEXP}
 $\mathbf{BPP} \subseteq \mathbf{EXP}$
 
-> # { .pause }
+> ### { .pause }
 The proof of [BPPEXP](){.ref} readily follows by enumerating over all the (exponentially many) choices for the random coins.
 We omit the formal proof, as doing it by yourself is an excellent way to get comfortable with [BPPdef](){.ref}.
 
@@ -241,11 +241,11 @@ A priori it is not at all clear that the same holds for a function in $\mathbf{B
 
 ![The possible guarantees for a randomized algorithm $A$ computing some function $F$. In the tables above, the columns correspond to different inputs and the rows to different choices of the random tape. A cell at position $r,x$ is colored green if $A(x;r)=F(x)$ (i.e., the algorithm outputs the correct answer) and red otherwise. The standard $\mathbf{BPP}$ guarantee corresponds to the middle figure, where  for every input $x$, at least two thirds of the choices $r$ for a random tape will result in $A$ computing the correct value. That is, every column is colored green in at least two thirds of its coordinates.  In the left figure we have an "average case" guarantee where the algorithm is only guaranteed to output the correct answer with probabilty two thirds over a _random_ input (i.e., at most one third of the total entries of the table are colored red, but there could be an all red column). The right figure corresponds to the "offline $\mathbf{BPP}$" case, with probability at least two thirds over the random choice $r$, $r$ will be good for _every_ input. That is, at least two thirds of the rows are all green. [rnandthm](){.ref} ($\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$) is proven by amplifying the success of a $\mathbf{BPP}$ algorithm until we have the "offline $\mathbf{BPP}$" guarantee, and then hardwiring the choice of the randomness $r$ to obtain a nonuniform deterministic algorithm.](../figure/randomizedcomp.png){#randomizedcompfig .margin  }
 
-> # {.theorem title="Randomness does not help for non uniform computation" #rnandthm}
+> ### {.theorem title="Randomness does not help for non uniform computation" #rnandthm}
 $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$. That is, for every $F\in \mathbf{BPP}$, there exist some $a,b\in \N$ such that for every $n>0$, $F_{\upharpoonright n} \in SIZE(an^b)$ where $F_{\upharpoonright n}$ is the restriction of $F$ to inputs in $\{0,1\}^n$.
 
 
-> # {.proofidea data-ref="rnandthm"}
+> ### {.proofidea data-ref="rnandthm"}
 The idea behind the proof is that we can first amplify by repetition the probability of success from $2/3$ to $1-0.1 \cdot 2^{-n}$.
 This will allow us to show that there exists a single fixed choice of "favorable coins" that would cause the algorithm to output the right answer on _all_ of the possible $2^n$ inputs.
 We can then use the standard "unravelling the loop" technique to transform an RNAND-TM program to an RNAND-CIRC program, and  "hardwire" the favorable choice of random coins to  transform the RNAND-CIRC program into a plain old deterministic NAND-CIRC program.
@@ -279,7 +279,7 @@ Then by "hardwiring" the values $r^*_0,\ldots,r^*_{m-1}$ in place of the last $m
 This demonstrates that $F_{\upharpoonright n}$ has a polynomial sized NAND-CIRC program, hence completing the proof of [rnandthm](){.ref}.
 :::
 
-> # {.remark title="Randomness and non uniformity" #nonuniform}
+> ### {.remark title="Randomness and non uniformity" #nonuniform}
 The proof of [rnandthm](){.ref} actually yields more than its statement. We can use the same "unrolling the loop" arguments we've used before to show that the restriction to $\{0,1\}^n$ of every function in $\mathbf{BPP}$ is also computable by a polynomial-size RNAND-CIRC program (i.e., NAND-CIRC program with the `RAND` operation). Like in the $\mathbf{P}$ vs $SIZE(poly(n))$ case, there are also functions outside $\mathbf{BPP}$ whose restrictions can be  computed  by polynomial-size  RNAND-CIRC programs.
 Nevertheless the proof of [rnandthm](){.ref} shows that even such functions can be computed by polynomial sized NAND-CIRC programs without using the `rand` operations.
 This can be phrased as saying   that $BPSIZE(T(n)) \subseteq SIZE(O(n T(n)))$ (where $BPSIZE$ is defined in the natural way using RNAND progams).
@@ -319,12 +319,12 @@ This reasoning is not specific to $\pi$ and holds for every deterministically pr
 <!---
 
 
-> # {.lemma title="Can't replace tape deterministically" #nodet}
+> ### {.lemma title="Can't replace tape deterministically" #nodet}
 Let $G:\{0,1\}^* \rightarrow \{0,1\}^m$
 There is a linear time probabilistic algorithm $A$ such that for  every $x\in \{0,1\}^*$, $\Pr[A(x)=1]< 1/10$ but
 for every $n>10$ and fixed string $r\in \{0,1\}^n$, there is some $x\in \{0,1\}^n$ such that $A(x;r)=1$ where $A(x;r)$ denotes the execution of $A$ on input $x$ and where the randomness is supplied from $r$.
 
-> # {.proof data-ref="nodet"}
+> ### {.proof data-ref="nodet"}
 The algorithm $A$ is very simple. On input $x$ of length $n$, it tosses $n$ random coins $r_1,\ldots,r_n$ and outputs $1$ if and only if $x_0=r_0$, $x_1=r_1$, $\ldots$, $x_{9}=r_{9}$ (if $n<10$ then $A$ always outputs $0$).
 Clearly $A$ runs in $O(n)$ steps and for every $x\in \{0,1\}^*$, $\Pr[ A(x)=1] \leq 2^{-10} < 0.1$.
 However, by definition, for every fixed string $r$ of length at least $10$, $A(r;r)=1$.
@@ -345,7 +345,7 @@ Another way to think about it is that rather than trying to _eliminate_ the need
 
 We make the following definition:
 
-> # {.definition title="Pseudorandom generator" #prgdef}
+> ### {.definition title="Pseudorandom generator" #prgdef}
 A function $G:\{0,1\}^\ell \rightarrow \{0,1\}^m$ is a _$(T,\epsilon)$-pseudorandom generator_ if for every
 NAND-CIRC program $P$ with $m$ inputs and one output of at most $T$ lines,
 $$
@@ -380,7 +380,7 @@ For the first question, let us come clean and confess we do not know how to _pro
 By _interesting_ we mean pseudorandom generators that satisfy that $\epsilon$ is some small constant (say $\epsilon<1/3$), $m>\ell$, and the function $G$ itself can be computed in $poly(m)$ time.
 Nevertheless, [prgexist](){.ref} (whose statement and proof is deferred to the end of this chapter) shows that if we only drop the last  condition (polynomial-time computability), then there do in fact exist pseudorandom generators where $m$ is _exponentially larger_  than $\ell$.
 
-> # { .pause }
+> ### { .pause }
 At this point you might want to skip ahead and  look at the _statement_ of [prgexist](){.ref}. However, since its _proof_ is somewhat subtle, I recommend you defer reading it until you've finished reading the rest of this chapter.
 
 ### From existence to constructivity
@@ -419,10 +419,10 @@ This conjecture is sometimes known in the literature as the existence of _expone
 
 We now show that optimal pseudorandom generators are indeed very useful, by proving the following theorem:
 
-> # {.theorem title="Derandomization of BPP" #derandBPPthm}
+> ### {.theorem title="Derandomization of BPP" #derandBPPthm}
 Suppose that the optimal PRG conjecture is true. Then $\mathbf{BPP}=\mathbf{P}$.
 
-> # {.proofidea data-ref="derandBPPthm"}
+> ### {.proofidea data-ref="derandBPPthm"}
 The optimal PRG conjecture tells us that we can achieve _exponential expansion_ of $\ell$ truly random coins into as many as $2^{\delta \ell}$ "pseudorandom coins."
 Looked at from the other direction, it allows us to reduce the need for randomness by taking an algorithm that uses $m$ coins and converting it into an algorithm that only uses $O(\log m)$ coins.
 Now an algorithm of the latter type by can be made fully deterministic by enumerating over all the $2^{O(\log m)}$ (which is polynomial in $m$) possibilities for its random choices.
@@ -456,7 +456,7 @@ Two computational complexity questions that we cannot settle are:
 However we can say that the "conventional wisdom" is correct on at least one of these questions.
 Namely, if we're wrong on the first count, then we'll be right on the second one:
 
-> # {.theorem title="Sipser–Gács Theorem" #BPPvsNP}
+> ### {.theorem title="Sipser–Gács Theorem" #BPPvsNP}
 If $\mathbf{P}=\mathbf{NP}$ then $\mathbf{BPP}=\mathbf{P}$.
 
 ::: { .pause }
@@ -555,11 +555,11 @@ This concludes the proof of __CLAIM I__ and hence of [BPPvsNP](){.ref}.
 We now show that, if we don't insist on _constructivity_ of pseudorandom generators, then we can show that there exists  pseudorandom generators with output that  _exponentially larger_   in the input length.
 
 
-> # {.lemma title="Existence of inefficient pseudorandom generators" #prgexist}
+> ### {.lemma title="Existence of inefficient pseudorandom generators" #prgexist}
 There is some absolute constant $C$ such that for every $\epsilon,T$, if $\ell > C (\log T + \log (1/\epsilon))$ and $m \leq T$,  then there is an $(T,\epsilon)$ pseudorandom generator $G: \{0,1\}^\ell \rightarrow \{0,1\}^m$.
 
 
-> # {.proofidea data-ref="prgexist"}
+> ### {.proofidea data-ref="prgexist"}
 The proof uses an extremely useful technique known  as the "probabilistic method" which is not too hard mathematically but can be confusing at first.^[There is a whole (highly recommended) [book by Alon and Spencer](https://www.amazon.com/Probabilistic-Method-Discrete-Mathematics-Optimization/dp/1119061954/ref=dp_ob_title_bk)  devoted to this method.]
 The idea is to give a "non constructive" proof of existence of the pseudorandom generator $G$ by showing that if $G$ was chosen at random, then the probability that it would be a valid $(T,\epsilon)$ pseudorandom generator is positive.
 In  particular this means that there _exists_ a single $G$ that is a valid $(T,\epsilon)$ pseudorandom generator.

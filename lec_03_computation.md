@@ -255,7 +255,7 @@ print([f"XOR3({a},{b},{c})={XOR3(a,b,c)}" for a in [0,1] for b in [0,1] for c in
 :::
 
 
-> # { .pause }
+> ### { .pause }
 Try to generalize the above examples to  obtain a way to compute $XOR_n:\{0,1\}^n \rightarrow \{0,1\}$ for every $n$ using at most $4n$ basic steps involving applications of a function in $\{ AND, OR , NOT \}$ to outputs or previously computed values.
 
 
@@ -281,7 +281,7 @@ There are several concerns that are raised by this definition:
 3. Third, do we even know that this definition has anything to do with actual computing? If someone gave us a description of such an algorithm, could we use it to actually compute the function in the real world?
 
 
-> # { .pause }
+> ### { .pause }
 These concerns will to a large extent guide us in the upcoming chapters. Thus you would be well advised to re-read the above informal definition and see what you think about these issues.
 
 
@@ -511,11 +511,11 @@ def EVAL(code,X):
 
 It turns out that AON-CIRC programs and Boolean circuits have exactly the same power:
 
-> # {.theorem title="Equivalence of circuits and straight-line programs" #slcircuitequivthm}
+> ### {.theorem title="Equivalence of circuits and straight-line programs" #slcircuitequivthm}
 Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s \geq m$ be some number. Then $f$ is computable by a Boolean circuit  of $s$ gates if and only if $f$ is computable by an AON-CIRC program of $s$ lines.
 
 
-> # {.proofidea data-ref="slcircuitequivthm"}
+> ### {.proofidea data-ref="slcircuitequivthm"}
 The idea is simple - AON-CIRC program and Boolean circuits are just different ways of describing the exact same computational process.
 For example, an AND gate in a Boolean circuit corresponding to computing the AND of two previously-computed values.
 In a AON-CIRC program this will correspond to the line that stores in a variable the AND of two previously-computed variables.
@@ -605,15 +605,15 @@ $$NAND(a,b) = \begin{cases} 0 & a=b=1 \\ 1 & \text{otherwise} \end{cases}$$
 
 As its name implies, $NAND$ is the NOT  of AND (i.e., $NAND(a,b)= NOT(AND(a,b))$), and so we can clearly compute $NAND$ using $AND$  and $NOT$. Interestingly, the opposite direction also holds:
 
-> # {.theorem title="NAND computes AND,OR,NOT" #univnandonethm}
+> ### {.theorem title="NAND computes AND,OR,NOT" #univnandonethm}
 We can compute $AND$, $OR$, and $NOT$ by composing only the $NAND$ function.
 
-> # {.proof data-ref="univnandonethm"}
+> ### {.proof data-ref="univnandonethm"}
 We start with the following observation. For every $a\in \{0,1\}$, $AND(a,a)=a$. Hence, $NAND(a,a)=NOT(AND(a,a))=NOT(a)$.
 This means that $NAND$ can compute $NOT$, and since by the principle of "double negation",  $AND(a,b)=NOT(NOT(AND(a,b)))$ this means that we can use $NAND$ to compute $AND$ as well.
 Once we can compute $AND$ and $NOT$, we can compute $OR$ using the so called ["De Morgan's Law"](https://goo.gl/TH86dH):  $OR(a,b)=NOT(AND(NOT(a),NOT(b)))$ (which can also be written as $a \vee b = \overline{\overline{a} \wedge \overline{b}}$) for every $a,b \in \{0,1\}$.
 
-> # { .pause }
+> ### { .pause }
 [univnandonethm](){.ref}'s proof is very simple, but you should make sure that __(i)__ you understand the statement of the theorem, and __(ii)__ you follow its proof completely. In particular, you should make sure you understand why De Morgan's law is true.
 
 
@@ -632,7 +632,7 @@ print([f"Test {a},{b}: {ORwithNAND(a,b)==OR(a,b)}" for a in [0,1] for b in [0,1]
 :::
 
 
-> # {.solvedexercise title="Compute majority with NAND" #majbynandex}
+> ### {.solvedexercise title="Compute majority with NAND" #majbynandex}
 Let $MAJ: \{0,1\}^3 \rightarrow \{0,1\}$ be the function that on input $a,b,c$ outputs $1$ iff $a+b+c \geq 2$. Show how to compute $MAJ$ using a composition of $NAND$'s.
 
 ::: {.solution data-ref="majbynandex"}
@@ -699,10 +699,10 @@ We can also represent this algorithm graphically as a circuit:
 
 In fact, we can show the following theorem:
 
-> # {.theorem title="NAND is a universal operation" #NANDuniversamthm}
+> ### {.theorem title="NAND is a universal operation" #NANDuniversamthm}
 For every Boolean circuit $C$ of $s$ gates, there exists a NAND circuit $C'$ of at most $3s$ gates that computes the same function as $C$.
 
-> # {.proofidea data-ref="NANDuniversamthm"}
+> ### {.proofidea data-ref="NANDuniversamthm"}
 The idea of the proof is to just replace every $AND$, $OR$ and $NOT$ gate with their NAND implementation  following the proof of [univnandonethm](){.ref}.
 
 ::: {.proof data-ref="NANDuniversamthm"}
@@ -785,7 +785,7 @@ foo = NAND(bar,blah)
 
 where `foo`, `bar` and `blah` are variable identifiers.
 
-> # {.example title="Our first NAND-CIRC program" #NANDprogramexample}
+> ### {.example title="Our first NAND-CIRC program" #NANDprogramexample}
 Here is an example of a NAND-CIRC program: \
 >
 `u = NAND(X[0],X[1])` \
@@ -794,7 +794,7 @@ Here is an example of a NAND-CIRC program: \
 `Y[0] = NAND(v,w)`
 
 
-> # { .pause }
+> ### { .pause }
 Do you know what function this program computes? Hint: you have seen it before.
 
 We can formally define the notion of computation by a NAND-CIRC program in the natural way:
@@ -810,7 +810,7 @@ Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$ be some function, and let $P$ be a NAND-
 
 As before we can show that NAND circuits are equivalent to NAND-CIRC programs (see [progandcircfig](){.ref}):
 
-> # {.theorem title="NAND circuits and straight-line program equivalence" #NANDcircslequivthm}
+> ### {.theorem title="NAND circuits and straight-line program equivalence" #NANDcircslequivthm}
 For every $f:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s \geq m$, $f$ is computable by a NAND-CIRC program of $s$ lines if and only if $f$ is computable by  a NAND circuit of $s$ gates.
 
 
@@ -867,7 +867,7 @@ Y[0] = NAND(temp_2,temp_3)
 
 
 
-> # {.remark title="Is the NAND-CIRC programming language Turing Complete? (optional note)" #NANDturingcompleteness}
+> ### {.remark title="Is the NAND-CIRC programming language Turing Complete? (optional note)" #NANDturingcompleteness}
 You might have heard of a term called "Turing Complete" that is sometimes used to describe programming languages. (If you haven't, feel free to ignore the rest of this remark: we will encounter this term later in this course and define it properly.)
 If so, you might wonder if the NAND-CIRC programming language has this property.
 The answer is __no__, or perhaps more accurately, the term is not really applicable for the NAND-CIRC programming language.
@@ -897,7 +897,7 @@ For example, if $f$ can be computed by a Boolean circuit of $s$ gates, then it c
 
 
 
-> # {.proofidea data-ref="equivalencemodelsthm"}
+> ### {.proofidea data-ref="equivalencemodelsthm"}
 We omit the formal proof since it just involved putting together [slcircuitequivthm](){.ref}, [NANDuniversamthm](){.ref}, and [NANDcircslequivthm](){.ref}. We can translate a program/circuit that compute $f$ in one model into a program/circuit that computes $f$ in another model by increasing the lines/gates by at most a constant factor (in fact this constant factor is at most $3$).
 
 [slcircuitequivthm](){.ref} is actually a special case of a more general result.
@@ -921,7 +921,7 @@ A function corresponds to a _specification_ of a computational task, and it is a
 There is nothing special about AND/OR/NOT or  NAND. For every set of functions $\mathcal{G} = \{ G_0,\ldots,G_{k-1} \}$, we can define a notion of circuits that use elements of  $\mathcal{G}$ as gates, and a notion of a "$\mathcal{G}$ programming language" where every line involves assigning to a variable `foo` the result of applying some $G_i \in \mathcal{G}$ to previously defined or input variables.
 Specifically, we can make the following definition:
 
-> # {.definition title="General straight-line programs" #genstraight-lineprogs}
+> ### {.definition title="General straight-line programs" #genstraight-lineprogs}
 Let $\mathcal{F} = \{ f_0,\ldots, f_{t-1} \}$ be a finite  collection of Boolean functions, such that
 $f_i:\{0,1\}^{k_i} \rightarrow \{0,1\}$ for some $k_i \in \N$.
 An _$\mathcal{F}$ program_ is a sequence of lines, each of which assigns to some  variable  the result of applying some $f_i \in \mathcal{F}$ to $k_i$ other variables. As above, we use `X[`$i$`]` and `Y[`$j$`]` to denote the input and output variables.
@@ -940,7 +940,7 @@ There are also some  sets $\mathcal{F}$ that are more restricted in power, for e
 
 
 
-> # { .recap }
+> ### { .recap }
 * An _algorithm_ is a recipe for performing a computation as a sequence of "elementary" or "simple" operations.
 * One candidate definition for "elementary" operations is the set $AND$, $OR$ and $NOT$.
 * Another candidate  definition for an "elementary" operation is the $NAND$ operation. It is an operation that is easily implementable in the physical world in a variety of methods including by electronic transistors.
@@ -983,13 +983,13 @@ Prove that $\{ LOOKUP_1,0,1 \}$ is a universal set of gates where $0$ and $1$ ar
 :::
 
 
-> # {.exercise title="Bound on universal basis size (challenge)" #universal-bound}
+> ### {.exercise title="Bound on universal basis size (challenge)" #universal-bound}
 Prove that for every subset $B$ of the functions from $\{0,1\}^k$ to $\{0,1\}$,
 if $B$ is universal then there is a $B$-circuit of at most $O(k)$ gates to compute the $NAND$ function (you can start by showing that there is a $B$ circuit of at most $O(k^{16})$ gates).^[Thanks to Alec Sun for solving this problem.]
 
 
 
-> # {.exercise title="Threshold using NANDs" #threshold-nand-ex}
+> ### {.exercise title="Threshold using NANDs" #threshold-nand-ex}
 Prove that there is some constant $c$ such that for every $n>1$, and integers $a_0,\ldots,a_{n-1},b \in \{-2^n,-2^n+1,\ldots,-1,0,+1,\ldots,2^n\}$, there is a NAND circuit with at most $c\dot n^4$ gates that computes the _threshold_ function $f_{a_0,\ldots,a_{n-1},b}:\{0,1\}^n \rightarrow \{0,1\}$ that on input $x\in \{0,1\}^n$ outputs $1$ if and only if $\sum_{i=0}^{n-1} a_i x_i > b$.
 
 

@@ -9,7 +9,7 @@ chapternum: '15'
 
 
 
-> # { .objectives }
+> ### { .objectives }
 * Explore the consequences of $\mathbf{P}=\mathbf{NP}$ \
 * _Search-to-decision_ reduction: transform algorithms that solve decision version to search version for $\mathbf{NP}$-complete problems. \
 * Optimization and learning problems \
@@ -58,15 +58,15 @@ Similarly, it's not enough to find out if a graph has a long path$-$ we want to 
 
 It turns out that if we can solve these decision problems, we can solve the corresponding search problems as well:
 
-> # {.theorem title="Search vs Decision" #search-dec-thm}
+> ### {.theorem title="Search vs Decision" #search-dec-thm}
 Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time algorithm $V$ and $a,b \in \N$,there is a polynomial-time algorithm $FIND_V$  such that for every  $x\in \{0,1\}^n$, if there exists $y\in \{0,1\}^{an^b}$ satisfying $V(xy)=1$, then $FIND_V(x)$ finds some string $y'$ satisfying this condition.
 
-> # { .pause }
+> ### { .pause }
 To understand what the statement of [search-dec-thm](){.ref} means, let us look at the special case of the $MAXCUT$ problem.
 It is not hard to see that there is a polyomial-time algorithm $VERIFYCUT$ such that $VERIFYCUT(G,k,S)=1$ if and only if $S$ is a subset of $G$'s vertices that cuts at least $k$ edges.
 [search-dec-thm](){.ref} implies that if $\mathbf{P}=\mathbf{NP}$ then there is a polynomial-time algorithm $FINDCUT$ that on input $G,k$ outputs a set $S$ such that $VERIFYCUT(G,k,S)=1$ if such a set exists. This means that if $\mathbf{P}=\mathbf{NP}$, by trying all values of $k$ we can find in polynomial time a maximum cut in any given graph. We can use a similar argument to show that if $\mathbf{P}=\mathbf{NP}$ then we can find a satisfying assignment for every satisfiable 3CNF formula, find the longest path in a graph, solve integer programming, and so and so forth.
 
-> # {.proofidea data-ref="search-dec-thm"}
+> ### {.proofidea data-ref="search-dec-thm"}
 The idea behind the proof of [search-dec-thm](){.ref} is simple;
 let us demonstrate it for the special case of $3SAT$.
 (In fact, this case is not so "special"$-$ since $3SAT$ is $\mathbf{NP}$-complete, we can reduce the task of solving the search problem for $MAXCUT$ or any other problem in $\mathbf{NP}$ to the task of solving it for $3SAT$.)
@@ -124,7 +124,7 @@ If the call to  $STARTSWITH_V(xz_0\cdots z_{\ell-1}0)$ returns $0$ then it must 
 [search-dec-thm](){.ref} allows us to find solutions for $\mathbf{NP}$ problems if $\mathbf{P}=\mathbf{NP}$, but it is not immediately clear that we can find the _optimal_ solution.
 For example, suppose that $\mathbf{P}=\mathbf{NP}$, and you are given a graph $G$. Can you find the _longest_ simple path in $G$ in polynomial time?
 
-> # { .pause }
+> ### { .pause }
 This is actually an excellent question for you to attempt on your own.
 That is, assuming $\mathbf{P}=\mathbf{NP}$, give a polynomial-time algorithm that on input a graph $G$, outputs a maximally long simple path in the graph $G$.
 
@@ -135,16 +135,16 @@ If $G$ does not contain a simple path of length $n$, then we will check if it co
 The above reasoning was not specifically tailored to finding paths in graphs.
 In fact, it can be vastly generalized to proving the following result:
 
-> # {.theorem title="Optimization from $\mathbf{P}=\mathbf{NP}$" #optimizationnp}
+> ### {.theorem title="Optimization from $\mathbf{P}=\mathbf{NP}$" #optimizationnp}
 Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time computable function $f:\{0,1\}^* \rightarrow \{0,1\}^*$  there is a polynomial-time algorithm $OPT$ such that on input   $x\in \{0,1\}^*$, $OPT(x,1^m) = \max_{y\in \{0,1\}^m} f(x,y)$  (where we identify the output of $f(x)$ with a natural number via the binary representation).
 >
 Moreover under the same assumption, there is a polynomial-time algorithm $FINDOPT$ such that for every $x\in \{0,1\}^*$, $FINDOPT(x,1^m)$ outputs $y^* \in \{0,1\}^*$ such that $f(x,y^*)=OPT(x,y^*)$.
 
-> # { .pause }
+> ### { .pause }
 The statement of [optimizationnp](){.ref} is a bit cumbersome.  To understand it, think  how it would subsume the example above of  a polynomial time algorithm for finding the maximum length path in a graph. In this case the function $f$ would be the map that on input a pair $x,y$ outputs $0$ if the pair $(x,y)$ does not represent some graph and a simple path inside the graph respectively;  otherwise $f(x,y)$ would equal the length of the path $y$ in the graph $x$. Since a path in an $n$ vertex graph can be represented by at most $n \log n$ bits, for every $x$ representing a graph of $n$ vertices, finding $\max_{y\in \{0,1\}^{n \log n}}f(x,y)$   corresponds to finding the length of the maximum simple path in the graph corresponding to $x$, and finding the string $y^*$ that achieves this maximum corresponds to actually finding the path.
 
 
-> # {.proofidea data-ref="optimizationnp"}
+> ### {.proofidea data-ref="optimizationnp"}
 The proof follows by generalizing our ideas from the longest path example above.
 Let $f$ be as in the theorem statement.
 If  $\mathbf{P}=\mathbf{NP}$ then for every  for every string $x\in \{0,1\}^*$ and number $k$, we can test in in $poly(|x|,m)$ time  whether there exists $y$ such that $f(x,y) \geq k$, or in other words test whether  $\max_{y \in \{0,1\}^m} f(x,y) \geq k$.
@@ -311,7 +311,7 @@ where $m=p(n)$ and $\mathcal{Q}$ is either $\exists$ or $\forall$ depending on w
 :::
 
 
-> # {.proofidea data-ref="PH-collapse-thm"}
+> ### {.proofidea data-ref="PH-collapse-thm"}
 To understand the idea behind the proof, consider the special case where we want to decide, given $x\in \{0,1\}^n$, whether for every $y \in \{0,1\}^n$ there exists $z\in \{0,1\}^n$ such that $V(xyz)=1$. Consider the function $F$ such that $F(xy)=1$ if there exists $z\in \{0,1\}^n$ such that $V(xyz)=1$.
 Since $V$ runs in polynomial-time $F\in \mathbf{NP}$ and hence if $\mathbf{P}=\mathbf{NP}$, then there is an algorithm $V'$  that on input $x,y$ outputs $1$ if and only if there exists $z\in \{0,1\}^n$ such that $V(xyz)=1$.
 Now we can see that the original statement we consider is true if and only if for every $y\in \{0,1\}^n$, $V'(xy)=1$, which means it is false if and only if the following condition $(*)$ holds: there exists some $y\in \{0,1\}^n$ such that $V'(xy)=0$.

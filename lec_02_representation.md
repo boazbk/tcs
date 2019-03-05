@@ -6,7 +6,7 @@ chapternum: "2"
 
 # Computation and Representation {#chaprepres }
 
-> # { .objectives }
+> ### { .objectives }
 * _Representing_ an object as a string (often of zeroes and ones).
 * Examples of representations for common objects such as numbers, vectors, lists, graphs.
 * Prefix-free representations.
@@ -109,10 +109,10 @@ Table: Representing numbers in the binary basis. The lefthand column contains re
 
 Formally,  our representation is given by the following theorem:
 
-> # {.theorem title="Binary representation of natural numbers" #binaryrepthm}
+> ### {.theorem title="Binary representation of natural numbers" #binaryrepthm}
 There exists a one-to-one function $NtS:\N \rightarrow \{0,1\}^*$.^[$NtS$ stands for "numbers to strings".]
 
-> # {.proofidea data-ref="binaryrepthm"}
+> ### {.proofidea data-ref="binaryrepthm"}
 We use the standard binary representation mentioned above. If you find the proof below confusing, there are many sources online which describe this representation fully with examples.
 
 ::: {.proof data-ref="binaryrepthm"}
@@ -234,7 +234,7 @@ But this is still a fine representation, since the decoding partial function is 
 That is, every integer can be represented as a string, and every two distinct integers have distinct representations.
 
 
-> # {.remark title="Interpretation and context" #contextreprem}
+> ### {.remark title="Interpretation and context" #contextreprem}
 Given a string $y\in \{0,1\}^*$, how do we know if it's "supposed" to represent a (nonnegative) natural number  or a (potentially negative) integer?
 For that matter, even if we know $y$ is "supposed" to be an integer, how do we know what representation scheme it uses?
 The short answer is that we don't necessarily know this information, unless it is supplied from the context.^[In  programming language, the compiler or interpreter determines the representation of the sequence of bits corresponding to a variable based on the variable's _type_.]
@@ -319,14 +319,14 @@ Floating point is [often problematic](http://www.theregister.co.uk/2006/08/12/fl
 Given the issues with floating point representation, we could ask whether we could represent real numbers _exactly_ as strings.
 Unfortunately, the following theorem shows that this cannot be done:
 
-> # {.theorem title="Reals are uncountable" #cantorthm}
+> ### {.theorem title="Reals are uncountable" #cantorthm}
 There is no one-to-one function $RtS:\R \rightarrow \{0,1\}^*$.^[$RtS$ stands for "reals to strings".]
 
 [cantorthm](){.ref} was proven by [Georg Cantor](https://en.wikipedia.org/wiki/Georg_Cantor) in 1874.^[Cantor used the set $\N$ rather than $\{0,1\}^*$, but one can show that these two result are equivalent using the one-to-one maps between those two sets, see [naturalsstringsmapex](){.ref}. Saying that there is no one-to-one map from $\R$ to $\N$ is equivalent to saying that there is no onto map $NtR:\N \rightarrow \R$ or, in other words, that there is no way to "count" all the real numbers as $NtR(0),NtR(1),NtR(2),\ldots$. For this reason [cantorthm](){.ref} is known as the _uncountability of the reals_.]
 This result (and the theory around it) was quite shocking to mathematicians at the time.
 By showing that there is no one-to-one map from $\R$ to $\{0,1\}^*$ (or $\N$), Cantor showed that these two infinite sets have "different forms of infinity" and that the set of real numbers $\R$ is in some sense "bigger"  than the infinite set $\{0,1\}^*$.
 The notion that there are "shades of infinity" was deeply disturbing to mathematicians and philosophers at the time.
-The philosopher Ludwig Wittgenstein we mentioned above called Cantor's results "utter nonsense" and "laughable".
+The philosopher Ludwig Wittgenstein (whom we mentioned before) called Cantor's results "utter nonsense" and "laughable".
 Others thought they were even worse than that.
 Leopold Kronecker called Cantor a "corrupter of youth", while Henri Poincaré said that Cantor's ideas "should be banished from mathematics once and for all".
 The tide eventually turned, and these days Cantor's work is universally accepted as the cornerstone of set theory and the foundations of mathematics.
@@ -334,17 +334,40 @@ As David Hilbert said in 1925, _"No one shall expel us from the paradise which C
 As we will see later in this book, Cantor's ideas also play a huge role in the theory of computation.
 
 Now that we discussed the theorem's importance, let us see the proof.
-[cantorthm](){.ref} follows from the following two results:
+The idea behind the proof is to do the following::
 
-> # {.lemma #sequencestostrings}
-Let $\{0,1\}^\infty$ be the set $\{ f \;|\; f:\N \rightarrow \{0,1\} \}$ of functions from $\N$ to $\{0,1\}$.^[We can also think of $\{0,1\}^\infty$ as the set of all infinite _sequences_ of bits, since a function $f:\N \rightarrow \{0,1\}$ can be identified with the sequence $(f(0),f(1),f(2),\ldots )$.]
-Then there is no one-to-one map $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$.^[$FtS$ stands for "functions to strings".]
+1. Define some infinite set $\mathcal{X}$ for which it is easier for us to prove that $\mathcal{X}$ is not countable: that is there is no one-to-one function from  $\mathcal{X}$ to $\{0,1\}^*$.
 
-> # {.lemma #sequencestoreals}
+2. Prove that there _is_ a one-to-one function $G$ mapping $\mathcal{X}$ to $\mathbb{R}$.
+
+These two facts together imply Cantor's Theorem. The reason is using a "proof by contradiction". If we assume (towards the sake of contradiction) that there exists some one-to-one $F$ mapping $\mathbb{R}$ to $\{0,1\}^*$
+then the function $x \mapsto F(G(x))$ obtained by composing $F$ with the function $G$ from Step 2 above would be a  one-to-one function from $\mathcal{X}$ to $\{0,1\}^*$, which contradicts what we proved in Step 1!
+
+To turn this idea into a proof of [cantorthm](){.ref} we need to:
+
+* Define the set $\mathcal{X}$.
+
+* Prove that there is no one-to-one function from $\mathcal{X}$ to $\{0,1\}^*$
+
+* Prove that there _is_ a one-to-one function from $\mathcal{X}$ to $\R$.
+
+We now proceed to do exactly that. Namely, we will give a definition for a set and two lemmas that show that this set satisfies the two properties we desire.
+
+> ### { .definition title = "The set $\{0,1\}^\infty$" }
+We define $\{0,1\}^\infty$ to be the set  $\{ f \;|\; f:\N \rightarrow \{0,1\} \}$.
+
+That is, $\{0,1\}^\infty$ is a set of _functions_, and a function $f$ is in $\{0,1\}^infty$ iff its domain is $\N$ and its codomain is $\{0,1\}$.^[We can also think of $\{0,1\}^\infty$ as the set of all infinite _sequences_ of bits, since a function $f:\N \rightarrow \{0,1\}$ can be identified with the sequence $(f(0),f(1),f(2),\ldots )$.]
+The set $\{0,1\}^\infty$ will play the role of $\mathcal{X}$ above.
+Namely, we will prove the following two results about it:
+
+> ### {.lemma #sequencestostrings}
+There does not exist a  one-to-one map $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$.^[$FtS$ stands for "functions to strings".]
+
+> ### {.lemma #sequencestoreals}
 There _does_ exist a one-to-one map $FtR:\{0,1\}^\infty \rightarrow \R$.^[$FtR$ stands for "functions to reals."]
 
-[sequencestostrings](){.ref} and [sequencestoreals](){.ref} together  imply [cantorthm](){.ref}.
-To see why, suppose, for the sake of contradiction, that there did exist a one-to-one function $RtS:\R \rightarrow \{0,1\}^*$.
+As we've seen above, [sequencestostrings](){.ref} and [sequencestoreals](){.ref} together  imply [cantorthm](){.ref}.
+To repeat the argument more formally, suppose, for the sake of contradiction, that there did exist a one-to-one function $RtS:\R \rightarrow \{0,1\}^*$.
 By [sequencestoreals](){.ref}, there exists a one-to-one function $FtR:\{0,1\}^\infty \rightarrow \R$.
 Thus, under this assumption, since the composition of two one-to-one functions is one-to-one (see [onetoonecompex](){.ref}), the function $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$ defined as $FtS(f)=RtS(FtR(f))$ will be one to one, contradicting [sequencestostrings](){.ref}.
 See [proofofcantorfig](){.ref} for a graphical illustration of this argument.
@@ -355,36 +378,42 @@ Now all that is left is to prove these two lemmas.
 We start by proving  [sequencestostrings](){.ref} which is really the heart of [cantorthm](){.ref}.
 
 ::: {.proof data-ref="sequencestoreals"}
-Let us assume, for the sake of contradiction, that there exists a one-to-one function $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$.
-Then, there is an _onto_ function $StF:\{0,1\}^* \rightarrow \{0,1\}^\infty$ (e.g., see [onetooneimpliesonto](){.ref}).
-We will derive a contradiction by coming up with some function $f^* : \N \rightarrow \{0,1\}$ such that $f^* \neq StF(x)$ for every $x\in \{0,1\}^*$.
-
-The argument for this is short but subtle.
-We need to construct some function $f^*:\N \rightarrow \{0,1\}$ such that for every $x\in \{0,1\}^*$, if we let $g=StF(x)$ then $g \neq f^*$.
-Since two functions are identical if and only if they agree on every input, to do this we need to show that there is _some_ $n\in \N$ such that $f^*(n) \neq g(n)$.
+We will prove that there does not exist an _onto_ function $StF:\{0,1\}^* \rightarrow \{0,1\}^\infty$.
+This will imply the lemma since for every two sets $A$ and $B$, there exists an onto function from $A$ to $B$ if and only if there exists a one-to-one function from $B$ to $A$  (see [onetooneimpliesonto](){.ref}).
 
 
-::: { .pause }
-All these quantifiers can be confusing, so let's again recap where we are and where we want to get to. We assumed by contradiction there  is a one-to-one $FtS$ and hence an onto $StF$. To get our desired contradiction we need to show the _existence_ of  a single $f^*$ such that for _every_ $x\in \{0,1\}^*$ there _exists_ $n\in \N$ on which $f^*$ and $g=StF(x)$ disagree.
+
+Let $StF:\{0,1\}^* \rightarrow \{0,1\}^\infty$ be any function mapping $\{0,1\}^*$ to $\{0,1\}^\infty$.
+We will prove tha $StF$ is _not_ onto by showing that there exists some $f^* \in \{0,1\}^\infty$ that is _not_ in the image of the function $StF$.
+Namely, $StF(x) \neq f^*$ for every $x\in \{0,1\}^*$.
+
+
+The construction of $f^*$ is short but subtle.
+For every number $n\in \N$, we let $x(n)$ be the string obtained by representing $n$ in the binary basis and "chopping off" its  most significant digit.
+We define $f^*(n)$ as follows:
+$$
+f^*(n) = 1 - StF(x(n))(n) \label{eqcantordiagreals}
+$$
+
+As computer scientists, let's first verify that [eqcantordiagreals](){.eqref}  "type checks".
+First of all, $f^*$ is a member of  $\{0,1\}^\infty$ and so for every $n\in \N$, $f^*(n)$ should be a bit in $\{0,1\}$, and so for [eqcantordiagreals](){.eqref} to "type check" we need its right-hand side to also be a bit.
+For every $n$, $x(n)$ is a string in $\{0,1\}^*$ and so $StF(x(n))$ is a function $g\in \{0,1\}^infty$.
+If we apply the function $g=StF(x(n))$ to $n$ we get a bit $b \in \{0,1\}$ and so $1-b$ is indeed also a bit as we needed it to be.
+
+Now we want to prove that for every $x\in \{0,1\}^*$, $StF(x) \neq f^*$. Indeed, suppose (towards a contradiction) that there did exist some $x\in \{0,1\}^*$ such that 
+$$StF(x) = f^* \label{eqcantordiagrealstwo} \;.$$
+
+Then, if we let $n$ be the number whose binary representation is $1x$, we see that one the one hand by [eqcantordiagrealstwo](){.eqref} $f^*(n)=StF(x)(n)$ but on the other hand (since $x(n)=x$) by [eqcantordiagreals](){.eqref}
+$$
+f^*(n) = 1 - StF(x)(n) \;.
+$$
+We obtained that $f^*(n)$ is equal to both $StF(x)(n)$ and to one minus the same quantity which is clearly a contradiction!
 :::
 
-The idea is to construct $f^*$ iteratively: for every $x\in \{0,1\}^*$ we will "ruin" $f^*$ in one input $n(x)\in \N$ to ensure that $f^*(n(x)) \neq g(n(x))$ where $g=StF(x)$.
-If we are successful then this would ensure that $f^* \neq StF(x)$ for every $x$.
-Specifically, for every $x\in \{0,1\}^*$, let $n(x) \in N$ be the number $x_0 + 2x_1 + 4x_2 + \cdots +2^{k-1}x_{k-1} + 2^{k}$ where $k=|x|$.
-That is, $n(x) = 2^k + \sum_{i=0}^{k-1}2^i x_i$.
-If $x\neq x'$ then $n(x) \neq n(x')$  (we leave verifying this as an exercise to you, the reader).
-
-Now for every $x\in \{0,1\}^*$, we define
-$$
-f^*(n(x)) = 1 - g(n(x)) \label{eqcantordiagreals}
-$$
-where $g=StF(x)$.
-For every $n$ that is not of the form $n=n(x)$ for some $x$, we set $f^*(n)=0$.
-[eqcantordiagreals](){.eqref} is well defined since the map $x \mapsto n(x)$ is one-to-one and hence we will not try to give $f^*(n)$ two different values.
-
-Now by [eqcantordiagreals](){.eqref}, for every $x\in \{0,1\}^*$, if $g=StF(x)$ and $n=n(x)$ then $f^*(n) = 1 - g(n) \neq g(n)$.
-Hence $StF(x) \neq f^*$ for every $x\in \{0,1\}^*$, contradicting the assumption that $StF$ is onto.
-This proof is known as the "diagonal" argument, as the construction of $f^*$  can be thought of as going over the diagonal elements of a table that in the $n$-th row and $m$-column contains $StF(x)(m)$ where $x$ is the string such that $n(x)=n$, see [diagrealsfig](){.ref}.
+::: {.pause}
+The proof of [sequencestoreals](){.ref} is rather subtle, and worth re-reading a second or third time.
+It is known as the "diagonal" argument, as the construction of $f^*$  can be thought of as going over the diagonal elements of a table that in the $n$-th row and $m$-column contains $StF(x)(m)$ where $x$ is the string such that $n(x)=n$, see [diagrealsfig](){.ref}.
+We will use  the diagonal argument again several times later on in this book.
 :::
 
 ![We construct a function $f^*$ such that $f^* \neq StF(x)$ for every $x\in \{0,1\}^*$ by ensuring that $f^*(n(x)) \neq StF(x)(n(x))$ for every $x\in \{0,1\}^*$. We can think of this as building a table where the columns correspond to numbers $m\in \N$ and the rows correspond to $x\in \{0,1\}^*$ (sorted according to $n(x)$). If the entry in the $x$-th row and the $m$-th column corresponds to $g(m))$ where $g=StF(x)$ then $f^*$ is obtained by going over the "diagonal" elements in this table (the entries corresponding to the $x$-th row  and $n(x)$-th column) and enduring that $f^*(x)(n(x)) \neq StF(x)(n(x))$. ](../figure/diagreals2.png){#diagrealsfig .margin  }
@@ -402,7 +431,7 @@ Cantor used these ideas to construct an infinite hierarchy of shades of infinity
 The number of such shades turn out to be much larger than $|\N|$ or even $|\R|$.
 He denoted the cardinality of $\N$ by  $\aleph_0$, where $\aleph$ is the first letter in the Hebrew alphabet, and called the the next largest infinite number by $\aleph_1$.
 Cantor also made the [continuum hypothesis](https://en.wikipedia.org/wiki/Continuum_hypothesis) that $|\R|=\aleph_1$.
-We will come back to the very interesting story of this hypothesis later on in this course.
+We will come back to the very interesting story of this hypothesis later on in this book.
 [This lecture of Aaronson](https://www.scottaaronson.com/democritus/lec2.html) mentions some of these issues (see also [this Berkeley CS 70 lecture](http://www.eecs70.org/static/notes/n10.pdf)).
 :::
 
@@ -416,17 +445,17 @@ This requires some calculus background, but is otherwise straightforward.
 The idea is that we can construct a one-to-one map from $\{0,1\}^\infty$ to the real numbers by mapping the function $f:\N \rightarrow \{0,1\}$ to the number that has the infinite decimal expansion $f(0).f(1)f(2)f(3)f(4)f(5)\ldots$ (i.e., the number between $0$ and $2$ that is $\sum_{i=0}^\infty f(i)10^{-i}$).
 We will now do this  more formally.
 If you have not had much experience with limits of a real series before, then the formal proof below might be a little hard to follow.
-This part is not the core of Cantor's argument, nor are such limits important to the remainder of  book, so feel free to also just take [sequencestoreals](){.ref} on faith and skip the proof.
+This part is not the core of Cantor's argument, nor are such limits important to the remainder of this book, so feel free to also just take [sequencestoreals](){.ref} on faith and skip the proof.
 
 ::: {.proof data-ref="sequencestoreals"}
 For every $f\in \{0,1\}^\infty$ and $n\in \N$, we define $S(f)_n = \sum_{i=0}^n f(i)10^{-i}$.
-It is a known result (that we won't repeat here) that for every $f:\N \rightarrow \{0,1\}$, the sequence $( S(f)_n )_{n=0}^\infty$ has a _limit_.
-That is, for every $f$ there exists some value $x(f)$ (often denoted as $\sum_{i=0}^\infty f(i)10^{-i}$) such that for every $\epsilon>0$, if $n$ is sufficiently large then $|S_f(n)-x(f)| < \epsilon$.
+It is a known result in calculus (whose proof  we won't repeat here) that for every $f:\N \rightarrow \{0,1\}$, the sequence $( S(f)_n )_{n=0}^\infty$ has a _limit_.
+That is, for every $f$ there exists some value $x(f)$ (which is usually denoted as $\sum_{i=0}^\infty f(i)\cdot 10^{-i}$) such that for every $\epsilon>0$, if $n$ is sufficiently large then $|S_f(n)-x(f)| < \epsilon$.
 
 We define $FtR(f)$ to be this value $x(f)$.
 In other words, we define
 $$
-FtR(f) = \sum_{i=0}^\infty f(i)10^{-i}
+FtR(f) = \sum_{i=0}^\infty f(i)\cdot 10^{-i}
 $$
 which will be a number between $0$ and $2$.
 
@@ -437,8 +466,8 @@ That is, $k\in \N$ is the smallest number for which $f(k) \neq g(k)$.
 We will show that $|FtR(f)-FtR(g)| > 0.5\cdot 10^{-k}$.
 This will complete the proof since  in particular it implies that  $FtR(f) \neq FtR(g)$.
 
-Since $f(k) \neq g(k)$, we can assume without loss of generality that $f(k)=0$ and $g(k)=1$ (otherwise, if $f(k)=1$ and $g(k)=1$ we can simply switch the roles of $f$ and $g$).
-Define  $S = \sum_{i=0}^{k-1} 10^{-i}f(i) = \sum_{i=0}^{k-1} 10^{-i}g(i)$ (the equality holds since $f$ and $g$ agree up to $k$).
+Since $f(k) \neq g(k)$, we can assume without loss of generality that $f(k)=0$ and $g(k)=1$ (otherwise, if $f(k)=1$ and $g(k)=1$, then we can simply switch the roles of $f$ and $g$).
+Define  $S = \sum_{i=0}^{k-1} 10^{-i}f(i) = \sum_{i=0}^{k-1} 10^{-i}g(i)$ (the equality holds since $f$ and $g$ agree up to $k-1$).
 Now, since $g(k)=1$,
 $$FtR(g) = \sum_{i=0}^\infty g(i)10^{-i} \geq \sum_{i=0}^k g(i)10^{-i} = S + 10^{-k} \;.$$
 
@@ -462,7 +491,7 @@ Let us give a general definition for a  _representation scheme_.
 Such a scheme for representing objects from some set $\mathcal{O}$ consists of an _encoding_ function that maps an object in $\mathcal{O}$ to a string, and a _decoding_ function that decodes a string back to an object in $\mathcal{O}$.
 Formally, we make the following definition:
 
-> # {.definition title="String representation" #binaryrepdef}
+> ### {.definition title="String representation" #binaryrepdef}
 Let $\mathcal{O}$ be some set. A _representation scheme_ for $\mathcal{O}$ is a pair of functions $E,D$  where  $E:\mathcal{O} \rightarrow \{0,1\}^*$ is a total one-to-one function, $D:\{0,1\}^* \rightarrow_p \mathcal{O}$ is a (possibly partial)  function,
 and such that  $D$ and $E$ satisfy that $D(E(o))=o$ for every $o\in \mathcal{O}$.
 $E$ is known as the _encoding_ function and $D$ is known as the _decoding_ function.
@@ -471,10 +500,10 @@ Note that the condition $D(E(o))=o$ for every $o\in\mathcal{O}$ implies that $D$
 It turns out that to construct a representation scheme we only need to find an _encoding_ function.
 That is, every one-to-one encoding function has a corresponding decoding function, as shown in the following lemma:
 
-> # {.lemma #decodelem}
+> ### {.lemma #decodelem}
 Suppose that $E: \mathcal{O} \rightarrow \{0,1\}^*$ is one-to-one. Then there exists a function $D:\{0,1\}^* \rightarrow \mathcal{O}$ such that $D(E(o))=o$ for every $o\in \mathcal{O}$.
 
-> # {.proof data-ref="decodelem"}
+> ### {.proof data-ref="decodelem"}
 Let $o_0$ be some arbitrary element of $O$.
 For every $x \in \{0,1\}^*$, there exists either zero or a single $o\in \mathcal{O}$ such that $E(o)=x$ (otherwise $E$ would not be one-to-one).
 We will define $D(x)$ to equal $o_0$ in the first case and this single object $o$ in the second case.
@@ -499,10 +528,10 @@ using the standard formula for summing a [geometric progression](https://en.wiki
 To obtain a representation of objects in $\mathcal{O}$ as strings of length at most $n$ we need to come up with a one-to-one function from $\mathcal{O}$ to $\{0,1\}^{\leq n}$.
 We can do so, if and only if $|\mathcal{O}| \leq 2^{n+1}-1$ as is implied by the following lemma:
 
-> # {.lemma #onetoone}
+> ### {.lemma #onetoone}
 For every two finite sets $S,T$, there exists a one-to-one $E:S \rightarrow T$ if and only if $|S| \leq |T|$.
 
-> # {.proof data-ref="onetoone"}
+> ### {.proof data-ref="onetoone"}
 Let $k=|S|$ and $m=|T|$ and so write the elements of $S$ and $T$ as $S = \{ s_0 , s_1, \ldots, s_{k-1} \}$ and $T= \{ t_0 , t_1, \ldots, t_{m-1} \}$. We need to show that there is a one-to-one function $E: S \rightarrow T$ iff $k \leq m$.
 For the "if" direction, if $k \leq m$ we can simply define $E(s_i)=t_i$ for every $i\in [k]$.
 Clearly for $i \neq j$, $t_i = E(s_i) \neq E(s_j) = t_j$, and hence this function is one-to-one.
@@ -543,7 +572,7 @@ $$
 :::
 
 
-> # { .pause }
+> ### { .pause }
 [prefixfreethm](){.ref} is one of those  statements that are a little hard to parse, but in fact are fairly straightforward to prove  once you understand what they mean.
 Thus I highly recommend that you pause here, make sure you understand  statement of the theorem, and try to prove it yourself before proceeding further.
 
@@ -552,7 +581,7 @@ Thus I highly recommend that you pause here, make sure you understand  statement
 
 ![If we have a prefix-free representation of each object then we can concatenate the representations of $k$ objects to obtain a representation for the tuple $(o_0,\ldots,o_{k-1})$.](../figure/repres_list.png){#figureid .margin  }
 
-> # {.proofidea data-ref="prefixfreethm"}
+> ### {.proofidea data-ref="prefixfreethm"}
 The idea behind the proof is simple.
 Suppose that for example we want to decode a triple $(o_0,o_1,o_2)$ from its representation $x= E'(o_0,o_1,o_2)=E(o_0)E(o_1)E(o_2)$.
 We will do so by first finding the first prefix $x_0$ of $x$ such is a representation of some object.
@@ -614,11 +643,11 @@ Some natural representations are prefix-free.
 For example, every _fixed output length_ representation (i.e., one-to-one function $E:\mathcal{O} \rightarrow \{0,1\}^n$) is automatically prefix-free, since a string $x$ can only be a prefix of an equal-length $x'$ if $x$ and $x'$ are identical.
 Moreover, the approach we used for representing rational numbers can be used to show the following:
 
-> # {.lemma #prefixfreetransformationlem}
+> ### {.lemma #prefixfreetransformationlem}
 Let $E:\mathcal{O} \rightarrow \{0,1\}^*$ be a one-to-one function.
 Then there is a one-to-one prefix-free encoding $\overline{E}$ such that $|\overline{E}(o)| \leq 2|E(o)|+2$ for every $o\in \mathcal{O}$.
 
-> # { .pause }
+> ### { .pause }
 For the sake of completeness, we will include the proof below, but it is a good idea for you to pause here and try to prove it yourself, using the same technique we used for representing rational numbers.
 
 ::: {.proof data-ref="prefixfreetransformationlem"}
@@ -687,7 +716,7 @@ pfvalidM(pfNtS(234))
 # true
 ```
 
-> # { .pause }
+> ### { .pause }
 Note that Python function `prefixfree` above takes two _Python functions_ as input and outputs three Python functions as output.^[When it's not too awkward, we use the term "Python function" or "subroutine" to distinguish between such snippets of python programs and mathematical functions. However, in comments in python source we use "functions" to denote python functions, just as we use "integers" to denote python int objects.]
 You don't have to know Python in this course, but you do need to get comfortable with the idea of functions as mathematical objects in their own right, that can be used as inputs and outputs of other functions.
 
@@ -956,7 +985,7 @@ Here are some examples:
 *  Given (a representation of) an image $I$, decide if $I$ is a photo of a cat or a dog. This correspond to computing  some (partial) function from $\{0,1\}^*$ to $\{0,1\}$.
 
 
-> # {.remark title="Boolean functions and languages" #booleanrem}
+> ### {.remark title="Boolean functions and languages" #booleanrem}
 An important special case of computational tasks corresponds to computing _Boolean_ functions, whose output is a single bit $\{0,1\}$.
 Computing such functions corresponds to answering a YES/NO question, and hence this task is also known as a _decision problem_.
 Given any function $F:\{0,1\}^* \rightarrow \{0,1\}$ and $x\in \{0,1\}^*$, the task of computing $F(x)$ corresponds to the task of deciding whether or not $x\in L$ where $L = \{ x : F(x)=1 \}$ is known as the _language_ that corresponds to the function $F$.^[The language terminology is due to historical connections between the theory of computation and formal linguistics as developed by Noam Chomsky.]
@@ -1052,7 +1081,7 @@ It turns out that a great deal of the theory of computation can be studied in th
 
 
 
-> # { .recap }
+> ### { .recap }
 * We can represent essentially every object we want to compute on using binary strings.
 * A representation scheme for a set of objects $\mathcal{O}$ is a one-to-one map  from $\mathcal{O}$ to $\{0,1\}^*$.
 * A basic computational task is the task of _computing a function_ $F:\{0,1\}^* \rightarrow \{0,1\}^*$. This encompasses not just arithmetical computations such as multiplication, factoring, etc. but a great many other tasks arising in areas as diverse as scientific computing, artificial intelligence, image processing, data mining and many many more.
@@ -1123,7 +1152,7 @@ d.  All of the above.
 :::
 
 
-> # {.exercise }
+> ### {.exercise }
 Suppose that $R:\N \rightarrow \{0,1\}^*$ corresponds to  representing a number $x$ as a string of $x$ $1$'s, (e.g., $R(4)=1111$, $R(7)=1111111$, etc.).
 If $x,y$ are numbers between $0$ and $10^n -1$, can we still multiply $x$ and $y$ using $O(n^2)$ operations if we are given them in the representation $R(\cdot)$?
 
@@ -1169,7 +1198,7 @@ b. Prove that $\sum_{x\in S}2^{-|x|} \leq 1$.
 c. Prove that there is no prefix-free encoding of strings with less than logarithmic overhead. That is, prove that there is no function $PF:\{0,1\}^* \rightarrow \{0,1\}^*$ s.t. $|PF(x)| \leq |x|+0.9\log |x|$ for every $x\in \{0,1\}^*$ and such that the set $\{ PF(x) : x\in \{0,1\}^* \}$ is prefix-free. The factor $0.9$ is arbitrary; all that matters is that it is less than $1$.
 :::
 
-> # {.exercise title="Composition of one-to-one functions" #onetoonecompex}
+> ### {.exercise title="Composition of one-to-one functions" #onetoonecompex}
 Prove that for every two one-to-one functions $F:S \rightarrow T$ and $G:T \rightarrow U$, the function $H:S \rightarrow U$ defined as $H(x)=G(F(x))$ is one to one.
 
 

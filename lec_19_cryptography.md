@@ -6,7 +6,7 @@ chapternum: "20"
 
 #  Cryptography { #chapcryptography  }
 
-> # { .objectives }
+> ### { .objectives }
 * Definition of perfect secrecy \
 * The one-time pad encryption scheme \
 * Necessity of long keys for perfect secrecy \
@@ -138,7 +138,7 @@ Alice and Bob share a _secret key_ $k \in \{0,1\}^*$.
 Alice uses the key $k$ to "scramble" or _encrypt_ the plaintext  $x$ into a _ciphertext_ $y$, and Bob uses the key $k$ to "unscramble" or _decrypt_ the ciphertext $y$ back into the plaintext $x$.
 This motivates the following definition which attempts to capture what it means for an encryption scheme to be _valid_ or "make sense", regardless of whether or not it is _secure_:
 
-> # {.definition title="Valid encryption scheme" #encryptiondef}
+> ### {.definition title="Valid encryption scheme" #encryptiondef}
 Let $L:\N \rightarrow \N$ be some function.
 A pair of polynomial-time computable functions $(E,D)$ mapping strings to strings is a _valid private key encryption scheme_ (or _encryption scheme_ for short) with plaintext length function $L(\cdot)$ if
 for every $k\in \{0,1\}^n$ and $x \in \{0,1\}^{L(n)}$,
@@ -154,7 +154,7 @@ We will often write the first input (i.e., the key) to the encryption and decryp
 [encryptiondef](){.ref} says nothing about the _security_ of $E$ and $D$, and even allows the trivial encryption scheme that ignores the key altogether and sets $E_k(x)=x$ for every $x$.
 Defining security is not a trivial matter.
 
-> # { .pause }
+> ### { .pause }
 You would appreciate the subtleties of defining security of encryption more if at this point you take a five minute break from reading, and try (possibly with a partner) to brainstorm on how you would mathematically define the notion that an encryption scheme is _secure_, in the sense that it protects the secrecy of the plaintext $x$.
 
 
@@ -245,7 +245,7 @@ A priori we would have guessed that Alice sent either $x_0$ or $x_1$ with probab
 Now we observe $y=E_k(x_i)$ where $k$ is a uniformly chosen key in $\{0,1\}^n$.
 How does this new information cause us to update our beliefs on whether Alice sent the plaintext $x_0$ or the plaintext $x_1$?
 
-> # { .pause }
+> ### { .pause }
 Before reading the next paragraph, you might want to try the analysis yourself.
 You may find it useful to  look at the [Wikipedia entry on Bayesian Inference](https://en.wikipedia.org/wiki/Bayesian_inference) or [these MIT lecture notes](https://ocw.mit.edu/courses/mathematics/18-05-introduction-to-probability-and-statistics-spring-2014/readings/MIT18_05S14_Reading11.pdf).
 
@@ -281,10 +281,10 @@ Such a scheme for two-bit messages is illustrated in [onetimepadtwofig](){.ref}
 In fact, this can be generalized to any number of bits:
 
 
-> # {.theorem title="One Time Pad (Vernam 1917, Shannon 1949)" #onetimepad}
+> ### {.theorem title="One Time Pad (Vernam 1917, Shannon 1949)" #onetimepad}
 There is a perfectly secret valid encryption scheme $(E,D)$ with $L(n)=n$.
 
-> # {.proofidea data-ref="onetimepad"}
+> ### {.proofidea data-ref="onetimepad"}
 Our scheme is the [one-time pad](https://en.wikipedia.org/wiki/One-time_pad) also known as the "Vernam Cipher", see [onetimepadfig](){.ref}.
 The encryption is exceedingly simple: to encrypt a message $x\in \{0,1\}^n$ with a key $k \in \{0,1\}^n$ we simply output $x \oplus k$ where $\oplus$ is the bitwise XOR operation that
 outputs the string corresponding to XORing each  coordinate of $x$ and $k$.
@@ -305,7 +305,7 @@ Indeed, for every particular $y\in \{0,1\}^n$, the value $y$ is output by $Y_x$ 
 ![In the _one time pad_ encryption scheme we encrypt a plaintext $x\in \{0,1\}^n$ with a key $k\in \{0,1\}^n$ by the ciphertext $x \oplus k$ where $\oplus$ denotes the bitwise XOR operation.](../figure/onetimepad.png){#onetimepadfig .margin  }
 
 
-> # { .pause }
+> ### { .pause }
 The argument above is quite simple but is worth reading again. To understand why the one-time pad is perfectly secret, it is useful to envision it as a bipartite graph as we've done in [onetimepadtwofig](){.ref}. (In fact the encryption scheme of [onetimepadtwofig](){.ref} is precisely the one-time pad for $n=2$.) For every $n$, the one-time pad encryption scheme corresponds to a bipartite graph with $2^n$  vertices on the "left side" corresponding to the plaintexts in $\{0,1\}^n$ and $2^n$  vertices on the "right side" corresponding to the ciphertexts $\{0,1\}^n$.
 For every $x\in \{0,1\}^n$ and $k\in \{0,1\}^n$, we connect $x$ to the vertex $y=E_k(x)$ with an edge that we label with $k$.
 One can see that this is the complete bipartite graph, where every vertex on the left is connected to _all_ vertices on the right.
@@ -348,10 +348,10 @@ including Julius Rosenberg, Harry Gold, Klaus Fuchs, Alger Hiss, Harry Dexter Wh
 
 Unfortunately it turns out that  that such long keys are _necessary_ for perfect secrecy:
 
-> # {.theorem title="Perfect secrecy requires long keys" #longkeysthm}
+> ### {.theorem title="Perfect secrecy requires long keys" #longkeysthm}
 For every perfectly secret encryption scheme $(E,D)$ the length function $L$ satisfies $L(n) \leq n$.
 
-> # {.proofidea data-ref="longkeysthm"}
+> ### {.proofidea data-ref="longkeysthm"}
 The idea behind the proof is illustrated in [longkeygraphfig](){.ref}. If the number of keys is smaller than the number of messages then the neighborhoods of all vertices in the corresponding graphs cannot be identical.
 
 ::: {.proof data-ref="longkeysthm"}
@@ -401,7 +401,7 @@ $$
 $$
 :::
 
-> # { .pause }
+> ### { .pause }
 [compsecdef](){.ref} requires a second or third read  and some practice to truly understand.
 One excellent exercise to make sure you follow it is to see that if we allow $P$ to be an _arbitrary_ function mapping $\{0,1\}^{m(n)}$ to $\{0,1\}$, and we replace the condition in [eqindist](){.eqref} that the lefhand side is smaller than $\tfrac{1}{p(L(n))}$ with the condition  that it is equal to $0$ then we get the perfect secrecy condition of [perfectsecrecy](){.ref}.
 Indeed if the distributions $E_k(x_0)$  and $E_k(x_1)$ are identical then applying any function $P$ to them we get the same expectation.
@@ -430,11 +430,11 @@ It is widely used in practice with keys on the order of a few tens or hundreds o
 ![In  a _stream cipher_ or "derandomized one-time pad" we use a pseudorandom generator $G:\{0,1\}^n \rightarrow \{0,1\}^L$ to obtain an encryption scheme with a key length of $n$ and plaintexts of length $L$. We encrypt the plaintext $x\in \{0,1\}^L$ with key $k\in \{0,1\}^n$ by the ciphertext $x \oplus G(k)$.](../figure/derandonetimepad.png){#derandonetimepadfig .margin  }
 
 
-> # {.theorem title="Derandomized one-time pad" #PRGtoENC}
+> ### {.theorem title="Derandomized one-time pad" #PRGtoENC}
 Suppose that the optimal PRG conjecture is true.
 Then for every constant $a\in \N$ there is   a computationally secret encryption scheme $(E,D)$ with plaintext length $L(n)$ at least $n^a$.
 
-> # {.proofidea data-ref="PRGtoENC"}
+> ### {.proofidea data-ref="PRGtoENC"}
 The proof is illustrated in [derandonetimepadfig](){.ref}. We simply take the one-time pad on $L$ bit plaintexts, but replace the key with $G(k)$ where $k$ is a string in $\{0,1\}^n$ and $G:\{0,1\}^n \rightarrow \{0,1\}^L$ is a pseudorandom generator.
 
 ::: {.proof data-ref="PRGtoENC"}
@@ -480,7 +480,7 @@ Since a polynomial is dominated by an exponential, if we make $L$ large enough, 
 :::
 
 
-> # {.remark title="Stream ciphers in practice" #streamciphersrem}
+> ### {.remark title="Stream ciphers in practice" #streamciphersrem}
 The two most widely used forms of (private key) encryption schemes in practice are _stream ciphers_ and _block ciphers_. (To make things more confusing, a block cipher is always used in some [mode of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation) and some of these modes effectively turn a block cipher into a stream cipher.)
 A block cipher can be thought as a sort of a "random invertible map" from $\{0,1\}^n$ to $\{0,1\}^n$, and can be used to construct a pseudorandom generator and from it a stream cipher, or to encrypt data directly using other modes of operations.
 There are a great many other security notions and considerations for encryption schemes beyond computational secrecy.

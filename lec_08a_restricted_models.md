@@ -7,7 +7,7 @@ chapternum: "9"
 
 # Restricted computational models { #restrictedchap }
 
-> # { .objectives }
+> ### { .objectives }
 * See that Turing completeness is not always a good thing
 * Two important examples of non-Turing-complete, always-halting formalisms: _regular expressions_ and _context-free grammars_.
 * The pumping lemmas for both these formalisms, and examples of non regular and non context-free functions.
@@ -138,7 +138,7 @@ We say that a function $F:\Sigma^* \rightarrow \{0,1\}$ is _regular_ if $F=\Phi_
 :::
 
 
-> # { .pause }
+> ### { .pause }
 The definitions above are not inherently difficult, but are a bit cumbersome. So you should pause here and go over it again   until you understand why it corresponds to our intuitive notion of regular expressions.
 This is important not just for understanding regular expressions themselves (which are used time and again in a great many applications) but also for getting better at understanding recursive definitions in general.
 
@@ -170,7 +170,7 @@ For every regular expression $e$ over $\{0,1\}$, the function $\Phi_e:\{0,1\}^* 
 That is, there is a Turing machine $M$ such that for every $x\in \{0,1\}^*$, on input $x$, $M$ halts with the output $\Phi_e(x)$.
 :::
 
-> # {.proofidea data-ref="regularexphalt"}
+> ### {.proofidea data-ref="regularexphalt"}
 The proof relies on the observation that [matchingregexpdef](){.ref} actually specifies a recursive algorithm for _computing_ $\Phi_{e}$.
 Specifically, each one of our operations -concatenation, OR, and  star- can be thought of as reducing the task of testing whether an expression $e$ matches a string $x$ to testing whether some sub-expressions of $e$ match substrings of $x$. Since these sub-expressions are always shorter than the original expression, this yields a recursive algorithm for checking if $e$ matches $x$ which will eventually terminate at the base cases of the expressions that correspond to a single symbol or the empty string.
 
@@ -329,10 +329,10 @@ There is a beautiful theory on the properties of DFA's and their connections wit
 In particular,  a function is regular _if and only if_ it can be computed by a DFA.
 We start with showing the "only if" direction:
 
-> # {.theorem title="DFA for regular expression matching" #DFAforREGthm}
+> ### {.theorem title="DFA for regular expression matching" #DFAforREGthm}
 Let $e$ be a regular expression. Then there is an algorithm that on input $x\in \{0,1\}^*$ computes $\Phi_e(x)$ while making a single pass over $x$  and maintaining a constant amount of memory.
 
-> # {.proofidea data-ref="DFAforREGthm"}
+> ### {.proofidea data-ref="DFAforREGthm"}
 The idea is to replace the recursive algorithm of [regexpmatchlinearalg](){.ref}  with a [dynamic program](https://goo.gl/kgLdX1), using the technique of [memoization](https://en.wikipedia.org/wiki/Memoization). If you haven't taken yet an algorithms course, you might not know these techniques. This is OK;  while  this  more efficient algorithm is crucial for the many practical applications of regular expressions, it is not of great importance for this book.
 
 
@@ -424,10 +424,10 @@ There are also many websites with online simulators for automata, as well as tra
 
 A central result in the automata theory is the following:
 
-> # {.theorem title="DFA and regular expression equivalency" #dfaregequivthm}
+> ### {.theorem title="DFA and regular expression equivalency" #dfaregequivthm}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$. Then $F$ is regular if and only if there exists a DFA $(A,\mathcal{A})$ that computes $F$.
 
-> # {.proofidea data-ref="dfaregequivthm"}
+> ### {.proofidea data-ref="dfaregequivthm"}
 One direction follows from [DFAforREGthm](){.ref}, which shows that for every regular expression $e$, the function $\Phi_e$ can be computed by a DFA (see for example [automatonregfig](){.ref}).
 For the other direction, we show that given a DFA $(A,\mathcal{A})$ for every $v,w \in [C]$ we can find a regular expression that would match $x\in \{0,1\}^*$ if an only if the DFA starting in state $v$, will end up in state $w$ after reading $x$.
 
@@ -474,7 +474,7 @@ The first part of the expression corresponds to the strings $x$ that describes p
 
 Here is an important corollary of [dfaregequivthm](){.ref}:
 
-> # {.lemma title="Regular expressions closed under complement" #regcomplementlem}
+> ### {.lemma title="Regular expressions closed under complement" #regcomplementlem}
 If $F:\{0,1\}^* \rightarrow \{0,1\}$ is regular then so is the function $\overline{F}$, where $\overline{F}(x) = 1 - F(x)$ for every $x\in \{0,1\}^*$.
 
 ::: {.proof data-ref="regcomplementlem"}
@@ -499,18 +499,18 @@ But this always-halting property comes at a cost.
 Regular expressions cannot compute every function that is computable by Turing machines.
 In fact there are some very simple (and useful!) functions that they cannot compute, such as the following:
 
-> # {.lemma title="Matching parenthesis" #regexpparn}
+> ### {.lemma title="Matching parenthesis" #regexpparn}
 Let $\Sigma = \{\langle ,\rangle \}$ and  $MATCHPAREN:\Sigma^* \rightarrow \{0,1\}$ be the function that given a string of parenthesis, outputs $1$ if and only if every opening parenthesis is matched by a corresponding closed one.
 Then there is no regular expression over $\Sigma$ that computes $MATCHPAREN$.
 
 [regexpparn](){.ref} is a consequence of the following result known as the _pumping lemma_:
 
-> # {.theorem title="Pumping Lemma" #pumping}
+> ### {.theorem title="Pumping Lemma" #pumping}
 Let $e$ be a regular expression. Then there is some number $n_0$ such that for every $w\in \{0,1\}^*$ with $|w|>n_0$ and $\Phi_{e}(w)=1$, it holds that we can write $w=xyz$ where  $|y| \geq 1$, $|xy| \leq n_0$ and such that $\Phi_{e}(xy^kz)=1$ for every $k\in \N$.
 
 ![To prove the "pumping lemma" we look at a word $w$ that is much larger than the regular expression $e$ that matches it. In such a case, part of $w$ must be matched by some sub-expression of the form $(e')^*$, since this is the only operator that allows matching words longer than the expression. If we look at the "leftmost" such sub-expression and define $y^k$ to be the string that is matched by it, we obtain the partition needed for the pumping lemma.](../figure/pumpinglemma.png){#pumpinglemmafig .margin  }
 
-> # {.proofidea data-ref="pumping"}
+> ### {.proofidea data-ref="pumping"}
 The idea behind the proof is very simple (see [pumpinglemmafig](){.ref}). Let $n_0$ be  twice the number of symbols that are used in the expression $e$, then the only way that there is some $w$ with $|w|>n_0$ and $\Phi_{e}(w)=1$ is that $e$ contains the $*$ (i.e. star) operator and that there is a nonempty substring $y$ of $w$ that was matched by $(e')^*$ for some sub-expression $e'$ of $e$.  We can now repeat $y$ any number of times and still get a matching string.
 
 ::: { .pause }
@@ -538,7 +538,7 @@ If $|w_0|>2|e'|$ then we can use the same approach as in the concatenation case 
 Otherwise, we simply note that if $x$ is the empty string, $y=w_0$, and $z=w_1\cdots w_t$ then $xy^kz$ will match $(e')^*$ for every $k$.
 :::
 
-> # {.remark title="Recursive definitions and inductive proofs" #recursiveproofs}
+> ### {.remark title="Recursive definitions and inductive proofs" #recursiveproofs}
 When an object is _recursively defined_ (as in the case of regular expressions) then it is natural to prove  properties of such objects by  _induction_.
 That is, if we want to prove that all objects of this type have property $P$, then it is natural to use an inductive steps that says that if $o',o'',o'''$ etc have property $P$ then so is an object $o$ that is obtained by composing them.
 
@@ -591,10 +591,10 @@ Such applications use the  fact that because regular expressions are so restrict
 Such semantic questions would not be solvable for Turing-complete models due to Rice's Theorem ([rice-thm](){.ref}).
 For example, we can tell whether two regular expressions are _equivalent_, as well as whether a regular expression computes the constant zero function.
 
-> # {.theorem title="Emptiness of regular languages is computable" #regemptynessthm}
+> ### {.theorem title="Emptiness of regular languages is computable" #regemptynessthm}
 There is an algorithm that given a regular expression $e$, outputs $1$ if and only if $\Phi_{e}$ is the constant zero function.
 
-> # {.proofidea data-ref="regemptynessthm"}
+> ### {.proofidea data-ref="regemptynessthm"}
 The idea is that we can directly observe this from the structure of the expression. The only way it will output the constant zero function is if it has the form $\emptyset$ or is obtained by concatenating $\emptyset$ with other expressions.
 
 ::: {.proof data-ref="regemptynessthm"}
@@ -617,12 +617,12 @@ Using these rules it is straightforward to come up with a recursive algorithm to
 verifying the details to the reader.
 :::
 
-> # {.theorem title="Equivalence of regular expressions is computable" #regequivalencethm}
+> ### {.theorem title="Equivalence of regular expressions is computable" #regequivalencethm}
 Let $REGEQ:\{0,1\}^* \rightarrow \{0,1\}$ be the function that on input (a string representing) a pair of  regular expressions $e,e'$, $REGEQ(e,e')=1$ if and only if $\Phi_{e} = \Phi_{e'}$. Then $REGEQ$ is computable.
 
 
 
-> # {.proofidea data-ref="regequivalencethm"}
+> ### {.proofidea data-ref="regequivalencethm"}
 The idea is to show that given a pair of regular expression $e$ and $e'$ we can find an expression $e''$ such that $\Phi_{e''}(x)=1$ if and only if $\Phi_e(x) \neq \Phi_(e'')(x)$. Therefore $\Phi_{e''}$ is the constant zero function if and only if $e$ and $e'$ are equivalent, and thus we can test for emptiness of $e''$ to determine equivalence of $e$ and $e'$.
 
 
@@ -769,7 +769,7 @@ A function  $F:\Sigma^* \rightarrow \{0,1\}$ is _context free_ if $F = \Phi_{V,R
 
 A priori it might not be clear that the map $\Phi_{V,R,s}$ is computable, but it turns out that this is the case.
 
-> # {.theorem title="Context-free grammars always halt" #CFGhalt}
+> ### {.theorem title="Context-free grammars always halt" #CFGhalt}
 For every CFG $(V,R,s)$ over $\{0,1\}$, the function $\Phi_{V,R,s}:\{0,1\}^* \rightarrow \{0,1\}$ is computable.^[As usual we restrict attention to grammars over $\{0,1\}$ although the proof extends to any finite alphabet  $\Sigma$.]
 
 ::: {.proof data-ref="CFGhalt"}
@@ -801,7 +801,7 @@ There are also tools that can automatically convert a description of a context-f
 
 Context free grammars can capture every regular expression:
 
-> # {.theorem title="Context free grammars and regular expressions" #CFGreg}
+> ### {.theorem title="Context free grammars and regular expressions" #CFGreg}
 Let $e$ be a regular expression over $\{0,1\}$, then there is a CFG $(V,R,s)$ over $\{0,1\}$ such that $\Phi_{V,R,s}=\Phi_{e}$.
 
 ::: {.proof data-ref="CFGreg"}
@@ -868,7 +868,7 @@ Hence we can generate such a string by first generating a palindrome $u; u^R$ (`
 Even though context-free grammars are more powerful than regular expressions, there are some simple languages that are _not_ captured by context free grammars.
 One tool to show this is the context-free grammar analog of the "pumping lemma" ([pumping](){.ref}):
 
-> # {.theorem title="Context-free pumping lemma" #cfgpumping}
+> ### {.theorem title="Context-free pumping lemma" #cfgpumping}
 Let $(V,R,s)$ be a CFG over $\Sigma$, then there is some $n_0\in \N$ such that for every $x \in \Sigma^*$ with $|x|>n_0$, if $\Phi_{V,R,s}(x)=1$ then $x=abcde$ such that $|b|+|c|+|d| \leq n_1$, $|b|+|d| \geq 1$, and $\Phi_{V,R,s}(ab^kcd^ke)=1$ for every $k\in \N$.
 
 ::: { .pause }
@@ -914,10 +914,10 @@ In either case, we get that $EQ(ace)=0$, obtaining the desired contradiction.
 As in the case of regular expressions, the limitations of context free grammars do provide some advantages.
 For example, emptiness of context free grammars is decidable:
 
-> # {.theorem title="Emptiness for CFG's is decidable" #cfgemptinessthem}
+> ### {.theorem title="Emptiness for CFG's is decidable" #cfgemptinessthem}
 There is an algorithm that on input a context-free grammar $G$, outputs $1$ if and only if $\Phi_G$ is the constant zero function.
 
-> # {.proofidea data-ref="cfgemptinessthem"}
+> ### {.proofidea data-ref="cfgemptinessthem"}
 The proof is easier to see if we transform the grammar to Chomsky Normal Form as in [CFGhalt](){.ref}. Given a grammar $G$, we can recursively  define a non-terminal variable $v$ to be _non empty_ if there is either a rule of the form $v \Rightarrow \sigma$, or there is a rule of the form $v \Rightarrow uw$ where both $u$ and $w$ are non empty.
 Then the grammar is non empty if and only if the starting variable $s$ is non-empty.
 
@@ -941,7 +941,7 @@ By analogy to regular expressions, one might have hoped to get an algorithm for 
 Alas, no such luck. It turns out that the equivalence problem for context free grammars is _uncomputable_.
 This is a direct corollary of the following theorem:
 
-> # {.theorem title="Fullness of CFG's is uncomputable" #fullnesscfgdef}
+> ### {.theorem title="Fullness of CFG's is uncomputable" #fullnesscfgdef}
 For every set $\Sigma$, let $CFGFULL_\Sigma$ be the function that on input a context-free grammar $G$ over $\Sigma$, outputs $1$ if and only if $G$ computes the constant $1$ function.
 Then there is some finite  $\Sigma$ such that $CFGFULL_\Sigma$ is uncomputable.
 
@@ -1048,7 +1048,7 @@ Alas, this generality comes at a cost - these general grammars are Turing comple
 
 
 
-> # { .recap }
+> ### { .recap }
 * The uncomputability of the Halting problem for general models motivates the definition of restricted computational models.
 * In some  restricted models we can  answer _semantic_ questions such as: does a given program terminate, or do two programs compute the same function?
 * _Regular expressions_ are a restricted model of computation that is often useful to capture tasks of string matching. We can test efficiently whether an expression matches a string, as well as answer questions such as Halting and Equivalence.

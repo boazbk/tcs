@@ -6,7 +6,7 @@ chapternum: "6"
 
 # Loops and infinity { #chaploops }
 
-> # { .objectives }
+> ### { .objectives }
 * Learn the model of _Turing machines_, which can compute functions of _arbitrary input lengths_.
 * See a programming-language description of Turing machines, using
 NAND-TM programs, which add _loops_ and _arrays_ to NAND-CIRC.
@@ -264,7 +264,7 @@ We will often pay special attention to functions $F:\{0,1\}^* \rightarrow \{0,1\
 Hence we give a special name for the set of  functions of this form that are computable.
 
 
-> # {.definition title="The class $\mathbf{R}$" #classRdef}
+> ### {.definition title="The class $\mathbf{R}$" #classRdef}
 We define $\mathbf{R}$ be the set of all _computable_  functions $F:\{0,1\}^* \rightarrow \{0,1\}$.
 
 
@@ -379,7 +379,7 @@ $$
 \text{NAND-TM} \;=\; \text{NAND-CIRC} \;+\; \text{loops} \;+\; \text{arrays} \label{eqnandloops}
 $$
 
-> # {.remark title="NAND-CIRC + loops + arrays = everything." #otherpl}
+> ### {.remark title="NAND-CIRC + loops + arrays = everything." #otherpl}
 As we will see, adding loops and arrays to NAND-CIRC is enough to  capture the full power of all programming languages! Hence we could replace "NAND-TM" with any of _Python_, _C_, _Javascript_, _OCaml_,  etc... in the lefthand side of  [eqnandloops](){.eqref}.
 But we're getting ahead of ourselves: this issue will be discussed in [chapequivalentmodels](){.ref}.
 
@@ -507,7 +507,7 @@ Given the above discussion, it might not be surprising that  Turing machines tur
 Indeed, we designed the NAND-TM language to have this property.
 Nevertheless, this is an important result, and the first of many other such equivalence results we will see in this book.
 
-> # {.theorem title="Turing machines and NAND-TM programs are equivalent" #TM-equiv-thm}
+> ### {.theorem title="Turing machines and NAND-TM programs are equivalent" #TM-equiv-thm}
 For every $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND-TM program $P$ if and only if there is a Turing Machine $M$ that computes $F$.
 
 ::: {.proofidea data-ref="TM-equiv-thm"}
@@ -711,7 +711,7 @@ We say that a NAND-TM program $P$ is _well formed_ if it satisfies the following
 
 The following exercise shows that we can transform every NAND-TM program $P$ into a well-formed program $P'$ that is equivalent to it. Hence if we are given a NAND-TM program $P$, we can (and will) often assume without loss of generality that it is well-formed.
 
-> # {.lemma #wellformedlem}
+> ### {.lemma #wellformedlem}
 For every   NAND-TM program $P$, there exists an    NAND-TM program $P'$ equivalent to $P$ that is _well formed_ as pre [wellformeddef](){.ref}.
 That is, for every input $x\in \{0,1\}^*$, either both $P$ and $P'$ do not halt on $x$, or both $P$ and $P'$ halt on $x$ and produce the same output $y\in \{0,1\}^*$.
 
@@ -840,7 +840,7 @@ Unlike the nonuniform case, we have _not_ shown that every infinite function can
 
 
 
-> # { .recap }
+> ### { .recap }
 * _Turing machines_ capture the notion of a single algorithm that can evaluate functions of every input length.
 * They are equivalent to _NAND-TM programs_, which add loops and arrays to NAND-CIRC.
 * Unlike NAND-CIRC or Boolean circuits, the number of steps that a Turing machine takes on a given input is not fixed in advance. In fact, a Turing machine or a NAND-TM program can enter into an _infinite loop_ on certain inputs, and not halt at all.
@@ -875,7 +875,7 @@ is in $\mathbf{R}$.
 
 
 
-> # {.exercise title="Single vs multiple bit" #singlebit-ex}
+> ### {.exercise title="Single vs multiple bit" #singlebit-ex}
 Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}^*$, the function $F$ is computable if and only if the following function $G:\{0,1\}^* \rightarrow \{0,1\}$ is computable, where $G$ is defined as follows:
 $G(x,i,\sigma) = \begin{cases} F(x)_i & i < |F(x)|, \sigma =0 \\ 1 & i < |F(x)|, \sigma = 1 \\ 0 & i \geq |F(x)| \end{cases}$
 

@@ -8,7 +8,7 @@ chapternum: "5"
 
 
 
-> # { .objectives }
+> ### { .objectives }
 * Understand one of the most important concepts in computing: duality between code and data. \
 * Build up comfort in moving between different representations of programs. \
 * Follow the construction of a "universal NAND-CIRC program" that can evaluate other NAND-CIRC programs given their representation. \
@@ -57,7 +57,7 @@ EVAL(P,x) = \begin{cases} P(x) & |x|= \text{no. of $P$'s inputs} \\ 0 & \text{ot
 $$
 where $P$ and $x$ are strings in $\{0,1\}^*$, and we denote by $P(x)$ the output of the program represented by the string $P$ on the input $x$.
 
-> # { .pause }
+> ### { .pause }
 The above is one of those observations that are simultaneously both simple and profound. Please make sure that you understand __(1)__ how for every fixed choice of representing programs as strings, the function $EVAL$ above is well defined, and __(2)__ what this function actually does.
 
 $EVAL$ takes strings of  _arbitrary length_, and hence cannot be computed by a NAND-CIRC program, since such programs take inputs of finite length.
@@ -89,7 +89,7 @@ We can simply use the ASCII representation, though  below we will choose a  more
 But regardless of the choice of representation,
 [bounded-univ](){.ref} is an immediate corollary of [NAND-univ-thm](){.ref}, which states that _every_ finite function, and so in particular the function $EVAL_{S,n,m}$ above, can be computed by _some_ NAND-CIRC program.
 
-> # { .pause }
+> ### { .pause }
 Once again, [bounded-univ](){.ref}  is subtle but important. Make sure you understand what this theorem means, and why it is a corollary of [NAND-univ-thm](){.ref}.
 
 
@@ -97,7 +97,7 @@ Once again, [bounded-univ](){.ref}  is subtle but important. Make sure you under
 
 It turns out that we don't even need to pay that much of an overhead for universality. Namely, the size of $U$ needs  only be  _polynomial_ in the size of the input program.
 
-> # {.theorem title="Efficient bounded universality of NAND-CIRC programs" #eff-bounded-univ}
+> ### {.theorem title="Efficient bounded universality of NAND-CIRC programs" #eff-bounded-univ}
 For every $s,n,m \in \N$ there is a NAND-CIRC program of at most $O(s^2 \log s)$ lines that computes the  function
 $EVAL_{S,n,m}:\{0,1\}^{S+n} \rightarrow \{0,1\}^m$ defined above.
 
@@ -183,7 +183,7 @@ To prove [eff-bounded-univ](){.ref} it suffices  to give a NAND-CIRC program of 
 Let us start by thinking how we would evaluate such programs  if we weren't restricted to the NAND operations.
 That is, let us describe informally an _algorithm_ that on input $n,m,s$, a list of triples $L$, and a string $x\in \{0,1\}^n$, evaluates the program represented by $(n,m,L)$ on the string $x$.
 
-> # { .pause }
+> ### { .pause }
 It would be highly worthwhile for you to stop here and try to solve this problem yourself.
 For example, you can try thinking how you would write a program `NANDEVAL(n,m,s,L,x)` that computes this function in the programming language of your choice.
 
@@ -207,7 +207,7 @@ __Operation:__
 :::
 
 
-> # { .pause }
+> ### { .pause }
 Please make sure you understand this algorithm and why it does produce the right value.
 
 ### A NAND interpreter in Python
@@ -260,7 +260,7 @@ To do this, it is of course not enough to give a Python program.
 Rather, we need to show  how we compute the function  $EVAL_{s,n,m}$  itself using a NAND-CIRC program.
 In other words, our job is to transform, for every $s,n,m$, the Python code above to a NAND-CIRC program $U_{s,n,m}$ that  computes the function $EVAL_{s,n,m}$.
 
-> # { .pause }
+> ### { .pause }
 Before reading further, try to think how _you_ could give a "constructive proof" of [eff-bounded-univ](){.ref}.
 That is, think of how you would write, in the programming language of your choice, a function `universal(s,n,m)` that on input $s,n,m$ outputs the code for the NAND-CIRC program $U_{s,n,m}$ such that $U_{s,n,m}$ computes $EVAL_{s,n,m}$.
 Note that there is a subtle but crucial difference between this function and the Python `NANDEVAL` program described above.
@@ -273,7 +273,7 @@ However, NAND doesn't have integer-valued variables, so we cannot write code suc
 However, we _can_ implement the function `GET(Vartable,i)` that outputs the `i`-th bit of the array `Vartable`.
 Indeed, this is nothing by the function `LOOKUP` that we have seen in [lookup-thm](){.ref}!
 
-> # { .pause }
+> ### { .pause }
 Please make sure that you understand why `GET` and `LOOKUP` are the same function.
 
 We saw that we can compute `LOOKUP` on arrays of size $2^\ell$ in time $O(2^\ell)$, which will be $O(s)$ for our choice of $\ell$.
@@ -354,14 +354,14 @@ The importance of this phenomena to both the theory and practice of computing, a
 One of the consequences of our representation is the following:
 
 
-> # {.theorem title="Counting programs" #program-count}
+> ### {.theorem title="Counting programs" #program-count}
 For every $n,m,s$ with $s \geq m, s \geq n/2$,
 $$|SIZE_{n,m}(s)| \leq 2^{O(s \log s)}.$$
 That is, there are at most $2^{O(s\log s)}$ functions computed by  NAND-CIRC programs of at most $s$ lines.
 
 Moreover, the implicit constant in the $O(\cdot)$ notation in [program-count](){.ref} is at most $10$.^[By this we mean that for all sufficiently large $s$, $|Size(s)|\leq 2^{10s\log s}$.]
 
-> # {.proofidea data-ref="program-count"}
+> ### {.proofidea data-ref="program-count"}
 The idea behind the proof is that, as we've seen, we can represent every $s$ line program by a binary string of  $O(s \log s)$ bits.
 Therefore the  number of functions  computed by $s$-line programs cannot be larger than the number of such strings, which is $2^{O(s \log s)}$.
 In the actual proof, given below, we  count the number of representations a little more carefully, talking directly about triples rather than binary strings, although the idea remains the same.
@@ -393,7 +393,7 @@ More generally, every function $F:\{0,1\}^n \rightarrow \{0,1\}$ can be identifi
 Hence the number of functions mapping $\{0,1\}^n$ to $\{0,1\}$ is equal to the number of such tables which (since we can choose either $0$ or $1$ for every row) is exactly $2^{2^n}$. Note that this is _double exponential_ in $n$, and hence even for small values of $n$ (e.g., $n=10$) the number of functions from $\{0,1\}^n$ to $\{0,1\}$ is truly astronomical.^["Astronomical" here is an understatement: there are much fewer than $2^{2^{10}}$ stars, or even particles, in the observable universe.]
 This has the following important corollary:
 
-> # {.theorem title="Counting argument lower bound" #counting-lb}
+> ### {.theorem title="Counting argument lower bound" #counting-lb}
 There is a function $F:\{0,1\}^n\rightarrow \{0,1\}$ such that the  shortest NAND-CIRC program to compute $F$ requires $2^n/(100n)$ lines.
 
 ::: {.proof data-ref="counting-lb"}
@@ -413,7 +413,7 @@ In fact, as we explore in the exercises below, this is the case for _most_ funct
 Hence  functions that can be computed in a small number of lines (such as addition, multiplication, finding short paths in graphs, or even the $EVAL$ function) are the exception, rather than the rule.
 
 
-> # {.remark title="Advanced note: more efficient representation" #efficientrepresentation}
+> ### {.remark title="Advanced note: more efficient representation" #efficientrepresentation}
 The list of triples is not the shortest representation for NAND-CIRC programs.
 We have seen that every NAND-CIRC program of $s$ lines and $n$ inputs can be represented by a directed graph of $s+n$ vertices, of which $n$ have in-degree zero, and the $s$ others have in-degree at most two. Using the adjacency list representation, such a graph can be represented using roughly $2s\log(s+n) \leq 2s (\log s + O(1))$ bits.
 Using this representation we can reduce the implicit constant in [program-count](){.ref} arbitrarily close to $2$.
@@ -433,11 +433,11 @@ That is, the set of functions that can be computed using $c 2^n/n$ gates is a _s
 In fact, we can use the same results to show a more general result: as a general rule, if we increase our "budget" of gates by a constant factor, then we can compute new functions:
 
 
-> # {.theorem title="Size Hierarchy Theorem" #sizehiearchythm}
+> ### {.theorem title="Size Hierarchy Theorem" #sizehiearchythm}
 There exists some constant $C$ such that for _every_ $n \leq s \leq 2^n/(4n)$, there exists some function $f$ that _can not_ be computed using $s$ gates but _can_ be computed using $C\cdot s$ gates.
 
 
-> # {.proofidea data-ref="sizehiearchythm"}
+> ### {.proofidea data-ref="sizehiearchythm"}
 The idea is to "scale down" the result of [counting-lb](){.ref}.
 We set $\ell$ to be such that $s$ is about exponential in $\ell$, and so that $Cs$ gates are enough to compute all functions on $\ell$ bits but $s$ gates are not enough to compute some function $g:\{0,1\}^\ell \rightarrow \{0,1\}$.
 We can then let $f:\{0,1\}^n \rightarrow \{0,1\}$ be a function that ignores all but the first input $\ell$ bits, and returns the result of applying $g$  to these bits.
@@ -578,14 +578,14 @@ Modeling quantum computation    involves extending the model of Boolean circuits
 However, the main take away is that while quantum computing does suggest we need to amend the PECTT, it does _not_ require a complete revision of our worldview. Indeed, almost all of the content of this course remains the same whether the underlying computational model is Boolean circuits or quantum circuits.
 
 
-> # {.remark title="PECTT in practice" #PECTTpractice}
+> ### {.remark title="PECTT in practice" #PECTTpractice}
 While even the precise phrasing of the PECTT, let alone understanding its correctness, is still a subject of research, some variant of it is already implicitly assumed in practice.
 A statement such as "this cryptosystem provides 128 bits of security" really means that __(a)__ it is conjectured that there is no Boolean circuit (or, equivalently, a NAND gate) of size much smaller than $2^{128}$ that can break the system,^[We say "conjectured" and not "proved" because, while we can phrase such a  statement as a precise mathematical conjecture, at the moment we are unable to _prove_ such a statement for any cryptosystem. This is related to the $\mathbf{P}$ vs $\mathbf{NP}$ question we will discuss in future chapters.] and __(b)__ we assume that no other physical mechanism can do better, and hence it would take roughly a $2^{128}$ amount of "resources" to break the system.
 
 
 
 
-> # { .recap }
+> ### { .recap }
 * We can think of programs both as describing a _process_, as well as simply a list of symbols that can be considered as _data_ that can be fed as input to other programs.
 * We can write a NAND-CIRC program that evaluates arbitrary NAND-CIRC programs (or equivalently a circuit that evaluates other circuits). Moreover, the efficiency loss in doing so is not too large.
 * We can even write a NAND-CIRC program that evaluates programs in other programming languages such as Python, C, Lisp, Java, Go, etc.
@@ -621,10 +621,10 @@ c. There is an $O(\sqrt{s})$ line NAND-CIRC program that given as input program 
 :::
 
 
-> # {.exercise title="Equals function" #equals}
+> ### {.exercise title="Equals function" #equals}
 For every $k \in \N$, show that there is an $O(k)$ line NAND-CIRC program that computes the function $EQUALS_k:\{0,1\}^{2k} \rightarrow \{0,1\}$ where $EQUALS(x,x')=1$ if and only if $x=x'$.
 
-> # {.exercise title="Equal to constant function" #equalstwo}
+> ### {.exercise title="Equal to constant function" #equalstwo}
 For every $k \in \N$ and $x' \in \{0,1\}^k$, show that there is an $O(k)$ line NAND-CIRC program that computes the function $EQUALS_{x'} : \{0,1\}^k \rightarrow \{0,1\}$ that on input $x\in \{0,1\}^k$ outputs $1$ if and only if $x=x'$.
 
 
@@ -638,7 +638,7 @@ Prove that there exists a number $C$ such that for every $n,m$ and $s < m\cdot 2
 See footnote for hint.^[Follow the proof of [sizehiearchythm](){.ref}, replacing the use of the counting argument with [countingmultibitex](){.ref}.]
 :::
 
-> # {.exercise title="Random functions are hard" #rand-lb-id}
+> ### {.exercise title="Random functions are hard" #rand-lb-id}
 Suppose $n>1000$ and that we choose a function $F:\{0,1\}^n \rightarrow \{0,1\}$ at random, choosing for every $x\in \{0,1\}^n$ the value $F(x)$ to be the result of tossing an independent unbiased coin. Prove that the probability that there is a $2^n/(1000n)$ line program that computes $F$ is at most $2^{-100}$.^[__Hint:__ An equivalent way to say this is that you need to prove that the set of functions that can be computed using at most $2^n/(1000n)$ has fewer than $2^{-100}2^{2^n}$ elements. Can you see why?]
 
 

@@ -7,7 +7,7 @@ chapternum: "22"
 #  Quantum computing { #quantumchap }
 
 
-> # { .objectives }
+> ### { .objectives }
 * See main aspects in which quantum mechanics differs from local deterministic theories. \
 * Model of quantum circuits, or equivalently QNAND-CIRC programs \
 * The complexity class $\mathbf{BQP}$ and what we know about its relation to other classes \
@@ -59,7 +59,7 @@ If we try to "catch the photon in the act" and place  a detector right next to e
 The mere fact that we _measure_ the  path changes the photon's behavior, and now this "destructive interference" pattern is gone and the number of times a position is hit when two slits are open is the sum of the number of times it is hit when each slit is open.
 
 
-> # { .pause }
+> ### { .pause }
 You should read the paragraphs above more than once and make sure you appreciate how truly mind boggling these results are.
 
 
@@ -160,7 +160,7 @@ Now if Alice and Bob are not telepathic, then they need to agree in advance on s
 It's not hard for Alice and Bob to succeed with probability $3/4$: just always output the same bit.
 Moreover, by doing some case analysis, we can show that no matter what strategy they use, Alice and Bob cannot succeed with higher probability than that:^[[bellthm](){.ref} below assumes that Alice and Bob use _deterministic_ strategies $f$ and $g$ respectively. More generally, Alice and Bob could use a _randomized_ strategy, or equivalently, each could choose $f$ and $g$ from some  _distributions_ $\mathcal{F}$ and $\mathcal{G}$ respectively.  However the _averaging principle_ ([averagingprinciplerem](){.ref}) implies that if all possible deterministic strategies succeed with probability at most $3/4$, then the same is true for all randomized strategies.]
 
-> # {.theorem title="Bell's Inequality" #bellthm}
+> ### {.theorem title="Bell's Inequality" #bellthm}
 For every two functions $f,g:\{0,1\}\rightarrow\{0,1\}$, $\Pr_{x,y \in \{0,1\}}[  f(x) \oplus g(y) = x \wedge y] \leq 3/4$.
 
 ::: {.proof data-ref="bellthm"}
@@ -207,7 +207,7 @@ Some of the counterintuitive properties that arise from  quantum mechanics inclu
 
 As counter-intuitive as these concepts are, they have been experimentally confirmed, so we just have to live with them.
 
-> # {.remark title="More on quantum" #quantumsources}
+> ### {.remark title="More on quantum" #quantumsources}
 The discussion in this  lecture is quite brief and somewhat superficial.
 The chapter on quantum computation in my [book with Arora](http://theory.cs.princeton.edu/complexity/) (see [draft here](http://theory.cs.princeton.edu/complexity/ab_quantumchap.pdf)) is one
 relatively short resource that contains essentially everything we discuss here and more.
@@ -349,7 +349,7 @@ Recall that in the classical case, Alice and Bob can succeed in the "Bell Game" 
 We now show that quantum mechanics allows them to succeed with probability at least $0.8$.^[The strategy we show is not the best one. Alice and Bob can in fact  succeed with probability $\cos^2(\pi/8) \sim 0.854$.]
 
 
-> # {.lemma #bellstrategy}
+> ### {.lemma #bellstrategy}
 There is a 2-qubit quantum state $\psi\in \mathbb{C}^4$ so that if Alice has access to the first qubit of $\psi$, can manipulate and measure it and output $a\in \{0,1\}$ and Bob has access to the second qubit of $\psi$ and can manipulate and measure it and output $b\in \{0,1\}$ then
 $\Pr[ a \oplus b = x \wedge y ] \geq 0.8$.
 
@@ -406,7 +406,7 @@ Taking all the four cases together,  the overall probability of winning the game
 :::
 
 
-> # {.remark title="Quantum vs probabilistic strategies" #quantumprob}
+> ### {.remark title="Quantum vs probabilistic strategies" #quantumprob}
 It is instructive to understand what is it about quantum mechanics that enabled this gain in Bell's Inequality. For this, consider the following analogous probabilistic strategy for Alice and Bob. They agree that each one of them output $0$ if he or she get $0$ as input and outputs $1$ with probability $p$ if they get $1$ as input. In this case one can see that their success probability would be $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}(1-p)+\tfrac{1}{4}[2p(1-p)]=0.75 -0.5p^2 \leq 0.75$. The quantum strategy we described above can be thought of as a variant of the probabilistic strategy for parameter $p$ set to  $\sin^2 (\pi/8)=0.15$. But in the case $x=y=1$, instead of disagreeing only with probability $2p(1-p)=1/4$, because we can use these negative probabilities in the quantum world and rotate the state in opposite directions, and hence  the probability of disagreement ends up being $\sin^2 (\pi/4)=0.5$.
 
 ## Quantum computation
@@ -499,7 +499,7 @@ Please stop here and see that this definition makes sense to you.
 
 Once we have the notion of quantum circuits, we can define the quantum analog of $\mathbf{P_{/poly}}$ (i.e., define the class of functions computable by _polynomial size quantum circuits_) as follows:
 
-> # {.definition title="$\mathbf{BQP_{/poly}}$" #QBPpoly}
+> ### {.definition title="$\mathbf{BQP_{/poly}}$" #QBPpoly}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$.
 We say that $F\in \mathbf{BQP_{/poly}}$ if there exists some polynomial $p:\N \rightarrow \N$ such that for every $n\in \N$, if $F_{\upharpoonright n}$ is the restriction of $F$ to inputs of length $n$, then there is a quantum circuit of size at most $p(n)$ that computes $F_{\upharpoonright n}$.
 
@@ -546,7 +546,7 @@ Just like the classical case, we can also use  [Quantum Turing Machines](https:/
 Yet another way to define $\mathbf{BQP}$ is the following: a function $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{BQP}$ if __(1)__ $F\in \mathbf{BQP_{/poly}}$ and __(2)__ moreover for every $n$, the quantum circuit that verifies this can be generated by a _classical polynomial time NAND-TM program_ (or, equivalently, a polynomial-time Turing machine).^[This is analogous to the alternative characterization of $\mathbf{P}$ that appears in [Palternativeex](){.ref}.]
 We use this definition here, though an equivalent one can be made using QNAND-TM or quantum Turing machines:
 
-> # {.definition title="The class $\mathbf{BQP}$" #BQPdef}
+> ### {.definition title="The class $\mathbf{BQP}$" #BQPdef}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$.
 We say that $F\in \mathbf{BQP}$ if there exists a polynomial time NAND-TM program $P$ such that for every $n$, $P(1^n)$ is the description of a quantum circuit $C_n$ that computes the restriction of $F$ to $\{0,1\}^n$.
 
@@ -556,7 +556,7 @@ We say that $F\in \mathbf{BQP}$ if there exists a polynomial time NAND-TM progra
 
 
 
-> # { .pause }
+> ### { .pause }
 One way to verify that you've understood these definitions it to see that you can prove __(1)__ $\mathbf{P} \subseteq \mathbf{BQP}$ and in fact the stronger statement $\mathbf{BPP} \subseteq \mathbf{BQP}$, __(2)__  $\mathbf{BQP} \subseteq \mathbf{EXP}$, and __(3)__ For every $\mathbf{NP}$-complete function $F$, if $F\in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$.  [BQPcontainements](){.ref} asks you to work these out.
 
 The relation between $\mathbf{NP}$ and $\mathbf{BQP}$ is not known (see also [quantumnp](){.ref}).
@@ -795,7 +795,7 @@ where $f = \sum_{y} \hat{f}(y)\chi_y$ and $\chi_y:\{0,1\}^n \rightarrow \mathbb{
 :::
 
 
-> # {.proofidea data-ref="QFTcube"}
+> ### {.proofidea data-ref="QFTcube"}
 The idea behind the proof is that the _Hadamard_ operation corresponds to the _Fourier transform_ over the group $\{0,1\}^n$ (with the XOR operations). To show this, we just need to do the calculations.
 
 ::: {.proof data-ref="QFTcube"}
@@ -892,7 +892,7 @@ The idea is that we can embed $Z_L$ in the group $\Z_{A\cdot L}$ for any integer
 
 
 
-> # { .recap }
+> ### { .recap }
 * The state of an $n$-qubit quantum system can be modeled as a $2^n$ dimensional vector
 * An operation on the state corresponds to applying a unitary matrix to this vector.
 * Quantum circuits are obtained by composing basic operations such as $HAD$ and $U_{NAND}$.

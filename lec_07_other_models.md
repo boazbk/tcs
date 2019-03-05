@@ -6,7 +6,7 @@ chapternum: "7"
 
 # Equivalent models of computation { #chapequivalentmodels }
 
-> # { .objectives }
+> ### { .objectives }
 * Learn about RAM machines and λ calculus, which are important models of computation.
 * See the equivalence between these models and Turing machines.
 * See how many other models turn out to be "Turing complete"
@@ -61,7 +61,7 @@ To make NAND-RAM more realistic and similar to modern computer architecture, we 
 The full description of the NAND-RAM programing language is in the appendix.
 However, the most important fact you need to know about NAND-RAM is the following:
 
-> # {.theorem title="NAND-TM (TM's) and NAND-RAM (RAM) are equivalent" #RAMTMequivalencethm}
+> ### {.theorem title="NAND-TM (TM's) and NAND-RAM (RAM) are equivalent" #RAMTMequivalencethm}
 For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND-TM program if and only if $F$ is computable by a NAND-RAM program.
 
 
@@ -602,7 +602,7 @@ We say that _$exp$ computes $F$_ if for every $x\in \{0,1\}^*$, the expressions 
 The basic operations of the enhanced λ calculus more or less amount to the Lisp or Scheme programming languages.^[In Lisp, the $PAIR$, $HEAD$ and $TAIL$ functions are [traditionally called](https://goo.gl/BLRd6S) `cons`, `car` and `cdr`.]
 Given that, it is perhaps not surprising that the  enhanced λ-calculus is equivalent to Turing machines:
 
-> # {.theorem title="Lambda calculus and NAND-TM" #lambdaturing-thm}
+> ### {.theorem title="Lambda calculus and NAND-TM" #lambdaturing-thm}
 For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable in the enhanced λ calculus if and only if it is computable by a Turing machine.
 
 ::: {.proofidea data-ref="lambdaturing-thm"}
@@ -690,7 +690,7 @@ It's λ's all the way down!
 The idea is that we encode $0$ and $1$  themselves as λ expressions, and build things up from there.
 This  is known as [Church encoding](https://goo.gl/QZKM9M), as it was originated by Church in his effort to show that the λ calculus can be a basis for all computation.
 
-> # {.theorem title="Enhanced λ calculus equivalent to pure λ calculus." #enhancedvanillalambdathm}
+> ### {.theorem title="Enhanced λ calculus equivalent to pure λ calculus." #enhancedvanillalambdathm}
 There are λ expressions that implement the functions $0$,$1$,$IF$,$PAIR$, $HEAD$, $TAIL$, $NIL$, $ISEMPTY$, $MAP$, $REDUCE$, and $RECURSE$.
 
 We will not write the full formal proof of [enhancedvanillalambdathm](){.ref} but outline  the ideas involved in it:
@@ -1022,7 +1022,7 @@ Such a snapshot needs to encode the following components:
 
 The precise details of how we encode a configuration are not important, but we do want to record the following simple fact:
 
-> # {.lemma #nextstepfunctionlem}
+> ### {.lemma #nextstepfunctionlem}
 Let $M$ be a Turing machine and let $NEXT_M:\overline{\Sigma}^* \rightarrow \overline{\Sigma}^*$ be the function that maps a configuration of $M$ to the configuration at the next step of the execution. Then for every $i \in \N$, the value of $NEXT_M(\alpha)_i$ only depends on the coordinates $\alpha_{i-1},\alpha_i,\alpha_{i+1}$.^[For simplicity of notation and of phrasing this lemma, we use the convention that if $i$ is "out of bounds", such as $i<0$ or $i>|\alpha|$, then we assume that $\alpha_i = (\varnothing,\cdot)$.]
 
 We leave proving [nextstepfunctionlem](){.ref} as [nextstepfunctionlemex](){.ref}.
@@ -1127,7 +1127,7 @@ It turns out that NAND-TM programs with a constant amount of memory are equivale
 
 
 
-> # { .recap }
+> ### { .recap }
 * While we defined computable functions using NAND-TM programs, we could just as well have done so using many other models, including not just NAND-RAM but also Turing machines, RAM machines, the λ-calculus and many other models.
 * Very simple models turn out to be "Turing complete" in the sense that they can simulate arbitrarily complex computation.
 
@@ -1151,7 +1151,7 @@ Let $embed:\N^2 \rightarrow \N$ be the function defined as $embed(x_0,x_1)= \tfr
 4. Construct NAND-TM programs $P_0,P_1$ such that for for every $x^0,x^1 \in \N$ and $i \in N$, $P_i(pf(embed(x^0,x^1)))=pf(x^i)$. You can use the syntactic sugar for inner loops, conditionals, and incrementing/decrementing the counter.
 :::
 
-> # {.exercise title="lambda calculus requires three variables" #lambda-calc-ex}
+> ### {.exercise title="lambda calculus requires three variables" #lambda-calc-ex}
 Prove that for every λ-expression $e$ with no free variables there is an equivalent λ-expression $f$ that only uses the variables $x$,$y$, and $z$.^[__Hint:__ You can reduce the number of variables a function takes by "pairing them up". That is, define a λ expression $PAIR$ such that for every $x,y$ $PAIR xy$ is some function $f$ such that $f0=x$ and $f1=y$. Then use $PAIR$ to iteratively reduce the number of variables used.]
 
 ::: {.exercise title="Next-step function is local" #nextstepfunctionlemex}

@@ -6,7 +6,7 @@ chapternum: "12"
 
 # Modeling running time { #chapmodelruntime }
 
-> # { .objectives }
+> ### { .objectives }
 * Formally modeling  running time, and in particular notions such as $O(n)$ or $O(n^3)$ time algorithms. \
 * The classes $\mathbf{P}$ and $\mathbf{EXP}$ modelling polynomial and exponential time respectively. \
 * The _time hierarchy theorem_, that in particular says that for every $k \geq 1$ there are functions we _can_ compute in $O(n^{k+1})$ time but _can not_ compute in $O(n^k)$ time.
@@ -92,7 +92,7 @@ Let $F:\{0,1\}^* \rightarrow \{0,1\}$. We say that $F\in \mathbf{P}$ if there is
 We say that $F\in \mathbf{EXP}$ if there is a polynomial $p:\N \rightarrow \R$ and a NAND-RAM program $P$ such that for every $x\in \{0,1\}^*$, $P(x)$ runs in at most $2^{p(|x|)}$ steps and outputs $F(x)$.
 :::
 
-> # { .pause }
+> ### { .pause }
 Please make sure you understand why  [PandEXPdef](){.ref} and the bullets above define the same classes.
 
 
@@ -140,7 +140,7 @@ It turns out that the $P'$ is not much slower than $P$.
 That is, we can prove the following theorem:
 
 
-> # {.theorem title="Efficient simulation of NAND-RAM  with NAND-TM" #polyRAMTM-thm}
+> ### {.theorem title="Efficient simulation of NAND-RAM  with NAND-TM" #polyRAMTM-thm}
 There are absolute constants $a,b$ such that for every  function $F$ and nice  function  $T:\N \rightarrow \N$,  if $F \in TIME_{<<}(T(n))$ then there is a NAND-TM program $P'$ that computes $F$ in $T'(n)=a\cdot T(n)^b$.
 That is, $TIME_{<<}(T(n)) \subseteq TIME_{++}(aT(n)^b)$
 
@@ -156,7 +156,7 @@ When we want to _design_ an algorithm, we can use the extra power and convenienc
 When we want to _analyze_ a program or prove a _negative result_, we can restrict attention to   NAND-TM programs.
 
 
-> # {.proofidea data-ref="polyRAMTM-thm"}
+> ### {.proofidea data-ref="polyRAMTM-thm"}
 The idea behind the proof is simple. It  follows closely the proof of  [RAMTMequivalencethm](){.ref}, where we have shown  that every function $F$ that is computable by a NAND-RAM program $P$ is computable by a NAND-TM program $P'$.  To prove [polyRAMTM-thm](){.ref}, we follow the exact same proof but just check that the overhead of the simulation of $P$ by $P'$ is polynomial.
 The proof has many details, but is not deep. It is therefore much more important that you understand the _statement_ of this theorem than its proof.
 
@@ -188,7 +188,7 @@ Together these observations imply that the simulation of $T$ steps of NAND-RAM c
 
 
 
-> # {.remark title="Turing machines and other models" #othermodels}
+> ### {.remark title="Turing machines and other models" #othermodels}
 If we follow the equivalence results between NAND-TM/NAND-RAM and  other models, including Turing machines, RAM machines, Game of life, $\lambda$ calculus, and many others, then we can see that these results also have at most a polynomial overhead in the simulation in each way.^[For the  $\lambda$ calculus, one needs to be careful about the order of application of the reduction steps, which can matter for computational efficiency, see for example [this paper](https://lmcs.episciences.org/1627).]
 It is a good exercise to go through, for example, the proof of [TM-equiv-thm](){.ref} and verify that it establishes that Turing machines and NAND-TM programs are equivalent up to polynomial overhead.
 
@@ -210,7 +210,7 @@ Examining that proof, and combining it with  [polyRAMTM-thm](){.ref} , we can se
 But in fact, by directly simulating NAND-RAM programs, we can do better with only a _constant_ multiplicative overhead:
 
 
-> # {.theorem title="Efficient universality of NAND-RAM" #univ-nandpp}
+> ### {.theorem title="Efficient universality of NAND-RAM" #univ-nandpp}
 There is  a NAND-RAM program $U$ that computes the  partial function $TIMEDEVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ defined as follows:
 $$
 TIMEDEVAL(P,x,1^T)=P(x)
@@ -229,7 +229,7 @@ There  is nothing deep about representing inputs this way: this is merely a conv
 :::
 
 
-> # { .pause }
+> ### { .pause }
 Before reading the proof of [univ-nandpp](){.ref}, try to think how you would compute $TIMEDEVAL$ using your favorite programming language. That is, how you would write a program `Timed_Eval(P,x,T)` that gets a NAND-RAM program  `P` (represented in some convenient form), a string `x`, and an integer `T`, and simulates `P` for `T` steps.
 You will likely find that your program requires $O(T)$ steps to perform this simulation.
 As in the case of [polyRAMTM-thm](){.ref}, the proof of [univ-nandpp](){.ref} is not very deep and it more important to understand its _statement_.
@@ -322,13 +322,13 @@ def U(P,x,1^T):
 We have seen that there are uncomputable functions, but are there functions that  can be computed, but only at an exorbitant cost? For example, is there a function that _can_ be computed in time $2^n$, but _can not_ be computed in time $2^{0.9 n}$?
 It turns out that the answer is __Yes__:
 
-> # {.theorem title="Time Hierarchy Theorem" #time-hierarchy-thm}
+> ### {.theorem title="Time Hierarchy Theorem" #time-hierarchy-thm}
 For every nice function $T$, there is a function $F:\{0,1\}^* \rightarrow \{0,1\}$
 in $TIME(T(n)\log n) \setminus TIME(T(n))$.^[There is nothing special about $\log n$, and we could have used any other efficiently computable function that tends to infinity with $n$.]
 
 Note that in particular this means that $\mathbf{P}$ is _strictly contained_ in $\mathbf{EXP}$.
 
-> # {.proofidea data-ref="time-hierarchy-thm"}
+> ### {.proofidea data-ref="time-hierarchy-thm"}
 In the proof of [halt-thm](){.ref} (the uncomputability of the Halting problem), we have shown that the function $HALT$ cannot be computed in any finite time. An examination of the proof shows that it gives something stronger.
 Namely, the proof shows that if we fix our computational budget to be $T$ steps, then  not only we can't distinguish between programs that halt and those that do not, but cannot even distinguish between programs that halt within at most $T'$ steps and those that take more than that (where $T'$ is some number depending on $T$).
 Therefore, the proof of [time-hierarchy-thm](){.ref} follows the ideas of the uncomputability of the halting problem, but  again with a more careful accounting of the running time.
@@ -421,7 +421,7 @@ One can see that the second condition is much more relaxed, and hence we might e
 This  indeed turns out to be the case:
 
 
-> # {.theorem  title="Nonuniform computation contains uniform computation" #non-uniform-thm}
+> ### {.theorem  title="Nonuniform computation contains uniform computation" #non-uniform-thm}
 There is some $c\in \N$ s.t. for every nice $T:\N \rightarrow \N$ and  $F:\{0,1\}^* \rightarrow \{0,1\}$ in  $TIME_{++}(T(n))$ and every  sufficiently large $n\in N$,  $F_{\upharpoonright n}$ is in $SIZE(c T(n))$.
 
 ::: {.proofidea data-ref="non-uniform-thm"}
@@ -595,14 +595,14 @@ nothalted = NAND(halted,halted)
 
 Since NAND-RAM programs can be simulated by NAND-TM programs with polynomial overhead, we see that we can simulate a $T(n)$ time NAND-RAM program on length $n$ inputs with a $poly(T(n))$ size NAND-CIRC program.
 
-> # { .pause }
+> ### { .pause }
 To make sure you understand this transformation, it is an excellent exercise to verify the following equivalent characterization of the class $\mathbf{P}$ (see [Palternativeex](){.ref}). Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}$, $F\in \mathbf{P}$ if and only if there is a polynomial-time NAND-TM (or NAND-RAM, it doesn't matter) program $P$ such that for every $n\in \N$, $P(1^n)$ outputs a description of an $n$ input NAND-CIRC program $Q_n$ that computes the restriction $F_{\upharpoonright n}$ of $F$ to inputs in $\{0,1\}^n$. (Note that since $P$ runs in polynomial time and hence has an output of at most polynomial length, $Q_n$ has at most a polynomial number of lines.)
 
 ### The class $\mathbf{P_{/poly}}$
 
 We can define the "non uniform" analog of the class $\mathbf{P}$ as follows:
 
-> # {.definition title="$\mathbf{P_{/poly}}$" #Ppoly}
+> ### {.definition title="$\mathbf{P_{/poly}}$" #Ppoly}
 For every $F:\{0,1\}^* \rightarrow \{0,1\}$, we say that $F\in \mathbf{P_{/poly}}$ if there is some polynomial $p:\N \rightarrow \R$ such that for every $n\in \N$, $F_{\upharpoonright n} \in SIZE(p(n))$ where $F_{\upharpoonright n}$ is the restriction of $F$ to inputs in $\{0,1\}^n$.
 
 [non-uniform-thm](){.ref} implies that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$.
@@ -634,7 +634,7 @@ For the "only if" direction, if $F\in \mathbf{P_{/poly}}$ then we can use for $a
 For the "if" direction, we can use the same "unrolling the loop" technique of [non-uniform-thm](){.ref} to show that if $P$ is a polynomial-time NAND-TM program, then for every $n\in \N$, the map $x \mapsto P(a_n,x)$ can be computed by a polynomial size NAND-CIRC program $Q_n$.
 :::
 
-> # { .pause }
+> ### { .pause }
 To make sure you understand the definition of $\mathbf{P_{/poly}}$, I highly encourage you to work out fully the details of the proof of [ppolyadvice](){.ref}.
 
 
@@ -648,11 +648,11 @@ The answer is an emphatic __no__.
 Not only is $\mathbf{P_{/poly}}$ not contained in $\mathbf{P}$, in fact $\mathbf{P_{/poly}}$ contains functions that are _uncomputable_!
 
 
-> # {.theorem title="$\mathbf{P_{/poly}}$ contains uncomputable functions" #Ppolyuncomputable}
+> ### {.theorem title="$\mathbf{P_{/poly}}$ contains uncomputable functions" #Ppolyuncomputable}
 There exists an _uncomputable_ function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F \in \mathbf{P_{/poly}}$.
 
 
-> # {.proofidea data-ref="PnewPpoly"}
+> ### {.proofidea data-ref="PnewPpoly"}
 Since $\mathbf{P_{/poly}}$ corresponds to non uniform computation, a function $F$ is in $\mathbf{P_{/poly}}$ if for every $n\in \N$, the restriction $F_{\upharpoonright n}$ to inputs of length $n$ has a small circuit/program, even if the circuits for different values of $n$ are completely different from one another. In particular, if $F$ has the property that for every equal-length inputs $x$ and $x'$, $F(x)=F(x')$ then this means that $F_{\upharpoonright n}$ is either the constant function zero or the constant function one for every $n\in \N$.
 Since the constant function has a (very!) small circuit, such a function $F$ will always be in $\mathbf{P_{/poly}}$ (indeed even in smaller classes).
 Yet by a reduction from the Halting problem, we can obtain a function with this property that is uncomputable.
@@ -678,7 +678,7 @@ For example, in cryptography people often define  an encryption  scheme to be se
 Since $\mathbf{P} \subseteq \mathbf{P_{/poly}}$, this in particular precludes a polynomial time algorithm for doing so, but there are technical reasons why working in a non uniform model makes more sense in cryptography.
 It also allows to talk about security in non asymptotic terms such as a scheme having "$128$ bits of security".
 
-> # {.remark title="Non uniformity in practice" #nonunif}
+> ### {.remark title="Non uniformity in practice" #nonunif}
 While it  can sometimes be a real issue, in many natural settings the difference between uniform and non-uniform computation  does not seem to so important.
 In particular, in all the examples of problems not known to be in $\mathbf{P}$ we discussed before: longest path, 3SAT, factoring, etc., these problems are also not known to be in $\mathbf{P_{/poly}}$ either.
 Thus, for "natural" functions, if you pretend that $TIME(T(n))$  is roughly the same as $SIZE(T(n))$, you will be right more often than wrong.
@@ -765,22 +765,22 @@ Prove that $F \in \overline{\mathbf{P}}$ if and only if $Bool(F) \in \mathbf{P}$
 :::
 
 
-> # {.exercise title="Composition of polynomial time" #poly-time-comp-ex}
+> ### {.exercise title="Composition of polynomial time" #poly-time-comp-ex}
 Prove that if $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$ are in $\overline{\mathbf{P}}$ then their _composition_ $F\circ G$, which is the function $H$ s.t. $H(x)=F(G(x))$, is also in $\overline{\mathbf{P}}$.
 
 
-> # {.exercise title="Non composition of exponential time" #exp-time-comp-ex}
+> ### {.exercise title="Non composition of exponential time" #exp-time-comp-ex}
 Prove that there is some $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$ s.t. $F,G \in \overline{\mathbf{EXP}}$ but $F\circ G$ is not in $\mathbf{EXP}$.^[TODO: check that this works, idea is that we can do bounded halting.]
 
 
-> # {.exercise title="Oblivious program" #oblivious-ex}
+> ### {.exercise title="Oblivious program" #oblivious-ex}
 We say that a NAND-TM program $P$ is oblivious if there is some functions $T:\N \rightarrow \N$ and $i:\N\times \N \rightarrow \N$ such that for every input $x$ of length $n$, it holds that:\
 * $P$ halts when given input $x$  after exactly $T(n)$ steps. \
 * For $t\in \{1,\ldots, T(n) \}$, after $P$ executes the $t^{th}$ step of the execution the value of the index `i` is equal to $t(n,i)$. In particular this value does _not_ depend on $x$ but only on its length.^[An oblivious program $P$ cannot compute functions whose output length is not a function of the input length, though this is not a real restriction, as we can always embed  variable output functions in fixed length ones using some special "end of output" marker.]
 Let $F:\{0,1\}^* \rightarrow \{0,1\}^*$ be such that there is some function $m:\N \rightarrow \N$ satisfying $|F(x)|=m(|x|)$ for every $x$, and let $P$ be a NAND-TM program that computes $F$ in $T(n)$ time for some nice $T$.
 Then there is an _oblivious_ NAND-TM program $P'$ that computes $F$ in time $O(T^2(n) \log T(n))$.
 
-> # {.exercise title="Alternative characterization of $\mathbf{P}$" #Palternativeex}
+> ### {.exercise title="Alternative characterization of $\mathbf{P}$" #Palternativeex}
 Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}$, $F\in \mathbf{P}$ if and only if there exists a polynomial time NAND-TM program $P$ such that $P(1^n)$ outputs a NAND-CIRC program  $Q_n$ that computes the restriction of $F$ to $\{0,1\}^n$.
 
 ## Bibliographical notes
@@ -799,7 +799,7 @@ Some topics related to this chapter that might be accessible to advanced student
 
 ^[TODO: possibly remove this]
 
-> # {.proof data-ref="oblivious-thm"}
+> ### {.proof data-ref="oblivious-thm"}
 We start by ensuring that the time at which the program halts does not depend on the input but only its length. To do so, we can transform a program running in $T(n)$ time to a "clocked" version that will always takes $T(n)$ steps regardless of the input.
 We achieve this by adding a `noop` variable and modify the program to do nothing if `noop` equals $1$.
 Hence, when the original program would assign $0$ to `loop`, we modify `noop` to $1$, and only halt after $T(|x|)$ steps when $x$ is the input.
