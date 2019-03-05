@@ -226,6 +226,7 @@ This makes sense, since in practice we often want to compute $\Phi_e(x)$ for a s
 
 
 
+
 ::: {.proofidea data-ref="reglintimethm"}
 The idea is to define a more efficient recursive algorithm, that determines whether $e$ matches a string $x\in \{0,1\}^n$  by reducing this task to determining whether a related expression $e'$ matches $x_0,\ldots,x_{n-1}$.
 This will result in an expression for the running time of the form $T(n) = T(n-1) + O(1)$ which solves to $T(n)=O(n)$.

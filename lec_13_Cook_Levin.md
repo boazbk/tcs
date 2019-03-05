@@ -401,7 +401,7 @@ We map $Q$ to  a $3NAND$ formula $\Psi$ as follows:
 * The first $n$ variables $z_0,\ldots,z_{n-1}$ will corresponds to the inputs of $Q$. The next $m$ variables $z_n,\ldots,z_{n+m-1}$ will correspond to the $m$ lines of $Q$.
 
 * For every $\ell\in \{n,n+1,\ldots,n+m \}$, if the $\ell-n$-th line of the program $Q$ is `foo = NAND(bar,blah)` then we add to $\Psi$  the constraint $z_\ell = NAND(z_j,z_k)$ where $j-n$ and $k-n$ correspond to the last lines in which the variables `bar` and `blah` (respectively) were written to. If one or both of `bar` and `blah` was not written to before then we use $z_{\ell_0}$ instead of the corresponding value $z_j$ or $z_k$  in the  constraint, where $\ell_0-n$ is the line in which `zero` is assigned a value.
-If  one or both of `bar` and `blah` is an input variable `X[i]` then we we use $z_i$ in the constraint.
+If  one or both of `bar` and `blah` is an input variable `X[i]` then we use $z_i$ in the constraint.
 
 
 * Let $\ell^*$ be the last line in which the output `y_0` is assigned a value. Then we add the constraint $z_{\ell^*} = NAND(z_{\ell_0},z_{\ell_0})$ where $\ell_0-n$ is as above the last line in which `zero` is assigned a value. Note that this is effectively the constraint $z_{\ell^*}=NAND(0,0)=1$.
