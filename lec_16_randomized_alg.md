@@ -23,7 +23,7 @@ This motivated John von Neumann, one of the early computing pioneers, to write a
 
 ![A 1947 entry in the [log book](http://americanhistory.si.edu/collections/search/object/nmah_334663) of the Harvard MARK II computer containing an actual bug that caused a hardware malfunction. By Courtesy of the Naval Surface Warfare Center.](../figure/bug.jpg){#bugfig .margin  }
 
-So it is  quite surprising that randomness turned out not just a hindrance but also a _resource_ for computation, enabling to achieve tasks much more efficiently than previously known.
+So it is  quite surprising that randomness turned out not just a hindrance but also a _resource_ for computation, enabling us to achieve tasks much more efficiently than previously known.
 One of the  first applications  involved the very same John von Neumann.
 While he was sick in bed and playing cards, Stan Ulam came up with the observation that calculating statistics of a system could be done much faster by running several randomized simulations.
 He mentioned this idea to von Neumann, who became very excited about it; indeed, it turned out to be crucial for the neutron transport calculations that were needed for development of the Atom bomb and later on the hydrogen bomb.

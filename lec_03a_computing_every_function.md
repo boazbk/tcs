@@ -200,7 +200,7 @@ c = IF(cond,temp_c,c)
 ```
 
 
-## Extended example: Addition and Multiplicatoin (optional) { #addexample }
+## Extended example: Addition and Multiplication (optional) { #addexample }
 
 
 Using "syntactic sugar",  we can write the integer addition function as follows:^[We use here least-significant-digit first convention  for simplicity of notation.]
@@ -243,7 +243,7 @@ For every $n\in \N$, let $ADD_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{n+1}$ be the fu
 Once we have addition, we can use the grade-school algorithm to obtain multiplication as well, thus obtaining the following theorem:
 
 
-> ### {.theorem title="Multiplication NAND-CIRC programs" #theoremid}
+> ### {.theorem title="Multiplication using NAND-CIRC programs" #theoremid}
 For every $n$, let $MULT_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{2n}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the product of the numbers that $x$ and $x'$ represent. Then there is a constant $c$ such that for every $n$, there is a  NAND-CIRC program of at most $cn^2$ that computes the function $MULT_n$.
 
 We omit the proof, though in [multiplication-ex](){.ref} we ask you to supply a "constructive proof" in the form of a program (in your favorite programming language) that on input a number $n$, outputs the code of a NAND-CIRC program of at most $1000n^2$ lines that computes the $MULT_n$ function.

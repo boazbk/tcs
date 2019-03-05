@@ -13,7 +13,7 @@ chapternum: '15'
 * Explore the consequences of $\mathbf{P}=\mathbf{NP}$ \
 * _Search-to-decision_ reduction: transform algorithms that solve decision version to search version for $\mathbf{NP}$-complete problems. \
 * Optimization and learning problems \
-* Quantifier elimination and solving polynomial hieararchy. \
+* Quantifier elimination and solving problems in the polynomial hierarchy. \
 * What is the evidence for $\mathbf{P}=\mathbf{NP}$ vs $\mathbf{P}\neq \mathbf{NP}$?
 
 
@@ -387,7 +387,7 @@ That is, $K$ gives an approximation up to a factor of $1 \pm \epsilon$ for the n
 :::
 
 ::: { .pause }
-Once again, to understand this theorem it can be useful to see how it implies that if $\mathbf{P}=\mathbf{NP}$ then there is a polynomial-time algorithm that given a graph $G$ and a number $k$, can compute a number $K$ that is within a $1 \pm 0.01$ factor equal to the number of simple paths in $G$ of langth $k$. (That is, $K$ is between $0.99$ to $1.01$ times the number of such paths.)
+Once again, to understand this theorem it can be useful to see how it implies that if $\mathbf{P}=\mathbf{NP}$ then there is a polynomial-time algorithm that given a graph $G$ and a number $k$, can compute a number $K$ that is within a $1 \pm 0.01$ factor equal to the number of simple paths in $G$ of length $k$. (That is, $K$ is between $0.99$ to $1.01$ times the number of such paths.)
 :::
 
 

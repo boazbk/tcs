@@ -133,7 +133,7 @@ The  function $\Phi_{e}:\Sigma^* \rightarrow \{0,1\}$ is defined as follows:
 
 5. Finally, for the edge cases $\Phi_{\emptyset}$ is the constant zero function, and $\Phi_{""}$ is the function that only outputs $1$ on the empty string $""$.
 
-We say that a regular expresion  $e$ over $\Sigma$ _matches_ a string $x \in \Sigma^*$  if $\Phi_{e}(x)=1$.
+We say that a regular expression  $e$ over $\Sigma$ _matches_ a string $x \in \Sigma^*$  if $\Phi_{e}(x)=1$.
 We say that a function $F:\Sigma^* \rightarrow \{0,1\}$ is _regular_ if $F=\Phi_{e}$ for some regular expression $e$.^[We use _function notation_ in this book, but   other texts  often use the notion of  _languages_, which are sets of strings. We say that a language $L \subseteq \Sigma^*$  is _regular_ if and only if the corresponding function $F_L$ is regular, where $F_L:\Sigma^* \rightarrow \{0,1\}$ is the function that outputs $1$ on $x$ iff $x\in L$.]
 :::
 
