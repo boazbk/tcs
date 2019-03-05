@@ -1,9 +1,12 @@
-% Cryptography
-% Boaz Barak
+---
+title: "Cryptography"
+filename: "lec_19_cryptography"
+chapternum: "20"
+---
 
 #  Cryptography { #chapcryptography  }
 
-> # { .objectives }
+> ### { .objectives }
 * Definition of perfect secrecy \
 * The one-time pad encryption scheme \
 * Necessity of long keys for perfect secrecy \
@@ -57,7 +60,7 @@ In 1587, Mary the queen of Scots, and the heir to the throne of England, wanted 
 England, so that she could ascend to the throne and finally escape the house arrest under which she had been for the last 18 years.
 As part of this complicated plot, she sent a coded letter to Sir Anthony Babington.
 
-![Snippet from encrypted communication between queen Mary and Sir Babington](../figure/encrypted_letter.jpg){#maryscottletterfig .class width=300px height=300px}
+![Snippet from encrypted communication between queen Mary and Sir Babington](../figure/encrypted_letter.jpg){#maryscottletterfig .margin  }
 
 
 Mary used what's known as a _substitution cipher_ where each letter is transformed into a different obscure symbol (see [maryscottletterfig](){.ref}).
@@ -72,7 +75,7 @@ Trusting in superficial security measures (such as using "inscrutable" symbols) 
 (As in many things, this is the subject of a great XKCD cartoon, see [XKCDnavajofig](){.ref}.)
 
 
-![XKCD's take on the added security of using uncommon symbols](../figure/code_talkers.png){#XKCDnavajofig .class width=300px height=300px}
+![XKCD's take on the added security of using uncommon symbols](../figure/code_talkers.png){#XKCDnavajofig .margin  }
 
 
 
@@ -103,7 +106,7 @@ They were also helped along the way by some quirks and errors of the German oper
 For example, the fact that their messages ended with "Heil Hitler" turned out to be quite useful.
 
 
-![In the  _Enigma_ mechanical cipher the secret key would be the settings of the rotors and internal wires. As the operator types up their message, the encrypted version appeared in the display area above, and the internal state of the cipher was updated (and so typing the same letter twice would generally result in two different letters output). Decrypting follows the same process: if the sender and receiver are using the same key then typing the ciphertext would result in the plaintext appearing in the display.](../figure/enigma.jpg){#enigmafig .class width=300px height=300px}
+![In the  _Enigma_ mechanical cipher the secret key would be the settings of the rotors and internal wires. As the operator types up their message, the encrypted version appeared in the display area above, and the internal state of the cipher was updated (and so typing the same letter twice would generally result in two different letters output). Decrypting follows the same process: if the sender and receiver are using the same key then typing the ciphertext would result in the plaintext appearing in the display.](../figure/enigma.jpg){#enigmafig .margin  }
 
 Here is one entertaining anecdote: the Enigma machine would never map a letter to itself.
 In March 1941, Mavis Batey, a cryptanalyst at Bletchley Park received a very long message that she tried to decrypt.
@@ -135,7 +138,7 @@ Alice and Bob share a _secret key_ $k \in \{0,1\}^*$.
 Alice uses the key $k$ to "scramble" or _encrypt_ the plaintext  $x$ into a _ciphertext_ $y$, and Bob uses the key $k$ to "unscramble" or _decrypt_ the ciphertext $y$ back into the plaintext $x$.
 This motivates the following definition which attempts to capture what it means for an encryption scheme to be _valid_ or "make sense", regardless of whether or not it is _secure_:
 
-> # {.definition title="Valid encryption scheme" #encryptiondef}
+> ### {.definition title="Valid encryption scheme" #encryptiondef}
 Let $L:\N \rightarrow \N$ be some function.
 A pair of polynomial-time computable functions $(E,D)$ mapping strings to strings is a _valid private key encryption scheme_ (or _encryption scheme_ for short) with plaintext length function $L(\cdot)$ if
 for every $k\in \{0,1\}^n$ and $x \in \{0,1\}^{L(n)}$,
@@ -151,7 +154,7 @@ We will often write the first input (i.e., the key) to the encryption and decryp
 [encryptiondef](){.ref} says nothing about the _security_ of $E$ and $D$, and even allows the trivial encryption scheme that ignores the key altogether and sets $E_k(x)=x$ for every $x$.
 Defining security is not a trivial matter.
 
-> # { .pause }
+> ### { .pause }
 You would appreciate the subtleties of defining security of encryption more if at this point you take a five minute break from reading, and try (possibly with a partner) to brainstorm on how you would mathematically define the notion that an encryption scheme is _secure_, in the sense that it protects the secrecy of the plaintext $x$.
 
 
@@ -232,7 +235,7 @@ In particular, suppose that you knew ahead of time that Alice sent either an enc
 :::
 
 
-![For any key length $n$, we can visualize an encryption scheme $(E,D)$ as a graph with a  vertex for every one of the $2^{L(n)}$ possible plaintexts and for every one of the ciphertexts in $\{0,1\}^*$ of the form $E_k(x)$ for $k\in \{0,1\}^n$ and $x\in \{0,1\}^{L(n)}$. For every plaintext $x$ and key $k$, we add an edge labeled $k$ between $x$ and $E_k(x)$. By the validity condition, if we pick any fixed key $k$, the map $x \mapsto E_k(x)$ must be one-to-one. The condition of perfect secrecy simply corresponds to requiring that every two    plaintexts $x$ and $x'$ have exactly the same set of neighbors (or multi-set, if there are parallel edges).](../figure/perfectsecrecy.png){#perfectsecfig .class width=300px height=300px}
+![For any key length $n$, we can visualize an encryption scheme $(E,D)$ as a graph with a  vertex for every one of the $2^{L(n)}$ possible plaintexts and for every one of the ciphertexts in $\{0,1\}^*$ of the form $E_k(x)$ for $k\in \{0,1\}^n$ and $x\in \{0,1\}^{L(n)}$. For every plaintext $x$ and key $k$, we add an edge labeled $k$ between $x$ and $E_k(x)$. By the validity condition, if we pick any fixed key $k$, the map $x \mapsto E_k(x)$ must be one-to-one. The condition of perfect secrecy simply corresponds to requiring that every two    plaintexts $x$ and $x'$ have exactly the same set of neighbors (or multi-set, if there are parallel edges).](../figure/perfectsecrecy.png){#perfectsecfig .margin  }
 
 ### Example: Perfect secrecy in the battlefield
 
@@ -242,7 +245,7 @@ A priori we would have guessed that Alice sent either $x_0$ or $x_1$ with probab
 Now we observe $y=E_k(x_i)$ where $k$ is a uniformly chosen key in $\{0,1\}^n$.
 How does this new information cause us to update our beliefs on whether Alice sent the plaintext $x_0$ or the plaintext $x_1$?
 
-> # { .pause }
+> ### { .pause }
 Before reading the next paragraph, you might want to try the analysis yourself.
 You may find it useful to  look at the [Wikipedia entry on Bayesian Inference](https://en.wikipedia.org/wiki/Bayesian_inference) or [these MIT lecture notes](https://ocw.mit.edu/courses/mathematics/18-05-introduction-to-probability-and-statistics-spring-2014/readings/MIT18_05S14_Reading11.pdf).
 
@@ -273,15 +276,15 @@ However it turns out we can in fact obtain perfectly secret encryption scheme fa
 Such a scheme for two-bit messages is illustrated in [onetimepadtwofig](){.ref}
 
 
-![A perfectly secret encryption scheme for two-bit keys and messages. The blue vertices represent plaintexts and the red vertices represent ciphertexts, each edge mapping a plaintext $x$ to a ciphertext $y=E_k(x)$ is labeled with the corresponding key $k$. Since there are four possible keys, the degree of the graph is four and it is in fact a complete bipartite graph. The encryption scheme is valid in the sense that for every $k\in \{0,1\}^2$, the map $x \mapsto E_k(x)$ is one-to-one, which in other words means that the set of edges labeled with $k$ is a _matching_.](../figure/onetimepadtwobits.png){#onetimepadtwofig .class width=300px height=300px}
+![A perfectly secret encryption scheme for two-bit keys and messages. The blue vertices represent plaintexts and the red vertices represent ciphertexts, each edge mapping a plaintext $x$ to a ciphertext $y=E_k(x)$ is labeled with the corresponding key $k$. Since there are four possible keys, the degree of the graph is four and it is in fact a complete bipartite graph. The encryption scheme is valid in the sense that for every $k\in \{0,1\}^2$, the map $x \mapsto E_k(x)$ is one-to-one, which in other words means that the set of edges labeled with $k$ is a _matching_.](../figure/onetimepadtwobits.png){#onetimepadtwofig .margin  }
 
 In fact, this can be generalized to any number of bits:
 
 
-> # {.theorem title="One Time Pad (Vernam 1917, Shannon 1949)" #onetimepad}
+> ### {.theorem title="One Time Pad (Vernam 1917, Shannon 1949)" #onetimepad}
 There is a perfectly secret valid encryption scheme $(E,D)$ with $L(n)=n$.
 
-> # {.proofidea data-ref="onetimepad"}
+> ### {.proofidea data-ref="onetimepad"}
 Our scheme is the [one-time pad](https://en.wikipedia.org/wiki/One-time_pad) also known as the "Vernam Cipher", see [onetimepadfig](){.ref}.
 The encryption is exceedingly simple: to encrypt a message $x\in \{0,1\}^n$ with a key $k \in \{0,1\}^n$ we simply output $x \oplus k$ where $\oplus$ is the bitwise XOR operation that
 outputs the string corresponding to XORing each  coordinate of $x$ and $k$.
@@ -295,14 +298,14 @@ using the fact that for every bit $\sigma \in \{0,1\}$, $\sigma + \sigma \mod 2 
 Hence $(E,D)$ form  a valid encryption.
 
 To analyze the perfect secrecy property, we claim that for every $x\in \{0,1\}^n$, the distribution $Y_x=E_k(x)$ where $k \sim \{0,1\}^n$ is simply the uniform distribution over $\{0,1\}^n$, and hence in particular the distributions $Y_{x}$ and $Y_{x'}$ are identical for every $x,x' \in \{0,1\}^n$.
-Indeed, for every particular $y\in \{0,1\}^n$, the value $y$ is output by $Y_x$ if and only if $y = x \oplus k$ which holds if and only if $k= x \oplus y$. Since $k$ is chosen uniformly at random in $\{0,1\}^n$, the probability that $k$ happens to equal $k \oplus y$ is exactly $2^{-n}$, which means that every string $y$ is output by $Y_x$ with probability $2^{-n}$.
+Indeed, for every particular $y\in \{0,1\}^n$, the value $y$ is output by $Y_x$ if and only if $y = x \oplus k$ which holds if and only if $k= x \oplus y$. Since $k$ is chosen uniformly at random in $\{0,1\}^n$, the probability that $k$ happens to equal $x \oplus y$ is exactly $2^{-n}$, which means that every string $y$ is output by $Y_x$ with probability $2^{-n}$.
 :::
 
 
-![In the _one time pad_ encryption scheme we encrypt a plaintext $x\in \{0,1\}^n$ with a key $k\in \{0,1\}^n$ by the ciphertext $x \oplus k$ where $\oplus$ denotes the bitwise XOR operation.](../figure/onetimepad.png){#onetimepadfig .class width=300px height=300px}
+![In the _one time pad_ encryption scheme we encrypt a plaintext $x\in \{0,1\}^n$ with a key $k\in \{0,1\}^n$ by the ciphertext $x \oplus k$ where $\oplus$ denotes the bitwise XOR operation.](../figure/onetimepad.png){#onetimepadfig .margin  }
 
 
-> # { .pause }
+> ### { .pause }
 The argument above is quite simple but is worth reading again. To understand why the one-time pad is perfectly secret, it is useful to envision it as a bipartite graph as we've done in [onetimepadtwofig](){.ref}. (In fact the encryption scheme of [onetimepadtwofig](){.ref} is precisely the one-time pad for $n=2$.) For every $n$, the one-time pad encryption scheme corresponds to a bipartite graph with $2^n$  vertices on the "left side" corresponding to the plaintexts in $\{0,1\}^n$ and $2^n$  vertices on the "right side" corresponding to the ciphertexts $\{0,1\}^n$.
 For every $x\in \{0,1\}^n$ and $k\in \{0,1\}^n$, we connect $x$ to the vertex $y=E_k(x)$ with an edge that we label with $k$.
 One can see that this is the complete bipartite graph, where every vertex on the left is connected to _all_ vertices on the right.
@@ -334,21 +337,21 @@ is shared by Lt. Richard Hallock, Carrie Berry, Frank Lewis, and Lt. Karl Elmqui
 In the 37 years of its existence, the project has resulted in a treasure chest of intelligence, exposing hundreds of KGB agents and Russian spies in the U.S. and other countries,
 including Julius Rosenberg, Harry Gold, Klaus Fuchs, Alger Hiss, Harry Dexter White  and many others.
 
-![Gene Grabeel, who founded the U.S. Russian SigInt program on 1 Feb 1943.  Photo taken in 1942, see Page 7 in the Venona historical study.](../figure/genevenona.png){#genegrabeelfig .class width=300px height=300px}
+![Gene Grabeel, who founded the U.S. Russian SigInt program on 1 Feb 1943.  Photo taken in 1942, see Page 7 in the Venona historical study.](../figure/genevenona.png){#genegrabeelfig .margin  }
 
 
 
 
-![An encryption scheme where the number of keys is smaller than the number of plaintexts corresponds to a bipartite graph where the degree is smaller than the number of vertices on the left side. Together with the validity condition this implies that  there will be two left vertices $x,x'$ with non-identical neighborhoods, and hence the scheme does _not_ satisfy perfect secrecy.](../figure/longkeygraph.png){#longkeygraphfig .class width=300px height=300px}
+![An encryption scheme where the number of keys is smaller than the number of plaintexts corresponds to a bipartite graph where the degree is smaller than the number of vertices on the left side. Together with the validity condition this implies that  there will be two left vertices $x,x'$ with non-identical neighborhoods, and hence the scheme does _not_ satisfy perfect secrecy.](../figure/longkeygraph.png){#longkeygraphfig .margin  }
 
 
 
 Unfortunately it turns out that  that such long keys are _necessary_ for perfect secrecy:
 
-> # {.theorem title="Perfect secrecy requires long keys" #longkeysthm}
+> ### {.theorem title="Perfect secrecy requires long keys" #longkeysthm}
 For every perfectly secret encryption scheme $(E,D)$ the length function $L$ satisfies $L(n) \leq n$.
 
-> # {.proofidea data-ref="longkeysthm"}
+> ### {.proofidea data-ref="longkeysthm"}
 The idea behind the proof is illustrated in [longkeygraphfig](){.ref}. If the number of keys is smaller than the number of messages then the neighborhoods of all vertices in the corresponding graphs cannot be identical.
 
 ::: {.proof data-ref="longkeysthm"}
@@ -391,14 +394,14 @@ The formal definition is below:
 
 ::: {.definition title="Computational secrecy" #compsecdef}
 Let $(E,D)$ be a valid encryption scheme where for keys of length $n$, the plaintexts are of length $L(n)$ and the ciphertexts are of length $m(n)$.
-We say that $(E,D)$ is _computationally secret_ if for every polynomial $p:\N \rightarrow \N$, and large enough $n$, if $P$ is an $m(n)$-input and single output NAND program of at most $p(n)$ lines, and $x_0,x_1 \in \{0,1\}^{L(n)}$  then
+We say that $(E,D)$ is _computationally secret_ if for every polynomial $p:\N \rightarrow \N$, and large enough $n$, if $P$ is an $m(n)$-input and single output NAND-CIRC program of at most $p(n)$ lines, and $x_0,x_1 \in \{0,1\}^{L(n)}$  then
 
 $$
 \left| \E_{k \sim \{0,1\}^n} [P(E_k(x_0))] -   \E_{k \sim \{0,1\}^n} [P(E_k(x_1))] \right| < \tfrac{1}{p(n)} \label{eqindist}
 $$
 :::
 
-> # { .pause }
+> ### { .pause }
 [compsecdef](){.ref} requires a second or third read  and some practice to truly understand.
 One excellent exercise to make sure you follow it is to see that if we allow $P$ to be an _arbitrary_ function mapping $\{0,1\}^{m(n)}$ to $\{0,1\}$, and we replace the condition in [eqindist](){.eqref} that the lefhand side is smaller than $\tfrac{1}{p(L(n))}$ with the condition  that it is equal to $0$ then we get the perfect secrecy condition of [perfectsecrecy](){.ref}.
 Indeed if the distributions $E_k(x_0)$  and $E_k(x_1)$ are identical then applying any function $P$ to them we get the same expectation.
@@ -424,14 +427,14 @@ It is widely used in practice with keys on the order of a few tens or hundreds o
 
 
 
-![In  a _stream cipher_ or "derandomized one-time pad" we use a pseudorandom generator $G:\{0,1\}^n \rightarrow \{0,1\}^L$ to obtain an encryption scheme with a key length of $n$ and plaintexts of length $L$. We encrypt the plaintext $x\in \{0,1\}^L$ with key $k\in \{0,1\}^n$ by the ciphertext $x \oplus G(k)$.](../figure/derandonetimepad.png){#derandonetimepadfig .class width=300px height=300px}
+![In  a _stream cipher_ or "derandomized one-time pad" we use a pseudorandom generator $G:\{0,1\}^n \rightarrow \{0,1\}^L$ to obtain an encryption scheme with a key length of $n$ and plaintexts of length $L$. We encrypt the plaintext $x\in \{0,1\}^L$ with key $k\in \{0,1\}^n$ by the ciphertext $x \oplus G(k)$.](../figure/derandonetimepad.png){#derandonetimepadfig .margin  }
 
 
-> # {.theorem title="Derandomized one-time pad" #PRGtoENC}
+> ### {.theorem title="Derandomized one-time pad" #PRGtoENC}
 Suppose that the optimal PRG conjecture is true.
 Then for every constant $a\in \N$ there is   a computationally secret encryption scheme $(E,D)$ with plaintext length $L(n)$ at least $n^a$.
 
-> # {.proofidea data-ref="PRGtoENC"}
+> ### {.proofidea data-ref="PRGtoENC"}
 The proof is illustrated in [derandonetimepadfig](){.ref}. We simply take the one-time pad on $L$ bit plaintexts, but replace the key with $G(k)$ where $k$ is a string in $\{0,1\}^n$ and $G:\{0,1\}^n \rightarrow \{0,1\}^L$ is a pseudorandom generator.
 
 ::: {.proof data-ref="PRGtoENC"}
@@ -441,7 +444,7 @@ To decrypt a string $y \in \{0,1\}^m$ we output $y \oplus G(k)$.
 This is a valid encryption since $G$ is computable in polynomial time and $(x \oplus G(k)) \oplus G(k) = x \oplus (G(k) \oplus G(k))=x$ for every $x\in \{0,1\}^L$.
 
 Computational secrecy follows from the condition of a pseudorandom generator.
-Suppose, towards a contradiction, that there is a polynomial $p$, NAND program $Q$ of at most $p(L)$ lines and  $x,x' \in \{0,1\}^{L(n)}$  such that
+Suppose, towards a contradiction, that there is a polynomial $p$, NAND-CIRC program $Q$ of at most $p(L)$ lines and  $x,x' \in \{0,1\}^{L(n)}$  such that
 $$
 \left| \E_{k \sim \{0,1\}^n}[ Q(E_k(x))] - \E_{k \sim \{0,1\}^n}[Q(E_k(x'))] \right| > \tfrac{1}{p(L)}
 $$
@@ -472,12 +475,12 @@ $$
 \left| \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \E_{r \sim \{0,1\}^L} [ Q(r \oplus x)] \right| > \tfrac{1}{2p(L)} \;. \label{distingprgeq}
 $$
 
-But if we now define the NAND program $P_x$ that on input $r\in \{0,1\}^L$ outputs $Q(r \oplus x)$ then (since XOR of $L$ bits can be computed in $O(L)$ lines), we get that $P_x$ has $p(L)+O(L)$ lines and by [distingprgeq](){.eqref} it can distinguish between an input of the form $G(k)$ and an input of the form $r \sim \{0,1\}^k$ with advantage better than $\tfrac{1}{2p(L)}$.
+But if we now define the NAND-CIRC program $P_x$ that on input $r\in \{0,1\}^L$ outputs $Q(r \oplus x)$ then (since XOR of $L$ bits can be computed in $O(L)$ lines), we get that $P_x$ has $p(L)+O(L)$ lines and by [distingprgeq](){.eqref} it can distinguish between an input of the form $G(k)$ and an input of the form $r \sim \{0,1\}^k$ with advantage better than $\tfrac{1}{2p(L)}$.
 Since a polynomial is dominated by an exponential, if we make $L$ large enough, this will contradict the $(2^{\delta n},2^{-\delta n})$ security of the pseudorandom generator $G$.
 :::
 
 
-> # {.remark title="Stream ciphers in practice" #streamciphersrem}
+> ### {.remark title="Stream ciphers in practice" #streamciphersrem}
 The two most widely used forms of (private key) encryption schemes in practice are _stream ciphers_ and _block ciphers_. (To make things more confusing, a block cipher is always used in some [mode of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation) and some of these modes effectively turn a block cipher into a stream cipher.)
 A block cipher can be thought as a sort of a "random invertible map" from $\{0,1\}^n$ to $\{0,1\}^n$, and can be used to construct a pseudorandom generator and from it a stream cipher, or to encrypt data directly using other modes of operations.
 There are a great many other security notions and considerations for encryption schemes beyond computational secrecy.
@@ -492,7 +495,7 @@ We now give an example of how this can be done:
 ::: {.theorem title="Breaking encryption using $\mathbf{NP}$ algorithm" #breakingcryptowithnp}
 If $\mathbf{P}=\mathbf{NP}$ then there is no computationally secret encryption scheme  with $L(n) > n$.
 
-Furthermore, for every valid encryption scheme $(E,D)$ with $L(n) > n+100$ there is a polynomial $p$ such that for every large enough $n$ there exist $x_0,x_1 \in \{0,1\}^{L(n)}$ and a $p(n)$-line NAND program $EVE$ s.t.
+Furthermore, for every valid encryption scheme $(E,D)$ with $L(n) > n+100$ there is a polynomial $p$ such that for every large enough $n$ there exist $x_0,x_1 \in \{0,1\}^{L(n)}$ and a $p(n)$-line NAND-CIRC program $EVE$ s.t.
 $$
 \Pr_{i \sim \{0,1\}, k \sim \{0,1\}^n}[ EVE(E_k(x_i))=i ] \geq 0.99 \;.
 $$
@@ -586,7 +589,7 @@ However, it still felt short of providing Diffie and Hellman's  elusive trapdoor
 This was done the next year by Rivest, Shamir and Adleman who came up with the RSA trapdoor function, which through the framework of Diffie and Hellman yielded not just encryption but also signatures.^[A close variant of the  RSA function was   discovered earlier by Clifford Cocks at GCHQ, though as far as I can tell Cocks, Ellis and Williamson did not realize the application to digital signatures.]
 From this point on began a flurry of advances in cryptography which hasn't died down till this day.
 
-![Top left: Ralph Merkle, Martin Hellman and Whit Diffie, who together came up in 1976 with the concept of _public key encryption_ and a _key exchange protocol_. Bottom left: Adi Shamir, Ron Rivest, and Leonard Adleman who, following Diffie and Hellman's paper, discovered the RSA function that can be used for public key encryption and digital signatures. Interestingly, one can see the equation $\mathbf{P}=\mathbf{NP}$ on the blackboard behind them. Right: John Gill, who was the first person to suggest  to Diffie and Hellman that they use modular exponentiation as an easy-to-compute but hard-to-invert function. ](../figure/rsadhmg.png){#diffiehellmanmerklegillfig .class width=300px height=300px}
+![Top left: Ralph Merkle, Martin Hellman and Whit Diffie, who together came up in 1976 with the concept of _public key encryption_ and a _key exchange protocol_. Bottom left: Adi Shamir, Ron Rivest, and Leonard Adleman who, following Diffie and Hellman's paper, discovered the RSA function that can be used for public key encryption and digital signatures. Interestingly, one can see the equation $\mathbf{P}=\mathbf{NP}$ on the blackboard behind them. Right: John Gill, who was the first person to suggest  to Diffie and Hellman that they use modular exponentiation as an easy-to-compute but hard-to-invert function. ](../figure/rsadhmg.png){#diffiehellmanmerklegillfig .margin  }
 
 
 ### Defining public key encryption
@@ -604,7 +607,7 @@ The bigger we make $n$, the more secure the encryption will be, but also the les
 
 
 
-![In a _public key encryption_, Alice generates a private/public keypair $(e,d)$,  publishes $e$ and keeps $d$ secret. To encrypt a message for Alice, one only needs to know $e$. To decrypt it we need to know $d$.](../figure/publickeyenc.png){#publickeyencfig .class width=300px height=300px}
+![In a _public key encryption_, Alice generates a private/public keypair $(e,d)$,  publishes $e$ and keeps $d$ secret. To encrypt a message for Alice, one only needs to know $e$. To decrypt it we need to know $d$.](../figure/publickeyenc.png){#publickeyencfig .margin  }
 
 We now make this a formal definition:
 
@@ -613,7 +616,7 @@ A _computationally secret public key encryption_ with plaintext length $L:\N \ri
 
 * For every $n$, if $(e,d)$ is output by $KG(1^n)$ with positive probability, and $x\in \{0,1\}^{L(n)}$, then $D_d(E_e(x))=x$ with probability one.
 
-* For every polynomial $p$, and sufficiently large $n$, if $P$ is a NAND program of at most $p(n)$ lines then for every $x,x'\in \{0,1\}^{L(n)}$, $\left| \E[ P(e,E_e(x))] - \E[P(e,E_e(x'))] \right| < 1/p(n)$, where this probability is taken over the coins of $KG$ and $E$.
+* For every polynomial $p$, and sufficiently large $n$, if $P$ is a NAND-CIRC program of at most $p(n)$ lines then for every $x,x'\in \{0,1\}^{L(n)}$, $\left| \E[ P(e,E_e(x))] - \E[P(e,E_e(x'))] \right| < 1/p(n)$, where this probability is taken over the coins of $KG$ and $E$.
 :::
 
 [publickeyencdef](){.ref} allows $E$ and $D$ to be _randomized_ algorithms.

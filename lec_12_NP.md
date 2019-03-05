@@ -1,9 +1,12 @@
-% Polynomial time reductions
-% Boaz Barak
+---
+title: "Polynomial time reductions"
+filename: "lec_12_NP"
+chapternum: "13"
+---
 
 #  Polynomial-time reductions {#reductionchap }
 
-> # { .objectives }
+> ### { .objectives }
 * Introduce the notion of _polynomial-time reductions_ as a way to relate the complexity of problems to one another. \
 * See several examples of such reductions. \
 * 3SAT as a basic starting point for reductions.
@@ -62,14 +65,14 @@ The key to this is the notion of a _reduction_.
 Roughly speaking, we will say that _$F$ reduces to $G$_ (denoted as $F \leq_p G$) if $F$ is "no harder" than $G$, in the sense that a polynomial-time algorithm for $G$ implies a polynomial-time algorithm for $F$.
 The formal definition is as follows:^[Several notions of reductions are defined in the literature. The notion defined in [reduction-def](){.ref}  is often known as a _mapping reduction_, _many to one reduction_ or a  _Karp reduction_.]
 
-> # {.definition title="Reductions" #reduction-def}
+> ### {.definition title="Reductions" #reduction-def}
 Let $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$. We say that _$F$ reduces to $G$_, denoted by $F \leq_p G$ if there is a polynomial-time computable $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every $x\in \{0,1\}^*$,
 $$
 F(x) = G(R(x)) \;. \label{eq:reduction}
 $$
 We say that $F$ and $G$ have _equivalent complexity_ if $F \leq_p G$ and $G \leq_p F$.
 
-![If $F \leq_p G$ then we can transform a polynomial-time algorithm $B$  that computes $G$ into a polynomial-time algorithm $A$ that computes $F$. To compute $F(x)$ we can run the reduction $R$ guaranteed by the fact that $F \leq_p G$ to obtain $y=F(x)$ and then run our algorithm $B$ for $G$ to compute $G(y)$. ](../figure/reductionoutline.png){#reductionsfig .class width=300px height=300px}
+![If $F \leq_p G$ then we can transform a polynomial-time algorithm $B$  that computes $G$ into a polynomial-time algorithm $A$ that computes $F$. To compute $F(x)$ we can run the reduction $R$ guaranteed by the fact that $F \leq_p G$ to obtain $y=F(x)$ and then run our algorithm $B$ for $G$ to compute $G(y)$. ](../figure/reductionoutline.png){#reductionsfig .margin  }
 
 ::: {.solvedexercise title="Reductions and $\mathbf{P}$" #reductionsandP}
 Prove that if $F \leq_p G$ and $G \in \mathbf{P}$ then $F\in \mathbf{P}$.
@@ -93,10 +96,10 @@ Thus the total running time of $A$ on inputs of length $n$ is at most the time t
 
 Since we think of  $F \leq_p G$ as saying that (as far as polynomial-time computation is concerned) $F$ is "easier or equal in difficulty to" $G$, we would expect that  if $F \leq_p G$ and $G \leq_p H$, then it would hold that $F \leq_p H$. Indeed this is the case:
 
-> # {.lemma #transitivitylem}
+> ### {.lemma #transitivitylem}
 For every $F,G,H :\{0,1\}^* \rightarrow \{0,1\}$, if $F \leq_p G$ and $G \leq_p H$ then $F \leq_p H$.
 
-> # { .pause }
+> ### { .pause }
 We leave the proof of [transitivitylem](){.ref} as [transitivity-reductions-ex](){.ref}. Pausing now and doing this exercise is an excellent way to verify that you understood the definition of reductions.
 
 
@@ -122,7 +125,7 @@ Like the others, it shares the characteristics that it is an important and well-
 In  [cooklevinchap](){.ref} we will show the other direction: reducing each one of these problems to 3SAT in one fell swoop.
 
 
-![Our first stage in showing equivalence is to reduce  3SAT to the  three other problems](../figure/sat_to_others.png){#figureid .class width=300px height=300px}
+![Our first stage in showing equivalence is to reduce  3SAT to the  three other problems](../figure/sat_to_others.png){#figureid .margin  }
 
 
 ### Reducing 3SAT to quadratic equations
@@ -146,11 +149,11 @@ You can verify that $x \in \R^3$ satisfies this set of equations if and only if 
 
 We will show how to reduce 3SAT to the problem of Quadratic Equations.
 
-> # {.theorem title="Hardness of quadratic equations" #quadeq-thm}
+> ### {.theorem title="Hardness of quadratic equations" #quadeq-thm}
 $$3SAT \leq_p QUADEQ$$
 where $3SAT$ is the function that maps a 3SAT formula $\varphi$ to $1$ if it is satisfiable and to $0$ otherwise, and $QUADEQ$ is the function that maps a set $E$ of quadratic equations over $\{0,1\}^n$ to $1$ it has a solution and to $0$ otherwise.
 
-> # {.proofidea data-ref="quadeq-thm"}
+> ### {.proofidea data-ref="quadeq-thm"}
 At the end of the day, a 3SAT formula can be thought of as a list of equations on some variables $x_0,\ldots,x_{n-1}$.
 Namely, the equations are that each of the $x_i$'s should be equal to either $0$ or $1$, and that the variables should satisfy some set of constraints which corresponds to the OR of three variables or their negation.
 To show that $3SAT \leq_p QUADEQ$ we need to give a polynomial-time reduction that maps a 3SAT formula $\varphi$ into a  set of quadratic equations $E$ such that $E$ has a solution if and only if $\varphi$ is satisfiable.
@@ -187,7 +190,7 @@ Therefore by the way we constructed our equations, the value assigned $x$ must b
 This reduction can be easily implemented in about a dozen lines of Python or any other programming language, see [sattoqefig](){.ref}.
 :::
 
-![Reducing 3SAT to satisfiability of quadratic equations. On the righthand side is Python code implementing the reduction of [quadeq-thm](){.ref} and on the lefthand side is the output of this reduction on an example 3SAT instance. ](../figure/SAT2QE.png){#sattoqefig .class width=300px height=300px}
+![Reducing 3SAT to satisfiability of quadratic equations. On the righthand side is Python code implementing the reduction of [quadeq-thm](){.ref} and on the lefthand side is the output of this reduction on an example 3SAT instance. ](../figure/SAT2QE.png){#sattoqefig .margin  }
 
 
 
@@ -202,10 +205,10 @@ But it also arises in very different settings, including trying to find structur
 To phrase  independent set as a decision problem, we think of it as a function $ISET:\{0,1\}^* \rightarrow \{0,1\}$ that on input a graph $G$ and a number $k$ outputs $1$ if and only if the graph $G$ contains an independent set of size at least $k$.
 We will now reduce 3SAT to Independent set.
 
-> # {.theorem title="Hardness of Independent Set" #isetnpc}
+> ### {.theorem title="Hardness of Independent Set" #isetnpc}
 $3SAT \leq_p ISET$.
 
-> # {.proofidea data-ref="isetnpc"}
+> ### {.proofidea data-ref="isetnpc"}
 The idea is that finding a satisfying assignment to a 3SAT formula corresponds to satisfying many local constraints without creating any conflicts. One can think of "$x_{17}=0$"  and "$x_{17}=1$" as two conflicting events, and of the constraints $x_{17} \vee \overline{x}_5 \vee x_9$ as creating a conflict between the events "$x_{17}=0$", "$x_5=1$" and "$x_9=0$", saying that these  three cannot simultaneosly co-occur. Using these ideas, we can we can think of solving a  3SAT problem as trying to schedule non conflicting events, though the devil is, as usual, in the details.
 
 ::: {.proof data-ref="isetnpc"}
@@ -248,17 +251,17 @@ This completes the proof of [isetnpc](){.ref}
 :::
 
 
-![The reduction of 3SAT to Independent Set. On the righthand side is _Python_ code that implements this reduction. On the lefthand side is a sample output of the reduction. We use black for the "triangle edges" and red for the "conflict edges". Note that the satisfying assignment $x^* = 0110$ corresponds to the independent set $(0,\neg x_3)$, $(1, \neg x_0)$, $(2,x_2)$.](../figure/3sat2ISreduction.png){#threesattoisfig .class width=300px height=300px}
+![The reduction of 3SAT to Independent Set. On the righthand side is _Python_ code that implements this reduction. On the lefthand side is a sample output of the reduction. We use black for the "triangle edges" and red for the "conflict edges". Note that the satisfying assignment $x^* = 0110$ corresponds to the independent set $(0,\neg x_3)$, $(1, \neg x_0)$, $(2,x_2)$.](../figure/3sat2ISreduction.png){#threesattoisfig .margin  }
 
 
 
 
 ## Reducing Independent Set to Maximum Cut
 
-> # {.theorem title="Hardness of Max Cut" #isettomaxcut}
+> ### {.theorem title="Hardness of Max Cut" #isettomaxcut}
 $ISET \leq_p MAXCUT$
 
-> # {.proofidea data-ref="isettomaxcut"}
+> ### {.proofidea data-ref="isettomaxcut"}
 We will map a graph $G$ into a graph $H$ such that a large independent set in $G$ becomes a partition cutting many edges in $H$. We can think of a cut in $H$ as coloring each vertex either "blue" or  "red". We will add a special "source" vertex $s^*$, connect it to all other vertices, and assume without loss of generality that it is colored blue. Hence the more vertices we color red, the more edges from $s^*$ we cut. Now, for every edge $u,v$  in the original graph $G$ we will add a special "gadget" which will be a small subgraph that  involves $u$,$v$, the source $s^*$, and two other additional vertices. We design the gadget in a way so that if the red vertices are not an independent set in $G$ then the corresponding cut in $H$ will be "penalized" in the sense that it would not cut as many edges. Once we set for ourselves this objective, it is not hard to find a gadget that achieves it$-$ see the proof below.
 
 
@@ -277,10 +280,10 @@ __Part 2: Soundness.__ Suppose that $S$ is a cut in $H$ that cuts at least $C=k+
 :::
 
 
-![In the reduction of independent set to max cut, we have a "gadget" corresponding to every edge $e=\{u,v\}$ in the original graph. If we think of the side of the cut containing the special source vertex $s^*$ as "blue" and the other side as "red", then the leftmost and center figures show that if $u$ and $v$ are not both red then we can cut four edges from the gadget. In contrast, by enumerating all possibilities one can verify that if both $u$ and $v$ are red, then no matter how we color the intermediate vertices $e_0,e_1$, we will cut at most three edges from the gadget.  ](../figure/ISETtoMAXCUT.png){#ISETtoMAXCUTfig .class width=300px height=300px}
+![In the reduction of independent set to max cut, we have a "gadget" corresponding to every edge $e=\{u,v\}$ in the original graph. If we think of the side of the cut containing the special source vertex $s^*$ as "blue" and the other side as "red", then the leftmost and center figures show that if $u$ and $v$ are not both red then we can cut four edges from the gadget. In contrast, by enumerating all possibilities one can verify that if both $u$ and $v$ are red, then no matter how we color the intermediate vertices $e_0,e_1$, we will cut at most three edges from the gadget.  ](../figure/ISETtoMAXCUT.png){#ISETtoMAXCUTfig .margin  }
 
 
-![The reduction of independent set to max cut. On the righthand side is Python code implementing the reduction. On the lefthand side is an example output of the reduction where we apply it to the independent set instance that is obtained by running the reduction of [isetnpc](){.ref} on the 3CNF formula $(x_0 \vee \overline{x}_3 \vee x_2) \wedge (\overline{x}_0 \vee x_1 \vee \overline{x}_2) \wedge (\overline{x}_1 \vee x_2 \vee x_3)$.](../figure/is2maxcut.png){#isettomaxcutcodefig .class width=300px height=300px}
+![The reduction of independent set to max cut. On the righthand side is Python code implementing the reduction. On the lefthand side is an example output of the reduction where we apply it to the independent set instance that is obtained by running the reduction of [isetnpc](){.ref} on the 3CNF formula $(x_0 \vee \overline{x}_3 \vee x_2) \wedge (\overline{x}_0 \vee x_1 \vee \overline{x}_2) \wedge (\overline{x}_1 \vee x_2 \vee x_3)$.](../figure/is2maxcut.png){#isettomaxcutcodefig .margin  }
 
 ## Reducing 3SAT to Longest Path
 
@@ -289,17 +292,17 @@ __Part 2: Soundness.__ Suppose that $S$ is a cut in $H$ that cuts at least $C=k+
 One of the most basic algorithms in  Computer Science is Dijkstra's algorithm to find the _shortest path_ between two vertices.
 We now show that in contrast, an efficient algorithm for the _longest path_ problem would imply a polynomial-time algorithm for 3SAT.
 
-> # {.theorem title="Hardness of longest path" #longpaththm}
+> ### {.theorem title="Hardness of longest path" #longpaththm}
 $$3SAT \leq_p LONGPATH$$
 
-> # {.proofidea data-ref="longpaththm"}
+> ### {.proofidea data-ref="longpaththm"}
 To prove [longpaththm](){.ref} need to show how to transform a 3CNF formula $\varphi$ into a graph $G$ and two vertices $s,t$ such that $G$ has a path of length at least $k$ if and only if $\varphi$ is satisfiable.
 The idea of the reduction is sketched in [longpathfig](){.ref} and [longpathfigtwo](){.ref}.
 We will construct a graph that contains a potentially long "snaking path" that corresponds to all variables in the formula.
 We will add a "gadget" corresponding to each clause of $\varphi$ in a way that we would only be able to use the gadgets if we have a satisfying assignment.
 
 
-> # {.proof data-ref="longpaththm"}
+> ### {.proof data-ref="longpaththm"}
 We build a graph $G$ that "snakes" from $s$ to $t$ as follows.
 After $s$ we add a sequence of $n$ long loops.
 Each loop has an "upper path" and a "lower path".
@@ -317,10 +320,10 @@ But if we do that, then the only way if we are able to reach $t$ is if the paths
 
 
 
-![We can transform a 3SAT formula $\varphi$ into a graph $G$ such that the longest path in the graph $G$ would correspond to a satisfying assignment in $\varphi$. In this graph, the black colored part corresponds to the variables of $\varphi$ and the blue colored part corresponds to the vertices. A sufficiently long path would have to first "snake" through the black part, for each variable choosing either the "upper path" (corresponding to assigning it the value `True`) or the "lower path" (corresponding to assigning it the value `False`). Then to achieve maximum length the path would traverse through the blue part, where to go between two vertices corresponding to a clause such as $x_{17} \vee \overline{x}_{32} \vee x_{57}$, the corresponding vertices would have to have been not traversed before. ](../figure/3sat_longest_path_red_without_path.png){#longpathfig .class width=300px height=300px}
+![We can transform a 3SAT formula $\varphi$ into a graph $G$ such that the longest path in the graph $G$ would correspond to a satisfying assignment in $\varphi$. In this graph, the black colored part corresponds to the variables of $\varphi$ and the blue colored part corresponds to the vertices. A sufficiently long path would have to first "snake" through the black part, for each variable choosing either the "upper path" (corresponding to assigning it the value `True`) or the "lower path" (corresponding to assigning it the value `False`). Then to achieve maximum length the path would traverse through the blue part, where to go between two vertices corresponding to a clause such as $x_{17} \vee \overline{x}_{32} \vee x_{57}$, the corresponding vertices would have to have been not traversed before. ](../figure/3sat_longest_path_red_without_path.png){#longpathfig .margin  }
 
 
-![The graph above with the longest path marked on it, the part of the path corresponding to variables is in green and  part corresponding to the clauses is in pink.](../figure/3sat_to_longest_path_reduction.png){#longpathfigtwo .class width=300px height=300px}
+![The graph above with the longest path marked on it, the part of the path corresponding to variables is in green and  part corresponding to the clauses is in pink.](../figure/3sat_to_longest_path_reduction.png){#longpathfigtwo .margin  }
 
 
 
@@ -343,10 +346,10 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 ^[TODO: Maybe mention either in exercise or in body of the lecture some NP hard results motivated by science. For example, shortest superstring that is motivated by genome sequencing, protein folding, maybe others.]
 
 
-> # {.exercise  #product-ex}
+> ### {.exercise  #product-ex}
 Prove [product-lem](){.ref}
 
-> # {.exercise title="Transitivity of reductions" #transitivity-reductions-ex}
+> ### {.exercise title="Transitivity of reductions" #transitivity-reductions-ex}
 Prove that if $F \leq_p G$ and $G \leq_p H$ then $F \leq_p H$.
 
 

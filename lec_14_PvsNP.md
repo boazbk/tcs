@@ -1,15 +1,19 @@
-% P vs NP
-% Boaz Barak
+
+---
+title: 'What if P equals NP?'
+filename: 'lec_14_PvsNP'
+chapternum: '15'
+...
 
 #  What if P equals NP? { #chappvsnp }
 
 
 
-> # { .objectives }
+> ### { .objectives }
 * Explore the consequences of $\mathbf{P}=\mathbf{NP}$ \
 * _Search-to-decision_ reduction: transform algorithms that solve decision version to search version for $\mathbf{NP}$-complete problems. \
 * Optimization and learning problems \
-* Quantifier elimination and solving polynomial hieararchy. \
+* Quantifier elimination and solving problems in the polynomial hierarchy. \
 * What is the evidence for $\mathbf{P}=\mathbf{NP}$ vs $\mathbf{P}\neq \mathbf{NP}$?
 
 
@@ -39,7 +43,7 @@ So, as the saying goes, we'll keep an open mind, but not so open that our brains
 
 and
 
- * She does not "pussyfoot around" or take "half measures". If God  decided to make $3SAT$ _easy_, then $3SAT$ will have a $10^6\cdot n$ (or at worst $10^6 n^2$) -time algorithm (i.e., $3SAT$ will be in $TIME(cn)$ or $TIME(cn^2)$  for a not-too-large constant $c$). If she decided to make $3SAT$ _hard_, then for every $n \in \N$, $3SAT$ on $n$ variables cannot be solved by a NAND program of fewer than $2^{10^{-6}n}$ lines.^[Using the relations we've seen between $SIZE(T(n))$  and $TIME(T(n))$ (i.e., [non-uniform-thm](){.ref}), $3SAT \not\in SIZE(T(n))$ then it is also in $TIME(T(n)^\epsilon)$ for some constant $\epsilon$ that can be shown to be at least $1/5$.]
+ * She does not "pussyfoot around" or take "half measures". If God  decided to make $3SAT$ _easy_, then $3SAT$ will have a $10^6\cdot n$ (or at worst $10^6 n^2$) -time algorithm (i.e., $3SAT$ will be in $TIME(cn)$ or $TIME(cn^2)$  for a not-too-large constant $c$). If she decided to make $3SAT$ _hard_, then for every $n \in \N$, $3SAT$ on $n$ variables cannot be solved by a NAND-CIRC program of fewer than $2^{10^{-6}n}$ lines.^[Using the relations we've seen between $SIZE(T(n))$  and $TIME(T(n))$ (i.e., [non-uniform-thm](){.ref}), $3SAT \not\in SIZE(T(n))$ then it is also in $TIME(T(n)^\epsilon)$ for some constant $\epsilon$ that can be shown to be at least $1/5$.]
 
 
 So far, most of our evidence points to the latter possibility of 3SAT being exponentially hard, but we have not ruled out the former possibility either.
@@ -54,15 +58,15 @@ Similarly, it's not enough to find out if a graph has a long path$-$ we want to 
 
 It turns out that if we can solve these decision problems, we can solve the corresponding search problems as well:
 
-> # {.theorem title="Search vs Decision" #search-dec-thm}
+> ### {.theorem title="Search vs Decision" #search-dec-thm}
 Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time algorithm $V$ and $a,b \in \N$,there is a polynomial-time algorithm $FIND_V$  such that for every  $x\in \{0,1\}^n$, if there exists $y\in \{0,1\}^{an^b}$ satisfying $V(xy)=1$, then $FIND_V(x)$ finds some string $y'$ satisfying this condition.
 
-> # { .pause }
+> ### { .pause }
 To understand what the statement of [search-dec-thm](){.ref} means, let us look at the special case of the $MAXCUT$ problem.
 It is not hard to see that there is a polyomial-time algorithm $VERIFYCUT$ such that $VERIFYCUT(G,k,S)=1$ if and only if $S$ is a subset of $G$'s vertices that cuts at least $k$ edges.
 [search-dec-thm](){.ref} implies that if $\mathbf{P}=\mathbf{NP}$ then there is a polynomial-time algorithm $FINDCUT$ that on input $G,k$ outputs a set $S$ such that $VERIFYCUT(G,k,S)=1$ if such a set exists. This means that if $\mathbf{P}=\mathbf{NP}$, by trying all values of $k$ we can find in polynomial time a maximum cut in any given graph. We can use a similar argument to show that if $\mathbf{P}=\mathbf{NP}$ then we can find a satisfying assignment for every satisfiable 3CNF formula, find the longest path in a graph, solve integer programming, and so and so forth.
 
-> # {.proofidea data-ref="search-dec-thm"}
+> ### {.proofidea data-ref="search-dec-thm"}
 The idea behind the proof of [search-dec-thm](){.ref} is simple;
 let us demonstrate it for the special case of $3SAT$.
 (In fact, this case is not so "special"$-$ since $3SAT$ is $\mathbf{NP}$-complete, we can reduce the task of solving the search problem for $MAXCUT$ or any other problem in $\mathbf{NP}$ to the task of solving it for $3SAT$.)
@@ -120,7 +124,7 @@ If the call to  $STARTSWITH_V(xz_0\cdots z_{\ell-1}0)$ returns $0$ then it must 
 [search-dec-thm](){.ref} allows us to find solutions for $\mathbf{NP}$ problems if $\mathbf{P}=\mathbf{NP}$, but it is not immediately clear that we can find the _optimal_ solution.
 For example, suppose that $\mathbf{P}=\mathbf{NP}$, and you are given a graph $G$. Can you find the _longest_ simple path in $G$ in polynomial time?
 
-> # { .pause }
+> ### { .pause }
 This is actually an excellent question for you to attempt on your own.
 That is, assuming $\mathbf{P}=\mathbf{NP}$, give a polynomial-time algorithm that on input a graph $G$, outputs a maximally long simple path in the graph $G$.
 
@@ -131,16 +135,16 @@ If $G$ does not contain a simple path of length $n$, then we will check if it co
 The above reasoning was not specifically tailored to finding paths in graphs.
 In fact, it can be vastly generalized to proving the following result:
 
-> # {.theorem title="Optimization from $\mathbf{P}=\mathbf{NP}$" #optimizationnp}
+> ### {.theorem title="Optimization from $\mathbf{P}=\mathbf{NP}$" #optimizationnp}
 Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time computable function $f:\{0,1\}^* \rightarrow \{0,1\}^*$  there is a polynomial-time algorithm $OPT$ such that on input   $x\in \{0,1\}^*$, $OPT(x,1^m) = \max_{y\in \{0,1\}^m} f(x,y)$  (where we identify the output of $f(x)$ with a natural number via the binary representation).
 >
 Moreover under the same assumption, there is a polynomial-time algorithm $FINDOPT$ such that for every $x\in \{0,1\}^*$, $FINDOPT(x,1^m)$ outputs $y^* \in \{0,1\}^*$ such that $f(x,y^*)=OPT(x,y^*)$.
 
-> # { .pause }
+> ### { .pause }
 The statement of [optimizationnp](){.ref} is a bit cumbersome.  To understand it, think  how it would subsume the example above of  a polynomial time algorithm for finding the maximum length path in a graph. In this case the function $f$ would be the map that on input a pair $x,y$ outputs $0$ if the pair $(x,y)$ does not represent some graph and a simple path inside the graph respectively;  otherwise $f(x,y)$ would equal the length of the path $y$ in the graph $x$. Since a path in an $n$ vertex graph can be represented by at most $n \log n$ bits, for every $x$ representing a graph of $n$ vertices, finding $\max_{y\in \{0,1\}^{n \log n}}f(x,y)$   corresponds to finding the length of the maximum simple path in the graph corresponding to $x$, and finding the string $y^*$ that achieves this maximum corresponds to actually finding the path.
 
 
-> # {.proofidea data-ref="optimizationnp"}
+> ### {.proofidea data-ref="optimizationnp"}
 The proof follows by generalizing our ideas from the longest path example above.
 Let $f$ be as in the theorem statement.
 If  $\mathbf{P}=\mathbf{NP}$ then for every  for every string $x\in \{0,1\}^*$ and number $k$, we can test in in $poly(|x|,m)$ time  whether there exists $y$ such that $f(x,y) \geq k$, or in other words test whether  $\max_{y \in \{0,1\}^m} f(x,y) \geq k$.
@@ -284,13 +288,13 @@ $$
 and so on and so forth.
 
 
-For example, given an $n$-input NAND program $P$, we might want to find the _smallest_ NAND program $P'$ that  computes the same function as $P$.
+For example, given an $n$-input NAND-CIRC program $P$, we might want to find the _smallest_ NAND-CIRC program $P'$ that  computes the same function as $P$.
 The question of whether there is such a $P'$ that can be described by a string of at most $s$ bits can be phrased as
 
 $$
 \exists_{P' \in \{0,1\}^{s}} \forall_{x\in \{0,1\}^n} P(x)=P'(x) \label{circmineq}
 $$
-which has the form [existsforalleq](){.eqref}.^[Since NAND programs are equivalent to Boolean circuits, the search problem  corresponding to [circmineq](){.eqref}  known as the [circuit minimization problem](https://goo.gl/iykqbh)  and is widely studied in Engineering.
+which has the form [existsforalleq](){.eqref}.^[Since NAND-CIRC programs are equivalent to Boolean circuits, the search problem  corresponding to [circmineq](){.eqref}  known as the [circuit minimization problem](https://goo.gl/iykqbh)  and is widely studied in Engineering.
 You can skip ahead to [selfimprovingsat](){.ref} to see a particularly complelling application of this.]
 Another example of a statement involving $a$ levels of quantifiers would be to check, given a chess position $x$, whether there is a strategy that guarantees that White wins within $a$ steps.
 For example is $a=3$ we woud want to check if given the borad position $x$, _there exists_ a move $y$ for White such that _for every_ move $z$ for Black _there exists_ a move $w$ for White that ends in a a checkmate.
@@ -307,7 +311,7 @@ where $m=p(n)$ and $\mathcal{Q}$ is either $\exists$ or $\forall$ depending on w
 :::
 
 
-> # {.proofidea data-ref="PH-collapse-thm"}
+> ### {.proofidea data-ref="PH-collapse-thm"}
 To understand the idea behind the proof, consider the special case where we want to decide, given $x\in \{0,1\}^n$, whether for every $y \in \{0,1\}^n$ there exists $z\in \{0,1\}^n$ such that $V(xyz)=1$. Consider the function $F$ such that $F(xy)=1$ if there exists $z\in \{0,1\}^n$ such that $V(xyz)=1$.
 Since $V$ runs in polynomial-time $F\in \mathbf{NP}$ and hence if $\mathbf{P}=\mathbf{NP}$, then there is an algorithm $V'$  that on input $x,y$ outputs $1$ if and only if there exists $z\in \{0,1\}^n$ such that $V(xyz)=1$.
 Now we can see that the original statement we consider is true if and only if for every $y\in \{0,1\}^n$, $V'(xy)=1$, which means it is false if and only if the following condition $(*)$ holds: there exists some $y\in \{0,1\}^n$ such that $V'(xy)=0$.
@@ -365,7 +369,7 @@ We can therefore imagine investing huge computational resources in running $A$ o
 ## Approximating counting problems (advanced, optional)
 
 
-Given a NAND program $P$, if $\mathbf{P}=\mathbf{NP}$ then we can find an input $x$ (if one exists) such that $P(x)=1$. But what if there is more than one $x$ like that?
+Given a NAND-CIRC program $P$, if $\mathbf{P}=\mathbf{NP}$ then we can find an input $x$ (if one exists) such that $P(x)=1$. But what if there is more than one $x$ like that?
 Clearly we can't efficiently output all such $x$'s; there might be exponentially many.
 But we can get an arbitrarily good multiplicative  approximation (i.e., a $1\pm \epsilon$ factor for arbitrarily small $\epsilon>0$) for the  number of such $x$'s, as well as output a (nearly) uniform member of this set.
 We  defer the details to later in this course, when we learn about _randomized computation_.
@@ -383,7 +387,7 @@ That is, $K$ gives an approximation up to a factor of $1 \pm \epsilon$ for the n
 :::
 
 ::: { .pause }
-Once again, to understand this theorem it can be useful to see how it implies that if $\mathbf{P}=\mathbf{NP}$ then there is a polynomial-time algorithm that given a graph $G$ and a number $k$, can compute a number $K$ that is within a $1 \pm 0.01$ factor equal to the number of simple paths in $G$ of langth $k$. (That is, $K$ is between $0.99$ to $1.01$ times the number of such paths.)
+Once again, to understand this theorem it can be useful to see how it implies that if $\mathbf{P}=\mathbf{NP}$ then there is a polynomial-time algorithm that given a graph $G$ and a number $k$, can compute a number $K$ that is within a $1 \pm 0.01$ factor equal to the number of simple paths in $G$ of length $k$. (That is, $K$ is between $0.99$ to $1.01$ times the number of such paths.)
 :::
 
 
@@ -442,7 +446,7 @@ Today, many (though not all) mathematicians interpret this result as saying that
 Could the same hold for $\mathbf{P} \neq \mathbf{NP}$?
 
 In short, the answer is _No_.
-For example, suppose that we are trying to decide between the "3SAT is easy" conjecture (there is an $10^6n$ time algorithm for 3SAT) and the "3SAT is hard" conjecture (for every $n$, any NAND program that solves $n$ variable 3SAT takes $2^{10^{-6}n}$ lines). Then, since for  $n = 10^8$, $2^{10^{-6}n} > 10^6 n$, this boils down to the finite question of deciding whether or not there is a $10^{13}$-line NAND program deciding 3SAT on formulas with $10^8$ variables.
+For example, suppose that we are trying to decide between the "3SAT is easy" conjecture (there is an $10^6n$ time algorithm for 3SAT) and the "3SAT is hard" conjecture (for every $n$, any NAND-CIRC program that solves $n$ variable 3SAT takes $2^{10^{-6}n}$ lines). Then, since for  $n = 10^8$, $2^{10^{-6}n} > 10^6 n$, this boils down to the finite question of deciding whether or not there is a $10^{13}$-line NAND-CIRC program deciding 3SAT on formulas with $10^8$ variables.
 If there is such a program then there is a finite proof of its existence, namely the  approximately 1TB file describing the program, and for which the verification is the (finite in principle though infeasible in practice) process of checking that it succeeds on all inputs.^[This inefficiency is not necessarily inherent. Later in this course we may discuss results in program-checking, interactive proofs, and average-case complexity, that can be used for efficient verification of  proofs of related statements. In contrast, the  inefficiency of verifying  _failure_ of all programs could well be inherent.]
 If there isn't such a program, then there is also a finite proof of that, though any such proof would take longer since we would need to enumerate over all _programs_ as well.
 Ultimately, since it boils down to a finite statement about bits and numbers; either the statement or its negation must follow from the standard axioms of arithmetic in a finite number of arithmetic steps.
@@ -499,8 +503,8 @@ This is not surprising since, as we mentioned before, from group theory to the t
 * Our current evidence and understanding supports the "SAT hard" scenario that there is no much-better-than-brute-force algorithm for 3SAT or many other $\mathbf{NP}$-hard problems.
 
 * We are very far from _proving_ this, however. Researchers have studied proving lower bounds on the number of gates to compute explicit functions in _restricted forms_ of circuits, and have made some advances in this effort, along the way generating mathematical tools that have found other uses.
-However, we have made essentially no headway in proving lower bounds for _general_ models of computation such as NAND and NAND++ programs.
-Indeed, we currently do not even know how to rule out the possibility  that for every $n\in \N$, $SAT$ restricted to $n$-length inputs has a NAND program of $10n$ lines (even though there  _exist_  $n$-input functions that require $2^n/(10n)$ lines to compute).
+However, we have made essentially no headway in proving lower bounds for _general_ models of computation such as NAND and NAND-TM programs.
+Indeed, we currently do not even know how to rule out the possibility  that for every $n\in \N$, $SAT$ restricted to $n$-length inputs has a NAND-CIRC program of $10n$ lines (even though there  _exist_  $n$-input functions that require $2^n/(10n)$ lines to compute).
 
 * Understanding how to cope with this computational intractability, and even benefit from it, comprises much of the research in theoretical computer science.
 

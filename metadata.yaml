@@ -1,7 +1,37 @@
-
 ---
-author: Boaz Barak
-date: 2018
-pagetitle: "Introduction to Theoretical Computer Science"
-header-includes:
----
+booktitle: "Introduction to Theoretical Computer Science"
+author:    "Boaz Barak"
+log: True
+logdir:    "log"
+sourcedir: "content/"
+bibfile:   "introtcs.bib"
+latexsectionheaders:
+    1: "chapter"
+    2: "section"
+    3: "subsection"
+    4: "subsubsection"
+    5: "paragraph"
+    6: "subparagraph"
+labelclasses:
+    "bigidea": "Big Idea"
+    "solvedex": "Solved Exercise"
+    "pause":    "Pause and think box"
+    "subsection": "Section"
+latexblockcode:  "code"
+latexinlinecode: ""
+title: ""
+filename: ""
+compiletime: ""
+auxfile: "bookaux.yaml"
+pdfurl: "http://files.boazbarak.org/introtcs/lnotes_book.pdf"
+searchindex: "html/search_index.json"
+binarybaseurl: "https://files.boazbarak.org/introtcs"
+description: "Textbook on Theoretical Computer Science by Boaz Barak"
+lang: "en"
+url: 'https://introtcs.org/'
+github-repo: "boazbk/tcs"
+cover-image: "icons/cover.png"
+apple-touch-icon: "icons/apple-touch-icon-120x120.png"
+apple-touch-icon-size: 120
+favicon: "icons/favicon.ico"
+...
