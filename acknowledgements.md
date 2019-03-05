@@ -33,6 +33,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Lisa Lu
 * Aditya Mahadevan
 * Jacob Meyerson
+* Leon Mlodzian
 * George Moe
 * Hamish Nicholson
 * Sandip Nirmel

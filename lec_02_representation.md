@@ -478,12 +478,13 @@ We will show that $|FtR(f)-FtR(g)| > 0.5\cdot 10^{-k}$.
 This will complete the proof since  in particular it implies that  $FtR(f) \neq FtR(g)$.
 
 Since $f(k) \neq g(k)$, we can assume without loss of generality that $f(k)=0$ and $g(k)=1$ (otherwise, if $f(k)=1$ and $g(k)=1$, then we can simply switch the roles of $f$ and $g$).
-Define  $S = \sum_{i=0}^{k-1} 10^{-i}f(i) = \sum_{i=0}^{k-1} 10^{-i}g(i)$ (the equality holds since $f$ and $g$ agree up to $k-1$).
-Now, since $g(k)=1$,
-$$FtR(g) = \sum_{i=0}^\infty g(i)10^{-i} \geq \sum_{i=0}^k g(i)10^{-i} = S + 10^{-k} \;.$$
+Define  $S = \sum_{i=0}^{k-1} 10^{-i}\cdot f(i) = \sum_{i=0}^{k-1} 10^{-i} \cdot g(i)$ (the equality holds since $f$ and $g$ agree up to $k-1$).
+Now, since $g(k)=1$, we can write 
+$$FtR(g) = \sum_{i=0}^\infty g(i)10^{-i} \geq  S + g(k)10^{-k} = S + 10^{-k}\;.$$
 
-On the other hand, since $f(k)=0$ and $f(k+1+j) \leq 1$ for every $j\geq 0$,
+On the other hand, since $f(k)=0$,
 $$FtR(f) = \sum_{i=0}^\infty f(i)10^{-i} = S + \sum_{i=k+1}^\infty f(i) 10^{-i} \leq S + 10^{-(k-1)}\sum_{j=0}^\infty 10^{-j}\;.$$
+(Using the trivial equality $f(j) \leq 1$ for every $j$.)
 
 Now $\sum_{j=0}^\infty 10^{-j}$ is simply the number $1.11111\ldots =  11/9$, and hence we get that
 $$
