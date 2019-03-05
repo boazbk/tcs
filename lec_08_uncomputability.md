@@ -192,7 +192,8 @@ That is, there exists a function $F:\{0,1\}^* \rightarrow \{0,1\}$ that is  _unc
 
 
 This is actually quite surprising, if you think about it.
-Our intuitive notion of a "function" (and the notion most scholars had until the 20th century) is that a function $f$ defines some implicit or explicit way of computing the output $f(x)$ from the input $x$.
+Our intuitive notion of a "function" (and the notion most scholars had until the 20th century, see the bibliographical notes) 
+is that a function $f$ defines some implicit or explicit way of computing the output $f(x)$ from the input $x$.
 The notion of an "uncomputable function" thus seems to be a contradiction in terms, but yet the following theorem shows that such creatures do exist:
 
 
