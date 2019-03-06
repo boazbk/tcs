@@ -86,7 +86,7 @@ To some extent, it is similar in content to "Theory of Computation" or "Great Id
 The most significant difference between our approach and more traditional ones (such as Hopcroft and Ullman's [@HopcroftUllman69, @HopcroftUllman79] and Sipser's [@SipserBook])  is that we do not start with _finite automata_ as the basic computational model.
 Rather, our initial computational model is  _Boolean Circuits_.^[An earlier book that starts with circuits as the initial model is John Savage's  [@Savage1998models].]
 We believe that Boolean Circuits are more fundamental to the  theory of computing (and even its practice!) than automata.
-In particular, Boolean Circuits are a prerequisite for many concepts that one would want to teach in a modern course on  Theoretical Computer Science, including cryptography, quantum computing, derandomization, attempts at proving $\mathbf{NP} \neq \mathbf{NP}$, and more.
+In particular, Boolean Circuits are a prerequisite for many concepts that one would want to teach in a modern course on  Theoretical Computer Science, including cryptography, quantum computing, derandomization, attempts at proving $\mathbf{P} \neq \mathbf{NP}$, and more.
 Even in cases where Boolean Circuits are not strictly required, they can often offer significant simplifications (as in the case of the proof of the Cook-Levin Theorem).
 
 Furthermore, I believe there are pedagogical reasons to start with Boolean circuits as opposed to finite automata.

@@ -65,5 +65,6 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Wanqian Yang
 * Elizabeth Yeoh-Wang
 * Josh Zelinsky
+* Fred Zhang
 * Grace Zhang
 * Jessica Zhu
