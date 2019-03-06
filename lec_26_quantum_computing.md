@@ -251,7 +251,7 @@ In particular, as far as we know, quantum computers will _not_ help us solve $\m
 However, there is one cryptography-sized exception:
 In 1994 Peter Shor showed that quantum computers can solve the integer factoring and discrete logarithm in polynomial time.
 This result has captured the imagination of a great many people, and completely energized research into quantum computing.
-This is both because the hardness of these particular problems provides the foundations for securing such a huge part of our communications (and these days, our economy), as well as it was a powerful demonstration that quantum computers could turn out to be useful for problems that a-priori seemd to have nothing to do with quantum physics.
+This is both because the hardness of these particular problems provides the foundations for securing such a huge part of our communications (and these days, our economy), as well as it was a powerful demonstration that quantum computers could turn out to be useful for problems that a-priori seemed to have nothing to do with quantum physics.
 
 As we'll discuss later, at the moment there are several intensive efforts to construct large scale quantum computers.
 It seems safe to say that, as far as we know, in the next five years or so there will not be a quantum computer large enough to factor, say, a $1024$ bit number.
@@ -292,7 +292,7 @@ If we think of the $n$-bit system as a whole, then since the $n$ bits can take  
 For every $s\in \{0,1\}^n$, we denote by $e_s$ the $2^n$ dimensional vector that has $1$ in the coordinate corresponding  to $s$ (identifying it with a number in $[2^n]$), and so can write  $p$ as $\sum_{s\in \{0,1\}^n} p_s e_s$ where $p_s$ is the probability that the system is in the state $s$.
 
 
-Applying the operation above of setting the $17$-th bit to the NAND of the 3rd and 5th bits, corresponds to transforming the vector $p$ to the vector $Fp$ where $F:\R^{2^n} \rightarrow \R^{2^n}$ is the linear map that maps $e_s$ to $e_{s_0\cdots s_{16}(1-s_3\cdot s_5)s_{18}\cdots s_{n-1}}$.^[Since $\{ e_s \}_{s\in \{0,1\}^n}$ is a _basis_ for $R^{2^n}$, it sufficies to define the map $F$ on vectors of this form.]
+Applying the operation above of setting the $17$-th bit to the NAND of the 3rd and 5th bits, corresponds to transforming the vector $p$ to the vector $Fp$ where $F:\R^{2^n} \rightarrow \R^{2^n}$ is the linear map that maps $e_s$ to $e_{s_0\cdots s_{16}(1-s_3\cdot s_5)s_{18}\cdots s_{n-1}}$.^[Since $\{ e_s \}_{s\in \{0,1\}^n}$ is a _basis_ for $R^{2^n}$, it suffices to define the map $F$ on vectors of this form.]
 
 ::: { .pause }
 Please make sure you understand why performing the operation will take a system in state $p$ to a system in the state $Fp$.
@@ -783,7 +783,7 @@ where $\chi_y:\{0,1\}^n \rightarrow \mathbb{C}$ is defined as $\chi_y(x) = (-1)^
 
 
 
-The Quantum Fourier Transform over $(\{0,1\}^n,\oplus)$ is actually qutie simple:
+The Quantum Fourier Transform over $(\{0,1\}^n,\oplus)$ is actually quite simple:
 
 ::: {.theorem title="QFT Over the Boolean Cube" #QFTcube}
 Let $\rho = \sum_{x\in \{0,1\}^n} f(x)|x\rangle$ be a quantum state where $f:\{0,1\}^n \rightarrow \mathbb{C}$ is some function satisfying $\sum_{x\in \{0,1\}^n} |f(x)|^2 = 1$.
