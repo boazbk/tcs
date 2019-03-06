@@ -359,7 +359,7 @@ Alice and Bob will start by preparing a  2-qubit quantum system in the state
 $$\psi = \tfrac{1}{\sqrt{2}}|00\rangle + \tfrac{1}{\sqrt{2}}|11\rangle$$
 
 (this state is known as an [EPR pair](https://en.wikipedia.org/wiki/EPR_paradox)).
-Alice takes the first qubit of the  system to her room, and Bob takes the qubit to his room.
+Alice takes the first qubit of the  system to her room, and Bob takes the second qubit to his room.
 Now, when Alice receives $x$ if $x=0$ she does nothing and if $x=1$ she applies the unitary map $R_{-\pi/8}$ to her qubit where $R_\theta = \begin{pmatrix} cos \theta & -\sin \theta \\ \sin \theta & \cos \theta \end{pmatrix}$ is the unitary operation corresponding to rotation in the plane with angle $\theta$.
 When Bob receives $y$, if $y=0$ he does nothing and if $y=1$ he applies the unitary map $R_{\pi/8}$ to his  qubit.
 Then each one of them measures their qubit and sends this as their response.
