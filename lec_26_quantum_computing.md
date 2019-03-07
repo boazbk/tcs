@@ -762,7 +762,7 @@ Specifically, for every such group $\mathbb{G}$, if $f$ is a function mapping $\
 $$f = \sum_{g \in \mathbb{G}} \hat{f}(g)\chi_g \;\;, \label{fourierexpansion}$$
 
 where  the $\chi_g$'s are functions mapping $\mathbb{G}$ to $\mathbb{C}$ that are analogs of the "wave functions" for the group $\mathbb{G}$ and for every $g\in \mathbb{G}$, $\hat{f}(g)$ is a complex number known as the _Fourier coefficient of $f$ corresponding to $g$_.^[The equation [fourierexpansion](){.eqref} means that if we think of $f$ as a $|\mathbb{G}|$ dimensional vector over the complex numbers, then we can write this vector as a sum (with certain coefficients) of the vectors $\{ \chi_g \}_{g\in \mathbb{G}}$. ]
-The representation [{fourierexpansion}](){.eqref} is known as the _Fourier expansion_ or _Fourier transform_ of $f$, the numbers $( \hat{f}(g) )_{g\in\mathbb{G}}$ are known as the _Fourier coefficients_ of $f$ and the functions $( \chi_g )_{g\in\mathbb{G}}$
+The representation [fourierexpansion](){.eqref} is known as the _Fourier expansion_ or _Fourier transform_ of $f$, the numbers $( \hat{f}(g) )_{g\in\mathbb{G}}$ are known as the _Fourier coefficients_ of $f$ and the functions $( \chi_g )_{g\in\mathbb{G}}$
 are known as the _Fourier characters_.
 The central property of the Fourier characters  is that they are _homomorphisms_ of the group into the complex numbers, in the sense that for every $x,x' \in \mathbb{G}$, $\chi_g(x \star x')=\chi_g(x)\chi_g(x')$, where $\star$ is the group operation.
 One corollary of this property is that if $\chi_g(h)=1$ then $\chi_g$ is _$h$ periodic_ in the sense that $\chi_g(x \star h)=\chi_g(x)$ for every $x$.
