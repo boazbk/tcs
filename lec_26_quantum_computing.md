@@ -560,7 +560,7 @@ We say that $F\in \mathbf{BQP}$ if there exists a polynomial time NAND-TM progra
 One way to verify that you've understood these definitions it to see that you can prove __(1)__ $\mathbf{P} \subseteq \mathbf{BQP}$ and in fact the stronger statement $\mathbf{BPP} \subseteq \mathbf{BQP}$, __(2)__  $\mathbf{BQP} \subseteq \mathbf{EXP}$, and __(3)__ For every $\mathbf{NP}$-complete function $F$, if $F\in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$.  [BQPcontainements](){.ref} asks you to work these out.
 
 The relation between $\mathbf{NP}$ and $\mathbf{BQP}$ is not known (see also [quantumnp](){.ref}).
-It is widely believed that $\mathbf{NP} \not\subseteq \mathbf{BQP}$, but there is no consensus whether or not $\mathbf{BQP} \subseteq \mathbf{NP}$.
+It is widely believed that $\mathbf{NP} \nsubseteq \mathbf{BQP}$, but there is no consensus whether or not $\mathbf{BQP} \subseteq \mathbf{NP}$.
 It is   [quite possible](https://eccc.weizmann.ac.il/report/2018/107/) that these two classes are _incomparable_, in the sense that $\mathbf{NP} \nsubseteq \mathbf{BQP}$ (and in particular no $\mathbf{NP}$-complete function belongs to $\mathbf{BQP}$) but also $\mathbf{BQP} \nsubseteq \mathbf{NP}$ (and there are some interesting candidates for such problems).
 
 
@@ -582,7 +582,7 @@ Because the non uniform model is a little cleaner to work with, in the rest of t
 ## Physically realizing quantum computation
 
 To realize quantum computation one needs to create a system with $n$ independent binary states (i.e., "qubits"), and be able to manipulate small subsets of two or three of these qubits to change their state.
-While by the way we defined operations above it might seem that one needs to be able to perform arbitrary unitary operations on these two or three qubits, it turns out that there several choices for _universal sets_ -  a small constant number of gates that generate all others.
+While by the way we defined operations above it might seem that one needs to be able to perform arbitrary unitary operations on these two or three qubits, it turns out that there are several choices for _universal sets_ -  a small constant number of gates that generate all others.
 The biggest challenge is how to keep the system from being measured and _collapsing_ to a single classical combination of states.
 This is sometimes known as the _coherence time_ of the system.
 The [threshold theorem](https://courses.cs.washington.edu/courses/cse599d/06wi/lecturenotes19.pdf) says that there is some absolute constant level of errors $\tau$ so that if errors are created at every gate at rate smaller than $\tau$ then we can recover from those and perform arbitrary long computations.
@@ -657,11 +657,11 @@ The Fourier transform makes it easy to compute the period of a given function: i
 
 ### Shor's Algorithm: A bird's eye view
 
-On input a an integer $M$, Shor's algorithm outputs the prime factorization of $M$ in time that is polynomial in $\log M$.
+On input an integer $M$, Shor's algorithm outputs the prime factorization of $M$ in time that is polynomial in $\log M$.
 The main steps in the algorithm are the following:
 
 
-__Step 1: Reduce to period finding.__ The first step in the algorithm is to pick a random $A\in \{0,1\ldots,M-1\}$ and define the function $F_A:\{0,1\}^m \rightarrow \{0,1\}^m$ as $F_A(x)= A^x (\mod M)$ where we identify the string  $x \in \{0,1\}^m$ with  an integer using the binary representation, and similarly represent the integer $A^x (\mod M)$ as a string. (We will choose $m$ to be some polynomial in $m$ and so in particular $\{0,1\}^m$ is a  large enough set to represent all the numbers in $\{0,1,\ldots, M-1 \}$).
+__Step 1: Reduce to period finding.__ The first step in the algorithm is to pick a random $A\in \{0,1\ldots,M-1\}$ and define the function $F_A:\{0,1\}^m \rightarrow \{0,1\}^m$ as $F_A(x)= A^x (\mod M)$ where we identify the string  $x \in \{0,1\}^m$ with  an integer using the binary representation, and similarly represent the integer $A^x (\mod M)$ as a string. (We will choose $m$ to be some polynomial in $\log M$ and so in particular $\{0,1\}^m$ is a  large enough set to represent all the numbers in $\{0,1,\ldots, M-1 \}$).
 
 Some not-too-hard (though somewhat technical) calculations show that: __(1)__ The function $F_A$ is  _periodic_ (i.e., there is some integer $p_A$ such that $F_A(x+p_A)=F_A(x)$ for almost^[We'll ignore this "almost" qualifier in the  discussion below. It causes some annoying, yet ultimately manageable, technical issues in the full-fledged algorithm.] every $x$) and more importantly __(2)__ If we can recover the period $p_A$ of $F_A$  for several randomly chosen $A$'s, then we can recover the factorization of $M$.
 Hence, factoring $M$ reduces to finding out the period of the function $F_A$.
@@ -714,7 +714,7 @@ __Operations:__
 2. If we let $A_0,\ldots,A_{k-1}$ and $p_0,\ldots,p_{k-1}$ be the numbers we chose in the previous step and the corresponding periods of the functions $f_{A_0},\ldots,f_{A_{k-1}}$ then we can use classical results in number theory to obtain from these a non-trivial prime factor $Q$ of $M$ (if such exists). We can now run the algorithm again with the (smaller) input $M/Q$ to obtain all other factors.
 :::
 
-Reducing factoring to order finding is cummbersome, but can be done in polynomial time using a classical computer. The key quantum ingredient in Shor's algorithm is the _quantum fourier transform_.
+Reducing factoring to order finding is cumbersome, but can be done in polynomial time using a classical computer. The key quantum ingredient in Shor's algorithm is the _quantum fourier transform_.
 
 ::: {.remark title="Quantum Fourier Transform" #QFT}
 Despite its name, the Quantum Fourier Transform does _not_ actually give a way to compute the Fourier Transform of a function $f:\{0,1\}^m \rightarrow \R$.
@@ -762,7 +762,7 @@ Specifically, for every such group $\mathbb{G}$, if $f$ is a function mapping $\
 $$f = \sum_{g \in \mathbb{G}} \hat{f}(g)\chi_g \;\;, \label{fourierexpansion}$$
 
 where  the $\chi_g$'s are functions mapping $\mathbb{G}$ to $\mathbb{C}$ that are analogs of the "wave functions" for the group $\mathbb{G}$ and for every $g\in \mathbb{G}$, $\hat{f}(g)$ is a complex number known as the _Fourier coefficient of $f$ corresponding to $g$_.^[The equation [fourierexpansion](){.eqref} means that if we think of $f$ as a $|\mathbb{G}|$ dimensional vector over the complex numbers, then we can write this vector as a sum (with certain coefficients) of the vectors $\{ \chi_g \}_{g\in \mathbb{G}}$. ]
-The representation [{fourierexpansion}](){.eqref} is known as the _Fourier expansion_ or _Fourier transform_ of $f$, the numbers $( \hat{f}(g) )_{g\in\mathbb{G}}$ are known as the _Fourier coefficients_ of $f$ and the functions $( \chi_g )_{g\in\mathbb{G}}$
+The representation [fourierexpansion](){.eqref} is known as the _Fourier expansion_ or _Fourier transform_ of $f$, the numbers $( \hat{f}(g) )_{g\in\mathbb{G}}$ are known as the _Fourier coefficients_ of $f$ and the functions $( \chi_g )_{g\in\mathbb{G}}$
 are known as the _Fourier characters_.
 The central property of the Fourier characters  is that they are _homomorphisms_ of the group into the complex numbers, in the sense that for every $x,x' \in \mathbb{G}$, $\chi_g(x \star x')=\chi_g(x)\chi_g(x')$, where $\star$ is the group operation.
 One corollary of this property is that if $\chi_g(h)=1$ then $\chi_g$ is _$h$ periodic_ in the sense that $\chi_g(x \star h)=\chi_g(x)$ for every $x$.
@@ -921,7 +921,7 @@ Prove the following relations between quantum complexity classes and classical o
 :::
 
 ::: {.exercise title="Discrete logarithm from order finding" #dlogfromorder}
-Show a probabilistic polynomial time classical algorithm that given an Abelian finite group $\mathbb{G}$ (in the form of an algorithm that computes the group operation), a _generator_ $g$ for the group, and an element $h \in \mathbb{G}$, as well  access to a black box that on input $f\in \mathbb{G}$ outputs the _order_ of $f$ (the smallest $a$ such that $f^a =1$), computes the _discrete logarithm_ of $h$ with respect to $g$.
+Show a probabilistic polynomial time classical algorithm that given an Abelian finite group $\mathbb{G}$ (in the form of an algorithm that computes the group operation), a _generator_ $g$ for the group, and an element $h \in \mathbb{G}$, as well as access to a black box that on input $f\in \mathbb{G}$ outputs the _order_ of $f$ (the smallest $a$ such that $f^a =1$), computes the _discrete logarithm_ of $h$ with respect to $g$.
 That is the algorithm should output a number $x$ such that $g^x = h$.
 See footnote for hint.^[We are given $h=g^x$ and need to recover $x$. To do so we can compute the order of various elements of the form $h^ag^b$. The order of such an element is a number $c$ satisfying   $c(xa+b) = 0 \pmod{|\mathbb{G}|}$. With a few random examples we will get a non trivial equation on $x$ (where $c$ is not zero modulo $|\mathbb{G}|$) and then we can use our knowledge of $a,b,c$ to recover $x$.]
 :::
@@ -934,7 +934,7 @@ Chapters 9 and 10 in the book _Quantum Computing Since Democritus_ give an infor
 Shor's and Simon's algorithms are also covered in Chapter 10 of my book with Arora on computational complexity.
 
 There are many excellent videos available online covering some of these materials.
-The Fourier transform is covered in this
+The Fourier transform is covered in these
 videos of [Dr. Chris Geoscience](https://youtu.be/EYRmB1aNh9I?t=19s),  [Clare Zhang](https://www.youtube.com/watch?v=Y9pYHDSxc7g) and [Vi Hart](https://www.youtube.com/watch?v=i_0DXxNeaQ0).
 More specifically to quantum computing, the videos of  [Umesh Vazirani on the Quantum Fourier Transform](https://www.youtube.com/watch?v=BM429cOogYc) and  [Kelsey Houston-Edwards on Shor's Algorithm](https://www.youtube.com/watch?v=wUwZZaI5u0c) are very recommended.
 
