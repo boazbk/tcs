@@ -870,18 +870,18 @@ Even though context-free grammars are more powerful than regular expressions, th
 One tool to show this is the context-free grammar analog of the "pumping lemma" ([pumping](){.ref}):
 
 > ### {.theorem title="Context-free pumping lemma" #cfgpumping}
-Let $(V,R,s)$ be a CFG over $\Sigma$, then there is some $n_0\in \N$ such that for every $x \in \Sigma^*$ with $|x|>n_0$, if $\Phi_{V,R,s}(x)=1$ then $x=abcde$ such that $|b|+|c|+|d| \leq n_1$, $|b|+|d| \geq 1$, and $\Phi_{V,R,s}(ab^kcd^ke)=1$ for every $k\in \N$.
+Let $(V,R,s)$ be a CFG over $\Sigma$, then there is some numbers $n_0,n_1 in \N$ such that for every $x \in \Sigma^*$ with $|x|>n_0$, if $\Phi_{V,R,s}(x)=1$ then $x=abcde$ such that $|b|+|c|+|d| \leq n_1$, $|b|+|d| \geq 1$, and $\Phi_{V,R,s}(ab^kcd^ke)=1$ for every $k\in \N$.
 
 ::: { .pause }
 The context-free pumping lemma is even more cumbersome to state than its regular analog, but you can remember it as saying the following: _"If a long enough string is matched by  a grammar, there must be a variable that is repeated in the derivation."_
 :::
 
 ::: {.proof data-ref="cfgpumping"}
-We only sketch the proof. The idea is that if the total number of symbols in the rules $R$ is $k_0$, then the only way to get $|x|>k_0$ with $\Phi_{V,R,s}(x)=1$ is to use _recursion_.
-That is, there must be some variable $v \in V$ such that we are able to derive from $v$ the value $bvd$ for some strings $b,d \in \Sigma^*$, and then further on derive from $v$ some string $c\in \Sigma^*$ such that $bcd$ is a substring of $x$. If we take the variable $v$ satisfying this requirement with a minimum number of derivation steps, then we can ensure that $|bcd|$ is at most some constant depending on $k_0$ and we can set $n_0$ to be that constant ($n_0=10 \cdot |R| \cdot k_0$ will do, since we will not need more than $|R|$ applications of rules, and each such application can grow the string by at most $k_0$ symbols).
+We only sketch the proof. The idea is that if the total number of symbols in the rules of the grammar is $k_0$, then the only way to get $|x|>n_0$ with $\Phi_{V,R,s}(x)=1$ is to use _recursion_.
+That is, there must be some variable $v \in V$ such that we are able to derive from $v$ the value $bvd$ for some strings $b,d \in \Sigma^*$, and then further on derive from $v$ some string $c\in \Sigma^*$ such that $bcd$ is a substring of $x$ (in other words, $x=abcde$ for some $a,e \in \{0,1\}^*$). If we take the variable $v$ satisfying this requirement with a minimum number of derivation steps, then we can ensure that $|bcd|$ is at most some constant depending on $n_0$ and we can set $n_1$ to be that constant ($n_1=10 \cdot |R| \cdot n_0$ will do, since we will not need more than $|R|$ applications of rules, and each such application can grow the string by at most $n_0$ symbols).
 
 
-Thus by the definition of the grammar, we can repeat the derivation to replace the substring $bcd$ in $x$ with $b^kcd^k$ for every $k\in \N$ while retaining the property that the output of $\Phi_{V,R,s}$ is still one.
+Thus by the definition of the grammar, we can repeat the derivation to replace the substring $bcd$ in $x$ with $b^kcd^k$ for every $k\in \N$ while retaining the property that the output of $\Phi_{V,R,s}$ is still one. Since $bcd$ is a substring of $x$, we can write $x=abcde$ and are guaranteed that $ab^kcd^ke$ is matched by the grammar for every $k$.
 :::
 
 Using [cfgpumping](){.ref} one can show that even the simple function $F:\{0,1\}^* \rightarrow \{0,1\}$ defined as follows:
