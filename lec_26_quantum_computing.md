@@ -921,7 +921,7 @@ Prove the following relations between quantum complexity classes and classical o
 :::
 
 ::: {.exercise title="Discrete logarithm from order finding" #dlogfromorder}
-Show a probabilistic polynomial time classical algorithm that given an Abelian finite group $\mathbb{G}$ (in the form of an algorithm that computes the group operation), a _generator_ $g$ for the group, and an element $h \in \mathbb{G}$, as well  access to a black box that on input $f\in \mathbb{G}$ outputs the _order_ of $f$ (the smallest $a$ such that $f^a =1$), computes the _discrete logarithm_ of $h$ with respect to $g$.
+Show a probabilistic polynomial time classical algorithm that given an Abelian finite group $\mathbb{G}$ (in the form of an algorithm that computes the group operation), a _generator_ $g$ for the group, and an element $h \in \mathbb{G}$, as well as access to a black box that on input $f\in \mathbb{G}$ outputs the _order_ of $f$ (the smallest $a$ such that $f^a =1$), computes the _discrete logarithm_ of $h$ with respect to $g$.
 That is the algorithm should output a number $x$ such that $g^x = h$.
 See footnote for hint.^[We are given $h=g^x$ and need to recover $x$. To do so we can compute the order of various elements of the form $h^ag^b$. The order of such an element is a number $c$ satisfying   $c(xa+b) = 0 \pmod{|\mathbb{G}|}$. With a few random examples we will get a non trivial equation on $x$ (where $c$ is not zero modulo $|\mathbb{G}|$) and then we can use our knowledge of $a,b,c$ to recover $x$.]
 :::
