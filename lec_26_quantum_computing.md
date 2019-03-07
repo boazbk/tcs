@@ -454,7 +454,7 @@ That is, for every $v = \sum_{x\in \{0,1\}^n} v_x |x \rangle$,
 $U_{NAND}^{i,j,k}v = \sum_{x\in \{0,1\}^n}v_x |x_0 \cdots x_{k-1}(x_k \oplus NAND(x_i,x_j))x_{k+1} \cdots x_{n-1} \rangle$.
 
 As mentioned above, we will also use the _Hadamard_ or $HAD$ operation,
-A _quantum circuit_ is obtained by applying a sequence of $U_{NAND}$ and $HAD$ gates, which correspond to the matrix
+A _quantum circuit_ is obtained by applying a sequence of $U_{NAND}$ and $HAD$ gates, where a $HAD$ gates corresponding to applying the matrix
 $$H = \tfrac{1}{\sqrt{2}} \begin{pmatrix} +1 & +1\\ +1 & -1 \end{pmatrix} \;. $$
 Another way to write define $H$ is that for $b \in \{0,1\}$,  $H |b\rangle = \tfrac{1}{\sqrt{2}}|0\rangle + \tfrac{1}{\sqrt{2}} (-1)^b |1\rangle$.
 We define $HAD^i$ to be the $2^n \times 2^n$ unitary matrix that applies $HAD$ to the $i$-th qubit and leaves the others intact.
@@ -468,19 +468,19 @@ If $m \geq n$, we use a circuit to compute a function $f:\{0,1\}^n \rightarrow \
 
 * On input $x$, we initialize the system to hold $x_0,\ldots,x_{n-1}$ in the first $n$ qubits, and initialize all remaining $m-n$ qubits to zero.
 
-* We execute each elementary operation one by one.
+* We execute each elementary operation one by one: at every step we apply to the current state either an operation of the form $U_{NAND}^{i,j,k}$ or an operation of the form $HAD^i$ for $i,j,k\in [m]$.
 
 * At the end of the computation, we _measure_ the system, and output the result of the last qubit (i.e. the qubit in location $m-1$).^[For simplicity we restrict attention to functions with a single bit of output, though the definition of quantum circuits naturally extends to circuits with multiple outputs.]
 
-* We say that the circuit _computes_ $f$, if the probability that this output equals $f(x)$ is at least $2/3$. Note that this probability is obtained by summing up the squares of the amplitudes of all coordinates in the final state of the system corresponding to vectors $|y \rangle$ where $y_{m-1}=f(x)$.
+* We say that the circuit _computes_ the function $f$ if the probability that this output equals $f(x)$ is at least $2/3$. Note that this probability is obtained by summing up the squares of the amplitudes of all coordinates in the final state of the system corresponding to vectors $|y \rangle$ where $y_{m-1}=f(x)$.
 
 
 
-Formally this is defined as follows:
+Formally we define quantum circuits as follows:
 
 
 ::: {.definition title="Quantum circuit" #quantumcircuitdef}
-A _quantum circuit of $m$ inputs and $s$ gates_  over the $\{ U_{NAND}, HAD \}$ basis is a sequence of $s$ unitary $2^n \times 2^n$ matrices $U_0,\ldots,U_{s-1}$ such that each matrix $U_\ell$ is either of the form $NAND^{i,j,k}$ for $i,j,k\in [n]$ or $HAD^i$ for $i\in [n]$.
+Let $s \geq m \geq n$. A _quantum circuit of $n$ inputs, $m-n$ auxiliary bits, and $s$ gates_  over the $\{ U_{NAND}, HAD \}$ basis is a sequence of $s$ unitary $2^m \times 2^m$ matrices $U_0,\ldots,U_{s-1}$ such that each matrix $U_\ell$ is either of the form $NAND^{i,j,k}$ for $i,j,k\in [m]$ or $HAD^i$ for $i\in [m]$.
 
 A quantum circuit _computes_ a function $f:\{0,1\}^n \rightarrow \{0,1\}$ if the following is true for every $x\in \{0,1\}^n$:
 
@@ -497,7 +497,7 @@ $$
 Please stop here and see that this definition makes sense to you.
 :::
 
-Once we have the notion of quantum circuits, we can define the quantum analog of $\mathbf{P_{/poly}}$ (i.e., define the class of functions computable by _polynomial size quantum circuits_) as follows:
+Once we have the notion of quantum circuits, we can define the quantum analog of $\mathbf{P_{/poly}}$ (i.e., the class of functions computable by _polynomial size quantum circuits_) as follows:
 
 > ### {.definition title="$\mathbf{BQP_{/poly}}$" #QBPpoly}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$.

@@ -136,7 +136,22 @@ This can help in planning a course based on this book.
 ## Acknowledgements
 
 This text is continually evolving, and I am getting input from many people, for which I am deeply grateful.
-Thanks to Scott Aaronson, Michele Amoretti, Marguerite Basta, Sam Benkelman, Jarosław Błasiok, Emily Chan, Christy Cheng, Michelle Chiang, Daniel Chiu, Chi-Ning Chou, Michael Colavita, Robert Darley Waddilove, Juan Esteller,  Leor Fishman, William Fu, Piotr Galuszka, Mark Goldstein,  Alexander Golovnev, Chan Kang, Nina Katz-Christy, Estefania Lahera, Allison Lee, Ondřej Lengál, Raymond Lin, Emma Ling, Alex Lombardi, Lisa Lu, Aditya Mahadevan, Jacob Meyerson, George Moe, Hamish Nicholson, Sandip Nirmel, Sebastian Oberhoff, Thomas Orton, Pablo Parrilo, Juan Perdomo, Aaron Sachs, Abdelrhman Saleh, Brian Sapozhnikov, Peter Schäfer, Josh Seides, Alaisha Sharma, Noah Singer, Matthew Smedberg, Hikari Sorensen, Alec Sun, Everett Sussman, Marika Swanberg, Garrett Tanzer, Sarah Turnill, Salil Vadhan, Patrick Watts, Ryan Williams, Licheng Xu, Wanqian Yang, Elizabeth Yeoh-Wang, Josh Zelinsky, Grace Zhang, and Jessica Zhu for helpful feedback.
+Thanks to Scott Aaronson, Michele Amoretti, Marguerite Basta, Sam Benkelman, Jarosław Błasiok, Emily Chan
+Christy Cheng, Michelle Chiang, Daniel Chiu, Chi-Ning Chou, Michael Colavita, Robert Darley Waddilove,
+Juan Esteller,  Leor Fishman, William Fu, Thomas Huet, 
+Piotr Galuszka, Mark Goldstein,  Alexander Golovnev, Chan Kang,
+Nina Katz-Christy, Estefania Lahera, Allison Lee, Ondřej Lengál, 
+Raymond Lin, Emma Ling, Alex Lombardi,
+Lisa Lu, Aditya Mahadevan, Jacob Meyerson, George Moe, Hamish Nicholson, 
+Sandip Nirmel, Sebastian Oberhoff,
+Thomas Orton, Pablo Parrilo, Juan Perdomo, Aaron Sachs, 
+Abdelrhman Saleh, Brian Sapozhnikov, Peter Schäfer
+Josh Seides, Alaisha Sharma, Noah Singer, Matthew Smedberg, 
+Hikari Sorensen, Alec Sun, Everett Sussman,
+Marika Swanberg, Garrett Tanzer, Sarah Turnill, Salil Vadhan, 
+Patrick Watts, Ryan Williams, Licheng Xu,
+Wanqian Yang, Elizabeth Yeoh-Wang, Josh Zelinsky, 
+Grace Zhang, and Jessica Zhu for helpful feedback.
 
 If you have any comments or suggestions, please do post them on the GitHub repository [https://github.com/boazbk/tcs](https://github.com/boazbk/tcs).
 
