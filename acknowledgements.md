@@ -17,6 +17,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Juan Esteller
 * Michael Fine
 * Leor Fishman
+* Zaymon Foulds-Cook
 * William Fu
 * Piotr Galuszka
 * Mark Goldstein
