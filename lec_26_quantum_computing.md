@@ -714,7 +714,7 @@ __Operations:__
 2. If we let $A_0,\ldots,A_{k-1}$ and $p_0,\ldots,p_{k-1}$ be the numbers we chose in the previous step and the corresponding periods of the functions $f_{A_0},\ldots,f_{A_{k-1}}$ then we can use classical results in number theory to obtain from these a non-trivial prime factor $Q$ of $M$ (if such exists). We can now run the algorithm again with the (smaller) input $M/Q$ to obtain all other factors.
 :::
 
-Reducing factoring to order finding is cummbersome, but can be done in polynomial time using a classical computer. The key quantum ingredient in Shor's algorithm is the _quantum fourier transform_.
+Reducing factoring to order finding is cumbersome, but can be done in polynomial time using a classical computer. The key quantum ingredient in Shor's algorithm is the _quantum fourier transform_.
 
 ::: {.remark title="Quantum Fourier Transform" #QFT}
 Despite its name, the Quantum Fourier Transform does _not_ actually give a way to compute the Fourier Transform of a function $f:\{0,1\}^m \rightarrow \R$.
