@@ -1174,11 +1174,11 @@ If $x,y$ are numbers between $0$ and $10^n -1$, can we still multiply $x$ and $y
 ::: {.exercise }
 Recall that if $F$ is a one-to-one and onto function mapping elements of a finite set $U$ into a finite set $V$ then the sizes of $U$ and $V$ are the same. Let $B:\N\rightarrow\{0,1\}^*$ be the function such that for every $x\in\N$, $B(x)$ is the binary representation of $x$.
 
-a. Prove that $x < 2^k$ if and only if $|B(x)| \leq k$.
+1. Prove that $x < 2^k$ if and only if $|B(x)| \leq k$.
 
-b. Use a. to compute the size of the set $\{ y \in \{0,1\}^* : |y| \leq k \}$ where $|y|$ denotes the length of the string $y$.
+2. Use 1. to compute the size of the set $\{ y \in \{0,1\}^* : |y| \leq k \}$ where $|y|$ denotes the length of the string $y$.
 
-c. Use a. and b. to prove that $2^k-1 = 1 + 2 + 4+ \cdots + 2^{k-1}$.
+3. Use 1. and 2. to prove that $2^k-1 = 1 + 2 + 4+ \cdots + 2^{k-1}$.
 :::
 
 

@@ -354,7 +354,7 @@ This book is divided into the following parts ,see [dependencystructurefig](){.r
 
 * __Part III: Efficient computation:__ Definition of running time, time hierarchy theorem, $\mathbf{P}$ and $\mathbf{NP}$, $\mathbf{NP}$ completeness, space bounded computation.
 
-* __Part IV: Randomized computation:__ Probability, randomized algorithms, $\mathbf{BPP}$, amplification, $\mathbf{BPP} \subseteq \mathbf{P}_{/poly}$, pseudrandom generators and derandomization.
+* __Part IV: Randomized computation:__ Probability, randomized algorithms, $\mathbf{BPP}$, amplification, $\mathbf{BPP} \subseteq \mathbf{P}_{/poly}$, pseudorandom generators and derandomization.
 
 * __Part V: Advanced topics:__ Cryptography, proofs and algorithms (interactive and zero knowledge proofs, Curry-Howard correspondence), quantum computing.
 

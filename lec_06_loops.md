@@ -102,7 +102,7 @@ For simplicity we can think of this scratch paper as a one dimensional piece of 
 At any point in time, the person can read from and write to a single cell of the paper, and based on the contents can update his/her finite mental  state, and/or move to the cell immediately to the left or right of the current one.
 
 
-![Steam-powered Turing Machine mural, painted by CSE grad students the University of Washington on the night before spring qualifying examinations, 1987. Image from [https://www.cs.washington.edu/building/art/SPTM](https://www.cs.washington.edu/building/art/SPTM). ](../figure/SPTM.jpg){#steamturingmachine .margin  }
+![Steam-powered Turing Machine mural, painted by CSE grad students at the University of Washington on the night before spring qualifying examinations, 1987. Image from [https://www.cs.washington.edu/building/art/SPTM](https://www.cs.washington.edu/building/art/SPTM). ](../figure/SPTM.jpg){#steamturingmachine .margin  }
 
 
 

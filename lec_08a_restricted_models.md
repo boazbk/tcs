@@ -199,7 +199,7 @@ where $\wedge$ is the AND operator and for $i<j$, $x_j \cdots x_{i}$ refers to t
 
 __Case 3:__   $e = (e')*$ where $e'$ is a regular expression.
 
-In this case by the inductive hypothesis we can compute $\Phi_{e'}$ and so we can compute $\Phi_{e}(x)$ by enumerating over all $k$ from $1$ to $|x|$, and all ways to write $x$ as the concatenation of $k$ strings $x_0 \cdots x_{k-1}$ (we can do so by enumerating over all possible $k-1$ positions in which one string stops and the other begins). If for one of those partitions, $\Phi_{e'}(x_0)=\cdots = \Phi_{e'}(x_{k-1})=1$ then we output $1$. Otherwise we output $0$.
+In this case by the inductive hypothesis we can compute $\Phi_{e'}$ and so we can compute $\Phi_{e}(x)$ by enumerating over all $k$ from $1$ to $|x|$, and all ways to write $x$ as the concatenation of $k$ nonempty strings $x_0 \cdots x_{k-1}$ (we can do so by enumerating over all possible $k-1$ positions in which one string stops and the other begins). If for one of those partitions, $\Phi_{e'}(x_0)=\cdots = \Phi_{e'}(x_{k-1})=1$ then we output $1$. Otherwise we output $0$.^[We can restrict attention to partitions of $x$ as $x=x_0 \cdots x_{k-1}$ where all the $x_i$'s are nonempty since if some of the $x_i$'s are empty we can simply drop them and still be left with a valid partition.]
 
 
 These three cases exhaust all the possibilities for an expression of length larger than one, and hence this completes the proof.
@@ -234,23 +234,24 @@ This will result in an expression for the running time of the form $T(n) = T(n-1
 
 ::: {.proof data-ref="reglintimethm"}
 The central definition for this proof is the notion of a _restriction_ of a regular expression.
-Given a regular expression $e$  over an alphabet $\Sigma$ and symbol $\sigma \in \Sigma$, we  define $e[\sigma]$ to be a regular expression such that $e[\sigma]$ matches a string $x$ if and only if $e$ matches the string $x\sigma$.
-For example, if $e$ is the regular expression $01|(01)*(01)$ (i.e., one or more occurrences of $01$) then $e[1]$ is equal to  $0|(01)*0$ and $e[0]$ will be $\emptyset$. (Can you see now?)
+The idea is is that for every regular expression $e$ and symbol $\sigma$ in its alphabet, it is possible to define a regular expresion $e[\sigma]$ such that $e[\sigma]$ matches a string $x$ if and only if $e$ matches the string $x\sigma$. 
+For example, if $e$ is the regular expression $01|(01)*(01)$ (i.e., one or more occurrences of $01$) then $e[1]$ is equal to  $0|(01)*0$ and $e[0]$ will be $\emptyset$. (Can you see why?)
 
 For simplicity, from now on we fix our attention to the case that the alphabet $\Sigma$ is $\{0,1\}$.
 Given a regular  expression $e$ and $\sigma\in \{0,1\}$, we can compute  $e[\sigma]$  recursively as follows:
 
-1. If $e = \tau$  for $\tau \in \{0,1\}$ then $e[\sigma]=""$ if $\tau=\sigma$ and $e[\sigma]=\emptyset$ otherwise.
+1. If $e$ consists of a single symbol (i.e. $e=\tau$  for $\tau \in \{0,1\}$) then $e[\sigma]=""$ if $\tau=\sigma$ and $e[\sigma]=\emptyset$ otherwise.
 
 2. If $e = e' | e''$ then $e[\sigma] = e'[\sigma] | e''[\sigma]$.
 
-3. If $e = e' \; e''$ then $e[\sigma] = e' \; e''[\sigma]$ if $e''$ can not match the empty string. Otherwise, $e[\sigma] = e' \; e''[\sigma] | e'[\sigma]$
+3. If $e = e' \; e''$ then $e[\sigma] = e' \; e''[\sigma]$ if $e''$ can not match the empty string. Otherwise, $e[\sigma] = e' \; e''[\sigma] \; | \; e'[\sigma]$
 
 
 4. If $e = (e')^*$ then $e[\sigma] =  (e')^*(e'[\sigma])$.
 
 5. If $e = ""$ or $e= \emptyset$ then $e[\sigma] = \emptyset$.
 
+By checking all these cases, one can verify that it is indeed the case that for every regular expression $e$, $\sigma \in \{0,1\}$ and $x\in \{0,1\}^*$, $e[\sigma]$ matches $x$ if and only if  $e$ matches $x\sigma$.
 We let $C(\ell)$ denote the  time to compute $e[\sigma]$ for regular expressions of length at most $\ell$.^[The value $C(\ell)$ can be shown to be polynomial in $\ell$, though this is not important for this theorem, since we only care about the dependence of the time to compute $\Phi_e(x)$ on the length of $x$ and not about the dependence of this time on the length of $e$.]
 
 Using this  notion of restriction, we can define the following recursive algorithm for regular expression matching:
@@ -508,7 +509,7 @@ Then there is no regular expression over $\Sigma$ that computes $MATCHPAREN$.
 > ### {.theorem title="Pumping Lemma" #pumping}
 Let $e$ be a regular expression. Then there is some number $n_0$ such that for every $w\in \{0,1\}^*$ with $|w|>n_0$ and $\Phi_{e}(w)=1$, it holds that we can write $w=xyz$ where  $|y| \geq 1$, $|xy| \leq n_0$ and such that $\Phi_{e}(xy^kz)=1$ for every $k\in \N$.
 
-![To prove the "pumping lemma" we look at a word $w$ that is much larger than the regular expression $e$ that matches it. In such a case, part of $w$ must be matched by some sub-expression of the form $(e')^*$, since this is the only operator that allows matching words longer than the expression. If we look at the "leftmost" such sub-expression and define $y^k$ to be the string that is matched by it, we obtain the partition needed for the pumping lemma.](../figure/pumpinglemma.png){#pumpinglemmafig .margin  }
+![To prove the "pumping lemma" we look at a word $w$ that is much larger than the regular expression $e$ that matches it. In such a case, part of $w$ must be matched by some sub-expression of the form $(e')^*$, since this is the only operator that allows matching words longer than the expression. If we look at the "leftmost" such sub-expression and define $y^k$ to be the string that is matched by it, we obtain the partition needed for the pumping lemma.](../figure/pumpinglemma.png){#pumpinglemmafig   }
 
 > ### {.proofidea data-ref="pumping"}
 The idea behind the proof is very simple (see [pumpinglemmafig](){.ref}). Let $n_0$ be  twice the number of symbols that are used in the expression $e$, then the only way that there is some $w$ with $|w|>n_0$ and $\Phi_{e}(w)=1$ is that $e$ contains the $*$ (i.e. star) operator and that there is a nonempty substring $y$ of $w$ that was matched by $(e')^*$ for some sub-expression $e'$ of $e$.  We can now repeat $y$ any number of times and still get a matching string.
@@ -519,7 +520,7 @@ The pumping lemma is a bit cumbersome to state, but one way to remember it is th
 
 
 ::: {.proof data-ref="pumping"}
-To prove the lemma formally, we use induction on the length of the expression. Like all induction proofs, this is going to be somewhat lengthy, but at the end of the day it directly follows the intuition above that _somewhere_ we must have used the star operation. Reading this proof, and in particular understanding how the formal proof below corresponds to the intuitive idea above, is a very good way to get more comfort with inductive proofs of this form.
+To prove the lemma formally, we use induction on the length of the expression. Like all induction proofs, this is going to be somewhat lengthy, but at the end of the day it directly follows the intuition above that _somewhere_ we must have used the star operation. Reading this proof, and in particular understanding how the formal proof below corresponds to the intuitive idea above, is a very good way to get more comfortable with inductive proofs of this form.
 
 Our inductive hypothesis is that for an $n$ length expression,  $n_0=2n$ satisfies the conditions of the lemma. The base case is when the expression is a single symbol or that it is $\emptyset$ or $""$ in which case the condition is satisfied just because there is no matching string of length more than one.
 Otherwise, $e$ is of the form __(a)__ $e' | e''$, __(b)__, $(e')(e'')$, __(c)__ or $(e')^*$ where in all these cases the subexpressions have fewer symbols than $e$ and hence satisfy the induction hypothesis.
@@ -877,7 +878,7 @@ The context-free pumping lemma is even more cumbersome to state than its regular
 
 ::: {.proof data-ref="cfgpumping"}
 We only sketch the proof. The idea is that if the total number of symbols in the rules $R$ is $k_0$, then the only way to get $|x|>k_0$ with $\Phi_{V,R,s}(x)=1$ is to use _recursion_.
-That is, there must be some variable $v \in V$ such that we are able to derive from $v$ the value $bvd$ for some strings $b,d \in \Sigma^*$, and then further on derive from $v$ some string $c\in \Sigma^*$ such that $bcd$ is a substring of $x$. If we try to take the minimal such $v$, then we can ensure that $|bcd|$ is at most some constant depending on $k_0$ and we can set $n_0$ to be that constant ($n_0=10 \cdot |R| \cdot k_0$ will do, since we will not need more than $|R|$ applications of rules, and each such application can grow the string by at most $k_0$ symbols).
+That is, there must be some variable $v \in V$ such that we are able to derive from $v$ the value $bvd$ for some strings $b,d \in \Sigma^*$, and then further on derive from $v$ some string $c\in \Sigma^*$ such that $bcd$ is a substring of $x$. If we take the variable $v$ satisfying this requirement with a minimum number of derivation steps, then we can ensure that $|bcd|$ is at most some constant depending on $k_0$ and we can set $n_0$ to be that constant ($n_0=10 \cdot |R| \cdot k_0$ will do, since we will not need more than $|R|$ applications of rules, and each such application can grow the string by at most $k_0$ symbols).
 
 
 Thus by the definition of the grammar, we can repeat the derivation to replace the substring $bcd$ in $x$ with $b^kcd^k$ for every $k\in \N$ while retaining the property that the output of $\Phi_{V,R,s}$ is still one.
