@@ -934,7 +934,7 @@ Chapters 9 and 10 in the book _Quantum Computing Since Democritus_ give an infor
 Shor's and Simon's algorithms are also covered in Chapter 10 of my book with Arora on computational complexity.
 
 There are many excellent videos available online covering some of these materials.
-The Fourier transform is covered in this
+The Fourier transform is covered in these
 videos of [Dr. Chris Geoscience](https://youtu.be/EYRmB1aNh9I?t=19s),  [Clare Zhang](https://www.youtube.com/watch?v=Y9pYHDSxc7g) and [Vi Hart](https://www.youtube.com/watch?v=i_0DXxNeaQ0).
 More specifically to quantum computing, the videos of  [Umesh Vazirani on the Quantum Fourier Transform](https://www.youtube.com/watch?v=BM429cOogYc) and  [Kelsey Houston-Edwards on Shor's Algorithm](https://www.youtube.com/watch?v=wUwZZaI5u0c) are very recommended.
 
