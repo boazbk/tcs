@@ -63,7 +63,7 @@ Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time algorithm 
 
 > ### { .pause }
 To understand what the statement of [search-dec-thm](){.ref} means, let us look at the special case of the $MAXCUT$ problem.
-It is not hard to see that there is a polyomial-time algorithm $VERIFYCUT$ such that $VERIFYCUT(G,k,S)=1$ if and only if $S$ is a subset of $G$'s vertices that cuts at least $k$ edges.
+It is not hard to see that there is a polynomial-time algorithm $VERIFYCUT$ such that $VERIFYCUT(G,k,S)=1$ if and only if $S$ is a subset of $G$'s vertices that cuts at least $k$ edges.
 [search-dec-thm](){.ref} implies that if $\mathbf{P}=\mathbf{NP}$ then there is a polynomial-time algorithm $FINDCUT$ that on input $G,k$ outputs a set $S$ such that $VERIFYCUT(G,k,S)=1$ if such a set exists. This means that if $\mathbf{P}=\mathbf{NP}$, by trying all values of $k$ we can find in polynomial time a maximum cut in any given graph. We can use a similar argument to show that if $\mathbf{P}=\mathbf{NP}$ then we can find a satisfying assignment for every satisfiable 3CNF formula, find the longest path in a graph, solve integer programming, and so and so forth.
 
 > ### {.proofidea data-ref="search-dec-thm"}
@@ -148,7 +148,7 @@ The statement of [optimizationnp](){.ref} is a bit cumbersome.  To understand it
 The proof follows by generalizing our ideas from the longest path example above.
 Let $f$ be as in the theorem statement.
 If  $\mathbf{P}=\mathbf{NP}$ then for every  for every string $x\in \{0,1\}^*$ and number $k$, we can test in in $poly(|x|,m)$ time  whether there exists $y$ such that $f(x,y) \geq k$, or in other words test whether  $\max_{y \in \{0,1\}^m} f(x,y) \geq k$.
-If $f(x,y)$ is an integer between $0$ and $poly(|x|+|y|)$ (as  is the case in the example of longest path) then we can just try out all possiblities for $k$ to find the maximum number $k$ for which $\max_y f(x,y) \geq k$.
+If $f(x,y)$ is an integer between $0$ and $poly(|x|+|y|)$ (as  is the case in the example of longest path) then we can just try out all possibilities for $k$ to find the maximum number $k$ for which $\max_y f(x,y) \geq k$.
 Otherwise, we can use _binary search_ to hone down on the right value. Once we do so, we can use search-to-decision to actually find the string $y^*$ that  achieves the maximum.
 
 
@@ -197,7 +197,7 @@ This is the problem where  $G$ is a weighted graph, and every edge of $G$ is giv
 Beyond just this example there is a vast field of [mathematical optimization](https://en.wikipedia.org/wiki/Mathematical_optimization) that studies problems of the same form as in [optimizationnp](){.ref}.
 In the context of optimization, $x$ typically denotes a set of constraints over some variables (that can be Boolean, integer, or real valued), $y$ encodes an assignment to these variables,  and $f(x,y)$ is the value of some _objective function_ that we want to maximize.
 Given that we don't know efficient algorithms for $\mathbf{NP}$ complete problems, researchers in optimization research study special cases of functions $f$ (such as linear programming and semidefinite programming) where it _is_ possible to optimize the value efficiently.
-Optimization is widely used in a great many scientific agreas including  machine learning, engineering, economics and operations research.
+Optimization is widely used in a great many scientific areas including: machine learning, engineering, economics and operations research.
 :::
 
 ### Example: Supervised learning
@@ -222,7 +222,7 @@ In fact, this observation extends to essentially any learning model, and allows 
 We will discuss _cryptography_ later in this course, but it turns out that if $\mathbf{P}=\mathbf{NP}$ then almost every cryptosystem can be efficiently broken.
 One approach is to treat finding an encryption key as an instance of a supervised learning problem.
 If there is an encryption scheme that maps a "plaintext" message $p$ and a key $\theta$ to a "ciphertext" $c$, then given examples of ciphertext/plaintext pairs of the form $(c_0,p_0),\ldots,(c_{m-1},p_{m-1})$, our goal is to find the key $\theta$ such that $E(\theta,p_i)=c_i$ where $E$ is the encryption algorithm.
-While you might think  getting such "labeled examples" is unrealistic, it turns out (as many amateur homebrew crypto designers learn the hard way) that this is actually quite common in real-life scenarios, and that it is also possible to relax the assumption to having more minimal prior information about the plaintext (e.g., that it is English text).
+While you might think  getting such "labeled examples" is unrealistic, it turns out (as many amateur home-brew crypto designers learn the hard way) that this is actually quite common in real-life scenarios, and that it is also possible to relax the assumption to having more minimal prior information about the plaintext (e.g., that it is English text).
 We defer a more formal treatment to [chapcryptography](){.ref}.
 
 
@@ -295,9 +295,9 @@ $$
 \exists_{P' \in \{0,1\}^{s}} \forall_{x\in \{0,1\}^n} P(x)=P'(x) \label{circmineq}
 $$
 which has the form [existsforalleq](){.eqref}.^[Since NAND-CIRC programs are equivalent to Boolean circuits, the search problem  corresponding to [circmineq](){.eqref}  known as the [circuit minimization problem](https://goo.gl/iykqbh)  and is widely studied in Engineering.
-You can skip ahead to [selfimprovingsat](){.ref} to see a particularly complelling application of this.]
+You can skip ahead to [selfimprovingsat](){.ref} to see a particularly compelling application of this.]
 Another example of a statement involving $a$ levels of quantifiers would be to check, given a chess position $x$, whether there is a strategy that guarantees that White wins within $a$ steps.
-For example is $a=3$ we woud want to check if given the borad position $x$, _there exists_ a move $y$ for White such that _for every_ move $z$ for Black _there exists_ a move $w$ for White that ends in a a checkmate.
+For example is $a=3$ we would want to check if given the board position $x$, _there exists_ a move $y$ for White such that _for every_ move $z$ for Black _there exists_ a move $w$ for White that ends in a a checkmate.
 
 It turns out that if $\mathbf{P}=\mathbf{NP}$ then we can solve these kinds of problems as well:
 
@@ -527,6 +527,6 @@ Most of the exercises have been written in the summer of 2018 and haven't yet be
 
 Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
-* Polynomial hieararchy hardness for circuit minimization and related problems, see for example [this paper](http://users.cms.caltech.edu/~umans/papers/BU07.pdf).
+* Polynomial hierarchy hardness for circuit minimization and related problems, see for example [this paper](http://users.cms.caltech.edu/~umans/papers/BU07.pdf).
 
 ## Acknowledgements
