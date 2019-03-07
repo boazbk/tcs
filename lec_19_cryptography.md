@@ -435,7 +435,7 @@ Suppose that the optimal PRG conjecture is true.
 Then for every constant $a\in \N$ there is   a computationally secret encryption scheme $(E,D)$ with plaintext length $L(n)$ at least $n^a$.
 
 > ### {.proofidea data-ref="PRGtoENC"}
-The proof is illustrated in [derandonetimepadfig](){.ref}. We simply take the one-time pad on $L$ bit plaintexts, but replace the key with $G(k)$ where $k$ is a string in $\{0,1\}^n$ and $G:\{0,1\}^n \rightarrow \{0,1\}^L$ is a pseudorandom generator.
+The proof is illustrated in [derandonetimepadfig](){.ref}. We simply take the one-time pad on $L$ bit plaintexts, but replace the key with $G(k)$ where $k$ is a string in $\{0,1\}^n$ and $G:\{0,1\}^n \rightarrow \{0,1\}^L$ is a pseudorandom generator. Since the one time pad cannot be broken, an adversary that breaks the derandomized one-time pad can be used to distinguish between the output of the pseudorandom generator and the uniform distribution.
 
 ::: {.proof data-ref="PRGtoENC"}
 Since an exponential function of the form $2^{\delta n}$ grows faster than any polynomial of the form $n^a$,  under the optimal PRG conjecture we can obtain a polynomial-time computable $(2^{\delta n},2^{-\delta n})$ pseudorandom generator $G:\{0,1\}^n \rightarrow \{0,1\}^L$  for $L = n^a$.
@@ -446,16 +446,19 @@ This is a valid encryption since $G$ is computable in polynomial time and $(x \o
 Computational secrecy follows from the condition of a pseudorandom generator.
 Suppose, towards a contradiction, that there is a polynomial $p$, NAND-CIRC program $Q$ of at most $p(L)$ lines and  $x,x' \in \{0,1\}^{L(n)}$  such that
 $$
-\left| \E_{k \sim \{0,1\}^n}[ Q(E_k(x))] - \E_{k \sim \{0,1\}^n}[Q(E_k(x'))] \right| > \tfrac{1}{p(L)}
+\left| \E_{k \sim \{0,1\}^n}[ Q(E_k(x))] - \E_{k \sim \{0,1\}^n}[Q(E_k(x'))] \right| > \tfrac{1}{p(L)} \;.
 $$
-which by the definition of our encryption scheme means that
+(We use here the simple fact that for a  $\{0,1\}$-valued random variable $X$, $\Pr[X=1]=\E[X]$.)
+
+By the definition of our encryption scheme, this means that
 $$
 \left| \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \E_{k \sim \{0,1\}^n}[Q(G(k) \oplus x')] \right| > \tfrac{1}{p(L)} \;. \label{eqprgsecone}
 $$
 
-Now since (as we saw in the security analysis of the one-time pad), the distribution $r \oplus x$ and $r \oplus x'$ are identical, where $r\sim \{0,1\}^L$, it follows that
+Now since (as we saw in the security analysis of the one-time pad), for every strings $x,x'\in \{0,1\}^L$, the distribution $r \oplus x$ and $r \oplus x'$ are identical, where $r\sim \{0,1\}^L$.
+Hence
 $$
-\E_{r \sim \{0,1\}^L} [ Q(r \oplus x)] -  \E_{r \sim \{0,1\}^L} [ Q(r \oplus x')] = 0 \;.  \label{eqprgsectwo}
+\E_{r \sim \{0,1\}^L} [ Q(r \oplus x)] =  \E_{r \sim \{0,1\}^L} [ Q(r \oplus x')]  \;.  \label{eqprgsectwo}
 $$
 By plugging [eqprgsectwo](){.eqref} into [eqprgsecone](){.eqref}  we can derive  that
 $$

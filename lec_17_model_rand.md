@@ -471,7 +471,7 @@ The construction follows  the "quantifier elimination" idea which we have seen i
 We will show that for  every $F \in \mathbf{BPP}$, we can reduce the question of some input $x$ satisfies $F(x)=1$ to the question of whether a formula of the form $\exists_{u\in \{0,1\}^m} \forall_{v \in \{0,1\}^k} P(u,v)$ is true, where $m,k$ are polynomial in the length of $x$ and $P$ is polynomial-time computable.
 By [PH-collapse-thm](){.ref}, if $\mathbf{P}=\mathbf{NP}$ then we can decide in polynomial time  whether such a formula is true or false.
 
-The idea behind this construction is that using amplification we can obtain a randomized algorithm $A$ for computing $F$ using $m$ coins such that for every $x\in \{0,1\}^n$, if $F(x)=0$ then the set $S \subseteq \{0,1\}^m$ of coins that make $A$ output $1$ is extremely tiny, and if $F(x)=1$ then it is very large. Now in the  case $F(x)=1$, one can show that this means that there exists a small number $k$ of "shifts" $s_0,\ldots,s_{k-1}$ such that the union of the sets $S \oplus s_i$ covers $\{0,1\}^m$, while in the case $F(x)=0$ this union will always be of size at most $k|S|$ which is much smaller than $2^m$.
+The idea behind this construction is that using amplification we can obtain a randomized algorithm $A$ for computing $F$ using $m$ coins such that for every $x\in \{0,1\}^n$, if $F(x)=0$ then the set $S \subseteq \{0,1\}^m$ of coins that make $A$ output $1$ is extremely tiny, and if $F(x)=1$ then it is very large. Now in the  case $F(x)=1$, one can show that this means that there exists a small number $k$ of "shifts" $s_0,\ldots,s_{k-1}$ such that the union of the sets $S \oplus s_i$ (i.e., sets of the form $\{ s\oplus s_i \;|\; s\in S }$) covers $\{0,1\}^m$, while in the case $F(x)=0$ this union will always be of size at most $k|S|$ which is much smaller than $2^m$.
 We can express the condition that  there exists $s_0,\ldots,s_{k-1}$ such that $\cup_{i\in [k]} (S \oplus s_i) = \{0,1\}^m$ as a statement with a constant number of quantifiers.
 :::
 
@@ -500,7 +500,7 @@ The heart of the proof is the following two claims:
 
 __CLAIM I:__ For every subset $S \subseteq \{0,1\}^m$, if $|S| \leq \tfrac{1}{1000m}2^m$, then for every $s_0,\ldots,s_{100m-1} \in \{0,1\}^m$, $\cup_{i\in [100m]} (S \oplus s_i) \subsetneq \{0,1\}^m$.
 
-__CLAIM II:__ For every subset $S \subseteq \{0,1\}^m$, if $|S| \geq \tfrac{1}{2}2^m$ then there exist a set of string $s_0,\ldots,s_{100m-1}$ such that  $\cup_{i\in [100m]} (S \oplus s_i) \subsetneq \{0,1\}^m$.
+__CLAIM II:__ For every subset $S \subseteq \{0,1\}^m$, if $|S| \geq \tfrac{1}{2}2^m$ then there exist a set of string $s_0,\ldots,s_{100m-1}$ such that  $\cup_{i\in [100m]} (S \oplus s_i) = \{0,1\}^m$.
 
 CLAIM I and CLAIM II together imply the theorem. Indeed, they mean that under our assumptions, for every $x\in \{0,1\}^n$, $F(x)=1$ if and only if
 
