@@ -480,7 +480,7 @@ Formally this is defined as follows:
 
 
 ::: {.definition title="Quantum circuit" #quantumcircuitdef}
-A _quantum circuit of $m$ inputs and $s$ gates_  over the $\{ U_{NAND}, HAD \}$ basis is a sequence of $s$ unitary $2^n \times 2^n$ matrices $U_0,\ldots,U_{s-1}$ such that each matrix $U_\ell$ is either of the form $NAND^{i,j,k}$ for $i,j,k\in [n]$ or $HAD^i$ for $i\in [n]$.
+A _quantum circuit of $m$ inputs and $s$ gates_  over the $\{ U_{NAND}, HAD \}$ basis is a sequence of $s$ unitary $2^m \times 2^m$ matrices $U_0,\ldots,U_{s-1}$ such that each matrix $U_\ell$ is either of the form $NAND^{i,j,k}$ for $i,j,k\in [m]$ or $HAD^i$ for $i\in [m]$.
 
 A quantum circuit _computes_ a function $f:\{0,1\}^n \rightarrow \{0,1\}$ if the following is true for every $x\in \{0,1\}^n$:
 
