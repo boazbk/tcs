@@ -657,7 +657,7 @@ The Fourier transform makes it easy to compute the period of a given function: i
 
 ### Shor's Algorithm: A bird's eye view
 
-On input a an integer $M$, Shor's algorithm outputs the prime factorization of $M$ in time that is polynomial in $\log M$.
+On input an integer $M$, Shor's algorithm outputs the prime factorization of $M$ in time that is polynomial in $\log M$.
 The main steps in the algorithm are the following:
 
 
