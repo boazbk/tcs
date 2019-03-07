@@ -582,7 +582,7 @@ Because the non uniform model is a little cleaner to work with, in the rest of t
 ## Physically realizing quantum computation
 
 To realize quantum computation one needs to create a system with $n$ independent binary states (i.e., "qubits"), and be able to manipulate small subsets of two or three of these qubits to change their state.
-While by the way we defined operations above it might seem that one needs to be able to perform arbitrary unitary operations on these two or three qubits, it turns out that there several choices for _universal sets_ -  a small constant number of gates that generate all others.
+While by the way we defined operations above it might seem that one needs to be able to perform arbitrary unitary operations on these two or three qubits, it turns out that there are several choices for _universal sets_ -  a small constant number of gates that generate all others.
 The biggest challenge is how to keep the system from being measured and _collapsing_ to a single classical combination of states.
 This is sometimes known as the _coherence time_ of the system.
 The [threshold theorem](https://courses.cs.washington.edu/courses/cse599d/06wi/lecturenotes19.pdf) says that there is some absolute constant level of errors $\tau$ so that if errors are created at every gate at rate smaller than $\tau$ then we can recover from those and perform arbitrary long computations.
