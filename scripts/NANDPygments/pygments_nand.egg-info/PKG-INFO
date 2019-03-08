@@ -1,0 +1,45 @@
+Metadata-Version: 1.1
+Name: pygments-nand
+Version: 0.0.0
+Summary: Pygments lexer for NAND family of languages.
+Home-page: UNKNOWN
+Author: UNKNOWN
+Author-email: UNKNOWN
+License: UNKNOWN
+Description: # pygments-custom-nand
+        
+        
+        
+        A custom NAND-lexer for [Pygments](http://pygments.org/), for extra keyword highlighting when using the package [minted](https://github.com/gpoore/minted) in LaTeX. Adds some extra keywords like *NAND*, *loop*
+        
+        Based on [this CPP Lexer](https://github.com/FSund/pygments-custom-cpplexer.git)
+        
+        ## Install
+        
+            $ (sudo) python setup.py install
+        
+        ### Verify
+        
+        Verify that the package installed correctly by looking for the lexer "nand" in the output of
+        
+            $ pygmentize -L lexers
+        
+        ## Using the lexer in latex
+        
+        Just use the **nand** "language". In LaTeX this means something like this
+        
+            \begin{minted}{nand}
+            x = NAND(a,b)
+            \end{minted}
+        
+        See the minted package at https://github.com/gpoore/minted for more information.
+        
+Keywords: pygments NAND lexer
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Plugins
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
