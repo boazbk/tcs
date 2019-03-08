@@ -1,0 +1,415 @@
+%% Search for bigideacolor, for bigidea
+%% Search for my-light-yellow, for remark
+%% They use cmyk: cyan, magenta, yellow, black, expressed in percent of 1
+%% 0 is no color, 1 is darkest
+
+%% For Theorem, search for {tbox}, change to  linecolor ocre, for red-orange side line
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Redefinitions/Changes 
+%% to style for Boaz Barak book:
+%% Introduction to Theoretical Computer Science
+%%
+%% -- by Amy Hendrickson
+%% TeXnology Inc, Feb 13, 2019
+%% www.texnology.com / amyh@texnology.com
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\makeatletter
+%% original colors
+\definecolor{shadecolor}{rgb}{0.9,0.9,0.9}
+\definecolor{ocre}{RGB}{243,102,25}
+\definecolor{examplecolor}{RGB}{218, 242, 193}
+\definecolor{bigideacolor}{RGB}{255, 255, 86}
+\definecolor{algorithmcolor}{RGB}{216, 231, 255}
+\definecolor{my-light-blue}{RGB}{192, 228 , 238}
+\definecolor{my-light-yellow}{RGB}{247, 240, 195}
+\definecolor{my-light-pink}{RGB}{239, 210, 239}
+\definecolor{my-light-green}{RGB}{248, 255, 237}
+
+%% New colors:
+
+%% more red-orange, less orange:
+\definecolor{ocre}{rgb}{1,.11,0}
+\definecolor{sectioncolor}{rgb}{1,.11,0}
+\definecolor{ltocre}{rgb}{.5,.05,0}
+\definecolor{examplecolor}{RGB}{218, 242, 193}
+
+%%
+%% \definecolor{bigideacolor}{RGB}{255, 255, 86}
+\definecolor{bigideacolor}{cmyk}{0,.05,.6,0} %% new version
+
+\definecolor{block-gray}{gray}{0.85}
+\definecolor{my-light-blue}{cmyk}{.42,.1,0,.01}
+%% used for remark
+%%\definecolor{my-light-yellow}{RGB}{255, 204, 102} %% original version
+\definecolor{my-light-yellow}{cmyk}{0, .15, .5, 0} %% similar, but a bit lighter 
+
+\definecolor{my-light-pink}{cmyk}{.55,.35,0,.1}%% sltvioletblue, good
+
+%% Used for Learning Objectives
+\definecolor{my-light-plum}{cmyk}{.65,.65,0,.1}%% better
+
+%% for hyperlinks
+\definecolor{my-blue-plum}{cmyk}{.75,.65,0,.1}%% better
+
+%% for algorithm bar
+\definecolor{algobar}{cmyk}{.65,.55,0,.1}%% good
+
+%% for recap
+\definecolor{my-pleasant-blue}{cmyk}{.3,0,.01,0}%% 
+
+%% rose used for quotations
+\definecolor{my-light-rose}{cmyk}{.01,.28,.01,.1}%%
+
+%%%%%%%%%%%%
+
+%% from original
+\renewenvironment{definition}{\begin{savenotes}\begin{eBox}\vskip-8pt\vskip1sp
+\begin{definitionT}}{\end{definitionT}\vskip4pt\vskip1sp\end{eBox}\end{savenotes}}
+
+
+
+%% added raggedright and moved box to left side of margin ==>
+\long\def\objectives{\begin {lrbox}
+{\halobjectivesbox }
+\begin {minipage}{2.5in}\vspace {2pt}{\color{white}
+\vrule height 12pt width 0pt\bf Learning Objectives:}
+\begin{footnotesize}\raggedright
+\advance\hsize by 3pc
+\let\tightlist\relax
+\color{white}\bf
+}
+                     
+\long\def\endobjectives{\end {footnotesize}\end {minipage}\end {lrbox}\begin
+{textblock}{2.5}(10.7,0.7)%
+%% new
+\hskip-15pt
+%%
+\begin {shadowblock}{2.5in}\usebox {\halobjectivesbox }\end
+{shadowblock} \end{textblock}
+\settoheight {\objectivesheight }{\usebox {\halobjectivesbox }}}
+
+\renewenvironment{algorithm}{\begin{savenotes}\bgroup
+\advance\hsize-12pt
+\advance\linewidth -12pt
+\parindent=0pt
+\begin{algBox}\begin{algorithmT}}{\end{algorithmT}\end{algBox}\egroup\end{savenotes}}
+\definecolor{algorithmcolor}{cmyk}{.25,.15,0,.1}%%
+
+% Boxed/framed environments
+\newtheoremstyle{ocrenumbox}% % Theorem style name
+{1em}% Space above was 0pt
+{1ex}% Space below was 0pt
+{\normalfont}% % Body font
+{}% Indent amount
+{\small\bf\sffamily\color{ocre}}% % Theorem head font
+{\;}% Punctuation after theorem head
+{0.25em}% Space after theorem head
+{\small\sffamily\color{ocre}\thmname{#1}\nobreakspace\thmnumber{\@ifnotempty{#1}{}\@upn{#2}}% Theorem text (e.g. Theorem 2.1)
+\thmnote{\nobreakspace\the\thm@notefont\sffamily\bfseries\color{black}---\nobreakspace#3.}} % Optional theorem note
+
+\renewcommand{\qedsymbol}{$\blacksquare$}% Optional qed square
+
+%%
+
+\newtheoremstyle{bigideabox}% % Theorem style name
+{1em}% Space above was 0pt
+{1ex}% Space below was 0pt
+{\normalfont}% % Body font
+{}% Indent amount
+{\Large\bf\sffamily}% % Theorem head font
+{\;}% Punctuation after theorem head
+{\newline}% Space after theorem head
+{\Large \sffamily \faLightbulbO   \hspace{0.3em}\vrule height 14pt
+width 0pt
+\thmname{#1}\nobreakspace\thmnumber{\@ifnotempty{#1}{} \@upn{#2}}% Theorem text (e.g. Theorem 2.1)
+\thmnote{\nobreakspace\the\thm@notefont\sffamily\bfseries\color{black}---\nobreakspace#3.}
+\newline} % Optional theorem note
+
+
+\newtheoremstyle{algorithmstyle} % Theorem style name
+{0pt}% Space above
+{0pt}% Space below
+{\normalfont}% Body font
+{}% Indent amount
+{\small\bf\sffamily}% Theorem head font
+{ }% Punctuation after theorem head
+{\newline}% Space after theorem head
+{\small\sffamily\thmname{#1}\nobreakspace\thmnumber{\@ifnotempty{#1}{}\@upn{#2}} % Theorem text (e.g. Theorem 2.1)
+\thmnote{\nobreakspace\the\thm@notefont\sffamily\bfseries---\nobreakspace#3.}}% Optional theorem
+
+\newtheoremstyle{blacknumex}% Theorem style name
+{5pt}% Space above
+{5pt}% Space below
+{\normalfont}% Body font
+{} % Indent amount
+{\small\bf\sffamily}% Theorem head font
+{\;}% Punctuation after theorem head
+{0.25em}% Space after theorem head
+{\small\sffamily{\tiny\ensuremath{\blacksquare}}\nobreakspace\thmname{#1}\nobreakspace\thmnumber{\@ifnotempty{#1}{}\@upn{#2}}% Theorem text (e.g. Theorem 2.1)
+\thmnote{\nobreakspace\the\thm@notefont\sffamily\bfseries---\nobreakspace#3.}}% Optional theorem note
+
+\newtheoremstyle{blacknumbox} % Theorem style name
+{0pt}% Space above
+{0pt}% Space below
+{\normalfont}% Body font
+{}% Indent amount
+{\small\bf\sffamily}% Theorem head font
+{\;}% Punctuation after theorem head
+{0.25em}% Space after theorem head
+{\small\sffamily\thmname{#1}\nobreakspace\thmnumber{\@ifnotempty{#1}{}\@upn{#2}}% Theorem text (e.g. Theorem 2.1)
+\thmnote{\nobreakspace\the\thm@notefont\sffamily\bfseries---\nobreakspace#3.}}% Optional theorem note
+
+% Non-boxed/non-framed environments
+\newtheoremstyle{ocrenum}% % Theorem style name
+{1ex}% Space above was 5pt
+{1ex}% Space below was 5pt
+{\normalfont}% % Body font
+{}% Indent amount
+{\small\bf\sffamily\color{ocre}}% % Theorem head font
+{\;}% Punctuation after theorem head
+{0.25em}% Space after theorem head
+{\small\sffamily\color{ocre}\thmname{#1}\nobreakspace\thmnumber{\@ifnotempty{#1}{}\@upn{#2}}% Theorem text (e.g. Theorem 2.1)
+\thmnote{\nobreakspace\the\thm@notefont\sffamily\bfseries\color{black}---\nobreakspace#3.}} % Optional theorem note
+\renewcommand{\qedsymbol}{$\blacksquare$}% Optional qed square
+
+% Theorem box
+\renewmdenv[
+suppressfirstparskip=true,
+skipabove=7pt,
+skipbelow=7pt,
+backgroundcolor=blue!5,
+topline=false,
+bottomline=false,
+rightline=false,
+leftline=true,
+linecolor=gray,%% change to ocre, for red-orange side line
+linewidth=4pt, 
+innerleftmargin=5pt,
+innerrightmargin=5pt,
+innertopmargin=-4pt,
+leftmargin=0cm,
+rightmargin=0cm,
+innerbottommargin=5pt]{tBox}
+
+
+
+% Big idea box
+\renewenvironment{bigidea}{\bigskip\noindent\hskip-19pt
+\begin{shadowideablock}{\textwidth}\begin{bigideaT}}{\end{bigideaT}\end{shadowideablock} \medskip}
+
+% Exercise box
+\renewmdenv[suppressfirstparskip=true,
+skipabove=7pt,
+skipbelow=7pt,
+rightline=false,
+leftline=true,
+topline=false,
+bottomline=false,
+backgroundcolor=ocre!10,
+linecolor=ocre,
+innerleftmargin=5pt,
+innerrightmargin=5pt,
+innertopmargin=5pt,
+innerbottommargin=5pt,
+leftmargin=0cm,
+rightmargin=0cm,
+linewidth=4pt]{eBox}
+
+% Example box
+\renewmdenv[suppressfirstparskip=true,
+skipabove=7pt,
+skipbelow=7pt,
+rightline=false,
+leftline=true,
+topline=false,
+bottomline=false,
+backgroundcolor=examplecolor!10,
+linecolor=ocre,
+innerleftmargin=5pt,
+innerrightmargin=5pt,
+innertopmargin=5pt,
+innerbottommargin=5pt,
+leftmargin=0cm,
+rightmargin=0cm,
+linewidth=4pt]{exBox}
+
+
+% Algorithm box
+\renewmdenv[suppressfirstparskip=false,
+skipabove=7pt,
+skipbelow=7pt,
+rightline=false,
+leftline=true,
+topline=false,
+bottomline=false,
+backgroundcolor=algorithmcolor,
+linecolor=algobar,
+innerleftmargin=10pt,%was 5
+innerrightmargin=20pt,%was 5
+innertopmargin=10pt,
+innerbottommargin=10pt,
+leftmargin=0cm,
+rightmargin=0pt,
+linewidth=6pt
+]{algBox}
+
+
+
+
+
+% Corollary box
+\renewmdenv[suppressfirstparskip=true,
+skipabove=7pt,
+skipbelow=7pt,
+rightline=false,
+leftline=true,
+topline=false,
+bottomline=false,
+linecolor=gray,
+backgroundcolor=black!5,
+innerleftmargin=5pt,
+innerrightmargin=5pt,
+innertopmargin=5pt,
+leftmargin=0cm,
+rightmargin=0cm,
+linewidth=4pt,
+innerbottommargin=5pt]{cBox}
+
+%%%
+
+\renewenvironment{exercise}{\begin{exerciseT}}{\hfill{\color{ocre}\tiny\ensuremath{\blacksquare}}\end{exerciseT}}
+
+\renewenvironment{solvedexercise}{\begin{solvedexerciseT}}{\hfill{\color{ocre}\tiny\ensuremath{\blacksquare}}\end{solvedexerciseT}}
+
+\renewenvironment{solution}{\begin{dBox} \medskip \noindent
+{\small\bf\sffamily\color{ocre}
+Solution:}}{\hfill{\color{ocre}\tiny\ensuremath{\blacksquare}}\end{dBox}}
+ 
+\renewenvironment{remark}[1][\unskip]{\goodbreak\vskip6pt\goodbreak\begin{remarkbox}\par\vspace{10pt}\small % Vertical white space above the remark and smaller font size
+\begin{list}{}{
+\leftmargin=35pt % Indentation on the left
+\rightmargin=25pt}\item\ignorespaces % Indentation on the right
+\makebox[-2.5pt]{\begin{tikzpicture}[overlay]
+\node[draw=ocre!60,line width=1pt,circle,fill=ocre!25,font=\sffamily\bfseries,inner sep=2pt,outer sep=0pt] at (-15pt,0pt){\textcolor{ocre}{R}};\end{tikzpicture}
+} % Orange R in a circle
+\vskip-10pt%% added 2/13/2019
+\advance\baselineskip -1pt
+{\small\bf\sffamily\color{ocre}} \begin{remarkT}[#1]
+}{\end{remarkT} \end{list}\vskip6pt \end{remarkbox}} % Tighter line spacing and white space after remark
+
+
+\renewenvironment{recap}{\goodbreak\vskip6pt\goodbreak\begin{recapbox}\par\vspace{10pt}\small % Vertical white space above the remark and smaller font size
+\begin{list}{}{
+\leftmargin=35pt % Indentation on the left
+\rightmargin=25pt}\item\ignorespaces % Indentation on the right
+\makebox[-2.5pt]{\begin{tikzpicture}[overlay]
+\node[draw=ocre!60,line width=1pt,circle,fill=ocre!25,font=\sffamily\bfseries,inner sep=2pt,outer sep=0pt] at (-15pt,0pt){\textcolor{blue}{$\checkmark$}};\end{tikzpicture}
+} % Checkmark in a circle
+\vskip-10pt%% added 2/13/2019
+\advance\baselineskip -1pt
+{\small\bf\sffamily\color{ocre} Lecture Recap}
+}{\end{list}\vskip5pt \end{recapbox}} % Tighter line spacing and white space after remark
+
+
+\renewenvironment{pause}[1][\unskip]{\goodbreak\vskip6pt\goodbreak\begin{pausebox}\par\vspace{10pt}\small % Vertical white space above the remark and smaller font size
+\begin{list}{}{
+\leftmargin=35pt % Indentation on the left
+\rightmargin=25pt}\item\ignorespaces % Indentation on the right
+\makebox[-2.5pt]{\begin{tikzpicture}[overlay]
+\node[draw=blue!60,line width=1pt,circle,fill=blue!25,font=\sffamily\bfseries,inner sep=2pt,outer sep=0pt] at (-15pt,0pt){\textcolor{white}{P}};\end{tikzpicture}
+} % Orange R in a circle
+\vskip-2pt%% added 2/13/2019
+\advance\baselineskip -1pt
+{\small\bf\sffamily\color{ocre} #1}
+}{\end{list}\vskip5pt \end{pausebox}} % Tighter line spacing and white space after remark
+
+\renewenvironment{proofidea}{\medskip \noindent
+{\small\bf\sffamily\color{ocre} 
+Proof Idea:}}{{\color{ocre}%
+\ensuremath{\star}}\medskip\noindent}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Color boxes
+
+%%  All new
+\renewtcolorbox{myremarkbox}{colback=my-light-yellow,grow to right
+by=-4mm,grow to left by=0pt, boxrule=0pt,boxsep=0pt,breakable}
+
+\renewtcolorbox{myrecapbox}{colback=my-pleasant-blue,grow to right
+by=-4mm,grow to left by=0pt, boxrule=0pt,boxsep=0pt,breakable}
+
+\renewtcolorbox{myshadedquotetwo}{colback=my-light-rose,grow to right by=-10mm,grow to left by=-10mm, boxrule=0pt,boxsep=0pt,breakable}
+
+\renewtcolorbox{mypausebox}{colback=my-light-blue,grow to right
+by=-4mm,
+grow to left by=0pt, boxrule=0pt,boxsep=0pt,breakable}
+
+\renewtcolorbox{myalgorithmbox}{colback=algorithmcolor,grow to right
+by=-4mm,grow to left by=0pt, boxrule=0pt,boxsep=0pt,breakable}
+
+\renewtcolorbox{myobjectivesbox}{colback=my-light-plum,grow to right
+by=-4mm,grow to left by=-3pt, boxrule=0pt,boxsep=0pt,breakable}
+
+\renewtcolorbox{mybigideabox}{colback=bigideacolor,grow to right
+by=0pt, grow to the left by 0pt,%-4mm,grow to left by=-3pt, 
+boxrule=0pt,boxsep=0pt,breakable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+
+\titleformat{\section}
+  {\normalfont\large\sffamily\bfseries\color{ocre}}
+  {\thesection}
+  {0.5em}
+  {\ucase{#1}}
+  [\normalfont]
+\titleformat{name=\section,numberless}
+  {\normalfont\large\sffamily\bfseries
+%% new ==>>
+\color{sectioncolor}
+}
+  {}
+  {0em}
+  {\ucase{#1}}
+  [\normalfont]
+
+%%%
+\widowpenalty=10000
+\clubpenalty=10000
+
+
+\hypersetup{unicode=true,
+            colorlinks=true,
+            linkcolor=my-blue-plum,
+            citecolor=OliveGreen,
+            urlcolor=BrickRed,
+            breaklinks=true,
+            bookmarksdepth=3,
+            hypertexnames=false
+            }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Moves all text to the left, adds space to margin:
+
+\advance\hoffset-2pc
+\advance\marginparwidth 4pc
+
+
+\long\def\compiletime{\begin {textblock}{6}(0.5,15.5){\footnotesize{\color {gray} 
+\hskip2pc Compiled on \the\month.\the\day.\the\year\ \currenttime }}\end {textblock}}
+
+\makeatother
+\endinput
+
+%%% AH, Feb 6, because minted doesn't work for me
+\let\code\verbatim
+\let\endcode\endverbatim
+
+\endinput
+
+
+
