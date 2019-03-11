@@ -16,8 +16,8 @@ chapternum: "9"
 >_"Happy families are all alike; every unhappy family is unhappy in its own way"_,  Leo Tolstoy (opening of the book "Anna Karenina").
 
 
-We have seen that a great many models of computation are _Turing equivalent_, including Turing machines,  NAND-TM/NAND-RAM programs,  standard programming languages such as C/Python/Javascript etc.., and other models such as the $\lambda$ calculus and even the game of life.
-The flip side of this is that for all these models,  Rice's theorem ([rice-thm](){.ref}) holds as well, which means that   any semantic property of programs in such a model is _uncomputable_.
+We have seen that  many models of computation are _Turing equivalent_, including Turing machines,  NAND-TM/NAND-RAM programs,  standard programming languages such as C/Python/Javascript, as well as other models such as the $\lambda$ calculus and even the game of life.
+The flip side of this is that for all these models,  Rice's theorem ([rice-thm](){.ref}) holds as well, which means that any semantic property of programs in such a model is _uncomputable_.
 
 The uncomputability of halting and other semantic specification problems for Turing equivalent models motivates __restricted computational models__ that are __(a)__ powerful enough to capture a set of functions useful for certain applications but __(b)__ weak enough that we can still solve semantic specification problems on them.
 In this chapter we discuss several such examples.
@@ -325,9 +325,9 @@ This solves to $O(n)$ where the implicit constant in the Oh notation can (and wi
 Specifically, no matter how long the string $x$ is, we can compute $\Phi_e(x)$ by maintaining only a constant amount of memory and moreover making a _single pass_ over $x$.
 That is, the algorithm will scan the input $x$ once from start to finish, and then determine whether or not $x$ is matched by the expression $e$.
 This is important in the common case of trying to match a short regular expression over a huge file or document that might not even fit in our computer's memory.
-A single-pass constant-memory algorithm is also known as    a [deterministic finite automaton (DFA)](https://goo.gl/SG6DS7).
+A single-pass constant-memory algorithm is also known as    a [deterministic finite automaton (DFA)](https://goo.gl/SG6DS7) (see [secdfa](){.ref}).
 There is a beautiful theory on the properties of DFA's and their connections with regular expressions.
-In particular,  a function is regular _if and only if_ it can be computed by a DFA.
+In particular,  as we'll see in [dfaregequivthm](){.ref}, a function is regular _if and only if_ it can be computed by a DFA.
 We start with showing the "only if" direction:
 
 > ### {.theorem title="DFA for regular expression matching" #DFAforREGthm}
@@ -369,21 +369,16 @@ In particular, at the very end, $v_{e}$ is equal to $1$ if and only if $e$ match
 :::
 
 
-### Deterministic Finite Automata
+### Deterministic Finite Automata {#secdfa}
 
-There is another way to think about single-pass constant-memory algorithms, which is as _Deterministic Finite Automata_.
-If an algorithm $A$ uses $c$ bits of memory, then its memory can be in one of $C=2^c$ states which we can identify with the set $[C] =\{0,\ldots, 2^c - 1 \}$.
-When the algorithm $A$ is in some state $v\in [C]$ and it reads a bit $\sigma = x_i$ of its input, it moves to a new state $w\in [C]$ which we denote by $A(v,\sigma)$.
-Thus we can think of such an algorithm $A$ as a function mapping $[C] \times \{0,1\}$ to $[C]$.
-
-
-If we have such a single-pass constant-memory algorithm $A$ then we can describe $A$'s execution on a string $x\in \{0,1\}^n$ as follows:
-
-* $A$ starts in some initial state $v_0 \in [C]$. (Without loss of generality $v_0=0$.)
-
-* For $i=0,\ldots,n-1$: $A$ updates its state by letting $v_{i+1} = A(v_i,x_i)$.
-
-* The final state $v_n$ determines whether $A$ outputs $0$ or $1$. We let $\mathcal{A} \subseteq [C]$ denote the set of states on which $A$ outputs $1$. This is known as the _accepting states_.
+In Computer Science, a single-pass constant-memory algorithm is also known as a  _Deterministic Finite Automaton_ or _DFA_ (another name for DFA's is a _finite state machine_).
+That is, we can think of such an algorithm as a "machine"  that can be in one of $C$ states, for some constant $C$.
+The machine starts in some initial state, and then reads its input $x\in \{0,1\}^*$ one bit at a time.
+Whenever the machine reads a bit $\sigma \in \{0,1\}$, it transitions into a new state based on $\sigma$ and its prior state.
+The output of the machine is based the final state.
+Every constant-memory one-pass algorithm corresponds to such a machine.
+If an algorithm uses $c$ bits of memory, then the contents of its memory are a string of length $c$.
+Since there are $2^c$ such strings, at any point in the execution, such an algorithm can be in one of $2^c$ states.
 
 
 ::: {.example title="DFA for XOR" #DFAforparity}
@@ -394,14 +389,14 @@ In other words, we transition to the state $v \oplus \sigma$.
 Hence we can think of this algorithm's execution on input $x\in \{0,1\}^n$ as follows:
 
 
-* Initially set $v_0=0$.
+* Let $v_t$ be the sate of the automaton at step $t$. We initialize $v_t=0$. 
 
 * For every $i\in [n]$, let $v_i = v_{i+1} \oplus x_i$.
 
 * Output $v_n$.
 
 You can verify that the output of this algorithm is $x_0 \oplus x_1 \oplus \cdots \oplus x_{n-1} = XOR(x)$.
-We can describe this DFA also graphically, see [xorautomatonfig](){.ref}.
+We can also describe this DFA  graphically, see [xorautomatonfig](){.ref}.
 :::
 
 ![A deterministic finite automaton that computes the $XOR$ function. It has two states $0$ and $1$, and when it observes $\sigma$ it transitions from $v$ to $v \oplus \sigma$.](../figure/xorautomaton.png){#xorautomatonfig .margin }
@@ -409,11 +404,13 @@ We can describe this DFA also graphically, see [xorautomatonfig](){.ref}.
 The formal definition of a DFA is the following:
 
 ::: {.definition title="Deterministic Finite Automaton" #DFAdef}
-A deterministic finite automaton (DFA) with $C$ states over $\{0,1\}$ is a pair $(A,\mathcal{A})$ with $A:[C]\times \{0,1\} \rightarrow [C]$ and $\mathcal{A} \subseteq [C]$.
+A deterministic finite automaton (DFA) with $C$ states over $\{0,1\}$ is a pair $(T,\mathcal{S})$ with $T:[C]\times \{0,1\} \rightarrow [C]$ and $\mathcal{S} \subseteq [C]$.
+The function $T$ is known as the _transition function_ of the DFA and the set $\mathcal{S}$ is known as the set of _accepting states_.
 
-We say that $(A,\mathcal{A})$ _computes_ a function $F:\{0,1\}^* \rightarrow \{0,1\}$ if for every $n\in\N$ and $x\in \{0,1\}^n$,  if we define $v_0=0$ and $v_{i+1} = A(v_i,x_i)$ for every $i\in [n]$, then
+
+We say that $(T,\mathcal{S})$ _computes_ a function $F:\{0,1\}^* \rightarrow \{0,1\}$ if for every $n\in\N$ and $x\in \{0,1\}^n$,  if we define $v_0=0$ and $v_{i+1} = T(v_i,x_i)$ for every $i\in [n]$, then
 $$
-v_n \in \mathcal{A}   \Leftrightarrow F(x)=1
+v_n \in \mathcal{S}   \Leftrightarrow F(x)=1
 $$
 :::
 
@@ -421,55 +418,72 @@ $$
 Our treatment of automata in this book is quite brief. If you find this definition confusing, there are plenty of resources that help you get more comfortable with DFA's.
 In particular, Chapter 1 of Sipser's book [@SipserBook] contains an excellent exposition of this material.
 There are also many websites with online simulators for automata, as well as translators from regular expressions to automata and vice versa.
+
+Sipser defines a DFAs as a five-tuple $(Q,\Sigma,\delta,q_0,F)$ where $Q$ is the set of states, $\Sigma$ is the alphabet, $\delta$ is the transition function, $q_0$ is the initial state, and $F$ is the set of accepting states. In this book the set of states is always of the form $Q=\{0,\ldots,C-1 \}$ and the initial state is always $q_0 = 0$, but this makes no difference to the computational power of these models.
+Also, we restrict our attention to the case that the alphabet $\Sigma$ is equal to $\{0,1\}$.
 :::
 
-A central result in the automata theory is the following:
+The following theorem is the central result of automata theory:
 
 > ### {.theorem title="DFA and regular expression equivalency" #dfaregequivthm}
-Let $F:\{0,1\}^* \rightarrow \{0,1\}$. Then $F$ is regular if and only if there exists a DFA $(A,\mathcal{A})$ that computes $F$.
+Let $F:\{0,1\}^* \rightarrow \{0,1\}$. Then $F$ is regular if and only if there exists a DFA $(T,\mathcal{S})$ that computes $F$.
 
 > ### {.proofidea data-ref="dfaregequivthm"}
 One direction follows from [DFAforREGthm](){.ref}, which shows that for every regular expression $e$, the function $\Phi_e$ can be computed by a DFA (see for example [automatonregfig](){.ref}).
-For the other direction, we show that given a DFA $(A,\mathcal{A})$ for every $v,w \in [C]$ we can find a regular expression that would match $x\in \{0,1\}^*$ if an only if the DFA starting in state $v$, will end up in state $w$ after reading $x$.
+For the other direction, we show that given a DFA $(T,\mathcal{S})$ for every $v,w \in [C]$ we can find a regular expression that would match $x\in \{0,1\}^*$ if an only if the DFA starting in state $v$, will end up in state $w$ after reading $x$.
 
 ![A deterministic finite automaton that computes the function $\Phi_{(01)^*}$.](../figure/automaton.png){#automatonregfig .margin }
 
+![Given a DFA of $C$ states, for every $v,w \in [C]$ and number $t\in \{0,\ldots,C\}$ we define the function $F^t_{v,w}:\{0,1\}^* \rightarrow \{0,1\}$ to output one on input $x\in \{0,1\}^*$ if and only if when the DFA is initialized in the state $v$ and is given the input $x$,  it will teach the state $w$ while going only through the intermediate states $\{0,\ldots,t-1\}$.](../figure/dfatoreg1.png){#dfatoregonefig .margin}
+
+
 ::: {.proof data-ref="dfaregequivthm"}
 Since [DFAforREGthm](){.ref} proves the "only if" direction, we only need to show the "if" direction.
-Let $(A,\mathcal{A})$ be a DFA with $C$ states that computes the function $F$.
+Let $A=(T,\mathcal{S})$ be a DFA with $C$ states that computes the function $F$.
 We need to show that $F$ is regular.
 
-
-
-For every $v,w \in [C]$ we define $F_{v,w}:\{0,1\}^* \rightarrow \{0,1\}$ be the function that maps $x\in \{0,1\}^*$ to $1$ if and only if the DFA $A$, starting at the state $v$, will reach the state $w$ if it reads $x$.
+For every $v,w \in [C]$, we let $F_{v,w}:\{0,1\}^* \rightarrow \{0,1\}$ be the function that maps $x\in \{0,1\}^*$ to $1$ if and only if the DFA $A$, starting at the state $v$, will reach the state $w$ if it reads the input $x$.
 We will prove that $F_{v,w}$ is regular for every $v,w$.
-This will prove the theorem, since by [DFAdef](){.ref}, $F(x)$ is equal to the OR of $F_{0,w}(x)$ for every $w\in \mathcal{A}$.
-Hence if we have a regular expression for every function of the form $F_{0,w}$ then (using the $|$ operation of regular expression) we can obtain a regular expression for $F$ as well.
-
-To give a regular expression for functions of the form $F_{v,w}$, it is helpful to think of the DFA $(A,\mathcal{A})$ as an _edge-labeled graph_.
-That is, consider a directed graph $G$ on the vertices $[C]$, where for every $v\in [C]$ and $\sigma \in \{0,1\}$ we put a directed edge labeled with $\sigma$ from $v$ to $w=A(v,\sigma)$.
-(Since it can be the case that $A(v,\sigma)=v$ or that $A(v,0)=A(v,1)$, the graph can have self-loops and parallel edges.)
+This will prove the theorem, since by [DFAdef](){.ref}, $F(x)$ is equal to the OR of $F_{0,w}(x)$ for every $w\in \mathcal{S}$.
+Hence if we have a regular expression for every function of the form $F_{v,w}$ then (using the $|$ operation) we can obtain a regular expression for $F$ as well.
 
 
-To give regular expressions for the functions $F_{v,w}$, we start by defining the following functions $F_{v,w}^t$: for every $v,w \in [C]$ and $0 \leq t \leq C$, $F_{v,w}^t(x)=1$ if starting from $v$ and observing $x$, the automata reaches $w$ _with all intermediate states being in the set $[t]=\{0,\ldots, t-1\}$!_.
-That is, while $v,w$ themselves might be outside $[t]$, $F_{v,w}^t(x)=1$ only if throughout the execution of the automaton on $x$ (starting from $v$) it never enters any of these states and still ends up at $w$.
-If $t=0$ then $[t]$ is the empty set, and hence $F^0_{v,w}(x)=1$ if and only if the automaton reaches $w$ from $v$ directly, without any intermediate state.
-This only happens if $|x|=1$ and there is an edge from $v$ to $w$ that is labeled with $x$.
+To give regular expressions for the functions $F_{v,w}$, we start by defining the following functions $F_{v,w}^t$: for every $v,w \in [C]$ and $0 \leq t \leq C$, $F_{v,w}^t(x)=1$ if and only if starting from $v$ and observing $x$, the automata reaches $w$ _with all intermediate states being in the set $[t]=\{0,\ldots, t-1\}$_ (see [dfatoregonefig](){.ref}).
+That is, while $v,w$ themselves might be outside $[t]$, $F_{v,w}^t(x)=1$ if and only if throughout the execution of the automaton on the input $x$ (when initiated at $v$) it never enters any of the  states outside $[t]$ and still ends up at $w$.
+If $t=0$ then $[t]$ is the empty set, and hence $F^0_{v,w}(x)=1$ if and only if the automaton reaches $w$ from $v$ directly on $x$, without any intermediate state.
 If $t=C$ then all states are in $[t]$, and hence $F_{v,w}^t= F_{v,w}$.
 
 We will prove the theorem by induction on $t$, showing that $F^t_{v,w}$ is regular for every $v,w$ and $t$.
-For the base case, $F^0_{v,w}$ is regular for every $v,w$ since it can be described one of the expressions $\emptyset$, $0$, $1$ or $0|1$, depending on whether there are zero, one, or two edges from $v$ to $w$, and what are their labels.
+For the __base case__ of $t=0$, $F^0_{v,w}$ is regular for every $v,w$ since it can be described one of the expressions $""$, $\emptyset$, $0$, $1$ or $0|1$.
+Specifically, if $v=w$ then $F^0_{v,w}(x)=1$ if and only if $x$ is the empty string.
+If $v\neq w$ then $F^0_{v,w}(x)=1$ if and only if $x$ consists of a single symbol $\sigma \in \{0,1\}$ and $T(v,\sigma)=w$.
+Therefore in this case $F^0_{v,w}$ corresponds to one of the four regular expressions $0|1$, $0$, $1$ or $\emptyset$, depending on whether $A$ transitions to $w$ from $v$ when it reads either $0$ or $1$, only one of these symbols, or neither.
 
+
+__Inductive step:__ Now that we've seen the base case, let's prove the general case by induction.
 Asssume, via the induction hypothesis, that for every $v',w' \in [C]$, we have a regular expression $R_{v,w}^t$ that computes $F_{v',w'}^t$.
 We need to prove that $F_{v,w}^{t+1}$ is regular for every $v,w$.
-If the automaton arrives from $v$ to $w$ using the intermediate vertices $[t+1]$, then it visits the $t$-th vertex zero or more times.
-If it visits the $t$-th vertex $k$ times, then each of these $k$ times corresponds to a path from $t$ to $t$ that involves only the vertices $[t]$.
+If the automaton arrives from $v$ to $w$ using the intermediate states $[t+1]$, then it visits the $t$-th state zero or more times.
+If the path labeled by $x$ causes the automaton to get from $v$ to $w$ without visiting the $t$-th state at all, then $x$ is matched by the regular expression $R_{v,w}^t$.
+If the path labeled by $x$ causes the automaton to get from $v$ to $w$ while visiting the $t$-th state $k>0$ times then we can think of this path as:
+
+* First travel from $v$ to $t$ using only intermediate states in $[t-1]$.
+
+* Then go from $t$ back to itself $k-1$ using only intermediate states in $[t-1]$
+
+* Then go from $t$ to $w$ using only intermediate states in $[t-1]$.
+
+Therefore in this case the string $x$ is matched by the regular expression
+$R_{v,t}^t(R_{t,t}^t)^* R_{t,w}^t$. (See also [dfatoreginductivefig](){.ref}.)
+
 Therefore we can compute $F_{v,w}^{t+1}$ using the regular expression
 
 $$R_{v,w}^t \;|\; R_{v,t}^t(R_{t,t}^t)^* R_{t,w}^t\;.$$
-
-The first part of the expression corresponds to the strings $x$ that describes paths from $v$ to $w$ that do not involve the state $t$, and the second part describe paths that involve the state $t$ one or more times (and hence involve travelling from $v$ to $t$, then potentially returning to $t$ more times, and then going from $t$ to $w$).
+This completes the proof of the inductive step and hence of the theorem.
 :::
+
+
+![If we have regular expressions $R_{v',w'}^{t}$ corresponding to $F_{v',w'}^{t}$ for every $v',w' \in [C]$, we can obtain a regular expression $R_{v,w}^{t+1}$ corresponding to $F_{v,w}^{t+1}$. The key observation is that a path from $v$ to $w$ using $\{0,\ldots, t \}$ either does not touch $t$ at all, in which case it is captured by the expression $R_{v,w}^{t}$, or it goes from $v$ to $t$, comes back to $t$  zero or more times, and then goes from $t$ to $w$, in which case it is captured by the expression $R_{v,t}^{t}(R_{t,t}^{t})^* R_{t,w}^t$.](../figure/dfatoreginduction.png){#dfatoreginductivefig}
 
 ### Regular functions are closed under complement
 
@@ -495,24 +509,32 @@ By [dfaregequivthm](){.ref}  this implies that $\overline{F}$ is regular as well
 
 The fact that functions computed by regular expressions always halt is one of the reasons why they are so useful.
 When you make a regular expression search, you are guaranteed that that it will terminate with a result.
-This is why operating systems and text editors, for example, often restrict their search interface to regular expressions and don't allow searching by specifying an arbitrary function.
+This is why operating systems and text editors often restrict their search interface to regular expressions and don't allow searching by specifying an arbitrary function.
 But this always-halting property comes at a cost.
 Regular expressions cannot compute every function that is computable by Turing machines.
-In fact there are some very simple (and useful!) functions that they cannot compute, such as the following:
+In fact there are some very simple (and useful!) functions that they cannot compute.
+Here is one example:
 
 > ### {.lemma title="Matching parenthesis" #regexpparn}
 Let $\Sigma = \{\langle ,\rangle \}$ and  $MATCHPAREN:\Sigma^* \rightarrow \{0,1\}$ be the function that given a string of parenthesis, outputs $1$ if and only if every opening parenthesis is matched by a corresponding closed one.
 Then there is no regular expression over $\Sigma$ that computes $MATCHPAREN$.
 
-[regexpparn](){.ref} is a consequence of the following result known as the _pumping lemma_:
+[regexpparn](){.ref} is a consequence of the following result, which is known as the _pumping lemma_:
 
-> ### {.theorem title="Pumping Lemma" #pumping}
-Let $e$ be a regular expression. Then there is some number $n_0$ such that for every $w\in \{0,1\}^*$ with $|w|>n_0$ and $\Phi_{e}(w)=1$, it holds that we can write $w=xyz$ where  $|y| \geq 1$, $|xy| \leq n_0$ and such that $\Phi_{e}(xy^kz)=1$ for every $k\in \N$.
+::: {.theorem title="Pumping Lemma" #pumping}
+Let $e$ be a regular expression over some alphabet $\Sigma$. Then there is some number $n_0$ such that for every $w\in \{0,1\}^*$ with $|w|>n_0$ and $\Phi_{e}(w)=1$,  we can write $w=xyz$ for strings $x,y,z \in \Sigma^*$  satisfying the following conditions:
+
+1. $|y| \geq 1$.
+
+2. $|xy| \leq n_0$. 
+
+3. $\Phi_{e}(xy^kz)=1$ for every $k\in \N$.
+:::
 
 ![To prove the "pumping lemma" we look at a word $w$ that is much larger than the regular expression $e$ that matches it. In such a case, part of $w$ must be matched by some sub-expression of the form $(e')^*$, since this is the only operator that allows matching words longer than the expression. If we look at the "leftmost" such sub-expression and define $y^k$ to be the string that is matched by it, we obtain the partition needed for the pumping lemma.](../figure/pumpinglemma.png){#pumpinglemmafig   }
 
 > ### {.proofidea data-ref="pumping"}
-The idea behind the proof is very simple (see [pumpinglemmafig](){.ref}). Let $n_0$ be twice the number of symbols that are used in the expression $e$, then the only way that there is some $w$ with $|w|>n_0$ and $\Phi_{e}(w)=1$ is that $e$ contains the $*$ (i.e. star) operator and that there is a nonempty substring $y$ of $w$ that was matched by $(e')^*$ for some sub-expression $e'$ of $e$.  We can now repeat $y$ any number of times and still get a matching string.
+The idea behind the proof the following.  Let $n_0$ be twice the number of symbols that are used in the expression $e$, then the only way that there is some $w$ with $|w|>n_0$ and $\Phi_{e}(w)=1$ is that $e$ contains the $*$ (i.e. star) operator and that there is a nonempty substring $y$ of $w$ that was matched by $(e')^*$ for some sub-expression $e'$ of $e$.  We can now repeat $y$ any number of times and still get a matching string. See also [pumpinglemmafig](){.ref}.
 
 ::: { .pause }
 The pumping lemma is a bit cumbersome to state, but one way to remember it is that it simply says the following: _"if a string matching a regular expression is long enough, one of its substrings must be matched using the $*$ operator"_.
@@ -520,23 +542,33 @@ The pumping lemma is a bit cumbersome to state, but one way to remember it is th
 
 
 ::: {.proof data-ref="pumping"}
-To prove the lemma formally, we use induction on the length of the expression. Like all induction proofs, this is going to be somewhat lengthy, but at the end of the day it directly follows the intuition above that _somewhere_ we must have used the star operation. Reading this proof, and in particular understanding how the formal proof below corresponds to the intuitive idea above, is a very good way to get more comfortable with inductive proofs of this form.
+To prove the lemma formally, we use induction on the length of the expression.
+Like all induction proofs, this is going to be somewhat lengthy, but at the end of the day it directly follows the intuition above that _somewhere_ we must have used the star operation. Reading this proof, and in particular understanding how the formal proof below corresponds to the intuitive idea above, is a very good way to get more comfortable with inductive proofs of this form.
 
-Our inductive hypothesis is that for an $n$ length expression,  $n_0=2n$ satisfies the conditions of the lemma. The base case is when the expression is a single symbol or that it is $\emptyset$ or $""$ in which case the condition is satisfied just because there is no matching string of length more than one.
-Otherwise, $e$ is of the form __(a)__ $e' | e''$, __(b)__, $(e')(e'')$, __(c)__ or $(e')^*$ where in all these cases the subexpressions have fewer symbols than $e$ and hence satisfy the induction hypothesis.
+Our inductive hypothesis is that for an $n$ length expression,  $n_0=2n$ satisfies the conditions of the lemma.
+The __base case__ is when the expression is a single symbol $\sigma \in \Sigma$ or that the expression is $\emptyset$ or $""$.
+In all these cases  the conditions of the lemma  are satisfied simply because there $n_0=2$ and there is no string $x$ of length larger than $n_0$ that is matched by the expression.
 
-In case __(a)__, every string $w$ matching $e$ must match either $e'$ or $e''$.
-In the former case, since $e'$ satisfies the induction hypothesis, if $|w|>n_0$ then we can write $w=xyz$ such that  $xy^kz$ matches $e'$ for every $k$, and hence this is matched by $e$ as well.
+We now prove the __inductive step__.   Let $e$ be a regular expression with $n>1$ symbols.
+We set $n_0=2n$ and let $w\in \Sigma^*$ be a string satisfying $|w|>n_0$.
+Since $e$ has more than one symbol, it has  one of the  the forms __(a)__ $e' | e''$, __(b)__, $(e')(e'')$, or __(c)__ $(e')^*$ where in all these cases the subexpressions $e'$ and $e''$ have fewer symbols than $e$ and hence satisfy the induction hypothesis.
 
-In case __(b)__, if $w$ matches $(e')(e'')$. then we can write $w=w'w''$ where $w'$ matches $e'$ and $w''$ matches $e''$.
-Again we split to subcases. If $|w'|>2|e'|$, then by the induction hypothesis we can write $w' = xyz$ of the form above such that $xy^kz$ matches $e'$ for every $k$ and then $xy^kzw''$ matches $(e')(e'')$.
-This completes the proof since $|xy| \leq 2|e'|$ and so in particular $|xy| \leq 2(|e'|+|e''|) \leq 2|e$, and hence $zw''$ can be play the role of $z$ in the proof.
-Otherwise, if $|w'| \leq 2|e'|$ then since $|w|$ is larger than $2|e|$ and $w=w'w''$ and $e=e'e''$, we get that $|w'|+|w''|>2(|e'|+|e''|)$.
-Thus, if $|w'| \leq 2|e'|$  it must be that $|w''|>2|e''|$ and hence by the induction hypothesis we can write $w''=xyz$ such that $xy^kz$ matches $e''$ for every $k$ and $|xy| \leq 2|e''|$. Therefore we get that $w'xy^kz$ matches $(e')(e'')$ for every $k$ and since $|w'| \leq 2|e'|$, $|w'xy| \leq 2(|e'|+|e'|)$ and this completes the proof since   $w'x$ can play the role of $x$ in the statement.
 
-Now in the case __(c)__, if $w$ matches $(e')^*$ then $w= w_0\cdots w_t$ where $w_i$ is a nonempty string that matches $e'$ for every $i$.
+In the case __(a)__, every string $w$ matched by $e$ must be matched by either $e'$ or $e''$.
+If $e'$ matches $w$ then, since $|w|>2|e'|$, by the induction hypothesis there exist $x,y,z$ with $|y| \geq 1$ and $|xy| \leq 2|e'| <n_0$  such that  $e'$ (and therefore also $e=e'|e''$) matches $xy^kz$  for every $k$. The same arguments works in the case that $e''$ matches $w$.
+
+
+In the case __(b)__, if $w$ is matched by $(e')(e'')$ then we can write $w=w'w''$ where $e'$ matches $w'$ and $e''$ matches $w''$.
+We split to subcases.
+If $|w'|>2|e'|$ then by the induction hypothesis there exist $x,y,z'$ with $|y| \leq 1$, $|xy| \leq 2|e'| < n_0$ such that $w'=xyz'$ and $e'$ matches $xy^kz'$ for every $k\in \N$.
+This completes the proof since if we set $z=z'w''$ then we see that $w=w'w''=xyz$ and $e=(e')(e'')$ matches $xy^kz$ for every $k\in \N$.
+Otherwise, if $|w'| \leq 2|e'|$ then since $|w|=|w'|+|w''|>n_0=2(|e'|+|e''|)$, it must be that  $|w''|>2|e''|$.
+Hence by the induction hypothesis there exist $x',y,z$ such that $|y| \geq 1$, $|x'y| \leq 2|e''|$ and $e''$ matches $x'y^kz$ for every $k\in \N$.
+But now if we set $x=w'x'$ we see that $|xy| \leq |w'| + |x'y| \leq 2|e'| + 2|e''| =n_0$ and on the other hand  the expression $e=(e')(e'')$ matches $xy^kz = w'x'y^kz$ for every $k\in \N$.
+
+In case __(c)__, if $w$ is matched $(e')^*$ then $w= w_0\cdots w_t$ where for every $i\in [t]$, $w_i$ is a nonempty string matched by $e'$.
 If $|w_0|>2|e'|$ then we can use the same approach as in the concatenation case above.
-Otherwise, we simply note that if $x$ is the empty string, $y=w_0$, and $z=w_1\cdots w_t$ then $xy^kz$ will match $(e')^*$ for every $k$.
+Otherwise, we simply note that if $x$ is the empty string, $y=w_0$, and $z=w_1\cdots w_t$ then $|xy| \leq n_0$ and $xy^kz$ is matched by $(e')^*$ for every $k\in \N$.
 :::
 
 > ### {.remark title="Recursive definitions and inductive proofs" #recursiveproofs}
@@ -544,30 +576,32 @@ When an object is _recursively defined_ (as in the case of regular expressions) 
 That is, if we want to prove that all objects of this type have property $P$, then it is natural to use an inductive steps that says that if $o',o'',o'''$ etc have property $P$ then so is an object $o$ that is obtained by composing them.
 
 
-Using the pumping lemma, we can easily prove [regexpparn](){.ref}:
+Using the pumping lemma, we can easily prove [regexpparn](){.ref} (i.e., the non-regularity of the "matching parenthesis" function):
 
 ::: {.proof data-ref="regexpparn"}
-Suppose, towards the sake of contradiction, that there is an expression $e$ such that $\Phi_{e}= MATCHPAREN$. Let $n_0$ be the number from [regexpparn](){.ref} and let
+Suppose, towards the sake of contradiction, that there is an expression $e$ such that $\Phi_{e}= MATCHPAREN$.
+Let $n_0$ be the number from [regexpparn](){.ref} and let
 $w =\langle^{n_0}\rangle^{n_0}$ (i.e., $n_0$ left parenthesis followed by $n_0$ right parenthesis). Then we see that if we write $w=xyz$ as in [regexpparn](){.ref}, the condition $|xy| \leq n_0$ implies that $y$ consists solely of left parenthesis. Hence the string $xy^2z$ will contain more left parenthesis than right parenthesis.
 Hence $MATCHPAREN(xy^2z)=0$ but by the pumping lemma $\Phi_{e}(xy^2z)=1$, contradicting our assumption that $\Phi_{e}=MATCHPAREN$.
 :::
 
-The pumping lemma is a very useful tool to show that certain functions are _not_ computable by a regular language. However, it is _not_ an "if and only if" condition for regularity.
-There are non regular functions which still satisfy the conditions of the pumping lemma.
+The pumping lemma is a very useful tool to show that certain functions are _not_ computable by a regular expression.
+However, it is _not_ an "if and only if" condition for regularity: there are non regular functions that still satisfy the conditions of the pumping lemma.
 To understand the pumping lemma, it is important to follow the order of quantifiers in [pumping](){.ref}.
-In particular, the number $n_0$ in the statement of  [pumping](){.ref} depends on the regular expression (in particular we can choose $n_0$ to be twice the number of symbols in the expression).
-So, if we want to use the pumping lemma to rule out the existence of a regular expression $e$ computing some function $F$, we need to be able to choose an appropriate $w$ that can be arbitrarily large and satisfies $F(w)=1$.
+In particular, the number $n_0$ in the statement of  [pumping](){.ref} depends on the regular expression (in the proof we chose $n_0$ to be twice the number of symbols in the expression).
+So, if we want to use the pumping lemma to rule out the existence of a regular expression $e$ computing some function $F$, we need to be able to choose an appropriate input $w\in \{0,1\}^*$ that can be arbitrarily large and satisfies $F(w)=1$.
 This makes sense if you think about the intuition behind the pumping lemma: we need $w$ to be large enough as to force the use of the star operator.
 
 
-![A cartoon of a proof using the pumping lemma that a function $F$ is not regular. The pumping lemma states that if $F$ is regular then _there exists_ a number $n_0$ such that _for every_ large enough $w$ with $F(w)=1$, _there exists_ a partition of $w$ to $w=xyz$ satisfying certain conditions such that _for every_ $k\in \N$, $F(xy^kz)=1$. You can imagine a pumping-lemma based proof as a game between you and the adversary. Every _there exists_ quantifier corresponds to an object you are free to choose on your own (and base your choice on previously chosen objects). Every _for every_ quantifier corresponds to an object the adversary can choose arbitrarily (and again based on prior choices) as long as it satisfies the conditions. A valid proof corresponds to a strategy by which no matter what the adversary does, you can win the game by obtaining a contradiction which would be a choice of $k$ that would result in $F(xy^ky)=0$, hence violating the conclusion of the pumping lemma.](../figure/pumpinglemmaproof.png){#pumpingprooffig   }
+![A cartoon of a proof using the pumping lemma that a function $F$ is not regular. The pumping lemma states that if $F$ is regular then _there exists_ a number $n_0$ such that _for every_ large enough $w$ with $F(w)=1$, _there exists_ a partition of $w$ to $w=xyz$ satisfying certain conditions such that _for every_ $k\in \N$, $F(xy^kz)=1$. You can imagine a pumping-lemma based proof as a game between you and the adversary. Every _there exists_ quantifier corresponds to an object you are free to choose on your own (and base your choice on previously chosen objects). Every _for every_ quantifier corresponds to an object the adversary can choose arbitrarily (and again based on prior choices) as long as it satisfies the conditions. A valid proof corresponds to a strategy by which no matter what the adversary does, you can win the game by obtaining a contradiction which would be a choice of $k$ that would result in $F(xy^ky)=0$, hence violating the conclusion of the pumping lemma.](../figure/pumpinglemmaproof.png){#pumpingprooffig  .full  }
 
 ::: {.solvedexercise title="Palindromes is not regular" #palindromenotreg}
 Prove that the following function over the alphabet $\{0,1,; \}$ is not regular: $PAL(w)=1$  if and only if $w = u;u^R$ where $u \in \{0,1\}^*$ and $u^R$ denotes $u$ "reversed": the string $u_{|u|-1}\cdots u_0$.^[The _Palindrome_ function is most often defined without an explicit separator character $;$, but the version with such a separator is a bit cleaner and so we use it here. This does not make much difference, as one can easily encode the separator as a special binary string instead.]
 :::
 
 ::: {.solution data-ref="stringreversed"}
-We use the pumping lemma. Suppose towards the sake of contradiction that there is a regular expression $e$ computing $PAL$, and let $n_0$ be the number obtained by the pumping lemma ([pumping](){.ref}).
+We use the pumping lemma.
+Suppose towards the sake of contradiction that there is a regular expression $e$ computing $PAL$, and let $n_0$ be the number obtained by the pumping lemma ([pumping](){.ref}).
 Consider the string $w = 0^{n_0};0^{n_0}$.
 Since the reverse of the all zero string is the all zero string, $PAL(w)=1$.
 Now, by the pumping lemma, if $PAL$ is computed by $e$, then we can write $w=xyz$ such that $|xy| \leq n_0$, $|y|\geq 1$ and $PAL(xy^kz)=1$ for every $k\in \N$. In particular, it must hold that $PAL(xz)=1$, but this is a contradiction, since $xz=0^{n_0-|y|};0^{n_0}$ and so its two parts are not of the same length and in particular are not the reverse of one another.
@@ -584,11 +618,12 @@ Regular expressions are widely used beyond just searching.
 For example, regular expressions are often used to define _tokens_ (such as what is a valid variable identifier, or keyword) in programming languages.
 But they also have other uses.
 One nice example is the recent work on the [NetKAT network programming language](https://goo.gl/oeJNuw).
-In recent years, the world of networking moved from fixed topologies to  "software defined networks", that are run by programmable switches that can implement policies such as "if packet is secured by SSL then forward it to A, otherwise forward it to B".
-By its nature, one would want to use a formalism for such policies that is guaranteed to always halt (and quickly!) and that where it is possible to answer semantic questions such as "does C see the packets moved from A to B" etc.
+In recent years, the world of networking moved from fixed topologies to "software defined networks".
+These are run by programmable switches that can implement policies such as "if packet is secured by SSL then forward it to A, otherwise forward it to B".
+By its nature, one would want to use a formalism for such policies that is guaranteed to always halt (and quickly!) and such that it is possible to answer semantic questions such as "does C see the packets moved from A to B" etc.
 The NetKAT language uses a variant of regular expressions to achieve precisely that.
 
-Such applications use the fact that because regular expressions are so restricted, we can not just solve the halting problem for them, but also answer other _semantic questions_ about regular languages.
+Such applications use the fact that because regular expressions are so restricted, we can not only solve the halting problem for them, but also answer other _semantic questions_.
 Such semantic questions would not be solvable for Turing-complete models due to Rice's Theorem ([rice-thm](){.ref}).
 For example, we can tell whether two regular expressions are _equivalent_, as well as whether a regular expression computes the constant zero function.
 
@@ -596,13 +631,13 @@ For example, we can tell whether two regular expressions are _equivalent_, as we
 There is an algorithm that given a regular expression $e$, outputs $1$ if and only if $\Phi_{e}$ is the constant zero function.
 
 > ### {.proofidea data-ref="regemptynessthm"}
-The idea is that we can directly observe this from the structure of the expression. The only way it will output the constant zero function is if it has the form $\emptyset$ or is obtained by concatenating $\emptyset$ with other expressions.
+The idea is that we can directly observe this from the structure of the expression. The only way a regular expression $e$ conmputes  the constant zero function is if $e$ has the form $\emptyset$ or is obtained by concatenating $\emptyset$ with other expressions.
 
 ::: {.proof data-ref="regemptynessthm"}
 Define a regular expression to be "empty" if it computes the constant zero function.
-The algorithm simply follows the following rules:
+Given a regular expression $e$, we can determine if $e$ is empty using  the following rules:
 
-* If an expression has the form $\sigma$ or $""$ then it is not empty.
+* If $e$ has the form $\sigma$ or $""$ then it is not empty.
 
 * If $e$ is not empty then $e|e'$ is not empty for every $e'$.
 
@@ -612,10 +647,7 @@ The algorithm simply follows the following rules:
 
 * $\emptyset$ is empty.
 
-
-
-Using these rules it is straightforward to come up with a recursive algorithm to determine emptiness. We leave
-verifying the details to the reader.
+Using these rules it is straightforward to come up with a recursive algorithm to determine emptiness. 
 :::
 
 > ### {.theorem title="Equivalence of regular expressions is computable" #regequivalencethm}
@@ -628,12 +660,11 @@ The idea is to show that given a pair of regular expression $e$ and $e'$ we can 
 
 
 ::: {.proof data-ref="regequivalencethm"}
-[regemptynessthm](){.ref} above is actually a special case of  [regequivalencethm](){.ref}, since emptiness is the same as checking equivalence with the expression $\emptyset$.
-However we will prove  [regequivalenthm](){.ref} from [regemptynessthm](){.ref}.
-The idea is that given $e$ and $e'$, we will compute an expression $e''$ such that $\Phi_{e''}(x) =1$ if and only if $\Phi_e(x) \neq \Phi_{e'}(x)$.
+We will prove  [regequivalenthm](){.ref} from [regemptynessthm](){.ref}.^[The two theorems are in fact equivalent: it is easy to prove [regemptynessthm](){.ref} from [regequivalencethm](){.ref}, since checking for emptiness is the same as checking equivalence with the expression $\emptyset$.]
+Given two regular expressions $e$ and $e'$, we will compute an expression $e''$ such that $\Phi_{e''}(x) =1$ if and only if $\Phi_e(x) \neq \Phi_{e'}(x)$.
 One can see that $e$ is equivalent to $e'$ if and only if $e''$ is empty.
 
-To show that we can construct such a regular expression, not that for every bits $a,b \in \{0,1\}$, $a \neq b$ if and only if
+We start with the observation that for every bits $a,b \in \{0,1\}$, $a \neq b$ if and only if
 $$
 (a \wedge \overline{b}) \; \vee \;  (\overline{a} \wedge b) \;.
 $$
@@ -645,7 +676,7 @@ $$
 \label{eqemptyequivreg}
 $$
 
-To construct this expression, we need to show how given any pair of expressions $e$ and $e'$, we can construct expressions $e\wedge e'$ and $\overline{e}$ that compute the functions $\Phi_{e} \wedge \Phi_{e'}$ and $\overline{\Phi_{e}}$ respectively. (Computing the expression for $e \vee e'$ is straightforward using the $|$ operation of regular expressions.)
+To construct the expression $e''$, we will show how given any pair of expressions $e$ and $e'$, we can construct expressions $e\wedge e'$ and $\overline{e}$ that compute the functions $\Phi_{e} \wedge \Phi_{e'}$ and $\overline{\Phi_{e}}$ respectively. (Computing the expression for $e \vee e'$ is straightforward using the $|$ operation of regular expressions.)
 
 Specifically, by [regcomplementlem](){.ref}, regular functions are closed under negation, which means that for every regular expression $e$, there is an expression $\overline{e}$ such that $\Phi_{\overline{e}}(x) = 1 - \Phi_{e}(x)$ for every $x\in \{0,1\}^*$.
 Now, for every two expression $e$ and $e'$, the expression
@@ -661,7 +692,7 @@ Given these two transformations, we see that for every regular expressions $e$ a
 ## Context free grammars
 
 If you have ever written a program, you've experienced a _syntax error_.
-You might also have had the experience of your program entering into an _infinite loop_.
+You also probably had the experience of your program entering into an _infinite loop_.
 What is less likely is that the compiler or interpreter entered an infinite loop when trying to figure out if your program has a syntax error.
 
 
