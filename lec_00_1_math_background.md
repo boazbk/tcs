@@ -179,8 +179,10 @@ Deciding whether to call a particular statement a "Theorem", a "Lemma" or a "Cla
 
 ### Proofs
 
-These are the justifications that demonstrates that our theorems. We discuss proofs more in [proofsbackgroundsec](){.ref} below, but the mathematical standard of proof is very high. Namely we need an "airtight" argument that demonstrates that the statement is true beyond a shadow of a doubt.
-For example, just checking that [perfectsquarelam](){.ref} is true for the $a=25$ and $b=4$ (in which case $a\cdot b  =100$ is indeed a perfect square) doesn't cut it. In contrast, here is a valid proof for [perfectsquarelam](){.ref}:
+Mathematical _proofs_ are the arguments we use to demonstrate that our theorems, lemmas, and claims area indeed true.
+We discuss proofs in [proofsbackgroundsec](){.ref} below, but the main point is that the mathematical standard of proof is very high.
+Unlike in some other realms, in mathematics a proof is an  "airtight" argument that demonstrates that the statement is true beyond a shadow of a doubt.
+For example, just checking that [perfectsquarelem](){.ref} is true for the $a=25$ and $b=4$ (in which case $a\cdot b  =100$ is indeed a perfect square) doesn't cut it. In contrast, here is a valid proof for [perfectsquarelem](){.ref}:
 
 
 ::: {.proof data-ref="perfectsquarelem"}
