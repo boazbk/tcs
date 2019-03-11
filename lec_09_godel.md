@@ -8,8 +8,8 @@ chapternum: "10"
 # Is every theorem provable? { #godelchap }
 
 > ### { .objectives }
-* See more examples of uncomputable functions that are not as tied to computation.
-* See Gödel's incompleteness theorem - a result that shook the world of mathematics in the early 20th century.
+* More examples of uncomputable functions that are not as tied to computation.
+* Gödel's incompleteness theorem - a result that shook the world of mathematics in the early 20th century.
 
 
 
