@@ -17,7 +17,7 @@ chapternum: "7"
 
 >_"Because we shall later compute with expressions for functions, we need a distinction between functions and forms and a notation for expressing this distinction. This distinction and a notation for describing it, from which we deviate trivially, is given by Church."_,  John McCarthy, 1960 (in paper describing the LISP programming language)
 
-So far we have defined the notion of computing a  function based on Turing machines, which  don't really correspond  to the way computation is done in practice.
+So far we have defined the notion of computing a function based on Turing machines, which don't really correspond to the way computation is done in practice.
 In this chapter we justify this choice by showing that the definition of computable functions will remain the same under a wide variety of computational models.
 In fact, a widely believed claim known as the _Church-Turing Thesis_ holds that _every_ "reasonable" definition of computable function is equivalent to ours.
 We will discuss the Church-Turing Thesis and the potential definitions of "reasonable" in [churchturingdiscussionsec](){.ref}.
@@ -37,24 +37,24 @@ In this model the memory is an array of unbounded size where each cell can store
 For example, many modern computing architectures use  $64$ bit words, in which every memory location holds a string in $\{0,1\}^{64}$ which can also be thought of as a number between $0$ and $2^{64}-1= 9,223,372,036,854,775,807$.
 The parameter $w$ is known as the _word size_ and (when doing theory) is chosen as some function of the input length $n$.
 A typical choice is that $w = c\log n$ for some constant $c$.
-In addition to the memory array, a RAM machine also contains a  constant number of _registers_ $r_0,\ldots,r_{k-1}$, each of which can  also contain a single word.
+In addition to the memory array, a RAM machine also contains a constant number of _registers_ $r_0,\ldots,r_{k-1}$, each of which can also contain a single word.
 The operations in this model include loops, arithmetic on registers, and most importantly the ability to read and write to memory at the location specified by one of the register.
-Hence RAM machines  can directly access each location of memory without having to move the "head" to that position as one needs to do in Turing machines.
+Hence RAM machines can directly access each location of memory without having to move the "head" to that position as one needs to do in Turing machines.
 
 
 We will not give a formal definition of RAM Machines, though the bibliographical notes section ([othermodelsbibnotes](){.ref}) contains sources for such definitions.
 Rather, we will use an extension of the NAND-TM programming language to capture RAM algorithms.
 Specifically, we define the _NAND-RAM programming language_ to be the following extension of NAND-TM:
 
-* The variables are allowed to be (non negative) _integer valued_ rather than only Boolean. That is, a scalar variable `foo` holds an non negative integer in $\N$ (rather than only a bit in $\{0,1\}$), and an array variable `Bar` holds an array of integers. As in the case of  RAM machines, we will not allow integers of unbounded size. Concretely, each variable holds a number between $0$ and $T$, where $T$ is the number of steps that have been executed by the program so far.^[You can ignore this restriction for now:  if we want  to hold larger numbers, we can simply execute dummy instructions. This restriction will be useful in later chapters, where we will be interested in a more realistic accounting of running time. Also, while RAM machines have a single memory array, we allow several arrays in NAND-RAM. This does not make any difference. For example, one can simulate five arrays `Array0[]`, $\ldots$, `Array4[]` using a single array `Array[]` by replacing calls to `Array`$i$[`$j$`] with `Array[`$5j+i$`]`. ]
+* The variables are allowed to be (non negative) _integer valued_ rather than only Boolean. That is, a scalar variable `foo` holds an non negative integer in $\N$ (rather than only a bit in $\{0,1\}$), and an array variable `Bar` holds an array of integers. As in the case of RAM machines, we will not allow integers of unbounded size. Concretely, each variable holds a number between $0$ and $T$, where $T$ is the number of steps that have been executed by the program so far.^[You can ignore this restriction for now:  if we want to hold larger numbers, we can simply execute dummy instructions. This restriction will be useful in later chapters, where we will be interested in a more realistic accounting of running time. Also, while RAM machines have a single memory array, we allow several arrays in NAND-RAM. This does not make any difference. For example, one can simulate five arrays `Array0[]`, $\ldots$, `Array4[]` using a single array `Array[]` by replacing calls to `Array`$i$[`$j$`] with `Array[`$5j+i$`]`. ]
 
 * We allow _indexed access_ to arrays. If `foo` is a scalar and `Bar` is an array, then `Bar[foo]` refers to the location of `Bar` indexed by the value of `foo`. (Note that this means we don't need to have a special index variable `i` any more.)
 
 * As is often the case in programming languages, we will assume that for Boolean operations such as `NAND`, a zero valued integer is considered as _false_, and a nonzero valued integer is considered as _true_.
 
-To make NAND-RAM more realistic and similar to modern computer architecture, we make NAND-RAM "batteries included" and so  the following features are built-in into NAND-TM (as opposed to using "syntactic sugar"):^[The difference between having "built in" vs "syntactic sugar" features is immaterial at this point in the book, but we do so with an eye toward the later parts of this book,  when we start counting the number of operations of our algorithms. Even then, the effect of including these features vs  implementing them via syntactic sugar will not be very dramatic.]
+To make NAND-RAM more realistic and similar to modern computer architecture, we make NAND-RAM "batteries included" and so the following features are built-in into NAND-TM (as opposed to using "syntactic sugar"):^[The difference between having "built in" vs "syntactic sugar" features is immaterial at this point in the book, but we do so with an eye toward the later parts of this book,  when we start counting the number of operations of our algorithms. Even then, the effect of including these features vs implementing them via syntactic sugar will not be very dramatic.]
 
-* In addition to `NAND`, NAND-RAM also includes all the  basic arithmetic operations of addition, subtraction, multiplication, (integer) division, as well as comparisons (equal, greater than, less than, etc..)
+* In addition to `NAND`, NAND-RAM also includes all the basic arithmetic operations of addition, subtraction, multiplication, (integer) division, as well as comparisons (equal, greater than, less than, etc..)
 
 * We will also include as part of the language basic control flow structures such as `if` and `while`.
 
@@ -66,7 +66,7 @@ For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a N
 
 
 ::: {.proofidea data-ref="RAMTMequivalencethm"}
-Clearly NAND-RAM is only more  powerful  than NAND-TM, and so if a function $F$ is computable by a NAND-TM program then it can be computed by a NAND-RAM program.
+Clearly NAND-RAM is only more powerful than NAND-TM, and so if a function $F$ is computable by a NAND-TM program then it can be computed by a NAND-RAM program.
 The challenging direction is of course to transform a NAND-RAM program $P$ to an equivalent NAND-TM program $Q$.
 To describe the proof in full we will need to cover the full formal specification of the NAND-RAM language, and show how we can implement every one of its features as syntactic sugar on top of NAND-TM.
 
@@ -76,11 +76,11 @@ The transformation has two steps:
 1. _Indexed access of bit arrays:_ NAND-RAM generalizes NAND-TM in two main ways: __(a)__ adding _indexed access_ to the arrays (ie.., `Foo[bar]` syntax) and __(b)__ moving from _Boolean valued_ variables to _integer valued_ ones. We will start by showing how to handle __(a)__.
 Namely, we will show how we can implement in NAND-TM the operation `Setindex(Bar)` such that if `Bar` is an array that encodes some integer $j$, then after executing `Setindex(Bar)` the value of `i` will equal to $j$. This will allow us to simulate syntax of the form `Foo[Bar]` by `Setindex(Bar)` followed by `Foo[i]`.
 
-2. _Two dimensional bit arrays:_ We will then show how we can use "syntactic sugar" to  augment NAND-TM  with _two dimensional arrays_. That is, have _two indices_ `i` and `j` and _two dimensional arrays_, such that we can use the syntax `Foo[i][j]` to access the (`i`,`j`)-th location of `Foo`
+2. _Two dimensional bit arrays:_ We will then show how we can use "syntactic sugar" to augment NAND-TM with _two dimensional arrays_. That is, have _two indices_ `i` and `j` and _two dimensional arrays_, such that we can use the syntax `Foo[i][j]` to access the (`i`,`j`)-th location of `Foo`
 
 3. _Arrays of integers:_ Finally we will encode a one dimensional array `Arr` of _integers_ by a two dimensional `Arrbin` of _bits_. The idea is simple: if $a_{i,0},\ldots,a_{i,\ell}$ is a binary  (prefix-free) representation of `Arr[`$i$`]`, then `Arrbin[`$i$`][`$j$`]` will be equal to $a_{i,j}$.
 
-Once we have arrays of integers, we can use our usual syntactic sugar for functions, `GOTO` etc. to implement the arithmetic  and control flow operations of NAND-RAM.
+Once we have arrays of integers, we can use our usual syntactic sugar for functions, `GOTO` etc. to implement the arithmetic and control flow operations of NAND-RAM.
 :::
 
 ## The gory details (optional)
@@ -151,8 +151,8 @@ To implement two dimensional arrays, we want to embed them in a one dimensional 
 The idea is that we come up with a _one to one_ function $embed:\N \times \N \rightarrow \N$, and so embed the location $(i,j)$ of the two dimensional array `Two` in the location $embed(i,j)$ of the array `One`.
 
 Since the set $\N \times \N$ seems "much bigger" than the set $\N$, a priori it might not be clear that such a one to one mapping exists. However, once you think about it more, it is not that hard to construct.
-For example, you could ask a child to use scissors and glue to transform a 10" by 10" piece of paper into a  1" by 100" strip.
-If you think about it, this is essentially  a one to one map from $[10]\times [10]$ to $[100]$. We can generalize this to obtain a one to one map from $[n]\times [n]$ to $[n^2]$ and more generally a one to one map from $\N \times \N$ to $\N$.
+For example, you could ask a child to use scissors and glue to transform a 10" by 10" piece of paper into a 1" by 100" strip.
+If you think about it, this is essentially a one to one map from $[10]\times [10]$ to $[100]$. We can generalize this to obtain a one to one map from $[n]\times [n]$ to $[n^2]$ and more generally a one to one map from $\N \times \N$ to $\N$.
 Specifically, the following map $embed$ would do (see [pairingfuncfig](){.ref}):
 
 $$embed(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+x\;\;.$$
@@ -184,20 +184,20 @@ While this is cumbersome, it is not difficult, and the end result is to show tha
 
 
 
-Any of the  standard programming language such as `C`, `Java`, `Python`, `Pascal`, `Fortran` have very similar operations to NAND-RAM.
+Any of the standard programming language such as `C`, `Java`, `Python`, `Pascal`, `Fortran` have very similar operations to NAND-RAM.
 (Indeed, ultimately they can all be executed by machines which have a fixed number of registers and a large memory array.)
-Hence using [RAMTMequivalencethm](){.ref}, we can simulate any program in such a programming language by a NAND-TM  program.
+Hence using [RAMTMequivalencethm](){.ref}, we can simulate any program in such a programming language by a NAND-TM program.
 In the other direction, it is a fairly easy programming exercise to write an interpreter for NAND-TM in any of the above programming languages.
 Hence we can also simulate NAND-TM programs (and so by [TM-equiv-thm](){.ref}, Turing machines) using these programming languages.
 This property of being equivalent in power to Turing Machines / NAND-TM is called _Turing Equivalent_ (or sometimes _Turing Complete_).
-Thus all programming languages we are familiar with are Turing equivalent.^[Some programming language have  fixed (even if extremely large) bounds on the amount of memory they can access, which formally prevent them from being applicable to computing infinite functions and hence simulating Turing machines. We ignore such issues in this discussion and assume access to some storage device without a fixed upper bound on its capacity.]
+Thus all programming languages we are familiar with are Turing equivalent.^[Some programming language have fixed (even if extremely large) bounds on the amount of memory they can access, which formally prevent them from being applicable to computing infinite functions and hence simulating Turing machines. We ignore such issues in this discussion and assume access to some storage device without a fixed upper bound on its capacity.]
 
 ::: {.remark title="Recursion in NAND-RAM (advanced)" #recursion}
 One concept that appears in many programming languages but we did not include in NAND-RAM programs is _recursion_.
 However, recursion (and function calls in general) can be implemented in NAND-RAM using the  [stack data structure](https://goo.gl/JweMj).
 A _stack_ is a data structure containing a sequence of elements, where we can "push"  elements into it and "pop" them from it in "first in last out" order.
 
-We can implement   a stack  using an array of integers `Stack` and a scalar variable `stackpointer` that will be the number  of items in the stack.
+We can implement   a stack using an array of integers `Stack` and a scalar variable `stackpointer` that will be the number of items in the stack.
 We implement `push(foo)` by
 
 ```python
@@ -217,8 +217,8 @@ The code of $F$ will "pop" the arguments from the stack, perform the computation
 Because of the "first in last out" nature of a stack, we do not return control to the calling procedure until all the recursive calls are done.
 
 The fact that we can implement recursion using a non-recursive language is not surprising.
-Indeed, _machine languages_ typically do not have recursion (or function calls in general), and hence a compiler implements function calls  using a stack and `GOTO`.
-You can find  online  tutorials on how recursion is implemented via stack in your favorite programming language, whether it's [Python](http://interactivepython.org/runestone/static/pythonds/Recursion/StackFramesImplementingRecursion.html) , [JavaScript](https://javascript.info/recursion), or [Lisp/Scheme](https://mitpress.mit.edu/sicp/full-text/sicp/book/node110.html).
+Indeed, _machine languages_ typically do not have recursion (or function calls in general), and hence a compiler implements function calls using a stack and `GOTO`.
+You can find online tutorials on how recursion is implemented via stack in your favorite programming language, whether it's [Python](http://interactivepython.org/runestone/static/pythonds/Recursion/StackFramesImplementingRecursion.html) , [JavaScript](https://javascript.info/recursion), or [Lisp/Scheme](https://mitpress.mit.edu/sicp/full-text/sicp/book/node110.html).
 :::
 
 
@@ -228,17 +228,17 @@ The equivalence between Turing Machines and RAM machines allows us to choose the
 
 * When we want to _prove a theorem_ about all programs/algorithms, we can use Turing machines (or NAND-TM) since they are simpler and easier to analyze. In particular, if we want to show that a certain function _can not_ be computed, then we will use Turing machines.
 
-* When we want to show that a function _can be computed_ we can use RAM machines  or  NAND-RAM, because they are easier to  program in and correspond more closely to high level programming languages we are used to. In fact,  we will often describe NAND-RAM programs in an informal manner, trusting that the reader can fill in the details and translate the high level description to the precise program. (This is just like the way people typically use informal or "pseudocode" descriptions of algorithms, trusting that their  audience will know to translate these descriptions to code if needed.)
+* When we want to show that a function _can be computed_ we can use RAM machines or NAND-RAM, because they are easier to program in and correspond more closely to high level programming languages we are used to. In fact,  we will often describe NAND-RAM programs in an informal manner, trusting that the reader can fill in the details and translate the high level description to the precise program. (This is just like the way people typically use informal or "pseudocode" descriptions of algorithms, trusting that their audience will know to translate these descriptions to code if needed.)
 
-Our usage of Turing Machines / NAND-TM and RAM Machines / NAND-RAM is very similar to the way people use in practice  high and low level programming languages.
-When one wants to produce a device that executes programs, it is convenient  to do so for very simple and "low level" programming language. When one wants to describe an algorithm, it is convenient to use as high level a formalism as possible.
+Our usage of Turing Machines / NAND-TM and RAM Machines / NAND-RAM is very similar to the way people use in practice high and low level programming languages.
+When one wants to produce a device that executes programs, it is convenient to do so for very simple and "low level" programming language. When one wants to describe an algorithm, it is convenient to use as high level a formalism as possible.
 
 ![By having the two equivalent languages NAND-TM and NAND-RAM, we can "have our cake and eat it too", using NAND-TM when we want to prove that programs _can't_ do something, and using NAND-RAM or other high level languages when we want to prove that programs _can_ do something.](../figure/have_your_cake_and_eat_it_too-img-intro.png){#cakefig .margin  }
 
 ::: { .bigidea #eatandhavecake }
 Using equivalence results such as those between Turing and RAM machines, we can "have our cake and eat it too".
 
-We can use a  simpler model such as Turing machines when we want to prove something _can't_ be done, and use a   feature-rich model such as RAM machines when we want to prove  something _can_ be done.
+We can use a simpler model such as Turing machines when we want to prove something _can't_ be done, and use a   feature-rich model such as RAM machines when we want to prove something _can_ be done.
 :::
 
 
@@ -251,7 +251,7 @@ We can use a  simpler model such as Turing machines when we want to prove someth
 
 At some point in any theory of computation course, the instructor and students need to have _the talk_.
 That is, we need to discuss the _level of abstraction_ in describing algorithms.
-In algorithms courses, one typically describes  algorithms in English, assuming readers can "fill in the details" and would be able to convert such an algorithm into an implementation if needed.
+In algorithms courses, one typically describes algorithms in English, assuming readers can "fill in the details" and would be able to convert such an algorithm into an implementation if needed.
 For example, we might describe the [breadth first search](https://goo.gl/ug7Jaj) algorithm to find if two vertices $u,v$ are connected as follows:
 
 
@@ -260,7 +260,7 @@ __Input:__ Graph $G$, vertices $u,v$
 
 __Operation:__
 
-1. Put $u$ in  queue $Q$.
+1. Put $u$ in queue $Q$.
 
 2. While $Q$ is not empty:
    * Remove the top vertex $w$ from $Q$
@@ -273,7 +273,7 @@ __Operation:__
 We call such a description a _high level description_.
 
 
-If we wanted to give more details on how to implement  breadth first search in a programming language such as Python or C (or NAND-RAM /  NAND-TM for that matter), we would  describe how we implement the queue data structure using an array, and similarly how we would use arrays to implement the marking.
+If we wanted to give more details on how to implement breadth first search in a programming language such as Python or C (or NAND-RAM /  NAND-TM for that matter), we would describe how we implement the queue data structure using an array, and similarly how we would use arrays to implement the marking.
 We call such an "intermediate level" description an _implementation level_ or _pseudocode_ description.
 Finally, if we want to describe the implementation precisely, we would give the full code of the program (or another fully precise representation, such as in the form of a list of tuples).
 We call this a _formal_ or _low level_ description.
@@ -281,8 +281,8 @@ We call this a _formal_ or _low level_ description.
 ![We can describe an algorithm at different levels of granularity/detail and precision. At the highest level we just write the idea in words, omitting all details on representation and implementation. In the intermediate level (also known as _implementation_ or _pseudocode_) we give enough details of the implementation that would allow someone to derive it, though we still fall short of providing the full code. The lowest level is where the actual code or mathematical description is fully spelled out. These different levels of detail all have their uses, and moving between them is one of the most important skills for a computer scientist. ](../figure/levelsofdescription.png){#levelsdescfig   }
 
 
-While we started off by describing NAND-CIRC, NAND-TM, and NAND-RAM programs at the full formal level, as  we progress in this book we will move to implementation and high level description.
-After all, our goal is  not to use these models for actual computation, but rather to analyze the general phenomenon of  computation.
+While we started off by describing NAND-CIRC, NAND-TM, and NAND-RAM programs at the full formal level, as we progress in this book we will move to implementation and high level description.
+After all, our goal is not to use these models for actual computation, but rather to analyze the general phenomenon of computation.
 That said, if you don't understand how the high level description translates to an actual implementation, going "down to the metal" is often an excellent exercise.
 (One of the most important skills for a computer scientist is the ability to move up and down hierarchies of abstractions.)
 
@@ -294,15 +294,15 @@ For example, we might describe an encoding of $n$ vertex graphs as length $n^2$ 
 We can also use an _intermediate_ or _implementation level_ description, by simply saying that we represent a graph using the adjacency matrix representation.
 
 
-Finally, because we are translating between the various representations of graphs (and objects in general) can be done via a NAND-RAM (and hence a NAND-TM) program, when talking in a high level we  also suppress discussion of  representation altogether.
-For example, the fact that graph connectivity  is a computable function is true regardless of whether we represent graphs as adjacency lists, adjacency matrices, list of edge-pairs, and so on and so forth.
+Finally, because we are translating between the various representations of graphs (and objects in general) can be done via a NAND-RAM (and hence a NAND-TM) program, when talking in a high level we also suppress discussion of representation altogether.
+For example, the fact that graph connectivity is a computable function is true regardless of whether we represent graphs as adjacency lists, adjacency matrices, list of edge-pairs, and so on and so forth.
 Hence, in cases where the precise representation doesn't make a difference, we would often talk about our algorithms as taking as input an object $O$ (that can be a graph, a vector, a program, etc.) without specifying how $O$ is encoded as a string.
 
 ### Definition of "Algorithm" { #defalgsec }
 
 Up until now we have use the term "algorithm" informally.
-However, Turing Machines and the range of equivalent models give a way to precisely  and formally define algorithms.
-Hence whenever we refer to an _algorithm_ in this book, we will mean that it is an instance of one of the  Turing equivalent models, such as Turing machines, NAND-TM, RAM machines, etc.
+However, Turing Machines and the range of equivalent models give a way to precisely and formally define algorithms.
+Hence whenever we refer to an _algorithm_ in this book, we will mean that it is an instance of one of the Turing equivalent models, such as Turing machines, NAND-TM, RAM machines, etc.
 Because of the equivalence of all these models, in many contexts, it will not matter which of these we use.
 
 
@@ -312,13 +312,13 @@ Because of the equivalence of all these models, in many contexts, it will not ma
 
 The [λ calculus](https://goo.gl/B9HwT8) is another way to define computable functions.
 It was proposed by Alonzo Church in the 1930's around the same time as Alan Turing's proposal of the Turing Machine.
-Interestingly, while Turing Machines are not used for practical computation,  the λ calculus has inspired functional programming languages such as LISP, ML and Haskell, and  indirectly the development of many other programming languages as well.
+Interestingly, while Turing Machines are not used for practical computation,  the λ calculus has inspired functional programming languages such as LISP, ML and Haskell, and indirectly the development of many other programming languages as well.
 In this section we will present the λ calculus and show that its power is equivalent to NAND-TM programs (and hence also to Turing machines).
 Our [Github rpository](https://github.com/boazbk/tcscode) contains a Jupyter notebook with a Python implementation of the λ calculus that you can experiment with to get a better feel for this topic.
 
 
 __The λ operator.__
-At the core of the λ calculus  is a way to define "anonymous" functions.
+At the core of the λ calculus is a way to define "anonymous" functions.
 For example, instead of defining the squaring function as
 
 $$
@@ -332,13 +332,13 @@ $$
 $$
 
 and so $(\lambda x.x\times x)(7)=49$.
-That is, you can think of $\lambda x.  exp(x)$, where $exp$ is some expression as a way  of specifying the anonymous function $x \mapsto exp(x)$.^[Anonymous functions, using either   $\lambda x.f(x)$, $x \mapsto f(x)$ or other closely related notation, appear in many programming languages. For example, in _Python_ we can define the squaring function using `lambda x: x*x` while in _JavaScript_ we can use `x => x*x` or `(x) => x*x`. In _Scheme_ we would define it as `(lambda (x) (* x x))`.]
+That is, you can think of $\lambda x.  exp(x)$, where $exp$ is some expression as a way of specifying the anonymous function $x \mapsto exp(x)$.^[Anonymous functions, using either   $\lambda x.f(x)$, $x \mapsto f(x)$ or other closely related notation, appear in many programming languages. For example, in _Python_ we can define the squaring function using `lambda x: x*x` while in _JavaScript_ we can use `x => x*x` or `(x) => x*x`. In _Scheme_ we would define it as `(lambda (x) (* x x))`.]
 Clearly, the name of the argument to a function doesn't matter, and so $\lambda y.y\times y$ is the same as $\lambda x.x \times x$, as both correspond to the squaring function.
 
 
 
 ::: {.remark title="Dropping parenthesis" #dropparenrem}
-To reduce notational clutter, when writing  λ calculus expression we often drop the parenthesis for function evaluation. Hence instead of writing $f(x)$ for the result of applying the function $f$ to the input $x$, we can also write this as simply $f\; x$.
+To reduce notational clutter, when writin$1 $2 calculus expression we often drop the parenthesis for function evaluation. Hence instead of writing $f(x)$ for the result of applying the function $f$ to the input $x$, we can also write this as simply $f\; x$.
 Therefore we can write  $(\lambda x.x\times x) 7=49$. In this chapter, we will use both the $f(x)$ and $f\; x$ notations for function application.
 Function evaluations are associative and bind from left to right, and hence $f\;g\;h$ is the same as $(f g) h$.
 :::
@@ -346,7 +346,7 @@ Function evaluations are associative and bind from left to right, and hence $f\;
 
 ### Applying functions to functions
 
-A key feature of the λ calculus is that we  can use functions as arguments to other functions.
+A key feature of the λ calculus is that we can use functions as arguments to other functions.
 For example, can you guess what number is the following expression equal to?
 
 $$(((\lambda f.(\lambda y.(f \;(f\; y)))) (\lambda x. x\times x))\; 3) \label{lambdaexampleeq}$$
@@ -359,10 +359,10 @@ Working out this example would go a long way toward understanding the λ calculu
 
 
 Let's evaluate [lambdaexampleeq](){.eqref} one step at a time.
-As nice as it is for the λ calculus to allow  anonymous functions, adding names can be very helpful for understanding
+As nice as it is for the λ calculus to allow anonymous functions, adding names can be very helpful for understanding
 complicated expressions.
 So, let us write $F = \lambda f.(\lambda y.(f (f y)))$ and
-$g = \lambda x.x\times  x$.
+$g = \lambda x.x\times x$.
 
 Therefore [lambdaexampleeq](){.eqref} becomes
 $$
@@ -399,7 +399,7 @@ $$
 
 maps $x$ to the function $y \mapsto x+y$.
 
-In particular, if we invoke the  function [eqlambdaexampleone](){.eqref} on $a$, and then invoke the result of this invocation on $b$, we will get the value  $a+b$.
+In particular, if we invoke the function [eqlambdaexampleone](){.eqref} on $a$, and then invoke the result of this invocation on $b$, we will get the value  $a+b$.
 We can see that the one-argument function [eqlambdaexampleone](){.eqref} corresponding to $a \mapsto (b \mapsto a+b)$ can also be thought of as the two-argument function $(a,b) \mapsto a+b$.
 In general, we will use the λ expression $\lambda x.(\lambda y.f(x,y))$ to simulate the effect of a two argument function $(x,y) \mapsto f(x,y)$.
 This technique is known as [Currying](https://en.wikipedia.org/wiki/Currying).
@@ -419,7 +419,7 @@ We start with  "basic expressions" that contain a single variable such as $x$ or
 
 * __Application:__ If $e$ and $e'$ are λ expressions, then the λ expression $(e \; e')$ corresponds to applying the function described by $e$ to the input $e'$.
 
-* __Abstraction:__ If $e$ is a  λ expression and $x$ is a variable, then the λ expression $\lambda x.(e)$  corresponds to the function that on any input $z$ returns the expression $e[x \rightarrow z]$ replacing all (free) occurrences of $x$ in $e$.^[Strictly speaking we should replace only the _free_ and not the ones that are _bound_ by some other λ operator. For example, if we have the λ expression $\lambda x.(\lambda x. x+1)(x)$ and invoke it on the number $7$ then we get $(\lambda x.x+1)(7)=8$ and not the nonsensical expression $(\lambda 7.7+1)(7)$. To avoid such annoyances, we can adopt the convention that every  instance of $\lambda \mathit{var}.e$ uses a unique variable identifier $\mathit{var}$. See  [boundvarsec](){.ref} for more discussion on bound and free variables.]
+* __Abstraction:__ If $e$ is y i expression and $x$ is a variable, then the λ expression $\lambda x.(e)$  corresponds to the function that on any input $z$ returns the expression $e[x \rightarrow z]$ replacing all (free) occurrences of $x$ in $e$.^[Strictly speaking we should replace only the _free_ and not the ones that are _bound_ by some other λ operator. For example, if we have the λ expression $\lambda x.(\lambda x. x+1)(x)$ and invoke it on the number $7$ then we get $(\lambda x.x+1)(7)=8$ and not the nonsensical expression $(\lambda 7.7+1)(7)$. To avoid such annoyances, we can adopt the convention that every instance of $\lambda \mathit{var}.e$ uses a unique variable identifier $\mathit{var}$. See  [boundvarsec](){.ref} for more discussion on bound and free variables.]
 
 Formally   λ expressions are defined as follows:
 
@@ -428,7 +428,7 @@ A _λ expression_ is either a single variable identifier or an expression that i
 :::
 
 [lambdaexpdef](){.ref} is a _recursive definition_ since we defined the concept of λ expressions in terms of itself.
-Specifically, a  λ expression can either be the "base case" of the form $\mathit{foo}$ for a variable identifier $\mathit{foo}$, or it can be of the form $(e e')$ or $\lambda  \mathit{bar}.(e)$ where $e$ and $e'$ are other λ expressions and $\mathit{bar}$ is a variable identifier.
+Specifically, $1 $2 expression can either be the "base case" of the form $\mathit{foo}$ for a variable identifier $\mathit{foo}$, or it can be of the form $(e e')$ or $\lambda  \mathit{bar}.(e)$ where $e$ and $e'$ are other λ expressions and $\mathit{bar}$ is a variable identifier.
 Such a recursive definition might seem confusing at first, but in fact you have known recursive definitions since you were an elementary school student.
 Consider how we define an _arithmetic expression_: it is an expression that is either just a number, or has one of the forms $(e + e')$, $(e - e')$, $(e \times e')$, or $(e \div e')$, where $e$ and $e'$ are other arithmetic expressions.
 
@@ -445,7 +445,7 @@ As mentioned in [curryingrem](){.ref}, we also use the shorthand $\lambda x,y.e$
 
 
 
-As we have seen in [lambdaexptwo](){.ref}, the  rule that $(\lambda x. exp) exp'$ is equivalent to $exp[x \rightarrow exp']$ enables us to modify λ expressions and obtain simpler _equivalent form_ for them.
+As we have seen in [lambdaexptwo](){.ref}, the rule that $(\lambda x. exp) exp'$ is equivalent to $exp[x \rightarrow exp']$ enables us to modify λ expressions and obtain simpler _equivalent form_ for them.
 Another rule that we can use is that the parameter does not matter and hence for example $\lambda y.y$ is the same as $\lambda z.z$.
 Together these rules define the notion of _equivalence_ of λ expressions:
 
@@ -474,7 +474,7 @@ There are two natural conventions for this:
 Because the λ calculus has only _pure_ functions, that do not have "side effects", in many cases the order does not matter.
 In fact, it can be shown that if we obtain an definite irreducible expression (for example, a number) in both strategies, then it will be the same one.
 However, there could be situations where "call by value" goes into an infinite loop while "call by name" does not.
-Hence we will use "call by name" henceforth.^["Call by value" is also sometimes known as  _eager evaluation_, since it means we always evaluate parameters to functions before they are executed, while "call by name" is also known as  _lazy evaluation_, since it means that we hold off on evaluating parameters until we are sure we need them. Most programming languages use eager evaluation, though there are some exceptions (notably Haskell). For programming languages that involve non pure functions, call by value has the advantage that it is much easier to understand when the side effects will take place in the program.]
+Hence we will use "call by name" henceforth.^["Call by value" is also sometimes known as _eager evaluation_, since it means we always evaluate parameters to functions before they are executed, while "call by name" is also known as _lazy evaluation_, since it means that we hold off on evaluating parameters until we are sure we need them. Most programming languages use eager evaluation, though there are some exceptions (notably Haskell). For programming languages that involve non pure functions, call by value has the advantage that it is much easier to understand when the side effects will take place in the program.]
 
 
 
@@ -487,8 +487,8 @@ In particular, if  $f=\lambda y.(y+1)$ then  $DOUBLE\; f = \lambda x.(x+2)$.
 
 ::: {.remark title="(Lack of) types" #untypedrem}
 Unlike most programming languages, the pure λ-calculus doesn't have the notion of _types_.
-Every object in the λ calculus can also be thought of as a λ expression and hence as a function that takes  one input and returns one output.
-All functions take one input and return one output, and if you feed a function an input of a form  it didn't expect, it still evaluates the λ expression  via "search and replace", replacing all instances of its parameter with copies of the input expression you fed it.
+Every object in the λ calculus can also be thought of as a λ expression and hence as a function that takes one input and returns one output.
+All functions take one input and return one output, and if you feed a function an input of a form it didn't expect, it still evaluates the λ expression via "search and replace", replacing all instances of its parameter with copies of the input expression you fed it.
 :::
 
 ## The "Enhanced" λ calculus
@@ -496,23 +496,23 @@ All functions take one input and return one output, and if you feed a function a
 We now discuss the λ calculus as a computational model.
 We will start by describing an "enhanced" version of the λ calculus that contains some "superfluous features" but is easier to wrap your head around.
 We will first show how the enhanced λ calculus is equivalent to Turing machines in computational power.
-Then we will show how all the  features of "enhanced λ calculus" can be implemented as "syntactic sugar" and even the  "pure" (i.e., non enhanced) λ calculus is equivalent in power to Turing machines (and hence also to RAM machines and all other Turing-equivalent models).
+Then we will show how all the features of "enhanced λ calculus" can be implemented as "syntactic sugar" and even the  "pure" (i.e., non enhanced) λ calculus is equivalent in power to Turing machines (and hence also to RAM machines and all other Turing-equivalent models).
 
-The  _enhanced λ calculus_ includes the following set of  objects and operations:
+The _enhanced λ calculus_ includes the following set of objects and operations:
 
-* __Boolean constants and IF function:__   The enhanced λ calculus has the constants $0$ and $1$ and  the $IF$ function such that for every $cond \in \{0,1\}$ and λ expressions $a,b$,  $IF cond\;a\;b$  outputs $a$ if $cond=1$ and outputs $b$  if $cond=0$.^[We use _currying_ to implement multi-input functions, and so $IF$ is the  function $cond \mapsto f_cond$ where $f_1$ is the function $x \mapsto (y \mapsto x)$ and $f_0$ is the function $x \mapsto (y \mapsto y)$. Can you see why? If not, then working this out is a great exercise.]
+* __Boolean constants and IF function:__   The enhanced λ calculus has the constants $0$ and $1$ and the $IF$ function such that for every $cond \in \{0,1\}$ and λ expressions $a,b$,  $IF cond\;a\;b$  outputs $a$ if $cond=1$ and outputs $b$  if $cond=0$.^[We use _currying_ to implement multi-input functions, and so $IF$ is the function $cond \mapsto f_cond$ where $f_1$ is the function $x \mapsto (y \mapsto x)$ and $f_0$ is the function $x \mapsto (y \mapsto y)$. Can you see why? If not, then working this out is a great exercise.]
 Using $IF$ and the constants $0,1$ we can also compute logical operations such as $AND,OR,NOT,NAND$. For example, $NOT = \lambda a. IF a 0 1$ and $AND = \lambda a,b. IF a b 0$.
 
 
-* __Pairs:__ We have the  function $PAIR$ such that $PAIR\; x\; y$ returns the pair $(x,y)$ that holds  $x$ and $y$. We also have the functions $HEAD$ and $TAIL$ to extract the first and second member of a pair respectively. Hence, $HEAD (PAIR a b) = a$ and $TAIL (PAIR a b) = b$.
+* __Pairs:__ We have the function $PAIR$ such that $PAIR\; x\; y$ returns the pair $(x,y)$ that holds  $x$ and $y$. We also have the functions $HEAD$ and $TAIL$ to extract the first and second member of a pair respectively. Hence, $HEAD (PAIR a b) = a$ and $TAIL (PAIR a b) = b$.
 
 * __Lists and strings:__ Using $PAIR$ we can also construct _lists_. The idea is that $PAIR\; a\; L$ corresponds to the list obtained by adding the element $a$ to the beginning of a list $L$. By repeating this operation, we can construct lists of any length. Specifically, we will have a   special λ expression $NIL$ that corresponds to the _empty list_, which we also denote by $\langle \rangle$.
-If $c$ is some λ expression, then $PAIR\; c \; NIL$ corresponds to the single-element list $\langle c \rangle$. Now for every λ expressions $b,c$, the expression $PAIR \; b \; (PAIR C NIL)$ corresponds to the two-element  list $\langle b , c \rangle$.  Similarly the expression  $PAIR \; a (PAIR \; b \; (PAIR \; c \; NIL))$ corresponds to the  list $\langle a,b,c \rangle$ and so on and so forth.^[Note that if $L$ is a list, then $HEAD L$ is its first element, but $TAIL L$ is not the last element but rather all the elements except the first. The second element of a list $L$ can be extracted using $HEAD (TAIL L)$. Once again, working out why this is the case is a great exercise.] The function $ISEMPTY$ returns $1$ on $NIL$ and returns $0$ on every other list. A _string_ is  simply a list of bits.
+If $c$ is some λ expression, then $PAIR\; c \; NIL$ corresponds to the single-element list $\langle c \rangle$. Now for every λ expressions $b,c$, the expression $PAIR \; b \; (PAIR C NIL)$ corresponds to the two-element list $\langle b , c \rangle$.  Similarly the expression  $PAIR \; a (PAIR \; b \; (PAIR \; c \; NIL))$ corresponds to the list $\langle a,b,c \rangle$ and so on and so forth.^[Note that if $L$ is a list, then $HEAD L$ is its first element, but $TAIL L$ is not the last element but rather all the elements except the first. The second element of a list $L$ can be extracted using $HEAD (TAIL L)$. Once again, working out why this is the case is a great exercise.] The function $ISEMPTY$ returns $1$ on $NIL$ and returns $0$ on every other list. A _string_ is simply a list of bits.
 
 
 * __List operations:__ The enhanced λ calculus also contains the _list-processing functions_ $MAP$, $REDUCE$, and $FILTER$. Given a list $L= \langle x_0,\ldots,x_{n-1}\rangle$ and a function $f$, $MAP\; L \; f$ applies $f$ on every member of the list to obtain the new list $L'= \langle f(x_0),\ldots,f(x_{n-1})\rangle$.
 Given a list $L$ as above and a function $f$ whose output is either $0$ or $1$, $FILTER\; L\; f$ returns the list $\langle x_i \rangle_{f x_i = 1}$  containing all the elements of $L$ for which $f$ outputs $1$.
-The function $REDUCE$ applies a "combining" operation to  a list. For example, $REDUCE\; L \; + \; 0$ will return the sum of all the elements in the list $L$.
+The function $REDUCE$ applies a "combining" operation to a list. For example, $REDUCE\; L \; + \; 0$ will return the sum of all the elements in the list $L$.
 The sum of a list is defined recursively as follows: the sum of the empty list is $0$, and the sum of a non-empty list $L$ is obtained by recursively summing $TAIL\;L$ (i.e., all elements of $L$ except the first) and adding the result to $HEAD\;L$ (which is the first element of $L$).
 More generally, $REDUCE$ takes a list $L$, an operation $f$ (which we think of as taking two arguments) and a λ expression $z$ (which we think of as the "neutral element" for the operation $f$, such as $0$ for addition and $1$ for multiplication).
 The output is defined via
@@ -520,8 +520,8 @@ The output is defined via
 $$REDUCE\;L\;f\;z = \begin{cases}z & L=NIL \\ f\;(HEAD L) \; (REDUCE\;(TAIL L)\;f\;z)  & \text{otherwise}\end{cases}\;.$$
 See [reduceetalfig](){.ref} for an illustration of the three list-processing operations.
 
-* __Recursion:__  Finally, we want to be able to execute _recursive functions_.  Since in λ calculus functions are _anonymous_, we can't write a definition of the form $f(x) = blah$  where $blah$ includes calls to $f$.
-Instead we use functions $f$ that take an additional input $me$ as a  parameter.
+* __Recursion:__ Finally, we want to be able to execute _recursive functions_.  Since in λ calculus functions are _anonymous_, we can't write a definition of the form $f(x) = blah$  where $blah$ includes calls to $f$.
+Instead we use functions $f$ that take an additional input $me$ as a parameter.
 The operator $RECURSE$ will take such a function $f$ as input and return a "recursive version" of $f$ where all the calls to $me$ are replaced by recursive calls to this function. That is, if we have a function $F$ taking two parameters $me$ and $x$, then $RECURSE\; F$ will be the function $f$ taking one parameter $x$ such that $f(x) = F(f,x)$ for every $x$.
 
 
@@ -570,7 +570,7 @@ We could have also computed $XOR$ using the $REDUCE$ operation, we leave working
 :::
 
 
-![A list $\langle x_0,x_1,x_2 \rangle$ in the λ calculus is constructed from the tail up, building the pair $\langle x_2,NIL\rangle$, then the pair $\langle x_1, \langle x_2,NIL\rangle \rangle$ and finally the pair $\langle x_0,\langle x_1,\langle x_2,NIL \rangle\rangle\rangle$. That is, a list is a pair where the first element of the pair is the first element of the list and the second element is the rest of the list. The figure on the left renders this "pairs inside pairs" construction, though it is often easier to think of a list as a "chain", as in the figure on the right, where the second element of each pair is thought of as a _link_, _pointer_  or _reference_ to the  remainder of the list.](../figure/lambdalist.png){#lambdalistfig   }
+![A list $\langle x_0,x_1,x_2 \rangle$ in the λ calculus is constructed from the tail up, building the pair $\langle x_2,NIL\rangle$, then the pair $\langle x_1, \langle x_2,NIL\rangle \rangle$ and finally the pair $\langle x_0,\langle x_1,\langle x_2,NIL \rangle\rangle\rangle$. That is, a list is a pair where the first element of the pair is the first element of the list and the second element is the rest of the list. The figure on the left renders this "pairs inside pairs" construction, though it is often easier to think of a list as a "chain", as in the figure on the right, where the second element of each pair is thought of as a _link_, _pointer_ or _reference_ to the remainder of the list.](../figure/lambdalist.png){#lambdalistfig   }
 
 ![Illustration of the $MAP$, $FILTER$ and $REDUCE$ operations.](../figure/reducemapfilter.png){#reduceetalfig   }
 
@@ -588,11 +588,11 @@ We will define the _simplification_ of a λ expression as the following recursiv
 Please make sure you understand why this recursive procedure simply corresponds to the "call by name" evaluation strategy.
 :::
 
-The result of simplifying a λ expression  is an equivalent expression, and hence if two expressions have the same simplification then they are equivalent.
+The result of simplifying a λ expression is an equivalent expression, and hence if two expressions have the same simplification then they are equivalent.
 
 :::  {.definition title="Computing a function via λ calculus" #lambdacomputedef   }
 Let $F:\{0,1\}^* \rightarrow \{0,1\}^*$ be a function and $exp$ a λ expression.
-For every $x\in \{0,1\}^n$, we  denote by $LIST(x)$ the  λ list $PAIR(x_0, PAIR( x_1 , PAIR(\cdots PAIR(x_{n-1} NIL))))$ that corresponds to $x$.
+For every $x\in \{0,1\}^n$, we denote by $LIST(x)$ th$1 $2 list $PAIR(x_0, PAIR( x_1 , PAIR(\cdots PAIR(x_{n-1} NIL))))$ that corresponds to $x$.
 
 We say that _$exp$ computes $F$_ if for every $x\in \{0,1\}^*$, the expressions $(exp LIST(x))$ and $LIST(F(x))$ are equivalent, and moreover they have the same simplification.
 :::
@@ -600,7 +600,7 @@ We say that _$exp$ computes $F$_ if for every $x\in \{0,1\}^*$, the expressions 
 ### Enhanced λ calculus is Turing-complete
 
 The basic operations of the enhanced λ calculus more or less amount to the Lisp or Scheme programming languages.^[In Lisp, the $PAIR$, $HEAD$ and $TAIL$ functions are [traditionally called](https://goo.gl/BLRd6S) `cons`, `car` and `cdr`.]
-Given that, it is perhaps not surprising that the  enhanced λ-calculus is equivalent to Turing machines:
+Given that, it is perhaps not surprising that the enhanced λ-calculus is equivalent to Turing machines:
 
 > ### {.theorem title="Lambda calculus and NAND-TM" #lambdaturing-thm}
 For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable in the enhanced λ calculus if and only if it is computable by a Turing machine.
@@ -609,7 +609,7 @@ For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable in the
 To prove the theorem, we need to show that __(1)__ if $F$ is computable by a λ calculus expression then it is computable by a Turing machine, and __(2)__ if $F$ is computable by a Turing machine, then it is computable by an enhanced λ calculus expression.
 
 Showing __(1)__ is fairly straightforward. Applying the simplification rules to a λ expression basically amounts to "search and replace" which we can implement easily in, say, NAND-RAM, or for that matter Python (both of which are equivalent to Turing machines in power).
-Showing __(2)__ essentially amounts to simulating a Turing machine (or writing a NAND-TM interpreter) in a functional programming language such as LISP  or Scheme. Showing how this can be done is a good exercise in mastering some functional programming techniques that are useful in their own right.
+Showing __(2)__ essentially amounts to simulating a Turing machine (or writing a NAND-TM interpreter) in a functional programming language such as LISP or Scheme. Showing how this can be done is a good exercise in mastering some functional programming techniques that are useful in their own right.
 :::
 
 
@@ -620,7 +620,7 @@ We only sketch the proof. The "if" direction is simple. As mentioned above, eval
 
 For the "only if" direction, we need to simulate a Turing machine, or equivalently a NAND-TM program, using a λ expression.
 First, by [NANDlambdaex](){.ref} we can compute the $NAND$ function, and hence _every_ finite function, using the λ calculus.
-Thus proving the theory  boils down to simulating the _arrays_ of NAND-TM using the _lists_ of the enhanced λ calculus.
+Thus proving the theory boils down to simulating the _arrays_ of NAND-TM using the _lists_ of the enhanced λ calculus.
 
 We will encode each array `A` of NAND-TM program by a list $L$ of the NAND-CIRC program.
 We encode the index variable `i` by a special list $I$ that has $1$ in the location corresponding to the value of `i` and $0$'s everywhere else.
@@ -655,14 +655,14 @@ __Operation:__
 3. Otherwise return $SIM_P(\sigma')$.
 :::
 
-We can write this algorithm  as the λ expression
+We can write this algorithm as the λ expression
 
 $$
 RECURSE \; \bigl(\lambda m,\sigma. IF(loop(NEXT_P \sigma)\;,\; m(NEXT_P \sigma)\;,\;NEXT_P \sigma) \bigr)
 $$
 
 
-Given $SIM_P$, we can compute the function computed by $P$ by  writing expressions for encoding the input as the initial state, and decoding the output from the final state.
+Given $SIM_P$, we can compute the function computed by $P$ by writing expressions for encoding the input as the initial state, and decoding the output from the final state.
 We omit the details, though this is fairly straightforward.^[For example, if `X` is a list representing the input, then we can obtain a list `X_nonblank` of $1$'s of the same length by simply writing `X_nonblank` $= MAP($`X`$,\lambda x.1)$.]
 :::
 
@@ -680,7 +680,7 @@ In other words, can we find a subset of these basic operations that can implemen
 This is a good point to pause and think how you would implement these operations yourself. For example, start by thinking how you could implement $MAP$ using $REDUCE$, and then $REDUCE$ using $RECURSE$ combined with  $0,1,IF,PAIR,HEAD,TAIL,NIL,ISEMPTY$ together with the λ operations.
 
 Now you can think how you could implement $PAIR$, $HEAD$ and $TAIL$ based on $0,1,IF$.
-The idea is that we can represent a  _pair_ as _function_.
+The idea is that we can represent a _pair_ as _function_.
 :::
 
 It turns out that there is in fact a proper subset of these basic operations that can be used to implement the rest.
@@ -688,14 +688,14 @@ That subset is the empty set.
 That is, we can implement _all_ the operations above using the λ formalism only, even without using $0$'s and $1$'s.
 It's λ's all the way down!
 The idea is that we encode $0$ and $1$  themselves as λ expressions, and build things up from there.
-This  is known as [Church encoding](https://goo.gl/QZKM9M), as it was originated by Church in his effort to show that the λ calculus can be a basis for all computation.
+This is known as [Church encoding](https://goo.gl/QZKM9M), as it was originated by Church in his effort to show that the λ calculus can be a basis for all computation.
 
 > ### {.theorem title="Enhanced λ calculus equivalent to pure λ calculus." #enhancedvanillalambdathm}
 There are λ expressions that implement the functions $0$,$1$,$IF$,$PAIR$, $HEAD$, $TAIL$, $NIL$, $ISEMPTY$, $MAP$, $REDUCE$, and $RECURSE$.
 
-We will not write the full formal proof of [enhancedvanillalambdathm](){.ref} but outline  the ideas involved in it:
+We will not write the full formal proof of [enhancedvanillalambdathm](){.ref} but outline the ideas involved in it:
 
-* We define $0$ to be the function that on two inputs $x,y$ outputs $y$, and $1$ to be the function that on two inputs $x,y$ outputs $x$. Of course we use Currying to achieve the effect of two-input functions and hence $0 = \lambda x. \lambda y.y$ and $1 = \lambda x.\lambda y.x$.^[This representation scheme is the common convention for representing `false` and `true` but  there are many other alternative representations for $0$ and $1$ that would have worked just as well.]
+* We define $0$ to be the function that on two inputs $x,y$ outputs $y$, and $1$ to be the function that on two inputs $x,y$ outputs $x$. Of course we use Currying to achieve the effect of two-input functions and hence $0 = \lambda x. \lambda y.y$ and $1 = \lambda x.\lambda y.x$.^[This representation scheme is the common convention for representing `false` and `true` but there are many other alternative representations for $0$ and $1$ that would have worked just as well.]
 
 * The above implementation makes the $IF$ function trivial: $IF(cond,a,b)$ is simply $cond \; a\; b$ since $0ab = b$ and $1ab = a$. We can write $IF = \lambda x.x$ to achieve $IF(cond,a,b) = (((IF cond) a) b) =  cond \; a \; b$.
 
@@ -713,7 +713,7 @@ the number $3$ as $\lambda f.(\lambda x.f(f(fx)))$, and so on and so forth. (Not
 The number $0$ is represented by the function that maps any function $f$ to the identity function $\lambda x.x$.
 (That is, $0 = \lambda f.(\lambda x.x)$.)
 
-In this representation, we can compute $PLUS(n,m)$ as $\lambda f.\lambda x.(n f)((m f)x)$ and $TIMES(n,m)$ as $\lambda f.n(m f)$. Subtraction and division are trickier, but can be achieved using recursion. (Working this out  is a great exercise.)
+In this representation, we can compute $PLUS(n,m)$ as $\lambda f.\lambda x.(n f)((m f)x)$ and $TIMES(n,m)$ as $\lambda f.n(m f)$. Subtraction and division are trickier, but can be achieved using recursion. (Working this out is a great exercise.)
 :::
 
 ### List processing
@@ -745,7 +745,7 @@ So everything boils down to implementing the $RECURSE$ operator, which we now de
 
 How can we implement recursion without recursion?
 We will illustrate this using a simple example - the $XOR$ function.
-As shown in [xorusingrecursion](){.ref}, we  can write the $XOR$ function of a list recursively as follows:
+As shown in [xorusingrecursion](){.ref}, we can write the $XOR$ function of a list recursively as follows:
 
 $$
 XOR(L) = \begin{cases} 0 & L \text{ is empty} \\ XOR_2(HEAD(L),XOR(TAIL(L))) & \text{otherwise}
@@ -805,15 +805,15 @@ tempxor(tempxor,[1,0,1,1])
 # 1
 ```
 
-and so we can  define `xor(L)` as simply `return tempxor(tempxor,L)`.
+and so we can define `xor(L)` as simply `return tempxor(tempxor,L)`.
 
 
 The approach above is not specific to XOR.
 Given a recursive function `f` that takes an input `x`, we can obtain a non recursive version as follows:
 
-1. Create the function `myf` that takes a pair of  inputs `me` and `x`, and replaces recursive calls to `f` with calls to `me`.
+1. Create the function `myf` that takes a pair of inputs `me` and `x`, and replaces recursive calls to `f` with calls to `me`.
 
-2. Create the function `tempf` that converts  calls  in `myf` of the form `me(x)` to calls of the form `me(me,x)`.
+2. Create the function `tempf` that converts calls in `myf` of the form `me(x)` to calls of the form `me(me,x)`.
 
 3. The function `f(x)` will be defined as `tempf(tempf,x)`
 
@@ -834,15 +834,15 @@ print(xor([0,1,1,0,0,1]))
 print(xor([1,1,0,0,1,1,1,1]))
 # 0
 ```
-__From Python to the  λ calculus.__ In the λ calculus, a two input function $g$ that takes a pair of inputs $me,y$ is written as $\lambda me.(\lambda y. g)$. So the function $y \mapsto me(me,y)$ is simply written as $me\;me$ and similarly the function $x \mapsto tempf(tempf,x)$ is simply $tempf\; tempf$. (Can you see why?)
+__From Python to th$1 $2 calculus.__ In the λ calculus, a two input function $g$ that takes a pair of inputs $me,y$ is written as $\lambda me.(\lambda y. g)$. So the function $y \mapsto me(me,y)$ is simply written as $me\;me$ and similarly the function $x \mapsto tempf(tempf,x)$ is simply $tempf\; tempf$. (Can you see why?)
 Therefore in the λ calculus, the function `tempf` is `λ me. f(me me)` and similarly and the expression `lambda x: tempf(tempf,x)` is the same as `tempf tempf`.
 Therefore, if we denote the input of `RECURSE` by $f$, then the output is equal to $F F$ where $F = \lambda m. f (m m)$, which means that
 $$
 RECURSE =  \lambda f.\bigl( (\lambda m. f(m\; m))\;\; (\lambda m. f(m \;m)) \bigr)
 $$
 
-The [online appendix](https://github.com/boazbk/nandnotebooks/blob/master/lambda.ipynb) contains  an implementation of the λ calculus using Python.
-Here is an implementation of the recursive  XOR function from that appendix:^[Because of specific issues of Python syntax, in this implementation we use `f * g` for applying `f` to `g` rather than `fg`, and use `λx(exp)` rather than `λx.exp` for abstraction. We also use `_0` and `_1` for the λ terms for $0$ and $1$ so as not to confuse with the Python constants.]
+The [online appendix](https://github.com/boazbk/nandnotebooks/blob/master/lambda.ipynb) contains an implementation of the λ calculus using Python.
+Here is an implementation of the recursive XOR function from that appendix:^[Because of specific issues of Python syntax, in this implementation we use `f * g` for applying `f` to `g` rather than `fg`, and use `λx(exp)` rather than `λx.exp` for abstraction. We also use `_0` and `_1` for the λ terms for $0$ and $1$ so as not to confuse with the Python constants.]
 
 ```python
 # XOR of two bits
@@ -877,7 +877,7 @@ $XOR$ is the function such that for every $x$, if plug in  $XOR$ as the first ar
 Hence finding a _fixed point_ for $myXOR$ is the same as applying $RECURSE$ to it.
 :::
 
-### Infinite loops  in the λ calculus { #infiniteloopslambda }
+### Infinite loops in the λ calculus { #infiniteloopslambda }
 
 The fact that λ-expressions can simulate NAND-TM programs means that, like Turing machines and NAND-TM programs, the λ calculus can also enter into an infinite loop.
 For example, consider the λ expression
@@ -886,13 +886,13 @@ $$
 (\lambda x.xxx)(\lambda x.xxx)
 $$
 
-If we try to evaluate it  then the first step is to invoke the lefthand function on the righthand one and then obtain
+If we try to evaluate it then the first step is to invoke the lefthand function on the righthand one and then obtain
 
 $$
 (\lambda x.xxx)(\lambda x.xxx)(\lambda x.xxx)
 $$
 
-To evaluate this, the next step would be to apply the second term on the third term,^[This assumes we use the "call by value" evaluation ordering which states that to evaluate a λ expression $fg$ we first evaluate  the righthand expression $g$ and then invoke $f$ on it. The "Call by name" or "lazy evaluation" ordering would first evaluate the lefthand expression $f$ and then invoke it on $g$. In this case both strategies would result in an infinite loop. There are examples though when "call by name" would not enter an infinite loop while "call by value" would. The SML and OCaml programming languages use "call by value" while Haskell uses (a close variant of) "call by name".] which would result in
+To evaluate this, the next step would be to apply the second term on the third term,^[This assumes we use the "call by value" evaluation ordering which states that to evaluate a λ expression $fg$ we first evaluate the righthand expression $g$ and then invoke $f$ on it. The "Call by name" or "lazy evaluation" ordering would first evaluate the lefthand expression $f$ and then invoke it on $g$. In this case both strategies would result in an infinite loop. There are examples though when "call by name" would not enter an infinite loop while "call by value" would. The SML and OCaml programming languages use "call by value" while Haskell uses (a close variant of) "call by name".] which would result in
 
 $$
 (\lambda x.xxx)(\lambda x.xxx)(\lambda x.xxx)(\lambda x.xxx)
@@ -920,7 +920,7 @@ Many physical systems can be described as consisting of a large number of elemen
 One way to model such systems is using _cellular automata_.
 This is a system that consists of a large number (or even infinite) cells.
 Each cell only has a constant number of possible states.
-At each time step, a cell updates to a new  state by applying some  simple rule to the state of itself and its neighbors.
+At each time step, a cell updates to a new state by applying some simple rule to the state of itself and its neighbors.
 
 
 A canonical example of a cellular automaton is [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
@@ -937,7 +937,7 @@ If we initialize the system in a configuration with a finite number of live cell
 We can think of such a system as encoding a computation by starting it in some initial configuration, and then defining some halting condition (e.g., we halt if the cell at position $(0,0)$ becomes dead) and some way to define an output (e.g., we output the state of the cell at position $(1,1)$).
 Clearly, given any starting configuration $x$, we can simulate the game of life starting from $x$ using a NAND-RAM (or NAND-TM) program, and hence every "Game-of-Life computable" function is computable by a NAND-RAM program.
 Surprisingly, it turns out that the other direction is true as well: as simple as its rules seem, we can simulate a Turing machine using the game of life (see [golfig](){.ref}).
-The [Wikipedia page](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) for the Game of Life contains some beautiful figures and animations of  configurations that produce some very interesting evolutions.
+The [Wikipedia page](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) for the Game of Life contains some beautiful figures and animations of configurations that produce some very interesting evolutions.
 See also the book [The Nature of Computation](http://nature-of-computation.org/).
 
 
@@ -971,13 +971,13 @@ For every Turing machine  $M$,  there is a one dimension cellular automaton that
 
 To make this more precise, what [onedimcathm](){.ref} says is that for every Turing machine $M$, there is a one-dimensional cellular automaton $\mathcal{A}$  over some alphabet $\Sigma$, such that:
 
-* There are computable maps to encode and decode configurations of $M$ as configurations  of $\mathcal{A}$.
+* There are computable maps to encode and decode configurations of $M$ as configurations of $\mathcal{A}$.
 
 * If we initialize $\mathcal{A}$ in the configuration encoding the starting state of $M$, then at every step $t$, the configuration of $\mathcal{A}$ at step $t$ encodes the configuration of $M$ at the same step.
 
 ::: {.proofidea data-ref="onedimcathm"}
 A _configuration_ of $M$ contains its full state at after a particular iteration. That is, the contents of all (non empty) cells of its tape, its current state, as well as the head position.
-We can encode such a configuration as a string $\alpha$ over some large alphabet $\Sigma$. At position $j$, the symbol $\alpha_j$ will encode the value of the $j$-th symbol in $M$'s tape. If  the head position is $i$ then $\alpha_i$ will encode this fact as well, and also contain an encoding of which state the machine is at.
+We can encode such a configuration as a string $\alpha$ over some large alphabet $\Sigma$. At position $j$, the symbol $\alpha_j$ will encode the value of the $j$-th symbol in $M$'s tape. If the head position is $i$ then $\alpha_i$ will encode this fact as well, and also contain an encoding of which state the machine is at.
 
 
 Given this notion of an encoding, and the fact that the head moves only one position in each step, we can see that after one step of the machine $M$, the configuration largely stays the same except the locations $i,i-1,i+1$ corresponding to the location of the current variable `i` and its immediate neighbors. Once we realize this, we can phrase the progression from one configuration to the next as a one dimensional ceullar automaton!
@@ -988,15 +988,15 @@ From this observation, [onedimcathm](){.ref} follows in a fairly straightforward
 Before proving [onedimcathm](){.ref}, let us formally define the notion of a _configuration_ of a Turing machine (see also [turingconfigfig](){.ref}).
 We will come back to this notion in later chapters as well.
 
-![A _configuration_ of a Turing machine $M$ with alphabet $\Sigma$ and state space $[k]$ encodes the state of $M$ at a particular step in its  execution as a string $\alpha$ over the alphabet $\overline{\Sigma} = \Sigma \times (\{\cdot \} \times [k])$. The string is of length $t$ where $t$ is such that $M$'s tape contains $\varnothing$ in all positions $t$ and larger and $M$'s head is in a position smaller than $t$.
+![A _configuration_ of a Turing machine $M$ with alphabet $\Sigma$ and state space $[k]$ encodes the state of $M$ at a particular step in its execution as a string $\alpha$ over the alphabet $\overline{\Sigma} = \Sigma \times (\{\cdot \} \times [k])$. The string is of length $t$ where $t$ is such that $M$'s tape contains $\varnothing$ in all positions $t$ and larger and $M$'s head is in a position smaller than $t$.
 If $M$'s head is in the $i$-th position, then for $j \neq i$, $\alpha_j$ encodes the value of the $j$-th cell of $M$'s tape, while $\alpha_i$ encodes both this value as well as the current state of $M$.
 If the machine writes the value $\tau$, changes state to $t$, and moves right, then in the next configuration will contain at position $i$ the value  $(\tau,\cdot)$ and at position $i+1$ the value $(\alpha_{i+1},t)$.](../figure/turingmachineconf.png){#turingconfigfig   }
 
 ::: { .pause }
 [configtmdef](){.ref} below has some technical details, but is not actually that deep or complicated.
-You would probably understand it better if before starting to read it, you take a moment to stop and think how _you_ would encode as a string the state of a Turing machine  at a given point in an execution.
+You would probably understand it better if before starting to read it, you take a moment to stop and think how _you_ would encode as a string the state of a Turing machine at a given point in an execution.
 
-Think what are all the components that you need to know in order to be able to continue the execution from this point onwards, and what is a simple way to encode them using a list of strings (which in turn can be encoded as a string). In particular, with an eye towards our future applications, try to think of an encoding which will make it as simple as possible to map  a configuration at step $t$ to the configuration at step $t+1$.
+Think what are all the components that you need to know in order to be able to continue the execution from this point onwards, and what is a simple way to encode them using a list of strings (which in turn can be encoded as a string). In particular, with an eye towards our future applications, try to think of an encoding which will make it as simple as possible to map a configuration at step $t$ to the configuration at step $t+1$.
 :::
 
 ::: {.definition title="Configuration of NAND-TM programs." #configtmdef}
@@ -1004,7 +1004,7 @@ Let $M$ be a Turing machine with tape alphabet $\Sigma$ and state space $[k]$. A
 
 A configuration $\alpha \in \overline{\Sigma}^*$ of $M$ corresponds to the following state of its execution:
 
-* $M$'s tape contains $\alpha_{j,0}$ for all $j<|\alpha|$ and contains $\varnothing$ for all positions that are at least $|\alpha|$, where we let $\alpha_{j,0}$ be  the value $\sigma$ such that  $\alpha_j = (\sigma,t)$ with $\sigma \in \Sigma$ and $t \in \{\cdot \} \cup [k]$.
+* $M$'s tape contains $\alpha_{j,0}$ for all $j<|\alpha|$ and contains $\varnothing$ for all positions that are at least $|\alpha|$, where we let $\alpha_{j,0}$ be the value $\sigma$ such that  $\alpha_j = (\sigma,t)$ with $\sigma \in \Sigma$ and $t \in \{\cdot \} \cup [k]$.
 (In other words, since $\alpha_j$ is a pair of an alphabet symbol $\sigma$ and either a state in $[k]$ or the symbol $\cdot$, $\alpha_{j,0}$ is the first component $\sigma$ of this pair.)
 
 * $M$'s head is in the unique position $i$ for which $\alpha_i$ has the form $(\sigma,s)$ for $s\in [k]$, and $M$'s state is equal to $s$.
@@ -1028,8 +1028,8 @@ Let $M$ be a Turing machine and let $NEXT_M:\overline{\Sigma}^* \rightarrow \ove
 We leave proving [nextstepfunctionlem](){.ref} as [nextstepfunctionlemex](){.ref}.
 It is not a hard exercise, but doing it is a great way to ensure that you are comfortable with the definition of configurations.
 
-Once we have [nextstepfunctionlem](){.ref} in place, we see that the function $NEXT_M$ that maps a configuration of $P$ into the next one is in fact a valid rule for a  one dimensional automata, hence completing the proof of [onedimcathm](){.ref}.
-The automaton arising from the proof of [onedimcathm](){.ref} has a large alphabet, and furthermore one whose size that depends on the machine $M$ that is being simulated. It turns out that one can obtain an automaton with an alphabet of fixed size that is independent of the program being simulated, and in fact the alphabet of the automaton can be  the minimal set $\{0,1\}$! See [onedimautfig](){.ref} for an example of such an Turing-complete automaton.
+Once we have [nextstepfunctionlem](){.ref} in place, we see that the function $NEXT_M$ that maps a configuration of $P$ into the next one is in fact a valid rule for a one dimensional automata, hence completing the proof of [onedimcathm](){.ref}.
+The automaton arising from the proof of [onedimcathm](){.ref} has a large alphabet, and furthermore one whose size that depends on the machine $M$ that is being simulated. It turns out that one can obtain an automaton with an alphabet of fixed size that is independent of the program being simulated, and in fact the alphabet of the automaton can be the minimal set $\{0,1\}$! See [onedimautfig](){.ref} for an example of such an Turing-complete automaton.
 
 
 ![Evolution of a one dimensional automata. Each row in the figure corresponds to the configuration. The initial configuration corresponds to the top row and contains only a single "live" cell. This figure corresponds to the "Rule 110" automaton of Stefan Wolfram which is Turing Complete. Figure taken from [Wolfram MathWorld](http://mathworld.wolfram.com/Rule110.html).](../figure/Rule110Big.jpg){#onedimautfig .margin  }
@@ -1038,12 +1038,12 @@ The automaton arising from the proof of [onedimcathm](){.ref} has a large alphab
 
 
 ::: {.remark title="Configurations as binary strings" #confencoding}
-We can represent  a configuration $\alpha \in \overline{\Sigma}^*$ by simply encoding each coordinate of $\alpha$ using $\log |\overline{\Sigma}|$ bits.
+We can represent a configuration $\alpha \in \overline{\Sigma}^*$ by simply encoding each coordinate of $\alpha$ using $\log |\overline{\Sigma}|$ bits.
 When we refer to a configuration as a binary string (for example when feeding it as input to other programs) we will assume that this string represents the configuration via the above encoding.
 :::
 
 ::: {.remark title="Configurations of NAND-TM programs" #nandtmprogconfig}
-We can use the same approach to  define configurations of a _NAND-TM program_. Such a configuration will need to encode:
+We can use the same approach to define configurations of a _NAND-TM program_. Such a configuration will need to encode:
 
 
 1. The current value of the variable `i`.
@@ -1058,8 +1058,8 @@ We can use the same approach to  define configurations of a _NAND-TM program_. S
 ### Turing completeness and equivalence, a formal definition (optional) {#turingcompletesec }
 
 A _computational model_ is some way to define what it means for a _program_ (which is represented by a string) to compute a (partial) _function_.
-A _computational model_ $\mathcal{M}$ is _Turing  complete_, if we can map every Turing machine (or equivalently NAND-TM program) $N$ into a program $P$ for $\mathcal{M}$ that computes the same function as $Q$.
-It is _Turing equivalent_ if the other direction holds as well (i.e., we can map every program in $\mathcal{M}$ to a Turing machine  that computes the same function).
+A _computational model_ $\mathcal{M}$ is _Turing complete_, if we can map every Turing machine (or equivalently NAND-TM program) $N$ into a program $P$ for $\mathcal{M}$ that computes the same function as $Q$.
+It is _Turing equivalent_ if the other direction holds as well (i.e., we can map every program in $\mathcal{M}$ to a Turing machine that computes the same function).
 Formally, we can define this notion as follows:^[The formal definition is very cumbersome to state, and not crucial for the remainder of this book. Feel free to skip it as long as you understand the general concept of Turing equivalence. This notion is sometimes referred to in the literature as [Gödel numbering](https://goo.gl/rzuNPu) or [admissalbe numbering](https://goo.gl/xXJoUG).]
 
 ::: {.definition title="Turing completeness and equivalence (optional)" #turingcompletedef}
@@ -1070,7 +1070,7 @@ We say that a program $P \in \{0,1\}^*$  _$\mathcal{M}$-computes_ a function $F\
 
 A computational model $\mathcal{M}$ is _Turing complete_ if there is a computable map $ENCODE_{\mathcal{M}}:\{0,1\}^* \rightarrow \{0,1\}^*$ for every Turing machine $N$ (represented as a string),  $\mathcal{M}(ENCODE_{\mathcal{M}}(N))$ is equal to the partial function computed by $P$.
 
-A computational model $\mathcal{M}$ is _Turing equivalent_ if it is Turing complete and there exists a computable map $DECODE_{\mathcal{M}}:\{0,1\}^* \rightarrow \{0,1\}^*$ such that or every string $P\in \{0,1\}^*$,  $N=DECODE_{\mathcal{M}}(P)$ is a string representation of a Turing machine that computes  the function $\mathcal{M}(P)$.
+A computational model $\mathcal{M}$ is _Turing equivalent_ if it is Turing complete and there exists a computable map $DECODE_{\mathcal{M}}:\{0,1\}^* \rightarrow \{0,1\}^*$ such that or every string $P\in \{0,1\}^*$,  $N=DECODE_{\mathcal{M}}(P)$ is a string representation of a Turing machine that computes the function $\mathcal{M}(P)$.
 :::
 
 Some examples of Turing equivalent models include:
@@ -1089,7 +1089,7 @@ Some examples of Turing equivalent models include:
 
 >_"[In 1934], Church had been speculating, and finally definitely proposed, that the λ-definable functions are all the effectively calculable functions .... When Church proposed this thesis, I sat down to disprove it ... but, quickly realizing that [my approach failed], I became overnight a supporter of the thesis."_, Stephen Kleene, 1979.
 
->_"[The thesis is] not so much  a definition or to an axiom but ... a natural law."_, Emil Post, 1936.
+>_"[The thesis is] not so much a definition or to an axiom but ... a natural law."_, Emil Post, 1936.
 
 We have defined functions to be _computable_ if they can be computed by a NAND-TM program, and we've seen that the definition would remain the same if we replaced NAND-TM programs by Python programs, Turing machines, λ calculus,  cellular automata, and many other computational models.
 The _Church-Turing thesis_ is that this is the only sensible definition of "computable" functions.
@@ -1097,7 +1097,7 @@ Unlike the "Physical Extended Church Turing Thesis" (PECTT) which we saw before,
 One can think of the Church-Turing Thesis as either advocating a definitional choice, making some prediction about all potential computing devices, or suggesting some laws of nature that constrain the natural world.
 In Scott Aaronson's words, "whatever it is, the Church-Turing thesis can only be regarded as extremely successful".
 No candidate computing device (including quantum computers, and also much less reasonable models such as the hypothetical "closed time curve" computers we mentioned before) has so far mounted a serious challenge to the Church Turing thesis.
-These devices might potentially make some computations more _efficient_, but they do not change the difference between what is finitely computable and what is not.^[The _extended_ Church Turing thesis, which we  discuss in [ECTTsec](){.ref}, stipulates that Turing machines  capture also the limit of what can be _efficiently_ computable. Just like its physical version, quantum computing presents the main challenge to this thesis.]
+These devices might potentially make some computations more _efficient_, but they do not change the difference between what is finitely computable and what is not.^[The _extended_ Church Turing thesis, which we discuss in [ECTTsec](){.ref}, stipulates that Turing machines capture also the limit of what can be _efficiently_ computable. Just like its physical version, quantum computing presents the main challenge to this thesis.]
 
 
 
@@ -1118,7 +1118,7 @@ We can summarize the models we have seen in the following table:
 Table: Different models for computing finite functions and functions with arbitrary input length.
 
 
-Later on in [spacechap](){.ref} we will  study _memory bounded_ computation.
+Later on in [spacechap](){.ref} we will study _memory bounded_ computation.
 It turns out that NAND-TM programs with a constant amount of memory are equivalent to the model of _finite automata_ (the adjectives "deterministic" or "nondeterministic" are sometimes added as well, this model is also known as _finite state machines_) which in turns captures the notion of _regular languages_ (those that can be described by [regular expressions](https://en.wikipedia.org/wiki/Regular_expression)), which is a concept we will see in [restrictedchap](){.ref}.
 
 

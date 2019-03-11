@@ -12,10 +12,10 @@ chapternum: "0"
 > ### { .objectives }
 * Introduce and motivate the study of computation for its own sake, irrespective of particular implementations.
 * The notion of an _algorithm_ and some of its history.
-* Algorithms as not just  _tools_, but also _ways of thinking and understanding_.
+* Algorithms as not just _tools_, but also _ways of thinking and understanding_.
 * Taste of Big-$O$ analysis and the surprising creativity in the design of efficient algorithms.
 
->_"Computer Science is no more about computers than astronomy is about telescopes"_,  attributed to Edsger Dijkstra.^[This quote is typically read as disparaging the importance of actual physical computers in Computer Science, but note that telescopes are absolutely essential to astronomy as they provide us with the means to connect  theoretical predictions with actual experimental observations.]
+>_"Computer Science is no more about computers than astronomy is about telescopes"_,  attributed to Edsger Dijkstra.^[This quote is typically read as disparaging the importance of actual physical computers in Computer Science, but note that telescopes are absolutely essential to astronomy as they provide us with the means to connect theoretical predictions with actual experimental observations.]
 
 
 >_"Hackers need to understand the theory of computation about as much as painters need to understand paint chemistry."_ , Paul Graham 2003.^[To be fair, in the following sentence Graham says "you need to know how to calculate time and space complexity and about Turing completeness". This book includes these topics, as well as others such as NP-hardness, randomization, cryptography,  quantum computing, and more.]
@@ -31,7 +31,7 @@ addition, and this proves something of a stumbling block."_,  Alan Cobham, 1964
 
 The origin of much of science and medicine can be traced back to the ancient Babylonians.
 However, the Babylonians' most significant contribution to humanity was arguably the invention of the _place-value number system_.
-The place-value system represents any number using a collection of digits, whereby the _position_ of the digit is used to determine its value, as opposed to a system such as  Roman numerals, where every symbol has a fixed numerical value regardless of position.
+The place-value system represents any number using a collection of digits, whereby the _position_ of the digit is used to determine its value, as opposed to a system such as Roman numerals, where every symbol has a fixed numerical value regardless of position.
 For example, the distance to the moon is 238,900 of our miles or 259,956 Roman miles.
 The latter quantity, expressed in standard Roman numerals is
 
@@ -50,7 +50,7 @@ MMMMMMMMMMMMMMMMMMMDCCCCLVI
 Writing the distance to the sun in Roman numerals would require about 100,000 symbols: a 50-page book just containing this single number!
 
 The above means that for someone who thinks of numbers in an additive system like Roman numerals, quantities like the distance to the moon or sun are not merely large- they are _unspeakable_: cannot be expressed or even grasped.
-It's no wonder that Eratosthenes, who was the first person to calculate the earth's diameter (up to about ten percent error) and Hipparchus who was the first to calculate the distance to the moon, did not use a Roman-numeral type system but rather  the Babylonian sexadecimal (i.e., base 60) place-value system.
+It's no wonder that Eratosthenes, who was the first person to calculate the earth's diameter (up to about ten percent error) and Hipparchus who was the first to calculate the distance to the moon, did not use a Roman-numeral type system but rather the Babylonian sexadecimal (i.e., base 60) place-value system.
 
 The Babylonians also invented the precursors of the "standard algorithms" that we were all taught in elementary school for adding and multiplying numbers.^[For more on the actual algorithms the Babylonians used, see [Knuth's paper](http://steiner.math.nthu.edu.tw/disk5/js/computer/1.pdf) and Neugebauer's [classic book](https://www.amazon.com/Exact-Sciences-Antiquity-Neugebauer/dp/0486223329).]
 These algorithms and their variants have been of course essential to people throughout history working with abaci, papyrus, or pencil and paper, but in our computer age, do they still serve any purpose beyond torturing third graders?
@@ -125,7 +125,7 @@ Indeed, in 1960, the famous mathematician Andrey Kolmogorov organized a seminar 
 In other words, Kolmogorov conjectured that in any multiplication algorithm, doubling the number of digits would _quadruple_ the number of basic operations required.
 
 A young student named Anatoly Karatsuba was in the audience, and within a week he found an algorithm that requires only about $Cn^{1.6}$ operations for some constant $C$.
-Such a  number becomes  much smaller than $n^2$ as $n$ grows.^[At the time of this writing, the [standard Python multiplication implementation](https://svn.python.org/projects/python/trunk/Objects/longobject.c) switches from the elementary school algorithm to  Karatsuba's algorithm when multiplying numbers larger than 1000 bits long.]
+Such a number becomes much smaller than $n^2$ as $n$ grows.^[At the time of this writing, the [standard Python multiplication implementation](https://svn.python.org/projects/python/trunk/Objects/longobject.c) switches from the elementary school algorithm to Karatsuba's algorithm when multiplying numbers larger than 1000 bits long.]
 Amazingly,  Karatsuba's algorithm is based on a faster way to multiply _two-digit_ numbers.
 
 Suppose that $x,y \in [100]=\{0,\ldots, 99 \}$ are a pair of two-digit numbers.
@@ -147,7 +147,7 @@ $$
 (10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = (100-10)\overline{x}\overline{y}+10\left[(\overline{x}+\underline{x})(\overline{y}+\underline{y})\right]  -(10-1)\underline{x}\underline{y} \label{eq:karatsubatwodigit}
 $$
 
-which reduces multiplying the two-digit number $x$ and $y$ to computing the following three "simple" products:  $\overline{x}\overline{y}$, $\underline{x}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$.^[The  term $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ is not exactly a single-digit multiplication as $\overline{x}+\underline{x}$ and $\overline{y}+\underline{y}$ are numbers between $0$ and $18$ and not between $0$ and $9$. As we'll see, it turns out that this  does not make much of a difference, since when we  use this algorithm recursively on $n$-digit numbers, this term will have at most $\ceil{n/2}+1$ digits, which is  essentially half the number of digits as the original input.]
+which reduces multiplying the two-digit number $x$ and $y$ to computing the following three "simple" products:  $\overline{x}\overline{y}$, $\underline{x}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$.^[The term $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ is not exactly a single-digit multiplication as $\overline{x}+\underline{x}$ and $\overline{y}+\underline{y}$ are numbers between $0$ and $18$ and not between $0$ and $9$. As we'll see, it turns out that this does not make much of a difference, since when we use this algorithm recursively on $n$-digit numbers, this term will have at most $\ceil{n/2}+1$ digits, which is essentially half the number of digits as the original input.]
 
 
 ![Karatsuba's multiplication algorithm illustrated for multiplying $x=10\overline{x}+\underline{x}$ and $y=10\overline{y}+\underline{y}$. We compute the three orange, green and purple products $\underline{x}\underline{y}$, $\overline{x}\overline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ and then add and subtract them to obtain the result.](../figure/karatsubatwodigit.png){#karatsubafig .margin  }
@@ -159,9 +159,9 @@ which reduces multiplying the two-digit number $x$ and $y$ to computing the foll
 Of course, if all we wanted was to multiply two digit numbers, we wouldn't need any clever algorithms.
 It turns out that we can repeatedly apply the same idea, and use them to multiply $4$-digit numbers, $8$-digit numbers, $16$-digit numbers, and so on and so forth.
 If we used the grade-school approach, then our cost for doubling the number of digits would be to _quadruple_ the number of multiplications, which for $n=2^\ell$ digits would result in about $4^\ell=n^2$ operations.
-In contrast, in Karatsuba's approach doubling the number of digits  only  _triples_ the number of operations,  which means that for $n=2^\ell$ digits we require about $3^\ell = n^{\log_2 3} \sim n^{1.58}$ operations.
+In contrast, in Karatsuba's approach doubling the number of digits only _triples_ the number of operations,  which means that for $n=2^\ell$ digits we require about $3^\ell = n^{\log_2 3} \sim n^{1.58}$ operations.
 
-Specifically, we use a  _recursive_ strategy as follows:
+Specifically, we use a _recursive_ strategy as follows:
 
 ::: { .algorithm title="Karatsuba multiplication" #karatsubaalg }
 __Input:__ nonnegative integers $x,y$ each of at most $n$ digits
@@ -194,17 +194,17 @@ which equals $(10^n-10^m)\cdot A  + 10^m \cdot B +(1-10^m)\cdot C$, the value re
 The key observation is that  [eqkarastubatwo](){.eqref} reduces the task of computing the product of two $n$-digit numbers to computing _three_ products of  $m$-digit numbers where $m = \floor{n/2}+1$ is roughly equal to $n/2$ (in fact, $m$ is always at most $n/2+1$).
 Specifically, we can compute $x\times y$ from the three products $\overline{x}\overline{y}$, $\underline{x}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$), using a constant number (in fact eight) of additions, subtractions, and multiplications by $10^n$ or $10^{\floor{n/2}}$.
 (Multiplication by a power of ten can be done very efficiently as it corresponds to simply shifting the digits.)
-Intuitively this means that as the number of digits _doubles_, the cost of performing a multiplication via Karatsuba's algorithm _triples_  instead of quadrupling, as happens in the naive algorithm.
+Intuitively this means that as the number of digits _doubles_, the cost of performing a multiplication via Karatsuba's algorithm _triples_ instead of quadrupling, as happens in the naive algorithm.
 
-In particular, by iteratively repeating this reasoning, we can see that  multiplying numbers of $n=2^\ell$ digits via Karatsuba's Algorithm will cost about $3^\ell = n^{\log_2 3} \sim n^{1.585}$ operations.
+In particular, by iteratively repeating this reasoning, we can see that multiplying numbers of $n=2^\ell$ digits via Karatsuba's Algorithm will cost about $3^\ell = n^{\log_2 3} \sim n^{1.585}$ operations.
 [karatsuba-ex](){.ref} shows that the number of single-digit operations that Karatsuba's algorithm uses for multiplying $n$ digit integers is at most $O(n^{\log_2 3})$ (see also [karatsubafig](){.ref}).
 
-![Karatsuba's algorithm reduces an $n$-bit multiplication to three $n/2$-bit multiplications, which in turn are reduced to nine $n/4$-bit multiplications and so on. We can represent the computational cost of all these multiplications in a $3$-ary tree of depth $\log_2 n$, where at the root the extra cost is $cn$ operations, at the first level the extra cost is $c(n/2)$ operations, and at each of the $3^i$ nodes of  level $i$, the extra cost is $c(n/2^i)$. The total cost is $cn\sum_{i=0}^{\log_2 n} (3/2)^i \leq 10cn^{\log_2 3}$ by the formula for summing a geometric series.](../figure/karatsuba_analysis2.png){#karatsuba-fig   }
+![Karatsuba's algorithm reduces an $n$-bit multiplication to three $n/2$-bit multiplications, which in turn are reduced to nine $n/4$-bit multiplications and so on. We can represent the computational cost of all these multiplications in a $3$-ary tree of depth $\log_2 n$, where at the root the extra cost is $cn$ operations, at the first level the extra cost is $c(n/2)$ operations, and at each of the $3^i$ nodes of level $i$, the extra cost is $c(n/2^i)$. The total cost is $cn\sum_{i=0}^{\log_2 n} (3/2)^i \leq 10cn^{\log_2 3}$ by the formula for summing a geometric series.](../figure/karatsuba_analysis2.png){#karatsuba-fig   }
 
 
 ::: {.remark title="Ceilings, floors, and rounding" #remfloors}
 One of the benefits of using Big-$O$ notation is that we can allow ourselves to be a little looser with issues such as rounding numbers.
-For example, the natural way to describe Karatsuba's algorithm's running time is via the   following  recursive equation
+For example, the natural way to describe Karatsuba's algorithm's running time is via the   following recursive equation
 
 $$T(n)= 3T(n/2)+O(n)\;. \label{eqnaiverecursion}$$
 
@@ -233,7 +233,7 @@ Yet, despite all this progress, we still don't know whether or not there is an $
 
 
 :::  {.remark title="Matrix Multiplication (advanced note)" #matrixmult}
-(This book contains many "advanced" or "optional" notes and sections. These may assume background that not every student has, and  can be safely skipped over as none of the future parts depends on them.)
+(This book contains many "advanced" or "optional" notes and sections. These may assume background that not every student has, and can be safely skipped over as none of the future parts depends on them.)
 
 Ideas similar to Karatsuba's can be used to speed up _matrix_ multiplications as well.
 Matrices are a powerful way to represent linear equations and operations, widely used in a great many applications of scientific computing, graphics, machine learning, and many many more.
@@ -247,7 +247,7 @@ Then the formula for the matrix product of $x$ and $y$ can be expressed in the s
 This means that we can use the formula above to give an algorithm that _doubles_ the dimension of the matrices at the expense of increasing the number of operation by a factor of $8$, which for $n=2^\ell$ results in $8^\ell = n^3$ operations.
 
 
-In 1969 Volker Strassen noted that we can compute the product of a pair of two-by-two matrices  using only _seven_ products of numbers by observing that each entry of the matrix $xy$ can be computed by adding and subtracting the following seven terms: $t_1 = (x_{0,0}+x_{1,1})(y_{0,0}+y_{1,1})$, $t_2 = (x_{0,0}+x_{1,1})y_{0,0}$, $t_3 = x_{0,0}(y_{0,1}-y_{1,1})$, $t_4 = x_{1,1}(y_{0,1}-y_{0,0})$, $t_5 = (x_{0,0}+x_{0,1})y_{1,1}$, $t_6 = (x_{1,0}-x_{0,0})(y_{0,0}+y_{0,1})$,
+In 1969 Volker Strassen noted that we can compute the product of a pair of two-by-two matrices using only _seven_ products of numbers by observing that each entry of the matrix $xy$ can be computed by adding and subtracting the following seven terms: $t_1 = (x_{0,0}+x_{1,1})(y_{0,0}+y_{1,1})$, $t_2 = (x_{0,0}+x_{1,1})y_{0,0}$, $t_3 = x_{0,0}(y_{0,1}-y_{1,1})$, $t_4 = x_{1,1}(y_{0,1}-y_{0,0})$, $t_5 = (x_{0,0}+x_{0,1})y_{1,1}$, $t_6 = (x_{1,0}-x_{0,0})(y_{0,0}+y_{0,1})$,
 $t_7 = (x_{0,1}-x_{1,1})(y_{1,0}+y_{1,1})$.
 Indeed, one can verify that $xy = \begin{pmatrix}   t_1 + t_4 - t_5 + t_7 & t_3 + t_5 \\ t_2 +t_4 & t_1 + t_3 - t_2 + t_6 \end{pmatrix}$.
 
@@ -269,16 +269,16 @@ These algorithms are being used not just for the "natural" applications of routi
 
 Google was founded based on the _PageRank_ algorithm, which is an efficient algorithm to approximate the "principal eigenvector" of (a dampened version of) the adjacency matrix of the web graph.
 The _Akamai_ company was founded based on a new data structure, known as _consistent hashing_, for a hash table where buckets are stored at different servers.
-The _backpropagation algorithm_, which computes partial derivatives of a neural network in $O(n)$ instead of $O(n^2)$ time, underlies many of the recent phenomenal successes of  learning deep neural networks.
-Algorithms for solving  linear equations under sparsity constraints, a concept known as _compressed sensing_, have been used to drastically reduce the amount and quality of data needed to analyze MRI images.
+The _backpropagation algorithm_, which computes partial derivatives of a neural network in $O(n)$ instead of $O(n^2)$ time, underlies many of the recent phenomenal successes of learning deep neural networks.
+Algorithms for solving linear equations under sparsity constraints, a concept known as _compressed sensing_, have been used to drastically reduce the amount and quality of data needed to analyze MRI images.
 This made a critical difference for MRI imaging of cancer tumors in children, where previously doctors needed to use anesthesia to suspend breath during the MRI exam, sometimes with dire consequences.
 
 Even for classical questions, studied through the ages, new discoveries are still being made.
-For example, for the question of determining whether a given integer is  prime or composite, which has been studied since the days of  Pythagoras, efficient probabilistic algorithms were only discovered in the 1970s, while the first [deterministic polynomial-time algorithm](https://en.wikipedia.org/wiki/AKS_primality_test) was only found in 2002.
-For the related problem of actually finding the factors of a composite number, new algorithms were found in the 1980s, and (as we'll see later in this course) discoveries in the 1990s  raised the tantalizing prospect of obtaining faster algorithms through the use of quantum mechanical effects.
+For example, for the question of determining whether a given integer is prime or composite, which has been studied since the days of Pythagoras, efficient probabilistic algorithms were only discovered in the 1970s, while the first [deterministic polynomial-time algorithm](https://en.wikipedia.org/wiki/AKS_primality_test) was only found in 2002.
+For the related problem of actually finding the factors of a composite number, new algorithms were found in the 1980s, and (as we'll see later in this course) discoveries in the 1990s raised the tantalizing prospect of obtaining faster algorithms through the use of quantum mechanical effects.
 
 Despite all this progress, there are still many more questions than answers in the world of algorithms.
-For almost all natural problems, we do not know whether the current algorithm is the "best", or whether a significantly  better one is still waiting to be discovered.
+For almost all natural problems, we do not know whether the current algorithm is the "best", or whether a significantly better one is still waiting to be discovered.
 As we already saw, even for the classical problem of multiplying numbers we have not yet answered the age-old question of __"is multiplication harder than addition?"__ .
 
 But at least we now know the right way to _ask_ it.
@@ -288,7 +288,7 @@ But at least we now know the right way to _ask_ it.
 ## On the importance of negative results.
 
 Finding better multiplication algorithms is undoubtedly a worthwhile endeavor.
-But why is it important  to prove that such algorithms _don't_ exist?
+But why is it important to prove that such algorithms _don't_ exist?
 What useful applications could possibly arise from an impossibility result?
 
 
@@ -297,50 +297,50 @@ After all, this is a question even Archimedes could have been excited about.
 Another reason to study impossibility results is that they correspond to the fundamental limits of our world.
 In other words, they are _laws of nature_.
 In physics, the impossibility of building a _perpetual motion machine_ corresponds to the _law of conservation of energy_.
-The impossibility of building  a heat engine beating Carnot's bound corresponds to the second law of thermodynamics, while the impossibility of faster-than-light information transmission is a cornerstone of  special relativity.
+The impossibility of building a heat engine beating Carnot's bound corresponds to the second law of thermodynamics, while the impossibility of faster-than-light information transmission is a cornerstone of special relativity.
 
-In mathematics, while we all learned the solution for quadratic equations in high school, the impossibility of generalizing this to equations of degree five or more gave  birth to _group theory_.
+In mathematics, while we all learned the solution for quadratic equations in high school, the impossibility of generalizing this to equations of degree five or more gave birth to _group theory_.
 Another example of an impossibility result comes from geometry.
 For two millennia, mathematicians tried to show that Euclid's fifth axiom or "postulate" could be derived from the first four.
 (This fifth postulate was known as the  "parallel postulate", and roughly speaking it states that every line has a unique parallel line of each distance.)
-It was shown to be impossible using constructions of so called "non-Euclidean geometries", which turn out to be crucial  for the theory of general relativity.^[It is fine if you have not yet encountered many of the above examples of impossiblity results. I hope however that they spark your curiosity! See  the "Biliographical Notes" section ([bnotesintrosec](){.ref}) for some references.]
+It was shown to be impossible using constructions of so called "non-Euclidean geometries", which turn out to be crucial for the theory of general relativity.^[It is fine if you have not yet encountered many of the above examples of impossiblity results. I hope however that they spark your curiosity! See the "Biliographical Notes" section ([bnotesintrosec](){.ref}) for some references.]
 
-In an analogous way, impossibility results for computation correspond to "computational laws of nature" that tell us about the fundamental limits of any information processing apparatus, whether based on silicon, neurons, or quantum particles.^[Indeed,  some [exciting recent research](http://www.scottaaronson.com/barbados-2016.pdf) is focused on  trying to use computational complexity to shed light on fundamental questions in physics such understanding black holes and reconciling general relativity with quantum mechanics.]
+In an analogous way, impossibility results for computation correspond to "computational laws of nature" that tell us about the fundamental limits of any information processing apparatus, whether based on silicon, neurons, or quantum particles.^[Indeed,  some [exciting recent research](http://www.scottaaronson.com/barbados-2016.pdf) is focused on trying to use computational complexity to shed light on fundamental questions in physics such understanding black holes and reconciling general relativity with quantum mechanics.]
 Moreover, computer scientists have recently been finding creative approaches to _apply_ computational limitations to achieve certain useful tasks.
-For example, much of modern Internet traffic is encrypted using the RSA encryption scheme, which relies on its security on the (conjectured) impossibility of efficiently  factoring large integers.
-More recently, the [Bitcoin](https://en.wikipedia.org/wiki/Bitcoin) system uses a digital analog of the "gold standard" where, instead of using a  precious metal,  new currency is obtained by "mining"  solutions for computationally difficult problems.
+For example, much of modern Internet traffic is encrypted using the RSA encryption scheme, which relies on its security on the (conjectured) impossibility of efficiently factoring large integers.
+More recently, the [Bitcoin](https://en.wikipedia.org/wiki/Bitcoin) system uses a digital analog of the "gold standard" where, instead of using a precious metal,  new currency is obtained by "mining"  solutions for computationally difficult problems.
 
 
 
 > ### { .recap }
 * The history of algorithms goes back thousands of years;  they have been essential much of human progress and these days form the basis of multi-billion dollar industries, as well as life-saving technologies.
 * There is often more than one algorithm to achieve the same computational task. Finding a faster algorithm can often make a much bigger difference than improving computing hardware.
-* Better algorithms and data structures don't just speed up calculations, but can yield  new qualitative insights.
-* One question we will study is to find out what  is  the _most efficient_ algorithm for a given  problem.
-* To show that an algorithm is the most efficient one for a given problem,  we need to be able to _prove_ that it is _impossible_ to solve the  problem using a smaller amount of computational resources.
+* Better algorithms and data structures don't just speed up calculations, but can yield new qualitative insights.
+* One question we will study is to find out what is the _most efficient_ algorithm for a given problem.
+* To show that an algorithm is the most efficient one for a given problem,  we need to be able to _prove_ that it is _impossible_ to solve the problem using a smaller amount of computational resources.
 
 ## Roadmap to the rest of this book {#roadmapsec }
 
-Often, when we try to solve a computational problem, whether it is solving a system of  linear equations, finding the top eigenvector of a matrix, or trying to rank Internet search results, it is enough to use the "I know it when I see it" standard for describing algorithms.
-As long as we find some way to solve the problem, we are happy and  don't care so much about  formal descriptions of the algorithm.
+Often, when we try to solve a computational problem, whether it is solving a system of linear equations, finding the top eigenvector of a matrix, or trying to rank Internet search results, it is enough to use the "I know it when I see it" standard for describing algorithms.
+As long as we find some way to solve the problem, we are happy and don't care so much about formal descriptions of the algorithm.
 But when we want to answer a question such as "does there _exist_ an algorithm to solve the problem $P$?" we need to be much more precise.
 
-In particular, we will  need to __(1)__  define exactly what  it means to solve $P$, and __(2)__  define exactly what  an algorithm is.
+In particular, we will need to __(1)__ define exactly what it means to solve $P$, and __(2)__ define exactly what an algorithm is.
 Even __(1)__ can sometimes be non-trivial but __(2)__ is particularly challenging; it is not at all clear how (and even whether) we can encompass all potential ways to design algorithms.
 We will consider several simple _models of computation_, and argue that, despite their simplicity, they do capture all "reasonable" approaches to achieve computing, including all those that are currently used in modern computing devices.
 
 Once we have these formal models of computation, we can try to obtain _impossibility results_ for computational tasks, showing that some problems _can not be solved_ (or perhaps can not be solved within the resources of our universe).
 Archimedes once said that given a fulcrum and a long enough lever, he could move the world.
-We will see how _reductions_ allow us  to leverage one hardness result into a slew of a great many others, illuminating the boundaries between the computable and uncomputable (or tractable and intractable) problems.
+We will see how _reductions_ allow us to leverage one hardness result into a slew of a great many others, illuminating the boundaries between the computable and uncomputable (or tractable and intractable) problems.
 
 Later in this course we will go back to examining our models of computation, and see how resources such as randomness or quantum entanglement could potentially change the power of our model.
-In the context of  probabilistic algorithms, we will see a glimpse of how randomness  has become an indispensable tool for understanding computation, information, and communication.
-We will also see how  computational difficulty can be an asset rather than a hindrance, and be used for the   "derandomization" of probabilistic algorithms.
+In the context of probabilistic algorithms, we will see a glimpse of how randomness has become an indispensable tool for understanding computation, information, and communication.
+We will also see how computational difficulty can be an asset rather than a hindrance, and be used for the   "derandomization" of probabilistic algorithms.
 The same ideas also show up in _cryptography_, which has undergone not just a technological but also an intellectual revolution in the last few decades, much of it building on the foundations that we explore in this course.
 
 Theoretical Computer Science is a vast topic, branching out and touching upon many scientific and engineering disciplines.
-This book  provides a very partial (and biased) sample of this area.
-More than anything, I hope I will manage to "infect" you with at least some of my love for this field, which is inspired and enriched by the connection to practice, but is also  deep and  beautiful regardless of   applications.
+This book provides a very partial (and biased) sample of this area.
+More than anything, I hope I will manage to "infect" you with at least some of my love for this field, which is inspired and enriched by the connection to practice, but is also deep and beautiful regardless of   applications.
 
 ### Dependencies between chapters
 
@@ -348,7 +348,7 @@ This book is divided into the following parts ,see [dependencystructurefig](){.r
 
 * __Preliminaries:__ Introduction, mathematical background, and representing objects as strings.
 
-* __Part I: Finite computation:__ Boolean circuits / straight-line  programs. Universal gate sets, existence of a circuit for every function, representing circuits as strings and the universal circuit, and the counting lower bound.
+* __Part I: Finite computation:__ Boolean circuits / straight-line programs. Universal gate sets, existence of a circuit for every function, representing circuits as strings and the universal circuit, and the counting lower bound.
 
 * __Part II: Uniform computation:__ Turing machines / programs with loops. Equivalence of models (including RAM machines and $\lambda$ calculus), universal Turing machine, uncomputable functions the Halting problem and Rice's Theorem, Gödel's incompleteness theorem, restricted models (regular and context free languages).
 
@@ -358,16 +358,16 @@ This book is divided into the following parts ,see [dependencystructurefig](){.r
 
 * __Part V: Advanced topics:__ Cryptography, proofs and algorithms (interactive and zero knowledge proofs, Curry-Howard correspondence), quantum computing.
 
-![The dependency structure of the different parts. Part I introduces the model of Boolean circuits to study _finite functions_ with an emphasis on _quantitative_ questions (how many gates to compute a function).  Part II introduces the model of Turing machines to study functions that have _unbounded input lengths_ with an emphasis on _qualitative_ questions (is this function computable or not). Much of Part II does not depend on  Part I, as Turing machines can be used as the first computational model. Part III depends on both parts as it introduces a _quantitative_ study of functions with unbounded input length. The more advancec parts IV (randomized computation) and V (advanced topics) rely on the material of Parts I, II and III.](../figure/dependencystructure.png){#dependencystructurefig   }
+![The dependency structure of the different parts. Part I introduces the model of Boolean circuits to study _finite functions_ with an emphasis on _quantitative_ questions (how many gates to compute a function).  Part II introduces the model of Turing machines to study functions that have _unbounded input lengths_ with an emphasis on _qualitative_ questions (is this function computable or not). Much of Part II does not depend on Part I, as Turing machines can be used as the first computational model. Part III depends on both parts as it introduces a _quantitative_ study of functions with unbounded input length. The more advancec parts IV (randomized computation) and V (advanced topics) rely on the material of Parts I, II and III.](../figure/dependencystructure.png){#dependencystructurefig   }
 
 
 The book largely proceeds in linear order, with each chapter building on the previous ones, with the following exceptions:
 
-* Part II (Uniform Computation) does not have a strong dependency  on Part I (Finite computation) and it should be possible to teach them in the reverse order.
+* Part II (Uniform Computation) does not have a strong dependency on Part I (Finite computation) and it should be possible to teach them in the reverse order.
 
 * All chapters in [advancedpart](){.ref} (Advanced topics) are independent of one another and can be covered in any order.
 
-* [godelchap](){.ref} (Gödel's incompleteness theorem), [restrictedchap](){.ref} (Restricted computational models),  and [spacechap](){.ref} (Space bounded computation), are not used in following  chapters. Hence you can choose whether to cover or skip any of them them.
+* [godelchap](){.ref} (Gödel's incompleteness theorem), [restrictedchap](){.ref} (Restricted computational models),  and [spacechap](){.ref} (Space bounded computation), are not used in following chapters. Hence you can choose whether to cover or skip any of them them.
 
 A course based on this book can use all of Parts I, II, and III  (possibly skipping over some or all of [godelchap](){.ref}, [restrictedchap](){.ref} or [spacechap](){.ref}), and then either cover all or some of Part IV (randomized computation), and add a "sprinkling" of advanced topics from Part V based on student or instructor interest.
 
@@ -387,7 +387,7 @@ c.  Invention of modern electronic computers (improving upon calculations with p
 :::
 
 ::: {.exercise}
-The 1977  Apple II personal computer had a processor speed of 1.023 Mhz or about $10^6$ operations per seconds. At the time of this writing the world's fastest supercomputer performs 93 "petaflops" ($10^{15}$ floating point operations per second) or about $10^{18}$ basic steps per second. For each one of the following running times (as a function of the input length $n$), compute for both computers how large an input  they could handle in a week of computation, if they run an algorithm that has this running time:
+The 1977 Apple II personal computer had a processor speed of 1.023 Mhz or about $10^6$ operations per seconds. At the time of this writing the world's fastest supercomputer performs 93 "petaflops" ($10^{15}$ floating point operations per second) or about $10^{18}$ basic steps per second. For each one of the following running times (as a function of the input length $n$), compute for both computers how large an input they could handle in a week of computation, if they run an algorithm that has this running time:
 
 a. $n$ operations.
 
@@ -406,7 +406,7 @@ In this chapter we mentioned several companies that were founded based on the di
 
 ::: {.exercise title="Analysis of Karatsuba's Algorithm" #karatsuba-ex}
 
-a. Suppose that $T_1,T_2,T_3,\ldots$ is a sequence of numbers such that $T_2 \leq 10$ and for every $n$, $T_n \leq 3T_{\lfloor n/2 \rfloor+1} + Cn$ for some $C \geq 1$. Prove that $T_n \leq 20Cn^{\log_2 3}$ for every $n>2$.^[__Hint:__ Use a proof by induction - suppose that this is true for all $n$'s from $1$ to $m$ and  prove that this is true also for $m+1$.] \
+a. Suppose that $T_1,T_2,T_3,\ldots$ is a sequence of numbers such that $T_2 \leq 10$ and for every $n$, $T_n \leq 3T_{\lfloor n/2 \rfloor+1} + Cn$ for some $C \geq 1$. Prove that $T_n \leq 20Cn^{\log_2 3}$ for every $n>2$.^[__Hint:__ Use a proof by induction - suppose that this is true for all $n$'s from $1$ to $m$ and prove that this is true also for $m+1$.] \
 
 b. Prove that the number of single-digit operations that Karatsuba's algorithm takes to multiply two $n$ digit numbers is at most $1000n^{\log_2 3}$.
 
@@ -417,14 +417,14 @@ Implement in the programming language of your choice functions ```Gradeschool_mu
 
 
 ::: {.exercise title="Matrix Multiplication (optional, advanced)" #matrixex}
-In this exercise, we show that if  for some $\omega>2$, we can write the product of two $k\times k$ real-valued matrices $A,B$ using at most $k^\omega$ multiplications, then we can multiply two $n\times n$ matrices in roughly $n^\omega$ time for every large enough $n$.
+In this exercise, we show that if for some $\omega>2$, we can write the product of two $k\times k$ real-valued matrices $A,B$ using at most $k^\omega$ multiplications, then we can multiply two $n\times n$ matrices in roughly $n^\omega$ time for every large enough $n$.
 
 To make this precise, we need to make some notation that is unfortunately somewhat cumbersome. Assume that there is some $k\in \N$ and $m \leq k^\omega$ such that for every $k\times k$ matrices $A,B,C$ such that $C=AB$, we can write for every $i,j \in [k]$:
 $$
 C_{i,j} = \sum_{\ell=0}^m \alpha_{i,j}^\ell f_\ell(A)g_\ell(B)
 $$
 for some linear functions $f_0,\ldots,f_{m-1},g_0,\ldots,g_{m-1}:\mathbb{R}^{n^2} \rightarrow \mathbb{R}$ and coefficients $\{ \alpha_{i,j}^\ell \}_{i,j \in [k],\ell \in [m]}$.
-Prove that under this assumption  for every $\epsilon>0$, if $n$ is sufficiently large, then there is an algorithm that computes the product of two $n\times n$ matrices using at most $O(n^{\omega+\epsilon})$ arithmetic operations.^[_Hint:_ Start by showing this for the case that $n=k^t$ for some natural number $t$, in which case you can do so recursively by breaking the matrices into $k\times k$ blocks.]
+Prove that under this assumption for every $\epsilon>0$, if $n$ is sufficiently large, then there is an algorithm that computes the product of two $n\times n$ matrices using at most $O(n^{\omega+\epsilon})$ arithmetic operations.^[_Hint:_ Start by showing this for the case that $n=k^t$ for some natural number $t$, in which case you can do so recursively by breaking the matrices into $k\times k$ blocks.]
 :::
 
 
@@ -435,17 +435,17 @@ For a brief overview of what we'll see in this book, you could do far worse than
 The book of Moore and Mertens [@MooreMertens11] gives a wonderful and comprehensive overview of the theory of computation, including much of the content discussed in this chapter and the rest of this book.
 Aaronson's book [@Aaronson13democritus] is another great read that touches upon many of the same themes.
 
-Many of the  algorithms we mention in this chapter are covered in algorithms textbooks such as those by Cormen, Leiserson, Rivert, and Stein [@CLRS], Kleinberg and Tardos [@KleinbergTardos06],  and Dasgupta, Papadimitriou and Vazirani [@DasguptaPV08].
+Many of the algorithms we mention in this chapter are covered in algorithms textbooks such as those by Cormen, Leiserson, Rivert, and Stein [@CLRS], Kleinberg and Tardos [@KleinbergTardos06],  and Dasgupta, Papadimitriou and Vazirani [@DasguptaPV08].
 
 
 The story of Karatsuba's discovery of his multiplication algorithm is recounted by him in [@Karatsuba95]. As mentioned above, further improvements were made by Toom and Cook [@Toom63, @Cook66],  Schönhage and Strassen [@SchonhageStrassen71], and Fürer [@Furer07].
-These last papers crucially rely on the  _Fast Fourier transform_ algorithm. The interesting  of the (re)discovery of this algorithm by John Tukey in the context of the cold war  is recounted in [@Cooley87FFTdiscovery]. (We say re-discovery because it later turned out that the algorithm dates back to Gauss [@heideman1985gauss].)
+These last papers crucially rely on the _Fast Fourier transform_ algorithm. The interesting of the (re)discovery of this algorithm by John Tukey in the context of the cold war is recounted in [@Cooley87FFTdiscovery]. (We say re-discovery because it later turned out that the algorithm dates back to Gauss [@heideman1985gauss].)
 The Fast Fourier Transform is covered in some of the books mentioned below, and there are also online available lectures such as [Jeff Erickson's](http://jeffe.cs.illinois.edu/teaching/algorithms/). See also this [popular article by David Austin](http://www.ams.org/samplings/feature-column/fcarc-multiplication).
-Fast _matrix_ multiplication was discovered by Strassen [@Strassen69], and since then this has been an active area of research. [@Blaser13] is a  recommended self-contained survey of this area.
+Fast _matrix_ multiplication was discovered by Strassen [@Strassen69], and since then this has been an active area of research. [@Blaser13] is a recommended self-contained survey of this area.
 
 The _Backpropagation_ algorithm for fast differentiation of neural networks was invented by Werbos [@Werbos74].
-The _Pagerank_ algorithm was invented by Larry Page and Sergey Brin  [@pagerank99]. It is closely related to the _HITS_ algorithm of Kleinberg [@Kleinber99]. The _Akamai_ company was founded based on the _consistent hashing_ data structure described in [@Akamai97]. _Compressed sensing_ has a long history but two foundational papers are [@CandesRombergTao06, @Donoho2006compressed]. [@compressedmri08] gives a  survey of applications of compressed sensing to MRI; see also this popular article by Ellenberg [@Ellenberg10wired].
-The deterministic polynomial-time  algorithm for testing primality was given by Agrawal, Kayal, and Saxena [@AgrawalKayalSaxena04].
+The _Pagerank_ algorithm was invented by Larry Page and Sergey Brin  [@pagerank99]. It is closely related to the _HITS_ algorithm of Kleinberg [@Kleinber99]. The _Akamai_ company was founded based on the _consistent hashing_ data structure described in [@Akamai97]. _Compressed sensing_ has a long history but two foundational papers are [@CandesRombergTao06, @Donoho2006compressed]. [@compressedmri08] gives a survey of applications of compressed sensing to MRI; see also this popular article by Ellenberg [@Ellenberg10wired].
+The deterministic polynomial-time algorithm for testing primality was given by Agrawal, Kayal, and Saxena [@AgrawalKayalSaxena04].
 
 
-We alluded briefly to classical  impossibility results in mathematics, including the impossibility of proving Euclid's fifth postulate from the other four, impossibility of trisecting an angle with a straightedge and compass and the impossibility of solving a quintic equation via radicals. A geometric proof of the impossibility of angle trisection (one of the three [geometric problems of antiquity](http://mathworld.wolfram.com/GeometricProblemsofAntiquity.html), going back to the ancient Greeks) is given in this [blog post of Tao](https://terrytao.wordpress.com/2011/08/10/a-geometric-proof-of-the-impossibility-of-angle-trisection-by-straightedge-and-compass/). The book of Mario Livio [@Livio05] covers some of the background and ideas behind these impossibility results.
+We alluded briefly to classical impossibility results in mathematics, including the impossibility of proving Euclid's fifth postulate from the other four, impossibility of trisecting an angle with a straightedge and compass and the impossibility of solving a quintic equation via radicals. A geometric proof of the impossibility of angle trisection (one of the three [geometric problems of antiquity](http://mathworld.wolfram.com/GeometricProblemsofAntiquity.html), going back to the ancient Greeks) is given in this [blog post of Tao](https://terrytao.wordpress.com/2011/08/10/a-geometric-proof-of-the-impossibility-of-angle-trisection-by-straightedge-and-compass/). The book of Mario Livio [@Livio05] covers some of the background and ideas behind these impossibility results.

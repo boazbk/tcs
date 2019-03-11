@@ -37,7 +37,7 @@ I also tried to take advantage of modern students' familiarity (or at least inte
 That said, this course does not assume fluency with any particular programming language, but rather only some familiarity with the general _notion_ of programming.
 We will use programming metaphors and idioms, occasionally mentioning specific programming languages such as _Python_, _C_, or _Lisp_, but students should be able to follow these descriptions even if they are not familiar with these languages.
 
-Proofs in this course, including the existence of a universal Turing Machine, the fact that every finite function can be computed by some circuit, the Cook-Levin theorem, and many others, are often constructive and algorithmic, in the sense that they ultimately involve transforming  one program to another.
+Proofs in this course, including the existence of a universal Turing Machine, the fact that every finite function can be computed by some circuit, the Cook-Levin theorem, and many others, are often constructive and algorithmic, in the sense that they ultimately involve transforming one program to another.
 While it is possible to follow these proofs without seeing the code, I do think that having access to the code, and the ability to play around with it and see how it acts on various programs, can make these theorems more concrete for the students.
 To that end, an accompanying website (which is still work in progress) allows executing programs in the various computational models we define, as well as see constructive proofs of some of the theorems.
 
@@ -46,7 +46,7 @@ To that end, an accompanying website (which is still work in progress) allows ex
 This book can be challenging, mainly because it brings together a variety of ideas and techniques in the study of computation.
 There are quite a few technical hurdles to master, whether it is following the diagonalization argument in proving the Halting Problem is undecidable,  combinatorial gadgets in NP-completeness reductions, analyzing probabilistic algorithms, or arguing about the adversary to prove the security of cryptographic primitives.
 
-The best way to engage with this material is to read these notes  __actively__, so make sure you have a pen ready.
+The best way to engage with this material is to read these notes __actively__, so make sure you have a pen ready.
 While reading, I encourage you to stop and think about the following:
 
 * When I state a theorem, stop and take a shot at proving it on your own _before_ reading the proof. You will be amazed by how much you can understand a proof better even after only 5 minutes of attempting it on your own.
@@ -55,7 +55,7 @@ While reading, I encourage you to stop and think about the following:
 
 * Actively notice which questions arise in your mind as you read the text, and whether or not they are answered in the text.
 
-As a general rule, it is more important that you understand the  __definitions__ than the __theorems__, and it is more important that you understand a __theorem statement__  than its __proof__.
+As a general rule, it is more important that you understand the __definitions__ than the __theorems__, and it is more important that you understand a __theorem statement__ than its __proof__.
 After all, before you can prove a theorem, you need to understand what it states, and to understand what a theorem is about, you need to know the definitions of the objects involved.
 Whenever a proof of a theorem is at least somewhat complicated,  I provide a "proof idea."
 Feel free to skip the actual proof in a first reading, focusing only on the proof idea.
@@ -84,9 +84,9 @@ To some extent, it is similar in content to "Theory of Computation" or "Great Id
 
 
 The most significant difference between our approach and more traditional ones (such as Hopcroft and Ullman's [@HopcroftUllman69, @HopcroftUllman79] and Sipser's [@SipserBook])  is that we do not start with _finite automata_ as our initial computational model.
-Instead, our initial computational model is  _Boolean Circuits_.^[An earlier book that starts with circuits as the initial model is John Savage's  [@Savage1998models].]
+Instead, our initial computational model is _Boolean Circuits_.^[An earlier book that starts with circuits as the initial model is John Savage's  [@Savage1998models].]
 We believe that Boolean Circuits are more fundamental to the theory of computing (and even its practice!) than automata.
-In particular, Boolean Circuits are a prerequisite for many concepts that one would want to teach in a modern course on  Theoretical Computer Science, including cryptography, quantum computing, derandomization, attempts at proving $\mathbf{P} \neq \mathbf{NP}$, and more.
+In particular, Boolean Circuits are a prerequisite for many concepts that one would want to teach in a modern course on Theoretical Computer Science, including cryptography, quantum computing, derandomization, attempts at proving $\mathbf{P} \neq \mathbf{NP}$, and more.
 Even in cases where Boolean Circuits are not strictly required, they can often offer significant simplifications (as in the case of the proof of the Cook-Levin Theorem).
 
 Furthermore, I believe there are pedagogical reasons to start with Boolean circuits as opposed to finite automata.
@@ -100,23 +100,23 @@ Automata are discussed after we see Turing machines and undecidability, as an ex
 
 
 While this is not our motivation, the order we present circuits, Turing machines, and automata roughly corresponds to the chronological order of their discovery.
-Boolean algebra goes back to Boole's and DeMorgan's works in the 1840s [@Boole1847mathematical, @DeMorgan1847] (though the definition of Boolean circuits and the connection to physical computation was given 90 years later by Shannon [@Shannon1938]).  Alan Turing defined what we now call "Turing Machines" in the 1930s [@Turing37], while finite automata were introduced in the 1943 work of  McCulloch and Pitts [@McCullochPitts43] but only really understood in the seminal 1959 work of Rabin and Scott [@RabinScott59].
+Boolean algebra goes back to Boole's and DeMorgan's works in the 1840s [@Boole1847mathematical, @DeMorgan1847] (though the definition of Boolean circuits and the connection to physical computation was given 90 years later by Shannon [@Shannon1938]).  Alan Turing defined what we now call "Turing Machines" in the 1930s [@Turing37], while finite automata were introduced in the 1943 work of McCulloch and Pitts [@McCullochPitts43] but only really understood in the seminal 1959 work of Rabin and Scott [@RabinScott59].
 
 More importantly, while models such as finite-state machines, regular expressions, and context-free grammars are incredibly important for practice, the main applications for these models
-(whether it is  for parsing, for analyzing properties such as _liveness_ and _safety_, or even for [software defined routing tables](https://www.cs.cornell.edu/~kozen/Papers/NetKAT-APLAS.pdf)) rely crucially on the fact that these are _tractable_ models for which we can effectively answer _semantic questions_.
+(whether it is for parsing, for analyzing properties such as _liveness_ and _safety_, or even for [software defined routing tables](https://www.cs.cornell.edu/~kozen/Papers/NetKAT-APLAS.pdf)) rely crucially on the fact that these are _tractable_ models for which we can effectively answer _semantic questions_.
 This practical motivation can be better appreciated _after_ students see the undecidability of semantic properties of general computing models.
 
 
 The fact that we start with circuits makes proving the Cook-Levin Theorem much easier. In fact, our proof of this theorem can (and is)  done using a handful of lines of Python. Combining this proof with the standard reductions (which are also implemented in Python) allows students to appreciate visually how a question about computation can be mapped into a question about (for example) the existence of an independent set in a graph.
 
 
-Some other  differences between this book and previous texts are the following:
+Some other differences between this book and previous texts are the following:
 
 
 1. For measuring _time complexity_, we use the standard RAM machine model used (implicitly) in algorithms courses, rather than Turing machines. While these two models are of course polynomially equivalent, and hence make no difference for the definitions of the classes $\mathbf{P}$, $\mathbf{NP}$, and $\mathbf{EXP}$,  our choice makes the distinction between notions such as $O(n)$ or $O(n^2)$ time more meaningful. This choice also ensures that these finer-grained time complexity classes correspond to the informal definitions of linear and quadratic time that students encounter in their algorithms lectures (or their whiteboard coding interviews..).
 
 
-2. We use the terminology of _functions_ rather than _languages_. That is, rather than saying that a Turing Machine $M$ _decides a language_ $L \subseteq \{0,1\}^*$, we say that it _computes a function_ $F:\{0,1\}^* \rightarrow \{0,1\}$. The terminology of "languages" arises from  Chomsky's work [@Chomsky56], but it is often more confusing than illuminating. The language terminology also makes it cumbersome to discuss concepts such as algorithms that compute functions with more than one bit of output (including basic tasks such as addition, multiplication, etc..). The fact that we use functions rather than languages means we have to be extra vigilant about students distinguishing between the _specification_ of a computational task (e.g., the _function_) and its _implementation_ (e.g., the _program_). On the other hand, this point is so important that it is worth repeatedly emphasizing and drilling into the students, regardless of the notation used. The book does mention the language terminology and reminds of it occasionally, to make it easier for students to consult outside resources.
+2. We use the terminology of _functions_ rather than _languages_. That is, rather than saying that a Turing Machine $M$ _decides a language_ $L \subseteq \{0,1\}^*$, we say that it _computes a function_ $F:\{0,1\}^* \rightarrow \{0,1\}$. The terminology of "languages" arises from Chomsky's work [@Chomsky56], but it is often more confusing than illuminating. The language terminology also makes it cumbersome to discuss concepts such as algorithms that compute functions with more than one bit of output (including basic tasks such as addition, multiplication, etc..). The fact that we use functions rather than languages means we have to be extra vigilant about students distinguishing between the _specification_ of a computational task (e.g., the _function_) and its _implementation_ (e.g., the _program_). On the other hand, this point is so important that it is worth repeatedly emphasizing and drilling into the students, regardless of the notation used. The book does mention the language terminology and reminds of it occasionally, to make it easier for students to consult outside resources.
 
 
 
@@ -172,4 +172,4 @@ I used the [Jupyter project](http://jupyter.org/) to write the supplemental code
 
 Finally, I would like to thank my family: my wife Ravit, and my children Alma and Goren.
 Working on this book (and the corresponding course) took so much of my time that Alma wrote an essay for her fifth-grade class saying that "universities should not pressure professors to work too much."
-I'm afraid all I have to show for this effort is  600 pages of ultra-boring mathematical text.
+I'm afraid all I have to show for this effort is 600 pages of ultra-boring mathematical text.

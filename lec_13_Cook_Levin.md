@@ -12,7 +12,7 @@ chapternum: "14"
 * The $\mathbf{P}$ vs $\mathbf{NP}$ problem.
 
 
->_"In this paper we give theorems that suggest, but do not imply, that these problems, as well as many others, will remain  intractable perpetually"_, Richard Karp, 1972
+>_"In this paper we give theorems that suggest, but do not imply, that these problems, as well as many others, will remain intractable perpetually"_, Richard Karp, 1972
 
 
 >_"Sad to say, but it will be many more years, if ever before we really understand the Mystical Power of Twoness... 2-SAT is easy, 3-SAT is hard, 2-dimensional matching is easy, 3-dimensional matching is hard. Why? oh, Why?"_ Eugene Lawler
@@ -26,15 +26,15 @@ But to show that these problems are _computationally equivalent_ we need to give
 It turns out we can reduce all three problems to 3SAT in one fell swoop.
 
 
-In fact, this result extends  far beyond these particular problems.
-All of the problems we discussed in [reductionchap](){.ref}, and a great many other problems, share the same  commonality:
+In fact, this result extends far beyond these particular problems.
+All of the problems we discussed in [reductionchap](){.ref}, and a great many other problems, share the same commonality:
 they are all _search_ problems, where the goal is to decide, given an instance $x$, whether there exists a _solution_ $y$ that satisfies some condition that can be verified in polynomial time.
 For example, in 3SAT, the instance is a formula and the solution is an assignment to the variable; in Max-Cut the instance is a graph and the solution is a cut in the graph; and so on and so forth.
-It turns out that  _every_ such search problem can be reduced to 3SAT.
+It turns out that _every_ such search problem can be reduced to 3SAT.
 
-To make this precise, we  make the following mathematical definition:
-we define the class $\mathbf{NP}$ to  contain all Boolean functions that correspond to a _search problem_ of the form above$-$
-that is, functions that  output $1$ on $x$ if and only if there exists a solution $w$ such that the pair $(x,w)$ satisfies some polynomial-time checkable condition.
+To make this precise, we make the following mathematical definition:
+we define the class $\mathbf{NP}$ to contain all Boolean functions that correspond to a _search problem_ of the form above$-$
+that is, functions that output $1$ on $x$ if and only if there exists a solution $w$ such that the pair $(x,w)$ satisfies some polynomial-time checkable condition.
 Formally, $\mathbf{NP}$ is defined as follows:
 
 ![The class $\mathbf{NP}$ corresponds to problems where solutions can be _efficiently verified_.  That is, this is the class of functions $F$ such that $F(x)=1$ if there is a "solution" $w$ of length polynomial in $|x|$ that can be verified by a polynomial-time algorithm $V$. ](../figure/NPdeffig.png){#NPdeffigfig .margin  }
@@ -59,7 +59,7 @@ That is, we can think of the function $V$ in [NP-def](){.ref} as a _verifier_ al
 The verifier checks whether a given string $w\in \{0,1\}^*$ is a valid proof for the statement "$F(x)=1$".
 Essentially all proof systems considered in mathematics involve line-by-line checks that can be carried out in polynomial time.
 Thus the heart of $\mathbf{NP}$ is asking for statements that have _short_ (i.e., polynomial in the size of the statements) proof.
-Indeed, as we will see  in [#chappvsnp](){.ref},  Kurt Gödel phrased the question of whether $\mathbf{NP}=\mathbf{P}$ as asking whether "the mental work of a mathematician [in proving theorems]  could be completely replaced by a machine".
+Indeed, as we will see in [#chappvsnp](){.ref},  Kurt Gödel phrased the question of whether $\mathbf{NP}=\mathbf{P}$ as asking whether "the mental work of a mathematician [in proving theorems]  could be completely replaced by a machine".
 
 > ### { .pause }
 [NP-def](){.ref} is _assymetric_ in the sense that there is a difference between an output of $1$ and an output of $0$.
@@ -75,7 +75,7 @@ $3SAT$ is in $\mathbf{NP}$ since for every $\ell$-variable formula $\varphi$, $3
 The above reasoning explains why $3SAT$ is in $\mathbf{NP}$,  but since this is our first example, we will now belabor the point and expand out in full formality what is the precise representation of the witness $w$ and the algorithm $V$ that demonstrate that  $3SAT$ is in  $\mathbf{NP}$.
 
 
-Specifically, we can represent a 3CNF formula $\varphi$ with $k$ variables and $m$ clauses  as a string of length $n=O(m\log k)$, since every one of the $m$ clauses involves three variables and their negation, and the identity of each variable can be represented using $\lceil \log_2 k \rceil$.
+Specifically, we can represent a 3CNF formula $\varphi$ with $k$ variables and $m$ clauses as a string of length $n=O(m\log k)$, since every one of the $m$ clauses involves three variables and their negation, and the identity of each variable can be represented using $\lceil \log_2 k \rceil$.
 We assume that every variable participates in some clause (as otherwise it can be ignored) and hence that $m \geq k$, which in particular means that $n$ is larger than both $m$ and $k$.
 
 We can represent an assignment to the $k$ variables using a $k$-length string, which, since $n > k$, can be "padded" to a string $w\in \{0,1\}^n$ in some standard way. (For example, if $y\in \{0,1\}^k$ is the assignment, we can let $w=y10^{n-k-1}$; given the string $w$ we can "read off" $y$, by chopping off all the zeroes at the end of $w$ until we encounter the first $1$, which we remove as well.)
@@ -102,9 +102,9 @@ __Operation:__
 2. Output $1$.
 :::
 
-Algorithm $V$ runs in time polynomial in the length $n$ of $\varphi$'s description as a string. Indeed there are $m$ clauses, and checking the evaluation of  a literal of the form $y_i$ or $\neg y_j$ can be done by scanning the $k$-length string $y$, and hence the running time of Algorithm $V$ is at most $O(mk)=O(n^2)$, as both $k$ and $m$ are smaller than $n$.
+Algorithm $V$ runs in time polynomial in the length $n$ of $\varphi$'s description as a string. Indeed there are $m$ clauses, and checking the evaluation of a literal of the form $y_i$ or $\neg y_j$ can be done by scanning the $k$-length string $y$, and hence the running time of Algorithm $V$ is at most $O(mk)=O(n^2)$, as both $k$ and $m$ are smaller than $n$.
 
-By its definition the algorithm outputs $1$ if and only if the assignment $y$ satisfies  all the clauses of the 3CNF formula $\varphi$, which means that $3SAT(\varphi)=1$ if and only if there exists some $w\in \{0,1\}^n$ such that $V(\varphi w)=1$ which is precisely the condition needed to show that  $3SAT \in \mathbf{NP}$ per [NP-def](){.ref}.
+By its definition the algorithm outputs $1$ if and only if the assignment $y$ satisfies all the clauses of the 3CNF formula $\varphi$, which means that $3SAT(\varphi)=1$ if and only if there exists some $w\in \{0,1\}^n$ such that $V(\varphi w)=1$ which is precisely the condition needed to show that  $3SAT \in \mathbf{NP}$ per [NP-def](){.ref}.
 :::
 
 ::: {.remark title="Padding a witness" #padding}
@@ -118,14 +118,14 @@ Here are some more examples for problems in $\mathbf{NP}$. For each one of these
 
 * $ISET$ is in $\mathbf{NP}$ since for every graph $G$ and integer $k$, $ISET(G,k)=1$ if and only if there exists a set $S$ of $k$ vertices that contains no pair of neighbors in $G$. We can check the condition that $S$ is an independent set of size $\geq k$ in polynomial time by first checking that $|S| \geq k$ and then enumerating over all edges $\{u,v \}$ in $G$, and for each such edge verify that either $u\not\in S$ or $v\not\in S$.
 
-* $LONGPATH$ is in $\mathbf{NP}$ since for every graph $G$ and integer $k$, $LONGPATH(G,k)=1$ if and only if there exists a simple path $P$ in $G$ that is of length at least $k$. We can check the condition that $P$ is a simple path of length $k$ in polynomial time  by checking that it has the form $(v_0,v_1,\ldots,v_k)$ where each $v_i$ is a vertex in $G$, no $v_i$ is repeated, and for every $i \in [k]$, the edge $\{v_i,v_{i+1}\}$ is present in the graph.
+* $LONGPATH$ is in $\mathbf{NP}$ since for every graph $G$ and integer $k$, $LONGPATH(G,k)=1$ if and only if there exists a simple path $P$ in $G$ that is of length at least $k$. We can check the condition that $P$ is a simple path of length $k$ in polynomial time by checking that it has the form $(v_0,v_1,\ldots,v_k)$ where each $v_i$ is a vertex in $G$, no $v_i$ is repeated, and for every $i \in [k]$, the edge $\{v_i,v_{i+1}\}$ is present in the graph.
 
 * $MAXCUT$ is in $\mathbf{NP}$ since for every graph $G$ and integer $k$, $MAXCUT(G,k)=1$ if and only if there exists a cut $(S,\overline{S})$ in $G$ that cuts at least $k$ edges. We can check that condition that $(S,\overline{S})$ is a cut of value at least $k$ in polynomial time by checking that $S$ is a subset of $G$'s vertices and enumerating over all the edges $\{u,v\}$ of $G$, counting those edges such that $u\in S$ and $v\not\in S$ or vice versa.
 
 
 ### Basic facts about $\mathbf{NP}$
 
-The definition of $\mathbf{NP}$ is one of the most important definitions of this book, and  is worth while taking the time to digest and internalize.
+The definition of $\mathbf{NP}$ is one of the most important definitions of this book, and is worth while taking the time to digest and internalize.
 The following solved exercises establish some basic properties of this class.
 As usual, I highly recommend that you try to work out the solutions yourself.
 
@@ -155,7 +155,7 @@ Prove that $\mathbf{NP} \subseteq \mathbf{EXP}$.
 :::
 
 ::: {.solution data-ref="NPinEXP"}
-Suppose that $F\in \mathbf{NP}$ and let $V$ be the polynomial-time computable function that satisfies [{NP:eq}](){.eqref} and $a,b$ the corresponding constants. Then the following is an exponential-time  algorithm $A$ to compute $F$:
+Suppose that $F\in \mathbf{NP}$ and let $V$ be the polynomial-time computable function that satisfies [{NP:eq}](){.eqref} and $a,b$ the corresponding constants. Then the following is an exponential-time algorithm $A$ to compute $F$:
 
 ::: {.quote}
 __Algorithm $A$:__
@@ -216,9 +216,9 @@ The following is one of the most fundamental theorems in Computer Science:
 > ### {.theorem title="Cook-Levin Theorem" #cook-levin-thm}
 For every $F\in \mathbf{NP}$, $F \leq_p 3SAT$.
 
-We will soon show the proof of [cook-levin-thm](){.ref}, but note that it immediately implies  that $QUADEQ$, $LONGPATH$, and $MAXCUT$ all reduce to $3SAT$.
+We will soon show the proof of [cook-levin-thm](){.ref}, but note that it immediately implies that $QUADEQ$, $LONGPATH$, and $MAXCUT$ all reduce to $3SAT$.
 Combining it with the reductions we've seen in [reductionchap](){.ref}, it implies that all these problems are _equivalent!_
-For example, to reduce $QUADEQ$ to $LONGPATH$, we can first reduce $QUADEQ$ to $3SAT$ using [cook-levin-thm](){.ref} and use the reduction we've seen  in [longpaththm](){.ref} from $3SAT$ to $LONGPATH$.
+For example, to reduce $QUADEQ$ to $LONGPATH$, we can first reduce $QUADEQ$ to $3SAT$ using [cook-levin-thm](){.ref} and use the reduction we've seen in [longpaththm](){.ref} from $3SAT$ to $LONGPATH$.
 That is, since $QUADEQ \in \mathbf{NP}$, [cook-levin-thm](){.ref} implies that $QUADEQ \leq_p 3SAT$, and  [longpaththm](){.ref}  implies that $3SAT \leq_p LONGPATH$, which by the transitivity of reductions ([transitivitylem](){.ref}) means that $QUADEQ \leq_p LONGPATH$.
 Similarly, since $LONGPATH \in \mathbf{NP}$, we can use [cook-levin-thm](){.ref} and [quadeq-thm](){.ref} to show that $LONGPATH \leq_p 3SAT \leq_p QUADEQ$, concluding that $LONGPATH$ and $QUADEQ$ are computationally equivalent.
 
@@ -247,13 +247,13 @@ The fact that these problems have been studied by so many people, and yet not a 
 In fact, for many of these problems (including all the ones we mentioned above), we don't even know of a $2^{o(n)}$-time algorithm!
 However, to the frustration of computer scientists, we have not yet been able to prove that $\mathbf{P}\neq\mathbf{NP}$ or even rule out the existence of an $O(n)$-time algorithm for 3SAT.
 Resolving whether or not $\mathbf{P}=\mathbf{NP}$ is known as the [$\mathbf{P}$ vs $\mathbf{NP}$ problem](https://en.wikipedia.org/wiki/P_versus_NP_problem).
-A million-dollar prize has been [offered](http://www.claymath.org/millennium-problems/p-vs-np-problem) for the solution of this problem, a [popular book](https://www.amazon.com/dp/B00BKZYGUY) has been written, and every year a new paper comes out claiming a proof of $\mathbf{P}=\mathbf{NP}$ or $\mathbf{P}\neq\mathbf{NP}$, only to wither under scrutiny.^[The following [web page](https://goo.gl/bFHsd9) keeps a catalog of these failed attempts. At the time of this writing, it lists  about 110 papers claiming to resolve the question, of which about 60 claim to prove that $\mathbf{P}=\mathbf{NP}$ and about 50 claim to prove that $\mathbf{P} \neq \mathbf{NP}$.]
+A million-dollar prize has been [offered](http://www.claymath.org/millennium-problems/p-vs-np-problem) for the solution of this problem, a [popular book](https://www.amazon.com/dp/B00BKZYGUY) has been written, and every year a new paper comes out claiming a proof of $\mathbf{P}=\mathbf{NP}$ or $\mathbf{P}\neq\mathbf{NP}$, only to wither under scrutiny.^[The following [web page](https://goo.gl/bFHsd9) keeps a catalog of these failed attempts. At the time of this writing, it lists about 110 papers claiming to resolve the question, of which about 60 claim to prove that $\mathbf{P}=\mathbf{NP}$ and about 50 claim to prove that $\mathbf{P} \neq \mathbf{NP}$.]
 The following [120 page survey of Aaronson](https://eccc.weizmann.ac.il/report/2017/004/), as well as [chapter 3 in Wigderson's upcoming book](https://www.math.ias.edu/avi/book) are excellent sources for summarizing what is known about this problem.
 
 
 ![The world if $\mathbf{P}\neq \mathbf{NP}$ (left) and $\mathbf{P}=\mathbf{NP}$ (right). In the former case the set of $\mathbf{NP}$-complete problems is disjoint from $\mathbf{P}$ and Ladner's theorem shows that there exist problems that are neither in $\mathbf{P}$ nor are $\mathbf{NP}$-complete. (There are remarkably few natural candidates for such problems, with some prominent examples being decision variants of problems such as integer factoring, lattice shortest vector, and finding Nash equilibria.) In the latter case that $\mathbf{P}=\mathbf{NP}$ the notion of $\mathbf{NP}$-completeness loses its meaning, as essentially all functions in $\mathbf{P}$ (save for the trivial constant zero and constant one functions) are $\mathbf{NP}$-complete.](../figure/PNPscenarios.png){#PNPscenariosfig .margin  }
 
-One of the mysteries of computation is that people have observed a  certain empirical "zero-one law" or "dichotomy" in the computational complexity of natural problems, in the sense that many natural problems are either in $\mathbf{P}$ (often in $TIME(O(n))$ or $TIME(O(n^2))$), or they are are $\mathbf{NP}$ hard.
+One of the mysteries of computation is that people have observed a certain empirical "zero-one law" or "dichotomy" in the computational complexity of natural problems, in the sense that many natural problems are either in $\mathbf{P}$ (often in $TIME(O(n))$ or $TIME(O(n^2))$), or they are are $\mathbf{NP}$ hard.
 This is related to the fact that for most natural problems, the best known algorithm is either exponential or polynomial, with not too many examples where the best running time is some strange intermediate complexity such as $2^{2^{\sqrt{\log n}}}$.
 However, it is believed that there exist problems in $\mathbf{NP}$ that are neither in $\mathbf{P}$ nor are $\mathbf{NP}$-complete, and in fact a result known as "Ladner's Theorem" shows that if $\mathbf{P} \neq \mathbf{NP}$ then this is indeed the case (see also [ladner-ex](){.ref} and [PNPscenariosfig](){.ref}).
 
@@ -263,7 +263,7 @@ However, it is believed that there exist problems in $\mathbf{NP}$ that are neit
 ![A rough illustration of the (conjectured) status of problems in exponential time. Darker colors correspond to higher running time, and the circle in the middle is the problems in $\mathbf{P}$. $\mathbf{NP}$ is a (conjectured to be proper) superclass of $\mathbf{P}$ and the $\mathbf{NP}$-complete problems (or $\mathbf{NPC}$ for short) are the "hardest" problems in $\mathbf{NP}$, in the sense that a solution for one of them implies a solution for all other problems in $\mathbf{NP}$. It is conjectured that all the $\mathbf{NP}$-complete problems require at least $\exp(n^\epsilon)$ time to solve for a constant $\epsilon>0$, and many require  $\exp(\Omega(n))$ time. The _permanent_ is not believed to be contained in $\mathbf{NP}$ though it is $\mathbf{NP}$-hard, which means that a polynomial-time algorithm for it implies that $\mathbf{P}=\mathbf{NP}$.](../figure/PNPmap.png){#figureid .margin  }
 
 
-^[TODO: maybe add examples of NP hard problems as a barrier to understanding - problems  from economics, physics, etc.. that prevent having a closed-form solutions]
+^[TODO: maybe add examples of NP hard problems as a barrier to understanding - problems from economics, physics, etc.. that prevent having a closed-form solutions]
 
 ^[TODO: maybe include knots]
 
@@ -273,7 +273,7 @@ However, it is believed that there exist problems in $\mathbf{NP}$ that are neit
 ###  The Cook-Levin Theorem: Proof outline
 
 
-We will now prove the Cook-Levin Theorem, which  is the underpinning to  a great web of reductions from 3SAT to thousands of problems across great many fields.
+We will now prove the Cook-Levin Theorem, which is the underpinning to a great web of reductions from 3SAT to thousands of problems across great many fields.
 Some problems that have been shown to be $\mathbf{NP}$-complete include: minimum-energy protein folding, minimum surface-area foam configuration, map coloring,    optimal Nash equilibrium, quantum state entanglement, minimum supersequence of a genome, minimum codeword problem, shortest vector in a lattice, minimum genus knots, positive Diophantine equations, integer programming, and many many more.
 The worst-case complexity of all these problems is (up to polynomial factors) equivalent to that of 3SAT, and through the Cook-Levin Theorem, to all problems in $\mathbf{NP}$.
 
@@ -303,7 +303,7 @@ We will prove these three results [nand-thm](){.ref}, [threenand-thm](){.ref} an
 
 ## The $NANDSAT$ Problem, and why it is $\mathbf{NP}$ hard.
 
-We define the $NANDSAT$ problem as follows. On input a string $Q\in \{0,1\}^*$, we define $NANDSAT(Q)=1$ if and only if $Q$ is a valid representation of an $n$-input and single-output NAND  program and there exists some $w\in \{0,1\}^n$ such that $Q(w)=1$.
+We define the $NANDSAT$ problem as follows. On input a string $Q\in \{0,1\}^*$, we define $NANDSAT(Q)=1$ if and only if $Q$ is a valid representation of an $n$-input and single-output NAND program and there exists some $w\in \{0,1\}^n$ such that $Q(w)=1$.
 While we don't need this to prove [nand-thm](){.ref}, note that $NANDSAT$ is in $\mathbf{NP}$ since we can verify that $Q(w)=1$ using the polyonmial-time algorithm for evaluating NAND-CIRC programs.^[$Q$ is a NAND-CIRC program and not a NAND-TM program, and hence it is only defined on inputs of some particular size $n$. Evaluating $Q$ on any input $w\in \{0,1\}^n$ can be done in time polynomial in the number of lines of $Q$.]
 We now prove that $NANDSAT$ is $\mathbf{NP}$ hard.
 
@@ -313,7 +313,7 @@ $NANDSAT$ is $\mathbf{NP}$ hard.
 
 > ### {.proofidea data-ref="nand-thm"}
 To prove [nand-thm](){.ref}  we need to show that for every $F\in \mathbf{NP}$, $F \leq_p NANDSAT$.
-The high-level idea is that by the definition  of $\mathbf{NP}$, there is some NAND-TM program $P^*$ and some polynomial $T(\cdot)$ such that $F(x)=1$ if and only if there exists some $w \in \{0,1\}^{a|x|^b}$ such that $P^*(xw)$ outputs $1$ within $T(|x|)$ steps.
+The high-level idea is that by the definition of $\mathbf{NP}$, there is some NAND-TM program $P^*$ and some polynomial $T(\cdot)$ such that $F(x)=1$ if and only if there exists some $w \in \{0,1\}^{a|x|^b}$ such that $P^*(xw)$ outputs $1$ within $T(|x|)$ steps.
 Now by "unrolling the loop" of the NAND-TM program $P^*$ we can convert it into an $O(T(n))$  NAND-CIRC program $Q'$ with $n + an^b$ inputs and a single output such that for every $x\in \{0,1\}^n$ and $w\in \{0,1\}^{an^b}$, $Q'(xw)=P^*(xw)$. on input $x \in \{0,1\}$  that on input $w$ will simulate $P^*(xw)$ for $T(|x|)$ steps.
 The next step is to _hardwire_ the input $x$ to $Q'$ to obtain an $O(T(n))$ line NAND-CIRC program $Q$ with $m=an^b$ inputs such that for every $w\in \{0,1\}^m$, $Q'(w)=Q(xw)$.
 By construction it will be the case that for every $x\in \{0,1\}^n$, $F(x)=1$ if and only if there exists $w\in \{0,1\}^{an^b}$ such that $Q(w)=1$, and hence this shows that $F \leq_p NANDSAT$.
@@ -342,7 +342,7 @@ Given a $T$-line NAND-CIRC program $Q'$ of $n+m$ inputs and $x^* \in \{0,1\}^n$,
 
 ::: {.proof data-ref="hardwiringlem"}
 To compute $Q$, we simply do a "search and replace" for all references in $Q'$ to `X[`$i$`]` for $i \in [n]$, and transform them to either the variable `zero` or `one` depending on whether $x^*_i$ is equal to $0$ or $1$ respectively.
-By adding three lines to the beginning of $Q'$, we can ensure that the `zero` and `one` variables  will have the correct value.
+By adding three lines to the beginning of $Q'$, we can ensure that the `zero` and `one` variables will have the correct value.
 The only thing that then remains to do another search and replace to transform all references to the variables `X[`$n$`]`,$\ldots$, `X[`$n+m-1$`]` to the variables `X[`$0$`]`, $\ldots$, `X[`$m-1$`]` so that the $m$ inputs to the new program $Q$ will correspond to last $m$ inputs of the original program $Q'$.
 See [hardwiringfig](){.ref} for an implementation of this reduction in Python.
 :::
@@ -359,7 +359,7 @@ Since we know that $F(x^*)=1$ if and only if there exists $w\in \{0,1\}^m$ such 
 
 ## The $3NAND$ problem
 
-The $3NAND$ problem is defined as follows: the input is a logical formula $\varphi$ on a set of  variables $z_0,\ldots,z_{r-1}$
+The $3NAND$ problem is defined as follows: the input is a logical formula $\varphi$ on a set of variables $z_0,\ldots,z_{r-1}$
 which is an AND of constraints of the form $z_i = NAND(z_j,z_k)$.
 For example, the following is a $3NAND$ formula with $5$ variables and $3$ constraints:
 
@@ -367,7 +367,7 @@ $$
 \left( z_3 = NAND(z_0,z_2) \right) \wedge \left( z_1 = NAND(z_0,z_2) \right) \wedge \left( z_4 = NAND(z_3,z_1) \right)
 $$
 
-The output of $3NAND$ on input $\varphi$ is $1$ if and only if there is an  assignment to the variables of $\varphi$ that makes it evaluate to "true"  (that is, there is some assignment $z \in \{0,1\}^r$ satisfying all of the constraints of $\varphi$).
+The output of $3NAND$ on input $\varphi$ is $1$ if and only if there is an assignment to the variables of $\varphi$ that makes it evaluate to "true"  (that is, there is some assignment $z \in \{0,1\}^r$ satisfying all of the constraints of $\varphi$).
 As usual, we can represent $\varphi$ as a string, and so think of $3NAND$ as a function mapping $\{0,1\}^*$ to $\{0,1\}$.
 We now prove that $3NAND$ is $\mathbf{NP}$ hard:
 
@@ -379,7 +379,7 @@ $NANDSAT \leq_p 3NAND$.
 
 > ### {.proofidea data-ref="threenand-thm"}
 To prove [threenand-thm](){.ref} we need to give a polynomial-time map from every NAND-CIRC program $Q$ to a 3NAND formula $\Psi$ such that there exists $w$ such that $Q(w)=1$ if and only if there exists $z$ satisfying $\Psi$.
-For every line $i$ of $Q$, we define a corresponding  variable $z_i$ of $\Psi$.
+For every line $i$ of $Q$, we define a corresponding variable $z_i$ of $\Psi$.
 If the line $i$ has the form `foo = NAND(bar,blah)` then we will add the clause $z_i = NAND(z_j,z_k)$ where $j$ and $k$ are the last lines in which `bar` and `blah` were written to. We will also set variables corresponding to the input variables, as well as add a clause to ensure that the final output is $1$.
 The resulting reduction can be implemented in about a dozen lines of Python, see [andsattothreenandfig](){.ref}.
 
@@ -394,14 +394,14 @@ Let  $Q$ be a NAND-CIRC program with $n$ inputs, one output, and  $m$ lines.
 We can assume without loss of generality that $Q$ contains the variables `one` and `zero` as usual.
 
 
-We map $Q$ to  a $3NAND$ formula $\Psi$ as follows:
+We map $Q$ to a $3NAND$ formula $\Psi$ as follows:
 
 * $\Psi$ has $m+n$ variables $z_0,\ldots,z_{m+n-1}$.
 
 * The first $n$ variables $z_0,\ldots,z_{n-1}$ will corresponds to the inputs of $Q$. The next $m$ variables $z_n,\ldots,z_{n+m-1}$ will correspond to the $m$ lines of $Q$.
 
-* For every $\ell\in \{n,n+1,\ldots,n+m \}$, if the $\ell-n$-th line of the program $Q$ is `foo = NAND(bar,blah)` then we add to $\Psi$  the constraint $z_\ell = NAND(z_j,z_k)$ where $j-n$ and $k-n$ correspond to the last lines in which the variables `bar` and `blah` (respectively) were written to. If one or both of `bar` and `blah` was not written to before then we use $z_{\ell_0}$ instead of the corresponding value $z_j$ or $z_k$  in the  constraint, where $\ell_0-n$ is the line in which `zero` is assigned a value.
-If  one or both of `bar` and `blah` is an input variable `X[i]` then we use $z_i$ in the constraint.
+* For every $\ell\in \{n,n+1,\ldots,n+m \}$, if the $\ell-n$-th line of the program $Q$ is `foo = NAND(bar,blah)` then we add to $\Psi$  the constraint $z_\ell = NAND(z_j,z_k)$ where $j-n$ and $k-n$ correspond to the last lines in which the variables `bar` and `blah` (respectively) were written to. If one or both of `bar` and `blah` was not written to before then we use $z_{\ell_0}$ instead of the corresponding value $z_j$ or $z_k$  in the constraint, where $\ell_0-n$ is the line in which `zero` is assigned a value.
+If one or both of `bar` and `blah` is an input variable `X[i]` then we use $z_i$ in the constraint.
 
 
 * Let $\ell^*$ be the last line in which the output `y_0` is assigned a value. Then we add the constraint $z_{\ell^*} = NAND(z_{\ell_0},z_{\ell_0})$ where $\ell_0-n$ is as above the last line in which `zero` is assigned a value. Note that this is effectively the constraint $z_{\ell^*}=NAND(0,0)=1$.
@@ -413,7 +413,7 @@ We now show both sides of this equivalence.
 
 __Part I: Completeness.__ Suppose that there is $w\in \{0,1\}^n$ s.t. $Q(w)=1$. Let $z\in \{0,1\}^{n+m}$ be defined as follows: for $i\in [n]$, $z_i=w_i$ and for $i\in \{n,n+1,\ldots,n+m\}$ $z_i$ equals the value that is assigned in the $(i-n)$-th line of $Q$ when executed on $w$. Then by construction $z$ satisfies all of the constraints of $\Psi$ (including the constraint that $z_{\ell^*}=NAND(0,0)=1$ since $Q(w)=1$.)
 
-__Part II: Soundness.__ Suppose that there exists $z\in \{0,1\}^{n+m}$ satisfying $\Psi$. Soundness will follow by showing that  $Q(z_0,\ldots,z_{n-1})=1$ (and hence in particular there exists $w\in \{0,1\}^n$, namely $w=z_0\cdots z_{n-1}$, such that $Q(w)=1$). To do this we will prove the following claim $(*)$: for every $\ell \in [m]$, $z_{\ell+n}$ equals the value assigned in the $\ell$-th step of the execution of the program $Q$ on $z_0,\ldots,z_{n-1}$. Note that because $z$ satisfies the constraints of $\Psi$, $(*)$ is sufficient to prove the soundness condition since these constraints imply that the last value assigned to the variable `y_0` in the execution of $Q$ on $z_0\cdots w_{n-1}$  is equal to $1$. To prove $(*)$ suppose, towards a contradiction, that it is false, and let $\ell$ be the smallest number such that $z_{\ell+n}$ is _not_ equal to the value assigned in the $\ell$-th step of the exeuction of $Q$ on $z_0,\ldots,z_{n-1}$. But since $z$ satisfies the constraints of $\Psi$, we get that $z_{\ell+n}=NAND(z_i,z_j)$ where (by the assumption above that $\ell$ is _smallest_ with this property) these values  _do_ correspond to the values last assigned to the variables on the righthand side of the assignment operator in the $\ell$-th line of the program. But this means that the value assigned in the $\ell$-th step is indeed simply the NAND of $z_i$ and $z_j$, contradicting our assumption on the choice of $\ell$.
+__Part II: Soundness.__ Suppose that there exists $z\in \{0,1\}^{n+m}$ satisfying $\Psi$. Soundness will follow by showing that  $Q(z_0,\ldots,z_{n-1})=1$ (and hence in particular there exists $w\in \{0,1\}^n$, namely $w=z_0\cdots z_{n-1}$, such that $Q(w)=1$). To do this we will prove the following claim $(*)$: for every $\ell \in [m]$, $z_{\ell+n}$ equals the value assigned in the $\ell$-th step of the execution of the program $Q$ on $z_0,\ldots,z_{n-1}$. Note that because $z$ satisfies the constraints of $\Psi$, $(*)$ is sufficient to prove the soundness condition since these constraints imply that the last value assigned to the variable `y_0` in the execution of $Q$ on $z_0\cdots w_{n-1}$  is equal to $1$. To prove $(*)$ suppose, towards a contradiction, that it is false, and let $\ell$ be the smallest number such that $z_{\ell+n}$ is _not_ equal to the value assigned in the $\ell$-th step of the exeuction of $Q$ on $z_0,\ldots,z_{n-1}$. But since $z$ satisfies the constraints of $\Psi$, we get that $z_{\ell+n}=NAND(z_i,z_j)$ where (by the assumption above that $\ell$ is _smallest_ with this property) these values _do_ correspond to the values last assigned to the variables on the righthand side of the assignment operator in the $\ell$-th line of the program. But this means that the value assigned in the $\ell$-th step is indeed simply the NAND of $z_i$ and $z_j$, contradicting our assumption on the choice of $\ell$.
 :::
 
 
@@ -433,7 +433,7 @@ $3NAND \leq_p 3SAT$.
 
 
 > ### {.proofidea data-ref="threenand-sat-thm"}
-To prove [threenand-sat-thm](){.ref} we need to map a 3NAND formula $\varphi$ into a 3SAT formula $\psi$ such that $\varphi$ is satisfiable if and only if $\psi$ is. The idea is that we can transform every NAND constraint of the form $a=NAND(b,c)$ into the AND of  ORs involving the variables $a,b,c$ and their negations, where each of the ORs contains  at most three terms. The construction is fairly straightforward, and the details are given below.
+To prove [threenand-sat-thm](){.ref} we need to map a 3NAND formula $\varphi$ into a 3SAT formula $\psi$ such that $\varphi$ is satisfiable if and only if $\psi$ is. The idea is that we can transform every NAND constraint of the form $a=NAND(b,c)$ into the AND of ORs involving the variables $a,b,c$ and their negations, where each of the ORs contains at most three terms. The construction is fairly straightforward, and the details are given below.
 
 > ### { .pause }
 It is a good exercise for you to try to find a 3CNF formula $\xi$ on three variables $a,b,c$ such that $\xi(a,b,c)$ is true if and only if $a = NAND(b,c)$. Once you do so, try to see why this implies a reduction from $3NAND$ to $3SAT$,  and hence completes the proof of [threenand-sat-thm](){.ref}
@@ -471,14 +471,14 @@ Finding a polynomial-time algorithm for any one of them will imply a polynomial-
 
 
 
-![An instance of the _independent set_ problem  obtained by applying the reductions $NANDSAT \leq_p 3NAND \leq_p 3SAT \leq_p ISAT$ starting with the `xor5` NAND-CIRC program.](../figure/indsetfromnandsat.png){#indsetfromnandsatfig   }
+![An instance of the _independent set_ problem obtained by applying the reductions $NANDSAT \leq_p 3NAND \leq_p 3SAT \leq_p ISAT$ starting with the `xor5` NAND-CIRC program.](../figure/indsetfromnandsat.png){#indsetfromnandsatfig   }
 
 
 
 > ### { .recap }
 * Many of the problems for which we don't know polynomial-time algorithms are $\mathbf{NP}$-complete, which means that finding a polynomial-time algorithm for one of them would imply a polynomial-time algorithm for _all_ of them.
-* It is conjectured that $\mathbf{NP}\neq \mathbf{P}$ which means that we believe that polynomial-time algorithms  for these  problems are not merely _unknown_ but are _nonexistent_.
-* While an $\mathbf{NP}$-hardness result means for example that a full-fledged "textbook" solution to a problem such as MAX-CUT that is as clean and general as the algorithm for MIN-CUT probably does not exist, it does not mean that we need to give up whenever we see a MAX-CUT instance. Later in this course we will discuss several strategies to deal with $\mathbf{NP}$-hardness, including  _average-case complexity_ and _approximation algorithms_.
+* It is conjectured that $\mathbf{NP}\neq \mathbf{P}$ which means that we believe that polynomial-time algorithms for these problems are not merely _unknown_ but are _nonexistent_.
+* While an $\mathbf{NP}$-hardness result means for example that a full-fledged "textbook" solution to a problem such as MAX-CUT that is as clean and general as the algorithm for MIN-CUT probably does not exist, it does not mean that we need to give up whenever we see a MAX-CUT instance. Later in this course we will discuss several strategies to deal with $\mathbf{NP}$-hardness, including _average-case complexity_ and _approximation algorithms_.
 
 
 
@@ -499,7 +499,7 @@ Prove that if there is no $n^{O(\log^2 n)}$ time algorithm for $3SAT$ then there
 ^[TODO: credit surveys of Avi, Madhu]
 
 
-Eugene Lawler's quote on  the "mystical power of twoness"  was taken from the wonderful book "The Nature of Computation" by Moore and Mertens. See also [this memorial essay on Lawler](https://pure.tue.nl/ws/files/1506049/511307.pdf) by Lenstra.
+Eugene Lawler's quote on the "mystical power of twoness"  was taken from the wonderful book "The Nature of Computation" by Moore and Mertens. See also [this memorial essay on Lawler](https://pure.tue.nl/ws/files/1506049/511307.pdf) by Lenstra.
 
 
 ## Further explorations

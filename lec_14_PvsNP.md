@@ -24,7 +24,7 @@ chapternum: '15'
 
 >_"The evidence in favor of  \[$\mathbf{P}\neq \mathbf{NP}$\] and \[ its algebraic counterpart \] is so overwhelming, and the consequences of their failure are so grotesque, that their status may perhaps be compared to that of physical laws rather than that of ordinary mathematical conjectures."_,  Volker Strassen, laudation for Leslie Valiant, 1986.
 
->_"Suppose aliens invade the earth and threaten to obliterate it in a year's time unless human beings can find the [fifth Ramsey number]. We could marshal the world's best minds and fastest computers, and within a year we could probably calculate the value. If the aliens demanded the [sixth Ramsey number], however, we would have no choice but to launch a preemptive attack."_, Paul Erdős, as quoted by Graham and Spencer, 1990.^[The $k$-th Ramsey number, denoted as $R(k,k)$, is the smallest number $n$ such that for every graph $G$ on $n$ vertices, both $G$ and its complement contain a $k$-sized independent set. If $\mathbf{P}=\mathbf{NP}$ then we can compute $R(k,k)$ in time polynomial in $2^k$, while otherwise it can potentially  take closer to $2^{2^{2k}}$ steps.]
+>_"Suppose aliens invade the earth and threaten to obliterate it in a year's time unless human beings can find the [fifth Ramsey number]. We could marshal the world's best minds and fastest computers, and within a year we could probably calculate the value. If the aliens demanded the [sixth Ramsey number], however, we would have no choice but to launch a preemptive attack."_, Paul Erdős, as quoted by Graham and Spencer, 1990.^[The $k$-th Ramsey number, denoted as $R(k,k)$, is the smallest number $n$ such that for every graph $G$ on $n$ vertices, both $G$ and its complement contain a $k$-sized independent set. If $\mathbf{P}=\mathbf{NP}$ then we can compute $R(k,k)$ in time polynomial in $2^k$, while otherwise it can potentially take closer to $2^{2^{2k}}$ steps.]
 
 We have mentioned that the question of whether $\mathbf{P}=\mathbf{NP}$, which is equivalent to whether there is a polynomial-time algorithm for $3SAT$, is the great open question of Computer Science.
 But why is it so important?
@@ -35,7 +35,7 @@ Sometimes people say, _"What if $\mathbf{P}=\mathbf{NP}$ but the best algorithm 
 Well, $n^{100}$ is much larger than, say, $2^{\sqrt{n}}$ for any input shorter than $10^{60}$ bits, which is way, way larger than the world's total storage capacity (estimated at a "mere" $10^{21}$ bits or about 200 exabytes at the time of this writing).
 So another way to phrase this question is to say,  "what if the complexity of 3SAT is exponential for all inputs that we will ever encounter, but then grows much smaller than that?"
 To me this sounds like the computer science equivalent of asking, "what if the laws of physics change completely once they are out of the range of our telescopes?".
-Sure, this is a valid  possibility, but wondering about it does not sound like the most productive use of our time.
+Sure, this is a valid possibility, but wondering about it does not sound like the most productive use of our time.
 
 So, as the saying goes, we'll keep an open mind, but not so open that our brains fall out, and assume from now on that:
 
@@ -43,11 +43,11 @@ So, as the saying goes, we'll keep an open mind, but not so open that our brains
 
 and
 
- * She does not "pussyfoot around" or take "half measures". If God  decided to make $3SAT$ _easy_, then $3SAT$ will have a $10^6\cdot n$ (or at worst $10^6 n^2$) -time algorithm (i.e., $3SAT$ will be in $TIME(cn)$ or $TIME(cn^2)$  for a not-too-large constant $c$). If she decided to make $3SAT$ _hard_, then for every $n \in \N$, $3SAT$ on $n$ variables cannot be solved by a NAND-CIRC program of fewer than $2^{10^{-6}n}$ lines.^[Using the relations we've seen between $SIZE(T(n))$  and $TIME(T(n))$ (i.e., [non-uniform-thm](){.ref}), $3SAT \not\in SIZE(T(n))$ then it is also in $TIME(T(n)^\epsilon)$ for some constant $\epsilon$ that can be shown to be at least $1/5$.]
+ * She does not "pussyfoot around" or take "half measures". If God decided to make $3SAT$ _easy_, then $3SAT$ will have a $10^6\cdot n$ (or at worst $10^6 n^2$) -time algorithm (i.e., $3SAT$ will be in $TIME(cn)$ or $TIME(cn^2)$  for a not-too-large constant $c$). If she decided to make $3SAT$ _hard_, then for every $n \in \N$, $3SAT$ on $n$ variables cannot be solved by a NAND-CIRC program of fewer than $2^{10^{-6}n}$ lines.^[Using the relations we've seen between $SIZE(T(n))$  and $TIME(T(n))$ (i.e., [non-uniform-thm](){.ref}), $3SAT \not\in SIZE(T(n))$ then it is also in $TIME(T(n)^\epsilon)$ for some constant $\epsilon$ that can be shown to be at least $1/5$.]
 
 
 So far, most of our evidence points to the latter possibility of 3SAT being exponentially hard, but we have not ruled out the former possibility either.
-In this chapter  we will explore some of its consequences.
+In this chapter we will explore some of its consequences.
 
 ## Search-to-decision reduction
 
@@ -141,23 +141,23 @@ Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time computable
 Moreover under the same assumption, there is a polynomial-time algorithm $FINDOPT$ such that for every $x\in \{0,1\}^*$, $FINDOPT(x,1^m)$ outputs $y^* \in \{0,1\}^*$ such that $f(x,y^*)=OPT(x,y^*)$.
 
 > ### { .pause }
-The statement of [optimizationnp](){.ref} is a bit cumbersome.  To understand it, think  how it would subsume the example above of  a polynomial time algorithm for finding the maximum length path in a graph. In this case the function $f$ would be the map that on input a pair $x,y$ outputs $0$ if the pair $(x,y)$ does not represent some graph and a simple path inside the graph respectively;  otherwise $f(x,y)$ would equal the length of the path $y$ in the graph $x$. Since a path in an $n$ vertex graph can be represented by at most $n \log n$ bits, for every $x$ representing a graph of $n$ vertices, finding $\max_{y\in \{0,1\}^{n \log n}}f(x,y)$   corresponds to finding the length of the maximum simple path in the graph corresponding to $x$, and finding the string $y^*$ that achieves this maximum corresponds to actually finding the path.
+The statement of [optimizationnp](){.ref} is a bit cumbersome.  To understand it, think how it would subsume the example above of a polynomial time algorithm for finding the maximum length path in a graph. In this case the function $f$ would be the map that on input a pair $x,y$ outputs $0$ if the pair $(x,y)$ does not represent some graph and a simple path inside the graph respectively;  otherwise $f(x,y)$ would equal the length of the path $y$ in the graph $x$. Since a path in an $n$ vertex graph can be represented by at most $n \log n$ bits, for every $x$ representing a graph of $n$ vertices, finding $\max_{y\in \{0,1\}^{n \log n}}f(x,y)$   corresponds to finding the length of the maximum simple path in the graph corresponding to $x$, and finding the string $y^*$ that achieves this maximum corresponds to actually finding the path.
 
 
 > ### {.proofidea data-ref="optimizationnp"}
 The proof follows by generalizing our ideas from the longest path example above.
 Let $f$ be as in the theorem statement.
-If  $\mathbf{P}=\mathbf{NP}$ then for every  for every string $x\in \{0,1\}^*$ and number $k$, we can test in in $poly(|x|,m)$ time  whether there exists $y$ such that $f(x,y) \geq k$, or in other words test whether  $\max_{y \in \{0,1\}^m} f(x,y) \geq k$.
-If $f(x,y)$ is an integer between $0$ and $poly(|x|+|y|)$ (as  is the case in the example of longest path) then we can just try out all possibilities for $k$ to find the maximum number $k$ for which $\max_y f(x,y) \geq k$.
-Otherwise, we can use _binary search_ to hone down on the right value. Once we do so, we can use search-to-decision to actually find the string $y^*$ that  achieves the maximum.
+If  $\mathbf{P}=\mathbf{NP}$ then for every for every string $x\in \{0,1\}^*$ and number $k$, we can test in in $poly(|x|,m)$ time whether there exists $y$ such that $f(x,y) \geq k$, or in other words test whether  $\max_{y \in \{0,1\}^m} f(x,y) \geq k$.
+If $f(x,y)$ is an integer between $0$ and $poly(|x|+|y|)$ (as is the case in the example of longest path) then we can just try out all possibilities for $k$ to find the maximum number $k$ for which $\max_y f(x,y) \geq k$.
+Otherwise, we can use _binary search_ to hone down on the right value. Once we do so, we can use search-to-decision to actually find the string $y^*$ that achieves the maximum.
 
 
 ::: {.proof data-ref="optimizationnp"}
-For every  $f$ as in the theorem statement, we can define the  Boolean function $F:\{0,1\}^* \rightarrow \{0,1\}$ as follows.
+For every  $f$ as in the theorem statement, we can define the Boolean function $F:\{0,1\}^* \rightarrow \{0,1\}$ as follows.
 
 $$F(x,1^m,k)= \begin{cases} 1 & \exists_{y\in \{0,1\}^m} f(x,y) \geq k \\ 0 & \text{otherwise} \end{cases}$$
 
-Since $f$ is computable in polynomial time, $F$ is in $\mathbf{NP}$, and so  under our assumption that $\mathbf{P}=\mathbf{NP}$, $F$ itself can be computed in polynomial time.
+Since $f$ is computable in polynomial time, $F$ is in $\mathbf{NP}$, and so under our assumption that $\mathbf{P}=\mathbf{NP}$, $F$ itself can be computed in polynomial time.
 Now, for every $x$ and $m$, we can compute the largest $k$ such that $F(x,1^m,k)=1$ by a binary search.
 Specifically, we will do this as follows:
 
@@ -190,7 +190,7 @@ For every string $x$ that describes a set of constraints and objective, we will 
 
 ::: {.remark title="Need for binary search." #binarysearchrm}
 In many examples, such as the case of finding longest path, we don't need to use the binary search step in [optimizationnp](){.ref}, and can simply enumerate over all possible values for $k$ until we find the correct one.
-One example where we do need to use this binary search step   is in the case of  the problem of finding a maximum length path in a _weighted_ graph.
+One example where we do need to use this binary search step   is in the case of the problem of finding a maximum length path in a _weighted_ graph.
 This is the problem where  $G$ is a weighted graph, and every edge of $G$ is given a weight which is a number between $0$ and $2^k$.
 [optimizationnp](){.ref} shows that we can find the maximum-weight simple path in $G$ (i.e., simple path maximizing the sum of the weights of its edges) in time polynomial in the number of vertices and in $k$.
 
@@ -205,7 +205,7 @@ Optimization is widely used in a great many scientific areas including: machine 
 One classical optimization task is _supervised learning_.
 In supervised learning we are given a list of _examples_ $x_0,x_1,\ldots,x_{m-1}$ (where we can think of each $x_i$ as a string in $\{0,1\}^n$ for some $n$) and the _labels_ for them $y_0,\ldots,y_{n-1}$ (which we will think of simply bits, i.e.,  $y_i\in \{0,1\}$).
 For example, we can think of the $x_i$'s as images of either dogs or cats, for which $y_i=1$ in the former case and $y_i=0$ in the latter case.
-Our goal is to come up with a _hypothesis_ or _predictor_ $h:\{0,1\}^n \rightarrow \{0,1\}$ such that if we are given a new example $x$ that has an (unknown to us) label $y$, then  with high probability $h$ will _predict_ the label. That is, with high probability it will hold that $h(x)=y$.
+Our goal is to come up with a _hypothesis_ or _predictor_ $h:\{0,1\}^n \rightarrow \{0,1\}$ such that if we are given a new example $x$ that has an (unknown to us) label $y$, then with high probability $h$ will _predict_ the label. That is, with high probability it will hold that $h(x)=y$.
 The idea in supervised learning is to use the _Occam's Razor principle_: the simplest hypothesis that explains the data is likely to be correct.
 There are several ways to model this, but one popular approach is to pick some fairly simple function $H:\{0,1\}^{k+n} \rightarrow \{0,1\}$. We think of the first $k$ inputs as the _parameters_ and the last $n$ inputs as the example data.
 (For example, we can think of the first $k$ inputs of $H$ as specifying the weights and connections for some neural network that will then be applied on the latter $n$ inputs.)
@@ -222,7 +222,7 @@ In fact, this observation extends to essentially any learning model, and allows 
 We will discuss _cryptography_ later in this course, but it turns out that if $\mathbf{P}=\mathbf{NP}$ then almost every cryptosystem can be efficiently broken.
 One approach is to treat finding an encryption key as an instance of a supervised learning problem.
 If there is an encryption scheme that maps a "plaintext" message $p$ and a key $\theta$ to a "ciphertext" $c$, then given examples of ciphertext/plaintext pairs of the form $(c_0,p_0),\ldots,(c_{m-1},p_{m-1})$, our goal is to find the key $\theta$ such that $E(\theta,p_i)=c_i$ where $E$ is the encryption algorithm.
-While you might think  getting such "labeled examples" is unrealistic, it turns out (as many amateur home-brew crypto designers learn the hard way) that this is actually quite common in real-life scenarios, and that it is also possible to relax the assumption to having more minimal prior information about the plaintext (e.g., that it is English text).
+While you might think getting such "labeled examples" is unrealistic, it turns out (as many amateur home-brew crypto designers learn the hard way) that this is actually quite common in real-life scenarios, and that it is also possible to relax the assumption to having more minimal prior information about the plaintext (e.g., that it is English text).
 We defer a more formal treatment to [chapcryptography](){.ref}.
 
 
@@ -236,11 +236,11 @@ Generally speaking, a _proof system_ can be thought of as an algorithm $V:\{0,1\
 Any type of proof system that is used in mathematics for geometry, number theory, analysis, etc., is an instance of this form.
 In fact, standard mathematical proof systems have an even simpler form where the proof $w$ encodes a _sequence_ of lines $w^0,\ldots,w^m$ (each of which is itself a binary string) such that each line $w^i$ is either an _axiom_ or follows from some prior lines through an application of some _inference rule_.
 For example, [Peano's axioms](https://en.wikipedia.org/wiki/Peano_axioms) encode a set of axioms and rules for the natural numbers, and one can use them to formalize proofs in number theory. Also, there are some even stronger axiomatic systems, the most popular one being [Zermelo–Fraenkel with the Axiom of Choice](https://en.wikipedia.org/wiki/Zermelo%E2%80%93Fraenkel_set_theory) or ZFC for short.
-Thus, although mathematicians typically write their papers in  natural language,  proofs of number theorists can typically be translated to ZFC or similar systems, and so in particular the existence of an $n$-page proof for a statement $x$ implies that there exists  a string $w$ of length $poly(n)$ (in fact often $O(n)$ or $O(n^2)$)  that encodes the proof in such a system.
+Thus, although mathematicians typically write their papers in natural language,  proofs of number theorists can typically be translated to ZFC or similar systems, and so in particular the existence of an $n$-page proof for a statement $x$ implies that there exists a string $w$ of length $poly(n)$ (in fact often $O(n)$ or $O(n^2)$)  that encodes the proof in such a system.
 Moreover, because verifying a proof simply involves going over each line and checking that it does indeed follow from the prior lines, it is fairly easy to do that in $O(|w|)$ or $O(|w|^2)$ (where as usual $|w|$ denotes the length of the proof $w$).
-This means that for every reasonable proof system $V$, the following function $SHORTPROOF_V:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{NP}$, where for every input of the form $x1^m$, $SHORTPROOF_V(x,1^m)=1$ if and only if  there exists $w\in \{0,1\}^*$ with $|w|\leq m$ s.t. $V(xw)=1$.
+This means that for every reasonable proof system $V$, the following function $SHORTPROOF_V:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{NP}$, where for every input of the form $x1^m$, $SHORTPROOF_V(x,1^m)=1$ if and only if there exists $w\in \{0,1\}^*$ with $|w|\leq m$ s.t. $V(xw)=1$.
 That is, $SHORTPROOF_V(x,1^m)=1$ if there is a proof (in the system $V$) of length at most $m$  bits that $x$ is true.
-Thus, if $\mathbf{P}=\mathbf{NP}$, then despite Gödel's Incompleteness Theorems, we can still automate mathematics in the sense of finding proofs that are not too long for every statement that has one. (Frankly speaking, if the shortest proof for some statement requires  a terabyte, then human mathematicians won't ever find this proof either.)
+Thus, if $\mathbf{P}=\mathbf{NP}$, then despite Gödel's Incompleteness Theorems, we can still automate mathematics in the sense of finding proofs that are not too long for every statement that has one. (Frankly speaking, if the shortest proof for some statement requires a terabyte, then human mathematicians won't ever find this proof either.)
 For this reason, Gödel himself felt that the question of whether $SHORTPROOF_V$ has a polynomial time algorithm is of great interest.
 As Gödel wrote [in a letter to John von Neumann](https://rjlipton.wordpress.com/the-gdel-letter/) in 1956 (before the concept of $\mathbf{NP}$ or even "polynomial time" was formally defined):
 
@@ -273,7 +273,7 @@ $$
 \exists_{y\in \{0,1\}^{p(|x|)}} V(xy)=1
 $$
 for some polynomial-time algorithm $V$ and polynomial $p:\N \rightarrow \N$.
-That is, we are trying to determine, given some string $x$, whether  _there exists_ a string $y$ such that $x$ and $y$ satisfy some polynomial-time checkable condition $V$.
+That is, we are trying to determine, given some string $x$, whether _there exists_ a string $y$ such that $x$ and $y$ satisfy some polynomial-time checkable condition $V$.
 For example, in the _independent set_ problem, the string $x$ represents a graph $G$ and a number $k$, the string $y$ represents some subset $S$ of $G$'s vertices, and the condition that we check is whether $|S| \geq k$ and there is no edge $\{u,v\}$ in $G$ such that both $u\in S$ and $v\in S$.
 
 We can consider more general statements such as checking, given a string $x\in \{0,1\}^*$, the truth of a statement of the form
@@ -281,20 +281,20 @@ $$
 \exists_{y \in \{0,1\}^{p_0(|x|)}} \forall_{z \in \{0,1\}^{p_1(|x|)}} V(xyz)=1 \;, \label{existsforalleq}
 $$
 which in words corresponds to checking, given some string $x$, whether _there exists_ a string $y$ such that _for every_ string $z$, the triple $(x,y,z)$ satisfy some polynomial-time checkable condition.
-We can also consider more levels of quantifiers such as checking the truth of the  statement
+We can also consider more levels of quantifiers such as checking the truth of the statement
 $$
 \exists_{y \in \{0,1\}^{p_0(|x|)}} \forall_{z\in \{0,1\}^{p_1(|x|)}}\exists_{w\in \{0,1\}^{p_2(|x|)}} V(xyzw)=1 \label{existsforallexistseq}
 $$
 and so on and so forth.
 
 
-For example, given an $n$-input NAND-CIRC program $P$, we might want to find the _smallest_ NAND-CIRC program $P'$ that  computes the same function as $P$.
+For example, given an $n$-input NAND-CIRC program $P$, we might want to find the _smallest_ NAND-CIRC program $P'$ that computes the same function as $P$.
 The question of whether there is such a $P'$ that can be described by a string of at most $s$ bits can be phrased as
 
 $$
 \exists_{P' \in \{0,1\}^{s}} \forall_{x\in \{0,1\}^n} P(x)=P'(x) \label{circmineq}
 $$
-which has the form [existsforalleq](){.eqref}.^[Since NAND-CIRC programs are equivalent to Boolean circuits, the search problem  corresponding to [circmineq](){.eqref}  known as the [circuit minimization problem](https://goo.gl/iykqbh)  and is widely studied in Engineering.
+which has the form [existsforalleq](){.eqref}.^[Since NAND-CIRC programs are equivalent to Boolean circuits, the search problem corresponding to [circmineq](){.eqref}  known as the [circuit minimization problem](https://goo.gl/iykqbh)  and is widely studied in Engineering.
 You can skip ahead to [selfimprovingsat](){.ref} to see a particularly compelling application of this.]
 Another example of a statement involving $a$ levels of quantifiers would be to check, given a chess position $x$, whether there is a strategy that guarantees that White wins within $a$ steps.
 For example is $a=3$ we would want to check if given the board position $x$, _there exists_ a move $y$ for White such that _for every_ move $z$ for Black _there exists_ a move $w$ for White that ends in a a checkmate.
@@ -350,7 +350,7 @@ but since  $S$ is a polynomial-time algorithm,  [equivalentqbfinducteq](){.ref} 
 
 The algorithm of [PH-collapse-thm](){.ref} can also solve the search problem as well: find the value $y_0$ that certifies the truth of [eq:QBF](){.eqref}.
 We note that while this algorithm is in polynomial time, the exponent of this polynomial blows up quite fast.
-If the original NANDSAT algorithm required $\Omega(n^2)$ time, solving $a$ levels of quantifiers  would require time $\Omega(n^{2^a})$.^[We do not know whether such loss is inherent. As far as we can tell, it's possible that the _quantified boolean formula_ problem has a linear-time algorithm. We will, however, see later in this course  that it satisfies a notion known as $\mathbf{PSPACE}$-hardness that is even stronger than $\mathbf{NP}$-hardness.]
+If the original NANDSAT algorithm required $\Omega(n^2)$ time, solving $a$ levels of quantifiers would require time $\Omega(n^{2^a})$.^[We do not know whether such loss is inherent. As far as we can tell, it's possible that the _quantified boolean formula_ problem has a linear-time algorithm. We will, however, see later in this course that it satisfies a notion known as $\mathbf{PSPACE}$-hardness that is even stronger than $\mathbf{NP}$-hardness.]
 
 
 ### Application: self improving algorithm for $3SAT$ {#selfimprovingsat }
@@ -371,9 +371,9 @@ We can therefore imagine investing huge computational resources in running $A$ o
 
 Given a NAND-CIRC program $P$, if $\mathbf{P}=\mathbf{NP}$ then we can find an input $x$ (if one exists) such that $P(x)=1$. But what if there is more than one $x$ like that?
 Clearly we can't efficiently output all such $x$'s; there might be exponentially many.
-But we can get an arbitrarily good multiplicative  approximation (i.e., a $1\pm \epsilon$ factor for arbitrarily small $\epsilon>0$) for the  number of such $x$'s, as well as output a (nearly) uniform member of this set.
-We  defer the details to later in this course, when we learn about _randomized computation_.
-However, we  state (without proof) the following theorem for now:
+But we can get an arbitrarily good multiplicative approximation (i.e., a $1\pm \epsilon$ factor for arbitrarily small $\epsilon>0$) for the number of such $x$'s, as well as output a (nearly) uniform member of this set.
+We defer the details to later in this course, when we learn about _randomized computation_.
+However, we state (without proof) the following theorem for now:
 
 ::: {.theorem title="Approximate counting if $\mathbf{P}=\mathbf{NP}$" #approxcountingnp}
 Let $V:\{0,1\}^* \rightarrow \{0,1\}$ be some polynomial-time algorithm, and suppose that $\mathbf{P}=\mathbf{NP}$.
@@ -406,23 +406,23 @@ Since we could automatically find the "best" (in any measure we chose) program t
 
 
 
-The possibility that  $\mathbf{P}=\mathbf{NP}$ is often described as "automating creativity". There is something to that analogy, as we often think of a creative solution as one that is  hard to discover but that, once the "spark" hits, is easy to verify.
+The possibility that  $\mathbf{P}=\mathbf{NP}$ is often described as "automating creativity". There is something to that analogy, as we often think of a creative solution as one that is hard to discover but that, once the "spark" hits, is easy to verify.
 But there is also an element of hubris to that statement, implying that the most impressive consequence of such an algorithmic breakthrough will be that computers would succeed in doing something that humans already do today.
-In fact, creativity already is to a large extent automated or minimized (e.g., just see how much popular media content is mass-produced), and as in most professions we should expect to see  the need for humans  diminish with time even if $\mathbf{P}\neq \mathbf{NP}$.
+In fact, creativity already is to a large extent automated or minimized (e.g., just see how much popular media content is mass-produced), and as in most professions we should expect to see the need for humans diminish with time even if $\mathbf{P}\neq \mathbf{NP}$.
 
 Nevertheless, artificial intelligence, like many other fields, will clearly be greatly impacted by an efficient 3SAT algorithm.
 For example, it is clearly much easier to find a better Chess-playing algorithm when, given any algorithm $P$, you can find the smallest algorithm $P'$ that plays Chess better than $P$.
 Moreover, as we mentioned above, much of machine learning (and statistical reasoning in general) is about finding "simple" concepts that explain the observed data, and if $\mathbf{NP}=\mathbf{P}$, we could search for such concepts automatically for any notion of "simplicity" we see fit.
 In fact, we could even "skip the middle man" and do an automatic search for the learning algorithm with smallest generalization error.
-Ultimately the  field of Artificial Intelligence is about trying to "shortcut" billions of years of evolution to obtain artificial programs that match (or beat) the performance of natural ones, and a fast algorithm for $\mathbf{NP}$ would provide the ultimate shortcut.^[One interesting theory is that  $\mathbf{P}=\mathbf{NP}$ and evolution has already discovered this algorithm, which we are already using without realizing it. At the moment, there seems to be very little evidence for such a scenario. In fact, we have some partial results in the other direction showing that, regardless of whether $\mathbf{P}=\mathbf{NP}$,  many types of  "local search" or "evolutionary"  algorithms require exponential time to solve 3SAT and other $\mathbf{NP}$-hard problems.]
+Ultimately the field of Artificial Intelligence is about trying to "shortcut" billions of years of evolution to obtain artificial programs that match (or beat) the performance of natural ones, and a fast algorithm for $\mathbf{NP}$ would provide the ultimate shortcut.^[One interesting theory is that  $\mathbf{P}=\mathbf{NP}$ and evolution has already discovered this algorithm, which we are already using without realizing it. At the moment, there seems to be very little evidence for such a scenario. In fact, we have some partial results in the other direction showing that, regardless of whether $\mathbf{P}=\mathbf{NP}$,  many types of  "local search" or "evolutionary"  algorithms require exponential time to solve 3SAT and other $\mathbf{NP}$-hard problems.]
 
 More generally, a faster algorithm for $\mathbf{NP}$ problems would be immensely useful in any field where one is faced with computational or quantitative problems$-$ which is basically all fields of science, math, and engineering.
-This will not only help with  concrete problems such as designing a better bridge, or finding a better drug, but also with addressing basic mysteries such as trying to find  scientific theories or "laws of nature".
-In a [fascinating talk](http://www.cornell.edu/video/nima-arkani-hamed-morality-fundamental-physics), physicist Nima Arkani-Hamed discusses the effort of finding scientific theories in much the same language as one would describe solving an $\mathbf{NP}$ problem, for which the solution is easy to verify or  seems "inevitable", once found, but that requires searching through a huge landscape of possibilities to reach, and that often can get "stuck" at local optima:
+This will not only help with concrete problems such as designing a better bridge, or finding a better drug, but also with addressing basic mysteries such as trying to find scientific theories or "laws of nature".
+In a [fascinating talk](http://www.cornell.edu/video/nima-arkani-hamed-morality-fundamental-physics), physicist Nima Arkani-Hamed discusses the effort of finding scientific theories in much the same language as one would describe solving an $\mathbf{NP}$ problem, for which the solution is easy to verify or seems "inevitable", once found, but that requires searching through a huge landscape of possibilities to reach, and that often can get "stuck" at local optima:
 
->_"the laws of nature have this amazing feeling of inevitability... which is associated with  local perfection."_
+>_"the laws of nature have this amazing feeling of inevitability... which is associated with local perfection."_
 
->_"The classical picture of the world is the top of a local mountain in the space of ideas. And you go up to the top and it looks amazing up there and absolutely incredible. And you learn that there is a taller mountain out there. Find it, Mount Quantum.... they're not smoothly connected ... you've got to make a jump to go from classical to  quantum ... This also tells you why we have such major challenges in trying to extend our understanding of physics. We don't have these knobs, and little wheels, and twiddles that we can turn. We have to learn how to make these jumps. And it is a tall order. And that's why things are difficult."_
+>_"The classical picture of the world is the top of a local mountain in the space of ideas. And you go up to the top and it looks amazing up there and absolutely incredible. And you learn that there is a taller mountain out there. Find it, Mount Quantum.... they're not smoothly connected ... you've got to make a jump to go from classical to quantum ... This also tells you why we have such major challenges in trying to extend our understanding of physics. We don't have these knobs, and little wheels, and twiddles that we can turn. We have to learn how to make these jumps. And it is a tall order. And that's why things are difficult."_
 
 Finding an efficient algorithm for $\mathbf{NP}$ amounts to always being able to search through an exponential space and find not just the "local" mountain, but the tallest peak.
 
@@ -431,7 +431,7 @@ Finding an efficient algorithm for $\mathbf{NP}$ amounts to always being able to
 
 But perhaps more than any computational speedups, a fast algorithm for $\mathbf{NP}$ problems would bring about a _new type of understanding_.
 In many of the areas where $\mathbf{NP}$-completeness arises, it is not as much a barrier for solving computational problems as it is a barrier for obtaining "closed-form formulas" or other types of more constructive descriptions of the behavior of natural, biological, social and other systems.
-A better algorithm for $\mathbf{NP}$, even if it is "merely" $2^{\sqrt{n}}$-time, seems to require obtaining a new way to understand these types of systems, whether it is characterizing Nash equilibria, spin-glass configurations, entangled quantum states, or any of the  other questions where $\mathbf{NP}$ is currently a barrier for analytical understanding.
+A better algorithm for $\mathbf{NP}$, even if it is "merely" $2^{\sqrt{n}}$-time, seems to require obtaining a new way to understand these types of systems, whether it is characterizing Nash equilibria, spin-glass configurations, entangled quantum states, or any of the other questions where $\mathbf{NP}$ is currently a barrier for analytical understanding.
 Such new insights would be very fruitful regardless of their computational utility.
 
 
@@ -447,30 +447,30 @@ Could the same hold for $\mathbf{P} \neq \mathbf{NP}$?
 
 In short, the answer is _No_.
 For example, suppose that we are trying to decide between the "3SAT is easy" conjecture (there is an $10^6n$ time algorithm for 3SAT) and the "3SAT is hard" conjecture (for every $n$, any NAND-CIRC program that solves $n$ variable 3SAT takes $2^{10^{-6}n}$ lines). Then, since for  $n = 10^8$, $2^{10^{-6}n} > 10^6 n$, this boils down to the finite question of deciding whether or not there is a $10^{13}$-line NAND-CIRC program deciding 3SAT on formulas with $10^8$ variables.
-If there is such a program then there is a finite proof of its existence, namely the  approximately 1TB file describing the program, and for which the verification is the (finite in principle though infeasible in practice) process of checking that it succeeds on all inputs.^[This inefficiency is not necessarily inherent. Later in this course we may discuss results in program-checking, interactive proofs, and average-case complexity, that can be used for efficient verification of  proofs of related statements. In contrast, the  inefficiency of verifying  _failure_ of all programs could well be inherent.]
+If there is such a program then there is a finite proof of its existence, namely the approximately 1TB file describing the program, and for which the verification is the (finite in principle though infeasible in practice) process of checking that it succeeds on all inputs.^[This inefficiency is not necessarily inherent. Later in this course we may discuss results in program-checking, interactive proofs, and average-case complexity, that can be used for efficient verification of proofs of related statements. In contrast, the inefficiency of verifying _failure_ of all programs could well be inherent.]
 If there isn't such a program, then there is also a finite proof of that, though any such proof would take longer since we would need to enumerate over all _programs_ as well.
 Ultimately, since it boils down to a finite statement about bits and numbers; either the statement or its negation must follow from the standard axioms of arithmetic in a finite number of arithmetic steps.
 Thus, we cannot justify our ignorance in distinguishing between the "3SAT easy" and "3SAT hard" cases by claiming that this might be an inherently ill-defined question.
-Similar reasoning (with different numbers) applies to  other variants of the $\mathbf{P}$ vs $\mathbf{NP}$ question.
-We note that  in the case that 3SAT is hard, it may well be that there is no _short_ proof of this fact using the standard axioms, and this is a question that people have been studying in various restricted forms of proof systems.
+Similar reasoning (with different numbers) applies to other variants of the $\mathbf{P}$ vs $\mathbf{NP}$ question.
+We note that in the case that 3SAT is hard, it may well be that there is no _short_ proof of this fact using the standard axioms, and this is a question that people have been studying in various restricted forms of proof systems.
 
 ## Is $\mathbf{P}=\mathbf{NP}$ "in practice"?
 
-The fact that a problem is $\mathbf{NP}$-hard means that we believe there is no  efficient algorithm that solve it in the _worst case_.
+The fact that a problem is $\mathbf{NP}$-hard means that we believe there is no efficient algorithm that solve it in the _worst case_.
 It does not, however, mean that every single instance of the problem is hard.
-For example, if all the clauses in a  3SAT instance $\varphi$ contain the same variable $x_i$ (possibly in negated form), then by guessing a value to $x_i$ we can reduce $\varphi$ to a 2SAT instance which can then be efficiently solved.
+For example, if all the clauses in a 3SAT instance $\varphi$ contain the same variable $x_i$ (possibly in negated form), then by guessing a value to $x_i$ we can reduce $\varphi$ to a 2SAT instance which can then be efficiently solved.
 Generalizations of this simple idea are used in "SAT solvers", which are algorithms that have solved certain specific interesting SAT formulas with thousands of variables, despite the fact that we believe SAT to be exponentially hard in the worst case.
-Similarly, a lot of problems arising in economics and machine learning  are $\mathbf{NP}$-hard.^[Actually, the computational difficulty of problems in economics such as finding optimal (or any) equilibria is quite subtle. Some variants of such problems are $\mathbf{NP}$-hard, while others have a certain "intermediate" complexity.]
-And yet vendors and customers manage to figure out market-clearing prices (as economists like to point out, there is milk on the shelves) and mice succeed in  distinguishing cats from dogs.
+Similarly, a lot of problems arising in economics and machine learning are $\mathbf{NP}$-hard.^[Actually, the computational difficulty of problems in economics such as finding optimal (or any) equilibria is quite subtle. Some variants of such problems are $\mathbf{NP}$-hard, while others have a certain "intermediate" complexity.]
+And yet vendors and customers manage to figure out market-clearing prices (as economists like to point out, there is milk on the shelves) and mice succeed in distinguishing cats from dogs.
 Hence people (and machines) seem to regularly succeed in solving interesting instances of $\mathbf{NP}$-hard problems, typically by using some combination of guessing while making local improvements.
 
-It is  also true that there are many interesting instances of  $\mathbf{NP}$-hard problems that we do _not_ currently know how to solve.
+It is also true that there are many interesting instances of  $\mathbf{NP}$-hard problems that we do _not_ currently know how to solve.
 Across all application areas, whether it is scientific computing, optimization, control or more, people often encounter hard instances of $\mathbf{NP}$ problems on which our current algorithms fail.
-In fact, as we will see, all of our  digital security infrastructure relies on the fact that some concrete and easy-to-generate instances of, say, 3SAT (or, equivalently, any other $\mathbf{NP}$-hard problem) are exponentially hard to solve.
+In fact, as we will see, all of our digital security infrastructure relies on the fact that some concrete and easy-to-generate instances of, say, 3SAT (or, equivalently, any other $\mathbf{NP}$-hard problem) are exponentially hard to solve.
 
 Thus it would be wrong to say that $\mathbf{NP}$ is easy "in practice", nor would it be correct to take $\mathbf{NP}$-hardness as the "final word" on the complexity of a problem, particularly when we have more information about how any given instance is generated.
-Understanding both the "typical complexity" of $\mathbf{NP}$ problems, as well as the power and limitations of certain  heuristics (such as various local-search based algorithms)  is a very active area of research.
-We will see more on  these topics later in this course.
+Understanding both the "typical complexity" of $\mathbf{NP}$ problems, as well as the power and limitations of certain heuristics (such as various local-search based algorithms)  is a very active area of research.
+We will see more on these topics later in this course.
 
 ^[Talk more about coping with NP hardness. Main two approaches are _heuristics_ such as SAT solvers that succeed on _some_ instances, and _proxy measures_ such as mathematical relaxations that instead of solving problem $X$ (e.g., an integer program) solve program $X'$ (e.g., a linear program) that is related to that. Maybe give compressed sensing as an example, and least square minimization as a proxy for maximum apostoriori probability.]
 
@@ -482,9 +482,9 @@ If indeed that is the case, is it all bad news?
 
 One might think that impossibility results, telling you that you _cannot_ do something, is the kind of cloud that does not have a silver lining.
 But in fact, as we already alluded to before, it does.
-A hard (in a sufficiently strong sense) problem in $\mathbf{NP}$ can be used to create a code that _cannot be broken_,  a task that for thousands of years has been the dream of not just spies but of many  scientists and  mathematicians over the generations.
+A hard (in a sufficiently strong sense) problem in $\mathbf{NP}$ can be used to create a code that _cannot be broken_,  a task that for thousands of years has been the dream of not just spies but of many scientists and mathematicians over the generations.
 But the complexity viewpoint turned out to yield much more than simple codes, achieving tasks that people had previously not even dared to dream of.
-These include the notion of _public key cryptography_, allowing two people to communicate securely without ever having exchanged a secret key; _electronic cash_, allowing private and secure transaction without a central authority; and _secure multiparty computation_, enabling parties to compute a joint function on private inputs without revealing any extra  information about it.
+These include the notion of _public key cryptography_, allowing two people to communicate securely without ever having exchanged a secret key; _electronic cash_, allowing private and secure transaction without a central authority; and _secure multiparty computation_, enabling parties to compute a joint function on private inputs without revealing any extra information about it.
 Also, as we will see, computational hardness can be used to replace the role of _randomness_ in many settings.
 
 Furthermore, while it is often convenient to pretend that computational problems are simply handed to us, and that our job as computer scientists is to find the most efficient algorithm for them, this is not how things work in most computing applications.
@@ -492,7 +492,7 @@ Typically even formulating the problem to solve is a highly non-trivial task.
 When we discover that the problem we want to solve is $\mathbf{NP}$-hard, this might be a useful sign that we used the wrong formulation for it.
 
 Beyond all these, the quest to understand computational hardness $-$ including the discoveries of lower bounds for restricted computational models, as well as new types of reductions (such as those arising from "probabilistically checkable proofs") $-$ has already had surprising _positive_ applications to problems in algorithm design, as well as in coding for both communication and storage.
-This is not surprising since, as we mentioned before, from group theory to the theory of relativity, the pursuit of impossibility results has often been  one of the most fruitful enterprises of mankind.
+This is not surprising since, as we mentioned before, from group theory to the theory of relativity, the pursuit of impossibility results has often been one of the most fruitful enterprises of mankind.
 
 
 
@@ -504,7 +504,7 @@ This is not surprising since, as we mentioned before, from group theory to the t
 
 * We are very far from _proving_ this, however. Researchers have studied proving lower bounds on the number of gates to compute explicit functions in _restricted forms_ of circuits, and have made some advances in this effort, along the way generating mathematical tools that have found other uses.
 However, we have made essentially no headway in proving lower bounds for _general_ models of computation such as NAND and NAND-TM programs.
-Indeed, we currently do not even know how to rule out the possibility  that for every $n\in \N$, $SAT$ restricted to $n$-length inputs has a NAND-CIRC program of $10n$ lines (even though there  _exist_  $n$-input functions that require $2^n/(10n)$ lines to compute).
+Indeed, we currently do not even know how to rule out the possibility that for every $n\in \N$, $SAT$ restricted to $n$-length inputs has a NAND-CIRC program of $10n$ lines (even though there _exist_  $n$-input functions that require $2^n/(10n)$ lines to compute).
 
 * Understanding how to cope with this computational intractability, and even benefit from it, comprises much of the research in theoretical computer science.
 

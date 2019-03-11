@@ -23,5 +23,5 @@ My priorities are:
 
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/4.0/ or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 
-While this text  will remain freely and publicly available, I  may also create a printed book version  in the future.
-By making any contribution to this work, such as a typo fix or any other suggestion or edit, you are assigning me the rights to use your contribution in both the online or any other  version of this work.
+While this text will remain freely and publicly available, I may also create a printed book version in the future.
+By making any contribution to this work, such as a typo fix or any other suggestion or edit, you are assigning me the rights to use your contribution in both the online or any other version of this work.

@@ -29,7 +29,7 @@ chapternum: "1"
 
 
 
-In this chapter, we  review some of the mathematical concepts that we will use in this course.
+In this chapter we review some of the mathematical concepts that we will use in this book.
 Most of these are not very complicated, but do require some practice and exercise to get comfortable with.
 If you have not previously encountered some of these concepts, there are several excellent freely-available resources online that cover them, see the "Bibliographical Notes" section ([notesmathchap](){.ref}).
 
@@ -37,25 +37,25 @@ If you have not previously encountered some of these concepts, there are several
 
 ## A mathematician's apology
 
-Before explaining the math background, perhaps I should explain why is this course so "mathematically heavy".
-After all, this is supposed to be a course about _computation_; one might think we should be talking mostly about  _programs_, rather than more "mathematical" objects such as  _sets_, _functions_, and _graphs_, and doing more _coding_ on an actual computer than writing mathematical proofs with pen and paper.
-So, why are we doing so much math in this course?
+Before explaining the math background, I perhaps should explain why is this book so "mathematically heavy".
+After all, this is supposed to be a book about _computation_; one might think we should be talking mostly about _programs_, rather than more "mathematical" objects such as _sets_, _functions_, and _graphs_, and doing more _coding_ on an actual computer than writing mathematical proofs with pen and paper.
+So, why are we doing so much math?
 Is it just some form of hazing? Perhaps a revenge of the ["math nerds" against the "hackers"](https://blog.smartbear.com/careers/math-nerds-vs-code-monkeys-should-computer-science-classes-be-more-practical/)?
 
 At the end of the day, mathematics is simply a language for modeling concepts in a precise and unambiguous way.
-In this course,  we will be mostly interested in the concept of _computation_.
-For example, we will look at questions such as  _"is there an efficient algorithm to find the prime factors of a given integer?"_.^[Actually, scientists currently do not know the answer to this question, but we will see that settling it in either direction has very interesting applications touching on areas as far apart as Internet security and quantum mechanics.]
+In this book,  we will be mostly interested in the concept of _computation_.
+For example, we will consider questions such as _"is there an efficient algorithm to find the prime factors of a given integer?"_.^[Actually, scientists currently do not know the answer to this question, but we will see that settling it in either direction has very interesting applications touching on areas as far apart as Internet security and quantum mechanics.]
 To even _phrase_ such a question, we need to give a precise _definition_ of the notion of an _algorithm_, and of what it means for an algorithm to be _efficient_.
 Also, if the answer to this or similar questions turns out to be _negative_, then this cannot be shown by simply writing and executing some code.
 After all, there is no empirical experiment that will prove the _nonexistence_ of an algorithm.
-Thus, our only way to show this type of _negative result_ is to use _mathematical proofs_.
-So you can  see why our main tools in this course will be mathematical proofs and definitions.
+Our only way to show this type of _negative result_ is to use _mathematical proofs_.
+So you can see why our main tools will be mathematical proofs and definitions.
 
 ##  This chapter: a reader's manual   { #manualbackground}
 
 Depending on your background, you can approach this chapter in two different ways:
 
-* If you already have taken some proof-based courses, and are very familiar with the notions of discrete mathematics, you can take a quick look at [secmathoverview](){.ref} to see the main tools we will use, [notationsec](){.ref} for our notation and conventions, and then skip ahead to the rest of this book. Alternatively, you can  sit back, relax, and read this chapter just to get familiar with our notation, as well as to enjoy (or not) my philosophical musings and attempts at humor. You might also want to start brushing up on _discrete probability_, which we'll use later in this course.
+* If you already have taken some proof-based courses, and are very familiar with the notions of discrete mathematics, you can take a quick look at [secmathoverview](){.ref} to see the main tools we will use, [notationsec](){.ref} for our notation and conventions, and then skip ahead to the rest of this book. Alternatively, you can sit back, relax, and read this chapter just to get familiar with our notation, as well as to enjoy (or not) my philosophical musings and attempts at humor. You might also want to start brushing up on _discrete probability_, which we'll use later in this book.
 
 
 
@@ -70,17 +70,17 @@ Depending on your background, you can approach this chapter in two different way
 
 
 
-The main notions we will use in this course are the following:
+The main notions we use are:
 
 * __Proofs:__ First and foremost, this course will involve a heavy dose of formal mathematical reasoning, which includes mathematical _definitions_, _statements_, and _proofs_.
 
-* __Sets:__ The basic set _relationships_ of membership ($\in$), containment ($\subseteq$), and set _operations_, principally union, intersection, set difference and Cartesian product ($\cup,\cap,\setminus$ and $\times$).
+* __Sets:__ The basic set _relations_ of membership ($\in$) and containment ($\subseteq$), and set _operations_, principally union, intersection, set difference and Cartesian product ($\cup,\cap,\setminus$ and $\times$).
 
 * __Tuples and strings:__ The set $\Sigma^k$ of length-$k$ strings/lists over elements in $\Sigma$, where $\Sigma$ is some finite set which is called the _alphabet_ (quite often $\Sigma = \{0,1\}$). We use $\Sigma^*$ for the set of all strings of finite length.
 
-* __Some special sets:__ The set $\N$ of natural numbers. We will index from zero in this course and so write $\N = \{0,1,2,\ldots \}$. We will use $[n]$ for the set $\{0,1,2,\ldots,n-1\}$. We use $\{0,1\}^*$ for the set of all binary strings and $\{0,1\}^n$ for the set of strings of length $n$. If $x$ is a string of length $n$, then we refer to its coordinate by $x_0,\ldots,x_{n-1}$.
+* __Some special sets:__ The set $\N$ of natural numbers. Following typical computer science convention, our indices start from zero and so we write $\N = \{0,1,2,\ldots \}$. We use $[n]$ for the set $\{0,1,2,\ldots,n-1\}$. We use $\{0,1\}^*$ for the set of all binary strings and $\{0,1\}^n$ for the set of strings of length $n$ for some natural number $n\in\N$. If $x$ is a string of length $n$, then we refer to its coordinates by $x_0,\ldots,x_{n-1}$.
 
-* __Functions:__ The _domain_ and _codomain_ of a function, properties such as being _one-to-one_ (also known as _injective_) or _onto_ (also known as _surjective_) functions, as well as  _partial functions_ (that, unlike standard or "total" functions, are not necessarily defined on all elements of their domain).
+* __Functions:__ The _domain_ and _codomain_ of a function, properties such as being _one-to-one_ (also known as _injective_) or _onto_ (also known as _surjective_) functions, as well as _partial functions_ (that, unlike standard or "total" functions, are not necessarily defined on all elements of their domain).
 
 * __Logical operations:__ The operations AND, OR, and NOT ($\wedge,\vee,\neg$) and the quantifiers "there exists" and "for all" ($\exists$,$\forall$).
 
@@ -90,7 +90,7 @@ The main notions we will use in this course are the following:
 
 * __Big-$O$ notation:__ $O,o,\Omega,\omega,\Theta$ notation for analyzing asymptotic growth of functions.
 
-* __Discrete probability:__ Later on in we will use _probability theory_, and specifically probability over _finite_ samples spaces such as tossing $n$ coins, including notions such as _random variables_, _expectation_, and _concentration_.  We will only use  probability theory in the second half of this text, and will review it  beforehand. However, probabilistic reasoning is a subtle (and extremely useful!) skill, and it's always good to start early in acquiring it.
+* __Discrete probability:__ We will use _probability theory_, and specifically probability over _finite_ samples spaces such as tossing $n$ coins, including notions such as _random variables_, _expectation_, and _concentration_.  We will only use probability theory in the second half of this text, and will review it beforehand. However, probabilistic reasoning is a subtle (and extremely useful!) skill, and it's always good to start early in acquiring it.
 
 
 In the rest of this chapter we briefly review the above notions.
@@ -100,16 +100,16 @@ This is partially to remind the reader and reinforce material that might not be 
 
 ## Reading mathematical texts
 
-Mathematical texts, such as this book, can often be intimidating at first, as they use a lot of mathematical jargon that can seem dense and confusing to the uninitiated.
-Mathematicians use jargon for the same reason that it is used in many other professions such engineering, law, medicine, etc.
+Mathematical texts such as this book can often be intimidating at first, as they use a lot of mathematical jargon that can seem dense and confusing to the uninitiated.
+Mathematicians use jargon for the same reason that it is used in many other professions such engineering, law, medicine, and others.
 We want to make terms _precise_ and introduce shorthand for concepts that are frequently reused.
-Mathematical text tends to "pack a lot of punch" per sentence, and so the key is to read it slowly and carefully, parsing each symbol at a time.
+Mathematical texts tend to "pack a lot of punch" per sentence, and so the key is to read them slowly and carefully, parsing each symbol at a time.
 
 ::: {.remark title="Don't be scared of Jargon!" #jargon}
-Mathematical Jargon can be kind of scary initially. A  statement such as $\forall_{x\in \mathbb{R}, \epsilon>0} \exists_{a,b \in \N} |x - \tfrac{a}{b}| < \epsilon$ might be quite frightening to the uninitiated.
-But as you get more experience in reading mathematical texts, you will see that the jargon is no longer an issue, and you spend most of your time grappling with the actual ideas in the text.
+Mathematical Jargon can be kind of scary initially. A mathematical statement such as $\forall_{x\in \mathbb{R}, \epsilon>0} \exists_{a,b \in \N} |x - \tfrac{a}{b}| < \epsilon$ can seem like an inscrutable magical incantation.^[This statement formalizes the fact that every real number can be approximated by a rational number within arbitrary good accuracy.] 
+As you get more experience in reading mathematical texts, you will see that the jargon is no longer an issue and you will spend most of your time grappling with the actual ideas in the text rather than parsing notation.
 
-This is no different than programming. For example, even the code of the simple "Hello World" program in Java can be quite intimidating to newcomers, containing great many terms that look scary and inscrutable, but as you work in Java, you  quickly get used  to these quirks of jargon.
+This is no different than programming. For example, even the code of the simple "Hello World" program in Java can be quite intimidating to newcomers, containing great many terms that look scary and inscrutable, but as you work in Java, you quickly get used to these quirks of jargon.
 
 ```java
 public class HelloWorld
@@ -124,7 +124,7 @@ public class HelloWorld
 Dealing with mathematical text is in many ways not so different from dealing with any other complex text, whether it's a legal argument, a philosophical treatise, an English Renaissance play, or even the source code of an operating system.
 You should not expect it to be clear in a first reading, but you need not despair.
 Rather you should engage with the text, trying to figure out both the high level intentions as well as the underlying details.
-Luckily, compared to philosophers or even programmers, mathematicians have a greater discipline of introducing definitions in linear order,  making sure that every new concept is defined only in terms of  previously defined notions.
+Luckily, compared to philosophers or even programmers, mathematicians have a greater discipline of introducing definitions in linear order,  making sure that every new concept is defined only in terms of previously defined notions.
 
 
 The basic components of a mathematical text are __definitions__, __assertions__ and __proofs__.
@@ -134,34 +134,34 @@ The basic components of a mathematical text are __definitions__, __assertions__ 
 Mathematicians often define new concepts in terms of old concepts.  Here is an example of a definition:
 
 > ### {.definition title="Perfect Square" #perfectsquaredef}
-A natural number $n$ is  a _perfect square_ if there exists a natural number $k$ such that $n = k\cdot k$.
+A natural number $n$ is a _perfect square_ if there exists a natural number $k$ such that $n = k\cdot k$.
 
-[perfectsquaredef](){.ref} uses the concept  of a natural number, and the concept of multiplication, to define the new term "perfect square".
+[perfectsquaredef](){.ref} uses the concept of a natural number, and the concept of multiplication, to define the new term "perfect square".
 
 When you see a new definition or concept, always ask yourself the following questions:
 
 1. What is the intuitive notion that this definition aims at modeling?
 
-2. How is the new concept  defined in terms of other concepts?
+2. How is the new concept defined in terms of other concepts?
 
 3. Which of these prior concepts am I already familiar with, and which ones do I still need to look up?
 
 4. Can I come up with examples of objects that satisfy this definition? and examples of objects that do not?
 
-As you read through the rest of this chapter and this text, try to ask yourself  the questions 1-4 above every time that you encounter a new definition.
+As you read through the rest of this chapter and this text, try to ask yourself questions 1-4 above every time that you encounter a new definition.
 
 
 ::: { .pause }
 You can try this out for the definition of a "perfect square". Can you come up with examples of numbers that are perfect squares, and examples of numbers that are not perfect squares? How do you _prove_ that a number is _not_ a perfect square.
 
-You can also try to consider more refined questions such as finding out if there exists a perfect square that is the sum of two other perfect squares. You can also try to see how you would define notions such as being a "perfect cube". (Can you try to think if  there is a perfect cube which is the sum of two other perfect cubes?)
+You can also try to consider more refined questions such as finding out if there exists a perfect square that is the sum of two other perfect squares. You can also try to see how you would define notions such as being a "perfect cube". (Can you try to think if there is a perfect cube which is the sum of two other perfect cubes?)
 :::
 
 
 ::: {.remark title="Ifs and equalities in definitions" #ifindef}
 The meaning of "if" is subtly different in the context of a _definition_ than it is in the context of a standalone mathematical statement. When we say that we define $n$ to be a perfect square if $n=k^2$ for some $k\in \N$, we are _defining_ the new property "perfect square" to be equivalent to the property that $n=k^2$ for some $k\in \N$.
-Since this is the _definition_ of this property, it means that $n$ is in fact a perfect square  _if and only if_  $m=k^2$ for some $k\in \N$.
-We could have also said that we define $n$ to be a perfect square _if and only if_ (or use the abbreviation _iff_) $n=k^2$ for some $k\in \N^2$. We will sometimes use "iff" instead of "if" in definitions when it helps clarity, but since mathematicians  typically use "if" in such cases, we will often follow this convention as well.
+Since this is the _definition_ of this property, it means that $n$ is in fact a perfect square _if and only if_  $m=k^2$ for some $k\in \N$.
+We could have also said that we define $n$ to be a perfect square _if and only if_ (or use the abbreviation _iff_) $n=k^2$ for some $k\in \N^2$. We will sometimes use "iff" instead of "if" in definitions when it helps clarity, but since mathematicians typically use "if" in such cases, we will often follow this convention as well.
 
 Similarly, the equality symbol "$=$" plays a subtly different role in the context of a definition than it does elsewhere. When we say something like "we define $y= \sqrt{x}$" what we really mean is that we are _assigning_ the value $\sqrt{x}$ to $y$, as opposed to _asserting_ that $y$ equals $\sqrt{x}$. To compare with programming languages, in the context of a definition, the equality sign $=$ plays the role analogous to the assignment operator `=` in languages such as C, Python, or Javascript, while in other contexts it plays the role analogous to the "equal to" operator `==`.
 
@@ -175,7 +175,7 @@ These are true statements about the concepts that we defined. For example, here 
 > ### {.lemma #perfectsquarelem}
 For every perfect square $a$ and perfect square $b$, $a\cdot b$ is a perfect square.
 
-Deciding whether to call a particular statement a "Theorem", a "Lemma" or a "Claim" is a judgement call, and does not make a mathematical difference. All three correspond to true statements which can be proven. The difference is that a _Theorem_ refers to a significant result, that we would want to remember and highlight.  A _Lemma_ often refers to a  technical result, that is not necessarily important in its own right, but can be often very useful in proving other theorems. A _Claim_ is a "throw away" statement, that we need to use in order to prove some other bigger results, but do not care so much about for its own sake.
+Deciding whether to call a particular statement a "Theorem", a "Lemma" or a "Claim" is a judgement call, and does not make a mathematical difference. All three correspond to true statements which can be proven. The difference is that a _Theorem_ refers to a significant result, that we would want to remember and highlight.  A _Lemma_ often refers to a technical result, that is not necessarily important in its own right, but can be often very useful in proving other theorems. A _Claim_ is a "throw away" statement, that we need to use in order to prove some other bigger results, but do not care so much about for its own sake.
 
 ### Proofs
 
@@ -197,7 +197,7 @@ $$
 Since $a',b'$ are natural numbers, $c' = a'\cdot b'$ is a natural number as well and hence [eqcommutativeperfectsquare](){.eqref} implies that $c = c' \cdot c'$ is a perfect square.
 :::
 
-As mentioned in the preface, as a general rule, it is more important you understand the  __definitions__ than the __theorems__, and it is more important you understand  a __theorem statement__  than its __proof__.
+As mentioned in the preface, as a general rule, it is more important you understand the __definitions__ than the __theorems__, and it is more important you understand a __theorem statement__ than its __proof__.
 
 
 
@@ -212,9 +212,9 @@ A function $f:S \rightarrow T$ is _one to one_ if for every two elements $x,x' \
 This definition captures a simple concept, but even so it uses quite a bit of notation.
 When reading this definition, or any other piece of mathematical text, it is often useful to annotate it with a pen as you're going through it, as in [onetoonedefannotatedef](){.ref}.
 For every identifier you encounter (for example $f,S,T,x,x'$ in this case), make sure that you realize what sort of object is it: is it a set, a function, an element, a number, a gremlin?
-Make sure you understand how  the identifiers are _quantified_.
+Make sure you understand how the identifiers are _quantified_.
 For example, in [onetoonedef](){.ref} there is a _universal_ or "for all" (sometimes denotes by $\forall$) quantifier over pairs $(x,x')$ of distinct elements in $S$.
-Finally, and most importantly, make sure that aside from being able to parse the definition formally, you also have an intuitive understanding of what is it that the text  is actually saying.
+Finally, and most importantly, make sure that aside from being able to parse the definition formally, you also have an intuitive understanding of what is it that the text is actually saying.
 For example, [onetoonedef](){.ref} says that a one to one function is a function where every output is obtained by a unique input.
 
 
@@ -226,7 +226,7 @@ Moreover, this is one of the most transferable skills you could take from this c
 Our world is changing rapidly, not just in the realm of technology, but also in many other human endeavors, whether it is medicine, economics, law or even culture.
 Whatever your future aspirations, it is likely that you will encounter texts that use new concepts that you have not seen before (for semi-random recent examples from current "hot areas", see [alphagozerofig](){.ref} and [zerocashfig](){.ref}).
 Being able to internalize and then apply new definitions can be hugely important.
-It is a skill that's much easier to acquire in the relatively safe and stable  context of a mathematical course, where one at least has  the guarantee that the concepts are fully specified, and you have access to your teaching staff for questions.
+It is a skill that's much easier to acquire in the relatively safe and stable context of a mathematical course, where one at least has the guarantee that the concepts are fully specified, and you have access to your teaching staff for questions.
 
 
 ![A snippet from the "methods" section of the  ["AlphaGo Zero" paper](https://goo.gl/k8pVpL) by Silver et al, _Nature_, 2017. ](../figure/alphagozero.png){#alphagozerofig .margin  }
@@ -238,7 +238,7 @@ It is a skill that's much easier to acquire in the relatively safe and stable  c
 
 ## Basic discrete math objects
 
-We now quickly review some of the mathematical objects (the "basic data structures" of mathematics, if you will) we use  in this course.
+We now quickly review some of the mathematical objects (the "basic data structures" of mathematics, if you will) we use in this course.
 
 ### Sets
 
@@ -247,7 +247,7 @@ For example, when we write $S = \{ 2,4, 7 \}$, we mean that $S$ denotes the set 
 (We use the notation "$2 \in S$" to denote that $2$ is an element of $S$.)
 Note that the set $\{ 2, 4, 7 \}$ and $\{ 7 , 4, 2 \}$ are identical, since they contain the same elements.
 Also, a set either contains an element or does not contain it -- there is no notion of containing it  "twice" -- and so we could even write the same set $S$ as  $\{ 2, 2, 4, 7\}$ (though that would be a little weird).
-The _cardinality_ of a finite set $S$, denoted by $|S|$, is the number of  elements it contains.^[Later in this course we  will discuss how to extend the notion of cardinality to _infinite_ sets.]
+The _cardinality_ of a finite set $S$, denoted by $|S|$, is the number of elements it contains.^[Later in this course we will discuss how to extend the notion of cardinality to _infinite_ sets.]
 So, in the example above, $|S|=3$.
 A set $S$ is a _subset_ of a set $T$, denoted by $S \subseteq T$, if every element of $S$ is also an element of $T$. (We can also describe this by saying that  $T$ is a _superset_ of $S$.)
 For example, $\{2,7\} \subseteq \{ 2,4,7\}$.
@@ -268,10 +268,10 @@ $$
 
 Note that a set can be either finite  (such as the set $\{2,4,7\}$ ) or infinite (such as the set $\text{EVEN}$).
 Also, the elements of a set don't have to be numbers.
-We can talk about the sets such as the set $\{a,e,i,o,u \}$ of all the vowels in the English language, or the  set $\{$ `New York`, `Los Angeles`, `Chicago`, `Houston`, `Philadelphia`, `Phoenix`, `San Antonio`, `San Diego`, `Dallas` $\}$  of all cities in the U.S. with population more than  one million  per the 2010 census.
+We can talk about the sets such as the set $\{a,e,i,o,u \}$ of all the vowels in the English language, or the set $\{$ `New York`, `Los Angeles`, `Chicago`, `Houston`, `Philadelphia`, `Phoenix`, `San Antonio`, `San Diego`, `Dallas` $\}$  of all cities in the U.S. with population more than one million per the 2010 census.
 A set can even have other sets as elements, such as the set $\{ \emptyset, \{1,2\},\{2,3\},\{1,3\} \}$ of all even-sized subsets of $\{1,2,3\}$.
 
-__Operations on sets:__ The _union_ of two sets $S,T$, denoted by $S \cup T$, is the set that contains all elements that are either in $S$ _or_ in $T$. The _intersection_ of $S$ and $T$, denoted by $S \cap T$, is the set of elements that are both in $S$ _and_ in $T$. The _set difference_ of $S$ and $T$, denoted by $S \setminus T$ (and in some texts  also by $S-T$), is the set of elements that are in $S$ but _not_ in $T$.
+__Operations on sets:__ The _union_ of two sets $S,T$, denoted by $S \cup T$, is the set that contains all elements that are either in $S$ _or_ in $T$. The _intersection_ of $S$ and $T$, denoted by $S \cap T$, is the set of elements that are both in $S$ _and_ in $T$. The _set difference_ of $S$ and $T$, denoted by $S \setminus T$ (and in some texts also by $S-T$), is the set of elements that are in $S$ but _not_ in $T$.
 
 __Tuples, lists, strings, sequences:__ A _tuple_ is an _ordered_ collection of items. For example $(1,5,2,1)$ is a tuple with four elements (also known as a $4$-tuple or quadruple).
 Since order matters, this is not the same tuple as the $4$-tuple $(1,1,5,2)$ or the $3$-tuple $(1,5,2)$. A $2$-tuple is also known as a _pair_.
@@ -286,11 +286,11 @@ __Cartesian product:__ If $S$ and $T$ are sets, then their _Cartesian product_, 
 For example, if $S = \{1,2,3 \}$ and $T = \{10,12 \}$, then $S\times T$ contains the $6$ elements $(1,10),(2,10),(3,10),(1,12),(2,12),(3,12)$.
 Similarly if $S,T,U$ are sets then $S\times T \times U$ is the set of all ordered triples $(s,t,u)$ where $s\in S$, $t\in T$, and $u\in U$.
 More generally, for every positive integer $n$ and sets $S_0,\ldots,S_{n-1}$, we denote by $S_0 \times S_1 \times \cdots \times S_{n-1}$ the set of ordered $n$-tuples $(s_0,\ldots,s_{n-1})$ where $s_i\in S_i$ for every $i \in \{0,\ldots, n-1\}$.
-For every set $S$, we  denote the set $S\times S$ by $S^2$, $S\times S\times S$ by $S^3$, $S\times S\times S \times S$ by $S^4$, and so on and so forth.
+For every set $S$, we denote the set $S\times S$ by $S^2$, $S\times S\times S$ by $S^3$, $S\times S\times S \times S$ by $S^4$, and so on and so forth.
 
 ### Sets in Python (optional)
 
-To get more comfortable with sets, one can also play with the `set` data structure in Python:^[The `set` data structure only corresponds to _finite_ sets; infinite sets are much  more cumbersome to handle in programming languages, though mechanisms such as [Python generators](https://wiki.python.org/moin/Generators) and [lazy evaluation](https://goo.gl/EJV4L3) in general can be helpful.]
+To get more comfortable with sets, one can also play with the `set` data structure in Python:^[The `set` data structure only corresponds to _finite_ sets; infinite sets are much more cumbersome to handle in programming languages, though mechanisms such as [Python generators](https://wiki.python.org/moin/Generators) and [lazy evaluation](https://goo.gl/EJV4L3) in general can be helpful.]
 
 ```python
 A = { 7 , 10 , 12}
@@ -316,7 +316,7 @@ print(contains({2,8,8,12},{12,8,2,34}))
 # True
 
 def product(S,T):
-    return {(s,t) for s in  S for t in  T}
+    return {(s,t) for s in S for t in T}
 
 print(product(A,B))
 # {(10, 8), (10, 5), (7, 12), (12, 12), (10, 12), (12, 5), (7, 5), (7, 8), (12, 8)}
@@ -332,10 +332,10 @@ $$
 \N = \{ 0, 1,2, \ldots \}
 $$
 to be the set of all _natural numbers_, i.e., non-negative integers.
-For any natural number $n$, we define the set $[n]$ as $\{0,\ldots, n-1\} = \{ k\in \N : k < n \}$.^[We start our indexing of both $\N$ and $[n]$ from $0$, while many other  texts index  those sets from $1$. Starting from zero or one is simply a convention that doesn't make much difference, as long as one is consistent about it.]
+For any natural number $n$, we define the set $[n]$ as $\{0,\ldots, n-1\} = \{ k\in \N : k < n \}$.^[We start our indexing of both $\N$ and $[n]$ from $0$, while many other texts index those sets from $1$. Starting from zero or one is simply a convention that doesn't make much difference, as long as one is consistent about it.]
 
-We will also occasionally use the set $\Z=\{\ldots,-2,-1,0,+1,+2,\ldots \}$ of (negative and non-negative) _integers_,^[The letter Z stands for the German word "Zahlen", which means _numbers_.] as well as the set $\R$ of _real_ numbers. (This is the set that includes not just the integers, but also fractional and even irrational numbers; e.g., $\R$ contains numbers  such as $+0.5$, $-\pi$, etc.)
-We denote by $\R_+$  the set $\{ x\in \R : x > 0 \}$ of _positive_  real numbers.
+We will also occasionally use the set $\Z=\{\ldots,-2,-1,0,+1,+2,\ldots \}$ of (negative and non-negative) _integers_,^[The letter Z stands for the German word "Zahlen", which means _numbers_.] as well as the set $\R$ of _real_ numbers. (This is the set that includes not just the integers, but also fractional and even irrational numbers; e.g., $\R$ contains numbers such as $+0.5$, $-\pi$, etc.)
+We denote by $\R_+$  the set $\{ x\in \R : x > 0 \}$ of _positive_ real numbers.
 This set is sometimes also denoted as $(0,\infty)$.
 
 __Strings:__ Another set we will use time and again is
@@ -344,11 +344,11 @@ $$
 \{0,1\}^n = \{ (x_0,\ldots,x_{n-1}) \;:\; x_0,\ldots,x_{n-1} \in \{0,1\}  \}
 $$
 which is the set of all $n$-length binary strings for some natural number $n$.
-That is $\{0,1\}^n$ is the set of all $n$-tuples  of zeroes and ones.
+That is $\{0,1\}^n$ is the set of all $n$-tuples of zeroes and ones.
 This is consistent with our notation above: $\{0,1\}^2$ is the Cartesian product $\{0,1\} \times \{0,1\}$, $\{0,1\}^3$ is the product $\{0,1\} \times \{0,1\} \times \{0,1\}$ and so on.
 
 
-We  will write the string $(x_0,x_1,\ldots,x_{n-1})$ as simply $x_0x_1\cdots x_{n-1}$ and so for example
+We will write the string $(x_0,x_1,\ldots,x_{n-1})$ as simply $x_0x_1\cdots x_{n-1}$ and so for example
 
 $$
 \{0,1\}^3 = \{ 000 , 001, 010 , 011, 100, 101, 110, 111 \} \;.
@@ -374,7 +374,7 @@ $$
 \{0,1\}^* = \cup_{n\in\N} \{0,1\}^n \;.
 $$
 
-The set $\{0,1\}^*$ contains also the "string of length $0$" or "the empty string", which we will denote by $""$.^[In using this notation we follow the convention of many  programming languages. Other texts sometimes use $\epsilon$ or $\lambda$ to denote the empty string. However, this doesn't matter much since we will rarely encounter this "edge case".]
+The set $\{0,1\}^*$ contains also the "string of length $0$" or "the empty string", which we will denote by $""$.^[In using this notation we follow the convention of many programming languages. Other texts sometimes use $\epsilon$ or $\lambda$ to denote the empty string. However, this doesn't matter much since we will rarely encounter this "edge case".]
 
 
 __Generalizing the star operation:__ For every set $\Sigma$, we define
@@ -388,9 +388,9 @@ __Concatenation:__ As mentioned in [specialsets](){.ref}, the _concatenation_ of
 ### Functions {#functionsec }
 
 If $S$ and $T$ are nonempty sets, a _function_ $F$ mapping $S$ to $T$, denoted by $F:S \rightarrow T$, associates with every element $x\in S$ an element $F(x)\in T$.
-The set $S$ is known as the _domain_ of $F$ and the set $T$ is known as the  _codomain_ of $F$.
-The _image_ of a function $F$ is the set $\{ F(x) \;|\; x\in S\}$ which is the subset of $F$'s codomain consisting of all  output elements that are mapped from some input.^[Some texts use _range_ to denote the image of a function, while other texts use _range_ to denote the codomain of a function. Hence we will avoid using the term "range" altogether.]
-As in the case of  sets, we can write a function either by listing the table of all the values it gives for elements in $S$ or by using a rule.
+The set $S$ is known as the _domain_ of $F$ and the set $T$ is known as the _codomain_ of $F$.
+The _image_ of a function $F$ is the set $\{ F(x) \;|\; x\in S\}$ which is the subset of $F$'s codomain consisting of all output elements that are mapped from some input.^[Some texts use _range_ to denote the image of a function, while other texts use _range_ to denote the codomain of a function. Hence we will avoid using the term "range" altogether.]
+As in the case of sets, we can write a function either by listing the table of all the values it gives for elements in $S$ or by using a rule.
 For example if $S = \{0,1,2,3,4,5,6,7,8,9 \}$ and $T = \{0,1 \}$, then the table below defines a function $F: S \rightarrow T$.
 Note that this function is the same as the function defined by the rule $F(x)= (x \mod 2)$.^[For two natural numbers $x$ and $a$, $x \mod a$ (where $\mod$ is shorthand for ["modulo"](https://goo.gl/b7Fdzm)) denotes the _remainder_ of $x$ when it is divided by $a$. That is, it is the number $r$ in $\{0,\ldots,a-1\}$ such that $x = ak +r$ for some integer $k$. We sometimes also use the notation $x = y (\mod a)$ to denote the assertion that $x \mod a$ is the same as $y \mod a$.]
 
@@ -413,17 +413,17 @@ Table: An example of a function.
 
 If $F:S \rightarrow T$ satisfies that $F(x)\neq F(y)$ for all $x \neq y$ then we say that $F$ is _one-to-one_ (also known as an _injective_ function or simply an _injection_).
 If $F$ satisfies that for every $y\in T$ there is some $x\in S$ such that $F(x)=y$ then we say that $F$ is _onto_ (also known as a _surjective_ function or simply a _surjection_).
-A  function that is both one-to-one and onto is known as a _bijective_ function or simply a _bijection_.
+A function that is both one-to-one and onto is known as a _bijective_ function or simply a _bijection_.
 A bijection from a set $S$ to itself is also known as a _permutation_ of $S$.
-If  $F:S \rightarrow T$ is a bijection  then  for every $y\in T$ there is a unique $x\in S$ s.t. $F(x)=y$.
+If  $F:S \rightarrow T$ is a bijection then for every $y\in T$ there is a unique $x\in S$ s.t. $F(x)=y$.
 We denote this value $x$ by $F^{-1}(y)$.
 Note that $F^{-1}$ is itself a bijection from $T$ to $S$ (can you see why?).
 
 
-Giving a bijection between two sets is often a good way to show they have  the same size.
+Giving a bijection between two sets is often a good way to show they have the same size.
 In fact, the standard mathematical definition of the notion that "$S$ and $T$ have the same cardinality" is that there exists a bijection $f:S \rightarrow T$.
 In particular, the cardinality of a set $S$ is defined to be $n$ if there is a bijection from $S$ to the set $\{0,\ldots,n-1\}$.
-As we will see later in this course, this is a definition that can  generalizes to defining the cardinality of _infinite_ sets.
+As we will see later in this course, this is a definition that can generalizes to defining the cardinality of _infinite_ sets.
 
 
 
@@ -431,10 +431,10 @@ __Partial functions:__ We will sometimes be interested in _partial_ functions fr
 A partial function is allowed to be undefined on some subset of $S$.
 That is, if $F$ is a partial function from $S$ to $T$, then for every $s\in S$, either there is (as in the case of standard functions) an element $F(s)$ in $T$, or $F(s)$ is undefined.
 For example, the partial function $F(x)= \sqrt{x}$ is only defined on non-negative real numbers.
-When we want to distinguish between partial functions and  standard (i.e., non-partial) functions, we will call the latter _total_ functions.
+When we want to distinguish between partial functions and standard (i.e., non-partial) functions, we will call the latter _total_ functions.
 When we say "function" without any qualifier then we mean a _total_ function.
 
-The notion of partial functions is a strict generalization of functions, and so every function is a partial function, but not every  partial function is a function. (That is, for every nonempty $S$ and $T$, the set of partial functions from $S$ to $T$ is a proper superset of the set of total functions from $S$ to $T$.) When we want to emphasize that a function $f$ from $A$ to $B$ might not be total, we will write $f: A \rightarrow_p B$.
+The notion of partial functions is a strict generalization of functions, and so every function is a partial function, but not every partial function is a function. (That is, for every nonempty $S$ and $T$, the set of partial functions from $S$ to $T$ is a proper superset of the set of total functions from $S$ to $T$.) When we want to emphasize that a function $f$ from $A$ to $B$ might not be total, we will write $f: A \rightarrow_p B$.
 We can think of a partial function $F$ from $S$ to $T$ also as a total function from $S$ to $T \cup \{ \bot \}$ where $\bot$ is some special "failure symbol", and so instead of saying that $F$ is undefined at $x$, we can say that $F(x)=\bot$.
 
 __Basic facts about functions:__
@@ -448,7 +448,7 @@ Verifying that you can prove the following results is an excellent way to brush 
 
 * If $S$ and $T$ are finite sets then the following conditions are equivalent to one another: __(a)__ $|S| \leq |T|$, __(b)__ there is a one-to-one function $F:S \rightarrow T$, and __(c)__ there is an onto function $G:T \rightarrow S$.^[This is actually true even for _infinite_ $S$ and $T$: in that case __(b)__ is the commonly accepted _definition_ for $|S| \leq |T|$.]
 
-![We can represent finite functions as a directed graph where we put an edge from $x$ to $f(x)$. The _onto_ condition corresponds to requiring that every vertex in the codomain of the function has in-degree _at least_ one. The _one-to-one_ condition  corresponds to requiring that every vertex in the codomain of the function has in-degree _at most_ one. In the examples above $F$ is an onto function, $G$ is one to one, and $H$ is neither onto nor one to one.](../figure/functionsdiagram.png){#functionsdiagrampng .margin  }
+![We can represent finite functions as a directed graph where we put an edge from $x$ to $f(x)$. The _onto_ condition corresponds to requiring that every vertex in the codomain of the function has in-degree _at least_ one. The _one-to-one_ condition corresponds to requiring that every vertex in the codomain of the function has in-degree _at most_ one. In the examples above $F$ is an onto function, $G$ is one to one, and $H$ is neither onto nor one to one.](../figure/functionsdiagram.png){#functionsdiagrampng .margin  }
 
 > ### { .pause }
 You can find the proofs of these results in many discrete math texts, including for example, Section 4.5 in the [Lehman-Leighton-Meyer notes](https://cs121.boazbarak.org/LLM_data_types.pdf).
@@ -471,11 +471,11 @@ Moreover, this also shows that $G$ is _onto_, since it means that for every $s\i
 
 ### Graphs { #graphsec }
 
-_Graphs_ are ubiquitous in Computer Science, and  many other fields as well.
+_Graphs_ are ubiquitous in Computer Science, and many other fields as well.
 They are used to model a variety of data types including social networks, scheduling constraints, road networks, deep neural nets, gene interactions, correlations between observations, and a great many more.
 The formal definitions of graphs are below for the sake of completeness, but if you have not seen graphs before in a course, I urge you to read up on them in one of the sources mentioned in [notesmathchap](){.ref}.^[One such recommended resource is [this lecture of Berkeley CS70](http://www.eecs70.org/static/notes/n5.html).]
 
-Graphs come in two basic flavors: _undirected_ and _directed_.^[It is possible, and sometimes useful, to think of an undirected graph as the special case of an  directed graph  that has  the special property that for every pair $u,v$ either both the edges $(u,v)$ and $(v,u)$   are present or neither of them is. However, in many settings there is  a significant difference between  undirected and directed graphs, and so it's typically best to think of them as separate categories.]
+Graphs come in two basic flavors: _undirected_ and _directed_.^[It is possible, and sometimes useful, to think of an undirected graph as the special case of an directed graph that has the special property that for every pair $u,v$ either both the edges $(u,v)$ and $(v,u)$   are present or neither of them is. However, in many settings there is a significant difference between undirected and directed graphs, and so it's typically best to think of them as separate categories.]
 
 ![An example of an undirected and a directed graph. The undirected graph has vertex set $\{1,2,3,4\}$ and edge set $\{ \{1,2\},\{2,3\},\{2,4\} \}$. The directed graph has vertex set $\{a,b,c\}$ and the edge set $\{ (a,b),(b,c),(c,a),(a,c) \}$.](../figure/graphsexampe.png){#graphsexampefig .margin offset="1.5in"}
 
@@ -491,9 +491,9 @@ A _path_ in the graph is a tuple $(u_0,\ldots,u_k) \in V^k$, for some $k>0$ such
 A _simple path_ is a path $(u_0,\ldots,u_{k-1})$ where all the $u_i$'s are distinct.
 A _cycle_ is a path $(u_0,\ldots,u_k)$ where $u_0=u_{k}$.
 We say that two vertices $u,v\in V$ are _connected_ if either $u=v$ or there is a path from $(u_0,\ldots,u_k)$ where $u_0=u$ and $u_k=v$.
-We say that the graph $G$ is _connected_ if every  pair of vertices in it is connected.
+We say that the graph $G$ is _connected_ if every pair of vertices in it is connected.
 
-Here are some basic facts about undirected graphs. We give some informal arguments below, but leave the full proofs as exercises. (The proofs can also be found in most basic texts on  graph theory.)
+Here are some basic facts about undirected graphs. We give some informal arguments below, but leave the full proofs as exercises. (The proofs can also be found in most basic texts on graph theory.)
 
 > ### {.lemma #degreesegeslem}
 In any undirected graph $G=(V,E)$, the sum of the degrees of all vertices is equal to twice the number of edges.
@@ -523,17 +523,17 @@ If the edge $u \rightarrow v$ is present in the graph then we say that $v$ is an
 A directed graph might contain both $u \rightarrow v$ and $v \rightarrow u$  in which case $u$ will be both an in-neighbor and an out-neighbor of $v$ and vice versa.
 The _in-degree_ of $u$ is the number of in-neighbors it has, and the _out-degree_ of $v$ is the number of out-neighbors it has.
 A _path_ in the graph is a tuple $(u_0,\ldots,u_k) \in V^k$, for some $k>0$ such that $u_{i+1}$ is an out-neighbor of $u_i$ for every $i\in [k]$.
-As in the undirected case, a _simple path_ is a path $(u_0,\ldots,u_{k-1})$ where all the $u_i$'s are distinct and a  _cycle_ is a path $(u_0,\ldots,u_k)$ where $u_0=u_{k}$.
+As in the undirected case, a _simple path_ is a path $(u_0,\ldots,u_{k-1})$ where all the $u_i$'s are distinct and a _cycle_ is a path $(u_0,\ldots,u_k)$ where $u_0=u_{k}$.
 One type of directed graphs we often care about is _directed acyclic graphs_ or _DAGs_, which, as their name implies, are directed graphs without any cycles:
 
 > ### {.definition title="Directed Acyclic Graphs" #DAGdef}
-We say that $G=(V,E)$ is a _directed acyclic graph (DAG)_ if it is a directed graph and there does not exist a list of vertices $u_0,u_1,\ldots,u_k \in V$ such that $u_0=u_k$ and for every $i\in [k]$, the edge $u_i \rightarrow u_{i+1}$ is  in $E$.
+We say that $G=(V,E)$ is a _directed acyclic graph (DAG)_ if it is a directed graph and there does not exist a list of vertices $u_0,u_1,\ldots,u_k \in V$ such that $u_0=u_k$ and for every $i\in [k]$, the edge $u_i \rightarrow u_{i+1}$ is in $E$.
 
 The lemmas we mentioned above have analogs for directed graphs.
 We again leave the proofs (which are essentially identical to their undirected analogs) as exercises for the reader:
 
 > ### {.lemma #diredgreesegeslem}
-In any directed graph $G=(V,E)$, the sum of the in-degrees  is equal to the sum of the out-degrees, which is equal to the number of edges.
+In any directed graph $G=(V,E)$, the sum of the in-degrees is equal to the sum of the out-degrees, which is equal to the number of edges.
 
 
 > ### {.lemma #dirconntranslem}
@@ -541,13 +541,13 @@ In any directed graph $G$, if there is a path from $u$ to $v$ and a path from $v
 
 
 > ### {.lemma #dirsimplepathlem}
-For every directed graph $G=(V,E)$ and a  pair $u,v$ such that there is a path from $u$ to $v$, the _shortest path_ from $u$ to $v$ is simple.
+For every directed graph $G=(V,E)$ and a pair $u,v$ such that there is a path from $u$ to $v$, the _shortest path_ from $u$ to $v$ is simple.
 
 
 ::: {.remark title="Graph terminology" #graphsname}
 The word _graph_ in the sense above was coined by the mathematician Sylvester in 1878 in analogy with the chemical graphs used to visualize molecules.
-There is an unfortunate confusion between this tern and the more common usage of the  word "graph" as a way to plot  data, and in particular a plot of some function $f(x)$ as a function of $x$.
-One way to relate these two notions is to identify every function $f:A \rightarrow B$ with the  directed graph $G_f$ over the vertex set $V= A \cup B$ such that $G_f$  contains the  edge $x \rightarrow f(x)$ for every $x\in A$.
+There is an unfortunate confusion between this tern and the more common usage of the word "graph" as a way to plot data, and in particular a plot of some function $f(x)$ as a function of $x$.
+One way to relate these two notions is to identify every function $f:A \rightarrow B$ with the directed graph $G_f$ over the vertex set $V= A \cup B$ such that $G_f$  contains the edge $x \rightarrow f(x)$ for every $x\in A$.
 
 In a graph $G_f$ constructed in this way, every vertex in $A$ has out-degree equal to one.
 If the function $f$ is _one to one_ then every vertex in $B$ has in-degree at most one.
@@ -557,7 +557,7 @@ if $f$ is a bijection then every vertex in $B$ has in-degree exactly equal to on
 
 ::: {.remark title="Labeled graphs (optional)" #labeledrem}
 For some applications one needs to consider _labeled graphs_, where the vertices or edges have some _labels_ (which can be numbers, strings, or members of some other set) associated with them.
-We can think of such a  graph as  having an associated  (possibly partial) _labelling  function_ $L:V \cup E \rightarrow \mathcal{L}$, where $\mathcal{L}$ is the set of potential labels. However we will typically not refer explicitly to this labeling function and simply say  things such as "vertex $v$ has the label $\alpha$".
+We can think of such a graph as having an associated  (possibly partial) _labelling function_ $L:V \cup E \rightarrow \mathcal{L}$, where $\mathcal{L}$ is the set of potential labels. However we will typically not refer explicitly to this labeling function and simply say things such as "vertex $v$ has the label $\alpha$".
 :::
 
 
@@ -569,7 +569,7 @@ The _negation_ of $P$, denoted as $\neg P$ or $\overline{P}$, is the statement t
 
 Suppose that $P(x)$ is a statement that depends on some _parameter_  $x$ (also sometimes known as an _unbound_ variable) in the sense that for every instantiation of $x$ with a value from some set $S$, $P(x)$ is either true or false.
 For example, $x>7$ is a statement that is not a priori true or false, but does become true or false whenever we instantiate $x$ with some real number.
-In such case we denote by  $\forall_{x\in S} P(x)$  the statement that is true if and only if $P(x)$ is true _for every_ $x\in S$.^[In this book,  we  place the variable that is bound by a quantifier in a subscript and so write $\forall_{x\in S}P(x)$. Some other texts  do not use this subscript notation and so will write the same statement as  $\forall x\in S \; P(x)$.]
+In such case we denote by  $\forall_{x\in S} P(x)$  the statement that is true if and only if $P(x)$ is true _for every_ $x\in S$.^[In this book,  we place the variable that is bound by a quantifier in a subscript and so write $\forall_{x\in S}P(x)$. Some other texts do not use this subscript notation and so will write the same statement as  $\forall x\in S \; P(x)$.]
 We denote by  $\exists_{x\in S} P(x)$  the statement that is true if and only if _there exists_ some $x\in S$ such that $P(x)$ is true.
 
 For example, the following is a formalization of the true statement that there exists a natural number $n$ larger than $100$ that is not divisible by $3$:
@@ -606,7 +606,7 @@ $$
 \sum_{i\in \{1,\ldots,100\}} i^2 \;. \label{eqsumsquarehundred}
 $$
 
-Since summing up over intervals of integers is so common, there is  a special notation for it, and for every two integers $a \leq b$,  $\sum_{i=a}^b f(i)$ denotes $\sum_{i\in S} f(i)$ where $S =\{ x\in \Z : a \leq x \leq b \}$.
+Since summing up over intervals of integers is so common, there is a special notation for it, and for every two integers $a \leq b$,  $\sum_{i=a}^b f(i)$ denotes $\sum_{i\in S} f(i)$ where $S =\{ x\in \Z : a \leq x \leq b \}$.
 Hence we can write the sum [eqsumsquarehundred](){.eqref} also as
 
 $$
@@ -671,7 +671,7 @@ For example, variables such as $i,j,k,\ell,m,n$ will often denote integers, and 
 (see [notationsec](){.ref} for more on these conventions).
 When reading or writing mathematical texts, we usually don't have the advantage of a "compiler" that will check type safety for us. Hence it is important to keep track of the type of each variable, and see that the operations that are performed on it "make sense".
 
-Kun's book [@Kun18] contains an extensive discussion on the similarities and  differences between the cultures of mathematics and programming.
+Kun's book [@Kun18] contains an extensive discussion on the similarities and differences between the cultures of mathematics and programming.
 :::
 
 
@@ -679,7 +679,7 @@ Kun's book [@Kun18] contains an extensive discussion on the similarities and  di
 
 >_"$\log\log\log n$ has been proved to go to infinity, but has never been observed to do so."_, Anonymous, quoted by Carl Pomerance (2000)
 
-It is often very cumbersome to describe precisely  quantities such as running time and is also not needed, since we are typically mostly interested in the "higher order terms".
+It is often very cumbersome to describe precisely quantities such as running time and is also not needed, since we are typically mostly interested in the "higher order terms".
 That is, we want to understand the _scaling behavior_ of the quantity as the input variable grows.
 For example, as far as running time goes, the difference between an $n^5$-time algorithm and an $n^2$-time one is much more significant than the difference between an $100n^2 + 10n$ time algorithm and an $10n^2$ time algorithm.
 For this purpose, $O$-notation is extremely useful as a way to "declutter" our text and focus our attention on what really matters.
@@ -712,12 +712,12 @@ If you are familiar with the notion of _supremum_, then you can verify that $F=O
 ::: {.remark title="Big-$O$ and equality" #equalitybighohrem}
 Using the equality sign for $O$-notation is extremely common, but is somewhat of a misnomer, since a statement such as $F = O(G)$ really means that $F$ is in the set $\{ G' : \exists_{N,c} \text{ s.t. } \forall_{n>N} G'(n) \leq c G(n) \}$.
 
-If anything, it would have made more sense use _inequalities_ and  write $F \leq O(G)$ and $F \geq \Omega(G)$, reserving equality for $F = \Theta(G)$,  and so we will sometimes use this notation, but since the equality notation is quite firmly entrenched we will often stick to it as well. (Some texts use the notation  $F \in O(G)$ instead of $F = O(G)$, but we will not use this notation in this book.)
+If anything, it would have made more sense use _inequalities_ and write $F \leq O(G)$ and $F \geq \Omega(G)$, reserving equality for $F = \Theta(G)$,  and so we will sometimes use this notation, but since the equality notation is quite firmly entrenched we will often stick to it as well. (Some texts use the notation  $F \in O(G)$ instead of $F = O(G)$, but we will not use this notation in this book.)
 
 Despite the misleading equality sign, you should remember that a statement such as $F = O(G)$ means that $F$ is "at most" $G$ in some rough sense when we ignore constants, and a statement such as $F = \Omega(G)$ means that $F$ is "at least" $G$ in the same rough sense.
 :::
 
-It's often convenient to use "anonymous functions" in the context of $O$-notation, and also  to emphasize the input parameter to the function.
+It's often convenient to use "anonymous functions" in the context of $O$-notation, and also to emphasize the input parameter to the function.
 For example, when we write a statement such as $F(n) = O(n^3)$, we mean that  $F=O(G)$ where $G$ is the function defined by $G(n)=n^3$.
 Chapter 7 in [Jim Apsnes' notes on discrete math](http://www.cs.yale.edu/homes/aspnes/classes/202/notes.pdf) provides a good summary of $O$ notation; see also [this tutorial](http://discrete.gr/complexity/) for a gentler and more programmer-oriented introduction.
 
@@ -746,18 +746,18 @@ In most (though not all!) cases we use $O$-notation, the constants hidden by it 
 
 Many people think of mathematical proofs as a sequence of logical deductions that starts from some axioms and ultimately arrives at a conclusion.
 In fact, some dictionaries [define](http://www.thefreedictionary.com/mathematical+proof) proofs that way.
-This is not entirely wrong, but in reality a mathematical proof of a statement X is simply an argument  that convinces the reader that X is true beyond a shadow of a doubt.
+This is not entirely wrong, but in reality a mathematical proof of a statement X is simply an argument that convinces the reader that X is true beyond a shadow of a doubt.
 
 To produce such a proof you need to:
 
 1. Understand precisely what X means.
 
-2. Convince  _yourself_ that X is true.
+2. Convince _yourself_ that X is true.
 
 3. Write your reasoning down in plain, precise and concise English (using formulas or notation only when they help clarity).
 
 In many cases, Step 1 is the most important one. Understanding what a statement means is often more than halfway towards understanding why it is true.
-In Step 3, to convince the reader beyond a shadow of a doubt, we will often want to  break down the reasoning to "basic steps", where each basic step is simple enough to be "self evident". The  combination of all steps yields the desired statement.
+In Step 3, to convince the reader beyond a shadow of a doubt, we will often want to break down the reasoning to "basic steps", where each basic step is simple enough to be "self evident". The combination of all steps yields the desired statement.
 
 ### Proofs and programs
 
@@ -793,7 +793,7 @@ When you write a proof, for every equation or sentence you include, ask yourself
 
 2. If so, does this statement   follow from the previous steps,  or are we going to establish it in the next step?
 
-3. What is the _role_ of this sentence  or equation? Is it one step towards proving the original statement, or is it a step towards proving some intermediate claim that you have stated before?
+3. What is the _role_ of this sentence or equation? Is it one step towards proving the original statement, or is it a step towards proving some intermediate claim that you have stated before?
 
 4. Finally, would the answers to questions 1-3 be clear to the reader? If not, then you should reorder, rephrase or add explanations.
 
@@ -817,7 +817,7 @@ There are no natural numbers $a,b$ such that $\sqrt{2} = \tfrac{a}{b}$.
 
 > ### {.proof }
 Suppose, towards the sake of contradiction that this is false, and so let $a\in \N$ be the smallest number such that there exists some $b\in\N$ satisfying $\sqrt{2}=\tfrac{a}{b}$.
-Squaring this equation we get that $2=a^2/b^2$ or $a^2=2b^2$ $(*)$. But this means that $a^2$ is _even_, and since the product of two odd  numbers is odd, it means that $a$ is even as well, or in other words, $a = 2a'$ for some $a' \in \N$. Yet plugging this into $(*)$ shows  that $4a'^2 = 2b^2$ which means  $b^2 = 2a'^2$ is an even number as well. By the same considerations as above we gat that $b$ is even and hence $a/2$ and $b/2$ are two natural numbers  satisfying $\tfrac{a/2}{b/2}=\sqrt{2}$, contradicting the minimality of $a$.
+Squaring this equation we get that $2=a^2/b^2$ or $a^2=2b^2$ $(*)$. But this means that $a^2$ is _even_, and since the product of two odd numbers is odd, it means that $a$ is even as well, or in other words, $a = 2a'$ for some $a' \in \N$. Yet plugging this into $(*)$ shows that $4a'^2 = 2b^2$ which means  $b^2 = 2a'^2$ is an even number as well. By the same considerations as above we gat that $b$ is even and hence $a/2$ and $b/2$ are two natural numbers satisfying $\tfrac{a/2}{b/2}=\sqrt{2}$, contradicting the minimality of $a$.
 
 
 __Proofs of a universal statement:__ Often we want to prove a statement $X$ of the form "Every object of type $O$ has property $P$." Such proofs often start with a sentence such as "Let $o$ be an object of type $O$" and end by showing that $o$ has the property $P$.
@@ -854,7 +854,7 @@ $$
 s^2/(4a)+c- b^2/(4a) = (b^2-4ac)/(4a) + c - b^2/(4a) = 0
 $$
 
-__Proofs of equivalence:__  If a statement has the form "$A$  if and only if $B$" (often shortened as "$A$ iff $B$") then we need to prove both that $A$ implies $B$ and that $B$ implies $A$.
+__Proofs of equivalence:__ If a statement has the form "$A$  if and only if $B$" (often shortened as "$A$ iff $B$") then we need to prove both that $A$ implies $B$ and that $B$ implies $A$.
 We call the implication that $A$ implies $B$ the "only if" direction, and the implication that $B$ implies $A$ the "if" direction.
 
 
@@ -872,7 +872,7 @@ The website for CMU course 15-251 contains a [useful handout](http://www.cs.cmu.
 __"Without loss of generality (w.l.o.g)":__ This term can be initially quite confusing to students. It is essentially a way to simplify proofs by case distinctions. The idea is that if Case 1 is equal to Case 2 up to a change of variables or a similar transformation, then the proof of Case 1 will also imply the proof of case 2.
 It is always a statement that should be viewed with suspicion.
 Whenever you see it in a proof, ask yourself if you understand _why_ the assumption made is truly without loss of generality, and when you use it, try to see if the use is indeed justified.
-When writing a proof, sometimes  it might be easiest to simply repeat the proof of the second case (adding a remark that the proof is very similar to the first one).
+When writing a proof, sometimes it might be easiest to simply repeat the proof of the second case (adding a remark that the proof is very similar to the first one).
 
 
 ::: {.remark title="Hierarchical Proofs (optional)" #lamportrem}
@@ -897,7 +897,7 @@ In this section we will prove the following: every directed acyclic graph (DAG, 
 This result is known as [topological sorting](https://goo.gl/QUskBc) and is used in many applications, including task scheduling, build systems, software package management, spreadsheet cell calculations, and many others (see [topologicalsortfig](){.ref}).
 In fact, we will also use it ourselves later on in this book.
 
-![An example of _topological sorting_. We consider a directed graph corresponding to a  prerequisite graph of the courses in some Computer Science program. The edge $u \rightarrow v$ means that the course $u$ is a prerequisite for the course $v$. A _layering_ or "topological sorting" of this  graph is the same as mapping the courses to semesters so that if we decide to take the course $v$ in semester $f(v)$, then we have already taken all the prerequisites for $v$ (i.e., its in-neighbors) in prior semesters.](../figure/topologicalsort.png){#topologicalsortfig   }
+![An example of _topological sorting_. We consider a directed graph corresponding to a prerequisite graph of the courses in some Computer Science program. The edge $u \rightarrow v$ means that the course $u$ is a prerequisite for the course $v$. A _layering_ or "topological sorting" of this graph is the same as mapping the courses to semesters so that if we decide to take the course $v$ in semester $f(v)$, then we have already taken all the prerequisites for $v$ (i.e., its in-neighbors) in prior semesters.](../figure/topologicalsort.png){#topologicalsortfig   }
 
 We start with the following definition. A _layering_ of a directed graph is a way to assign for every vertex $v$ a natural number (corresponding to its layer), such that $v$'s in-neighbors are in lower-numbered layers than $v$, and $v$'s out-neighbors are in higher-numbered layers.
 The formal definition is as follows:
@@ -908,7 +908,7 @@ Let $G=(V,E)$ be a directed graph. A _layering_ of $G$ is a function $f:V \right
 In this section we prove that a directed graph is acylic if and only if it has a valid layering.
 
 > ### {.theorem title="Topological Sort" #topologicalsortthm}
-Let $G$ be a directed graph. Then $G$ is acyclic if and only if there exists a  layering $f$ of $G$.
+Let $G$ be a directed graph. Then $G$ is acyclic if and only if there exists a layering $f$ of $G$.
 
 To prove such a theorem, we need to first understand what it means. Since it is an "if and only if" statement, [topologicalsortthm](){.ref} corresponds to two statements:
 
@@ -936,7 +936,7 @@ but this is a contradiction since $u_0=u_k$ and hence $f(u_0)=f(u_k)$.
 
 > ### { .pause }
 If you have not seen the proof of this theorem before (or don't remember it), this would be an excellent point to pause and try to prove it yourself.
-One way to do it would be to describe an _algorithm_ that on input a directed acyclic graph $G$ on $n$ vertices and $n-2$ or fewer edges, constructs  an array $F$ of length $n$ such that for every edge $u \rightarrow v$ in the graph $F[u] < F[v]$.
+One way to do it would be to describe an _algorithm_ that on input a directed acyclic graph $G$ on $n$ vertices and $n-2$ or fewer edges, constructs an array $F$ of length $n$ such that for every edge $u \rightarrow v$ in the graph $F[u] < F[v]$.
 
 
 
@@ -968,8 +968,8 @@ __(b)__ $P$ implies $Q$
 
 then $Q$ is true.
 
-In the setting of proofs by induction we typically have a statement $Q(k)$ that is parameterized by some integer $k$, and we prove that  __(a)__ $Q(0)$ is true, and __(b)__ For every $k>0$, if $Q(0),\ldots,Q(k-1)$ are all true then $Q(k)$ is true.^[Usually proving __(b)__ is the hard part, though there are examples where the "base case" __(a)__ is quite subtle.]
-By  applying Modus Ponens, we can deduce from __(a)__ and __(b)__ that $Q(1)$ is true.
+In the setting of proofs by induction we typically have a statement $Q(k)$ that is parameterized by some integer $k$, and we prove that __(a)__ $Q(0)$ is true, and __(b)__ For every $k>0$, if $Q(0),\ldots,Q(k-1)$ are all true then $Q(k)$ is true.^[Usually proving __(b)__ is the hard part, though there are examples where the "base case" __(a)__ is quite subtle.]
+By applying Modus Ponens, we can deduce from __(a)__ and __(b)__ that $Q(1)$ is true.
 Once we did so, since we now know that both $Q(0)$ and $Q(1)$ are true, then we can use this and __(b)__ to deduce (again using Modus Ponens) that $Q(2)$ is true.
 We can repeat the same reasoning again and again to obtain that  $Q(k)$ is true for every $k$.
 The statement __(a)__ is called the "base case", while __(b)__ is called the "inductive step".
@@ -979,7 +979,7 @@ The assumption in __(b)__ that $Q(i)$ holds for $i<k$ is called the "inductive h
 Proofs by inductions are closely related to algorithms by recursion.
 In both cases we reduce solving a larger problem to solving a smaller instance of itself. In a recursive algorithm to solve some problem P on an input of length $k$  we ask ourselves "what if someone handed me a way to solve P on instances smaller than $k$?". In an inductive proof to prove a statement Q parameterized by a number $k$, we ask ourselves "what if I already knew that $Q(k')$ is true for $k'<k$".
 Both induction and recursion are crucial concepts for this course and Computer Science at large (and even other areas of inquiry, including not just mathematics but other sciences as well). Both can be initially (and even post-initially) confusing, but with time and practice they become clearer.
-For more on proofs by induction and recursion, you might find the  following [Stanford CS 103 handout](https://cs121.boazbarak.org/StanfordCS103Induction.pdf), [this MIT 6.00 lecture](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00sc-introduction-to-computer-science-and-programming-spring-2011/unit-1/lecture-6-recursion/) or [this excerpt of the Lehman-Leighton book](https://cs121.boazbarak.org/LL_induction.pdf) useful.
+For more on proofs by induction and recursion, you might find the following [Stanford CS 103 handout](https://cs121.boazbarak.org/StanfordCS103Induction.pdf), [this MIT 6.00 lecture](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00sc-introduction-to-computer-science-and-programming-spring-2011/unit-1/lecture-6-recursion/) or [this excerpt of the Lehman-Leighton book](https://cs121.boazbarak.org/LL_induction.pdf) useful.
 
 
 
@@ -987,7 +987,7 @@ For more on proofs by induction and recursion, you might find the  following [St
 ### Proving the result by induction
 
 There are several ways to use induction to prove  [acyclictosortlem](){.ref} by induction.
-We will use induction on the number $n$ of vertices, and so we  will define the statement $Q(n)$ as follows:
+We will use induction on the number $n$ of vertices, and so we will define the statement $Q(n)$ as follows:
 
 >$Q(n)$ is _"For every DAG  $G=(V,E)$ with $n$ vertices, there is a layering of $G$."_
 
@@ -996,12 +996,12 @@ The statement $Q(1)$ is trivial, since in this case $G$ contains no edge, and we
 To do so, we need to somehow find a way, given a graph $G$ of $n$ vertices, to reduce the task of finding a layering for $G$ into the task of finding a layering for some other graph $G'$ of $n-1$ vertices.
 The idea is that we will find a _source_ of $G$: a vertex $v$ that has no in-neighbors. We can then assign to $v$ the layer $0$, and layer the remaining vertices using the inductive hypothesis in layers $1,2,\ldots$.
 
-The above is  the intuition behind the proof, but when writing the proof,   we use the benefit of hindsight, and try to streamline what was a messy journey into a linear and easy-to-follow flow of logic that starts with the word __"Proof:"__ and ends with  __"QED"__ or the symbol $\blacksquare$.^[QED stands for "quod erat demonstrandum", which is "What was to be demonstrated." or  "The very thing it was required to have shown." in Latin.]
+The above is the intuition behind the proof, but when writing the proof,   we use the benefit of hindsight, and try to streamline what was a messy journey into a linear and easy-to-follow flow of logic that starts with the word __"Proof:"__ and ends with __"QED"__ or the symbol $\blacksquare$.^[QED stands for "quod erat demonstrandum", which is "What was to be demonstrated." or  "The very thing it was required to have shown." in Latin.]
 All our discussions, examples and digressions can be very insightful, but we keep them outside the space delimited between these two words, where (as described by this [excellent handout](http://web.stanford.edu/class/cs103/handouts/120%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
 Just like we do in programming, we can break the proof into little "subroutines" or "functions" (known as _lemmas_ or _claims_ in math language), which will be smaller statements that help us prove the main result.
 However, it should always be crystal-clear to the reader in what stage we are of the proof.
-Just like it should always be clear to which function a line of code belongs to, it should always be clear whether an individual sentence  is part of a  proof of some intermediate result, or is part of the argument showing that this intermediate result implies the theorem.
-Sometimes we highlight this partition by noting after each occurrence of  __"QED"__ to which lemma or claim it belongs.
+Just like it should always be clear to which function a line of code belongs to, it should always be clear whether an individual sentence is part of a proof of some intermediate result, or is part of the argument showing that this intermediate result implies the theorem.
+Sometimes we highlight this partition by noting after each occurrence of __"QED"__ to which lemma or claim it belongs.
 
 We now present the formal proof.
 
@@ -1044,7 +1044,7 @@ Another good habit is to ask yourself when reading a proof for every variable yo
 
 ### Minimality and uniqueness
 
-[topologicalsortthm](){.ref} guarantees that for every DAG $G=(V,E)$ there exists some layering $f:V \rightarrow \N$ but this layering is not necessarily  _unique_.
+[topologicalsortthm](){.ref} guarantees that for every DAG $G=(V,E)$ there exists some layering $f:V \rightarrow \N$ but this layering is not necessarily _unique_.
 For example, if $f:V \rightarrow \N$ is a valid layering of the graph then so is the function $f'$ defined as $f'(v) = 2\cdot f(v)$.
 However, it turns out that the _minimal_ layering is unique.
 A minimal layering is one where every vertex is given the absolute smallest layer number that we possibly can.
@@ -1056,13 +1056,13 @@ Let $G=(V,E)$ be a DAG. We say that a layering $f:V \rightarrow \N$ is _minimal_
 For every layering $f,g:V \rightarrow \N$ of $G$, if both $f$ and $g$ are minimal then $f=g$.
 :::
 
-The definition of minimality in [minimallayeruniquethm](){.ref} implies that for every vertex $v \in V$, we cannot move it to a lower layer without making the  layering invalid. If $v$ is a source (i.e., has in-degree zero) then a minimal layering $f$ must put it in layer $0$, and for every other $v$, if $f(v)=i$, then we cannot modify this to set $f(v) \leq i-1$ since there is an-neighbor $u$ of $v$ satisfying $f(u)=i-1$.
+The definition of minimality in [minimallayeruniquethm](){.ref} implies that for every vertex $v \in V$, we cannot move it to a lower layer without making the layering invalid. If $v$ is a source (i.e., has in-degree zero) then a minimal layering $f$ must put it in layer $0$, and for every other $v$, if $f(v)=i$, then we cannot modify this to set $f(v) \leq i-1$ since there is an-neighbor $u$ of $v$ satisfying $f(u)=i-1$.
 What [minimallayeruniquethm](){.ref} says is that a minimal layering $f$ is _unique_ in the sense that every other minimal layering is equal to $f$.
 
 > ### {.proofidea data-ref="minimallayeruniquethm"}
 The idea is to prove the theorem by induction on the layers.
 If $f$ and $g$ are minimal then they must agree on the source vertices, since both $f$ and $g$ should assign these vertices to layer $0$.
-We can then show that if $f$ and $g$ agree up to layer $i-1$, then the minimality property implies that they need to agree in layer $i$ as well. In the actual proof we use a small trick to save on writing. Rather than proving the  statement that $f=g$ (or in other words that  $f(v)=g(v)$ for every $v\in V$), we prove the weaker statement that $f(v) \leq g(v)$ for every $v\in V$.
+We can then show that if $f$ and $g$ agree up to layer $i-1$, then the minimality property implies that they need to agree in layer $i$ as well. In the actual proof we use a small trick to save on writing. Rather than proving the statement that $f=g$ (or in other words that  $f(v)=g(v)$ for every $v\in V$), we prove the weaker statement that $f(v) \leq g(v)$ for every $v\in V$.
 (This is a weaker statement since the condition that $f(v)$ is lesser or equal than to $g(v)$ is implied by the condition that $f(v)$ is equal to $g(v)$.)
 However, since $f$ and $g$ are just labels we give to two minimal layerings, by simply changing the names "$f$" and "$g$" the same proof also shows that $g(v) \leq f(v)$ for every $v\in V$ and hence that $f=g$.
 
@@ -1077,7 +1077,7 @@ By the induction hypothesis we get that $g(u) \geq i-1$, and since $g$ is a vali
 :::
 
 ::: { .pause }
-The proof of [minimallayeruniquethm](){.ref} is fully  rigorous, but is written in a somewhat terse manner.
+The proof of [minimallayeruniquethm](){.ref} is fully rigorous, but is written in a somewhat terse manner.
 Make sure that you read through it and understand _why_ this is indeed an airtight proof of the Theorem's statement.
 :::
 
@@ -1089,13 +1089,13 @@ Most of the notation we use in this book is standard and is used in most mathema
 
 * We also index the set $[n]$ starting with $0$, and hence define it as $\{0,\ldots,n-1\}$. In other texts it is often defined as $\{1,\ldots, n \}$. Similarly, we index coordinates of our strings starting with $0$, and hence a string $x\in \{0,1\}^n$ is written as $x_0x_1\cdots x_{n-1}$.
 
-* If $n$ is a natural number then $1^n$ does _not_ equal the number $1$ but rather this is  the length $n$ string $11\cdots 1$ (that is a string of $n$ ones). Similarly, $0^n$ refers to the length $n$ string $00 \cdots 0$.
+* If $n$ is a natural number then $1^n$ does _not_ equal the number $1$ but rather this is the length $n$ string $11\cdots 1$ (that is a string of $n$ ones). Similarly, $0^n$ refers to the length $n$ string $00 \cdots 0$.
 
-* _Partial_ functions  are functions that are not necessarily  defined on all inputs. When we write $f:A \rightarrow B$ this means that $f$ is  a _total_ function unless we say otherwise. When we want to emphasize that $f$ can be  a partial function, we will sometimes write $f: A \rightarrow_p B$.
+* _Partial_ functions are functions that are not necessarily defined on all inputs. When we write $f:A \rightarrow B$ this means that $f$ is a _total_ function unless we say otherwise. When we want to emphasize that $f$ can be a partial function, we will sometimes write $f: A \rightarrow_p B$.
 
-* As we will see later on in the course, we will mostly describe our computational problems in the terms of computing a _Boolean function_ $f: \{0,1\}^* \rightarrow \{0,1\}$. In contrast, many other  textbooks refer to the same task as  _deciding a language_ $L \subseteq \{0,1\}^*$. These two viewpoints are equivalent, since for every set $L\subseteq \{0,1\}^*$ there is a corresponding  function $F$ such that $F(x)=1$ if and only if $x\in L$. Computing _partial functions_ corresponds to the task known in the literature as a solving a _promise problem_.^[Because the language notation is so prevalent in other textbooks, we will occasionally remind the reader of this correspondence.]
+* As we will see later on in the course, we will mostly describe our computational problems in the terms of computing a _Boolean function_ $f: \{0,1\}^* \rightarrow \{0,1\}$. In contrast, many other textbooks refer to the same task as _deciding a language_ $L \subseteq \{0,1\}^*$. These two viewpoints are equivalent, since for every set $L\subseteq \{0,1\}^*$ there is a corresponding function $F$ such that $F(x)=1$ if and only if $x\in L$. Computing _partial functions_ corresponds to the task known in the literature as a solving a _promise problem_.^[Because the language notation is so prevalent in other textbooks, we will occasionally remind the reader of this correspondence.]
 
-* We use $\ceil{x}$ and $\floor{x}$ for the "ceiling" and "floor" operators that correspond to "rounding up" or "rounding down" a number to the nearest integer. We use $(x \mod y)$ to denote the "remainder" of $x$ when divided by $y$. That is, $(x \mod y) = x - y\floor{x/y}$. In context when an integer is expected we'll typically "silently round" the quantities to an integer. For example, if we say that $x$ is a string of length $\sqrt{n}$ then this means that $x$ is  of length $\lceil \sqrt{n} \rceil$. (We round up for the sake of convention, but in most such cases, it will not make a difference  whether we round up or down.)
+* We use $\ceil{x}$ and $\floor{x}$ for the "ceiling" and "floor" operators that correspond to "rounding up" or "rounding down" a number to the nearest integer. We use $(x \mod y)$ to denote the "remainder" of $x$ when divided by $y$. That is, $(x \mod y) = x - y\floor{x/y}$. In context when an integer is expected we'll typically "silently round" the quantities to an integer. For example, if we say that $x$ is a string of length $\sqrt{n}$ then this means that $x$ is of length $\lceil \sqrt{n} \rceil$. (We round up for the sake of convention, but in most such cases, it will not make a difference whether we round up or down.)
 
 
 * Like most Computer Science texts, we default to the logarithm in base two. Thus, $\log n$ is the same as $\log_2 n$.
@@ -1124,20 +1124,20 @@ alignment: LL
 table-width: 1/3
 id: notationtable
 ---
-*Identifier*	*Often denotes  object of type*
+*Identifier*	*Often denotes object of type*
 $i$,$j$,$k$,$\ell$,$m$,$n$	Natural numbers (i.e., in $\mathbb{N} = \{0,1,2,\ldots \}$)
 $\epsilon,\delta$	Small positive real numbers  (very close to $0$)
 $x,y,z,w$	Typically strings in $\{0,1\}^*$ though sometimes numbers or other objects. We often identify an object with its representation as a string.
 $G$	A _graph_. The set of $G$'s vertices is typically denoted by $V$. Often $V=[n]$. The set of $G$'s edges is typically denoted by $E$.
 $S$	Set
-$f,g,h$	Functions. We  often (though not always) use lowercase identifiers for _finite functions_, which map  $\{0,1\}^n$ to $\{0,1\}^m$ (often $m=1$).
+$f,g,h$	Functions. We often (though not always) use lowercase identifiers for _finite functions_, which map  $\{0,1\}^n$ to $\{0,1\}^m$ (often $m=1$).
 $F,G,H$	Infinite (unbounded input) functions mapping $\{0,1\}^*$ to $\{0,1\}^*$ or $\{0,1\}^*$ to $\{0,1\}^m$ for some $m$. Based on context, the identifiers $G,H$ are sometimes used to denote functions and sometimes graphs.
 $A,B,C$	Boolean circuits
 $M,N$	Turing machines
 $P,Q$	Programs
 $T$	A function mapping $\mathbb{N}$ to $\mathbb{N}$ that corresponds to a time bound.
 $c$	A positive number (often an unspecified constant; e.g.,  $T(n)=O(n)$ corresponds to the existence of $c$ s.t. $T(n) \leq c \cdot n$ every $n>0$). We sometimes use $a,b$ in a similar way.
-$\Sigma$	Finite set (often used as  the _alphabet_ for a set of strings).
+$\Sigma$	Finite set (often used as the _alphabet_ for a set of strings).
 ```
 
 
@@ -1262,7 +1262,7 @@ Even when Hardy is wrong, he is very much worth reading.
 
 There are many online sources for the mathematical background needed for this book. In particular, the lecture notes for MIT 6.042 "Mathematics for Computer Science" [@LehmanLeightonMeyer] are extremely comprehensive, and videos and assignments for this course are available online.
 Similarly, [Berkeley CS 70: "Discrete Mathematics and Probability Theoru"](http://www.eecs70.org/) has extensive lecture notes online.
-The book of Rosen [@Rosen19discrete] also covers much of this  material.
+The book of Rosen [@Rosen19discrete] also covers much of this material.
 See also Jim Aspens' online book [@AspensDiscreteMath].
 
 The book by Lewis and Zax [@LewisZax19], as well as the online book of Fleck [@Fleck], give a more gentle overview of the much of the same material. Solow's book [@Solow14] is a good gentle introduction to proof reading and writing. Kun's book [@Kun18] gives an introduction to mathematics aimed at readers with programming background.

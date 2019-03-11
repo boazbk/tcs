@@ -13,7 +13,7 @@ chapternum: "13"
 
 
 
-Let us consider several of the problems we have  encountered before:
+Let us consider several of the problems we have encountered before:
 
 * Finding the longest path in a graph
 
@@ -29,14 +29,14 @@ All of these have the following properties:
 
 * These are important problems, and people have spent significant effort on trying to find better algorithms for them.
 
-* Each one of these  problems is a _search_ problem, whereby we search for a solution that is "good" in some easy to define sense (e.g., a long path, a satisfying assignment, etc..).
+* Each one of these problems is a _search_ problem, whereby we search for a solution that is "good" in some easy to define sense (e.g., a long path, a satisfying assignment, etc..).
 
 * Each of these problems has trivial exponential time algorithms that involve enumerating all possible solutions.
 
 * At the moment, for all these problems the best known algorithms are not much better than the trivial one in the worst case.
 
 
-In this chapter and  in [cooklevinchap](){.ref} we will see that, despite their apparent differences, we can relate these problems by their complexity.
+In this chapter and in [cooklevinchap](){.ref} we will see that, despite their apparent differences, we can relate these problems by their complexity.
 In fact, it turns out that all these problems are _computationally equivalent_, in the sense that solving one of them immediately implies solving the others.
 This phenomenon, known as _$\mathbf{NP}$ completeness_, is one of the surprising discoveries of theoretical computer science, and we will see that it has far-reaching ramifications.
 
@@ -44,14 +44,14 @@ This phenomenon, known as _$\mathbf{NP}$ completeness_, is one of the surprising
 
 ### Decision problems
 
-For reasons of technical conditions rather than anything substantial, we will concern ourselves  with _decision problems_ (i.e., Yes/No questions) or in other words _Boolean_  (i.e., one-bit output) functions.
+For reasons of technical conditions rather than anything substantial, we will concern ourselves with _decision problems_ (i.e., Yes/No questions) or in other words _Boolean_  (i.e., one-bit output) functions.
 Thus, we will model all the problems as functions mapping $\{0,1\}^*$ to $\{0,1\}$:
 
 * The _3SAT_ problem can be phrased as the function $3SAT:\{0,1\}^* \rightarrow \{0,1\}$ that maps a 3CNF formula $\varphi$ to $1$ if there exists some assignment $x$ that satisfies it, and to $0$ otherwise.^[We assume some representation of formulas as strings, and define the function to output $0$ if its input is not a valid representation. We will use the same convention for all the other functions below.]
 
-* The _quadratic equations_ problem  corresponds to the function $QUADEQ:\{0,1\}^* \rightarrow \{0,1\}$ that maps a set of quadratic equations $E$ to $1$ if there is an assignment $x$ that satisfies all equations, and to $0$ otherwise.
+* The _quadratic equations_ problem corresponds to the function $QUADEQ:\{0,1\}^* \rightarrow \{0,1\}$ that maps a set of quadratic equations $E$ to $1$ if there is an assignment $x$ that satisfies all equations, and to $0$ otherwise.
 
-* The _longest path_ problem corresponds to the function $LONGPATH:\{0,1\}^* \rightarrow \{0,1\}$ that maps a graph $G$ and a number $k$ to $1$ if there is a simple^[Recall that a _simple_ path in a graph is one that does not visit any vertex more than once. For the _shortest path problem_ we can assume that a path is simple without loss of generality since removing a loop (a portion of the path that starts from the same vertex and returns to it) only makes the path shorter. For the _longest path problem_ we need to make this restriction to avoid "degenerate" paths such as paths that repeat endlessly the same loop.] path in $G$ of length at least $k$, and maps $(G,k)$ to $0$ otherwise. The longest path problem is a generalization of the well-known [Hamiltonian Path Problem](https://en.wikipedia.org/wiki/Hamiltonian_path_problem) of determining whether  a path of length $n$ exists in a given $n$ vertex graph.
+* The _longest path_ problem corresponds to the function $LONGPATH:\{0,1\}^* \rightarrow \{0,1\}$ that maps a graph $G$ and a number $k$ to $1$ if there is a simple^[Recall that a _simple_ path in a graph is one that does not visit any vertex more than once. For the _shortest path problem_ we can assume that a path is simple without loss of generality since removing a loop (a portion of the path that starts from the same vertex and returns to it) only makes the path shorter. For the _longest path problem_ we need to make this restriction to avoid "degenerate" paths such as paths that repeat endlessly the same loop.] path in $G$ of length at least $k$, and maps $(G,k)$ to $0$ otherwise. The longest path problem is a generalization of the well-known [Hamiltonian Path Problem](https://en.wikipedia.org/wiki/Hamiltonian_path_problem) of determining whether a path of length $n$ exists in a given $n$ vertex graph.
 
 * The _maximum cut_ problem corresponds to the function $MAXCUT:\{0,1\}^* \rightarrow \{0,1\}$ that maps a graph $G$ and a number $k$ to $1$ if there is a cut in $G$ that cuts at least $k$ edges, and maps $(G,k)$ to $0$ otherwise.
 
@@ -63,7 +63,7 @@ How can we show that they are "computationally equivalent"?
 The idea is that we show that an efficient algorithm for $F$ would imply an efficient algorithm for $G$ and vice versa.
 The key to this is the notion of a _reduction_.
 Roughly speaking, we will say that _$F$ reduces to $G$_ (denoted as $F \leq_p G$) if $F$ is "no harder" than $G$, in the sense that a polynomial-time algorithm for $G$ implies a polynomial-time algorithm for $F$.
-The formal definition is as follows:^[Several notions of reductions are defined in the literature. The notion defined in [reduction-def](){.ref}  is often known as a _mapping reduction_, _many to one reduction_ or a  _Karp reduction_.]
+The formal definition is as follows:^[Several notions of reductions are defined in the literature. The notion defined in [reduction-def](){.ref}  is often known as a _mapping reduction_, _many to one reduction_ or a _Karp reduction_.]
 
 > ### {.definition title="Reductions" #reduction-def}
 Let $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$. We say that _$F$ reduces to $G$_, denoted by $F \leq_p G$ if there is a polynomial-time computable $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every $x\in \{0,1\}^*$,
@@ -83,18 +83,18 @@ As usual, solving this exercise on your own is an excellent way to make sure you
 :::
 
 ::: {.solution data-ref="reductionsandP"}
-Suppose there was an algorithm $B$ that  compute $F$ in time $p(n)$ where $p$ is its input size. Then, [eq:reduction](){.eqref} directly gives an algorithm  $A$ to compute $F$ (see [reductionsfig](){.ref}).
+Suppose there was an algorithm $B$ that compute $F$ in time $p(n)$ where $p$ is its input size. Then, [eq:reduction](){.eqref} directly gives an algorithm  $A$ to compute $F$ (see [reductionsfig](){.ref}).
 Indeed, on input $x\in \{0,1\}^*$, Algorithm $A$ will run the polynomial-time reduction $R$ to obtain $y=R(x)$ and then return $B(y)$.
 By [eq:reduction](){.eqref}, $G(R(x)) = F(x)$ and hence Algorithm $A$ will indeed compute $F$.
 
 We now show that $A$ runs in polynomial time.
-By assumption, $R$ can be computed in  time $q(n)$ for some polynomial $q$.
+By assumption, $R$ can be computed in time $q(n)$ for some polynomial $q$.
 In particular, this means that  $|y| \leq q(|x|)$ (as just writing down $y$ takes $|y|$ steps).
 This, computing $B(y)$  will take at most $p(|y|) \leq p(q(|x|))$ steps.
 Thus the total running time of $A$ on inputs of length $n$ is at most the time to compute $y$, which is bounded by $q(n)$, and the time to compute $B(y)$, which is bounded by $p(q(n))$, and since the composition of two polynomials is a polynomial, $A$ runs in polynomial time.
 :::
 
-Since we think of  $F \leq_p G$ as saying that (as far as polynomial-time computation is concerned) $F$ is "easier or equal in difficulty to" $G$, we would expect that  if $F \leq_p G$ and $G \leq_p H$, then it would hold that $F \leq_p H$. Indeed this is the case:
+Since we think of  $F \leq_p G$ as saying that (as far as polynomial-time computation is concerned) $F$ is "easier or equal in difficulty to" $G$, we would expect that if $F \leq_p G$ and $G \leq_p H$, then it would hold that $F \leq_p H$. Indeed this is the case:
 
 > ### {.lemma #transitivitylem}
 For every $F,G,H :\{0,1\}^* \rightarrow \{0,1\}$, if $F \leq_p G$ and $G \leq_p H$ then $F \leq_p H$.
@@ -106,11 +106,11 @@ We leave the proof of [transitivitylem](){.ref} as [transitivity-reductions-ex](
 ::: {.remark title="Polynomial reductions, completeness and soundness" #polynomialred}
 We have seen reductions before in the context of proving the uncomputability of problems such as $HALTONZERO$ and others.
 The most crucial difference between the notion in [reduction-def](){.ref} and previously occuring notions is that in the context of relating the time complexity of problems, we need the reduction to be computable in _polynomial time_, as opposed to merely computable.
-[reduction-def](){.ref} also restricts reductions to have a very specific format. That is, to show that $F \leq_p G$, rather than allowing a general algorithm for $F$ that uses a "magic box" that computes $G$, we only allow an algorithm that computes $F(x)$ by outputting $G(R(x))$. This restricted form is convenient for us, but people have defined and used  more general  reductions as well.
+[reduction-def](){.ref} also restricts reductions to have a very specific format. That is, to show that $F \leq_p G$, rather than allowing a general algorithm for $F$ that uses a "magic box" that computes $G$, we only allow an algorithm that computes $F(x)$ by outputting $G(R(x))$. This restricted form is convenient for us, but people have defined and used more general reductions as well.
 
 Since both $F$ and $G$ are Boolean functions, the condition $F(x)=G(R(x))$ in [eq:reduction](){.eqref} is equivalent to the following two implications: __(i)__ if $F(x)=1$ then $G(R(x))=1$, and __(ii)__ if $G(R(x))=1$ then $F(x)=1$.
-Traditionally, condition __(i)__ is  known as   _completness_ and condition __(ii)__ is  known as _soundness_.
-We can think of this as saying that the reduction $R$ is _complete_ if  every $1$-input of $F$ (i.e. $x$ such that $F(x)=1$)  is mapped by $R$ to a $1$-input of $G$, and that it is _sound_ if no $0$-input of $F$ will ever be mapped to a $1$-input of $G$.
+Traditionally, condition __(i)__ is known as   _completness_ and condition __(ii)__ is known as _soundness_.
+We can think of this as saying that the reduction $R$ is _complete_ if every $1$-input of $F$ (i.e. $x$ such that $F(x)=1$)  is mapped by $R$ to a $1$-input of $G$, and that it is _sound_ if no $0$-input of $F$ will ever be mapped to a $1$-input of $G$.
 As we will see below, it is often the case that establishing __(ii)__ is the more challenging part.
 :::
 
@@ -118,14 +118,14 @@ As we will see below, it is often the case that establishing __(ii)__ is the mor
 
 ## Some example reductions
 
-We will now  use reductions to  relate the computational complexity of the   problems mentioned above $-$ 3SAT, Quadratic Equations, Maximum Cut, and Longest Path.
-We start by  reducing 3SAT to the latter three problems, demonstrating that solving any one of them will solve 3SAT.
-Along the way we will introduce one more problem: the _independent set_  problem.
+We will now use reductions to relate the computational complexity of the   problems mentioned above $-$ 3SAT, Quadratic Equations, Maximum Cut, and Longest Path.
+We start by reducing 3SAT to the latter three problems, demonstrating that solving any one of them will solve 3SAT.
+Along the way we will introduce one more problem: the _independent set_ problem.
 Like the others, it shares the characteristics that it is an important and well-motivated computational problem, and that the best known algorithm for it takes exponential time.
 In  [cooklevinchap](){.ref} we will show the other direction: reducing each one of these problems to 3SAT in one fell swoop.
 
 
-![Our first stage in showing equivalence is to reduce  3SAT to the  three other problems](../figure/sat_to_others.png){#figureid .margin  }
+![Our first stage in showing equivalence is to reduce 3SAT to the three other problems](../figure/sat_to_others.png){#figureid .margin  }
 
 
 ### Reducing 3SAT to quadratic equations
@@ -156,7 +156,7 @@ where $3SAT$ is the function that maps a 3SAT formula $\varphi$ to $1$ if it is 
 > ### {.proofidea data-ref="quadeq-thm"}
 At the end of the day, a 3SAT formula can be thought of as a list of equations on some variables $x_0,\ldots,x_{n-1}$.
 Namely, the equations are that each of the $x_i$'s should be equal to either $0$ or $1$, and that the variables should satisfy some set of constraints which corresponds to the OR of three variables or their negation.
-To show that $3SAT \leq_p QUADEQ$ we need to give a polynomial-time reduction that maps a 3SAT formula $\varphi$ into a  set of quadratic equations $E$ such that $E$ has a solution if and only if $\varphi$ is satisfiable.
+To show that $3SAT \leq_p QUADEQ$ we need to give a polynomial-time reduction that maps a 3SAT formula $\varphi$ into a set of quadratic equations $E$ such that $E$ has a solution if and only if $\varphi$ is satisfiable.
 The idea is that we can transform a 3SAT formula $\varphi$ first to a set of _cubic_ equations by mapping every constraint of the form $(x_{12} \vee  \overline{x}_{15} \vee x_{24})$ into an equation of the form $(1-x_{12})x_{15}(1-x_{24})=0$. We can then turn this into a _quadratic equation_ by mapping any cubic equation of the form $x_ix_jx_k =0$ into the two quadratic equations $y_{i,j}=x_ix_j$ and $y_{i,j}x_k=0$.
 
 ::: {.proof data-ref="quadeq-thm"}
@@ -165,7 +165,7 @@ To prove [quadeq-thm](){.ref} we need to give a   polynomial-time transformation
 We now describe the transformation of a formula $\varphi$ to equations $E$ and show the completeness and soundness conditions.
 Recall that a _3SAT formula_ $\varphi$ is a formula such as $(x_{17} \vee \overline{x}_{101} \vee x_{57}) \wedge ( x_{18} \vee \overline{x}_{19} \vee \overline{x}_{101}) \wedge \cdots$.
 That is, $\varphi$ is composed of the AND of $m$ _3SAT clauses_ where a 3SAT clause is the OR of three variables or their negation.
-A _quadratic equations_  instance $E$ is composed of a list of equations, each of involving a sum of variables or their products, such as $x_{19}x_{52} - x_{12} + 2x_{33} = 2$, etc.. We will include the constraints $x_i^2-x_i=0$ for every $i\in [n]$ in our equations, which means that we can restrict attention to assignments where $x_i \in \{0,1\}$ for every $i$.
+A _quadratic equations_ instance $E$ is composed of a list of equations, each of involving a sum of variables or their products, such as $x_{19}x_{52} - x_{12} + 2x_{33} = 2$, etc.. We will include the constraints $x_i^2-x_i=0$ for every $i\in [n]$ in our equations, which means that we can restrict attention to assignments where $x_i \in \{0,1\}$ for every $i$.
 
 There is a natural way to map a 3SAT instance into a set of _cubic_ equations $E'$, and that is to map a clause such as $(x_{17} \vee \overline{x}_{101} \vee x_{57})$ (which is equivalent to the negation of $\overline{x}_{17} \wedge x_{101} \wedge \overline{x}_{57}$) to the equation $(1-x_{17})x_{101}(1-x_{57})=0$.
 Therefore, we can map a formula $\varphi$  with $n$ variables $m$ clauses into a set $E'$ of $m+n$ cubic equations on $n$ variables (that is, one equation per each clause, plus one equation of the form $x_i^2-x_i=0$ for each variable to ensure that its value is in $\{0,1\}$) such that every assignment $a\in \{0,1\}^n$ to the $n$ variables satisfies the original formula if and only if it satisfies the equations of $E'$.
@@ -177,9 +177,9 @@ Now we can turn any cubic equation in the $x$'s into a quadratic equation in the
 For example, we can "open up the parentheses" of an equation such as $(1-x_{17})x_{101}(1-x_{57})=0$ to $x_{101} -x_{17}x_{101}-x_{101}x_{57}+x_{17}x_{101}x_{57}=0$.
 We can now replace the cubic term $x_{17}x_{101}x_{57}$ with the quadratic term $y_{17,101}x_{57}$.
 This can be done for every cubic equation in the same way, replacing any cubic term $x_ix_jx_k$ with the term $y_{i,j}x_k$.
-The end result will be a set of $m+n+\binom{n}{2}$ equations (one equation per clause, one equation per variable to ensure $x_i^2-x_i=0$, and one equation per pair $i,j$ to ensure $y_{i,j}=x_ix_j=0$) on the $n + \binom{n}{2}$ variables $x_0,\ldots,x_{n-1}$ and $y_{i,j}$ for all pairs of distinct variables $i,j$.^[$\binom{n}{2} = \tfrac{1}{2}n(n-1)$ is the number of all size two subsets of $[n]$. We  consider $\{i,j\}$ to be the same as $\{j,i\}$ since $x_ix_j = x_jx_i$ for every $i,j$.]
+The end result will be a set of $m+n+\binom{n}{2}$ equations (one equation per clause, one equation per variable to ensure $x_i^2-x_i=0$, and one equation per pair $i,j$ to ensure $y_{i,j}=x_ix_j=0$) on the $n + \binom{n}{2}$ variables $x_0,\ldots,x_{n-1}$ and $y_{i,j}$ for all pairs of distinct variables $i,j$.^[$\binom{n}{2} = \tfrac{1}{2}n(n-1)$ is the number of all size two subsets of $[n]$. We consider $\{i,j\}$ to be the same as $\{j,i\}$ since $x_ix_j = x_jx_i$ for every $i,j$.]
 
-To complete the proof we need to show that if we transform $\varphi$ to $E$ in this way then  the 3SAT formula $\varphi$ is satisfiable if and only if the equations $E$ have a solution.
+To complete the proof we need to show that if we transform $\varphi$ to $E$ in this way then the 3SAT formula $\varphi$ is satisfiable if and only if the equations $E$ have a solution.
 This is essentially immediate from the construction, but as this is our first reduction, we spell this out fully:
 
 * __Completeness:__ We claim that if  $\varphi$ is satisfiable then the equations $E$ have a solution. To prove this we need to show how to transform a satisfying assignment $a\in \{0,1\}^n$ to the variables of $\varphi$ (that is, $a_i$ is the value assigned to $x_i$) to a solution to the variables of $E$. Specifically, if $a\in \{0,1\}^n$ is such an assignment then by design $a$ satisfies all the _cubic_ equations $E'$ that we constructed above. But then, if we assign to the $n+\binom{n}{2}$ variables the values $a_0,\ldots,a_{n-1}$ and $\{ a_ia_j \}$ for all $\{i,j\} \subseteq [n]$ then by construction this will satisfy all the quadratic equations of $E$ as well.
@@ -202,14 +202,14 @@ The _maximum independent set_ problem (henceforth simply "independent set") is t
 The independent set problem is naturally related to _scheduling problems_: if we put an edge between two conflicting tasks,  then an independent set corresponds to a set of tasks that can all be scheduled together without conflicts.
 But it also arises in very different settings, including trying to find structure in [protein-protein interaction graphs](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3919085/).^[In the molecular biology literature, people often refer to the computationally equivalent  [clique problem](https://en.wikipedia.org/wiki/Clique_problem).]
 
-To phrase  independent set as a decision problem, we think of it as a function $ISET:\{0,1\}^* \rightarrow \{0,1\}$ that on input a graph $G$ and a number $k$ outputs $1$ if and only if the graph $G$ contains an independent set of size at least $k$.
+To phrase independent set as a decision problem, we think of it as a function $ISET:\{0,1\}^* \rightarrow \{0,1\}$ that on input a graph $G$ and a number $k$ outputs $1$ if and only if the graph $G$ contains an independent set of size at least $k$.
 We will now reduce 3SAT to Independent set.
 
 > ### {.theorem title="Hardness of Independent Set" #isetnpc}
 $3SAT \leq_p ISET$.
 
 > ### {.proofidea data-ref="isetnpc"}
-The idea is that finding a satisfying assignment to a 3SAT formula corresponds to satisfying many local constraints without creating any conflicts. One can think of "$x_{17}=0$"  and "$x_{17}=1$" as two conflicting events, and of the constraints $x_{17} \vee \overline{x}_5 \vee x_9$ as creating a conflict between the events "$x_{17}=0$", "$x_5=1$" and "$x_9=0$", saying that these  three cannot simultaneosly co-occur. Using these ideas, we can we can think of solving a  3SAT problem as trying to schedule non conflicting events, though the devil is, as usual, in the details.
+The idea is that finding a satisfying assignment to a 3SAT formula corresponds to satisfying many local constraints without creating any conflicts. One can think of "$x_{17}=0$"  and "$x_{17}=1$" as two conflicting events, and of the constraints $x_{17} \vee \overline{x}_5 \vee x_9$ as creating a conflict between the events "$x_{17}=0$", "$x_5=1$" and "$x_9=0$", saying that these three cannot simultaneosly co-occur. Using these ideas, we can we can think of solving a 3SAT problem as trying to schedule non conflicting events, though the devil is, as usual, in the details.
 
 ::: {.proof data-ref="isetnpc"}
 Given a 3SAT formula $\varphi$ on $n$ variables and with $m$ clauses, we will create a graph $G$ with $3m$ vertices as follows: (see [threesattoisfig](){.ref} for an example)
@@ -226,7 +226,7 @@ Hence to prove the theorem we need to show that  $\varphi$ is satisfiable if and
 
 __Part 1: Completeness.__ The "completeness" direction is to show that if $\varphi$ has a satisfying assignment $x^*$, then $G$ has an independent set $S^*$ of  $m$ vertices. Let us now show this.
 
-Indeed, suppose that $\varphi$ has a satisfying assignment $x^* \in \{0,1\}^n$.  Then for every clause $C = y \vee y' \vee y''$ of $\varphi$, one of the literals $y,y',y''$ must evaluate  to _true_ under the assignment $x^*$ (as otherwise it would not satisfy $\varphi$). We let $S$ be a set of $m$ vertices that is obtained by choosing for every clause $C$ one vertex of the form $(C,y)$ such that $y$ evaluates to true under $x^*$. (If there is more than one such vertex for the same $C$, we arbitrarily choose one of them.)
+Indeed, suppose that $\varphi$ has a satisfying assignment $x^* \in \{0,1\}^n$.  Then for every clause $C = y \vee y' \vee y''$ of $\varphi$, one of the literals $y,y',y''$ must evaluate to _true_ under the assignment $x^*$ (as otherwise it would not satisfy $\varphi$). We let $S$ be a set of $m$ vertices that is obtained by choosing for every clause $C$ one vertex of the form $(C,y)$ such that $y$ evaluates to true under $x^*$. (If there is more than one such vertex for the same $C$, we arbitrarily choose one of them.)
 
 We claim that $S$ is an independent set. Indeed, suppose otherwise that there was a pair of vertices $(C,y)$ and $(C',y')$ in $S$ that have an edge between them. Since we picked one vertex out of each triangle corresponding to a clause, it must be that $C \neq C'$. Hence the only way that there is an edge between $(C,y)$ and $(C,y')$ is if $y$ and $y'$ are conflicting literals (i.e. $y=x_i$ and $y'=\overline{x}_i$ for some $i$). But that would that they can't both evaluate to _true_ under the assignment $x^*$, which contradicts the way we constructed the set $S$. This completes the proof of the completeness condition.
 
@@ -262,7 +262,7 @@ This completes the proof of [isetnpc](){.ref}
 $ISET \leq_p MAXCUT$
 
 > ### {.proofidea data-ref="isettomaxcut"}
-We will map a graph $G$ into a graph $H$ such that a large independent set in $G$ becomes a partition cutting many edges in $H$. We can think of a cut in $H$ as coloring each vertex either "blue" or  "red". We will add a special "source" vertex $s^*$, connect it to all other vertices, and assume without loss of generality that it is colored blue. Hence the more vertices we color red, the more edges from $s^*$ we cut. Now, for every edge $u,v$  in the original graph $G$ we will add a special "gadget" which will be a small subgraph that  involves $u$,$v$, the source $s^*$, and two other additional vertices. We design the gadget in a way so that if the red vertices are not an independent set in $G$ then the corresponding cut in $H$ will be "penalized" in the sense that it would not cut as many edges. Once we set for ourselves this objective, it is not hard to find a gadget that achieves it$-$ see the proof below.
+We will map a graph $G$ into a graph $H$ such that a large independent set in $G$ becomes a partition cutting many edges in $H$. We can think of a cut in $H$ as coloring each vertex either "blue" or  "red". We will add a special "source" vertex $s^*$, connect it to all other vertices, and assume without loss of generality that it is colored blue. Hence the more vertices we color red, the more edges from $s^*$ we cut. Now, for every edge $u,v$  in the original graph $G$ we will add a special "gadget" which will be a small subgraph that involves $u$,$v$, the source $s^*$, and two other additional vertices. We design the gadget in a way so that if the red vertices are not an independent set in $G$ then the corresponding cut in $H$ will be "penalized" in the sense that it would not cut as many edges. Once we set for ourselves this objective, it is not hard to find a gadget that achieves it$-$ see the proof below.
 
 
 ::: {.proof data-ref="isettomaxcut"}
@@ -273,10 +273,10 @@ We will transform a graph $G$ of $n$ vertices and $m$ edges into a graph $H$ of 
 [isettomaxcut](){.ref} will follow by showing that $G$ contains an independent set of size at least $k$ if and only if $H$ has a cut cutting at least $k+4m$ edges. We now prove both directions of this equivalence:
 
 
-__Part 1: Completeness.__ If $I$ is an independent $k$-sized set in $G$, then we can define $S$ to be a cut in $H$ of the following form: we  let $S$ contain all the vertices of $I$ and for every edge $e=\{u,v \} \in E(G)$, if $u\in I$ and $v\not\in I$ then we add $e_1$ to $S$; if $u\not\in I$ and $v\in I$ then we add $e_0$ to $S$; and if $u\not\in I$ and $v\not\in I$ then we add both $e_0$ and $e_1$ to $S$. (We don't need to worry about the case that both $u$ and $v$ are in $I$ since it is an independent set.) We can verify that in all cases the number of edges from $S$ to its complement in the gadget corresponding to $e$ will be four (see [ISETtoMAXCUTfig](){.ref}). Since $s^*$ is not in $S$, we also have $k$ edges from $s^*$ to $I$, for a total of $k+4m$ edges.
+__Part 1: Completeness.__ If $I$ is an independent $k$-sized set in $G$, then we can define $S$ to be a cut in $H$ of the following form: we let $S$ contain all the vertices of $I$ and for every edge $e=\{u,v \} \in E(G)$, if $u\in I$ and $v\not\in I$ then we add $e_1$ to $S$; if $u\not\in I$ and $v\in I$ then we add $e_0$ to $S$; and if $u\not\in I$ and $v\not\in I$ then we add both $e_0$ and $e_1$ to $S$. (We don't need to worry about the case that both $u$ and $v$ are in $I$ since it is an independent set.) We can verify that in all cases the number of edges from $S$ to its complement in the gadget corresponding to $e$ will be four (see [ISETtoMAXCUTfig](){.ref}). Since $s^*$ is not in $S$, we also have $k$ edges from $s^*$ to $I$, for a total of $k+4m$ edges.
 
 
-__Part 2: Soundness.__ Suppose that $S$ is a cut in $H$ that cuts at least $C=k+4m$ edges. We can assume that $s^*$ is not in $S$ (otherwise we can "flip" $S$ to its complement $\overline{S}$, since this does not change the size of the cut). Now let $I$ be the set of vertices in $S$ that correspond to the original vertices of $G$. If $I$ was an independent set of size $k$ then would be done. This might not always be the case but we will see that if $I$ is not an independent set then its also larger than $k$. Specifically, we define $m_{in}=|E(I,I)|$ be the set of edges in $G$ that are contained in $I$ and let $m_{out}=m-m_{in}$ (i.e., if $I$ is an independent set then $m_{in}=0$ and $m_{out}=m$). By the properties of our gadget we know that for every  edge $\{u,v\}$ of $G$, we can cut at most three edges when both $u$ and $v$ are in $S$, and at most four edges otherwise. Hence the number $C$ of edges cut by $S$   satisfies $C \leq |I| + 3m_{in}+4m_{out} = |I|+ 3m_{in} + 4(m-m_{in})=|I|+4m-m_{in}$. Since $C = k +4m$ we get that $|I|-m_{in} \geq k$. Now we can transform $I$ into an independent set $I'$ by going over  every one of the $m_{in}$ edges that are inside $I$ and removing one of the endpoints of the edge from it. The resulting set $I'$ is an independent set in the graph $G$ of size $|I|-m_{in} \geq k$ and so this concludes the proof of the soundness condition.
+__Part 2: Soundness.__ Suppose that $S$ is a cut in $H$ that cuts at least $C=k+4m$ edges. We can assume that $s^*$ is not in $S$ (otherwise we can "flip" $S$ to its complement $\overline{S}$, since this does not change the size of the cut). Now let $I$ be the set of vertices in $S$ that correspond to the original vertices of $G$. If $I$ was an independent set of size $k$ then would be done. This might not always be the case but we will see that if $I$ is not an independent set then its also larger than $k$. Specifically, we define $m_{in}=|E(I,I)|$ be the set of edges in $G$ that are contained in $I$ and let $m_{out}=m-m_{in}$ (i.e., if $I$ is an independent set then $m_{in}=0$ and $m_{out}=m$). By the properties of our gadget we know that for every edge $\{u,v\}$ of $G$, we can cut at most three edges when both $u$ and $v$ are in $S$, and at most four edges otherwise. Hence the number $C$ of edges cut by $S$   satisfies $C \leq |I| + 3m_{in}+4m_{out} = |I|+ 3m_{in} + 4(m-m_{in})=|I|+4m-m_{in}$. Since $C = k +4m$ we get that $|I|-m_{in} \geq k$. Now we can transform $I$ into an independent set $I'$ by going over every one of the $m_{in}$ edges that are inside $I$ and removing one of the endpoints of the edge from it. The resulting set $I'$ is an independent set in the graph $G$ of size $|I|-m_{in} \geq k$ and so this concludes the proof of the soundness condition.
 :::
 
 
@@ -289,7 +289,7 @@ __Part 2: Soundness.__ Suppose that $S$ is a cut in $H$ that cuts at least $C=k+
 
 ^[This section is still a little messy, feel free to skip it or just read it without going into the proof details]
 
-One of the most basic algorithms in  Computer Science is Dijkstra's algorithm to find the _shortest path_ between two vertices.
+One of the most basic algorithms in Computer Science is Dijkstra's algorithm to find the _shortest path_ between two vertices.
 We now show that in contrast, an efficient algorithm for the _longest path_ problem would imply a polynomial-time algorithm for 3SAT.
 
 > ### {.theorem title="Hardness of longest path" #longpaththm}
@@ -311,7 +311,7 @@ A simple path cannot take both the upper path and the lower path, and so it will
 Our intention is that a path in the graph will correspond to an assignment $x\in \{0,1\}^n$ in the sense that taking the upper path in the $i^{th}$ loop corresponds to assigning $x_i=1$ and taking the lower path corresponds to assigning $x_i=0$.
 When we are done snaking through all the $n$  loops corresponding to the variables to reach $t$ we need to pass through $m$ "obstacles":
 for each clause $j$ we will have a small gadget consisting of a pair of vertices $s_j,t_j$ that have three paths between them.
-For example, if the $j^{th}$ clause had the form $x_{17} \vee \overline{x}_{55} \vee x_{72}$ then one path  would go through a vertex in the lower loop corresponding to $x_{17}$, one path would go through a vertex in the upper loop corresponding to $x_{55}$ and the third would go through the lower loop corresponding to $x_{72}$.
+For example, if the $j^{th}$ clause had the form $x_{17} \vee \overline{x}_{55} \vee x_{72}$ then one path would go through a vertex in the lower loop corresponding to $x_{17}$, one path would go through a vertex in the upper loop corresponding to $x_{55}$ and the third would go through the lower loop corresponding to $x_{72}$.
 We see that if we went in the first stage according to a satisfying assignment then we will be able to find a free vertex to travel from $s_j$ to $t_j$.
 We link $t_1$ to $s_2$, $t_2$ to $s_3$, etc and link $t_m$ to $t$.
 Thus a satisfying assignment would correspond to a path from $s$ to $t$ that goes through one path in each loop corresponding to the variables, and one path in each loop corresponding to the clauses.
@@ -323,7 +323,7 @@ But if we do that, then the only way if we are able to reach $t$ is if the paths
 ![We can transform a 3SAT formula $\varphi$ into a graph $G$ such that the longest path in the graph $G$ would correspond to a satisfying assignment in $\varphi$. In this graph, the black colored part corresponds to the variables of $\varphi$ and the blue colored part corresponds to the vertices. A sufficiently long path would have to first "snake" through the black part, for each variable choosing either the "upper path" (corresponding to assigning it the value `True`) or the "lower path" (corresponding to assigning it the value `False`). Then to achieve maximum length the path would traverse through the blue part, where to go between two vertices corresponding to a clause such as $x_{17} \vee \overline{x}_{32} \vee x_{57}$, the corresponding vertices would have to have been not traversed before. ](../figure/3sat_longest_path_red_without_path.png){#longpathfig .margin  }
 
 
-![The graph above with the longest path marked on it, the part of the path corresponding to variables is in green and  part corresponding to the clauses is in pink.](../figure/3sat_to_longest_path_reduction.png){#longpathfigtwo .margin  }
+![The graph above with the longest path marked on it, the part of the path corresponding to variables is in green and part corresponding to the clauses is in pink.](../figure/3sat_to_longest_path_reduction.png){#longpathfigtwo .margin  }
 
 
 

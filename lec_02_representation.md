@@ -40,7 +40,7 @@ To a first approximation,   __computation_ _ is a process that maps an _input_ t
 
 ![Our basic notion of _computation_ is some process that maps an input to an output](../figure/input_output.png){#figureid .margin  }
 
-When discussing computation, it is essential to separate the question of  __what__ is the task we need to perform (i.e., the _specification_) from the question of __how__ we achieve this task (i.e., the _implementation_).
+When discussing computation, it is essential to separate the question of __what__ is the task we need to perform (i.e., the _specification_) from the question of __how__ we achieve this task (i.e., the _implementation_).
 For example, as we've seen, there is more than one way to achieve the computational task of computing the product of two integers.
 
 In this chapter we focus on the **what** part, namely defining computational tasks.
@@ -54,15 +54,15 @@ We will represent all these objects as __strings of zeroes and ones__, that is o
 Today, we are so used to the notion of digital representation that we are not surprised by the existence of such an encoding.
 Indeed, at the time of writing, the full contents of the English Wikipedia, including all the text and media, can be encoded in a string in $\{0,1\}^n$ for $n \sim 10^{12}$ (i.e., about 100 Gigabytes).
 However, this is in fact a deep insight with significant implications.
-Many animals can convey a particular fear or desire, but what is unique about humans is  _language_:  we use a  finite collection of basic symbols to describe a potentially unlimited range of experiences.
-Language allows transmission of information over both time and space and enables societies that span a  great many people and accumulate a body of shared knowledge over time.
+Many animals can convey a particular fear or desire, but what is unique about humans is _language_:  we use a finite collection of basic symbols to describe a potentially unlimited range of experiences.
+Language allows transmission of information over both time and space and enables societies that span a great many people and accumulate a body of shared knowledge over time.
 
 Over the last several decades, we have seen a revolution in what we can represent and convey in digital form.
 We can capture experiences with almost perfect fidelity, and disseminate it essentially instantaneously to an unlimited audience.
 Moreover, once information is in digital form, we can _compute_ over it, and gain insights from data that were not accessible in prior times.
-At the heart of this revolution is the simple but profound observation that we can represent an unbounded variety of objects using a finite set of symbols (and in fact  using only the two symbols ```0``` and ```1```).^[There is nothing "holy" about using zero and one as the basic symbols, and we can (indeed sometimes people do) use any other finite set of two or more symbols as the fundamental "alphabet". We use zero and one in this course mainly because it simplifies notation.]
+At the heart of this revolution is the simple but profound observation that we can represent an unbounded variety of objects using a finite set of symbols (and in fact using only the two symbols ```0``` and ```1```).^[There is nothing "holy" about using zero and one as the basic symbols, and we can (indeed sometimes people do) use any other finite set of two or more symbols as the fundamental "alphabet". We use zero and one in this course mainly because it simplifies notation.]
 
-In later lectures, we will often fall back on taking this  representation for granted, and hence write something like "program $P$ takes $x$ as input" when $x$ might be a number, a vector, a graph, or any other objects,  when we really mean that $P$ takes as input the _representation_ of $x$ as a binary string.
+In later lectures, we will often fall back on taking this representation for granted, and hence write something like "program $P$ takes $x$ as input" when $x$ might be a number, a vector, a graph, or any other objects,  when we really mean that $P$ takes as input the _representation_ of $x$ as a binary string.
 However, in this chapter we will dwell a bit more on how we can construct such representations. 
 
 ## Defining representations
@@ -130,7 +130,7 @@ where $parity(x)$ is defined to equal $1$ if $x$ is odd and to equal $0$ if $x$ 
 If $\alpha$ and $\beta$ are two strings, then $\alpha\beta$ corresponds to the string obtained by _concatenating_ $\alpha$ and $\beta$ (that is, the string $\gamma$ of length $|\alpha|+|\beta|$ obtained by writing $\alpha$ first and then writing $\beta$).
 Thus in the definition above $NTS(\floor{x/2}) parity(x)$ corresponds to the _concetenation_ of the string $NTS(\floor{x/2})$ with the (one bit long) string $parity(x)$.
 
-It can be shown (though we omit the proof since it is slightly tedious, and  can be easily found in many online resources) that if $y = NtS(x)$ then $x = \sum_{i=0}^n y_i \cdot 2^{n-i}$ where $n=|y|-1$.
+It can be shown (though we omit the proof since it is slightly tedious, and can be easily found in many online resources) that if $y = NtS(x)$ then $x = \sum_{i=0}^n y_i \cdot 2^{n-i}$ where $n=|y|-1$.
 In particular, this gives a way to recover (or _decode_) the original  $x$ from the output $y=NtS(x)$ which means that $NtS$ is one to one.
 
 The above representation uses the empty string $""$ to represent the number $0$. However, we can also represent this number using the string $0$ as well. This choice will not make any difference for our purposes.
@@ -176,7 +176,7 @@ def NtS(x):
 ```
 
 ::: {.remark title="Programming examples" #programmingrem}
-In this book, we will often illustrate our points by using programming languages  to
+In this book, we will often illustrate our points by using programming languages to
 present certain computations.
 Our examples will be relatively short, and our point will always be to emphasize that certain computations can be achieved concretely,
 rather than focusing on any particular language features.
@@ -185,7 +185,7 @@ Indeed, one of the messages of this course is that all programming languages are
 
 This book is _not_ about programming, and it is absolutely OK if you are not familiar with Python or do not follow the fine details of code examples such as the above.
 You might still find it instructive to try to parse these examples, with the help of websites such as Google or StackOverflow.
-In particular, the non-recursive implementation of the function `NtS` above uses the fact that the  binary representation of a natural number $x$ is the list  $(\floor{\tfrac{x}{2^i}} \mod 2)_{i=0,\ldots,\floor{\log_2 x}}$, which in Python-speak is written as `[ floor(x / 2**i ) % 2 for i in range(floor(log2(x))+1)]`.
+In particular, the non-recursive implementation of the function `NtS` above uses the fact that the binary representation of a natural number $x$ is the list  $(\floor{\tfrac{x}{2^i}} \mod 2)_{i=0,\ldots,\floor{\log_2 x}}$, which in Python-speak is written as `[ floor(x / 2**i ) % 2 for i in range(floor(log2(x))+1)]`.
 :::
 
 
@@ -193,7 +193,7 @@ In particular, the non-recursive implementation of the function `NtS` above uses
 ### Meaning of representation
 
 It is natural for us to think of $236$ as the "actual" number, and of $11101100$ as "merely" its representation.
-However, for most Europeans in the middle ages `CCXXXVI` would be the "actual" number and $236$ (if they have even heard about it) would be the weird Hindu-Arabic positional representation.^[While the Babylonians already invented a positional system much earlier, the decimal  positional system we use today was invented by Indian mathematicians around the third century. It was taken up by Arab mathematicians in the 8th century. It was mainly introduced to Europe in the 1202 book _"Liber Abaci"_ by  Leonardo of Pisa, also known as Fibonacci, but did not displace Roman numerals in common usage until the 15th century.]
+However, for most Europeans in the middle ages `CCXXXVI` would be the "actual" number and $236$ (if they have even heard about it) would be the weird Hindu-Arabic positional representation.^[While the Babylonians already invented a positional system much earlier, the decimal positional system we use today was invented by Indian mathematicians around the third century. It was taken up by Arab mathematicians in the 8th century. It was mainly introduced to Europe in the 1202 book _"Liber Abaci"_ by Leonardo of Pisa, also known as Fibonacci, but did not displace Roman numerals in common usage until the 15th century.]
 When our AI robot overlords materialize, they will probably think of $11101100$ as the "actual" number and of $236$ as "merely" a representation that they need to use when they give commands to humans.
 
 So what is the "actual" number? This is a question that philosophers of mathematics have pondered over the generations.
@@ -231,14 +231,14 @@ However, the decoding function is not always _one to one_.
 For example, in this particular representation scheme, the two strings $1$ and $0$ both represent the number zero (since they can be thought of as representing $-0$ and $+0$ respectively, can you see why?).
 We can also allow a _partial_ decoding function for representations.
 For example,   in the representation above there is no number that is represented by the empty string.
-But this is still a fine representation, since the decoding partial function is onto and the encoding function is the one-to-one total function $E:\Z \rightarrow \{0,1\}^*$ which maps an integer of the form $a\times k$, where $a\in \{\pm 1 \}$ and $k\in \N$ to the bit $(-1)^a$ concatenated with  the binary representation of $k$.
+But this is still a fine representation, since the decoding partial function is onto and the encoding function is the one-to-one total function $E:\Z \rightarrow \{0,1\}^*$ which maps an integer of the form $a\times k$, where $a\in \{\pm 1 \}$ and $k\in \N$ to the bit $(-1)^a$ concatenated with the binary representation of $k$.
 That is, every integer can be represented as a string, and every two distinct integers have distinct representations.
 
 
 > ### {.remark title="Interpretation and context" #contextreprem}
-Given a string $y\in \{0,1\}^*$, how do we know if it's "supposed" to represent a (nonnegative) natural number  or a (potentially negative) integer?
+Given a string $y\in \{0,1\}^*$, how do we know if it's "supposed" to represent a (nonnegative) natural number or a (potentially negative) integer?
 For that matter, even if we know $y$ is "supposed" to be an integer, how do we know what representation scheme it uses?
-The short answer is that we do not necessarily know this information, unless it is supplied from the context.^[In  programming language, the compiler or interpreter determines the representation of the sequence of bits corresponding to a variable based on the variable's _type_.]
+The short answer is that we do not necessarily know this information, unless it is supplied from the context.^[In programming language, the compiler or interpreter determines the representation of the sequence of bits corresponding to a variable based on the variable's _type_.]
 We can treat the same string $y$ as representing a natural number, an integer, a piece of text, an image, or a green gremlin.
 Whenever we say a sentence such as "let $n$ be the number represented by the string $y$," we will assume that we are fixing some canonical representation scheme such as the ones above.
 The choice of the particular representation scheme will rarely matter, except that we want to make sure to stick with the same one for consistency.
@@ -246,12 +246,12 @@ The choice of the particular representation scheme will rarely matter, except th
 ### Representing rational numbers
 
 We can represent a rational number of the form $a/b$ by representing the two numbers $a$ and $b$ (again, this is not a unique representation, but this is fine).
-However, merely concatenating the representations of $a$ and $b$ will not work.^[Recall that the _concatenation_ of two strings $x$ and $y$ is  the string of length $|x|+|y|$ obtained by writing $y$ after $x$.]
+However, merely concatenating the representations of $a$ and $b$ will not work.^[Recall that the _concatenation_ of two strings $x$ and $y$ is the string of length $|x|+|y|$ obtained by writing $y$ after $x$.]
 For example, recall that we represent $4$ as $100$ and  $43$ as $101011$, but the concatenation  $100101011$ of these strings is also the concatenation of the representation $10010$ of $18$ and the representation $1011$ of $11$.
 Hence, if we used such simple concatenation then we would not be able to tell if the string $100101011$ is supposed to represent $4/43$ or  $18/11$.^[The above assumes we use the simple binary representation of natural numbers as strings. If we want to handle negative numbers, then we should add the sign bit as well, though it would not make any qualitative difference to this discussion.]
 
 The way to tackle this is to find a general representation for _pairs_ of numbers.
-If we were using a pen and paper, we would just use a separator such as the  symbol $\|$ to represent, for example, the pair consisting of the numbers represented by $(0,1)$ and $(1,1,0,0,0,1)$ as the length-$9$ string $s$ "$01\|110001$".
+If we were using a pen and paper, we would just use a separator such as the symbol $\|$ to represent, for example, the pair consisting of the numbers represented by $(0,1)$ and $(1,1,0,0,0,1)$ as the length-$9$ string $s$ "$01\|110001$".
 Using such separators is similar to the way we use spaces and punctuation to separate words in English.
 By adding a little redundancy, we can do just that in the digital domain.
 The idea is that we can map the three element set $\Sigma = \{0,1,\|\}$  to the four element set $\{0,1\}^2$ via the one-to-one map that takes $0$ to $00$, $1$ to $11$ and $\|$ to $01$.
@@ -303,7 +303,7 @@ Often this is written as  $y=a \text{\texttt{E}} b$. For example, in many progra
 
 The reader might be (rightly) worried about this issue of approximation. In many (though not all) computational applications, one can make the accuracy tight enough so that this does not affect the final result, though sometimes we do need to be careful.
 This representation is called "floating point" because we can think of the number $a$ as specifying a sequence of binary digits, and $b$ as describing the location of the "binary point" within this sequence.
-The use of floating  representation is the reason why in many programming systems  printing the expression `0.1+0.2` will result in `0.30000000000000004` and not `0.3`, see [here](http://floating-point-gui.de/), [here](https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html) and [here](https://randomascii.wordpress.com/2012/04/05/floating-point-complexities/) for more (see also [xkcdfloatingfig](){.ref}).
+The use of floating representation is the reason why in many programming systems printing the expression `0.1+0.2` will result in `0.30000000000000004` and not `0.3`, see [here](http://floating-point-gui.de/), [here](https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html) and [here](https://randomascii.wordpress.com/2012/04/05/floating-point-complexities/) for more (see also [xkcdfloatingfig](){.ref}).
 
 ![XKCD cartoon on floating-point arithmetic.](../figure/e_to_the_pi_minus_pi.png){#xkcdfloatingfig .margin  }
 
@@ -341,8 +341,8 @@ The idea behind the proof is to do the following::
 
 2. Prove that there _is_ a one-to-one function $G$ mapping $\mathcal{X}$ to $\mathbb{R}$.
 
-These two facts together imply Cantor's Theorem. We can show this  using a "proof by contradiction." If we assume (towards the sake of contradiction) that there exists some one-to-one $F$ mapping $\mathbb{R}$ to $\{0,1\}^*$
-then the function $x \mapsto F(G(x))$ obtained by composing $F$ with the function $G$ from Step 2 above would be a  one-to-one function from $\mathcal{X}$ to $\{0,1\}^*$, which contradicts what we proved in Step 1!
+These two facts together imply Cantor's Theorem. We can show this using a "proof by contradiction." If we assume (towards the sake of contradiction) that there exists some one-to-one $F$ mapping $\mathbb{R}$ to $\{0,1\}^*$
+then the function $x \mapsto F(G(x))$ obtained by composing $F$ with the function $G$ from Step 2 above would be a one-to-one function from $\mathcal{X}$ to $\{0,1\}^*$, which contradicts what we proved in Step 1!
 
 To turn this idea into a proof of [cantorthm](){.ref} we need to:
 
@@ -362,12 +362,12 @@ The set $\{0,1\}^\infty$ will play the role of $\mathcal{X}$ above.
 Namely, we will prove the following two results about it:
 
 > ### {.lemma #sequencestostrings}
-There does not exist a  one-to-one map $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$.^[$FtS$ stands for "functions to strings".]
+There does not exist a one-to-one map $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$.^[$FtS$ stands for "functions to strings".]
 
 > ### {.lemma #sequencestoreals}
 There _does_ exist a one-to-one map $FtR:\{0,1\}^\infty \rightarrow \R$.^[$FtR$ stands for "functions to reals."]
 
-As we've seen above, [sequencestostrings](){.ref} and [sequencestoreals](){.ref} together  imply [cantorthm](){.ref}.
+As we've seen above, [sequencestostrings](){.ref} and [sequencestoreals](){.ref} together imply [cantorthm](){.ref}.
 To repeat the argument more formally, suppose, for the sake of contradiction, that there did exist a one-to-one function $RtS:\R \rightarrow \{0,1\}^*$.
 By [sequencestoreals](){.ref}, there exists a one-to-one function $FtR:\{0,1\}^\infty \rightarrow \R$.
 Thus, under this assumption, since the composition of two one-to-one functions is one-to-one (see [onetoonecompex](){.ref}), the function $FtS:\{0,1\}^\infty \rightarrow \{0,1\}^*$ defined as $FtS(f)=RtS(FtR(f))$ will be one to one, contradicting [sequencestostrings](){.ref}.
@@ -414,10 +414,10 @@ We obtained that $f^*(n)$ is equal to both $StF(x)(n)$ and to one minus the same
 ::: {.pause}
 The proof of [sequencestoreals](){.ref} is rather subtle, and worth re-reading a second or third time.
 It is known as the "diagonal" argument, as the construction of $f^*$  can be thought of as going over the diagonal elements of a table that in the $n$-th row and $m$-column contains $StF(x)(m)$ where $x$ is the string such that $n(x)=n$, see [diagrealsfig](){.ref}.
-We will use  the diagonal argument again several times later on in this book.
+We will use the diagonal argument again several times later on in this book.
 :::
 
-![We construct a function $f^*$ such that $f^* \neq StF(x)$ for every $x\in \{0,1\}^*$ by ensuring that $f^*(n(x)) \neq StF(x)(n(x))$ for every $x\in \{0,1\}^*$. We can think of this as building a table where the columns correspond to numbers $m\in \N$ and the rows correspond to $x\in \{0,1\}^*$ (sorted according to $n(x)$). If the entry in the $x$-th row and the $m$-th column corresponds to $g(m))$ where $g=StF(x)$ then $f^*$ is obtained by going over the "diagonal" elements in this table (the entries corresponding to the $x$-th row  and $n(x)$-th column) and enduring that $f^*(x)(n(x)) \neq StF(x)(n(x))$. ](../figure/diagreals2.png){#diagrealsfig .margin  }
+![We construct a function $f^*$ such that $f^* \neq StF(x)$ for every $x\in \{0,1\}^*$ by ensuring that $f^*(n(x)) \neq StF(x)(n(x))$ for every $x\in \{0,1\}^*$. We can think of this as building a table where the columns correspond to numbers $m\in \N$ and the rows correspond to $x\in \{0,1\}^*$ (sorted according to $n(x)$). If the entry in the $x$-th row and the $m$-th column corresponds to $g(m))$ where $g=StF(x)$ then $f^*$ is obtained by going over the "diagonal" elements in this table (the entries corresponding to the $x$-th row and $n(x)$-th column) and enduring that $f^*(x)(n(x)) \neq StF(x)(n(x))$. ](../figure/diagreals2.png){#diagrealsfig .margin  }
 
 
 ::: {.remark title="Generalizing beyond strings and reals" #generalizepowerset}
@@ -476,12 +476,12 @@ Let $f \neq g$ be such functions.
 Since $f$ and $g$ are distinct, there must be some input on which they differ, and we define $k$ to be the smallest such input.
 That is, $k\in \N$ is the smallest number for which $f(k) \neq g(k)$.
 We will show that $|FtR(f)-FtR(g)| > 0.5\cdot 10^{-k}$.
-This will complete the proof since  in particular it implies that  $FtR(f) \neq FtR(g)$.
+This will complete the proof since in particular it implies that  $FtR(f) \neq FtR(g)$.
 
 Since $f(k) \neq g(k)$, we can assume without loss of generality that $f(k)=0$ and $g(k)=1$ (otherwise, if $f(k)=1$ and $g(k)=1$, then we can simply switch the roles of $f$ and $g$).
 Define  $S = \sum_{i=0}^{k-1} 10^{-i}\cdot f(i) = \sum_{i=0}^{k-1} 10^{-i} \cdot g(i)$ (the equality holds since $f$ and $g$ agree up to $k-1$).
 Now, since $g(k)=1$, we can write 
-$$FtR(g) = \sum_{i=0}^\infty g(i)10^{-i} \geq  S + g(k)10^{-k} = S + 10^{-k}\;.$$
+$$FtR(g) = \sum_{i=0}^\infty g(i)10^{-i} \geq S + g(k)10^{-k} = S + 10^{-k}\;.$$
 
 On the other hand, since $f(k)=0$,
 $$FtR(f) = \sum_{i=0}^\infty f(i)10^{-i} = S + \sum_{i=k+1}^\infty f(i) 10^{-i} \leq S + 10^{-(k-1)}\sum_{j=0}^\infty 10^{-j}\;.$$
@@ -500,7 +500,7 @@ while $FtR(g) \geq S + 10^{-k}$ which means the difference between them is large
 ## Beyond numbers
 
 We can of course represent objects other than numbers as binary strings.
-Let us give a general definition for a  _representation scheme_.
+Let us give a general definition for a _representation scheme_.
 Such a scheme for representing objects from some set $\mathcal{O}$ consists of an _encoding_ function that maps an object in $\mathcal{O}$ to a string, and a _decoding_ function that decodes a string back to an object in $\mathcal{O}$.
 Formally, we make the following definition:
 
@@ -523,7 +523,7 @@ We will define $D(x)$ to equal $o_0$ in the first case and this single object $o
 By definition $D(E(o))=o$ for every $o\in \mathcal{O}$.
 
 ::: {.remark} 
-While the decoding function of a representation scheme can in general be a  _partial_ function,  the proof of [decodelem](){.ref} implies that every representation scheme has a  _total_ decoding function. This observation can sometimes be useful.
+While the decoding function of a representation scheme can in general be a _partial_ function,  the proof of [decodelem](){.ref} implies that every representation scheme has a _total_ decoding function. This observation can sometimes be useful.
 :::
 
 
@@ -556,7 +556,7 @@ Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$. If
 
 When showing a representation scheme for rational numbers, we used the "hack" of encoding the alphabet $\{ 0,1, \|\}$  to represent tuples of strings as a single string.
 This turns out to be a special case of the general paradigm of _prefix-free_ encoding.
-The idea is the following: if our representation has the property that no string $x$ representing an object $o$ is a _prefix_ (i.e., an initial substring) of a string $y$ representing a different object $o'$, then we can represent a  _lists_ of objects by merely concatenating the representations of all the list members.
+The idea is the following: if our representation has the property that no string $x$ representing an object $o$ is a _prefix_ (i.e., an initial substring) of a string $y$ representing a different object $o'$, then we can represent a _lists_ of objects by merely concatenating the representations of all the list members.
 For example, because in English every sentence ends with a punctuation mark such as a period, exclamation, or question mark, we can represent a list of sentences (i.e., a paragraph) by merely concatenating the sentences one after the other.
 
 It turns out that we can transform _every_ representation to a prefix-free form.
@@ -568,7 +568,7 @@ But first let us formally define prefix-freeness:
 For two strings $y,y'$, we say that $y$ is a _prefix_ of $y'$ if $|y| \leq |y'|$ and for every $i<|y'|$, $y'_i = y_i$.
 
 Let $E:\mathcal{O} \rightarrow \{0,1\}^*$ be a function.
-We say that $E$ _prefix-free_ if there does not exist a distinct pair of  objects $o, o' \in \mathcal{O}$ such that  $E(o)$  is a prefix of $E(o')$.
+We say that $E$ _prefix-free_ if there does not exist a distinct pair of objects $o, o' \in \mathcal{O}$ such that  $E(o)$  is a prefix of $E(o')$.
 :::
 
 Recall that for every set $\mathcal{O}$, the set $\mathcal{O}^*$ consists of all finite length tuples (i.e., _lists_) of elements in $\mathcal{O}$.
@@ -586,7 +586,7 @@ $$
 
 
 > ### { .pause }
-[prefixfreethm](){.ref} is one of those  statements that are a little hard to parse, but in fact are fairly straightforward to prove  once you understand what they mean.
+[prefixfreethm](){.ref} is one of those statements that are a little hard to parse, but in fact are fairly straightforward to prove once you understand what they mean.
 Therefore, I highly recommend that you pause here to make sure you understand the statement of this theorem. You should also try to prove it on your own before proceeding further.
 
 
@@ -632,7 +632,7 @@ $$
 $$
 
 where $x_j = E(o_j) = E(o'_j)$ for all $j<i$.
-Let $\overline{y}$ be the string obtained after removing  the  prefix $x_0 \cdots x_{i-i}$ from $\overline{x}$.
+Let $\overline{y}$ be the string obtained after removing the prefix $x_0 \cdots x_{i-i}$ from $\overline{x}$.
 We see that $\overline{y}$ can be written as both $\overline{y}= E(o_i)s$ for some string $s\in \{0,1\}^*$ and as $\overline{y} = E(o'_i)s'$ for some $s'\in \{0,1\}^*$.
 But this means that one of $E(o_i)$ and $E(o'_i)$ must be a prefix of the other, contradicting the prefix-freeness of $E$.
 
@@ -668,7 +668,7 @@ Define the function $PF:\{0,1\}^* \rightarrow \{0,1\}^*$ as follows $PF(x)=x_0 x
 
 To prove the lemma we need to show that __(1)__ $\overline{E}$ is one-to-one and __(2)__ $\overline{E}$ is prefix-free.
 In fact __(2)__ implies __(1)__, since if $\overline{E}(o)$ is never a prefix of $\overline{E}(o')$ for every $o \neq o'$ then in particular  $\overline{E}$ is one-to-one.
-Now suppose, toward a contradiction, that there are $o \neq o'$ in $\mathcal{O}$ such that $\overline{E}(o)$ is  a prefix of $\overline{E}(o')$. (That is, if $y=\overline{E}(o)$ and $y'=\overline{E}(o')$, then  $y_j = y'_j$ for every $j<|y|$.)
+Now suppose, toward a contradiction, that there are $o \neq o'$ in $\mathcal{O}$ such that $\overline{E}(o)$ is a prefix of $\overline{E}(o')$. (That is, if $y=\overline{E}(o)$ and $y'=\overline{E}(o')$, then  $y_j = y'_j$ for every $j<|y|$.)
 
 Define $x = E(o)$ and $x'=E(o')$.
 Note that since $E$ is one-to-one, $x \neq x'$.
@@ -772,7 +772,7 @@ StL(LtS([234,12,5]))
 We can represent a letter or symbol by a string, and then if this representation is prefix-free, we can represent a sequence of symbols by merely concatenating the representation of each symbol.
 One such representation is the [ASCII](https://en.wikipedia.org/wiki/ASCII) that represents $128$ letters and symbols as strings of $7$ bits.
 Since the ASCII representation is fixed-length, it is automatically prefix-free (can you see why?).
-[Unicode](https://en.wikipedia.org/wiki/Unicode) is  representation of (at the time of this writing) about 128,000 symbols as numbers (known as _code points_) between $0$ and  $1,114,111$.
+[Unicode](https://en.wikipedia.org/wiki/Unicode) is representation of (at the time of this writing) about 128,000 symbols as numbers (known as _code points_) between $0$ and  $1,114,111$.
 There are several types of prefix-free representations of the code points, a popular one being [UTF-8](https://en.wikipedia.org/wiki/UTF-8) that encodes every codepoint into a string of length between $8$ and $32$.
 <!-- (For example, the UTF-8 encoding for the "confused face" emoji 😕 is `11110000100111111001100010010101`) -->
 
@@ -905,7 +905,7 @@ A _graph_ on $n$ vertices can be represented as an $n\times n$ _adjacency_ matri
 That is, we can represent an $n$ vertex directed graph $G=(V,E)$ as a string  $A\in \{0,1\}^{n^2}$ such that $A_{i,j}=1$ iff the edge $\overrightarrow{i\;j}\in E$.
 We can transform an undirected graph to a directed graph by replacing every edge $\{i,j\}$ with both edges $\overrightarrow{i\; j}$ and $\overleftarrow{i\;j}$
 
-Another representation for graphs is the _adjacency list_ representation. That is, we identify the vertex set $V$ of a graph with the set $[n]$ where $n=|V|$, and  represent the graph $G=(V,E)$ as a list of $n$ lists, where the $i$-th list consists of the out-neighbors of vertex $i$.
+Another representation for graphs is the _adjacency list_ representation. That is, we identify the vertex set $V$ of a graph with the set $[n]$ where $n=|V|$, and represent the graph $G=(V,E)$ as a list of $n$ lists, where the $i$-th list consists of the out-neighbors of vertex $i$.
 The difference between these representations can be significant for some applications, though for us would typically be immaterial.
 
 ![Representing the graph $G=(\{0,1,2,3,4\},\{ (1,0),(4,0),(1,4),(4,1),(2,1),(3,2),(4,3) \})$ in the adjacency matrix and adjacency list representations.](../figure/representing_graphs.png){#representinggraphsfig .margin  }
@@ -984,7 +984,7 @@ This transformation of input to output can be done using a modern computer, a pe
 
 In future chapters, we will turn to mathematically defining computational processes, but, as we discussed above, at the moment we focus on _computational tasks_. That is, we focus on the __specification__ and not the __implementation__.
 Again, at an abstract level, a computational task can specify any relation that the output needs to have with the input.
-However, for most of this book, we will focus on the simplest and most common task of _computing a  function_.
+However, for most of this book, we will focus on the simplest and most common task of _computing a function_.
 Here are some examples:
 
 * Given (a representation) of two integers $x,y$, compute the product $x\times y$. Using our representation above, this corresponds to computing a function from $\{0,1\}^*$ to $\{0,1\}^*$. We have seen that there is more than one way to solve this computational task, and in fact, we still do not know the best algorithm for this problem.
@@ -995,7 +995,7 @@ Here are some examples:
 
 * Given the code of a Python program, determine whether there is an input that would force it into an infinite loop. This task corresponds to computing a _partial_ function from $\{0,1\}^*$ to $\{0,1\}$ since not every string corresponds to a syntactically valid Python program. We will see that we _do_ understand the computational status of this problem, but the answer is quite surprising.
 
-*  Given (a representation of) an image $I$, decide if $I$ is a photo of a cat or a dog. This correspond to computing  some (partial) function from $\{0,1\}^*$ to $\{0,1\}$.
+*  Given (a representation of) an image $I$, decide if $I$ is a photo of a cat or a dog. This correspond to computing some (partial) function from $\{0,1\}^*$ to $\{0,1\}$.
 
 
 > ### {.remark title="Boolean functions and languages" #booleanrem}
@@ -1082,12 +1082,12 @@ Hence such tasks are also known as _promise problems_.
 
 Another generalization is to consider _relations_ that may have more than one possible admissible output.
 For example, consider the task of finding any solution for a given set of equations.
-A _relation_ $R$ maps a string $x\in \{0,1\}^*$ into a _set of strings_ $R(x)$ (for example, $x$ might describe a set of equations, in which case  $R(x)$ would correspond to  the set of all solutions to $x$).
+A _relation_ $R$ maps a string $x\in \{0,1\}^*$ into a _set of strings_ $R(x)$ (for example, $x$ might describe a set of equations, in which case  $R(x)$ would correspond to the set of all solutions to $x$).
 We can also identify a relation $R$ with the set of pairs of strings $(x,y)$ where $y\in R(x)$.
 A computational process solves a relation if for every $x\in \{0,1\}^*$, it outputs some string $y\in R(x)$.
 
 
-Later in this book, we will consider even more general tasks, including  _interactive_  tasks, such as finding a good strategy in a game, tasks defined using probabilistic notions, and others.
+Later in this book, we will consider even more general tasks, including _interactive_ tasks, such as finding a good strategy in a game, tasks defined using probabilistic notions, and others.
 However, for much of this book, we will focus on the task of computing a function, and often even a _Boolean_ function, that has only a single bit of output.
 It turns out that a great deal of the theory of computation can be studied in the context of this task, and the insights learned are applicable in the more general settings.
 :::
@@ -1096,9 +1096,9 @@ It turns out that a great deal of the theory of computation can be studied in th
 
 > ### { .recap }
 * We can represent essentially every object we want to compute on using binary strings.
-* A representation scheme for a set of objects $\mathcal{O}$ is a one-to-one map  from $\mathcal{O}$ to $\{0,1\}^*$.
+* A representation scheme for a set of objects $\mathcal{O}$ is a one-to-one map from $\mathcal{O}$ to $\{0,1\}^*$.
 * A basic computational task is the task of _computing a function_ $F:\{0,1\}^* \rightarrow \{0,1\}^*$. This task encompasses not just arithmetical computations such as multiplication, factoring, etc. but a great many other tasks arising in areas as diverse as scientific computing, artificial intelligence, image processing, data mining and many many more.
-* We will study the question of finding (or at least giving bounds on) what is the _best_ algorithm for  computing $F$ for various interesting functions $F$.
+* We will study the question of finding (or at least giving bounds on) what is the _best_ algorithm for computing $F$ for various interesting functions $F$.
 
 
 ## Exercises
@@ -1137,7 +1137,7 @@ The ASCII encoding can be used to encode a string of $n$ English letters as a $7
 
 
 ::: {.exercise title="Representing graphs: upper bound" #representinggraphsex}
-Show that there is a string representation of directed graphs with vertex set $[n]$ and degree at most $10$ that uses at most $1000 n\log n$ bits. More formally, show the following. Suppose we define for every $n\in\mathbb{N}$, the set $G_n$ as the set containing all directed graphs (with no self loops) over the vertex set $[n]$ where every vertex has degree at most $10$. Then, prove that  for every sufficiently large $n$, there exists a one-to-one  function $E:G_n \rightarrow \{0,1\}^{\lfloor 1000 n \log n \rfloor}$.
+Show that there is a string representation of directed graphs with vertex set $[n]$ and degree at most $10$ that uses at most $1000 n\log n$ bits. More formally, show the following. Suppose we define for every $n\in\mathbb{N}$, the set $G_n$ as the set containing all directed graphs (with no self loops) over the vertex set $[n]$ where every vertex has degree at most $10$. Then, prove that for every sufficiently large $n$, there exists a one-to-one function $E:G_n \rightarrow \{0,1\}^{\lfloor 1000 n \log n \rfloor}$.
 :::
 
 
@@ -1166,7 +1166,7 @@ d.  All of the above.
 
 
 > ### {.exercise }
-Suppose that $R:\N \rightarrow \{0,1\}^*$ corresponds to  representing a number $x$ as a string of $x$ $1$'s, (e.g., $R(4)=1111$, $R(7)=1111111$, etc.).
+Suppose that $R:\N \rightarrow \{0,1\}^*$ corresponds to representing a number $x$ as a string of $x$ $1$'s, (e.g., $R(4)=1111$, $R(7)=1111111$, etc.).
 If $x,y$ are numbers between $0$ and $10^n -1$, can we still multiply $x$ and $y$ using $O(n^2)$ operations if we are given them in the representation $R(\cdot)$?
 
 
@@ -1182,7 +1182,7 @@ Recall that if $F$ is a one-to-one and onto function mapping elements of a finit
 :::
 
 
-::: {.exercise  title="Prefix-free encoding of tuples" #prefix-free-tuples-ex}
+::: {.exercise title="Prefix-free encoding of tuples" #prefix-free-tuples-ex}
 Suppose that $F:\N\rightarrow\{0,1\}^*$ is a one-to-one function that is _prefix-free_ in the sense that there is no $a\neq b$ s.t.  $F(a)$ is a prefix of $F(b)$.
 
 a. Prove that $F_2:\N\times \N \rightarrow \{0,1\}^*$, defined as $F_2(a,b) = F(a)F(b)$ (i.e., the concatenation of $F(a)$ and $F(b)$) is a one-to-one function.
@@ -1244,7 +1244,7 @@ While many functions may be described (or computed) by one or more formulas, tod
 We have mentioned that all representations of the real numbers are inherently _approximate_. Thus an important endeavor is to understand what guarantees we can offer on the approximation quality of the output of an algorithm, as a function of the approximation quality of the inputs. This question is known as the question of determining the [numerical stability](https://en.wikipedia.org/wiki/Numerical_stability) of given equations.
 The  [Floating Points Guide website](https://floating-point-gui.de/) contains an extensive description of the floating point representation, as well the many ways in which it could subtly fail, see also the website [0.30000000000000004.com](http://0.30000000000000004.com/).
 
-Dauben [@Dauben90cantor] gives a biography of Cantor with emphasis on the development of his mathematical ideas. [@halmos1960naive] is a  classic textbook on set theory, including also Cantor's theorem. Cantor's Theorem is also covered in many texts on discrete mathematics, including  [@LehmanLeightonMeyer , @LewisZax19].
+Dauben [@Dauben90cantor] gives a biography of Cantor with emphasis on the development of his mathematical ideas. [@halmos1960naive] is a classic textbook on set theory, including also Cantor's theorem. Cantor's Theorem is also covered in many texts on discrete mathematics, including  [@LehmanLeightonMeyer , @LewisZax19].
 
 The adjacency matrix representation of graphs is not merely a convenient way to map a graph into a binary string, but it turns out that many natural notions and operations on matrices are useful for graphs as well. (For example, Google's PageRank algorithm relies on this viewpoint.)  The notes of [Spielman's course](http://www.cs.yale.edu/homes/spielman/561/) are an excellent source for this area, known as _spectral graph theory_. We will return to this view much later in this book when we talk about _random walks_.
 
