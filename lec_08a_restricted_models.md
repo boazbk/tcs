@@ -417,7 +417,7 @@ $$
 ::: { .pause }
 Our treatment of automata in this book is quite brief. If you find this definition confusing, there are plenty of resources that help you get more comfortable with DFA's.
 In particular, Chapter 1 of Sipser's book [@SipserBook] contains an excellent exposition of this material.
-There are also many websites with online simulators for automata, as well as translators from regular expressions to automata and vice versa.
+There are also many websites with online simulators for automata, as well as translators from regular expressions to automata and vice versa (see for example [here](http://ivanzuzak.info/noam/webapps/fsm2regex/) and [here](https://cyberzhg.github.io/toolbox/nfa2dfa)).
 
 Sipser defines a DFAs as a five-tuple $(Q,\Sigma,\delta,q_0,F)$ where $Q$ is the set of states, $\Sigma$ is the alphabet, $\delta$ is the transition function, $q_0$ is the initial state, and $F$ is the set of accepting states. In this book the set of states is always of the form $Q=\{0,\ldots,C-1 \}$ and the initial state is always $q_0 = 0$, but this makes no difference to the computational power of these models.
 Also, we restrict our attention to the case that the alphabet $\Sigma$ is equal to $\{0,1\}$.
@@ -689,23 +689,22 @@ Given these two transformations, we see that for every regular expressions $e$ a
 
 
 
-## Context free grammars
+## Context free grammars { #seccfg }
 
 If you have ever written a program, you've experienced a _syntax error_.
-You also probably had the experience of your program entering into an _infinite loop_.
-What is less likely is that the compiler or interpreter entered an infinite loop when trying to figure out if your program has a syntax error.
-
+You probably also had the experience of your program entering into an _infinite loop_.
+What is less likely is that the compiler or interpreter entered an infinite loop while trying to figure out if your program has a syntax error.
 
 When a person designs a programming language, they need to determines its _syntax_.
-That is, they need to determine which strings corresponds to valid programs, and which ones do not.
-A compiler or interpreter is given a string $x$ as an input and needs to determine whether $x$ corresponds to a valid program or it contains a syntax error.
-To ensure that the compiler will always halt in this computation, language designers typically _don't_ use a general Turing-complete mechanism to express their syntax but rather a _restricted_ computational model.
+That is, the designer decides which strings corresponds to valid programs, and which ones do not (i.e., which strings contain a syntax error).
+To ensure that a compiler or interpreter always halts when checking for syntax errors, language designers typically _do not_ use a general Turing-complete mechanism to express their syntax.
+Rather they use a _restricted_ computational model.
 One of the most popular choices for such models is _context free grammars_.
 
-To explain context free grammars, let's begin with a canonical example.
-Let us try to define a function $ARITH:\Sigma^* \rightarrow \{0,1\}$ that takes as input a string $x$ over the alphabet $\Sigma = \{ (,),+,-,\times,\div,0,1,2,3,4,5,6,7,8,9\}$ and returns $1$ if and only if the string $x$ represents a valid arithmetic expression.
-Intuitively, we build expressions by applying an operation to smaller expressions, or enclosing them in parenthesis, where the "base case" corresponds to expressions that are simply numbers.
-A bit more precisely, we can make the following definitions:
+To explain context free grammars, let us begin with a canonical example.
+Consider the function $ARITH:\Sigma^* \rightarrow \{0,1\}$ that takes as input a string $x$ over the alphabet $\Sigma = \{ (,),+,-,\times,\div,0,1,2,3,4,5,6,7,8,9\}$ and returns $1$ if and only if the string $x$ represents a valid arithmetic expression.
+Intuitively, we build expressions by applying an operation such as $+$,$-$,$\times$ or $\div$ to smaller expressions, or enclosing them in parenthesis, where the "base case" corresponds to expressions that are simply numbers.
+More precisely, we can make the following definitions:
 
 * A _digit_ is one of the symbols $0,1,2,3,4,5,6,7,8,9$.
 
@@ -713,25 +712,24 @@ A bit more precisely, we can make the following definitions:
 
 * An _operation_ is one of $+,-,\times,\div$
 
-* An _expression_ has either the form "_number_", the form  "_subexpression1 operation subexpression2_", or the form "(_subexpression_)".
+* An _expression_ has either the form "_number_", the form  "_sub-expression1 operation sub-expression2_", or the form "(_sub-expression1_)", where "sub-expression1" and "sub-expression2" are themselves expressions. (Note that this is a _recursive_ definition.)
 
 A context free grammar (CFG) is a formal way of specifying such conditions.
-We can think of a CFG as a set of rules to _generate_ valid expressions.
-In the example above, there is a rule  $expression \; \Rightarrow\; expression \; \times \; expression$ which tells us that if we have built two valid expressions $exp1$ and $exp2$, then the expression $exp1 \; \times \; exp2$ is valid too.
-
-Note that the rules of a context-free grammar are often _recursive_: the rule $expression \; \Rightarrow\; expression \; \times \; expression$ defines valid expressions in terms of itself.
-For such a grammar to make sense, it must have also some non-recursive rules, such as the rule $number \; \Rightarrow \; 0$.
-
-We now make the formal definition of context-free grammars:
+A CFG consists of a set of _rules_ that tell us how to generate strings from smaller components.
+In the above example, one of the rules is "if $exp1$ and $exp2$ are valid expressions, then $exp1 \times exp2$ is also a valid expression"; we can also write this rule using the shorthand $expression \; \Rightarrow \; expression \; \times \; expression$.
+As in the above example, the rules of a context-free grammar are often _recursive_: the rule $expression \; \Rightarrow\; expression \; \times \; expression$ defines valid expressions in terms of itself.
+We now formally define context-free grammars:
 
 
 ::: {.definition title="Context Free Grammar" #defcfg}
 Let $\Sigma$ be some finite set.
-A _context free grammar (CFG) over $\Sigma$_ is a triple $(V,R,s)$ where:
+A _context free grammar (CFG) over $\Sigma$_ is a triple $(V,R,s)$ such that:
 
-* $V$ is a set disjoint from $\Sigma$ of _variables_
-* $v\in V$ is the _initial variable_.
-* $R$ is a set of _rules_, which are pairs $(v,z)$ with $v\in V$ and $z\in (\Sigma \cup V)^*$. We often write the rule $(v,z)$ as  $v \Rightarrow z$ and say that $z$ _can be derived_ from $v$.
+* $V$, known as the _variables_, is a set disjoint from $\Sigma$.
+
+* $v\in V$ is known as the _initial variable_.
+
+* $R$ is a set of _rules_. Each rule is a pair  $(v,z)$ with $v\in V$ and $z\in (\Sigma \cup V)^*$. We often write the rule $(v,z)$ as  $v \Rightarrow z$ and say that the string $z$ _can be derived_ from the variable $v$.
 :::
 
 ::: {.example title="Context free grammar for arithmetic expressions" #cfgarithmeticex}
@@ -741,21 +739,21 @@ The example above of well-formed arithmetic expressions can be captured formally
 
 * The variables are $V = \{ expression \;,\; number \;,\; digit \;,\; operation \}$.
 
-* The rules correspond the set $R$ containing the following pairs:
+* The rules are the set $R$ containing the following $19$ rules:
 
-  - $operation \Rightarrow +$, $operation \Rightarrow -$,   $operation \Rightarrow \times$, $operation \Rightarrow \div$
+  - The $4$ rules $operation \Rightarrow +$, $operation \Rightarrow -$,   $operation \Rightarrow \times$,  and $operation \Rightarrow \div$.
 
-  - $digit \Rightarrow 0$,$\ldots$, $digit \Rightarrow 9$
+  - The $10$ rules $digit \Rightarrow 0$,$\ldots$, $digit \Rightarrow 9$.
 
-  - $number \Rightarrow digit$
+  - The rule $number \Rightarrow digit$.
 
-  - $number \Rightarrow digit\; number$
+  - The rule $number \Rightarrow digit\; number$.
 
-  - $expression \Rightarrow number$
+  - The rule $expression \Rightarrow number$.
 
-  - $expression \Rightarrow expression \; operation \; expression$
+  - The rule $expression \Rightarrow expression \; operation \; expression$.
 
-  - $expression \Rightarrow (expression)$
+  - The rule $expression \Rightarrow (expression)$.
 
 * The starting variable is $expression$
 :::
@@ -766,6 +764,7 @@ People use many different notations to write context free grammars.
 One of the most common notations is the  [Backus–Naur form](https://goo.gl/R4qZji).
 In this notation we write a rule of the form $v \Rightarrow a$ (where $v$ is a variable and $a$ is a string) in the form  `<v> := a`.
 If we have several rules of the form $v \mapsto a$, $v \mapsto b$, and $v \mapsto c$ then we can combine them as `<v> := a|b|c`.
+(In words we say that $v$ can derive either $a$, $b$, or $c$.)
 For example, the Backus-Naur description for the context free grammar of [cfgarithmeticex](){.ref} is the following (using ASCII equivalents for operations):
 
 ```python
@@ -781,11 +780,21 @@ Another example of a context free grammar is the "matching parenthesis" grammar,
 match  := ""|match match|(match)
 ```
 
-You can verify that a string over the alphabet $\{$ `(`,`)` $\}$ can be generated from this grammar (where `match` is the starting expression and `""` corresponds to the empty string) if and only if it consists of a matching set of parenthesis.
+A string over the alphabet $\{$ `(`,`)` $\}$ can be generated from this grammar (where `match` is the starting expression and `""` corresponds to the empty string) if and only if it consists of a matching set of parenthesis.
+In contrast, by [regexpparn](){.ref}  there is no regular expression that matches a string $x$ if and only if $x$ contains a valid sequence of matching parenthesis. 
+
+
+
+::: {.remark title="Resources on CFG" #cfgresources}
+As in the case of regular expressions, there are many resources available that cover context-free grammar
+in great detail. Chapter 2 of [@SipserBook] contains many examples of context-free grammars and their properties.
+There are also websites such as [Grammophone ](https://mdaines.github.io/grammophone/) where you can input grammars, and see what strings they generate, as well as some of the properties that they satisfy.
+:::
+
 
 ### Context-free grammars as a computational model
 
-We can think of a CFG over the alphabet $\Sigma$ as defining a function that maps every string $x$ in $\Sigma^*$ to $1$ or $0$ depending on whether $x$ can be generated by the rules of the grammars.
+We can think of a context-free grammar over the alphabet $\Sigma$ as defining a function that maps every string $x$ in $\Sigma^*$ to $1$ or $0$ depending on whether $x$ can be generated by the rules of the grammars.
 We now make this definition formally.
 
 ::: {.definition title="Deriving a string from a grammar" #CFGderive}
@@ -837,7 +846,7 @@ Context free grammars can capture every regular expression:
 Let $e$ be a regular expression over $\{0,1\}$, then there is a CFG $(V,R,s)$ over $\{0,1\}$ such that $\Phi_{V,R,s}=\Phi_{e}$.
 
 ::: {.proof data-ref="CFGreg"}
-We will prove the theorem by induction on the length of $e$.
+We prove the theorem by induction on the length of $e$.
 If $e$ is an expression of one bit length, then $e=0$ or $e=1$, in which case we leave it to the reader to verify that there is a (trivial) CFG that computes it.
 Otherwise, we fall into one of the following case: __case 1:__ $e = e'e''$, __case 2:__ $e = e'|e''$ or __case 3:__ $e=(e')^*$ where in all cases $e',e''$ are shorter regular expressions.
 By the induction hypothesis have grammars $(V',R',s')$ and $(V'',R'',s'')$ that compute $\Phi_{e'}$ and $\Phi_{e''}$ respectively. By renaming of variables, we can also assume without loss of generality that $V'$ and $V''$ are disjoint.
@@ -933,7 +942,7 @@ Consider the string $x= 1^{n_0}0^{n_0};1^{n_0}0^{n_0}$, and write it as $x=abcde
 By [cfgpumping](){.ref}, it should hold that $EQ(ace)=1$.
 However, by case analysis this can be shown to be a contradiction.
 
-First of all, unless $b$ is on the left side of the $;$ separator and $d$ is on the right side, dropping $b$ and $d$ will definitely make the two parts different.
+Firstly, unless $b$ is on the left side of the $;$ separator and $d$ is on the right side, dropping $b$ and $d$ will definitely make the two parts different.
 But if it is the case that $b$ is on the left side and $d$ is on the right side, then by the condition that $|bcd| \leq n_0$ we know that $b$ is a string of only zeros and $d$ is a string of only ones.
 If we drop $b$ and $d$ then since one of them is non empty, we get that there are either less zeroes on the left side than on the right side, or there are less ones on the right side than on the left side.
 In either case, we get that $EQ(ace)=0$, obtaining the desired contradiction.
@@ -1068,12 +1077,12 @@ _Turing-complete models_, Uncomputable, Uncomputable, Uncomputable
 
 
 ::: {.remark title="Unrestricted Grammars (optional)" #unrestrictedgrammars}
-The reason we call context free grammars "context free" is because if we have a rule of the form $v \mapsto a$ it means that we can always replace $v$ with the string $a$, no matter the _context_ in which $v$ appears.
-More generally, we might want to consider cases where our replacement rules depend on the context.
-
+The adjective "context free" is used for CFG's  because  a rule of the form $v \mapsto a$  means that we can _always_ replace $v$ with the string $a$, no matter what is the _context_ in which $v$ appears.
+More generally, we might want to consider cases where the replacement rules depend on the context.
 This gives rise to the notion of _general grammars_ that allow rules of the form $a \Rightarrow b$ where both $a$ and $b$ are strings over $(V \cup \Sigma)^*$.
 The idea is that if, for example, we wanted to enforce the condition that we only apply some rule such as $v \mapsto 0w1$  when $v$ is surrounded by three zeroes on both sides, then we could do so by adding a rule of the form $000v000 \mapsto 0000w1000$ (and of course we can add much more general conditions).
-Alas, this generality comes at a cost - these general grammars are Turing complete and hence their halting problem is undecidable.
+Alas, this generality comes at a cost - general grammars are Turing complete and hence their halting problem is uncomputable.
+That is, there is no algorithm $A$ that can determine for every  general grammar $G$ and a string $x$, whether or not the grammar $G$ generates $x$.
 :::
 
 
@@ -1137,10 +1146,12 @@ Prove that the function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F(x)=1$ if 
 The relation of regular expressions with finite automata is a beautiful topic, on which we only touch upon in this texts.
 It is covered more extensively in [@SipserBook, @hopcroft , @kozen1997automata].
 These texts also discuss topics such as _non deterministic finite automata_ (NFA) and the relation between context-free grammars and pushdown automata.
+
 The [Chomsky Hierarchy](https://en.wikipedia.org/wiki/Chomsky_hierarchy) is a hierarchy of grammars from the least restrictive (most powerful) Type 0 grammars, which correspond to _recursively enumerable_ languages (see [recursiveenumerableex](){.ref}) to the most restrictive Type 3 grammars, which correspond to regular languages.
 Context-free languages correspond to Type 2 grammars.
+
 Type 1 grammars are _context sensitive grammars_.
 These are more powerful than context-free grammars but still less powerful than Turing machines.
 In particular functions/languages corresponding to context-sensitive grammars are always computable, and in fact can be computed by a [linear bounded automatons](https://en.wikipedia.org/wiki/Linear_bounded_automaton) which are non-deterministic algorithms that take $O(n)$ space.
 For this reason, the class of functions/languages corresponding to context-sensitive grammars is also known as the complexity class $\mathbf{NSPACE}O(n)$; we discuss space-bounded complexity in [spacechap](){.ref}).
-While Rice's Theorem tells us that we cannot compute any non-trivial semantic property of Type 0 grammars, the situation is more complex for other types of grammars: some semantic properties can be determined and some cannot, depending on the grammar's place in the hierarchy.
+While Rice's Theorem implies that we cannot compute any non-trivial semantic property of Type 0 grammars, the situation is more complex for other types of grammars: some semantic properties can be determined and some cannot, depending on the grammar's place in the hierarchy.
