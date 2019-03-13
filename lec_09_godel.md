@@ -49,33 +49,25 @@ This effort was known as the _Hilbert program_, named after the influential math
 Alas, it turns out the results we've seen dealt a devastating blow to this program, as was shown by Kurt Gödel in 1931:
 
 > ### {.theorem title="Gödel's Incompleteness Theorem:  informal version" #godethmtakeone}
-For every sound proof system for sufficiently rich mathematical statements, there is a mathematical statement that is _true_ but is not _provable_.
+For every sound proof system  $V$ for sufficiently rich mathematical statements, there is a mathematical statement that is _true_ but is not _provable_ in $V$.
 
+### Defining "Proof Systems"
 
-Before proving [godethmtakeone](){.ref}, we need to specify what does it mean to be "provable" (and even formally define the notion of a "mathematical statement").
-Thus we need to define the notion of a _proof system_.
+Before proving [godethmtakeone](){.ref}, we need to define  "proof systems" and even formally define the notion of a "mathematical statement".
 In geometry and other areas of mathematics, proof systems are often defined by starting with some basic assumptions or _axioms_ and then deriving more statements by using _inference rules_ such as the famous [Modus Ponens](https://en.wikipedia.org/wiki/Modus_ponens), but what axioms shall we use? What rules?
+We will use an extremely general notion of proof systems, not even restricting ourselves to ones that have the form of axioms and inference.
 
-Our idea will be to use an extremely general notion of proof, not even restricting ourselves to ones that have the form of axioms and inference.
-A _proof_ will be simply a piece of text- a finite string- that satisfies:
 
-1. _(effectiveness)_ Given a statement $x$ and a proof $w$ (both of which can be encoded as strings) we can verify that $w$ is a valid proof for $x$. (For example, by going line by line and checking that each line does indeed follow from the preceding ones using one of the allowed inference rules.)
-
-2. _(soundness)_ If there is a valid proof $w$ for $x$ then $x$ is true.
-
-Those seem like rather minimal requirements that one would want from every proof system.
-Requirement 2 (soundness) is the very definition of a proof system: you shouldn't be able to prove things that are not true. Requirement 1 is also essential. If it there is no set of rules (i.e., an algorithm) to check that a proof is valid then in what sense is it a proof system? We could replace it with the system where the "proof" for a statement $x$ would simply be "trust me: it's true".
-
-A mathematical statement will also simply be a string.
-Mathematical statements states a fact about some mathematical object.
-For example, the following is a mathematical statement:
+__Mathematical statements.__ At the highest level, a mathematical statement is simply a piece of text, which we can think of as a   _string_ $x\in \{0,1\}^*$.
+Mathematical statements contain assertions whose truth does not depend on any empirical fact, but rather only on properties of abstract objects.
+For example, the following is a mathematical statement:^[This happens to be a _false_ statement.]
 
 >_"The number $2$,$696$,$635$,$869$,$504$,$783$,$333$,$238$,$805$,$675$,$613$,$588$,$278$,$597$,$832$,$162$,$617$,$892$,$474$,$670$,$798$,$113$ is prime"._
 
-(This happens to be a _false_ statement; can you see why?)
 
-Mathematical statements don't have to be about numbers. They can talk about any other mathematical object including sets, strings, functions, graphs and yes, even _programs_.
-Thus, another example of a mathematical statement is the following:
+Mathematical statements do not have to involve numbers.
+They can assert properties of any other mathematical object including sets, strings, functions, graphs and yes, even _programs_.
+Thus, another example of a mathematical statement is the following:^[It is  [unknown](https://goo.gl/Lx8HYv) whether this statement is true or false.]
 
 :::  {.quote}
 The following Python function halts on every positive integer `n`
@@ -86,23 +78,45 @@ def f(n):
     return f(3*n+1) if n % 2 else f(n//2)
 ```
 :::
+\
 
-(We actually [don't know](https://goo.gl/Lx8HYv) if this statement is true or false.)
+
+__Proof systems.__  A _proof_ for a statement $x\in \{0,1\}^*$ is another piece of text $w\in \{0,1\}^*$ that certifies the truth of the statement asserted in $x$.
+The conditions for a valid proof system are:
+
+1. _(Effectiveness)_ Given a statement $x$ and a proof $w$, there is an algorithm to verify whether or not $w$ is a valid proof for $x$. (For example, by going line by line and checking that each line follows from the preceding ones using one of the allowed inference rules.)
+
+2. _(Soundness)_ If there is a valid proof $w$ for $x$ then $x$ is true.
+
+These are quite  minimal requirements for a proof system.
+Requirement 2 (soundness) is the very definition of a proof system: you shouldn't be able to prove things that are not true. Requirement 1 is also essential. If it there is no set of rules (i.e., an algorithm) to check that a proof is valid then in what sense is it a proof system? We could replace it with the system where the "proof" for a statement $x$ is "trust me: it's true".
+
+We formally define proof systems as an algorithm $V$ where $V(x,w)=1$ holds if the string $w$ is a valid proof for the statement $x$. Even if $x$ is true, the string $w$ does not have to be a valid proof for it (there are plenty of wrong proofs for true statements such as `4=2+2`) but if $w$ is a valid proof for $x$ then $x$ must be true.
 
 
-We start by considering statements of the second type.
-Our first formalization of [godethmtakeone](){.ref} will be the following
+::: {.definition title="Proof systems" #proofsystemsdef}
+Let $\mathcal{T} \subseteq \{0,1\}^*$ be some set (which we consider the "true" statements).
+A _proof system_ for $\mathcal{T}$ is an algorithm $V$ that satisfies:
+
+1. _(Effectiveness)_ For every $x,w \in \{0,1\}^*$, $V(x,w)$ halts with an output of either $0$ or $1$.
+
+2. _(Soundness)_ For every $x\not\in \mathcal{T}$ and $w\in \{0,1\}^*$, $V(x,w)=0$.
+
+A true statement $x\in mathcal{T}$ is _unprovable_ (with respect to $V$) if for every $w\in \{0,1\}^*$, $V(x,w)=0$.
+We say that $V$ is _complete_ if there does not exist a true statement $x$ that is unprovable with respect to $v$.
+:::
+
+
+## Gödel's Incompleteness Theorem: Computational variant
+ 
+
+
+Our first formalization of [godethmtakeone](){.ref} involves statements about Turing machines.
+We let $\mathcal{H}$ be the set of strings $x\in \{0,1\}^*$ that have the form "Turing machine $M$ halts on the zero input".
 
 
 ::: {.theorem title="Gödel's Incompleteness Theorem: computational variant" #godethmtakeone}
-Let $V:\{0,1\}^* \rightarrow \{0,1\}$ a computable purported verification procedure for mathematical statements of the form "Program $P$ halts on the zero input" and "Program $P$ does not halt on the zero input".
-Then either:
-
-* _$V$ is not sound:_ There exists a false statement $x$ and a string $w\in \{0,1\}^*$ such that $V(x,w)=1$.
-
-_or_
-
-* _$V$ is not complete:_ There exists a true statement $x$ such that for every $w\in \{0,1\}^*$, $V(x,w)=0$.
+There does not exist a complete proof system for $\mathcal{H}$.
 :::
 
 
@@ -164,6 +178,8 @@ That is, if we formalize the statement $c^*$ that is true if and only if $V$ is 
 
 
 ## Quantified integer statements
+
+![Outline of the steps in the proof of Gödel's Incompleteness Theorem.](../figure/godelstructure.png){#godelstructure}
 
 There is something "unsatisfying" about [godethmtakeone](){.ref}.
 Sure, it shows there are statements that are unprovable, but they don't feel like "real" statements about math.
