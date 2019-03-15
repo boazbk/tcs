@@ -34,7 +34,6 @@ Most of these are not very complicated, but do require some practice and exercis
 If you have not previously encountered some of these concepts, there are several excellent freely-available resources online that cover them, see the "Bibliographical Notes" section ([notesmathchap](){.ref}).
 
 
-
 ## A mathematician's apology
 
 Before explaining the math background, I perhaps should explain why is this book so "mathematically heavy".
@@ -817,7 +816,7 @@ There are no natural numbers $a,b$ such that $\sqrt{2} = \tfrac{a}{b}$.
 
 > ### {.proof }
 Suppose, towards the sake of contradiction that this is false, and so let $a\in \N$ be the smallest number such that there exists some $b\in\N$ satisfying $\sqrt{2}=\tfrac{a}{b}$.
-Squaring this equation we get that $2=a^2/b^2$ or $a^2=2b^2$ $(*)$. But this means that $a^2$ is _even_, and since the product of two odd numbers is odd, it means that $a$ is even as well, or in other words, $a = 2a'$ for some $a' \in \N$. Yet plugging this into $(*)$ shows that $4a'^2 = 2b^2$ which means  $b^2 = 2a'^2$ is an even number as well. By the same considerations as above we gat that $b$ is even and hence $a/2$ and $b/2$ are two natural numbers satisfying $\tfrac{a/2}{b/2}=\sqrt{2}$, contradicting the minimality of $a$.
+Squaring this equation we get that $2=a^2/b^2$ or $a^2=2b^2$ $(*)$. But this means that $a^2$ is _even_, and since the product of two odd numbers is odd, it means that $a$ is even as well, or in other words, $a = 2a'$ for some $a' \in \N$. Yet plugging this into $(*)$ shows that $4a'^2 = 2b^2$ which means  $b^2 = 2a'^2$ is an even number as well. By the same considerations as above we get that $b$ is even and hence $a/2$ and $b/2$ are two natural numbers satisfying $\tfrac{a/2}{b/2}=\sqrt{2}$, contradicting the minimality of $a$.
 
 
 __Proofs of a universal statement:__ Often we want to prove a statement $X$ of the form "Every object of type $O$ has property $P$." Such proofs often start with a sentence such as "Let $o$ be an object of type $O$" and end by showing that $o$ has the property $P$.
