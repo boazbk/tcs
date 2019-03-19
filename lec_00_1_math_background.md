@@ -160,8 +160,8 @@ You can also try to consider more refined questions such as finding out if there
 
 ::: {.remark title="Ifs and equalities in definitions" #ifindef}
 The meaning of "if" is subtly different in the context of a _definition_ than it is in the context of a standalone mathematical statement. When we say that we define $n$ to be a perfect square if $n=k^2$ for some $k\in \N$, we are _defining_ the new property "perfect square" to be equivalent to the property that $n=k^2$ for some $k\in \N$.
-Since this is the _definition_ of this property, it means that $n$ is in fact a perfect square _if and only if_  $m=k^2$ for some $k\in \N$.
-We could have also said that we define $n$ to be a perfect square _if and only if_ (or use the abbreviation _iff_) $n=k^2$ for some $k\in \N^2$. We will sometimes use "iff" instead of "if" in definitions when it helps clarity, but since mathematicians typically use "if" in such cases, we will often follow this convention as well.
+Since this is the _definition_ of this property, it means that $n$ is in fact a perfect square _if and only if_  $n=k^2$ for some $k\in \N$.
+We could have equally well  said that $n$ is be a perfect square _if and only if_ (or use the abbreviation _iff_) $n=k^2$ for some $k\in \N$. We will indeed sometimes use "iff" instead of "if" in definitions when it helps clarity, but since mathematicians typically use "if" in such cases, we will often follow this convention as well.
 
 Similarly, the equality symbol "$=$" plays a subtly different role in the context of a definition than it does elsewhere. When we say something like "we define $y= \sqrt{x}$" what we really mean is that we are _assigning_ the value $\sqrt{x}$ to $y$, as opposed to _asserting_ that $y$ equals $\sqrt{x}$. To compare with programming languages, in the context of a definition, the equality sign $=$ plays the role analogous to the assignment operator `=` in languages such as C, Python, or Javascript, while in other contexts it plays the role analogous to the "equal to" operator `==`.
 
@@ -546,7 +546,7 @@ For every directed graph $G=(V,E)$ and a pair $u,v$ such that there is a path fr
 
 ::: {.remark title="Graph terminology" #graphsname}
 The word _graph_ in the sense above was coined by the mathematician Sylvester in 1878 in analogy with the chemical graphs used to visualize molecules.
-There is an unfortunate confusion between this tern and the more common usage of the word "graph" as a way to plot data, and in particular a plot of some function $f(x)$ as a function of $x$.
+There is an unfortunate confusion between this term and the more common usage of the word "graph" as a way to plot data, and in particular a plot of some function $f(x)$ as a function of $x$.
 One way to relate these two notions is to identify every function $f:A \rightarrow B$ with the directed graph $G_f$ over the vertex set $V= A \cup B$ such that $G_f$  contains the edge $x \rightarrow f(x)$ for every $x\in A$.
 
 In a graph $G_f$ constructed in this way, every vertex in $A$ has out-degree equal to one.
