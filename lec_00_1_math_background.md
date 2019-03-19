@@ -891,7 +891,7 @@ It is also much easier to transform such proofs into machine-checkable forms.
 The disadvantage is that such proofs can be more tedious to read and write, with less differentiation between the important parts of the arguments versus the more routine ones.
 :::
 
-## Extended example: Topological Sorting
+## Extended example: Topological Sorting { #topsortsec }
 
 In this section we will prove the following: every directed acyclic graph (DAG, see [DAGdef](){.ref}) can be arranged in layers so that for all directed edges $u \rightarrow v$, the layer of $v$ is larger than the layer of $u$.
 This result is known as [topological sorting](https://goo.gl/QUskBc) and is used in many applications, including task scheduling, build systems, software package management, spreadsheet cell calculations, and many others (see [topologicalsortfig](){.ref}).

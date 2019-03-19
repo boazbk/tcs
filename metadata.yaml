@@ -14,7 +14,7 @@ latexsectionheaders:
     6: "subparagraph"
 labelclasses:
     "bigidea": "Big Idea"
-    "solvedex": "Solved Exercise"
+    "solvedexercise": "Solved Exercise"
     "pause":    "Pause and think box"
     "subsection": "Section"
 latexblockcode:  "code"
