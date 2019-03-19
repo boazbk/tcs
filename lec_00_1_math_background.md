@@ -34,7 +34,6 @@ Most of these are not very complicated, but do require some practice and exercis
 If you have not previously encountered some of these concepts, there are several excellent freely-available resources online that cover them, see the "Bibliographical Notes" section ([notesmathchap](){.ref}).
 
 
-
 ## A mathematician's apology
 
 Before explaining the math background, I perhaps should explain why is this book so "mathematically heavy".
@@ -693,7 +692,7 @@ More formally, we define Big-$O$ notation as follows:
 
 :::  {.definition title="Big-$O$ notation" #bigohdef}
 For $F,G: \N \rightarrow \R_+$, we define $F=O(G)$ (sometimes also written as $F \leq O(G)$) if there exist numbers $a,N_0 \in \N$ such that $F(n) \leq a\cdot G(n)$ for every $n>N_0$.^[Recall that $\R_+$, which is also sometimes denoted as $(0,\infty)$, is the set of positive real numbers, so the above is just a way of saying that $F$ and $G$'s outputs are always positive numbers.]
-We define $F=\Omega(G)$ (sometimes also writtenas $F \leq \Omega(G$)) if $G=O(F)$.
+We define $F=\Omega(G)$ (sometimes also written as $F \leq \Omega(G$)) if $G=O(F)$.
 
 We write $F =o(G)$ if for every $\epsilon>0$ there is some $N_0$ such that $F(n) <\epsilon G(n)$ for every $n>N_0$.
 We write $F =\omega(G)$ if $G=o(F)$.
@@ -817,7 +816,7 @@ There are no natural numbers $a,b$ such that $\sqrt{2} = \tfrac{a}{b}$.
 
 > ### {.proof }
 Suppose, towards the sake of contradiction that this is false, and so let $a\in \N$ be the smallest number such that there exists some $b\in\N$ satisfying $\sqrt{2}=\tfrac{a}{b}$.
-Squaring this equation we get that $2=a^2/b^2$ or $a^2=2b^2$ $(*)$. But this means that $a^2$ is _even_, and since the product of two odd numbers is odd, it means that $a$ is even as well, or in other words, $a = 2a'$ for some $a' \in \N$. Yet plugging this into $(*)$ shows that $4a'^2 = 2b^2$ which means  $b^2 = 2a'^2$ is an even number as well. By the same considerations as above we gat that $b$ is even and hence $a/2$ and $b/2$ are two natural numbers satisfying $\tfrac{a/2}{b/2}=\sqrt{2}$, contradicting the minimality of $a$.
+Squaring this equation we get that $2=a^2/b^2$ or $a^2=2b^2$ $(*)$. But this means that $a^2$ is _even_, and since the product of two odd numbers is odd, it means that $a$ is even as well, or in other words, $a = 2a'$ for some $a' \in \N$. Yet plugging this into $(*)$ shows that $4a'^2 = 2b^2$ which means  $b^2 = 2a'^2$ is an even number as well. By the same considerations as above we get that $b$ is even and hence $a/2$ and $b/2$ are two natural numbers satisfying $\tfrac{a/2}{b/2}=\sqrt{2}$, contradicting the minimality of $a$.
 
 
 __Proofs of a universal statement:__ Often we want to prove a statement $X$ of the form "Every object of type $O$ has property $P$." Such proofs often start with a sentence such as "Let $o$ be an object of type $O$" and end by showing that $o$ has the property $P$.
