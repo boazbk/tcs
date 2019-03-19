@@ -693,7 +693,7 @@ More formally, we define Big-$O$ notation as follows:
 
 :::  {.definition title="Big-$O$ notation" #bigohdef}
 For $F,G: \N \rightarrow \R_+$, we define $F=O(G)$ (sometimes also written as $F \leq O(G)$) if there exist numbers $a,N_0 \in \N$ such that $F(n) \leq a\cdot G(n)$ for every $n>N_0$.^[Recall that $\R_+$, which is also sometimes denoted as $(0,\infty)$, is the set of positive real numbers, so the above is just a way of saying that $F$ and $G$'s outputs are always positive numbers.]
-We define $F=\Omega(G)$ (sometimes also writtenas $F \leq \Omega(G$)) if $G=O(F)$.
+We define $F=\Omega(G)$ (sometimes also written as $F \leq \Omega(G$)) if $G=O(F)$.
 
 We write $F =o(G)$ if for every $\epsilon>0$ there is some $N_0$ such that $F(n) <\epsilon G(n)$ for every $n>N_0$.
 We write $F =\omega(G)$ if $G=o(F)$.
