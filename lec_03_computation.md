@@ -349,7 +349,7 @@ Since the formula [eqmajandornot](){.eqref} involves three AND's and two OR's, t
 :::
 
 
-![A Boolean circuit for computing the Majority on three bits.](../figure/majcircuit.png){#majviaaonfig.margin  } 
+![A Boolean circuit for computing the Majority on three bits.](../figure/majcircuit.png){#majviaaonfig .margin  } 
 
 
 
