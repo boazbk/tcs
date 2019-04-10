@@ -371,10 +371,11 @@ However, for us to be able to make precise and prove statements such as _"there 
 We now proceed to do so.
 We will  define a Boolean circuit as a labeled _Directed Acyclic Graph (DAG)_.
 The _vertices_ of the graph correspond to the gates and inputs of the circuit, and the _edges_ of the graph correspond to the wires.
-A wire from gate $u$ to gate $v$ in the circuit corresponds to a directed edge between the corresponding vertices.
-The inputs will be vertices with no incoming edges, while each gate will have the appropriate number of incoming edges based on the function it computes. (That is,  $AND$ and $OR$ gates have two in-neighbors, while $NOT$ gates have one in-neighbor.)
-The formal definition is as follows:
+A wire from an input or gate $u$ to a gate $v$ in the circuit corresponds to a directed edge between the corresponding vertices.
+The inputs are vertices with no incoming edges, while each gate has the appropriate number of incoming edges based on the function it computes. (That is,  $AND$ and $OR$ gates have two in-neighbors, while $NOT$ gates have one in-neighbor.)
+The formal definition is as follows (see also [generalcircuitfig](){.ref}):
 
+![A _Boolean Circuit_ is a labeled directed acyclic graph (DAG). It has $n$ _input_ vertices, which are marked with `X[`$0$`]`,$\ldots$, `X[`$n-1$`]` and have no incoming edges, and the rest of the vertices are _gates_. An AND,OR, or NOT gate has two or one incoming edges. If the circuit has $m$ outputs, then $m$ of the gates are known as _outputs_ and are marked with `Y[`$0$`]`,$\ldots$,`Y[`$m-1$`]`. When we evaluate a circuit $C$ on an input $x\in \{0,1\}^n$, we start by setting the value of the input vertices to $x_0,\ldots,x_{n-1}$ and then propagate the values, assigning to each gate $g$ the result of applying the operation of $g$ to the values of $g$'s in-neighbors. The output of the circuit is the value assigned to the output gates.](../figure/generalcircuit.png){#generalcircuitfig .full}
 
 ::: {.definition title="Boolean Circuits" #booleancircdef}
 Let $n,m,s$ be positive integers with $s \geq m$. A _Boolean circuit_ with $n$ inputs, $m$ outputs, and $s$ gates, is a labeled directed acyclic graph (DAG) $G=(V,E)$ with $s+n$ vertices satisfying the following properties:
