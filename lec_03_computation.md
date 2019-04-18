@@ -1029,6 +1029,11 @@ For example, if $f$ can be computed by a Boolean circuit of $s$ gates, then it c
 > ### {.proofidea data-ref="equivalencemodelsthm"}
 We omit the formal proof, which is obtained by combining [slcircuitequivthm](){.ref}, [NANDuniversamthm](){.ref}, and [NANDcircslequivthm](){.ref}. The key observation is that the results we have seen allow us to translate a program/circuit that computes $f$ in one of the above models into a program/circuit that computes $f$ in another model by increasing the lines/gates by at most a constant factor (in fact this constant factor is at most $3$).
 
+::: { .bigidea #equivalencemodels }
+We can describe a finite computation that uses some set of basic operations using either a _circuit_ or a _straightline program_, and these two representations are _equivalent_ to one another. Moreover, if we can implement one set of basic operations  using another and vice versa, then circuits/programs using one of these sets are equivalent in power to circuits/programs using the other.
+:::
+
+
 [slcircuitequivthm](){.ref} is a special case of a more general result.
 We can consider even more general models of computation, where instead of AND/OR/NOT or NAND, we use other operations (see [othergatessec](){.ref} below).
 It turns out that Boolean circuits are equivalent in power to such models as well.

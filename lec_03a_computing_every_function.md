@@ -22,49 +22,21 @@ chapternum: "4"
 
 
 
-The NAND-CIRC programing language is pretty much as "bare bones" as programming languages come.
-After all, it only has a single operation.
-But, it turns out we can implement some "added features" on top of it.
-That is, we can show how we can implement those features using the underlying mechanisms of the language.
+The computational models we considered thus far are as "bare bones" as they come.
+For example, our NAND-CIRC "programming language" has only the single operation `foo = NAND(bar,blah)`.
+However, in this chapter we will  show that these simple models are actually equivalent to more powerful ones.
+The key observation is that we can implement more complex features using our basic building blocks, and then use these new features themselves as building blocks for even more sophisticated features.
+This is known as "syntactic sugar" in the field of programming language design, since we are not modifying the underlying programming model itself but rather we merely implement new features by syntactically transforming a program that uses such features into one that doesn't.^[This concept is also known as "macros" or "meta-programming" and is sometimes implemented via a preprocessor or macro language in a programming language or a text editor. One modern example is the [Babel](https://babeljs.io/) JavaScript syntax transformer, that converts JavaScript programs written using the latest features into a format that older Browsers can accept. It even has a [plug-in](https://babeljs.io/docs/plugins/) architecture, that allows users to add their own syntactic sugar to the language.]
 
 
-For example, some calculations can more convenient to express using AND, OR and NOT than with NAND, but we can always translate code such as
+::: {.example title="Constants in NAND-CIRC" #constants}
+The NAND-CIRC programming language is so "bare bones" that it does not even
+allow for literal constants.
+That is, although the variables in NAND-CIRC are _Boolean_ and can store either the value $0$ or $1$, it does not explicitly allow for assigning a constant $0$ or $1$ into a variable.
+That is, we cannot write code such as `foo = 1` or `bar = 0` in NAND-CIRC.
+However, we can still achieve the same effect by using the observation that for every $a \in \{0,1\}$, the $AND$ of $a$ and $NOT(a)$ is always $0$, and hence the $NAND(a,NAND(a,a))=1$.
 
-```python
-foo = OR(bar,blah)
-```
-
-into the valid NAND-CIRC code:
-
-```python
-notbar  = NAND(bar,bar)
-notblah = NAND(blah,blah)
-foo    = NAND(notbar,notblah)
-```
-
-
-
-Thus in describing NAND-CIRC programs we can (and will) allow ourselves to use operations such as OR, with the understanding that in actual programs we will replace every line of the first form with the three lines of the second form.
-In programming language parlance this is known as _"syntactic sugar"_, since we are not changing the definition of the language, but merely introducing some convenient notational shortcuts.^[This concept is also known as "macros" or "meta-programming" and is sometimes implemented via a preprocessor or macro language in a programming language or a text editor. One modern example is the [Babel](https://babeljs.io/) JavaScript syntax transformer, that converts JavaScript programs written using the latest features into a format that older Browsers can accept. It even has a [plug-in](https://babeljs.io/docs/plugins/) architecture, that allows users to add their own syntactic sugar to the language.]
-We will use several such "syntactic sugar" constructs to make our descriptions of NAND-CIRC programs shorter and simpler.
-However, these descriptions are merely shorthand for the equivalent standard or "sugar free" NAND-CIRC program that is obtained after removing the use of all these constructs.
-In particular, when we say that a function $f$ has an $s$-line NAND-CIRC program, we mean a _standard_ NAND-CIRC program, that does not use any syntactic sugar.
-
-## Some examples syntactic sugar
-
-Here are some examples of "syntactic sugar" that we can use in constructing NAND-CIRC programs.
-This is not an exhaustive list - if you find yourself needing to use an extra feature in your NAND-CIRC program then you can just show how to implement it based on the existing ones.
-Going over examples for syntatic sugar can be a little tedious, but we do it for two reasons:
-
-1. To convince you that despite its seeming simplicity and limitations, the NAND-CIRC programming language is actually quite powerful and can capture many of the fancy programming constructs such as `if` statements and function definitions that exists in more fashionable languages.
-
-2. So you can realize how lucky you are to be taking a theory of computation course and not a compilers course... `:)`
-
-
-
-### Constants
-
-We can create variables `zero` and `one` that have the values  $0$ and $1$ respectively by adding the lines
+Therefore, we can always create variables `zero` and `one` that have the value $0$ and $1$ using the following code:
 
 ```python
 temp = NAND(X[0],X[0])
@@ -72,15 +44,44 @@ one  = NAND(temp,X[0])
 zero = NAND(one,one)
 ```
 
+This means that whenever we need to, we can assume we have access to such variables in NAND-CIRC.
+:::
 
-Note that since for every $x\in \{0,1\}$, $NAND(x,\overline{x})=1$, the variable `one` will get the value $1$ regardless of the value of $x_0$, and the variable `zero` will get the value $NAND(1,1)=0$.
+This chapter provides a "toolkit" that can be used to show that many functions can be computed by (not too long) NAND-CIRC programs, and hence also by Boolean circuit (with not too many gates).
+We will also use this toolkit to prove a fundamental theorem: _every_ finite function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a Boolean circuit, see [circuit-univ-thm](){.ref} below.
+While the syntactic sugar toolkit is important in its own right, the latter theorem can also be proven directly using Boolean circuits.
+We present this alternative proof in [seccomputalternative](){.ref}.
+See [computefuncoverviewfig](){.ref} for an outline of the results of this section.
+
+
+
+![An outline of the results of this chapter. In [secsyntacticsugar](){.ref} we give a toolkit of "syntactic sugar" transformations showing how to implement features such as programmer-defined functions and conditional statements in NAND-CIRC. We use these tools in [seclookupfunc](){.ref}  to give a NAND-CIRC program (or alternatively a Boolean circuit) to compute the  $LOOKUP$ function. We then build on this result to show in [seccomputeallfunctions](){.ref} that NAND-CIRC programs (or equivalently, Boolean circuits) can compute _every_ finite function. An alternative direct proof of the same result is given in [seccomputalternative](){.ref}.](../figure/compute_every_function_overview.png){#computefuncoverviewfig}
+
+
+::: {.remark title="Syntactic sugar for circuits" #syntacticsugarcirc}
+In this chapter we focus on the _straight-line programming language_ view of our computational models, and specifically  the NAND-CIRC programming language.
+This is because many of the syntactic sugar transformations we present are easiest to think about in terms of applying "search and replace" operations to the source code of a program.
+However,  by [equivalencemodelsthm](){.ref}, all of our results hold equally well for other models including the standard model Boolean circuits that use the AND, OR, NOT operations.
+:::
+
+
+
+## Some examples of syntactic sugar  { #secsyntacticsugar }
+
+We now present some examples of "syntactic sugar" that we can use in constructing NAND-CIRC programs.
+This is not an exhaustive list - if you find yourself needing to use an extra feature in your NAND-CIRC program then you can just show how to implement it based on the existing ones.
+Going over examples for syntactic sugar can be a little tedious, but we do it for two reasons:
+
+1. To convince you that despite its seeming simplicity and limitations, the NAND-CIRC programming language is actually quite powerful and can capture many of the fancy programming constructs such as `if` statements and function definitions that exists in more fashionable languages.
+
+2. So you can realize how lucky you are to be taking a theory of computation course and not a compilers course... `:)`
 
 
 ### Functions / Macros
 
-Another staple of almost any programming language is the ability to execute _functions_.
+One staple of almost any programming language is the ability to define and then execute _functions_.^[This was not always the case. The original version of the FORTRAN programming language, developed in the early 1950's, did not have support for user-defined functions. This was however quickly added in FORTRAN II, released in 1958.]
 However, we can achieve the same effect as (non recursive) functions using the time honored technique of  "copy and paste".
-That is, we can replace code which defines a macro
+That is, we can replace code which defines a macro such as
 
 ```python
 def Func(a,b):
@@ -105,7 +106,8 @@ We can always do so by renaming variables to new names that were not used before
 
 ### Example: Computing Majority via NAND's
 
-Function definitions allow us to express NAND-CIRC programs much more cleanly and succinctly. For example, because we can compute AND,OR, NOT using NANDs, we can compute the _Majority_ function as well.
+Function definitions allow us to express NAND-CIRC programs much more cleanly and succinctly.
+For example, because we can compute AND,OR, NOT using NANDs, we can compute the _Majority_ function as well.
 
 ```python
 def NOT(a): return NAND(a,a)
@@ -137,14 +139,22 @@ Y[0] = NAND(Temp[9],Temp[10])
 ```
 
 
+::: {.remark title="Counting lines" #countinglines}
+While we use syntactic sugar to _present_ NAND-CIRC programs in more readable ways, we did not change the definition of the language itself.
+Therefore, whenever we say that some function $f$ has an $s$-line NAND-CIRC program we mean a standard "sugar free" NAND-CIRC program, where all syntactic sugar has been expanded out.
+For example, the program above is a $12$-line program for computing the $MAJ$ function, even though it can be written in fewer lines using the function definition syntactic sugar.
+:::
+
+
+
 ### Conditional statements
 
-Another sorely missing feature in NAND is a conditional statement such as the `if`/`then` constructs that are found in many programming languages.
+Another sorely missing feature in NAND-CIRC is a conditional statement such as the `if`/`then` constructs that are found in many programming languages.
 However, using functions, we can obtain an ersatz if/then construct.
 First we can compute the function $IF:\{0,1\}^3 \rightarrow \{0,1\}$ such that $IF(a,b,c)$ equals $b$ if $a=1$ and $c$ if $a=0$.
 
 > ### { .pause }
-Before reading onwards, try to see how you could compute the $IF$ function using $NAND$'s.
+Before reading onward, try to see how you could compute the $IF$ function using $NAND$'s.
 Once you you do that, see how you can use that to emulate `if`/`then` types of constructs.
 
 The $IF$ function can be implemented from NANDs as follows (see [mux-ex](){.ref}):
@@ -250,7 +260,7 @@ We omit the proof, though in [multiplication-ex](){.ref} we ask you to supply a 
 In fact, we can use Karatsuba's algorithm to show that there is a NAND-CIRC program of $O(n^{\log_2 3})$ lines to compute $MULT_n$ (and one can even get further asymptotic improvements using the newer algorithms).
 
 
-## The LOOKUP function
+## The LOOKUP function { #seclookupfunc }
 
 We have seen that NAND-CIRC programs can add and multiply numbers.  But can they compute other type of functions, that have nothing to do with arithmetic?
 Here is one example:
@@ -264,15 +274,17 @@ LOOKUP_k(x,i)=x_i
 $$
 where $x_i$ denotes the $i^{th}$ entry of $x$, using the binary representation to identify $i$ with a number in $\{0,\ldots,2^k - 1 \}$.
 
-The function $LOOKUP_1: \{0,1\}^3 \rightarrow \{0,1\}$ maps $(x_0,x_1,i) \in \{0,1\}^3$ to $x_i$.
+![The $LOOKUP_k$ function takes an input in $\{0,1\}^{2^k+k}$, which we denote by $x,i$ (with $x\in \{0,1\}^{2^k}$ and $i \in \{0,1\}^k$). The output is $x_i$: the $i$-th coordinate of $x$, where we identify $i$ as a number in $[k]$ using the binary representation. In the above example $x\in \{0,1\}^{16}$ and $i\in \{0,1\}^4$. Since $i=0110$ is the binary representation of the number $6$, the output of $LOOKUP_4(x,i)$ in this case is $x_6 = 1$.](../figure/lookupfunc.png){#lookupfig}
+
+See [lookupfig](){.ref} for an illustration of the LOOKUP function.
+In particular the function $LOOKUP_1: \{0,1\}^3 \rightarrow \{0,1\}$ maps $(x_0,x_1,i) \in \{0,1\}^3$ to $x_i$.
 It is actually the same as the $IF$/$MUX$ function we have seen above, that has a 4 line NAND-CIRC program.
-However, can we compute higher levels of $LOOKUP$?
-This turns out to be the case:
+It turns out that for every $k$, we can compute $LOOKUP_k$ using a NAND-CIRC program:
 
 ># {.theorem title="Lookup function" #lookup-thm}
-For every $k$, there is a NAND-CIRC program that computes the function $LOOKUP_k: \{0,1\}^{2^k+k}\rightarrow \{0,1\}$. Moreover, the number of lines in this program is at most  $4\cdot 2^k$.
+For every $k>0$, there is a NAND-CIRC program that computes the function $LOOKUP_k: \{0,1\}^{2^k+k}\rightarrow \{0,1\}$. Moreover, the number of lines in this program is at most  $4\cdot 2^k$.
 
-As a corollary,  for every $k>0$, $LOOKUP_k$ can be computed by a Boolean circuit (with AND, OR and NOT gates) of at most $8 \cdot 2^k$.
+An immediate corollary of [lookup-thm](){.ref} is that for every $k>0$, $LOOKUP_k$ can be computed by a Boolean circuit (with AND, OR and NOT gates) of at most $8 \cdot 2^k$ gates.
 
 
 
@@ -370,7 +382,7 @@ which solves for $L(k) \leq 4(2^k-1)$.
 
 ![The number of lines in our implementation of the `LOOKUP_k` function as a function of $k$ (i.e., the length of the index). The number of lines in our implementation is roughly $3 \cdot 2^k$.](../figure/lookup_numlines.png){#lookuplinesfig .margin  }
 
-## Computing _every_ function
+## Computing _every_ function { #seccomputeallfunctions }
 
 At this point we know the following facts about NAND-CIRC programs:
 
@@ -382,9 +394,19 @@ Thus I would not blame the reader if they were not particularly looking forward 
 However, it turns out we are not going to need this, as we can show in one fell swoop that NAND-CIRC programs can compute _every_ finite function:
 
 > ### {.theorem title="Universality of NAND" #NAND-univ-thm}
-There exists some constant $c>0$ such that for every $n,m>0$ and function $f: \{0,1\}^n\rightarrow \{0,1\}^m$, there is a NAND circuit with at most $c \cdot m 2^n$ gates that computes the function $f$ .
+There exists some constant $c>0$ such that for every $n,m>0$ and function $f: \{0,1\}^n\rightarrow \{0,1\}^m$, there is a NAND-CIRC program  with at most $c \cdot m 2^n$ lines that computes the function $f$ .
 
-Note that up to constants, the models of NAND circuits, NAND-CIRC programs, AON-CIRC programs, and Boolean circuits, are all equivalent to one another, and hence [AND-univ-thm](){.ref} holds for all these models.
+By [equivalencemodelsthm](){.ref},  the models of NAND circuits, NAND-CIRC programs, AON-CIRC programs, and Boolean circuits, are all equivalent to one another, and hence [AND-univ-thm](){.ref} holds for all these models.
+In particular, the following theorem is equivalent to [AND-univ-thm](){.ref}:
+
+
+> ### {.theorem title="Universality of Boolean circuits" #circuit-univ-thm}
+There exists some constant $c>0$ such that for every $n,m>0$ and function $f: \{0,1\}^n\rightarrow \{0,1\}^m$, there is a Boolean circuit with at most $c \cdot m 2^n$ gates that computes the function $f$ .
+
+::: { .bigidea #finitecomputation }
+_Every_ finite function can be computed by a large enough Boolean circuit.
+:::
+
 
 
 ::: {.remark title="Improved bound" #improvedboundrem}
@@ -506,15 +528,74 @@ Since $n/2 \leq 2^k \leq n$, we can bound the total cost of computing $F(x)$ (in
 
 
 
+## Computing every function: An alternative proof {#seccomputalternative }
 
+[circuit-univ-thm](){.ref} is a fundamental result in the theory (and practice!) of computation.
+In this section we present an alternative proof of this basic fact that Boolean circuits can compute every finite function.
+This alternative proof gives somewhat worst quantitative bounds on the number of gates ($O(m n \cdot 2^n)$ as opposed to $O(m\cdot 2^n)$ for computing functions mapping $\{0,1\}^n$ to $\{0,1\}^m$) but it has the advantage of being simpler and avoiding the usage all of our syntactic sugar machinery.
+(However, that machinery is useful in its own right, and will find other applications later on.)
+
+
+> ### {.theorem title="Universality of Boolean circuits (alternative phrasing)" #circuit-univ-alt-thm}
+There exists some constant $c>0$ such that for every $n,m>0$ and function $f: \{0,1\}^n\rightarrow \{0,1\}^m$, there is a Boolean circuit with at most $c \cdot m\cdot n 2^n$ gates that computes the function $f$ .
+
+![Given a function $f:\{0,1\}^n \rightarrow \{0,1\}$, we let $\{ x_0, x_1, \ldots, x_{N-1} \} \subseteq \{0,1\}^n$ be the set of inputs such that $f(x_i)=1$, and note that $N \leq 2^n$. We can express $f$ as the OR of $\delta_{x_i}$ for $i\in [N]$ where the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$ (for $\alpha \in \{0,1\}^n$) is defined as follows:  $\delta_\alpha(x)=1$ iff $x=\alpha$. We can compute the OR of $N$ values using $N$ two-input OR gates. Therefore if we have a circuit of size $O(n)$ to compute $\delta_\alpha$ for every $\alpha \in \{0,1\}^n$, we can compute $f$ using a circuit of size $O(n \cdot N) = O(n \cdot 2^n)$. ](../figure/computeallfunctionalt.png){#computeallfuncaltfig}
+
+
+
+> ### {.proofidea data-ref="circuit-univ-alt-thm"}
+The idea of the proof is illustrated in [computeallfuncaltfig](){.ref}. As before, it is enough to focus on the case that $m=1$ (the function $f$ has a single output), since we can always extend this to the case of $m>1$ by looking at the composition of $m$ circuits each computing a different output bit of the function $f$. We start by showing that for every $\alpha \in \{0,1\}^n$, there is an $O(n)$ sized circuit that computes the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$ defined as follows: $\delta_\alpha(x)=1$ iff $x=\alpha$ (that is. $\delta_\alpha$ outputs $0$ on all inputs except the input $\alpha$). We can then write any function $f:\{0,1\}^n \rightarrow \{0,1\}$ as the OR of at most $2^n$ functions $\delta_\alpha$ for the $\alpha$'s on which $f(\alpha)=1$. 
+
+::: {.proof data-ref="circuit-univ-alt-thm"}
+As noted above, we prove the theorem for the case $m=1$. The result can be extended for $m>1$ as before (see also [mult-bit-ex](){.ref}).
+Let $f:\{0,1\}^n \rightarrow \{0,1\}$.
+We will prove that there is an $O(n\cdot 2^n)$-sized Boolean circuit to compute $f$ in the following steps:
+
+1. We start by showing that for every $\alpha\in \{0,1\}^n$, there is an $O(n)$ sized circuit that computes the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$, where $\delta_\alpha(x)=1$ iff $x=\alpha$.
+
+2. We then show that this implies the existence of an $O(n\cdot 2^n)$-sized circuit that computes $f$, by writing $f(x)$ as the OR of $\delta_\alpha(x)$ for all  $\alpha\in \{0,1\}^n$ such that $f(\alpha)=1$.
+
+We start in Step 1:
+
+__CLAIM:__ For $\alpha \in \{0,1\}^n$, define $\delta_\alpha:\{0,1\}^n$ as follows:
+$$
+\delta_\alpha(x) = \begin{cases}1 & x=\alpha \\ 0 & \text{otherwise} \end{cases} \;.
+$$
+then there is a Boolean circuit using at most $2n$ gates that computes $\delta_\alpha$.
+
+__PROOF OF CLAIM:__ The proof is illustrated in [deltafuncfig](){.ref}.
+As an example, consider the function $\delta_{011}:\{0,1\}^3 \rightarrow \{0,1\}$.
+This function outputs $1$ on $x$ if and only if $x_0=0$, $x_1=1$ and $x_2=1$, and so we can write $\delta_{011}(x) = \overline{x_0} \wedge x_1 \wedge x_2$, which translates into a Boolean circuit with one NOT gate and two AND gates.
+More generally, for every $\alpha \in \{0,1\}^n$, we can express $\delta_{\alpha}(x)$  as $(x_0 = \alpha_0) \wedge (x_1 = \alpha_1) \wedge \cdots \wedge (x_{n-1} = \alpha_{n-1})$, where if $\alpha_i=0$ we replace $x_i = \alpha_i$ with $\overline{x_i}$ and if $\alpha_i=1$ we replace $x_i=\alpha_i$ by simply $x_i$. 
+This yields a circuit that computes $\delta_\alpha$ using $n$ AND gates and at most $n$ NOT gates and so a total of at most $2n$ gates.
+
+Now for every function $f:\{0,1\}^n \rightarrow \{0,1\}$, we can write 
+
+$$
+f(x) = \delta_{x_0}(x) \vee \delta_{x_1}(x) \vee \cdots \vee \delta_{x_{N-1}}(x) \label{eqorofdeltafunc}
+$$
+
+where $S=\{ x_0 ,\ldots, x_{N-1}\}$ is the set of inputs on which $f$ outputs $1$.
+(Indeed one can verify that the right-hand side of [eqorofdeltafunc](){.eqref} evaluates to $1$ on $x\in \{0,1\}^n$ if and only if $x$ is in the set $S$.)
+
+Therefore we can compute $f$ using a Boolean circuit of at most $2n$ gates for each of the $N$ functions $\delta_{x_i}$ and combine that with at most $N$ OR gates, thus obtaining a circuit of at most $2n\cdot N + N$ gates.
+Since $S \subseteq \{0,1\}^n$, its size $N$ is at most $2^n$ and hence the total number of gates in this circuit is $O(n\cdot 2^n)$.
+:::
+
+
+
+![For every string $\alpha\in \{0,1\}^n$, there is a Boolean circuit of $O(n)$ gates to compute the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$ such that $\delta_\alpha(x)=1$ if and only if $x=\alpha$. The circuit is very simple. Given input $x_0,\ldots,x_{n-1}$ we compute the  AND of $z_0,\ldots,z_{n-1}$ where $z_i=x_i$ if $\alpha_i=1$ and $z_i = NOT(x_i)$ if $\alpha_i=0$. While formally Boolean circuits only have a gate for computing the AND of two inputs, we can implement an AND of $n$ inputs by composing $n$ two-input ANDs.](../figure/deltafunc.png){#deltafuncfig}
 
 
 ## The class $SIZE_{n,m}(T)$
 
 
-We now make a fundamental definition, we let $SIZE_{n,m}(s)$ denote the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$ that can be computed by NAND circuits of at most $s$ gates (or equivalently, by NAND-CIRC programs of at most $s$ lines):
+We have seen that _every_ function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a circuit of size $O(m\cdot 2^n)$, and _some_ functions (such as addition and multiplication) can be computed by much smaller circuits.
+This motivates the following definition which we will find very useful later on in this book.
+We define $SIZE_{n,m}(s)$ to be the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$ that can be computed by NAND circuits of at most $s$ gates (or equivalently, by NAND-CIRC programs of at most $s$ lines).
+In other words, $SIZE_{n,m}(s)$ is defined as follows:
 
-> ### {.definition title="Size class" #sizedef}
+> ### {.definition title="Size class of functions" #sizedef}
 Let $n,m,s \in \N$ be numbers with $s \geq m$.
 The set $SIZE_{n,m}(s)$ denotes the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ such that there exists a NAND circuit of at most $s$ gates that computes $f$.
 We denote by $SIZE_n(s)$ the set $SIZE_{n,1}(s)$.
