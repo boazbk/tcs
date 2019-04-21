@@ -104,39 +104,104 @@ and where `function_code'` is obtained by replacing all occurrences of `a` with 
 When doing that we will need to ensure that all other variables appearing in `function_code'` don't interfere with other variables.
 We can always do so by renaming variables to new names that were not used before.
 
-### Example: Computing Majority via NAND's
 
-Function definitions allow us to express NAND-CIRC programs much more cleanly and succinctly.
-For example, because we can compute AND,OR, NOT using NANDs, we can compute the _Majority_ function as well.
+::: {.example title="Computing Majority from NAND using syntactic sugar" #majcircnand}
+Functions allow us to express NAND-CIRC programs much more cleanly and succinctly.
+For example, because we can compute AND,OR, and NOT using NANDs, we can compute the _Majority_ function as follows:
 
 ```python
-def NOT(a): return NAND(a,a)
-def AND(a,b): return NOT(NAND(a,b))
-def OR(a,b): return NAND(NOT(a),NOT(b))
+def NOT(a): 
+    return NAND(a,a)
+def AND(a,b):
+    temp = NAND(a,b) 
+    return NOT(tmp)
+def OR(a,b):
+    temp1 = NOT(a)
+    temp2 = NOT(b) 
+    return NAND(temp1,temp2)
 
 def MAJ(a,b,c):
-    return OR(OR(AND(a,b),AND(b,c)),AND(a,c))
+    and1 = AND(a,b)
+    and2 = AND(a,c)
+    and3 = AND(b,c)
+    or1 = OR(temp1,temp2)
+    return OR(or1,and3)
 
 print(MAJ(0,1,1))
 # 1
 ```
 
-This is certainly much more pleasant than the full NAND alternative:
+:::
+
+
+
+![A standard (i.e., "sugar free") NAND-CIRC program that is obtained by expanding out the function definitions in the program for Majority of [examplemajfromnand](){.ref}. The corresponding circuit is on the right. Note that this is not the most efficient NAND circuit/program for majority: we can save on some gates by "short cutting" steps where a gate $u$ computes $NAND(v,v)$ and then a gate $w$ computes $NAND(u,u)$ (as indicated by the dashed green arrows in the above figure).](../figure/progcircmaj.png){#progcircmajfig}
+
+
+### Proof by Python (optional)
+
+We can write a program that takes a NAND-CIRC program $P$ that includes function definitions and using simple "search and replace" transform $P$ into a standard (i.e., "sugar free") NAND-CIRC program $P'$ that computes the same function as $P$.
+The idea is simple: if the program $P$ contains a definition of a function `Func` of two arguments `x` and `y`, then whenever we see a line of the form `foo = Func(bar,blah)` then we replace this line by the body of the function `Func` (replacing all occurrences of `x` and `y` with `bar` and `blah` respectively).
+If the last line of `Func` was `return exp` where `exp` is some expression, then we replace  ending  with the line `foo = exp`  (where `exp` is some expression) then we replace it with `foo = exp`.^[To make this more robust we should also add some prefix to the internal variables used by `Func` to ensure they don't have any conflict with the variables of $P$. For simplicity we ignore this issue in the code below though it can be easily added.]
+
+The following Python code achieves such a  transformation:^[This code uses _regular expressions_ to make the search and replace parts a little easier. We will see the theoretical basis for regular expressions in [restrictedchap](){.ref}.]
 
 ```python
-Temp[0] = NAND(X[0],X[1])
-Temp[1] = NAND(Temp[0],Temp[0])
-Temp[2] = NAND(X[1],X[2])
-Temp[3] = NAND(Temp[2],Temp[2])
-Temp[4] = NAND(Temp[1],Temp[1])
-Temp[5] = NAND(Temp[3],Temp[3])
-Temp[6] = NAND(Temp[4],Temp[5])
-Temp[7] = NAND(X[0],X[2])
-Temp[8] = NAND(Temp[7],Temp[7])
-Temp[9] = NAND(Temp[6],Temp[6])
-Temp[10] = NAND(Temp[8],Temp[8])
-Y[0] = NAND(Temp[9],Temp[10])
+import re
+def desugar(code,func_name, func_args,func_body):
+    """Use `search and replace' to replace calls to a function with its code.
+    Uses Python regular expressions to simplify the search and replace,
+    see https://docs.python.org/3/library/re.html
+    
+    If we have a function FUNC with arguments x and y and 
+    where its last line has the form  `return expression'
+    then we will replace every line in our code of the form
+       foo = FUNC(a,b)
+    with 
+       func_body[x->a,y->b]
+       foo = expression
+    """
+    # regular expression for capturing a list of variable names separated by commas
+    arglist = ",".join([r"([a-zA-Z0-9\_\[\]]+)" for i in range(len(func_args))])
+    # regular expression for capturing a statement of the form
+    # "variable = func_name(arguments)"
+    regexp = fr'([a-zA-Z0-9\_\[\]]+)\s*=\s*{func_name}\({arglist}\)\s*$'
+    m = re.search(regexp,code, re.MULTILINE)
+    if not m: return code # if no match then there's nothing to do
+    newcode = func_body 
+    
+    # replace function arguments by the variables from the function invocation
+    for i in range(len(func_args)): 
+        newcode = newcode.replace(func_args[i],m.group(i+2))
+        
+    # Splice the new code inside
+    newcode = newcode.replace('return',m.group(1)+" = ")
+    newcode = code[:m.start()] + newcode + code[m.end()+1:]
+    # Continue recursively to check if there are more matches
+    return desugar(newcode,func_name,func_args,func_body)
 ```
+
+[progcircmajfig](){.ref} shows the result of applying this code to the program of [examplemajfromnand](){.ref} that uses syntactic sugar to compute the Majority function. (Specifically, we first apply `desugar` to remove usage of the OR function, then apply it to remove usage of the AND function, and finally apply it a third time to remove usage of the NOT function.)
+
+
+::: {.remark title="Parsing function definitions." #parsingdeg}
+In the code above, we assumed that we are given the function already split up into its name, arguments, and body.
+It is not crucial for our purposes to describe precisely to scan a definition and splitting it up to these components, but in case you are curious, it can be achieved in Python via the following code:
+
+```python
+def parse_func(code):
+    """Parse a function definition into name, arguments and body"""
+    lines = [l.strip() for l in code.split('\n')]
+    regexp = r'def\s+([a-zA-Z\_0-9]+)\(([\sa-zA-Z0-9\_,]+)\)\s*:\s*'
+    m = re.match(regexp,lines[0])
+    return m.group(1), m.group(2).split(','), '\n'.join(lines[1:])
+```
+:::
+
+
+
+
+
 
 
 ::: {.remark title="Counting lines" #countinglines}
