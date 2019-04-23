@@ -225,6 +225,28 @@ $$
 where $n=|y|-2$.
 Formally, the above can be shown to give a one to one function $ZtS:\Z \rightarrow \{0,1\}^*$ that maps the integers into strings.
 
+::: {.remark title="Two's complement representation (optional)" #twoscomplement}
+The above approach of representing an integer using a specific "sign bit" is known as the _Signed Magnitude Representation_ and was used in some early computers.
+However,  the [two's complement representation](https://en.wikipedia.org/wiki/Two%27s%5Fcomplement) is much more common.
+The _two's complement representation_ of an integer $k$ in the set $\{ -2^n , -2^n+1, \ldots, 2^n-1 \}$ is the string $r(k)$ of length $n+1$ defined as follows:
+$$
+r(k) = \begin{cases} b(k) & 0 \leq k \leq 2^n-1 \\
+                     b(2^{n+1}+k) & -2^n \leq k \leq -1 \end{cases} \;,
+$$
+where $b(m)$ demotes the standard binary representation of a number  $m \in \{0,\ldots, 2^{n+1}\}$ as string of length $n+1$. (We pad this representation with $0$'s to length $n+1$ if needed.) 
+For example, if $n=3$ then $r(1)=b(1)=0001$, $r(2)=b(2)=0010$, $r(-1)=b(16-1)=1111$, and $r(-8)=b(16-8)=1000$.
+If $k$ is a  negative number larger or equal to $-2^n$ then  $2^{n+1}+k$ is a number between $2^n$ and $2^{n+1}-1$.
+Hence the two's complement representation of such a number $k$ will be a string of length $n+1$  with its first digit equal to $1$.
+
+
+Another way to say this is that  we represent a potentially negative number $k \in \{ -2^n,\ ldots, 2^n-1 \}$ as the non-negative number $k \mod 2^{n+1}$ (see also [twoscomplementfig](){.ref}).^[If $k$ is a (potentially negative) integer, and $m$ is a non-negative number, then $k \mod m$  is the unique number $r \in \{0,\ldots, m-1 \}$ such that $k = \ell m +r$ for some $\ell \in \Z$.]
+This means that if two (potentially negative) numbers $k$ and $k'$ are not too large (i.e., $|k|+|k'|<2^{n+1}$), then we can compute the representation of $k+k'$ by adding modulo $2^{n+1}$ the representations of $k$ and $k'$ as if they were non-negative integers.
+This property of the two's complement representation is its main attraction since, depending on their architectures, microprocessors can often perform arithmetic operations modulo $2^w$ very efficiently (for certain values of $w$ such as $32$ and $64$).
+Many systems leave it to the programmer to check that values are not too large and will carry out this modular arithmetic regardless of the size of the numbers involved.
+For this reason, in some systems adding two large positive numbers can result in a _negative_ number (e.g., adding $2^n-100$ and $2^n-200$ might result in $-300$ since $-300 \mod 2^{n+1}= 2^{n+1}-300$, see also [twoscomplementfig](){.ref}).
+::: 
+
+![In the _two's complement representation_  we represent a potentially negative integer $k \in \{ -2^n ,\ldots, 2^n-1 \}$ as an $n+1$ length string using the binary representation of the integer $k \mod 2^{n+1}$. On the lefthand side: this representation for $n=3$ (the red integers are the numbers being represented by the blue binary strings). If a microprocessor does not check for overflows, adding the two positive numbers $6$ and $5$ might result in the negative number $-5$ (since $-5 \mod 16 = 11$. The righthand side is a `C` program that will on some $32$ bit architecture print a negative number after adding two positive numbers. (Integer overflow in `C` is condsidered _undefined behavior_ which means the result of this program, including whether it runs or crashes, could differ depending on the architecture, compiler, and even compiler options and version.)](../figure/twoscomplement.png){#twoscomplementfig}
 
 The decoding function of a representation scheme is always _onto_ since every object must be represented by some string.
 However, the decoding function is not always _one to one_.
@@ -295,20 +317,22 @@ Every real number can be approximated by a rational number, and thus we can repr
 For example, we can represent $\pi$ by $22/7$ within an error of about $10^{-3}$.  If we want a smaller error (e.g., about $10^{-4}$) then we can use $311/99$, and so on and so forth.
 
 
+![The _floating point representation_ of a real number $x\in \R$ is its approximation as a number of the form $\sigma b \cdot 2^e$ where $\sigma \in \{\pm 1 \}$, $e$ is an (potentially negative) integer, and $b$ is a rational number between $1$ and $2$ expressed as a binary fraction $1.b_0b_1b_2\ldots b_{k}$ for some $b_1,\ldots,b_k \in \{0,1\}$ (that is $b = 1 + b_1/2 + b_2/4 + \ldots + b_k/2^k$). Floating point representations in actual systems fix the numbers  $\ell$ and $k$  of bits to represent $e$ and $b$ respectively. In the example above, assuming we use two's complement representation for $e$, the number represented is $-1 \times 2^{5} \times ( 1 + 1/2 + 1/4 + 1/64 + 1/512) = -56.5625$.](../figure/floatingpoint.png){#floatingpointfig}
+
+
+
 The above representation of real numbers via rational numbers that approximate them is a fine choice for a representation scheme.
 However, typically in computing applications, it is more common to use the _floating point representation scheme_   to represent real numbers.
-In the floating point representation scheme we represent $x$ by the pair $(a,b)$ of (positive or negative) integers of some prescribed sizes (determined by the desired accuracy) such that $a \times 2^{b}$ is closest to $x$.^[The floating point representation is the base-two version of  [scientific notation](https://goo.gl/MUJnVE). In scientific notation we represent a number $y$ as $a \times 10^b$ for  $a,b$.
-Often this is written as  $y=a \text{\texttt{E}} b$. For example, in many programming languages `1.21E2` is the same as `121.0`.]
+In the floating point representation scheme we represent $x$ by the pair $(b,e)$ of (positive or negative) integers of some prescribed sizes (determined by the desired accuracy) such that $b \times 2^{e}$ is closest to $x$ (see [floatingpointfig](){.ref} for more details).^[The floating point representation is the base-two version of  [scientific notation](https://goo.gl/MUJnVE). In scientific notation we represent a number $y$ as $b \times 10^e$ for  $b,e$. Often this is written as  $y=b \text{\texttt{E}} e$. For example, in many programming languages `1.21E1` is the same as `12.1`.]
+This representation is called "floating point" because we can think of the number $b$ as specifying a sequence of binary digits, and $e$ as describing the location of the "binary point" within this sequence.
+The use of floating representation is the reason why in many programming systems, printing the expression `0.1+0.2` will result in `0.30000000000000004` and not `0.3`, see [here](http://floating-point-gui.de/), [here](https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html) and [here](https://randomascii.wordpress.com/2012/04/05/floating-point-complexities/) for more.
 
-
-The reader might be (rightly) worried about this issue of approximation. In many (though not all) computational applications, one can make the accuracy tight enough so that this does not affect the final result, though sometimes we do need to be careful.
-This representation is called "floating point" because we can think of the number $a$ as specifying a sequence of binary digits, and $b$ as describing the location of the "binary point" within this sequence.
-The use of floating representation is the reason why in many programming systems printing the expression `0.1+0.2` will result in `0.30000000000000004` and not `0.3`, see [here](http://floating-point-gui.de/), [here](https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html) and [here](https://randomascii.wordpress.com/2012/04/05/floating-point-complexities/) for more (see also [xkcdfloatingfig](){.ref}).
 
 ![XKCD cartoon on floating-point arithmetic.](../figure/e_to_the_pi_minus_pi.png){#xkcdfloatingfig .margin  }
 
-
-Floating-point bugs can sometimes be no joking matter.
+The reader might be (rightly) worried about the fact that the floating point representation (or the rational number one) can only _approximately_ represent real numbers.
+In many (though not all) computational applications, one can make the accuracy tight enough so that this does not affect the final result, though sometimes we do need to be careful.
+Indeed, floating-point bugs can sometimes be no joking matter.
 A floating point error has been implicated in the [explosion](http://sunnyday.mit.edu/accidents/Ariane5accidentreport.html) of the Ariane 5 rocket, a bug that cost more than 370 million dollars, and the [failure](http://embeddedgurus.com/barr-code/2014/03/lethal-software-defects-patriot-missile-failure/) of a U.S. Patriot missile to intercept an Iraqi Scud missile, costing 28 lives.
 Floating point is [often problematic](http://www.theregister.co.uk/2006/08/12/floating_point_approximation/) in financial applications as well.
 
@@ -1233,6 +1257,7 @@ Recall that for every set $S$, the set $S^*$ is defined as the set of all finite
 
 The study of representing data as strings mostly follows under the purview of _information theory_, as covered in the classic textbook of Cover and Thomas [@CoverThomas06].
 Representations are also studied in the field of _data structures design_, as covered in texts such as  [@CLRS].
+The two's complement representation of signed integers was suggested in von Neumman's classic report [@vonNeumann45] that detailed the design approaches for a stored-program computer, though similar representations have been used even earlier in abacus and other mechanical computation devices.
 
 
 

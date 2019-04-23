@@ -27,41 +27,49 @@ We will discuss the Church-Turing Thesis and the potential definitions of "reaso
 One of the limitations of NAND-TM (and Turing machines) is that we can only access one location of our arrays/tape at a time.
 If  `i`$=22$ and we want to access `Foo[`$957$`]` then it will take us at least 923 steps to get there.
 In contrast, almost every programming language has a formalism for directly accessing memory locations.
-Hardware implementations also provide so called _Random Access Memory (RAM)_ which can be thought of as a large array `Memory`, such that given an index $p$ (i.e., memory address, or a _pointer_), we can read from and write to the $p^{th}$ location of `Memory`.^["Random access memory" is quite a misnomer, since it has nothing to do with probability.  _Indexed access_ would have been more appropriate. However, the term "random access" is standard in both the theoretical and practical literature, and hence we will use it as well.]
+Actual physical computers also provide so called _Random Access Memory (RAM)_ which can be thought of as a large array `Memory`, such that given an index $p$ (i.e., memory address, or a _pointer_), we can read from and write to the $p^{th}$ location of `Memory`.^["Random access memory" is quite a misnomer, since it has nothing to do with probability.  _Indexed access_ would have been more appropriate.  However, the term "random access" is standard in both the theoretical and practical literature, and hence we will use it as well.]
 
 ![A _RAM Machine_ contains a finite number of local registers, each of which holds an integer, and an unbounded memory array. It can perform arithmetic operations on its register as well as load to a register $r$ the contents of the memory at the address indexed by the number in register $r'$.](../figure/rammachine.png){#rammachinefig   }
 
 
-The computational model that allows access to such a memory is known as a _RAM machine_ (sometimes also known as the _Word RAM model_), as depicted in [rammachinefig](){.ref}.
-In this model the memory is an array of unbounded size where each cell can store a single _word_, which we think of as a string in $\{0,1\}^w$ and also as a number in $[2^w]$.
+The computational model that models access to such a memory is the _RAM machine_ (sometimes also known as the _Word RAM model_), as depicted in [rammachinefig](){.ref}.
+The memory of a RAM machine is an array of unbounded size where each cell can store a single _word_, which we think of as a string in $\{0,1\}^w$ and also (equivalently) as a number in $[2^w]$.
 For example, many modern computing architectures use  $64$ bit words, in which every memory location holds a string in $\{0,1\}^{64}$ which can also be thought of as a number between $0$ and $2^{64}-1= 9,223,372,036,854,775,807$.
 The parameter $w$ is known as the _word size_ and (when doing theory) is chosen as some function of the input length $n$.
 A typical choice is that $w = c\log n$ for some constant $c$.
 In addition to the memory array, a RAM machine also contains a constant number of _registers_ $r_0,\ldots,r_{k-1}$, each of which can also contain a single word.
-The operations in this model include loops, arithmetic on registers, and most importantly the ability to read and write to memory at the location specified by one of the register.
-Hence RAM machines can directly access each location of memory without having to move the "head" to that position as one needs to do in Turing machines.
+
+The operations a RAM machine can carry out include:
+
+* __Data movement:__ Load data from a certain cell in memory into a register or store the contents of a register into a certain cell of memory. RAM machine can directly access any cell of memory without having to move the "head" (as Turing machines do) to that location. That is, in one step a RAM machine can load into register $r_i$ the contents of the memory cell indexed by register $r_j$, or store into the memory cell indexed by register $r_j$ the contents of register $r_i$. 
+
+* __Computation:__ RAM machines can carry out computation on registers such as arithmetic operations, logical operations, and comparisons.
+
+* __Control flow:__ As in the case of Turing machines, the choice of what instruction to perform next can depend on the state of the RAM machine, which is captured by the contents of its register.
 
 
 We will not give a formal definition of RAM Machines, though the bibliographical notes section ([othermodelsbibnotes](){.ref}) contains sources for such definitions.
-Rather, we will use an extension of the NAND-TM programming language to capture RAM algorithms.
-Specifically, we define the _NAND-RAM programming language_ to be the following extension of NAND-TM:
+Just as the NAND-TM programming language models Turing machines, we can also define a  _NAND-RAM programming language_ that models Turing machines.
+The NAND-RAM programming language extends NAND-TM by adding the following features:
 
-* The variables are allowed to be (non negative) _integer valued_ rather than only Boolean. That is, a scalar variable `foo` holds an non negative integer in $\N$ (rather than only a bit in $\{0,1\}$), and an array variable `Bar` holds an array of integers. As in the case of RAM machines, we will not allow integers of unbounded size. Concretely, each variable holds a number between $0$ and $T$, where $T$ is the number of steps that have been executed by the program so far.^[You can ignore this restriction for now:  if we want to hold larger numbers, we can simply execute dummy instructions. This restriction will be useful in later chapters, where we will be interested in a more realistic accounting of running time. Also, while RAM machines have a single memory array, we allow several arrays in NAND-RAM. This does not make any difference. For example, one can simulate five arrays `Array0[]`, $\ldots$, `Array4[]` using a single array `Array[]` by replacing calls to `Array`$i$[`$j$`] with `Array[`$5j+i$`]`. ]
+
+* The variables of NAND-RAM are allowed to be (non negative) _integer valued_ rather than only Boolean as is the case in NAND-TM. That is, a scalar variable `foo` holds an non negative integer in $\N$ (rather than only a bit in $\{0,1\}$), and an array variable `Bar` holds an array of integers. As in the case of RAM machines, we will not allow integers of unbounded size. Concretely, each variable holds a number between $0$ and $T$, where $T$ is the number of steps that have been executed by the program so far.^[You can ignore this restriction for now:  if we want to hold larger numbers, we can simply execute dummy instructions. This restriction will be useful in later chapters, where we will be interested in a more realistic accounting of running time. Also, while RAM machines have a single memory array, we allow several arrays in NAND-RAM. This does not make any difference. For example, one can simulate five arrays `Array0[]`, $\ldots$, `Array4[]` using a single array `Array[]` by replacing calls to `Array`$i$[`$j$`] with `Array[`$5j+i$`]`. ]
 
 * We allow _indexed access_ to arrays. If `foo` is a scalar and `Bar` is an array, then `Bar[foo]` refers to the location of `Bar` indexed by the value of `foo`. (Note that this means we don't need to have a special index variable `i` any more.)
 
 * As is often the case in programming languages, we will assume that for Boolean operations such as `NAND`, a zero valued integer is considered as _false_, and a nonzero valued integer is considered as _true_.
 
-To make NAND-RAM more realistic and similar to modern computer architecture, we make NAND-RAM "batteries included" and so the following features are built-in into NAND-TM (as opposed to using "syntactic sugar"):^[The difference between having "built in" vs "syntactic sugar" features is immaterial at this point in the book, but we do so with an eye toward the later parts of this book,  when we start counting the number of operations of our algorithms. Even then, the effect of including these features vs implementing them via syntactic sugar will not be very dramatic.]
-
 * In addition to `NAND`, NAND-RAM also includes all the basic arithmetic operations of addition, subtraction, multiplication, (integer) division, as well as comparisons (equal, greater than, less than, etc..)
 
-* We will also include as part of the language basic control flow structures such as `if` and `while`.
+* We will also include as part of the language basic control flow structures such as `if` and `goto`.
 
-The full description of the NAND-RAM programing language is in the appendix.
-However, the most important fact you need to know about NAND-RAM is the following:
 
-> ### {.theorem title="NAND-TM (TM's) and NAND-RAM (RAM) are equivalent" #RAMTMequivalencethm}
+
+
+A full description of the NAND-RAM programming language is in the appendix.
+However, the most important fact you need to know about NAND-RAM is that you actually don't need to know much about NAND-RAM at all, since it is equivalent in power to Turing machines: 
+
+> ### {.theorem title="Turing Machines (aka NAND-TM programs) and RAM machines (aka NAND-RAM programs) are equivalent" #RAMTMequivalencethm}
 For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND-TM program if and only if $F$ is computable by a NAND-RAM program.
 
 
@@ -82,6 +90,21 @@ Namely, we will show how we can implement in NAND-TM the operation `Setindex(Bar
 
 Once we have arrays of integers, we can use our usual syntactic sugar for functions, `GOTO` etc. to implement the arithmetic and control flow operations of NAND-RAM.
 :::
+
+
+::: {.remark title="RAM machines / NAND-RAM and assembly language (optional)" #NANDRAMassembly}
+RAM machines correspond quite closely to actual microprocessors such as those in the Intel x86 series that also contains a large _primary memory_ and a constant number of small registers.
+This is of course no accident: RAM machines aim at modeling more closely than Turing machines the architecture of actual computing systems, which largely follows the so called [von Neumann architecture](https://en.wikipedia.org/wiki/Von_Neumann_architecture) as described in the report [@vonNeumann45].
+As a result, NAND-RAM is similar in its general outline to assembly languages such as x86 or NIPS.
+These assembly languages all have instructions to __(1)__  move data from registers to memory, __(2)__ perform arithmetic or logical computations on registers, and __(3)__ conditional execution and loops ("if" and "goto", commonly known as "branches" and "jumps" in the context of assembly languages).
+
+The main difference between RAM machines and actual microprocessors (and correspondingly between NAND-RAM and assembly languages) is that actual microprocessors have a fixed word size $w$ so that all registers and memory cells hold numbers in $[2^w]$ (or equivalently strings in $\{0,1\}^w$).
+This number $w$ can vary among different processors, but common values are either $32$ or $64$.
+As a theoretical model, RAM machines do not have this limitation, but we rather let $w$ be the logarithm of our running time (which roughly corresponds to its value in practice as well).^[Interestingly, the fact that actual microprocessors also have a fixed number of registers  (e.g., 14 general purpose registers in x86-64) does not make a big difference with RAM machines. It can be shown that RAM machines with as few as two registers are as powerful as full-fledged RAM machines that have an arbitrarily large constant number of register.]
+Of course actual microprocessors have many features not shared with RAM machines as well, including parallelism, memory hierarchies, and many others.
+However, RAM machines do capture actual computers to a first approximation and so (as we will see), the running time of an algorithm on a RAM machine (e.g., $O(n)$ vs $O(n^2)$) is strongly correlated with its practical efficiency.
+:::
+
 
 ## The gory details (optional)
 

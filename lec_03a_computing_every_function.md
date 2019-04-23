@@ -79,7 +79,7 @@ Going over examples for syntactic sugar can be a little tedious, but we do it fo
 
 ### Functions / Macros
 
-One staple of almost any programming language is the ability to define and then execute _functions_.^[This was not always the case. The original version of the FORTRAN programming language, developed in the early 1950's, did not have support for user-defined functions. This was however quickly added in FORTRAN II, released in 1958.]
+One staple of almost any programming language is the ability to define and then execute _functions_.^[This was not always the case. For example, original version of the FORTRAN programming language, developed in the early 1950's, did not have support for user-defined functions. This was however quickly added in FORTRAN II, released in 1958.]
 However, we can achieve the same effect as (non recursive) functions using the time honored technique of  "copy and paste".
 That is, we can replace code which defines a macro such as
 
@@ -114,7 +114,7 @@ def NOT(a):
     return NAND(a,a)
 def AND(a,b):
     temp = NAND(a,b) 
-    return NOT(tmp)
+    return NOT(temp)
 def OR(a,b):
     temp1 = NOT(a)
     temp2 = NOT(b) 
@@ -124,7 +124,7 @@ def MAJ(a,b,c):
     and1 = AND(a,b)
     and2 = AND(a,c)
     and3 = AND(b,c)
-    or1 = OR(temp1,temp2)
+    or1 = OR(and1,and2)
     return OR(or1,and3)
 
 print(MAJ(0,1,1))

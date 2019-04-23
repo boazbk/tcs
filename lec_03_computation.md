@@ -691,14 +691,18 @@ For every vector $w= (w_0,\ldots,w_{k-1})$ of integers and integer $t$ (some or 
 the _threshold function corresponding to $w,t$_ is the function
 $T_{w,t}:\{0,1\}^k \rightarrow \{0,1\}$ that maps $x\in \{0,1\}^k$ to $1$ if and only if $\sum_{i=0}^{k-1} w_i x_i \geq t$.
 For example, the threshold function $T_{w,t}$ corresponding to $w=(1,1,1,1,1)$ and $t=3$ is simply the majority function $MAJ_5$ on $\{0,1\}^5$.
-As another example, the negation of AND (known as $NAND$) corresponds to the threshold function corresponding to $w=(-1,-1)$ and $t=-1$, since $NAND(x_0,x_1)=1$ if and only if $x_0 + x_1 \leq 1$ or equivalently, $-x_0 - x_1 \geq -1$.^[Threshold is just one example of gates that can used by neural networks.
-More generally, a neural network is often described as operating on signals that are real numbers, rather than $0/1$ values, and where the output of a gate on inputs $x_0,\ldots,x_{k-1}$ is obtained by applying $f(\sum_i w_i x_i)$ where $f:\R \rightarrow \R$ is an an [activation function](https://goo.gl/p9izfA) such as rectified linear unit (ReLU), Sigmoid, or many others. However, for the purpose of our discussion, all of the above are equivalent. In particular we can reduce the real case to the binary case by a real number in the binary basis, and multiplying the weight of the bit corresponding to the $i^{th}$ digit by $2^i$.]
+As another example, the negation of AND (known as $NAND$) corresponds to the threshold function corresponding to $w=(-1,-1)$ and $t=-1$, since $NAND(x_0,x_1)=1$ if and only if $x_0 + x_1 \leq 1$ or equivalently, $-x_0 - x_1 \geq -1$.
+Threshold is just one example of gates that can used by neural networks.
+More generally, a neural network is often described as operating on signals that are real numbers, rather than $0/1$ values, and where the output of a gate on inputs $x_0,\ldots,x_{k-1}$ is obtained by applying $f(\sum_i w_i x_i)$ where $f:\R \rightarrow \R$ is an an [activation function](https://goo.gl/p9izfA) such as rectified linear unit (ReLU), Sigmoid, or many others (see [activationfunctionsfig](){.ref}).
+However, for the purposes of our discussion, all of the above are equivalent (see also [NANDsfromActivationfunctionex](){.ref}).
+In particular we can reduce the setting of real inputs to binary inputs by representing a real number in the binary basis, and multiplying the weight of the bit corresponding to the $i^{th}$ digit by $2^i$.
 
+![Common activation functions used in Neural Networks, including rectified linear units (ReLU), sigmoids, and hyperbolic tangent. All of those can be thought of as continuous approximations to simple the step function. All of these can be used to compute the NAND gates (see [NANDsfromActivationfunctionex](){.ref}). This property is often known as the _universality_ of deep neural networks.](../figure/activationfuncs.png){#activationfunctionsfig}
 
 
 Threshold gates can be thought of as an approximation for    _neuron cells_ that make up the core of human and animal brains. To a first approximation, a neuron has $k$ inputs and a single output and the neurons  "fires" or "turns on" its output when those signals pass some threshold.
 
-### The marble computer
+### A computer made from marbles and pipes
 
 We can implement computation using many other physical media, without need for any electronic, biological, or chemical components. Many suggestions for _mechanical_ computers have been put forward, starting with Charles Babbage's 1837 plan for a mechanical ["Analytical Engine"](https://en.wikipedia.org/wiki/Analytical_Engine).
 
@@ -897,7 +901,7 @@ To transform Step 2.b to a NAND circuit we use the fact (shown in [majbynandex](
 :::
 
 
-### The NAND-CIRC Programming language { #nandsec }
+### The NAND-CIRC Programming language { #nandcircsec }
 
 Just like we did for Boolean circuits, we can define a programming-language analog of NAND circuits.
 It is even simpler than the AON-CIRC language since we only have a single operation.
@@ -1138,6 +1142,22 @@ if $B$ is universal then there is a $B$-circuit of at most $O(k)$ gates to compu
 
 > ### {.exercise title="Threshold using NANDs" #threshold-nand-ex}
 Prove that there is some constant $c$ such that for every $n>1$, and integers $a_0,\ldots,a_{n-1},b \in \{-2^n,-2^n+1,\ldots,-1,0,+1,\ldots,2^n\}$, there is a NAND circuit with at most $c\dot n^4$ gates that computes the _threshold_ function $f_{a_0,\ldots,a_{n-1},b}:\{0,1\}^n \rightarrow \{0,1\}$ that on input $x\in \{0,1\}^n$ outputs $1$ if and only if $\sum_{i=0}^{n-1} a_i x_i > b$.
+
+::: {.exercise title="NANDs from activation functions" #NANDsfromActivationfunctionex}
+We say that a function $f:\mathbb{R}^2 \rightarrow \mathbb{R}$ is a _NAND approximator_ if it has 
+the following property: for every $a,b \in \mathbb{R}$, if $\min\{|a|,|1-a|\}\leq 1/3$ and $\min \{ |b|,|1-b| \}\leq 1/3$ then $|f(a,b) - NAND(\lfloor a \rceil, lfloor b \rceil)| \leq 1/3$ where we denote by $\lfloor x \rfloor$ the integer closest to $x$.
+That is, if $a,b$ are within a distance $1/3$ to $\{0,1\}$ then we want $f(a,b)$ to equal the $NAND$ of the values in $\{0,1\}$ that are closest to $a$ and $b$ respectively. Otherwise, we do not care what the output of $f$ is on $a$ and $b$.
+
+In this exercise you will show that you can construct a NAND approximator from many common activation functions used in deep neural networks. As a corollary you will obtain that deep neural networks can simulate NAND circuits. Since NAND circuits can also simulate deep neural networks, these two computational models are equivalent to one another.
+
+1. Show that there is a NAND approximator $f$ defined as $f(a,b) = L(ReLU(L'(a,b)))$ where $L':\mathbb{R}^2 \rightarrow \mathbb{R}$ is an _affine_ function (of the form $L'(a,b)=\alpha a + \beta b + \gamma$ for some $\alpha,\beta,\gamma \in \mathbb{R}$), $L$ is an affine function (of the form $L(y) = \alpha y + \beta$ for $\alpha,\beta \in \mathbb{R}$), and $ReLU:\mathbb{R} \rightarrow \mathbb{R}$, is the function defined as $ReLU(x) = \max \{0,x \}$.
+
+2. Show that there is a NAND approximator $f$ defined as $f(a,b) = L(sigmoid(L'(a,b)))$ where $L',L$ are affine as above and $sigmoid:\mathbb{R} \rightarrow \mathbb{R}$ is the function defined as $sigmoid(x) = e^x/(e^x+1)$.
+
+3. Show that there is a NAND approximator $f$ defined as $f(a,b) = L(tanh(L'(a,b)))$ where $L',L$ are affine as above and $tanh:\mathbb{R} \rightarrow \mathbb{R}$ is the function defined as $tanh(x) = (e^x-e^{-x})/(e^x+e^{-x})$.
+
+4. Prove that for every NAND-circuit $C$ with $n$ inputs and one output that computes a function $g:\{0,1\}^n \rightarrow \{0,1\}$, if we replace every gate of $C$ with a NAND-approximator and then invoke the resulting circuit on some $x\in \{0,1\}^n$, the output will be a number $y$ such that $|y-g(x)|\leq 1/3$.
+:::
 
 
 ::: {.exercise title="Majority with NANDs efficiently" #majwithNAND}

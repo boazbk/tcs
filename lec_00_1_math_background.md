@@ -105,10 +105,10 @@ We want to make terms _precise_ and introduce shorthand for concepts that are fr
 Mathematical texts tend to "pack a lot of punch" per sentence, and so the key is to read them slowly and carefully, parsing each symbol at a time.
 
 ::: {.remark title="Don't be scared of Jargon!" #jargon}
-Mathematical Jargon can be kind of scary initially. A mathematical statement such as $\forall_{x\in \mathbb{R}, \epsilon>0} \exists_{a,b \in \N} |x - \tfrac{a}{b}| < \epsilon$ can seem like an inscrutable magical incantation.^[This statement formalizes the fact that every real number can be approximated by a rational number within arbitrary good accuracy.] 
+Mathematical Jargon can be kind of scary initially. A mathematical statement such as $\forall_{x\in \mathbb{R}, \epsilon>0} \exists_{a,b \in \N} |x - \tfrac{a}{b}| < \epsilon$ can seem like an inscrutable magical incantation.^[This is a statement of the fact that every real number can be approximated by a rational number within arbitrarily good accuracy.] 
 As you get more experience in reading mathematical texts, you will see that the jargon is no longer an issue and you will spend most of your time grappling with the actual ideas in the text rather than parsing notation.
 
-This is no different than programming. For example, even the code of the simple "Hello World" program in Java can be quite intimidating to newcomers, containing great many terms that look scary and inscrutable, but as you work in Java, you quickly get used to these quirks of jargon.
+This is no different than programming. For example, even the code of the simple "Hello World" program in Java can be quite intimidating to newcomers, containing several terms that look scary and inscrutable, but as you work in Java, you quickly get used to these quirks of jargon.
 
 ```java
 public class HelloWorld
@@ -159,12 +159,11 @@ You can also try to consider more refined questions such as finding out if there
 
 ::: {.remark title="Ifs and equalities in definitions" #ifindef}
 The meaning of "if" is subtly different in the context of a _definition_ than it is in the context of a standalone mathematical statement. When we say that we define $n$ to be a perfect square if $n=k^2$ for some $k\in \N$, we are _defining_ the new property "perfect square" to be equivalent to the property that $n=k^2$ for some $k\in \N$.
-Since this is the _definition_ of this property, it means that $n$ is in fact a perfect square _if and only if_  $n=k^2$ for some $k\in \N$.
-We could have equally well  said that $n$ is be a perfect square _if and only if_ (or use the abbreviation _iff_) $n=k^2$ for some $k\in \N$. We will indeed sometimes use "iff" instead of "if" in definitions when it helps clarity, but since mathematicians typically use "if" in such cases, we will often follow this convention as well.
+Since this is the _definition_ of this property, it means that $n$ is in fact a perfect square _if and only if_  $n=k^2$ for some $k\in \N$.^[We could also have used "if and only if" in the definitions, but since mathematicians typically use "if" in such cases, we will typically follow the same convention.]
+Similarly, the equality symbol "$=$" plays a subtly different role in the context of a definition than it does elsewhere.
+When we say something like "we define $y= \sqrt{x}$" what we really mean is that we are _assigning_ the value $\sqrt{x}$ to $y$, as opposed to _asserting_ that $y$ equals $\sqrt{x}$. To compare with programming languages, in the context of a definition, the equality sign $=$ plays the role analogous to the assignment operator `=` in languages such as C, Python, or Javascript, while in other contexts it plays the role analogous to the "equal to" operator `==`.
 
-Similarly, the equality symbol "$=$" plays a subtly different role in the context of a definition than it does elsewhere. When we say something like "we define $y= \sqrt{x}$" what we really mean is that we are _assigning_ the value $\sqrt{x}$ to $y$, as opposed to _asserting_ that $y$ equals $\sqrt{x}$. To compare with programming languages, in the context of a definition, the equality sign $=$ plays the role analogous to the assignment operator `=` in languages such as C, Python, or Javascript, while in other contexts it plays the role analogous to the "equal to" operator `==`.
-
-A definition does not have to occur only in the context of a formal "Definition" environment. Whenever you see text such as "we define X as", "let Y be", or "we denote by Z", this is a sign that a new term is being defined.
+A definition does not have to occur only in the context of a formal "Definition" box. Whenever you see text such as "we define X as", "let Y be", or "we denote by Z", this is a sign that a new term is being defined.
 :::
 
 ### Assertions: Theorems, lemmas, claims
@@ -181,7 +180,7 @@ Deciding whether to call a particular statement a "Theorem", a "Lemma" or a "Cla
 Mathematical _proofs_ are the arguments we use to demonstrate that our theorems, lemmas, and claims area indeed true.
 We discuss proofs in [proofsbackgroundsec](){.ref} below, but the main point is that the mathematical standard of proof is very high.
 Unlike in some other realms, in mathematics a proof is an  "airtight" argument that demonstrates that the statement is true beyond a shadow of a doubt.
-For example, just checking that [perfectsquarelem](){.ref} is true for the $a=25$ and $b=4$ (in which case $a\cdot b  =100$ is indeed a perfect square) doesn't cut it. In contrast, here is a valid proof for [perfectsquarelem](){.ref}:
+For example, just checking that [perfectsquarelem](){.ref} is true for the values $a=25$ and $b=4$ (in which case $a\cdot b  =100$ is indeed a perfect square) doesn't cut it. In contrast, here is a valid proof for [perfectsquarelem](){.ref}:
 
 
 ::: {.proof data-ref="perfectsquarelem"}
@@ -189,20 +188,45 @@ Let $a$ and $b$ be perfect squares. Then by the definition of a perfect square, 
 Define $c = a\cdot b$. Then by the above
 
 $$
-c = (a' \cdot a')\cdot(b' \cdot b') = (a' \cdot b') \cdot (a' \cdot b') \label{eqcommutativeperfectsquare}
+c = (a' \cdot a')\cdot(b' \cdot b') = (a' \cdot b') ^2 \label{eqcommutativeperfectsquare}
 $$
-.^[The last inequality follows from the associativity and commutativity of multiplication; i.e., the fact that $(x \cdot y) \cdot z = x\cdot (y \cdot z)$ and $x\cdot y = y \cdot x$ for every numbers $x,y,z$). These are the kind of properties that in a course of this level we can assume that the reader knows and can "fill in the blank", and hence do not need to state explicitly. However, if you have any doubt, always err on the side of supplying more, rather than less, detail.]
+.^[The last inequality follows from the associativity and commutativity of multiplication; i.e., the fact that $(x \cdot y) \cdot z = x\cdot (y \cdot z)$ and $x\cdot y = y \cdot x$ for every numbers $x,y,z$). These are the kind of properties that in a course of this level we can assume that the reader knows and can "fill in the blanks". However, if you have any doubt, always err on the side of supplying more, rather than less, detail.]
 
 Since $a',b'$ are natural numbers, $c' = a'\cdot b'$ is a natural number as well and hence [eqcommutativeperfectsquare](){.eqref} implies that $c = c' \cdot c'$ is a perfect square.
 :::
 
 As mentioned in the preface, as a general rule, it is more important you understand the __definitions__ than the __theorems__, and it is more important you understand a __theorem statement__ than its __proof__.
 
+### Common mathematical idioms
+
+Mathematical texts have their own sets of conventions and idioms. These might be initially confusing, but with time you will get used to them and perhaps even start using them yourself.
+Some examples include:
+
+* __"Let $X$ be $\ldots$"__,  __"let $X$ denote $\ldots$"__, or __"let $X= \ldots$":__ These are all different ways for us to say that we are _defining_ the symbol $X$ to stand for whatever expression is in the $\ldots$. When $X$ is a _property_ of some objects we might define $X$ by writing something along the lines of __"We say that $\ldots$ has the property $X$ if $\ldots$."__
+
+* **"Where $X$ is $\ldots$":** While we often try to define terms before they are used, sometimes a mathematical sentence reads easier if we use a term before defining it. Perhaps the term is a minor part of the equation, or it is can be typically guessed from the context (and the definition mainly serves to confirm that you guessed correctly). In such cases we would first write the expression using $X$, and then add "where $X$ is $\ldots$" to explain how $X$ is defined in the preceding expression.
+
+* **"For $i$ in $\ldots$":** Often a mathematical expression depends on some variable that can range over some domain. For example, we might want to say "For $i \in \N$, the number $(i+1)^2-i^2$ is always odd".  Sometimes we add the "for $j$ in $\ldots$" after the expression it refers to, such as in "Let $k=2j+1$ for some $j\in \{1,2,\ldots, 100 \}$"
 
 
-### Example: Defining a one to one function
+* **Conventions:** It might not always look that way, but our goal in writing mathematical texts is to make it as easy to understand as possible. Toward that end, we try to keep to certain conventions regarding variable identifiers that are widely used in the mathematical community. For example $i,j,k,\ell,m,n$ always denote integers (in fact almost always non-negative integers: i.e., natural numbers). We use $\epsilon$ and $\delta$ to denote small positive real numbers. See [conventionsec](){.ref} for more such conventions.
 
-Here is a mathematical definition which you may have encountered in the past (and will encounter again shortly):
+* __(i.e.,), (e.g.,):__ Mathematical texts tend to contain quite a few of these expressions. We use $X$  (i.e., $Y$) in cases where $Y$ is equivalent to $X$ and $X$ (e.g., $Y$) in case $Y$ is an example of $X$ (e.g., one can use phrases such as "a natural number (i.e., a non-negative integer)" or "a natural number (e.g., $7$)").
+
+* __Numbered equations, theorems, definitions:__ To keep track of all the terms we define and statements we prove, we often assign them a (typically numeric) label, and then refer back to them in other parts of the text. 
+
+* __"Thus"__, __"Therefore"__ , __"We get that"__: This means that the following sentence is implied by the preceding one, as in "The $n$-vertex graph $G$ is connected. Therefore it contains at least $n-1$ edges." We sometimes use __"indeed"__ to indicate that the following text justifies the claim that was made in the preceding sentence as in "The $n$-vertex graph $G$ has at least $n-1$ edges. Indeed, this follows since $G$ is connected." 
+
+* ___Quantifiers:__ Mathematical texts involve many quantifiers such as "for all" and "exists". We sometimes use the formal symbols $\forall$ and $\exists$ for these, and sometimes phrase these in words. It is important to keep track on which variable is quantified in what way and also on the _dependencies_ between the variables. For example, a sentence fragment such as __"for every $k >0$ there exists $n$"__ means that $n$ can be chosen in a way that _depends_ on $k$. The order of quantifiers is important. For example, the following is a true statement: _"for every natural number $k>1$ there exists a prime number $n$ such that $n$ divides $k$."_ In contrast, the following statement is false: _"there exists a prime number $n$ such that for every natural number $k>1$, $n$ divides $k$."_
+
+
+* __Constants:__ $O(n)$, $c$, $100$:__ In Computer Science, we often care about how our algorithms scale with certain quantities that can grow to be very large. Most commonly the quantity we care about is the length of our inputs (often denoted as $n$), but one can consider other quantities as well. For example, we often want to separate out _constants_, that are independent of the input length $n$, from values that _depend on $n$_ such as $\sqrt{n}$, $n$, $n^2$, $n\log n$, and so on and so forth. We can formally write this out using quantifiers, as in _"There exists a constant $c>0$ such that for every $n\in \N$, Algorithm $A$ runs in at most $c \cdot n^2$ steps on inputs of length $n$."_ The qualifier "constant" for $c$ is not strictly needed but we often add it anyway, to emphasize that $c$ here is a fixed number that does not depend on the length $n$ of the input. In fact, sometimes, to reduce cognitive load, we will simply replace $c$ by some round number such as $10$, $100$, or $1000$ which is set to a large enough value to make the statement correct, and so write this as _"Algorithm $A$ runs in at most $100\cdot n^2$ steps on inputs of length $n$."_ When you see a round number such as $10,100,1000,\ldots$ in this text, this is an indication that the precise value of the constant is not important, but rather we simply picked an arbitrary big enough round number. The  particular usage of constants to bound quantities (often, but not always, running time) is popular enough to justify its own notation, namely the so-called "Big-$O$ notation" described in [secbigohnotation](){.ref}. In particular, we can write the sentence above also as _"Algorithm $A$ runs in $O(n^2)$ time."_ Another commonly used phrase is __"for sufficiently large number $n$"__, see [#secquantifiers](){.ref}.
+
+
+### Example: Parsing a mathematical definition
+
+
+Here is a mathematical definition which you may have encountered in the past (and will see again shortly):
 
 
 > ### {.definition title="One to one function" #onetoonedef}
@@ -217,13 +241,13 @@ Finally, and most importantly, make sure that aside from being able to parse the
 For example, [onetoonedef](){.ref} says that a one to one function is a function where every output is obtained by a unique input.
 
 
-
 ![An annotated form of [onetoonedef](){.ref}, marking which type is every object, and with a doodle explaining what the definition says.](../figure/onetoonedef.png){#onetoonedefannotatedef .margin  }
+
 
 Reading mathematical texts in this way takes time, but it gets easier with practice.
 Moreover, this is one of the most transferable skills you could take from this course.
 Our world is changing rapidly, not just in the realm of technology, but also in many other human endeavors, whether it is medicine, economics, law or even culture.
-Whatever your future aspirations, it is likely that you will encounter texts that use new concepts that you have not seen before (for semi-random recent examples from current "hot areas", see [alphagozerofig](){.ref} and [zerocashfig](){.ref}).
+Whatever your future aspirations, it is likely that you will encounter texts that use new concepts that you have not seen before (see [alphagozerofig](){.ref} and [zerocashfig](){.ref} for two recent examples from current "hot areas").
 Being able to internalize and then apply new definitions can be hugely important.
 It is a skill that's much easier to acquire in the relatively safe and stable context of a mathematical course, where one at least has the guarantee that the concepts are fully specified, and you have access to your teaching staff for questions.
 
@@ -561,7 +585,7 @@ We can think of such a graph as having an associated  (possibly partial) _labell
 
 
 
-### Logic operators and quantifiers.
+### Logic operators and quantifiers. {#secquantifiers }
 
 If $P$ and $Q$ are some statements that can be true or false, then $P$ AND $Q$ (denoted as $P \wedge Q$) is the statement that is true if and only if both $P$ _and_ $Q$ are true, and $P$ OR $Q$ (denoted as $P \vee Q$) is the statement that is true if and only if either $P$ _or_ $Q$ is true.
 The _negation_ of $P$, denoted as $\neg P$ or $\overline{P}$, is the statement that is true if and only if $P$ is false.
@@ -584,7 +608,7 @@ We can formalize this as $\exists_{N_0\in \N} \forall_{n>N_0} P(n)$.
 
 
 
-### Quantifiers for summations and products { #secquantifiers }
+### Quantifiers for summations and products { #secquantifierssums }
 
 The following shorthands for summing up or taking products of several numbers are often convenient.
 If $S = \{s_0,\ldots,s_{n-1} \}$ is a finite set and  $f:S \rightarrow \R$ is a function, then we write $\sum_{x\in S} f(x)$ as shorthand for
@@ -674,7 +698,7 @@ Kun's book [@Kun18] contains an extensive discussion on the similarities and dif
 :::
 
 
-### Asymptotics and Big-$O$ notation
+### Asymptotics and Big-$O$ notation {#secbigohnotation }
 
 >_"$\log\log\log n$ has been proved to go to infinity, but has never been observed to do so."_, Anonymous, quoted by Carl Pomerance (2000)
 
@@ -1106,7 +1130,7 @@ Most of the notation we use in this book is standard and is used in most mathema
 * To save on "cognitive load" we will often use round constants such as $10,100,1000$ in the statements of both theorems and problem set questions. When you see such a "round" constant, you can typically assume that it has no special significance and was just chosen arbitrarily. For example, if you see a theorem of the form "Algorithm $A$ takes at most $1000\cdot n^2$ steps to compute function $F$ on inputs of length $n$" then probably the number $1000$ is an abitrary sufficiently large constant, and one could prove the same theorem with a bound of the form $c \cdot n^2$ for a constant $c$ that is smaller than $1000$. Similarly, if a problem-set question asks you to prove that some quantity is at least $n/100$, it is quite possible that in truth the quantity is at least $n/d$ for some constant $d$ that is smaller than $100$.
 
 
-### Conventions
+### Conventions {#conventionsec }
 
 Like programming, mathematics is full of _variables_. Whenever you see a variable, it is always important to keep track of what is its _type_ (e.g., whether the variable is a number, a string, a function, a graph, etc.).
 To make this easier, we try to stick to certain conventions and consistently use certain identifiers for variables of the same type.
