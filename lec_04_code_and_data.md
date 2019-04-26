@@ -220,7 +220,7 @@ __Operation:__
 > ### { .pause }
 Please make sure you understand this algorithm and why it does indeed computes the function $EVAL_{s,n,m}$.
 
-### A NAND interpreter in Python
+### A NAND interpreter in Python { #nandevalpythonsec }
 
 To make things more concrete, let us see how we implement the above algorithm in the _Python_ programming language.
 We will construct a function `NANDEVAL` that on input $n,m,L,x$  will output the result of evaluating the program represented by $(n,m,L)$ on $x$.^[To keep things simple, we will not worry about the case that $L$ does not represent a valid program of $n$ inputs and $m$ outputs. Also, there is nothing special about Python. We could have easily presented a corresponding function in JavaScript, C, OCaml, or any other programming language.]
@@ -268,12 +268,12 @@ Hence (since $n,m \leq s$ and $t \leq 3s$),  the program above will use  $O(s)$ 
 We now turn to describing the proof of  [eff-bounded-univ](){.ref}.
 To do this, it is of course not enough to give a Python program.
 Rather, we need to show how we compute the function  $EVAL_{s,n,m}$  itself using a NAND-CIRC program.
-In other words, our job is to transform, for every $s,n,m$, the Python code above to a NAND-CIRC program $U_{s,n,m}$ that computes the function $EVAL_{s,n,m}$.
+In other words, our job is to transform, for every $s,n,m$, the Python code of [#nandevalpythonsec](){.ref} to a NAND-CIRC program $U_{s,n,m}$ that computes the function $EVAL_{s,n,m}$.
 
 > ### { .pause }
 Before reading further, try to think how _you_ could give a "constructive proof" of [eff-bounded-univ](){.ref}.
 That is, think of how you would write, in the programming language of your choice, a function `universal(s,n,m)` that on input $s,n,m$ outputs the code for the NAND-CIRC program $U_{s,n,m}$ such that $U_{s,n,m}$ computes $EVAL_{s,n,m}$.
-Note that there is a subtle but crucial difference between this function and the Python `NANDEVAL` program described above.
+There is a subtle but crucial difference between this function and the Python `NANDEVAL` program described above.
 Rather than actually evaluating a given program $P$ on some input $w$, the function `universal` should output the _code_ of a NAND-CIRC program that computes the map $(P,x) \mapsto P(x)$.
 
 Our construction will follow very closely the Python implementation of `EVAL` above.
@@ -326,11 +326,11 @@ It turns out that there exist such efficient [routing networks](https://goo.gl/N
 
 
 
-##  A Python interpreter in NAND (discussion)
+##  A Python interpreter in NAND-CIRC (discussion)
 
-To prove [eff-bounded-univ](){.ref} we essentially translated every line of the Python program for `EVAL` into an equivalent NAND snippet.
+To prove [eff-bounded-univ](){.ref} we essentially translated every line of the Python program for `EVAL` into an equivalent NAND-CIRC snippet.
 It turns out that none of our reasoning was specific to the particular function $EVAL$.
-It is possible to translate _every_ Python program into an equivalent `NAND` program of comparable efficiency.^[More concretely, if the Python program takes $T(n)$ operations on inputs of length at most $n$ then we can find a NAND-CIRC program of $O(T(n) \log T(n))$ lines that agrees with the Python program on inputs of length $n$.]
+It is possible to translate _every_ Python program into an equivalent NAND-CIRC program of comparable efficiency.^[More concretely, if the Python program takes $T(n)$ operations on inputs of length at most $n$ then we can find a NAND-CIRC program of $O(T(n) \log T(n))$ lines that agrees with the Python program on inputs of length $n$.]
 Actually doing so requires taking care of many details and is beyond the scope of this book, but let me try to convince you why you should believe it is possible in principle.
 
 For starters, one can can use [CPython](https://en.wikipedia.org/wiki/CPython) (the reference implementation for Python), to evaluate every Python program using a `C` program.
@@ -343,7 +343,7 @@ Going one by one over the instruction sets of such computers and translating the
 In fact, ultimately this is very similar to the transformation that takes place in converting our high level code to actual silicon gates that are not so different from the operations of a NAND-CIRC program.
 Indeed, tools such as [MyHDL](http://www.myhdl.org/) that transform "Python to Silicon" can be used to convert a Python program to a NAND-CIRC program.
 
-The NAND-CIRC programming language is just a teaching tool, and by no means do I suggest that writing NAND-CIRC programs, or compilers to NAND, is a practical, useful, or enjoyable activity.
+The NAND-CIRC programming language is just a teaching tool, and by no means do I suggest that writing NAND-CIRC programs, or compilers to NAND-CIRC, is a practical, useful, or enjoyable activity.
 What I do want is to make sure you understand why it _can_ be done, and to have the confidence that if your life (or at least your grade) depended on it, then you would be able to do this.
 Understanding how programs in high level languages such as Python are eventually transformed into concrete low-level representation such as NAND is fundamental to computer science.
 
@@ -367,9 +367,7 @@ One of the consequences of our representation is the following:
 > ### {.theorem title="Counting programs" #program-count}
 For every $n,m,s$ with $s \geq m, s \geq n/2$,
 $$|SIZE_{n,m}(s)| \leq 2^{O(s \log s)}.$$
-That is, there are at most $2^{O(s\log s)}$ functions computed by NAND-CIRC programs of at most $s$ lines.
-
-Moreover, the implicit constant in the $O(\cdot)$ notation in [program-count](){.ref} is at most $10$.^[By this we mean that for all sufficiently large $s$, $|Size(s)|\leq 2^{10s\log s}$.]
+That is, there are at most $2^{O(s\log s)}$ functions computed by NAND-CIRC programs of at most $s$ lines.^[The implicit constant in the $O(\cdot)$ notation is at most $10$. That is, for all sufficiently large $s$, $|Size(s)|\leq 2^{10s\log s}$.]
 
 > ### {.proofidea data-ref="program-count"}
 The idea behind the proof is that, as we've seen, we can represent every $s$ line program by a binary string of  $O(s \log s)$ bits.
@@ -425,8 +423,8 @@ Hence functions that can be computed in a small number of lines (such as additio
 
 > ### {.remark title="Advanced note: more efficient representation" #efficientrepresentation}
 The list of triples is not the shortest representation for NAND-CIRC programs.
-We have seen that every NAND-CIRC program of $s$ lines and $n$ inputs can be represented by a directed graph of $s+n$ vertices, of which $n$ have in-degree zero, and the $s$ others have in-degree at most two. Using the adjacency list representation, such a graph can be represented using roughly $2s\log(s+n) \leq 2s (\log s + O(1))$ bits.
-Using this representation we can reduce the implicit constant in [program-count](){.ref} arbitrarily close to $2$.
+NAND-CIRC programs are equivalent to circuits with NAND gates, which means that a NAND-CIRC program of $s$ lines and $n$ inputs can be represented by a directed graph of $s+n$ vertices, of which $n$ have in-degree zero, and the $s$ others have in-degree at most two. Using the adjacency list representation, such a graph can be represented using roughly $2s\log(s+n) \leq 2s (\log s + O(1))$ bits.
+Using these ideas we can reduce the implicit constant in [program-count](){.ref} arbitrarily close to $2$.
 
 
 ## Size hierarchy theorem (advanced, optional)
@@ -440,12 +438,14 @@ SIZE_n(c 2^n /n) \subsetneq SIZE_n(C 2^n /n) \;.
 $$
 That is, the set of functions that can be computed using $c 2^n/n$ gates is a _strict subset_ of the set of functions that can be computed using $C 2^n / n$ gates.
 
-In fact, we can use the same results to show a more general result: as a general rule, if we increase our "budget" of gates by a constant factor, then we can compute new functions:
+In fact, we can use the same results to show a more general result: whenever we increase our "budget" of gates by a constant factor we can compute new functions:
 
 
-> ### {.theorem title="Size Hierarchy Theorem" #sizehiearchythm}
-There exists some constant $C$ such that for _every_ $n \leq s \leq 2^n/(4n)$, there exists some function $f$ that _can not_ be computed using $s$ gates but _can_ be computed using $C\cdot s$ gates.
-
+::: {.theorem title="Size Hierarchy Theorem" #sizehiearchythm}
+There exists some constant $C$ such that for _every_ $n \leq s \leq 2^n/(4n)$, there exists some function $f:\{0,1\}^n \rightarrow \{0,1\}$ that _can not_ be computed using $s$ gates but _can_ be computed using $C\cdot s$ gates.
+In other words, for every such $n,s$,
+$$SIZE_n(s) \subsetneq SIZE_n(C s) \;.$$
+:::
 
 > ### {.proofidea data-ref="sizehiearchythm"}
 The idea is to "scale down" the result of [counting-lb](){.ref}.
