@@ -13,7 +13,7 @@ chapternum: "5"
 * Build up comfort in moving between different representations of programs. \
 * Follow the construction of a "universal NAND-CIRC program" that can evaluate other NAND-CIRC programs given their representation. \
 * See and understand the proof of a major result that compliments the result of the last chapter: some functions require an _exponential_ number of gates to compute.
-* Understand the _physical extended Church-Turing thesis_ that NAND-CIRC programs capture _all_ feasible computation in the physical world, and its physical and philosophical implications.
+* Understand the _physical extended Church-Turing thesis_ stating that Boolean circuits capture _all_ feasible computation in the physical world, and its physical and philosophical implications.
 
 
 
@@ -27,9 +27,9 @@ chapternum: "5"
 
 
 A NAND-CIRC program can be thought of as simply a sequence of symbols, each of which can be encoded with zeros and ones using (for example) the ASCII standard.
-Thus we can represent every NAND-CIRC program (and hence also every Boolean circuit) as a binary string.
+Therefore we can represent every NAND-CIRC program (and hence also every Boolean circuit) as a binary string.
 This statement seems obvious but it is actually quite profound.
-It means that we can treat circuits or NAND-CIRC programs both as instructions to carrying computation and also as _data_ that could potentially be input to other computations.
+It means that we can treat circuits or NAND-CIRC programs both as instructions to carrying computation and also as _data_ that could potentially be used as  _inputs_ to other computations.
 
 
 
@@ -47,23 +47,32 @@ For example, DNA can be thought of as both a program and data (in the words of S
 ![As illustrated in this xkcd cartoon, many exploits, including buffer overflow, SQL injections, and more, utilize the blurry line between "active programs" and "static strings".](../figure/exploits_of_a_mom.png){#XKCDmomexploitsfig .margin  }
 
 
-## A NAND interpreter in NAND
+::: {.remark title="Other computational models" #progvscircuitsevalrem}
+As we have seen, we can describe a sequence of operations using both _circuits_ and _programs_.
+Moreover, our computational models are equivalent regardless of whether we use circuits or programs, or whether we use as our basic set of operations NAND, AND/OR/NOT, or any other universal basic sets.
+
+For the sake of concreteness, in this chapter we often describe computation using NAND-CIRC programs. However, all of our results hold equally well for AON-CIRC programs, NAND circuits,  Boolean circuits (with AND/OR/NOT gates), or any of the other equivalent models of computation.
+In particular, since a Boolean circuit is just a labeled directed acyclic graph, it can be represented as a string using the adjacency matrix or adjacency list representation, and all our results below hold equally well using this representation.
+:::
+
+
+## A NAND-CIRC interpreter in NAND-CIRC
 
 Since we can represent programs as strings, we can also think of a program as an input to a function.
-In particular, for every choice of a representation scheme for NAND-CIRC programs, the following is a well defined mathematical function:
+In particular, for every choice of a representation scheme for NAND-CIRC programs, the following is a well defined mathematical function mapping a pair of binary strings into a string.^[Since we can repsent a pair of strings as a single string, we will often think of $EVAL$ as mapping $\{0,1\}^*$ to $\{0,1\}^*$.]
 
 $$
-EVAL(P,x) = \begin{cases} P(x) & |x|= \text{no. of $P$'s inputs} \\ 0 & \text{otherwise} \end{cases}
+EVAL(P,x) = \begin{cases} P(x) & |x|= \text{no. of $P$'s inputs} \\ 0 & \text{otherwise} \end{cases} \label{evalcirceq}
 $$
 where $P$ and $x$ are strings in $\{0,1\}^*$, and we denote by $P(x)$ the output of the program represented by the string $P$ on the input $x$.
 
 > ### { .pause }
-The above is one of those observations that are simultaneously both simple and profound. Please make sure that you understand __(1)__ how for every fixed choice of representing programs as strings, the function $EVAL$ above is well defined, and __(2)__ what this function actually does.
+[evalcirceq](){.ref} is one of those observations that are simultaneously both simple and profound. Please make sure that you understand __(1)__ how for every fixed choice of representing programs as strings, the function $EVAL$ above is well defined, and __(2)__ what this function actually does.
 
 $EVAL$ takes strings of _arbitrary length_, and hence cannot be computed by a NAND-CIRC program, since such programs take inputs of finite length.
-However, for every fixed number of lines $s$, inputs $n$, and outputs $m$, we can define $EVAL_{s,n,m}$ to be the function that on input a string $P$ representing an $s$-line $n$-input $m$-output program, and a string $x\in \{0,1\}^n$, output the value $P(x)$.^[If $P \in \{0,1\}^S$ is a string that does not describe a valid program then we don't care what $EVAL_{s,n,m}(P,x)$ is. For concreteness we can define $EVAL_{s,n,m}(P,x)$ to equal   $0^m$ in such a case.]
+However, for every fixed number of lines $s$, inputs $n$, and outputs $m$, we can define $EVAL_{s,n,m}$ to be the function that on input a string $P$ representing an $s$-line $n$-input $m$-output program, and a string $x\in \{0,1\}^n$, outputs the value $P(x)$.^[If $P$ is a string that does not describe a valid program then we don't care what $EVAL_{s,n,m}(P,x)$ is. For concreteness we can define $EVAL_{s,n,m}(P,x)$ to equal   $0^m$ in such a case.]
 Specifically, we will fix some representation scheme for NAND-CIRC programs and let $S(s)$ denote the number of bits needed to represent programs of $s$ lines.
-Then $EVAL_{s,n,m}$ takes inputs of length $S+n$ (that is a string $P \in \{0,1\}^S$ representing the program and a string $x\in \{0,1\}^n$ which corresponds to the input) and outputs the string $P(x) \in \{0,1\}^m$.
+Then $EVAL_{s,n,m}$ takes inputs of length $S(s)+n$ (that is a string $P \in \{0,1\}^{S(s)}$  representing the program and a string $x\in \{0,1\}^n$ which corresponds to the input) and outputs the string $P(x) \in \{0,1\}^m$.
 
 One of the first examples of _self circularity_ we will see in this book is the following theorem:
 
@@ -95,11 +104,17 @@ Once again, [bounded-univ](){.ref}  is subtle but important. Make sure you under
 
 ### Efficient universal programs
 
-It turns out that we don't even need to pay that much of an overhead for universality. Namely, the size of $U$ needs only be _polynomial_ in the size of the input program.
+It turns out that we don't even need to pay that much of an overhead for universality.
+Namely, the size of $U$ needs only be _polynomial_ in the size of the input program.
 
 > ### {.theorem title="Efficient bounded universality of NAND-CIRC programs" #eff-bounded-univ}
 For every $s,n,m \in \N$ there is a NAND-CIRC program of at most $O(s^2 \log s)$ lines that computes the function
-$EVAL_{S,n,m}:\{0,1\}^{S+n} \rightarrow \{0,1\}^m$ defined above.
+$EVAL_{s,n,m}:\{0,1\}^{S+n} \rightarrow \{0,1\}^m$ defined above (where $S$ is the number of bits needed to represent programs of $s$ lines).
+
+::: { .pause }
+If you haven't done so already, now might be a good time to review $O$ notation in [secbigohnotation](){.ref}. In particular, an equivalent way to state [eff-bounded-univ](){.ref} is that it says that there _exists_ some number $c>0$ such that _for every_ $s,n,m \in \N$, there exists a NAND-CIRC program $P$ of at most $c s^2 \log s$ lines that computes the function $EVAL_{s,n,m}$.
+:::
+
 
 Unlike [bounded-univ](){.ref}, [eff-bounded-univ](){.ref} is not a trivial corollary of the fact that every finite function can be computed by some circuit.
 Proving [bounded-univ](){.ref} requires us to present a concrete NAND-CIRC program for the $EVAL_{s,n,m}$ function.
@@ -129,10 +144,9 @@ Therefore, our representation for NAND-CIRC programs will ignore the actual name
 Thus we will encode a _line_ of the program as just a triple of numbers.
 If the line has the form `foo = NAND(bar,blah)` then we encode it with the triple $(i,j,k)$ where  $i$ is the number corresponding to the variable `foo` and $j$ and $k$ are the numbers corresponding to `bar` and `blah` respectively.
 
-More concretely, we use the set $[t]= \{0,1,\ldots,t-1\}$ as our set of variables.
-The first $n$ numbers $\{0,\ldots,n-1\}$ will correspond to the _input_ variables, the last $m$ numbers $\{t-m,\ldots,t-1\}$ will correspond to the _output_ variables, and the intermediate numbers $\{ n,\ldots, t-m-1\}$ will correspond to the remaining "workspace" variables.
-
-This motivates the following definition:
+More concretely, we use will associate every variable with a number in the set $[t]= \{0,1,\ldots,t-1\}$.
+The first $n$ numbers $\{0,\ldots,n-1\}$ correspond to the _input_ variables, the last $m$ numbers $\{t-m,\ldots,t-1\}$ correspond to the _output_ variables, and the intermediate numbers $\{ n,\ldots, t-m-1\}$ correspond to the remaining "workspace" variables.
+Formally, we define our representation as follows:
 
 ::: {.definition title="List of tuples representation" #nandtuplesdef}
 Let $P$ be a NAND-CIRC program of $n$ inputs, $m$ outputs, and $s$ lines, and let $t$ be the number of distinct variables used by $P$.
@@ -144,14 +158,15 @@ We assign a number for variable of $P$ as follows:
 
 * For every $j\in [m]$, the variable `Y[`$j$`]` is assigned the number $t-m+j$.
 
-* Every other variable is assigned a number in $\{n,n+1,\ldots,t-m-1\}$ in the order of which it appears.
+* Every other variable is assigned a number in $\{n,n+1,\ldots,t-m-1\}$ in the order in which the variable appears in the program $P$.
 :::
 
 
-The list of tuples representation will be our default choice for representing NAND-CIRC programs, and since "list of tuples representation" is a bit of a mouthful, we will often call this simply the _representation_ for a program $P$.
+The list of tuples representation is our default choice for representing NAND-CIRC programs.
+Since "list of tuples representation" is a bit of a mouthful, we will often call it simply "the representation" for a program $P$.
 
 ::: {.example title="Representing the XOR program" #representXOR}
-Our favorite NAND-CIRC program, the XOR program:
+Our favorite NAND-CIRC program, the program
 
 ```python
 u = NAND(X[0],X[1])
@@ -160,27 +175,22 @@ w = NAND(X[1],u)
 Y[0] = NAND(v,w)
 ```
 
-is represented as the tuple $(2,1,L)$ where $L=((2, 0, 1), (3, 0, 2), (4, 1, 2), (5, 3, 4))$. That is, the variables `X[0]` and `X[1]` are given the indices  $0$ and $1$ respectively, the variables `u`,`v`,`w` are given the indices $2,3,4$ respectively, and the variable `Y[0]` is given the index $5$.
+computing the XOR function is represented as the tuple $(2,1,L)$ where $L=((2, 0, 1), (3, 0, 2), (4, 1, 2), (5, 3, 4))$. That is, the variables `X[0]` and `X[1]` are given the indices  $0$ and $1$ respectively, the variables `u`,`v`,`w` are given the indices $2,3,4$ respectively, and the variable `Y[0]` is given the index $5$.
 :::
 
 
-
 Transforming a NAND-CIRC program from its representation as code to the representation as a list of tuples is a fairly straightforward programming exercise, and in particular can be done in a few lines of _Python_.^[If you're curious what these few lines are, see our [GitHub repository](https://github.com/boazbk/tcscode).]
-Note that this representation loses information such as the particular names we used for the variables, but this is OK since these names do not make a difference to the functionality of the program.
-To represent these $s$ triples numbers as a string requires $O(s \log s)$ bits, as each number in $[t]$ can be represented in the binary basis using $\ceil{\log t}$ bits, and $t \leq 3s$.^[The maximum value $t$ can take is $s+n$ and since every line touches at most two inputs, we can assume that $s \geq n/2$ or $n \leq 2s$ as otherwise there would be an input that is not used in any line of the program.]
-For a fixed $s,n,m$, we can represent the list of triples of a program with $n$ inputs, $m$ outputs, and $s$ lines by simply concatenating the representation of the $3s$ numbers, with each represented as a string of length $\ceil{\log 3s}$ using the binary basis.
-Hence we can think of $EVAL_{s,n,m}$ as mapping  $\{0,1\}^{3s\ceil{\log 3s} + n}$ to $\{0,1\}^m$.
-
-
-
+The list-of-tuples representation loses information such as the particular names we used for the variables, but this is OK since these names do not make a difference to the functionality of the program.
+Since every one of our triples contains a number between $0$ and $t \leq 3s$ (and hence can be encoded as a string of at most $\log(3s) \leq O(\log s)$ bits), we can encode the representation of an $s$ line program using a string of $O(s \log s)$ bits.^[The maximum value $t$ can take is $s+n$ and since every line touches at most two inputs, we can assume that $s \geq n/2$ or $n \leq 2s$ as otherwise there would be an input that is not used in any line of the program.]
+For every $s,n,m$, we define  $EVAL_{s,n,m}$ as the function mapping  $\{0,1\}^{3s\ceil{\log 3s} + n}$ to $\{0,1\}^m$ which takes as input a string $Lx$ where $L$ is a list of $s$ triples of numbers between $0$ and $3s-1$ (obtained by simply concatenating their binary representations as strings of length $\ceil{\log 3s}$) and $x\in \{0,1\}^n$, and outputs $P(x)$ where $P$ is the program represented by $(n,m,L)$.
 
 
 
 
 ### A NAND interpeter in "pseudocode"
 
-To prove [eff-bounded-univ](){.ref} it suffices to give a NAND-CIRC program of $O(s^2 \log s) \leq O((s\log s)^2)$ lines that can evaluate NAND-CIRC programs of $s$ lines.
-Let us start by thinking how we would evaluate such programs if we weren't restricted to the NAND operations.
+To prove [eff-bounded-univ](){.ref} it suffices to give a NAND-CIRC program of $O(s^2 \log s)$ lines that can evaluate NAND-CIRC programs of $s$ lines.
+Let us start by thinking how we would evaluate such programs if we weren't restricted to only performing NAND operations.
 That is, let us describe informally an _algorithm_ that on input $n,m,s$, a list of triples $L$, and a string $x\in \{0,1\}^n$, evaluates the program represented by $(n,m,L)$ on the string $x$.
 
 > ### { .pause }
@@ -197,18 +207,18 @@ __Goal:__ Evaluate the program represented by $(n,m,L)$ on the input $x\in \{0,1
 
 __Operation:__
 
-1. We will create a _dictionary_ data structure `Vartable` that for every $i \in [t]$ stores a bit. We will assume we have the operations `GET(Vartable,i)` which restore the bit corresponding to `i`, and the operation `UPDATE(Vartable,i,b)` which update the bit corresponding to `i` with the value `b`. (More concretely, we will write this as `Vartable = UPDATE(Vartable,i,b)` to emphasize the fact that the state of the data structure changes, and to keep our convention of using functions free of "side effects".)
+1. Set up a _dictionary_ data structure `Vartable` that for every $i \in [t]$ stores a bit. We assume access to the operation `GET(Vartable,i)` which retrieves the bit corresponding to `i`, and the operation `UPDATE(Vartable,i,b)` which updates the bit corresponding to `i` to the value `b`. (More concretely, we will write this as `Vartable = UPDATE(Vartable,i,b)` to emphasize the fact that the state of the data structure changes, and to keep our convention of using functions free of "side effects".)
 
-2. We will initialize the table by setting the $i$-th value of `Vartable`  to $x_i$ for every $i\in [n]$.
+2. Initialize `Vartable` by setting the $i$-th value of `Vartable`  to $x_i$ for every $i\in [n]$.
 
-3. We will go over the list $L$ in order, and for every triple  $(i,j,k)$ in $L$, we let $a$ be `GET(Vartable,`$j$`)`, $b$ be `GET(Vartable,`$k$`)`, and then set the value corresponding to $i$ to the NAND of $a$ and $b$. That is, let `Vartable = UPDATE(Vartable,`$i$,`NAND(`$a$`,`$b$`))`.
+3. Go over the list $L$ in order, and for every triple  $(i,j,k)$ in $L$, ket $a$ be `GET(Vartable,`$j$`)`, $b$ be `GET(Vartable,`$k$`)`, and then set the value corresponding to $i$ to the NAND of $a$ and $b$. That is, let `Vartable = UPDATE(Vartable,`$i$,`NAND(`$a$`,`$b$`))`.
 
-4. Finally, we output the value `GET(Vartable,`$t-m+j$`)` for every $j\in [m]$.
+4. Output the value `GET(Vartable,`$t-m+j$`)` for every $j\in [m]$.
 :::
 
 
 > ### { .pause }
-Please make sure you understand this algorithm and why it does produce the right value.
+Please make sure you understand this algorithm and why it does indeed computes the function $EVAL_{s,n,m}$.
 
 ### A NAND interpreter in Python
 

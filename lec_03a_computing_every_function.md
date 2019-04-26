@@ -688,7 +688,7 @@ On the other hand, if $f$ can be computed by a Boolean AND/OR/NOT circuit of at 
 
 
 
-![A "category error" is a question such as "is a cucumber even or odd?" which does not even make sense. In this book the category errors one needs to watch out for are confusing _functions_ and _programs_ (i.e., confusing _specifications_ and _implementations_). If $C$ is a circuit or program, then asking if $C \in SIZE_{n,1}(s)$ is a category error, since $SIZE_{n,1}(s)$ is a set of _functions_ and not programs or circuits.](../figure/cucumber.png){#cucumberfig .margin  }
+![A "category error" is a question such as "is a cucumber even or odd?" which does not even make sense. In this book one type of category errors you should watch out for is confusing _functions_ and _programs_ (i.e., confusing _specifications_ and _implementations_). If $C$ is a circuit or program, then asking if $C \in SIZE_{n,1}(s)$ is a category error, since $SIZE_{n,1}(s)$ is a set of _functions_ and not programs or circuits.](../figure/cucumber.png){#cucumberfig .margin  }
 
 
 The results we've seen before can be phrased as showing that $ADD_n \in SIZE_{2n,n+1}(100 n)$
@@ -699,7 +699,7 @@ See [sizeclassesfig](){.ref}.
 > ### { .pause }
 Note that $SIZE_{n,m}(s)$ does __not__ correspond to a set of programs!
 Rather, it is a set of _functions_ (see [cucumberfig](){.ref}).
-This distinction between _programs_ and _functions_ will be crucial for us in this course.
+As we discussed in [specvsimplrem](){.ref} (and  [secimplvsspec](){.ref}), the distinction between _programs_ and _functions_ is absolutely crucial.
 You should always remember that while a program _computes_ a function, it is not _equal_ to a function.
 In particular, as we've seen, there can be more than one program to compute the same function.
 
@@ -804,6 +804,58 @@ a. If there is an $s$-line NAND-CIRC program to compute $f:\{0,1\}^n \rightarrow
 
 b. For every function $f:\{0,1\}^n \rightarrow \{0,1\}^m$, there is a NAND-CIRC program of at most $10m\cdot 2^n$ lines that computes $f$.
 :::
+
+
+::: {.exercise title="Simplifying using syntactic sugar" #usesugarex}
+Let $P$ be the following NAND-CIRC program:
+
+```python
+Temp[0] = NAND(X[0],X[0])
+Temp[1] = NAND(X[1],X[1])
+Temp[2] = NAND(Temp[0],Temp[1])
+Temp[3] = NAND(X[2],X[2])
+Temp[4] = NAND(X[3],X[3])
+Temp[5] = NAND(Temp[3],Temp[4])
+Temp[6] = NAND(Temp[2],Temp[2])
+Temp[7] = NAND(Temp[5],Temp[5])
+Y[0] = NAND(Temp[6],Temp[7])
+```
+
+1. Write a program $P'$ with at most three lines of code that uses both `NAND` as well as the syntactic  sugar `OR` that computes the same function as $P$.
+
+2. Draw a circuit that computes the same function as $P$ and uses only $AND$ and $NOT$ gates.
+:::
+
+
+
+In the following exercises you are asked  to compare the power of pairs programming languages.
+By "comparing the power" of two programming languages $X$ and $Y$ we mean determining the relation between the set of functions that are computable using programs in  $X$ and $Y$ respectively. That is, to answer such a question you need to do both of:
+
+1. Either prove that for every program $P$ in $X$ there is a program $P'$ in $Y$ that computes the same function as $P$, _or_ give an example for a function that is computable by an $X$-program but not computable by a $Y$-program.
+
+_and_
+
+1. Either prove that for every program $P$ in $Y$ there is a program $P'$ in $X$ that computes the same function as $P$, _or_ give an example for a function that is computable by a $Y$-program but not computable by an $X$-program.
+
+When you give an example as above of a function that is computable in one programming language but not the other, you need to _prove_ that the function you showed is _(1)_ computable in the first programming language, _(2)_ _not computable_ in the second programming programming language.
+
+::: {.exercise title="Compare IF and NAND" #compareif}
+Let IF-CIRC be the programming language where we have the following operations `foo = 0`, `foo = 1`, `foo = IF(cond,yes,no)`  (that is, we can use the constants $0$ and $1$, and the $IF:\{0,1\}^3 \rightarrow \{0,1\}$ function such that $IF(a,b,c)$ equals $b$ if $a=1$ and equals $c$ if $a=0$). Compare the power of the NAND-CIRC programming language and the IF-CIRC programming language.
+:::
+
+::: {.exercise title="Compare XOR and NAND" #comparexor}
+Let XOR-CIRC be the programming language where we have the following operations `foo = XOR(bar,blah)`, `foo = 1` and `bar = 0` (that is, we can use the constants $0$, $1$ and the $XOR$ function that maps $a,b \in \{0,1\}^2$ to $a+b \mod 2$). Compare the power of the NAND-CIRC programming language and the XOR-CIRC programming language.^[_Hint:_ You can use the fact that $(a+b)+c \mod 2 = a+b+c \mod 2$. In particular it means that if you have the lines `d = XOR(a,b)` and `e = XOR(d,c)` then `e` gets the sum modulo $2$ of the variable `a`, `b` and `c`.]
+:::
+
+::: {.exercise title="Circuits for majority" #majasymp}
+Prove that there is some constant $c$ such that for every $n>1$, $MAJ_n \in Size(cn)$ where $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$ is the majority function on $n$ input bits. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. NOTE: You can get __16 points__ by proving the weaker statement $MAJ_n \in Size(c \cdot n \log n)$ for some constant $c$.^[_Hint:_ One approach to solve this is using recursion and the  so-called Master Theorem.]
+:::
+
+
+::: {.exercise title="Circuits for threshold" #thresholdcirc}
+Prove that there is some constant $c$ such that for every $n>1$, and integers $a_0,\ldots,a_{n-1},b \in \{-2^n,-2^n+1,\ldots,-1,0,+1,\ldots,2^n\}$, there is a NAND circuit with at most $n^c$ gates that computes the _threshold_ function $f_{a_0,\ldots,a_{n-1},b}:\{0,1\}^n \rightarrow \{0,1\}$ that on input $x\in \{0,1\}^n$ outputs $1$ if and only if $\sum_{i=0}^{n-1} a_i x_i > b$.
+:::
+
 
 
 ## Bibliographical notes

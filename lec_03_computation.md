@@ -1089,6 +1089,19 @@ $$
 There are also some sets $\mathcal{F}$ that are more restricted in power, for example it can be shown that if we use only AND or OR gates (without NOT) then we do _not_ get an equivalent model of comutation.
 The exercises cover several examples of universal and non-universal gate sets.
 
+![It is crucial to distinguish between the _specification_ of a computational task, namely _what_ is the function that is to be computed and the _implementation_ of it, namely the algorithm, program, or circuit that contains the instructions _how_ to map and input to an output. The same function could be computed in many different ways.](../figure/specvsimpl.png){#specvsimplfig }
+
+::: {.remark title="Specification vs. implementation" #specvsimplrem}
+As we discused in [secimplvsspec](){.ref}, one of the most important distinctions in this book is that of _specification_ versus _implementation_ or separating "what" from "how", see [specvsimplfig](){.ref}.
+A _function_ corresponds to the _specification_ of a computational task, that is _what_ output should be produced for every particular input.
+A _program_ (or circuit, or any other way to specify _algorithms_) corresponds to the _implementation_ of _how_ to compute the desired output from the input.
+That is, a program is a set of instructions how to compute the output from the input.
+Even within the same computational model there can be many different ways to compute the same function.
+For example, there is more than one NAND-CIRC program that computes the majority function, more than one Boolean circuit to compute the addition function, and so on and so forth.
+
+Confusing specification and implementation  (or equivalently _functions_ and _programs_) is a common mistake, and one that is unfortunately encouraged by the common programming-language terminology of referring to parts of programs as "functions".
+However, in both the theory and practice of computer science, it is important to maintain this distinction, and it is particularly important for us in this book.
+:::
 
 
 > ### { .recap }

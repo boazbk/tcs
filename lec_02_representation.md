@@ -7,10 +7,11 @@ chapternum: "2"
 # Computation and Representation {#chaprepres }
 
 > ### { .objectives }
-* _Representing_ an object as a string (often of zeroes and ones).
+* Distinguish between _specification_ and _implementation_, or equivalently between _algorithms/programs_ and _mathematical functions_.
+* See concept of representing an object as a string (often of zeroes and ones).
 * Examples of representations for common objects such as numbers, vectors, lists, graphs.
 * Prefix-free representations.
-* Distinguish between _specification_ and _implementation_, or equivalently between _algorithms/programs_ and _mathematical functions_.
+* Cantor's Theorem: The real numbers are cannot be represented exactly as finite strings.
 
 
 >_"The alphabet was a great invention, which enabled men to store and to learn with little effort what others had learned the hard way -- that is, to learn from books rather than from direct, possibly painful, contact with the real world."_, B.F. Skinner
@@ -36,7 +37,7 @@ chapternum: "2"
 
 
 
-To a first approximation,   __computation_ _ is a process that maps an _input_ to an _output_.
+To a first approximation,   __computation_  is a process that maps an _input_ to an _output_.
 
 ![Our basic notion of _computation_ is some process that maps an input to an output](../figure/input_output.png){#figureid .margin  }
 
@@ -45,31 +46,30 @@ For example, as we've seen, there is more than one way to achieve the computatio
 
 In this chapter we focus on the **what** part, namely defining computational tasks.
 For starters, we need to define the inputs and outputs.
-A priori, defining all potential inputs and outputs seems challenging, since computation today is applied to a wide variety of objects.
+A priori, capturing all the potential inputs and outputs that we might ever want to compute on seems challenging, since computation today is applied to a wide variety of objects.
 We do not compute merely on numbers, but also on texts, images, videos, connection graphs of social networks, MRI scans, gene data, and even other programs.
 We will represent all these objects as __strings of zeroes and ones__, that is objects such as $0011101$ or $1011$ or any other finite list of $1$'s and $0$'s.
 
 ![We represent numbers, texts, images, networks and many other objects using strings of zeroes and ones. Writing the zeroes and ones themselves in green font over a black background is optional.](../figure/zeroes-ones.jpg){#figureid .margin  }
 
 Today, we are so used to the notion of digital representation that we are not surprised by the existence of such an encoding.
-Indeed, at the time of writing, the full contents of the English Wikipedia, including all the text and media, can be encoded in a string in $\{0,1\}^n$ for $n \sim 10^{12}$ (i.e., about 100 Gigabytes).
-However, this is in fact a deep insight with significant implications.
+But it is actually a deep insight with significant implications.
 Many animals can convey a particular fear or desire, but what is unique about humans is _language_:  we use a finite collection of basic symbols to describe a potentially unlimited range of experiences.
-Language allows transmission of information over both time and space and enables societies that span a great many people and accumulate a body of shared knowledge over time.
+Language allows transmission of information over both time and space and enables societies that span a great many people and accumulate a body of shared knowledge over time.^[For example, at the time I am writing this, the full contents of the English Wikipedia, including all the text and media, can be encoded in a binary string of length $n \sim 10^{12}$ (i.e., about 100 Gigabytes).]
 
 Over the last several decades, we have seen a revolution in what we can represent and convey in digital form.
 We can capture experiences with almost perfect fidelity, and disseminate it essentially instantaneously to an unlimited audience.
 Moreover, once information is in digital form, we can _compute_ over it, and gain insights from data that were not accessible in prior times.
-At the heart of this revolution is the simple but profound observation that we can represent an unbounded variety of objects using a finite set of symbols (and in fact using only the two symbols ```0``` and ```1```).^[There is nothing "holy" about using zero and one as the basic symbols, and we can (indeed sometimes people do) use any other finite set of two or more symbols as the fundamental "alphabet". We use zero and one in this course mainly because it simplifies notation.]
+At the heart of this revolution is the simple but profound observation that we can represent an unbounded variety of objects using a finite set of symbols (and in fact using only the two symbols `0` and `1`).^[There is nothing "holy" about using zero and one as the basic symbols, and we can (indeed sometimes people do) use any other finite set of two or more symbols as the fundamental "alphabet". We use zero and one in this course mainly because it simplifies notation.]
 
-In later lectures, we will often fall back on taking this representation for granted, and hence write something like "program $P$ takes $x$ as input" when $x$ might be a number, a vector, a graph, or any other objects,  when we really mean that $P$ takes as input the _representation_ of $x$ as a binary string.
+In later chapters, we will typically take such representations for granted, and hence use expressions such as "program $P$ takes $x$ as input" when $x$ might be a number, a vector, a graph, or any other object,  when we really mean that $P$ takes as input the _representation_ of $x$ as a binary string.
 However, in this chapter we will dwell a bit more on how we can construct such representations. 
 
 ## Defining representations
 
-Every time we store numbers, images, sounds, databases, or other objects on a computer, what we actually store in memory is the _representation_ of these objects.
+Every time we store numbers, images, sounds, databases, or other objects on a computer, what we actually store in the computer's memory is the _representation_ of these objects.
 Moreover, the idea of representation is not restricted to digital computers.
-When we write down text or a music sheet, we are _representing_ ideas or experiences as sequences of symbols (which might as well be strings of zeroes and ones).
+When we write down text or make a drawing we are _representing_ ideas or experiences as sequences of symbols (which might as well be strings of zeroes and ones).
 Even our brain does not store the actual sensory inputs we experience, but rather only our _representation_ of them.
 
 To use objects such as numbers, images, graphs, or others as inputs for computation, we need to define precisely how to represent these objects as binary strings.
@@ -77,22 +77,22 @@ A _representation scheme_ is a way to map an object $x$ to a binary string $E(x)
 For example, a representation scheme for natural numbers is a function $E:\N \rightarrow \{0,1\}^*$.
 Of course, we cannot merely represent all numbers as the string "$0011$" (for example).
 A minimal requirement is that if two numbers $x$ and $x'$ are different then they would be represented by different strings.
-That is, $E$ is _one to one_ (later on in this book we might need representations with additional properties, such as being easy to compute).
+Another way to say this, is that we require the encoding function $E$ to be _one to one_.
 
 
 ### Representing natural numbers.
 
-We start with the most simple setting of a representation scheme, which is the task of representing natural numbers.
-Over the years people have represented numbers in a variety of ways, including Roman numerals, the decimal system, as well as many other ways.
+We now show how we can represent natural numbers as binary strings.
+Over the years people have represented numbers in a variety of ways, including Roman numerals, tally marks, our own Hindu-Arabic  decimal system, and many others.
+We can use any one of those as well as many others to represent a number as a string.^[For example, we could represent a number $x$ by first breaking it apart to its decimal digits, and then represent each digit as a binary string corresponding to its graphical representation (see [bitmapdigitsfig](){.ref}).]
+However, for the sake of concreteness,  we use the _binary basis_ as our default representation of natural numbers as strings.
+For example, we represent the number six as the string $110$ since $1\cdot 2^{2} + 1 \cdot 2^1 + 0 \cdot 2^0 = 6$, and similarly we represent the number thirty-five as the string $y = 100011$ which satisfies $\sum_{i=0}^5 y_i \cdot 2^{|y|-i} = 35$.^[We could have equally well reversed the order so as to represent $35$ by the string $y'=110001$ satisfying $\sum_{i=0}^5 y'_i\cdot 2^i = 35$. Such low level choices will not make a difference in this course. A related (though not identical) distinction is the [Big Endian vs. Little Endian](https://betterexplained.com/articles/understanding-big-and-little-endian-byte-order/) representation for integers in computing architectures.]
+Some more examples are given in the table below.
 
 
 ![Representing each one the digits $0,1,2,\ldots,9$ as a $12\times 8$ bitmap image, which can be thought of as a string in $\{0,1\}^{96}$. Using this scheme we can represent a natural number $x$ of $n$ decimal digits as a string in $\{0,1\}^{96n}$. Image taken from [blog post of A. C. Andersen](http://blog.andersen.im/2010/12/autonomous-neural-development-and-pruning/).](../figure/digitsbitmap.png){#bitmapdigitsfig .margin  }
 
-There are a great many ways to represent natural numbers as binary strings.
-For example, we could represent a number $x$ by breaking it apart to its decimal digits, and represent each one as a binary string corresponding to its graphical representation (see [bitmapdigitsfig](){.ref}).
-However, for the sake of concreteness,  we will use the _binary basis_ as our default representation of natural numbers as strings.
-For example, will represent the number six as the string $y=110$, which satisfies $y_0\cdot 2^{2} + y_1 \cdot 2^1 + y_2 \cdot 2^0 = 6$, and similarly we represent the number thirty-five as the string $y'= 100011$ which satisfies $\sum_{i=0}^5 y_i \cdot 2^{|y|-i} = 35$.^[We could have equally well reversed the order so as to represent $35$ by the string $y=110001$ satisfying $\sum_i y_i\cdot 2^i = 35$. Such low level choices will not make a difference in this course.
-A related (though not identical) distinction is the [Big Endian vs. Little Endian](https://betterexplained.com/articles/understanding-big-and-little-endian-byte-order/) representation for integers in computing architectures.]
+
 
 | **Number (decimal representation)** | **Number (binary representation)** |
 |-------------------------------------|------------------------------------|
@@ -109,38 +109,35 @@ A related (though not identical) distinction is the [Big Endian vs. Little Endia
 
 Table: Representing numbers in the binary basis. The lefthand column contains representations of natural numbers in the decimal basis, while the righthand column contains representations of the same numbers in the binary basis. Note that in both representations the leftmost (i.e., most significant) digit is never equal to zero (unless we represent the natural number zero).
 
-Formally,  our representation is given by the following theorem:
+
+The binary representation encodes numbers as strings in a one-to-one fashion, and so it yields a proof of the following theorem:
 
 > ### {.theorem title="Binary representation of natural numbers" #binaryrepthm}
 There exists a one-to-one function $NtS:\N \rightarrow \{0,1\}^*$.^[$NtS$ stands for "numbers to strings".]
 
-> ### {.proofidea data-ref="binaryrepthm"}
-This theorem is proven using the standard binary representation mentioned above. There are also many sources online that describe the binary representation, see also the Python code below.
 
 ::: {.proof data-ref="binaryrepthm"}
+To prove this theorem, we first precisely define the binary representation function, and then prove that this function is one to one.
 If $x$ is even then the least significant binary digit of $x$ is zero, while if $x$ is odd, then the least significant binary digit is one.
-In either case, $\floor{x/2}$ corresponds to the number obtained when we "chop off" the least significant digit.
+In other words, the least significant binary digit of $x$ is $parity(x)$ where $parity(x)$ is defined to be equal $1$ if $x$ is odd and defined to equal $0$ if $x$ is even.
+Moreover, for every $x>1$, the binary representation of the number $\floor{x/2}$ (i.e., the number obtained by "rounding down" $x/2$) is obtained from the binary representation of $x$ by "chopping off" the least significant digit.
 Hence we can define  $NtS$ recursively as follows:
 
 $$NtS(x) = \begin{cases}
             \text{""}    &  x=0 \\
             NTS(\floor{x/2}) parity(x) & x>0
-\end{cases}$$
-where $parity(x)$ is defined to equal $1$ if $x$ is odd and to equal $0$ if $x$ is even. (The function $NtS$ is well defined since for every $x>0$, $\floor{x/2} < x$.)
-If $\alpha$ and $\beta$ are two strings, then $\alpha\beta$ corresponds to the string obtained by _concatenating_ $\alpha$ and $\beta$ (that is, the string $\gamma$ of length $|\alpha|+|\beta|$ obtained by writing $\alpha$ first and then writing $\beta$).
-Thus in the definition above $NTS(\floor{x/2}) parity(x)$ corresponds to the _concetenation_ of the string $NTS(\floor{x/2})$ with the (one bit long) string $parity(x)$.
+\end{cases} \;.$$
+(The function $NtS$ is well defined since for every $x>0$, $\floor{x/2} < x$.)
+That is, the binary representation of $x$ is obtained by concatenating the string corresponding binary representation of $\floor{x/2}$ with the single bit $parity(x)$.
 
 It can be shown (though we omit the proof since it is slightly tedious, and can be easily found in many online resources) that if $y = NtS(x)$ then $x = \sum_{i=0}^n y_i \cdot 2^{n-i}$ where $n=|y|-1$.
-In particular, this gives a way to recover (or _decode_) the original  $x$ from the output $y=NtS(x)$ which means that $NtS$ is one to one.
-
-The above representation uses the empty string $""$ to represent the number $0$. However, we can also represent this number using the string $0$ as well. This choice will not make any difference for our purposes.
+In particular, this gives a way to recover (or _decode_) the original  $x$ from the output $y=NtS(x)$ which means that $NtS$ is one to one.^[The representation $NtS$ uses the empty string $""$ to represent the number $0$. However, we can also represent this number using the string $0$ as well. This choice will not make any difference for our purposes.]
 :::
 
-### Implementing the representation in python:
+
+### Implementing the binary representation in python (optional)
 
 In the _Python_ programming language, we can compute the above encoding and decoding functions as follows:
-
-
 
 ```python
 from math import floor, log
@@ -161,7 +158,7 @@ def StN(y):
         x += int(y[i])*(2**(n-i))
     return x
 
-print(StN(NtS(246)))
+print(StN(NtS(236)))
 # 236
 ```
 
@@ -190,32 +187,33 @@ In particular, the non-recursive implementation of the function `NtS` above uses
 
 
 
-### Meaning of representation
+### Meaning of representations
 
 It is natural for us to think of $236$ as the "actual" number, and of $11101100$ as "merely" its representation.
 However, for most Europeans in the middle ages `CCXXXVI` would be the "actual" number and $236$ (if they have even heard about it) would be the weird Hindu-Arabic positional representation.^[While the Babylonians already invented a positional system much earlier, the decimal positional system we use today was invented by Indian mathematicians around the third century. It was taken up by Arab mathematicians in the 8th century. It was mainly introduced to Europe in the 1202 book _"Liber Abaci"_ by Leonardo of Pisa, also known as Fibonacci, but did not displace Roman numerals in common usage until the 15th century.]
 When our AI robot overlords materialize, they will probably think of $11101100$ as the "actual" number and of $236$ as "merely" a representation that they need to use when they give commands to humans.
 
-So what is the "actual" number? This is a question that philosophers of mathematics have pondered over the generations.
+So what is the "actual" number? This is a question that philosophers of mathematics have pondered over throughout history.
 Plato argued that mathematical objects exist in some ideal sphere of existence (that to a certain extent is more "real" than the world we perceive via our senses, as this latter world is merely the shadow of this ideal sphere).
-Thus in Plato's vision, the symbols $236$ are merely notation for some ideal object, that, in homage to the [late musician](https://goo.gl/b93h83), we can refer to as  "the number commonly represented by $236$".
+In Plato's vision, the symbols $236$ are merely notation for some ideal object, that, in homage to the [late musician](https://goo.gl/b93h83), we can refer to as  "the number commonly represented by $236$".
 
-The Austrian philosopher Ludwig Wittgenstein, on the other hand, argued that mathematical objects do not exist at all, and the only things that exist are the actual splotches on paper that make up $236$, $00110111$ or `CCXXXVI`.
+The Austrian philosopher Ludwig Wittgenstein, on the other hand, argued that mathematical objects do not exist at all, and the only things that exist are the actual marks on paper that make up $236$, $00110111$ or `CCXXXVI`.
 In Wittgenstein's view, mathematics is merely about formal manipulation of symbols that do not have any inherent meaning.
 You can think of the "actual" number as (somewhat recursively) "that thing which is common to $236$, $00110111$  and `CCXXXVI` and all other past and future representations that are meant to capture the same object".
 
-While reading this book, you are free to choose your own philosophy of mathematics, as long as you maintain the distinction between the mathematical objects themselves and the particular choice of representing them, whether as splotches of ink, pixels on a screen, zeroes and one, or any other form.
+While reading this book, you are free to choose your own philosophy of mathematics, as long as you maintain the distinction between the mathematical objects themselves and the various particular choices of representing them, whether as splotches of ink, pixels on a screen, zeroes and one, or any other form.
 
 ## Representing more objects
 
-We now discuss how we can represent many other objects as strings, going far beyond natural numbers.
+We have seen that natural numbers can be represented as binary strings.
+We now show that the same is true for other types of objects, including (potentially negative) integers, rational numbers, vectors, lists, graphs and many others.
 In many instances, choosing the "right" string representation for a piece of data is highly nontrivial, and finding the "best" one (e.g., most compact, best fidelity,  most efficiently manipulable, robust to errors, most informative features, etc.) is the object of intense research.
 But for now, we focus on presenting some simple representations for various objects that we would like to use as inputs and outputs for computation.
 
 
 ### Representing (potentially negative) integers
 
-Now that we can represent natural numbers, we can represent the full set of _integers_ (i.e., members of the set $\Z=\{ \ldots, -3 , -2 , -1 , 0 , +1, +2, +3,\ldots \}$ ) by adding one more bit that represents the sign.
+Since we can represent natural numbers as strings, we can represent the full set of _integers_ (i.e., members of the set $\Z=\{ \ldots, -3 , -2 , -1 , 0 , +1, +2, +3,\ldots \}$ ) by adding one more bit that represents the sign.
 If $x\in \Z$, then we can represent it by the string $NtS(|x|)\sigma$ where $\sigma$ equals to $0$ is $x \geq 0$ and $\sigma$ equals to $1$ if $x<0$.
 
 Thus the string $y \in \{0,1\}^*$ will represent the number
@@ -361,12 +359,13 @@ As we will see later in this book, Cantor's ideas also play a huge role in the t
 Now that we have discussed the theorem's importance, let us see the proof.
 The idea behind the proof is to do the following::
 
-1. Define some infinite set $\mathcal{X}$ for which it is easier for us to prove that $\mathcal{X}$ is not countable: that is there is no one-to-one function from  $\mathcal{X}$ to $\{0,1\}^*$.
+1. Define some infinite set $\mathcal{X}$ for which it is easier for us to prove that $\mathcal{X}$ is not countable (namely,  it's easier for us to prove is there is no one-to-one function from  $\mathcal{X}$ to $\{0,1\}^*$).
 
 2. Prove that there _is_ a one-to-one function $G$ mapping $\mathcal{X}$ to $\mathbb{R}$.
 
-These two facts together imply Cantor's Theorem. We can show this using a "proof by contradiction." If we assume (towards the sake of contradiction) that there exists some one-to-one $F$ mapping $\mathbb{R}$ to $\{0,1\}^*$
-then the function $x \mapsto F(G(x))$ obtained by composing $F$ with the function $G$ from Step 2 above would be a one-to-one function from $\mathcal{X}$ to $\{0,1\}^*$, which contradicts what we proved in Step 1!
+These two facts together imply Cantor's Theorem.
+Indeed, we can show this implication using a "proof by contradiction." 
+If we assume (towards the sake of contradiction) that there exists some one-to-one $F$ mapping $\mathbb{R}$ to $\{0,1\}^*$ then the function $x \mapsto F(G(x))$ obtained by composing $F$ with the function $G$ from Step 2 above would be a one-to-one function from $\mathcal{X}$ to $\{0,1\}^*$, which contradicts what we proved in Step 1!
 
 To turn this idea into a proof of [cantorthm](){.ref} we need to:
 
@@ -376,10 +375,13 @@ To turn this idea into a proof of [cantorthm](){.ref} we need to:
 
 * Prove that there _is_ a one-to-one function from $\mathcal{X}$ to $\R$.
 
-We now proceed to do precisely that. Namely, we will present a definition for a certain set and then state and prove two lemmas that show that this set satisfies our two desired properties.
+We now proceed to do precisely that.
+That is, we will present a definition for a certain set and then state and prove two lemmas that show that this set satisfies our two desired properties.
 
-> ### { .definition title = "The set $\{0,1\}^\infty$" }
-We define $\{0,1\}^\infty$ to be the set  $\{ f \;|\; f:\N \rightarrow \{0,1\} \}$.
+::: {.definition title="The set $\{0,1\}^\infty$" #bitsinfdef}
+We denote by $\{0,1\}^\infty$ the set  $\{ f \;|\; f:\N \rightarrow \{0,1\} \}$.
+:::
+
 
 That is, $\{0,1\}^\infty$ is a set of _functions_, and a function $f$ is in $\{0,1\}^infty$ iff its domain is $\N$ and its codomain is $\{0,1\}$.^[We can also think of $\{0,1\}^\infty$ as the set of all infinite _sequences_ of bits, since a function $f:\N \rightarrow \{0,1\}$ can be identified with the sequence $(f(0),f(1),f(2),\ldots )$.]
 The set $\{0,1\}^\infty$ will play the role of $\mathcal{X}$ above.
@@ -1047,7 +1049,7 @@ We will be interested in questions such as:
 
 In order to do that, we will need to mathematically define the notion of an _algorithm_, which is what we will do in [compchap](){.ref}.
 
-### Distinguish functions from programs!
+### Distinguish functions from programs!  { #secimplvsspec }
 
 You should always watch out for potential confusions between **specifications** and **implementations** or equivalently between **mathematical functions**  and **algorithms/programs**.
 It does not help that programming languages (Python included) use the term _"functions"_ to denote (parts of) _programs_.
