@@ -130,9 +130,12 @@ $$AND(a,b) = \begin{cases} 1 & a=b=1 \\ 0 & \text{otherwise} \end{cases}$$
 * $NOT:\{0,1\} \rightarrow \{0,1\}$ defined as $NOT(a) = 1-a$.
 
 The functions $AND$, $OR$ and $NOT$, are the basic logical operators used in logic and many computer system.
-Each one of these functions takes either one or two single bits as input, and produces a single bit as output.
+In the context of logic, it is common to use the notation $a \wedge b$ for $AND(a,b)$, $a \vee b$ for $OR(a,b)$ and $\overline{a}$ and $\neg a$ for $NOT(a)$, and we will use this notation as well.
+
+Each one of the functions $AND,OR,NOT$ takes either one or two single bits as input, and produces a single bit as output.
 Clearly, it cannot get much more basic than that.
 However, the power of computation comes from _composing_ such simple building blocks together.
+
 
 
 ::: {.example title="Majority from $AND$,$OR$ and $NOT$" #majorityfunction}
@@ -150,10 +153,10 @@ $$
 MAJ(x_0,x_1,x_2) = OR\left(\, AND(x_0,x_1)\;,\; OR \bigl( AND(x_1,x_2) \;,\; AND(x_0,x_2) \bigr) \, \right) \;. \label{eqmajandornot}
 $$
 
-It is common to use $a \vee b$ for $OR(a,b)$ and $a \wedge b$ for $AND(a,b)$, as well as write $a \vee b \vee c$ as shorthand for $(a \vee b) \vee c$. ($NOT(a)$ is often written as either $\neg a$ or $\overline{a}$; we will use both notations in this book.) With this notation,
+Recall that we can also write  $a \vee b$ for $OR(a,b)$ and $a \wedge b$ for $AND(a,b)$. With this notation,
 [eqmajandornot](){.eqref}  can also be written as
 
-$$MAJ(x_0,x_1,x_2) = (x_0 \wedge x_1) \vee (x_1 \wedge x_2) \vee (x_0 \wedge x_3)\;.$$
+$$MAJ(x_0,x_1,x_2) = ((x_0 \wedge x_1) \vee (x_1 \wedge x_2)) \vee (x_0 \wedge x_3)\;.$$
 
 
 
@@ -169,6 +172,23 @@ def MAJ(X[0],X[1],X[2]):
 ```
 :::
 
+### Some properties of AND and OR
+
+Like standard addition and multiplication, the functions $AND$ and $OR$ satisfy the properties of _commutativity_: $a \vee b = b \vee a$ and $a \wedge b = b \wedge a$ and _associativity_: $(a \vee b) \vee c = a \vee (b \vee c)$ and $(a \wedge b) \wedge c = a \wedge (b \wedge c)$.
+As in the case of addition and multiplication, we often drop the parenthesis and write $a \vee b \vee c \vee d$ for $((a \vee b) \vee c) \vee d$, and similarly OR's and AND's of more terms.
+They also satisfy a variant of the distributive law:
+
+::: {.solvedexercise title="Distributive law for AND and OR" #distributivelaw}
+Prove that for every $a,b,c \in \{0,1\}$, $a \wedge (b \vee c) = (a \wedge b) \vee (a \wedge c)$.
+:::
+
+::: {.solution data-ref="distributivelaw"}
+We can prove this by enumerating over all the $8$ possible values for $a,b,c \in \{0,1\}$ but it also follows from the standard distributive law.
+Suppose that we identify any positive integer with "true" and the value zero with "false".
+Then for every numbers $u,v \in \N$, $u+v$ is positive if and only if $u \vee v$ is true and $u \cdot v$ is positive if and only if $u \wedge v$ is true.
+This means that for every $a,b,c \in \{0,1\}$, the expression $a \wedge (b \vee c)$ is true if and only if $a \cdot(b+c)$ is positive, and the expression $(a \wedge b) \vee (a \wedge c)$ is true if and only if $a \cdot b + a \cdot c$ is positive,
+But by the standard distributive law $a\cdot (b+c) = a\cdot b + a \cdot c$ and hence the former expression is true if and only if the latter one is.
+:::
 
 
 
@@ -216,7 +236,7 @@ On input $a,b\in \{0,1\}$, [XORfromAONalg](){.ref} outputs $AND(w2,w3)$ where $w
 * If $a=1$ and $b=0$ (or vice versa) then both $w3=OR(a,b)=1$ and $w1=AND(a,b)=0$, in which case the algorithm will output $OR(NOT(w1),w3)=1$.
 :::
 
-We can also express [XORfromAONalg](){.ref} via a programming language.
+We can also express [XORfromAONalg](){.ref} using a programming language.
 Specifically, the following is a _Python_ program that computes the $XOR$ function:
 
 ```python
@@ -323,7 +343,7 @@ We will also discuss how to _physically implement_ simple operations such as $AN
 
 ## Boolean Circuits 
 
-_Boolan circuits_ provide a precise notion of  "composing basic operations together".
+_Boolean circuits_ provide a precise notion of  "composing basic operations together".
 A Boolean circuit (see [boolancircfig](){.ref}) is composed of _gates_ and _inputs_ that are connected by _wires_.
 The _wires_  carry a signal that is either the value $0$ or $1$. ^[When Boolean circuits are implemented physically, the signal is [often implemented](https://goo.gl/gntTQE) by electric potential or _voltage_ on a wire, where for example voltage above a certain level is interpreted as a logical value of $1$, and below a certain level is interpreted as a logical value of $0$.]
 Each gate corresponds to either the _OR_, _AND_, or _NOT_ operation.
@@ -356,6 +376,18 @@ Since the formula [eqmajandornot](){.eqref} involves three AND's and two OR's, t
 ![A circuit with $AND$, $OR$ and $NOT$ gates  for computing the $XOR$ function.](../figure/xorandornotcirc.png){#andornotcircxorfig  .margin  } 
 
 
+::: {.solvedexercise title="All equal function" #allequalex}
+Define $ALLEQ:\{0,1\}^4 \rightarrow \{0,1\}$ be the function that on input $x\in \{0,1\}^4$ outputs $1$ if and only if $x_0=x_1=x_2=x_3$. Give a Boolean circuit for computing $ALLEQ$.
+:::
+
+
+::: {.solution data-ref="allequalex"}
+Another way to describe the function $ALLEQ$ is that it outputs $1$ on an input $x\in \{0,1\}^4$ if and only if $x = 0^4$ or $x=1^4$.
+We can phrase the condition $x=1^4$ as $x_0 \wedge x_1 \wedge x_2 \wedge x_3$ which can be computed
+using three AND gates.
+Similarly we can phrase the condition $x=0^4$ as $\overline{x}_0 \wedge \overline{x}_1 \wedge \overline{x}_2 \wedge \overline{x}_3$ which can be computed using four NOT gates and three AND gates.
+The output of $ALLEQ$ is the OR of these two conditions, which results in the circuit of 4 NOT gates, 6 AND gates, and one OR gate presented in [allequalfig](){.ref}.
+:::
 
 
 ### Boolean circuits: a formal definition
@@ -482,7 +514,7 @@ We can also present this 8-line program as a circuit with 8 gates, see [aoncmpfi
 :::
 
 
-![A circuit for computing the $CMP$ program. The evaluation of this circuit on $(1,1,1,0)$ yields the output $1$, since the number $3$ (represented in binary as $11$) is larger than the number $2$ (represented in binary as $10$).](../figure/aoncircforcmp.png){#aoncmpfig .margin}
+![A circuit for computing the $CMP$ function. The evaluation of this circuit on $(1,1,1,0)$ yields the output $1$, since the number $3$ (represented in binary as $11$) is larger than the number $2$ (represented in binary as $10$).](../figure/aoncircforcmp.png){#aoncmpfig .margin}
 
 
 
@@ -1116,8 +1148,17 @@ However, in both the theory and practice of computer science, it is important to
 ## Exercises
 
 
+::: {.exercise title="Compare $4$ bit numbers" #comparenumbersex}
+Give a Boolean circuit (with AND/OR/NOT gates) that computes the function $CMP_8:\{0,1\}^8 \rightarrow \{0,1\}$ such that $CMP_8(a_0,a_1,a_2,a_3,b_0,b_1,b_2,b_3)=1$ if and only if the number represented by $a_0a_1a_2a_3$ is larger than the number represented by $b_0b_1b_2b_3$.
+:::
+
+::: {.exercise title="Compare $n$ bit numbers" #compareasymnumbersex}
+Prove that there exists a constant $c$ such that for every $n$ there is a Boolean circuit (with AND/OR/NOT gates) $C$ of at most $c\cdot n$ gates  that computes the function $CMP_{2n}:\{0,1\}^{2n} \rightarrow \{0,1\}$ such that $CMP_{2n}(a_0\cdots a_{n-1} b_0 \cdots b_{n-1})=1$ if and only if the number represented by $a_0 \cdots a_{n-1}$ is larger than the number represented by $b_0 \cdots b_{n-1}$.
+:::
+
+
 ::: {.exercise title="OR,NOT is universal" #ornotex}
-Prove that the set $\{ OR , NOT \}$ is _universal_, in the sense that one can compute NAND from it.
+Prove that the set $\{ OR , NOT \}$ is _universal_, in the sense that one can compute NAND using these gates.
 :::
 
 ::: {.exercise title="AND,OR is not universal" #andorex}

@@ -184,10 +184,51 @@ The list-of-tuples representation loses information such as the particular names
 Since every one of our triples contains a number between $0$ and $t \leq 3s$ (and hence can be encoded as a string of at most $\log(3s) \leq O(\log s)$ bits), we can encode the representation of an $s$ line program using a string of $O(s \log s)$ bits.^[The maximum value $t$ can take is $s+n$ and since every line touches at most two inputs, we can assume that $s \geq n/2$ or $n \leq 2s$ as otherwise there would be an input that is not used in any line of the program.]
 For every $s,n,m$, we define  $EVAL_{s,n,m}$ as the function mapping  $\{0,1\}^{3s\ceil{\log 3s} + n}$ to $\{0,1\}^m$ which takes as input a string $Lx$ where $L$ is a list of $s$ triples of numbers between $0$ and $3s-1$ (obtained by simply concatenating their binary representations as strings of length $\ceil{\log 3s}$) and $x\in \{0,1\}^n$, and outputs $P(x)$ where $P$ is the program represented by $(n,m,L)$.
 
+::: {.remark title="Mapping code to representation by Python (optional)" #representbypythonrem }
+We can  transform the representation of a NAND-CIRC program in code to the list of triples representation using the following simple Python program.
+The code of this program is not particularly insightful, and so it can be safely skipped.
+We include it here for the sake of concreteness and also to emphasize that there is nothing deep or 
+mysterious about the list-of-triples representation and it is easy to go back and forth between 
+this representation, the representation of NAND-CIRC programs in code, the representation of circuits with NAND gates as directed acyclic graphs, and many others.
+
+```python
+def code2rep(code):
+    """Map NAND-CODE to the list-of-triples representation."""
+    inputs = [] ; workspace = [] ; outputs = []
+    def parse(line): # extract 3 variables from line of code
+        return line[:line.find("=")].strip(), line[line.find("(")+1:line.find(",")].strip(),  line[line.find(",")+1:line.find(")")].strip()
+        
+    def addvar(var): # add variable to inputs/outputs/workspace lists
+        nonlocal inputs,workspace,outputs
+        if var[0]=='X': 
+            if not var in inputs: inputs += [var]
+        elif var[0]=='Y': 
+            if not var in outputs: outputs += [var]
+        elif not var in workspace:
+            workspace += [var] 
+    
+    # add all variables
+    for line in code.split('\n'):
+        for var in parse(line):
+            addvar(var)
+    
+    # sort variables as inputs, then workspace, then outputs
+    # inputs and outputs are sorted based on index, workspace based on order of occurrence.
+    variables = sorted(inputs) + workspace + sorted(outputs)
+    
+    L = [] # list of triples 
+    for line in code.split('\n'):
+        foo,bar,blah = parse(line)
+        L += [[variables.index(foo),variables.index(bar),variables.index(blah)]]
+    
+    return (len(inputs),len(outputs),L) 
+```
+
+:::
 
 
 
-### A NAND interpeter in "pseudocode"
+### A NAND-CIRC interpeter in "pseudocode"
 
 To prove [eff-bounded-univ](){.ref} it suffices to give a NAND-CIRC program of $O(s^2 \log s)$ lines that can evaluate NAND-CIRC programs of $s$ lines.
 Let us start by thinking how we would evaluate such programs if we weren't restricted to only performing NAND operations.
@@ -263,7 +304,7 @@ print(NANDEVAL(2,1,L,(1,1))) # XOR(1,1)
 Accessing an element of the array `Vartable` at a given index takes a constant number of basic operations.
 Hence (since $n,m \leq s$ and $t \leq 3s$),  the program above will use  $O(s)$ basic operations.^[Python does not distinguish between lists and arrays, but allows constant time random access to an indexed elements to both of them. One could argue that if we allowed programs of truly unbounded length (e.g., larger than $2^{64}$) then the price would not be constant but logarithmic in the length of the array/lists, but the difference between $O(s)$ and $O(s \log s)$ will not be important for our discussions.]
 
-### Constructing the NAND interpreter in NAND
+### Constructing the NAND-CIRC interpreter in NAND-CIRC
 
 We now turn to describing the proof of  [eff-bounded-univ](){.ref}.
 To do this, it is of course not enough to give a Python program.
