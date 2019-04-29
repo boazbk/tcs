@@ -644,18 +644,26 @@ A statement such as "this cryptosystem provides 128 bits of security" really mea
 * Boolean circuits (or equivalently AON-CIRC or NAND-CIRC programs) capture a surprisingly wide array of computational models. The strongest currently known challenge to the PECTT comes from the potential for using quantum mechanical effects to speed-up computation, a model known as _quantum computers_.
 
 
-## Finite computation recap
 
-The main take-aways from [compchap](){.ref}, [finiteuniversalchap](){.ref}, and [codeanddatachap](){.ref} are:
+![A finite computational task is specified by a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$. We can model a computational process using Boolean circuits (of varying gate sets) or straight-line program. Every function can be computed by many programs. We say that $f \in SIZE_{n,m}(s)$ if there exists a NAND circuit of at most $s$ gates (equivalently a NAND-CIRC program of at most $s$ lines) that computes $f$. Every function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a circuit of $O(m \cdot 2^n/n)$ gates. Many functions such as multiplication, addition, solving linear equations, computing the shortest path in a graph, and others, can be computed by circuits of much fewer gates. In particular there is an $O(s \log^2 s)$-size circuit that computes the map $C,x \mapsto C(x)$ where $C$ is a string describing  a circuit of $s$ gates. However, the counting argument shows there do exist some functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that require $\Omega(m \cdot 2^n /n)$ gates to compute.](../figure/finitecomprecap.png){#finiterecapfig .full}
 
-* We can formally define the notion of a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ being computed using $s$ basic operations. Whether these operations are AND/OR/NOT, NAND, or some other universal basis does not make much difference. We can describe such a computation either using a _circuit_ or using a _straight-line program_.
+
+## Recap of Part I: Finite Computation
+
+This chapter concludes the first part of this book that deals with _finite computation_ (computing functions that map a fixed number of Boolean inputs to a fixed number of Boolean outputs).
+The main take-aways from [compchap](){.ref}, [finiteuniversalchap](){.ref}, and [codeanddatachap](){.ref} are as follows (see also [finiterecapfig](){.ref}):
+
+* We can formally define the notion of a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ being computable using $s$ basic operations. Whether these operations are AND/OR/NOT, NAND, or some other universal basis does not make much difference. We can describe such a computation either using a _circuit_ or using a _straight-line program_.
+
+* We define $SIZE_{n,m}(s)$ to be the set of _functions_ that are computable by NAND circuits of at most $s$ gates. This set is equal to the set of functions computable by a NAND-CIRC program of at most $s$ lines and pp to a constant factor in $s$ (which we will not care about) this is also the same as the set of functions that are computable by a Boolean circuit of at most $s$ AND/OR/NOT gates. The class  $SIZE_{n,m}(s)$ is a set of _functions_, not of programs/circuits.
 
 * _Every_ function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed using a circuit of _at most_ $O(m \cdot 2^n / n)$ gates. _Some_ functions require _at least_ $\Omega(m \cdot 2^n /n)$ gates. We define $SIZE_{n,m}(s)$ to be the set of functions from $\{0,1\}^n$ to $\{0,1\}^m$ that can be computed using at most $s$ gates.
 
-* We can describe a circuit/program $P$ as a string. For every $s$, there is a _universal_ circuit/program $U_s$ that can evaluate programs of length $s$ given their description as strings. We use this representation also to prove that some functions cannot be computed by circuit of smaller-than-exponential size.
+* We can describe a circuit/program $P$ as a string. For every $s$, there is a _universal_ circuit/program $U_s$ that can evaluate programs of length $s$ given their description as strings. We can use this representation also to _count_ the number of circuits of at most $s$ gates and hence prove that some functions cannot be computed by circuit of smaller-than-exponential size.
 
-* If there is a circuit of $s$ gates that computes a function $f$, then we can build a physical device to compute $f$ using about $s$ components (such as transistors). If $f$ is a function for which _every_ circuit requires at least $s$ gates then the "Physical Extended Church-Turing Thesis" postulates that _every_ physical device to compute $f$ will require about $s$ "physical resources". The main challenge to the PECTT is _quantum computing_ which we will discuss in [quantumchap](){.ref}.
+* If there is a circuit of $s$ gates that computes a function $f$, then we can build a physical device to compute $f$ using $s$ basic components (such as transistors). The "Physical Extended Church-Turing Thesis" postulates postulates that the reverse direction is true as well: if $f$ is a function for which _every_ circuit requires at least $s$ gates then  that _every_ physical device to compute $f$ will require about $s$ "physical resources". The main challenge to the PECTT is _quantum computing_, which we will discuss in [quantumchap](){.ref}.
 
+__Sneak preview:__ In the next part we will discuss how to model computational tasks on _unbounded inputs_, which are specified using functions $F:\{0,1\}^* \rightarrow \{0,1\}^*$ (or $F:\{0,1\}^* \rightarrow \{0,1\}$) that can take an unbounded number of Boolean inputs.
 
 
 ## Exercises
@@ -705,6 +713,19 @@ The following is a tuple representing a NAND program:  $(3, 1, ((3, 2, 2),   (4,
 For every sufficiently large $n$, let $E_n:\{0,1\}^{n^2} \rightarrow \{0,1\}$ be the function that takes an $n^2$-length string that encodes a pair $(P,x)$ where $x\in \{0,1\}^n$ and $P$ is a NAND program of $n$ inputs, a single output, and at most $n^{1.1}$ lines, and returns the output of $P$ on $x$.^[Note that if $n$ is big enough, then it is easy to represent such a pair using $n^2$ bits, since we can represent the program using $O(n^{1.1}\log n)$ bits, and we can always pad our representation to have exactly $n^2$ length.] That is, $E_n(P,x)=P(x)$.
 
 Prove that for every sufficiently large $n$, there _does not exist_ an XOR circuit $C$ that computes the function $E_n$, where a XOR circuit has the $XOR$ gate as well as the constants $0$ and $1$ (see [xorex](){.ref}).  That is, prove that there is some constant $n_0$ such that for every $n>n_0$ and XOR circuit $C$ of $n^2$ inputs and a single output, there exists a pair $(P,x)$ such that $C(P,x) \neq E_n(P,x)$.
+:::
+
+
+::: {.remark title="Learning circuits (challenge, optional, assumes more background)" #learningcircuitsex}
+(This exercise assumes background in probability theory and/or machine learning that you might not have at this point. Feel free to come back to it at a later point and in particular after going over [probabilitychap](){.ref}.)
+In this exercise we will use our bound on the number of circuits of size $s$ to show that (if we ignore the cost of computation) every such circuit can be _learned_ from not too many training samples.
+Specifically, if we find a size-$s$ circuit that classifies correctly a training set of $O(s \log s)$ samples from some distribution $D$, then it is guaranteed to do well on the whole distribution $D$.
+Since Boolean circuits model very many physical processes (maybe even all of them, if the (controversial) physical extended Church-Turing thesis is true), this shows that all such processes could be learned as well (again, ignoring the computation cost of finding a classifier that does well on the training data).
+
+Let $D$ be any probability distribution over $\{0,1\}^n$ and let $C$ be a NAND circuit with $n$ inputs, one output, and size $s \geq n$.
+Prove that there is some constant $c$ such that with probability at least $0.999$ the following holds: if $m = c s \log s$ and $x_0,\ldots,x_{m-1}$ are chosen independently from $D$, then for every circuit $C'$ such that $C'(x_i)=C(x_i)$ on every $i \in [m]$, $\Pr_{x \sim D}[C'(x) \leq C(x)] \leq 0.99$.
+
+In other words, if $C'$ is a so called "empirical risk minimizer" that agrees with $C$ on all the training examples $x_0,\ldots,x_{n-1}$, then it will also agree with $C$ with high probability for samples drawn from the distribution $D$ (i.e., it "generalizes", to use Machine-Learning lingo). See footnote for hint.^[_Hint:_ Use our bound on the number of programs/circuits of size $s$ ([program-count](){.ref}), as well as the Chernoff Bound ( [chernoffthm](){.ref}) and the union bound.]
 :::
 
 

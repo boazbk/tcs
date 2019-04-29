@@ -225,7 +225,7 @@ Thus most of the time we can safely ignore  "rounding issues" in the lengths of 
 
 Toom and Cook extended in the ideas of Karatsuba to get even faster multiplication algorithms, but this was not the end of the line.
 In 1971, Schönhage and Strassen improved on the Toom-Cook algorithm using the _Fast Fourier Transform_; their idea was to somehow treat integers as "signals" and do the multiplication more efficiently by moving to the Fourier domain.^[The _Fourier transform_ is a central tool in mathematics and engineering, used in a great many applications. If you have not seen it yet, you will hopefully encounter it at some point in your studies.]
-The latest asymptotic improvement was given by Fürer in 2007 (though it only starts beating the Schönhage-Strassen algorithm for truly astronomical numbers).
+In the years that followed researchers kept improving the algorithm, and only very recently Harvey and Van Der Hoeven managed to obtain an $O(n \log n)$ time algorithm for multiplication (though it only starts beating the Schönhage-Strassen algorithm for truly astronomical numbers).
 Yet, despite all this progress, we still don't know whether or not there is an $O(n)$ time algorithm for multiplying two $n$ digit numbers!
 
 
@@ -438,8 +438,8 @@ Aaronson's book [@Aaronson13democritus] is another great read that touches upon 
 Many of the algorithms we mention in this chapter are covered in algorithms textbooks such as those by Cormen, Leiserson, Rivert, and Stein [@CLRS], Kleinberg and Tardos [@KleinbergTardos06],  and Dasgupta, Papadimitriou and Vazirani [@DasguptaPV08].
 
 
-The story of Karatsuba's discovery of his multiplication algorithm is recounted by him in [@Karatsuba95]. As mentioned above, further improvements were made by Toom and Cook [@Toom63, @Cook66],  Schönhage and Strassen [@SchonhageStrassen71], and Fürer [@Furer07].
-These last papers crucially rely on the _Fast Fourier transform_ algorithm. The interesting of the (re)discovery of this algorithm by John Tukey in the context of the cold war is recounted in [@Cooley87FFTdiscovery]. (We say re-discovery because it later turned out that the algorithm dates back to Gauss [@heideman1985gauss].)
+The story of Karatsuba's discovery of his multiplication algorithm is recounted by him in [@Karatsuba95]. As mentioned above, further improvements were made by Toom and Cook [@Toom63, @Cook66],  Schönhage and Strassen [@SchonhageStrassen71], Fürer [@Furer07], and recently by Harvey and Van Der Hoeven [@HarveyvdHoeven2019], see [this article](https://www.quantamagazine.org/mathematicians-discover-the-perfect-way-to-multiply-20190411/) for a nice overview.
+The last papers crucially rely on the _Fast Fourier transform_ algorithm. The fascinating story of the (re)discovery of this algorithm by John Tukey in the context of the cold war is recounted in [@Cooley87FFTdiscovery]. (We say re-discovery because it later turned out that the algorithm dates back to Gauss [@heideman1985gauss].)
 The Fast Fourier Transform is covered in some of the books mentioned below, and there are also online available lectures such as [Jeff Erickson's](http://jeffe.cs.illinois.edu/teaching/algorithms/). See also this [popular article by David Austin](http://www.ams.org/samplings/feature-column/fcarc-multiplication).
 Fast _matrix_ multiplication was discovered by Strassen [@Strassen69], and since then this has been an active area of research. [@Blaser13] is a recommended self-contained survey of this area.
 

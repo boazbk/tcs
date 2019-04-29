@@ -4,7 +4,7 @@ filename: "lec_15_probability"
 chapternum: "17"
 ---
 
-#  Probability Theory 101
+#  Probability Theory 101 {#probabilitychap }
 
 > ### { .objectives }
 * Review the basic notion of probability theory that we will use. \

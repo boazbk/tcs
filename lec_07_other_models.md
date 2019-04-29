@@ -19,8 +19,11 @@ chapternum: "7"
 
 So far we have defined the notion of computing a function based on Turing machines, which don't really correspond to the way computation is done in practice.
 In this chapter we justify this choice by showing that the definition of computable functions will remain the same under a wide variety of computational models.
-In fact, a widely believed claim known as the _Church-Turing Thesis_ holds that _every_ "reasonable" definition of computable function is equivalent to ours.
+This notion is known as _Turing completeness_ or _Turing equivalence_ and is one of the most fundamental facts of computer science.
+In fact, a widely believed claim known as the _Church-Turing Thesis_ holds that _every_ "reasonable" definition of computable function is equivalent to being computable by a Turing machine.
 We will discuss the Church-Turing Thesis and the potential definitions of "reasonable" in [churchturingdiscussionsec](){.ref}.
+
+![Some Turing-equivalent models. All of these are equivalent in power to Turing Machines (or equivalently NAND-TM programs) in the sense that they can compute exactly the same class of functions. All of these are models for computing _infinite_ functions that take inputs of unbounded length. In contrast, Boolean circuits / NAND-CIRC programs can only compute  _finite_ functions and hence are not Turing complete.](../figure/turingcomplete.png){#turingcompletefig}
 
 ## RAM machines and NAND-RAM
 
@@ -130,7 +133,8 @@ This can be achieved as follows:
 
 3. While the number encoded by `Temp` differs from the number encoded by `Bar`:
    a. Increment `Temp`
-   b. GOTO the same line (along the performing a `MODANDJUMP` operation that increments `i` by one).
+
+   b. GOTO the same line (but pass a NAND-TM iteration along the way, performing a `MODANDJUMP` operation that increments `i` by one).
 
 At the end of the loop, `i` is equal to the value at `Bar`, and so we can use this to read or write to arrays at the location corresponding to this value.
 In code, we can implement the above operations as follows:

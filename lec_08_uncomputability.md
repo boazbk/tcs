@@ -191,12 +191,10 @@ However, this turns out to be _false_.
 That is, there exists a function $F:\{0,1\}^* \rightarrow \{0,1\}$ that is _uncomputable_!
 
 
-This is actually quite surprising, if you think about it.
+The existence of uncomputable functions is quite surprising.
 Our intuitive notion of a "function" (and the notion most scholars had until the 20th century, see the bibliographical notes) 
 is that a function $f$ defines some implicit or explicit way of computing the output $f(x)$ from the input $x$.
 The notion of an "uncomputable function" thus seems to be a contradiction in terms, but yet the following theorem shows that such creatures do exist:
-
-
 
 
 > ### {.theorem title="Uncomputable functions" #uncomputable-func}
@@ -205,19 +203,20 @@ There exists a function $F^*:\{0,1\}^* \rightarrow \{0,1\}$ that is not computab
 > ### {.proofidea data-ref="uncomputable-func"}
 The idea behind the proof follows quite closely Cantor's proof that the reals are uncountable ([cantorthm](){.ref}), and in fact the theorem can also be obtained fairly directly from that result (see [uncountablefuncex](){.ref}).
 However, it is instructive to see the direct proof.
-The idea is to construct $F^*$ in a way that will ensure that every possible machine $M$ will in fact fail to compute $F^*$. We can do so by looking at the string representation $\alpha_M$ of the machine $M$, and define $F^*(\alpha_M)$ to equal $1$ if $M(\alpha_M)=0$ and to equal $0$ otherwise. This will guarantee that $F^*(\alpha_M) \neq M(\alpha_M)$ and hence that $F^*$ is not computable by $M$.
+The idea is to construct $F^*$ in a way that will ensure that every possible machine $M$ will in fact fail to compute $F^*$. We do so by defining $F^*(x)=1$ if $x$ is a string describing a Turing machine $M$ and moreover $M(x)=0$, and defining $F^*(x)=0$ otherwise. By construction, if $M$ is any Turing machine and $x$ is the string describing it, then $F^*(x) \neq M(x)$ and therefore $M$ does _not_ compute $F^*$. 
 
 ::: {.proof data-ref="uncomputable-func"}
 The proof is illustrated in [diagonal-fig](){.ref}.
 We start by defining the following function $G:\{0,1\}^* \rightarrow \{0,1\}$:
 
-For every string $x\in\{0,1\}^*$, if $x$ satisfies __(1)__ $x$ is a valid representation of Turing machine $M_x$ and __(2)__ when the program $M_x$ is executed on the input $x$ it halts and produces an output,  then we define $G(x)$ as the first bit of this output.  Otherwise (i.e., if $x$ is not a valid representation of a Turing machine, or the machine $M_x$  never halts on $x$)  we define $G(x)=0$.
-We define $F^*(x) := 1 - G(x)$.
+For every string $x\in\{0,1\}^*$, if $x$ satisfies __(1)__ $x$ is a valid representation of a Turing machine $M$ and __(2)__ when the program $M$ is executed on the input $x$ it halts and produces an output,  then we define $G(x)$ as the first bit of this output.  Otherwise (i.e., if $x$ is not a valid representation of a Turing machine, or the machine $M_x$  never halts on $x$)  we define $G(x)=0$.
+We define $F^*(x) = 1 - G(x)$.
 
 We claim that there is no Turing machine that computes $F^*$.
-Indeed, suppose, towards the sake of contradiction,  that there was some machine $M$ that computed $F^*$, and let $x$ be the binary string that represents the machine $M$.
-Then, since $M$ computes $F^*$, on input $x$, $F^*(x)$ equals the output of the machine $M$ on $x$.
-But by the definition of $F^*$, $F^*(x)$ must be different than the output of $M$ on the string $x$ that represents it,  hence yielding a contradiction.
+Indeed, suppose, towards the sake of contradiction,  that exists a machine $M$ that computes $F^*$, and let $x$ be the binary string that represents the machine $M$.
+On one hand, since by our assumption $M$ computes $F^*$,   on input $x$ the machine $M$ halts and outputs $F^*(x)$.
+On the other hand, by the definition of $F^*$, since $x$ is the representation of the machine $M$,
+$F^*(x) = 1 - G(x) = 1 - M(x)$,   hence yielding a contradiction.
 :::
 
 ![We construct an uncomputable function by defining for every two strings $x,y$ the value $1-M_y(x)$ which equals $0$ if the machine described by $y$ outputs $1$ on $x$, and $1$ otherwise.  We then define $F^*(x)$ to be the "diagonal" of this table, namely $F^*(x)=1-M_x(x)$ for every $x$. The function $F^*$ is uncomputable, because if it was computable by some machine whose string description is $x^*$ then we would get that $M_{x^*}(x^*)=F(x^*)=1-M_{x^*}(x^*)$.](../figure/diagonal_proof.png){#diagonal-fig   }
