@@ -62,7 +62,7 @@ __Mathematical statements.__ At the highest level, a mathematical statement is s
 Mathematical statements contain assertions whose truth does not depend on any empirical fact, but rather only on properties of abstract objects.
 For example, the following is a mathematical statement:^[This happens to be a _false_ statement.]
 
->_"The number $2$,$696$,$635$,$869$,$504$,$783$,$333$,$238$,$805$,$675$,$613$,$588$,$278$,$597$,$832$,$162$,$617$,$892$,$474$,$670$,$798$,$113$ is prime"._
+>_"The number $2$,$696$,$635$,$869$,$504$,$783$,$333$,$238$,$805$,$675$,$613$, $588$,$278$,$597$,$832$,$162$,$617$,$892$,$474$,$670$,$798$,$113$ is prime"._
 
 
 Mathematical statements do not have to involve numbers.
@@ -121,33 +121,35 @@ There does not exist a complete proof system for $\mathcal{H}$.
 
 
 > ### {.proofidea data-ref="godethmtakeone"}
-If we had such a complete and sound proof system then we could solve the $HALTONZERO$ problem. On input a program $P$, we would search all purported proofs $w$  and halt as soon as we find a proof of either "$P$ halts on zero" or "$P$ does not halt on zero". If the system is sound and complete then we will eventually find such a proof, and it will provide us with the correct output.
+If we had such a complete and sound proof system then we could solve the $HALTONZERO$ problem. On input a Turing machine $M$, we would search all purported proofs $w$  and halt as soon as we find a proof of either "$M$ halts on zero" or "$M$ does not halt on zero". If the system is sound and complete then we will eventually find such a proof, and it will provide us with the correct output.
 
 
 ::: {.proof data-ref="godethmtakeone"}
 Assume for the sake of contradiction that there was such a proof system $V$. We will use $V$ to build an algorithm $A$ that computes $HALTONZERO$, hence contradicting [haltonzero-thm](){.ref}.
 Our algorithm $A$ will will work as follows:
 
-::: {.quote}
+
+::: {.algorithm title="Halting from proofs" #haltingfromproog}
 __Algorithm $A$:__
 
-* __Input:__ NAND-TM program $P$
+* __Input:__ Turing Machine $M$
 
-* __Goal:__ Determine if $P$ halts on the input $0$.
+* __Goal:__ Determine if $M$ halts on the input $0$.
 
-* __Assumption:__ We have access to a proof system $V$ such that for every statement $x$ of the form "Program $Q$ halts on $0$" or "Program $Q$ does not halt on $0$", there exists some string $w\in \{0,1\}^*$ such that $V(x,w)=1$ if and only if $x$  is true.
+* __Assumption:__ We have access to a proof system $V$ such that for every statement $x$ of the form "Machine $M$ halts on $0$" or "Machine $M$ does not halt on $0$", there exists some string $w\in \{0,1\}^*$ such that $V(x,w)=1$ if and only if $x$  is true.
 
 __Operation:__
 
 * For $n=0,1,2,\ldots$:
   - For $w\in \{0,1\}^n$:
-    - If $V(\text{"$P$ halts on $0$"},w)=1$ output $1$
-    - If $V(\text{"$P$ does not halt on $0$"},w)=1$ output $0$
+    - If $V(\text{"$M$ halts on $0$"},w)=1$ output $1$
+    - If $V(\text{"$M$ does not halt on $0$"},w)=1$ output $0$
 :::
 
-If $P$ halts on $0$ then under our assumption there exists $w$ that proves this fact, and so when Algorithm $A$ reaches $n=|w|$ we will eventually find this $w$ and output $1$, unless we already halted before.
+
+If $M$ halts on $0$ then under our assumption there exists $w$ that proves this fact, and so when Algorithm $A$ reaches $n=|w|$ we will eventually find this $w$ and output $1$, unless we already halted before.
 But we cannot halt before and output a wrong answer because it would contradict the soundness of the proof system.
-Similarly, this shows that if $P$ does _not_ halt on $0$ then (since we assume there is a proof of this fact too) our algorithm $A$ will eventually halt and output $0$.
+Similarly, this shows that if $M$ does _not_ halt on $0$ then (since we assume there is a proof of this fact too) our algorithm $A$ will eventually halt and output $0$.
 :::
 
 ::: {.remark title="The Gödel statement (optional)" #godelstmtrem}

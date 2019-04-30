@@ -32,8 +32,6 @@ If  `i`$=22$ and we want to access `Foo[`$957$`]` then it will take us at least 
 In contrast, almost every programming language has a formalism for directly accessing memory locations.
 Actual physical computers also provide so called _Random Access Memory (RAM)_ which can be thought of as a large array `Memory`, such that given an index $p$ (i.e., memory address, or a _pointer_), we can read from and write to the $p^{th}$ location of `Memory`.^["Random access memory" is quite a misnomer, since it has nothing to do with probability.  _Indexed access_ would have been more appropriate.  However, the term "random access" is standard in both the theoretical and practical literature, and hence we will use it as well.]
 
-![A _RAM Machine_ contains a finite number of local registers, each of which holds an integer, and an unbounded memory array. It can perform arithmetic operations on its register as well as load to a register $r$ the contents of the memory at the address indexed by the number in register $r'$.](../figure/rammachine.png){#rammachinefig   }
-
 
 The computational model that models access to such a memory is the _RAM machine_ (sometimes also known as the _Word RAM model_), as depicted in [rammachinefig](){.ref}.
 The memory of a RAM machine is an array of unbounded size where each cell can store a single _word_, which we think of as a string in $\{0,1\}^w$ and also (equivalently) as a number in $[2^w]$.
@@ -41,6 +39,10 @@ For example, many modern computing architectures use  $64$ bit words, in which e
 The parameter $w$ is known as the _word size_ and (when doing theory) is chosen as some function of the input length $n$.
 A typical choice is that $w = c\log n$ for some constant $c$.
 In addition to the memory array, a RAM machine also contains a constant number of _registers_ $r_0,\ldots,r_{k-1}$, each of which can also contain a single word.
+
+
+![A _RAM Machine_ contains a finite number of local registers, each of which holds an integer, and an unbounded memory array. It can perform arithmetic operations on its register as well as load to a register $r$ the contents of the memory at the address indexed by the number in register $r'$.](../figure/rammachine.png){#rammachinefig  .margin }
+
 
 The operations a RAM machine can carry out include:
 

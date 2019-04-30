@@ -30,31 +30,12 @@ For example, the standard elementary school multiplication algorithm is a _singl
 Let us consider the case of the simple _parity_ or _XOR_ function  $XOR:\{0,1\}^* \rightarrow \{0,1\}$, where $XOR(x)$ equals $1$ iff the number of $1$'s in $x$ is odd.
 (In other words, $XOR(x) = \sum_{i=0}^{|x|-1} x_i \mod 2$ for every $x\in \{0,1\}^*$.)
 As simple as it is, the $XOR$ function cannot be computed by a NAND-CIRC program.
-Rather, for every $n$, we can compute $XOR_n$ (the restriction of $XOR$ to $\{0,1\}^n$) using a different NAND-CIRC program. For example, here is the NAND-CIRC program to compute $XOR_5$: (see also [XOR5fig](){.ref})
+Rather, for every $n$, we can compute $XOR_n$ (the restriction of $XOR$ to $\{0,1\}^n$) using a different NAND-CIRC program. For example,  [XOR5fig](){.ref} presents the NAND-CIRC program (or equivalently the circuit) to compute $XOR_5$.
 
-```python
-Temp[0] = NAND(X[0],X[1])
-Temp[1] = NAND(X[0],Temp[0])
-Temp[2] = NAND(X[1],Temp[0])
-Temp[3] = NAND(Temp[1],Temp[2])
-Temp[4] = NAND(X[2],Temp[3])
-Temp[5] = NAND(X[2],Temp[4])
-Temp[6] = NAND(Temp[3],Temp[4])
-Temp[7] = NAND(Temp[5],Temp[6])
-Temp[8] = NAND(Temp[7],X[3])
-Temp[9] = NAND(Temp[7],Temp[8])
-Temp[10] = NAND(X[3],Temp[8])
-Temp[11] = NAND(Temp[9],Temp[10])
-Temp[12] = NAND(Temp[11],X[4])
-Temp[13] = NAND(Temp[11],Temp[12])
-Temp[14] = NAND(X[4],Temp[12])
-Y[0] = NAND(Temp[13],Temp[14])
-```
-
-![The circuit for computing the XOR of $5$ bits. Note how it merely repeats four times the circuit to compute the XOR of $2$ bits.](../figure/XOR5circuit.png){#XOR5fig .margin  }
+![The NAND circuit and NAND-CIRC program for computing the XOR of $5$ bits. Note how the circuit for $XOR_5$ merely repeats four times the circuit to compute the XOR of $2$ bits.](../figure/xor5circprog.png){#XOR5fig .margin  }
 
 
-This is rather repetitive, and more importantly, does not capture the fact that there is a _single_ algorithm to compute the parity on all inputs.
+This code for computing $XOR_5$ is rather repetitive, and more importantly, does not capture the fact that there is a _single_ algorithm to compute the parity on all inputs.
 Typical programming language use the notion of _loops_ to express such an algorithm, and so we might have wanted to use code such as:
 
 ```python
@@ -397,6 +378,7 @@ To do so, we extend the NAND-CIRC programming language with two constructs:
 
 * _Arrays_: A NAND-CIRC program of $s$ lines touches at most $3s$ variables. While we can use variables with names such as  `Foo_17` or `Bar[22]`, they are not true arrays, since the number in the identifier is a constant that is "hardwired" into the program.
 
+![A NANDTM program has _scalar_ variables that can take a Boolean value, _array_ variables that hold a sequence of Boolean values, and a special _index_ variable `i` that can be used to index the array variables. We refer to the `i`-th value of the array variable `Spam` using `Spam[i]`. At each iteration of the program the index varialble can be incremented or decremented by one step using the `MODANDJMP` operation.](../figure/nandtmprog.png){#nandtmfig}
 
 Thus a good way to remember NAND-TM is using the following informal equation:
 
@@ -409,7 +391,7 @@ As we will see, adding loops and arrays to NAND-CIRC is enough to capture the fu
 But we're getting ahead of ourselves: this issue will be discussed in [chapequivalentmodels](){.ref}.
 
 
-Concretely, the NAND-TM programming language adds the following features on top of NANC-CIRC:
+Concretely, the NAND-TM programming language adds the following features on top of NANC-CIRC (see [nandtmfig](){.ref})):
 
 * We add a special _integer valued_ variable `i`. All other variables in NAND-TM are _Boolean valued_ (as in NAND-CIRC).
 
@@ -572,7 +554,7 @@ Using the fact that _every_ function can be computed by a NAND-CIRC program, we 
 We show __(2)__ using very similar ideas. Given a program $P$ that uses $a$ array variables and $b$ scalar variables, we will create a Turing machine with about $2^b$ states to encode the values of scalar variables, and an alphabet of about $2^a$ so we can encode the arrays using our tape. (The reason the sizes are only "about" $2^a$ and $2^b$ is that we will need to add some symbols and steps for bookkeeping purposes.) The Turing Machine $M$ will simulate each iteration of the program $P$ by updating its state and tape accordingly.
 :::
 
-![Comparing a Turing Machine to a NAND-TM program. Both have an unbounded memory component (the _tape_ for a Turing machine, and the _arrays_ for a NAND-TM program), as well as a constant local memory (_state_ for a Turing machine, and _scalar variables_ for a NAND-TM program). Both can only access at each step one location of the unbounded memory, this is the "head" location for a Turing machine, and the value of the index variable `i` for a NAND-TM program.  ](../figure/tmvsnandpp.png){#tmvsnandppfig   }
+![Comparing a Turing Machine to a NAND-TM program. Both have an unbounded memory component (the _tape_ for a Turing machine, and the _arrays_ for a NAND-TM program), as well as a constant local memory (_state_ for a Turing machine, and _scalar variables_ for a NAND-TM program). Both can only access at each step one location of the unbounded memory, this is the "head" location for a Turing machine, and the value of the index variable `i` for a NAND-TM program.  ](../figure/turingmachinevsnandtm.png){#tmvsnandppfig   }
 
 :::  {.proof data-ref="TM-equiv-thm"}
 We start by proving the "if" direction of [TM-equiv-thm](){.ref}. Namely we show that given a Turing machine $M$, we can find a NAND-TM program $P_M$ such that for every input $x$, if $M$ halts on input $x$ with output $y$ then $P_M(x)=y$.
@@ -652,9 +634,20 @@ _Infinite computation_ ; __Functions__ mapping $\{0,1\}^*$ to $\{0,1\}$ or to $\
 
 Just like we did with NAND-CIRC in [finiteuniversalchap](){.ref}, we can use "syntactic sugar" to make NAND-TM programs easier to write.
 For starters, we can use all of the syntactic sugar of NAND-CIRC, and so have access to macro definitions and conditionals (i.e., if/then).
-But we can go beyond that and also implement more advanced _looping constructs_ than the simple `MODANDJUMP`.
+But we can go beyond this and achieve for example:
 
+* Inner loops such as the `while` and `for` operations commong to many programming language.s
 
+* Multiple index variables (e.g., not just `i` but we can add `j`, `k`, etc.). 
+
+* Arrays with more than one dimension  (e.g., `Foo[i][j]`, `Bar[i][j][k]` etc.)
+
+In all of these cases (and many others) we can implement the new feature as mere "syntactic sugar" on top of standard NAND-TM, which means that the set of functions computable by NAND-TM with this feature is the same as the set of functions computable by standard NAND-TM.
+Similarly, we can show that the set of functions computable by Turing Machines that have more than one tape, or tapes of more dimensions than one, is the same as the set of functions computable by standard Turing machines.
+
+### "GOTO" and inner loops 
+
+We can implement more advanced _looping constructs_ than the simple `MODANDJUMP`.
 For example, we can implement `GOTO`.
 A `GOTO` statement corresponds to jumping to a certain line in the execution. 
 If our code has the form
@@ -700,7 +693,26 @@ The variable `pc` corresponds to the "program counter" and tells the program whi
 We can see that if we wanted to emulate a `GOTO("line3")` then we could simply modify the instruction `pc = "line2"` to be `pc = "line3"`.
 
 In NAND-CIRC we could only have `GOTO`s that go forward in the code, but since in NAND-TM everything is encompassed within a large outer loop, we can use the same ideas to implement `GOTO`'s that can go backwards, as well as conditional loops.
-Using this, we can emulate all the standard loop constructs such as `while`, `do .. until` or `for` in NAND-TM as well.
+
+__Other loops.__ Once we have `GOTO`, we can emulate all the standard loop constructs such as `while`, `do .. until` or `for` in NAND-TM as well. For example, we can replace the code
+
+```python
+while foo:
+    do blah
+do bar
+```
+
+with 
+
+```python
+"loop": 
+    if NOT(foo): GOTO("next")
+    do blah
+    GOTO("loop")
+"next": 
+    do bar
+```
+
 
 
 
@@ -740,7 +752,7 @@ The way we use `GOTO` to implement a higher level functionality in NAND-TM is re
 
 ![XKCD's take on the `GOTO` statement.](../figure/xkcdgoto.png){#xkcdgotofig .margin  }
 
-### Well formed programs: The NAND-TM style manual (optional)
+### Extended example: well formed programs (optional)
 
 The notion of passing between different variants of programs can be extremely useful, as often, given a program $P$ that we want to analyze, it would be simpler for us to first modify it to an equivalent program $P'$ that has some convenient properties.
 You can think of this as the NAND-TM equivalent of enforcing "coding conventions" that are often used for programming languages.

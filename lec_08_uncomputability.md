@@ -58,13 +58,13 @@ A Turing machine $U$ that satisfies the conditions of [universaltmthm](){.ref} i
 There is more than one universal Turing machine, but the existence of even a single one is extremely fundamental to both the theory and practice of computer science.
 By the equivalence results we have seen between different models such as Turing machines, NAND-TM programs, RAM machines, and others,  [universaltmthm](){.ref} implies (for example) that:
 
-* There exists a universal NAND-TM program that computes the map $P,x \mapsto P(x)$, where $P$ is a NAND-TM program.
+* There exists a universal NAND-TM program that computes the map $(P,x) \mapsto P(x)$, where $P$ is a NAND-TM program.
 
-* There exists a NAND-RAM program that computes the map $M,x \mapsto M(x)$, where $M$ is a Turing machine.
+* There exists a NAND-RAM program that computes the map $(M,x) \mapsto M(x)$, where $M$ is a Turing machine.
 
 and more generally,
 
-* For every $\mathcal{X}$ and $\mathcal{Y}$ in the set  $\{$  Turing Machines, RAM Machines, NAND-TM, NAND-RAM, $\lambda$-calculus, JavaScript, Python, $\ldots$ $\}$ of Turing equivalent models, there exists a program/machine in $\mathcal{X}$ that computes the map $P,x \mapsto P(x)$ for every program/machine in $\mathcal{Y}$.
+* For every $\mathcal{X}$ and $\mathcal{Y}$ in the set  $\{$  Turing Machines, RAM Machines, NAND-TM, NAND-RAM, $\lambda$-calculus, JavaScript, Python, $\ldots$ $\}$ of Turing equivalent models, there exists a program/machine in $\mathcal{X}$ that computes the map $(P,x) \mapsto P(x)$ for every program/machine in $\mathcal{Y}$.
 
 We now present the proof of [universaltmthm](){.ref}.
 

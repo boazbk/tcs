@@ -518,7 +518,7 @@ We can also present this 8-line program as a circuit with 8 gates, see [aoncmpfi
 
 
 
-::: {.remark title="Evaluate AON-CIRC program" #evaluateaoncirc}
+::: {.remark title="Evaluate AON-CIRC program (optional)" #evaluateaoncirc}
 AON-CIRC is not a practical programming language: it was designed for pedagogical purposes only, as a way to model computation as composition of $AND$, $OR$, and $NOT$. However, AON-CIRC can still be easily implemented on a computer.
 Specifically the following Python program will evaluate an AON-CIRC program (given as a string) on an input of our choice:^[This program uses two "helper functions" `numinout` and `parseline`. The (short) code of these functions is available on the GitHub repository for this book.]
 
@@ -578,13 +578,12 @@ We do the same for OR and NOT gate.
 Once again, one can verify that for every input $x$, the value $P(x)$ will equal $C(x)$ and hence the program computes the same function as the circuit.
 :::
 
-### "Proof by Python"
+### "Proof by Python" (optional)
 
 The proof of [slcircuitequivthm](){.ref} is _constructive_.
 It yields a way of transforming an AON-CIRC program into an equivalent Boolean circuit and vice versa.
-Below is the code that carries out this transformation.
-(It uses some "helper" functions and objects: see our GitHub repository for the full implementation.)
-[aoncircequivfig](){.ref} shows an example of the result of this transformation.
+Below is the code that carries out this transformation.^[This code uses some "helper" functions and objects: see our GitHub repository for the full implementation.]
+See [aoncircequivfig](){.ref} for an example of the result of this transformation.
 
 ```python
 def circuit2prog(C):
@@ -608,10 +607,10 @@ def circuit2prog(C):
 ```
 
 ```python
-def prog2circuit(code,gateset=None):
+def prog2circuit(code,gateset):
     """Transform a straight-line program into a circuit.
-       Takes as input the basic gates one uses (otherwise use all functions currently defined)"""
-    if not gateset: gateset = globals()
+       Takes as input the basic gates one uses
+    
     n,m = numinout(code) # helper function - extract number of inputs and outputs from code
     C = Circuit(n) # create circuit with n inputs
 
@@ -729,7 +728,7 @@ More generally, a neural network is often described as operating on signals that
 However, for the purposes of our discussion, all of the above are equivalent (see also [NANDsfromActivationfunctionex](){.ref}).
 In particular we can reduce the setting of real inputs to binary inputs by representing a real number in the binary basis, and multiplying the weight of the bit corresponding to the $i^{th}$ digit by $2^i$.
 
-![Common activation functions used in Neural Networks, including rectified linear units (ReLU), sigmoids, and hyperbolic tangent. All of those can be thought of as continuous approximations to simple the step function. All of these can be used to compute the NAND gates (see [NANDsfromActivationfunctionex](){.ref}). This property is often known as the _universality_ of deep neural networks.](../figure/activationfuncs.png){#activationfunctionsfig}
+![Common activation functions used in Neural Networks, including rectified linear units (ReLU), sigmoids, and hyperbolic tangent. All of those can be thought of as continuous approximations to simple the step function. All of these can be used to compute the NAND gates (see [NANDsfromActivationfunctionex](){.ref}). This property is often known as the _universality_ of deep neural networks.](../figure/activationfuncs.png){#activationfunctionsfig .margin }
 
 
 Threshold gates can be thought of as an approximation for    _neuron cells_ that make up the core of human and animal brains. To a first approximation, a neuron has $k$ inputs and a single output and the neurons  "fires" or "turns on" its output when those signals pass some threshold.
@@ -815,10 +814,10 @@ NAND(b,c) \, \biggr)
 $$
 
 
-This corresponds to the following circuit with $NAND$ gates:
-
-![](../figure/majcircnand.png){#figid .margin  }  \
+The same formula can also be expressed as a circuit with NAND gates, see [majnandcircfig](){.ref}.
 :::
+
+![A circuit with NAND gates to compute the Majority function on three bits](../figure/majcircnand.png){#majnandcircfig .margin  }  
 
 
 <!--
@@ -850,12 +849,10 @@ The following is a direct construction of computing $XOR$ by a sequence of NAND 
 4. The $XOR$ of $x_0$ and $x_1$ is $y_0 = NAND(v,w)$.
 
 One can verify that this algorithm does indeed compute $XOR$ by enumerating all the four choices for $x_0,x_1 \in \{0,1\}$.
-
-We can also represent this algorithm graphically as a circuit:
-
-![](../figure/xornandcirc.png){#figid .margin  } \
+We can also represent this algorithm graphically as a circuit, see [cornandcircfig](){.ref}.
 :::
 
+![A circuit with NAND gates to compute the XOR of two bits.](../figure/xornandcirc.png){#cornandcircfig .margin  } 
 
 In fact, we can show the following theorem:
 
@@ -910,10 +907,10 @@ We already know how to compute $XOR$ using NAND, so line 2.a can be replaced by 
 Next, we can write line 2.b as simply saying $c_{i+1} = AND(y_i,x_i)$,  or in other words $c_{i+1}=NAND(NAND(y_i,x_i),NAND(y_i,x_i))$.
 Finally, the assignment $y_n = c_n$ can be written as $y_n = NAND(NAND(c_n,c_n),NAND(c_n,c_n))$.
 Combining these observations yields for every $n\in \N$, a $NAND$ circuit to compute $INC_n$.
-For example, this is how this circuit looks like for $n=4$.
-
-![](../figure/incrementnandcirc.png){#figid .margin width=100px height=300px} \
+For example, [nandincrememntcircfig](){.ref} shows how this circuit looks like for $n=4$.
 :::
+
+![NAND circuit with computing the _increment_ function on $4$ bits.](../figure/incrementnandcirc.png){#nandincrememntcircfig .margin width=100px height=300px} 
 
 
 

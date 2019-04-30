@@ -62,6 +62,8 @@ See [computefuncoverviewfig](){.ref} for an outline of the results of this secti
 In this chapter we focus on the _straight-line programming language_ view of our computational models, and specifically  the NAND-CIRC programming language.
 This is because many of the syntactic sugar transformations we present are easiest to think about in terms of applying "search and replace" operations to the source code of a program.
 However,  by [equivalencemodelsthm](){.ref}, all of our results hold equally well for other models including the standard model Boolean circuits that use the AND, OR, NOT operations.
+
+In particular, we can use similar transformations to show that augmenting our circuit model with additional gates does not change its computational power. 
 :::
 
 
@@ -75,6 +77,16 @@ Going over examples for syntactic sugar can be a little tedious, but we do it fo
 1. To convince you that despite its seeming simplicity and limitations, the NAND-CIRC programming language is actually quite powerful and can capture many of the fancy programming constructs such as `if` statements and function definitions that exists in more fashionable languages.
 
 2. So you can realize how lucky you are to be taking a theory of computation course and not a compilers course... `:)`
+
+
+
+
+
+::: {.remark title="Counting lines" #countinglines}
+While we can use syntactic sugar to _present_ NAND-CIRC programs in more readable ways, we did not change the definition of the language itself.
+Therefore, whenever we say that some function $f$ has an $s$-line NAND-CIRC program we mean a standard "sugar free" NAND-CIRC program, where all syntactic sugar has been expanded out.
+For example, the program above is a $12$-line program for computing the $MAJ$ function, even though it can be written in fewer lines using the function definition syntactic sugar.
+:::
 
 
 ### Functions / Macros
@@ -184,7 +196,7 @@ def desugar(code,func_name, func_args,func_body):
 [progcircmajfig](){.ref} shows the result of applying this code to the program of [examplemajfromnand](){.ref} that uses syntactic sugar to compute the Majority function. (Specifically, we first apply `desugar` to remove usage of the OR function, then apply it to remove usage of the AND function, and finally apply it a third time to remove usage of the NOT function.)
 
 
-::: {.remark title="Parsing function definitions." #parsingdeg}
+::: {.remark title="Parsing function definitions" #parsingdeg}
 In the code above, we assumed that we are given the function already split up into its name, arguments, and body.
 It is not crucial for our purposes to describe precisely to scan a definition and splitting it up to these components, but in case you are curious, it can be achieved in Python via the following code:
 
@@ -201,14 +213,6 @@ def parse_func(code):
 
 
 
-
-
-
-::: {.remark title="Counting lines" #countinglines}
-While we use syntactic sugar to _present_ NAND-CIRC programs in more readable ways, we did not change the definition of the language itself.
-Therefore, whenever we say that some function $f$ has an $s$-line NAND-CIRC program we mean a standard "sugar free" NAND-CIRC program, where all syntactic sugar has been expanded out.
-For example, the program above is a $12$-line program for computing the $MAJ$ function, even though it can be written in fewer lines using the function definition syntactic sugar.
-:::
 
 
 
@@ -273,6 +277,8 @@ a = IF(cond,temp_a,a)
 b = IF(cond,temp_b,b)
 c = IF(cond,temp_c,c)
 ```
+
+
 
 
 ## Extended example: Addition and Multiplication (optional) { #addexample }
@@ -362,7 +368,9 @@ Consider the function $LOOKUP_3 : \{0,1\}^{2^3+3} \rightarrow \{0,1\}$ that take
 We can write this function in pseudocode as follows:
 
 ```python
-def LOOKUP_3(X[0],X[1],X[2],X[3],X[4],X[5],X[6],X[7],i[0],i[1],i[8]):
+def LOOKUP3(X[0],X[1],X[2],X[3],X[4],X[5],X[6],X[7],
+            i[0],i[1],i[8]):
+
     if i == (0,0,0): return X[0]
     if i == (0,0,1): return X[1]
     if i == (0,1,0): return X[2]
@@ -405,7 +413,9 @@ Similarly, we can write
 
 
 ```python
-def LOOKUP3(X[0],X[1],X[2],X[3],X[4],X[5],X[6],X[7],i[0],i[1],i[2]):
+def LOOKUP3(X[0],X[1],X[2],X[3],X[4],X[5],X[6],X[7],
+            i[0],i[1],i[2]):
+        
     a = LOOKUP2(X[3],X[4],X[5],X[6],i[1],i[2])
     a = LOOKUP2(X[0],X[1],X[2],X[3],i[1],i[2])
     return IF( i[0],a,b)
@@ -491,36 +501,32 @@ We will not prove [stronguniversallem](){.ref} in this book, but discuss how to 
 
 
 
-::: { .bigidea #universalaity }
-_Every_ finite function can be computed by a large enough Boolean circuit.
-:::
-
 ### Proof of NAND's Universality
 
 To prove [NAND-univ-thm](){.ref}, we need to give a NAND circuit, or equivalently a NAND-CIRC program,  for _every_ possible function.
 We will restrict our attention to the case of Boolean functions (i.e., $m=1$).
 In [mult-bit-ex](){.ref} you will show how to extend the proof for all values of $m$.
 A function $F: \{0,1\}^n\rightarrow \{0,1\}$ can be specified by a table of its values for each one of the $2^n$ inputs.
-For example, the table below describes one particular function $G: \{0,1\}^4 \rightarrow \{0,1\}$:^[In case you are curious, this is the function that computes the digits of $\pi$ in the binary basis. Note that as per the convention of this course, if we think of strings as numbers then we right them with the least significant digit first.]
+For example, the table below describes one particular function $G: \{0,1\}^4 \rightarrow \{0,1\}$:^[In case you are curious, this is the function on input $i\in \{0,1\}^4$ (which we interpret as a number in $[16]$), outputs the $i$-th digit of $\pi$ in the binary basis.]
 
 
 | Input ($x$) | Output ($G(x)$) |
 |:------------|:----------------|
 | $0000$      | 1               |
-| $1000$      | 1               |
-| $0100$      | 0               |
-| $1100$      | 0               |
-| $0010$      | 1               |
-| $1010$      | 0               |
-| $0110$      | 0               |
-| $1110$      | 1               |
-| $0001$      | 0               |
-| $1001$      | 0               |
+| $0001$      | 1               |
+| $0010$      | 0               |
+| $0011$      | 0               |
+| $0100$      | 1               |
 | $0101$      | 0               |
-| $1101$      | 0               |
-| $0011$      | 1               |
-| $1011$      | 1               |
+| $0110$      | 0               |
 | $0111$      | 1               |
+| $1000$      | 0               |
+| $1001$      | 0               |
+| $1010$      | 0               |
+| $1011$      | 0               |
+| $1100$      | 1               |
+| $1101$      | 1               |
+| $1110$      | 1               |
 | $1111$      | 1               |
 
 
@@ -597,14 +603,14 @@ Since $n/2 \leq 2^k \leq n$, we can bound the total cost of computing $F(x)$ (in
 
 [circuit-univ-thm](){.ref} is a fundamental result in the theory (and practice!) of computation.
 In this section we present an alternative proof of this basic fact that Boolean circuits can compute every finite function.
-This alternative proof gives somewhat worst quantitative bounds on the number of gates ($O(m n \cdot 2^n)$ as opposed to $O(m\cdot 2^n)$ for computing functions mapping $\{0,1\}^n$ to $\{0,1\}^m$) but it has the advantage of being simpler and avoiding the usage all of our syntactic sugar machinery.
+This alternative proof gives somewhat worse quantitative bound on the number of gates^[This alternative proof yields a bound of $O(m n \cdot 2^n)$ on the number of gates required to compute a function mapping $\{0,1\}^n$ to $\{0,1\}^m$, which is worse by a factor of $n^2$ than the bound of  $O(m\cdot 2^n /n)$ achieved in [tight-upper-bound](){.ref}.] but it has the advantage of being simpler, working directly with circuits and avoiding the usage of all the syntactic sugar machinery.
 (However, that machinery is useful in its own right, and will find other applications later on.)
 
 
 > ### {.theorem title="Universality of Boolean circuits (alternative phrasing)" #circuit-univ-alt-thm}
 There exists some constant $c>0$ such that for every $n,m>0$ and function $f: \{0,1\}^n\rightarrow \{0,1\}^m$, there is a Boolean circuit with at most $c \cdot m\cdot n 2^n$ gates that computes the function $f$ .
 
-![Given a function $f:\{0,1\}^n \rightarrow \{0,1\}$, we let $\{ x_0, x_1, \ldots, x_{N-1} \} \subseteq \{0,1\}^n$ be the set of inputs such that $f(x_i)=1$, and note that $N \leq 2^n$. We can express $f$ as the OR of $\delta_{x_i}$ for $i\in [N]$ where the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$ (for $\alpha \in \{0,1\}^n$) is defined as follows:  $\delta_\alpha(x)=1$ iff $x=\alpha$. We can compute the OR of $N$ values using $N$ two-input OR gates. Therefore if we have a circuit of size $O(n)$ to compute $\delta_\alpha$ for every $\alpha \in \{0,1\}^n$, we can compute $f$ using a circuit of size $O(n \cdot N) = O(n \cdot 2^n)$. ](../figure/computeallfunctionalt.png){#computeallfuncaltfig}
+![Given a function $f:\{0,1\}^n \rightarrow \{0,1\}$, we let $\{ x_0, x_1, \ldots, x_{N-1} \} \subseteq \{0,1\}^n$ be the set of inputs such that $f(x_i)=1$, and note that $N \leq 2^n$. We can express $f$ as the OR of $\delta_{x_i}$ for $i\in [N]$ where the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$ (for $\alpha \in \{0,1\}^n$) is defined as follows:  $\delta_\alpha(x)=1$ iff $x=\alpha$. We can compute the OR of $N$ values using $N$ two-input OR gates. Therefore if we have a circuit of size $O(n)$ to compute $\delta_\alpha$ for every $\alpha \in \{0,1\}^n$, we can compute $f$ using a circuit of size $O(n \cdot N) = O(n \cdot 2^n)$. ](../figure/computeallfunctionalt.png){#computeallfuncaltfig .margin }
 
 
 
@@ -649,7 +655,7 @@ Since $S \subseteq \{0,1\}^n$, its size $N$ is at most $2^n$ and hence the total
 
 
 
-![For every string $\alpha\in \{0,1\}^n$, there is a Boolean circuit of $O(n)$ gates to compute the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$ such that $\delta_\alpha(x)=1$ if and only if $x=\alpha$. The circuit is very simple. Given input $x_0,\ldots,x_{n-1}$ we compute the  AND of $z_0,\ldots,z_{n-1}$ where $z_i=x_i$ if $\alpha_i=1$ and $z_i = NOT(x_i)$ if $\alpha_i=0$. While formally Boolean circuits only have a gate for computing the AND of two inputs, we can implement an AND of $n$ inputs by composing $n$ two-input ANDs.](../figure/deltafunc.png){#deltafuncfig}
+![For every string $\alpha\in \{0,1\}^n$, there is a Boolean circuit of $O(n)$ gates to compute the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$ such that $\delta_\alpha(x)=1$ if and only if $x=\alpha$. The circuit is very simple. Given input $x_0,\ldots,x_{n-1}$ we compute the  AND of $z_0,\ldots,z_{n-1}$ where $z_i=x_i$ if $\alpha_i=1$ and $z_i = NOT(x_i)$ if $\alpha_i=0$. While formally Boolean circuits only have a gate for computing the AND of two inputs, we can implement an AND of $n$ inputs by composing $n$ two-input ANDs.](../figure/deltafunc.png){#deltafuncfig .margin }
 
 
 ## The class $SIZE_{n,m}(T)$

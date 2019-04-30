@@ -195,10 +195,10 @@ this representation, the representation of NAND-CIRC programs in code, the repre
 def code2rep(code):
     """Map NAND-CODE to the list-of-triples representation."""
     inputs = [] ; workspace = [] ; outputs = []
-    def parse(line): # extract 3 variables from line of code
+    def parse(line): # helper: extract 3 variables from line of code
         return line[:line.find("=")].strip(), line[line.find("(")+1:line.find(",")].strip(),  line[line.find(",")+1:line.find(")")].strip()
         
-    def addvar(var): # add variable to inputs/outputs/workspace lists
+    def addvar(var): # helper: add variable to inputs/outputs/workspace lists
         nonlocal inputs,workspace,outputs
         if var[0]=='X': 
             if not var in inputs: inputs += [var]
@@ -207,19 +207,24 @@ def code2rep(code):
         elif not var in workspace:
             workspace += [var] 
     
-    # add all variables
+    # First pass: add all variables to list
     for line in code.split('\n'):
         for var in parse(line):
             addvar(var)
     
     # sort variables as inputs, then workspace, then outputs
     # inputs and outputs are sorted based on index, workspace based on order of occurrence.
+    # (if 10 or more inputs/outputs then should add leading zeros to make sorting work)
     variables = sorted(inputs) + workspace + sorted(outputs)
     
+    def idx(foo): # helper: idx(foo) is number associated with foo
+         return variables.index(foo) 
+
+    # Second pass: generate list of triples
     L = [] # list of triples 
     for line in code.split('\n'):
         foo,bar,blah = parse(line)
-        L += [[variables.index(foo),variables.index(bar),variables.index(blah)]]
+        L += [[idx(foo),idx(bar),idx(blah)]]
     
     return (len(inputs),len(outputs),L) 
 ```
@@ -549,9 +554,8 @@ As we will discuss in future lectures, the Church-Turing Thesis is not a mathema
 Rather, like theories in physics, the Church-Turing Thesis is about mathematically modelling the real world.
 In the context of finite functions, we can make the following informal hypothesis or prediction:
 
->_If a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed in the physical world using $s$ amount of "physical resources" then it can be computed by a Boolean circuit program of roughly $s$ gates._
+>**"Physical Extended Church-Turing Thesis" (PECTT):**  _If a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed in the physical world using $s$ amount of "physical resources" then it can be computed by a Boolean circuit program of roughly $s$ gates._
 
-We call this hypothesis the **"Physical Extended Church-Turing Thesis"** or _PECTT_ for short.
 A priori it might seem rather extreme to hypothesize that our meager NAND model captures all possible physical computation.
 But yet, in more than a century of computing technologies, no one has yet built any scalable computing device that challenges this hypothesis.
 
