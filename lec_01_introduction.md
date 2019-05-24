@@ -49,17 +49,42 @@ MMMMMMMMMMMMMMMMMMMDCCCCLVI
 
 Writing the distance to the sun in Roman numerals would require about 100,000 symbols: a 50-page book just containing this single number!
 
-The above means that for someone who thinks of numbers in an additive system like Roman numerals, quantities like the distance to the moon or sun are not merely large- they are _unspeakable_: cannot be expressed or even grasped.
+For someone who thinks of numbers in an additive system like Roman numerals, quantities like the distance to the moon or sun are not merely large- they are _unspeakable_: cannot be expressed or even grasped.
 It's no wonder that Eratosthenes, who was the first person to calculate the earth's diameter (up to about ten percent error) and Hipparchus who was the first to calculate the distance to the moon, did not use a Roman-numeral type system but rather the Babylonian sexadecimal (i.e., base 60) place-value system.
 
-The Babylonians also invented the precursors of the "standard algorithms" that we were all taught in elementary school for adding and multiplying numbers.^[For more on the actual algorithms the Babylonians used, see [Knuth's paper](http://steiner.math.nthu.edu.tw/disk5/js/computer/1.pdf) and Neugebauer's [classic book](https://www.amazon.com/Exact-Sciences-Antiquity-Neugebauer/dp/0486223329).]
-These algorithms and their variants have been of course essential to people throughout history working with abaci, papyrus, or pencil and paper, but in our computer age, do they still serve any purpose beyond torturing third graders?
+## Multiplying numbers
+
+In the language of Computer Science, the place-value system for representing numbers is known a _data structure_: a set of instructions or ``recipe'' for representing objects as symbols.
+An _algorithm_ is a set of instructions or recipe for performing operations on such representations.
+For example, the Babylonians also invented the "standard algorithms" that we were all taught in elementary school for adding and multiplying numbers.
+Throughout history, the algorithms to add and multiply numbers were essential for people using with abaci, papyrus, or pencil and paper, but in our computer age, do they still serve any purpose beyond torturing third graders?
 
 
-To answer this question, let us try to see in what sense is the standard digit by digit multiplication algorithm "better" than the straightforward implementation of multiplication as iterated addition.
-Let's start by more formally describing both algorithms:
+To answer this question,  leet us compare the Babylonian digit-by-digit multiplication algorithm with the straightforward implementation of multiplication as iterated addition.
+We start by formally describing both algorithms:
 
 
+``` { .algorithm title="Multiplication via repeated addition" #naivemultalg }
+\PROCEDURE{Quicksort}{$A, p, r$}
+    \IF{$p < r$} 
+        \STATE $q = $ \CALL{Partition}{$A, p, r$}
+        \STATE \CALL{Quicksort}{$A, p, q - 1$}
+        \STATE \CALL{Quicksort}{$A, q + 1, r$}
+    \ENDIF
+\ENDPROCEDURE
+\PROCEDURE{Partition}{$A, p, r$}
+    \STATE $x = A[r]$
+    \STATE $i = p - 1$
+    \FOR{$j = p$ \TO $r - 1$}
+        \IF{$A[j] < x$}
+            \STATE $i = i + 1$
+            \STATE exchange
+            $A[i]$ with     $A[j]$
+        \ENDIF
+        \STATE exchange $A[i]$ with $A[r]$
+    \ENDFOR
+\ENDPROCEDURE
+```
 ::: { .algorithm title="Multiplication via repeated addition" #naivemultalg }
 __Input:__ Non-negative integers $x,y$
 
@@ -434,6 +459,10 @@ Prove that under this assumption for every $\epsilon>0$, if $n$ is sufficiently 
 For a brief overview of what we'll see in this book, you could do far worse than read [Bernard Chazelle's wonderful essay on the Algorithm as an Idiom of modern science](https://www.cs.princeton.edu/~chazelle/pubs/algorithm.html).
 The book of Moore and Mertens [@MooreMertens11] gives a wonderful and comprehensive overview of the theory of computation, including much of the content discussed in this chapter and the rest of this book.
 Aaronson's book [@Aaronson13democritus] is another great read that touches upon many of the same themes.
+
+
+For more on the algorithms the Babylonians used, see [Knuth's paper](http://steiner.math.nthu.edu.tw/disk5/js/computer/1.pdf) and Neugebauer's [classic book](https://www.amazon.com/Exact-Sciences-Antiquity-Neugebauer/dp/0486223329).
+
 
 Many of the algorithms we mention in this chapter are covered in algorithms textbooks such as those by Cormen, Leiserson, Rivert, and Stein [@CLRS], Kleinberg and Tardos [@KleinbergTardos06],  and Dasgupta, Papadimitriou and Vazirani [@DasguptaPV08].
 
