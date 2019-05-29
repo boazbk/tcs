@@ -20,6 +20,11 @@ My priorities are:
 * Adding supplemental code, which will eventually be on [github.com/boazbk/tcscode](https://github.com/boazbk/tcscode)
 
 
+I am producing the book from the markdown source using 
+[Pandoc](http://pandoc.org/). 
+The templates for the LaTeX and HTML versions are derived from   [Tufte LaTeX](https://tufte-latex.github.io/tufte-latex/), [Gitbook](https://www.gitbook.com/) and [Bookdown](https://bookdown.org/). You can see the [scripts](https://github.com/boazbk/tcs/tree/master/scripts) directory for some of the scripts and  [panflute](http://scorreia.com/software/panflute/) filter I am using.
+
+
 
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/4.0/ or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 
