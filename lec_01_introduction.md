@@ -150,7 +150,7 @@ $$
 $$
 
 which reduces multiplying the two-digit number $x$ and $y$ to computing the following three simpler products:  $\overline{x}\overline{y}$, $\underline{x}\underline{y}$ and $(\overline{x}+\underline{x})(\overline{y}+\underline{y})$.
-By repeating the same strategy recursively, we can reduce the task of multiplying two $n$-digit numbers to the task of multiplying _three_ pairs of $\floor{n/2}+1$ digit numbers.
+By repeating the same strategy recursively, we can reduce the task of multiplying two $n$-digit numbers to the task of multiplying _three_ pairs of $\floor{n/2}+1$ digit numbers.^[If $x$ is a number then $\floor{x}$ is the integer obtained by rounding it down, see [notationsec](){.ref}.]
 Since every time we _double_ the number of digits we _triple_ the number of operations, we will be able
 to multiply numbers of $n=2^\ell$ digits using about $3^\ell = n^{\log_2 3} \sim n^{1.585}$ operations.
 
@@ -284,7 +284,7 @@ People have tried to use [group representations](https://en.wikipedia.org/wiki/G
 
 ## Algorithms beyond arithmetic {#algsbeyondarithmetic }
 
-The quest for better algorithms is by no means restricted to arithmetical tasks such as adding, multiplying or solving equations.
+The quest for better algorithms is by no means restricted to arithmetic tasks such as adding, multiplying or solving equations.
 Many _graph algorithms_, including algorithms for finding paths, matchings, spanning trees, cuts, and flows, have been discovered in the last several decades, and this is still an intensive area of research.
 (For example,  the last few years saw many advances in algorithms for the _maximum flow_ problem, borne out of unexpected connections with electrical circuits and linear equation solvers.)
 These algorithms are being used not just for the "natural" applications of routing network traffic or GPS-based navigation, but also for applications as varied as drug discovery through searching for structures in gene-interaction graphs to computing risks from correlations in financial investments.
@@ -309,27 +309,21 @@ But at least we now know the right way to _ask_ it.
 
 ## On the importance of negative results.
 
-Finding better algorithms is undoubtedly a worthwhile endeavor.
+Finding better algorithms for problems such as multiplication, solving equations, graph problems, or fitting neural networks to data, is undoubtedly a worthwhile endeavor.
 But why is it important to prove that such algorithms _don't_ exist?
-What useful applications could possibly arise from an impossibility result?
-
-
 One motivation is pure intellectual curiosity.
-After all, this is a question even Archimedes could have been excited about.
 Another reason to study impossibility results is that they correspond to the fundamental limits of our world.
-In other words, they are _laws of nature_.
+In other words, impossibility results are _laws of nature_.
+
+Here are some examples of impossibility results outside computer science  (see  [bnotesintrosec](){.ref} for more about these).
 In physics, the impossibility of building a _perpetual motion machine_ corresponds to the _law of conservation of energy_.
 The impossibility of building a heat engine beating Carnot's bound corresponds to the second law of thermodynamics, while the impossibility of faster-than-light information transmission is a cornerstone of special relativity.
-
-In mathematics, while we all learned the solution for quadratic equations in high school, the impossibility of generalizing this to equations of degree five or more gave birth to _group theory_.
-Another example of an impossibility result comes from geometry.
-For two millennia, mathematicians tried to show that Euclid's fifth axiom or "postulate" could be derived from the first four.
-(This fifth postulate was known as the  "parallel postulate", and roughly speaking it states that every line has a unique parallel line of each distance.)
-It was shown to be impossible using constructions of so called "non-Euclidean geometries", which turn out to be crucial for the theory of general relativity.^[It is fine if you have not yet encountered many of the above examples of impossiblity results. I hope however that they spark your curiosity! See the "Biliographical Notes" section ([bnotesintrosec](){.ref}) for some references.]
+In mathematics, while we all learned the formula for solving quadratic equations in high school, the impossibility of generalizing this formula to equations of degree five or more gave birth to _group theory_.
+The impossiblity of proving  Euclid's fifth axiom from the first four gave rise to  _non-Euclidean geometries_, which ended up crucial for the theory of general relativity. 
 
 In an analogous way, impossibility results for computation correspond to "computational laws of nature" that tell us about the fundamental limits of any information processing apparatus, whether based on silicon, neurons, or quantum particles.
-Moreover, computer scientists have recently been finding creative approaches to _apply_ computational limitations to achieve certain useful tasks.
-For example, much of modern Internet traffic is encrypted using the RSA encryption scheme, which relies on its security on the (conjectured) impossibility of efficiently factoring large integers.
+Moreover, computer scientists found creative approaches to _apply_ computational limitations to achieve certain useful tasks.
+For example, much of modern Internet traffic is encrypted using the [RSA encryption scheme](https://en.wikipedia.org/wiki/RSA_\(cryptosystem\)), which relies on its security on the (conjectured) impossibility of efficiently factoring large integers.
 More recently, the [Bitcoin](https://en.wikipedia.org/wiki/Bitcoin) system uses a digital analog of the "gold standard" where, instead of using a precious metal,  new currency is obtained by "mining"  solutions for computationally difficult problems.
 
 
@@ -366,7 +360,7 @@ More than anything, I hope I will manage to "infect" you with at least some of m
 
 ### Dependencies between chapters
 
-This book is divided into the following parts ,see [dependencystructurefig](){.ref}.
+This book is divided into the following parts, see [dependencystructurefig](){.ref}.
 
 * __Preliminaries:__ Introduction, mathematical background, and representing objects as strings.
 

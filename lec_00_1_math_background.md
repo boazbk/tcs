@@ -29,38 +29,25 @@ chapternum: "1"
 
 
 
-In this chapter we review some of the mathematical concepts that we will use in this book.
-Most of these are not very complicated, but do require some practice and exercise to get comfortable with.
-If you have not previously encountered some of these concepts, there are several excellent freely-available resources online that cover them, see the "Bibliographical Notes" section ([notesmathchap](){.ref}).
+In this chapter we review some of the mathematical concepts that we use in this book.
+These concepts are typically covered in courses or textbooks on "mathematics for computer science" or "discrete mathematics"; see the "Bibliographical Notes" section ([notesmathchap](){.ref}) for several excellent resources on these topics that are freely-available online.
 
 
-## A mathematician's apology
-
-Before explaining the math background, I perhaps should explain why is this book so "mathematically heavy".
-After all, this is supposed to be a book about _computation_; one might think we should be talking mostly about _programs_, rather than more "mathematical" objects such as _sets_, _functions_, and _graphs_, and doing more _coding_ on an actual computer than writing mathematical proofs with pen and paper.
-So, why are we doing so much math?
-Is it just some form of hazing? Perhaps a revenge of the ["math nerds" against the "hackers"](https://blog.smartbear.com/careers/math-nerds-vs-code-monkeys-should-computer-science-classes-be-more-practical/)?
-
-At the end of the day, mathematics is simply a language for modeling concepts in a precise and unambiguous way.
-In this book,  we will be mostly interested in the concept of _computation_.
-For example, we will consider questions such as _"is there an efficient algorithm to find the prime factors of a given integer?"_.^[Actually, scientists currently do not know the answer to this question, but we will see that settling it in either direction has very interesting applications touching on areas as far apart as Internet security and quantum mechanics.]
+_A mathematician's apology._  Some students might wonder why  this book contains so much math. Mathematics is a language for modeling concepts in a precise and unambiguous way.
+In this book we use math to model the concept of _computation_.
+For example, we will consider questions such as _"is there an efficient algorithm to find the prime factors of a given integer?"_. (We will see that this question is particularly interesting, touching on areas as far apart as Internet security and quantum mechanics!)
 To even _phrase_ such a question, we need to give a precise _definition_ of the notion of an _algorithm_, and of what it means for an algorithm to be _efficient_.
-Also, if the answer to this or similar questions turns out to be _negative_, then this cannot be shown by simply writing and executing some code.
-After all, there is no empirical experiment that will prove the _nonexistence_ of an algorithm.
-Our only way to show this type of _negative result_ is to use _mathematical proofs_.
-So you can see why our main tools will be mathematical proofs and definitions.
+Also, since there is no empirical experiment that will prove the _nonexistence_ of an algorithm,  the only way to establish such a result is using a  _mathematical proofs_.
+
 
 ##  This chapter: a reader's manual   { #manualbackground}
 
 Depending on your background, you can approach this chapter in two different ways:
 
-* If you already have taken some proof-based courses, and are very familiar with the notions of discrete mathematics, you can take a quick look at [secmathoverview](){.ref} to see the main tools we will use, [notationsec](){.ref} for our notation and conventions, and then skip ahead to the rest of this book. Alternatively, you can sit back, relax, and read this chapter just to get familiar with our notation, as well as to enjoy (or not) my philosophical musings and attempts at humor. You might also want to start brushing up on _discrete probability_, which we'll use later in this book.
+* If you already have taken a "discrete mathematics", "mathematics for computer science" or similar courses, you can take a quick look at [secmathoverview](){.ref} to see the main tools we will use, [notationsec](){.ref} for our notation and conventions, and then skip ahead to the rest of this book. Alternatively, you can sit back, relax, and read this chapter just to get familiar with our notation, as well as to enjoy (or not) my philosophical musings and attempts at humor. You might also want to start brushing up on _discrete probability_, which we'll use later in this book.
 
 
-
-* If your background is not as extensive, you should lean forward, and read this chapter with a pen and paper handy, making notes and working out derivations as you go along. We cannot fit a semester-length discrete math course in a single chapter, and hence will be necessarily brief in our discussions. Thus you might want to occasionally pause to watch some discrete math lectures, read some of the resources mentioned in [notesmathchap](){.ref}, and do some exercises to make sure you internalized the material.
-
-
+* If your background is less extensive, see [notesmathchap](){.ref} for some resources on these topics. This chapter briefly covers the concepts that we need, but you may find it helpful to see a more in-depth treatment. As usual with math, the best way to get comfort with this material is to work out exercises on your own.
 
 
 
@@ -69,9 +56,9 @@ Depending on your background, you can approach this chapter in two different way
 
 
 
-The main notions we use are:
+The main mathematical concepts we use in this book are: 
 
-* __Proofs:__ First and foremost, this course will involve a heavy dose of formal mathematical reasoning, which includes mathematical _definitions_, _statements_, and _proofs_.
+* __Proofs:__ First and foremost, this book involves a heavy dose of formal mathematical reasoning, which includes mathematical _definitions_, _statements_, and _proofs_.
 
 * __Sets:__ The basic set _relations_ of membership ($\in$) and containment ($\subseteq$), and set _operations_, principally union, intersection, set difference and Cartesian product ($\cup,\cap,\setminus$ and $\times$).
 
@@ -99,76 +86,52 @@ This is partially to remind the reader and reinforce material that might not be 
 
 ## Reading mathematical texts
 
-Mathematical texts such as this book can often be intimidating at first, as they use a lot of mathematical jargon that can seem dense and confusing to the uninitiated.
+Reading mathematical texts take practice to get used to the notation and symbols.
 Mathematicians use jargon for the same reason that it is used in many other professions such engineering, law, medicine, and others.
 We want to make terms _precise_ and introduce shorthand for concepts that are frequently reused.
 Mathematical texts tend to "pack a lot of punch" per sentence, and so the key is to read them slowly and carefully, parsing each symbol at a time.
 
-::: {.remark title="Don't be scared of Jargon!" #jargon}
-Mathematical Jargon can be kind of scary initially. A mathematical statement such as $\forall_{x\in \mathbb{R}, \epsilon>0} \exists_{a,b \in \N} |x - \tfrac{a}{b}| < \epsilon$ can seem like an inscrutable magical incantation.^[This is a statement of the fact that every real number can be approximated by a rational number within arbitrarily good accuracy.] 
-As you get more experience in reading mathematical texts, you will see that the jargon is no longer an issue and you will spend most of your time grappling with the actual ideas in the text rather than parsing notation.
+With time and practice you will see that reading mathematical texts becomes easier and jargon is no longer an issue.
+Moreover, reading mathematical texts is one of the most transferable skills you could take from this book.
+Our world is changing rapidly, not just in the realm of technology, but also in many other human endeavors, whether it is medicine, economics, law or even culture.
+Whatever your future aspirations, it is likely that you will encounter texts that use new concepts that you have not seen before (see [alphagozerofig](){.ref} and [zerocashfig](){.ref} for two recent examples from current "hot areas").
+Being able to internalize and then apply new definitions can be hugely important.
+It is a skill that's much easier to acquire in the relatively safe and stable context of a mathematical course, where one at least has the guarantee that the concepts are fully specified, and you have access to your teaching staff for questions.
 
-This is no different than programming. For example, even the code of the simple "Hello World" program in Java can be quite intimidating to newcomers, containing several terms that look scary and inscrutable, but as you work in Java, you quickly get used to these quirks of jargon.
 
-```java
-public class HelloWorld
-{
-	public static void main(String[] args) {
-		System.out.println("Hello World!");
-	}
-}
-```
-:::
+![A snippet from the "methods" section of the  ["AlphaGo Zero" paper](https://goo.gl/k8pVpL) by Silver et al, _Nature_, 2017. ](../figure/alphagozero.png){#alphagozerofig .margin  }
 
-Dealing with mathematical text is in many ways not so different from dealing with any other complex text, whether it's a legal argument, a philosophical treatise, an English Renaissance play, or even the source code of an operating system.
-You should not expect it to be clear in a first reading, but you need not despair.
-Rather you should engage with the text, trying to figure out both the high level intentions as well as the underlying details.
-Luckily, compared to philosophers or even programmers, mathematicians have a greater discipline of introducing definitions in linear order,  making sure that every new concept is defined only in terms of previously defined notions.
+![A snippet from the ["Zerocash" paper](http://zerocash-project.org/paper) of Ben-Sasson et al, that forms the basis of the cryptocurrency startup Zcash.](../figure/zerocash.png){#zerocashfig .margin  }
+
 
 
 The basic components of a mathematical text are __definitions__, __assertions__ and __proofs__.
 
 ### Definitions
 
-Mathematicians often define new concepts in terms of old concepts.  Here is an example of a definition:
-
-> ### {.definition title="Perfect Square" #perfectsquaredef}
-A natural number $n$ is a _perfect square_ if there exists a natural number $k$ such that $n = k\cdot k$.
-
-[perfectsquaredef](){.ref} uses the concept of a natural number, and the concept of multiplication, to define the new term "perfect square".
-
-When you see a new definition or concept, always ask yourself the following questions:
-
-1. What is the intuitive notion that this definition aims at modeling?
-
-2. How is the new concept defined in terms of other concepts?
-
-3. Which of these prior concepts am I already familiar with, and which ones do I still need to look up?
-
-4. Can I come up with examples of objects that satisfy this definition? and examples of objects that do not?
-
-As you read through the rest of this chapter and this text, try to ask yourself questions 1-4 above every time that you encounter a new definition.
+Mathematicians often define new concepts in terms of old concepts.  
+Here is a mathematical definition which you may have encountered in the past (and will see again shortly):
 
 
-::: { .pause }
-You can try this out for the definition of a "perfect square". Can you come up with examples of numbers that are perfect squares, and examples of numbers that are not perfect squares? How do you _prove_ that a number is _not_ a perfect square.
+> ### {.definition title="One to one function" #onetoonedef}
+Let $S,T$ be sets.
+We say that a function $f:S \rightarrow T$ is _one to one_ (also known as _injective_) if for every two elements $x,x' \in S$, if $x \neq x'$ then  $f(x) \neq f(x')$.
 
-You can also try to consider more refined questions such as finding out if there exists a perfect square that is the sum of two other perfect squares. You can also try to see how you would define notions such as being a "perfect cube". (Can you try to think if there is a perfect cube which is the sum of two other perfect cubes?)
-:::
+[onetoonedef](){.ref} captures a simple concept, but even so it uses quite a bit of notation.
+When reading such a definition, it is often useful to annotate it with a pen as you're going through it, as in [onetoonedefannotatedef](){.ref}.
+For example, when you see an identifier such as $f$, $S$ or $x$,  make sure that you realize what sort of object is it: is it a set, a function, an element, a number, a gremlin?
+You might also find it useful to explain the definition in words to a friend (or to yourself).
 
 
-::: {.remark title="Ifs and equalities in definitions" #ifindef}
-The meaning of "if" is subtly different in the context of a _definition_ than it is in the context of a standalone mathematical statement. When we say that we define $n$ to be a perfect square if $n=k^2$ for some $k\in \N$, we are _defining_ the new property "perfect square" to be equivalent to the property that $n=k^2$ for some $k\in \N$.
-Since this is the _definition_ of this property, it means that $n$ is in fact a perfect square _if and only if_  $n=k^2$ for some $k\in \N$.^[We could also have used "if and only if" in the definitions, but since mathematicians typically use "if" in such cases, we will typically follow the same convention.]
-Similarly, the equality symbol "$=$" plays a subtly different role in the context of a definition than it does elsewhere.
-When we say something like "we define $y= \sqrt{x}$" what we really mean is that we are _assigning_ the value $\sqrt{x}$ to $y$, as opposed to _asserting_ that $y$ equals $\sqrt{x}$. To compare with programming languages, in the context of a definition, the equality sign $=$ plays the role analogous to the assignment operator `=` in languages such as C, Python, or Javascript, while in other contexts it plays the role analogous to the "equal to" operator `==`.
+![An annotated form of [onetoonedef](){.ref}, marking which type is every object, and with a doodle explaining what the definition says.](../figure/onetoonedef.png){#onetoonedefannotatedef .margin  }
 
-A definition does not have to occur only in the context of a formal "Definition" box. Whenever you see text such as "we define X as", "let Y be", or "we denote by Z", this is a sign that a new term is being defined.
-:::
+
+
+
 
 ### Assertions: Theorems, lemmas, claims
 
-These are true statements about the concepts that we defined. For example, here is a true statement:
+Theorems, lemmas, claims and the like are true statements about the concepts that we defined. For example, here is a true statement:
 
 > ### {.lemma #perfectsquarelem}
 For every perfect square $a$ and perfect square $b$, $a\cdot b$ is a perfect square.
@@ -197,71 +160,12 @@ Since $a',b'$ are natural numbers, $c' = a'\cdot b'$ is a natural number as well
 
 As mentioned in the preface, as a general rule, it is more important you understand the __definitions__ than the __theorems__, and it is more important you understand a __theorem statement__ than its __proof__.
 
-### Common mathematical idioms
-
-Mathematical texts have their own sets of conventions and idioms. These might be initially confusing, but with time you will get used to them and perhaps even start using them yourself.
-Some examples include:
-
-* __"Let $X$ be $\ldots$"__,  __"let $X$ denote $\ldots$"__, or __"let $X= \ldots$":__ These are all different ways for us to say that we are _defining_ the symbol $X$ to stand for whatever expression is in the $\ldots$. When $X$ is a _property_ of some objects we might define $X$ by writing something along the lines of __"We say that $\ldots$ has the property $X$ if $\ldots$."__
-
-* **"Where $X$ is $\ldots$":** While we often try to define terms before they are used, sometimes a mathematical sentence reads easier if we use a term before defining it. Perhaps the term is a minor part of the equation, or it is can be typically guessed from the context (and the definition mainly serves to confirm that you guessed correctly). In such cases we would first write the expression using $X$, and then add "where $X$ is $\ldots$" to explain how $X$ is defined in the preceding expression.
-
-* **"For $i$ in $\ldots$":** Often a mathematical expression depends on some variable that can range over some domain. For example, we might want to say "For $i \in \N$, the number $(i+1)^2-i^2$ is always odd".  Sometimes we add the "for $j$ in $\ldots$" after the expression it refers to, such as in "Let $k=2j+1$ for some $j\in \{1,2,\ldots, 100 \}$"
-
-
-* **Conventions:** It might not always look that way, but our goal in writing mathematical texts is to make it as easy to understand as possible. Toward that end, we try to keep to certain conventions regarding variable identifiers that are widely used in the mathematical community. For example $i,j,k,\ell,m,n$ always denote integers (in fact almost always non-negative integers: i.e., natural numbers). We use $\epsilon$ and $\delta$ to denote small positive real numbers. See [conventionsec](){.ref} for more such conventions.
-
-* __(i.e.,), (e.g.,):__ Mathematical texts tend to contain quite a few of these expressions. We use $X$  (i.e., $Y$) in cases where $Y$ is equivalent to $X$ and $X$ (e.g., $Y$) in case $Y$ is an example of $X$ (e.g., one can use phrases such as "a natural number (i.e., a non-negative integer)" or "a natural number (e.g., $7$)").
-
-* __Numbered equations, theorems, definitions:__ To keep track of all the terms we define and statements we prove, we often assign them a (typically numeric) label, and then refer back to them in other parts of the text. 
-
-* __"Thus"__, __"Therefore"__ , __"We get that"__: This means that the following sentence is implied by the preceding one, as in "The $n$-vertex graph $G$ is connected. Therefore it contains at least $n-1$ edges." We sometimes use __"indeed"__ to indicate that the following text justifies the claim that was made in the preceding sentence as in "The $n$-vertex graph $G$ has at least $n-1$ edges. Indeed, this follows since $G$ is connected." 
-
-* ___Quantifiers:__ Mathematical texts involve many quantifiers such as "for all" and "exists". We sometimes use the formal symbols $\forall$ and $\exists$ for these, and sometimes phrase these in words. It is important to keep track on which variable is quantified in what way and also on the _dependencies_ between the variables. For example, a sentence fragment such as __"for every $k >0$ there exists $n$"__ means that $n$ can be chosen in a way that _depends_ on $k$. The order of quantifiers is important. For example, the following is a true statement: _"for every natural number $k>1$ there exists a prime number $n$ such that $n$ divides $k$."_ In contrast, the following statement is false: _"there exists a prime number $n$ such that for every natural number $k>1$, $n$ divides $k$."_
-
-
-* __Constants:__ $O(n)$, $c$, $100$,$\ldots$. In Computer Science, we often care about how our algorithms' resource consumption _scales_ with certain quantities that can grow to be very large. Most often we care about how the running time of our algorithm scales with the length of our inputs (often denoted as $n$), but one can consider other relations as well. When studying the _scaling behvaior_ of an algorithm we will want to separate out _constants_, that are independent of the input length $n$, from values that _depend on $n$_ such as $\sqrt{n}$, $n$, $n^2$, $n\log n$, etc. We can formally write this using quantifiers, as in _"There exists a constant $c>0$ such that for every $n\in \N$, Algorithm $A$ runs in at most $c \cdot n^2$ steps on inputs of length $n$."_ The qualifier "constant" for $c$ is not strictly needed but we often add it anyway, to emphasize that $c$ here is a fixed number that does not depend on the length $n$ of the input. In fact, sometimes, to reduce cognitive load, we will simply replace $c$ by some round number such as $10$, $100$, or $1000$ which is set to a large enough value to make the statement correct, and so write this as _"Algorithm $A$ runs in at most $100\cdot n^2$ steps on inputs of length $n$."_ When you see a number such as $10,100,1000,\ldots$ in this text, this is an indication that the precise value of the constant is not important, but rather we simply picked an arbitrary big enough round number. The particular usage of constants to bound quantities (often, but not always, running time) is popular enough to justify its own notation, namely the so-called "Big-$O$ notation" described in [secbigohnotation](){.ref}. In particular, we can write the sentence above also as _"Algorithm $A$ runs in $O(n^2)$ time."_ Another commonly used phrase is __"for sufficiently large number $n$"__, see [#secquantifiers](){.ref}.
-
-
-### Example: Parsing a mathematical definition
-
-
-Here is a mathematical definition which you may have encountered in the past (and will see again shortly):
-
-
-> ### {.definition title="One to one function" #onetoonedef}
-A function $f:S \rightarrow T$ is _one to one_ if for every two elements $x,x' \in S$, if $x \neq x'$ then  $f(x) \neq f(x')$.
-
-This definition captures a simple concept, but even so it uses quite a bit of notation.
-When reading this definition, or any other piece of mathematical text, it is often useful to annotate it with a pen as you're going through it, as in [onetoonedefannotatedef](){.ref}.
-For every identifier you encounter (for example $f,S,T,x,x'$ in this case), make sure that you realize what sort of object is it: is it a set, a function, an element, a number, a gremlin?
-Make sure you understand how the identifiers are _quantified_.
-For example, in [onetoonedef](){.ref} there is a _universal_ or "for all" (sometimes denotes by $\forall$) quantifier over pairs $(x,x')$ of distinct elements in $S$.
-Finally, and most importantly, make sure that aside from being able to parse the definition formally, you also have an intuitive understanding of what is it that the text is actually saying.
-For example, [onetoonedef](){.ref} says that a one to one function is a function where every output is obtained by a unique input.
-
-
-![An annotated form of [onetoonedef](){.ref}, marking which type is every object, and with a doodle explaining what the definition says.](../figure/onetoonedef.png){#onetoonedefannotatedef .margin  }
-
-
-Reading mathematical texts in this way takes time, but it gets easier with practice.
-Moreover, this is one of the most transferable skills you could take from this course.
-Our world is changing rapidly, not just in the realm of technology, but also in many other human endeavors, whether it is medicine, economics, law or even culture.
-Whatever your future aspirations, it is likely that you will encounter texts that use new concepts that you have not seen before (see [alphagozerofig](){.ref} and [zerocashfig](){.ref} for two recent examples from current "hot areas").
-Being able to internalize and then apply new definitions can be hugely important.
-It is a skill that's much easier to acquire in the relatively safe and stable context of a mathematical course, where one at least has the guarantee that the concepts are fully specified, and you have access to your teaching staff for questions.
-
-
-![A snippet from the "methods" section of the  ["AlphaGo Zero" paper](https://goo.gl/k8pVpL) by Silver et al, _Nature_, 2017. ](../figure/alphagozero.png){#alphagozerofig .margin  }
-
-![A snippet from the ["Zerocash" paper](http://zerocash-project.org/paper) of Ben-Sasson et al, that forms the basis of the cryptocurrency startup Zcash.](../figure/zerocash.png){#zerocashfig .margin  }
-
 
 
 
 ## Basic discrete math objects
 
-We now quickly review some of the mathematical objects (the "basic data structures" of mathematics, if you will) we use in this course.
+In this section we quickly review some of the mathematical objects (the "basic data structures" of mathematics, if you will) we use in this book.
 
 ### Sets
 
@@ -279,7 +183,7 @@ The set that contains no elements is known as the _empty set_ and it is denoted 
 
 We can define sets by either listing all their elements or by writing down a rule that they satisfy such as
 $$
-\text{EVEN} = \{ x  \;:\; \text{ $x=2y$ for some non-negative integer $y$} \} \;.
+\text{EVEN} = \{ x  \;|\; \text{ $x=2y$ for some non-negative integer $y$} \} \;.
 $$
 
 Of course there is more than one way to write the same set, and often we will use intuitive notation listing a few examples that illustrate the rule.
@@ -329,13 +233,13 @@ def intersect(S,T):
 print(intersect(A,B))
 # {12}
 
-def contains(S,T):
+def subset(S,T):
     return all({x in T for x in S})
 
-print(contains(A,B))
+print(subset(A,B))
 # False
 
-print(contains({2,8,8,12},{12,8,2,34}))
+print(subset({2,8,8,12},{12,8,2,34}))
 # True
 
 def product(S,T):
@@ -348,14 +252,14 @@ print(product(A,B))
 
 ### Special sets { #specialsets }
 
-There are several sets that we will use in this course time and again, and so find it useful to introduce explicit notation for them.
-For starters we define
+There are several sets that we will use in this book  time and again.
+The set
 
 $$
 \N = \{ 0, 1,2, \ldots \}
 $$
-to be the set of all _natural numbers_, i.e., non-negative integers.
-For any natural number $n$, we define the set $[n]$ as $\{0,\ldots, n-1\} = \{ k\in \N : k < n \}$.^[We start our indexing of both $\N$ and $[n]$ from $0$, while many other texts index those sets from $1$. Starting from zero or one is simply a convention that doesn't make much difference, as long as one is consistent about it.]
+contains all  _natural numbers_, i.e., non-negative integers.
+For any natural number $n\in\N$, we define the set $[n]$ as $\{0,\ldots, n-1\} = \{ k\in \N : k < n \}$.^[We start our indexing of both $\N$ and $[n]$ from $0$, while many other texts index those sets from $1$. Starting from zero or one is simply a convention that doesn't make much difference, as long as one is consistent about it.]
 
 We will also occasionally use the set $\Z=\{\ldots,-2,-1,0,+1,+2,\ldots \}$ of (negative and non-negative) _integers_,^[The letter Z stands for the German word "Zahlen", which means _numbers_.] as well as the set $\R$ of _real_ numbers. (This is the set that includes not just the integers, but also fractional and even irrational numbers; e.g., $\R$ contains numbers such as $+0.5$, $-\pi$, etc.)
 We denote by $\R_+$  the set $\{ x\in \R : x > 0 \}$ of _positive_ real numbers.
@@ -516,7 +420,8 @@ A _cycle_ is a path $(u_0,\ldots,u_k)$ where $u_0=u_{k}$.
 We say that two vertices $u,v\in V$ are _connected_ if either $u=v$ or there is a path from $(u_0,\ldots,u_k)$ where $u_0=u$ and $u_k=v$.
 We say that the graph $G$ is _connected_ if every pair of vertices in it is connected.
 
-Here are some basic facts about undirected graphs. We give some informal arguments below, but leave the full proofs as exercises. (The proofs can also be found in most basic texts on graph theory.)
+Here are some basic facts about undirected graphs. We give some informal arguments below, but leave the full proofs as exercises (the proofs can be found  in  many of the resources listed in [notesmathchap](){.ref}). 
+
 
 > ### {.lemma #degreesegeslem}
 In any undirected graph $G=(V,E)$, the sum of the degrees of all vertices is equal to twice the number of edges.
@@ -533,10 +438,39 @@ The connectivity relation is _transitive_, in the sense that if $u$ is connected
 For every undirected graph $G=(V,E)$ and connected pair $u,v$, the shortest path from $u$ to $v$ is simple.
 In particular, for every connected pair there exists a simple path that connects them.
 
-[simplepathlem](){.ref} can be shown by "shortcutting" any non simple path of the form $(u,u_1,\ldots,u_{i-1},w,u_{i+1},\ldots,u_{j-1},w,u_{j+1},\ldots,u_{k-1},v)$ where the same vertex $w$ appears in both the $i$-th and $j$-position, to obtain the shorter path $(u,u_1,\ldots,u_{i-1},w,u_{j+1},\ldots,u_{k-1},v)$.
+[simplepathlem](){.ref} can be shown by "shortcutting" any non simple path from $u$ to $v$ where  the same vertex $w$ appears twice to remove it (see [shortcutpathfig](){.ref}).
+It is a good exercise to transforming this intuitive reasoning to a formal proof:
 
-> ### { .pause }
-If you haven't seen these proofs before, it is indeed a great exercise to transform the above informal argument into fully rigorous proofs.
+![If there is a path from $u$ to $v$ in a graph that passes twice through a vertex $w$ then we can "shortcut" it by removing the loop from $w$ to itself to find a path from $u$ to $v$ that only passes once through $w$.](../figure/shortcutpath.png){#shortcutpathfig}
+
+::: {.solvedexercise title="Connected vertices have simple paths" #simplepathlemex}
+Prove [simplepathlem](){.ref}
+:::
+
+::: {.solution data-ref="simplepathlemex"}
+The proof follows the idea illustrated in [shortcutpathfig](){.ref}.
+One complication is that there can be more than one vertex that is visited twice by a path, and so "shortcutting" might not necessarily result in a simple path; we deal with this by looking at a _shortest_ path between $u$ and $v$.
+Details follow.
+
+Let $G=(V,E)$ be a graph and $u$ and $v$ in $V$  be two connected vertices in $G$.
+We will prove that there is a simple graph between $u$ and $v$.
+Let $k$ be the shortest length of a path between $u$ and $v$ and let $P=(u_0,u_1,u_2,\ldots,u_{k-1},u_k)$ be a $k$-length path from $u$ to $v$ (there can be more than one such path: if so we just choose one of them).
+(That is $u_0=u$, $u_k=v$, and $(u_\ell,u_{\ell+1})\in E$ for all $\ell \in [k]$.)
+We claim that $P$ is simple.
+Indeed, suppose otherwise that there is some vertex $w$ that occurs twice in the path: $w = u_i$ and $w=u_j$ for some $i<j$.
+Then we can "shortcut" the path $P$ by considering the path $P' = (u_0,u_1,\ldots,u_{i-1},w,u_{j+1},\ldots,u_k)$ obtained by taking the first $i$ vertices of $P$ (from $u_0=0$ to the first occurence of $w$) and the last $k-j$ ones (from the vertex $u_{j+1}$ following the second occurence of $w$ to  $u_k=v$).
+The path $P'$ is a valid path between $u$ and $v$ since every consecutive pair of vertices  in it is connected by an edge  (in particular, since $w=u_i=w_j$, both $(u_{i-1},w)$ and $(w,u_{j+1})$ are  edges in $E$), but since the length of $P'$ is  $k-(j-i)<k$, this contradicts the minimality of $P$.
+:::
+
+::: {.remark title="Finding proofs" #comingupwithproofs}
+[simplepathlemex](){.ref} is a good example of the process of finding a proof.
+You start by ensuring you understand what the statement means, and then come up with 
+an informal argument why it should be true.
+You then transform the informal argument into a rigorous proof.
+This proof need not be very long or overly formal, but should clearly establish why the conclusion of the statement follow from its assumptions.
+:::
+
+The concepts of degrees and connectivity extend naturally  to _directed graphs_, defined as follows.
 
 
 > ### {.definition title="Directed graphs" #directedgraphdef}
@@ -553,7 +487,7 @@ One type of directed graphs we often care about is _directed acyclic graphs_ or 
 We say that $G=(V,E)$ is a _directed acyclic graph (DAG)_ if it is a directed graph and there does not exist a list of vertices $u_0,u_1,\ldots,u_k \in V$ such that $u_0=u_k$ and for every $i\in [k]$, the edge $u_i \rightarrow u_{i+1}$ is in $E$.
 
 The lemmas we mentioned above have analogs for directed graphs.
-We again leave the proofs (which are essentially identical to their undirected analogs) as exercises for the reader:
+We again leave the proofs (which are essentially identical to their undirected analogs) as exercises.
 
 > ### {.lemma #diredgreesegeslem}
 In any directed graph $G=(V,E)$, the sum of the in-degrees is equal to the sum of the out-degrees, which is equal to the number of edges.
@@ -567,21 +501,13 @@ In any directed graph $G$, if there is a path from $u$ to $v$ and a path from $v
 For every directed graph $G=(V,E)$ and a pair $u,v$ such that there is a path from $u$ to $v$, the _shortest path_ from $u$ to $v$ is simple.
 
 
-::: {.remark title="Graph terminology" #graphsname}
-The word _graph_ in the sense above was coined by the mathematician Sylvester in 1878 in analogy with the chemical graphs used to visualize molecules.
-There is an unfortunate confusion between this term and the more common usage of the word "graph" as a way to plot data, and in particular a plot of some function $f(x)$ as a function of $x$.
-One way to relate these two notions is to identify every function $f:A \rightarrow B$ with the directed graph $G_f$ over the vertex set $V= A \cup B$ such that $G_f$  contains the edge $x \rightarrow f(x)$ for every $x\in A$.
 
-In a graph $G_f$ constructed in this way, every vertex in $A$ has out-degree equal to one.
-If the function $f$ is _one to one_ then every vertex in $B$ has in-degree at most one.
-If the function $f$ is _onto_ then every vertex in $B$ has in-degree at least one.
-if $f$ is a bijection then every vertex in $B$ has in-degree exactly equal to one.
-:::
-
-::: {.remark title="Labeled graphs (optional)" #labeledrem}
-For some applications one needs to consider _labeled graphs_, where the vertices or edges have some _labels_ (which can be numbers, strings, or members of some other set) associated with them.
+::: {.remark title="Labeled graphs" #labeledrem}
+For some applications we will consider _labeled graphs_, where the vertices or edges have some _labels_ (which can be numbers, strings, or members of some other set) associated with them.
 We can think of such a graph as having an associated  (possibly partial) _labelling function_ $L:V \cup E \rightarrow \mathcal{L}$, where $\mathcal{L}$ is the set of potential labels. However we will typically not refer explicitly to this labeling function and simply say things such as "vertex $v$ has the label $\alpha$".
 :::
+
+
 
 
 
@@ -592,7 +518,7 @@ The _negation_ of $P$, denoted as $\neg P$ or $\overline{P}$, is the statement t
 
 Suppose that $P(x)$ is a statement that depends on some _parameter_  $x$ (also sometimes known as an _unbound_ variable) in the sense that for every instantiation of $x$ with a value from some set $S$, $P(x)$ is either true or false.
 For example, $x>7$ is a statement that is not a priori true or false, but does become true or false whenever we instantiate $x$ with some real number.
-In such case we denote by  $\forall_{x\in S} P(x)$  the statement that is true if and only if $P(x)$ is true _for every_ $x\in S$.^[In this book,  we place the variable that is bound by a quantifier in a subscript and so write $\forall_{x\in S}P(x)$. Some other texts do not use this subscript notation and so will write the same statement as  $\forall x\in S \; P(x)$.]
+In such case we denote by  $\forall_{x\in S} P(x)$  the statement that is true if and only if $P(x)$ is true _for every_ $x\in S$.^[In this book,  we place the variable bound by a quantifier in a subscript and so write $\forall_{x\in S}P(x)$. Many other texts do not use this subscript notation and so will write the same statement as  $\forall x\in S, \; P(x)$.]
 We denote by  $\exists_{x\in S} P(x)$  the statement that is true if and only if _there exists_ some $x\in S$ such that $P(x)$ is true.
 
 For example, the following is a formalization of the true statement that there exists a natural number $n$ larger than $100$ that is not divisible by $3$:
@@ -1112,7 +1038,7 @@ The proof of [minimallayeruniquethm](){.ref} is fully rigorous, but is written i
 Make sure that you read through it and understand _why_ this is indeed an airtight proof of the Theorem's statement.
 :::
 
-## Notation and conventions { #notationsec }
+## This book: notation and conventions { #notationsec }
 
 Most of the notation we use in this book is standard and is used in most mathematical texts. The main points where we diverge are:
 
@@ -1138,9 +1064,10 @@ Most of the notation we use in this book is standard and is used in most mathema
 * To save on "cognitive load" we will often use round constants such as $10,100,1000$ in the statements of both theorems and problem set questions. When you see such a "round" constant, you can typically assume that it has no special significance and was just chosen arbitrarily. For example, if you see a theorem of the form "Algorithm $A$ takes at most $1000\cdot n^2$ steps to compute function $F$ on inputs of length $n$" then probably the number $1000$ is an abitrary sufficiently large constant, and one could prove the same theorem with a bound of the form $c \cdot n^2$ for a constant $c$ that is smaller than $1000$. Similarly, if a problem-set question asks you to prove that some quantity is at least $n/100$, it is quite possible that in truth the quantity is at least $n/d$ for some constant $d$ that is smaller than $100$.
 
 
-### Conventions {#conventionsec }
+### Variable name conventions {#conventionsec }
 
-Like programming, mathematics is full of _variables_. Whenever you see a variable, it is always important to keep track of what is its _type_ (e.g., whether the variable is a number, a string, a function, a graph, etc.).
+Like programming, mathematics is full of _variables_. 
+Whenever you see a variable, it is always important to keep track of what is its _type_ (e.g., whether the variable is a number, a string, a function, a graph, etc.).
 To make this easier, we try to stick to certain conventions and consistently use certain identifiers for variables of the same type.
 Some of these conventions are listed in [notationtable](){.ref} below.
 These conventions are not immutable laws and we might occasionally deviate from them.
@@ -1170,6 +1097,31 @@ $T$	A function mapping $\mathbb{N}$ to $\mathbb{N}$ that corresponds to a time b
 $c$	A positive number (often an unspecified constant; e.g.,  $T(n)=O(n)$ corresponds to the existence of $c$ s.t. $T(n) \leq c \cdot n$ every $n>0$). We sometimes use $a,b$ in a similar way.
 $\Sigma$	Finite set (often used as the _alphabet_ for a set of strings).
 ```
+
+
+
+### Some idioms
+
+Mathematical texts often employ certain conventions or "idioms".
+Some examples of such idioms that we use in this text include the following:
+
+* __"Let $X$ be $\ldots$"__,  __"let $X$ denote $\ldots$"__, or __"let $X= \ldots$":__ These are all different ways for us to say that we are _defining_ the symbol $X$ to stand for whatever expression is in the $\ldots$. When $X$ is a _property_ of some objects we might define $X$ by writing something along the lines of __"We say that $\ldots$ has the property $X$ if $\ldots$."__. While we often try to define terms before they are used, sometimes a mathematical sentence reads easier if we use a term before defining it, in which case we add **"Where $X$ is $\ldots$"** to explain how $X$ is defined in the preceding expression.
+
+
+* ___Quantifiers:__ Mathematical texts involve many quantifiers such as "for all" and "exists". We sometimes spell these in words as in **"for all $i\in\N$"** or **"there is $x\in \{0,1\}^*$"**,  and sometimes use the formal symbols $\forall$ and $\exists$. It is important to keep track on which variable is quantified in what way the _dependencies_ between the variables. For example, a sentence fragment such as __"for every $k >0$ there exists $n$"__ means that $n$ can be chosen in a way that _depends_ on $k$. The order of quantifiers is important. For example, the following is a true statement: _"for every natural number $k>1$ there exists a prime number $n$ such that $n$ divides $k$."_ In contrast, the following statement is false: _"there exists a prime number $n$ such that for every natural number $k>1$, $n$ divides $k$."_
+
+
+* __Numbered equations, theorems, definitions:__ To keep track of all the terms we define and statements we prove, we often assign them a (typically numeric) label, and then refer back to them in other parts of the text. 
+
+* __(i.e.,), (e.g.,):__ Mathematical texts tend to contain quite a few of these expressions. We use $X$  (i.e., $Y$) in cases where $Y$ is equivalent to $X$ and $X$ (e.g., $Y$) in case $Y$ is an example of $X$ (e.g., one can use phrases such as "a natural number (i.e., a non-negative integer)" or "a natural number (e.g., $7$)").
+
+
+* __"Thus"__, __"Therefore"__ , __"We get that"__: This means that the following sentence is implied by the preceding one, as in "The $n$-vertex graph $G$ is connected. Therefore it contains at least $n-1$ edges." We sometimes use __"indeed"__ to indicate that the following text justifies the claim that was made in the preceding sentence as in _"The $n$-vertex graph $G$ has at least $n-1$ edges. Indeed, this follows since $G$ is connected."_
+
+
+* __Constants:__ In Computer Science, we typically care about how our algorithms' resource consumption (such as running time) _scales_ with certain quantities (such as the length of the input). We refer to quantities that do not depend on the length of the input as _constants_ and so often use statements such as  _"there exists a constant $c>0$ such that for every $n\in \N$, Algorithm $A$ runs in at most $c \cdot n^2$ steps on inputs of length $n$."_ The qualifier "constant" for $c$ is not strictly needed but is added to emphasize that $c$ here is a fixed number independent of $n$. In fact sometimes, to reduce cognitive load, we will simply replace $c$ by a sufficiently  large round number such as $10$, $100$, or $1000$, or use $O$-notation and write  _"Algorithm $A$ runs in $O(n^2)$ time."_ 
+
+
 
 
 
@@ -1288,13 +1240,20 @@ Prove that for every undirected graph $G$ of $1000$ vertices, if every vertex ha
 
 ## Bibliographical notes { #notesmathchap }
 
-The section heading "A Mathematician's Apology", refers of course to Hardy's classic book [@Hardy41].
+The heading "A Mathematician's Apology", refers to Hardy's classic book [@Hardy41].
 Even when Hardy is wrong, he is very much worth reading.
 
 There are many online sources for the mathematical background needed for this book. In particular, the lecture notes for MIT 6.042 "Mathematics for Computer Science" [@LehmanLeightonMeyer] are extremely comprehensive, and videos and assignments for this course are available online.
 Similarly, [Berkeley CS 70: "Discrete Mathematics and Probability Theoru"](http://www.eecs70.org/) has extensive lecture notes online.
-The book of Rosen [@Rosen19discrete] also covers much of this material.
-See also Jim Aspens' online book [@AspensDiscreteMath].
 
-The book by Lewis and Zax [@LewisZax19], as well as the online book of Fleck [@Fleck], give a more gentle overview of the much of the same material. Solow's book [@Solow14] is a good gentle introduction to proof reading and writing. Kun's book [@Kun18] gives an introduction to mathematics aimed at readers with programming background.
+Other sources for discrete mathematics are Rosen [@Rosen19discrete]  and Jim Aspens' online book [@AspensDiscreteMath].
+Lewis and Zax [@LewisZax19], as well as the online book of Fleck [@Fleck], give a more gentle overview of the much of the same material.
+Solow [@Solow14] is a good introduction to proof reading and writing. Kun [@Kun18] gives an introduction to mathematics aimed at readers with programming background.
 Stanford's [CS 103 course](https://cs103.stanford.edu)  has a wonderful collections of handouts on mathematical proof techniques and discrete mathematics.
+
+
+The word _graph_ in the sense of [undirgraph](){.ref} was coined by the mathematician Sylvester in 1878 in analogy with the chemical graphs used to visualize molecules.
+There is an unfortunate confusion between this term and the more common usage of the word "graph" as a way to plot data, and in particular a plot of some function $f(x)$ as a function of $x$.
+One way to relate these two notions is to identify every function $f:A \rightarrow B$ with the directed graph $G_f$ over the vertex set $V= A \cup B$ such that $G_f$  contains the edge $x \rightarrow f(x)$ for every $x\in A$. In a graph $G_f$ constructed in this way, every vertex in $A$ has out-degree equal to one. If the function $f$ is _one to one_ then every vertex in $B$ has in-degree at most one.
+If the function $f$ is _onto_ then every vertex in $B$ has in-degree at least one.
+If $f$ is a bijection then every vertex in $B$ has in-degree exactly equal to one.
