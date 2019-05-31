@@ -47,13 +47,87 @@ For example, DNA can be thought of as both a program and data (in the words of S
 ![As illustrated in this xkcd cartoon, many exploits, including buffer overflow, SQL injections, and more, utilize the blurry line between "active programs" and "static strings".](../figure/exploits_of_a_mom.png){#XKCDmomexploitsfig .margin  }
 
 
-::: {.remark title="Other computational models" #progvscircuitsevalrem}
-As we have seen, we can describe a sequence of operations using both _circuits_ and _programs_.
-Moreover, our computational models are equivalent regardless of whether we use circuits or programs, or whether we use as our basic set of operations NAND, AND/OR/NOT, or any other universal basic sets.
+In this chapter, we will begin to explore some of the applications of this connection.
+We will use it to show the existence of a _bounded universal circuit_ $U$ that gets as input the string representation of another circuit $C$ and a string $x$,
+and outputs $C(x)$.
+(The qualifier "bounded" means that the circuit $C$ has to be of at most a certain size; we see computational models that overcome this limitation in [chaploops](){.ref}, which introduces the notion
+of programming languages with _loops_ and the computational model of a _Turing Machine_.)
+Equivalently, taking the programming-language point of view, the bounded universal circuit corresponds to a "NAND-CIRC interpreter in NAND-CIRC": a NAND-CIRC program that can evaluate other NAND-CIRC program.
+Such a program is known in Computer Science as a "meta-circular evaluator", and is fundamental to both theory and practice of computing.
+Finally, we will use the representation of programs/circuits as strings to _count_ the number of programs/circuits up to a certain size, and use that to obtain a counterpart to the result we proved in [finiteuniversalchap](){.ref}.
+There we proved that for _every_ function $f:\{0,1\}^n \rightarrow \{0,1\}$, there exists a circuit of _at most_ $100 \cdot 2^n / n$ gates to compute it.
+(The number $100$ hear is somewhat arbitrary and fixed for concreteness;   [circuit-univ-thm-improved](){.ref} states a bound of  $c \cdot 2^n /n$ for some constant $c$, but it can be verified that the proof yields $c \leq 100$.)
+In this chapter we will prove that there are _some_ functions $f:\{0,1\}^n \rightarrow \{0,1\}$ for which we cannot do much better: they require a circuit of size _at least_  $0.01 \cdot 2^n / n$ (see [counting-lb](){.ref}).
+See [codedataoverviewfig](){.ref} for an overview of the results of  this chapter.
 
-For the sake of concreteness, in this chapter we often describe computation using NAND-CIRC programs. However, all of our results hold equally well for AON-CIRC programs, NAND circuits,  Boolean circuits (with AND/OR/NOT gates), or any of the other equivalent models of computation.
-In particular, since a Boolean circuit is just a labeled directed acyclic graph, it can be represented as a string using the adjacency matrix or adjacency list representation, and all our results below hold equally well using this representation.
+
+
+![Overview of the results in this chapter. We use the representation of programs/circuits as strings to derive two main results. First we show the existence of a universal program/circuit, and in fact (with more work) the existence of such a program/circuit  whose size is at most polynomial in the size of the program/circuit it evaluates. We then use the string representation to _count_ the number of programs/circuits of a given size, and use that to establish that _some_ functions require an _exponential_ number of lines/gates to compute.](../figure/codedataoverview.png){#codedataoverviewfig}
+
+
+
+## Representing programs as strings
+
+
+
+![In the Harvard Mark I computer, a program was represented as a list of triples of numbers, which were then encoded by perforating holes in a control card.](../figure/tapemarkI.png){#figureid .margin  }
+
+
+
+
+A NAND-CIRC program is simply a sequence of lines of the form
+
+```python
+blah = NAND(baz,boo)
+```
+
+There is of course nothing special about the particular names we use for variables.
+Although they would be harder to read, we could write all our programs using only working variables such as `temp_0`, `temp_1` etc.
+Therefore, our representation for NAND-CIRC programs will ignore the actual names of the variables, and just associate a _number_ with each variable.
+Thus we will encode a _line_ of the program as just a triple of numbers.
+If the line has the form `foo = NAND(bar,blah)` then we encode it with the triple $(i,j,k)$ where  $i$ is the number corresponding to the variable `foo` and $j$ and $k$ are the numbers corresponding to `bar` and `blah` respectively.
+
+More concretely, we use will associate every variable with a number in the set $[t]= \{0,1,\ldots,t-1\}$.
+The first $n$ numbers $\{0,\ldots,n-1\}$ correspond to the _input_ variables, the last $m$ numbers $\{t-m,\ldots,t-1\}$ correspond to the _output_ variables, and the intermediate numbers $\{ n,\ldots, t-m-1\}$ correspond to the remaining "workspace" variables.
+Formally, we define our representation as follows:
+
+::: {.definition title="List of tuples representation" #nandtuplesdef}
+Let $P$ be a NAND-CIRC program of $n$ inputs, $m$ outputs, and $s$ lines, and let $t$ be the number of distinct variables used by $P$.
+The _list of tuples representation of $P$_ is the triple $(n,m,L)$ where $L$ is a list of triples of the form $(i,j,k)$ for $i,j,k \in [t]$.
+
+We assign a number for variable of $P$ as follows:
+
+* For every $i\in [n]$, the variable `X[`$i$`]` is assigned the number $i$.
+
+* For every $j\in [m]$, the variable `Y[`$j$`]` is assigned the number $t-m+j$.
+
+* Every other variable is assigned a number in $\{n,n+1,\ldots,t-m-1\}$ in the order in which the variable appears in the program $P$.
 :::
+
+
+The list of tuples representation is our default choice for representing NAND-CIRC programs.
+Since "list of tuples representation" is a bit of a mouthful, we will often call it simply "the representation" for a program $P$.
+
+::: {.example title="Representing the XOR program" #representXOR}
+Our favorite NAND-CIRC program, the program
+
+```python
+u = NAND(X[0],X[1])
+v = NAND(X[0],u)
+w = NAND(X[1],u)
+Y[0] = NAND(v,w)
+```
+
+computing the XOR function is represented as the tuple $(2,1,L)$ where $L=((2, 0, 1), (3, 0, 2), (4, 1, 2), (5, 3, 4))$. That is, the variables `X[0]` and `X[1]` are given the indices  $0$ and $1$ respectively, the variables `u`,`v`,`w` are given the indices $2,3,4$ respectively, and the variable `Y[0]` is given the index $5$.
+:::
+
+
+Transforming a NAND-CIRC program from its representation as code to the representation as a list of tuples is a fairly straightforward programming exercise, and in particular can be done in a few lines of _Python_.^[If you're curious what these few lines are, see our [GitHub repository](https://github.com/boazbk/tcscode).]
+The list-of-tuples representation loses information such as the particular names we used for the variables, but this is OK since these names do not make a difference to the functionality of the program.
+Since every one of our triples contains a number between $0$ and $t \leq 3s$ (and hence can be encoded as a string of at most $\log(3s) \leq O(\log s)$ bits), we can encode the representation of an $s$ line program using a string of $O(s \log s)$ bits.^[The maximum value $t$ can take is $s+n$ and since every line touches at most two inputs, we can assume that $s \geq n/2$ or $n \leq 2s$ as otherwise there would be an input that is not used in any line of the program.]
+For every $s,n,m$, we define  $EVAL_{s,n,m}$ as the function mapping  $\{0,1\}^{3s\ceil{\log 3s} + n}$ to $\{0,1\}^m$ which takes as input a string $Lx$ where $L$ is a list of $s$ triples of numbers between $0$ and $3s-1$ (obtained by simply concatenating their binary representations as strings of length $\ceil{\log 3s}$) and $x\in \{0,1\}^n$, and outputs $P(x)$ where $P$ is the program represented by $(n,m,L)$.
+
+
 
 
 ## A NAND-CIRC interpreter in NAND-CIRC
@@ -126,110 +200,6 @@ We can prove  [eff-bounded-univ](){.ref}  using the ASCII representation, but a 
 2. Then, we will show how we can write a program to compute $EVAL_{s,n,m}$ in _Python_.^[We will not use much about Python, and a reader that has familiarity with programming in any language should be able to follow along.]
 
 3. Finally, we will show how we can transform this Python program into a NAND-CIRC program.
-
-### Concrete representation for NAND-CIRC programs
-
-![In the Harvard Mark I computer, a program was represented as a list of triples of numbers, which were then encoded by perforating holes in a control card.](../figure/tapemarkI.png){#figureid .margin  }
-
-
-A NAND-CIRC program is simply a sequence of lines of the form
-
-```python
-blah = NAND(baz,boo)
-```
-
-There is of course nothing special about the particular names we use for variables.
-Although they would be harder to read, we could write all our programs using only working variables such as `temp_0`, `temp_1` etc.
-Therefore, our representation for NAND-CIRC programs will ignore the actual names of the variables, and just associate a _number_ with each variable.
-Thus we will encode a _line_ of the program as just a triple of numbers.
-If the line has the form `foo = NAND(bar,blah)` then we encode it with the triple $(i,j,k)$ where  $i$ is the number corresponding to the variable `foo` and $j$ and $k$ are the numbers corresponding to `bar` and `blah` respectively.
-
-More concretely, we use will associate every variable with a number in the set $[t]= \{0,1,\ldots,t-1\}$.
-The first $n$ numbers $\{0,\ldots,n-1\}$ correspond to the _input_ variables, the last $m$ numbers $\{t-m,\ldots,t-1\}$ correspond to the _output_ variables, and the intermediate numbers $\{ n,\ldots, t-m-1\}$ correspond to the remaining "workspace" variables.
-Formally, we define our representation as follows:
-
-::: {.definition title="List of tuples representation" #nandtuplesdef}
-Let $P$ be a NAND-CIRC program of $n$ inputs, $m$ outputs, and $s$ lines, and let $t$ be the number of distinct variables used by $P$.
-The _list of tuples representation of $P$_ is the triple $(n,m,L)$ where $L$ is a list of triples of the form $(i,j,k)$ for $i,j,k \in [t]$.
-
-We assign a number for variable of $P$ as follows:
-
-* For every $i\in [n]$, the variable `X[`$i$`]` is assigned the number $i$.
-
-* For every $j\in [m]$, the variable `Y[`$j$`]` is assigned the number $t-m+j$.
-
-* Every other variable is assigned a number in $\{n,n+1,\ldots,t-m-1\}$ in the order in which the variable appears in the program $P$.
-:::
-
-
-The list of tuples representation is our default choice for representing NAND-CIRC programs.
-Since "list of tuples representation" is a bit of a mouthful, we will often call it simply "the representation" for a program $P$.
-
-::: {.example title="Representing the XOR program" #representXOR}
-Our favorite NAND-CIRC program, the program
-
-```python
-u = NAND(X[0],X[1])
-v = NAND(X[0],u)
-w = NAND(X[1],u)
-Y[0] = NAND(v,w)
-```
-
-computing the XOR function is represented as the tuple $(2,1,L)$ where $L=((2, 0, 1), (3, 0, 2), (4, 1, 2), (5, 3, 4))$. That is, the variables `X[0]` and `X[1]` are given the indices  $0$ and $1$ respectively, the variables `u`,`v`,`w` are given the indices $2,3,4$ respectively, and the variable `Y[0]` is given the index $5$.
-:::
-
-
-Transforming a NAND-CIRC program from its representation as code to the representation as a list of tuples is a fairly straightforward programming exercise, and in particular can be done in a few lines of _Python_.^[If you're curious what these few lines are, see our [GitHub repository](https://github.com/boazbk/tcscode).]
-The list-of-tuples representation loses information such as the particular names we used for the variables, but this is OK since these names do not make a difference to the functionality of the program.
-Since every one of our triples contains a number between $0$ and $t \leq 3s$ (and hence can be encoded as a string of at most $\log(3s) \leq O(\log s)$ bits), we can encode the representation of an $s$ line program using a string of $O(s \log s)$ bits.^[The maximum value $t$ can take is $s+n$ and since every line touches at most two inputs, we can assume that $s \geq n/2$ or $n \leq 2s$ as otherwise there would be an input that is not used in any line of the program.]
-For every $s,n,m$, we define  $EVAL_{s,n,m}$ as the function mapping  $\{0,1\}^{3s\ceil{\log 3s} + n}$ to $\{0,1\}^m$ which takes as input a string $Lx$ where $L$ is a list of $s$ triples of numbers between $0$ and $3s-1$ (obtained by simply concatenating their binary representations as strings of length $\ceil{\log 3s}$) and $x\in \{0,1\}^n$, and outputs $P(x)$ where $P$ is the program represented by $(n,m,L)$.
-
-::: {.remark title="Mapping code to representation by Python (optional)" #representbypythonrem }
-We can  transform the representation of a NAND-CIRC program in code to the list of triples representation using the following simple Python program.
-The code of this program is not particularly insightful, and so it can be safely skipped.
-We include it here for the sake of concreteness and also to emphasize that there is nothing deep or 
-mysterious about the list-of-triples representation and it is easy to go back and forth between 
-this representation, the representation of NAND-CIRC programs in code, the representation of circuits with NAND gates as directed acyclic graphs, and many others.
-
-```python
-def code2rep(code):
-    """Map NAND-CODE to the list-of-triples representation."""
-    inputs = [] ; workspace = [] ; outputs = []
-    def parse(line): # helper: extract 3 variables from line of code
-        return line[:line.find("=")].strip(), line[line.find("(")+1:line.find(",")].strip(),  line[line.find(",")+1:line.find(")")].strip()
-        
-    def addvar(var): # helper: add variable to inputs/outputs/workspace lists
-        nonlocal inputs,workspace,outputs
-        if var[0]=='X': 
-            if not var in inputs: inputs += [var]
-        elif var[0]=='Y': 
-            if not var in outputs: outputs += [var]
-        elif not var in workspace:
-            workspace += [var] 
-    
-    # First pass: add all variables to list
-    for line in code.split('\n'):
-        for var in parse(line):
-            addvar(var)
-    
-    # sort variables as inputs, then workspace, then outputs
-    # inputs and outputs are sorted based on index, workspace based on order of occurrence.
-    # (if 10 or more inputs/outputs then should add leading zeros to make sorting work)
-    variables = sorted(inputs) + workspace + sorted(outputs)
-    
-    def idx(foo): # helper: idx(foo) is number associated with foo
-         return variables.index(foo) 
-
-    # Second pass: generate list of triples
-    L = [] # list of triples 
-    for line in code.split('\n'):
-        foo,bar,blah = parse(line)
-        L += [[idx(foo),idx(bar),idx(blah)]]
-    
-    return (len(inputs),len(outputs),L) 
-```
-
-:::
 
 
 

@@ -40,7 +40,7 @@ Beyond the practical applications, the existence of a universal algorithm also s
 In this chapter we will prove the existence of the universal program, and also show its implications for uncomputability.
 
 
-## Universality or a self-circular evaluator
+## Universality or a meta-circular evaluator
 
 We now prove the existence of a universal Turing machine:
 

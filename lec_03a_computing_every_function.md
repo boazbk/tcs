@@ -541,6 +541,13 @@ What is more interesting is that _some_ functions, such as addition and multipli
 ### Improving by a factor of $n$ (optional) {#tight-upper-bound}
 
 By being a little more careful, we can improve the bound of [NAND-univ-thm](){.ref} and show that every function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a NAND-CIRC program of at most $O(m 2^n/n)$ lines.
+In other words, we can prove  the following improved version:
+
+> ### {.theorem title="Universality of NAND circuits, improved bound" #NAND-univ-thm-improved}
+There exists a constant $c>0$ such that for every $n,m>0$ and function $f: \{0,1\}^n\rightarrow \{0,1\}^m$, there is a NAND-CIRC program  with at most $c \cdot m 2^n / n$ lines that computes the function $f$ .
+
+
+::: {.proof data-ref="NAND-univ-thm-improved"}
 As before, it is enough to prove the case that $m=1$.
 
 The idea is to use the technique known as _memoization_.
@@ -562,7 +569,12 @@ Since we have $2^{2^k}$ unique functions, we can bound the total cost to compute
 Now it just becomes a matter of calculation.
 By our choice of $k$, $2^k = n-2\log n$ and hence $2^{2^k}=\tfrac{2^n}{n^2}$.
 Since $n/2 \leq 2^k \leq n$, we can bound the total cost of computing $F(x)$ (including also the additional $O(2^{n-k})$ cost of computing $LOOKUP_{n-k}$) by $O(\tfrac{2^n}{n^2}\cdot n)+O(2^n/n)$, which is what we wanted to prove.
+:::
 
+Using the connection between NAND-CIRC programs and Boolean circuits, an immediate corollary of  [NAND-univ-thm-improved](){.ref} is the following improvement to  [circuit-univ-thm](){.ref}:
+
+> ### {.theorem title="Universality of Boolean circuits,  improved bound" #circuit-univ-thm-improved}
+There exists some constant $c>0$ such that for every $n,m>0$ and function $f: \{0,1\}^n\rightarrow \{0,1\}^m$, there is a Boolean circuit with at most $c \cdot m 2^n / n$ gates that computes the function $f$ .
 
 
 ## Computing every function: An alternative proof {#seccomputalternative }
