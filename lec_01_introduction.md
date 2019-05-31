@@ -171,7 +171,7 @@ INPUT: nonnegative integers $x,y$ each of at most $n$ digits
 
 OUTPUT: $x\cdot y$
 
-function{Karatsuba}{$x$,$y$}
+procedure{Karatsuba}{$x$,$y$}
 If {$n \leq 2$} return $x\cdot y$ endif
 Let $m = \floor{n/2}$
 Write $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \underline{y}$
@@ -179,7 +179,7 @@ $A \leftarrow Karatsuba(\overline{x},\overline{y})$
 $B \leftarrow Karatsuba(\overline{x}+\underline{x},\overline{y}+\underline{y})$
 $C \leftarrow Karatsuba(\underline{x},\underline{y})$
 Return $(10^n-10^m)\cdot A  + 10^m \cdot B +(1-10^m)\cdot C$
-endfunction
+endprocedure
 ```
 
 
