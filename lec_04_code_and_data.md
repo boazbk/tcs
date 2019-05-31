@@ -9,11 +9,11 @@ chapternum: "5"
 
 
 > ### { .objectives }
-* Understand one of the most important concepts in computing: duality between code and data. \
+* See one of the most important concepts in computing: duality between code and data. \
 * Build up comfort in moving between different representations of programs. \
-* Follow the construction of a "universal NAND-CIRC program" that can evaluate other NAND-CIRC programs given their representation. \
-* See and understand the proof of a major result that compliments the result of the last chapter: some functions require an _exponential_ number of gates to compute.
-* Understand the _physical extended Church-Turing thesis_ stating that Boolean circuits capture _all_ feasible computation in the physical world, and its physical and philosophical implications.
+* Follow the construction of a "universal circuit evaluator" that can evaluate other circuits given their representation. \
+* See major result that complements the result of the last chapter: some functions require an _exponential_ number of gates to compute.
+* Discussion of _Physical extended Church-Turing thesis_ stating that Boolean circuits capture _all_ feasible computation in the physical world, and its physical and philosophical implications.
 
 
 
@@ -26,7 +26,7 @@ chapternum: "5"
 
 
 
-A NAND-CIRC program can be thought of as simply a sequence of symbols, each of which can be encoded with zeros and ones using (for example) the ASCII standard.
+A program is simply a sequence of symbols, each of which can be encoded as a string of $0$'s and $1$'s using (for example) the ASCII standard.
 Therefore we can represent every NAND-CIRC program (and hence also every Boolean circuit) as a binary string.
 This statement seems obvious but it is actually quite profound.
 It means that we can treat circuits or NAND-CIRC programs both as instructions to carrying computation and also as _data_ that could potentially be used as  _inputs_ to other computations.
@@ -38,11 +38,11 @@ A _program_ is a piece of text, and so it can be fed as input to other programs.
 :::
 
 This correspondence between _code_ and _data_ is one of the most fundamental aspects of computing.
-It underlies the notion of _general purpose_ computers, that are not pre-wired to compute only one task, and it is also the basis of our hope for obtaining _general_ artificial intelligence.
+It underlies the notion of _general purpose_ computers, that are not pre-wired to compute only one task, and also forms the basis of our hope for obtaining _general_ artificial intelligence.
 This concept finds immense use in all areas of computing, from scripting languages to machine learning, but it is fair to say that we haven't yet fully mastered it.
-Indeed many security exploits involve cases such as "buffer overflows" when attackers manage to inject code where the system expected only "passive" data (see [XKCDmomexploitsfig](){.ref}).
-The idea of code as data reaches beyond the realm of electronic computers.
-For example, DNA can be thought of as both a program and data (in the words of Schrödinger, who wrote before DNA's discovery a book that inspired Watson and Crick, it is both "architect's plan and builder's craft").
+Many security exploits involve cases such as "buffer overflows" when attackers manage to inject code where the system expected only "passive" data (see [XKCDmomexploitsfig](){.ref}).
+The relation between code and data reaches beyond the realm of electronic computers.
+For example, DNA can be thought of as both a program and data (in the words of Schrödinger, who wrote before DNA's discovery a book that inspired Watson and Crick, DNA is both "architect's plan and builder's craft").
 
 ![As illustrated in this xkcd cartoon, many exploits, including buffer overflow, SQL injections, and more, utilize the blurry line between "active programs" and "static strings".](../figure/exploits_of_a_mom.png){#XKCDmomexploitsfig .margin  }
 
