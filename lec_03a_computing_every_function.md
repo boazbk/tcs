@@ -637,7 +637,7 @@ Since $S \subseteq \{0,1\}^n$, its size $N$ is at most $2^n$ and hence the total
 ![For every string $\alpha\in \{0,1\}^n$, there is a Boolean circuit of $O(n)$ gates to compute the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$ such that $\delta_\alpha(x)=1$ if and only if $x=\alpha$. The circuit is very simple. Given input $x_0,\ldots,x_{n-1}$ we compute the  AND of $z_0,\ldots,z_{n-1}$ where $z_i=x_i$ if $\alpha_i=1$ and $z_i = NOT(x_i)$ if $\alpha_i=0$. While formally Boolean circuits only have a gate for computing the AND of two inputs, we can implement an AND of $n$ inputs by composing $n$ two-input ANDs.](../figure/deltafunc.png){#deltafuncfig .margin }
 
 
-## The class $SIZE_{n,m}(T)$
+## The class $SIZE_{n,m}(T)$ {#secdefinesizeclasses }
 
 
 We have seen that _every_ function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a circuit of size $O(m\cdot 2^n)$, and _some_ functions (such as addition and multiplication) can be computed by much smaller circuits.
