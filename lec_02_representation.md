@@ -194,8 +194,8 @@ Since we can represent natural numbers as strings, we can represent the full set
 To represent a (potentially negative) number $m$, we prepend to the representation of the natural number $|m|$ a bit $\sigma$ that equals $0$ if $m  \geq 0$ and equals $1$ if $m<0$.
 Formally, we  define the function $ZtS:\Z \rightarrow \{0,1\}^*$ as follows
 $$ZtS(m) = \begin{cases}
-0\;NtS(m) & m \geq 0 
-1\;Nts(-m) & m < 0
+0\;NtS(m) & m \geq 0  \\
+1\;NtS(-m) & m < 0
 \end{cases}$$
 where $NtS$ is defined as in [ntseq](){.eqref}.
 

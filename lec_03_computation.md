@@ -99,7 +99,7 @@ We will also see that the particular choice of __elementary operations__ is imma
 However, it will take us some time to get there.
 We will start by discussing what are "elementary operations" and  how we map a description of an algorithm into an actual physical process that produces an output from an input in the real world.
 
-![An overview of the computational models defined in this chapter. We will show several equivalent ways to represent a recipe for performing a finite computation. Specifically we will show that we can model such a computation using either a _Boolean circuit_ or a _straight line program_, and these two representations are equivalent to one another. We will also show that we can choose as our basic operations either the set $\{ AND , OR , NOT \}$ or the set $\{ NAND \}$ and these two choices are equivalent in power. By making the choice of whether to use circuits or programs, and whether to use   $\{ AND , OR , NOT \}$ or  $\{ NAND \}$ we obtain four equivalent ways of modeling finite computation. Moreover, there are many other choices of sets of basic operations that are equivalent in power.](../figure/compcharoverview.png){#compchapoverviewfig}
+![An overview of the computational models defined in this chapter. We will show several equivalent ways to represent a recipe for performing a finite computation. Specifically we will show that we can model such a computation using either a _Boolean circuit_ or a _straight line program_, and these two representations are equivalent to one another. We will also show that we can choose as our basic operations either the set $\{ AND , OR , NOT \}$ or the set $\{ NAND \}$ and these two choices are equivalent in power. By making the choice of whether to use circuits or programs, and whether to use   $\{ AND , OR , NOT \}$ or  $\{ NAND \}$ we obtain four equivalent ways of modeling finite computation. Moreover, there are many other choices of sets of basic operations that are equivalent in power.](../figure/compcharoverview.png){#compchapoverviewfig  }
 
 
 ## Computing using AND, OR, and NOT.
@@ -417,7 +417,7 @@ A wire from an input or gate $u$ to a gate $v$ in the circuit corresponds to a d
 The inputs are vertices with no incoming edges, while each gate has the appropriate number of incoming edges based on the function it computes. (That is,  $AND$ and $OR$ gates have two in-neighbors, while $NOT$ gates have one in-neighbor.)
 The formal definition is as follows (see also [generalcircuitfig](){.ref}):
 
-![A _Boolean Circuit_ is a labeled directed acyclic graph (DAG). It has $n$ _input_ vertices, which are marked with `X[`$0$`]`,$\ldots$, `X[`$n-1$`]` and have no incoming edges, and the rest of the vertices are _gates_. An AND,OR, or NOT gate has two or one incoming edges. If the circuit has $m$ outputs, then $m$ of the gates are known as _outputs_ and are marked with `Y[`$0$`]`,$\ldots$,`Y[`$m-1$`]`. When we evaluate a circuit $C$ on an input $x\in \{0,1\}^n$, we start by setting the value of the input vertices to $x_0,\ldots,x_{n-1}$ and then propagate the values, assigning to each gate $g$ the result of applying the operation of $g$ to the values of $g$'s in-neighbors. The output of the circuit is the value assigned to the output gates.](../figure/generalcircuit.png){#generalcircuitfig .full}
+![A _Boolean Circuit_ is a labeled directed acyclic graph (DAG). It has $n$ _input_ vertices, which are marked with `X[`$0$`]`,$\ldots$, `X[`$n-1$`]` and have no incoming edges, and the rest of the vertices are _gates_. An AND,OR, or NOT gate has two or one incoming edges. If the circuit has $m$ outputs, then $m$ of the gates are known as _outputs_ and are marked with `Y[`$0$`]`,$\ldots$,`Y[`$m-1$`]`. When we evaluate a circuit $C$ on an input $x\in \{0,1\}^n$, we start by setting the value of the input vertices to $x_0,\ldots,x_{n-1}$ and then propagate the values, assigning to each gate $g$ the result of applying the operation of $g$ to the values of $g$'s in-neighbors. The output of the circuit is the value assigned to the output gates.](../figure/generalcircuit.png){#generalcircuitfig }
 
 ::: {.definition title="Boolean Circuits" #booleancircdef}
 Let $n,m,s$ be positive integers with $s \geq m$. A _Boolean circuit_ with $n$ inputs, $m$ outputs, and $s$ gates, is a labeled directed acyclic graph (DAG) $G=(V,E)$ with $s+n$ vertices satisfying the following properties:
@@ -780,7 +780,7 @@ We can also represent this algorithm graphically as a circuit, see [cornandcircf
 :::
 
 
-![A circuit with NAND gates to compute the XOR of two bits.](../nandcircuitxor.png){#cornandcircfig .margin  }  
+![A circuit with NAND gates to compute the XOR of two bits.](../figure/nandcircuitxor.png){#cornandcircfig .margin  }  
 
 In fact, we can show the following theorem:
 

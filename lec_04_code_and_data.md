@@ -62,7 +62,7 @@ See [codedataoverviewfig](){.ref} for an overview of the results of  this chapte
 
 
 
-![Overview of the results in this chapter. We use the representation of programs/circuits as strings to derive two main results. First we show the existence of a universal program/circuit, and in fact (with more work) the existence of such a program/circuit  whose size is at most polynomial in the size of the program/circuit it evaluates. We then use the string representation to _count_ the number of programs/circuits of a given size, and use that to establish that _some_ functions require an _exponential_ number of lines/gates to compute.](../figure/codedataoverview.png){#codedataoverviewfig}
+![Overview of the results in this chapter. We use the representation of programs/circuits as strings to derive two main results. First we show the existence of a universal program/circuit, and in fact (with more work) the existence of such a program/circuit  whose size is at most polynomial in the size of the program/circuit it evaluates. We then use the string representation to _count_ the number of programs/circuits of a given size, and use that to establish that _some_ functions require an _exponential_ number of lines/gates to compute.](../figure/codedataoverview.png){#codedataoverviewfig  }
 
 
 
@@ -163,7 +163,7 @@ In particular, for every natural numbers $s,n,m>0$ we define the function $EVAL_
 $$
 EVAL_{s,n,m}(px) = \begin{cases} P(x) & \text{$p\in \{0,1\}^{S(s)}$ is a string representing a program $P$ of size $s$ with $n$ inputs and $m$ outputs}  \\ 0^m & \text{otherwise} \end{cases} \label{evalcirceq}
 $$
-where $S(s)$ is defined as in [lengthstringrepreseq}](){.eqref} and we use the concrete representation scheme described in [representprogramsec](){.ref}.
+where $S(s)$ is defined as in [lengthstringrepreseq](){.eqref} and we use the concrete representation scheme described in [representprogramsec](){.ref}.
 
 That is, $EVAL_{s,n,m}$ takes as input the concatenation of two strings: a string $p\in \{0,1\}^{S(s)}$ and a string $x\in \{0,1\}^n$.
 If $p$ is a string that represents a list of triples $L$ such that $(n,m,L)$ is a list-of-tuples representation of  a size-$s$ NAND-CIRC program $P$, then $EVAL_{s,n,m}(px)$ is equal to the evaluation $P(x)$ of the program $P$ on the input $x$.
@@ -269,7 +269,7 @@ Input: Numbers $n,m,s$ and $t\leq 3s$, as well as  a list $L$ of $s$ triples of 
 Output: Evaluation of the program represented by $(n,m,L)$ on the input $x\in \{0,1\}^n$.
 
 Let `Vartable` be table of size $t$
-For{$i$ in $[n]}
+For{$i$ in $[n]$}
 `Vartable = UPDATE(Vartable,`$i$`,`$x_i$`)`
 Endfor
 For{$(i,j,k)$ in $L$}
@@ -294,11 +294,12 @@ To make things more concrete, let us see how we implement [evalnandcircalg](){.r
 (There is nothing special about Python. We could have easily presented a corresponding function in JavaScript, C, OCaml, or any other programming language.)
 We will construct a function `NANDEVAL` that on input $n,m,L,x$  will output the result of evaluating the program represented by $(n,m,L)$ on $x$.
 To keep things simple, we will not worry about the case that $L$ does not represent a valid program of $n$ inputs and $m$ outputs.
+The code is presented in [nandevalcode](){.ref}.
 
-\begin{fullwidth}
-```python
+
+``` { .python .full #nandevalcode title="Code for evaluating a NAND-CIRC program given in the list-of-tuples representation" }
 def NANDEVAL(n,m,L,X):
-    # Evaluate a NAND-CIRC program from its list of triple representation.
+    # Evaluate a NAND-CIRC program from list of tuple representation.
     s = len(L) # num of lines
     t = max(max(a,b,c) for (a,b,c) in L)+1 # max index in L + 1
     Vartable = [0] * t # initialize array
@@ -330,7 +331,7 @@ print(NANDEVAL(2,1,L,(0,1))) # XOR(0,1)
 print(NANDEVAL(2,1,L,(1,1))) # XOR(1,1)
 # [0]
 ```
-\end{fullwidth}
+
 
 
 Accessing an element of the array `Vartable` at a given index takes a constant number of basic operations.
@@ -570,7 +571,7 @@ But this contradicts the assumption that $g \not\in SIZE_\ell(5s)$.
 
 
 ![An illustration of some of what we know about the size complexity classes (not to scale!). This figure depicts classes of the form $SIZE_{n,n}(s)$ but the state of affairs for other size complexity classes such as $SIZE_{n,1}(s)$ is similar. We know by [NAND-univ-thm](){.ref} (with the improvement of [tight-upper-bound](){.ref}) that all functions mapping $n$ bits to $n$ bits can be computed by a circuit of size $c \cdot 2^n$ for $c \leq 10$, while on the other hand the counting lower bound ([counting-lb](){.ref}, see also [countingmultibitex](){.ref}) shows that _some_ such functions will require $0.1 \cdot 2^n$, and the size hierarchy theorem ([sizehiearchythm](){.ref}) shows the existence of functions in $SIZE(S) \setminus SIZE(s)$ whenever $s=o(S)$, see also [sizehiearchyex](){.ref}.
-We also consider some specific examples: addition of two $n/2$ bit numbers can be done in $O(n)$ lines, while we don't know of such a program for _multiplying_ two $n$ bit numbers, though we do know it can be done in $O(n^2)$ and in fact even better size. In the above  $FACTOR_n$ corresponds to the inverse problem of multiplying- finding the _prime factorization_ of a given number. At the moment we do not know of any circuit a polynomial (or even sub-exponential) number of lines that can compute $FACTOR_n$. ](../figure/sizecomplexity.png){#sizeclassesfig .full   }
+We also consider some specific examples: addition of two $n/2$ bit numbers can be done in $O(n)$ lines, while we don't know of such a program for _multiplying_ two $n$ bit numbers, though we do know it can be done in $O(n^2)$ and in fact even better size. In the above  $FACTOR_n$ corresponds to the inverse problem of multiplying- finding the _prime factorization_ of a given number. At the moment we do not know of any circuit a polynomial (or even sub-exponential) number of lines that can compute $FACTOR_n$. ](../figure/sizecomplexity.png){#sizeclassesfig    }
 
 ::: {.remark title="Explicit functions" #explicitfunc}
 While the size hierarchy theorem guarantees that there exists _some_ function that _can_ be computed using, for example, $n^2$ gates, but not using $100n$ gates, we do not know of any explicit example of such a function.
@@ -700,7 +701,7 @@ We will explore Cryptography in [chapcryptography](){.ref}.
 
 
 
-![A finite computational task is specified by a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$. We can model a computational process using Boolean circuits (of varying gate sets) or straight-line program. Every function can be computed by many programs. We say that $f \in SIZE_{n,m}(s)$ if there exists a NAND circuit of at most $s$ gates (equivalently a NAND-CIRC program of at most $s$ lines) that computes $f$. Every function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a circuit of $O(m \cdot 2^n/n)$ gates. Many functions such as multiplication, addition, solving linear equations, computing the shortest path in a graph, and others, can be computed by circuits of much fewer gates. In particular there is an $O(s \log^2 s)$-size circuit that computes the map $C,x \mapsto C(x)$ where $C$ is a string describing  a circuit of $s$ gates. However, the counting argument shows there do exist some functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that require $\Omega(m \cdot 2^n /n)$ gates to compute.](../figure/finitecomprecap.png){#finiterecapfig .full}
+![A finite computational task is specified by a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$. We can model a computational process using Boolean circuits (of varying gate sets) or straight-line program. Every function can be computed by many programs. We say that $f \in SIZE_{n,m}(s)$ if there exists a NAND circuit of at most $s$ gates (equivalently a NAND-CIRC program of at most $s$ lines) that computes $f$. Every function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a circuit of $O(m \cdot 2^n/n)$ gates. Many functions such as multiplication, addition, solving linear equations, computing the shortest path in a graph, and others, can be computed by circuits of much fewer gates. In particular there is an $O(s \log^2 s)$-size circuit that computes the map $C,x \mapsto C(x)$ where $C$ is a string describing  a circuit of $s$ gates. However, the counting argument shows there do exist some functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that require $\Omega(m \cdot 2^n /n)$ gates to compute.](../figure/finitecomprecap.png){#finiterecapfig }
 
 
 ## Recap of Part I: Finite Computation

@@ -37,7 +37,7 @@ See [computefuncoverviewfig](){.ref} for an outline of the results of this chapt
 
 
 
-![An outline of the results of this chapter. In [secsyntacticsugar](){.ref} we give a toolkit of "syntactic sugar" transformations showing how to implement features such as programmer-defined functions and conditional statements in NAND-CIRC. We use these tools in [seclookupfunc](){.ref}  to give a NAND-CIRC program (or alternatively a Boolean circuit) to compute the  $LOOKUP$ function. We then build on this result to show in [seccomputeallfunctions](){.ref} that NAND-CIRC programs (or equivalently, Boolean circuits) can compute _every_ finite function. An alternative direct proof of the same result is given in [seccomputalternative](){.ref}.](../figure/compute_every_function_overview.png){#computefuncoverviewfig}
+![An outline of the results of this chapter. In [secsyntacticsugar](){.ref} we give a toolkit of "syntactic sugar" transformations showing how to implement features such as programmer-defined functions and conditional statements in NAND-CIRC. We use these tools in [seclookupfunc](){.ref}  to give a NAND-CIRC program (or alternatively a Boolean circuit) to compute the  $LOOKUP$ function. We then build on this result to show in [seccomputeallfunctions](){.ref} that NAND-CIRC programs (or equivalently, Boolean circuits) can compute _every_ finite function. An alternative direct proof of the same result is given in [seccomputalternative](){.ref}.](../figure/compute_every_function_overview.png){#computefuncoverviewfig  }
 
 
 
@@ -96,19 +96,18 @@ some_more_code
 and where `proc_code'` is obtained by replacing all occurrences of `a` with `d`,`b` with `e`, `c` with `f`.
 When doing that we will need to ensure that all other variables appearing in `proc_code'` don't interfere with other variables.
 We can always do so by renaming variables to new names that were not used before.
-Therefore we can prove the following theorem:
+The above reasoning leads to the proof of the following theorem:
 
 > ### {.theorem title="Procedure definition synctatic sugar" #functionsynsugarthm}
 Let NAND-CIRC-PROC be the programming language NAND-CIRC augmented with the syntax above for defining procedures.
 Then for every NAND-CIRC-PROC program $P$, there exists a standard (i.e., "sugar free") NAND-CIRC program $P'$ that computes the same function as $P$.
 
 [functionsynsugarthm](){.ref} can be proven using the transformation above, but since the formal proof is somewhat long and tedious, we omit it here.
-See however [functionsynsugarthmpython](){.ref} for a _Python program_ that transforms a NAND-CIRC-PROC program that uses procedures into an equivalent "sugar free" NAND-CIRC 
 program that does not use them.
 
 
 ::: {.example title="Computing Majority from NAND using syntactic sugar" #majcircnand}
-Functions allow us to express NAND-CIRC programs much more cleanly and succinctly.
+Procedures allow us to express NAND-CIRC programs much more cleanly and succinctly.
 For example, because we can compute AND,OR, and NOT using NANDs, we can compute the _Majority_ function as follows:
 
 ```python
@@ -133,14 +132,14 @@ print(MAJ(0,1,1))
 # 1
 ```
 
-[progcircmajfig](){.ref} presents the "sugar free" NAND-CIRC program (and the corresponding circuit) that is obtained by "expanding out" this program, replacing the calls to functions with their defintions.
+[progcircmajfig](){.ref} presents the "sugar free" NAND-CIRC program (and the corresponding circuit) that is obtained by "expanding out" this program, replacing the calls to procedures with their definitions.
 :::
 
 
 
 
 
-![A standard (i.e., "sugar free") NAND-CIRC program that is obtained by expanding out the function definitions in the program for Majority of [majcircnand](){.ref}. The corresponding circuit is on the right. Note that this is not the most efficient NAND circuit/program for majority: we can save on some gates by "short cutting" steps where a gate $u$ computes $NAND(v,v)$ and then a gate $w$ computes $NAND(u,u)$ (as indicated by the dashed green arrows in the above figure).](../figure/progcircmaj.png){#progcircmajfig}
+![A standard (i.e., "sugar free") NAND-CIRC program that is obtained by expanding out the procedure definitions in the program for Majority of [majcircnand](){.ref}. The corresponding circuit is on the right. Note that this is not the most efficient NAND circuit/program for majority: we can save on some gates by "short cutting" steps where a gate $u$ computes $NAND(v,v)$ and then a gate $w$ computes $NAND(u,u)$ (as indicated by the dashed green arrows in the above figure).](../figure/progcircmaj.png){#progcircmajfig}
 
 
 
@@ -157,52 +156,49 @@ For example, the program of [majcircnand](){.ref} is a $12$-line program for com
 ### Proof by Python (optional) { #functionsynsugarthmpython }
 
 We can write a Python program that implements the proof of [functionsynsugarthm](){.ref}.
-That is, we can write a Python program that takes a  NAND-CIRC-PROC program $P$ that includes procedure definitions and using simple "search and replace" transform $P$ into a standard (i.e., "sugar free") NAND-CIRC program $P'$ that computes the same function as $P$.
-The idea is simple: if the program $P$ contains a definition of a procedure `Proc` of two arguments `x` and `y`, then whenever we see a line of the form `foo = Proc(bar,blah)` then we replace this line by the body of the procedure `Proc` (replacing all occurrences of `x` and `y` with `bar` and `blah` respectively).
-If the last line of `Proc` was `return exp` where `exp` is some expression, then we replace  ending  with the line `foo = exp`  (where `exp` is some expression) then we replace it with `foo = exp`. 
-(To make this more robust we can also add a prefix to the internal variables used by `Proc` to ensure they don't conflict with the variables of $P$; for simplicity we ignore this issue in the code below though it can be easily added.)
+This is a Python program that takes a  NAND-CIRC-PROC program $P$ that includes procedure definitions and uses simple "search and replace" to transform $P$ into a standard (i.e., "sugar free") NAND-CIRC program $P'$ that computes the same function as $P$ without using any procedures.
+The idea is simple: if the program $P$ contains a definition of a procedure `Proc` of two arguments `x` and `y`, then whenever we see a line of the form `foo = Proc(bar,blah)`, we can replace this line by:
 
-The following Python code achieves such a  transformation:^[This code uses _regular expressions_ to make the search and replace parts a little easier. We will see the theoretical basis for regular expressions in [restrictedchap](){.ref}.]
 
-```python
+1. The body of the procedure `Proc` (replacing all occurrences of `x` and `y` with `bar` and `blah` respectively).^[If some of the internal variables of `Proc` share the same name with variables used in the program $P$ then we can ensure they are unique by adding some prefix to them. For simplicity, we ignore this issue below.]
+
+2. A line `foo = exp`, where `exp` is the expression following the `return` statement in the definition of the procedure `Proc`.
+
+To make this more robust we  a prefix to the internal variables used by `Proc` to ensure they don't conflict with the variables of $P$; for simplicity we ignore this issue in the code below though it can be easily added.
+
+The code in [desugarcode](){.ref} achieves such a  transformation:^[This code uses _regular expressions_ to make the search and replace parts a little easier. We will see the theoretical basis for regular expressions in [restrictedchap](){.ref}.]
+
+``` { .python .full #desugarcode title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
 import re
 def desugar(code,proc_name, proc_args,proc_body):
-    """Use `search and replace' to replace calls to a procedure with its code.
-    
-    If we have a procedure PROC with arguments x and y and 
-    where its last line has the form  `return expression'
-    then we will replace every line in our code of the form
-       foo = PROC(a,b)
-    with 
-       proc_body[x->a,y->b]
-       foo = expression
-    """
+"""Use `search and replace' to remove procedure calls.  
+   Replace line of form 'foo = proc_name(a,b)' with 
+      proc_body[x->a,y->b]
+      foo = exp
+    where last line of proc_body is 'return exp'"""
     # regexp for list of variable names separated by commas
     arglist = ",".join([r"([a-zA-Z0-9\_\[\]]+)" for i in range(len(proc_args))])
-    
     # regexp for "variable = proc_name(arguments)"
     regexp = fr'([a-zA-Z0-9\_\[\]]+)\s*=\s*{proc_name}\({arglist}\)\s*$'
     m = re.search(regexp,code, re.MULTILINE)
     if not m: return code # if no match then there's nothing to do
     newcode = proc_body 
-    
     # replace arguments by  variables from invocation
     for i in range(len(proc_args)): 
-        newcode = newcode.replace(proc_args[i],m.group(i+2))
-        
+        newcode = newcode.replace(proc_args[i],m.group(i+2))    
     # Splice the new code inside
     newcode = newcode.replace('return',m.group(1)+" = ")
     newcode = code[:m.start()] + newcode + code[m.end()+1:]
-    # Continue recursively to check if there are more matches
+    # Continue recursively to check for more matches
     return desugar(newcode,proc_name,proc_args,proc_body)
 ```
 
-[progcircmajfig](){.ref} shows the result of applying this code to the program of [examplemajfromnand](){.ref} that uses syntactic sugar to compute the Majority function.
+[progcircmajfig](){.ref} shows the result of applying the code of [desugarcode](){.ref} to the program of [majcircnand](){.ref} that uses syntactic sugar to compute the Majority function.
 Specifically, we first apply `desugar` to remove usage of the OR function, then apply it to remove usage of the AND function, and finally apply it a third time to remove usage of the NOT function.
 
 
 ::: {.remark title="Parsing function definitions (optional)" #parsingdeg}
-In the code above, we assumed that we are given the procedure already split up into its name, arguments, and body.
+The function `desugar` in [desugarcode](){.ref} assumes that it is given the procedure already split up into its name, arguments, and body.
 It is not crucial for our purposes to describe precisely to scan a definition and splitting it up to these components, but in case you are curious, it can be achieved in Python via the following code:
 
 ```python
@@ -239,12 +235,6 @@ def IF(cond,a,b):
     temp = NAND(b,notcond)
     temp1 = NAND(a,cond)
     return NAND(temp,temp1)
-
-
-print(IF(0,1,0))
-# 0
-print(IF(1,1,0))
-# 1
 ```
 
 The $IF$ function is also known as the _multiplexing_ function, since $cond$ can be thought of as a switch that controls whether the output is connected to $a$ or $b$.
@@ -281,6 +271,16 @@ a = IF(cond,temp_a,a)
 b = IF(cond,temp_b,b)
 c = IF(cond,temp_c,c)
 ```
+
+Using such transformations, we can prove the following theorem.
+Once again we omit the (not too insightful) full formal proof, though see [conditionalsugarthmex](){.ref} for some hints on how to obtain it.
+
+> ### {.theorem title="Conditional statements synctatic sugar" #conditionalsugarthm }
+Let NAND-CIRC-IF be the programming language NAND-CIRC augmented with `if`/`then`/`else` statements for allowing code to be conditionally executed based on whether a veriable is equal to $0$ or $1$.  
+Then for every NAND-CIRC-IF program $P$, there exists a standard (i.e., "sugar free") NAND-CIRC program $P'$ that computes the same function as $P$.
+
+
+
 
 
 
@@ -751,13 +751,18 @@ Y[0] = NAND(u,v)
 
 
 > ### {.exercise title="At least two / Majority" #atleasttwo-ex}
-Give a NAND-CIRC program of at most 6 lines to compute  $MAJ:\{0,1\}^3 \rightarrow \{0,1\}$
+Give a NAND-CIRC program of at most 6 lines to compute the function  $MAJ:\{0,1\}^3 \rightarrow \{0,1\}$
 where $MAJ(a,b,c) = 1$ iff $a+b+c \geq 2$.
 
-> ### {.exercise title="Conditional statements" #conditional-statements}
-In this exercise we will show that even though the NAND-CIRC programming language does not have an `if .. then .. else ..` statement, we can still implement it.
-Suppose that there is an $s$-line NAND-CIRC program to compute $f:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND-CIRC program to compute $f':\{0,1\}^n \rightarrow \{0,1\}$.
-Prove that there is a program of at most $s+s'+10$ lines to compute the function $g:\{0,1\}^{n+1} \rightarrow \{0,1\}$ where $g(x_0,\ldots,x_{n-1},x_n)$ equals $f(x_0,\ldots,x_{n-1})$ if $x_n=0$ and equals $f'(x_0,\ldots,x_{n-1})$ otherwise.
+::: ### {.exercise title="Conditional statements" #conditionalsugarthmex}
+In this exercise we will explore [conditionalsugarthm](){.ref}: transforming NAND-CIRC-IF programs that use code such as `if .. then .. else ..` to standard NAND-CIRC programs.
+
+1. Give a "proof by code" of [conditionalsugarthm](){.ref}: a program in a programming language of your choice that transforms a NAND-CIRC-IF program $P$ into a "sugar free" NAND-CIRC program $P'$ that computes the same function.^[_Hint:_ You can start by transforming $P$ into a NAND-CIRC-PROC program that uses procedure statments, and then use the code of [desugarcode](){.ref} to transform the latter into a "sugar free" NAND-CIRC program.] 
+
+2. Prove the following statement, which is the heart of  [conditionalsugarthm](){.ref}: suppose that there exists an $s$-line NAND-CIRC program to compute $f:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND-CIRC program to compute $g:\{0,1\}^n \rightarrow \{0,1\}$.
+Prove that there exist a NAND-CIRC program of at most $s+s'+10$ lines to compute the function $h:\{0,1\}^{n+1} \rightarrow \{0,1\}$ where $h(x_0,\ldots,x_{n-1},x_n)$ equals $f(x_0,\ldots,x_{n-1})$ if $x_n=0$ and equals $g(x_0,\ldots,x_{n-1})$ otherwise. (All programs in this item are standard "sugar-free" NAND-CIRC programs.)
+:::
+
 
 
 ::: {.exercise title="Half and full adders" #halffulladderex}
@@ -778,15 +783,18 @@ Write a program using your favorite programming language that on input an intege
 Write a program using your favorite programming language that on input an integer $n$, outputs a NAND-CIRC program that computes $MULT_n$. Can you ensure that the program it outputs for $MULT_n$ has fewer than $1000\cdot n^2$ lines?
 
 > ### {.exercise title="Efficient multiplication (challenge)" #eff-multiplication-ex}
-Write a program using your favorite programming language that on input an integer $n$, outputs a NAND-CIRC program that computes $MULT_n$ and has at most $10000 n^{1.9}$ lines.^[__Hint:__ Use Karatsuba's algorithm] What is the smallest number of lines you can use to multiply two 2048 bit numbers?
+Write a program using your favorite programming language that on input an integer $n$, outputs a NAND-CIRC program that computes $MULT_n$ and has at most $10000 n^{1.9}$ lines.^[__Hint:__ Use Karatsuba's algorithm.] What is the smallest number of lines you can use to multiply two 2048 bit numbers?
 
 
 ::: {.exercise title="Multibit function" #mult-bit-ex}
- Prove that
+In the text [NAND-univ-thm](){.ref} is only proven for the case $m=1$.
+In this exercise you will extend the proof for every $m$.
 
-a. If there is an $s$-line NAND-CIRC program to compute $f:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND-CIRC program to compute $f':\{0,1\}^n \rightarrow \{0,1\}$ then there is an $s+s'$-line program to compute the function $g:\{0,1\}^n \rightarrow \{0,1\}^2$ such that $g(x)=(f(x),f'(x))$.
+Prove that
 
-b. For every function $f:\{0,1\}^n \rightarrow \{0,1\}^m$, there is a NAND-CIRC program of at most $10m\cdot 2^n$ lines that computes $f$.
+1. If there is an $s$-line NAND-CIRC program to compute $f:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND-CIRC program to compute $f':\{0,1\}^n \rightarrow \{0,1\}$ then there is an $s+s'$-line program to compute the function $g:\{0,1\}^n \rightarrow \{0,1\}^2$ such that $g(x)=(f(x),f'(x))$.
+
+2. For every function $f:\{0,1\}^n \rightarrow \{0,1\}^m$, there is a NAND-CIRC program of at most $10m\cdot 2^n$ lines that computes $f$. (You can use the $m=1$ case of [NAND-univ-thm](){.ref}, as well as Item 1.)
 :::
 
 
