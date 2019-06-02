@@ -296,7 +296,8 @@ innertopmargin=5pt,
 innerbottommargin=5pt,
 leftmargin=0cm,
 rightmargin=0cm,
-linewidth=4pt]{algBox}
+linewidth=4pt,
+nobreak=true]{algBox}
 
 
 % Definition box
@@ -360,7 +361,10 @@ innerbottommargin=5pt]{cBox}
 \newenvironment{definition}{\begin{savenotes}\begin{eBox}\begin{definitionT}}{\end{definitionT}\end{eBox}\end{savenotes}}
 \newenvironment{example}{\begin{savenotes}\begin{exBox}\begin{exampleT}}{\end{exampleT}\end{exBox}\end{savenotes}}
 
+\newenvironment{oldalgorithm}{\begin{savenotes}\begin{algBox}\begin{algorithmT}}{\end{algorithmT}\end{algBox}\end{savenotes}}
+
 \newenvironment{algorithm}{\begin{savenotes}\begin{algBox}\begin{algorithmT}}{\end{algorithmT}\end{algBox}\end{savenotes}}
+
 
 \newenvironment{corollary}{\begin{savenotes}\begin{cBox}\begin{corollaryT}}{\end{corollaryT}\end{cBox}\end{savenotes}}
 
@@ -589,3 +593,5 @@ innerbottommargin=5pt]{cBox}
 \crefname{solvedexercise}{Solved Exercise}{Solved Exercises}
 \crefname{bigidea}{Big Idea}{Big Ideas}
 \crefname{algorithm}{Algorithm}{Algorithms}
+
+

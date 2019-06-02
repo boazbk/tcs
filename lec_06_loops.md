@@ -12,7 +12,7 @@ chapternum: "6"
 NAND-TM programs, which add _loops_ and _arrays_ to NAND-CIRC.
 * See some basic syntactic sugar and equivalence of variants of Turing machines and NAND-TM programs.
 
->_"The bounds of arithmetic were however outstepped the moment the idea of applying the [punched] cards had occurred; and the Analytical Engine does not occupy common ground with mere "calculating machines."" ... In enabling mechanism to combine together general symbols, in successions of unlimited variety and extent, a uniting link is established between the operations of matter and the abstract mental processes of the most abstract branch of mathematical science. "_, Ada Augusta, countess of Lovelace, 1843^[Translation of  "Sketch of the Analytical Engine" by L. F. Menabrea, Note A.]
+>_"The bounds of arithmetic were however outstepped the moment the idea of applying the [punched] cards had occurred; and the Analytical Engine does not occupy common ground with mere "calculating machines."" ... In enabling mechanism to combine together general symbols, in successions of unlimited variety and extent, a uniting link is established between the operations of matter and the abstract mental processes of the most abstract branch of mathematical science. "_, Ada Augusta, countess of Lovelace, 1843
 
 
 >_"What is the difference between a Turing machine and the modern computer? It's the same as that between Hillary's ascent of Everest and the establishment of a Hilton hotel on its peak."_ , Alan Perlis, 1982.
@@ -20,10 +20,9 @@ NAND-TM programs, which add _loops_ and _arrays_ to NAND-CIRC.
 
 
 
-The model of Boolean circuits  (or equivalently, the NAND-CIRC programming language) has one very significant drawback: a Boolean circuit can only compute a _finite_ function $f$, and in particular the number of inputs of $f$ is always smaller than (twice) the number of gates of the circuit.^[The reason the number of inputs is at most twice the number of gates is because we consider gates such as AND,OR,NOT and NAND that each have two inputs. For different sets of gates the constant factor can be different. However, the conceptual point of being only able to handle a finite number of inputs holds for any model of circuits or straight-line programming language.]
-
+The model of Boolean circuits  (or equivalently, the NAND-CIRC programming language) has one very significant drawback: a Boolean circuit can only compute a _finite_ function $f$, and in particular since every gate has two inputs, a size $s$ circuit can compute on an input of length at most $2s$.
 This does not capture our intuitive notion of an algorithm as a _single recipe_ to compute a potentially infinite function.
-For example, the standard elementary school multiplication algorithm is a _single_ algorithm that multiplies numbers of all lengths, but yet we cannot express this algorithm as a single NAND-CIRC program, but rather need a different NAND-CIRC program for every input length (see [multschoolfig](){.ref}).
+For example, the standard elementary school multiplication algorithm is a _single_ algorithm that multiplies numbers of all lengths, but yet we cannot express this algorithm as a single circuit, but rather need a different circuit (or equivalently, a NAND-CIRC program) for every input length (see [multschoolfig](){.ref}).
 
 ![Once you know how to multiply multi-digit numbers, you can do so for every number $n$ of digits, but if you had to describe multiplication using NAND-CIRC programs or Boolean circuits, you would need a different program/circuit for every length $n$ of the input.](../figure/multiplicationschool.png){#multschoolfig .margin  }
 
@@ -36,7 +35,7 @@ Rather, for every $n$, we can compute $XOR_n$ (the restriction of $XOR$ to $\{0,
 
 
 This code for computing $XOR_5$ is rather repetitive, and more importantly, does not capture the fact that there is a _single_ algorithm to compute the parity on all inputs.
-Typical programming language use the notion of _loops_ to express such an algorithm, and so we might have wanted to use code such as:
+Typical programming language use the notion of _loops_ to express such an algorithm, along the lines of:
 
 ```python
 # s is the "running parity", initialized to 0
@@ -56,9 +55,9 @@ We will see two ways to do so:
 * _Turing machines_, invented by Alan Turing in 1936, are an hypothetical abstract device that can yields a finite description of an algorithm that can handle arbitrarily long inputs.
 
 
-* The _NAND-TM Programming language_ extends   NAND-CIRC with the notion of _loops_ and _arrays_ to allow a finite program that can compute a function with arbitrarily long inputs.
+* The _NAND-TM Programming language_ extends   NAND-CIRC with the notion of _loops_ and _arrays_ to obtain finite programs that can compute a function with arbitrarily long inputs.
 
-It turns out that these two models are _equivalent_, and in fact they are equivalent to a great many other computational models including programming languages you may be familiar with such as C, Java, Python, Javascript, OCaml, and so on and so forth. This notion, known as _Turing equivalence_ or _Turing completeness_, will be discussed in [chapequivalentmodels](){.ref}.
+It turns out that these two models are _equivalent_, and in fact they are equivalent to a great many other computational models including programming languages you may be familiar with such as C, Lisp, Python, JavaScript, etc. This notion, known as _Turing equivalence_ or _Turing completeness_, will be discussed in [chapequivalentmodels](){.ref}.
 See [chaploopoverviewfig](){.ref} for an overview of the models presented in this chapter and [chapequivalentmodels](){.ref}.
 
 
@@ -91,7 +90,7 @@ Some texts present the task of computing a function $F:\{0,1\}^* \rightarrow \{0
 The "granddaddy" of all models of computation is the _Turing Machine_.
 Turing machines were defined in 1936 by Alan Turing in an attempt to formally capture all the functions that can be computed by human "computers" (see [humancomputersfig](){.ref}) that follow a well-defined set of rules, such as the standard algorithms for addition or multiplication.
 
-![Until the advent of electronic computers, the word "computer" was used to describe a person that performed calculations. These human computers were absolutely essential to many achievements including mapping the stars, breaking the Enigma cipher, and the NASA space mission. Photo taken from from [@sobel2017the].](../figure/HumanComputers.jpg){#humancomputersfig .margin  }
+![Until the advent of electronic computers, the word "computer" was used to describe a person that performed calculations. Most of these "human computers" were women, and they were absolutely essential to many achievements including mapping the stars, breaking the Enigma cipher, and the NASA space mission; see also the bibiographical notes. Photo taken from from [@sobel2017the].](../figure/HumanComputers.jpg){#humancomputersfig .margin  }
 
 Turing thought of such a person as having access to as much "scratch paper" as they need.
 For simplicity we can think of this scratch paper as a one dimensional piece of graph paper (or _tape_, as it is commonly referred to),  which is divided to "cells", where each "cell" can hold a single symbol (e.g., one digit or letter, and more generally some element of a finite _alphabet_).
@@ -240,7 +239,7 @@ We can precisely define what is means for a function to be computable by any pos
 
 
 
-This is a good point to remind the reader of the distinction between _functions_ and _programs_:
+This is a good point to remind the reader that _functions_ are _not_ the same as _programs_:
 
 $$ \text{Functions} \;\neq\; \text{Programs} \;.$$
 
@@ -881,14 +880,17 @@ Prove that the set of _all_ total functions from $\{0,1\}^* \rightarrow \{0,1\}$
 
 ## Bibliographical notes { #chaploopnotes }
 
+
+
 Augusta Ada Byron, countess of Lovelace (1815-1852) lived a short but turbulent life, though is today most well known for her collaboration with Charles Babbage
 (see [@stein1987ada] for a biography).
 Ada took an immense interest in Babbage's _analytical engine_, which we mentioned in [compchap](){.ref}.
-In 1842-3, she translated from Italian a paper of Menabrea on the engine,  adding copious notes (longer than the paper itself) including some examples of programs.
-Because of these programs, some call Ada "the first computer programmer" though recent evidence shows they were likely written by Babbage himself [@holt2001ada].
+In 1842-3, she translated from Italian a paper of Menabrea on the engine,  adding copious notes (longer than the paper itself).
+The quote in the chapter's beginning is taken from Nota A in this text. 
+Lovelace's notes contain several examples of _programs_ for the analytical engine, and because of this she has been called  "the world's first computer programmer" though it is not clear whether they were written by Lovelace or Babbage himself [@holt2001ada].
 Regardless, Ada was clearly one of very few people (perhaps the only one outside of Babbage himself) to fully appreciate how significant and revolutionary the idea of mechanizing computation truly is.
 
-The books of Shetterly [@shetterly2016hidden] and Sobel [@sobel2017the] discuss the history of human computers (which were more often than not women) and their important contributions to scientific discoveries.
+The books of Shetterly [@shetterly2016hidden] and Sobel [@sobel2017the] discuss the history of human computers (who were female,  more often than not) and their important contributions to scientific discoveries in astronomy and space exploration.
 
 
 Alan Turing was one of the intellectual giants of the 20th century. He was not only the first person to define the notion of computation, but also invented and used some of the world's earliest computational devices as part of the effort to break the _Enigma_ cipher during World War II, saving [millions of lives](https://goo.gl/KY1bJN).
@@ -901,7 +903,7 @@ Turing's life is the subject of a [great book](https://goo.gl/3GdFdp) and a [med
 
 
 
-Sipser's text [@SipserBook] defines of a  Turing machine is as a _seven tuple_ consisting of the state space, input alphabet, tape alphabet, transition function, starting state, accpeting state, and rejecting state.
+Sipser's text [@SipserBook] defines a  Turing machine is as a _seven tuple_ consisting of the state space, input alphabet, tape alphabet, transition function, starting state, accpeting state, and rejecting state.
 Superficially this looks like a very different definition than [TM-def](){.ref} but it is simply a different representation of the same concept, just as a graph can be represented in either adjacency list or adjacency matrix form.
 
 One difference is that Sipser considers a  general set of states $Q$ that is not necessarily of the form $Q=\{0,1,2,\ldots, k-1\}$ for some natural number $k>0$.
@@ -912,7 +914,7 @@ This again makes no difference to the computational power, though we prefer to c
 
 
 Sipser considers also functions with input in $\Sigma^*$ for an arbitrary alphabet $\Sigma$ (and hence distiguishes between the _input alphabet_ which he denotes as $\Sigma$ and the _tape alphabet_ which he denotes as $\Gamma$), while we restrict attention to functions with binary strings as input.
-Again this is not a major issue, since we can always encode an element of $\Sigma$ using a binary string of length $\log \ceil{|Sigma}$.
+Again this is not a major issue, since we can always encode an element of $\Sigma$ using a binary string of length $\log \ceil{|\Sigma|}$.
 Finally (and this is a very minor point) Sipser requires the machine to either move left or right in every step, without the $\mathsf{S}$tay operation, though staying in place is very easy to emulate by simply moving right and then back left.
 
 Another definition used in the literature is that a Turing machine $M$ _recognizes_ a language $L$ if  for every $x\in L$, $M(x)=1$ and for every $x\not\in L$, $M(x) \in \{0,\bot \}$. A language $L$ is _recursively enumerable_ if there exists a Turing machine $M$ that recognizes it, and the set of all recursively enumerable languages is often denoted by $\mathbf{RE}$.

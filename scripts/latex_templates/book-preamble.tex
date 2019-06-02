@@ -61,12 +61,22 @@
 \usepackage{minted}
 
 \newminted[code]{nand}{breaklines,mathescape}
+\newminted[framedcode]{nand}{frame=single,breaklines,mathescape}
+
 \newmintinline[codeinline]{nand}{breaklines,mathescape}
 
 \makeatletter
 \xpatchcmd{\codeinline}{\minted@fvset}{\minted@fvset\dontdofcolorbox}{}{}
 \makeatother
 
+
+
+\makeatletter
+\newlength{\fullwidthlength}
+\AtBeginDocument{\setlength{\fullwidthlength}{\@tufte@fullwidth}}
+\makeatother
+
+%\renewenvironment{fullwidth}{\begin{minipage}{\fullwidthlength}}{\end{minipage}}
 
 \makeatletter
 \AtBeginEnvironment{minted}{\dontdofcolorbox}
@@ -478,3 +488,37 @@
 \else
 \renewcommand{\hypertarget}[2]{#2} % Boaz: don't use hypertarget
 \fi
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pseudocode
+
+\usepackage{algpseudocode}
+%\usepackage{algorithm}
+\let\WHILE\While\let\ENDWHILE\EndWhile%
+   \let\FOR\For\let\FORALL\ForAll\let\ENDFOR\EndFor%
+   \let\LOOP\Loop\let\ENDLOOP\EndLoop%
+   \let\REPEAT\Repeat\let\UNTIL\Until%
+   \let\PROCEDURE\Procedure\let\ENDPROCEDURE\EndProcedure%
+   \let\FUNCTION\Function\let\ENDFUNCTION\EndFunction%
+   \let\IF\If\let\ELSIF\ElsIf\let\ELSE\Else\let\ENDIF\EndIf%
+   \let\REQUIRE\Require\let\ENSURE\Ensure%
+   \let\STATE\State\let\STATEx\Statex%
+   \let\COMMENT\Comment
+   \let\CALL\Call
+   \let\oldReturn\Return
+    \renewcommand{\Return}{\State\oldReturn}
+   \let\RETURN\Return
+   
+
+   \algrenewcommand\algorithmicrequire{\textbf{Input:}}
+   \algrenewcommand\algorithmicensure{\textbf{Output:}}
+   \let\INPUT\REQUIRE
+   \let\OUTPUT\ENSURE
+
+\newcommand{\commentsymbol}{\#}% or \% or $\triangleright$
+\algrenewcommand\algorithmiccomment[1]{\hfill \textit{\color{blue} \commentsymbol{} #1}}
+
+   
+
+

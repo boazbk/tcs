@@ -43,21 +43,34 @@ $endif$
 
 
 <!-- KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
 
-    <!-- The loading of KaTeX is deferred to speed up page rendering -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
 
-    <!-- To automatically render math in text elements, include the auto-render extension: -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
-        onload='renderMathInElement(document.body,  {  throwOnError: false, macros: { "\\N": "\\mathbb{N}", "\\R": "\\mathbb{R}", "\\Z": "\\mathbb{Z}","\\E": "\\mathbb{E}","\\val": "\\mathrm{val}", "\\label": "\\;\\;\\;\\;\\;\\;\\;\\;","\\floor": "\\lfloor #1 \\rfloor","\\ceil": "\\lceil #1 \\rceil", "\\ensuremath": "#1"}});'></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css"
+  integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js"
+  integrity="sha384-9Nhn55MVVN0/4OFx7EE5kpFBPsEMZxKTCnA+4fqDmg12eCTqGi6+BB2LjY8brQxJ" crossorigin="anonymous"></script>
+
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/auto-render.min.js"
+  integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+  onload='renderMathInElement(document.body, {  throwOnError: false, macros: { "\\N": "\\mathbb{N}", "\\R": "\\mathbb{R}", "\\Z": "\\mathbb{Z}","\\E": "\\mathbb{E}","\\val": "\\mathrm{val}", "\\label": "\\;\\;\\;\\;\\;\\;\\;\\;","\\floor": "\\lfloor #1 \\rfloor","\\ceil": "\\lceil #1 \\rceil", "\\ensuremath": "#1"}});'>
+</script>
+
+
+
 
 <!-- KaTeX -->
+<!-- pseudocode -->
+<link rel="stylesheet" href="css/pseudocode.css">
+<script src="js/pseudocode.min.js"></script>
 
 <!-- Gitbook resources -->
 
   <script src="js/jquery.min.js"></script>
   <link href="css/style.css" rel="stylesheet" />
+  
   <link href="css/plugin-table.css" rel="stylesheet" />
   <link href="css/plugin-bookdown.css" rel="stylesheet" />
   <link href="css/plugin-highlight.css" rel="stylesheet" />
@@ -65,13 +78,11 @@ $endif$
   <link href="css/plugin-fontsettings.css" rel="stylesheet" />
   <link href="css/moregitbook.css" rel="stylesheet" />
 
+  <link href="css/resmisc.css" rel="stylesheet" />
 
 
 
 
-
-
-  <link rel="stylesheet" type="text/css" href="css/res_misc.css">
 
 <!-- Boaz: end resources -->
 
@@ -230,9 +241,13 @@ $endif$
 
 <p>Copyright 2019, Boaz Barak.
 
-<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.
 
-<p>Produced using <a href="http://pandoc.org/">pandoc</a> and <a href="http://scorreia.com/software/panflute/">panflute</a> with templates derived from <a href="https://www.gitbook.com/">gitbook</a> and <a href="https://bookdown.org/">bookdown</a>.</p>
+<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License"
+    style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br />This work is
+licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons
+  Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.
+
+<p>Produced using <a href="https://pandoc.org/">pandoc</a> and <a href="http://scorreia.com/software/panflute/">panflute</a> with templates derived from <a href="https://www.gitbook.com/">gitbook</a> and <a href="https://bookdown.org/">bookdown</a>.</p>
 
 
 
