@@ -16,6 +16,8 @@ chapternum: "20"
 
 >_"Human ingenuity cannot concoct a cipher which human ingenuity cannot resolve."_, Edgar Allen Poe, 1841
 
+>_"A good disguise should not reveal the person's height"_, Shafi Goldwasser and Silvio Micali, 1982
+
 >_"I hope my handwriting, etc. do not give the impression I am just a crank or circle-squarer....  The significance of this conjecture [that certain encryption schemes are exponentially secure against key recovery attacks] .. is that it is quite feasible to design ciphers that are effectively unbreakable. "_, John Nash, [letter to the NSA](https://www.nsa.gov/news-features/declassified-documents/nash-letters/assets/files/nash_letters1.pdf), 1955.
 
 >_"“Perfect Secrecy” is defined by requiring of a system
