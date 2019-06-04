@@ -338,7 +338,7 @@ More recently, the [Bitcoin](https://en.wikipedia.org/wiki/Bitcoin) system uses 
 ## Roadmap to the rest of this book {#roadmapsec }
 
 Often, when we try to solve a computational problem, whether it is solving a system of linear equations, finding the top eigenvector of a matrix, or trying to rank Internet search results, it is enough to use the "I know it when I see it" standard for describing algorithms.
-As long as we find some way to solve the problem, we are happy and don't care so much about formal descriptions of the algorithm.
+As long as we find some way to solve the problem, we are happy and might not care much on the exact mathematical model for our algorithm.
 But when we want to answer a question such as "does there _exist_ an algorithm to solve the problem $P$?" we need to be much more precise.
 
 In particular, we will need to __(1)__ define exactly what it means to solve $P$, and __(2)__ define exactly what an algorithm is.
@@ -349,14 +349,14 @@ Once we have these formal models of computation, we can try to obtain _impossibi
 Archimedes once said that given a fulcrum and a long enough lever, he could move the world.
 We will see how _reductions_ allow us to leverage one hardness result into a slew of a great many others, illuminating the boundaries between the computable and uncomputable (or tractable and intractable) problems.
 
-Later in this course we will go back to examining our models of computation, and see how resources such as randomness or quantum entanglement could potentially change the power of our model.
+Later in this book we will go back to examining our models of computation, and see how resources such as randomness or quantum entanglement could potentially change the power of our model.
 In the context of probabilistic algorithms, we will see a glimpse of how randomness has become an indispensable tool for understanding computation, information, and communication.
 We will also see how computational difficulty can be an asset rather than a hindrance, and be used for the   "derandomization" of probabilistic algorithms.
 The same ideas also show up in _cryptography_, which has undergone not just a technological but also an intellectual revolution in the last few decades, much of it building on the foundations that we explore in this course.
 
 Theoretical Computer Science is a vast topic, branching out and touching upon many scientific and engineering disciplines.
 This book provides a very partial (and biased) sample of this area.
-More than anything, I hope I will manage to "infect" you with at least some of my love for this field, which is inspired and enriched by the connection to practice, but is also deep and beautiful regardless of   applications.
+More than anything, I hope I will manage to "infect" you with at least some of my love for this field, which is inspired and enriched by the connection to practice, but is also deep and beautiful regardless of  applications.
 
 ### Dependencies between chapters
 
@@ -364,11 +364,11 @@ This book is divided into the following parts, see [dependencystructurefig](){.r
 
 * __Preliminaries:__ Introduction, mathematical background, and representing objects as strings.
 
-* __Part I: Finite computation:__ Boolean circuits / straight-line programs. Universal gate sets, existence of a circuit for every function, representing circuits as strings and the universal circuit, and the counting lower bound.
+* __Part I: Finite computation (Boolean circuits):__  Equivalence of circuits and straight-line programs. Universal gate sets. Existence of a circuit for every function, representing circuits as strings, universal circuit, lower bound on circuit size using the counting argument.
 
-* __Part II: Uniform computation:__ Turing machines / programs with loops. Equivalence of models (including RAM machines and $\lambda$ calculus), universal Turing machine, uncomputable functions the Halting problem and Rice's Theorem, Gödel's incompleteness theorem, restricted models (regular and context free languages).
+* __Part II: Uniform computation (Turing machines):__ Equivalence of Turing machines and programs with loops. Equivalence of models (including RAM machines, $\lambda$ calculus, and cellular automata), configurations of Turing machines, existence of a universal Turing machine, uncomputable functions (including the Halting problem and Rice's Theorem), Gödel's incompleteness theorem, restricted computational models models (regular and context free languages).
 
-* __Part III: Efficient computation:__ Definition of running time, time hierarchy theorem, $\mathbf{P}$ and $\mathbf{NP}$, $\mathbf{NP}$ completeness, space bounded computation.
+* __Part III: Efficient computation:__ Definition of running time, time hierarchy theorem, $\mathbf{P}$ and $\mathbf{NP}$, $\mathbf{P_{/poly}}$, $\mathbf{NP}$ completeness and the Cook-Levin Theorem, space bounded computation.
 
 * __Part IV: Randomized computation:__ Probability, randomized algorithms, $\mathbf{BPP}$, amplification, $\mathbf{BPP} \subseteq \mathbf{P}_{/poly}$, pseudorandom generators and derandomization.
 
@@ -379,13 +379,14 @@ This book is divided into the following parts, see [dependencystructurefig](){.r
 
 The book largely proceeds in linear order, with each chapter building on the previous ones, with the following exceptions:
 
-* Part II (Uniform Computation) does not have a strong dependency on Part I (Finite computation) and it should be possible to teach them in the reverse order.
+* The topics of  $\lambda$ calculus ([lambdacalculussec](){.ref} and [lambdacalculussec](){.ref}), Gödel's incompleteness theorem ([godelchap](){.ref}),  Automata/regular expressions and context-free grammars ([restrictedchap](){.ref}), and space-bounded computation  ([spacechap](){.ref}), are not used in the following chapters. Hence you can choose whether to cover or skip any subset of them.
+
+* Part II (Uniform Computation / Turing Machines) does not have a strong dependency on Part I (Finite computation / Boolean circuits) and it should be possible to teach them in the reverse order with minor modification. Boolean circuits are used Part III (efficient computation) for results such as $\mathbf{P} \subseteq \mathbf{P_{/poly}}$ and the Cook-Levin Theorem, as well as in Part IV (for $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$ and derandomization) and Part V (specifically in cryptography and quantum computing).
 
 * All chapters in [advancedpart](){.ref} (Advanced topics) are independent of one another and can be covered in any order.
 
-* [godelchap](){.ref} (Gödel's incompleteness theorem), [restrictedchap](){.ref} (Restricted computational models),  and [spacechap](){.ref} (Space bounded computation), are not used in following chapters. Hence you can choose whether to cover or skip any of them them.
 
-A course based on this book can use all of Parts I, II, and III  (possibly skipping over some or all of [godelchap](){.ref}, [restrictedchap](){.ref} or [spacechap](){.ref}), and then either cover all or some of Part IV (randomized computation), and add a "sprinkling" of advanced topics from Part V based on student or instructor interest.
+A course based on this book can use all of Parts I, II, and III  (possibly skipping over some or all of the $\lambda$ calculus, [godelchap](){.ref}, [restrictedchap](){.ref} or [spacechap](){.ref}), and then either cover all or some of Part IV (randomized computation), and add a "sprinkling" of advanced topics from Part V based on student or instructor interest.
 
 
 

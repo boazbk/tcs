@@ -139,7 +139,7 @@ However, the power of computation comes from _composing_ such simple building bl
 
 
 
-::: {.example title="Majority from $AND$,$OR$ and $NOT$" #majorityfunction}
+::: {.example title="Majority from $AND$,$OR$ and $NOT$" #majorityfunctionex}
 Consider the function $MAJ:\{0,1\}^3 \rightarrow \{0,1\}$ that is defined as follows:
 
 $$MAJ(x) = \begin{cases}1 & x_0 + x_1 + x_2 \geq 2 \\ 0 & \text{otherwise}\end{cases} \;.$$
@@ -172,6 +172,7 @@ def MAJ(X[0],X[1],X[2]):
     return OR(firstpair,temp)
 ```
 :::
+
 
 ### Some properties of AND and OR
 
@@ -341,7 +342,7 @@ We will also discuss how to _physically implement_ simple operations such as $AN
 
 
 
-## Boolean Circuits 
+## Boolean Circuits  {#booleancircuitfig }
 
 _Boolean circuits_ provide a precise notion of  "composing basic operations together".
 A Boolean circuit (see [boolancircfig](){.ref}) is composed of _gates_ and _inputs_ that are connected by _wires_.
@@ -353,7 +354,21 @@ AND and NOT gates are defined similarly.
 The _inputs_ have only outgoing wires.
 If we set a certain input to a value $a\in \{0,1\}$, then this value is propagated on all the wires outgoing from it.
 We also designate some gates as _output gates_, and their value corresponds to the result of evaluating the circuit.
+For example,  [majcircaonfig](){.ref} shows a Boolean circuit that uses the _AND_, _OR_, and _NOT_ operations to evaluate the majority function, as we have seen in [majorityfunctionex](){.ref}, while [andornotcircxorfig](){.ref} gives such a circuit for the $XOR$ function, following [xoraonexample](){.ref}.
 We evaluate an $n$-input Boolean circuit $C$ on an input $x\in \{0,1\}^n$ by placing the bits of $x$ on the inputs, and then propagating the values on the wires until we reach an output, see [boolancircfig](){.ref}.
+
+
+
+
+![A Boolean circuit expressing [eqmajandornot](){.eqref}  for computing the Majority function using $AND$ and $OR$ operations.](../figure/majcircaon.png){#majcircaonfig .margin }
+
+
+![A circuit with $AND$, $OR$ and $NOT$ gates  for computing the $XOR$ function.](../figure/xorcircuitschemdraw.png){#andornotcircxorfig  .margin  } 
+
+
+
+![Standard symbols for the logical operations or "gates" of $AND$, $OR$, $NOT$, as well as the operation $NAND$ discussed in [nandsec](){.ref}.](../figure/logicgates.png){#logicgatesfig .margin }
+
 
 ::: {.remark title="Physical realization of Boolean circuits" #booleancircimprem}
 Boolean circuits are a _mathematical model_ that does not necessarily  correspond to a physical object, but they can be implemented physically.
@@ -366,23 +381,9 @@ In physical implementation of circuits, the signal is [often implemented](https:
 
 
 
-![A _Boolean Circuit_ consists of  _gates_ that are are connected by _wires_ to one another and the _inputs_. The left-hand figure depicts a circuit with $3$ inputs and $4$ gates, one of which is designated the output gate. The right-hand figure depicts the evaluation of this circuit on the input $101$. The value of every gate is obtained by applying the corresponding function ($AND$, $OR$, or $NOT$) to values on the wire(s) that enter it. The output of the circuit is the value of the output gate(s). In this case, the value is $1=OR(AND(1,0),AND(NOT(0),1))$.](../figure/booleancircuit.png){#boolancircfig}
+![A _Boolean Circuit_ consists of  _gates_ that are are connected by _wires_ to one another and the _inputs_. The left-hand side  figure depicts a circuit with $2$ inputs and $5$ gates, one of which is designated the output gate. The right-hand side figure depicts the evaluation of this circuit on the input $x\in \{0,1\}^2$ with $x_0=1$ and $x_1=0$. The value of every gate is obtained by applying the corresponding function ($AND$, $OR$, or $NOT$) to values on the wire(s) that enter it. The output of the circuit on a given input is the value of the output gate(s). In this casem the circuit computes the $XOR$ function and hence it outputs $1$ on the input $10$.](../figure/booleancircuit.png){#boolancircfig  }
 
 
-::: {.example title="Some simple Boolean circuits" #booleancircuits}
-[eqmajandornot](){.eqref} gave a formula for computing the   $MAJ:\{0,1\}^3 \rightarrow \{0,1\}$ via $AND$'s and $OR$'s.
-We can express the same formula as a Boolean circuit as well, see [majviaaonfig](){.ref}.
-Since the formula [eqmajandornot](){.eqref} involves three AND's and two OR's, the circuit has five gates (three AND gates and two OR gates).
-
-[XORfromAONalg](){.ref} can be also presented as a circuit for computing the function $XOR$,  see [andornotcircxorfig](){.ref}. The five lines of  [XORfromAONalg](){.ref}  translate into the five gates of the circuit.
-:::
-
-
-![A Boolean circuit for computing the Majority on three bits.](../figure/majcircuit.png){#majviaaonfig .margin  } 
-
-
-
-![A circuit with $AND$, $OR$ and $NOT$ gates  for computing the $XOR$ function.](../figure/xorandornotcirc.png){#andornotcircxorfig  .margin  } 
 
 
 ::: {.solvedexercise title="All equal function" #allequalex}
@@ -398,7 +399,7 @@ Similarly we can phrase the condition $x=0^4$ as $\overline{x}_0 \wedge \overlin
 The output of $ALLEQ$ is the OR of these two conditions, which results in the circuit of 4 NOT gates, 6 AND gates, and one OR gate presented in [allequalfig](){.ref}.
 :::
 
-![A  Boolean circuit for computing the _all equal_ function $ALLEQ:\{0,1\}^4 \rightarrow \{0,1\}$ that outputs $1$ on $x\in \{0,1\}^4$ if and only if $x_0=x_1=x_2=x_3$. The figure illustrates the evaluation of the circuit on the input $0010$.](../figure/allequalcirc.png){#allequalfig}
+![A  Boolean circuit for computing the _all equal_ function $ALLEQ:\{0,1\}^4 \rightarrow \{0,1\}$ that outputs $1$ on $x\in \{0,1\}^4$ if and only if $x_0=x_1=x_2=x_3$. The figure illustrates the evaluation of the circuit on the input $0010$.](../figure/allequalcirc2.png){#allequalfig}
 
 ### Boolean circuits: a formal definition
 
@@ -444,7 +445,7 @@ Let $C$ be a Boolean circuit with $n$ inputs and $m$ outputs.
 For every $x\in \{0,1\}^n$, the _output_ of $C$ on the input $x$, denoted by $C(x)$, is defined as the result of the following process:
 
 
-We let $h:V \rightarrow \N$ be the _minimal layering_ of $C$ (see [minimallayeruniquethm](){.ref}).
+We let $h:V \rightarrow \N$ be the _minimal layering_ of $C$ (aka _topological sorting_, see [minimallayeruniquethm](){.ref}).
 We let $L$ be the maximum layer of $h$, and for $\ell=0,1,\ldots,L$  we do the following:
 
 * For every $v$ in the $\ell$-th layer (i.e., $v$ such that $h(v)=\ell$) do:
@@ -528,7 +529,7 @@ We can also present this 8-line program as a circuit with 8 gates, see [aoncmpfi
 :::
 
 
-![A circuit for computing the $CMP$ function. The evaluation of this circuit on $(1,1,1,0)$ yields the output $1$, since the number $3$ (represented in binary as $11$) is larger than the number $2$ (represented in binary as $10$).](../figure/aoncircforcmp.png){#aoncmpfig .margin}
+![A circuit for computing the $CMP$ function. The evaluation of this circuit on $(1,1,1,0)$ yields the output $1$, since the number $3$ (represented in binary as $11$) is larger than the number $2$ (represented in binary as $10$).](../figure/CMPaoncirc.png){#aoncmpfig .margin}
 
 
 
@@ -741,11 +742,11 @@ NAND(b,c) \, \biggr)
 \end{gathered}
 $$
 
-
 The same formula can also be expressed as a circuit with NAND gates, see [majnandcircfig](){.ref}.
+(This is not the most efficient way to construct such a circuit: can you see how we can come up with a circuit using fewer gates?)
 :::
 
-![A circuit with NAND gates to compute the Majority function on three bits](../figure/majcircnand.png){#majnandcircfig .margin  }  
+![A circuit with NAND gates to compute the Majority function on three bits](../figure/majfromnand.png){#majnandcircfig .margin  }  
 
 
 <!--
@@ -781,7 +782,7 @@ We can also represent this algorithm graphically as a circuit, see [cornandcircf
 :::
 
 
-![A circuit with NAND gates to compute the XOR of two bits.](../figure/nandcircuitxor.png){#cornandcircfig .margin  }  
+![A circuit with NAND gates to compute the XOR of two bits.](../figure/nandcircxor.png){#cornandcircfig .margin  }  
 
 In fact, we can show the following theorem:
 
@@ -813,50 +814,77 @@ Once we have shown that two models such AND/OR/NOT circuits and NAND circuits ar
 
 Here are some more sophisticated examples of NAND circuits
 
-::: {.example title="$NAND$ circuit for incrementing" #incrementnandexample}
-Consider the task of computing, given as input a string $x\in \{0,1\}^n$ that represents a natural number $X\in \N$, the representation of $X+1$.
-That is, we want to compute the function $INC_n:\{0,1\}^n \rightarrow \{0,1\}^{n+1}$ such that for every $x_0,\ldots,x_{n-1}$, $INC_n(x)=y$  which satisfies $\sum_{i=0}^n y_i 2^i = \left( \sum_{i=0}^{n-1} x_i 2^i \right)+1$. (For simplicity of notation in this example we will use the representation where the least significant digit is first rather than last.)
+
+__Incrementing integers.__ Consider the task of computing, given as input a string $x\in \{0,1\}^n$ that represents a natural number $X\in \N$, the representation of $X+1$.
+That is, we want to compute the function $INC_n:\{0,1\}^n \rightarrow \{0,1\}^{n+1}$ such that for every $x_0,\ldots,x_{n-1}$, $INC_n(x)=y$  which satisfies $\sum_{i=0}^n y_i 2^i = \left( \sum_{i=0}^{n-1} x_i 2^i \right)+1$. (For simplicity of notation, in this example we use the representation where the least significant digit is first rather than last.)
 
 The increment operation can be very informally described as follows: _"Add $1$ to the least significant bit and propagate the carry"_.
 A little more precisely, in the case of the binary representation, to obtain the increment of $x$, we scan $x$ from the least significant bit onwards, and flip all $1$'s to $0$'s until we encounter a bit equal to $0$, in which case we flip it to $1$ and stop.
-(Please verify you understand why this is the case.)
+
 
 Thus we can compute the increment of $x_0,\ldots,x_{n-1}$ by doing the following:
 
-1. Set $c_0=1$ (we pretend we have a "carry" of $1$ initially)
-2. For $i=0,\ldots, n-1$ do the following:
-  a. Let $y_i = XOR(x_i,c_i)$.
-   b. If $c_i=x_i=1$ then $c_{i+1}=1$, else $c_{i+1}=0$.
-3. Set $y_n = c_n$.
 
-The above is a very precise description of an algorithm to compute the increment operation, and can be easily transformed into _Python_ code that performs the same computation, but it does not seem to directly yield a NAND circuit to compute this.
+``` {.algorithm title="Compute Increment Function" #incrementalg}
+INPUT: $x_0,x_1,\ldots,x_{n-1}$ representing the number $\sum_{i=0}^{n-1} x_i\cdot 2^i$ # we use LSB-first representation
+OUTPUT:$y \in \{0,1\}^{n+1}$ such that $\sum_{i=0}^n y_i \cdot 2^i =  \sum_{i=0}^{n-1} x_i\cdot 2^i$
+
+Let $c_0 \leftarrow 1$ # we pretend we have a "carry" of $1$ initially
+For{$i=0,\ldots, n-1$}
+Let $y_i \leftarrow XOR(x_i,c_i)$.
+If{$c_i=x_i=1$}
+$c_{i+1}=1$ 
+else
+$c_{i+1}=0$ 
+endif
+Endfor
+Let $y_n \leftarrow c_n$.
+```
+
+
+[incrementalg](){.ref} describes precisely how to compute the increment operation, and can be easily transformed into _Python_ code that performs the same computation, but it does not seem to directly yield a NAND circuit to compute this.
 However, we can transform this algorithm line by line to a NAND circuit.
 For example, since for every $a$, $NAND(a,NOT(a))=1$, we can replace the initial statement $c_0=1$ with $c_0 = NAND(x_0,NAND(x_0,x_0))$.
-We already know how to compute $XOR$ using NAND, so line 2.a can be replaced by some NAND operations.
-Next, we can write line 2.b as simply saying $c_{i+1} = AND(y_i,x_i)$,  or in other words $c_{i+1}=NAND(NAND(y_i,x_i),NAND(y_i,x_i))$.
+We already know how to compute $XOR$ using NAND and so we can use this to implement the operation $y_i \leftarrow XOR(x_i,c_i)$.
+Similarly, we can write the "if" statement as saying $c_{i+1} \leftarrow AND(y_i,x_i)$,  or in other words $c_{i+1} \leftarrow  NAND(NAND(y_i,x_i),NAND(y_i,x_i))$.
 Finally, the assignment $y_n = c_n$ can be written as $y_n = NAND(NAND(c_n,c_n),NAND(c_n,c_n))$.
 Combining these observations yields for every $n\in \N$, a $NAND$ circuit to compute $INC_n$.
 For example, [nandincrememntcircfig](){.ref} shows how this circuit looks like for $n=4$.
-:::
-
-![NAND circuit with computing the _increment_ function on $4$ bits.](../figure/incrementnandcirc.png){#nandincrememntcircfig .margin width=100px height=300px} 
 
 
 
-:::  {.example title="Addition using NANDs" #additionnandcirc}
+![NAND circuit with computing the _increment_ function on $4$ bits.](../figure/incrementfromnand.png){#nandincrememntcircfig } 
+
+
+
+
+__From increment to addition.__
 Once we have the increment operation, we can certainly compute addition by repeatedly incrementing (i.e., compute $x+y$ by performing $INC(x)$ $y$ times).
 However, that would be quite inefficient and unnecessary.
 With the same idea of keeping track of carries we can implement the "grade-school" addition algorithm and compute the function $ADD_n:\{0,1\}^{2n} \rightarrow \{0,1\}^{n+1}$ that on input $x\in \{0,1\}^{2n}$ outputs the binary representation of the sum of the numbers represented by $x_0,\ldots,x_{n-1}$ and $x_{n+1},\ldots,x_n$:
 
-1. Set $c_0=0$.
-2. For $i=0,\ldots,n-1$:
-   a. Let $y_i = x_i + x_{n+i} + c_i (\mod 2)$.
-   b. If $x_i + x_{n+i} + c_i \geq 2$ then $c_{i+1}=1$.
-3. Let $y_n = c_n$
 
-Once again, this can be translated into a NAND circuit.
-To transform Step 2.b to a NAND circuit we use the fact (shown in [majbynandex](){.ref}) that the function $MAJ_3:\{0,1\}^3 \rightarrow \{0,1\}$ can be computed using $NAND$s.
-:::
+``` {.algorithm title="Addition using NAND" #additionfromnand}
+INPUT: $u \in \{0,1\}^n$, $v\in \{0,1\}^n$ representing numbers in LSB-first binary representation.
+OUTPUT: LSB-first binary representation of $x+y$.
+
+Let $c_0 \leftarrow 0$
+For{$i=0,\ldots,n-1$}
+    Let $y_i \leftarrow u_i + v_i \mod 2$
+    If{$u_i + v_i + c_i \geq 2$}
+    $c_{i+1}\leftarrow 1$ 
+    else 
+    $c_{i+1} \leftarrow 0$
+    endif
+Endfor
+Let $y_n \leftarrow c_n$
+```
+
+
+Once again, [additionfromnand](){.ref} can be translated into a NAND circuit.
+The crucial observation is that the "if/then" statement simply corresponds to 
+$c_{i+1} \leftarrow MAJ_3(u_i,v_i,v_i)$ and we have seen in in [majbynandex](){.ref} that the function $MAJ_3:\{0,1\}^3 \rightarrow \{0,1\}$ can be computed using $NAND$s.
+
 
 
 ### The NAND-CIRC Programming language { #nandcircsec }
@@ -904,7 +932,7 @@ As before we can show that NAND circuits are equivalent to NAND-CIRC programs (s
 For every $f:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s \geq m$, $f$ is computable by a NAND-CIRC program of $s$ lines if and only if $f$ is computable by a NAND circuit of $s$ gates.
 
 
-![The NAND code and the corresponding circuit for a program to compute the _increment_ function that maps a string $x\in \{0,1\}^3$ (which we think of as a number in $[7]$) to the string $y\in \{0,1\}^4$ that represents $x+1$. Note how every line in the program corresponds to a gate in the circuit.](../figure/progandcircinc3.png){#progandcircfig   }
+![A NAND program and the corresponding circuit. Note how every line in the program corresponds to a gate in the circuit.](../figure/nandcircuitequiv.png){#progandcircfig   }
 
 
 We omit the proof of [NANDcircslequivthm](){.ref} since it follows along exactly the same lines as the equivalence of Boolean circuits and AON-CIRC program  ([slcircuitequivthm](){.ref}).

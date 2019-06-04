@@ -552,7 +552,7 @@ We can use the same approach as [configtmdef](){.ref} to define configurations o
 
 
 
-## Lambda calculus and functional programming languages
+## Lambda calculus and functional programming languages { #lambdacalculussec }
 
 The [λ calculus](https://goo.gl/B9HwT8) is another way to define computable functions.
 It was proposed by Alonzo Church in the 1930's around the same time as Alan Turing's proposal of the Turing Machine.
@@ -957,16 +957,14 @@ If we let $\alpha^0$ be the _initial configuration_ of $M$ on input $x$ then we 
 :::
 
 
-## The pure λ calculus
+## From enhanced to pure λ calculus {#lambdacacluluspuresec}
 
-While the collection of "basic" functions we allowed for λ calculus is smaller than what's provided by most Lisp dialects, coming from NAND-TM it still seems a little "bloated".
+While the collection of "basic" functions we allowed for the enhanced λ calculus is smaller than what's provided by most Lisp dialects, coming from NAND-TM it still seems a little "bloated".
 Can we make do with less?
 In other words, can we find a subset of these basic operations that can implement the rest?
 
 
-
-
-It turns out that there is in fact a proper subset of these basic operations that can be used to implement the rest.
+It turns out that there is in fact a proper subset of the  operations of the enhanced λ calculus   that can be used to implement the rest.
 That subset is the empty set.
 That is, we can implement _all_ the operations above using the λ formalism only, even without using $0$'s and $1$'s.
 It's λ's all the way down!
@@ -983,7 +981,7 @@ The most challenging part is to implement $RECURSE$ using only the operations of
 There are λ expressions that implement the functions $0$,$1$,$IF$,$PAIR$, $HEAD$, $TAIL$, $NIL$, $ISEMPTY$, $MAP$, $REDUCE$, and $RECURSE$.
 
 
-The  idea behin [enhancedvanillalambdathm](){.ref} is that we encode $0$ and $1$  themselves as λ expressions, and build things up from there.
+The  idea behind [enhancedvanillalambdathm](){.ref} is that we encode $0$ and $1$  themselves as λ expressions, and build things up from there.
 This is known as [Church encoding](https://goo.gl/QZKM9M), as it was originated by Church in his effort to show that the λ calculus can be a basis for all computation.
 We will not write the full formal proof of [enhancedvanillalambdathm](){.ref} but outline the ideas involved in it:
 
@@ -991,10 +989,10 @@ We will not write the full formal proof of [enhancedvanillalambdathm](){.ref} bu
 
 * The above implementation makes the $IF$ function trivial: $IF(cond,a,b)$ is simply $cond \; a\; b$ since $0ab = b$ and $1ab = a$. We can write $IF = \lambda x.x$ to achieve $IF(cond,a,b) = (((IF cond) a) b) =  cond \; a \; b$.
 
-* To encode a pair $(x,y)$ we will produce a function $f_{x,y}$ that has $x$ and $y$ "in its belly" and satisfies  $f_{x,y}g = g x y$ for every function $g$. That is, we write $PAIR = \lambda x,y. \lambda g. gxy$. Note that now we can extract the first element of a pair $p$ by writing $p1$ and the second element by writing $p0$, and so $HEAD = \lambda p. p1$ and $TAIL = \lambda p. p0$.
+* To encode a pair $(x,y)$ we will produce a function $f_{x,y}$ that has $x$ and $y$ "in its belly" and satisfies  $f_{x,y}g = g x y$ for every function $g$. That is,  $PAIR = \lambda x,y. \left(\lambda g. gxy\right)$. We can extract the first element of a pair $p$ by writing $p1$ and the second element by writing $p0$, and so $HEAD = \lambda p. p1$ and $TAIL = \lambda p. p0$.
 
-* We define $NIL$ to be the function that ignores its input and always outputs $1$. That is, $NIL = \lambda x.1$. The $ISEMPTY$ function checks, given an input $p$, whether we get $1$ if we apply $p$ to the function $z = \lambda x,y.0$ that ignores both its inputs and always outputs $0$.
-For every valid pair of the form $p = PAIR x y$, $p z = p x y = 0$ while $NIL z=1$.
+* We define $NIL$ to be the function that ignores its input and always outputs $1$. That is, $NIL = \lambda x.1$. The $ISEMPTY$ function checks, given an input $p$, whether we get $1$ if we apply $p$ to the function $zero = \lambda x,y.0$ that ignores both its inputs and always outputs $0$.
+For every valid pair of the form $p = PAIR x y$, $p zero = p x y = 0$ while $NIL zero=1$.
 Formally, $ISEMPTY = \lambda p. p (\lambda x,y.0)$.
 
 ::: {.remark title="Church numerals (optional)" #Churchnumrem}
@@ -1010,13 +1008,13 @@ In this representation, we can compute $PLUS(n,m)$ as $\lambda f.\lambda x.(n f)
 
 ### List processing
 
-Now we come to a bigger hurdle, which is how to implement $MAP$, $FILTER$, $REDUCE$ and $RECURSE$ in the λ calculus.
+Now we come to a bigger hurdle, which is how to implement $MAP$, $FILTER$, $REDUCE$ and $RECURSE$ in the pure λ calculus.
 It turns out that we can build $MAP$ and $FILTER$ from $REDUCE$, and $REDUCE$ from $RECURSE$.
 For example $MAP(L,f)$ is the same as $REDUCE(L,g)$ where $g$ is the operation that on input $x$ and $y$, outputs $PAIR(f(x),NIL)$ if $y$ is NIL and otherwise outputs $PAIR(f(x),y)$.
 (I leave checking this as a (recommended!) exercise for you, the reader.)
 
 We can define $REDUCE(L,g)$ recursively, by setting $REDUCE(NIL,g)=NIL$ and stipulating that given a non-empty list $L$, which we can think of as a pair $(head,rest)$, $REDUCE(L,g) = g(head, REDUCE(rest,g)))$.
-Thus, we might try to write a λ expression for $REDUCE$ as follows
+Thus, we might try to write a recursive λ expression for $REDUCE$ as follows
 
 $$
 REDUCE = \lambda L,g. IF(ISEMPTY(L),NIL,g HEAD(L) REDUCE(TAIL(L),g)) \label{reducereceq} \;.
@@ -1031,10 +1029,13 @@ $$
 myREDUCE = \lambda me,L,g. IF(ISEMPTY(L),NIL,g HEAD(L) me(TAIL(L),g)) \label{myreducereceq} \;.
 $$
 
-So everything boils down to implementing the $RECURSE$ operator, which we deal with next.
 
 
-### The Y combinator, or recursion without recursion
+### The Y combinator, or recursion without recursion { #ycombinatorsec }
+
+
+[myreducereceq](){.ref} means that implementing $MAP$, $FILTER$, and $REDUCE$   boils down to implementing the $RECURSE$ operator in the pure λ calculus.
+This is what we do now.
 
 How can we implement recursion without recursion?
 We will illustrate this using a simple example - the $XOR$ function.
@@ -1080,7 +1081,10 @@ Let's test this out:
 myxor(myxor,[1,0,1])
 ```
 
-If you do this, you will get the following complaint from the interpreter: `TypeError: myxor() missing 1 required positional argument`.
+If you do this, you will get the following complaint from the interpreter: 
+
+`TypeError: myxor() missing 1 required positional argument`
+
 The problem is that `myxor` expects _two_ inputs- a function and a list- while in the call to `me` we only provided a list.
 To correct this, we modify the call to also provide the function itself:
 
