@@ -131,11 +131,7 @@ You might also find it useful to explain the definition in words to a friend (or
 
 ### Assertions: Theorems, lemmas, claims
 
-Theorems, lemmas, claims and the like are true statements about the concepts that we defined. For example, here is a true statement:
-
-> ### {.lemma #perfectsquarelem}
-For every perfect square $a$ and perfect square $b$, $a\cdot b$ is a perfect square.
-
+Theorems, lemmas, claims and the like are true statements about the concepts that we defined.
 Deciding whether to call a particular statement a "Theorem", a "Lemma" or a "Claim" is a judgement call, and does not make a mathematical difference. All three correspond to true statements which can be proven. The difference is that a _Theorem_ refers to a significant result, that we would want to remember and highlight.  A _Lemma_ often refers to a technical result, that is not necessarily important in its own right, but can be often very useful in proving other theorems. A _Claim_ is a "throw away" statement, that we need to use in order to prove some other bigger results, but do not care so much about for its own sake.
 
 ### Proofs
@@ -143,21 +139,7 @@ Deciding whether to call a particular statement a "Theorem", a "Lemma" or a "Cla
 Mathematical _proofs_ are the arguments we use to demonstrate that our theorems, lemmas, and claims area indeed true.
 We discuss proofs in [proofsbackgroundsec](){.ref} below, but the main point is that the mathematical standard of proof is very high.
 Unlike in some other realms, in mathematics a proof is an  "airtight" argument that demonstrates that the statement is true beyond a shadow of a doubt.
-For example, just checking that [perfectsquarelem](){.ref} is true for the values $a=25$ and $b=4$ (in which case $a\cdot b  =100$ is indeed a perfect square) doesn't cut it. In contrast, here is a valid proof for [perfectsquarelem](){.ref}:
-
-
-::: {.proof data-ref="perfectsquarelem"}
-Let $a$ and $b$ be perfect squares. Then by the definition of a perfect square, there exist natural numbers $a',b'$ such that $a=a' \cdot a'$ and $b= b' \cdot b'$.
-Define $c = a\cdot b$. Then by the above
-
-$$
-c = (a' \cdot a')\cdot(b' \cdot b') = (a' \cdot b') ^2 \label{eqcommutativeperfectsquare}
-$$
-.^[The last inequality follows from the associativity and commutativity of multiplication; i.e., the fact that $(x \cdot y) \cdot z = x\cdot (y \cdot z)$ and $x\cdot y = y \cdot x$ for every numbers $x,y,z$). These are the kind of properties that in a course of this level we can assume that the reader knows and can "fill in the blanks". However, if you have any doubt, always err on the side of supplying more, rather than less, detail.]
-
-Since $a',b'$ are natural numbers, $c' = a'\cdot b'$ is a natural number as well and hence [eqcommutativeperfectsquare](){.eqref} implies that $c = c' \cdot c'$ is a perfect square.
-:::
-
+Some examples in this section for mathematical proofs are given in [simplepathlemex](){.ref} and [topsortsec](){.ref}.
 As mentioned in the preface, as a general rule, it is more important you understand the __definitions__ than the __theorems__, and it is more important you understand a __theorem statement__ than its __proof__.
 
 
@@ -174,7 +156,7 @@ For example, when we write $S = \{ 2,4, 7 \}$, we mean that $S$ denotes the set 
 (We use the notation "$2 \in S$" to denote that $2$ is an element of $S$.)
 Note that the set $\{ 2, 4, 7 \}$ and $\{ 7 , 4, 2 \}$ are identical, since they contain the same elements.
 Also, a set either contains an element or does not contain it -- there is no notion of containing it  "twice" -- and so we could even write the same set $S$ as  $\{ 2, 2, 4, 7\}$ (though that would be a little weird).
-The _cardinality_ of a finite set $S$, denoted by $|S|$, is the number of elements it contains.^[Later in this course we will discuss how to extend the notion of cardinality to _infinite_ sets.]
+The _cardinality_ of a finite set $S$, denoted by $|S|$, is the number of elements it contains. (Cardinality can be defined for _infinite_ sets as well; see the sources in [notesmathchap](){.ref}.)
 So, in the example above, $|S|=3$.
 A set $S$ is a _subset_ of a set $T$, denoted by $S \subseteq T$, if every element of $S$ is also an element of $T$. (We can also describe this by saying that  $T$ is a _superset_ of $S$.)
 For example, $\{2,7\} \subseteq \{ 2,4,7\}$.
@@ -206,7 +188,7 @@ We use the terms _tuples_ and _lists_ interchangeably.
 A tuple where every element comes from some finite set $\Sigma$ (such as $\{0,1\}$) is also known as a _string_.
 Analogously to sets, we denote the _length_ of a tuple $T$ by $|T|$.
 Just like sets, we can also think of infinite analogues of tuples, such as the ordered collection $(1,2,4,9,\ldots )$ of all perfect squares.
-Infinite ordered collections are known as _sequences_; we might sometimes use the term "infinite sequence" to emphasize this, and use "finite sequence" as a synonym for a tuple.^[We can identify a sequence $(a_0,a_1,a_2,\ldots)$ of elements in some set $S$ with a _function_ $A:\N \rightarrow S$ (where $a_n = A(n)$ for every $n\in \N$). Similarly, we can identify a $k$-tuple $(a_0,\ldots,a_{k-1})$ of elements in $S$ with a function $A:[k] \rightarrow S$.]
+Infinite ordered collections are known as _sequences_; we might sometimes use the term "infinite sequence" to emphasize this, and use "finite sequence" as a synonym for a tuple. (We can identify a sequence $(a_0,a_1,a_2,\ldots)$ of elements in some set $S$ with a _function_ $A:\N \rightarrow S$ (where $a_n = A(n)$ for every $n\in \N$). Similarly, we can identify a $k$-tuple $(a_0,\ldots,a_{k-1})$ of elements in $S$ with a function $A:[k] \rightarrow S$.)
 
 
 __Cartesian product:__ If $S$ and $T$ are sets, then their _Cartesian product_, denoted by $S \times T$, is the set of all ordered pairs $(s,t)$ where $s\in S$ and $t\in T$.
@@ -215,39 +197,6 @@ Similarly if $S,T,U$ are sets then $S\times T \times U$ is the set of all ordere
 More generally, for every positive integer $n$ and sets $S_0,\ldots,S_{n-1}$, we denote by $S_0 \times S_1 \times \cdots \times S_{n-1}$ the set of ordered $n$-tuples $(s_0,\ldots,s_{n-1})$ where $s_i\in S_i$ for every $i \in \{0,\ldots, n-1\}$.
 For every set $S$, we denote the set $S\times S$ by $S^2$, $S\times S\times S$ by $S^3$, $S\times S\times S \times S$ by $S^4$, and so on and so forth.
 
-### Sets in Python (optional)
-
-To get more comfortable with sets, one can also play with the `set` data structure in Python:^[The `set` data structure only corresponds to _finite_ sets; infinite sets are much more cumbersome to handle in programming languages, though mechanisms such as [Python generators](https://wiki.python.org/moin/Generators) and [lazy evaluation](https://goo.gl/EJV4L3) in general can be helpful.]
-
-```python
-A = { 7 , 10 , 12}
-B = {12 , 8 , 5 }
-print(A==B)
-# False
-print(A=={10,7,7,12})
-# True
-
-def intersect(S,T):
-    return {x for x in S if x in T}
-
-print(intersect(A,B))
-# {12}
-
-def subset(S,T):
-    return all({x in T for x in S})
-
-print(subset(A,B))
-# False
-
-print(subset({2,8,8,12},{12,8,2,34}))
-# True
-
-def product(S,T):
-    return {(s,t) for s in S for t in T}
-
-print(product(A,B))
-# {(10, 8), (10, 5), (7, 12), (12, 12), (10, 12), (12, 5), (7, 5), (7, 8), (12, 8)}
-```
 
 
 ### Special sets { #specialsets }
@@ -259,7 +208,7 @@ $$
 \N = \{ 0, 1,2, \ldots \}
 $$
 contains all  _natural numbers_, i.e., non-negative integers.
-For any natural number $n\in\N$, we define the set $[n]$ as $\{0,\ldots, n-1\} = \{ k\in \N : k < n \}$.^[We start our indexing of both $\N$ and $[n]$ from $0$, while many other texts index those sets from $1$. Starting from zero or one is simply a convention that doesn't make much difference, as long as one is consistent about it.]
+For any natural number $n\in\N$, we define the set $[n]$ as $\{0,\ldots, n-1\} = \{ k\in \N : k < n \}$. (We start our indexing of both $\N$ and $[n]$ from $0$, while many other texts index those sets from $1$. Starting from zero or one is simply a convention that doesn't make much difference, as long as one is consistent about it.)
 
 We will also occasionally use the set $\Z=\{\ldots,-2,-1,0,+1,+2,\ldots \}$ of (negative and non-negative) _integers_,^[The letter Z stands for the German word "Zahlen", which means _numbers_.] as well as the set $\R$ of _real_ numbers. (This is the set that includes not just the integers, but also fractional and even irrational numbers; e.g., $\R$ contains numbers such as $+0.5$, $-\pi$, etc.)
 We denote by $\R_+$  the set $\{ x\in \R : x > 0 \}$ of _positive_ real numbers.
@@ -301,7 +250,7 @@ $$
 \{0,1\}^* = \cup_{n\in\N} \{0,1\}^n \;.
 $$
 
-The set $\{0,1\}^*$ contains also the "string of length $0$" or "the empty string", which we will denote by $""$.^[In using this notation we follow the convention of many programming languages. Other texts sometimes use $\epsilon$ or $\lambda$ to denote the empty string. However, this doesn't matter much since we will rarely encounter this "edge case".]
+The set $\{0,1\}^*$ contains also the "string of length $0$" or "the empty string", which we will denote by $""$. (In using this notation we follow the convention of many programming languages. Other texts sometimes use $\epsilon$ or $\lambda$ to denote the empty string. However, this doesn't matter much since we will rarely encounter this "edge case".)
 
 
 __Generalizing the star operation:__ For every set $\Sigma$, we define
@@ -316,10 +265,10 @@ __Concatenation:__ As mentioned in [specialsets](){.ref}, the _concatenation_ of
 
 If $S$ and $T$ are nonempty sets, a _function_ $F$ mapping $S$ to $T$, denoted by $F:S \rightarrow T$, associates with every element $x\in S$ an element $F(x)\in T$.
 The set $S$ is known as the _domain_ of $F$ and the set $T$ is known as the _codomain_ of $F$.
-The _image_ of a function $F$ is the set $\{ F(x) \;|\; x\in S\}$ which is the subset of $F$'s codomain consisting of all output elements that are mapped from some input.^[Some texts use _range_ to denote the image of a function, while other texts use _range_ to denote the codomain of a function. Hence we will avoid using the term "range" altogether.]
+The _image_ of a function $F$ is the set $\{ F(x) \;|\; x\in S\}$ which is the subset of $F$'s codomain consisting of all output elements that are mapped from some input. (Some texts use _range_ to denote the image of a function, while other texts use _range_ to denote the codomain of a function. Hence we will avoid using the term "range" altogether.)
 As in the case of sets, we can write a function either by listing the table of all the values it gives for elements in $S$ or by using a rule.
 For example if $S = \{0,1,2,3,4,5,6,7,8,9 \}$ and $T = \{0,1 \}$, then the table below defines a function $F: S \rightarrow T$.
-Note that this function is the same as the function defined by the rule $F(x)= (x \mod 2)$.^[For two natural numbers $x$ and $a$, $x \mod a$ (where $\mod$ is shorthand for ["modulo"](https://goo.gl/b7Fdzm)) denotes the _remainder_ of $x$ when it is divided by $a$. That is, it is the number $r$ in $\{0,\ldots,a-1\}$ such that $x = ak +r$ for some integer $k$. We sometimes also use the notation $x = y (\mod a)$ to denote the assertion that $x \mod a$ is the same as $y \mod a$.]
+Note that this function is the same as the function defined by the rule $F(x)= (x \mod 2)$.^[For two natural numbers $x$ and $a$, $x \mod a$ (shorthand for ["modulo"](https://goo.gl/b7Fdzm)) denotes the _remainder_ of $x$ when it is divided by $a$. That is, it is the number $r$ in $\{0,\ldots,a-1\}$ such that $x = ak +r$ for some integer $k$. We sometimes also use the notation $x = y (\mod a)$ to denote the assertion that $x \mod a$ is the same as $y \mod a$.]
 
 | Input | Output |
 |:------|:-------|
@@ -373,7 +322,7 @@ Verifying that you can prove the following results is an excellent way to brush 
 
 * If $G:T \rightarrow S$ is onto then there exists a one-to-one function $F:S \rightarrow T$ such that $G(F(s))=s$ for every $s\in S$.
 
-* If $S$ and $T$ are finite sets then the following conditions are equivalent to one another: __(a)__ $|S| \leq |T|$, __(b)__ there is a one-to-one function $F:S \rightarrow T$, and __(c)__ there is an onto function $G:T \rightarrow S$.^[This is actually true even for _infinite_ $S$ and $T$: in that case __(b)__ is the commonly accepted _definition_ for $|S| \leq |T|$.]
+* If $S$ and $T$ are finite sets then the following conditions are equivalent to one another: __(a)__ $|S| \leq |T|$, __(b)__ there is a one-to-one function $F:S \rightarrow T$, and __(c)__ there is an onto function $G:T \rightarrow S$. (This is actually true even for _infinite_ $S$ and $T$: in that case __(b)__  (or equivalently __(c)__) is the commonly accepted _definition_ for $|S| \leq |T|$.)
 
 ![We can represent finite functions as a directed graph where we put an edge from $x$ to $f(x)$. The _onto_ condition corresponds to requiring that every vertex in the codomain of the function has in-degree _at least_ one. The _one-to-one_ condition corresponds to requiring that every vertex in the codomain of the function has in-degree _at most_ one. In the examples above $F$ is an onto function, $G$ is one to one, and $H$ is neither onto nor one to one.](../figure/functionsdiagram.png){#functionsdiagrampng .margin  }
 
@@ -400,7 +349,7 @@ Moreover, this also shows that $G$ is _onto_, since it means that for every $s\i
 
 _Graphs_ are ubiquitous in Computer Science, and many other fields as well.
 They are used to model a variety of data types including social networks, scheduling constraints, road networks, deep neural nets, gene interactions, correlations between observations, and a great many more.
-The formal definitions of graphs are below for the sake of completeness, but if you have not seen graphs before in a course, I urge you to read up on them in one of the sources mentioned in [notesmathchap](){.ref}.^[One such recommended resource is [this lecture of Berkeley CS70](http://www.eecs70.org/static/notes/n5.html).]
+The formal definitions of graphs are below for the sake of completeness, but if you have not seen graphs before in a course, I urge you to read up on them in one of the sources mentioned in [notesmathchap](){.ref}.
 
 Graphs come in two basic flavors: _undirected_ and _directed_.^[It is possible, and sometimes useful, to think of an undirected graph as the special case of an directed graph that has the special property that for every pair $u,v$ either both the edges $(u,v)$ and $(v,u)$   are present or neither of them is. However, in many settings there is a significant difference between undirected and directed graphs, and so it's typically best to think of them as separate categories.]
 
@@ -644,34 +593,27 @@ More formally, we define Big-$O$ notation as follows:
 
 
 :::  {.definition title="Big-$O$ notation" #bigohdef}
-For $F,G: \N \rightarrow \R_+$, we define $F=O(G)$ (sometimes also written as $F \leq O(G)$) if there exist numbers $a,N_0 \in \N$ such that $F(n) \leq a\cdot G(n)$ for every $n>N_0$.^[Recall that $\R_+$, which is also sometimes denoted as $(0,\infty)$, is the set of positive real numbers, so the above is just a way of saying that $F$ and $G$'s outputs are always positive numbers.]
-We define $F=\Omega(G)$ (sometimes also written as $F \leq \Omega(G$)) if $G=O(F)$.
+Let $\R_+= \{ x\in \R \;|\; x>0\}$ be the set of positive real numbers.
+For two functions $F,G: \N \rightarrow \R_+$, we say that  _$F=O(G)$_  if there exist numbers $a,N_0 \in \N$ such that $F(n) \leq a\cdot G(n)$ for every $n>N_0$.
+We define $F=\Omega(G)$  if $G=O(F)$.
 
-We write $F =o(G)$ if for every $\epsilon>0$ there is some $N_0$ such that $F(n) <\epsilon G(n)$ for every $n>N_0$.
-We write $F =\omega(G)$ if $G=o(F)$.
-We write $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$.
+We say that _$F =o(G)$_ if for every $\epsilon>0$ there is some $N_0$ such that $F(n) <\epsilon G(n)$ for every $n>N_0$.
+We say that $F =\omega(G)$ if $G=o(F)$.
+We say that  $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$.
 :::
-
-We can also use the notion of _limits_ to define Big- and Little-$O$ notation.
-You can verify that $F=o(G)$ (or, equivalently, $G=\omega(F)$) if and only if $\lim\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)} = 0$.
-Similarly, if the limit $\lim\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)}$ exists and is a finite number then $F=O(G)$.
-If you are familiar with the notion of _supremum_, then you can verify that $F=O(G)$ if and only if $\limsup\limits_{n\rightarrow\infty} \tfrac{F(n)}{G(n)} < \infty$.
 
 ![If $F(n)=o(G(n))$ then for sufficiently large $n$, $F(n)$ will be smaller than $G(n)$. For example, if Algorithm $A$ runs in time $1000\cdot n+10^6$ and Algorithm $B$ runs in time $0.01\cdot n^2$ then even though $B$ might be more efficient for smaller inputs, when the inputs get sufficiently large, $A$ will run _much_ faster than $B$. ](../figure/nvsnsquared.png){#nvsnsquaredfig .margin  }
 
 
-
-::: {.remark title="Big-$O$ and equality" #equalitybighohrem}
-Using the equality sign for $O$-notation is extremely common, but is somewhat of a misnomer, since a statement such as $F = O(G)$ really means that $F$ is in the set $\{ G' : \exists_{N,c} \text{ s.t. } \forall_{n>N} G'(n) \leq c G(n) \}$.
-
-If anything, it would have made more sense use _inequalities_ and write $F \leq O(G)$ and $F \geq \Omega(G)$, reserving equality for $F = \Theta(G)$,  and so we will sometimes use this notation, but since the equality notation is quite firmly entrenched we will often stick to it as well. (Some texts use the notation  $F \in O(G)$ instead of $F = O(G)$, but we will not use this notation in this book.)
-
-Despite the misleading equality sign, you should remember that a statement such as $F = O(G)$ means that $F$ is "at most" $G$ in some rough sense when we ignore constants, and a statement such as $F = \Omega(G)$ means that $F$ is "at least" $G$ in the same rough sense.
-:::
-
-It's often convenient to use "anonymous functions" in the context of $O$-notation, and also to emphasize the input parameter to the function.
+It's often convenient to use "anonymous functions" in the context of $O$-notation.
 For example, when we write a statement such as $F(n) = O(n^3)$, we mean that  $F=O(G)$ where $G$ is the function defined by $G(n)=n^3$.
 Chapter 7 in [Jim Apsnes' notes on discrete math](http://www.cs.yale.edu/homes/aspnes/classes/202/notes.pdf) provides a good summary of $O$ notation; see also [this tutorial](http://discrete.gr/complexity/) for a gentler and more programmer-oriented introduction.
+
+
+_$O$ is not equality._ Using the equality sign for $O$-notation is extremely common, but is somewhat of a misnomer, since a statement such as $F = O(G)$ really means that $F$ is in the set $\{ G' : \exists_{N,c} \text{ s.t. } \forall_{n>N} G'(n) \leq c G(n) \}$.
+If anything, it makes more sense to use _inequalities_ and write $F \leq O(G)$ and $F \geq \Omega(G)$, reserving equality for $F = \Theta(G)$,  and so we will sometimes use this notation too, but since the equality notation is quite firmly entrenched we often stick to it as well. (Some texts write  $F \in O(G)$ instead of $F = O(G)$, but we will not use this notation.)
+Despite the misleading equality sign, you should remember that a statement such as $F = O(G)$ means that $F$ is "at most" $G$ in some rough sense when we ignore constants, and a statement such as $F = \Omega(G)$ means that $F$ is "at least" $G$ in the same rough sense.
+
 
 
 
@@ -689,7 +631,7 @@ There are some simple heuristics that can help when trying to compare two functi
 
 * Similarly, logarithmic is always smaller than polynomial: $(\log n)^a$ (which we write as $\log^a n$) is $o(n^\epsilon)$ for every two constants $a,\epsilon>0$. For example, combining the observations above, $100n^2 \log^{100} n = o(n^3)$.
 
-In most (though not all!) cases we use $O$-notation, the constants hidden by it are not too huge and so on an intuitive level, you can think of $F=O(G)$ as saying something like $F(n) \leq 1000 G(n)$ and $F=\Omega(G)$ as saying something $F(n) \geq 0.001 G(n)$.
+In most (though not all!) cases when we use $O$-notation, the constants hidden by it are not too huge and so on an intuitive level, you can think of $F=O(G)$ as saying something like $F(n) \leq 1000 G(n)$ and $F=\Omega(G)$ as saying something $F(n) \geq 0.001 G(n)$.
 
 
 ::: {.remark title="Big $O$ for other applications (optional)" #bigonotime}
@@ -705,7 +647,7 @@ Here is one example which is unrelated to this book (and hence one that you can 
 
 Many people think of mathematical proofs as a sequence of logical deductions that starts from some axioms and ultimately arrives at a conclusion.
 In fact, some dictionaries [define](http://www.thefreedictionary.com/mathematical+proof) proofs that way.
-This is not entirely wrong, but in reality a mathematical proof of a statement X is simply an argument that convinces the reader that X is true beyond a shadow of a doubt.
+This is not entirely wrong, but at its essence mathematical proof of a statement X is simply an argument that convinces the reader that X is true beyond a shadow of a doubt.
 
 To produce such a proof you need to:
 
@@ -715,8 +657,9 @@ To produce such a proof you need to:
 
 3. Write your reasoning down in plain, precise and concise English (using formulas or notation only when they help clarity).
 
-In many cases, Step 1 is the most important one. Understanding what a statement means is often more than halfway towards understanding why it is true.
-In Step 3, to convince the reader beyond a shadow of a doubt, we will often want to break down the reasoning to "basic steps", where each basic step is simple enough to be "self evident". The combination of all steps yields the desired statement.
+In many cases, the first part is the most important one.
+Understanding what a statement means is oftentimes more than halfway towards understanding why it is true.
+In third part, to convince the reader beyond a shadow of a doubt, we will often want to break down the reasoning to "basic steps", where each basic step is simple enough to be "self evident". The combination of all steps yields the desired statement.
 
 ### Proofs and programs
 
@@ -730,7 +673,8 @@ Writing a _program_ involves:
 3. Converting this plan into code that a compiler or interpreter can understand, by breaking up each task into a sequence of the basic operations of some programming language.
 
 In programs as in proofs, step 1 is often the most important one.
-A key difference is that the reader for proofs is a human being and for programs is a compiler.^[This difference might be eroding with time, as more proofs are being written in a _machine verifiable form_ and progress in artificial intelligence allows expressing programs in more human friendly ways, such as "programming by example". Interestingly, much of the progress in automatic proof verification and proof assistants relies on a [much deeper correspondence](http://homepages.inf.ed.ac.uk/wadler/papers/propositions-as-types/propositions-as-types.pdf) between _proofs_ and _programs_, see [chapproofs](){.ref}.]
+A key difference is that the reader for proofs is a human being and the reader for programs is a compiler.
+(Though this difference might be eroding with time, as more proofs are being written in a _machine verifiable form_ and progress in artificial intelligence allows expressing programs in more human friendly ways, such as "programming by example".)
 Thus our emphasis is on _readability_ and having a _clear logical flow_ for the proof (which is not a bad idea for programs as well...).
 When writing a proof, you should think of your audience as an intelligent but highly skeptical and somewhat petty reader, that will "call foul" at every step that is not well justified.
 
@@ -819,7 +763,7 @@ We call the implication that $A$ implies $B$ the "only if" direction, and the im
 
 __Proofs by combining intermediate claims:__
 When a proof is more complex, it is often helpful to break it apart into several steps.
-That is, to prove the statement $X$, we might first prove statements $X_1$,$X_2$, and $X_3$ and then prove that $X_1 \wedge X_2 \wedge X_3$ implies $X$.^[As mentioned below, $\wedge$ denotes the logical AND operator.]
+That is, to prove the statement $X$, we might first prove statements $X_1$,$X_2$, and $X_3$ and then prove that $X_1 \wedge X_2 \wedge X_3$ implies $X$. (Recall that $\wedge$ denotes the logical AND operator.)
 
 
 __Proofs by case distinction:__ This is a special case of the above, where to prove a statement $X$ we split into several cases $C_1,\ldots,C_k$, and prove that __(a)__ the cases are _exhaustive_, in the sense that _one_ of the cases $C_i$  must happen and __(b)__ go one by one and prove that each one of the cases $C_i$ implies the result $X$ that we are after.
@@ -927,12 +871,13 @@ __(b)__ $P$ implies $Q$
 
 then $Q$ is true.
 
-In the setting of proofs by induction we typically have a statement $Q(k)$ that is parameterized by some integer $k$, and we prove that __(a)__ $Q(0)$ is true, and __(b)__ For every $k>0$, if $Q(0),\ldots,Q(k-1)$ are all true then $Q(k)$ is true.^[Usually proving __(b)__ is the hard part, though there are examples where the "base case" __(a)__ is quite subtle.]
+In the setting of proofs by induction we typically have a statement $Q(k)$ that is parameterized by some integer $k$, and we prove that __(a)__ $Q(0)$ is true, and __(b)__ For every $k>0$, if $Q(0),\ldots,Q(k-1)$ are all true then $Q(k)$ is true. (Usually proving __(b)__ is the hard part, though there are examples where the "base case" __(a)__ is quite subtle.)
 By applying Modus Ponens, we can deduce from __(a)__ and __(b)__ that $Q(1)$ is true.
 Once we did so, since we now know that both $Q(0)$ and $Q(1)$ are true, then we can use this and __(b)__ to deduce (again using Modus Ponens) that $Q(2)$ is true.
 We can repeat the same reasoning again and again to obtain that  $Q(k)$ is true for every $k$.
 The statement __(a)__ is called the "base case", while __(b)__ is called the "inductive step".
-The assumption in __(b)__ that $Q(i)$ holds for $i<k$ is called the "inductive hypothesis".^[The form of induction described here is sometimes called "strong induction" as opposed to "weak induction" where we replace __(b)__ by the statement __(b')__ that if $Q(k-1)$ is true then $Q(k)$ is true. Weak induction can be thought of as the special case of strong induction where we don't use the assumption that $Q(0),\ldots,Q(k-2)$ are true.]
+The assumption in __(b)__ that $Q(i)$ holds for $i<k$ is called the "inductive hypothesis".
+(The form of induction described here is sometimes called "strong induction" as opposed to "weak induction" where we replace __(b)__ by the statement __(b')__ that if $Q(k-1)$ is true then $Q(k)$ is true; weak induction can be thought of as the special case of strong induction where we don't use the assumption that $Q(0),\ldots,Q(k-2)$ are true.)
 
 > ### {.remark title="Induction and recursion" #inducrecrem}
 Proofs by inductions are closely related to algorithms by recursion.
@@ -991,7 +936,9 @@ We claim that $f$ is a valid layering, namely that for every edge $u \rightarrow
 
 * __Case 3:__ $u \neq v_0$, $v=v_0$. This case can't happen since $v_0$ does not have in-neighbors.
 
-Thus $f$ is a valid layering for $G$ which completes the proof.^[If we were being really pedantic we would have a fourth case for $u=v_0$ and $v=v_0$ but that would correspond to a self loop and we always assume our graphs do not have those unless explicitly stated otherwise.]
+* __Case 4:__ $u=v=v_0$. This case again can't happen since it means that $v_0$ is its own-neighbor - it is involved in a _self loop_ which is a form cycle that is disallowed in an acyclic graph. 
+
+Thus $f$ is a valid layering for $G$ which completes the proof.
 :::
 
 
@@ -1052,7 +999,8 @@ Most of the notation we use in this book is standard and is used in most mathema
 
 * _Partial_ functions are functions that are not necessarily defined on all inputs. When we write $f:A \rightarrow B$ this means that $f$ is a _total_ function unless we say otherwise. When we want to emphasize that $f$ can be a partial function, we will sometimes write $f: A \rightarrow_p B$.
 
-* As we will see later on in the course, we will mostly describe our computational problems in the terms of computing a _Boolean function_ $f: \{0,1\}^* \rightarrow \{0,1\}$. In contrast, many other textbooks refer to the same task as _deciding a language_ $L \subseteq \{0,1\}^*$. These two viewpoints are equivalent, since for every set $L\subseteq \{0,1\}^*$ there is a corresponding function $F$ such that $F(x)=1$ if and only if $x\in L$. Computing _partial functions_ corresponds to the task known in the literature as a solving a _promise problem_.^[Because the language notation is so prevalent in other textbooks, we will occasionally remind the reader of this correspondence.]
+* As we will see later on in the course, we will mostly describe our computational problems in the terms of computing a _Boolean function_ $f: \{0,1\}^* \rightarrow \{0,1\}$. In contrast, many other textbooks refer to the same task as _deciding a language_ $L \subseteq \{0,1\}^*$. These two viewpoints are equivalent, since for every set $L\subseteq \{0,1\}^*$ there is a corresponding function $F$ such that $F(x)=1$ if and only if $x\in L$. Computing _partial functions_ corresponds to the task known in the literature as a solving a _promise problem_.
+Because the language notation is so prevalent in other textbooks, we will occasionally remind the reader of this correspondence.
 
 * We use $\ceil{x}$ and $\floor{x}$ for the "ceiling" and "floor" operators that correspond to "rounding up" or "rounding down" a number to the nearest integer. We use $(x \mod y)$ to denote the "remainder" of $x$ when divided by $y$. That is, $(x \mod y) = x - y\floor{x/y}$. In context when an integer is expected we'll typically "silently round" the quantities to an integer. For example, if we say that $x$ is a string of length $\sqrt{n}$ then this means that $x$ is of length $\lceil \sqrt{n} \rceil$. (We round up for the sake of convention, but in most such cases, it will not make a difference whether we round up or down.)
 
