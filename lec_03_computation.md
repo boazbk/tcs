@@ -344,6 +344,14 @@ We will also discuss how to _physically implement_ simple operations such as $AN
 
 ## Boolean Circuits  {#booleancircuitfig }
 
+![Standard symbols for the logical operations or "gates" of $AND$, $OR$, $NOT$, as well as the operation $NAND$ discussed in [nandsec](){.ref}.](../figure/logicgates.png){#logicgatesfig .margin }
+
+
+![A circuit with $AND$, $OR$ and $NOT$ gates  for computing the $XOR$ function.](../figure/xorcircuitschemdraw.png){#andornotcircxorfig  .margin  } 
+
+
+
+
 _Boolean circuits_ provide a precise notion of  "composing basic operations together".
 A Boolean circuit (see [boolancircfig](){.ref}) is composed of _gates_ and _inputs_ that are connected by _wires_.
 The _wires_  carry a signal that is either the value $0$ or $1$.
@@ -354,20 +362,12 @@ AND and NOT gates are defined similarly.
 The _inputs_ have only outgoing wires.
 If we set a certain input to a value $a\in \{0,1\}$, then this value is propagated on all the wires outgoing from it.
 We also designate some gates as _output gates_, and their value corresponds to the result of evaluating the circuit.
-For example,  [majcircaonfig](){.ref} shows a Boolean circuit that uses the _AND_, _OR_, and _NOT_ operations to evaluate the majority function, as we have seen in [majorityfunctionex](){.ref}, while [andornotcircxorfig](){.ref} gives such a circuit for the $XOR$ function, following [xoraonexample](){.ref}.
+For example,  [andornotcircxorfig](){.ref} gives such a circuit for the $XOR$ function, following [xoraonexample](){.ref}.
 We evaluate an $n$-input Boolean circuit $C$ on an input $x\in \{0,1\}^n$ by placing the bits of $x$ on the inputs, and then propagating the values on the wires until we reach an output, see [boolancircfig](){.ref}.
 
 
 
 
-![A Boolean circuit expressing [eqmajandornot](){.eqref}  for computing the Majority function using $AND$ and $OR$ operations.](../figure/majcircaon.png){#majcircaonfig .margin }
-
-
-![A circuit with $AND$, $OR$ and $NOT$ gates  for computing the $XOR$ function.](../figure/xorcircuitschemdraw.png){#andornotcircxorfig  .margin  } 
-
-
-
-![Standard symbols for the logical operations or "gates" of $AND$, $OR$, $NOT$, as well as the operation $NAND$ discussed in [nandsec](){.ref}.](../figure/logicgates.png){#logicgatesfig .margin }
 
 
 ::: {.remark title="Physical realization of Boolean circuits" #booleancircimprem}
@@ -399,7 +399,7 @@ Similarly we can phrase the condition $x=0^4$ as $\overline{x}_0 \wedge \overlin
 The output of $ALLEQ$ is the OR of these two conditions, which results in the circuit of 4 NOT gates, 6 AND gates, and one OR gate presented in [allequalfig](){.ref}.
 :::
 
-![A  Boolean circuit for computing the _all equal_ function $ALLEQ:\{0,1\}^4 \rightarrow \{0,1\}$ that outputs $1$ on $x\in \{0,1\}^4$ if and only if $x_0=x_1=x_2=x_3$. The figure illustrates the evaluation of the circuit on the input $0010$.](../figure/allequalcirc2.png){#allequalfig}
+![A  Boolean circuit for computing the _all equal_ function $ALLEQ:\{0,1\}^4 \rightarrow \{0,1\}$ that outputs $1$ on $x\in \{0,1\}^4$ if and only if $x_0=x_1=x_2=x_3$. The figure illustrates the evaluation of the circuit on the input $0010$.](../figure/allequalcirc2.png){#allequalfig .margin }
 
 ### Boolean circuits: a formal definition
 
@@ -648,7 +648,7 @@ Even larger systems such as [flocks of birds](https://www.cs.princeton.edu/~chaz
 
 _Cellular automata_ is a model of a system composed of a sequence of _cells_, which of which can have a finite state.
 At each step, a cell updates its state based on the states of its _neighboring cells_ and some simple rules.
-As we will discuss later in this course, cellular automata such as Conway's "Game of Life" can be used to simulate computation gates (see [gameoflifefig](){.ref}).
+As we will discuss later in this book (see [cellularautomatasec](){.ref}), cellular automata such as Conway's "Game of Life" can be used to simulate computation gates . 
 
 ![An AND gate using a "Game of Life" configuration. Figure taken from [Jean-Philippe Rennard's paper](http://www.rennard.org/alife/CollisionBasedRennard.pdf).](../figure/game_of_life_and.png){#gameoflifefig .margin  }
 
@@ -657,7 +657,7 @@ As we will discuss later in this course, cellular automata such as Conway's "Gam
 
 One computation device that we all carry with us is our own _brain_.
 Brains have served humanity throughout history, doing computations that range from distinguishing prey from predators, through making scientific discoveries and artistic masterpieces, to composing witty 280 character messages.
-The exact working of the brain is still not fully understood, but it seems that to a first approximation it can be modeled by a (very large) _neural network_.
+The exact working of the brain is still not fully understood, but one common mathematical model for it is a (very large) _neural network_.
 
 A neural network can be thought of as a Boolean circuit that instead of $AND$/$OR$/$NOT$ uses some other gates as the basic basis.
 For example, one particular basis we can use are _threshold gates_.
@@ -665,21 +665,19 @@ For every vector $w= (w_0,\ldots,w_{k-1})$ of integers and integer $t$ (some or 
 the _threshold function corresponding to $w,t$_ is the function
 $T_{w,t}:\{0,1\}^k \rightarrow \{0,1\}$ that maps $x\in \{0,1\}^k$ to $1$ if and only if $\sum_{i=0}^{k-1} w_i x_i \geq t$.
 For example, the threshold function $T_{w,t}$ corresponding to $w=(1,1,1,1,1)$ and $t=3$ is simply the majority function $MAJ_5$ on $\{0,1\}^5$.
-As another example, the negation of AND (known as $NAND$) corresponds to the threshold function corresponding to $w=(-1,-1)$ and $t=-1$, since $NAND(x_0,x_1)=1$ if and only if $x_0 + x_1 \leq 1$ or equivalently, $-x_0 - x_1 \geq -1$.
-Threshold is just one example of gates that can used by neural networks.
-More generally, a neural network is often described as operating on signals that are real numbers, rather than $0/1$ values, and where the output of a gate on inputs $x_0,\ldots,x_{k-1}$ is obtained by applying $f(\sum_i w_i x_i)$ where $f:\R \rightarrow \R$ is an an [activation function](https://goo.gl/p9izfA) such as rectified linear unit (ReLU), Sigmoid, or many others (see [activationfunctionsfig](){.ref}).
+Threshold gates can be thought of as an approximation for    _neuron cells_ that make up the core of human and animal brains. To a first approximation, a neuron has $k$ inputs and a single output and the neurons  "fires" or "turns on" its output when those signals pass some threshold.
+
+Many machine learning algorithms use _artificial neural networks_ whose purpose is not to imitate biology but rather to perform some computational tasks, and hence are not restricted to threshold or other biologically-inspired gates.
+Generally, a neural network is often described as operating on signals that are real numbers, rather than $0/1$ values, and where the output of a gate on inputs $x_0,\ldots,x_{k-1}$ is obtained by applying $f(\sum_i w_i x_i)$ where $f:\R \rightarrow \R$ is an an [activation function](https://goo.gl/p9izfA) such as rectified linear unit (ReLU), Sigmoid, or many others (see [activationfunctionsfig](){.ref}).
 However, for the purposes of our discussion, all of the above are equivalent (see also [NANDsfromActivationfunctionex](){.ref}).
 In particular we can reduce the setting of real inputs to binary inputs by representing a real number in the binary basis, and multiplying the weight of the bit corresponding to the $i^{th}$ digit by $2^i$.
 
-![Common activation functions used in Neural Networks, including rectified linear units (ReLU), sigmoids, and hyperbolic tangent. All of those can be thought of as continuous approximations to simple the step function. All of these can be used to compute the NAND gates (see [NANDsfromActivationfunctionex](){.ref}). This property is often known as the _universality_ of deep neural networks.](../figure/activationfuncs.png){#activationfunctionsfig .margin }
+![Common activation functions used in Neural Networks, including rectified linear units (ReLU), sigmoids, and hyperbolic tangent. All of those can be thought of as continuous approximations to simple the step function. All of these can be used to compute the NAND gate (see [NANDsfromActivationfunctionex](){.ref}). This property is often known as the _universality_ of neural networks.](../figure/activationfuncs.png){#activationfunctionsfig .margin }
 
-
-Threshold gates can be thought of as an approximation for    _neuron cells_ that make up the core of human and animal brains. To a first approximation, a neuron has $k$ inputs and a single output and the neurons  "fires" or "turns on" its output when those signals pass some threshold.
 
 ### A computer made from marbles and pipes
 
 We can implement computation using many other physical media, without need for any electronic, biological, or chemical components. Many suggestions for _mechanical_ computers have been put forward, starting with Charles Babbage's 1837 plan for a mechanical ["Analytical Engine"](https://en.wikipedia.org/wiki/Analytical_Engine).
-
 As one example, [marblefig](){.ref} shows a simple implementation of a NAND (negation of AND, see [nandsec](){.ref}) gate using marbles going through pipes. We represent a logical value in $\{0,1\}$ by a pair of pipes, such that there is a marble flowing through exactly one of the pipes.
 We call one of the pipes the "$0$ pipe" and the other the "$1$ pipe", and so the identity of the pipe containing the marble determines the logical value.
 A NAND gate  corresponds to a mechanical object with two pairs of incoming pipes and one pair of outgoing pipes, such that for every $a,b \in \{0,1\}$, if two marble are rolling toward the object in the $a$ pipe of the first pair and the $b$ pipe of the second pair, then a marble will roll out of the object in the $NAND(a,b)$-pipe of the outgoing pair.
@@ -698,13 +696,13 @@ In fact, there is even a commercially-available educational game that uses marbl
 
 ## The NAND function { #nandsec }
 
-In this section we see another simple function that turns out to be quite useful for defining computation.
-The _$NAND$ function_ maps $\{0,1\}^2$ to $\{0,1\}$ and is defined as
+The $NAND$ function is another simple function that is extremely useful for defining computation.
+It is the function mapping $\{0,1\}^2$ to $\{0,1\}$ defined by:
 
-$$NAND(a,b) = \begin{cases} 0 & a=b=1 \\ 1 & \text{otherwise} \end{cases}$$
+$$NAND(a,b) = \begin{cases} 0 & a=b=1 \\ 1 & \text{otherwise} \end{cases}\;.$$
 
 As its name implies, $NAND$ is the NOT of AND (i.e., $NAND(a,b)= NOT(AND(a,b))$), and so we can clearly compute $NAND$ using $AND$  and $NOT$.
-Interestingly, the opposite direction also holds:
+Interestingly, the opposite direction holds as well:
 
 > ### {.theorem title="NAND computes AND,OR,NOT" #univnandonethm}
 We can compute $AND$, $OR$, and $NOT$ by composing only the $NAND$ function.
@@ -718,7 +716,7 @@ Once we can compute $AND$ and $NOT$, we can compute $OR$ using ["De Morgan's Law
 > ### { .pause }
 [univnandonethm](){.ref}'s proof is very simple, but you should make sure that __(i)__ you understand the statement of the theorem, and __(ii)__ you follow its proof. In particular, you should make sure you understand why De Morgan's law is true.
 
-We can use $NAND$ to compute other functions as well, as demonstrated in the following exercise.
+We can use $NAND$ to compute many other functions, as demonstrated in the following exercise.
 
 > ### {.solvedexercise title="Compute majority with NAND" #majbynandex}
 Let $MAJ: \{0,1\}^3 \rightarrow \{0,1\}$ be the function that on input $a,b,c$ outputs $1$ iff $a+b+c \geq 2$. Show how to compute $MAJ$ using a composition of $NAND$'s.
@@ -743,27 +741,18 @@ NAND(b,c) \, \biggr)
 $$
 
 The same formula can also be expressed as a circuit with NAND gates, see [majnandcircfig](){.ref}.
-(This is not the most efficient way to construct such a circuit: can you see how we can come up with a circuit using fewer gates?)
 :::
 
 ![A circuit with NAND gates to compute the Majority function on three bits](../figure/majfromnand.png){#majnandcircfig .margin  }  
 
 
-<!--
-```python
-def MAJ(a,b,c): return 1 if a+b+c >=2 else 0
-
-
-print([MAJ(a,b,c)==NAND(NAND(NAND(NAND(a,b),NAND(a,c)),NAND(NAND(a,b),NAND(a,c))),NAND(b,c)) for a in [0,1] for b in [0,1] for c in [0,1]])
-```
--->
 
 
 
 ### NAND Circuits
 
-We can define _NAND Circuits_ to be circuits in which all the gates are NAND operations.
-Such a circuit again corresponds to a directed acyclic graph (DAG) but it is even simpler than general Boolan circuits: all the gates correspond to the same function (i.e., NAND) and all of them have in-degree exactly two.
+We  define _NAND Circuits_ as circuits in which all the gates are NAND operations.
+Such a circuit again corresponds to a directed acyclic graph (DAG) since all the gates correspond to the same function (i.e., NAND), we do not even need to label them, and all gates have in-degree exactly two.
 Despite their simplicity, NAND circuits can be quite powerful.
 
 
@@ -805,7 +794,7 @@ we can replace every gate of $C$ with at most three $NAND$ gates to obtain an eq
 :::
 
 ::: { .bigidea #equivalencemodels }
-Once we have shown that two models such AND/OR/NOT circuits and NAND circuits are _computationally equivalent_, we can translate between one model to the other freely. Therefore we can always choose the model that is most convenient for the task at hand.
+Two models are _equivalent in power_ if they can be used to compute the same set of functions.
 :::
 
 
@@ -853,7 +842,7 @@ For example, [nandincrememntcircfig](){.ref} shows how this circuit looks like f
 
 
 
-![NAND circuit with computing the _increment_ function on $4$ bits.](../figure/incrementfromnand.png){#nandincrememntcircfig } 
+![NAND circuit with computing the _increment_ function on $4$ bits.](../figure/incrementfromnand.png){#nandincrememntcircfig  .margin } 
 
 
 
@@ -932,7 +921,7 @@ As before we can show that NAND circuits are equivalent to NAND-CIRC programs (s
 For every $f:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s \geq m$, $f$ is computable by a NAND-CIRC program of $s$ lines if and only if $f$ is computable by a NAND circuit of $s$ gates.
 
 
-![A NAND program and the corresponding circuit. Note how every line in the program corresponds to a gate in the circuit.](../figure/nandcircuitequiv.png){#progandcircfig   }
+![A NAND program and the corresponding circuit. Note how every line in the program corresponds to a gate in the circuit.](../figure/nandcircuitequiv.png){#progandcircfig   .margin  }
 
 
 We omit the proof of [NANDcircslequivthm](){.ref} since it follows along exactly the same lines as the equivalence of Boolean circuits and AON-CIRC program  ([slcircuitequivthm](){.ref}).
@@ -986,11 +975,6 @@ Equivalence results such as [equivalencemodelsthm](){.ref} mean that we can easi
 We will use this ability later on in this book, often shifting to the most convenient formulation without making a big deal about it.
 Hence we will not worry too much about the distinction between, for example, Boolean circuits and NAND-CIRC programs.
 
-
-
-::: { .bigidea #equivalencemodels }
-Finite computation using some basic operations can be equivalently described using _circuits_ or _straightline programs_. If two sets of operations can be implemented using one another, then the corresponding computational models are _equivalent_.
-:::
 
 
 In contrast, we will continue to take special care to distinguish between _circuits/programs_ and _functions_ (recall [functionprogramidea](){.ref}).

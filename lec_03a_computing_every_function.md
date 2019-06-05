@@ -102,6 +102,7 @@ The above reasoning leads to the proof of the following theorem:
 Let NAND-CIRC-PROC be the programming language NAND-CIRC augmented with the syntax above for defining procedures.
 Then for every NAND-CIRC-PROC program $P$, there exists a standard (i.e., "sugar free") NAND-CIRC program $P'$ that computes the same function as $P$.
 
+
 [functionsynsugarthm](){.ref} can be proven using the transformation above, but since the formal proof is somewhat long and tedious, we omit it here.
 program that does not use them.
 
@@ -135,6 +136,11 @@ print(MAJ(0,1,1))
 [progcircmajfig](){.ref} presents the "sugar free" NAND-CIRC program (and the corresponding circuit) that is obtained by "expanding out" this program, replacing the calls to procedures with their definitions.
 :::
 
+
+
+::: { .bigidea #synsugar}
+Once we show that a computational model $X$ is equivalent in power to the model with an additional feature $Y$, we can use this feature whenever we need to show that some function $f$ is computable by $X$.
+:::
 
 
 

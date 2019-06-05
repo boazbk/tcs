@@ -387,7 +387,7 @@ Some examples of Turing equivalent models (some of which we have already seen, a
 
 
 
-## Cellular automata
+## Cellular automata {#cellularautomatasec }
 
 Many physical systems can be described as consisting of a large number of elementary components that interact with one another.
 One way to model such systems is using _cellular automata_.
@@ -1245,13 +1245,25 @@ Let $embed:\N^2 \rightarrow \N$ be the function defined as $embed(x_0,x_1)= \tfr
 4. Construct NAND-TM programs $P_0,P_1$ such that for for every $x^0,x^1 \in \N$ and $i \in N$, $P_i(pf(embed(x^0,x^1)))=pf(x^i)$. You can use the syntactic sugar for inner loops, conditionals, and incrementing/decrementing the counter.
 :::
 
+::: {.exercise title="Shortest Path" #shortestpathcomputableex}
+Let $SHORTPATH:\{0,1\}^* \rightarrow \{0,1\}^*$ be the function that on input a string encoding a triple $(G,u,v)$ outputs  a string encoding $\infty$ if $u$ and $v$ are disconnected in $G$ or a string encoding the length $k$ of the shortest path from $u$ to $v$. Prove that $SHORTPATH$ is computable by a Turing machine.^[_Hint:_ You don't have to give a full description of a Turing machine: use our "eat the cake and have it too" paradigm to show the existence of such a machine by arguing from more powerful equivalent models.]
+:::
+
+::: {.exercise title="Longest Path" #longestpathcomputableex}
+Let $LONGPATH:\{0,1\}^* \rightarrow \{0,1\}^*$ be the function that on input a string encoding a triple $(G,u,v)$ outputs  a string encoding $\infty$ if $u$ and $v$ are disconnected in $G$ or a string encoding the length $k$ of the _longest simple path_ from $u$ to $v$. Prove that $LONGPATH$ is computable by a Turing machine.^[_Hint:_ Same hint as [longestpathcomputableex](){.ref} applies. Note that for showing that $LONGPATH$ is computable you don't have to give an _efficient_ algorithm.]
+:::
+
+::: {.exercise title="Shortest path λ expression" #shortestpathlambda}
+Let $SHORTPATH$ be as in [shortestpathcomputableex](){.ref}. Prove that there exists a $\lambda$ expression that computes $SHORTPATH$. You can use [shortestpathcomputableex](){.ref}
+:::
+
 
 ::: {.exercise title="Next-step function is local" #nextstepfunctionlemex}
 Prove [nextstepfunctionlem](){.ref} and use it to complete the proof of [onedimcathm](){.ref}.
 :::
 
 
-> ### {.exercise title="lambda calculus requires three variables" #lambda-calc-ex}
+> ### {.exercise title="λ calculus requires at most three variables" #lambda-calc-ex}
 Prove that for every λ-expression $e$ with no free variables there is an equivalent λ-expression $f$ that only uses the variables $x$,$y$, and $z$.^[__Hint:__ You can reduce the number of variables a function takes by "pairing them up". That is, define a λ expression $PAIR$ such that for every $x,y$ $PAIR xy$ is some function $f$ such that $f0=x$ and $f1=y$. Then use $PAIR$ to iteratively reduce the number of variables used.]
 
 ::: {.exercise title="Evaluation order example in λ calculus" #evalorderlambdaex}
@@ -1271,6 +1283,9 @@ Thus $zip$ "zips together" these two lists of elements into a single list of pai
 Let $M$ be a Turing machine. Give an enhanced λ calculus expression to compute the next-step function $NEXT_M$ of $M$ (as in the proof of [lambdaturing-thm](){.ref}) _without using $RECURSE$_.^[_Hint:_ Use $MAP$ and $REDUCE$ (and potentially $FILTER$). You might also find the function $zip$ of [zipfunctionex](){.ref} useful.]
 :::
 
+::: {.exercise title="λ calculus to NAND-TM compiler (challenging)" #lambdacompiler }
+Give a program in the programming language of your choice that takes as input a λ expression $e$ and outputs a NAND-TM program $P$ that computes the same function as $e$. For partial credit you can use the `GOTO` and all NAND-CIRC syntactic sugar in your output program. You can use any encoding of λ expressions as binary string that is convenient for you.^[_Hint:_ Try to set up a procedure such that if array `Left` contains an encoding of a λ expression $\lambda x.e$ and array `Right` contains an encoding of another λ expression $e'$, then the array `Result` will contain $e[x \rightarrow e']$.]
+:::
 
 
 
