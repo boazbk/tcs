@@ -60,11 +60,11 @@ Many of the problems will involve _graphs_.
 We have already encountered graphs in the context of Boolean circuits, but let us now quickly recall the basic notation.
 A graph $G$ consists of a set of _vertices_ $V$ and _edges_ $E$ where each edge is a pair of vertices.
 In a _directed_ graph, an edge is an ordered pair $(u,v)$, which we sometimes denote as $\overrightarrow{u\;v}$.
-In an _undirected_ graph, an edge is an unordered pair (or simply a set) $\{ u,v \}$ which we sometimes denote as $\overline{u\; v}$ or $u \sim v$.^[An equivalent viewpoint is that an undirected graph is like a directed graph with the property that whenever the edge $\overrightarrow{u\; v}$ is present then so is the edge $\overrightarrow{v\; u}$.]
+In an _undirected_ graph, an edge is an unordered pair (or simply a set) $\{ u,v \}$ which we sometimes denote as $\overline{u\; v}$ or $u \sim v$. An equivalent viewpoint is that an undirected graph is like a directed graph with the property that whenever the edge $\overrightarrow{u\; v}$ is present then so is the edge $\overrightarrow{v\; u}$.
 We will assume graphs are undirected and _simple_ (i.e., containing no parallel edges or self-loops) unless stated otherwise.
 
 We typically will think of the vertices in a graph as simply the set  $[n]$ of the numbers from $0$ till $n-1$.
-Graphs can be represented either in the _adjacency list_ representation, which is a list of $n$ lists, with the $i^{th}$ list corresponding to the neighbors of the $i^{th}$ vertex, or the _adjacency matrix_ representation, which is an $n\times n$ matrix $A$ with $A_{i,j}$ equalling $1$ if the edge $\overrightarrow{u\; v}$ is present and equalling $0$ otherwise.^[In an undirected graph, the adjacency matrix $A$ is _symmetric_, in the sense that it satisfies $A_{i,j}=A_{j,i}$.]
+Graphs can be represented either in the _adjacency list_ representation, which is a list of $n$ lists, with the $i^{th}$ list corresponding to the neighbors of the $i^{th}$ vertex, or the _adjacency matrix_ representation, which is an $n\times n$ matrix $A$ with $A_{i,j}$ equalling $1$ if the edge $\overrightarrow{u\; v}$ is present and equalling $0$ otherwise. (In an undirected graph, the adjacency matrix $A$ is _symmetric_, in the sense that it satisfies $A_{i,j}=A_{j,i}$.)
 We can transform between these two representations using $O(n^2)$ operations, and hence for our purposes we will mostly consider them as equivalent.
 We will sometimes consider _labeled_ or _weighted_ graphs, where we assign a label or a number to the edges or vertices of the graph, but mostly we will try to keep things simple and stick to the basic notion of an unlabeled, unweighted, simple undirected graph.
 
@@ -143,7 +143,7 @@ While we know how to find the shortest path in $O(n)$ time, for the longest path
 
 Specifically, in a graph of degree at most $d$, we can enumerate over all paths of length $k$ by going over the (at most  $d$) neighbors of each vertex.
 This would take about $O(d^k)$ steps, and since the longest simple path can't have length more than the number of vertices, this means that the brute force algorithms runs in  $O(d^n)$ time (which we can bound by $O(n^n)$ since the maximum degree is $n$).
-The best algorithm for the longest path improves on this, but not by much: it takes $\Omega(c^n)$ time for some constant $c>1$.^[At the moment the best record is $c \sim 1.65$ or so. Even obtaining an $O(2^n)$ time bound is not that simple, see [longest-path-ex](){.ref}.]
+The best algorithm for the longest path improves on this, but not by much: it takes $\Omega(c^n)$ time for some constant $c>1$. (At the moment the best record is $c \sim 1.65$ or so; even obtaining an $O(2^n)$ time bound is not that simple, see [longest-path-ex](){.ref}.)
 
 ![A _knight's tour_ can be thought of as a maximally long path on the graph corresponding to a chessboard where we put an edge between any two squares that can be reached by one step via a legal knight move.](../figure/knights_tour.jpg){#knighttourpath .margin  }
 
@@ -154,8 +154,9 @@ Given a graph $G=(V,E)$, a _cut_ is a subset $S$ of $V$ such that $S$ is neither
 The edges cut by $S$ are those edges where one of their endpoints is in $S$ and the other is in $\overline{S} = V \setminus S$.
 We denote this set of edges by $E(S,\overline{S})$.
 If $s,t \in V$ then an _$s,t$ cut_ is a cut such that $s\in S$ and $t\in \overline{S}$. (See [cutingraphfig](){.ref}.)
-The _minimum $s,t$ cut problem_ is the task of finding, given $s$ and $t$, the minimum number $k$ such that there is an $s,t$ cut cutting $k$ edges (once again, the problem is also sometimes phrased as finding the set that achieves this minimum; it turns out that algorithms to compute the number often yield the set as well).^[One can also define the problem of finding the _global minimum cut_ (i.e., the non-empty and non-everything set $S$ that minimizes the number of edges cut). A polynomial time algorithm for the minimum $s,t$ cut can be used to solve the global minimum cut in polynomial time as well (can you see why?).]
+The _minimum $s,t$ cut problem_ is the task of finding, given $s$ and $t$, the minimum number $k$ such that there is an $s,t$ cut cutting $k$ edges (once again, the problem is also sometimes phrased as finding the set that achieves this minimum; it turns out that algorithms to compute the number often yield the set as well).
 Formally, we define $MINCUT:\{0,1\}^* \rightarrow \{0,1\}^*$ to be the function that on input a triple $(G,s,t)$ of a graph and two vertices (represented as a string), outputs the minimum number $k$ such that there exists a set $S$ containing $s$ and not $t$ with exactly $k$ edges that touch $S$ and its complement.
+
 
 
 ![A _cut_ in a graph $G=(V,E)$ is simply a subset $S$ of its vertices. The edges that are _cut_ by $S$ are all those whose one endpoint is in $S$ and the other one is in $\overline{S} = V \setminus S$. The cut edges are colored red in this figure.](../figure/cutingraph.png){#cutingraphfig .margin  }
@@ -229,13 +230,15 @@ where for every vertex $v$,  summing over $e \ni v$ means summing over all the e
 The maximum flow problem can be thought of as the task of maximizing $\sum_{e \ni s} x_e$ over all the vectors $x\in\R^m$ that satisfy the above conditions [eqlinprogmincut](){.eqref}.
 This is a special case of a very general task known as [linear programming](https://en.wikipedia.org/wiki/Linear_programming), where one wants to find the maximum of $f(x)$ over $x \in \R^m$ that satisfies certain linear inequalities where $f:\R^m \rightarrow \R$ is a linear function.
 Luckily, there are [polynomial-time algorithms](https://en.wikipedia.org/wiki/Linear_programming#Algorithms) for solving linear programming, and hence we can solve the maximum flow  (and so, equivalently, minimum cut) problem in polynomial time.
-In fact, there are much better algorithms for maximum-flow/minimum-cut, even for weighted directed graphs, with currently the record standing at $O(\min\{ m^{10/7}, m\sqrt{n}\})$.^[TODO: add references in biliographical notes: Madry, Lee-Sidford]
+In fact, there are much better algorithms for maximum-flow/minimum-cut, even for weighted directed graphs, with currently the record standing at $O(\min\{ m^{10/7}, m\sqrt{n}\})$.
+
+__Global minimum cut.__ We can also define the problem of finding the _global minimum cut_ (i.e., the non-empty and non-everything set $S$ that minimizes the number of edges cut). A polynomial time algorithm for the minimum $s,t$ cut can be used to solve the global minimum cut in polynomial time by enumerating over all pairs $s,t$.
 
 
 ### Finding the maximum cut in a graph
 
 We can also define the _maximum cut_ problem of finding, given a graph $G=(V,E)$ the subset $S\subseteq V$
-that _maximizes_ the number of edges cut by $S$.^[We can also consider the variant where one is given $s,t$ and looks for the $s,t$-cut that maximizes the number of edges cut. The two variants are equivalent up to $O(n^2)$ factors in the running time, but we use the global max cut forumlation since it is more common in the literature.]
+that _maximizes_ the number of edges cut by $S$.
 Like its cousin the minimum cut problem, the maximum cut problem is also very well motivated.
 For example, it arises in VLSI design, and also has some surprising relation to analyzing the
 [Ising model](https://en.wikipedia.org/wiki/Ising_model) in statistical physics.
@@ -255,7 +258,10 @@ $f(px+(1-p)y) \leq pf(x) + (1-p)f(y)$.
 That is, $f$ applied to the $p$-weighted midpoint between $x$ and $y$ is smaller than the $p$-weighted average value of $f$.
 If $D$ itself is convex (which means that if $x,y$ are in $D$ then so is the line segment between them), then this means that if $x$ is a _local minimum_ of $f$ then it is also a _global minimum_.
 The reason is that if $f(y)<f(x)$ then every point $z=px+(1-p)y$ on the line segment between $x$ and $y$ will satisfy $f(z) \leq p f(x) + (1-p)f(y) < f(x)$ and hence in particular $x$ cannot be a local minimum.
-Intuitively, local minima of functions are much easier to find than global ones: after all, any "local search" algorithm that keeps finding a nearby point on which the value is lower, will eventually arrive at a local minima.^[One example of such a local search algorithm is [gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) which takes a small step in the direction that would reduce the value by the most amount based on the current derivative. There are also algorithms that take advantage of the _second derivative_ (hence are known as _second order methods_)  to potentially converge faster.]
+Intuitively, local minima of functions are much easier to find than global ones: after all, any "local search" algorithm that keeps finding a nearby point on which the value is lower, will eventually arrive at a local minima.
+One example of such a local search algorithm is [gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) which takes a small step in the direction that would reduce the value by the most amount based on the current derivative. There are also algorithms that take advantage of the _second derivative_ (hence are known as _second order methods_)  to potentially converge faster.
+
+
 Indeed, under certain technical conditions, we can often efficiently find the minimum of convex functions, and this underlies the reason problems such as minimum cut and shortest path are easy to solve.
 On the other hand, _maximizing_ a convex function (or equivalently, minimizing a _concave_ function) can often be a hard computational task.
 A _linear_ function is both convex and concave, which is the reason both the maximization and minimization problems for linear functions can be done efficiently.
@@ -267,7 +273,9 @@ Unfortunately, we don't know of such a tight embedding in the setting of the _ma
 The issue of convexity arises time and again in the context of computation.
 For example, one of the basic tasks in machine learning is _empirical risk minimization_.
 That is, given a set of labeled examples $(x_1,y_1),\ldots,(x_m,y_m)$, where each $x_i \in \{0,1\}^n$ and $y_i \in \{0,1\}$, we want to find the function $h:\{0,1\}^n \rightarrow \{0,1\}$ from some class $H$ that minimizes the _error_ in the sense of minimizing the number of $i$'s such that $h(x_i) \neq y_i$.
-Like in the minimum cut problem, to make this a better behaved computational problem, we often embed it in a continuous domain, including functions that could output a real number and replacing the condition $h(x_i) \neq y_i$ with minimizing some continuous _loss function_ $\ell(h(x_i),y_i)$.^[We also sometimes replace or enhance the condition that $h$ is in the class $H$ by adding a _regularizing term_ of the form $R(h)$ to the minimization problem, where $R:H \rightarrow \R$ is some measure of the "complexity" of $h$. As a general rule, the larger or more "complex" functions $h$ we allow, the easier it is to fit the data, but the more danger we have of "overfitting".]
+Like in the minimum cut problem, to make this a better behaved computational problem, we often embed it in a continuous domain, including functions that could output a real number and replacing the condition $h(x_i) \neq y_i$ with minimizing some continuous _loss function_ $\ell(h(x_i),y_i)$.
+(People  sometimes replace or enhance the condition that $h$ is in the class $H$ by adding a _regularizing term_ of the form $R(h)$ to the minimization problem, where $R:H \rightarrow \R$ is some measure of the "complexity" of $h$. As a general rule, the larger or more "complex" functions $h$ we allow, the easier it is to fit the data, but the more danger we have of "overfitting".)
+
 When this embedding is _convex_ then we are guaranteed that the global minimizer is unique and can be found in polynomial time.
 When the embedding is _non convex_, we have no such guarantee and in general there can be many global or local minima.
 That said, even if we don't find the global (or even a local) minima, this continuous embedding can still help us.
@@ -334,20 +342,22 @@ $$
 where $\{ a_{i,j} \}_{i,j \in [n]}$ and $\{ b_i \}_{i\in [n]}$ are real (or rational) numbers.
 More compactly, we can write this as the equations $Ax = b$ where $A$ is an $n\times n$ matrix, and we think of $x,b$ are column vectors in $\R^n$.
 
-The standard [Gaussian elimination](https://en.wikipedia.org/wiki/Gaussian_elimination) algorithm can be used to solve such equations in polynomial time (i.e., determine if they have a solution, and if so, to find it).^[To analyze this fully we need to ensure that the bit complexity of the numbers involved does not grow too much, but fortunately we can indeed ensure this using [Cramer's rule](https://en.wikipedia.org/wiki/Cramer%27s_rule). Also, as is usually the case when talking about real numbers, we do not care much for the distinction between solving equations exactly and solving them to arbitrarily good precision.]
+The standard [Gaussian elimination](https://en.wikipedia.org/wiki/Gaussian_elimination) algorithm can be used to solve such equations in polynomial time (i.e., determine if they have a solution, and if so, to find it).
 As we discussed above,  if we are willing to allow some loss in precision, we even have algorithms that handle linear _inequalities_, also known as linear programming.
 In contrast, if we insist on _integer_ solutions, the task of solving for linear equalities or inequalities is known as [integer programming](https://en.wikipedia.org/wiki/Integer_programming), and the best known algorithms are exponential time in the worst case.
 
 
-> ### {.remark title="Bit complexity of numbers" #numbersbits}
+::: {.remark title="Bit complexity of numbers" #numbersbits}
 Whenever we discuss problems whose inputs correspond to numbers, the input length corresponds to how many bits are needed to describe the number (or, as is equivalent up to a constant factor, the number of digits in base 10, 16 or any other constant).
 The difference between the length of the input and the magnitude of the number itself can be of course quite profound.
 For example, most people would agree that there is a huge difference between having a billion (i.e. $10^9$) dollars and having nine dollars.
 Similarly there is a huge difference between an algorithm that takes $n$ steps on an $n$-bit number and an algorithm that takes $2^n$ steps.
->
+
 One example, is the problem (discussed below) of finding the prime factors of a given integer $N$.
 The natural algorithm is to search for such a factor by trying all numbers from $1$ to $N$, but that would take $N$ steps which is _exponential_ in the input length, which is number of bits needed to describe $N$.^[The running time of this algorithm can be easily improved to roughly $\sqrt{N}$, but this is still exponential (i.e., $2^{n/2}$) in the number $n$ of bits to describe $N$.]
 It is an important and long open question whether there is such an algorithm that runs in time polynomial in the input length (i.e., polynomial in $\log N$).
+:::
+
 
 ### Solving quadratic equations
 
@@ -377,14 +387,14 @@ The determinant can be defined in several ways. For example, it is known that $\
 
 1. $\mathrm{det}(AB) = \mathrm{det}(A)\mathrm{det}(B)$ for every square matrices $A,B$.
 
-2. For every $n\times n$ _triangular_ matrix $T$ with diagonal entries $d_0,\ldots, d_{n-1}$, $\mathrm{det}(T)=\prod_{i=0}^n d_i$. In particular $\mathrm{det}(I)=1$ where $I$ is the identity matrix.^[A _triangular_ matrix is one in which either all entries below the diagonal, or all entries above the diagonal, are zero.]
+2. For every $n\times n$ _triangular_ matrix $T$ with diagonal entries $d_0,\ldots, d_{n-1}$, $\mathrm{det}(T)=\prod_{i=0}^n d_i$. In particular $\mathrm{det}(I)=1$ where $I$ is the identity matrix. (A _triangular_ matrix is one in which either all entries below the diagonal, or all entries above the diagonal, are zero.)
 
 3. $\mathrm{det}(S)=-1$ where $S$ is a "swap matrix" that corresponds to swapping two rows or two columns of $I$. That is, there are two coordinates $a,b$ such that for every $i,j$,  $S_{i,j} = \begin{cases}1 & i=j\;, i \not\in \{a,b \} \\ 1 & \{i,j\}=\{a,b\} \\ 0 & \text{otherwise}\end{cases}$.
 
 Note that conditions 1. and 2. together imply that $\mathrm{det}(A^{-1}) =  \mathrm{det}(A)^{-1}$ for every invertible matrix $A$.
 Using these rules and the [Gaussian elimination](https://en.wikipedia.org/wiki/Gaussian_elimination) algorithm, it is possible to tell whether $A$ is singular or not, and in the latter case, decompose $A$ as a product of a polynomial number of swap matrices and triangular matrices.
 (Indeed one can verify that the row operations in Gaussian elimination corresponds to either multiplying by a swap matrix or by a triangular matrix.)
-Hence we can compute the determinant for an $n\times n$ matrix using a polynomial time of arithmetic operations.^[The cost for performing each arithmetic operation depends on the number of bits needed to represent each entry, and accounting for this can sometimes be subtle, though ultimately doable.]
+Hence we can compute the determinant for an $n\times n$ matrix using a polynomial time of arithmetic operations. 
 
 ### The permanent (mod 2) problem
 
@@ -464,7 +474,7 @@ Alas, no such algorithm is known.
 In a surprising and exciting turn of events, the _non existence_ of such an algorithm has been used as a basis for encryptions, and indeed it underlies much of the security of the world wide web.
 We will return to the factoring problem later in this course.
 We remark that we do know much better than brute force algorithms for this problem.
-While the brute force algorithms would require $2^{\Omega(n)}$ time to factor an $n$-bit integer, there are known algorithms running in time roughly $2^{O(\sqrt{n})}$ and also algorithms that are widely believed (though not fully rigorously analyzed) to run in time roughly $2^{O(n^{1/3})}$.^[The "roughly" adjective above refers to neglecting factors that are polylogarithmic in $n$.]
+While the brute force algorithms would require $2^{\Omega(n)}$ time to factor an $n$-bit integer, there are known algorithms running in time roughly $2^{O(\sqrt{n})}$ and also algorithms that are widely believed (though not fully rigorously analyzed) to run in time roughly $2^{O(n^{1/3})}$. (By "roughly" we mean that we neglect factors  that are polylogarithmic in $n$.)
 
 
 ## Our current knowledge

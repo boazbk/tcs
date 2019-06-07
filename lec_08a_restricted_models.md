@@ -22,6 +22,10 @@ The flip side of this is that for all these models,  Rice's theorem ([rice-thm](
 The uncomputability of halting and other semantic specification problems for Turing equivalent models motivates __restricted computational models__ that are __(a)__ powerful enough to capture a set of functions useful for certain applications but __(b)__ weak enough that we can still solve semantic specification problems on them.
 In this chapter we discuss several such examples.
 
+![Some restricted computational models we study in this chapter. We show two equivalent models of computation: regular expressions and deterministic finite automata. We show a more powerful model: context-free grammars. We also present tools to demonstrate that some functions _can not_ be computed in these models. ](../figure/restrictedoverview.png){#restrictedmodelsoverviewfig}
+
+
+
 
 ## Turing completeness as a bug
 
@@ -75,7 +79,8 @@ Rather, such systems use _restricted computational models_ that on the one hand 
 One of the most popular such computational models is   [regular expressions](https://goo.gl/2vTAFU).
 If you ever used an advanced text editor, a command line shell, or have done any kind of manipulations of text files, then you have probably come across regular expressions.
 
-A _regular expression_ over some alphabet $\Sigma$ is obtained by combining elements of $\Sigma$ with the operation of concatenation, as well as $|$ (corresponding to _or_) and $*$ (corresponding to repetition zero or more times).^[Common implementations of regular expressions in programming languages and shells typically include some extra operations on top of $|$ and $*$, but these operations can be implemented as "syntactic sugar" using   the operators $|$ and $*$.]
+A _regular expression_ over some alphabet $\Sigma$ is obtained by combining elements of $\Sigma$ with the operation of concatenation, as well as $|$ (corresponding to _or_) and $*$ (corresponding to repetition zero or more times).
+(Common implementations of regular expressions in programming languages and shells typically include some extra operations on top of $|$ and $*$, but these operations can be implemented as "syntactic sugar" using   the operators $|$ and $*$.)
 For example, the following regular expression over the alphabet $\{0,1\}$  corresponds to the set of all strings $x\in \{0,1\}^*$  where every digit is repeated at least twice:
 $$
 (00(0^*)|11(1^*))^* \;.
@@ -88,7 +93,7 @@ $$
 $$
 
 
-Formally, regular expressions are defined by the following recursive definition:^[We have seen recursive definitions before in the setting of $\lambda$ expressions ([lambdaexpdef](){.ref}). In a _recursive definition_ we start by defining the base case of the simplest regular expressions, and then describe how we can build more complex expressions from simpler ones.]
+Formally, regular expressions are defined by the following recursive definition:
 
 ::: {.definition title="Regular expression" #regexp}
 A _regular expression_ $e$ over an alphabet $\Sigma$ is a string over $\Sigma \cup \{ (,),|,*,\emptyset, "" \}$ that has one of the following forms:
@@ -101,7 +106,7 @@ A _regular expression_ $e$ over an alphabet $\Sigma$ is a string over $\Sigma \c
 
 4. $e = (e')^*$ where $e'$ is a regular expression.
 
-Finally we also allow the following "edge cases": $e = \emptyset$ and $e = ""$.^[These are the regular expressions corresponding to accepting no strings, and accepting only the empty string respectively.]
+Finally we also allow the following "edge cases": $e = \emptyset$ and $e = ""$. These are the regular expressions corresponding to accepting no strings, and accepting only the empty string respectively.
 :::
 
 We will drop parenthesis when they can be inferred from the context.
@@ -133,7 +138,7 @@ The function $\Phi_{e}:\Sigma^* \rightarrow \{0,1\}$ is defined as follows:
 5. Finally, for the edge cases $\Phi_{\emptyset}$ is the constant zero function, and $\Phi_{""}$ is the function that only outputs $1$ on the empty string $""$.
 
 We say that a regular expression  $e$ over $\Sigma$ _matches_ a string $x \in \Sigma^*$  if $\Phi_{e}(x)=1$.
-We say that a function $F:\Sigma^* \rightarrow \{0,1\}$ is _regular_ if $F=\Phi_{e}$ for some regular expression $e$.^[We use _function notation_ in this book, but   other texts often use the notion of _languages_, which are sets of strings. We say that a language $L \subseteq \Sigma^*$  is _regular_ if and only if the corresponding function $F_L$ is regular, where $F_L:\Sigma^* \rightarrow \{0,1\}$ is the function that outputs $1$ on $x$ iff $x\in L$.]
+We say that a function $F:\Sigma^* \rightarrow \{0,1\}$ is _regular_ if $F=\Phi_{e}$ for some regular expression $e$.^[We use _function notation_ in this book, but  other texts often use the notion of _languages_, which are sets of strings. In that notation a language $L \subseteq \Sigma^*$  is called _regular_ if and only if the corresponding function $F_L$ is regular, where $F_L:\Sigma^* \rightarrow \{0,1\}$ is the function that outputs $1$ on $x$ iff $x\in L$.]
 :::
 
 
@@ -151,23 +156,25 @@ is the expression we saw in [regexpeq](){.eqref}.
 If we wanted to verify, for example, that $\Phi_e(abc12078)=1$, we can do so by noticing that the expression $(a|b|c|d)$ matches the string $a$, $(a|b|c|d)^*$ matches  $bc$,   $(0|1|2|3|4|5|6|7|8|9)$ matches the string $1$, and the expression $(0|1|2|3|4|5|6|7|8|9)^*$ matches the string $2078$. Each one of those boils down to a simpler expression. For example, the expression $(a|b|c|d)^*$ matches the string $bc$ because both of the one-character strings $b$ and $c$ are matched by the expression $a|b|c|d$.
 :::
 
-::: {.remark title="Binary alphabet" #binaryalphabetreg}
 Regular expression can be defined over any finite alphabet $\Sigma$, but as usual, we will focus our attention on the _binary case_, where $\Sigma = \{0,1\}$.
 Most (if not all) of the theoretical and practical general insights about regular expressions can be gleaned from studying the binary case.
-:::
 
 
 
 We can think of regular expressions as a type of  "programming language".
-That is, we can think of a regular expression $e$ over the alphabet $\Sigma$ as a program that computes the function $\Phi_{e}:\Sigma^* \rightarrow \{0,1\}$.^[Regular expressions (and context free grammars, which we'll see below) are also often thought of as _generative models_, since you can think of them as giving a recipe how to generate strings that match them.]
+That is, we can think of a regular expression $e$ over the alphabet $\Sigma$ as a program that computes the function $\Phi_{e}:\Sigma^* \rightarrow \{0,1\}$.
+(You can also think of regular expressions as _generative models_, since you can think of them as giving a recipe how to generate strings that match them.)
 This  "regular expression programming language" is simpler than general programming languages, in the sense that for every regular expression $e$, the function $\Phi_e$ is computable (and so in particular can be evaluated by an always-halting Turing machine).
 
 
 ::: {.theorem title="Regular expression always halt" #regularexphalt}
-For every regular expression $e$ over $\{0,1\}$, the function $\Phi_e:\{0,1\}^* \rightarrow \{0,1\}$ is computable.^[We state this theorem for regular expressions over the binary alphabet $\{0,1\}$, but it generalizes to any finite alphabet $\Sigma$.]
+For every regular expression $e$ over $\{0,1\}$, the function $\Phi_e:\{0,1\}^* \rightarrow \{0,1\}$ is computable.
 
 That is, there is a Turing machine $M$ such that for every $x\in \{0,1\}^*$, on input $x$, $M$ halts with the output $\Phi_e(x)$.
 :::
+
+
+We state [regularexphalt](){.ref} for regular expressions over the binary alphabet $\{0,1\}$, but it generalizes to any finite alphabet $\Sigma$.
 
 > ### {.proofidea data-ref="regularexphalt"}
 The proof relies on the observation that [matchingregexpdef](){.ref} actually specifies a recursive algorithm for _computing_ $\Phi_{e}$.
@@ -199,7 +206,8 @@ where $\wedge$ is the AND operator and for $i<j$, $x_j \cdots x_{i}$ refers to t
 
 __Case 3:__   $e = (e')*$ where $e'$ is a regular expression.
 
-In this case by the inductive hypothesis we can compute $\Phi_{e'}$ and so we can compute $\Phi_{e}(x)$ by enumerating over all $k$ from $1$ to $|x|$, and all ways to write $x$ as the concatenation of $k$ nonempty strings $x_0 \cdots x_{k-1}$ (we can do so by enumerating over all possible $k-1$ positions in which one string stops and the other begins). If for one of those partitions, $\Phi_{e'}(x_0)=\cdots = \Phi_{e'}(x_{k-1})=1$ then we output $1$. Otherwise we output $0$.^[We can restrict attention to partitions of $x$ as $x=x_0 \cdots x_{k-1}$ where all the $x_i$'s are nonempty since if some of the $x_i$'s are empty we can simply drop them and still be left with a valid partition.]
+In this case by the inductive hypothesis we can compute $\Phi_{e'}$ and so we can compute $\Phi_{e}(x)$ by enumerating over all $k$ from $1$ to $|x|$, and all ways to write $x$ as the concatenation of $k$ nonempty strings $x_0 \cdots x_{k-1}$ (we can do so by enumerating over all possible $k-1$ positions in which one string stops and the other begins). If for one of those partitions, $\Phi_{e'}(x_0)=\cdots = \Phi_{e'}(x_{k-1})=1$ then we output $1$. Otherwise we output $0$.
+We can restrict attention to partitions of $x$ as $x=x_0 \cdots x_{k-1}$ where all the $x_i$'s are nonempty since if some of the $x_i$'s are empty we can simply drop them and still be left with a valid partition.
 
 
 These three cases exhaust all the possibilities for an expression of length larger than one, and hence this completes the proof.
@@ -252,7 +260,8 @@ Given a regular expression $e$ and $\sigma\in \{0,1\}$, we can compute  $e[\sigm
 5. If $e = ""$ or $e= \emptyset$ then $e[\sigma] = \emptyset$.
 
 By checking all these cases, one can verify that it is indeed the case that for every regular expression $e$, $\sigma \in \{0,1\}$ and $x\in \{0,1\}^*$, $e[\sigma]$ matches $x$ if and only if  $e$ matches $x\sigma$.
-We let $C(\ell)$ denote the time to compute $e[\sigma]$ for regular expressions of length at most $\ell$.^[The value $C(\ell)$ can be shown to be polynomial in $\ell$, though this is not important for this theorem, since we only care about the dependence of the time to compute $\Phi_e(x)$ on the length of $x$ and not about the dependence of this time on the length of $e$.]
+We let $C(\ell)$ denote the time to compute $e[\sigma]$ for regular expressions of length at most $\ell$.
+The value $C(\ell)$ can be shown to be polynomial in $\ell$, though this is not important for this theorem, since we only care about the dependence of the time to compute $\Phi_e(x)$ on the length of $x$ and not about the dependence of this time on the length of $e$.
 
 Using this notion of restriction, we can define the following recursive algorithm for regular expression matching:
 
@@ -299,7 +308,10 @@ $$\begin{aligned}T(e,n) &= \max \{ T(e[0][0],n-2) + C(|e[0]|), \\ &T(e[0][1],n-2
 Continuing this way, we can see that $T(e,n) \leq n \cdot C(\ell) + O(1)$ where $\ell$ is the largest length of any expression $e'$ that we encounter along the way.
 Therefore, the following claim suffices to show that [regexpmatchlinearalg](){.ref} runs in linear time:
 
-__Claim:__ Let $e$ be a regular expression over $\{0,1\}$, then there is some constant $c$ such that for every string $\alpha\in \{0,1\}^*$, if we restrict $e$ to $\alpha_0$, and then to $\alpha_1$ and so on and so forth, the resulting expression has length at most $c$.^[This claim is strongly related to the [Myhill-Nerode Theorem](https://goo.gl/mnKVMP). One direction of this theorem can be thought of as saying that if $e$ is a regular expression then there is at most a finite number of strings $z_0,\ldots,z_{k-1}$ such that $\Phi_{e[z_i]} \neq \Phi_{e[z_j]}$ for every $0 \leq i\neq j < k$.]
+__Claim:__ Let $e$ be a regular expression over $\{0,1\}$, then there is some constant $c$ such that for every string $\alpha\in \{0,1\}^*$, if we restrict $e$ to $\alpha_0$, and then to $\alpha_1$ and so on and so forth, the resulting expression has length at most $c$.
+
+
+
 
 
 
@@ -596,7 +608,8 @@ This makes sense if you think about the intuition behind the pumping lemma: we n
 ![A cartoon of a proof using the pumping lemma that a function $F$ is not regular. The pumping lemma states that if $F$ is regular then _there exists_ a number $n_0$ such that _for every_ large enough $w$ with $F(w)=1$, _there exists_ a partition of $w$ to $w=xyz$ satisfying certain conditions such that _for every_ $k\in \N$, $F(xy^kz)=1$. You can imagine a pumping-lemma based proof as a game between you and the adversary. Every _there exists_ quantifier corresponds to an object you are free to choose on your own (and base your choice on previously chosen objects). Every _for every_ quantifier corresponds to an object the adversary can choose arbitrarily (and again based on prior choices) as long as it satisfies the conditions. A valid proof corresponds to a strategy by which no matter what the adversary does, you can win the game by obtaining a contradiction which would be a choice of $k$ that would result in $F(xy^ky)=0$, hence violating the conclusion of the pumping lemma.](../figure/pumpinglemmaproof.png){#pumpingprooffig  .full  }
 
 ::: {.solvedexercise title="Palindromes is not regular" #palindromenotreg}
-Prove that the following function over the alphabet $\{0,1,; \}$ is not regular: $PAL(w)=1$  if and only if $w = u;u^R$ where $u \in \{0,1\}^*$ and $u^R$ denotes $u$ "reversed": the string $u_{|u|-1}\cdots u_0$.^[The _Palindrome_ function is most often defined without an explicit separator character $;$, but the version with such a separator is a bit cleaner and so we use it here. This does not make much difference, as one can easily encode the separator as a special binary string instead.]
+Prove that the following function over the alphabet $\{0,1,; \}$ is not regular: $PAL(w)=1$  if and only if $w = u;u^R$ where $u \in \{0,1\}^*$ and $u^R$ denotes $u$ "reversed": the string $u_{|u|-1}\cdots u_0$.
+(The _Palindrome_ function is most often defined without an explicit separator character $;$, but the version with such a separator is a bit cleaner and so we use it here. This does not make much difference, as one can easily encode the separator as a special binary string instead.)
 :::
 
 ::: {.solution data-ref="stringreversed"}
@@ -660,7 +673,7 @@ The idea is to show that given a pair of regular expression $e$ and $e'$ we can 
 
 
 ::: {.proof data-ref="regequivalencethm"}
-We will prove  [regequivalenthm](){.ref} from [regemptynessthm](){.ref}.^[The two theorems are in fact equivalent: it is easy to prove [regemptynessthm](){.ref} from [regequivalencethm](){.ref}, since checking for emptiness is the same as checking equivalence with the expression $\emptyset$.]
+We will prove  [regequivalenthm](){.ref} from [regemptynessthm](){.ref}. (The two theorems are in fact equivalent: it is easy to prove [regemptynessthm](){.ref} from [regequivalencethm](){.ref}, since checking for emptiness is the same as checking equivalence with the expression $\emptyset$.)
 Given two regular expressions $e$ and $e'$, we will compute an expression $e''$ such that $\Phi_{e''}(x) =1$ if and only if $\Phi_e(x) \neq \Phi_{e'}(x)$.
 One can see that $e$ is equivalent to $e'$ if and only if $e''$ is empty.
 
@@ -708,7 +721,7 @@ More precisely, we can make the following definitions:
 
 * A _digit_ is one of the symbols $0,1,2,3,4,5,6,7,8,9$.
 
-* A _number_ is a sequence of digits.^[For simplicity we drop the condition that the sequence does not have a leading zero, though it is not hard to encode it in a context-free grammar as well.]
+* A _number_ is a sequence of digits. (For simplicity we drop the condition that the sequence does not have a leading zero, though it is not hard to encode it in a context-free grammar as well.)
 
 * An _operation_ is one of $+,-,\times,\div$
 
@@ -785,11 +798,6 @@ In contrast, by [regexpparn](){.ref}  there is no regular expression that matche
 
 
 
-::: {.remark title="Resources on CFG" #cfgresources}
-As in the case of regular expressions, there are many resources available that cover context-free grammar
-in great detail. Chapter 2 of [@SipserBook] contains many examples of context-free grammars and their properties.
-There are also websites such as [Grammophone ](https://mdaines.github.io/grammophone/) where you can input grammars, and see what strings they generate, as well as some of the properties that they satisfy.
-:::
 
 
 ### Context-free grammars as a computational model
@@ -811,7 +819,9 @@ A function  $F:\Sigma^* \rightarrow \{0,1\}$ is _context free_ if $F = \Phi_{V,R
 A priori it might not be clear that the map $\Phi_{V,R,s}$ is computable, but it turns out that this is the case.
 
 > ### {.theorem title="Context-free grammars always halt" #CFGhalt}
-For every CFG $(V,R,s)$ over $\{0,1\}$, the function $\Phi_{V,R,s}:\{0,1\}^* \rightarrow \{0,1\}$ is computable.^[As usual we restrict attention to grammars over $\{0,1\}$ although the proof extends to any finite alphabet  $\Sigma$.]
+For every CFG $(V,R,s)$ over $\{0,1\}$, the function $\Phi_{V,R,s}:\{0,1\}^* \rightarrow \{0,1\}$ is computable.
+
+As usual we restrict attention to grammars over $\{0,1\}$ although the proof extends to any finite alphabet  $\Sigma$.
 
 ::: {.proof data-ref="CFGhalt"}
 We only sketch the proof.
@@ -1022,7 +1032,8 @@ The particular details of configurations are not so important, but what you need
 
 We will let the alphabet $\Sigma = \{0,1\} \cup \{ \| , \# \}$.
 A _computation history_ of $M$ on the input $0$ is a string $L\in \Sigma$ that corresponds to a list $\| \sigma_0 \# \sigma_1 \| \sigma_2 \# \sigma_3 \cdots \sigma_{t-2} \| \sigma_{t-1} \#$ (i.e., $\|$ comes before an even numbered block, and $\|$ comes before an odd numbered one) such that if $i$ is even then $\sigma_i$ is the string encoding the configuration of $P$ on input $0$ at the beginning of its $i$-th iteration, and if $i$ is odd then it is the same except the string is _reversed_.
-(That is, for odd $i$,  $rev(\sigma_i)$  encodes the configuration of $P$ on input $0$ at the beginning of its $i$-th iteration.)^[Reversing the odd-numbered block is a technical trick to help with making the function $INVALID_M$ we'll define below context free.]
+(That is, for odd $i$,  $rev(\sigma_i)$  encodes the configuration of $P$ on input $0$ at the beginning of its $i$-th iteration.)
+Reversing the odd-numbered blocks is a technical trick to ensure that the  function $INVALID_M$ we define below is context free.
 
 We now define $INVALID_M:\Sigma^* \rightarrow \{0,1\}$ as follows:
 
@@ -1075,15 +1086,6 @@ _Context free grammars_, Computable, Computable, Uncomputable
 _Turing-complete models_, Uncomputable, Uncomputable, Uncomputable
 ```
 
-
-::: {.remark title="Unrestricted Grammars (optional)" #unrestrictedgrammars}
-The adjective "context free" is used for CFG's  because  a rule of the form $v \mapsto a$  means that we can _always_ replace $v$ with the string $a$, no matter what is the _context_ in which $v$ appears.
-More generally, we might want to consider cases where the replacement rules depend on the context.
-This gives rise to the notion of _general grammars_ that allow rules of the form $a \Rightarrow b$ where both $a$ and $b$ are strings over $(V \cup \Sigma)^*$.
-The idea is that if, for example, we wanted to enforce the condition that we only apply some rule such as $v \mapsto 0w1$  when $v$ is surrounded by three zeroes on both sides, then we could do so by adding a rule of the form $000v000 \mapsto 0000w1000$ (and of course we can add much more general conditions).
-Alas, this generality comes at a cost - general grammars are Turing complete and hence their halting problem is uncomputable.
-That is, there is no algorithm $A$ that can determine for every  general grammar $G$ and a string $x$, whether or not the grammar $G$ generates $x$.
-:::
 
 
 
@@ -1147,9 +1149,24 @@ The relation of regular expressions with finite automata is a beautiful topic, o
 It is covered more extensively in [@SipserBook, @hopcroft , @kozen1997automata].
 These texts also discuss topics such as _non deterministic finite automata_ (NFA) and the relation between context-free grammars and pushdown automata.
 
-The [Chomsky Hierarchy](https://en.wikipedia.org/wiki/Chomsky_hierarchy) is a hierarchy of grammars from the least restrictive (most powerful) Type 0 grammars, which correspond to _recursively enumerable_ languages (see [recursiveenumerableex](){.ref}) to the most restrictive Type 3 grammars, which correspond to regular languages.
-Context-free languages correspond to Type 2 grammars.
+Our proof of [reglintimethm](){.ref} is closely related to the [Myhill-Nerode Theorem](https://goo.gl/mnKVMP). One direction of the Myhill-Nerode theorem theorem can be stated as saying that if $e$ is a regular expression then there is at most a finite number of strings $z_0,\ldots,z_{k-1}$ such that $\Phi_{e[z_i]} \neq \Phi_{e[z_j]}$ for every $0 \leq i\neq j < k$.
 
+As in the case of regular expressions, there are many resources available that cover context-free grammar in great detail. 
+Chapter 2 of [@SipserBook] contains many examples of context-free grammars and their properties.
+There are also websites such as [Grammophone](https://mdaines.github.io/grammophone/) where you can input grammars, and see what strings they generate, as well as some of the properties that they satisfy.
+
+
+The adjective "context free" is used for CFG's  because  a rule of the form $v \mapsto a$  means that we can _always_ replace $v$ with the string $a$, no matter what is the _context_ in which $v$ appears.
+More generally, we might want to consider cases where the replacement rules depend on the context.
+This gives rise to the notion of _general (aka "Type 0") grammars_ that allow rules of the form $a \Rightarrow b$ where both $a$ and $b$ are strings over $(V \cup \Sigma)^*$.
+The idea is that if, for example, we wanted to enforce the condition that we only apply some rule such as $v \mapsto 0w1$  when $v$ is surrounded by three zeroes on both sides, then we could do so by adding a rule of the form $000v000 \mapsto 0000w1000$ (and of course we can add much more general conditions).
+Alas, this generality comes at a cost - general grammars are Turing complete and hence their halting problem is uncomputable.
+That is, there is no algorithm $A$ that can determine for every  general grammar $G$ and a string $x$, whether or not the grammar $G$ generates $x$.
+
+
+
+The [Chomsky Hierarchy](https://en.wikipedia.org/wiki/Chomsky_hierarchy) is a hierarchy of grammars from the least restrictive (most powerful) Type 0 grammars, which correspond to  _recursively enumerable_ languages (see [recursiveenumerableex](){.ref}) to the most restrictive Type 3 grammars, which correspond to regular languages.
+Context-free languages correspond to Type 2 grammars.
 Type 1 grammars are _context sensitive grammars_.
 These are more powerful than context-free grammars but still less powerful than Turing machines.
 In particular functions/languages corresponding to context-sensitive grammars are always computable, and in fact can be computed by a [linear bounded automatons](https://en.wikipedia.org/wiki/Linear_bounded_automaton) which are non-deterministic algorithms that take $O(n)$ space.

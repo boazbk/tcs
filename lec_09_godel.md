@@ -252,8 +252,11 @@ _or_
 [godelthmqis](){.ref} is a direct corollary of the following result, just as [godethmtakeone](){.ref} was a direct corollary of the uncomputability of $HALTONZERO$:
 
 > ### {.theorem title="Uncomputability of quantified integer statements" #QIS-thm}
-Let $QIS:\{0,1\}^* \rightarrow \{0,1\}$ be the function that given a (string representation of) a quantified integer statement outputs $1$ if it is true and $0$ if it is false.^[Since a quantified integer statement is simply a sequence of symbols, we can easily represent it as a string. We will assume that _every_ string represents some quantified integer statement, by mapping strings that do not correspond to such a statement to an arbitrary statement such as $\exists_{x\in \N} x=1$.] Then $QIS$ is uncomputable.
+Let $QIS:\{0,1\}^* \rightarrow \{0,1\}$ be the function that given a (string representation of) a quantified integer statement outputs $1$ if it is true and $0$ if it is false.
+Then $QIS$ is uncomputable.
 
+
+Since a quantified integer statement is simply a sequence of symbols, we can easily represent it as a string. For simplicity we will assume that _every_ string represents some quantified integer statement, by mapping strings that do not correspond to such a statement to an arbitrary statement such as $\exists_{x\in \N} x=1$. 
 
 ::: { .pause }
 Please stop here and make sure you understand why the uncomputability of $QIS$ (i.e., [QIS-thm](){.ref}) means that there is no sound and complete proof system for proving quantified integer statements (i.e., [godelthmqis](){.ref}).
@@ -293,10 +296,11 @@ In 1970, Yuri Matiyasevich, building on a decades long line of work by Martin Da
 ::: {.theorem title="MRDP Theorem" #MRDP-thm}
 Let  $DIO:\{0,1\}^* \rightarrow \{0,1\}$ be the function that takes as input a string describing a $100$-variable polynomial with integer coefficients $P(x_0,\ldots,x_{99})$  and outputs $1$ if and only if there exists  $z_0,\ldots,z_{99} \in \N$ s.t.  $P(z_0,\ldots,z_{99})=0$.
 
-Then $DIO$ is uncomputable.^[As usual, we assume some standard way to express numbers and text as binary strings. The constant $100$ is of course arbitrary; the problem is known to be uncomputable even for polynomials of degree four and at most 58 variables.
-In fact the number of variables can be reduced to nine, at the expense of the polynomial having a larger (but still constant) degree.  See [Jones's paper](https://www.jstor.org/stable/2273588) for more about this issue.]
+Then $DIO$ is uncomputable.
 :::
 
+As usual, we assume some standard way to express numbers and text as binary strings. The constant $100$ is of course arbitrary; the problem is known to be uncomputable even for polynomials of degree four and at most 58 variables.
+In fact the number of variables can be reduced to nine, at the expense of the polynomial having a larger (but still constant) degree.  See [Jones's paper](https://www.jstor.org/stable/2273588) for more about this issue.
 
 ::: {.remark title="Active code vs static data" #codevsstaticrem}
 The difficulty in finding a way to distinguish between "code" such as NAND-TM programs, and "static content" such as polynomials is just another manifestation of the phenomenon that _code_ is the same as _data_.
@@ -363,15 +367,15 @@ Since a program $P$ halts on input  $x$ if and only if there is a sequence of co
 
 ::: {.proof data-ref="QMS-thm"}
 The proof will be obtained by a reduction from the Halting problem.
-Specifically, we will use the notion of a _configuration_ of a NAND-TM program ([configtmdef](){.ref}) that we have seen in the context of proving that one dimensional cellular automata are Turing complete.
+Specifically, we will use the notion of a _configuration_ of a Turing Machines ([configtmdef](){.ref}) that we have seen in the context of proving that one dimensional cellular automata are Turing complete.
 We need the following facts about configurations:
 
-* For every (well formed^[We can always transform a NAND-TM program into an equivalent one that is well formed (see [wellformedlem](){.ref}), and hence can assume this property without loss of generality.]) NAND-TM program $P$, there is a finite alphabet $\Sigma$, and a _configuration_ of $P$ is a string $\alpha \in \Sigma^*$.
+* For every Turing Machine $P$, there is a finite alphabet $\Sigma$, and a _configuration_ of $P$ is a string $\alpha \in \Sigma^*$.
 
 
 * A configuration $\alpha$ encodes all the state of the program at a particular iteration, including the array, scalar, and index variables.
 
-* If $\alpha$ is a configuration, then $\beta = NEXT_P(\alpha)$  denotes the configuration of the computation after one more iteration. $\beta$ is a string over $\Sigma$ of length either $|\alpha|$ or $|\alpha|+1$, and every coordinate of $\beta$ is a function of just three coordinates in $\alpha$. That is, for every  $j\in \{0,\ldots,|\beta|-1\}$, $\beta_j = MAP_P(\alpha_{j-1},\alpha_j,\alpha_{j+1})$ where $MAP_P:\Sigma^3 \rightarrow \Sigma$ is some function depending on $P$.^[The alphabet $\Sigma$ contains a special "default" element, which we can denote by $\varnothing$, such that if $j-1<0$ or $j$ or  $j+1$ are at least $|\alpha|$, we use $\varnothing$ as input instead of $\alpha_{j-1}$ or $\alpha_{j+1}$ respectively. We extend the length of $\beta$ to be one longer than $\alpha$ if and only if $N_P(\alpha_{|\alpha|-1},\varnothing,\varnothing) \neq \varnothing$.]
+* If $\alpha$ is a configuration, then $\beta = NEXT_P(\alpha)$  denotes the configuration of the computation after one more iteration. $\beta$ is a string over $\Sigma$ of length either $|\alpha|$ or $|\alpha|+1$, and every coordinate of $\beta$ is a function of just three coordinates in $\alpha$. That is, for every  $j\in \{0,\ldots,|\beta|-1\}$, $\beta_j = MAP_P(\alpha_{j-1},\alpha_j,\alpha_{j+1})$ where $MAP_P:\Sigma^3 \rightarrow \Sigma$ is some function depending on $P$.
 
 * There are simple conditions to check whether a string $\alpha$ is a valid starting configuration corresponding to an input $x$, as well as to check whether a string $\alpha$ is an halting configuration. In particular these conditions can be phrased as quantified mixed statements.
 

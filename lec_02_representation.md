@@ -39,7 +39,7 @@ chapternum: "2"
 
 To a first approximation,   _computation_  is a process that maps an _input_ to an _output_.
 
-![Our basic notion of _computation_ is some process that maps an input to an output](../figure/input_output.png){#figureid .margin  }
+![Our basic notion of _computation_ is some process that maps an input to an output](../figure/input_output.png){#computationinputtooutputfig .margin  }
 
 When discussing computation, it is essential to separate the question of __what__ is the task we need to perform (i.e., the _specification_) from the question of __how__ we achieve this task (i.e., the _implementation_).
 For example, as we've seen, there is more than one way to achieve the computational task of computing the product of two integers.
@@ -50,7 +50,7 @@ Capturing all the potential inputs and outputs that we might ever want to comput
 We do not compute merely on numbers, but also on texts, images, videos, connection graphs of social networks, MRI scans, gene data, and even other programs.
 We will represent all these objects as __strings of zeroes and ones__, that is objects such as $0011101$ or $1011$ or any other finite list of $1$'s and $0$'s. (This choice is for convenience: there  is nothing "holy" about zeroes and ones, and we could have used any other finite collection of symbols.)
 
-![We represent numbers, texts, images, networks and many other objects using strings of zeroes and ones. Writing the zeroes and ones themselves in green font over a black background is optional.](../figure/zeroes-ones.jpg){#figureid .margin  }
+![We represent numbers, texts, images, networks and many other objects using strings of zeroes and ones. Writing the zeroes and ones themselves in green font over a black background is optional.](../figure/zeroes-ones.jpg){#zerosandonesgreenfig .margin  }
 
 Today, we are so used to the notion of digital representation that we are not surprised by the existence of such an encoding.
 But it is actually a deep insight with significant implications.
@@ -580,7 +580,7 @@ Therefore, I highly recommend that you pause here to make sure you understand th
 
 
 
-![If we have a prefix-free representation of each object then we can concatenate the representations of $k$ objects to obtain a representation for the tuple $(o_0,\ldots,o_{k-1})$.](../figure/repres_list.png){#figureid .margin  }
+![If we have a prefix-free representation of each object then we can concatenate the representations of $k$ objects to obtain a representation for the tuple $(o_0,\ldots,o_{k-1})$.](../figure/repres_list.png){#prefixfreerepconcat .margin  }
 
 > ### {.proofidea data-ref="prefixfreethm"}
 The idea behind the proof is simple.

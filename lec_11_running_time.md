@@ -21,10 +21,13 @@ chapternum: "12"
 
 
 In [chapefficient](){.ref} we saw examples of efficient algorithms, and made some claims about their running time, but did not give a mathematically precise definition for this concept.
-We do so in this chapter, using the NAND-TM and NAND-RAM models we have seen before.^[NAND-TM programs are a variant of Turing machines, while NAND-RAM programs are a way to model RAM machines, and hence all of the discussion in this chapter applies to those and many other models as well.]
+We do so in this chapter, using the Turing machines and RAM machines (or equivalently NAND-TM and NAND-RAM) models we have seen before.
 Since we think of programs that can take as input a string of arbitrary length, their running time is not a fixed number but rather what we are interested in is measuring the _dependence_ of the number of steps the program takes on the length of the input.
-That is, for any program $P$, we will be interested in the maximum number of steps that $P$ takes on inputs of length $n$ (which we often denote as $T(n)$).^[Because we are interested in the _maximum_ number of steps for inputs of a given length, this concept is often known as _worst case complexity_. The _minimum_ number of steps (or "best case" complexity) to compute a function on length $n$ inputs is typically not a meaningful quantity since essentially every natural problem will have some trivially easy instances. However, the _average case complexity_ (i.e., complexity on a "typical" or "random" input) is an interesting concept which we'll return to when we discuss _cryptography_. That said, worst-case complexity is the most standard and basic of the complexity measures, and will be our focus in most of this course.]
+That is, for any program $P$, we will be interested in the maximum number of steps that $P$ takes on inputs of length $n$ (which we often denote as $T(n)$).
 For example, if a function $F$ can be computed by a NAND-RAM (or NAND-TM program/Turing machine) program that on inputs of length $n$ takes $O(n)$ steps then we will think of $F$ as "efficiently computable",  while if any such program requires $2^{\Omega(n)}$ steps to compute $F$ then we consider $F$ "intractable".
+
+
+_Other measures of complexity._ Because we are interested in the _maximum_ number of steps for inputs of a given length, this concept is often known as _worst case complexity_. The _minimum_ number of steps (or "best case" complexity) to compute a function on length $n$ inputs is typically not a meaningful quantity since essentially every natural problem will have some trivially easy instances. However, the _average case complexity_ (i.e., complexity on a "typical" or "random" input) is an interesting concept which we'll return to when we discuss _cryptography_. That said, worst-case complexity is the most standard and basic of the complexity measures, and will be our focus in most of this book.
 
 ## Formally defining running time
 
@@ -35,7 +38,9 @@ Roughly speaking, we will say that a function $F$ is computable in time $T(n)$ t
 ::: {.definition title="Running time" #time-def}
 Let $T:\N \rightarrow \N$ be some function mapping natural numbers to natural numbers.
 We say that a function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _computable in $T(n)$ NAND-RAM time_
-if there exists a NAND-RAM program $P$ such that for every every sufficiently large $n$ and every $x\in \{0,1\}^n$, when given input $x$, the program $P$ halts after executing at most $T(n)$ lines and outputs $F(x)$.^[The relaxation of considering only "sufficiently large" $n$'s is not very important but it is convenient since it allows us to avoid dealing explicitly with un-interesting "edge cases". In most cases we will anyway be interested in determining running time only up to constant and even polynomial factors. Note that we can always compute a function on a finite number of inputs using a lookup table.]
+if there exists a NAND-RAM program $P$ such that for every every sufficiently large $n$ and every $x\in \{0,1\}^n$, when given input $x$, the program $P$ halts after executing at most $T(n)$ lines and outputs $F(x)$.
+
+
 
 Similarly, we say that $F$ is _computable in $T(n)$ NAND-TM time_ if there is a NAND-TM program $P$ computing $F$ such that on every sufficiently large $n$ and $x\in \{0,1\}^n$, on input $x$, $P$ executes at most  $T(n)$ lines before it halts with the output $F(x)$.
 
@@ -49,6 +54,9 @@ The set $TIME(T(n))$ (without any subscript) corresponds to $TIME_{<<}(T(n))$.
 In the definition of time complexity, we count the number of times a line is _executed_, not the number of lines in the program. For example, if a NAND-TM program $P$ has 20 lines, and on some input $x$  it takes a 1,000 iterations of its loop before it halts, then the number of lines executed on this input is 20,000.
 
 To make this count meaningful, we use the "vanilla" flavors of NAND-TM and NAND-RAM, "unpacking" any syntactic sugar. For example, if a NAND-TM program $P$ contains a line with the syntactic sugar  `foo = MACRO(bar)` where `MACRO` is some macro/function that is defined elsewhere using 100 lines of vanilla NAND-TM, then executing this line counts as executing 100 steps rather than a single one.
+
+
+The relaxation of considering only "sufficiently large" $n$'s is not very important but it is convenient since it allows us to avoid dealing explicitly with un-interesting "edge cases". In most cases we will anyway be interested in determining running time only up to constant and even polynomial factors. Note that we can always compute a function on a finite number of inputs using a lookup table.
 :::
 
 Unlike the notion of computability, the exact running time can be a function of the model we use. However, it turns out that if we only care about "coarse enough" resolution (as will most often be the case) then the choice of the model,  whether it is NAND-RAM, NAND-TM, or Turing or RAM machines of various flavors,  does not matter. (This is known as the _extended_ Church-Turing Thesis). Nevertheless, to be concrete, we will use NAND-RAM programs as our "default" computational model for measuring time, which is why we say that $F$ is computable in $T(n)$ time without any qualifications, or write $TIME(T(n))$ without any subscript, we mean that this holds with respect to NAND-RAM machines.
