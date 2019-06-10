@@ -260,7 +260,7 @@ However, it is believed that there exist problems in $\mathbf{NP}$ that are neit
 
 
 
-![A rough illustration of the (conjectured) status of problems in exponential time. Darker colors correspond to higher running time, and the circle in the middle is the problems in $\mathbf{P}$. $\mathbf{NP}$ is a (conjectured to be proper) superclass of $\mathbf{P}$ and the $\mathbf{NP}$-complete problems (or $\mathbf{NPC}$ for short) are the "hardest" problems in $\mathbf{NP}$, in the sense that a solution for one of them implies a solution for all other problems in $\mathbf{NP}$. It is conjectured that all the $\mathbf{NP}$-complete problems require at least $\exp(n^\epsilon)$ time to solve for a constant $\epsilon>0$, and many require  $\exp(\Omega(n))$ time. The _permanent_ is not believed to be contained in $\mathbf{NP}$ though it is $\mathbf{NP}$-hard, which means that a polynomial-time algorithm for it implies that $\mathbf{P}=\mathbf{NP}$.](../figure/PNPmap.png){#figureid .margin  }
+![A rough illustration of the (conjectured) status of problems in exponential time. Darker colors correspond to higher running time, and the circle in the middle is the problems in $\mathbf{P}$. $\mathbf{NP}$ is a (conjectured to be proper) superclass of $\mathbf{P}$ and the $\mathbf{NP}$-complete problems (or $\mathbf{NPC}$ for short) are the "hardest" problems in $\mathbf{NP}$, in the sense that a solution for one of them implies a solution for all other problems in $\mathbf{NP}$. It is conjectured that all the $\mathbf{NP}$-complete problems require at least $\exp(n^\epsilon)$ time to solve for a constant $\epsilon>0$, and many require  $\exp(\Omega(n))$ time. The _permanent_ is not believed to be contained in $\mathbf{NP}$ though it is $\mathbf{NP}$-hard, which means that a polynomial-time algorithm for it implies that $\mathbf{P}=\mathbf{NP}$.](../figure/PNPmap.png){#complexitymapfig .margin  }
 
 
 ^[TODO: maybe add examples of NP hard problems as a barrier to understanding - problems from economics, physics, etc.. that prevent having a closed-form solutions]
@@ -485,9 +485,6 @@ Finding a polynomial-time algorithm for any one of them will imply a polynomial-
 
 ## Exercises
 
-::: {.remark title="Disclaimer" #disclaimerrem}
-Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
-:::
 
 > ### {.exercise title="Poor man's Ladner's Theorem" #ladner-ex}
 Prove that if there is no $n^{O(\log^2 n)}$ time algorithm for $3SAT$ then there is some $F\in \mathbf{NP}$ such that $F \not\in \mathbf{P}$ and $F$ is not $\mathbf{NP}$ complete.^[__Hint:__ Use the function $F$ that on input a formula $\varphi$ and a string of the form $1^t$, outputs $1$ if and only if $\varphi$ is satisfiable and $t=|\varphi|^{\log|\varphi|}$.]

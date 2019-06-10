@@ -112,11 +112,21 @@ We ask some questions that were already pondered by the Babylonians, such as "wh
 
 
 
-::: {.remark title="Value vs. length of a number." #lengthofinput}
-It is important to distinguish between the _value_ of a number, and the _length of its representation_ (i.e.,  the number of digits it has).
-There is a big difference between the two: having 1,000,000,000 dollars is not the same as having 10 dollars!
-When talking about running time of algorithms, "less is more", and so an algorithm that runs in time proportional to the _number of digits_ of an input number (or even the number of digit squared) is much preferred to an algorithm that runs in time proportional to the _value_ of the input number.
+::: {.remark title="Specification, implementation and analysis of algorithms." #implspecanarem}
+A full description of an algorithm has three components:
+
+* __Specification__: __What__ is the task that the algorithm performs (e.g., multiplication in the case of [naivemultalg](){.ref} and [gradeschoolalg](){.ref}.)
+
+* __Implementation__: __How__ is the task accomplished: what is the sequence of instructions to be performed. Even though [naivemultalg](){.ref} and [gradeschoolalg](){.ref} perform the same computational task (i.e., they have the same _specification_), they do it in different ways (i.e., they have different _implementations_).
+
+* __Analysis:__ __Why__ does this sequence of instructions achieves the desired task. A full description of [naivemultalg](){.ref} and [gradeschoolalg](){.ref} will include a _proof_ for each one of these algorithms that on input $x,y$, the algorithm does indeed output $x\cdot y$.
+
+Often as part of the analysis we show that the algorithm is not only __correct__ but also __efficient__. That is, we want to show that not only will the algorithm compute the desired task, but will do so in prescribed number of operations. For example [gradeschoolalg](){.ref} computes the multiplication function on inputs of $n$ digits using $O(n^2)$ operations, while [karatsubaalg](){.ref} (described below) computes the same function using $O(n^{1.6})$ operations.
 :::
+
+
+
+
 
 ## Extended Example: A faster way to multiply (optional) {#karatsubasec }
 
@@ -456,7 +466,9 @@ Aaronson's book [@Aaronson13democritus] is another great read that touches upon 
 For more on the algorithms the Babylonians used, see [Knuth's paper](http://steiner.math.nthu.edu.tw/disk5/js/computer/1.pdf) and Neugebauer's [classic book](https://www.amazon.com/Exact-Sciences-Antiquity-Neugebauer/dp/0486223329).
 
 
-Many of the algorithms we mention in this chapter are covered in algorithms textbooks such as those by Cormen, Leiserson, Rivert, and Stein [@CLRS], Kleinberg and Tardos [@KleinbergTardos06],  and Dasgupta, Papadimitriou and Vazirani [@DasguptaPV08].
+Many of the algorithms we mention in this chapter are covered in algorithms textbooks such as those by Cormen, Leiserson, Rivert, and Stein [@CLRS], Kleinberg and Tardos [@KleinbergTardos06],  and Dasgupta, Papadimitriou and Vazirani [@DasguptaPV08], as well as  [Jeff Erickson's textbook](http://jeffe.cs.illinois.edu/teaching/algorithms/).
+Erickson's book is freely available online and contains a great exposition of recursive algorithms in general and Karatsuba's algorithm in particular.
+
 
 
 The story of Karatsuba's discovery of his multiplication algorithm is recounted by him in [@Karatsuba95]. As mentioned above, further improvements were made by Toom and Cook [@Toom63, @Cook66],  Schönhage and Strassen [@SchonhageStrassen71], Fürer [@Furer07], and recently by Harvey and Van Der Hoeven [@HarveyvdHoeven2019], see [this article](https://www.quantamagazine.org/mathematicians-discover-the-perfect-way-to-multiply-20190411/) for a nice overview.

@@ -69,7 +69,7 @@ See [codedataoverviewfig](){.ref} for an overview of the results of  this chapte
 ## Representing programs as strings {#representprogramsec }
 
 
-![In the Harvard Mark I computer, a program was represented as a list of triples of numbers, which were then encoded by perforating holes in a control card.](../figure/tapemarkI.png){#figureid .margin  }
+![In the Harvard Mark I computer, a program was represented as a list of triples of numbers, which were then encoded by perforating holes in a control card.](../figure/tapemarkI.png){#markonerep .margin  }
 
 We can represents programs or circuits as strings in a myriad of ways.
 For example, we can represent the code of a program using the ASCII or UNICODE representations.

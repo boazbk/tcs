@@ -1,6 +1,28 @@
 """
 Pandoc filter using panflute
 Some tools for the intro to theoretical cs book
+Boaz Barak
+At the moment this is in pretty rough shape, and cannot be used as is for any other project, 
+but I am posting it in case anyone else finds it useful.
+
+Some of the main extensions it handles:
+
+1. Add cross-references to HTML using the LaTeX aux file so the two versions are consistent.
+2. Handle some custom environments that are written in markdown in the form
+
+::: {.class }
+
+:::
+
+3. Handle pseudocode blocks.
+
+4. Some extensions to tables and figures.
+
+5. Some extensions and transformations to math equations, and in particular handling equation references in HTML,
+as well as automatic prettifying of identifiers with more than one letter.
+
+The general philosophy is to try to do everything in this filter so that the markdown source 
+contains no latex code outside of math nor any html code.
 """
 
 import panflute as pf
@@ -20,6 +42,7 @@ from matplotlib.cbook import dedent
 
 
 class MyTable(pf.Table):
+    """Some attempt to handle tabular, not successful so far"""
     __slots__ = ["identifier"]
 
     def __init__(self, *args, **_3to2kwargs):
@@ -30,6 +53,7 @@ class MyTable(pf.Table):
 
 
 def pdflink(doc):
+    """Link to the PDF version of the document"""
     pdfbase = doc.get_metadata("binarybaseurl", "")
     file = pdfbase + "/" + doc.get_metadata("filename", "nofile") + ".pdf"
     HTML = (
@@ -42,20 +66,24 @@ def pdflink(doc):
 
 
 def writetoc(doc, TOC):
+    """Write to the table of content"""
     logstring("\nWriting TOC:\n" + TOC, doc)
     doc.metadata["toc"] = pf.MetaBlocks(pf.RawBlock(TOC, format="html"))
 
 
 def logstring(s, doc):
+    """Log a string to the log file"""
     doc.logfile.write(s + "\n")
 
 
 def log(d, e, doc):
+    """Log an element to the log file"""
     s = "  " * d + str(e)
     doc.logfile.write(s + "\n")
 
 
 def prepare(doc):
+    """Initial function called at the beginning of the filter"""
     file = doc.get_metadata("filename", "")
     doc.sourcedir = doc.get_metadata("sourcedir", "content/")
     bibfile = doc.get_metadata("bibfile", "")
@@ -114,6 +142,7 @@ def prepare(doc):
         "latexsectionheaders", {"solvedex": "Solved Exercise", "bigidea": "Big Idea"}
     )
 
+    # These do all the work
     doc.handlers = [
         h_paragraph,
         h_csvtable,
@@ -138,6 +167,7 @@ def prepare(doc):
 
 
 def finalize(doc):
+    """Function called at the end of the filter"""
     doc.metadata["compiletime"] = pf.MetaString(time.strftime("%m/%d/%Y %H:%M:%S"))
     if doc.format == "html":
         dumpyaml(doc.toc, "toc.yaml")
@@ -188,7 +218,8 @@ def updateindex(filename, page, title, text, doc):
 def getlabel(label, doc):
     """
     Return name (e.g., `Theorem 12.1`) and link (e.g. 'blah.html#mainthm') for a given label.
-    use the labels dictionary that is initialized from a yaml file that can be written using auxtoyaml.py
+    use the labels dictionary that is initialized from a yaml file 
+    that is updated from the LateX aux file by the script auxtoyaml.py
     """
     name, number, file = get_full_label(label, doc)
     return f"{name} {number}", f"{file}#{label}"
@@ -897,7 +928,7 @@ def h_latex_div(e, doc):
 def findparen(s, beg=0, op="(", cl=")"):
     beg = s.find(op, beg)
     if beg == -1:
-        return beg
+        return beg, -1
     end = beg + 1
     level = 1
     while level and end < len(s):
@@ -940,7 +971,6 @@ def format_pseudocode(code):
         "END\\\\FOR",
         "INPUT",
         "OUTPUT",
-        "STATE",
         "ELSE",
         "ELSIF",
         "FUNCTION",
@@ -954,11 +984,12 @@ def format_pseudocode(code):
 
     for k in keywords:
         k_ = k.replace("\\", "")
-        code = re.sub(fr"(?i)(?<![\w\\]){k}", fr"\\{k_}", code)
+        code = re.sub(fr"(?i)(?<![\w\\\-]){k}(?!\w)", fr"\\{k_}", code)
+        code = re.sub(fr"(?i)(?<![\w\\])\-({k})(?!\w)", r"\g<1>", code)
 
     code = expand_commands(code)
 
-    code = code.replace("\\INPUT:", "\\INPUT").replace("\\OUTPUT:", "\\OUTPUT")
+    code = code.replace("\\INPUT:", "\\INPUT ").replace("\\OUTPUT:", "\\OUTPUT ")
 
     lines = code.split("\n")
     res = ""
@@ -968,20 +999,25 @@ def format_pseudocode(code):
             continue
 
         for f in functions:
-            i = l.find(f)
+            i = l.find(f+"(")
             if i > -1:
                 beg, end = findparen(l, i + 1)
                 if beg > -1:
                     # calling functions should always happen in math mode
                     suffix = l[end + 1 :].lstrip() if l[end + 1 :] else "$"
                     suffix = suffix[1:] if suffix[0] == "$" else " $" + suffix
+                    prefix =  l[:i].rstrip()
+                    if prefix and prefix[-1]=="$":
+                        prefix = prefix[:-1]
+                    else:
+                        prefix += "$ "
                     l = (
-                        l[:i].rstrip()
-                        + "$ \\CALL{"
+                        prefix
+                        + "\\CALL{"
                         + f
                         + "}{$"
                         + l[beg + 1 : end]
-                        + "$}"
+                        + "$} "
                         + suffix
                     )
         m = re.search(r"\S+", l)
@@ -989,7 +1025,7 @@ def format_pseudocode(code):
             i = m.start()
             if l[i] != "\\":
                 l = l[:i] + "\\STATE " + l[i:]
-        l = re.sub(r"`([^`]+)`", r"\\texttt{\g<1>}", l)
+        l = re.sub(r"`([^`]+)`", lambda m: fr"\texttt{{{latexescape(m.group(1))}}}", l)
         i = l.find("#")
         if i > 0:
             l = l[:i] + "\\COMMENT{" + l[i + 1 :] + "}"

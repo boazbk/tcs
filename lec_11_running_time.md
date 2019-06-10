@@ -21,69 +21,50 @@ chapternum: "12"
 
 
 In [chapefficient](){.ref} we saw examples of efficient algorithms, and made some claims about their running time, but did not give a mathematically precise definition for this concept.
-We do so in this chapter, using the Turing machines and RAM machines (or equivalently NAND-TM and NAND-RAM) models we have seen before.
-Since we think of programs that can take as input a string of arbitrary length, their running time is not a fixed number but rather what we are interested in is measuring the _dependence_ of the number of steps the program takes on the length of the input.
-That is, for any program $P$, we will be interested in the maximum number of steps that $P$ takes on inputs of length $n$ (which we often denote as $T(n)$).
-For example, if a function $F$ can be computed by a NAND-RAM (or NAND-TM program/Turing machine) program that on inputs of length $n$ takes $O(n)$ steps then we will think of $F$ as "efficiently computable",  while if any such program requires $2^{\Omega(n)}$ steps to compute $F$ then we consider $F$ "intractable".
+We do so in this chapter, using the models of Turing machines and RAM machines (or equivalently NAND-TM and NAND-RAM) we have seen before.
+The running time of an algorithm is not a fixed number since any non-trivial algorithm will take longer to run on longer inputs. 
+Thus, what we want to measure is the _dependence_ between the number of steps the algorithms takes and the length of the input.
+In particular we care about the distinction between algorithms that take at most _polynomial time_ (i.e., $O(n^c)$ time for some constant $c$) and problems for which every algorithm requires at least _exponential time_ (i.e., $\Omega(2^{n^c})$ for some $c$).
+As mentioned in Edmond's quote above, the difference between these two can sometimes be as important as the difference between being computable and uncomputable.
+
 
 
 _Other measures of complexity._ Because we are interested in the _maximum_ number of steps for inputs of a given length, this concept is often known as _worst case complexity_. The _minimum_ number of steps (or "best case" complexity) to compute a function on length $n$ inputs is typically not a meaningful quantity since essentially every natural problem will have some trivially easy instances. However, the _average case complexity_ (i.e., complexity on a "typical" or "random" input) is an interesting concept which we'll return to when we discuss _cryptography_. That said, worst-case complexity is the most standard and basic of the complexity measures, and will be our focus in most of this book.
 
 ## Formally defining running time
 
-We start by defining running time separately for both NAND-RAM and NAND-TM programs.
-We will later see that the two measures are closely related.
-Roughly speaking, we will say that a function $F$ is computable in time $T(n)$ there exists a NAND-RAM program that when given an input $x$,  halts and outputs  $F(x)$ within at most $T(|x|)$ steps. The formal definition is as follow:
+Our models of computation such Turing Machines, NAND-TM and NAND-RAM programs and others all operate by executing a sequence of instructions on an input one step at a time.
+The running time is defined by measuring the number of steps as a function of the length of the input.
+We start by defining running time with respect to Turing Machines:
 
-::: {.definition title="Running time" #time-def}
+::: {.definition title="Running time (Turing Machines)" #time-TM-def}
 Let $T:\N \rightarrow \N$ be some function mapping natural numbers to natural numbers.
-We say that a function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _computable in $T(n)$ NAND-RAM time_
-if there exists a NAND-RAM program $P$ such that for every every sufficiently large $n$ and every $x\in \{0,1\}^n$, when given input $x$, the program $P$ halts after executing at most $T(n)$ lines and outputs $F(x)$.
+We say that a function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ is _computable in $T(n)$ Single-Tape-Turing-Machine time (TM-time for short)_ 
+if there exists a Turing Machine $M$ such that for every sufficiently large $n$ and every $x\in \{0,1\}^n$, when given input $x$, the machine $M$ halts after executing at most $T(n)$ steps and outputs $F(x)$.
 
-
-
-Similarly, we say that $F$ is _computable in $T(n)$ NAND-TM time_ if there is a NAND-TM program $P$ computing $F$ such that on every sufficiently large $n$ and $x\in \{0,1\}^n$, on input $x$, $P$ executes at most  $T(n)$ lines before it halts with the output $F(x)$.
-
-We let  $TIME_{<<}(T(n))$ denote the set of Boolean functions that are computable in $T(n)$ NAND-RAM time, and define  $TIME_{++}(T(n))$ analogously.
-The set $TIME(T(n))$ (without any subscript) corresponds to $TIME_{<<}(T(n))$.
+We define  $TIME_{\mathsf{TM}}(T(n))$ to be the set of Boolean functions (functions mapping $\{0,1\}^*$ to $\{0,1\}$) that are computable in $T(n)$ TM time.
 :::
 
 ::: { .pause }
-[time-def](){.ref}  is not very complicated but is one of the most important definitions of this book. Please make sure to stop, re-read it, and make sure you understand it. Note that although they are defined using computational models, $TIME_{<<}(T(n))$ and $TIME_{++}(T(n))$ are classes of _functions_, not of _programs_. If $P$ is a NAND-TM program then a statement such as "$P$ is a member of $TIME_{++}(n^2)$" does not make sense.
-
-In the definition of time complexity, we count the number of times a line is _executed_, not the number of lines in the program. For example, if a NAND-TM program $P$ has 20 lines, and on some input $x$  it takes a 1,000 iterations of its loop before it halts, then the number of lines executed on this input is 20,000.
-
-To make this count meaningful, we use the "vanilla" flavors of NAND-TM and NAND-RAM, "unpacking" any syntactic sugar. For example, if a NAND-TM program $P$ contains a line with the syntactic sugar  `foo = MACRO(bar)` where `MACRO` is some macro/function that is defined elsewhere using 100 lines of vanilla NAND-TM, then executing this line counts as executing 100 steps rather than a single one.
-
+[time-def](){.ref}  is not very complicated but is one of the most important definitions of this book. As usual,   $TIME_{\mathsf{TM}}(T(n))$ is  a class of _functions_, not of _machines_. If $M$ is a Turing Machine then a statement such as "$M$ is a member of $TIME_{\mathsf{TM}}(n^2)$" does not make sense.
+:::
 
 The relaxation of considering only "sufficiently large" $n$'s is not very important but it is convenient since it allows us to avoid dealing explicitly with un-interesting "edge cases". In most cases we will anyway be interested in determining running time only up to constant and even polynomial factors. Note that we can always compute a function on a finite number of inputs using a lookup table.
-:::
 
-Unlike the notion of computability, the exact running time can be a function of the model we use. However, it turns out that if we only care about "coarse enough" resolution (as will most often be the case) then the choice of the model,  whether it is NAND-RAM, NAND-TM, or Turing or RAM machines of various flavors,  does not matter. (This is known as the _extended_ Church-Turing Thesis). Nevertheless, to be concrete, we will use NAND-RAM programs as our "default" computational model for measuring time, which is why we say that $F$ is computable in $T(n)$ time without any qualifications, or write $TIME(T(n))$ without any subscript, we mean that this holds with respect to NAND-RAM machines.
+While the notion of being computable within a certain running time is defined for every function, the class $TIME_{\mathsf{TM}}(T(n))$ is a class of _Boolean functions_ that have a single bit of output.
+This choice is not very important, but is made for simplicity and convenience later on.
+In fact, every non-Boolean function has a computationally equivalent Boolean variant, see [boolex](){.ref}.
 
-::: {.remark title="Why NAND-RAM?" #whyNANDshiftrem}
-Given that so far we have emphasized NAND-TM as our "main" model of computation, the reader might wonder why we use NAND-RAM as the default yardstick where running time is involved. As we will see, this choice does not make much difference, but NAND-RAM or _RAM Machines_ correspond more closely to the notion of running time as discussed in algorithms text or the practice of computer science.
-:::
 
-### Nice time bounds
 
-The class $TIME(T(n))$ is defined in [time-def](){.ref} with respect to a _time_ measure function $T(n)$.   When considering time bounds, we will want to restrict our attention to "nice" bounds such as $O(n)$, $O(n\log n)$, $O(n^2)$, $O(2^{\sqrt{n}})$, $O(2^n)$, and so on.
-We do so to avoid pathological examples such as non-monotone functions (where the time to compute a function on inputs of size $n$ could be smaller than the time to compute it on shorter inputs)  or other degenerate cases such as running time that is not sufficient to read the input or cases where the running time bound itself is hard to compute.
-Thus we make the following definition:
 
-::: {.definition title="Nice functions" #nice-def}
-A function $T:\N \rightarrow \N$ is a _nice time bound function_ (or nice function for short) if: \
 
-1. $T(n) \geq n$ \
-2. $T(n) \geq T(n')$ whenever $n \geq n'$ \
-3. There is a NAND-RAM program that on input numbers $n,i$, given in binary, can compute in $O(T(n))$ steps the $i$-th bit of a prefix-free representation of $T(n)$ (represented as a string in some prefix-free way).
-:::
 
-All the "normal" time complexity bounds we encounter in applications such as $T(n)= 100 n$, $T(n) =  n^2 \log n$,$T(n) = 2^{\sqrt{n}}$, etc.  are "nice".
-Hence from now on we will only care about the class $TIME(T(n))$   when $T$ is a "nice" function.
-Condition 3. of [nice-def](){.ref} means that we can compute the binary representation of $T(n)$ in time which itself is roughly $T(n)$. This condition is typically easily satisfied.
-For example, for arithmetic functions such as $T(n) = n^3$ or $T(n)= \floor n^{1.2}\log n \rfloor$ we can typically compute the binary representation of $T(n)$ much faster than that: we can do so in time which is polynomial in the _number of bits_ in this representation.
-Since the number of bits is $O(\log T(n))$, any quantity that is polynomial in this number will be much smaller than $T(n)$ for large enough $n$.
+### Polynomial and Exponential Time
+
+Unlike the notion of computability, the exact running time can be a function of the model we use. However, it turns out that if we only care about "coarse enough" resolution (as will most often be the case) then the choice of the model, whether  Turing Machines, RAM machines, NAND-TM/NAND-RAM programs, or C/Python programs, does not matter. 
+This is known as the _extended_ Church-Turing Thesis.
+Specifically we will mostly care about the difference between _polynomial_ and _exponential_ time.
 
 
 The two main time complexity classes we will be interested in are the following:
@@ -95,17 +76,19 @@ The two main time complexity classes we will be interested in are the following:
 In other words, these are defined as follows:
 
 ::: {.definition title="$\mathbf{P}$ and $\mathbf{EXP}$" #PandEXPdef}
-Let $F:\{0,1\}^* \rightarrow \{0,1\}$. We say that $F\in \mathbf{P}$ if there is a polynomial $p:\N \rightarrow \R$ and a NAND-RAM program $P$ such that for every $x\in \{0,1\}^*$, $P(x)$ runs in at most $p(|x|)$ steps and outputs $F(x)$.
+Let $F:\{0,1\}^* \rightarrow \{0,1\}$. We say that $F\in \mathbf{P}$ if there is a polynomial $p:\N \rightarrow \R$ and a Turing Machine $M$ such that for every $x\in \{0,1\}^*$, $M(x)$ runs in at most $p(|x|)$ steps and outputs $F(x)$.
 
-We say that $F\in \mathbf{EXP}$ if there is a polynomial $p:\N \rightarrow \R$ and a NAND-RAM program $P$ such that for every $x\in \{0,1\}^*$, $P(x)$ runs in at most $2^{p(|x|)}$ steps and outputs $F(x)$.
+We say that $F\in \mathbf{EXP}$ if there is a polynomial $p:\N \rightarrow \R$ and a Turing Machine $M$ such that for every $x\in \{0,1\}^*$, $M(x)$ runs in at most $2^{p(|x|)}$ steps and outputs $F(x)$.
 :::
 
-> ### { .pause }
+::: { .pause }
 Please make sure you understand why  [PandEXPdef](){.ref} and the bullets above define the same classes.
 
+Sometimes students think of the class $\mathbf{EXP}$ as corresponding to functions that are _not_ in $\mathbf{P}$. However, this is not the case. If $F$ is in $\mathbf{EXP}$ then it _can_ be computed in exponential time. This does not mean that it cannot be computed in polynomial time as well.
+:::
 
 Since exponential time is much larger than polynomial time,  $\mathbf{P}\subseteq \mathbf{EXP}$.
-All of the problems we listed in [chapefficient](){.ref} are in $\mathbf{EXP}$,^[Strictly speaking, many of these problems correspond to _non Boolean_ functions, but we will sometimes "abuse notation" and refer to non Boolean functions as belonging to $\mathbf{P}$ or $\mathbf{EXP}$. We can easily extend the definitions of these classes to non Boolean and partial functions. Also, for every non-Boolean function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, we can define a Boolean variant $Bool(F)$ such that $F$ can be computed in polynomial time if and only if  $Bool(F)$ is. See [boolex](){.ref}] but as we've seen, for some of them there are much better algorithms that demonstrate that they are in fact in the smaller class $\mathbf{P}$.
+All of the  problems we listed in [chapefficient](){.ref} are in $\mathbf{EXP}$, but as we've seen, for some of them there are much better algorithms that demonstrate that they are in fact in the smaller class $\mathbf{P}$.
 
 
 | $\mathbf{P}$  | $\mathbf{EXP}$ (but not known to be in $\mathbf{P}$) |
@@ -121,54 +104,70 @@ All of the problems we listed in [chapefficient](){.ref} are in $\mathbf{EXP}$,^
 A table of the examples from [chapefficient](){.ref}.
 All these problems are in $\mathbf{EXP}$ but the only the ones on the left column are currently known to be in $\mathbf{P}$ as well (i.e., they have a polynomial-time algorithm).
 
-### Non-boolean and partial functions (optional)
 
-
-Most of the time we will restrict attention to computing functions that are _total_ (i.e., defined on every input) and _Boolean_ (i.e., have a single bit of output).
-However, [time-def](){.ref} naturally extends to non Boolean and to partial functions as well.
-We now describe this extension, although we will try to stick to Boolean total functions to the extent possible, so as to minimize the "cognitive overload" for the reader and amount of notation they need to keep in their head.
-
-We will define $\overline{TIME}_{<<}(T(n))$ and $\overline{TIME}_{++}(T(n))$ to be the generalization of $TIME_{<<}(T(n))$ and $TIME_{++}(T(n))$ to functions that may be partial or have more than one bit of output, and define $\overline{\mathbf{P}}$ and $\overline{\mathbf{EXP}}$ similarly.
-Specifically the formal definition is as follows:
-
-::: {.definition title="Time complexity for partial and non-Boolean functions" #partialnonbooleanfunctionsdef}
-Let $T:\N \rightarrow \N$ be a nice function, and let $F$ be a (possibly partial) function mapping $\{0,1\}^*$ to $\{0,1\}^*$.
-We say that $F$ is in $\overline{TIME}_{<<}(T(n))$ (respectively $\overline{TIME}_{++}(T(n))$) if there exists a NAND-RAM (respectively NAND-TM) program $P$ such that for every sufficiently large $n$ and   $x\in \{0,1\}^n$ on which $F$ is defined,  on input $x$ the program $P$ halts after executing at most $T(n)$ steps and outputs $F(x)$.
-
-We let $\overline{TIME}(T(n))$ (without a subscript) denote the set $\overline{TIME}_{<<}(T(n))$ and let $\overline{\mathbf{P}} = \cup_{c\in \{1,2,3,\ldots \}} \overline{TIME}(n^c)$ and $\overline{\mathbf{EXP}} = \cup_{c\in \{1,2,3,\ldots \}} \overline{TIME}(2^{n^c})$.
+::: {.remark title="Boolean versions of problems" #booleanversion}
+Many of the problems defined in [chapefficient](){.ref}]() correspond to _non Boolean_ functions (functions with more than one bit of output) while $\mathbf{P}$ and $\mathbf{EXP}$ are sets of Boolean functions. However, for every non-Boolean function $F$ we can always define an equivalent Boolean function $G$ by letting $G(x,i)$ be the $i$-th bit of $F(x)$ (see [boolex](){.ref}).
+Hence the table above refers to the computationally-equivalent Boolean variants of these problems.
 :::
 
 
 
+## Modeling running time using RAM Machines / NAND-RAM
 
-## Efficient simulation of RAM machines: NAND-RAM vs NAND-TM
-
-We have seen in [RAMTMequivalencethm](){.ref} that for every NAND-RAM program $P$ there is a NAND-TM program $P'$ that computes the same function as $P$.
-It turns out that the $P'$ is not much slower than $P$.
-That is, we can prove the following theorem:
-
-
-> ### {.theorem title="Efficient simulation of NAND-RAM with NAND-TM" #polyRAMTM-thm}
-There are absolute constants $a,b$ such that for every function $F$ and nice function  $T:\N \rightarrow \N$,  if $F \in TIME_{<<}(T(n))$ then there is a NAND-TM program $P'$ that computes $F$ in $T'(n)=a\cdot T(n)^b$.
-That is, $TIME_{<<}(T(n)) \subseteq TIME_{++}(aT(n)^b)$
+Turing Machines are a clean theoretical model of computation, but do not closely correspond to real-world computing architectures.
+The discrepancy between Turing Machines and actual computers does not matter much when we consider the question of which functions are _computable_, but can make a difference in the context of _efficiency_.
+Even a basic staple of undergraduate algorithms such as  "merge sort" cannot be implemented on a Turing Machine in $O(n\log n)$ time (see [bibnotesrunningtime](){.ref}).
+_RAM machines_ (or equivalently, NAND-RAM programs) more closely match actual computing architecture and what we mean when we say $O(n)$ or $O(n \log n)$ algorithms in algorithms courses or whiteboard coding interviews.
+We can define running time with respect to NAND-RAM programs just as we did for Turing Machines.
 
 
 
+::: {.definition title="Running time (RAM)" #time-def}
+Let $T:\N \rightarrow \N$ be some function mapping natural numbers to natural numbers.
+We say that a function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ is _computable in $T(n)$ RAM  time (RAM-time for short)_ 
+if there exists a NAND-RAM program $P$ such that for every sufficiently large $n$ and every $x\in \{0,1\}^n$, when given input $x$, the program $P$ halts after executing at most $T(n)$ iterations and outputs $F(x)$.
 
-The constant $b$ can be easily shown to be at most five, and with more effort can be optimized further.
-[polyRAMTM-thm](){.ref} means that the definition of the classes $\mathbf{P}$ and $\mathbf{EXP}$ are robust to the choice of model, and will not make a difference whether we use NAND-TM or NAND-RAM.
-The same proof also shows that _Turing Machines_ can simulate NAND-RAM programs (and hence RAM machines).
-In fact, similar results are known for many models including cellular automata, C/Python/Javascript programs, parallel computers,   and a great many other models, which justifies the choice of $\mathbf{P}$ as capturing a technology-independent notion of tractability.
-As we discussed before,  this equivalence between NAND-TM and NAND-RAM  (as well as other models) allows us to pick our favorite model depending on the task at hand (i.e., "have our cake and eat it too").
+We define  $TIME_{\mathsf{RAM}}(T(n))$ to be the set of Boolean functions (functions mapping $\{0,1\}^*$ to $\{0,1\}$) that are computable in $T(n)$ TM time.
+:::
+
+Because NAND-RAM programs correspond more closely to our natural notions of running time, we will use NAND-RAM as our "default" model of running time, and hence use $TIME(T(n))$ (without any subscript) to denote $TIME_{\mathsf{RAM}}(T(n))$.
+However, it turns out that as long as we only care about the difference between exponential and polynomial time,  this does not make much difference.
+The reason is that Turing Machines can simulate NAND-RAM programs with at most a polynomial overhead:
+
+
+::: {.theorem title="Relating RAM and Turing machines" #polyRAMTM-thm}
+Let $T:\N \rightarrow \N$ be a function such that $T(n) \geq n$ for every $n$ and the map $n \mapsto T(n)$ can be computed by a NAND-RAM program in time $O(T(n))$.^[All non pathological time bound functions such as $T(n)=n$, $T(n)n\log n$, $T(n)=2^n$ etc. satisfy these conditions, see also [niceboundssec](){.ref}  below.]
+Then 
+$$
+TIME_{\mathsf{TM}}(T(n)) \subseteq TIME_{\mathsf{RAM}}(T(n)) \subseteq TIME_{\mathsf{TM}}(T(n)^4) \;.
+$$
+:::
+
+::: { .bigidea #polyvsnot}
+While the precise definition of running time can depend on the computational model, as long as we only care about the distinction between polynomial and exponential, all the models we considered are equivalent to each other. 
+:::
+
+
+The constant $4$ can be improved to a smaller value, though this will not be important for us.
+[polyRAMTM-thm](){.ref} implies that the  $\mathbf{P}$ and $\mathbf{EXP}$ could have been equivalently defined using NAND-RAM programs instead of Turing Machines, as they would have contained the exact same set of functions. 
+Similar equivalence results are known for many models including cellular automata, C/Python/Javascript programs, parallel computers,   and a great many other models, which justifies the choice of $\mathbf{P}$ as capturing a technology-independent notion of tractability.
+This equivalence between Turing machines and NAND-RAM  (as well as other models) allows us to pick our favorite model depending on the task at hand (i.e., "have our cake and eat it too").
 When we want to _design_ an algorithm, we can use the extra power and convenience afforded by NAND-RAM.
-When we want to _analyze_ a program or prove a _negative result_, we can restrict attention to   NAND-TM programs.
+When we want to _analyze_ a program or prove a _negative result_, we can restrict attention to   Turing machines.
 
 
 > ### {.proofidea data-ref="polyRAMTM-thm"}
-The idea behind the proof is simple. It follows closely the proof of  [RAMTMequivalencethm](){.ref}, where we have shown that every function $F$ that is computable by a NAND-RAM program $P$ is computable by a NAND-TM program $P'$.  To prove [polyRAMTM-thm](){.ref}, we follow the exact same proof but just check that the overhead of the simulation of $P$ by $P'$ is polynomial.
+The direction $TIME_{\mathsf{TM}}(T(n)) \subseteq TIME_{\mathsf{RAM}}(T(n))$ is not hard to show, since a NAND-RAM program  can simulate a Turing Machine  so that each step of the machine is captured by one iteration of the main loop of the program.
+Thus the heart of the theorem is to prove that $TIME_{\mathsf{RAM}}(T(n)) \subseteq TIME_{\mathsf{TM}}(T(n)^4)$. This proof closely follows the proof of  [RAMTMequivalencethm](){.ref}, where we have shown that every function $F$ that is computable by a NAND-RAM program $P$ is computable by a Turing Machine (or equivalently a NAND-TM program) $M$.  To prove [polyRAMTM-thm](){.ref}, we follow the exact same proof but just check that the overhead of the simulation of $P$ by $M$ is polynomial.
 The proof has many details, but is not deep. It is therefore much more important that you understand the _statement_ of this theorem than its proof.
 
 ::: {.proof data-ref="polyRAMTM-thm"}
+We only focus on the non-trivial direction $TIME_{\mathsf{RAM}}(T(n)) \subseteq TIME_{\mathsf{TM}}(T(n)^4)$.
+Let $F\in TIME_{\mathsf{RAM}}(T(n))$. 
+$F$ can be computed in time $T(n)$ by some NAND-RAM program $P$ and we need to show that it can also be computed in time $T(n)^4$ by a Turing Machine $M$.
+This will follow from showing  that $F$ can be computed in time $T(n)^4$ by a NAND-TM program, since for every NAND-TM program $Q$ there is a Turing Machine $M$ simulating it such that each iteration of $Q$ corresponds to a single step of $M$.
+
+
 As mentioned above, we follow the proof of [RAMTMequivalencethm](){.ref} (simulation of NAND-RAM programs using NAND-TM programs) and use the exact same simulation, but with a more careful accounting of the number of steps that the simulation costs.
 Recall, that the simulation of NAND-RAM works by "peeling off" features of NAND-RAM one by one, until we are left with NAND-TM.
 
@@ -184,21 +183,14 @@ We will not provide the full details but will present the main ideas used in sho
 
 4. In NAND-TM one cannot access an array at an arbitrary location but rather only at the location of the index variable `i`. Nevertheless, if `Foo` is an array that encodes some integer $k\in \N$ (where $k \leq T(n)$ in our case), then, as we've seen in the proof of [RAMTMequivalencethm](){.ref}, we can write NAND-TM code that will set the index variable `i` to $k$. Specifically, using enhanced NAND-TM we can write a loop that will run $k$ times (for example, by decrementing the integer represented by `Foo` until it reaches $0$), to ensure that an array `Marker` that will equal to $0$ in all coordinates except the $k$-th one. We can then decrement `i` until it reaches $0$ and scan `Marker`  until we reach the point that `Marker[i]`$=1$.
 
-5. To transform the above from _enhanced_ to _standard_ (i.e., "vanilla") NAND-TM, all that is left is to follow our proof of [enhancednandequivalence](){.ref} and show we can simulate `i+= foo` and `i-= bar` in vanilla NAND-TM using our "breadcrumbs" and "wait for the bus"  techniques. To simulate $T$ steps of enhanced NAND-TM we will need at most $O(T^2)$ steps of vanilla NAND-TM  (see [obliviousfig](){.ref}). Indeed, suppose that the largest point that the index `i` reached in the computation so far is $R$, and we are in the worst case where we are trying, for example, to increment `i` while it is in a "decreasing" phase. Within at most $2R$ steps we will be back in the same position at an "increasing" phase. Using this argument we can see that in the worst case, if we need to simulate $T$ steps of enhanced NAND-TM we will use $O(1 + 2 + \cdots + T) = O(T^2)$ steps of vanilla NAND-TM.
 
 
-Together these observations imply that the simulation of $T$ steps of NAND-RAM can be done in $O(T^a)$ steps of vanilla NAND-TM for some constant $a$, i.e., time polynomial in $T$. (A rough accounting can show that this constant $a$ is at most five; a more careful analysis can improve it further though this does not matter much.)
+Together these observations imply that the simulation of $T$ steps of NAND-RAM can be done in $O(T^4)$ iterations of NAND-TM. 
 :::
 
 
 
-![The path an index variable takes in a NAND-TM program. If we need to simulate $T$ steps of an enhanced NAND-TM program using vanilla NAND-TM then in the worst case we will need to wait at every time for the next time `i` arrives at the same location, which will yield a cost of $O(1+2+\cdots+T)=O(T^2)$ steps. ](../figure/oblivious_simulation.png){#obliviousfig .margin  }
 
-
-
-> ### {.remark title="Turing machines and other models" #othermodels}
-If we follow the equivalence results between NAND-TM/NAND-RAM and other models, including Turing machines, RAM machines, Game of life, $\lambda$ calculus, and many others, then we can see that these results also have at most a polynomial overhead in the simulation in each way.^[For the  $\lambda$ calculus, one needs to be careful about the order of application of the reduction steps, which can matter for computational efficiency, see for example [this paper](https://lmcs.episciences.org/1627).]
-It is a good exercise to go through, for example, the proof of [TM-equiv-thm](){.ref} and verify that it establishes that Turing machines and NAND-TM programs are equivalent up to polynomial overhead.
 
 
 [polyRAMTM-thm](){.ref} shows that the classes $\mathbf{P}$ and $\mathbf{EXP}$ are _robust_ with respect to variation in the choice of the computational model.
@@ -211,9 +203,25 @@ More generally, for every function $F:\{0,1\}^* \rightarrow \{0,1\}$, the answer
 
 
 
+
+::: {.remark title="Nice time bounds" #nicefunctionsrem}
+When considering general time bounds such we need to make sure to rule out some "pathological" cases such as functions $T$ that don't give enough time for the algorithm to read the input, or functions where the time bound itself is uncomputable. We say that a function $T:\N \rightarrow \N$ is a  _nice time bound function_ (or nice function for short) if for every $n\in \N$, $T(n) \geq n$ (i.e., $T$ allows enough time to read the input), for every $n' \geq n$, $T(n') \geq T(n)$ (i.e., $T$ allows more time on longer inputs), and the map $F(x) = 1^{T(|x|)}$  (i.e., mapping a string of length $n$ to a sequence of $T(n)$ ones) can be computed by a NAND-RAM program in $O(T(n))$ time.
+
+All the "normal" time complexity bounds we encounter in applications such as $T(n)= 100 n$, $T(n) =  n^2 \log n$,$T(n) = 2^{\sqrt{n}}$, etc.  are "nice".
+Hence from now on we will only care about the class $TIME(T(n))$   when $T$ is a "nice" function.
+The computability condition is in particular typically easily satisfied.
+For example, for arithmetic functions such as $T(n) = n^3$, we can typically compute the binary representation of $T(n)$ in time polynomial _in the number of bits_ of $T(n)$ and hence poly-logarithmic in $T(n)$.
+Hence the time to write the string $1^{T(n)}$ in such cases will be $T(n) + poly(\log T(n)) = O(T(n))$.
+:::
+
+
+
+
+
+
 ## Efficient universal machine: a NAND-RAM interpreter in NAND-RAM
 
-We have seen in [universaltmthm](){.ref} the "universal program" or "interpreter" $U$ for NAND-TM.
+We have seen in [universaltmthm](){.ref} the "universal Turing Machine".
 Examining that proof, and combining it with  [polyRAMTM-thm](){.ref} , we can see that the program $U$ has a _polynomial_ overhead, in the sense that it can simulate $T$ steps of a given NAND-TM (or NAND-RAM) program $P$ on an input $x$ in $O(T^a)$ steps for some constant $a$.
 But in fact, by directly simulating NAND-RAM programs, we can do better with only a _constant_ multiplicative overhead:
 
@@ -399,11 +407,11 @@ We have seen that we have no shortage of natural functions for which the best _k
 However,  unlike in the finite vs. infinite case, for all of the examples above at the moment we do not know how to rule out even an $O(n)$ time algorithm.
 We will however see that there is a single unproven conjecture that would imply such a result for most of these problems.
 
-![Some complexity classes and some of the functions we know (or conjecture) to be contained in them.](../figure/time_complexity_map.png){#figureid .margin  }
+![Some complexity classes and some of the functions we know (or conjecture) to be contained in them.](../figure/time_complexity_map.png){#complexityclassinclusionfig .margin  }
 
-::: {.remark title="Time hierarchy for NAND-TM and Turing machines" #timehierarchyfornandpp}
-The time hierarchy theorem relies on the existence of an efficient universal NAND-RAM program, as proven in [univ-nandpp](){.ref}. We have mentioned that other models, such as NAND-TM programs and Turing machines, are polynomially
-:::
+
+
+The time hierarchy theorem relies on the existence of an efficient universal NAND-RAM program, as proven in [univ-nandpp](){.ref}. For other models, such as Turing Machines we have similar time hierarchy result showing that there are functions computable in time $T(n)$ and not in time $T(n)/f(n)$ where $f(n)$ corresponds to the overhead in the corresponding universal machine. (For multitape Turing machines $f(n)$ is logarithmic.)
 
 
 ## Unrolling the loop: Uniform vs non uniform computation
@@ -430,7 +438,7 @@ This indeed turns out to be the case:
 
 
 > ### {.theorem title="Nonuniform computation contains uniform computation" #non-uniform-thm}
-There is some $c\in \N$ s.t. for every nice $T:\N \rightarrow \N$ and  $F:\{0,1\}^* \rightarrow \{0,1\}$ in  $TIME_{++}(T(n))$ and every sufficiently large $n\in N$,  $F_{\upharpoonright n}$ is in $SIZE(c T(n))$.
+There is some $c\in \N$ s.t. for every nice $T:\N \rightarrow \N$ and  $F:\{0,1\}^* \rightarrow \{0,1\}$ in  $TIME_{\mathsf{TM}}(T(n))$ and every sufficiently large $n\in N$,  $F_{\upharpoonright n}$ is in $SIZE(c T(n))$.
 
 ::: {.proofidea data-ref="non-uniform-thm"}
 To prove [non-uniform-thm](){.ref} we use the technique of "unraveling the loop". That is, we can use "copy paste" to replace a program $P$ that uses a loop that iterates for at most $T$ times with a "loop free" program that has about $T$ times as many lines as $P$.
@@ -748,9 +756,6 @@ In particular, out of all the example problems mentioned in [chapefficient](){.r
 
 ## Exercises
 
-::: {.remark title="Disclaimer" #disclaimerrem}
-Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
-:::
 
 ::: {.exercise title="Equivalence of different definitions of $\mathbf{P}$ and $\mathbf{EXP}$." #definitionofP}
 Prove that the classes $\mathbf{P}$ and $\mathbf{EXP}$ defined in [PandEXPdef](){.ref} are equal to $\cup_{c\in \{1,2,3,\ldots \}} TIME(n^c)$ and $\cup_{c\in \{1,2,3,\ldots \}} TIME(2^{n^c})$ respectively.
@@ -791,9 +796,13 @@ Then there is an _oblivious_ NAND-TM program $P'$ that computes $F$ in time $O(T
 > ### {.exercise title="Alternative characterization of $\mathbf{P}$" #Palternativeex}
 Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}$, $F\in \mathbf{P}$ if and only if there exists a polynomial time NAND-TM program $P$ such that $P(1^n)$ outputs a NAND-CIRC program  $Q_n$ that computes the restriction of $F$ to $\{0,1\}^n$.
 
-## Bibliographical notes
+## Bibliographical notes {#bibnotesrunningtime }
 
-^[TODO: add reference to best algorithm for longest path - probably the Bjorklund algorithm]
+Some lower bounds for single-tape Turing machines are given in [@maass1985combinatorial].
+
+For defining efficiency in the  $\lambda$ calculus, one needs to be careful about the order of application of the reduction steps, which can matter for computational efficiency, see for example [this paper](https://lmcs.episciences.org/1627).
+
+
 
 ## Further explorations
 

@@ -58,6 +58,11 @@ That is, if the machine $M$ halts on $x$ and outputs some $y\in \{0,1\}^*$ then 
 ![A _Universal Turing Machine_ is a single Turing Machine $U$ that can evaluate, given input the (description as a string of) arbitrary Turing machine $M$ and input $x$, the output of $M$ on $x$. In contrast to the universal circuit depicted in [universalcircfig](){.ref},  the machine $M$ can be much more complex (e.g., more states or tape alphabet symbols) than $U$. ](../figure/universaltm.png){#universaltmfig .margin  }
 
 
+::: { .bigidea #universaltmidea}
+There is a single algorithm that can evaluate arbitrary  algorithms on arbitrary inputs.
+:::
+
+
 :::  {.proofidea data-ref="universaltmthm"}
 Once you understand what the theorem says, it is not that hard to prove. The desired program $U$ is an _interpreter_ for Turing machines. That is, $U$ gets a representation of the machine $M$ (think of it as source code), and some input $x$, and needs to simulate the execution of $M$ on $x$.
 
@@ -273,6 +278,10 @@ Specifically, the proof will be by contradiction.
 That is, we will assume towards a contradiction that $HALT$ is computable, and use that assumption, together with the universal Turing machine of [universaltmthm](){.ref}, to derive that $F^*$ is computable, which will contradict  [uncomputable-func](){.ref}.
 :::
 
+::: { .bigidea #reductionuncomputeidea}
+If a function $F$ is uncomputable we can show that another function $H$ is uncomputable by giving a way to _reduce_ the task of computing $F$ to computing $H$.
+:::
+
 
 ::: {.proof data-ref="halt-thm"}
 The proof will use the previously established result [uncomputable-func](){.ref}.
@@ -446,7 +455,7 @@ If we now set `(f,x) = CantSolveMe(T)`, then `T(f,x)=False` but `f(x)` does in f
 
 
 
-## Reductions
+## Reductions {#reductionsuncompsec }
 
 The Halting problem turns out to be a linchpin of uncomputability, in the sense that [halt-thm](){.ref} has been used to show the uncomputability of a great many interesting functions.
 We will see several examples in such results in this chapter and the exercises, but there are many more such results (see [haltreductions](){.ref}).
@@ -470,8 +479,19 @@ For starters, since we need $R$ to be computable, we should describe the algorit
 The algorithm to compute $R$ is known as a _reduction_ since   the transformation  $R$ modifies an input to $HALT$ to an input to $BLAH$, and hence _reduces_ the task of computing $HALT$ to the task of computing $BLAH$.
 The second component of a reduction-based proof is the _analysis_ of the algorithm $R$: namely a proof that $R$ does indeed satisfy the desired properties.
 
-At the end of the day reduction-based proofs are just like other proofs by contradiction, but the fact that they involve hypothetical algorithms that don't really exist tends to make reductions quite confusing.
+Reduction-based proofs are just like other proofs by contradiction, but the fact that they involve hypothetical algorithms that don't really exist tends to make reductions quite confusing.
 The one silver lining is that at the end of the day the notion of reductions is mathematically quite simple, and so it's not that bad even if you have to go back to first principles every time you need to remember what is the direction that a reduction should go in.
+
+
+::: {.remark title="Reductions are algorithms" #reductionsaralg}
+A reduction is an _algorithm_, which means that, as discussed in [implspecanarem](){.ref},  a reduction has three components:
+
+* __Specification (what):__ In the case of a reduction from $HALT$ to $BLAH$, the specification is that function $R:\{0,1\}^* \rightarrow \{0,1\}^*$ should satisfy that $HALT(M,x)=BLAH(R(M,x))$ for every Turing machine $M$ and input $x$. In general, to reduce a function $F$ to $G$, the reduction should satisfy $F(w)=G(R(w))$ for every input $w$ to $F$.
+
+* __Implementation (how):__ The algorithm's description: the precise instructions how to transform an input $w$ to the output $R(w)$.
+
+* __Analysis (why):__ A _proof_ that the algorithm meets the specification. In particular, in a reduction from $F$ to $G$ this is a proof that for every input $w$, the output $y$ of the algorithm satisfies that $F(w)=G(y)$.
+:::
 
 
 ### Example: Halting on the zero problem
@@ -503,26 +523,21 @@ Since this is our first proof by reduction from the Halting problem, we will spe
 
 
 
-Our Algorithm $B$ works as follows:
 
 
-::: {.quote}
-__Algorithm B:__ (_Goal:_ Compute $HALT$.)
+``` {.algorithm title="$HALT$ to $HALTONZERO$ reduction" #halttohaltonzerored}
+INPUT: Turing machine $M$ and string $x$.
+OUTPUT: Turing machine $M'$ such that $M$ halts on $x$ iff $M'$ halts on zero
 
-__Input:__ $M,x$ where $M$ represents a Turing machine and $x$ is a string that represents its input.
+Procedure{$N_{M,x}$}{$w$} # Description of the T.M. $N_{M,x}$
+ Return $EVAL(M,x)$ # Ignore the input $w$, evaluate $M$ on $x$.
+Endprocedure
 
-__Assumption:__ There is an algorithm $A$ such that
-$A(M)=HALTONZERO(M)$ for every $M$.
+Return $N_{M,x}$ # We do not execute $N_{M,x}$: only return its description
+```
 
-__Operation:__
-
-1. Let $N_{M,x}$ denote the Turing machine that does the following: _"on input $z\in \{0,1\}^*$, evaluate $M$ on the input $x$ and return the result"_.
-
-2. Return $y= A(N_x)$.
-:::
-
-That is, on input a pair $(M,x)$ the algorithm  $B$ uses this pair to construct a Turing machine $N_{M,x}$, feeds this machine to $A$, and outputs the result.
-The machine $N_{M,x}$ ignores its input $z$ and simply runs $M$ on $x$.
+Our Algorithm $B$ works as follows: on input $M,x$, it runs [halttohaltonzerored](){.ref} to obtain a Turing Machine  $M'$, and then returns $A(M')$. 
+The machine $M'$ ignores its input $z$ and simply runs $M$ on $x$.
 
 In pseudocode, the program $N_{M,x}$ will look something like the following:
 
@@ -537,7 +552,6 @@ def N(z):
 ```
 
 That is, if we think of $N_{M,x}$ as a program, then it is a program that contains $M$ and $x$ as "hardwired constants", and given any input $z$, it simply ignores the input and always returns the result of evaluating $M$ on $x$.
-
 The algorithm $B$ does _not_ actually execute the machine $N_{M,x}$. $B$ merely writes down the description of $N_{M,x}$ as a string (just as we did above) and feeds this string as input to $A$.
 
 

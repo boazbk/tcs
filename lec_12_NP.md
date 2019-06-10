@@ -13,7 +13,7 @@ chapternum: "13"
 
 
 
-Let us consider several of the problems we have encountered before:
+Consider some of the problems we have encountered before:
 
 * Finding the longest path in a graph
 
@@ -125,7 +125,7 @@ Like the others, it shares the characteristics that it is an important and well-
 In  [cooklevinchap](){.ref} we will show the other direction: reducing each one of these problems to 3SAT in one fell swoop.
 
 
-![Our first stage in showing equivalence is to reduce 3SAT to the three other problems](../figure/sat_to_others.png){#figureid .margin  }
+![Our first stage in showing equivalence is to reduce 3SAT to the three other problems](../figure/sat_to_others.png){#freducesattothreeotherfig .margin  }
 
 
 ### Reducing 3SAT to quadratic equations
@@ -338,10 +338,6 @@ But if we do that, then the only way if we are able to reach $t$ is if the paths
 :::
 
 ## Exercises
-
-::: {.remark title="Disclaimer" #disclaimerrem}
-Most of the exercises have been written in the summer of 2018 and haven't yet been fully debugged. While I would prefer people do not post online solutions to the exercises, I would greatly appreciate if you let me know of any bugs. You can do so by posting a [GitHub issue](https://github.com/boazbk/tcs/issues) about the exercise, and optionally complement this with an email to me with more details about the attempted solution.
-:::
 
 ^[TODO: Maybe mention either in exercise or in body of the lecture some NP hard results motivated by science. For example, shortest superstring that is motivated by genome sequencing, protein folding, maybe others.]
 

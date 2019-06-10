@@ -76,9 +76,12 @@ The NAND-RAM programming language extends NAND-TM by adding the following featur
 
 * As is often the case in programming languages, we will assume that for Boolean operations such as `NAND`, a zero valued integer is considered as _false_, and a nonzero valued integer is considered as _true_.
 
-* In addition to `NAND`, NAND-RAM also includes all the basic arithmetic operations of addition, subtraction, multiplication, (integer) division, as well as comparisons (equal, greater than, less than, etc..)
+* In addition to `NAND`, NAND-RAM also includes all the basic arithmetic operations of addition, subtraction, multiplication, (integer) division, as well as comparisons (equal, greater than, less than, etc..). 
 
-* We will also include as part of the language basic control flow structures such as `if` and `goto`.
+* NAND-RAM includes conditional statements `if`/`then` as part of the language.
+
+* As in NAND-TM we encapsulate a NAND-RAM program in one large loop. That is, the last instruction is `JMP(flag)` which goes back to the beginning of the program if `flag` equals $1$ and halts otherwise.
+As usual, we can implement other looping constructs such as `goto` and `while` or `for` inner loops using syntactic sugar.
 
 
 

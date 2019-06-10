@@ -177,7 +177,7 @@ h4:before {
 
 
 .recap:before {
-  content: "Lecture recap.";
+  content: "Chapter recap.";
   font-weight: bold;
   font-style: normal;
 }
