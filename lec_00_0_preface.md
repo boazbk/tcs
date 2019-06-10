@@ -16,7 +16,7 @@ chapternum: "p"
 This is a textbook for an undergraduate introductory course on Theoretical Computer Science.
 The educational goals of this course are to convey the following:
 
-* That computation but arises in a variety of natural and human-made systems, and not only in modern silicon-based computers.
+* That computation arises in a variety of natural and human-made systems, and not only in modern silicon-based computers.
 
 * Similarly, beyond being an extremely important _tool_, computation also serves as a useful _lens_ to describe natural, physical,  mathematical and even social concepts.
 
