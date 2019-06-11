@@ -14,7 +14,7 @@ chapternum: "p"
 
 
 This is a textbook for an undergraduate introductory course on Theoretical Computer Science.
-The educational goals of this course are to convey the following:
+The educational goals of this book are to convey the following:
 
 * That computation arises in a variety of natural and human-made systems, and not only in modern silicon-based computers.
 
@@ -29,15 +29,15 @@ The educational goals of this course are to convey the following:
 I hope that following this course, students would be able to recognize computation, with both its power and pitfalls, as it arises in various settings, including seemingly "static" content or "restricted" formalisms such as macros and scripts.
 They should be able to follow through the logic of _proofs_ about computation, including the central concept of a _reduction_, as well as understanding "self-referential" proofs (such as diagonalization-based proofs that involve programs given their own code as input).
 Students should understand that some problems are _inherently intractable_, and be able to recognize the potential for intractability when they are faced with a new problem.
-While this course only touches on cryptography, students should understand the basic idea of how we can use computational hardness for cryptographic purposes.
-However, more than any specific skill, this course aims to introduce students to a new way of thinking of computation as an object in its own right and to illustrate how this new way of thinking leads to far-reaching insights and applications.
+While this book only touches on cryptography, students should understand the basic idea of how we can use computational hardness for cryptographic purposes.
+However, more than any specific skill, this book aims to introduce students to a new way of thinking of computation as an object in its own right and to illustrate how this new way of thinking leads to far-reaching insights and applications.
 
 My aim in writing this text is to try to convey these concepts in the simplest possible way and try to make sure that the formal notation and model help elucidate, rather than obscure, the main ideas.
 I also tried to take advantage of modern students' familiarity (or at least interest!) in programming, and hence use (highly simplified) programming languages to describe our models of computation.
-That said, this course does not assume fluency with any particular programming language, but rather only some familiarity with the general _notion_ of programming.
+That said, this book does not assume fluency with any particular programming language, but rather only some familiarity with the general _notion_ of programming.
 We will use programming metaphors and idioms, occasionally mentioning specific programming languages such as _Python_, _C_, or _Lisp_, but students should be able to follow these descriptions even if they are not familiar with these languages.
 
-Proofs in this course, including the existence of a universal Turing Machine, the fact that every finite function can be computed by some circuit, the Cook-Levin theorem, and many others, are often constructive and algorithmic, in the sense that they ultimately involve transforming one program to another.
+Proofs in this book, including the existence of a universal Turing Machine, the fact that every finite function can be computed by some circuit, the Cook-Levin theorem, and many others, are often constructive and algorithmic, in the sense that they ultimately involve transforming one program to another.
 While it is possible to follow these proofs without seeing the code, I do think that having access to the code, and the ability to play around with it and see how it acts on various programs, can make these theorems more concrete for the students.
 To that end, an accompanying website (which is still work in progress) allows executing programs in the various computational models we define, as well as see constructive proofs of some of the theorems.
 
@@ -62,19 +62,19 @@ Feel free to skip the actual proof in a first reading, focusing only on the proo
 
 
 
-This book contains some code snippets,  but this is by no means a programming course. You don't need to know how to program to follow this material. The reason we use code is that it is a _precise_ way to describe computation. Particular implementation details are not as important to us, and so we will emphasize code readability at the expense of considerations such as error handling, encapsulation, etc. that can be extremely important for real-world programming.
+This book contains some code snippets,  but this is by no means a programming text. You don't need to know how to program to follow this material. The reason we use code is that it is a _precise_ way to describe computation. Particular implementation details are not as important to us, and so we will emphasize code readability at the expense of considerations such as error handling, encapsulation, etc. that can be extremely important for real-world programming.
 
 ### Is the effort worth it?
 
 This is not an easy book, and you might reasonably wonder why should you spend the effort in learning this material.
 A traditional justification for a "Theory of Computation" course is that you might encounter these concepts later on in your career.
 Perhaps you will come across a hard problem and realize it is NP complete, or find a need to use what you learned about regular expressions.
-This might very well be true, but the main benefit of this course is not in teaching you any practical tool or technique, but instead in giving you a _different way of thinking_: an ability to recognize computational phenomena even when they occur in non-obvious settings, a way to model computational tasks and questions, and to reason about them.
+This might very well be true, but the main benefit of this book is not in teaching you any practical tool or technique, but instead in giving you a _different way of thinking_: an ability to recognize computational phenomena even when they occur in non-obvious settings, a way to model computational tasks and questions, and to reason about them.
 
 
 Regardless of any use you will derive from this book. I believe learning this material is important because it contains concepts that are both beautiful and fundamental.
 The role that _energy_ and _matter_ played in the 20th century is played in the 21st by _computation_ and _information_, not just as tools for our technology and economy, but also as the basic building blocks we use to understand the world.
-This course will give you a taste of some of the theory behind those, and hopefully spark your curiosity to study more.
+This book will give you a taste of some of the theory behind those, and hopefully spark your curiosity to study more.
 
 
 ## To potential instructors
