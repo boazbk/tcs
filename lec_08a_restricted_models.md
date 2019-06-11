@@ -1120,6 +1120,15 @@ Suppose that $F,G:\{0,1\}^* \rightarrow \{0,1\}$ are regular. For each one of th
 :::
 
 
+
+::: {.exercise  #regularno}
+One among the following two functions that map $\{0,1\}^*$ to $\{0,1\}$ can be computed by a regular expression, and the other one cannot. For the one that can be computed by a regular expression, write the expression that does it. For the one that cannot, prove that this cannot be done using the pumping lemma.
+* $F(x)=1$ if $4$ divides $\sum_{i=0}^{|x|-1} x_i$ and  $F(x)=0$ otherwise.
+
+* $G(x) = 1$ if and only if $\sum_{i=0}^{|x|-1} x_i \geq |x|/4$ and $G(x)=0$ otherwise.
+:::
+
+
 ::: {.exercise title="Closure properties of context-free functions" #closurecfgex}
 Suppose that $F,G:\{0,1\}^* \rightarrow \{0,1\}$ are context free. For each one of the following definitions of the function $H$, either prove that $H$ is always context free or give a counterexample for regular $F,G$ that would make $H$ not context free.
 
@@ -1142,6 +1151,31 @@ Suppose that $F,G:\{0,1\}^* \rightarrow \{0,1\}$ are context free. For each one 
 ::: {.exercise  #noncontextfreeex}
 Prove that the function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F(x)=1$ if and only if $|x|$ is a power of two is not context free.
 :::
+
+
+
+::: {.exercise title="Syntax for programming languages" #proglanguagecfgex}
+Consider the following syntax of a "programming language" whose source can be written using the [ASCII](https://en.wikipedia.org/wiki/ASCII) character set:
+
+* _Variables_ are obtained by a sequence of letters, numbers and underscores, but can't start with a number.
+
+
+* A _statement_ has either the form `foo = bar;` where `foo` and `bar` are variables, or the form  `IF (foo) BEGIN ... END` where `...` is list of one or more statements, potentially separated by newlines.
+
+A _program_ in our language is simply a sequence of statements (possibly separated by newlines or spaces).
+
+1.  Let $VAR:\{0,1\}^* \rightarrow \{0,1\}$ be the function that given a string $x\in \{0,1\}^*$, outputs $1$ if and only if $x$ corresponds to an ASCII encoding of a valid variable identifier. Prove that $VAR$ is regular.
+
+2. Let $SYN:\{0,1\}^* \rightarrow \{0,1\}$ be the function that given a string $s \in \{0,1\}^*$, outputs $1$ if and only if $s$ is an ASCII encoding of a valid program in our language. Prove that $SYN$ is context free. (You do not have to specify the full formal grammar for $SYN$, but you need to show that such a grammar exists.)
+
+3. Prove that $SYN$ is not regular. See footnote for hint^[Try to see if you can "embed" in some way a function that looks similar to $MATCHPAREN$ in $SYN$, so you can use a similar proof. Of course for a function to be non-regular, it does not  need to utilize literal parentheses symbols.]
+:::
+
+
+
+
+
+
 
 ## Bibliographical notes
 

@@ -860,6 +860,33 @@ Let $SPACEHALT:\{0,1\}^* \rightarrow \{0,1\}$ be the function that on input (a s
 Prove that $SPACEHALT$ is _computable_. See footnote for hint^[A machine with alphabet $\Sigma$ can have at most $|\Sigma|^T$ choices for the contents of the first $T$ locations of its tape. What happens if the machine repeats a previously seen configuration, in the sense that the tape contents, the head location, and the current state, are all identical to what they were in some previous state of the execution?]
 :::
 
+::: {.exercise title="Computable compositions" #necessarilyuncomputableex}
+Suppose that $F:\{0,1\}^* \rightarrow \{0,1\}$ and $G:\{0,1\}^* \rightarrow \{0,1\}$  are computable functions. For each one of the following functions $H$, either prove that  $H$ is _necessarily computable_ or give an example of a pair $F$ and $G$ of computable functions such that $H$ will not be computable. Prove your assertions.
+
+1. $H(x)=1$ iff $F(x)=1$ OR $G(x)=1$.
+
+2. $H(x)=1$ iff there exist two nonempty strings $u,v \in \{0,1\}^*$ such that $x=uv$ (i.e., $x$ is the concatenation of $u$ and $v$), $F(u)=1$ and $G(v)=1$.
+
+3. $H(x)=1$ iff there exist a list $u_0,\ldots,u_{t-1}$ of non empty strings such that  strings$F(u_i)=1$ for every $i\in [t]$ and $x=u_0u_1\cdots u_{t-1}$.
+
+4.  $H(x)=1$ iff $x$ is a valid string representation of a NAND++ program $P$ such that  for every $z\in \{0,1\}^*$, on input $z$ the program $P$ outputs $F(z)$.
+
+
+5. $H(x)=1$ iff $x$ is a valid string representation of a NAND++ program $P$ such that on input $x$ the program $P$ outputs $F(x)$.
+
+6. $H(x)=1$ iff $x$ is a valid string representation of a NAND++ program $P$ such that on input $x$, $P$ outputs $F(x)$ after executing at most $100\cdot |x|^2$ lines.
+:::
+
+
+
+
+::: {.exercise  #finiteuncompex }
+Prove that the following function $FINITE:\{0,1\}^* \rightarrow \{0,1\}$ is uncomputable. On input $P\in \{0,1\}^*$, we define $FINITE(P)=1$ if and only if $P$ is a string that represents a NAND++ program such that there only a finite number of inputs $x\in \{0,1\}^*$ s.t. $P(x)=1$.^[Hint: You can use Rice's Theorem.]
+:::
+
+
+
+
 
 ::: {.exercise title="Computing parity" #paritythmex}
 Prove [paritythm](){.ref} without using Rice's Theorem.
@@ -907,6 +934,9 @@ We define a function $F:\{0,1\}^* \rightarrow \{0,1\}$ to be _$\mathcal{M}$-sema
 
 Prove that for every $\mathcal{M}$-semantic $F:\{0,1\}^* \rightarrow \{0,1\}$ that is neither the constant one nor the constant zero function, $F$ is uncomputable.
 :::
+
+
+
 
 ## Bibliographical notes
 

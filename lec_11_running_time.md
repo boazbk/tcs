@@ -136,7 +136,7 @@ The reason is that Turing Machines can simulate NAND-RAM programs with at most a
 
 
 ::: {.theorem title="Relating RAM and Turing machines" #polyRAMTM-thm}
-Let $T:\N \rightarrow \N$ be a function such that $T(n) \geq n$ for every $n$ and the map $n \mapsto T(n)$ can be computed by a NAND-RAM program in time $O(T(n))$.^[All non pathological time bound functions such as $T(n)=n$, $T(n)n\log n$, $T(n)=2^n$ etc. satisfy these conditions, see also [niceboundssec](){.ref}  below.]
+Let $T:\N \rightarrow \N$ be a function such that $T(n) \geq n$ for every $n$ and the map $n \mapsto T(n)$ can be computed by a Turing machine in time $O(T(n)^2)$.^[All non pathological time bound functions such as $T(n)=n$, $T(n)n\log n$, $T(n)=2^n$ etc. satisfy these conditions, see also [niceboundssec](){.ref}  below.]
 Then 
 $$
 TIME_{\mathsf{TM}}(T(n)) \subseteq TIME_{\mathsf{RAM}}(T(n)) \subseteq TIME_{\mathsf{TM}}(T(n)^4) \;.
@@ -157,7 +157,7 @@ When we want to _analyze_ a program or prove a _negative result_, we can restric
 
 
 > ### {.proofidea data-ref="polyRAMTM-thm"}
-The direction $TIME_{\mathsf{TM}}(T(n)) \subseteq TIME_{\mathsf{RAM}}(T(n))$ is not hard to show, since a NAND-RAM program  can simulate a Turing Machine  so that each step of the machine is captured by one iteration of the main loop of the program.
+The direction $TIME_{\mathsf{TM}}(T(n)) \subseteq TIME_{\mathsf{RAM}}(T(n))$ is not hard to show, since a NAND-RAM program  can simulate a Turing Machine so that each step of the machine is captured by one iteration of the main loop of the program.
 Thus the heart of the theorem is to prove that $TIME_{\mathsf{RAM}}(T(n)) \subseteq TIME_{\mathsf{TM}}(T(n)^4)$. This proof closely follows the proof of  [RAMTMequivalencethm](){.ref}, where we have shown that every function $F$ that is computable by a NAND-RAM program $P$ is computable by a Turing Machine (or equivalently a NAND-TM program) $M$.  To prove [polyRAMTM-thm](){.ref}, we follow the exact same proof but just check that the overhead of the simulation of $P$ by $M$ is polynomial.
 The proof has many details, but is not deep. It is therefore much more important that you understand the _statement_ of this theorem than its proof.
 
@@ -173,19 +173,26 @@ Recall, that the simulation of NAND-RAM works by "peeling off" features of NAND-
 
 We will not provide the full details but will present the main ideas used in showing that every feature of NAND-RAM can be simulated by NAND-TM with at most a polynomial overhead:
 
-1. Recall that every NAND-RAM variable or array element can contain an integer between $0$ and $T$ where $T$ is the number of lines that have been executed so far. Therefore if  $P$ is a NAND-RAM program that computes $F$ in $T(n)$ time, then on inputs of length $n$, all integers used by $P$ are of magnitude at most $T(n)$. This means that the largest value `i` can ever reach is at most $T(n)$ and so each one of $P$'s variables can be thought of as an array of at most $T(n)$ indices, each of which holds a natural number of magnitude at most $T(n)$, which can be represented using $O(\log T(n))$ bits.
-
-2.  As in the proof of [RAMTMequivalencethm](){.ref}, we can think of the integer array `Foo` as a two dimensional _bit_ array `Foo_2D` (where `Foo_2D[`$i$`][`$j$`]` is the $j$-th bit of `Foo[`$i$`]`) and then encode the latter as a _one dimensional_ bit array `Foo_1D` by mapping  `Foo_2D[`$i$`][`$j$`]` to `Foo_1D[`$embed(i,j)$`]` where $embed:\N \times N \rightarrow \N$ is some one-to-one function that embeds the two dimensional space $\N\times \N$ into the one dimensional $\N$. Specifically, if we use $embed(i,j)= \tfrac{1}{2}(i+j)(i+j+1) + j$ as in [pair-ex](){.ref}, then we can see that if $i,j \leq O(T(n))$, then $embed(i,j) \leq O(T(n)^2)$. We also use the fact that $embed$ is itself computable in polynomial time in the length of its input.
+1. Recall that every NAND-RAM variable or array element can contain an integer between $0$ and $T$ where $T$ is the number of lines that have been executed so far. Therefore if  $P$ is a NAND-RAM program that computes $F$ in $T(n)$ time, then on inputs of length $n$, all integers used by $P$ are of magnitude at most $T(n)$. This means that the largest value `i` can ever reach is at most $T(n)$ and so each one of $P$'s variables can be thought of as an array of at most $T(n)$ indices, each of which holds a natural number of magnitude at most $T(n)$. We let $\ell = \ceil{\log T(n)}$ be the number of bits needed to encode such numbers. (We can start off the simulation by computing $T(n)$ and $\ell$.) 
 
 
-3. All the arithmetic operations on integers use the grade-school algorithms, that take time that is polynomial in the number of bits of the integers, which is  $poly(\log T(n))$ in our case.
+2. We can encode a NAND-RAM array of length $\leq T(n)$ containing numbers in $\{0,\ldots, T(n)-1 \}$ as an Boolean (i.e., NAND-TM) array of  $T(n)\ell =O(T(n)\log T(n))$ bits, which we can also think of as a _two dimensional array_ as we did in the proof of [RAMTMequivalencethm](){.ref}. We encode a NAND-RAM scalar containing a number in $\{0,\ldots, T(n)-1 \}$ simply by a shorter NAND-TM array of $\ell$ bits. 
 
+3. We can simulate the two dimensional arrays  using one-dimensional arrays of length $T(n)\ell = O(T(n) \log T(n)$.  All the arithmetic operations on integers use the grade-school algorithms, that take time that is polynomial in the number $\ell$ of bits of the integers, which is  $poly(\log T(n))$ in our case.  Hence we can simulate $T(n)$ steps of NAND-RAM with $O(T(n)poly(\log T(n))$ steps of a model that uses random access memory but only _Boolean-valued_ one-dimensional arrays.
 
-4. In NAND-TM one cannot access an array at an arbitrary location but rather only at the location of the index variable `i`. Nevertheless, if `Foo` is an array that encodes some integer $k\in \N$ (where $k \leq T(n)$ in our case), then, as we've seen in the proof of [RAMTMequivalencethm](){.ref}, we can write NAND-TM code that will set the index variable `i` to $k$. Specifically, using enhanced NAND-TM we can write a loop that will run $k$ times (for example, by decrementing the integer represented by `Foo` until it reaches $0$), to ensure that an array `Marker` that will equal to $0$ in all coordinates except the $k$-th one. We can then decrement `i` until it reaches $0$ and scan `Marker`  until we reach the point that `Marker[i]`$=1$.
+4. The most expensive step is to translate from random access memoery to the sequential memory model of NAND-TM/Turing Machines. As we did in the proof of [RAMTMequivalencethm](){.ref} (see [nandtmgorydetailssec](){.ref}), we can simulate accessing an array `Foo` at some location encoded in an array `Bar` by:
 
+   a. Copying `Bar` to some temporary array `Temp`
+   b. Having an array `Index`  which is initially all zeros except $1$ at the first location.
+   c. Repeating the following until `Temp` encodes the number $0$: _(Number of repetitions is at most $T(n)$.)_
+      - Decrease the number encoded temp by $1$. _(Take number of steps polynomial in $\ell = \ceil{\log T(n)}$.)_
+      - Decrease `i` until it is equal to $0$. _(Take $O(T(n)$ steps.)_
+      - Scan `Index` until we reach the point in which it equals $1$ and then change this $1$ to $0$ and go one step further and write $1$ in this location. _(Takes $O(T(n))$ steps.)_
+   d. When we are done we know that if we  scan `Index` until we reach the point in which `Index[i]`$=1$ then `i` contains the value that was encoded by `Bar` _(Takes $O(T(n)$ steps.)_
 
+  The total cost for each such operation is $O(T(n)^2 + T(n)poly(\log T(n))) = O(T(n)^2)$ steps.
 
-Together these observations imply that the simulation of $T$ steps of NAND-RAM can be done in $O(T^4)$ iterations of NAND-TM. 
+In sum, we simulate a single step of NAND-RAM using $O(T(n)^2 poly(\log T(n)))$ steps of NAND-TM, and hence the total simulation time is $O(T(n)^3 poly(\log T(n)))$ which is smaller than $T(n)^4$ for sufficiently large $n$.
 :::
 
 
@@ -222,31 +229,22 @@ Hence the time to write the string $1^{T(n)}$ in such cases will be $T(n) + poly
 ## Efficient universal machine: a NAND-RAM interpreter in NAND-RAM
 
 We have seen in [universaltmthm](){.ref} the "universal Turing Machine".
-Examining that proof, and combining it with  [polyRAMTM-thm](){.ref} , we can see that the program $U$ has a _polynomial_ overhead, in the sense that it can simulate $T$ steps of a given NAND-TM (or NAND-RAM) program $P$ on an input $x$ in $O(T^a)$ steps for some constant $a$.
-But in fact, by directly simulating NAND-RAM programs, we can do better with only a _constant_ multiplicative overhead:
+Examining that proof, and combining it with  [polyRAMTM-thm](){.ref} , we can see that the program $U$ has a _polynomial_ overhead, in the sense that it can simulate $T$ steps of a given NAND-TM (or NAND-RAM) program $P$ on an input $x$ in $O(T^4)$ steps.
+But in fact, by directly simulating NAND-RAM programs we can do better with only a _constant_ multiplicative overhead.
+That is, there is a _universal NAND-RAM program_ $U$ such that for every NAND-RAM program $P$, $U$ simulates $T$ steps of $P$ using only $O(T)$ steps.
 
 
-> ### {.theorem title="Efficient universality of NAND-RAM" #univ-nandpp}
-There is a NAND-RAM program $U$ that computes the partial function $TIMEDEVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ defined as follows:
-$$
-TIMEDEVAL(P,x,1^T)=P(x)
-$$
-if $P$  is a valid representation of a NAND-RAM program which produces an output on $x$ within at most $T$ steps.
-If $P$ does not produce an output within this time then $TIMEDEVAL$ outputs an encoding of a special `fail` symbol.
-Moreover, for every program $P$, the running time of $U$ on input $P,x,1^T$ is $O(T)$. (The hidden constant in the $O$-notation can depend on the program $P$ but is at most polynomial in the length of $P$'s description as a string.).
+::: {.theorem title="Efficient universality of NAND-RAM" #univ-nandpp}
+There exists a NAND-RAM program $U$ satisfying the following:
 
-::: {.remark title="What does $1^T$ mean?" #unaryinput}
-The function $TIMEDEVAL$ has a curious feature - its third input has the form $1^T$. We use this notation to indicate a string of $T$ ones. (For example, if we write $1^5$ we mean the string $11111$ rather using this to mean the integer one to the fifth power,  which is a cumbersome way to write one; it will be always clear from context whether a particular input is an integer or such a string.)
+1. _($U$ is a universal NAND-RAM program.)_ For every NAND-RAM program $P$ and input $x$,  $U(P,x)=P(x)$ where by $U(P,x)$ we denote the output of $U$ on a string encoding the pair $(P,x)$.
 
-Why don't we simply assume that the function $TIMEDEVAL$ gets the integer $T$ in the binary representation? The reason has to do with how we define time as a function of the input length. If we represent $T$ as a string using the binary basis, then its length will be $O(\log T)$, which means that we could not say that a program that takes $O(T)$ steps to compute $TIMEDEVAL$ would actually be considered as running in time _exponential_ in its input.
-Thus, when we want to allow programs to run in time that is polynomial (as opposed to logarithmic) in some parameter $m$, we will often provide them with input of the form $1^m$ (i.e., a string of ones of length $m$).
-
-There is nothing deep about representing inputs this way: this is merely a convention. However, it is a widely used one, especially in cryptography, and so is worth getting familiar with.
+2. _($U$ is efficient.)_ For every NAND-RAM program $P$ there is some constant $C$  such that if $P$ halts on input $x$ after most $T$ iterations of its loop, then $U(P,x)$ halts after at most $C\cdot T$ iterations of its loop.
 :::
 
 
 > ### { .pause }
-Before reading the proof of [univ-nandpp](){.ref}, try to think how you would compute $TIMEDEVAL$ using your favorite programming language. That is, how you would write a program `Timed_Eval(P,x,T)` that gets a NAND-RAM program  `P` (represented in some convenient form), a string `x`, and an integer `T`, and simulates `P` for `T` steps.
+Before reading the proof of [univ-nandpp](){.ref}, try to think how you would try to write such a interpreter for NAND-RAM in your favorite programming language.
 You will likely find that your program requires $O(T)$ steps to perform this simulation.
 As in the case of [polyRAMTM-thm](){.ref}, the proof of [univ-nandpp](){.ref} is not very deep and it more important to understand its _statement_.
 If you understand how you would go about writing an interpreter for NAND-RAM using a modern programming language such as Python, then you know everything you need to know about this theorem.
@@ -257,7 +255,7 @@ To present a universal NAND-RAM program in full we would need to describe a prec
 While this can be done, it is more important to focus on the main ideas, and so we just sketch the proof here.
 A specification of NAND-RAM is given in the Appendix, and for the purposes of this simulation, we can simply use the representation of the code NAND-RAM as an ASCII string.
 
-The program $U$ gets as input a NAND-RAM program $P$, an input $x$, and a time bound $T$ (given in the form $1^T$) and needs to simulate the execution of $P$ for $T$ steps.
+The program $U$ gets as input a NAND-RAM program $P$ and an input $x$ and simulates $P$ one step at a time.
 To do so, $U$ will do the following:
 
 1. $U$ will maintain variables  `current_line`, and `number_steps` for the current line to be executed and the number of steps executed so far.
@@ -275,7 +273,7 @@ Simulating a single step of $P$ will take $O(|P|)$ steps for the program $U$ whe
 To be a little more concrete, here is some "pseudocode" description of the program $U$:^[We use Python-like syntax in this pseudocode, but it is not valid Python code.]
 
 ```python
-def U(P,x,1^T):
+def U(P,x):
     t = number_variable_identifiers(P) # number of distinct identifiers used in P
 
     L = number_lines(P)
@@ -322,7 +320,7 @@ def U(P,x,1^T):
         current_line = current_line + 1 (mod L)
         number_steps = number_steps + 1
 
-    } until get_scalar_value("loop")==0 or (number_steps >= T)
+    } until get_scalar_value("loop")==0 
 
     # Produce output:
     if get_scalar_value("loop")==1: return "FAIL"
@@ -764,6 +762,8 @@ Prove that the classes $\mathbf{P}$ and $\mathbf{EXP}$ defined in [PandEXPdef]()
 
 
 
+
+
 ::: {.exercise title="Boolean functions" #boolex}
 For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, define $Bool(F)$ to be the function mapping $\{0,1\}^*$ to $\{0,1\}$ such that on input a (string representation of a) triple $(x,i,\sigma)$ with $x\in \{0,1\}^*$, $i \in \N$ and $\sigma \in \{0,1\}$,
 
@@ -783,7 +783,7 @@ Prove that if $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$ are in $\overline{\mathbf{P}
 
 
 > ### {.exercise title="Non composition of exponential time" #exp-time-comp-ex}
-Prove that there is some $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$ s.t. $F,G \in \overline{\mathbf{EXP}}$ but $F\circ G$ is not in $\mathbf{EXP}$.^[TODO: check that this works, idea is that we can do bounded halting.]
+Prove that there is some $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$ s.t. $F,G \in \overline{\mathbf{EXP}}$ but $F\circ G$ is not in $\mathbf{EXP}$.
 
 
 > ### {.exercise title="Oblivious program" #oblivious-ex}
@@ -795,6 +795,57 @@ Then there is an _oblivious_ NAND-TM program $P'$ that computes $F$ in time $O(T
 
 > ### {.exercise title="Alternative characterization of $\mathbf{P}$" #Palternativeex}
 Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}$, $F\in \mathbf{P}$ if and only if there exists a polynomial time NAND-TM program $P$ such that $P(1^n)$ outputs a NAND-CIRC program  $Q_n$ that computes the restriction of $F$ to $\{0,1\}^n$.
+
+::: {.exercise  #graphedgeex}
+Let $EDGE:\{0,1\}^* \rightarrow \{0,1\}$ be the function such that on input a string representing a triple $(L,i,j)$, where $L$ is the adjacency list representation of an $n$ vertex graph $G$, and $i$ and $j$ are numbers in $[n]$, $EDGE(L,i,j)=1$ if the edge $\{i,j \}$ is present in the graph. $EDGE$ outputs $0$ on all other inputs.
+
+1. Prove that $EDGE \in \mathbf{P}$.
+
+
+2. Let $PLANARMATRIX:\{0,1\}^* \rightarrow \{0,1\}$ be the function that on input an adjacency matrix $A$ outputs $1$ if and only if the graph represented by $A$ is _planar_ (that is, can be drawn on the plane without edges crossing one another). For this question, you can use without proof the fact that $PLANARMATRIX \in \mathbf{P}$. Prove that $PLANARLIST \in \mathbf{P}$ where $PLANARLIST:\{0,1\}^* \rightarrow \{0,1\}$ is the function that on input an adjacency list $L$ outputs $1$ if and only if $L$ represents a planar graph.
+:::
+
+
+::: {.exercise title="Evaluate NAND circuits" #evalnandcircuit}
+Let $NANDEVAL:\{0,1\}^* \rightarrow \{0,1\}$ be the function such that for every string representing a pair $(Q,x)$ where $Q$ is an $n$-input $1$-output
+NAND-CIRC (not NAND-TM!) program  and $x\in \{0,1\}^n$, $NANDEVAL(Q,x)=Q(x)$.  On all other inputs $NANDEVAL$ outputs $0$.
+
+Prove that $NANDEVAL \in \mathbf{P}$.
+:::
+
+::: {.exercise title="Find hard function" #hardfunc}
+Let $NANDHARD:\{0,1\}^* \rightarrow \{0,1\}$ be the function such that on input a string representing a  pair $(f,s)$ where
+
+* $f \in \{0,1\}^{2^n}$ for some $n\in \mathbb{N}$
+* $s\in \mathbb{N}$
+
+$NANDHARD(f,s)=1$ if there is no NAND-CIRC program $Q$ of at most $s$ lines that computes the function $F:\{0,1\}^n \rightarrow \{0,1\}$ whose truth table is the string $f$.
+That is, $NANDHARD(f,s)=1$ if for every NAND-CIRC program $Q$ of at most $s$ lines, there exists some $x\in \{0,1\}^{n}$ such that $Q(x) \neq f_x$ where $f_x$ denote the $x$-the coordinate of $f$, using the binary representation to identify $\{0,1\}^n$ with the numbers $\{0,\ldots,2^n -1 \}$.
+
+1. Prove that $NANDHARD \in \mathbf{EXP}$.
+
+2. (Challenge) Prove that there is an algorithm $FINDHARD$ such that if $n$ is sufficiently large, then $FINDHARD(1^n)$ runs in time $2^{2^{O(n)}}$ and outputs a string $f \in \{0,1\}^{2^n}$ that is the truth table of a function that is not contained in  $SIZE(2^n/(1000n))$. (In other words, if $f$ is the string output by $FINDHARD(1^n)$ then if we let $F:\{0,1\}^n \rightarrow \{0,1\}$ be the function such that $F(x)$ outputs the $x$-th coordinate of $f$, then $F\not\in SIZE(2^n/(1000n))$.^[__Hint:__ Use Item 1, the existence of functions requiring exponentially hard NAND programs, and the fact that there are only finitely many functions mapping $\{0,1\}^n$ to $\{0,1\}$.]
+:::
+
+
+
+
+
+::: {.exercise  #scheduleprogex}
+Suppose that you are in charge of scheduling courses  in computer science in University X. In University X, computer science students wake up late, and have to work on their startups in the afternoon, and take long weekends with their investors. So you only have two possible slots: you can schedule a course either Monday-Wednesday 11am-1pm or Tuesday-Thursday 11am-1pm.
+
+
+Let $SCHEDULE:\{0,1\}^* \rightarrow \{0,1\}$ be the function that takes as input a list of courses $L$ and a list of _conflicts_ $C$ (i.e., list of pairs of courses that cannot share the same time slot) and outputs  $1$ if and only if there is a "conflict free" scheduling of the courses in $L$, where no pair in $C$ is scheduled in the same time slot.
+
+More precisely, the list $L$ is a list of strings $(c_0,\ldots,c_{n-1})$ and the list $C$ is a list of pairs of the form $(c_i,c_j)$. $SCHEDULE(L,C)=1$ if and only if there exists partition of $c_0,\ldots,c_{n-1}$ into two parts so that there is no pair $(c_i,c_j) \in C$ such that both $c_i$ and $c_j$ are in the same part.
+
+Prove that $SCHEDULE \in \mathbf{P}$.  As usual, you do not have to provide the full code to show that this is the case, and can describe operations as a high level, as well as appeal to any data structures or other results mentioned in the book or in lecture. Note that to show that a function $F$ is in $\mathbf{P}$ you need to both __(1)__ present an algorithm $A$ that computes $F$ in polynomial time, __(2)__ _prove_ that $A$ does indeed run in polynomial time, and does indeed compute the correct answer.
+
+Remark also whether or not your algorithm easily extends to the case where there are _three_ possible time slots.
+:::
+
+
+
 
 ## Bibliographical notes {#bibnotesrunningtime }
 

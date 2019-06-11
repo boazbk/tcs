@@ -499,6 +499,30 @@ A system is _sound_ if whenever there is no false $s$ such that there is a proof
 Prove that for every uncomputable function $F:\{0,1\}^* \rightarrow \{0,1\}$ and every sound axiomatic proof system $S$ (that is characterized by a finite number of axioms and inference rules), there is some input $x$ for which the proof system $S$ is not able to prove neither that $F(x)=0$ nor that $F(x) \neq 0$.
 
 
+
+::: {.exercise title="MRDP exercise" #MRDPexe}
+The MRDP theorem states that the problem of determining, given a $k$-variable polynomial $p$ with integer coefficients, whether there exists integers $x_0,\ldots,x_{k-1}$ such that $p(x_0,\ldots,x_{k-1})=0$ is uncomputable. Consider the following _quadratic integer equation problem_: the input is a list of polynomials $p_0,\ldots,p_{m-1}$ over $k$ variables with integer coefficients, where each of the polynomials is of degree at most two (i.e., it is a _quadratic_ function).
+The goal is to determine whether there exist integers $x_0,\ldots,x_{k-1}$ that solve the equations $p_0(x)= \cdots = p_{m-1}(x)=0$.
+
+Use the MRDP Theorem to prove  that this problem is uncomputable. That is, show that the function $QUADINTEQ:\{0,1\}^* \rightarrow \{0,1\}$ is uncomputable, where this function gets as input a string describing the polynomials $p_0,\ldots,p_{m-1}$ (each with integer coefficients and degree at most two), and outputs $1$ if and only if there exists $x_0,\ldots,x_{k-1} \in \mathbb{Z}$ such that for every $i\in [m]$, $p_i(x_0,\ldots,x_{k-1})=0$. See footnote for hint^[You can replace the equation $y=x^4$ with the pair of equations $y=z^2$ and $z=x^2$. Also, you can replace the equation $w = x^6$ with the three equations $w=yu$, $y = x^4$ and $u=x^2$.]
+
+:::
+
+
+::: {.exercise title="The Busy Beaver problem" #buseybeaverex}
+In this question we  define the NAND-TM variant of the  [busy beaver function](https://www.scottaaronson.com/writings/bignumbers.html).
+
+
+1. We define the function $T:\{0,1\}^* \rightarrow \mathbb{N}$ as follows: for every string $P\in \{0,1\}^*$, if $P$ represents a NAND++ program such  that when $P$ is executed on the input $0$ (i.e., the string of length 1 that is simply $0$), a total of $M$ lines are executed before the program halts, then $T(P)=M$. Otherwise (if $P$ does not represent a NAND++ program, or it is a program that does not halt on $0$), $T(P)=0$. Prove that $T$ is uncomputable.
+
+2. Let $TOWER(n)$ denote the number $\underbrace{2^{2^{2^{{\udots}^2}}}}_{n\text{ times}}$ (that is, a "tower of powers of two" of height $n$). To get a sense of how fast this function grows, $TOWER(1)=2$, $TOWER(2)=2^2=4$, $TOWER(3)=2^{2^2}=16$, $TOWER(4) = 2^{16} = 65536$ and $TOWER(5) = 2^{65536}$ which is about $10^{20000}$. $TOWER(6)$ is already a number that is too big to write even in scientific notation.
+Define $NBB:\mathbb{N} \rightarrow \mathbb{N}$ (for "NAND-TM Busy Beaver") to be the function $NBB(n) = \max_{P\in \{0,1\}^n} T(P)$ where $T:\mathbb{N} \rightarrow \mathbb{N}$ is the function defined in Item 1. Prove that $NBB$ grows _faster_ than $TOWER$, in the sense that $TOWER(n) = o(NBB(n))$ (i.e., for every  $\epsilon>0$, there exists $n_0$ such that for every $n>n_0$,  $TOWER(n) < \epsilon \cdot NBB(n)$.).^[You will not need to use very specific properties of  the $TOWER$ function in this exercise. For example, $NBB(n)$ also grows faster than the [Ackerman function](https://en.wikipedia.org/wiki/Ackermann_function).  You might find [Aaronson's  blog post](https://www.scottaaronson.com/blog/?p=3445) on the same topic to be quite interesting, and relevant to this book  at large. If you like it then you might also enjoy [this piece by Terence Tao](https://terrytao.wordpress.com/2010/10/10/the-cosmic-distance-ladder-ver-4-1/).]
+:::
+
+
+
+
+
 ## Bibliographical notes
 
 As mentioned before, Gödel, Escher, Bach [@hofstadter1999] is a highly recommended book covering Gödel's Theorem.
