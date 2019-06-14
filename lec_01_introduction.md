@@ -18,7 +18,7 @@ chapternum: "0"
 >_"Computer Science is no more about computers than astronomy is about telescopes"_,  attributed to Edsger Dijkstra.^[This quote is typically read as disparaging the importance of actual physical computers in Computer Science, but note that telescopes are absolutely essential to astronomy as they provide us with the means to connect theoretical predictions with actual experimental observations.]
 
 
->_"Hackers need to understand the theory of computation about as much as painters need to understand paint chemistry."_ , Paul Graham 2003.^[To be fair, in the following sentence Graham says "you need to know how to calculate time and space complexity and about Turing completeness". This book includes these topics, as well as others such as NP-hardness, randomization, cryptography,  quantum computing, and more.]
+>_"Hackers need to understand the theory of computation about as much as painters need to understand paint chemistry."_, Paul Graham 2003.^[To be fair, in the following sentence Graham says "you need to know how to calculate time and space complexity and about Turing completeness". This book includes these topics, as well as others such as NP-hardness, randomization, cryptography,  quantum computing, and more.]
 
 
 
@@ -32,7 +32,7 @@ addition, and this proves something of a stumbling block."_,  Alan Cobham, 1964
 The origin of much of science and medicine can be traced back to the ancient Babylonians.
 However, the Babylonians' most significant contribution to humanity was arguably the invention of the _place-value number system_.
 The place-value system represents any number using a collection of digits, whereby the _position_ of the digit is used to determine its value, as opposed to a system such as Roman numerals, where every symbol has a fixed numerical value regardless of position.
-For example, the distance to the moon is 238,900 of our miles or 259,956 Roman miles.
+For example, the average distance to the moon is approximately 238,900 of our miles or 259,956 Roman miles.
 The latter quantity, expressed in standard Roman numerals is
 
 ```
@@ -49,7 +49,7 @@ MMMMMMMMMMMMMMMMMMMDCCCCLVI
 
 Writing the distance to the sun in Roman numerals would require about 100,000 symbols: a 50-page book just containing this single number!
 
-For someone who thinks of numbers in an additive system like Roman numerals, quantities like the distance to the moon or sun are not merely large- they are _unspeakable_: cannot be expressed or even grasped.
+For someone who thinks of numbers in an additive system like Roman numerals, quantities like the distance to the moon or sun are not merely large---they are _unspeakable_: cannot be expressed or even grasped.
 It's no wonder that Eratosthenes, who was the first person to calculate the earth's diameter (up to about ten percent error) and Hipparchus who was the first to calculate the distance to the moon, did not use a Roman-numeral type system but rather the Babylonian sexadecimal (i.e., base 60) place-value system.
 
 ## Integer multiplication: an example of an algorithm
@@ -92,17 +92,17 @@ return $result$
 ```
 
 
-Both [naivemultalg](){.ref} and [gradeschoolalg](){.ref}  assume that we already know how to add numbers,and [gradeschoolalg](){.ref} also assumes that we can multiply a number by a power of $10$ (which is, after all, a simple shift).
+Both [naivemultalg](){.ref} and [gradeschoolalg](){.ref}  assume that we already know how to add numbers, and [gradeschoolalg](){.ref} also assumes that we can multiply a number by a power of $10$ (which is, after all, a simple shift).
 Suppose that $x$ and $y$ are two integers of $n=20$ decimal digits each.
 (This roughly corresponds to 64 binary digits, which is a common size in many programming languages.)
-Computing $x \cdot y$ using [naivemultalg](){.ref} entails adding $x$ to itself $y$ times which will entails (since $y$ is a $20$-digit number) at least $10^{19}$ additions.
+Computing $x \cdot y$ using [naivemultalg](){.ref} entails adding $x$ to itself $y$ times which entails (since $y$ is a $20$-digit number) at least $10^{19}$ additions.
 In contrast, the grade-school algorithm (i.e., [gradeschoolalg](){.ref}) involves $n^2$ shifts and single-digit products, and so at most $2n^2 = 800$ single-digit operations.
 To understand the difference, consider that a grade-schooler can perform a single-digit operation in about 2 seconds,  and so would require about $1,600$ seconds (about half an hour) to compute $x\cdot y$ using [gradeschoolalg](){.ref}.
 In contrast, even though it is more than a billion times faster than a human, if we used [naivemultalg](){.ref} to compute $x\cdot y$ using a modern PC, it would take us $10^{20}/10^9 = 10^{11}$ seconds (which is more than three millennia!) to compute the same result.
 
 
-We see that computers have not made algorithms obsolete.
-On the contrary, the vast increase in our ability to measure, store, and communicate data has led to much higher demand for developing better and more sophisticated algorithms that can allow us to make better decisions based on these data.
+Computers have not made algorithms obsolete.
+On the contrary, the vast increase in our ability to measure, store, and communicate data has led to much higher demand for developing better and more sophisticated algorithms that empower us to make better decisions based on these data.
 We also see that in no small extent the notion of _algorithm_ is independent of the actual computing device that executes it.
 The digit-by-digit multiplication algorithm is vastly better than iterated addition, regardless whether the technology we use to implement it is a silicon-based chip, or a third grader with pen and paper.
 
