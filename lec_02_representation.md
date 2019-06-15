@@ -452,7 +452,7 @@ The numbers $FtR(f)$ and $FtR(g)$ agree in the first $k-2$ digits following the 
 :::
 
 ::: {.proof data-ref="sequencestoreals"}
-For every $f \in \{0,1\}^\infty$,  we define $FtR(f)$ to be the number whose desimal expansion $f(0).f(1)f(2)f(3)\ldots$.
+For every $f \in \{0,1\}^\infty$,  we define $FtR(f)$ to be the number whose decimal expansion $f(0).f(1)f(2)f(3)\ldots$.
 Formally we define 
 $$
 FtR(f) = \sum_{i=0}^\infty f(i) \cdot 10^{-i} \label{eqcantordecimalexpansion}
