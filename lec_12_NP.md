@@ -25,35 +25,48 @@ Consider some of the problems we have encountered before:
 
 
 
-All of these have the following properties:
+All of these problems have the following properties:
 
 * These are important problems, and people have spent significant effort on trying to find better algorithms for them.
 
-* Each one of these problems is a _search_ problem, whereby we search for a solution that is "good" in some easy to define sense (e.g., a long path, a satisfying assignment, etc..).
+* Each one of these is a _search_ problem, whereby we search for a solution that is "good" in some easy to define sense (e.g., a long path, a satisfying assignment, etc.).
 
-* Each of these problems has trivial exponential time algorithms that involve enumerating all possible solutions.
+* Each of these problems has a trivial exponential time algorithm that involve enumerating all possible solutions.
 
-* At the moment, for all these problems the best known algorithms are not much better than the trivial one in the worst case.
+* At the moment, for all these problems the best known algorithm is not much faster than the trivial one in the worst case.
 
 
-In this chapter and in [cooklevinchap](){.ref} we will see that, despite their apparent differences, we can relate these problems by their complexity.
-In fact, it turns out that all these problems are _computationally equivalent_, in the sense that solving one of them immediately implies solving the others.
+In this chapter and in [cooklevinchap](){.ref} we will see that, despite their apparent differences, we can relate the computational complexity of these and many other problems.
+In fact, it turns out that the problem above are _computationally equivalent_, in the sense that solving one of them immediately implies solving the others.
 This phenomenon, known as _$\mathbf{NP}$ completeness_, is one of the surprising discoveries of theoretical computer science, and we will see that it has far-reaching ramifications.
 
+![In this chapter we show that if the $3SAT$ problem cannot be solved in polynomial time, then neither can the $QUADEQ$, $LONGESTPATH$, $ISET$ and $MAXCUT$ problems.  We do this by using the _reduction paradigm_ showing for example  "if pigs could whistle" (i.e., if we had an efficient algorithm for $QUADEQ$) then "horses could fly" (i.e., we would have an efficient algorithm for $3SAT$.)](../figure/reductionsoverview.png){#reductionsoverviewfig}
 
 
-### Decision problems
 
-For reasons of technical conditions rather than anything substantial, we will concern ourselves with _decision problems_ (i.e., Yes/No questions) or in other words _Boolean_  (i.e., one-bit output) functions.
-Thus, we will model all the problems as functions mapping $\{0,1\}^*$ to $\{0,1\}$:
 
-* The _3SAT_ problem can be phrased as the function $3SAT:\{0,1\}^* \rightarrow \{0,1\}$ that maps a 3CNF formula $\varphi$ to $1$ if there exists some assignment $x$ that satisfies it, and to $0$ otherwise.^[We assume some representation of formulas as strings, and define the function to output $0$ if its input is not a valid representation. We will use the same convention for all the other functions below.]
+
+__Decision problems.__ For reasons of technical conditions rather than anything substantial, we will concern ourselves with _decision problems_ (i.e., Yes/No questions) or in other words _Boolean_  (i.e., one-bit output) functions.
+We model the problems above as functions mapping $\{0,1\}^*$ to $\{0,1\}$ in the following way:
+
+* The _3SAT_ problem can be phrased as the function $3SAT:\{0,1\}^* \rightarrow \{0,1\}$ that maps a 3CNF formula $\varphi$ to $1$ if there exists some assignment $x$ that satisfies it, and to $0$ otherwise. (We assume some representation of formulas as strings, and define the function to output $0$ if its input is not a valid representation; We will use the same convention for all the other functions below.)
 
 * The _quadratic equations_ problem corresponds to the function $QUADEQ:\{0,1\}^* \rightarrow \{0,1\}$ that maps a set of quadratic equations $E$ to $1$ if there is an assignment $x$ that satisfies all equations, and to $0$ otherwise.
 
-* The _longest path_ problem corresponds to the function $LONGPATH:\{0,1\}^* \rightarrow \{0,1\}$ that maps a graph $G$ and a number $k$ to $1$ if there is a simple^[Recall that a _simple_ path in a graph is one that does not visit any vertex more than once. For the _shortest path problem_ we can assume that a path is simple without loss of generality since removing a loop (a portion of the path that starts from the same vertex and returns to it) only makes the path shorter. For the _longest path problem_ we need to make this restriction to avoid "degenerate" paths such as paths that repeat endlessly the same loop.] path in $G$ of length at least $k$, and maps $(G,k)$ to $0$ otherwise. The longest path problem is a generalization of the well-known [Hamiltonian Path Problem](https://en.wikipedia.org/wiki/Hamiltonian_path_problem) of determining whether a path of length $n$ exists in a given $n$ vertex graph.
+* The _longest path_ problem corresponds to the function $LONGPATH:\{0,1\}^* \rightarrow \{0,1\}$ that maps a graph $G$ and a number $k$ to $1$ if there is a simple path in $G$ of length at least $k$, and maps $(G,k)$ to $0$ otherwise. The longest path problem is a generalization of the well-known [Hamiltonian Path Problem](https://en.wikipedia.org/wiki/Hamiltonian_path_problem) of determining whether a path of length $n$ exists in a given $n$ vertex graph.
 
 * The _maximum cut_ problem corresponds to the function $MAXCUT:\{0,1\}^* \rightarrow \{0,1\}$ that maps a graph $G$ and a number $k$ to $1$ if there is a cut in $G$ that cuts at least $k$ edges, and maps $(G,k)$ to $0$ otherwise.
+
+
+Some other problems we  consider in this chapter include:
+
+* The _independent set_ problem corresponds to the function $ISET:\{0,1\}^* \rightarrow \{0,1\}$ that on input a string representing a pair $(G,k)$ of a graph $G=(V,E)$ and a number $k$, outputs $1$ iff there exists a set $S \subseteq V$ such that $|V| = k$ and there are is no edge $\{u,v\} \in E$ with both $u$ and $v$ in $S$.
+
+* The _zero-one equations_ problem corresponds to the function $01EQ:\{0,1\}^* \rightarrow \{0,1\}$ that gets a string representing  a set $E$ of linear equations with integer coefficients in variables $x_0, \ldots, x_{n-1}$ and outputs $1$ iff there is a Boolean assignment $x_0,\ldots,x_{n-1} \in \{0,1\}$ that satisfies all equations in $E$.
+
+* The _subset sum_ problem corresponds to the function $SUBSETSUM : \{0,1\}^* \rightarrow \{0,1\}$ that gets a string representing a sequence $(A_0,\ldots,A_{n-1},T)$ of $n+1$ natural numbers, and outputs $1$ if and only if there exists a set $S \subseteq [n]$ such that $\sum_{i\in S} A_i = T$.
+
+
 
 
 ## Reductions
@@ -63,7 +76,7 @@ How can we show that they are "computationally equivalent"?
 The idea is that we show that an efficient algorithm for $F$ would imply an efficient algorithm for $G$ and vice versa.
 The key to this is the notion of a _reduction_.
 Roughly speaking, we will say that _$F$ reduces to $G$_ (denoted as $F \leq_p G$) if $F$ is "no harder" than $G$, in the sense that a polynomial-time algorithm for $G$ implies a polynomial-time algorithm for $F$.
-The formal definition is as follows:^[Several notions of reductions are defined in the literature. The notion defined in [reduction-def](){.ref}  is often known as a _mapping reduction_, _many to one reduction_ or a _Karp reduction_.]
+The formal definition is as follows:
 
 > ### {.definition title="Reductions" #reduction-def}
 Let $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$. We say that _$F$ reduces to $G$_, denoted by $F \leq_p G$ if there is a polynomial-time computable $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every $x\in \{0,1\}^*$,
@@ -72,7 +85,7 @@ F(x) = G(R(x)) \;. \label{eq:reduction}
 $$
 We say that $F$ and $G$ have _equivalent complexity_ if $F \leq_p G$ and $G \leq_p F$.
 
-![If $F \leq_p G$ then we can transform a polynomial-time algorithm $B$  that computes $G$ into a polynomial-time algorithm $A$ that computes $F$. To compute $F(x)$ we can run the reduction $R$ guaranteed by the fact that $F \leq_p G$ to obtain $y=F(x)$ and then run our algorithm $B$ for $G$ to compute $G(y)$. ](../figure/reductionoutline.png){#reductionsfig .margin  }
+![If $F \leq_p G$ then we can transform a polynomial-time algorithm $B$  that computes $G$ into a polynomial-time algorithm $A$ that computes $F$. To compute $F(x)$ we can run the reduction $R$ guaranteed by the fact that $F \leq_p G$ to obtain $y=F(x)$ and then run our algorithm $B$ for $G$ to compute $G(y)$. ](../figure/reductiondescription.png){#reductionsfig .margin  }
 
 ::: {.solvedexercise title="Reductions and $\mathbf{P}$" #reductionsandP}
 Prove that if $F \leq_p G$ and $G \in \mathbf{P}$ then $F\in \mathbf{P}$.
@@ -131,7 +144,7 @@ In  [cooklevinchap](){.ref} we will show the other direction: reducing each one 
 ### Reducing 3SAT to quadratic equations
 
 Let us now see our first example of a reduction.
-Recall that in the _quadratic equation_ problem, the input is a list of $n$-variate polynomials $p_0,\ldots,p_{m-1}:\R^n \rightarrow \R$ that are all of [degree](https://en.wikipedia.org/wiki/Degree_of_a_polynomial) at most two (i.e., they are _quadratic_) and with integer coefficients.^[The latter condition is for convenience and can be achieved by scaling.]
+Recall that in the _quadratic equation_ problem, the input is a list of $n$-variate polynomials $p_0,\ldots,p_{m-1}:\R^n \rightarrow \R$ that are all of [degree](https://en.wikipedia.org/wiki/Degree_of_a_polynomial) at most two (i.e., they are _quadratic_) and with integer coefficients. (The latter condition is for convenience and can be achieved by scaling.)
 The task is to find out whether there is a solution $x\in \R^n$ to the equations $p_0(x)=0$, $p_1(x)=0$, $\ldots$, $p_{m-1}(x)=0$.
 
 For example, the following is a set of quadratic equations over the variables $x_0,x_1,x_2$:
@@ -198,9 +211,12 @@ This reduction can be easily implemented in about a dozen lines of Python or any
 
 For a graph $G=(V,E)$, an [independent set](https://en.wikipedia.org/wiki/Independent_set_(graph_theory)) (also known as a _stable set_) is a subset $S \subseteq V$ such that there are no edges with both endpoints in $S$ (in other words, $E(S,S)=\emptyset$).
 Every "singleton" (set consisting of a single vertex) is trivially an independent set, but finding larger independent sets can be challenging.
-The _maximum independent set_ problem (henceforth simply "independent set") is the task of finding the largest independent set in the graph.^[While we will not consider it here, people have also looked at the _maximal_ (as opposed to _maximum_) independent set, which is the task of finding a "local maximum" of an independent set: an independent set $S$ such that one cannot add a vertex to it without losing the independence property (such a set is known as a _vertex cover_). Finding a maximal independent set can be done efficiently by a greedy algorithm, but this local maximum can be much smaller than the global maximum.]
+The _maximum independent set_ problem (henceforth simply "independent set") is the task of finding the largest independent set in the graph.
 The independent set problem is naturally related to _scheduling problems_: if we put an edge between two conflicting tasks,  then an independent set corresponds to a set of tasks that can all be scheduled together without conflicts.
-But it also arises in very different settings, including trying to find structure in [protein-protein interaction graphs](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3919085/).^[In the molecular biology literature, people often refer to the computationally equivalent  [clique problem](https://en.wikipedia.org/wiki/Clique_problem).]
+But it also arises in very different settings, including trying to find structure in [protein-protein interaction graphs](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3919085/).
+
+
+
 
 To phrase independent set as a decision problem, we think of it as a function $ISET:\{0,1\}^* \rightarrow \{0,1\}$ that on input a graph $G$ and a number $k$ outputs $1$ if and only if the graph $G$ contains an independent set of size at least $k$.
 We will now reduce 3SAT to Independent set.
@@ -252,6 +268,24 @@ This completes the proof of [isetnpc](){.ref}
 
 
 ![The reduction of 3SAT to Independent Set. On the righthand side is _Python_ code that implements this reduction. On the lefthand side is a sample output of the reduction. We use black for the "triangle edges" and red for the "conflict edges". Note that the satisfying assignment $x^* = 0110$ corresponds to the independent set $(0,\neg x_3)$, $(1, \neg x_0)$, $(2,x_2)$.](../figure/3sat2ISreduction.png){#threesattoisfig .margin  }
+
+
+
+::: {.solvedexercise title="Clique is equivalent to independent set" #iscliqueex}
+The [maximum clique problem](https://en.wikipedia.org/wiki/Clique_problem) corresponds to the function $CLIQUE:\{0,1\}^* \rightarrow \{0,1\}$ such that for a graph $G$ and a number $k$, $CLIQUE(G,k)=1$ iff there is a $S$ subset of $k$ vertices  such that for _every_ distinct $u,v \in S$, the edge $u,v$ is in $G$. Such a set is known as a _clique_.
+
+Prove that $CLIQUE \leq_p ISET$ and $ISET \leq_p CLIQUE$.
+:::
+
+
+::: {.solution data-ref="iscliqueex"}
+If $G=(V,E)$ is a graph, we denote by $\overline{G}$ its _complement_  which is the graph on the same vertices $V$ and such that for every distinct $u,v \in V$, the edge $\{u,v\}$ is present in $\overline{G}$ if and only if this edge is _not_ present in $G$.
+
+This means that for every set $S$, $S$ is an independent set in $G$ if and only if $S$ is a _clique_ in $\overline{S}$. Therefore for every $k$, $ISET(G,k)=CLIQUE(\overline{G},k)$.
+Since the map $G \mapsto \overline{G}$ can be computed efficiently, this yields a reduction $ISET \leq_p CLIQUE$.
+Moreover, since $\overline{\overline{G}}=G$ this yields a reduction in the other direction as well.
+:::
+
 
 
 
@@ -351,11 +385,13 @@ Prove that if $F \leq_p G$ and $G \leq_p H$ then $F \leq_p H$.
 
 ## Bibliographical notes
 
-Reduction of independent set to max cut taken from [these notes](https://people.engr.ncsu.edu/mfms/Teaching/CSC505/wrap/Lectures/week14.pdf).
 
-## Further explorations
+Several notions of reductions are defined in the literature. The notion defined in [reduction-def](){.ref}  is often known as a _mapping reduction_, _many to one reduction_ or a _Karp reduction_.
 
-Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
+The _maximal_ (as opposed to _maximum_) independent set  is the task of finding a "local maximum" of an independent set: an independent set $S$ such that one cannot add a vertex to it without losing the independence property (such a set is known as a _vertex cover_). Unlike finding a _maximum_ independent set, finding a _maximal_ independent set can be done efficiently by a greedy algorithm, but this local maximum can be much smaller than the global maximum.
 
 
-## Acknowledgements
+Reduction of independent set to max cut taken from [these notes](https://people.engr.ncsu.edu/mfms/Teaching/CSC505/wrap/Lectures/week14.pdf). Image of Hamiltonian Path through Dodecahedron by [Christoph Sommer](https://commons.wikimedia.org/wiki/File:Hamiltonian_path.svg).
+
+
+

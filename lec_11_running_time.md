@@ -880,7 +880,7 @@ More precisely, the list $L$ is a list of strings $(c_0,\ldots,c_{n-1})$ and the
 
 Prove that $SCHEDULE \in \mathbf{P}$.  As usual, you do not have to provide the full code to show that this is the case, and can describe operations as a high level, as well as appeal to any data structures or other results mentioned in the book or in lecture. Note that to show that a function $F$ is in $\mathbf{P}$ you need to both __(1)__ present an algorithm $A$ that computes $F$ in polynomial time, __(2)__ _prove_ that $A$ does indeed run in polynomial time, and does indeed compute the correct answer.
 
-Remark also whether or not your algorithm easily extends to the case where there are _three_ possible time slots.
+Try to think whether or not your algorithm extends to the case where there are _three_ possible time slots.
 :::
 
 
@@ -906,9 +906,5 @@ It was introduced by Karp and Lipton, who considered this class as corresponding
 
 
 
-## Further explorations
-
-Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
 
-## Acknowledgements
