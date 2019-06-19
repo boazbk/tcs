@@ -37,7 +37,7 @@ _A mathematician's apology._  Some students might wonder why  this book contains
 In this book we use math to model the concept of _computation_.
 For example, we will consider questions such as _"is there an efficient algorithm to find the prime factors of a given integer?"_. (We will see that this question is particularly interesting, touching on areas as far apart as Internet security and quantum mechanics!)
 To even _phrase_ such a question, we need to give a precise _definition_ of the notion of an _algorithm_, and of what it means for an algorithm to be _efficient_.
-Also, since there is no empirical experiment that will prove the _nonexistence_ of an algorithm,  the only way to establish such a result is using a  _mathematical proofs_.
+Also, since there is no empirical experiment that will prove the _nonexistence_ of an algorithm,  the only way to establish such a result is using a _mathematical proof_.
 
 
 ##  This chapter: a reader's manual   { #manualbackground}
@@ -60,15 +60,15 @@ The main mathematical concepts we use in this book are:
 
 * __Proofs:__ First and foremost, this book involves a heavy dose of formal mathematical reasoning, which includes mathematical _definitions_, _statements_, and _proofs_.
 
-* __Sets:__ The basic set _relations_ of membership ($\in$) and containment ($\subseteq$), and set _operations_, principally union, intersection, set difference and Cartesian product ($\cup,\cap,\setminus$ and $\times$).
+* __Sets:__ The basic set _relations_ of membership ($\in$) and containment ($\subseteq$), and set _operations_, principally union ($\cup$), intersection ($\cap$), set difference ($\setminus$) and Cartesian product ($\times$).
 
 * __Tuples and strings:__ The set $\Sigma^k$ of length-$k$ strings/lists over elements in $\Sigma$, where $\Sigma$ is some finite set which is called the _alphabet_ (quite often $\Sigma = \{0,1\}$). We use $\Sigma^*$ for the set of all strings of finite length.
 
-* __Some special sets:__ The set $\N$ of natural numbers. Following typical computer science convention, our indices start from zero and so we write $\N = \{0,1,2,\ldots \}$. We use $[n]$ for the set $\{0,1,2,\ldots,n-1\}$. We use $\{0,1\}^*$ for the set of all binary strings and $\{0,1\}^n$ for the set of strings of length $n$ for some natural number $n\in\N$. If $x$ is a string of length $n$, then we refer to its coordinates by $x_0,\ldots,x_{n-1}$.
+* __Some special sets:__ The set $\N$ of natural numbers. Following typical computer science convention, our indices start from zero and so we write $\N = \{0,1,2,\ldots \}$. We use $[n]$ for the set $\{0,1,2,\ldots,n-1\}$. We use $\{0,1\}^*$ for the set of all binary strings and $\{0,1\}^n$ for the set of strings of length $n$ for some natural number $n\in\N$. If $x$ is a string of length $n$, then we refer to its elements by $x_0,\ldots,x_{n-1}$.
 
 * __Functions:__ The _domain_ and _codomain_ of a function, properties such as being _one-to-one_ (also known as _injective_) or _onto_ (also known as _surjective_) functions, as well as _partial functions_ (that, unlike standard or "total" functions, are not necessarily defined on all elements of their domain).
 
-* __Logical operations:__ The operations AND, OR, and NOT ($\wedge,\vee,\neg$) and the quantifiers "there exists" and "for all" ($\exists$,$\forall$).
+* __Logical operations:__ The operations AND ($\wedge$), OR ($\vee$), and NOT ($\neg$) and the quantifiers "there exists" ($\exists$) and "for all" ($\forall$).
 
 * __Basic combinatorics:__ Notions such as $\binom{n}{k}$ (the number of $k$-sized subsets of a set of size $n$).
 
@@ -175,9 +175,9 @@ $$
 \text{EVEN} = \{ 0,2,4, \ldots \} \;.
 $$
 
-Note that a set can be either finite  (such as the set $\{2,4,7\}$ ) or infinite (such as the set $\text{EVEN}$).
+Note that a set can be either finite  (such as the set $\{2,4,7\}$) or infinite (such as the set $\text{EVEN}$).
 Also, the elements of a set don't have to be numbers.
-We can talk about the sets such as the set $\{a,e,i,o,u \}$ of all the vowels in the English language, or the set $\{$ `New York`, `Los Angeles`, `Chicago`, `Houston`, `Philadelphia`, `Phoenix`, `San Antonio`, `San Diego`, `Dallas` $\}$  of all cities in the U.S. with population more than one million per the 2010 census.
+We can talk about the sets such as the set $\{a,e,i,o,u \}$ of all the vowels in the English language, or the set $\{$`New York`, `Los Angeles`, `Chicago`, `Houston`, `Philadelphia`, `Phoenix`, `San Antonio`, `San Diego`, `Dallas`$\}$  of all cities in the U.S. with population more than one million per the 2010 census.
 A set can even have other sets as elements, such as the set $\{ \emptyset, \{1,2\},\{2,3\},\{1,3\} \}$ of all even-sized subsets of $\{1,2,3\}$.
 
 __Operations on sets:__ The _union_ of two sets $S,T$, denoted by $S \cup T$, is the set that contains all elements that are either in $S$ _or_ in $T$. The _intersection_ of $S$ and $T$, denoted by $S \cap T$, is the set of elements that are both in $S$ _and_ in $T$. The _set difference_ of $S$ and $T$, denoted by $S \setminus T$ (and in some texts also by $S-T$), is the set of elements that are in $S$ but _not_ in $T$.
@@ -210,7 +210,7 @@ $$
 contains all  _natural numbers_, i.e., non-negative integers.
 For any natural number $n\in\N$, we define the set $[n]$ as $\{0,\ldots, n-1\} = \{ k\in \N : k < n \}$. (We start our indexing of both $\N$ and $[n]$ from $0$, while many other texts index those sets from $1$. Starting from zero or one is simply a convention that doesn't make much difference, as long as one is consistent about it.)
 
-We will also occasionally use the set $\Z=\{\ldots,-2,-1,0,+1,+2,\ldots \}$ of (negative and non-negative) _integers_,^[The letter Z stands for the German word "Zahlen", which means _numbers_.] as well as the set $\R$ of _real_ numbers. (This is the set that includes not just the integers, but also fractional and even irrational numbers; e.g., $\R$ contains numbers such as $+0.5$, $-\pi$, etc.)
+We will also occasionally use the set $\Z=\{\ldots,-2,-1,0,+1,+2,\ldots \}$ of (negative and non-negative) _integers_,^[The letter Z stands for the German word "Zahlen", which means _numbers_.] as well as the set $\R$ of _real_ numbers. (This is the set that includes not just the integers, but also fractional and irrational numbers; e.g., $\R$ contains numbers such as $+0.5$, $-\pi$, etc.)
 We denote by $\R_+$  the set $\{ x\in \R : x > 0 \}$ of _positive_ real numbers.
 This set is sometimes also denoted as $(0,\infty)$.
 
@@ -224,13 +224,13 @@ That is $\{0,1\}^n$ is the set of all $n$-tuples of zeroes and ones.
 This is consistent with our notation above: $\{0,1\}^2$ is the Cartesian product $\{0,1\} \times \{0,1\}$, $\{0,1\}^3$ is the product $\{0,1\} \times \{0,1\} \times \{0,1\}$ and so on.
 
 
-We will write the string $(x_0,x_1,\ldots,x_{n-1})$ as simply $x_0x_1\cdots x_{n-1}$ and so for example
+We will write the string $(x_0,x_1,\ldots,x_{n-1})$ as simply $x_0x_1\cdots x_{n-1}$. For example,
 
 $$
 \{0,1\}^3 = \{ 000 , 001, 010 , 011, 100, 101, 110, 111 \} \;.
 $$
 
-For every string $x\in \{0,1\}^n$ and $i\in [n]$, we write $x_i$ for the $i^{th}$ coordinate of $x$.
+For every string $x\in \{0,1\}^n$ and $i\in [n]$, we write $x_i$ for the $i^{th}$ element of $x$.
 If $x$ and $y$ are strings, then $xy$  denotes their _concatenation_.
 That is, if $x \in \{0,1\}^n$ and $y\in \{0,1\}^m$, then $xy$ is equal to the string $z\in \{0,1\}^{n+m}$ such that for $i\in [n]$, $z_i=x_i$ and for $i\in \{n,\ldots,n+m-1\}$, $z_i = y_{i-n}$.
 
@@ -993,7 +993,7 @@ Most of the notation we use in this book is standard and is used in most mathema
 
 * We index the natural numbers $\N$ starting with $0$ (though many other texts, especially in computer science, do the same).
 
-* We also index the set $[n]$ starting with $0$, and hence define it as $\{0,\ldots,n-1\}$. In other texts it is often defined as $\{1,\ldots, n \}$. Similarly, we index coordinates of our strings starting with $0$, and hence a string $x\in \{0,1\}^n$ is written as $x_0x_1\cdots x_{n-1}$.
+* We also index the set $[n]$ starting with $0$, and hence define it as $\{0,\ldots,n-1\}$. In other texts it is often defined as $\{1,\ldots, n \}$. Similarly, we index our strings starting with $0$, and hence a string $x\in \{0,1\}^n$ is written as $x_0x_1\cdots x_{n-1}$.
 
 * If $n$ is a natural number then $1^n$ does _not_ equal the number $1$ but rather this is the length $n$ string $11\cdots 1$ (that is a string of $n$ ones). Similarly, $0^n$ refers to the length $n$ string $00 \cdots 0$.
 
