@@ -231,8 +231,6 @@ $$
 $$
 
 For every string $x\in \{0,1\}^n$ and $i\in [n]$, we write $x_i$ for the $i^{th}$ element of $x$.
-If $x$ and $y$ are strings, then $xy$  denotes their _concatenation_.
-That is, if $x \in \{0,1\}^n$ and $y\in \{0,1\}^m$, then $xy$ is equal to the string $z\in \{0,1\}^{n+m}$ such that for $i\in [n]$, $z_i=x_i$ and for $i\in \{n,\ldots,n+m-1\}$, $z_i = y_{i-n}$.
 
 We will also often talk about the set of binary strings of _all_ lengths, which is
 
@@ -257,7 +255,8 @@ __Generalizing the star operation:__ For every set $\Sigma$, we define
 $$\Sigma^* = \cup_{n\in \N} \Sigma^n \;.$$
 For example, if $\Sigma = \{a,b,c,d,\ldots,z \}$ then $\Sigma^*$ denotes the set of all finite length strings over the alphabet a-z.
 
-__Concatenation:__ As mentioned in [specialsets](){.ref}, the _concatenation_ of two strings $x\in \Sigma^n$ and $y\in \Sigma^m$ is the $(n+m)$-length string $xy$ obtained by writing $y$ after $x$.
+__Concatenation:__ The _concatenation_ of two strings $x\in \Sigma^n$ and $y\in \Sigma^m$ is the $(n+m)$-length string $xy$ obtained by writing $y$ after $x$.
+That is, if $x \in \{0,1\}^n$ and $y\in \{0,1\}^m$, then $xy$ is equal to the string $z\in \{0,1\}^{n+m}$ such that for $i\in [n]$, $z_i=x_i$ and for $i\in \{n,\ldots,n+m-1\}$, $z_i = y_{i-n}$.
 
 
 ### Functions {#functionsec }
