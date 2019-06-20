@@ -289,15 +289,15 @@ If $f:S \rightarrow T$ satisfies that $f(x)\neq F(y)$ for all $x \neq y$ then we
 If $F$ satisfies that for every $y\in T$ there is some $x\in S$ such that $F(x)=y$ then we say that $F$ is _onto_ (also known as a _surjective_ function or simply a _surjection_).
 A function that is both one-to-one and onto is known as a _bijective_ function or simply a _bijection_.
 A bijection from a set $S$ to itself is also known as a _permutation_ of $S$.
-If  $F:S \rightarrow T$ is a bijection then for every $y\in T$ there is a unique $x\in S$ s.t. $F(x)=y$.
+If  $F:S \rightarrow T$ is a bijection then for every $y\in T$ there is a unique $x\in S$ such that $F(x)=y$.
 We denote this value $x$ by $F^{-1}(y)$.
 Note that $F^{-1}$ is itself a bijection from $T$ to $S$ (can you see why?).
 
 
 Giving a bijection between two sets is often a good way to show they have the same size.
 In fact, the standard mathematical definition of the notion that "$S$ and $T$ have the same cardinality" is that there exists a bijection $f:S \rightarrow T$.
-In particular, the cardinality of a set $S$ is defined to be $n$ if there is a bijection from $S$ to the set $\{0,\ldots,n-1\}$.
-As we will see later in this course, this is a definition that can generalizes to defining the cardinality of _infinite_ sets.
+Further, the cardinality of a set $S$ is defined to be $n$ if there is a bijection from $S$ to the set $\{0,\ldots,n-1\}$.
+As we will see later in this book, this is a definition that can generalizes to defining the cardinality of _infinite_ sets.
 
 
 
@@ -309,7 +309,7 @@ When we want to distinguish between partial functions and standard (i.e., non-pa
 When we say "function" without any qualifier then we mean a _total_ function.
 
 The notion of partial functions is a strict generalization of functions, and so every function is a partial function, but not every partial function is a function. (That is, for every nonempty $S$ and $T$, the set of partial functions from $S$ to $T$ is a proper superset of the set of total functions from $S$ to $T$.) When we want to emphasize that a function $f$ from $A$ to $B$ might not be total, we will write $f: A \rightarrow_p B$.
-We can think of a partial function $F$ from $S$ to $T$ also as a total function from $S$ to $T \cup \{ \bot \}$ where $\bot$ is some special "failure symbol", and so instead of saying that $F$ is undefined at $x$, we can say that $F(x)=\bot$.
+We can think of a partial function $F$ from $S$ to $T$ also as a total function from $S$ to $T \cup \{ \bot \}$ where $\bot$ is a special "failure symbol". So, instead of saying that $F$ is undefined at $x$, we can say that $F(x)=\bot$.
 
 __Basic facts about functions:__
 Verifying that you can prove the following results is an excellent way to brush up on functions:
@@ -335,11 +335,11 @@ If $S,T$ are non-empty sets and $F:S \rightarrow T$ is one to one, then there ex
 
 
 > ### {.proof data-ref="onetooneimpliesonto"}
-Let $S$, $T$ and  $F:S \rightarrow T$ be as in the Lemma's statement, and choose some $s_0 \in S$.
+Choose some $s_0 \in S$.
 We will define the function $G:T \rightarrow S$ as follows: for every $t\in T$, if there is some $s\in S$ such that $F(s)=t$ then set $G(t)=s$ (the choice of $s$ is well defined since by the one-to-one property of $F$, there cannot be two distinct $s,s'$  that both map to $t$).
 Otherwise, set $G(t)=s_0$.
 Now for every $s\in S$, by the definition of $G$, if $t=F(s)$ then $G(t)=G(F(s))=s$.
-Moreover, this also shows that $G$ is _onto_, since it means that for every $s\in S$ there is some $t$ (namely $t=F(s)$) such that $G(t)=s$.
+Moreover, this also shows that $G$ is _onto_, since it means that for every $s\in S$ there is some $t$, namely $t=F(s)$, such that $G(t)=s$.
 
 
 
