@@ -121,7 +121,7 @@ A full description of an algorithm has three components:
 
 * __Analysis:__ __Why__ does this sequence of instructions achieves the desired task. A full description of [naivemultalg](){.ref} and [gradeschoolalg](){.ref} will include a _proof_ for each one of these algorithms that on input $x,y$, the algorithm does indeed output $x\cdot y$.
 
-Often as part of the analysis we show that the algorithm is not only __correct__ but also __efficient__. That is, we want to show that not only will the algorithm compute the desired task, but will do so in prescribed number of operations. For example [gradeschoolalg](){.ref} computes the multiplication function on inputs of $n$ digits using $O(n^2)$ operations, while [karatsubaalg](){.ref} (described below) computes the same function using $O(n^{1.6})$ operations. (We define the $O$ notations used here in #secbigohnotation{.ref}.)
+Often as part of the analysis we show that the algorithm is not only __correct__ but also __efficient__. That is, we want to show that not only will the algorithm compute the desired task, but will do so in prescribed number of operations. For example [gradeschoolalg](){.ref} computes the multiplication function on inputs of $n$ digits using $O(n^2)$ operations, while [karatsubaalg](){.ref} (described below) computes the same function using $O(n^{1.6})$ operations. (We define the $O$ notations used here in [secbigohnotation]{.ref}.)
 :::
 
 
