@@ -16,7 +16,7 @@ chapternum: "1"
 
 
 
->_"When you have mastered numbers, you will in fact no longer be reading numbers, any more than you read words when reading books. You will be reading meanings."_, W. E. B. Du Bois
+>_"When you have mastered numbers, you will in fact no longer be reading numbers, any more than you read words when reading books. You will be reading meanings."_, Harold Gennen, _Managing_, 1984.
 
 
 >_"I found that every number, which may be expressed from one to ten, surpasses the preceding by one unit: afterwards the ten is doubled or tripled  ...  until a hundred; then the hundred is doubled and tripled in the same manner as the units and the tens ... and so forth to the utmost limit of numeration."_,  Muhammad ibn Mūsā al-Khwārizmī, 820, translation by Fredric Rosen, 1831.
@@ -37,7 +37,7 @@ _A mathematician's apology._  Some students might wonder why  this book contains
 In this book we use math to model the concept of _computation_.
 For example, we will consider questions such as _"is there an efficient algorithm to find the prime factors of a given integer?"_. (We will see that this question is particularly interesting, touching on areas as far apart as Internet security and quantum mechanics!)
 To even _phrase_ such a question, we need to give a precise _definition_ of the notion of an _algorithm_, and of what it means for an algorithm to be _efficient_.
-Also, since there is no empirical experiment that will prove the _nonexistence_ of an algorithm,  the only way to establish such a result is using a  _mathematical proofs_.
+Also, since there is no empirical experiment that will prove the _nonexistence_ of an algorithm,  the only way to establish such a result is using a _mathematical proof_.
 
 
 ##  This chapter: a reader's manual   { #manualbackground}
@@ -60,15 +60,15 @@ The main mathematical concepts we use in this book are:
 
 * __Proofs:__ First and foremost, this book involves a heavy dose of formal mathematical reasoning, which includes mathematical _definitions_, _statements_, and _proofs_.
 
-* __Sets:__ The basic set _relations_ of membership ($\in$) and containment ($\subseteq$), and set _operations_, principally union, intersection, set difference and Cartesian product ($\cup,\cap,\setminus$ and $\times$).
+* __Sets:__ The basic set _relations_ of membership ($\in$) and containment ($\subseteq$), and set _operations_, principally union ($\cup$), intersection ($\cap$), set difference ($\setminus$) and Cartesian product ($\times$).
 
 * __Tuples and strings:__ The set $\Sigma^k$ of length-$k$ strings/lists over elements in $\Sigma$, where $\Sigma$ is some finite set which is called the _alphabet_ (quite often $\Sigma = \{0,1\}$). We use $\Sigma^*$ for the set of all strings of finite length.
 
-* __Some special sets:__ The set $\N$ of natural numbers. Following typical computer science convention, our indices start from zero and so we write $\N = \{0,1,2,\ldots \}$. We use $[n]$ for the set $\{0,1,2,\ldots,n-1\}$. We use $\{0,1\}^*$ for the set of all binary strings and $\{0,1\}^n$ for the set of strings of length $n$ for some natural number $n\in\N$. If $x$ is a string of length $n$, then we refer to its coordinates by $x_0,\ldots,x_{n-1}$.
+* __Some special sets:__ The set $\N$ of natural numbers. Following typical computer science convention, our indices start from zero and so we write $\N = \{0,1,2,\ldots \}$. We use $[n]$ for the set $\{0,1,2,\ldots,n-1\}$. We use $\{0,1\}^*$ for the set of all binary strings and $\{0,1\}^n$ for the set of strings of length $n$ for some natural number $n\in\N$. If $x$ is a string of length $n$, then we refer to its elements by $x_0,\ldots,x_{n-1}$.
 
 * __Functions:__ The _domain_ and _codomain_ of a function, properties such as being _one-to-one_ (also known as _injective_) or _onto_ (also known as _surjective_) functions, as well as _partial functions_ (that, unlike standard or "total" functions, are not necessarily defined on all elements of their domain).
 
-* __Logical operations:__ The operations AND, OR, and NOT ($\wedge,\vee,\neg$) and the quantifiers "there exists" and "for all" ($\exists$,$\forall$).
+* __Logical operations:__ The operations AND ($\wedge$), OR ($\vee$), and NOT ($\neg$) and the quantifiers "there exists" ($\exists$) and "for all" ($\forall$).
 
 * __Basic combinatorics:__ Notions such as $\binom{n}{k}$ (the number of $k$-sized subsets of a set of size $n$).
 
@@ -175,9 +175,9 @@ $$
 \text{EVEN} = \{ 0,2,4, \ldots \} \;.
 $$
 
-Note that a set can be either finite  (such as the set $\{2,4,7\}$ ) or infinite (such as the set $\text{EVEN}$).
+Note that a set can be either finite  (such as the set $\{2,4,7\}$) or infinite (such as the set $\text{EVEN}$).
 Also, the elements of a set don't have to be numbers.
-We can talk about the sets such as the set $\{a,e,i,o,u \}$ of all the vowels in the English language, or the set $\{$ `New York`, `Los Angeles`, `Chicago`, `Houston`, `Philadelphia`, `Phoenix`, `San Antonio`, `San Diego`, `Dallas` $\}$  of all cities in the U.S. with population more than one million per the 2010 census.
+We can talk about the sets such as the set $\{a,e,i,o,u \}$ of all the vowels in the English language, or the set $\{$`New York`, `Los Angeles`, `Chicago`, `Houston`, `Philadelphia`, `Phoenix`, `San Antonio`, `San Diego`, `Dallas`$\}$  of all cities in the U.S. with population more than one million per the 2010 census.
 A set can even have other sets as elements, such as the set $\{ \emptyset, \{1,2\},\{2,3\},\{1,3\} \}$ of all even-sized subsets of $\{1,2,3\}$.
 
 __Operations on sets:__ The _union_ of two sets $S,T$, denoted by $S \cup T$, is the set that contains all elements that are either in $S$ _or_ in $T$. The _intersection_ of $S$ and $T$, denoted by $S \cap T$, is the set of elements that are both in $S$ _and_ in $T$. The _set difference_ of $S$ and $T$, denoted by $S \setminus T$ (and in some texts also by $S-T$), is the set of elements that are in $S$ but _not_ in $T$.
@@ -210,7 +210,7 @@ $$
 contains all  _natural numbers_, i.e., non-negative integers.
 For any natural number $n\in\N$, we define the set $[n]$ as $\{0,\ldots, n-1\} = \{ k\in \N : k < n \}$. (We start our indexing of both $\N$ and $[n]$ from $0$, while many other texts index those sets from $1$. Starting from zero or one is simply a convention that doesn't make much difference, as long as one is consistent about it.)
 
-We will also occasionally use the set $\Z=\{\ldots,-2,-1,0,+1,+2,\ldots \}$ of (negative and non-negative) _integers_,^[The letter Z stands for the German word "Zahlen", which means _numbers_.] as well as the set $\R$ of _real_ numbers. (This is the set that includes not just the integers, but also fractional and even irrational numbers; e.g., $\R$ contains numbers such as $+0.5$, $-\pi$, etc.)
+We will also occasionally use the set $\Z=\{\ldots,-2,-1,0,+1,+2,\ldots \}$ of (negative and non-negative) _integers_,^[The letter Z stands for the German word "Zahlen", which means _numbers_.] as well as the set $\R$ of _real_ numbers. (This is the set that includes not just the integers, but also fractional and irrational numbers; e.g., $\R$ contains numbers such as $+0.5$, $-\pi$, etc.)
 We denote by $\R_+$  the set $\{ x\in \R : x > 0 \}$ of _positive_ real numbers.
 This set is sometimes also denoted as $(0,\infty)$.
 
@@ -224,15 +224,13 @@ That is $\{0,1\}^n$ is the set of all $n$-tuples of zeroes and ones.
 This is consistent with our notation above: $\{0,1\}^2$ is the Cartesian product $\{0,1\} \times \{0,1\}$, $\{0,1\}^3$ is the product $\{0,1\} \times \{0,1\} \times \{0,1\}$ and so on.
 
 
-We will write the string $(x_0,x_1,\ldots,x_{n-1})$ as simply $x_0x_1\cdots x_{n-1}$ and so for example
+We will write the string $(x_0,x_1,\ldots,x_{n-1})$ as simply $x_0x_1\cdots x_{n-1}$. For example,
 
 $$
 \{0,1\}^3 = \{ 000 , 001, 010 , 011, 100, 101, 110, 111 \} \;.
 $$
 
-For every string $x\in \{0,1\}^n$ and $i\in [n]$, we write $x_i$ for the $i^{th}$ coordinate of $x$.
-If $x$ and $y$ are strings, then $xy$  denotes their _concatenation_.
-That is, if $x \in \{0,1\}^n$ and $y\in \{0,1\}^m$, then $xy$ is equal to the string $z\in \{0,1\}^{n+m}$ such that for $i\in [n]$, $z_i=x_i$ and for $i\in \{n,\ldots,n+m-1\}$, $z_i = y_{i-n}$.
+For every string $x\in \{0,1\}^n$ and $i\in [n]$, we write $x_i$ for the $i^{th}$ element of $x$.
 
 We will also often talk about the set of binary strings of _all_ lengths, which is
 
@@ -250,15 +248,15 @@ $$
 \{0,1\}^* = \cup_{n\in\N} \{0,1\}^n \;.
 $$
 
-The set $\{0,1\}^*$ contains also the "string of length $0$" or "the empty string", which we will denote by $""$. (In using this notation we follow the convention of many programming languages. Other texts sometimes use $\epsilon$ or $\lambda$ to denote the empty string. However, this doesn't matter much since we will rarely encounter this "edge case".)
-
+The set $\{0,1\}^*$ includes the "string of length $0$" or "the empty string", which we will denote by $""$. (In using this notation we follow the convention of many programming languages. Other texts sometimes use $\epsilon$ or $\lambda$ to denote the empty string.)
 
 __Generalizing the star operation:__ For every set $\Sigma$, we define
 
 $$\Sigma^* = \cup_{n\in \N} \Sigma^n \;.$$
 For example, if $\Sigma = \{a,b,c,d,\ldots,z \}$ then $\Sigma^*$ denotes the set of all finite length strings over the alphabet a-z.
 
-__Concatenation:__ As mentioned in [specialsets](){.ref}, the _concatenation_ of two strings $x\in \Sigma^n$ and $y\in \Sigma^m$ is the $(n+m)$-length string $xy$ obtained by writing $y$ after $x$.
+__Concatenation:__ The _concatenation_ of two strings $x\in \Sigma^n$ and $y\in \Sigma^m$ is the $(n+m)$-length string $xy$ obtained by writing $y$ after $x$.
+That is, if $x \in \{0,1\}^n$ and $y\in \{0,1\}^m$, then $xy$ is equal to the string $z\in \{0,1\}^{n+m}$ such that for $i\in [n]$, $z_i=x_i$ and for $i\in \{n,\ldots,n+m-1\}$, $z_i = y_{i-n}$.
 
 
 ### Functions {#functionsec }
@@ -268,7 +266,7 @@ The set $S$ is known as the _domain_ of $F$ and the set $T$ is known as the _cod
 The _image_ of a function $F$ is the set $\{ F(x) \;|\; x\in S\}$ which is the subset of $F$'s codomain consisting of all output elements that are mapped from some input. (Some texts use _range_ to denote the image of a function, while other texts use _range_ to denote the codomain of a function. Hence we will avoid using the term "range" altogether.)
 As in the case of sets, we can write a function either by listing the table of all the values it gives for elements in $S$ or by using a rule.
 For example if $S = \{0,1,2,3,4,5,6,7,8,9 \}$ and $T = \{0,1 \}$, then the table below defines a function $F: S \rightarrow T$.
-Note that this function is the same as the function defined by the rule $F(x)= (x \mod 2)$.^[For two natural numbers $x$ and $a$, $x \mod a$ (shorthand for ["modulo"](https://goo.gl/b7Fdzm)) denotes the _remainder_ of $x$ when it is divided by $a$. That is, it is the number $r$ in $\{0,\ldots,a-1\}$ such that $x = ak +r$ for some integer $k$. We sometimes also use the notation $x = y (\mod a)$ to denote the assertion that $x \mod a$ is the same as $y \mod a$.]
+Note that this function is the same as the function defined by the rule $F(x)= (x \mod 2)$.^[For two natural numbers $x$ and $a$, $x \mod a$ (shorthand for ["modulo"](https://goo.gl/b7Fdzm)) denotes the _remainder_ of $x$ when it is divided by $a$. That is, it is the number $r$ in $\{0,\ldots,a-1\}$ such that $x = ak +r$ for some integer $k$. We sometimes also use the notation $x = y\; (\mod a)$ to denote the assertion that $x \mod a$ is the same as $y \mod a$.]
 
 | Input | Output |
 |:------|:-------|
@@ -287,19 +285,19 @@ Table: An example of a function.
 
 
 
-If $F:S \rightarrow T$ satisfies that $F(x)\neq F(y)$ for all $x \neq y$ then we say that $F$ is _one-to-one_ (also known as an _injective_ function or simply an _injection_).
+If $f:S \rightarrow T$ satisfies that $f(x)\neq F(y)$ for all $x \neq y$ then we say that $f$ is _one-to-one_ ([onetoonedef](){.ref}, also known as an _injective_ function or simply an _injection_).
 If $F$ satisfies that for every $y\in T$ there is some $x\in S$ such that $F(x)=y$ then we say that $F$ is _onto_ (also known as a _surjective_ function or simply a _surjection_).
 A function that is both one-to-one and onto is known as a _bijective_ function or simply a _bijection_.
 A bijection from a set $S$ to itself is also known as a _permutation_ of $S$.
-If  $F:S \rightarrow T$ is a bijection then for every $y\in T$ there is a unique $x\in S$ s.t. $F(x)=y$.
+If  $F:S \rightarrow T$ is a bijection then for every $y\in T$ there is a unique $x\in S$ such that $F(x)=y$.
 We denote this value $x$ by $F^{-1}(y)$.
 Note that $F^{-1}$ is itself a bijection from $T$ to $S$ (can you see why?).
 
 
 Giving a bijection between two sets is often a good way to show they have the same size.
 In fact, the standard mathematical definition of the notion that "$S$ and $T$ have the same cardinality" is that there exists a bijection $f:S \rightarrow T$.
-In particular, the cardinality of a set $S$ is defined to be $n$ if there is a bijection from $S$ to the set $\{0,\ldots,n-1\}$.
-As we will see later in this course, this is a definition that can generalizes to defining the cardinality of _infinite_ sets.
+Further, the cardinality of a set $S$ is defined to be $n$ if there is a bijection from $S$ to the set $\{0,\ldots,n-1\}$.
+As we will see later in this book, this is a definition that can generalizes to defining the cardinality of _infinite_ sets.
 
 
 
@@ -311,7 +309,7 @@ When we want to distinguish between partial functions and standard (i.e., non-pa
 When we say "function" without any qualifier then we mean a _total_ function.
 
 The notion of partial functions is a strict generalization of functions, and so every function is a partial function, but not every partial function is a function. (That is, for every nonempty $S$ and $T$, the set of partial functions from $S$ to $T$ is a proper superset of the set of total functions from $S$ to $T$.) When we want to emphasize that a function $f$ from $A$ to $B$ might not be total, we will write $f: A \rightarrow_p B$.
-We can think of a partial function $F$ from $S$ to $T$ also as a total function from $S$ to $T \cup \{ \bot \}$ where $\bot$ is some special "failure symbol", and so instead of saying that $F$ is undefined at $x$, we can say that $F(x)=\bot$.
+We can think of a partial function $F$ from $S$ to $T$ also as a total function from $S$ to $T \cup \{ \bot \}$ where $\bot$ is a special "failure symbol". So, instead of saying that $F$ is undefined at $x$, we can say that $F(x)=\bot$.
 
 __Basic facts about functions:__
 Verifying that you can prove the following results is an excellent way to brush up on functions:
@@ -337,11 +335,11 @@ If $S,T$ are non-empty sets and $F:S \rightarrow T$ is one to one, then there ex
 
 
 > ### {.proof data-ref="onetooneimpliesonto"}
-Let $S$, $T$ and  $F:S \rightarrow T$ be as in the Lemma's statement, and choose some $s_0 \in S$.
+Choose some $s_0 \in S$.
 We will define the function $G:T \rightarrow S$ as follows: for every $t\in T$, if there is some $s\in S$ such that $F(s)=t$ then set $G(t)=s$ (the choice of $s$ is well defined since by the one-to-one property of $F$, there cannot be two distinct $s,s'$  that both map to $t$).
 Otherwise, set $G(t)=s_0$.
 Now for every $s\in S$, by the definition of $G$, if $t=F(s)$ then $G(t)=G(F(s))=s$.
-Moreover, this also shows that $G$ is _onto_, since it means that for every $s\in S$ there is some $t$ (namely $t=F(s)$) such that $G(t)=s$.
+Moreover, this also shows that $G$ is _onto_, since it means that for every $s\in S$ there is some $t$, namely $t=F(s)$, such that $G(t)=s$.
 
 
 
@@ -993,7 +991,7 @@ Most of the notation we use in this book is standard and is used in most mathema
 
 * We index the natural numbers $\N$ starting with $0$ (though many other texts, especially in computer science, do the same).
 
-* We also index the set $[n]$ starting with $0$, and hence define it as $\{0,\ldots,n-1\}$. In other texts it is often defined as $\{1,\ldots, n \}$. Similarly, we index coordinates of our strings starting with $0$, and hence a string $x\in \{0,1\}^n$ is written as $x_0x_1\cdots x_{n-1}$.
+* We also index the set $[n]$ starting with $0$, and hence define it as $\{0,\ldots,n-1\}$. In other texts it is often defined as $\{1,\ldots, n \}$. Similarly, we index our strings starting with $0$, and hence a string $x\in \{0,1\}^n$ is written as $x_0x_1\cdots x_{n-1}$.
 
 * If $n$ is a natural number then $1^n$ does _not_ equal the number $1$ but rather this is the length $n$ string $11\cdots 1$ (that is a string of $n$ ones). Similarly, $0^n$ refers to the length $n$ string $00 \cdots 0$.
 
