@@ -347,7 +347,7 @@ Moreover, this also shows that $G$ is _onto_, since it means that for every $s\i
 
 _Graphs_ are ubiquitous in Computer Science, and many other fields as well.
 They are used to model a variety of data types including social networks, scheduling constraints, road networks, deep neural nets, gene interactions, correlations between observations, and a great many more.
-The formal definitions of graphs are below for the sake of completeness, but if you have not seen graphs before in a course, I urge you to read up on them in one of the sources mentioned in [notesmathchap](){.ref}.
+Formal definitions of several kinds of graphs are given next, but if you have not seen graphs before in a course, I urge you to read up on them in one of the sources mentioned in [notesmathchap](){.ref}.
 
 Graphs come in two basic flavors: _undirected_ and _directed_.^[It is possible, and sometimes useful, to think of an undirected graph as the special case of an directed graph that has the special property that for every pair $u,v$ either both the edges $(u,v)$ and $(v,u)$   are present or neither of them is. However, in many settings there is a significant difference between undirected and directed graphs, and so it's typically best to think of them as separate categories.]
 
@@ -373,7 +373,7 @@ Here are some basic facts about undirected graphs. We give some informal argumen
 > ### {.lemma #degreesegeslem}
 In any undirected graph $G=(V,E)$, the sum of the degrees of all vertices is equal to twice the number of edges.
 
-[degreesegeslem](){.ref} can be shown by seeing that every edge $\{ u,v\}$ contributes twice to the sum of the degrees (once for $u$ and the second time for $v$.)
+[degreesegeslem](){.ref} can be shown by seeing that every edge $\{ u,v\}$ contributes twice to the sum of the degrees (once for $u$ and the second time for $v$).
 
 > ### {.lemma #conntranslem}
 The connectivity relation is _transitive_, in the sense that if $u$ is connected to $v$, and $v$ is connected to $w$, then $u$ is connected to $w$.
