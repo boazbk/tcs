@@ -450,17 +450,17 @@ For every directed graph $G=(V,E)$ and a pair $u,v$ such that there is a path fr
 
 
 ::: {.remark title="Labeled graphs" #labeledrem}
-For some applications we will consider _labeled graphs_, where the vertices or edges have some _labels_ (which can be numbers, strings, or members of some other set) associated with them.
-We can think of such a graph as having an associated  (possibly partial) _labelling function_ $L:V \cup E \rightarrow \mathcal{L}$, where $\mathcal{L}$ is the set of potential labels. However we will typically not refer explicitly to this labeling function and simply say things such as "vertex $v$ has the label $\alpha$".
+For some applications we will consider _labeled graphs_, where the vertices or edges have associated _labels_ (which can be numbers, strings, or members of some other set).
+We can think of such a graph as having an associated (possibly partial) _labelling function_ $L:V \cup E \rightarrow \mathcal{L}$, where $\mathcal{L}$ is the set of potential labels. However we will typically not refer explicitly to this labeling function and simply say things such as "vertex $v$ has the label $\alpha$".
 :::
 
 
 
 
 
-### Logic operators and quantifiers. {#secquantifiers }
+### Logic operators and quantifiers {#secquantifiers }
 
-If $P$ and $Q$ are some statements that can be true or false, then $P$ AND $Q$ (denoted as $P \wedge Q$) is the statement that is true if and only if both $P$ _and_ $Q$ are true, and $P$ OR $Q$ (denoted as $P \vee Q$) is the statement that is true if and only if either $P$ _or_ $Q$ is true.
+If $P$ and $Q$ are some statements that can be true or false, then $P$ AND $Q$ (denoted as $P \wedge Q$) is a statement that is true if and only if both $P$ _and_ $Q$ are true, and $P$ OR $Q$ (denoted as $P \vee Q$) is a statement that is true if and only if either $P$ _or_ $Q$ is true.
 The _negation_ of $P$, denoted as $\neg P$ or $\overline{P}$, is the statement that is true if and only if $P$ is false.
 
 Suppose that $P(x)$ is a statement that depends on some _parameter_  $x$ (also sometimes known as an _unbound_ variable) in the sense that for every instantiation of $x$ with a value from some set $S$, $P(x)$ is either true or false.
