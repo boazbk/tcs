@@ -668,8 +668,8 @@ Writing a _program_ involves:
 3. Converting this plan into code that a compiler or interpreter can understand, by breaking up each task into a sequence of the basic operations of some programming language.
 
 In programs as in proofs, step 1 is often the most important one.
-A key difference is that the reader for proofs is a human being and the reader for programs is a compiler.
-(Though this difference might be eroding with time, as more proofs are being written in a _machine verifiable form_ and progress in artificial intelligence allows expressing programs in more human friendly ways, such as "programming by example".)
+A key difference is that the reader for proofs is a human being and the reader for programs is a computer.
+(Though this difference might be eroding with time, as more proofs are being written in a _machine verifiable form_ and it is increasingly important that programs can be read and understood by humans.)
 Thus our emphasis is on _readability_ and having a _clear logical flow_ for the proof (which is not a bad idea for programs as well...).
 When writing a proof, you should think of your audience as an intelligent but highly skeptical and somewhat petty reader, that will "call foul" at every step that is not well justified.
 
