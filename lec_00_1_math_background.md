@@ -531,7 +531,7 @@ for (int i=0 ; i<n ; i=i+1) {
 }
 ```
 
-the variable `i` is bound to the `for` operator but the variable `n` is free.
+the variable `i` is bound within the `for` block but the variable `n` is free.
 
 The main property of bound variables is that we can _rename_ them (as long as the new name doesn't conflict with another used variable)  without changing the meaning of the statement.
 Thus for example the statement
@@ -557,7 +557,7 @@ Mathematical notation has a lot of similarities with programming language, and f
 Both are formalisms meant to convey complex concepts in a precise way.
 However, there are some cultural differences.
 In programming languages, we often try to use meaningful variable names such as `NumberOfVertices` while in math we often use short identifiers such as $n$.
-(Part of it might have to do with the tradition of mathematical proofs as being handwritten and verbally presented, as opposed to typed up and compiled.)
+(Part of it might have to do with the tradition of mathematical proofs as being handwritten and verbally presented, as opposed to typed up and compiled. Another reason is if the wrong variable name is used in a proof, at worst is causes confusion to readers; when the wrong variable name is used in a program, planes crash, patients die, and rockets explode.)
 
 One consequence of that is that in mathematics we often end up reusing identifiers, and also "run out" of letters and hence use Greek letters too, as well as distinguish between small and capital letters.
 Similarly, mathematical notation tends to use quite a lot of "overloading", using operators such as $+$ for a great variety of objects (e.g., real numbers, matrices, finite field elements, etc..), and assuming that the meaning can be inferred from the context.
