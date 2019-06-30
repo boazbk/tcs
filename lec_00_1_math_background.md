@@ -464,8 +464,8 @@ If $P$ and $Q$ are some statements that can be true or false, then $P$ AND $Q$ (
 The _negation_ of $P$, denoted as $\neg P$ or $\overline{P}$, is true if and only if $P$ is false.
 
 Suppose that $P(x)$ is a statement that depends on some _parameter_  $x$ (also sometimes known as an _unbound_ variable) in the sense that for every instantiation of $x$ with a value from some set $S$, $P(x)$ is either true or false.
-For example, $x>7$ is a statement that is not a priori true or false, but does become true or false whenever we instantiate $x$ with some real number.
-In such case we denote by  $\forall_{x\in S} P(x)$  the statement that is true if and only if $P(x)$ is true _for every_ $x\in S$.^[In this book,  we place the variable bound by a quantifier in a subscript and so write $\forall_{x\in S}P(x)$. Many other texts do not use this subscript notation and so will write the same statement as  $\forall x\in S, \; P(x)$.]
+For example, $x>7$ is a statement that is not a priori true or false, but becomes true or false whenever we instantiate $x$ with some real number.
+We denote by  $\forall_{x\in S} P(x)$  the statement that is true if and only if $P(x)$ is true _for every_ $x\in S$.^[In this book,  we place the variable bound by a quantifier in a subscript and so write $\forall_{x\in S}P(x)$. Many other texts do not use this subscript notation and so will write the same statement as  $\forall x\in S, \; P(x)$.]
 We denote by  $\exists_{x\in S} P(x)$  the statement that is true if and only if _there exists_ some $x\in S$ such that $P(x)$ is true.
 
 For example, the following is a formalization of the true statement that there exists a natural number $n$ larger than $100$ that is not divisible by $3$:
@@ -502,8 +502,8 @@ $$
 \sum_{i\in \{1,\ldots,100\}} i^2 \;. \label{eqsumsquarehundred}
 $$
 
-Since summing up over intervals of integers is so common, there is a special notation for it, and for every two integers $a \leq b$,  $\sum_{i=a}^b f(i)$ denotes $\sum_{i\in S} f(i)$ where $S =\{ x\in \Z : a \leq x \leq b \}$.
-Hence we can write the sum [eqsumsquarehundred](){.eqref} also as
+Since summing up over intervals of integers is so common, there is a special notation for it. For every two integers, $a \leq b$,  $\sum_{i=a}^b f(i)$ denotes $\sum_{i\in S} f(i)$ where $S =\{ x\in \Z : a \leq x \leq b \}$.
+Hence, we can write the sum [eqsumsquarehundred](){.eqref} as
 
 $$
 \sum_{i=1}^{100} i^2 \;.
