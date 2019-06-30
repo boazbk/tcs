@@ -461,7 +461,7 @@ We can think of such a graph as having an associated (possibly partial) _labelli
 ### Logic operators and quantifiers {#secquantifiers }
 
 If $P$ and $Q$ are some statements that can be true or false, then $P$ AND $Q$ (denoted as $P \wedge Q$) is a statement that is true if and only if both $P$ _and_ $Q$ are true, and $P$ OR $Q$ (denoted as $P \vee Q$) is a statement that is true if and only if either $P$ _or_ $Q$ is true.
-The _negation_ of $P$, denoted as $\neg P$ or $\overline{P}$, is the statement that is true if and only if $P$ is false.
+The _negation_ of $P$, denoted as $\neg P$ or $\overline{P}$, is true if and only if $P$ is false.
 
 Suppose that $P(x)$ is a statement that depends on some _parameter_  $x$ (also sometimes known as an _unbound_ variable) in the sense that for every instantiation of $x$ with a value from some set $S$, $P(x)$ is either true or false.
 For example, $x>7$ is a statement that is not a priori true or false, but does become true or false whenever we instantiate $x$ with some real number.
