@@ -592,12 +592,11 @@ More formally, we define Big-$O$ notation as follows:
 
 :::  {.definition title="Big-$O$ notation" #bigohdef}
 Let $\R_+= \{ x\in \R \;|\; x>0\}$ be the set of positive real numbers.
-For two functions $F,G: \N \rightarrow \R_+$, we say that  _$F=O(G)$_  if there exist numbers $a,N_0 \in \N$ such that $F(n) \leq a\cdot G(n)$ for every $n>N_0$.
+For two functions $F,G: \N \rightarrow \R_+$, we say that  _$F=O(G)$_  if there exist numbers $a,N_0 \in \N$ such that $F(n) \leq a\cdot G(n)$ for every $n>N_0$. We say that  $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$.
 We define $F=\Omega(G)$  if $G=O(F)$.
 
 We say that _$F =o(G)$_ if for every $\epsilon>0$ there is some $N_0$ such that $F(n) <\epsilon G(n)$ for every $n>N_0$.
 We say that $F =\omega(G)$ if $G=o(F)$.
-We say that  $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$.
 :::
 
 ![If $F(n)=o(G(n))$ then for sufficiently large $n$, $F(n)$ will be smaller than $G(n)$. For example, if Algorithm $A$ runs in time $1000\cdot n+10^6$ and Algorithm $B$ runs in time $0.01\cdot n^2$ then even though $B$ might be more efficient for smaller inputs, when the inputs get sufficiently large, $A$ will run _much_ faster than $B$. ](../figure/nvsnsquared.png){#nvsnsquaredfig .margin  }
