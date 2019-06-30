@@ -628,8 +628,6 @@ There are some simple heuristics that can help when trying to compare two functi
 
 * Similarly, logarithmic is always smaller than polynomial: $(\log n)^a$ (which we write as $\log^a n$) is $o(n^\epsilon)$ for every two constants $a,\epsilon>0$. For example, combining the observations above, $100n^2 \log^{100} n = o(n^3)$.
 
-In most (though not all!) cases when we use $O$-notation, the constants hidden by it are not too huge and so on an intuitive level, you can think of $F=O(G)$ as saying something like $F(n) \leq 1000 G(n)$ and $F=\Omega(G)$ as saying something $F(n) \geq 0.001 G(n)$.
-
 
 ::: {.remark title="Big $O$ for other applications (optional)" #bigonotime}
 While Big-$O$ notation is often used to analyze running time of algorithms, this is by no means the only application.
