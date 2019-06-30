@@ -523,7 +523,7 @@ Since $n$ is free, it can be set to any value, and the truth of the statement [a
 For example, if $n=8$ then [aboutnstmt](){.eqref} is true, but for $n=11$ it is false. (Can you see why?)
 
 The same issue appears when parsing code.
-For example, in the following snippet from the C++ programming language
+For example, in the following snippet from the C programming language
 
 ```clang
 for (int i=0 ; i<n ; i=i+1) {
