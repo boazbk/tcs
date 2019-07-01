@@ -822,7 +822,7 @@ Intuitively, if $G$ contains a _cycle_, then it cannot be the case that all edge
 The formal proof is as follows:
 
 ::: {.proof data-ref="sorttoacycliclem"}
-Let $G=(V,E)$ be a directed graph and let $f:\N \rightarrow \N$ be a layering of $G$ as per [layeringdef](){.ref} . Suppose, towards the sake of contradiction, that $G$ is not acyclic, and hence there exists some cycle $u_0,u_1,\ldots,u_k$ such that $u_0=u_k$ and for every $i\in [k]$ the edge $u_i \rightarrow u_{i+1}$ is present in $G$.
+Let $G=(V,E)$ be a directed graph and let $f:V \rightarrow \N$ be a layering of $G$ as per [layeringdef](){.ref} . Suppose, towards a contradiction, that $G$ is not acyclic, and hence there exists some cycle $u_0,u_1,\ldots,u_k$ such that $u_0=u_k$ and for every $i\in [k]$ the edge $u_i \rightarrow u_{i+1}$ is present in $G$.
 Since $f$ is a layering, for every $i \in [k]$, $f(u_i) < f(u_{i+1})$, which means that
 $$
 f(u_0) < f(u_1)  < \cdots  < f(u_k)
