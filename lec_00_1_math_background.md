@@ -890,7 +890,7 @@ We will use induction on the number $n$ of vertices, and so we will define the s
 
 >$Q(n)$ is _"For every DAG  $G=(V,E)$ with $n$ vertices, there is a layering of $G$."_
 
-The statement $Q([0?])$ is trivial, since in this case $G$ contains no edge, and we can simply use the layering $f(v)=0$ (where $v$ is the single vertex of $G$). Thus it will suffice to prove the following: _for every $n>1$, if $Q(n-1)$ is true then $Q(n)$ is true._
+The statements for $Q(0)$ and $Q(1)$ are trivial, since in these cases $G$ contains no edge, and for $Q(1)$ we can simply use the layering $f(v)=0$ (where $v$ is the single vertex of $G$). Thus it will suffice to prove the following: _for every $n>1$, if $Q(n-1)$ is true then $Q(n)$ is true._
 
 To do so, we need to somehow find a way, given a graph $G$ of $n$ vertices, to reduce the task of finding a layering for $G$ into the task of finding a layering for some other graph $G'$ of $n-1$ vertices.
 The idea is that we will find a _source_ of $G$: a vertex $v$ that has no in-neighbors. We can then assign to $v$ the layer $0$, and layer the remaining vertices using the inductive hypothesis in layers $1,2,\ldots$.
