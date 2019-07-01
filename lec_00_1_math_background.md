@@ -834,7 +834,7 @@ but this is a contradiction since $u_0=u_k$ and hence $f(u_0)=f(u_k)$.
 
 > ### { .pause }
 If you have not seen the proof of this theorem before (or don't remember it), this would be an excellent point to pause and try to prove it yourself.
-One way to do it would be to describe an _algorithm_ that on input a directed acyclic graph $G$ on $n$ vertices and $n-2$ or fewer edges, constructs an array $F$ of length $n$ such that for every edge $u \rightarrow v$ in the graph $F[u] < F[v]$.
+One way to do it would be to describe an _algorithm_ that given as input a directed acyclic graph $G$ on $n$ vertices and $n-2$ or fewer edges, constructs an array $F$ of length $n$ such that for every edge $u \rightarrow v$ in the graph $F[u] < F[v]$.
 
 
 
@@ -848,7 +848,7 @@ One way to do it would be to describe an _algorithm_ that on input a directed ac
 ### Mathematical induction  { #inductionsec }
 
 There are several ways to prove [acyclictosortlem](){.ref}.
-One approach to do is to start by proving it for small graphs, such as graphs with 1,2 or 3 vertices  (see [see [topsortexamplesfig](){.ref}](){.ref}), for which we can check all the cases, and then try to extend the proof for larger graphs.
+One approach to do is to start by proving it for small graphs, such as graphs with 1, 2 or 3 vertices  (see [topsortexamplesfig](){.ref}, for which we can check all the cases, and then try to extend the proof for larger graphs.
 The technical term for this proof approach is _proof by induction_.
 
 
@@ -876,8 +876,8 @@ The assumption in __(b)__ that $Q(i)$ holds for $i<k$ is called the "inductive h
 
 > ### {.remark title="Induction and recursion" #inducrecrem}
 Proofs by inductions are closely related to algorithms by recursion.
-In both cases we reduce solving a larger problem to solving a smaller instance of itself. In a recursive algorithm to solve some problem P on an input of length $k$  we ask ourselves "what if someone handed me a way to solve P on instances smaller than $k$?". In an inductive proof to prove a statement Q parameterized by a number $k$, we ask ourselves "what if I already knew that $Q(k')$ is true for $k'<k$".
-Both induction and recursion are crucial concepts for this course and Computer Science at large (and even other areas of inquiry, including not just mathematics but other sciences as well). Both can be initially (and even post-initially) confusing, but with time and practice they become clearer.
+In both cases we reduce solving a larger problem to solving a smaller instance of itself. In a recursive algorithm to solve some problem P on an input of length $k$  we ask ourselves "what if someone handed me a way to solve P on instances smaller than $k$?". In an inductive proof to prove a statement Q parameterized by a number $k$, we ask ourselves "what if I already knew that $Q(k')$ is true for $k'<k$?".
+Both induction and recursion are crucial concepts for this course and Computer Science at large (and even other areas of inquiry, including not just mathematics but other sciences as well). Both can be initially (and even profoundly) confusing, but with time and practice they become clearer.
 For more on proofs by induction and recursion, you might find the following [Stanford CS 103 handout](https://cs121.boazbarak.org/StanfordCS103Induction.pdf), [this MIT 6.00 lecture](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00sc-introduction-to-computer-science-and-programming-spring-2011/unit-1/lecture-6-recursion/) or [this excerpt of the Lehman-Leighton book](https://cs121.boazbarak.org/LL_induction.pdf) useful.
 
 
