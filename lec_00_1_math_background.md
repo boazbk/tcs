@@ -707,14 +707,14 @@ Some helpful resources on mathematical writing include [this handout by Lee](htt
 Just like in programming, there are several common patterns of proofs that occur time and again.
 Here are some examples:
 
-__Proofs by contradiction:__ One way to prove that $X$ is true is to show that if $X$ was false then we would get a contradiction as a result. Such proofs often start with a sentence such as "Suppose, towards a contradiction, that $X$ is false" and end with deriving some contradiction (such as a violation of one of the assumptions in the theorem statement).
+__Proofs by contradiction:__ One way to prove that $X$ is true is to show that if $X$ was false it would result in a contradiction. Such proofs often start with a sentence such as "Suppose, towards a contradiction, that $X$ is false" and end with deriving some contradiction (such as a violation of one of the assumptions in the theorem statement).
 Here is an example:
 
 > ### {.lemma }
 There are no natural numbers $a,b$ such that $\sqrt{2} = \tfrac{a}{b}$.
 
 > ### {.proof }
-Suppose, towards the sake of contradiction that this is false, and so let $a\in \N$ be the smallest number such that there exists some $b\in\N$ satisfying $\sqrt{2}=\tfrac{a}{b}$.
+Suppose, towards a contradiction that this is false, and so let $a\in \N$ be the smallest number such that there exists some $b\in\N$ satisfying $\sqrt{2}=\tfrac{a}{b}$.
 Squaring this equation we get that $2=a^2/b^2$ or $a^2=2b^2$ $(*)$. But this means that $a^2$ is _even_, and since the product of two odd numbers is odd, it means that $a$ is even as well, or in other words, $a = 2a'$ for some $a' \in \N$. Yet plugging this into $(*)$ shows that $4a'^2 = 2b^2$ which means  $b^2 = 2a'^2$ is an even number as well. By the same considerations as above we get that $b$ is even and hence $a/2$ and $b/2$ are two natural numbers satisfying $\tfrac{a/2}{b/2}=\sqrt{2}$, contradicting the minimality of $a$.
 
 
@@ -763,11 +763,11 @@ That is, to prove the statement $X$, we might first prove statements $X_1$,$X_2$
 
 __Proofs by case distinction:__ This is a special case of the above, where to prove a statement $X$ we split into several cases $C_1,\ldots,C_k$, and prove that __(a)__ the cases are _exhaustive_, in the sense that _one_ of the cases $C_i$  must happen and __(b)__ go one by one and prove that each one of the cases $C_i$ implies the result $X$ that we are after.
 
-__Proofs by induction:__ We discuss induction and give an example in [inductionsec](){.ref} below. We can think of such proofs as a variant of the above, where we have an unbounded number of intermediate claims $X_0,X_2,\ldots,X_k$, and we prove that $X_0$ is true, as well that $X_0$ implies $X_1$, and that $X_0  \wedge X_1$ implies $X_2$, and so on and so forth.
+__Proofs by induction:__ We discuss induction and give an example in [inductionsec](){.ref} below. We can think of such proofs as a variant of the above, where we have an unbounded number of intermediate claims $X_0,X_2,\ldots,X_k$, and we prove that $X_0$ is true, as well as that $X_0$ implies $X_1$, and that $X_0  \wedge X_1$ implies $X_2$, and so on and so forth.
 The website for CMU course 15-251 contains a [useful handout](http://www.cs.cmu.edu/~./15251/notes/induction-pitfalls.pdf) on potential pitfalls when making proofs by induction.
 
 
-__"Without loss of generality (w.l.o.g)":__ This term can be initially quite confusing to students. It is essentially a way to simplify proofs by case distinctions. The idea is that if Case 1 is equal to Case 2 up to a change of variables or a similar transformation, then the proof of Case 1 will also imply the proof of case 2.
+__"Without loss of generality (w.l.o.g)":__ This term can be initially quite confusing. It is essentially a way to simplify proofs by case distinctions. The idea is that if Case 1 is equal to Case 2 up to a change of variables or a similar transformation, then the proof of Case 1 will also imply the proof of Case 2.
 It is always a statement that should be viewed with suspicion.
 Whenever you see it in a proof, ask yourself if you understand _why_ the assumption made is truly without loss of generality, and when you use it, try to see if the use is indeed justified.
 When writing a proof, sometimes it might be easiest to simply repeat the proof of the second case (adding a remark that the proof is very similar to the first one).
@@ -786,7 +786,7 @@ In his [manuscript](https://lamport.azurewebsites.net/pubs/proof.pdf) he propose
 
 The advantage of Lamport's format is that it is very clear for every sentence in the proof what is the role that it plays.
 It is also much easier to transform such proofs into machine-checkable forms.
-The disadvantage is that such proofs can be more tedious to read and write, with less differentiation between the important parts of the arguments versus the more routine ones.
+The disadvantage is that such proofs can be tedious to read and write, with less differentiation between the important parts of the arguments versus the more routine ones.
 :::
 
 ## Extended example: Topological Sorting { #topsortsec }
