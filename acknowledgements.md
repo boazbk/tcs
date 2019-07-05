@@ -38,6 +38,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Jacob Meyerson
 * Leon Mlodzian
 * George Moe
+* Glenn Moss
 * Hamish Nicholson
 * Sandip Nirmel
 * Sebastian Oberhoff
