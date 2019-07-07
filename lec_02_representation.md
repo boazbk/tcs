@@ -70,17 +70,17 @@ However, in this chapter we will dwell a bit more on how we can construct such r
 Every time we store numbers, images, sounds, databases, or other objects on a computer, what we actually store in the computer's memory is the _representation_ of these objects.
 Moreover, the idea of representation is not restricted to digital computers.
 When we write down text or make a drawing we are _representing_ ideas or experiences as sequences of symbols (which might as well be strings of zeroes and ones).
-Even our brain does not store the actual sensory inputs we experience, but rather only our _representation_ of them.
+Even our brain does not store the actual sensory inputs we experience, but rather only a _representation_ of them.
 
 To use objects such as numbers, images, graphs, or others as inputs for computation, we need to define precisely how to represent these objects as binary strings.
 A _representation scheme_ is a way to map an object $x$ to a binary string $E(x) \in \{0,1\}^*$.
 For example, a representation scheme for natural numbers is a function $E:\N \rightarrow \{0,1\}^*$.
 Of course, we cannot merely represent all numbers as the string "$0011$" (for example).
 A minimal requirement is that if two numbers $x$ and $x'$ are different then they would be represented by different strings.
-Another way to say this, is that we require the encoding function $E$ to be _one to one_.
+Another way to say this is that we require the encoding function $E$ to be _one to one_.
 
 
-### Representing natural numbers.
+### Representing natural numbers
 
 We now show how we can represent natural numbers as binary strings.
 Over the years people have represented numbers in a variety of ways, including Roman numerals, tally marks, our own Hindu-Arabic  decimal system, and many others.
