@@ -208,13 +208,13 @@ For example, in the representation above there is no number that is represented 
 > ### {.remark title="Interpretation and context" #contextreprem}
 Given a string $y\in \{0,1\}^*$, how do we know if it's "supposed" to represent a (nonnegative) natural number or a (potentially negative) integer?
 For that matter, even if we know $y$ is "supposed" to be an integer, how do we know what representation scheme it uses?
-The short answer is that we do not necessarily know this information, unless it is supplied from the context. (In programming language, the compiler or interpreter determines the representation of the sequence of bits corresponding to a variable based on the variable's _type_.)
+The short answer is that we do not necessarily know this information, unless it is supplied from the context. (In programming languages, the compiler or interpreter determines the representation of the sequence of bits corresponding to a variable based on the variable's _type_.)
 We can treat the same string $y$ as representing a natural number, an integer, a piece of text, an image, or a green gremlin.
 Whenever we say a sentence such as "let $n$ be the number represented by the string $y$," we will assume that we are fixing some canonical representation scheme such as the ones above.
 The choice of the particular representation scheme will rarely matter, except that we want to make sure to stick with the same one for consistency.
 
 
-### Two's complement representation (optional). {#twoscomplement }
+### Two's complement representation (optional) {#twoscomplement }
 
 [repnegativeintegerssec](){.ref}'s approach of  representing an integer using a specific "sign bit" is known as the _Signed Magnitude Representation_ and was used in some early computers.
 However,  the [two's complement representation](https://en.wikipedia.org/wiki/Two%27s%5Fcomplement) is much more common in practice.
