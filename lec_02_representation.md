@@ -728,11 +728,12 @@ You don't have to know Python in this course, but you do need to get comfortable
 We now show a "Python proof" of [prefixfreethm](){.ref}. Namely, we show a function `represlists` that takes as input a prefix-free representation scheme (implemented via encoding, decoding, and validity testing functions) and outputs a representation scheme for _lists_ of such objects. If we want to make this representation prefix-free then we could fit it into the function `prefixfree` above.
 
 ```python
-# Takes functions pfencode, pfdecode and pfvalid,
-# and returns functions encodelists, decodelists
-# that can encode and decode
-# lists of the objects respectively
 def represlists(pfencode,pfdecode,pfvalid):
+    """
+    Takes functions pfencode, pfdecode and pfvalid,
+    and returns functions encodelists, decodelists
+    that can encode and decode lists of the objects 
+    respectively.
     """
 
     def encodelist(L):
