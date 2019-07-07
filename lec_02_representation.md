@@ -109,7 +109,7 @@ Some more examples are given in the table below.
 
 Table: Representing numbers in the binary basis. The lefthand column contains representations of natural numbers in the decimal basis, while the righthand column contains representations of the same numbers in the binary basis. [We choose to represent the number zero as the empty string, though we could have equally well represented it using the length-one string $0$. Such choices will not make much difference in this book.]
 
-If $n$ is even, then the least significant digit of $n$'s binary representation is $0$, while if $n$ is off then this digit equals $1$.
+If $n$ is even, then the least significant digit of $n$'s binary representation is $0$, while if $n$ is odd then this digit equals $1$.
 Just like the number $\floor{n/10}$ corresponds to "chopping off" the least significant decimal digit (e.g., $\floor{457/10}=\floor{45.7}=45$), the number $\floor{n/2}$ corresponds to the "chopping off" the least significant _binary_ digit.
 Hence the  binary representation can be formally defined as the following function $NtS:\N \rightarrow \{0,1\}^*$ ($NtS$ stands for "natural numbers to strings"):
 
