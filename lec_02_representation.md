@@ -942,7 +942,7 @@ print(mult2(12,7))
 # 84
 ```
 
-Both `mult1` and `mult2` produce the same output given the same pair of inputs.
+Both `mult1` and `mult2` produce the same output given the same pair of natural number inputs.
 (Though `mult1` will take far longer to do so when the numbers become large.)
 Hence, even though these are two different _programs_, they compute the same _mathematical function_.
 This distinction between a _program_ or _algorithm_ $A$, and the _function_ $F$ that $A$ _computes_ will be absolutely crucial for us in this course (see also [functionornotfig](){.ref}).
