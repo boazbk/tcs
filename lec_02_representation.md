@@ -251,8 +251,7 @@ If we were using a pen and paper, we would just use a separator symbol such as  
 In other words, there is a one to one map $F$ from _pairs of strings_ $x,y \in \{0,1\}^*$ into a single string $z$ over the alphabet   $\Sigma = \{0,1,\| \}$ (in other words, $z\in \Sigma^*$).
 Using such separators is similar to the way we use spaces and punctuation to separate words in English.
 By adding a little redundancy, we achieve the same effect in the digital domain.
-We can map the three element set $\Sigma$  the four element set $\{00,01,10,11 \}$ in a one-to-one fashion, and hence encode a length $n$ string $z\in \Sigma^*$  as a length $2n$ string $w\in \{0,1\}^*$.
-
+We can (inefficiently) map the three element set $\Sigma$ to the three element set of length-2 binary strings, $\{00,01,10 \}$, in a one-to-one fashion, and hence encode a length $n$ string $z\in \Sigma^*$  as a length $2n$ string $w\in \{0,1\}^*$.
 
 
 Our final representation for rational numbers is obtained by composing the following steps:
