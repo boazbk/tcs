@@ -954,7 +954,7 @@ A _function_ is not the same as a _program_. A program _computes_ a function.
 :::
 
 Distinguishing _functions_ from _programs_ (or other ways for computing, including _circuits_ and _machines_) is a crucial theme for this course.
-For this reason, this is often a running theme in questions that I (and many other instructors) assign in homeworks and exams (hint, hint..).
+For this reason, this is often a running theme in questions that I (and many other instructors) assign in homeworks and exams (hint, hint).
 
 
 ::: {.remark title="Computation beyond functions (advanced, optional)" #beyonfdunc}
@@ -1141,5 +1141,3 @@ Dauben [@Dauben90cantor] gives a biography of Cantor with emphasis on the develo
 
 The adjacency matrix representation of graphs is not merely a convenient way to map a graph into a binary string, but it turns out that many natural notions and operations on matrices are useful for graphs as well. (For example, Google's PageRank algorithm relies on this viewpoint.)  The notes of [Spielman's course](http://www.cs.yale.edu/homes/spielman/561/) are an excellent source for this area, known as _spectral graph theory_. We will return to this view much later in this book when we talk about _random walks_.
 
-
-Gromov's and Pomerantz's quotes are taken from [Doron Zeilberger's page](http://sites.math.rutgers.edu/~zeilberg/quotes.html).
