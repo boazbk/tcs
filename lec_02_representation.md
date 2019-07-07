@@ -251,7 +251,7 @@ If we were using a pen and paper, we would just use a separator symbol such as  
 In other words, there is a one to one map $F$ from _pairs of strings_ $x,y \in \{0,1\}^*$ into a single string $z$ over the alphabet   $\Sigma = \{0,1,\| \}$ (in other words, $z\in \Sigma^*$).
 Using such separators is similar to the way we use spaces and punctuation to separate words in English.
 By adding a little redundancy, we achieve the same effect in the digital domain.
-We can (inefficiently) map the three element set $\Sigma$ to the three element set of length-2 binary strings, $\{00,01,10 \}$, in a one-to-one fashion, and hence encode a length $n$ string $z\in \Sigma^*$  as a length $2n$ string $w\in \{0,1\}^*$.
+We can (inefficiently) map the three element set $\Sigma$ to the three element set of length-2 binary strings, $\{00,11,01 \}$, in a one-to-one fashion, and hence encode a length $n$ string $z\in \Sigma^*$  as a length $2n$ string $w\in \{0,1\}^*$.
 
 
 Our final representation for rational numbers is obtained by composing the following steps:
@@ -269,7 +269,7 @@ Our final representation for rational numbers is obtained by composing the follo
 
 ::: {.example title="Representing a rational number as a string" #represnumberbypairs}
 Consider the rational number $r=-5/8$.
-We represent $-5$ as $1101$ and $+8$ as $01000$, and so we can represent $r$ as the _pair_ of strings $(1101,01000)$ and represent this paier as the length $10$ string $1101\|01000$ over the alphabet  $\{0,1,\|\}$.
+We represent $-5$ as $1101$ and $+8$ as $01000$, and so we can represent $r$ as the _pair_ of strings $(1101,01000)$ and represent this pair as the length $10$ string $1101\|01000$ over the alphabet  $\{0,1,\|\}$.
 Now, applying the map $0 \mapsto 00$, $1\mapsto 11$, $\| \mapsto 01$, we can represent the latter string as the length $20$ string  $s=0011000000010011000000$ over the alphabet $\{0,1\}$.
 :::
 
