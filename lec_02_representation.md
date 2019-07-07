@@ -447,11 +447,11 @@ This part is not the core of Cantor's argument, nor are such limits important to
 We define $FtR(f)$ to be the number between $0$ and $2$ whose decimal expansion is $f(0).f(1) f(2) \ldots$, or in other words  $FtR(f) = \sum_{i=0}^{\infty} f(i) \cdot 10^{-i}$. 
 To prove that $FtR$ is one to one, we need to show that if $f \neq g$ then $FtR(f) \neq FtR(g)$.
 To do that we let $k\in \N$ be the first input on which $f$ and $g$ disagree.
-The numbers $FtR(f)$ and $FtR(g)$ agree in the first $k-2$ digits following the decimal point and disagree in the $k-1$-th digit. One can then calculate and verify that this means that $|FtR(f)-FtR(g)| > 0.5 \cdot 10^{-k}$ which in particular means that these two numbers are distinct from one another. (You might wonder why we can't immediately deduce that two numbers that differ in a digit are not the same. The issue is that we have to be a little more careful when talking about infinite expansions. For example, the number half has two decimal expansions $0.5$ and $0.49999\cdots$. However, this issue does not come up if (as in our case) we restrict attention only to numbers with decimal expansions that do not involve the digit $9$.)
+The numbers $FtR(f)$ and $FtR(g)$ agree in the first $k-2$ digits following the decimal point and disagree in the $k-1$-th digit. One can then calculate and verify that this means that $|FtR(f)-FtR(g)| > 0.5 \cdot 10^{-k}$ which in particular means that these two numbers are distinct from one another. (You might wonder why we can't immediately deduce that two numbers that differ in a digit are not the same. The issue is that we have to be a little more careful when talking about infinite expansions. For example, the number one half has two decimal expansions $0.5$ and $0.49999\cdots$. However, this issue does not come up if (as in our case) we restrict attention only to numbers with decimal expansions that do not involve the digit $9$.)
 :::
 
 ::: {.proof data-ref="sequencestoreals"}
-For every $f \in \{0,1\}^\infty$,  we define $FtR(f)$ to be the number whose desimal expansion $f(0).f(1)f(2)f(3)\ldots$.
+For every $f \in \{0,1\}^\infty$,  we define $FtR(f)$ to be the number whose decimal expansion is $f(0).f(1)f(2)f(3)\ldots$.
 Formally we define 
 $$
 FtR(f) = \sum_{i=0}^\infty f(i) \cdot 10^{-i} \label{eqcantordecimalexpansion}
@@ -492,7 +492,7 @@ A _representation scheme_ for representing objects from some set $\mathcal{O}$ c
 Formally, we make the following definition:
 
 > ### {.definition title="String representation" #binaryrepdef}
-Let $\mathcal{O}$ be a non-empty set. A _representation scheme_ for $\mathcal{O}$ is a pair of functions $E,D$  where  $E:\mathcal{O} \rightarrow \{0,1\}^*$ is a total one-to-one function, $D:\{0,1\}^* \rightarrow_p \mathcal{O}$ is a (possibly partial)  function,
+Let $\mathcal{O}$ be any set. A _representation scheme_ for $\mathcal{O}$ is a pair of functions $E,D$  where  $E:\mathcal{O} \rightarrow \{0,1\}^*$ is a total one-to-one function, $D:\{0,1\}^* \rightarrow_p \mathcal{O}$ is a (possibly partial)  function,
 and such that  $D$ and $E$ satisfy that $D(E(o))=o$ for every $o\in \mathcal{O}$.
 $E$ is known as the _encoding_ function and $D$ is known as the _decoding_ function.
 
