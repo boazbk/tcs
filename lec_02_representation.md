@@ -401,7 +401,7 @@ This implies the lemma since for every two sets $A$ and $B$, there exists an ont
 The technique of this proof is known as the "diagonal argument" and is illustrated in [diagrealsfig](){.ref}.
 We assume, towards a contradiction, that there exists such a function $StF:\{0,1\}^* \rightarrow \{0,1\}^\infty$, and we will show it is not onto by demonstrating a function $\overline{d}\in \{0,1\}^\infty$ such that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$.
 Consider the lexicographic ordering of binary strings (i.e., $""$,$0$,$1$,$00$,$01$,$\ldots$).
-We can imagine the function $StF$ as being specified by an infinitely long table, in which every row corresponds to a string $x\in \{0,1\}^*$ (sorted in lexicographic order), and contains the seequence $StF(x)$.
+We can imagine the function $StF$ as being specified by an infinitely long table, in which every row corresponds to a string $x\in \{0,1\}^*$ (sorted in lexicographic order), and contains the sequence $StF(x)$.
 That is, for every $x\in \{0,1\}^*$ and $n\in \N$, the cell in the $x$-th row  and $n$-th column of the table contains the bit  $g(n)$ where $g=StF(x)$.
 The diagonal elements in this table are the values $StF("")(0),StF(0)(1),StF(00)(2),StF(01)(3),\ldots$, with the $n$-th diagonal element $d_n$ being $StF(x)(n)$ where $x$ is the $n$-th string in the lexicographic order.
 We define the function $\overline{d} \in \{0,1\}^\infty$ by $\overline{d}(n) = 1 - d_n$ for every $n\in \N$.
@@ -452,6 +452,7 @@ The numbers $FtR(f)$ and $FtR(g)$ agree in the first $k-2$ digits following the 
 
 ::: {.proof data-ref="sequencestoreals"}
 For every $f \in \{0,1\}^\infty$,  we define $FtR(f)$ to be the number whose decimal expansion is $f(0).f(1)f(2)f(3)\ldots$.
+
 Formally we define 
 $$
 FtR(f) = \sum_{i=0}^\infty f(i) \cdot 10^{-i} \label{eqcantordecimalexpansion}
@@ -556,7 +557,6 @@ For two strings $y,y'$, we say that $y$ is a _prefix_ of $y'$ if $|y| \leq |y'|$
 
 Let $\mathcal{O}$ be a non-empty set and $E:\mathcal{O} \rightarrow \{0,1\}^*$ be a function.
 We say that $E$ _prefix-free_ if $E(o)$ is non-empty for every $o\in\mathcal{O}$ and there does not exist a distinct pair of objects $o, o' \in \mathcal{O}$ such that  $E(o)$  is a prefix of $E(o')$.
-:::
 
 Recall that for every set $\mathcal{O}$, the set $\mathcal{O}^*$ consists of all finite length tuples (i.e., _lists_) of elements in $\mathcal{O}$.
 The following theorem shows that if $E$ is a prefix-free encoding of $\mathcal{O}$ then by concatenating encodings we can obtain a valid (i.e., one-to-one) representation of $\mathcal{O}^*$:

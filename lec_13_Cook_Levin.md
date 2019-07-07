@@ -490,6 +490,37 @@ Finding a polynomial-time algorithm for any one of them will imply a polynomial-
 Prove that if there is no $n^{O(\log^2 n)}$ time algorithm for $3SAT$ then there is some $F\in \mathbf{NP}$ such that $F \not\in \mathbf{P}$ and $F$ is not $\mathbf{NP}$ complete.^[__Hint:__ Use the function $F$ that on input a formula $\varphi$ and a string of the form $1^t$, outputs $1$ if and only if $\varphi$ is satisfiable and $t=|\varphi|^{\log|\varphi|}$.]
 
 
+::: {.exercise  #WSATex}
+Define $WSAT$ to be the following function: the input is  a CNF   formula $\varphi$ where each clause is the OR of one to three variables (_without negations_), and a number $k\in \mathbb{N}$.
+For example, the following formula can be used for  a valid input to $WSAT$:
+$\varphi = (x_5 \vee x_{2} \vee x_1) \wedge (x_1 \vee x_3 \vee x_0) \wedge (x_2 \vee x_4 \vee x_0)$.
+The output $WSAT(\varphi,k)=1$ if and only if there exists a satisfying assignment to $\varphi$
+in which exactly $k$ of the variables get the value $1$.
+For example for the formula above $WSAT(\varphi,2)=1$ since the assignment $(1,1,0,0,0,0)$ satisfies all the clauses. However $WSAT(\varphi,1)=0$ since there is no single variable appearing in all clauses.
+
+Prove that $WSAT$ is $\mathbf{NP}$-complete.
+:::
+
+::: {.exercise  #employeerecrutingex}
+In the _employee recruiting problem_ we are given a list of potential employees, each of which has some subset of $m$ potential skills, and a number $k$.
+We need to assemble a team of $k$ employees such that for every skill there would be one member of the team with this skill.
+
+For example, if Alice has the skills "C programming", "NAND programming" and "Solving Differential Equations", Bob has the skills "C programming" and "Solving Differential Equations", and Charlie has the skills "NAND programming" and "Coffee Brewing", then if we want a team of two people that covers all the four skills, we would hire Alice and Charlie.
+
+Define the function $EMP$ s.t. on input the skills $L$ of all potential employees (in the form of a sequence $L$ of $n$ lists $L_1,\ldots,L_n$, each containing distinct  numbers between $0$ and $m$), and a number $k$, $EMP(L,k)=1$ if and only if there is a subset $S$ of $k$ potential employees such that for every skill $j$ in $[m]$, there is an employee in $S$ that has the skill $j$.
+
+Prove that $EMP$ is $\mathbf{NP}$ complete.
+:::
+
+::: {.exercise title="Balanced max cut" #balancedmc}
+Prove that the "balanced variant" of the maximum cut problem is $\mathbf{NP}$-complete, where this is defined as $BMC:\{0,1\}^* \rightarrow \{0,1\}$ where for every graph $G=(V,E)$ and $k\in \mathbb{N}$, $BMC(G,k)=1$ if and only if there exists a cut $S$ in $G$ cutting at least $k$ edges such that $|S|=|V|/2$.
+:::
+
+::: {.exercise title="Regular expression intersection" #manyregs}
+Let $MANYREGS$ be the following function: On input a list  of regular expressions $exp_0,\ldots,\exp_m$ (represented as strings in some standard way), output $1$ if and only if there is a single string $x \in \{0,1\}^*$ that matches all of them. Prove that $MANYREGS$ is $\mathbf{NP}$-hard.
+:::
+
+
 
 ## Bibliographical notes
 

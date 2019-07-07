@@ -85,28 +85,29 @@ Indeed, we leave it as an exercise to verify that the $STARTSWITH_V$ function is
 
 Now for any such polynomial-time $V$ and $a,b\in\N$, we can implement $FIND_V(x)$ as follows:
 
-::: {.quote}
-__Algorithm $FIND_V$:__
 
-__Input:__ $x\in \{0,1\}^n$
 
-__Goal:__ Find $z\in \{0,1\}^{an^b}$ such that $V(xz)=1$, if such $z$ exists.
+``` {.algorithm title="$FIND_V$: Search to decision reduction" #searchtodecisionalg}
+INPUT: $x\in \{0,1\}^*$
+OUTPUT: $x\in \{0,1\}^{an^b}$ s.t. $V(xz)=1$, -if such $x$ exists.
 
-__Operation:__
-
-1. For $\ell=0,\ldots,an^b-1$ do the following:
-
-   a. Let $b_0 = STARTSWITH_V(xz_{0}\cdots z_{\ell-1}0)$ and  $b_1 = STARTSWITH_V(xz_{0}\cdots z_{\ell-1}1)$.
-
-   b. If $b_0=b_1=0$ then halt and output "no $z$ exists". _(In this there is no extension of $xz_0\ldots z_{\ell-1}$ that would cause $V$ to output $1$.)_
-
-   c. If $b=1$ _(i.e., can extend $xz_0\ldots z_{\ell-1}$ with $0$)_ then $z_\ell=0$,  otherwise _(i.e., can extend $xz_0\ldots z_{\ell-1}$ with $1$)_ $z_\ell=1$.
-
-2. Output $z_0,\ldots,z_{an^b-1}$.
+For{$\ell=0,\ldots,an^b-1$}
+Let $b_0 \leftarrow STARTSWITH_V(xz_{0}\cdots z_{\ell-1}0)$.
+Let   $b_1  \leftarrow STARTSWITH_V(xz_{0}\cdots z_{\ell-1}1)$.
+If{$b_0=b_1=0$} 
+Return "no $z$ exists"  # Can't extend  $xz_0\ldots z_{\ell-1}$ to accepting input of $V$
+Endif
+If{$b=1$}
+ $z_\ell \leftarrow 0$ # Can extend $xz_0\ldots x_{\ell-1}$ with $0$ to accepting input
+Else
+ $z_\ell \leftarrow 1$ # Can extend $xz_0\ldots x_{\ell-1}$ with $1$ to accepting input
+Endif
+Endfor
+Return $z_0,\ldots,z_{an^b-1}$
 :::
 
 
-To analyze the $FIND$ algorithm, note that it makes $2an^{b}$ invocations to $STARTSWITH_V$ and hence if the latter is polynomial-time, then so is $FIND_V$.
+To analyze [searchtodecisionalg](){.ref}, note that it makes $2an^{b}$ invocations to $STARTSWITH_V$ and hence if the latter is polynomial-time, then so is  [searchtodecisionalg](){.ref}
 Now suppose that $x$ is such that there exists _some_ $y$ satisfying $V(xy)=1$.
 We claim that at every step $\ell=0,\ldots,an^b-1$, we maintain the invariant that there exists $y\in \{0,1\}^{an^b}$ whose first $\ell$ bits are $z$ s.t. $V(xy)=1$.
 Note that this claim implies the theorem, since in particular it means that for $\ell = an^b-1$, $z$ satisfies $V(xz)=1$.
@@ -250,8 +251,6 @@ For many reasonable proof systems (including the one that Gödel referred to), $
 
 
 
-^[TODO: Maybe add example on finding Nash equilibrium]
-
 
 
 
@@ -366,7 +365,7 @@ We can therefore imagine investing huge computational resources in running $A$ o
 
 
 
-## Approximating counting problems (advanced, optional)
+## Approximating counting problems and posterior sampling (advanced, optional)
 
 
 Given a NAND-CIRC program $P$, if $\mathbf{P}=\mathbf{NP}$ then we can find an input $x$ (if one exists) such that $P(x)=1$. But what if there is more than one $x$ like that?
@@ -390,7 +389,11 @@ That is, $K$ gives an approximation up to a factor of $1 \pm \epsilon$ for the n
 Once again, to understand this theorem it can be useful to see how it implies that if $\mathbf{P}=\mathbf{NP}$ then there is a polynomial-time algorithm that given a graph $G$ and a number $k$, can compute a number $K$ that is within a $1 \pm 0.01$ factor equal to the number of simple paths in $G$ of length $k$. (That is, $K$ is between $0.99$ to $1.01$ times the number of such paths.)
 :::
 
-
+__Posterior sampling and probabilistic programming.__ The algorithm for counting can also be extended to _sampling_ from a given posterior distribution.
+That is, if $C:\{0,1\}^n \rightarrow \{0,1\}^m$ is a Boolean circuit and $y\in \{0,1\}^m$, then if $\mathbf{P}=\mathbf{NP}$ we can sample from (a close approximation of) the distribution of uniform $x\in \{0,1\}^n$ conditioned on $C(x)=y$.
+This task is known as _posterior sampling_ and is crucial for Bayesian data analysis.
+These days it is known how to achieve posterior sampling only for circuits $C$ of very special form, and even in these cases more often than not we do have guarantees on the quality of the sampling algorithm.
+The field of making inferences by sampling from posterior distribution specified by circuits or programs is known as [probabilistic programming](https://en.wikipedia.org/wiki/Probabilistic_programming_language).
 
 
 ## What does all of this imply?
