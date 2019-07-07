@@ -14,7 +14,7 @@ chapternum: "2"
 * Cantor's Theorem: The real numbers are cannot be represented exactly as finite strings.
 
 
->_"The alphabet was a great invention, which enabled men to store and to learn with little effort what others had learned the hard way -- that is, to learn from books rather than from direct, possibly painful, contact with the real world."_, B.F. Skinner
+>_"The alphabet (sic) was a great invention, which enabled men (sic) to store and to learn with little effort what others had learned the hard way -- that is, to learn from books rather than from direct, possibly painful, contact with the real world."_, B.F. Skinner
 
 
 >_"The name of the song is called `HADDOCK'S EYES.'"_ [said the Knight]
