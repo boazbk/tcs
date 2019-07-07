@@ -328,7 +328,7 @@ Unfortunately, the following theorem shows that this cannot be done:
 There does not exist a one-to-one function $RtS:\R \rightarrow \{0,1\}^*$.^[$RtS$ stands for "real numbers to strings".]
 
 [cantorthm](){.ref} was proven by [Georg Cantor](https://en.wikipedia.org/wiki/Georg_Cantor) in 1874.
-(Cantor used the set $\N$ rather than $\{0,1\}^*$, but one can show that these two results are equivalent using the one-to-one maps between those two sets, see [naturalsstringsmapex](){.ref}.)
+(Cantor used the set $\N$ rather than $\{0,1\}^*$, but one can show that these two results are equivalent using the one-to-one mappings between those two sets, see [naturalsstringsmapex](){.ref}.)
 The non-existence of such a map is equivalent to saying that there is no way to "count" all the real numbers as  some sequence $x_0,x_1,x_2,\ldots$.
 For this reason [cantorthm](){.ref} is known as the _uncountability of the reals_.
 
@@ -361,7 +361,7 @@ To turn this idea into a full proof of [cantorthm](){.ref} we need to:
 * Prove that there _is_ a one-to-one function from $\mathcal{X}$ to $\R$.
 
 We now proceed to do precisely that.
-That is, we will will define the set $\{0,1\}^\infty$, which will play the role of $\mathcal{X}$, and then  state and prove two lemmas that show that this set satisfies our two desired properties.
+That is, we will define the set $\{0,1\}^\infty$, which will play the role of $\mathcal{X}$, and then  state and prove two lemmas that show that this set satisfies our two desired properties.
 
 ::: {.definition #bitsinfdef}
 We denote by $\{0,1\}^\infty$ the set  $\{ f \;|\; f:\N \rightarrow \{0,1\} \}$.
@@ -400,7 +400,7 @@ This implies the lemma since for every two sets $A$ and $B$, there exists an ont
 
 The technique of this proof is known as the "diagonal argument" and is illustrated in [diagrealsfig](){.ref}.
 We assume, towards a contradiction, that there exists such a function $StF:\{0,1\}^* \rightarrow \{0,1\}^\infty$, and we will show it is not onto by demonstrating a function $\overline{d}\in \{0,1\}^\infty$ such that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$.
-Consider the lexicographic ordering of binary strings (i.e., $""$,$0$,$1$,$00$,$01$,$\ldots$).
+Consider the lexicographic ordering of binary strings (i.e., $0$,$1$,$00$,$01$,$\ldots$).
 We can imagine the function $StF$ as being specified by an infinitely long table, in which every row corresponds to a string $x\in \{0,1\}^*$ (sorted in lexicographic order), and contains the seequence $StF(x)$.
 That is, for every $x\in \{0,1\}^*$ and $n\in \N$, the cell in the $x$-th row  and $n$-th column of the table contains the bit  $g(n)$ where $g=StF(x)$.
 The diagonal elements in this table are the values $StF("")(0),StF(0)(1),StF(00)(2),StF(01)(3),\ldots$, with the $n$-th diagonal element $d_n$ being $StF(x)(n)$ where $x$ is the $n$-th string in the lexicographic order.
