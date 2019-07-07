@@ -509,7 +509,7 @@ For every $x \in \{0,1\}^*$, there exists either zero or a single $o\in \mathcal
 We will define $D(x)$ to equal $o_0$ in the first case and this single object $o$ in the second case.
 By definition $D(E(o))=o$ for every $o\in \mathcal{O}$.
 
-::: {.remark} 
+::: {.remark title="Total decoding functions" #totaldecoding} 
 While the decoding function of a representation scheme can in general be a _partial_ function,  the proof of [decodelem](){.ref} implies that every representation scheme has a _total_ decoding function. This observation can sometimes be useful.
 :::
 
@@ -521,7 +521,7 @@ What is the value of $n$?
 Let us denote by  $\{0,1\}^{\leq n}$ the set $\{ x\in \{0,1\}^* : |x| \leq n \}$ of strings of length at most $n$.
 The size of $\{0,1\}^{\leq n}$ is equal to
 $$
-|\{0,1\}^0| + |\{0,1\}^1| + |\{0,1\}^2| + \cdots + |\{0,1\}^n| = \sum_{i=0}^n 2^i = 2^{n+1}-1 \;.
+|\{0,1\}^0| + |\{0,1\}^1| + |\{0,1\}^2| + \cdots + |\{0,1\}^n| = \sum_{i=0}^n 2^i = 2^{n+1}-1
 $$
 using the standard formula for summing a [geometric progression](https://en.wikipedia.org/wiki/Geometric_progression).
 
@@ -544,7 +544,7 @@ Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$. If
 When showing a representation scheme for rational numbers, we used the "hack" of encoding the alphabet $\{ 0,1, \|\}$  to represent tuples of strings as a single string.
 This is a special case of the general paradigm of _prefix-free_ encoding.
 The idea is the following: if our representation has the property that no string $x$ representing an object $o$ is a _prefix_ (i.e., an initial substring) of a string $y$ representing a different object $o'$, then we can represent a _lists_ of objects by merely concatenating the representations of all the list members.
-For example, because in English every sentence ends with a punctuation mark such as a period, exclamation, or question mark, we can represent a list of sentences (i.e., a paragraph) by merely concatenating the sentences one after the other.
+For example, because in English every sentence ends with a punctuation mark such as a period, exclamation, or question mark, we can represent a list of sentences (i.e., a paragraph) by merely concatenating the sentences one after the other (although, this doesn't quite work in English since sentences, e.g., this one, can have multiple periods).
 
 It turns out that we can transform _every_ representation to a prefix-free form.
 This justifies [representtuplesidea](){.ref}, and allows us to transform a representation scheme for objects of a type $T$ to a representation scheme of _lists_ of objects of the type $T$.
