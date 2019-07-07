@@ -117,8 +117,8 @@ $$NtS(n) = \begin{cases}
             \text{""}    &  n=0 \\
             NtS(\floor{n/2}) parity(n) & n>0
 \end{cases} \label{ntseq}$$
-where $parity:\N \rightarrow \{0,1\}$ is the function defined as $parity(n)=0$ if $n$ is even and $parity(n)=1$ if $n$ is odd.
-The function $NtS$ is defined _recursively_: for every $n>0$ we define $rep(n)$ in terms of the representation of the smaller number $\floor{n/2}$.
+where $parity:\N \rightarrow \{\text{"0"},\text{"1"}\}$ is the function defined as $parity(n)=\text{"0"}$ if $n$ is even and $parity(n)=\text{"1"}$ if $n$ is odd.
+The function $NtS$ is defined _recursively_: for every $n>0$ we define $rep(n)$ in terms of the representation of the smaller number $\floor{n/2}$. 
 It is also possible to define $NtS$ non-recursively, see [binaryrepex](){.ref}.
 
 Throughout most of this book, the particular choices of representation of numbers as binary strings would not matter much, we just need to know that such a representation exists.
