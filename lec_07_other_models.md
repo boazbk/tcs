@@ -129,7 +129,7 @@ However, RAM machines do capture actual computers to a first approximation and s
 :::
 
 
-## The gory details (optional)
+## The gory details (optional)  { #nandtmgorydetailssec  }
 
 We do not show the full formal proof of  [RAMTMequivalencethm](){.ref} but focus on the most important parts: implementing indexed access, and simulating two dimensional arrays with one dimensional ones.
 Even these are already quite tedious to describe, as will not be surprising to anyone that has ever written a compiler.
@@ -1288,6 +1288,53 @@ Let $M$ be a Turing machine. Give an enhanced λ calculus expression to compute 
 
 ::: {.exercise title="λ calculus to NAND-TM compiler (challenging)" #lambdacompiler }
 Give a program in the programming language of your choice that takes as input a λ expression $e$ and outputs a NAND-TM program $P$ that computes the same function as $e$. For partial credit you can use the `GOTO` and all NAND-CIRC syntactic sugar in your output program. You can use any encoding of λ expressions as binary string that is convenient for you.^[_Hint:_ Try to set up a procedure such that if array `Left` contains an encoding of a λ expression $\lambda x.e$ and array `Right` contains an encoding of another λ expression $e'$, then the array `Result` will contain $e[x \rightarrow e']$.]
+:::
+
+::: {.exercise title="At least two in $\lambda$ calculus" #altlambdaex}
+Let $1 = \lambda x,y.x$ and $0 = \lambda x,y.y$ as before. Define
+
+$$
+ALT = \lambda a,b,c.(a (b 1 (c 1 0)) (b c 0))
+$$
+
+Prove that $ALT$ is a $\lambda$ expression that computes the _at least two_ function. That is, for every $a,b,c \in \{0,1\}$ (as encoded above) $ALT a b c = 1$ if and only at least two of $\{a,b,c\}$ are equal to $1$.
+:::
+
+
+
+::: {.exercise title="Locality of next-step function" #stringsprogramex}
+This question will help you get a better sense of the notion of _locality of the next step function_ of Turing Machines. This locality plays an important role in results such as the Turing completeness of $\lambda$ calculus and one dimensional cellular automata, as well as resluts such as  Godel's Incompleteness Theorem and the Cook Levin theorem that we will see later in this course.
+Define `STRINGS` to be the a programming language that has the following semantics:
+
+* A `STRINGS` program $Q$ has a single string variable `str` that is both the input and the output of $Q$. The program has no loops and no other variables, but rather consists of a sequence of conditional search and replace operations that modify `str`.
+
+
+* The operations of a `STRINGS` program are:
+
+    - `REPLACE(pattern1,pattern2)` where `pattern1` and `pattern2` are fixed strings. This replaces the first occurrence of `pattern1` in `str` with `pattern2`
+    - `if search(pattern) { code }`  executes `code` if `pattern` is a substring of `str`. The code `code` can itself include nested `if`'s. (One can also add an `else { ... }` to execute if `pattern` is _not_ a substring of condf).
+    - the returned value is `str`
+
+* A `STRING` program $Q$ computes a function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ if for every $x\in \{0,1\}^*$, if we initialize `str` to $x$ and then execute the sequence of instructions in $Q$, then at the end of the execution `str` equals $F(x)$.
+
+For example, the following is a `STRINGS` program that computes the function $F:\{0,1\}^* \rightarrow \{0,1\}^*$  such that for every $x\in \{0,1\}^*$, if $x$ contains a substring of the form $y=11ab11$ where $a,b \in \{0,1\}$, then $F(x)=x'$ where $x'$ is obtained by replacing the first occurrence of $y$ in $x$ with $00$.
+
+
+
+```python
+if search('110011') {
+    replace('110011','00')
+} else if search('110111') {
+    replace('110111','00')
+} else if search('111011') {
+    replace('111011','00')
+} else if search('111111') {
+    replace('1111111','00')
+}
+```
+
+
+Prove that for every Turing Machine program $M$, there exists a `STRINGS` program $Q$ that computes the $NEXT_M$ function that maps every string encoding a valid _configuration_ of $M$ to the string encoding the  configuration of the next step of $M$'s computation. (We don't care what the function will do on strings that do not encode a valid configuration.) You don't have to write the `STRINGS` program fully, but you do need to give a convincing argument that such a program exists.
 :::
 
 

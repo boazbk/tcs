@@ -50,6 +50,16 @@ As we will see, questions about polynomial versus exponential time are often _in
 This chapter is merely a tiny sample of the landscape of computational problems and efficient algorithms.
 If you have not yet seen this material and want to explore it more deeply (which I very much hope you do!), the bibliographical notes contain references to some excellent texts, some of which are available freely on the web.
 
+::: {.remark title="Relations between parts of this book" #relationpartsrem }
+__Part I__ of this book contained a _quantitative study_ of computation of  _finite functions_. We asked what are the resources (in terms of gates of Boolean circuits or lines in straight-line programs) required to compute various finite functions.
+
+__Part II__ of the book contained a _qualitative study_ of computation of _infinite functions_ (i.e., functions of _unbounded input length_). In that part we asked the _qualitative question_ of whether or  not a function is computable at all, regardless of the number of operations.
+
+__Part III__ of the book, beginning with this chapter, merges the two approaches and contains a _quantitative study_ of computation of _infinite functions_. In this part we ask how do resources for computing a function _scale_ with the length of the input.
+In [chapmodelruntime](){.ref} we define the notion of running time, and the class $\mathbf{P}$ of functions that can be computed using a number of steps that scales _polynomially_ with the input length.
+In [nonuniformcompsec](){.ref} we will relate this class  to the models of Boolean circuits and straightline programs that we studied in Part I. 
+:::
+
 
 
 ## Problems on graphs

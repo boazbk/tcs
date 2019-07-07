@@ -47,6 +47,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Aaron Sachs
 * Abdelrhman Saleh
 * Brian Sapozhnikov
+* Anthony Scemama
 * Peter Schäfer
 * Josh Seides
 * Alaisha Sharma

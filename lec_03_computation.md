@@ -94,7 +94,7 @@ An algorithm $A$ _computes_ a function $F$ if for every input $x$, if we follow 
 
 
 In this chapter we will make this informal definition precise using the model of __Boolean Circuits__.
-We will show that Boolean Circuits are equivalent in power to __straight line programs__ that are written "ultra simple" programming languages that do not even have loops.
+We will show that Boolean Circuits are equivalent in power to __straight line programs__ that are written in "ultra simple" programming languages that do not even have loops.
 We will also see that the particular choice of __elementary operations__ is immaterial and many different choices yield models with equivalent power (see [compchapoverviewfig](){.ref}).
 However, it will take us some time to get there.
 We will start by discussing what are "elementary operations" and  how we map a description of an algorithm into an actual physical process that produces an output from an input in the real world.
@@ -427,7 +427,7 @@ Let $n,m,s$ be positive integers with $s \geq m$. A _Boolean circuit_ with $n$ i
 
 * The other $s$ vertices are known as _gates_. Each gate is labeled with $\wedge$, $\vee$ or $\neg$. Gates labeled with $\wedge$ or $\vee$ have two in-neighbors. Gates labeled with $\neg$ have one in-neighbor. We will allow parallel edges (and so for example an AND gate can have both its in-neighbors be the same vertex).
 
-* Exactly $m$ of the gates are also labeled with the $m$ labels   `Y[`$0$`]`, $\ldots$, `Y[`$m-1$`]` (in addition to their label $\wedge$/$vee$/$\neg$). These are known as _outputs_.
+* Exactly $m$ of the gates are also labeled with the $m$ labels   `Y[`$0$`]`, $\ldots$, `Y[`$m-1$`]` (in addition to their label $\wedge$/$\vee$/$\neg$). These are known as _outputs_.
 :::
 
 
