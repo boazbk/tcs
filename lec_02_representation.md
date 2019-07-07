@@ -555,7 +555,7 @@ But first let us formally define prefix-freeness:
 For two strings $y,y'$, we say that $y$ is a _prefix_ of $y'$ if $|y| \leq |y'|$ and for every $i<|y|$, $y'_i = y_i$.
 
 Let $\mathcal{O}$ be a non-empty set and $E:\mathcal{O} \rightarrow \{0,1\}^*$ be a function.
-We say that $E$ _prefix-free_ if $E(o)$ is non-emptry for every $o\in\mathcal{O}$ and there does not exist a distinct pair of objects $o, o' \in \mathcal{O}$ such that  $E(o)$  is a prefix of $E(o')$.
+We say that $E$ _prefix-free_ if $E(o)$ is non-empty for every $o\in\mathcal{O}$ and there does not exist a distinct pair of objects $o, o' \in \mathcal{O}$ such that  $E(o)$  is a prefix of $E(o')$.
 :::
 
 Recall that for every set $\mathcal{O}$, the set $\mathcal{O}^*$ consists of all finite length tuples (i.e., _lists_) of elements in $\mathcal{O}$.
@@ -573,7 +573,7 @@ $$
 
 
 > ### { .pause }
-[prefixfreethm](){.ref} is one of those statements that are a little hard to parse, but in fact are fairly straightforward to prove once you understand what they mean.
+[prefixfreethm](){.ref} is an example of a that is a little hard to parse, but in fact is fairly straightforward to prove once you understand what it means.
 Therefore, I highly recommend that you pause here to make sure you understand the statement of this theorem. You should also try to prove it on your own before proceeding further.
 
 
@@ -586,7 +586,7 @@ The idea behind the proof is simple.
 Suppose that for example we want to decode a triple $(o_0,o_1,o_2)$ from its representation $x= E'(o_0,o_1,o_2)=E(o_0)E(o_1)E(o_2)$.
 We will do so by first finding the first prefix $x_0$ of $x$ such is a representation of some object.
 Then we will decode this object, remove $x_0$ from $x$ to obtain a new string $x'$,  and continue onwards to find the first prefix $x_1$ of $x'$ and so on and so forth  (see [prefix-free-tuples-ex](){.ref}).
-The prefix-freeness property of $E$ will ensure that $x_0$ will in fact be $E(o_0)$,  $x_1$ will be $E(o_1)$ etc.
+The prefix-freeness property of $E$ will ensure that $x_0$ will in fact be $E(o_0)$,  $x_1$ will be $E(o_1)$, etc.
 
 
 
@@ -597,14 +597,14 @@ The prefix-freeness property of $E$ will ensure that $x_0$ will in fact be $E(o_
 
 ::: {.proof data-ref="prefixfreethm"}
 We now show the formal proof.
-Suppose, towards the sake of contradiction that there exist two distinct tuples $(o_0,\ldots,o_{k-1})$ and $(o'_0,\ldots,o'_{k'-1})$ such that
+Suppose, towards the sake of contradiction, that there exist two distinct tuples $(o_0,\ldots,o_{k-1})$ and $(o'_0,\ldots,o'_{k'-1})$ such that
 
 $$
 \overline{E}(o_0,\ldots,o_{k-1})= \overline{E}(o'_0,\ldots,o'_{k'-1}) \;. \label{prefixfreeassump}
 $$
 We will denote the string $\overline{E}(o_0,\ldots,o_{k-1})$ by $\overline{x}$.
 
-Let $i$ be the first coordinate such that $o_i \neq o'_i$.
+Let $i$ be the first index such that $o_i \neq o'_i$.
 (If $o_i=o'_i$ for all $i$ then, since we assume the two tuples are distinct, one of them must be larger than the other. In this case we assume without loss of generality that $k'>k$ and let $i=k$.)
 In the case that $i<k$, we see that the string $\overline{x}$ can be written in two different ways:
 
@@ -672,13 +672,13 @@ In all cases we see that $PF(x)=\overline{E}(o)$ is not a prefix of $PF(x')=\ove
 :::
 
 The proof of [prefixfreetransformationlem](){.ref} is not the only or even the best way to transform an arbitrary representation into prefix-free form.
-[prefix-free-ex](){.ref}) asks you to construct a more efficient prefix-free transformation satisfying $|\overline{E}(o)| \leq |E(o)| + O(\log |E(o)|)$. 
+[prefix-free-ex](){.ref} asks you to construct a more efficient prefix-free transformation satisfying $|\overline{E}(o)| \leq |E(o)| + O(\log |E(o)|)$. 
 
 ### "Proof by Python" (optional)
 
 The proofs of [prefixfreethm](){.ref} and [prefixfreetransformationlem](){.ref} are _constructive_ in the sense that they give us:
 
-* A way to transform the encoding and decoding functions of any representation of an object $O$ to an encoding and decoding functions that are prefix-free;
+* A way to transform the encoding and decoding functions of any representation of an object $O$ to an encoding and decoding functions that are prefix-free, and
 
 * A way to extend prefix-free encoding and decoding of single objects to encoding and decoding of _lists_ of objects by concatenation.
 
@@ -722,7 +722,7 @@ pfvalidM(pfNtS(234))
 ```
 
 > ### { .pause }
-Note that Python function `prefixfree` above takes two _Python functions_ as input and outputs three Python functions as output.^[When it's not too awkward, we use the term "Python function" or "subroutine" to distinguish between such snippets of python programs and mathematical functions. However, in comments in python source we use "functions" to denote python functions, just as we use "integers" to denote python int objects.]
+Note that the Python function `prefixfree` above takes two _Python functions_ as input and outputs three Python functions as output.^[When it's not too awkward, we use the term "Python function" or "subroutine" to distinguish between such snippets of Python programs and mathematical functions. However, in comments in Python source we use "functions" to denote Python functions, just as we use "integers" to denote Python int objects.]
 You don't have to know Python in this course, but you do need to get comfortable with the idea of functions as mathematical objects in their own right, that can be used as inputs and outputs of other functions.
 
 We now show a "Python proof" of [prefixfreethm](){.ref}. Namely, we show a function `represlists` that takes as input a prefix-free representation scheme (implemented via encoding, decoding, and validity testing functions) and outputs a representation scheme for _lists_ of such objects. If we want to make this representation prefix-free then we could fit it into the function `prefixfree` above.
@@ -733,6 +733,7 @@ We now show a "Python proof" of [prefixfreethm](){.ref}. Namely, we show a funct
 # that can encode and decode
 # lists of the objects respectively
 def represlists(pfencode,pfdecode,pfvalid):
+    """
 
     def encodelist(L):
         """Gets list of objects, encodes it as list of bits"""
