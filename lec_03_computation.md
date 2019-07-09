@@ -313,7 +313,7 @@ This suggests that we can use $AND$, $OR$, and $NOT$ as our "basic operations", 
 ::: {.quote}
 __Semi-formal definition of an algorithm:__ An _algorithm_ consists of a sequence of steps of the form "compute a new value by applying $AND$, $OR$, or $NOT$ to previously computed values".
 
-An algorithm $A$ _computes_ a function $f$ if for every input $x$ to $f$, if we feed $x$ as input to the algorithm, the value computed in its last step is $f(x)$.
+An algorithm $A$ _computes_ a function $F$ if for every input $x$ to $F$, if we feed $x$ as input to the algorithm, the value computed in its last step is $F(x)$.
 :::
 
 
