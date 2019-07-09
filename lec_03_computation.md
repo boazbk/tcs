@@ -25,7 +25,7 @@ chapternum: "3"
 
 
 
-People have been computing for thousands of years, with aids that include not just pen and paper, but also abacus, slide rulers, various mechanical devices, and modern electronic computers.
+People have been computing for thousands of years, with aids that include not just pen and paper, but also abacus, slide rules, various mechanical devices, and modern electronic computers.
 A priori, the notion of computation seems to be tied to the particular mechanism that you use.
 You might think that the "best"  algorithm for multiplying numbers will differ if you implement it in _Python_ on a modern laptop than if you use pen and paper.
 However, as we saw in the introduction ([chapintro](){.ref}), an algorithm that is asymptotically better would eventually beat a worse one regardless of the underlying technology.
@@ -60,7 +60,7 @@ Here is how Al-Khwarizmi described the algorithm for solving an equation of the 
 
 For the purposes of this book, we will need a much more precise way to describe algorithms.
 Fortunately (or is it unfortunately?), at least at the moment, computers lag far behind school-age children in learning from examples.
-Hence in the 20th century people have come up with exact formalisms for describing algorithms, namely _programming languages_.
+Hence in the 20th century people came up with exact formalisms for describing algorithms, namely _programming languages_.
 Here is al-Khwarizmi's quadratic equation solving algorithm described in the _Python_ programming language:
 
 ```python
@@ -71,8 +71,8 @@ def solve_eq(b,c):
     # return solution of x^2 + bx = c following Al Khwarizmi's instructions
     # Al Kwarizmi demonstrates this for the case b=10 and c= 39
 
-    val1 = b/2.0 # "halve the number of the roots"
-    val2 = val1*val1 # "this you multiply by itself"
+    val1 = b / 2.0 # "halve the number of the roots"
+    val2 = val1 * val1 # "this you multiply by itself"
     val3 = val2 + c # "Add this to thirty-nine"
     val4 = sqrt(val3) # "take the root of this"
     val5 = val4 - val1 # "subtract from it half the number of roots"
@@ -87,7 +87,7 @@ print(solve_eq(10,39))
 We can define algorithms informally as follows:
 
 ::: {.quote }
-__Informal definition of an algorithm:__ An _Algorithm_ is a set of instructions of how to compute an output from an input by following a sequence of "elementary steps".
+__Informal definition of an algorithm:__ An _algorithm_ is a set of instructions for how to compute an output from an input by following a sequence of "elementary steps".
 
 An algorithm $A$ _computes_ a function $F$ if for every input $x$, if we follow the instructions of $A$ on the input $x$, we obtain the output $F(x)$.
 :::
@@ -108,13 +108,13 @@ We will start by discussing what are "elementary operations" and  how we map a d
 An algorithm breaks down a _complex_ calculation into a series of _simpler_ steps.
 These steps can be executed in a variety of different ways, including:
 
-* Writing down symbols on a piece of paper
+* Writing down symbols on a piece of paper.
 
 * Modifying the current flowing on electrical wires.
 
-* Binding a protein to a strand of DNA
+* Binding a protein to a strand of DNA.
 
-* Response to a stimulus by a member of a collection (e.g., a bee in a colony, a trader in a market).
+* Responding to a stimulus by a member of a collection (e.g., a bee in a colony, a trader in a market).
 
 
 To formally define algorithms, let us try to "err on the side of simplicity" and model our "basic steps" as truly minimal.
