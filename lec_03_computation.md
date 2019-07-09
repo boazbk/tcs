@@ -439,7 +439,7 @@ This is a non-trivial mathematical definition, so it is worth taking the time to
 This might be a good time to review some of the basic properties of DAGs and in particular the fact that they can be _topologically sorted_, see [topsortsec](){.ref}.
 :::
 
-If $C$ is a circuit with $n$ inputs and $m$ outputs, and $x\in \{0,1\}^n$, then we can compute the output of $C$ on the input $x$ in the natural way: assign the input vertices `X[`$0$`]` , `X[`$n-1$`]` the values $x_0,\ldots,x_{n-1}$,  apply each gate on the values of its in-neighbors, and then output the values that correspond to the output vertices.
+If $C$ is a circuit with $n$ inputs and $m$ outputs, and $x\in \{0,1\}^n$, then we can compute the output of $C$ on the input $x$ in the natural way: assign the input vertices `X[`$0$`]`, $\ldots$, `X[`$n-1$`]` the values $x_0,\ldots,x_{n-1}$,  apply each gate on the values of its in-neighbors, and then output the values that correspond to the output vertices.
 Formally, this is defined as follows:
 
 ::: {.definition title="Computing a function via a Boolean circuit" #circuitcomputedef}
@@ -454,7 +454,7 @@ We let $L$ be the maximum layer of $h$, and for $\ell=0,1,\ldots,L$  we do the f
 
   - If $v$ is an input vertex labeled with `X[`$i$`]` for some $i\in [n]$, then we assign to $v$ the value $x_i$.
 
-  - If $v$ is a gate vertex labeled with $\wedge$ and with two in-neighbors $u,w$ then we assign to $v$ the AND of the values assigned to $u$ and $w$. (Since $u,w$ are in-neighbors of $v$, they are in lower layer than $v$, and hence their value has already been assigned.)
+  - If $v$ is a gate vertex labeled with $\wedge$ and with two in-neighbors $u,w$ then we assign to $v$ the _AND_ of the values assigned to $u$ and $w$. (Since $u$ and $w$ are in-neighbors of $v$, they are in lower layer than $v$, and hence their values have already been assigned.)
 
   - If $v$ is a gate vertex labeled with $\vee$ and with two in-neighbors $u,w$ then we assign to $v$ the OR of the values assigned to $u$ and $w$.
 
@@ -468,14 +468,14 @@ Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$. We say that the circuit $C$ _computes_ 
 
 ### Equivalence of circuits and straight-line programs
 
-We have seen two ways to describe how to compute a function $f$ using AND, OR and NOT:
+We have seen two ways to describe how to compute a function $f$ using _AND_, _OR_ and _NOT_:
 
 
-* A _Boolean circuit_, defined in [booleancircdef](){.ref},  computes $f$ by connecting via wires AND, OR, and NOT gates to the inputs.
+* A _Boolean circuit_, defined in [booleancircdef](){.ref},  computes $f$ by connecting via wires _AND_, _OR_, and _NOT_ gates to the inputs.
 
-* We can also describe such a computation using a _straight-line program_ that has lines of the form `foo = AND(bar,blah)`, `foo = OR(bar,blah)` and `foo = NOT(bar)` where `foo`, `bar` and `blah` are variable names. (We call this a _straight-line program_ since it contains no loops or if/then statements.)
+* We can also describe such a computation using a _straight-line program_ that has lines of the form `foo = AND(bar,blah)`, `foo = OR(bar,blah)` and `foo = NOT(bar)` where `foo`, `bar` and `blah` are variable names. (We call this a _straight-line program_ since it contains no loops or branching (e.g., if/then) statements.)
 
-We now formally define the AON-CIRC programming language ("AON" stands for AND/OR/NOT) which has the above operations, and show that it is equivalent to Boolean circuits.
+We now formally define the AON-CIRC programming language ("AON" stands for _AND_/_OR_/_NOT_) which has the above operations, and show that it is equivalent to Boolean circuits.
 
 ::: {.definition title="AON-CIRC Programming language" #AONcircdef}
 An _AON-CIRC program_ is a string of lines of the form `foo = AND(bar,blah)`, `foo = OR(bar,blah)` and `foo = NOT(bar)` where `foo`, `bar` and `blah` are variable names.^[We follow the common [programming languages convention](https://goo.gl/QyHa3b)  of using names such as `foo`, `bar`, `baz`, `blah` as stand-ins for generic identifiers. A variable identifier in our programming language can be any combination of letters, numbers,  underscores, and brackets. The appendix contains a full formal specification of our programming language.]
@@ -486,12 +486,12 @@ If an AON-CIRC program $P$ has input variables `X[`$0$`]`,$\ldots$,`X[`$n-1$`]` 
 We say that such an AON-CIRC program $P$ _computes_ a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ if $P(x)=f(x)$ for every $x\in \{0,1\}^n$.
 :::
 
-ON-CIRC is not a practical programming language: it was designed for pedagogical purposes only, as a way to model computation as composition of $AND$, $OR$, and $NOT$.
+AON-CIRC is not a practical programming language: it was designed for pedagogical purposes only, as a way to model computation as composition of $AND$, $OR$, and $NOT$.
 However, AON-CIRC can still be easily implemented on a computer.
 The following solved exercise gives an example of an AON-CIRC program.
 
 ::: {.solvedexercise title="" #aonforcmpsolved}
-Consider the following function $CMP:\{0,1\}^4 \rightarrow \{0,1\}$ that on input four bits $a,b,c,d\in \{0,1\}$, outputs $1$ iff the number represented by $(a,b)$ is larger than the number represented by $(c,d)$.
+Consider the following function $CMP:\{0,1\}^4 \rightarrow \{0,1\}$ that on four input bits $a,b,c,d\in \{0,1\}$, outputs $1$ iff the number represented by $(a,b)$ is larger than the number represented by $(c,d)$.
 That is $CMP(a,b,c,d)=1$ iff $2a+b>2c+d$.
 
 Write an AON-CIRC program to compute $CMP$.
@@ -500,7 +500,7 @@ Write an AON-CIRC program to compute $CMP$.
 ::: {.solution data-ref="aonforcmpsolved"}
 Writing such a program is tedious but not truly hard.
 To compare two numbers we first compare their most significant digit, and then go down to the next digit and so on and so forth.
-In this case where the numbers have just two binary digits, these comparisons are particularly simple:
+In this case where the numbers have just two binary digits, these comparisons are particularly simple.
 The number represented by $(a,b)$ is larger than the number represented by $(c,d)$ if and only if one of the following conditions happens:
 
 1. The most significant bit $a$ of $(a,b)$   is larger than the most significant bit $c$ of $(c,d)$.
@@ -511,7 +511,7 @@ or
 
 
 Another way to express the same condition is the following:
-the number $(a,b)$ is larger than $(c,d)$ iff  $a>c$ __OR__ (__NOT__ $(c<a)$ __AND__ $b>d$).
+the number $(a,b)$ is larger than $(c,d)$ iff  $a>c$ __OR__ ((__NOT__ $(c<a)$) __AND__ $b>d$).
 
 For binary digits $\alpha,\beta$, the condition $\alpha>\beta$ is simply that $\alpha=1$ and $\beta=0$ or $AND(\alpha,NOT(\beta))=1$.
 Together these observations can be used to give the following AON-CIRC program to compute $CMP$:
