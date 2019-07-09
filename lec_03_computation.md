@@ -146,10 +146,10 @@ Consider the function $MAJ:\{0,1\}^3 \rightarrow \{0,1\}$ that is defined as fol
 
 $$MAJ(x) = \begin{cases}1 & x_0 + x_1 + x_2 \geq 2 \\ 0 & \text{otherwise}\end{cases} \;.$$
 
-That is, for every $x\in \{0,1\}^3$, $MAJ(x)=1$ if and only if the majority (i.e., at least two out of the three) of $x$'s coordinates are equal to $1$.
+That is, for every $x\in \{0,1\}^3$, $MAJ(x)=1$ if and only if the majority (i.e., at least two out of the three) of $x$'s elements are equal to $1$.
 Can you come up with a formula involving $AND$, $OR$ and $NOT$ to compute $MAJ$? (It would be useful for you to pause at this point and work out the formula for yourself. As a hint, although the $NOT$ operator is needed to compute some functions, you will not need to use it to compute $MAJ$.)
 
-Let us first try to rephrase $MAJ(x)$ in words: "$MAJ(x)=1$ if and only if there exists some pair of distinct coordinates $i,j$ such that both $x_i$ and $x_j$ are equal to $1$." In other words it means that $MAJ(x)=1$ iff   _either_ both $x_0=1$ _and_ $x_1=1$,  _or_ both $x_1=1$ _and_ $x_2=1$, _or_ both $x_0=1$ _and_ $x_2=1$.
+Let us first try to rephrase $MAJ(x)$ in words: "$MAJ(x)=1$ if and only if there exists some pair of distinct elements $i,j$ such that both $x_i$ and $x_j$ are equal to $1$." In other words it means that $MAJ(x)=1$ iff   _either_ both $x_0=1$ _and_ $x_1=1$,  _or_ both $x_1=1$ _and_ $x_2=1$, _or_ both $x_0=1$ _and_ $x_2=1$.
 Since the $OR$ of three conditions $c_0,c_1,c_2$ can be written as $OR(c_0,OR(c_1,c_2))$, we can now translate this into a formula as follows:
 
 $$
@@ -196,7 +196,7 @@ But by the standard distributive law $a\cdot (b+c) = a\cdot b + a \cdot c$ and h
 
 
 
-### Extended example: Computing $XOR$ from $AND$,$OR$,$NOT$ {#xoraonexample }
+### Extended example: Computing $XOR$ from $AND$, $OR$, and $NOT$ {#xoraonexample }
 
 Let us see how we can obtain a different function from the same building blocks.
 Define $XOR:\{0,1\}^2 \rightarrow \{0,1\}$ to be the function $XOR(a,b)= a + b \mod 2$. That is, $XOR(0,0)=XOR(1,1)=0$ and $XOR(1,0)=XOR(0,1)=1$.
@@ -207,7 +207,7 @@ As usual, it is a good exercise to try to work out the algorithm for $XOR$ using
 :::
 
 
-The following algorithms computes $XOR$  using $AND$,$OR$, and $NOT$: 
+The following algorithm computes $XOR$ using $AND$, $OR$, and $NOT$: 
 
 
 ``` {.algorithm title="$XOR$ from $AND$/$OR$/$NOT$" #XORfromAONalg}
@@ -245,7 +245,7 @@ Specifically, the following is a _Python_ program that computes the $XOR$ functi
 ```python
 def AND(a,b): return a*b
 def OR(a,b):  return 1-(1-a)*(1-b)
-def NOT(a): return 1-a
+def NOT(a):   return 1-a
 
 def XOR(a,b):
     w1 = AND(a,b)
