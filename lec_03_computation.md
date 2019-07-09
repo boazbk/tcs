@@ -356,11 +356,11 @@ We will also discuss how to _physically implement_ simple operations such as $AN
 
 _Boolean circuits_ provide a precise notion of  "composing basic operations together".
 A Boolean circuit (see [boolancircfig](){.ref}) is composed of _gates_ and _inputs_ that are connected by _wires_.
-The _wires_  carry a signal that is either the value $0$ or $1$.
+The _wires_  carry a signal that represents either the value $0$ or $1$.
 Each gate corresponds to either the _OR_, _AND_, or _NOT_ operation.
 An _OR gate_ has two incoming wires, and one or more outgoing wires.
 If these two incoming wires carry the signals $a$ and $b$ (for $a,b \in \{0,1\}$), then the signal on the outgoing wires will be $OR(a,b)$.
-AND and NOT gates are defined similarly.
+_AND_ and _NOT_ gates are defined similarly.
 The _inputs_ have only outgoing wires.
 If we set a certain input to a value $a\in \{0,1\}$, then this value is propagated on all the wires outgoing from it.
 We also designate some gates as _output gates_, and their value corresponds to the result of evaluating the circuit.
@@ -375,7 +375,7 @@ We evaluate an $n$-input Boolean circuit $C$ on an input $x\in \{0,1\}^n$ by pla
 ::: {.remark title="Physical realization of Boolean circuits" #booleancircimprem}
 Boolean circuits are a _mathematical model_ that does not necessarily  correspond to a physical object, but they can be implemented physically.
 In physical implementation of circuits, the signal is [often implemented](https://goo.gl/gntTQE) by electric potential or _voltage_ on a wire, where for example voltage above a certain level is interpreted as a logical value of $1$, and below a certain level is interpreted as a logical value of $0$.
-[physicalimplementationsec](){.ref} discusses physical implementation of boolean circuits (with examples including using electrical signals such as in silicon-based circuits, but also  biological and mechanical implementations as well).
+[physicalimplementationsec](){.ref} discusses physical implementation of Boolean circuits (with examples including using electrical signals such as in silicon-based circuits, but also  biological and mechanical implementations as well).
 :::
 
 
@@ -383,13 +383,13 @@ In physical implementation of circuits, the signal is [often implemented](https:
 
 
 
-![A _Boolean Circuit_ consists of  _gates_ that are are connected by _wires_ to one another and the _inputs_. The left-hand side  figure depicts a circuit with $2$ inputs and $5$ gates, one of which is designated the output gate. The right-hand side figure depicts the evaluation of this circuit on the input $x\in \{0,1\}^2$ with $x_0=1$ and $x_1=0$. The value of every gate is obtained by applying the corresponding function ($AND$, $OR$, or $NOT$) to values on the wire(s) that enter it. The output of the circuit on a given input is the value of the output gate(s). In this casem the circuit computes the $XOR$ function and hence it outputs $1$ on the input $10$.](../figure/booleancircuit.png){#boolancircfig  }
+![A _Boolean Circuit_ consists of  _gates_ that are are connected by _wires_ to one another and the _inputs_. The left side depicts a circuit with $2$ inputs and $5$ gates, one of which is designated the output gate. The right side depicts the evaluation of this circuit on the input $x\in \{0,1\}^2$ with $x_0=1$ and $x_1=0$. The value of every gate is obtained by applying the corresponding function ($AND$, $OR$, or $NOT$) to values on the wire(s) that enter it. The output of the circuit on a given input is the value of the output gate(s). In this case, the circuit computes the $XOR$ function and hence it outputs $1$ on the input $10$.](../figure/booleancircuit.png){#boolancircfig  }
 
 
 
 
 ::: {.solvedexercise title="All equal function" #allequalex}
-Define $ALLEQ:\{0,1\}^4 \rightarrow \{0,1\}$ be the function that on input $x\in \{0,1\}^4$ outputs $1$ if and only if $x_0=x_1=x_2=x_3$. Give a Boolean circuit for computing $ALLEQ$.
+Define $ALLEQ:\{0,1\}^4 \rightarrow \{0,1\}$ to be the function that on input $x\in \{0,1\}^4$ outputs $1$ if and only if $x_0=x_1=x_2=x_3$. Give a Boolean circuit for computing $ALLEQ$.
 :::
 
 
@@ -401,7 +401,7 @@ Similarly we can phrase the condition $x=0^4$ as $\overline{x}_0 \wedge \overlin
 The output of $ALLEQ$ is the OR of these two conditions, which results in the circuit of 4 NOT gates, 6 AND gates, and one OR gate presented in [allequalfig](){.ref}.
 :::
 
-![A  Boolean circuit for computing the _all equal_ function $ALLEQ:\{0,1\}^4 \rightarrow \{0,1\}$ that outputs $1$ on $x\in \{0,1\}^4$ if and only if $x_0=x_1=x_2=x_3$. The figure illustrates the evaluation of the circuit on the input $0010$.](../figure/allequalcirc2.png){#allequalfig .margin }
+![A  Boolean circuit for computing the _all equal_ function $ALLEQ:\{0,1\}^4 \rightarrow \{0,1\}$ that outputs $1$ on $x\in \{0,1\}^4$ if and only if $x_0=x_1=x_2=x_3$.](../figure/allequalcirc2.png){#allequalfig .margin }
 
 ### Boolean circuits: a formal definition
 
