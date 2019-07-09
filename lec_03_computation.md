@@ -405,7 +405,7 @@ The output of $ALLEQ$ is the OR of these two conditions, which results in the ci
 
 ### Boolean circuits: a formal definition
 
-We defined Boolean circuits informally as obtained by connecting AND, OR, and NOT gates via wires so as to produce an output from an input.
+We defined Boolean circuits informally as obtained by connecting _AND_, _OR_, and _NOT_ gates via wires so as to produce an output from an input.
 However, to be able to prove theorems about the existence or non-existence of Boolean circuits for computing various functions we need to:
 
 1. Formally define a Boolean circuit as a mathematical object.
@@ -417,17 +417,17 @@ We now proceed to do so.
 We will define a Boolean circuit as a labeled _Directed Acyclic Graph (DAG)_.
 The _vertices_ of the graph correspond to the gates and inputs of the circuit, and the _edges_ of the graph correspond to the wires.
 A wire from an input or gate $u$ to a gate $v$ in the circuit corresponds to a directed edge between the corresponding vertices.
-The inputs are vertices with no incoming edges, while each gate has the appropriate number of incoming edges based on the function it computes. (That is,  $AND$ and $OR$ gates have two in-neighbors, while $NOT$ gates have one in-neighbor.)
+The inputs are vertices with no incoming edges, while each gate has the appropriate number of incoming edges based on the function it computes. (That is,  _AND_ and _OR_ gates have two in-neighbors, while _NOT_ gates have one in-neighbor.)
 The formal definition is as follows (see also [generalcircuitfig](){.ref}):
 
-![A _Boolean Circuit_ is a labeled directed acyclic graph (DAG). It has $n$ _input_ vertices, which are marked with `X[`$0$`]`,$\ldots$, `X[`$n-1$`]` and have no incoming edges, and the rest of the vertices are _gates_. An AND,OR, or NOT gate has two or one incoming edges. If the circuit has $m$ outputs, then $m$ of the gates are known as _outputs_ and are marked with `Y[`$0$`]`,$\ldots$,`Y[`$m-1$`]`. When we evaluate a circuit $C$ on an input $x\in \{0,1\}^n$, we start by setting the value of the input vertices to $x_0,\ldots,x_{n-1}$ and then propagate the values, assigning to each gate $g$ the result of applying the operation of $g$ to the values of $g$'s in-neighbors. The output of the circuit is the value assigned to the output gates.](../figure/generalcircuit.png){#generalcircuitfig }
+![A _Boolean Circuit_ is a labeled directed acyclic graph (DAG). It has $n$ _input_ vertices, which are marked with `X[`$0$`]`,$\ldots$, `X[`$n-1$`]` and have no incoming edges, and the rest of the vertices are _gates_. An _AND_, _OR_, or _NOT_ gate has two or one incoming edges. If the circuit has $m$ outputs, then $m$ of the gates are known as _outputs_ and are marked with `Y[`$0$`]`,$\ldots$,`Y[`$m-1$`]`. When we evaluate a circuit $C$ on an input $x\in \{0,1\}^n$, we start by setting the value of the input vertices to $x_0,\ldots,x_{n-1}$ and then propagate the values, assigning to each gate $g$ the result of applying the operation of $g$ to the values of $g$'s in-neighbors. The output of the circuit is the value assigned to the output gates.](../figure/generalcircuit.png){#generalcircuitfig }
 
 ::: {.definition title="Boolean Circuits" #booleancircdef}
 Let $n,m,s$ be positive integers with $s \geq m$. A _Boolean circuit_ with $n$ inputs, $m$ outputs, and $s$ gates, is a labeled directed acyclic graph (DAG) $G=(V,E)$ with $s+n$ vertices satisfying the following properties:
 
 * Exactly $n$ of the vertices have no in-neighbors. These vertices are known as _inputs_ and are labeled with the $n$ labels `X[`$0$`]`, $\ldots$, `X[`$n-1$`]`.
 
-* The other $s$ vertices are known as _gates_. Each gate is labeled with $\wedge$, $\vee$ or $\neg$. Gates labeled with $\wedge$ or $\vee$ have two in-neighbors. Gates labeled with $\neg$ have one in-neighbor. We will allow parallel edges (and so for example an AND gate can have both its in-neighbors be the same vertex).
+* The other $s$ vertices are known as _gates_. Each gate is labeled with $\wedge$, $\vee$ or $\neg$. Gates labeled with $\wedge$ (_AND_) or $\vee$ (_OR_) have two in-neighbors. Gates labeled with $\neg$ (_NOT_) have one in-neighbor. We will allow parallel edges (and so for example an _AND_ gate can have both its in-neighbors be the same vertex).
 
 * Exactly $m$ of the gates are also labeled with the $m$ labels   `Y[`$0$`]`, $\ldots$, `Y[`$m-1$`]` (in addition to their label $\wedge$/$\vee$/$\neg$). These are known as _outputs_.
 :::
@@ -435,7 +435,7 @@ Let $n,m,s$ be positive integers with $s \geq m$. A _Boolean circuit_ with $n$ i
 
 
 ::: { .pause }
-This is our first example of a non trivial mathematical definition, so it is worth taking the time to read it slowly and carefully. As in all mathematical definitions, we are using a known mathematical object - a directed acyclic graph (DAG) - to define a new object - a Boolean circuit.
+This is a non-trivial mathematical definition, so it is worth taking the time to read it slowly and carefully. As in all mathematical definitions, we are using a known mathematical object --- a directed acyclic graph (DAG) --- to define a new object, a Boolean circuit.
 This might be a good time to review some of the basic properties of DAGs and in particular the fact that they can be _topologically sorted_, see [topsortsec](){.ref}.
 :::
 
