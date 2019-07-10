@@ -138,7 +138,7 @@ This can help in planning a course based on this book.
 This text is continually evolving, and I am getting input from many people, for which I am deeply grateful.
 Thanks to Scott Aaronson, Michele Amoretti, Marguerite Basta, Sam Benkelman, Jarosław Błasiok, Emily Chan
 Christy Cheng, Michelle Chiang, Daniel Chiu, Chi-Ning Chou, Michael Colavita, Robert Darley Waddilove,
-Juan Esteller,  Leor Fishman, William Fu, Thomas Huet, 
+Juan Esteller, David Evans, Leor Fishman, William Fu, Thomas Huet, 
 Piotr Galuszka, Mark Goldstein,  Alexander Golovnev, Chan Kang,
 Nina Katz-Christy, Eddie Kohler, 
 Estefania Lahera, Allison Lee, Ondřej Lengál, 
@@ -146,7 +146,7 @@ Raymond Lin, Emma Ling, Alex Lombardi,
 Lisa Lu, Aditya Mahadevan, Jacob Meyerson, George Moe, Hamish Nicholson, 
 Sandip Nirmel, Sebastian Oberhoff,
 Thomas Orton, Pablo Parrilo, Juan Perdomo, Aaron Sachs, 
-Abdelrhman Saleh, Brian Sapozhnikov, Peter Schäfer
+Abdelrhman Saleh, Brian Sapozhnikov, Peter Schäfer, Anthony Scemama,
 Josh Seides, Alaisha Sharma, Noah Singer, Matthew Smedberg, 
 Hikari Sorensen, Alec Sun, Everett Sussman,
 Marika Swanberg, Garrett Tanzer, Sarah Turnill, Salil Vadhan, 
@@ -157,7 +157,7 @@ Grace Zhang, and Jessica Zhu for helpful feedback.
 If you have any comments or suggestions, please do post them on the GitHub repository [https://github.com/boazbk/tcs](https://github.com/boazbk/tcs).
 
 Salil Vadhan co-taught with me the first iteration of this course and gave me a tremendous amount of useful feedback and insights during this process.
-Michele Amoretti and Marika Swanberg carefully read several chapters of this text and gave extremely helpful detailed comments.
+Michele Amoretti and Marika Swanberg carefully read several chapters of this text and gave extremely helpful detailed comments. Dave Evans contributed many pull requests fixing errors and improving phrasing.
 
 Thanks to Anil Ada, Venkat Guruswami,  and Ryan O'Donnell for helpful tips from their experience in teaching [CMU 15-251](http://www.cs.cmu.edu/~./15251/).
 Juan Esteller and Gabe Montague initially implemented the NAND* programming languages in OCaml and Javascript.

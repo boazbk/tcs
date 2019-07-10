@@ -15,6 +15,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Michael Colavita
 * Robert Darley Waddilove
 * Juan Esteller
+* David Evans
 * Michael Fine
 * Leor Fishman
 * Zaymon Foulds-Cook
