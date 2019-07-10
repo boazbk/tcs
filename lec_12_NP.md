@@ -13,16 +13,16 @@ chapternum: "13"
 
 
 
-Consider some of the problems we have encountered before:
+Consider some of the problems we have encountered in [chapefficient](){.ref}:
 
-* Finding the longest path in a graph
 
-* Finding the maximum cut in a graph
+* The _3SAT_ problem: deciding whether a given 3CNF formula has a satisfying assignment.
 
-* The 3SAT problem: deciding whether a given 3CNF formula has a satisfying assignment.
+* Finding the longest path in a graph.
+
+* Finding the maximum cut in a graph.
 
 * Solving quadratic equations over $n$ variables $x_0,\ldots,x_{n-1} \in \R$.
-
 
 
 All of these problems have the following properties:
@@ -42,40 +42,39 @@ This phenomenon, known as _$\mathbf{NP}$ completeness_, is one of the surprising
 
 ![In this chapter we show that if the $3SAT$ problem cannot be solved in polynomial time, then neither can the $QUADEQ$, $LONGESTPATH$, $ISET$ and $MAXCUT$ problems.  We do this by using the _reduction paradigm_ showing for example  "if pigs could whistle" (i.e., if we had an efficient algorithm for $QUADEQ$) then "horses could fly" (i.e., we would have an efficient algorithm for $3SAT$.)](../figure/reductionsoverview.png){#reductionsoverviewfig}
 
+In this chapter we will see that for each one of the problems of finding a longest path in a graph, solving quadratic equations, and finding the maximum cut, if there exists a polynomial-time algorithm for this problem then there exists a polynomial-time algorithm for the 3SAT problem as well.
+In other words, we will _reduce_ the task of solving 3SAT to each one of the above tasks.
+Another way to interpret these results is that if there _does not exist_ a polynomial-time algorithm for 3SAT then there does not exist a polynomial-time algorithm for these other problems as well. 
+In [cooklevinchap](){.ref} we will see evidence (though no proof!) that all of the above problem do not have polynomial-time algorithms and hence are _inherently intractable_.
 
 
 
-
-__Decision problems.__ For reasons of technical conditions rather than anything substantial, we will concern ourselves with _decision problems_ (i.e., Yes/No questions) or in other words _Boolean_  (i.e., one-bit output) functions.
+__Decision problems.__ 
+For reasons of technical conditions rather than anything substantial, we will concern ourselves with _decision problems_ (i.e., Yes/No questions) or in other words _Boolean_  (i.e., one-bit output) functions.
 We model the problems above as functions mapping $\{0,1\}^*$ to $\{0,1\}$ in the following way:
 
-* The _3SAT_ problem can be phrased as the function $3SAT:\{0,1\}^* \rightarrow \{0,1\}$ that maps a 3CNF formula $\varphi$ to $1$ if there exists some assignment $x$ that satisfies it, and to $0$ otherwise. (We assume some representation of formulas as strings, and define the function to output $0$ if its input is not a valid representation; We will use the same convention for all the other functions below.)
+The _3SAT problem_ can be phrased as the function $3SAT:\{0,1\}^* \rightarrow \{0,1\}$ that takes as input a 3CNF formula $\varphi$ (i.e., a formula of the form $C_0 \wedge \cdots \wedge C_{m-1}$ where each $C_i$ is the OR of three variables or their negation)  and maps $\varphi$ to $1$ if there exists some assignment to the variables of $\varphi$ that causes it to evalute to _true_, and to $0$ otherwise.
+For example 
 
-* The _quadratic equations_ problem corresponds to the function $QUADEQ:\{0,1\}^* \rightarrow \{0,1\}$ that maps a set of quadratic equations $E$ to $1$ if there is an assignment $x$ that satisfies all equations, and to $0$ otherwise.
+$$3SAT\left("(x_0 \wedge \overline{x}_1 \wedge x_2)  \vee   (x_1 \vee x_2 \vee \overline{x_3}) \vee (\overline{x}_0 \wedge \overline{x}_2 \wedge x_3)" \right)  = 1$$
 
-* The _longest path_ problem corresponds to the function $LONGPATH:\{0,1\}^* \rightarrow \{0,1\}$ that maps a graph $G$ and a number $k$ to $1$ if there is a simple path in $G$ of length at least $k$, and maps $(G,k)$ to $0$ otherwise. The longest path problem is a generalization of the well-known [Hamiltonian Path Problem](https://en.wikipedia.org/wiki/Hamiltonian_path_problem) of determining whether a path of length $n$ exists in a given $n$ vertex graph.
-
-* The _maximum cut_ problem corresponds to the function $MAXCUT:\{0,1\}^* \rightarrow \{0,1\}$ that maps a graph $G$ and a number $k$ to $1$ if there is a cut in $G$ that cuts at least $k$ edges, and maps $(G,k)$ to $0$ otherwise.
-
-
-Some other problems we  consider in this chapter include:
-
-* The _independent set_ problem corresponds to the function $ISET:\{0,1\}^* \rightarrow \{0,1\}$ that on input a string representing a pair $(G,k)$ of a graph $G=(V,E)$ and a number $k$, outputs $1$ iff there exists a set $S \subseteq V$ such that $|V| = k$ and there are is no edge $\{u,v\} \in E$ with both $u$ and $v$ in $S$.
-
-* The _zero-one equations_ problem corresponds to the function $01EQ:\{0,1\}^* \rightarrow \{0,1\}$ that gets a string representing  a set $E$ of linear equations with integer coefficients in variables $x_0, \ldots, x_{n-1}$ and outputs $1$ iff there is a Boolean assignment $x_0,\ldots,x_{n-1} \in \{0,1\}$ that satisfies all equations in $E$.
-
-* The _subset sum_ problem corresponds to the function $SUBSETSUM : \{0,1\}^* \rightarrow \{0,1\}$ that gets a string representing a sequence $(A_0,\ldots,A_{n-1},T)$ of $n+1$ natural numbers, and outputs $1$ if and only if there exists a set $S \subseteq [n]$ such that $\sum_{i\in S} A_i = T$.
+since  the assignment $x = 1101$ satisfies the input formula.
+In the above we assume some representation of formulas as strings, and define the function to output $0$ if its input is not a valid representation; we use the same convention for all the other functions below.
 
 
+The _quadratic equations problem_ corresponds to the function $QUADEQ:\{0,1\}^* \rightarrow \{0,1\}$ that maps a set of quadratic equations $E$ to $1$ if there is an assignment $x$ that satisfies all equations, and to $0$ otherwise.
+
+The _longest path problem_ corresponds to the function $LONGPATH:\{0,1\}^* \rightarrow \{0,1\}$ that maps a graph $G$ and a number $k$ to $1$ if there is a simple path in $G$ of length at least $k$, and maps $(G,k)$ to $0$ otherwise. The longest path problem is a generalization of the well-known [Hamiltonian Path Problem](https://en.wikipedia.org/wiki/Hamiltonian_path_problem) of determining whether a path of length $n$ exists in a given $n$ vertex graph.
+
+The _maximum cut problem_ corresponds to the function $MAXCUT:\{0,1\}^* \rightarrow \{0,1\}$ that maps a graph $G$ and a number $k$ to $1$ if there is a cut in $G$ that cuts at least $k$ edges, and maps $(G,k)$ to $0$ otherwise.
+
+All of the problems above are in $\mathbf{EXP}$ but it is not known whether or not they are in $\mathbf{P}$. However, we will see in this chapter that if either $QUADEQ$ , $LONGPATH$ or $MAXCUT$ are in $\mathbf{P}$, then so is $3SAT$.
 
 
 ## Reductions
 
 Suppose that $F,G:\{0,1\}^* \rightarrow \{0,1\}$ are two functions.
-How can we show that they are "computationally equivalent"?
-The idea is that we show that an efficient algorithm for $F$ would imply an efficient algorithm for $G$ and vice versa.
-The key to this is the notion of a _reduction_.
-Roughly speaking, we will say that _$F$ reduces to $G$_ (denoted as $F \leq_p G$) if $F$ is "no harder" than $G$, in the sense that a polynomial-time algorithm for $G$ implies a polynomial-time algorithm for $F$.
+A _reduction_ from $F$ to $G$ is a way to show that  $F$ is "no harder" than $G$, in the sense that a polynomial-time algorithm for $G$ implies a polynomial-time algorithm for $F$.
 The formal definition is as follows:
 
 > ### {.definition title="Reductions" #reduction-def}
@@ -87,12 +86,16 @@ We say that $F$ and $G$ have _equivalent complexity_ if $F \leq_p G$ and $G \leq
 
 ![If $F \leq_p G$ then we can transform a polynomial-time algorithm $B$  that computes $G$ into a polynomial-time algorithm $A$ that computes $F$. To compute $F(x)$ we can run the reduction $R$ guaranteed by the fact that $F \leq_p G$ to obtain $y=F(x)$ and then run our algorithm $B$ for $G$ to compute $G(y)$. ](../figure/reductiondescription.png){#reductionsfig .margin  }
 
+
+The following exercise justifies our intuition that $F \leq_p G$ signifies that "$F$ is no harder than $G$.
+
+
 ::: {.solvedexercise title="Reductions and $\mathbf{P}$" #reductionsandP}
 Prove that if $F \leq_p G$ and $G \in \mathbf{P}$ then $F\in \mathbf{P}$.
 :::
 
 ::: { .pause }
-As usual, solving this exercise on your own is an excellent way to make sure you understand [reduction-def](){.ref}. This exercise justifies the informal description of $F \leq_p G$ as saying that "$F$ is no harder than $G$."
+As usual, solving this exercise on your own is an excellent way to make sure you understand [reduction-def](){.ref}. 
 :::
 
 ::: {.solution data-ref="reductionsandP"}
@@ -107,6 +110,15 @@ This, computing $B(y)$  will take at most $p(|y|) \leq p(q(|x|))$ steps.
 Thus the total running time of $A$ on inputs of length $n$ is at most the time to compute $y$, which is bounded by $q(n)$, and the time to compute $B(y)$, which is bounded by $p(q(n))$, and since the composition of two polynomials is a polynomial, $A$ runs in polynomial time.
 :::
 
+
+A reduction from $F$ to $G$ can be used for two purposes:
+
+* If we already know an algorithm for $G$ and $F \leq_p G$ then we can use the reduction to obtain an algorithm for $F$. This is a widely used tool in algorithm design. The "quicksort" algorithm reduces the task of sorting to the task of partitioning an array to the elements smaller and bigger than some "pivot" element. Dijkstra's shortest path algorithm reduces the task of finding the shortest path between two elements to the task of implementing a priority queue data structure.
+
+* If we have proven (or have evidence) that there exists _no polynomial-time algorithm_ for $F$ and $F \leq_p G$ then the existence of this reduction allows us to concludes that there exists no polynomial-time algorithm for $G$. This is the "if pigs could whistle then horses could fly" interpretation we've seen in [reductionsuncompsec](){.ref}. We show that if there was an hypothetical efficient algorithm for $G$ (a "whistling pig") then since $F \leq_p G$ then there would  be an efficient algorithm for $F$ (a "flying horse").
+
+In this book we will often use reductions for the second purpose, although the lines between the two is sometimes blurry (see the bibliographical notes).
+
 Since we think of  $F \leq_p G$ as saying that (as far as polynomial-time computation is concerned) $F$ is "easier or equal in difficulty to" $G$, we would expect that if $F \leq_p G$ and $G \leq_p H$, then it would hold that $F \leq_p H$. Indeed this is the case:
 
 > ### {.lemma #transitivitylem}
@@ -116,34 +128,64 @@ For every $F,G,H :\{0,1\}^* \rightarrow \{0,1\}$, if $F \leq_p G$ and $G \leq_p 
 We leave the proof of [transitivitylem](){.ref} as [transitivity-reductions-ex](){.ref}. Pausing now and doing this exercise is an excellent way to verify that you understood the definition of reductions.
 
 
-::: {.remark title="Polynomial reductions, completeness and soundness" #polynomialred}
-We have seen reductions before in the context of proving the uncomputability of problems such as $HALTONZERO$ and others.
-The most crucial difference between the notion in [reduction-def](){.ref} and previously occuring notions is that in the context of relating the time complexity of problems, we need the reduction to be computable in _polynomial time_, as opposed to merely computable.
-[reduction-def](){.ref} also restricts reductions to have a very specific format. That is, to show that $F \leq_p G$, rather than allowing a general algorithm for $F$ that uses a "magic box" that computes $G$, we only allow an algorithm that computes $F(x)$ by outputting $G(R(x))$. This restricted form is convenient for us, but people have defined and used more general reductions as well.
+The most crucial difference between the notion in [reduction-def](){.ref} and the reductions we saw in the context of _uncomputability_ (e.g., in [reductionsuncompsec](){.ref})  is that for relating time complexity of problems, we need the reduction to be computable in _polynomial time_, as opposed to merely computable.
+[reduction-def](){.ref} also restricts reductions to have a very specific format.
+That is, to show that $F \leq_p G$, rather than allowing a general algorithm for $F$ that uses a "magic box" that computes $G$, we only allow an algorithm that computes $F(x)$ by outputting $G(R(x))$.
+This restricted form is convenient for us, but people have defined and used more general reductions as well (see [reductionsbibnotes](){.ref}).
 
-Since both $F$ and $G$ are Boolean functions, the condition $F(x)=G(R(x))$ in [eq:reduction](){.eqref} is equivalent to the following two implications: __(i)__ if $F(x)=1$ then $G(R(x))=1$, and __(ii)__ if $G(R(x))=1$ then $F(x)=1$.
-Traditionally, condition __(i)__ is known as   _completness_ and condition __(ii)__ is known as _soundness_.
-We can think of this as saying that the reduction $R$ is _complete_ if every $1$-input of $F$ (i.e. $x$ such that $F(x)=1$)  is mapped by $R$ to a $1$-input of $G$, and that it is _sound_ if no $0$-input of $F$ will ever be mapped to a $1$-input of $G$.
-As we will see below, it is often the case that establishing __(ii)__ is the more challenging part.
+
+
+In this chapter we use reductions to relate the computational complexity of the problems mentioned above: 3SAT, Quadratic Equations, Maximum Cut, and Longest Path, as well as a few others.
+We will reduce  3SAT to the latter problems, demonstrating that solving any one of them efficiently will result in an efficient algorithm for 3SAT.
+In  [cooklevinchap](){.ref} we show the other direction: reducing each one of these problems to 3SAT in one fell swoop.
+
+
+## Reducing 3SAT to zero one equations
+
+We will now show our first example of a reduction.
+The _Zero-One Linear Equations problem_ corresponds to the function $01EQ:\{0,1\}^* \rightarrow \{0,1\}$ whose  input is a collection $E$ of linear equations in variables $x_0,\ldots,x_{n-1}$, and the output is $1$ iff there is an assignment $x\in \{0,1\}^n$ of $0/1$ values to the variables that satisfies all the equations.
+For example, if the input $E$ is a string encoding the set of equations 
+
+$$
+\begin{aligned}
+x_0 + x_1 + x_{2} &= 2 \\
+x_0 + x_2     &= 1 \\
+x_1 + x_{2} &= 2 
+\end{aligned}
+$$
+
+then $01EQ(E)=1$ since the assignment $x = 011$ satisfies all three equations.
+We specifically restrict attention to linear equations in variables $x_0,\ldots, x_{n-1}$ in which every equation has the form $\sum_{i \in S} x_i = b$ where $S \subseteq [n]$ and $b\in \N$.^[If you are familiar with  matrix notation you may note that such equations can  be written as  $Ax = \mathbf{b}$ where $A$ is an $m\times n$ matrix with entries in $0/1$ and $\mathbf{b} \in \N^m$.]
+
+If we asked the question of whether there is a solution $x \in \R^n$ of _real  numbers_ to $E$, then this can be solved using the famous _Gaussian elimination_ algorithm in polynomial time.
+However, there is no known efficient algorithm to solve $01EQ$.
+Indeed, such an algorithm would imply an algorithm for $3SAT$ as shown by the following theorem:
+
+> ### {.theorem title="Hardness of $01EQ$" #tsattozoeqthm}
+$3SAT \leq_p 01EQ$
+
+> ### {.proofidea data-ref="tsattozoeqthm"}
+A constraint $x_2 \vee \overline{x}_5 \vee x_7$ can be written as $x_2 + (1-x_5) + x_7 \geq 1$.
+This is a linear _inequality_ but since the sum on the left-hand side is at most three, we can also turn it into an _equality_ by adding two new variables $y,z$ and writing it as $x_2 + (1-x_5) + x_7 + y  + z =3$. (We will use fresh such variables $y,z$ for every constraint.) Finally, for every variable $x_i$ we can add a variable $x'_i$ corresponding to its negation by adding the equation $x_i + x'_i = 1$, hence mapping the original constraint $x_2 \vee \overline{x}_5 \vee x_7$ to $x_2 + x'_5 + x_7 +y + z = 3$.
+
+
+![Left: Python code implementing the reduction of $3SAT$ to $01EQ$. Right: Example output of the reduction. Code is in our [repository](https://github.com/boazbk/tcscode).](../figure/3sat2zoeqreduction.png){#3sat2zoeqreductionfig}
+
+::: {.proof data-ref="tsattozoeqthm"}
+To prove the theorem we need to:
+
+1. Describe an algorithm $R$ for mapping an input $\varphi$ for $3SAT$ into an input $E$ for $01EQ$.
+
+2. Prove that the algorithm runs in polynomial time and that $01EQ(R(\varphi)) =3SAT(\varphi)$ for every 3CNF formula $\varphi$.
+
+We proceed to do just that.
+
+
 :::
+ 
 
+## Quadratic equations
 
-
-## Some example reductions
-
-We will now use reductions to relate the computational complexity of the   problems mentioned above $-$ 3SAT, Quadratic Equations, Maximum Cut, and Longest Path.
-We start by reducing 3SAT to the latter three problems, demonstrating that solving any one of them will solve 3SAT.
-Along the way we will introduce one more problem: the _independent set_ problem.
-Like the others, it shares the characteristics that it is an important and well-motivated computational problem, and that the best known algorithm for it takes exponential time.
-In  [cooklevinchap](){.ref} we will show the other direction: reducing each one of these problems to 3SAT in one fell swoop.
-
-
-![Our first stage in showing equivalence is to reduce 3SAT to the three other problems](../figure/sat_to_others.png){#freducesattothreeotherfig .margin  }
-
-
-### Reducing 3SAT to quadratic equations
-
-Let us now see our first example of a reduction.
 Recall that in the _quadratic equation_ problem, the input is a list of $n$-variate polynomials $p_0,\ldots,p_{m-1}:\R^n \rightarrow \R$ that are all of [degree](https://en.wikipedia.org/wiki/Degree_of_a_polynomial) at most two (i.e., they are _quadratic_) and with integer coefficients. (The latter condition is for convenience and can be achieved by scaling.)
 The task is to find out whether there is a solution $x\in \R^n$ to the equations $p_0(x)=0$, $p_1(x)=0$, $\ldots$, $p_{m-1}(x)=0$.
 
@@ -383,7 +425,7 @@ Prove [product-lem](){.ref}
 Prove that if $F \leq_p G$ and $G \leq_p H$ then $F \leq_p H$.
 
 
-## Bibliographical notes
+## Bibliographical notes {#reductionsbibnotes }
 
 
 Several notions of reductions are defined in the literature. The notion defined in [reduction-def](){.ref}  is often known as a _mapping reduction_, _many to one reduction_ or a _Karp reduction_.
@@ -394,4 +436,6 @@ The _maximal_ (as opposed to _maximum_) independent set  is the task of finding 
 Reduction of independent set to max cut taken from [these notes](https://people.engr.ncsu.edu/mfms/Teaching/CSC505/wrap/Lectures/week14.pdf). Image of Hamiltonian Path through Dodecahedron by [Christoph Sommer](https://commons.wikimedia.org/wiki/File:Hamiltonian_path.svg).
 
 
+We have mentioned that the line between reductions used for algorithm design and showing hardness is sometimes blurry. An excellent example for this is the area of _SAT Solvers_ (see [@gomes2008satisfiability]). 
+In this field people use algorithms for SAT (that take exponential time in the worst case but often are much faster on many instances in practice) together with reductions of the form $F \leq_p SAT$ to derive algorithms for other functions $F$ of interest.
 

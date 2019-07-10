@@ -278,31 +278,29 @@ In particular,  when running a local improvement algorithm such as Gradient Desc
 Not all computational problems arise from graphs.
 We now list some other examples of computational problems that are of great interest.
 
+### SAT 
 
-### The 2SAT problem
 
-A _propositional formula_ $\varphi$ involves $n$ variables $x_1,\ldots,x_n$ and the logical operators AND ($\wedge$), OR ($\vee$), and NOT ($\neg$, also denoted as $\overline{\cdot}$).
+A  _propositional formula_ $\varphi$ involves $n$ variables $x_1,\ldots,x_n$ and the logical operators AND ($\wedge$), OR ($\vee$), and NOT ($\neg$, also denoted as $\overline{\cdot}$).
 We say that such a formula is in _conjunctive normal form_ (CNF for short) if it is an AND of ORs of variables or their negations (we call a term of the form $x_i$ or $\overline{x}_i$ a _literal_).
 For example, this is a CNF formula
 $$
 (x_7 \vee \overline{x}_{22} \vee x_{15} ) \wedge (x_{37} \vee x_{22}) \wedge (x_{55} \vee \overline{x}_7)
 $$
 
+The _satisfiability problem_ is the task of determinining, given a CNF formula $\varphi$, whether or not there exists a _satisfying assignment_ for $\varphi$. A satisfying assignment for $\varphi$ is a string $x\in \{0,1\}^n$ such that if $\varphi$ evaluates to _True_ if we assign its variables the values of $x$.
+The SAT problem might seem as an  abstract question of interest only in logic but in fact SAT is of huge interest in industrial optimization, with applications including manufacturing planning, circuit synthesis, software verification, air-traffic control, scheduling sports tournaments, and more. 
 
-We say that a formula is a $k$-CNF it is an AND of ORs where each OR involves exactly $k$ literals.
-The 2SAT problem is to find out, given a $2$-CNF formula $\varphi$, whether there is an assignment $x\in \{0,1\}^n$ that _satisfies_ $\varphi$, in the sense that it makes it evaluate to $1$ or "True".
-
-Determining the satisfiability of Boolean formulas arises in many applications and in particular in software and hardware verification, as well as scheduling problems.
+__2SAT.__ We say that a formula is a $k$-CNF it is an AND of ORs where each OR involves exactly $k$ literals.
+The $k$-SAT problem is the restriction of the satisfiability problem for the case that the input formula is a $k$-CNF.
+In particular, the  _2SAT problem_ is to find out, given a $2$-CNF formula $\varphi$, whether there is an assignment $x\in \{0,1\}^n$ that _satisfies_ $\varphi$, in the sense that it makes it evaluate to $1$ or "True".
 The trivial, brute-force, algorithm for 2SAT will enumerate all the $2^n$ assignments $x\in \{0,1\}^n$ but fortunately we can do much better.
-
 The key is that we can think of every constraint of the form $\ell_i \vee \ell_j$ (where $\ell_i,\ell_j$ are _literals_, corresponding to variables or their negations) as an _implication_ $\overline{\ell}_i \Rightarrow \ell_j$, since it corresponds to the constraints that if the literal $\ell'_i = \overline{\ell}_i$ is true then it must be the case that $\ell_j$ is true as well.
 Hence we can think of $\varphi$ as a directed graph between the $2n$ literals, with an edge from $\ell_i$ to $\ell_j$ corresponding to an implication from the former to the latter.
 It can be shown that $\varphi$ is unsatisfiable if and only if there is a variable $x_i$ such that there is a directed path from  $x_i$ to $\overline{x}_i$ as well as a directed path from $\overline{x}_i$ to $x_i$ (see [twosat_ex](){.ref}).
 This reduces 2SAT to the (efficiently solvable) problem of determining connectivity in directed graphs.
 
-### The 3SAT problem
-
-The 3SAT problem is the task of determining satisfiability for 3CNFs.
+__3SAT.__ The 3SAT problem is the task of determining satisfiability for 3CNFs.
 One might think that changing from two to   three would not make that much of a difference for complexity.
 One would be wrong.
 Despite much effort, we do not know of a significantly better than brute force algorithm for 3SAT (the best known algorithms take roughy $1.3^n$ steps).
@@ -374,7 +372,17 @@ More generally, the determinant can be thought of as a quantiative measure as to
 If the rows of $A$ are "almost" linearly dependent (for example, if the third row is very close to being a linear combination of the first two rows) then the determinant will be small, while if they are far from it (for example, if they are are _orthogonal_ to one another, then the determinant will be large).
 In particular, for every matrix $A$, the absolute value of the determinant of $A$ is at most the product of the norms (i.e., square root of sum of squares of entries) of the rows, with equality if and only if the rows are orthogonal to one another.
 
-The determinant can be defined in several ways. For example, it is known that $\mathrm{det}$ is the only function that satisfies the following conditions:
+The determinant can be defined in several ways.
+One way to define the determinant of an $n\times n$ matrix $A$ is:
+
+$$
+\mathrm{det}(A) = \sum_{\pi \in S_n} \mathrm{sign}(\pi)\prod_{i\in [n]}A_{i,\pi(i)} \label{determinanteq}
+$$
+where $S_n$ is the set of all permutations from $[n]$ to $[n]$ and the [sign of a permutation](https://en.wikipedia.org/wiki/Parity_of_a_permutation) $\pi$ is equal to $-1$ raised to the power of the number of _inversions_ in $\pi$ (pairs $i,j$ such that $i>j$ but $\pi(i)<\pi(j)$).
+
+This definition suggests that computing $\mathrm{det}(A)$ might require summing over $|S_n|$ terms which would take exponential time since $|S_n| = n! > 2^n$.
+However, there are other ways to compute the determinant.
+For example, it is known that $\mathrm{det}$ is the only function that satisfies the following conditions:
 
 1. $\mathrm{det}(AB) = \mathrm{det}(A)\mathrm{det}(B)$ for every square matrices $A,B$.
 
@@ -382,36 +390,28 @@ The determinant can be defined in several ways. For example, it is known that $\
 
 3. $\mathrm{det}(S)=-1$ where $S$ is a "swap matrix" that corresponds to swapping two rows or two columns of $I$. That is, there are two coordinates $a,b$ such that for every $i,j$,  $S_{i,j} = \begin{cases}1 & i=j\;, i \not\in \{a,b \} \\ 1 & \{i,j\}=\{a,b\} \\ 0 & \text{otherwise}\end{cases}$.
 
-Note that conditions 1. and 2. together imply that $\mathrm{det}(A^{-1}) =  \mathrm{det}(A)^{-1}$ for every invertible matrix $A$.
 Using these rules and the [Gaussian elimination](https://en.wikipedia.org/wiki/Gaussian_elimination) algorithm, it is possible to tell whether $A$ is singular or not, and in the latter case, decompose $A$ as a product of a polynomial number of swap matrices and triangular matrices.
 (Indeed one can verify that the row operations in Gaussian elimination corresponds to either multiplying by a swap matrix or by a triangular matrix.)
 Hence we can compute the determinant for an $n\times n$ matrix using a polynomial time of arithmetic operations. 
 
-### The permanent (mod 2) problem
+### Permanent of a matric
 
-Given an $n\times n$ matrix $A$, the _permanent_ of $A$ is the sum over all permutations $\pi$ (i.e., $\pi$ is a member of the set $S_n$ of one-to-one and onto functions from $[n]$ to $[n]$) of the product $\prod_{i=0}^{n-1}A_{i,\pi(i)}$.
+Given an $n\times n$ matrix $A$, the _permanent_ of $A$ is defined as 
+
+$$
+\mathrm{perm}(A) = \sum_{\pi \in S_n} \prod_{i\in [n]}A_{i,\pi(i)} \;. \label{permanenteq} 
+$$
+That is, $\mathrm{perm}(A)$ is defined analogously to the determinant in [determinanteq](){.eqref} except that we drop the term $\mathrm{sign}(\pi)$.
 The permanent of a matrix is a natural quantity, and has been studied in several contexts including combinatorics and graph theory.
-It also arises in physics where it can be used to describe the quantum state of multiple boson particles
+It also arises in physics where it can be used to describe the quantum state of multiple Boson particles
 (see [here](http://www.cs.huji.ac.il/labs/learning/Papers/perm.pdf) and [here](https://en.wikipedia.org/wiki/Boson_sampling)).
 
-If the entries of $A$ are integers, then we can also define a _Boolean_ function $perm_2(A)$ which will output the result of the permanent modulo $2$.
-A priori computing this would seem to require enumerating over all $n!$ possiblities.
-However, it turns out we can compute $perm_2(A)$ in polynomial time!
-The key is that modulo $2$, $-x$ and $+x$ are the same quantity and hence the permanent modulo $2$ is the same as taking the following quantity modulo $2$:
 
-$$
-\sum_{\pi \in S_n} sign(\pi)\prod_{i=0}^{n-1}A_{i,\pi(i)} \label{eq:det}
-$$
+__Permanent modulo 2.__ If the entries of $A$ are integers, then we can define the _Boolean_ function $perm_2$ which  outputs on input a matrix $A$ the result of the permanent of $A$ modulo $2$.
+It turns out that we can compute $perm_2(A)$ in polynomial time.
+The key is that modulo $2$, $-x$ and $+x$ are the same quantity and hence, since the only difference between [determinanteq](){.eqref} and [permanenteq](){.eqref} is that some terms are multiplied by $-1$, $\mathrm{det}(A) \mod 2 = \mathrm{perm}(A) \mod 2$ for every $A$.
 
-where the _sign_ of a permutation $\pi$ is a number in $\{+1,-1\}$ which can be defined in several ways, one of which is that $sign(\pi)$  equals  $+1$ if the number of swaps that "Bubble" sort performs starting an array sorted according to $\pi$ is even, and it equals $-1$ if this number is odd.^[It turns out that this definition is independent of the sorting algorithm, and for example if $sign(\pi)=-1$ then one cannot sort an array ordered according to $\pi$ using an even number of swaps.]
-
-From a first look, [eq:det](){.eqref} does not seem like it makes much progress.
-After all, all we did is replace one formula involving a sum over $n!$ terms with an even more complicated formula involving a sum over $n!$ terms.
-But fortunately [eq:det](){.eqref} also has an alternative description: it is yet another way to describe the [determinant](https://en.wikipedia.org/wiki/Determinant) of the matrix $A$, which as mentioned can be computed using a process similar to Gaussian elimination.
-
-### The permanent (mod 3) problem
-
-Emboldened by our good fortune above, we might hope to be able to compute the permanent modulo any prime $p$ and perhaps in full generality.
+__Permanent modulo 3.__ Emboldened by our good fortune above, we might hope to be able to compute the permanent modulo any prime $p$ and perhaps in full generality.
 Alas, we have no such luck.
 In a similar "two to three" type of a phenomenon, we do not know of a much better than brute force algorithm to even compute the permanent modulo $3$.
 

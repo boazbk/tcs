@@ -23,10 +23,6 @@ chapternum: "1"
 
 
 
-<!---
->_"Young man, in mathematics you don't understand things. You just get used to them."_, John von Neumann
---->
-
 
 
 In this chapter we review some of the mathematical concepts that we use in this book.
