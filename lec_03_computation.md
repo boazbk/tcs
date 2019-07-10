@@ -545,9 +545,9 @@ Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s \geq m$ be some number. Then $f$ 
 
 
 > ### {.proofidea data-ref="slcircuitequivthm"}
-The idea is simple - AON-CIRC program and Boolean circuits are just different ways of describing the exact same computational process.
-For example, an AND gate in a Boolean circuit corresponding to computing the AND of two previously-computed values.
-In a AON-CIRC program this will correspond to the line that stores in a variable the AND of two previously-computed variables.
+The idea is simple - AON-CIRC programs and Boolean circuits are just different ways of describing the exact same computational process.
+For example, an _AND_ gate in a Boolean circuit corresponding to computing the _AND_ of two previously-computed values.
+In a AON-CIRC program this will correspond to the line that stores in a variable the `AND` of two previously-computed variables.
 
 ::: { .pause }
 This proof of [slcircuitequivthm](){.ref} is simple at heart, but all the details it contains can make it a little cumbersome to read. You might be better off trying to work it out yourself before reading it. 
@@ -560,8 +560,8 @@ Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$. Since the theorem is an "if and only if
 
 We start with the first direction. Let $P$ be an $s$ line AON-CIRC that computes $f$. We define a circuit $C$ as follows: the circuit will have $n$ inputs and $s$ gates. For every $i \in [s]$, if the $i$-th line has the form `foo = AND(bar,blah)` then the $i$-th gate in the circuit will be an AND gate that is connected to gates $j$ and $k$ where $j$ and $k$ correspond to the last lines before $i$ where the variables `bar` and `blah` (respectively) where written to. (For example, if $i=57$ and the last line `bar` was written to is $35$ and the last line `blah` was written to is $17$ then the two in-neighbors of gate $57$ will be gates $35$ and $17$.)
 If either `bar` or `blah` is an input variable then we connect the gate to the corresponding input vertex instead.
-If `foo` is an output variable of the form `Y[`$j$`]` then we add the same label the corresponding gate to mark it as an output gate.
-We do the analogous operations if the $i$-th line involves an `OR` or a `NOT` operation (except that we use an OR, or a NOT, gate, and in the latter case have only one in-neighbor instead of two).
+If `foo` is an output variable of the form `Y[`$j$`]` then we add the same label to the corresponding gate to mark it as an output gate.
+We do the analogous operations if the $i$-th line involves an `OR` or a `NOT` operation (except that we use the corresponding _OR_ or _NOT_ gate, and in the latter case have only one in-neighbor instead of two).
 For every input $x\in \{0,1\}^n$, if we run the program $P$ on $x$, then the value written that is computed in the $i$-th line is exactly the value that will be assigned to the $i$-th gate if we evaluate the circuit $C$ on $x$. Hence $C(x)=P(x)$ for every $x\in \{0,1\}^n$.
 
 For the other direction, let $C$ be a circuit of $s$ gates and $n$ inputs that computes the function $f$. We sort the gates according to a topological order and write them as $v_0,\ldots,v_{s-1}$.
@@ -579,7 +579,7 @@ Once again, one can verify that for every input $x$, the value $P(x)$ will equal
 ## Physical implementations of computing devices (digression) {#physicalimplementationsec }
  
 
-_Computation_ is an abstract notion, that is distinct from its physical _implementations_.
+_Computation_ is an abstract notion that is distinct from its physical _implementations_.
 While most modern computing devices are obtained by mapping logical gates to semi-conductor based transistors, over history people have computed using a huge variety of mechanisms,  including mechanical systems, gas and liquid (known as _fluidics_), biological and chemical processes, and even living creatures (e.g., see [crabfig](){.ref} or  [this video](https://www.youtube.com/watch?v=czk4xgdhdY4) for how crabs or slime mold can be used to do computations).
 
 
@@ -604,13 +604,13 @@ For example, we can use faucets to implement it using water pressure (e.g. [tran
 
 The standard implementations of transistors use electrical current.
 One of the original implementations used   _vacuum tubes_.
-As its name implies, a vacuum tube is a tube containing nothing (i.e., vacuum) and where a priori electrons could freely flow from source (a wire) to the sink (a plate). However, there is a gate (a grid)  between the two, where modulating its voltage can block the flow of electrons.
+As its name implies, a vacuum tube is a tube containing nothing (i.e., a vacuum) and where a priori electrons could freely flow from source (a wire) to the sink (a plate). However, there is a gate (a grid)  between the two, where modulating its voltage can block the flow of electrons.
 
 Early vacuum tubes were roughly the size of lightbulbs (and looked very much like them too).
 In the 1950's they were supplanted by _transistors_, which implement the same logic using _semiconductors_ which are materials that normally do not conduct electricity but whose conductivity can be modified and controlled by inserting impurities ("doping") and an external electric field (this is known as the _field effect_).
 In the 1960's computers were started to be implemented using _integrated circuits_ which enabled much greater density.
-In 1965, Gordon Moore predicted that the number of transistors per circuit would double every year (see [moorefig](){.ref}), and that this would lead to "such wonders as home computers —or at least terminals connected to a central computer— automatic controls for automobiles, and personal portable communications equipment".
-Since then, (adjusted versions of) this so-called "Moore's law" has been running strong, though exponential growth cannot be sustained forever, and some physical limitations are already [becoming apparent](http://www.nature.com/news/the-chips-are-down-for-moore-s-law-1.19338).
+In 1965, Gordon Moore predicted that the number of transistors per integrated circuit would double every year (see [moorefig](){.ref}), and that this would lead to "such wonders as home computers —or at least terminals connected to a central computer— automatic controls for automobiles, and personal portable communications equipment".
+Since then, (adjusted versions of) this so-called "Moore's law" have been running strong, though exponential growth cannot be sustained forever, and some physical limitations are already [becoming apparent](http://www.nature.com/news/the-chips-are-down-for-moore-s-law-1.19338).
 
 ![The number of transistors per integrated circuits from 1959 till 1965 and a prediction that exponential growth will continue at least another decade. Figure taken from "Cramming More Components onto Integrated Circuits", Gordon Moore, 1965](../figure/gordon_moore.png){#moorefig .margin  }
 
