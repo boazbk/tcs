@@ -343,7 +343,7 @@ Moreover, this also shows that $G$ is _onto_, since it means that for every $s\i
 
 _Graphs_ are ubiquitous in Computer Science, and many other fields as well.
 They are used to model a variety of data types including social networks, scheduling constraints, road networks, deep neural nets, gene interactions, correlations between observations, and a great many more.
-The formal definitions of graphs are below for the sake of completeness, but if you have not seen graphs before in a course, I urge you to read up on them in one of the sources mentioned in [notesmathchap](){.ref}.
+Formal definitions of several kinds of graphs are given next, but if you have not seen graphs before in a course, I urge you to read up on them in one of the sources mentioned in [notesmathchap](){.ref}.
 
 Graphs come in two basic flavors: _undirected_ and _directed_.^[It is possible, and sometimes useful, to think of an undirected graph as the special case of an directed graph that has the special property that for every pair $u,v$ either both the edges $(u,v)$ and $(v,u)$   are present or neither of them is. However, in many settings there is a significant difference between undirected and directed graphs, and so it's typically best to think of them as separate categories.]
 
@@ -369,7 +369,7 @@ Here are some basic facts about undirected graphs. We give some informal argumen
 > ### {.lemma #degreesegeslem}
 In any undirected graph $G=(V,E)$, the sum of the degrees of all vertices is equal to twice the number of edges.
 
-[degreesegeslem](){.ref} can be shown by seeing that every edge $\{ u,v\}$ contributes twice to the sum of the degrees (once for $u$ and the second time for $v$.)
+[degreesegeslem](){.ref} can be shown by seeing that every edge $\{ u,v\}$ contributes twice to the sum of the degrees (once for $u$ and the second time for $v$).
 
 > ### {.lemma #conntranslem}
 The connectivity relation is _transitive_, in the sense that if $u$ is connected to $v$, and $v$ is connected to $w$, then $u$ is connected to $w$.
@@ -446,22 +446,22 @@ For every directed graph $G=(V,E)$ and a pair $u,v$ such that there is a path fr
 
 
 ::: {.remark title="Labeled graphs" #labeledrem}
-For some applications we will consider _labeled graphs_, where the vertices or edges have some _labels_ (which can be numbers, strings, or members of some other set) associated with them.
-We can think of such a graph as having an associated  (possibly partial) _labelling function_ $L:V \cup E \rightarrow \mathcal{L}$, where $\mathcal{L}$ is the set of potential labels. However we will typically not refer explicitly to this labeling function and simply say things such as "vertex $v$ has the label $\alpha$".
+For some applications we will consider _labeled graphs_, where the vertices or edges have associated _labels_ (which can be numbers, strings, or members of some other set).
+We can think of such a graph as having an associated (possibly partial) _labelling function_ $L:V \cup E \rightarrow \mathcal{L}$, where $\mathcal{L}$ is the set of potential labels. However we will typically not refer explicitly to this labeling function and simply say things such as "vertex $v$ has the label $\alpha$".
 :::
 
 
 
 
 
-### Logic operators and quantifiers. {#secquantifiers }
+### Logic operators and quantifiers {#secquantifiers }
 
-If $P$ and $Q$ are some statements that can be true or false, then $P$ AND $Q$ (denoted as $P \wedge Q$) is the statement that is true if and only if both $P$ _and_ $Q$ are true, and $P$ OR $Q$ (denoted as $P \vee Q$) is the statement that is true if and only if either $P$ _or_ $Q$ is true.
-The _negation_ of $P$, denoted as $\neg P$ or $\overline{P}$, is the statement that is true if and only if $P$ is false.
+If $P$ and $Q$ are some statements that can be true or false, then $P$ AND $Q$ (denoted as $P \wedge Q$) is a statement that is true if and only if both $P$ _and_ $Q$ are true, and $P$ OR $Q$ (denoted as $P \vee Q$) is a statement that is true if and only if either $P$ _or_ $Q$ is true.
+The _negation_ of $P$, denoted as $\neg P$ or $\overline{P}$, is true if and only if $P$ is false.
 
 Suppose that $P(x)$ is a statement that depends on some _parameter_  $x$ (also sometimes known as an _unbound_ variable) in the sense that for every instantiation of $x$ with a value from some set $S$, $P(x)$ is either true or false.
-For example, $x>7$ is a statement that is not a priori true or false, but does become true or false whenever we instantiate $x$ with some real number.
-In such case we denote by  $\forall_{x\in S} P(x)$  the statement that is true if and only if $P(x)$ is true _for every_ $x\in S$.^[In this book,  we place the variable bound by a quantifier in a subscript and so write $\forall_{x\in S}P(x)$. Many other texts do not use this subscript notation and so will write the same statement as  $\forall x\in S, \; P(x)$.]
+For example, $x>7$ is a statement that is not a priori true or false, but becomes true or false whenever we instantiate $x$ with some real number.
+We denote by  $\forall_{x\in S} P(x)$  the statement that is true if and only if $P(x)$ is true _for every_ $x\in S$.^[In this book,  we place the variable bound by a quantifier in a subscript and so write $\forall_{x\in S}P(x)$. Many other texts do not use this subscript notation and so will write the same statement as  $\forall x\in S, \; P(x)$.]
 We denote by  $\exists_{x\in S} P(x)$  the statement that is true if and only if _there exists_ some $x\in S$ such that $P(x)$ is true.
 
 For example, the following is a formalization of the true statement that there exists a natural number $n$ larger than $100$ that is not divisible by $3$:
@@ -498,8 +498,8 @@ $$
 \sum_{i\in \{1,\ldots,100\}} i^2 \;. \label{eqsumsquarehundred}
 $$
 
-Since summing up over intervals of integers is so common, there is a special notation for it, and for every two integers $a \leq b$,  $\sum_{i=a}^b f(i)$ denotes $\sum_{i\in S} f(i)$ where $S =\{ x\in \Z : a \leq x \leq b \}$.
-Hence we can write the sum [eqsumsquarehundred](){.eqref} also as
+Since summing up over intervals of integers is so common, there is a special notation for it. For every two integers, $a \leq b$,  $\sum_{i=a}^b f(i)$ denotes $\sum_{i\in S} f(i)$ where $S =\{ x\in \Z : a \leq x \leq b \}$.
+Hence, we can write the sum [eqsumsquarehundred](){.eqref} as
 
 $$
 \sum_{i=1}^{100} i^2 \;.
@@ -519,7 +519,7 @@ Since $n$ is free, it can be set to any value, and the truth of the statement [a
 For example, if $n=8$ then [aboutnstmt](){.eqref} is true, but for $n=11$ it is false. (Can you see why?)
 
 The same issue appears when parsing code.
-For example, in the following snippet from the C++ programming language
+For example, in the following snippet from the C programming language
 
 ```clang
 for (int i=0 ; i<n ; i=i+1) {
@@ -527,7 +527,7 @@ for (int i=0 ; i<n ; i=i+1) {
 }
 ```
 
-the variable `i` is bound to the `for` operator but the variable `n` is free.
+the variable `i` is bound within the `for` block but the variable `n` is free.
 
 The main property of bound variables is that we can _rename_ them (as long as the new name doesn't conflict with another used variable)  without changing the meaning of the statement.
 Thus for example the statement
@@ -553,7 +553,7 @@ Mathematical notation has a lot of similarities with programming language, and f
 Both are formalisms meant to convey complex concepts in a precise way.
 However, there are some cultural differences.
 In programming languages, we often try to use meaningful variable names such as `NumberOfVertices` while in math we often use short identifiers such as $n$.
-(Part of it might have to do with the tradition of mathematical proofs as being handwritten and verbally presented, as opposed to typed up and compiled.)
+(Part of it might have to do with the tradition of mathematical proofs as being handwritten and verbally presented, as opposed to typed up and compiled. Another reason is if the wrong variable name is used in a proof, at worst is causes confusion to readers; when the wrong variable name is used in a program, planes crash, patients die, and rockets explode.)
 
 One consequence of that is that in mathematics we often end up reusing identifiers, and also "run out" of letters and hence use Greek letters too, as well as distinguish between small and capital letters.
 Similarly, mathematical notation tends to use quite a lot of "overloading", using operators such as $+$ for a great variety of objects (e.g., real numbers, matrices, finite field elements, etc..), and assuming that the meaning can be inferred from the context.
@@ -588,12 +588,11 @@ More formally, we define Big-$O$ notation as follows:
 
 :::  {.definition title="Big-$O$ notation" #bigohdef}
 Let $\R_+= \{ x\in \R \;|\; x>0\}$ be the set of positive real numbers.
-For two functions $F,G: \N \rightarrow \R_+$, we say that  _$F=O(G)$_  if there exist numbers $a,N_0 \in \N$ such that $F(n) \leq a\cdot G(n)$ for every $n>N_0$.
+For two functions $F,G: \N \rightarrow \R_+$, we say that  _$F=O(G)$_  if there exist numbers $a,N_0 \in \N$ such that $F(n) \leq a\cdot G(n)$ for every $n>N_0$. We say that  $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$.
 We define $F=\Omega(G)$  if $G=O(F)$.
 
 We say that _$F =o(G)$_ if for every $\epsilon>0$ there is some $N_0$ such that $F(n) <\epsilon G(n)$ for every $n>N_0$.
 We say that $F =\omega(G)$ if $G=o(F)$.
-We say that  $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$.
 :::
 
 ![If $F(n)=o(G(n))$ then for sufficiently large $n$, $F(n)$ will be smaller than $G(n)$. For example, if Algorithm $A$ runs in time $1000\cdot n+10^6$ and Algorithm $B$ runs in time $0.01\cdot n^2$ then even though $B$ might be more efficient for smaller inputs, when the inputs get sufficiently large, $A$ will run _much_ faster than $B$. ](../figure/nvsnsquared.png){#nvsnsquaredfig .margin  }
@@ -624,8 +623,6 @@ There are some simple heuristics that can help when trying to compare two functi
 * Polynomial is always smaller than exponential: $n^a = o(2^{n^\epsilon})$ for every two constants $a>0$ and $\epsilon>0$ even if $\epsilon$ is much smaller than $a$. For example, $100n^{100} = o(2^{\sqrt{n}})$.
 
 * Similarly, logarithmic is always smaller than polynomial: $(\log n)^a$ (which we write as $\log^a n$) is $o(n^\epsilon)$ for every two constants $a,\epsilon>0$. For example, combining the observations above, $100n^2 \log^{100} n = o(n^3)$.
-
-In most (though not all!) cases when we use $O$-notation, the constants hidden by it are not too huge and so on an intuitive level, you can think of $F=O(G)$ as saying something like $F(n) \leq 1000 G(n)$ and $F=\Omega(G)$ as saying something $F(n) \geq 0.001 G(n)$.
 
 
 ::: {.remark title="Big $O$ for other applications (optional)" #bigonotime}
@@ -667,8 +664,8 @@ Writing a _program_ involves:
 3. Converting this plan into code that a compiler or interpreter can understand, by breaking up each task into a sequence of the basic operations of some programming language.
 
 In programs as in proofs, step 1 is often the most important one.
-A key difference is that the reader for proofs is a human being and the reader for programs is a compiler.
-(Though this difference might be eroding with time, as more proofs are being written in a _machine verifiable form_ and progress in artificial intelligence allows expressing programs in more human friendly ways, such as "programming by example".)
+A key difference is that the reader for proofs is a human being and the reader for programs is a computer.
+(Though this difference might be eroding with time, as more proofs are being written in a _machine verifiable form_ and it is increasingly important that programs can be read and understood by humans.)
 Thus our emphasis is on _readability_ and having a _clear logical flow_ for the proof (which is not a bad idea for programs as well...).
 When writing a proof, you should think of your audience as an intelligent but highly skeptical and somewhat petty reader, that will "call foul" at every step that is not well justified.
 
@@ -706,14 +703,14 @@ Some helpful resources on mathematical writing include [this handout by Lee](htt
 Just like in programming, there are several common patterns of proofs that occur time and again.
 Here are some examples:
 
-__Proofs by contradiction:__ One way to prove that $X$ is true is to show that if $X$ was false then we would get a contradiction as a result. Such proofs often start with a sentence such as "Suppose, towards a contradiction, that $X$ is false" and end with deriving some contradiction (such as a violation of one of the assumptions in the theorem statement).
+__Proofs by contradiction:__ One way to prove that $X$ is true is to show that if $X$ was false it would result in a contradiction. Such proofs often start with a sentence such as "Suppose, towards a contradiction, that $X$ is false" and end with deriving some contradiction (such as a violation of one of the assumptions in the theorem statement).
 Here is an example:
 
 > ### {.lemma }
 There are no natural numbers $a,b$ such that $\sqrt{2} = \tfrac{a}{b}$.
 
 > ### {.proof }
-Suppose, towards the sake of contradiction that this is false, and so let $a\in \N$ be the smallest number such that there exists some $b\in\N$ satisfying $\sqrt{2}=\tfrac{a}{b}$.
+Suppose, towards a contradiction that this is false, and so let $a\in \N$ be the smallest number such that there exists some $b\in\N$ satisfying $\sqrt{2}=\tfrac{a}{b}$.
 Squaring this equation we get that $2=a^2/b^2$ or $a^2=2b^2$ $(*)$. But this means that $a^2$ is _even_, and since the product of two odd numbers is odd, it means that $a$ is even as well, or in other words, $a = 2a'$ for some $a' \in \N$. Yet plugging this into $(*)$ shows that $4a'^2 = 2b^2$ which means  $b^2 = 2a'^2$ is an even number as well. By the same considerations as above we get that $b$ is even and hence $a/2$ and $b/2$ are two natural numbers satisfying $\tfrac{a/2}{b/2}=\sqrt{2}$, contradicting the minimality of $a$.
 
 
@@ -762,11 +759,11 @@ That is, to prove the statement $X$, we might first prove statements $X_1$,$X_2$
 
 __Proofs by case distinction:__ This is a special case of the above, where to prove a statement $X$ we split into several cases $C_1,\ldots,C_k$, and prove that __(a)__ the cases are _exhaustive_, in the sense that _one_ of the cases $C_i$  must happen and __(b)__ go one by one and prove that each one of the cases $C_i$ implies the result $X$ that we are after.
 
-__Proofs by induction:__ We discuss induction and give an example in [inductionsec](){.ref} below. We can think of such proofs as a variant of the above, where we have an unbounded number of intermediate claims $X_0,X_2,\ldots,X_k$, and we prove that $X_0$ is true, as well that $X_0$ implies $X_1$, and that $X_0  \wedge X_1$ implies $X_2$, and so on and so forth.
+__Proofs by induction:__ We discuss induction and give an example in [inductionsec](){.ref} below. We can think of such proofs as a variant of the above, where we have an unbounded number of intermediate claims $X_0,X_2,\ldots,X_k$, and we prove that $X_0$ is true, as well as that $X_0$ implies $X_1$, and that $X_0  \wedge X_1$ implies $X_2$, and so on and so forth.
 The website for CMU course 15-251 contains a [useful handout](http://www.cs.cmu.edu/~./15251/notes/induction-pitfalls.pdf) on potential pitfalls when making proofs by induction.
 
 
-__"Without loss of generality (w.l.o.g)":__ This term can be initially quite confusing to students. It is essentially a way to simplify proofs by case distinctions. The idea is that if Case 1 is equal to Case 2 up to a change of variables or a similar transformation, then the proof of Case 1 will also imply the proof of case 2.
+__"Without loss of generality (w.l.o.g)":__ This term can be initially quite confusing. It is essentially a way to simplify proofs by case distinctions. The idea is that if Case 1 is equal to Case 2 up to a change of variables or a similar transformation, then the proof of Case 1 will also imply the proof of Case 2.
 It is always a statement that should be viewed with suspicion.
 Whenever you see it in a proof, ask yourself if you understand _why_ the assumption made is truly without loss of generality, and when you use it, try to see if the use is indeed justified.
 When writing a proof, sometimes it might be easiest to simply repeat the proof of the second case (adding a remark that the proof is very similar to the first one).
@@ -785,7 +782,7 @@ In his [manuscript](https://lamport.azurewebsites.net/pubs/proof.pdf) he propose
 
 The advantage of Lamport's format is that it is very clear for every sentence in the proof what is the role that it plays.
 It is also much easier to transform such proofs into machine-checkable forms.
-The disadvantage is that such proofs can be more tedious to read and write, with less differentiation between the important parts of the arguments versus the more routine ones.
+The disadvantage is that such proofs can be tedious to read and write, with less differentiation between the important parts of the arguments versus the more routine ones.
 :::
 
 ## Extended example: Topological Sorting { #topsortsec }
@@ -821,7 +818,7 @@ Intuitively, if $G$ contains a _cycle_, then it cannot be the case that all edge
 The formal proof is as follows:
 
 ::: {.proof data-ref="sorttoacycliclem"}
-Let $G=(V,E)$ be a directed graph and let $f:\N \rightarrow \N$ be a layering of $G$ as per [layeringdef](){.ref} . Suppose, towards the sake of contradiction, that $G$ is not acyclic, and hence there exists some cycle $u_0,u_1,\ldots,u_k$ such that $u_0=u_k$ and for every $i\in [k]$ the edge $u_i \rightarrow u_{i+1}$ is present in $G$.
+Let $G=(V,E)$ be a directed graph and let $f:V \rightarrow \N$ be a layering of $G$ as per [layeringdef](){.ref} . Suppose, towards a contradiction, that $G$ is not acyclic, and hence there exists some cycle $u_0,u_1,\ldots,u_k$ such that $u_0=u_k$ and for every $i\in [k]$ the edge $u_i \rightarrow u_{i+1}$ is present in $G$.
 Since $f$ is a layering, for every $i \in [k]$, $f(u_i) < f(u_{i+1})$, which means that
 $$
 f(u_0) < f(u_1)  < \cdots  < f(u_k)
@@ -833,7 +830,7 @@ but this is a contradiction since $u_0=u_k$ and hence $f(u_0)=f(u_k)$.
 
 > ### { .pause }
 If you have not seen the proof of this theorem before (or don't remember it), this would be an excellent point to pause and try to prove it yourself.
-One way to do it would be to describe an _algorithm_ that on input a directed acyclic graph $G$ on $n$ vertices and $n-2$ or fewer edges, constructs an array $F$ of length $n$ such that for every edge $u \rightarrow v$ in the graph $F[u] < F[v]$.
+One way to do it would be to describe an _algorithm_ that given as input a directed acyclic graph $G$ on $n$ vertices and $n-2$ or fewer edges, constructs an array $F$ of length $n$ such that for every edge $u \rightarrow v$ in the graph $F[u] < F[v]$.
 
 
 
@@ -847,7 +844,7 @@ One way to do it would be to describe an _algorithm_ that on input a directed ac
 ### Mathematical induction  { #inductionsec }
 
 There are several ways to prove [acyclictosortlem](){.ref}.
-One approach to do is to start by proving it for small graphs, such as graphs with 1,2 or 3 vertices  (see [see [topsortexamplesfig](){.ref}](){.ref}), for which we can check all the cases, and then try to extend the proof for larger graphs.
+One approach to do is to start by proving it for small graphs, such as graphs with 1, 2 or 3 vertices  (see [topsortexamplesfig](){.ref}, for which we can check all the cases, and then try to extend the proof for larger graphs.
 The technical term for this proof approach is _proof by induction_.
 
 
@@ -875,8 +872,8 @@ The assumption in __(b)__ that $Q(i)$ holds for $i<k$ is called the "inductive h
 
 > ### {.remark title="Induction and recursion" #inducrecrem}
 Proofs by inductions are closely related to algorithms by recursion.
-In both cases we reduce solving a larger problem to solving a smaller instance of itself. In a recursive algorithm to solve some problem P on an input of length $k$  we ask ourselves "what if someone handed me a way to solve P on instances smaller than $k$?". In an inductive proof to prove a statement Q parameterized by a number $k$, we ask ourselves "what if I already knew that $Q(k')$ is true for $k'<k$".
-Both induction and recursion are crucial concepts for this course and Computer Science at large (and even other areas of inquiry, including not just mathematics but other sciences as well). Both can be initially (and even post-initially) confusing, but with time and practice they become clearer.
+In both cases we reduce solving a larger problem to solving a smaller instance of itself. In a recursive algorithm to solve some problem P on an input of length $k$  we ask ourselves "what if someone handed me a way to solve P on instances smaller than $k$?". In an inductive proof to prove a statement Q parameterized by a number $k$, we ask ourselves "what if I already knew that $Q(k')$ is true for $k'<k$?".
+Both induction and recursion are crucial concepts for this course and Computer Science at large (and even other areas of inquiry, including not just mathematics but other sciences as well). Both can be initially (and even profoundly) confusing, but with time and practice they become clearer.
 For more on proofs by induction and recursion, you might find the following [Stanford CS 103 handout](https://cs121.boazbarak.org/StanfordCS103Induction.pdf), [this MIT 6.00 lecture](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00sc-introduction-to-computer-science-and-programming-spring-2011/unit-1/lecture-6-recursion/) or [this excerpt of the Lehman-Leighton book](https://cs121.boazbarak.org/LL_induction.pdf) useful.
 
 
@@ -889,12 +886,12 @@ We will use induction on the number $n$ of vertices, and so we will define the s
 
 >$Q(n)$ is _"For every DAG  $G=(V,E)$ with $n$ vertices, there is a layering of $G$."_
 
-The statement $Q(1)$ is trivial, since in this case $G$ contains no edge, and we can simply use the layering $f(v)=0$ (where $v$ is the single vertex of $G$). Thus it will suffice to prove the following: _for every $n>1$, if $Q(n-1)$ is true then $Q(n)$ is true._
+The statements for $Q(0)$ and $Q(1)$ are trivial, since in these cases $G$ contains no edge, and for $Q(1)$ we can simply use the layering $f(v)=0$ (where $v$ is the single vertex of $G$). Thus it will suffice to prove the following: _for every $n>1$, if $Q(n-1)$ is true then $Q(n)$ is true._
 
 To do so, we need to somehow find a way, given a graph $G$ of $n$ vertices, to reduce the task of finding a layering for $G$ into the task of finding a layering for some other graph $G'$ of $n-1$ vertices.
 The idea is that we will find a _source_ of $G$: a vertex $v$ that has no in-neighbors. We can then assign to $v$ the layer $0$, and layer the remaining vertices using the inductive hypothesis in layers $1,2,\ldots$.
 
-The above is the intuition behind the proof, but when writing the proof,   we use the benefit of hindsight, and try to streamline what was a messy journey into a linear and easy-to-follow flow of logic that starts with the word __"Proof:"__ and ends with __"QED"__ or the symbol $\blacksquare$.^[QED stands for "quod erat demonstrandum", which is "What was to be demonstrated." or  "The very thing it was required to have shown." in Latin.]
+The above is the intuition behind the proof, but when writing the proof,   we use the benefit of hindsight, and try to streamline what was a messy journey into a linear and easy-to-follow flow of logic that starts with the word __"Proof:"__ and ends with __"QED"__ or the symbol $\blacksquare$.^[QED stands for "quod erat demonstrandum", which is Latin for "what was to be demonstrated" or "the very thing it was required to have shown".]
 All our discussions, examples and digressions can be very insightful, but we keep them outside the space delimited between these two words, where (as described by this [excellent handout](http://web.stanford.edu/class/cs103/handouts/120%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
 Just like we do in programming, we can break the proof into little "subroutines" or "functions" (known as _lemmas_ or _claims_ in math language), which will be smaller statements that help us prove the main result.
 However, it should always be crystal-clear to the reader in what stage we are of the proof.
@@ -907,7 +904,7 @@ We now present the formal proof.
 ::: {.proof data-ref="acyclictosortlem"}
 Let $G=(V,E)$ be a DAG and $n=|V|$ be the number of its vertices.
 We prove the lemma by induction on $n$.
-The base case is $n=1$. In this case $V = \{ v \}$ for a single vertex $v$, and we can use the layering defined as $f(v)=0$.
+The base cases are $n=0$ and $n=1$. For $n=0$, there are no vertices, so the statement is trivially true. For $n=1$, $V = \{ v \}$ for a single vertex $v$, and we can use the layering defined as $f(v)=0$.
 For the case of $n>1$, we make the inductive hypothesis that every DAG $G'$ of at most $n-1$ vertices has a layering.
 
 We make the following claim:
@@ -930,9 +927,9 @@ We claim that $f$ is a valid layering, namely that for every edge $u \rightarrow
 
 * __Case 3:__ $u \neq v_0$, $v=v_0$. This case can't happen since $v_0$ does not have in-neighbors.
 
-* __Case 4:__ $u=v=v_0$. This case again can't happen since it means that $v_0$ is its own-neighbor - it is involved in a _self loop_ which is a form cycle that is disallowed in an acyclic graph. 
+* __Case 4:__ $u=v_0, v=v_0$. This case again can't happen since it means that $v_0$ is its own-neighbor --- it is involved in a _self loop_ which is a form cycle that is disallowed in an acyclic graph. 
 
-Thus $f$ is a valid layering for $G$ which completes the proof.
+Thus, $f$ is a valid layering for $G$ which completes the proof.
 :::
 
 
@@ -940,14 +937,14 @@ Thus $f$ is a valid layering for $G$ which completes the proof.
 Reading a proof is no less of an important skill than producing one.
 In fact, just like understanding code, it is a highly non-trivial skill in itself.
 Therefore I strongly suggest that you re-read the above proof, asking yourself at every sentence whether the assumption it makes are justified, and whether this sentence truly demonstrates what it purports to achieve.
-Another good habit is to ask yourself when reading a proof for every variable you encounter (such as $u$, $i$, $G'$, $f'$ etc. in the above proof) the following questions: __(1)__ What _type_ of variable is it? is it a number? a graph? a vertex? a function? and __(2)__ What do we know about it? Is it an arbitrary member of the set? Have we shown some facts about it?, and __(3)__ What are we _trying_ to show about it?.
+Another good habit is to ask yourself when reading a proof for every variable you encounter (such as $u$, $i$, $G'$, $f'$, etc. in the above proof) the following questions: __(1)__ What _type_ of variable is it? is it a number? a graph? a vertex? a function? and __(2)__ What do we know about it? Is it an arbitrary member of the set? Have we shown some facts about it?, and __(3)__ What are we _trying_ to show about it?.
 
 ### Minimality and uniqueness
 
 [topologicalsortthm](){.ref} guarantees that for every DAG $G=(V,E)$ there exists some layering $f:V \rightarrow \N$ but this layering is not necessarily _unique_.
 For example, if $f:V \rightarrow \N$ is a valid layering of the graph then so is the function $f'$ defined as $f'(v) = 2\cdot f(v)$.
 However, it turns out that the _minimal_ layering is unique.
-A minimal layering is one where every vertex is given the absolute smallest layer number that we possibly can.
+A minimal layering is one where every vertex is given the smallest layer number possible.
 We now formally define minimality and state the uniqueness theorem:
 
 ::: {.theorem title="Minimal layering is unique" #minimallayeruniquethm}
@@ -996,16 +993,16 @@ Most of the notation we use in this book is standard and is used in most mathema
 * As we will see later on in the course, we will mostly describe our computational problems in the terms of computing a _Boolean function_ $f: \{0,1\}^* \rightarrow \{0,1\}$. In contrast, many other textbooks refer to the same task as _deciding a language_ $L \subseteq \{0,1\}^*$. These two viewpoints are equivalent, since for every set $L\subseteq \{0,1\}^*$ there is a corresponding function $F$ such that $F(x)=1$ if and only if $x\in L$. Computing _partial functions_ corresponds to the task known in the literature as a solving a _promise problem_.
 Because the language notation is so prevalent in other textbooks, we will occasionally remind the reader of this correspondence.
 
-* We use $\ceil{x}$ and $\floor{x}$ for the "ceiling" and "floor" operators that correspond to "rounding up" or "rounding down" a number to the nearest integer. We use $(x \mod y)$ to denote the "remainder" of $x$ when divided by $y$. That is, $(x \mod y) = x - y\floor{x/y}$. In context when an integer is expected we'll typically "silently round" the quantities to an integer. For example, if we say that $x$ is a string of length $\sqrt{n}$ then this means that $x$ is of length $\lceil \sqrt{n} \rceil$. (We round up for the sake of convention, but in most such cases, it will not make a difference whether we round up or down.)
+* We use $\ceil{x}$ and $\floor{x}$ for the "ceiling" and "floor" operators that correspond to "rounding up" or "rounding down" a number to the nearest integer. We use $(x \mod y)$ to denote the "remainder" of $x$ when divided by $y$. That is, $(x \mod y) = x - y\floor{x/y}$. In context when an integer is expected we'll typically "silently round" the quantities to an integer. For example, if we say that $x$ is a string of length $\sqrt{n}$ then this means that $x$ is of length $\lceil \sqrt{n}\, \rceil$. (We round up for the sake of convention, but in most such cases, it will not make a difference whether we round up or down.)
 
 
 * Like most Computer Science texts, we default to the logarithm in base two. Thus, $\log n$ is the same as $\log_2 n$.
 
 * We will also use the notation $f(n)=poly(n)$ as a short hand for $f(n)=n^{O(1)}$ (i.e., as shorthand for saying that there are some constants $a,b$ such that $f(n) \leq a\cdot n^b$ for every sufficiently large $n$). Similarly, we will use $f(n)=polylog(n)$ as shorthand for $f(n)=poly(\log n)$ (i.e., as shorthand for saying that there are some constants $a,b$ such that $f(n) \leq a\cdot (\log n)^b$ for every sufficiently large $n$).
 
-* As in often the case in mathematical literature, we use the apostrophe character to enrich our set of identifier. Typically if $x$ denotes some object, then $x'$, $x''$, etc. will denote other objects of the same type.
+* As in often the case in mathematical literature, we use the apostrophe character to enrich our set of identifiers. Typically if $x$ denotes some object, then $x'$, $x''$, etc. will denote other objects of the same type.
 
-* To save on "cognitive load" we will often use round constants such as $10,100,1000$ in the statements of both theorems and problem set questions. When you see such a "round" constant, you can typically assume that it has no special significance and was just chosen arbitrarily. For example, if you see a theorem of the form "Algorithm $A$ takes at most $1000\cdot n^2$ steps to compute function $F$ on inputs of length $n$" then probably the number $1000$ is an abitrary sufficiently large constant, and one could prove the same theorem with a bound of the form $c \cdot n^2$ for a constant $c$ that is smaller than $1000$. Similarly, if a problem-set question asks you to prove that some quantity is at least $n/100$, it is quite possible that in truth the quantity is at least $n/d$ for some constant $d$ that is smaller than $100$.
+* To save on "cognitive load" we will often use round constants such as $10,100,1000$ in the statements of both theorems and problem set questions. When you see such a "round" constant, you can typically assume that it has no special significance and was just chosen arbitrarily. For example, if you see a theorem of the form "Algorithm $A$ takes at most $1000\cdot n^2$ steps to compute function $F$ on inputs of length $n$" then probably the number $1000$ is an abitrary sufficiently large constant, and one could prove the same theorem with a bound of the form $c \cdot n^2$ for a constant $c$ that is smaller than $1000$. Similarly, if a problem asks you to prove that some quantity is at least $n/100$, it is quite possible that in truth the quantity is at least $n/d$ for some constant $d$ that is smaller than $100$.
 
 
 ### Variable name conventions {#conventionsec }
@@ -1052,12 +1049,12 @@ Some examples of such idioms that we use in this text include the following:
 * __"Let $X$ be $\ldots$"__,  __"let $X$ denote $\ldots$"__, or __"let $X= \ldots$":__ These are all different ways for us to say that we are _defining_ the symbol $X$ to stand for whatever expression is in the $\ldots$. When $X$ is a _property_ of some objects we might define $X$ by writing something along the lines of __"We say that $\ldots$ has the property $X$ if $\ldots$."__. While we often try to define terms before they are used, sometimes a mathematical sentence reads easier if we use a term before defining it, in which case we add **"Where $X$ is $\ldots$"** to explain how $X$ is defined in the preceding expression.
 
 
-* ___Quantifiers:__ Mathematical texts involve many quantifiers such as "for all" and "exists". We sometimes spell these in words as in **"for all $i\in\N$"** or **"there is $x\in \{0,1\}^*$"**,  and sometimes use the formal symbols $\forall$ and $\exists$. It is important to keep track on which variable is quantified in what way the _dependencies_ between the variables. For example, a sentence fragment such as __"for every $k >0$ there exists $n$"__ means that $n$ can be chosen in a way that _depends_ on $k$. The order of quantifiers is important. For example, the following is a true statement: _"for every natural number $k>1$ there exists a prime number $n$ such that $n$ divides $k$."_ In contrast, the following statement is false: _"there exists a prime number $n$ such that for every natural number $k>1$, $n$ divides $k$."_
+* __Quantifiers:__ Mathematical texts involve many quantifiers such as "for all" and "exists". We sometimes spell these in words as in **"for all $i\in\N$"** or **"there is $x\in \{0,1\}^*$"**,  and sometimes use the formal symbols $\forall$ and $\exists$. It is important to keep track on which variable is quantified in what way the _dependencies_ between the variables. For example, a sentence fragment such as __"for every $k >0$ there exists $n$"__ means that $n$ can be chosen in a way that _depends_ on $k$. The order of quantifiers is important. For example, the following is a true statement: _"for every natural number $k>1$ there exists a prime number $n$ such that $n$ divides $k$."_ In contrast, the following statement is false: _"there exists a prime number $n$ such that for every natural number $k>1$, $n$ divides $k$."_
 
 
 * __Numbered equations, theorems, definitions:__ To keep track of all the terms we define and statements we prove, we often assign them a (typically numeric) label, and then refer back to them in other parts of the text. 
 
-* __(i.e.,), (e.g.,):__ Mathematical texts tend to contain quite a few of these expressions. We use $X$  (i.e., $Y$) in cases where $Y$ is equivalent to $X$ and $X$ (e.g., $Y$) in case $Y$ is an example of $X$ (e.g., one can use phrases such as "a natural number (i.e., a non-negative integer)" or "a natural number (e.g., $7$)").
+* __(i.e.,), (e.g.,):__ Mathematical texts tend to contain quite a few of these expressions. We use $X$  (i.e., $Y$) in cases where $Y$ is equivalent to $X$ and $X$ (e.g., $Y$) in cases where $Y$ is an example of $X$ (e.g., one can use phrases such as "a natural number (i.e., a non-negative integer)" or "a natural number (e.g., $7$)").
 
 
 * __"Thus"__, __"Therefore"__ , __"We get that"__: This means that the following sentence is implied by the preceding one, as in "The $n$-vertex graph $G$ is connected. Therefore it contains at least $n-1$ edges." We sometimes use __"indeed"__ to indicate that the following text justifies the claim that was made in the preceding sentence as in _"The $n$-vertex graph $G$ has at least $n-1$ edges. Indeed, this follows since $G$ is connected."_
@@ -1076,7 +1073,7 @@ Some examples of such idioms that we use in this text include the following:
 * Given precise _definitions_ of objects, we can state unambiguous and precise _statements_. We can then use mathematical _proofs_ to determine whether these statements are true or false.
 * A mathematical proof is not a formal ritual but rather a clear, precise and "bulletproof" argument certifying the truth of a certain statement.
 * Big-$O$ notation is an extremely useful formalism to suppress less significant details and allow us to focus on the high level behavior of quantities of interest.
-* The only way to get comfortable with mathematical notions is to apply them in the contexts of solving problems. You should expect to need to go back time and again to the definitions and notation in this lecture as you work through problems in this course.
+* The only way to get comfortable with mathematical notions is to apply them in the contexts of solving problems. You should expect to need to go back time and again to the definitions and notation in this chapter as you work through problems in this course.
 
 
 ## Exercises

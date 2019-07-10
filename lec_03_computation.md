@@ -25,7 +25,7 @@ chapternum: "3"
 
 
 
-People have been computing for thousands of years, with aids that include not just pen and paper, but also abacus, slide rulers, various mechanical devices, and modern electronic computers.
+People have been computing for thousands of years, with aids that include not just pen and paper, but also abacus, slide rules, various mechanical devices, and modern electronic computers.
 A priori, the notion of computation seems to be tied to the particular mechanism that you use.
 You might think that the "best"  algorithm for multiplying numbers will differ if you implement it in _Python_ on a modern laptop than if you use pen and paper.
 However, as we saw in the introduction ([chapintro](){.ref}), an algorithm that is asymptotically better would eventually beat a worse one regardless of the underlying technology.
@@ -60,7 +60,7 @@ Here is how Al-Khwarizmi described the algorithm for solving an equation of the 
 
 For the purposes of this book, we will need a much more precise way to describe algorithms.
 Fortunately (or is it unfortunately?), at least at the moment, computers lag far behind school-age children in learning from examples.
-Hence in the 20th century people have come up with exact formalisms for describing algorithms, namely _programming languages_.
+Hence in the 20th century people came up with exact formalisms for describing algorithms, namely _programming languages_.
 Here is al-Khwarizmi's quadratic equation solving algorithm described in the _Python_ programming language:
 
 ```python
@@ -71,8 +71,8 @@ def solve_eq(b,c):
     # return solution of x^2 + bx = c following Al Khwarizmi's instructions
     # Al Kwarizmi demonstrates this for the case b=10 and c= 39
 
-    val1 = b/2.0 # "halve the number of the roots"
-    val2 = val1*val1 # "this you multiply by itself"
+    val1 = b / 2.0 # "halve the number of the roots"
+    val2 = val1 * val1 # "this you multiply by itself"
     val3 = val2 + c # "Add this to thirty-nine"
     val4 = sqrt(val3) # "take the root of this"
     val5 = val4 - val1 # "subtract from it half the number of roots"
@@ -87,7 +87,7 @@ print(solve_eq(10,39))
 We can define algorithms informally as follows:
 
 ::: {.quote }
-__Informal definition of an algorithm:__ An _Algorithm_ is a set of instructions of how to compute an output from an input by following a sequence of "elementary steps".
+__Informal definition of an algorithm:__ An _algorithm_ is a set of instructions for how to compute an output from an input by following a sequence of "elementary steps".
 
 An algorithm $A$ _computes_ a function $F$ if for every input $x$, if we follow the instructions of $A$ on the input $x$, we obtain the output $F(x)$.
 :::
@@ -108,13 +108,13 @@ We will start by discussing what are "elementary operations" and  how we map a d
 An algorithm breaks down a _complex_ calculation into a series of _simpler_ steps.
 These steps can be executed in a variety of different ways, including:
 
-* Writing down symbols on a piece of paper
+* Writing down symbols on a piece of paper.
 
 * Modifying the current flowing on electrical wires.
 
-* Binding a protein to a strand of DNA
+* Binding a protein to a strand of DNA.
 
-* Response to a stimulus by a member of a collection (e.g., a bee in a colony, a trader in a market).
+* Responding to a stimulus by a member of a collection (e.g., a bee in a colony, a trader in a market).
 
 
 To formally define algorithms, let us try to "err on the side of simplicity" and model our "basic steps" as truly minimal.
@@ -128,7 +128,9 @@ $$OR(a,b) = \begin{cases} 0 & a=b=0 \\ 1 & \text{otherwise} \end{cases}$$
 
 $$AND(a,b) = \begin{cases} 1 & a=b=1 \\ 0 & \text{otherwise} \end{cases}$$
 
-* $NOT:\{0,1\} \rightarrow \{0,1\}$ defined as $NOT(a) = 1-a$.
+* $NOT:\{0,1\} \rightarrow \{0,1\}$ defined as 
+
+$$NOT(a) = \begin{cases} 0 & a = 1 \\ 1 & a = 0 \end{cases}$$
 
 The functions $AND$, $OR$ and $NOT$, are the basic logical operators used in logic and many computer system.
 In the context of logic, it is common to use the notation $a \wedge b$ for $AND(a,b)$, $a \vee b$ for $OR(a,b)$ and $\overline{a}$ and $\neg a$ for $NOT(a)$, and we will use this notation as well.
@@ -144,10 +146,10 @@ Consider the function $MAJ:\{0,1\}^3 \rightarrow \{0,1\}$ that is defined as fol
 
 $$MAJ(x) = \begin{cases}1 & x_0 + x_1 + x_2 \geq 2 \\ 0 & \text{otherwise}\end{cases} \;.$$
 
-That is, for every $x\in \{0,1\}^3$, $MAJ(x)=1$ if and only if the majority (i.e., at least two out of the three) of $x$'s coordinates are equal to $1$.
+That is, for every $x\in \{0,1\}^3$, $MAJ(x)=1$ if and only if the majority (i.e., at least two out of the three) of $x$'s elements are equal to $1$.
 Can you come up with a formula involving $AND$, $OR$ and $NOT$ to compute $MAJ$? (It would be useful for you to pause at this point and work out the formula for yourself. As a hint, although the $NOT$ operator is needed to compute some functions, you will not need to use it to compute $MAJ$.)
 
-Let us first try to rephrase $MAJ(x)$ in words: "$MAJ(x)=1$ if and only if there exists some pair of distinct coordinates $i,j$ such that both $x_i$ and $x_j$ are equal to $1$." In other words it means that $MAJ(x)=1$ iff   _either_ both $x_0=1$ _and_ $x_1=1$,  _or_ both $x_1=1$ _and_ $x_2=1$, _or_ both $x_0=1$ _and_ $x_2=1$.
+Let us first try to rephrase $MAJ(x)$ in words: "$MAJ(x)=1$ if and only if there exists some pair of distinct elements $i,j$ such that both $x_i$ and $x_j$ are equal to $1$." In other words it means that $MAJ(x)=1$ iff   _either_ both $x_0=1$ _and_ $x_1=1$,  _or_ both $x_1=1$ _and_ $x_2=1$, _or_ both $x_0=1$ _and_ $x_2=1$.
 Since the $OR$ of three conditions $c_0,c_1,c_2$ can be written as $OR(c_0,OR(c_1,c_2))$, we can now translate this into a formula as follows:
 
 $$
@@ -194,7 +196,7 @@ But by the standard distributive law $a\cdot (b+c) = a\cdot b + a \cdot c$ and h
 
 
 
-### Extended example: Computing $XOR$ from $AND$,$OR$,$NOT$ {#xoraonexample }
+### Extended example: Computing $XOR$ from $AND$, $OR$, and $NOT$ {#xoraonexample }
 
 Let us see how we can obtain a different function from the same building blocks.
 Define $XOR:\{0,1\}^2 \rightarrow \{0,1\}$ to be the function $XOR(a,b)= a + b \mod 2$. That is, $XOR(0,0)=XOR(1,1)=0$ and $XOR(1,0)=XOR(0,1)=1$.
@@ -205,7 +207,7 @@ As usual, it is a good exercise to try to work out the algorithm for $XOR$ using
 :::
 
 
-The following algorithms computes $XOR$  using $AND$,$OR$, and $NOT$: 
+The following algorithm computes $XOR$ using $AND$, $OR$, and $NOT$: 
 
 
 ``` {.algorithm title="$XOR$ from $AND$/$OR$/$NOT$" #XORfromAONalg}
@@ -243,7 +245,7 @@ Specifically, the following is a _Python_ program that computes the $XOR$ functi
 ```python
 def AND(a,b): return a*b
 def OR(a,b):  return 1-(1-a)*(1-b)
-def NOT(a): return 1-a
+def NOT(a):   return 1-a
 
 def XOR(a,b):
     w1 = AND(a,b)
@@ -311,7 +313,7 @@ This suggests that we can use $AND$, $OR$, and $NOT$ as our "basic operations", 
 ::: {.quote}
 __Semi-formal definition of an algorithm:__ An _algorithm_ consists of a sequence of steps of the form "compute a new value by applying $AND$, $OR$, or $NOT$ to previously computed values".
 
-An algorithm $A$ _computes_ a function $f$ if for every input $x$ to $f$, if we feed $x$ as input to the algorithm, the value computed in its last step is $f(x)$.
+An algorithm $A$ _computes_ a function $F$ if for every input $x$ to $F$, if we feed $x$ as input to the algorithm, the value computed in its last step is $F(x)$.
 :::
 
 
@@ -334,7 +336,7 @@ A large part of this book will be devoted to addressing the above issues. We wil
 
 2. While the choice of $AND$/$OR$/$NOT$ is arbitrary, and we could just as well chose some other functions, we will also see this choice does not matter much. We will see that the we would obtain the same computational power if we used instead for addition and multiplication, and essentially every other operation that could be reasonably thought of as a basic step.
 
-3. It turns out that we can and do compute such "$AND$/$OR$/$NOT$ based algorithms" in the real world. First of all, such an algorithm is clearly well specified, and so can be executed by a human with a pen and paper. Second, there are a variety of ways to _mechanize_ this computation. We've already seen that we can write Python code that corresponds to following such a list of instructions. But in fact we can directly implement operations such as $AND$, $OR$, $NOT$ etc.. via electronic signals using components known as _transistors_. This is how modern electronic computers operate.
+3. It turns out that we can and do compute such "$AND$/$OR$/$NOT$ based algorithms" in the real world. First of all, such an algorithm is clearly well specified, and so can be executed by a human with a pen and paper. Second, there are a variety of ways to _mechanize_ this computation. We've already seen that we can write Python code that corresponds to following such a list of instructions. But in fact we can directly implement operations such as $AND$, $OR$, and $NOT$ via electronic signals using components known as _transistors_. This is how modern electronic computers operate.
 
 In the remainder of this chapter, and the rest of this book, we will begin to answer some of these questions.
 We will see more examples of the power of simple operations to compute more complex operations including addition, multiplication, sorting and more.
@@ -354,11 +356,11 @@ We will also discuss how to _physically implement_ simple operations such as $AN
 
 _Boolean circuits_ provide a precise notion of  "composing basic operations together".
 A Boolean circuit (see [boolancircfig](){.ref}) is composed of _gates_ and _inputs_ that are connected by _wires_.
-The _wires_  carry a signal that is either the value $0$ or $1$.
+The _wires_  carry a signal that represents either the value $0$ or $1$.
 Each gate corresponds to either the _OR_, _AND_, or _NOT_ operation.
 An _OR gate_ has two incoming wires, and one or more outgoing wires.
 If these two incoming wires carry the signals $a$ and $b$ (for $a,b \in \{0,1\}$), then the signal on the outgoing wires will be $OR(a,b)$.
-AND and NOT gates are defined similarly.
+_AND_ and _NOT_ gates are defined similarly.
 The _inputs_ have only outgoing wires.
 If we set a certain input to a value $a\in \{0,1\}$, then this value is propagated on all the wires outgoing from it.
 We also designate some gates as _output gates_, and their value corresponds to the result of evaluating the circuit.
@@ -373,7 +375,7 @@ We evaluate an $n$-input Boolean circuit $C$ on an input $x\in \{0,1\}^n$ by pla
 ::: {.remark title="Physical realization of Boolean circuits" #booleancircimprem}
 Boolean circuits are a _mathematical model_ that does not necessarily  correspond to a physical object, but they can be implemented physically.
 In physical implementation of circuits, the signal is [often implemented](https://goo.gl/gntTQE) by electric potential or _voltage_ on a wire, where for example voltage above a certain level is interpreted as a logical value of $1$, and below a certain level is interpreted as a logical value of $0$.
-[physicalimplementationsec](){.ref} discusses physical implementation of boolean circuits (with examples including using electrical signals such as in silicon-based circuits, but also  biological and mechanical implementations as well).
+[physicalimplementationsec](){.ref} discusses physical implementation of Boolean circuits (with examples including using electrical signals such as in silicon-based circuits, but also  biological and mechanical implementations as well).
 :::
 
 
@@ -381,13 +383,13 @@ In physical implementation of circuits, the signal is [often implemented](https:
 
 
 
-![A _Boolean Circuit_ consists of  _gates_ that are are connected by _wires_ to one another and the _inputs_. The left-hand side  figure depicts a circuit with $2$ inputs and $5$ gates, one of which is designated the output gate. The right-hand side figure depicts the evaluation of this circuit on the input $x\in \{0,1\}^2$ with $x_0=1$ and $x_1=0$. The value of every gate is obtained by applying the corresponding function ($AND$, $OR$, or $NOT$) to values on the wire(s) that enter it. The output of the circuit on a given input is the value of the output gate(s). In this casem the circuit computes the $XOR$ function and hence it outputs $1$ on the input $10$.](../figure/booleancircuit.png){#boolancircfig  }
+![A _Boolean Circuit_ consists of  _gates_ that are are connected by _wires_ to one another and the _inputs_. The left side depicts a circuit with $2$ inputs and $5$ gates, one of which is designated the output gate. The right side depicts the evaluation of this circuit on the input $x\in \{0,1\}^2$ with $x_0=1$ and $x_1=0$. The value of every gate is obtained by applying the corresponding function ($AND$, $OR$, or $NOT$) to values on the wire(s) that enter it. The output of the circuit on a given input is the value of the output gate(s). In this case, the circuit computes the $XOR$ function and hence it outputs $1$ on the input $10$.](../figure/booleancircuit.png){#boolancircfig  }
 
 
 
 
 ::: {.solvedexercise title="All equal function" #allequalex}
-Define $ALLEQ:\{0,1\}^4 \rightarrow \{0,1\}$ be the function that on input $x\in \{0,1\}^4$ outputs $1$ if and only if $x_0=x_1=x_2=x_3$. Give a Boolean circuit for computing $ALLEQ$.
+Define $ALLEQ:\{0,1\}^4 \rightarrow \{0,1\}$ to be the function that on input $x\in \{0,1\}^4$ outputs $1$ if and only if $x_0=x_1=x_2=x_3$. Give a Boolean circuit for computing $ALLEQ$.
 :::
 
 
@@ -399,7 +401,7 @@ Similarly we can phrase the condition $x=0^4$ as $\overline{x}_0 \wedge \overlin
 The output of $ALLEQ$ is the OR of these two conditions, which results in the circuit of 4 NOT gates, 6 AND gates, and one OR gate presented in [allequalfig](){.ref}.
 :::
 
-![A  Boolean circuit for computing the _all equal_ function $ALLEQ:\{0,1\}^4 \rightarrow \{0,1\}$ that outputs $1$ on $x\in \{0,1\}^4$ if and only if $x_0=x_1=x_2=x_3$. The figure illustrates the evaluation of the circuit on the input $0010$.](../figure/allequalcirc2.png){#allequalfig .margin }
+![A  Boolean circuit for computing the _all equal_ function $ALLEQ:\{0,1\}^4 \rightarrow \{0,1\}$ that outputs $1$ on $x\in \{0,1\}^4$ if and only if $x_0=x_1=x_2=x_3$.](../figure/allequalcirc2.png){#allequalfig .margin }
 
 ### Boolean circuits: a formal definition
 
