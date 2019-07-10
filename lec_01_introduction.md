@@ -213,17 +213,17 @@ $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \underline{y
 Plugging this into $x\cdot y$, we get 
 
 $$
-x \cdot y = 10^n \overline{x}\cdot \overline{y} + 10^{m}(\overline{x}\overline{y} +\underline{x}\underline{y}) + \underline{x}\underline{y}  \;. \label{eqkarastubaone}
+x \cdot y = 10^{2m} \overline{x}\overline{y} + 10^{m}(\overline{x}\underline{y} +\underline{x}\overline{y}) + \underline{x}\underline{y}  \;. \label{eqkarastubaone}
 $$
 
 Rearranging the terms we see that
 
 $$
-x\cdot y =   10^n\overline{x}\cdot \overline{y} + 10^{m}\left[ (\overline{x}+\underline{x})(\overline{y}+\underline{y}) - \underline{x}\underline{y}  - \overline{x}\overline{y} \right]  + \underline{x}\underline{y} \;.
+x\cdot y =   10^{2m}\overline{x}\overline{y} + 10^{m}\left[ (\overline{x}+\underline{x})(\overline{y}+\underline{y}) - \underline{x}\underline{y}  - \overline{x}\overline{y} \right]  + \underline{x}\underline{y} \;.
  \label{eqkarastubatwo}
 $$
-since the numbers $\underline{x}$,$\overline{x}$, $\underline{y}$,$\overline{y}$,$\overline{x}+\underline{x}$,$\overline{y}+\underline{y}$ all have at most $m+1<n$ digits, the induction hypothesis implies that the values $A,B,C$ computed by the recursive calls will satisfy $B=(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ and $C=\underline{x}\underline{y}$.
-Plugging this into  [{eqkarastubatwo}](){.eqref} we see that $x\cdot y$ equals  the value $(10^n-10^m)\cdot A  + 10^m \cdot B +(1-10^m)\cdot C$ computed by [karatsubaalg](){.ref}.
+since the numbers $\underline{x}$,$\overline{x}$, $\underline{y}$,$\overline{y}$,$\overline{x}+\underline{x}$,$\overline{y}+\underline{y}$ all have at most $m+1<n$ digits, the induction hypothesis implies that the values $A,B,C$ computed by the recursive calls will satisfy $A=\overline{x}\overline{y}$, $B=(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ and $C=\underline{x}\underline{y}$.
+Plugging this into  [eqkarastubatwo](){.eqref} we see that $x\cdot y$ equals  the value $(10^{2m}-10^m)\cdot A  + 10^m \cdot B +(1-10^m)\cdot C$ computed by [karatsubaalg](){.ref}.
 :::
 
 
@@ -231,7 +231,7 @@ Plugging this into  [{eqkarastubatwo}](){.eqref} we see that $x\cdot y$ equals  
 If $x,y$ are integers of at most $n$ digits,  [karatsubaalg](){.ref} will take $O(n^{\log_2 3})$ operations on input $x,y$.
 
 ::: {.proof data-ref="karatsubaefficient"}
-[karatsubafig](){.ref}) illustrates the idea behind the proof, which we only sketch here, leaving filling out the details as [karatsuba-ex](){.ref}.
+[karatsubafig](){.ref} illustrates the idea behind the proof, which we only sketch here, leaving filling out the details as [karatsuba-ex](){.ref}.
 The proof is again by induction. We define $T(n)$ to be the maximum number of steps that [karatsubaalg](){.ref} takes on inputs of length at most $n$.
 Since in the base case $n\leq 2$, [karatsuba-ex](){.ref} performs a constant number of computation, we know that $T(2) \leq c$ for some constant $c$ and for $n>2$, it satisfies the recursive equation
 $$
@@ -240,7 +240,7 @@ $$
 for some constant $c'$ (using the fact that addition can be done in $O(n)$ operations).
  
 The recursive equation [eqkaratsubarecursion](){.eqref} solves to $O(n^{\log_3 2})$.
-The intuition behind this is presented in [karatsubafig](){.ref}), and this is also a consequence of the so called ["Master Theorem"](https://en.wikipedia.org/wiki/Master_theorem_\(analysis_of_algorithms\)) on recurrence relations that is covered in many discrete math texts.
+The intuition behind this is presented in [karatsubafig](){.ref}, and this is also a consequence of the so called ["Master Theorem"](https://en.wikipedia.org/wiki/Master_theorem_\(analysis_of_algorithms\)) on recurrence relations that is covered in many discrete math texts.
 As mentioned above, we leave completing the proof to the reader as [karatsuba-ex](){.ref}.
 :::
 
