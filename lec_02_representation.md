@@ -653,7 +653,7 @@ For the sake of completeness, we will include the proof below, but it is a good 
 
 ::: {.proof data-ref="prefixfreetransformationlem"}
 The idea behind the proof is to use the map $0 \mapsto 00$, $1 \mapsto 11$ to "double" every bit in the string $x$ and then mark the end of the string by concatenating to it the pair $01$.
-If we encode a string $x$ in this way, it ensures that the encoding of $x$ is never a prefix of the encoding  of a distinct string $x'$.
+If we encode a string $x$ in this way, it ensures that the encoding of $x$ is never a prefix of the encoding of a distinct string $x'$.
 Formally, we define the function $PF:\{0,1\}^* \rightarrow \{0,1\}^*$ as follows: 
 $$PF(x)=x_0 x_0 x_1 x_1 \ldots x_{n-1}x_{n-1}01$$ 
 for every $x\in \{0,1\}^*$.
@@ -668,7 +668,7 @@ Since $E$ is one-to-one, $x \neq x'$.
 Under our assumption, $PF(x)$ is a prefix of $PF(x')$.
 If $|x|<|x'|$ then the two bits in positions $2|x|,2|x|+1$ in $PF(x)$ have the value $01$ but the corresponding bits in $PF(x')$ will equal either $00$ or $11$ (depending on the $|x|$-th bit of $x'$) and hence $PF(x)$ cannot be a prefix of $PF(x')$.
 If $|x|=|x'|$ then, since $x \neq x'$, there must be a coordinate $i$ in which they differ, meaning that the strings $PF(x)$ and $PF(x')$  differ in the coordinates $2i,2i+1$, which again means that $PF(x)$ cannot be a prefix of $PF(x')$.
-if $|x|>|x'|$ then $|PF(x)|=2|x|+2>|PF(x')|=2|x'|+2$ and hence $PF(x)$ is longer than (and cannot be a prefix of)  $PF(x')$.
+If $|x|>|x'|$ then $|PF(x)|=2|x|+2>|PF(x')|=2|x'|+2$ and hence $PF(x)$ is longer than (and cannot be a prefix of)  $PF(x')$.
 In all cases we see that $PF(x)=\overline{E}(o)$ is not a prefix of $PF(x')=\overline{E}(o')$, hence completing the proof.
 :::
 
@@ -874,7 +874,7 @@ Again, at an abstract level, a computational task can specify any relation that 
 However, for most of this book, we will focus on the simplest and most common task of _computing a function_.
 Here are some examples:
 
-* Given (a representation) of two integers $x,y$, compute the product $x\times y$. Using our representation above, this corresponds to computing a function from $\{0,1\}^*$ to $\{0,1\}^*$. We have seen that there is more than one way to solve this computational task, and in fact, we still do not know the best algorithm for this problem.
+* Given (a representation of) two integers $x,y$, compute the product $x\times y$. Using our representation above, this corresponds to computing a function from $\{0,1\}^*$ to $\{0,1\}^*$. We have seen that there is more than one way to solve this computational task, and in fact, we still do not know the best algorithm for this problem.
 
 * Given (a representation of) an integer $z>1$, compute its _factorization_; i.e., the list of primes $p_1 \leq \cdots \leq p_k$ such that $z = p_1\cdots p_k$.  This again corresponds to computing a function from $\{0,1\}^*$ to $\{0,1\}^*$. The gaps in our knowledge of the complexity of this problem are even larger.
 
