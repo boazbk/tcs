@@ -623,9 +623,9 @@ Since then, (adjusted versions of) this so-called "Moore's law" have been runnin
 
 ### Logical gates from transistors
 
-We can use transistors to implement various Boolean functions such as $AND$, $OR$, and not $NOT$.
+We can use transistors to implement various Boolean functions such as $AND$, $OR$, and $NOT$.
 For each a two-input gate $G:\{0,1\}^2 \rightarrow \{0,1\}$,  such an implementation would be a system with two input wires $x,y$ and one output wire $z$, such that if we identify high voltage with "$1$" and low voltage with "$0$", then the wire  $z$ will equal to "$1$" if and only if applying $G$ to the values of the wires $x$ and $y$ is $1$ (see [logicgatestransistorsfig](){.ref} and [transistor-nand-fig](){.ref}).
-This means that there exists a AND/OR/NOT circuit to compute a function $g:\{0,1\}^n \rightarrow \{0,1\}^m$, then we can compute $g$ in the physical world using transistors as well.
+This means that if there exists a _AND_/_OR_/_NOT_ circuit to compute a function $g:\{0,1\}^n \rightarrow \{0,1\}^m$, then we can compute $g$ in the physical world using transistors as well.
 
 ![Implementing logical gates using transistors. Figure taken from [Rory Mangles' website](http://www.northdownfarm.co.uk/rory/tim/basiclogic.htm).](../figure/DTLLogic.PNG){#logicgatestransistorsfig   .margin  }
 
@@ -659,22 +659,22 @@ As we will discuss later in this book (see [cellularautomatasec](){.ref}), cellu
 
 One computation device that we all carry with us is our own _brain_.
 Brains have served humanity throughout history, doing computations that range from distinguishing prey from predators, through making scientific discoveries and artistic masterpieces, to composing witty 280 character messages.
-The exact working of the brain is still not fully understood, but one common mathematical model for it is a (very large) _neural network_.
+The exact working of the brain is still not fully understood, but one common mathematical model inspired by it is a (very large) _neural network_.
 
 A neural network can be thought of as a Boolean circuit that instead of $AND$/$OR$/$NOT$ uses some other gates as the basic basis.
 For example, one particular basis we can use are _threshold gates_.
-For every vector $w= (w_0,\ldots,w_{k-1})$ of integers and integer $t$ (some or all of whom could be negative),
+For every vector $w= (w_0,\ldots,w_{k-1})$ of integers and integer $t$ (some or all of which could be negative),
 the _threshold function corresponding to $w,t$_ is the function
 $T_{w,t}:\{0,1\}^k \rightarrow \{0,1\}$ that maps $x\in \{0,1\}^k$ to $1$ if and only if $\sum_{i=0}^{k-1} w_i x_i \geq t$.
 For example, the threshold function $T_{w,t}$ corresponding to $w=(1,1,1,1,1)$ and $t=3$ is simply the majority function $MAJ_5$ on $\{0,1\}^5$.
 Threshold gates can be thought of as an approximation for    _neuron cells_ that make up the core of human and animal brains. To a first approximation, a neuron has $k$ inputs and a single output and the neurons  "fires" or "turns on" its output when those signals pass some threshold.
 
 Many machine learning algorithms use _artificial neural networks_ whose purpose is not to imitate biology but rather to perform some computational tasks, and hence are not restricted to threshold or other biologically-inspired gates.
-Generally, a neural network is often described as operating on signals that are real numbers, rather than $0/1$ values, and where the output of a gate on inputs $x_0,\ldots,x_{k-1}$ is obtained by applying $f(\sum_i w_i x_i)$ where $f:\R \rightarrow \R$ is an an [activation function](https://goo.gl/p9izfA) such as rectified linear unit (ReLU), Sigmoid, or many others (see [activationfunctionsfig](){.ref}).
+Generally, a neural network is often described as operating on signals that are real numbers, rather than $0/1$ values, and where the output of a gate on inputs $x_0,\ldots,x_{k-1}$ is obtained by applying $f(\sum_i w_i x_i)$ where $f:\R \rightarrow \R$ is an an [activation function](https://goo.gl/p9izfA) such as rectified linear unit (ReLU), sigmoid, or many others (see [activationfunctionsfig](){.ref}).
 However, for the purposes of our discussion, all of the above are equivalent (see also [NANDsfromActivationfunctionex](){.ref}).
 In particular we can reduce the setting of real inputs to binary inputs by representing a real number in the binary basis, and multiplying the weight of the bit corresponding to the $i^{th}$ digit by $2^i$.
 
-![Common activation functions used in Neural Networks, including rectified linear units (ReLU), sigmoids, and hyperbolic tangent. All of those can be thought of as continuous approximations to simple the step function. All of these can be used to compute the NAND gate (see [NANDsfromActivationfunctionex](){.ref}). This property is often known as the _universality_ of neural networks.](../figure/activationfuncs.png){#activationfunctionsfig .margin }
+![Common activation functions used in Neural Networks, including rectified linear units (ReLU), sigmoids, and hyperbolic tangent. All of those can be thought of as continuous approximations to simple the step function. All of these can be used to compute the NAND gate (see [NANDsfromActivationfunctionex](){.ref}).](../figure/activationfuncs.png){#activationfunctionsfig .margin }
 
 
 ### A computer made from marbles and pipes
