@@ -86,7 +86,7 @@ We now show how we can represent natural numbers as binary strings.
 Over the years people have represented numbers in a variety of ways, including Roman numerals, tally marks, our own Hindu-Arabic  decimal system, and many others.
 We can use any one of those as well as many others to represent a number as a string (see [bitmapdigitsfig](){.ref}).
 However, for the sake of concreteness,  we use the _binary basis_ as our default representation of natural numbers as strings.
-For example, we represent the number six as the string $110$ since $1\cdot 2^{2} + 1 \cdot 2^1 + 0 \cdot 2^0 = 6$, and similarly we represent the number thirty-five as the string $y = 100011$ which satisfies $\sum_{i=0}^5 y_i \cdot 2^{|y|-i} = 35$.^[We could have equally well reversed the order so as to represent $35$ by the string $y'=110001$ satisfying $\sum_{i=0}^5 y'_i\cdot 2^i = 35$. This is related to the [Big Endian vs. Little Endian](https://betterexplained.com/articles/understanding-big-and-little-endian-byte-order/) representations for integers in computing architectures. Similarly we choose to represent the number zero as the empty string, though we could have equally well represented it using the length-one string $0$.  
+For example, we represent the number six as the string $110$ since $1\cdot 2^{2} + 1 \cdot 2^1 + 0 \cdot 2^0 = 6$, and similarly we represent the number thirty-five as the string $y = 100011$ which satisfies $\sum_{i=0}^5 y_i \cdot 2^{|y|-i} = 35$.^[We could have equally well reversed the order so as to represent $35$ by the string $y'=110001$ satisfying $\sum_{i=0}^5 y'_i\cdot 2^i = 35$. This is related to the [Big Endian vs. Little Endian](https://betterexplained.com/articles/understanding-big-and-little-endian-byte-order/) representations for integers in computing architectures. Similarly we choose to represent the number zero as the single bit string $0$, though we could have equally well represented it using the length-zero string $""$.  
 Such low level choices will not make a difference in this book.]
 Some more examples are given in the table below.
 
@@ -97,7 +97,7 @@ Some more examples are given in the table below.
 
 | **Number (decimal representation)** | **Number (binary representation)** |
 |-------------------------------------|------------------------------------|
-| 0                                   | ""                                 |
+| 0                                   | 0                                 |
 | 1                                   | 1                                  |
 | 2                                   | 10                                 |
 | 5                                   | 101                                |
@@ -114,8 +114,9 @@ Just like the number $\floor{n/10}$ corresponds to "chopping off" the least sign
 Hence the  binary representation can be formally defined as the following function $NtS:\N \rightarrow \{0,1\}^*$ ($NtS$ stands for "natural numbers to strings"):
 
 $$NtS(n) = \begin{cases}
-            \text{""}    &  n=0 \\
-            NtS(\floor{n/2}) parity(n) & n>0
+            0    &  n=0 \\
+            1    &  n=1 \\
+            NtS(\floor{n/2}) parity(n) & n>1
 \end{cases} \label{ntseq}$$
 where $parity:\N \rightarrow \{0,1\}$  is the function defined as $parity(n)=0$ if $n$ is even and $parity(n)=1$ if $n$ is odd, and as usual, for strings $x,y \in \{0,1\}^*$, $xy$ denotes the concatenation of $x$ and $y$.
 The function $NtS$ is defined _recursively_: for every $n>0$ we define $rep(n)$ in terms of the representation of the smaller number $\floor{n/2}$. 
