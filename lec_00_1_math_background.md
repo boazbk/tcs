@@ -16,9 +16,6 @@ chapternum: "1"
 
 
 
->_"When you have mastered numbers, you will in fact no longer be reading numbers, any more than you read words when reading books. You will be reading meanings."_, Harold Gennen, _Managing_, 1984.
-
-
 >_"I found that every number, which may be expressed from one to ten, surpasses the preceding by one unit: afterwards the ten is doubled or tripled  ...  until a hundred; then the hundred is doubled and tripled in the same manner as the units and the tens ... and so forth to the utmost limit of numeration."_,  Muhammad ibn Mūsā al-Khwārizmī, 820, translation by Fredric Rosen, 1831.
 
 
@@ -553,9 +550,9 @@ Mathematical notation has a lot of similarities with programming language, and f
 Both are formalisms meant to convey complex concepts in a precise way.
 However, there are some cultural differences.
 In programming languages, we often try to use meaningful variable names such as `NumberOfVertices` while in math we often use short identifiers such as $n$.
-(Part of it might have to do with the tradition of mathematical proofs as being handwritten and verbally presented, as opposed to typed up and compiled. Another reason is if the wrong variable name is used in a proof, at worst is causes confusion to readers; when the wrong variable name is used in a program, planes crash, patients die, and rockets explode.)
+Part of it might have to do with the tradition of mathematical proofs as being handwritten and verbally presented, as opposed to typed up and compiled. Another reason is if the wrong variable name is used in a proof, at worst is causes confusion to readers; when the wrong variable name is used in a program, planes might crash, patients might die, and rockets could explode.
 
-One consequence of that is that in mathematics we often end up reusing identifiers, and also "run out" of letters and hence use Greek letters too, as well as distinguish between small and capital letters.
+One consequence of that is that in mathematics we often end up reusing identifiers, and also "run out" of letters and hence use Greek letters too, as well as distinguish between small and capital letters and different font faces.
 Similarly, mathematical notation tends to use quite a lot of "overloading", using operators such as $+$ for a great variety of objects (e.g., real numbers, matrices, finite field elements, etc..), and assuming that the meaning can be inferred from the context.
 
 Both fields have a notion of "types", and in math we often try to reserve certain letters for variables of a particular type.
@@ -588,8 +585,7 @@ More formally, we define Big-$O$ notation as follows:
 
 :::  {.definition title="Big-$O$ notation" #bigohdef}
 Let $\R_+= \{ x\in \R \;|\; x>0\}$ be the set of positive real numbers.
-For two functions $F,G: \N \rightarrow \R_+$, we say that  _$F=O(G)$_  if there exist numbers $a,N_0 \in \N$ such that $F(n) \leq a\cdot G(n)$ for every $n>N_0$. We say that  $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$.
-We define $F=\Omega(G)$  if $G=O(F)$.
+For two functions $F,G: \N \rightarrow \R_+$, we say that  _$F=O(G)$_  if there exist numbers $a,N_0 \in \N$ such that $F(n) \leq a\cdot G(n)$ for every $n>N_0$. We say that  $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$. We say that $F=\Omega(G)$  if $G=O(F)$.
 
 We say that _$F =o(G)$_ if for every $\epsilon>0$ there is some $N_0$ such that $F(n) <\epsilon G(n)$ for every $n>N_0$.
 We say that $F =\omega(G)$ if $G=o(F)$.
@@ -665,8 +661,8 @@ Writing a _program_ involves:
 
 In programs as in proofs, step 1 is often the most important one.
 A key difference is that the reader for proofs is a human being and the reader for programs is a computer.
-(Though this difference might be eroding with time, as more proofs are being written in a _machine verifiable form_ and it is increasingly important that programs can be read and understood by humans.)
-Thus our emphasis is on _readability_ and having a _clear logical flow_ for the proof (which is not a bad idea for programs as well...).
+(This difference is eroding with time as more proofs are being written in a _machine verifiable_ form; moreover, to ensure correctness and maintinability of programs, it is important that they can be read and understood by humans.)
+Thus our emphasis is on _readability_ and having a _clear logical flow_ for our proof (which is not a bad idea for programs as well).
 When writing a proof, you should think of your audience as an intelligent but highly skeptical and somewhat petty reader, that will "call foul" at every step that is not well justified.
 
 
@@ -873,7 +869,7 @@ The assumption in __(b)__ that $Q(i)$ holds for $i<k$ is called the "inductive h
 > ### {.remark title="Induction and recursion" #inducrecrem}
 Proofs by inductions are closely related to algorithms by recursion.
 In both cases we reduce solving a larger problem to solving a smaller instance of itself. In a recursive algorithm to solve some problem P on an input of length $k$  we ask ourselves "what if someone handed me a way to solve P on instances smaller than $k$?". In an inductive proof to prove a statement Q parameterized by a number $k$, we ask ourselves "what if I already knew that $Q(k')$ is true for $k'<k$?".
-Both induction and recursion are crucial concepts for this course and Computer Science at large (and even other areas of inquiry, including not just mathematics but other sciences as well). Both can be initially (and even profoundly) confusing, but with time and practice they become clearer.
+Both induction and recursion are crucial concepts for this course and Computer Science at large (and even other areas of inquiry, including not just mathematics but other sciences as well). Both can be confusing at first, but with time and practice they become clearer.
 For more on proofs by induction and recursion, you might find the following [Stanford CS 103 handout](https://cs121.boazbarak.org/StanfordCS103Induction.pdf), [this MIT 6.00 lecture](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00sc-introduction-to-computer-science-and-programming-spring-2011/unit-1/lecture-6-recursion/) or [this excerpt of the Lehman-Leighton book](https://cs121.boazbarak.org/LL_induction.pdf) useful.
 
 
@@ -1198,3 +1194,6 @@ There is an unfortunate confusion between this term and the more common usage of
 One way to relate these two notions is to identify every function $f:A \rightarrow B$ with the directed graph $G_f$ over the vertex set $V= A \cup B$ such that $G_f$  contains the edge $x \rightarrow f(x)$ for every $x\in A$. In a graph $G_f$ constructed in this way, every vertex in $A$ has out-degree equal to one. If the function $f$ is _one to one_ then every vertex in $B$ has in-degree at most one.
 If the function $f$ is _onto_ then every vertex in $B$ has in-degree at least one.
 If $f$ is a bijection then every vertex in $B$ has in-degree exactly equal to one.
+
+
+Pomerance's quote is taken from [Doron Zeilberger's page](http://sites.math.rutgers.edu/~zeilberg/quotes.html).

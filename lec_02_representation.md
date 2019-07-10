@@ -86,8 +86,8 @@ We now show how we can represent natural numbers as binary strings.
 Over the years people have represented numbers in a variety of ways, including Roman numerals, tally marks, our own Hindu-Arabic  decimal system, and many others.
 We can use any one of those as well as many others to represent a number as a string (see [bitmapdigitsfig](){.ref}).
 However, for the sake of concreteness,  we use the _binary basis_ as our default representation of natural numbers as strings.
-For example, we represent the number six as the string $110$ since $1\cdot 2^{2} + 1 \cdot 2^1 + 0 \cdot 2^0 = 6$, and similarly we represent the number thirty-five as the string $y = 100011$ which satisfies $\sum_{i=0}^5 y_i \cdot 2^{|y|-i} = 35$.^[We could have equally well reversed the order so as to represent $35$ by the string $y'=110001$ satisfying $\sum_{i=0}^5 y'_i\cdot 2^i = 35$.
-Such low level choices will not make a difference in this course. A related (though not identical) distinction is the [Big Endian vs. Little Endian](https://betterexplained.com/articles/understanding-big-and-little-endian-byte-order/) representation for integers in computing architectures.]
+For example, we represent the number six as the string $110$ since $1\cdot 2^{2} + 1 \cdot 2^1 + 0 \cdot 2^0 = 6$, and similarly we represent the number thirty-five as the string $y = 100011$ which satisfies $\sum_{i=0}^5 y_i \cdot 2^{|y|-i} = 35$.^[We could have equally well reversed the order so as to represent $35$ by the string $y'=110001$ satisfying $\sum_{i=0}^5 y'_i\cdot 2^i = 35$. This is related to the [Big Endian vs. Little Endian](https://betterexplained.com/articles/understanding-big-and-little-endian-byte-order/) representations for integers in computing architectures. Similarly we choose to represent the number zero as the empty string, though we could have equally well represented it using the length-one string $0$.  
+Such low level choices will not make a difference in this book.]
 Some more examples are given in the table below.
 
 
@@ -107,7 +107,7 @@ Some more examples are given in the table below.
 | 389                                 | 110000101                          |
 | 3750                                | 111010100110                       |
 
-Table: Representing numbers in the binary basis. The lefthand column contains representations of natural numbers in the decimal basis, while the righthand column contains representations of the same numbers in the binary basis. [We choose to represent the number zero as the empty string, though we could have equally well represented it using the length-one string $0$. Such choices will not make much difference in this book.]
+Table: Representing numbers in the binary basis. The lefthand column contains representations of natural numbers in the decimal basis, while the righthand column contains representations of the same numbers in the binary basis. 
 
 If $n$ is even, then the least significant digit of $n$'s binary representation is $0$, while if $n$ is odd then this digit equals $1$.
 Just like the number $\floor{n/10}$ corresponds to "chopping off" the least significant decimal digit (e.g., $\floor{457/10}=\floor{45.7}=45$), the number $\floor{n/2}$ corresponds to the "chopping off" the least significant _binary_ digit.
@@ -117,7 +117,7 @@ $$NtS(n) = \begin{cases}
             \text{""}    &  n=0 \\
             NtS(\floor{n/2}) parity(n) & n>0
 \end{cases} \label{ntseq}$$
-where $parity:\N \rightarrow \{\text{"0"},\text{"1"}\}$ is the function defined as $parity(n)=\text{"0"}$ if $n$ is even and $parity(n)=\text{"1"}$ if $n$ is odd.
+where $parity:\N \rightarrow \{0,1\}$  is the function defined as $parity(n)=0$ if $n$ is even and $parity(n)=1$ if $n$ is odd, and as usual, for strings $x,y \in \{0,1\}^*$, $xy$ denotes the concatenation of $x$ and $y$.
 The function $NtS$ is defined _recursively_: for every $n>0$ we define $rep(n)$ in terms of the representation of the smaller number $\floor{n/2}$. 
 It is also possible to define $NtS$ non-recursively, see [binaryrepex](){.ref}.
 
@@ -312,8 +312,7 @@ The use of floating representation is the reason why in many programming systems
 The reader might be (rightly) worried about the fact that the floating point representation (or the rational number one) can only _approximately_ represent real numbers.
 In many (though not all) computational applications, one can make the accuracy tight enough so that this does not affect the final result, though sometimes we do need to be careful.
 Indeed, floating-point bugs can sometimes be no joking matter.
-Floating point rounding errors have been implicated in the [failure](http://embeddedgurus.com/barr-code/2014/03/lethal-software-defects-patriot-missile-failure/) of a U.S. Patriot missile to intercept an Iraqi Scud missile, costing 28 lives.
-Floating point is [often problematic](http://www.theregister.co.uk/2006/08/12/floating_point_approximation/) in financial applications as well.
+Floating point rounding errors have been implicated in the [failure](http://embeddedgurus.com/barr-code/2014/03/lethal-software-defects-patriot-missile-failure/) of a U.S. Patriot missile to intercept an Iraqi Scud missile, costing 28 lives, the [explosion](http://sunnyday.mit.edu/accidents/Ariane5accidentreport.html) of the Ariane 5 rocket, and a 100 million pound error in computing [payouts to British pensioners](https://catless.ncl.ac.uk/Risks/5/74).
 
 
 
@@ -546,7 +545,7 @@ Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$. If
 When showing a representation scheme for rational numbers, we used the "hack" of encoding the alphabet $\{ 0,1, \|\}$  to represent tuples of strings as a single string.
 This is a special case of the general paradigm of _prefix-free_ encoding.
 The idea is the following: if our representation has the property that no string $x$ representing an object $o$ is a _prefix_ (i.e., an initial substring) of a string $y$ representing a different object $o'$, then we can represent a _lists_ of objects by merely concatenating the representations of all the list members.
-For example, because in English every sentence ends with a punctuation mark such as a period, exclamation, or question mark, we can represent a list of sentences (i.e., a paragraph) by merely concatenating the sentences one after the other (although, this doesn't quite work in English since sentences, e.g., this one, can have multiple periods).
+For example, because in English every sentence ends with a punctuation mark such as a period, exclamation, or question mark, no sentence can be a prefix of another and so we can represent a list of sentences by merely concatenating the sentences one after the other.^[English has some complications such as periods used for abbreviations (e.g., "e.g.") or sentence quotes containing punctuation, but high level point of a prefix-free representation for setnences still holds.]
 
 It turns out that we can transform _every_ representation to a prefix-free form.
 This justifies [representtuplesidea](){.ref}, and allows us to transform a representation scheme for objects of a type $T$ to a representation scheme of _lists_ of objects of the type $T$.
@@ -575,7 +574,7 @@ $$
 
 
 > ### { .pause }
-[prefixfreethm](){.ref} is an example of a that is a little hard to parse, but in fact is fairly straightforward to prove once you understand what it means.
+[prefixfreethm](){.ref} is an example of a  theorem that is a little hard to parse, but in fact is fairly straightforward to prove once you understand what it means.
 Therefore, I highly recommend that you pause here to make sure you understand the statement of this theorem. You should also try to prove it on your own before proceeding further.
 
 
@@ -877,7 +876,7 @@ Here are some examples:
 
 * Given (a representation) of two integers $x,y$, compute the product $x\times y$. Using our representation above, this corresponds to computing a function from $\{0,1\}^*$ to $\{0,1\}^*$. We have seen that there is more than one way to solve this computational task, and in fact, we still do not know the best algorithm for this problem.
 
-* Given (a representation of) an integer $z$ greater than $1$, compute its _factorization_; i.e., the list of primes $p_1 \leq \cdots \leq p_k$ such that $z = p_1\cdots p_k$.  This again corresponds to computing a function from $\{0,1\}^*$ to $\{0,1\}^*$. The gaps in our knowledge of the complexity of this problem are even larger.
+* Given (a representation of) an integer $z>1$, compute its _factorization_; i.e., the list of primes $p_1 \leq \cdots \leq p_k$ such that $z = p_1\cdots p_k$.  This again corresponds to computing a function from $\{0,1\}^*$ to $\{0,1\}^*$. The gaps in our knowledge of the complexity of this problem are even larger.
 
 * Given (a representation of) a graph $G$ and two vertices $s$ and $t$, compute the length of the shortest path in $G$ between $s$ and $t$, or do the same for the _longest_ path (with no repeated vertices) between $s$ and $t$. Both these tasks correspond to computing a function from $\{0,1\}^*$ to $\{0,1\}^*$, though it turns out that there is a vast difference in their computational difficulty.
 
