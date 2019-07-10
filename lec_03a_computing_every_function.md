@@ -69,7 +69,7 @@ Enumerating the examples of such  syntactic sugar transformations can be a littl
 
 ### User-defined procedures
 
-One staple of almost any programming language is the ability to define and then execute _procedures_ or _subroutine_.
+One staple of almost any programming language is the ability to define and then execute _procedures_ or _subroutines_.
 (These are often  known as _functions_ in some programming languages, but we prefer the names _procedures_ 
 to avoid confusion with the function that a program computes.)
 The NAND-CIRC programming language does not have this mechanism built in.
