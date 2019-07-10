@@ -803,7 +803,7 @@ Two models are _equivalent in power_ if they can be used to compute the same set
 
 ### More examples of NAND circuits (optional)
 
-Here are some more sophisticated examples of NAND circuits
+Here are some more sophisticated examples of NAND circuits:
 
 
 __Incrementing integers.__ Consider the task of computing, given as input a string $x\in \{0,1\}^n$ that represents a natural number $X\in \N$, the representation of $X+1$.
@@ -934,7 +934,7 @@ Our [GitHub repository](https://github.com/boazbk/tcscode) contains a "proof by 
 
 
 > ### {.remark title="Is the NAND-CIRC programming language Turing Complete? (optional note)" #NANDturingcompleteness}
-You might have heard of a term called "Turing Complete" that is sometimes used to describe programming languages. (If you haven't, feel free to ignore the rest of this remark: we will encounter this term in [chapequivalentmodels](){.ref} where we will define it precisely.)
+You might have heard of a term called "Turing Complete" that is sometimes used to describe programming languages. (If you haven't, feel free to ignore the rest of this remark: we define this term precisely in [chapequivalentmodels](){.ref}.)
 If so, you might wonder if the NAND-CIRC programming language has this property.
 The answer is __no__, or perhaps more accurately, the term "Turing Completeness" is not really applicable for the NAND-CIRC programming language.
 The reason is that, by design, the NAND-CIRC programming language can only compute _finite_ functions $F:\{0,1\}^n \rightarrow \{0,1\}^m$ that take a fixed number of input bits and produce a fixed number of outputs bits.
@@ -972,7 +972,7 @@ We omit the formal proof, which is obtained by combining [slcircuitequivthm](){.
 We can consider even more general models of computation, where instead of AND/OR/NOT or NAND, we use other operations (see [othergatessec](){.ref} below).
 It turns out that Boolean circuits are equivalent in power to such models as well.
 The fact that all these different ways to define computation lead to equivalent models shows that we are "on the right track".
-It justifies the seemingly arbitrary choices that we've made of using AND/OR/NOT or NAND as our basic operations, since these choices do not affect the computational model of our power.
+It justifies the seemingly arbitrary choices that we've made of using AND/OR/NOT or NAND as our basic operations, since these choices do not affect the power of our computational model.
 Equivalence results such as [equivalencemodelsthm](){.ref} mean that we can easily translate between Boolean circuits, NAND circuits, NAND-CIRC programs and the like.
 We will use this ability later on in this book, often shifting to the most convenient formulation without making a big deal about it.
 Hence we will not worry too much about the distinction between, for example, Boolean circuits and NAND-CIRC programs.
@@ -996,7 +996,7 @@ An _$\mathcal{F}$ program_ is a sequence of lines, each of which assigns to some
 We say that $\mathcal{F}$ is a _universal set of operations_ (also known as a universal gate set) if there exists a $\mathcal{F}$ program to compute the function $NAND$.
 :::
 
-AON-CIRC programs correspond to $\{AND,OR,NOT\}$ programs, NAND-CIRC programs corresponds to $\mathcal{F}$ programs for the set  $\mathcal{F}$ that only contains the $NAND$ function,   but we can also define  $\{ XOR,0,1\}$ programs, or use any other set.
+AON-CIRC programs correspond to $\{AND,OR,NOT\}$ programs, NAND-CIRC programs corresponds to $\mathcal{F}$ programs for the set  $\mathcal{F}$ that only contains the $NAND$ function,   but we can also define  $\{ IF, ZERO, ONE\}$ programs (see below), or use any other set.
 
 We can also define _$\mathcal{F}$ circuits_, which will be directed graphs in which the _gates_ corresponds to applying a function $f_i \in \mathcal{F}$, and will each have $k_i$ incoming wires and a single outgoing wire. (If the function $f_i$ is not _symmetric_, in the sense that the order of its input matters then we need to label each wire entering a gate as to which parameter of the function it corresponds to.)
 As in [slcircuitequivthm](){.ref}, we can show that $\mathcal{F}$ circuits and $\mathcal{F}$ programs are equivalent.
