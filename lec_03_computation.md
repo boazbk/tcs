@@ -674,7 +674,7 @@ Generally, a neural network is often described as operating on signals that are 
 However, for the purposes of our discussion, all of the above are equivalent (see also [NANDsfromActivationfunctionex](){.ref}).
 In particular we can reduce the setting of real inputs to binary inputs by representing a real number in the binary basis, and multiplying the weight of the bit corresponding to the $i^{th}$ digit by $2^i$.
 
-![Common activation functions used in Neural Networks, including rectified linear units (ReLU), sigmoids, and hyperbolic tangent. All of those can be thought of as continuous approximations to simple the step function. All of these can be used to compute the NAND gate (see [NANDsfromActivationfunctionex](){.ref}). This property is often known as the _universality_ of neural networks.](../figure/activationfuncs.png){#activationfunctionsfig .margin }
+![Common activation functions used in Neural Networks, including rectified linear units (ReLU), sigmoids, and hyperbolic tangent. All of those can be thought of as continuous approximations to simple the step function. All of these can be used to compute the NAND gate (see [NANDsfromActivationfunctionex](){.ref}). This property enables neural networks to (approximately) compute any function that can be computed by a Boolean circuit.](../figure/activationfuncs.png){#activationfunctionsfig .margin }
 
 
 ### A computer made from marbles and pipes
