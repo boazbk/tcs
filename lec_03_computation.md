@@ -1015,7 +1015,7 @@ $$
 :::
 
 
-There are also some sets $\mathcal{F}$ that are more restricted in power, for example it can be shown that if we use only AND or OR gates (without NOT) then we do _not_ get an equivalent model of comutation.
+There are also some sets $\mathcal{F}$ that are more restricted in power. For example it can be shown that if we use only AND or OR gates (without NOT) then we do _not_ get an equivalent model of computation.
 The exercises cover several examples of universal and non-universal gate sets.
 
 
@@ -1024,7 +1024,7 @@ The exercises cover several examples of universal and non-universal gate sets.
 ![It is crucial to distinguish between the _specification_ of a computational task, namely _what_ is the function that is to be computed and the _implementation_ of it, namely the algorithm, program, or circuit that contains the instructions _how_ to map and input to an output. The same function could be computed in many different ways.](../figure/specvsimpl.png){#specvsimplfig }
 
 
-As we discused in [secimplvsspec](){.ref}, one of the most important distinctions in this book is that of _specification_ versus _implementation_ or separating "what" from "how", see [specvsimplfig](){.ref}.
+As we discused in [secimplvsspec](){.ref}, one of the most important distinctions in this book is that of _specification_ versus _implementation_ or separating "what" from "how" (see [specvsimplfig](){.ref}).
 A _function_ corresponds to the _specification_ of a computational task, that is _what_ output should be produced for every particular input.
 A _program_ (or circuit, or any other way to specify _algorithms_) corresponds to the _implementation_ of _how_ to compute the desired output from the input.
 That is, a program is a set of instructions how to compute the output from the input.
@@ -1040,7 +1040,7 @@ However, in both the theory and practice of computer science, it is important to
 * One candidate definition for "elementary" operations is the set $AND$, $OR$ and $NOT$.
 * Another candidate definition for an "elementary" operation is the $NAND$ operation. It is an operation that is easily implementable in the physical world in a variety of methods including by electronic transistors.
 * We can use $NAND$ to compute many other functions, including majority, increment, and others.
-* There are other equivalent choices, including the sets $\{AND,OR,NOT\}$ abd $\{ IF, ZERO, ONE \}$.
+* There are other equivalent choices, including the sets $\{AND,OR,NOT\}$ and $\{ IF, ZERO, ONE \}$.
 * We can formally define the notion of a function $F:\{0,1\}^n \rightarrow \{0,1\}^m$ being computable using the _NAND-CIRC Programming language_.
 * For every set of basic operations, the notions of being computable by a circuit and being computable by a straight-line program are equivalent.
 
