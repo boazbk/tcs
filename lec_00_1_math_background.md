@@ -1194,5 +1194,5 @@ One way to relate these two notions is to identify every function $f:A \rightarr
 If the function $f$ is _onto_ then every vertex in $B$ has in-degree at least one.
 If $f$ is a bijection then every vertex in $B$ has in-degree exactly equal to one.
 
+Carl Pomerance's quote is taken from [tthe home page of Doron Zeilberger](http://sites.math.rutgers.edu/~zeilberg/quotes.html).
 
-Pomerance's quote is taken from [Doron Zeilberger's page](http://sites.math.rutgers.edu/~zeilberg/quotes.html).
