@@ -59,6 +59,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Hikari Sorensen
 * David Steurer
 * Alec Sun
+* Amol Surati
 * Everett Sussman
 * Marika Swanberg
 * Garrett Tanzer

@@ -354,7 +354,7 @@ We say that two vertices $u,v \in V$ are _neighbors_, if the edge $\{u,v\}$ is i
 
 Given this definition, we can define several other properties of graphs and their vertices.
 We define the _degree_ of $u$ to be the number of neighbors $u$ has.
-A _path_ in the graph is a tuple $(u_0,\ldots,u_k) \in V^k$, for some $k>0$ such that $u_{i+1}$ is a neighbor of $u_i$ for every $i\in [k]$.
+A _path_ in the graph is a tuple $(u_0,\ldots,u_k) \in V^{k+1}$, for some $k>0$ such that $u_{i+1}$ is a neighbor of $u_i$ for every $i\in [k]$.
 A _simple path_ is a path $(u_0,\ldots,u_{k-1})$ where all the $u_i$'s are distinct.
 A _cycle_ is a path $(u_0,\ldots,u_k)$ where $u_0=u_{k}$.
 We say that two vertices $u,v\in V$ are _connected_ if either $u=v$ or there is a path from $(u_0,\ldots,u_k)$ where $u_0=u$ and $u_k=v$.
@@ -419,7 +419,7 @@ If the edge $u \rightarrow v$ is present in the graph then we say that $v$ is an
 
 A directed graph might contain both $u \rightarrow v$ and $v \rightarrow u$  in which case $u$ will be both an in-neighbor and an out-neighbor of $v$ and vice versa.
 The _in-degree_ of $u$ is the number of in-neighbors it has, and the _out-degree_ of $v$ is the number of out-neighbors it has.
-A _path_ in the graph is a tuple $(u_0,\ldots,u_k) \in V^k$, for some $k>0$ such that $u_{i+1}$ is an out-neighbor of $u_i$ for every $i\in [k]$.
+A _path_ in the graph is a tuple $(u_0,\ldots,u_k) \in V^{k+1}$, for some $k>0$ such that $u_{i+1}$ is an out-neighbor of $u_i$ for every $i\in [k]$.
 As in the undirected case, a _simple path_ is a path $(u_0,\ldots,u_{k-1})$ where all the $u_i$'s are distinct and a _cycle_ is a path $(u_0,\ldots,u_k)$ where $u_0=u_{k}$.
 One type of directed graphs we often care about is _directed acyclic graphs_ or _DAGs_, which, as their name implies, are directed graphs without any cycles:
 
@@ -776,7 +776,7 @@ In his [manuscript](https://lamport.azurewebsites.net/pubs/proof.pdf) he propose
 
 * The proof for each claim is itself a sequence of subclaims.
 
-The advantage of Lamport's format is that it is very clear for every sentence in the proof what is the role that it plays.
+The advantage of Lamport’s format is that the role that every sentence in the proof plays is very clear.
 It is also much easier to transform such proofs into machine-checkable forms.
 The disadvantage is that such proofs can be tedious to read and write, with less differentiation between the important parts of the arguments versus the more routine ones.
 :::
@@ -888,14 +888,12 @@ Thus it will suffice to prove the following: _for every $n>0$, if $Q(n-1)$ is tr
 To do so, we need to somehow find a way, given a graph $G$ of $n$ vertices, to reduce the task of finding a layering for $G$ into the task of finding a layering for some other graph $G'$ of $n-1$ vertices.
 The idea is that we will find a _source_ of $G$: a vertex $v$ that has no in-neighbors. We can then assign to $v$ the layer $0$, and layer the remaining vertices using the inductive hypothesis in layers $1,2,\ldots$.
 
-The above is the intuition behind the proof, but when writing the proof,   we use the benefit of hindsight, and try to streamline what was a messy journey into a linear and easy-to-follow flow of logic that starts with the word __"Proof:"__ and ends with __"QED"__ or the symbol $\blacksquare$.^[QED stands for "quod erat demonstrandum", which is Latin for "what was to be demonstrated" or "the very thing it was required to have shown".]
-All our discussions, examples and digressions can be very insightful, but we keep them outside the space delimited between these two words, where (as described by this [excellent handout](http://web.stanford.edu/class/cs103/handouts/120%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
+The above is the intuition behind the proof of [acyclictosortlem](){.ref}, but when writing the formal proof below, we use the benefit of hindsight, and try to streamline what was a messy journey into a linear and easy-to-follow flow of logic that starts with the word __"Proof:"__ and ends with __"QED"__ or the symbol $\blacksquare$.^[QED stands for "quod erat demonstrandum", which is Latin for "what was to be demonstrated" or "the very thing it was required to have shown".]
+Discussions, examples and digressions can be very insightful, but we keep them outside the space delimited between these two words, where (as described by this [excellent handout](http://web.stanford.edu/class/cs103/handouts/120%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
 Just like we do in programming, we can break the proof into little "subroutines" or "functions" (known as _lemmas_ or _claims_ in math language), which will be smaller statements that help us prove the main result.
-However, it should always be crystal-clear to the reader in what stage we are of the proof.
-Just like it should always be clear to which function a line of code belongs to, it should always be clear whether an individual sentence is part of a proof of some intermediate result, or is part of the argument showing that this intermediate result implies the theorem.
-Sometimes we highlight this partition by noting after each occurrence of __"QED"__ to which lemma or claim it belongs.
-
-We now present the formal proof.
+However, the proof should be structured in a way that ensures that it is always crystal-clear to the reader in what stage we are of the proof.
+The reader should be able to tell what is the role of every sentence in the proof and which part it belongs to.
+We now present the formal proof of [acyclictosortlem](){.ref}.
 
 
 ::: {.proof data-ref="acyclictosortlem"}
