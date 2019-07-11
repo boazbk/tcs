@@ -252,7 +252,7 @@ If we were using a pen and paper, we would just use a separator symbol such as  
 In other words, there is a one to one map $F$ from _pairs of strings_ $x,y \in \{0,1\}^*$ into a single string $z$ over the alphabet   $\Sigma = \{0,1,\| \}$ (in other words, $z\in \Sigma^*$).
 Using such separators is similar to the way we use spaces and punctuation to separate words in English.
 By adding a little redundancy, we achieve the same effect in the digital domain.
-We can (inefficiently) map the three element set $\Sigma$ to the three element set of length-2 binary strings, $\{00,11,01 \}$, in a one-to-one fashion, and hence encode a length $n$ string $z\in \Sigma^*$  as a length $2n$ string $w\in \{0,1\}^*$.
+We can map the three-element set $\Sigma$ to the three-element set $\{00,11,01 \} \subset \{0,1\}^2$ in a one-to-one fashion, and hence encode a length $n$ string $z\in \Sigma^*$  as a length $2n$ string $w\in \{0,1\}^*$.
 
 
 Our final representation for rational numbers is obtained by composing the following steps:
@@ -313,7 +313,7 @@ The use of floating representation is the reason why in many programming systems
 The reader might be (rightly) worried about the fact that the floating point representation (or the rational number one) can only _approximately_ represent real numbers.
 In many (though not all) computational applications, one can make the accuracy tight enough so that this does not affect the final result, though sometimes we do need to be careful.
 Indeed, floating-point bugs can sometimes be no joking matter.
-Floating point rounding errors have been implicated in the [failure](http://embeddedgurus.com/barr-code/2014/03/lethal-software-defects-patriot-missile-failure/) of a U.S. Patriot missile to intercept an Iraqi Scud missile, costing 28 lives, the [explosion](http://sunnyday.mit.edu/accidents/Ariane5accidentreport.html) of the Ariane 5 rocket, and a 100 million pound error in computing [payouts to British pensioners](https://catless.ncl.ac.uk/Risks/5/74).
+For example, dloating point rounding errors have been implicated in the   [failure](http://embeddedgurus.com/barr-code/2014/03/lethal-software-defects-patriot-missile-failure/) of a U.S. Patriot missile to intercept an Iraqi Scud missile, costing 28 lives, as well as a 100 million pound error in computing [payouts to British pensioners](https://catless.ncl.ac.uk/Risks/5/74).
 
 
 
