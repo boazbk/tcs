@@ -646,7 +646,7 @@ The human ear contains many small hairs, each of which is sensitive to a narrow 
 Hence when we hear the sound corresponding to a chord, the hairs in our ears actually separate it out to the components corresponding to each frequency.
 
 
-![Left: The air-pressure when playing a "C Major" chord as a function of time. Right: The coefficients of the Fourier transform of the same function, we can see that it is the sum of three freuencies corresponding to the C, E and G notes (261.63, 329.63 and 392 Hertz respectively). Credit: Bjarke Mønsted's [Quora answer](https://www.quora.com/What-is-the-meaning-of-frequency-domain). ](../figure/timefreq.png){#timefreqfig .margin  }
+![Left: The air-pressure when playing a "C Major" chord as a function of time. Right: The coefficients of the Fourier transform of the same function, we can see that it is the sum of three frequencies corresponding to the C, E and G notes (261.63, 329.63 and 392 Hertz respectively). Credit: Bjarke Mønsted's [Quora answer](https://www.quora.com/What-is-the-meaning-of-frequency-domain). ](../figure/timefreq.png){#timefreqfig .margin  }
 
 It turns out that (essentially) _every_ periodic function $f:\R \rightarrow \R$ can be decomposed into a sum of simple _wave_ functions (namely functions of the form $x \mapsto \sin(\theta x)$ or $x \mapsto \cos(\theta x)$).
 This is known as the [Fourier Transform](https://en.wikipedia.org/wiki/Fourier_transform) (see [qfourierfig](){.ref}).

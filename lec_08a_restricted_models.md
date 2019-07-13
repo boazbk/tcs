@@ -473,7 +473,7 @@ Therefore in this case $F^0_{v,w}$ corresponds to one of the four regular expres
 
 
 __Inductive step:__ Now that we've seen the base case, let's prove the general case by induction.
-Asssume, via the induction hypothesis, that for every $v',w' \in [C]$, we have a regular expression $R_{v,w}^t$ that computes $F_{v',w'}^t$.
+Assume, via the induction hypothesis, that for every $v',w' \in [C]$, we have a regular expression $R_{v,w}^t$ that computes $F_{v',w'}^t$.
 We need to prove that $F_{v,w}^{t+1}$ is regular for every $v,w$.
 If the automaton arrives from $v$ to $w$ using the intermediate states $[t+1]$, then it visits the $t$-th state zero or more times.
 If the path labeled by $x$ causes the automaton to get from $v$ to $w$ without visiting the $t$-th state at all, then $x$ is matched by the regular expression $R_{v,w}^t$.
@@ -644,7 +644,7 @@ For example, we can tell whether two regular expressions are _equivalent_, as we
 There is an algorithm that given a regular expression $e$, outputs $1$ if and only if $\Phi_{e}$ is the constant zero function.
 
 > ### {.proofidea data-ref="regemptynessthm"}
-The idea is that we can directly observe this from the structure of the expression. The only way a regular expression $e$ conmputes  the constant zero function is if $e$ has the form $\emptyset$ or is obtained by concatenating $\emptyset$ with other expressions.
+The idea is that we can directly observe this from the structure of the expression. The only way a regular expression $e$ computes  the constant zero function is if $e$ has the form $\emptyset$ or is obtained by concatenating $\emptyset$ with other expressions.
 
 ::: {.proof data-ref="regemptynessthm"}
 Define a regular expression to be "empty" if it computes the constant zero function.
@@ -936,7 +936,7 @@ Thus by the definition of the grammar, we can repeat the derivation to replace t
 
 Using [cfgpumping](){.ref} one can show that even the simple function $F:\{0,1\}^* \rightarrow \{0,1\}$ defined as follows:
 $$F(x) = \begin{cases}1 & x =ww \text{ for some } w\in \{0,1\}^* \\ 0 & \text{otherwise} \end{cases}$$
-is not contaxt free.
+is not context free.
 (In contrast, the function $G:\{0,1\}^* \rightarrow \{0,1\}$ defined as $G(x)=1$ iff $x=w_0w_1\cdots w_{n-1}w_{n-1}w_{n-2}\cdots w_0$ for some  $w\in \{0,1\}^*$ and $n=|w|$ is context free, can you see why?.)
 
 ::: {.solvedexercise title="Equality is not context-free" #equalisnotcfg}

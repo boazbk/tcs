@@ -1127,7 +1127,7 @@ Recall that for every set $S$, the set $S^*$ is defined as the set of all finite
 
 The study of representing data as strings, including issues such as _compression_ and _error corrections_ falls under the purview of _information theory_, as covered in the classic textbook of Cover and Thomas [@CoverThomas06].
 Representations are also studied in the field of _data structures design_, as covered in texts such as  [@CLRS].
-The two's complement representation of signed integers was suggested in von Neumman's classic report [@vonNeumann45] that detailed the design approaches for a stored-program computer, though similar representations have been used even earlier in abacus and other mechanical computation devices.
+The two's complement representation of signed integers was suggested in von Neumann's classic report [@vonNeumann45] that detailed the design approaches for a stored-program computer, though similar representations have been used even earlier in abacus and other mechanical computation devices.
 
 
 

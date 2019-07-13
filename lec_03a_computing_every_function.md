@@ -282,7 +282,7 @@ Using such transformations, we can prove the following theorem.
 Once again we omit the (not too insightful) full formal proof, though see [conditionalsugarthmex](){.ref} for some hints on how to obtain it.
 
 > ### {.theorem title="Conditional statements synctatic sugar" #conditionalsugarthm }
-Let NAND-CIRC-IF be the programming language NAND-CIRC augmented with `if`/`then`/`else` statements for allowing code to be conditionally executed based on whether a veriable is equal to $0$ or $1$.  
+Let NAND-CIRC-IF be the programming language NAND-CIRC augmented with `if`/`then`/`else` statements for allowing code to be conditionally executed based on whether a variable is equal to $0$ or $1$.  
 Then for every NAND-CIRC-IF program $P$, there exists a standard (i.e., "sugar free") NAND-CIRC program $P'$ that computes the same function as $P$.
 
 
@@ -507,7 +507,7 @@ Table: An example of a function $G:\{0,1\}^4 \rightarrow \{0,1\}$. {#tablefuncti
 
 
 
-For every $x\in \{0,1\}^4$, $G(x)=LOOKUP_4(1100100100001111,x)$, and so the following is NAND-CIRC "pseudocode"  to compute $G$ using synctactic sugar for the `LOOKUP_4` procedure.
+For every $x\in \{0,1\}^4$, $G(x)=LOOKUP_4(1100100100001111,x)$, and so the following is NAND-CIRC "pseudocode"  to compute $G$ using syntactic sugar for the `LOOKUP_4` procedure.
 
 
 ```python
@@ -735,7 +735,7 @@ at the very end to obtain a program $P'$ that computes $1-f$.
 
 
 ::: {.exercise title="Pairing" #embedtuples-ex}
-This exercise asks you to give a one-to-one map from $\N^2$ to $\N$. This can be useful to implement two-dimensional arrays as "syntacic sugar" in programming languages that only have one-dimensional array.
+This exercise asks you to give a one-to-one map from $\N^2$ to $\N$. This can be useful to implement two-dimensional arrays as "syntactic sugar" in programming languages that only have one-dimensional array.
 
 1. Prove that the map $F(x,y)=2^x3^y$ is a one-to-one map from $\N^2$ to $\N$.
 
@@ -763,7 +763,7 @@ where $MAJ(a,b,c) = 1$ iff $a+b+c \geq 2$.
 ::: ### {.exercise title="Conditional statements" #conditionalsugarthmex}
 In this exercise we will explore [conditionalsugarthm](){.ref}: transforming NAND-CIRC-IF programs that use code such as `if .. then .. else ..` to standard NAND-CIRC programs.
 
-1. Give a "proof by code" of [conditionalsugarthm](){.ref}: a program in a programming language of your choice that transforms a NAND-CIRC-IF program $P$ into a "sugar free" NAND-CIRC program $P'$ that computes the same function.^[_Hint:_ You can start by transforming $P$ into a NAND-CIRC-PROC program that uses procedure statments, and then use the code of [desugarcode](){.ref} to transform the latter into a "sugar free" NAND-CIRC program.] 
+1. Give a "proof by code" of [conditionalsugarthm](){.ref}: a program in a programming language of your choice that transforms a NAND-CIRC-IF program $P$ into a "sugar free" NAND-CIRC program $P'$ that computes the same function.^[_Hint:_ You can start by transforming $P$ into a NAND-CIRC-PROC program that uses procedure statements, and then use the code of [desugarcode](){.ref} to transform the latter into a "sugar free" NAND-CIRC program.] 
 
 2. Prove the following statement, which is the heart of  [conditionalsugarthm](){.ref}: suppose that there exists an $s$-line NAND-CIRC program to compute $f:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND-CIRC program to compute $g:\{0,1\}^n \rightarrow \{0,1\}$.
 Prove that there exist a NAND-CIRC program of at most $s+s'+10$ lines to compute the function $h:\{0,1\}^{n+1} \rightarrow \{0,1\}$ where $h(x_0,\ldots,x_{n-1},x_n)$ equals $f(x_0,\ldots,x_{n-1})$ if $x_n=0$ and equals $g(x_0,\ldots,x_{n-1})$ otherwise. (All programs in this item are standard "sugar-free" NAND-CIRC programs.)
@@ -863,7 +863,7 @@ See Jukna's and Wegener's books [@Jukna12, @wegener1987complexity] for much more
 Shannon showed that every Boolean function can be computed by a circuit of exponential size [@Shannon1938]. The improved bound of $c \cdot 2^n/n$ (with the optimal value of $c$ for many bases) is due to Lupanov [@Lupanov1958]. An exposition of this for the case of NAND is given in Chapter 4 of his   book [@lupanov1984].
 (Thanks to Sasha Golovnev for tracking down this reference!)
 
-The concept of "synctatic sugar" is also known as "macros" or "meta-programming" and is sometimes implemented via a preprocessor or macro language in a programming language or a text editor. One modern example is the [Babel](https://babeljs.io/) JavaScript syntax transformer, that converts JavaScript programs written using the latest features into a format that older Browsers can accept. It even has a [plug-in](https://babeljs.io/docs/plugins/) architecture, that allows users to add their own syntactic sugar to the language.
+The concept of "syntactic sugar" is also known as "macros" or "meta-programming" and is sometimes implemented via a preprocessor or macro language in a programming language or a text editor. One modern example is the [Babel](https://babeljs.io/) JavaScript syntax transformer, that converts JavaScript programs written using the latest features into a format that older Browsers can accept. It even has a [plug-in](https://babeljs.io/docs/plugins/) architecture, that allows users to add their own syntactic sugar to the language.
 We mentioned that almost all programming language support user-defined functions, but one notable exception is the original version of the FORTRAN programming language, developed in the early 1950's. This was however quickly added in FORTRAN II, released in 1958.
 
 

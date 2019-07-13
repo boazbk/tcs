@@ -33,7 +33,7 @@ same number of possible keys."_, Claude Shannon, 1945
 
 
 Cryptography - the art or science of "secret writing" - has been around for
-several millenia, and for almost all of that time Edgar Allan Poe's quote above
+several millennia, and for almost all of that time Edgar Allan Poe's quote above
 held true. Indeed, the history of cryptography is littered with the figurative
 corpses of cryptosystems believed secure and then broken, and sometimes with the
 actual corpses of those who have mistakenly placed their faith in these
@@ -122,7 +122,7 @@ Using the information she provided, the Brits were able to feed the Germans with
 
 In the words of General Eisenhower, the intelligence from Bletchley park was of "priceless value".
 It made a huge difference for the Allied war effort,  thereby shortening World War II and saving millions of lives.
-See also [this inteview with Sir Harry Hinsley](http://www.cix.co.uk/~klockstone/hinsley.htm).
+See also [this interview with Sir Harry Hinsley](http://www.cix.co.uk/~klockstone/hinsley.htm).
 
 
 [^enigma_exercise]: Here is a nice exercise: compute (up to an order of magnitude) the probability that a 50-letter long message composed of random letters will end up not containing the letter "L".
@@ -405,7 +405,7 @@ $$
 
 > ### { .pause }
 [compsecdef](){.ref} requires a second or third read and some practice to truly understand.
-One excellent exercise to make sure you follow it is to see that if we allow $P$ to be an _arbitrary_ function mapping $\{0,1\}^{m(n)}$ to $\{0,1\}$, and we replace the condition in [eqindist](){.eqref} that the lefhand side is smaller than $\tfrac{1}{p(L(n))}$ with the condition that it is equal to $0$ then we get the perfect secrecy condition of [perfectsecrecy](){.ref}.
+One excellent exercise to make sure you follow it is to see that if we allow $P$ to be an _arbitrary_ function mapping $\{0,1\}^{m(n)}$ to $\{0,1\}$, and we replace the condition in [eqindist](){.eqref} that the lefthand side is smaller than $\tfrac{1}{p(L(n))}$ with the condition that it is equal to $0$ then we get the perfect secrecy condition of [perfectsecrecy](){.ref}.
 Indeed if the distributions $E_k(x_0)$  and $E_k(x_1)$ are identical then applying any function $P$ to them we get the same expectation.
 On the other hand, if the two distributions above give a different probability for some element $y^*\in \{0,1\}^{m(n)}$, then the function $P(y)$ that outputs $1$ iff $y=y^*$ will have a different expectation under the former distribution than under the latter.
 
@@ -674,7 +674,7 @@ We will discuss quantum computing later in this course.
 
 There is a great deal to cryptography beyond just encryption schemes, and beyond the notion of a passive adversary.
 A central objective is _integrity_ or _authentication_: protecting communications from being modified by an adversary.
-Integerity is often more fundamental than secrecy: whether it is a software update or viewing the news, you might often not care about the communication being secret as much as that it indeed came from its claimed source.
+Integrity is often more fundamental than secrecy: whether it is a software update or viewing the news, you might often not care about the communication being secret as much as that it indeed came from its claimed source.
 _Digital signature schemes_ are the analog of public key encryption for authentication, and are widely used (in particular as the basis for [public key certificates](https://en.wikipedia.org/wiki/Public_key_certificate)) to provide a foundation of trust in the digital world.
 
 Similarly, even for encryption, we often need to ensure security against _active attacks_, and so notions such as non-malleability and [adaptive chosen ciphertext](https://en.wikipedia.org/wiki/Adaptive_chosen-ciphertext_attack) security have been proposed.

@@ -398,7 +398,7 @@ Let $k$ be the shortest length of a path between $u$ and $v$ and let $P=(u_0,u_1
 (That is $u_0=u$, $u_k=v$, and $(u_\ell,u_{\ell+1})\in E$ for all $\ell \in [k]$.)
 We claim that $P$ is simple.
 Indeed, suppose otherwise that there is some vertex $w$ that occurs twice in the path: $w = u_i$ and $w=u_j$ for some $i<j$.
-Then we can "shortcut" the path $P$ by considering the path $P' = (u_0,u_1,\ldots,u_{i-1},w,u_{j+1},\ldots,u_k)$ obtained by taking the first $i$ vertices of $P$ (from $u_0=0$ to the first occurence of $w$) and the last $k-j$ ones (from the vertex $u_{j+1}$ following the second occurence of $w$ to  $u_k=v$).
+Then we can "shortcut" the path $P$ by considering the path $P' = (u_0,u_1,\ldots,u_{i-1},w,u_{j+1},\ldots,u_k)$ obtained by taking the first $i$ vertices of $P$ (from $u_0=0$ to the first occurrence of $w$) and the last $k-j$ ones (from the vertex $u_{j+1}$ following the second occurrence of $w$ to  $u_k=v$).
 The path $P'$ is a valid path between $u$ and $v$ since every consecutive pair of vertices  in it is connected by an edge  (in particular, since $w=u_i=w_j$, both $(u_{i-1},w)$ and $(w,u_{j+1})$ are  edges in $E$), but since the length of $P'$ is  $k-(j-i)<k$, this contradicts the minimality of $P$.
 :::
 
@@ -624,7 +624,7 @@ There are some simple heuristics that can help when trying to compare two functi
 ::: {.remark title="Big $O$ for other applications (optional)" #bigonotime}
 While Big-$O$ notation is often used to analyze running time of algorithms, this is by no means the only application.
 We can use $O$ notation to bound asymptotic relations between any functions mapping integers to positive numbers. It can be used regardless of whether these functions are a measure of running time, memory usage, or any other quantity that may have nothing to do with computation.
-Here is one example which is unrelated to this book (and hence one that you can feel free to skip): one way to state the [Reimann Hypothesis](https://en.wikipedia.org/wiki/Riemann_hypothesis) (one of the most famous open questions in mathematics) is that it corresponds to the conjecture that the number of primers between $0$ and $n$ is equal to $\int_2^n \tfrac{1}{\ln x} dx$ up to an additive error of magnitude at most $O(\sqrt{n}\log n)$.
+Here is one example which is unrelated to this book (and hence one that you can feel free to skip): one way to state the [Riemann Hypothesis](https://en.wikipedia.org/wiki/Riemann_hypothesis) (one of the most famous open questions in mathematics) is that it corresponds to the conjecture that the number of primers between $0$ and $n$ is equal to $\int_2^n \tfrac{1}{\ln x} dx$ up to an additive error of magnitude at most $O(\sqrt{n}\log n)$.
 :::
 
 
@@ -795,7 +795,7 @@ The formal definition is as follows:
 > ### {.definition title="Layering of a DAG" #layeringdef}
 Let $G=(V,E)$ be a directed graph. A _layering_ of $G$ is a function $f:V \rightarrow \N$ such that for every edge $u \rightarrow v$ of $G$, $f(u) < f(v)$.
 
-In this section we prove that a directed graph is acylic if and only if it has a valid layering.
+In this section we prove that a directed graph is acyclic if and only if it has a valid layering.
 
 > ### {.theorem title="Topological Sort" #topologicalsortthm}
 Let $G$ be a directed graph. Then $G$ is acyclic if and only if there exists a layering $f$ of $G$.
@@ -1180,7 +1180,7 @@ The heading "A Mathematician's Apology", refers to Hardy's classic book [@Hardy4
 Even when Hardy is wrong, he is very much worth reading.
 
 There are many online sources for the mathematical background needed for this book. In particular, the lecture notes for MIT 6.042 "Mathematics for Computer Science" [@LehmanLeightonMeyer] are extremely comprehensive, and videos and assignments for this course are available online.
-Similarly, [Berkeley CS 70: "Discrete Mathematics and Probability Theoru"](http://www.eecs70.org/) has extensive lecture notes online.
+Similarly, [Berkeley CS 70: "Discrete Mathematics and Probability Theory"](http://www.eecs70.org/) has extensive lecture notes online.
 
 Other sources for discrete mathematics are Rosen [@Rosen19discrete]  and Jim Aspens' online book [@AspensDiscreteMath].
 Lewis and Zax [@LewisZax19], as well as the online book of Fleck [@Fleck], give a more gentle overview of the much of the same material.
@@ -1194,5 +1194,5 @@ One way to relate these two notions is to identify every function $f:A \rightarr
 If the function $f$ is _onto_ then every vertex in $B$ has in-degree at least one.
 If $f$ is a bijection then every vertex in $B$ has in-degree exactly equal to one.
 
-Carl Pomerance's quote is taken from [tthe home page of Doron Zeilberger](http://sites.math.rutgers.edu/~zeilberg/quotes.html).
+Carl Pomerance's quote is taken from [the home page of Doron Zeilberger](http://sites.math.rutgers.edu/~zeilberg/quotes.html).
 
