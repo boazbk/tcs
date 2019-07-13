@@ -51,7 +51,7 @@ See [computefuncoverviewfig](){.ref} for an outline of the results of this chapt
 
 We now present some examples of "syntactic sugar" transformations that we can use in constructing straightline programs or circuits.
 We focus on the _straight-line programming language_ view of our computational models, and specifically(for the sake of concreteness) on the NAND-CIRC programming language.
-This convenient is because many of the syntactic sugar transformations we present are easiest to think about in terms of applying "search and replace" operations to the source code of a program.
+This is convenient because many of the syntactic sugar transformations we present are easiest to think about in terms of applying "search and replace" operations to the source code of a program.
 However,  by [equivalencemodelsthm](){.ref}, all of our results hold equally well for circuits, whether ones using NAND gates or Boolean circuits that use the  AND, OR, and NOT operations.
 Enumerating the examples of such  syntactic sugar transformations can be a little tedious, but we do it for two reasons:
 
@@ -70,7 +70,7 @@ Enumerating the examples of such  syntactic sugar transformations can be a littl
 ### User-defined procedures
 
 One staple of almost any programming language is the ability to define and then execute _procedures_ or _subroutines_.
-(These are often  known as _functions_ in some programming languages, but we prefer the names _procedures_ 
+(These are often  known as _functions_ in some programming languages, but we prefer the name _procedures_ 
 to avoid confusion with the function that a program computes.)
 The NAND-CIRC programming language does not have this mechanism built in.
 However, we can achieve the same effect using the time honored technique of  "copy and paste".
@@ -93,7 +93,7 @@ proc_code'
 some_more_code
 ```
 
-and where `proc_code'` is obtained by replacing all occurrences of `a` with `d`,`b` with `e`, `c` with `f`.
+and where `proc_code'` is obtained by replacing all occurrences of `a` with `d`, `b` with `e`, and `c` with `f`.
 When doing that we will need to ensure that all other variables appearing in `proc_code'` don't interfere with other variables.
 We can always do so by renaming variables to new names that were not used before.
 The above reasoning leads to the proof of the following theorem:
@@ -104,12 +104,11 @@ Then for every NAND-CIRC-PROC program $P$, there exists a standard (i.e., "sugar
 
 
 [functionsynsugarthm](){.ref} can be proven using the transformation above, but since the formal proof is somewhat long and tedious, we omit it here.
-program that does not use them.
 
 
 ::: {.example title="Computing Majority from NAND using syntactic sugar" #majcircnand}
 Procedures allow us to express NAND-CIRC programs much more cleanly and succinctly.
-For example, because we can compute AND,OR, and NOT using NANDs, we can compute the _Majority_ function as follows:
+For example, because we can compute AND, OR, and NOT using NANDs, we can compute the _Majority_ function as follows:
 
 ```python
 def NOT(a): 
@@ -154,7 +153,7 @@ Once we show that a computational model $X$ is equivalent in power to the model 
 ::: {.remark title="Counting lines" #countinglines}
 While we can use syntactic sugar to _present_ NAND-CIRC programs in more readable ways, we did not change the definition of the language itself.
 Therefore, whenever we say that some function $f$ has an $s$-line NAND-CIRC program we mean a standard "sugar free" NAND-CIRC program, where all syntactic sugar has been expanded out.
-For example, the program of [majcircnand](){.ref} is a $12$-line program for computing the $MAJ$ function, even though it can be written in fewer lines using the procedure definition syntactic sugar.
+For example, the program of [majcircnand](){.ref} is a $12$-line program for computing the $MAJ$ function, even though it can be written in fewer lines using NAND-CIRC-PROC.
 :::
 
 
@@ -166,7 +165,7 @@ This is a Python program that takes a  NAND-CIRC-PROC program $P$ that includes 
 The idea is simple: if the program $P$ contains a definition of a procedure `Proc` of two arguments `x` and `y`, then whenever we see a line of the form `foo = Proc(bar,blah)`, we can replace this line by:
 
 
-1. The body of the procedure `Proc` (replacing all occurrences of `x` and `y` with `bar` and `blah` respectively).^[If some of the internal variables of `Proc` share the same name with variables used in the program $P$ then we can ensure they are unique by adding some prefix to them. For simplicity, we ignore this issue below.]
+1. The body of the procedure `Proc` (replacing all occurrences of `x` and `y` with `bar` and `blah` respectively).
 
 2. A line `foo = exp`, where `exp` is the expression following the `return` statement in the definition of the procedure `Proc`.
 
