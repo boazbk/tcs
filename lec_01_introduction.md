@@ -329,7 +329,7 @@ Here are some examples of impossibility results outside computer science  (see  
 In physics, the impossibility of building a _perpetual motion machine_ corresponds to the _law of conservation of energy_.
 The impossibility of building a heat engine beating Carnot's bound corresponds to the second law of thermodynamics, while the impossibility of faster-than-light information transmission is a cornerstone of special relativity.
 In mathematics, while we all learned the formula for solving quadratic equations in high school, the impossibility of generalizing this formula to equations of degree five or more gave birth to _group theory_.
-The impossiblity of proving  Euclid's fifth axiom from the first four gave rise to  _non-Euclidean geometries_, which ended up crucial for the theory of general relativity. 
+The impossibility of proving  Euclid's fifth axiom from the first four gave rise to  _non-Euclidean geometries_, which ended up crucial for the theory of general relativity. 
 
 In an analogous way, impossibility results for computation correspond to "computational laws of nature" that tell us about the fundamental limits of any information processing apparatus, whether based on silicon, neurons, or quantum particles.
 Moreover, computer scientists found creative approaches to _apply_ computational limitations to achieve certain useful tasks.

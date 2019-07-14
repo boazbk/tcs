@@ -49,7 +49,7 @@ Y[0] = s
 ```
 
 
-![Overview of our models for finite and unbonded computation. In the previous chapters we study the computation of _finite functions_, which are functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ for some fixed $n,m$, and modeled computing these functions using circuits or straightline programs. In this chapter we study computing _unbounded_ functions of the form $F:\{0,1\}^* \rightarrow \{0,1\}^m$ or $F:\{0,1\}^* \rightarrow \{0,1\}^*$. We model computing these functions using _Turing Machines_ or (equivalently) NAND-TM programs which add the notion of _loops_ to the NAND-CIRC programming language. In [chapequivalentmodels](){.ref} we will show that these models are equivalent to many other models, including RAM machines, the $\lambda$ calculus, and all the common programming languages including C, Python, Jave, JavaScript, etc.](../figure/chaploopoverview.png){#chaploopoverviewfig  }
+![Overview of our models for finite and unbounded computation. In the previous chapters we study the computation of _finite functions_, which are functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ for some fixed $n,m$, and modeled computing these functions using circuits or straightline programs. In this chapter we study computing _unbounded_ functions of the form $F:\{0,1\}^* \rightarrow \{0,1\}^m$ or $F:\{0,1\}^* \rightarrow \{0,1\}^*$. We model computing these functions using _Turing Machines_ or (equivalently) NAND-TM programs which add the notion of _loops_ to the NAND-CIRC programming language. In [chapequivalentmodels](){.ref} we will show that these models are equivalent to many other models, including RAM machines, the $\lambda$ calculus, and all the common programming languages including C, Python, Java, JavaScript, etc.](../figure/chaploopoverview.png){#chaploopoverviewfig  }
 
 
 In this chapter we will show how we can extend the  model of Boolean circuits / straight-line programs so that it can capture these kinds of constructs.
@@ -66,12 +66,12 @@ See [chaploopoverviewfig](){.ref} for an overview of the models presented in thi
 
 
 ::: {.remark title="Finite vs infinite computation" #infinite}
-Previously in this book we studied the computation of _finite_ functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$. Such a function $f$ can always be desribed by listing all the $2^n$ values it takes on inputs $x\in \{0,1\}^n$.
+Previously in this book we studied the computation of _finite_ functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$. Such a function $f$ can always be described by listing all the $2^n$ values it takes on inputs $x\in \{0,1\}^n$.
 
 In this chapter we consider functions that take inputs of _unbounded_ size, such as the function $XOR:\{0,1\}^* \rightarrow \{0,1\}$ that maps $x$ to $\sum_{i=0}^{|x|-1} x_i \mod 2$. While we can describe $XOR$ using a finite number of symbols (in fact we just did so in the previous sentence), it takes infinitely many possible inputs and so we cannot just write down all of its values.
 The same is true for many other functions capturing important computational tasks including addition, multiplication, sorting, finding paths in graphs, fitting curves to points, and so on and so forth.
 
-To contrast with the finite case, we will sometimes call a function $F:\{0,1\}^* \rightarrow \{0,1\}$ (or $F:\{0,1\}^* \rightarrow \{0,1\}^*$) _infinite_ but we emphasize that the functions we are interested in always take an input which is a finite string. It's just that, unlike the finite case, this string can be artbirarily long and is not fixed to some particular length $n$.
+To contrast with the finite case, we will sometimes call a function $F:\{0,1\}^* \rightarrow \{0,1\}$ (or $F:\{0,1\}^* \rightarrow \{0,1\}^*$) _infinite_ but we emphasize that the functions we are interested in always take an input which is a finite string. It's just that, unlike the finite case, this string can be arbitrarily long and is not fixed to some particular length $n$.
 
 Some texts present the task of computing a function $F:\{0,1\}^* \rightarrow \{0,1\}$ as the task of deciding membership in the _language_ $L \subseteq \{0,1\}^*$ defined as $L = \{ x\in \{0,1\}^* \;|\; F(x) = 1 \}$. These two views are equivalent, see [decidablelanguagesrem](){.ref}.
 :::
@@ -96,7 +96,7 @@ Some texts present the task of computing a function $F:\{0,1\}^* \rightarrow \{0
 The "granddaddy" of all models of computation is the _Turing Machine_.
 Turing machines were defined in 1936 by Alan Turing in an attempt to formally capture all the functions that can be computed by human "computers" (see [humancomputersfig](){.ref}) that follow a well-defined set of rules, such as the standard algorithms for addition or multiplication.
 
-![Until the advent of electronic computers, the word "computer" was used to describe a person that performed calculations. Most of these "human computers" were women, and they were absolutely essential to many achievements including mapping the stars, breaking the Enigma cipher, and the NASA space mission; see also the bibiographical notes. Photo taken from from [@sobel2017the].](../figure/HumanComputers.jpg){#humancomputersfig .margin  }
+![Until the advent of electronic computers, the word "computer" was used to describe a person that performed calculations. Most of these "human computers" were women, and they were absolutely essential to many achievements including mapping the stars, breaking the Enigma cipher, and the NASA space mission; see also the bibliographical notes. Photo taken from from [@sobel2017the].](../figure/HumanComputers.jpg){#humancomputersfig .margin  }
 
 Turing thought of such a person as having access to as much "scratch paper" as they need.
 For simplicity we can think of this scratch paper as a one dimensional piece of graph paper (or _tape_, as it is commonly referred to),  which is divided to "cells", where each "cell" can hold a single symbol (e.g., one digit or letter, and more generally some element of a finite _alphabet_).
@@ -310,7 +310,7 @@ If a partial function $F$ is undefined on $x$ then can also write $F(x) = \bot$.
 Therefore one might think that [computablepartialfuncdef](){.ref} can be simplified to requiring that $M(x) = F(x)$ for every $x\in \{0,1\}$, which would imply that for every $x$, $M$ halts on $x$ if and only if $F$ is defined on $x$.
 However this is not the case: for a Turing Machine $M$ to compute a partial function $F$ it is not _necessary_ for $M$ to enter an infinite loop on inputs $x$ on which $F$ is not defined.
 All that is needed is for $M$ to output $F(x)$ on $x$'s on which $F$ is defined: on other inputs it is OK for $M$ to output an arbitrary value such as $0$, $1$, or anything else, or not to halt at all.
-To borrow a term from the `C` programming language,  on inputs $x$ on which $F$ is not defined, what $M$ does is "undefined behaviour".
+To borrow a term from the `C` programming language,  on inputs $x$ on which $F$ is not defined, what $M$ does is "undefined behavior".
 :::
 
 
@@ -385,7 +385,7 @@ To do so, we extend the NAND-CIRC programming language with two constructs:
 
 * _Arrays_: A NAND-CIRC program of $s$ lines touches at most $3s$ variables. While we can use variables with names such as  `Foo_17` or `Bar[22]`, they are not true arrays, since the number in the identifier is a constant that is "hardwired" into the program.
 
-![A NANDTM program has _scalar_ variables that can take a Boolean value, _array_ variables that hold a sequence of Boolean values, and a special _index_ variable `i` that can be used to index the array variables. We refer to the `i`-th value of the array variable `Spam` using `Spam[i]`. At each iteration of the program the index varialble can be incremented or decremented by one step using the `MODANDJMP` operation.](../figure/nandtmprog.png){#nandtmfig}
+![A NANDTM program has _scalar_ variables that can take a Boolean value, _array_ variables that hold a sequence of Boolean values, and a special _index_ variable `i` that can be used to index the array variables. We refer to the `i`-th value of the array variable `Spam` using `Spam[i]`. At each iteration of the program the index variable can be incremented or decremented by one step using the `MODANDJMP` operation.](../figure/nandtmprog.png){#nandtmfig}
 
 Thus a good way to remember NAND-TM is using the following informal equation:
 
@@ -410,7 +410,7 @@ Concretely, the NAND-TM programming language adds the following features on top 
 
 * We add a special `MODANDJUMP` instruction that takes two boolean variables $a,b$ as input and does the following:
   - If $a=1$ and $b=1$ then `MODANDJUMP(`$a,b$`)` increments `i` by one and jumps to the first line of the program.
-  - If $a=0$ and $b=1$ then `MODANDJUMP(`$a,b$`)` decrements `i` by one and jumps to the first line of the program. (If `i` is already equal to $0$ then it tays at $0$.)
+  - If $a=0$ and $b=1$ then `MODANDJUMP(`$a,b$`)` decrements `i` by one and jumps to the first line of the program. (If `i` is already equal to $0$ then it stays at $0$.)
   - If $a=1$ and $b=0$ then `MODANDJUMP(`$a,b$`)` jumps to the first line of the program without modifying `i`.
   - If $a=b=0$ then `MODANDJUMP(`$a,b$`)` halts execution of the program.
 
@@ -837,7 +837,7 @@ Prove that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is comput
 
 
 ::: {.exercise title="Two tape Turing machines" #twotapeex}
-Define a _two tape Turing machine_ to be a Turing machine which has two separate tapes and two separate heads. At every step, the transition function gets as input the locaion of the cells in the two tapes, and can decide whether to move  each head independently.
+Define a _two tape Turing machine_ to be a Turing machine which has two separate tapes and two separate heads. At every step, the transition function gets as input the location of the cells in the two tapes, and can decide whether to move  each head independently.
 Prove that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a standard Turing Machine if and only if $F$ is computable by a two-tape Turing machine.
 :::
 
@@ -930,13 +930,13 @@ Sipser's text [@SipserBook] defines a  Turing machine is as a _seven tuple_ cons
 Superficially this looks like a very different definition than [TM-def](){.ref} but it is simply a different representation of the same concept, just as a graph can be represented in either adjacency list or adjacency matrix form.
 
 One difference is that Sipser considers a  general set of states $Q$ that is not necessarily of the form $Q=\{0,1,2,\ldots, k-1\}$ for some natural number $k>0$.
-Sipser also restricts his attention to Turing machines that output only a single bit and therefore designates two speical _halting states_:  the "$0$ halting state" (often known as the _rejecting state_) and the other as the "$1$ halting state" (often known as the _accepting state_).
+Sipser also restricts his attention to Turing machines that output only a single bit and therefore designates two special _halting states_:  the "$0$ halting state" (often known as the _rejecting state_) and the other as the "$1$ halting state" (often known as the _accepting state_).
 Thus instead of writing $0$ or $1$ on an output tape, the machine will enter into one of these states and halt.
 This again makes no difference to the computational power, though we prefer to consider the more general model of multi-bit outputs.
 (Sipser presents the basic task of a Turing machine as that of _deciding a language_ as opposed to computing a function, but these are equivalent, see  [decidablelanguagesrem](){.ref}.)
 
 
-Sipser considers also functions with input in $\Sigma^*$ for an arbitrary alphabet $\Sigma$ (and hence distiguishes between the _input alphabet_ which he denotes as $\Sigma$ and the _tape alphabet_ which he denotes as $\Gamma$), while we restrict attention to functions with binary strings as input.
+Sipser considers also functions with input in $\Sigma^*$ for an arbitrary alphabet $\Sigma$ (and hence distinguishes between the _input alphabet_ which he denotes as $\Sigma$ and the _tape alphabet_ which he denotes as $\Gamma$), while we restrict attention to functions with binary strings as input.
 Again this is not a major issue, since we can always encode an element of $\Sigma$ using a binary string of length $\log \ceil{|\Sigma|}$.
 Finally (and this is a very minor point) Sipser requires the machine to either move left or right in every step, without the $\mathsf{S}$tay operation, though staying in place is very easy to emulate by simply moving right and then back left.
 

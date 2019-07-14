@@ -422,7 +422,7 @@ For starters, one can can use [CPython](https://en.wikipedia.org/wiki/CPython) (
 We can combine this with a C compiler to transform a Python program to various flavors of "machine language".
 So, to transform a Python program into an equivalent NAND-CIRC program, it is enough to show how to transform a _machine language_ program into an equivalent NAND-CIRC program.
 One minimalistic (and hence convenient) family of machine languages is known as the _ARM architecture_ which powers many mobile devices including essentially all Android devices.^[ARM stands for "Advanced RISC Machine" where RISC in turn stands for "Reduced instruction set computer".]
-There are even simpler machine languages, such as the [LEG acrhitecture](https://github.com/frasercrmck/llvm-leg) for which a backend for the [LLVM compiler](http://llvm.org/) was implemented (and hence can be the target of compiling any of [large and growing list](https://en.wikipedia.org/wiki/LLVM#Front_ends) of languages that this compiler supports).
+There are even simpler machine languages, such as the [LEG architecture](https://github.com/frasercrmck/llvm-leg) for which a backend for the [LLVM compiler](http://llvm.org/) was implemented (and hence can be the target of compiling any of [large and growing list](https://en.wikipedia.org/wiki/LLVM#Front_ends) of languages that this compiler supports).
 Other examples include the  [TinyRAM](http://www.scipr-lab.org/doc/TinyRAM-spec-0.991.pdf) architecture (motivated by interactive proof systems that we will discuss in [chapproofs](){.ref}) and the teaching-oriented [Ridiculously Simple Computer](https://www.ece.umd.edu/~blj/RiSC/) architecture.
 Going one by one over the instruction sets of such computers and translating them to NAND snippets is no fun, but it is a feasible thing to do.
 In fact, ultimately this is very similar to the transformation that takes place in converting our high level code to actual silicon gates that are not so different from the operations of a NAND-CIRC program.
@@ -446,7 +446,7 @@ The importance of this phenomena to both the theory and practice of computing, a
 
 ## Counting programs, and lower bounds on the size of NAND-CIRC programs {#countingcircuitsec }
 
-One consequence of the representation of programs as strings is that the number of programs of certain length is bounded by the number of strings of the length it taks to represent those programs.
+One consequence of the representation of programs as strings is that the number of programs of certain length is bounded by the number of strings of the length it takes to represent those programs.
 This has consequences for the sets $SIZE_{n,m}(s)$ that we defined in [secdefinesizeclasses](){.ref}.
 
 
@@ -650,7 +650,7 @@ The problem with this device of course is that nature, just like people, often g
 
 ![Scott Aaronson [tests](http://www.scottaaronson.com/blog/?p=266) a candidate device for computing Steiner trees using soap bubbles.](../figure/aaronsonsoapbubble.jpg){#aaronsonsoapfig .margin  }
 
-* **DNA computing.** People have suggested using the properties of DNA to do hard computational problems. The main advantage of DNA is the ability to potentially encode a lot of information in relatively small physical space, as well as compute on this information in a highly parallel manner. At the time of this writing, it was [demonstrated](http://science.sciencemag.org/content/337/6102/1628.full) that one can use DNA to store about $10^{16}$ bits of information in a region of radius about milimiter, as opposed to about $10^{10}$ bits with the best known hard disk technology. This does not posit a real challenge to the PECTT but does suggest that one should be conservative about the choice of constant and not assume that current hard disk + silicon technologies are the absolute best possible.^[We were extremely conservative in the suggested parameters for the PECTT, having assumed that as many as $\ell_P^{-2}10^{-6} \sim 10^{61}$ bits could potentially be stored in a milimeter radius region.]
+* **DNA computing.** People have suggested using the properties of DNA to do hard computational problems. The main advantage of DNA is the ability to potentially encode a lot of information in relatively small physical space, as well as compute on this information in a highly parallel manner. At the time of this writing, it was [demonstrated](http://science.sciencemag.org/content/337/6102/1628.full) that one can use DNA to store about $10^{16}$ bits of information in a region of radius about a millimeter, as opposed to about $10^{10}$ bits with the best known hard disk technology. This does not posit a real challenge to the PECTT but does suggest that one should be conservative about the choice of constant and not assume that current hard disk + silicon technologies are the absolute best possible.^[We were extremely conservative in the suggested parameters for the PECTT, having assumed that as many as $\ell_P^{-2}10^{-6} \sim 10^{61}$ bits could potentially be stored in a millimeter radius region.]
 
 * **Continuous/real computers.** The physical world is often described using continuous quantities such as time and space, and people have suggested that analog devices might have direct access to computing with real-valued quantities and would be inherently more powerful than discrete models such as NAND machines.
 Whether the "true" physical world is continuous or discrete is an open question.
@@ -672,7 +672,7 @@ The idea was initiated by the observation that systems with strong quantum effec
 Turning this observation on its head, people have proposed using such systems to perform computations that we do not know how to do otherwise.
 At the time of this writing, Scalable quantum computers have not yet been built, but it is a fascinating possibility, and one that does not seem to contradict any known law of nature.
 We will discuss quantum computing in much more detail in [quantumchap](){.ref}.
-Modeling quantum computation    involves extending the model of Boolean circuits into _Quantum circuits_ that hvae one more (very special) gate.
+Modeling quantum computation    involves extending the model of Boolean circuits into _Quantum circuits_ that have one more (very special) gate.
 However, the main take away is that while quantum computing does suggest we need to amend the PECTT, it does _not_ require a complete revision of our worldview. Indeed, almost all of the content of this book remains the same regardless of whether the underlying computational model is Boolean circuits or quantum circuits.
 
 

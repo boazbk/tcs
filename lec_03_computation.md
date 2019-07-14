@@ -10,7 +10,7 @@ chapternum: "3"
 ># {.objectives  }
 * See that computation can be precisely modeled. \
 * Learn the computational model of _Boolean circuits_ / _straight-line programs_.
-* Equivalence of circuits and sraight-line programs.
+* Equivalence of circuits and straight-line programs.
 * Equivalence of  AND/OR/NOT and  NAND. 
 * Examples of computing in the physical world. \
 
@@ -264,7 +264,7 @@ print([f"XOR({a},{b})={XOR(a,b)}" for a in [0,1] for b in [0,1]])
 ::: {.solvedexercise title="Compute $XOR$ on three bits of input" #xorthreebits}
 Let $XOR_3:\{0,1\}^3 \rightarrow \{0,1\}$ be the function defined as $XOR_3(a,b,c) = a + b +c \mod 2$. That is, $XOR_3(a,b,c)=1$ if $a+b+c$ is odd, and $XOR_3(a,b,c)=0$ otherwise.
 Show that you can compute $XOR_3$ using AND, OR, and NOT.
-You can express it as a forumla, use a programming language such as Python, or use a Boolean circuit.
+You can express it as a formula, use a programming language such as Python, or use a Boolean circuit.
 :::
 
 ::: {.solution data-ref="xorthreebits"}
@@ -691,7 +691,7 @@ In fact, there is even a commercially-available educational game that uses marbl
 
 ![A "gadget" in a pipe that ensures that at most one marble can pass through it. The first marble that passes causes the barrier to lift and block new ones.](../figure/gadget.png){#gadgetfig .margin  }
 
-![The game ["Turing Tumble"](https://www.turingtumble.com/) contains an imlementation of logical gates using marbles.](../figure/turingtumble.png){#turingtumblefig .margin  }
+![The game ["Turing Tumble"](https://www.turingtumble.com/) contains an implementation of logical gates using marbles.](../figure/turingtumble.png){#turingtumblefig .margin  }
 
 
 
@@ -1024,7 +1024,7 @@ The exercises cover several examples of universal and non-universal gate sets.
 ![It is crucial to distinguish between the _specification_ of a computational task, namely _what_ is the function that is to be computed and the _implementation_ of it, namely the algorithm, program, or circuit that contains the instructions _how_ to map and input to an output. The same function could be computed in many different ways.](../figure/specvsimpl.png){#specvsimplfig }
 
 
-As we discused in [secimplvsspec](){.ref}, one of the most important distinctions in this book is that of _specification_ versus _implementation_ or separating "what" from "how" (see [specvsimplfig](){.ref}).
+As we discussed in [secimplvsspec](){.ref}, one of the most important distinctions in this book is that of _specification_ versus _implementation_ or separating "what" from "how" (see [specvsimplfig](){.ref}).
 A _function_ corresponds to the _specification_ of a computational task, that is _what_ output should be produced for every particular input.
 A _program_ (or circuit, or any other way to specify _algorithms_) corresponds to the _implementation_ of _how_ to compute the desired output from the input.
 That is, a program is a set of instructions how to compute the output from the input.

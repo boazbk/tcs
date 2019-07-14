@@ -288,7 +288,7 @@ $$
 (x_7 \vee \overline{x}_{22} \vee x_{15} ) \wedge (x_{37} \vee x_{22}) \wedge (x_{55} \vee \overline{x}_7)
 $$
 
-The _satisfiability problem_ is the task of determinining, given a CNF formula $\varphi$, whether or not there exists a _satisfying assignment_ for $\varphi$. A satisfying assignment for $\varphi$ is a string $x\in \{0,1\}^n$ such that if $\varphi$ evaluates to _True_ if we assign its variables the values of $x$.
+The _satisfiability problem_ is the task of determining, given a CNF formula $\varphi$, whether or not there exists a _satisfying assignment_ for $\varphi$. A satisfying assignment for $\varphi$ is a string $x\in \{0,1\}^n$ such that if $\varphi$ evaluates to _True_ if we assign its variables the values of $x$.
 The SAT problem might seem as an  abstract question of interest only in logic but in fact SAT is of huge interest in industrial optimization, with applications including manufacturing planning, circuit synthesis, software verification, air-traffic control, scheduling sports tournaments, and more. 
 
 __2SAT.__ We say that a formula is a $k$-CNF it is an AND of ORs where each OR involves exactly $k$ literals.
@@ -303,11 +303,11 @@ This reduces 2SAT to the (efficiently solvable) problem of determining connectiv
 __3SAT.__ The 3SAT problem is the task of determining satisfiability for 3CNFs.
 One might think that changing from two to   three would not make that much of a difference for complexity.
 One would be wrong.
-Despite much effort, we do not know of a significantly better than brute force algorithm for 3SAT (the best known algorithms take roughy $1.3^n$ steps).
+Despite much effort, we do not know of a significantly better than brute force algorithm for 3SAT (the best known algorithms take roughly $1.3^n$ steps).
 
 Interestingly, a similar issue arises time and again in computation, where the difference between two and three often corresponds to the difference between tractable and intractable.
 We do not fully understand the reasons for this phenomenon, though the notions of $\mathbf{NP}$ completeness we will see later does offer a partial explanation.
-It may be related to the fact that optimzing a polynomial often amounts to equations on its derivative. The derivative of a a quadratic polynomial is linear, while the derivative of a cubic is quadratic, and, as we will see, the difference between solving linear and quadratic equations can be quite profound.
+It may be related to the fact that optimizing a polynomial often amounts to equations on its derivative. The derivative of a a quadratic polynomial is linear, while the derivative of a cubic is quadratic, and, as we will see, the difference between solving linear and quadratic equations can be quite profound.
 
 
 ### Solving linear equations
@@ -357,7 +357,7 @@ Since only $0$ and $1$ satisfy the equation  $a^2-a$, this assumption means that
 Solving quadratic equations in several variable is a classical and extremely well motivated problem.
 This is the generalization of the classical case of single-variable quadratic equations that generations of high school students grapple with.
 It also generalizes the [quadratic assignment problem](https://www.opt.math.tugraz.at/~cela/papers/qap_bericht.pdf), introduced in the 1950's as a way to optimize assignment of economic activities.
-Once again, we do not know a much better algorithm for this problem than the one that enumerates over all the $2^n$ possiblities.
+Once again, we do not know a much better algorithm for this problem than the one that enumerates over all the $2^n$ possibilities.
 
 
 ## More advanced examples
@@ -368,7 +368,7 @@ We now list a few more examples of interesting problems that are a little more a
 
 The [determinant](https://en.wikipedia.org/wiki/Determinant) of a $n\times n$ matrix $A$, denoted by $\mathrm{det}(A)$, is an extremely important quantity in linear algebra.
 For example, it is known that $\mathrm{det}(A) \neq 0$ if and only if $A$ is _nonsingular_, which means that it has an inverse $A^{-1}$, and hence we can always uniquely solve equations of the form $Ax = b$ where $x$ and $b$ are $n$-dimensional vectors.
-More generally, the determinant can be thought of as a quantiative measure as to what extent $A$ is far from being singular.
+More generally, the determinant can be thought of as a quantitative measure as to what extent $A$ is far from being singular.
 If the rows of $A$ are "almost" linearly dependent (for example, if the third row is very close to being a linear combination of the first two rows) then the determinant will be small, while if they are far from it (for example, if they are are _orthogonal_ to one another, then the determinant will be large).
 In particular, for every matrix $A$, the absolute value of the determinant of $A$ is at most the product of the norms (i.e., square root of sum of squares of entries) of the rows, with equality if and only if the rows are orthogonal to one another.
 
@@ -394,7 +394,7 @@ Using these rules and the [Gaussian elimination](https://en.wikipedia.org/wiki/G
 (Indeed one can verify that the row operations in Gaussian elimination corresponds to either multiplying by a swap matrix or by a triangular matrix.)
 Hence we can compute the determinant for an $n\times n$ matrix using a polynomial time of arithmetic operations. 
 
-### Permanent of a matric
+### Permanent of a matrix
 
 Given an $n\times n$ matrix $A$, the _permanent_ of $A$ is defined as 
 
@@ -437,7 +437,7 @@ Fortunately, not all real-world games are zero sum, and we do have more general 
 [John Nash](https://en.wikipedia.org/wiki/John_Forbes_Nash_Jr.) won the Nobel prize for showing that there is a notion of _equilibrium_ for such games as well.
 In many economic texts it is taken as an article of faith that when actual agents are involved in such a game then they reach a Nash equilibrium.
 However, unlike zero sum games, we do not know of an efficient algorithm for finding a Nash equilibrium given the description of a general (non zero sum) game.
-In particular this means that, despite economists' intuitions, there are games for which natural stategies will take exponential number of steps to converge to an equilibrium.
+In particular this means that, despite economists' intuitions, there are games for which natural strategies will take exponential number of steps to converge to an equilibrium.
 
 
 
@@ -470,9 +470,9 @@ While the brute force algorithms would require $2^{\Omega(n)}$ time to factor an
 
 ## Our current knowledge
 
-![The current computational status of several interesting problems. For all of them we either know a polynomial-time algorithm or the known algorithms require at least $2^{n^c}$ for some $c>0$. In fact for all except the _factoring_ problem, we either know an $O(n^3)$ time algorithm or the best known algorithm require at least $2^{\Omega(n)}$ time where $n$ is a natural parameter such that there is a brute force algorithm taking roughly $2^n$ or $n!$ time. Whether this "cliff" between the easy and hard problem is a real phenomenon or a reflection of our ignorane is still an open question.](../figure/poly_vs_exp.png){#current_status .margin  }
+![The current computational status of several interesting problems. For all of them we either know a polynomial-time algorithm or the known algorithms require at least $2^{n^c}$ for some $c>0$. In fact for all except the _factoring_ problem, we either know an $O(n^3)$ time algorithm or the best known algorithm require at least $2^{\Omega(n)}$ time where $n$ is a natural parameter such that there is a brute force algorithm taking roughly $2^n$ or $n!$ time. Whether this "cliff" between the easy and hard problem is a real phenomenon or a reflection of our ignorance is still an open question.](../figure/poly_vs_exp.png){#current_status .margin  }
 
-The difference between an exponential and polynomial time algorithm might seem merely "quantiative" but it is in fact extremely significant.
+The difference between an exponential and polynomial time algorithm might seem merely "quantitative" but it is in fact extremely significant.
 As we've already seen, the brute force exponential time algorithm runs out of steam very very fast, and as Edmonds says, in practice there might not be much difference between a problem where the best algorithm is exponential and a problem that is not solvable at all.
 Thus the efficient algorithms we mention above are widely used and power many computer science applications.
 Moreover, a polynomial-time algorithm often arises out of significant insight to the problem at hand, whether it is the "max-flow min-cut" result, the solvability of the determinant, or the group theoretic structure that enables primality testing.

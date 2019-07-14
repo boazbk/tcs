@@ -396,7 +396,7 @@ $$
 
 The reasons we can encode this condition as an MIS are the following:
 
-1. The conditions for checking that the initial configuration is valid are simple, and we can extract the first configuration from  $H$ by first looking at an index $i$ which is a multiple of $\ell$ such that $H_{i} \cdots H_{i+\ell-1}$ encodes the separator symbol "$;$" and such that $i$ is the first such index. Another way to say it is that $i$ is the position of the first separator if __there exists__ $k$ such that $i=k\times \ell$ and  $H_{i,\ldots,i+\ell-1}$ and __for every__ $j\in \N$, if $j<i$ then $H_{j,\ldots,j+\ell-1}$ does _not_ encode "$;$".  This can be captured using the operators allowed in a quantified mixed statetment and the $\forall$ and $\exists$ quantifiers.
+1. The conditions for checking that the initial configuration is valid are simple, and we can extract the first configuration from  $H$ by first looking at an index $i$ which is a multiple of $\ell$ such that $H_{i} \cdots H_{i+\ell-1}$ encodes the separator symbol "$;$" and such that $i$ is the first such index. Another way to say it is that $i$ is the position of the first separator if __there exists__ $k$ such that $i=k\times \ell$ and  $H_{i,\ldots,i+\ell-1}$ and __for every__ $j\in \N$, if $j<i$ then $H_{j,\ldots,j+\ell-1}$ does _not_ encode "$;$".  This can be captured using the operators allowed in a quantified mixed statement and the $\forall$ and $\exists$ quantifiers.
 
 2. We can similarly check that the last configuration is halting. Extracting the position $i$ that encodes the last separator can be done in a way analogous to that of extracting the first one.
 
@@ -450,7 +450,7 @@ Thus all that is left to conclude the proof of [QIS-thm](){.ref} is to prove [pr
 
 > ### {.proof data-ref="primeseq"}
 The sequence of prime numbers we consider is the following:
-We fix $C$ to be a suficiently large constant ($C=2^{2^{34}}$ [will do](https://arxiv.org/pdf/1401.4233.pdf)) and define $p_i$ to be the smallest prime number that is in the interval $[(i+C)^3+1,(i+C+1)^3-1]$.
+We fix $C$ to be a sufficiently large constant ($C=2^{2^{34}}$ [will do](https://arxiv.org/pdf/1401.4233.pdf)) and define $p_i$ to be the smallest prime number that is in the interval $[(i+C)^3+1,(i+C+1)^3-1]$.
 It is known that there exists such a prime number for every $i\in\N$.
 Given this, the definition of $PCOORD(p,i)$ is simple:
 $$

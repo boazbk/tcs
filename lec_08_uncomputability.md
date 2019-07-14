@@ -44,7 +44,7 @@ In this chapter we will prove the existence of the universal program, and also s
 ## Universality or a meta-circular evaluator
 
 We start by proving the existence of a _universal Turing machine_.
-This is a single Turing machine $U$ that can evaluate _arbitrary_ Turing machines $M$ on _artbirary_ inputs $x$, including machines $M$ that can have more states and larger alphabet than $U$ itself.
+This is a single Turing machine $U$ that can evaluate _arbitrary_ Turing machines $M$ on _arbitrary_ inputs $x$, including machines $M$ that can have more states and larger alphabet than $U$ itself.
 In particular, $U$ can even be used to evaluate itself!
 This notion of _self reference_ will appear time and again in this course, and as we will see, leads to several counter-intuitive phenomena in computing.
 
@@ -87,7 +87,7 @@ To prove (and even properly state)  [universaltmthm](){.ref}, we need fix some r
 For example, one potential choice for such a representation is to use the equivalence betwen Turing machines and NAND-TM programs and hence represent a Turing machine $M$ using the ASCII encoding of the source code of the corresponding NAND-TM program $P$.
 However, we will use a more direct encoding.
 
-Let  $M$ be a Turing machine wotj $k$ states and a size $\ell$ alphabet $\Sigma = \{ \sigma_0,\ldots,\sigma_{\ell-1} \}$ (we use the convention $\sigma_0 = 0$,$\sigma_1 = 1$, $\sigma_2 = \varnothing$, $\sigma_3=\triangleright$).
+Let  $M$ be a Turing machine with $k$ states and a size $\ell$ alphabet $\Sigma = \{ \sigma_0,\ldots,\sigma_{\ell-1} \}$ (we use the convention $\sigma_0 = 0$,$\sigma_1 = 1$, $\sigma_2 = \varnothing$, $\sigma_3=\triangleright$).
 We represent $M$ by the triple $(k,\ell,T)$ where $T$ is the table of values for $\delta_M$:
 
 $$T = \left(\delta_M(0,0),\delta_M(0,\sigma_0),\ldots,\delta_M(k-1,\sigma_{k-1})\right) \;,$$
@@ -708,7 +708,7 @@ Because $F$ is semantic, if we achieved this, then we would be guaranteed that  
 
 ::: {.proof data-ref="rice-thm"}
 We will not give the proof in full formality, but rather illustrate the proof idea by restricting our attention to a particular semantic function $F$.
-However, the same techniques generalize to all possible semantic functoins.
+However, the same techniques generalize to all possible semantic functions.
 Define $MONOTONE:\{0,1\}^* \rightarrow \{0,1\}$ as follows: $MONOTONE(M)=1$ if there does not exist  $n\in \N$ and two inputs $x,x' \in \{0,1\}^n$ such that for every $i\in [n]$ $x_i \leq x'_i$ but $M(x)$ outputs $1$ and $M(x')=0$.
 That is, $MONOTONE(M)=1$ if it's not possible to find an input $x$ such that flipping some bits of $x$ from $0$ to $1$ will change $M$'s output in the other direction from $1$ to $0$.
 We will prove that $MONOTONE$ is uncomputable, but the proof will easily generalize to any semantic function.
@@ -820,11 +820,11 @@ Programs are increasingly being used for mission critical purposes, whether it's
 If we can't even give a certification algorithm that a program correctly computes the parity function, how can we ever be assured that a program does what it is supposed to do?
 The key insight is that while it is impossible to certify that a _general_ program conforms with a specification, it is possible to write a program in the first place in a way that will make it easier to certify.
 As a trivial example, if you write a program without loops, then you can certify that it halts.
-Also, while it might not be possible to certify that an _artbirary_ program computes the parity function, it is quite possible to write a particular program $P$ for which we can mathematically _prove_ that $P$ computes the parity.
+Also, while it might not be possible to certify that an _arbitrary_ program computes the parity function, it is quite possible to write a particular program $P$ for which we can mathematically _prove_ that $P$ computes the parity.
 In fact, writing programs or algorithms and providing proofs for their correctness is what we do all the time in algorithms research.
 
 The field of _software verification_ is concerned with verifying that given programs satisfy certain conditions.
-These conditions can be that the program computes a certain function, that it never writes into a dangeours memory location, that is respects certain invariants, and others.
+These conditions can be that the program computes a certain function, that it never writes into a dangerous memory location, that is respects certain invariants, and others.
 While the general tasks of verifying this may be uncomputable, researchers have managed to do so for many interesting cases, especially if the program is written in the first place in a formalism or programming language that makes verification easier.
 That said, verification, especially of large and complex programs, remains a highly challenging task in practice as well, and the number of programs that have been formally proven correct is still quite small.
 Moreover, even phrasing the right theorem to prove (i.e., the specification) if often a highly non-trivial endeavor.

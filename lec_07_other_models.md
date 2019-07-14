@@ -364,7 +364,7 @@ A _computational model_ is some way to define what it means for a _program_ (whi
 A _computational model_ $\mathcal{M}$ is _Turing complete_, if we can map every Turing machine (or equivalently NAND-TM program) $N$ into a program $P$ for $\mathcal{M}$ that computes the same function as $Q$.
 It is _Turing equivalent_ if the other direction holds as well (i.e., we can map every program in $\mathcal{M}$ to a Turing machine that computes the same function).
 We can define this notion formally as follows. 
-(This formal definition is not crucial for the remainder of this book so feel  to skip it as long as you understand the general concept of Turing equivalence; This notion is sometimes referred to in the literature as [Gödel numbering](https://goo.gl/rzuNPu) or [admissalbe numbering](https://goo.gl/xXJoUG).)
+(This formal definition is not crucial for the remainder of this book so feel  to skip it as long as you understand the general concept of Turing equivalence; This notion is sometimes referred to in the literature as [Gödel numbering](https://goo.gl/rzuNPu) or [admissable numbering](https://goo.gl/xXJoUG).)
 
 ::: {.definition title="Turing completeness and equivalence (optional)" #turingcompletedef}
 Let $\mathcal{F}$ be the set of all partial functions from $\{0,1\}^*$ to $\{0,1\}^*$.
@@ -1303,7 +1303,7 @@ Prove that $ALT$ is a $\lambda$ expression that computes the _at least two_ func
 
 
 ::: {.exercise title="Locality of next-step function" #stringsprogramex}
-This question will help you get a better sense of the notion of _locality of the next step function_ of Turing Machines. This locality plays an important role in results such as the Turing completeness of $\lambda$ calculus and one dimensional cellular automata, as well as resluts such as  Godel's Incompleteness Theorem and the Cook Levin theorem that we will see later in this course.
+This question will help you get a better sense of the notion of _locality of the next step function_ of Turing Machines. This locality plays an important role in results such as the Turing completeness of $\lambda$ calculus and one dimensional cellular automata, as well as results such as  Godel's Incompleteness Theorem and the Cook Levin theorem that we will see later in this course.
 Define `STRINGS` to be the a programming language that has the following semantics:
 
 * A `STRINGS` program $Q$ has a single string variable `str` that is both the input and the output of $Q$. The program has no loops and no other variables, but rather consists of a sequence of conditional search and replace operations that modify `str`.
