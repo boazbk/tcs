@@ -51,7 +51,7 @@ See [computefuncoverviewfig](){.ref} for an outline of the results of this chapt
 
 We now present some examples of "syntactic sugar" transformations that we can use in constructing straightline programs or circuits.
 We focus on the _straight-line programming language_ view of our computational models, and specifically(for the sake of concreteness) on the NAND-CIRC programming language.
-This convenient is because many of the syntactic sugar transformations we present are easiest to think about in terms of applying "search and replace" operations to the source code of a program.
+This is convenient because many of the syntactic sugar transformations we present are easiest to think about in terms of applying "search and replace" operations to the source code of a program.
 However,  by [equivalencemodelsthm](){.ref}, all of our results hold equally well for circuits, whether ones using NAND gates or Boolean circuits that use the  AND, OR, and NOT operations.
 Enumerating the examples of such  syntactic sugar transformations can be a little tedious, but we do it for two reasons:
 
@@ -70,7 +70,7 @@ Enumerating the examples of such  syntactic sugar transformations can be a littl
 ### User-defined procedures
 
 One staple of almost any programming language is the ability to define and then execute _procedures_ or _subroutines_.
-(These are often  known as _functions_ in some programming languages, but we prefer the names _procedures_ 
+(These are often  known as _functions_ in some programming languages, but we prefer the name _procedures_ 
 to avoid confusion with the function that a program computes.)
 The NAND-CIRC programming language does not have this mechanism built in.
 However, we can achieve the same effect using the time honored technique of  "copy and paste".
@@ -93,7 +93,7 @@ proc_code'
 some_more_code
 ```
 
-and where `proc_code'` is obtained by replacing all occurrences of `a` with `d`,`b` with `e`, `c` with `f`.
+and where `proc_code'` is obtained by replacing all occurrences of `a` with `d`, `b` with `e`, and `c` with `f`.
 When doing that we will need to ensure that all other variables appearing in `proc_code'` don't interfere with other variables.
 We can always do so by renaming variables to new names that were not used before.
 The above reasoning leads to the proof of the following theorem:
@@ -104,12 +104,11 @@ Then for every NAND-CIRC-PROC program $P$, there exists a standard (i.e., "sugar
 
 
 [functionsynsugarthm](){.ref} can be proven using the transformation above, but since the formal proof is somewhat long and tedious, we omit it here.
-program that does not use them.
 
 
 ::: {.example title="Computing Majority from NAND using syntactic sugar" #majcircnand}
 Procedures allow us to express NAND-CIRC programs much more cleanly and succinctly.
-For example, because we can compute AND,OR, and NOT using NANDs, we can compute the _Majority_ function as follows:
+For example, because we can compute AND, OR, and NOT using NANDs, we can compute the _Majority_ function as follows:
 
 ```python
 def NOT(a): 
@@ -154,7 +153,7 @@ Once we show that a computational model $X$ is equivalent in power to the model 
 ::: {.remark title="Counting lines" #countinglines}
 While we can use syntactic sugar to _present_ NAND-CIRC programs in more readable ways, we did not change the definition of the language itself.
 Therefore, whenever we say that some function $f$ has an $s$-line NAND-CIRC program we mean a standard "sugar free" NAND-CIRC program, where all syntactic sugar has been expanded out.
-For example, the program of [majcircnand](){.ref} is a $12$-line program for computing the $MAJ$ function, even though it can be written in fewer lines using the procedure definition syntactic sugar.
+For example, the program of [majcircnand](){.ref} is a $12$-line program for computing the $MAJ$ function, even though it can be written in fewer lines using NAND-CIRC-PROC.
 :::
 
 
@@ -166,17 +165,17 @@ This is a Python program that takes a  NAND-CIRC-PROC program $P$ that includes 
 The idea is simple: if the program $P$ contains a definition of a procedure `Proc` of two arguments `x` and `y`, then whenever we see a line of the form `foo = Proc(bar,blah)`, we can replace this line by:
 
 
-1. The body of the procedure `Proc` (replacing all occurrences of `x` and `y` with `bar` and `blah` respectively).^[If some of the internal variables of `Proc` share the same name with variables used in the program $P$ then we can ensure they are unique by adding some prefix to them. For simplicity, we ignore this issue below.]
+1. The body of the procedure `Proc` (replacing all occurrences of `x` and `y` with `bar` and `blah` respectively).
 
 2. A line `foo = exp`, where `exp` is the expression following the `return` statement in the definition of the procedure `Proc`.
 
 To make this more robust we  a prefix to the internal variables used by `Proc` to ensure they don't conflict with the variables of $P$; for simplicity we ignore this issue in the code below though it can be easily added.
 
-The code in [desugarcode](){.ref} achieves such a  transformation:^[This code uses _regular expressions_ to make the search and replace parts a little easier. We will see the theoretical basis for regular expressions in [restrictedchap](){.ref}.]
+The code in [desugarcode](){.ref} achieves such a  transformation.^[This code uses _regular expressions_ to make the search and replace parts a little easier. We will see the theoretical basis for regular expressions in [restrictedchap](){.ref}.]
 
 ``` { .python .full #desugarcode title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
 import re
-def desugar(code,proc_name, proc_args,proc_body):
+def desugar(code, proc_name, proc_args,proc_body):
 """Use `search and replace' to remove procedure calls.  
    Replace line of form 'foo = proc_name(a,b)' with 
       proc_body[x->a,y->b]
@@ -226,7 +225,7 @@ def parse_func(code):
 ### Conditional statements {#ifstatementsec }
 
 Another sorely missing feature in NAND-CIRC is a conditional statement such as the `if`/`then` constructs that are found in many programming languages.
-However, using procedure, we can obtain an ersatz if/then construct.
+However, using procedures, we can obtain an ersatz if/then construct.
 First we can compute the function $IF:\{0,1\}^3 \rightarrow \{0,1\}$ such that $IF(a,b,c)$ equals $b$ if $a=1$ and $c$ if $a=0$.
 
 > ### { .pause }
@@ -243,7 +242,7 @@ def IF(cond,a,b):
     return NAND(temp,temp1)
 ```
 
-The $IF$ function is also known as the _multiplexing_ function, since $cond$ can be thought of as a switch that controls whether the output is connected to $a$ or $b$.
+The $IF$ function is also known as a _multiplexing_ function, since $cond$ can be thought of as a switch that controls whether the output is connected to $a$ or $b$.
 Once we have a procedure for computing the $IF$ function, we can implement conditionals in NAND.
 The idea is that we replace code of the form
 
@@ -254,7 +253,7 @@ if (condition):  assign blah to variable foo
 with code of the form
 
 ```python
-foo   = IF(condition,blah, foo)
+foo   = IF(condition, blah, foo)
 ```
 
 that assigns to `foo` its old value when `condition` equals $0$, and assign to `foo` the value of `blah` otherwise.
@@ -279,7 +278,7 @@ c = IF(cond,temp_c,c)
 ```
 
 Using such transformations, we can prove the following theorem.
-Once again we omit the (not too insightful) full formal proof, though see [conditionalsugarthmex](){.ref} for some hints on how to obtain it.
+Once again we omit the (not too insightful) full formal proof, though see [conditionalsugarthmpython](){.ref} for some hints on how to obtain it.
 
 > ### {.theorem title="Conditional statements synctatic sugar" #conditionalsugarthm }
 Let NAND-CIRC-IF be the programming language NAND-CIRC augmented with `if`/`then`/`else` statements for allowing code to be conditionally executed based on whether a variable is equal to $0$ or $1$.  
@@ -463,7 +462,7 @@ _Every_ finite function can be computed by a large enough Boolean circuit.
 
 
 
-_Improved bounds._ Though it will not be of great importance to us , it is possible to improve on the proof of 
+_Improved bounds._ Though it will not be of great importance to us, it is possible to improve on the proof of 
 [NAND-univ-thm](){.ref}  and shave an extra factor of $n$, as well as optimize the constant $c$, and so prove that 
 for every $\epsilon>0$, $m\in \N$ and sufficiently large $n$, if $f:\{0,1\}^n \rightarrow \{0,1\}^m$ then $f$ can be computed by a NAND circuit of at most
 $(1+\epsilon)\tfrac{m\cdot 2^n}{n}$ gates. 
@@ -479,7 +478,7 @@ To prove [NAND-univ-thm](){.ref}, we need to give a NAND circuit, or equivalentl
 We will restrict our attention to the case of Boolean functions (i.e., $m=1$).
 [mult-bit-ex](){.ref} asks you  to extend the proof for all values of $m$.
 A function $F: \{0,1\}^n\rightarrow \{0,1\}$ can be specified by a table of its values for each one of the $2^n$ inputs.
-For example, the table below describes one particular function $G: \{0,1\}^4 \rightarrow \{0,1\}$:^[In case you are curious, this is the function on input $i\in \{0,1\}^4$ (which we interpret as a number in $[16]$), outputs the $i$-th digit of $\pi$ in the binary basis.]
+For example, the table below describes one particular function $G: \{0,1\}^4 \rightarrow \{0,1\}$:^[In case you are curious, this is the function on input $i\in \{0,1\}^4$ (which we interpret as a number in $[16]$), that outputs the $i$-th digit of $\pi$ in the binary basis.]
 
 
 | Input ($x$) | Output ($G(x)$) |
@@ -502,7 +501,7 @@ For example, the table below describes one particular function $G: \{0,1\}^4 \ri
 | $1111$      | 1               |
 
 
-Table: An example of a function $G:\{0,1\}^4 \rightarrow \{0,1\}$. {#tablefunctiong}
+Table: An example of a function $G:\{0,1\}^4 \rightarrow \{0,1\}$. { .table #tablefunctiong }
 
 
 
@@ -518,7 +517,7 @@ G0100 = 0
 G0111 = 1
 G1111 = 1
 Y[0] = LOOKUP_4(G0000,G1000,...,G1111,
-              X[0],X[1],X[2],X[3])
+                X[0],X[1],X[2],X[3])
 ```
 
 
@@ -541,7 +540,7 @@ This completes the proof of [NAND-univ-thm](){.ref}.
 > ### {.remark title="Result in perspective" #discusscomputation}
 While [NAND-univ-thm](){.ref} seems striking at first, in retrospect, it is perhaps not that surprising that every finite function can be computed with a NAND-CIRC program. After all, a finite function $F: \{0,1\}^n \rightarrow \{0,1\}^m$ can be represented by simply the list of its outputs for each one of the $2^n$ input values.
 So it makes sense that we could write a NAND-CIRC program of similar size to compute it.
-What is more interesting is that _some_ functions, such as addition and multiplication,  have a much more efficient representation: one that only requires $O(n^2)$ or even smaller number of lines.
+What is more interesting is that _some_ functions, such as addition and multiplication,  have a much more efficient representation: one that only requires $O(n^2)$ or even fewer lines.
 
 
 ### Improving by a factor of $n$ (optional) {#tight-upper-bound}
@@ -600,7 +599,7 @@ There exists some constant $c>0$ such that for every $n,m>0$ and function $f: \{
 
 > ### {.proofidea data-ref="circuit-univ-alt-thm"}
 The idea of the proof is illustrated in [computeallfuncaltfig](){.ref}. As before, it is enough to focus on the case that $m=1$ (the function $f$ has a single output), since we can always extend this to the case of $m>1$ by looking at the composition of $m$ circuits each computing a different output bit of the function $f$.
-We start by showing that for every $\alpha \in \{0,1\}^n$, there is an $O(n)$ sized circuit that computes the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$ defined as follows: $\delta_\alpha(x)=1$ iff $x=\alpha$ (that is. $\delta_\alpha$ outputs $0$ on all inputs except the input $\alpha$). We can then write any function $f:\{0,1\}^n \rightarrow \{0,1\}$ as the OR of at most $2^n$ functions $\delta_\alpha$ for the $\alpha$'s on which $f(\alpha)=1$. 
+We start by showing that for every $\alpha \in \{0,1\}^n$, there is an $O(n)$ sized circuit that computes the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$ defined as follows: $\delta_\alpha(x)=1$ iff $x=\alpha$ (that is, $\delta_\alpha$ outputs $0$ on all inputs except the input $\alpha$). We can then write any function $f:\{0,1\}^n \rightarrow \{0,1\}$ as the OR of at most $2^n$ functions $\delta_\alpha$ for the $\alpha$'s on which $f(\alpha)=1$. 
 
 ::: {.proof data-ref="circuit-univ-alt-thm"}
 We prove the theorem for the case $m=1$. The result can be extended for $m>1$ as before (see also [mult-bit-ex](){.ref}).
@@ -623,7 +622,7 @@ __PROOF OF CLAIM:__ The proof is illustrated in [deltafuncfig](){.ref}.
 As an example, consider the function $\delta_{011}:\{0,1\}^3 \rightarrow \{0,1\}$.
 This function outputs $1$ on $x$ if and only if $x_0=0$, $x_1=1$ and $x_2=1$, and so we can write $\delta_{011}(x) = \overline{x_0} \wedge x_1 \wedge x_2$, which translates into a Boolean circuit with one NOT gate and two AND gates.
 More generally, for every $\alpha \in \{0,1\}^n$, we can express $\delta_{\alpha}(x)$  as $(x_0 = \alpha_0) \wedge (x_1 = \alpha_1) \wedge \cdots \wedge (x_{n-1} = \alpha_{n-1})$, where if $\alpha_i=0$ we replace $x_i = \alpha_i$ with $\overline{x_i}$ and if $\alpha_i=1$ we replace $x_i=\alpha_i$ by simply $x_i$. 
-This yields a circuit that computes $\delta_\alpha$ using $n$ AND gates and at most $n$ NOT gates and so a total of at most $2n$ gates.
+This yields a circuit that computes $\delta_\alpha$ using $n$ AND gates and at most $n$ NOT gates, so a total of at most $2n$ gates.
 
 Now for every function $f:\{0,1\}^n \rightarrow \{0,1\}$, we can write 
 
