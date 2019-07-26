@@ -42,7 +42,7 @@ Formally, $\mathbf{NP}$ is defined as follows:
 ::: {.definition title="NP" #NP-def}
 We say that $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{NP}$ if there exists some constants $a,b \in \N$ and $V:\{0,1\}^* \rightarrow \{0,1\}$ such that $V\in \mathbf{P}$ and for every $x\in \{0,1\}^n$,
 $$
-F(x)=1 \Leftrightarrow \exists_{w \in \{0,1\}^{an^b}} \text{ s.t. } V(xw)=1 \;. \label{NP:eq}
+F(x)=1 \Leftrightarrow \exists_{w \in \{0,1\}^{an^b}} \text{ s.t. } V(xw)=1 \;. \label{NP-eq}
 $$
 
 In other words, for $F$ to be in $\mathbf{NP}$, there needs to exist some polynomial-time computable verification function $V$, such that if $F(x)=1$ then there must exist $w$ (of length polynomial in $|x|$) such that $V(xw)=1$, and if $F(x)=0$ then for _every_ such $w$, $V(xw)=0$.
@@ -51,7 +51,7 @@ Since the existence of this string $w$ certifies that $F(x)=1$, $w$ is often ref
 
 See also [NPdeffigfig](){.ref} for an illustration of [NP-def](){.ref}.
 The name $\mathbf{NP}$ stands for "nondeterministic polynomial time" and is used for historical reasons; see the bibiographical notes.
-The string $w$ in [{NP:eq}](){.eqref} is sometimes known as a _solution_, _certificate_, or _witness_ for the instance $x$.
+The string $w$ in [NP-eq](){.eqref} is sometimes known as a _solution_, _certificate_, or _witness_ for the instance $x$.
 
 > ### {.remark title="$\mathbf{NP}$ and proof systems" #NPproofs}
 The definition of $\mathbf{NP}$ means that for every  $F\in \mathbf{NP}$ and string $x\in \{0,1\}^*$, $F(x)=1$ if and only if there is a _short and efficiently verifiable proof_ of this fact.
@@ -109,7 +109,7 @@ By its definition the algorithm outputs $1$ if and only if the assignment $y$ sa
 
 ::: {.remark title="Padding a witness" #padding}
 The "padding trick" we used in [threesatinnpex](){.ref}  can always be used to expand a witness of length smaller than $an^b$ to a witness of exactly that length.
-Therefore one can think of the condition [{NP:eq}](){.eqref} in [NP-def](){.ref}as simply stipulating that the "solution" $w$ to the problem $x$ is of length _at most_ polynomial in $|x|$.
+Therefore one can think of the condition [NP-eq](){.eqref} in [NP-def](){.ref}as simply stipulating that the "solution" $w$ to the problem $x$ is of length _at most_ polynomial in $|x|$.
 :::
 
 Here are some more examples for problems in $\mathbf{NP}$. For each one of these problems we merely sketch how the witness is represented and why it is efficiently checkable, but working out the details can be a good way to get more comfortable with [NP-def](){.ref}:
@@ -139,7 +139,7 @@ Since $F\in \mathbf{P}$ we can clearly compute $V$ in polynomial time as well.
 
 Let $x\in \{0,1\}^n$ be some string.
 If $F(x)=1$ then $V(x0^n)=1$. On the other hand, if $F(x)=0$ then for every $w\in \{0,1\}^n$, $V(xw)=0$.
-Therefore, setting $a=b=1$, we see that $V$ satisfies  [{NP:eq}](){.eqref}, and establishes that $F \in \mathbf{NP}$.
+Therefore, setting $a=b=1$, we see that $V$ satisfies  [NP-eq](){.eqref}, and establishes that $F \in \mathbf{NP}$.
 :::
 
 ::: {.remark title="$\mathbf{NP}$ does not mean non-polynomial!" #NPandNOTPolynomial}
@@ -155,7 +155,7 @@ Prove that $\mathbf{NP} \subseteq \mathbf{EXP}$.
 :::
 
 ::: {.solution data-ref="NPinEXP"}
-Suppose that $F\in \mathbf{NP}$ and let $V$ be the polynomial-time computable function that satisfies [{NP:eq}](){.eqref} and $a,b$ the corresponding constants. Then the following is an exponential-time algorithm $A$ to compute $F$:
+Suppose that $F\in \mathbf{NP}$ and let $V$ be the polynomial-time computable function that satisfies [NP-eq](){.eqref} and $a,b$ the corresponding constants. Then the following is an exponential-time algorithm $A$ to compute $F$:
 
 ::: {.quote}
 __Algorithm $A$:__
@@ -170,7 +170,7 @@ __Operation:__
 :::
 
 Since $V \in \mathbf{P}$, for every $x\in \{0,1\}^n$, Algorithm $A$ runs in time $poly(n)2^{an^b}$.
-Moreover by [{NP:eq}](){.eqref}, $A$ will output $1$ on $x$ if and only if $F(x)=1$.
+Moreover by [NP-eq](){.eqref}, $A$ will output $1$ on $x$ if and only if $F(x)=1$.
 :::
 
 [PinNP](){.ref} and [NPinEXP](){.ref} together imply that
