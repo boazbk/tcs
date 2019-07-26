@@ -164,7 +164,7 @@ $$
 
 One can see that if $x^*$ is true, then it does not have a proof, but it is false then (assuming the proof system is sound) then it cannot have a proof, and hence $x^*$ must be both true and unprovable.
 One might wonder how is it possible to come up with an $x^*$ that satisfies a condition such as [godeleq](){.eqref} where the same string $x^*$ appears on both the righthand side and the lefthand side of the equation.
-The idea is that the proof of [godelthm](){.ref} yields a way to transform every statement $x$ into a statement $F(x)$ that is true if and only if $x$ does not have a proof in $V$.
+The idea is that the proof of [godethmtakeone](){.ref} yields a way to transform every statement $x$ into a statement $F(x)$ that is true if and only if $x$ does not have a proof in $V$.
 Thus $x^*$ needs to be a _fixed point_ of $F$: a sentence such that $x^* = F(x^*)$.
 It turns out that [we can always find](https://en.wikipedia.org/wiki/Kleene%27s_recursion_theorem) such a fixed point of $F$.
 We've already seen this phenomenon in the $\lambda$ calculus, where the $Y$ combinator maps every $F$ into a fixed point $Y F$ of $F$.
@@ -264,7 +264,7 @@ This follows in the same way that [godethmtakeone](){.ref} followed from the unc
 :::
 
 
-In the rest of this chapter, we will show the proof of [QIS-Thm](){.ref}.
+In the rest of this chapter, we will show the proof of [godelthmqis](){.ref}.
 
 
 
@@ -478,7 +478,7 @@ Prove [godelthmqis](){.ref} using  [QIS-thm](){.ref}
 Let $FSQRT(n,m) = \forall_{j \in \N} ((j \times j)>m) \vee (j \leq n)$. Prove that $FSQRT(n,m)$ is true if and only if $n =\floor{\sqrt{m}}$.
 
 > ### {.exercise title="Expression for computing the index" #indexexpressionex}
-Recall that in [computeidx-ex](){.ref} asked you to prove that at iteration $t$ of a NAND-TM program the the variable `i` is equal to $t-r(r+1)$ if $t \leq (r+1)^2$ and equals $(r+2)(r+1)t$ otherwise, where $r = \floor{\sqrt{t+1/4}-1/2}$.
+Recall that [computeidx-ex](){.ref} asked you to prove that at iteration $t$ of a NAND-TM program the the variable `i` is equal to $t-r(r+1)$ if $t \leq (r+1)^2$ and equals $(r+2)(r+1)t$ otherwise, where $r = \floor{\sqrt{t+1/4}-1/2}$.
 Prove that there is a quantified integer statement $INDEX$ with parameters $t,i$ such that $INDEX(t,i)$ is true if and $i$ is the value of `i` after $t$ iterations.
 
 > ### {.exercise title="Expression for computing the previous line" #prevex}

@@ -468,7 +468,7 @@ This observation allows us to encode the configuration of a Turing machine $M$ a
 
 ### Configurations of Turing machines and the next-step function  {#turingmachinesconfigsec }
 
-To turn the above ideas into a rigorous proof (and even statement!) of [[onedimcathm](){.ref}](){.ref} we will need precisely define the notion of _configurations_ of Turing machines.
+To turn the above ideas into a rigorous proof (and even statement!) of [onedimcathm](){.ref} we will need precisely define the notion of _configurations_ of Turing machines.
 This notion will be useful for us in later chapters we well.
 
 
@@ -633,7 +633,7 @@ $$((\lambda x.(\lambda y.x)) \; 2)\; 9) \;. \label{lambdaexptwoeq}$$
 ::: {.solution data-ref="lambdaexptwoex"}
 $\lambda y.x$ is the function that on input $y$ ignores its input and outputs $x$.
 Hence $(\lambda x.(\lambda y.x)) 2$ yields the function $y \mapsto 2$ (or, using $\lambda$ notation, the function $\lambda y. 2$).
-Hence [lambdaexptwo](){.eqref}  is equivalent to $(\lambda y. 2) 9 = 2$.
+Hence [lambdaexptwoeq](){.eqref}  is equivalent to $(\lambda y. 2) 9 = 2$.
 :::
 
 
@@ -694,7 +694,7 @@ As mentioned in [curryingsec](){.ref}, we also use the shorthand $\lambda x,y.e$
 
 
 
-__Equivalence of λ expressions.__ As we have seen in [lambdaexptwo](){.ref}, the rule that $(\lambda x. exp) exp'$ is equivalent to $exp[x \rightarrow exp']$ enables us to modify λ expressions and obtain simpler _equivalent form_ for them.
+__Equivalence of λ expressions.__ As we have seen in [lambdaexptwoex](){.ref}, the rule that $(\lambda x. exp) exp'$ is equivalent to $exp[x \rightarrow exp']$ enables us to modify λ expressions and obtain simpler _equivalent form_ for them.
 Another rule that we can use is that the parameter does not matter and hence for example $\lambda y.y$ is the same as $\lambda z.z$.
 Together these rules define the notion of _equivalence_ of λ expressions:
 
@@ -1042,7 +1042,7 @@ This is what we do now.
 
 How can we implement recursion without recursion?
 We will illustrate this using a simple example - the $XOR$ function.
-As shown in [xorusingrecursion](){.ref}, we can write the $XOR$ function of a list recursively as follows:
+As shown in [XORlambdaex](){.ref}, we can write the $XOR$ function of a list recursively as follows:
 
 $$
 XOR(L) = \begin{cases} 0 & L \text{ is empty} \\ XOR_2(HEAD(L),XOR(TAIL(L))) & \text{otherwise}

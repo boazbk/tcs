@@ -540,7 +540,7 @@ We set $\ell$ to be such that $s$ is about exponential in $\ell$, and so that $C
 We can then let $f:\{0,1\}^n \rightarrow \{0,1\}$ be a function that ignores all but the first input $\ell$ bits, and returns the result of applying $g$  to these bits.
 
 
-::: {.proof data-ref="sizehiearchythm,}
+::: {.proof data-ref="sizehiearchythm"}
 Let $s$ be as in the theorem statement, and let $\ell$ be the largest integer such that $10s \geq 2^\ell/(10\ell)$.
 (By this choice $10s < 2^{\ell-1}/(10\ell-1)$ which means that $5s < 2^\ell/(10\ell)$.)
 Let $g:\{0,1\}^\ell \rightarrow \{0,1\}$ be a function outside $SIZE_\ell(2^\ell/(10\ell)) \supseteq SIZE_\ell(5s)$ (the existence of such a function is guaranteed by [counting-lb](){.ref}).

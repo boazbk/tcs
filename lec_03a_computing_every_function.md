@@ -278,7 +278,7 @@ c = IF(cond,temp_c,c)
 ```
 
 Using such transformations, we can prove the following theorem.
-Once again we omit the (not too insightful) full formal proof, though see [conditionalsugarthmpython](){.ref} for some hints on how to obtain it.
+Once again we omit the (not too insightful) full formal proof, though see [functionsynsugarthmpython](){.ref} for some hints on how to obtain it.
 
 > ### {.theorem title="Conditional statements synctatic sugar" #conditionalsugarthm }
 Let NAND-CIRC-IF be the programming language NAND-CIRC augmented with `if`/`then`/`else` statements for allowing code to be conditionally executed based on whether a variable is equal to $0$ or $1$.  
@@ -755,11 +755,12 @@ Y[0] = NAND(u,v)
 :::
 
 
-> ### {.exercise title="At least two / Majority" #atleasttwo-ex}
+::: {.exercise title="At least two / Majority" #atleasttwo-ex}
 Give a NAND-CIRC program of at most 6 lines to compute the function  $MAJ:\{0,1\}^3 \rightarrow \{0,1\}$
 where $MAJ(a,b,c) = 1$ iff $a+b+c \geq 2$.
+:::
 
-::: ### {.exercise title="Conditional statements" #conditionalsugarthmex}
+::: {.exercise title="Conditional statements" #conditionalsugarthmex}
 In this exercise we will explore [conditionalsugarthm](){.ref}: transforming NAND-CIRC-IF programs that use code such as `if .. then .. else ..` to standard NAND-CIRC programs.
 
 1. Give a "proof by code" of [conditionalsugarthm](){.ref}: a program in a programming language of your choice that transforms a NAND-CIRC-IF program $P$ into a "sugar free" NAND-CIRC program $P'$ that computes the same function.^[_Hint:_ You can start by transforming $P$ into a NAND-CIRC-PROC program that uses procedure statements, and then use the code of [desugarcode](){.ref} to transform the latter into a "sugar free" NAND-CIRC program.] 
