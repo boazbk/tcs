@@ -255,7 +255,7 @@ For example, you can try thinking how you would write a program `NANDEVAL(n,m,s,
 
 We will now describe such an algorithm.
 We  assume that we have access to a _bit array_ data structure that can store for every $i\in [t]$ a bit $T_i \in \{0,1\}$.
-Specifically, if `Table` is variable holding  this data structure, then  we assume we can perform the operations:
+Specifically, if `Table` is a variable holding this data structure, then we assume we can perform the operations:
 
 * `GET(Table,i)` which retrieves the bit corresponding to `i` in `Table`. The value of `i` is assumed to be an integer in $[t]$.
 
