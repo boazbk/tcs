@@ -398,7 +398,7 @@ $$
 \end{aligned}
 $$
 
-Using the trigonometric identities $2\sin(\alpha)\cos(\alpha)= \sin(2\alpha)$ and $\cos^(\alpha) - \sin^2(\alpha) = \cos(2\alpha)$, we see that the probability of getting any one of $|00\rangle,|10\rangle,|01\rangle,|11\rangle$ is proportional to $\cos(\pi/4)=\sin(\pi/4)=\tfrac{1}{\sqrt{2}}$.
+Using the trigonometric identities $2\sin(\alpha)\cos(\alpha)= \sin(2\alpha)$ and $\cos^2(\alpha) - \sin^2(\alpha) = \cos(2\alpha)$, we see that the probability of getting any one of $|00\rangle,|10\rangle,|01\rangle,|11\rangle$ is proportional to $\cos(\pi/4)=\sin(\pi/4)=\tfrac{1}{\sqrt{2}}$.
 Hence all four options for $(a,b)$ are equally likely, which mean that in this case $a=b$ with probability $0.5$.
 
 
