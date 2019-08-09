@@ -278,7 +278,7 @@ Table: An example of a function.
 
 
 
-If $f:S \rightarrow T$ satisfies that $f(x)\neq F(y)$ for all $x \neq y$ then we say that $f$ is _one-to-one_ ([onetoonedef](){.ref}, also known as an _injective_ function or simply an _injection_).
+If $f:S \rightarrow T$ satisfies that $f(x)\neq f(y)$ for all $x \neq y$ then we say that $f$ is _one-to-one_ ([onetoonedef](){.ref}, also known as an _injective_ function or simply an _injection_).
 If $F$ satisfies that for every $y\in T$ there is some $x\in S$ such that $F(x)=y$ then we say that $F$ is _onto_ (also known as a _surjective_ function or simply a _surjection_).
 A function that is both one-to-one and onto is known as a _bijective_ function or simply a _bijection_.
 A bijection from a set $S$ to itself is also known as a _permutation_ of $S$.
@@ -290,7 +290,7 @@ Note that $F^{-1}$ is itself a bijection from $T$ to $S$ (can you see why?).
 Giving a bijection between two sets is often a good way to show they have the same size.
 In fact, the standard mathematical definition of the notion that "$S$ and $T$ have the same cardinality" is that there exists a bijection $f:S \rightarrow T$.
 Further, the cardinality of a set $S$ is defined to be $n$ if there is a bijection from $S$ to the set $\{0,\ldots,n-1\}$.
-As we will see later in this book, this is a definition that can generalizes to defining the cardinality of _infinite_ sets.
+As we will see later in this book, this is a definition that generalizes to defining the cardinality of _infinite_ sets.
 
 
 
