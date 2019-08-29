@@ -54,7 +54,7 @@ It's no wonder that Eratosthenes, who was the first person to calculate the eart
 
 ## Integer multiplication: an example of an algorithm
 
-In the language of Computer Science, the place-value system for representing numbers is known a _data structure_: a set of instructions or ``recipe'' for representing objects as symbols.
+In the language of Computer Science, the place-value system for representing numbers is known as a _data structure_: a set of instructions or ``recipe'' for representing objects as symbols.
 An _algorithm_ is a set of instructions or recipe for performing operations on such representations.
 Data structures and algorithms have enabled amazing applications that have transformed human society, but their importance goes beyond their practical utility.
 Structures from computer science, such as bits, strings, graphs, and even the notion of a program itself, as well as concepts such as universality and replication, have not just found (many) practical uses but contributed a new language and a new way to view the world.
@@ -119,7 +119,7 @@ A full description of an algorithm has three components:
 
 * __Implementation__: __How__ is the task accomplished: what is the sequence of instructions to be performed. Even though [naivemultalg](){.ref} and [gradeschoolalg](){.ref} perform the same computational task (i.e., they have the same _specification_), they do it in different ways (i.e., they have different _implementations_).
 
-* __Analysis:__ __Why__ does this sequence of instructions achieves the desired task. A full description of [naivemultalg](){.ref} and [gradeschoolalg](){.ref} will include a _proof_ for each one of these algorithms that on input $x,y$, the algorithm does indeed output $x\cdot y$.
+* __Analysis:__ __Why__ does this sequence of instructions achieve the desired task. A full description of [naivemultalg](){.ref} and [gradeschoolalg](){.ref} will include a _proof_ for each one of these algorithms that on input $x,y$, the algorithm does indeed output $x\cdot y$.
 
 Often as part of the analysis we show that the algorithm is not only __correct__ but also __efficient__. That is, we want to show that not only will the algorithm compute the desired task, but will do so in prescribed number of operations. For example [gradeschoolalg](){.ref} computes the multiplication function on inputs of $n$ digits using $O(n^2)$ operations, while [karatsubaalg](){.ref} (described below) computes the same function using $O(n^{1.6})$ operations. (We define the $O$ notations used here in [secbigohnotation]{.ref}.)
 :::

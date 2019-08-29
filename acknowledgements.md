@@ -20,6 +20,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Leor Fishman
 * Zaymon Foulds-Cook
 * William Fu
+* Kent Furuie
 * Piotr Galuszka
 * Mark Goldstein
 * Alexander Golovnev

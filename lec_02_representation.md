@@ -11,7 +11,7 @@ chapternum: "2"
 * Representing an object as a string (often of zeroes and ones).
 * Examples of representations for common objects such as numbers, vectors, lists, graphs.
 * Prefix-free representations.
-* Cantor's Theorem: The real numbers are cannot be represented exactly as finite strings.
+* Cantor's Theorem: The real numbers cannot be represented exactly as finite strings.
 
 
 >_"The alphabet (sic) was a great invention, which enabled men (sic) to store and to learn with little effort what others had learned the hard way -- that is, to learn from books rather than from direct, possibly painful, contact with the real world."_, B.F. Skinner
@@ -237,7 +237,7 @@ Many systems leave it to the programmer to check that values are not too large a
 For this reason, in some systems adding two large positive numbers can result in a _negative_ number (e.g., adding $2^n-100$ and $2^n-200$ might result in $-300$ since $-300 \mod 2^{n+1}= 2^{n+1}-300$, see also [twoscomplementfig](){.ref}).
 
 
-![In the _two's complement representation_  we represent a potentially negative integer $k \in \{ -2^n ,\ldots, 2^n-1 \}$ as an $n+1$ length string using the binary representation of the integer $k \mod 2^{n+1}$. On the lefthand side: this representation for $n=3$ (the red integers are the numbers being represented by the blue binary strings). If a microprocessor does not check for overflows, adding the two positive numbers $6$ and $5$ might result in the negative number $-5$ (since $-5 \mod 16 = 11$. The righthand side is a `C` program that will on some $32$ bit architecture print a negative number after adding two positive numbers. (Integer overflow in `C` is condsidered _undefined behavior_ which means the result of this program, including whether it runs or crashes, could differ depending on the architecture, compiler, and even compiler options and version.)](../figure/twoscomplement.png){#twoscomplementfig .margin}
+![In the _two's complement representation_  we represent a potentially negative integer $k \in \{ -2^n ,\ldots, 2^n-1 \}$ as an $n+1$ length string using the binary representation of the integer $k \mod 2^{n+1}$. On the lefthand side: this representation for $n=3$ (the red integers are the numbers being represented by the blue binary strings). If a microprocessor does not check for overflows, adding the two positive numbers $6$ and $5$ might result in the negative number $-5$ (since $-5 \mod 16 = 11$. The righthand side is a `C` program that will on some $32$ bit architecture print a negative number after adding two positive numbers. (Integer overflow in `C` is considered _undefined behavior_ which means the result of this program, including whether it runs or crashes, could differ depending on the architecture, compiler, and even compiler options and version.)](../figure/twoscomplement.png){#twoscomplementfig .margin}
 
 
 ### Rational numbers, and representing pairs of strings
@@ -313,7 +313,7 @@ The use of floating representation is the reason why in many programming systems
 The reader might be (rightly) worried about the fact that the floating point representation (or the rational number one) can only _approximately_ represent real numbers.
 In many (though not all) computational applications, one can make the accuracy tight enough so that this does not affect the final result, though sometimes we do need to be careful.
 Indeed, floating-point bugs can sometimes be no joking matter.
-For example, dloating point rounding errors have been implicated in the   [failure](http://embeddedgurus.com/barr-code/2014/03/lethal-software-defects-patriot-missile-failure/) of a U.S. Patriot missile to intercept an Iraqi Scud missile, costing 28 lives, as well as a 100 million pound error in computing [payouts to British pensioners](https://catless.ncl.ac.uk/Risks/5/74).
+For example, floating point rounding errors have been implicated in the   [failure](http://embeddedgurus.com/barr-code/2014/03/lethal-software-defects-patriot-missile-failure/) of a U.S. Patriot missile to intercept an Iraqi Scud missile, costing 28 lives, as well as a 100 million pound error in computing [payouts to British pensioners](https://catless.ncl.ac.uk/Risks/5/74).
 
 
 
