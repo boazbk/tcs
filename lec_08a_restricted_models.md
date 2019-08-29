@@ -673,7 +673,7 @@ The idea is to show that given a pair of regular expression $e$ and $e'$ we can 
 
 
 ::: {.proof data-ref="regequivalencethm"}
-We will prove  [regequivalenthm](){.ref} from [regemptynessthm](){.ref}. (The two theorems are in fact equivalent: it is easy to prove [regemptynessthm](){.ref} from [regequivalencethm](){.ref}, since checking for emptiness is the same as checking equivalence with the expression $\emptyset$.)
+We will prove  [regequivalencethm](){.ref} from [regemptynessthm](){.ref}. (The two theorems are in fact equivalent: it is easy to prove [regemptynessthm](){.ref} from [regequivalencethm](){.ref}, since checking for emptiness is the same as checking equivalence with the expression $\emptyset$.)
 Given two regular expressions $e$ and $e'$, we will compute an expression $e''$ such that $\Phi_{e''}(x) =1$ if and only if $\Phi_e(x) \neq \Phi_{e'}(x)$.
 One can see that $e$ is equivalent to $e'$ if and only if $e''$ is empty.
 

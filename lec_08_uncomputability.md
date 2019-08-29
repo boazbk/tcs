@@ -171,7 +171,7 @@ Similarly we scan the list to update the dictionary with a new value, either mod
 :::
 
 
-::: {.remark title="Efficiency of the simulation" #}
+::: {.remark title="Efficiency of the simulation"}
 The argument in the proof of [universaltmthm](){.ref} is a very inefficient way to implement the dictionary data structure in practice, but it suffices for the purpose of proving the theorem.
 Reading and writing to a dictionary of $m$ values in this implementation takes $\Omega(m)$ steps, but it is in fact possible to do this in $O(\log m)$ steps using a _search tree_ data structure or even $O(1)$ (for "typical" instances)  using a _hash table_.   NAND-RAM and RAM machines correspond to the architecture of modern electronic computers, and so we can implement hash tables and search trees in NAND-RAM just as they are implemented in other programming languages.
 :::
@@ -920,7 +920,7 @@ Define a function $F:\{0,1\}^* :\rightarrow \{0,1\}$ to be _recursively enumerab
 4. Prove that there exists a function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F$ is recursively enumerable but the function $\overline{F}$ defined as $\overline{F}(x)=1-F(x)$ is _not_ recursively enumerable. See footnote for hint.^[$HALT$ has this property: show that if both $HALT$ and $1-HALT$ were recursively enumerable then $HALT$ would be in fact computable.]
 :::
 
-::: {.exercise title="Rice's Theorem: standard form" #ricesstandardex}
+::: {.exercise title="Rice's Theorem: standard form" #}
 In this exercise we will prove Rice's Theorem in the form that it is typically stated in the literature.
 
 For a Turing machine $M$, define $L(M) \subseteq \{0,1\}^*$ to be the set of all $x\in \{0,1\}^*$ such that $M$ halts on the input $x$ and outputs $1$. (The set $L(M)$ is known in the literature as the _language recognized by $M$_. Note that $M$ might either output a value other than $1$ or not halt at all on inputs $x\not\in L(M)$. )
