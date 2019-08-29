@@ -18,6 +18,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * David Evans
 * Michael Fine
 * Leor Fishman
+* Kent Furuie
 * Zaymon Foulds-Cook
 * William Fu
 * Piotr Galuszka
