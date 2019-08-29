@@ -87,7 +87,7 @@ Now for any such polynomial-time $V$ and $a,b\in\N$, we can implement $FIND_V(x)
 
 
 
-``` {.algorithm title="$FIND_V$: Search to decision reduction" #searchtodecisionalg}
+::: {.algorithm title="$FIND_V$: Search to decision reduction" #searchtodecisionalg}
 INPUT: $x\in \{0,1\}^*$
 OUTPUT: $x\in \{0,1\}^{an^b}$ s.t. $V(xz)=1$, -if such $x$ exists.
 
