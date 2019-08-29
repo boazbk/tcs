@@ -30,6 +30,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Eddie Kohler
 * Estefania Lahera
 * Allison Lee
+* Benjamin Lee
 * Ondřej Lengál
 * Raymond Lin
 * Emma Ling
