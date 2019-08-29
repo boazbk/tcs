@@ -86,8 +86,7 @@ We now show how we can represent natural numbers as binary strings.
 Over the years people have represented numbers in a variety of ways, including Roman numerals, tally marks, our own Hindu-Arabic  decimal system, and many others.
 We can use any one of those as well as many others to represent a number as a string (see [bitmapdigitsfig](){.ref}).
 However, for the sake of concreteness,  we use the _binary basis_ as our default representation of natural numbers as strings.
-For example, we represent the number six as the string $110$ since $1\cdot 2^{2} + 1 \cdot 2^1 + 0 \cdot 2^0 = 6$, and similarly we represent the number thirty-five as the string $y = 100011$ which satisfies $\sum_{i=0}^5 y_i \cdot 2^{|y|-i} = 35$.^[We could have equally well reversed the order so as to represent $35$ by the string $y'=110001$ satisfying $\sum_{i=0}^5 y'_i\cdot 2^i = 35$. This is related to the [Big Endian vs. Little Endian](https://betterexplained.com/articles/understanding-big-and-little-endian-byte-order/) representations for integers in computing architectures. Similarly we choose to represent the number zero as the single bit string $0$, though we could have equally well represented it using the length-zero string $""$.  
-Such low level choices will not make a difference in this book.]
+For example, we represent the number six as the string $110$ since $1\cdot 2^{2} + 1 \cdot 2^1 + 0 \cdot 2^0 = 6$, and similarly we represent the number thirty-five as the string $y = 100011$ which satisfies $\sum_{i=0}^5 y_i \cdot 2^{|y|-i} = 35$.^[We could just as well used the reverse order and represent  $35$ as the string $110001$. Similarly, we could have just as well used the empty string $""$ to represent $0$. Such low level choices do not make a difference for us, though they do matter in computing practice, see the bibliographical notes [bibnotesrepres](){.ref}.]
 Some more examples are given in the table below.
 
 
@@ -1122,11 +1121,14 @@ Recall that for every set $S$, the set $S^*$ is defined as the set of all finite
 
 
 
-## Bibliographical notes
+## Bibliographical notes {#bibnotesrepres }
 
 
 The study of representing data as strings, including issues such as _compression_ and _error corrections_ falls under the purview of _information theory_, as covered in the classic textbook of Cover and Thomas [@CoverThomas06].
 Representations are also studied in the field of _data structures design_, as covered in texts such as  [@CLRS].
+
+The question of whether to represent integers with most significant digit first or last is known as [Big Endian vs. Little Endian](https://betterexplained.com/articles/understanding-big-and-little-endian-byte-order/) representation.
+Cohen [@cohen1981holy] wrote an entertaining and informative paper about the conflict between adherents of both schools. 
 The two's complement representation of signed integers was suggested in von Neumann's classic report [@vonNeumann45] that detailed the design approaches for a stored-program computer, though similar representations have been used even earlier in abacus and other mechanical computation devices.
 
 
