@@ -186,7 +186,7 @@ That is, if we formalize the statement $c^*$ that is true if and only if $V$ is 
 There is something "unsatisfying" about [godethmtakeone](){.ref}.
 Sure, it shows there are statements that are unprovable, but they don't feel like "real" statements about math.
 After all, they talk about _programs_ rather than numbers,  matrices, or derivatives, or whatever it is they teach in math courses.
-It turns out that we can get an analogous result for statements such as "there are no integers $x$ and $y$ such that $x^2 - 2 = y^7$", or "there are integers $x,y,z$ such that $x^2 + y^6 = z^{11}$" that only talk about _natural numbers_.^[I do not know if these statements are actually true or false, see [here](https://goo.gl/qsU9zy).]
+It turns out that we can get an analogous result for statements such as "there are no positive integers $x$ and $y$ such that $x^2 - 2 = y^7$", or "there are positive integers $x,y,z$ such that $x^2 + y^6 = z^{11}$" that only talk about _natural numbers_.^[I do not know if these statements are actually true or false, see [here](https://goo.gl/qsU9zy).]
 It doesn't get much more "real math" than this.
 Indeed, the 19th century mathematician Leopold Kronecker famously said that "God made the integers, all else is the work of man."
 
