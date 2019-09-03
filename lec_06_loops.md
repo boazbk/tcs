@@ -774,7 +774,7 @@ The way we use `GOTO` to implement a higher level functionality in NAND-TM is re
 
 
 While NAND-TM adds extra operations over NAND-CIRC, it is not exactly accurate to say that NAND-TM programs or Turing machines are "more powerful" than NAND-CIRC programs or Boolean circuits.
-NAND-CIRC programs, having no loops, are simply not applicable for computing functions with an bounded number of inputs.
+NAND-CIRC programs, having no loops, are simply not applicable for computing functions with an unbounded number of inputs.
 Thus, to compute a function $F:\{0,1\}^* :\rightarrow \{0,1\}^*$ using NAND-CIRC (or equivalently, Boolean circuits) we need a _collection_ of programs/circuits: one for every input length.
 
 
