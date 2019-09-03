@@ -382,7 +382,6 @@ Some examples of Turing equivalent models (some of which we have already seen, a
 * Turing machines
 * NAND-TM programs
 * NAND-RAM programs
-* Python, JavaScript, C, Lisp, and other programming languages.
 * λ calculus
 * Game of life (mapping programs and inputs/outputs to starting and ending configurations)
 * Programming languages such as Python/C/Javascript/OCaml... (allowing for unbounded storage)
