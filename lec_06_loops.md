@@ -431,7 +431,7 @@ The output of a NAND-TM program is the string `Y[`$0$`]`, $\ldots$, `Y[`$m-1$`]`
 
 Formally, NAND-TM programs are defined as follows:
 
-::: {.definition title="NAND TM programs" #NANDTM}
+::: {.definition title="NAND-TM programs" #NANDTM}
 A _NAND-TM program_ consists of a sequence of lines of the form `foo = NAND(bar,blah)` ending with a line  of the form `MODANDJMP(foo,bar)`, where `foo`,`bar`,`blah` are either _scalar variables_ (sequences of letters, digits, and underscores) or _array variables_ of the form `Foo[i]` (starting with capital letter and indexed by `i`). The program has the array variables `X`, `X_nonblank`, `Y`, `Y_nonblank` and the index variable `i` built in, and can use additional array and scalar variables.
 
 If $P$ is a NAND-TM program and $x\in \{0,1\}^*$ is an input then an execution of $P$ on $x$ is the following process:
