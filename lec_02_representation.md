@@ -402,7 +402,7 @@ We assume, towards a contradiction, that there exists such a function $StF:\{0,1
 Consider the lexicographic ordering of binary strings (i.e., $""$,$0$,$1$,$00$,$01$,$\ldots$).
 We can imagine the function $StF$ as being specified by an infinitely long table, in which every row corresponds to a string $x\in \{0,1\}^*$ (sorted in lexicographic order), and contains the sequence $StF(x)$.
 That is, for every $x\in \{0,1\}^*$ and $n\in \N$, the cell in the $x$-th row  and $n$-th column of the table contains the bit  $g(n)$ where $g=StF(x)$.
-The diagonal elements in this table are the values $StF("")(0),StF(0)(1),StF(00)(2),StF(01)(3),\ldots$, with the $n$-th diagonal element $d_n$ being $StF(x)(n)$ where $x$ is the $n$-th string in the lexicographic order.
+The diagonal elements in this table are the values $StF("")(0),StF(0)(1),StF(1)(2),StF(00)(3),\ldots$, with the $n$-th diagonal element $d_n$ being $StF(x)(n)$ where $x$ is the $n$-th string in the lexicographic order.
 We define the function $\overline{d} \in \{0,1\}^\infty$ by $\overline{d}(n) = 1 - d_n$ for every $n\in \N$.
 By construction, for every $n$, if $a_0,a_1,a_2,\ldots$ is the $n$-th row of this table then $a_n \neq \overline{d}(n)$.
 This means that for every $x\in \{0,1\}^*$, if we let $n$ be the position of $x$ in the lexicographic order, then since $g = StF(x)$ is the $n$-th row of the table, $g(n) \neq \overline{d}(n)$.
