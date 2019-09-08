@@ -29,7 +29,16 @@ People have been computing for thousands of years, with aids that include not ju
 A priori, the notion of computation seems to be tied to the particular mechanism that you use.
 You might think that the "best"  algorithm for multiplying numbers will differ if you implement it in _Python_ on a modern laptop than if you use pen and paper.
 However, as we saw in the introduction ([chapintro](){.ref}), an algorithm that is asymptotically better would eventually beat a worse one regardless of the underlying technology.
-This gives us hope for a _technology independent_ way of defining computation, which is what we will do in this chapter.
+This gives us hope for a _technology independent_ way of defining computation.
+This is what we do in this chapter. 
+We will define the notion of computing an output from an input by applying a sequence of basic operations (see [compchapwhatvshowfig](){.ref}).
+Using this, we will be able to precisely define statements such as "function $f$ can be computed by model $X$" or "function $f$ can be computed by model $X$ using $s$ operations".
+
+
+![A function mapping strings to strings _specifies_ a computational task, i.e., describes _what_ is the desired relation between the input and the output. In this chapter we define models for _implementing_ computational processes that achieve the desired relation, i.e., describe _how_ to compute the output from the input. We will see several examples of such models using both Boolean circuits and straight-line programming languages.](../figure/compchapterwhatvshow.png  ){#compchapwhatvshowfig }
+
+## Defining computation
+
 
 ![Calculating wheels by Charles Babbage. Image taken from the Mark I 'operating manual'](../figure/wheels_babbage.png){#babbagewheels .margin  }
 
@@ -37,8 +46,6 @@ This gives us hope for a _technology independent_ way of defining computation, w
 
 ![A 1944 _Popular Mechanics_ article on the [Harvard Mark I computer](http://sites.harvard.edu/~chsi/markone/about.html).](../figure/PopularMechanics1944smaller.jpg){#markIcomp .margin  }
 
-
-## Defining computation
 
 
 The name "algorithm" is derived from the Latin transliteration of Muhammad ibn Musa al-Khwarizmi's name.
