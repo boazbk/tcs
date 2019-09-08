@@ -1128,7 +1128,7 @@ The study of representing data as strings, including issues such as _compression
 Representations are also studied in the field of _data structures design_, as covered in texts such as  [@CLRS].
 
 The question of whether to represent integers with most significant digit first or last is known as [Big Endian vs. Little Endian](https://betterexplained.com/articles/understanding-big-and-little-endian-byte-order/) representation.
-Cohen [@cohen1981holy] wrote an entertaining and informative paper about the conflict between adherents of both schools. 
+This terminology comes from Cohen's [@cohen1981holy]  entertaining and informative paper about the conflict between adherents of both schools which he compared to the warring tribes in Jonathan Swift's _"Gulliver's Travels"_. 
 The two's complement representation of signed integers was suggested in von Neumann's classic report [@vonNeumann45] that detailed the design approaches for a stored-program computer, though similar representations have been used even earlier in abacus and other mechanical computation devices.
 
 
