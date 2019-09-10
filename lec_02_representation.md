@@ -584,7 +584,7 @@ Therefore, I highly recommend that you pause here to make sure you understand th
 
 > ### {.proofidea data-ref="prefixfreethm"}
 The idea behind the proof is simple.
-Suppose that for example we want to decode a triple $(o_0,o_1,o_2)$ from its representation $x= E'(o_0,o_1,o_2)=E(o_0)E(o_1)E(o_2)$.
+Suppose that for example we want to decode a triple $(o_0,o_1,o_2)$ from its representation $x= \overline{E}(o_0,o_1,o_2)=E(o_0)E(o_1)E(o_2)$.
 We will do so by first finding the first prefix $x_0$ of $x$ such is a representation of some object.
 Then we will decode this object, remove $x_0$ from $x$ to obtain a new string $x'$,  and continue onwards to find the first prefix $x_1$ of $x'$ and so on and so forth  (see [prefix-free-tuples-ex](){.ref}).
 The prefix-freeness property of $E$ will ensure that $x_0$ will in fact be $E(o_0)$,  $x_1$ will be $E(o_1)$, etc.

@@ -24,6 +24,12 @@ chapternum: "3"
 >_"To understand a program you must become both the machine and the program."_, Alan Perlis, 1982
 
 
+![Calculating wheels by Charles Babbage. Image taken from the Mark I 'operating manual'](../figure/wheels_babbage.png){#babbagewheels .margin  }
+
+
+
+![A 1944 _Popular Mechanics_ article on the [Harvard Mark I computer](http://sites.harvard.edu/~chsi/markone/about.html).](../figure/PopularMechanics1944smaller.jpg){#markIcomp .margin  }
+
 
 People have been computing for thousands of years, with aids that include not just pen and paper, but also abacus, slide rules, various mechanical devices, and modern electronic computers.
 A priori, the notion of computation seems to be tied to the particular mechanism that you use.
@@ -39,12 +45,6 @@ Using this, we will be able to precisely define statements such as "function $f$
 
 ## Defining computation
 
-
-![Calculating wheels by Charles Babbage. Image taken from the Mark I 'operating manual'](../figure/wheels_babbage.png){#babbagewheels .margin  }
-
-
-
-![A 1944 _Popular Mechanics_ article on the [Harvard Mark I computer](http://sites.harvard.edu/~chsi/markone/about.html).](../figure/PopularMechanics1944smaller.jpg){#markIcomp .margin  }
 
 
 
