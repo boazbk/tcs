@@ -478,10 +478,11 @@ In particular we see that for every distinct $f,g \in \{0,1\}^\infty$, $FtR(f) \
 
 
 ::: {.remark title="Using decimal expansion (optional)" #decimal}
-In the proof above we used the fact that $1 + 1/10 + 1/100 + \cdots$ converges to $11/9$, which plugging into [eqcantordecimalexpansion](){.eqref} yields that the difference between $FtR(g)$ and $FtR(h)$ is at least $10^{-k} - 10^{-k-1}\cdot (11/9) > 0$.
+In the proof above we used the fact that $1 + 1/10 + 1/100 + \cdots$ converges to $10/9$, which plugging into [eqcantordecimalexpansion](){.eqref} yields that the difference between $FtR(g)$ and $FtR(h)$ is at least $10^{-k} - 10^{-k-1}\cdot (10/9) > 0$.
 While the choice of the decimal representation for $FtR$ was arbitrary, we could not have used the binary representation in its place.
-Had we used the _binary_ expansion instead of decimal, the corresponding sequence $1 + 1/2 + 1/4 + \cdots$ converges to $2$, and since $2^{-k} = 2^{-k-1} \cdot 2$, we could not have deduced that $FtR$ is one to one.
+Had we used the _binary_ expansion instead of decimal, the corresponding sequence $1 + 1/2 + 1/4 + \cdots$ converges to $2/1=2$, and since $2^{-k} = 2^{-k-1} \cdot 2$, we could not have deduced that $FtR$ is one to one.
 Indeed there do exist pairs of distinct sequences $f,g\in \{0,1\}^\infty$ such that $\sum_{i=0}^\infty f(i)2^{-i} = \sum_{i=0}^\infty g(i)2^{-i}$.
+(For example, the sequence $1,0,0,0,\ldots$ and the sequence $0,1,1,1,\ldots$ have this property.)
 :::
 
 
@@ -556,8 +557,9 @@ But first let us formally define prefix-freeness:
 For two strings $y,y'$, we say that $y$ is a _prefix_ of $y'$ if $|y| \leq |y'|$ and for every $i<|y|$, $y'_i = y_i$.
 
 Let $\mathcal{O}$ be a non-empty set and $E:\mathcal{O} \rightarrow \{0,1\}^*$ be a function.
-
 We say that $E$ is _prefix-free_ if $E(o)$ is non-empty for every $o\in\mathcal{O}$ and there does not exist a distinct pair of objects $o, o' \in \mathcal{O}$ such that  $E(o)$  is a prefix of $E(o')$.
+:::
+
 
 Recall that for every set $\mathcal{O}$, the set $\mathcal{O}^*$ consists of all finite length tuples (i.e., _lists_) of elements in $\mathcal{O}$.
 The following theorem shows that if $E$ is a prefix-free encoding of $\mathcal{O}$ then by concatenating encodings we can obtain a valid (i.e., one-to-one) representation of $\mathcal{O}^*$:

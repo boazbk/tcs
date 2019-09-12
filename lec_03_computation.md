@@ -434,8 +434,7 @@ Let $n,m,s$ be positive integers with $s \geq m$. A _Boolean circuit_ with $n$ i
 
 * Exactly $n$ of the vertices have no in-neighbors. These vertices are known as _inputs_ and are labeled with the $n$ labels `X[`$0$`]`, $\ldots$, `X[`$n-1$`]`.
 
-* The other $s$ vertices are known as _gates_. Each gate is labeled with $\wedge$, $\vee$ or $\neg$. Gates labeled with $\wedge$ (_AND_) or $\vee$ (_OR_) have two in-neighbors. Gates labeled with $\neg$ (_NOT_) have one in-neighbor. We will allow parallel edges (and so for example an _AND_ gate can have both its in-neighbors be the same vertex).
-
+* The other $s$ vertices are known as _gates_. Each gate is labeled with $\wedge$, $\vee$ or $\neg$. Gates labeled with $\wedge$ (_AND_) or $\vee$ (_OR_) have two in-neighbors. Gates labeled with $\neg$ (_NOT_) have one in-neighbor. We will allow parallel edges.^[Having parallel edges means an AND or OR gate $u$ can have both its in-neighbors be the same gate $v$. Since $AND(a,a)=OR(a,a)=a$ for every $a\in \{0,1\}$, such parallel edges don't help in computing new values in circuits with AND/OR/NOT gates. However, we will see circuits with more general sets of gates later on.] 
 * Exactly $m$ of the gates are also labeled with the $m$ labels   `Y[`$0$`]`, $\ldots$, `Y[`$m-1$`]` (in addition to their label $\wedge$/$\vee$/$\neg$). These are known as _outputs_.
 :::
 
