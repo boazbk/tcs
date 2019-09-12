@@ -907,15 +907,15 @@ The idea is that we can embed $Z_L$ in the group $\Z_{A\cdot L}$ for any integer
 ::: {.exercise title="Quantum and classical complexity class relations" #BQPcontainements}
 Prove the following relations between quantum complexity classes and classical ones:
 
-1. $\mathbf{P_{/poly}} \subseteq \mathbf{BQP_{/poly}}$.^[_Hint:_ You can use $U_{NAND}$ to simulate NAND gates.]
+1. $\mathbf{P_{/poly}} \subseteq \mathbf{BQP_{/poly}}$. See footnote for hint.^[You can use $U_{NAND}$ to simulate NAND gates.]
 
-2. $\mathbf{P} \subseteq \mathbf{BQP}$.^[_Hint:_ Use the alternative characterization of $\mathbf{P}$ as in [Palternativeex](){.ref}.]
+2. $\mathbf{P} \subseteq \mathbf{BQP}$. See footnote for hint.^[Use the alternative characterization of $\mathbf{P}$ as in [Palternativeex](){.ref}.]
 
-3. $\mathbf{BPP} \subseteq \mathbf{BQP}$.^[_Hint:_ You can use the $HAD$ gate to simulate a coin toss.]
+3. $\mathbf{BPP} \subseteq \mathbf{BQP}$. See footnote for hint.^[You can use the $HAD$ gate to simulate a coin toss.]
 
-4. $\mathbf{BQP} \subseteq \mathbf{EXP}$.^[_Hint:_ In exponential time simulating quantum computation boils down to matrix multiplication.]
+4. $\mathbf{BQP} \subseteq \mathbf{EXP}$. See footnote for hint.^[In exponential time simulating quantum computation boils down to matrix multiplication.]
 
-5. If $SAT \in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$.^[_Hint:_ If a reduction can be implemented in $\mathbf{P}$ it can be implemented in $\mathbf{BQP}$ as well.]
+5. If $SAT \in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$. See footnote for hint.^[If a reduction can be implemented in $\mathbf{P}$ it can be implemented in $\mathbf{BQP}$ as well.]
 :::
 
 ::: {.exercise title="Discrete logarithm from order finding" #dlogfromorder}

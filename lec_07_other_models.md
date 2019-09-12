@@ -1248,11 +1248,11 @@ Let $embed:\N^2 \rightarrow \N$ be the function defined as $embed(x_0,x_1)= \tfr
 :::
 
 ::: {.exercise title="Shortest Path" #shortestpathcomputableex}
-Let $SHORTPATH:\{0,1\}^* \rightarrow \{0,1\}^*$ be the function that on input a string encoding a triple $(G,u,v)$ outputs  a string encoding $\infty$ if $u$ and $v$ are disconnected in $G$ or a string encoding the length $k$ of the shortest path from $u$ to $v$. Prove that $SHORTPATH$ is computable by a Turing machine.^[_Hint:_ You don't have to give a full description of a Turing machine: use our "eat the cake and have it too" paradigm to show the existence of such a machine by arguing from more powerful equivalent models.]
+Let $SHORTPATH:\{0,1\}^* \rightarrow \{0,1\}^*$ be the function that on input a string encoding a triple $(G,u,v)$ outputs  a string encoding $\infty$ if $u$ and $v$ are disconnected in $G$ or a string encoding the length $k$ of the shortest path from $u$ to $v$. Prove that $SHORTPATH$ is computable by a Turing machine. See footnote for hint.^[You don't have to give a full description of a Turing machine: use our "eat the cake and have it too" paradigm to show the existence of such a machine by arguing from more powerful equivalent models.]
 :::
 
 ::: {.exercise title="Longest Path" #longestpathcomputableex}
-Let $LONGPATH:\{0,1\}^* \rightarrow \{0,1\}^*$ be the function that on input a string encoding a triple $(G,u,v)$ outputs  a string encoding $\infty$ if $u$ and $v$ are disconnected in $G$ or a string encoding the length $k$ of the _longest simple path_ from $u$ to $v$. Prove that $LONGPATH$ is computable by a Turing machine.^[_Hint:_ Same hint as [longestpathcomputableex](){.ref} applies. Note that for showing that $LONGPATH$ is computable you don't have to give an _efficient_ algorithm.]
+Let $LONGPATH:\{0,1\}^* \rightarrow \{0,1\}^*$ be the function that on input a string encoding a triple $(G,u,v)$ outputs  a string encoding $\infty$ if $u$ and $v$ are disconnected in $G$ or a string encoding the length $k$ of the _longest simple path_ from $u$ to $v$. Prove that $LONGPATH$ is computable by a Turing machine. See footnote for hint.^[Same hint as [longestpathcomputableex](){.ref} applies. Note that for showing that $LONGPATH$ is computable you don't have to give an _efficient_ algorithm.]
 :::
 
 ::: {.exercise title="Shortest path λ expression" #shortestpathlambda}
@@ -1272,7 +1272,7 @@ Prove that for every λ-expression $e$ with no free variables there is an equiva
 1. Let $e = \lambda x.7 \left( (\lambda x.xx) (\lambda x.xx) \right)$.
 Prove that the simplification process of $e$ ends in a definite number if we use the "call by name" evaluation order  while it never ends if we use the "call by value" order.
 
-2. (bonus, challenging) Let $e$ be any λ expression. Prove that if the simplification process ends in a definite number if we use the "call by value" order then it also ends in such a number if we use the "call by name" order.^[_Hint:_ Use structural induction on the expression $e$.]
+2. (bonus, challenging) Let $e$ be any λ expression. Prove that if the simplification process ends in a definite number if we use the "call by value" order then it also ends in such a number if we use the "call by name" order. See footnote for hint.^[Use structural induction on the expression $e$.]
 :::
 
 
@@ -1282,11 +1282,11 @@ Thus $zip$ "zips together" these two lists of elements into a single list of pai
 :::
 
 ::: {.exercise title="Next-step function without $RECURSE$" #lambdaturing-thm}
-Let $M$ be a Turing machine. Give an enhanced λ calculus expression to compute the next-step function $NEXT_M$ of $M$ (as in the proof of [lambdaturing-thm](){.ref}) _without using $RECURSE$_.^[_Hint:_ Use $MAP$ and $REDUCE$ (and potentially $FILTER$). You might also find the function $zip$ of [zipfunctionex](){.ref} useful.]
+Let $M$ be a Turing machine. Give an enhanced λ calculus expression to compute the next-step function $NEXT_M$ of $M$ (as in the proof of [lambdaturing-thm](){.ref}) _without using $RECURSE$_. See footnote for hint.^[Use $MAP$ and $REDUCE$ (and potentially $FILTER$). You might also find the function $zip$ of [zipfunctionex](){.ref} useful.]
 :::
 
 ::: {.exercise title="λ calculus to NAND-TM compiler (challenging)" #lambdacompiler }
-Give a program in the programming language of your choice that takes as input a λ expression $e$ and outputs a NAND-TM program $P$ that computes the same function as $e$. For partial credit you can use the `GOTO` and all NAND-CIRC syntactic sugar in your output program. You can use any encoding of λ expressions as binary string that is convenient for you.^[_Hint:_ Try to set up a procedure such that if array `Left` contains an encoding of a λ expression $\lambda x.e$ and array `Right` contains an encoding of another λ expression $e'$, then the array `Result` will contain $e[x \rightarrow e']$.]
+Give a program in the programming language of your choice that takes as input a λ expression $e$ and outputs a NAND-TM program $P$ that computes the same function as $e$. For partial credit you can use the `GOTO` and all NAND-CIRC syntactic sugar in your output program. You can use any encoding of λ expressions as binary string that is convenient for you. See footnote for hint.^[Try to set up a procedure such that if array `Left` contains an encoding of a λ expression $\lambda x.e$ and array `Right` contains an encoding of another λ expression $e'$, then the array `Result` will contain $e[x \rightarrow e']$.]
 :::
 
 ::: {.exercise title="At least two in $\lambda$ calculus" #altlambdaex}

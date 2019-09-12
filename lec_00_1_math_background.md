@@ -1159,7 +1159,7 @@ c. $F(n)=n\log n$, $G(n)=2^{(\log (n))^2}$.
 
 d. $F(n)=\sqrt{n}$, $G(n)=2^{\sqrt{\log n}}$
 
-e. $F(n) = \binom{n}{\ceil{0.2 n}}$ ,  $G(n) = 2^{0.1 n}$ (where $\binom{n}{k}$ is the number of $k$-sized subsets of a set of size $n$) and $g(n) = 2^{0.1 n}$.^[_Hint:_ one way to do this is to use [Stirling's approximation for the factorial function.](https://goo.gl/cqEmS2).]
+e. $F(n) = \binom{n}{\ceil{0.2 n}}$ ,  $G(n) = 2^{0.1 n}$ (where $\binom{n}{k}$ is the number of $k$-sized subsets of a set of size $n$) and $g(n) = 2^{0.1 n}$. See footnote for hint.^[one way to do this is to use [Stirling's approximation for the factorial function.](https://goo.gl/cqEmS2).]
 :::
 
 > ### {.exercise}

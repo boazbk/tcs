@@ -763,7 +763,7 @@ where $MAJ(a,b,c) = 1$ iff $a+b+c \geq 2$.
 ::: {.exercise title="Conditional statements" #conditionalsugarthmex}
 In this exercise we will explore [conditionalsugarthm](){.ref}: transforming NAND-CIRC-IF programs that use code such as `if .. then .. else ..` to standard NAND-CIRC programs.
 
-1. Give a "proof by code" of [conditionalsugarthm](){.ref}: a program in a programming language of your choice that transforms a NAND-CIRC-IF program $P$ into a "sugar free" NAND-CIRC program $P'$ that computes the same function.^[_Hint:_ You can start by transforming $P$ into a NAND-CIRC-PROC program that uses procedure statements, and then use the code of [desugarcode](){.ref} to transform the latter into a "sugar free" NAND-CIRC program.] 
+1. Give a "proof by code" of [conditionalsugarthm](){.ref}: a program in a programming language of your choice that transforms a NAND-CIRC-IF program $P$ into a "sugar free" NAND-CIRC program $P'$ that computes the same function. See footnote for hint.^[You can start by transforming $P$ into a NAND-CIRC-PROC program that uses procedure statements, and then use the code of [desugarcode](){.ref} to transform the latter into a "sugar free" NAND-CIRC program.] 
 
 2. Prove the following statement, which is the heart of  [conditionalsugarthm](){.ref}: suppose that there exists an $s$-line NAND-CIRC program to compute $f:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND-CIRC program to compute $g:\{0,1\}^n \rightarrow \{0,1\}$.
 Prove that there exist a NAND-CIRC program of at most $s+s'+10$ lines to compute the function $h:\{0,1\}^{n+1} \rightarrow \{0,1\}$ where $h(x_0,\ldots,x_{n-1},x_n)$ equals $f(x_0,\ldots,x_{n-1})$ if $x_n=0$ and equals $g(x_0,\ldots,x_{n-1})$ otherwise. (All programs in this item are standard "sugar-free" NAND-CIRC programs.)
@@ -842,11 +842,11 @@ Let IF-CIRC be the programming language where we have the following operations `
 :::
 
 ::: {.exercise title="Compare XOR and NAND" #comparexor}
-Let XOR-CIRC be the programming language where we have the following operations `foo = XOR(bar,blah)`, `foo = 1` and `bar = 0` (that is, we can use the constants $0$, $1$ and the $XOR$ function that maps $a,b \in \{0,1\}^2$ to $a+b \mod 2$). Compare the power of the NAND-CIRC programming language and the XOR-CIRC programming language.^[_Hint:_ You can use the fact that $(a+b)+c \mod 2 = a+b+c \mod 2$. In particular it means that if you have the lines `d = XOR(a,b)` and `e = XOR(d,c)` then `e` gets the sum modulo $2$ of the variable `a`, `b` and `c`.]
+Let XOR-CIRC be the programming language where we have the following operations `foo = XOR(bar,blah)`, `foo = 1` and `bar = 0` (that is, we can use the constants $0$, $1$ and the $XOR$ function that maps $a,b \in \{0,1\}^2$ to $a+b \mod 2$). Compare the power of the NAND-CIRC programming language and the XOR-CIRC programming language. See footnote for hint.^[You can use the fact that $(a+b)+c \mod 2 = a+b+c \mod 2$. In particular it means that if you have the lines `d = XOR(a,b)` and `e = XOR(d,c)` then `e` gets the sum modulo $2$ of the variable `a`, `b` and `c`.]
 :::
 
 ::: {.exercise title="Circuits for majority" #majasymp}
-Prove that there is some constant $c$ such that for every $n>1$, $MAJ_n \in Size(cn)$ where $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$ is the majority function on $n$ input bits. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. NOTE: You can get __16 points__ by proving the weaker statement $MAJ_n \in Size(c \cdot n \log n)$ for some constant $c$.^[_Hint:_ One approach to solve this is using recursion and the  so-called Master Theorem.]
+Prove that there is some constant $c$ such that for every $n>1$, $MAJ_n \in Size(cn)$ where $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$ is the majority function on $n$ input bits. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. NOTE: You can get __16 points__ by proving the weaker statement $MAJ_n \in Size(c \cdot n \log n)$ for some constant $c$. See footnote for hint.^[One approach to solve this is using recursion and the  so-called Master Theorem.]
 :::
 
 
