@@ -393,24 +393,39 @@ We start by proving  [sequencestostrings](){.ref} which is really the heart of [
 ![We construct a function $\overline{d}$ such that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$ by ensuring that $\overline{d}(n(x)) \neq StF(x)(n(x))$ for every $x\in \{0,1\}^*$ with lexicographic order $n(x)$. We can think of this as building a table where the columns correspond to numbers $m\in \N$ and the rows correspond to $x\in \{0,1\}^*$ (sorted according to $n(x)$). If the entry in the $x$-th row and the $m$-th column corresponds to $g(m))$ where $g=StF(x)$ then $\overline{d}$ is obtained by going over the "diagonal" elements in this table (the entries corresponding to the $x$-th row and $n(x)$-th column) and ensuring that $\overline{d}(x)(n(x)) \neq StF(x)(n(x))$. ](../figure/diagreals2.png){#diagrealsfig   }
 
 
-::: {.proof data-ref="sequencestoreals"}
+::: {.proof data-ref="sequencestostrings"}
 We will prove that there does not exist an _onto_ function $StF:\{0,1\}^* \rightarrow \{0,1\}^\infty$.
 This implies the lemma since for every two sets $A$ and $B$, there exists an onto function from $A$ to $B$ if and only if there exists a one-to-one function from $B$ to $A$  (see [onetooneimpliesonto](){.ref}).
 
 The technique of this proof is known as the "diagonal argument" and is illustrated in [diagrealsfig](){.ref}.
-We assume, towards a contradiction, that there exists such a function $StF:\{0,1\}^* \rightarrow \{0,1\}^\infty$, and we will show it is not onto by demonstrating a function $\overline{d}\in \{0,1\}^\infty$ such that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$.
+We assume, towards a contradiction, that there exists such a function $StF:\{0,1\}^* \rightarrow \{0,1\}^\infty$.
+We will show that $StF$ is not onto by demonstrating a function $\overline{d}\in \{0,1\}^\infty$ such that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$.
 Consider the lexicographic ordering of binary strings (i.e., $""$,$0$,$1$,$00$,$01$,$\ldots$).
-We can imagine the function $StF$ as being specified by an infinitely long table, in which every row corresponds to a string $x\in \{0,1\}^*$ (sorted in lexicographic order), and contains the sequence $StF(x)$.
-That is, for every $x\in \{0,1\}^*$ and $n\in \N$, the cell in the $x$-th row  and $n$-th column of the table contains the bit  $g(n)$ where $g=StF(x)$.
-The diagonal elements in this table are the values $StF("")(0),StF(0)(1),StF(1)(2),StF(00)(3),\ldots$, with the $n$-th diagonal element $d_n$ being $StF(x)(n)$ where $x$ is the $n$-th string in the lexicographic order.
-We define the function $\overline{d} \in \{0,1\}^\infty$ by $\overline{d}(n) = 1 - d_n$ for every $n\in \N$.
-By construction, for every $n$, if $a_0,a_1,a_2,\ldots$ is the $n$-th row of this table then $a_n \neq \overline{d}(n)$.
-This means that for every $x\in \{0,1\}^*$, if we let $n$ be the position of $x$ in the lexicographic order, then since $g = StF(x)$ is the $n$-th row of the table, $g(n) \neq \overline{d}(n)$.
-In particular, for every $x\in \{0,1\}^*$, $StF(x) \neq \overline{d}$ which means that $\overline{d}$ is not in the image of the function $StF$ and hence $StF$ is not onto!
+For every $n\in \N$, we let $x_n$ be the $n$-th string in this order.
+That is $x_0 =""$, $x_1 = 0$, $x_2=00$ and so on and so forth.
+We define the function $\overline{d} \in \{0,1\}^\infty$ as follows:
+$$\overline{d}(n) = 1 - StF(x_n)(n)$$
+for every $n\in \N$.
+That is,  to compute  $\overline{d}$ on input $n\in\N$, we first compute $g= StF(x_n)$, where $x_n \in \{0,1\}^*$ is the $n$-th string in the lexicographical ordering.
+Since $g \in \{0,1\}^\infty$, it is a function mapping $\N$ to $\{0,1\}$.
+The value $\overline{d}(n)$ is defined to be the negation of $g(n)$.
+
+The definition of the function $\overline{d}$ is a bit subtle.
+One way to think about it is to imagine the function $StF$ as being specified by an infinitely long table, in which every row corresponds to a string $x\in \{0,1\}^*$ (with strings sorted in lexicographic order), and contains the sequence $StF(x)(0), StF(x)(1), StF(x)(2),\ldots$. 
+The _diagonal_ elements in this table   are the values
+
+$$StF("")(0),StF(0)(1),StF(1)(2),StF(00)(3), StF(01)(4),\ldots$$
+
+which correspond to the elements $StF(x_n)(n)$ in the $n$-th row and $n$-th column of this table for $n=0,1,2,\ldots$.
+The function $\overline{d}$ we defined above maps every $n\in \N$ to the negation of the $n$-th diagonal value.
+
+To complete the proof that $StF$ is not onto we need to show that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$.
+Indeed, let $x\in \{0,1\}^*$ be some string and let $g = StF(x)$.
+If $n$ is the position of $x$ in the lexicographical order then by construction $\overline{d}(n) = 11-g(n) \neq g(n)$ which means that $g \neq \overline{d}$ which is what we wanted to prove. 
 :::
 
 ::: {.pause}
-The proof of [sequencestoreals](){.ref} is rather subtle, and worth re-reading a second or third time.
+The proof of [sequencestostrings](){.ref} is rather subtle, and worth re-reading a second or third time.
 We will use the "diagonal argument" again several times later on in this book.
 :::
 
