@@ -24,6 +24,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Piotr Galuszka
 * Mark Goldstein
 * Alexander Golovnev
+* Michael Haak
 * Thomas HUET
 * Emily Jia
 * Chan Kang
