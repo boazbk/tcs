@@ -81,7 +81,7 @@ def Proc(a,b):
     proc_code
     return c
 some_code
-f = Proc(e,d)
+f = Proc(d,e)
 some_more_code
 ```
 
