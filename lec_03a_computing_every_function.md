@@ -103,6 +103,12 @@ Let NAND-CIRC-PROC be the programming language NAND-CIRC augmented with the synt
 Then for every NAND-CIRC-PROC program $P$, there exists a standard (i.e., "sugar free") NAND-CIRC program $P'$ that computes the same function as $P$.
 
 
+::: {.remark title="No recursive procedure" #norecursion}
+NAND-CIRC-PROC only allows _non recursive_ procedures. In particular, the code of a procedure `Proc` can not call `Proc` but only use procedures that were defined before it.
+Without this restriction, the above "search and replace" procedure might never terminate and [functionsynsugarthm](){.ref} would not be true.
+:::
+
+
 [functionsynsugarthm](){.ref} can be proven using the transformation above, but since the formal proof is somewhat long and tedious, we omit it here.
 
 
@@ -174,28 +180,23 @@ To make this more robust we  a prefix to the internal variables used by `Proc` t
 The code in [desugarcode](){.ref} achieves such a  transformation.^[This code uses _regular expressions_ to make the search and replace parts a little easier. We will see the theoretical basis for regular expressions in [restrictedchap](){.ref}.]
 
 ``` { .python .full #desugarcode title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
-import re
-def desugar(code, proc_name, proc_args,proc_body):
-"""Use `search and replace' to remove procedure calls.  
-   Replace line of form 'foo = proc_name(a,b)' with 
-      proc_body[x->a,y->b]
-      foo = exp
-    where last line of proc_body is 'return exp'"""
-    # regexp for list of variable names separated by commas
+def inline_proc(code, proc_name, proc_args,proc_body):
+    '''Takes code of a program and name, arguments, and body of a procedure. 
+    Return new code where all lines in program of the form "foo = proc_name(bar,blah,..)"
+    are replaced with the body of the procedure with the arguments instantiated 
+    with the variables bar, blah, etc.'''
     arglist = ",".join([r"([a-zA-Z0-9\_\[\]]+)" for i in range(len(proc_args))])
-    # regexp for "variable = proc_name(arguments)"
     regexp = fr'([a-zA-Z0-9\_\[\]]+)\s*=\s*{proc_name}\({arglist}\)\s*$'
-    m = re.search(regexp,code, re.MULTILINE)
-    if not m: return code # if no match then there's nothing to do
-    newcode = proc_body 
-    # replace arguments by  variables from invocation
-    for i in range(len(proc_args)): 
-        newcode = newcode.replace(proc_args[i],m.group(i+2))    
-    # Splice the new code inside
-    newcode = newcode.replace('return',m.group(1)+" = ")
-    newcode = code[:m.start()] + newcode + code[m.end()+1:]
-    # Continue recursively to check for more matches
-    return desugar(newcode,proc_name,proc_args,proc_body)
+    #  captures "variable = func_name(arguments)"    
+    while True:
+        m = re.search(regexp, code, re.MULTILINE)
+        if not m: break
+        newcode = proc_body 
+        for i in range(len(proc_args)): 
+            newcode = newcode.replace(proc_args[i], m.group(i+2))
+        newcode = newcode.replace('return', m.group(1) + " = ")
+        code = code[:m.start()] + newcode + code[m.end()+1:]
+    return code
 ```
 
 [progcircmajfig](){.ref} shows the result of applying the code of [desugarcode](){.ref} to the program of [majcircnand](){.ref} that uses syntactic sugar to compute the Majority function.
@@ -207,12 +208,27 @@ The function `desugar` in [desugarcode](){.ref} assumes that it is given the pro
 It is not crucial for our purposes to describe precisely to scan a definition and splitting it up to these components, but in case you are curious, it can be achieved in Python via the following code:
 
 ```python
-def parse_func(code):
-    """Parse a procedure definition into name, arguments and body"""
-    lines = [l.strip() for l in code.split('\n')]
+def parse_procs(code):
+    """Parse code that contain procedure definitions into a list of
+    triples (name, arguments, body)"""
+    lines = [l for l in code.split('\n') if l ]
     regexp = r'def\s+([a-zA-Z\_0-9]+)\(([\sa-zA-Z0-9\_,]+)\)\s*:\s*'
-    m = re.match(regexp,lines[0])
-    return m.group(1), m.group(2).split(','), '\n'.join(lines[1:])
+    procs = []
+    current_line = 0
+    rest = ""
+    while current_line < len(lines):
+        m = re.match(regexp,lines[current_line])
+        if m: 
+            current_line+= 1
+            code = ""
+            while current_line < len(lines) and lines[current_line][0]==' ':
+                code += lines[current_line].strip()+'\n'
+                current_line += 1
+            procs.append((m.group(1) , m.group(2).split(','), code))
+        else:
+            rest += lines[current_line]+'\n'
+            current_line += 1
+    return rest, procs
 ```
 :::
 
