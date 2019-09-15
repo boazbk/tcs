@@ -772,7 +772,7 @@ Prove that for every sufficiently large $n$, there _does not exist_ an XOR circu
 :::
 
 
-::: {.remark title="Learning circuits (challenge, optional, assumes more background)" #learningcircuitsex}
+::: {.exercise  title="Learning circuits (challenge, optional, assumes more background)" #learningcircuitsex}
 (This exercise assumes background in probability theory and/or machine learning that you might not have at this point. Feel free to come back to it at a later point and in particular after going over [probabilitychap](){.ref}.)
 In this exercise we will use our bound on the number of circuits of size $s$ to show that (if we ignore the cost of computation) every such circuit can be _learned_ from not too many training samples.
 Specifically, if we find a size-$s$ circuit that classifies correctly a training set of $O(s \log s)$ samples from some distribution $D$, then it is guaranteed to do well on the whole distribution $D$.

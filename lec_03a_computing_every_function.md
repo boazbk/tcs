@@ -846,7 +846,7 @@ Let XOR-CIRC be the programming language where we have the following operations 
 :::
 
 ::: {.exercise title="Circuits for majority" #majasymp}
-Prove that there is some constant $c$ such that for every $n>1$, $MAJ_n \in Size(cn)$ where $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$ is the majority function on $n$ input bits. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. NOTE: You can get __16 points__ by proving the weaker statement $MAJ_n \in Size(c \cdot n \log n)$ for some constant $c$. See footnote for hint.^[One approach to solve this is using recursion and the  so-called Master Theorem.]
+Prove that there is some constant $c$ such that for every $n>1$, $MAJ_n \in Size(cn)$ where $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$ is the majority function on $n$ input bits. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. See footnote for hint.^[One approach to solve this is using recursion and the  so-called [Master Theorem](https://en.wikipedia.org/wiki/Master%5Ftheorem%5F(analysis%5Fof%5Falgorithms)).]
 :::
 
 
