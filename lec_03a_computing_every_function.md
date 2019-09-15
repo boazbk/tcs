@@ -864,7 +864,6 @@ Shannon showed that every Boolean function can be computed by a circuit of expon
 (Thanks to Sasha Golovnev for tracking down this reference!)
 
 The concept of "syntactic sugar" is also known as "macros" or "meta-programming" and is sometimes implemented via a preprocessor or macro language in a programming language or a text editor. One modern example is the [Babel](https://babeljs.io/) JavaScript syntax transformer, that converts JavaScript programs written using the latest features into a format that older Browsers can accept. It even has a [plug-in](https://babeljs.io/docs/plugins/) architecture, that allows users to add their own syntactic sugar to the language.
-We mentioned that almost all programming language support user-defined functions, but one notable exception is the original version of the FORTRAN programming language, developed in the early 1950's. This was however quickly added in FORTRAN II, released in 1958.
 
 
 
