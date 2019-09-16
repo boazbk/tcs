@@ -843,7 +843,7 @@ Let $y_n \leftarrow c_n$.
 However, we can transform this algorithm line by line to a NAND circuit.
 For example, since for every $a$, $NAND(a,NOT(a))=1$, we can replace the initial statement $c_0=1$ with $c_0 = NAND(x_0,NAND(x_0,x_0))$.
 We already know how to compute $XOR$ using NAND and so we can use this to implement the operation $y_i \leftarrow XOR(x_i,c_i)$.
-Similarly, we can write the "if" statement as saying $c_{i+1} \leftarrow AND(y_i,x_i)$,  or in other words $c_{i+1} \leftarrow  NAND(NAND(y_i,x_i),NAND(y_i,x_i))$.
+Similarly, we can write the "if" statement as saying $c_{i+1} \leftarrow AND(c_i,x_i)$,  or in other words $c_{i+1} \leftarrow  NAND(NAND(c_i,x_i),NAND(c_i,x_i))$.
 Finally, the assignment $y_n = c_n$ can be written as $y_n = NAND(NAND(c_n,c_n),NAND(c_n,c_n))$.
 Combining these observations yields for every $n\in \N$, a $NAND$ circuit to compute $INC_n$.
 For example, [nandincrememntcircfig](){.ref} shows how this circuit looks like for $n=4$.
