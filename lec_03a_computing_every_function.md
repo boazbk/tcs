@@ -570,21 +570,26 @@ There exists a constant $c>0$ such that for every $n,m>0$ and function $f: \{0,1
 
 ::: {.proof data-ref="NAND-univ-thm-improved"}
 As before, it is enough to prove the case that $m=1$.
-Let $k= \log(n-2\log n)$ (the reasoning behind this choice will become clear later on).
-We define $g:\{0,1\}^k \rightarrow \{0,1\}^{2^{n-k}}$ to be the following function.
-For every $b\in \{0,1\}^k$, we define
+Hence we let $f:\{0,1\}^n \rightarrow \{0,1\}$, and our goal is to prove that there exists a NAND-CIRC program of $O(2^n/n)$ lines (or equivalently a Boolean circuit of $O(2^n/n)$ gates) that computes $f$.
+
+We let $k= \log(n-2\log n)$ (the reasoning behind this choice will become clear later on).
+We define the functoin $g:\{0,1\}^k \rightarrow \{0,1\}^{2^{n-k}}$ as follows:
 $$
-g(b) = f(0^{n-k}b)f(0^{n-k-1}1b) \cdots f(1^k b) \;.
+g(a) = f(a0^{n-k})f(a0^{n-k-1}1) \cdots f(a1^{n-k}) \;.
 $$
-That is, if we use the usual binary representation to identify the numbers $\{0,\ldots, 2^{n-k}-1 \}$ with the strings $\{0,1\}^{n-k}$, then for every $a\in \{0,1\}^{n-k}$, the $a$-th element of $g(b)$ is $f(ab)$.
-Another way to write this is that for every $x\in \{0,1\}^n$,
+In other words, if we use the usual binary representation to identify the numbers $\{0,\ldots, 2^{n-k}-1 \}$ with the strings $\{0,1\}^{n-k}$, then for every $a\in \{0,1\}^k$ and $b\in \{0,1\}^{n-k}$
 $$
-f(x) = g(x_{n-k},\ldots,x_{n-1})_{x_0\cdots x_{n-k-1}} \;.
+g(a)_b = f(ab) \;. \label{eqcomputefusinggeffcircuit}
 $$
-This means that we can compute $f(x)$ by first computing the  string $T=g(x_{n-k},\ldots,x_{n-1})$  of length $2^{n-k}$, and then computing $LOOKUP_{n-k}(T\;,\; x_0\cdots x_{n-k-1})$ to retrieve the 
-element of $T$ at the position corresponding to $x_0\cdots x_{n-k-1}$.
-In other words we can compute $f$ using 
-The cost to compute the $LOOKUP_{n-k}$ is $O(2^{n-k})$ lines/gates and so we can compute $f$ using
+
+![We can compute $f:\{0,1\}^n \rightarrow \{0,1\}$ on input $x=ab$ where $a\in \{0,1\}^k$ and $b\in \{0,1\}^{n-k}$ by first computing the $2^{n-k}$ long string $g(a)$  that corresponds to all $f$'s values on inputs that begin with $a$, and then outputting the $b$-th coordinate of this string.](../figure/efficient_circuit_allfunc.png){#efficient_circuit_allfuncfig}
+
+
+[eqcomputefusinggeffcircuit](){.eqref} means that for every $x\in \{0,1\}^n$, if we write 
+$x=ab$ with $a\in \{0,1\}^k$ and $b\in \{0,1\}^{n-k}$ then we can compute $f(x)$ by 
+first computing the string  $T=g(a)$  of length $2^{n-k}$, and then computing $LOOKUP_{n-k}(T\;,\; b)$ to retrieve the 
+element of $T$ at the position corresponding to $b$ (see [efficient_circuit_allfuncfig](){.ref}).
+The cost to compute the $LOOKUP_{n-k}$ is $O(2^{n-k})$ lines/gates and the cost in NAND-CIRC lines (or Boolean gates) to compute  $f$ is at most
 $$
 cost(g) + O(2^{n-k}) \;, \label{eqcomputefusinggeffcircuit}
 $$
@@ -594,29 +599,31 @@ where $cost(g)$ is the number of operations (i.e., lines of NAND-CIRC programs o
 To complete the proof we need to give a  bound on  $cost(g)$. 
 Since $g$ is a function mapping $\{0,1\}^k$ to $\{0,1\}^{2^{n-k}}$, we can also think of it as a
 collection of $2^{n-k}$ functions $g_0,\ldots, g_{2^{n-k}-1}: \{0,1\}^k \rightarrow \{0,1\}$, where
-$g_i(x) = g(b)_i$ for every $b\in \{0,1\}^k$ and $i\in [2^{n-k}]$. (That is, $g_i(b)$ is the $i$-th bit of $g(b)$.)
+$g_i(x) = g(a)_i$ for every $a\in \{0,1\}^k$ and $i\in [2^{n-k}]$. (That is, $g_i(a)$ is the $i$-th bit of $g(a)$.)
 Naively, we could use  [NAND-univ-thm](){.ref}  to compute each $g_i$ in $O(2^k)$ lines, but then
 the total cost is $O(2^{n-k} \cdot 2^k) = O(2^n)$ which does not save us anything.
 However, the crucial observation is that there are only $2^{2^k}$ _distinct functions_ mapping 
 $\{0,1\}^k$ to $\{0,1\}$.
-Now if, for example, $g_{17}$ is an identical function to $g_{67}$ that means that if we already computed $g_{17}(b)$ then we can compute $g_{67}(b)$ using only a constant number of operations: simply copy the same value!
-Therefore, if the collection $g_0,\ldots,g_{2^{n-k}-1}$ contains at most $S$ distinct functions
-then for every $b\in \{0,1\}^k$, we can compute all the values $g_0(b),\ldots,g_{2^{n-k}-1}(b)$ using at most $O(S \cdot 2^k + 2^{n-k})$ operations, where the first term correspond to computing
-all the distinct functions on the input $b$, and the second term corresponds to copying these values to the other coordinates as needed.
+For example, if $g_{17}$ is an identical function to $g_{67}$ that means that if we already computed $g_{17}(a)$ then we can compute $g_{67}(a)$ using only a constant number of operations: simply copy the same value!
+In general, if you have a collection of $N$ functions $g_0,\ldots,g_{N-1}$ mapping $\{0,1\}^k$ to $\{0,1\}$, of which at most $S$ are distinct then for every value $a\in \{0,1\}^k$ we can compute the $N$ values $g_0(a),\ldots,g_{N-1}(a)$ using at most $O(S\cdot 2^k + N)$ operations (see [computemanyfunctionsfig](){.ref}).
 
-Since there are at most $2^{2^k}$ distinct functions mapping $\{0,1\}^k$ to $\{0,1\}$, we can compute the function $g$ (and hence $f$, by [eqcomputefusinggeffcircuit](){.eqref}) using at most  $$O(2^{2^k} \cdot 2^k + 2^{n-k}) \label{eqboundoncostg}$$ 
+
+
+![If $g_0,\ldots, g_{N-1}$ is a collection of functions each mapping $\{0,1\}^k$ to $\{0,1\}$ such that at most $S$ of them are distinct then for every $a\in \{0,1\}^k$, we can compute all the values $g_0(a),\ldots,g_{N-1}(a)$ using at most $O(S \cdot 2^k + N)$ operations by first computing the distinct functions and then copying the resulting values.](../figure/computemanyfunctions.png){#computemanyfunctionsfig}
+
+In our case, because there are at most $2^{2^k}$ distinct functions mapping $\{0,1\}^k$ to $\{0,1\}$, we can compute the function $g$ (and hence $f$, by [eqcomputefusinggeffcircuit](){.eqref}) using at most  
+$$O(2^{2^k} \cdot 2^k + 2^{n-k}) \label{eqboundoncostg}$$ 
 operations.
-Now all that is left is to plug  in our choice of $k = \log (n-2\log n)$  and
-calculate [eqboundoncostg](){.eqref}.
+Now all that is left is to plug  into [eqboundoncostg](){.eqref} our choice of $k = \log (n-2\log n)$.
 By definition, $2^k = n-2\log n$, which means that   [eqboundoncostg](){.eqref} is at most
 $$
-O\left(2^{n-2\log n} \cdot (n-2\log n) +  2^{n-\log(n-2\log n)}\right) =
+O\left(2^{n-2\log n} \cdot (n-2\log n) +  2^{n-\log(n-2\log n)}\right) \leq
 $$
 
 $$
 O\left(\tfrac{2^n}{n^2} \cdot n + \tfrac{2^n}{n-2\log n} \right) 
 \leq
-O\left(\tfrac{2^n}{n}  + \tfrac{2^n}{0.5n} \right)  = O(2^n/n) 
+O\left(\tfrac{2^n}{n}  + \tfrac{2^n}{0.5n} \right)  = O\left( \tfrac{2^n}{n} \right) 
 $$
 which is what we wanted to prove.
 :::
