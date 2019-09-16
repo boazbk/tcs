@@ -166,7 +166,7 @@ $$
 Recall that we can also write  $a \vee b$ for $OR(a,b)$ and $a \wedge b$ for $AND(a,b)$. With this notation,
 [eqmajandornot](){.eqref}  can also be written as
 
-$$MAJ(x_0,x_1,x_2) = ((x_0 \wedge x_1) \vee (x_1 \wedge x_2)) \vee (x_0 \wedge x_3)\;.$$
+$$MAJ(x_0,x_1,x_2) = ((x_0 \wedge x_1) \vee (x_1 \wedge x_2)) \vee (x_0 \wedge x_2)\;.$$
 
 
 
