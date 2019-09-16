@@ -573,7 +573,7 @@ As before, it is enough to prove the case that $m=1$.
 Hence we let $f:\{0,1\}^n \rightarrow \{0,1\}$, and our goal is to prove that there exists a NAND-CIRC program of $O(2^n/n)$ lines (or equivalently a Boolean circuit of $O(2^n/n)$ gates) that computes $f$.
 
 We let $k= \log(n-2\log n)$ (the reasoning behind this choice will become clear later on).
-We define the functoin $g:\{0,1\}^k \rightarrow \{0,1\}^{2^{n-k}}$ as follows:
+We define the function $g:\{0,1\}^k \rightarrow \{0,1\}^{2^{n-k}}$ as follows:
 $$
 g(a) = f(a0^{n-k})f(a0^{n-k-1}1) \cdots f(a1^{n-k}) \;.
 $$
@@ -582,7 +582,7 @@ $$
 g(a)_b = f(ab) \;. \label{eqcomputefusinggeffcircuit}
 $$
 
-![We can compute $f:\{0,1\}^n \rightarrow \{0,1\}$ on input $x=ab$ where $a\in \{0,1\}^k$ and $b\in \{0,1\}^{n-k}$ by first computing the $2^{n-k}$ long string $g(a)$  that corresponds to all $f$'s values on inputs that begin with $a$, and then outputting the $b$-th coordinate of this string.](../figure/efficient_circuit_allfunc.png){#efficient_circuit_allfuncfig}
+![We can compute $f:\{0,1\}^n \rightarrow \{0,1\}$ on input $x=ab$ where $a\in \{0,1\}^k$ and $b\in \{0,1\}^{n-k}$ by first computing the $2^{n-k}$ long string $g(a)$  that corresponds to all $f$'s values on inputs that begin with $a$, and then outputting the $b$-th coordinate of this string.](../figure/efficient_circuit_allfunc.png){#efficient_circuit_allfuncfig .margin}
 
 
 [eqcomputefusinggeffcircuit](){.eqref} means that for every $x\in \{0,1\}^n$, if we write 
@@ -609,13 +609,13 @@ In general, if you have a collection of $N$ functions $g_0,\ldots,g_{N-1}$ mappi
 
 
 
-![If $g_0,\ldots, g_{N-1}$ is a collection of functions each mapping $\{0,1\}^k$ to $\{0,1\}$ such that at most $S$ of them are distinct then for every $a\in \{0,1\}^k$, we can compute all the values $g_0(a),\ldots,g_{N-1}(a)$ using at most $O(S \cdot 2^k + N)$ operations by first computing the distinct functions and then copying the resulting values.](../figure/computemanyfunctions.png){#computemanyfunctionsfig}
+![If $g_0,\ldots, g_{N-1}$ is a collection of functions each mapping $\{0,1\}^k$ to $\{0,1\}$ such that at most $S$ of them are distinct then for every $a\in \{0,1\}^k$, we can compute all the values $g_0(a),\ldots,g_{N-1}(a)$ using at most $O(S \cdot 2^k + N)$ operations by first computing the distinct functions and then copying the resulting values.](../figure/computemanyfunctions.png){#computemanyfunctionsfig .margin }
 
-In our case, because there are at most $2^{2^k}$ distinct functions mapping $\{0,1\}^k$ to $\{0,1\}$, we can compute the function $g$ (and hence $f$, by [eqcomputefusinggeffcircuit](){.eqref}) using at most  
+In our case, because there are at most $2^{2^k}$ distinct functions mapping $\{0,1\}^k$ to $\{0,1\}$, we can compute the function $g$ (and hence by [eqcomputefusinggeffcircuit](){.eqref}  also $f$) using at most  
 $$O(2^{2^k} \cdot 2^k + 2^{n-k}) \label{eqboundoncostg}$$ 
 operations.
 Now all that is left is to plug  into [eqboundoncostg](){.eqref} our choice of $k = \log (n-2\log n)$.
-By definition, $2^k = n-2\log n$, which means that   [eqboundoncostg](){.eqref} is at most
+By definition, $2^k = n-2\log n$, which means that   [eqboundoncostg](){.eqref} can be bounded
 $$
 O\left(2^{n-2\log n} \cdot (n-2\log n) +  2^{n-\log(n-2\log n)}\right) \leq
 $$
@@ -625,7 +625,7 @@ O\left(\tfrac{2^n}{n^2} \cdot n + \tfrac{2^n}{n-2\log n} \right)
 \leq
 O\left(\tfrac{2^n}{n}  + \tfrac{2^n}{0.5n} \right)  = O\left( \tfrac{2^n}{n} \right) 
 $$
-which is what we wanted to prove.
+which is what we wanted to prove. (We used above the fact that $n - 2\log n \geq 0.5 \log n$ for sufficiently large $n$.)
 :::
 
 Using the connection between NAND-CIRC programs and Boolean circuits, an immediate corollary of  [NAND-univ-thm-improved](){.ref} is the following improvement to  [circuit-univ-thm](){.ref}:
