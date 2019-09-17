@@ -527,7 +527,7 @@ temp_1 = NOT(X[2])
 temp_2 = AND(X[0],temp_1)
 temp_3 = OR(X[0],temp_1)
 temp_4 = NOT(X[3])
-temp_5 = OR(X[1],temp_4)
+temp_5 = AND(X[1],temp_4)
 temp_6 = AND(temp_5,temp_3)
 Y[0] = OR(temp_2,temp_6)
 ```
