@@ -270,7 +270,7 @@ Our final representation for rational numbers is obtained by composing the follo
 ::: {.example title="Representing a rational number as a string" #represnumberbypairs}
 Consider the rational number $r=-5/8$.
 We represent $-5$ as $1101$ and $+8$ as $01000$, and so we can represent $r$ as the _pair_ of strings $(1101,01000)$ and represent this pair as the length $10$ string $1101\|01000$ over the alphabet  $\{0,1,\|\}$.
-Now, applying the map $0 \mapsto 00$, $1\mapsto 11$, $\| \mapsto 01$, we can represent the latter string as the length $20$ string  $s=0011000000010011000000$ over the alphabet $\{0,1\}$.
+Now, applying the map $0 \mapsto 00$, $1\mapsto 11$, $\| \mapsto 01$, we can represent the latter string as the length $20$ string  $s=11110011010011000000$ over the alphabet $\{0,1\}$.
 :::
 
 
