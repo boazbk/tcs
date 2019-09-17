@@ -517,20 +517,19 @@ or
 
 
 Another way to express the same condition is the following:
-the number $(a,b)$ is larger than $(c,d)$ iff  $a>c$ __OR__ ((__NOT__ $(c<a)$) __AND__ $b>d$).
+the number $(a,b)$ is larger than $(c,d)$ iff  $a>c$ __OR__ ($a\ge c$ __AND__ $b>d$).
 
-For binary digits $\alpha,\beta$, the condition $\alpha>\beta$ is simply that $\alpha=1$ and $\beta=0$ or $AND(\alpha,NOT(\beta))=1$.
+For binary digits $\alpha,\beta$, the condition $\alpha>\beta$ is simply that $\alpha=1$ and $\beta=0$ or $AND(\alpha,NOT(\beta))=1$, and the condition $\alpha\ge\beta$ is simply $OR(\alpha, NOT(\beta))=1$.
 Together these observations can be used to give the following AON-CIRC program to compute $CMP$:
 
 ```python
 temp_1 = NOT(X[2])
-temp_2 = OR(X[0],temp_1)
-temp_3 = NOT(X[0])
-temp_4 = OR(X[2],temp_3)
-temp_5 = NOT(X[3])
-temp_6 = OR(X[1],temp_5)
-temp_7 = AND(temp_6,temp_4)
-Y[0] = OR(temp_2,temp_7)
+temp_2 = AND(X[0],temp_1)
+temp_3 = OR(X[0],temp_1)
+temp_4 = NOT(X[3])
+temp_5 = OR(X[1],temp_4)
+temp_6 = AND(temp_5,temp_3)
+Y[0] = OR(temp_2,temp_6)
 ```
 
 We can also present this 8-line program as a circuit with 8 gates, see [aoncmpfig](){.ref}.
