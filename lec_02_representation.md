@@ -533,7 +533,7 @@ While the decoding function of a representation scheme can in general be a _part
 
 ### Finite representations
 
-If $\mathcal{O}$ is _finite_, then we can represent every object in $o$ as a string of length at most some number $n$.
+If $\mathcal{O}$ is _finite_, then we can represent every object in $\mathcal{O}$ as a string of length at most some number $n$.
 What is the value of $n$?
 Let us denote by  $\{0,1\}^{\leq n}$ the set $\{ x\in \{0,1\}^* : |x| \leq n \}$ of strings of length at most $n$.
 The size of $\{0,1\}^{\leq n}$ is equal to
