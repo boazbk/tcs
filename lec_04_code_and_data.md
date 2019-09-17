@@ -56,7 +56,7 @@ Equivalently, taking the programming-language point of view, the bounded univers
 Such a program is known in Computer Science as a "meta-circular evaluator", and is fundamental to both theory and practice of computing.
 Finally, we will use the representation of programs/circuits as strings to _count_ the number of programs/circuits up to a certain size, and use that to obtain a counterpart to the result we proved in [finiteuniversalchap](){.ref}.
 There we proved that for _every_ function $f:\{0,1\}^n \rightarrow \{0,1\}$, there exists a circuit of _at most_ $100 \cdot 2^n / n$ gates to compute it.
-(The number $100$ hear is somewhat arbitrary and fixed for concreteness;   [circuit-univ-thm-improved](){.ref} states a bound of  $c \cdot 2^n /n$ for some constant $c$, but it can be verified that the proof yields $c \leq 100$.)
+(The number $100$ here is somewhat arbitrary and fixed for concreteness;   [circuit-univ-thm-improved](){.ref} states a bound of  $c \cdot 2^n /n$ for some constant $c$, but it can be verified that the proof yields $c \leq 100$.)
 In this chapter we will prove that there are _some_ functions $f:\{0,1\}^n \rightarrow \{0,1\}$ for which we cannot do much better: they require a circuit of size _at least_  $0.01 \cdot 2^n / n$ (see [counting-lb](){.ref}).
 See [codedataoverviewfig](){.ref} for an overview of the results of  this chapter.
 
@@ -147,7 +147,7 @@ $$
 S(s) = 3s\ceil{\log (3s)} \;. \label{lengthstringrepreseq}
 $$
 
-We can represent $P$ as a string by prepending a prefix free representation of $n$ and $m$ to the list $L$.
+We can represent $P=(n,m,L)$ as a string by prepending a prefix free representation of $n$ and $m$ to the list $L$.
 Since $n,m \leq 3s$ (a program must touch at least once all its input and output variables), those prefix free representations can be encoded using strings of length $O(\log s)$.
 In particular  every program $P$ of at most $s$ lines can be represented by a string of length $O(s\log s)$.
 Similarly, every circuit $C$ of at most $s$ gates, can be represented by a string of length $O(s \log s)$ (for example by translating $C$ to the equivalent program $P$).
