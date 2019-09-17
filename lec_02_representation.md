@@ -86,7 +86,7 @@ We now show how we can represent natural numbers as binary strings.
 Over the years people have represented numbers in a variety of ways, including Roman numerals, tally marks, our own Hindu-Arabic  decimal system, and many others.
 We can use any one of those as well as many others to represent a number as a string (see [bitmapdigitsfig](){.ref}).
 However, for the sake of concreteness,  we use the _binary basis_ as our default representation of natural numbers as strings.
-For example, we represent the number six as the string $110$ since $1\cdot 2^{2} + 1 \cdot 2^1 + 0 \cdot 2^0 = 6$, and similarly we represent the number thirty-five as the string $y = 100011$ which satisfies $\sum_{i=0}^5 y_i \cdot 2^{|y|-i} = 35$.^[We could just as well used the reverse order and represent  $35$ as the string $110001$. Similarly, we could have just as well used the empty string $""$ to represent $0$. Such low level choices do not make a difference for us, though they do matter in computing practice, see the bibliographical notes [bibnotesrepres](){.ref}.]
+For example, we represent the number six as the string $110$ since $1\cdot 2^{2} + 1 \cdot 2^1 + 0 \cdot 2^0 = 6$, and similarly we represent the number thirty-five as the string $y = 100011$ which satisfies $\sum_{i=0}^5 y_i \cdot 2^{|y|-i-1} = 35$.^[We could just as well used the reverse order and represent  $35$ as the string $110001$. Similarly, we could have just as well used the empty string $""$ to represent $0$. Such low level choices do not make a difference for us, though they do matter in computing practice, see the bibliographical notes [bibnotesrepres](){.ref}.]
 Some more examples are given in the table below.
 
 
