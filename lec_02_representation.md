@@ -393,24 +393,39 @@ We start by proving  [sequencestostrings](){.ref} which is really the heart of [
 ![We construct a function $\overline{d}$ such that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$ by ensuring that $\overline{d}(n(x)) \neq StF(x)(n(x))$ for every $x\in \{0,1\}^*$ with lexicographic order $n(x)$. We can think of this as building a table where the columns correspond to numbers $m\in \N$ and the rows correspond to $x\in \{0,1\}^*$ (sorted according to $n(x)$). If the entry in the $x$-th row and the $m$-th column corresponds to $g(m))$ where $g=StF(x)$ then $\overline{d}$ is obtained by going over the "diagonal" elements in this table (the entries corresponding to the $x$-th row and $n(x)$-th column) and ensuring that $\overline{d}(x)(n(x)) \neq StF(x)(n(x))$. ](../figure/diagreals2.png){#diagrealsfig   }
 
 
-::: {.proof data-ref="sequencestoreals"}
+::: {.proof data-ref="sequencestostrings"}
 We will prove that there does not exist an _onto_ function $StF:\{0,1\}^* \rightarrow \{0,1\}^\infty$.
 This implies the lemma since for every two sets $A$ and $B$, there exists an onto function from $A$ to $B$ if and only if there exists a one-to-one function from $B$ to $A$  (see [onetooneimpliesonto](){.ref}).
 
 The technique of this proof is known as the "diagonal argument" and is illustrated in [diagrealsfig](){.ref}.
-We assume, towards a contradiction, that there exists such a function $StF:\{0,1\}^* \rightarrow \{0,1\}^\infty$, and we will show it is not onto by demonstrating a function $\overline{d}\in \{0,1\}^\infty$ such that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$.
+We assume, towards a contradiction, that there exists such a function $StF:\{0,1\}^* \rightarrow \{0,1\}^\infty$.
+We will show that $StF$ is not onto by demonstrating a function $\overline{d}\in \{0,1\}^\infty$ such that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$.
 Consider the lexicographic ordering of binary strings (i.e., $""$,$0$,$1$,$00$,$01$,$\ldots$).
-We can imagine the function $StF$ as being specified by an infinitely long table, in which every row corresponds to a string $x\in \{0,1\}^*$ (sorted in lexicographic order), and contains the sequence $StF(x)$.
-That is, for every $x\in \{0,1\}^*$ and $n\in \N$, the cell in the $x$-th row  and $n$-th column of the table contains the bit  $g(n)$ where $g=StF(x)$.
-The diagonal elements in this table are the values $StF("")(0),StF(0)(1),StF(00)(2),StF(01)(3),\ldots$, with the $n$-th diagonal element $d_n$ being $StF(x)(n)$ where $x$ is the $n$-th string in the lexicographic order.
-We define the function $\overline{d} \in \{0,1\}^\infty$ by $\overline{d}(n) = 1 - d_n$ for every $n\in \N$.
-By construction, for every $n$, if $a_0,a_1,a_2,\ldots$ is the $n$-th row of this table then $a_n \neq \overline{d}(n)$.
-This means that for every $x\in \{0,1\}^*$, if we let $n$ be the position of $x$ in the lexicographic order, then since $g = StF(x)$ is the $n$-th row of the table, $g(n) \neq \overline{d}(n)$.
-In particular, for every $x\in \{0,1\}^*$, $StF(x) \neq \overline{d}$ which means that $\overline{d}$ is not in the image of the function $StF$ and hence $StF$ is not onto!
+For every $n\in \N$, we let $x_n$ be the $n$-th string in this order.
+That is $x_0 =""$, $x_1 = 0$, $x_2=00$ and so on and so forth.
+We define the function $\overline{d} \in \{0,1\}^\infty$ as follows:
+$$\overline{d}(n) = 1 - StF(x_n)(n)$$
+for every $n\in \N$.
+That is,  to compute  $\overline{d}$ on input $n\in\N$, we first compute $g= StF(x_n)$, where $x_n \in \{0,1\}^*$ is the $n$-th string in the lexicographical ordering.
+Since $g \in \{0,1\}^\infty$, it is a function mapping $\N$ to $\{0,1\}$.
+The value $\overline{d}(n)$ is defined to be the negation of $g(n)$.
+
+The definition of the function $\overline{d}$ is a bit subtle.
+One way to think about it is to imagine the function $StF$ as being specified by an infinitely long table, in which every row corresponds to a string $x\in \{0,1\}^*$ (with strings sorted in lexicographic order), and contains the sequence $StF(x)(0), StF(x)(1), StF(x)(2),\ldots$. 
+The _diagonal_ elements in this table   are the values
+
+$$StF("")(0),StF(0)(1),StF(1)(2),StF(00)(3), StF(01)(4),\ldots$$
+
+which correspond to the elements $StF(x_n)(n)$ in the $n$-th row and $n$-th column of this table for $n=0,1,2,\ldots$.
+The function $\overline{d}$ we defined above maps every $n\in \N$ to the negation of the $n$-th diagonal value.
+
+To complete the proof that $StF$ is not onto we need to show that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$.
+Indeed, let $x\in \{0,1\}^*$ be some string and let $g = StF(x)$.
+If $n$ is the position of $x$ in the lexicographical order then by construction $\overline{d}(n) = 11-g(n) \neq g(n)$ which means that $g \neq \overline{d}$ which is what we wanted to prove. 
 :::
 
 ::: {.pause}
-The proof of [sequencestoreals](){.ref} is rather subtle, and worth re-reading a second or third time.
+The proof of [sequencestostrings](){.ref} is rather subtle, and worth re-reading a second or third time.
 We will use the "diagonal argument" again several times later on in this book.
 :::
 
@@ -472,16 +487,17 @@ $$
 FtR(g)-FtR(f) = 10^{-k} - 10^{-k-1} - 10^{-k-2} - 10^{-k-3} - \cdots \label{eqcantordecimalexpansion}
 $$
 
-Since the infinite series $\sum_{j=0}^{\infty} 10^{-i}$ converges to $11/9$, it follows that for every such $f$ and $g$, $FtR(g) - FtR(f) \geq 10^{-k} - 10^{-k}\cdot (11/9) > 0$.
+Since the infinite series $\sum_{j=0}^{\infty} 10^{-i}$ converges to $10/9$, it follows that for every such $f$ and $g$, $FtR(g) - FtR(f) \geq 10^{-k} - 10^{-k-1}\cdot (10/9) > 0$.
 In particular we see that for every distinct $f,g \in \{0,1\}^\infty$, $FtR(f) \neq FtR(g)$, implying that the function $FtR$ is one to one.
 :::
 
 
 ::: {.remark title="Using decimal expansion (optional)" #decimal}
-In the proof above we used the fact that $1 + 1/10 + 1/100 + \cdots$ converges to $11/9$, which plugging into [eqcantordecimalexpansion](){.eqref} yields that the difference between $FtR(g)$ and $FtR(h)$ is at least $10^{-k} - 10^{-k-1}\cdot (11/9) > 0$.
+In the proof above we used the fact that $1 + 1/10 + 1/100 + \cdots$ converges to $10/9$, which plugging into [eqcantordecimalexpansion](){.eqref} yields that the difference between $FtR(g)$ and $FtR(h)$ is at least $10^{-k} - 10^{-k-1}\cdot (10/9) > 0$.
 While the choice of the decimal representation for $FtR$ was arbitrary, we could not have used the binary representation in its place.
-Had we used the _binary_ expansion instead of decimal, the corresponding sequence $1 + 1/2 + 1/4 + \cdots$ converges to $2$, and since $2^{-k} = 2^{-k-1} \cdot 2$, we could not have deduced that $FtR$ is one to one.
+Had we used the _binary_ expansion instead of decimal, the corresponding sequence $1 + 1/2 + 1/4 + \cdots$ converges to $2/1=2$, and since $2^{-k} = 2^{-k-1} \cdot 2$, we could not have deduced that $FtR$ is one to one.
 Indeed there do exist pairs of distinct sequences $f,g\in \{0,1\}^\infty$ such that $\sum_{i=0}^\infty f(i)2^{-i} = \sum_{i=0}^\infty g(i)2^{-i}$.
+(For example, the sequence $1,0,0,0,\ldots$ and the sequence $0,1,1,1,\ldots$ have this property.)
 :::
 
 
@@ -556,8 +572,9 @@ But first let us formally define prefix-freeness:
 For two strings $y,y'$, we say that $y$ is a _prefix_ of $y'$ if $|y| \leq |y'|$ and for every $i<|y|$, $y'_i = y_i$.
 
 Let $\mathcal{O}$ be a non-empty set and $E:\mathcal{O} \rightarrow \{0,1\}^*$ be a function.
-
 We say that $E$ is _prefix-free_ if $E(o)$ is non-empty for every $o\in\mathcal{O}$ and there does not exist a distinct pair of objects $o, o' \in \mathcal{O}$ such that  $E(o)$  is a prefix of $E(o')$.
+:::
+
 
 Recall that for every set $\mathcal{O}$, the set $\mathcal{O}^*$ consists of all finite length tuples (i.e., _lists_) of elements in $\mathcal{O}$.
 The following theorem shows that if $E$ is a prefix-free encoding of $\mathcal{O}$ then by concatenating encodings we can obtain a valid (i.e., one-to-one) representation of $\mathcal{O}^*$:
@@ -584,7 +601,7 @@ Therefore, I highly recommend that you pause here to make sure you understand th
 
 > ### {.proofidea data-ref="prefixfreethm"}
 The idea behind the proof is simple.
-Suppose that for example we want to decode a triple $(o_0,o_1,o_2)$ from its representation $x= E'(o_0,o_1,o_2)=E(o_0)E(o_1)E(o_2)$.
+Suppose that for example we want to decode a triple $(o_0,o_1,o_2)$ from its representation $x= \overline{E}(o_0,o_1,o_2)=E(o_0)E(o_1)E(o_2)$.
 We will do so by first finding the first prefix $x_0$ of $x$ such is a representation of some object.
 Then we will decode this object, remove $x_0$ from $x$ to obtain a new string $x'$,  and continue onwards to find the first prefix $x_1$ of $x'$ and so on and so forth  (see [prefix-free-tuples-ex](){.ref}).
 The prefix-freeness property of $E$ will ensure that $x_0$ will in fact be $E(o_0)$,  $x_1$ will be $E(o_1)$, etc.
@@ -1128,7 +1145,7 @@ The study of representing data as strings, including issues such as _compression
 Representations are also studied in the field of _data structures design_, as covered in texts such as  [@CLRS].
 
 The question of whether to represent integers with most significant digit first or last is known as [Big Endian vs. Little Endian](https://betterexplained.com/articles/understanding-big-and-little-endian-byte-order/) representation.
-Cohen [@cohen1981holy] wrote an entertaining and informative paper about the conflict between adherents of both schools. 
+This terminology comes from Cohen's [@cohen1981holy]  entertaining and informative paper about the conflict between adherents of both schools which he compared to the warring tribes in Jonathan Swift's _"Gulliver's Travels"_. 
 The two's complement representation of signed integers was suggested in von Neumann's classic report [@vonNeumann45] that detailed the design approaches for a stored-program computer, though similar representations have been used even earlier in abacus and other mechanical computation devices.
 
 

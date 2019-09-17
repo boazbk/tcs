@@ -139,7 +139,7 @@ Namely, making a measurement of one object may instantaneously effect the state 
 
 
 Since the vector of amplitudes is just a mathematical abstraction,  the EPR paper was considered to be merely a thought experiment for philosophers to be concerned about, without bearing on experiments.
-This changed when in 1965 John Bell showed an actual experiment to test the predictions of EPR and hence pit intuitive common sense against the quantum mechanics.
+This changed when in 1965 John Bell showed an actual experiment to test the predictions of EPR and hence pit intuitive common sense against quantum mechanics.
 Quantum mechanics won: it turns out that it _is_ in fact possible to use measurements to create correlations between the states of objects far removed from one another that cannot be explained by any prior theory.
 Nonetheless, since the results of these experiments are so obviously wrong to anyone that has ever sat in an armchair,  that there are still a number of [Bell denialists](http://www.scottaaronson.com/blog/?p=2464) arguing that this can't be true and quantum mechanics is wrong.
 
@@ -329,8 +329,9 @@ $$H = \tfrac{1}{\sqrt{2}} \begin{pmatrix} +1 & +1\\ +1 & -1 \end{pmatrix} \;. $$
 
 In fact it turns out that Hadamard is all that we need to add to a classical universal basis to achieve the full power of quantum computing.
 
-### Recap
+### Quantum systems: an executive summary 
 
+If you ignore the physics and philosophy, for the purposes of understanding the model of quantum computers, all you need to know about quantum systems is the following.
 The _state_ of a _quantum system_ of $n$ qubits is modeled by an $2^n$ dimensional vector $\psi$ of unit norm (i.e., squares of all coordinates sums up to $1$), which we write as $\psi=\sum_{x\in \{0,1\}^n} \psi_x |x \rangle$ where $|x\rangle$ is the column vector that has $0$ in all coordinates except the one corresponding to $x$ (identifying $\{0,1\}^n$ with the numbers $\{0,\ldots,2^n-1\}$).
 We use the convention that if $a,b$ are strings of lengths $k$ and $\ell$ respectively then we can write the $2^{k+\ell}$ dimensional vector with $1$ in the $ab$-th coordinate and zero elsewhere not just as  $|ab\rangle$  but also as $|a\rangle |b \rangle$.
 In particular, for every $x\in \{0,1\}^n$, we can write the vector $|x\rangle$ also as $|x_0\rangle |x_1\rangle \cdots |x_{n-1} \rangle$.
@@ -402,12 +403,12 @@ Using the trigonometric identities $2\sin(\alpha)\cos(\alpha)= \sin(2\alpha)$ an
 Hence all four options for $(a,b)$ are equally likely, which mean that in this case $a=b$ with probability $0.5$.
 
 
-Taking all the four cases together,  the overall probability of winning the game is at least $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}\cdot 0.85 + \tfrac{1}{4} \cdot 0.5 =0.8$.
+Taking all the four cases together,  the overall probability of winning the game is  $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}\cdot 0.85 + \tfrac{1}{4} \cdot 0.5 =0.8$.
 :::
 
 
 > ### {.remark title="Quantum vs probabilistic strategies" #quantumprob}
-It is instructive to understand what is it about quantum mechanics that enabled this gain in Bell's Inequality. For this, consider the following analogous probabilistic strategy for Alice and Bob. They agree that each one of them output $0$ if he or she get $0$ as input and outputs $1$ with probability $p$ if they get $1$ as input. In this case one can see that their success probability would be $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}(1-p)+\tfrac{1}{4}[2p(1-p)]=0.75 -0.5p^2 \leq 0.75$. The quantum strategy we described above can be thought of as a variant of the probabilistic strategy for parameter $p$ set to  $\sin^2 (\pi/8)=0.15$. But in the case $x=y=1$, instead of disagreeing only with probability $2p(1-p)=1/4$, because we can use these negative probabilities in the quantum world and rotate the state in opposite directions, and hence the probability of disagreement ends up being $\sin^2 (\pi/4)=0.5$.
+It is instructive to understand what is it about quantum mechanics that enabled this gain in Bell's Inequality. For this, consider the following analogous probabilistic strategy for Alice and Bob. They agree that each one of them output $0$ if he or she get $0$ as input and outputs $1$ with probability $p$ if they get $1$ as input. In this case one can see that their success probability would be $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}(1-p)+\tfrac{1}{4}[2p(1-p)]=0.75 -0.5p^2 \leq 0.75$. The quantum strategy we described above can be thought of as a variant of the probabilistic strategy for parameter $p$ set to  $\sin^2 (\pi/8)=0.15$. But in the case $x=y=1$, instead of disagreeing only with probability $2p(1-p)=1/4$, the existence of the so called ``negative probabilities'' in the quantum world allowed us to rotate the state in _opposing directions_ to achieve _destructive interference_ and hence a higher probability of disagreement, namely $\sin^2 (\pi/4)=0.5$.
 
 ## Quantum computation
 
@@ -512,7 +513,7 @@ Depending on how you interpret it, this description is either false or would app
 
 Moreover, this "obvious" approach for simulating a quantum computation will take not just exponential time but _exponential space_ as well, while can be shown that using a simple recursive formula one can calculate the final quantum state using _polynomial space_ (in physics this is known as "Feynman path integrals").
 So, the exponentially long vector description by itself does not imply that quantum computers are exponentially powerful.
-Indeed, we cannot _prove_ that they are (i.e., as far as we know, every QNAND-CIRC program could be simulated by a NAND-CIRC program with polynomial overhead), but we do have some problems (integer factoring most prominently) for which they do provide exponential speedup over the currently best _known_ classical (deterministic or probabilistic) algorithms.
+Indeed, we cannot _prove_ that they are (i.e., we have not been able to rule out the possiblity that every QNAND-CIRC program could be simulated by a NAND-CIRC program/ Boolean circuit with polynomial overhead), but we do have some problems (integer factoring most prominently) for which they do provide exponential speedup over the currently best _known_ classical (deterministic or probabilistic) algorithms.
 :::
 
 
@@ -906,15 +907,15 @@ The idea is that we can embed $Z_L$ in the group $\Z_{A\cdot L}$ for any integer
 ::: {.exercise title="Quantum and classical complexity class relations" #BQPcontainements}
 Prove the following relations between quantum complexity classes and classical ones:
 
-1. $\mathbf{P_{/poly}} \subseteq \mathbf{BQP_{/poly}}$.^[_Hint:_ You can use $U_{NAND}$ to simulate NAND gates.]
+1. $\mathbf{P_{/poly}} \subseteq \mathbf{BQP_{/poly}}$. See footnote for hint.^[You can use $U_{NAND}$ to simulate NAND gates.]
 
-2. $\mathbf{P} \subseteq \mathbf{BQP}$.^[_Hint:_ Use the alternative characterization of $\mathbf{P}$ as in [Palternativeex](){.ref}.]
+2. $\mathbf{P} \subseteq \mathbf{BQP}$. See footnote for hint.^[Use the alternative characterization of $\mathbf{P}$ as in [Palternativeex](){.ref}.]
 
-3. $\mathbf{BPP} \subseteq \mathbf{BQP}$.^[_Hint:_ You can use the $HAD$ gate to simulate a coin toss.]
+3. $\mathbf{BPP} \subseteq \mathbf{BQP}$. See footnote for hint.^[You can use the $HAD$ gate to simulate a coin toss.]
 
-4. $\mathbf{BQP} \subseteq \mathbf{EXP}$.^[_Hint:_ In exponential time simulating quantum computation boils down to matrix multiplication.]
+4. $\mathbf{BQP} \subseteq \mathbf{EXP}$. See footnote for hint.^[In exponential time simulating quantum computation boils down to matrix multiplication.]
 
-5. If $SAT \in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$.^[_Hint:_ If a reduction can be implemented in $\mathbf{P}$ it can be implemented in $\mathbf{BQP}$ as well.]
+5. If $SAT \in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$. See footnote for hint.^[If a reduction can be implemented in $\mathbf{P}$ it can be implemented in $\mathbf{BQP}$ as well.]
 :::
 
 ::: {.exercise title="Discrete logarithm from order finding" #dlogfromorder}

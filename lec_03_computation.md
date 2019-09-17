@@ -24,13 +24,6 @@ chapternum: "3"
 >_"To understand a program you must become both the machine and the program."_, Alan Perlis, 1982
 
 
-
-People have been computing for thousands of years, with aids that include not just pen and paper, but also abacus, slide rules, various mechanical devices, and modern electronic computers.
-A priori, the notion of computation seems to be tied to the particular mechanism that you use.
-You might think that the "best"  algorithm for multiplying numbers will differ if you implement it in _Python_ on a modern laptop than if you use pen and paper.
-However, as we saw in the introduction ([chapintro](){.ref}), an algorithm that is asymptotically better would eventually beat a worse one regardless of the underlying technology.
-This gives us hope for a _technology independent_ way of defining computation, which is what we will do in this chapter.
-
 ![Calculating wheels by Charles Babbage. Image taken from the Mark I 'operating manual'](../figure/wheels_babbage.png){#babbagewheels .margin  }
 
 
@@ -38,7 +31,21 @@ This gives us hope for a _technology independent_ way of defining computation, w
 ![A 1944 _Popular Mechanics_ article on the [Harvard Mark I computer](http://sites.harvard.edu/~chsi/markone/about.html).](../figure/PopularMechanics1944smaller.jpg){#markIcomp .margin  }
 
 
+People have been computing for thousands of years, with aids that include not just pen and paper, but also abacus, slide rules, various mechanical devices, and modern electronic computers.
+A priori, the notion of computation seems to be tied to the particular mechanism that you use.
+You might think that the "best"  algorithm for multiplying numbers will differ if you implement it in _Python_ on a modern laptop than if you use pen and paper.
+However, as we saw in the introduction ([chapintro](){.ref}), an algorithm that is asymptotically better would eventually beat a worse one regardless of the underlying technology.
+This gives us hope for a _technology independent_ way of defining computation.
+This is what we do in this chapter. 
+We will define the notion of computing an output from an input by applying a sequence of basic operations (see [compchapwhatvshowfig](){.ref}).
+Using this, we will be able to precisely define statements such as "function $f$ can be computed by model $X$" or "function $f$ can be computed by model $X$ using $s$ operations".
+
+
+![A function mapping strings to strings _specifies_ a computational task, i.e., describes _what_ is the desired relation between the input and the output. In this chapter we define models for _implementing_ computational processes that achieve the desired relation, i.e., describe _how_ to compute the output from the input. We will see several examples of such models using both Boolean circuits and straight-line programming languages.](../figure/compchapterwhatvshow.png  ){#compchapwhatvshowfig }
+
 ## Defining computation
+
+
 
 
 The name "algorithm" is derived from the Latin transliteration of Muhammad ibn Musa al-Khwarizmi's name.
@@ -159,7 +166,7 @@ $$
 Recall that we can also write  $a \vee b$ for $OR(a,b)$ and $a \wedge b$ for $AND(a,b)$. With this notation,
 [eqmajandornot](){.eqref}  can also be written as
 
-$$MAJ(x_0,x_1,x_2) = ((x_0 \wedge x_1) \vee (x_1 \wedge x_2)) \vee (x_0 \wedge x_3)\;.$$
+$$MAJ(x_0,x_1,x_2) = ((x_0 \wedge x_1) \vee (x_1 \wedge x_2)) \vee (x_0 \wedge x_2)\;.$$
 
 
 
@@ -427,8 +434,7 @@ Let $n,m,s$ be positive integers with $s \geq m$. A _Boolean circuit_ with $n$ i
 
 * Exactly $n$ of the vertices have no in-neighbors. These vertices are known as _inputs_ and are labeled with the $n$ labels `X[`$0$`]`, $\ldots$, `X[`$n-1$`]`.
 
-* The other $s$ vertices are known as _gates_. Each gate is labeled with $\wedge$, $\vee$ or $\neg$. Gates labeled with $\wedge$ (_AND_) or $\vee$ (_OR_) have two in-neighbors. Gates labeled with $\neg$ (_NOT_) have one in-neighbor. We will allow parallel edges (and so for example an _AND_ gate can have both its in-neighbors be the same vertex).
-
+* The other $s$ vertices are known as _gates_. Each gate is labeled with $\wedge$, $\vee$ or $\neg$. Gates labeled with $\wedge$ (_AND_) or $\vee$ (_OR_) have two in-neighbors. Gates labeled with $\neg$ (_NOT_) have one in-neighbor. We will allow parallel edges.^[Having parallel edges means an AND or OR gate $u$ can have both its in-neighbors be the same gate $v$. Since $AND(a,a)=OR(a,a)=a$ for every $a\in \{0,1\}$, such parallel edges don't help in computing new values in circuits with AND/OR/NOT gates. However, we will see circuits with more general sets of gates later on.] 
 * Exactly $m$ of the gates are also labeled with the $m$ labels   `Y[`$0$`]`, $\ldots$, `Y[`$m-1$`]` (in addition to their label $\wedge$/$\vee$/$\neg$). These are known as _outputs_.
 :::
 
@@ -837,7 +843,7 @@ Let $y_n \leftarrow c_n$.
 However, we can transform this algorithm line by line to a NAND circuit.
 For example, since for every $a$, $NAND(a,NOT(a))=1$, we can replace the initial statement $c_0=1$ with $c_0 = NAND(x_0,NAND(x_0,x_0))$.
 We already know how to compute $XOR$ using NAND and so we can use this to implement the operation $y_i \leftarrow XOR(x_i,c_i)$.
-Similarly, we can write the "if" statement as saying $c_{i+1} \leftarrow AND(y_i,x_i)$,  or in other words $c_{i+1} \leftarrow  NAND(NAND(y_i,x_i),NAND(y_i,x_i))$.
+Similarly, we can write the "if" statement as saying $c_{i+1} \leftarrow AND(c_i,x_i)$,  or in other words $c_{i+1} \leftarrow  NAND(NAND(c_i,x_i),NAND(c_i,x_i))$.
 Finally, the assignment $y_n = c_n$ can be written as $y_n = NAND(NAND(c_n,c_n),NAND(c_n,c_n))$.
 Combining these observations yields for every $n\in \N$, a $NAND$ circuit to compute $INC_n$.
 For example, [nandincrememntcircfig](){.ref} shows how this circuit looks like for $n=4$.
@@ -1114,7 +1120,7 @@ In this exercise you will show that you can construct a NAND approximator from m
 
 
 ::: {.exercise title="Majority with NANDs efficiently" #majwithNAND}
-Prove that there is some constant $c$ such that for every $n>1$, there is a NAND circuit of at most $c\cdot n$ gates that computes the function  $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$ is the majority function on $n$ input bits. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$.^[_Hint:_ One approach to solve this is using recursion and analyzing it using the so called  "Master Theorem".]
+Prove that there is some constant $c$ such that for every $n>1$, there is a NAND circuit of at most $c\cdot n$ gates that computes the function  $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$ is the majority function on $n$ input bits. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. See footnote for hint.^[One approach to solve this is using recursion and analyzing it using the so called  "Master Theorem".]
 :::
 
 ::: {.exercise title="Output at last layer" #outputlastlayer}

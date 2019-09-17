@@ -81,7 +81,7 @@ def Proc(a,b):
     proc_code
     return c
 some_code
-f = Proc(e,d)
+f = Proc(d,e)
 some_more_code
 ```
 
@@ -101,6 +101,12 @@ The above reasoning leads to the proof of the following theorem:
 > ### {.theorem title="Procedure definition synctatic sugar" #functionsynsugarthm}
 Let NAND-CIRC-PROC be the programming language NAND-CIRC augmented with the syntax above for defining procedures.
 Then for every NAND-CIRC-PROC program $P$, there exists a standard (i.e., "sugar free") NAND-CIRC program $P'$ that computes the same function as $P$.
+
+
+::: {.remark title="No recursive procedure" #norecursion}
+NAND-CIRC-PROC only allows _non recursive_ procedures. In particular, the code of a procedure `Proc` can not call `Proc` but only use procedures that were defined before it.
+Without this restriction, the above "search and replace" procedure might never terminate and [functionsynsugarthm](){.ref} would not be true.
+:::
 
 
 [functionsynsugarthm](){.ref} can be proven using the transformation above, but since the formal proof is somewhat long and tedious, we omit it here.
@@ -173,29 +179,25 @@ To make this more robust we  a prefix to the internal variables used by `Proc` t
 
 The code in [desugarcode](){.ref} achieves such a  transformation.^[This code uses _regular expressions_ to make the search and replace parts a little easier. We will see the theoretical basis for regular expressions in [restrictedchap](){.ref}.]
 
-``` { .python .full #desugarcode title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
-import re
-def desugar(code, proc_name, proc_args,proc_body):
-"""Use `search and replace' to remove procedure calls.  
-   Replace line of form 'foo = proc_name(a,b)' with 
-      proc_body[x->a,y->b]
-      foo = exp
-    where last line of proc_body is 'return exp'"""
-    # regexp for list of variable names separated by commas
+``` { .python  #desugarcode title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
+def inline_proc(code, proc_name, proc_args,proc_body):
+    '''Takes code of a program and name, arguments, body of a procedure. 
+    Returns new code where all lines in program of the 
+    form "foo = proc_name(bar,blah,..)" are replaced with 
+    the body of the procedure with  arguments instantiated 
+    with the variables bar, blah, etc.'''
     arglist = ",".join([r"([a-zA-Z0-9\_\[\]]+)" for i in range(len(proc_args))])
-    # regexp for "variable = proc_name(arguments)"
     regexp = fr'([a-zA-Z0-9\_\[\]]+)\s*=\s*{proc_name}\({arglist}\)\s*$'
-    m = re.search(regexp,code, re.MULTILINE)
-    if not m: return code # if no match then there's nothing to do
-    newcode = proc_body 
-    # replace arguments by  variables from invocation
-    for i in range(len(proc_args)): 
-        newcode = newcode.replace(proc_args[i],m.group(i+2))    
-    # Splice the new code inside
-    newcode = newcode.replace('return',m.group(1)+" = ")
-    newcode = code[:m.start()] + newcode + code[m.end()+1:]
-    # Continue recursively to check for more matches
-    return desugar(newcode,proc_name,proc_args,proc_body)
+    #  captures "variable = func_name(arguments)"    
+    while True:
+        m = re.search(regexp, code, re.MULTILINE)
+        if not m: break
+        newcode = proc_body 
+        for i in range(len(proc_args)): 
+            newcode = newcode.replace(proc_args[i], m.group(i+2))
+        newcode = newcode.replace('return', m.group(1) + " = ")
+        code = code[:m.start()] + newcode + code[m.end()+1:]
+    return code
 ```
 
 [progcircmajfig](){.ref} shows the result of applying the code of [desugarcode](){.ref} to the program of [majcircnand](){.ref} that uses syntactic sugar to compute the Majority function.
@@ -207,12 +209,27 @@ The function `desugar` in [desugarcode](){.ref} assumes that it is given the pro
 It is not crucial for our purposes to describe precisely to scan a definition and splitting it up to these components, but in case you are curious, it can be achieved in Python via the following code:
 
 ```python
-def parse_func(code):
-    """Parse a procedure definition into name, arguments and body"""
-    lines = [l.strip() for l in code.split('\n')]
+def parse_procs(code):
+    """Parse code that contain procedure definitions into a list of
+    triples (name, arguments, body)"""
+    lines = [l for l in code.split('\n') if l ]
     regexp = r'def\s+([a-zA-Z\_0-9]+)\(([\sa-zA-Z0-9\_,]+)\)\s*:\s*'
-    m = re.match(regexp,lines[0])
-    return m.group(1), m.group(2).split(','), '\n'.join(lines[1:])
+    procs = []
+    current_line = 0
+    rest = ""
+    while current_line < len(lines):
+        m = re.match(regexp,lines[current_line])
+        if m: 
+            current_line+= 1
+            code = ""
+            while current_line < len(lines) and lines[current_line][0]==' ':
+                code += lines[current_line].strip()+'\n'
+                current_line += 1
+            procs.append((m.group(1) , m.group(2).split(','), code))
+        else:
+            rest += lines[current_line]+'\n'
+            current_line += 1
+    return rest, procs
 ```
 :::
 
@@ -554,26 +571,62 @@ There exists a constant $c>0$ such that for every $n,m>0$ and function $f: \{0,1
 
 ::: {.proof data-ref="NAND-univ-thm-improved"}
 As before, it is enough to prove the case that $m=1$.
+Hence we let $f:\{0,1\}^n \rightarrow \{0,1\}$, and our goal is to prove that there exists a NAND-CIRC program of $O(2^n/n)$ lines (or equivalently a Boolean circuit of $O(2^n/n)$ gates) that computes $f$.
 
-The idea is to use the technique known as _memoization_.
-Let $k= \log(n-2\log n)$ (the reasoning behind this choice will become clear later on).
-For every $a \in \{0,1\}^{n-k}$ we define $F_a:\{0,1\}^k \rightarrow \{0,1\}$ to be the function that maps $w_0,\ldots,w_{k-1}$ to $F(a_0,\ldots,a_{n-k-1},w_0,\ldots,w_{k-1})$.
+We let $k= \log(n-2\log n)$ (the reasoning behind this choice will become clear later on).
+We define the function $g:\{0,1\}^k \rightarrow \{0,1\}^{2^{n-k}}$ as follows:
+$$
+g(a) = f(a0^{n-k})f(a0^{n-k-1}1) \cdots f(a1^{n-k}) \;.
+$$
+In other words, if we use the usual binary representation to identify the numbers $\{0,\ldots, 2^{n-k}-1 \}$ with the strings $\{0,1\}^{n-k}$, then for every $a\in \{0,1\}^k$ and $b\in \{0,1\}^{n-k}$
+$$
+g(a)_b = f(ab) \;. \label{eqcomputefusinggeffcircuit}
+$$
 
-On input $x=x_0,\ldots,x_{n-1}$, we can compute $F(x)$ as follows:
-First we compute a $2^{n-k}$ long string $P$ whose $a^{th}$ entry (identifying $\{0,1\}^{n-k}$ with $[2^{n-k}]$) equals $F_a(x_{n-k},\ldots,x_{n-1})$.
-One can verify that $F(x)=LOOKUP_{n-k}(P,x_0,\ldots,x_{n-k-1})$.
-Since we can compute $LOOKUP_{n-k}$ using $O(2^{n-k})$ lines, if we can compute the string $P$ (i.e., compute variables `P_`$0$, ..., `P_`$2^{n-k}-1$) using $T$ lines, then we can compute $F$ in $O(2^{n-k})+T$ lines.
+![We can compute $f:\{0,1\}^n \rightarrow \{0,1\}$ on input $x=ab$ where $a\in \{0,1\}^k$ and $b\in \{0,1\}^{n-k}$ by first computing the $2^{n-k}$ long string $g(a)$  that corresponds to all $f$'s values on inputs that begin with $a$, and then outputting the $b$-th coordinate of this string.](../figure/efficient_circuit_allfunc.png){#efficient_circuit_allfuncfig .margin}
 
-The trivial way to compute the string $P$ would be to use $O(2^k)$ lines to compute for every $a$ the map $x_0,\ldots,x_{k-1} \mapsto F_a(x_0,\ldots,x_{k-1})$ as in the proof of [NAND-univ-thm](){.ref}.
-Since there are $2^{n-k}$ $a$'s,  that would be a total cost of $O(2^{n-k} \cdot 2^k) = O(2^n)$ which would not improve at all on the bound of [NAND-univ-thm](){.ref}.
-However, a more careful observation shows that we are making some _redundant_ computations.
-After all, there are only $2^{2^k}$ distinct functions mapping $k$ bits to one bit.
-If $a$ and $a'$ satisfy that $F_a = F_{a'}$ then we don't need to spend $2^k$ lines computing both $F_a(x)$ and $F_{a'}(x)$ but rather can only compute the variable `P_`$a$ and then copy `P_`$a$ to `P_`$a'$ using $O(1)$ lines.
-Since we have $2^{2^k}$ unique functions, we can bound the total cost to compute $P$ by $O(2^{2^k}2^k)+O(2^{n-k})$.
 
-Now it just becomes a matter of calculation.
-By our choice of $k$, $2^k = n-2\log n$ and hence $2^{2^k}=\tfrac{2^n}{n^2}$.
-Since $n/2 \leq 2^k \leq n$, we can bound the total cost of computing $F(x)$ (including also the additional $O(2^{n-k})$ cost of computing $LOOKUP_{n-k}$) by $O(\tfrac{2^n}{n^2}\cdot n)+O(2^n/n)$, which is what we wanted to prove.
+[eqcomputefusinggeffcircuit](){.eqref} means that for every $x\in \{0,1\}^n$, if we write 
+$x=ab$ with $a\in \{0,1\}^k$ and $b\in \{0,1\}^{n-k}$ then we can compute $f(x)$ by 
+first computing the string  $T=g(a)$  of length $2^{n-k}$, and then computing $LOOKUP_{n-k}(T\;,\; b)$ to retrieve the 
+element of $T$ at the position corresponding to $b$ (see [efficient_circuit_allfuncfig](){.ref}).
+The cost to compute the $LOOKUP_{n-k}$ is $O(2^{n-k})$ lines/gates and the cost in NAND-CIRC lines (or Boolean gates) to compute  $f$ is at most
+$$
+cost(g) + O(2^{n-k}) \;, \label{eqcomputefusinggeffcircuit}
+$$
+where $cost(g)$ is the number of operations (i.e., lines of NAND-CIRC programs or gates in a circuit) needed to compute $g$.
+
+
+To complete the proof we need to give a  bound on  $cost(g)$. 
+Since $g$ is a function mapping $\{0,1\}^k$ to $\{0,1\}^{2^{n-k}}$, we can also think of it as a
+collection of $2^{n-k}$ functions $g_0,\ldots, g_{2^{n-k}-1}: \{0,1\}^k \rightarrow \{0,1\}$, where
+$g_i(x) = g(a)_i$ for every $a\in \{0,1\}^k$ and $i\in [2^{n-k}]$. (That is, $g_i(a)$ is the $i$-th bit of $g(a)$.)
+Naively, we could use  [NAND-univ-thm](){.ref}  to compute each $g_i$ in $O(2^k)$ lines, but then
+the total cost is $O(2^{n-k} \cdot 2^k) = O(2^n)$ which does not save us anything.
+However, the crucial observation is that there are only $2^{2^k}$ _distinct functions_ mapping 
+$\{0,1\}^k$ to $\{0,1\}$.
+For example, if $g_{17}$ is an identical function to $g_{67}$ that means that if we already computed $g_{17}(a)$ then we can compute $g_{67}(a)$ using only a constant number of operations: simply copy the same value!
+In general, if you have a collection of $N$ functions $g_0,\ldots,g_{N-1}$ mapping $\{0,1\}^k$ to $\{0,1\}$, of which at most $S$ are distinct then for every value $a\in \{0,1\}^k$ we can compute the $N$ values $g_0(a),\ldots,g_{N-1}(a)$ using at most $O(S\cdot 2^k + N)$ operations (see [computemanyfunctionsfig](){.ref}).
+
+
+
+![If $g_0,\ldots, g_{N-1}$ is a collection of functions each mapping $\{0,1\}^k$ to $\{0,1\}$ such that at most $S$ of them are distinct then for every $a\in \{0,1\}^k$, we can compute all the values $g_0(a),\ldots,g_{N-1}(a)$ using at most $O(S \cdot 2^k + N)$ operations by first computing the distinct functions and then copying the resulting values.](../figure/computemanyfunctions.png){#computemanyfunctionsfig .margin }
+
+In our case, because there are at most $2^{2^k}$ distinct functions mapping $\{0,1\}^k$ to $\{0,1\}$, we can compute the function $g$ (and hence by [eqcomputefusinggeffcircuit](){.eqref}  also $f$) using at most  
+$$O(2^{2^k} \cdot 2^k + 2^{n-k}) \label{eqboundoncostg}$$ 
+operations.
+Now all that is left is to plug  into [eqboundoncostg](){.eqref} our choice of $k = \log (n-2\log n)$.
+By definition, $2^k = n-2\log n$, which means that   [eqboundoncostg](){.eqref} can be bounded
+$$
+O\left(2^{n-2\log n} \cdot (n-2\log n) +  2^{n-\log(n-2\log n)}\right) \leq
+$$
+
+$$
+O\left(\tfrac{2^n}{n^2} \cdot n + \tfrac{2^n}{n-2\log n} \right) 
+\leq
+O\left(\tfrac{2^n}{n}  + \tfrac{2^n}{0.5n} \right)  = O\left( \tfrac{2^n}{n} \right) 
+$$
+which is what we wanted to prove. (We used above the fact that $n - 2\log n \geq 0.5 \log n$ for sufficiently large $n$.)
 :::
 
 Using the connection between NAND-CIRC programs and Boolean circuits, an immediate corollary of  [NAND-univ-thm-improved](){.ref} is the following improvement to  [circuit-univ-thm](){.ref}:
@@ -763,7 +816,7 @@ where $MAJ(a,b,c) = 1$ iff $a+b+c \geq 2$.
 ::: {.exercise title="Conditional statements" #conditionalsugarthmex}
 In this exercise we will explore [conditionalsugarthm](){.ref}: transforming NAND-CIRC-IF programs that use code such as `if .. then .. else ..` to standard NAND-CIRC programs.
 
-1. Give a "proof by code" of [conditionalsugarthm](){.ref}: a program in a programming language of your choice that transforms a NAND-CIRC-IF program $P$ into a "sugar free" NAND-CIRC program $P'$ that computes the same function.^[_Hint:_ You can start by transforming $P$ into a NAND-CIRC-PROC program that uses procedure statements, and then use the code of [desugarcode](){.ref} to transform the latter into a "sugar free" NAND-CIRC program.] 
+1. Give a "proof by code" of [conditionalsugarthm](){.ref}: a program in a programming language of your choice that transforms a NAND-CIRC-IF program $P$ into a "sugar free" NAND-CIRC program $P'$ that computes the same function. See footnote for hint.^[You can start by transforming $P$ into a NAND-CIRC-PROC program that uses procedure statements, and then use the code of [desugarcode](){.ref} to transform the latter into a "sugar free" NAND-CIRC program.] 
 
 2. Prove the following statement, which is the heart of  [conditionalsugarthm](){.ref}: suppose that there exists an $s$-line NAND-CIRC program to compute $f:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND-CIRC program to compute $g:\{0,1\}^n \rightarrow \{0,1\}$.
 Prove that there exist a NAND-CIRC program of at most $s+s'+10$ lines to compute the function $h:\{0,1\}^{n+1} \rightarrow \{0,1\}$ where $h(x_0,\ldots,x_{n-1},x_n)$ equals $f(x_0,\ldots,x_{n-1})$ if $x_n=0$ and equals $g(x_0,\ldots,x_{n-1})$ otherwise. (All programs in this item are standard "sugar-free" NAND-CIRC programs.)
@@ -842,11 +895,11 @@ Let IF-CIRC be the programming language where we have the following operations `
 :::
 
 ::: {.exercise title="Compare XOR and NAND" #comparexor}
-Let XOR-CIRC be the programming language where we have the following operations `foo = XOR(bar,blah)`, `foo = 1` and `bar = 0` (that is, we can use the constants $0$, $1$ and the $XOR$ function that maps $a,b \in \{0,1\}^2$ to $a+b \mod 2$). Compare the power of the NAND-CIRC programming language and the XOR-CIRC programming language.^[_Hint:_ You can use the fact that $(a+b)+c \mod 2 = a+b+c \mod 2$. In particular it means that if you have the lines `d = XOR(a,b)` and `e = XOR(d,c)` then `e` gets the sum modulo $2$ of the variable `a`, `b` and `c`.]
+Let XOR-CIRC be the programming language where we have the following operations `foo = XOR(bar,blah)`, `foo = 1` and `bar = 0` (that is, we can use the constants $0$, $1$ and the $XOR$ function that maps $a,b \in \{0,1\}^2$ to $a+b \mod 2$). Compare the power of the NAND-CIRC programming language and the XOR-CIRC programming language. See footnote for hint.^[You can use the fact that $(a+b)+c \mod 2 = a+b+c \mod 2$. In particular it means that if you have the lines `d = XOR(a,b)` and `e = XOR(d,c)` then `e` gets the sum modulo $2$ of the variable `a`, `b` and `c`.]
 :::
 
 ::: {.exercise title="Circuits for majority" #majasymp}
-Prove that there is some constant $c$ such that for every $n>1$, $MAJ_n \in Size(cn)$ where $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$ is the majority function on $n$ input bits. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. NOTE: You can get __16 points__ by proving the weaker statement $MAJ_n \in Size(c \cdot n \log n)$ for some constant $c$.^[_Hint:_ One approach to solve this is using recursion and the  so-called Master Theorem.]
+Prove that there is some constant $c$ such that for every $n>1$, $MAJ_n \in Size(cn)$ where $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$ is the majority function on $n$ input bits. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. See footnote for hint.^[One approach to solve this is using recursion and the  so-called [Master Theorem](https://en.wikipedia.org/wiki/Master%5Ftheorem%5F(analysis%5Fof%5Falgorithms)).]
 :::
 
 
@@ -864,7 +917,6 @@ Shannon showed that every Boolean function can be computed by a circuit of expon
 (Thanks to Sasha Golovnev for tracking down this reference!)
 
 The concept of "syntactic sugar" is also known as "macros" or "meta-programming" and is sometimes implemented via a preprocessor or macro language in a programming language or a text editor. One modern example is the [Babel](https://babeljs.io/) JavaScript syntax transformer, that converts JavaScript programs written using the latest features into a format that older Browsers can accept. It even has a [plug-in](https://babeljs.io/docs/plugins/) architecture, that allows users to add their own syntactic sugar to the language.
-We mentioned that almost all programming language support user-defined functions, but one notable exception is the original version of the FORTRAN programming language, developed in the early 1950's. This was however quickly added in FORTRAN II, released in 1958.
 
 
 

@@ -431,7 +431,7 @@ The output of a NAND-TM program is the string `Y[`$0$`]`, $\ldots$, `Y[`$m-1$`]`
 
 Formally, NAND-TM programs are defined as follows:
 
-::: {.definition title="NAND TM programs" #NANDTM}
+::: {.definition title="NAND-TM programs" #NANDTM}
 A _NAND-TM program_ consists of a sequence of lines of the form `foo = NAND(bar,blah)` ending with a line  of the form `MODANDJMP(foo,bar)`, where `foo`,`bar`,`blah` are either _scalar variables_ (sequences of letters, digits, and underscores) or _array variables_ of the form `Foo[i]` (starting with capital letter and indexed by `i`). The program has the array variables `X`, `X_nonblank`, `Y`, `Y_nonblank` and the index variable `i` built in, and can use additional array and scalar variables.
 
 If $P$ is a NAND-TM program and $x\in \{0,1\}^*$ is an input then an execution of $P$ on $x$ is the following process:
@@ -774,7 +774,7 @@ The way we use `GOTO` to implement a higher level functionality in NAND-TM is re
 
 
 While NAND-TM adds extra operations over NAND-CIRC, it is not exactly accurate to say that NAND-TM programs or Turing machines are "more powerful" than NAND-CIRC programs or Boolean circuits.
-NAND-CIRC programs, having no loops, are simply not applicable for computing functions with an bounded number of inputs.
+NAND-CIRC programs, having no loops, are simply not applicable for computing functions with an unbounded number of inputs.
 Thus, to compute a function $F:\{0,1\}^* :\rightarrow \{0,1\}^*$ using NAND-CIRC (or equivalently, Boolean circuits) we need a _collection_ of programs/circuits: one for every input length.
 
 
@@ -876,7 +876,7 @@ is in $\mathbf{R}$.
 Define a Turing Machine $M$ to be _oblivious_ if its head movement are independent of its input.
 That is, we say that $M$ is oblivious if there existe an infinite sequence  $MOVE \in  \{\mathsf{L},\mathsf{R}, \mathsf{S} \}^\infty$ such that for every $x\in \{0,1\}^*$, the movements of $M$ when given input $x$ (up until the point it halts, if such point exists) are given by $MOVE_0,MOVE_1,MOVE_2,\ldots$.
 
-Prove that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, if $F$ is computable then it is computable by an oblivious Turing machine.^[_Hint:_ You can use the sequence $\mathsf{R}$, $\mathsf{L}$,$\mathsf{R}$, $\mathsf{R}$, $\mathsf{L}$, $\mathsf{L}$, $\mathsf{R}$,$\mathsf{R}$,$\mathsf{R}$, $\mathsf{L}$, $\mathsf{L}$, $\mathsf{L}$, $\ldots$.]
+Prove that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, if $F$ is computable then it is computable by an oblivious Turing machine. See footnote for hint.^[You can use the sequence $\mathsf{R}$, $\mathsf{L}$,$\mathsf{R}$, $\mathsf{R}$, $\mathsf{L}$, $\mathsf{L}$, $\mathsf{R}$,$\mathsf{R}$,$\mathsf{R}$, $\mathsf{L}$, $\mathsf{L}$, $\mathsf{L}$, $\ldots$.]
 :::
 
 

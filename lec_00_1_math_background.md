@@ -180,7 +180,7 @@ Since order matters, this is not the same tuple as the $4$-tuple $(1,1,5,2)$ or 
 We use the terms _tuples_ and _lists_ interchangeably.
 A tuple where every element comes from some finite set $\Sigma$ (such as $\{0,1\}$) is also known as a _string_.
 Analogously to sets, we denote the _length_ of a tuple $T$ by $|T|$.
-Just like sets, we can also think of infinite analogues of tuples, such as the ordered collection $(1,2,4,9,\ldots )$ of all perfect squares.
+Just like sets, we can also think of infinite analogues of tuples, such as the ordered collection $(1,4,9,\ldots )$ of all perfect squares.
 Infinite ordered collections are known as _sequences_; we might sometimes use the term "infinite sequence" to emphasize this, and use "finite sequence" as a synonym for a tuple. (We can identify a sequence $(a_0,a_1,a_2,\ldots)$ of elements in some set $S$ with a _function_ $A:\N \rightarrow S$ (where $a_n = A(n)$ for every $n\in \N$). Similarly, we can identify a $k$-tuple $(a_0,\ldots,a_{k-1})$ of elements in $S$ with a function $A:[k] \rightarrow S$.)
 
 
@@ -661,7 +661,7 @@ Writing a _program_ involves:
 
 In programs as in proofs, step 1 is often the most important one.
 A key difference is that the reader for proofs is a human being and the reader for programs is a computer.
-(This difference is eroding with time as more proofs are being written in a _machine verifiable_ form; moreover, to ensure correctness and maintinability of programs, it is important that they can be read and understood by humans.)
+(This difference is eroding with time as more proofs are being written in a _machine verifiable_ form; moreover, to ensure correctness and maintainability of programs, it is important that they can be read and understood by humans.)
 Thus our emphasis is on _readability_ and having a _clear logical flow_ for our proof (which is not a bad idea for programs as well).
 When writing a proof, you should think of your audience as an intelligent but highly skeptical and somewhat petty reader, that will "call foul" at every step that is not well justified.
 
@@ -1159,7 +1159,7 @@ c. $F(n)=n\log n$, $G(n)=2^{(\log (n))^2}$.
 
 d. $F(n)=\sqrt{n}$, $G(n)=2^{\sqrt{\log n}}$
 
-e. $F(n) = \binom{n}{\ceil{0.2 n}}$ ,  $G(n) = 2^{0.1 n}$ (where $\binom{n}{k}$ is the number of $k$-sized subsets of a set of size $n$) and $g(n) = 2^{0.1 n}$.^[_Hint:_ one way to do this is to use [Stirling's approximation for the factorial function.](https://goo.gl/cqEmS2).]
+e. $F(n) = \binom{n}{\ceil{0.2 n}}$ ,  $G(n) = 2^{0.1 n}$ (where $\binom{n}{k}$ is the number of $k$-sized subsets of a set of size $n$) and $g(n) = 2^{0.1 n}$. See footnote for hint.^[one way to do this is to use [Stirling's approximation for the factorial function.](https://goo.gl/cqEmS2).]
 :::
 
 > ### {.exercise}
