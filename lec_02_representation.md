@@ -86,7 +86,7 @@ We now show how we can represent natural numbers as binary strings.
 Over the years people have represented numbers in a variety of ways, including Roman numerals, tally marks, our own Hindu-Arabic  decimal system, and many others.
 We can use any one of those as well as many others to represent a number as a string (see [bitmapdigitsfig](){.ref}).
 However, for the sake of concreteness,  we use the _binary basis_ as our default representation of natural numbers as strings.
-For example, we represent the number six as the string $110$ since $1\cdot 2^{2} + 1 \cdot 2^1 + 0 \cdot 2^0 = 6$, and similarly we represent the number thirty-five as the string $y = 100011$ which satisfies $\sum_{i=0}^5 y_i \cdot 2^{|y|-i} = 35$.^[We could just as well used the reverse order and represent  $35$ as the string $110001$. Similarly, we could have just as well used the empty string $""$ to represent $0$. Such low level choices do not make a difference for us, though they do matter in computing practice, see the bibliographical notes [bibnotesrepres](){.ref}.]
+For example, we represent the number six as the string $110$ since $1\cdot 2^{2} + 1 \cdot 2^1 + 0 \cdot 2^0 = 6$, and similarly we represent the number thirty-five as the string $y = 100011$ which satisfies $\sum_{i=0}^5 y_i \cdot 2^{|y|-i-1} = 35$.^[We could just as well used the reverse order and represent  $35$ as the string $110001$. Similarly, we could have just as well used the empty string $""$ to represent $0$. Such low level choices do not make a difference for us, though they do matter in computing practice, see the bibliographical notes [bibnotesrepres](){.ref}.]
 Some more examples are given in the table below.
 
 
@@ -270,7 +270,7 @@ Our final representation for rational numbers is obtained by composing the follo
 ::: {.example title="Representing a rational number as a string" #represnumberbypairs}
 Consider the rational number $r=-5/8$.
 We represent $-5$ as $1101$ and $+8$ as $01000$, and so we can represent $r$ as the _pair_ of strings $(1101,01000)$ and represent this pair as the length $10$ string $1101\|01000$ over the alphabet  $\{0,1,\|\}$.
-Now, applying the map $0 \mapsto 00$, $1\mapsto 11$, $\| \mapsto 01$, we can represent the latter string as the length $20$ string  $s=0011000000010011000000$ over the alphabet $\{0,1\}$.
+Now, applying the map $0 \mapsto 00$, $1\mapsto 11$, $\| \mapsto 01$, we can represent the latter string as the length $20$ string  $s=11110011010011000000$ over the alphabet $\{0,1\}$.
 :::
 
 
@@ -533,7 +533,7 @@ While the decoding function of a representation scheme can in general be a _part
 
 ### Finite representations
 
-If $\mathcal{O}$ is _finite_, then we can represent every object in $o$ as a string of length at most some number $n$.
+If $\mathcal{O}$ is _finite_, then we can represent every object in $\mathcal{O}$ as a string of length at most some number $n$.
 What is the value of $n$?
 Let us denote by  $\{0,1\}^{\leq n}$ the set $\{ x\in \{0,1\}^* : |x| \leq n \}$ of strings of length at most $n$.
 The size of $\{0,1\}^{\leq n}$ is equal to
