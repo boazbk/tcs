@@ -277,7 +277,7 @@ $a \leftarrow$ `GET(Vartable,`$j$`)`
 $b \leftarrow$ `GET(Vartable,`$k$`)`
 `Vartable = UPDATE(Vartable,`$i$,`NAND(`$a$`,`$b$`))`
 Endfor
-For{$j \in {m}$}
+For{$j$ in $[m]$}
 $y_j \leftarrow$ `GET(Vartable,`$t-m+j$`)`
 Endfor
 Return $y_0,\ldots,y_{m-1}$
