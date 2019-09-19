@@ -418,7 +418,7 @@ More generally, as shown in the following lemma,  we can compute $LOOKUP_k$ usin
 For every $k \geq 2$, $LOOKUP_k(x_0,\ldots,x_{2^k-1},i_0,\ldots,i_{k-1})$
 is equal to
 $$
-IF(i_0,LOOKUP_{k-1}(x_0,\ldots,x_{2^{k-1}-1},i_1,\ldots,i_{k-1}), LOOKUP_{k-1}(x_{2^{k-1}},\ldots,x_{2^k-1},i_1,\ldots,i_{k-1}))
+IF \left(i_0, LOOKUP_{k-1}(x_{2^{k-1}},\ldots,x_{2^k-1},i_1,\ldots,i_{k-1}), LOOKUP_{k-1}(x_0,\ldots,x_{2^{k-1}-1},i_1,\ldots,i_{k-1}) \right)
 $$
 
 > ### {.proof data-ref="lookup-rec-lem"}
@@ -436,7 +436,7 @@ For $k>1$, we use the following pseudocode
 ```python
 a = LOOKUP_(k-1)(X[0],...,X[2^(k-1)-1],i[1],...,i[k-1])
 b = LOOKUP_(k-1)(X[2^(k-1)],...,Z[2^(k-1)],i[1],...,i[k-1])
-return IF(i[k-1],a,b)
+return IF(i[k-1],b,a)
 ```
 
 If we let $L(k)$ be the number of lines required for $LOOKUP_k$, then the above pseudo-code shows that
