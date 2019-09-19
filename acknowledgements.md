@@ -82,3 +82,5 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Jessica Zhu
 * Anindya Basu
 * Joosep Hook
+* Richard Xu
+* Carolyn Ge
