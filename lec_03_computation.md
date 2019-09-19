@@ -536,7 +536,7 @@ We can also present this 8-line program as a circuit with 8 gates, see [aoncmpfi
 :::
 
 
-![A circuit for computing the $CMP$ function. The evaluation of this circuit on $(1,1,1,0)$ yields the output $1$, since the number $3$ (represented in binary as $11$) is larger than the number $2$ (represented in binary as $10$).](../figure/CMPaoncirc.png){#aoncmpfig .margin}
+![A circuit for computing the $CMP$ function. The evaluation of this circuit on $(1,1,1,0)$ yields the output $1$, since the number $3$ (represented in binary as $11$) is larger than the number $2$ (represented in binary as $10$).](../figure/comparecircuit.png){#aoncmpfig .margin}
 
 
 
