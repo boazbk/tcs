@@ -139,7 +139,7 @@ $$AND(a,b) = \begin{cases} 1 & a=b=1 \\ 0 & \text{otherwise} \end{cases}$$
 
 $$NOT(a) = \begin{cases} 0 & a = 1 \\ 1 & a = 0 \end{cases}$$
 
-The functions $AND$, $OR$ and $NOT$, are the basic logical operators used in logic and many computer system.
+The functions $AND$, $OR$ and $NOT$, are the basic logical operators used in logic and many computer systems.
 In the context of logic, it is common to use the notation $a \wedge b$ for $AND(a,b)$, $a \vee b$ for $OR(a,b)$ and $\overline{a}$ and $\neg a$ for $NOT(a)$, and we will use this notation as well.
 
 Each one of the functions $AND,OR,NOT$ takes either one or two single bits as input, and produces a single bit as output.
