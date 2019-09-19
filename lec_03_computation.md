@@ -11,7 +11,7 @@ chapternum: "3"
 * See that computation can be precisely modeled. \
 * Learn the computational model of _Boolean circuits_ / _straight-line programs_.
 * Equivalence of circuits and straight-line programs.
-* Equivalence of  AND/OR/NOT and  NAND. 
+* Equivalence of  AND/OR/NOT and  NAND.
 * Examples of computing in the physical world. \
 
 
@@ -36,7 +36,7 @@ A priori, the notion of computation seems to be tied to the particular mechanism
 You might think that the "best"  algorithm for multiplying numbers will differ if you implement it in _Python_ on a modern laptop than if you use pen and paper.
 However, as we saw in the introduction ([chapintro](){.ref}), an algorithm that is asymptotically better would eventually beat a worse one regardless of the underlying technology.
 This gives us hope for a _technology independent_ way of defining computation.
-This is what we do in this chapter. 
+This is what we do in this chapter.
 We will define the notion of computing an output from an input by applying a sequence of basic operations (see [compchapwhatvshowfig](){.ref}).
 Using this, we will be able to precisely define statements such as "function $f$ can be computed by model $X$" or "function $f$ can be computed by model $X$ using $s$ operations".
 
@@ -135,11 +135,11 @@ $$OR(a,b) = \begin{cases} 0 & a=b=0 \\ 1 & \text{otherwise} \end{cases}$$
 
 $$AND(a,b) = \begin{cases} 1 & a=b=1 \\ 0 & \text{otherwise} \end{cases}$$
 
-* $NOT:\{0,1\} \rightarrow \{0,1\}$ defined as 
+* $NOT:\{0,1\} \rightarrow \{0,1\}$ defined as
 
 $$NOT(a) = \begin{cases} 0 & a = 1 \\ 1 & a = 0 \end{cases}$$
 
-The functions $AND$, $OR$ and $NOT$, are the basic logical operators used in logic and many computer system.
+The functions $AND$, $OR$ and $NOT$, are the basic logical operators used in logic and many computer systems.
 In the context of logic, it is common to use the notation $a \wedge b$ for $AND(a,b)$, $a \vee b$ for $OR(a,b)$ and $\overline{a}$ and $\neg a$ for $NOT(a)$, and we will use this notation as well.
 
 Each one of the functions $AND,OR,NOT$ takes either one or two single bits as input, and produces a single bit as output.
@@ -214,20 +214,20 @@ As usual, it is a good exercise to try to work out the algorithm for $XOR$ using
 :::
 
 
-The following algorithm computes $XOR$ using $AND$, $OR$, and $NOT$: 
+The following algorithm computes $XOR$ using $AND$, $OR$, and $NOT$:
 
 
 ``` {.algorithm title="$XOR$ from $AND$/$OR$/$NOT$" #XORfromAONalg}
 Input: $a,b \in \{0,1\}$.
 Output: $XOR(a,b)$
 
-$w1 \leftarrow AND(a,b)$ 
+$w1 \leftarrow AND(a,b)$
 
-$w2 \leftarrow NOT(w1)$ 
+$w2 \leftarrow NOT(w1)$
 
-$w3 \leftarrow OR(a,b)$ 
+$w3 \leftarrow OR(a,b)$
 
-return $AND(w2,w3)$ 
+return $AND(w2,w3)$
 ```
 
 
@@ -356,7 +356,7 @@ We will also discuss how to _physically implement_ simple operations such as $AN
 ![Standard symbols for the logical operations or "gates" of $AND$, $OR$, $NOT$, as well as the operation $NAND$ discussed in [nandsec](){.ref}.](../figure/logicgates.png){#logicgatesfig .margin }
 
 
-![A circuit with $AND$, $OR$ and $NOT$ gates  for computing the $XOR$ function.](../figure/xorcircuitschemdraw.png){#andornotcircxorfig  .margin  } 
+![A circuit with $AND$, $OR$ and $NOT$ gates  for computing the $XOR$ function.](../figure/xorcircuitschemdraw.png){#andornotcircxorfig  .margin  }
 
 
 
@@ -434,7 +434,7 @@ Let $n,m,s$ be positive integers with $s \geq m$. A _Boolean circuit_ with $n$ i
 
 * Exactly $n$ of the vertices have no in-neighbors. These vertices are known as _inputs_ and are labeled with the $n$ labels `X[`$0$`]`, $\ldots$, `X[`$n-1$`]`.
 
-* The other $s$ vertices are known as _gates_. Each gate is labeled with $\wedge$, $\vee$ or $\neg$. Gates labeled with $\wedge$ (_AND_) or $\vee$ (_OR_) have two in-neighbors. Gates labeled with $\neg$ (_NOT_) have one in-neighbor. We will allow parallel edges.^[Having parallel edges means an AND or OR gate $u$ can have both its in-neighbors be the same gate $v$. Since $AND(a,a)=OR(a,a)=a$ for every $a\in \{0,1\}$, such parallel edges don't help in computing new values in circuits with AND/OR/NOT gates. However, we will see circuits with more general sets of gates later on.] 
+* The other $s$ vertices are known as _gates_. Each gate is labeled with $\wedge$, $\vee$ or $\neg$. Gates labeled with $\wedge$ (_AND_) or $\vee$ (_OR_) have two in-neighbors. Gates labeled with $\neg$ (_NOT_) have one in-neighbor. We will allow parallel edges.^[Having parallel edges means an AND or OR gate $u$ can have both its in-neighbors be the same gate $v$. Since $AND(a,a)=OR(a,a)=a$ for every $a\in \{0,1\}$, such parallel edges don't help in computing new values in circuits with AND/OR/NOT gates. However, we will see circuits with more general sets of gates later on.]
 * Exactly $m$ of the gates are also labeled with the $m$ labels   `Y[`$0$`]`, $\ldots$, `Y[`$m-1$`]` (in addition to their label $\wedge$/$\vee$/$\neg$). These are known as _outputs_.
 :::
 
@@ -511,7 +511,7 @@ The number represented by $(a,b)$ is larger than the number represented by $(c,d
 
 1. The most significant bit $a$ of $(a,b)$   is larger than the most significant bit $c$ of $(c,d)$.
 
-or 
+or
 
 2. The two most significant bits $a$ and $c$ are equal, but $b>d$.
 
@@ -555,7 +555,7 @@ For example, an _AND_ gate in a Boolean circuit corresponding to computing the _
 In a AON-CIRC program this will correspond to the line that stores in a variable the `AND` of two previously-computed variables.
 
 ::: { .pause }
-This proof of [slcircuitequivthm](){.ref} is simple at heart, but all the details it contains can make it a little cumbersome to read. You might be better off trying to work it out yourself before reading it. 
+This proof of [slcircuitequivthm](){.ref} is simple at heart, but all the details it contains can make it a little cumbersome to read. You might be better off trying to work it out yourself before reading it.
 Our  [GitHub repository](https://github.com/boazbk/tcscode)  contains a  "proof by Python" of [slcircuitequivthm](){.ref}: implementation of functions `circuit2prog` and `prog2circuits` mapping Boolean circuits to AON-CIRC programs
 and vice versa.
 :::
@@ -582,7 +582,7 @@ Once again, one can verify that for every input $x$, the value $P(x)$ will equal
 
 
 ## Physical implementations of computing devices (digression) {#physicalimplementationsec }
- 
+
 
 _Computation_ is an abstract notion that is distinct from its physical _implementations_.
 While most modern computing devices are obtained by mapping logical gates to semi-conductor based transistors, over history people have computed using a huge variety of mechanisms,  including mechanical systems, gas and liquid (known as _fluidics_), biological and chemical processes, and even living creatures (e.g., see [crabfig](){.ref} or  [this video](https://www.youtube.com/watch?v=czk4xgdhdY4) for how crabs or slime mold can be used to do computations).
@@ -655,7 +655,7 @@ Even larger systems such as [flocks of birds](https://www.cs.princeton.edu/~chaz
 
 _Cellular automata_ is a model of a system composed of a sequence of _cells_, which of which can have a finite state.
 At each step, a cell updates its state based on the states of its _neighboring cells_ and some simple rules.
-As we will discuss later in this book (see [cellularautomatasec](){.ref}), cellular automata such as Conway's "Game of Life" can be used to simulate computation gates . 
+As we will discuss later in this book (see [cellularautomatasec](){.ref}), cellular automata such as Conway's "Game of Life" can be used to simulate computation gates .
 
 ![An AND gate using a "Game of Life" configuration. Figure taken from [Jean-Philippe Rennard's paper](http://www.rennard.org/alife/CollisionBasedRennard.pdf).](../figure/game_of_life_and.png){#gameoflifefig .margin  }
 
@@ -829,9 +829,9 @@ Let $c_0 \leftarrow 1$ # we pretend we have a "carry" of $1$ initially
 For{$i=0,\ldots, n-1$}
 Let $y_i \leftarrow XOR(x_i,c_i)$.
 If{$c_i=x_i=1$}
-$c_{i+1}=1$ 
+$c_{i+1}=1$
 else
-$c_{i+1}=0$ 
+$c_{i+1}=0$
 endif
 Endfor
 Let $y_n \leftarrow c_n$.
@@ -849,7 +849,7 @@ For example, [nandincrememntcircfig](){.ref} shows how this circuit looks like f
 
 
 
-![NAND circuit with computing the _increment_ function on $4$ bits.](../figure/incrementfromnand.png){#nandincrememntcircfig  .margin } 
+![NAND circuit with computing the _increment_ function on $4$ bits.](../figure/incrementfromnand.png){#nandincrememntcircfig  .margin }
 
 
 
@@ -868,8 +868,8 @@ Let $c_0 \leftarrow 0$
 For{$i=0,\ldots,n-1$}
     Let $y_i \leftarrow u_i + v_i \mod 2$
     If{$u_i + v_i + c_i \geq 2$}
-    $c_{i+1}\leftarrow 1$ 
-    else 
+    $c_{i+1}\leftarrow 1$
+    else
     $c_{i+1} \leftarrow 0$
     endif
 Endfor
@@ -878,7 +878,7 @@ Let $y_n \leftarrow c_n$
 
 
 Once again, [additionfromnand](){.ref} can be translated into a NAND circuit.
-The crucial observation is that the "if/then" statement simply corresponds to 
+The crucial observation is that the "if/then" statement simply corresponds to
 $c_{i+1} \leftarrow MAJ_3(u_i,v_i,v_i)$ and we have seen in in [majbynandex](){.ref} that the function $MAJ_3:\{0,1\}^3 \rightarrow \{0,1\}$ can be computed using $NAND$s.
 
 
@@ -896,12 +896,12 @@ foo = NAND(bar,blah)
 where `foo`, `bar` and `blah` are variable identifiers.
 
 ::: {.example title="Our first NAND-CIRC program" #NANDprogramexample}
-Here is an example of a NAND-CIRC program: 
+Here is an example of a NAND-CIRC program:
 
 ```python
 u = NAND(X[0],X[1])
 v = NAND(X[0],u)
-w = NAND(X[1],u) 
+w = NAND(X[1],u)
 Y[0] = NAND(v,w)
 ```
 :::
@@ -934,7 +934,7 @@ For every $f:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s \geq m$, $f$ is computable 
 We omit the proof of [NANDcircslequivthm](){.ref} since it follows along exactly the same lines as the equivalence of Boolean circuits and AON-CIRC program  ([slcircuitequivthm](){.ref}).
 Given [NANDcircslequivthm](){.ref} and [NANDuniversamthm](){.ref}, we know that we can translate every $s$-line AON-CIRC program $P$ into an equivalent NAND-CIRC program of at most $3s$ lines.
 In fact, this translation can be easily done by replacing every line of the form `foo = AND(bar,blah)`, `foo = OR(bar,blah)` or `foo = NOT(bar)` with the equivalent 1-3 lines that use the `NAND` operation.
-Our [GitHub repository](https://github.com/boazbk/tcscode) contains a "proof by code": a simple Python program `AON2NAND` that transforms an AON-CIRC into an equivalent NAND-CIRC program. 
+Our [GitHub repository](https://github.com/boazbk/tcscode) contains a "proof by code": a simple Python program `AON2NAND` that transforms an AON-CIRC into an equivalent NAND-CIRC program.
 
 
 
@@ -1102,7 +1102,7 @@ if $B$ is universal then there is a $B$-circuit of at most $O(k)$ gates to compu
 Prove that there is some constant $c$ such that for every $n>1$, and integers $a_0,\ldots,a_{n-1},b \in \{-2^n,-2^n+1,\ldots,-1,0,+1,\ldots,2^n\}$, there is a NAND circuit with at most $c\dot n^4$ gates that computes the _threshold_ function $f_{a_0,\ldots,a_{n-1},b}:\{0,1\}^n \rightarrow \{0,1\}$ that on input $x\in \{0,1\}^n$ outputs $1$ if and only if $\sum_{i=0}^{n-1} a_i x_i > b$.
 
 ::: {.exercise title="NANDs from activation functions" #NANDsfromActivationfunctionex}
-We say that a function $f:\mathbb{R}^2 \rightarrow \mathbb{R}$ is a _NAND approximator_ if it has 
+We say that a function $f:\mathbb{R}^2 \rightarrow \mathbb{R}$ is a _NAND approximator_ if it has
 the following property: for every $a,b \in \mathbb{R}$, if $\min\{|a|,|1-a|\}\leq 1/3$ and $\min \{ |b|,|1-b| \}\leq 1/3$ then $|f(a,b) - NAND(\lfloor a \rceil, lfloor b \rceil)| \leq 1/3$ where we denote by $\lfloor x \rfloor$ the integer closest to $x$.
 That is, if $a,b$ are within a distance $1/3$ to $\{0,1\}$ then we want $f(a,b)$ to equal the $NAND$ of the values in $\{0,1\}$ that are closest to $a$ and $b$ respectively. Otherwise, we do not care what the output of $f$ is on $a$ and $b$.
 
