@@ -84,3 +84,4 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Joosep Hook
 * Richard Xu
 * Carolyn Ge
+* Anlan Du
