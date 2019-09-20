@@ -566,7 +566,7 @@ By being a little more careful, we can improve the bound of [NAND-univ-thm](){.r
 In other words, we can prove  the following improved version:
 
 > ### {.theorem title="Universality of NAND circuits, improved bound" #NAND-univ-thm-improved}
-There exists a constant $c>0$ such that for every $n,m>0$ and function $f: \{0,1\}^n\rightarrow \{0,1\}^m$, there is a NAND-CIRC program  with at most $c \cdot m 2^n / n$ lines that computes the function $f$ .
+There exists a constant $c>0$ such that for every $n,m>0$ and function $f: \{0,1\}^n\rightarrow \{0,1\}^m$, there is a NAND-CIRC program  with at most $c \cdot m 2^n / n$ lines that computes the function $f$.^[The constant $c$ in this theorem is at most $10$ and in fact can be arbitrarily close to $1$, see [computeeveryfunctionbibnotes](){.ref}.]
 
 
 ::: {.proof data-ref="NAND-univ-thm-improved"}
@@ -695,29 +695,33 @@ Since $S \subseteq \{0,1\}^n$, its size $N$ is at most $2^n$ and hence the total
 ![For every string $\alpha\in \{0,1\}^n$, there is a Boolean circuit of $O(n)$ gates to compute the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$ such that $\delta_\alpha(x)=1$ if and only if $x=\alpha$. The circuit is very simple. Given input $x_0,\ldots,x_{n-1}$ we compute the  AND of $z_0,\ldots,z_{n-1}$ where $z_i=x_i$ if $\alpha_i=1$ and $z_i = NOT(x_i)$ if $\alpha_i=0$. While formally Boolean circuits only have a gate for computing the AND of two inputs, we can implement an AND of $n$ inputs by composing $n$ two-input ANDs.](../figure/deltafunc.png){#deltafuncfig .margin }
 
 
-## The class $SIZE_{n,m}(T)$ {#secdefinesizeclasses }
+## The class $SIZE(T)$ {#secdefinesizeclasses }
 
 
 We have seen that _every_ function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a circuit of size $O(m\cdot 2^n)$, and _some_ functions (such as addition and multiplication) can be computed by much smaller circuits.
-This motivates the following definition:
-we define $SIZE_{n,m}(s)$ to be the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$ that can be computed by NAND circuits of at most $s$ gates (or equivalently, by NAND-CIRC programs of at most $s$ lines).
-In other words, $SIZE_{n,m}(s)$ is defined as follows:
+We define $SIZE(s)$ to be the set of functions that can be computed by NAND circuits of at most $s$ gates (or equivalently, by NAND-CIRC programs of at most $s$ lines).
+Formally, the definition is as follows:
 
 > ### {.definition title="Size class of functions" #sizedef}
-Let $n,m,s \in \N$ be numbers with $s \geq m$.
-The set $SIZE_{n,m}(s)$ denotes the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ such that there exists a NAND circuit of at most $s$ gates that computes $f$.
+For every integer $s \geq 1$, we let $SIZE(s)$ be the set of all functions $f$ for which there exists a NAND circuit of at most $s$ gates that compute $f$.
+For every $n,m  \in \{ 1, \ldots , 2s\}$, we let set $SIZE_{n,m}(s)$ denotes the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ such that $f\in SIZE(s)$.^[The restriction that $m,n \leq 2s$ makes no difference; see [nandcircsizeex](){.ref}.] 
 We denote by $SIZE_n(s)$ the set $SIZE_{n,1}(s)$.
 
-[funcvscircfig](){.ref} depicts the sets $SIZE_{n,1}(s)$, note that $SIZE_{n,m}(s)$ is a set of _functions_, not of _programs!_ (asking if a program or a circuit is a member of $SIZE_{n,m}(s)$ is a _category error_ as in the sense of  [cucumberfig](){.ref}).
+[funcvscircfig](){.ref} depicts the sets $SIZE_{n,1}(s)$.
+Note that $SIZE_{n,m}(s)$ is a set of _functions_, not of _programs!_ (asking if a program or a circuit is a member of $SIZE_{n,m}(s)$ is a _category error_ as in the sense of  [cucumberfig](){.ref}).
+As we discussed in [specvsimplrem](){.ref} (and  [secimplvsspec](){.ref}), the distinction between _programs_ and _functions_ is absolutely crucial.
+You should always remember that while a program _computes_ a function, it is not _equal_ to a function.
+In particular, as we've seen, there can be more than one program to compute the same function.
 
 
-![There are $2^{2^n}$ functions mapping $\{0,1\}^n$ to $\{0,1\}$, and an infinite number of circuits with $n$ bit inputs and a single bit of output. Every circuit computes one function, but every function can be computed by many circuits. We say that $f \in SIZE_{n,1}(s)$ if the smallest circuit that computes $f$ has $s$ or fewer gates. For example $XOR_n \in SIZE_{n,1}(4n)$. [NAND-univ-thm](){.ref} shows that _every_ function $g$ is computable by some circuit of at most $c\cdot 2^n/n$ gates, and hence $SIZE_{n,1}(c\cdot 2^n/n)$ corresponds to the set of _all_ functions from $\{0,1\}^n$ to $\{0,1\}$.](../figure/funcvscircs.png){#funcvscircfig .class  }
+
+![There are $2^{2^n}$ functions mapping $\{0,1\}^n$ to $\{0,1\}$, and an infinite number of circuits with $n$ bit inputs and a single bit of output. Every circuit computes one function, but every function can be computed by many circuits. We say that $f \in SIZE_{n,1}(s)$ if the smallest circuit that computes $f$ has $s$ or fewer gates. For example $XOR_n \in SIZE_{n,1}(4n)$. [NAND-univ-thm](){.ref} shows that _every_ function $g$ is computable by some circuit of at most $c\cdot 2^n/n$ gates, and hence $SIZE_{n,1}(c\cdot 2^n/n)$ corresponds to the set of _all_ functions from $\{0,1\}^n$ to $\{0,1\}$.]m(../figure/funcvscircs.png){#funcvscircfig .class  }
 
 
-While we defined $SIZE_{n,m}(s)$ with respect to NAND gates, we would get essentially the same class if we defined it with respect to AND/OR/NOT gates:
+While we defined $SIZE(s)$ with respect to NAND gates, we would get essentially the same class if we defined it with respect to AND/OR/NOT gates:
 
 > ### {.lemma #nandaonsizelem}
-Let $SIZE^{AON}_{n,m,s}$ denote the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that can be computed by an AND/OR/NOT Boolean circuit of at most $s$ gates.
+Let $SIZE^{AON}_{n,m}(s)$ denote the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that can be computed by an AND/OR/NOT Boolean circuit of at most $s$ gates.
 Then,
 $$
 SIZE_{n,m}(s/2) \subseteq SIZE^{AON}_{n,m}(s) \subseteq SIZE_{n,m}(3s)
@@ -738,12 +742,6 @@ The results we have seen in this chapter can be phrased as showing that $ADD_n \
 and $MULT_n \in SIZE_{2n,2n}(10000 n^{\log_2 3})$.
 [NAND-univ-thm](){.ref} shows that  for some constant $c$, $SIZE_{n,m}(c m 2^n)$ is equal the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$.
 
-> ### { .pause }
-Note that $SIZE_{n,m}(s)$ does __not__ correspond to a set of programs!
-Rather, it is a set of _functions_ (see [cucumberfig](){.ref}).
-As we discussed in [specvsimplrem](){.ref} (and  [secimplvsspec](){.ref}), the distinction between _programs_ and _functions_ is absolutely crucial.
-You should always remember that while a program _computes_ a function, it is not _equal_ to a function.
-In particular, as we've seen, there can be more than one program to compute the same function.
 
 
 
@@ -909,11 +907,11 @@ Prove that there is some constant $c$ such that for every $n>1$, and integers $a
 
 
 
-## Bibliographical notes
+## Bibliographical notes { #computeeveryfunctionbibnotes  }
 
 
 See Jukna's and Wegener's books [@Jukna12, @wegener1987complexity] for much more extensive discussion on circuits.
-Shannon showed that every Boolean function can be computed by a circuit of exponential size [@Shannon1938]. The improved bound of $c \cdot 2^n/n$ (with the optimal value of $c$ for many bases) is due to Lupanov [@Lupanov1958]. An exposition of this for the case of NAND is given in Chapter 4 of his   book [@lupanov1984].
+Shannon showed that every Boolean function can be computed by a circuit of exponential size [@Shannon1938]. The improved bound of $c \cdot 2^n/n$ (with the optimal value of $c$ for many bases) is due to Lupanov [@Lupanov1958]. An exposition of this for the case of NAND (where $c=1$) is given in Chapter 4 of his book [@lupanov1984].
 (Thanks to Sasha Golovnev for tracking down this reference!)
 
 The concept of "syntactic sugar" is also known as "macros" or "meta-programming" and is sometimes implemented via a preprocessor or macro language in a programming language or a text editor. One modern example is the [Babel](https://babeljs.io/) JavaScript syntax transformer, that converts JavaScript programs written using the latest features into a format that older Browsers can accept. It even has a [plug-in](https://babeljs.io/docs/plugins/) architecture, that allows users to add their own syntactic sugar to the language.

@@ -432,10 +432,13 @@ The formal definition is as follows (see also [generalcircuitfig](){.ref}):
 ::: {.definition title="Boolean Circuits" #booleancircdef}
 Let $n,m,s$ be positive integers with $s \geq m$. A _Boolean circuit_ with $n$ inputs, $m$ outputs, and $s$ gates, is a labeled directed acyclic graph (DAG) $G=(V,E)$ with $s+n$ vertices satisfying the following properties:
 
-* Exactly $n$ of the vertices have no in-neighbors. These vertices are known as _inputs_ and are labeled with the $n$ labels `X[`$0$`]`, $\ldots$, `X[`$n-1$`]`.
+* Exactly $n$ of the vertices have no in-neighbors. These vertices are known as _inputs_ and are labeled with the $n$ labels `X[`$0$`]`, $\ldots$, `X[`$n-1$`]`. Each input has at least one out-neighbor.
 
-* The other $s$ vertices are known as _gates_. Each gate is labeled with $\wedge$, $\vee$ or $\neg$. Gates labeled with $\wedge$ (_AND_) or $\vee$ (_OR_) have two in-neighbors. Gates labeled with $\neg$ (_NOT_) have one in-neighbor. We will allow parallel edges.^[Having parallel edges means an AND or OR gate $u$ can have both its in-neighbors be the same gate $v$. Since $AND(a,a)=OR(a,a)=a$ for every $a\in \{0,1\}$, such parallel edges don't help in computing new values in circuits with AND/OR/NOT gates. However, we will see circuits with more general sets of gates later on.]
+* The other $s$ vertices are known as _gates_. Each gate is labeled with $\wedge$, $\vee$ or $\neg$. Gates labeled with $\wedge$ (_AND_) or $\vee$ (_OR_) have two in-neighbors. Gates labeled with $\neg$ (_NOT_) have one in-neighbor. We will allow parallel edges.
+
 * Exactly $m$ of the gates are also labeled with the $m$ labels   `Y[`$0$`]`, $\ldots$, `Y[`$m-1$`]` (in addition to their label $\wedge$/$\vee$/$\neg$). These are known as _outputs_.
+
+The _size_ of a Boolean circuit is the number of gates it contains.
 :::
 
 
@@ -472,6 +475,17 @@ Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$. We say that the circuit $C$ _computes_ 
 :::
 
 
+::: {.remark title="Boolean circuits nitpicks (optional)" #booleancircuitsremarks}
+In phrasing [booleancircdef](){.ref}, we've made some technical choices that are not very important, but will be convenient for us later on. 
+Having parallel edges means an AND or OR gate $u$ can have both its in-neighbors be the same gate $v$. 
+Since $AND(a,a)=OR(a,a)=a$ for every $a\in \{0,1\}$, such parallel edges don't help in computing new values in circuits with AND/OR/NOT gates.
+However, we will see circuits with more general sets of gates later on.
+The condition that every input vertex has at least one out-neighbor is also not very important because we can always add "dummy gates" that touch
+these inputs. However, it is convenient since it guarantees that (since every gate has at most two in-neighbors) that the number of inputs
+in a circuit is never larger than twice its size.
+:::
+
+
 ### Equivalence of circuits and straight-line programs
 
 We have seen two ways to describe how to compute a function $f$ using _AND_, _OR_ and _NOT_:
@@ -487,7 +501,8 @@ We now formally define the AON-CIRC programming language ("AON" stands for _AND_
 An _AON-CIRC program_ is a string of lines of the form `foo = AND(bar,blah)`, `foo = OR(bar,blah)` and `foo = NOT(bar)` where `foo`, `bar` and `blah` are variable names.^[We follow the common [programming languages convention](https://goo.gl/QyHa3b)  of using names such as `foo`, `bar`, `baz`, `blah` as stand-ins for generic identifiers. A variable identifier in our programming language can be any combination of letters, numbers,  underscores, and brackets. The appendix contains a full formal specification of our programming language.]
 Variables of the form `X[`$i$`]` are known as _input_ variables, and variables of the form `Y[`$j$`]` are known as _output_ variables. In every line, the variables on the righthand side of the assignment operators must either be input variables or variables that have already been assigned a value before.
 
-If an AON-CIRC program $P$ has input variables `X[`$0$`]`,$\ldots$,`X[`$n-1$`]` and output variables `Y[`$0$`]`,$\ldots$, `Y[`$m-1$`]` then for every $x\in \{0,1\}^n$, we define the _output of $P$ on input $x$_, denoted by $P(x)$, to be the string $y\in \{0,1\}^m$ corresponding to the values of the output variables `Y[`$0$`]` ,$\ldots$, `Y[`$m-1$`]`  in the execution of $P$ where we initialize the input variables `X[`$0$`]`,$\ldots$,`X[`$n-1$`]` to the values $x_0,\ldots,x_{n-1}$.
+A valid AON-CIRC program $P$ includes input variables of the form `X[`$0$`]`,$\ldots$,`X[`$n-1$`]` and output variables of the form `Y[`$0$`]`,$\ldots$, `Y[`$m-1$`]` for some $n,m \geq 1$.
+If $P$ is valid AON-CIRC program  and $x\in \{0,1\}^n$, then we define the _output of $P$ on input $x$_, denoted by $P(x)$, to be the string $y\in \{0,1\}^m$ corresponding to the values of the output variables `Y[`$0$`]` ,$\ldots$, `Y[`$m-1$`]`  in the execution of $P$ where we initialize the input variables `X[`$0$`]`,$\ldots$,`X[`$n-1$`]` to the values $x_0,\ldots,x_{n-1}$.
 
 We say that such an AON-CIRC program $P$ _computes_ a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ if $P(x)=f(x)$ for every $x\in \{0,1\}^n$.
 :::
@@ -549,6 +564,7 @@ It turns out that AON-CIRC programs and Boolean circuits have exactly the same p
 Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s \geq m$ be some number. Then $f$ is computable by a Boolean circuit of $s$ gates if and only if $f$ is computable by an AON-CIRC program of $s$ lines.
 
 
+
 > ### {.proofidea data-ref="slcircuitequivthm"}
 The idea is simple - AON-CIRC programs and Boolean circuits are just different ways of describing the exact same computational process.
 For example, an _AND_ gate in a Boolean circuit corresponding to computing the _AND_ of two previously-computed values.
@@ -571,14 +587,16 @@ For every input $x\in \{0,1\}^n$, if we run the program $P$ on $x$, then the val
 
 For the other direction, let $C$ be a circuit of $s$ gates and $n$ inputs that computes the function $f$. We sort the gates according to a topological order and write them as $v_0,\ldots,v_{s-1}$.
 We now can create a program $P$ of $s$ lines as follows.
-For every $i\in [s]$, if $v_i$ is an AND gate with in-neighbors  $v_j,v_k$ then we will add a line to $P$ of the form `temp_`$i$ ` = AND(temp_`$j$`,temp_`$k$`)`, unless one of the vertices is an input vertex or an output gate, in which case we change this to the form `X[.]` or `Y[.]` appropriately.
+For every $i\in [s]$, if $v_i$ is an AND gate with in-neighbors  $v_j,v_k$ then we will add a line to $P$ of the form `temp_`$i$ ` = AND(temp_`$j$`,temp_`$k$`)`, unless one of the vertices is an input vertex or an output gate, in which case we change this to the form `X[.]` or `Y[.]` appropriately. 
 Because we work in topological ordering, we are guaranteed that the in-neighbors $v_j$ and $v_k$ correspond to variables that have already been assigned a value.
 We do the same for OR and NOT gate.
 Once again, one can verify that for every input $x$, the value $P(x)$ will equal $C(x)$ and hence the program computes the same function as the circuit.
+(Note that since $C$ is a valid circuit per [booleancircdef](){.ref}, every input vertex of $C$ has at least one out-neighbor and there are exactly $m$ output gates labeled $0,\ldots,m-1$;
+hence all the variables  `X[0]`, $\ldots$, `X[`$n-1$`]` and `Y[0]` ,$\ldots$, `Y[`$m-1$`]` will appear in the  program $P$.)
 :::
 
 
-![Two equivalent descriptions of the same AND/OR/NOT computation as both an AON program and a Boolan circuit.](../figure/aoncircequiv.png){#aoncircequivfig .margin  }
+![Two equivalent descriptions of the same AND/OR/NOT computation as both an AON program and a Boolean circuit.](../figure/aoncircequiv.png){#aoncircequivfig .margin  }
 
 
 ## Physical implementations of computing devices (digression) {#physicalimplementationsec }
@@ -893,7 +911,7 @@ We define the _NAND-CIRC Programming Language_ to be a programming language wher
 foo = NAND(bar,blah)
 ```
 
-where `foo`, `bar` and `blah` are variable identifiers.
+where `foo`, `bar` and `blah` are variable identifiers. 
 
 ::: {.example title="Our first NAND-CIRC program" #NANDprogramexample}
 Here is an example of a NAND-CIRC program:
@@ -911,11 +929,11 @@ Y[0] = NAND(v,w)
 > ### { .pause }
 Do you know what function this program computes? Hint: you have seen it before.
 
-We can formally define the notion of computation by a NAND-CIRC program in the natural way:
+Formally, just like we did in [AONcircdef](){.ref} for AON-CIRC, we can define the notion of computation by a NAND-CIRC program in the natural way:
 
 
 ::: {.definition title="Computing by a NAND-CIRC program" #NANDcomp}
-Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$ be some function, and let $P$ be a NAND-CIRC program. We say that $P$ _computes_ the function $F$ if:
+Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$ be some function, and let $P$ be a NAND-CIRC program. We say that $P$ _computes_ the function $f$ if:
 
 1. $P$ has $n$ input variables `X[`$0$`]`$,\ldots,$`X[`$n-1$`]` and $m$ output variables `Y[`$0$`]`,$\ldots$,`Y[`$m-1$`]`.
 
@@ -1095,6 +1113,11 @@ Prove that $\{ LOOKUP_1,0,1 \}$ is a universal set of gates where $0$ and $1$ ar
 > ### {.exercise title="Bound on universal basis size (challenge)" #universal-bound}
 Prove that for every subset $B$ of the functions from $\{0,1\}^k$ to $\{0,1\}$,
 if $B$ is universal then there is a $B$-circuit of at most $O(k)$ gates to compute the $NAND$ function (you can start by showing that there is a $B$ circuit of at most $O(k^{16})$ gates).^[Thanks to Alec Sun for solving this problem.]
+
+
+::: {.exercise title="Size and inputs / outputs" #nandcircsizeex}
+Prove that for every NAND circuit of size $s$ with $n$ inputs and $m$ outputs, $s \geq \min \{ n/2 , m \}$. See footnote for hint.^[_Hint:_ Use the conditions of [booleancircdef](){.ref} stipulating that every input vertex has at least one out-neighbor and there are exactly $m$ output gates. See also [booleancircuitsremarks](){.ref}.]
+:::
 
 
 
