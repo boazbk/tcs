@@ -84,7 +84,7 @@ Y[0] = NAND(temp_1,temp_2)
 ```
 
 is simply a string of 107 symbols which include lower and upper case letters, digits, the underscore character `_` and equality sign `=`, punctuation marks such as `(`,`)`,`,`, spaces, and  "new line" markers  (often denoted
-as `\n` or ↵). Each such symbol can be encoded as a string of $7$ bits using the [ASCII](https://en.wikipedia.org/wiki/ASCII) encoding, and hence the program $P$ can be encoded as a string of length $7 \cdot 107 = 749$ bits.
+as `\ n` or ↵). Each such symbol can be encoded as a string of $7$ bits using the [ASCII](https://en.wikipedia.org/wiki/ASCII) encoding, and hence the program $P$ can be encoded as a string of length $7 \cdot 107 = 749$ bits.
 
 
 Nothing in the above discussion was specific to the program $P$, and hence we can use the same reasoning to prove that  _every_ NAND-CIRC program can be represented as a string in $\{0,1\}^*$.
