@@ -434,9 +434,9 @@ For $k=1$ this follows by the four line program for $IF$ we've seen before.
 For $k>1$, we use the following pseudocode
 
 ```python
-a = LOOKUP_(k-1)(X[0],...,X[2^(k-1)-1],i[1],...,i[k-1])
-b = LOOKUP_(k-1)(X[2^(k-1)],...,Z[2^(k-1)],i[1],...,i[k-1])
-return IF(i[k-1],b,a)
+a = LOOKUP_(k-1)(X[0],...,X[2^(k-1)-1],i[0],...,i[k-1])
+b = LOOKUP_(k-1)(X[2^(k-1)],...,Z[2^(k-1)],i[0],...,i[k-1])
+return IF(i[0],b,a)
 ```
 
 If we let $L(k)$ be the number of lines required for $LOOKUP_k$, then the above pseudo-code shows that
