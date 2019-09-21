@@ -71,7 +71,7 @@ See [codedataoverviewfig](){.ref} for an overview of the results of  this chapte
 
 ![In the Harvard Mark I computer, a program was represented as a list of triples of numbers, which were then encoded by perforating holes in a control card.](../figure/tapemarkI.png){#markonerep .margin  }
 
-We can represents programs or circuits as strings in a myriad of ways.
+We can represent programs or circuits as strings in a myriad of ways.
 For example, since Boolean circuits are labeled directed acyclic graphs, we can use the _adjacency matrix_ or _adjacency list_ representations for them.
 However, since the code of a program is ultimately just a sequence of letters and symbols, arguably the conceptually simplest representation of a program is as such a sequence.
 For example,  the following NAND-CIRC program $P$
@@ -79,7 +79,7 @@ For example,  the following NAND-CIRC program $P$
 ```python
 temp_0 = NAND(X[0],X[1])
 temp_1 = NAND(X[0],temp_0)
-temp_2 = NAND(X[1],temp_0) 
+temp_2 = NAND(X[1],temp_0)
 Y[0] = NAND(temp_1,temp_2)
 ```
 
@@ -104,7 +104,7 @@ There is a constant $c$ such that for $f \in SIZE(s)$, there exists a program $P
 :::
 
 ::: { .pause }
-We omit the formal proof of [asciirepprogramthm](){.ref} but please make sure that you understand why it follows from the reasoning above. 
+We omit the formal proof of [asciirepprogramthm](){.ref} but please make sure that you understand why it follows from the reasoning above.
 :::
 
 
@@ -117,7 +117,7 @@ This has consequences for the sets $SIZE(s)$ that we defined in [secdefinesizecl
 
 
 > ### {.theorem title="Counting programs" #program-count}
-For every $s\in \N$, 
+For every $s\in \N$,
 $$|SIZE(s)| \leq 2^{O(s \log s)}.$$
 That is, there are at most $2^{O(s\log s)}$ functions computed by NAND-CIRC programs of at most $s$ lines.^[The implicit constant in the $O(\cdot)$ notation is smaller than $10$. That is, for all sufficiently large $s$, $|SIZE(s)|<  2^{10s\log s}$, see [efficientrepresentation](){.ref}. As discussed in [[notationsec](){.ref}](){.ref}, we use the bound $10$ simply because it is a round number. ]
 
@@ -205,7 +205,7 @@ Let $f^*: \{0,1\}^n \rightarrow \{0,1\}$ be the function (whose existence we are
 We define the functions $f_0,f_1,\ldots, f_{2^n}$ mapping $\{0,1\}^n$ to $\{0,1\}$ as follows. For every $x\in \{0,1\}^n$, if $lex(x) \in \{0,1,\ldots, 2^n-1\}$ is $x$'s order
 in the lexicographical order then
 $$
-f_i(x) = \begin{cases} f^*(x) & lex(x)< i  \\ 0 & \text{otherwise} \end{cases} \;. 
+f_i(x) = \begin{cases} f^*(x) & lex(x)< i  \\ 0 & \text{otherwise} \end{cases} \;.
 $$
 
 The function $f_0$ is simply the constant zero function, while the function $f_{2^n}$ is equal to $f^*$.
@@ -213,7 +213,7 @@ Moreover, for every $i\in [2^n]$, the function $f_i$ and $f_{i+1}$ differ on at 
 Let $10n < s < 0.1 \cdot 2^n /n$, and let $i$ be the first index such that $f_i \not\in SIZE_n(s)$.
 Since $f_{2^n} = f^* \not\in SIZE(0.1 \dot 2^n / n)$ there must exist such an index $i$, and moreover $i>0$ since the constant zero function is a member of $SIZE_n(10n)$.
 
-By our choice of $i$, $f_{i-1}$ is a member of $SIZE_n(s)$. 
+By our choice of $i$, $f_{i-1}$ is a member of $SIZE_n(s)$.
 To complete the proof, we need to show that $f_i \in SIZE_n(s + 10n)$.
 Let $x^*$ be the string such that $lex(x^*)=i$ $b\in \{0,1\}$ be the value $f^*(x^*)$.
 Then we can define $f_i$ also as follows
@@ -223,12 +223,12 @@ f_i(x) = \begin{cases} b & x=x^* \\ f_i(x) & x \neq x^*
 $$
 or in other words
 $$
-f_i(x) = f_{i-1}(x) \wedge EQUAL(x^*,x) \; \vee \;  b \wedge \neg EQUAL(x^*,x) 
+f_i(x) = f_{i-1}(x) \wedge EQUAL(x^*,x) \; \vee \;  b \wedge \neg EQUAL(x^*,x)
 $$
 where $EQUAL:\{0,1\}^{2n} \rightarrow \{0,1\}$ is the function that maps $x,x' \in \{0,1\}^n$ to $1$ if they are equal and to $0$ otherwise.
 Since (by our choice of $i$), $f_{i-1}$ can be computed using at most $s$ gates and (as can be easily verified) that $EQUAL \in SIZE_n(9n)$,
 we can compute $f_i$ using at most $s + 9n +O(1) \leq s +10n$ gates which is what we wanted to prove.
-::: 
+:::
 
 
 
@@ -385,7 +385,7 @@ Specifically, since $EVAL_{s,n,m}$ is a finite function [bounded-univ](){.ref} i
 [bounded-univ](){.ref} establishes the existence of a NAND-CIRC program for computing $EVAL_{s,n,m}$, but it provides no explicit bound on the size of this program.
 [NAND-univ-thm](){.ref}, which we used to prove [bounded-univ](){.ref},   guarantees the existence of a NAND-CIRC program whose size can be as large as  _exponential_ in the length of its input.
 This would mean that even for moderately small values of $s,n,m$ (for example $n=100,s=300,m=1$), computing $EVAL_{s,n,m}$ might require a NAND program with more lines than there are atoms in the observable universe!
-Fortunately, we can do much better than that. 
+Fortunately, we can do much better than that.
 In fact, for every $s,n,m$ there exists a NAND-CIRC program for computing $EVAL_{s,n,m}$ with size that is  _polynomial_ in its input length.
 This is shown in the following theorem.
 
@@ -533,9 +533,9 @@ Please make sure that you understand why `GET` and $LOOKUP_\ell$ are the same fu
 We saw that we can compute $LOOKUP_\ell$  in time $O(2^\ell) =  O(s)$ for our choice of $\ell$.
 
 For every $\ell$, let $UPDATE_\ell:\{0,1\}^{2^\ell + \ell +1} \rightarrow \{0,1\}^{2^\ell}$ correspond to the  `UPDATE` function for arrays of length $2^\ell$.
-That is,  on input $V\in \{0,1\}^{2^\ell}$ , $i\in \{0,1\}^\ell$, $b\in \{0,1\}$, $UPDATE_\ell(V,b,i)$ is equal to $V' \in \{0,1\}^{2^\ell}$ such that 
+That is,  on input $V\in \{0,1\}^{2^\ell}$ , $i\in \{0,1\}^\ell$, $b\in \{0,1\}$, $UPDATE_\ell(V,b,i)$ is equal to $V' \in \{0,1\}^{2^\ell}$ such that
 $$
-V'_j = \begin{cases} V_j & j \neq i \\ b & j = 1 \end{cases} 
+V'_j = \begin{cases} V_j & j \neq i \\ b & j = 1 \end{cases}
 $$
 where we identify the string $i \in \{0,1\}^\ell$ with a number in  $\{0,\ldots, 2^{\ell}-1 \}$ using the binary representation.
 We can compute $UPDATE_\ell$ using an $O(2^\ell \ell)=(s \log s)$ line NAND-CIRC program as as follows:
@@ -560,7 +560,7 @@ def UPDATE_ell(V,i,b):
 
 
 
-Since the loop over `j` in `UPDATE` is run $2^\ell$ times, and computing `EQUALS_j` takes $O(\ell)$ lines, the total number of lines to compute `UPDATE` is $O(2^\ell \cdot \ell) = O(s \log s)$. 
+Since the loop over `j` in `UPDATE` is run $2^\ell$ times, and computing `EQUALS_j` takes $O(\ell)$ lines, the total number of lines to compute `UPDATE` is $O(2^\ell \cdot \ell) = O(s \log s)$.
 Once we can compute `GET` and `UPDATE`, the rest of the implementation amounts to "book keeping" that needs to be done carefully, but is not too insightful, and hence we omit the full details.
 Since we run `GET` and `UPDATE`  $s$ times, the total number of lines for computing $EVAL_{s,n,m}$ is $O(s^2) + O(s^2 \log s) = O(s^2 \log s)$.
 This completes (up to the omitted details) the proof of [eff-bounded-univ](){.ref}.
