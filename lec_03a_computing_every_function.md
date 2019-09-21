@@ -740,7 +740,7 @@ On the other hand, if $f$ can be computed by a Boolean AND/OR/NOT circuit of at 
 
 The results we have seen in this chapter can be phrased as showing that $ADD_n \in SIZE_{2n,n+1}(100 n)$
 and $MULT_n \in SIZE_{2n,2n}(10000 n^{\log_2 3})$.
-[NAND-univ-thm](){.ref} shows that  for some constant $c$, $SIZE_{n,m}(c m 2^n)$ is equal the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$.
+[NAND-univ-thm](){.ref} shows that  for some constant $c$, $SIZE_{n,m}(c m 2^n)$ is equal to the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$.
 
 
 
