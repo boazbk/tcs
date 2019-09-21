@@ -735,7 +735,7 @@ On the other hand, if $f$ can be computed by a Boolean AND/OR/NOT circuit of at 
 
 
 
-![A "category error" is a question such as "is a cucumber even or odd?" which does not even make sense. In this book one type of category errors you should watch out for is confusing _functions_ and _programs_ (i.e., confusing _specifications_ and _implementations_). If $C$ is a circuit or program, then asking if $C \in SIZE_{n,1}(s)$ is a category error, since $SIZE_{n,1}(s)$ is a set of _functions_ and not programs or circuits.](../figure/cucumber.png){#cucumberfig .margin  }
+![A "category error" is a question such as "is a cucumber even or odd?" which does not even make sense. In this book one type of category error you should watch out for is confusing _functions_ and _programs_ (i.e., confusing _specifications_ and _implementations_). If $C$ is a circuit or program, then asking if $C \in SIZE_{n,1}(s)$ is a category error, since $SIZE_{n,1}(s)$ is a set of _functions_ and not programs or circuits.](../figure/cucumber.png){#cucumberfig .margin  }
 
 
 The results we have seen in this chapter can be phrased as showing that $ADD_n \in SIZE_{2n,n+1}(100 n)$
