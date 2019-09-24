@@ -281,7 +281,7 @@ Indeed, this is one instance of a very general principle that we use time and ag
 
 
 ::: { .bigidea #representtuplesidea }
-If we can represent objects of type $T$ as strings, then we can represents tuples of objects of type $T$ as strings as well.
+If we can represent objects of type $T$ as strings, then we can represent tuples of objects of type $T$ as strings as well.
 :::
 
 Repeating the same idea, once we can represent objects of type $T$, we can also represent _lists of lists_ of such objects, and even  lists of lists of lists and so on and so forth.
