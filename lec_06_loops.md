@@ -168,7 +168,7 @@ We describe the operation of our Turing Machine $M$ in words:
 
 * Once $M$ found such a symbol $b \in \{0,1\}$, $M$ deletes $b$ from the tape by writing the $\times$ symbol, it enters either the `RIGHT_0` or `RIGHT_1` mode according to the value of $b$ and starts moving rightwards until it hits the first $\varnothing$ or $\times$ symbol.
 
-* Once we found this symbol we
+* Once we found this symbol we go
  into the state `LOOK_FOR_0` or `LOOK_FOR_1` depending on whether we were in the state `RIGHT_0` or `RIGHT_1` and make one left move.
 
 * In the state `LOOK_FOR_`$b$, we check whether the value on the tape is $b$. If it is, then we delete it by changing its value to $\times$, and move to the state `RETURN`. Otherwise, we change to the `OUTPUT_0` state.
