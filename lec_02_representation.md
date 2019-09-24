@@ -130,7 +130,7 @@ We can implement the binary representation in _Python_ as follows:
 
 ```python
 def NtS(n):# natural numbers to strings
-    if n // 2 > 0:
+    if n > 1:
         return NtS(n // 2) + str(n % 2)
     else:
         return str(n % 2)
