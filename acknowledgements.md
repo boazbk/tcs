@@ -14,6 +14,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Chi-Ning Chou
 * Michael Colavita
 * Robert Darley Waddilove
+* Rodrigo Daboin Sanchez
 * Juan Esteller
 * David Evans
 * Michael Fine

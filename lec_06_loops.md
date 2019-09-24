@@ -133,7 +133,7 @@ Specifically, a computation of a Turing Machine $M$ with $k$ states and alphabet
 
 Let $PAL$ (for _palindromes_) be the function that on input $x\in \{0,1\}^*$, outputs $1$ if and only if $x$ is an (even length) _palindrome_, in the sense that $x = w_0 \cdots w_{n-1}w_{n-1}w_{n-2}\cdots w_0$ for some $n\in \N$ and $w\in \{0,1\}^n$.
 
-We now show a Turing Machine $M$ that computes $PAL$. To specify $M$ we need to specify __(i)__ $M$'s tape alphabet $\Sigma$ which should contain at least the symboles $0$,$1$, $\triangleright$ and $\varnothing$, and __(ii)__ $M$'s _transition function_ which determines what action $M$ takes when it reads a given symbol while it is in a particular state.
+We now show a Turing Machine $M$ that computes $PAL$. To specify $M$ we need to specify __(i)__ $M$'s tape alphabet $\Sigma$ which should contain at least the symbols $0$,$1$, $\triangleright$ and $\varnothing$, and __(ii)__ $M$'s _transition function_ which determines what action $M$ takes when it reads a given symbol while it is in a particular state.
 
 In our case, $M$ will use the alphabet $\{ 0,1,\triangleright, \varnothing, \times \}$ and will have $k=14$ states. Though the states are simply numbers between $0$ and $k-1$, for convenience we will give them the following labels:
 
@@ -166,9 +166,9 @@ We describe the operation of our Turing Machine $M$ in words:
 
 * $M$ starts in state `START` and will go right, looking for the first symbol that is $0$ or $1$. If we find $\varnothing$ before we hit such a symbol then we will move to the `OUTPUT_1` state that we describe below.
 
-* Once $M$ found such a symbol $b \in \{0,1\}$, $M$ deletes $b$ from the tape by writing the $\times$ symbol, it enters either the `RIGHT_0` or `RIGHT_1` mode according to the value of $b$ and starts moving rightwards until it hits the first $\varnothing$ or $\times$ symbol.
+* Once $M$ finds such a symbol $b \in \{0,1\}$, $M$ deletes $b$ from the tape by writing the $\times$ symbol, it enters either the `RIGHT_0` or `RIGHT_1` mode according to the value of $b$ and starts moving rightwards until it hits the first $\varnothing$ or $\times$ symbol.
 
-* Once we found this symbol we
+* Once we find this symbol we go
  into the state `LOOK_FOR_0` or `LOOK_FOR_1` depending on whether we were in the state `RIGHT_0` or `RIGHT_1` and make one left move.
 
 * In the state `LOOK_FOR_`$b$, we check whether the value on the tape is $b$. If it is, then we delete it by changing its value to $\times$, and move to the state `RETURN`. Otherwise, we change to the `OUTPUT_0` state.
@@ -322,9 +322,9 @@ For example, consider the Turing Machine $M$ of [turingmachinepalindrome](){.ref
 We can also describe this machine as a _program_ using the Python-like pseudocode of the form below
 
 ```python
-# Gets an array Tape initialized to 
+# Gets an array Tape initialized to
 # [">", x_0 , x_1 , .... , x_(n-1), "∅", "∅", ...]
-# At the end of the execution, Tape[1] is equal to 1 
+# At the end of the execution, Tape[1] is equal to 1
 # if x is a palindrome and is equal to 0 otherwise
 def PAL(Tape):
     head = 0
@@ -349,7 +349,7 @@ The _state_ is a _local register_ that can hold one of a fixed number of values 
 More generally we can think of every Turing Machine $M$ as equivalent to a program similar to the following:
 
 ```python
-# Gets an array Tape initialized to 
+# Gets an array Tape initialized to
 # [">", x_0 , x_1 , .... , x_(n-1), "∅", "∅", ...]
 def M(Tape):
     state = 0
@@ -415,7 +415,7 @@ Concretely, the NAND-TM programming language adds the following features on top 
   - If $a=b=0$ then `MODANDJUMP(`$a,b$`)` halts execution of the program.
 
 
-* The`MODANDJUMP` instruction always appears in the last line of a NAND-TM program and nowhere else. 
+* The`MODANDJUMP` instruction always appears in the last line of a NAND-TM program and nowhere else.
 
 
 __Default values.__ We need one more convention to handle "default values".
@@ -650,18 +650,18 @@ But we can go beyond this and achieve for example:
 
 * Inner loops such as the `while` and `for` operations commong to many programming language.s
 
-* Multiple index variables (e.g., not just `i` but we can add `j`, `k`, etc.). 
+* Multiple index variables (e.g., not just `i` but we can add `j`, `k`, etc.).
 
 * Arrays with more than one dimension  (e.g., `Foo[i][j]`, `Bar[i][j][k]` etc.)
 
 In all of these cases (and many others) we can implement the new feature as mere "syntactic sugar" on top of standard NAND-TM, which means that the set of functions computable by NAND-TM with this feature is the same as the set of functions computable by standard NAND-TM.
 Similarly, we can show that the set of functions computable by Turing Machines that have more than one tape, or tapes of more dimensions than one, is the same as the set of functions computable by standard Turing machines.
 
-### "GOTO" and inner loops 
+### "GOTO" and inner loops
 
 We can implement more advanced _looping constructs_ than the simple `MODANDJUMP`.
 For example, we can implement `GOTO`.
-A `GOTO` statement corresponds to jumping to a certain line in the execution. 
+A `GOTO` statement corresponds to jumping to a certain line in the execution.
 For example, if we have code of the form
 
 ```python
@@ -675,7 +675,7 @@ then the program will only do `foo` and `blah` as when it reaches the line `GOTO
 We can achieve the effect of `GOTO` in NAND-TM using conditionals.
 In the code below, we assume that we have a variable `pc` that can take strings of some constant length.
 This can be encoded using a finite  number of Boolean variables `pc_0`, `pc_1`, $\ldots$, `pc_`$k-1$, and so when we write below
-`pc = "label"` what we mean is something like `pc_0 = 0`,`pc_1 = 1`, $\ldots$ (where the bits $0,1,\ldots$ correspond to the encoding of the finite string `"label"` as a string of length $k$). 
+`pc = "label"` what we mean is something like `pc_0 = 0`,`pc_1 = 1`, $\ldots$ (where the bits $0,1,\ldots$ correspond to the encoding of the finite string `"label"` as a string of length $k$).
 We also assume that we have access to conditional (i.e., `if` statements), which we can emulate using syntactic sugar in the same way as we did in NAND-CIRC.
 
 To emulate a GOTO statement, we will first modify a program P of the form
@@ -714,14 +714,14 @@ while foo:
 do bar
 ```
 
-with 
+with
 
 ```python
-"loop": 
+"loop":
     if NOT(foo): GOTO("next")
     do blah
     GOTO("loop")
-"next": 
+"next":
     do bar
 ```
 
@@ -909,7 +909,7 @@ Augusta Ada Byron, countess of Lovelace (1815-1852) lived a short but turbulent 
 (see [@stein1987ada] for a biography).
 Ada took an immense interest in Babbage's _analytical engine_, which we mentioned in [compchap](){.ref}.
 In 1842-3, she translated from Italian a paper of Menabrea on the engine,  adding copious notes (longer than the paper itself).
-The quote in the chapter's beginning is taken from Nota A in this text. 
+The quote in the chapter's beginning is taken from Nota A in this text.
 Lovelace's notes contain several examples of _programs_ for the analytical engine, and because of this she has been called  "the world's first computer programmer" though it is not clear whether they were written by Lovelace or Babbage himself [@holt2001ada].
 Regardless, Ada was clearly one of very few people (perhaps the only one outside of Babbage himself) to fully appreciate how significant and revolutionary the idea of mechanizing computation truly is.
 
@@ -947,5 +947,3 @@ We will not use this terminology in this book.
 One of the first programming-language formulations of Turing machines was given by Wang [@Wang1957]. Our formulation of NAND-TM is aimed at making the connection with circuits more direct, with the eventual goal of using it for the Cook-Levin Theorem, as well as results such as $\mathbf{P} \subseteq \mathbf{P_{/poly}}$ and  $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$.
 The website [esolangs.org](https://esolangs.org) features a large variety of esoteric Turing-complete programming languages.
 One of the most famous of them is [Brainf*ck](https://esolangs.org/wiki/Brainfuck).
-
-

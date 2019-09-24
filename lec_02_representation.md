@@ -174,9 +174,9 @@ So what is the "actual" number? This is a question that philosophers of mathemat
 Plato argued that mathematical objects exist in some ideal sphere of existence (that to a certain extent is more "real" than the world we perceive via our senses, as this latter world is merely the shadow of this ideal sphere).
 In Plato's vision, the symbols $236$ are merely notation for some ideal object, that, in homage to the [late musician](https://goo.gl/b93h83), we can refer to as  "the number commonly represented by $236$".
 
-The Austrian philosopher Ludwig Wittgenstein, on the other hand, argued that mathematical objects do not exist at all, and the only things that exist are the actual marks on paper that make up $236$, $00110111$ or `CCXXXVI`.
+The Austrian philosopher Ludwig Wittgenstein, on the other hand, argued that mathematical objects do not exist at all, and the only things that exist are the actual marks on paper that make up $236$, $11101100$ or `CCXXXVI`.
 In Wittgenstein's view, mathematics is merely about formal manipulation of symbols that do not have any inherent meaning.
-You can think of the "actual" number as (somewhat recursively) "that thing which is common to $236$, $00110111$  and `CCXXXVI` and all other past and future representations that are meant to capture the same object".
+You can think of the "actual" number as (somewhat recursively) "that thing which is common to $236$, $11101100$  and `CCXXXVI` and all other past and future representations that are meant to capture the same object".
 
 While reading this book, you are free to choose your own philosophy of mathematics, as long as you maintain the distinction between the mathematical objects themselves and the various particular choices of representing them, whether as splotches of ink, pixels on a screen, zeroes and one, or any other form.
 
@@ -281,7 +281,7 @@ Indeed, this is one instance of a very general principle that we use time and ag
 
 
 ::: { .bigidea #representtuplesidea }
-If we can represent objects of type $T$ as strings, then we can represents tuples of objects of type $T$ as strings as well.
+If we can represent objects of type $T$ as strings, then we can represent tuples of objects of type $T$ as strings as well.
 :::
 
 Repeating the same idea, once we can represent objects of type $T$, we can also represent _lists of lists_ of such objects, and even  lists of lists of lists and so on and so forth.
