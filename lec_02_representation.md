@@ -129,10 +129,11 @@ In fact, for most  purposes, we can even use the simpler representation of mappi
 We can implement the binary representation in _Python_ as follows:
 
 ```python
-from math import floor, log
-def NtS(n): # natural numbers to strings
-    if n<1: return ""
-    return NtS(floor(n/2))+str(n % 2)
+def NtS(n):# natural numbers to strings
+    if n > 1:
+        return NtS(n // 2) + str(n % 2)
+    else:
+        return str(n % 2)
 
 print(NtS(236))
 # 11101100
