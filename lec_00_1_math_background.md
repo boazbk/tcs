@@ -624,7 +624,7 @@ There are some simple heuristics that can help when trying to compare two functi
 ::: {.remark title="Big $O$ for other applications (optional)" #bigonotime}
 While Big-$O$ notation is often used to analyze running time of algorithms, this is by no means the only application.
 We can use $O$ notation to bound asymptotic relations between any functions mapping integers to positive numbers. It can be used regardless of whether these functions are a measure of running time, memory usage, or any other quantity that may have nothing to do with computation.
-Here is one example which is unrelated to this book (and hence one that you can feel free to skip): one way to state the [Riemann Hypothesis](https://en.wikipedia.org/wiki/Riemann_hypothesis) (one of the most famous open questions in mathematics) is that it corresponds to the conjecture that the number of primers between $0$ and $n$ is equal to $\int_2^n \tfrac{1}{\ln x} dx$ up to an additive error of magnitude at most $O(\sqrt{n}\log n)$.
+Here is one example which is unrelated to this book (and hence one that you can feel free to skip): one way to state the [Riemann Hypothesis](https://en.wikipedia.org/wiki/Riemann_hypothesis) (one of the most famous open questions in mathematics) is that it corresponds to the conjecture that the number of primes between $0$ and $n$ is equal to $\int_2^n \tfrac{1}{\ln x} dx$ up to an additive error of magnitude at most $O(\sqrt{n}\log n)$.
 :::
 
 

@@ -5,6 +5,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Scott Aaronson
 * Michele Amoretti
 * Marguerite Basta
+* Anindya Basu
 * Sam Benkelman
 * Jarosław Błasiok
 * Emily Chan
@@ -14,17 +15,22 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Chi-Ning Chou
 * Michael Colavita
 * Robert Darley Waddilove
+* Rodrigo Daboin Sanchez
+* Anlan Du
 * Juan Esteller
 * David Evans
 * Michael Fine
+* Simon Fischer
 * Leor Fishman
 * Zaymon Foulds-Cook
 * William Fu
 * Kent Furuie
 * Piotr Galuszka
+* Carolyn Ge
 * Mark Goldstein
 * Alexander Golovnev
 * Michael Haak
+* Joosep Hook
 * Thomas HUET
 * Emily Jia
 * Chan Kang
@@ -74,14 +80,10 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Jonah Weissman
 * Ryan Williams
 * Licheng Xu
+* Richard Xu
 * Wanqian Yang
 * Elizabeth Yeoh-Wang
 * Josh Zelinsky
 * Fred Zhang
 * Grace Zhang
 * Jessica Zhu
-* Anindya Basu
-* Joosep Hook
-* Richard Xu
-* Carolyn Ge
-* Anlan Du
