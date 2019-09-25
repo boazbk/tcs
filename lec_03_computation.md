@@ -1103,7 +1103,7 @@ Prove that $\{ MAJ,NOT, 1 \}$ is a universal set of gates.
 
 
 ::: {.exercise title="MAJ,NOT  is not universal" #majnotextwo}
-Prove that $\{ MAJ,NOT  \}$ is not a universal set. See footnote for hint.^[_Hint:_ Use the fact that $MAJ(\overlina{a},\overline{b},\overline{c}) = \overline{MAJ(a,b,c)}$ to prove that every $f:\{0,1\}^n \rightarrow \{0,1\}$ computable by a circuit with only $MAJ$ and $NOT$ gates satisfies $f(0,0,\ldots,0) \neq f(1,1,\ldots,1)$. Thanks to Nathan Brunelle and David Evans for suggesting this exercise.]
+Prove that $\{ MAJ,NOT  \}$ is not a universal set. See footnote for hint.^[_Hint:_ Use the fact that $MAJ(\overline{a},\overline{b},\overline{c}) = \overline{MAJ(a,b,c)}$ to prove that every $f:\{0,1\}^n \rightarrow \{0,1\}$ computable by a circuit with only $MAJ$ and $NOT$ gates satisfies $f(0,0,\ldots,0) \neq f(1,1,\ldots,1)$. Thanks to Nathan Brunelle and David Evans for suggesting this exercise.]
 :::
 
 ::: {.exercise title="NOR is universal" #norex}
