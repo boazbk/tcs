@@ -99,7 +99,7 @@ $O(1) + O(\log s) = O(\log s)$ symbols, each of which can be represented by $7$ 
 Hence an $s$ line program can be represented as a string of $O(s \log s)$ bits, resulting in the following theorem:
 
 
-::: ### {.theorem title="Representing programs as strings" #asciirepprogramthm}
+:::  {.theorem title="Representing programs as strings" #asciirepprogramthm}
 There is a constant $c$ such that for $f \in SIZE(s)$, there exists a program $P$ computing $f$ that whose string representation has length at most $c s \log s$.
 :::
 
@@ -182,10 +182,10 @@ function $f:\{0,1\}^n \rightarrow \{0,1\}$ that is _not contained_ in $SIZE_{n}(
 $$
 SIZE_n\left(0.1 \tfrac{2^n}{n} \right) \subsetneq SIZE_n\left(10 \tfrac{2^n}{n} \right) \;.
 $$
-We can use the same result to show a more general result. Whenever we increase our "budget" of gates we can compute new functions:
+It turns out that we can use [counting-lb](){.ref} to show a more general result: whenever we increase our "budget" of gates we can compute new functions.
 
 
-> ### {.theorem title="" #sizehiearchythm}
+> ### {.theorem title="Size Hierarchy Theorem" #sizehiearchythm}
 For every sufficiently large $n$ and $10n < s < 0.1 2^n /n$,
 $$
 SIZE_n(s) \subsetneq SIZE_n(s+10n) \;.
@@ -247,7 +247,7 @@ While we suspect that integer multiplication is such an example, we do not have 
 
 
 
-## The List of typles representation { #listoftuplesrepsec }
+## The tuples representation { #listoftuplesrepsec }
 
 ASCII is a fine presentation of programs, but for some applications it is useful to have a more concrete representation of NAND-CIRC programs.
 In this section we describe a particular choice, that will be convenient for us later on.
