@@ -6,7 +6,8 @@ You can either do this by posting on the [issues](https://github.com/boazbk/tcs/
 
 In an issue, please also write your full name so I can acknowledge you properly. If you do a pull request, please also edit the file `acknowledgements.md` to add your name.
 
-These notes are provided under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
+These notes are provided under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-nd/4.0/ or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+
 It will remain freely and publicly available, but I may also create a printed book version of these notes in the future.
 By making any contribution to this work, you are assigning me the rights to use your contribution in the online or any other version of this work.
 
