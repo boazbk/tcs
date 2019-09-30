@@ -460,7 +460,7 @@ To make the notion of "simulating a Turing machine"   more precise we will need 
 We will do so in [turingmachinesconfigsec](){.ref} below, but at a high level a _configuration_ of a Turing machine is a string that encodes its full state at  a given step in its computation.
 That is, the contents of all (non empty) cells of its tape, its current state, as well as the head position.
 
-The key idea in the proof of [onedimcathm](){.ref}, that at every point in the computation of a Turing machine $M$, the only cell in $M$'s tape that can change is the one where the head is located, and the value this cell changes to is a function of its current state and the finite state of $M$.
+The key idea in the proof of [onedimcathm](){.ref} is that at every point in the computation of a Turing machine $M$, the only cell in $M$'s tape that can change is the one where the head is located, and the value this cell changes to is a function of its current state and the finite state of $M$.
 This observation allows us to encode the configuration of a Turing machine $M$ as a finite configuration of a cellular automaton $r$, and ensure that a one-step evolution of this encoded configuration under the rules of $r$ corresponds to one step in the execution of the Turing machine $M$.
 
 
@@ -468,7 +468,7 @@ This observation allows us to encode the configuration of a Turing machine $M$ a
 ### Configurations of Turing machines and the next-step function  {#turingmachinesconfigsec }
 
 To turn the above ideas into a rigorous proof (and even statement!) of [onedimcathm](){.ref} we will need precisely define the notion of _configurations_ of Turing machines.
-This notion will be useful for us in later chapters we well.
+This notion will be useful for us in later chapters as well.
 
 
 ![A _configuration_ of a Turing machine $M$ with alphabet $\Sigma$ and state space $[k]$ encodes the state of $M$ at a particular step in its execution as a string $\alpha$ over the alphabet $\overline{\Sigma} = \Sigma \times (\{\cdot \} \times [k])$. The string is of length $t$ where $t$ is such that $M$'s tape contains $\varnothing$ in all positions $t$ and larger and $M$'s head is in a position smaller than $t$.
