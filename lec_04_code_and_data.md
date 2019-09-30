@@ -48,16 +48,16 @@ For example, DNA can be thought of as both a program and data (in the words of S
 
 
 In this chapter, we will begin to explore some of the applications of this connection.
-We will use it to show the existence of a _bounded universal circuit_ $U$ that gets as input the string representation of another circuit $C$ and a string $x$,
+We start by using the representation of programs/circuits as strings to _count_ the number of programs/circuits up to a certain size, and use that to obtain a counterpart to the result we proved in [finiteuniversalchap](){.ref}.
+There we proved that for _every_ function $f:\{0,1\}^n \rightarrow \{0,1\}$, there exists a circuit of _at most_ $100 \cdot 2^n / n$ gates to compute it.
+(The number $100$ here is somewhat arbitrary and fixed for concreteness;   [circuit-univ-thm-improved](){.ref} states a bound of  $c \cdot 2^n /n$ for some constant $c$, but it can be verified that the proof yields $c \leq 100$.)
+In this chapter we will prove that there are _some_ functions $f:\{0,1\}^n \rightarrow \{0,1\}$ for which we cannot do much better: they require a circuit of size _at least_  $0.01 \cdot 2^n / n$ (see [counting-lb](){.ref}).
+We will also use the notion of representing programs/circuits as strings to show the existence of a _bounded universal circuit_ $U$ that gets as input the string representation of another circuit $C$ and a string $x$,
 and outputs $C(x)$.
 (The qualifier "bounded" means that the circuit $C$ has to be of at most a certain size; we see computational models that overcome this limitation in [chaploops](){.ref}, which introduces the notion
 of programming languages with _loops_ and the computational model of a _Turing Machine_.)
 Equivalently, taking the programming-language point of view, the bounded universal circuit corresponds to a "NAND-CIRC interpreter in NAND-CIRC": a NAND-CIRC program that can evaluate other NAND-CIRC program.
 Such a program is known in Computer Science as a "meta-circular evaluator", and is fundamental to both theory and practice of computing.
-Finally, we will use the representation of programs/circuits as strings to _count_ the number of programs/circuits up to a certain size, and use that to obtain a counterpart to the result we proved in [finiteuniversalchap](){.ref}.
-There we proved that for _every_ function $f:\{0,1\}^n \rightarrow \{0,1\}$, there exists a circuit of _at most_ $100 \cdot 2^n / n$ gates to compute it.
-(The number $100$ here is somewhat arbitrary and fixed for concreteness;   [circuit-univ-thm-improved](){.ref} states a bound of  $c \cdot 2^n /n$ for some constant $c$, but it can be verified that the proof yields $c \leq 100$.)
-In this chapter we will prove that there are _some_ functions $f:\{0,1\}^n \rightarrow \{0,1\}$ for which we cannot do much better: they require a circuit of size _at least_  $0.01 \cdot 2^n / n$ (see [counting-lb](){.ref}).
 See [codedataoverviewfig](){.ref} for an overview of the results of  this chapter.
 
 
@@ -71,17 +71,187 @@ See [codedataoverviewfig](){.ref} for an overview of the results of  this chapte
 
 ![In the Harvard Mark I computer, a program was represented as a list of triples of numbers, which were then encoded by perforating holes in a control card.](../figure/tapemarkI.png){#markonerep .margin  }
 
-We can represents programs or circuits as strings in a myriad of ways.
-For example, we can represent the code of a program using the ASCII or UNICODE representations.
-Since Boolean circuits are labeled directed acyclic graphs, we can use the adjacency matrix or adjacency list representations for them.
-The choice of representations do not make much difference, but for the sake of concreteness we pick a particular representation scheme.
-In this chapter we will mostly use NAND-CIRC programs as our model of computation, and fix a concrete way to represent them as lists of numbers (which can then be represented as strings as seen in [chaprepres](){.ref}).
-The choice of the computational model and representation scheme is largely arbitrary - all the results hold equally well for Boolean circuits and there are many other equivalent ways to represent both programs and circuits that would have been just as good for our purposes.
-The representation scheme below is simply a convenient default.
+We can represent programs or circuits as strings in a myriad of ways.
+For example, since Boolean circuits are labeled directed acyclic graphs, we can use the _adjacency matrix_ or _adjacency list_ representations for them.
+However, since the code of a program is ultimately just a sequence of letters and symbols, arguably the conceptually simplest representation of a program is as such a sequence.
+For example,  the following NAND-CIRC program $P$
+
+```python
+temp_0 = NAND(X[0],X[1])
+temp_1 = NAND(X[0],temp_0)
+temp_2 = NAND(X[1],temp_0)
+Y[0] = NAND(temp_1,temp_2)
+```
+
+is simply a string of 107 symbols which include lower and upper case letters, digits, the underscore character `_` and equality sign `=`, punctuation marks such as "`(`","`)`","`,`", spaces, and  "new line" markers  (often denoted
+as "`\ n`" or "↵").
+Each such symbol can be encoded as a string of $7$ bits using the [ASCII](https://en.wikipedia.org/wiki/ASCII) encoding, and hence the program $P$ can be encoded as a string of length $7 \cdot 107 = 749$ bits.
 
 
-__The list of tuples representation.__ We now turn to describe our concrete representation scheme for NAND-CIRC programs.
-Such a program is simply a sequence of lines of the form
+Nothing in the above discussion was specific to the program $P$, and hence we can use the same reasoning to prove that  _every_ NAND-CIRC program can be represented as a string in $\{0,1\}^*$.
+In fact, we can do a bit better.
+Since the names of the working  variables  of a NAND-CIRC program do not effect its functionality, we can always transform a program to have the form of $P'$ where all variables apart from the inputs and outputs have the form
+`temp_0`, `temp_1`, `temp_2`, etc..
+Moreover, if the program has $s$ lines, then we will never need to use an index larger than $3s$ (since each line involves at most three variables), and similarly the indices of the input and output variables will
+all be at most $3s$.
+Since a number between $0$ and $3s$ can be expressed using at most $\lceil \log_{10}(3s+1) \rceil = O(\log s)$ digits, each line in the program (which has the form `foo = NAND(bar,blah)`), can be represented using
+$O(1) + O(\log s) = O(\log s)$ symbols, each of which can be represented by $7$ bits.
+Hence an $s$ line program can be represented as a string of $O(s \log s)$ bits, resulting in the following theorem:
+
+
+:::  {.theorem title="Representing programs as strings" #asciirepprogramthm}
+There is a constant $c$ such that for $f \in SIZE(s)$, there exists a program $P$ computing $f$ that whose string representation has length at most $c s \log s$.
+:::
+
+::: { .pause }
+We omit the formal proof of [asciirepprogramthm](){.ref} but please make sure that you understand why it follows from the reasoning above.
+:::
+
+
+
+
+## Counting programs, and lower bounds on the size of NAND-CIRC programs {#countingcircuitsec }
+
+One consequence of the representation of programs as strings is that the number of programs of certain length is bounded by the number of strings that  represent them.
+This has consequences for the sets $SIZE(s)$ that we defined in [secdefinesizeclasses](){.ref}.
+
+
+> ### {.theorem title="Counting programs" #program-count}
+For every $s\in \N$,
+$$|SIZE(s)| \leq 2^{O(s \log s)}.$$
+That is, there are at most $2^{O(s\log s)}$ functions computed by NAND-CIRC programs of at most $s$ lines.^[The implicit constant in the $O(\cdot)$ notation is smaller than $10$. That is, for all sufficiently large $s$, $|SIZE(s)|<  2^{10s\log s}$, see [efficientrepresentation](){.ref}. As discussed in [[notationsec](){.ref}](){.ref}, we use the bound $10$ simply because it is a round number. ]
+
+
+::: {.proof data-ref="program-count"}
+We will show a one-to-one map $E$ from $SIZE(s)$ to the set of strings of length $c s \log s$ for some constant $c$.
+This will conclude the proof, since it implies that $|SIZE(s)$ is smaller than the size of  the set of all strings of length at most $\ell$,
+which equals  $1+2+4+\cdots + 2^\ell = 2^{\ell +1} - 1$ by the formula for sums of geometric progressions.
+
+The map $E$ will simply map $f$ to the representation of the program computing  $f$.
+Specifically,  we let $E(f)$ be the representation of the program $P$ computing $f$ given by [asciirepprogramthm](){.ref}.
+This representation has size at most $c s \log s$, and moreover the map $E$ is one to one, since if $f \neq f'$ then every two programs computing $f$ and $f'$
+respectively must have different representations.
+:::
+
+
+
+
+A function mapping $\{0,1\}^2$ to $\{0,1\}$ can be identified with the table of its four values on the inputs $00,01,10,11$.
+A function mapping $\{0,1\}^3$ to $\{0,1\}$ can be identified with the table of its eight values on the inputs $000,001,010,011,100,101,110,111$.
+More generally, every function $F:\{0,1\}^n \rightarrow \{0,1\}$ can be identified with the table of its  $2^n$  values on the inputs $\{0,1\}^n$.
+Hence the number of functions mapping $\{0,1\}^n$ to $\{0,1\}$ is equal to the number of such tables which (since we can choose either $0$ or $1$ for every row) is exactly $2^{2^n}$.
+Note that this is _double exponential_ in $n$, and hence even for small values of $n$ (e.g., $n=10$) the number of functions from $\{0,1\}^n$ to $\{0,1\}$ is truly astronomical.^["Astronomical" here is an understatement: there are much fewer than $2^{2^{10}}$ stars, or even particles, in the observable universe.]
+This has the following important corollary:
+
+> ### {.theorem title="Counting argument lower bound" #counting-lb}
+There is a constant $\delta > 0$, such that for every sufficiently large $n$, there is a function  $f:\{0,1\}^n\rightarrow \{0,1\}$  such that
+$f \not\in SIZE \left(\tfrac{\delta 2^n}{n} \right)$.
+That is, the shortest NAND-CIRC program to compute $F$ requires at least $\delta \cdot 2^n/n$ lines.^[The constant $\delta$ is at least $0.1$ and in fact, can be improved to be arbitrarily close to $1/2$, see [efficientlbex](){.ref}.]
+
+::: {.proof data-ref="counting-lb"}
+The proof is simple. If we let $c$ be the constant such that $|SIZE(s)| \leq 2^{c s \log s}$ and $\delta = 1/c$, then setting $s = \delta 2^n/n$ we see that
+$$
+|SIZE(\tfrac{\delta n}{n})| \leq 2^{c \tfrac{\delta 2^n}{n} \log s} < 2^{c \delta 2^n} = 2^{2^n}
+$$
+using the fact that since $s < 2^n$, $\log s < n$.
+But since $|SIZE(s)$ is smaller than the total number of functions mapping $n$ bits to $1$ bit, there must be at least one such function not in $SIZE(s)$, which is what we needed to prove.
+:::
+
+
+We have seen before that _every_ function mapping $\{0,1\}^n$ to $\{0,1\}$ can be computed by an  $O(2^n /n)$ line program.
+[counting-lb](){.ref} shows that this is tight in the sense that some functions do require such an astronomical number of lines to compute.
+
+::: { .bigidea #countinglb }
+Some functions  $f:\{0,1\}^n \rightarrow \{0,1\}$   _cannot_ be computed by a Boolean circuit using a fewer than exponential number of gates.
+:::
+
+In fact, as we explore in the exercises, this is the case for _most_ functions.
+Hence functions that can be computed in a small number of lines (such as addition, multiplication, finding short paths in graphs, or even the $EVAL$ function) are the exception, rather than the rule.
+
+
+> ### {.remark title="More efficient representation (advanced, optional)" #efficientrepresentation}
+The ASCII representation is not the shortest representation for NAND-CIRC programs.
+NAND-CIRC programs are equivalent to circuits with NAND gates, which means that a NAND-CIRC program of $s$ lines, $n$ inputs, and $m$ outputs can be represented by a labeled directed graph of $s+n$ vertices, of which $n$ have in-degree zero, and the $s$ others have in-degree at most two.
+Using the adjacency matrix representation for such graphs, we can reduce the implicit constant in [program-count](){.ref} to be arbitrarily close to $5$, see  [efficientrepresentationex](){.ref}
+
+
+### Size hierarchy theorem (optional)
+
+By [NAND-univ-thm-improved](){.ref} the class $SIZE_{n}(10 \cdot 2^n /n)$ contains _all_ functions from $\{0,1\}^n$ to $\{0,1\}$, while by [counting-lb](){.ref}, there is _some_
+function $f:\{0,1\}^n \rightarrow \{0,1\}$ that is _not contained_ in $SIZE_{n}(0.1 \cdots 2^n / n)$. In other words, for every sufficiently large $n$,
+$$
+SIZE_n\left(0.1 \tfrac{2^n}{n} \right) \subsetneq SIZE_n\left(10 \tfrac{2^n}{n} \right) \;.
+$$
+It turns out that we can use [counting-lb](){.ref} to show a more general result: whenever we increase our "budget" of gates we can compute new functions.
+
+
+> ### {.theorem title="Size Hierarchy Theorem" #sizehiearchythm}
+For every sufficiently large $n$ and $10n < s < 0.1 2^n /n$,
+$$
+SIZE_n(s) \subsetneq SIZE_n(s+10n) \;.
+$$
+
+> ### {.proofidea data-ref="sizehiearchythm"}
+To prove the theorem we need to find a function $f:\{0,1\}^n \rightarrow \{0,1\}$ such that $f$ _can_ be computed by a circuit of $s+10n$ gates but it _can not_ be computed by a circuit of $s$ gates.
+We will do so by coming up with a sequence of functions $f_0,f_1,f_2,\ldots,f_N$ with the following properties: __(1)__ $f_0$ _can_ be computed by a circuit of at most $10n$ gates, __(2)__ $f_N$ _can not_ be computed by a circuit of $0.1 \cdot 2^n/n$ gates, and __(3)__ for every  $i\in \{0,\ldots, N\}$, if $f_i$ can be computed by a circuit of size $s$, then $f_{i+1}$ can be computed by a circuit of size at most $s + 10n$.
+Together these properties imply that if we let $i$ be the smallest number such that $f_i \not\in SIZE_n(s)$, then since $f_{i+1} \in SIZE(s)$ it must hold that $f_i \in SIZE(s+10n)$ which is what we need to prove.
+See [hierarchyprooffig](){.ref} for an illustration.
+
+![We prove [sizehiearchythm](){.ref} by coming up with a list $f_0,\ldots,f_{2^n}$ of functions such that $f_0$ is  the all zero function, $f_{2^n}$ is a function
+(obtained from [counting-lb](){.ref}) outside of $SIZE(0.1\cdot 2^n/n)$ and such that $f_{i-1}$ and $f_i$ differ by one another on at most one input. We can show that for every $i$, the number of gates to compute $f_i$ is most $10n$ larger than the number of gates to compute $f_{i-1}$ and so if let $i$ be the smallest number such that $f_i \not\in SIZE(s)$, then $f_i \in SIZE(s+10n)$.](../figure/hierarchyproof.png){#hierarchyprooffig .margin }
+
+::: {.proof data-ref="sizehiearchythm"}
+Let $f^*: \{0,1\}^n \rightarrow \{0,1\}$ be the function (whose existence we are guaranteed by [counting-lb](){.ref}) such that $f^* \not\in SIZE_n(0.1 \cdot 2^n /n)$.
+We define the functions $f_0,f_1,\ldots, f_{2^n}$ mapping $\{0,1\}^n$ to $\{0,1\}$ as follows. For every $x\in \{0,1\}^n$, if $lex(x) \in \{0,1,\ldots, 2^n-1\}$ is $x$'s order
+in the lexicographical order then
+$$
+f_i(x) = \begin{cases} f^*(x) & lex(x)< i  \\ 0 & \text{otherwise} \end{cases} \;.
+$$
+
+The function $f_0$ is simply the constant zero function, while the function $f_{2^n}$ is equal to $f^*$.
+Moreover, for every $i\in [2^n]$, the function $f_i$ and $f_{i+1}$ differ on at most one input (i.e., the input $x \in \{0,1\}^n$ such that $lex(x)=i$).
+Let $10n < s < 0.1 \cdot 2^n /n$, and let $i$ be the first index such that $f_i \not\in SIZE_n(s)$.
+Since $f_{2^n} = f^* \not\in SIZE(0.1 \dot 2^n / n)$ there must exist such an index $i$, and moreover $i>0$ since the constant zero function is a member of $SIZE_n(10n)$.
+
+By our choice of $i$, $f_{i-1}$ is a member of $SIZE_n(s)$.
+To complete the proof, we need to show that $f_i \in SIZE_n(s + 10n)$.
+Let $x^*$ be the string such that $lex(x^*)=i$ $b\in \{0,1\}$ be the value $f^*(x^*)$.
+Then we can define $f_i$ also as follows
+$$
+f_i(x) = \begin{cases} b & x=x^* \\ f_i(x) & x \neq x^*
+         \end{cases}
+$$
+or in other words
+$$
+f_i(x) = f_{i-1}(x) \wedge EQUAL(x^*,x) \; \vee \;  b \wedge \neg EQUAL(x^*,x)
+$$
+where $EQUAL:\{0,1\}^{2n} \rightarrow \{0,1\}$ is the function that maps $x,x' \in \{0,1\}^n$ to $1$ if they are equal and to $0$ otherwise.
+Since (by our choice of $i$), $f_{i-1}$ can be computed using at most $s$ gates and (as can be easily verified) that $EQUAL \in SIZE_n(9n)$,
+we can compute $f_i$ using at most $s + 9n +O(1) \leq s +10n$ gates which is what we wanted to prove.
+:::
+
+
+
+
+
+![An illustration of some of what we know about the size complexity classes (not to scale!). This figure depicts classes of the form $SIZE_{n,n}(s)$ but the state of affairs for other size complexity classes such as $SIZE_{n,1}(s)$ is similar. We know by [NAND-univ-thm](){.ref} (with the improvement of [tight-upper-bound](){.ref}) that all functions mapping $n$ bits to $n$ bits can be computed by a circuit of size $c \cdot 2^n$ for $c \leq 10$, while on the other hand the counting lower bound ([counting-lb](){.ref}, see also [countingmultibitex](){.ref}) shows that _some_ such functions will require $0.1 \cdot 2^n$, and the size hierarchy theorem ([sizehiearchythm](){.ref}) shows the existence of functions in $SIZE(S) \setminus SIZE(s)$ whenever $s=o(S)$, see also [sizehiearchyex](){.ref}.
+We also consider some specific examples: addition of two $n/2$ bit numbers can be done in $O(n)$ lines, while we don't know of such a program for _multiplying_ two $n$ bit numbers, though we do know it can be done in $O(n^2)$ and in fact even better size. In the above  $FACTOR_n$ corresponds to the inverse problem of multiplying- finding the _prime factorization_ of a given number. At the moment we do not know of any circuit a polynomial (or even sub-exponential) number of lines that can compute $FACTOR_n$. ](../figure/sizecomplexity.png){#sizeclassesfig    }
+
+::: {.remark title="Explicit functions" #explicitfunc}
+While the size hierarchy theorem guarantees that there exists _some_ function that _can_ be computed using, for example, $n^2$ gates, but not using $100n$ gates, we do not know of any explicit example of such a function.
+While we suspect that integer multiplication is such an example, we do not have any proof that this is the case.
+:::
+
+
+
+
+
+
+## The tuples representation { #listoftuplesrepsec }
+
+ASCII is a fine presentation of programs, but for some applications it is useful to have a more concrete representation of NAND-CIRC programs.
+In this section we describe a particular choice, that will be convenient for us later on.
+A NAND-CIRC program is simply a sequence of lines of the form
 
 ```python
 blah = NAND(baz,boo)
@@ -215,7 +385,7 @@ Specifically, since $EVAL_{s,n,m}$ is a finite function [bounded-univ](){.ref} i
 [bounded-univ](){.ref} establishes the existence of a NAND-CIRC program for computing $EVAL_{s,n,m}$, but it provides no explicit bound on the size of this program.
 [NAND-univ-thm](){.ref}, which we used to prove [bounded-univ](){.ref},   guarantees the existence of a NAND-CIRC program whose size can be as large as  _exponential_ in the length of its input.
 This would mean that even for moderately small values of $s,n,m$ (for example $n=100,s=300,m=1$), computing $EVAL_{s,n,m}$ might require a NAND program with more lines than there are atoms in the observable universe!
-Fortunately, we can do much better than that. 
+Fortunately, we can do much better than that.
 In fact, for every $s,n,m$ there exists a NAND-CIRC program for computing $EVAL_{s,n,m}$ with size that is  _polynomial_ in its input length.
 This is shown in the following theorem.
 
@@ -363,9 +533,9 @@ Please make sure that you understand why `GET` and $LOOKUP_\ell$ are the same fu
 We saw that we can compute $LOOKUP_\ell$  in time $O(2^\ell) =  O(s)$ for our choice of $\ell$.
 
 For every $\ell$, let $UPDATE_\ell:\{0,1\}^{2^\ell + \ell +1} \rightarrow \{0,1\}^{2^\ell}$ correspond to the  `UPDATE` function for arrays of length $2^\ell$.
-That is,  on input $V\in \{0,1\}^{2^\ell}$ , $i\in \{0,1\}^\ell$, $b\in \{0,1\}$, $UPDATE_\ell(V,b,i)$ is equal to $V' \in \{0,1\}^{2^\ell}$ such that 
+That is,  on input $V\in \{0,1\}^{2^\ell}$ , $i\in \{0,1\}^\ell$, $b\in \{0,1\}$, $UPDATE_\ell(V,b,i)$ is equal to $V' \in \{0,1\}^{2^\ell}$ such that
 $$
-V'_j = \begin{cases} V_j & j \neq i \\ b & j = 1 \end{cases} 
+V'_j = \begin{cases} V_j & j \neq i \\ b & j = 1 \end{cases}
 $$
 where we identify the string $i \in \{0,1\}^\ell$ with a number in  $\{0,\ldots, 2^{\ell}-1 \}$ using the binary representation.
 We can compute $UPDATE_\ell$ using an $O(2^\ell \ell)=(s \log s)$ line NAND-CIRC program as as follows:
@@ -390,7 +560,7 @@ def UPDATE_ell(V,i,b):
 
 
 
-Since the loop over `j` in `UPDATE` is run $2^\ell$ times, and computing `EQUALS_j` takes $O(\ell)$ lines, the total number of lines to compute `UPDATE` is $O(2^\ell \cdot \ell) = O(s \log s)$. 
+Since the loop over `j` in `UPDATE` is run $2^\ell$ times, and computing `EQUALS_j` takes $O(\ell)$ lines, the total number of lines to compute `UPDATE` is $O(2^\ell \cdot \ell) = O(s \log s)$.
 Once we can compute `GET` and `UPDATE`, the rest of the implementation amounts to "book keeping" that needs to be done carefully, but is not too insightful, and hence we omit the full details.
 Since we run `GET` and `UPDATE`  $s$ times, the total number of lines for computing $EVAL_{s,n,m}$ is $O(s^2) + O(s^2 \log s) = O(s^2 \log s)$.
 This completes (up to the omitted details) the proof of [eff-bounded-univ](){.ref}.
@@ -443,140 +613,6 @@ What we are seeing time and again is the notion of _universality_ or _self refer
 The importance of this phenomena to both the theory and practice of computing, as well as far beyond it, including the foundations of mathematics and basic questions in science, cannot be overstated.
 
 
-
-## Counting programs, and lower bounds on the size of NAND-CIRC programs {#countingcircuitsec }
-
-One consequence of the representation of programs as strings is that the number of programs of certain length is bounded by the number of strings of the length it takes to represent those programs.
-This has consequences for the sets $SIZE_{n,m}(s)$ that we defined in [secdefinesizeclasses](){.ref}.
-
-
-> ### {.theorem title="Counting programs" #program-count}
-For every $n,m,s$ with $n,m \leq 3s$, 
-$$|SIZE_{n,m}(s)| \leq 2^{O(s \log s)}.$$
-That is, there are at most $2^{O(s\log s)}$ functions computed by NAND-CIRC programs of at most $s$ lines.^[The implicit constant in the $O(\cdot)$ notation is at most $10$. That is, for all sufficiently large $s$, $|SIZE_{n,m}(s)|\leq 2^{10s\log s}$.]
-
-> ### {.proofidea data-ref="program-count"}
-The idea behind the proof is that, as we've seen, we can represent every $s$ line program by a binary string of  $O(s \log s)$ bits.
-Therefore the number of functions computed by $s$-line programs cannot be larger than the number of such strings, which is $2^{O(s \log s)}$.
-In the actual proof, given below, we count the number of representations a little more carefully, talking directly about triples rather than binary strings, although the idea remains the same.
-
-
-::: {.proof data-ref="program-count"}
-Every NAND-CIRC program $P$ with $s$ lines has at most $3s$ variables.
-Hence, using our canonical representation, $P$ can be represented by the numbers $n,m$ of $P$'s inputs and outputs, as well as by the list $L$ of $s$ triples of natural numbers, each of which is smaller or equal to $3s$.
-
-If two programs compute distinct functions then they have distinct representations.
-(Make sure you understand why the above statement is true!)
-This means that our representation scheme yields a _one to one function_ from $SIZE_{n,m}(s)$ to the set $[3s]^{3s}$ of all length-$s$ lists of triples of numbers in $[3s]$.^[Strictly speaking, the lists have length _at most_ $s$, but we can always add "dummy instructions" to a program with smaller than $s$ lines that would not modify its input/output behavior but ensure that its length is exactly $s$.]
-Therefore
-
-$$|SIZE_{n,m}(s)| \leq (3s)^{3s} = 2^{3s \log (3s)} = 2^{3s \log s + 3\log 3 s} \;.$$
-
-Since $s = o(s \log s)$, for sufficiently large $n$, this bound will be smaller than $2^{4s\log s}$.
-:::
-
-
-::: {.remark title="Counting by ASCII representation" #countingfromascii}
-We can also establish [program-count](){.ref} directly from the ASCII representation of the source code.  Since an $s$-line NAND-CIRC program has at most $3s$ distinct variables,  we can change all the non input/output variables of such a program to have the form `Temp[`$i$`]`  for $i$ between $0$ and $3s-1$ without changing the function that it computes. This means that after removing extra whitespaces, every line of such a program (which will be of the form form `var = NAND(var',var'')` for variable identifiers which will be either `X[###]`,`Y[###]` or `Temp[###]` where `###` is some number smaller than $3s$) will require at most, say, $20 + 3\log_{10} (3s) \leq O(\log s)$ characters. Since each one of those characters can be encoded using seven bits in the ASCII representation, we see that the number of functions computed by $s$-line NAND-CIRC programs is at most $2^{O(s \log s)}$.
-:::
-
-
-A function mapping $\{0,1\}^2$ to $\{0,1\}$ can be identified with the table of its four values on the inputs $00,01,10,11$.
-A function mapping $\{0,1\}^3$ to $\{0,1\}$ can be identified with the table of its eight values on the inputs $000,001,010,011,100,101,110,111$.
-More generally, every function $F:\{0,1\}^n \rightarrow \{0,1\}$ can be identified with the table of its  $2^n$  values on the inputs $\{0,1\}^n$.
-Hence the number of functions mapping $\{0,1\}^n$ to $\{0,1\}$ is equal to the number of such tables which (since we can choose either $0$ or $1$ for every row) is exactly $2^{2^n}$.
-Note that this is _double exponential_ in $n$, and hence even for small values of $n$ (e.g., $n=10$) the number of functions from $\{0,1\}^n$ to $\{0,1\}$ is truly astronomical.^["Astronomical" here is an understatement: there are much fewer than $2^{2^{10}}$ stars, or even particles, in the observable universe.]
-This has the following important corollary:
-
-> ### {.theorem title="Counting argument lower bound" #counting-lb}
-There is a function $F:\{0,1\}^n\rightarrow \{0,1\}$ such that the shortest NAND-CIRC program to compute $F$ requires $2^n/(100n)$ lines.
-
-::: {.proof data-ref="counting-lb"}
-Suppose, towards the sake of contradiction, that every function $F:\{0,1\}^n\rightarrow\{0,1\}$ can be computed by a NAND-CIRC program of at most $s=2^n/(100n)$ lines.
-Then the by [program-count](){.ref} the total number of such functions would be at most $2^{10s\log s} \leq 2^{10 \log s \cdot 2^n/(100 n)}$.
-Since $\log s = n - \log (100 n) \leq n$ this means that the total number of such functions would be at most $2^{2^n/10}$, contradicting the fact that there are $2^{2^n}$ of them.
-:::
-
-We have seen before that _every_ function mapping $\{0,1\}^n$ to $\{0,1\}$ can be computed by an  $O(2^n /n)$ line program.
-We now see that this is tight in the sense that some functions do require such an astronomical number of lines to compute.
-
-::: { .bigidea #countinglb }
-Some functions  $f:\{0,1\}^n \rightarrow \{0,1\}$   _cannot_ be computed by a Boolean circuit using a fewer than exponential number of gates.
-:::
-
-In fact, as we explore in the exercises, this is the case for _most_ functions.
-Hence functions that can be computed in a small number of lines (such as addition, multiplication, finding short paths in graphs, or even the $EVAL$ function) are the exception, rather than the rule.
-
-
-> ### {.remark title="Advanced note: more efficient representation" #efficientrepresentation}
-The list of triples is not the shortest representation for NAND-CIRC programs.
-NAND-CIRC programs are equivalent to circuits with NAND gates, which means that a NAND-CIRC program of $s$ lines and $n$ inputs can be represented by a directed graph of $s+n$ vertices, of which $n$ have in-degree zero, and the $s$ others have in-degree at most two. Using the adjacency list representation, such a graph can be represented using roughly $2s\log(s+n) \leq 2s (\log s + O(1))$ bits.
-Using these ideas we can reduce the implicit constant in [program-count](){.ref} arbitrarily close to $2$.
-
-
-## Size hierarchy theorem (advanced, optional)
-
-By [NAND-univ-thm](){.ref} the class $SIZE_{n}(4 \cdot 2^n)$ contains _all_ functions from $\{0,1\}^n$ to $\{0,1\}$.
-In fact, as discussed in [tight-upper-bound](){.ref} this can be improved to show that there is some constant $C$ such that $SIZE_n(C \cdot 2^n / n)$ contains all functions from $\{0,1\}^n$ to $\{0,1\}$ (in fact, $C=4$ will do).
-On the other hand,  [counting-lb](){.ref} shows that if $c >0$ is small enough ($c = 1/4$ will do) then $SIZE_n(c 2^n / n)$ does _not_ contain all functions.
-Thus, these two results together show that there exists some constants $C>c>0$ such that for every sufficiently large $n$,
-$$
-SIZE_n(c 2^n /n) \subsetneq SIZE_n(C 2^n /n) \;.
-$$
-That is, the set of functions that can be computed using $c 2^n/n$ gates is a _strict subset_ of the set of functions that can be computed using $C 2^n / n$ gates.
-
-We can use the same results to show a more general result: whenever we increase our "budget" of gates by a constant factor we can compute new functions:
-
-
-::: {.theorem title="Size Hierarchy Theorem" #sizehiearchythm}
-There exists some constant $C$ such that for _every_ $n \leq s \leq 2^n/(4n)$, there exists some function $f:\{0,1\}^n \rightarrow \{0,1\}$ that _can not_ be computed using $s$ gates but _can_ be computed using $C\cdot s$ gates.
-In other words, for every such $n,s$,
-$$SIZE_n(s) \subsetneq SIZE_n(C s) \;.$$
-:::
-
-> ### {.proofidea data-ref="sizehiearchythm"}
-The idea is to "scale down" the result of [counting-lb](){.ref}.
-We set $\ell$ to be such that $s$ is about exponential in $\ell$, and so that $Cs$ gates are enough to compute all functions on $\ell$ bits but $s$ gates are not enough to compute some function $g:\{0,1\}^\ell \rightarrow \{0,1\}$.
-We can then let $f:\{0,1\}^n \rightarrow \{0,1\}$ be a function that ignores all but the first input $\ell$ bits, and returns the result of applying $g$  to these bits.
-
-
-::: {.proof data-ref="sizehiearchythm"}
-Let $s$ be as in the theorem statement, and let $\ell$ be the largest integer such that $10s \geq 2^\ell/(10\ell)$.
-(By this choice $10s < 2^{\ell-1}/(10\ell-1)$ which means that $5s < 2^\ell/(10\ell)$.)
-Let $g:\{0,1\}^\ell \rightarrow \{0,1\}$ be a function outside $SIZE_\ell(2^\ell/(10\ell)) \supseteq SIZE_\ell(5s)$ (the existence of such a function is guaranteed by [counting-lb](){.ref}).
-We let $f:\{0,1\}^n \rightarrow \{0,1\}$ be the function defined as $f(x_0,\ldots,x_{n-1}) = g(x_0,\ldots,x_{\ell-1})$.
-We claim that there is some constant $C$ such that:
-
-* $f \in SIZE_n(C \cdot s)$.
-
-* $f \not\in SIZE_n(s)$.
-
-For the former, by the [NAND-univ-thm](){.ref} (more precisely its strengthened variant discussed in [tight-upper-bound](){.ref}), if $C'$ is sufficiently large then $SIZE_\ell(C' \cdot 2^\ell / \ell)$ contains _all_ functions mapping $\{0,1\}^\ell$ to $\{0,1\}$. Therefore we can compute $g$, and hence $f$ as well, using a circuit of at most
-$C' \cdot 2^\ell / \ell$ gates which is at most $C s$ for $C=10C'$.
-
-For the latter, suppose towards the sake of contradiction that $f$ _can_ be computed by an $n$-input NAND-CIRC program $P$ of at most $s$ lines.
-Now consider the following program $P'$ which is obtained by $P$ as follows:
-
-1. We add three lines to ensure access to the variable `zero` that is always equal to $0$.
-
-2. We replace every instance in which $P$ refers to a variable of the form `X[`$i$`]` for $i>\ell$ with the variable `zero`.
-
-The new program $P'$ only takes $\ell$ inputs and has at most $s+3$ lines. Moreover, for every $x\in \{0,1\}^\ell$, $P'(x)=P(x0^{n-\ell})$.
-This means that under our assumption that $P$ computes $f$, $P'(x)=f(x0^{n-\ell})=g(x)$ for every $x\in \{0,1\}^\ell$.
-But this contradicts the assumption that $g \not\in SIZE_\ell(5s)$.
-:::
-
-
-
-
-
-![An illustration of some of what we know about the size complexity classes (not to scale!). This figure depicts classes of the form $SIZE_{n,n}(s)$ but the state of affairs for other size complexity classes such as $SIZE_{n,1}(s)$ is similar. We know by [NAND-univ-thm](){.ref} (with the improvement of [tight-upper-bound](){.ref}) that all functions mapping $n$ bits to $n$ bits can be computed by a circuit of size $c \cdot 2^n$ for $c \leq 10$, while on the other hand the counting lower bound ([counting-lb](){.ref}, see also [countingmultibitex](){.ref}) shows that _some_ such functions will require $0.1 \cdot 2^n$, and the size hierarchy theorem ([sizehiearchythm](){.ref}) shows the existence of functions in $SIZE(S) \setminus SIZE(s)$ whenever $s=o(S)$, see also [sizehiearchyex](){.ref}.
-We also consider some specific examples: addition of two $n/2$ bit numbers can be done in $O(n)$ lines, while we don't know of such a program for _multiplying_ two $n$ bit numbers, though we do know it can be done in $O(n^2)$ and in fact even better size. In the above  $FACTOR_n$ corresponds to the inverse problem of multiplying- finding the _prime factorization_ of a given number. At the moment we do not know of any circuit a polynomial (or even sub-exponential) number of lines that can compute $FACTOR_n$. ](../figure/sizecomplexity.png){#sizeclassesfig    }
-
-::: {.remark title="Explicit functions" #explicitfunc}
-While the size hierarchy theorem guarantees that there exists _some_ function that _can_ be computed using, for example, $n^2$ gates, but not using $100n$ gates, we do not know of any explicit example of such a function.
-While we suspect that integer multiplication is such an example, we do not have any proof that this is the case.
-:::
 
 
 
@@ -745,13 +781,28 @@ For every $k \in \N$ and $x' \in \{0,1\}^k$, show that there is an $O(k)$ line N
 
 
 ::: {.exercise title="Counting lower bound for multibit functions" #countingmultibitex}
-Prove that there exist a number $\epsilon>0$ such that for every $n,m$ there exists a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that requires at least $\epsilon m \cdot 2^n / n$ NAND gates to compute. See footnote for hint.^[How many functions from $\{0,1\}^n$ to $\{0,1\}^m$ exist?]
+Prove that there exist a number $\delta>0$ such that for every $n,m$ there exists a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that requires at least $\delta m \cdot 2^n / n$ NAND gates to compute. See footnote for hint.^[How many functions from $\{0,1\}^n$ to $\{0,1\}^m$ exist?]
 :::
 
 ::: {.exercise title="Size hierarchy theorem for multibit functions" #sizehiearchyex}
-Prove that there exists a number $C$ such that for every $n,m$ and $s < m\cdot 2^n / (Cn)$ there exists a function $f \in SIZE_{n,m}(C\cdot s) \setminus SIZE_{n,m}(s)$.
+Prove that there exists a number $C$ such that for every $n,m$ and $n+m < s < m\cdot 2^n / (Cn)$ there exists a function $f \in SIZE_{n,m}(C\cdot s) \setminus SIZE_{n,m}(s)$.
 See footnote for hint.^[Follow the proof of [sizehiearchythm](){.ref}, replacing the use of the counting argument with [countingmultibitex](){.ref}.]
 :::
+
+::: {.exercise title="Efficient representation of circuits and a tighter counting upper bound" #efficientrepresentationex}
+Use the ideas of [efficientrepresentation](){.ref} to show that for every $\epsilon>0$ and sufficiently large $s,n,m$,
+$$|SIZE_{n,m}(s)| < 2^{(2+\epsilon)s \log s + n\log n + m\log s}\;.$$
+Conclude that the implicit constant in [program-count](){.ref} can be made arbitrarily close to $5$.
+See footnote for hint.^[Using the adjacency list representation, a graph with $n$ in-degree zero vertices and $s$ in-degree two vertices  can be represented using roughly $2s\log(s+n) \leq 2s (\log s + O(1))$ bits.
+The labeling of the $n$ input and $m$ output vertices can be specified by a list of $n$  labels in $[n]$ and $m$ labels  in $[m]$.
+]
+:::
+
+::: {.exercise title="Tighter counting lower bound" #efficientlbex}
+Prove that for every $\delta< 1/2$, if $n$ is sufficiently large then there exists a function $f:\{0,1\}^n \rightarrow \{0,1\}$ such that $f \not\in SIZE_{n,1}\left( \tfrac{\delta 2^n}{n} \right)$.
+See footnote for hint.^[_Hint:_ Use the results of [efficientrepresentationex](){.ref} and the fact that in this regime $m=1$ and $n\ll s$.]
+:::
+
 
 > ### {.exercise title="Random functions are hard" #rand-lb-id}
 Suppose $n>1000$ and that we choose a function $F:\{0,1\}^n \rightarrow \{0,1\}$ at random, choosing for every $x\in \{0,1\}^n$ the value $F(x)$ to be the result of tossing an independent unbiased coin. Prove that the probability that there is a $2^n/(1000n)$ line program that computes $F$ is at most $2^{-100}$.^[__Hint:__ An equivalent way to say this is that you need to prove that the set of functions that can be computed using at most $2^n/(1000n)$ has fewer than $2^{-100}2^{2^n}$ elements. Can you see why?]
@@ -802,6 +853,7 @@ Universal circuits have seen in recent years new motivations due to their applic
 
 While we've seen that "most" functions mapping $n$ bits to one bit require circuits of exponential size $\Omega(2^n/n)$, we actually do not know of any _explicit_ function for which we can _prove_ that it requires, say, at least $n^{100}$ or even $100n$ size. At the moment, strongest such lower bound we know is that there are quite simple and explicit $n$-variable functions that require at least $(5-o(1))n$ lines to compute, see [this paper of Iwama et al](http://www.wisdom.weizmann.ac.il/~ranraz/publications/P5nlb.pdf) as well as this more recent [work of Kulikov et al](http://logic.pdmi.ras.ru/~kulikov/papers/2012_5n_lower_bound_cie.pdf).
 Proving lower bounds for restricted models of circuits is an extremely interesting research area, for which Jukna's book [@Jukna12] (see also Wegener [@wegener1987complexity])  provides very good introduction and overview.
+I learned of the proof of the size hierarchy theorem ([sizehiearchythm](){.ref}) from Sasha Golovnev. 
 
 
 Scott Aaronson's blog post on how [information is physical](http://www.scottaaronson.com/blog/?p=3327) is a good discussion on issues related to the physical extended Church-Turing Physics.
