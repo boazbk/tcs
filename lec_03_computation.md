@@ -1140,7 +1140,7 @@ In this exercise you will show that you can construct a NAND approximator from m
 
 
 ::: {.exercise title="Majority with NANDs efficiently" #majwithNAND}
-Prove that there is some constant $c$ such that for every $n>1$, there is a NAND circuit of at most $c\cdot n$ gates that computes the function  $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$ is the majority function on $n$ input bits. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. See footnote for hint.^[One approach to solve this is using recursion and analyzing it using the so called  "Master Theorem".]
+Prove that there is some constant $c$ such that for every $n>1$, there is a NAND circuit of at most $c\cdot n$ gates that computes the majority function on $n$ input bits $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. See footnote for hint.^[One approach to solve this is using recursion and analyzing it using the so called  "Master Theorem".]
 :::
 
 ::: {.exercise title="Output at last layer" #outputlastlayer}
