@@ -352,7 +352,7 @@ Hence, in cases where the precise representation doesn't make a difference, we w
 
 
 __Defining "Algorithms".__
-Up until now we have use the term "algorithm" informally.
+Up until now we have used the term "algorithm" informally.
 However, Turing Machines and the range of equivalent models yield a way to precisely and formally define algorithms.
 Hence whenever we refer to an _algorithm_ in this book, we will mean that it is an instance of one of the Turing equivalent models, such as Turing machines, NAND-TM, RAM machines, etc.
 Because of the equivalence of all these models, in many contexts, it will not matter which of these we use.
