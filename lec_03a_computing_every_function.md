@@ -179,7 +179,7 @@ To make this more robust we  a prefix to the internal variables used by `Proc` t
 
 The code in [desugarcode](){.ref} achieves such a  transformation.^[This code uses _regular expressions_ to make the search and replace parts a little easier. We will see the theoretical basis for regular expressions in [restrictedchap](){.ref}.]
 
-``` { .python  #desugarcode title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
+``` { .python #desugarcode title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
 def inline_proc(code, proc_name, proc_args,proc_body):
     '''Takes code of a program and name, arguments, body of a procedure.
     Returns new code where all lines in program of the
@@ -753,7 +753,7 @@ If $T:\N \rightarrow \N$ and $F:\{0,1\}^* \rightarrow \{0,1\}^*$, we will  write
 :::
 
 
-::: {.solvedexercise title="$SIZE$ closed under complement." #sizeclosundercomp}
+::: {.solvedexercise title="SIZE closed under complement." #sizeclosundercomp}
 In this exercise we prove a certain "closure property" of the class $SIZE_n(s)$.
 That is, we show that if $f$ is in this class then (up to some small additive term) so is the complement of $f$, which is the function $g(x)=1-f(x)$.
 
