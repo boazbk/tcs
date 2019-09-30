@@ -64,6 +64,8 @@ The operations a RAM machine can carry out include:
 
 * __Control flow:__ As in the case of Turing machines, the choice of what instruction to perform next can depend on the state of the RAM machine, which is captured by the contents of its register.
 
+![Different aspects of RAM machines and Turing machines. RAM machines can store integers in their local registers, and can read and write to their memory at a location specified by a register. In contrast, Turing machines can only access their memory in the head location, which moves at most one position to the right or left in each step.](../figure/ramvsturing.png){#ramvsturingfig .margin}
+
 
 We will not give a formal definition of RAM Machines, though the bibliographical notes section ([othermodelsbibnotes](){.ref}) contains sources for such definitions.
 Just as the NAND-TM programming language models Turing machines, we can also define a  _NAND-RAM programming language_ that models Turing machines.
@@ -80,13 +82,12 @@ The NAND-RAM programming language extends NAND-TM by adding the following featur
 
 * NAND-RAM includes conditional statements `if`/`then` as part of the language.
 
-* As in NAND-TM we encapsulate a NAND-RAM program in one large loop. That is, the last instruction is `JMP(flag)` which goes back to the beginning of the program if `flag` equals $1$ and halts otherwise.
-As usual, we can implement other looping constructs such as `goto` and `while` or `for` inner loops using syntactic sugar.
+* NAND-RAM contains looping constructs such as `while` and `do` as part of the language. 
 
 
 
 
-A full description of the NAND-RAM programming language is in the appendix.
+A full description of the NAND-RAM programming language is in the [appendix](https://nbviewer.jupyter.org/github/boazbk/tcscode/blob/master/appendix%5FNAND%5Fspecs.ipynb).
 However, the most important fact you need to know about NAND-RAM is that you actually don't need to know much about NAND-RAM at all, since it is equivalent in power to Turing machines: 
 
 > ### {.theorem title="Turing Machines (aka NAND-TM programs) and RAM machines (aka NAND-RAM programs) are equivalent" #RAMTMequivalencethm}
@@ -94,12 +95,14 @@ For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a N
 
 Since NAND-TM programs are equivalent to Turing machines, and NAND-RAM programs are equivalent to RAM machines, [RAMTMequivalencethm](){.ref} shows that all these four models are equivalent to one another.
 
+![Overview of the steps in the proof of [RAMTMequivalencethm](){.ref} simulating NANDRAM with NANDTM. We first use the inner loop syntactic sugar of [nandtminnerloopssec](){.ref} to enable loading an integer from an array to the index variable `i` of NANDTM. Once we can do that, we can simulate _indexed access_ in NANDTM. We then use an embedding of $\N^2$ in $\N$ to simulate two dimensional bit arrays in NANDTM. Finally, we use the binary representation to encode one-dimensional arrays of integers as two dimensional arrays of bits hence completing the simulation of NANDRAM with NANDTM.](../figure/nandramproofoverview.png){#nandramoverviewfig .margin}
+
 ::: {.proofidea data-ref="RAMTMequivalencethm"}
 Clearly NAND-RAM is only more powerful than NAND-TM, and so if a function $F$ is computable by a NAND-TM program then it can be computed by a NAND-RAM program.
 The challenging direction is to transform a NAND-RAM program $P$ to an equivalent NAND-TM program $Q$.
 To describe the proof in full we will need to cover the full formal specification of the NAND-RAM language, and show how we can implement every one of its features as syntactic sugar on top of NAND-TM.
 
-This can be done but going over all the operations in detail is rather tedious. Hence we will focus on describing the main ideas behind this transformation.
+This can be done but going over all the operations in detail is rather tedious. Hence we will focus on describing the main ideas behind this transformation. (See also [nandramoverviewfig](){.ref}.)
 NAND-RAM generalizes NAND-TM in two main ways: __(a)__ adding _indexed access_ to the arrays (ie.., `Foo[bar]` syntax) and __(b)__ moving from _Boolean valued_ variables to _integer valued_ ones.
 The transformation has two steps:
 
@@ -112,6 +115,7 @@ The transformation has two steps:
 Once we have arrays of integers, we can use our usual syntactic sugar for functions, `GOTO` etc. to implement the arithmetic and control flow operations of NAND-RAM.
 :::
 
+The above approach is not the only way to obtain a proof of [RAMTMequivalencethm](){.ref}, see for example [RAMTMalternativeex](){.ref}
 
 ::: {.remark title="RAM machines / NAND-RAM and assembly language (optional)" #NANDRAMassembly}
 RAM machines correspond quite closely to actual microprocessors such as those in the Intel x86 series that also contains a large _primary memory_ and a constant number of small registers.
@@ -476,7 +480,7 @@ If $M$'s head is in the $i$-th position, then for $j \neq i$, $\alpha_j$ encodes
 If the machine writes the value $\tau$, changes state to $t$, and moves right, then in the next configuration will contain at position $i$ the value  $(\tau,\cdot)$ and at position $i+1$ the value $(\alpha_{i+1},t)$.](../figure/turingmachineconf.png){#turingconfigfig   }
 
 
-::: {.definition title="Configuration of NAND-TM programs." #configtmdef}
+::: {.definition title="Configuration of Turing Machines." #configtmdef}
 Let $M$ be a Turing machine with tape alphabet $\Sigma$ and state space $[k]$. A _configuration of $M$_ is a string $\alpha \in \overline{\Sigma}^*$ where $\overline{\Sigma} = \Sigma \times \left( \{\cdot\} \cup [k] \right)$ that satisfies that there is exactly one coordinate $i$ for which $\alpha_i = (\sigma,s)$ for some $\sigma \in \Sigma$ and $s\in [k]$. For all other coordinates $j$, $\alpha_j = (\sigma',\cdot)$ for some $\sigma'\in \Sigma$.
 
 A configuration $\alpha \in \overline{\Sigma}^*$ of $M$ corresponds to the following state of its execution:
@@ -499,7 +503,7 @@ In particular, with an eye towards our future applications, try to think of an e
 
 
 
-[configtmdef](){.ref} is a little cumbersome, but ultimately a configuration is simply a string that encodes a _snapshot_ of the state of the NAND-TM program at a given point in the execution. (In operating-systems lingo, it is a  ["core dump"](https://goo.gl/AsccXh).)
+[configtmdef](){.ref} is a little cumbersome, but ultimately a configuration is simply a string that encodes a _snapshot_ of the  Turing machine at a given point in the execution. (In operating-systems lingo, it is a  ["core dump"](https://goo.gl/AsccXh).)
 Such a snapshot needs to encode the following components:
 
 1. The current head position.
@@ -1230,10 +1234,27 @@ It turns out that NAND-TM programs with a constant amount of memory are equivale
 
 ## Exercises
 
+::: {.exercise title="Alternative proof for TM/RAM equivalence" #RAMTMalternativeex}
+Let $SEARCH:\{0,1\}^* \rightarrow \{0,1\}^*$ be the following function.
+The input is a pair $(L,k)$ where $k\in \{0,1\}^*$, $L$ is an encoding of a list of _key value_ pairs $(k_0,v_1),\ldots,(k_{m-1},v_{m-1})$ where $k_0,\ldots,k_{m-1}$, $v_0,\ldots,v_{m-1}$ are binary strings. 
+The output is $v_i$ for the smallest $i$ such that $k_i=k$, if such $i$ exists, and otherwise the empty string.
+
+1. Prove that $SEARCH$ is computable by a Turing machine.
+
+2. Let $UPDATE(L,k,v)$ be the function whose input is a list $L$ of pairs, and whose output is the list $L'$ obtained by prepending the pair $(k,v)$ to the beginning of $L$. Prove that $UPDATE$ is computable by a Turing machine.
+
+3. Suppose we encode the configuration of a NAND-RAM program by a list $L$ of key/value pairs where the key is either the name of a scalar variable `foo` or of the form `Bar[<num>]` for some number `<num>` and it contains all the nonzero values of variables. Let $NEXT(L)$ be the function that maps a configuration of a NAND-RAM program at one step to the configuration in the next step. Prove that $NEXT$ is computable by a Turing machine (you don't have to implement each one of the arithmetic operations: it is enough to implement addition and multiplication).
+
+4. Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}^*$ that is computable by a NAND-RAM program,  $F$ is computable by a Turing machine.
+:::
+
+
 ::: {.exercise title="NAND-TM lookup" #lookup}
 This exercise shows part of the proof that NAND-TM can simulate NAND-RAM. Produce the code of a NAND-TM program that computes the function $LOOKUP:\{0,1\}^* \rightarrow \{0,1\}$ that is defined as follows.
 On input $pf(i)x$, where $pf(i)$ denotes a prefix-free encoding of an integer $i$, $LOOKUP(pf(i)x)=x_i$ if $i<|x|$ and $LOOKUP(pf(i)x)=0$ otherwise. (We don't care what $LOOKUP$ outputs on inputs that are not of this form.) You can choose any prefix-free encoding of your choice, and also can use your favorite programming language to produce this code.
 :::
+
+
 
 ::: {.exercise title="Pairing" #pair-ex}
 Let $embed:\N^2 \rightarrow \N$ be the function defined as $embed(x_0,x_1)= \tfrac{1}{2}(x_0+x_1)(x_0+x_1+1) + x_1$. \
@@ -1341,12 +1362,15 @@ Prove that for every Turing Machine program $M$, there exists a `STRINGS` progra
 ## Bibliographical notes { #othermodelsbibnotes }
 
 Chapters 7   in the wonderful book of Moore and Mertens [@MooreMertens11] contains a great exposition much of this material.
-Chapter 3 in Savage's book [@Savage1998models] contains a more formal description of RAM machines, see also the paper [@hagerup1998].
-A study of RAM algorithms that are independent of the input size (known as the "transdichotomous RAM model") was initiated by [@fredman1993].
+.
 
 The RAM model can be very useful in studying the concrete complexity of practical algorithms.
-However, the exact set of operations that are allowed in the RAM model at unit cost can vary between texts and contexts.
+Its theoretical study was initiated in [@cook1973time].
+However, the exact set of operations that are allowed in the RAM model and their costs  vary between texts and contexts.
 One needs to be careful in making such definitions, especially if the word size grows, as was already shown by Shamir [@shamir1979].
+Chapter 3 in Savage's book [@Savage1998models] contains a more formal description of RAM machines, see also the paper [@hagerup1998].
+A study of RAM algorithms that are independent of the input size (known as the "transdichotomous RAM model") was initiated by [@fredman1993]
+
 
 The models of computation we considered so far are inherently sequential, but these days much computation happens in parallel, whether using multi-core processors or in massively parallel distributed computation in data centers or over the Internet.
 Parallel computing is important in practice, but it does not really make much difference for the question of what can and can't be computed.
@@ -1368,3 +1392,5 @@ We will come back to this point in [restrictedchap](){.ref} and [chapproofs](){.
 
 
 Tao has [proposed](https://terrytao.wordpress.com/2014/02/04/finite-time-blowup-for-an-averaged-three-dimensional-navier-stokes-equation/) showing the Turing completeness of fluid dynamics (a "water computer") as a way of settling the question of the behavior of the Navier-Stokes equations, see this [popular article](https://www.quantamagazine.org/terence-tao-proposes-fluid-new-path-in-navier-stokes-problem-20140224/).
+
+

@@ -31,6 +31,11 @@ As a corollary, we will see one of the most striking results of 20th century mat
 We will actually start with the latter result, and then show the former.
 
 
+
+![Outline of the results of this chapter. One version of Gödel's Incompleteness Theorem is an immediate concsequence of the uncomputability of the Halting problem. To obtain the theorem as originally stated (for statements about the integers) we need to go through several intermediate results.](../figure/godelstructure.png){#godelstructurefig }
+
+
+
 ## Hilbert's Program and Gödel's Incompleteness Theorem  { #godelproofdef }
 
 >_"And what are these …vanishing increments? They are neither finite quantities, nor quantities infinitely small, nor yet nothing. May we not call them the ghosts of departed quantities?"_, George Berkeley, Bishop of Cloyne, 1734.
@@ -104,6 +109,10 @@ A _proof system_ for $\mathcal{T}$ is an algorithm $V$ that satisfies:
 
 A true statement $x\in mathcal{T}$ is _unprovable_ (with respect to $V$) if for every $w\in \{0,1\}^*$, $V(x,w)=0$.
 We say that $V$ is _complete_ if there does not exist a true statement $x$ that is unprovable with respect to $v$.
+:::
+
+::: { .bigidea #proofsystems}
+A _proof_ is just a string of text whose meaning is given by a _verification algorithm_.
 :::
 
 
@@ -180,8 +189,6 @@ That is, if we formalize the statement $c^*$ that is true if and only if $V$ is 
 
 
 ## Quantified integer statements
-
-![Outline of the steps in the proof of Gödel's Incompleteness Theorem.](../figure/godelstructure.png){#godelstructure}
 
 There is something "unsatisfying" about [godethmtakeone](){.ref}.
 Sure, it shows there are statements that are unprovable, but they don't feel like "real" statements about math.
@@ -307,6 +314,11 @@ The difficulty in finding a way to distinguish between "code" such as NAND-TM pr
 While a fool-proof solution for distinguishing between the two is inherently impossible, finding heuristics that do a reasonable job keeps many firewall and anti-virus manufacturers very busy
 (and finding ways to bypass these tools keeps many hackers busy as well).
 :::
+
+## Digression: Uncomputability of the puzzle problem
+
+![In the _puzzle problem_, the input can be thought of as a finite collection $\Sigma$ of _types of puzzle pieces_ and the goal is to find out whether or not find a way to arrange pieces from these types in a rectangle. Formally, we model the input as a function $match:\Sigma^5 \rightarrow \{0,1\}$ that such that $match(mid,up,down,left,right)=1$ iff the piece $mid$ is compatible
+with the pieces $up$,$down$,$left$,$right$ in their respective positions. We assume $\Sigma$ contains a special symbol $\varnothing$ corresponding to having no piece, and an arrangement of puzzle pieces by an $(m-2)\times(n-2)$ rectangle is modeled by a string $x\in \Sigma^{m\cdot n}$ whose ``outer coordinates'' are $\emptyset$ and such that for every internal $i,j$ (i.e., $i\in \{1,\ldots, m-2 \}$ and $j\in \{1,\ldots,n-2\}$) $match(x_{i,j},x_{i-1,j},x_{i+1,j},x_{i,j-1},x_{i,j+1})=1$.](../figure/puzzleprob.png){#puzzleprobfig }
 
 
 ## Hardness of quantified integer statements

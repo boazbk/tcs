@@ -47,10 +47,21 @@ while i<len(X):
     i+= 1
 Y[0] = s
 ```
+![An algorithm is a finite recipe to compute on arbitrarily long inputs. The components of an algorithm include the instructions to be performed, finite state or "local variables", the memory to store the input and intermediate computations, as well as mechanisms to decide which part of the  memory to access, and when to repeat instructions and when to halt.](../figure/algcomponents.png){#algcomponentfig .margin}
 
+Generally an algorithm is, as we quote above, "a finite answer to an infinite number of questions".
+To express an algorithm we need to write down a finite set of instructions that will enable us to compute on arbitrarily long inputs.
+To describe and execute an algorithm we need the following components (see [algcomponentfig](){.ref}):
 
-![Overview of our models for finite and unbounded computation. In the previous chapters we study the computation of _finite functions_, which are functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ for some fixed $n,m$, and modeled computing these functions using circuits or straightline programs. In this chapter we study computing _unbounded_ functions of the form $F:\{0,1\}^* \rightarrow \{0,1\}^m$ or $F:\{0,1\}^* \rightarrow \{0,1\}^*$. We model computing these functions using _Turing Machines_ or (equivalently) NAND-TM programs which add the notion of _loops_ to the NAND-CIRC programming language. In [chapequivalentmodels](){.ref} we will show that these models are equivalent to many other models, including RAM machines, the $\lambda$ calculus, and all the common programming languages including C, Python, Java, JavaScript, etc.](../figure/chaploopoverview.png){#chaploopoverviewfig  }
+* The finite set of instructions to be performed.
 
+* Some "local variables"  or finite state used in the execution.
+
+* A potentially unbounded working memory to store the input as well as any other values we may require later. 
+
+* While the memory is unbounded, at every single step we can only read and write to a finite part of it, and we need a way to _adress_ which are the parts we want to read from and write to.
+
+* If we only have a finite set of instructions but our input can be arbitrarily long, we will need to _repeat_ instructions (i.e.,  _loop_  back). We need a mechanism to decide when we will loop and when we will halt.
 
 In this chapter we will show how we can extend the  model of Boolean circuits / straight-line programs so that it can capture these kinds of constructs.
 We will see two ways to do so:
@@ -63,6 +74,11 @@ We will see two ways to do so:
 
 It turns out that these two models are _equivalent_, and in fact they are equivalent to a great many other computational models including programming languages you may be familiar with such as C, Lisp, Python, JavaScript, etc. This notion, known as _Turing equivalence_ or _Turing completeness_, will be discussed in [chapequivalentmodels](){.ref}.
 See [chaploopoverviewfig](){.ref} for an overview of the models presented in this chapter and [chapequivalentmodels](){.ref}.
+
+
+
+
+![Overview of our models for finite and unbounded computation. In the previous chapters we study the computation of _finite functions_, which are functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ for some fixed $n,m$, and modeled computing these functions using circuits or straightline programs. In this chapter we study computing _unbounded_ functions of the form $F:\{0,1\}^* \rightarrow \{0,1\}^m$ or $F:\{0,1\}^* \rightarrow \{0,1\}^*$. We model computing these functions using _Turing Machines_ or (equivalently) NAND-TM programs which add the notion of _loops_ to the NAND-CIRC programming language. In [chapequivalentmodels](){.ref} we will show that these models are equivalent to many other models, including RAM machines, the $\lambda$ calculus, and all the common programming languages including C, Python, Java, JavaScript, etc.](../figure/chaploopoverview.png){#chaploopoverviewfig  }
 
 
 ::: {.remark title="Finite vs infinite computation" #infinite}
@@ -125,9 +141,7 @@ Specifically, a computation of a Turing Machine $M$ with $k$ states and alphabet
 
 * When the machine halts then its output is obtained by reading off the tape from the second location (just after the $\triangleright$) onwards, stopping at the first point where the symbol is not $0$ or $1$.
 
-
-![A Turing machine has access to a _tape_ of unbounded length. At each point in the execution, the machine can read a single symbol of the tape, and based on that and its current state, write a new symbol, update the tape, decide whether to move left, right, stay, or halt.](../figure/turingmachine.png){#turing-machine-fig   }
-
+![The components of a Turing Machine. Note how they correspond to the general components of algorithms as described in [algcomponentfig](){.ref}.](../figure/turingmachinecomponents.png){#turingmachinecomponentsfig .margin }
 
 ### Extended example:  A Turing machine for palindromes  { #turingmachinepalindrome }
 
@@ -182,6 +196,9 @@ The above description can be turned into a table describing for each one of the 
 
 ### Turing machines: a formal definition
 
+
+
+![A Turing machine has access to a _tape_ of unbounded length. At each point in the execution, the machine can read a single symbol of the tape, and based on that and its current state, write a new symbol, update the tape, decide whether to move left, right, stay, or halt.](../figure/turingmachine.png){#turing-machine-fig   }
 
 
 The formal definition of Turing machines is as follows:
@@ -533,7 +550,7 @@ MODANDJUMP(X_nonblank[i],X_nonblank[i])
 
 ::: { .pause }
 Working out the above two example can go a long way towards understanding the NAND-TM language.
-See the appendix and our [GitHub repository](https://github.com/boazbk/tcscode) for a full specification of the NAND-TM language.
+See the [appendix](https://nbviewer.jupyter.org/github/boazbk/tcscode/blob/master/appendix%5FNAND%5Fspecs.ipynb) and our [GitHub repository](https://github.com/boazbk/tcscode) for a full specification of the NAND-TM language.
 :::
 
 
@@ -657,7 +674,7 @@ But we can go beyond this and achieve for example:
 In all of these cases (and many others) we can implement the new feature as mere "syntactic sugar" on top of standard NAND-TM, which means that the set of functions computable by NAND-TM with this feature is the same as the set of functions computable by standard NAND-TM.
 Similarly, we can show that the set of functions computable by Turing Machines that have more than one tape, or tapes of more dimensions than one, is the same as the set of functions computable by standard Turing machines.
 
-### "GOTO" and inner loops
+### "GOTO" and inner loops { #nandtminnerloopssec }
 
 We can implement more advanced _looping constructs_ than the simple `MODANDJUMP`.
 For example, we can implement `GOTO`.

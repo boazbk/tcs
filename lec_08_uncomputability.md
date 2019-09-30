@@ -104,56 +104,22 @@ Here is the code of this program for concreteness, though you can feel free to s
 
 ```python
 # constants
-Φ = 2 # empty symbol
-Δ = 3 # starting symbol
-L = 0 # go left
-R = 1 # go right
-S = 2 # stay
-H = 3 # halt
-
-def EVAL(k,l,T,x):
-    """Evaluate a Turing machine on input x
-       Turing machine is represented by:
-       k: number of states
-       l: number of symbols in alphabet (containing {0,1,Φ,Δ})
-       T: transition function: a dictionary such that T[(s,a)] is equal to (_s,_a,_d)
-          where s is old state, a is symbol read
-          _s is new state
-          _a is symbol to write
-          _d in {L,R,S,H} is head movement
-    """
-
-
-    Tape = [ Δ  ] # List/array containing contents of tape
-
-    # Initialize with input
-    for i in range(len(x)): Tape.append(int(x[i]))
-
-    i = 0 # current position
-    s = 0 # current state
-
+def EVAL(δ,x): 
+    '''Evaluate TM given by transition table δ 
+    on input x'''
+    Tape = ["▷"] + [a for a in x]
+    i = 0; s = 0 # i = head pos, s = state
     while True:
-        a = Tape[i]  # read symbol
-        _s,_a,_d = T[(s,a)] # lookup transition table
-        Tape[i] = _a # write symbol
-        s = _s # update state
-
-        # move head:
-        if _d == H: break
-        if _d == L: i = max(i-1,0)
-        if _d == R: i += 1
-
-        # add empty symbols to tape if needed
-        if i>= len(Tape): Tape.append(Φ)
-
-
-    # Scan tape for output
-    Y = []
-    j = 1
-    while j<len(Tape) and Tape[j] != Φ:
+        s, Tape[i], d = δ[(s,Tape[i])] 
+        if d == "H": break
+        if d == "L": i = max(i-1,0)
+        if d == "R": i += 1
+        if i>= len(Tape): Tape.append('Φ')
+            
+    j = 1; Y = [] # produce output
+    while Tape[j] != 'Φ': 
         Y.append(Tape[j])
         j += 1
-
     return Y
 ```
 
