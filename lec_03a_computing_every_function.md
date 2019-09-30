@@ -592,7 +592,7 @@ first computing the string  $T=g(a)$  of length $2^{n-k}$, and then computing $L
 element of $T$ at the position corresponding to $b$ (see [efficient_circuit_allfuncfig](){.ref}).
 The cost to compute the $LOOKUP_{n-k}$ is $O(2^{n-k})$ lines/gates and the cost in NAND-CIRC lines (or Boolean gates) to compute  $f$ is at most
 $$
-cost(g) + O(2^{n-k}) \;, \label{eqcomputefusinggeffcircuit}
+cost(g) + O(2^{n-k}) \;, \label{eqcostcomputefusingg}
 $$
 where $cost(g)$ is the number of operations (i.e., lines of NAND-CIRC programs or gates in a circuit) needed to compute $g$.
 
