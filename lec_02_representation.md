@@ -505,7 +505,7 @@ Indeed there do exist pairs of distinct sequences $f,g\in \{0,1\}^\infty$ such t
 
 ## Representing objects beyond numbers
 
-Numbers are of course by no means the only objects that  we can represented as binary strings.
+Numbers are of course by no means the only objects that  we can represent as binary strings.
 A _representation scheme_ for representing objects from some set $\mathcal{O}$ consists of an _encoding_ function that maps an object in $\mathcal{O}$ to a string, and a _decoding_ function that decodes a string back to an object in $\mathcal{O}$.
 Formally, we make the following definition:
 
