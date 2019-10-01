@@ -204,7 +204,7 @@ There exists a function $F^*:\{0,1\}^* \rightarrow \{0,1\}$ that is not computab
 > ### {.proofidea data-ref="uncomputable-func"}
 The idea behind the proof follows quite closely Cantor's proof that the reals are uncountable ([cantorthm](){.ref}), and in fact the theorem can also be obtained fairly directly from that result (see [uncountablefuncex](){.ref}).
 However, it is instructive to see the direct proof.
-The idea is to construct $F^*$ in a way that will ensure that every possible machine $M$ will in fact fail to compute $F^*$. We do so by defining $F^*(x)$ to equal $1$ if $x$ describes a Turing machine $M$ which satisfies $M(x)=1$ and defining $F^*(x)=0$ otherwise. By construction, if $M$ is any Turing machine and $x$ is the string describing it, then $F^*(x) \neq M(x)$ and therefore $M$ does _not_ compute $F^*$. 
+The idea is to construct $F^*$ in a way that will ensure that every possible machine $M$ will in fact fail to compute $F^*$. We do so by defining $F^*(x)$ to equal $0$ if $x$ describes a Turing machine $M$ which satisfies $M(x)=1$ and defining $F^*(x)=1$ otherwise. By construction, if $M$ is any Turing machine and $x$ is the string describing it, then $F^*(x) \neq M(x)$ and therefore $M$ does _not_ compute $F^*$. 
 
 ::: {.proof data-ref="uncomputable-func"}
 The proof is illustrated in [diagonal-fig](){.ref}.
