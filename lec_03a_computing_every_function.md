@@ -592,7 +592,7 @@ first computing the string  $T=g(a)$  of length $2^{n-k}$, and then computing $L
 element of $T$ at the position corresponding to $b$ (see [efficient_circuit_allfuncfig](){.ref}).
 The cost to compute the $LOOKUP_{n-k}$ is $O(2^{n-k})$ lines/gates and the cost in NAND-CIRC lines (or Boolean gates) to compute  $f$ is at most
 $$
-cost(g) + O(2^{n-k}) \;, \label{eqcomputefusinggeffcircuit}
+cost(g) + O(2^{n-k}) \;, \label{eqcostcomputefusingg}
 $$
 where $cost(g)$ is the number of operations (i.e., lines of NAND-CIRC programs or gates in a circuit) needed to compute $g$.
 
@@ -716,7 +716,7 @@ In particular, as we've seen, there can be more than one program to compute the 
 
 
 
-![There are $2^{2^n}$ functions mapping $\{0,1\}^n$ to $\{0,1\}$, and an infinite number of circuits with $n$ bit inputs and a single bit of output. Every circuit computes one function, but every function can be computed by many circuits. We say that $f \in SIZE_{n,1}(s)$ if the smallest circuit that computes $f$ has $s$ or fewer gates. For example $XOR_n \in SIZE_{n,1}(4n)$. [NAND-univ-thm](){.ref} shows that _every_ function $g$ is computable by some circuit of at most $c\cdot 2^n/n$ gates, and hence $SIZE_{n,1}(c\cdot 2^n/n)$ corresponds to the set of _all_ functions from $\{0,1\}^n$ to $\{0,1\}$.]m(../figure/funcvscircs.png){#funcvscircfig .class  }
+![There are $2^{2^n}$ functions mapping $\{0,1\}^n$ to $\{0,1\}$, and an infinite number of circuits with $n$ bit inputs and a single bit of output. Every circuit computes one function, but every function can be computed by many circuits. We say that $f \in SIZE_{n,1}(s)$ if the smallest circuit that computes $f$ has $s$ or fewer gates. For example $XOR_n \in SIZE_{n,1}(4n)$. [NAND-univ-thm](){.ref} shows that _every_ function $g$ is computable by some circuit of at most $c\cdot 2^n/n$ gates, and hence $SIZE_{n,1}(c\cdot 2^n/n)$ corresponds to the set of _all_ functions from $\{0,1\}^n$ to $\{0,1\}$.](../figure/funcvscircs.png){#funcvscircfig .class  }
 
 
 While we defined $SIZE(s)$ with respect to NAND gates, we would get essentially the same class if we defined it with respect to AND/OR/NOT gates:

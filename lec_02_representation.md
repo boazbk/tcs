@@ -422,7 +422,7 @@ The function $\overline{d}$ we defined above maps every $n\in \N$ to the negatio
 
 To complete the proof that $StF$ is not onto we need to show that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$.
 Indeed, let $x\in \{0,1\}^*$ be some string and let $g = StF(x)$.
-If $n$ is the position of $x$ in the lexicographical order then by construction $\overline{d}(n) = 11-g(n) \neq g(n)$ which means that $g \neq \overline{d}$ which is what we wanted to prove.
+If $n$ is the position of $x$ in the lexicographical order then by construction $\overline{d}(n) = 1-g(n) \neq g(n)$ which means that $g \neq \overline{d}$ which is what we wanted to prove.
 :::
 
 ::: {.pause}
@@ -462,7 +462,7 @@ This part is not the core of Cantor's argument, nor are such limits important to
 We define $FtR(f)$ to be the number between $0$ and $2$ whose decimal expansion is $f(0).f(1) f(2) \ldots$, or in other words  $FtR(f) = \sum_{i=0}^{\infty} f(i) \cdot 10^{-i}$.
 To prove that $FtR$ is one to one, we need to show that if $f \neq g$ then $FtR(f) \neq FtR(g)$.
 To do that we let $k\in \N$ be the first input on which $f$ and $g$ disagree.
-The numbers $FtR(f)$ and $FtR(g)$ agree in the first $k-2$ digits following the decimal point and disagree in the $k-1$-th digit. One can then calculate and verify that this means that $|FtR(f)-FtR(g)| > 0.5 \cdot 10^{-k}$ which in particular means that these two numbers are distinct from one another. (You might wonder why we can't immediately deduce that two numbers that differ in a digit are not the same. The issue is that we have to be a little more careful when talking about infinite expansions. For example, the number one half has two decimal expansions $0.5$ and $0.49999\cdots$. However, this issue does not come up if (as in our case) we restrict attention only to numbers with decimal expansions that do not involve the digit $9$.)
+The numbers $FtR(f)$ and $FtR(g)$ agree in the first $k-1$ digits following the decimal point and disagree in the $k$-th digit. One can then calculate and verify that this means that $|FtR(f)-FtR(g)| > 0.5 \cdot 10^{-k}$ which in particular means that these two numbers are distinct from one another. (You might wonder why we can't immediately deduce that two numbers that differ in a digit are not the same. The issue is that we have to be a little more careful when talking about infinite expansions. For example, the number one half has two decimal expansions $0.5$ and $0.49999\cdots$. However, this issue does not come up if (as in our case) we restrict attention only to numbers with decimal expansions that do not involve the digit $9$.)
 :::
 
 ::: {.proof data-ref="sequencestoreals"}
@@ -562,7 +562,7 @@ Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$. If
 When showing a representation scheme for rational numbers, we used the "hack" of encoding the alphabet $\{ 0,1, \|\}$  to represent tuples of strings as a single string.
 This is a special case of the general paradigm of _prefix-free_ encoding.
 The idea is the following: if our representation has the property that no string $x$ representing an object $o$ is a _prefix_ (i.e., an initial substring) of a string $y$ representing a different object $o'$, then we can represent a _lists_ of objects by merely concatenating the representations of all the list members.
-For example, because in English every sentence ends with a punctuation mark such as a period, exclamation, or question mark, no sentence can be a prefix of another and so we can represent a list of sentences by merely concatenating the sentences one after the other.^[English has some complications such as periods used for abbreviations (e.g., "e.g.") or sentence quotes containing punctuation, but high level point of a prefix-free representation for setnences still holds.]
+For example, because in English every sentence ends with a punctuation mark such as a period, exclamation, or question mark, no sentence can be a prefix of another and so we can represent a list of sentences by merely concatenating the sentences one after the other.^[English has some complications such as periods used for abbreviations (e.g., "e.g.") or sentence quotes containing punctuation, but the high level point of a prefix-free representation for sentences still holds.]
 
 It turns out that we can transform _every_ representation to a prefix-free form.
 This justifies [representtuplesidea](){.ref}, and allows us to transform a representation scheme for objects of a type $T$ to a representation scheme of _lists_ of objects of the type $T$.

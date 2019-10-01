@@ -341,7 +341,7 @@ A large part of this book will be devoted to addressing the above issues. We wil
 
 1. We can make the definition of an algorithm fully formal, and so give a precise mathematical meaning to statements such as "Algorithm $A$ computes function $f$".
 
-2. While the choice of $AND$/$OR$/$NOT$ is arbitrary, and we could just as well chose some other functions, we will also see this choice does not matter much. We will see that  we would obtain the same computational power if we used instead for addition and multiplication, and essentially every other operation that could be reasonably thought of as a basic step.
+2. While the choice of $AND$/$OR$/$NOT$ is arbitrary, and we could just as well chose some other functions, we will also see this choice does not matter much. We will see that  we would obtain the same computational power if we used instead addition and multiplication, and essentially every other operation that could be reasonably thought of as a basic step.
 
 3. It turns out that we can and do compute such "$AND$/$OR$/$NOT$ based algorithms" in the real world. First of all, such an algorithm is clearly well specified, and so can be executed by a human with a pen and paper. Second, there are a variety of ways to _mechanize_ this computation. We've already seen that we can write Python code that corresponds to following such a list of instructions. But in fact we can directly implement operations such as $AND$, $OR$, and $NOT$ via electronic signals using components known as _transistors_. This is how modern electronic computers operate.
 
@@ -841,7 +841,7 @@ Thus we can compute the increment of $x_0,\ldots,x_{n-1}$ by doing the following
 
 ``` {.algorithm title="Compute Increment Function" #incrementalg}
 INPUT: $x_0,x_1,\ldots,x_{n-1}$ representing the number $\sum_{i=0}^{n-1} x_i\cdot 2^i$ # we use LSB-first representation
-OUTPUT:$y \in \{0,1\}^{n+1}$ such that $\sum_{i=0}^n y_i \cdot 2^i =  \sum_{i=0}^{n-1} x_i\cdot 2^i$
+OUTPUT:$y \in \{0,1\}^{n+1}$ such that $\sum_{i=0}^n y_i \cdot 2^i =  \sum_{i=0}^{n-1} x_i\cdot 2^i + 1$
 
 Let $c_0 \leftarrow 1$ # we pretend we have a "carry" of $1$ initially
 For{$i=0,\ldots, n-1$}
@@ -1112,7 +1112,7 @@ Let $NOR:\{0,1\}^2 \rightarrow \{0,1\}$ defined as $NOR(a,b) = NOT(OR(a,b))$. Pr
 
 
 ::: {.exercise title="Lookup is universal" #lookupex}
-Prove that $\{ LOOKUP_1,0,1 \}$ is a universal set of gates where $0$ and $1$ are the constant functions   $LOOKUP_1:\{0,1\}^3 \rightarrow \{0,1\}$ satisfies $LOOKUP_1(a,b,c)$ equals $a$ if $c=0$ and equals $b$ if $c=1$.
+Prove that $\{ LOOKUP_1,0,1 \}$ is a universal set of gates where $0$ and $1$ are the constant functions and $LOOKUP_1:\{0,1\}^3 \rightarrow \{0,1\}$ satisfies $LOOKUP_1(a,b,c)$ equals $a$ if $c=0$ and equals $b$ if $c=1$.
 :::
 
 
@@ -1128,10 +1128,10 @@ Prove that for every NAND circuit of size $s$ with $n$ inputs and $m$ outputs, $
 
 
 > ### {.exercise title="Threshold using NANDs" #threshold-nand-ex}
-Prove that there is some constant $c$ such that for every $n>1$, and integers $a_0,\ldots,a_{n-1},b \in \{-2^n,-2^n+1,\ldots,-1,0,+1,\ldots,2^n\}$, there is a NAND circuit with at most $c\dot n^4$ gates that computes the _threshold_ function $f_{a_0,\ldots,a_{n-1},b}:\{0,1\}^n \rightarrow \{0,1\}$ that on input $x\in \{0,1\}^n$ outputs $1$ if and only if $\sum_{i=0}^{n-1} a_i x_i > b$.
+Prove that there is some constant $c$ such that for every $n>1$, and integers $a_0,\ldots,a_{n-1},b \in \{-2^n,-2^n+1,\ldots,-1,0,+1,\ldots,2^n\}$, there is a NAND circuit with at most $c n^4$ gates that computes the _threshold_ function $f_{a_0,\ldots,a_{n-1},b}:\{0,1\}^n \rightarrow \{0,1\}$ that on input $x\in \{0,1\}^n$ outputs $1$ if and only if $\sum_{i=0}^{n-1} a_i x_i > b$.
 
 ::: {.exercise title="NANDs from activation functions" #NANDsfromActivationfunctionex}
-We say that a function $f:\mathbb{R}^2 \rightarrow \mathbb{R}$ is a _NAND approximator_ if it has the following property: for every $a,b \in \mathbb{R}$, if $\min\{|a|,|1-a|\}\leq 1/3$ and $\min \{ |b|,|1-b| \}\leq 1/3$ then $|f(a,b) - NAND(\lfloor a \rceil, \lfloor b \rceil)| \leq 1/3$ where we denote by $\lfloor x \rfloor$ the integer closest to $x$. That is, if $a,b$ are within a distance $1/3$ to $\{0,1\}$ then we want $f(a,b)$ to equal the $NAND$ of the values in $\{0,1\}$ that are closest to $a$ and $b$ respectively. Otherwise, we do not care what the output of $f$ is on $a$ and $b$.
+We say that a function $f:\mathbb{R}^2 \rightarrow \mathbb{R}$ is a _NAND approximator_ if it has the following property: for every $a,b \in \mathbb{R}$, if $\min\{|a|,|1-a|\}\leq 1/3$ and $\min \{ |b|,|1-b| \}\leq 1/3$ then $|f(a,b) - NAND(\lfloor a \rceil, \lfloor b \rceil)| \leq 1/3$ where we denote by $\lfloor x \rceil$ the integer closest to $x$. That is, if $a,b$ are within a distance $1/3$ to $\{0,1\}$ then we want $f(a,b)$ to equal the $NAND$ of the values in $\{0,1\}$ that are closest to $a$ and $b$ respectively. Otherwise, we do not care what the output of $f$ is on $a$ and $b$.
 
 In this exercise you will show that you can construct a NAND approximator from many common activation functions used in deep neural networks. As a corollary you will obtain that deep neural networks can simulate NAND circuits. Since NAND circuits can also simulate deep neural networks, these two computational models are equivalent to one another.
 
@@ -1146,7 +1146,7 @@ In this exercise you will show that you can construct a NAND approximator from m
 
 
 ::: {.exercise title="Majority with NANDs efficiently" #majwithNAND}
-Prove that there is some constant $c$ such that for every $n>1$, there is a NAND circuit of at most $c\cdot n$ gates that computes the function  $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$ is the majority function on $n$ input bits. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. See footnote for hint.^[One approach to solve this is using recursion and analyzing it using the so called  "Master Theorem".]
+Prove that there is some constant $c$ such that for every $n>1$, there is a NAND circuit of at most $c\cdot n$ gates that computes the majority function on $n$ input bits $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. See footnote for hint.^[One approach to solve this is using recursion and analyzing it using the so called  "Master Theorem".]
 :::
 
 ::: {.exercise title="Output at last layer" #outputlastlayer}
