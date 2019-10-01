@@ -671,7 +671,7 @@ Even larger systems such as [flocks of birds](https://www.cs.princeton.edu/~chaz
 
 ### Cellular automata and the game of life
 
-_Cellular automata_ is a model of a system composed of a sequence of _cells_, which of which can have a finite state.
+_Cellular automata_ is a model of a system composed of a sequence of _cells_, each of which can have a finite state.
 At each step, a cell updates its state based on the states of its _neighboring cells_ and some simple rules.
 As we will discuss later in this book (see [cellularautomatasec](){.ref}), cellular automata such as Conway's "Game of Life" can be used to simulate computation gates .
 
