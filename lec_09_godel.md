@@ -320,6 +320,32 @@ While a fool-proof solution for distinguishing between the two is inherently imp
 ![In the _puzzle problem_, the input can be thought of as a finite collection $\Sigma$ of _types of puzzle pieces_ and the goal is to find out whether or not find a way to arrange pieces from these types in a rectangle. Formally, we model the input as a function $match:\Sigma^5 \rightarrow \{0,1\}$ that such that $match(mid,up,down,left,right)=1$ iff the piece $mid$ is compatible
 with the pieces $up$,$down$,$left$,$right$ in their respective positions. We assume $\Sigma$ contains a special symbol $\varnothing$ corresponding to having no piece, and an arrangement of puzzle pieces by an $(m-2)\times(n-2)$ rectangle is modeled by a string $x\in \Sigma^{m\cdot n}$ whose ``outer coordinates'' are $\emptyset$ and such that for every internal $i,j$ (i.e., $i\in \{1,\ldots, m-2 \}$ and $j\in \{1,\ldots,n-2\}$) $match(x_{i,j},x_{i-1,j},x_{i+1,j},x_{i,j-1},x_{i,j+1})=1$.](../figure/puzzleprob.png){#puzzleprobfig }
 
+To show the uncomputability of $QIS$, we will use as a stepping stone a problem that seems to have nothing to do with integer quantified statements. 
+This is the problem of determining, given a finite collection of types of "puzzle pieces", whether it is possible to put them together in a rectangle, see [puzzleprobfig](){.ref}.
+Formally, we think of such a collection as a finite set $\Sigma$. We model the criteria as to which pieces "fit together" by a pair of finite function $match_{\updownarrow}, match_{\leftrightarrow}:\Sigma^2 \rightarrow \{0,1\}$ such that a piece $a$ fits above a piece $b$ if and only if $match_{\updownarrow}(a,b)=1$ and a piece $c$ fits to the left of a piece $d$ if and only if $match_{\leftrightarrow}(c,d)=1$.
+To model the "straight edge" pieces that can be placed next to a "blank spot" we assume that $\Sigma$ contains the symbol $\varnothing$ and the matching functions are defined accordingly.
+A _square tiling_ of $\Sigma$ is an $m\times n$ long string $x \in \Sigma^{mn}$, such that for every $i\in \{1,\ldots,m-2 \}$ and $j\in \{1,\ldots,n-2 \}$, $match(x_{i,j},x_{i-1,j},x_{i+1,j},x_{i,j-1},x_{i,j+1})=1$ (i.e., every "internal pieve" fits in with the pieces adjacent to it).
+We also require all of the "outer pieces" (i.e., $x_{i,j}$ where $i\in \{0,m-1\}$ of $j\in \{0,n-1\}$) are "blank" or equal to $\varnothing$.
+
+
+The function $PUZZLE$ takes as input a string describing the set $\Sigma$ and the function $match$ and outputs $1$ if and only if there is some square tiling of $\Sigma$: some not all blank string $x\in \Sigma^{mn}$ satisfying the above condition.
+Since we all have solved puzzles since our childhood, this might not seem like such a hard problem, but in fact it turns out to be impossible to solve:
+
+> ### {.theorem title="Uncomputability of $PUZZLE$" #puzzleuncomp}
+$PUZZLE$ is uncomputable.
+
+> ### {.proofidea data-ref="puzzleuncomp"}
+The idea behind the proof is illustrated in [automatontopuzzlefig](){.ref}. 
+We use the halting problem for cellular automata, which is uncomputable since those can simulate Turing machines as per [onedimcathm](){.ref}.
+Given a cellular automaton $\mathcal{A}$ over alphabet $\Gamma$, we will define a puzzle where each piece corresponds to a triple $(a,b,c) \in \Gamma^3$. A piece $(a,b,c)$ will be compatible with a piece $(a',b',c')$
+
+![We reduce the task of determining whether an one dimensional cellular automaton halts to the task of determining whether a puzzle has a square tiling by mapping each cell of the automaton into a puzzle piece. A piece $\beta$ can fit under a piece $\alpha$ if and only if can be derived from $\alpha$ and its two neighbors under the automaton's rule $r$.](../figure/automatontopuzzle.png){#automatontopuzzlefig .margin}
+
+
+::: {.proof data-ref="puzzleuncomp"}
+TBD
+:::
+
 
 ## Hardness of quantified integer statements
 

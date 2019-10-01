@@ -81,19 +81,39 @@ The end result is what's known as a "meta-circular evaluator": an interpreter fo
 
 
 
-### Proving the existence of a universal Turing Machine 
+### Proving the existence of a universal Turing Machine  {#representtmsec } 
 
 To prove (and even properly state)  [universaltmthm](){.ref}, we need fix some representation for Turing machines as strings.
 For example, one potential choice for such a representation is to use the equivalence betwen Turing machines and NAND-TM programs and hence represent a Turing machine $M$ using the ASCII encoding of the source code of the corresponding NAND-TM program $P$.
 However, we will use a more direct encoding.
 
+::: {.definition title="String representation of Turing Machine" #representTM}
 Let  $M$ be a Turing machine with $k$ states and a size $\ell$ alphabet $\Sigma = \{ \sigma_0,\ldots,\sigma_{\ell-1} \}$ (we use the convention $\sigma_0 = 0$,$\sigma_1 = 1$, $\sigma_2 = \varnothing$, $\sigma_3=\triangleright$).
-We represent $M$ by the triple $(k,\ell,T)$ where $T$ is the table of values for $\delta_M$:
+We represent $M$ as the triple $(k,\ell,T)$ where $T$ is the table of values for $\delta_M$:
 
 $$T = \left(\delta_M(0,0),\delta_M(0,\sigma_0),\ldots,\delta_M(k-1,\sigma_{k-1})\right) \;,$$
 
 where each value $\delta_M(s,\sigma)$ is a triple $(s',\sigma',d)$ with $s'\in [k]$, $\sigma'\in \Sigma$ and $d$ a number $\{0,1,2,3 \}$ encoding one of $\{ \mathsf{L},\mathsf{R},\mathsf{S},\mathsf{H} \}$.
-Thus such a machine $M$ is encoded by a list of $2 + 3k\cdot\ell$ natural numbers, which can be represented as a binary string.
+Thus such a machine $M$ is encoded by a list of $2 + 3k\cdot\ell$ natural numbers.
+The _string representation_ of $M$ is obtained by concatenating prefix free representation
+of all these integers.
+If a string $\alpha \in \{0,1\}^*$ does not represent a list of integers in the form above, then we treat it as representing the trivial Turing machine with one state that immediately halts on every input.
+:::
+
+
+
+::: {.remark title="Take away points of representation" #TMrepremark}
+The details of the representation scheme of Turing machines as strings are immaterial for almost all applications.
+What you need to remember are the following points:
+
+1. We can represent every Turing machine as a string.
+
+2. Given the string representation of a Turing machine $M$ and an input $x$, we can simulate $M$'s execution on the input $x$. (This is the contents of [ [universaltmthm](){.ref}](){.ref}.)
+
+An additional minor issue is that for convenience we make the assumption that _every_ string represents _some_ Turing machine. This is very easy to ensure by just mapping strings that would otherwise not represent a Turing machine into some fixed trivial machine.
+This assumption is not very important, but does make a few results (such as Rice's Theorem: [rice-thm](){.ref}) a little less cumbersome to state.
+:::
+
 
 Using this representation, we can formally prove [universaltmthm](){.ref}.
 
@@ -638,7 +658,7 @@ Formally, we define semantic properties as follows:
 ::: {.definition title="Semantic properties" #semanticpropdef}
 A pair of Turing machines $M$ and $M'$ are _functionally equivalent_ if for every $x\in \{0,1\}^*$, $M(x)=M'(x)$. (In particular, $M(x)=\bot$ iff $M'(x)=\bot$ for all $x$.)
 
-A function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _semantic_ if for every pair of strings $M,M'$ that represent functionally equivalent Turing machines, $F(M)=F(M')$.
+A function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _semantic_ if for every pair of strings $M,M'$ that represent functionally equivalent Turing machines, $F(M)=F(M')$. (Recall that we assume that every string represents _some_ Turing machine, see [TMrepremark](){.ref})
 :::
 
 
@@ -874,7 +894,7 @@ For each of the following two functions, say whether it is computable or not:
 2. Given a NAND-TM program $P$, an input $x$, and a number $k$, when we run $P$ on $x$, does $P$ ever write to an array at index $k$?
 :::
 
-::: {.definition title="Recursively enumerable" #recursiveenumerableex}
+::: {.exercise title="Recursively enumerable" #recursiveenumerableex}
 Define a function $F:\{0,1\}^* :\rightarrow \{0,1\}$ to be _recursively enumerable_ if there exists a Turing machine $M$ such that such that for every $x\in \{0,1\}^*$, if $F(x)=1$ then $M(x)=1$, and if $F(x)=0$ then $M(x)=\bot$. (i.e., if $F(x)=0$ then $M$ does not halt on $x$.)
 
 1. Prove that every computable $F$ is also recursively enumerable.
@@ -883,15 +903,17 @@ Define a function $F:\{0,1\}^* :\rightarrow \{0,1\}$ to be _recursively enumerab
 
 3. Prove that there exists a function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F$ is not recursively enumerable. See footnote for hint.^[You can either use the diagonalization method to prove this directly or show that the set of all recursively enumerable functions is _countable_.]
 
-4. Prove that there exists a function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F$ is recursively enumerable but the function $\overline{F}$ defined as $\overline{F}(x)=1-F(x)$ is _not_ recursively enumerable. See footnote for hint.^[$HALT$ has this property: show that if both $HALT$ and $1-HALT$ were recursively enumerable then $HALT$ would be in fact computable.]
+4. Prove that there exists a function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F$ is recursively enumerable but the function $\overline{F}$ defined as $\overline{F}(x)=1-F(x)$ is _not_ recursively enumerable. See footnote for hint.^[$HALT$ has this property: show that if both $HALT$ and $\overline{HALT}$ were recursively enumerable then $HALT$ would be in fact computable.]
 :::
 
-::: {.exercise title="Rice's Theorem: standard form" #}
+::: {.exercise title="Rice's Theorem: standard form" #ricestandardex }
 In this exercise we will prove Rice's Theorem in the form that it is typically stated in the literature.
 
 For a Turing machine $M$, define $L(M) \subseteq \{0,1\}^*$ to be the set of all $x\in \{0,1\}^*$ such that $M$ halts on the input $x$ and outputs $1$. (The set $L(M)$ is known in the literature as the _language recognized by $M$_. Note that $M$ might either output a value other than $1$ or not halt at all on inputs $x\not\in L(M)$. )
 
-Use [rice-thm](){.ref} to prove that for every  $F:\{0,1\}^* \rightarrow \{0,1\}$, if __(a)__ $F$ is neither the constant zero nor the constant one function, and __(b)__ for every $M,M'$ such that $L(M)=L(M')$, $F(M)=F(M')$, then $F$ is uncomputable. See footnote for hint.^[Show that any $F$ satisfying __(b)__ must be semantic.]
+1. Prove that for every Turing Machine $M$, if we define $F_M:\{0,1\}^* \rightarrow \{0,1\}$ to be the function such that $F_M(x)=1$ iff $x\in L(M)$ then $F_M$ is _recursively enumerable_ as defined in [recursiveenumerableex](){.ref}.
+
+2. Use [rice-thm](){.ref} to prove that for every  $G:\{0,1\}^* \rightarrow \{0,1\}$, if __(a)__ $G$ is neither the constant zero nor the constant one function, and __(b)__ for every $M,M'$ such that $L(M)=L(M')$, $G(M)=G(M')$, then $G$ is uncomputable. See footnote for hint.^[Show that any $G$ satisfying __(b)__ must be semantic.]
 :::
 
 ::: {.exercise title="Rice's Theorem for general Turing-equivalent models (optional)" #ricegeneralex}
