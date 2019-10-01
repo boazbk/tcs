@@ -119,12 +119,12 @@ This has consequences for the sets $SIZE(s)$ that we defined in [secdefinesizecl
 > ### {.theorem title="Counting programs" #program-count}
 For every $s\in \N$,
 $$|SIZE(s)| \leq 2^{O(s \log s)}.$$
-That is, there are at most $2^{O(s\log s)}$ functions computed by NAND-CIRC programs of at most $s$ lines.^[The implicit constant in the $O(\cdot)$ notation is smaller than $10$. That is, for all sufficiently large $s$, $|SIZE(s)|<  2^{10s\log s}$, see [efficientrepresentation](){.ref}. As discussed in [[notationsec](){.ref}](){.ref}, we use the bound $10$ simply because it is a round number. ]
+That is, there are at most $2^{O(s\log s)}$ functions computed by NAND-CIRC programs of at most $s$ lines.^[The implicit constant in the $O(\cdot)$ notation is smaller than $10$. That is, for all sufficiently large $s$, $|SIZE(s)|<  2^{10s\log s}$, see [efficientrepresentation](){.ref}. As discussed in [notationsec](){.ref}](){.ref}, we use the bound $10$ simply because it is a round number. ]
 
 
 ::: {.proof data-ref="program-count"}
 We will show a one-to-one map $E$ from $SIZE(s)$ to the set of strings of length $c s \log s$ for some constant $c$.
-This will conclude the proof, since it implies that $|SIZE(s)$ is smaller than the size of  the set of all strings of length at most $\ell$,
+This will conclude the proof, since it implies that $|SIZE(s)|$ is smaller than the size of the set of all strings of length at most $\ell$,
 which equals  $1+2+4+\cdots + 2^\ell = 2^{\ell +1} - 1$ by the formula for sums of geometric progressions.
 
 The map $E$ will simply map $f$ to the representation of the program computing  $f$.
@@ -151,10 +151,10 @@ That is, the shortest NAND-CIRC program to compute $F$ requires at least $\delta
 ::: {.proof data-ref="counting-lb"}
 The proof is simple. If we let $c$ be the constant such that $|SIZE(s)| \leq 2^{c s \log s}$ and $\delta = 1/c$, then setting $s = \delta 2^n/n$ we see that
 $$
-|SIZE(\tfrac{\delta n}{n})| \leq 2^{c \tfrac{\delta 2^n}{n} \log s} < 2^{c \delta 2^n} = 2^{2^n}
+|SIZE(\tfrac{\delta 2^n}{n})| \leq 2^{c \tfrac{\delta 2^n}{n} \log s} < 2^{c \delta 2^n} = 2^{2^n}
 $$
 using the fact that since $s < 2^n$, $\log s < n$.
-But since $|SIZE(s)$ is smaller than the total number of functions mapping $n$ bits to $1$ bit, there must be at least one such function not in $SIZE(s)$, which is what we needed to prove.
+But since $|SIZE(s)|$ is smaller than the total number of functions mapping $n$ bits to $1$ bit, there must be at least one such function not in $SIZE(s)$, which is what we needed to prove.
 :::
 
 
@@ -178,7 +178,7 @@ Using the adjacency matrix representation for such graphs, we can reduce the imp
 ### Size hierarchy theorem (optional)
 
 By [NAND-univ-thm-improved](){.ref} the class $SIZE_{n}(10 \cdot 2^n /n)$ contains _all_ functions from $\{0,1\}^n$ to $\{0,1\}$, while by [counting-lb](){.ref}, there is _some_
-function $f:\{0,1\}^n \rightarrow \{0,1\}$ that is _not contained_ in $SIZE_{n}(0.1 \cdots 2^n / n)$. In other words, for every sufficiently large $n$,
+function $f:\{0,1\}^n \rightarrow \{0,1\}$ that is _not contained_ in $SIZE_{n}(0.1 \cdot 2^n / n)$. In other words, for every sufficiently large $n$,
 $$
 SIZE_n\left(0.1 \tfrac{2^n}{n} \right) \subsetneq SIZE_n\left(10 \tfrac{2^n}{n} \right) \;.
 $$
@@ -262,7 +262,7 @@ Therefore, our representation for NAND-CIRC programs ignores the actual names of
 We  encode a _line_ of the program as a triple of numbers.
 If the line has the form `foo = NAND(bar,blah)` then we encode it with the triple $(i,j,k)$ where  $i$ is the number corresponding to the variable `foo` and $j$ and $k$ are the numbers corresponding to `bar` and `blah` respectively.
 
-More concretely, we use will associate every variable with a number in the set $[t]= \{0,1,\ldots,t-1\}$.
+More concretely, we will associate every variable with a number in the set $[t]= \{0,1,\ldots,t-1\}$.
 The first $n$ numbers $\{0,\ldots,n-1\}$ correspond to the _input_ variables, the last $m$ numbers $\{t-m,\ldots,t-1\}$ correspond to the _output_ variables, and the intermediate numbers $\{ n,\ldots, t-m-1\}$ correspond to the remaining "workspace" variables.
 Formally, we define our representation as follows:
 
