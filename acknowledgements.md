@@ -4,6 +4,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 
 * Scott Aaronson
 * Michele Amoretti
+* Aadi Bajpai
 * Marguerite Basta
 * Anindya Basu
 * Sam Benkelman
