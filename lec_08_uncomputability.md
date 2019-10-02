@@ -720,7 +720,7 @@ __Assumption:__ Access to Algorithm $A$ to compute $MONOTONE$.
 
 __Operation:__
 
-1. Construct the following machine  $M$: "On input $z\in \{0,1\}^*$ do: __(a)__ Run $M(0)$, __(b)__ Return $PAR(z)$".
+1. Construct the following machine  $M$: "On input $z\in \{0,1\}^*$ do: __(a)__ Run $N(0)$, __(b)__ Return $PAR(z)$".
 
 2. Return $1-A(M)$.
 :::
