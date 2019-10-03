@@ -318,37 +318,6 @@ While a fool-proof solution for distinguishing between the two is inherently imp
 (and finding ways to bypass these tools keeps many hackers busy as well).
 :::
 
-## Digression: Uncomputability of the puzzle problem
-
-![In the _puzzle problem_, the input can be thought of as a finite collection $\Sigma$ of _types of puzzle pieces_ and the goal is to find out whether or not find a way to arrange pieces from these types in a rectangle. Formally, we model the input as a function $match:\Sigma^5 \rightarrow \{0,1\}$ that such that $match(mid,up,down,left,right)=1$ iff the piece $mid$ is compatible
-with the pieces $up$,$down$,$left$,$right$ in their respective positions. We assume $\Sigma$ contains a special symbol $\varnothing$ corresponding to having no piece, and an arrangement of puzzle pieces by an $(m-2)\times(n-2)$ rectangle is modeled by a string $x\in \Sigma^{m\cdot n}$ whose ``outer coordinates'' are $\emptyset$ and such that for every internal $i,j$ (i.e., $i\in \{1,\ldots, m-2 \}$ and $j\in \{1,\ldots,n-2\}$) $match(x_{i,j},x_{i-1,j},x_{i+1,j},x_{i,j-1},x_{i,j+1})=1$.](../figure/puzzleprob.png){#puzzleprobfig }
-
-To show the uncomputability of $QIS$, we will use as a stepping stone a problem that seems to have nothing to do with integer quantified statements. 
-This is the problem of determining, given a finite collection of types of "puzzle pieces", whether it is possible to put them together in a rectangle, see [puzzleprobfig](){.ref}.
-Formally, we think of such a collection as a finite set $\Sigma$. We model the criteria as to which pieces "fit together" by a pair of finite function $match_{\updownarrow}, match_{\leftrightarrow}:\Sigma^2 \rightarrow \{0,1\}$ such that a piece $a$ fits above a piece $b$ if and only if $match_{\updownarrow}(a,b)=1$ and a piece $c$ fits to the left of a piece $d$ if and only if $match_{\leftrightarrow}(c,d)=1$.
-To model the "straight edge" pieces that can be placed next to a "blank spot" we assume that $\Sigma$ contains the symbol $\varnothing$ and the matching functions are defined accordingly.
-A _square tiling_ of $\Sigma$ is an $m\times n$ long string $x \in \Sigma^{mn}$, such that for every $i\in \{1,\ldots,m-2 \}$ and $j\in \{1,\ldots,n-2 \}$, $match(x_{i,j},x_{i-1,j},x_{i+1,j},x_{i,j-1},x_{i,j+1})=1$ (i.e., every "internal pieve" fits in with the pieces adjacent to it).
-We also require all of the "outer pieces" (i.e., $x_{i,j}$ where $i\in \{0,m-1\}$ of $j\in \{0,n-1\}$) are "blank" or equal to $\varnothing$.
-
-
-The function $PUZZLE$ takes as input a string describing the set $\Sigma$ and the function $match$ and outputs $1$ if and only if there is some square tiling of $\Sigma$: some not all blank string $x\in \Sigma^{mn}$ satisfying the above condition.
-Since we all have solved puzzles since our childhood, this might not seem like such a hard problem, but in fact it turns out to be impossible to solve:
-
-> ### {.theorem title="Uncomputability of $PUZZLE$" #puzzleuncomp}
-$PUZZLE$ is uncomputable.
-
-> ### {.proofidea data-ref="puzzleuncomp"}
-The idea behind the proof is illustrated in [automatontopuzzlefig](){.ref}. 
-We use the halting problem for cellular automata, which is uncomputable since those can simulate Turing machines as per [onedimcathm](){.ref}.
-Given a cellular automaton $\mathcal{A}$ over alphabet $\Gamma$, we will define a puzzle where each piece corresponds to a triple $(a,b,c) \in \Gamma^3$. A piece $(a,b,c)$ will be compatible with a piece $(a',b',c')$
-
-![We reduce the task of determining whether an one dimensional cellular automaton halts to the task of determining whether a puzzle has a square tiling by mapping each cell of the automaton into a puzzle piece. A piece $\beta$ can fit under a piece $\alpha$ if and only if can be derived from $\alpha$ and its two neighbors under the automaton's rule $r$.](../figure/automatontopuzzle.png){#automatontopuzzlefig .margin}
-
-
-::: {.proof data-ref="puzzleuncomp"}
-TBD
-:::
-
 
 ## Hardness of quantified integer statements
 
@@ -411,7 +380,7 @@ The proof will be obtained by a reduction from the Halting problem.
 Specifically, we will use the notion of a _configuration_ of a Turing Machines ([configtmdef](){.ref}) that we have seen in the context of proving that one dimensional cellular automata are Turing complete.
 We need the following facts about configurations:
 
-* For every Turing Machine $P$, there is a finite alphabet $\Sigma$, and a _configuration_ of $P$ is a string $\alpha \in \Sigma^*$.
+* For every Turing Machine $M$, there is a finite alphabet $\Sigma$, and a _configuration_ of $M$ is a string $\alpha \in \Sigma^*$.
 
 
 * A configuration $\alpha$ encodes all the state of the program at a particular iteration, including the array, scalar, and index variables.
@@ -420,36 +389,45 @@ We need the following facts about configurations:
 
 * There are simple conditions to check whether a string $\alpha$ is a valid starting configuration corresponding to an input $x$, as well as to check whether a string $\alpha$ is an halting configuration. In particular these conditions can be phrased as quantified mixed statements.
 
-* A program $P$ halts on input $x$  if and only if there exists a sequence of configurations $H = (\alpha^0,\alpha^1,\ldots,\alpha^{T-1})$ such that __(i)__ $\alpha^0$ is a valid starting configuration of $P$ with input $x$, __(ii)__ $\alpha^{T-1}$ is a valid halting configuration of $P$, and __(iii)__ $\alpha^{i+1} = NEXT_P(\alpha^i)$ for every $i\in \{0,\ldots,T-2\}$.
+* A program $M$ halts on input $x$  if and only if there exists a sequence of configurations $H = (\alpha^0,\alpha^1,\ldots,\alpha^{T-1})$ such that __(i)__ $\alpha^0$ is a valid starting configuration of $M$ with input $x$, __(ii)__ $\alpha^{T-1}$ is a valid halting configuration of $P$, and __(iii)__ $\alpha^{i+1} = NEXT_P(\alpha^i)$ for every $i\in \{0,\ldots,T-2\}$.
 
-Let $U$ be a universal NAND-TM program. Such a program exists by  [universaltmthm](){.ref}. We define $HALT_U$  as the function such that $HALT_U(w)=1$ if and only if $U$ halts on the input $w$.
-We claim that the function $HALT_U$ is uncomputable.
-Indeed, for every NAND-TM program $P$ (which we identify with its representation as a string) and input $x\in \{0,1\}^*$ to $P$,  $HALT(P,x) = HALT_U(\langle P,x \rangle)$  where $\langle P,x \rangle$ is some encoding of the pair $(P,x)$ as a string.
-Hence if we could compute $HALT_U$ then we could compute $HALT$, contradicting [halt-thm](){.ref}.
 
-Let $\Sigma$ be the alphabet needed to encode configurations of $U$, and let $\ell = \ceil{\log (|\Sigma|+1)}$.
-Then we can encode any symbol in $\Sigma \cup \{ ; \}$ (where "$;$" is some separator symbol we'll use) as a string in $\{0,1\}^\ell$, and so in particular can encode a sequence $\alpha^0;\alpha^1; \cdots ; \alpha^{T}$ of configurations of $U$ as a single binary string which we'll also name as $H$.
-Given any input $w\in \{0,1\}^*$, we will create a mixed integer statement $\varphi_w$ that will have the following form:
+We can encode such a sequence $H$ of configuration as a binary string.
+For concreteness,  we let $\ell = \lceil \log (|\Sigma|+1) \rceil$ and encode each symbol $\sigma$ in $\Sigma \cup \{ ";" \}$ by a string in $\{0,1\}^\ell$.
+We use "$;$" as a  "separator" symbol, and so encode $H = (\alpha^0,\alpha^1,\ldots,\alpha^{T-1})$ as the concatenation of the encodings of each condiguration, using "$;$" to separate the encoding of $\alpha^i$ and $\alpha^{i+1}$
+for every $i\in [T]$.
+In particular for every Turing Machine $M$, 
+$M$ halts on the input $0$ if and only if the following  statement is true
 
 $$
-\varphi_w = \exists_{H \in \{0,1\}^*} \text{$H$ encodes a valid sequence of configurations of a halting computation of $U$ on $w$}
+\varphi_M = \exists_{H \in \{0,1\}^*} \text{$H$ encodes a valid sequence of configurations starting with initial configuration on input $0$ and ending with halting configuration}
 $$
 
-The reasons we can encode this condition as an MIS are the following:
 
-1. The conditions for checking that the initial configuration is valid are simple, and we can extract the first configuration from  $H$ by first looking at an index $i$ which is a multiple of $\ell$ such that $H_{i} \cdots H_{i+\ell-1}$ encodes the separator symbol "$;$" and such that $i$ is the first such index. Another way to say it is that $i$ is the position of the first separator if __there exists__ $k$ such that $i=k\times \ell$ and  $H_{i,\ldots,i+\ell-1}$ and __for every__ $j\in \N$, if $j<i$ then $H_{j,\ldots,j+\ell-1}$ does _not_ encode "$;$".  This can be captured using the operators allowed in a quantified mixed statement and the $\forall$ and $\exists$ quantifiers.
+If we can encode the statement $\varphi_M$ as a mixed-integer statement then, since $\varphi_M$ is true if and only if $HALTONZERO(M)=1$, this would reduce the task
+of computing $HALTONZERO$ to computing $MIS$, and hence imply (using [haltonzero-thm](){.ref} ) that $MIS$ is uncomputable, completing the proof.
+Indeed, $\varphi_M$ can be encoded as a mixed-integer statement for the following reasons:
 
-2. We can similarly check that the last configuration is halting. Extracting the position $i$ that encodes the last separator can be done in a way analogous to that of extracting the first one.
+1. Let $\alpha,\beta \in \{0,1\}^*$ be two strings that encode configurations of $M$.  We can define a quantified mixed predicate $NEXT(\alpha,\beta)$ that is true if and only if $\beta = NEXT_M(\beta)$ (i.e., $\beta$ encodes the configuration obtained by proceeding from $\alpha$ in one computational step). Indeed $NEXT(\alpha,\beta)$ is true if __for every__  $i \in \{0,\ldots,|\beta|\}$ which is a multiple of $\ell$, $\beta_{i,\ldots,i+\ell-1} = MAP_M(\alpha_{i-\ell,\cdots,i+2\ell-1})$ where $MAP_M:\{0,1\}^{3\ell} \rightarrow \{0,1\}^\ell$ is the finite function above (identifying elements of $\Sigma$ with their encoding in $\{0,1\}^\ell$). Since $MAP_M$ is a finite function, we can express it using the logical operations $AND$,$OR$, $NOT$ (for example by computing $MAP_M$ with $NAND$'s).
 
-3. We can define a quantified mixed predicate $NEXT(\alpha,\beta)$ that is true if and only if $\beta = NEXT_U(\beta)$ (i.e., $\beta$ encodes the configuration obtained by proceeding from $\alpha$ in one computational step). Indeed $NEXT(\alpha,\beta)$ is true if __for every__  $i \in \{0,\ldots,|\beta|\}$ which is a multiple of $\ell$, $\beta_{i,\ldots,i+\ell-1} = MAP_U(\alpha_{i-\ell,\cdots,i+2\ell-1})$ where $MAP_U:\{0,1\}^{3\ell} \rightarrow \{0,1\}^\ell$ is the finite function above (identifying elements of $\Sigma$ with their encoding in $\{0,1\}^\ell$). Since $MAP_U$ is a finite function, we can express it using the logical operations $AND$,$OR$, $NOT$ (for example by computing $MAP_U$ with $NAND$'s).
+2. Using the above we can now  write the condition that __for every__ substring of $H$ that has the form $\alpha ENC(;) \beta$ with $\alpha,\beta \in \{0,1\}^\ell$ and $ENC(;)$ being the encoding of the separator "$;$", it holds that $NEXT(\alpha,\beta)$ is true.
 
-4. We can then write the condition that __for every__ substring of $H$ that has the form $\alpha ENC(;) \beta$ with $\alpha,\beta \in \{0,1\}^\ell$ and $ENC(;)$ being the encoding of the separator "$;$", it holds that $NEXT(\alpha,\beta)$ is true.
+3. Finally, if $\alpha^0$ is a binary string encoding the initial configuration of $M$ on input $0$, checking that the first $|\alpha^0|$ bits of $H$ equal $\alpha_0$ can be expressed using $AND$,$OR$, and $NOT$'s.
+Similarly checking that the last configuration encoded by $H$ corresponds to a state in which $M$ will halt can also be expressed as a quantified statement.
 
-Together the above yields a computable procedure that maps every input $w\in \{0,1\}^*$ to $HALT_U$ into a quantified mixed statement $\varphi_w$ such that $HALT_U(w)=1$ if and only if $QMS(\varphi_w)=1$.
-This reduces computing $HALT_U$ to computing $QMS$, and hence the
-uncomputability of $HALT_U$ implies the uncomputability of $QMS$.
+Together the above yields a computable procedure that maps every Turing Machine $M$  into a quantified mixed statement $\varphi_M$ such that $HALTONZERO(M)=1$ if and only if $QMS(\varphi_M)=1$.
+This reduces computing $HALTONZERO$ to computing $QMS$, and hence the
+uncomputability of $HALTONZERO$ implies the uncomputability of $QMS$.
 :::
 
+::: {.remark title="Alternative proofs" #alternativeproofs}
+There are several other ways to show that $QMS$ is uncomputable. 
+For example, we can express the condition that a 1-dimensional cellular automaton eventually writes a "$1$" to a given cell from a given initial configuration as a quantified mixed statement
+over a string encoding the history of all configurations.
+We can then use the fact that cellular automatons can simulate Turing machines ([onedimcathm](){.ref}) to reduce the halting problem to $QMS$.
+We can also use other well known uncomputable problems such as tiling or the [post correspondence problem](https://en.wikipedia.org/wiki/Post_correspondence_problem).
+
+:::
 
 
 
@@ -518,21 +496,6 @@ Prove [godelthmqis](){.ref} using  [QIS-thm](){.ref}
 > ### {.exercise title="Expression for floor" #floorexpressionex}
 Let $FSQRT(n,m) = \forall_{j \in \N} ((j \times j)>m) \vee (j \leq n)$. Prove that $FSQRT(n,m)$ is true if and only if $n =\floor{\sqrt{m}}$.
 
-> ### {.exercise title="Expression for computing the index" #indexexpressionex}
-Recall that [computeidx-ex](){.ref} asked you to prove that at iteration $t$ of a NAND-TM program the the variable `i` is equal to $t-r(r+1)$ if $t \leq (r+1)^2$ and equals $(r+2)(r+1)t$ otherwise, where $r = \floor{\sqrt{t+1/4}-1/2}$.
-Prove that there is a quantified integer statement $INDEX$ with parameters $t,i$ such that $INDEX(t,i)$ is true if and $i$ is the value of `i` after $t$ iterations.
-
-> ### {.exercise title="Expression for computing the previous line" #prevex}
-Give the following quantified integer expressions: \
-1. $MOD(a,b,c)$ which is true if and only if $b = a \mod c$. Note if a program has $s$ lines then the line executed at step $t$ is equal to $t \mod s$. \
-2. Suppose that $P$ is the three line NAND-CIRC program listed below.  Give a quantified integer statement $LAST(n,t,t')$  such that $LAST(t,t')$ is true if and only if $t'-n$ is the largest step smaller than $t-n$ in which the variable on the righthand side of the line executed at step $t-n$ is written to. If this variable is an input variable `x_i` then let $LAST(n,t,t')$ to be true if the current index location equals $t'$ and $t'<n$.
-
-```python
-y_0    := foo_i NAND foo_i
-foo_i  := x_i NAND x_i
-loop := validx_i NAND validx_i
-```
-
 
 > ### {.exercise title="axiomatic proof systems" #godelthemex}
 For every representation of logical statements as strings, we can define an axiomatic proof system to consist of a finite set of strings $A$ and a finite set of rules $I_0,\ldots,I_{m-1}$ with $I_j: (\{0,1\}^*)^{k_j} \rightarrow \{0,1\}^*$ such that a proof $(s_1,\ldots,s_n)$ that $s_n$ is true is valid if for every $i$, either $s_i \in A$ or is some $j\in [m]$ and are $i_1,\ldots,i_{k_j} < i$ such that $s_i = I_j(s_{i_1},\ldots,i_{k_j})$.
@@ -540,13 +503,30 @@ A system is _sound_ if whenever there is no false $s$ such that there is a proof
 Prove that for every uncomputable function $F:\{0,1\}^* \rightarrow \{0,1\}$ and every sound axiomatic proof system $S$ (that is characterized by a finite number of axioms and inference rules), there is some input $x$ for which the proof system $S$ is not able to prove neither that $F(x)=0$ nor that $F(x) \neq 0$.
 
 
+![In the _puzzle problem_, the input can be thought of as a finite collection $\Sigma$ of _types of puzzle pieces_ and the goal is to find out whether or not find a way to arrange pieces from these types in a rectangle. Formally, we model the input as a function $match:\Sigma^5 \rightarrow \{0,1\}$ that such that $match(mid,up,down,left,right)=1$ iff the piece $mid$ is compatible
+with the pieces $up$,$down$,$left$,$right$ in their respective positions. We assume $\Sigma$ contains a special symbol $\varnothing$ corresponding to having no piece, and an arrangement of puzzle pieces by an $(m-2)\times(n-2)$ rectangle is modeled by a string $x\in \Sigma^{m\cdot n}$ whose ``outer coordinates'' are $\emptyset$ and such that for every internal $i,j$ (i.e., $i\in \{1,\ldots, m-2 \}$ and $j\in \{1,\ldots,n-2\}$) $match(x_{i,j},x_{i-1,j},x_{i+1,j},x_{i,j-1},x_{i,j+1})=1$.](../figure/puzzleprob.png){#puzzleprobfig  .margin }
+
+
+
+::: {.exercise title="Uncomputability of puzzle" #puzle}
+Let $PUZZLE:\{0,1\}^* \rightarrow \{0,1\}$ be  the problem of determining, given a finite collection of types of "puzzle pieces", whether it is possible to put them together in a rectangle, see [puzzleprobfig](){.ref}.
+Formally, we think of such a collection as a finite set $\Sigma$ (see [puzzleprobfig](){.ref}). We model the criteria as to which pieces "fit together" by a pair of finite function $match_{\updownarrow}, match_{\leftrightarrow}:\Sigma^2 \rightarrow \{0,1\}$ such that a piece $a$ fits above a piece $b$ if and only if $match_{\updownarrow}(a,b)=1$ and a piece $c$ fits to the left of a piece $d$ if and only if $match_{\leftrightarrow}(c,d)=1$.
+To model the "straight edge" pieces that can be placed next to a "blank spot" we assume that $\Sigma$ contains the symbol $\varnothing$ and the matching functions are defined accordingly.
+A _square tiling_ of $\Sigma$ is an $m\times n$ long string $x \in \Sigma^{mn}$, such that for every $i\in \{1,\ldots,m-2 \}$ and $j\in \{1,\ldots,n-2 \}$, $match(x_{i,j},x_{i-1,j},x_{i+1,j},x_{i,j-1},x_{i,j+1})=1$ (i.e., every "internal pieve" fits in with the pieces adjacent to it).
+We also require all of the "outer pieces" (i.e., $x_{i,j}$ where $i\in \{0,m-1\}$ of $j\in \{0,n-1\}$) are "blank" or equal to $\varnothing$.
+The function $PUZZLE$ takes as input a string describing the set $\Sigma$ and the function $match$ and outputs $1$ if and only if there is some square tiling of $\Sigma$: some not all blank string $x\in \Sigma^{mn}$ satisfying the above condition.
+
+1. Prove that  $PUZZLE$ is uncomputable.
+
+2. Give a reduction from $PUZZLE$ to $QMS$.
+:::
+
 
 ::: {.exercise title="MRDP exercise" #MRDPexe}
 The MRDP theorem states that the problem of determining, given a $k$-variable polynomial $p$ with integer coefficients, whether there exists integers $x_0,\ldots,x_{k-1}$ such that $p(x_0,\ldots,x_{k-1})=0$ is uncomputable. Consider the following _quadratic integer equation problem_: the input is a list of polynomials $p_0,\ldots,p_{m-1}$ over $k$ variables with integer coefficients, where each of the polynomials is of degree at most two (i.e., it is a _quadratic_ function).
 The goal is to determine whether there exist integers $x_0,\ldots,x_{k-1}$ that solve the equations $p_0(x)= \cdots = p_{m-1}(x)=0$.
 
 Use the MRDP Theorem to prove  that this problem is uncomputable. That is, show that the function $QUADINTEQ:\{0,1\}^* \rightarrow \{0,1\}$ is uncomputable, where this function gets as input a string describing the polynomials $p_0,\ldots,p_{m-1}$ (each with integer coefficients and degree at most two), and outputs $1$ if and only if there exists $x_0,\ldots,x_{k-1} \in \mathbb{Z}$ such that for every $i\in [m]$, $p_i(x_0,\ldots,x_{k-1})=0$. See footnote for hint^[You can replace the equation $y=x^4$ with the pair of equations $y=z^2$ and $z=x^2$. Also, you can replace the equation $w = x^6$ with the three equations $w=yu$, $y = x^4$ and $u=x^2$.]
-
 :::
 
 
