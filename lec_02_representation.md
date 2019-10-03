@@ -482,7 +482,7 @@ $f(k)=0$ and $g(k)=1$.
 (Otherwise, if $f(k)=1$ and $g(k)=0$, then we can simply switch the roles of $f$ and $g$.)
 The numbers $FtR(f)$ and $FtR(g)$ agree with each other up to the $k-1$-th digit up after the  decimal point.
 Since this digit equals $0$ for $FtR(f)$  and equals $1$ for $FtR(g)$, we claim that $FtR(g)$ is bigger than $FtR(f)$ by at least $0.5 \cdot 10^{-k}$.
-To see this note that the difference $FtR(g)-FtR(f)$ will be mimimized if   $g(\ell)=0$ for every $\ell>k$  and $f(\ell)=1$ for every $\ell>k$, in which case (since $f$ and $g$ agree up to the $k-1$-th digit)
+To see this note that the difference $FtR(g)-FtR(f)$ will be minimized if   $g(\ell)=0$ for every $\ell>k$  and $f(\ell)=1$ for every $\ell>k$, in which case (since $f$ and $g$ agree up to the $k-1$-th digit)
 
 $$
 FtR(g)-FtR(f) = 10^{-k} - 10^{-k-1} - 10^{-k-2} - 10^{-k-3} - \cdots \label{eqcantordecimalexpansion}
