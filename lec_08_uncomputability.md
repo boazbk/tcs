@@ -150,7 +150,7 @@ That is, while we need to evaluate a Turing machine, in writing the code for the
 
 
 Translating the above Python code to NAND-RAM is truly straightforward.
-The only issue is that NAND-RAM doesn't have the _dictionary_ data structure built in, which we have used above to store the transition function `T`.
+The only issue is that NAND-RAM doesn't have the _dictionary_ data structure built in, which we have used above to store the transition function `δ`.
 However,  we can represent a dictionary $D$ of the form $\{ key_0:val_0 , \ldots, key_{m-1}:val_{m-1} \}$   as simply a list of pairs.
 To compute $D[k]$ we can scan over all the pairs until we find one of the form $(k,v)$ in which case we return $v$.
 Similarly we scan the list to update the dictionary with a new value, either modifying it or appending the pair $(key,val)$  at the end.
@@ -181,6 +181,7 @@ The idea of a "universal program" is of course not limited to theory.
 For example compilers for programming languages are often used to compile _themselves_, as well as  programs more complicated than the compiler.
 (An extreme example of this is Fabrice Bellard's [Obfuscated Tiny C Compiler](https://bellard.org/otcc/) which is a C program of 2048 bytes that can compile a large subset of the C programming language, and in particular can compile itself.)
 This is also related to the fact that it is possible to write a program that can print its own source code, see  [lispinterpreterfig](){.ref}.
+There are universal Turing machines known that require a very small number of states or alphabet symbols, and in particular there is a universal Turing machine (with respect to a particular choice of representing Turing machines as strings) whose tape alphabet is $\{ \triangleright, \varnothing, 0, 1 \}$ and has fewer than $25$ states (see [uncomputablebibnotes](){.ref}).
 
 
 
@@ -926,7 +927,7 @@ Prove that for every $\mathcal{M}$-semantic $F:\{0,1\}^* \rightarrow \{0,1\}$ th
 
 
 
-## Bibliographical notes
+## Bibliographical notes { #uncomputablebibnotes }
 
 The cartoon of the Halting problem in [universalchapoverviewfig](){.ref} and taken from [Charles Cooper's website](https://www.coopertoons.com/education/haltingproblem/haltingproblem.html/).
 
@@ -945,7 +946,8 @@ Some of this fascinating history is discussed in [@grabiner1983gave, @Kleiner91,
 The existence of a universal Turing machine, and the uncomputability of $HALT$ was first shown by Turing in his seminal paper [@Turing37], though closely related results were shown by Church a year before.
 These works built on Gödel's 1931 _incompleteness theorem_ that we will discuss in [godelchap](){.ref}.
 
-Adam Yedidia has written [software](https://github.com/adamyedidia/parsimony) to help in producing universal Turing machines with a small number of states.
+Some  universal Turing Machines with a small alphabet and number of states are given in [@rogozhin1996small], including a single-tape universal Turing machine with the binary alphabet and with less than $25$ states; see also the survey [@woods2009complexity].
+Adam Yedidia has written [software](https://github.com/adamyedidia/parsimony) to help in producing Turing machines with a small number of states.
 This is related to the recreational pastime of ["Code Golfing"](https://codegolf.stackexchange.com/) which is about solving a certain computational task using the as short as possible program.
 
 The diagonalization argument used to prove uncomputability of $F^*$ is derived from Cantor's argument for the uncountability of the reals discussed in [chaprepres](){.ref}.
