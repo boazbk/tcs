@@ -129,22 +129,23 @@ Assume for the sake of contradiction that there was such a proof system $V$. We 
 Our algorithm $A$ will will work as follows:
 
 
-::: {.algorithm title="Halting from proofs" #haltingfromproog}
-__Algorithm $A$:__
 
-* __Input:__ Turing Machine $M$
 
-* __Goal:__ Determine if $M$ halts on the input $0$.
+``` { .algorithm title="Halting from proofs" #haltingfromproog}
+INPUT: Turing Machine $M$
+OUTPUT: Return $1$ if $M$ halts on the input $0$; return $0$ otherwise.
 
-* __Assumption:__ We have access to a proof system $V$ such that for every statement $x$ of the form "Machine $M$ halts on $0$" or "Machine $M$ does not halt on $0$", there exists some string $w\in \{0,1\}^*$ such that $V(x,w)=1$ if and only if $x$  is true.
-
-__Operation:__
-
-* For $n=0,1,2,\ldots$:
-  - For $w\in \{0,1\}^n$:
-    - If $V(\text{"$M$ halts on $0$"},w)=1$ output $1$
-    - If $V(\text{"$M$ does not halt on $0$"},w)=1$ output $0$
-:::
+for{$n=1,2,3,\ldots$}
+    for{$w\in \{0,1\}^n$}
+       if{$V(\text{"$M$ halts on $0$"},w)=1$}
+         return $1$
+       endif
+       if{$V(\text{"$M$ does not halt on $0$"},w)=1$}
+         return $0$
+       endif
+    endfor
+endfor
+```
 
 
 If $M$ halts on $0$ then under our assumption there exists $w$ that proves this fact, and so when Algorithm $A$ reaches $n=|w|$ we will eventually find this $w$ and output $1$, unless we already halted before.
@@ -186,9 +187,10 @@ That is, if we formalize the statement $c^*$ that is true if and only if $V$ is 
 There is something "unsatisfying" about [godethmtakeone](){.ref}.
 Sure, it shows there are statements that are unprovable, but they don't feel like "real" statements about math.
 After all, they talk about _programs_ rather than numbers,  matrices, or derivatives, or whatever it is they teach in math courses.
-It turns out that we can get an analogous result for statements such as "there are no positive integers $x$ and $y$ such that $x^2 - 2 = y^7$", or "there are positive integers $x,y,z$ such that $x^2 + y^6 = z^{11}$" that only talk about _natural numbers_.^[I do not know if these statements are actually true or false, see [here](https://goo.gl/qsU9zy).]
+It turns out that we can get an analogous result for statements such as "there are no positive integers $x$ and $y$ such that $x^2 - 2 = y^7$", or "there are positive integers $x,y,z$ such that $x^2 + y^6 = z^{11}$" that only talk about _natural numbers_.
 It doesn't get much more "real math" than this.
 Indeed, the 19th century mathematician Leopold Kronecker famously said that "God made the integers, all else is the work of man."
+(By the way, the status of the above two statements is [unknown](https://goo.gl/qsU9zy).)
 
 
 To make this more precise, let us define the notion of _quantified integer statements_:
@@ -233,7 +235,8 @@ We will also allow ourselves the use of "macros": plugging in one quantified int
 
 
 Much of number theory is concerned with determining the truth of quantified integer statements.
-Since our experience has been that, given enough time (which could sometimes be several centuries)  humanity has managed to do so for the statements that it cared enough about, one could (as Hilbert did) hope that eventually we would be able to prove or disprove all such statements.
+Since our experience has been that, given enough time (which could sometimes be several centuries)  humanity has managed 
+to do so for the statements that it cared enough about, one could (as Hilbert did) hope that eventually we would be able to prove or disprove all such statements.
 Alas, this turns out to be impossible:
 
 
@@ -264,7 +267,7 @@ This follows in the same way that [godethmtakeone](){.ref} followed from the unc
 :::
 
 
-In the rest of this chapter, we will show the proof of [godelthmqis](){.ref}.
+In the rest of this chapter, we will show the proof of [godelthmqis](){.ref}, following the outline illustrated in [godelstructure](){.ref}.
 
 
 
