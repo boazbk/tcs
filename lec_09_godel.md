@@ -31,6 +31,11 @@ As a corollary, we will see one of the most striking results of 20th century mat
 We will actually start with the latter result, and then show the former.
 
 
+
+![Outline of the results of this chapter. One version of Gödel's Incompleteness Theorem is an immediate concsequence of the uncomputability of the Halting problem. To obtain the theorem as originally stated (for statements about the integers) we need to go through several intermediate results.](../figure/godelstructure.png){#godelstructurefig }
+
+
+
 ## Hilbert's Program and Gödel's Incompleteness Theorem  { #godelproofdef }
 
 >_"And what are these …vanishing increments? They are neither finite quantities, nor quantities infinitely small, nor yet nothing. May we not call them the ghosts of departed quantities?"_, George Berkeley, Bishop of Cloyne, 1734.
@@ -104,6 +109,10 @@ A _proof system_ for $\mathcal{T}$ is an algorithm $V$ that satisfies:
 
 A true statement $x\in mathcal{T}$ is _unprovable_ (with respect to $V$) if for every $w\in \{0,1\}^*$, $V(x,w)=0$.
 We say that $V$ is _complete_ if there does not exist a true statement $x$ that is unprovable with respect to $v$.
+:::
+
+::: { .bigidea #proofsystems}
+A _proof_ is just a string of text whose meaning is given by a _verification algorithm_.
 :::
 
 
@@ -181,8 +190,6 @@ That is, if we formalize the statement $c^*$ that is true if and only if $V$ is 
 
 
 ## Quantified integer statements
-
-![Outline of the steps in the proof of Gödel's Incompleteness Theorem.](../figure/godelstructure.png){#godelstructure}
 
 There is something "unsatisfying" about [godethmtakeone](){.ref}.
 Sure, it shows there are statements that are unprovable, but they don't feel like "real" statements about math.
@@ -309,6 +316,37 @@ In fact the number of variables can be reduced to nine, at the expense of the po
 The difficulty in finding a way to distinguish between "code" such as NAND-TM programs, and "static content" such as polynomials is just another manifestation of the phenomenon that _code_ is the same as _data_.
 While a fool-proof solution for distinguishing between the two is inherently impossible, finding heuristics that do a reasonable job keeps many firewall and anti-virus manufacturers very busy
 (and finding ways to bypass these tools keeps many hackers busy as well).
+:::
+
+## Digression: Uncomputability of the puzzle problem
+
+![In the _puzzle problem_, the input can be thought of as a finite collection $\Sigma$ of _types of puzzle pieces_ and the goal is to find out whether or not find a way to arrange pieces from these types in a rectangle. Formally, we model the input as a function $match:\Sigma^5 \rightarrow \{0,1\}$ that such that $match(mid,up,down,left,right)=1$ iff the piece $mid$ is compatible
+with the pieces $up$,$down$,$left$,$right$ in their respective positions. We assume $\Sigma$ contains a special symbol $\varnothing$ corresponding to having no piece, and an arrangement of puzzle pieces by an $(m-2)\times(n-2)$ rectangle is modeled by a string $x\in \Sigma^{m\cdot n}$ whose ``outer coordinates'' are $\emptyset$ and such that for every internal $i,j$ (i.e., $i\in \{1,\ldots, m-2 \}$ and $j\in \{1,\ldots,n-2\}$) $match(x_{i,j},x_{i-1,j},x_{i+1,j},x_{i,j-1},x_{i,j+1})=1$.](../figure/puzzleprob.png){#puzzleprobfig }
+
+To show the uncomputability of $QIS$, we will use as a stepping stone a problem that seems to have nothing to do with integer quantified statements. 
+This is the problem of determining, given a finite collection of types of "puzzle pieces", whether it is possible to put them together in a rectangle, see [puzzleprobfig](){.ref}.
+Formally, we think of such a collection as a finite set $\Sigma$. We model the criteria as to which pieces "fit together" by a pair of finite function $match_{\updownarrow}, match_{\leftrightarrow}:\Sigma^2 \rightarrow \{0,1\}$ such that a piece $a$ fits above a piece $b$ if and only if $match_{\updownarrow}(a,b)=1$ and a piece $c$ fits to the left of a piece $d$ if and only if $match_{\leftrightarrow}(c,d)=1$.
+To model the "straight edge" pieces that can be placed next to a "blank spot" we assume that $\Sigma$ contains the symbol $\varnothing$ and the matching functions are defined accordingly.
+A _square tiling_ of $\Sigma$ is an $m\times n$ long string $x \in \Sigma^{mn}$, such that for every $i\in \{1,\ldots,m-2 \}$ and $j\in \{1,\ldots,n-2 \}$, $match(x_{i,j},x_{i-1,j},x_{i+1,j},x_{i,j-1},x_{i,j+1})=1$ (i.e., every "internal pieve" fits in with the pieces adjacent to it).
+We also require all of the "outer pieces" (i.e., $x_{i,j}$ where $i\in \{0,m-1\}$ of $j\in \{0,n-1\}$) are "blank" or equal to $\varnothing$.
+
+
+The function $PUZZLE$ takes as input a string describing the set $\Sigma$ and the function $match$ and outputs $1$ if and only if there is some square tiling of $\Sigma$: some not all blank string $x\in \Sigma^{mn}$ satisfying the above condition.
+Since we all have solved puzzles since our childhood, this might not seem like such a hard problem, but in fact it turns out to be impossible to solve:
+
+> ### {.theorem title="Uncomputability of $PUZZLE$" #puzzleuncomp}
+$PUZZLE$ is uncomputable.
+
+> ### {.proofidea data-ref="puzzleuncomp"}
+The idea behind the proof is illustrated in [automatontopuzzlefig](){.ref}. 
+We use the halting problem for cellular automata, which is uncomputable since those can simulate Turing machines as per [onedimcathm](){.ref}.
+Given a cellular automaton $\mathcal{A}$ over alphabet $\Gamma$, we will define a puzzle where each piece corresponds to a triple $(a,b,c) \in \Gamma^3$. A piece $(a,b,c)$ will be compatible with a piece $(a',b',c')$
+
+![We reduce the task of determining whether an one dimensional cellular automaton halts to the task of determining whether a puzzle has a square tiling by mapping each cell of the automaton into a puzzle piece. A piece $\beta$ can fit under a piece $\alpha$ if and only if can be derived from $\alpha$ and its two neighbors under the automaton's rule $r$.](../figure/automatontopuzzle.png){#automatontopuzzlefig .margin}
+
+
+::: {.proof data-ref="puzzleuncomp"}
+TBD
 :::
 
 

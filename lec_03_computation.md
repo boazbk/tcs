@@ -341,7 +341,7 @@ A large part of this book will be devoted to addressing the above issues. We wil
 
 1. We can make the definition of an algorithm fully formal, and so give a precise mathematical meaning to statements such as "Algorithm $A$ computes function $f$".
 
-2. While the choice of $AND$/$OR$/$NOT$ is arbitrary, and we could just as well chose some other functions, we will also see this choice does not matter much. We will see that  we would obtain the same computational power if we used instead for addition and multiplication, and essentially every other operation that could be reasonably thought of as a basic step.
+2. While the choice of $AND$/$OR$/$NOT$ is arbitrary, and we could just as well chose some other functions, we will also see this choice does not matter much. We will see that  we would obtain the same computational power if we used instead addition and multiplication, and essentially every other operation that could be reasonably thought of as a basic step.
 
 3. It turns out that we can and do compute such "$AND$/$OR$/$NOT$ based algorithms" in the real world. First of all, such an algorithm is clearly well specified, and so can be executed by a human with a pen and paper. Second, there are a variety of ways to _mechanize_ this computation. We've already seen that we can write Python code that corresponds to following such a list of instructions. But in fact we can directly implement operations such as $AND$, $OR$, and $NOT$ via electronic signals using components known as _transistors_. This is how modern electronic computers operate.
 
@@ -434,7 +434,7 @@ Let $n,m,s$ be positive integers with $s \geq m$. A _Boolean circuit_ with $n$ i
 
 * Exactly $n$ of the vertices have no in-neighbors. These vertices are known as _inputs_ and are labeled with the $n$ labels `X[`$0$`]`, $\ldots$, `X[`$n-1$`]`. Each input has at least one out-neighbor.
 
-* The other $s$ vertices are known as _gates_. Each gate is labeled with $\wedge$, $\vee$ or $\neg$. Gates labeled with $\wedge$ (_AND_) or $\vee$ (_OR_) have two in-neighbors. Gates labeled with $\neg$ (_NOT_) have one in-neighbor. We will allow parallel edges.
+* The other $s$ vertices are known as _gates_. Each gate is labeled with $\wedge$, $\vee$ or $\neg$. Gates labeled with $\wedge$ (_AND_) or $\vee$ (_OR_) have two in-neighbors. Gates labeled with $\neg$ (_NOT_) have one in-neighbor. We will allow parallel edges.^[Having parallel edges means an AND or OR gate $u$ can have both its in-neighbors be the same gate $v$. Since $AND(a,a)=OR(a,a)=a$ for every $a\in \{0,1\}$, such parallel edges don't help in computing new values in circuits with AND/OR/NOT gates. However, we will see circuits with more general sets of gates later on.]
 
 * Exactly $m$ of the gates are also labeled with the $m$ labels   `Y[`$0$`]`, $\ldots$, `Y[`$m-1$`]` (in addition to their label $\wedge$/$\vee$/$\neg$). These are known as _outputs_.
 
@@ -476,8 +476,8 @@ Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$. We say that the circuit $C$ _computes_ 
 
 
 ::: {.remark title="Boolean circuits nitpicks (optional)" #booleancircuitsremarks}
-In phrasing [booleancircdef](){.ref}, we've made some technical choices that are not very important, but will be convenient for us later on. 
-Having parallel edges means an AND or OR gate $u$ can have both its in-neighbors be the same gate $v$. 
+In phrasing [booleancircdef](){.ref}, we've made some technical choices that are not very important, but will be convenient for us later on.
+Having parallel edges means an AND or OR gate $u$ can have both its in-neighbors be the same gate $v$.
 Since $AND(a,a)=OR(a,a)=a$ for every $a\in \{0,1\}$, such parallel edges don't help in computing new values in circuits with AND/OR/NOT gates.
 However, we will see circuits with more general sets of gates later on.
 The condition that every input vertex has at least one out-neighbor is also not very important because we can always add "dummy gates" that touch
@@ -498,7 +498,7 @@ We have seen two ways to describe how to compute a function $f$ using _AND_, _OR
 We now formally define the AON-CIRC programming language ("AON" stands for _AND_/_OR_/_NOT_) which has the above operations, and show that it is equivalent to Boolean circuits.
 
 ::: {.definition title="AON-CIRC Programming language" #AONcircdef}
-An _AON-CIRC program_ is a string of lines of the form `foo = AND(bar,blah)`, `foo = OR(bar,blah)` and `foo = NOT(bar)` where `foo`, `bar` and `blah` are variable names.^[We follow the common [programming languages convention](https://goo.gl/QyHa3b)  of using names such as `foo`, `bar`, `baz`, `blah` as stand-ins for generic identifiers. A variable identifier in our programming language can be any combination of letters, numbers,  underscores, and brackets. The appendix contains a full formal specification of our programming language.]
+An _AON-CIRC program_ is a string of lines of the form `foo = AND(bar,blah)`, `foo = OR(bar,blah)` and `foo = NOT(bar)` where `foo`, `bar` and `blah` are variable names.^[We follow the common [programming languages convention](https://goo.gl/QyHa3b)  of using names such as `foo`, `bar`, `baz`, `blah` as stand-ins for generic identifiers. A variable identifier in our programming language can be any combination of letters, numbers,  underscores, and brackets. The [appendix](https://nbviewer.jupyter.org/github/boazbk/tcscode/blob/master/appendix%5FNAND%5Fspecs.ipynb) contains a full formal specification of our programming language.]
 Variables of the form `X[`$i$`]` are known as _input_ variables, and variables of the form `Y[`$j$`]` are known as _output_ variables. In every line, the variables on the righthand side of the assignment operators must either be input variables or variables that have already been assigned a value before.
 
 A valid AON-CIRC program $P$ includes input variables of the form `X[`$0$`]`,$\ldots$,`X[`$n-1$`]` and output variables of the form `Y[`$0$`]`,$\ldots$, `Y[`$m-1$`]` for some $n,m \geq 1$.
@@ -587,7 +587,7 @@ For every input $x\in \{0,1\}^n$, if we run the program $P$ on $x$, then the val
 
 For the other direction, let $C$ be a circuit of $s$ gates and $n$ inputs that computes the function $f$. We sort the gates according to a topological order and write them as $v_0,\ldots,v_{s-1}$.
 We now can create a program $P$ of $s$ lines as follows.
-For every $i\in [s]$, if $v_i$ is an AND gate with in-neighbors  $v_j,v_k$ then we will add a line to $P$ of the form `temp_`$i$ ` = AND(temp_`$j$`,temp_`$k$`)`, unless one of the vertices is an input vertex or an output gate, in which case we change this to the form `X[.]` or `Y[.]` appropriately. 
+For every $i\in [s]$, if $v_i$ is an AND gate with in-neighbors  $v_j,v_k$ then we will add a line to $P$ of the form `temp_`$i$ ` = AND(temp_`$j$`,temp_`$k$`)`, unless one of the vertices is an input vertex or an output gate, in which case we change this to the form `X[.]` or `Y[.]` appropriately.
 Because we work in topological ordering, we are guaranteed that the in-neighbors $v_j$ and $v_k$ correspond to variables that have already been assigned a value.
 We do the same for OR and NOT gate.
 Once again, one can verify that for every input $x$, the value $P(x)$ will equal $C(x)$ and hence the program computes the same function as the circuit.
@@ -671,7 +671,7 @@ Even larger systems such as [flocks of birds](https://www.cs.princeton.edu/~chaz
 
 ### Cellular automata and the game of life
 
-_Cellular automata_ is a model of a system composed of a sequence of _cells_, which of which can have a finite state.
+_Cellular automata_ is a model of a system composed of a sequence of _cells_, each of which can have a finite state.
 At each step, a cell updates its state based on the states of its _neighboring cells_ and some simple rules.
 As we will discuss later in this book (see [cellularautomatasec](){.ref}), cellular automata such as Conway's "Game of Life" can be used to simulate computation gates .
 
@@ -841,7 +841,7 @@ Thus we can compute the increment of $x_0,\ldots,x_{n-1}$ by doing the following
 
 ``` {.algorithm title="Compute Increment Function" #incrementalg}
 INPUT: $x_0,x_1,\ldots,x_{n-1}$ representing the number $\sum_{i=0}^{n-1} x_i\cdot 2^i$ # we use LSB-first representation
-OUTPUT:$y \in \{0,1\}^{n+1}$ such that $\sum_{i=0}^n y_i \cdot 2^i =  \sum_{i=0}^{n-1} x_i\cdot 2^i$
+OUTPUT:$y \in \{0,1\}^{n+1}$ such that $\sum_{i=0}^n y_i \cdot 2^i =  \sum_{i=0}^{n-1} x_i\cdot 2^i + 1$
 
 Let $c_0 \leftarrow 1$ # we pretend we have a "carry" of $1$ initially
 For{$i=0,\ldots, n-1$}
@@ -911,7 +911,7 @@ We define the _NAND-CIRC Programming Language_ to be a programming language wher
 foo = NAND(bar,blah)
 ```
 
-where `foo`, `bar` and `blah` are variable identifiers. 
+where `foo`, `bar` and `blah` are variable identifiers.
 
 ::: {.example title="Our first NAND-CIRC program" #NANDprogramexample}
 Here is an example of a NAND-CIRC program:
@@ -1096,8 +1096,14 @@ Prove that for every $n$-bit input circuit $C$ that contains only XOR,  gates, a
 Conclude that the set $\{ XOR , 0 , 1\}$ is _not_ universal.
 :::
 
-::: {.exercise title="MAJ,NOT is universal" #majnotex}
-Prove that $\{ MAJ,NOT \}$ is a universal set of gates.
+::: {.exercise title="MAJ,NOT, 1 is universal" #majnotex}
+Let $MAJ:\{0,1\}^3 \rightarrow \{0,1\}$ be the majority function.
+Prove that $\{ MAJ,NOT, 1 \}$ is a universal set of gates.
+:::
+
+
+::: {.exercise title="MAJ,NOT  is not universal" #majnotextwo}
+Prove that $\{ MAJ,NOT  \}$ is not a universal set. See footnote for hint.^[_Hint:_ Use the fact that $MAJ(\overline{a},\overline{b},\overline{c}) = \overline{MAJ(a,b,c)}$ to prove that every $f:\{0,1\}^n \rightarrow \{0,1\}$ computable by a circuit with only $MAJ$ and $NOT$ gates satisfies $f(0,0,\ldots,0) \neq f(1,1,\ldots,1)$. Thanks to Nathan Brunelle and David Evans for suggesting this exercise.]
 :::
 
 ::: {.exercise title="NOR is universal" #norex}
@@ -1106,7 +1112,7 @@ Let $NOR:\{0,1\}^2 \rightarrow \{0,1\}$ defined as $NOR(a,b) = NOT(OR(a,b))$. Pr
 
 
 ::: {.exercise title="Lookup is universal" #lookupex}
-Prove that $\{ LOOKUP_1,0,1 \}$ is a universal set of gates where $0$ and $1$ are the constant functions   $LOOKUP_1:\{0,1\}^3 \rightarrow \{0,1\}$ satisfies $LOOKUP_1(a,b,c)$ equals $a$ if $c=0$ and equals $b$ if $c=1$.
+Prove that $\{ LOOKUP_1,0,1 \}$ is a universal set of gates where $0$ and $1$ are the constant functions and $LOOKUP_1:\{0,1\}^3 \rightarrow \{0,1\}$ satisfies $LOOKUP_1(a,b,c)$ equals $a$ if $c=0$ and equals $b$ if $c=1$.
 :::
 
 
@@ -1122,12 +1128,10 @@ Prove that for every NAND circuit of size $s$ with $n$ inputs and $m$ outputs, $
 
 
 > ### {.exercise title="Threshold using NANDs" #threshold-nand-ex}
-Prove that there is some constant $c$ such that for every $n>1$, and integers $a_0,\ldots,a_{n-1},b \in \{-2^n,-2^n+1,\ldots,-1,0,+1,\ldots,2^n\}$, there is a NAND circuit with at most $c\dot n^4$ gates that computes the _threshold_ function $f_{a_0,\ldots,a_{n-1},b}:\{0,1\}^n \rightarrow \{0,1\}$ that on input $x\in \{0,1\}^n$ outputs $1$ if and only if $\sum_{i=0}^{n-1} a_i x_i > b$.
+Prove that there is some constant $c$ such that for every $n>1$, and integers $a_0,\ldots,a_{n-1},b \in \{-2^n,-2^n+1,\ldots,-1,0,+1,\ldots,2^n\}$, there is a NAND circuit with at most $c n^4$ gates that computes the _threshold_ function $f_{a_0,\ldots,a_{n-1},b}:\{0,1\}^n \rightarrow \{0,1\}$ that on input $x\in \{0,1\}^n$ outputs $1$ if and only if $\sum_{i=0}^{n-1} a_i x_i > b$.
 
 ::: {.exercise title="NANDs from activation functions" #NANDsfromActivationfunctionex}
-We say that a function $f:\mathbb{R}^2 \rightarrow \mathbb{R}$ is a _NAND approximator_ if it has
-the following property: for every $a,b \in \mathbb{R}$, if $\min\{|a|,|1-a|\}\leq 1/3$ and $\min \{ |b|,|1-b| \}\leq 1/3$ then $|f(a,b) - NAND(\lfloor a \rceil, \lfloor b \rceil)| \leq 1/3$ where we denote by $\lfloor x \rfloor$ the integer closest to $x$.
-That is, if $a,b$ are within a distance $1/3$ to $\{0,1\}$ then we want $f(a,b)$ to equal the $NAND$ of the values in $\{0,1\}$ that are closest to $a$ and $b$ respectively. Otherwise, we do not care what the output of $f$ is on $a$ and $b$.
+We say that a function $f:\mathbb{R}^2 \rightarrow \mathbb{R}$ is a _NAND approximator_ if it has the following property: for every $a,b \in \mathbb{R}$, if $\min\{|a|,|1-a|\}\leq 1/3$ and $\min \{ |b|,|1-b| \}\leq 1/3$ then $|f(a,b) - NAND(\lfloor a \rceil, \lfloor b \rceil)| \leq 1/3$ where we denote by $\lfloor x \rceil$ the integer closest to $x$. That is, if $a,b$ are within a distance $1/3$ to $\{0,1\}$ then we want $f(a,b)$ to equal the $NAND$ of the values in $\{0,1\}$ that are closest to $a$ and $b$ respectively. Otherwise, we do not care what the output of $f$ is on $a$ and $b$.
 
 In this exercise you will show that you can construct a NAND approximator from many common activation functions used in deep neural networks. As a corollary you will obtain that deep neural networks can simulate NAND circuits. Since NAND circuits can also simulate deep neural networks, these two computational models are equivalent to one another.
 
@@ -1142,7 +1146,7 @@ In this exercise you will show that you can construct a NAND approximator from m
 
 
 ::: {.exercise title="Majority with NANDs efficiently" #majwithNAND}
-Prove that there is some constant $c$ such that for every $n>1$, there is a NAND circuit of at most $c\cdot n$ gates that computes the function  $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$ is the majority function on $n$ input bits. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. See footnote for hint.^[One approach to solve this is using recursion and analyzing it using the so called  "Master Theorem".]
+Prove that there is some constant $c$ such that for every $n>1$, there is a NAND circuit of at most $c\cdot n$ gates that computes the majority function on $n$ input bits $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. See footnote for hint.^[One approach to solve this is using recursion and analyzing it using the so called  "Master Theorem".]
 :::
 
 ::: {.exercise title="Output at last layer" #outputlastlayer}

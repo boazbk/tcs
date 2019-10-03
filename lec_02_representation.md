@@ -129,10 +129,11 @@ In fact, for most  purposes, we can even use the simpler representation of mappi
 We can implement the binary representation in _Python_ as follows:
 
 ```python
-from math import floor, log
-def NtS(n): # natural numbers to strings
-    if n<1: return ""
-    return NtS(floor(n/2))+str(n % 2)
+def NtS(n):# natural numbers to strings
+    if n > 1:
+        return NtS(n // 2) + str(n % 2)
+    else:
+        return str(n % 2)
 
 print(NtS(236))
 # 11101100
@@ -174,9 +175,9 @@ So what is the "actual" number? This is a question that philosophers of mathemat
 Plato argued that mathematical objects exist in some ideal sphere of existence (that to a certain extent is more "real" than the world we perceive via our senses, as this latter world is merely the shadow of this ideal sphere).
 In Plato's vision, the symbols $236$ are merely notation for some ideal object, that, in homage to the [late musician](https://goo.gl/b93h83), we can refer to as  "the number commonly represented by $236$".
 
-The Austrian philosopher Ludwig Wittgenstein, on the other hand, argued that mathematical objects do not exist at all, and the only things that exist are the actual marks on paper that make up $236$, $00110111$ or `CCXXXVI`.
+The Austrian philosopher Ludwig Wittgenstein, on the other hand, argued that mathematical objects do not exist at all, and the only things that exist are the actual marks on paper that make up $236$, $11101100$ or `CCXXXVI`.
 In Wittgenstein's view, mathematics is merely about formal manipulation of symbols that do not have any inherent meaning.
-You can think of the "actual" number as (somewhat recursively) "that thing which is common to $236$, $00110111$  and `CCXXXVI` and all other past and future representations that are meant to capture the same object".
+You can think of the "actual" number as (somewhat recursively) "that thing which is common to $236$, $11101100$  and `CCXXXVI` and all other past and future representations that are meant to capture the same object".
 
 While reading this book, you are free to choose your own philosophy of mathematics, as long as you maintain the distinction between the mathematical objects themselves and the various particular choices of representing them, whether as splotches of ink, pixels on a screen, zeroes and one, or any other form.
 
@@ -281,7 +282,7 @@ Indeed, this is one instance of a very general principle that we use time and ag
 
 
 ::: { .bigidea #representtuplesidea }
-If we can represent objects of type $T$ as strings, then we can represents tuples of objects of type $T$ as strings as well.
+If we can represent objects of type $T$ as strings, then we can represent tuples of objects of type $T$ as strings as well.
 :::
 
 Repeating the same idea, once we can represent objects of type $T$, we can also represent _lists of lists_ of such objects, and even  lists of lists of lists and so on and so forth.
@@ -421,7 +422,7 @@ The function $\overline{d}$ we defined above maps every $n\in \N$ to the negatio
 
 To complete the proof that $StF$ is not onto we need to show that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$.
 Indeed, let $x\in \{0,1\}^*$ be some string and let $g = StF(x)$.
-If $n$ is the position of $x$ in the lexicographical order then by construction $\overline{d}(n) = 11-g(n) \neq g(n)$ which means that $g \neq \overline{d}$ which is what we wanted to prove.
+If $n$ is the position of $x$ in the lexicographical order then by construction $\overline{d}(n) = 1-g(n) \neq g(n)$ which means that $g \neq \overline{d}$ which is what we wanted to prove.
 :::
 
 ::: {.pause}
@@ -461,7 +462,7 @@ This part is not the core of Cantor's argument, nor are such limits important to
 We define $FtR(f)$ to be the number between $0$ and $2$ whose decimal expansion is $f(0).f(1) f(2) \ldots$, or in other words  $FtR(f) = \sum_{i=0}^{\infty} f(i) \cdot 10^{-i}$.
 To prove that $FtR$ is one to one, we need to show that if $f \neq g$ then $FtR(f) \neq FtR(g)$.
 To do that we let $k\in \N$ be the first input on which $f$ and $g$ disagree.
-The numbers $FtR(f)$ and $FtR(g)$ agree in the first $k-2$ digits following the decimal point and disagree in the $k-1$-th digit. One can then calculate and verify that this means that $|FtR(f)-FtR(g)| > 0.5 \cdot 10^{-k}$ which in particular means that these two numbers are distinct from one another. (You might wonder why we can't immediately deduce that two numbers that differ in a digit are not the same. The issue is that we have to be a little more careful when talking about infinite expansions. For example, the number one half has two decimal expansions $0.5$ and $0.49999\cdots$. However, this issue does not come up if (as in our case) we restrict attention only to numbers with decimal expansions that do not involve the digit $9$.)
+The numbers $FtR(f)$ and $FtR(g)$ agree in the first $k-1$ digits following the decimal point and disagree in the $k$-th digit. One can then calculate and verify that this means that $|FtR(f)-FtR(g)| > 0.5 \cdot 10^{-k}$ which in particular means that these two numbers are distinct from one another. (You might wonder why we can't immediately deduce that two numbers that differ in a digit are not the same. The issue is that we have to be a little more careful when talking about infinite expansions. For example, the number one half has two decimal expansions $0.5$ and $0.49999\cdots$. However, this issue does not come up if (as in our case) we restrict attention only to numbers with decimal expansions that do not involve the digit $9$.)
 :::
 
 ::: {.proof data-ref="sequencestoreals"}
@@ -481,7 +482,7 @@ $f(k)=0$ and $g(k)=1$.
 (Otherwise, if $f(k)=1$ and $g(k)=0$, then we can simply switch the roles of $f$ and $g$.)
 The numbers $FtR(f)$ and $FtR(g)$ agree with each other up to the $k-1$-th digit up after the  decimal point.
 Since this digit equals $0$ for $FtR(f)$  and equals $1$ for $FtR(g)$, we claim that $FtR(g)$ is bigger than $FtR(f)$ by at least $0.5 \cdot 10^{-k}$.
-To see this note that the difference $FtR(g)-FtR(f)$ will be mimimized if   $g(\ell)=0$ for every $\ell>k$  and $f(\ell)=1$ for every $\ell>k$, in which case (since $f$ and $g$ agree up to the $k-1$-th digit)
+To see this note that the difference $FtR(g)-FtR(f)$ will be minimized if   $g(\ell)=0$ for every $\ell>k$  and $f(\ell)=1$ for every $\ell>k$, in which case (since $f$ and $g$ agree up to the $k-1$-th digit)
 
 $$
 FtR(g)-FtR(f) = 10^{-k} - 10^{-k-1} - 10^{-k-2} - 10^{-k-3} - \cdots \label{eqcantordecimalexpansion}
@@ -504,7 +505,7 @@ Indeed there do exist pairs of distinct sequences $f,g\in \{0,1\}^\infty$ such t
 
 ## Representing objects beyond numbers
 
-Numbers are of course by no means the only objects that  we can represented as binary strings.
+Numbers are of course by no means the only objects that  we can represent as binary strings.
 A _representation scheme_ for representing objects from some set $\mathcal{O}$ consists of an _encoding_ function that maps an object in $\mathcal{O}$ to a string, and a _decoding_ function that decodes a string back to an object in $\mathcal{O}$.
 Formally, we make the following definition:
 
@@ -561,7 +562,7 @@ Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$. If
 When showing a representation scheme for rational numbers, we used the "hack" of encoding the alphabet $\{ 0,1, \|\}$  to represent tuples of strings as a single string.
 This is a special case of the general paradigm of _prefix-free_ encoding.
 The idea is the following: if our representation has the property that no string $x$ representing an object $o$ is a _prefix_ (i.e., an initial substring) of a string $y$ representing a different object $o'$, then we can represent a _lists_ of objects by merely concatenating the representations of all the list members.
-For example, because in English every sentence ends with a punctuation mark such as a period, exclamation, or question mark, no sentence can be a prefix of another and so we can represent a list of sentences by merely concatenating the sentences one after the other.^[English has some complications such as periods used for abbreviations (e.g., "e.g.") or sentence quotes containing punctuation, but high level point of a prefix-free representation for setnences still holds.]
+For example, because in English every sentence ends with a punctuation mark such as a period, exclamation, or question mark, no sentence can be a prefix of another and so we can represent a list of sentences by merely concatenating the sentences one after the other.^[English has some complications such as periods used for abbreviations (e.g., "e.g.") or sentence quotes containing punctuation, but the high level point of a prefix-free representation for sentences still holds.]
 
 It turns out that we can transform _every_ representation to a prefix-free form.
 This justifies [representtuplesidea](){.ref}, and allows us to transform a representation scheme for objects of a type $T$ to a representation scheme of _lists_ of objects of the type $T$.

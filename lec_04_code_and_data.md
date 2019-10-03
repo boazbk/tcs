@@ -71,7 +71,7 @@ See [codedataoverviewfig](){.ref} for an overview of the results of  this chapte
 
 ![In the Harvard Mark I computer, a program was represented as a list of triples of numbers, which were then encoded by perforating holes in a control card.](../figure/tapemarkI.png){#markonerep .margin  }
 
-We can represents programs or circuits as strings in a myriad of ways.
+We can represent programs or circuits as strings in a myriad of ways.
 For example, since Boolean circuits are labeled directed acyclic graphs, we can use the _adjacency matrix_ or _adjacency list_ representations for them.
 However, since the code of a program is ultimately just a sequence of letters and symbols, arguably the conceptually simplest representation of a program is as such a sequence.
 For example,  the following NAND-CIRC program $P$
@@ -79,12 +79,13 @@ For example,  the following NAND-CIRC program $P$
 ```python
 temp_0 = NAND(X[0],X[1])
 temp_1 = NAND(X[0],temp_0)
-temp_2 = NAND(X[1],temp_0) 
+temp_2 = NAND(X[1],temp_0)
 Y[0] = NAND(temp_1,temp_2)
 ```
 
-is simply a string of 107 symbols which include lower and upper case letters, digits, the underscore character `_` and equality sign `=`, punctuation marks such as `(`,`)`,`,`, spaces, and  "new line" markers  (often denoted
-as `\n` or ↵). Each such symbol can be encoded as a string of $7$ bits using the [ASCII](https://en.wikipedia.org/wiki/ASCII) encoding, and hence the program $P$ can be encoded as a string of length $7 \cdot 107 = 749$ bits.
+is simply a string of 107 symbols which include lower and upper case letters, digits, the underscore character `_` and equality sign `=`, punctuation marks such as "`(`","`)`","`,`", spaces, and  "new line" markers  (often denoted
+as "`\ n`" or "↵").
+Each such symbol can be encoded as a string of $7$ bits using the [ASCII](https://en.wikipedia.org/wiki/ASCII) encoding, and hence the program $P$ can be encoded as a string of length $7 \cdot 107 = 749$ bits.
 
 
 Nothing in the above discussion was specific to the program $P$, and hence we can use the same reasoning to prove that  _every_ NAND-CIRC program can be represented as a string in $\{0,1\}^*$.
@@ -98,12 +99,12 @@ $O(1) + O(\log s) = O(\log s)$ symbols, each of which can be represented by $7$ 
 Hence an $s$ line program can be represented as a string of $O(s \log s)$ bits, resulting in the following theorem:
 
 
-::: ### {.theorem title="Representing programs as strings" #asciirepprogramthm}
+:::  {.theorem title="Representing programs as strings" #asciirepprogramthm}
 There is a constant $c$ such that for $f \in SIZE(s)$, there exists a program $P$ computing $f$ that whose string representation has length at most $c s \log s$.
 :::
 
 ::: { .pause }
-We omit the formal proof of [asciirepprogramthm](){.ref} but please make sure that you understand why it follows from the reasoning above. 
+We omit the formal proof of [asciirepprogramthm](){.ref} but please make sure that you understand why it follows from the reasoning above.
 :::
 
 
@@ -116,14 +117,14 @@ This has consequences for the sets $SIZE(s)$ that we defined in [secdefinesizecl
 
 
 > ### {.theorem title="Counting programs" #program-count}
-For every $s\in \N$, 
+For every $s\in \N$,
 $$|SIZE(s)| \leq 2^{O(s \log s)}.$$
-That is, there are at most $2^{O(s\log s)}$ functions computed by NAND-CIRC programs of at most $s$ lines.^[The implicit constant in the $O(\cdot)$ notation is smaller than $10$. That is, for all sufficiently large $s$, $|SIZE(s)|<  2^{10s\log s}$, see [efficientrepresentation](){.ref}. As discussed in [[notationsec](){.ref}](){.ref}, we use the bound $10$ simply because it is a round number. ]
+That is, there are at most $2^{O(s\log s)}$ functions computed by NAND-CIRC programs of at most $s$ lines.^[The implicit constant in the $O(\cdot)$ notation is smaller than $10$. That is, for all sufficiently large $s$, $|SIZE(s)|<  2^{10s\log s}$, see [efficientrepresentation](){.ref}. As discussed in [notationsec](){.ref}](){.ref}, we use the bound $10$ simply because it is a round number. ]
 
 
 ::: {.proof data-ref="program-count"}
 We will show a one-to-one map $E$ from $SIZE(s)$ to the set of strings of length $c s \log s$ for some constant $c$.
-This will conclude the proof, since it implies that $|SIZE(s)$ is smaller than the size of  the set of all strings of length at most $\ell$,
+This will conclude the proof, since it implies that $|SIZE(s)|$ is smaller than the size of the set of all strings of length at most $\ell$,
 which equals  $1+2+4+\cdots + 2^\ell = 2^{\ell +1} - 1$ by the formula for sums of geometric progressions.
 
 The map $E$ will simply map $f$ to the representation of the program computing  $f$.
@@ -150,10 +151,10 @@ That is, the shortest NAND-CIRC program to compute $F$ requires at least $\delta
 ::: {.proof data-ref="counting-lb"}
 The proof is simple. If we let $c$ be the constant such that $|SIZE(s)| \leq 2^{c s \log s}$ and $\delta = 1/c$, then setting $s = \delta 2^n/n$ we see that
 $$
-|SIZE(\tfrac{\delta n}{n})| \leq 2^{c \tfrac{\delta 2^n}{n} \log s} < 2^{c \delta 2^n} = 2^{2^n}
+|SIZE(\tfrac{\delta 2^n}{n})| \leq 2^{c \tfrac{\delta 2^n}{n} \log s} < 2^{c \delta 2^n} = 2^{2^n}
 $$
 using the fact that since $s < 2^n$, $\log s < n$.
-But since $|SIZE(s)$ is smaller than the total number of functions mapping $n$ bits to $1$ bit, there must be at least one such function not in $SIZE(s)$, which is what we needed to prove.
+But since $|SIZE(s)|$ is smaller than the total number of functions mapping $n$ bits to $1$ bit, there must be at least one such function not in $SIZE(s)$, which is what we needed to prove.
 :::
 
 
@@ -177,14 +178,14 @@ Using the adjacency matrix representation for such graphs, we can reduce the imp
 ### Size hierarchy theorem (optional)
 
 By [NAND-univ-thm-improved](){.ref} the class $SIZE_{n}(10 \cdot 2^n /n)$ contains _all_ functions from $\{0,1\}^n$ to $\{0,1\}$, while by [counting-lb](){.ref}, there is _some_
-function $f:\{0,1\}^n \rightarrow \{0,1\}$ that is _not contained_ in $SIZE_{n}(0.1 \cdots 2^n / n)$. In other words, for every sufficiently large $n$,
+function $f:\{0,1\}^n \rightarrow \{0,1\}$ that is _not contained_ in $SIZE_{n}(0.1 \cdot 2^n / n)$. In other words, for every sufficiently large $n$,
 $$
 SIZE_n\left(0.1 \tfrac{2^n}{n} \right) \subsetneq SIZE_n\left(10 \tfrac{2^n}{n} \right) \;.
 $$
-We can use the same result to show a more general result. Whenever we increase our "budget" of gates we can compute new functions:
+It turns out that we can use [counting-lb](){.ref} to show a more general result: whenever we increase our "budget" of gates we can compute new functions.
 
 
-> ### {.theorem title="" #sizehiearchythm}
+> ### {.theorem title="Size Hierarchy Theorem" #sizehiearchythm}
 For every sufficiently large $n$ and $10n < s < 0.1 2^n /n$,
 $$
 SIZE_n(s) \subsetneq SIZE_n(s+10n) \;.
@@ -204,7 +205,7 @@ Let $f^*: \{0,1\}^n \rightarrow \{0,1\}$ be the function (whose existence we are
 We define the functions $f_0,f_1,\ldots, f_{2^n}$ mapping $\{0,1\}^n$ to $\{0,1\}$ as follows. For every $x\in \{0,1\}^n$, if $lex(x) \in \{0,1,\ldots, 2^n-1\}$ is $x$'s order
 in the lexicographical order then
 $$
-f_i(x) = \begin{cases} f^*(x) & lex(x)< i  \\ 0 & \text{otherwise} \end{cases} \;. 
+f_i(x) = \begin{cases} f^*(x) & lex(x)< i  \\ 0 & \text{otherwise} \end{cases} \;.
 $$
 
 The function $f_0$ is simply the constant zero function, while the function $f_{2^n}$ is equal to $f^*$.
@@ -212,7 +213,7 @@ Moreover, for every $i\in [2^n]$, the function $f_i$ and $f_{i+1}$ differ on at 
 Let $10n < s < 0.1 \cdot 2^n /n$, and let $i$ be the first index such that $f_i \not\in SIZE_n(s)$.
 Since $f_{2^n} = f^* \not\in SIZE(0.1 \dot 2^n / n)$ there must exist such an index $i$, and moreover $i>0$ since the constant zero function is a member of $SIZE_n(10n)$.
 
-By our choice of $i$, $f_{i-1}$ is a member of $SIZE_n(s)$. 
+By our choice of $i$, $f_{i-1}$ is a member of $SIZE_n(s)$.
 To complete the proof, we need to show that $f_i \in SIZE_n(s + 10n)$.
 Let $x^*$ be the string such that $lex(x^*)=i$ $b\in \{0,1\}$ be the value $f^*(x^*)$.
 Then we can define $f_i$ also as follows
@@ -222,12 +223,12 @@ f_i(x) = \begin{cases} b & x=x^* \\ f_i(x) & x \neq x^*
 $$
 or in other words
 $$
-f_i(x) = f_{i-1}(x) \wedge EQUAL(x^*,x) \; \vee \;  b \wedge \neg EQUAL(x^*,x) 
+f_i(x) = f_{i-1}(x) \wedge EQUAL(x^*,x) \; \vee \;  b \wedge \neg EQUAL(x^*,x)
 $$
 where $EQUAL:\{0,1\}^{2n} \rightarrow \{0,1\}$ is the function that maps $x,x' \in \{0,1\}^n$ to $1$ if they are equal and to $0$ otherwise.
 Since (by our choice of $i$), $f_{i-1}$ can be computed using at most $s$ gates and (as can be easily verified) that $EQUAL \in SIZE_n(9n)$,
 we can compute $f_i$ using at most $s + 9n +O(1) \leq s +10n$ gates which is what we wanted to prove.
-::: 
+:::
 
 
 
@@ -246,7 +247,7 @@ While we suspect that integer multiplication is such an example, we do not have 
 
 
 
-## The List of typles representation { #listoftuplesrepsec }
+## The tuples representation { #listoftuplesrepsec }
 
 ASCII is a fine presentation of programs, but for some applications it is useful to have a more concrete representation of NAND-CIRC programs.
 In this section we describe a particular choice, that will be convenient for us later on.
@@ -261,7 +262,7 @@ Therefore, our representation for NAND-CIRC programs ignores the actual names of
 We  encode a _line_ of the program as a triple of numbers.
 If the line has the form `foo = NAND(bar,blah)` then we encode it with the triple $(i,j,k)$ where  $i$ is the number corresponding to the variable `foo` and $j$ and $k$ are the numbers corresponding to `bar` and `blah` respectively.
 
-More concretely, we use will associate every variable with a number in the set $[t]= \{0,1,\ldots,t-1\}$.
+More concretely, we will associate every variable with a number in the set $[t]= \{0,1,\ldots,t-1\}$.
 The first $n$ numbers $\{0,\ldots,n-1\}$ correspond to the _input_ variables, the last $m$ numbers $\{t-m,\ldots,t-1\}$ correspond to the _output_ variables, and the intermediate numbers $\{ n,\ldots, t-m-1\}$ correspond to the remaining "workspace" variables.
 Formally, we define our representation as follows:
 
@@ -384,7 +385,7 @@ Specifically, since $EVAL_{s,n,m}$ is a finite function [bounded-univ](){.ref} i
 [bounded-univ](){.ref} establishes the existence of a NAND-CIRC program for computing $EVAL_{s,n,m}$, but it provides no explicit bound on the size of this program.
 [NAND-univ-thm](){.ref}, which we used to prove [bounded-univ](){.ref},   guarantees the existence of a NAND-CIRC program whose size can be as large as  _exponential_ in the length of its input.
 This would mean that even for moderately small values of $s,n,m$ (for example $n=100,s=300,m=1$), computing $EVAL_{s,n,m}$ might require a NAND program with more lines than there are atoms in the observable universe!
-Fortunately, we can do much better than that. 
+Fortunately, we can do much better than that.
 In fact, for every $s,n,m$ there exists a NAND-CIRC program for computing $EVAL_{s,n,m}$ with size that is  _polynomial_ in its input length.
 This is shown in the following theorem.
 
@@ -532,9 +533,9 @@ Please make sure that you understand why `GET` and $LOOKUP_\ell$ are the same fu
 We saw that we can compute $LOOKUP_\ell$  in time $O(2^\ell) =  O(s)$ for our choice of $\ell$.
 
 For every $\ell$, let $UPDATE_\ell:\{0,1\}^{2^\ell + \ell +1} \rightarrow \{0,1\}^{2^\ell}$ correspond to the  `UPDATE` function for arrays of length $2^\ell$.
-That is,  on input $V\in \{0,1\}^{2^\ell}$ , $i\in \{0,1\}^\ell$, $b\in \{0,1\}$, $UPDATE_\ell(V,b,i)$ is equal to $V' \in \{0,1\}^{2^\ell}$ such that 
+That is,  on input $V\in \{0,1\}^{2^\ell}$ , $i\in \{0,1\}^\ell$, $b\in \{0,1\}$, $UPDATE_\ell(V,b,i)$ is equal to $V' \in \{0,1\}^{2^\ell}$ such that
 $$
-V'_j = \begin{cases} V_j & j \neq i \\ b & j = 1 \end{cases} 
+V'_j = \begin{cases} V_j & j \neq i \\ b & j = 1 \end{cases}
 $$
 where we identify the string $i \in \{0,1\}^\ell$ with a number in  $\{0,\ldots, 2^{\ell}-1 \}$ using the binary representation.
 We can compute $UPDATE_\ell$ using an $O(2^\ell \ell)=(s \log s)$ line NAND-CIRC program as as follows:
@@ -559,7 +560,7 @@ def UPDATE_ell(V,i,b):
 
 
 
-Since the loop over `j` in `UPDATE` is run $2^\ell$ times, and computing `EQUALS_j` takes $O(\ell)$ lines, the total number of lines to compute `UPDATE` is $O(2^\ell \cdot \ell) = O(s \log s)$. 
+Since the loop over `j` in `UPDATE` is run $2^\ell$ times, and computing `EQUALS_j` takes $O(\ell)$ lines, the total number of lines to compute `UPDATE` is $O(2^\ell \cdot \ell) = O(s \log s)$.
 Once we can compute `GET` and `UPDATE`, the rest of the implementation amounts to "book keeping" that needs to be done carefully, but is not too insightful, and hence we omit the full details.
 Since we run `GET` and `UPDATE`  $s$ times, the total number of lines for computing $EVAL_{s,n,m}$ is $O(s^2) + O(s^2 \log s) = O(s^2 \log s)$.
 This completes (up to the omitted details) the proof of [eff-bounded-univ](){.ref}.
@@ -852,6 +853,7 @@ Universal circuits have seen in recent years new motivations due to their applic
 
 While we've seen that "most" functions mapping $n$ bits to one bit require circuits of exponential size $\Omega(2^n/n)$, we actually do not know of any _explicit_ function for which we can _prove_ that it requires, say, at least $n^{100}$ or even $100n$ size. At the moment, strongest such lower bound we know is that there are quite simple and explicit $n$-variable functions that require at least $(5-o(1))n$ lines to compute, see [this paper of Iwama et al](http://www.wisdom.weizmann.ac.il/~ranraz/publications/P5nlb.pdf) as well as this more recent [work of Kulikov et al](http://logic.pdmi.ras.ru/~kulikov/papers/2012_5n_lower_bound_cie.pdf).
 Proving lower bounds for restricted models of circuits is an extremely interesting research area, for which Jukna's book [@Jukna12] (see also Wegener [@wegener1987complexity])  provides very good introduction and overview.
+I learned of the proof of the size hierarchy theorem ([sizehiearchythm](){.ref}) from Sasha Golovnev. 
 
 
 Scott Aaronson's blog post on how [information is physical](http://www.scottaaronson.com/blog/?p=3327) is a good discussion on issues related to the physical extended Church-Turing Physics.
