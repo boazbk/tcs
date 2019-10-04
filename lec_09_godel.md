@@ -32,7 +32,7 @@ We will actually start with the latter result, and then show the former.
 
 
 
-![Outline of the results of this chapter. One version of Gödel's Incompleteness Theorem is an immediate concsequence of the uncomputability of the Halting problem. To obtain the theorem as originally stated (for statements about the integers) we need to go through several intermediate results.](../figure/godelstructure.png){#godelstructurefig }
+![Outline of the results of this chapter. One version of Gödel's Incompleteness Theorem is an immediate concsequence of the uncomputability of the Halting problem. To obtain the theorem as originally stated (for statements about the integers) we first prove that the $QMS$ problem of determining truth of quantified statements involving both integers and strings is uncomputable. We do so using the notion of _Turing Machine configurations_ but there are alternative approaches to do so as well, see [alternativeproofs](){.ref}.](../figure/godelstructure.png){#godelstructurefig }
 
 
 
@@ -142,7 +142,7 @@ Our algorithm $A$ will will work as follows:
 
 ``` { .algorithm title="Halting from proofs" #haltingfromproog}
 INPUT: Turing Machine $M$
-OUTPUT: Return $1$ if $M$ halts on the input $0$; return $0$ otherwise.
+OUTPUT:  $1$  $M$ -if halts on the input $0$;  $0$ otherwise.
 
 for{$n=1,2,3,\ldots$}
     for{$w\in \{0,1\}^n$}
@@ -288,11 +288,17 @@ During the Renaissance, Italian mathematicians discovered generalization of thes
 Many of the greatest minds of the 17th and 18th century, including Euler, Lagrange, Leibniz and Gauss worked on the problem of finding such a formula for _quintic_ equations to no avail, until in the 19th century Ruffini, Abel and Galois showed that no such formula exists, along the way giving birth to _group theory_.
 
 
+
 However, the fact that there is no closed-form formula does not mean we can not solve such equations.
 People have been solving higher degree equations numerically for ages.
 The Chinese manuscript [Jiuzhang Suanshu](https://en.wikipedia.org/wiki/The_Nine_Chapters_on_the_Mathematical_Art) from the first century mentions such approaches.
 Solving polynomial equations is by no means restricted only to ancient history or to students' homeworks.
 The [gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) method is the workhorse powering many of the machine learning tools that have revolutionized Computer Science over the last several years.
+
+
+![Diophantine equations such as finding a positive integer solution to
+the equation $a(a+b)(a+c)+b(b+a)(b+c)+c(c+a)(c+b)=4(a+b)(a+c)(b+c)$ (depicted more compactly and whimsically above) can be surprisingly difficult.
+There are many equations for which we do not know if they have a solution, and there is no algorithm to solve them in general. The smallest solution for this equation has $80$ digits! See this [Quora post](https://www.quora.com/How-do-you-find-the-positive-integer-solutions-to-frac-x-y+z-+-frac-y-z+x-+-frac-z-x+y-4) for more information, including the credits for this image.](../figure/elliptic_curve.png){#ellipticcurvefig .margin }
 
 But there are some equations that we simply do not know how to solve _by any means_.
 For example, it took more than 200 years until people succeeded in proving that the equation  $a^{11} + b^{11} = c^{11}$ has no solution in integers.^[This is a special case of what's known as  "Fermat's Last Theorem" which states that $a^n + b^n = c^n$ has no solution in integers for $n>2$. This was conjectured in 1637 by Pierre de Fermat but only proven by Andrew Wiles in 1991. The case $n=11$ (along with all other so called "regular prime exponents") was established by Kummer in 1850.]
@@ -346,16 +352,15 @@ Since quantified mixed statements are a more general concept than quantified int
 We define _quantified mixed statements_ as statements involving not just integers and the usual arithmetic operators, but also _string variables_ as well.
 
 
-> ### {.definition title="Quantified mixed statements" #QMS-def}
+::: {.definition title="Quantified mixed statements" #QMS-def}
 A _quantified mixed statement_ is a well-formed statement with no unbound variables involving integers, variables, the operators $>,<,\times,+,-,=$, the logical operations $\neg$ (NOT), $\wedge$ (AND), and $\vee$ (OR), as well as quantifiers of the form $\exists_{x\in\N}$, $\exists_{a\in\{0,1\}^*}$,  $\forall_{y\in\N}$, $\forall_{b\in\{0,1\}^*}$ where $x,y,a,b$ are variable names. These also include the operator $|a|$ which returns the length of a string valued variable $a$, as well as the operator $a_i$ where $a$ is a string-valued variable and $i$ is an integer valued expression which is true if $i$ is smaller than the length of $a$ and the $i^{th}$ coordinate of $a$ is $1$, and is false otherwise.
+:::
 
 For example, the true statement that for every string $a$ there is a string $b$ that corresponds to $a$ in reverse order can be phrased as the following quantified mixed statement
 $$
 \forall_{a\in\{0,1\}^*} \exists_{b\in \{0,1\}^*}  (|a|=|b|)
 \wedge (\forall_{i\in\N} i < |a| \Rightarrow (a_i \Leftrightarrow b_{|a|-i}) \;.
 $$
-
-
 
 Quantified mixed statements are more general than quantified integer statements, and so the following theorem is potentially easier to prove than [QIS-thm](){.ref}:
 
@@ -376,7 +381,7 @@ Since a program $P$ halts on input  $x$ if and only if there is a sequence of co
 
 
 ::: {.proof data-ref="QMS-thm"}
-The proof will be obtained by a reduction from the Halting problem.
+The proof is obtained by a reduction from the Halting problem.
 Specifically, we will use the notion of a _configuration_ of a Turing Machines ([configtmdef](){.ref}) that we have seen in the context of proving that one dimensional cellular automata are Turing complete.
 We need the following facts about configurations:
 
@@ -426,7 +431,8 @@ For example, we can express the condition that a 1-dimensional cellular automato
 over a string encoding the history of all configurations.
 We can then use the fact that cellular automatons can simulate Turing machines ([onedimcathm](){.ref}) to reduce the halting problem to $QMS$.
 We can also use other well known uncomputable problems such as tiling or the [post correspondence problem](https://en.wikipedia.org/wiki/Post_correspondence_problem).
-
+[postcorrespondenceproblemex](){.ref} and [puzzleex](){.ref} explore two alternative proofs of
+[QMS-thm](){.ref}.
 :::
 
 
@@ -437,7 +443,7 @@ We now show how to prove [QIS-thm](){.ref} using [QMS-thm](){.ref}.
 The idea is again a proof by reduction.
 We will show a transformation of every quantifier mixed statement $\varphi$ into a quantified _integer_ statement $\xi$ that does not use string-valued variables such that $\varphi$ is true if and only if $\xi$ is true.
 
-To remove string-valued variables from a statement, we encode them by integers.
+To remove string-valued variables from a statement, we encode every string by a pair integer. 
 We will show that we can encode a string $x\in \{0,1\}^*$ by a pair of numbers $(X,n)\in \N$ s.t.
 
 * $n=|x|$
@@ -445,38 +451,39 @@ We will show that we can encode a string $x\in \{0,1\}^*$ by a pair of numbers $
 * There is a quantified integer statement $COORD(X,i)$ that for every $i<n$, will be true if $x_i=1$ and will be false otherwise.
 
 
-This will mean that we can replace a "for all" quantifier over strings such as $\forall_{x\in \{0,1\}^*}$ with a pair of quantifiers over _integers_ of the form  $\forall_{X\in \N}\forall_{n\in\N}$  (and similarly replace an existential quantifier of the form $\exists_{x\in \{0,1\}^*}$ with a pair of quantifiers $\exists_{X\in \N}\exists_{n\in\N}$) . We can later replace all calls to $|x|$ by $n$ and all calls to $x_i$ by $COORD(X,i)$.
+This will mean that we can replace a "for all" quantifier over strings such as $\forall_{x\in \{0,1\}^*}$ with a pair of quantifiers over _integers_ of the form  $\forall_{X\in \N}\forall_{n\in\N}$  (and similarly replace an existential quantifier of the form $\exists_{x\in \{0,1\}^*}$ with a pair of quantifiers $\exists_{X\in \N}\exists_{n\in\N}$) .
+We can then replace all calls to $|x|$ by $n$ and all calls to $x_i$ by $COORD(X,i)$.
 This means that if we are able to define $COORD$ via a quantified integer statement, then we obtain a proof of [QIS-thm](){.ref}, since we can use it to map every mixed quantified statement $\varphi$ to an equivalent quantified integer statement $\xi$ such that $\xi$ is true if and only if $\varphi$ is true, and hence $QMS(\varphi)=QIS(\xi)$.
 Such a procedure implies that the task of computing $QMS$ reduces to the task of computing $QIS$, which means that the uncomputability of $QMS$ implies the uncomputability of $QIS$.
 
 
-
-The above shows that proof of the theorem all boils down to finding the right encoding of strings as integers, and the right way to implement $COORD$ as a quantified integer statement.
+The above shows that proof of [QIS-thm](){.ref} all boils down to finding the right encoding of strings as integers, and the right way to implement $COORD$ as a quantified integer statement.
 To achieve this we use the following technical result :
 
 > ### {.lemma title="Constructible prime sequence" #primeseq}
-There is a sequence of prime numbers $p_0 < p_1 < p_2 < \cdots$ such that there is a quantified integer statement $PCOORD(p,i)$ that is true if and only if $p=p_i$.
+There is a sequence of prime numbers $p_0 < p_1 < p_2 < \cdots$ such that there is a quantified integer statement $PSEQ(p,i)$ that is true if and only if $p=p_i$.
 
 Using [primeseq](){.ref} we can encode a $x\in\{0,1\}^*$ by the numbers $(X,n)$ where  $X = \prod_{x_i=1} p_i$ and $n=|x|$.
-We can then define the statement $COORD(X,i)$ as
+We can then define the statement $COORD(X,i)$ as 
 $$
-\forall_{p\in\N}  PCOORD(p,i) \Rightarrow DIVIDES(p,X)
+COORD(X,i) = \exists_{p\in\N}  PSEQ(p,i) \wedge DIVIDES(p,X) 
 $$
 where  $DIVIDES(a,b)$, as before, is defined as $\exists_{c\in\N} a\times c = b$.
 Note that indeed if $X,n$ encodes the string $x\in \{0,1\}^*$, then for every $i<n$, $COORD(X,i)=x_i$, since $p_i$ divides $X$ if and only if $x_i=1$.
 
 Thus all that is left to conclude the proof of [QIS-thm](){.ref} is to prove [primeseq](){.ref}, which we now proceed to do.
 
-> ### {.proof data-ref="primeseq"}
+::: {.proof data-ref="primeseq"}
 The sequence of prime numbers we consider is the following:
 We fix $C$ to be a sufficiently large constant ($C=2^{2^{34}}$ [will do](https://arxiv.org/pdf/1401.4233.pdf)) and define $p_i$ to be the smallest prime number that is in the interval $[(i+C)^3+1,(i+C+1)^3-1]$.
 It is known that there exists such a prime number for every $i\in\N$.
-Given this, the definition of $PCOORD(p,i)$ is simple:
+Given this, the definition of $PSEQ(p,i)$ is simple:
 $$
 (p > (i+C)\times (i+C)\times (i+C)  ) \wedge (p < (i+C+1)\times(i+C+1)\times (i+C+1) )\wedge
 \left(\forall_{p'} \neg PRIME(p') \vee (p' \leq i) \vee (p' \geq p) \right) \;,
 $$
-We leave it to the reader to verify that $PCOORD(p,i)$ is true iff $p=p_i$.
+We leave it to the reader to verify that $PSEQ(p,i)$ is true iff $p=p_i$.
+:::
 
 To sum up we have shown that for every quantified mixed statement $\varphi$, we can compute a quantified integer statement $\xi$ such that $QMS(\varphi)=1$  if and only if $QIS(\xi)=1$.
 Hence the uncomputability of $QMS$  ([QMS-thm](){.ref}) implies the uncomputability of $QIS$, completing the proof of [QIS-thm](){.ref}, and so also the proof of Gödel's Incompleteness Theorem for quantified integer statements ([godelthmqis](){.ref}).
@@ -503,12 +510,27 @@ A system is _sound_ if whenever there is no false $s$ such that there is a proof
 Prove that for every uncomputable function $F:\{0,1\}^* \rightarrow \{0,1\}$ and every sound axiomatic proof system $S$ (that is characterized by a finite number of axioms and inference rules), there is some input $x$ for which the proof system $S$ is not able to prove neither that $F(x)=0$ nor that $F(x) \neq 0$.
 
 
-![In the _puzzle problem_, the input can be thought of as a finite collection $\Sigma$ of _types of puzzle pieces_ and the goal is to find out whether or not find a way to arrange pieces from these types in a rectangle. Formally, we model the input as a function $match:\Sigma^5 \rightarrow \{0,1\}$ that such that $match(mid,up,down,left,right)=1$ iff the piece $mid$ is compatible
-with the pieces $up$,$down$,$left$,$right$ in their respective positions. We assume $\Sigma$ contains a special symbol $\varnothing$ corresponding to having no piece, and an arrangement of puzzle pieces by an $(m-2)\times(n-2)$ rectangle is modeled by a string $x\in \Sigma^{m\cdot n}$ whose ``outer coordinates'' are $\emptyset$ and such that for every internal $i,j$ (i.e., $i\in \{1,\ldots, m-2 \}$ and $j\in \{1,\ldots,n-2\}$) $match(x_{i,j},x_{i-1,j},x_{i+1,j},x_{i,j-1},x_{i,j+1})=1$.](../figure/puzzleprob.png){#puzzleprobfig  .margin }
+![In the _puzzle problem_, the input can be thought of as a finite collection $\Sigma$ of _types of puzzle pieces_ and the goal is to find out whether or not find a way to arrange pieces from these types in a rectangle. Formally, we model the input as a pair of functions $match_{\leftrightarrow},match_{\updownarrow}:\Sigma^2 \rightarrow \{0,1\}$ that such that 
+$match_{\leftrightarrow}(left,right)=1$ (respectively $match_{\updownarrow}(up,down)=1$ ) if the pair of pieces are compatible when placed  in their respective positions. We assume $\Sigma$ contains a special symbol $\varnothing$ corresponding to having no piece, and an arrangement of puzzle pieces by an $(m-2)\times(n-2)$ rectangle is modeled by a string $x\in \Sigma^{m\cdot n}$ whose ``outer coordinates'' are $\emptyset$ and such that for every internal $i,j$ (i.e., $i\in \{1,\ldots, m-2 \}$ and $j\in \{1,\ldots,n-2\}$) $match(x_{i,j},x_{i-1,j},x_{i+1,j},x_{i,j-1},x_{i,j+1})=1$.](../figure/puzzleprob.png){#puzzleprobfig  .margin }
 
 
 
-::: {.exercise title="Uncomputability of puzzle" #puzle}
+
+
+::: {.exercise title="Post Corrrespondence Problem" #postcorrespondenceproblemex}
+In the [Post Correspondence Problem](https://en.wikipedia.org/wiki/Post_correspondence_problem) the input is a set $S = \{ (\alpha^0,\beta^0), \ldots, (\beta^{c-1},\beta^{c-1}) \}$ where each $\alpha^i$ and $\beta^j$ is a string in $\{0,1\}^*$.
+We say that $PCP(S)=1$ if and only if there exists a list $(\alpha_0,\beta_0),\ldots,(\alpha_{n-1},\beta_{n-1})$ of pairs in $S$ such that 
+$$
+\alpha_0 \alpha_1 \cdots \alpha_{m-1} = \beta_0 \beta_1 \cdots \beta_{m-1} \;.
+$$
+(We can think of each pair $(\alpha,\beta) \in S$ as a "domino tile" and the question is whether we can stack a list of such tiles so that the top and the bottom yield the same string.)
+It can be shown that the $PCP$ is uncomputable by a fairly straightforward though somewhat tedious proof (see for example the Wikipedia page for the Post Correspondence Problem or Section 5.2 in [@SipserBook]).
+
+Use this fact to provide a direct proof that $QMS$ is uncomputable by showing that there exists a computable map $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that 
+$PCP(S) = QMS(R(S))$ for every string $S$ encoding an instance of the post correspondence problem. 
+:::
+
+::: {.exercise title="Uncomputability of puzzle" #puzzleex}
 Let $PUZZLE:\{0,1\}^* \rightarrow \{0,1\}$ be  the problem of determining, given a finite collection of types of "puzzle pieces", whether it is possible to put them together in a rectangle, see [puzzleprobfig](){.ref}.
 Formally, we think of such a collection as a finite set $\Sigma$ (see [puzzleprobfig](){.ref}). We model the criteria as to which pieces "fit together" by a pair of finite function $match_{\updownarrow}, match_{\leftrightarrow}:\Sigma^2 \rightarrow \{0,1\}$ such that a piece $a$ fits above a piece $b$ if and only if $match_{\updownarrow}(a,b)=1$ and a piece $c$ fits to the left of a piece $d$ if and only if $match_{\leftrightarrow}(c,d)=1$.
 To model the "straight edge" pieces that can be placed next to a "blank spot" we assume that $\Sigma$ contains the symbol $\varnothing$ and the matching functions are defined accordingly.
