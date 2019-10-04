@@ -119,7 +119,7 @@ This has consequences for the sets $SIZE(s)$ that we defined in [secdefinesizecl
 > ### {.theorem title="Counting programs" #program-count}
 For every $s\in \N$,
 $$|SIZE(s)| \leq 2^{O(s \log s)}.$$
-That is, there are at most $2^{O(s\log s)}$ functions computed by NAND-CIRC programs of at most $s$ lines.^[The implicit constant in the $O(\cdot)$ notation is smaller than $10$. That is, for all sufficiently large $s$, $|SIZE(s)|<  2^{10s\log s}$, see [efficientrepresentation](){.ref}. As discussed in [notationsec](){.ref}](){.ref}, we use the bound $10$ simply because it is a round number. ]
+That is, there are at most $2^{O(s\log s)}$ functions computed by NAND-CIRC programs of at most $s$ lines.^[The implicit constant in the $O(\cdot)$ notation is smaller than $10$. That is, for all sufficiently large $s$, $|SIZE(s)|<  2^{10s\log s}$, see [efficientrepresentation](){.ref}. As discussed in [notationsec](){.ref}], we use the bound $10$ simply because it is a round number.]
 
 
 ::: {.proof data-ref="program-count"}
@@ -337,7 +337,7 @@ where $S(s)$ is defined as in [lengthstringrepreseq](){.eqref} and we use the co
 
 That is, $EVAL_{s,n,m}$ takes as input the concatenation of two strings: a string $p\in \{0,1\}^{S(s)}$ and a string $x\in \{0,1\}^n$.
 If $p$ is a string that represents a list of triples $L$ such that $(n,m,L)$ is a list-of-tuples representation of  a size-$s$ NAND-CIRC program $P$, then $EVAL_{s,n,m}(px)$ is equal to the evaluation $P(x)$ of the program $P$ on the input $x$.
-Otherwise, $EVAL_{s,n,m}(px)$ equals  $0^m$ (this case is not very important: you can simply think of $0^n$ as some "junk value" that indicates an error).
+Otherwise, $EVAL_{s,n,m}(px)$ equals  $0^m$ (this case is not very important: you can simply think of $0^m$ as some "junk value" that indicates an error).
 
 __Take-away points.__ The fine  details of $EVAL_{s,n,m}$'s definition are not very crucial. Rather, what you need to remember about $EVAL_{s,n,m}$ is that:
 
@@ -345,7 +345,7 @@ __Take-away points.__ The fine  details of $EVAL_{s,n,m}$'s definition are not v
 
 * $EVAL_{s,n,m}$ is a single function, such that computing $EVAL_{s,n,m}$ allows to evaluate _arbitrary_ NAND-CIRC programs of a certain length on _arbitrary_ inputs of the appropriate length.
 
-* $EVAL_{s,n,m}$ is a _function_, not a _program_ (recall the discussion in [specvsimplrem](){.ref}). That is, $EVAL_{s,n,m}$ is  a _specification_ of what output is associated with what input. The existence of a _program_ that computes $EVAL_{s,n,m}$ (i.e., an _implementation_ for $EVAL_{s,n,m}$) is a separate fact, which needs to be established (and which we will do in [bounded-univ](){.ref}, with a more efficient program shown in  in [eff-bounded-univ]()).
+* $EVAL_{s,n,m}$ is a _function_, not a _program_ (recall the discussion in [specvsimplrem](){.ref}). That is, $EVAL_{s,n,m}$ is  a _specification_ of what output is associated with what input. The existence of a _program_ that computes $EVAL_{s,n,m}$ (i.e., an _implementation_ for $EVAL_{s,n,m}$) is a separate fact, which needs to be established (and which we will do in [bounded-univ](){.ref}, with a more efficient program shown in  in [eff-bounded-univ](){.ref}).
 
 
 
