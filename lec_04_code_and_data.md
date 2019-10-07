@@ -119,7 +119,7 @@ This has consequences for the sets $SIZE(s)$ that we defined in [secdefinesizecl
 > ### {.theorem title="Counting programs" #program-count}
 For every $s\in \N$,
 $$|SIZE(s)| \leq 2^{O(s \log s)}.$$
-That is, there are at most $2^{O(s\log s)}$ functions computed by NAND-CIRC programs of at most $s$ lines.^[The implicit constant in the $O(\cdot)$ notation is smaller than $10$. That is, for all sufficiently large $s$, $|SIZE(s)|<  2^{10s\log s}$, see [efficientrepresentation](){.ref}. As discussed in [notationsec](){.ref}], we use the bound $10$ simply because it is a round number.]
+That is, there are at most $2^{O(s\log s)}$ functions computed by NAND-CIRC programs of at most $s$ lines.^[The implicit constant in the $O(\cdot)$ notation is smaller than $10$. That is, for all sufficiently large $s$, $|SIZE(s)|<  2^{10s\log s}$, see [efficientrepresentation](){.ref}. As discussed in [notationsec](){.ref}, we use the bound $10$ simply because it is a round number.]
 
 
 ::: {.proof data-ref="program-count"}
@@ -568,13 +568,13 @@ This completes (up to the omitted details) the proof of [eff-bounded-univ](){.re
 
 
 ::: {.remark title="Improving to quasilinear overhead (advanced optional note)" #quasilinearevalrem}
-The NAND-CIRC program above is less efficient that its Python counterpart, since NAND does not offer arrays with efficient random access. Hence for example the `LOOKUP` operation on an array of $s$ bits takes $\Omega(s)$ lines in NAND even though it takes $O(1)$ steps (or maybe $O(\log s)$ steps, depending how we count) in _Python_.
+The NAND-CIRC program above is less efficient than its Python counterpart, since NAND does not offer arrays with efficient random access. Hence for example the `LOOKUP` operation on an array of $s$ bits takes $\Omega(s)$ lines in NAND even though it takes $O(1)$ steps (or maybe $O(\log s)$ steps, depending how we count) in _Python_.
 
 It turns out that it is possible to improve the bound of [eff-bounded-univ](){.ref}, and evaluate $s$ line NAND-CIRC programs using a NAND-CIRC program of  $O(s \log s)$ lines.
-The key is to consider the description of NAND-CIRC programs as circuits, and in particular as directed acyclic graphs (DAGs) of bounded in degree.
+The key is to consider the description of NAND-CIRC programs as circuits, and in particular as directed acyclic graphs (DAGs) of bounded in-degree.
 A universal NAND-CIRC program $U_s$ for $s$ line programs will correspond to a _universal graph_ $H_s$ for such $s$ vertex DAGs.
-We can think of such as graph $U_s$ as fixed "wiring" for communication network, that should be able to accommodate any arbitrary pattern of communication between $s$ vertices (where this pattern corresponds to an $s$ line NAND-CIRC program).
-It turns out that there exist such efficient [routing networks](https://goo.gl/NnkkjM) exist that allow embedding any $s$ vertex circuit inside a universal graph of size $O(s \log s)$, see the bibliographical notes [bibnotescodeasdata](){.ref} for more on this issue.
+We can think of such a graph $U_s$ as fixed "wiring" for a communication network, that should be able to accommodate any arbitrary pattern of communication between $s$ vertices (where this pattern corresponds to an $s$ line NAND-CIRC program).
+It turns out that such efficient [routing networks](https://goo.gl/NnkkjM) exist that allow embedding any $s$ vertex circuit inside a universal graph of size $O(s \log s)$, see the bibliographical notes [bibnotescodeasdata](){.ref} for more on this issue.
 :::
 
 
@@ -610,7 +610,7 @@ The reason is that there exists a Python interpreter _in Python_: a Python progr
 Hence, we only need to show a NAND-CIRC program $U^*$ that computes the same function as the particular Python program $U$, and this will give us a way to evaluate _all_ Python programs.
 
 What we are seeing time and again is the notion of _universality_ or _self reference_ of computation, which is the sense that all reasonably rich models of computation are expressive enough that they can "simulate themselves".
-The importance of this phenomena to both the theory and practice of computing, as well as far beyond it, including the foundations of mathematics and basic questions in science, cannot be overstated.
+The importance of this phenomenon to both the theory and practice of computing, as well as far beyond it, including the foundations of mathematics and basic questions in science, cannot be overstated.
 
 
 
@@ -641,13 +641,13 @@ There is no single universally-agreed-upon formalization of "roughly $s$ physica
 we can approximate this notion by considering the size of any physical computing device and the time it takes to compute the output, and ask that any such device can be simulated by a Boolean circuit with a number of gates that is a polynomial (with not too large exponent) in the size of the system and the time it takes it to operate.
 
 
-In other words, we can phrase the PECTT as stipulating that any function that can be computed by a device of that takes as a certain volume $V$ of space and requires $t$ time to complete the computation, must be computable by a Boolean circuit with a number of gates $p(V,t)$ that is polynomial in $V$ and $t$.
+In other words, we can phrase the PECTT as stipulating that any function that can be computed by a device that takes a certain volume $V$ of space and requires $t$ time to complete the computation, must be computable by a Boolean circuit with a number of gates $p(V,t)$ that is polynomial in $V$ and $t$.
 
 The exact form of the function $p(V,t)$ is not universally agreed upon but it is generally accepted that if $f:\{0,1\}^n \rightarrow \{0,1\}$ is an _exponentially hard_ function, in the sense that it has no NAND-CIRC program of fewer than, say, $2^{n/2}$ lines, then a demonstration of a physical device that can compute in the real world $f$ for moderate input lengths (e.g., $n=500$) would be a violation of the PECTT.
 
 
 ::: {.remark title="Advanced note: making PECTT concrete (advanced, optional)" #concretepectt}
-We can attempt at a more exact phrasing of the PECTT as follows.
+We can attempt a more exact phrasing of the PECTT as follows.
 Suppose that $Z$ is a physical system that accepts $n$ binary stimuli and has a binary output, and can be enclosed in a sphere of volume $V$.
 We say that the system $Z$ _computes_ a function $f:\{0,1\}^n \rightarrow \{0,1\}$ within $t$ seconds if whenever we set the stimuli to some value  $x\in \{0,1\}^n$,  if we measure the output after $t$ seconds then we obtain $f(x)$.
 
@@ -716,7 +716,7 @@ However, the main take away is that while quantum computing does suggest we need
 ::: {.remark title="Physical Extended Church-Turing Thesis and Cryptography" #pcettcrypto}
 While even the precise phrasing of the PECTT, let alone understanding its correctness, is still a subject of active research, some variants of it are already implicitly assumed in practice.
 Governments, companies, and individuals currently rely on _cryptography_ to protect some of their most precious assets, including state secrets, control of weapon systems and critical infrastructure, securing commerce, and protecting the confidentiality of personal information.
-In applied cryptography, one often encounters statements such  as "cryptosystem $X$ provides 128 bits of security". What such a statement really means that __(a)__ it is conjectured that there is no Boolean circuit (or, equivalently, a NAND-CIRC program) of size much smaller than $2^{128}$ that can break $X$, and __(b)__ we assume that no other physical mechanism can do better, and hence it would take roughly a $2^{128}$ amount of "resources" to break $X$.
+In applied cryptography, one often encounters statements such  as "cryptosystem $X$ provides 128 bits of security". What such a statement really means is that __(a)__ it is conjectured that there is no Boolean circuit (or, equivalently, a NAND-CIRC program) of size much smaller than $2^{128}$ that can break $X$, and __(b)__ we assume that no other physical mechanism can do better, and hence it would take roughly a $2^{128}$ amount of "resources" to break $X$.
 We say "conjectured" and not "proved" because, while we can phrase the statement that breaking the system cannot be done by an $s$-gate circuit as a precise mathematical conjecture, at the moment we are unable to _prove_ such a statement for any non-trivial cryptosystem.
 This is related to the $\mathbf{P}$ vs $\mathbf{NP}$ question we will discuss in future chapters.
 We will explore Cryptography in [chapcryptography](){.ref}.
@@ -737,7 +737,7 @@ We will explore Cryptography in [chapcryptography](){.ref}.
 
 
 
-![A finite computational task is specified by a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$. We can model a computational process using Boolean circuits (of varying gate sets) or straight-line program. Every function can be computed by many programs. We say that $f \in SIZE_{n,m}(s)$ if there exists a NAND circuit of at most $s$ gates (equivalently a NAND-CIRC program of at most $s$ lines) that computes $f$. Every function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a circuit of $O(m \cdot 2^n/n)$ gates. Many functions such as multiplication, addition, solving linear equations, computing the shortest path in a graph, and others, can be computed by circuits of much fewer gates. In particular there is an $O(s \log^2 s)$-size circuit that computes the map $C,x \mapsto C(x)$ where $C$ is a string describing  a circuit of $s$ gates. However, the counting argument shows there do exist some functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that require $\Omega(m \cdot 2^n /n)$ gates to compute.](../figure/finitecomprecap.png){#finiterecapfig }
+![A finite computational task is specified by a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$. We can model a computational process using Boolean circuits (of varying gate sets) or straight-line program. Every function can be computed by many programs. We say that $f \in SIZE_{n,m}(s)$ if there exists a NAND circuit of at most $s$ gates (equivalently a NAND-CIRC program of at most $s$ lines) that computes $f$. Every function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a circuit of $O(m \cdot 2^n/n)$ gates. Many functions such as multiplication, addition, solving linear equations, computing the shortest path in a graph, and others, can be computed by circuits of much fewer gates. In particular there is an $O(s^2 \log s)$-size circuit that computes the map $C,x \mapsto C(x)$ where $C$ is a string describing  a circuit of $s$ gates. However, the counting argument shows there do exist some functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that require $\Omega(m \cdot 2^n /n)$ gates to compute.](../figure/finitecomprecap.png){#finiterecapfig }
 
 
 ## Recap of Part I: Finite Computation
@@ -747,7 +747,7 @@ The main take-aways from [compchap](){.ref}, [finiteuniversalchap](){.ref}, and 
 
 * We can formally define the notion of a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ being computable using $s$ basic operations. Whether these operations are AND/OR/NOT, NAND, or some other universal basis does not make much difference. We can describe such a computation either using a _circuit_ or using a _straight-line program_.
 
-* We define $SIZE_{n,m}(s)$ to be the set of _functions_ that are computable by NAND circuits of at most $s$ gates. This set is equal to the set of functions computable by a NAND-CIRC program of at most $s$ lines and pp to a constant factor in $s$ (which we will not care about) this is also the same as the set of functions that are computable by a Boolean circuit of at most $s$ AND/OR/NOT gates. The class  $SIZE_{n,m}(s)$ is a set of _functions_, not of programs/circuits.
+* We define $SIZE_{n,m}(s)$ to be the set of _functions_ that are computable by NAND circuits of at most $s$ gates. This set is equal to the set of functions computable by a NAND-CIRC program of at most $s$ lines and up to a constant factor in $s$ (which we will not care about) this is also the same as the set of functions that are computable by a Boolean circuit of at most $s$ AND/OR/NOT gates. The class  $SIZE_{n,m}(s)$ is a set of _functions_, not of programs/circuits.
 
 * _Every_ function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed using a circuit of _at most_ $O(m \cdot 2^n / n)$ gates. _Some_ functions require _at least_ $\Omega(m \cdot 2^n /n)$ gates. We define $SIZE_{n,m}(s)$ to be the set of functions from $\{0,1\}^n$ to $\{0,1\}^m$ that can be computed using at most $s$ gates.
 
