@@ -58,6 +58,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Joshua Pan
 * Pablo Parrilo
 * Juan Perdomo
+* Banks Pickett
 * Aaron Sachs
 * Abdelrhman Saleh
 * Brian Sapozhnikov
@@ -89,4 +90,3 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Fred Zhang
 * Grace Zhang
 * Jessica Zhu
-* Banks Pickett

@@ -67,7 +67,7 @@ In this chapter we will show how we can extend the  model of Boolean circuits / 
 We will see two ways to do so:
 
 
-* _Turing machines_, invented by Alan Turing in 1936, are an hypothetical abstract device that can yields a finite description of an algorithm that can handle arbitrarily long inputs.
+* _Turing machines_, invented by Alan Turing in 1936, are an hypothetical abstract device that yields a finite description of an algorithm that can handle arbitrarily long inputs.
 
 
 * The _NAND-TM Programming language_ extends   NAND-CIRC with the notion of _loops_ and _arrays_ to obtain finite programs that can compute a function with arbitrarily long inputs.
@@ -308,7 +308,7 @@ For example, it is very easy to come up with a Turing machine whose transition f
 If a machine  $M$ fails to stop and produce an output on some an input $x$, then it cannot compute any total function $F$, since clearly on input $x$, $M$  will fail to output $F(x)$. However, $P$ can still compute a _partial function_.^[A _partial function_ $F$ from a set $A$ to a set $B$ is a function that is only defined on a _subset_ of $A$, (see [functionsec](){.ref}). We can also think of such a function as mapping $A$ to $B \cup \{ \bot \}$ where $\bot$ is a special "failure" symbol such that $F(a)=\bot$  indicates the function $F$ is not defined on $a$.]
 
 For example, consider the partial function $DIV$ that on input a pair $(a,b)$ of natural numbers, outputs $\ceil{a/b}$ if $b > 0$, and is undefined otherwise.
-We can define a turing machine $M$ that computes $DIV$ on input $a,b$ by outputting the first $c=0,1,2,\ldots$ such that $cb \geq a$. If $a>0$ and $b=0$ then the machine $M$ will never halt, but this is OK, since $DIV$ is undefined on such inputs. If $a=0$ and $b=0$, the machine  $M$ will output $0$, which is also OK, since we don't care about what the program outputs on inputs on which $DIV$ is undefined. Formally, we define computability of partial functions as follows:
+We can define a Turing machine $M$ that computes $DIV$ on input $a,b$ by outputting the first $c=0,1,2,\ldots$ such that $cb \geq a$. If $a>0$ and $b=0$ then the machine $M$ will never halt, but this is OK, since $DIV$ is undefined on such inputs. If $a=0$ and $b=0$, the machine  $M$ will output $0$, which is also OK, since we don't care about what the program outputs on inputs on which $DIV$ is undefined. Formally, we define computability of partial functions as follows:
 
 ::: {.definition title="Computable (partial or total) functions" #computablepartialfuncdef}
 Let $F$ be either a total or partial function mapping $\{0,1\}^*$ to $\{0,1\}^*$ and let $M$ be a Turing machine.
@@ -323,8 +323,8 @@ Note that if $F$ is a total function, then it is defined on every $x\in \{0,1\}^
 We often use $\bot$ as our special "failure symbol".
 If a Turing machine $M$ fails to halt on some input $x\in \{0,1\}^*$ then we denote this by $M(x) = \bot$. This _does not_ mean that $M$ outputs some encoding of the symbol $\bot$ but rather that $M$ enters into an infinite loop when given $x$ as input.
 
-If a partial function $F$ is undefined on $x$ then can also write $F(x) = \bot$.
-Therefore one might think that [computablepartialfuncdef](){.ref} can be simplified to requiring that $M(x) = F(x)$ for every $x\in \{0,1\}$, which would imply that for every $x$, $M$ halts on $x$ if and only if $F$ is defined on $x$.
+If a partial function $F$ is undefined on $x$ then we can also write $F(x) = \bot$.
+Therefore one might think that [computablepartialfuncdef](){.ref} can be simplified to requiring that $M(x) = F(x)$ for every $x\in \{0,1\}^*$, which would imply that for every $x$, $M$ halts on $x$ if and only if $F$ is defined on $x$.
 However this is not the case: for a Turing Machine $M$ to compute a partial function $F$ it is not _necessary_ for $M$ to enter an infinite loop on inputs $x$ on which $F$ is not defined.
 All that is needed is for $M$ to output $F(x)$ on $x$'s on which $F$ is defined: on other inputs it is OK for $M$ to output an arbitrary value such as $0$, $1$, or anything else, or not to halt at all.
 To borrow a term from the `C` programming language,  on inputs $x$ on which $F$ is not defined, what $M$ does is "undefined behavior".
