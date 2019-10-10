@@ -59,7 +59,7 @@ That is, if the machine $M$ halts on $x$ and outputs some $y\in \{0,1\}^*$ then 
 
 
 ::: { .bigidea #universaltmidea}
-There is a single algorithm that can evaluate arbitrary  algorithms on arbitrary inputs.
+There is a  _"universal"_ algorithm that can evaluate arbitrary  algorithms on arbitrary inputs.
 :::
 
 
@@ -223,6 +223,10 @@ $F^*(x) = 1 - G(x) = 1 - M(x)$,   hence yielding a contradiction.
 
 ![We construct an uncomputable function by defining for every two strings $x,y$ the value $1-M_y(x)$ which equals $0$ if the machine described by $y$ outputs $1$ on $x$, and $1$ otherwise.  We then define $F^*(x)$ to be the "diagonal" of this table, namely $F^*(x)=1-M_x(x)$ for every $x$. The function $F^*$ is uncomputable, because if it was computable by some machine whose string description is $x^*$ then we would get that $M_{x^*}(x^*)=F(x^*)=1-M_{x^*}(x^*)$.](../figure/diagonal_proof.png){#diagonal-fig   }
 
+
+::: { .bigidea #uncomputablefunctions}
+There are some functions that _can not_ be computed by _any_ algorithm.
+:::
 
 > ### { .pause }
 The proof of [uncomputable-func](){.ref} is short but subtle.

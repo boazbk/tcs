@@ -295,7 +295,7 @@ When one wants to produce a device that executes programs, it is convenient to d
 ![By having the two equivalent languages NAND-TM and NAND-RAM, we can "have our cake and eat it too", using NAND-TM when we want to prove that programs _can't_ do something, and using NAND-RAM or other high level languages when we want to prove that programs _can_ do something.](../figure/have_your_cake_and_eat_it_too-img-intro.png){#cakefig .margin  }
 
 ::: { .bigidea #eatandhavecake }
-Using equivalence results such as those between Turing and RAM machines, we can "have our cake and eat it too".
+Using equivalence results such as those between Turing and RAM machines, we can _"have our cake and eat it too"_.
 
 We can use a simpler model such as Turing machines when we want to prove something _can't_ be done, and use a   feature-rich model such as RAM machines when we want to prove something _can_ be done.
 :::

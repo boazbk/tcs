@@ -144,7 +144,7 @@ print(MAJ(0,1,1))
 
 
 ::: { .bigidea #synsugar}
-Once we show that a computational model $X$ is equivalent in power to the model with an additional feature $Y$, we can use this feature whenever we need to show that some function $f$ is computable by $X$.
+Once we show that a computational model $X$ is equivalent to a model that has feature $Y$, we can assume we have  $Y$ when showing that a function $f$ is computable by $X$.
 :::
 
 

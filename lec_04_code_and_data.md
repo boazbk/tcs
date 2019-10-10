@@ -162,7 +162,7 @@ We have seen before that _every_ function mapping $\{0,1\}^n$ to $\{0,1\}$ can b
 [counting-lb](){.ref} shows that this is tight in the sense that some functions do require such an astronomical number of lines to compute.
 
 ::: { .bigidea #countinglb }
-Some functions  $f:\{0,1\}^n \rightarrow \{0,1\}$   _cannot_ be computed by a Boolean circuit using a fewer than exponential number of gates.
+Some functions  $f:\{0,1\}^n \rightarrow \{0,1\}$   _cannot_ be computed by a Boolean circuit using a fewer than exponential (in $n$) number of gates.
 :::
 
 In fact, as we explore in the exercises, this is the case for _most_ functions.
