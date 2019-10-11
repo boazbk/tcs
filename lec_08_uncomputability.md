@@ -899,6 +899,10 @@ For each of the following two functions, say whether it is computable or not:
 2. Given a NAND-TM program $P$, an input $x$, and a number $k$, when we run $P$ on $x$, does $P$ ever write to an array at index $k$?
 :::
 
+::: {.exercise  #ricetmnandram}
+Let $F:\{0,1\}^* \rightarrow \{0,1\}$ be the function that is defined as follows. On input a string $P$ that represents a NAND-RAM program and a String $M$ that represents a Turing machine, $F(P,M)=1$ if and only if there exists some input $x$ such $P$ halts on $x$ but $M$ does not halt on $x$. Prove that $F$ is uncomputable. See footnote for hint.^[_Hint:_ While it cannot be applied directly, with a little "massaging" you can prove this using Rice's Theorem.]
+:::
+
 ::: {.exercise title="Recursively enumerable" #recursiveenumerableex}
 Define a function $F:\{0,1\}^* :\rightarrow \{0,1\}$ to be _recursively enumerable_ if there exists a Turing machine $M$ such that such that for every $x\in \{0,1\}^*$, if $F(x)=1$ then $M(x)=1$, and if $F(x)=0$ then $M(x)=\bot$. (i.e., if $F(x)=0$ then $M$ does not halt on $x$.)
 
