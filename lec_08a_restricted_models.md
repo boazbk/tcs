@@ -1134,6 +1134,11 @@ One among the following two functions that map $\{0,1\}^*$ to $\{0,1\}$ can be c
 * $G(x) = 1$ if and only if $\sum_{i=0}^{|x|-1} x_i \geq |x|/4$ and $G(x)=0$ otherwise.
 :::
 
+::: {.exercise title="Non regularity" #nonregex}
+1. Prove that the following function $F:\{0,1\}^* \rightarrow \{0,1\}$ is not regular. For every $x\in \{0,1\}^*$, $F(x)=1$ iff $x$ is of the form $x=1^{3^i}$ for some $i>0$. 
+
+2.  Prove that the following function $F:\{0,1\}^* \rightarrow \{0,1\}$ is not regular. For every $x\in \{0,1\}^*$, $F(x)=1$ iff  $\sum_j x_j = 3^i$ for some $i>0$. 
+:::
 
 ::: {.exercise title="Closure properties of context-free functions" #closurecfgex}
 Suppose that $F,G:\{0,1\}^* \rightarrow \{0,1\}$ are context free. For each one of the following definitions of the function $H$, either prove that $H$ is always context free or give a counterexample for regular $F,G$ that would make $H$ not context free.

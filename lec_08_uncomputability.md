@@ -142,6 +142,7 @@ def EVAL(δ,x):
         j += 1
     return Y
 ```
+On input a transition table $\delta$ this program will simulate the corresponding machine $M$ step by step, at each point maintaining the invariant that the array `Tape` contains the contents of $M$'s tape,  and the variable `s` contains $M$'s current state.
 
 The above does not prove the theorem as stated, since we need to show a _Turing machine_ that computes $EVAL$ rather than a Python program.
 With enough effort, we can translate this Python code line by line to a Turing machine.
@@ -160,6 +161,11 @@ Similarly we scan the list to update the dictionary with a new value, either mod
 ::: {.remark title="Efficiency of the simulation"}
 The argument in the proof of [universaltmthm](){.ref} is a very inefficient way to implement the dictionary data structure in practice, but it suffices for the purpose of proving the theorem.
 Reading and writing to a dictionary of $m$ values in this implementation takes $\Omega(m)$ steps, but it is in fact possible to do this in $O(\log m)$ steps using a _search tree_ data structure or even $O(1)$ (for "typical" instances)  using a _hash table_.   NAND-RAM and RAM machines correspond to the architecture of modern electronic computers, and so we can implement hash tables and search trees in NAND-RAM just as they are implemented in other programming languages.
+:::
+
+
+::: {.remark title="Direct construction of universal Turing Machines" #directunivtm}
+Since universal Turing 
 :::
 
 ### Implications of universality (discussion)

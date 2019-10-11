@@ -24,7 +24,7 @@ _"I think the bubble sort would be the wrong way to go."_, Barack Obama.
 
 
 So far we have been concerned with which functions are _computable_ and which ones are not.
-In this chapter we look at the finer question of  the _time_ that it takes to compute functions, as a function of their input length.
+In this chapter we look at the finer question of  the _time_ that it takes to compute functions, as a _function of their input length_.
 This is extremely important in the practice of computing.
 In introductory courses,  coding interviews, and actual algorithm design, terms such as "$O(n)$ running time" are often used in an informal way.
 People don't have a precise definition of what a linear-time algorithm is, but rather assume that "they'll know it when they see it".
@@ -34,6 +34,10 @@ This will allow us to ask (and sometimes answer) questions such as:
 * "Is there a function that can be computed in $O(n^2)$ time but not in $O(n)$ time?"
 
 * "Are there natural problems for which the _best_ algorithm (and not just the _best known_) requires $2^{\Omega(n)}$ time?"
+
+::: { .bigidea #runtimefunc}
+The running time of an algorithm is not a _number_, it is a _function_ of the length of the input.
+:::
 
 
 In this chapter we will survey some examples of computational problems, for some of which we know efficient (e.g., $n^c$-time for a small constant $c$) algorithms, and for others the best known algorithms are exponential.
