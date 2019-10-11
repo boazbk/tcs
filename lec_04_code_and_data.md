@@ -781,7 +781,7 @@ For every $k \in \N$ and $x' \in \{0,1\}^k$, show that there is an $O(k)$ line N
 
 
 ::: {.exercise title="Counting lower bound for multibit functions" #countingmultibitex}
-Prove that there exist a number $\delta>0$ such that for every $n,m$ there exists a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that requires at least $\delta m \cdot 2^n / n$ NAND gates to compute. See footnote for hint.^[How many functions from $\{0,1\}^n$ to $\{0,1\}^m$ exist?]
+Prove that there exists a number $\delta>0$ such that for every $n,m$ there exists a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that requires at least $\delta m \cdot 2^n / n$ NAND gates to compute. See footnote for hint.^[How many functions from $\{0,1\}^n$ to $\{0,1\}^m$ exist?]
 :::
 
 ::: {.exercise title="Size hierarchy theorem for multibit functions" #sizehiearchyex}
