@@ -186,7 +186,7 @@ It turns out that we can use [counting-lb](){.ref} to show a more general result
 
 
 > ### {.theorem title="Size Hierarchy Theorem" #sizehiearchythm}
-For every sufficiently large $n$ and $10n < s < 0.1 2^n /n$,
+For every sufficiently large $n$ and $10n < s < 0.1 \cdot 2^n /n$,
 $$
 SIZE_n(s) \subsetneq SIZE_n(s+10n) \;.
 $$
