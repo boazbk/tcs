@@ -943,7 +943,7 @@ Turing's life is the subject of a [great book](https://goo.gl/3GdFdp) and a [med
 
 
 
-Sipser's text [@SipserBook] defines a  Turing machine is as a _seven tuple_ consisting of the state space, input alphabet, tape alphabet, transition function, starting state, accpeting state, and rejecting state.
+Sipser's text [@SipserBook] defines a Turing machine as a _seven tuple_ consisting of the state space, input alphabet, tape alphabet, transition function, starting state, accpeting state, and rejecting state.
 Superficially this looks like a very different definition than [TM-def](){.ref} but it is simply a different representation of the same concept, just as a graph can be represented in either adjacency list or adjacency matrix form.
 
 One difference is that Sipser considers a  general set of states $Q$ that is not necessarily of the form $Q=\{0,1,2,\ldots, k-1\}$ for some natural number $k>0$.
