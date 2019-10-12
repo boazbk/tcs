@@ -100,25 +100,48 @@ Specifically we will mostly care about the difference between _polynomial_ and _
 
 The two main time complexity classes we will be interested in are the following:
 
-* __Polynomial time:__ A function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _computable in polynomial time_ if it is in the class $\mathbf{P} = \cup_{c\in \{1,2,3,\ldots \}} TIME(n^c)$. That is, $F\in \mathbf{P}$ if there is an algorithm to compute $F$ that runs in time at most _polynomial_ (i.e.,  at most $n^c$ for some constant $c$) in the length of the input.
+* __Polynomial time:__ A function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _computable in polynomial time_ if it is in the class $\mathbf{P} = \cup_{c\in \{1,2,3,\ldots \}} TIME_{\mathsf{TM}}(n^c)$. That is, $F\in \mathbf{P}$ if there is an algorithm to compute $F$ that runs in time at most _polynomial_ (i.e.,  at most $n^c$ for some constant $c$) in the length of the input.
 
-* __Exponential time:__ A function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _computable in exponential time_ if it is in the class $\mathbf{EXP} = \cup_{c\in \{1,2,3,\ldots \}} TIME(2^{n^c})$. That is, $F\in \mathbf{EXP}$ if there is an algorithm to compute $F$ that runs in time at most _exponential_ (i.e., at most $2^{n^c}$ for some constant $c$) in the length of the input.
+* __Exponential time:__ A function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _computable in exponential time_ if it is in the class $\mathbf{EXP} = \cup_{c\in \{1,2,3,\ldots \}} TIME_{\mathsf{TM}}(2^{n^c})$. That is, $F\in \mathbf{EXP}$ if there is an algorithm to compute $F$ that runs in time at most _exponential_ (i.e., at most $2^{n^c}$ for some constant $c$) in the length of the input.
 
 In other words, these are defined as follows:
 
 ::: {.definition title="$\mathbf{P}$ and $\mathbf{EXP}$" #PandEXPdef}
-Let $F:\{0,1\}^* \rightarrow \{0,1\}$. We say that $F\in \mathbf{P}$ if there is a polynomial $p:\N \rightarrow \R$ and a Turing Machine $M$ such that for every $x\in \{0,1\}^*$, $M(x)$ runs in at most $p(|x|)$ steps and outputs $F(x)$.
+Let $F:\{0,1\}^* \rightarrow \{0,1\}$. We say that $F\in \mathbf{P}$ if there is a polynomial $p:\N \rightarrow \R$ and a Turing Machine $M$ such that for every $x\in \{0,1\}^*$, 
+when given input $x$, the Turing machine halts within at most $p(|x|)$ steps and outputs $F(x)$.
 
-We say that $F\in \mathbf{EXP}$ if there is a polynomial $p:\N \rightarrow \R$ and a Turing Machine $M$ such that for every $x\in \{0,1\}^*$, $M(x)$ runs in at most $2^{p(|x|)}$ steps and outputs $F(x)$.
+We say that $F\in \mathbf{EXP}$ if there is a polynomial $p:\N \rightarrow \R$ and a Turing Machine $M$ such that for every $x\in \{0,1\}^*$, when given input $x$, $M$ halts within at most $2^{p(|x|)}$ steps and outputs $F(x)$.
 :::
 
 ::: { .pause }
-Please make sure you understand why  [PandEXPdef](){.ref} and the bullets above define the same classes.
-
-Sometimes students think of the class $\mathbf{EXP}$ as corresponding to functions that are _not_ in $\mathbf{P}$.
+Please take the time to make sure you understand these definitions.
+In particular, sometimes students think of the class $\mathbf{EXP}$ as corresponding to functions that are _not_ in $\mathbf{P}$.
 However, this is not the case. If $F$ is in $\mathbf{EXP}$ then it _can_ be computed in exponential time.
 This does not mean that it cannot be computed in polynomial time as well.
 :::
+
+
+::: {.solvedexercise title="Differerent definitions of $\mathbf{P}$" #diffdefofP}
+Prove that $\mathbf{P}$ as defined in [PandEXPdef](){.ref} is equal to  $\cup_{c\in \{1,2,3,\ldots \}} TIME_{\mathsf{TM}}(n^c)$
+:::
+
+::: {.solution data-ref="diffdefofP"}
+To show these two sets are equal we need to show that $\mathbf{P} \subseteq \cup_{c\in \{1,2,3,\ldots \}} TIME_{\mathsf{TM}}(n^c)$ and $\cup_{c\in \{1,2,3,\ldots \}} TIME_{\mathsf{TM}}(n^c) \subseteq \mathbf{P}$. 
+We start with the former inclusion.
+Suppose that $F \in \mathbf{P}$. Then there is some polynomial $p:\N \rightarrow \R$ and a Turing machine $M$ such that $M$ computes $F$ and $M$ halts on every input $x$ within at most $p(|x|)$ steps.
+We can write the  polynomial $p:\N \rightarrow \R$ in  the form $p(n) = \sum_{i=0}^d a_i n^i$ where $a_0,\ldots,a_d \in \R$, and we assume that $a_d$ is nonzero (or otherwise we just let $d$ correspond to the largest number such that $a_d$
+is nonzero). The _degree_ if $p$ the number $d$.
+Since $n^d = o(n^{d+1})$, no matter what is the coefficient $a_d$, for large enough $n$, $p(n) < n^{d+1}$ which means that the Turing machine $M$ will halt on inputs of length $n$ within fewer than $n^{d+1}$ steps, and hence
+$F \in TIME_{\mathsf{TM}}(n^{d+1}) \subseteq \cup_{c\in \{1,2,3,\ldots \}} TIME_{\mathsf{TM}}(n^c)$.
+
+For the second inclusion, suppose that $F \in \cup_{c\in \{1,2,3,\ldots \}} TIME_{\mathsf{TM}}(n^c)$.
+Then there is some positive $c \in \N$ such that $F \in TIME_{\mathsf{TM}}(n^c)$ which means that there is a Turing Machine $M$ and some number $N_0$ such that $M$ computes $F$ and for every $n>N_0$, 
+$M$ halts on length $n$ inputs within at most $n^c$ steps.
+Let $T_0$ be the maximum number of steps that $M$ takes on inputs of length at most $N_0$.
+Then if we define the polynomial $p(n) = n^c + T_0$ then we see that $M$ halts on every input $x$ within at most $p(|x|)$ steps and hence the existence of $M$ demonstrates that $F\in \mathbf{P}$.
+:::
+
+
 
 Since exponential time is much larger than polynomial time,  $\mathbf{P}\subseteq \mathbf{EXP}$.
 All of the  problems we listed in [chapefficient](){.ref} are in $\mathbf{EXP}$, but as we've seen, for some of them there are much better algorithms that demonstrate that they are in fact in the smaller class $\mathbf{P}$. 
