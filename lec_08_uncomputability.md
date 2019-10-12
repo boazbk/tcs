@@ -37,7 +37,7 @@ Beyond the practical applications, the existence of a universal algorithm also s
 In this chapter we will prove the existence of the universal program, and also show its implications for uncomputability, see [universalchapoverviewfig](){.ref}
 
 
-![In this chapter we will show the existence of a _universal Turing machine_ and then use this to derive first the existence of _some_ uncomputable function. We then use this to derive the uncomputability of Turing's famous "halting problem" (i.e., the $HALT$ function), from which we a host of other uncomputability results follow. We also introduce _reductions_, which allow us to use the uncomputability of a function $F$ to derive the uncomputability of a new function $G$. The cartoon of the Halting problem is copyright 2019 Charles F. Cooper.](../figure/universalchapoverview.png){#universalchapoverviewfig}
+![In this chapter we will show the existence of a _universal Turing machine_ and then use this to derive first the existence of _some_ uncomputable function. We then use this to derive the uncomputability of Turing's famous "halting problem" (i.e., the $HALT$ function), from which we a host of other uncomputability results follow. We also introduce _reductions_, which allow us to use the uncomputability of a function $F$ to derive the uncomputability of a new function $G$.](../figure/universalchapoverview.png){#universalchapoverviewfig}
 
 
 
@@ -975,3 +975,5 @@ It is typically stated in a form somewhat different than what we used, see [rice
 
 We do not discuss in the chapter the concept of _recursively enumerable_ languages, but it is covered briefly in [recursiveenumerableex](){.ref}.
 As usual, we use function, as opposto language, notation.
+
+The cartoon of the Halting problem in [universalchapoverviewfig](){.ref} is copyright 2019 Charles F. Cooper.
