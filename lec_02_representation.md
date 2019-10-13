@@ -561,7 +561,7 @@ Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$. If
 
 When showing a representation scheme for rational numbers, we used the "hack" of encoding the alphabet $\{ 0,1, \|\}$  to represent tuples of strings as a single string.
 This is a special case of the general paradigm of _prefix-free_ encoding.
-The idea is the following: if our representation has the property that no string $x$ representing an object $o$ is a _prefix_ (i.e., an initial substring) of a string $y$ representing a different object $o'$, then we can represent a _lists_ of objects by merely concatenating the representations of all the list members.
+The idea is the following: if our representation has the property that no string $x$ representing an object $o$ is a _prefix_ (i.e., an initial substring) of a string $y$ representing a different object $o'$, then we can represent a _list_ of objects by merely concatenating the representations of all the list members.
 For example, because in English every sentence ends with a punctuation mark such as a period, exclamation, or question mark, no sentence can be a prefix of another and so we can represent a list of sentences by merely concatenating the sentences one after the other.^[English has some complications such as periods used for abbreviations (e.g., "e.g.") or sentence quotes containing punctuation, but the high level point of a prefix-free representation for sentences still holds.]
 
 It turns out that we can transform _every_ representation to a prefix-free form.
