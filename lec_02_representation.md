@@ -11,7 +11,7 @@ chapternum: "2"
 * Representing an object as a string (often of zeroes and ones).
 * Examples of representations for common objects such as numbers, vectors, lists, graphs.
 * Prefix-free representations.
-* Cantor's Theorem: The real numbers are cannot be represented exactly as finite strings.
+* Cantor's Theorem: The real numbers cannot be represented exactly as finite strings.
 
 
 >_"The alphabet (sic) was a great invention, which enabled men (sic) to store and to learn with little effort what others had learned the hard way -- that is, to learn from books rather than from direct, possibly painful, contact with the real world."_, B.F. Skinner
@@ -63,7 +63,7 @@ Moreover, once information is in digital form, we can _compute_ over it, and gai
 At the heart of this revolution is the simple but profound observation that we can represent an unbounded variety of objects using a finite set of symbols (and in fact using only the two symbols `0` and `1`).
 
 In later chapters, we will typically take such representations for granted, and hence use expressions such as "program $P$ takes $x$ as input" when $x$ might be a number, a vector, a graph, or any other object,  when we really mean that $P$ takes as input the _representation_ of $x$ as a binary string.
-However, in this chapter we will dwell a bit more on how we can construct such representations. 
+However, in this chapter we will dwell a bit more on how we can construct such representations.
 
 ## Defining representations
 
@@ -86,8 +86,7 @@ We now show how we can represent natural numbers as binary strings.
 Over the years people have represented numbers in a variety of ways, including Roman numerals, tally marks, our own Hindu-Arabic  decimal system, and many others.
 We can use any one of those as well as many others to represent a number as a string (see [bitmapdigitsfig](){.ref}).
 However, for the sake of concreteness,  we use the _binary basis_ as our default representation of natural numbers as strings.
-For example, we represent the number six as the string $110$ since $1\cdot 2^{2} + 1 \cdot 2^1 + 0 \cdot 2^0 = 6$, and similarly we represent the number thirty-five as the string $y = 100011$ which satisfies $\sum_{i=0}^5 y_i \cdot 2^{|y|-i} = 35$.^[We could have equally well reversed the order so as to represent $35$ by the string $y'=110001$ satisfying $\sum_{i=0}^5 y'_i\cdot 2^i = 35$. This is related to the [Big Endian vs. Little Endian](https://betterexplained.com/articles/understanding-big-and-little-endian-byte-order/) representations for integers in computing architectures. Similarly we choose to represent the number zero as the single bit string $0$, though we could have equally well represented it using the length-zero string $""$.  
-Such low level choices will not make a difference in this book.]
+For example, we represent the number six as the string $110$ since $1\cdot 2^{2} + 1 \cdot 2^1 + 0 \cdot 2^0 = 6$, and similarly we represent the number thirty-five as the string $y = 100011$ which satisfies $\sum_{i=0}^5 y_i \cdot 2^{|y|-i-1} = 35$.^[We could just as well used the reverse order and represent  $35$ as the string $110001$. Similarly, we could have just as well used the empty string $""$ to represent $0$. Such low level choices do not make a difference for us, though they do matter in computing practice, see the bibliographical notes [bibnotesrepres](){.ref}.]
 Some more examples are given in the table below.
 
 
@@ -107,7 +106,7 @@ Some more examples are given in the table below.
 | 389                                 | 110000101                          |
 | 3750                                | 111010100110                       |
 
-Table: Representing numbers in the binary basis. The lefthand column contains representations of natural numbers in the decimal basis, while the righthand column contains representations of the same numbers in the binary basis. 
+Table: Representing numbers in the binary basis. The lefthand column contains representations of natural numbers in the decimal basis, while the righthand column contains representations of the same numbers in the binary basis.
 
 If $n$ is even, then the least significant digit of $n$'s binary representation is $0$, while if $n$ is odd then this digit equals $1$.
 Just like the number $\floor{n/10}$ corresponds to "chopping off" the least significant decimal digit (e.g., $\floor{457/10}=\floor{45.7}=45$), the number $\floor{n/2}$ corresponds to the "chopping off" the least significant _binary_ digit.
@@ -119,21 +118,22 @@ $$NtS(n) = \begin{cases}
             NtS(\floor{n/2}) parity(n) & n>1
 \end{cases} \label{ntseq}$$
 where $parity:\N \rightarrow \{0,1\}$  is the function defined as $parity(n)=0$ if $n$ is even and $parity(n)=1$ if $n$ is odd, and as usual, for strings $x,y \in \{0,1\}^*$, $xy$ denotes the concatenation of $x$ and $y$.
-The function $NtS$ is defined _recursively_: for every $n>0$ we define $rep(n)$ in terms of the representation of the smaller number $\floor{n/2}$. 
+The function $NtS$ is defined _recursively_: for every $n>0$ we define $rep(n)$ in terms of the representation of the smaller number $\floor{n/2}$.
 It is also possible to define $NtS$ non-recursively, see [binaryrepex](){.ref}.
 
 Throughout most of this book, the particular choices of representation of numbers as binary strings would not matter much, we just need to know that such a representation exists.
-In fact, for most  purposes, we can even use the simpler representation of mapping a natural number $n$ to the length-$n$ all-zero string $0^n$. 
+In fact, for most  purposes, we can even use the simpler representation of mapping a natural number $n$ to the length-$n$ all-zero string $0^n$.
 
 
 ::: {.remark title="Binary representation in python (optional)" #pythonbinary}
 We can implement the binary representation in _Python_ as follows:
 
 ```python
-from math import floor, log
-def NtS(n): # natural numbers to strings
-    if n<1: return ""
-    return NtS(floor(n/2))+str(n % 2)
+def NtS(n):# natural numbers to strings
+    if n > 1:
+        return NtS(n // 2) + str(n % 2)
+    else:
+        return str(n % 2)
 
 print(NtS(236))
 # 11101100
@@ -175,9 +175,9 @@ So what is the "actual" number? This is a question that philosophers of mathemat
 Plato argued that mathematical objects exist in some ideal sphere of existence (that to a certain extent is more "real" than the world we perceive via our senses, as this latter world is merely the shadow of this ideal sphere).
 In Plato's vision, the symbols $236$ are merely notation for some ideal object, that, in homage to the [late musician](https://goo.gl/b93h83), we can refer to as  "the number commonly represented by $236$".
 
-The Austrian philosopher Ludwig Wittgenstein, on the other hand, argued that mathematical objects do not exist at all, and the only things that exist are the actual marks on paper that make up $236$, $00110111$ or `CCXXXVI`.
+The Austrian philosopher Ludwig Wittgenstein, on the other hand, argued that mathematical objects do not exist at all, and the only things that exist are the actual marks on paper that make up $236$, $11101100$ or `CCXXXVI`.
 In Wittgenstein's view, mathematics is merely about formal manipulation of symbols that do not have any inherent meaning.
-You can think of the "actual" number as (somewhat recursively) "that thing which is common to $236$, $00110111$  and `CCXXXVI` and all other past and future representations that are meant to capture the same object".
+You can think of the "actual" number as (somewhat recursively) "that thing which is common to $236$, $11101100$  and `CCXXXVI` and all other past and future representations that are meant to capture the same object".
 
 While reading this book, you are free to choose your own philosophy of mathematics, as long as you maintain the distinction between the mathematical objects themselves and the various particular choices of representing them, whether as splotches of ink, pixels on a screen, zeroes and one, or any other form.
 
@@ -224,7 +224,7 @@ $$
 ZtS_n(k) = \begin{cases} NtS_{n+1}(k) & 0 \leq k \leq 2^n-1 \\
                      NtS_{n+1}(2^{n+1}+k) & -2^n \leq k \leq -1 \end{cases} \;,
 $$
-where $NtS_\ell(m)$ demotes the standard binary representation of a number  $m \in \{0,\ldots, 2^{\ell}\}$ as string of length $\ell$, padded with leading zeros as needed. 
+where $NtS_\ell(m)$ demotes the standard binary representation of a number  $m \in \{0,\ldots, 2^{\ell}\}$ as string of length $\ell$, padded with leading zeros as needed.
 For example, if $n=3$ then $ZtS_3(1)=NtS_4(1)=0001$, $ZtS_3(2)=NtS_4(2)=0010$, $ZtS_3(-1)=NtS_4(16-1)=1111$, and $ZtS_3(-8)=NtS_4(16-8)=1000$.
 If $k$ is a  negative number larger or equal to $-2^n$ then  $2^{n+1}+k$ is a number between $2^n$ and $2^{n+1}-1$.
 Hence the two's complement representation of such a number $k$ is a string of length $n+1$  with its first digit equal to $1$.
@@ -237,7 +237,7 @@ Many systems leave it to the programmer to check that values are not too large a
 For this reason, in some systems adding two large positive numbers can result in a _negative_ number (e.g., adding $2^n-100$ and $2^n-200$ might result in $-300$ since $-300 \mod 2^{n+1}= 2^{n+1}-300$, see also [twoscomplementfig](){.ref}).
 
 
-![In the _two's complement representation_  we represent a potentially negative integer $k \in \{ -2^n ,\ldots, 2^n-1 \}$ as an $n+1$ length string using the binary representation of the integer $k \mod 2^{n+1}$. On the lefthand side: this representation for $n=3$ (the red integers are the numbers being represented by the blue binary strings). If a microprocessor does not check for overflows, adding the two positive numbers $6$ and $5$ might result in the negative number $-5$ (since $-5 \mod 16 = 11$. The righthand side is a `C` program that will on some $32$ bit architecture print a negative number after adding two positive numbers. (Integer overflow in `C` is condsidered _undefined behavior_ which means the result of this program, including whether it runs or crashes, could differ depending on the architecture, compiler, and even compiler options and version.)](../figure/twoscomplement.png){#twoscomplementfig .margin}
+![In the _two's complement representation_  we represent a potentially negative integer $k \in \{ -2^n ,\ldots, 2^n-1 \}$ as an $n+1$ length string using the binary representation of the integer $k \mod 2^{n+1}$. On the lefthand side: this representation for $n=3$ (the red integers are the numbers being represented by the blue binary strings). If a microprocessor does not check for overflows, adding the two positive numbers $6$ and $5$ might result in the negative number $-5$ (since $-5 \mod 16 = 11$. The righthand side is a `C` program that will on some $32$ bit architecture print a negative number after adding two positive numbers. (Integer overflow in `C` is considered _undefined behavior_ which means the result of this program, including whether it runs or crashes, could differ depending on the architecture, compiler, and even compiler options and version.)](../figure/twoscomplement.png){#twoscomplementfig .margin}
 
 
 ### Rational numbers, and representing pairs of strings
@@ -260,7 +260,7 @@ Our final representation for rational numbers is obtained by composing the follo
 
 1. Representing a non-negative rational number as a pair of natural numbers.
 
-2. Representing a natural number by a string via the binary representation. 
+2. Representing a natural number by a string via the binary representation.
 
 3. Combining 1 and 2 to obtain a representation of a rational number as a pair of strings.
 
@@ -271,7 +271,7 @@ Our final representation for rational numbers is obtained by composing the follo
 ::: {.example title="Representing a rational number as a string" #represnumberbypairs}
 Consider the rational number $r=-5/8$.
 We represent $-5$ as $1101$ and $+8$ as $01000$, and so we can represent $r$ as the _pair_ of strings $(1101,01000)$ and represent this pair as the length $10$ string $1101\|01000$ over the alphabet  $\{0,1,\|\}$.
-Now, applying the map $0 \mapsto 00$, $1\mapsto 11$, $\| \mapsto 01$, we can represent the latter string as the length $20$ string  $s=0011000000010011000000$ over the alphabet $\{0,1\}$.
+Now, applying the map $0 \mapsto 00$, $1\mapsto 11$, $\| \mapsto 01$, we can represent the latter string as the length $20$ string  $s=11110011010011000000$ over the alphabet $\{0,1\}$.
 :::
 
 
@@ -282,7 +282,7 @@ Indeed, this is one instance of a very general principle that we use time and ag
 
 
 ::: { .bigidea #representtuplesidea }
-If we can represent objects of type $T$ as strings, then we can represents tuples of objects of type $T$ as strings as well. 
+If we can represent objects of type $T$ as strings, then we can represent tuples of objects of type $T$ as strings as well.
 :::
 
 Repeating the same idea, once we can represent objects of type $T$, we can also represent _lists of lists_ of such objects, and even  lists of lists of lists and so on and so forth.
@@ -313,14 +313,14 @@ The use of floating representation is the reason why in many programming systems
 The reader might be (rightly) worried about the fact that the floating point representation (or the rational number one) can only _approximately_ represent real numbers.
 In many (though not all) computational applications, one can make the accuracy tight enough so that this does not affect the final result, though sometimes we do need to be careful.
 Indeed, floating-point bugs can sometimes be no joking matter.
-For example, dloating point rounding errors have been implicated in the   [failure](http://embeddedgurus.com/barr-code/2014/03/lethal-software-defects-patriot-missile-failure/) of a U.S. Patriot missile to intercept an Iraqi Scud missile, costing 28 lives, as well as a 100 million pound error in computing [payouts to British pensioners](https://catless.ncl.ac.uk/Risks/5/74).
+For example, floating point rounding errors have been implicated in the   [failure](http://embeddedgurus.com/barr-code/2014/03/lethal-software-defects-patriot-missile-failure/) of a U.S. Patriot missile to intercept an Iraqi Scud missile, costing 28 lives, as well as a 100 million pound error in computing [payouts to British pensioners](https://catless.ncl.ac.uk/Risks/5/74).
 
 
 
 
 ### Can we represent reals _exactly_? {#cantorsec }
 
-Given the issues with floating point approximations for real numbers, 
+Given the issues with floating point approximations for real numbers,
 a natural question is whether it is possible to  represent real numbers _exactly_ as strings.
 Unfortunately, the following theorem shows that this cannot be done:
 
@@ -394,24 +394,39 @@ We start by proving  [sequencestostrings](){.ref} which is really the heart of [
 ![We construct a function $\overline{d}$ such that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$ by ensuring that $\overline{d}(n(x)) \neq StF(x)(n(x))$ for every $x\in \{0,1\}^*$ with lexicographic order $n(x)$. We can think of this as building a table where the columns correspond to numbers $m\in \N$ and the rows correspond to $x\in \{0,1\}^*$ (sorted according to $n(x)$). If the entry in the $x$-th row and the $m$-th column corresponds to $g(m))$ where $g=StF(x)$ then $\overline{d}$ is obtained by going over the "diagonal" elements in this table (the entries corresponding to the $x$-th row and $n(x)$-th column) and ensuring that $\overline{d}(x)(n(x)) \neq StF(x)(n(x))$. ](../figure/diagreals2.png){#diagrealsfig   }
 
 
-::: {.proof data-ref="sequencestoreals"}
+::: {.proof data-ref="sequencestostrings"}
 We will prove that there does not exist an _onto_ function $StF:\{0,1\}^* \rightarrow \{0,1\}^\infty$.
 This implies the lemma since for every two sets $A$ and $B$, there exists an onto function from $A$ to $B$ if and only if there exists a one-to-one function from $B$ to $A$  (see [onetooneimpliesonto](){.ref}).
 
 The technique of this proof is known as the "diagonal argument" and is illustrated in [diagrealsfig](){.ref}.
-We assume, towards a contradiction, that there exists such a function $StF:\{0,1\}^* \rightarrow \{0,1\}^\infty$, and we will show it is not onto by demonstrating a function $\overline{d}\in \{0,1\}^\infty$ such that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$.
+We assume, towards a contradiction, that there exists such a function $StF:\{0,1\}^* \rightarrow \{0,1\}^\infty$.
+We will show that $StF$ is not onto by demonstrating a function $\overline{d}\in \{0,1\}^\infty$ such that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$.
 Consider the lexicographic ordering of binary strings (i.e., $""$,$0$,$1$,$00$,$01$,$\ldots$).
-We can imagine the function $StF$ as being specified by an infinitely long table, in which every row corresponds to a string $x\in \{0,1\}^*$ (sorted in lexicographic order), and contains the sequence $StF(x)$.
-That is, for every $x\in \{0,1\}^*$ and $n\in \N$, the cell in the $x$-th row  and $n$-th column of the table contains the bit  $g(n)$ where $g=StF(x)$.
-The diagonal elements in this table are the values $StF("")(0),StF(0)(1),StF(00)(2),StF(01)(3),\ldots$, with the $n$-th diagonal element $d_n$ being $StF(x)(n)$ where $x$ is the $n$-th string in the lexicographic order.
-We define the function $\overline{d} \in \{0,1\}^\infty$ by $\overline{d}(n) = 1 - d_n$ for every $n\in \N$.
-By construction, for every $n$, if $a_0,a_1,a_2,\ldots$ is the $n$-th row of this table then $a_n \neq \overline{d}(n)$.
-This means that for every $x\in \{0,1\}^*$, if we let $n$ be the position of $x$ in the lexicographic order, then since $g = StF(x)$ is the $n$-th row of the table, $g(n) \neq \overline{d}(n)$.
-In particular, for every $x\in \{0,1\}^*$, $StF(x) \neq \overline{d}$ which means that $\overline{d}$ is not in the image of the function $StF$ and hence $StF$ is not onto!
+For every $n\in \N$, we let $x_n$ be the $n$-th string in this order.
+That is $x_0 =""$, $x_1 = 0$, $x_2= 1$ and so on and so forth.
+We define the function $\overline{d} \in \{0,1\}^\infty$ as follows:
+$$\overline{d}(n) = 1 - StF(x_n)(n)$$
+for every $n\in \N$.
+That is,  to compute  $\overline{d}$ on input $n\in\N$, we first compute $g= StF(x_n)$, where $x_n \in \{0,1\}^*$ is the $n$-th string in the lexicographical ordering.
+Since $g \in \{0,1\}^\infty$, it is a function mapping $\N$ to $\{0,1\}$.
+The value $\overline{d}(n)$ is defined to be the negation of $g(n)$.
+
+The definition of the function $\overline{d}$ is a bit subtle.
+One way to think about it is to imagine the function $StF$ as being specified by an infinitely long table, in which every row corresponds to a string $x\in \{0,1\}^*$ (with strings sorted in lexicographic order), and contains the sequence $StF(x)(0), StF(x)(1), StF(x)(2),\ldots$.
+The _diagonal_ elements in this table   are the values
+
+$$StF("")(0),StF(0)(1),StF(1)(2),StF(00)(3), StF(01)(4),\ldots$$
+
+which correspond to the elements $StF(x_n)(n)$ in the $n$-th row and $n$-th column of this table for $n=0,1,2,\ldots$.
+The function $\overline{d}$ we defined above maps every $n\in \N$ to the negation of the $n$-th diagonal value.
+
+To complete the proof that $StF$ is not onto we need to show that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$.
+Indeed, let $x\in \{0,1\}^*$ be some string and let $g = StF(x)$.
+If $n$ is the position of $x$ in the lexicographical order then by construction $\overline{d}(n) = 1-g(n) \neq g(n)$ which means that $g \neq \overline{d}$ which is what we wanted to prove.
 :::
 
 ::: {.pause}
-The proof of [sequencestoreals](){.ref} is rather subtle, and worth re-reading a second or third time.
+The proof of [sequencestostrings](){.ref} is rather subtle, and worth re-reading a second or third time.
 We will use the "diagonal argument" again several times later on in this book.
 :::
 
@@ -444,17 +459,17 @@ This part is not the core of Cantor's argument, nor are such limits important to
 
 
 ::: {.proofidea data-ref="sequencestoreals"}
-We define $FtR(f)$ to be the number between $0$ and $2$ whose decimal expansion is $f(0).f(1) f(2) \ldots$, or in other words  $FtR(f) = \sum_{i=0}^{\infty} f(i) \cdot 10^{-i}$. 
+We define $FtR(f)$ to be the number between $0$ and $2$ whose decimal expansion is $f(0).f(1) f(2) \ldots$, or in other words  $FtR(f) = \sum_{i=0}^{\infty} f(i) \cdot 10^{-i}$.
 To prove that $FtR$ is one to one, we need to show that if $f \neq g$ then $FtR(f) \neq FtR(g)$.
 To do that we let $k\in \N$ be the first input on which $f$ and $g$ disagree.
-The numbers $FtR(f)$ and $FtR(g)$ agree in the first $k-2$ digits following the decimal point and disagree in the $k-1$-th digit. One can then calculate and verify that this means that $|FtR(f)-FtR(g)| > 0.5 \cdot 10^{-k}$ which in particular means that these two numbers are distinct from one another. (You might wonder why we can't immediately deduce that two numbers that differ in a digit are not the same. The issue is that we have to be a little more careful when talking about infinite expansions. For example, the number one half has two decimal expansions $0.5$ and $0.49999\cdots$. However, this issue does not come up if (as in our case) we restrict attention only to numbers with decimal expansions that do not involve the digit $9$.)
+The numbers $FtR(f)$ and $FtR(g)$ agree in the first $k-1$ digits following the decimal point and disagree in the $k$-th digit. One can then calculate and verify that this means that $|FtR(f)-FtR(g)| > 0.5 \cdot 10^{-k}$ which in particular means that these two numbers are distinct from one another. (You might wonder why we can't immediately deduce that two numbers that differ in a digit are not the same. The issue is that we have to be a little more careful when talking about infinite expansions. For example, the number one half has two decimal expansions $0.5$ and $0.49999\cdots$. However, this issue does not come up if (as in our case) we restrict attention only to numbers with decimal expansions that do not involve the digit $9$.)
 :::
 
 ::: {.proof data-ref="sequencestoreals"}
 
 For every $f \in \{0,1\}^\infty$,  we define $FtR(f)$ to be the number whose decimal expansion is $f(0).f(1)f(2)f(3)\ldots$.
 
-Formally we define 
+Formally we define
 $$
 FtR(f) = \sum_{i=0}^\infty f(i) \cdot 10^{-i} \label{eqcantordecimalexpansion}
 $$
@@ -467,29 +482,30 @@ $f(k)=0$ and $g(k)=1$.
 (Otherwise, if $f(k)=1$ and $g(k)=0$, then we can simply switch the roles of $f$ and $g$.)
 The numbers $FtR(f)$ and $FtR(g)$ agree with each other up to the $k-1$-th digit up after the  decimal point.
 Since this digit equals $0$ for $FtR(f)$  and equals $1$ for $FtR(g)$, we claim that $FtR(g)$ is bigger than $FtR(f)$ by at least $0.5 \cdot 10^{-k}$.
-To see this note that the difference $FtR(g)-FtR(f)$ will be mimimized if   $g(\ell)=0$ for every $\ell>k$  and $f(\ell)=1$ for every $\ell>k$, in which case (since $f$ and $g$ agree up to the $k-1$-th digit)
+To see this note that the difference $FtR(g)-FtR(f)$ will be minimized if   $g(\ell)=0$ for every $\ell>k$  and $f(\ell)=1$ for every $\ell>k$, in which case (since $f$ and $g$ agree up to the $k-1$-th digit)
 
 $$
 FtR(g)-FtR(f) = 10^{-k} - 10^{-k-1} - 10^{-k-2} - 10^{-k-3} - \cdots \label{eqcantordecimalexpansion}
 $$
 
-Since the infinite series $\sum_{j=0}^{\infty} 10^{-i}$ converges to $11/9$, it follows that for every such $f$ and $g$, $FtR(g) - FtR(f) \geq 10^{-k} - 10^{-k}\cdot (11/9) > 0$.
+Since the infinite series $\sum_{j=0}^{\infty} 10^{-i}$ converges to $10/9$, it follows that for every such $f$ and $g$, $FtR(g) - FtR(f) \geq 10^{-k} - 10^{-k-1}\cdot (10/9) > 0$.
 In particular we see that for every distinct $f,g \in \{0,1\}^\infty$, $FtR(f) \neq FtR(g)$, implying that the function $FtR$ is one to one.
 :::
 
 
 ::: {.remark title="Using decimal expansion (optional)" #decimal}
-In the proof above we used the fact that $1 + 1/10 + 1/100 + \cdots$ converges to $11/9$, which plugging into [eqcantordecimalexpansion](){.eqref} yields that the difference between $FtR(g)$ and $FtR(h)$ is at least $10^{-k} - 10^{-k-1}\cdot (11/9) > 0$.
+In the proof above we used the fact that $1 + 1/10 + 1/100 + \cdots$ converges to $10/9$, which plugging into [eqcantordecimalexpansion](){.eqref} yields that the difference between $FtR(g)$ and $FtR(h)$ is at least $10^{-k} - 10^{-k-1}\cdot (10/9) > 0$.
 While the choice of the decimal representation for $FtR$ was arbitrary, we could not have used the binary representation in its place.
-Had we used the _binary_ expansion instead of decimal, the corresponding sequence $1 + 1/2 + 1/4 + \cdots$ converges to $2$, and since $2^{-k} = 2^{-k-1} \cdot 2$, we could not have deduced that $FtR$ is one to one.
+Had we used the _binary_ expansion instead of decimal, the corresponding sequence $1 + 1/2 + 1/4 + \cdots$ converges to $2/1=2$, and since $2^{-k} = 2^{-k-1} \cdot 2$, we could not have deduced that $FtR$ is one to one.
 Indeed there do exist pairs of distinct sequences $f,g\in \{0,1\}^\infty$ such that $\sum_{i=0}^\infty f(i)2^{-i} = \sum_{i=0}^\infty g(i)2^{-i}$.
+(For example, the sequence $1,0,0,0,\ldots$ and the sequence $0,1,1,1,\ldots$ have this property.)
 :::
 
 
 
 ## Representing objects beyond numbers
 
-Numbers are of course by no means the only objects that  we can represented as binary strings.
+Numbers are of course by no means the only objects that  we can represent as binary strings.
 A _representation scheme_ for representing objects from some set $\mathcal{O}$ consists of an _encoding_ function that maps an object in $\mathcal{O}$ to a string, and a _decoding_ function that decodes a string back to an object in $\mathcal{O}$.
 Formally, we make the following definition:
 
@@ -511,14 +527,14 @@ For every $x \in \{0,1\}^*$, there exists either zero or a single $o\in \mathcal
 We will define $D(x)$ to equal $o_0$ in the first case and this single object $o$ in the second case.
 By definition $D(E(o))=o$ for every $o\in \mathcal{O}$.
 
-::: {.remark title="Total decoding functions" #totaldecoding} 
+::: {.remark title="Total decoding functions" #totaldecoding}
 While the decoding function of a representation scheme can in general be a _partial_ function,  the proof of [decodelem](){.ref} implies that every representation scheme has a _total_ decoding function. This observation can sometimes be useful.
 :::
 
 
 ### Finite representations
 
-If $\mathcal{O}$ is _finite_, then we can represent every object in $o$ as a string of length at most some number $n$.
+If $\mathcal{O}$ is _finite_, then we can represent every object in $\mathcal{O}$ as a string of length at most some number $n$.
 What is the value of $n$?
 Let us denote by  $\{0,1\}^{\leq n}$ the set $\{ x\in \{0,1\}^* : |x| \leq n \}$ of strings of length at most $n$.
 The size of $\{0,1\}^{\leq n}$ is equal to
@@ -546,7 +562,7 @@ Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$. If
 When showing a representation scheme for rational numbers, we used the "hack" of encoding the alphabet $\{ 0,1, \|\}$  to represent tuples of strings as a single string.
 This is a special case of the general paradigm of _prefix-free_ encoding.
 The idea is the following: if our representation has the property that no string $x$ representing an object $o$ is a _prefix_ (i.e., an initial substring) of a string $y$ representing a different object $o'$, then we can represent a _lists_ of objects by merely concatenating the representations of all the list members.
-For example, because in English every sentence ends with a punctuation mark such as a period, exclamation, or question mark, no sentence can be a prefix of another and so we can represent a list of sentences by merely concatenating the sentences one after the other.^[English has some complications such as periods used for abbreviations (e.g., "e.g.") or sentence quotes containing punctuation, but high level point of a prefix-free representation for setnences still holds.]
+For example, because in English every sentence ends with a punctuation mark such as a period, exclamation, or question mark, no sentence can be a prefix of another and so we can represent a list of sentences by merely concatenating the sentences one after the other.^[English has some complications such as periods used for abbreviations (e.g., "e.g.") or sentence quotes containing punctuation, but the high level point of a prefix-free representation for sentences still holds.]
 
 It turns out that we can transform _every_ representation to a prefix-free form.
 This justifies [representtuplesidea](){.ref}, and allows us to transform a representation scheme for objects of a type $T$ to a representation scheme of _lists_ of objects of the type $T$.
@@ -557,8 +573,9 @@ But first let us formally define prefix-freeness:
 For two strings $y,y'$, we say that $y$ is a _prefix_ of $y'$ if $|y| \leq |y'|$ and for every $i<|y|$, $y'_i = y_i$.
 
 Let $\mathcal{O}$ be a non-empty set and $E:\mathcal{O} \rightarrow \{0,1\}^*$ be a function.
-
 We say that $E$ is _prefix-free_ if $E(o)$ is non-empty for every $o\in\mathcal{O}$ and there does not exist a distinct pair of objects $o, o' \in \mathcal{O}$ such that  $E(o)$  is a prefix of $E(o')$.
+:::
+
 
 Recall that for every set $\mathcal{O}$, the set $\mathcal{O}^*$ consists of all finite length tuples (i.e., _lists_) of elements in $\mathcal{O}$.
 The following theorem shows that if $E$ is a prefix-free encoding of $\mathcal{O}$ then by concatenating encodings we can obtain a valid (i.e., one-to-one) representation of $\mathcal{O}^*$:
@@ -585,7 +602,7 @@ Therefore, I highly recommend that you pause here to make sure you understand th
 
 > ### {.proofidea data-ref="prefixfreethm"}
 The idea behind the proof is simple.
-Suppose that for example we want to decode a triple $(o_0,o_1,o_2)$ from its representation $x= E'(o_0,o_1,o_2)=E(o_0)E(o_1)E(o_2)$.
+Suppose that for example we want to decode a triple $(o_0,o_1,o_2)$ from its representation $x= \overline{E}(o_0,o_1,o_2)=E(o_0)E(o_1)E(o_2)$.
 We will do so by first finding the first prefix $x_0$ of $x$ such is a representation of some object.
 Then we will decode this object, remove $x_0$ from $x$ to obtain a new string $x'$,  and continue onwards to find the first prefix $x_1$ of $x'$ and so on and so forth  (see [prefix-free-tuples-ex](){.ref}).
 The prefix-freeness property of $E$ will ensure that $x_0$ will in fact be $E(o_0)$,  $x_1$ will be $E(o_1)$, etc.
@@ -655,15 +672,15 @@ For the sake of completeness, we will include the proof below, but it is a good 
 ::: {.proof data-ref="prefixfreetransformationlem"}
 The idea behind the proof is to use the map $0 \mapsto 00$, $1 \mapsto 11$ to "double" every bit in the string $x$ and then mark the end of the string by concatenating to it the pair $01$.
 If we encode a string $x$ in this way, it ensures that the encoding of $x$ is never a prefix of the encoding of a distinct string $x'$.
-Formally, we define the function $PF:\{0,1\}^* \rightarrow \{0,1\}^*$ as follows: 
-$$PF(x)=x_0 x_0 x_1 x_1 \ldots x_{n-1}x_{n-1}01$$ 
+Formally, we define the function $PF:\{0,1\}^* \rightarrow \{0,1\}^*$ as follows:
+$$PF(x)=x_0 x_0 x_1 x_1 \ldots x_{n-1}x_{n-1}01$$
 for every $x\in \{0,1\}^*$.
 If $E:\mathcal{O} \rightarrow \{0,1\}^*$ is the (potentially not prefix-free) representation for $\mathcal{O}$, then we transform it into a prefix-free representation $\overline{E}:\mathcal{O} \rightarrow \{0,1\}^*$ by defining $\overline{E}(o)=PF(E(o))$.
 
 To prove the lemma we need to show that __(1)__ $\overline{E}$ is one-to-one and __(2)__ $\overline{E}$ is prefix-free.
 In fact, prefix freeness is a stronger condition than one-to-one (if two strings are equal then in particular one of them is a prefix of the other) and hence it suffices to prove __(2)__, which we now do.
 
-Let $o \neq o'$ in $\mathcal{O}$ be two distinct objects. We will prove  that $\overline{E}(o)$ is a not a prefix of $\overline{E}(o')$. 
+Let $o \neq o'$ in $\mathcal{O}$ be two distinct objects. We will prove  that $\overline{E}(o)$ is a not a prefix of $\overline{E}(o')$.
 Define $x = E(o)$ and $x'=E(o')$.
 Since $E$ is one-to-one, $x \neq x'$.
 Under our assumption, $PF(x)$ is a prefix of $PF(x')$.
@@ -674,7 +691,7 @@ In all cases we see that $PF(x)=\overline{E}(o)$ is not a prefix of $PF(x')=\ove
 :::
 
 The proof of [prefixfreetransformationlem](){.ref} is not the only or even the best way to transform an arbitrary representation into prefix-free form.
-[prefix-free-ex](){.ref} asks you to construct a more efficient prefix-free transformation satisfying $|\overline{E}(o)| \leq |E(o)| + O(\log |E(o)|)$. 
+[prefix-free-ex](){.ref} asks you to construct a more efficient prefix-free transformation satisfying $|\overline{E}(o)| \leq |E(o)| + O(\log |E(o)|)$.
 
 ### "Proof by Python" (optional)
 
@@ -734,7 +751,7 @@ def represlists(pfencode,pfdecode,pfvalid):
     """
     Takes functions pfencode, pfdecode and pfvalid,
     and returns functions encodelists, decodelists
-    that can encode and decode lists of the objects 
+    that can encode and decode lists of the objects
     respectively.
     """
 
@@ -1122,11 +1139,14 @@ Recall that for every set $S$, the set $S^*$ is defined as the set of all finite
 
 
 
-## Bibliographical notes
+## Bibliographical notes {#bibnotesrepres }
 
 
 The study of representing data as strings, including issues such as _compression_ and _error corrections_ falls under the purview of _information theory_, as covered in the classic textbook of Cover and Thomas [@CoverThomas06].
 Representations are also studied in the field of _data structures design_, as covered in texts such as  [@CLRS].
+
+The question of whether to represent integers with most significant digit first or last is known as [Big Endian vs. Little Endian](https://betterexplained.com/articles/understanding-big-and-little-endian-byte-order/) representation.
+This terminology comes from Cohen's [@cohen1981holy]  entertaining and informative paper about the conflict between adherents of both schools which he compared to the warring tribes in Jonathan Swift's _"Gulliver's Travels"_.
 The two's complement representation of signed integers was suggested in von Neumann's classic report [@vonNeumann45] that detailed the design approaches for a stored-program computer, though similar representations have been used even earlier in abacus and other mechanical computation devices.
 
 
@@ -1142,4 +1162,3 @@ The  [Floating Points Guide website](https://floating-point-gui.de/) contains an
 Dauben [@Dauben90cantor] gives a biography of Cantor with emphasis on the development of his mathematical ideas. [@halmos1960naive] is a classic textbook on set theory, including also Cantor's theorem. Cantor's Theorem is also covered in many texts on discrete mathematics, including  [@LehmanLeightonMeyer , @LewisZax19].
 
 The adjacency matrix representation of graphs is not merely a convenient way to map a graph into a binary string, but it turns out that many natural notions and operations on matrices are useful for graphs as well. (For example, Google's PageRank algorithm relies on this viewpoint.)  The notes of [Spielman's course](http://www.cs.yale.edu/homes/spielman/561/) are an excellent source for this area, known as _spectral graph theory_. We will return to this view much later in this book when we talk about _random walks_.
-

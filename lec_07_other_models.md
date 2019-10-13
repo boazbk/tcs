@@ -49,7 +49,7 @@ The memory of a RAM machine is an array of unbounded size where each cell can st
 For example, many modern computing architectures use  $64$ bit words, in which every memory location holds a string in $\{0,1\}^{64}$ which can also be thought of as a number between $0$ and $2^{64}-1= 9,223,372,036,854,775,807$.
 The parameter $w$ is known as the _word size_.
 In practice often $w$ is a fixed number such as $64$, but when doing theory we model $w$ as a  parameter that can depend on the input length or number of steps.
-(You can think of $2^w$ as roughly corresponding to the largest memory address that we use in the computation.) 
+(You can think of $2^w$ as roughly corresponding to the largest memory address that we use in the computation.)
 In addition to the memory array, a RAM machine also contains a constant number of _registers_ $r_0,\ldots,r_{k-1}$, each of which can also contain a single word.
 
 
@@ -58,60 +58,65 @@ In addition to the memory array, a RAM machine also contains a constant number o
 
 The operations a RAM machine can carry out include:
 
-* __Data movement:__ Load data from a certain cell in memory into a register or store the contents of a register into a certain cell of memory. RAM machine can directly access any cell of memory without having to move the "head" (as Turing machines do) to that location. That is, in one step a RAM machine can load into register $r_i$ the contents of the memory cell indexed by register $r_j$, or store into the memory cell indexed by register $r_j$ the contents of register $r_i$. 
+* __Data movement:__ Load data from a certain cell in memory into a register or store the contents of a register into a certain cell of memory. RAM machine can directly access any cell of memory without having to move the "head" (as Turing machines do) to that location. That is, in one step a RAM machine can load into register $r_i$ the contents of the memory cell indexed by register $r_j$, or store into the memory cell indexed by register $r_j$ the contents of register $r_i$.
 
 * __Computation:__ RAM machines can carry out computation on registers such as arithmetic operations, logical operations, and comparisons.
 
 * __Control flow:__ As in the case of Turing machines, the choice of what instruction to perform next can depend on the state of the RAM machine, which is captured by the contents of its register.
 
+![Different aspects of RAM machines and Turing machines. RAM machines can store integers in their local registers, and can read and write to their memory at a location specified by a register. In contrast, Turing machines can only access their memory in the head location, which moves at most one position to the right or left in each step.](../figure/ramvsturing.png){#ramvsturingfig .margin}
+
 
 We will not give a formal definition of RAM Machines, though the bibliographical notes section ([othermodelsbibnotes](){.ref}) contains sources for such definitions.
-Just as the NAND-TM programming language models Turing machines, we can also define a  _NAND-RAM programming language_ that models Turing machines.
+Just as the NAND-TM programming language models Turing machines, we can also define a  _NAND-RAM programming language_ that models RAM machines.
 The NAND-RAM programming language extends NAND-TM by adding the following features:
 
 
-* The variables of NAND-RAM are allowed to be (non negative) _integer valued_ rather than only Boolean as is the case in NAND-TM. That is, a scalar variable `foo` holds an non negative integer in $\N$ (rather than only a bit in $\{0,1\}$), and an array variable `Bar` holds an array of integers. As in the case of RAM machines, we will not allow integers of unbounded size. Concretely, each variable holds a number between $0$ and $T-1$, where $T$ is the number of steps that have been executed by the program so far. (You can ignore this restriction for now:  if we want to hold larger numbers, we can simply execute dummy instructions; it will be useful in later chapters.) 
+* The variables of NAND-RAM are allowed to be (non negative) _integer valued_ rather than only Boolean as is the case in NAND-TM. That is, a scalar variable `foo` holds an non negative integer in $\N$ (rather than only a bit in $\{0,1\}$), and an array variable `Bar` holds an array of integers. As in the case of RAM machines, we will not allow integers of unbounded size. Concretely, each variable holds a number between $0$ and $T-1$, where $T$ is the number of steps that have been executed by the program so far. (You can ignore this restriction for now:  if we want to hold larger numbers, we can simply execute dummy instructions; it will be useful in later chapters.)
 
 * We allow _indexed access_ to arrays. If `foo` is a scalar and `Bar` is an array, then `Bar[foo]` refers to the location of `Bar` indexed by the value of `foo`. (Note that this means we don't need to have a special index variable `i` any more.)
 
 * As is often the case in programming languages, we will assume that for Boolean operations such as `NAND`, a zero valued integer is considered as _false_, and a nonzero valued integer is considered as _true_.
 
-* In addition to `NAND`, NAND-RAM also includes all the basic arithmetic operations of addition, subtraction, multiplication, (integer) division, as well as comparisons (equal, greater than, less than, etc..). 
+* In addition to `NAND`, NAND-RAM also includes all the basic arithmetic operations of addition, subtraction, multiplication, (integer) division, as well as comparisons (equal, greater than, less than, etc..).
 
 * NAND-RAM includes conditional statements `if`/`then` as part of the language.
 
-* As in NAND-TM we encapsulate a NAND-RAM program in one large loop. That is, the last instruction is `JMP(flag)` which goes back to the beginning of the program if `flag` equals $1$ and halts otherwise.
-As usual, we can implement other looping constructs such as `goto` and `while` or `for` inner loops using syntactic sugar.
+* NAND-RAM contains looping constructs such as `while` and `do` as part of the language. 
 
 
 
 
-A full description of the NAND-RAM programming language is in the appendix.
+A full description of the NAND-RAM programming language is in the [appendix](https://nbviewer.jupyter.org/github/boazbk/tcscode/blob/master/appendix%5FNAND%5Fspecs.ipynb).
 However, the most important fact you need to know about NAND-RAM is that you actually don't need to know much about NAND-RAM at all, since it is equivalent in power to Turing machines: 
+
 
 > ### {.theorem title="Turing Machines (aka NAND-TM programs) and RAM machines (aka NAND-RAM programs) are equivalent" #RAMTMequivalencethm}
 For every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND-TM program if and only if $F$ is computable by a NAND-RAM program.
 
 Since NAND-TM programs are equivalent to Turing machines, and NAND-RAM programs are equivalent to RAM machines, [RAMTMequivalencethm](){.ref} shows that all these four models are equivalent to one another.
 
+![Overview of the steps in the proof of [RAMTMequivalencethm](){.ref} simulating NANDRAM with NANDTM. We first use the inner loop syntactic sugar of [nandtminnerloopssec](){.ref} to enable loading an integer from an array to the index variable `i` of NANDTM. Once we can do that, we can simulate _indexed access_ in NANDTM. We then use an embedding of $\N^2$ in $\N$ to simulate two dimensional bit arrays in NANDTM. Finally, we use the binary representation to encode one-dimensional arrays of integers as two dimensional arrays of bits hence completing the simulation of NANDRAM with NANDTM.](../figure/nandramproofoverview.png){#nandramoverviewfig .margin}
+
 ::: {.proofidea data-ref="RAMTMequivalencethm"}
 Clearly NAND-RAM is only more powerful than NAND-TM, and so if a function $F$ is computable by a NAND-TM program then it can be computed by a NAND-RAM program.
 The challenging direction is to transform a NAND-RAM program $P$ to an equivalent NAND-TM program $Q$.
 To describe the proof in full we will need to cover the full formal specification of the NAND-RAM language, and show how we can implement every one of its features as syntactic sugar on top of NAND-TM.
 
-This can be done but going over all the operations in detail is rather tedious. Hence we will focus on describing the main ideas behind this transformation.
+This can be done but going over all the operations in detail is rather tedious. Hence we will focus on describing the main ideas behind this transformation. (See also [nandramoverviewfig](){.ref}.)
 NAND-RAM generalizes NAND-TM in two main ways: __(a)__ adding _indexed access_ to the arrays (ie.., `Foo[bar]` syntax) and __(b)__ moving from _Boolean valued_ variables to _integer valued_ ones.
 The transformation has two steps:
 
 1. _Indexed access of bit arrays:_  We start by showing how to handle __(a)__. Namely, we show how we can implement in NAND-TM the operation `Setindex(Bar)` such that if `Bar` is an array that encodes some integer $j$, then after executing `Setindex(Bar)` the value of `i` will equal to $j$. This will allow us to simulate syntax of the form `Foo[Bar]` by `Setindex(Bar)` followed by `Foo[i]`.
 
-2. _Two dimensional bit arrays:_ We then show how we can use "syntactic sugar" to augment NAND-TM with _two dimensional arrays_. That is, have _two indices_ `i` and `j` and _two dimensional arrays_, such that we can use the syntax `Foo[i][j]` to access the (`i`,`j`)-th location of `Foo`. 
+2. _Two dimensional bit arrays:_ We then show how we can use "syntactic sugar" to augment NAND-TM with _two dimensional arrays_. That is, have _two indices_ `i` and `j` and _two dimensional arrays_, such that we can use the syntax `Foo[i][j]` to access the (`i`,`j`)-th location of `Foo`.
 
 3. _Arrays of integers:_ Finally we will encode a one dimensional array `Arr` of _integers_ by a two dimensional `Arrbin` of _bits_. The idea is simple: if $a_{i,0},\ldots,a_{i,\ell}$ is a binary  (prefix-free) representation of `Arr[`$i$`]`, then `Arrbin[`$i$`][`$j$`]` will be equal to $a_{i,j}$.
 
 Once we have arrays of integers, we can use our usual syntactic sugar for functions, `GOTO` etc. to implement the arithmetic and control flow operations of NAND-RAM.
 :::
 
+The above approach is not the only way to obtain a proof of [RAMTMequivalencethm](){.ref}, see for example [RAMTMalternativeex](){.ref}
 
 ::: {.remark title="RAM machines / NAND-RAM and assembly language (optional)" #NANDRAMassembly}
 RAM machines correspond quite closely to actual microprocessors such as those in the Intel x86 series that also contains a large _primary memory_ and a constant number of small registers.
@@ -204,7 +209,7 @@ $$embed(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+x\;\;.$$
 
 ![Illustration of the map $embed(x,y) = \tfrac{1}{2}(x+y)(x+y+1)+x$ for $x,y \in [10]$, one can see that for every distinct pairs $(x,y)$ and $(x',y')$, $embed(x,y) \neq embed(x',y')$. ](../figure/pairing_function.png){#pairingfuncfig .margin  }
 
-[pair-ex](){.ref} asks you to prove that $embed$ is indeed one to one, as well as computable by a NAND-TM program. (The latter can be done by simply following the grade-school algorithms for multiplication, addition, and division.) 
+[pair-ex](){.ref} asks you to prove that $embed$ is indeed one to one, as well as computable by a NAND-TM program. (The latter can be done by simply following the grade-school algorithms for multiplication, addition, and division.)
 This means that we can replace code of the form `Two[Foo][Bar] = something` (i.e., access the two dimensional array `Two` at the integers encoded by the one dimensional arrays `Foo` and `Bar`) by code of the form:
 
 ```python
@@ -290,7 +295,7 @@ When one wants to produce a device that executes programs, it is convenient to d
 ![By having the two equivalent languages NAND-TM and NAND-RAM, we can "have our cake and eat it too", using NAND-TM when we want to prove that programs _can't_ do something, and using NAND-RAM or other high level languages when we want to prove that programs _can_ do something.](../figure/have_your_cake_and_eat_it_too-img-intro.png){#cakefig .margin  }
 
 ::: { .bigidea #eatandhavecake }
-Using equivalence results such as those between Turing and RAM machines, we can "have our cake and eat it too".
+Using equivalence results such as those between Turing and RAM machines, we can _"have our cake and eat it too"_.
 
 We can use a simpler model such as Turing machines when we want to prove something _can't_ be done, and use a   feature-rich model such as RAM machines when we want to prove something _can_ be done.
 :::
@@ -317,7 +322,7 @@ Initialize empty queue $Q$.
 Put $u$ in $Q$
 While{$Q$ is not empty}
    Remove top vertex $w$ from $Q$
-   If{$w=v$} return "connected" endif 
+   If{$w=v$} return "connected" endif
    Mark $w$
    Add all unmarked neighbors of $w$ to $Q$.
 Endwhile
@@ -351,8 +356,8 @@ Hence, in cases where the precise representation doesn't make a difference, we w
 
 
 
-__Defining "Algorithms".__ 
-Up until now we have use the term "algorithm" informally.
+__Defining "Algorithms".__
+Up until now we have used the term "algorithm" informally.
 However, Turing Machines and the range of equivalent models yield a way to precisely and formally define algorithms.
 Hence whenever we refer to an _algorithm_ in this book, we will mean that it is an instance of one of the Turing equivalent models, such as Turing machines, NAND-TM, RAM machines, etc.
 Because of the equivalence of all these models, in many contexts, it will not matter which of these we use.
@@ -363,7 +368,7 @@ Because of the equivalence of all these models, in many contexts, it will not ma
 A _computational model_ is some way to define what it means for a _program_ (which is represented by a string) to compute a (partial) _function_.
 A _computational model_ $\mathcal{M}$ is _Turing complete_, if we can map every Turing machine (or equivalently NAND-TM program) $N$ into a program $P$ for $\mathcal{M}$ that computes the same function as $Q$.
 It is _Turing equivalent_ if the other direction holds as well (i.e., we can map every program in $\mathcal{M}$ to a Turing machine that computes the same function).
-We can define this notion formally as follows. 
+We can define this notion formally as follows.
 (This formal definition is not crucial for the remainder of this book so feel  to skip it as long as you understand the general concept of Turing equivalence; This notion is sometimes referred to in the literature as [Gödel numbering](https://goo.gl/rzuNPu) or [admissable numbering](https://goo.gl/xXJoUG).)
 
 ::: {.definition title="Turing completeness and equivalence (optional)" #turingcompletedef}
@@ -382,7 +387,6 @@ Some examples of Turing equivalent models (some of which we have already seen, a
 * Turing machines
 * NAND-TM programs
 * NAND-RAM programs
-* Python, JavaScript, C, Lisp, and other programming languages.
 * λ calculus
 * Game of life (mapping programs and inputs/outputs to starting and ending configurations)
 * Programming languages such as Python/C/Javascript/OCaml... (allowing for unbounded storage)
@@ -451,7 +455,7 @@ For example, as simple as its rules seem, we can simulate a Turing machine using
 
 
 
-In fact, even [one dimensional cellular automata](https://en.wikipedia.org/wiki/Rule_110) can be Turing complete: 
+In fact, even [one dimensional cellular automata](https://en.wikipedia.org/wiki/Rule_110) can be Turing complete:
 
 ::: {.theorem title="One dimensional automata are Turing complete" #onedimcathm}
 For every Turing machine  $M$,  there is a one dimension cellular automaton that can simulate $M$ on every input $x$.
@@ -461,15 +465,15 @@ To make the notion of "simulating a Turing machine"   more precise we will need 
 We will do so in [turingmachinesconfigsec](){.ref} below, but at a high level a _configuration_ of a Turing machine is a string that encodes its full state at  a given step in its computation.
 That is, the contents of all (non empty) cells of its tape, its current state, as well as the head position.
 
-The key idea in the proof of [onedimcathm](){.ref}, that at every point in the computation of a Turing machine $M$, the only cell in $M$'s tape that can change is the one where the head is located, and the value this cell changes to is a function of its current state and the finite state of $M$.
+The key idea in the proof of [onedimcathm](){.ref} is that at every point in the computation of a Turing machine $M$, the only cell in $M$'s tape that can change is the one where the head is located, and the value this cell changes to is a function of its current state and the finite state of $M$.
 This observation allows us to encode the configuration of a Turing machine $M$ as a finite configuration of a cellular automaton $r$, and ensure that a one-step evolution of this encoded configuration under the rules of $r$ corresponds to one step in the execution of the Turing machine $M$.
 
 
 
 ### Configurations of Turing machines and the next-step function  {#turingmachinesconfigsec }
 
-To turn the above ideas into a rigorous proof (and even statement!) of [[onedimcathm](){.ref}](){.ref} we will need precisely define the notion of _configurations_ of Turing machines.
-This notion will be useful for us in later chapters we well.
+To turn the above ideas into a rigorous proof (and even statement!) of [onedimcathm](){.ref} we will need precisely define the notion of _configurations_ of Turing machines.
+This notion will be useful for us in later chapters as well.
 
 
 ![A _configuration_ of a Turing machine $M$ with alphabet $\Sigma$ and state space $[k]$ encodes the state of $M$ at a particular step in its execution as a string $\alpha$ over the alphabet $\overline{\Sigma} = \Sigma \times (\{\cdot \} \times [k])$. The string is of length $t$ where $t$ is such that $M$'s tape contains $\varnothing$ in all positions $t$ and larger and $M$'s head is in a position smaller than $t$.
@@ -477,7 +481,7 @@ If $M$'s head is in the $i$-th position, then for $j \neq i$, $\alpha_j$ encodes
 If the machine writes the value $\tau$, changes state to $t$, and moves right, then in the next configuration will contain at position $i$ the value  $(\tau,\cdot)$ and at position $i+1$ the value $(\alpha_{i+1},t)$.](../figure/turingmachineconf.png){#turingconfigfig   }
 
 
-::: {.definition title="Configuration of NAND-TM programs." #configtmdef}
+::: {.definition title="Configuration of Turing Machines." #configtmdef}
 Let $M$ be a Turing machine with tape alphabet $\Sigma$ and state space $[k]$. A _configuration of $M$_ is a string $\alpha \in \overline{\Sigma}^*$ where $\overline{\Sigma} = \Sigma \times \left( \{\cdot\} \cup [k] \right)$ that satisfies that there is exactly one coordinate $i$ for which $\alpha_i = (\sigma,s)$ for some $\sigma \in \Sigma$ and $s\in [k]$. For all other coordinates $j$, $\alpha_j = (\sigma',\cdot)$ for some $\sigma'\in \Sigma$.
 
 A configuration $\alpha \in \overline{\Sigma}^*$ of $M$ corresponds to the following state of its execution:
@@ -500,7 +504,7 @@ In particular, with an eye towards our future applications, try to think of an e
 
 
 
-[configtmdef](){.ref} is a little cumbersome, but ultimately a configuration is simply a string that encodes a _snapshot_ of the state of the NAND-TM program at a given point in the execution. (In operating-systems lingo, it is a  ["core dump"](https://goo.gl/AsccXh).)
+[configtmdef](){.ref} is a little cumbersome, but ultimately a configuration is simply a string that encodes a _snapshot_ of the  Turing machine at a given point in the execution. (In operating-systems lingo, it is a  ["core dump"](https://goo.gl/AsccXh).)
 Such a snapshot needs to encode the following components:
 
 1. The current head position.
@@ -512,8 +516,10 @@ Such a snapshot needs to encode the following components:
 The precise details of how we encode a configuration are not important, but we do want to record the following simple fact:
 
 > ### {.lemma #nextstepfunctionlem}
-Let $M$ be a Turing machine and let $NEXT_M:\overline{\Sigma}^* \rightarrow \overline{\Sigma}^*$ be the function that maps a configuration of $M$ to the configuration at the next step of the execution. Then for every $i \in \N$, the value of $NEXT_M(\alpha)_i$ only depends on the coordinates $\alpha_{i-1},\alpha_i,\alpha_{i+1}$.^[For simplicity of notation and of phrasing this lemma, we use the convention that if $i$ is "out of bounds", such as $i<0$ or $i>|\alpha|$, then we assume that $\alpha_i = (\varnothing,\cdot)$.]
+Let $M$ be a Turing machine and let $NEXT_M:\overline{\Sigma}^* \rightarrow \overline{\Sigma}^*$ be the function that maps a configuration of $M$ to the configuration at the next step of the execution. Then for every $i \in \N$, the value of $NEXT_M(\alpha)_i$ only depends on the coordinates $\alpha_{i-1},\alpha_i,\alpha_{i+1}$.
 
+
+(For simplicity of notation,  above we use the convention that if $i$ is "out of bounds", such as $i<0$ or $i>|\alpha|$, then we assume that $\alpha_i = (\varnothing,\cdot)$.)
 We leave proving [nextstepfunctionlem](){.ref} as [nextstepfunctionlemex](){.ref}.
 The idea behind the proof is simple: if the head is neither in position $i$ nor positions $i-1$ and $i+1$, then the next-step configuration at $i$ will be the same as it was before.
 Otherwise, we can "read off" the state of the Turing machine and the value of the tape at the head location from the configuration at $i$ or one of its neighbors and use that to update what the new state at $i$ should be.
@@ -522,9 +528,9 @@ Completing the full proof is not hard, but doing it is a great way to ensure tha
 __Completing the proof of  [onedimcathm](){.ref}.__ We can now restate [onedimcathm](){.ref} more formally, and complete its proof:
 
 ::: {.theorem title="One dimensional automata are Turing complete (formal statement)" #onedimcathmformal}
-For every Turing Machine $M$, there is a one-dimensional cellular automaton $r$ over the alphabet $\overline{\Sigma}^*$  such that 
-$$E \left( NEXT_M(\alpha) \right)  = NEXT_r \left( E(\alpha) \right)$$
-for every configuration $\alpha \in \overline{\Sigma^*}$ of $M$, where we denote by $E(\alpha)$ the natural extension of $\alpha$ to a configuration of $r$ obtained by defining $E(\alpha)_i = \alpha_i$ for every $i\in\{0,1, \ldots, |\alpha|-1 \}$ and $E(\alpha)_j = \varnothing$ for every $j$ such that $j<0$ or $j\geq |\alpha|$.
+For every Turing Machine $M$, if we denote by $\overline{\Sigma}$ the alphabet of its configuration strings, then there is a one-dimensional cellular automaton $r$ over the alphabet $\overline{\Sigma}^*$  such that
+$$\left( NEXT_M(\alpha) \right)  = NEXT_r \left( \alpha \right)$$
+for every configuration $\alpha \in \overline{\Sigma}^*$ of $M$ (again using the convention that we consider $\alpha_i=\varnothing$ if $i$ is "out of bounds).
 :::
 
 ::: {.proof data-ref="onedimcathmformal"}
@@ -579,7 +585,7 @@ $$
 $$
 
 and so $(\lambda x.x\times x)(7)=49$.
-That is, you can think of $\lambda x.  exp(x)$, where $exp$ is some expression as a way of specifying the anonymous function $x \mapsto exp(x)$. 
+That is, you can think of $\lambda x.  exp(x)$, where $exp$ is some expression as a way of specifying the anonymous function $x \mapsto exp(x)$.
 Anonymous functions, using either   $\lambda x.f(x)$, $x \mapsto f(x)$ or other closely related notation, appear in many programming languages.
 For example, in _Python_ we can define the squaring function using `lambda x: x*x` while in _JavaScript_ we can use `x => x*x` or `(x) => x*x`. In _Scheme_ we would define it as `(lambda (x) (* x x))`.
 Clearly, the name of the argument to a function doesn't matter, and so $\lambda y.y\times y$ is the same as $\lambda x.x \times x$, as both correspond to the squaring function.
@@ -633,7 +639,7 @@ $$((\lambda x.(\lambda y.x)) \; 2)\; 9) \;. \label{lambdaexptwoeq}$$
 ::: {.solution data-ref="lambdaexptwoex"}
 $\lambda y.x$ is the function that on input $y$ ignores its input and outputs $x$.
 Hence $(\lambda x.(\lambda y.x)) 2$ yields the function $y \mapsto 2$ (or, using $\lambda$ notation, the function $\lambda y. 2$).
-Hence [lambdaexptwo](){.eqref}  is equivalent to $(\lambda y. 2) 9 = 2$.
+Hence [lambdaexptwoeq](){.eqref}  is equivalent to $(\lambda y. 2) 9 = 2$.
 :::
 
 
@@ -666,7 +672,7 @@ By our rules of associativity, this is the same as $(f a b)$ which we'll sometim
 ### Formal description of the λ calculus.
 
 We now provide a formal description of the λ calculus.
-We start with  "basic expressions" that contain a single variable such as $x$ or $y$ and build more complex expressions of the form $(e \; e')$ and $\lambda x.e$ where $e,e'$ are expressions and $x$ is a variable idenifier. 
+We start with  "basic expressions" that contain a single variable such as $x$ or $y$ and build more complex expressions of the form $(e \; e')$ and $\lambda x.e$ where $e,e'$ are expressions and $x$ is a variable idenifier.
 Formally λ expressions are defined as follows:
 
 
@@ -674,9 +680,9 @@ Formally λ expressions are defined as follows:
 ::: {.definition title="λ expression." #lambdaexpdef}
 A _λ expression_ is either a single variable identifier or an expression $e$ of the one of the following forms:
 
-* __Application:__ $e = (e' \; e'')$, where $e'$ and $e''$ are λ expressions. 
+* __Application:__ $e = (e' \; e'')$, where $e'$ and $e''$ are λ expressions.
 
-* __Abstraction:__ If $e = \lambda x.(e')$ where $e'$ is a λ expression. 
+* __Abstraction:__ If $e = \lambda x.(e')$ where $e'$ is a λ expression.
 :::
 
 [lambdaexpdef](){.ref} is a _recursive definition_ since we defined the concept of λ expressions in terms of itself.
@@ -694,12 +700,12 @@ As mentioned in [curryingsec](){.ref}, we also use the shorthand $\lambda x,y.e$
 
 
 
-__Equivalence of λ expressions.__ As we have seen in [lambdaexptwo](){.ref}, the rule that $(\lambda x. exp) exp'$ is equivalent to $exp[x \rightarrow exp']$ enables us to modify λ expressions and obtain simpler _equivalent form_ for them.
+__Equivalence of λ expressions.__ As we have seen in [lambdaexptwoex](){.ref}, the rule that $(\lambda x. exp) exp'$ is equivalent to $exp[x \rightarrow exp']$ enables us to modify λ expressions and obtain simpler _equivalent form_ for them.
 Another rule that we can use is that the parameter does not matter and hence for example $\lambda y.y$ is the same as $\lambda z.z$.
 Together these rules define the notion of _equivalence_ of λ expressions:
 
 ::: {.definition title="Equivalence of λ expressions" #lambdaequivalence}
-Two λ expressions are _equivalent_ if they can be made into the same expression by repeated applications of the following rules: 
+Two λ expressions are _equivalent_ if they can be made into the same expression by repeated applications of the following rules:
 
 1. __Evaluation (aka $\beta$ reduction):__ The expression $(\lambda x.exp) exp'$ is equivalent to $exp[x \rightarrow exp']$.
 
@@ -730,11 +736,11 @@ Formally, the evaluation of a λ expression using "call by name" is captured by 
 ::: {.definition title="Simplification of λ expressions" #simplifylambdadef }
 Let $e$ be a λ expression. The _simplification_ of $e$ is the result of the following recursive process:
 
-1. If  $e$ is a single variable $x$ then the simplification of $e$ is $e$. 
+1. If  $e$ is a single variable $x$ then the simplification of $e$ is $e$.
 
-2. If $e$ has the form  $e= \lambda x.e'$ then the simplification of $e$ is $\lambda x.f'$ where $f'$ is the simplification of $f'$. 
+2. If $e$ has the form  $e= \lambda x.e'$ then the simplification of $e$ is $\lambda x.f'$ where $f'$ is the simplification of $f'$.
 
-3. _(Evaluation / $\beta$ reduction.)_  If $e$ has the form  $e=(\lambda x.e' \; e'')$ then the simplification of $e$ is the simplification of $e'[x \rightarrow e'']$, which denotes replacing all copies of $x$ in $e'$ bound  to the $\lambda$ operator with $e''$ 
+3. _(Evaluation / $\beta$ reduction.)_  If $e$ has the form  $e=(\lambda x.e' \; e'')$ then the simplification of $e$ is the simplification of $e'[x \rightarrow e'']$, which denotes replacing all copies of $x$ in $e'$ bound  to the $\lambda$ operator with $e''$
 
 4. _(Renaming / $\alpha$ conversion.)_ The _canonical simplification_ of $e$ is obtained by taking the simplification of $e$ and renaming the variables so that the first bound variable in the expression is $v_0$, the second one is $v_1$, and so on and so forth.
 
@@ -878,7 +884,7 @@ The result of simplifying a λ expression is an equivalent expression, and hence
 :::  {.definition title="Computing a function via λ calculus" #lambdacomputedef   }
 Let $F:\{0,1\}^* \rightarrow \{0,1\}^*$
 
-We say that _$exp$ computes $F$_ if for every $x\in \{0,1\}^*$, 
+We say that _$exp$ computes $F$_ if for every $x\in \{0,1\}^*$,
 
 $$exp \langle x_0,\ldots,x_{n-1},\bot \langle \cong \langle y_0,\ldots, y_{m-1}, \bot \rangle$$
 
@@ -917,7 +923,7 @@ By [NANDlambdaex](){.ref}, we can compute the $NAND$ function, and hence _every_
 Using this insight, we can compute $NEXT_M$ using the λ calculus as follows.
 Given a list $L$ encoding the configuration $\alpha_0\cdots \alpha_{m-1}$, we define the lists $L_{prev}$ and $L_{next}$ encoding the configuration $\alpha$ shifted by one step to the right and left respectively.
 The next configuration $\alpha'$ is defined as $\alpha'_i = r(L_{prev}[i],L[i],L_{next}[i])$ where we let $L'[i]$ denote the $i$-th element of $L'$.
-This can be computed by recursion (and hence using the enhanced λ calculus' $RECURSE$ operator) as follows: 
+This can be computed by recursion (and hence using the enhanced λ calculus' $RECURSE$ operator) as follows:
 
 ``` {.algorithm title="$NEXT_M$ using the λ calculus" #nextmlambdacalc}
 INPUT: List $L = \langle \alpha_0,\alpha_1,\ldots, \alpha_{m-1}, \bot \rangle$ encoding a configuration $\alpha$.
@@ -1042,7 +1048,7 @@ This is what we do now.
 
 How can we implement recursion without recursion?
 We will illustrate this using a simple example - the $XOR$ function.
-As shown in [xorusingrecursion](){.ref}, we can write the $XOR$ function of a list recursively as follows:
+As shown in [XORlambdaex](){.ref}, we can write the $XOR$ function of a list recursively as follows:
 
 $$
 XOR(L) = \begin{cases} 0 & L \text{ is empty} \\ XOR_2(HEAD(L),XOR(TAIL(L))) & \text{otherwise}
@@ -1084,7 +1090,7 @@ Let's test this out:
 myxor(myxor,[1,0,1])
 ```
 
-If you do this, you will get the following complaint from the interpreter: 
+If you do this, you will get the following complaint from the interpreter:
 
 `TypeError: myxor() missing 1 required positional argument`
 
@@ -1231,10 +1237,27 @@ It turns out that NAND-TM programs with a constant amount of memory are equivale
 
 ## Exercises
 
+::: {.exercise title="Alternative proof for TM/RAM equivalence" #RAMTMalternativeex}
+Let $SEARCH:\{0,1\}^* \rightarrow \{0,1\}^*$ be the following function.
+The input is a pair $(L,k)$ where $k\in \{0,1\}^*$, $L$ is an encoding of a list of _key value_ pairs $(k_0,v_1),\ldots,(k_{m-1},v_{m-1})$ where $k_0,\ldots,k_{m-1}$, $v_0,\ldots,v_{m-1}$ are binary strings. 
+The output is $v_i$ for the smallest $i$ such that $k_i=k$, if such $i$ exists, and otherwise the empty string.
+
+1. Prove that $SEARCH$ is computable by a Turing machine.
+
+2. Let $UPDATE(L,k,v)$ be the function whose input is a list $L$ of pairs, and whose output is the list $L'$ obtained by prepending the pair $(k,v)$ to the beginning of $L$. Prove that $UPDATE$ is computable by a Turing machine.
+
+3. Suppose we encode the configuration of a NAND-RAM program by a list $L$ of key/value pairs where the key is either the name of a scalar variable `foo` or of the form `Bar[<num>]` for some number `<num>` and it contains all the nonzero values of variables. Let $NEXT(L)$ be the function that maps a configuration of a NAND-RAM program at one step to the configuration in the next step. Prove that $NEXT$ is computable by a Turing machine (you don't have to implement each one of the arithmetic operations: it is enough to implement addition and multiplication).
+
+4. Prove that for every $F:\{0,1\}^* \rightarrow \{0,1\}^*$ that is computable by a NAND-RAM program,  $F$ is computable by a Turing machine.
+:::
+
+
 ::: {.exercise title="NAND-TM lookup" #lookup}
 This exercise shows part of the proof that NAND-TM can simulate NAND-RAM. Produce the code of a NAND-TM program that computes the function $LOOKUP:\{0,1\}^* \rightarrow \{0,1\}$ that is defined as follows.
 On input $pf(i)x$, where $pf(i)$ denotes a prefix-free encoding of an integer $i$, $LOOKUP(pf(i)x)=x_i$ if $i<|x|$ and $LOOKUP(pf(i)x)=0$ otherwise. (We don't care what $LOOKUP$ outputs on inputs that are not of this form.) You can choose any prefix-free encoding of your choice, and also can use your favorite programming language to produce this code.
 :::
+
+
 
 ::: {.exercise title="Pairing" #pair-ex}
 Let $embed:\N^2 \rightarrow \N$ be the function defined as $embed(x_0,x_1)= \tfrac{1}{2}(x_0+x_1)(x_0+x_1+1) + x_1$. \
@@ -1249,11 +1272,11 @@ Let $embed:\N^2 \rightarrow \N$ be the function defined as $embed(x_0,x_1)= \tfr
 :::
 
 ::: {.exercise title="Shortest Path" #shortestpathcomputableex}
-Let $SHORTPATH:\{0,1\}^* \rightarrow \{0,1\}^*$ be the function that on input a string encoding a triple $(G,u,v)$ outputs  a string encoding $\infty$ if $u$ and $v$ are disconnected in $G$ or a string encoding the length $k$ of the shortest path from $u$ to $v$. Prove that $SHORTPATH$ is computable by a Turing machine.^[_Hint:_ You don't have to give a full description of a Turing machine: use our "eat the cake and have it too" paradigm to show the existence of such a machine by arguing from more powerful equivalent models.]
+Let $SHORTPATH:\{0,1\}^* \rightarrow \{0,1\}^*$ be the function that on input a string encoding a triple $(G,u,v)$ outputs  a string encoding $\infty$ if $u$ and $v$ are disconnected in $G$ or a string encoding the length $k$ of the shortest path from $u$ to $v$. Prove that $SHORTPATH$ is computable by a Turing machine. See footnote for hint.^[You don't have to give a full description of a Turing machine: use our "eat the cake and have it too" paradigm to show the existence of such a machine by arguing from more powerful equivalent models.]
 :::
 
 ::: {.exercise title="Longest Path" #longestpathcomputableex}
-Let $LONGPATH:\{0,1\}^* \rightarrow \{0,1\}^*$ be the function that on input a string encoding a triple $(G,u,v)$ outputs  a string encoding $\infty$ if $u$ and $v$ are disconnected in $G$ or a string encoding the length $k$ of the _longest simple path_ from $u$ to $v$. Prove that $LONGPATH$ is computable by a Turing machine.^[_Hint:_ Same hint as [longestpathcomputableex](){.ref} applies. Note that for showing that $LONGPATH$ is computable you don't have to give an _efficient_ algorithm.]
+Let $LONGPATH:\{0,1\}^* \rightarrow \{0,1\}^*$ be the function that on input a string encoding a triple $(G,u,v)$ outputs  a string encoding $\infty$ if $u$ and $v$ are disconnected in $G$ or a string encoding the length $k$ of the _longest simple path_ from $u$ to $v$. Prove that $LONGPATH$ is computable by a Turing machine. See footnote for hint.^[Same hint as [longestpathcomputableex](){.ref} applies. Note that for showing that $LONGPATH$ is computable you don't have to give an _efficient_ algorithm.]
 :::
 
 ::: {.exercise title="Shortest path λ expression" #shortestpathlambda}
@@ -1273,7 +1296,7 @@ Prove that for every λ-expression $e$ with no free variables there is an equiva
 1. Let $e = \lambda x.7 \left( (\lambda x.xx) (\lambda x.xx) \right)$.
 Prove that the simplification process of $e$ ends in a definite number if we use the "call by name" evaluation order  while it never ends if we use the "call by value" order.
 
-2. (bonus, challenging) Let $e$ be any λ expression. Prove that if the simplification process ends in a definite number if we use the "call by value" order then it also ends in such a number if we use the "call by name" order.^[_Hint:_ Use structural induction on the expression $e$.]
+2. (bonus, challenging) Let $e$ be any λ expression. Prove that if the simplification process ends in a definite number if we use the "call by value" order then it also ends in such a number if we use the "call by name" order. See footnote for hint.^[Use structural induction on the expression $e$.]
 :::
 
 
@@ -1283,11 +1306,11 @@ Thus $zip$ "zips together" these two lists of elements into a single list of pai
 :::
 
 ::: {.exercise title="Next-step function without $RECURSE$" #lambdaturing-thm}
-Let $M$ be a Turing machine. Give an enhanced λ calculus expression to compute the next-step function $NEXT_M$ of $M$ (as in the proof of [lambdaturing-thm](){.ref}) _without using $RECURSE$_.^[_Hint:_ Use $MAP$ and $REDUCE$ (and potentially $FILTER$). You might also find the function $zip$ of [zipfunctionex](){.ref} useful.]
+Let $M$ be a Turing machine. Give an enhanced λ calculus expression to compute the next-step function $NEXT_M$ of $M$ (as in the proof of [lambdaturing-thm](){.ref}) _without using $RECURSE$_. See footnote for hint.^[Use $MAP$ and $REDUCE$ (and potentially $FILTER$). You might also find the function $zip$ of [zipfunctionex](){.ref} useful.]
 :::
 
 ::: {.exercise title="λ calculus to NAND-TM compiler (challenging)" #lambdacompiler }
-Give a program in the programming language of your choice that takes as input a λ expression $e$ and outputs a NAND-TM program $P$ that computes the same function as $e$. For partial credit you can use the `GOTO` and all NAND-CIRC syntactic sugar in your output program. You can use any encoding of λ expressions as binary string that is convenient for you.^[_Hint:_ Try to set up a procedure such that if array `Left` contains an encoding of a λ expression $\lambda x.e$ and array `Right` contains an encoding of another λ expression $e'$, then the array `Result` will contain $e[x \rightarrow e']$.]
+Give a program in the programming language of your choice that takes as input a λ expression $e$ and outputs a NAND-TM program $P$ that computes the same function as $e$. For partial credit you can use the `GOTO` and all NAND-CIRC syntactic sugar in your output program. You can use any encoding of λ expressions as binary string that is convenient for you. See footnote for hint.^[Try to set up a procedure such that if array `Left` contains an encoding of a λ expression $\lambda x.e$ and array `Right` contains an encoding of another λ expression $e'$, then the array `Result` will contain $e[x \rightarrow e']$.]
 :::
 
 ::: {.exercise title="At least two in $\lambda$ calculus" #altlambdaex}
@@ -1342,12 +1365,15 @@ Prove that for every Turing Machine program $M$, there exists a `STRINGS` progra
 ## Bibliographical notes { #othermodelsbibnotes }
 
 Chapters 7   in the wonderful book of Moore and Mertens [@MooreMertens11] contains a great exposition much of this material.
-Chapter 3 in Savage's book [@Savage1998models] contains a more formal description of RAM machines, see also the paper [@hagerup1998].
-A study of RAM algorithms that are independent of the input size (known as the "transdichotomous RAM model") was initiated by [@fredman1993].
+.
 
 The RAM model can be very useful in studying the concrete complexity of practical algorithms.
-However, the exact set of operations that are allowed in the RAM model at unit cost can vary between texts and contexts.
+Its theoretical study was initiated in [@cook1973time].
+However, the exact set of operations that are allowed in the RAM model and their costs  vary between texts and contexts.
 One needs to be careful in making such definitions, especially if the word size grows, as was already shown by Shamir [@shamir1979].
+Chapter 3 in Savage's book [@Savage1998models] contains a more formal description of RAM machines, see also the paper [@hagerup1998].
+A study of RAM algorithms that are independent of the input size (known as the "transdichotomous RAM model") was initiated by [@fredman1993]
+
 
 The models of computation we considered so far are inherently sequential, but these days much computation happens in parallel, whether using multi-core processors or in massively parallel distributed computation in data centers or over the Internet.
 Parallel computing is important in practice, but it does not really make much difference for the question of what can and can't be computed.
@@ -1369,3 +1395,5 @@ We will come back to this point in [restrictedchap](){.ref} and [chapproofs](){.
 
 
 Tao has [proposed](https://terrytao.wordpress.com/2014/02/04/finite-time-blowup-for-an-averaged-three-dimensional-navier-stokes-equation/) showing the Turing completeness of fluid dynamics (a "water computer") as a way of settling the question of the behavior of the Navier-Stokes equations, see this [popular article](https://www.quantamagazine.org/terence-tao-proposes-fluid-new-path-in-navier-stokes-problem-20140224/).
+
+

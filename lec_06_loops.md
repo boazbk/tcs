@@ -47,22 +47,38 @@ while i<len(X):
     i+= 1
 Y[0] = s
 ```
+![An algorithm is a finite recipe to compute on arbitrarily long inputs. The components of an algorithm include the instructions to be performed, finite state or "local variables", the memory to store the input and intermediate computations, as well as mechanisms to decide which part of the  memory to access, and when to repeat instructions and when to halt.](../figure/algcomponents.png){#algcomponentfig .margin}
 
+Generally an algorithm is, as we quote above, "a finite answer to an infinite number of questions".
+To express an algorithm we need to write down a finite set of instructions that will enable us to compute on arbitrarily long inputs.
+To describe and execute an algorithm we need the following components (see [algcomponentfig](){.ref}):
 
-![Overview of our models for finite and unbounded computation. In the previous chapters we study the computation of _finite functions_, which are functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ for some fixed $n,m$, and modeled computing these functions using circuits or straightline programs. In this chapter we study computing _unbounded_ functions of the form $F:\{0,1\}^* \rightarrow \{0,1\}^m$ or $F:\{0,1\}^* \rightarrow \{0,1\}^*$. We model computing these functions using _Turing Machines_ or (equivalently) NAND-TM programs which add the notion of _loops_ to the NAND-CIRC programming language. In [chapequivalentmodels](){.ref} we will show that these models are equivalent to many other models, including RAM machines, the $\lambda$ calculus, and all the common programming languages including C, Python, Java, JavaScript, etc.](../figure/chaploopoverview.png){#chaploopoverviewfig  }
+* The finite set of instructions to be performed.
 
+* Some "local variables"  or finite state used in the execution.
+
+* A potentially unbounded working memory to store the input as well as any other values we may require later. 
+
+* While the memory is unbounded, at every single step we can only read and write to a finite part of it, and we need a way to _adress_ which are the parts we want to read from and write to.
+
+* If we only have a finite set of instructions but our input can be arbitrarily long, we will need to _repeat_ instructions (i.e.,  _loop_  back). We need a mechanism to decide when we will loop and when we will halt.
 
 In this chapter we will show how we can extend the  model of Boolean circuits / straight-line programs so that it can capture these kinds of constructs.
 We will see two ways to do so:
 
 
-* _Turing machines_, invented by Alan Turing in 1936, are an hypothetical abstract device that can yields a finite description of an algorithm that can handle arbitrarily long inputs.
+* _Turing machines_, invented by Alan Turing in 1936, are an hypothetical abstract device that yields a finite description of an algorithm that can handle arbitrarily long inputs.
 
 
 * The _NAND-TM Programming language_ extends   NAND-CIRC with the notion of _loops_ and _arrays_ to obtain finite programs that can compute a function with arbitrarily long inputs.
 
 It turns out that these two models are _equivalent_, and in fact they are equivalent to a great many other computational models including programming languages you may be familiar with such as C, Lisp, Python, JavaScript, etc. This notion, known as _Turing equivalence_ or _Turing completeness_, will be discussed in [chapequivalentmodels](){.ref}.
 See [chaploopoverviewfig](){.ref} for an overview of the models presented in this chapter and [chapequivalentmodels](){.ref}.
+
+
+
+
+![Overview of our models for finite and unbounded computation. In the previous chapters we study the computation of _finite functions_, which are functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ for some fixed $n,m$, and modeled computing these functions using circuits or straightline programs. In this chapter we study computing _unbounded_ functions of the form $F:\{0,1\}^* \rightarrow \{0,1\}^m$ or $F:\{0,1\}^* \rightarrow \{0,1\}^*$. We model computing these functions using _Turing Machines_ or (equivalently) NAND-TM programs which add the notion of _loops_ to the NAND-CIRC programming language. In [chapequivalentmodels](){.ref} we will show that these models are equivalent to many other models, including RAM machines, the $\lambda$ calculus, and all the common programming languages including C, Python, Java, JavaScript, etc.](../figure/chaploopoverview.png){#chaploopoverviewfig  }
 
 
 ::: {.remark title="Finite vs infinite computation" #infinite}
@@ -125,15 +141,13 @@ Specifically, a computation of a Turing Machine $M$ with $k$ states and alphabet
 
 * When the machine halts then its output is obtained by reading off the tape from the second location (just after the $\triangleright$) onwards, stopping at the first point where the symbol is not $0$ or $1$.
 
-
-![A Turing machine has access to a _tape_ of unbounded length. At each point in the execution, the machine can read a single symbol of the tape, and based on that and its current state, write a new symbol, update the tape, decide whether to move left, right, stay, or halt.](../figure/turingmachine.png){#turing-machine-fig   }
-
+![The components of a Turing Machine. Note how they correspond to the general components of algorithms as described in [algcomponentfig](){.ref}.](../figure/turingmachinecomponents.png){#turingmachinecomponentsfig .margin }
 
 ### Extended example:  A Turing machine for palindromes  { #turingmachinepalindrome }
 
 Let $PAL$ (for _palindromes_) be the function that on input $x\in \{0,1\}^*$, outputs $1$ if and only if $x$ is an (even length) _palindrome_, in the sense that $x = w_0 \cdots w_{n-1}w_{n-1}w_{n-2}\cdots w_0$ for some $n\in \N$ and $w\in \{0,1\}^n$.
 
-We now show a Turing Machine $M$ that computes $PAL$. To specify $M$ we need to specify __(i)__ $M$'s tape alphabet $\Sigma$ which should contain at least the symboles $0$,$1$, $\triangleright$ and $\varnothing$, and __(ii)__ $M$'s _transition function_ which determines what action $M$ takes when it reads a given symbol while it is in a particular state.
+We now show a Turing Machine $M$ that computes $PAL$. To specify $M$ we need to specify __(i)__ $M$'s tape alphabet $\Sigma$ which should contain at least the symbols $0$,$1$, $\triangleright$ and $\varnothing$, and __(ii)__ $M$'s _transition function_ which determines what action $M$ takes when it reads a given symbol while it is in a particular state.
 
 In our case, $M$ will use the alphabet $\{ 0,1,\triangleright, \varnothing, \times \}$ and will have $k=14$ states. Though the states are simply numbers between $0$ and $k-1$, for convenience we will give them the following labels:
 
@@ -166,9 +180,9 @@ We describe the operation of our Turing Machine $M$ in words:
 
 * $M$ starts in state `START` and will go right, looking for the first symbol that is $0$ or $1$. If we find $\varnothing$ before we hit such a symbol then we will move to the `OUTPUT_1` state that we describe below.
 
-* Once $M$ found such a symbol $b \in \{0,1\}$, $M$ deletes $b$ from the tape by writing the $\times$ symbol, it enters either the `RIGHT_0` or `RIGHT_1` mode according to the value of $b$ and starts moving rightwards until it hits the first $\varnothing$ or $\times$ symbol.
+* Once $M$ finds such a symbol $b \in \{0,1\}$, $M$ deletes $b$ from the tape by writing the $\times$ symbol, it enters either the `RIGHT_0` or `RIGHT_1` mode according to the value of $b$ and starts moving rightwards until it hits the first $\varnothing$ or $\times$ symbol.
 
-* Once we found this symbol we
+* Once we find this symbol we go
  into the state `LOOK_FOR_0` or `LOOK_FOR_1` depending on whether we were in the state `RIGHT_0` or `RIGHT_1` and make one left move.
 
 * In the state `LOOK_FOR_`$b$, we check whether the value on the tape is $b$. If it is, then we delete it by changing its value to $\times$, and move to the state `RETURN`. Otherwise, we change to the `OUTPUT_0` state.
@@ -182,6 +196,9 @@ The above description can be turned into a table describing for each one of the 
 
 ### Turing machines: a formal definition
 
+
+
+![A Turing machine has access to a _tape_ of unbounded length. At each point in the execution, the machine can read a single symbol of the tape, and based on that and its current state, write a new symbol, update the tape, decide whether to move left, right, stay, or halt.](../figure/turingmachine.png){#turing-machine-fig   }
 
 
 The formal definition of Turing machines is as follows:
@@ -291,7 +308,7 @@ For example, it is very easy to come up with a Turing machine whose transition f
 If a machine  $M$ fails to stop and produce an output on some an input $x$, then it cannot compute any total function $F$, since clearly on input $x$, $M$  will fail to output $F(x)$. However, $P$ can still compute a _partial function_.^[A _partial function_ $F$ from a set $A$ to a set $B$ is a function that is only defined on a _subset_ of $A$, (see [functionsec](){.ref}). We can also think of such a function as mapping $A$ to $B \cup \{ \bot \}$ where $\bot$ is a special "failure" symbol such that $F(a)=\bot$  indicates the function $F$ is not defined on $a$.]
 
 For example, consider the partial function $DIV$ that on input a pair $(a,b)$ of natural numbers, outputs $\ceil{a/b}$ if $b > 0$, and is undefined otherwise.
-We can define a turing machine $M$ that computes $DIV$ on input $a,b$ by outputting the first $c=0,1,2,\ldots$ such that $cb \geq a$. If $a>0$ and $b=0$ then the machine $M$ will never halt, but this is OK, since $DIV$ is undefined on such inputs. If $a=0$ and $b=0$, the machine  $M$ will output $0$, which is also OK, since we don't care about what the program outputs on inputs on which $DIV$ is undefined. Formally, we define computability of partial functions as follows:
+We can define a Turing machine $M$ that computes $DIV$ on input $a,b$ by outputting the first $c=0,1,2,\ldots$ such that $cb \geq a$. If $a>0$ and $b=0$ then the machine $M$ will never halt, but this is OK, since $DIV$ is undefined on such inputs. If $a=0$ and $b=0$, the machine  $M$ will output $0$, which is also OK, since we don't care about what the program outputs on inputs on which $DIV$ is undefined. Formally, we define computability of partial functions as follows:
 
 ::: {.definition title="Computable (partial or total) functions" #computablepartialfuncdef}
 Let $F$ be either a total or partial function mapping $\{0,1\}^*$ to $\{0,1\}^*$ and let $M$ be a Turing machine.
@@ -306,8 +323,8 @@ Note that if $F$ is a total function, then it is defined on every $x\in \{0,1\}^
 We often use $\bot$ as our special "failure symbol".
 If a Turing machine $M$ fails to halt on some input $x\in \{0,1\}^*$ then we denote this by $M(x) = \bot$. This _does not_ mean that $M$ outputs some encoding of the symbol $\bot$ but rather that $M$ enters into an infinite loop when given $x$ as input.
 
-If a partial function $F$ is undefined on $x$ then can also write $F(x) = \bot$.
-Therefore one might think that [computablepartialfuncdef](){.ref} can be simplified to requiring that $M(x) = F(x)$ for every $x\in \{0,1\}$, which would imply that for every $x$, $M$ halts on $x$ if and only if $F$ is defined on $x$.
+If a partial function $F$ is undefined on $x$ then we can also write $F(x) = \bot$.
+Therefore one might think that [computablepartialfuncdef](){.ref} can be simplified to requiring that $M(x) = F(x)$ for every $x\in \{0,1\}^*$, which would imply that for every $x$, $M$ halts on $x$ if and only if $F$ is defined on $x$.
 However this is not the case: for a Turing Machine $M$ to compute a partial function $F$ it is not _necessary_ for $M$ to enter an infinite loop on inputs $x$ on which $F$ is not defined.
 All that is needed is for $M$ to output $F(x)$ on $x$'s on which $F$ is defined: on other inputs it is OK for $M$ to output an arbitrary value such as $0$, $1$, or anything else, or not to halt at all.
 To borrow a term from the `C` programming language,  on inputs $x$ on which $F$ is not defined, what $M$ does is "undefined behavior".
@@ -322,9 +339,9 @@ For example, consider the Turing Machine $M$ of [turingmachinepalindrome](){.ref
 We can also describe this machine as a _program_ using the Python-like pseudocode of the form below
 
 ```python
-# Gets an array Tape initialized to 
+# Gets an array Tape initialized to
 # [">", x_0 , x_1 , .... , x_(n-1), "∅", "∅", ...]
-# At the end of the execution, Tape[1] is equal to 1 
+# At the end of the execution, Tape[1] is equal to 1
 # if x is a palindrome and is equal to 0 otherwise
 def PAL(Tape):
     head = 0
@@ -349,7 +366,7 @@ The _state_ is a _local register_ that can hold one of a fixed number of values 
 More generally we can think of every Turing Machine $M$ as equivalent to a program similar to the following:
 
 ```python
-# Gets an array Tape initialized to 
+# Gets an array Tape initialized to
 # [">", x_0 , x_1 , .... , x_(n-1), "∅", "∅", ...]
 def M(Tape):
     state = 0
@@ -385,7 +402,7 @@ To do so, we extend the NAND-CIRC programming language with two constructs:
 
 * _Arrays_: A NAND-CIRC program of $s$ lines touches at most $3s$ variables. While we can use variables with names such as  `Foo_17` or `Bar[22]`, they are not true arrays, since the number in the identifier is a constant that is "hardwired" into the program.
 
-![A NANDTM program has _scalar_ variables that can take a Boolean value, _array_ variables that hold a sequence of Boolean values, and a special _index_ variable `i` that can be used to index the array variables. We refer to the `i`-th value of the array variable `Spam` using `Spam[i]`. At each iteration of the program the index variable can be incremented or decremented by one step using the `MODANDJMP` operation.](../figure/nandtmprog.png){#nandtmfig}
+![A NAND-TM program has _scalar_ variables that can take a Boolean value, _array_ variables that hold a sequence of Boolean values, and a special _index_ variable `i` that can be used to index the array variables. We refer to the `i`-th value of the array variable `Spam` using `Spam[i]`. At each iteration of the program the index variable can be incremented or decremented by one step using the `MODANDJMP` operation.](../figure/nandtmprog.png){#nandtmfig}
 
 Thus a good way to remember NAND-TM is using the following informal equation:
 
@@ -415,7 +432,7 @@ Concretely, the NAND-TM programming language adds the following features on top 
   - If $a=b=0$ then `MODANDJUMP(`$a,b$`)` halts execution of the program.
 
 
-* The`MODANDJUMP` instruction always appears in the last line of a NAND-TM program and nowhere else. 
+* The`MODANDJUMP` instruction always appears in the last line of a NAND-TM program and nowhere else.
 
 
 __Default values.__ We need one more convention to handle "default values".
@@ -431,7 +448,7 @@ The output of a NAND-TM program is the string `Y[`$0$`]`, $\ldots$, `Y[`$m-1$`]`
 
 Formally, NAND-TM programs are defined as follows:
 
-::: {.definition title="NAND TM programs" #NANDTM}
+::: {.definition title="NAND-TM programs" #NANDTM}
 A _NAND-TM program_ consists of a sequence of lines of the form `foo = NAND(bar,blah)` ending with a line  of the form `MODANDJMP(foo,bar)`, where `foo`,`bar`,`blah` are either _scalar variables_ (sequences of letters, digits, and underscores) or _array variables_ of the form `Foo[i]` (starting with capital letter and indexed by `i`). The program has the array variables `X`, `X_nonblank`, `Y`, `Y_nonblank` and the index variable `i` built in, and can use additional array and scalar variables.
 
 If $P$ is a NAND-TM program and $x\in \{0,1\}^*$ is an input then an execution of $P$ on $x$ is the following process:
@@ -533,7 +550,7 @@ MODANDJUMP(X_nonblank[i],X_nonblank[i])
 
 ::: { .pause }
 Working out the above two example can go a long way towards understanding the NAND-TM language.
-See the appendix and our [GitHub repository](https://github.com/boazbk/tcscode) for a full specification of the NAND-TM language.
+See the [appendix](https://nbviewer.jupyter.org/github/boazbk/tcscode/blob/master/appendix%5FNAND%5Fspecs.ipynb) and our [GitHub repository](https://github.com/boazbk/tcscode) for a full specification of the NAND-TM language.
 :::
 
 
@@ -548,7 +565,7 @@ Nevertheless, this is an important result, and the first of many other such equi
 For every $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND-TM program $P$ if and only if there is a Turing Machine $M$ that computes $F$.
 
 ::: {.proofidea data-ref="TM-equiv-thm"}
-To prove such an equivalence theorem, we need to show two directions. We need to be able to __(1)__ transform a Turing machine $M$ to a NAND-TM program $P$ that computes the same function as $P$  and __(2)__ transform a NAND-TM program $P$ into a Turing machine $M$ that computes the same function as $P$.
+To prove such an equivalence theorem, we need to show two directions. We need to be able to __(1)__ transform a Turing machine $M$ to a NAND-TM program $P$ that computes the same function as $M$  and __(2)__ transform a NAND-TM program $P$ into a Turing machine $M$ that computes the same function as $P$.
 
 The idea of the proof is illustrated in [tmvsnandppfig](){.ref}.
 To show __(1)__, given a Turing machine $M$, we will create a NAND-TM program $P$ that will have an array `Tape` for the tape of $M$ and scalar (i.e., non array) variable(s) `state` for the state of $M$.
@@ -650,18 +667,18 @@ But we can go beyond this and achieve for example:
 
 * Inner loops such as the `while` and `for` operations commong to many programming language.s
 
-* Multiple index variables (e.g., not just `i` but we can add `j`, `k`, etc.). 
+* Multiple index variables (e.g., not just `i` but we can add `j`, `k`, etc.).
 
 * Arrays with more than one dimension  (e.g., `Foo[i][j]`, `Bar[i][j][k]` etc.)
 
 In all of these cases (and many others) we can implement the new feature as mere "syntactic sugar" on top of standard NAND-TM, which means that the set of functions computable by NAND-TM with this feature is the same as the set of functions computable by standard NAND-TM.
 Similarly, we can show that the set of functions computable by Turing Machines that have more than one tape, or tapes of more dimensions than one, is the same as the set of functions computable by standard Turing machines.
 
-### "GOTO" and inner loops 
+### "GOTO" and inner loops { #nandtminnerloopssec }
 
 We can implement more advanced _looping constructs_ than the simple `MODANDJUMP`.
 For example, we can implement `GOTO`.
-A `GOTO` statement corresponds to jumping to a certain line in the execution. 
+A `GOTO` statement corresponds to jumping to a certain line in the execution.
 For example, if we have code of the form
 
 ```python
@@ -675,7 +692,7 @@ then the program will only do `foo` and `blah` as when it reaches the line `GOTO
 We can achieve the effect of `GOTO` in NAND-TM using conditionals.
 In the code below, we assume that we have a variable `pc` that can take strings of some constant length.
 This can be encoded using a finite  number of Boolean variables `pc_0`, `pc_1`, $\ldots$, `pc_`$k-1$, and so when we write below
-`pc = "label"` what we mean is something like `pc_0 = 0`,`pc_1 = 1`, $\ldots$ (where the bits $0,1,\ldots$ correspond to the encoding of the finite string `"label"` as a string of length $k$). 
+`pc = "label"` what we mean is something like `pc_0 = 0`,`pc_1 = 1`, $\ldots$ (where the bits $0,1,\ldots$ correspond to the encoding of the finite string `"label"` as a string of length $k$).
 We also assume that we have access to conditional (i.e., `if` statements), which we can emulate using syntactic sugar in the same way as we did in NAND-CIRC.
 
 To emulate a GOTO statement, we will first modify a program P of the form
@@ -714,14 +731,14 @@ while foo:
 do bar
 ```
 
-with 
+with
 
 ```python
-"loop": 
+"loop":
     if NOT(foo): GOTO("next")
     do blah
     GOTO("loop")
-"next": 
+"next":
     do bar
 ```
 
@@ -774,7 +791,7 @@ The way we use `GOTO` to implement a higher level functionality in NAND-TM is re
 
 
 While NAND-TM adds extra operations over NAND-CIRC, it is not exactly accurate to say that NAND-TM programs or Turing machines are "more powerful" than NAND-CIRC programs or Boolean circuits.
-NAND-CIRC programs, having no loops, are simply not applicable for computing functions with an bounded number of inputs.
+NAND-CIRC programs, having no loops, are simply not applicable for computing functions with an unbounded number of inputs.
 Thus, to compute a function $F:\{0,1\}^* :\rightarrow \{0,1\}^*$ using NAND-CIRC (or equivalently, Boolean circuits) we need a _collection_ of programs/circuits: one for every input length.
 
 
@@ -876,7 +893,7 @@ is in $\mathbf{R}$.
 Define a Turing Machine $M$ to be _oblivious_ if its head movement are independent of its input.
 That is, we say that $M$ is oblivious if there existe an infinite sequence  $MOVE \in  \{\mathsf{L},\mathsf{R}, \mathsf{S} \}^\infty$ such that for every $x\in \{0,1\}^*$, the movements of $M$ when given input $x$ (up until the point it halts, if such point exists) are given by $MOVE_0,MOVE_1,MOVE_2,\ldots$.
 
-Prove that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, if $F$ is computable then it is computable by an oblivious Turing machine.^[_Hint:_ You can use the sequence $\mathsf{R}$, $\mathsf{L}$,$\mathsf{R}$, $\mathsf{R}$, $\mathsf{L}$, $\mathsf{L}$, $\mathsf{R}$,$\mathsf{R}$,$\mathsf{R}$, $\mathsf{L}$, $\mathsf{L}$, $\mathsf{L}$, $\ldots$.]
+Prove that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, if $F$ is computable then it is computable by an oblivious Turing machine. See footnote for hint.^[You can use the sequence $\mathsf{R}$, $\mathsf{L}$,$\mathsf{R}$, $\mathsf{R}$, $\mathsf{L}$, $\mathsf{L}$, $\mathsf{R}$,$\mathsf{R}$,$\mathsf{R}$, $\mathsf{L}$, $\mathsf{L}$, $\mathsf{L}$, $\ldots$.]
 :::
 
 
@@ -909,7 +926,7 @@ Augusta Ada Byron, countess of Lovelace (1815-1852) lived a short but turbulent 
 (see [@stein1987ada] for a biography).
 Ada took an immense interest in Babbage's _analytical engine_, which we mentioned in [compchap](){.ref}.
 In 1842-3, she translated from Italian a paper of Menabrea on the engine,  adding copious notes (longer than the paper itself).
-The quote in the chapter's beginning is taken from Nota A in this text. 
+The quote in the chapter's beginning is taken from Nota A in this text.
 Lovelace's notes contain several examples of _programs_ for the analytical engine, and because of this she has been called  "the world's first computer programmer" though it is not clear whether they were written by Lovelace or Babbage himself [@holt2001ada].
 Regardless, Ada was clearly one of very few people (perhaps the only one outside of Babbage himself) to fully appreciate how significant and revolutionary the idea of mechanizing computation truly is.
 
@@ -926,7 +943,7 @@ Turing's life is the subject of a [great book](https://goo.gl/3GdFdp) and a [med
 
 
 
-Sipser's text [@SipserBook] defines a  Turing machine is as a _seven tuple_ consisting of the state space, input alphabet, tape alphabet, transition function, starting state, accpeting state, and rejecting state.
+Sipser's text [@SipserBook] defines a Turing machine as a _seven tuple_ consisting of the state space, input alphabet, tape alphabet, transition function, starting state, accpeting state, and rejecting state.
 Superficially this looks like a very different definition than [TM-def](){.ref} but it is simply a different representation of the same concept, just as a graph can be represented in either adjacency list or adjacency matrix form.
 
 One difference is that Sipser considers a  general set of states $Q$ that is not necessarily of the form $Q=\{0,1,2,\ldots, k-1\}$ for some natural number $k>0$.
@@ -947,5 +964,3 @@ We will not use this terminology in this book.
 One of the first programming-language formulations of Turing machines was given by Wang [@Wang1957]. Our formulation of NAND-TM is aimed at making the connection with circuits more direct, with the eventual goal of using it for the Cook-Levin Theorem, as well as results such as $\mathbf{P} \subseteq \mathbf{P_{/poly}}$ and  $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$.
 The website [esolangs.org](https://esolangs.org) features a large variety of esoteric Turing-complete programming languages.
 One of the most famous of them is [Brainf*ck](https://esolangs.org/wiki/Brainfuck).
-
-

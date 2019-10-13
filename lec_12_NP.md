@@ -418,9 +418,6 @@ But if we do that, then the only way if we are able to reach $t$ is if the paths
 ^[TODO: Maybe mention either in exercise or in body of the lecture some NP hard results motivated by science. For example, shortest superstring that is motivated by genome sequencing, protein folding, maybe others.]
 
 
-> ### {.exercise  #product-ex}
-Prove [product-lem](){.ref}
-
 > ### {.exercise title="Transitivity of reductions" #transitivity-reductions-ex}
 Prove that if $F \leq_p G$ and $G \leq_p H$ then $F \leq_p H$.
 

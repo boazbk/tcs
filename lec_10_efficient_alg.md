@@ -24,7 +24,7 @@ _"I think the bubble sort would be the wrong way to go."_, Barack Obama.
 
 
 So far we have been concerned with which functions are _computable_ and which ones are not.
-In this chapter we look at the finer question of  the _time_ that it takes to compute functions, as a function of their input length.
+In this chapter we look at the finer question of  the _time_ that it takes to compute functions, as a _function of their input length_.
 This is extremely important in the practice of computing.
 In introductory courses,  coding interviews, and actual algorithm design, terms such as "$O(n)$ running time" are often used in an informal way.
 People don't have a precise definition of what a linear-time algorithm is, but rather assume that "they'll know it when they see it".
@@ -34,6 +34,10 @@ This will allow us to ask (and sometimes answer) questions such as:
 * "Is there a function that can be computed in $O(n^2)$ time but not in $O(n)$ time?"
 
 * "Are there natural problems for which the _best_ algorithm (and not just the _best known_) requires $2^{\Omega(n)}$ time?"
+
+::: { .bigidea #runtimefunc}
+The running time of an algorithm is not a _number_, it is a _function_ of the length of the input.
+:::
 
 
 In this chapter we will survey some examples of computational problems, for some of which we know efficient (e.g., $n^c$-time for a small constant $c$) algorithms, and for others the best known algorithms are exponential.
@@ -502,6 +506,12 @@ For every 2CNF $\varphi$,  define the graph $G_\varphi$ on $2n$ vertices corresp
 Prove that $\varphi$ is unsatisfiable if and only if there is some $i$ such that there is a path from $x_i$ to $\overline{x}_i$ and from $\overline{x}_i$ to $x_i$ in $G_\varphi$.
 Show how to use this to solve 2SAT in polynomial time.
 
+::: {.exercise title="Reductions for showing algorithms" #reduceP}
+The following fact is true: there is a polynomial-time algorithm $BIP$ that on input a graph $G=(V,E)$ outputs $1$ if and only if the graph is _bipartite_: there is a partition of $V$ to disjoint parts $S$ and $T$ such that every edge $(u,v) \in E$ satisfies either $u\in S$ and $v\in T$ or $u\in T$ and $v\in S$.
+Use this fact to prove that there is polynomial-time algorithm to compute that following function $CLIQUEPARTITION$ that on input a graph $G=(V,E)$ outputs $1$ if and only if there is a partition of $V$ the graph into two parts $S$ and $T$ such that both $S$ and $T$ are _cliques_: for every pair of distinct vertices $u,v \in S$, the edge $(u,v)$ is in $E$ and similarly for every pair of distinct vertices $u,v \in T$, the edge $(u,v)$ is in $E$. 
+:::
+
+
 
 ## Bibliographical notes {#effalgnotes}
 
@@ -513,8 +523,9 @@ texts that are less "encyclopedic" are  Kleinberg and Tardos [@KleinbergTardos06
 
 The origins of the minimum cut problem date to the cold war. Specifically, Ford and Fulkerson discovered their max-flow/min-cut algorithm in 1955 as a way to find out the minimum amount of train tracks that would need to be blown up to disconnect Russia from the rest of Europe. See the survey [@schrijver2005history] for more.
 
+Some algorithms for the longest path problem are given in [@williams2009finding , @bjorklund2014determinant].
 
-^[TODO: add reference to best algorithm for longest path - probably the Bjorklund algorithm]
+
 
 ## Further explorations
 

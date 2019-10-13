@@ -87,7 +87,7 @@ Now for any such polynomial-time $V$ and $a,b\in\N$, we can implement $FIND_V(x)
 
 
 
-``` {.algorithm title="$FIND_V$: Search to decision reduction" #searchtodecisionalg}
+::: {.algorithm title="$FIND_V$: Search to decision reduction" #searchtodecisionalg}
 INPUT: $x\in \{0,1\}^*$
 OUTPUT: $x\in \{0,1\}^{an^b}$ s.t. $V(xz)=1$, -if such $x$ exists.
 
@@ -120,7 +120,7 @@ $P(xz_0,\ldots,z_{\ell-1}y_\ell,\ldots,y_{an^b-1})=1$.
 If the call to  $STARTSWITH_V(xz_0\cdots z_{\ell-1}0)$ returns $0$ then it must be the case that $y_\ell=1$, and hence when we set $z_\ell=1$ we maintain the invariant.
 :::
 
-## Optimization
+## Optimization { #optimizationsection }
 
 [search-dec-thm](){.ref} allows us to find solutions for $\mathbf{NP}$ problems if $\mathbf{P}=\mathbf{NP}$, but it is not immediately clear that we can find the _optimal_ solution.
 For example, suppose that $\mathbf{P}=\mathbf{NP}$, and you are given a graph $G$. Can you find the _longest_ simple path in $G$ in polynomial time?
@@ -179,7 +179,7 @@ Once we find the maximum value of $k$ such that $F(x,1^m,k)=1$, we can use the s
 :::
 
 
-::: {.example title="Integer programming" #optimization}
+::: {.example title="Integer programming" #optimizationexample  }
 One application for [optimizationnp](){.ref} is in solving _optimization problems_.
 For example, the task of _linear programming_ is to find $y \in \R^n$ that maximizes some linear objective $\sum_{i=0}^{n-1}c_i y_i$ subject to the constraint that $y$ satisfies linear inequalities of the form $\sum_{i=0}^{n-1} a_i y_i \leq c$.
 As we discussed in [mincutsec](){.ref}, there is a known polynomial-time algorithm for linear programming.

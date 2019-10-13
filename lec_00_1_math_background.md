@@ -180,7 +180,7 @@ Since order matters, this is not the same tuple as the $4$-tuple $(1,1,5,2)$ or 
 We use the terms _tuples_ and _lists_ interchangeably.
 A tuple where every element comes from some finite set $\Sigma$ (such as $\{0,1\}$) is also known as a _string_.
 Analogously to sets, we denote the _length_ of a tuple $T$ by $|T|$.
-Just like sets, we can also think of infinite analogues of tuples, such as the ordered collection $(1,2,4,9,\ldots )$ of all perfect squares.
+Just like sets, we can also think of infinite analogues of tuples, such as the ordered collection $(1,4,9,\ldots )$ of all perfect squares.
 Infinite ordered collections are known as _sequences_; we might sometimes use the term "infinite sequence" to emphasize this, and use "finite sequence" as a synonym for a tuple. (We can identify a sequence $(a_0,a_1,a_2,\ldots)$ of elements in some set $S$ with a _function_ $A:\N \rightarrow S$ (where $a_n = A(n)$ for every $n\in \N$). Similarly, we can identify a $k$-tuple $(a_0,\ldots,a_{k-1})$ of elements in $S$ with a function $A:[k] \rightarrow S$.)
 
 
@@ -278,7 +278,7 @@ Table: An example of a function.
 
 
 
-If $f:S \rightarrow T$ satisfies that $f(x)\neq F(y)$ for all $x \neq y$ then we say that $f$ is _one-to-one_ ([onetoonedef](){.ref}, also known as an _injective_ function or simply an _injection_).
+If $f:S \rightarrow T$ satisfies that $f(x)\neq f(y)$ for all $x \neq y$ then we say that $f$ is _one-to-one_ ([onetoonedef](){.ref}, also known as an _injective_ function or simply an _injection_).
 If $F$ satisfies that for every $y\in T$ there is some $x\in S$ such that $F(x)=y$ then we say that $F$ is _onto_ (also known as a _surjective_ function or simply a _surjection_).
 A function that is both one-to-one and onto is known as a _bijective_ function or simply a _bijection_.
 A bijection from a set $S$ to itself is also known as a _permutation_ of $S$.
@@ -290,7 +290,7 @@ Note that $F^{-1}$ is itself a bijection from $T$ to $S$ (can you see why?).
 Giving a bijection between two sets is often a good way to show they have the same size.
 In fact, the standard mathematical definition of the notion that "$S$ and $T$ have the same cardinality" is that there exists a bijection $f:S \rightarrow T$.
 Further, the cardinality of a set $S$ is defined to be $n$ if there is a bijection from $S$ to the set $\{0,\ldots,n-1\}$.
-As we will see later in this book, this is a definition that can generalizes to defining the cardinality of _infinite_ sets.
+As we will see later in this book, this is a definition that generalizes to defining the cardinality of _infinite_ sets.
 
 
 
@@ -624,7 +624,7 @@ There are some simple heuristics that can help when trying to compare two functi
 ::: {.remark title="Big $O$ for other applications (optional)" #bigonotime}
 While Big-$O$ notation is often used to analyze running time of algorithms, this is by no means the only application.
 We can use $O$ notation to bound asymptotic relations between any functions mapping integers to positive numbers. It can be used regardless of whether these functions are a measure of running time, memory usage, or any other quantity that may have nothing to do with computation.
-Here is one example which is unrelated to this book (and hence one that you can feel free to skip): one way to state the [Riemann Hypothesis](https://en.wikipedia.org/wiki/Riemann_hypothesis) (one of the most famous open questions in mathematics) is that it corresponds to the conjecture that the number of primers between $0$ and $n$ is equal to $\int_2^n \tfrac{1}{\ln x} dx$ up to an additive error of magnitude at most $O(\sqrt{n}\log n)$.
+Here is one example which is unrelated to this book (and hence one that you can feel free to skip): one way to state the [Riemann Hypothesis](https://en.wikipedia.org/wiki/Riemann_hypothesis) (one of the most famous open questions in mathematics) is that it corresponds to the conjecture that the number of primes between $0$ and $n$ is equal to $\int_2^n \tfrac{1}{\ln x} dx$ up to an additive error of magnitude at most $O(\sqrt{n}\log n)$.
 :::
 
 
@@ -661,7 +661,7 @@ Writing a _program_ involves:
 
 In programs as in proofs, step 1 is often the most important one.
 A key difference is that the reader for proofs is a human being and the reader for programs is a computer.
-(This difference is eroding with time as more proofs are being written in a _machine verifiable_ form; moreover, to ensure correctness and maintinability of programs, it is important that they can be read and understood by humans.)
+(This difference is eroding with time as more proofs are being written in a _machine verifiable_ form; moreover, to ensure correctness and maintainability of programs, it is important that they can be read and understood by humans.)
 Thus our emphasis is on _readability_ and having a _clear logical flow_ for our proof (which is not a bad idea for programs as well).
 When writing a proof, you should think of your audience as an intelligent but highly skeptical and somewhat petty reader, that will "call foul" at every step that is not well justified.
 
@@ -1159,7 +1159,7 @@ c. $F(n)=n\log n$, $G(n)=2^{(\log (n))^2}$.
 
 d. $F(n)=\sqrt{n}$, $G(n)=2^{\sqrt{\log n}}$
 
-e. $F(n) = \binom{n}{\ceil{0.2 n}}$ ,  $G(n) = 2^{0.1 n}$ (where $\binom{n}{k}$ is the number of $k$-sized subsets of a set of size $n$) and $g(n) = 2^{0.1 n}$.^[_Hint:_ one way to do this is to use [Stirling's approximation for the factorial function.](https://goo.gl/cqEmS2).]
+e. $F(n) = \binom{n}{\ceil{0.2 n}}$ ,  $G(n) = 2^{0.1 n}$ (where $\binom{n}{k}$ is the number of $k$-sized subsets of a set of size $n$) and $g(n) = 2^{0.1 n}$. See footnote for hint.^[one way to do this is to use [Stirling's approximation for the factorial function.](https://goo.gl/cqEmS2).]
 :::
 
 > ### {.exercise}

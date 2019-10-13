@@ -70,7 +70,7 @@ Enumerating the examples of such  syntactic sugar transformations can be a littl
 ### User-defined procedures
 
 One staple of almost any programming language is the ability to define and then execute _procedures_ or _subroutines_.
-(These are often  known as _functions_ in some programming languages, but we prefer the name _procedures_ 
+(These are often  known as _functions_ in some programming languages, but we prefer the name _procedures_
 to avoid confusion with the function that a program computes.)
 The NAND-CIRC programming language does not have this mechanism built in.
 However, we can achieve the same effect using the time honored technique of  "copy and paste".
@@ -81,7 +81,7 @@ def Proc(a,b):
     proc_code
     return c
 some_code
-f = Proc(e,d)
+f = Proc(d,e)
 some_more_code
 ```
 
@@ -103,6 +103,12 @@ Let NAND-CIRC-PROC be the programming language NAND-CIRC augmented with the synt
 Then for every NAND-CIRC-PROC program $P$, there exists a standard (i.e., "sugar free") NAND-CIRC program $P'$ that computes the same function as $P$.
 
 
+::: {.remark title="No recursive procedure" #norecursion}
+NAND-CIRC-PROC only allows _non recursive_ procedures. In particular, the code of a procedure `Proc` can not call `Proc` but only use procedures that were defined before it.
+Without this restriction, the above "search and replace" procedure might never terminate and [functionsynsugarthm](){.ref} would not be true.
+:::
+
+
 [functionsynsugarthm](){.ref} can be proven using the transformation above, but since the formal proof is somewhat long and tedious, we omit it here.
 
 
@@ -111,14 +117,14 @@ Procedures allow us to express NAND-CIRC programs much more cleanly and succinct
 For example, because we can compute AND, OR, and NOT using NANDs, we can compute the _Majority_ function as follows:
 
 ```python
-def NOT(a): 
+def NOT(a):
     return NAND(a,a)
 def AND(a,b):
-    temp = NAND(a,b) 
+    temp = NAND(a,b)
     return NOT(temp)
 def OR(a,b):
     temp1 = NOT(a)
-    temp2 = NOT(b) 
+    temp2 = NOT(b)
     return NAND(temp1,temp2)
 
 def MAJ(a,b,c):
@@ -138,7 +144,7 @@ print(MAJ(0,1,1))
 
 
 ::: { .bigidea #synsugar}
-Once we show that a computational model $X$ is equivalent in power to the model with an additional feature $Y$, we can use this feature whenever we need to show that some function $f$ is computable by $X$.
+Once we show that a computational model $X$ is equivalent to a model that has feature $Y$, we can assume we have  $Y$ when showing that a function $f$ is computable by $X$.
 :::
 
 
@@ -173,29 +179,25 @@ To make this more robust we  a prefix to the internal variables used by `Proc` t
 
 The code in [desugarcode](){.ref} achieves such a  transformation.^[This code uses _regular expressions_ to make the search and replace parts a little easier. We will see the theoretical basis for regular expressions in [restrictedchap](){.ref}.]
 
-``` { .python .full #desugarcode title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
-import re
-def desugar(code, proc_name, proc_args,proc_body):
-"""Use `search and replace' to remove procedure calls.  
-   Replace line of form 'foo = proc_name(a,b)' with 
-      proc_body[x->a,y->b]
-      foo = exp
-    where last line of proc_body is 'return exp'"""
-    # regexp for list of variable names separated by commas
+``` { .python  #desugarcode title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
+def inline_proc(code, proc_name, proc_args,proc_body):
+    '''Takes code of a program and name, arguments, body of a procedure.
+    Returns new code where all lines in program of the
+    form "foo = proc_name(bar,blah,..)" are replaced with
+    the body of the procedure with  arguments instantiated
+    with the variables bar, blah, etc.'''
     arglist = ",".join([r"([a-zA-Z0-9\_\[\]]+)" for i in range(len(proc_args))])
-    # regexp for "variable = proc_name(arguments)"
     regexp = fr'([a-zA-Z0-9\_\[\]]+)\s*=\s*{proc_name}\({arglist}\)\s*$'
-    m = re.search(regexp,code, re.MULTILINE)
-    if not m: return code # if no match then there's nothing to do
-    newcode = proc_body 
-    # replace arguments by  variables from invocation
-    for i in range(len(proc_args)): 
-        newcode = newcode.replace(proc_args[i],m.group(i+2))    
-    # Splice the new code inside
-    newcode = newcode.replace('return',m.group(1)+" = ")
-    newcode = code[:m.start()] + newcode + code[m.end()+1:]
-    # Continue recursively to check for more matches
-    return desugar(newcode,proc_name,proc_args,proc_body)
+    #  captures "variable = func_name(arguments)"    
+    while True:
+        m = re.search(regexp, code, re.MULTILINE)
+        if not m: break
+        newcode = proc_body
+        for i in range(len(proc_args)):
+            newcode = newcode.replace(proc_args[i], m.group(i+2))
+        newcode = newcode.replace('return', m.group(1) + " = ")
+        code = code[:m.start()] + newcode + code[m.end()+1:]
+    return code
 ```
 
 [progcircmajfig](){.ref} shows the result of applying the code of [desugarcode](){.ref} to the program of [majcircnand](){.ref} that uses syntactic sugar to compute the Majority function.
@@ -207,12 +209,27 @@ The function `desugar` in [desugarcode](){.ref} assumes that it is given the pro
 It is not crucial for our purposes to describe precisely to scan a definition and splitting it up to these components, but in case you are curious, it can be achieved in Python via the following code:
 
 ```python
-def parse_func(code):
-    """Parse a procedure definition into name, arguments and body"""
-    lines = [l.strip() for l in code.split('\n')]
+def parse_procs(code):
+    """Parse code that contain procedure definitions into a list of
+    triples (name, arguments, body)"""
+    lines = [l for l in code.split('\n') if l ]
     regexp = r'def\s+([a-zA-Z\_0-9]+)\(([\sa-zA-Z0-9\_,]+)\)\s*:\s*'
-    m = re.match(regexp,lines[0])
-    return m.group(1), m.group(2).split(','), '\n'.join(lines[1:])
+    procs = []
+    current_line = 0
+    rest = ""
+    while current_line < len(lines):
+        m = re.match(regexp,lines[current_line])
+        if m:
+            current_line+= 1
+            code = ""
+            while current_line < len(lines) and lines[current_line][0]==' ':
+                code += lines[current_line].strip()+'\n'
+                current_line += 1
+            procs.append((m.group(1) , m.group(2).split(','), code))
+        else:
+            rest += lines[current_line]+'\n'
+            current_line += 1
+    return rest, procs
 ```
 :::
 
@@ -278,7 +295,7 @@ c = IF(cond,temp_c,c)
 ```
 
 Using such transformations, we can prove the following theorem.
-Once again we omit the (not too insightful) full formal proof, though see [conditionalsugarthmpython](){.ref} for some hints on how to obtain it.
+Once again we omit the (not too insightful) full formal proof, though see [functionsynsugarthmpython](){.ref} for some hints on how to obtain it.
 
 > ### {.theorem title="Conditional statements synctatic sugar" #conditionalsugarthm }
 Let NAND-CIRC-IF be the programming language NAND-CIRC augmented with `if`/`then`/`else` statements for allowing code to be conditionally executed based on whether a variable is equal to $0$ or $1$.  
@@ -322,7 +339,7 @@ By expanding out all the features, for every value of $n$ we can translate the a
 By going through the above program carefully and accounting for the number of gates, we can see that it yields a proof of the following theorem (see also [addnumoflinesfig](){.ref}):
 
 > ### {.theorem title="Addition using NAND-CIRC programs" #addition-thm}
-For every $n\in \N$, let $ADD_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{n+1}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the sum of the numbers that $x$ and $x'$ represent. Then there is a constant $c \leq 30$ such that for every $n$ there is a NAND-CIRC program of at most $c$ lines computing $ADD_n$.^[The value of $c$ can be improved to $9$, see   [halffulladderex](){.ref}.]
+For every $n\in \N$, let $ADD_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{n+1}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the sum of the numbers that $x$ and $x'$ represent. Then there is a constant $c \leq 30$ such that for every $n$ there is a NAND-CIRC program of at most $cn$ lines computing $ADD_n$.^[The value of $c$ can be improved to $9$, see   [halffulladderex](){.ref}.]
 
 
 ![The number of lines in our NAND-CIRC program to add two $n$ bit numbers, as a function of $n$, for $n$'s between $1$ and $100$. This is not the most efficient program for this task, but the important point is that it has the form $O(n)$.](../figure/addnumberoflines.png){#addnumoflinesfig .margin  }
@@ -335,14 +352,14 @@ Once we have addition, we can use the grade-school algorithm to obtain multiplic
 For every $n$, let $MULT_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{2n}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the product of the numbers that $x$ and $x'$ represent. Then there is a constant $c$ such that for every $n$, there is a NAND-CIRC program of at most $cn^2$ that computes the function $MULT_n$.
 
 We omit the proof, though in [multiplication-ex](){.ref} we ask you to supply a "constructive proof" in the form of a program (in your favorite programming language) that on input a number $n$, outputs the code of a NAND-CIRC program of at most $1000n^2$ lines that computes the $MULT_n$ function.
-In fact, we can use Karatsuba's algorithm to show that there is a NAND-CIRC program of $O(n^{\log_2 3})$ lines to compute $MULT_n$ 
+In fact, we can use Karatsuba's algorithm to show that there is a NAND-CIRC program of $O(n^{\log_2 3})$ lines to compute $MULT_n$
 (and can get even further asymptotic improvements using better algorithms).
 
 
 ## The LOOKUP function { #seclookupfunc }
 
 The $LOOKUP$ function  will play an important role in this chapter and later.
-It is defined as follows: 
+It is defined as follows:
 
 
 > ### {.definition title="Lookup function" #lookup-def}
@@ -370,7 +387,7 @@ An immediate corollary of [lookup-thm](){.ref} is that for every $k>0$, $LOOKUP_
 
 We  prove [lookup-thm](){.ref} by induction.
 For the case $k=1$, $LOOKUP_1$  maps $(x_0,x_1,i) \in \{0,1\}^3$ to $x_i$.
-In other words, if $i=0$ then it outputs $x_0$ and otherwise it outputs $x_1$, which (up to reordering variables) is the same as 
+In other words, if $i=0$ then it outputs $x_0$ and otherwise it outputs $x_1$, which (up to reordering variables) is the same as
 the $IF$ function presented in  [ifstatementsec](){.ref}, which can be computed by a 4-line NAND-CIRC program.
 
 As a warm-up for the case of general $k$,  let us consider the case of $k=2$.
@@ -401,7 +418,7 @@ More generally, as shown in the following lemma,  we can compute $LOOKUP_k$ usin
 For every $k \geq 2$, $LOOKUP_k(x_0,\ldots,x_{2^k-1},i_0,\ldots,i_{k-1})$
 is equal to
 $$
-IF(i_0,LOOKUP_{k-1}(x_0,\ldots,x_{2^{k-1}-1},i_1,\ldots,i_{k-1}), LOOKUP_{k-1}(x_{2^{k-1}},\ldots,x_{2^k-1},i_1,\ldots,i_{k-1}))
+IF \left(i_0, LOOKUP_{k-1}(x_{2^{k-1}},\ldots,x_{2^k-1},i_1,\ldots,i_{k-1}), LOOKUP_{k-1}(x_0,\ldots,x_{2^{k-1}-1},i_1,\ldots,i_{k-1}) \right)
 $$
 
 > ### {.proof data-ref="lookup-rec-lem"}
@@ -411,15 +428,15 @@ Thus we can compute $LOOKUP_k(x,i)$ by first computing $a$ and $b$ and then outp
 
 
 __Proof of [lookup-thm](){.ref} from [lookup-rec-lem](){.ref}.__ Now that we have [lookup-rec-lem](){.ref},
-we can complete the proof of [lookup-thm](){.ref}. 
+we can complete the proof of [lookup-thm](){.ref}.
 We will prove by induction on $k$ that there is a NAND-CIRC program of at most $4\cdot 2^k$ lines for $LOOKUP_k$.
 For $k=1$ this follows by the four line program for $IF$ we've seen before.
 For $k>1$, we use the following pseudocode
 
 ```python
-a = LOOKUP_(k-1)(X[0],...,X[2^(k-1)-1],i[1],...,i[k-1])
-b = LOOKUP_(k-1)(X[2^(k-1)],...,Z[2^(k-1)],i[1],...,i[k-1])
-return IF(i[k-1],a,b)
+a = LOOKUP_(k-1)(X[0],...,X[2^(k-1)-1],i[0],...,i[k-1])
+b = LOOKUP_(k-1)(X[2^(k-1)],...,Z[2^(k-1)],i[0],...,i[k-1])
+return IF(i[0],b,a)
 ```
 
 If we let $L(k)$ be the number of lines required for $LOOKUP_k$, then the above pseudo-code shows that
@@ -462,10 +479,10 @@ _Every_ finite function can be computed by a large enough Boolean circuit.
 
 
 
-_Improved bounds._ Though it will not be of great importance to us, it is possible to improve on the proof of 
-[NAND-univ-thm](){.ref}  and shave an extra factor of $n$, as well as optimize the constant $c$, and so prove that 
+_Improved bounds._ Though it will not be of great importance to us, it is possible to improve on the proof of
+[NAND-univ-thm](){.ref}  and shave an extra factor of $n$, as well as optimize the constant $c$, and so prove that
 for every $\epsilon>0$, $m\in \N$ and sufficiently large $n$, if $f:\{0,1\}^n \rightarrow \{0,1\}^m$ then $f$ can be computed by a NAND circuit of at most
-$(1+\epsilon)\tfrac{m\cdot 2^n}{n}$ gates. 
+$(1+\epsilon)\tfrac{m\cdot 2^n}{n}$ gates.
 The proof of this result is beyond the scope of this book, but we do discuss how to obtain a bound of the form $O(\tfrac{m \cdot 2^n}{n})$ in [tight-upper-bound](){.ref}; see also the biographical notes.
 
 
@@ -549,31 +566,67 @@ By being a little more careful, we can improve the bound of [NAND-univ-thm](){.r
 In other words, we can prove  the following improved version:
 
 > ### {.theorem title="Universality of NAND circuits, improved bound" #NAND-univ-thm-improved}
-There exists a constant $c>0$ such that for every $n,m>0$ and function $f: \{0,1\}^n\rightarrow \{0,1\}^m$, there is a NAND-CIRC program  with at most $c \cdot m 2^n / n$ lines that computes the function $f$ .
+There exists a constant $c>0$ such that for every $n,m>0$ and function $f: \{0,1\}^n\rightarrow \{0,1\}^m$, there is a NAND-CIRC program  with at most $c \cdot m 2^n / n$ lines that computes the function $f$.^[The constant $c$ in this theorem is at most $10$ and in fact can be arbitrarily close to $1$, see [computeeveryfunctionbibnotes](){.ref}.]
 
 
 ::: {.proof data-ref="NAND-univ-thm-improved"}
 As before, it is enough to prove the case that $m=1$.
+Hence we let $f:\{0,1\}^n \rightarrow \{0,1\}$, and our goal is to prove that there exists a NAND-CIRC program of $O(2^n/n)$ lines (or equivalently a Boolean circuit of $O(2^n/n)$ gates) that computes $f$.
 
-The idea is to use the technique known as _memoization_.
-Let $k= \log(n-2\log n)$ (the reasoning behind this choice will become clear later on).
-For every $a \in \{0,1\}^{n-k}$ we define $F_a:\{0,1\}^k \rightarrow \{0,1\}$ to be the function that maps $w_0,\ldots,w_{k-1}$ to $F(a_0,\ldots,a_{n-k-1},w_0,\ldots,w_{k-1})$.
+We let $k= \log(n-2\log n)$ (the reasoning behind this choice will become clear later on).
+We define the function $g:\{0,1\}^k \rightarrow \{0,1\}^{2^{n-k}}$ as follows:
+$$
+g(a) = f(a0^{n-k})f(a0^{n-k-1}1) \cdots f(a1^{n-k}) \;.
+$$
+In other words, if we use the usual binary representation to identify the numbers $\{0,\ldots, 2^{n-k}-1 \}$ with the strings $\{0,1\}^{n-k}$, then for every $a\in \{0,1\}^k$ and $b\in \{0,1\}^{n-k}$
+$$
+g(a)_b = f(ab) \;. \label{eqcomputefusinggeffcircuit}
+$$
 
-On input $x=x_0,\ldots,x_{n-1}$, we can compute $F(x)$ as follows:
-First we compute a $2^{n-k}$ long string $P$ whose $a^{th}$ entry (identifying $\{0,1\}^{n-k}$ with $[2^{n-k}]$) equals $F_a(x_{n-k},\ldots,x_{n-1})$.
-One can verify that $F(x)=LOOKUP_{n-k}(P,x_0,\ldots,x_{n-k-1})$.
-Since we can compute $LOOKUP_{n-k}$ using $O(2^{n-k})$ lines, if we can compute the string $P$ (i.e., compute variables `P_`$0$, ..., `P_`$2^{n-k}-1$) using $T$ lines, then we can compute $F$ in $O(2^{n-k})+T$ lines.
+![We can compute $f:\{0,1\}^n \rightarrow \{0,1\}$ on input $x=ab$ where $a\in \{0,1\}^k$ and $b\in \{0,1\}^{n-k}$ by first computing the $2^{n-k}$ long string $g(a)$  that corresponds to all $f$'s values on inputs that begin with $a$, and then outputting the $b$-th coordinate of this string.](../figure/efficient_circuit_allfunc.png){#efficient_circuit_allfuncfig .margin}
 
-The trivial way to compute the string $P$ would be to use $O(2^k)$ lines to compute for every $a$ the map $x_0,\ldots,x_{k-1} \mapsto F_a(x_0,\ldots,x_{k-1})$ as in the proof of [NAND-univ-thm](){.ref}.
-Since there are $2^{n-k}$ $a$'s,  that would be a total cost of $O(2^{n-k} \cdot 2^k) = O(2^n)$ which would not improve at all on the bound of [NAND-univ-thm](){.ref}.
-However, a more careful observation shows that we are making some _redundant_ computations.
-After all, there are only $2^{2^k}$ distinct functions mapping $k$ bits to one bit.
-If $a$ and $a'$ satisfy that $F_a = F_{a'}$ then we don't need to spend $2^k$ lines computing both $F_a(x)$ and $F_{a'}(x)$ but rather can only compute the variable `P_`$a$ and then copy `P_`$a$ to `P_`$a'$ using $O(1)$ lines.
-Since we have $2^{2^k}$ unique functions, we can bound the total cost to compute $P$ by $O(2^{2^k}2^k)+O(2^{n-k})$.
 
-Now it just becomes a matter of calculation.
-By our choice of $k$, $2^k = n-2\log n$ and hence $2^{2^k}=\tfrac{2^n}{n^2}$.
-Since $n/2 \leq 2^k \leq n$, we can bound the total cost of computing $F(x)$ (including also the additional $O(2^{n-k})$ cost of computing $LOOKUP_{n-k}$) by $O(\tfrac{2^n}{n^2}\cdot n)+O(2^n/n)$, which is what we wanted to prove.
+[eqcomputefusinggeffcircuit](){.eqref} means that for every $x\in \{0,1\}^n$, if we write
+$x=ab$ with $a\in \{0,1\}^k$ and $b\in \{0,1\}^{n-k}$ then we can compute $f(x)$ by
+first computing the string  $T=g(a)$  of length $2^{n-k}$, and then computing $LOOKUP_{n-k}(T\;,\; b)$ to retrieve the
+element of $T$ at the position corresponding to $b$ (see [efficient_circuit_allfuncfig](){.ref}).
+The cost to compute the $LOOKUP_{n-k}$ is $O(2^{n-k})$ lines/gates and the cost in NAND-CIRC lines (or Boolean gates) to compute  $f$ is at most
+$$
+cost(g) + O(2^{n-k}) \;, \label{eqcostcomputefusingg}
+$$
+where $cost(g)$ is the number of operations (i.e., lines of NAND-CIRC programs or gates in a circuit) needed to compute $g$.
+
+
+To complete the proof we need to give a  bound on  $cost(g)$.
+Since $g$ is a function mapping $\{0,1\}^k$ to $\{0,1\}^{2^{n-k}}$, we can also think of it as a
+collection of $2^{n-k}$ functions $g_0,\ldots, g_{2^{n-k}-1}: \{0,1\}^k \rightarrow \{0,1\}$, where
+$g_i(x) = g(a)_i$ for every $a\in \{0,1\}^k$ and $i\in [2^{n-k}]$. (That is, $g_i(a)$ is the $i$-th bit of $g(a)$.)
+Naively, we could use  [NAND-univ-thm](){.ref}  to compute each $g_i$ in $O(2^k)$ lines, but then
+the total cost is $O(2^{n-k} \cdot 2^k) = O(2^n)$ which does not save us anything.
+However, the crucial observation is that there are only $2^{2^k}$ _distinct functions_ mapping
+$\{0,1\}^k$ to $\{0,1\}$.
+For example, if $g_{17}$ is an identical function to $g_{67}$ that means that if we already computed $g_{17}(a)$ then we can compute $g_{67}(a)$ using only a constant number of operations: simply copy the same value!
+In general, if you have a collection of $N$ functions $g_0,\ldots,g_{N-1}$ mapping $\{0,1\}^k$ to $\{0,1\}$, of which at most $S$ are distinct then for every value $a\in \{0,1\}^k$ we can compute the $N$ values $g_0(a),\ldots,g_{N-1}(a)$ using at most $O(S\cdot 2^k + N)$ operations (see [computemanyfunctionsfig](){.ref}).
+
+
+
+![If $g_0,\ldots, g_{N-1}$ is a collection of functions each mapping $\{0,1\}^k$ to $\{0,1\}$ such that at most $S$ of them are distinct then for every $a\in \{0,1\}^k$, we can compute all the values $g_0(a),\ldots,g_{N-1}(a)$ using at most $O(S \cdot 2^k + N)$ operations by first computing the distinct functions and then copying the resulting values.](../figure/computemanyfunctions.png){#computemanyfunctionsfig .margin }
+
+In our case, because there are at most $2^{2^k}$ distinct functions mapping $\{0,1\}^k$ to $\{0,1\}$, we can compute the function $g$ (and hence by [eqcomputefusinggeffcircuit](){.eqref}  also $f$) using at most  
+$$O(2^{2^k} \cdot 2^k + 2^{n-k}) \label{eqboundoncostg}$$
+operations.
+Now all that is left is to plug  into [eqboundoncostg](){.eqref} our choice of $k = \log (n-2\log n)$.
+By definition, $2^k = n-2\log n$, which means that   [eqboundoncostg](){.eqref} can be bounded
+$$
+O\left(2^{n-2\log n} \cdot (n-2\log n) +  2^{n-\log(n-2\log n)}\right) \leq
+$$
+
+$$
+O\left(\tfrac{2^n}{n^2} \cdot n + \tfrac{2^n}{n-2\log n} \right)
+\leq
+O\left(\tfrac{2^n}{n}  + \tfrac{2^n}{0.5n} \right)  = O\left( \tfrac{2^n}{n} \right)
+$$
+which is what we wanted to prove. (We used above the fact that $n - 2\log n \geq 0.5 \log n$ for sufficiently large $n$.)
 :::
 
 Using the connection between NAND-CIRC programs and Boolean circuits, an immediate corollary of  [NAND-univ-thm-improved](){.ref} is the following improvement to  [circuit-univ-thm](){.ref}:
@@ -586,7 +639,7 @@ There exists some constant $c>0$ such that for every $n,m>0$ and function $f: \{
 
 [circuit-univ-thm](){.ref} is a fundamental result in the theory (and practice!) of computation.
 In this section we present an alternative proof of this basic fact that Boolean circuits can compute every finite function.
-This alternative proof gives somewhat worse quantitative bound on the number of gates but it has the advantage of being simpler, working directly with circuits and avoiding the usage of all the syntactic sugar machinery.
+This alternative proof gives a somewhat worse quantitative bound on the number of gates but it has the advantage of being simpler, working directly with circuits and avoiding the usage of all the syntactic sugar machinery.
 (However, that machinery is useful in its own right, and will find other applications later on.)
 
 
@@ -599,7 +652,7 @@ There exists some constant $c>0$ such that for every $n,m>0$ and function $f: \{
 
 > ### {.proofidea data-ref="circuit-univ-alt-thm"}
 The idea of the proof is illustrated in [computeallfuncaltfig](){.ref}. As before, it is enough to focus on the case that $m=1$ (the function $f$ has a single output), since we can always extend this to the case of $m>1$ by looking at the composition of $m$ circuits each computing a different output bit of the function $f$.
-We start by showing that for every $\alpha \in \{0,1\}^n$, there is an $O(n)$ sized circuit that computes the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$ defined as follows: $\delta_\alpha(x)=1$ iff $x=\alpha$ (that is, $\delta_\alpha$ outputs $0$ on all inputs except the input $\alpha$). We can then write any function $f:\{0,1\}^n \rightarrow \{0,1\}$ as the OR of at most $2^n$ functions $\delta_\alpha$ for the $\alpha$'s on which $f(\alpha)=1$. 
+We start by showing that for every $\alpha \in \{0,1\}^n$, there is an $O(n)$ sized circuit that computes the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$ defined as follows: $\delta_\alpha(x)=1$ iff $x=\alpha$ (that is, $\delta_\alpha$ outputs $0$ on all inputs except the input $\alpha$). We can then write any function $f:\{0,1\}^n \rightarrow \{0,1\}$ as the OR of at most $2^n$ functions $\delta_\alpha$ for the $\alpha$'s on which $f(\alpha)=1$.
 
 ::: {.proof data-ref="circuit-univ-alt-thm"}
 We prove the theorem for the case $m=1$. The result can be extended for $m>1$ as before (see also [mult-bit-ex](){.ref}).
@@ -621,10 +674,10 @@ then there is a Boolean circuit using at most $2n$ gates that computes $\delta_\
 __PROOF OF CLAIM:__ The proof is illustrated in [deltafuncfig](){.ref}.
 As an example, consider the function $\delta_{011}:\{0,1\}^3 \rightarrow \{0,1\}$.
 This function outputs $1$ on $x$ if and only if $x_0=0$, $x_1=1$ and $x_2=1$, and so we can write $\delta_{011}(x) = \overline{x_0} \wedge x_1 \wedge x_2$, which translates into a Boolean circuit with one NOT gate and two AND gates.
-More generally, for every $\alpha \in \{0,1\}^n$, we can express $\delta_{\alpha}(x)$  as $(x_0 = \alpha_0) \wedge (x_1 = \alpha_1) \wedge \cdots \wedge (x_{n-1} = \alpha_{n-1})$, where if $\alpha_i=0$ we replace $x_i = \alpha_i$ with $\overline{x_i}$ and if $\alpha_i=1$ we replace $x_i=\alpha_i$ by simply $x_i$. 
+More generally, for every $\alpha \in \{0,1\}^n$, we can express $\delta_{\alpha}(x)$  as $(x_0 = \alpha_0) \wedge (x_1 = \alpha_1) \wedge \cdots \wedge (x_{n-1} = \alpha_{n-1})$, where if $\alpha_i=0$ we replace $x_i = \alpha_i$ with $\overline{x_i}$ and if $\alpha_i=1$ we replace $x_i=\alpha_i$ by simply $x_i$.
 This yields a circuit that computes $\delta_\alpha$ using $n$ AND gates and at most $n$ NOT gates, so a total of at most $2n$ gates.
 
-Now for every function $f:\{0,1\}^n \rightarrow \{0,1\}$, we can write 
+Now for every function $f:\{0,1\}^n \rightarrow \{0,1\}$, we can write
 
 $$
 f(x) = \delta_{x_0}(x) \vee \delta_{x_1}(x) \vee \cdots \vee \delta_{x_{N-1}}(x) \label{eqorofdeltafunc}
@@ -642,29 +695,34 @@ Since $S \subseteq \{0,1\}^n$, its size $N$ is at most $2^n$ and hence the total
 ![For every string $\alpha\in \{0,1\}^n$, there is a Boolean circuit of $O(n)$ gates to compute the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$ such that $\delta_\alpha(x)=1$ if and only if $x=\alpha$. The circuit is very simple. Given input $x_0,\ldots,x_{n-1}$ we compute the  AND of $z_0,\ldots,z_{n-1}$ where $z_i=x_i$ if $\alpha_i=1$ and $z_i = NOT(x_i)$ if $\alpha_i=0$. While formally Boolean circuits only have a gate for computing the AND of two inputs, we can implement an AND of $n$ inputs by composing $n$ two-input ANDs.](../figure/deltafunc.png){#deltafuncfig .margin }
 
 
-## The class $SIZE_{n,m}(T)$ {#secdefinesizeclasses }
+## The class $SIZE(T)$ {#secdefinesizeclasses }
 
 
 We have seen that _every_ function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a circuit of size $O(m\cdot 2^n)$, and _some_ functions (such as addition and multiplication) can be computed by much smaller circuits.
-This motivates the following definition:
-we define $SIZE_{n,m}(s)$ to be the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$ that can be computed by NAND circuits of at most $s$ gates (or equivalently, by NAND-CIRC programs of at most $s$ lines).
-In other words, $SIZE_{n,m}(s)$ is defined as follows:
+We define $SIZE(s)$ to be the set of functions that can be computed by NAND circuits of at most $s$ gates (or equivalently, by NAND-CIRC programs of at most $s$ lines).
+Formally, the definition is as follows:
 
 > ### {.definition title="Size class of functions" #sizedef}
-Let $n,m,s \in \N$ be numbers with $s \geq m$.
-The set $SIZE_{n,m}(s)$ denotes the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ such that there exists a NAND circuit of at most $s$ gates that computes $f$.
+For every $n,m  \in \{ 1, \ldots , 2s\}$, we let set $SIZE_{n,m}(s)$ denotes the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ such that $f\in SIZE(s)$.^[The restriction that $m,n \leq 2s$ makes no difference; see [nandcircsizeex](){.ref}.] 
 We denote by $SIZE_n(s)$ the set $SIZE_{n,1}(s)$.
+For every integer $s \geq 1$, we let $SIZE(s) = \cup_{n,m \leq 2s} SIZE_{n,m}(s)$ be the set of all functions $f$ for which there exists a NAND circuit of at most $s$ gates that compute $f$.
 
-[funcvscircfig](){.ref} depicts the sets $SIZE_{n,1}(s)$, note that $SIZE_{n,m}(s)$ is a set of _functions_, not of _programs!_ (asking if a program or a circuit is a member of $SIZE_{n,m}(s)$ is a _category error_ as in the sense of  [cucumberfig](){.ref}).
+
+[funcvscircfig](){.ref} depicts the sets $SIZE_{n,1}(s)$.
+Note that $SIZE_{n,m}(s)$ is a set of _functions_, not of _programs!_ (asking if a program or a circuit is a member of $SIZE_{n,m}(s)$ is a _category error_ as in the sense of  [cucumberfig](){.ref}).
+As we discussed in [specvsimplrem](){.ref} (and  [secimplvsspec](){.ref}), the distinction between _programs_ and _functions_ is absolutely crucial.
+You should always remember that while a program _computes_ a function, it is not _equal_ to a function.
+In particular, as we've seen, there can be more than one program to compute the same function.
+
 
 
 ![There are $2^{2^n}$ functions mapping $\{0,1\}^n$ to $\{0,1\}$, and an infinite number of circuits with $n$ bit inputs and a single bit of output. Every circuit computes one function, but every function can be computed by many circuits. We say that $f \in SIZE_{n,1}(s)$ if the smallest circuit that computes $f$ has $s$ or fewer gates. For example $XOR_n \in SIZE_{n,1}(4n)$. [NAND-univ-thm](){.ref} shows that _every_ function $g$ is computable by some circuit of at most $c\cdot 2^n/n$ gates, and hence $SIZE_{n,1}(c\cdot 2^n/n)$ corresponds to the set of _all_ functions from $\{0,1\}^n$ to $\{0,1\}$.](../figure/funcvscircs.png){#funcvscircfig .class  }
 
 
-While we defined $SIZE_{n,m}(s)$ with respect to NAND gates, we would get essentially the same class if we defined it with respect to AND/OR/NOT gates:
+While we defined $SIZE(s)$ with respect to NAND gates, we would get essentially the same class if we defined it with respect to AND/OR/NOT gates:
 
 > ### {.lemma #nandaonsizelem}
-Let $SIZE^{AON}_{n,m,s}$ denote the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that can be computed by an AND/OR/NOT Boolean circuit of at most $s$ gates.
+Let $SIZE^{AON}_{n,m}(s)$ denote the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that can be computed by an AND/OR/NOT Boolean circuit of at most $s$ gates.
 Then,
 $$
 SIZE_{n,m}(s/2) \subseteq SIZE^{AON}_{n,m}(s) \subseteq SIZE_{n,m}(3s)
@@ -678,26 +736,20 @@ On the other hand, if $f$ can be computed by a Boolean AND/OR/NOT circuit of at 
 
 
 
-![A "category error" is a question such as "is a cucumber even or odd?" which does not even make sense. In this book one type of category errors you should watch out for is confusing _functions_ and _programs_ (i.e., confusing _specifications_ and _implementations_). If $C$ is a circuit or program, then asking if $C \in SIZE_{n,1}(s)$ is a category error, since $SIZE_{n,1}(s)$ is a set of _functions_ and not programs or circuits.](../figure/cucumber.png){#cucumberfig .margin  }
+![A "category error" is a question such as "is a cucumber even or odd?" which does not even make sense. In this book one type of category error you should watch out for is confusing _functions_ and _programs_ (i.e., confusing _specifications_ and _implementations_). If $C$ is a circuit or program, then asking if $C \in SIZE_{n,1}(s)$ is a category error, since $SIZE_{n,1}(s)$ is a set of _functions_ and not programs or circuits.](../figure/cucumber.png){#cucumberfig .margin  }
 
 
 The results we have seen in this chapter can be phrased as showing that $ADD_n \in SIZE_{2n,n+1}(100 n)$
 and $MULT_n \in SIZE_{2n,2n}(10000 n^{\log_2 3})$.
-[NAND-univ-thm](){.ref} shows that  for some constant $c$, $SIZE_{n,m}(c m 2^n)$ is equal the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$.
+[NAND-univ-thm](){.ref} shows that  for some constant $c$, $SIZE_{n,m}(c m 2^n)$ is equal to the set of all functions from $\{0,1\}^n$ to $\{0,1\}^m$.
 
-> ### { .pause }
-Note that $SIZE_{n,m}(s)$ does __not__ correspond to a set of programs!
-Rather, it is a set of _functions_ (see [cucumberfig](){.ref}).
-As we discussed in [specvsimplrem](){.ref} (and  [secimplvsspec](){.ref}), the distinction between _programs_ and _functions_ is absolutely crucial.
-You should always remember that while a program _computes_ a function, it is not _equal_ to a function.
-In particular, as we've seen, there can be more than one program to compute the same function.
 
 
 
 :::  {.remark title="Finite vs infinite functions" #infinitefunc}
 A NAND-CIRC program $P$ can only compute a function with a certain number $n$ of inputs and a certain number $m$ of outputs. Hence for example there is no single NAND-CIRC program that can compute the increment function $INC:\{0,1\}^* \rightarrow \{0,1\}^*$ that maps a string $x$ (which we identify with a number via the binary representation) to the string that represents $x+1$. Rather for every $n>0$, there is a NAND-CIRC program $P_n$ that computes the restriction $INC_n$ of the function $INC$ to inputs of length $n$. Since it can be shown that for every $n>0$ such a program $P_n$ exists of length at most $10n$, $INC_n \in SIZE(10n)$ for every $n>0$.
 
-If $T:\N \rightarrow \N$ and $F:\{0,1\}^* \rightarrow \{0,1\}^*$, we will sometimes slightly abuse notation and write $F \in SIZE(T(n))$ to indicate that for every $n$ the restriction $F_{\upharpoonright n}$ of $F$ to inputs in $\{0,1\}^n$ is in $SIZE(T(n))$. Hence we can write $INC \in SIZE(10n)$. We will come back to this issue of finite vs infinite functions later in this course.
+If $T:\N \rightarrow \N$ and $F:\{0,1\}^* \rightarrow \{0,1\}^*$, we will  write $F \in SIZE_{*}(T(n))$  (or sometimes slightly abuse notation and write simply $F \in SIZE(T(n))$) to indicate that for every $n$ the restriction $F_{\upharpoonright n}$ of $F$ to inputs in $\{0,1\}^n$ is in $SIZE(T(n))$. Hence we can write $INC \in SIZE_*(10n)$. We will come back to this issue of finite vs infinite functions later in this course.
 :::
 
 
@@ -755,14 +807,15 @@ Y[0] = NAND(u,v)
 :::
 
 
-> ### {.exercise title="At least two / Majority" #atleasttwo-ex}
+::: {.exercise title="At least two / Majority" #atleasttwo-ex}
 Give a NAND-CIRC program of at most 6 lines to compute the function  $MAJ:\{0,1\}^3 \rightarrow \{0,1\}$
 where $MAJ(a,b,c) = 1$ iff $a+b+c \geq 2$.
+:::
 
-::: ### {.exercise title="Conditional statements" #conditionalsugarthmex}
+::: {.exercise title="Conditional statements" #conditionalsugarthmex}
 In this exercise we will explore [conditionalsugarthm](){.ref}: transforming NAND-CIRC-IF programs that use code such as `if .. then .. else ..` to standard NAND-CIRC programs.
 
-1. Give a "proof by code" of [conditionalsugarthm](){.ref}: a program in a programming language of your choice that transforms a NAND-CIRC-IF program $P$ into a "sugar free" NAND-CIRC program $P'$ that computes the same function.^[_Hint:_ You can start by transforming $P$ into a NAND-CIRC-PROC program that uses procedure statements, and then use the code of [desugarcode](){.ref} to transform the latter into a "sugar free" NAND-CIRC program.] 
+1. Give a "proof by code" of [conditionalsugarthm](){.ref}: a program in a programming language of your choice that transforms a NAND-CIRC-IF program $P$ into a "sugar free" NAND-CIRC program $P'$ that computes the same function. See footnote for hint.^[You can start by transforming $P$ into a NAND-CIRC-PROC program that uses procedure statements, and then use the code of [desugarcode](){.ref} to transform the latter into a "sugar free" NAND-CIRC program.]
 
 2. Prove the following statement, which is the heart of  [conditionalsugarthm](){.ref}: suppose that there exists an $s$-line NAND-CIRC program to compute $f:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND-CIRC program to compute $g:\{0,1\}^n \rightarrow \{0,1\}$.
 Prove that there exist a NAND-CIRC program of at most $s+s'+10$ lines to compute the function $h:\{0,1\}^{n+1} \rightarrow \{0,1\}$ where $h(x_0,\ldots,x_{n-1},x_n)$ equals $f(x_0,\ldots,x_{n-1})$ if $x_n=0$ and equals $g(x_0,\ldots,x_{n-1})$ otherwise. (All programs in this item are standard "sugar-free" NAND-CIRC programs.)
@@ -773,9 +826,9 @@ Prove that there exist a NAND-CIRC program of at most $s+s'+10$ lines to compute
 ::: {.exercise title="Half and full adders" #halffulladderex}
 1. A _half adder_ is the function $HA:\{0,1\}^2 :\rightarrow \{0,1\}^2$ that corresponds to adding two binary bits. That is, for every $a,b \in \{0,1\}$, $HA(a,b)= (e,f)$ where $2e+f = a +b$. Prove that there is a NAND circuit of at most five NAND gates that computes $HA$.
 
-2. A _full adder_ is the function $FA:\{0,1\}^3 \rightarrow \{0,1\}$ that takes in two bits and a "carry" bit and outputs their sum. That is, for every $a,b,c \in \{0,1\}$, FA(a,b,c) = (e,f)$ such that $2e+f = a+b+c$. Prove that there is a NAND circuit of at most nine NAND gates that computes $FA$.
+2. A _full adder_ is the function $FA:\{0,1\}^3 \rightarrow \{0,1\}^{2}$ that takes in two bits and a "carry" bit and outputs their sum. That is, for every $a,b,c \in \{0,1\}$, FA(a,b,c) = (e,f)$ such that $2e+f = a+b+c$. Prove that there is a NAND circuit of at most nine NAND gates that computes $FA$.
 
-3. Prove that if there is a NAND circuit of $c$ gates that computes $FA$, then there is a circuit of $cn$ gates that computes $ADD_n$ where (as in [addition-thm](){.ref}) $ADD_n:\{0,1\}^{2n} \rightarrow \{0,1\}^n$ is the function that outputs the addition of two input $n$-bit numbers. See footnote for hint.^[Use a "cascade" of adding the bits one after the other, starting with the least significant digit, just like in the elementary-school algorithm.]
+3. Prove that if there is a NAND circuit of $c$ gates that computes $FA$, then there is a circuit of $cn$ gates that computes $ADD_n$ where (as in [addition-thm](){.ref}) $ADD_n:\{0,1\}^{2n} \rightarrow \{0,1\}^{n+1}$ is the function that outputs the addition of two input $n$-bit numbers. See footnote for hint.^[Use a "cascade" of adding the bits one after the other, starting with the least significant digit, just like in the elementary-school algorithm.]
 
 4. Show that for every $n$ there is a NAND-CIRC program to compute $ADD_n$ with at most $9n$ lines.
 :::
@@ -841,11 +894,11 @@ Let IF-CIRC be the programming language where we have the following operations `
 :::
 
 ::: {.exercise title="Compare XOR and NAND" #comparexor}
-Let XOR-CIRC be the programming language where we have the following operations `foo = XOR(bar,blah)`, `foo = 1` and `bar = 0` (that is, we can use the constants $0$, $1$ and the $XOR$ function that maps $a,b \in \{0,1\}^2$ to $a+b \mod 2$). Compare the power of the NAND-CIRC programming language and the XOR-CIRC programming language.^[_Hint:_ You can use the fact that $(a+b)+c \mod 2 = a+b+c \mod 2$. In particular it means that if you have the lines `d = XOR(a,b)` and `e = XOR(d,c)` then `e` gets the sum modulo $2$ of the variable `a`, `b` and `c`.]
+Let XOR-CIRC be the programming language where we have the following operations `foo = XOR(bar,blah)`, `foo = 1` and `bar = 0` (that is, we can use the constants $0$, $1$ and the $XOR$ function that maps $a,b \in \{0,1\}^2$ to $a+b \mod 2$). Compare the power of the NAND-CIRC programming language and the XOR-CIRC programming language. See footnote for hint.^[You can use the fact that $(a+b)+c \mod 2 = a+b+c \mod 2$. In particular it means that if you have the lines `d = XOR(a,b)` and `e = XOR(d,c)` then `e` gets the sum modulo $2$ of the variable `a`, `b` and `c`.]
 :::
 
 ::: {.exercise title="Circuits for majority" #majasymp}
-Prove that there is some constant $c$ such that for every $n>1$, $MAJ_n \in Size(cn)$ where $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$ is the majority function on $n$ input bits. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. NOTE: You can get __16 points__ by proving the weaker statement $MAJ_n \in Size(c \cdot n \log n)$ for some constant $c$.^[_Hint:_ One approach to solve this is using recursion and the  so-called Master Theorem.]
+Prove that there is some constant $c$ such that for every $n>1$, $MAJ_n \in Size(cn)$ where $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$ is the majority function on $n$ input bits. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. See footnote for hint.^[One approach to solve this is using recursion and the  so-called [Master Theorem](https://en.wikipedia.org/wiki/Master%5Ftheorem%5F(analysis%5Fof%5Falgorithms)).]
 :::
 
 
@@ -855,15 +908,11 @@ Prove that there is some constant $c$ such that for every $n>1$, and integers $a
 
 
 
-## Bibliographical notes
+## Bibliographical notes { #computeeveryfunctionbibnotes  }
 
 
 See Jukna's and Wegener's books [@Jukna12, @wegener1987complexity] for much more extensive discussion on circuits.
-Shannon showed that every Boolean function can be computed by a circuit of exponential size [@Shannon1938]. The improved bound of $c \cdot 2^n/n$ (with the optimal value of $c$ for many bases) is due to Lupanov [@Lupanov1958]. An exposition of this for the case of NAND is given in Chapter 4 of his   book [@lupanov1984].
+Shannon showed that every Boolean function can be computed by a circuit of exponential size [@Shannon1938]. The improved bound of $c \cdot 2^n/n$ (with the optimal value of $c$ for many bases) is due to Lupanov [@Lupanov1958]. An exposition of this for the case of NAND (where $c=1$) is given in Chapter 4 of his book [@lupanov1984].
 (Thanks to Sasha Golovnev for tracking down this reference!)
 
 The concept of "syntactic sugar" is also known as "macros" or "meta-programming" and is sometimes implemented via a preprocessor or macro language in a programming language or a text editor. One modern example is the [Babel](https://babeljs.io/) JavaScript syntax transformer, that converts JavaScript programs written using the latest features into a format that older Browsers can accept. It even has a [plug-in](https://babeljs.io/docs/plugins/) architecture, that allows users to add their own syntactic sugar to the language.
-We mentioned that almost all programming language support user-defined functions, but one notable exception is the original version of the FORTRAN programming language, developed in the early 1950's. This was however quickly added in FORTRAN II, released in 1958.
-
-
-

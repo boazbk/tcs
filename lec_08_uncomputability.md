@@ -30,14 +30,14 @@ It turns out that uniform models such as Turing machines or NAND-TM programs all
 It is no exaggeration to say that the existence of such a universal program/machine underlies the information technology revolution that began in the latter half of the 20th century (and is still ongoing).
 Up to that point in history, people have produced various special-purpose calculating devices such as the abacus, the slide ruler, and machines that compute various trigonometric series.
 But as Turing  (who was perhaps the one to see most clearly the ramifications of universality) observed, a _general purpose computer_ is much more powerful.
-Once build a device that can compute the single universal function we have the ability, _via software_, to extend it to do arbitrary computations.
+Once we build a device that can compute the single universal function, we have the ability, _via software_, to extend it to do arbitrary computations.
 For example, if we want to simulate a new Turing machine $M$, we do not need to build a new physical machine, but rather can represent $M$ as a string (i.e., using _code_) and then input $M$ to the universal machine $U$.
 
 Beyond the practical applications, the existence of a universal algorithm also surprising theoretical ramification, and in particular can be used to show the existence of _uncomputable functions_, upending the intuitions of mathematicians over the centuries from Euler to Hilbert.
 In this chapter we will prove the existence of the universal program, and also show its implications for uncomputability, see [universalchapoverviewfig](){.ref}
 
 
-![In this chapter we will show the existence of a _universal Turing machine_ and then use this to derive first the existence of _some_ uncomputable function. We then use this to derive the uncomputability of Turing's famous "halting problem" (i.e., the $HALT$ function), from which we a host of other uncomputability results follow. We also introduce _reductions_, which allow us to use the uncomputability of a function $F$ to derive the uncomputability of a new function $G$. The cartoon of the Halting problem is copyright 2019 Charles F. Cooper.](../figure/universalchapoverview.png){#universalchapoverviewfig}
+![In this chapter we will show the existence of a _universal Turing machine_ and then use this to derive first the existence of _some_ uncomputable function. We then use this to derive the uncomputability of Turing's famous "halting problem" (i.e., the $HALT$ function), from which we a host of other uncomputability results follow. We also introduce _reductions_, which allow us to use the uncomputability of a function $F$ to derive the uncomputability of a new function $G$.](../figure/universalchapoverview.png){#universalchapoverviewfig}
 
 
 
@@ -59,7 +59,7 @@ That is, if the machine $M$ halts on $x$ and outputs some $y\in \{0,1\}^*$ then 
 
 
 ::: { .bigidea #universaltmidea}
-There is a single algorithm that can evaluate arbitrary  algorithms on arbitrary inputs.
+There is a  _"universal"_ algorithm that can evaluate arbitrary  algorithms on arbitrary inputs.
 :::
 
 
@@ -81,19 +81,39 @@ The end result is what's known as a "meta-circular evaluator": an interpreter fo
 
 
 
-### Proving the existence of a universal Turing Machine 
+### Proving the existence of a universal Turing Machine  {#representtmsec }
 
 To prove (and even properly state)  [universaltmthm](){.ref}, we need fix some representation for Turing machines as strings.
 For example, one potential choice for such a representation is to use the equivalence betwen Turing machines and NAND-TM programs and hence represent a Turing machine $M$ using the ASCII encoding of the source code of the corresponding NAND-TM program $P$.
 However, we will use a more direct encoding.
 
+::: {.definition title="String representation of Turing Machine" #representTM}
 Let  $M$ be a Turing machine with $k$ states and a size $\ell$ alphabet $\Sigma = \{ \sigma_0,\ldots,\sigma_{\ell-1} \}$ (we use the convention $\sigma_0 = 0$,$\sigma_1 = 1$, $\sigma_2 = \varnothing$, $\sigma_3=\triangleright$).
-We represent $M$ by the triple $(k,\ell,T)$ where $T$ is the table of values for $\delta_M$:
+We represent $M$ as the triple $(k,\ell,T)$ where $T$ is the table of values for $\delta_M$:
 
 $$T = \left(\delta_M(0,0),\delta_M(0,\sigma_0),\ldots,\delta_M(k-1,\sigma_{k-1})\right) \;,$$
 
 where each value $\delta_M(s,\sigma)$ is a triple $(s',\sigma',d)$ with $s'\in [k]$, $\sigma'\in \Sigma$ and $d$ a number $\{0,1,2,3 \}$ encoding one of $\{ \mathsf{L},\mathsf{R},\mathsf{S},\mathsf{H} \}$.
-Thus such a machine $M$ is encoded by a list of $2 + 3k\cdot\ell$ natural numbers, which can be represented as a binary string.
+Thus such a machine $M$ is encoded by a list of $2 + 3k\cdot\ell$ natural numbers.
+The _string representation_ of $M$ is obtained by concatenating prefix free representation
+of all these integers.
+If a string $\alpha \in \{0,1\}^*$ does not represent a list of integers in the form above, then we treat it as representing the trivial Turing machine with one state that immediately halts on every input.
+:::
+
+
+
+::: {.remark title="Take away points of representation" #TMrepremark}
+The details of the representation scheme of Turing machines as strings are immaterial for almost all applications.
+What you need to remember are the following points:
+
+1. We can represent every Turing machine as a string.
+
+2. Given the string representation of a Turing machine $M$ and an input $x$, we can simulate $M$'s execution on the input $x$. (This is the contents of [ [universaltmthm](){.ref}](){.ref}.)
+
+An additional minor issue is that for convenience we make the assumption that _every_ string represents _some_ Turing machine. This is very easy to ensure by just mapping strings that would otherwise not represent a Turing machine into some fixed trivial machine.
+This assumption is not very important, but does make a few results (such as Rice's Theorem: [rice-thm](){.ref}) a little less cumbersome to state.
+:::
+
 
 Using this representation, we can formally prove [universaltmthm](){.ref}.
 
@@ -104,58 +124,25 @@ Here is the code of this program for concreteness, though you can feel free to s
 
 ```python
 # constants
-Φ = 2 # empty symbol
-Δ = 3 # starting symbol
-L = 0 # go left
-R = 1 # go right
-S = 2 # stay
-H = 3 # halt
-
-def EVAL(k,l,T,x):
-    """Evaluate a Turing machine on input x
-       Turing machine is represented by:
-       k: number of states
-       l: number of symbols in alphabet (containing {0,1,Φ,Δ})
-       T: transition function: a dictionary such that T[(s,a)] is equal to (_s,_a,_d)
-          where s is old state, a is symbol read
-          _s is new state
-          _a is symbol to write
-          _d in {L,R,S,H} is head movement
-    """
-
-
-    Tape = [ Δ  ] # List/array containing contents of tape
-
-    # Initialize with input
-    for i in range(len(x)): Tape.append(int(x[i]))
-
-    i = 0 # current position
-    s = 0 # current state
-
+def EVAL(δ,x):
+    '''Evaluate TM given by transition table δ
+    on input x'''
+    Tape = ["▷"] + [a for a in x]
+    i = 0; s = 0 # i = head pos, s = state
     while True:
-        a = Tape[i]  # read symbol
-        _s,_a,_d = T[(s,a)] # lookup transition table
-        Tape[i] = _a # write symbol
-        s = _s # update state
+        s, Tape[i], d = δ[(s,Tape[i])]
+        if d == "H": break
+        if d == "L": i = max(i-1,0)
+        if d == "R": i += 1
+        if i>= len(Tape): Tape.append('Φ')
 
-        # move head:
-        if _d == H: break
-        if _d == L: i = max(i-1,0)
-        if _d == R: i += 1
-
-        # add empty symbols to tape if needed
-        if i>= len(Tape): Tape.append(Φ)
-
-
-    # Scan tape for output
-    Y = []
-    j = 1
-    while j<len(Tape) and Tape[j] != Φ:
+    j = 1; Y = [] # produce output
+    while Tape[j] != 'Φ':
         Y.append(Tape[j])
         j += 1
-
     return Y
 ```
+On input a transition table $\delta$ this program will simulate the corresponding machine $M$ step by step, at each point maintaining the invariant that the array `Tape` contains the contents of $M$'s tape,  and the variable `s` contains $M$'s current state.
 
 The above does not prove the theorem as stated, since we need to show a _Turing machine_ that computes $EVAL$ rather than a Python program.
 With enough effort, we can translate this Python code line by line to a Turing machine.
@@ -164,16 +151,21 @@ That is, while we need to evaluate a Turing machine, in writing the code for the
 
 
 Translating the above Python code to NAND-RAM is truly straightforward.
-The only issue is that NAND-RAM doesn't have the _dictionary_ data structure built in, which we have used above to store the transition function `T`.
+The only issue is that NAND-RAM doesn't have the _dictionary_ data structure built in, which we have used above to store the transition function `δ`.
 However,  we can represent a dictionary $D$ of the form $\{ key_0:val_0 , \ldots, key_{m-1}:val_{m-1} \}$   as simply a list of pairs.
 To compute $D[k]$ we can scan over all the pairs until we find one of the form $(k,v)$ in which case we return $v$.
 Similarly we scan the list to update the dictionary with a new value, either modifying it or appending the pair $(key,val)$  at the end.
 :::
 
 
-::: {.remark title="Efficiency of the simulation" #}
+::: {.remark title="Efficiency of the simulation"}
 The argument in the proof of [universaltmthm](){.ref} is a very inefficient way to implement the dictionary data structure in practice, but it suffices for the purpose of proving the theorem.
 Reading and writing to a dictionary of $m$ values in this implementation takes $\Omega(m)$ steps, but it is in fact possible to do this in $O(\log m)$ steps using a _search tree_ data structure or even $O(1)$ (for "typical" instances)  using a _hash table_.   NAND-RAM and RAM machines correspond to the architecture of modern electronic computers, and so we can implement hash tables and search trees in NAND-RAM just as they are implemented in other programming languages.
+:::
+
+
+::: {.remark title="Direct construction of universal Turing Machines" #directunivtm}
+Since universal Turing 
 :::
 
 ### Implications of universality (discussion)
@@ -185,7 +177,7 @@ Reading and writing to a dictionary of $m$ values in this implementation takes $
 
 There is more than one Turing machine $U$ that satisfies the conditions of [universaltmthm](){.ref}, but the existence of even a single such machine is already extremely fundamental to both the theory and practice of computer science.
 [universaltmthm](){.ref}'s impact reaches beyond the particular model of Turing machines.
-Because we can simulate every Turing Machine by a NAND-TM program and vice versa, [universaltmthm](){.ref} immediately implies there exists a universal NAND-TM program $P_U$ such that $P_U(P,x)=P(x)$ for every NAND-TM program $P$. 
+Because we can simulate every Turing Machine by a NAND-TM program and vice versa, [universaltmthm](){.ref} immediately implies there exists a universal NAND-TM program $P_U$ such that $P_U(P,x)=P(x)$ for every NAND-TM program $P$.
 We can also "mix and match" models.
 For example since we can simulate every NAND-RAM program by a Turing machine, and every Turing Machine by the $\lambda$ calculus,  [universaltmthm](){.ref} implies that there exists a $\lambda$ expression $e$ such that for every NAND-RAM program $P$ and input $x$ on which $P(x)=y$, if we encode $(P,x)$ as a $\lambda$-expression $f$ (using the $\lambda$-calculus encoding of strings as lists of $0$'s and $1$'s) then $(e\; f)$ evaluates to an encoding of $y$.
 More generally we can say that for every  $\mathcal{X}$ and $\mathcal{Y}$ in the set  $\{$  Turing Machines, RAM Machines, NAND-TM, NAND-RAM, $\lambda$-calculus, JavaScript, Python, $\ldots$ $\}$ of Turing equivalent models, there exists a program/machine in $\mathcal{X}$ that computes the map $(P,x) \mapsto P(x)$ for every program/machine  $P \in \mathcal{Y}$.
@@ -195,6 +187,7 @@ The idea of a "universal program" is of course not limited to theory.
 For example compilers for programming languages are often used to compile _themselves_, as well as  programs more complicated than the compiler.
 (An extreme example of this is Fabrice Bellard's [Obfuscated Tiny C Compiler](https://bellard.org/otcc/) which is a C program of 2048 bytes that can compile a large subset of the C programming language, and in particular can compile itself.)
 This is also related to the fact that it is possible to write a program that can print its own source code, see  [lispinterpreterfig](){.ref}.
+There are universal Turing machines known that require a very small number of states or alphabet symbols, and in particular there is a universal Turing machine (with respect to a particular choice of representing Turing machines as strings) whose tape alphabet is $\{ \triangleright, \varnothing, 0, 1 \}$ and has fewer than $25$ states (see [uncomputablebibnotes](){.ref}).
 
 
 
@@ -207,7 +200,7 @@ That is, there exists a function $F:\{0,1\}^* \rightarrow \{0,1\}$ that is _unco
 
 
 The existence of uncomputable functions is quite surprising.
-Our intuitive notion of a "function" (and the notion most mathematicians had until the 20th century) 
+Our intuitive notion of a "function" (and the notion most mathematicians had until the 20th century)
 is that a function $f$ defines some implicit or explicit way of computing the output $f(x)$ from the input $x$.
 The notion of an "uncomputable function" thus seems to be a contradiction in terms, but yet the following theorem shows that such creatures do exist:
 
@@ -218,7 +211,7 @@ There exists a function $F^*:\{0,1\}^* \rightarrow \{0,1\}$ that is not computab
 > ### {.proofidea data-ref="uncomputable-func"}
 The idea behind the proof follows quite closely Cantor's proof that the reals are uncountable ([cantorthm](){.ref}), and in fact the theorem can also be obtained fairly directly from that result (see [uncountablefuncex](){.ref}).
 However, it is instructive to see the direct proof.
-The idea is to construct $F^*$ in a way that will ensure that every possible machine $M$ will in fact fail to compute $F^*$. We do so by defining $F^*(x)$ to equal $1$ if $x$ describes a Turing machine $M$ which satisfies $M(x)=1$ and defining $F^*(x)=0$ otherwise. By construction, if $M$ is any Turing machine and $x$ is the string describing it, then $F^*(x) \neq M(x)$ and therefore $M$ does _not_ compute $F^*$. 
+The idea is to construct $F^*$ in a way that will ensure that every possible machine $M$ will in fact fail to compute $F^*$. We do so by defining $F^*(x)$ to equal $0$ if $x$ describes a Turing machine $M$ which satisfies $M(x)=1$ and defining $F^*(x)=1$ otherwise. By construction, if $M$ is any Turing machine and $x$ is the string describing it, then $F^*(x) \neq M(x)$ and therefore $M$ does _not_ compute $F^*$.
 
 ::: {.proof data-ref="uncomputable-func"}
 The proof is illustrated in [diagonal-fig](){.ref}.
@@ -237,6 +230,10 @@ $F^*(x) = 1 - G(x) = 1 - M(x)$,   hence yielding a contradiction.
 ![We construct an uncomputable function by defining for every two strings $x,y$ the value $1-M_y(x)$ which equals $0$ if the machine described by $y$ outputs $1$ on $x$, and $1$ otherwise.  We then define $F^*(x)$ to be the "diagonal" of this table, namely $F^*(x)=1-M_x(x)$ for every $x$. The function $F^*$ is uncomputable, because if it was computable by some machine whose string description is $x^*$ then we would get that $M_{x^*}(x^*)=F(x^*)=1-M_{x^*}(x^*)$.](../figure/diagonal_proof.png){#diagonal-fig   }
 
 
+::: { .bigidea #uncomputablefunctions}
+There are some functions that _can not_ be computed by _any_ algorithm.
+:::
+
 > ### { .pause }
 The proof of [uncomputable-func](){.ref} is short but subtle.
 I suggest that you pause here and go back to read it again and think about it - this is a proof that is worth reading at least twice if not three or four times.
@@ -247,7 +244,7 @@ The proof can be thought of as an infinite version of the _counting_ argument we
 Namely, we show that it's not possible to compute all functions from $\{0,1\}^* \rightarrow \{0,1\}$ by Turing machines simply because there are more functions like that then there are Turing machines.
 
 
-As mentioned in [decidablelanguages](){.ref}, many texts use the "language" terminology and so will call a set $L \subseteq \{0,1\}^*$ an  [_undecidable_](https://goo.gl/3YvQvL)  or _non recursive_ language if the function $F:\{0,1\}^* :\rightarrow \{0,1\}$ such that $F(x)=1 \leftrightarrow x\in L$ is uncomputable. 
+As mentioned in [decidablelanguages](){.ref}, many texts use the "language" terminology and so will call a set $L \subseteq \{0,1\}^*$ an  [_undecidable_](https://goo.gl/3YvQvL)  or _non recursive_ language if the function $F:\{0,1\}^* :\rightarrow \{0,1\}$ such that $F(x)=1 \leftrightarrow x\in L$ is uncomputable.
 
 
 ## The Halting problem {#haltingsec }
@@ -302,7 +299,7 @@ Indeed, suppose that  $M$ is a Turing machine that computes $HALT$.
 
 ``` {.algorithm title="$F^*$ to $HALT$ reduction" #halttof}
 INPUT: $x\in \{0,1\}^*$
-OUTPUT: $F^*(x)$ 
+OUTPUT: $F^*(x)$
 # Assume T.M. $M_{HALT}$ computes $HALT$
 
 Let $z \leftarrow M_{HALT}(x,x)$. # Assume $z=HALT(x,x)$.
@@ -323,7 +320,7 @@ In this case, $HALT(x,x)=1$ and hence, under our assumption that $M(x,x)=HALT(x,
 Suppose otherwise that $x(x) \neq 0$ (and hence $F^*(x)=0$).
 In this case there are two possibilities:
 
-* __Case 1:__ The machine described by $x$ does not halt on the input $x$. In this case, $HALT(x,x)=0$. Since we assume that $M$ computes $HALT$ it means  that on input $x,x$, the machine $M$ must halt and output the value $0$. This means that [halttof](){.ref} will set $z=0$ and output $0$. 
+* __Case 1:__ The machine described by $x$ does not halt on the input $x$. In this case, $HALT(x,x)=0$. Since we assume that $M$ computes $HALT$ it means  that on input $x,x$, the machine $M$ must halt and output the value $0$. This means that [halttof](){.ref} will set $z=0$ and output $0$.
 
 
 * __Case 2:__ The machine described by $x$ halts on the input $x$ and outputs some $y' \neq 0$. In this case, since $HALT(x,x)=1$, under our assumptions,  [halttof](){.ref} will set $y=y' \neq 0$ and so output $0$.
@@ -536,7 +533,7 @@ Endprocedure
 Return $N_{M,x}$ # We do not execute $N_{M,x}$: only return its description
 ```
 
-Our Algorithm $B$ works as follows: on input $M,x$, it runs [halttohaltonzerored](){.ref} to obtain a Turing Machine  $M'$, and then returns $A(M')$. 
+Our Algorithm $B$ works as follows: on input $M,x$, it runs [halttohaltonzerored](){.ref} to obtain a Turing Machine  $M'$, and then returns $A(M')$.
 The machine $M'$ ignores its input $z$ and simply runs $M$ on $x$.
 
 In pseudocode, the program $N_{M,x}$ will look something like the following:
@@ -672,7 +669,7 @@ Formally, we define semantic properties as follows:
 ::: {.definition title="Semantic properties" #semanticpropdef}
 A pair of Turing machines $M$ and $M'$ are _functionally equivalent_ if for every $x\in \{0,1\}^*$, $M(x)=M'(x)$. (In particular, $M(x)=\bot$ iff $M'(x)=\bot$ for all $x$.)
 
-A function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _semantic_ if for every pair of strings $M,M'$ that represent functionally equivalent Turing machines, $F(M)=F(M')$.
+A function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _semantic_ if for every pair of strings $M,M'$ that represent functionally equivalent Turing machines, $F(M)=F(M')$. (Recall that we assume that every string represents _some_ Turing machine, see [TMrepremark](){.ref})
 :::
 
 
@@ -734,7 +731,7 @@ __Assumption:__ Access to Algorithm $A$ to compute $MONOTONE$.
 
 __Operation:__
 
-1. Construct the following machine  $M$: "On input $z\in \{0,1\}^*$ do: __(a)__ Run $M(0)$, __(b)__ Return $PAR(z)$".
+1. Construct the following machine  $M$: "On input $z\in \{0,1\}^*$ do: __(a)__ Run $N(0)$, __(b)__ Return $PAR(z)$".
 
 2. Return $1-A(M)$.
 :::
@@ -908,7 +905,11 @@ For each of the following two functions, say whether it is computable or not:
 2. Given a NAND-TM program $P$, an input $x$, and a number $k$, when we run $P$ on $x$, does $P$ ever write to an array at index $k$?
 :::
 
-::: {.definition title="Recursively enumerable" #recursiveenumerableex}
+::: {.exercise  #ricetmnandram}
+Let $F:\{0,1\}^* \rightarrow \{0,1\}$ be the function that is defined as follows. On input a string $P$ that represents a NAND-RAM program and a String $M$ that represents a Turing machine, $F(P,M)=1$ if and only if there exists some input $x$ such $P$ halts on $x$ but $M$ does not halt on $x$. Prove that $F$ is uncomputable. See footnote for hint.^[_Hint:_ While it cannot be applied directly, with a little "massaging" you can prove this using Rice's Theorem.]
+:::
+
+::: {.exercise title="Recursively enumerable" #recursiveenumerableex}
 Define a function $F:\{0,1\}^* :\rightarrow \{0,1\}$ to be _recursively enumerable_ if there exists a Turing machine $M$ such that such that for every $x\in \{0,1\}^*$, if $F(x)=1$ then $M(x)=1$, and if $F(x)=0$ then $M(x)=\bot$. (i.e., if $F(x)=0$ then $M$ does not halt on $x$.)
 
 1. Prove that every computable $F$ is also recursively enumerable.
@@ -917,15 +918,17 @@ Define a function $F:\{0,1\}^* :\rightarrow \{0,1\}$ to be _recursively enumerab
 
 3. Prove that there exists a function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F$ is not recursively enumerable. See footnote for hint.^[You can either use the diagonalization method to prove this directly or show that the set of all recursively enumerable functions is _countable_.]
 
-4. Prove that there exists a function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F$ is recursively enumerable but the function $\overline{F}$ defined as $\overline{F}(x)=1-F(x)$ is _not_ recursively enumerable. See footnote for hint.^[$HALT$ has this property: show that if both $HALT$ and $1-HALT$ were recursively enumerable then $HALT$ would be in fact computable.]
+4. Prove that there exists a function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F$ is recursively enumerable but the function $\overline{F}$ defined as $\overline{F}(x)=1-F(x)$ is _not_ recursively enumerable. See footnote for hint.^[$HALT$ has this property: show that if both $HALT$ and $\overline{HALT}$ were recursively enumerable then $HALT$ would be in fact computable.]
 :::
 
-::: {.exercise title="Rice's Theorem: standard form" #ricesstandardex}
+::: {.exercise title="Rice's Theorem: standard form" #ricestandardex }
 In this exercise we will prove Rice's Theorem in the form that it is typically stated in the literature.
 
 For a Turing machine $M$, define $L(M) \subseteq \{0,1\}^*$ to be the set of all $x\in \{0,1\}^*$ such that $M$ halts on the input $x$ and outputs $1$. (The set $L(M)$ is known in the literature as the _language recognized by $M$_. Note that $M$ might either output a value other than $1$ or not halt at all on inputs $x\not\in L(M)$. )
 
-Use [rice-thm](){.ref} to prove that for every  $F:\{0,1\}^* \rightarrow \{0,1\}$, if __(a)__ $F$ is neither the constant zero nor the constant one function, and __(b)__ for every $M,M'$ such that $L(M)=L(M')$, $F(M)=F(M')$, then $F$ is uncomputable. See footnote for hint.^[Show that any $F$ satisfying __(b)__ must be semantic.]
+1. Prove that for every Turing Machine $M$, if we define $F_M:\{0,1\}^* \rightarrow \{0,1\}$ to be the function such that $F_M(x)=1$ iff $x\in L(M)$ then $F_M$ is _recursively enumerable_ as defined in [recursiveenumerableex](){.ref}.
+
+2. Use [rice-thm](){.ref} to prove that for every  $G:\{0,1\}^* \rightarrow \{0,1\}$, if __(a)__ $G$ is neither the constant zero nor the constant one function, and __(b)__ for every $M,M'$ such that $L(M)=L(M')$, $G(M)=G(M')$, then $G$ is uncomputable. See footnote for hint.^[Show that any $G$ satisfying __(b)__ must be semantic.]
 :::
 
 ::: {.exercise title="Rice's Theorem for general Turing-equivalent models (optional)" #ricegeneralex}
@@ -938,7 +941,7 @@ Prove that for every $\mathcal{M}$-semantic $F:\{0,1\}^* \rightarrow \{0,1\}$ th
 
 
 
-## Bibliographical notes
+## Bibliographical notes { #uncomputablebibnotes }
 
 The cartoon of the Halting problem in [universalchapoverviewfig](){.ref} and taken from [Charles Cooper's website](https://www.coopertoons.com/education/haltingproblem/haltingproblem.html/).
 
@@ -957,7 +960,8 @@ Some of this fascinating history is discussed in [@grabiner1983gave, @Kleiner91,
 The existence of a universal Turing machine, and the uncomputability of $HALT$ was first shown by Turing in his seminal paper [@Turing37], though closely related results were shown by Church a year before.
 These works built on Gödel's 1931 _incompleteness theorem_ that we will discuss in [godelchap](){.ref}.
 
-Adam Yedidia has written [software](https://github.com/adamyedidia/parsimony) to help in producing universal Turing machines with a small number of states.
+Some  universal Turing Machines with a small alphabet and number of states are given in [@rogozhin1996small], including a single-tape universal Turing machine with the binary alphabet and with less than $25$ states; see also the survey [@woods2009complexity].
+Adam Yedidia has written [software](https://github.com/adamyedidia/parsimony) to help in producing Turing machines with a small number of states.
 This is related to the recreational pastime of ["Code Golfing"](https://codegolf.stackexchange.com/) which is about solving a certain computational task using the as short as possible program.
 
 The diagonalization argument used to prove uncomputability of $F^*$ is derived from Cantor's argument for the uncountability of the reals discussed in [chaprepres](){.ref}.
@@ -971,3 +975,5 @@ It is typically stated in a form somewhat different than what we used, see [rice
 
 We do not discuss in the chapter the concept of _recursively enumerable_ languages, but it is covered briefly in [recursiveenumerableex](){.ref}.
 As usual, we use function, as opposto language, notation.
+
+The cartoon of the Halting problem in [universalchapoverviewfig](){.ref} is copyright 2019 Charles F. Cooper.
