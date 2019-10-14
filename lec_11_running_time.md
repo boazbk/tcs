@@ -73,7 +73,7 @@ We define  $TIME_{\mathsf{TM}}(T(n))$ to be the set of Boolean functions (functi
 The relaxation of considering only "sufficiently large" $n$'s is not very important but it is convenient since it allows us to avoid dealing explicitly with un-interesting "edge cases".
 In most cases we will anyway be interested in determining running time only up to constant and even polynomial factors. Note that we can always compute a function on a finite number of inputs using a lookup table.
 
-While the notion of being computable within a certain running time is defined for every function, the class $TIME_{\mathsf{TM}}(T(n))$ is a class of _Boolean functions_ that have a single bit of output.
+While the notion of being computable within a certain running time can be defined for every function, the class $TIME_{\mathsf{TM}}(T(n))$ is a class of _Boolean functions_ that have a single bit of output.
 This choice is not very important, but is made for simplicity and convenience later on.
 In fact, every non-Boolean function has a computationally equivalent Boolean variant, see [boolex](){.ref}.
 
@@ -204,15 +204,15 @@ The reason is that Turing Machines can simulate NAND-RAM programs with at most a
 Let $T:\N \rightarrow \N$ be a function such that $T(n) \geq n$ for every $n$ and the map $n \mapsto T(n)$ can be computed by a Turing machine in time $O(T(n))$.
 Then 
 $$
-TIME_{\mathsf{TM}}(T(n)) \subseteq TIME_{\mathsf{RAM}}(2\cdot T(n)) \subseteq TIME_{\mathsf{TM}}(T(n)^4) \;.  \label{eqtmrambisimulation}
+TIME_{\mathsf{TM}}(T(n)) \subseteq TIME_{\mathsf{RAM}}(10\cdot T(n)) \subseteq TIME_{\mathsf{TM}}(T(n)^4) \;.  \label{eqtmrambisimulation}
 $$
 :::
 
-![The proof of [polyRAMTM-thm](){.ref} shows that we can simulate $T$ steps of a Turing Machine with $T$ steps of a NAND-RAM program, and can simulate $T$ steps of a NAND-RAM program with $o(T^4)$ steps of a Turing Machine. Hence $TIME_{\mathsf{TM}}(T(n)) \subseteq TIME_{\mathsf{RAM}}(2\cdot T(n)) \subseteq TIME_{\mathsf{TM}}(T(n)^4)$.](../figure/RAMTMsimulation.png){#RAMTMsimulationfig .margin}
+![The proof of [polyRAMTM-thm](){.ref} shows that we can simulate $T$ steps of a Turing Machine with $T$ steps of a NAND-RAM program, and can simulate $T$ steps of a NAND-RAM program with $o(T^4)$ steps of a Turing Machine. Hence $TIME_{\mathsf{TM}}(T(n)) \subseteq TIME_{\mathsf{RAM}}(10\cdot T(n)) \subseteq TIME_{\mathsf{TM}}(T(n)^4)$.](../figure/RAMTMsimulation.png){#RAMTMsimulationfig .margin}
 
 
 ::: { .pause }
-The technical details of [polyRAMTM-thm](){.ref}, such as the condition that $n \mapsto T(n)$ is computable in $O(T(n))$ time, or the particular constants $2$ and $4$ in [eqtmrambisimulation](){.eqref}, are not very important.
+The technical details of [polyRAMTM-thm](){.ref}, such as the condition that $n \mapsto T(n)$ is computable in $O(T(n))$ time, or the particular constants $10$ and $4$ in [eqtmrambisimulation](){.eqref}, are not very important.
 The main message of this theorem is Turing Machines and RAM machines are "roughly equivalent" in the sense that one can simulate the other with polynomial overhead.
 Similarly, while the proof involves some technical details, it's not very deep or hard, and merely follows the simulation of RAM machines with Turing Machines we saw in [RAMTMequivalencethm](){.ref} with more careful "book keeping".
 :::
@@ -235,7 +235,7 @@ All "reasonable" computational models are equivalent if we only care about the d
 
 
 > ### {.proofidea data-ref="polyRAMTM-thm"}
-The direction $TIME_{\mathsf{TM}}(T(n)) \subseteq TIME_{\mathsf{RAM}}(2 \cdot T(n))$ is not hard to show, since a NAND-RAM program  $P$ can simulate a Turing Machine $M$ with constant overhead by storing the transition table of $M$ in an array (as is done in the proof of [universaltmthm](){.ref}). 
+The direction $TIME_{\mathsf{TM}}(T(n)) \subseteq TIME_{\mathsf{RAM}}(10 \cdot T(n))$ is not hard to show, since a NAND-RAM program  $P$ can simulate a Turing Machine $M$ with constant overhead by storing the transition table of $M$ in an array (as is done in the proof of [universaltmthm](){.ref}). Simulating every step of the Turing machine can be done in a constant number $c$ of steps of RAM, and it can be shown this constant $c$ is smaller than $10$.
 Thus the heart of the theorem is to prove that $TIME_{\mathsf{RAM}}(T(n)) \subseteq TIME_{\mathsf{TM}}(T(n)^4)$. This proof closely follows the proof of  [RAMTMequivalencethm](){.ref}, where we have shown that every function $F$ that is computable by a NAND-RAM program $P$ is computable by a Turing Machine (or equivalently a NAND-TM program) $M$.  To prove [polyRAMTM-thm](){.ref}, we follow the exact same proof but just check that the overhead of the simulation of $P$ by $M$ is polynomial.
 The proof has many details, but is not deep. It is therefore much more important that you understand the _statement_ of this theorem than its proof.
 
@@ -258,7 +258,7 @@ We will not provide the full details but will present the main ideas used in sho
 
 3. We can simulate the two dimensional arrays  using one-dimensional arrays of length $T(n)\ell = O(T(n) \log T(n)$.  All the arithmetic operations on integers use the grade-school algorithms, that take time that is polynomial in the number $\ell$ of bits of the integers, which is  $poly(\log T(n))$ in our case.  Hence we can simulate $T(n)$ steps of NAND-RAM with $O(T(n)poly(\log T(n))$ steps of a model that uses random access memory but only _Boolean-valued_ one-dimensional arrays.
 
-4. The most expensive step is to translate from random access memoery to the sequential memory model of NAND-TM/Turing Machines. As we did in the proof of [RAMTMequivalencethm](){.ref} (see [nandtmgorydetailssec](){.ref}), we can simulate accessing an array `Foo` at some location encoded in an array `Bar` by:
+4. The most expensive step is to translate from random access memory to the sequential memory model of NAND-TM/Turing Machines. As we did in the proof of [RAMTMequivalencethm](){.ref} (see [nandtmgorydetailssec](){.ref}), we can simulate accessing an array `Foo` at some location encoded in an array `Bar` by:
 
    a. Copying `Bar` to some temporary array `Temp`
    b. Having an array `Index`  which is initially all zeros except $1$ at the first location.
@@ -319,12 +319,12 @@ consequently, the classes $\mathbf{P}$ and $\mathbf{EXP}$ are robust to the choi
 Like the Church-Turing thesis itself, the extended Church-Turing thesis is in the asymptotic setting and does not directly yield an experimentally testable prediction.
 However, it can be instantiated with more concrete bounds on the overhead, yielding experimentally-testable predictions such as the _Physical Extended Church-Turing Thesis_   we mentioned in [PECTTsec](){.ref}.
 
-In the last hundred+ years of studying and mechanizing computation, no one has yet constructed a scalable computing device (or even gave a convincing blueprint) that violates the extended Church Turing Thesis.
+In the last hundred+ years of studying and mechanizing computation, no one has yet constructed a scalable computing device that violates the extended Church Turing Thesis.
 However,    _quantum computing_, if realized, will pose a serious challenge to the extended Church-Turing Thesis (see [quantumchap](){.ref}).
 However, even if the promises of quantum computing are fully realized, the extended Church-Turing thesis is  "morally" correct, in the sense that, while we do need to adapt the thesis to account for the possibility of quantum computing, its broad outline remains unchanged.
-We are still able to model computation mathematically, we can still treat programs as strings and have a universal program,   we still have hierarchy and uncomputability results, and there is still no reason to doubt the ("plain") Church-Turing thesis.
+We are still able to model computation mathematically, we can still treat programs as strings and have a universal program,   we still have time hierarchy and uncomputability results, and there is still no reason to doubt the ("plain") Church-Turing thesis.
 Moreover,  the prospect of quantum computing does not seem to make a difference for the time complexity of many  (though not all!) of the concrete problems that we care about.
-In particular, out of all the example problems mentioned in [chapefficient](){.ref}, as far as we know, the complexity of only one--- integer factoring--- is affected by modifying our model to include quantum computers as well.
+In particular, as far as we know, out of all the example problems mentioned in [chapefficient](){.ref}  the complexity of only one--- integer factoring--- is affected by modifying our model to include quantum computers as well.
 
 
 
@@ -342,7 +342,7 @@ In particular, out of all the example problems mentioned in [chapefficient](){.r
 We have seen in [universaltmthm](){.ref} the "universal Turing Machine".
 Examining that proof, and combining it with  [polyRAMTM-thm](){.ref} , we can see that the program $U$ has a _polynomial_ overhead, in the sense that it can simulate $T$ steps of a given NAND-TM (or NAND-RAM) program $P$ on an input $x$ in $O(T^4)$ steps.
 But in fact, by directly simulating NAND-RAM programs we can do better with only a _constant_ multiplicative overhead.
-That is, there is a _universal NAND-RAM program_ $U$ such that for every NAND-RAM program $P$, $U$ simulates $T$ steps of $P$ using only $O(T)$ steps.
+That is, there is a _universal NAND-RAM program_ $U$ such that for every NAND-RAM program $P$, $U$ simulates $T$ steps of $P$ using only $O(T)$ steps. (The implicit constant in the $O$ notation can depend on the program $P$ but does _not_ depend on the length of the input.)
 
 
 ::: {.theorem title="Efficient universality of NAND-RAM" #univ-nandpp}
@@ -350,38 +350,38 @@ There exists a NAND-RAM program $U$ satisfying the following:
 
 1. _($U$ is a universal NAND-RAM program.)_ For every NAND-RAM program $P$ and input $x$,  $U(P,x)=P(x)$ where by $U(P,x)$ we denote the output of $U$ on a string encoding the pair $(P,x)$.
 
-2. _($U$ is efficient.)_ For every NAND-RAM program $P$ there is some constant $C$  such that if $P$ halts on input $x$ after most $T$ steps, then $U(P,x)$ halts after at most $C\cdot T$ steps.
+2. _($U$ is efficient.)_ There are some constants $a,b$ such that for every NAND-RAM program $P$, if $P$ halts on input $x$ after most $T$ steps, then $U(P,x)$ halts after at most $C\cdot T$ steps where $C \leq a |P|^b$. 
 :::
 
 
 > ### { .pause }
-Before reading the proof of [univ-nandpp](){.ref}, try to think how you would try to write such a interpreter for NAND-RAM in your favorite programming language.
-You will likely find that your program requires $O(T)$ steps to perform this simulation.
-As in the case of [polyRAMTM-thm](){.ref}, the proof of [univ-nandpp](){.ref} is not very deep and it more important to understand its _statement_.
-If you understand how you would go about writing an interpreter for NAND-RAM using a modern programming language such as Python, then you know everything you need to know about this theorem.
+As in the case of [polyRAMTM-thm](){.ref}, the proof of [univ-nandpp](){.ref} is not very deep and so it is more important to understand its _statement_.
+Specifically, if you understand how you would go about writing an interpreter for NAND-RAM using a modern programming language such as Python, then you know everything you need to know about the proof of this theorem.
 
+
+![The universal NAND-RAM program $U$ simulates an input NAND-RAM program $P$ by storing all of $P$'s variables inside a single array `Vars` of $U$. If $P$ has $t$ variables, then the array `Vars` is divided into blocks of length $t$, where the $j$-th coordinate of the $i$-th block contains the $i$-th element of the $j$-th array of $P$. If the $j$-th variable of $P$ is scalar, then we just store its value in the zeroth block of `Vars`.](../figure/universalrammachine.png){#universalrammachinefig .margin}
 
 ::: {.proof data-ref="univ-nandpp"}
 To present a universal NAND-RAM program in full we would need to describe a precise representation scheme, as well as the full NAND-RAM instructions for the program.
 While this can be done, it is more important to focus on the main ideas, and so we just sketch the proof here.
-A specification of NAND-RAM is given in the Appendix, and for the purposes of this simulation, we can simply use the representation of the code NAND-RAM as an ASCII string.
+A specification of NAND-RAM is given in the [appendix](http://tiny.cc/introtcsappendix), and for the purposes of this simulation, we can simply use the representation of the code NAND-RAM as an ASCII string.
 
 The program $U$ gets as input a NAND-RAM program $P$ and an input $x$ and simulates $P$ one step at a time.
-To do so, $U$ will do the following:
+To do so, $U$ does the following:
 
-1. $U$ will maintain variables  `program_counter`, and `number_steps` for the current line to be executed and the number of steps executed so far.
+1. $U$ maintains variables  `program_counter`, and `number_steps` for the current line to be executed and the number of steps executed so far.
 
-2. $U$ will scan the code of $P$ to find the number $t$ of unique variable names that $P$ uses. It will translate each variable name into a number between $0$ and $t-1$ and use an array `Program` to store $P$'s code where  for every line $\ell$, `Program[`$\ell$`]` will store the $\ell$-th line of $P$ where the variable names have been translated to numbers. (More concretely, we will use a constant number of arrays to separately encode the operation used in this line, and the variable names and indices of the operands.)
+2. $U$ initially scans the code of $P$ to find the number $t$ of unique variable names that $P$ uses. It will translate each variable name into a number between $0$ and $t-1$ and use an array `Program` to store $P$'s code where  for every line $\ell$, `Program[`$\ell$`]` will store the $\ell$-th line of $P$ where the variable names have been translated to numbers. (More concretely, we will use a constant number of arrays to separately encode the operation used in this line, and the variable names and indices of the operands.)
 
 
-3. $U$ will maintain a single array `Var_values` that contains all the values of $P$'s variables. We divide `Var_values` into blocks of length $t$. If $s$ is a number corresponding to an array variable `Foo` of $P$, then we store `Foo[0]` in `Var_values[`$s$`]`, we store `Foo[1]` in `Var_values[`$t+s$`]`, `Foo[2]` in `Var_values[`$2t + s$`]` and so on and so forth. Generally,if the $s$-th variable of $P$ is a scalar variable, then its value will be stored in location `Var_values[`$s$`]`.
-If it is an array variable then the value of its $i$-th element will be stored in location `Var_values[`$t\cdot i + s$`]`.
+3. $U$ maintains a single array `Vars` that contains all the values of $P$'s variables. We divide `Vars` into blocks of length $t$. If $s$ is a number corresponding to an array variable `Foo` of $P$, then we store `Foo[0]` in `Vars[`$s$`]`, we store `Foo[1]` in `Var_values[`$t+s$`]`, `Foo[2]` in `Vars[`$2t + s$`]` and so on and so forth (see [universalrammachinefig](){.ref}). Generally,if the $s$-th variable of $P$ is a scalar variable, then its value will be stored in location `Vars[`$s$`]`.
+If it is an array variable then the value of its $i$-th element will be stored in location `Vars[`$t\cdot i + s$`]`.
 
-4. To simulate a single step of $P$, the program $U$ will recover the line corresponding to `program_counter`  and execute it. Since NAND-RAM has a constant number of arithmetic operations, we can simulate choosing which operation to execute with a sequence of a constantly many if-then-else's.  When executing these operations, $U$ will use the variable `number_steps` that keeps track of the number of steps of $P$ simulated so far.
+4. To simulate a single step of $P$, the program $U$ recovers from `Program` the line corresponding to `program_counter`  and executes it. Since NAND-RAM has a constant number of arithmetic operations, we can implement the logic of which operation to execute using a sequence of a constant number of  if-then-else's.  Retrieving from `Vars` the values of the operands of each instruction can be done using a constant number of arithmetic operations. 
 
 The setup stages take only a constant (depending on $|P|$ but not on the input $x$) number of steps.
-Once we are done with the setup, to simulate a single step of $P$, we just need to retrieve the corresponding line and do a constant number of "if elses" and accesses to `Var_values` to simulate it.
-Hence the total running time is at most  $O(|P|T)$  which is $O(T)$ when suppressing constants that depend on the program $P$.
+Once we are done with the setup, to simulate a single step of $P$, we just need to retrieve the corresponding line and do a constant number of "if elses" and accesses to `Vars` to simulate it.
+Hence the total running time to simulate $T$ steps of the program $P$ is at most $O(T)$ when suppressing constants that depend on the program $P$.
 :::
 
 
@@ -393,10 +393,20 @@ For example, is there a function that _can_ be computed in time $2^n$, but _can 
 It turns out that the answer is __Yes__:
 
 > ### {.theorem title="Time Hierarchy Theorem" #time-hierarchy-thm}
-For every nice function $T$, there is a function $F:\{0,1\}^* \rightarrow \{0,1\}$
+For every nice function $T:\N \rightarrow \N$, there is a function $F:\{0,1\}^* \rightarrow \{0,1\}$
 in $TIME(T(n)\log n) \setminus TIME(T(n))$.
 
 There is nothing special about $\log n$, and we could have used any other efficiently computable function that tends to infinity with $n$.
+
+
+::: {.remark title="Simpler corollary of the time hierarchy theorem" #hierarchytoyrem}
+The generality of the time hierarchy theorem can make its proof a little hard to read. 
+It might be easier to follow the proof if you first try to prove by yourself the easier statement $\mathbf{P} \subsetneq \mathbf{EXP}$.
+
+You can do so by showing that the following function $F:\{0,1\}^* :\rightarrow \{0,1\}$ is in $\mathbf{EXP} \setminus \mathbf{P}$: for every Turing Machine $M$ and input $x$, $F(M,x)=1$ if and only if $M$ halts on $x$ within at most $|x|^{\log |x|}$ steps.
+One can show that $F \in TIME(n^{O(\log n)}) \subseteq \mathbf{EXP}$ using the universal Turing machine (or the efficient universal NAND-RAM program of [univ-nandpp](){.ref}). On the other harnd, we can use similar ides to those used to show the uncomputability of $HALT$ in [haltalternativesec](){.ref} to prove that $F \not\in \mathbf{P}$.
+:::
+
 
 
 
@@ -411,15 +421,20 @@ Therefore, the proof of [time-hierarchy-thm](){.ref} follows the ideas of the un
 
 
 ::: {.proof data-ref="time-hierarchy-thm"}
-Recall the Halting function $HALT:\{0,1\}^* \rightarrow \{0,1\}$ that was defined as follows:
-$HALT(P,x)$ equals $1$ for every program $P$ and input $x$ s.t.  $P$ halts on input $x$, and is equal to $0$ otherwise.
-We cannot use the Halting function of course, as it is uncomputable and hence not in $TIME(T'(n))$ for any function $T'$. However, we will use the following variant of it:
+Our proof is inspired by the proof of the uncomputability of the halting problem.
+Specifically, for every function $T$ as in the theorem's statement, we define the _Bounded Halting_ function $HALT_T$ as follows.
+The input to $HALT_T$ is a pair $(P,x)$ such that $|P| \leq \log \log |x|$ encodes some NAND-RAM program.
+We define
 
-We define the _Bounded Halting_ function $HALT_T(P,x)$ to equal $1$ for every NAND-RAM program $P$ such that $|P| \leq \log \log |x|$, and such that $P$ halts on the input $x$ within $100 T(|x|)$ steps. $HALT_T$ equals $0$ on all other inputs. (The constant $100$ and the function $\log \log n$ are rather arbitrary, and are chosen for convenience in this proof.)
+$$
+HALT_T(P,x) = \begin{cases}1, & P \text{ halts on } x \text{ within } \leq 100\cdot T(|P|+|x|) \text{ steps} \\
+0, & \text{otherwise} \;.
+$$
+(The constant $100$ and the function $\log \log n$ are rather arbitrary, and are chosen for convenience in this proof.)
 
 [time-hierarchy-thm](){.ref} is an immediate consequence of the following two claims:
 
-__Claim 1:__ $HALT_T \in TIME(T(n)\ log n)$
+__Claim 1:__ $HALT_T \in TIME(T(n)\cdot \log n)$
 
 and
 
@@ -428,32 +443,40 @@ __Claim 2:__ $HALT_T \not\in TIME(T(n))$.
 Please make sure you understand why indeed the theorem follows directly from the combination of these two claims. We now turn to proving them.
 
 __Proof of claim 1:__ We can easily check in linear time whether an input has the form $P,x$ where $|P| \leq \log\log |x|$.
-Since $T(\cdot)$ is a nice function, we can evaluate it in $O(T(n))$ time. Thus, we can perform the check above, compute $T(|P|+|x|)$ and use the universal NAND-RAM program of [univ-nandpp](){.ref} to evaluate $HALT_T$ in at most $poly(|P|) T(n)$ steps.
-(Recall that we use $poly(m)$ to denote a quantity that is bounded by $am^b$ for some constants $a,b$ and every sufficiently large $m$.)
-Since $(\log \log n)^a = o(\log n)$ for every $a$, this will be smaller than $T(n)\log n$ for every sufficiently large $n$, hence completing the proof.
+Since $T(\cdot)$ is a nice function, we can evaluate it in $O(T(n))$ time. Thus, we can compute $HALT_T(P,x)$ as follows:
+
+1. Compute $T_0=T(|P|+|x|)$ in $O(T_0)$ steps.
+
+2. Use the universal NAND-RAM program of [univ-nandpp](){.ref} to simulate $100\cdot T_0$ steps of $P$ on the input $x$ using at most  $poly(|P|)T_0$ steps. (Recall that we use $poly(\ell)$ to denote a quantity that is bounded by $a\ell^b$ for some constants $a,b$.)
+
+3. If $P$ halts within these $100\cdot T_0$ steps then output $1$, else output $0$. 
+
+The length of the input is $n=|P|+|x|$.
+Since $|x| \leq n$ and $(\log \log |x|)^b = o(\log |x|)$ for every $b$, the running time will be $o(T(|P|+|x|) \log n)$ and hence the above algorithm demonstrates that $HALT_T \in TIME(T(n)\cdot \log n)$, completing the proof of Claim 1. 
 
 
 __Proof of claim 2:__ This proof is the heart of [time-hierarchy-thm](){.ref}, and is very reminiscent of the proof that $HALT$ is not computable.
 Assume, toward the sake of contradiction, that there is some NAND-RAM program $P^*$ that computes $HALT_T(P,x)$ within $T(|P|+|x|)$ steps. We are going to show a contradiction by creating a program $Q$ and showing that under our assumptions, if $Q$ runs for less than $T(n)$ steps when given (a padded version of)  its own code as input then it actually runs for more than $T(n)$ steps and vice versa. (It is worth re-reading the last sentence twice or thrice to make sure you understand this logic. It is very similar to the direct proof of the uncomputability of the halting problem where we obtained a contradiction by using an assumed "halting solver" to construct a program that, given its own code as input, halts if and only if it does not halt.)
 
 
-We will define $Q$ to be the program that on input a string $z$   does the following:
+We will define $Q^*$ to be the program that on input a string $z$   does the following:
 
-1. If $z$ does not have the form $z=P1^m$ where $P$ represents a NAND-RAM program and $|P|< 0.1 \log\log m$ then return $0$. (Recall that $1^m$ denotes the string of $m$ ones.)
+1. If $z$ does not have the form $z=P1^m$ where $P$ represents a NAND-RAM program and $|P|< 0.1 \log\log m$ then return $0$. (Recall that $1^m$ denotes the string of $m$ ones.) 
 
 2. Compute $b= P^*(P,z)$ (at a cost of at most $T(|P|+|z|)$ steps, under our assumptions).
 
-3. If $b=1$ then $Q$ goes into an infinite loop, otherwise it halts.
+3. If $b=1$ then $Q^*$ goes into an infinite loop, otherwise it halts.
 
-We chose $m$ sufficiently large so that $|Q| < 0.001\log\log m$ where $|Q|$ denotes the length of the description of $Q$ as a string. We will reach a contradiction by splitting into cases according to whether or not $HALT_T(Q,Q1^m)$ equals $0$ or $1$.
+Let $\ell$ be the length description of $Q^*$ as a string, and let $m$ be larger than $2^{2^{1000 \ell}}$.
+We will reach a contradiction by splitting into cases according to whether or not $HALT_T(Q^*,Q^*1^m)$ equals $0$ or $1$.
 
 
-On the one hand, if $HALT_T(Q,Q1^m)=1$, then under our assumption that $P^*$ computes $HALT_T$, $Q$ will go into an infinite loop on input $z=Q1^m$, and hence in particular $Q$ does _not_ halt within $100 T(|Q|+m)$ steps on the input $z$. But this contradicts our assumption that $HALT_T(Q,Q1^m)=1$.
+On the one hand, if $HALT_T(Q^*,Q^*1^m)=1$, then under our assumption that $P^*$ computes $HALT_T$, $Q^*$ will go into an infinite loop on input $z=Q^*1^m$, and hence in particular $Q^*$ does _not_ halt within $100 T(|Q^*|+m)$ steps on the input $z$. But this contradicts our assumption that $HALT_T(Q^*,Q^*1^m)=1$.
 
-This means that it must hold that $HALT_T(Q,Q1^m)=0$. But in this case, since we assume $P^*$ computes $HALT_T$, $Q$ does not do anything in phase 3 of its computation, and so the only computation costs come in phases 1 and 2 of the computation.
+This means that it must hold that $HALT_T(Q^*,Q^*1^m)=0$. But in this case, since we assume $P^*$ computes $HALT_T$, $Q^*$ does not do anything in phase 3 of its computation, and so the only computation costs come in phases 1 and 2 of the computation.
 It is not hard to verify that Phase 1 can be done in linear and in fact less than $5|z|$ steps.
-Phase 2 involves executing $P^*$, which under our assumption requires $T(|Q|+m)$ steps.
-In total we can perform both phases in less than $10 T(|Q|+m)$ in steps, which by definition means that $HALT_T(Q,Q1^m)=1$, but this is of course a contradiction. This completes the proof of Claim 2 and hence of [time-hierarchy-thm](){.ref}.
+Phase 2 involves executing $P^*$, which under our assumption requires $T(|Q^*|+m)$ steps.
+In total we can perform both phases in less than $10 T(|Q^*|+m)$ in steps, which by definition means that $HALT_T(Q^*,Q^*1^m)=1$, but this is of course a contradiction. This completes the proof of Claim 2 and hence of [time-hierarchy-thm](){.ref}.
 :::
 
 ::: {.solvedexercise title="$\mathbf{P}$ vs $\mathbf{EXP}$" #PvsEXPexercise}
@@ -461,10 +484,11 @@ Prove that $\mathbf{P} \subsetneq \mathbf{EXP}$.
 :::
 
 ::: {.solution data-ref="PvsEXP"}
+We show why this statement follows from the time hierarchy theorem, but it can be an instructive exercise to prove it directly, see [hierarchytoyrem](){.ref}.
 We need to show that there exists $F \in \mathbf{EXP} \setminus \mathbf{P}$.
 Let $T(n) = n^{\log n}$ and $T'(n) = n^{\log n / 2}$.
 Both are nice functions.
-Since $T(n)/T'(n) = \omega(\log n)$, by the time hierarchy theorem, there exists some $F$ in $TIME(T'(n)) \subsetneq TIME(T(n))$.
+Since $T(n)/T'(n) = \omega(\log n)$, by [time-hierarchy-thm](){.ref} there exists some $F$ in $TIME(T'(n)) \subsetneq TIME(T(n))$.
 Since for sufficiently large $n$, $2^n > n^{\log n}$,  $F \in TIME(2^n) \subseteq \mathbf{EXP}$.
 On the other hand, $F \not\in \mathbf{P}$. Indeed, suppose otherwise that there was a constant $c>0$ and a  Turing Machine computing $F$ on $n$-length input in at most $n^c$ steps for all sufficiently large $n$. Then since for $n$ large enough $n^c < n^{\log n/2}$, it would have followed that $F \in TIME(n^{\log n /2})$ contradicting our choice of $F$.
 :::

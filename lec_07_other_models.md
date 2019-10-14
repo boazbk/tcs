@@ -87,7 +87,7 @@ The NAND-RAM programming language extends NAND-TM by adding the following featur
 
 
 
-A full description of the NAND-RAM programming language is in the [appendix](https://nbviewer.jupyter.org/github/boazbk/tcscode/blob/master/appendix%5FNAND%5Fspecs.ipynb).
+A full description of the NAND-RAM programming language is in the [appendix](http://tiny.cc/introtcsappendix).
 However, the most important fact you need to know about NAND-RAM is that you actually don't need to know much about NAND-RAM at all, since it is equivalent in power to Turing machines: 
 
 
