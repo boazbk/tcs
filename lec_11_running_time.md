@@ -15,8 +15,14 @@ chapternum: "12"
 
 >"When the measure of the problem-size is reasonable and when the sizes assume values arbitrarily large, an asymptotic estimate of ... the order of difficulty of [an] algorithm .. is theoretically important. It cannot be rigged by making the algorithm artificially difficult for smaller sizes", Jack Edmonds, "Paths, Trees, and Flowers", 1963
 
->"The computational complexity of a sequence is to be measured by how fast a multitape Turing machine can print out the terms of the sequence. This particular abstract model of a computing device is chosen because much of the work in this area is stimulated by the rapidly growing importance of computation through the use of digital computers, and all digital computers in a slightly idealized form belong to the class of multitape Turing machines.", Juris Hartmanis and Richard Stearns, "On the computational complexity of algorithms", 1963.
 
+::: {.quote }
+_Max Newman:_ It is all very well to say that a machine could ... do this or that, but ... what about the time it would take to do it? 
+
+_Alan Turing:_ To my mind this time factor is the one question which will involve all the real technical difficulty.
+
+BBC radio panel on "Can automatic Calculating Machines Be Said to Think?", 1952
+:::
 
 
 
@@ -195,17 +201,24 @@ The reason is that Turing Machines can simulate NAND-RAM programs with at most a
 
 
 ::: {.theorem title="Relating RAM and Turing machines" #polyRAMTM-thm}
-Let $T:\N \rightarrow \N$ be a function such that $T(n) \geq n$ for every $n$ and the map $n \mapsto T(n)$ can be computed by a Turing machine in time $O(T(n)^3)$.
+Let $T:\N \rightarrow \N$ be a function such that $T(n) \geq n$ for every $n$ and the map $n \mapsto T(n)$ can be computed by a Turing machine in time $O(T(n))$.
 Then 
 $$
-TIME_{\mathsf{TM}}(T(n)) \subseteq TIME_{\mathsf{RAM}}(2\cdot T(n)) \subseteq TIME_{\mathsf{TM}}(T(n)^4) \;.
+TIME_{\mathsf{TM}}(T(n)) \subseteq TIME_{\mathsf{RAM}}(2\cdot T(n)) \subseteq TIME_{\mathsf{TM}}(T(n)^4) \;.  \label{eqtmrambisimulation}
 $$
 :::
 
-![The proof of [polyRAMTM-thm](){.ref} shows that we can simulate $T$ steps of a Turing Machine with $T$ steps of a NAND-RAM program, and can simulate $T$ steps of a NAND-RAM program with $o(T^4)$ steps of a Turing Machine. Hence $TIME_{\mathsf{TM}}(T(n)) \subseteq TIME_{\mathsf{RAM}}(T(n)) \subseteq TIME_{\mathsf{TM}}(T(n)^4)$.](../figure/RAMTMsimulation.png){#RAMTMsimulationfig .margin}
+![The proof of [polyRAMTM-thm](){.ref} shows that we can simulate $T$ steps of a Turing Machine with $T$ steps of a NAND-RAM program, and can simulate $T$ steps of a NAND-RAM program with $o(T^4)$ steps of a Turing Machine. Hence $TIME_{\mathsf{TM}}(T(n)) \subseteq TIME_{\mathsf{RAM}}(2\cdot T(n)) \subseteq TIME_{\mathsf{TM}}(T(n)^4)$.](../figure/RAMTMsimulation.png){#RAMTMsimulationfig .margin}
 
 
-All non pathological time bound functions such as $T(n)=n$, $T(n)n\log n$, $T(n)=2^n$ etc. satisfy the conditions of  [polyRAMTM-thm](){.ref}, see also [nicefunctionsrem](){.ref}.
+::: { .pause }
+The technical details of [polyRAMTM-thm](){.ref}, such as the condition that $n \mapsto T(n)$ is computable in $O(T(n))$ time, or the particular constants $2$ and $4$ in [eqtmrambisimulation](){.eqref}, are not very important.
+The main message of this theorem is Turing Machines and RAM machines are "roughly equivalent" in the sense that one can simulate the other with polynomial overhead.
+Similarly, while the proof involves some technical details, it's not very deep or hard, and merely follows the simulation of RAM machines with Turing Machines we saw in [RAMTMequivalencethm](){.ref} with more careful "book keeping".
+:::
+
+
+All non pathological time bound functions we encounter in practice such as $T(n)=n$, $T(n)n\log n$, $T(n)=2^n$ etc. satisfy the conditions of  [polyRAMTM-thm](){.ref}, see also [nicefunctionsrem](){.ref}.
 The exponent four can be improved to a smaller value, though this will not be important for us.
 [polyRAMTM-thm](){.ref} implies that the  $\mathbf{P}$ and $\mathbf{EXP}$ could have been equivalently defined using NAND-RAM programs instead of Turing Machines, as they would have contained the exact same set of functions. 
 Similar equivalence results are known for many models including cellular automata, C/Python/Javascript programs, parallel computers,   and a great many other models, which justifies the choice of $\mathbf{P}$ as capturing a technology-independent notion of tractability.
@@ -283,7 +296,7 @@ Hence the time to write the string $1^{T(n)}$ in such cases will be $T(n) + poly
 ## Extended Church-Turing Thesis (discussion) { #ECTTsec }
 
 [polyRAMTM-thm](){.ref} shows that the computational models of _Turing Machines_ and _RAM Machines / NAND-RAM programs_ are equivalent up to polynomial factors in the running time.
-Other examples of polynmially equivalent models include:
+Other examples of polynomially equivalent models include:
 
 * All standard programming languages, including C/Python/JavaScript/Lisp/etc.
 
@@ -337,7 +350,7 @@ There exists a NAND-RAM program $U$ satisfying the following:
 
 1. _($U$ is a universal NAND-RAM program.)_ For every NAND-RAM program $P$ and input $x$,  $U(P,x)=P(x)$ where by $U(P,x)$ we denote the output of $U$ on a string encoding the pair $(P,x)$.
 
-2. _($U$ is efficient.)_ For every NAND-RAM program $P$ there is some constant $C$  such that if $P$ halts on input $x$ after most $T$ iterations of its loop, then $U(P,x)$ halts after at most $C\cdot T$ iterations of its loop.
+2. _($U$ is efficient.)_ For every NAND-RAM program $P$ there is some constant $C$  such that if $P$ halts on input $x$ after most $T$ steps, then $U(P,x)$ halts after at most $C\cdot T$ steps.
 :::
 
 
@@ -356,75 +369,19 @@ A specification of NAND-RAM is given in the Appendix, and for the purposes of th
 The program $U$ gets as input a NAND-RAM program $P$ and an input $x$ and simulates $P$ one step at a time.
 To do so, $U$ will do the following:
 
-1. $U$ will maintain variables  `current_line`, and `number_steps` for the current line to be executed and the number of steps executed so far.
+1. $U$ will maintain variables  `program_counter`, and `number_steps` for the current line to be executed and the number of steps executed so far.
 
-2. $U$ will scan the code of $P$ to find the number $t$ of unique variable names that $P$ uses. If we denote these names by $var_0,\ldots,var_{t-1}$  then $U$ maintains an array `Var_numbers` that contains a list of pairs of the form $(var_s,s)$ for $s\in [t]$. Using `Var_numbers` we can translate the name of a variable to a number in $[t]$ that corresponds to its index.
+2. $U$ will scan the code of $P$ to find the number $t$ of unique variable names that $P$ uses. It will translate each variable name into a number between $0$ and $t-1$ and use an array `Program` to store $P$'s code where  for every line $\ell$, `Program[`$\ell$`]` will store the $\ell$-th line of $P$ where the variable names have been translated to numbers. (More concretely, we will use a constant number of arrays to separately encode the operation used in this line, and the variable names and indices of the operands.)
 
-3. $U$ will maintain an array `Var_values` that will contain the current values of all $P$'s variables. If the $s$-th variable of $P$ is a scalar variable, then its value will be stored in location `Var_values[`$s$`]`.
+
+3. $U$ will maintain a single array `Var_values` that contains all the values of $P$'s variables. We divide `Var_values` into blocks of length $t$. If $s$ is a number corresponding to an array variable `Foo` of $P$, then we store `Foo[0]` in `Var_values[`$s$`]`, we store `Foo[1]` in `Var_values[`$t+s$`]`, `Foo[2]` in `Var_values[`$2t + s$`]` and so on and so forth. Generally,if the $s$-th variable of $P$ is a scalar variable, then its value will be stored in location `Var_values[`$s$`]`.
 If it is an array variable then the value of its $i$-th element will be stored in location `Var_values[`$t\cdot i + s$`]`.
 
-4. To simulate a single step of $P$, the program $U$ will recover the line corresponding to `line_counter`  and execute it. Since NAND-RAM has a constant number of arithmetic operations, we can simulate choosing which operation to execute with a sequence of a constantly many if-then-else's.  When executing these operations, $U$ will use the variable `step_counter` that keeps track of the iteration counter of $P$.
+4. To simulate a single step of $P$, the program $U$ will recover the line corresponding to `program_counter`  and execute it. Since NAND-RAM has a constant number of arithmetic operations, we can simulate choosing which operation to execute with a sequence of a constantly many if-then-else's.  When executing these operations, $U$ will use the variable `number_steps` that keeps track of the number of steps of $P$ simulated so far.
 
-
-Simulating a single step of $P$ will take $O(|P|)$ steps for the program $U$ where $|P|$ is the length of the description of $P$ as a string (which in particular is an upper bound on the number $t$ of variable $P$ uses). Hence the total running time will be $O(|P|T)$  which is $O(T)$ when suppressing constants that depend on the program $P$.
-
-To be a little more concrete, here is some "pseudocode" description of the program $U$:
-
-```python
-def U(P,x):
-    t = number_variable_identifiers(P) # number of distinct identifiers used in P
-
-    L = number_lines(P)
-
-    # denote names of P's variables as var_0,..., var_(t-1)
-    Var_numbers = array encoding list [ (var_0,0),...,(var_(t-1),t-1)]
-    # Var_numbers: encode variable identifiers as number 0...t-1
-
-    Var_values = unbounded array initialized to 0
-    # if s in [t] corresponds to scalar then Var_values[s] is value of variable corresponding to s.
-    # if s corresponds to array then Var_values[t*i+s] is value of variable corresponding to s at position i
-
-    def varid(name):
-        # scan the array Var_numbers and
-        # return the number between 0 and t-1
-        ...
-
-    def get_scalar_value(name):
-        return Var_values[varid(name)]
-
-    def get_array_value(name,i):
-        return Var_values[t*i+varid(name)]
-
-    def set_scalar_value(name,val):
-        Var_values[varid(name)] = val
-
-    def set_array_value(name,i,val):
-        Var_values[t*i+varid(name)] = val
-
-    for i=0..|x|-1:
-        set_array_value("X",i,x[i])
-        set_array_value("X_nonblank",i,1)
-
-    current_line = 0
-    number_steps = 0
-
-    do {
-        line = P[current_line] # extract current line of P
-
-        # code to execute line
-        # We use get/set procedures above to update vars
-        ...
-        # Update counters
-        current_line = current_line + 1 (mod L)
-        number_steps = number_steps + 1
-
-    } until get_scalar_value("loop")==0 
-
-    # Produce output:
-    if get_scalar_value("loop")==1: return "FAIL"
-    m = smallest m s.t. get_array_value("Y_nonblank",m)=0
-    return [get_array_value("Y",i) for i=0..m-1]
-```
+The setup stages take only a constant (depending on $|P|$ but not on the input $x$) number of steps.
+Once we are done with the setup, to simulate a single step of $P$, we just need to retrieve the corresponding line and do a constant number of "if elses" and accesses to `Var_values` to simulate it.
+Hence the total running time is at most  $O(|P|T)$  which is $O(T)$ when suppressing constants that depend on the program $P$.
 :::
 
 
