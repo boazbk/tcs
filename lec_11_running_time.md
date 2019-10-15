@@ -31,7 +31,7 @@ We do so in this chapter, using the models of Turing machines and RAM machines (
 The running time of an algorithm is not a fixed number since any non-trivial algorithm will take longer to run on longer inputs. 
 Thus, what we want to measure is the _dependence_ between the number of steps the algorithms takes and the length of the input.
 In particular we care about the distinction between algorithms that take at most _polynomial time_ (i.e., $O(n^c)$ time for some constant $c$) and problems for which every algorithm requires at least _exponential time_ (i.e., $\Omega(2^{n^c})$ for some $c$).
-As mentioned in Edmond's quote above, the difference between these two can sometimes be as important as the difference between being computable and uncomputable.
+As mentioned in Edmond's quote in [chapefficient](){.ref}, the difference between these two can sometimes be as important as the difference between being computable and uncomputable.
 
 
 
@@ -169,7 +169,7 @@ Table : A table of the examples from [chapefficient](){.ref}. All these problems
 ![Some examples of problems that are known to be in $\mathbf{P}$ and problems that are known to be in $\mathbf{EXP}$ but not known whether or not they are in $\mathbf{P}$. Since both $\mathbf{P}$ and $\mathbf{EXP}$ are classes of Boolean functions, in this figure we always refer to the _Boolean_ (i.e., Yes/No) variant of the problems.](../figure/PvsEXP.png){#PvsEXPfig .margin}
 
 ::: {.remark title="Boolean versions of problems" #booleanversion}
-Many of the problems defined in [chapefficient](){.ref}]() correspond to _non Boolean_ functions (functions with more than one bit of output) while $\mathbf{P}$ and $\mathbf{EXP}$ are sets of Boolean functions.
+Many of the problems defined in [chapefficient](){.ref} correspond to _non Boolean_ functions (functions with more than one bit of output) while $\mathbf{P}$ and $\mathbf{EXP}$ are sets of Boolean functions.
 However, for every non-Boolean function $F$ we can always define a computationally-equivalent Boolean function $G$ by letting $G(x,i)$ be the $i$-th bit of $F(x)$ (see [boolex](){.ref}).
 Hence the table above, as well as [PvsEXPfig](){.ref}, refer to the computationally-equivalent Boolean variants of these problems.
 :::
