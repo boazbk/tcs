@@ -428,7 +428,7 @@ We define
 
 $$
 HALT_T(P,x) = \begin{cases}1, & P \text{ halts on } x \text{ within } \leq 100\cdot T(|P|+|x|) \text{ steps} \\
-0, & \text{otherwise} \;.
+0, & \text{otherwise} \end{cases} \;.
 $$
 (The constant $100$ and the function $\log \log n$ are rather arbitrary, and are chosen for convenience in this proof.)
 
