@@ -169,7 +169,10 @@ A constraint $x_2 \vee \overline{x}_5 \vee x_7$ can be written as $x_2 + (1-x_5)
 This is a linear _inequality_ but since the sum on the left-hand side is at most three, we can also turn it into an _equality_ by adding two new variables $y,z$ and writing it as $x_2 + (1-x_5) + x_7 + y  + z =3$. (We will use fresh such variables $y,z$ for every constraint.) Finally, for every variable $x_i$ we can add a variable $x'_i$ corresponding to its negation by adding the equation $x_i + x'_i = 1$, hence mapping the original constraint $x_2 \vee \overline{x}_5 \vee x_7$ to $x_2 + x'_5 + x_7 +y + z = 3$.
 
 
-![Left: Python code implementing the reduction of $3SAT$ to $01EQ$. Right: Example output of the reduction. Code is in our [repository](https://github.com/boazbk/tcscode).](../figure/3sat2zoeqreduction.png){#3sat2zoeqreductionfig}
+
+
+![Left: Python code implementing the reduction of $3SAT$ to $01EQ$. Right: Example output of the reduction. Code is in our [repository](https://github.com/boazbk/tcscode).](../figure/3sat2zoeqreduction.png){ #3sat2zoeqreductionfig }
+
 
 ::: {.proof data-ref="tsattozoeqthm"}
 To prove the theorem we need to:
@@ -415,7 +418,6 @@ But if we do that, then the only way if we are able to reach $t$ is if the paths
 
 ## Exercises
 
-^[TODO: Maybe mention either in exercise or in body of the lecture some NP hard results motivated by science. For example, shortest superstring that is motivated by genome sequencing, protein folding, maybe others.]
 
 
 > ### {.exercise title="Transitivity of reductions" #transitivity-reductions-ex}
