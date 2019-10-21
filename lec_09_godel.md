@@ -56,7 +56,7 @@ Alas, it turns out the results we've seen dealt a devastating blow to this progr
 > ### {.theorem title="Gödel's Incompleteness Theorem:  informal version" #godethmtakeone}
 For every sound proof system  $V$ for sufficiently rich mathematical statements, there is a mathematical statement that is _true_ but is not _provable_ in $V$.
 
-### Defining "Proof Systems"
+### Defining "Proof Systems" { #godelproofsystemssec }
 
 Before proving [godethmtakeone](){.ref}, we need to define  "proof systems" and even formally define the notion of a "mathematical statement".
 In geometry and other areas of mathematics, proof systems are often defined by starting with some basic assumptions or _axioms_ and then deriving more statements by using _inference rules_ such as the famous [Modus Ponens](https://en.wikipedia.org/wiki/Modus_ponens), but what axioms shall we use? What rules?
