@@ -274,7 +274,7 @@ This follows in the same way that [godethmtakeone](){.ref} followed from the unc
 :::
 
 
-In the rest of this chapter, we will show the proof of [godelthmqis](){.ref}, following the outline illustrated in [godelstructure](){.ref}.
+In the rest of this chapter, we will show the proof of [godelthmqis](){.ref}, following the outline illustrated in [godelstructurefig](){.ref}.
 
 
 
