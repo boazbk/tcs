@@ -65,7 +65,7 @@ These algorithms have been essential throughout the ages for people using  abaci
 To see why these algorithms are still very much relevant, let us compare the Babylonian digit-by-digit multiplication algorithm ("grade-school multiplication") with the  naive algorithm that multiplies numbers through  repeated addition.
 We start by formally describing both algorithms, see [naivemultalg](){.ref} and [gradeschoolalg](){.ref}.
 
-
+<a name="naivemultalg"></a>
 ``` { .algorithm title="Multiplication via repeated addition" #naivemultalg }
 INPUT: Non-negative integers $x,y$
 OUTPUT: Product  $x\cdot y$
@@ -76,6 +76,8 @@ For{$i=1,\ldots,y$}
 endfor
 return $result$
 ```
+
+<a name="gradeschoolalg"></a>
 
 ``` {.algorithm title="Grade-school multiplication" #gradeschoolalg}
 INPUT: Non-negative integers $x,y$
