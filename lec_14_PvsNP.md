@@ -377,7 +377,7 @@ The details are beyond the scope of this book, but this result is formally state
 Let $V:\{0,1\}^* \rightarrow \{0,1\}$ be some polynomial-time algorithm, and suppose that $\mathbf{P}=\mathbf{NP}$.
 Then there exists an algorithm $COUNT_V$ that on input $x,1^m,\epsilon$, runs in time polynomial in $|x|,m,1/\epsilon$ and outputs a number in $[2^m+1]$ satisfying
 
-$$(1-\epsilon)COUNT_V(x,m,\esilon) \leq \Bigl|\{ y \in \{0,1\}^m \;:\; V(xy)=1 \} \Bigr| \leq (1+\epsilon)COUNT_V(x,m,\esilon) \;.
+$$(1-\epsilon)COUNT_V(x,m,\epsilon) \leq \Bigl|\{ y \in \{0,1\}^m \;:\; V(xy)=1 \} \Bigr| \leq (1+\epsilon)COUNT_V(x,m,\epsilon) \;.
 $$
 :::
 
