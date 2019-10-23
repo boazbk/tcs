@@ -55,7 +55,7 @@ It's no wonder that Eratosthenes, who was the first person to calculate the eart
 ## Integer multiplication: an example of an algorithm
 
 In the language of Computer Science, the place-value system for representing numbers is known as a _data structure_: a set of instructions or "recipe" for representing objects as symbols.
-An _algorithm_ is a set of instructions or recipe for performing operations on such representations.
+An _algorithm_ is a set of instructions, or recipe, for performing operations on such representations.
 Data structures and algorithms have enabled amazing applications that have transformed human society, but their importance goes beyond their practical utility.
 Structures from computer science, such as bits, strings, graphs, and even the notion of a program itself, as well as concepts such as universality and replication, have not just found (many) practical uses but contributed a new language and a new way to view the world.
 
