@@ -112,7 +112,7 @@ Some texts present the task of computing a function $F:\{0,1\}^* \rightarrow \{0
 The "granddaddy" of all models of computation is the _Turing Machine_.
 Turing machines were defined in 1936 by Alan Turing in an attempt to formally capture all the functions that can be computed by human "computers" (see [humancomputersfig](){.ref}) that follow a well-defined set of rules, such as the standard algorithms for addition or multiplication.
 
-![Until the advent of electronic computers, the word "computer" was used to describe a person that performed calculations. Most of these "human computers" were women, and they were absolutely essential to many achievements including mapping the stars, breaking the Enigma cipher, and the NASA space mission; see also the bibliographical notes. Photo taken from from [@sobel2017the].](../figure/HumanComputers.jpg){#humancomputersfig .margin  }
+![Until the advent of electronic computers, the word "computer" was used to describe a person that performed calculations. Most of these "human computers" were women, and they were absolutely essential to many achievements including mapping the stars, breaking the Enigma cipher, and the NASA space mission; see also the bibliographical notes. Photo from [National Photo Company Collection](https://www.loc.gov/pictures/item/2016838906/); see also  [@sobel2017the].](../figure/HumanComputers.jpg){#humancomputersfig .margin  }
 
 Turing thought of such a person as having access to as much "scratch paper" as they need.
 For simplicity we can think of this scratch paper as a one dimensional piece of graph paper (or _tape_, as it is commonly referred to),  which is divided to "cells", where each "cell" can hold a single symbol (e.g., one digit or letter, and more generally some element of a finite _alphabet_).
@@ -124,7 +124,7 @@ At any point in time, the person can read from and write to a single cell of the
 
 
 Turing modeled such a computation by a "machine" that maintains one of $k$ states.
-At each point in time the machine  read from its "work tape"  a single symbol from a finite alphabet $\Sigma$ and use that to update its state, write to tape, and possible move to an adjacent cell  (see [turing-machine-fig](){.ref}).
+At each point in time the machine reads from its "work tape" a single symbol from a finite alphabet $\Sigma$ and uses that to update its state, write to tape, and possibly move to an adjacent cell  (see [turing-machine-fig](){.ref}).
 To compute a function $F$ using this machine, we initialize the tape with the  input $x\in \{0,1\}^*$  and our  goal  is to ensure that the tape will contain the value $F(x)$  at the end of the computation.
 Specifically, a computation of a Turing Machine $M$ with $k$ states and alphabet $\Sigma$ on input $x\in \{0,1\}^*$ proceeds as follows:
 
@@ -139,7 +139,7 @@ Specifically, a computation of a Turing Machine $M$ with $k$ states and alphabet
 
 * The set of rules the Turing machine follows is known as its _transition function_.
 
-* When the machine halts then its output is obtained by reading off the tape from the second location (just after the $\triangleright$) onwards, stopping at the first point where the symbol is not $0$ or $1$.
+* When the machine halts then its output is the binary string obtained by reading the tape from the beginning until the head position, dropping all symbolssuch as $\triangleright$, $\varnothing$, etc. that are not either $0$ or $1$. 
 
 ![The components of a Turing Machine. Note how they correspond to the general components of algorithms as described in [algcomponentfig](){.ref}.](../figure/turingmachinecomponents.png){#turingmachinecomponentsfig .margin }
 
@@ -220,7 +220,9 @@ For every $x\in \{0,1\}^*$, the _output_ of $M$ on input $x$, denoted by $M(x)$,
    3. If $D=\mathsf{R}$ then set $i \rightarrow i+1$, if $D=\mathsf{L}$ then set $i \rightarrow \max\{i-1,0\}$. (If $D = \mathsf{S}$ then we keep $i$ the same.)
    4. If $D=\mathsf{H}$ then halt.
 
-* The _result_ of the process, which we denote by $M(x)$, is the string $T[1],\ldots,T[m]$ where $m>0$ is the smallest integer such that $T[m+1] \not\in \{0,1\}$.  If the process never ends then we write $M(x)=\bot$.
+* If the process above halts, then $M$'s output, denoted by $M(x)$, is the string $y\in \{0,1\}^*$ obtained by concatenating all the symbols in $\{0,1\}$ in positions $T[0],\ldots, T[i]$ where $i$ is the final head position.
+
+* If The Turing machine does not halt then we denote  $M(x)=\bot$.
 :::
 
 
@@ -302,7 +304,7 @@ Furthermore, we are guaranteed that if we invoke $P$ on any input then _some_ ou
 
 In contrast, given any Turing machine $M$, we cannot determine a priori the length of the output.
 In fact, we don't even know if an output would be produced at all!
-For example, it is very easy to come up with a Turing machine whose transition function never outouts $\mathsf{H}$ and hence never halts.
+For example, it is very easy to come up with a Turing machine whose transition function never outputs $\mathsf{H}$ and hence never halts.
 
 
 If a machine  $M$ fails to stop and produce an output on some an input $x$, then it cannot compute any total function $F$, since clearly on input $x$, $M$  will fail to output $F(x)$. However, $P$ can still compute a _partial function_.^[A _partial function_ $F$ from a set $A$ to a set $B$ is a function that is only defined on a _subset_ of $A$, (see [functionsec](){.ref}). We can also think of such a function as mapping $A$ to $B \cup \{ \bot \}$ where $\bot$ is a special "failure" symbol such that $F(a)=\bot$  indicates the function $F$ is not defined on $a$.]
@@ -470,7 +472,7 @@ If $P$ is a NAND-TM program and $x\in \{0,1\}^*$ is an input then an execution o
 ### Sneak peak: NAND-TM vs Turing machines
 
 As the name implies, NAND-TM programs are a direct implementation of Turing machines in programming language form.
-we will show the equivalence below but you can already see how the components of Turing machines and NAND-TM programs correspond to one another:
+We will show the equivalence below but you can already see how the components of Turing machines and NAND-TM programs correspond to one another:
 
 
 ```table
@@ -549,7 +551,7 @@ MODANDJUMP(X_nonblank[i],X_nonblank[i])
 :::
 
 ::: { .pause }
-Working out the above two example can go a long way towards understanding the NAND-TM language.
+Working out the above two examples can go a long way towards understanding the NAND-TM language.
 See the [appendix](http://tiny.cc/introtcsappendix) and our [GitHub repository](https://github.com/boazbk/tcscode) for a full specification of the NAND-TM language.
 :::
 
@@ -864,7 +866,7 @@ Prove that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is comput
 :::
 
 
-::: {.exercise title="Two tape Turing machines" #twodimtapeex}
+::: {.exercise title="Two dimensional Turing machines" #twodimtapeex}
 Define a _two-dimensional  Turing machine_ to be a Turing machine in which the tape is _two dimensional_. At every step the machine can move $\mathsf{U}$p, $\mathsf{D}$own, $\mathsf{L}$eft,
 $\mathsf{R}$ight, or $\mathsf{S}$tay.
 Prove that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a standard Turing Machine if and only if $F$ is computable by a two-dimensional Turing machine.

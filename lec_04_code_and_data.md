@@ -153,7 +153,7 @@ The proof is simple. If we let $c$ be the constant such that $|SIZE(s)| \leq 2^{
 $$
 |SIZE(\tfrac{\delta 2^n}{n})| \leq 2^{c \tfrac{\delta 2^n}{n} \log s} < 2^{c \delta 2^n} = 2^{2^n}
 $$
-using the fact that since $s < 2^n$, $\log s < n$.
+using the fact that since $s < 2^n$, $\log s < n$ and $\delta = 1/c$.
 But since $|SIZE(s)|$ is smaller than the total number of functions mapping $n$ bits to $1$ bit, there must be at least one such function not in $SIZE(s)$, which is what we needed to prove.
 :::
 
@@ -753,7 +753,7 @@ The main take-aways from [compchap](){.ref}, [finiteuniversalchap](){.ref}, and 
 
 * We can describe a circuit/program $P$ as a string. For every $s$, there is a _universal_ circuit/program $U_s$ that can evaluate programs of length $s$ given their description as strings. We can use this representation also to _count_ the number of circuits of at most $s$ gates and hence prove that some functions cannot be computed by circuit of smaller-than-exponential size.
 
-* If there is a circuit of $s$ gates that computes a function $f$, then we can build a physical device to compute $f$ using $s$ basic components (such as transistors). The "Physical Extended Church-Turing Thesis" postulates postulates that the reverse direction is true as well: if $f$ is a function for which _every_ circuit requires at least $s$ gates then  that _every_ physical device to compute $f$ will require about $s$ "physical resources". The main challenge to the PECTT is _quantum computing_, which we will discuss in [quantumchap](){.ref}.
+* If there is a circuit of $s$ gates that computes a function $f$, then we can build a physical device to compute $f$ using $s$ basic components (such as transistors). The "Physical Extended Church-Turing Thesis" postulates  that the reverse direction is true as well: if $f$ is a function for which _every_ circuit requires at least $s$ gates then  that _every_ physical device to compute $f$ will require about $s$ "physical resources". The main challenge to the PECTT is _quantum computing_, which we will discuss in [quantumchap](){.ref}.
 
 __Sneak preview:__ In the next part we will discuss how to model computational tasks on _unbounded inputs_, which are specified using functions $F:\{0,1\}^* \rightarrow \{0,1\}^*$ (or $F:\{0,1\}^* \rightarrow \{0,1\}$) that can take an unbounded number of Boolean inputs.
 
@@ -805,7 +805,7 @@ See footnote for hint.^[_Hint:_ Use the results of [efficientrepresentationex]()
 
 
 > ### {.exercise title="Random functions are hard" #rand-lb-id}
-Suppose $n>1000$ and that we choose a function $F:\{0,1\}^n \rightarrow \{0,1\}$ at random, choosing for every $x\in \{0,1\}^n$ the value $F(x)$ to be the result of tossing an independent unbiased coin. Prove that the probability that there is a $2^n/(1000n)$ line program that computes $F$ is at most $2^{-100}$.^[__Hint:__ An equivalent way to say this is that you need to prove that the set of functions that can be computed using at most $2^n/(1000n)$ has fewer than $2^{-100}2^{2^n}$ elements. Can you see why?]
+Suppose $n>1000$ and that we choose a function $F:\{0,1\}^n \rightarrow \{0,1\}$ at random, choosing for every $x\in \{0,1\}^n$ the value $F(x)$ to be the result of tossing an independent unbiased coin. Prove that the probability that there is a $2^n/(1000n)$ line program that computes $F$ is at most $2^{-100}$.^[__Hint:__ An equivalent way to say this is that you need to prove that the set of functions that can be computed using at most $2^n/(1000n)$ lines has fewer than $2^{-100}2^{2^n}$ elements. Can you see why?]
 
 
 ::: {.exercise }
@@ -857,4 +857,4 @@ I learned of the proof of the size hierarchy theorem ([sizehiearchythm](){.ref})
 
 
 Scott Aaronson's blog post on how [information is physical](http://www.scottaaronson.com/blog/?p=3327) is a good discussion on issues related to the physical extended Church-Turing Physics.
-Aaronson's [survey on NP complete problems and physical reality](http://www.arxiv.org/abs/quant-ph/0502072) is also a great source for some of these issues, though might be easier to read after we reach [cooklevinchap](){.ref} on $\mathbf{NP}$  and $\mathbf{NP}$-completeness.
+Aaronson's survey on NP complete problems and physical reality    [@aaronson2005physicalreality] discusses these issues as well, though it might be easier to read after we reach [cooklevinchap](){.ref} on $\mathbf{NP}$  and $\mathbf{NP}$-completeness.
