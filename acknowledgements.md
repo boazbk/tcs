@@ -31,6 +31,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Mark Goldstein
 * Alexander Golovnev
 * Michael Haak
+* Rebecca Hao
 * Joosep Hook
 * Thomas HUET
 * Emily Jia

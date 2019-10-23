@@ -44,14 +44,14 @@ To that end, an accompanying website (which is still work in progress) allows ex
 ## To the student
 
 This book can be challenging, mainly because it brings together a variety of ideas and techniques in the study of computation.
-There are quite a few technical hurdles to master, whether it is following the diagonalization argument in proving the Halting Problem is undecidable,  combinatorial gadgets in NP-completeness reductions, analyzing probabilistic algorithms, or arguing about the adversary to prove the security of cryptographic primitives.
+There are quite a few technical hurdles to master, whether it is following the diagonalization argument for proving the Halting Problem is undecidable,  combinatorial gadgets in NP-completeness reductions, analyzing probabilistic algorithms, or arguing about the adversary to prove the security of cryptographic primitives.
 
 The best way to engage with this material is to read these notes __actively__, so make sure you have a pen ready.
 While reading, I encourage you to stop and think about the following:
 
-* When I state a theorem, stop and take a shot at proving it on your own _before_ reading the proof. You will be amazed by how much you can understand a proof better even after only 5 minutes of attempting it on your own.
+* When I state a theorem, stop and take a shot at proving it on your own _before_ reading the proof. You will be amazed by how much better you can understand a proof even after only 5 minutes of attempting it on your own.
 
-* When reading a definition, make sure that you understand what the definition means, and what are natural examples of objects that satisfy it and objects that do not. Try to think of the motivation behind the definition, and whether there are other natural ways to formalize the same concept.
+* When reading a definition, make sure that you understand what the definition means, and what the natural examples are of objects that satisfy it and objects that do not. Try to think of the motivation behind the definition, and whether there are other natural ways to formalize the same concept.
 
 * Actively notice which questions arise in your mind as you read the text, and whether or not they are answered in the text.
 
@@ -100,10 +100,10 @@ Automata are discussed after we see Turing machines and undecidability, as an ex
 
 
 While this is not our motivation, the order we present circuits, Turing machines, and automata roughly corresponds to the chronological order of their discovery.
-Boolean algebra goes back to Boole's and DeMorgan's works in the 1840s [@Boole1847mathematical, @DeMorgan1847] (though the definition of Boolean circuits and the connection to physical computation was given 90 years later by Shannon [@Shannon1937]).  Alan Turing defined what we now call "Turing Machines" in the 1930s [@Turing37], while finite automata were introduced in the 1943 work of McCulloch and Pitts [@McCullochPitts43] but only really understood in the seminal 1959 work of Rabin and Scott [@RabinScott59].
+Boolean algebra goes back to Boole's and DeMorgan's works in the 1840s [@Boole1847mathematical, @DeMorgan1847] (though the definition of Boolean circuits and the connection to physical computation was given 90 years later by Shannon [@Shannon1938]).  Alan Turing defined what we now call "Turing Machines" in the 1930s [@Turing37], while finite automata were introduced in the 1943 work of McCulloch and Pitts [@McCullochPitts43] but only really understood in the seminal 1959 work of Rabin and Scott [@RabinScott59].
 
 More importantly, while models such as finite-state machines, regular expressions, and context-free grammars are incredibly important for practice, the main applications for these models
-(whether it is for parsing, for analyzing properties such as _liveness_ and _safety_, or even for [software defined routing tables](https://www.cs.cornell.edu/~kozen/Papers/NetKAT-APLAS.pdf)) rely crucially on the fact that these are _tractable_ models for which we can effectively answer _semantic questions_.
+(whether it is for parsing, for analyzing properties such as _liveness_ and _safety_, or even for [software-defined routing tables](https://www.cs.cornell.edu/~kozen/Papers/NetKAT-APLAS.pdf)) rely crucially on the fact that these are _tractable_ models for which we can effectively answer _semantic questions_.
 This practical motivation can be better appreciated _after_ students see the undecidability of semantic properties of general computing models.
 
 
@@ -113,10 +113,10 @@ The fact that we start with circuits makes proving the Cook-Levin Theorem much e
 Some other differences between this book and previous texts are the following:
 
 
-1. For measuring _time complexity_, we use the standard RAM machine model used (implicitly) in algorithms courses, rather than Turing machines. While these two models are of course polynomially equivalent, and hence make no difference for the definitions of the classes $\mathbf{P}$, $\mathbf{NP}$, and $\mathbf{EXP}$,  our choice makes the distinction between notions such as $O(n)$ or $O(n^2)$ time more meaningful. This choice also ensures that these finer-grained time complexity classes correspond to the informal definitions of linear and quadratic time that students encounter in their algorithms lectures (or their whiteboard coding interviews..).
+1. For measuring _time complexity_, we use the standard RAM machine model used (implicitly) in algorithms courses, rather than Turing machines. While these two models are of course polynomially equivalent, and hence make no difference for the definitions of the classes $\mathbf{P}$, $\mathbf{NP}$, and $\mathbf{EXP}$,  our choice makes the distinction between notions such as $O(n)$ or $O(n^2)$ time more meaningful. This choice also ensures that these finer-grained time complexity classes correspond to the informal definitions of linear and quadratic time that students encounter in their algorithms lectures (or their whiteboard coding interviews...).
 
 
-2. We use the terminology of _functions_ rather than _languages_. That is, rather than saying that a Turing Machine $M$ _decides a language_ $L \subseteq \{0,1\}^*$, we say that it _computes a function_ $F:\{0,1\}^* \rightarrow \{0,1\}$. The terminology of "languages" arises from Chomsky's work [@Chomsky56], but it is often more confusing than illuminating. The language terminology also makes it cumbersome to discuss concepts such as algorithms that compute functions with more than one bit of output (including basic tasks such as addition, multiplication, etc..). The fact that we use functions rather than languages means we have to be extra vigilant about students distinguishing between the _specification_ of a computational task (e.g., the _function_) and its _implementation_ (e.g., the _program_). On the other hand, this point is so important that it is worth repeatedly emphasizing and drilling into the students, regardless of the notation used. The book does mention the language terminology and reminds of it occasionally, to make it easier for students to consult outside resources.
+2. We use the terminology of _functions_ rather than _languages_. That is, rather than saying that a Turing Machine $M$ _decides a language_ $L \subseteq \{0,1\}^*$, we say that it _computes a function_ $F:\{0,1\}^* \rightarrow \{0,1\}$. The terminology of "languages" arises from Chomsky's work [@Chomsky56], but it is often more confusing than illuminating. The language terminology also makes it cumbersome to discuss concepts such as algorithms that compute functions with more than one bit of output (including basic tasks such as addition, multiplication, etc...). The fact that we use functions rather than languages means we have to be extra vigilant about students distinguishing between the _specification_ of a computational task (e.g., the _function_) and its _implementation_ (e.g., the _program_). On the other hand, this point is so important that it is worth repeatedly emphasizing and drilling into the students, regardless of the notation used. The book does mention the language terminology and reminds of it occasionally, to make it easier for students to consult outside resources.
 
 
 

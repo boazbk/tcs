@@ -46,7 +46,7 @@ We then do the following (see also [runtimeoverviewfig](){.ref}):
 
 * Give an _efficient_ universal NAND-RAM program and use this to establish the _time hierarchy theorem_ that in particular implies that $\mathbf{P} \subsetneq \mathbf{EXP}$. 
 
-* We relate the notions defined here to the _non uniform_ models of  Boolean circuits and NAND-CIRC programs defined in [compchap](){.ref}. We define $\mathbf{P_{/poly}}$ to be the class of functins computed by a _sequence_ of polynomial-sized circuits. We prove that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$ and that $\mathbf{P_{/poly}}$ contains _uncomputable_ functions.
+* We relate the notions defined here to the _non uniform_ models of  Boolean circuits and NAND-CIRC programs defined in [compchap](){.ref}. We define $\mathbf{P_{/poly}}$ to be the class of functions computed by a _sequence_ of polynomial-sized circuits. We prove that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$ and that $\mathbf{P_{/poly}}$ contains _uncomputable_ functions.
 
 
 

@@ -472,7 +472,7 @@ If $P$ is a NAND-TM program and $x\in \{0,1\}^*$ is an input then an execution o
 ### Sneak peak: NAND-TM vs Turing machines
 
 As the name implies, NAND-TM programs are a direct implementation of Turing machines in programming language form.
-we will show the equivalence below but you can already see how the components of Turing machines and NAND-TM programs correspond to one another:
+We will show the equivalence below but you can already see how the components of Turing machines and NAND-TM programs correspond to one another:
 
 
 ```table
@@ -551,7 +551,7 @@ MODANDJUMP(X_nonblank[i],X_nonblank[i])
 :::
 
 ::: { .pause }
-Working out the above two example can go a long way towards understanding the NAND-TM language.
+Working out the above two examples can go a long way towards understanding the NAND-TM language.
 See the [appendix](http://tiny.cc/introtcsappendix) and our [GitHub repository](https://github.com/boazbk/tcscode) for a full specification of the NAND-TM language.
 :::
 
@@ -866,7 +866,7 @@ Prove that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is comput
 :::
 
 
-::: {.exercise title="Two tape Turing machines" #twodimtapeex}
+::: {.exercise title="Two dimensional Turing machines" #twodimtapeex}
 Define a _two-dimensional  Turing machine_ to be a Turing machine in which the tape is _two dimensional_. At every step the machine can move $\mathsf{U}$p, $\mathsf{D}$own, $\mathsf{L}$eft,
 $\mathsf{R}$ight, or $\mathsf{S}$tay.
 Prove that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a standard Turing Machine if and only if $F$ is computable by a two-dimensional Turing machine.
