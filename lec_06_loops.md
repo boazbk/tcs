@@ -124,7 +124,7 @@ At any point in time, the person can read from and write to a single cell of the
 
 
 Turing modeled such a computation by a "machine" that maintains one of $k$ states.
-At each point in time the machine  read from its "work tape"  a single symbol from a finite alphabet $\Sigma$ and use that to update its state, write to tape, and possible move to an adjacent cell  (see [turing-machine-fig](){.ref}).
+At each point in time the machine reads from its "work tape" a single symbol from a finite alphabet $\Sigma$ and uses that to update its state, write to tape, and possibly move to an adjacent cell  (see [turing-machine-fig](){.ref}).
 To compute a function $F$ using this machine, we initialize the tape with the  input $x\in \{0,1\}^*$  and our  goal  is to ensure that the tape will contain the value $F(x)$  at the end of the computation.
 Specifically, a computation of a Turing Machine $M$ with $k$ states and alphabet $\Sigma$ on input $x\in \{0,1\}^*$ proceeds as follows:
 
