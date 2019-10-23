@@ -15,10 +15,10 @@ chapternum: "0"
 * Algorithms as not just _tools_, but also _ways of thinking and understanding_.
 * Taste of Big-$O$ analysis and the surprising creativity in the design of efficient algorithms.
 
->_"Computer Science is no more about computers than astronomy is about telescopes"_,  attributed to Edsger Dijkstra.^[This quote is typically read as disparaging the importance of actual physical computers in Computer Science, but note that telescopes are absolutely essential to astronomy as they provide us with the means to connect theoretical predictions with actual experimental observations.]
+>_"Computer Science is no more about computers than astronomy is about telescopes"_,  attributed to Edsger Dijkstra.
 
 
->_"Hackers need to understand the theory of computation about as much as painters need to understand paint chemistry."_, Paul Graham 2003.^[To be fair, in the following sentence Graham says "you need to know how to calculate time and space complexity and about Turing completeness". This book includes these topics, as well as others such as NP-hardness, randomization, cryptography,  quantum computing, and more.]
+>_"Hackers need to understand the theory of computation about as much as painters need to understand paint chemistry."_, Paul Graham 2003.
 
 
 
