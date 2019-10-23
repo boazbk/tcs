@@ -16,13 +16,13 @@ chapternum: "13"
 Consider some of the problems we have encountered in [chapefficient](){.ref}:
 
 
-* The _3SAT_ problem: deciding whether a given 3CNF formula has a satisfying assignment.
+1. The _3SAT_ problem: deciding whether a given 3CNF formula has a satisfying assignment.
 
-* Finding the longest path in a graph.
+2. Finding the _longest path_ in a graph.
 
-* Finding the maximum cut in a graph.
+3. Finding the _maximum cut_ in a graph.
 
-* Solving quadratic equations over $n$ variables $x_0,\ldots,x_{n-1} \in \R$.
+4. Solving _quadratic equations_ over $n$ variables $x_0,\ldots,x_{n-1} \in \R$.
 
 
 All of these problems have the following properties:
@@ -45,15 +45,16 @@ This phenomenon, known as _$\mathbf{NP}$ completeness_, is one of the surprising
 In this chapter we will see that for each one of the problems of finding a longest path in a graph, solving quadratic equations, and finding the maximum cut, if there exists a polynomial-time algorithm for this problem then there exists a polynomial-time algorithm for the 3SAT problem as well.
 In other words, we will _reduce_ the task of solving 3SAT to each one of the above tasks.
 Another way to interpret these results is that if there _does not exist_ a polynomial-time algorithm for 3SAT then there does not exist a polynomial-time algorithm for these other problems as well. 
-In [cooklevinchap](){.ref} we will see evidence (though no proof!) that all of the above problem do not have polynomial-time algorithms and hence are _inherently intractable_.
+In [cooklevinchap](){.ref} we will see evidence (though no proof!) that all of the above problems do not have polynomial-time algorithms and hence are _inherently intractable_.
 
 
 
-__Decision problems.__ 
-For reasons of technical conditions rather than anything substantial, we will concern ourselves with _decision problems_ (i.e., Yes/No questions) or in other words _Boolean_  (i.e., one-bit output) functions.
+## Formal definitions of problems { #formaldefdecisionexamplessec }
+
+For reasons of technical convenience rather than anything substantial, we  concern ourselves with _decision problems_ (i.e., Yes/No questions) or in other words _Boolean_  (i.e., one-bit output) functions.
 We model the problems above as functions mapping $\{0,1\}^*$ to $\{0,1\}$ in the following way:
 
-The _3SAT problem_ can be phrased as the function $3SAT:\{0,1\}^* \rightarrow \{0,1\}$ that takes as input a 3CNF formula $\varphi$ (i.e., a formula of the form $C_0 \wedge \cdots \wedge C_{m-1}$ where each $C_i$ is the OR of three variables or their negation)  and maps $\varphi$ to $1$ if there exists some assignment to the variables of $\varphi$ that causes it to evalute to _true_, and to $0$ otherwise.
+__3SAT.__ The _3SAT problem_ can be phrased as the function $3SAT:\{0,1\}^* \rightarrow \{0,1\}$ that takes as input a 3CNF formula $\varphi$ (i.e., a formula of the form $C_0 \wedge \cdots \wedge C_{m-1}$ where each $C_i$ is the OR of three variables or their negation)  and maps $\varphi$ to $1$ if there exists some assignment to the variables of $\varphi$ that causes it to evalute to _true_, and to $0$ otherwise.
 For example 
 
 $$3SAT\left("(x_0 \wedge \overline{x}_1 \wedge x_2)  \vee   (x_1 \vee x_2 \vee \overline{x_3}) \vee (\overline{x}_0 \wedge \overline{x}_2 \wedge x_3)" \right)  = 1$$
@@ -62,22 +63,22 @@ since  the assignment $x = 1101$ satisfies the input formula.
 In the above we assume some representation of formulas as strings, and define the function to output $0$ if its input is not a valid representation; we use the same convention for all the other functions below.
 
 
-The _quadratic equations problem_ corresponds to the function $QUADEQ:\{0,1\}^* \rightarrow \{0,1\}$ that maps a set of quadratic equations $E$ to $1$ if there is an assignment $x$ that satisfies all equations, and to $0$ otherwise.
+__Quadratic equations.__ The _quadratic equations problem_ corresponds to the function $QUADEQ:\{0,1\}^* \rightarrow \{0,1\}$ that maps a set of quadratic equations $E$ to $1$ if there is an assignment $x$ that satisfies all equations, and to $0$ otherwise.
 
-The _longest path problem_ corresponds to the function $LONGPATH:\{0,1\}^* \rightarrow \{0,1\}$ that maps a graph $G$ and a number $k$ to $1$ if there is a simple path in $G$ of length at least $k$, and maps $(G,k)$ to $0$ otherwise. The longest path problem is a generalization of the well-known [Hamiltonian Path Problem](https://en.wikipedia.org/wiki/Hamiltonian_path_problem) of determining whether a path of length $n$ exists in a given $n$ vertex graph.
+__Longest path.__ The _longest path problem_ corresponds to the function $LONGPATH:\{0,1\}^* \rightarrow \{0,1\}$ that maps a graph $G$ and a number $k$ to $1$ if there is a simple path in $G$ of length at least $k$, and maps $(G,k)$ to $0$ otherwise. The longest path problem is a generalization of the well-known [Hamiltonian Path Problem](https://en.wikipedia.org/wiki/Hamiltonian_path_problem) of determining whether a path of length $n$ exists in a given $n$ vertex graph.
 
-The _maximum cut problem_ corresponds to the function $MAXCUT:\{0,1\}^* \rightarrow \{0,1\}$ that maps a graph $G$ and a number $k$ to $1$ if there is a cut in $G$ that cuts at least $k$ edges, and maps $(G,k)$ to $0$ otherwise.
+__Maximum cut.__ The _maximum cut problem_ corresponds to the function $MAXCUT:\{0,1\}^* \rightarrow \{0,1\}$ that maps a graph $G$ and a number $k$ to $1$ if there is a cut in $G$ that cuts at least $k$ edges, and maps $(G,k)$ to $0$ otherwise.
 
 All of the problems above are in $\mathbf{EXP}$ but it is not known whether or not they are in $\mathbf{P}$. However, we will see in this chapter that if either $QUADEQ$ , $LONGPATH$ or $MAXCUT$ are in $\mathbf{P}$, then so is $3SAT$.
 
 
-## Reductions
+## Polynomial-time reductions {#polytimeredsec }
 
 Suppose that $F,G:\{0,1\}^* \rightarrow \{0,1\}$ are two functions.
-A _reduction_ from $F$ to $G$ is a way to show that  $F$ is "no harder" than $G$, in the sense that a polynomial-time algorithm for $G$ implies a polynomial-time algorithm for $F$.
-The formal definition is as follows:
+A _polynomial-time reduction_ (or sometimes just _"reduction"_ for short) from $F$ to $G$ is a way to show that  $F$ is "no harder" than $G$, in the sense that a polynomial-time algorithm for $G$ implies a polynomial-time algorithm for $F$.
 
-> ### {.definition title="Reductions" #reduction-def}
+
+> ### {.definition title="Polynomial-time reductions" #reduction-def}
 Let $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$. We say that _$F$ reduces to $G$_, denoted by $F \leq_p G$ if there is a polynomial-time computable $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every $x\in \{0,1\}^*$,
 $$
 F(x) = G(R(x)) \;. \label{eq:reduction}
@@ -113,19 +114,10 @@ Thus the total running time of $A$ on inputs of length $n$ is at most the time t
 
 A reduction from $F$ to $G$ can be used for two purposes:
 
-* If we already know an algorithm for $G$ and $F \leq_p G$ then we can use the reduction to obtain an algorithm for $F$. This is a widely used tool in algorithm design. The "quicksort" algorithm reduces the task of sorting to the task of partitioning an array to the elements smaller and bigger than some "pivot" element. Dijkstra's shortest path algorithm reduces the task of finding the shortest path between two elements to the task of implementing a priority queue data structure.
+* If we already know an algorithm for $G$ and $F \leq_p G$ then we can use the reduction to obtain an algorithm for $F$. This is a widely used tool in algorithm design. For example in [linerprogsec](){.ref} we saw how the _Min-Cut Max-Flow_ theorem allows to reduce the task of computing a minimum cut in a graph to the task of computing a maximum flow in it.
 
-* If we have proven (or have evidence) that there exists _no polynomial-time algorithm_ for $F$ and $F \leq_p G$ then the existence of this reduction allows us to concludes that there exists no polynomial-time algorithm for $G$. This is the "if pigs could whistle then horses could fly" interpretation we've seen in [reductionsuncompsec](){.ref}. We show that if there was an hypothetical efficient algorithm for $G$ (a "whistling pig") then since $F \leq_p G$ then there would  be an efficient algorithm for $F$ (a "flying horse").
 
-In this book we will often use reductions for the second purpose, although the lines between the two is sometimes blurry (see the bibliographical notes).
-
-Since we think of  $F \leq_p G$ as saying that (as far as polynomial-time computation is concerned) $F$ is "easier or equal in difficulty to" $G$, we would expect that if $F \leq_p G$ and $G \leq_p H$, then it would hold that $F \leq_p H$. Indeed this is the case:
-
-> ### {.lemma #transitivitylem}
-For every $F,G,H :\{0,1\}^* \rightarrow \{0,1\}$, if $F \leq_p G$ and $G \leq_p H$ then $F \leq_p H$.
-
-> ### { .pause }
-We leave the proof of [transitivitylem](){.ref} as [transitivity-reductions-ex](){.ref}. Pausing now and doing this exercise is an excellent way to verify that you understood the definition of reductions.
+* If we have proven (or have evidence) that there exists _no polynomial-time algorithm_ for $F$ and $F \leq_p G$ then the existence of this reduction allows us to concludes that there exists no polynomial-time algorithm for $G$. This is the "if pigs could whistle then horses could fly" interpretation we've seen in [reductionsuncompsec](){.ref}. We show that if there was an hypothetical efficient algorithm for $G$ (a "whistling pig") then since $F \leq_p G$ then there would  be an efficient algorithm for $F$ (a "flying horse"). In this book we often use reductions for this second purpose, although the lines between the two is sometimes blurry (see the bibliographical notes in [reductionsbibnotes](){.ref}).
 
 
 The most crucial difference between the notion in [reduction-def](){.ref} and the reductions we saw in the context of _uncomputability_ (e.g., in [reductionsuncompsec](){.ref})  is that for relating time complexity of problems, we need the reduction to be computable in _polynomial time_, as opposed to merely computable.
@@ -134,10 +126,27 @@ That is, to show that $F \leq_p G$, rather than allowing a general algorithm for
 This restricted form is convenient for us, but people have defined and used more general reductions as well (see [reductionsbibnotes](){.ref}).
 
 
-
 In this chapter we use reductions to relate the computational complexity of the problems mentioned above: 3SAT, Quadratic Equations, Maximum Cut, and Longest Path, as well as a few others.
 We will reduce  3SAT to the latter problems, demonstrating that solving any one of them efficiently will result in an efficient algorithm for 3SAT.
 In  [cooklevinchap](){.ref} we show the other direction: reducing each one of these problems to 3SAT in one fell swoop.
+
+
+__Transitivity of reductions.__ Since we think of  $F \leq_p G$ as saying that (as far as polynomial-time computation is concerned) $F$ is "easier or equal in difficulty to" $G$, we would expect that if $F \leq_p G$ and $G \leq_p H$, then it would hold that $F \leq_p H$. Indeed this is the case:
+
+
+::: {.solvedexercise title="Transitivity of polynomial-time reductions" #transitiveex}
+For every $F,G,H :\{0,1\}^* \rightarrow \{0,1\}$, if $F \leq_p G$ and $G \leq_p H$ then $F \leq_p H$.
+:::
+
+::: {.solution data-ref="transitiveex"}
+If $F \leq_p G$ and $G \leq_p H$ then there exist polynomial-time computable functions $R_1$ and $R_2$  mapping $\{0,1\}^*$ to $\{0,1\}^*$ such that for every $x\in \{0,1\}^*$, $F(x) = G(R_1(x))$ and for every $y\in \{0,1\}^*$, $G(y) = H(R_2(y))$. Combining these two equalities, we see that for every $x\in \{0,1\}^*$, $F(x) = H(R_2(R_1(x)))$ and so to show that $F \leq_p H$, it is sufficient to show that the map $x \mapsto R_2(R_1(x))$ is computable in polynomial time.
+But if there are some constants $c,d$ such that $R_1(x)$ is computable in time $|x|^c$   and $R_2(y)$ is computable in time $|y|^d$ then $R_2(R_1(x))$ is computable in time $(|x|^c)^d = |x|^{cd}$ which is polynomial.
+:::
+
+
+
+
+
 
 
 ## Reducing 3SAT to zero one equations
@@ -166,28 +175,79 @@ $3SAT \leq_p 01EQ$
 
 > ### {.proofidea data-ref="tsattozoeqthm"}
 A constraint $x_2 \vee \overline{x}_5 \vee x_7$ can be written as $x_2 + (1-x_5) + x_7 \geq 1$.
-This is a linear _inequality_ but since the sum on the left-hand side is at most three, we can also turn it into an _equality_ by adding two new variables $y,z$ and writing it as $x_2 + (1-x_5) + x_7 + y  + z =3$. (We will use fresh such variables $y,z$ for every constraint.) Finally, for every variable $x_i$ we can add a variable $x'_i$ corresponding to its negation by adding the equation $x_i + x'_i = 1$, hence mapping the original constraint $x_2 \vee \overline{x}_5 \vee x_7$ to $x_2 + x'_5 + x_7 +y + z = 3$.
+This is a linear _inequality_ but since the sum on the left-hand side is at most three, we can also turn it into an _equality_ by adding two new variables $y,z$ and writing it as $x_2 + (1-x_5) + x_7 + y  + z =3$. (We will use fresh such variables $y,z$ for every constraint.) Finally, for every variable $x_i$ we can add a variable $x'_i$ corresponding to its negation by adding the equation $x_i + x'_i = 1$, hence mapping the original constraint $x_2 \vee \overline{x}_5 \vee x_7$ to $x_2 + x'_5 + x_7 +y + z = 3$. The main __takeaway technique__ from this reduction is the idea of adding _auxiliary variables_ to replace an equation such as $x_1+x_2 +x_3 \geq 1$ that is not quite in the form we want with the equivalent (for $0/1$ valued variables) equation $x_1+x_2+x_3+u+v=3$ which is in the form we want.
 
 
-![Left: Python code implementing the reduction of $3SAT$ to $01EQ$. Right: Example output of the reduction. Code is in our [repository](https://github.com/boazbk/tcscode).](../figure/3sat2zoeqreduction.png){#3sat2zoeqreductionfig}
+
+
+![Left: Python code implementing the reduction of $3SAT$ to $01EQ$. Right: Example output of the reduction. Code is in our [repository](https://github.com/boazbk/tcscode).](../figure/3sat2zoeqreduction.png){ #threesat2zoeqreductionfig }
+
 
 ::: {.proof data-ref="tsattozoeqthm"}
 To prove the theorem we need to:
 
 1. Describe an algorithm $R$ for mapping an input $\varphi$ for $3SAT$ into an input $E$ for $01EQ$.
 
-2. Prove that the algorithm runs in polynomial time and that $01EQ(R(\varphi)) =3SAT(\varphi)$ for every 3CNF formula $\varphi$.
+2. Prove that the algorithm runs in polynomial time.
 
-We proceed to do just that.
+3. Prove that $01EQ(R(\varphi)) =3SAT(\varphi)$ for every 3CNF formula $\varphi$.
+
+We now proceed to do just that.
+Since this is our first reduction, we will spell out this proof in detail.
+However it straightforwardly follows the proof idea.
+
+``` { .algorithm title="$3SAT$ to $01EQ$ reduction" #zerooneeqreduction }
+INPUT: 3CND formula $\varphi$ with $n$ variables $x_0,\ldots,x_{n-1}$ and $m$ clauses.
+
+OUTPUT: Set $E$ of linear equations over $0/1$ such that $3SAT(\varphi)=1$ -iff $01EQ(E)=1$.
+
+Let $E$'s variables be $x_0,\ldots,x_{n-1}$, $x'_0,\ldots,x'_{n-1}$, $y_0,\ldots,y_{m-1}$, $z_0,\ldots,z_{m-1}$.
+For{$i \in [n]$}
+  add to $E$ the equation $x_i + x'_i = 1$
+endfor
+For{j\in [m]}
+  Let $j$-th clause be $w_1 \vee w_2 \vee w_3$ where $w_1,w_2,w_3$ are literals.
+  For{$a\in[3]$}
+    If{$w_a$ is variable $x_i$}
+      set $t_a \leftarrow x_i$
+    endif
+    If{$w_a$ is negation $\neg x_i$}
+      set $t_a \leftarrow x'_i$
+    endif
+   endfor
+   Add to $E$ the equation $t_1 + t_2 + t_3 + y_j + z_j = 3$.
+endfor
+return $E$ 
+```
+
+The reduction is described in [zerooneeqreduction](){.ref}, see also [threesat2zoeqreductionfig](){.ref}.
+If the input formula has $n$ variable and $m$ steps, [zerooneeqreduction](){.ref} creates a set $E$ of $n+m$ equations over  $2n+2m$ variables.
+[zerooneeqreduction](){.ref} makes an initial loop of $n$ steps (each taking constant time)  and then another loop of $m$ steps (each taking constant time) to create the equations, and hence it
+runs in polynomial time.
+
+Let $R$ be the function computed by [zerooneeqreduction](){.ref}. The heart of the proof is to show that for every 3CNF $\varphi$, $01EQ(R(\varphi)) = 3SAT(\varphi)$.
+We split the proof into two parts.
+The first part, traditionally known as the __completeness__ property, is to show that if $3SAT(\varphi)=1$ then $O1EQ(R(\varphi))=1$.
+The second part, traditionally known as the __soundness__ property, is to show that if $01EQ(R(\varphi))=1$ then $3SAT(\varphi)=1$.
+(The names "completeness" and "soundness"  derive viewing a solution to $R(\varphi)$ as a "proof" that $\varphi$ is satisfiable, in which case these conditions corresponds to completeness and soundness as defined in  [#godelproofsystemssec](){.ref}. However, if you find the names confusing you can simply think of completeness as the "$1$-instance maps to $1$-instance" property and soundness as the "$0$-instance maps to $0$-instance" property.)
+
+We complete the proof by showing both parts:
+
+* __Completeness:__ Suppose that $3SAT(\varphi)=1$, which means that there is an assignment $x\in \{0,1\}^n$ that satisfies $\varphi$. We know that for every clause $C_j$  in $\varphi$ of the form $w_1 \vee w_2 \vee w_3$ (with $w_1,w_2,w_3$ being literals), $w_1 + w_2 + w_3 \geq 1$, which means that we can assign values to $y_j,z_j$ in $\{0,1\}$ such that $w_1 + w_2 + w_3 + y_j + z_j = 3$.
+This means that if we let $x'_i = 1-x_i$ for every $i\in [n]$, then the assignment $x_0,\ldots,x_{n-1}$, $x'_0,\ldots,x'_{n-1}$, $y_0,\ldots,y_{m-1}$, $z_0,\ldots,z_{m-1}$ satisfies the equations $E = R(\varphi)$ and hence $01EQ(R(\varphi))=1$.
 
 
+* __Soundness:__ Suppose that the set of equations $E=R(\varphi)$ has a satisfying assignment $x_0,\ldots,x_{n-1}$, $x'_0,\ldots,x'_{n-1}$, $y_0,\ldots,y_{m-1}$, $z_0,\ldots,z_{m-1}$.
+Then it must be the case that $x'_i$ is the negation of $x_i$ for all $i\in [n]$ and since $y_j + z_j \leq 2$ for every $j\in [m]$, it must be the case that for every clause $C_j$  in $\varphi$ of the form $w_1 \vee w_2 \vee w_3$ (with $w_1,w_2,w_3$ being literals), $w_1 + w_2 + w_3 \geq 1$, which means that the assignment $x_0,\ldots,x_{n-1}$ satisfies $\varphi$ and hence $3SAT(\varphi)=1$.
 :::
  
 
-## Quadratic equations
+### Quadratic equations
 
-Recall that in the _quadratic equation_ problem, the input is a list of $n$-variate polynomials $p_0,\ldots,p_{m-1}:\R^n \rightarrow \R$ that are all of [degree](https://en.wikipedia.org/wiki/Degree_of_a_polynomial) at most two (i.e., they are _quadratic_) and with integer coefficients. (The latter condition is for convenience and can be achieved by scaling.)
-The task is to find out whether there is a solution $x\in \R^n$ to the equations $p_0(x)=0$, $p_1(x)=0$, $\ldots$, $p_{m-1}(x)=0$.
+Now that we reduced $3SAT$ to $01EQ$, we can use this to reduce $3SAT$ to the _quadratic equations_
+problem.
+This is the function $QUADEQ$ in which the input is a  list of $n$-variate polynomials $p_0,\ldots,p_{m-1}:\R^n \rightarrow \R$ that are all of [degree](https://en.wikipedia.org/wiki/Degree_of_a_polynomial) at most two (i.e., they are _quadratic_) and with integer coefficients. (The latter condition is for convenience and can be achieved by scaling.)
+We define $QUADEQ(p_0,\ldots,p_{m-1})$ to equal $1$ if and only if  there is a solution $x\in \R^n$ to the equations $p_0(x)=0$, $p_1(x)=0$, $\ldots$, $p_{m-1}(x)=0$.
 
 For example, the following is a set of quadratic equations over the variables $x_0,x_1,x_2$:
 $$
@@ -202,50 +262,30 @@ You can verify that $x \in \R^3$ satisfies this set of equations if and only if 
 
 
 
-We will show how to reduce 3SAT to the problem of Quadratic Equations.
 
 > ### {.theorem title="Hardness of quadratic equations" #quadeq-thm}
 $$3SAT \leq_p QUADEQ$$
-where $3SAT$ is the function that maps a 3SAT formula $\varphi$ to $1$ if it is satisfiable and to $0$ otherwise, and $QUADEQ$ is the function that maps a set $E$ of quadratic equations over $\{0,1\}^n$ to $1$ it has a solution and to $0$ otherwise.
+
 
 > ### {.proofidea data-ref="quadeq-thm"}
-At the end of the day, a 3SAT formula can be thought of as a list of equations on some variables $x_0,\ldots,x_{n-1}$.
-Namely, the equations are that each of the $x_i$'s should be equal to either $0$ or $1$, and that the variables should satisfy some set of constraints which corresponds to the OR of three variables or their negation.
-To show that $3SAT \leq_p QUADEQ$ we need to give a polynomial-time reduction that maps a 3SAT formula $\varphi$ into a set of quadratic equations $E$ such that $E$ has a solution if and only if $\varphi$ is satisfiable.
-The idea is that we can transform a 3SAT formula $\varphi$ first to a set of _cubic_ equations by mapping every constraint of the form $(x_{12} \vee  \overline{x}_{15} \vee x_{24})$ into an equation of the form $(1-x_{12})x_{15}(1-x_{24})=0$. We can then turn this into a _quadratic equation_ by mapping any cubic equation of the form $x_ix_jx_k =0$ into the two quadratic equations $y_{i,j}=x_ix_j$ and $y_{i,j}x_k=0$.
+Using the transitivity of reductions ([transitiveex](){.ref}), it is enough to show that $01EQ \leq_p QUADEQ$, but this follows since we can phrase the equation $x_i \in \{0,1\}$ as the quadratic constraint $x_i^2 - x_i = 0$. The __takeaway technique__ of this reduction is that we can use _nonlinearity_ to force continuous variables (e.g., variables taking values in $\R$) to be discrete (e.g., take values in $\{0,1\}$).
 
 ::: {.proof data-ref="quadeq-thm"}
-To prove [quadeq-thm](){.ref} we need to give a   polynomial-time transformation of every 3SAT formula $\varphi$ into a set of quadratic equations $E$, and prove that $3SAT(\varphi)=QUADEQ(E)$.
+By [tsattozoeqthm](){.ref} and [transitiveex](){.ref}, it is sufficient to prove that $01EQ \leq_p QUADEQ$.
+Let $E$ be an instance of $01EQ$ with variables $x_0,\ldots,x_{m-1}$.
+We define $R(E)$ to be the set of quadratic equations $E'$ that is obtained by taking the linear equations in $E$ and adding to them the $n$ quadratic equations $x_i^2 - x_i = 0$ for all $i\in [n]$.
+Clearly the map $E \mapsto E'$ can be computed in polynomial time.
+We claim that $01EQ(E)=1$ if and only if $QUADEQ(E')=1$.
+Indeed, the only difference between the two instances is that:
 
-We now describe the transformation of a formula $\varphi$ to equations $E$ and show the completeness and soundness conditions.
-Recall that a _3SAT formula_ $\varphi$ is a formula such as $(x_{17} \vee \overline{x}_{101} \vee x_{57}) \wedge ( x_{18} \vee \overline{x}_{19} \vee \overline{x}_{101}) \wedge \cdots$.
-That is, $\varphi$ is composed of the AND of $m$ _3SAT clauses_ where a 3SAT clause is the OR of three variables or their negation.
-A _quadratic equations_ instance $E$ is composed of a list of equations, each of involving a sum of variables or their products, such as $x_{19}x_{52} - x_{12} + 2x_{33} = 2$, etc.. We will include the constraints $x_i^2-x_i=0$ for every $i\in [n]$ in our equations, which means that we can restrict attention to assignments where $x_i \in \{0,1\}$ for every $i$.
+* In the $01EQ$ instance $E$, the equations are over variables $x_0,\ldots,x_{n-1}$ in $\{0,1\}$.
 
-There is a natural way to map a 3SAT instance into a set of _cubic_ equations $E'$, and that is to map a clause such as $(x_{17} \vee \overline{x}_{101} \vee x_{57})$ (which is equivalent to the negation of $\overline{x}_{17} \wedge x_{101} \wedge \overline{x}_{57}$) to the equation $(1-x_{17})x_{101}(1-x_{57})=0$.
-Therefore, we can map a formula $\varphi$  with $n$ variables $m$ clauses into a set $E'$ of $m+n$ cubic equations on $n$ variables (that is, one equation per each clause, plus one equation of the form $x_i^2-x_i=0$ for each variable to ensure that its value is in $\{0,1\}$) such that every assignment $a\in \{0,1\}^n$ to the $n$ variables satisfies the original formula if and only if it satisfies the equations of $E'$.
+* In the $QUADEQ$ instance $E'$, the equations are overvariables $x_0,\ldots,x_{n-1} \in \R$ but we have the extra constraints $x_i^2 - x_i = 0$ for all $i\in [n]$.
 
-
-To make the equations _quadratic_ we introduce for every two distinct $i,j \in [n]$  a variable $y_{i,j}$ and include the constraint $y_{i,j}-x_ix_j=0$ in the equations.
-This is a quadratic equation that ensures that $y_{i,j}=x_ix_j$ for every such $i,j\in [n]$.
-Now we can turn any cubic equation in the $x$'s into a quadratic equation in the $x$ and $y$ variables.
-For example, we can "open up the parentheses" of an equation such as $(1-x_{17})x_{101}(1-x_{57})=0$ to $x_{101} -x_{17}x_{101}-x_{101}x_{57}+x_{17}x_{101}x_{57}=0$.
-We can now replace the cubic term $x_{17}x_{101}x_{57}$ with the quadratic term $y_{17,101}x_{57}$.
-This can be done for every cubic equation in the same way, replacing any cubic term $x_ix_jx_k$ with the term $y_{i,j}x_k$.
-The end result will be a set of $m+n+\binom{n}{2}$ equations (one equation per clause, one equation per variable to ensure $x_i^2-x_i=0$, and one equation per pair $i,j$ to ensure $y_{i,j}=x_ix_j=0$) on the $n + \binom{n}{2}$ variables $x_0,\ldots,x_{n-1}$ and $y_{i,j}$ for all pairs of distinct variables $i,j$.^[$\binom{n}{2} = \tfrac{1}{2}n(n-1)$ is the number of all size two subsets of $[n]$. We consider $\{i,j\}$ to be the same as $\{j,i\}$ since $x_ix_j = x_jx_i$ for every $i,j$.]
-
-To complete the proof we need to show that if we transform $\varphi$ to $E$ in this way then the 3SAT formula $\varphi$ is satisfiable if and only if the equations $E$ have a solution.
-This is essentially immediate from the construction, but as this is our first reduction, we spell this out fully:
-
-* __Completeness:__ We claim that if  $\varphi$ is satisfiable then the equations $E$ have a solution. To prove this we need to show how to transform a satisfying assignment $a\in \{0,1\}^n$ to the variables of $\varphi$ (that is, $a_i$ is the value assigned to $x_i$) to a solution to the variables of $E$. Specifically, if $a\in \{0,1\}^n$ is such an assignment then by design $a$ satisfies all the _cubic_ equations $E'$ that we constructed above. But then, if we assign to the $n+\binom{n}{2}$ variables the values $a_0,\ldots,a_{n-1}$ and $\{ a_ia_j \}$ for all $\{i,j\} \subseteq [n]$ then by construction this will satisfy all the quadratic equations of $E$ as well.
-
-* __Soundness:__ We claim that if the equations $E$ have a solution then $\varphi$ is satisfiable. Indeed, suppose that $z \in \R^{n + \binom{n}{2}}$ is a solution to the equations $E$. A priori $z$ could be any vector of $n+ \binom{n}{2}$ numbers, but the fact that $E$ contains the equations $x_i^2 - x_i =0$ and $y_{i,j} - x_ix_j = 0$ means that if $z$ satisfies these equations then the values it assigns to $x_i$ must be in $\{0,1\}$ for every $i$, and the value it assigns to $y_{i,j}$ must be $x_ix_j$ for every $\{i,j\} \subseteq [n]$.
-Therefore by the way we constructed our equations, the value assigned $x$ must be a solution of the original cubic equations $E'$ and hence also of the original formula $\varphi$, which in particular implies $\varphi$ is satisfiable.
-
-This reduction can be easily implemented in about a dozen lines of Python or any other programming language, see [sattoqefig](){.ref}.
+Since for every $a\in \R$, $a^2 - a = 0$ if and only if $a \in \{0,1\}$, the two sets of equations are equivalent and $01EQ(E)=QUADEQ(E')$ which is what we wanted to prove.
 :::
 
-![Reducing 3SAT to satisfiability of quadratic equations. On the righthand side is Python code implementing the reduction of [quadeq-thm](){.ref} and on the lefthand side is the output of this reduction on an example 3SAT instance. ](../figure/SAT2QE.png){#sattoqefig .margin  }
+
 
 
 
@@ -255,22 +295,24 @@ For a graph $G=(V,E)$, an [independent set](https://en.wikipedia.org/wiki/Indepe
 Every "singleton" (set consisting of a single vertex) is trivially an independent set, but finding larger independent sets can be challenging.
 The _maximum independent set_ problem (henceforth simply "independent set") is the task of finding the largest independent set in the graph.
 The independent set problem is naturally related to _scheduling problems_: if we put an edge between two conflicting tasks,  then an independent set corresponds to a set of tasks that can all be scheduled together without conflicts.
-But it also arises in very different settings, including trying to find structure in [protein-protein interaction graphs](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3919085/).
+The independent set problem has been studied in a variety of settings, including for example in the case of algorithms for finding structure in [protein-protein interaction graphs](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3919085/).
 
 
 
 
-To phrase independent set as a decision problem, we think of it as a function $ISET:\{0,1\}^* \rightarrow \{0,1\}$ that on input a graph $G$ and a number $k$ outputs $1$ if and only if the graph $G$ contains an independent set of size at least $k$.
-We will now reduce 3SAT to Independent set.
+As mentioned in [formaldefdecisionexamplessec](){.ref}, we think of the independent set problem as the function  $ISET:\{0,1\}^* \rightarrow \{0,1\}$ that on input a graph $G$ and a number $k$ outputs $1$ if and only if the graph $G$ contains an independent set of size at least $k$.
+We  now reduce 3SAT to Independent set.
 
 > ### {.theorem title="Hardness of Independent Set" #isetnpc}
 $3SAT \leq_p ISET$.
 
 > ### {.proofidea data-ref="isetnpc"}
-The idea is that finding a satisfying assignment to a 3SAT formula corresponds to satisfying many local constraints without creating any conflicts. One can think of "$x_{17}=0$"  and "$x_{17}=1$" as two conflicting events, and of the constraints $x_{17} \vee \overline{x}_5 \vee x_9$ as creating a conflict between the events "$x_{17}=0$", "$x_5=1$" and "$x_9=0$", saying that these three cannot simultaneosly co-occur. Using these ideas, we can we can think of solving a 3SAT problem as trying to schedule non conflicting events, though the devil is, as usual, in the details.
+The idea is that finding a satisfying assignment to a 3SAT formula corresponds to satisfying many local constraints without creating any conflicts. One can think of "$x_{17}=0$"  and "$x_{17}=1$" as two conflicting events, and of the constraints $x_{17} \vee \overline{x}_5 \vee x_9$ as creating a conflict between the events "$x_{17}=0$", "$x_5=1$" and "$x_9=0$", saying that these three cannot simultaneosly co-occur. Using these ideas, we can we can think of solving a 3SAT problem as trying to schedule non conflicting events, though the devil is, as usual, in the details. The __takeaway technique__ here is to map each clause of the original formula into a _gadget_ which is a small subgraph (or more generally "subinstance") satisfying some convenient properties. We will see these "gadgets" used time and again in the construction of polynomial-time reductions.
+
+![An example of the reduction of $3SAT$ to $ISET$ for the case the original input formula is $\varphi = (x_0 \vee \overline{x}_1 \vee x_2) \wedge (\overline{x}_0 \vee x_1 \vee \overline{x}_2) \wedge (x_1 \vee x_2 \vee \overline{x}_3)$. We map each clause of $\varphi$ to a triangle of three vertices, each tagged above with "$x_i = 0$" or "$x_i=1$" depending on the value of $x_i$ that would satisfy the particular literal. We put an edge between every two literals that are _conflicting_ (i.e., tagged with "$x_i=0$" and "$x_i=1$" respectively).](../figure/example3sat2iset.png){#example3sat2isetfig .margin }
 
 ::: {.proof data-ref="isetnpc"}
-Given a 3SAT formula $\varphi$ on $n$ variables and with $m$ clauses, we will create a graph $G$ with $3m$ vertices as follows: (see [threesattoisfig](){.ref} for an example)
+Given a 3SAT formula $\varphi$ on $n$ variables and with $m$ clauses, we will create a graph $G$ with $3m$ vertices as follows. (See [example3sat2isetfig](){.ref} for an example and [threesattoisfig](){.ref} for Python code.)
 
 
 
@@ -309,7 +351,7 @@ This completes the proof of [isetnpc](){.ref}
 :::
 
 
-![The reduction of 3SAT to Independent Set. On the righthand side is _Python_ code that implements this reduction. On the lefthand side is a sample output of the reduction. We use black for the "triangle edges" and red for the "conflict edges". Note that the satisfying assignment $x^* = 0110$ corresponds to the independent set $(0,\neg x_3)$, $(1, \neg x_0)$, $(2,x_2)$.](../figure/3sat2ISreduction.png){#threesattoisfig .margin  }
+![The reduction of 3SAT to Independent Set. On the righthand side is _Python_ code that implements this reduction. On the lefthand side is a sample output of the reduction. We use black for the "triangle edges" and red for the "conflict edges". Note that the satisfying assignment $x^* = 0110$ corresponds to the independent set $(0,\neg x_3)$, $(1, \neg x_0)$, $(2,x_2)$.](../figure/3sat2ISreduction.png){#threesattoisfig   }
 
 
 
@@ -334,15 +376,20 @@ Moreover, since $\overline{\overline{G}}=G$ this yields a reduction in the other
 
 ## Reducing Independent Set to Maximum Cut
 
+We now show that the independent set problem reduces to the _maximum cut_ (or "max cut") problem, modeled as the function $MAXCUT$ that on input a pair $(G,k)$ outputs $1$ iff $G$ contains a cut of at least $k$ edges.
+Since both are graph problems, a reduction from  independent set to max cut maps one graph into the other, but as we will see the output graph does not have to have the same vertices or edges as the input graph.
+
 > ### {.theorem title="Hardness of Max Cut" #isettomaxcut}
 $ISET \leq_p MAXCUT$
 
 > ### {.proofidea data-ref="isettomaxcut"}
-We will map a graph $G$ into a graph $H$ such that a large independent set in $G$ becomes a partition cutting many edges in $H$. We can think of a cut in $H$ as coloring each vertex either "blue" or  "red". We will add a special "source" vertex $s^*$, connect it to all other vertices, and assume without loss of generality that it is colored blue. Hence the more vertices we color red, the more edges from $s^*$ we cut. Now, for every edge $u,v$  in the original graph $G$ we will add a special "gadget" which will be a small subgraph that involves $u$,$v$, the source $s^*$, and two other additional vertices. We design the gadget in a way so that if the red vertices are not an independent set in $G$ then the corresponding cut in $H$ will be "penalized" in the sense that it would not cut as many edges. Once we set for ourselves this objective, it is not hard to find a gadget that achieves it$-$ see the proof below.
+We will map a graph $G$ into a graph $H$ such that a large independent set in $G$ becomes a partition cutting many edges in $H$. We can think of a cut in $H$ as coloring each vertex either "blue" or  "red". We will add a special "source" vertex $s^*$, connect it to all other vertices, and assume without loss of generality that it is colored blue. Hence the more vertices we color red, the more edges from $s^*$ we cut. Now, for every edge $u,v$  in the original graph $G$ we will add a special "gadget" which will be a small subgraph that involves $u$,$v$, the source $s^*$, and two other additional vertices. We design the gadget in a way so that if the red vertices are not an independent set in $G$ then the corresponding cut in $H$ will be "penalized" in the sense that it would not cut as many edges. Once we set for ourselves this objective, it is not hard to find a gadget that achieves it$-$ see the proof below. Once again the __takeaway technique__ is to use (this time a slightly more clever) gadget. 
 
+![In the reduction of $ISET$ to $MAXCUT$ we map an $n$-vertex $m$-edge graph $G$ into the $n+2m+1$ vertex and $n+5m$ edge graph $H$ as follows. The graph $H$ contains a special "source" vertex $s^*$,$n$ vertices $v_0,\ldots,v_{n-1}$, and $2m$ vertices $e_0^0,e_0^1,\ldots,e_{m-1}^0,e_{m-1}^1$ with each pair corresponding to an edge of $G$. We put an edge between $s^*$ and $v_i$ for every $i\in [n]$, and if the $t$-th edge of $G$ was $(v_i,v_j)$ then we add the five edges $(s^*,e_t^0),(s^*,e_t^1),(v_i,e_t^0),(v_j,e_t^1),(e_t^0,e_t^1)$. The intent is that if cut at most one of $v_i,v_j$ from $s^*$ then we'll be able to cut $4$ out of these five edges, while if we cut both $v_i$ and $v_j$ from $s^*$ then we'll be able to cut at most three of them.](../figure/iset2maxcutoverview.png){#iset2maxcutoverviewfig}
 
 ::: {.proof data-ref="isettomaxcut"}
-We will transform a graph $G$ of $n$ vertices and $m$ edges into a graph $H$ of $n+1+2m$ vertices and $n+5m$ edges in the following way:  the graph $H$ will contain all vertices of $G$ (though not the edges between them!) and in addition to that will contain: \
+We will transform a graph $G$ of $n$ vertices and $m$ edges into a graph $H$ of $n+1+2m$ vertices and $n+5m$ edges in the following way (see also [iset2maxcutoverviewfig](){.ref}).
+The graph $H$ contains all vertices of $G$ (though not the edges between them!) and in addition $H$ also has: \
 * A special vertex $s^*$ that is connected to all the vertices of $G$ \
 * For every edge $e=\{u,v\} \in E(G)$, two vertices $e_0,e_1$ such that $e_0$ is connected to $u$ and $e_1$ is connected to $v$, and moreover we add the edges $\{e_0,e_1 \},\{ e_0,s^* \},\{e_1,s^*\}$ to $H$.
 
@@ -352,18 +399,18 @@ We will transform a graph $G$ of $n$ vertices and $m$ edges into a graph $H$ of 
 __Part 1: Completeness.__ If $I$ is an independent $k$-sized set in $G$, then we can define $S$ to be a cut in $H$ of the following form: we let $S$ contain all the vertices of $I$ and for every edge $e=\{u,v \} \in E(G)$, if $u\in I$ and $v\not\in I$ then we add $e_1$ to $S$; if $u\not\in I$ and $v\in I$ then we add $e_0$ to $S$; and if $u\not\in I$ and $v\not\in I$ then we add both $e_0$ and $e_1$ to $S$. (We don't need to worry about the case that both $u$ and $v$ are in $I$ since it is an independent set.) We can verify that in all cases the number of edges from $S$ to its complement in the gadget corresponding to $e$ will be four (see [ISETtoMAXCUTfig](){.ref}). Since $s^*$ is not in $S$, we also have $k$ edges from $s^*$ to $I$, for a total of $k+4m$ edges.
 
 
-__Part 2: Soundness.__ Suppose that $S$ is a cut in $H$ that cuts at least $C=k+4m$ edges. We can assume that $s^*$ is not in $S$ (otherwise we can "flip" $S$ to its complement $\overline{S}$, since this does not change the size of the cut). Now let $I$ be the set of vertices in $S$ that correspond to the original vertices of $G$. If $I$ was an independent set of size $k$ then would be done. This might not always be the case but we will see that if $I$ is not an independent set then its also larger than $k$. Specifically, we define $m_{in}=|E(I,I)|$ be the set of edges in $G$ that are contained in $I$ and let $m_{out}=m-m_{in}$ (i.e., if $I$ is an independent set then $m_{in}=0$ and $m_{out}=m$). By the properties of our gadget we know that for every edge $\{u,v\}$ of $G$, we can cut at most three edges when both $u$ and $v$ are in $S$, and at most four edges otherwise. Hence the number $C$ of edges cut by $S$   satisfies $C \leq |I| + 3m_{in}+4m_{out} = |I|+ 3m_{in} + 4(m-m_{in})=|I|+4m-m_{in}$. Since $C = k +4m$ we get that $|I|-m_{in} \geq k$. Now we can transform $I$ into an independent set $I'$ by going over every one of the $m_{in}$ edges that are inside $I$ and removing one of the endpoints of the edge from it. The resulting set $I'$ is an independent set in the graph $G$ of size $|I|-m_{in} \geq k$ and so this concludes the proof of the soundness condition.
+__Part 2: Soundness.__ Suppose that $S$ is a cut in $H$ that cuts at least $C=k+4m$ edges. We can assume that $s^*$ is not in $S$ (otherwise we can "flip" $S$ to its complement $\overline{S}$, since this does not change the size of the cut). Now let $I$ be the set of vertices in $S$ that correspond to the original vertices of $G$. If $I$ was an independent set of size $k$ then would be done. This might not always be the case but we will see that if $I$ is not an independent set then it's also larger than $k$. Specifically, we define $m_{in}=|E(I,I)|$ be the set of edges in $G$ that are contained in $I$ and let $m_{out}=m-m_{in}$ (i.e., if $I$ is an independent set then $m_{in}=0$ and $m_{out}=m$). By the properties of our gadget we know that for every edge $\{u,v\}$ of $G$, we can cut at most three edges when both $u$ and $v$ are in $S$, and at most four edges otherwise. Hence the number $C$ of edges cut by $S$   satisfies $C \leq |I| + 3m_{in}+4m_{out} = |I|+ 3m_{in} + 4(m-m_{in})=|I|+4m-m_{in}$. Since $C = k +4m$ we get that $|I|-m_{in} \geq k$. Now we can transform $I$ into an independent set $I'$ by going over every one of the $m_{in}$ edges that are inside $I$ and removing one of the endpoints of the edge from it. The resulting set $I'$ is an independent set in the graph $G$ of size $|I|-m_{in} \geq k$ and so this concludes the proof of the soundness condition.
 :::
 
 
-![In the reduction of independent set to max cut, we have a "gadget" corresponding to every edge $e=\{u,v\}$ in the original graph. If we think of the side of the cut containing the special source vertex $s^*$ as "blue" and the other side as "red", then the leftmost and center figures show that if $u$ and $v$ are not both red then we can cut four edges from the gadget. In contrast, by enumerating all possibilities one can verify that if both $u$ and $v$ are red, then no matter how we color the intermediate vertices $e_0,e_1$, we will cut at most three edges from the gadget.  ](../figure/ISETtoMAXCUT.png){#ISETtoMAXCUTfig .margin  }
+![In the reduction of independent set to max cut, for every $t\in [m]$, we have a "gadget" corresponding to the $t$-th edge $e= \{ v_i,v_j\}$ in the original graph. If we think of the side of the cut containing the special source vertex $s^*$ as "white" and the other side as "blue", then the leftmost and center figures show that if $v_i$ and $v_j$ are not both blue then we can cut four edges from the gadget. In contrast, by enumerating all possibilities one can verify that if both $u$ and $v$ are blue, then no matter how we color the intermediate vertices $e_t^0,e_t^1$, we will cut at most three edges from the gadget.  ](../figure/iset2maxcutgadgetanalysis.png){#ISETtoMAXCUTfig .margin  }
 
 
-![The reduction of independent set to max cut. On the righthand side is Python code implementing the reduction. On the lefthand side is an example output of the reduction where we apply it to the independent set instance that is obtained by running the reduction of [isetnpc](){.ref} on the 3CNF formula $(x_0 \vee \overline{x}_3 \vee x_2) \wedge (\overline{x}_0 \vee x_1 \vee \overline{x}_2) \wedge (\overline{x}_1 \vee x_2 \vee x_3)$.](../figure/is2maxcut.png){#isettomaxcutcodefig .margin  }
+![The reduction of independent set to max cut. On the righthand side is Python code implementing the reduction. On the lefthand side is an example output of the reduction where we apply it to the independent set instance that is obtained by running the reduction of [isetnpc](){.ref} on the 3CNF formula $(x_0 \vee \overline{x}_3 \vee x_2) \wedge (\overline{x}_0 \vee x_1 \vee \overline{x}_2) \wedge (\overline{x}_1 \vee x_2 \vee x_3)$.](../figure/is2maxcut.png){#isettomaxcutcodefig   }
 
 ## Reducing 3SAT to Longest Path
 
-^[This section is still a little messy, feel free to skip it or just read it without going into the proof details]
+__Note:__ This section is still a little messy, feel free to skip it or just read it without going into the proof details. The proof appears in Sectoin 7.5 in Sipser's book.
 
 One of the most basic algorithms in Computer Science is Dijkstra's algorithm to find the _shortest path_ between two vertices.
 We now show that in contrast, an efficient algorithm for the _longest path_ problem would imply a polynomial-time algorithm for 3SAT.
@@ -415,11 +462,6 @@ But if we do that, then the only way if we are able to reach $t$ is if the paths
 
 ## Exercises
 
-^[TODO: Maybe mention either in exercise or in body of the lecture some NP hard results motivated by science. For example, shortest superstring that is motivated by genome sequencing, protein folding, maybe others.]
-
-
-> ### {.exercise title="Transitivity of reductions" #transitivity-reductions-ex}
-Prove that if $F \leq_p G$ and $G \leq_p H$ then $F \leq_p H$.
 
 
 ## Bibliographical notes {#reductionsbibnotes }

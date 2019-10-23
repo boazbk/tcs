@@ -550,7 +550,7 @@ MODANDJUMP(X_nonblank[i],X_nonblank[i])
 
 ::: { .pause }
 Working out the above two examples can go a long way towards understanding the NAND-TM language.
-See the [appendix](https://nbviewer.jupyter.org/github/boazbk/tcscode/blob/master/appendix%5FNAND%5Fspecs.ipynb) and our [GitHub repository](https://github.com/boazbk/tcscode) for a full specification of the NAND-TM language.
+See the [appendix](http://tiny.cc/introtcsappendix) and our [GitHub repository](https://github.com/boazbk/tcscode) for a full specification of the NAND-TM language.
 :::
 
 
@@ -565,7 +565,7 @@ Nevertheless, this is an important result, and the first of many other such equi
 For every $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND-TM program $P$ if and only if there is a Turing Machine $M$ that computes $F$.
 
 ::: {.proofidea data-ref="TM-equiv-thm"}
-To prove such an equivalence theorem, we need to show two directions. We need to be able to __(1)__ transform a Turing machine $M$ to a NAND-TM program $P$ that computes the same function as $P$  and __(2)__ transform a NAND-TM program $P$ into a Turing machine $M$ that computes the same function as $P$.
+To prove such an equivalence theorem, we need to show two directions. We need to be able to __(1)__ transform a Turing machine $M$ to a NAND-TM program $P$ that computes the same function as $M$  and __(2)__ transform a NAND-TM program $P$ into a Turing machine $M$ that computes the same function as $P$.
 
 The idea of the proof is illustrated in [tmvsnandppfig](){.ref}.
 To show __(1)__, given a Turing machine $M$, we will create a NAND-TM program $P$ that will have an array `Tape` for the tape of $M$ and scalar (i.e., non array) variable(s) `state` for the state of $M$.
@@ -943,7 +943,7 @@ Turing's life is the subject of a [great book](https://goo.gl/3GdFdp) and a [med
 
 
 
-Sipser's text [@SipserBook] defines a  Turing machine is as a _seven tuple_ consisting of the state space, input alphabet, tape alphabet, transition function, starting state, accpeting state, and rejecting state.
+Sipser's text [@SipserBook] defines a Turing machine as a _seven tuple_ consisting of the state space, input alphabet, tape alphabet, transition function, starting state, accpeting state, and rejecting state.
 Superficially this looks like a very different definition than [TM-def](){.ref} but it is simply a different representation of the same concept, just as a graph can be represented in either adjacency list or adjacency matrix form.
 
 One difference is that Sipser considers a  general set of states $Q$ that is not necessarily of the form $Q=\{0,1,2,\ldots, k-1\}$ for some natural number $k>0$.

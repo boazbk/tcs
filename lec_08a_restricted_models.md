@@ -22,6 +22,11 @@ The flip side of this is that for all these models,  Rice's theorem ([rice-thm](
 The uncomputability of halting and other semantic specification problems for Turing equivalent models motivates __restricted computational models__ that are __(a)__ powerful enough to capture a set of functions useful for certain applications but __(b)__ weak enough that we can still solve semantic specification problems on them.
 In this chapter we discuss several such examples.
 
+::: { .bigidea #restrictedmodel}
+We can use _restricted computational models_ to bypass limitations such as uncomputability of the Halting problem and Rice's Theorem. Such models can compute only a restricted subclass of functions, but allow to answer at least some _semantic questions_ on programs.
+:::
+
+
 ![Some restricted computational models we study in this chapter. We show two equivalent models of computation: regular expressions and deterministic finite automata. We show a more powerful model: context-free grammars. We also present tools to demonstrate that some functions _can not_ be computed in these models. ](../figure/restrictedoverview.png){#restrictedmodelsoverviewfig}
 
 
@@ -34,6 +39,7 @@ The [following webpage](https://goo.gl/xRXq7p) lists several examples of formali
 Turing completeness is not always a good thing, as it means that such formalisms can give rise to arbitrarily complex behavior.
 For example, the postscript format (a precursor of PDF) is a Turing-complete programming language meant to describe documents for printing.
 The expressive power of postscript can allow for short descriptions of very complex images, but it also gave rise to some nasty surprises, such as the attacks described in  [this page](http://hacking-printers.net/wiki/index.php/PostScript) ranging from using infinite loops as a denial of service attack, to accessing the printer's file system.
+
 
 
 ::: {.example title="The DAO Hack" #ethereum}
@@ -1128,6 +1134,11 @@ One among the following two functions that map $\{0,1\}^*$ to $\{0,1\}$ can be c
 * $G(x) = 1$ if and only if $\sum_{i=0}^{|x|-1} x_i \geq |x|/4$ and $G(x)=0$ otherwise.
 :::
 
+::: {.exercise title="Non regularity" #nonregex}
+1. Prove that the following function $F:\{0,1\}^* \rightarrow \{0,1\}$ is not regular. For every $x\in \{0,1\}^*$, $F(x)=1$ iff $x$ is of the form $x=1^{3^i}$ for some $i>0$. 
+
+2.  Prove that the following function $F:\{0,1\}^* \rightarrow \{0,1\}$ is not regular. For every $x\in \{0,1\}^*$, $F(x)=1$ iff  $\sum_j x_j = 3^i$ for some $i>0$. 
+:::
 
 ::: {.exercise title="Closure properties of context-free functions" #closurecfgex}
 Suppose that $F,G:\{0,1\}^* \rightarrow \{0,1\}$ are context free. For each one of the following definitions of the function $H$, either prove that $H$ is always context free or give a counterexample for regular $F,G$ that would make $H$ not context free.

@@ -87,7 +87,7 @@ The NAND-RAM programming language extends NAND-TM by adding the following featur
 
 
 
-A full description of the NAND-RAM programming language is in the [appendix](https://nbviewer.jupyter.org/github/boazbk/tcscode/blob/master/appendix%5FNAND%5Fspecs.ipynb).
+A full description of the NAND-RAM programming language is in the [appendix](http://tiny.cc/introtcsappendix).
 However, the most important fact you need to know about NAND-RAM is that you actually don't need to know much about NAND-RAM at all, since it is equivalent in power to Turing machines: 
 
 
@@ -295,7 +295,7 @@ When one wants to produce a device that executes programs, it is convenient to d
 ![By having the two equivalent languages NAND-TM and NAND-RAM, we can "have our cake and eat it too", using NAND-TM when we want to prove that programs _can't_ do something, and using NAND-RAM or other high level languages when we want to prove that programs _can_ do something.](../figure/have_your_cake_and_eat_it_too-img-intro.png){#cakefig .margin  }
 
 ::: { .bigidea #eatandhavecake }
-Using equivalence results such as those between Turing and RAM machines, we can "have our cake and eat it too".
+Using equivalence results such as those between Turing and RAM machines, we can _"have our cake and eat it too"_.
 
 We can use a simpler model such as Turing machines when we want to prove something _can't_ be done, and use a   feature-rich model such as RAM machines when we want to prove something _can_ be done.
 :::
@@ -516,8 +516,10 @@ Such a snapshot needs to encode the following components:
 The precise details of how we encode a configuration are not important, but we do want to record the following simple fact:
 
 > ### {.lemma #nextstepfunctionlem}
-Let $M$ be a Turing machine and let $NEXT_M:\overline{\Sigma}^* \rightarrow \overline{\Sigma}^*$ be the function that maps a configuration of $M$ to the configuration at the next step of the execution. Then for every $i \in \N$, the value of $NEXT_M(\alpha)_i$ only depends on the coordinates $\alpha_{i-1},\alpha_i,\alpha_{i+1}$.^[For simplicity of notation and of phrasing this lemma, we use the convention that if $i$ is "out of bounds", such as $i<0$ or $i>|\alpha|$, then we assume that $\alpha_i = (\varnothing,\cdot)$.]
+Let $M$ be a Turing machine and let $NEXT_M:\overline{\Sigma}^* \rightarrow \overline{\Sigma}^*$ be the function that maps a configuration of $M$ to the configuration at the next step of the execution. Then for every $i \in \N$, the value of $NEXT_M(\alpha)_i$ only depends on the coordinates $\alpha_{i-1},\alpha_i,\alpha_{i+1}$.
 
+
+(For simplicity of notation,  above we use the convention that if $i$ is "out of bounds", such as $i<0$ or $i>|\alpha|$, then we assume that $\alpha_i = (\varnothing,\cdot)$.)
 We leave proving [nextstepfunctionlem](){.ref} as [nextstepfunctionlemex](){.ref}.
 The idea behind the proof is simple: if the head is neither in position $i$ nor positions $i-1$ and $i+1$, then the next-step configuration at $i$ will be the same as it was before.
 Otherwise, we can "read off" the state of the Turing machine and the value of the tape at the head location from the configuration at $i$ or one of its neighbors and use that to update what the new state at $i$ should be.
@@ -526,9 +528,9 @@ Completing the full proof is not hard, but doing it is a great way to ensure tha
 __Completing the proof of  [onedimcathm](){.ref}.__ We can now restate [onedimcathm](){.ref} more formally, and complete its proof:
 
 ::: {.theorem title="One dimensional automata are Turing complete (formal statement)" #onedimcathmformal}
-For every Turing Machine $M$, there is a one-dimensional cellular automaton $r$ over the alphabet $\overline{\Sigma}^*$  such that
-$$E \left( NEXT_M(\alpha) \right)  = NEXT_r \left( E(\alpha) \right)$$
-for every configuration $\alpha \in \overline{\Sigma^*}$ of $M$, where we denote by $E(\alpha)$ the natural extension of $\alpha$ to a configuration of $r$ obtained by defining $E(\alpha)_i = \alpha_i$ for every $i\in\{0,1, \ldots, |\alpha|-1 \}$ and $E(\alpha)_j = \varnothing$ for every $j$ such that $j<0$ or $j\geq |\alpha|$.
+For every Turing Machine $M$, if we denote by $\overline{\Sigma}$ the alphabet of its configuration strings, then there is a one-dimensional cellular automaton $r$ over the alphabet $\overline{\Sigma}^*$  such that
+$$\left( NEXT_M(\alpha) \right)  = NEXT_r \left( \alpha \right)$$
+for every configuration $\alpha \in \overline{\Sigma}^*$ of $M$ (again using the convention that we consider $\alpha_i=\varnothing$ if $i$ is "out of bounds).
 :::
 
 ::: {.proof data-ref="onedimcathmformal"}

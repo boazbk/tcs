@@ -162,7 +162,7 @@ We have seen before that _every_ function mapping $\{0,1\}^n$ to $\{0,1\}$ can b
 [counting-lb](){.ref} shows that this is tight in the sense that some functions do require such an astronomical number of lines to compute.
 
 ::: { .bigidea #countinglb }
-Some functions  $f:\{0,1\}^n \rightarrow \{0,1\}$   _cannot_ be computed by a Boolean circuit using a fewer than exponential number of gates.
+Some functions  $f:\{0,1\}^n \rightarrow \{0,1\}$   _cannot_ be computed by a Boolean circuit using a fewer than exponential (in $n$) number of gates.
 :::
 
 In fact, as we explore in the exercises, this is the case for _most_ functions.
@@ -186,7 +186,7 @@ It turns out that we can use [counting-lb](){.ref} to show a more general result
 
 
 > ### {.theorem title="Size Hierarchy Theorem" #sizehiearchythm}
-For every sufficiently large $n$ and $10n < s < 0.1 2^n /n$,
+For every sufficiently large $n$ and $10n < s < 0.1 \cdot 2^n /n$,
 $$
 SIZE_n(s) \subsetneq SIZE_n(s+10n) \;.
 $$
@@ -781,7 +781,7 @@ For every $k \in \N$ and $x' \in \{0,1\}^k$, show that there is an $O(k)$ line N
 
 
 ::: {.exercise title="Counting lower bound for multibit functions" #countingmultibitex}
-Prove that there exist a number $\delta>0$ such that for every $n,m$ there exists a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that requires at least $\delta m \cdot 2^n / n$ NAND gates to compute. See footnote for hint.^[How many functions from $\{0,1\}^n$ to $\{0,1\}^m$ exist?]
+Prove that there exists a number $\delta>0$ such that for every $n,m$ there exists a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that requires at least $\delta m \cdot 2^n / n$ NAND gates to compute. See footnote for hint.^[How many functions from $\{0,1\}^n$ to $\{0,1\}^m$ exist?]
 :::
 
 ::: {.exercise title="Size hierarchy theorem for multibit functions" #sizehiearchyex}

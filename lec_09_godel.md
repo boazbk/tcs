@@ -32,7 +32,7 @@ We will actually start with the latter result, and then show the former.
 
 
 
-![Outline of the results of this chapter. One version of Gödel's Incompleteness Theorem is an immediate concsequence of the uncomputability of the Halting problem. To obtain the theorem as originally stated (for statements about the integers) we need to go through several intermediate results.](../figure/godelstructure.png){#godelstructurefig }
+![Outline of the results of this chapter. One version of Gödel's Incompleteness Theorem is an immediate concsequence of the uncomputability of the Halting problem. To obtain the theorem as originally stated (for statements about the integers) we first prove that the $QMS$ problem of determining truth of quantified statements involving both integers and strings is uncomputable. We do so using the notion of _Turing Machine configurations_ but there are alternative approaches to do so as well, see [alternativeproofs](){.ref}.](../figure/godelstructure.png){#godelstructurefig }
 
 
 
@@ -56,7 +56,7 @@ Alas, it turns out the results we've seen dealt a devastating blow to this progr
 > ### {.theorem title="Gödel's Incompleteness Theorem:  informal version" #godethmtakeone}
 For every sound proof system  $V$ for sufficiently rich mathematical statements, there is a mathematical statement that is _true_ but is not _provable_ in $V$.
 
-### Defining "Proof Systems"
+### Defining "Proof Systems" { #godelproofsystemssec }
 
 Before proving [godethmtakeone](){.ref}, we need to define  "proof systems" and even formally define the notion of a "mathematical statement".
 In geometry and other areas of mathematics, proof systems are often defined by starting with some basic assumptions or _axioms_ and then deriving more statements by using _inference rules_ such as the famous [Modus Ponens](https://en.wikipedia.org/wiki/Modus_ponens), but what axioms shall we use? What rules?
@@ -107,7 +107,7 @@ A _proof system_ for $\mathcal{T}$ is an algorithm $V$ that satisfies:
 
 2. _(Soundness)_ For every $x\not\in \mathcal{T}$ and $w\in \{0,1\}^*$, $V(x,w)=0$.
 
-A true statement $x\in mathcal{T}$ is _unprovable_ (with respect to $V$) if for every $w\in \{0,1\}^*$, $V(x,w)=0$.
+A true statement $x\in \mathcal{T}$ is _unprovable_ (with respect to $V$) if for every $w\in \{0,1\}^*$, $V(x,w)=0$.
 We say that $V$ is _complete_ if there does not exist a true statement $x$ that is unprovable with respect to $v$.
 :::
 
@@ -138,22 +138,23 @@ Assume for the sake of contradiction that there was such a proof system $V$. We 
 Our algorithm $A$ will will work as follows:
 
 
-::: {.algorithm title="Halting from proofs" #haltingfromproog}
-__Algorithm $A$:__
 
-* __Input:__ Turing Machine $M$
 
-* __Goal:__ Determine if $M$ halts on the input $0$.
+``` { .algorithm title="Halting from proofs" #haltingfromproog}
+INPUT: Turing Machine $M$
+OUTPUT:  $1$  $M$ -if halts on the input $0$;  $0$ otherwise.
 
-* __Assumption:__ We have access to a proof system $V$ such that for every statement $x$ of the form "Machine $M$ halts on $0$" or "Machine $M$ does not halt on $0$", there exists some string $w\in \{0,1\}^*$ such that $V(x,w)=1$ if and only if $x$  is true.
-
-__Operation:__
-
-* For $n=0,1,2,\ldots$:
-  - For $w\in \{0,1\}^n$:
-    - If $V(\text{"$M$ halts on $0$"},w)=1$ output $1$
-    - If $V(\text{"$M$ does not halt on $0$"},w)=1$ output $0$
-:::
+for{$n=1,2,3,\ldots$}
+    for{$w\in \{0,1\}^n$}
+       if{$V(\text{"$M$ halts on $0$"},w)=1$}
+         return $1$
+       endif
+       if{$V(\text{"$M$ does not halt on $0$"},w)=1$}
+         return $0$
+       endif
+    endfor
+endfor
+```
 
 
 If $M$ halts on $0$ then under our assumption there exists $w$ that proves this fact, and so when Algorithm $A$ reaches $n=|w|$ we will eventually find this $w$ and output $1$, unless we already halted before.
@@ -193,9 +194,10 @@ That is, if we formalize the statement $c^*$ that is true if and only if $V$ is 
 There is something "unsatisfying" about [godethmtakeone](){.ref}.
 Sure, it shows there are statements that are unprovable, but they don't feel like "real" statements about math.
 After all, they talk about _programs_ rather than numbers,  matrices, or derivatives, or whatever it is they teach in math courses.
-It turns out that we can get an analogous result for statements such as "there are no positive integers $x$ and $y$ such that $x^2 - 2 = y^7$", or "there are positive integers $x,y,z$ such that $x^2 + y^6 = z^{11}$" that only talk about _natural numbers_.^[I do not know if these statements are actually true or false, see [here](https://goo.gl/qsU9zy).]
+It turns out that we can get an analogous result for statements such as "there are no positive integers $x$ and $y$ such that $x^2 - 2 = y^7$", or "there are positive integers $x,y,z$ such that $x^2 + y^6 = z^{11}$" that only talk about _natural numbers_.
 It doesn't get much more "real math" than this.
 Indeed, the 19th century mathematician Leopold Kronecker famously said that "God made the integers, all else is the work of man."
+(By the way, the status of the above two statements is [unknown](https://goo.gl/qsU9zy).)
 
 
 To make this more precise, let us define the notion of _quantified integer statements_:
@@ -240,7 +242,8 @@ We will also allow ourselves the use of "macros": plugging in one quantified int
 
 
 Much of number theory is concerned with determining the truth of quantified integer statements.
-Since our experience has been that, given enough time (which could sometimes be several centuries)  humanity has managed to do so for the statements that it cared enough about, one could (as Hilbert did) hope that eventually we would be able to prove or disprove all such statements.
+Since our experience has been that, given enough time (which could sometimes be several centuries)  humanity has managed 
+to do so for the statements that it cared enough about, one could (as Hilbert did) hope that eventually we would be able to prove or disprove all such statements.
 Alas, this turns out to be impossible:
 
 
@@ -271,7 +274,7 @@ This follows in the same way that [godethmtakeone](){.ref} followed from the unc
 :::
 
 
-In the rest of this chapter, we will show the proof of [godelthmqis](){.ref}.
+In the rest of this chapter, we will show the proof of [godelthmqis](){.ref}, following the outline illustrated in [godelstructure](){.ref}.
 
 
 
@@ -285,11 +288,17 @@ During the Renaissance, Italian mathematicians discovered generalization of thes
 Many of the greatest minds of the 17th and 18th century, including Euler, Lagrange, Leibniz and Gauss worked on the problem of finding such a formula for _quintic_ equations to no avail, until in the 19th century Ruffini, Abel and Galois showed that no such formula exists, along the way giving birth to _group theory_.
 
 
+
 However, the fact that there is no closed-form formula does not mean we can not solve such equations.
 People have been solving higher degree equations numerically for ages.
 The Chinese manuscript [Jiuzhang Suanshu](https://en.wikipedia.org/wiki/The_Nine_Chapters_on_the_Mathematical_Art) from the first century mentions such approaches.
 Solving polynomial equations is by no means restricted only to ancient history or to students' homeworks.
 The [gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) method is the workhorse powering many of the machine learning tools that have revolutionized Computer Science over the last several years.
+
+
+![Diophantine equations such as finding a positive integer solution to
+the equation $a(a+b)(a+c)+b(b+a)(b+c)+c(c+a)(c+b)=4(a+b)(a+c)(b+c)$ (depicted more compactly and whimsically above) can be surprisingly difficult.
+There are many equations for which we do not know if they have a solution, and there is no algorithm to solve them in general. The smallest solution for this equation has $80$ digits! See this [Quora post](https://www.quora.com/How-do-you-find-the-positive-integer-solutions-to-frac-x-y+z-+-frac-y-z+x-+-frac-z-x+y-4) for more information, including the credits for this image.](../figure/elliptic_curve.png){#ellipticcurvefig .margin }
 
 But there are some equations that we simply do not know how to solve _by any means_.
 For example, it took more than 200 years until people succeeded in proving that the equation  $a^{11} + b^{11} = c^{11}$ has no solution in integers.^[This is a special case of what's known as  "Fermat's Last Theorem" which states that $a^n + b^n = c^n$ has no solution in integers for $n>2$. This was conjectured in 1637 by Pierre de Fermat but only proven by Andrew Wiles in 1991. The case $n=11$ (along with all other so called "regular prime exponents") was established by Kummer in 1850.]
@@ -313,37 +322,6 @@ In fact the number of variables can be reduced to nine, at the expense of the po
 The difficulty in finding a way to distinguish between "code" such as NAND-TM programs, and "static content" such as polynomials is just another manifestation of the phenomenon that _code_ is the same as _data_.
 While a fool-proof solution for distinguishing between the two is inherently impossible, finding heuristics that do a reasonable job keeps many firewall and anti-virus manufacturers very busy
 (and finding ways to bypass these tools keeps many hackers busy as well).
-:::
-
-## Digression: Uncomputability of the puzzle problem
-
-![In the _puzzle problem_, the input can be thought of as a finite collection $\Sigma$ of _types of puzzle pieces_ and the goal is to find out whether or not find a way to arrange pieces from these types in a rectangle. Formally, we model the input as a function $match:\Sigma^5 \rightarrow \{0,1\}$ that such that $match(mid,up,down,left,right)=1$ iff the piece $mid$ is compatible
-with the pieces $up$,$down$,$left$,$right$ in their respective positions. We assume $\Sigma$ contains a special symbol $\varnothing$ corresponding to having no piece, and an arrangement of puzzle pieces by an $(m-2)\times(n-2)$ rectangle is modeled by a string $x\in \Sigma^{m\cdot n}$ whose ``outer coordinates'' are $\emptyset$ and such that for every internal $i,j$ (i.e., $i\in \{1,\ldots, m-2 \}$ and $j\in \{1,\ldots,n-2\}$) $match(x_{i,j},x_{i-1,j},x_{i+1,j},x_{i,j-1},x_{i,j+1})=1$.](../figure/puzzleprob.png){#puzzleprobfig }
-
-To show the uncomputability of $QIS$, we will use as a stepping stone a problem that seems to have nothing to do with integer quantified statements. 
-This is the problem of determining, given a finite collection of types of "puzzle pieces", whether it is possible to put them together in a rectangle, see [puzzleprobfig](){.ref}.
-Formally, we think of such a collection as a finite set $\Sigma$. We model the criteria as to which pieces "fit together" by a pair of finite function $match_{\updownarrow}, match_{\leftrightarrow}:\Sigma^2 \rightarrow \{0,1\}$ such that a piece $a$ fits above a piece $b$ if and only if $match_{\updownarrow}(a,b)=1$ and a piece $c$ fits to the left of a piece $d$ if and only if $match_{\leftrightarrow}(c,d)=1$.
-To model the "straight edge" pieces that can be placed next to a "blank spot" we assume that $\Sigma$ contains the symbol $\varnothing$ and the matching functions are defined accordingly.
-A _square tiling_ of $\Sigma$ is an $m\times n$ long string $x \in \Sigma^{mn}$, such that for every $i\in \{1,\ldots,m-2 \}$ and $j\in \{1,\ldots,n-2 \}$, $match(x_{i,j},x_{i-1,j},x_{i+1,j},x_{i,j-1},x_{i,j+1})=1$ (i.e., every "internal pieve" fits in with the pieces adjacent to it).
-We also require all of the "outer pieces" (i.e., $x_{i,j}$ where $i\in \{0,m-1\}$ of $j\in \{0,n-1\}$) are "blank" or equal to $\varnothing$.
-
-
-The function $PUZZLE$ takes as input a string describing the set $\Sigma$ and the function $match$ and outputs $1$ if and only if there is some square tiling of $\Sigma$: some not all blank string $x\in \Sigma^{mn}$ satisfying the above condition.
-Since we all have solved puzzles since our childhood, this might not seem like such a hard problem, but in fact it turns out to be impossible to solve:
-
-> ### {.theorem title="Uncomputability of $PUZZLE$" #puzzleuncomp}
-$PUZZLE$ is uncomputable.
-
-> ### {.proofidea data-ref="puzzleuncomp"}
-The idea behind the proof is illustrated in [automatontopuzzlefig](){.ref}. 
-We use the halting problem for cellular automata, which is uncomputable since those can simulate Turing machines as per [onedimcathm](){.ref}.
-Given a cellular automaton $\mathcal{A}$ over alphabet $\Gamma$, we will define a puzzle where each piece corresponds to a triple $(a,b,c) \in \Gamma^3$. A piece $(a,b,c)$ will be compatible with a piece $(a',b',c')$
-
-![We reduce the task of determining whether an one dimensional cellular automaton halts to the task of determining whether a puzzle has a square tiling by mapping each cell of the automaton into a puzzle piece. A piece $\beta$ can fit under a piece $\alpha$ if and only if can be derived from $\alpha$ and its two neighbors under the automaton's rule $r$.](../figure/automatontopuzzle.png){#automatontopuzzlefig .margin}
-
-
-::: {.proof data-ref="puzzleuncomp"}
-TBD
 :::
 
 
@@ -374,16 +352,15 @@ Since quantified mixed statements are a more general concept than quantified int
 We define _quantified mixed statements_ as statements involving not just integers and the usual arithmetic operators, but also _string variables_ as well.
 
 
-> ### {.definition title="Quantified mixed statements" #QMS-def}
+::: {.definition title="Quantified mixed statements" #QMS-def}
 A _quantified mixed statement_ is a well-formed statement with no unbound variables involving integers, variables, the operators $>,<,\times,+,-,=$, the logical operations $\neg$ (NOT), $\wedge$ (AND), and $\vee$ (OR), as well as quantifiers of the form $\exists_{x\in\N}$, $\exists_{a\in\{0,1\}^*}$,  $\forall_{y\in\N}$, $\forall_{b\in\{0,1\}^*}$ where $x,y,a,b$ are variable names. These also include the operator $|a|$ which returns the length of a string valued variable $a$, as well as the operator $a_i$ where $a$ is a string-valued variable and $i$ is an integer valued expression which is true if $i$ is smaller than the length of $a$ and the $i^{th}$ coordinate of $a$ is $1$, and is false otherwise.
+:::
 
 For example, the true statement that for every string $a$ there is a string $b$ that corresponds to $a$ in reverse order can be phrased as the following quantified mixed statement
 $$
 \forall_{a\in\{0,1\}^*} \exists_{b\in \{0,1\}^*}  (|a|=|b|)
 \wedge (\forall_{i\in\N} i < |a| \Rightarrow (a_i \Leftrightarrow b_{|a|-i}) \;.
 $$
-
-
 
 Quantified mixed statements are more general than quantified integer statements, and so the following theorem is potentially easier to prove than [QIS-thm](){.ref}:
 
@@ -404,11 +381,11 @@ Since a program $P$ halts on input  $x$ if and only if there is a sequence of co
 
 
 ::: {.proof data-ref="QMS-thm"}
-The proof will be obtained by a reduction from the Halting problem.
+The proof is obtained by a reduction from the Halting problem.
 Specifically, we will use the notion of a _configuration_ of a Turing Machines ([configtmdef](){.ref}) that we have seen in the context of proving that one dimensional cellular automata are Turing complete.
 We need the following facts about configurations:
 
-* For every Turing Machine $P$, there is a finite alphabet $\Sigma$, and a _configuration_ of $P$ is a string $\alpha \in \Sigma^*$.
+* For every Turing Machine $M$, there is a finite alphabet $\Sigma$, and a _configuration_ of $M$ is a string $\alpha \in \Sigma^*$.
 
 
 * A configuration $\alpha$ encodes all the state of the program at a particular iteration, including the array, scalar, and index variables.
@@ -417,36 +394,46 @@ We need the following facts about configurations:
 
 * There are simple conditions to check whether a string $\alpha$ is a valid starting configuration corresponding to an input $x$, as well as to check whether a string $\alpha$ is an halting configuration. In particular these conditions can be phrased as quantified mixed statements.
 
-* A program $P$ halts on input $x$  if and only if there exists a sequence of configurations $H = (\alpha^0,\alpha^1,\ldots,\alpha^{T-1})$ such that __(i)__ $\alpha^0$ is a valid starting configuration of $P$ with input $x$, __(ii)__ $\alpha^{T-1}$ is a valid halting configuration of $P$, and __(iii)__ $\alpha^{i+1} = NEXT_P(\alpha^i)$ for every $i\in \{0,\ldots,T-2\}$.
+* A program $M$ halts on input $x$  if and only if there exists a sequence of configurations $H = (\alpha^0,\alpha^1,\ldots,\alpha^{T-1})$ such that __(i)__ $\alpha^0$ is a valid starting configuration of $M$ with input $x$, __(ii)__ $\alpha^{T-1}$ is a valid halting configuration of $P$, and __(iii)__ $\alpha^{i+1} = NEXT_P(\alpha^i)$ for every $i\in \{0,\ldots,T-2\}$.
 
-Let $U$ be a universal NAND-TM program. Such a program exists by  [universaltmthm](){.ref}. We define $HALT_U$  as the function such that $HALT_U(w)=1$ if and only if $U$ halts on the input $w$.
-We claim that the function $HALT_U$ is uncomputable.
-Indeed, for every NAND-TM program $P$ (which we identify with its representation as a string) and input $x\in \{0,1\}^*$ to $P$,  $HALT(P,x) = HALT_U(\langle P,x \rangle)$  where $\langle P,x \rangle$ is some encoding of the pair $(P,x)$ as a string.
-Hence if we could compute $HALT_U$ then we could compute $HALT$, contradicting [halt-thm](){.ref}.
 
-Let $\Sigma$ be the alphabet needed to encode configurations of $U$, and let $\ell = \ceil{\log (|\Sigma|+1)}$.
-Then we can encode any symbol in $\Sigma \cup \{ ; \}$ (where "$;$" is some separator symbol we'll use) as a string in $\{0,1\}^\ell$, and so in particular can encode a sequence $\alpha^0;\alpha^1; \cdots ; \alpha^{T}$ of configurations of $U$ as a single binary string which we'll also name as $H$.
-Given any input $w\in \{0,1\}^*$, we will create a mixed integer statement $\varphi_w$ that will have the following form:
+We can encode such a sequence $H$ of configuration as a binary string.
+For concreteness,  we let $\ell = \lceil \log (|\Sigma|+1) \rceil$ and encode each symbol $\sigma$ in $\Sigma \cup \{ ";" \}$ by a string in $\{0,1\}^\ell$.
+We use "$;$" as a  "separator" symbol, and so encode $H = (\alpha^0,\alpha^1,\ldots,\alpha^{T-1})$ as the concatenation of the encodings of each condiguration, using "$;$" to separate the encoding of $\alpha^i$ and $\alpha^{i+1}$
+for every $i\in [T]$.
+In particular for every Turing Machine $M$, 
+$M$ halts on the input $0$ if and only if the following  statement $\varphi_M$ is true
 
 $$
-\varphi_w = \exists_{H \in \{0,1\}^*} \text{$H$ encodes a valid sequence of configurations of a halting computation of $U$ on $w$}
+\exists_{H \in \{0,1\}^*} \text{$H$ encodes halting configuration sequence starting with input $0$} \;.
 $$
 
-The reasons we can encode this condition as an MIS are the following:
 
-1. The conditions for checking that the initial configuration is valid are simple, and we can extract the first configuration from  $H$ by first looking at an index $i$ which is a multiple of $\ell$ such that $H_{i} \cdots H_{i+\ell-1}$ encodes the separator symbol "$;$" and such that $i$ is the first such index. Another way to say it is that $i$ is the position of the first separator if __there exists__ $k$ such that $i=k\times \ell$ and  $H_{i,\ldots,i+\ell-1}$ and __for every__ $j\in \N$, if $j<i$ then $H_{j,\ldots,j+\ell-1}$ does _not_ encode "$;$".  This can be captured using the operators allowed in a quantified mixed statement and the $\forall$ and $\exists$ quantifiers.
+If we can encode the statement $\varphi_M$ as a mixed-integer statement then, since $\varphi_M$ is true if and only if $HALTONZERO(M)=1$, this would reduce the task
+of computing $HALTONZERO$ to computing $MIS$, and hence imply (using [haltonzero-thm](){.ref} ) that $MIS$ is uncomputable, completing the proof.
+Indeed, $\varphi_M$ can be encoded as a mixed-integer statement for the following reasons:
 
-2. We can similarly check that the last configuration is halting. Extracting the position $i$ that encodes the last separator can be done in a way analogous to that of extracting the first one.
+1. Let $\alpha,\beta \in \{0,1\}^*$ be two strings that encode configurations of $M$.  We can define a quantified mixed predicate $NEXT(\alpha,\beta)$ that is true if and only if $\beta = NEXT_M(\beta)$ (i.e., $\beta$ encodes the configuration obtained by proceeding from $\alpha$ in one computational step). Indeed $NEXT(\alpha,\beta)$ is true if __for every__  $i \in \{0,\ldots,|\beta|\}$ which is a multiple of $\ell$, $\beta_{i,\ldots,i+\ell-1} = MAP_M(\alpha_{i-\ell,\cdots,i+2\ell-1})$ where $MAP_M:\{0,1\}^{3\ell} \rightarrow \{0,1\}^\ell$ is the finite function above (identifying elements of $\Sigma$ with their encoding in $\{0,1\}^\ell$). Since $MAP_M$ is a finite function, we can express it using the logical operations $AND$,$OR$, $NOT$ (for example by computing $MAP_M$ with $NAND$'s).
 
-3. We can define a quantified mixed predicate $NEXT(\alpha,\beta)$ that is true if and only if $\beta = NEXT_U(\beta)$ (i.e., $\beta$ encodes the configuration obtained by proceeding from $\alpha$ in one computational step). Indeed $NEXT(\alpha,\beta)$ is true if __for every__  $i \in \{0,\ldots,|\beta|\}$ which is a multiple of $\ell$, $\beta_{i,\ldots,i+\ell-1} = MAP_U(\alpha_{i-\ell,\cdots,i+2\ell-1})$ where $MAP_U:\{0,1\}^{3\ell} \rightarrow \{0,1\}^\ell$ is the finite function above (identifying elements of $\Sigma$ with their encoding in $\{0,1\}^\ell$). Since $MAP_U$ is a finite function, we can express it using the logical operations $AND$,$OR$, $NOT$ (for example by computing $MAP_U$ with $NAND$'s).
+2. Using the above we can now  write the condition that __for every__ substring of $H$ that has the form $\alpha ENC(;) \beta$ with $\alpha,\beta \in \{0,1\}^\ell$ and $ENC(;)$ being the encoding of the separator "$;$", it holds that $NEXT(\alpha,\beta)$ is true.
 
-4. We can then write the condition that __for every__ substring of $H$ that has the form $\alpha ENC(;) \beta$ with $\alpha,\beta \in \{0,1\}^\ell$ and $ENC(;)$ being the encoding of the separator "$;$", it holds that $NEXT(\alpha,\beta)$ is true.
+3. Finally, if $\alpha^0$ is a binary string encoding the initial configuration of $M$ on input $0$, checking that the first $|\alpha^0|$ bits of $H$ equal $\alpha_0$ can be expressed using $AND$,$OR$, and $NOT$'s.
+Similarly checking that the last configuration encoded by $H$ corresponds to a state in which $M$ will halt can also be expressed as a quantified statement.
 
-Together the above yields a computable procedure that maps every input $w\in \{0,1\}^*$ to $HALT_U$ into a quantified mixed statement $\varphi_w$ such that $HALT_U(w)=1$ if and only if $QMS(\varphi_w)=1$.
-This reduces computing $HALT_U$ to computing $QMS$, and hence the
-uncomputability of $HALT_U$ implies the uncomputability of $QMS$.
+Together the above yields a computable procedure that maps every Turing Machine $M$  into a quantified mixed statement $\varphi_M$ such that $HALTONZERO(M)=1$ if and only if $QMS(\varphi_M)=1$.
+This reduces computing $HALTONZERO$ to computing $QMS$, and hence the
+uncomputability of $HALTONZERO$ implies the uncomputability of $QMS$.
 :::
 
+::: {.remark title="Alternative proofs" #alternativeproofs}
+There are several other ways to show that $QMS$ is uncomputable. 
+For example, we can express the condition that a 1-dimensional cellular automaton eventually writes a "$1$" to a given cell from a given initial configuration as a quantified mixed statement
+over a string encoding the history of all configurations.
+We can then use the fact that cellular automatons can simulate Turing machines ([onedimcathm](){.ref}) to reduce the halting problem to $QMS$.
+We can also use other well known uncomputable problems such as tiling or the [post correspondence problem](https://en.wikipedia.org/wiki/Post_correspondence_problem).
+[postcorrespondenceproblemex](){.ref} and [puzzleex](){.ref} explore two alternative proofs of
+[QMS-thm](){.ref}.
+:::
 
 
 
@@ -456,7 +443,7 @@ We now show how to prove [QIS-thm](){.ref} using [QMS-thm](){.ref}.
 The idea is again a proof by reduction.
 We will show a transformation of every quantifier mixed statement $\varphi$ into a quantified _integer_ statement $\xi$ that does not use string-valued variables such that $\varphi$ is true if and only if $\xi$ is true.
 
-To remove string-valued variables from a statement, we encode them by integers.
+To remove string-valued variables from a statement, we encode every string by a pair integer. 
 We will show that we can encode a string $x\in \{0,1\}^*$ by a pair of numbers $(X,n)\in \N$ s.t.
 
 * $n=|x|$
@@ -464,38 +451,39 @@ We will show that we can encode a string $x\in \{0,1\}^*$ by a pair of numbers $
 * There is a quantified integer statement $COORD(X,i)$ that for every $i<n$, will be true if $x_i=1$ and will be false otherwise.
 
 
-This will mean that we can replace a "for all" quantifier over strings such as $\forall_{x\in \{0,1\}^*}$ with a pair of quantifiers over _integers_ of the form  $\forall_{X\in \N}\forall_{n\in\N}$  (and similarly replace an existential quantifier of the form $\exists_{x\in \{0,1\}^*}$ with a pair of quantifiers $\exists_{X\in \N}\exists_{n\in\N}$) . We can later replace all calls to $|x|$ by $n$ and all calls to $x_i$ by $COORD(X,i)$.
+This will mean that we can replace a "for all" quantifier over strings such as $\forall_{x\in \{0,1\}^*}$ with a pair of quantifiers over _integers_ of the form  $\forall_{X\in \N}\forall_{n\in\N}$  (and similarly replace an existential quantifier of the form $\exists_{x\in \{0,1\}^*}$ with a pair of quantifiers $\exists_{X\in \N}\exists_{n\in\N}$) .
+We can then replace all calls to $|x|$ by $n$ and all calls to $x_i$ by $COORD(X,i)$.
 This means that if we are able to define $COORD$ via a quantified integer statement, then we obtain a proof of [QIS-thm](){.ref}, since we can use it to map every mixed quantified statement $\varphi$ to an equivalent quantified integer statement $\xi$ such that $\xi$ is true if and only if $\varphi$ is true, and hence $QMS(\varphi)=QIS(\xi)$.
 Such a procedure implies that the task of computing $QMS$ reduces to the task of computing $QIS$, which means that the uncomputability of $QMS$ implies the uncomputability of $QIS$.
 
 
-
-The above shows that proof of the theorem all boils down to finding the right encoding of strings as integers, and the right way to implement $COORD$ as a quantified integer statement.
+The above shows that proof of [QIS-thm](){.ref} all boils down to finding the right encoding of strings as integers, and the right way to implement $COORD$ as a quantified integer statement.
 To achieve this we use the following technical result :
 
 > ### {.lemma title="Constructible prime sequence" #primeseq}
-There is a sequence of prime numbers $p_0 < p_1 < p_2 < \cdots$ such that there is a quantified integer statement $PCOORD(p,i)$ that is true if and only if $p=p_i$.
+There is a sequence of prime numbers $p_0 < p_1 < p_2 < \cdots$ such that there is a quantified integer statement $PSEQ(p,i)$ that is true if and only if $p=p_i$.
 
 Using [primeseq](){.ref} we can encode a $x\in\{0,1\}^*$ by the numbers $(X,n)$ where  $X = \prod_{x_i=1} p_i$ and $n=|x|$.
-We can then define the statement $COORD(X,i)$ as
+We can then define the statement $COORD(X,i)$ as 
 $$
-\forall_{p\in\N}  PCOORD(p,i) \Rightarrow DIVIDES(p,X)
+COORD(X,i) = \exists_{p\in\N}  PSEQ(p,i) \wedge DIVIDES(p,X) 
 $$
 where  $DIVIDES(a,b)$, as before, is defined as $\exists_{c\in\N} a\times c = b$.
 Note that indeed if $X,n$ encodes the string $x\in \{0,1\}^*$, then for every $i<n$, $COORD(X,i)=x_i$, since $p_i$ divides $X$ if and only if $x_i=1$.
 
 Thus all that is left to conclude the proof of [QIS-thm](){.ref} is to prove [primeseq](){.ref}, which we now proceed to do.
 
-> ### {.proof data-ref="primeseq"}
+::: {.proof data-ref="primeseq"}
 The sequence of prime numbers we consider is the following:
 We fix $C$ to be a sufficiently large constant ($C=2^{2^{34}}$ [will do](https://arxiv.org/pdf/1401.4233.pdf)) and define $p_i$ to be the smallest prime number that is in the interval $[(i+C)^3+1,(i+C+1)^3-1]$.
 It is known that there exists such a prime number for every $i\in\N$.
-Given this, the definition of $PCOORD(p,i)$ is simple:
+Given this, the definition of $PSEQ(p,i)$ is simple:
 $$
 (p > (i+C)\times (i+C)\times (i+C)  ) \wedge (p < (i+C+1)\times(i+C+1)\times (i+C+1) )\wedge
 \left(\forall_{p'} \neg PRIME(p') \vee (p' \leq i) \vee (p' \geq p) \right) \;,
 $$
-We leave it to the reader to verify that $PCOORD(p,i)$ is true iff $p=p_i$.
+We leave it to the reader to verify that $PSEQ(p,i)$ is true iff $p=p_i$.
+:::
 
 To sum up we have shown that for every quantified mixed statement $\varphi$, we can compute a quantified integer statement $\xi$ such that $QMS(\varphi)=1$  if and only if $QIS(\xi)=1$.
 Hence the uncomputability of $QMS$  ([QMS-thm](){.ref}) implies the uncomputability of $QIS$, completing the proof of [QIS-thm](){.ref}, and so also the proof of Gödel's Incompleteness Theorem for quantified integer statements ([godelthmqis](){.ref}).
@@ -512,23 +500,17 @@ Hence the uncomputability of $QMS$  ([QMS-thm](){.ref}) implies the uncomputabil
 Prove [godelthmqis](){.ref} using  [QIS-thm](){.ref}
 :::
 
+::: {.exercise title="Proof systems and uncomputability" #proofsanduncomputex  }
+Let $FINDPROOF:\{0,1\}^* \rightarrow \{0,1\}$ be the following function. On input a Turing machine $V$ (which we think of as the verifying algorithm for a proof system) and a string $x\in \{0,1\}^*$, $FINDPROOF(V,x)=1$ if and only if there exists $w\in \{0,1\}^*$ such that $V(x,w)=1$. 
+
+1. Prove that $FINDPROOF$ is uncomputable.
+
+2. Prove that there exists a Turing machine $V$ such that $V$ _halts on every input  $x,v$_ but the function $FINDPROOF_V$ defined as $FINDPROOF_V(x) = FINDPROOF(V,x)$ is uncomputable. See footnote for hint.^[_Hint:_ think of $x$ as saying "Turing Machine $M$ halts on input $u$" and $w$ being a proof that is the number of steps that it will take for this to happen. Can you find an always-halting $V$ that will verify such statements?]
+:::
+
+
 > ### {.exercise title="Expression for floor" #floorexpressionex}
 Let $FSQRT(n,m) = \forall_{j \in \N} ((j \times j)>m) \vee (j \leq n)$. Prove that $FSQRT(n,m)$ is true if and only if $n =\floor{\sqrt{m}}$.
-
-> ### {.exercise title="Expression for computing the index" #indexexpressionex}
-Recall that [computeidx-ex](){.ref} asked you to prove that at iteration $t$ of a NAND-TM program the the variable `i` is equal to $t-r(r+1)$ if $t \leq (r+1)^2$ and equals $(r+2)(r+1)t$ otherwise, where $r = \floor{\sqrt{t+1/4}-1/2}$.
-Prove that there is a quantified integer statement $INDEX$ with parameters $t,i$ such that $INDEX(t,i)$ is true if and $i$ is the value of `i` after $t$ iterations.
-
-> ### {.exercise title="Expression for computing the previous line" #prevex}
-Give the following quantified integer expressions: \
-1. $MOD(a,b,c)$ which is true if and only if $b = a \mod c$. Note if a program has $s$ lines then the line executed at step $t$ is equal to $t \mod s$. \
-2. Suppose that $P$ is the three line NAND-CIRC program listed below.  Give a quantified integer statement $LAST(n,t,t')$  such that $LAST(t,t')$ is true if and only if $t'-n$ is the largest step smaller than $t-n$ in which the variable on the righthand side of the line executed at step $t-n$ is written to. If this variable is an input variable `x_i` then let $LAST(n,t,t')$ to be true if the current index location equals $t'$ and $t'<n$.
-
-```python
-y_0    := foo_i NAND foo_i
-foo_i  := x_i NAND x_i
-loop := validx_i NAND validx_i
-```
 
 
 > ### {.exercise title="axiomatic proof systems" #godelthemex}
@@ -537,13 +519,45 @@ A system is _sound_ if whenever there is no false $s$ such that there is a proof
 Prove that for every uncomputable function $F:\{0,1\}^* \rightarrow \{0,1\}$ and every sound axiomatic proof system $S$ (that is characterized by a finite number of axioms and inference rules), there is some input $x$ for which the proof system $S$ is not able to prove neither that $F(x)=0$ nor that $F(x) \neq 0$.
 
 
+![In the _puzzle problem_, the input can be thought of as a finite collection $\Sigma$ of _types of puzzle pieces_ and the goal is to find out whether or not find a way to arrange pieces from these types in a rectangle. Formally, we model the input as a pair of functions $match_{\leftrightarrow},match_{\updownarrow}:\Sigma^2 \rightarrow \{0,1\}$ that such that 
+$match_{\leftrightarrow}(left,right)=1$ (respectively $match_{\updownarrow}(up,down)=1$ ) if the pair of pieces are compatible when placed  in their respective positions. We assume $\Sigma$ contains a special symbol $\varnothing$ corresponding to having no piece, and an arrangement of puzzle pieces by an $(m-2)\times(n-2)$ rectangle is modeled by a string $x\in \Sigma^{m\cdot n}$ whose ``outer coordinates'' are $\emptyset$ and such that for every $i \in [n-1],j \in [m-1]$, $match_{\updownarrow}(x_{i,j},x_{i+1,j})=1$ and $match_{\leftrightarrow}(x_{i,j},x_{i,j+1})=1$.](../figure/puzzleprob.png){#puzzleprobfig  .margin }
+
+
+
+
+
+::: {.exercise title="Post Corrrespondence Problem" #postcorrespondenceproblemex}
+In the [Post Correspondence Problem](https://en.wikipedia.org/wiki/Post_correspondence_problem) the input is a set $S = \{ (\alpha^0,\beta^0), \ldots, (\beta^{c-1},\beta^{c-1}) \}$ where each $\alpha^i$ and $\beta^j$ is a string in $\{0,1\}^*$.
+We say that $PCP(S)=1$ if and only if there exists a list $(\alpha_0,\beta_0),\ldots,(\alpha_{n-1},\beta_{n-1})$ of pairs in $S$ such that 
+$$
+\alpha_0 \alpha_1 \cdots \alpha_{m-1} = \beta_0 \beta_1 \cdots \beta_{m-1} \;.
+$$
+(We can think of each pair $(\alpha,\beta) \in S$ as a "domino tile" and the question is whether we can stack a list of such tiles so that the top and the bottom yield the same string.)
+It can be shown that the $PCP$ is uncomputable by a fairly straightforward though somewhat tedious proof (see for example the Wikipedia page for the Post Correspondence Problem or Section 5.2 in [@SipserBook]).
+
+Use this fact to provide a direct proof that $QMS$ is uncomputable by showing that there exists a computable map $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that 
+$PCP(S) = QMS(R(S))$ for every string $S$ encoding an instance of the post correspondence problem. 
+:::
+
+::: {.exercise title="Uncomputability of puzzle" #puzzleex}
+Let $PUZZLE:\{0,1\}^* \rightarrow \{0,1\}$ be  the problem of determining, given a finite collection of types of "puzzle pieces", whether it is possible to put them together in a rectangle, see [puzzleprobfig](){.ref}.
+Formally, we think of such a collection as a finite set $\Sigma$ (see [puzzleprobfig](){.ref}). We model the criteria as to which pieces "fit together" by a pair of finite function $match_{\updownarrow}, match_{\leftrightarrow}:\Sigma^2 \rightarrow \{0,1\}$ such that a piece $a$ fits above a piece $b$ if and only if $match_{\updownarrow}(a,b)=1$ and a piece $c$ fits to the left of a piece $d$ if and only if $match_{\leftrightarrow}(c,d)=1$.
+To model the "straight edge" pieces that can be placed next to a "blank spot" we assume that $\Sigma$ contains the symbol $\varnothing$ and the matching functions are defined accordingly.
+A _square tiling_ of $\Sigma$ is an $m\times n$ long string $x \in \Sigma^{mn}$, such that for every $i\in \{1,\ldots,m-2 \}$ and $j\in \{1,\ldots,n-2 \}$, $match(x_{i,j},x_{i-1,j},x_{i+1,j},x_{i,j-1},x_{i,j+1})=1$ (i.e., every "internal pieve" fits in with the pieces adjacent to it).
+We also require all of the "outer pieces" (i.e., $x_{i,j}$ where $i\in \{0,m-1\}$ of $j\in \{0,n-1\}$) are "blank" or equal to $\varnothing$.
+The function $PUZZLE$ takes as input a string describing the set $\Sigma$ and the function $match$ and outputs $1$ if and only if there is some square tiling of $\Sigma$: some not all blank string $x\in \Sigma^{mn}$ satisfying the above condition.
+
+1. Prove that  $PUZZLE$ is uncomputable.
+
+2. Give a reduction from $PUZZLE$ to $QMS$.
+:::
+
 
 ::: {.exercise title="MRDP exercise" #MRDPexe}
 The MRDP theorem states that the problem of determining, given a $k$-variable polynomial $p$ with integer coefficients, whether there exists integers $x_0,\ldots,x_{k-1}$ such that $p(x_0,\ldots,x_{k-1})=0$ is uncomputable. Consider the following _quadratic integer equation problem_: the input is a list of polynomials $p_0,\ldots,p_{m-1}$ over $k$ variables with integer coefficients, where each of the polynomials is of degree at most two (i.e., it is a _quadratic_ function).
 The goal is to determine whether there exist integers $x_0,\ldots,x_{k-1}$ that solve the equations $p_0(x)= \cdots = p_{m-1}(x)=0$.
 
 Use the MRDP Theorem to prove  that this problem is uncomputable. That is, show that the function $QUADINTEQ:\{0,1\}^* \rightarrow \{0,1\}$ is uncomputable, where this function gets as input a string describing the polynomials $p_0,\ldots,p_{m-1}$ (each with integer coefficients and degree at most two), and outputs $1$ if and only if there exists $x_0,\ldots,x_{k-1} \in \mathbb{Z}$ such that for every $i\in [m]$, $p_i(x_0,\ldots,x_{k-1})=0$. See footnote for hint^[You can replace the equation $y=x^4$ with the pair of equations $y=z^2$ and $z=x^2$. Also, you can replace the equation $w = x^6$ with the three equations $w=yu$, $y = x^4$ and $u=x^2$.]
-
 :::
 
 
@@ -551,7 +565,7 @@ Use the MRDP Theorem to prove  that this problem is uncomputable. That is, show 
 In this question we  define the NAND-TM variant of the  [busy beaver function](https://www.scottaaronson.com/writings/bignumbers.html).
 
 
-1. We define the function $T:\{0,1\}^* \rightarrow \mathbb{N}$ as follows: for every string $P\in \{0,1\}^*$, if $P$ represents a NAND++ program such  that when $P$ is executed on the input $0$ (i.e., the string of length 1 that is simply $0$), a total of $M$ lines are executed before the program halts, then $T(P)=M$. Otherwise (if $P$ does not represent a NAND++ program, or it is a program that does not halt on $0$), $T(P)=0$. Prove that $T$ is uncomputable.
+1. We define the function $T:\{0,1\}^* \rightarrow \mathbb{N}$ as follows: for every string $P\in \{0,1\}^*$, if $P$ represents a NAND-TM program such  that when $P$ is executed on the input $0$ (i.e., the string of length 1 that is simply $0$), a total of $M$ lines are executed before the program halts, then $T(P)=M$. Otherwise (if $P$ does not represent a NAND-TM program, or it is a program that does not halt on $0$), $T(P)=0$. Prove that $T$ is uncomputable.
 
 2. Let $TOWER(n)$ denote the number $\underbrace{2^{2^{2^{{\iddots}^2}}}}_{n\text{ times}}$ (that is, a "tower of powers of two" of height $n$). To get a sense of how fast this function grows, $TOWER(1)=2$, $TOWER(2)=2^2=4$, $TOWER(3)=2^{2^2}=16$, $TOWER(4) = 2^{16} = 65536$ and $TOWER(5) = 2^{65536}$ which is about $10^{20000}$. $TOWER(6)$ is already a number that is too big to write even in scientific notation.
 Define $NBB:\mathbb{N} \rightarrow \mathbb{N}$ (for "NAND-TM Busy Beaver") to be the function $NBB(n) = \max_{P\in \{0,1\}^n} T(P)$ where $T:\mathbb{N} \rightarrow \mathbb{N}$ is the function defined in Item 1. Prove that $NBB$ grows _faster_ than $TOWER$, in the sense that $TOWER(n) = o(NBB(n))$ (i.e., for every  $\epsilon>0$, there exists $n_0$ such that for every $n>n_0$,  $TOWER(n) < \epsilon \cdot NBB(n)$.).^[You will not need to use very specific properties of  the $TOWER$ function in this exercise. For example, $NBB(n)$ also grows faster than the [Ackerman function](https://en.wikipedia.org/wiki/Ackermann_function).  You might find [Aaronson's  blog post](https://www.scottaaronson.com/blog/?p=3445) on the same topic to be quite interesting, and relevant to this book  at large. If you like it then you might also enjoy [this piece by Terence Tao](https://terrytao.wordpress.com/2010/10/10/the-cosmic-distance-ladder-ver-4-1/).]
