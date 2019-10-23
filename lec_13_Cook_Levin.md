@@ -385,7 +385,7 @@ $NANDSAT \leq_p 3NAND$.
 To prove [threenand-thm](){.ref} we need to give a polynomial-time map from every NAND-CIRC program $Q$ to a 3NAND formula $\Psi$ such that there exists $w$ such that $Q(w)=1$ if and only if there exists $z$ satisfying $\Psi$.
 For every line $i$ of $Q$, we define a corresponding variable $z_i$ of $\Psi$.
 If the line $i$ has the form `foo = NAND(bar,blah)` then we will add the clause $z_i = NAND(z_j,z_k)$ where $j$ and $k$ are the last lines in which `bar` and `blah` were written to. We will also set variables corresponding to the input variables, as well as add a clause to ensure that the final output is $1$.
-The resulting reduction can be implemented in about a dozen lines of Python, see [andsattothreenandfig](){.ref}.
+The resulting reduction can be implemented in about a dozen lines of Python, see [nandsattothreenandfig](){.ref}.
 
 
 
