@@ -824,9 +824,9 @@ Prove that there exist a NAND-CIRC program of at most $s+s'+10$ lines to compute
 
 
 ::: {.exercise title="Half and full adders" #halffulladderex}
-1. A _half adder_ is the function $HA:\{0,1\}^2 :\rightarrow \{0,1\}^2$ that corresponds to adding two binary bits. That is, for every $a,b \in \{0,1\}$, $HA(a,b)= (e,f)$ where $2e+f = a +b$. Prove that there is a NAND circuit of at most five NAND gates that computes $HA$.
+1. A _half adder_ is the function $HA:\{0,1\}^2 :\rightarrow \{0,1\}^2$ that corresponds to adding two binary bits. That is, for every $a,b \in \{0,1\}$, $HA(a,b)= (e,f)$ where $2e+f = a+b$. Prove that there is a NAND circuit of at most five NAND gates that computes $HA$.
 
-2. A _full adder_ is the function $FA:\{0,1\}^3 \rightarrow \{0,1\}^{2}$ that takes in two bits and a "carry" bit and outputs their sum. That is, for every $a,b,c \in \{0,1\}$, FA(a,b,c) = (e,f)$ such that $2e+f = a+b+c$. Prove that there is a NAND circuit of at most nine NAND gates that computes $FA$.
+2. A _full adder_ is the function $FA:\{0,1\}^3 \rightarrow \{0,1\}^{2}$ that takes in two bits and a "carry" bit and outputs their sum. That is, for every $a,b,c \in \{0,1\}$, $FA(a,b,c) = (e,f)$ such that $2e+f = a+b+c$. Prove that there is a NAND circuit of at most nine NAND gates that computes $FA$.
 
 3. Prove that if there is a NAND circuit of $c$ gates that computes $FA$, then there is a circuit of $cn$ gates that computes $ADD_n$ where (as in [addition-thm](){.ref}) $ADD_n:\{0,1\}^{2n} \rightarrow \{0,1\}^{n+1}$ is the function that outputs the addition of two input $n$-bit numbers. See footnote for hint.^[Use a "cascade" of adding the bits one after the other, starting with the least significant digit, just like in the elementary-school algorithm.]
 
