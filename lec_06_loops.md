@@ -304,7 +304,7 @@ Furthermore, we are guaranteed that if we invoke $P$ on any input then _some_ ou
 
 In contrast, given any Turing machine $M$, we cannot determine a priori the length of the output.
 In fact, we don't even know if an output would be produced at all!
-For example, it is very easy to come up with a Turing machine whose transition function never outouts $\mathsf{H}$ and hence never halts.
+For example, it is very easy to come up with a Turing machine whose transition function never outputs $\mathsf{H}$ and hence never halts.
 
 
 If a machine  $M$ fails to stop and produce an output on some an input $x$, then it cannot compute any total function $F$, since clearly on input $x$, $M$  will fail to output $F(x)$. However, $P$ can still compute a _partial function_.^[A _partial function_ $F$ from a set $A$ to a set $B$ is a function that is only defined on a _subset_ of $A$, (see [functionsec](){.ref}). We can also think of such a function as mapping $A$ to $B \cup \{ \bot \}$ where $\bot$ is a special "failure" symbol such that $F(a)=\bot$  indicates the function $F$ is not defined on $a$.]
