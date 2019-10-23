@@ -368,26 +368,22 @@ We can therefore imagine investing huge computational resources in running $A$ o
 ## Approximating counting problems and posterior sampling (advanced, optional)
 
 
-Given a NAND-CIRC program $P$, if $\mathbf{P}=\mathbf{NP}$ then we can find an input $x$ (if one exists) such that $P(x)=1$. But what if there is more than one $x$ like that?
+Given a Boolean circuit $C$, if $\mathbf{P}=\mathbf{NP}$ then we can find an input $x$ (if one exists) such that $C(x)=1$. But what if there is more than one $x$ like that?
 Clearly we can't efficiently output all such $x$'s; there might be exponentially many.
 But we can get an arbitrarily good multiplicative approximation (i.e., a $1\pm \epsilon$ factor for arbitrarily small $\epsilon>0$) for the number of such $x$'s, as well as output a (nearly) uniform member of this set.
-We defer the details to later in this course, when we learn about _randomized computation_.
-However, we state (without proof) the following theorem for now:
+The details are beyond the scope of this book, but this result is formally stated in the following theorem (whose proof is omitted).
 
 ::: {.theorem title="Approximate counting if $\mathbf{P}=\mathbf{NP}$" #approxcountingnp}
 Let $V:\{0,1\}^* \rightarrow \{0,1\}$ be some polynomial-time algorithm, and suppose that $\mathbf{P}=\mathbf{NP}$.
-Then there exists an algorithm $COUNT_V$ that on input $x,1^m,\epsilon$, runs in time polynomial in $|x|,m,1/\epsilon$ and outputs a number
-$K \in \{0,\ldots, 2^m\}$ such that
+Then there exists an algorithm $COUNT_V$ that on input $x,1^m,\epsilon$, runs in time polynomial in $|x|,m,1/\epsilon$ and outputs a number in $[2^m+1]$ satisfying
 
-$$(1-\epsilon)K \leq \Bigl|\{ y \in \{0,1\}^m \;:\; V(xy)=1 \} \Bigr| \leq (1+\epsilon)K
+$$(1-\epsilon)COUNT_V(x,m,\esilon) \leq \Bigl|\{ y \in \{0,1\}^m \;:\; V(xy)=1 \} \Bigr| \leq (1+\epsilon)COUNT_V(x,m,\esilon) \;.
 $$
-
-That is, $K$ gives an approximation up to a factor of $1 \pm \epsilon$ for the number of _witnesses_ for $x$ with respect to the verifying algorithm $V$.
 :::
 
-::: { .pause }
+In other words, the algorithm $COUNT_V$ gives an approximation up to a factor of $1 \pm \epsilon$ for the number of _witnesses_ for $x$ with respect to the verifying algorithm $V$.
 Once again, to understand this theorem it can be useful to see how it implies that if $\mathbf{P}=\mathbf{NP}$ then there is a polynomial-time algorithm that given a graph $G$ and a number $k$, can compute a number $K$ that is within a $1 \pm 0.01$ factor equal to the number of simple paths in $G$ of length $k$. (That is, $K$ is between $0.99$ to $1.01$ times the number of such paths.)
-:::
+
 
 __Posterior sampling and probabilistic programming.__ The algorithm for counting can also be extended to _sampling_ from a given posterior distribution.
 That is, if $C:\{0,1\}^n \rightarrow \{0,1\}^m$ is a Boolean circuit and $y\in \{0,1\}^m$, then if $\mathbf{P}=\mathbf{NP}$ we can sample from (a close approximation of) the distribution of uniform $x\in \{0,1\}^n$ conditioned on $C(x)=y$.
@@ -441,9 +437,11 @@ Such new insights would be very fruitful regardless of their computational utili
 
 ## Can $\mathbf{P} \neq \mathbf{NP}$ be neither true nor false?
 
-The [Continuum Hypothesis](https://en.wikipedia.org/wiki/Continuum_hypothesis) is a conjecture made by Georg Cantor in 1878, positing the non-existence of a certain type of infinite cardinality.^[One way to phrase it is that for every infinite subset $S$ of the real numbers $\R$, either there is a one-to-one and onto function $f:S \rightarrow \R$ or there is a one-to-one and onto function $f:S \rightarrow \N$.]
+The [Continuum Hypothesis](https://en.wikipedia.org/wiki/Continuum_hypothesis) is a conjecture made by Georg Cantor in 1878, positing the non-existence of a certain type of infinite cardinality.
+(One way to phrase it is that for every infinite subset $S$ of the real numbers $\R$, either there is a one-to-one and onto function $f:S \rightarrow \R$ or there is a one-to-one and onto function $f:S \rightarrow \N$.)
 This was considered one of the most important open problems in set theory, and settling its truth or falseness was the first problem put forward by Hilbert in the 1900 address we mentioned before.
-However, using the theories developed by Gödel and Turing, in 1963 Paul Cohen proved that both the Continuum Hypothesis and its negation are consistent with the standard axioms of set theory (i.e., the Zermelo-Fraenkel axioms + the Axiom of choice, or  "ZFC" for short).^[Formally, what he proved is that if ZFC is consistent, then so is ZFC when we assume either the continuum hypothesis or its negation.]
+However, using the theories developed by Gödel and Turing, in 1963 Paul Cohen proved that both the Continuum Hypothesis and its negation are consistent with the standard axioms of set theory (i.e., the Zermelo-Fraenkel axioms + the Axiom of choice, or  "ZFC" for short).
+Formally, what he proved is that if ZFC is consistent, then so is ZFC when we assume either the continuum hypothesis or its negation.
 
 Today, many (though not all) mathematicians interpret this result as saying that the Continuum Hypothesis is neither true nor false, but rather is an axiomatic choice that we are free to make one way or the other.
 Could the same hold for $\mathbf{P} \neq \mathbf{NP}$?

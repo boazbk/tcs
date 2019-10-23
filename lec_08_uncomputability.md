@@ -108,7 +108,7 @@ What you need to remember are the following points:
 
 1. We can represent every Turing machine as a string.
 
-2. Given the string representation of a Turing machine $M$ and an input $x$, we can simulate $M$'s execution on the input $x$. (This is the contents of [ [universaltmthm](){.ref}](){.ref}.)
+2. Given the string representation of a Turing machine $M$ and an input $x$, we can simulate $M$'s execution on the input $x$. (This is the content of [universaltmthm](){.ref}.)
 
 An additional minor issue is that for convenience we make the assumption that _every_ string represents _some_ Turing machine. This is very easy to ensure by just mapping strings that would otherwise not represent a Turing machine into some fixed trivial machine.
 This assumption is not very important, but does make a few results (such as Rice's Theorem: [rice-thm](){.ref}) a little less cumbersome to state.
