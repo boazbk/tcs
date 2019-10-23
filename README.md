@@ -13,7 +13,7 @@ My priorities are:
 
 * Add exercises.
 
-* More explanations and  proof ideas.
+* More explanations and proof ideas.
 
 * Make the text more "linear": fewer footnotes and remarks that disrupt the flow of reading.
 
