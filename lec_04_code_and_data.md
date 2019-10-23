@@ -857,4 +857,4 @@ I learned of the proof of the size hierarchy theorem ([sizehiearchythm](){.ref})
 
 
 Scott Aaronson's blog post on how [information is physical](http://www.scottaaronson.com/blog/?p=3327) is a good discussion on issues related to the physical extended Church-Turing Physics.
-Aaronson's [survey on NP complete problems and physical reality](http://www.arxiv.org/abs/quant-ph/0502072) is also a great source for some of these issues, though might be easier to read after we reach [cooklevinchap](){.ref} on $\mathbf{NP}$  and $\mathbf{NP}$-completeness.
+Aaronson's survey on NP complete problems and physical reality    [@aaronson2005physicalreality] discusses these issues as well, though it might be easier to read after we reach [cooklevinchap](){.ref} on $\mathbf{NP}$  and $\mathbf{NP}$-completeness.

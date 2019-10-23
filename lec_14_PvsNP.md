@@ -506,11 +506,10 @@ This is not surprising since, as we mentioned before, from group theory to the t
 * Our current evidence and understanding supports the "SAT hard" scenario that there is no much-better-than-brute-force algorithm for 3SAT or many other $\mathbf{NP}$-hard problems.
 
 * We are very far from _proving_ this, however. Researchers have studied proving lower bounds on the number of gates to compute explicit functions in _restricted forms_ of circuits, and have made some advances in this effort, along the way generating mathematical tools that have found other uses.
-However, we have made essentially no headway in proving lower bounds for _general_ models of computation such as NAND and NAND-TM programs.
-Indeed, we currently do not even know how to rule out the possibility that for every $n\in \N$, $SAT$ restricted to $n$-length inputs has a NAND-CIRC program of $10n$ lines (even though there _exist_  $n$-input functions that require $2^n/(10n)$ lines to compute).
+However, we have made essentially no headway in proving lower bounds for _general_ models of computation such as Boolean circuits and Turing machines. 
+Indeed, we currently do not even know how to rule out the possibility that for every $n\in \N$, $SAT$ restricted to $n$-length inputs has a Boolean circuit  of  less than $10n$ gates (even though there _exist_  $n$-input functions that require at least $2^n/(10n)$ gates to compute).
 
 * Understanding how to cope with this computational intractability, and even benefit from it, comprises much of the research in theoretical computer science.
-
 :::
 
 
@@ -521,12 +520,9 @@ Indeed, we currently do not even know how to rule out the possibility that for e
 
 ## Bibliographical notes
 
-^[TODO: Scott's two surveys]
+As mentioned before, Aaronson's  survey [@aaronson2016p] is a  great exposition of the  $\mathbf{P}$ vs $\mathbf{NP}$ problem. 
+Another recommended survey by Aaronson is  [@aaronson2005physicalreality] which discusses the question of whether $\mathbf{NP}$ complete problems could be computed by any physical means.
 
-## Further explorations
 
-Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
-* Polynomial hierarchy hardness for circuit minimization and related problems, see for example [this paper](http://users.cms.caltech.edu/~umans/papers/BU07.pdf).
-
-## Acknowledgements
+The paper [@buchfuhrer2011complexity] discusses some results about problems in the polynomial hierarchy.

@@ -275,7 +275,7 @@ You can express it as a formula, use a programming language such as Python, or u
 :::
 
 ::: {.solution data-ref="xorthreebits"}
-Addition modulo two satisfies the same properties of _associativity_ ($(a+b)+c=(a+b)+c$) and _commutativity_ ($a+b=b+a$) as standard addition.
+Addition modulo two satisfies the same properties of _associativity_ ($(a+b)+c=a+(b+c)$) and _commutativity_ ($a+b=b+a$) as standard addition.
 This means that, if we define $a \oplus b$ to equal $a + b \mod 2$,
 then
 $$
@@ -1118,7 +1118,7 @@ Prove that $\{ LOOKUP_1,0,1 \}$ is a universal set of gates where $0$ and $1$ ar
 
 > ### {.exercise title="Bound on universal basis size (challenge)" #universal-bound}
 Prove that for every subset $B$ of the functions from $\{0,1\}^k$ to $\{0,1\}$,
-if $B$ is universal then there is a $B$-circuit of at most $O(k)$ gates to compute the $NAND$ function (you can start by showing that there is a $B$ circuit of at most $O(k^{16})$ gates).^[Thanks to Alec Sun for solving this problem.]
+if $B$ is universal then there is a $B$-circuit of at most $O(1)$ gates to compute the $NAND$ function (you can start by showing that there is a $B$ circuit of at most $O(k^{16})$ gates).^[Thanks to Alec Sun and Simon Fischer for comments on this problem.]
 
 
 ::: {.exercise title="Size and inputs / outputs" #nandcircsizeex}

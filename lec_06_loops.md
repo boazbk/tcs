@@ -139,7 +139,7 @@ Specifically, a computation of a Turing Machine $M$ with $k$ states and alphabet
 
 * The set of rules the Turing machine follows is known as its _transition function_.
 
-* When the machine halts then its output is obtained by reading off the tape from the second location (just after the $\triangleright$) onwards, stopping at the first point where the symbol is not $0$ or $1$.
+* When the machine halts then its output is the binary string obtained by reading the tape from the beginning until the head position, dropping all symbolssuch as $\triangleright$, $\varnothing$, etc. that are not either $0$ or $1$. 
 
 ![The components of a Turing Machine. Note how they correspond to the general components of algorithms as described in [algcomponentfig](){.ref}.](../figure/turingmachinecomponents.png){#turingmachinecomponentsfig .margin }
 
@@ -220,7 +220,9 @@ For every $x\in \{0,1\}^*$, the _output_ of $M$ on input $x$, denoted by $M(x)$,
    3. If $D=\mathsf{R}$ then set $i \rightarrow i+1$, if $D=\mathsf{L}$ then set $i \rightarrow \max\{i-1,0\}$. (If $D = \mathsf{S}$ then we keep $i$ the same.)
    4. If $D=\mathsf{H}$ then halt.
 
-* The _result_ of the process, which we denote by $M(x)$, is the string $T[1],\ldots,T[m]$ where $m>0$ is the smallest integer such that $T[m+1] \not\in \{0,1\}$.  If the process never ends then we write $M(x)=\bot$.
+* If the process above halts, then $M$'s output, denoted by $M(x)$, is the string $y\in \{0,1\}^*$ obtained by concatenating all the symbols in $\{0,1\}$ in positions $T[0],\ldots, T[i]$ where $i$ is the final head position.
+
+* If The Turing machine does not halt then we denote  $M(x)=\bot$.
 :::
 
 
