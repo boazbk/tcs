@@ -63,7 +63,7 @@ Structures from computer science, such as bits, strings, graphs, and even the no
 In addition to coming up with the place-value system, the Babylonians also invented the "standard algorithms" that we were all taught in elementary school for adding and multiplying numbers.
 These algorithms have been essential throughout the ages for people using  abaci, papyrus, or pencil and paper,  but in our computer age, do they still serve any purpose beyond torturing third graders?
 To see why these algorithms are still very much relevant, let us compare the Babylonian digit-by-digit multiplication algorithm ("grade-school multiplication") with the  naive algorithm that multiplies numbers through  repeated addition.
-We start by formally describing both algorithms:
+We start by formally describing both algorithms, see [naivemultalg](){.ref} and [gradeschoolalg](){.ref}.
 
 
 ``` { .algorithm title="Multiplication via repeated addition" #naivemultalg }
