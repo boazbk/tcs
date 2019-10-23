@@ -198,7 +198,7 @@ endprocedure
 
 
  [karatsubaalg](){.ref} is only half of the full description of Karatsuba's algorithm.
- The other half is the _analysis_, which entails proving that _(1)_ [karatsubaalg](){.ref} indeed computes the multiplication operation and _(2)_ it does so using $O(n^{\log_2 3})$ operations.
+ The other half is the _analysis_, which entails proving that __(1)__ [karatsubaalg](){.ref} indeed computes the multiplication operation and __(2)__ it does so using $O(n^{\log_2 3})$ operations.
  We now turn to showing both facts:
 
  > ### {.lemma #karatsubacorrect}
