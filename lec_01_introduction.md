@@ -148,7 +148,7 @@ The grade-school algorithm for multiplying $x$ and $y$ is illustrated in [grades
 
 ![The grade-school multiplication algorithm illustrated for multiplying $x=10\overline{x}+\underline{x}$ and $y=10\overline{y}+\underline{y}$. It uses the formula $(10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10(\overline{x}\underline{y} + \underline{x}\overline{y}) + \underline{x}\underline{y}$.](../figure/gradeschoolmult.png){#gradeschoolmult .margin  }
 
-The grade-school algorithm can be thought of as transforming the task of multiplying a pair of two-digit number into _four_ single-digit multiplications via the formula
+The grade-school algorithm can be thought of as transforming the task of multiplying a pair of two-digit numbers into _four_ single-digit multiplications via the formula
 
 $$
 (10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10(\overline{x}\underline{y} + \underline{x}\overline{y}) + \underline{x}\underline{y} \label{eq:gradeschooltwodigit}
