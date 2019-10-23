@@ -153,7 +153,7 @@ The proof is simple. If we let $c$ be the constant such that $|SIZE(s)| \leq 2^{
 $$
 |SIZE(\tfrac{\delta 2^n}{n})| \leq 2^{c \tfrac{\delta 2^n}{n} \log s} < 2^{c \delta 2^n} = 2^{2^n}
 $$
-using the fact that since $s < 2^n$, $\log s < n$.
+using the fact that since $s < 2^n$, $\log s < n$ and $\delta = 1/c$.
 But since $|SIZE(s)|$ is smaller than the total number of functions mapping $n$ bits to $1$ bit, there must be at least one such function not in $SIZE(s)$, which is what we needed to prove.
 :::
 
@@ -805,7 +805,7 @@ See footnote for hint.^[_Hint:_ Use the results of [efficientrepresentationex]()
 
 
 > ### {.exercise title="Random functions are hard" #rand-lb-id}
-Suppose $n>1000$ and that we choose a function $F:\{0,1\}^n \rightarrow \{0,1\}$ at random, choosing for every $x\in \{0,1\}^n$ the value $F(x)$ to be the result of tossing an independent unbiased coin. Prove that the probability that there is a $2^n/(1000n)$ line program that computes $F$ is at most $2^{-100}$.^[__Hint:__ An equivalent way to say this is that you need to prove that the set of functions that can be computed using at most $2^n/(1000n)$ has fewer than $2^{-100}2^{2^n}$ elements. Can you see why?]
+Suppose $n>1000$ and that we choose a function $F:\{0,1\}^n \rightarrow \{0,1\}$ at random, choosing for every $x\in \{0,1\}^n$ the value $F(x)$ to be the result of tossing an independent unbiased coin. Prove that the probability that there is a $2^n/(1000n)$ line program that computes $F$ is at most $2^{-100}$.^[__Hint:__ An equivalent way to say this is that you need to prove that the set of functions that can be computed using at most $2^n/(1000n)$ lines has fewer than $2^{-100}2^{2^n}$ elements. Can you see why?]
 
 
 ::: {.exercise }
