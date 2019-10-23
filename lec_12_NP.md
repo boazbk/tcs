@@ -57,7 +57,7 @@ We model the problems above as functions mapping $\{0,1\}^*$ to $\{0,1\}$ in the
 __3SAT.__ The _3SAT problem_ can be phrased as the function $3SAT:\{0,1\}^* \rightarrow \{0,1\}$ that takes as input a 3CNF formula $\varphi$ (i.e., a formula of the form $C_0 \wedge \cdots \wedge C_{m-1}$ where each $C_i$ is the OR of three variables or their negation)  and maps $\varphi$ to $1$ if there exists some assignment to the variables of $\varphi$ that causes it to evalute to _true_, and to $0$ otherwise.
 For example 
 
-$$3SAT\left("(x_0 \wedge \overline{x}_1 \wedge x_2)  \vee   (x_1 \vee x_2 \vee \overline{x_3}) \vee (\overline{x}_0 \wedge \overline{x}_2 \wedge x_3)" \right)  = 1$$
+$$3SAT\left("(x_0 \vee \overline{x}_1 \vee x_2)  \wedge   (x_1 \vee x_2 \vee \overline{x_3}) \wedge (\overline{x}_0 \vee \overline{x}_2 \vee x_3)" \right)  = 1$$
 
 since  the assignment $x = 1101$ satisfies the input formula.
 In the above we assume some representation of formulas as strings, and define the function to output $0$ if its input is not a valid representation; we use the same convention for all the other functions below.
