@@ -154,6 +154,7 @@ So, in the example above, $|S|=3$.
 A set $S$ is a _subset_ of a set $T$, denoted by $S \subseteq T$, if every element of $S$ is also an element of $T$. (We can also describe this by saying that  $T$ is a _superset_ of $S$.)
 For example, $\{2,7\} \subseteq \{ 2,4,7\}$.
 The set that contains no elements is known as the _empty set_ and it is denoted by $\emptyset$.
+If $A$ is a subset of $B$ that is not equal to $B$ we say that $A$ is a _strict subset_ of $B$, and denote this by $A \subsetneq B$.
 
 
 We can define sets by either listing all their elements or by writing down a rule that they satisfy such as
