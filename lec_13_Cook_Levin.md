@@ -18,7 +18,6 @@ chapternum: "14"
 >_"Sad to say, but it will be many more years, if ever before we really understand the Mystical Power of Twoness... 2-SAT is easy, 3-SAT is hard, 2-dimensional matching is easy, 3-dimensional matching is hard. Why? oh, Why?"_ Eugene Lawler
 
 
-## The class $\mathbf{NP}$
 
 
 So far we have shown that 3SAT is no harder than Quadratic Equations, Independent Set, Maximum Cut, and Longest Path.
@@ -36,9 +35,12 @@ It turns out that _every_ such search problem can be reduced to 3SAT.
 ![Overview of the results of this chapter. We define $\mathbf{NP}$ to contain all decision problems for which a solution can be efficiently _verified_. The main result of this chapter is the  _Cook Levin Theorem_ ([cook-levin-thm](){.ref}) which states that $3SAT$ has a polynomial-time algorithm if and only if _every_ problem in $\mathbf{NP}$ has a polynomial-time algorithm. Another way to state this theorem is that $3SAT$ is _$\mathbf{NP}$ complete_. We will prove the Cook-Levin theorem by defining the two intermediate  problems $NANDSAT$ and $3NAND$, proving that $NANDSAT$ is $\mathbf{NP}$ complete, and then proving that $NANDSAT \leq_p 3NAND \leq_p 3SAT$.](../figure/cooklevin_overview.png){#cooklevin_overviewfig }
 
 
-To make this precise, we make the following mathematical definition:
-we define the class $\mathbf{NP}$ to contain all Boolean functions that correspond to a _search problem_ of the form above$-$
-that is, functions that output $1$ on $x$ if and only if there exists a solution $w$ such that the pair $(x,w)$ satisfies some polynomial-time checkable condition.
+## The class $\mathbf{NP}$
+
+
+To make the above precise, we will  make the following mathematical definition.
+we define the class $\mathbf{NP}$ to contain all Boolean functions that correspond to a _search problem_ of the form above.
+Theat is a function in $\mathbf{NP}$   outputs $1$ on an input $x$ if and only if there exists a solution $w$ such that the pair $(x,w)$ satisfies some polynomial-time checkable condition.
 Formally, $\mathbf{NP}$ is defined as follows:
 
 ![The class $\mathbf{NP}$ corresponds to problems where solutions can be _efficiently verified_.  That is, this is the class of functions $F$ such that $F(x)=1$ if there is a "solution" $w$ of length polynomial in $|x|$ that can be verified by a polynomial-time algorithm $V$. ](../figure/NPdefinitionfig.png){#NPdeffigfig .margin  }
