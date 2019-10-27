@@ -197,7 +197,7 @@ Since this is our first reduction, we will spell out this proof in detail.
 However it straightforwardly follows the proof idea.
 
 ``` { .algorithm title="$3SAT$ to $01EQ$ reduction" #zerooneeqreduction }
-INPUT: 3CND formula $\varphi$ with $n$ variables $x_0,\ldots,x_{n-1}$ and $m$ clauses.
+INPUT: 3CNF formula $\varphi$ with $n$ variables $x_0,\ldots,x_{n-1}$ and $m$ clauses.
 
 OUTPUT: Set $E$ of linear equations over $0/1$ such that $3SAT(\varphi)=1$ -iff $01EQ(E)=1$.
 
@@ -241,6 +241,21 @@ This means that if we let $x'_i = 1-x_i$ for every $i\in [n]$, then the assignme
 Then it must be the case that $x'_i$ is the negation of $x_i$ for all $i\in [n]$ and since $y_j + z_j \leq 2$ for every $j\in [m]$, it must be the case that for every clause $C_j$  in $\varphi$ of the form $w_1 \vee w_2 \vee w_3$ (with $w_1,w_2,w_3$ being literals), $w_1 + w_2 + w_3 \geq 1$, which means that the assignment $x_0,\ldots,x_{n-1}$ satisfies $\varphi$ and hence $3SAT(\varphi)=1$.
 :::
  
+__Anatomy of a reduction.__ A reduction is simply an algorithm, and like any algorithm, when we come up with a reduction, it is not enough to describe _what_ the reduction does, but we also have to provide an _analysis_ of _why_ it actually works. Specifically, to describe a reduction $R$ demonstrating that $F \leq_p G$ we need to provide the following:
+
+* __Algorithm description:__ This is the description of _how_ the algorithm maps an input into the output. For example, [zerooneeqreduction](){.ref} above is the description of how we map an instance of $3SAT$  into an instance of $01EQ$ in the reduction demonstrating $3SAT \leq_p 01EQ$.
+
+* __Algorithm analysis:__ It is not enough to describe _how_ the algorithm works but we need to also explain _why_ it works. In particular we need to provide an  _analysis_ explaining why the reduction is both _efficient_ (i.e., runs in polynomial time) and _correct_ (satisfies that $G(R(x)=F(x)$ for every $x$)). Specifically, the components of analysis of a reduction $R$ include:
+  
+  * __Efficiency:__ We need to show that $R$ runs in polynomial time. In most reductions we encounter this part is straightforward, as the reductions we typically use involve a constant number of nested loops, each involving a constant number of operations.
+
+  * __Completeness:__ In a reduction $R$ demonstrating $F \leq_p G$, the _completeness_ condition is the condition that for every $x\in \{0,1\}^*$, if $F(x) = 1$ then $G(R(x))=1$. Typically we construct the reduction to ensure that this holds, by giving a way to map a "certificate/solution" certifying that $F(x)=1$ into a solution certifying that $G(R(x))=1$. For example in the proof of [tsattozoeqthm](){.ref} the satisfying assignment for the $3SAT$ formula $\varphi$ can be mapped to a solution to the set of equations $R(\varphi)$.
+
+  * __Soundness:__ This is the condition that if $F(x)=0$ then $G(R(x))=0$ or (taking the contrapositive) if $G(R(x))=1$ then $F(x)=1$. This is sometimes straightforward but can also be  harder to show than the completeness condition, and in more advanced reductions (such as the reduction $SAT \leq_p ISET$ of [isetnpc](){.ref}) demonstrating soundness is the main part of the analysis.
+
+Whenever you need to provide a reduction, you should make sure that your description has all these components. While it is sometimes tempting to weave together the description of the reduction and its analysis, it is usually clearer if you separate the two, and also break down the analysis to its three components of efficiency, completeness, and soundness.
+
+
 
 ### Quadratic equations
 
