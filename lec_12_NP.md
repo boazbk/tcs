@@ -410,7 +410,7 @@ __Part 2: Soundness.__ Suppose that $S$ is a cut in $H$ that cuts at least $C=k+
 
 ## Reducing 3SAT to Longest Path
 
-__Note:__ This section is still a little messy, feel free to skip it or just read it without going into the proof details. The proof appears in Sectoin 7.5 in Sipser's book.
+__Note:__ This section is still a little messy; feel free to skip it or just read it without going into the proof details. The proof appears in Section 7.5 in Sipser's book.
 
 One of the most basic algorithms in Computer Science is Dijkstra's algorithm to find the _shortest path_ between two vertices.
 We now show that in contrast, an efficient algorithm for the _longest path_ problem would imply a polynomial-time algorithm for 3SAT.
