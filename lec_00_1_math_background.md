@@ -63,7 +63,7 @@ The main mathematical concepts we use in this book are:
 
 * __Logical operations:__ The operations AND ($\wedge$), OR ($\vee$), and NOT ($\neg$) and the quantifiers "there exists" ($\exists$) and "for all" ($\forall$).
 
-* __Basic combinatorics:__ Notions such as $\binom{n}{k}$ (the number of $k$-sized subsets of a set of size $n$).
+* __Basic combinatorics:__ Notions such as $\binom{n}{k}$ (the number of $k$-sized subsets of a set of size $n$), conventionally read as "_n choose k_".
 
 * __Graphs:__ Undirected and directed graphs, connectivity, paths, and cycles.
 
@@ -79,10 +79,10 @@ This is partially to remind the reader and reinforce material that might not be 
 
 ## Reading mathematical texts
 
-Reading mathematical texts take practice to get used to the notation and symbols.
+Reading mathematical texts takes practice to get used to the notation and symbols.
 Mathematicians use jargon for the same reason that it is used in many other professions such engineering, law, medicine, and others.
 We want to make terms _precise_ and introduce shorthand for concepts that are frequently reused.
-Mathematical texts tend to "pack a lot of punch" per sentence, and so the key is to read them slowly and carefully, parsing each symbol at a time.
+Mathematical texts tend to "pack a lot of punch" per sentence, and so the key is to read them slowly and carefully, parsing each symbol one at a time.
 
 With time and practice you will see that reading mathematical texts becomes easier and jargon is no longer an issue.
 Moreover, reading mathematical texts is one of the most transferable skills you could take from this book.
@@ -129,7 +129,7 @@ Deciding whether to call a particular statement a "Theorem", a "Lemma" or a "Cla
 
 ### Proofs
 
-Mathematical _proofs_ are the arguments we use to demonstrate that our theorems, lemmas, and claims area indeed true.
+Mathematical _proofs_ are the arguments we use to demonstrate that our theorems, lemmas, and claims are indeed true.
 We discuss proofs in [proofsbackgroundsec](){.ref} below, but the main point is that the mathematical standard of proof is very high.
 Unlike in some other realms, in mathematics a proof is an  "airtight" argument that demonstrates that the statement is true beyond a shadow of a doubt.
 Some examples in this section for mathematical proofs are given in [simplepathlemex](){.ref} and [topsortsec](){.ref}.
@@ -546,7 +546,7 @@ for (int j=0 ; j<n ; j=j+1) {
 produces the same result as the code above that used `i` instead of `j`.
 
 ::: {.remark title="Aside: mathematical vs programming notation" #notationrem}
-Mathematical notation has a lot of similarities with programming language, and for the same reasons.
+Mathematical notation has a lot of similarities with programming languages, and for the same reasons.
 Both are formalisms meant to convey complex concepts in a precise way.
 However, there are some cultural differences.
 In programming languages, we often try to use meaningful variable names such as `NumberOfVertices` while in math we often use short identifiers such as $n$.
@@ -583,7 +583,7 @@ We will write $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$, which one can think of as
 More formally, we define Big-$O$ notation as follows:
 
 
-:::  {.definition title="Big-$O$ notation" #bigohdef}
+:::  {.definition title="Big-O notation" #bigohdef}
 Let $\R_+= \{ x\in \R \;|\; x>0\}$ be the set of positive real numbers.
 For two functions $F,G: \N \rightarrow \R_+$, we say that  _$F=O(G)$_  if there exist numbers $a,N_0 \in \N$ such that $F(n) \leq a\cdot G(n)$ for every $n>N_0$. We say that  $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$. We say that $F=\Omega(G)$  if $G=O(F)$.
 
