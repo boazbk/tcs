@@ -40,7 +40,7 @@ It turns out that _every_ such search problem can be reduced to 3SAT.
 
 To make the above precise, we will  make the following mathematical definition.
 we define the class $\mathbf{NP}$ to contain all Boolean functions that correspond to a _search problem_ of the form above.
-Theat is a function in $\mathbf{NP}$   outputs $1$ on an input $x$ if and only if there exists a solution $w$ such that the pair $(x,w)$ satisfies some polynomial-time checkable condition.
+That is, a Boolean function $F$ is in  $\mathbf{NP}$ if $F$ has the form that on input a string $x$, $F(x)=1$ if and only if there exists a "solution" string $w$  such that the pair $(x,w)$ satisfies some polynomial-time checkable condition.
 Formally, $\mathbf{NP}$ is defined as follows:
 
 ![The class $\mathbf{NP}$ corresponds to problems where solutions can be _efficiently verified_.  That is, this is the class of functions $F$ such that $F(x)=1$ if there is a "solution" $w$ of length polynomial in $|x|$ that can be verified by a polynomial-time algorithm $V$. ](../figure/NPdefinitionfig.png){#NPdeffigfig .margin  }
@@ -123,7 +123,7 @@ OUTPUT: $1$ iff $w$ satisfies $\varphi$
 
 For{$j \in [m]$}
    Let $\ell_1 \vee \ell_2 \vee \ell_j$ be the $j$-th clause of $\varphi$ 
-   If{$y$ violates all three literals}
+   If{$w$ violates all three literals}
      return $0$
    Endif
 Endfor
@@ -481,6 +481,10 @@ In particular $\psi$ is satisfiable if and only if $\varphi$ is, thus completing
 :::
 
 
+![An instance of the _independent set_ problem obtained by applying the reductions $NANDSAT \leq_p 3NAND \leq_p 3SAT \leq_p ISAT$ starting with the `xor5` NAND-CIRC program.](../figure/indsetfromnandsat.png){#indsetfromnandsatfig   }
+
+
+
 ## Wrapping up
 
 We have shown that for every function $F$ in $\mathbf{NP}$, $F \leq_p NANDSAT \leq_p 3NAND \leq_p 3SAT$, and so $3SAT$ is $\mathbf{NP}$-hard.
@@ -491,9 +495,8 @@ Finding a polynomial-time algorithm for any one of them will imply a polynomial-
 
 
 
-![An instance of the _independent set_ problem obtained by applying the reductions $NANDSAT \leq_p 3NAND \leq_p 3SAT \leq_p ISAT$ starting with the `xor5` NAND-CIRC program.](../figure/indsetfromnandsat.png){#indsetfromnandsatfig   }
 
-
+![We believe that $\mathbf{P} \neq \mathbf{NP}$ and all $\mathbf{NP}$ complete problems lie outside of $\mathbf{P}$, but we cannot rule out the possiblity that  $\mathbf{P}=\mathbf{NP}$. However, we can rule out the possiblity that _some_ $\mathbf{NP}$-complete problems are in $\mathbf{P}$ and other do not, since we know that if even one $\mathbf{NP}$-complete problem is in $\mathbf{P}$ then $\mathbf{P}=\mathbf{NP}$. The relation between $\mathbf{P_{/poly}}$ and $\mathbf{NP}$ is not known though it can be shown that if one $\mathbf{NP}$-complete problem is in $\mathbf{P_{/poly}}$ then $\mathbf{NP} \subseteq \mathbf{P_{/poly}}$.](../figure/inclusion_npc.png){#npcinclusionfig }
 
 > ### { .recap }
 * Many of the problems for which we don't know polynomial-time algorithms are $\mathbf{NP}$-complete, which means that finding a polynomial-time algorithm for one of them would imply a polynomial-time algorithm for _all_ of them.

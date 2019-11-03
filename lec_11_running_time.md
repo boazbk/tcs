@@ -610,26 +610,72 @@ To make this idea into an actual proof we need to tackle one technical difficult
 
 ### Oblivious NAND-TM programs  {#obliviousnandtm }
 
-Our idea to prove [non-uniform-thm](){.ref} involves "unrolling the loop". 
-That is, suppose that $P$ is a NAND-TM program of $k$ lines of the form
+Our approach for proving [non-uniform-thm](){.ref} involves "unrolling the loop". 
+For example,  consider the following NAND-TM to compute the $XOR$ function on inputs of arbitrary length:
 
 ```python
-line_1
-...
-line_(k-1)
-MODANDJMP(dir1,dir2)
+temp_0 = NAND(X[0],X[0])
+Y_nonblank[0] = NAND(X[0],temp_0)
+temp_2 = NAND(X[i],Y[0])
+temp_3 = NAND(X[i],temp_2)
+temp_4 = NAND(Y[0],temp_2)
+Y[0] = NAND(temp_3,temp_4)
+MODANDJUMP(X_nonblank[i],X_nonblank[i])
 ```
 
-and such that on every input $x\in \{0,1\}^n$, $P$ runs for at most $T(n)$ iterations and returns the value $F(x)$.
+Setting (as an example) $n=3$, we can attempt to translate this NAND-TM program into a NAND-CIRC program for computing  $XOR_3:\{0,1\}^3 \rightarrow \{0,1\}$ by simply "copying and pasting" the loop three times (dropping the `MODANDJMP` line):
 
-We would want to transform it into a NAND-CIRC program for computing the finite  function $F_{\upharpoonright n}$ by simply dropping the last line "copying and pasting" $T(n)$ copies of the first $k-1$ lines.
-However, we still need to decide what to do with arrays.
-Since  the index variable `i` can move at most one step per iteration, it will never reach more than $T(n)-1$ on inputs of length $n$.
-Hence we can replace an array `Foo` with $T=T(n)$ scalar variables `foo_0` , $\ldots$, `foo_`$(T-1)$.
-Now we would want to replace references to `Foo[i]` in the original NAND-TM program with references to a variable of the form `foo_`$k$ for some number $k$ in the new NAND-CIRC program.
-We could do that if the original NAND-TM program $P$ had the property that in its $j$-th iteration, the value of the index variable `i` is always equal to the same number $k$, regardless of what was the input.
-This would mean that when we obtain a NAND-CIRC program by taking  $T(n)-1$ copies  of $P$, we can replace all references of the form `Foo[i]` in the $j$-th copy with references to `foo_`$k$.
-A NAND-TM program with this property is called _oblivious_ and we now show that it is possible to transform every NAND-TM program into one that is oblivious.
+
+```python
+temp_0 = NAND(X[0],X[0])
+Y_nonblank[0] = NAND(X[0],temp_0)
+temp_2 = NAND(X[i],Y[0])
+temp_3 = NAND(X[i],temp_2)
+temp_4 = NAND(Y[0],temp_2)
+Y[0] = NAND(temp_3,temp_4)
+temp_0 = NAND(X[0],X[0])
+Y_nonblank[0] = NAND(X[0],temp_0)
+temp_2 = NAND(X[i],Y[0])
+temp_3 = NAND(X[i],temp_2)
+temp_4 = NAND(Y[0],temp_2)
+Y[0] = NAND(temp_3,temp_4)
+temp_0 = NAND(X[0],X[0])
+Y_nonblank[0] = NAND(X[0],temp_0)
+temp_2 = NAND(X[i],Y[0])
+temp_3 = NAND(X[i],temp_2)
+temp_4 = NAND(Y[0],temp_2)
+Y[0] = NAND(temp_3,temp_4)
+```
+
+However, the above is still not a valid NAND-CIRC program since it contains references to the special variable `i`.
+To make it into a valid NAND-CIRC program, we replace references to `i` in the first iteration with $0$, references in the second iteration with $1$, and references in the third iteration with $2$.
+(We also create a variable `zero` and use it for the first time any variable is instantiated, as well as remove assignments to non-output variables that are never used later on.)
+The resulting program is a standard "loop free and index free" NAND-CIRC program that computes $XOR_3$ (see also [unrolledcircuitfig](){.ref}):
+
+```python
+temp_0 = NAND(X[0],X[0])
+one = NAND(X[0],temp_0)
+zero = NAND(one,one)
+temp_2 = NAND(X[0],zero)
+temp_3 = NAND(X[0],temp_2)
+temp_4 = NAND(zero,temp_2)
+Y[0] = NAND(temp_3,temp_4)
+temp_2 = NAND(X[1],Y[0])
+temp_3 = NAND(X[1],temp_2)
+temp_4 = NAND(Y[0],temp_2)
+Y[0] = NAND(temp_3,temp_4)
+temp_2 = NAND(X[2],Y[0])
+temp_3 = NAND(X[2],temp_2)
+temp_4 = NAND(Y[0],temp_2)
+Y[0] = NAND(temp_3,temp_4)
+```
+
+![A NAND circuit for $XOR_3$ obtained by "unrolling the loop" of the NAND-TM program for computing $XOR$ three times.](../figure/unrolled_circuit.png){#unrolledcircuitfig .margin }
+
+
+Key to this transformation was the fact that in our original NAND-TM program for $XOR$, regardless of whether the input is $011$, $100$, or any other string, the index variable `i` is guaranteed to equal $0$ in the first iteration, $1$ in the second iteration,  $2$ in the third iteration, and so on and so forth.
+The particular sequence $0,1,2,\ldots$ is immaterial: the crucial property is that the NAND-TM program for $XOR$ is  _oblivious_ in the sense that the value of the index `i` in the $j$-th iteration depends only on $j$ and does not depend on the particular choice of the input. 
+Luckily,  it is possible to transform every NAND-TM program into a functionally equivalent oblivious program with at most quadratic . (Similarly we can transform any Turing machine into a functionally equivalent oblivious Turing machine, see [oblivious-ex](){.ref}.)
 
 > ### {.theorem title="Making NAND-TM oblivious" #obliviousnandtmthm}
 Let $T:\N \rightarrow \N$ be a nice function and let $F\in TIME_{\mathsf{TM}}(T(n))$.
@@ -879,13 +925,13 @@ Prove that there is some $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$ s.t. $F,G \in \ov
 
 
 ::: {.exercise title="Oblivious Turing Machines" #oblivious-ex}
-We say that a Turing machine $M$ is _oblivious_ if there is some function $T:\N\times \N \rightarrow \Z$ such that for every input $x$ of length $n$, and $t\in \N$ it holds that:\
+We say that a Turing machine $M$ is _oblivious_ if there is some function $T:\N\times \N \rightarrow \Z$ such that for every input $x$ of length $n$, and $t\in \N$ it holds that:
 
 * If $M$ takes more than $t$ steps to halt on the input $x$, then in the $t$-th step $M$'s head will be in the position $T(n,t)$. (Note that this position depends only on the _length_ of $x$ and not its contents.)
 
 * If $M$ halts before the $t$-th step then $T(n,t) = -1$.
 
-Prove that if $F\in \mathbf{P}$ then there exists an _oblivious_ Turing machine $M$ that computes $F$ in polynomial time. See footnote for hint.^[_Hint:_ This is the Turing Machine analog of [obliviousnandtmthm](){.ref}.]
+Prove that if $F\in \mathbf{P}$ then there exists an _oblivious_ Turing machine $M$ that computes $F$ in polynomial time. See footnote for hint.^[_Hint:_ This is the Turing Machine analog of [obliviousnandtmthm](){.ref}. We replace one step of the original TM $M'$ computing $F$ with a "sweep" of the obliviouss TM $M$ in which it goes $T$ steps to the right and then $T$ steps to the left.]
 :::
 
 

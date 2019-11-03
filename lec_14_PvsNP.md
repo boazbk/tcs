@@ -31,9 +31,8 @@ But why is it so important?
 In this chapter, we will try to figure out the implications of such an algorithm.
 
 First, let us get one qualm out of the way.
-Sometimes people say, _"What if $\mathbf{P}=\mathbf{NP}$ but the best algorithm for 3SAT takes $n^{100}$ time?"_
-Well, $n^{100}$ is much larger than, say, $2^{\sqrt{n}}$ for any input shorter than $10^{60}$ bits, which is way, way larger than the world's total storage capacity (estimated at a "mere" $10^{21}$ bits or about 200 exabytes at the time of this writing).
-So another way to phrase this question is to say,  "what if the complexity of 3SAT is exponential for all inputs that we will ever encounter, but then grows much smaller than that?"
+Sometimes people say, _"What if $\mathbf{P}=\mathbf{NP}$ but the best algorithm for 3SAT takes $n^{1000}$ time?"_
+Well, $n^{1000}$ is much larger than, say, $2^{0.001\sqrt{n}}$ for any input smaller than $2^{50}$, as large as a harddrive as you will encounter, and so another way to phrase this question is to say "what if the complexity of 3SAT is exponential for all inputs that we will ever encounter, but then grows much smaller than that?"
 To me this sounds like the computer science equivalent of asking, "what if the laws of physics change completely once they are out of the range of our telescopes?".
 Sure, this is a valid possibility, but wondering about it does not sound like the most productive use of our time.
 
@@ -43,18 +42,30 @@ So, as the saying goes, we'll keep an open mind, but not so open that our brains
 
 and
 
- * She does not "pussyfoot around" or take "half measures". If God decided to make $3SAT$ _easy_, then $3SAT$ will have a $10^6\cdot n$ (or at worst $10^6 n^2$) -time algorithm (i.e., $3SAT$ will be in $TIME(cn)$ or $TIME(cn^2)$  for a not-too-large constant $c$). If she decided to make $3SAT$ _hard_, then for every $n \in \N$, $3SAT$ on $n$ variables cannot be solved by a NAND-CIRC program of fewer than $2^{10^{-6}n}$ lines.^[Using the relations we've seen between $SIZE(T(n))$  and $TIME(T(n))$ (i.e., [non-uniform-thm](){.ref}), $3SAT \not\in SIZE(T(n))$ then it is also in $TIME(T(n)^\epsilon)$ for some constant $\epsilon$ that can be shown to be at least $1/5$.]
+ * She does not "pussyfoot around" or take "half measures". 
+ 
+ 
+ What we mean by this is that we will consider two extreme scenarios:
+ 
+ * __3SAT is very easy:__ $3SAT$ has an $O(n)$ or $O(n^2)$ time algorithm with a not too huge constant (say smaller than $10^6$.) 
 
+ * __3SAt is very hard:__ $3SAT$ is exponentially hard and cannot be solved faster than $2^{\epsilon n}$ for some not too tiny $\epsilon>0$ (say at least $10^{-6}$). We can even make the stronger assumption that for every sufficiently large $n$, the restriction of $3SAT$ to inputs of length $n$ cannot be computer by a circuit of fewer than $2^{\epsilon n}$ gates.
+
+At the time of writing, the fastest known algorithm for $3SAT$ requires more than $2^{0.35 n}$ to solve $n$ variable formulas, while we do not even know how to rule out the possibility that we can compute $3SAT$ using $10n$ gates.
+To put it in perspective, for the case $n=1000$ our lower and upper bounds for the computational costs are apart by a factor of about $10^{100}$.
+As far as we know, it could be the case that $1000$-variable $3SAT$ can be solved in a millisecond on a first-generation iPhone, and it can also be the case that such instances require more than the age of the universe to solve on the world's fastest supercomputer.
 
 So far, most of our evidence points to the latter possibility of 3SAT being exponentially hard, but we have not ruled out the former possibility either.
-In this chapter we will explore some of its consequences.
+In this chapter we will explore some of the consequences of the "$3SAT$ easy" scenario.
+
 
 ## Search-to-decision reduction
 
-A priori, having a fast algorithm for 3SAT might not seem so impressive. Sure, it will allow us to decide the satisfiability of not just 3CNF formulas but also of quadratic equations, as well as find out whether there is a long path in a graph, and solve many other decision problems.
+A priori, having a fast algorithm for 3SAT might not seem so impressive.
+Sure, such an algorithm allows us to decide the satisfiability of not just 3CNF formulas but also of quadratic equations, as well as find out whether there is a long path in a graph, and solve many other decision problems.
 But this is not typically what we want to do.
-It's not enough to know _if_ a formula is satisfiable$-$ we want to discover the actual satisfying assignment.
-Similarly, it's not enough to find out if a graph has a long path$-$ we want to actually _find_ the path.
+It's not enough to know _if_ a formula is satisfiable: we want to discover the actual satisfying assignment.
+Similarly, it's not enough to find out if a graph has a long path: we want to actually _find_ the path.
 
 It turns out that if we can solve these decision problems, we can solve the corresponding search problems as well:
 
@@ -129,7 +140,7 @@ For example, suppose that $\mathbf{P}=\mathbf{NP}$, and you are given a graph $G
 This is actually an excellent question for you to attempt on your own.
 That is, assuming $\mathbf{P}=\mathbf{NP}$, give a polynomial-time algorithm that on input a graph $G$, outputs a maximally long simple path in the graph $G$.
 
-It turns out the answer is _Yes_.
+The answer is _Yes_.
 The idea is simple: if $\mathbf{P}=\mathbf{NP}$ then we can find out in polynomial time if an $n$-vertex graph $G$ contains a simple path of length $n$, and moreover, by [search-dec-thm](){.ref}, if $G$ does contain such a path, then we can find it. (Can you see why?)
 If $G$ does not contain a simple path of length $n$, then we will check if it contains a simple path of length $n-1$, and continue in this way to find the largest $k$ such that $G$ contains a simple path of length $k$.
 
