@@ -796,7 +796,7 @@ There are several types of prefix-free representations of the code points, a pop
 The _Braille system_ is another way to encode letters and other symbols as binary strings. Specifically, in Braille, every letter is encoded as a string in $\{0,1\}^6$, which is written using indented dots arranged in two columns and three rows, see [braillefig](){.ref}.
 (Some symbols require more than one six-bit string to encode, and so Braille uses a more general prefix-free encoding.)
 
-The Braille system was invented in 1821 by [Louis Braille](https://goo.gl/Y2BkEe) when he was just 12 years old (though he continued working on it and improving it throughout his life). Braille was a French boy that lost his eyesight at the age of 5 as the result of an accident.
+The Braille system was invented in 1821 by [Louis Braille](https://goo.gl/Y2BkEe) when he was just 12 years old (though he continued working on it and improving it throughout his life). Braille was a French boy who lost his eyesight at the age of 5 as the result of an accident.
 :::
 
 ::: {.example title="Representing objects in C (optional)" #Crepresentation}
@@ -1023,7 +1023,7 @@ d. All of the above.
 
 ::: {.exercise title="Binary representation" #binaryrepex}
 
-a. Prove that the function $NtS:\N \rightarrow \{0,1\}^*$ of the binary representation defined in [ntseq](){.eqref} satisfies that for every $n\in \N$, if $x = NtS(n)$ then $|x| = \floor{\log_2 n}$ and $x_i = \floor{x/2^{|x|-i}} \mod 2$.
+a. Prove that the function $NtS:\N \rightarrow \{0,1\}^*$ of the binary representation defined in [ntseq](){.eqref} satisfies that for every $n\in \N$, if $x = NtS(n)$ then $|x| =1+\max(0,\floor{\log_2 n})$ and $x_i = \floor{x/2^{\log_2 n-i}} \mod 2$.
 
 b. Prove that $NtS$ is a one to one function by coming up with a function $StN:\{0,1\}^* \rightarrow \N$ such that $StN(NtSp(n))=n$ for every $n\in \N$.
 :::
