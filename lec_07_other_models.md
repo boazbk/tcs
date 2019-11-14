@@ -220,7 +220,7 @@ Two[i] = something
 
 ### All the rest
 
-Once we have two dimensional arrays and indexed access, simulating NAND-RAM with NAND-TM is just a matter of implementing the standard algorithms for arithmetic operations and comparisions in NAND-TM.
+Once we have two dimensional arrays and indexed access, simulating NAND-RAM with NAND-TM is just a matter of implementing the standard algorithms for arithmetic operations and comparisons in NAND-TM.
 While this is cumbersome, it is not difficult, and the end result is to show that every NAND-RAM program $P$ can be simulated by an equivalent NAND-TM program $Q$, thus completing the proof of [RAMTMequivalencethm](){.ref}.
 
 
