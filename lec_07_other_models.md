@@ -593,7 +593,7 @@ Clearly, the name of the argument to a function doesn't matter, and so $\lambda 
 
 
 
-_Dropping parenthesis._ To reduce notational clutter, when writing $\lambda$ calculus expressions we often drop the parenthesis for function evaluation. Hence instead of writing $f(x)$ for the result of applying the function $f$ to the input $x$, we can also write this as simply $f\; x$.
+_Dropping parenthesis._ To reduce notational clutter, when writing $\lambda$ calculus expressions we often drop the parentheses for function evaluation. Hence instead of writing $f(x)$ for the result of applying the function $f$ to the input $x$, we can also write this as simply $f\; x$.
 Therefore we can write  $(\lambda x.x\times x) 7=49$. In this chapter, we will use both the $f(x)$ and $f\; x$ notations for function application.
 Function evaluations are associative and bind from left to right, and hence $f\;g\;h$ is the same as $(f g) h$.
 
