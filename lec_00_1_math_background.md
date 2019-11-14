@@ -868,7 +868,7 @@ The assumption in __(b)__ that $Q(i)$ holds for $i<k$ is called the "inductive h
 (The form of induction described here is sometimes called "strong induction" as opposed to "weak induction" where we replace __(b)__ by the statement __(b')__ that if $Q(k-1)$ is true then $Q(k)$ is true; weak induction can be thought of as the special case of strong induction where we don't use the assumption that $Q(0),\ldots,Q(k-2)$ are true.)
 
 > ### {.remark title="Induction and recursion" #inducrecrem}
-Proofs by inductions are closely related to algorithms by recursion.
+Proofs by induction are closely related to algorithms by recursion.
 In both cases we reduce solving a larger problem to solving a smaller instance of itself. In a recursive algorithm to solve some problem P on an input of length $k$  we ask ourselves "what if someone handed me a way to solve P on instances smaller than $k$?". In an inductive proof to prove a statement Q parameterized by a number $k$, we ask ourselves "what if I already knew that $Q(k')$ is true for $k'<k$?".
 Both induction and recursion are crucial concepts for this course and Computer Science at large (and even other areas of inquiry, including not just mathematics but other sciences as well). Both can be confusing at first, but with time and practice they become clearer.
 For more on proofs by induction and recursion, you might find the following [Stanford CS 103 handout](https://cs121.boazbarak.org/StanfordCS103Induction.pdf), [this MIT 6.00 lecture](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00sc-introduction-to-computer-science-and-programming-spring-2011/unit-1/lecture-6-recursion/) or [this excerpt of the Lehman-Leighton book](https://cs121.boazbarak.org/LL_induction.pdf) useful.
