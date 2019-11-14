@@ -1302,7 +1302,7 @@ Prove that the simplification process of $e$ ends in a definite number if we use
 
 ::: {.exercise title="Zip function" #zipfunctionex}
 Give an enhanced λ calculus expression to compute the function $zip$ that on input a pair of lists $I$ and $L$ of the same length $n$, outputs a _list of $n$ pairs_ $M$ such that the $j$-th element of $M$ (which we denote by $M_j$) is the pair $(I_j,L_j)$.
-Thus $zip$ "zips together" these two lists of elements into a single list of pairs.^[The name $zip$ is a common name for this operation, for example in Python. It should not be be confused with the `zip` compression file format.]
+Thus $zip$ "zips together" these two lists of elements into a single list of pairs.^[The name $zip$ is a common name for this operation, for example in Python. It should not be confused with the `zip` compression file format.]
 :::
 
 ::: {.exercise title="Next-step function without $RECURSE$" #lambdaturing-thm}
