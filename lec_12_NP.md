@@ -111,6 +111,10 @@ This, computing $B(y)$  will take at most $p(|y|) \leq p(q(|x|))$ steps.
 Thus the total running time of $A$ on inputs of length $n$ is at most the time to compute $y$, which is bounded by $q(n)$, and the time to compute $B(y)$, which is bounded by $p(q(n))$, and since the composition of two polynomials is a polynomial, $A$ runs in polynomial time.
 :::
 
+::: { .bigidea #reduction}
+A _reduction_  $F \leq_p G$ shows that $F$ is "no harder than $G$" or equivalently that $G$ is "no easier than $F$".
+:::
+
 
 A reduction from $F$ to $G$ can be used for two purposes:
 

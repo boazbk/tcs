@@ -147,10 +147,12 @@ If $G$ does not contain a simple path of length $n$, then we will check if it co
 The above reasoning was not specifically tailored to finding paths in graphs.
 In fact, it can be vastly generalized to proving the following result:
 
-> ### {.theorem title="Optimization from $\mathbf{P}=\mathbf{NP}$" #optimizationnp}
-Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time computable function $f:\{0,1\}^* \rightarrow \{0,1\}^*$  there is a polynomial-time algorithm $OPT$ such that on input   $x\in \{0,1\}^*$, $OPT(x,1^m) = \max_{y\in \{0,1\}^m} f(x,y)$  (where we identify the output of $f(x)$ with a natural number via the binary representation).
->
-Moreover under the same assumption, there is a polynomial-time algorithm $FINDOPT$ such that for every $x\in \{0,1\}^*$, $FINDOPT(x,1^m)$ outputs $y^* \in \{0,1\}^*$ such that $f(x,y^*)=OPT(x,y^*)$.
+::: {.theorem title="Optimization from $\mathbf{P}=\mathbf{NP}$" #optimizationnp}
+Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time computable function $f:\{0,1\}^* \rightarrow \N$ (identifying $f(x)$ with natural numbers via the binary representation)  there is a polynomial-time algorithm $OPT$ such that on input   $x\in \{0,1\}^*$, 
+$$OPT(x,1^m) = \max_{y\in \{0,1\}^m} f(x,y) \;.$$
+
+Moreover under the same assumption, there is a polynomial-time algorithm $FINDOPT$ such that for every $x\in \{0,1\}^*$, $FINDOPT(x,1^m)$ outputs $y^* \in \{0,1\}^*$ such that $f(x,y^*)=\max_{y\in \{0,1\}^m} f(x,y)$.
+:::
 
 > ### { .pause }
 The statement of [optimizationnp](){.ref} is a bit cumbersome.  To understand it, think how it would subsume the example above of a polynomial time algorithm for finding the maximum length path in a graph. In this case the function $f$ would be the map that on input a pair $x,y$ outputs $0$ if the pair $(x,y)$ does not represent some graph and a simple path inside the graph respectively;  otherwise $f(x,y)$ would equal the length of the path $y$ in the graph $x$. Since a path in an $n$ vertex graph can be represented by at most $n \log n$ bits, for every $x$ representing a graph of $n$ vertices, finding $\max_{y\in \{0,1\}^{n \log n}}f(x,y)$   corresponds to finding the length of the maximum simple path in the graph corresponding to $x$, and finding the string $y^*$ that achieves this maximum corresponds to actually finding the path.
@@ -444,6 +446,10 @@ In many of the areas where $\mathbf{NP}$-completeness arises, it is not as much 
 A better algorithm for $\mathbf{NP}$, even if it is "merely" $2^{\sqrt{n}}$-time, seems to require obtaining a new way to understand these types of systems, whether it is characterizing Nash equilibria, spin-glass configurations, entangled quantum states, or any of the other questions where $\mathbf{NP}$ is currently a barrier for analytical understanding.
 Such new insights would be very fruitful regardless of their computational utility.
 
+
+::: { .bigidea #pnpconsequences}
+If $\mathbf{P}=\mathbf{NP}$, we can efficiently solve a fantastic number of decision, search, optimization, counting, and sampling problems from all areas of human endeavors. 
+:::
 
 
 ## Can $\mathbf{P} \neq \mathbf{NP}$ be neither true nor false?

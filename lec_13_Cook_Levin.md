@@ -250,6 +250,11 @@ Together with the reductions of [reductionchap](){.ref},  [cook-levin-thm](){.re
 Many thousands of additional problems have been shown to be $\mathbf{NP}$-complete, arising from all the sciences, mathematics, economics, engineering and many other fields.
 (For a few examples, see [this Wikipedia page](https://goo.gl/NomnoU) and [this website](https://goo.gl/nfJHWv).)
 
+::: { .bigidea #npcomplete}
+If a _single_ $\mathbf{NP}$-complete has a polynomial-time algorithm, then there is such an algorithm for every decision problem that corresponds to the existence of an _efficiently-verifiable_ solution.
+:::
+
+
 ### What does this mean?
 
 As we've seen in [PinNP](){.ref}, $\mathbf{P} \subseteq \mathbf{NP}$.
