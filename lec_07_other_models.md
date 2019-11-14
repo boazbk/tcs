@@ -727,7 +727,7 @@ There are two natural conventions for this:
 * _Call by value_ (aka _"eager evaluation"_): We evaluate [lambdaexpeq](){.eqref} by first evaluating the righthand side and obtaining $h=g[y \rightarrow z]$, and then plugging this into the lefthandside to obtain $f[x \rightarrow h]$.
 
 Because the λ calculus has only _pure_ functions, that do not have "side effects", in many cases the order does not matter.
-In fact, it can be shown that if we obtain an definite irreducible expression (for example, a number) in both strategies, then it will be the same one.
+In fact, it can be shown that if we obtain a definite irreducible expression (for example, a number) in both strategies, then it will be the same one.
 However, for concreteness we will always use the "call by name" (i.e., lazy evaluation) order.
 (The same choice is made in the programming language Haskell, though many other programming languages use eager evaluation.)
 Formally, the evaluation of a λ expression using "call by name" is captured by the following process:
