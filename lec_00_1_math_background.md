@@ -408,7 +408,7 @@ The path $P'$ is a valid path between $u$ and $v$ since every consecutive pair o
 You start by ensuring you understand what the statement means, and then come up with 
 an informal argument why it should be true.
 You then transform the informal argument into a rigorous proof.
-This proof need not be very long or overly formal, but should clearly establish why the conclusion of the statement follow from its assumptions.
+This proof need not be very long or overly formal, but should clearly establish why the conclusion of the statement follows from its assumptions.
 :::
 
 The concepts of degrees and connectivity extend naturally  to _directed graphs_, defined as follows.
