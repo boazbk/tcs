@@ -18,15 +18,8 @@ chapternum: "20"
 
 >_"A good disguise should not reveal the person's height"_, Shafi Goldwasser and Silvio Micali, 1982
 
->_"I hope my handwriting, etc. do not give the impression I am just a crank or circle-squarer....  The significance of this conjecture [that certain encryption schemes are exponentially secure against key recovery attacks] .. is that it is quite feasible to design ciphers that are effectively unbreakable. "_, John Nash, [letter to the NSA](https://www.nsa.gov/news-features/declassified-documents/nash-letters/assets/files/nash_letters1.pdf), 1955.
 
->_"“Perfect Secrecy” is defined by requiring of a system
-that after a cryptogram is intercepted by the enemy the a posteriori
-probabilities of this cryptogram representing various messages be
-identically the same as the a priori probabilities of the same
-messages before the interception. It is shown that perfect secrecy
-is possible but requires, if the number of messages is finite, the
-same number of possible keys."_, Claude Shannon, 1945
+>_"“Perfect Secrecy” is defined by requiring of a system that after a cryptogram is intercepted by the enemy the a posteriori probabilities of this cryptogram representing various messages be identically the same as the a priori probabilities of the same messages before the interception. It is shown that perfect secrecy is possible but requires, if the number of messages is finite, the same number of possible keys."_, Claude Shannon, 1945
 
 >_"We stand today on the brink of a revolution in cryptography."_, Whitfeld Diffie and Martin Hellman, 1976
 
@@ -93,7 +86,7 @@ The idea is that once you guess the length of the cipher, you can reduce the tas
 analysis (can you see why?).
 Confederate generals used Vigenère regularly during the civil war, and their messages were routinely cryptanalzed by Union officers.
 
-![Confederate Cipher Disk for implementing the Vigenère cipher](../figure/confederate_cipher_disk.jpg){#tmplabelfig}
+![Confederate Cipher Disk for implementing the Vigenère cipher](../figure/confederate_cipher_disk.jpg){#tmplabelfig .margin}
 
 ![Confederate encryption of the message  "Gen'l Pemberton: You can expect no help from this side of the river. Let Gen'l Johnston know, if possible, when you can attack the same point on the enemy's lines. Inform me also and I will endeavor to make a diversion. I have sent some caps. I subjoin a despatch from General Johnston."](../figure/confederate_message.jpg){#tmplabelfig}
 
@@ -132,24 +125,41 @@ See also [this interview with Sir Harry Hinsley](http://www.cix.co.uk/~klockston
 ## Defining encryption
 
 Many of the troubles that cryptosystem designers faced over history (and still face!) can be attributed to not properly defining or understanding what are the goals they want to achieve in the first place.
-Let us focus on the setting of _private key encryption_.^[If you don't know what "private key" means, you can ignore this adjective for now. For thousands of years, "private key encryption" was synonymous with encryption. Only in the 1970's was the concept of _public key encryption_ invented, see [publickeyencdef](){.ref}.]
+Let us focus on the setting of _private key encryption_. (This is also known as "symmetric encryption"; for thousands of years, "private key encryption" was synonymous with encryption and only in the 1970's was the concept of _public key encryption_ invented, see [publickeyencdef](){.ref}.)
 A _sender_ (traditionally called "Alice") wants to send a message (known also as a _plaintext_) $x\in \{0,1\}^*$ to a _receiver_ (traditionally called "Bob").
 They would like their message to be kept secret from an _adversary_ who listens in or "eavesdrops" on the communication channel (and is traditionally called "Eve").
 
-Alice and Bob share a _secret key_ $k \in \{0,1\}^*$.
+Alice and Bob share a _secret key_ $k \in \{0,1\}^*$. 
+(While the letter $k$ is often used elsewhere in the book to denote a natural number, in this chapter we use it to denote the string corresponding to a secret key.)
 Alice uses the key $k$ to "scramble" or _encrypt_ the plaintext  $x$ into a _ciphertext_ $y$, and Bob uses the key $k$ to "unscramble" or _decrypt_ the ciphertext $y$ back into the plaintext $x$.
 This motivates the following definition which attempts to capture what it means for an encryption scheme to be _valid_ or "make sense", regardless of whether or not it is _secure_:
 
-> ### {.definition title="Valid encryption scheme" #encryptiondef}
-Let $L:\N \rightarrow \N$ be some function.
-A pair of polynomial-time computable functions $(E,D)$ mapping strings to strings is a _valid private key encryption scheme_ (or _encryption scheme_ for short) with plaintext length function $L(\cdot)$ if
-for every $k\in \{0,1\}^n$ and $x \in \{0,1\}^{L(n)}$,
+::: {.definition title="Valid encryption scheme" #encryptiondef}
+Let $L:\N \rightarrow \N$ and $C:\N \rightarrow \N$ be two functions mapping natural numbers to natural numbers.
+A pair of polynomial-time computable functions $(E,D)$ mapping strings to strings is a _valid private key encryption scheme_ (or _encryption scheme_ for short) with plaintext length function $L(\cdot)$ and ciphertext length
+function $C(\cdot)$ if for every $n\in \N$,  $k\in \{0,1\}^n$ and $x \in \{0,1\}^{L(n)}$, $|E_k(x)|= C(n)$ and 
 $$
 D(k,E(k,x))=x \;. \label{eqvalidenc}
 $$
-We also require that our encryption schemes are _ciphertext length regular_ in the sense that all ciphertexts corresponding to keys of the same length are of the same length: there is some function $C:\N \rightarrow \N$ such that for every $k\in \{0,1\}^n$ and $x\in \{0,1\}^{L(n)}$, $|E(k,x)|=C(n)$.^[We call the function $L:\N \rightarrow \N$ the _length function_ of $(E,D)$. The "ciphtertext length regularity" condition is added for technical convenience and is not at all important. You can ignore it in a first reading.]
+:::
 
 We will often write the first input (i.e., the key) to the encryption and decryption as a subscript and so can write [eqvalidenc](){.eqref} also as  $D_k(E_k(x))=x$.
+
+
+::: {.solvedexercise title="Lengths of ciphertext and plaintext" #lengthsciphertextplaintext}
+Prove that for every valid encryption scheme $(E,D)$ with functions $L,C$. $C(n) \geq L(n)$ for every $n$.
+:::
+
+::: {.solution data-ref="lengthsciphertextplaintext"}
+For every fixed key $k \in \{0,1\}^n$, the equation [eqvalidenc](){.eqref} implies that the map $y \mapsto D_k(y)$ inverts the map $x \mapsto E_k(x)$, which in particular means that the map
+$x \mapsto E_k(x)$ must be one to one. Hence its codomain must be at least as large as its domain, and since its domain is $\{0,1\}^{L(n)}$ and its codomain is $\{0,1\}^{C(n)}$ it follows
+that $C(n) \geq L(n)$.
+:::
+
+Since the ciphertext length is always at least the plaintext length (and in most applications it is not much longer than that), we typically focus on the plaintext length as the quantity to 
+optimize in an encryption scheme.
+The _larger_ $L(n)$ is, the better the scheme, since it means we need a shorter secret key to protect messages of the same length.
+
 
 ## Defining security of encryption
 
@@ -223,7 +233,7 @@ The above thinking led Shannon in 1945 to formalize the notion of _perfect secre
 There are several equivalent ways to define it, but perhaps the cleanest one is the following:
 
 ::: {.definition title="Perfect secrecy" #perfectsecrecy}
-A valid encryption scheme $(E,D)$ with length $L(\cdot)$ is _perfectly secret_ if for every $n\in \N$ and plaintexts $x,x' \in \{0,1\}^{L(n)}$, the following two distributions $Y$ and $Y'$ over $\{0,1\}^*$ are identical:
+A valid encryption scheme $(E,D)$ with plaintext length $L(\cdot)$ is _perfectly secret_ if for every $n\in \N$ and plaintexts $x,x' \in \{0,1\}^{L(n)}$, the following two distributions $Y$ and $Y'$ over $\{0,1\}^*$ are identical:
 
 * $Y$ is obtained by sampling  $k\sim \{0,1\}^n$ and outputting $E_k(x)$.
 
@@ -255,10 +265,12 @@ Let us define $p_0(y)$ to be the probability (taken over $k\sim \{0,1\}^n$) that
 Note that, since Alice chooses the message to send at random, our a priori probability for observing $y$ is $\tfrac{1}{2}p_0(y) + \tfrac{1}{2}p_1(y)$.
 However, as per [perfectsecrecy](){.ref},   the perfect secrecy condition guarantees that $p_0(y)=p_1(y)$!
 Let us denote the number $p_0(y)=p_1(y)$ by $p$.
-By the formula for conditional probability, the probability that Alice sent the message $x_0$ conditioned on our observation $y$ is simply^[The equation [bayeseq](){.eqref} is a special case of _Bayes' rule_ which, although a simple restatement of the formula for conditional probability, is an extremely important and widely used tool in statistics and data analysis.]
+By the formula for conditional probability, the probability that Alice sent the message $x_0$ conditioned on our observation $y$ is simply
 $$
 \Pr[i=0 | y=E_k(x_i)] = \frac{\Pr[i=0 \wedge y = E_k(x_i)]}{\Pr[y = E_k(x)]} \;. \label{bayeseq}
 $$
+
+(The equation [bayeseq](){.eqref} is a special case of _Bayes' rule_ which, although a simple restatement of the formula for conditional probability, is an extremely important and widely used tool in statistics and data analysis.)
 
 Since the probability that $i=0$ and $y$ is the ciphertext $E_k(0)$ is equal to $\tfrac{1}{2}\cdot p_0(y)$, and the a priori probability of observing $y$ is $\tfrac{1}{2}p_0(y) + \tfrac{1}{2}p_1(y)$,
 we can rewrite [bayeseq](){.eqref} as
@@ -284,7 +296,7 @@ In fact, this can be generalized to any number of bits:
 
 
 > ### {.theorem title="One Time Pad (Vernam 1917, Shannon 1949)" #onetimepad}
-There is a perfectly secret valid encryption scheme $(E,D)$ with $L(n)=n$.
+There is a perfectly secret valid encryption scheme $(E,D)$ with $L(n)=C(n)=n$.
 
 > ### {.proofidea data-ref="onetimepad"}
 Our scheme is the [one-time pad](https://en.wikipedia.org/wiki/One-time_pad) also known as the "Vernam Cipher", see [onetimepadfig](){.ref}.
@@ -308,7 +320,8 @@ Indeed, for every particular $y\in \{0,1\}^n$, the value $y$ is output by $Y_x$ 
 
 
 > ### { .pause }
-The argument above is quite simple but is worth reading again. To understand why the one-time pad is perfectly secret, it is useful to envision it as a bipartite graph as we've done in [onetimepadtwofig](){.ref}. (In fact the encryption scheme of [onetimepadtwofig](){.ref} is precisely the one-time pad for $n=2$.) For every $n$, the one-time pad encryption scheme corresponds to a bipartite graph with $2^n$  vertices on the "left side" corresponding to the plaintexts in $\{0,1\}^n$ and $2^n$  vertices on the "right side" corresponding to the ciphertexts $\{0,1\}^n$.
+The argument above is quite simple but is worth reading again. To understand why the one-time pad is perfectly secret, it is useful to envision it as a bipartite graph as we've done in [onetimepadtwofig](){.ref}.
+(In fact the encryption scheme of [onetimepadtwofig](){.ref} is precisely the one-time pad for $n=2$.) For every $n$, the one-time pad encryption scheme corresponds to a bipartite graph with $2^n$  vertices on the "left side" corresponding to the plaintexts in $\{0,1\}^n$ and $2^n$  vertices on the "right side" corresponding to the ciphertexts $\{0,1\}^n$.
 For every $x\in \{0,1\}^n$ and $k\in \{0,1\}^n$, we connect $x$ to the vertex $y=E_k(x)$ with an edge that we label with $k$.
 One can see that this is the complete bipartite graph, where every vertex on the left is connected to _all_ vertices on the right.
 In particular this means that for every left vertex $x$, the distribution on the ciphertexts obtained by taking a random $k\in \{0,1\}^n$ and going to the neighbor of $x$ on the edge labeled $k$ is the uniform distribution over $\{0,1\}^n$.
@@ -334,8 +347,7 @@ In fact,  even before Shannon's work, the U.S. intelligence already knew in 1941
 However, it turned out that the hassle of manufacturing so many keys for all the communication took its toll on the Soviets and they ended up reusing the same keys
 for more than one message.  They did try to use them for completely different receivers in the (false) hope that this wouldn't be detected.
 The [Venona Project](https://en.wikipedia.org/wiki/Venona_project) of the U.S. Army was founded in February 1943 by Gene Grabeel (see [genegrabeelfig](){.ref}), a former home economics teacher from Madison Heights, Virgnia and Lt. Leonard Zubko.
-In October 1943, they had their breakthrough when it was discovered that the Russians were reusing their keys.^[Credit to this discovery
-is shared by Lt. Richard Hallock, Carrie Berry, Frank Lewis, and Lt. Karl Elmquist, and there are others that have made important contribution to this project. See pages 27 and 28 in the document.]
+In October 1943, they had their breakthrough when it was discovered that the Russians were reusing their keys.
 In the 37 years of its existence, the project has resulted in a treasure chest of intelligence, exposing hundreds of KGB agents and Russian spies in the U.S. and other countries,
 including Julius Rosenberg, Harry Gold, Klaus Fuchs, Alger Hiss, Harry Dexter White and many others.
 
@@ -428,19 +440,42 @@ The construction below is known as a [stream cipher](https://en.wikipedia.org/wi
 It is widely used in practice with keys on the order of a few tens or hundreds of bits protecting many terabytes or even petabytes of communication.
 
 
-
 ![In a _stream cipher_ or "derandomized one-time pad" we use a pseudorandom generator $G:\{0,1\}^n \rightarrow \{0,1\}^L$ to obtain an encryption scheme with a key length of $n$ and plaintexts of length $L$. We encrypt the plaintext $x\in \{0,1\}^L$ with key $k\in \{0,1\}^n$ by the ciphertext $x \oplus G(k)$.](../figure/derandonetimepad.png){#derandonetimepadfig .margin  }
 
 
+We start by recalling the notion of a _pseudorandom generator_, as defined in [prgdef](){.ref}.
+For this chapter, we will fix a special case of the definition:
+
+::: {.definition title="Cryptographic pseudorandom generator" #cryptoprg}
+Let $L:\N \rightarrow \N$ be some function. A _cryptographic pseudorandom generator_ with stretch $L(\cdot)$ is a polynomial-time computable function $G:\{0,1\}^* \rightarrow \{0,1\}^*$ such that:
+
+* For every $n\in \N$ and $s\in \{0,1\}^n$, $|G(s)|=L(n)$.
+
+* For every polynomial $p:\N \rightarrow \N$ and $n$ large enough, if $C$ is a circuit of $L(n)$ inputs, one output, and at most $p(n)$ gates then
+$$
+\left| \Pr_{s\sim \{0,1\}^\ell}[C(G(s))=1] - \Pr_{r \sim \{0,1\}^m}[C(r)=1] \right| < \frac{1}{p(n)} \;.
+$$
+:::
+
+In this chapter we will call a cryptographic pseudorandom generator simply a _pseudorandom generator_ or PRG for short. The optimal PRF conjecture of [optimalprgconj](){.ref} implies
+that there is a pseudorandom generator that can "fool" circuits of _exponential size_ and where the gap in probabilities is at most one over an exponential quantity.
+Since exponential grow faster than every polynomial, the optimal PRG conjecture implies the following:
+
+>__The crypto PRG conjecture:__ For every $a \in \N$, there is a cryptographic pseudorandom generator with $L(n)=n^a$.
+
+
+The crypto PRG conjecture is a weaker conjecture than the optimal PRG conjecture, but it too (as we will see) is still stronger than the conjecture that $\mathbf{P} \neq \mathbf{NP}$.
+
+
 > ### {.theorem title="Derandomized one-time pad" #PRGtoENC}
-Suppose that the optimal PRG conjecture is true.
+Suppose that the crypto PRG conjecture is true.
 Then for every constant $a\in \N$ there is   a computationally secret encryption scheme $(E,D)$ with plaintext length $L(n)$ at least $n^a$.
 
 > ### {.proofidea data-ref="PRGtoENC"}
 The proof is illustrated in [derandonetimepadfig](){.ref}. We simply take the one-time pad on $L$ bit plaintexts, but replace the key with $G(k)$ where $k$ is a string in $\{0,1\}^n$ and $G:\{0,1\}^n \rightarrow \{0,1\}^L$ is a pseudorandom generator. Since the one time pad cannot be broken, an adversary that breaks the derandomized one-time pad can be used to distinguish between the output of the pseudorandom generator and the uniform distribution.
 
 ::: {.proof data-ref="PRGtoENC"}
-Since an exponential function of the form $2^{\delta n}$ grows faster than any polynomial of the form $n^a$,  under the optimal PRG conjecture we can obtain a polynomial-time computable $(2^{\delta n},2^{-\delta n})$ pseudorandom generator $G:\{0,1\}^n \rightarrow \{0,1\}^L$  for $L = n^a$.
+Let  $G:\{0,1\}^n \rightarrow \{0,1\}^L$  for $L = n^a$ be the restriction to input length $n$ of the pseudorandom generator $G$ whose existence we are guaranteed from the crypto PRG conjecture.
 We now define our encryption scheme as follows: given key $k\in \{0,1\}^n$ and plaintext $x\in \{0,1\}^L$, the encryption $E_k(x)$ is simply $x \oplus G(k)$.
 To decrypt a string $y \in \{0,1\}^m$ we output $y \oplus G(k)$.
 This is a valid encryption since $G$ is computable in polynomial time and $(x \oplus G(k)) \oplus G(k) = x \oplus (G(k) \oplus G(k))=x$ for every $x\in \{0,1\}^L$.
@@ -507,7 +542,8 @@ $$
 :::
 
 Note that the "furthermore" part is extremely strong. It means that if the plaintext is even a little bit larger than the key, then we can already break the scheme in a very strong way.
-That is, there will be a pair of messages $x_0$, $x_1$ (think of $x_0$ as "sell" and $x_1$ as "buy") and an efficient strategy for Eve such that if Eve gets a ciphertext $y$ then she will be able to tell whether $y$ is an encryption of $x_0$ or $x_1$   with probability very close to $1$.^[We model breaking the scheme as Eve outputting $0$ or $1$ corresponding to whether the message sent was $x_0$ or $x_1$. Note that we could have just as well modified Eve to output $x_0$ instead of $0$ and $x_1$ instead of $1$. The key point is that a priori Eve only had a 50/50 chance of gussing whether Alice sent $x_0$ or $x_1$ but after seeing the ciphertext this chance increases to better than 99/1.]
+That is, there will be a pair of messages $x_0$, $x_1$ (think of $x_0$ as "sell" and $x_1$ as "buy") and an efficient strategy for Eve such that if Eve gets a ciphertext $y$ then she will be able to tell whether $y$ is an encryption of $x_0$ or $x_1$   with probability very close to $1$.
+(We model breaking the scheme as Eve outputting $0$ or $1$ corresponding to whether the message sent was $x_0$ or $x_1$. Note that we could have just as well modified Eve to output $x_0$ instead of $0$ and $x_1$ instead of $1$. The key point is that a priori Eve only had a 50/50 chance of guessing whether Alice sent $x_0$ or $x_1$ but after seeing the ciphertext this chance increases to better than 99/1.)
 The condition $\mathbf{P}=\mathbf{NP}$ can be relaxed to $\mathbf{NP}\subseteq \mathbf{BPP}$ and even the weaker condition $\mathbf{NP} \subseteq \mathbf{P_{/poly}}$ with essentially the same proof.
 
 ::: {.proofidea data-ref="breakingcryptowithnp"}
@@ -591,7 +627,8 @@ They published their paper ["New Directions in Cryptography"](https://www-ee.sta
 
 The Diffie-Hellman Key Exchange is still widely used today for secure communication.
 However, it still felt short of providing Diffie and Hellman's elusive trapdoor function.
-This was done the next year by Rivest, Shamir and Adleman who came up with the RSA trapdoor function, which through the framework of Diffie and Hellman yielded not just encryption but also signatures.^[A close variant of the RSA function was   discovered earlier by Clifford Cocks at GCHQ, though as far as I can tell Cocks, Ellis and Williamson did not realize the application to digital signatures.]
+This was done the next year by Rivest, Shamir and Adleman who came up with the RSA trapdoor function, which through the framework of Diffie and Hellman yielded not just encryption but also signatures.
+(A close variant of the RSA function was   discovered earlier by Clifford Cocks at GCHQ, though as far as I can tell Cocks, Ellis and Williamson did not realize the application to digital signatures.)
 From this point on began a flurry of advances in cryptography which hasn't died down till this day.
 
 ![Top left: Ralph Merkle, Martin Hellman and Whit Diffie, who together came up in 1976 with the concept of _public key encryption_ and a _key exchange protocol_. Bottom left: Adi Shamir, Ron Rivest, and Leonard Adleman who, following Diffie and Hellman's paper, discovered the RSA function that can be used for public key encryption and digital signatures. Interestingly, one can see the equation $\mathbf{P}=\mathbf{NP}$ on the blackboard behind them. Right: John Gill, who was the first person to suggest to Diffie and Hellman that they use modular exponentiation as an easy-to-compute but hard-to-invert function. ](../figure/rsadhmg.png){#diffiehellmanmerklegillfig .margin  }
@@ -637,7 +674,7 @@ These generally belong to one of two families:
 * _Lattice/coding based constructions_ based on problems such as the _closest vector in a lattice_ or _bounded distance decoding_.
 
 Group-theory based encryptions such as the RSA cryptosystem, the Diffie-Hellman protocol, and Elliptic-Curve Cryptography, are currently more widely implemented.
-But the lattice/coding schemes are recently on the rise, particularly because the known group theoretic encryption schemes can be broken by _quantum computers_, which we'll discuss later in this course.^[If you want to learn more about the different types of public key assumptions, you can take a look [at my own survey on this topic](https://eccc.weizmann.ac.il/report/2017/065/).]
+But the lattice/coding schemes are recently on the rise, particularly because the known group theoretic encryption schemes can be broken by _quantum computers_, which we discuss in [quantumchap](){.ref}.
 
 ### Diffie-Hellman key exchange
 
@@ -646,9 +683,12 @@ We describe the Diffie-Hellman protocol in a somewhat of an informal level, with
 
 The computational problem underlying the Diffie Hellman protocol is the _discrete logarithm problem_.
 Let's suppose that $g$ is some integer.
-We can compute the map $x \mapsto g^x$ and also its _inverse_ $y \mapsto \log_g y$.^[One way to compute a logarithm is by _binary search_: start with some interval $[x_{min},x_{max}]$ that is guaranteed to contain $\log_g y$. We can then test whether the interval's midpoint $x_{mid}$ satisfies $g^{x_{mid}} > y$, and based on that halve the size of the interval.]
+We can compute the map $x \mapsto g^x$ and also its _inverse_ $y \mapsto \log_g y$. 
+(For example, we can  compute a logarithm is by _binary search_: start with some interval $[x_{min},x_{max}]$ that is guaranteed to contain $\log_g y$. We can then test whether the interval's midpoint $x_{mid}$ satisfies $g^{x_{mid}} > y$, and based on that halve the size of the interval.)
+
 However, suppose now that we use _modular arithmetic_ and work modulo some prime number $p$.
-If $p$ has $n$ binary digits and  $g$ is in $[p]$ then we can compute the map $x \mapsto g^x \mod p$ in time polynomial in $n$.^[This is not trivial, and is a great exercise for you to work this out. As a hint, start by showing that one can compute the map $k \mapsto g^{2^k} \mod p$ using $k$ modular multiplications modulo $p$. If you're stumped, you can look up [this Wikipedia entry](https://en.wikipedia.org/wiki/Exponentiation_by_squaring).]
+If $p$ has $n$ binary digits and  $g$ is in $[p]$ then we can compute the map $x \mapsto g^x \mod p$ in time polynomial in $n$.
+(This is not trivial, and is a great exercise for you to work this out; as a hint, start by showing that one can compute the map $k \mapsto g^{2^k} \mod p$ using $k$ modular multiplications modulo $p$, if you're stumped, you can look up [this Wikipedia entry](https://en.wikipedia.org/wiki/Exponentiation_by_squaring).)
 On the other hand, because of the "wraparound" property of modular arithmetic, we cannot run binary search to find the inverse of this map (known as the _discrete logarithm_).
 In fact, there is no known polynomial-time algorithm for computing this discrete logarithm map map $(g,x,p) \mapsto \log_g x \mod p$, where we define $\log_g x \mod p$ as the number $a \in [p]$ such that $g^a = x \mod p$.
 
@@ -656,7 +696,7 @@ The Diffie-Hellman protocol for Bob to send a message to Alice is as follows:
 
 * __Alice:__ Chooses $p$ to be a random $n$ bit long prime (which can be done by choosing random numbers and running a primality testing algorithm on them), and $g$ and $a$ at random in $[p]$. She sends to Bob the triple $(p,g,g^a \mod p)$.
 
-* __Bob:__ Given the triple $(p,g,h)$, Bob sends a message $x \in \{0,1\}^L$  to Alice by choosing $b$ at random in $[p]$, and sending to Alice the pair $(g^b \mod p, rep(h^b \mod p) \oplus x)$ where $rep:[p] \rightarrow \{0,1\}^*$ is some "representation function"  that maps $[p]$ to $\{0,1\}^L$.^[The function $rep$ does not need to be one-to-one and you can think of $rep(z)$ as simply outputting  $L$ of the bits of $z$ in the natural binary representation. The function $rep$ does need to satisfy certain technical conditions which we omit in this description.]
+* __Bob:__ Given the triple $(p,g,h)$, Bob sends a message $x \in \{0,1\}^L$  to Alice by choosing $b$ at random in $[p]$, and sending to Alice the pair $(g^b \mod p, rep(h^b \mod p) \oplus x)$ where $rep:[p] \rightarrow \{0,1\}^*$ is some "representation function"  that maps $[p]$ to $\{0,1\}^L$. (The function $rep$ does not need to be one-to-one and you can think of $rep(z)$ as simply outputting  $L$ of the bits of $z$ in the natural binary representation, it does  need to satisfy certain technical conditions which we omit in this description.)
 
 * __Alice:__ Given $g',z$, Alice recovers $x$ by outputting $rep(g'^a \mod p) \oplus z$.
 
@@ -665,7 +705,7 @@ The Diffie-Hellman key exchange protocol can be thought of as a public key encry
 
 One can think of the Diffie-Hellman protocol as being based on a "trapdoor pseudorandom generator" whereas the triple $g^a,g^{b},g^{ab}$ looks "random" to someone that doesn't know $a$, but someone that does know $a$ can see that raising the second element to the $a$-th power yields the third element.
 The Diffie-Hellman protocol can be described abstractly in the context of any [finite Abelian group](https://en.wikipedia.org/wiki/Abelian_group) for which we can efficiently compute the group operation.
-It has been implemented on other groups than numbers modulo $p$, and in particular [Elliptic Curve Cryptography (ECC)](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography) is obtained by basing the Diffie Hellman on elliptic curve groups which gives some practical advantages.^[The main advantage in ECC is that the best known algorithms for computing discrete logarithms over elliptic curve groups take time $2^{\epsilon n}$ for some $\epsilon>0$ where $n$ is the number of bits to describe a group element. In contrast, for the multiplicative group modulo a prime $p$ the best algorithm take time $2^{O(n^{1/3} polylog(n))}$ which means that (assuming the known algorithms are optimal) we need to set the prime to be bigger (and so have larger key sizes with corresponding overhead in communication and computation) to get the same level of security.]
+It has been implemented on other groups than numbers modulo $p$, and in particular [Elliptic Curve Cryptography (ECC)](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography) is obtained by basing the Diffie Hellman on elliptic curve groups which gives some practical advantages.
 Another common group theoretic basis for key-exchange/public key encryption protocol is the RSA function.
 A big disadvantage of Diffie-Hellman (both the modular arithmetic and elliptic curve variants) and RSA is that both schemes can be broken in polynomial time by a _quantum computer_.
 We will discuss quantum computing later in this course.
@@ -757,10 +797,14 @@ Much of this text is taken from  [my lecture notes on cryptography](https://inte
 
 Shannon's manuscript was written in 1945 but was classified, and a partial version was only published in 1949. Still it has revolutionized cryptography, and is the forerunner to much of what followed.
 
+The Venona project's history is described in [this document](http://nsarchive.gwu.edu/NSAEBB/NSAEBB278/01.PDF).
+Aside from Grabeel and Zubko, credit to the discovery that the Soviets were reusing keys  is shared by Lt. Richard Hallock, Carrie Berry, Frank Lewis, and Lt. Karl Elmquist, and there are others that have made important contribution to this project. See pages 27 and 28 in the document.
 
+
+In a [1955 letter to the NSA](https://www.nsa.gov/news-features/declassified-documents/nash-letters/assets/files/nash_letters1.pdf) that only recently came forward,  John Nash proposed an "unbreakable" encryption scheme.
+He wrote _"I hope my handwriting, etc. do not give the impression I am just a crank or circle-squarer....  The significance of this conjecture [that certain encryption schemes are exponentially secure against key recovery attacks] .. is that it is quite feasible to design ciphers that are effectively unbreakable. "_.
 John Nash made seminal contributions in mathematics and game theory, and was awarded both the Abel Prize in mathematics and the Nobel Memorial Prize in Economic Sciences.
-However, he has struggled with mental illness throughout his life.
-His biography, [A Beautiful Mind](https://en.wikipedia.org/wiki/A_Beautiful_Mind_(book)) was made into a popular movie.
+However, he has struggled with mental illness throughout his life. His biography, [A Beautiful Mind](https://en.wikipedia.org/wiki/A_Beautiful_Mind_(book)) was made into a popular movie.
 It is natural to compare Nash's 1955 letter to the NSA to Gödel's letter to von Neumann we mentioned before.
 From the theoretical computer science point of view, the crucial difference is that while Nash informally talks about exponential vs polynomial computation time, he does not mention the word "Turing Machine" or other models of computation, and it is not clear if he is aware or not that his conjecture can be made mathematically precise (assuming a formalization of "sufficiently complex types of enciphering").
 
@@ -768,7 +812,11 @@ The definition of computational secrecy we use is the notion of _computational i
 
 
 Although they used a different terminology, Diffie and Hellman already made clear in their paper that their protocol can be used as a public key encryption, with the first message being put in a "public file".
-In 1985, ElGamal showed how to obtain a _signature scheme_ based on the Diffie Hellman ideas, and since he described the Diffie-Hellman encryption scheme in the same paper, it is sometimes also known as ElGamal encryption.
+In 1985, ElGamal showed how to obtain a _signature scheme_ based on the Diffie Hellman ideas, and since he described the Diffie-Hellman encryption scheme in the same paper, the public key encryption scheme originally proposed by Diffie and Hellman is sometimes also known as ElGamal encryption.
+
+[My survey](https://eccc.weizmann.ac.il/report/2017/065/) contains a discussion on  the different types of public key assumptions. While the standard elliptic curve cryptographic schemes are as susceptible to quantum computers as Diffie-Hellman and RSA, their main advantage is that the best known classical algorithms for computing discrete logarithms over elliptic curve groups take time $2^{\epsilon n}$ for some $\epsilon>0$ where $n$ is the number of bits to describe a group element. In contrast, for the multiplicative group modulo a prime $p$ the best algorithm take time $2^{O(n^{1/3} polylog(n))}$ which means that (assuming the known algorithms are optimal) we need to set the prime to be bigger (and so have larger key sizes with corresponding overhead in communication and computation) to get the same level of security.
+
+
 
 Zero-knowledge proofs were constructed by Goldwasser, Micali, and Rackoff in 1982, and their wide applicability was shown (using the theory of $\mathbf{NP}$ completeness) by Goldreich, Micali, and Wigderson in 1986.
 
@@ -778,10 +826,3 @@ The latter work gave a general transformation from security against passive adve
 
 
 
-## Further explorations
-
-Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
-
-
-
-## Acknowledgements

@@ -408,18 +408,18 @@ We make the following definition:
 
 > ### {.definition title="Pseudorandom generator" #prgdef}
 A function $G:\{0,1\}^\ell \rightarrow \{0,1\}^m$ is a _$(T,\epsilon)$-pseudorandom generator_ if for every
-NAND-CIRC program $P$ with $m$ inputs and one output of at most $T$ lines,
+circuit  $C$ with $m$ inputs, one output, and at most $T$ gates,
 $$
-\left| \Pr_{s\sim \{0,1\}^\ell}[P(G(s))=1] - \Pr_{r \sim \{0,1\}^m}[P(r)=1] \right| < \epsilon \label{eq:prg}
+\left| \Pr_{s\sim \{0,1\}^\ell}[C(G(s))=1] - \Pr_{r \sim \{0,1\}^m}[C(r)=1] \right| < \epsilon \label{eq:prg}
 $$
 
-![A pseudorandom generator $G$ maps a short string $s\in \{0,1\}^\ell$ into a long string $r\in \{0,1\}^m$ such that an small program $P$ cannot distinguish between the case that it is provided a random input $r \sim \{0,1\}^m$ and the case that it is provided a "pseudorandom" input of the form $r=G(s)$ where $s \sim \{0,1\}^\ell$. The short string $s$ is sometimes called the _seed_ of the pseudorandom generator, as it is a small object that can be thought as yielding a large "tree of randomness".](../figure/prg_experiment.png){#pseudorandomgeneratorfig  .margin  }
+![A pseudorandom generator $G$ maps a short string $s\in \{0,1\}^\ell$ into a long string $r\in \{0,1\}^m$ such that an small program/circuit $P$ cannot distinguish between the case that it is provided a random input $r \sim \{0,1\}^m$ and the case that it is provided a "pseudorandom" input of the form $r=G(s)$ where $s \sim \{0,1\}^\ell$. The short string $s$ is sometimes called the _seed_ of the pseudorandom generator, as it is a small object that can be thought as yielding a large "tree of randomness".](../figure/prg_experiment.png){#pseudorandomgeneratorfig  .margin  }
 
 ::: { .pause }
 This is a definition that's worth reading more than once, and spending some time to digest it.
 Note that it takes several parameters:
 
-* $T$ is the limit on the number of lines of the program $P$  that the generator needs to "fool". The larger $T$ is, the stronger the generator.
+* $T$ is the limit on the number of gates of the circuit $C$  that the generator needs to "fool". The larger $T$ is, the stronger the generator.
 
 * $\epsilon$ is how close is the output of the pseudorandom generator to the true uniform distribution over $\{0,1\}^m$. The smaller $\epsilon$ is, the stronger the generator.
 
@@ -444,7 +444,7 @@ Nevertheless, [prgexist](){.ref} (whose statement and proof is deferred to the e
 > ### { .pause }
 At this point you might want to skip ahead and look at the _statement_ of [prgexist](){.ref}. However, since its _proof_ is somewhat subtle, I recommend you defer reading it until you've finished reading the rest of this chapter.
 
-### From existence to constructivity
+### From existence to constructivity {#optimalprgconj }
 
 
 The fact that there _exists_ a pseudorandom generator does not mean that there is one that can be efficiently computed.
