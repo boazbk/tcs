@@ -563,7 +563,7 @@ To relate this to the classes $TIME(T(n))$ defined in this chapter we first need
 
 ::: {.definition title="Non uniform computation" #nonuniformdef}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$ and $T:\N \rightarrow \N$ be a nice time bound.
-For every $n\in \N$, define $F_{\upharpoonright n} : \{0,1\}^n \rightarrow \{0,1\}$ to be the _restriction_ of $F$ to inputs of size $n$. That is, $F_{\upharpoonright n}$ is the function mapping $\{0,1\}^n$ to $\{0,1\}$ such that for every $x\in \{0,1\}^n$, F_{\upharpoonright n}(x)=F(x)$.
+For every $n\in \N$, define $F_{\upharpoonright n} : \{0,1\}^n \rightarrow \{0,1\}$ to be the _restriction_ of $F$ to inputs of size $n$. That is, $F_{\upharpoonright n}$ is the function mapping $\{0,1\}^n$ to $\{0,1\}$ such that for every $x\in \{0,1\}^n$, $F_{\upharpoonright n}(x)=F(x)$.
 
 We say that $F$ is _non-uniformly computable in at most $T(n)$ size_, denoted by $F \in SIZE(T(n))$ if there exists a sequence $(C_0,C_1,C_2,\ldots)$ of NAND circuits such that:
 
