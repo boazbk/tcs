@@ -100,7 +100,7 @@ Hence an $s$ line program can be represented as a string of $O(s \log s)$ bits, 
 
 
 :::  {.theorem title="Representing programs as strings" #asciirepprogramthm}
-There is a constant $c$ such that for $f \in SIZE(s)$, there exists a program $P$ computing $f$ that whose string representation has length at most $c s \log s$.
+There is a constant $c$ such that for $f \in SIZE(s)$, there exists a program $P$ computing $f$ whose string representation has length at most $c s \log s$.
 :::
 
 ::: { .pause }

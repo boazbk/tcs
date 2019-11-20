@@ -376,7 +376,7 @@ See [lookupfig](){.ref} for an illustration of the LOOKUP function.
 It turns out that for every $k$, we can compute $LOOKUP_k$ using a NAND-CIRC program:
 
 ># {.theorem title="Lookup function" #lookup-thm}
-For every $k>0$, there is a NAND-CIRC program that computes the function $LOOKUP_k: \{0,1\}^{2^k+k}\rightarrow \{0,1\}$. Moreover, the number of lines in this program is at most  $4\cdot 2^k$.
+For every $k>0$, there is a NAND-CIRC program that computes the function $LOOKUP_k: \{0,1\}^{2^k+k}\rightarrow \{0,1\}$. Moreover, the number of lines in this program is at most  $4\cdot (2^k-1)$.
 
 An immediate corollary of [lookup-thm](){.ref} is that for every $k>0$, $LOOKUP_k$ can be computed by a Boolean circuit (with AND, OR and NOT gates) of at most $8 \cdot 2^k$ gates.
 
@@ -434,8 +434,8 @@ For $k=1$ this follows by the four line program for $IF$ we've seen before.
 For $k>1$, we use the following pseudocode
 
 ```python
-a = LOOKUP_(k-1)(X[0],...,X[2^(k-1)-1],i[0],...,i[k-1])
-b = LOOKUP_(k-1)(X[2^(k-1)],...,Z[2^(k-1)],i[0],...,i[k-1])
+a = LOOKUP_(k-1)(X[0],...,X[2^(k-1)-1],i[1],...,i[k-1])
+b = LOOKUP_(k-1)(X[2^(k-1)],...,Z[2^(k-1)],i[1],...,i[k-1])
 return IF(i[0],b,a)
 ```
 
