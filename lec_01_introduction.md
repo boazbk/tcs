@@ -54,8 +54,8 @@ It's no wonder that Eratosthenes, who was the first person to calculate the eart
 
 ## Integer multiplication: an example of an algorithm
 
-In the language of Computer Science, the place-value system for representing numbers is known as a _data structure_: a set of instructions or ``recipe'' for representing objects as symbols.
-An _algorithm_ is a set of instructions or recipe for performing operations on such representations.
+In the language of Computer Science, the place-value system for representing numbers is known as a _data structure_: a set of instructions, or "recipe", for representing objects as symbols.
+An _algorithm_ is a set of instructions, or "recipe", for performing operations on such representations.
 Data structures and algorithms have enabled amazing applications that have transformed human society, but their importance goes beyond their practical utility.
 Structures from computer science, such as bits, strings, graphs, and even the notion of a program itself, as well as concepts such as universality and replication, have not just found (many) practical uses but contributed a new language and a new way to view the world.
 
@@ -146,7 +146,7 @@ The grade-school algorithm for multiplying $x$ and $y$ is illustrated in [grades
 
 ![The grade-school multiplication algorithm illustrated for multiplying $x=10\overline{x}+\underline{x}$ and $y=10\overline{y}+\underline{y}$. It uses the formula $(10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10(\overline{x}\underline{y} + \underline{x}\overline{y}) + \underline{x}\underline{y}$.](../figure/gradeschoolmult.png){#gradeschoolmult .margin  }
 
-The grade-school algorithm can be thought of as transforming the task of multiplying a pair of two-digit number into _four_ single-digit multiplications via the formula
+The grade-school algorithm can be thought of as transforming the task of multiplying a pair of two-digit numbers into _four_ single-digit multiplications via the formula
 
 $$
 (10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10(\overline{x}\underline{y} + \underline{x}\overline{y}) + \underline{x}\underline{y} \label{eq:gradeschooltwodigit}
@@ -196,7 +196,7 @@ endprocedure
 
 
  [karatsubaalg](){.ref} is only half of the full description of Karatsuba's algorithm.
- The other half is the _analysis_, which entails proving that _(1)_ [karatsubaalg](){.ref} indeed computes the multiplication operation and _(2)_ it does so using $O(n^{\log_2 3})$ operations.
+ The other half is the _analysis_, which entails proving that __(1)__ [karatsubaalg](){.ref} indeed computes the multiplication operation and __(2)__ it does so using $O(n^{\log_2 3})$ operations.
  We now turn to showing both facts:
 
  > ### {.lemma #karatsubacorrect}

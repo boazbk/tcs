@@ -455,7 +455,7 @@ A _NAND-TM program_ consists of a sequence of lines of the form `foo = NAND(bar,
 
 If $P$ is a NAND-TM program and $x\in \{0,1\}^*$ is an input then an execution of $P$ on $x$ is the following process:
 
-1. The arrays `X` and `X_nonblank` are initialized by `X[`$i$`]`$=x_i$ and `X_nonblank[`$i$`]`$=1$ for all $i\in [|x|]$. All other variables and cells are initialized to $0$. The index variable `i` is also initalized to $0$.
+1. The arrays `X` and `X_nonblank` are initialized by `X[`$i$`]`$=x_i$ and `X_nonblank[`$i$`]`$=1$ for all $i\in [|x|]$. All other variables and cells are initialized to $0$. The index variable `i` is also initialized  to $0$.
 
 2. The program is executed line by line, when the last line `MODANDJMP(foo,bar)` is executed then we do as follows:
 
@@ -633,7 +633,7 @@ The above is not a full formal description of a Turing Machine, but our goal is 
 
 
 ::: {.remark title="Running time equivalence (optional)" #polyequivrem}
-If we examine the proof of [TM-equiv-thm](){.ref} then we can see that the every iteration of the loop of a NAND-TM program corresponds to one step in the execution of the Turing machine.
+If we examine the proof of [TM-equiv-thm](){.ref} then we can see that every iteration of the loop of a NAND-TM program corresponds to one step in the execution of the Turing machine.
 We will come back to this question of measuring number of computation steps later in this course.
 For now the main take away point is that NAND-TM programs and Turing Machines are essentially equivalent in power even when taking running time into account.
 :::
@@ -667,7 +667,7 @@ Just like we did with NAND-CIRC in [finiteuniversalchap](){.ref}, we can use "sy
 For starters, we can use all of the syntactic sugar of NAND-CIRC, and so have access to macro definitions and conditionals (i.e., if/then).
 But we can go beyond this and achieve for example:
 
-* Inner loops such as the `while` and `for` operations commong to many programming language.s
+* Inner loops such as the `while` and `for` operations common to many programming language.s
 
 * Multiple index variables (e.g., not just `i` but we can add `j`, `k`, etc.).
 

@@ -66,6 +66,10 @@ if there exists a Turing Machine $M$ such that for every sufficiently large $n$ 
 We define  $TIME_{\mathsf{TM}}(T(n))$ to be the set of Boolean functions (functions mapping $\{0,1\}^*$ to $\{0,1\}$) that are computable in $T(n)$ TM time.
 :::
 
+::: { .bigidea #formaldefinetime}
+For a function $F:\{0,1\}^* \rightarrow \{0,1\}$ and $T:\N  \rightarrow \N$, we can formally defined what it means for $F$ to be computable in time at most $T(n)$ where $n$ is the size of the input.
+:::
+
 ::: { .pause }
 [time-TM-def](){.ref}  is not very complicated but is one of the most important definitions of this book. As usual,   $TIME_{\mathsf{TM}}(T(n))$ is  a class of _functions_, not of _machines_. If $M$ is a Turing Machine then a statement such as "$M$ is a member of $TIME_{\mathsf{TM}}(n^2)$" does not make sense.
 :::
@@ -231,7 +235,7 @@ Similar equivalence results are known for many models including cellular automat
 (See  [#ECTTsec](){.ref} for more discussion of this issue.)
 This equivalence between Turing machines and NAND-RAM  (as well as other models) allows us to pick our favorite model depending on the task at hand (i.e., "have our cake and eat it too") even when we study questions of efficiency, as long as we only care about the gap between _polynomial_ and _exponential_ time.
 When we want to _design_ an algorithm, we can use the extra power and convenience afforded by NAND-RAM.
-When we want to _analyze_ a program or prove a _negative result_, we can restrict our attention to   Turing machines.
+When we want to _analyze_ a program or prove a _negative result_, we can restrict our attention to Turing machines.
 
 
 
@@ -241,6 +245,8 @@ When we want to _analyze_ a program or prove a _negative result_, we can restric
 ::: { .bigidea #polyvsnot}
 All "reasonable" computational models are equivalent if we only care about the distinction between  polynomial and exponential.
 :::
+
+The adjective "reasonable" above refers to all scalable computational models that have been implemented, with the possible exception of  _quantum computers_, see [#ECTTsec](){.ref} and [quantumchap](){.ref}.
 
 
 
@@ -431,6 +437,10 @@ in $TIME(T(n)\log n) \setminus TIME(T(n))$.
 
 There is nothing special about $\log n$, and we could have used any other efficiently computable function that tends to infinity with $n$.
 
+::: { .bigidea #timehierarchy}
+If we have more time, we can compute more functions.
+:::
+
 
 ::: {.remark title="Simpler corollary of the time hierarchy theorem" #hierarchytoyrem}
 The generality of the time hierarchy theorem can make its proof a little hard to read. 
@@ -553,7 +563,7 @@ To relate this to the classes $TIME(T(n))$ defined in this chapter we first need
 
 ::: {.definition title="Non uniform computation" #nonuniformdef}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$ and $T:\N \rightarrow \N$ be a nice time bound.
-For every $n\in \N$, define $F_{\upharpoonright n} : \{0,1\}^n \rightarrow \{0,1\}$ to be the _restriction_ of $F$ to inputs of size $n$. That is, $F_{\upharpoonright n}$ is the function mapping $\{0,1\}^n$ to $\{0,1\}$ such that for every $x\in \{0,1\}^n$, F_{\upharpoonright n}(x)=F(x)$.
+For every $n\in \N$, define $F_{\upharpoonright n} : \{0,1\}^n \rightarrow \{0,1\}$ to be the _restriction_ of $F$ to inputs of size $n$. That is, $F_{\upharpoonright n}$ is the function mapping $\{0,1\}^n$ to $\{0,1\}$ such that for every $x\in \{0,1\}^n$, $F_{\upharpoonright n}(x)=F(x)$.
 
 We say that $F$ is _non-uniformly computable in at most $T(n)$ size_, denoted by $F \in SIZE(T(n))$ if there exists a sequence $(C_0,C_1,C_2,\ldots)$ of NAND circuits such that:
 
@@ -745,6 +755,9 @@ Specifically, $UNROLL$ does the following:
 
 ![We can transform a Turing Machine $M$, input length parameter $n$, and time bound $T$ into an $O(T^2)$ sized NAND circuit that agrees with $M$ on all inputs $x\in \{0,1\}^n$ on which $M$ halts in at most $T$ steps. The transformation is obtained by first using the equivalence of Turing Machines and NAND-TM programs $P$, then turning $P$ into an equivalent _oblivious_ NAND-TM program $P'$ via [obliviousnandtmthm](){.ref}, then "unrolling" $O(T^2)$ iterations of the loop of $P'$ to obtain an $O(T^2)$ line  NAND-CIRC program  that agrees with $P'$ on length $n$ inputs, and finally translating this program into an equivalent circuit.](../figure/unrolldescription.png){#unrolldescriptionfig }
 
+::: { .bigidea #unrollloop}
+By "unrolling the loop" we can transform an algorithm that takes $T(n)$ steps to compute $F$ into a circuit that uses $poly(T(n))$ gates to compute the restriction of $F$ to $\{0,1\}^n$.
+:::
 
 
 
