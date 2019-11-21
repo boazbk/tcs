@@ -88,7 +88,7 @@ Confederate generals used Vigenère regularly during the civil war, and their me
 
 ![Confederate Cipher Disk for implementing the Vigenère cipher](../figure/confederate_cipher_disk.jpg){#tmplabelfig .margin}
 
-![Confederate encryption of the message  "Gen'l Pemberton: You can expect no help from this side of the river. Let Gen'l Johnston know, if possible, when you can attack the same point on the enemy's lines. Inform me also and I will endeavor to make a diversion. I have sent some caps. I subjoin a despatch from General Johnston."](../figure/confederate_message.jpg){#tmplabelfig}
+![Confederate encryption of the message  "Gen'l Pemberton: You can expect no help from this side of the river. Let Gen'l Johnston know, if possible, when you can attack the same point on the enemy's lines. Inform me also and I will endeavor to make a diversion. I have sent some caps. I subjoin a despatch from General Johnston."](../figure/confederate_message.jpg ){#tmplabelfig .margin}
 
 
 The _Enigma_ cipher was a mechanical cipher (looking like a typewriter, see [enigmafig](){.ref}) where each letter typed would get mapped into a different letter depending on the (rather complicated) key and current state
@@ -145,6 +145,7 @@ $$
 
 We will often write the first input (i.e., the key) to the encryption and decryption as a subscript and so can write [eqvalidenc](){.eqref} also as  $D_k(E_k(x))=x$.
 
+![A private-key encryption scheme is a pair of algorithms $E,D$ such that for every key $k\in \{0,1\}^n$ and plaintext $x\in \{0,1\}^{L(n)}$, $y=E_k(x)$ is a ciphertext of length $C(n)$. The encryption scheme is _valid_ if for every such $y$, $D_k(y)=x$. That is, the decryption of an encryption of $x$ is $x$, as long as both encryption and decryption use the same key.](../figure/encryptionvalid.png){#validencryption .margin}
 
 ::: {.solvedexercise title="Lengths of ciphertext and plaintext" #lengthsciphertextplaintext}
 Prove that for every valid encryption scheme $(E,D)$ with functions $L,C$. $C(n) \geq L(n)$ for every $n$.
@@ -193,7 +194,12 @@ Therefore for security we must choose the key at _random_ and can restate Kerckh
 
 This is such a crucial point that is worth repeating:
 
->_There is no secrecy without randomness_
+
+::: { .bigidea #securityrandomness}
+There is no _secrecy_ without _randomness_.
+:::
+
+
 
 At the heart of every cryptographic scheme there is a secret key, and the secret key is always chosen at random.
 A corollary of that is that to understand cryptography, you need to know probability theory.
@@ -429,6 +435,12 @@ On the other hand, if the two distributions above give a different probability f
 * It is weak enough that, unlike perfect secrecy, it is possible to obtain a computationally secret encryption scheme where the key is much smaller than the message?
 
 To the best of our knowledge, the answer to both questions is _Yes_.
+
+::: { .bigidea #computationcrypto}
+_Computational hardness_ is necessary and sufficient for a great many cryptographic constructions, and in particular for encryption schemes with keys shorter than the message.
+:::
+
+
 Regarding the first question, it is not hard to show that if, for example,  Alice uses a computationally secret encryption algorithm to encrypt either "attack" or "retreat" (each chosen with probability $1/2$), then as long as she's restricted to polynomial-time algorithms, an adversary Eve will not be able to guess the message with probability better than, say, $0.51$, even after observing its encrypted form. (We omit the proof, but it is an excellent exercise for you to work it out on your own.)
 
 To answer the second question we will show that under the same assumption we used for derandomizing $\mathbf{BPP}$, we can obtain a computationally secret cryptosystem where the key is almost _exponentially_ smaller than the plaintext.

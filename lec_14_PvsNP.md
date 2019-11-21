@@ -91,31 +91,37 @@ We can continue in this way to recover all the bits.
 
 
 ::: {.proof data-ref="search-dec-thm"}
-If $\mathbf{P}=\mathbf{NP}$ then for every polynomial-time algorithm $V$ and $a,b \in \N$, there is a polynomial-time algorithm $STARTSWITH_V$ that on input $x\in \{0,1\}^*$ and $z\in \{0,1\}^\ell$, outputs $1$ if and only if there exists some $y\in \{0,1\}^{an^b}$ such that the first $\ell$ bits of $y$ are equal to $z$ and $V(xy)=1$.
-Indeed, we leave it as an exercise to verify that the $STARTSWITH_V$ function is in $\mathbf{NP}$ and hence can be solved in polynomial time if $\mathbf{P}=\mathbf{NP}$.
+Let $V$ be some polynomial time algorithm and $a,b \in \N$ some constants.
+Define the function $STARTSWITH_V$ as follows:
+For every $x\in \{0,1\}^*$ and $z \in \{0,1\}^*$, $STARTSWITH_V(x,z)=1$ if and only if there exists 
+some $y \in \{0,1\}^{an^b - |z|}$ (where $n=|x|)$ such that $V(xzy)=1$.
+That is, $STARTSWITH_V(x,z)$ outputs $1$ if there is some string $w$ of length $a|x|^b$ such that $V(x,w)=1$ and the first $|z|$ bits of $w$ are $z_0,\ldots,z_{\ell-1}$.
+Since, given  $x,y,z$ as above, we can check in polynomial time if $V(xzy)=1$, the function 
+$STARTSWITH_V$ is in $\mathbf{NP}$ and hence if $\mathbf{P}=\mathbf{NP}$ we can compute it in polynomial time.
 
-Now for any such polynomial-time $V$ and $a,b\in\N$, we can implement $FIND_V(x)$ as follows:
+Now for every such polynomial-time $V$ and $a,b\in\N$, we can implement $FIND_V(x)$ as follows:
 
 
 
-::: {.algorithm title="$FIND_V$: Search to decision reduction" #searchtodecisionalg}
-INPUT: $x\in \{0,1\}^*$
-OUTPUT: $x\in \{0,1\}^{an^b}$ s.t. $V(xz)=1$, -if such $x$ exists.
+``` {.algorithm title="$FIND_V$: Search to decision reduction" #searchtodecisionalg}
+INPUT: $x\in \{0,1\}^n$
+OUTPUT: $z\in \{0,1\}^{an^b}$ s.t. $V(xz)=1$, -if such $z$ exists. Otherwise -output the empty string.
 
+Initially $z_0=z_1=\cdots=z_{an^b-1}=0$.
 For{$\ell=0,\ldots,an^b-1$}
 Let $b_0 \leftarrow STARTSWITH_V(xz_{0}\cdots z_{\ell-1}0)$.
 Let   $b_1  \leftarrow STARTSWITH_V(xz_{0}\cdots z_{\ell-1}1)$.
 If{$b_0=b_1=0$} 
-Return "no $z$ exists"  # Can't extend  $xz_0\ldots z_{\ell-1}$ to accepting input of $V$
+Return ""  # Can't extend  $xz_0\ldots z_{\ell-1}$ to an accepting input of $V$
 Endif
-If{$b=1$}
+If{$b_0=1$}
  $z_\ell \leftarrow 0$ # Can extend $xz_0\ldots x_{\ell-1}$ with $0$ to accepting input
 Else
  $z_\ell \leftarrow 1$ # Can extend $xz_0\ldots x_{\ell-1}$ with $1$ to accepting input
 Endif
 Endfor
 Return $z_0,\ldots,z_{an^b-1}$
-:::
+```
 
 
 To analyze [searchtodecisionalg](){.ref}, note that it makes $2an^{b}$ invocations to $STARTSWITH_V$ and hence if the latter is polynomial-time, then so is  [searchtodecisionalg](){.ref}
