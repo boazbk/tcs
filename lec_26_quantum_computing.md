@@ -269,6 +269,12 @@ In particular, due to Grover's search algorithm, we know that the $k$-SAT proble
 In contrast, the best known algorithms for $k$-SAT on a classical computer take roughly $2^{(1-\tfrac{1}{k})n}$ steps.
 :::
 
+::: { .bigidea #quantumcomp}
+Quantum computers are not a panacea and are unlikely to solve $\mathbf{NP}$ complete problems, but they can provide exponential speedups to certain _structured_ problems.
+:::
+
+
+
 
 
 
@@ -500,6 +506,11 @@ $$
 Please stop here and see that this definition makes sense to you.
 :::
 
+::: { .bigidea #quantumdefine}
+Just as we did with classical computation, we can define mathematical models for quantum computation, and represent quantum algorithms as binary strings.
+:::
+
+
 Once we have the notion of quantum circuits, we can define the quantum analog of $\mathbf{P_{/poly}}$ (i.e., the class of functions computable by _polynomial size quantum circuits_) as follows:
 
 > ### {.definition title="$\mathbf{BQP_{/poly}}$" #QBPpoly}
@@ -515,14 +526,15 @@ Depending on how you interpret it, this description is either false or would app
 
 Moreover, this "obvious" approach for simulating a quantum computation will take not just exponential time but _exponential space_ as well, while can be shown that using a simple recursive formula one can calculate the final quantum state using _polynomial space_ (in physics this is known as "Feynman path integrals").
 So, the exponentially long vector description by itself does not imply that quantum computers are exponentially powerful.
-Indeed, we cannot _prove_ that they are (i.e., we have not been able to rule out the possiblity that every QNAND-CIRC program could be simulated by a NAND-CIRC program/ Boolean circuit with polynomial overhead), but we do have some problems (integer factoring most prominently) for which they do provide exponential speedup over the currently best _known_ classical (deterministic or probabilistic) algorithms.
+Indeed, we cannot _prove_ that they are (i.e., we have not been able to rule out the possibility that every QNAND-CIRC program could be simulated by a NAND-CIRC program/ Boolean circuit with polynomial overhead), but we do have some problems (integer factoring most prominently) for which they do provide exponential speedup over the currently best _known_ classical (deterministic or probabilistic) algorithms.
 :::
+
 
 
 
 ###  QNAND-CIRC programs (optional)
 
-Just like in the classical case, there is an equivalence between circuits and straight-line programs, and so we can define the programming language QNAND that is the quantum analog of our NAND-CIRC programming language.
+Just like in the classical case, there is an equivalence between circuits and straight-line programs, and so we can define the programming language QNAND-CIRC that is the quantum analog of our NAND-CIRC programming language.
 To do so, we only add a single operation: `HAD(foo)` which applies the single-bit operation $H$ to the variable `foo`.
 We also use the following interpretation to make `NAND` reversible: `foo = NAND(bar,blah)` means that we modify `foo` to be the XOR of its original value and the NAND of `bar` and `blah`.
 (In other words, apply the $8$ by $8$ unitary transformation $U_{NAND}$ defined above to the three qubits corresponding to `foo`, `bar` and `blah`.)
@@ -540,15 +552,14 @@ If $P$ is a QNAND-CIRC program with $n$ input variables, $\ell$ workspace variab
 
 ### Uniform computation
 
-Just as in the classical case, we can define _uniform_ computational models.
-For example, we can define the _QNAND-TM programming language_ to be QNAND augmented with loops and arrays just like NAND-TM is obtained from NAND.
-Using this we can define the class $\mathbf{BQP}$ which is the uniform analog of $\mathbf{BQP_{/poly}}$.
-Just as in the classical setting it holds that $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$, in the quantum setting it can be shown that  $\mathbf{BQP} \subseteq \mathbf{BQP_{/poly}}$.
-Just like the classical case, we can also use  [Quantum Turing Machines](https://en.wikipedia.org/wiki/Quantum_Turing_machine) instead of QNAND-TM to define $\mathbf{BQP}$.
+Just as in the classical case, we can define _uniform_ computational models for quantum computing as well.
+We will let $\mathbf{BQP}$ be the quantum analog to $\mathbf{P}$ and $\mathbf{BPP}$: the class of all Boolean functions $F:\{0,1\}^* \rightarrow \{0,1\}$ that can be computed by quantum algorithms in polynomial time.
+There are several equivalent ways to define $\mathbf{BQP}$.
+For example, there is a computational model of  [Quantum Turing Machines](https://en.wikipedia.org/wiki/Quantum_Turing_machine) that can be used to define $\mathbf{BQP}$ just as standard Turing machines are used to define $\mathbf{P}$.
+Another alternative is to define the _QNAND-TM programming language_ to be QNAND-CIRC augmented with loops and arrays just like NAND-TM is obtained from NAND-CIRC.
+Once again, we can define $\mathbf{BQP}$ using QNAND-TM programs analogously to the way $\mathbf{P}$ can be defined using NAND-TM programs.
+However, we use the following equivalent definition (which is also the one most popular in the literature):
 
-Yet another way to define $\mathbf{BQP}$ is the following: a function $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{BQP}$ if __(1)__ $F\in \mathbf{BQP_{/poly}}$ and __(2)__ moreover for every $n$, the quantum circuit that verifies this can be generated by a _classical polynomial time NAND-TM program_ (or, equivalently, a polynomial-time Turing machine).
-(This is analogous to the alternative characterization of $\mathbf{P}$ that appears in [Palternativeex](){.ref}.)
-We use this definition here, though an equivalent one can be made using QNAND-TM or quantum Turing machines:
 
 > ### {.definition title="The class $\mathbf{BQP}$" #BQPdef}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$.
@@ -561,7 +572,8 @@ We say that $F\in \mathbf{BQP}$ if there exists a polynomial time NAND-TM progra
 
 
 > ### { .pause }
-One way to verify that you've understood these definitions it to see that you can prove __(1)__ $\mathbf{P} \subseteq \mathbf{BQP}$ and in fact the stronger statement $\mathbf{BPP} \subseteq \mathbf{BQP}$, __(2)__  $\mathbf{BQP} \subseteq \mathbf{EXP}$, and __(3)__ For every $\mathbf{NP}$-complete function $F$, if $F\in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$.  [BQPcontainements](){.ref} asks you to work these out.
+[BQPdef](){.ref} is the quantum analog of the  alternative characterization of $\mathbf{P}$ that appears in [Palternativeex](){.ref}.
+One way to verify that you've understood [BQPdef](){.ref}  it to see that you can prove __(1)__ $\mathbf{P} \subseteq \mathbf{BQP}$ and in fact the stronger statement $\mathbf{BPP} \subseteq \mathbf{BQP}$, __(2)__  $\mathbf{BQP} \subseteq \mathbf{EXP}$, and __(3)__ For every $\mathbf{NP}$-complete function $F$, if $F\in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$.  [BQPcontainements](){.ref} asks you to work these out.
 
 The relation between $\mathbf{NP}$ and $\mathbf{BQP}$ is not known (see also [quantumnp](){.ref}).
 It is widely believed that $\mathbf{NP} \nsubseteq \mathbf{BQP}$, but there is no consensus whether or not $\mathbf{BQP} \subseteq \mathbf{NP}$.
@@ -569,10 +581,11 @@ It is   [quite possible](https://eccc.weizmann.ac.il/report/2018/107/) that thes
 
 
 It can be shown that $QNANDEVAL$ (evaluating a quantum circuit on an input) is computable by a polynomial size QNAND-CIRC program, and moreover this program can even be generated _uniformly_ and hence $QNANDEVAL$ is in $\mathbf{BQP}$.
-This allows us to "port" many of the results of classical computational complexity into the quantum realm as well.
+This allows us to "port" many of the results of classical computational complexity into the quantum realm, including the notions of a universal quantum Turing machine, as well as all of the uncomputability results.
+There is even a quantum analog of the [Cook-Levin Theorem](https://arxiv.org/abs/1401.3916).
 
 ::: {.remark title="Restricting attention to circuits" #quantumnonuniformrem}
-Because the non uniform model is a little cleaner to work with, in the rest of this chapter we mostly restrict attention to this model, though all the algorithms we discuss can be implemented in uniform computation as well.
+Because the non uniform model is a little cleaner to work with, in the rest of this chapter we mostly restrict attention to this model, though all the algorithms we discuss can be implemented using uniform algorithms as well.
 :::
 
 
