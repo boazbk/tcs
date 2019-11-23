@@ -372,7 +372,7 @@ Unfortunately it turns out that that such long keys are _necessary_ for perfect 
 For every perfectly secret encryption scheme $(E,D)$ the length function $L$ satisfies $L(n) \leq n$.
 
 > ### {.proofidea data-ref="longkeysthm"}
-The idea behind the proof is illustrated in [longkeygraphfig](){.ref}. If the number of keys is smaller than the number of messages then the neighborhoods of all vertices in the corresponding graphs cannot be identical.
+The idea behind the proof is illustrated in [longkeygraphfig](){.ref}. We define a graph between the plaintexts and ciphertexts, where we put an edge between plaintext $x$ and ciphertext $y$ if there is some key $k$ such that  $y=E_k(x)$. The _degree_ of this graph is at most the number of potential keys. The fact that the degree is smaller than the number of plaintexts (and hence of ciphertexts) implies that there would be two plaintexts $x$ and $x'$ with different sets of neighbors, and hence the distribution of a ciphertext corresponding to $x$ (with a random key) will not be identical to the distribution of a ciphertext corresponding to $x'$. 
 
 ::: {.proof data-ref="longkeysthm"}
 Let $E,D$ be a valid encryption scheme with messages of length $L$ and key of length $n<L$.

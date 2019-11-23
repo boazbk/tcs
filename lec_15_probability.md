@@ -115,7 +115,7 @@ _Events_ correspond to Yes/No questions, but often we want to analyze finer ques
 For example, if we make a bet at the roulette wheel, we don't want to just analyze whether we won or lost, but also _how much_ we've gained.
 A (real valued) _random variable_ is simply a way to associate a number with the result of a probabilistic experiment.
 Formally, a random variable is  a function $X:\{0,1\}^n \rightarrow \R$ that maps every outcome $x\in \{0,1\}^n$ to an element $X(x) \in \R$.
-For example, the function $sum:\{0,1\}^n \rightarrow \R$ that maps $x$ to the sum of its coordinates (i.e., to $\sum_{i=0}^{n-1} x_i$) is a random variable.
+For example, the function $SUM:\{0,1\}^n \rightarrow \R$ that maps $x$ to the sum of its coordinates (i.e., to $\sum_{i=0}^{n-1} x_i$) is a random variable.
 
 
 The _expectation_ of a random variable $X$, denoted by $\E[X]$, is the average value that that this number takes, taken over all draws from the probabilistic experiment.
@@ -142,8 +142,24 @@ $$
 $$
 
 Similarly, $\E[kX] = k\E[X]$ for every $k \in \R$.
-For example, using the linearity of expectation, it is very easy to show that the expectation of the sum of the $x_i$'s for $x \sim \{0,1\}^n$ is equal to $n/2$.
-Indeed, if we write $X= \sum_{i=0}^{n-1} x_i$ then $X= X_0 + \cdots + X_{n-1}$ where $X_i$ is the random variable $x_i$. Since for every $i$, $\Pr[X_i=0] = 1/2$ and $\Pr[X_i=1]=1/2$, we get that $\E[X_i] = (1/2)\cdot 0 + (1/2)\cdot 1 = 1/2$ and hence $\E[X] = \sum_{i=0}^{n-1}\E[X_i] = n\cdot(1/2) = n/2$.
+
+::: {.solvedexercise title="Expectation of sum" #expectationofsum}
+Let $X:\{0,1\}^n \rightarrow \R$ be the random variable that maps $x\in \{0,1\}^n$ to 
+$x_0 + x_1 + \ldots + x_{n-1}$. Prove that $\E[X] = n/2$.
+:::
+
+::: {.solution data-ref="expectationofsum"}
+We can solve this  using the linearity of expectation.
+We can define random variables $X_0,X_1,\ldots,X_{n-1}$ such that $X_i(x)= x_i$.
+Since each $x_i$ equals $1$ with probability $1/2$ and $0$ with probability $1/2$, $\E[X_i]=1/2$.
+Since $X = \sum_{i=0}^{n-1} X_i$, by the linearity of expectation
+$$
+\E[X] = \E[X_0] + \E[X_1] + \cdots + \E[X_{n-1}] = \tfrac{n}{2} \;.
+$$
+:::
+
+
+
 
 
 > ### { .pause }
@@ -456,6 +472,12 @@ $\E[XY] \neq \E[X]\E[Y]$.
 > ### {.exercise #noindnocorex }
 Give an example of random variables $X,Y: \{0,1\}^3 \rightarrow \R$ such that $X$ and $Y$ are _not_ independent but $\E[XY] =\E[X]\E[Y]$.
 
+::: {.exercise  #majorityex}
+Let $n$ be an odd number, and let $X:\{0,1\}^n \rightarrow \R$ be the random variable defined as follows: for every $x\in \{0,1\}^n$, $X(x)=1$ if $\sum_{i=0}x_i > n/2$ and $X(x)=0$ otherwise.
+Prove that $\E[X] = 1/2$.
+:::
+
+
 
 
 > ### {.exercise title="Product of expectations" #expprodex}
@@ -538,3 +560,5 @@ e. It is impossible to get such low probability since there are fewer than $2^{1
 
 There are many sources for more information on discrete probability, including the texts referenced in [notesmathchap](){.ref}.
 One particularly recommended source for probability is [Harvard's [STAT 110](https://projects.iq.harvard.edu/stat110/home) class, whose lectures are available on [youtube](https://projects.iq.harvard.edu/stat110/youtube) and whose book is available [online](http://probabilitybook.net).
+
+The version of the Chernoff bound that we stated in [chernoffthm](){.ref} is sometimes known as [Hoeffding's Inequality](https://en.wikipedia.org/wiki/Hoeffding%27s_inequality). Other variants of the Chernoff bound are known as well, but all of them are equally good for the applications of this book.
