@@ -67,7 +67,7 @@ We define  $TIME_{\mathsf{TM}}(T(n))$ to be the set of Boolean functions (functi
 :::
 
 ::: { .bigidea #formaldefinetime}
-For a function $F:\{0,1\}^* \rightarrow \{0,1\}$ and $T:\N  \rightarrow \N$, we can formally defined what it means for $F$ to be computable in time at most $T(n)$ where $n$ is the size of the input.
+For a function $F:\{0,1\}^* \rightarrow \{0,1\}$ and $T:\N  \rightarrow \N$, we can formally define what it means for $F$ to be computable in time at most $T(n)$ where $n$ is the size of the input.
 :::
 
 ::: { .pause }
