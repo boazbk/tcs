@@ -947,6 +947,7 @@ See footnote for hint.^[We are given $h=g^x$ and need to recover $x$. To do so w
 
 An excellent gentle introduction to quantum computation is given in Mermin's book [@mermin2007quantum]. 
 In particular the first 100 pages (Chapter 1 to 4) of [@mermin2007quantum] cover all the material of this chapter in a much more comprehensive way.
+This material is also covered in the first 5 chapters of [De-Wolf's online lecture notes](https://arxiv.org/abs/1907.09415).
 For a more condensed exposition, the chapter on quantum computation in my [book with Arora](http://theory.cs.princeton.edu/complexity/) (see [draft here](http://theory.cs.princeton.edu/complexity/ab_quantumchap.pdf)) is one
 relatively short source that contains full descriptions of Grover's, Simon's and Shor's algorithms.
 This [blog post of Aaronson](http://www.scottaaronson.com/blog/?p=208) contains a high level explanation of Shor's algorithm which ends with links to several more detailed expositions.
@@ -968,7 +969,7 @@ See also [Kelsey Houston-Edwards's video on Shor's Algorithm](https://www.youtub
 
 The form of Bell's game we discuss in [bellineqsec](){.ref} was given by [Clauser, Horne, Shimony, and Holt](https://goo.gl/wvJGZU).
 
-The [Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform), used as a component in Shor's algorithm, is one of the most useful algorithms across many application areas.
+The [Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform), used as a component in Shor's algorithm, is one of the most widely used algorithms invented.
 The stories of its discovery by Gauss in trying to calculate asteroid orbits and rediscovery by Tukey during the cold war are fascinating as well.
 
 The image in [doubleslitfig](){.ref} is taken from Wikipedia.
