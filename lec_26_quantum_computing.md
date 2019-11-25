@@ -128,6 +128,27 @@ Pure states turn out to be sufficient for understanding the algorithmic aspects 
 More generally, this chapter is not meant to be a complete description of quantum mechanics, quantum information theory, or quantum computing, but rather illustrate the main points where these differ from classical computing.
 :::
 
+### Linear algebra quick review
+
+_Linear algebra_ underlies much of quantum mechanics, and so you would do well to review some of the basic notions such as vectors, matrices, and linear subspaces.
+The operations in quantum mechanics can be represented as linear functions over the _complex_ numbers, but
+we stick to the real numbers in this chapter. This does not cause much loss in understanding but does allow us to simplify our notation and eliminate the use of the complex conjugate.
+
+The main notions we use are:
+
+* A function $F:\R^N \rightarrow \R^N$ is _linear_ if $F(\alpha u + \beta v) =  \alpha F(u) + \beta F(v)$ for every $\alpha,\beta \in \R$ and $u,v \in \R^N$.
+
+* The _inner product_ of two vectors $u,v \in \R^N$ can be defined as $\langle u,v \rangle = \sum_{i\in [N]} u_iv_i$. (There can be different inner products but we stick to this one.) The _norm_ of a vector $u \in \R^N$ is defined as  $\|u\| = \sqrt{\langle u,u \rangle} = \sqrt{\sum_{i\in [N]}u_i^2}$. We say that $u$ is a _unit vector_ if $\|u\|=1$.
+
+* Two vectors $u,v \in \R^N$ are _orthogonal_ if $\langle u,v\rangle = 0$. An _orthonormal basis_ for $\R^N$ is a set of $N$ vectors $v_0,v_1,\ldots, v_{N-1}$ such that $\| v_i \|=1$ for every $i\in [N]$ and $\langle v_i,v_j \rangle=0$ for every $i\neq j$. A canoncial example is the _standard basis_ $e_0,\ldots,e_{N-1}$, where $e_i$ is the vector that has zeroes in all cooordinates except the $i$-th coordinate in which its value is $1$. A quirk of the quantum mechanics literature is that $e_i$ is often denoted by $|i \rangle$. We also often look at the case $N=2^n$, in which case we identify $[N]$ with $\{0,1\}^n$ and for every $x\in \{0,1\}^n$, we denote the standard basis element corresponding to the $x$-th coordinate by $|x \rangle$.
+
+* If $u$ is a vector in $\R^n$ and $v_0,\ldots,v_{N-1}$ is an orthonormal basis for $\R^N$, then there are coefficients $\alpha_0,\ldots,\alpha_{N-1}$ such that $u = \alpha_0v_0 + \cdots + \alpha_{N-1}v_{N-1}$. Consequently, the value $F(u)$ is determined by the values $F(v_0)$, $\ldots$, $F(v_{N-1})$. Moreover, $\|u\| = \sqrt{\sum_{i\in [N]} \alpha_i^2}$.
+
+* We can represent a linear function $F:\R^N \rightarrow \R^N$ as an $N\times N$ _matrix_ $M(F)$ where the coordinate in the $i$-th row and $j$-th column of $M(F)$ (that is $M(F)_{i,j}$) is equal to $\langle e_i , F(e_j) \rangle$ or equivalently the $i$-th coordinate of $F(e_j)$.
+
+* A linear function $F:\R^N \rightarrow \R^N$ such that $\| F(u) \| = \|u \|$ for every $u$ is called _unitary_. It can be shown that a function $F$ is unitary if and only if $M(F) M(F)^\top = I$ where $\top$ is the _transpose_ operator (in the complex case the conjugate transpose) and $I$ is the $N\times N$ identity matrix that has $1$'s on the diagonal and zeroes everywhere else. (For every two matrices $A,B$, we use $A B$ to denote the _matrix product_ of $A$ and $B$.) Another equivalent characterization of this condition is that $M(F)^\top = M(F)^{-1}$ and yet another is that both the rows and columns of $M(F)$ form an orthonormal basis.
+
+
 
 
 ## Bell's Inequality { #bellineqsec }
@@ -905,7 +926,7 @@ The case that $L$ is not an exact power of two causes some complications in both
 However, it is possible to handle these.
 The idea is that we can embed $Z_L$ in the group $\Z_{A\cdot L}$ for any integer $A$, and we can find an integer $A$ such that $A\cdot L$ will be close enough to a power of $2$ (i.e., a number of the form $2^m$ for some $m$), so that if we do the Fourier transform over the group $\Z_{2^m}$ then we will not introduce too many errors.
 
-
+![We know that $\mathbf{P}$ and $\mathbf{BPP}$ are subsets of  $\mathbf{BQP}$ and that $\mathbf{BQP}$ is a subset of $\mathbf{PSPACE}$ (functions computable in polynomial space) and hence of $\mathbf{EXP}$. It is not known if any of these inclusions are strict though it is believed that they are. The relation between $\mathbf{BQP}$ and $\mathbf{NP}$ is not known either, though it is believed that these classes are incomparable, and in particular that $\mathbf{NP}$-complete problems _can not_ be solved in polynomial time by quantum computers. However, it is possibile that $\mathbf{BQP}$ contains $\mathbf{NP}$ and even $\mathbf{PSPACE}$, and it is also possible that quantum computers offer no super-polynomial speedups and that $\mathbf{P}=\mathbf{BQP}$.](../figure/quantumscenarios.png){#quantumoptionsfig}
 
 
 
