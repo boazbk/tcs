@@ -72,7 +72,7 @@ Just as the NAND-TM programming language models Turing machines, we can also def
 The NAND-RAM programming language extends NAND-TM by adding the following features:
 
 
-* The variables of NAND-RAM are allowed to be (non negative) _integer valued_ rather than only Boolean as is the case in NAND-TM. That is, a scalar variable `foo` holds a non negative integer in $\N$ (rather than only a bit in $\{0,1\}$), and an array variable `Bar` holds an array of integers. As in the case of RAM machines, we will not allow integers of unbounded size. Concretely, each variable holds a number between $0$ and $T-1$, where $T$ is the number of steps that have been executed by the program so far. (You can ignore this restriction for now:  if we want to hold larger numbers, we can simply execute dummy instructions; it will be useful in later chapters.)
+* The variables of NAND-RAM are allowed to be (non negative) _integer valued_ rather than only Boolean as is the case in NAND-TM. That is, a scalar variable `foo` holds an non negative integer in $\N$ (rather than only a bit in $\{0,1\}$), and an array variable `Bar` holds an array of integers. As in the case of RAM machines, we will not allow integers of unbounded size. Concretely, each variable holds a number between $0$ and $T-1$, where $T$ is the number of steps that have been executed by the program so far. (You can ignore this restriction for now:  if we want to hold larger numbers, we can simply execute dummy instructions; it will be useful in later chapters.)
 
 * We allow _indexed access_ to arrays. If `foo` is a scalar and `Bar` is an array, then `Bar[foo]` refers to the location of `Bar` indexed by the value of `foo`. (Note that this means we don't need to have a special index variable `i` any more.)
 
@@ -220,7 +220,7 @@ Two[i] = something
 
 ### All the rest
 
-Once we have two dimensional arrays and indexed access, simulating NAND-RAM with NAND-TM is just a matter of implementing the standard algorithms for arithmetic operations and comparisons in NAND-TM.
+Once we have two dimensional arrays and indexed access, simulating NAND-RAM with NAND-TM is just a matter of implementing the standard algorithms for arithmetic operations and comparisions in NAND-TM.
 While this is cumbersome, it is not difficult, and the end result is to show that every NAND-RAM program $P$ can be simulated by an equivalent NAND-TM program $Q$, thus completing the proof of [RAMTMequivalencethm](){.ref}.
 
 
@@ -369,7 +369,7 @@ A _computational model_ is some way to define what it means for a _program_ (whi
 A _computational model_ $\mathcal{M}$ is _Turing complete_, if we can map every Turing machine (or equivalently NAND-TM program) $N$ into a program $P$ for $\mathcal{M}$ that computes the same function as $Q$.
 It is _Turing equivalent_ if the other direction holds as well (i.e., we can map every program in $\mathcal{M}$ to a Turing machine that computes the same function).
 We can define this notion formally as follows.
-(This formal definition is not crucial for the remainder of this book so feel  to skip it as long as you understand the general concept of Turing equivalence; This notion is sometimes referred to in the literature as [Gödel numbering](https://goo.gl/rzuNPu) or [admissible numbering](https://goo.gl/xXJoUG).)
+(This formal definition is not crucial for the remainder of this book so feel  to skip it as long as you understand the general concept of Turing equivalence; This notion is sometimes referred to in the literature as [Gödel numbering](https://goo.gl/rzuNPu) or [admissable numbering](https://goo.gl/xXJoUG).)
 
 ::: {.definition title="Turing completeness and equivalence (optional)" #turingcompletedef}
 Let $\mathcal{F}$ be the set of all partial functions from $\{0,1\}^*$ to $\{0,1\}^*$.
@@ -593,7 +593,7 @@ Clearly, the name of the argument to a function doesn't matter, and so $\lambda 
 
 
 
-_Dropping parenthesis._ To reduce notational clutter, when writing $\lambda$ calculus expressions we often drop the parentheses for function evaluation. Hence instead of writing $f(x)$ for the result of applying the function $f$ to the input $x$, we can also write this as simply $f\; x$.
+_Dropping parenthesis._ To reduce notational clutter, when writing $\lambda$ calculus expressions we often drop the parenthesis for function evaluation. Hence instead of writing $f(x)$ for the result of applying the function $f$ to the input $x$, we can also write this as simply $f\; x$.
 Therefore we can write  $(\lambda x.x\times x) 7=49$. In this chapter, we will use both the $f(x)$ and $f\; x$ notations for function application.
 Function evaluations are associative and bind from left to right, and hence $f\;g\;h$ is the same as $(f g) h$.
 
@@ -727,7 +727,7 @@ There are two natural conventions for this:
 * _Call by value_ (aka _"eager evaluation"_): We evaluate [lambdaexpeq](){.eqref} by first evaluating the righthand side and obtaining $h=g[y \rightarrow z]$, and then plugging this into the lefthandside to obtain $f[x \rightarrow h]$.
 
 Because the λ calculus has only _pure_ functions, that do not have "side effects", in many cases the order does not matter.
-In fact, it can be shown that if we obtain a definite irreducible expression (for example, a number) in both strategies, then it will be the same one.
+In fact, it can be shown that if we obtain an definite irreducible expression (for example, a number) in both strategies, then it will be the same one.
 However, for concreteness we will always use the "call by name" (i.e., lazy evaluation) order.
 (The same choice is made in the programming language Haskell, though many other programming languages use eager evaluation.)
 Formally, the evaluation of a λ expression using "call by name" is captured by the following process:
@@ -1222,7 +1222,7 @@ Table: Different models for computing finite functions and functions with arbitr
 
 
 Later on in [spacechap](){.ref} we will study _memory bounded_ computation.
-It turns out that NAND-TM programs with a constant amount of memory are equivalent to the model of _finite automata_ (the adjectives "deterministic" or "nondeterministic" are sometimes added as well, this model is also known as _finite state machines_) which in turn captures the notion of _regular languages_ (those that can be described by [regular expressions](https://en.wikipedia.org/wiki/Regular_expression)), which is a concept we will see in [restrictedchap](){.ref}.
+It turns out that NAND-TM programs with a constant amount of memory are equivalent to the model of _finite automata_ (the adjectives "deterministic" or "nondeterministic" are sometimes added as well, this model is also known as _finite state machines_) which in turns captures the notion of _regular languages_ (those that can be described by [regular expressions](https://en.wikipedia.org/wiki/Regular_expression)), which is a concept we will see in [restrictedchap](){.ref}.
 
 
 
@@ -1302,7 +1302,7 @@ Prove that the simplification process of $e$ ends in a definite number if we use
 
 ::: {.exercise title="Zip function" #zipfunctionex}
 Give an enhanced λ calculus expression to compute the function $zip$ that on input a pair of lists $I$ and $L$ of the same length $n$, outputs a _list of $n$ pairs_ $M$ such that the $j$-th element of $M$ (which we denote by $M_j$) is the pair $(I_j,L_j)$.
-Thus $zip$ "zips together" these two lists of elements into a single list of pairs.^[The name $zip$ is a common name for this operation, for example in Python. It should not be confused with the `zip` compression file format.]
+Thus $zip$ "zips together" these two lists of elements into a single list of pairs.^[The name $zip$ is a common name for this operation, for example in Python. It should not be be confused with the `zip` compression file format.]
 :::
 
 ::: {.exercise title="Next-step function without $RECURSE$" #lambdaturing-thm}

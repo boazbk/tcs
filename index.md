@@ -15,7 +15,6 @@ _Work in progress_
 
 This is a textbook in preparation for an introductory undergraduate course on theoretical computer science.
 I am using this text for [Harvard CS 121](http://cs121.boazbarak.org).
-It is also used for [UVa CS 3102](https://uvatoc.github.io).
 
 
 See below for individual chapters. You can also download:

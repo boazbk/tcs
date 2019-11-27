@@ -540,7 +540,7 @@ Then there is no regular expression over $\Sigma$ that computes $MATCHPAREN$.
 [regexpparn](){.ref} is a consequence of the following result, which is known as the _pumping lemma_:
 
 ::: {.theorem title="Pumping Lemma" #pumping}
-Let $e$ be a regular expression over some alphabet $\Sigma$. Then there is some number $n_0$ such that for every $w\in \Sigma^*$ with $|w|>n_0$ and $\Phi_{e}(w)=1$,  we can write $w=xyz$ for strings $x,y,z \in \Sigma^*$  satisfying the following conditions:
+Let $e$ be a regular expression over some alphabet $\Sigma$. Then there is some number $n_0$ such that for every $w\in \{0,1\}^*$ with $|w|>n_0$ and $\Phi_{e}(w)=1$,  we can write $w=xyz$ for strings $x,y,z \in \Sigma^*$  satisfying the following conditions:
 
 1. $|y| \geq 1$.
 
@@ -598,7 +598,7 @@ Using the pumping lemma, we can easily prove [regexpparn](){.ref} (i.e., the non
 
 ::: {.proof data-ref="regexpparn"}
 Suppose, towards the sake of contradiction, that there is an expression $e$ such that $\Phi_{e}= MATCHPAREN$.
-Let $n_0$ be the number obtained from  [pumping](){.ref} and let
+Let $n_0$ be the number from [regexpparn](){.ref} and let
 $w =\langle^{n_0}\rangle^{n_0}$ (i.e., $n_0$ left parenthesis followed by $n_0$ right parenthesis). Then we see that if we write $w=xyz$ as in [regexpparn](){.ref}, the condition $|xy| \leq n_0$ implies that $y$ consists solely of left parenthesis. Hence the string $xy^2z$ will contain more left parenthesis than right parenthesis.
 Hence $MATCHPAREN(xy^2z)=0$ but by the pumping lemma $\Phi_{e}(xy^2z)=1$, contradicting our assumption that $\Phi_{e}=MATCHPAREN$.
 :::

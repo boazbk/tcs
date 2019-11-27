@@ -31,8 +31,8 @@ Because this project was highly classified, Ulam, von Neumann and their collabor
 The name stuck, and randomized algorithms are known as Monte Carlo algorithms to this day.^[Some texts also talk about "Las Vegas algorithms" that always return the right answer but whose running time is only polynomial on the average. Since this Monte Carlo vs Las Vegas terminology is confusing, we will not use these terms anymore, and simply talk about randomized algorithms.]
 
 In this chapter, we will see some examples of randomized algorithms that use randomness to compute a quantity in a faster or simpler way than was known otherwise.
-We will describe the algorithms in an informal / "pseudo-code" way, rather than as NAND-TM, NAND-RAM programs or Turing macines. 
-In [chapmodelrand](){.ref} we will discuss how to augment the computational models we say before to incorporate the ability to "toss coins".
+We will describe the algorithms in an informal / "pseudo-code" way, rather than as NAND or NAND-TM programs.
+In [chapmodelrand](){.ref} we will discuss how to augment the NAND and NAND-TM models to incorporate the ability to "toss coins".
 
 
 ## Finding approximately good maximum cuts.
@@ -73,22 +73,8 @@ If we let $X$ be the random variable corresponding to the total number of edges 
 $$\E[X] = \sum_{e\in E} \E[X_e] = m(1/2) = m/2 \;.$$
 :::
 
-__Randomized algorithms work in the worst case.__ It is tempting of a randomized algorithm such as the one of [maxcutthm](){.ref} as an algorithm that works for a "random input graph" but it is actually much better than that.
-The expectation in this theorem is _not_ taken over the choice of the graph, but rather only over the _random choices of the algorithm_.
-In particular, _for every graph $G$_, the algorithm is guaranteed to cut half of the edges of the input graph in expectation.
-That is,
 
-::: { .bigidea #randomworstcaseidea}
-A randomized algorithm outputs the correct value with good probability on _every possible input_. 
-:::
-
-We will define more formally what "good probability" means in [chapmodelrand](){.ref} but the crucial point is that this probability is always only taken over the random choices of the algorithm, while the input is _not_ chosen at random.
-
-
-
-
-
-### Amplifying the success of randomized algorithms
+### Amplification
 
 [maxcutthm](){.ref} gives us an algorithm that cuts $m/2$ edges in _expectation_.
 But, as we saw before, expectation does not immediately imply concentration, and so a priori, it may be the case that when we run the algorithm, most of the time we don't get a cut matching the expectation.
@@ -116,10 +102,7 @@ $$
 But if $p<1/(2m)$ then $pm<0.5$ and so the righthand side is smaller than $m/2$, which contradicts the fact that (as proven in [maxcutthm](){.ref}) the expected number of edges cut is at least $m/2$.
 :::
 
-
-### Success amplification
-
-[cutprob](){.ref} shows that our algorithm succeeds at least _some_ of the time, but we'd like to succeed almost _all_ of the time. The approach to do that is to simply _repeat_ our algorithm many times, with fresh randomness each time, and output the best cut we get in one of these repetitions.
+__Success amplification.__  [cutprob](){.ref} shows that our algorithm succeeds at least _some_ of the time, but we'd like to succeed almost _all_ of the time. The approach to do that is to simply _repeat_ our algorithm many times, with fresh randomness each time, and output the best cut we get in one of these repetitions.
 It turns out that with extremely high probability we will get a cut of size at least $m/2$.
 For example, if we repeat this experiment $2000m$ times, then (using the inequality $(1-1/k)^k \leq 1/e \leq 1/2$) we can show that the probability that we will never cut at least $m/2$ edges is at most
 
@@ -130,7 +113,7 @@ $$
 More generally, the same calculations can be used to show the following lemma:
 
 > ### {.lemma #cutalgorithmamplificationlem}
-There is an algorithm that on input a graph $G=(V,E)$ and a number $k$, runs in time polynomial in $|V|$ and $k$ and outputs a cut $(S,\overline{S})$ such that
+There is a algorithm that on input a graph $G=(V,E)$ and a number $k$, runs in time polynomial in $|V|$ and $k$ and outputs a cut $(S,\overline{S})$ such that
 $$
 \Pr[ \text{number of edges cut by $(S,\overline{S})$ } \geq |E|/2 ] \geq 1- 2^{-k} \;.
 $$
@@ -398,16 +381,16 @@ Fortunately,  we can simulate this with an exponentially small probability of er
 2. Use the above to prove that for every $\delta>0$ and large enough $n$, if we set $T=1000\cdot (3/2+\delta)^n$ and $S=n/4$  in the WalkSAT algorithm then for every satisfiable 3CNF $\varphi$, the probability that we output `unsatisfiable` is at most $1/2$. \
 
 > ### {.exercise title="Faster bipartite matching (challenge)" #matchingmodex}
-(to be completed: improve the matching algorithm by working modulo a prime)
+^[TODO: add exercise to improve the matching algorithm by working modulo a prime]
 
 
 ## Bibliographical notes
 
-The books of Motwani and Raghavan [@motwani1995randomized] and Mitzenmacher and Upfal [@mitzenmacher2017probability] are two excellent resources for randomized algorithms.
-Some of the history of the discovery of Monte Carlo algorithm is covered  [here](http://permalink.lanl.gov/object/tr?what=info:lanl-repo/lareport/LA-UR-88-9068).
+monte carlo history:  `http://permalink.lanl.gov/object/tr?what=info:lanl-repo/lareport/LA-UR-88-9068`
 
+## Further explorations
 
-
+Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
 
 
