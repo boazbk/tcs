@@ -26,7 +26,7 @@ chapternum: "17"
 
 
 Before we show how to use randomness in algorithms, let us do a quick review of some basic notions in probability theory.
-This is not meant to replace a course on probability theory, and if you have not seen this material before, I highly recommend you look at additional resources to get up to speed.^[Harvard's [STAT 110](http://projects.iq.harvard.edu/stat110/home) class (whose lectures are available on [youtube](http://projects.iq.harvard.edu/stat110/youtube) ) is a highly recommended introduction to probability. See also these [lecture notes](https://goo.gl/4SoqJk) from MIT's "Mathematics for Computer Science" course.]
+This is not meant to replace a course on probability theory, and if you have not seen this material before, I highly recommend you look at additional resources to get up to speed.
 Fortunately, we will not need many of the advanced notions of probability theory, but, as we will see, even the so-called "simple" setting of tossing $n$ coins can lead to very subtle and interesting issues.
 
 
@@ -57,21 +57,32 @@ An _event_ is simply a subset $A$ of $\{0,1\}^n$.
 The _probability of $A$_, denoted by $\Pr_{x\sim \{0,1\}^n}[A]$ (or $\Pr[A]$ for short, when the sample space is understood from the context), is the probability that an $x$ chosen uniformly at random will be contained in $A$.
 Note that this is the same as $|A|/2^n$ (where $|A|$ as usual denotes the number of elements in the set $A$).
 For example, the probability that $x$ has an even number of ones is $\Pr[A]$ where $A=\{ x : \sum_{i=0}^{n-1} x_i \;= 0 \mod 2 \}$.
-In the case $n=3$, $A=\{ 000,011,101,110 \}$, and hence $\Pr[A]=\tfrac{4}{8}=\tfrac{1}{2}$.
+In the case $n=3$, $A=\{ 000,011,101,110 \}$, and hence $\Pr[A]=\tfrac{4}{8}=\tfrac{1}{2}$
+(see [eventhreecoinsfig](){.ref}).
 It turns out this is true for every $n$:
 
+![The event that if we toss three coins $x_0,x_1,x_2 \in \{0,1\}$ then  the sum of the $x_i$'s is even has probability $1/2$ since it corresponds to exactly $4$ out of the $8$ possible strings of length $3$.](../figure/even3coins.png){#eventhreecoinsfig .margin }
+
 > ### {.lemma #evenprob}
-$$\Pr_{x\sim \{0,1\}^n}[ \text{$\sum_{i=0}^{n-1} x_i$ is even }] = 1/2$$
+For every $n>0$, $$\Pr_{x\sim \{0,1\}^n}[ \text{$\sum_{i=0}^{n-1} x_i$ is even }] = 1/2$$
 
 > ### { .pause }
 To test your intuition on probability, try to stop here and prove the lemma on your own.
 
-> ### {.proof data-ref="evenprob"}
-Let $A = \{ x \in \{0,1\}^n :  \sum_{i=0}^{n-1} x_i = 0 \mod 2 \}$.
-Since every $x$ is obtained with probability $2^{-n}$, to show this we need to show that $|A|=2^n/2=2^{n-1}$.
-For every $x_0,\ldots,x_{n-2}$, if $\sum_{i=0}^{n-2} x_i$ is even then $(x_0,\ldots,x_{n-1},0)\in A$ and $(x_0,\ldots,x_{n-1},1) \not\in A$.
-Similarly, if $\sum_{i=0}^{n-2} x_i$ is odd then $(x_0,\ldots,x_{n-1},1) \in A$ and  $(x_0,\ldots,x_{n-1},0)\not\in A$.
-Hence, for every one of the $2^{n-1}$ prefixes $(x_0,\ldots,x_{n-2})$, there is exactly a single continuation of $(x_0,\ldots,x_{n-2})$ that places it in $A$.
+::: {.proof data-ref="evenprob"}
+We prove the lemma by induction on $n$. For the case $n=1$ it is clear since $x=0$ is even and $x=1$ is odd, and hence the probability that $x\in \{0,1\}$ is even is $1/2$.
+Let $n>1$. We assume by induction that the lemma is true for $n-1$ and we will prove it for $n$.
+We split the set $\{0,1\}^n$ into four disjoint sets $E_0,E_1,O_0,O_1$, where for $b\in \{0,1\}$, $E_b$ is defined as the set of $x\in \{0,1\}^n$ such that $x_0\cdots x_{n-2}$ has even number of ones and $x_{n-1}=b$ and similarly $O_b$ is the set of $x\in \{0,1\}^n$ such that $x_0 \cdots x_{n-2}$ has odd  number of ones  and $x_{n-1}=b$.
+Since $E_0$ is obtained by simply extending  $n-1$-length string with even number of ones by the digit $0$, the size of $E_0$ is simply the number of such $n-1$-length strings which by the induction hypothesis is $2^{n-1}/2 = 2^{n-2}$.
+The same reasoning applies for $E_1$, $O_0$, and $O_1$.
+Hence each one of the  four sets $E_0,E_1,O_0,O_1$ is of size $2^{n-2}$.
+Since $x\in \{0,1\}^n$ has an even number of ones if and only if $x \in E_0 \cup O_1$ (i.e., either the first $n-1$ coordinates sum up to an even number and the final coordinate is $0$ or the first $n-1$ coordinates sum up to an odd number and the final coordinate is $1$), we get that the probability that $x$ satisfies this property is 
+$$
+\tfrac{|E_0\cup O_1|}{2^n} = \frac{2^{n-2}+2^{n-2}}{2^n} = \frac{1}{2} \;,
+$$
+using the fact that $E_0$ and $O_1$ are disjoint and hence $|E_0 \cup O_1| = |E_0|+|O_1|$.
+:::
+
 
 We can also use the _intersection_ ($\cap$) and _union_ ($\cup$) operators to talk about the probability of both event $A$ _and_ event $B$ happening, or the probability of event $A$ _or_ event $B$ happening.
 For example, the probability $p$ that $x$ has an _even_ number of ones _and_ $x_0=1$ is the same as
@@ -103,8 +114,8 @@ For example, suppose that I were to randomize seating in my course, and then it 
 _Events_ correspond to Yes/No questions, but often we want to analyze finer questions.
 For example, if we make a bet at the roulette wheel, we don't want to just analyze whether we won or lost, but also _how much_ we've gained.
 A (real valued) _random variable_ is simply a way to associate a number with the result of a probabilistic experiment.
-Formally, a random variable is simply a function $X:\{0,1\}^n \rightarrow \R$ that maps every outcome $x\in \{0,1\}^n$ to a real number $X(x)$.^[In many probability texts a random variable is always defined to have values in the set $\R$ of real numbers, and this will be our default option as well. However, in some contexts in theoretical computer science we can consider random variables mapping to other sets such as $\{0,1\}^*$.]
-For example, the function $sum:\{0,1\}^n \rightarrow \R$ that maps $x$ to the sum of its coordinates (i.e., to $\sum_{i=0}^{n-1} x_i$) is a random variable.
+Formally, a random variable is  a function $X:\{0,1\}^n \rightarrow \R$ that maps every outcome $x\in \{0,1\}^n$ to an element $X(x) \in \R$.
+For example, the function $SUM:\{0,1\}^n \rightarrow \R$ that maps $x$ to the sum of its coordinates (i.e., to $\sum_{i=0}^{n-1} x_i$) is a random variable.
 
 
 The _expectation_ of a random variable $X$, denoted by $\E[X]$, is the average value that that this number takes, taken over all draws from the probabilistic experiment.
@@ -131,8 +142,24 @@ $$
 $$
 
 Similarly, $\E[kX] = k\E[X]$ for every $k \in \R$.
-For example, using the linearity of expectation, it is very easy to show that the expectation of the sum of the $x_i$'s for $x \sim \{0,1\}^n$ is equal to $n/2$.
-Indeed, if we write $X= \sum_{i=0}^{n-1} x_i$ then $X= X_0 + \cdots + X_{n-1}$ where $X_i$ is the random variable $x_i$. Since for every $i$, $\Pr[X_i=0] = 1/2$ and $\Pr[X_i=1]=1/2$, we get that $\E[X_i] = (1/2)\cdot 0 + (1/2)\cdot 1 = 1/2$ and hence $\E[X] = \sum_{i=0}^{n-1}\E[X_i] = n\cdot(1/2) = n/2$.
+
+::: {.solvedexercise title="Expectation of sum" #expectationofsum}
+Let $X:\{0,1\}^n \rightarrow \R$ be the random variable that maps $x\in \{0,1\}^n$ to 
+$x_0 + x_1 + \ldots + x_{n-1}$. Prove that $\E[X] = n/2$.
+:::
+
+::: {.solution data-ref="expectationofsum"}
+We can solve this  using the linearity of expectation.
+We can define random variables $X_0,X_1,\ldots,X_{n-1}$ such that $X_i(x)= x_i$.
+Since each $x_i$ equals $1$ with probability $1/2$ and $0$ with probability $1/2$, $\E[X_i]=1/2$.
+Since $X = \sum_{i=0}^{n-1} X_i$, by the linearity of expectation
+$$
+\E[X] = \E[X_0] + \E[X_1] + \cdots + \E[X_{n-1}] = \tfrac{n}{2} \;.
+$$
+:::
+
+
+
 
 
 > ### { .pause }
@@ -181,13 +208,13 @@ An _event_ $A$ is a subset of $S$, and the probability of $A$, which we denote b
 A _random variable_ is a function $X:S \rightarrow \R$, where the probability that $X=y$ is equal to $\sum_{x\in S \text{ s.t. } X(x)=y} \mu(x)$.
 
 
-^[TODO: add exercise on simulating die tosses and choosing a random number in $[m]$ by coin tosses]
+
 
 
 ## Correlations and independence
 
 One of the most delicate but important concepts in probability is the notion of _independence_ (and the opposing notion of _correlations_).
-Subtle correlations are often behind surprises and errors in probability and statistical analysis, and several mistaken predictions have been blamed on miscalculating the correlations between, say, housing prices in Florida and Arizona, or voter preferences in Ohio and Michigan. See also Joe Blitzstein's aptly named talk ["Conditioning is the Soul of Statistics"](https://youtu.be/dzFf3r1yph8).^[Another thorny issue is of course the difference between _correlation_ and _causation_. Luckily, this is another point we don't need to worry about in our clean setting of tossing $n$ coins.]
+Subtle correlations are often behind surprises and errors in probability and statistical analysis, and several mistaken predictions have been blamed on miscalculating the correlations between, say, housing prices in Florida and Arizona, or voter preferences in Ohio and Michigan. See also Joe Blitzstein's aptly named talk ["Conditioning is the Soul of Statistics"](https://youtu.be/dzFf3r1yph8). (Another thorny issue is of course the difference between _correlation_ and _causation_. Luckily, this is another point we don't need to worry about in our clean setting of tossing $n$ coins.)
 
 Two events $A$ and $B$ are _independent_ if the fact that $A$ happens makes $B$ neither more nor less likely to happen.
 For example, if we think of the experiment of tossing $3$ random coins $x\in \{0,1\}^3$, and we let $A$ be the event that $x_0=1$ and $B$ the event that $x_0 + x_1 + x_2 \geq 2$, then if $A$ happens it is more likely that $B$ happens, and hence these events are _not_ independent.
@@ -244,7 +271,7 @@ On the other hand, the events $\{x_0 = 1 \}$, $\{x_1 = 1\}$ and $\{ x_0 + x_1 = 
 
 ### Independent random variables
 
-We say that two random variables $X:\{0,1\}^n \rightarrow \R$ and $Y:\{0,1\}^n \rightarrow \R$ are independent if for every $u,v \in \R$, the events $\{ X=u \}$ and $\{ Y=v \}$ are independent.^[We use $\{ X=u \}$ as shorthand for $\{ x \;|\; X(x)=u \}$.]
+We say that two random variables $X:\{0,1\}^n \rightarrow \R$ and $Y:\{0,1\}^n \rightarrow \R$ are independent if for every $u,v \in \R$, the events $\{ X=u \}$ and $\{ Y=v \}$ are independent. (We use $\{ X=u \}$ as shorthand for $\{ x \;|\; X(x)=u \}$.)
 In other words, $X$ and $Y$ are independent if $\Pr[ X=u \wedge Y=v]=\Pr[X=u]\Pr[Y=v]$ for every $u,v \in \R$.
 For example, if two random variables depend on the result of tossing different coins then they are independent:
 
@@ -316,7 +343,7 @@ It is good idea for you stop now and do these exercises to make sure you are com
 
 
 
-## Concentration
+## Concentration and tail bounds
 
 The name "expectation" is somewhat misleading.
 For example, suppose that you and I place a bet on the outcome of 10 coin tosses, where if they all come out to be $1$'s then I pay you 100,000 dollars and otherwise you pay me 10 dollars.
@@ -329,8 +356,8 @@ $$
 But we don't really "expect" the result of this experiment to be for you to gain 90 dollars.
 Rather, 99.9\% of the time you will pay me 10 dollars, and you will hit the jackpot 0.01\% of the times.
 
-However, if we repeat this experiment again and again (with fresh and hence _independent_ coins), then in the long run we do expect your average earning to be 90 dollars, which is the reason why casinos can make money in a predictable way even though every individual bet is random.
-For example, if we toss $n$ coins, then as $n$ grows, the number of coins that come up ones will be more and more _concentrated_ around $n/2$ according to the famous "bell curve" (see [bellfig](){.ref}).
+However, if we repeat this experiment again and again (with fresh and hence _independent_ coins), then in the long run we do expect your average earning to be close to 90 dollars, which is the reason why casinos can make money in a predictable way even though every individual bet is random.
+For example, if we toss $n$ independent and unbiased coins, then as $n$ grows, the number of coins that come up ones will be more and more _concentrated_ around $n/2$ according to the famous "bell curve" (see [bellfig](){.ref}).
 
 ![The probabilities that we obtain a particular sum when we toss $n=10,20,100,1000$ coins converge quickly to the Gaussian/normal distribution.](../figure/binomial.png){#bellfig .margin  }
 
@@ -341,7 +368,7 @@ The first and simplest one of them is Markov's inequality:
 If $X$ is a non-negative random variable then $\Pr[ X \geq k \E[X] ] \leq 1/k$.
 
 > ### { .pause }
-Markov's Inequality is actually a very natural statement (see also [markovfig](){.ref}). For example, if you know that the average (not the median!) household income in the US is 70,000 dollars, then in particular you can deduce that at most 25 percent of households make more than 280,000 dollars, since otherwise, even if the remaining 75 percent had zero income, the top 25 percent alone would cause the average income to be larger than 70,000. From this example you can already see that in many situations, Markov's inequality will not be _tight_ and the probability of deviating from expectation will be much smaller: see the Chebyshev and Chernoff inequalities below.
+Markov's Inequality is actually a very natural statement (see also [markovfig](){.ref}). For example, if you know that the average (not the median!) household income in the US is 70,000 dollars, then in particular you can deduce that at most 25 percent of households make more than 280,000 dollars, since otherwise, even if the remaining 75 percent had zero income, the top 25 percent alone would cause the average income to be larger than 70,000 dollars. From this example you can already see that in many situations, Markov's inequality will not be _tight_ and the probability of deviating from expectation will be much smaller: see the Chebyshev and Chernoff inequalities below.
 
 > ### {.proof data-ref="markovthm"}
 Let $\mu = \E[X]$ and define $Y=1_{X \geq k \mu}$. That is, $Y(x)=1$ if $X(x) \geq k \mu$ and $Y(x)=0$ otherwise.
@@ -396,7 +423,8 @@ For large $n$, $\sqrt{n} \ll 0.001n$, and in particular if $\sqrt{n} \leq 0.001n
 
 Chebyshev's inequality already shows a connection between independence and concentration, but in many cases we can hope for a quantitatively much stronger result.
 If, as in the example above, $X= X_1+\ldots+X_n$ where the $X_i$'s are bounded i.i.d random variables of mean $1/2$, then as $n$ grows, the distribution of $X$ would be roughly the _normal_ or _Gaussian_ distribution$-$ that is, distributed according to the _bell curve_ (see [bellfig](){.ref} and [empiricalbellfig](){.ref}).
-This distribution has the property of being _very_ concentrated in the sense that the probability of deviating $k$ standard deviations from the mean is not merely $1/k^2$ as is guaranteed by Chebyshev, but rather is roughly $e^{-k^2}$.^[Specifically, for a normal random variable $X$ of expectation $\mu$ and standard deviation $\sigma$, the probability that $|X-\mu| \geq k\sigma$ is at most $2e^{-k^2/2}$.]
+This distribution has the property of being _very_ concentrated in the sense that the probability of deviating $k$ standard deviations from the mean is not merely $1/k^2$ as is guaranteed by Chebyshev, but rather is roughly $e^{-k^2}$.
+Specifically, for a normal random variable $X$ of expectation $\mu$ and standard deviation $\sigma$, the probability that $|X-\mu| \geq k\sigma$ is at most $2e^{-k^2/2}$.
 That is, we have an _exponential decay_ of the probability of deviation.
 
 
@@ -416,15 +444,17 @@ $$
 $$
 
 We omit the proof, which appears in many texts, and uses Markov's inequality on i.i.d random variables $Y_0,\ldots,Y_n$ that are of the form $Y_i = e^{\lambda X_i}$ for some carefully chosen parameter $\lambda$.
-See [chernoffstirlingex](){.ref}  for a proof of the    simple (but highly useful and representative) case where each $X_i$ is $\{0,1\}$ valued and $p=1/2$.
+See [chernoffstirlingex](){.ref}  for a proof of the simple (but highly useful and representative) case where each $X_i$ is $\{0,1\}$ valued and $p=1/2$.
 (See also [poorchernoff](){.ref} for a generalization.)
 
-^[TODO: maybe add an example application of Chernoff. Perhaps a probabilistic method proof using Chernoff+Union bound.]
 
-## Lecture summary
 
+::: { .recap }
 * A basic probabilistic experiment corresponds to tossing $n$ coins or choosing $x$ uniformly at random from $\{0,1\}^n$.
-* _Random variables_ assign a real number to every result of a coin toss. The _expectation_ of a random variable $X$ is its average value, and there are several _concentration_ results showing that under certain conditions,  random variables deviate significantly from their expectation only with small probability.
+* _Random variables_ assign a real number to every result of a coin toss. The _expectation_ of a random variable $X$ is its average value.
+* There are several _concentration_ results, also known as _tail bounds_ showing that under certain conditions,  random variables deviate significantly from their expectation only with small probability.
+:::
+
 
 ## Exercises
 
@@ -441,6 +471,12 @@ $\E[XY] \neq \E[X]\E[Y]$.
 
 > ### {.exercise #noindnocorex }
 Give an example of random variables $X,Y: \{0,1\}^3 \rightarrow \R$ such that $X$ and $Y$ are _not_ independent but $\E[XY] =\E[X]\E[Y]$.
+
+::: {.exercise  #majorityex}
+Let $n$ be an odd number, and let $X:\{0,1\}^n \rightarrow \R$ be the random variable defined as follows: for every $x\in \{0,1\}^n$, $X(x)=1$ if $\sum_{i=0}x_i > n/2$ and $X(x)=0$ otherwise.
+Prove that $\E[X] = 1/2$.
+:::
+
 
 
 
@@ -518,6 +554,11 @@ d. 1,000,000
 e. It is impossible to get such low probability since there are fewer than $2^{100}$ citizens.
 :::
 
-^[TODO: add some exercise about the probabilistic method]
+
 
 ## Bibliographical notes
+
+There are many sources for more information on discrete probability, including the texts referenced in [notesmathchap](){.ref}.
+One particularly recommended source for probability is [Harvard's [STAT 110](https://projects.iq.harvard.edu/stat110/home) class, whose lectures are available on [youtube](https://projects.iq.harvard.edu/stat110/youtube) and whose book is available [online](http://probabilitybook.net).
+
+The version of the Chernoff bound that we stated in [chernoffthm](){.ref} is sometimes known as [Hoeffding's Inequality](https://en.wikipedia.org/wiki/Hoeffding%27s_inequality). Other variants of the Chernoff bound are known as well, but all of them are equally good for the applications of this book.
