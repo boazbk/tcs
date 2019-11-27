@@ -111,6 +111,10 @@ This, computing $B(y)$  will take at most $p(|y|) \leq p(q(|x|))$ steps.
 Thus the total running time of $A$ on inputs of length $n$ is at most the time to compute $y$, which is bounded by $q(n)$, and the time to compute $B(y)$, which is bounded by $p(q(n))$, and since the composition of two polynomials is a polynomial, $A$ runs in polynomial time.
 :::
 
+::: { .bigidea #reduction}
+A _reduction_  $F \leq_p G$ shows that $F$ is "no harder than $G$" or equivalently that $G$ is "no easier than $F$".
+:::
+
 
 A reduction from $F$ to $G$ can be used for two purposes:
 
@@ -197,7 +201,7 @@ Since this is our first reduction, we will spell out this proof in detail.
 However it straightforwardly follows the proof idea.
 
 ``` { .algorithm title="$3SAT$ to $01EQ$ reduction" #zerooneeqreduction }
-INPUT: 3CND formula $\varphi$ with $n$ variables $x_0,\ldots,x_{n-1}$ and $m$ clauses.
+INPUT: 3CNF formula $\varphi$ with $n$ variables $x_0,\ldots,x_{n-1}$ and $m$ clauses.
 
 OUTPUT: Set $E$ of linear equations over $0/1$ such that $3SAT(\varphi)=1$ -iff $01EQ(E)=1$.
 
@@ -241,6 +245,21 @@ This means that if we let $x'_i = 1-x_i$ for every $i\in [n]$, then the assignme
 Then it must be the case that $x'_i$ is the negation of $x_i$ for all $i\in [n]$ and since $y_j + z_j \leq 2$ for every $j\in [m]$, it must be the case that for every clause $C_j$  in $\varphi$ of the form $w_1 \vee w_2 \vee w_3$ (with $w_1,w_2,w_3$ being literals), $w_1 + w_2 + w_3 \geq 1$, which means that the assignment $x_0,\ldots,x_{n-1}$ satisfies $\varphi$ and hence $3SAT(\varphi)=1$.
 :::
  
+__Anatomy of a reduction.__ A reduction is simply an algorithm, and like any algorithm, when we come up with a reduction, it is not enough to describe _what_ the reduction does, but we also have to provide an _analysis_ of _why_ it actually works. Specifically, to describe a reduction $R$ demonstrating that $F \leq_p G$ we need to provide the following:
+
+* __Algorithm description:__ This is the description of _how_ the algorithm maps an input into the output. For example, [zerooneeqreduction](){.ref} above is the description of how we map an instance of $3SAT$  into an instance of $01EQ$ in the reduction demonstrating $3SAT \leq_p 01EQ$.
+
+* __Algorithm analysis:__ It is not enough to describe _how_ the algorithm works but we need to also explain _why_ it works. In particular we need to provide an  _analysis_ explaining why the reduction is both _efficient_ (i.e., runs in polynomial time) and _correct_ (satisfies that $G(R(x)=F(x)$ for every $x$)). Specifically, the components of analysis of a reduction $R$ include:
+  
+  * __Efficiency:__ We need to show that $R$ runs in polynomial time. In most reductions we encounter this part is straightforward, as the reductions we typically use involve a constant number of nested loops, each involving a constant number of operations.
+
+  * __Completeness:__ In a reduction $R$ demonstrating $F \leq_p G$, the _completeness_ condition is the condition that for every $x\in \{0,1\}^*$, if $F(x) = 1$ then $G(R(x))=1$. Typically we construct the reduction to ensure that this holds, by giving a way to map a "certificate/solution" certifying that $F(x)=1$ into a solution certifying that $G(R(x))=1$. For example in the proof of [tsattozoeqthm](){.ref} the satisfying assignment for the $3SAT$ formula $\varphi$ can be mapped to a solution to the set of equations $R(\varphi)$.
+
+  * __Soundness:__ This is the condition that if $F(x)=0$ then $G(R(x))=0$ or (taking the contrapositive) if $G(R(x))=1$ then $F(x)=1$. This is sometimes straightforward but can also be  harder to show than the completeness condition, and in more advanced reductions (such as the reduction $SAT \leq_p ISET$ of [isetnpc](){.ref}) demonstrating soundness is the main part of the analysis.
+
+Whenever you need to provide a reduction, you should make sure that your description has all these components. While it is sometimes tempting to weave together the description of the reduction and its analysis, it is usually clearer if you separate the two, and also break down the analysis to its three components of efficiency, completeness, and soundness.
+
+
 
 ### Quadratic equations
 
@@ -403,20 +422,26 @@ __Part 2: Soundness.__ Suppose that $S$ is a cut in $H$ that cuts at least $C=k+
 :::
 
 
-![In the reduction of independent set to max cut, for every $t\in [m]$, we have a "gadget" corresponding to the $t$-th edge $e= \{ v_i,v_j\}$ in the original graph. If we think of the side of the cut containing the special source vertex $s^*$ as "white" and the other side as "blue", then the leftmost and center figures show that if $v_i$ and $v_j$ are not both blue then we can cut four edges from the gadget. In contrast, by enumerating all possibilities one can verify that if both $u$ and $v$ are blue, then no matter how we color the intermediate vertices $e_t^0,e_t^1$, we will cut at most three edges from the gadget.  ](../figure/iset2maxcutgadgetanalysis.png){#ISETtoMAXCUTfig .margin  }
+![In the reduction of independent set to max cut, for every $t\in [m]$, we have a "gadget" corresponding to the $t$-th edge $e= \{ v_i,v_j\}$ in the original graph. If we think of the side of the cut containing the special source vertex $s^*$ as "white" and the other side as "blue", then the leftmost and center figures show that if $v_i$ and $v_j$ are not both blue then we can cut four edges from the gadget. In contrast, by enumerating all possibilities one can verify that if both $u$ and $v$ are blue, then no matter how we color the intermediate vertices $e_t^0,e_t^1$, we will cut at most three edges from the gadget. The figure above contains only the gadget edges and ignores the edges connecting $s^*$ to the vertices $v_0,\ldots,v_{n-1}$.](../figure/iset2maxcutgadgetanalysis.png){#ISETtoMAXCUTfig .margin  }
 
 
 ![The reduction of independent set to max cut. On the righthand side is Python code implementing the reduction. On the lefthand side is an example output of the reduction where we apply it to the independent set instance that is obtained by running the reduction of [isetnpc](){.ref} on the 3CNF formula $(x_0 \vee \overline{x}_3 \vee x_2) \wedge (\overline{x}_0 \vee x_1 \vee \overline{x}_2) \wedge (\overline{x}_1 \vee x_2 \vee x_3)$.](../figure/is2maxcut.png){#isettomaxcutcodefig   }
 
 ## Reducing 3SAT to Longest Path
 
-__Note:__ This section is still a little messy, feel free to skip it or just read it without going into the proof details. The proof appears in Sectoin 7.5 in Sipser's book.
+__Note:__ This section is still a little messy; feel free to skip it or just read it without going into the proof details. The proof appears in Section 7.5 in Sipser's book.
 
 One of the most basic algorithms in Computer Science is Dijkstra's algorithm to find the _shortest path_ between two vertices.
 We now show that in contrast, an efficient algorithm for the _longest path_ problem would imply a polynomial-time algorithm for 3SAT.
 
 > ### {.theorem title="Hardness of longest path" #longpaththm}
 $$3SAT \leq_p LONGPATH$$
+
+![We can transform a 3SAT formula $\varphi$ into a graph $G$ such that the longest path in the graph $G$ would correspond to a satisfying assignment in $\varphi$. In this graph, the black colored part corresponds to the variables of $\varphi$ and the blue colored part corresponds to the vertices. A sufficiently long path would have to first "snake" through the black part, for each variable choosing either the "upper path" (corresponding to assigning it the value `True`) or the "lower path" (corresponding to assigning it the value `False`). Then to achieve maximum length the path would traverse through the blue part, where to go between two vertices corresponding to a clause such as $x_{17} \vee \overline{x}_{32} \vee x_{57}$, the corresponding vertices would have to have been not traversed before. ](../figure/3sat_longest_path_red_without_path.png){#longpathfig .margin  }
+
+
+![The graph above with the longest path marked on it, the part of the path corresponding to variables is in green and part corresponding to the clauses is in pink.](../figure/3sat_to_longest_path_reduction.png){#longpathfigtwo .margin  }
+
 
 > ### {.proofidea data-ref="longpaththm"}
 To prove [longpaththm](){.ref} need to show how to transform a 3CNF formula $\varphi$ into a graph $G$ and two vertices $s,t$ such that $G$ has a path of length at least $k$ if and only if $\varphi$ is satisfiable.
@@ -425,12 +450,12 @@ We will construct a graph that contains a potentially long "snaking path" that c
 We will add a "gadget" corresponding to each clause of $\varphi$ in a way that we would only be able to use the gadgets if we have a satisfying assignment.
 
 
-> ### {.proof data-ref="longpaththm"}
+::: {.proof data-ref="longpaththm"}
 We build a graph $G$ that "snakes" from $s$ to $t$ as follows.
 After $s$ we add a sequence of $n$ long loops.
 Each loop has an "upper path" and a "lower path".
 A simple path cannot take both the upper path and the lower path, and so it will need to take exactly one of them to reach $s$ from $t$.
->
+
 Our intention is that a path in the graph will correspond to an assignment $x\in \{0,1\}^n$ in the sense that taking the upper path in the $i^{th}$ loop corresponds to assigning $x_i=1$ and taking the lower path corresponds to assigning $x_i=0$.
 When we are done snaking through all the $n$  loops corresponding to the variables to reach $t$ we need to pass through $m$ "obstacles":
 for each clause $j$ we will have a small gadget consisting of a pair of vertices $s_j,t_j$ that have three paths between them.
@@ -440,13 +465,16 @@ We link $t_1$ to $s_2$, $t_2$ to $s_3$, etc and link $t_m$ to $t$.
 Thus a satisfying assignment would correspond to a path from $s$ to $t$ that goes through one path in each loop corresponding to the variables, and one path in each loop corresponding to the clauses.
 We can make the loop corresponding to the variables long enough so that we must take the entire path in each loop in order to have a fighting chance of getting a path as long as the one corresponds to a satisfying assignment.
 But if we do that, then the only way if we are able to reach $t$ is if the paths we took corresponded to a satisfying assignment, since otherwise we will have one clause $j$ where we cannot reach $t_j$ from $s_j$ without using a vertex we already used before.
+:::
+
+### Summary of relations
+
+We have shown that there are a number of functions $F$ for which we can prove a statement of the form "If $F\in \mathbf{P}$ then $3SAT \in \mathbf{P}$". Hence coming up with a polynomial-time algorithm for even one of these problems will entail a polynomial-time algorithm for $3SAT$ (see for example [reductiondiagramfig](){.ref}).
+In [cooklevinchap](){.ref} we will show the inverse direction ("If $3SAT \in \mathbf{P}$ then $F\in \mathbf{P}$") for these functions, hence allowing us to conclude that they have _equivalent complexity_ to $3SAT$.
 
 
+![So far we have shown that $\mathbf{P} \subseteq \mathbf{EXP}$ and that several problems we care about such as $3SAT$ and $MAXCUT$ are in $\mathbf{EXP}$ but it is not known whether or not they are in $\mathbf{EXP}$. However, since $3SAT \leq_p MAXCUT$ we can rule out the possiblity that $MAXCUT \in \mathbf{P}$ but $3SAT \not\in \mathbf{P}$. The relation of $\mathbf{P_{/poly}}$ to the class $\mathbf{EXP}$ is not known. We know that $\mathbf{EXP}$ does not contain $\mathbf{P_{/poly}}$ since the latter even contains uncomputable functions, but we do not know whether ot not $\mathbf{EXP} \subseteq \mathbf{P_{/poly}}$ (though it is believed that this is not the case and in particular that both $3SAT$ and $MAXCUT$ are not in $\mathbf{P_{/poly}}$).](../figure/reduction_inc_diagram.png){#reductiondiagramfig }
 
-![We can transform a 3SAT formula $\varphi$ into a graph $G$ such that the longest path in the graph $G$ would correspond to a satisfying assignment in $\varphi$. In this graph, the black colored part corresponds to the variables of $\varphi$ and the blue colored part corresponds to the vertices. A sufficiently long path would have to first "snake" through the black part, for each variable choosing either the "upper path" (corresponding to assigning it the value `True`) or the "lower path" (corresponding to assigning it the value `False`). Then to achieve maximum length the path would traverse through the blue part, where to go between two vertices corresponding to a clause such as $x_{17} \vee \overline{x}_{32} \vee x_{57}$, the corresponding vertices would have to have been not traversed before. ](../figure/3sat_longest_path_red_without_path.png){#longpathfig .margin  }
-
-
-![The graph above with the longest path marked on it, the part of the path corresponding to variables is in green and part corresponding to the clauses is in pink.](../figure/3sat_to_longest_path_reduction.png){#longpathfigtwo .margin  }
 
 
 

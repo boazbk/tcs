@@ -66,6 +66,10 @@ if there exists a Turing Machine $M$ such that for every sufficiently large $n$ 
 We define  $TIME_{\mathsf{TM}}(T(n))$ to be the set of Boolean functions (functions mapping $\{0,1\}^*$ to $\{0,1\}$) that are computable in $T(n)$ TM time.
 :::
 
+::: { .bigidea #formaldefinetime}
+For a function $F:\{0,1\}^* \rightarrow \{0,1\}$ and $T:\N  \rightarrow \N$, we can formally define what it means for $F$ to be computable in time at most $T(n)$ where $n$ is the size of the input.
+:::
+
 ::: { .pause }
 [time-TM-def](){.ref}  is not very complicated but is one of the most important definitions of this book. As usual,   $TIME_{\mathsf{TM}}(T(n))$ is  a class of _functions_, not of _machines_. If $M$ is a Turing Machine then a statement such as "$M$ is a member of $TIME_{\mathsf{TM}}(n^2)$" does not make sense.
 :::
@@ -211,8 +215,8 @@ $$
 
 
 ::: { .pause }
-The technical details of [polyRAMTM-thm](){.ref}, such as the condition that $n \mapsto T(n)$ is computable in $O(T(n))$ time or the  constants $10$ and $4$ in [eqtmrambisimulation](){.eqref} (which are not tight and can be improved) are not very important.
-In particular, all non pathological time bound functions we encounter in practice such as $T(n)=n$, $T(n)n\log n$, $T(n)=2^n$ etc. will satisfy the conditions of  [polyRAMTM-thm](){.ref}, see also [nicefunctionsrem](){.ref}.
+The technical details of [polyRAMTM-thm](){.ref}, such as the condition that $n \mapsto T(n)$ is computable in $O(T(n))$ time or the  constants $10$ and $4$ in [eqtmrambisimulation](){.eqref} (which are not tight and can be improved), are not very important.
+In particular, all non pathological time bound functions we encounter in practice such as $T(n)=n$, $T(n)=n\log n$, $T(n)=2^n$ etc. will satisfy the conditions of  [polyRAMTM-thm](){.ref}, see also [nicefunctionsrem](){.ref}.
 
 The main message of the  theorem is Turing Machines and RAM machines are "roughly equivalent" in the sense that one can simulate the other with polynomial overhead.
 Similarly, while the proof involves some technical details, it's not very deep or hard, and merely follows the simulation of RAM machines with Turing Machines we saw in [RAMTMequivalencethm](){.ref} with more careful "book keeping".
@@ -221,7 +225,7 @@ Similarly, while the proof involves some technical details, it's not very deep o
 
 ![The proof of [polyRAMTM-thm](){.ref} shows that we can simulate $T$ steps of a Turing Machine with $T$ steps of a NAND-RAM program, and can simulate $T$ steps of a NAND-RAM program with $o(T^4)$ steps of a Turing Machine. Hence $TIME_{\mathsf{TM}}(T(n)) \subseteq TIME_{\mathsf{RAM}}(10\cdot T(n)) \subseteq TIME_{\mathsf{TM}}(T(n)^4)$.](../figure/RAMTMsimulation.png){#RAMTMsimulationfig .margin}
 
-For example, by instantiating  [polyRAMTM-thm](){.ref} with $T(n)=n^a$ and using the fact that $10n^a = o(b^{a+1})$, we see that  $TIME_{\mathsf{TM}}(n^a) \subseteq TIME_{\mathsf{RAM}}(n^{a+1}) \subseteq TIME_{\mathsf{TM}}(n^{4a+4})$ which means that  (by [diffdefofP](){.ref})
+For example, by instantiating  [polyRAMTM-thm](){.ref} with $T(n)=n^a$ and using the fact that $10n^a = o(n^{a+1})$, we see that  $TIME_{\mathsf{TM}}(n^a) \subseteq TIME_{\mathsf{RAM}}(n^{a+1}) \subseteq TIME_{\mathsf{TM}}(n^{4a+4})$ which means that  (by [diffdefofP](){.ref})
 $$
 \mathbf{P} = \cup_{a = 1,2,\ldots} TIME_{\mathsf{TM}}(n^a) = \cup_{a = 1,2,\ldots} TIME_{\mathsf{RAM}}(n^a) \;.
 $$
@@ -231,7 +235,7 @@ Similar equivalence results are known for many models including cellular automat
 (See  [#ECTTsec](){.ref} for more discussion of this issue.)
 This equivalence between Turing machines and NAND-RAM  (as well as other models) allows us to pick our favorite model depending on the task at hand (i.e., "have our cake and eat it too") even when we study questions of efficiency, as long as we only care about the gap between _polynomial_ and _exponential_ time.
 When we want to _design_ an algorithm, we can use the extra power and convenience afforded by NAND-RAM.
-When we want to _analyze_ a program or prove a _negative result_, we can restrict our attention to   Turing machines.
+When we want to _analyze_ a program or prove a _negative result_, we can restrict our attention to Turing machines.
 
 
 
@@ -241,6 +245,8 @@ When we want to _analyze_ a program or prove a _negative result_, we can restric
 ::: { .bigidea #polyvsnot}
 All "reasonable" computational models are equivalent if we only care about the distinction between  polynomial and exponential.
 :::
+
+The adjective "reasonable" above refers to all scalable computational models that have been implemented, with the possible exception of  _quantum computers_, see [#ECTTsec](){.ref} and [quantumchap](){.ref}.
 
 
 
@@ -431,6 +437,10 @@ in $TIME(T(n)\log n) \setminus TIME(T(n))$.
 
 There is nothing special about $\log n$, and we could have used any other efficiently computable function that tends to infinity with $n$.
 
+::: { .bigidea #timehierarchy}
+If we have more time, we can compute more functions.
+:::
+
 
 ::: {.remark title="Simpler corollary of the time hierarchy theorem" #hierarchytoyrem}
 The generality of the time hierarchy theorem can make its proof a little hard to read. 
@@ -553,7 +563,7 @@ To relate this to the classes $TIME(T(n))$ defined in this chapter we first need
 
 ::: {.definition title="Non uniform computation" #nonuniformdef}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$ and $T:\N \rightarrow \N$ be a nice time bound.
-For every $n\in \N$, define $F_{\upharpoonright n} : \{0,1\}^n \rightarrow \{0,1\}$ to be the _restriction_ of $F$ to inputs of size $n$. That is, $F_{\upharpoonright n}$ is the function mapping $\{0,1\}^n$ to $\{0,1\}$ such that for every $x\in \{0,1\}^n$, F_{\upharpoonright n}(x)=F(x)$.
+For every $n\in \N$, define $F_{\upharpoonright n} : \{0,1\}^n \rightarrow \{0,1\}$ to be the _restriction_ of $F$ to inputs of size $n$. That is, $F_{\upharpoonright n}$ is the function mapping $\{0,1\}^n$ to $\{0,1\}$ such that for every $x\in \{0,1\}^n$, $F_{\upharpoonright n}(x)=F(x)$.
 
 We say that $F$ is _non-uniformly computable in at most $T(n)$ size_, denoted by $F \in SIZE(T(n))$ if there exists a sequence $(C_0,C_1,C_2,\ldots)$ of NAND circuits such that:
 
@@ -610,26 +620,72 @@ To make this idea into an actual proof we need to tackle one technical difficult
 
 ### Oblivious NAND-TM programs  {#obliviousnandtm }
 
-Our idea to prove [non-uniform-thm](){.ref} involves "unrolling the loop". 
-That is, suppose that $P$ is a NAND-TM program of $k$ lines of the form
+Our approach for proving [non-uniform-thm](){.ref} involves "unrolling the loop". 
+For example,  consider the following NAND-TM to compute the $XOR$ function on inputs of arbitrary length:
 
 ```python
-line_1
-...
-line_(k-1)
-MODANDJMP(dir1,dir2)
+temp_0 = NAND(X[0],X[0])
+Y_nonblank[0] = NAND(X[0],temp_0)
+temp_2 = NAND(X[i],Y[0])
+temp_3 = NAND(X[i],temp_2)
+temp_4 = NAND(Y[0],temp_2)
+Y[0] = NAND(temp_3,temp_4)
+MODANDJUMP(X_nonblank[i],X_nonblank[i])
 ```
 
-and such that on every input $x\in \{0,1\}^n$, $P$ runs for at most $T(n)$ iterations and returns the value $F(x)$.
+Setting (as an example) $n=3$, we can attempt to translate this NAND-TM program into a NAND-CIRC program for computing  $XOR_3:\{0,1\}^3 \rightarrow \{0,1\}$ by simply "copying and pasting" the loop three times (dropping the `MODANDJMP` line):
 
-We would want to transform it into a NAND-CIRC program for computing the finite  function $F_{\upharpoonright n}$ by simply dropping the last line "copying and pasting" $T(n)$ copies of the first $k-1$ lines.
-However, we still need to decide what to do with arrays.
-Since  the index variable `i` can move at most one step per iteration, it will never reach more than $T(n)-1$ on inputs of length $n$.
-Hence we can replace an array `Foo` with $T=T(n)$ scalar variables `foo_0` , $\ldots$, `foo_`$(T-1)$.
-Now we would want to replace references to `Foo[i]` in the original NAND-TM program with references to a variable of the form `foo_`$k$ for some number $k$ in the new NAND-CIRC program.
-We could do that if the original NAND-TM program $P$ had the property that in its $j$-th iteration, the value of the index variable `i` is always equal to the same number $k$, regardless of what was the input.
-This would mean that when we obtain a NAND-CIRC program by taking  $T(n)-1$ copies  of $P$, we can replace all references of the form `Foo[i]` in the $j$-th copy with references to `foo_`$k$.
-A NAND-TM program with this property is called _oblivious_ and we now show that it is possible to transform every NAND-TM program into one that is oblivious.
+
+```python
+temp_0 = NAND(X[0],X[0])
+Y_nonblank[0] = NAND(X[0],temp_0)
+temp_2 = NAND(X[i],Y[0])
+temp_3 = NAND(X[i],temp_2)
+temp_4 = NAND(Y[0],temp_2)
+Y[0] = NAND(temp_3,temp_4)
+temp_0 = NAND(X[0],X[0])
+Y_nonblank[0] = NAND(X[0],temp_0)
+temp_2 = NAND(X[i],Y[0])
+temp_3 = NAND(X[i],temp_2)
+temp_4 = NAND(Y[0],temp_2)
+Y[0] = NAND(temp_3,temp_4)
+temp_0 = NAND(X[0],X[0])
+Y_nonblank[0] = NAND(X[0],temp_0)
+temp_2 = NAND(X[i],Y[0])
+temp_3 = NAND(X[i],temp_2)
+temp_4 = NAND(Y[0],temp_2)
+Y[0] = NAND(temp_3,temp_4)
+```
+
+However, the above is still not a valid NAND-CIRC program since it contains references to the special variable `i`.
+To make it into a valid NAND-CIRC program, we replace references to `i` in the first iteration with $0$, references in the second iteration with $1$, and references in the third iteration with $2$.
+(We also create a variable `zero` and use it for the first time any variable is instantiated, as well as remove assignments to non-output variables that are never used later on.)
+The resulting program is a standard "loop free and index free" NAND-CIRC program that computes $XOR_3$ (see also [unrolledcircuitfig](){.ref}):
+
+```python
+temp_0 = NAND(X[0],X[0])
+one = NAND(X[0],temp_0)
+zero = NAND(one,one)
+temp_2 = NAND(X[0],zero)
+temp_3 = NAND(X[0],temp_2)
+temp_4 = NAND(zero,temp_2)
+Y[0] = NAND(temp_3,temp_4)
+temp_2 = NAND(X[1],Y[0])
+temp_3 = NAND(X[1],temp_2)
+temp_4 = NAND(Y[0],temp_2)
+Y[0] = NAND(temp_3,temp_4)
+temp_2 = NAND(X[2],Y[0])
+temp_3 = NAND(X[2],temp_2)
+temp_4 = NAND(Y[0],temp_2)
+Y[0] = NAND(temp_3,temp_4)
+```
+
+![A NAND circuit for $XOR_3$ obtained by "unrolling the loop" of the NAND-TM program for computing $XOR$ three times.](../figure/unrolled_circuit.png){#unrolledcircuitfig .margin }
+
+
+Key to this transformation was the fact that in our original NAND-TM program for $XOR$, regardless of whether the input is $011$, $100$, or any other string, the index variable `i` is guaranteed to equal $0$ in the first iteration, $1$ in the second iteration,  $2$ in the third iteration, and so on and so forth.
+The particular sequence $0,1,2,\ldots$ is immaterial: the crucial property is that the NAND-TM program for $XOR$ is  _oblivious_ in the sense that the value of the index `i` in the $j$-th iteration depends only on $j$ and does not depend on the particular choice of the input. 
+Luckily,  it is possible to transform every NAND-TM program into a functionally equivalent oblivious program with at most quadratic . (Similarly we can transform any Turing machine into a functionally equivalent oblivious Turing machine, see [oblivious-ex](){.ref}.)
 
 > ### {.theorem title="Making NAND-TM oblivious" #obliviousnandtmthm}
 Let $T:\N \rightarrow \N$ be a nice function and let $F\in TIME_{\mathsf{TM}}(T(n))$.
@@ -699,6 +755,9 @@ Specifically, $UNROLL$ does the following:
 
 ![We can transform a Turing Machine $M$, input length parameter $n$, and time bound $T$ into an $O(T^2)$ sized NAND circuit that agrees with $M$ on all inputs $x\in \{0,1\}^n$ on which $M$ halts in at most $T$ steps. The transformation is obtained by first using the equivalence of Turing Machines and NAND-TM programs $P$, then turning $P$ into an equivalent _oblivious_ NAND-TM program $P'$ via [obliviousnandtmthm](){.ref}, then "unrolling" $O(T^2)$ iterations of the loop of $P'$ to obtain an $O(T^2)$ line  NAND-CIRC program  that agrees with $P'$ on length $n$ inputs, and finally translating this program into an equivalent circuit.](../figure/unrolldescription.png){#unrolldescriptionfig }
 
+::: { .bigidea #unrollloop}
+By "unrolling the loop" we can transform an algorithm that takes $T(n)$ steps to compute $F$ into a circuit that uses $poly(T(n))$ gates to compute the restriction of $F$ to $\{0,1\}^n$.
+:::
 
 
 
@@ -879,13 +938,13 @@ Prove that there is some $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$ s.t. $F,G \in \ov
 
 
 ::: {.exercise title="Oblivious Turing Machines" #oblivious-ex}
-We say that a Turing machine $M$ is _oblivious_ if there is some function $T:\N\times \N \rightarrow \Z$ such that for every input $x$ of length $n$, and $t\in \N$ it holds that:\
+We say that a Turing machine $M$ is _oblivious_ if there is some function $T:\N\times \N \rightarrow \Z$ such that for every input $x$ of length $n$, and $t\in \N$ it holds that:
 
 * If $M$ takes more than $t$ steps to halt on the input $x$, then in the $t$-th step $M$'s head will be in the position $T(n,t)$. (Note that this position depends only on the _length_ of $x$ and not its contents.)
 
 * If $M$ halts before the $t$-th step then $T(n,t) = -1$.
 
-Prove that if $F\in \mathbf{P}$ then there exists an _oblivious_ Turing machine $M$ that computes $F$ in polynomial time. See footnote for hint.^[_Hint:_ This is the Turing Machine analog of [obliviousnandtmthm](){.ref}.]
+Prove that if $F\in \mathbf{P}$ then there exists an _oblivious_ Turing machine $M$ that computes $F$ in polynomial time. See footnote for hint.^[_Hint:_ This is the Turing Machine analog of [obliviousnandtmthm](){.ref}. We replace one step of the original TM $M'$ computing $F$ with a "sweep" of the obliviouss TM $M$ in which it goes $T$ steps to the right and then $T$ steps to the left.]
 :::
 
 

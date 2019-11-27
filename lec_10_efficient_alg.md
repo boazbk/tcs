@@ -246,7 +246,7 @@ Namely, we reduced the task of computing the global minimum cut to the task of c
 ### Finding the maximum cut in a graph
 
 The _maximum cut_ problem is the task of finding, given an input graph $G=(V,E)$, the subset $S\subseteq V$ that _maximizes_ the number of edges cut by $S$.
-(We can also define an $s,t$-cut variant of the maximum cut like we did for minimum cut; the two variants have similar complexity but we  the global  maximum cut is more common in the literature.)
+(We can also define an $s,t$-cut variant of the maximum cut like we did for minimum cut; the two variants have similar complexity but the global maximum cut is more common in the literature.)
 Like its cousin the minimum cut problem, the maximum cut problem is also very well motivated.
 For example, maximum cut arises in VLSI design, and also has some surprising relation to analyzing the [Ising model](https://en.wikipedia.org/wiki/Ising_model) in statistical physics.
 
