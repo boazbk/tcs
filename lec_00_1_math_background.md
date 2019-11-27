@@ -63,7 +63,7 @@ The main mathematical concepts we use in this book are:
 
 * __Logical operations:__ The operations AND ($\wedge$), OR ($\vee$), and NOT ($\neg$) and the quantifiers "there exists" ($\exists$) and "for all" ($\forall$).
 
-* __Basic combinatorics:__ Notions such as $\binom{n}{k}$ (the number of $k$-sized subsets of a set of size $n$).
+* __Basic combinatorics:__ Notions such as $\binom{n}{k}$ (the number of $k$-sized subsets of a set of size $n$), conventionally read as "_n choose k_".
 
 * __Graphs:__ Undirected and directed graphs, connectivity, paths, and cycles.
 
@@ -79,10 +79,10 @@ This is partially to remind the reader and reinforce material that might not be 
 
 ## Reading mathematical texts
 
-Reading mathematical texts take practice to get used to the notation and symbols.
+Reading mathematical texts takes practice to get used to the notation and symbols.
 Mathematicians use jargon for the same reason that it is used in many other professions such engineering, law, medicine, and others.
 We want to make terms _precise_ and introduce shorthand for concepts that are frequently reused.
-Mathematical texts tend to "pack a lot of punch" per sentence, and so the key is to read them slowly and carefully, parsing each symbol at a time.
+Mathematical texts tend to "pack a lot of punch" per sentence, and so the key is to read them slowly and carefully, parsing each symbol one at a time.
 
 With time and practice you will see that reading mathematical texts becomes easier and jargon is no longer an issue.
 Moreover, reading mathematical texts is one of the most transferable skills you could take from this book.
@@ -129,7 +129,7 @@ Deciding whether to call a particular statement a "Theorem", a "Lemma" or a "Cla
 
 ### Proofs
 
-Mathematical _proofs_ are the arguments we use to demonstrate that our theorems, lemmas, and claims area indeed true.
+Mathematical _proofs_ are the arguments we use to demonstrate that our theorems, lemmas, and claims are indeed true.
 We discuss proofs in [proofsbackgroundsec](){.ref} below, but the main point is that the mathematical standard of proof is very high.
 Unlike in some other realms, in mathematics a proof is an  "airtight" argument that demonstrates that the statement is true beyond a shadow of a doubt.
 Some examples in this section for mathematical proofs are given in [simplepathlemex](){.ref} and [topsortsec](){.ref}.
@@ -154,6 +154,7 @@ So, in the example above, $|S|=3$.
 A set $S$ is a _subset_ of a set $T$, denoted by $S \subseteq T$, if every element of $S$ is also an element of $T$. (We can also describe this by saying that  $T$ is a _superset_ of $S$.)
 For example, $\{2,7\} \subseteq \{ 2,4,7\}$.
 The set that contains no elements is known as the _empty set_ and it is denoted by $\emptyset$.
+If $A$ is a subset of $B$ that is not equal to $B$ we say that $A$ is a _strict subset_ of $B$, and denote this by $A \subsetneq B$.
 
 
 We can define sets by either listing all their elements or by writing down a rule that they satisfy such as
@@ -342,7 +343,7 @@ _Graphs_ are ubiquitous in Computer Science, and many other fields as well.
 They are used to model a variety of data types including social networks, scheduling constraints, road networks, deep neural nets, gene interactions, correlations between observations, and a great many more.
 Formal definitions of several kinds of graphs are given next, but if you have not seen graphs before in a course, I urge you to read up on them in one of the sources mentioned in [notesmathchap](){.ref}.
 
-Graphs come in two basic flavors: _undirected_ and _directed_.^[It is possible, and sometimes useful, to think of an undirected graph as the special case of an directed graph that has the special property that for every pair $u,v$ either both the edges $(u,v)$ and $(v,u)$   are present or neither of them is. However, in many settings there is a significant difference between undirected and directed graphs, and so it's typically best to think of them as separate categories.]
+Graphs come in two basic flavors: _undirected_ and _directed_.^[It is possible, and sometimes useful, to think of an undirected graph as the special case of a directed graph that has the special property that for every pair $u,v$ either both the edges $(u,v)$ and $(v,u)$   are present or neither of them is. However, in many settings there is a significant difference between undirected and directed graphs, and so it's typically best to think of them as separate categories.]
 
 ![An example of an undirected and a directed graph. The undirected graph has vertex set $\{1,2,3,4\}$ and edge set $\{ \{1,2\},\{2,3\},\{2,4\} \}$. The directed graph has vertex set $\{a,b,c\}$ and the edge set $\{ (a,b),(b,c),(c,a),(a,c) \}$.](../figure/graphsexampe.png){#graphsexampefig .margin offset="1.5in"}
 
@@ -407,7 +408,7 @@ The path $P'$ is a valid path between $u$ and $v$ since every consecutive pair o
 You start by ensuring you understand what the statement means, and then come up with 
 an informal argument why it should be true.
 You then transform the informal argument into a rigorous proof.
-This proof need not be very long or overly formal, but should clearly establish why the conclusion of the statement follow from its assumptions.
+This proof need not be very long or overly formal, but should clearly establish why the conclusion of the statement follows from its assumptions.
 :::
 
 The concepts of degrees and connectivity extend naturally  to _directed graphs_, defined as follows.
@@ -546,7 +547,7 @@ for (int j=0 ; j<n ; j=j+1) {
 produces the same result as the code above that used `i` instead of `j`.
 
 ::: {.remark title="Aside: mathematical vs programming notation" #notationrem}
-Mathematical notation has a lot of similarities with programming language, and for the same reasons.
+Mathematical notation has a lot of similarities with programming languages, and for the same reasons.
 Both are formalisms meant to convey complex concepts in a precise way.
 However, there are some cultural differences.
 In programming languages, we often try to use meaningful variable names such as `NumberOfVertices` while in math we often use short identifiers such as $n$.
@@ -583,7 +584,7 @@ We will write $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$, which one can think of as
 More formally, we define Big-$O$ notation as follows:
 
 
-:::  {.definition title="Big-$O$ notation" #bigohdef}
+:::  {.definition title="Big-O notation" #bigohdef}
 Let $\R_+= \{ x\in \R \;|\; x>0\}$ be the set of positive real numbers.
 For two functions $F,G: \N \rightarrow \R_+$, we say that  _$F=O(G)$_  if there exist numbers $a,N_0 \in \N$ such that $F(n) \leq a\cdot G(n)$ for every $n>N_0$. We say that  $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$. We say that $F=\Omega(G)$  if $G=O(F)$.
 
@@ -867,7 +868,7 @@ The assumption in __(b)__ that $Q(i)$ holds for $i<k$ is called the "inductive h
 (The form of induction described here is sometimes called "strong induction" as opposed to "weak induction" where we replace __(b)__ by the statement __(b')__ that if $Q(k-1)$ is true then $Q(k)$ is true; weak induction can be thought of as the special case of strong induction where we don't use the assumption that $Q(0),\ldots,Q(k-2)$ are true.)
 
 > ### {.remark title="Induction and recursion" #inducrecrem}
-Proofs by inductions are closely related to algorithms by recursion.
+Proofs by induction are closely related to algorithms by recursion.
 In both cases we reduce solving a larger problem to solving a smaller instance of itself. In a recursive algorithm to solve some problem P on an input of length $k$  we ask ourselves "what if someone handed me a way to solve P on instances smaller than $k$?". In an inductive proof to prove a statement Q parameterized by a number $k$, we ask ourselves "what if I already knew that $Q(k')$ is true for $k'<k$?".
 Both induction and recursion are crucial concepts for this course and Computer Science at large (and even other areas of inquiry, including not just mathematics but other sciences as well). Both can be confusing at first, but with time and practice they become clearer.
 For more on proofs by induction and recursion, you might find the following [Stanford CS 103 handout](https://cs121.boazbarak.org/StanfordCS103Induction.pdf), [this MIT 6.00 lecture](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00sc-introduction-to-computer-science-and-programming-spring-2011/unit-1/lecture-6-recursion/) or [this excerpt of the Lehman-Leighton book](https://cs121.boazbarak.org/LL_induction.pdf) useful.
@@ -931,7 +932,7 @@ Thus, $f$ is a valid layering for $G$ which completes the proof.
 > ### { .pause }
 Reading a proof is no less of an important skill than producing one.
 In fact, just like understanding code, it is a highly non-trivial skill in itself.
-Therefore I strongly suggest that you re-read the above proof, asking yourself at every sentence whether the assumption it makes are justified, and whether this sentence truly demonstrates what it purports to achieve.
+Therefore I strongly suggest that you re-read the above proof, asking yourself at every sentence whether the assumption it makes is justified, and whether this sentence truly demonstrates what it purports to achieve.
 Another good habit is to ask yourself when reading a proof for every variable you encounter (such as $u$, $i$, $G'$, $f'$, etc. in the above proof) the following questions: __(1)__ What _type_ of variable is it? is it a number? a graph? a vertex? a function? and __(2)__ What do we know about it? Is it an arbitrary member of the set? Have we shown some facts about it?, and __(3)__ What are we _trying_ to show about it?.
 
 ### Minimality and uniqueness
@@ -985,7 +986,7 @@ Most of the notation we use in this book is standard and is used in most mathema
 
 * _Partial_ functions are functions that are not necessarily defined on all inputs. When we write $f:A \rightarrow B$ this means that $f$ is a _total_ function unless we say otherwise. When we want to emphasize that $f$ can be a partial function, we will sometimes write $f: A \rightarrow_p B$.
 
-* As we will see later on in the course, we will mostly describe our computational problems in the terms of computing a _Boolean function_ $f: \{0,1\}^* \rightarrow \{0,1\}$. In contrast, many other textbooks refer to the same task as _deciding a language_ $L \subseteq \{0,1\}^*$. These two viewpoints are equivalent, since for every set $L\subseteq \{0,1\}^*$ there is a corresponding function $F$ such that $F(x)=1$ if and only if $x\in L$. Computing _partial functions_ corresponds to the task known in the literature as a solving a _promise problem_.
+* As we will see later on in the course, we will mostly describe our computational problems in terms of computing a _Boolean function_ $f: \{0,1\}^* \rightarrow \{0,1\}$. In contrast, many other textbooks refer to the same task as _deciding a language_ $L \subseteq \{0,1\}^*$. These two viewpoints are equivalent, since for every set $L\subseteq \{0,1\}^*$ there is a corresponding function $F$ such that $F(x)=1$ if and only if $x\in L$. Computing _partial functions_ corresponds to the task known in the literature as a solving a _promise problem_.
 Because the language notation is so prevalent in other textbooks, we will occasionally remind the reader of this correspondence.
 
 * We use $\ceil{x}$ and $\floor{x}$ for the "ceiling" and "floor" operators that correspond to "rounding up" or "rounding down" a number to the nearest integer. We use $(x \mod y)$ to denote the "remainder" of $x$ when divided by $y$. That is, $(x \mod y) = x - y\floor{x/y}$. In context when an integer is expected we'll typically "silently round" the quantities to an integer. For example, if we say that $x$ is a string of length $\sqrt{n}$ then this means that $x$ is of length $\lceil \sqrt{n}\, \rceil$. (We round up for the sake of convention, but in most such cases, it will not make a difference whether we round up or down.)
@@ -993,7 +994,7 @@ Because the language notation is so prevalent in other textbooks, we will occasi
 
 * Like most Computer Science texts, we default to the logarithm in base two. Thus, $\log n$ is the same as $\log_2 n$.
 
-* We will also use the notation $f(n)=poly(n)$ as a short hand for $f(n)=n^{O(1)}$ (i.e., as shorthand for saying that there are some constants $a,b$ such that $f(n) \leq a\cdot n^b$ for every sufficiently large $n$). Similarly, we will use $f(n)=polylog(n)$ as shorthand for $f(n)=poly(\log n)$ (i.e., as shorthand for saying that there are some constants $a,b$ such that $f(n) \leq a\cdot (\log n)^b$ for every sufficiently large $n$).
+* We will also use the notation $f(n)=poly(n)$ as a shorthand for $f(n)=n^{O(1)}$ (i.e., as shorthand for saying that there are some constants $a,b$ such that $f(n) \leq a\cdot n^b$ for every sufficiently large $n$). Similarly, we will use $f(n)=polylog(n)$ as shorthand for $f(n)=poly(\log n)$ (i.e., as shorthand for saying that there are some constants $a,b$ such that $f(n) \leq a\cdot (\log n)^b$ for every sufficiently large $n$).
 
 * As in often the case in mathematical literature, we use the apostrophe character to enrich our set of identifiers. Typically if $x$ denotes some object, then $x'$, $x''$, etc. will denote other objects of the same type.
 

@@ -429,13 +429,13 @@ Thus we can compute $LOOKUP_k(x,i)$ by first computing $a$ and $b$ and then outp
 
 __Proof of [lookup-thm](){.ref} from [lookup-rec-lem](){.ref}.__ Now that we have [lookup-rec-lem](){.ref},
 we can complete the proof of [lookup-thm](){.ref}.
-We will prove by induction on $k$ that there is a NAND-CIRC program of at most $4\cdot 2^k$ lines for $LOOKUP_k$.
+We will prove by induction on $k$ that there is a NAND-CIRC program of at most $4\cdot (2^k-1)$ lines for $LOOKUP_k$.
 For $k=1$ this follows by the four line program for $IF$ we've seen before.
 For $k>1$, we use the following pseudocode
 
 ```python
-a = LOOKUP_(k-1)(X[0],...,X[2^(k-1)-1],i[0],...,i[k-1])
-b = LOOKUP_(k-1)(X[2^(k-1)],...,Z[2^(k-1)],i[0],...,i[k-1])
+a = LOOKUP_(k-1)(X[0],...,X[2^(k-1)-1],i[1],...,i[k-1])
+b = LOOKUP_(k-1)(X[2^(k-1)],...,Z[2^(k-1)],i[1],...,i[k-1])
 return IF(i[0],b,a)
 ```
 
@@ -443,7 +443,8 @@ If we let $L(k)$ be the number of lines required for $LOOKUP_k$, then the above 
 $$
 L(k) \leq 2L(k-1)+4 \;. \label{induction-lookup}
 $$
-which solves for $L(k) \leq 4(2^k-1)$.
+Since under our induction hypothesis $L(k-1) \leq 4(2^{k-1}-1)$, we get that 
+$L(k) \leq 2\cdot 4 (2^{k-1}-1) + 4 = 4(2^k - 1)$ which is what we wanted to prove. 
 See [lookuplinesfig](){.ref} for a plot of the actual number of lines in our implementation of $LOOKUP_k$.
 
 ![The number of lines in our implementation of the `LOOKUP_k` function as a function of $k$ (i.e., the length of the index). The number of lines in our implementation is roughly $3 \cdot 2^k$.](../figure/lookup_numlines.png){#lookuplinesfig .margin  }
