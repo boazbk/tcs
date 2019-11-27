@@ -31,7 +31,7 @@ chapternum: "2"
 >
 >_"I was coming to that,"_ the Knight said. _"The song really IS `A-SITTING ON A GATE': and the tune's my own invention."_
 >
->Lewis Carroll, _Through the looking glass_
+>Lewis Carroll, _Through the Looking-Glass_
 >
 
 
@@ -121,7 +121,7 @@ where $parity:\N \rightarrow \{0,1\}$  is the function defined as $parity(n)=0$ 
 The function $NtS$ is defined _recursively_: for every $n>0$ we define $rep(n)$ in terms of the representation of the smaller number $\floor{n/2}$.
 It is also possible to define $NtS$ non-recursively, see [binaryrepex](){.ref}.
 
-Throughout most of this book, the particular choices of representation of numbers as binary strings would not matter much, we just need to know that such a representation exists.
+Throughout most of this book, the particular choices of representation of numbers as binary strings would not matter much: we just need to know that such a representation exists.
 In fact, for most  purposes, we can even use the simpler representation of mapping a natural number $n$ to the length-$n$ all-zero string $0^n$.
 
 
@@ -168,7 +168,7 @@ This book is _not_ about programming, and it is absolutely OK if you are not fam
 ### Meaning of representations (discussion)
 
 It is natural for us to think of $236$ as the "actual" number, and of $11101100$ as "merely" its representation.
-However, for most Europeans in the middle ages `CCXXXVI` would be the "actual" number and $236$ (if they have even heard about it) would be the weird Hindu-Arabic positional representation.^[While the Babylonians already invented a positional system much earlier, the decimal positional system we use today was invented by Indian mathematicians around the third century. It was taken up by Arab mathematicians in the 8th century. It was mainly introduced to Europe in the 1202 book _"Liber Abaci"_ by Leonardo of Pisa, also known as Fibonacci, but did not displace Roman numerals in common usage until the 15th century.]
+However, for most Europeans in the middle ages `CCXXXVI` would be the "actual" number and $236$ (if they have even heard about it) would be the weird Hindu-Arabic positional representation.^[While the Babylonians already invented a positional system much earlier, the decimal positional system we use today was invented by Indian mathematicians around the third century. Arab mathematicians took it up in the 8th century. It first received significant attention in Europe with the publication of the 1202 book _"Liber Abaci"_ by Leonardo of Pisa, also known as Fibonacci, but it did not displace Roman numerals in common usage until the 15th century.]
 When our AI robot overlords materialize, they will probably think of $11101100$ as the "actual" number and of $236$ as "merely" a representation that they need to use when they give commands to humans.
 
 So what is the "actual" number? This is a question that philosophers of mathematics have pondered over throughout history.
@@ -226,7 +226,7 @@ ZtS_n(k) = \begin{cases} NtS_{n+1}(k) & 0 \leq k \leq 2^n-1 \\
 $$
 where $NtS_\ell(m)$ demotes the standard binary representation of a number  $m \in \{0,\ldots, 2^{\ell}\}$ as string of length $\ell$, padded with leading zeros as needed.
 For example, if $n=3$ then $ZtS_3(1)=NtS_4(1)=0001$, $ZtS_3(2)=NtS_4(2)=0010$, $ZtS_3(-1)=NtS_4(16-1)=1111$, and $ZtS_3(-8)=NtS_4(16-8)=1000$.
-If $k$ is a  negative number larger or equal to $-2^n$ then  $2^{n+1}+k$ is a number between $2^n$ and $2^{n+1}-1$.
+If $k$ is a  negative number larger than or equal to $-2^n$ then  $2^{n+1}+k$ is a number between $2^n$ and $2^{n+1}-1$.
 Hence the two's complement representation of such a number $k$ is a string of length $n+1$  with its first digit equal to $1$.
 
 
@@ -234,7 +234,7 @@ Another way to say this is that  we represent a potentially negative number $k \
 This means that if two (potentially negative) numbers $k$ and $k'$ are not too large (i.e., $|k|+|k'|<2^{n+1}$), then we can compute the representation of $k+k'$ by adding modulo $2^{n+1}$ the representations of $k$ and $k'$ as if they were non-negative integers.
 This property of the two's complement representation is its main attraction since, depending on their architectures, microprocessors can often perform arithmetic operations modulo $2^w$ very efficiently (for certain values of $w$ such as $32$ and $64$).
 Many systems leave it to the programmer to check that values are not too large and will carry out this modular arithmetic regardless of the size of the numbers involved.
-For this reason, in some systems adding two large positive numbers can result in a _negative_ number (e.g., adding $2^n-100$ and $2^n-200$ might result in $-300$ since $-300 \mod 2^{n+1}= 2^{n+1}-300$, see also [twoscomplementfig](){.ref}).
+For this reason, in some systems adding two large positive numbers can result in a _negative_ number (e.g., adding $2^n-100$ and $2^n-200$ might result in $-300$ since $(2^{n+1}-300) \mod 2^{n+1} = -300$, see also [twoscomplementfig](){.ref}).
 
 
 ![In the _two's complement representation_  we represent a potentially negative integer $k \in \{ -2^n ,\ldots, 2^n-1 \}$ as an $n+1$ length string using the binary representation of the integer $k \mod 2^{n+1}$. On the lefthand side: this representation for $n=3$ (the red integers are the numbers being represented by the blue binary strings). If a microprocessor does not check for overflows, adding the two positive numbers $6$ and $5$ might result in the negative number $-5$ (since $-5 \mod 16 = 11$. The righthand side is a `C` program that will on some $32$ bit architecture print a negative number after adding two positive numbers. (Integer overflow in `C` is considered _undefined behavior_ which means the result of this program, including whether it runs or crashes, could differ depending on the architecture, compiler, and even compiler options and version.)](../figure/twoscomplement.png){#twoscomplementfig .margin}
@@ -345,7 +345,7 @@ As we will see later in this book, Cantor's ideas also play a huge role in the t
 Now that we have discussed [cantorthm](){.ref}'s importance, let us see the proof.
 It is achieved in two steps:
 
-1. Define some infinite set $\mathcal{X}$ for which it is easier for us to prove that $\mathcal{X}$ is not countable (namely,  it's easier for us to prove is there is no one-to-one function from  $\mathcal{X}$ to $\{0,1\}^*$).
+1. Define some infinite set $\mathcal{X}$ for which it is easier for us to prove that $\mathcal{X}$ is not countable (namely,  it's easier for us to prove that there is no one-to-one function from  $\mathcal{X}$ to $\{0,1\}^*$).
 
 2. Prove that there _is_ a one-to-one function $G$ mapping $\mathcal{X}$ to $\mathbb{R}$.
 
@@ -697,7 +697,7 @@ The proof of [prefixfreetransformationlem](){.ref} is not the only or even the b
 
 The proofs of [prefixfreethm](){.ref} and [prefixfreetransformationlem](){.ref} are _constructive_ in the sense that they give us:
 
-* A way to transform the encoding and decoding functions of any representation of an object $O$ to an encoding and decoding functions that are prefix-free, and
+* A way to transform the encoding and decoding functions of any representation of an object $O$ to encoding and decoding functions that are prefix-free, and
 
 * A way to extend prefix-free encoding and decoding of single objects to encoding and decoding of _lists_ of objects by concatenation.
 
@@ -907,7 +907,7 @@ Here are some examples:
 An important special case of computational tasks corresponds to computing _Boolean_ functions, whose output is a single bit $\{0,1\}$.
 Computing such functions corresponds to answering a YES/NO question, and hence this task is also known as a _decision problem_.
 Given any function $F:\{0,1\}^* \rightarrow \{0,1\}$ and $x\in \{0,1\}^*$, the task of computing $F(x)$ corresponds to the task of deciding whether or not $x\in L$ where $L = \{ x : F(x)=1 \}$ is known as the _language_ that corresponds to the function $F$. (The language terminology is due to historical connections between the theory of computation and formal linguistics as developed by Noam Chomsky.)
-Hence many texts refer to such as computational task as _deciding a language_.
+Hence many texts refer to such a computational task as _deciding a language_.
 
 ![A subset $L \subseteq \{0,1\}^*$ can be identified with the function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F(x)=1$ if $x\in L$ and $F(x)=0$ if $x\not\in L$. Functions with a single bit of output are called _Boolean functions_, while subsets of strings are called _languages_. The above shows that the two are essentially the same object, and we can identify the task of deciding membership in $L$ (known as _deciding a language_ in the literature) with the task of computing the function $F$.](../figure/booleanfunc.png){#booleanlangfig .margin  }
 
@@ -1003,7 +1003,7 @@ It turns out that a great deal of the theory of computation can be studied in th
 * A representation scheme for a set of objects $\mathcal{O}$ is a one-to-one map from $\mathcal{O}$ to $\{0,1\}^*$.
 * We can use prefix-free encoding to "boost" a representation for a set $\mathcal{O}$ into representations of lists of elements in $\mathcal{O}$.
 * A basic computational task is the task of _computing a function_ $F:\{0,1\}^* \rightarrow \{0,1\}^*$. This task encompasses not just arithmetical computations such as multiplication, factoring, etc. but a great many other tasks arising in areas as diverse as scientific computing, artificial intelligence, image processing, data mining and many many more.
-* We will study the question of finding (or at least giving bounds on) what is the _best_ algorithm for computing $F$ for various interesting functions $F$.
+* We will study the question of finding (or at least giving bounds on) what the _best_ algorithm for computing $F$ for various interesting functions $F$ is.
 
 
 ## Exercises
@@ -1048,7 +1048,7 @@ The ASCII encoding can be used to encode a string of $n$ English letters as a $7
 
 
 ::: {.exercise title="Representing graphs: upper bound" #representinggraphsex}
-Show that there is a string representation of directed graphs with vertex set $[n]$ and degree at most $10$ that uses at most $1000 n\log n$ bits. More formally, show the following. Suppose we define for every $n\in\mathbb{N}$, the set $G_n$ as the set containing all directed graphs (with no self loops) over the vertex set $[n]$ where every vertex has degree at most $10$. Then, prove that for every sufficiently large $n$, there exists a one-to-one function $E:G_n \rightarrow \{0,1\}^{\lfloor 1000 n \log n \rfloor}$.
+Show that there is a string representation of directed graphs with vertex set $[n]$ and degree at most $10$ that uses at most $1000 n\log n$ bits. More formally, show the following: Suppose we define for every $n\in\mathbb{N}$, the set $G_n$ as the set containing all directed graphs (with no self loops) over the vertex set $[n]$ where every vertex has degree at most $10$. Then, prove that for every sufficiently large $n$, there exists a one-to-one function $E:G_n \rightarrow \{0,1\}^{\lfloor 1000 n \log n \rfloor}$.
 :::
 
 
@@ -1145,7 +1145,7 @@ Recall that for every set $S$, the set $S^*$ is defined as the set of all finite
 The study of representing data as strings, including issues such as _compression_ and _error corrections_ falls under the purview of _information theory_, as covered in the classic textbook of Cover and Thomas [@CoverThomas06].
 Representations are also studied in the field of _data structures design_, as covered in texts such as  [@CLRS].
 
-The question of whether to represent integers with most significant digit first or last is known as [Big Endian vs. Little Endian](https://betterexplained.com/articles/understanding-big-and-little-endian-byte-order/) representation.
+The question of whether to represent integers with the most significant digit first or last is known as [Big Endian vs. Little Endian](https://betterexplained.com/articles/understanding-big-and-little-endian-byte-order/) representation.
 This terminology comes from Cohen's [@cohen1981holy]  entertaining and informative paper about the conflict between adherents of both schools which he compared to the warring tribes in Jonathan Swift's _"Gulliver's Travels"_.
 The two's complement representation of signed integers was suggested in von Neumann's classic report [@vonNeumann45] that detailed the design approaches for a stored-program computer, though similar representations have been used even earlier in abacus and other mechanical computation devices.
 
