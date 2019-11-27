@@ -771,7 +771,7 @@ This is not the same as computing the Fourier transform, but is good enough for 
 The above description of Shor's algorithm skipped over the implementation of the main quantum ingredient: the _Quantum Fourier Transform_ algorithm.
 In this section we discuss the ideas behind this algorithm.
 We will be rather brief and imprecise.
-[quantumsources](){.ref} and [quantumbibnotessec](){.ref} contain references to sources of more information about this topic.
+[quantumbibnotessec](){.ref} contain references to sources of more information about this topic.
 
 To understand the Quantum Fourier Transform, we need to better understand the Fourier Transform itself.
 In particular, we will need to understand how it applies not just to functions whose input is a real number but to functions whose domain can be any arbitrary commutative _group_.
@@ -779,14 +779,11 @@ Therefore we now take a short detour to (very basic) _group theory_, and define 
 
 
 ::: {.remark title="Group theory" #grouptheorem}
-While we define the concepts we use, some   background in group or number theory might be quite helpful for fully understanding this section.
+While we define the concepts we use, some background in group or number theory will be very helpful for fully understanding this section.
+In particular we will use the notion of _finite commutative (a.k.a. Abelian) groups_.
+These are defined as follows.
 
-
-We will not use anything more than the basic properties of finite Abelian groups.
-Specifically we use the following notions:
-
-
-* A finite _group_ $\mathbb{G}$ can be thought of as simply a set of elements and some _binary operation_ $\star$ on these elements (i.e., if $g,h \in \mathbb{G}$ then $g \star h$ is an element of $\mathbb{G}$ as well).
+* A finite _group_ $\mathbb{G}$ is a pair $(G,\star)$ where $G$ is a finite set of elements and $\star$ is a  _binary operation_ mapping a pair $g,h$ of elements in $G$ to the element $g \star h$ in $G$. We often identify $\mathbb{G}$ with the set $G$ of its elements, and so use notation such as $g\in \mathbb{G}$ to indicate that $g$ is an element of $\mathbb{G}$ and $|\mathbb{G}|$ to denote the number of elements in $\mathbb{G}$.
 
 *  The operation $\star$ satisfies the sort of properties that a product operation does, namely, it is _associative_ (i.e., $(g \star h)\star f = g \star (h \star f)$) and there is some element $1$ such that $g \star 1 = g$ for all $g$, and for every $g\in \mathbb{G}$ there exists an element $g^{-1}$ such that $g \star g^{-1} = 1$.
 
@@ -811,7 +808,8 @@ This can be used to recover the period of $f$ from its Fourier expansion.
 
 ### Quantum Fourier Transform over the Boolean Cube: Simon's Algorithm
 
-We now describe the simplest setting of the Quantum Fourier Transform: the group $\{0,1\}^n$ with the XOR operation, which we'll denote by $(\{0,1\}^n,\oplus)$.
+We now describe the simplest setting of the Quantum Fourier Transform: the group $\{0,1\}^n$ with the XOR operation, which we'll denote by $(\{0,1\}^n,\oplus)$. 
+(Since $XOR$ is equal to addition modulo two, this group is also often denoted as $(\Z_2)^n$.)
 It can be shown that the Fourier transform over $(\{0,1\}^n,\oplus)$ corresponds to expressing $f:\{0,1\}^n \rightarrow \mathbb{C}$ as
 
 $$

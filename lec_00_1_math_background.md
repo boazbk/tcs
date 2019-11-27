@@ -584,7 +584,7 @@ We will write $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$, which one can think of as
 More formally, we define Big-$O$ notation as follows:
 
 
-:::  {.definition title="Big-O notation" #bigohdef}
+:::  {.definition title="Big-$O$ notation" #bigohdef}
 Let $\R_+= \{ x\in \R \;|\; x>0\}$ be the set of positive real numbers.
 For two functions $F,G: \N \rightarrow \R_+$, we say that  _$F=O(G)$_  if there exist numbers $a,N_0 \in \N$ such that $F(n) \leq a\cdot G(n)$ for every $n>N_0$. We say that  $F= \Theta(G)$ if $F=O(G)$ and $G=O(F)$. We say that $F=\Omega(G)$  if $G=O(F)$.
 
