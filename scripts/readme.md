@@ -30,4 +30,6 @@ I documented all of the dependencies I had to add - there may be a handful which
 * Install [pandoc](https://pandoc.org/installing.html). I used [Chocolatey](https://chocolatey.org/). This is used everywhere. `choco install pandoc`
 * Install [MiKTeX](https://miktex.org/download), following [these instructions](http://www.texts.io/support/0002/) (but using the first link in this bullet to get the executable). This will install XeLaTeX, which is used by the book filter script. 
 * Install the python module bibtexparser: `pip install bibtexparser`. This is uesed by book-filter.py. 
-* Run `setup.py` in the root directory - this copies files into the content folder to be used in rendering. 
+* Run `setup.py` in the root directory - this copies files into the content folder to be used in rendering. `python setup.py`
+
+Currently, what should be functioning is the rendering of the markdown files into LaTeX. After doing the above, simply navigate your command-line interface of choice to the scripts folder and run `make all-tex`. This should output the rendered tex files to the `latex-book` directory in `scripts`. Note that these files will not show in git changes, as git has been instructed to ignore all files in the `latex-book` folder as they are the result of a build process. 
