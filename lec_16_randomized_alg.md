@@ -275,7 +275,7 @@ Since $A$ and $B$ are disjoint events, $\Pr[A] + \Pr[B] \leq 1$. Since they have
 
 
 Claims I and II imply that each of the $T$ iterations of the outer loop succeeds with probability at least $1/2\cdot\sqrt{3}^{-n}$.
-Indeed, by Claim II, the original guess $x$ will satisfy $\Delta(x,x^*)\leq n/2$ with probability $\Pr[\Delta(x,x^*)\leq n/2]\geq 1/2$, and by Claim I, even conditioned on all the history so far, for each of the $S = n/2$ steps of the inner loop we have probability at least $\geq 1/3$ of being "lucky" and decreasing the distance (i.e.\ the output of $\Delta$) by one.
+Indeed, by Claim II, the original guess $x$ will satisfy $\Delta(x,x^*)\leq n/2$ with probability $\Pr[\Delta(x,x^*)\leq n/2]\geq 1/2$. By Claim I, even conditioned on all the history so far, for each of the $S = n/2$ steps of the inner loop we have probability at least $\geq 1/3$ of being "lucky" and decreasing the distance (i.e.\ the output of $\Delta$) by one.
 The chance we will be lucky in all $n/2$ steps is hence at least $(1/3)^{n/2} = \sqrt{3}^{-n}$.
 
 Since any single iteration of the outer loop succeeds with probability at least $\tfrac{1}{2} \cdot \sqrt{3}^{-n}$, the probability that we never do so in $T=100 \sqrt{3}^{n}$ repetitions is at most $(1-\tfrac{1}{2\sqrt{3}^{n}})^{100\cdot \sqrt{3}^n} \leq (1/e)^{50}$.
