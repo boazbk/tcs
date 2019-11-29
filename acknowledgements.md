@@ -15,8 +15,8 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Daniel Chiu
 * Chi-Ning Chou
 * Michael Colavita
-* Robert Darley Waddilove
 * Rodrigo Daboin Sanchez
+* Robert Darley Waddilove
 * Anlan Du
 * Juan Esteller
 * David Evans
