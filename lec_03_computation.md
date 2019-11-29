@@ -67,7 +67,7 @@ Here is how Al-Khwarizmi described the algorithm for solving an equation of the 
 
 For the purposes of this book, we will need a much more precise way to describe algorithms.
 Fortunately (or is it unfortunately?), at least at the moment, computers lag far behind school-age children in learning from examples.
-Hence in the 20th century people came up with exact formalisms for describing algorithms, namely _programming languages_.
+Hence in the 20th century, people came up with exact formalisms for describing algorithms, namely _programming languages_.
 Here is al-Khwarizmi's quadratic equation solving algorithm described in the _Python_ programming language:
 
 ```python
