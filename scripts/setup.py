@@ -13,7 +13,7 @@ print(dest)
 content = []
 
 for file in files:
-    if(file == "index.md" or file=="metadata.yaml" or file.startswith("lec_")):
+    if(file == "index.md" or file=="metadata.yaml" or file =="introtcs.bib" or file.startswith("lec_")):
         content.append(file)
     
 for file in content:
