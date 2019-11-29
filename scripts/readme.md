@@ -26,7 +26,7 @@ So far, it appears I have gotten the latex rendering to work correctly - I'm cur
 
 I documented all of the dependencies I had to add - there may be a handful which were already on my system and therefore are not included here. Where possible, I have used .gitignore files and a python script (setup.py) to add file dependencies dynamically).
 
-## Getting up and running (kind of)
+## Dependencies/Getting up and running (kind of)
 * Install [pandoc](https://pandoc.org/installing.html). I used [Chocolatey](https://chocolatey.org/). This is used everywhere. `choco install pandoc`
 * Install [MiKTeX](https://miktex.org/download), following [these instructions](http://www.texts.io/support/0002/) (but using the first link in this bullet to get the executable). This will install XeLaTeX, which is used by the book filter script. 
 * Install the python module bibtexparser: `pip install bibtexparser`. This is uesed by book-filter.py. 
