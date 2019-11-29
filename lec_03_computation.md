@@ -41,7 +41,7 @@ We will define the notion of computing an output from an input by applying a seq
 Using this, we will be able to precisely define statements such as "function $f$ can be computed by model $X$" or "function $f$ can be computed by model $X$ using $s$ operations".
 
 
-![A function mapping strings to strings _specifies_ a computational task, i.e., describes _what_ is the desired relation between the input and the output. In this chapter we define models for _implementing_ computational processes that achieve the desired relation, i.e., describe _how_ to compute the output from the input. We will see several examples of such models using both Boolean circuits and straight-line programming languages.](../figure/compchapterwhatvshow.png  ){#compchapwhatvshowfig }
+![A function mapping strings to strings _specifies_ a computational task, i.e., describes _what_ the desired relation between the input and the output is. In this chapter we define models for _implementing_ computational processes that achieve the desired relation, i.e., describe _how_ to compute the output from the input. We will see several examples of such models using both Boolean circuits and straight-line programming languages.](../figure/compchapterwhatvshow.png  ){#compchapwhatvshowfig }
 
 ## Defining computation
 
