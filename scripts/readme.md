@@ -16,4 +16,18 @@ At the moment I am using an HTML template that is an adaptation of the Bookdown 
 
 These scripts are based on an original version written by David Steurer and used for our  lecture notes on the Sum of Squares algorithm https://sumofsquares.org
 
+__ChristianMay21__
 
+I have begun trying to generalize these scripts to:
+a) allow it to be utilized by any windows user with little if any customization
+b) do so in such a way as to avoid editing currently existing files - everything else, for now, will be "layered on top" of Professor Barak's working implementation. This is so that increased utility is available for new users without forcing Professor Barak to change his implementation - I doubt he'd enjoy having to do that.
+
+So far, it appears I have gotten the latex rendering to work correctly - I'm currently working on the html, so that I can render the html and then hopefully tackle some html rendering bugs.
+
+I documented all of the dependencies I had to add - there may be a handful which were already on my system and therefore are not included here. Where possible, I have used .gitignore files and a python script (setup.py) to add file dependencies dynamically).
+
+## Getting up and running (kind of)
+* Install [pandoc](https://pandoc.org/installing.html). I used [Chocolatey](https://chocolatey.org/). This is used everywhere. `choco install pandoc`
+* Install [MiKTeX](https://miktex.org/download), following [these instructions](http://www.texts.io/support/0002/) (but using the first link in this bullet to get the executable). This will install XeLaTeX, which is used by the book filter script. 
+* Install the python module bibtexparser: `pip install bibtexparser`. This is uesed by book-filter.py. 
+* Run `setup.py` in the root directory - this copies files into the content folder to be used in rendering. 
