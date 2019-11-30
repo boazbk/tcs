@@ -50,7 +50,7 @@ See [computefuncoverviewfig](){.ref} for an outline of the results of this chapt
 ## Some examples of syntactic sugar  { #secsyntacticsugar }
 
 We now present some examples of "syntactic sugar" transformations that we can use in constructing straightline programs or circuits.
-We focus on the _straight-line programming language_ view of our computational models, and specifically(for the sake of concreteness) on the NAND-CIRC programming language.
+We focus on the _straight-line programming language_ view of our computational models, and specifically (for the sake of concreteness) on the NAND-CIRC programming language.
 This is convenient because many of the syntactic sugar transformations we present are easiest to think about in terms of applying "search and replace" operations to the source code of a program.
 However,  by [equivalencemodelsthm](){.ref}, all of our results hold equally well for circuits, whether ones using NAND gates or Boolean circuits that use the  AND, OR, and NOT operations.
 Enumerating the examples of such  syntactic sugar transformations can be a little tedious, but we do it for two reasons:
