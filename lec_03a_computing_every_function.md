@@ -179,7 +179,7 @@ To make this more robust we add a prefix to the internal variables used by `Proc
 
 The code in [desugarcode](){.ref} achieves such a  transformation.^[This code uses _regular expressions_ to make the search and replace parts a little easier. We will see the theoretical basis for regular expressions in [restrictedchap](){.ref}.]
 
-``` { .python  #desugarcode title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
+``` { .python .full #desugarcode title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
 def inline_proc(code, proc_name, proc_args,proc_body):
     '''Takes code of a program and name, arguments, body of a procedure.
     Returns new code where all lines in program of the
