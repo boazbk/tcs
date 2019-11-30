@@ -888,7 +888,7 @@ _and_
 
 1. Either prove that for every program $P$ in $Y$ there is a program $P'$ in $X$ that computes the same function as $P$, _or_ give an example for a function that is computable by a $Y$-program but not computable by an $X$-program.
 
-When you give an example as above of a function that is computable in one programming language but not the other, you need to _prove_ that the function you showed is _(1)_ computable in the first programming language and _(2)_ _not computable_ in the second programming programming language.
+When you give an example as above of a function that is computable in one programming language but not the other, you need to _prove_ that the function you showed is _(1)_ computable in the first programming language and _(2)_ _not computable_ in the second programming language.
 
 ::: {.exercise title="Compare IF and NAND" #compareif}
 Let IF-CIRC be the programming language where we have the following operations `foo = 0`, `foo = 1`, `foo = IF(cond,yes,no)`  (that is, we can use the constants $0$ and $1$, and the $IF:\{0,1\}^3 \rightarrow \{0,1\}$ function such that $IF(a,b,c)$ equals $b$ if $a=1$ and equals $c$ if $a=0$). Compare the power of the NAND-CIRC programming language and the IF-CIRC programming language.
