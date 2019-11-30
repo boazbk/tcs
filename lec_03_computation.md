@@ -1091,7 +1091,7 @@ Conclude that the set $\{ AND , OR, 0 , 1\}$ is _not_ universal.
 
 
 ::: {.exercise title="XOR is not universal" #xorex}
-Prove that for every $n$-bit input circuit $C$ that contains only XOR  gates, as well as gates that compute the constant functions $0$ and $1$, $C$ is _affine or linear modulo two_, in the sense that there exists some $a\in \{0,1\}^n$ and $b\in \{0,1\}$ such that for every $x\in \{0,1\}^n$, $C(x) = \sum_{i=0}^{n-1}a_ix_i + b \mod 2$.
+Prove that for every $n$-bit input circuit $C$ that contains only XOR gates, as well as gates that compute the constant functions $0$ and $1$, $C$ is _affine or linear modulo two_, in the sense that there exists some $a\in \{0,1\}^n$ and $b\in \{0,1\}$ such that for every $x\in \{0,1\}^n$, $C(x) = \sum_{i=0}^{n-1}a_ix_i + b \mod 2$.
 
 Conclude that the set $\{ XOR , 0 , 1\}$ is _not_ universal.
 :::
