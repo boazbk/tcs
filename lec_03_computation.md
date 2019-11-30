@@ -341,7 +341,7 @@ A large part of this book will be devoted to addressing the above issues. We wil
 
 1. We can make the definition of an algorithm fully formal, and so give a precise mathematical meaning to statements such as "Algorithm $A$ computes function $f$".
 
-2. While the choice of $AND$/$OR$/$NOT$ is arbitrary, and we could just as well chose some other functions, we will also see this choice does not matter much. We will see that  we would obtain the same computational power if we used instead addition and multiplication, and essentially every other operation that could be reasonably thought of as a basic step.
+2. While the choice of $AND$/$OR$/$NOT$ is arbitrary, and we could just as well chose some other functions, we will also see this choice does not matter much. We will see that  we would obtain the same computational power if we instead used addition and multiplication, and essentially every other operation that could be reasonably thought of as a basic step.
 
 3. It turns out that we can and do compute such "$AND$/$OR$/$NOT$ based algorithms" in the real world. First of all, such an algorithm is clearly well specified, and so can be executed by a human with a pen and paper. Second, there are a variety of ways to _mechanize_ this computation. We've already seen that we can write Python code that corresponds to following such a list of instructions. But in fact we can directly implement operations such as $AND$, $OR$, and $NOT$ via electronic signals using components known as _transistors_. This is how modern electronic computers operate.
 
