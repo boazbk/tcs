@@ -431,7 +431,7 @@ __Proof of [lookup-thm](){.ref} from [lookup-rec-lem](){.ref}.__ Now that we hav
 we can complete the proof of [lookup-thm](){.ref}.
 We will prove by induction on $k$ that there is a NAND-CIRC program of at most $4\cdot (2^k-1)$ lines for $LOOKUP_k$.
 For $k=1$ this follows by the four line program for $IF$ we've seen before.
-For $k>1$, we use the following pseudocode
+For $k>1$, we use the following pseudocode:
 
 ```python
 a = LOOKUP_(k-1)(X[0],...,X[2^(k-1)-1],i[1],...,i[k-1])
