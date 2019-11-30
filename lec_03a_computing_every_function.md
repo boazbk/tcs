@@ -24,7 +24,7 @@ chapternum: "4"
 
 The computational models we considered thus far are as "bare bones" as they come.
 For example, our NAND-CIRC "programming language" has only the single operation `foo = NAND(bar,blah)`.
-In this chapter we will  see that these simple models are actually _equivalent_ to more powerful ones.
+In this chapter we will  see that these simple models are actually _equivalent_ to more sophisticated ones.
 The key observation is that we can implement more complex features using our basic building blocks, and then use these new features themselves as building blocks for even more sophisticated features.
 This is known as "syntactic sugar" in the field of programming language design, since we are not modifying the underlying programming model itself but rather we merely implement new features by syntactically transforming a program that uses such features into one that doesn't.
 
