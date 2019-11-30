@@ -363,7 +363,7 @@ It is defined as follows:
 
 
 > ### {.definition title="Lookup function" #lookup-def}
-For every $k$, the _lookup_ function of order $k$, $LOOKUP_k: \{0,1\}^{2^k+k}\rightarrow \{0,1\}$ is defined as follows.
+For every $k$, the _lookup_ function of order $k$, $LOOKUP_k: \{0,1\}^{2^k+k}\rightarrow \{0,1\}$ is defined as follows:
 For every $x\in\{0,1\}^{2^k}$ and $i\in \{0,1\}^k$,
 $$
 LOOKUP_k(x,i)=x_i
