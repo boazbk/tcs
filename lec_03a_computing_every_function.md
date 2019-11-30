@@ -175,7 +175,7 @@ The idea is simple: if the program $P$ contains a definition of a procedure `Pro
 
 2. A line `foo = exp`, where `exp` is the expression following the `return` statement in the definition of the procedure `Proc`.
 
-To make this more robust we  a prefix to the internal variables used by `Proc` to ensure they don't conflict with the variables of $P$; for simplicity we ignore this issue in the code below though it can be easily added.
+To make this more robust we add a prefix to the internal variables used by `Proc` to ensure they don't conflict with the variables of $P$; for simplicity we ignore this issue in the code below though it can be easily added.
 
 The code in [desugarcode](){.ref} achieves such a  transformation.^[This code uses _regular expressions_ to make the search and replace parts a little easier. We will see the theoretical basis for regular expressions in [restrictedchap](){.ref}.]
 
