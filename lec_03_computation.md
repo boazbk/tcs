@@ -623,7 +623,7 @@ In a _complementary transistor_ this is reversed: if the gate is "OFF" then curr
 ![We can implement the logic of transistors using water. The water pressure from the gate closes or opens a faucet between the source and the sink.](../figure/transistor_water.png){#transistor-water-fig .margin  }
 
 There are several ways to implement the logic of a transistor.
-For example, we can use faucets to implement it using water pressure (e.g. [transistor-water-fig](){.ref}). This might seem as merely a curiosity but there is a field known as [fluidics](https://en.wikipedia.org/wiki/Fluidics) concerned with implementing logical operations using liquids or gasses. Some of the motivations include operating in extreme environmental conditions such as in space or a battlefield, where standard electronic equipment would not survive.
+For example, we can use faucets to implement it using water pressure (e.g. [transistor-water-fig](){.ref}). This might seem as merely a curiosity, but there is a field known as [fluidics](https://en.wikipedia.org/wiki/Fluidics) concerned with implementing logical operations using liquids or gasses. Some of the motivations include operating in extreme environmental conditions such as in space or a battlefield, where standard electronic equipment would not survive.
 
 The standard implementations of transistors use electrical current.
 One of the original implementations used   _vacuum tubes_.
