@@ -463,7 +463,7 @@ We let $L$ be the maximum layer of $h$, and for $\ell=0,1,\ldots,L$  we do the f
 
   - If $v$ is an input vertex labeled with `X[`$i$`]` for some $i\in [n]$, then we assign to $v$ the value $x_i$.
 
-  - If $v$ is a gate vertex labeled with $\wedge$ and with two in-neighbors $u,w$ then we assign to $v$ the _AND_ of the values assigned to $u$ and $w$. (Since $u$ and $w$ are in-neighbors of $v$, they are in lower layer than $v$, and hence their values have already been assigned.)
+  - If $v$ is a gate vertex labeled with $\wedge$ and with two in-neighbors $u,w$ then we assign to $v$ the _AND_ of the values assigned to $u$ and $w$. (Since $u$ and $w$ are in-neighbors of $v$, they are in a lower layer than $v$, and hence their values have already been assigned.)
 
   - If $v$ is a gate vertex labeled with $\vee$ and with two in-neighbors $u,w$ then we assign to $v$ the OR of the values assigned to $u$ and $w$.
 
