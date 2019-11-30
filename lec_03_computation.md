@@ -381,7 +381,7 @@ We evaluate an $n$-input Boolean circuit $C$ on an input $x\in \{0,1\}^n$ by pla
 
 ::: {.remark title="Physical realization of Boolean circuits" #booleancircimprem}
 Boolean circuits are a _mathematical model_ that does not necessarily  correspond to a physical object, but they can be implemented physically.
-In physical implementation of circuits, the signal is [often implemented](https://goo.gl/gntTQE) by electric potential or _voltage_ on a wire, where for example voltage above a certain level is interpreted as a logical value of $1$, and below a certain level is interpreted as a logical value of $0$.
+In physical implementation of circuits, the signal is [often implemented](https://goo.gl/gntTQE) by electric potential, or _voltage_, on a wire, where for example voltage above a certain level is interpreted as a logical value of $1$, and below a certain level is interpreted as a logical value of $0$.
 [physicalimplementationsec](){.ref} discusses physical implementation of Boolean circuits (with examples including using electrical signals such as in silicon-based circuits, but also  biological and mechanical implementations as well).
 :::
 
