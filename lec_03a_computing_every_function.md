@@ -179,7 +179,7 @@ To make this more robust we add a prefix to the internal variables used by `Proc
 
 The code in [desugarcode](){.ref} achieves such a  transformation.^[This code uses _regular expressions_ to make the search and replace parts a little easier. We will see the theoretical basis for regular expressions in [restrictedchap](){.ref}.]
 
-``` { .python .full #desugarcode title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
+``` { .python #desugarcode title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
 def inline_proc(code, proc_name, proc_args,proc_body):
     '''Takes code of a program and name, arguments, body of a procedure.
     Returns new code where all lines in program of the
@@ -206,7 +206,7 @@ Specifically, we first apply `desugar` to remove usage of the OR function, then 
 
 ::: {.remark title="Parsing function definitions (optional)" #parsingdeg}
 The function `desugar` in [desugarcode](){.ref} assumes that it is given the procedure already split up into its name, arguments, and body.
-It is not crucial for our purposes to describe precisely to scan a definition and splitting it up to these components, but in case you are curious, it can be achieved in Python via the following code:
+It is not crucial for our purposes to describe precisely how to scan a definition and split it up into these components, but in case you are curious, it can be achieved in Python via the following code:
 
 ```python
 def parse_procs(code):
