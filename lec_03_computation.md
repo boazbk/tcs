@@ -615,7 +615,7 @@ Indeed, as we will see in [quantumchap](){.ref}, a very exciting recent line of 
 
 ### Transistors
 
-A _transistor_ can be thought of as an electric circuit with two inputs, known as _source_ and _gate_ and an output, known as the _sink_.
+A _transistor_ can be thought of as an electric circuit with two inputs, known as the _source_ and the _gate_ and an output, known as the _sink_.
 The gate controls whether current flows from the source to the sink.
 In a _standard transistor_, if the gate is "ON" then current can flow from the source to the sink and if it is "OFF" then it can't.
 In a _complementary transistor_ this is reversed: if the gate is "OFF" then current can flow from the source to the sink and if it is "ON" then it can't.
