@@ -319,7 +319,7 @@ $$
 
 We can represent $P=(n,m,L)$ as a string by prepending a prefix free representation of $n$ and $m$ to the list $L$.
 Since $n,m \leq 3s$ (a program must touch at least once all its input and output variables), those prefix free representations can be encoded using strings of length $O(\log s)$.
-In particular  every program $P$ of at most $s$ lines can be represented by a string of length $O(s\log s)$.
+In particular, every program $P$ of at most $s$ lines can be represented by a string of length $O(s\log s)$.
 Similarly, every circuit $C$ of at most $s$ gates, can be represented by a string of length $O(s \log s)$ (for example by translating $C$ to the equivalent program $P$).
 
 
