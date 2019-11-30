@@ -863,7 +863,7 @@ We already know how to compute $XOR$ using NAND and so we can use this to implem
 Similarly, we can write the "if" statement as saying $c_{i+1} \leftarrow AND(c_i,x_i)$,  or in other words $c_{i+1} \leftarrow  NAND(NAND(c_i,x_i),NAND(c_i,x_i))$.
 Finally, the assignment $y_n = c_n$ can be written as $y_n = NAND(NAND(c_n,c_n),NAND(c_n,c_n))$.
 Combining these observations yields for every $n\in \N$, a $NAND$ circuit to compute $INC_n$.
-For example, [nandincrememntcircfig](){.ref} shows how this circuit looks like for $n=4$.
+For example, [nandincrememntcircfig](){.ref} shows what this circuit looks like for $n=4$.
 
 
 
