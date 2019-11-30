@@ -104,7 +104,7 @@ Then for every NAND-CIRC-PROC program $P$, there exists a standard (i.e., "sugar
 
 
 ::: {.remark title="No recursive procedure" #norecursion}
-NAND-CIRC-PROC only allows _non recursive_ procedures. In particular, the code of a procedure `Proc` can not call `Proc` but only use procedures that were defined before it.
+NAND-CIRC-PROC only allows _non recursive_ procedures. In particular, the code of a procedure `Proc` cannot call `Proc` but only use procedures that were defined before it.
 Without this restriction, the above "search and replace" procedure might never terminate and [functionsynsugarthm](){.ref} would not be true.
 :::
 
