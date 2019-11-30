@@ -8,7 +8,7 @@ chapternum: "4"
 # Syntactic sugar, and computing every function {#finiteuniversalchap }
 
 > ### { .objectives }
-* Get comfort with syntactic sugar or automatic translation of higher level logic to low level gates. \
+* Get comfortable with syntactic sugar or automatic translation of higher level logic to low level gates. \
 * Learn proof of major result: every finite function can be computed by a Boolean circuit. \
 * Start thinking _quantitatively_ about number of lines required for computation.
 
