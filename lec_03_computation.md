@@ -631,7 +631,7 @@ As its name implies, a vacuum tube is a tube containing nothing (i.e., a vacuum)
 
 Early vacuum tubes were roughly the size of lightbulbs (and looked very much like them too).
 In the 1950's they were supplanted by _transistors_, which implement the same logic using _semiconductors_ which are materials that normally do not conduct electricity but whose conductivity can be modified and controlled by inserting impurities ("doping") and applying an external electric field (this is known as the _field effect_).
-In the 1960's computers were started to be implemented using _integrated circuits_ which enabled much greater density.
+In the 1960's computers started to be implemented using _integrated circuits_ which enabled much greater density.
 In 1965, Gordon Moore predicted that the number of transistors per integrated circuit would double every year (see [moorefig](){.ref}), and that this would lead to "such wonders as home computers —or at least terminals connected to a central computer— automatic controls for automobiles, and personal portable communications equipment".
 Since then, (adjusted versions of) this so-called "Moore's law" have been running strong, though exponential growth cannot be sustained forever, and some physical limitations are already [becoming apparent](http://www.nature.com/news/the-chips-are-down-for-moore-s-law-1.19338).
 
