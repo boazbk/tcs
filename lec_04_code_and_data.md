@@ -215,7 +215,7 @@ Since $f_{2^n} = f^* \not\in SIZE(0.1 \dot 2^n / n)$ there must exist such an in
 
 By our choice of $i$, $f_{i-1}$ is a member of $SIZE_n(s)$.
 To complete the proof, we need to show that $f_i \in SIZE_n(s + 10n)$.
-Let $x^*$ be the string such that $lex(x^*)=i$ $b\in \{0,1\}$ be the value $f^*(x^*)$.
+Let $x^*$ be the string such that $lex(x^*)=i$ $b\in \{0,1\}$ is the value of $f^*(x^*)$.
 Then we can define $f_i$ also as follows
 $$
 f_i(x) = \begin{cases} b & x=x^* \\ f_i(x) & x \neq x^*
