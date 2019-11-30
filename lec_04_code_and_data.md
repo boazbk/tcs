@@ -209,7 +209,7 @@ f_i(x) = \begin{cases} f^*(x) & lex(x)< i  \\ 0 & \text{otherwise} \end{cases} \
 $$
 
 The function $f_0$ is simply the constant zero function, while the function $f_{2^n}$ is equal to $f^*$.
-Moreover, for every $i\in [2^n]$, the function $f_i$ and $f_{i+1}$ differ on at most one input (i.e., the input $x \in \{0,1\}^n$ such that $lex(x)=i$).
+Moreover, for every $i\in [2^n]$, the functions $f_i$ and $f_{i+1}$ differ on at most one input (i.e., the input $x \in \{0,1\}^n$ such that $lex(x)=i$).
 Let $10n < s < 0.1 \cdot 2^n /n$, and let $i$ be the first index such that $f_i \not\in SIZE_n(s)$.
 Since $f_{2^n} = f^* \not\in SIZE(0.1 \dot 2^n / n)$ there must exist such an index $i$, and moreover $i>0$ since the constant zero function is a member of $SIZE_n(10n)$.
 
