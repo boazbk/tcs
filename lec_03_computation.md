@@ -1084,7 +1084,7 @@ Prove that the set $\{ OR , NOT \}$ is _universal_, in the sense that one can co
 :::
 
 ::: {.exercise title="AND,OR is not universal" #andorex}
-Prove that for every $n$-bit input circuit $C$ that contains only AND, and OR gates, as well as gates that compute the constant functions $0$ and $1$, $C$ is _monotone_, in the sense that if $x,x' \in \{0,1\}^n$, $x_i \leq x'_i$ for every $i\in [n]$, then $C(x) \leq C(x')$.
+Prove that for every $n$-bit input circuit $C$ that contains only AND and OR gates, as well as gates that compute the constant functions $0$ and $1$, $C$ is _monotone_, in the sense that if $x,x' \in \{0,1\}^n$, $x_i \leq x'_i$ for every $i\in [n]$, then $C(x) \leq C(x')$.
 
 Conclude that the set $\{ AND , OR, 0 , 1\}$ is _not_ universal.
 :::
