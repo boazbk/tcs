@@ -836,13 +836,13 @@ Prove that there exist a NAND-CIRC program of at most $s+s'+10$ lines to compute
 
 
 > ### {.exercise title="Addition" #addition-ex}
-Write a program using your favorite programming language that on input an integer $n$, outputs a NAND-CIRC program that computes $ADD_n$. Can you ensure that the program it outputs for $ADD_n$ has fewer than $10n$ lines?
+Write a program using your favorite programming language that on input of an integer $n$, outputs a NAND-CIRC program that computes $ADD_n$. Can you ensure that the program it outputs for $ADD_n$ has fewer than $10n$ lines?
 
 > ### {.exercise title="Multiplication" #multiplication-ex}
-Write a program using your favorite programming language that on input an integer $n$, outputs a NAND-CIRC program that computes $MULT_n$. Can you ensure that the program it outputs for $MULT_n$ has fewer than $1000\cdot n^2$ lines?
+Write a program using your favorite programming language that on input of an integer $n$, outputs a NAND-CIRC program that computes $MULT_n$. Can you ensure that the program it outputs for $MULT_n$ has fewer than $1000\cdot n^2$ lines?
 
 > ### {.exercise title="Efficient multiplication (challenge)" #eff-multiplication-ex}
-Write a program using your favorite programming language that on input an integer $n$, outputs a NAND-CIRC program that computes $MULT_n$ and has at most $10000 n^{1.9}$ lines.^[__Hint:__ Use Karatsuba's algorithm.] What is the smallest number of lines you can use to multiply two 2048 bit numbers?
+Write a program using your favorite programming language that on input of an integer $n$, outputs a NAND-CIRC program that computes $MULT_n$ and has at most $10000 n^{1.9}$ lines.^[__Hint:__ Use Karatsuba's algorithm.] What is the smallest number of lines you can use to multiply two 2048 bit numbers?
 
 
 ::: {.exercise title="Multibit function" #mult-bit-ex}
