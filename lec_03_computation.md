@@ -627,7 +627,7 @@ For example, we can use faucets to implement it using water pressure (e.g. [tran
 
 The standard implementations of transistors use electrical current.
 One of the original implementations used   _vacuum tubes_.
-As its name implies, a vacuum tube is a tube containing nothing (i.e., a vacuum) and where a priori electrons could freely flow from source (a wire) to the sink (a plate). However, there is a gate (a grid)  between the two, where modulating its voltage can block the flow of electrons.
+As its name implies, a vacuum tube is a tube containing nothing (i.e., a vacuum) and where a priori electrons could freely flow from the source (a wire) to the sink (a plate). However, there is a gate (a grid)  between the two, where modulating its voltage can block the flow of electrons.
 
 Early vacuum tubes were roughly the size of lightbulbs (and looked very much like them too).
 In the 1950's they were supplanted by _transistors_, which implement the same logic using _semiconductors_ which are materials that normally do not conduct electricity but whose conductivity can be modified and controlled by inserting impurities ("doping") and an external electric field (this is known as the _field effect_).
