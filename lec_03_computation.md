@@ -1151,7 +1151,7 @@ Prove that there is some constant $c$ such that for every $n>1$, there is a NAND
 
 ::: {.exercise title="Output at last layer" #outputlastlayer}
 Prove that  for every $f:\{0,1\}^n \rightarrow \{0,1\}$, if there is a Boolean circuit $C$ of $s$ gates
-that computes $f$ then there is a Boolean circuit $C'$ of at most $s$ gates such that in the minimal layering of $C'$, the output gate of $C'$ is in placed the last layer. See footnote for hint.^[_Hint:_ Vertices in layers beyond the output can be safely removed without changing the functionality of the circuit.]
+that computes $f$ then there is a Boolean circuit $C'$ of at most $s$ gates such that in the minimal layering of $C'$, the output gate of $C'$ is placed in the last layer. See footnote for hint.^[_Hint:_ Vertices in layers beyond the output can be safely removed without changing the functionality of the circuit.]
 :::
 
 ## Biographical notes
