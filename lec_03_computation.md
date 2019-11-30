@@ -495,7 +495,7 @@ We have seen two ways to describe how to compute a function $f$ using _AND_, _OR
 
 * We can also describe such a computation using a _straight-line program_ that has lines of the form `foo = AND(bar,blah)`, `foo = OR(bar,blah)` and `foo = NOT(bar)` where `foo`, `bar` and `blah` are variable names. (We call this a _straight-line program_ since it contains no loops or branching (e.g., if/then) statements.)
 
-We now formally define the AON-CIRC programming language ("AON" stands for _AND_/_OR_/_NOT_) which has the above operations, and show that it is equivalent to Boolean circuits.
+We now formally define the AON-CIRC programming language ("AON" stands for _AND_/_OR_/_NOT_; "CIRC" stands for _circuit_) which has the above operations, and show that it is equivalent to Boolean circuits.
 
 ::: {.definition title="AON-CIRC Programming language" #AONcircdef}
 An _AON-CIRC program_ is a string of lines of the form `foo = AND(bar,blah)`, `foo = OR(bar,blah)` and `foo = NOT(bar)` where `foo`, `bar` and `blah` are variable names.^[We follow the common [programming languages convention](https://goo.gl/QyHa3b)  of using names such as `foo`, `bar`, `baz`, `blah` as stand-ins for generic identifiers. A variable identifier in our programming language can be any combination of letters, numbers,  underscores, and brackets. The [appendix](http://tiny.cc/introtcsappendix) contains a full formal specification of our programming language.]
