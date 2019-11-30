@@ -192,7 +192,7 @@ SIZE_n(s) \subsetneq SIZE_n(s+10n) \;.
 $$
 
 > ### {.proofidea data-ref="sizehiearchythm"}
-To prove the theorem we need to find a function $f:\{0,1\}^n \rightarrow \{0,1\}$ such that $f$ _can_ be computed by a circuit of $s+10n$ gates but it _can not_ be computed by a circuit of $s$ gates.
+To prove the theorem we need to find a function $f:\{0,1\}^n \rightarrow \{0,1\}$ such that $f$ _can_ be computed by a circuit of $s+10n$ gates but it _cannot_ be computed by a circuit of $s$ gates.
 We will do so by coming up with a sequence of functions $f_0,f_1,f_2,\ldots,f_N$ with the following properties: __(1)__ $f_0$ _can_ be computed by a circuit of at most $10n$ gates, __(2)__ $f_N$ _cannot_ be computed by a circuit of $0.1 \cdot 2^n/n$ gates, and __(3)__ for every  $i\in \{0,\ldots, N\}$, if $f_i$ can be computed by a circuit of size $s$, then $f_{i+1}$ can be computed by a circuit of size at most $s + 10n$.
 Together these properties imply that if we let $i$ be the smallest number such that $f_i \not\in SIZE_n(s)$, then since $f_{i+1} \in SIZE(s)$ it must hold that $f_i \in SIZE(s+10n)$ which is what we need to prove.
 See [hierarchyprooffig](){.ref} for an illustration.
