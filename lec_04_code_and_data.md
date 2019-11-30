@@ -844,7 +844,7 @@ In other words, if $C'$ is a so called "empirical risk minimizer" that agrees wi
 
 
 
-The $EVAL$ function is usually known as _universal circuit_.
+The $EVAL$ function is usually known as a _universal circuit_.
 The implementation we describe is not the most efficient known.
 Valiant [@Valiant1976] first showed a universal circuit of $O(n \log n)$ size where $n$ is the size of the input.
 Universal circuits have seen in recent years new motivations due to their applications for cryptography, see [@lipmaa2016valiant, @Gunther2017] .
