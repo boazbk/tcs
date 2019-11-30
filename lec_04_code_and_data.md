@@ -198,7 +198,7 @@ Together these properties imply that if we let $i$ be the smallest number such t
 See [hierarchyprooffig](){.ref} for an illustration.
 
 ![We prove [sizehiearchythm](){.ref} by coming up with a list $f_0,\ldots,f_{2^n}$ of functions such that $f_0$ is  the all zero function, $f_{2^n}$ is a function
-(obtained from [counting-lb](){.ref}) outside of $SIZE(0.1\cdot 2^n/n)$ and such that $f_{i-1}$ and $f_i$ differ by one another on at most one input. We can show that for every $i$, the number of gates to compute $f_i$ is at most $10n$ larger than the number of gates to compute $f_{i-1}$ and so if let $i$ be the smallest number such that $f_i \not\in SIZE(s)$, then $f_i \in SIZE(s+10n)$.](../figure/hierarchyproof.png){#hierarchyprooffig .margin }
+(obtained from [counting-lb](){.ref}) outside of $SIZE(0.1\cdot 2^n/n)$ and such that $f_{i-1}$ and $f_i$ differ by one another on at most one input. We can show that for every $i$, the number of gates to compute $f_i$ is at most $10n$ larger than the number of gates to compute $f_{i-1}$ and so if we let $i$ be the smallest number such that $f_i \not\in SIZE(s)$, then $f_i \in SIZE(s+10n)$.](../figure/hierarchyproof.png){#hierarchyprooffig .margin }
 
 ::: {.proof data-ref="sizehiearchythm"}
 Let $f^*: \{0,1\}^n \rightarrow \{0,1\}$ be the function (whose existence we are guaranteed by [counting-lb](){.ref}) such that $f^* \not\in SIZE_n(0.1 \cdot 2^n /n)$.
