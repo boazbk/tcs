@@ -83,7 +83,7 @@ For this reason, typical systems for searching files or databases do _not_ allow
 Rather, such systems use _restricted computational models_ that on the one hand are _rich enough_ to capture many of the queries needed in practice (e.g., all filenames ending with `.txt`, or all phone numbers of the form `(617) xxx-xxxx`), but on the other hand are _restricted_ enough so that they cannot result in an infinite loop.
 
 One of the most popular such computational models is   [regular expressions](https://goo.gl/2vTAFU).
-If you ever used an advanced text editor, a command line shell, or have done any kind of manipulations of text files, then you have probably come across regular expressions.
+If you ever used an advanced text editor, a command line shell, or have done any kind of manipulation of text files, then you have probably come across regular expressions.
 
 A _regular expression_ over some alphabet $\Sigma$ is obtained by combining elements of $\Sigma$ with the operation of concatenation, as well as $|$ (corresponding to _or_) and $*$ (corresponding to repetition zero or more times).
 (Common implementations of regular expressions in programming languages and shells typically include some extra operations on top of $|$ and $*$, but these operations can be implemented as "syntactic sugar" using   the operators $|$ and $*$.)
