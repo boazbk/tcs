@@ -59,7 +59,7 @@ To describe and execute an algorithm we need the following components (see [algc
 
 * A potentially unbounded working memory to store the input as well as any other values we may require later. 
 
-* While the memory is unbounded, at every single step we can only read and write to a finite part of it, and we need a way to _adress_ which are the parts we want to read from and write to.
+* While the memory is unbounded, at every single step we can only read and write to a finite part of it, and we need a way to _address_ which are the parts we want to read from and write to.
 
 * If we only have a finite set of instructions but our input can be arbitrarily long, we will need to _repeat_ instructions (i.e.,  _loop_  back). We need a mechanism to decide when we will loop and when we will halt.
 
