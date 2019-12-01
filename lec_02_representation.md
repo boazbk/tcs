@@ -86,7 +86,7 @@ We now show how we can represent natural numbers as binary strings.
 Over the years people have represented numbers in a variety of ways, including Roman numerals, tally marks, our own Hindu-Arabic  decimal system, and many others.
 We can use any one of those as well as many others to represent a number as a string (see [bitmapdigitsfig](){.ref}).
 However, for the sake of concreteness,  we use the _binary basis_ as our default representation of natural numbers as strings.
-For example, we represent the number six as the string $110$ since $1\cdot 2^{2} + 1 \cdot 2^1 + 0 \cdot 2^0 = 6$, and similarly we represent the number thirty-five as the string $y = 100011$ which satisfies $\sum_{i=0}^5 y_i \cdot 2^{|y|-i-1} = 35$.^[We could just as well used the reverse order and represent  $35$ as the string $110001$. Similarly, we could have just as well used the empty string $""$ to represent $0$. Such low level choices do not make a difference for us, though they do matter in computing practice, see the bibliographical notes [bibnotesrepres](){.ref}.]
+For example, we represent the number six as the string $110$ since $1\cdot 2^{2} + 1 \cdot 2^1 + 0 \cdot 2^0 = 6$, and similarly we represent the number thirty-five as the string $y = 100011$ which satisfies $\sum_{i=0}^5 y_i \cdot 2^{|y|-i-1} = 35$.
 Some more examples are given in the table below.
 
 
@@ -122,7 +122,7 @@ The function $NtS$ is defined _recursively_: for every $n>0$ we define $rep(n)$ 
 It is also possible to define $NtS$ non-recursively, see [binaryrepex](){.ref}.
 
 Throughout most of this book, the particular choices of representation of numbers as binary strings would not matter much: we just need to know that such a representation exists.
-In fact, for most  purposes, we can even use the simpler representation of mapping a natural number $n$ to the length-$n$ all-zero string $0^n$.
+In fact, for many of our purposes we can even use the simpler representation of mapping a natural number $n$ to the length-$n$ all-zero string $0^n$.
 
 
 ::: {.remark title="Binary representation in python (optional)" #pythonbinary}
@@ -554,7 +554,7 @@ Let $k=|S|$ and $m=|T|$ and so write the elements of $S$ and $T$ as $S = \{ s_0 
 For the "if" direction, if $k \leq m$ we can simply define $E(s_i)=t_i$ for every $i\in [k]$.
 Clearly for $i \neq j$, $t_i = E(s_i) \neq E(s_j) = t_j$, and hence this function is one-to-one.
 In the other direction, suppose that $k>m$ and  $E: S \rightarrow T$ is some function. Then $E$ cannot be one-to-one.
-Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$. If $t_j$ was marked before, then we have found two objects in $S$ mapping to the same element $t_j$. Otherwise, since $T$ has $m$ elements,  when we get to $i=m-1$ we mark all the objects in $T$. Hence, in this case, $E(s_m)$ must map to an element that was already marked before.^[This observation is sometimes known as the "Pigeon Hole Principle": the principle that if you have a pigeon coop with $m$ holes, and $k>m$ pigeons, then there must be two pigeons in the same hole. ]
+Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$. If $t_j$ was marked before, then we have found two objects in $S$ mapping to the same element $t_j$. Otherwise, since $T$ has $m$ elements,  when we get to $i=m-1$ we mark all the objects in $T$. Hence, in this case, $E(s_m)$ must map to an element that was already marked before. (This observation is sometimes known as the "Pigeon Hole Principle": the principle that if you have a pigeon coop with $m$ holes, and $k>m$ pigeons, then there must be two pigeons in the same hole. )
 
 
 ### Prefix-free encoding { #prefixfreesec }
@@ -562,7 +562,7 @@ Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$. If
 When showing a representation scheme for rational numbers, we used the "hack" of encoding the alphabet $\{ 0,1, \|\}$  to represent tuples of strings as a single string.
 This is a special case of the general paradigm of _prefix-free_ encoding.
 The idea is the following: if our representation has the property that no string $x$ representing an object $o$ is a _prefix_ (i.e., an initial substring) of a string $y$ representing a different object $o'$, then we can represent a _list_ of objects by merely concatenating the representations of all the list members.
-For example, because in English every sentence ends with a punctuation mark such as a period, exclamation, or question mark, no sentence can be a prefix of another and so we can represent a list of sentences by merely concatenating the sentences one after the other.^[English has some complications such as periods used for abbreviations (e.g., "e.g.") or sentence quotes containing punctuation, but the high level point of a prefix-free representation for sentences still holds.]
+For example, because in English every sentence ends with a punctuation mark such as a period, exclamation, or question mark, no sentence can be a prefix of another and so we can represent a list of sentences by merely concatenating the sentences one after the other. (English has some complications such as periods used for abbreviations (e.g., "e.g.") or sentence quotes containing punctuation, but the high level point of a prefix-free representation for sentences still holds.)
 
 It turns out that we can transform _every_ representation to a prefix-free form.
 This justifies [representtuplesidea](){.ref}, and allows us to transform a representation scheme for objects of a type $T$ to a representation scheme of _lists_ of objects of the type $T$.
@@ -741,7 +741,7 @@ pfvalidM(pfNtS(234))
 ```
 
 > ### { .pause }
-Note that the Python function `prefixfree` above takes two _Python functions_ as input and outputs three Python functions as output.^[When it's not too awkward, we use the term "Python function" or "subroutine" to distinguish between such snippets of Python programs and mathematical functions. However, in comments in Python source we use "functions" to denote Python functions, just as we use "integers" to denote Python int objects.]
+Note that the Python function `prefixfree` above takes two _Python functions_ as input and outputs three Python functions as output. (When it's not too awkward, we use the term "Python function" or "subroutine" to distinguish between such snippets of Python programs and mathematical functions.)
 You don't have to know Python in this course, but you do need to get comfortable with the idea of functions as mathematical objects in their own right, that can be used as inputs and outputs of other functions.
 
 We now show a "Python proof" of [prefixfreethm](){.ref}. Namely, we show a function `represlists` that takes as input a prefix-free representation scheme (implemented via encoding, decoding, and validity testing functions) and outputs a representation scheme for _lists_ of such objects. If we want to make this representation prefix-free then we could fit it into the function `prefixfree` above.
@@ -831,9 +831,11 @@ double   132.0: 00000000 00000000 00000000 00000000 00000000 10000000 01100000 0
 
 Once we can represent numbers and lists of numbers, then we can also represent _vectors_ (which are just lists of numbers).
 Similarly, we can represent lists of lists, and thus, in particular, can represent _matrices_.
-To represent an image, we can represent the color at each pixel by a list of three numbers corresponding to the intensity of Red, Green and Blue.^[We can restrict to three primary colors since ([most](https://en.wikipedia.org/wiki/Tetrachromacy)) humans only have three types of cones in their retinas. We would have needed 16 primary colors to represent colors visible to the [Mantis Shrimp](https://goo.gl/t7JBfC).]
+To represent an image, we can represent the color at each pixel by a list of three numbers corresponding to the intensity of Red, Green and Blue.
+(We can restrict to three primary colors since [most](https://en.wikipedia.org/wiki/Tetrachromacy) humans only have three types of cones in their retinas; we would have needed 16 primary colors to represent colors visible to the [Mantis Shrimp](https://goo.gl/t7JBfC).)
 Thus an image of $n$ pixels would be represented by a list of $n$ such length-three lists.
-A video can be represented as a list of images.^[Of course these representations are rather wasteful and [much](https://en.wikipedia.org/wiki/JPEG) [more](https://goo.gl/Vs8UhU) compact representations are typically used for images and videos, though this will not be our concern in this book.]
+A video can be represented as a list of images.
+Of course these representations are rather wasteful and [much](https://en.wikipedia.org/wiki/JPEG) [more](https://goo.gl/Vs8UhU) compact representations are typically used for images and videos, though this will not be our concern in this book.
 
 ### Representing graphs
 
