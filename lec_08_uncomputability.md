@@ -83,7 +83,7 @@ The end result is what's known as a "meta-circular evaluator": an interpreter fo
 
 ### Proving the existence of a universal Turing Machine  {#representtmsec }
 
-To prove (and even properly state)  [universaltmthm](){.ref}, we need fix some representation for Turing machines as strings.
+To prove (and even properly state)  [universaltmthm](){.ref}, we need to fix some representation for Turing machines as strings.
 For example, one potential choice for such a representation is to use the equivalence betwen Turing machines and NAND-TM programs and hence represent a Turing machine $M$ using the ASCII encoding of the source code of the corresponding NAND-TM program $P$.
 However, we will use a more direct encoding.
 
