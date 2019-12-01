@@ -880,7 +880,7 @@ Y[0] = NAND(Temp[6],Temp[7])
 
 
 In the following exercises you are asked  to compare the _power_ of pairs programming languages.
-By "comparing the power" of two programming languages $X$ and $Y$ we mean determining the relation between the set of functions that are computable using programs in  $X$ and $Y$ respectively. That is, to answer such a question you need to do both of:
+By "comparing the power" of two programming languages $X$ and $Y$ we mean determining the relation between the set of functions that are computable using programs in  $X$ and $Y$ respectively. That is, to answer such a question you need to do both of the following:
 
 1. Either prove that for every program $P$ in $X$ there is a program $P'$ in $Y$ that computes the same function as $P$, _or_ give an example for a function that is computable by an $X$-program but not computable by a $Y$-program.
 
