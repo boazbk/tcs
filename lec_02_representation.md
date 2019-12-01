@@ -975,7 +975,7 @@ A _function_ is not the same as a _program_. A program _computes_ a function.
 :::
 
 Distinguishing _functions_ from _programs_ (or other ways for computing, including _circuits_ and _machines_) is a crucial theme for this course.
-For this reason, this is often a running theme in questions that I (and many other instructors) assign in homeworks and exams (hint, hint).
+For this reason, this is often a running theme in questions that I (and many other instructors) assign in homework and exams (hint, hint).
 
 
 ::: {.remark title="Computation beyond functions (advanced, optional)" #beyonfdunc}
