@@ -195,7 +195,7 @@ The key observation is that in our recursive definition of regular expressions, 
 Therefore, we can prove the theorem by induction over the length $m$ of $e$ (i.e., the number of symbols in the string $e$, also denoted as $|e|$).
 For $m=1$, $e$ is either a single alphabet symbol, $""$ or $\emptyset$, and so computing the function $\Phi_{e}$ is straightforward.
 In the general case, for $m=|e|$ we assume by the induction hypothesis that we have proven the theorem for all expressions of length smaller than $m$.
-Now, such an expression of length larger than one can obtained one of three cases using the OR, concatenation, or star operations. We now show that $\Phi_{e}$ will be computable in all these cases:
+Now, such an expression of length larger than one can obtained through one of three cases: OR, concatenation, or star operations. We now show that $\Phi_{e}$ will be computable in all these cases:
 
 __Case 1:__ $e = (e' | e'')$ where $e', e''$ are shorter regular expressions.
 
