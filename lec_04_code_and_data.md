@@ -329,7 +329,7 @@ Similarly, every circuit $C$ of at most $s$ gates, can be represented by a strin
 ## A NAND-CIRC interpreter in NAND-CIRC
 
 Since we can represent programs as strings, we can also think of a program as an input to a function.
-In particular, for every natural numbers $s,n,m>0$ we define the function $EVAL_{s,n,m}:\{0,1\}^{S(s)+n} \rightarrow \{0,1\}^m$ as follows:
+In particular, for every natural number $s,n,m>0$ we define the function $EVAL_{s,n,m}:\{0,1\}^{S(s)+n} \rightarrow \{0,1\}^m$ as follows:
 $$
 EVAL_{s,n,m}(px) = \begin{cases} P(x) & \text{$p\in \{0,1\}^{S(s)}$ represents a size-$s$ program $P$ with $n$ inputs and $m$ outputs}  \\ 0^m & \text{otherwise} \end{cases} \label{evalcirceq}
 $$
