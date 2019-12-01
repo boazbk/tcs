@@ -221,7 +221,7 @@ For every string $x\in\{0,1\}^*$, if $x$ satisfies __(1)__ $x$ is a valid repres
 We define $F^*(x) = 1 - G(x)$.
 
 We claim that there is no Turing machine that computes $F^*$.
-Indeed, suppose, towards the sake of contradiction,  that exists a machine $M$ that computes $F^*$, and let $x$ be the binary string that represents the machine $M$.
+Indeed, suppose, for the sake of contradiction,  that exists a machine $M$ that computes $F^*$, and let $x$ be the binary string that represents the machine $M$.
 On one hand, since by our assumption $M$ computes $F^*$,   on input $x$ the machine $M$ halts and outputs $F^*(x)$.
 On the other hand, by the definition of $F^*$, since $x$ is the representation of the machine $M$,
 $F^*(x) = 1 - G(x) = 1 - M(x)$,   hence yielding a contradiction.
