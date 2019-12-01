@@ -1190,7 +1190,7 @@ A _program_ in our language is simply a sequence of statements (possibly separat
 
 ## Bibliographical notes
 
-The relation of regular expressions with finite automata is a beautiful topic, on which we only touch upon in this texts.
+The relation of regular expressions with finite automata is a beautiful topic, on which we only touch upon in this text.
 It is covered more extensively in [@SipserBook, @hopcroft , @kozen1997automata].
 These texts also discuss topics such as _non deterministic finite automata_ (NFA) and the relation between context-free grammars and pushdown automata.
 
