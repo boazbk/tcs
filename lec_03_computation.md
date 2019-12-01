@@ -897,7 +897,7 @@ Let $y_n \leftarrow c_n$
 
 Once again, [additionfromnand](){.ref} can be translated into a NAND circuit.
 The crucial observation is that the "if/then" statement simply corresponds to
-$c_{i+1} \leftarrow MAJ_3(u_i,v_i,v_i)$ and we have seen in in [majbynandex](){.ref} that the function $MAJ_3:\{0,1\}^3 \rightarrow \{0,1\}$ can be computed using $NAND$s.
+$c_{i+1} \leftarrow MAJ_3(u_i,v_i,v_i)$ and we have seen in [majbynandex](){.ref} that the function $MAJ_3:\{0,1\}^3 \rightarrow \{0,1\}$ can be computed using $NAND$s.
 
 
 
