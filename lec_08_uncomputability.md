@@ -463,7 +463,7 @@ We will see several examples in such results in this chapter and the exercises, 
 
 The idea behind such uncomputability results is conceptually simple but can at first be quite confusing.
 If we know that $HALT$ is uncomputable, and we want to show that some other function $BLAH$ is uncomputable, then we can do so via a _contrapositive_ argument (i.e., proof by contradiction).
-That is, we show that __if__ there exists Turing machine that computes $BLAH$ __then__ there exists a Turing machine that computes $HALT$.
+That is, we show that __if__ there exists a Turing machine that computes $BLAH$ __then__ there exists a Turing machine that computes $HALT$.
 (Indeed, this is exactly how we showed that $HALT$ itself is uncomputable, by reducing this fact to the uncomputability of the function $F^*$ from [uncomputable-func](){.ref}.)
 
 For example, to prove that $BLAH$ is uncomputable,  we could show that there is a computable function $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every pair $M$ and $x$, $HALT(M,x)=BLAH(R(M,x))$.
