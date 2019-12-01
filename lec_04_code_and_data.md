@@ -90,7 +90,7 @@ Each such symbol can be encoded as a string of $7$ bits using the [ASCII](https:
 
 Nothing in the above discussion was specific to the program $P$, and hence we can use the same reasoning to prove that  _every_ NAND-CIRC program can be represented as a string in $\{0,1\}^*$.
 In fact, we can do a bit better.
-Since the names of the working  variables  of a NAND-CIRC program do not effect its functionality, we can always transform a program to have the form of $P'$ where all variables apart from the inputs and outputs have the form
+Since the names of the working  variables  of a NAND-CIRC program do not affect its functionality, we can always transform a program to have the form of $P'$ where all variables apart from the inputs and outputs have the form
 `temp_0`, `temp_1`, `temp_2`, etc..
 Moreover, if the program has $s$ lines, then we will never need to use an index larger than $3s$ (since each line involves at most three variables), and similarly the indices of the input and output variables will
 all be at most $3s$.
