@@ -534,7 +534,7 @@ In fact there are some very simple (and useful!) functions that they cannot comp
 Here is one example:
 
 > ### {.lemma title="Matching parenthesis" #regexpparn}
-Let $\Sigma = \{\langle ,\rangle \}$ and  $MATCHPAREN:\Sigma^* \rightarrow \{0,1\}$ be the function that given a string of parenthesis, outputs $1$ if and only if every opening parenthesis is matched by a corresponding closed one.
+Let $\Sigma = \{\langle ,\rangle \}$ and  $MATCHPAREN:\Sigma^* \rightarrow \{0,1\}$ be the function that given a string of parentheses, outputs $1$ if and only if every opening parenthesis is matched by a corresponding closed one.
 Then there is no regular expression over $\Sigma$ that computes $MATCHPAREN$.
 
 [regexpparn](){.ref} is a consequence of the following result, which is known as the _pumping lemma_:
