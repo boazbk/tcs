@@ -33,7 +33,7 @@ But as Turing  (who was perhaps the one to see most clearly the ramifications of
 Once we build a device that can compute the single universal function, we have the ability, _via software_, to extend it to do arbitrary computations.
 For example, if we want to simulate a new Turing machine $M$, we do not need to build a new physical machine, but rather can represent $M$ as a string (i.e., using _code_) and then input $M$ to the universal machine $U$.
 
-Beyond the practical applications, the existence of a universal algorithm also surprising theoretical ramification, and in particular can be used to show the existence of _uncomputable functions_, upending the intuitions of mathematicians over the centuries from Euler to Hilbert.
+Beyond the practical applications, the existence of a universal algorithm also has surprising theoretical ramifications, and in particular can be used to show the existence of _uncomputable functions_, upending the intuitions of mathematicians over the centuries from Euler to Hilbert.
 In this chapter we will prove the existence of the universal program, and also show its implications for uncomputability, see [universalchapoverviewfig](){.ref}
 
 
