@@ -891,7 +891,7 @@ Prove [paritythm](){.ref} without using Rice's Theorem.
 
 
 ::: {.exercise title="TM Equivalence" #TMequivex}
-Let $EQ:\{0,1\}^* :\rightarrow \{0,1\}$ be the function defined as follows, given a string representing a pair $(M,M')$ of Turing machines, $EQ(M,M')=1$ iff $M$ and $M'$ are functionally equivalent as per [semanticpropdef](){.ref}. Prove that $EQ$ is uncomputable.
+Let $EQ:\{0,1\}^* :\rightarrow \{0,1\}$ be the function defined as follows: given a string representing a pair $(M,M')$ of Turing machines, $EQ(M,M')=1$ iff $M$ and $M'$ are functionally equivalent as per [semanticpropdef](){.ref}. Prove that $EQ$ is uncomputable.
 
 Note that you _cannot_ use Rice's Theorem directly, as this theorem only deals with functions that take a single Turing machine as input, and $EQ$ takes two machines.
 :::
