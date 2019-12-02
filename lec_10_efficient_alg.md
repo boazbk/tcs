@@ -455,7 +455,7 @@ Fortunately, not all real-world games are zero sum, and we do have more general 
 [John Nash](https://en.wikipedia.org/wiki/John_Forbes_Nash_Jr.) won the Nobel prize for showing that there is a notion of _equilibrium_ for such games as well.
 In many economic texts it is taken as an article of faith that when actual agents are involved in such a game then they reach a Nash equilibrium.
 However, unlike zero sum games, we do not know of an efficient algorithm for finding a Nash equilibrium given the description of a general (non zero sum) game.
-In particular this means that, despite economists' intuitions, there are games for which natural strategies will take exponential number of steps to converge to an equilibrium.
+In particular this means that, despite economists' intuitions, there are games for which natural strategies will take an exponential number of steps to converge to an equilibrium.
 
 
 
