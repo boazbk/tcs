@@ -292,7 +292,7 @@ Many of the greatest minds of the 17th and 18th century, including Euler, Lagran
 However, the fact that there is no closed-form formula does not mean we can not solve such equations.
 People have been solving higher degree equations numerically for ages.
 The Chinese manuscript [Jiuzhang Suanshu](https://en.wikipedia.org/wiki/The_Nine_Chapters_on_the_Mathematical_Art) from the first century mentions such approaches.
-Solving polynomial equations is by no means restricted only to ancient history or to students' homeworks.
+Solving polynomial equations is by no means restricted only to ancient history or to students' homework.
 The [gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) method is the workhorse powering many of the machine learning tools that have revolutionized Computer Science over the last several years.
 
 
