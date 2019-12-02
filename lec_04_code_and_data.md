@@ -345,7 +345,7 @@ __Take-away points.__ The fine  details of $EVAL_{s,n,m}$'s definition are not v
 
 * $EVAL_{s,n,m}$ is a single function, such that computing $EVAL_{s,n,m}$ allows to evaluate _arbitrary_ NAND-CIRC programs of a certain length on _arbitrary_ inputs of the appropriate length.
 
-* $EVAL_{s,n,m}$ is a _function_, not a _program_ (recall the discussion in [specvsimplrem](){.ref}). That is, $EVAL_{s,n,m}$ is  a _specification_ of what output is associated with what input. The existence of a _program_ that computes $EVAL_{s,n,m}$ (i.e., an _implementation_ for $EVAL_{s,n,m}$) is a separate fact, which needs to be established (and which we will do in [bounded-univ](){.ref}, with a more efficient program shown in  in [eff-bounded-univ](){.ref}).
+* $EVAL_{s,n,m}$ is a _function_, not a _program_ (recall the discussion in [specvsimplrem](){.ref}). That is, $EVAL_{s,n,m}$ is  a _specification_ of what output is associated with what input. The existence of a _program_ that computes $EVAL_{s,n,m}$ (i.e., an _implementation_ for $EVAL_{s,n,m}$) is a separate fact, which needs to be established (and which we will do in [bounded-univ](){.ref}, with a more efficient program shown in [eff-bounded-univ](){.ref}).
 
 
 
