@@ -447,7 +447,7 @@ The generality of the time hierarchy theorem can make its proof a little hard to
 It might be easier to follow the proof if you first try to prove by yourself the easier statement $\mathbf{P} \subsetneq \mathbf{EXP}$.
 
 You can do so by showing that the following function $F:\{0,1\}^* :\rightarrow \{0,1\}$ is in $\mathbf{EXP} \setminus \mathbf{P}$: for every Turing Machine $M$ and input $x$, $F(M,x)=1$ if and only if $M$ halts on $x$ within at most $|x|^{\log |x|}$ steps.
-One can show that $F \in TIME(n^{O(\log n)}) \subseteq \mathbf{EXP}$ using the universal Turing machine (or the efficient universal NAND-RAM program of [univ-nandpp](){.ref}). On the other harnd, we can use similar ides to those used to show the uncomputability of $HALT$ in [haltalternativesec](){.ref} to prove that $F \not\in \mathbf{P}$.
+One can show that $F \in TIME(n^{O(\log n)}) \subseteq \mathbf{EXP}$ using the universal Turing machine (or the efficient universal NAND-RAM program of [univ-nandpp](){.ref}). On the other harnd, we can use similar ideas to those used to show the uncomputability of $HALT$ in [haltalternativesec](){.ref} to prove that $F \not\in \mathbf{P}$.
 :::
 
 
