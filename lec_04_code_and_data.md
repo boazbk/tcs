@@ -588,7 +588,7 @@ It is possible to translate _every_ Python program into an equivalent NAND-CIRC 
 (More concretely, if the Python program takes $T(n)$ operations on inputs of length at most $n$ then there exists NAND-CIRC program of $O(T(n) \log T(n))$ lines that agrees with the Python program on inputs of length $n$.)
 Actually doing so requires taking care of many details and is beyond the scope of this book, but let me try to convince you why you should believe it is possible in principle.
 
-For starters, one can can use [CPython](https://en.wikipedia.org/wiki/CPython) (the reference implementation for Python), to evaluate every Python program using a `C` program.
+For starters, one can use [CPython](https://en.wikipedia.org/wiki/CPython) (the reference implementation for Python), to evaluate every Python program using a `C` program.
 We can combine this with a C compiler to transform a Python program to various flavors of "machine language".
 So, to transform a Python program into an equivalent NAND-CIRC program, it is enough to show how to transform a _machine language_ program into an equivalent NAND-CIRC program.
 One minimalistic (and hence convenient) family of machine languages is known as the _ARM architecture_ which powers many mobile devices including essentially all Android devices.^[ARM stands for "Advanced RISC Machine" where RISC in turn stands for "Reduced instruction set computer".]
