@@ -581,7 +581,7 @@ As mentioned before, Gödel, Escher, Bach [@hofstadter1999] is a highly recommen
 A classic popular science book about Fermat's Last Theorem is [@singh1997fermat].
 
 Cantor's are used for both Turing's and Gödel's theorems.
-In a twist of fate, using techniques originating from the works Gödel and Turing,  Paul Cohen showed in 1963 that Cantor's _Continuum Hypothesis_ is independent of the axioms of set theory, which means that neither it nor its negation is provable from these axioms and hence in some sense can be considered as "neither true nor false" (see [@cohen2008set]).
+In a twist of fate, using techniques originating from the works of Gödel and Turing,  Paul Cohen showed in 1963 that Cantor's _Continuum Hypothesis_ is independent of the axioms of set theory, which means that neither it nor its negation is provable from these axioms and hence in some sense can be considered as "neither true nor false" (see [@cohen2008set]).
 The [Continuum Hypothesis](https://goo.gl/9ieBVq) is the conjecture that for every subset $S$ of $\mathbb{R}$, either there is a one-to-one and onto map between $S$ and $\N$ or there is a one-to-one and onto map between $S$ and $\mathbb{R}$.
 It was conjectured by Cantor and listed by Hilbert in 1900 as one of the most important problems in mathematics.
 See also the non-conventional survey of Shelah [@shelah2003logical].
