@@ -407,7 +407,7 @@ In other words, we transition to the state $v \oplus \sigma$.
 Hence we can think of this algorithm's execution on input $x\in \{0,1\}^n$ as follows:
 
 
-* Let $v_t$ be the sate of the automaton at step $t$. We initialize $v_t=0$. 
+* Let $v_t$ be the state of the automaton at step $t$. We initialize $v_t=0$. 
 
 * For every $i\in [n]$, let $v_i = v_{i+1} \oplus x_i$.
 
