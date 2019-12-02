@@ -247,7 +247,7 @@ First we can compute the function $IF:\{0,1\}^3 \rightarrow \{0,1\}$ such that $
 
 > ### { .pause }
 Before reading onward, try to see how you could compute the $IF$ function using $NAND$'s.
-Once you you do that, see how you can use that to emulate `if`/`then` types of constructs.
+Once you do that, see how you can use that to emulate `if`/`then` types of constructs.
 
 The $IF$ function can be implemented from NANDs as follows (see [mux-ex](){.ref}):
 
