@@ -399,7 +399,7 @@ We need the following facts about configurations:
 
 We can encode such a sequence $H$ of configuration as a binary string.
 For concreteness,  we let $\ell = \lceil \log (|\Sigma|+1) \rceil$ and encode each symbol $\sigma$ in $\Sigma \cup \{ ";" \}$ by a string in $\{0,1\}^\ell$.
-We use "$;$" as a  "separator" symbol, and so encode $H = (\alpha^0,\alpha^1,\ldots,\alpha^{T-1})$ as the concatenation of the encodings of each condiguration, using "$;$" to separate the encoding of $\alpha^i$ and $\alpha^{i+1}$
+We use "$;$" as a  "separator" symbol, and so encode $H = (\alpha^0,\alpha^1,\ldots,\alpha^{T-1})$ as the concatenation of the encodings of each configuration, using "$;$" to separate the encoding of $\alpha^i$ and $\alpha^{i+1}$
 for every $i\in [T]$.
 In particular for every Turing Machine $M$, 
 $M$ halts on the input $0$ if and only if the following  statement $\varphi_M$ is true
