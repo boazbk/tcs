@@ -455,7 +455,7 @@ If we now set `(f,x) = CantSolveMe(T)`, then `T(f,x)=False` but `f(x)` does in f
 ## Reductions {#reductionsuncompsec }
 
 The Halting problem turns out to be a linchpin of uncomputability, in the sense that [halt-thm](){.ref} has been used to show the uncomputability of a great many interesting functions.
-We will see several examples in such results in this chapter and the exercises, but there are many more such results (see [haltreductions](){.ref}).
+We will see several examples of such results in this chapter and the exercises, but there are many more such results (see [haltreductions](){.ref}).
 
 
 ![Some uncomputability results. An arrow from problem X to problem Y means that we use the uncomputability of X to prove the uncomputability of Y by reducing computing X to computing Y.  All of these results except for the MRDP Theorem appear in either the text or exercises. The Halting Problem $HALT$ serves as our starting point for all these uncomputability results as well as many others.](../figure/reductions_from_halting.png){#haltreductions   }
