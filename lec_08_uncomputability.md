@@ -10,7 +10,7 @@ chapternum: "8"
 > ### { .objectives }
 * The universal machine/program - "one program to rule them all"
 * A fundamental result in computer science and mathematics: the existence of uncomputable functions.
-* The _halting problem_: the canonical example for an uncomputable function.
+* The _halting problem_: the canonical example of an uncomputable function.
 * Introduction to the technique of _reductions_.
 * Rice's Theorem: A "meta tool" for uncomputability results, and a starting point for much of the research on compilers, programming languages, and software verification.
 
