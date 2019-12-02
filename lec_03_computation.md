@@ -390,7 +390,7 @@ In physical implementation of circuits, the signal is [often implemented](https:
 
 
 
-![A _Boolean Circuit_ consists of  _gates_ that are are connected by _wires_ to one another and the _inputs_. The left side depicts a circuit with $2$ inputs and $5$ gates, one of which is designated the output gate. The right side depicts the evaluation of this circuit on the input $x\in \{0,1\}^2$ with $x_0=1$ and $x_1=0$. The value of every gate is obtained by applying the corresponding function ($AND$, $OR$, or $NOT$) to values on the wire(s) that enter it. The output of the circuit on a given input is the value of the output gate(s). In this case, the circuit computes the $XOR$ function and hence it outputs $1$ on the input $10$.](../figure/booleancircuit.png){#boolancircfig  }
+![A _Boolean Circuit_ consists of  _gates_ that are connected by _wires_ to one another and the _inputs_. The left side depicts a circuit with $2$ inputs and $5$ gates, one of which is designated the output gate. The right side depicts the evaluation of this circuit on the input $x\in \{0,1\}^2$ with $x_0=1$ and $x_1=0$. The value of every gate is obtained by applying the corresponding function ($AND$, $OR$, or $NOT$) to values on the wire(s) that enter it. The output of the circuit on a given input is the value of the output gate(s). In this case, the circuit computes the $XOR$ function and hence it outputs $1$ on the input $10$.](../figure/booleancircuit.png){#boolancircfig  }
 
 
 
