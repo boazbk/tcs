@@ -714,7 +714,7 @@ If you have ever written a program, you've experienced a _syntax error_.
 You probably also had the experience of your program entering into an _infinite loop_.
 What is less likely is that the compiler or interpreter entered an infinite loop while trying to figure out if your program has a syntax error.
 
-When a person designs a programming language, they need to determines its _syntax_.
+When a person designs a programming language, they need to determine its _syntax_.
 That is, the designer decides which strings corresponds to valid programs, and which ones do not (i.e., which strings contain a syntax error).
 To ensure that a compiler or interpreter always halts when checking for syntax errors, language designers typically _do not_ use a general Turing-complete mechanism to express their syntax.
 Rather they use a _restricted_ computational model.
