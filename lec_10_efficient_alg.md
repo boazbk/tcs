@@ -372,7 +372,7 @@ Suppose that we want to solve not just _linear_ but also equations involving _qu
 That is, suppose that we are given a set of quadratic polynomials $p_1,\ldots,p_m$ and consider the equations $\{ p_i(x) = 0 \}$.
 To avoid issues with bit representations, we will always assume that the equations contain the constraints $\{ x_i^2 - x_i = 0 \}_{i\in [n]}$.
 Since only $0$ and $1$ satisfy the equation  $a^2-a$, this assumption means that we can restrict attention to solutions in $\{0,1\}^n$.
-Solving quadratic equations in several variable is a classical and extremely well motivated problem.
+Solving quadratic equations in several variables is a classical and extremely well motivated problem.
 This is the generalization of the classical case of single-variable quadratic equations that generations of high school students grapple with.
 It also generalizes the [quadratic assignment problem](https://www.opt.math.tugraz.at/~cela/papers/qap_bericht.pdf), introduced in the 1950's as a way to optimize assignment of economic activities.
 Once again, we do not know a much better algorithm for this problem than the one that enumerates over all the $2^n$ possibilities.
