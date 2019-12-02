@@ -709,7 +709,7 @@ Turning this observation on its head, people have proposed using such systems to
 At the time of this writing, Scalable quantum computers have not yet been built, but it is a fascinating possibility, and one that does not seem to contradict any known law of nature.
 We will discuss quantum computing in much more detail in [quantumchap](){.ref}.
 Modeling quantum computation    involves extending the model of Boolean circuits into _Quantum circuits_ that have one more (very special) gate.
-However, the main take away is that while quantum computing does suggest we need to amend the PECTT, it does _not_ require a complete revision of our worldview. Indeed, almost all of the content of this book remains the same regardless of whether the underlying computational model is Boolean circuits or quantum circuits.
+However, the main takeaway is that while quantum computing does suggest we need to amend the PECTT, it does _not_ require a complete revision of our worldview. Indeed, almost all of the content of this book remains the same regardless of whether the underlying computational model is Boolean circuits or quantum circuits.
 
 
 
