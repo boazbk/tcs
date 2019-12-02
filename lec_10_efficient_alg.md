@@ -522,7 +522,7 @@ Show how to use this to solve 2SAT in polynomial time.
 
 ::: {.exercise title="Reductions for showing algorithms" #reduceP}
 The following fact is true: there is a polynomial-time algorithm $BIP$ that on input a graph $G=(V,E)$ outputs $1$ if and only if the graph is _bipartite_: there is a partition of $V$ to disjoint parts $S$ and $T$ such that every edge $(u,v) \in E$ satisfies either $u\in S$ and $v\in T$ or $u\in T$ and $v\in S$.
-Use this fact to prove that there is polynomial-time algorithm to compute that following function $CLIQUEPARTITION$ that on input a graph $G=(V,E)$ outputs $1$ if and only if there is a partition of $V$ the graph into two parts $S$ and $T$ such that both $S$ and $T$ are _cliques_: for every pair of distinct vertices $u,v \in S$, the edge $(u,v)$ is in $E$ and similarly for every pair of distinct vertices $u,v \in T$, the edge $(u,v)$ is in $E$. 
+Use this fact to prove that there is a polynomial-time algorithm to compute that following function $CLIQUEPARTITION$ that on input a graph $G=(V,E)$ outputs $1$ if and only if there is a partition of $V$ the graph into two parts $S$ and $T$ such that both $S$ and $T$ are _cliques_: for every pair of distinct vertices $u,v \in S$, the edge $(u,v)$ is in $E$ and similarly for every pair of distinct vertices $u,v \in T$, the edge $(u,v)$ is in $E$. 
 :::
 
 
