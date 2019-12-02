@@ -663,7 +663,7 @@ An example for a semantic property that both `First` and `Second` satisfy is the
 
 A property is _not semantic_ if it depends on the _source code_ rather than the input/output behavior.
 For example, properties such as  "the program contains the variable `k`" or "the program uses the `while` operation"  are not semantic.
-Such properties can be true for one of the programs and false for the others.
+Such properties can be true for one of the programs and false for others.
 Formally, we define semantic properties as follows:
 
 ::: {.definition title="Semantic properties" #semanticpropdef}
