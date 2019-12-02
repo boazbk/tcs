@@ -393,7 +393,7 @@ In Computer Science, a single-pass constant-memory algorithm is also known as a 
 That is, we can think of such an algorithm as a "machine"  that can be in one of $C$ states, for some constant $C$.
 The machine starts in some initial state, and then reads its input $x\in \{0,1\}^*$ one bit at a time.
 Whenever the machine reads a bit $\sigma \in \{0,1\}$, it transitions into a new state based on $\sigma$ and its prior state.
-The output of the machine is based the final state.
+The output of the machine is based on the final state.
 Every constant-memory one-pass algorithm corresponds to such a machine.
 If an algorithm uses $c$ bits of memory, then the contents of its memory are a string of length $c$.
 Since there are $2^c$ such strings, at any point in the execution, such an algorithm can be in one of $2^c$ states.
