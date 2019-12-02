@@ -94,7 +94,7 @@ The conditions for a valid proof system are:
 2. _(Soundness)_ If there is a valid proof $w$ for $x$ then $x$ is true.
 
 These are quite  minimal requirements for a proof system.
-Requirement 2 (soundness) is the very definition of a proof system: you shouldn't be able to prove things that are not true. Requirement 1 is also essential. If there is no set of rules (i.e., an algorithm) to check that a proof is valid then in what sense is it a proof system? We could replace it with the system where the "proof" for a statement $x$ is "trust me: it's true".
+Requirement 2 (soundness) is the very definition of a proof system: you shouldn't be able to prove things that are not true. Requirement 1 is also essential. If there is no set of rules (i.e., an algorithm) to check that a proof is valid then in what sense is it a proof system? We could replace it with a system where the "proof" for a statement $x$ is "trust me: it's true".
 
 We formally define proof systems as an algorithm $V$ where $V(x,w)=1$ holds if the string $w$ is a valid proof for the statement $x$. Even if $x$ is true, the string $w$ does not have to be a valid proof for it (there are plenty of wrong proofs for true statements such as `4=2+2`) but if $w$ is a valid proof for $x$ then $x$ must be true.
 
