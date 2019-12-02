@@ -534,7 +534,7 @@ In fact there are some very simple (and useful!) functions that they cannot comp
 Here is one example:
 
 > ### {.lemma title="Matching parenthesis" #regexpparn}
-Let $\Sigma = \{\langle ,\rangle \}$ and  $MATCHPAREN:\Sigma^* \rightarrow \{0,1\}$ be the function that given a string of parenthesis, outputs $1$ if and only if every opening parenthesis is matched by a corresponding closed one.
+Let $\Sigma = \{\langle ,\rangle \}$ and  $MATCHPAREN:\Sigma^* \rightarrow \{0,1\}$ be the function that given a string of parentheses, outputs $1$ if and only if every opening parenthesis is matched by a corresponding closed one.
 Then there is no regular expression over $\Sigma$ that computes $MATCHPAREN$.
 
 [regexpparn](){.ref} is a consequence of the following result, which is known as the _pumping lemma_:
@@ -683,7 +683,7 @@ We will prove  [regequivalencethm](){.ref} from [regemptynessthm](){.ref}. (The 
 Given two regular expressions $e$ and $e'$, we will compute an expression $e''$ such that $\Phi_{e''}(x) =1$ if and only if $\Phi_e(x) \neq \Phi_{e'}(x)$.
 One can see that $e$ is equivalent to $e'$ if and only if $e''$ is empty.
 
-We start with the observation that for every bits $a,b \in \{0,1\}$, $a \neq b$ if and only if
+We start with the observation that for every bit $a,b \in \{0,1\}$, $a \neq b$ if and only if
 $$
 (a \wedge \overline{b}) \; \vee \;  (\overline{a} \wedge b) \;.
 $$
@@ -714,7 +714,7 @@ If you have ever written a program, you've experienced a _syntax error_.
 You probably also had the experience of your program entering into an _infinite loop_.
 What is less likely is that the compiler or interpreter entered an infinite loop while trying to figure out if your program has a syntax error.
 
-When a person designs a programming language, they need to determines its _syntax_.
+When a person designs a programming language, they need to determine its _syntax_.
 That is, the designer decides which strings corresponds to valid programs, and which ones do not (i.e., which strings contain a syntax error).
 To ensure that a compiler or interpreter always halts when checking for syntax errors, language designers typically _do not_ use a general Turing-complete mechanism to express their syntax.
 Rather they use a _restricted_ computational model.
@@ -1190,7 +1190,7 @@ A _program_ in our language is simply a sequence of statements (possibly separat
 
 ## Bibliographical notes
 
-The relation of regular expressions with finite automata is a beautiful topic, on which we only touch upon in this texts.
+The relation of regular expressions with finite automata is a beautiful topic, on which we only touch upon in this text.
 It is covered more extensively in [@SipserBook, @hopcroft , @kozen1997automata].
 These texts also discuss topics such as _non deterministic finite automata_ (NFA) and the relation between context-free grammars and pushdown automata.
 
