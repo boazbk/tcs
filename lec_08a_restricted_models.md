@@ -472,7 +472,7 @@ If $t=0$ then $[t]$ is the empty set, and hence $F^0_{v,w}(x)=1$ if and only if 
 If $t=C$ then all states are in $[t]$, and hence $F_{v,w}^t= F_{v,w}$.
 
 We will prove the theorem by induction on $t$, showing that $F^t_{v,w}$ is regular for every $v,w$ and $t$.
-For the __base case__ of $t=0$, $F^0_{v,w}$ is regular for every $v,w$ since it can be described one of the expressions $""$, $\emptyset$, $0$, $1$ or $0|1$.
+For the __base case__ of $t=0$, $F^0_{v,w}$ is regular for every $v,w$ since it can be described as one of the expressions $""$, $\emptyset$, $0$, $1$ or $0|1$.
 Specifically, if $v=w$ then $F^0_{v,w}(x)=1$ if and only if $x$ is the empty string.
 If $v\neq w$ then $F^0_{v,w}(x)=1$ if and only if $x$ consists of a single symbol $\sigma \in \{0,1\}$ and $T(v,\sigma)=w$.
 Therefore in this case $F^0_{v,w}$ corresponds to one of the four regular expressions $0|1$, $0$, $1$ or $\emptyset$, depending on whether $A$ transitions to $w$ from $v$ when it reads either $0$ or $1$, only one of these symbols, or neither.
