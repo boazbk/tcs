@@ -108,7 +108,7 @@ A _regular expression_ $e$ over an alphabet $\Sigma$ is a string over $\Sigma \c
 
 2. $e = (e' | e'')$ where $e', e''$ are regular expressions.
 
-3. $e = (e')(e'')$ where $e',e''$ are regular expressions. (We often drop the parenthesis when there is no danger of confusion and so write this as $e' \; e''$.)
+3. $e = (e')(e'')$ where $e',e''$ are regular expressions. (We often drop the parentheses when there is no danger of confusion and so write this as $e' \; e''$.)
 
 4. $e = (e')^*$ where $e'$ is a regular expression.
 
