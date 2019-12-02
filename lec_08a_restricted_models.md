@@ -683,7 +683,7 @@ We will prove  [regequivalencethm](){.ref} from [regemptynessthm](){.ref}. (The 
 Given two regular expressions $e$ and $e'$, we will compute an expression $e''$ such that $\Phi_{e''}(x) =1$ if and only if $\Phi_e(x) \neq \Phi_{e'}(x)$.
 One can see that $e$ is equivalent to $e'$ if and only if $e''$ is empty.
 
-We start with the observation that for every bits $a,b \in \{0,1\}$, $a \neq b$ if and only if
+We start with the observation that for every bit $a,b \in \{0,1\}$, $a \neq b$ if and only if
 $$
 (a \wedge \overline{b}) \; \vee \;  (\overline{a} \wedge b) \;.
 $$
