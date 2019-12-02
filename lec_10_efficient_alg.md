@@ -461,7 +461,7 @@ In particular this means that, despite economists' intuitions, there are games f
 
 ### Primality testing
 
-Another classical computational problem, that has been of interest since the ancient greeks, is to determine whether a given number $N$ is prime or composite.
+Another classical computational problem, that has been of interest since the ancient Greeks, is to determine whether a given number $N$ is prime or composite.
 Clearly we can do so by trying to divide it with all the numbers in $2,\ldots,N-1$, but this would take at least $N$ steps which is _exponential_ in its bit complexity $n = \log N$.
 We can reduce these $N$ steps to $\sqrt{N}$ by observing that if $N$ is a composite of the form $N=PQ$ then either $P$ or $Q$ is smaller than $\sqrt{N}$.
 But this is still quite terrible.
