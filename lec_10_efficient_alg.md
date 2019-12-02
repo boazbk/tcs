@@ -492,7 +492,7 @@ While the brute force algorithms would require $2^{\Omega(n)}$ time to factor an
 
 The difference between an exponential and polynomial time algorithm might seem merely "quantitative" but it is in fact extremely significant.
 As we've already seen, the brute force exponential time algorithm runs out of steam very very fast, and as Edmonds says, in practice there might not be much difference between a problem where the best algorithm is exponential and a problem that is not solvable at all.
-Thus the efficient algorithms we mention above are widely used and power many computer science applications.
+Thus the efficient algorithms we mentiond above are widely used and power many computer science applications.
 Moreover, a polynomial-time algorithm often arises out of significant insight to the problem at hand, whether it is the "max-flow min-cut" result, the solvability of the determinant, or the group theoretic structure that enables primality testing.
 Such insight can be useful regardless of its computational implications.
 
