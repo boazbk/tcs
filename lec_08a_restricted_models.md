@@ -448,7 +448,7 @@ Let $F:\{0,1\}^* \rightarrow \{0,1\}$. Then $F$ is regular if and only if there 
 
 > ### {.proofidea data-ref="dfaregequivthm"}
 One direction follows from [DFAforREGthm](){.ref}, which shows that for every regular expression $e$, the function $\Phi_e$ can be computed by a DFA (see for example [automatonregfig](){.ref}).
-For the other direction, we show that given a DFA $(T,\mathcal{S})$ for every $v,w \in [C]$ we can find a regular expression that would match $x\in \{0,1\}^*$ if an only if the DFA starting in state $v$, will end up in state $w$ after reading $x$.
+For the other direction, we show that given a DFA $(T,\mathcal{S})$ for every $v,w \in [C]$ we can find a regular expression that would match $x\in \{0,1\}^*$ if and only if the DFA starting in state $v$, will end up in state $w$ after reading $x$.
 
 ![A deterministic finite automaton that computes the function $\Phi_{(01)^*}$.](../figure/automaton.png){#automatonregfig .margin }
 
