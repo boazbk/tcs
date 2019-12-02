@@ -129,7 +129,7 @@ For each vertex $v$, the number of times we run the inner loop is equal to the _
 
 
 ::: {.remark title="On data structures" #datastructuresrem}
-If you've ever taken an algorithms course, you have probably encountered many _data structures_ such as __lists__, __arrays__, __queues__, __stacks__, __heaps__, __search trees__, __hash tables__ and many mores. Data structures are extremely important in computer science, and each one of those offers different tradeoffs between overhead in storage, operations supported, cost in time for each operation, and more.
+If you've ever taken an algorithms course, you have probably encountered many _data structures_ such as __lists__, __arrays__, __queues__, __stacks__, __heaps__, __search trees__, __hash tables__ and many more. Data structures are extremely important in computer science, and each one of those offers different tradeoffs between overhead in storage, operations supported, cost in time for each operation, and more.
 For example, if we store $n$ items in a list, we will need a linear (i.e., $O(n)$ time) scan to retrieve an element, while we achieve the same operation in $O(1)$ time if we used a hash table.
 However,  when we only care about polynomial-time algorithms, such factors of $O(n)$ in the running time will not make much difference.
 Similarly, if we don't care about the difference between $O(n)$ and $O(n^2)$, then it doesn't matter if we represent graphs as adjacency lists or adjacency matrices.
