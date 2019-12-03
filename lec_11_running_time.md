@@ -845,7 +845,7 @@ For example, in cryptography people often define an encryption scheme to be secu
 Since $\mathbf{P} \subseteq \mathbf{P_{/poly}}$, this in particular precludes a polynomial time algorithm for doing so, but there are technical reasons why working in a non uniform model makes more sense in cryptography.
 It also allows to talk about security in non asymptotic terms such as a scheme having "$128$ bits of security".
 
-While it can sometimes be a real issue, in many natural settings the difference between uniform and non-uniform computation does not seem to so important.
+While it can sometimes be a real issue, in many natural settings the difference between uniform and non-uniform computation does not seem so important.
 In particular, in all the examples of problems not known to be in $\mathbf{P}$ we discussed before: longest path, 3SAT, factoring, etc., these problems are also not known to be in $\mathbf{P_{/poly}}$ either.
 Thus, for "natural" functions, if you pretend that $TIME(T(n))$  is roughly the same as $SIZE(T(n))$, you will be right more often than wrong.
 
