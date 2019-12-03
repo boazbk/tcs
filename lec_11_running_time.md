@@ -167,7 +167,7 @@ All of the  problems we listed in [chapefficient](){.ref} are in $\mathbf{EXP}$,
 | Determinant              | Permanent                 |
 | Primality                | Factoring                 |
 
-Table : A table of the examples from [chapefficient](){.ref}. All these problems are in $\mathbf{EXP}$ but the only the ones on the left column are currently known to be in $\mathbf{P}$ as well (i.e., they have a polynomial-time algorithm). See also [PvsEXPfig](){.ref}.
+Table : A table of the examples from [chapefficient](){.ref}. All these problems are in $\mathbf{EXP}$ but only the ones on the left column are currently known to be in $\mathbf{P}$ as well (i.e., they have a polynomial-time algorithm). See also [PvsEXPfig](){.ref}.
 
 
 ![Some examples of problems that are known to be in $\mathbf{P}$ and problems that are known to be in $\mathbf{EXP}$ but not known whether or not they are in $\mathbf{P}$. Since both $\mathbf{P}$ and $\mathbf{EXP}$ are classes of Boolean functions, in this figure we always refer to the _Boolean_ (i.e., Yes/No) variant of the problems.](../figure/PvsEXP.png){#PvsEXPfig .margin}
