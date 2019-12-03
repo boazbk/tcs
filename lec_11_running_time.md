@@ -859,7 +859,7 @@ Thus, for "natural" functions, if you pretend that $TIME(T(n))$  is roughly the 
 To summarize, the two models of computation we have described so far are:
 
 
-* **Uniform models:** _Turing machines_, _NAND-TM programs_,  _RAM machines_, _NAND-RAM programs_, _C/JavaScript/Python_, etc.  These model include loops and unbounded memory  hence a single program can compute a function with unbounded input length. 
+* **Uniform models:** _Turing machines_, _NAND-TM programs_,  _RAM machines_, _NAND-RAM programs_, _C/JavaScript/Python_, etc.  These models include loops and unbounded memory  hence a single program can compute a function with unbounded input length. 
 
 
 * **Non-uniform models:** _Boolean Circuits_ or _straightline programs_  have no loops and can only compute finite functions. The time to  execute them is exactly the number of lines or gates they contain. 
