@@ -214,7 +214,7 @@ Then $V'$ runs in polynomial time, and for every $x\in \{0,1\}^*$, $F(x)=1$ iff 
 
 ## From $\mathbf{NP}$ to 3SAT: The Cook-Levin Theorem
 
-We have seen everal example of problems for which we do not know if their best algorithm is polynomial or exponential, but we can show that they are in $\mathbf{NP}$.
+We have seen several examples of problems for which we do not know if their best algorithm is polynomial or exponential, but we can show that they are in $\mathbf{NP}$.
 That is, we don't know if they are easy to _solve_, but we do know that it is easy to _verify_ a given solution.
 There are many, many, _many_, more examples of interesting functions we would like to compute that are easily shown to be in $\mathbf{NP}$. What is quite amazing is that if we can solve 3SAT then we can solve all of them!
 
