@@ -435,9 +435,11 @@ On the other hand, if the two distributions above give a different probability f
 * It is weak enough that, unlike perfect secrecy, it is possible to obtain a computationally secret encryption scheme where the key is much smaller than the message?
 
 To the best of our knowledge, the answer to both questions is _Yes_.
+This is just one example of a much broader phenomenon.
+We can use computational hardness to achieve many cryptographic goals, including some goals that have been dreamed about for millenia, and other goals that people have not even dared to imagine.
 
 ::: { .bigidea #computationcrypto}
-_Computational hardness_ is necessary and sufficient for a great many cryptographic constructions, and in particular for encryption schemes with keys shorter than the message.
+_Computational hardness_ is _necessary and sufficient_ for almost all cryptographic applications.
 :::
 
 
