@@ -376,7 +376,7 @@ See [lookupfig](){.ref} for an illustration of the LOOKUP function.
 It turns out that for every $k$, we can compute $LOOKUP_k$ using a NAND-CIRC program:
 
 ># {.theorem title="Lookup function" #lookup-thm}
-For every $k>0$, there is a NAND-CIRC program that computes the function $LOOKUP_k: \{0,1\}^{2^k+k}\rightarrow \{0,1\}$. Moreover, the number of lines in this program is at most  $4\cdot (2^k-1)$.
+For every $k>0$, there is a NAND-CIRC program that computes the function $LOOKUP_k: \{0,1\}^{2^k+k}\rightarrow \{0,1\}$. Moreover, the number of lines in this program is at most  $4\cdot 2^k$.
 
 An immediate corollary of [lookup-thm](){.ref} is that for every $k>0$, $LOOKUP_k$ can be computed by a Boolean circuit (with AND, OR and NOT gates) of at most $8 \cdot 2^k$ gates.
 
