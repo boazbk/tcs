@@ -115,7 +115,7 @@ _Events_ correspond to Yes/No questions, but often we want to analyze finer ques
 For example, if we make a bet at the roulette wheel, we don't want to just analyze whether we won or lost, but also _how much_ we've gained.
 A (real valued) _random variable_ is simply a way to associate a number with the result of a probabilistic experiment.
 Formally, a random variable is  a function $X:\{0,1\}^n \rightarrow \R$ that maps every outcome $x\in \{0,1\}^n$ to an element $X(x) \in \R$.
-For example, the function $sum:\{0,1\}^n \rightarrow \R$ that maps $x$ to the sum of its coordinates (i.e., to $\sum_{i=0}^{n-1} x_i$) is a random variable.
+For example, the function $SUM:\{0,1\}^n \rightarrow \R$ that maps $x$ to the sum of its coordinates (i.e., to $\sum_{i=0}^{n-1} x_i$) is a random variable.
 
 
 The _expectation_ of a random variable $X$, denoted by $\E[X]$, is the average value that that this number takes, taken over all draws from the probabilistic experiment.
@@ -142,8 +142,24 @@ $$
 $$
 
 Similarly, $\E[kX] = k\E[X]$ for every $k \in \R$.
-For example, using the linearity of expectation, it is very easy to show that the expectation of the sum of the $x_i$'s for $x \sim \{0,1\}^n$ is equal to $n/2$.
-Indeed, if we write $X= \sum_{i=0}^{n-1} x_i$ then $X= X_0 + \cdots + X_{n-1}$ where $X_i$ is the random variable $x_i$. Since for every $i$, $\Pr[X_i=0] = 1/2$ and $\Pr[X_i=1]=1/2$, we get that $\E[X_i] = (1/2)\cdot 0 + (1/2)\cdot 1 = 1/2$ and hence $\E[X] = \sum_{i=0}^{n-1}\E[X_i] = n\cdot(1/2) = n/2$.
+
+::: {.solvedexercise title="Expectation of sum" #expectationofsum}
+Let $X:\{0,1\}^n \rightarrow \R$ be the random variable that maps $x\in \{0,1\}^n$ to 
+$x_0 + x_1 + \ldots + x_{n-1}$. Prove that $\E[X] = n/2$.
+:::
+
+::: {.solution data-ref="expectationofsum"}
+We can solve this  using the linearity of expectation.
+We can define random variables $X_0,X_1,\ldots,X_{n-1}$ such that $X_i(x)= x_i$.
+Since each $x_i$ equals $1$ with probability $1/2$ and $0$ with probability $1/2$, $\E[X_i]=1/2$.
+Since $X = \sum_{i=0}^{n-1} X_i$, by the linearity of expectation
+$$
+\E[X] = \E[X_0] + \E[X_1] + \cdots + \E[X_{n-1}] = \tfrac{n}{2} \;.
+$$
+:::
+
+
+
 
 
 > ### { .pause }
@@ -349,7 +365,7 @@ Much of probability theory is concerned with so called _concentration_ or _tail_
 The first and simplest one of them is Markov's inequality:
 
 > ### {.theorem title="Markov's inequality" #markovthm}
-If $X$ is a non-negative random variable then $\Pr[ X \geq k \E[X] ] \leq 1/k$.
+If $X$ is a non-negative random variable then for every $k>1$, $\Pr[ X \geq k \E[X] ] \leq 1/k$.
 
 > ### { .pause }
 Markov's Inequality is actually a very natural statement (see also [markovfig](){.ref}). For example, if you know that the average (not the median!) household income in the US is 70,000 dollars, then in particular you can deduce that at most 25 percent of households make more than 280,000 dollars, since otherwise, even if the remaining 75 percent had zero income, the top 25 percent alone would cause the average income to be larger than 70,000 dollars. From this example you can already see that in many situations, Markov's inequality will not be _tight_ and the probability of deviating from expectation will be much smaller: see the Chebyshev and Chernoff inequalities below.
@@ -362,14 +378,31 @@ But this follows since  $\E[Y] \leq \E[X/k(\mu)] = \E[X]/(k\mu) = \mu/(k\mu)=1/k
 
 ![Markov's Inequality tells us that a non-negative random variable $X$ cannot be much larger than its expectation, with high probability. For example, if the expectation of $X$ is $\mu$, then the probability that $X>4\mu$ must be at most $1/4$, as otherwise just the contribution from this part of the sample space will be too large.](../figure/markovineq.png){#markovfig .margin  }
 
+__The averaging principle.__ While the expectation of a random variable $X$ is hardly always the "typical value", we can show that $X$ is guaranteed to achieve a value that is at least its expectation with positive probability. 
+For example, if the average grade in an exam is $87$ points, at least one student got a grade $87$ or more on the exam. This is known as the _averaging principle_, and despite its simplicity it is surprisingly useful.
 
-__Going beyond Markov's Inequality:__
-Markov's inequality says that a (non-negative) random variable $X$ can't go too crazy and be, say, a million times its expectation, with significant probability.
-But ideally we would like to say that with high probability, $X$ should be very close to its expectation, e.g., in the range $[0.99 \mu, 1.01 \mu]$ where $\mu = \E[X]$.
-This is not generally true, but does turn out to hold when $X$ is obtained by combining (e.g., adding)  many independent random variables.
-This phenomenon, variants of which are known as  "law of large numbers", "central limit theorem", "invariance principles" and "Chernoff bounds", is one of the most fundamental in probability and statistics, and is one that we heavily use in computer science as well.
+> ### {.lemma #averagingprinciplerem}
+Let $X$ be a random variable, then $\Pr[ X \geq \E[X] ] >0$.
+
+::: {.proof data-ref="averagingprinciplerem"}
+Suppose towards the sake of contradiction that $\Pr[ X < \E[X] ] =1$. Then the random variable $Y = \E[X]-X$ is always positive.
+By linearity of expectation $\E[Y] = \E[X] - \E[X]=0$. 
+Yet by Markov, a non-negative random variable $Y$ with $\E[Y]=0$ must equal $0$ with probability $1$, since the probability that $Y> k\cdot 0 = 0$ is at most $1/k$ for every $k>1$.
+Hence we get a contradiction to the assumption that $Y$ is always positive. 
+:::
+
+
+
 
 ### Chebyshev's Inequality
+
+
+Markov's inequality says that a (non-negative) random variable $X$ can't go too crazy and be, say, a million times its expectation, with significant probability.
+But ideally we would like to say that with high probability, $X$ should be very close to its expectation, e.g., in the range $[0.99 \mu, 1.01 \mu]$ where $\mu = \E[X]$.
+In such a case we say that $X$ is _concentrated_, and hence its expectation (i.e., mean) will be close to its _median_ and other ways of measuring $X$'s "typical value".
+_Chebyshev's inequality_ can be thought of as saying that $X$ is concentrated if it has a small _standard deviation_. 
+
+
 
 A standard way to measure the deviation of a random variable from its expectation is by using its _standard deviation_.
 For a random variable $X$, we define the _variance_ of $X$ as  $\mathrm{Var}[X] = \E[(X-\mu)^2]$ where $\mu = \E[X]$; i.e., the variance is the average squared distance of $X$ from its expectation.
@@ -432,7 +465,6 @@ See [chernoffstirlingex](){.ref}  for a proof of the simple (but highly useful a
 (See also [poorchernoff](){.ref} for a generalization.)
 
 
-
 ::: { .recap }
 * A basic probabilistic experiment corresponds to tossing $n$ coins or choosing $x$ uniformly at random from $\{0,1\}^n$.
 * _Random variables_ assign a real number to every result of a coin toss. The _expectation_ of a random variable $X$ is its average value.
@@ -455,6 +487,12 @@ $\E[XY] \neq \E[X]\E[Y]$.
 
 > ### {.exercise #noindnocorex }
 Give an example of random variables $X,Y: \{0,1\}^3 \rightarrow \R$ such that $X$ and $Y$ are _not_ independent but $\E[XY] =\E[X]\E[Y]$.
+
+::: {.exercise  #majorityex}
+Let $n$ be an odd number, and let $X:\{0,1\}^n \rightarrow \R$ be the random variable defined as follows: for every $x\in \{0,1\}^n$, $X(x)=1$ if $\sum_{i=0}x_i > n/2$ and $X(x)=0$ otherwise.
+Prove that $\E[X] = 1/2$.
+:::
+
 
 
 
@@ -538,3 +576,5 @@ e. It is impossible to get such low probability since there are fewer than $2^{1
 
 There are many sources for more information on discrete probability, including the texts referenced in [notesmathchap](){.ref}.
 One particularly recommended source for probability is [Harvard's [STAT 110](https://projects.iq.harvard.edu/stat110/home) class, whose lectures are available on [youtube](https://projects.iq.harvard.edu/stat110/youtube) and whose book is available [online](http://probabilitybook.net).
+
+The version of the Chernoff bound that we stated in [chernoffthm](){.ref} is sometimes known as [Hoeffding's Inequality](https://en.wikipedia.org/wiki/Hoeffding%27s_inequality). Other variants of the Chernoff bound are known as well, but all of them are equally good for the applications of this book.

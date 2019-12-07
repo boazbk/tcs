@@ -45,7 +45,7 @@ The discovery of calculus by Newton and Leibnitz in the late 1600's ushered a go
 Many longstanding challenges succumbed to the new tools that were discovered, and mathematicians got ever better at doing some truly impressive calculations.
 However, the rigorous foundations behind these calculations left much to be desired.
 Mathematicians manipulated infinitesimal quantities and infinite series cavalierly, and while most of the time they ended up with the correct results, there were a few strange examples (such as trying to calculate the value of the infinite series $1-1+1-1+1+\ldots$) which seemed to give out different answers depending on the method of calculation.
-This led to a growing sense of unease in the foundations of the subject which was addressed in works of mathematicians such as Cauchy, Weierstrass, and Riemann, who eventually placed analysis on firmer foundations, giving rise to the $\epsilon$'s and $\delta$'s that students taking honors calculus grapple with to this day.
+This led to a growing sense of unease in the foundations of the subject which was addressed in the works of mathematicians such as Cauchy, Weierstrass, and Riemann, who eventually placed analysis on firmer foundations, giving rise to the $\epsilon$'s and $\delta$'s that students taking honors calculus grapple with to this day.
 
 In the beginning of the 20th century, there was an effort to replicate this effort,  in greater rigor, to all parts of mathematics.
 The hope was to show that all the true results of mathematics can be obtained by starting with a number of axioms, and deriving theorems from them using logical rules of inference.
@@ -94,7 +94,7 @@ The conditions for a valid proof system are:
 2. _(Soundness)_ If there is a valid proof $w$ for $x$ then $x$ is true.
 
 These are quite  minimal requirements for a proof system.
-Requirement 2 (soundness) is the very definition of a proof system: you shouldn't be able to prove things that are not true. Requirement 1 is also essential. If it there is no set of rules (i.e., an algorithm) to check that a proof is valid then in what sense is it a proof system? We could replace it with the system where the "proof" for a statement $x$ is "trust me: it's true".
+Requirement 2 (soundness) is the very definition of a proof system: you shouldn't be able to prove things that are not true. Requirement 1 is also essential. If there is no set of rules (i.e., an algorithm) to check that a proof is valid then in what sense is it a proof system? We could replace it with a system where the "proof" for a statement $x$ is "trust me: it's true".
 
 We formally define proof systems as an algorithm $V$ where $V(x,w)=1$ holds if the string $w$ is a valid proof for the statement $x$. Even if $x$ is true, the string $w$ does not have to be a valid proof for it (there are plenty of wrong proofs for true statements such as `4=2+2`) but if $w$ is a valid proof for $x$ then $x$ must be true.
 
@@ -292,7 +292,7 @@ Many of the greatest minds of the 17th and 18th century, including Euler, Lagran
 However, the fact that there is no closed-form formula does not mean we can not solve such equations.
 People have been solving higher degree equations numerically for ages.
 The Chinese manuscript [Jiuzhang Suanshu](https://en.wikipedia.org/wiki/The_Nine_Chapters_on_the_Mathematical_Art) from the first century mentions such approaches.
-Solving polynomial equations is by no means restricted only to ancient history or to students' homeworks.
+Solving polynomial equations is by no means restricted only to ancient history or to students' homework.
 The [gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) method is the workhorse powering many of the machine learning tools that have revolutionized Computer Science over the last several years.
 
 
@@ -392,14 +392,14 @@ We need the following facts about configurations:
 
 * If $\alpha$ is a configuration, then $\beta = NEXT_P(\alpha)$  denotes the configuration of the computation after one more iteration. $\beta$ is a string over $\Sigma$ of length either $|\alpha|$ or $|\alpha|+1$, and every coordinate of $\beta$ is a function of just three coordinates in $\alpha$. That is, for every  $j\in \{0,\ldots,|\beta|-1\}$, $\beta_j = MAP_P(\alpha_{j-1},\alpha_j,\alpha_{j+1})$ where $MAP_P:\Sigma^3 \rightarrow \Sigma$ is some function depending on $P$.
 
-* There are simple conditions to check whether a string $\alpha$ is a valid starting configuration corresponding to an input $x$, as well as to check whether a string $\alpha$ is an halting configuration. In particular these conditions can be phrased as quantified mixed statements.
+* There are simple conditions to check whether a string $\alpha$ is a valid starting configuration corresponding to an input $x$, as well as to check whether a string $\alpha$ is a halting configuration. In particular these conditions can be phrased as quantified mixed statements.
 
 * A program $M$ halts on input $x$  if and only if there exists a sequence of configurations $H = (\alpha^0,\alpha^1,\ldots,\alpha^{T-1})$ such that __(i)__ $\alpha^0$ is a valid starting configuration of $M$ with input $x$, __(ii)__ $\alpha^{T-1}$ is a valid halting configuration of $P$, and __(iii)__ $\alpha^{i+1} = NEXT_P(\alpha^i)$ for every $i\in \{0,\ldots,T-2\}$.
 
 
 We can encode such a sequence $H$ of configuration as a binary string.
 For concreteness,  we let $\ell = \lceil \log (|\Sigma|+1) \rceil$ and encode each symbol $\sigma$ in $\Sigma \cup \{ ";" \}$ by a string in $\{0,1\}^\ell$.
-We use "$;$" as a  "separator" symbol, and so encode $H = (\alpha^0,\alpha^1,\ldots,\alpha^{T-1})$ as the concatenation of the encodings of each condiguration, using "$;$" to separate the encoding of $\alpha^i$ and $\alpha^{i+1}$
+We use "$;$" as a  "separator" symbol, and so encode $H = (\alpha^0,\alpha^1,\ldots,\alpha^{T-1})$ as the concatenation of the encodings of each configuration, using "$;$" to separate the encoding of $\alpha^i$ and $\alpha^{i+1}$
 for every $i\in [T]$.
 In particular for every Turing Machine $M$, 
 $M$ halts on the input $0$ if and only if the following  statement $\varphi_M$ is true
@@ -577,11 +577,11 @@ Define $NBB:\mathbb{N} \rightarrow \mathbb{N}$ (for "NAND-TM Busy Beaver") to be
 
 ## Bibliographical notes
 
-As mentioned before, Gödel, Escher, Bach [@hofstadter1999] is a highly recommended book covering Gödel's Theorem.
+As mentioned before, Gödel, Escher, Bach [@hofstadter1999] is a highly recommended book covering Gödel's Theorem.
 A classic popular science book about Fermat's Last Theorem is [@singh1997fermat].
 
-Cantor's are used for both Turing's and Gödel's theorems.
-In a twist of fate, using techniques originating from the works Gödel and Turing,  Paul Cohen showed in 1963 that Cantor's _Continuum Hypothesis_ is independent of the axioms of set theory, which means that neither it nor its negation is provable from these axioms and hence in some sense can be considered as "neither true nor false" (see [@cohen2008set]).
+Cantor's are used for both Turing and Gödel's theorems.
+In a twist of fate, using techniques originating from the works of Gödel and Turing,  Paul Cohen showed in 1963 that Cantor's _Continuum Hypothesis_ is independent of the axioms of set theory, which means that neither it nor its negation is provable from these axioms and hence in some sense can be considered as "neither true nor false" (see [@cohen2008set]).
 The [Continuum Hypothesis](https://goo.gl/9ieBVq) is the conjecture that for every subset $S$ of $\mathbb{R}$, either there is a one-to-one and onto map between $S$ and $\N$ or there is a one-to-one and onto map between $S$ and $\mathbb{R}$.
 It was conjectured by Cantor and listed by Hilbert in 1900 as one of the most important problems in mathematics.
 See also the non-conventional survey of Shelah [@shelah2003logical].

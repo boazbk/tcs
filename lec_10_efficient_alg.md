@@ -129,7 +129,7 @@ For each vertex $v$, the number of times we run the inner loop is equal to the _
 
 
 ::: {.remark title="On data structures" #datastructuresrem}
-If you've ever taken an algorithms course, you have probably encountered many _data structures_ such as __lists__, __arrays__, __queues__, __stacks__, __heaps__, __search trees__, __hash tables__ and many mores. Data structures are extremely important in computer science, and each one of those offers different tradeoffs between overhead in storage, operations supported, cost in time for each operation, and more.
+If you've ever taken an algorithms course, you have probably encountered many _data structures_ such as __lists__, __arrays__, __queues__, __stacks__, __heaps__, __search trees__, __hash tables__ and many more. Data structures are extremely important in computer science, and each one of those offers different tradeoffs between overhead in storage, operations supported, cost in time for each operation, and more.
 For example, if we store $n$ items in a list, we will need a linear (i.e., $O(n)$ time) scan to retrieve an element, while we achieve the same operation in $O(1)$ time if we used a hash table.
 However,  when we only care about polynomial-time algorithms, such factors of $O(n)$ in the running time will not make much difference.
 Similarly, if we don't care about the difference between $O(n)$ and $O(n^2)$, then it doesn't matter if we represent graphs as adjacency lists or adjacency matrices.
@@ -246,7 +246,7 @@ Namely, we reduced the task of computing the global minimum cut to the task of c
 ### Finding the maximum cut in a graph
 
 The _maximum cut_ problem is the task of finding, given an input graph $G=(V,E)$, the subset $S\subseteq V$ that _maximizes_ the number of edges cut by $S$.
-(We can also define an $s,t$-cut variant of the maximum cut like we did for minimum cut; the two variants have similar complexity but we  the global  maximum cut is more common in the literature.)
+(We can also define an $s,t$-cut variant of the maximum cut like we did for minimum cut; the two variants have similar complexity but the global maximum cut is more common in the literature.)
 Like its cousin the minimum cut problem, the maximum cut problem is also very well motivated.
 For example, maximum cut arises in VLSI design, and also has some surprising relation to analyzing the [Ising model](https://en.wikipedia.org/wiki/Ising_model) in statistical physics.
 
@@ -325,7 +325,7 @@ Despite much effort, we do not know of a significantly better than brute force a
 
 Interestingly, a similar issue arises time and again in computation, where the difference between two and three often corresponds to the difference between tractable and intractable.
 We do not fully understand the reasons for this phenomenon, though the notions of $\mathbf{NP}$ completeness we will see later does offer a partial explanation.
-It may be related to the fact that optimizing a polynomial often amounts to equations on its derivative. The derivative of a a quadratic polynomial is linear, while the derivative of a cubic is quadratic, and, as we will see, the difference between solving linear and quadratic equations can be quite profound.
+It may be related to the fact that optimizing a polynomial often amounts to equations on its derivative. The derivative of a quadratic polynomial is linear, while the derivative of a cubic is quadratic, and, as we will see, the difference between solving linear and quadratic equations can be quite profound.
 
 
 ### Solving linear equations
@@ -359,8 +359,8 @@ The difference between the length of the input and the magnitude of the number i
 For example, most people would agree that there is a huge difference between having a billion (i.e. $10^9$) dollars and having nine dollars.
 Similarly there is a huge difference between an algorithm that takes $n$ steps on an $n$-bit number and an algorithm that takes $2^n$ steps.
 
-One example, is the problem (discussed below) of finding the prime factors of a given integer $N$.
-The natural algorithm is to search for such a factor by trying all numbers from $1$ to $N$, but that would take $N$ steps which is _exponential_ in the input length, which is number of bits needed to describe $N$.
+One example is the problem (discussed below) of finding the prime factors of a given integer $N$.
+The natural algorithm is to search for such a factor by trying all numbers from $1$ to $N$, but that would take $N$ steps which is _exponential_ in the input length, which is the number of bits needed to describe $N$.
 (The running time of this algorithm can be easily improved to roughly $\sqrt{N}$, but this is still exponential (i.e., $2^{n/2}$) in the number $n$ of bits to describe $N$.)
 It is an important and long open question whether there is such an algorithm that runs in time polynomial in the input length (i.e., polynomial in $\log N$).
 :::
@@ -372,7 +372,7 @@ Suppose that we want to solve not just _linear_ but also equations involving _qu
 That is, suppose that we are given a set of quadratic polynomials $p_1,\ldots,p_m$ and consider the equations $\{ p_i(x) = 0 \}$.
 To avoid issues with bit representations, we will always assume that the equations contain the constraints $\{ x_i^2 - x_i = 0 \}_{i\in [n]}$.
 Since only $0$ and $1$ satisfy the equation  $a^2-a$, this assumption means that we can restrict attention to solutions in $\{0,1\}^n$.
-Solving quadratic equations in several variable is a classical and extremely well motivated problem.
+Solving quadratic equations in several variables is a classical and extremely well motivated problem.
 This is the generalization of the classical case of single-variable quadratic equations that generations of high school students grapple with.
 It also generalizes the [quadratic assignment problem](https://www.opt.math.tugraz.at/~cela/papers/qap_bericht.pdf), introduced in the 1950's as a way to optimize assignment of economic activities.
 Once again, we do not know a much better algorithm for this problem than the one that enumerates over all the $2^n$ possibilities.
@@ -455,13 +455,13 @@ Fortunately, not all real-world games are zero sum, and we do have more general 
 [John Nash](https://en.wikipedia.org/wiki/John_Forbes_Nash_Jr.) won the Nobel prize for showing that there is a notion of _equilibrium_ for such games as well.
 In many economic texts it is taken as an article of faith that when actual agents are involved in such a game then they reach a Nash equilibrium.
 However, unlike zero sum games, we do not know of an efficient algorithm for finding a Nash equilibrium given the description of a general (non zero sum) game.
-In particular this means that, despite economists' intuitions, there are games for which natural strategies will take exponential number of steps to converge to an equilibrium.
+In particular this means that, despite economists' intuitions, there are games for which natural strategies will take an exponential number of steps to converge to an equilibrium.
 
 
 
 ### Primality testing
 
-Another classical computational problem, that has been of interest since the ancient greeks, is to determine whether a given number $N$ is prime or composite.
+Another classical computational problem, that has been of interest since the ancient Greeks, is to determine whether a given number $N$ is prime or composite.
 Clearly we can do so by trying to divide it with all the numbers in $2,\ldots,N-1$, but this would take at least $N$ steps which is _exponential_ in its bit complexity $n = \log N$.
 We can reduce these $N$ steps to $\sqrt{N}$ by observing that if $N$ is a composite of the form $N=PQ$ then either $P$ or $Q$ is smaller than $\sqrt{N}$.
 But this is still quite terrible.
@@ -492,7 +492,7 @@ While the brute force algorithms would require $2^{\Omega(n)}$ time to factor an
 
 The difference between an exponential and polynomial time algorithm might seem merely "quantitative" but it is in fact extremely significant.
 As we've already seen, the brute force exponential time algorithm runs out of steam very very fast, and as Edmonds says, in practice there might not be much difference between a problem where the best algorithm is exponential and a problem that is not solvable at all.
-Thus the efficient algorithms we mention above are widely used and power many computer science applications.
+Thus the efficient algorithms we mentiond above are widely used and power many computer science applications.
 Moreover, a polynomial-time algorithm often arises out of significant insight to the problem at hand, whether it is the "max-flow min-cut" result, the solvability of the determinant, or the group theoretic structure that enables primality testing.
 Such insight can be useful regardless of its computational implications.
 
@@ -522,7 +522,7 @@ Show how to use this to solve 2SAT in polynomial time.
 
 ::: {.exercise title="Reductions for showing algorithms" #reduceP}
 The following fact is true: there is a polynomial-time algorithm $BIP$ that on input a graph $G=(V,E)$ outputs $1$ if and only if the graph is _bipartite_: there is a partition of $V$ to disjoint parts $S$ and $T$ such that every edge $(u,v) \in E$ satisfies either $u\in S$ and $v\in T$ or $u\in T$ and $v\in S$.
-Use this fact to prove that there is polynomial-time algorithm to compute that following function $CLIQUEPARTITION$ that on input a graph $G=(V,E)$ outputs $1$ if and only if there is a partition of $V$ the graph into two parts $S$ and $T$ such that both $S$ and $T$ are _cliques_: for every pair of distinct vertices $u,v \in S$, the edge $(u,v)$ is in $E$ and similarly for every pair of distinct vertices $u,v \in T$, the edge $(u,v)$ is in $E$. 
+Use this fact to prove that there is a polynomial-time algorithm to compute that following function $CLIQUEPARTITION$ that on input a graph $G=(V,E)$ outputs $1$ if and only if there is a partition of $V$ the graph into two parts $S$ and $T$ such that both $S$ and $T$ are _cliques_: for every pair of distinct vertices $u,v \in S$, the edge $(u,v)$ is in $E$ and similarly for every pair of distinct vertices $u,v \in T$, the edge $(u,v)$ is in $E$. 
 :::
 
 
@@ -535,7 +535,7 @@ texts that are less "encyclopedic" are  Kleinberg and Tardos [@KleinbergTardos06
 [Jeff Erickson's book](http://jeffe.cs.illinois.edu/teaching/algorithms/) is an excellent algorithms text that is freely available online. 
 
 
-The origins of the minimum cut problem date to the cold war. Specifically, Ford and Fulkerson discovered their max-flow/min-cut algorithm in 1955 as a way to find out the minimum amount of train tracks that would need to be blown up to disconnect Russia from the rest of Europe. See the survey [@schrijver2005history] for more.
+The origins of the minimum cut problem date to the Cold War. Specifically, Ford and Fulkerson discovered their max-flow/min-cut algorithm in 1955 as a way to find out the minimum amount of train tracks that would need to be blown up to disconnect Russia from the rest of Europe. See the survey [@schrijver2005history] for more.
 
 Some algorithms for the longest path problem are given in [@williams2009finding , @bjorklund2014determinant].
 

@@ -37,7 +37,7 @@ def readallaux(path):
     return D
 
 def dumpdict(D,filename):
-    """Utility function to dump a dictoinary to a yaml file"""
+    """Utility function to dump a dictionary to a yaml file"""
     with open(filename,mode="w", encoding="utf-8") as file:
         yaml.dump(D,file)
 
