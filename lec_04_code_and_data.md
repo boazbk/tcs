@@ -90,7 +90,7 @@ Each such symbol can be encoded as a string of $7$ bits using the [ASCII](https:
 
 Nothing in the above discussion was specific to the program $P$, and hence we can use the same reasoning to prove that  _every_ NAND-CIRC program can be represented as a string in $\{0,1\}^*$.
 In fact, we can do a bit better.
-Since the names of the working  variables  of a NAND-CIRC program do not effect its functionality, we can always transform a program to have the form of $P'$ where all variables apart from the inputs and outputs have the form
+Since the names of the working  variables  of a NAND-CIRC program do not affect its functionality, we can always transform a program to have the form of $P'$ where all variables apart from the inputs and outputs have the form
 `temp_0`, `temp_1`, `temp_2`, etc..
 Moreover, if the program has $s$ lines, then we will never need to use an index larger than $3s$ (since each line involves at most three variables), and similarly the indices of the input and output variables will
 all be at most $3s$.
@@ -146,7 +146,7 @@ This has the following important corollary:
 > ### {.theorem title="Counting argument lower bound" #counting-lb}
 There is a constant $\delta > 0$, such that for every sufficiently large $n$, there is a function  $f:\{0,1\}^n\rightarrow \{0,1\}$  such that
 $f \not\in SIZE \left(\tfrac{\delta 2^n}{n} \right)$.
-That is, the shortest NAND-CIRC program to compute $F$ requires at least $\delta \cdot 2^n/n$ lines.^[The constant $\delta$ is at least $0.1$ and in fact, can be improved to be arbitrarily close to $1/2$, see [efficientlbex](){.ref}.]
+That is, the shortest NAND-CIRC program to compute $f$ requires at least $\delta \cdot 2^n/n$ lines.^[The constant $\delta$ is at least $0.1$ and in fact, can be improved to be arbitrarily close to $1/2$, see [efficientlbex](){.ref}.]
 
 ::: {.proof data-ref="counting-lb"}
 The proof is simple. If we let $c$ be the constant such that $|SIZE(s)| \leq 2^{c s \log s}$ and $\delta = 1/c$, then setting $s = \delta 2^n/n$ we see that
@@ -809,7 +809,7 @@ Suppose $n>1000$ and that we choose a function $F:\{0,1\}^n \rightarrow \{0,1\}$
 
 
 ::: {.exercise }
-The following is a tuple representing a NAND program:  $(3, 1, ((3, 2, 2),   (4, 1, 1), (5, 3, 4),   (6, 2, 1),  (7, 6, 6), (8, 0, 0), (9, 7, 8),   (10, 5, 0),   (11, 9, 10))$.
+The following is a tuple representing a NAND program:  $(3, 1, ((3, 2, 2),   (4, 1, 1), (5, 3, 4),   (6, 2, 1),  (7, 6, 6), (8, 0, 0), (9, 7, 8),   (10, 5, 0),   (11, 9, 10)))$.
 
 1.  Write a table with the eight values $P(000)$, $P(001)$, $P(010)$, $P(011)$, $P(100)$, $P(101)$, $P(110)$, $P(111)$ in this order.
 
