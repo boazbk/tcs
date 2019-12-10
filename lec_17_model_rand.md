@@ -680,7 +680,7 @@ Indeed, if we let for every $i\in  [L]$  the random variable $X_i$ denote $P(y_i
 
 * $\mathbf{BPP}$ is a _worst case_ class of computation: a randomized algorithm to compute a function must compute it correctly with high probability _on every input_. 
 
-* We can _amplify_ the success probability of randomized algorithm from any value strictly larger than $1/2$ into a success probability that is _exponentiall close to $1$_. 
+* We can _amplify_ the success probability of randomized algorithm from any value strictly larger than $1/2$ into a success probability that is _exponentially close to $1$_. 
 
 * We know that $\mathbf{P} \subseteq  \mathbf{BPP} \subseteq \mathbf{EXP}$.
 
