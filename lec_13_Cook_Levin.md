@@ -214,7 +214,7 @@ Then $V'$ runs in polynomial time, and for every $x\in \{0,1\}^*$, $F(x)=1$ iff 
 
 ## From $\mathbf{NP}$ to 3SAT: The Cook-Levin Theorem
 
-We have seen everal example of problems for which we do not know if their best algorithm is polynomial or exponential, but we can show that they are in $\mathbf{NP}$.
+We have seen several examples of problems for which we do not know if their best algorithm is polynomial or exponential, but we can show that they are in $\mathbf{NP}$.
 That is, we don't know if they are easy to _solve_, but we do know that it is easy to _verify_ a given solution.
 There are many, many, _many_, more examples of interesting functions we would like to compute that are easily shown to be in $\mathbf{NP}$. What is quite amazing is that if we can solve 3SAT then we can solve all of them!
 
@@ -283,7 +283,7 @@ However, it is believed that there exist problems in $\mathbf{NP}$ that are neit
 ###  The Cook-Levin Theorem: Proof outline
 
 
-We will now prove the Cook-Levin Theorem, which is the underpinning to a great web of reductions from 3SAT to thousands of problems across great many fields.
+We will now prove the Cook-Levin Theorem, which is the underpinning to a great web of reductions from 3SAT to thousands of problems across many great fields.
 Some problems that have been shown to be $\mathbf{NP}$-complete include: minimum-energy protein folding, minimum surface-area foam configuration, map coloring,    optimal Nash equilibrium, quantum state entanglement, minimum supersequence of a genome, minimum codeword problem, shortest vector in a lattice, minimum genus knots, positive Diophantine equations, integer programming, and many many more.
 The worst-case complexity of all these problems is (up to polynomial factors) equivalent to that of 3SAT, and through the Cook-Levin Theorem, to all problems in $\mathbf{NP}$.
 

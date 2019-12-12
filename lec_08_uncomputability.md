@@ -91,7 +91,7 @@ However, we will use a more direct encoding.
 Let  $M$ be a Turing machine with $k$ states and a size $\ell$ alphabet $\Sigma = \{ \sigma_0,\ldots,\sigma_{\ell-1} \}$ (we use the convention $\sigma_0 = 0$,$\sigma_1 = 1$, $\sigma_2 = \varnothing$, $\sigma_3=\triangleright$).
 We represent $M$ as the triple $(k,\ell,T)$ where $T$ is the table of values for $\delta_M$:
 
-$$T = \left(\delta_M(0,0),\delta_M(0,\sigma_0),\ldots,\delta_M(k-1,\sigma_{k-1})\right) \;,$$
+$$T = \left(\delta_M(0,\sigma_0),\delta_M(0,\sigma_1),\ldots,\delta_M(k-1,\sigma_{\ell-1})\right) \;,$$
 
 where each value $\delta_M(s,\sigma)$ is a triple $(s',\sigma',d)$ with $s'\in [k]$, $\sigma'\in \Sigma$ and $d$ a number $\{0,1,2,3 \}$ encoding one of $\{ \mathsf{L},\mathsf{R},\mathsf{S},\mathsf{H} \}$.
 Thus such a machine $M$ is encoded by a list of $2 + 3k\cdot\ell$ natural numbers.

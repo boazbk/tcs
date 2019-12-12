@@ -167,7 +167,7 @@ All of the  problems we listed in [chapefficient](){.ref} are in $\mathbf{EXP}$,
 | Determinant              | Permanent                 |
 | Primality                | Factoring                 |
 
-Table : A table of the examples from [chapefficient](){.ref}. All these problems are in $\mathbf{EXP}$ but the only the ones on the left column are currently known to be in $\mathbf{P}$ as well (i.e., they have a polynomial-time algorithm). See also [PvsEXPfig](){.ref}.
+Table : A table of the examples from [chapefficient](){.ref}. All these problems are in $\mathbf{EXP}$ but only the ones on the left column are currently known to be in $\mathbf{P}$ as well (i.e., they have a polynomial-time algorithm). See also [PvsEXPfig](){.ref}.
 
 
 ![Some examples of problems that are known to be in $\mathbf{P}$ and problems that are known to be in $\mathbf{EXP}$ but not known whether or not they are in $\mathbf{P}$. Since both $\mathbf{P}$ and $\mathbf{EXP}$ are classes of Boolean functions, in this figure we always refer to the _Boolean_ (i.e., Yes/No) variant of the problems.](../figure/PvsEXP.png){#PvsEXPfig .margin}
@@ -845,7 +845,7 @@ For example, in cryptography people often define an encryption scheme to be secu
 Since $\mathbf{P} \subseteq \mathbf{P_{/poly}}$, this in particular precludes a polynomial time algorithm for doing so, but there are technical reasons why working in a non uniform model makes more sense in cryptography.
 It also allows to talk about security in non asymptotic terms such as a scheme having "$128$ bits of security".
 
-While it can sometimes be a real issue, in many natural settings the difference between uniform and non-uniform computation does not seem to so important.
+While it can sometimes be a real issue, in many natural settings the difference between uniform and non-uniform computation does not seem so important.
 In particular, in all the examples of problems not known to be in $\mathbf{P}$ we discussed before: longest path, 3SAT, factoring, etc., these problems are also not known to be in $\mathbf{P_{/poly}}$ either.
 Thus, for "natural" functions, if you pretend that $TIME(T(n))$  is roughly the same as $SIZE(T(n))$, you will be right more often than wrong.
 
@@ -859,7 +859,7 @@ Thus, for "natural" functions, if you pretend that $TIME(T(n))$  is roughly the 
 To summarize, the two models of computation we have described so far are:
 
 
-* **Uniform models:** _Turing machines_, _NAND-TM programs_,  _RAM machines_, _NAND-RAM programs_, _C/JavaScript/Python_, etc.  These model include loops and unbounded memory  hence a single program can compute a function with unbounded input length. 
+* **Uniform models:** _Turing machines_, _NAND-TM programs_,  _RAM machines_, _NAND-RAM programs_, _C/JavaScript/Python_, etc.  These models include loops and unbounded memory  hence a single program can compute a function with unbounded input length. 
 
 
 * **Non-uniform models:** _Boolean Circuits_ or _straightline programs_  have no loops and can only compute finite functions. The time to  execute them is exactly the number of lines or gates they contain. 
