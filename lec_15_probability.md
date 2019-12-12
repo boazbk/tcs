@@ -101,11 +101,13 @@ $$\Pr[\overline{A}] = \tfrac{|\overline{A}|}{2^n} = \tfrac{2^n-|A|}{2^n}=1-\tfra
 $$
 This makes sense: since $A$ happens if and only if $\overline{A}$ does _not_ happen, the probability of $\overline{A}$ should be one minus the probability of $A$.
 
-> ### {.remark title="Remember the sample space" #samplespace}
+::: {.remark title="Remember the sample space" #samplespace}
 While the above definition might seem very simple and almost trivial,  the human mind seems not to have evolved for probabilistic reasoning, and it is surprising how often people can get even the simplest settings of probability wrong.
 One way to make sure you don't get confused when trying to calculate probability statements is to always ask yourself the following two questions: __(1)__ Do I understand what is the __sample space__ that this probability is taken over?, and __(2)__ Do I understand what is the definition of the __event__ that we are analyzing?.
->
+
 For example, suppose that I were to randomize seating in my course, and then it turned out that students sitting in row 7 performed better on the final: how surprising should we find this? If we started out with the hypothesis that there is something special about the number 7 and chose it ahead of time, then the event that we are discussing is the event $A$  that students sitting in number 7 had better performance on the final, and we might find it surprising. However, if we first looked at the results and then chose the row whose average performance is best, then the event we are discussing is the event $B$ that there exists _some_ row where the performance is higher than the overall average. $B$ is a superset of $A$, and its probability (even if there is no correlation between sitting and performance) can be quite significant.
+:::
+
 
 
 
@@ -198,12 +200,13 @@ The distribution $Y(x)$ for $x\sim \{0,1\}^2$ is of course the uniform distribut
 On the other hand $Y'$ is simply the map $00 \mapsto 00$, $01 \mapsto 01$, $10 \mapsto 11$, $11 \mapsto 10$ which is a permutation over
 the map $F:\{0,1\}^2 \rightarrow \{0,1\}^2$ defined as $F(x_0x_1)=x_0x_1$ and the map $G:\{0,1\}^2 \rightarrow \{0,1\}^2$  defined as $G(x_0x_1)=x_0(x_0 \oplus x_1)$
 
-### More general sample spaces.
+### More general sample spaces {#generalsamplespaces }
 
-While in this chapter we assume that the underlying probabilistic experiment   corresponds to tossing $n$ independent coins, everything we say easily generalizes to sampling $x$ from a more general finite or countable set $S$ (and not-so-easily generalizes to uncountable sets $S$ as well).
+While throughout most of this book  we assume that the underlying probabilistic experiment   corresponds to tossing $n$ independent coins, all the claims we make easily generalize to sampling $x$ from a more general finite or countable set $S$ (and not-so-easily generalizes to uncountable sets $S$ as well).
 A _probability distribution_ over a finite set $S$ is simply a function $\mu : S \rightarrow [0,1]$ such that
 $\sum_{x\in S}\mu(s)=1$.
 We think of this as the experiment where we obtain every $x\in S$ with probability $\mu(s)$, and sometimes denote this as $x\sim \mu$.
+In particular, tossing $n$ random coins corresponds to the probability distribution $\mu:\{0,1\}^n \rightarrow [0,1]$ defined as $\mu(x) = 2^{-n}$ for every $x\in \{0,1\}^n$.
 An _event_ $A$ is a subset of $S$, and the probability of $A$, which we denote by $\Pr_\mu[A]$, is $\sum_{x\in A} \mu(x)$.
 A _random variable_ is a function $X:S \rightarrow \R$, where the probability that $X=y$ is equal to $\sum_{x\in S \text{ s.t. } X(x)=y} \mu(x)$.
 
@@ -454,15 +457,77 @@ The following extremely useful theorem shows that such exponential decay occurs 
 
 
 > ### {.theorem title="Chernoff/Hoeffding bound" #chernoffthm}
-If $X_1,\ldots,X_n$ are i.i.d random variables such that $X_i \in [0,1]$ and $\E[X_i]=p$ for every $i$,
+If $X_0,\ldots,X_{n-1}$ are i.i.d random variables such that $X_i \in [0,1]$ and $\E[X_i]=p$ for every $i$,
 then for every $\epsilon >0$
 $$
-\Pr[ \left| \sum_{i=0}^{n-1} X_i - pn \right| > \epsilon n ] \leq 2\cdot e^{-2\epsilon^2 n} .
+\Pr[ \left| \sum_{i=0}^{n-1} X_i - pn \right| > \epsilon n ] \leq 2\cdot e^{-2\epsilon^2 n} . \label{eqchernoff}
 $$
 
 We omit the proof, which appears in many texts, and uses Markov's inequality on i.i.d random variables $Y_0,\ldots,Y_n$ that are of the form $Y_i = e^{\lambda X_i}$ for some carefully chosen parameter $\lambda$.
 See [chernoffstirlingex](){.ref}  for a proof of the simple (but highly useful and representative) case where each $X_i$ is $\{0,1\}$ valued and $p=1/2$.
 (See also [poorchernoff](){.ref} for a generalization.)
+
+::: {.remark title="Slight simplification of Chernoff" #chernoffsimpler}
+Since  $e$ is roughly $2.7$ (and in particular larger than $2$),  
+[eqchernoff](){.eqref} would still be true if we replaced its righthand side with $e^{-2\epsilon^2 n - 1}$.
+For  $n>1/\epsilon^2$,  the equation will still be true if we replaced the righthand side with the simpler $e^{-\epsilon^2 n}$. 
+Hence we will sometimes use the Chernoff bound as stating that for $X_0,\ldots,X_{n-1}$ and $p$ as above, $n> 1/\epsilon^2$ then 
+$$
+\Pr[ \left| \sum_{i=0}^{n-1} X_i - pn \right| > \epsilon n ] \leq 2 e^{-\epsilon^2 n} . \label{eqchernoffsimpler}
+$$
+:::
+
+
+
+
+### Application: Supervised learning and empirical risk minimization {#learningerm }
+
+Here is a nice application of the Chernoff bound. Consider the task of _supervised learning_.
+You are given  a set $S$ of $n$ samples of the form $(x_0,y_0),\ldots,(x_{n-1},y_{n-1})$ drawn from some unknown distribution $D$ over pairs $(x,y)$. For simplicity we will assume that $x_i \in \{0,1\}^m$ and $y_i \in \{0,1\}$.
+(We use here the concept of  general distribution over the finite set $\{0,1\}^{m+1}$ as discussed in [generalsamplespaces](){.ref}.)
+The goal is to find a _classifier_ $h:\{0,1\}^m \rightarrow \{0,1\}$ that will minimize the _test error_ which is the probability $L(h)$ that $h(x) \neq y$ where $(x,y)$ is drawn from the distribution $D$.
+That is, $L(h) = \Pr_{(x,y) \sim D}[ h(x) \neq y]$.
+
+
+One way to find such a classifier is to consider a _collection_ $\mathcal{C}$ of potential classifiers and look at the classifier $h$ in $\mathcal{C}$ that does best on the _training set_ $S$.
+The classifier $h$ is known as the _empirical risk minimizer_ (see also [convexnotesec](){.ref}) .
+The Chernoff bound can be used to show that as long as the number $n$ of samples is sufficiently larger than the logarithm of $|\mathcal{C}|$, the test error $L(h)$ will be close to its _training error_  $\hat{L}_S(h)$, which  is defined as the fraction of pairs $(x_i,y_i) \in S$ that it fails to classify.
+(Equivalently, $\hat{L}_S(h) = \tfrac{1}{n}\sum_{i\in [n]} |h(x_i)-y_i|$.)
+
+::: {.theorem title="Generalization of ERM" #ERMTHM}
+Let $D$ be any distribution over pairs $(x,y) \in \{0,1\}^{m+1}$ and $\mathcal{C}$ be any set of functions mapping $\{0,1\}^m$ to $\{0,1\}$. Then for every $\epsilon, \delta>0$, if $n > \tfrac{\log |\mathcal{C}| \log(1/\delta)}{\epsilon^2}$ and $S$ is a set of  $(x_0,y_0),\ldots,(x_{n-1},y_{n-1})$ samples that are drawn independently from $D$ then 
+$$
+\Pr_S\left[ \forall_{h \in \mathcal{C}} | L(h) - \hat{L}_S(h) | \leq \epsilon  \right] > 1 - \delta \;,
+$$
+where the probability is taken over the choice of the set of samples $S$.
+
+In particular if $|\mathcal{C}| \leq 2^k$ and $n> \tfrac{k\log(1/\delta)}{\epsilon^2}$ then with probability at least $1-\delta$, the classifier $h_* \in \mathcal{C}$ that minimizes that empirical test error $\hat{L}_S(C)$ satisfies $L(h_*) \leq \hat{L}_S(h_*) + \epsilon$, and hence its test error is at most $\epsilon$ worse than its training error.
+:::
+
+
+
+
+> ### {.proofidea data-ref="ERMTHM"}
+The idea is to combine the Chernoff bound with the union bound. Let $k = \log |\mathcal{C}|$. We first use the Chernoff bound to show that for every _fixed_ $h \in \mathcal{C}$, if we choose $S$ at random then the probability that $|L(h) - \hat{L}_S(h)| > \epsilon$ will be smaller than $\tfrac{\delta}{2^k}$.
+We can then use the union bound over all the $2^k$ members of $\mathcal{C}$ to show that this will be the case _for every_ $h$. 
+
+::: {.proof data-ref="ERMTHM"}
+Set $k = \log |\mathcal{C}|$ and so $n>k \log(1/\delta)/\epsilon^2$. We start by making the following claim
+
+__CLAIM:__ For every $h\in \mathcal{C}$, the probability over $S$ that $|L(h)-\hat{L}_S(h)| \geq \epsilon$ is smaller than $\delta/2^k$.
+
+We prove the claim using the Chernoff bound. Specifically, for every such $h$, let us defined a collection of random variables $X_0,\ldots,X_{n-1}$ as follows:
+
+$$X_i = \begin{cases}1 & h(x_i) \neq y_i \\ 0 & \text{otherwise} \end{cases}.$$
+
+Since the samples $(x_0,y_0),\ldots,(x_{n-1},y_{n-1})$ are drawn independently from the same distribution $D$, the random variables $X_0,\ldots,X_{n-1}$ are independently and identically distributed. Moreover, for every $i$, $\E[X_i] = L(h)$. Hence by the Chernoff bound (see [eqchernoffsimpler](){.eqref}), the probability that $| \sum_{i=0}^n X_i  - n\cdot L(h)| \geq \epsilon n$ is at most $e^{-\epsilon^2 n} < e^{-k \log(1/\delta) < \delta/2^k$ (using the fact that $e>2$).
+Since $\hat{L}(h) = \tfrac{1}{n}\sum_{i\in [n]}X_i$, this completes the proof of the claim.
+
+Given the claim, the theorem follows from the union bound.
+Indeed, for every $h \in \mathcal{C}$, define the "bad event" $B_h$ to be the event (over the choice of $S$) that $|L(h) - \hat{L}_S(h)| > \epsilon$. By the claim $\Pr[ B_h ] < \delta/2^k$, and hence by the union bound the probability that the _union_ of $B_h$ for all $h\in \mathcal{H}$ happens is smaller than $|\mathcal{C}|\delta/2^k = \delta$.
+If for every $h\in\mathcal{C}$, $B_h$ does _not_ happen, it means that for every $h \in\mathcal{H}$, $|L(h) - \hat{L}_S(h)| \leq \epsilon$, and so the probability of the latter event is larger than  $1-\delta$ which is what we wanted to prove.
+:::
+
 
 
 ::: { .recap }

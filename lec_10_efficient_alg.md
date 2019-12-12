@@ -252,7 +252,7 @@ For example, maximum cut arises in VLSI design, and also has some surprising rel
 
 Surprisingly, while (as we've seen) there is a polynomial-time algorithm for the minimum cut problem, there is no known algorithm solving _maximum cut_  much faster than the trivial  "brute force" algorithm that tries all $2^n$ possibilities for the set $S$.
 
-###  A note on convexity
+###  A note on convexity { #convexnotesec }
 
 ![In a _convex_ function $f$ (left figure), for every $x$ and $y$ and $p\in [0,1]$ it holds that $f(px+(1-p)y) \leq p\cdot f(x)+(1-p)\cdot f(y)$. In particular this means that every _local minimum_ of $f$ is also a _global minimum_. In contrast in a _non convex_ function there can be many local minima.](../figure/convexvsnot.png){#convexdeffig .margin  }
 
