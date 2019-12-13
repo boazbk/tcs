@@ -685,7 +685,7 @@ Y[0] = NAND(temp_3,temp_4)
 
 Key to this transformation was the fact that in our original NAND-TM program for $XOR$, regardless of whether the input is $011$, $100$, or any other string, the index variable `i` is guaranteed to equal $0$ in the first iteration, $1$ in the second iteration,  $2$ in the third iteration, and so on and so forth.
 The particular sequence $0,1,2,\ldots$ is immaterial: the crucial property is that the NAND-TM program for $XOR$ is  _oblivious_ in the sense that the value of the index `i` in the $j$-th iteration depends only on $j$ and does not depend on the particular choice of the input. 
-Luckily,  it is possible to transform every NAND-TM program into a functionally equivalent oblivious program with at most quadratic . (Similarly we can transform any Turing machine into a functionally equivalent oblivious Turing machine, see [oblivious-ex](){.ref}.)
+Luckily, it is possible to transform every NAND-TM program into a functionally equivalent oblivious program with at most quadratic overhead. (Similarly we can transform any Turing machine into a functionally equivalent oblivious Turing machine, see [oblivious-ex](){.ref}.)
 
 > ### {.theorem title="Making NAND-TM oblivious" #obliviousnandtmthm}
 Let $T:\N \rightarrow \N$ be a nice function and let $F\in TIME_{\mathsf{TM}}(T(n))$.

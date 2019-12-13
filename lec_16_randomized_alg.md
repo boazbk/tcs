@@ -108,7 +108,7 @@ Yet even in this case the expected number of edges will be $0.999 \cdot 499 + 0.
 ::: {.proof data-ref="cutprob"}
 Let $p$ be the probability that we cut at least $m/2$  edges and suppose, towards a contradiction, that $p<1/(2m)$.
 Since the number of edges cut is an integer, and $m/2$ is a multiple of $0.5$, by definition of $p$, with probability $1-p$ we cut at most $m/2 - 0.5$ edges.
-Moreover, since we can never cut more than $m$ edges, under our assumption that $p<m/2$, we can bound the expected number of edges cut by
+Moreover, since we can never cut more than $m$ edges, under our assumption that $p<1/(2m)$, we can bound the expected number of edges cut by
 
 $$
 pm + (1-p)(m/2-0.5)  \leq pm + m/2-0.5
