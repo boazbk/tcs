@@ -94,7 +94,7 @@ Yet even in this case the expected number of edges will be $0.999 \cdot 499 + 0.
 ::: {.proof data-ref="cutprob"}
 Let $p$ be the probability that we cut at least $m/2$  edges and suppose, towards a contradiction, that $p<1/(2m)$.
 Since the number of edges cut is an integer, and $m/2$ is a multiple of $0.5$, by definition of $p$, with probability $1-p$ we cut at most $m/2 - 0.5$ edges.
-Moreover, since we can never cut more than $m$ edges, under our assumption that $p<m/2$, we can bound the expected number of edges cut by
+Moreover, since we can never cut more than $m$ edges, under our assumption that $p<1/(2m)$, we can bound the expected number of edges cut by
 
 $$
 pm + (1-p)(m/2-0.5)  \leq pm + m/2-0.5
@@ -258,7 +258,7 @@ Since $A$ and $B$ are disjoint events, $\Pr[A] + \Pr[B] \leq 1$. Since they have
 
 
 Claims I and II imply that each of the $T$ iterations of the outer loop succeeds with probability at least $0.5 \cdot \sqrt{3}^{-n/2}$.
-Indeed, by Claim II, the original guess $x$ will satisfy $\Delta(x,x^*) \leq n/2$, and by Claim I, even conditioned on all the history so far, for each of the $S=n/2$ steps we have probability $\geq 1/3$ of being "lucky" and decreasing the distance at one. The chance we will be lucky in all $n/2$ steps is hence at least $(1/3)^{n/2} = \sqrt{3}^{n/2}$.
+Indeed, by Claim II, the original guess $x$ will satisfy $\Delta(x,x^*) \leq n/2$, and by Claim I, even conditioned on all the history so far, for each of the $S=n/2$ steps we have probability $\geq 1/3$ of being "lucky" and decreasing the distance at one. The chance we will be lucky in all $n/2$ steps is hence at least $(1/3)^{n/2} = \sqrt{3}^{-n}$.
 
 Since any single iteration of the outer loop succeeds with probability at least $\tfrac{1}{2} \cdot \sqrt{3}^{-n}$, the probability that we never do so in $T=100 \sqrt{3}^{n}$ repetitions is at most $(1-\tfrac{1}{2\sqrt{3}^{n}})^{100\cdot \sqrt{3}^n} \leq (1/e)^{50}$.
 :::
