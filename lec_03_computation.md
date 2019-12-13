@@ -41,7 +41,7 @@ We will define the notion of computing an output from an input by applying a seq
 Using this, we will be able to precisely define statements such as "function $f$ can be computed by model $X$" or "function $f$ can be computed by model $X$ using $s$ operations".
 
 
-![A function mapping strings to strings _specifies_ a computational task, i.e., describes _what_ is the desired relation between the input and the output. In this chapter we define models for _implementing_ computational processes that achieve the desired relation, i.e., describe _how_ to compute the output from the input. We will see several examples of such models using both Boolean circuits and straight-line programming languages.](../figure/compchapterwhatvshow.png  ){#compchapwhatvshowfig }
+![A function mapping strings to strings _specifies_ a computational task, i.e., describes _what_ the desired relation between the input and the output is. In this chapter we define models for _implementing_ computational processes that achieve the desired relation, i.e., describe _how_ to compute the output from the input. We will see several examples of such models using both Boolean circuits and straight-line programming languages.](../figure/compchapterwhatvshow.png  ){#compchapwhatvshowfig }
 
 ## Defining computation
 
@@ -67,7 +67,7 @@ Here is how Al-Khwarizmi described the algorithm for solving an equation of the 
 
 For the purposes of this book, we will need a much more precise way to describe algorithms.
 Fortunately (or is it unfortunately?), at least at the moment, computers lag far behind school-age children in learning from examples.
-Hence in the 20th century people came up with exact formalisms for describing algorithms, namely _programming languages_.
+Hence in the 20th century, people came up with exact formalisms for describing algorithms, namely _programming languages_.
 Here is al-Khwarizmi's quadratic equation solving algorithm described in the _Python_ programming language:
 
 ```python
@@ -275,7 +275,7 @@ You can express it as a formula, use a programming language such as Python, or u
 :::
 
 ::: {.solution data-ref="xorthreebits"}
-Addition modulo two satisfies the same properties of _associativity_ ($(a+b)+c=(a+b)+c$) and _commutativity_ ($a+b=b+a$) as standard addition.
+Addition modulo two satisfies the same properties of _associativity_ ($(a+b)+c=a+(b+c)$) and _commutativity_ ($a+b=b+a$) as standard addition.
 This means that, if we define $a \oplus b$ to equal $a + b \mod 2$,
 then
 $$
@@ -341,7 +341,7 @@ A large part of this book will be devoted to addressing the above issues. We wil
 
 1. We can make the definition of an algorithm fully formal, and so give a precise mathematical meaning to statements such as "Algorithm $A$ computes function $f$".
 
-2. While the choice of $AND$/$OR$/$NOT$ is arbitrary, and we could just as well chose some other functions, we will also see this choice does not matter much. We will see that  we would obtain the same computational power if we used instead addition and multiplication, and essentially every other operation that could be reasonably thought of as a basic step.
+2. While the choice of $AND$/$OR$/$NOT$ is arbitrary, and we could just as well have chosen other functions, we will also see this choice does not matter much. We will see that  we would obtain the same computational power if we instead used addition and multiplication, and essentially every other operation that could be reasonably thought of as a basic step.
 
 3. It turns out that we can and do compute such "$AND$/$OR$/$NOT$ based algorithms" in the real world. First of all, such an algorithm is clearly well specified, and so can be executed by a human with a pen and paper. Second, there are a variety of ways to _mechanize_ this computation. We've already seen that we can write Python code that corresponds to following such a list of instructions. But in fact we can directly implement operations such as $AND$, $OR$, and $NOT$ via electronic signals using components known as _transistors_. This is how modern electronic computers operate.
 
@@ -381,7 +381,7 @@ We evaluate an $n$-input Boolean circuit $C$ on an input $x\in \{0,1\}^n$ by pla
 
 ::: {.remark title="Physical realization of Boolean circuits" #booleancircimprem}
 Boolean circuits are a _mathematical model_ that does not necessarily  correspond to a physical object, but they can be implemented physically.
-In physical implementation of circuits, the signal is [often implemented](https://goo.gl/gntTQE) by electric potential or _voltage_ on a wire, where for example voltage above a certain level is interpreted as a logical value of $1$, and below a certain level is interpreted as a logical value of $0$.
+In physical implementation of circuits, the signal is [often implemented](https://goo.gl/gntTQE) by electric potential, or _voltage_, on a wire, where for example voltage above a certain level is interpreted as a logical value of $1$, and below a certain level is interpreted as a logical value of $0$.
 [physicalimplementationsec](){.ref} discusses physical implementation of Boolean circuits (with examples including using electrical signals such as in silicon-based circuits, but also  biological and mechanical implementations as well).
 :::
 
@@ -390,7 +390,7 @@ In physical implementation of circuits, the signal is [often implemented](https:
 
 
 
-![A _Boolean Circuit_ consists of  _gates_ that are are connected by _wires_ to one another and the _inputs_. The left side depicts a circuit with $2$ inputs and $5$ gates, one of which is designated the output gate. The right side depicts the evaluation of this circuit on the input $x\in \{0,1\}^2$ with $x_0=1$ and $x_1=0$. The value of every gate is obtained by applying the corresponding function ($AND$, $OR$, or $NOT$) to values on the wire(s) that enter it. The output of the circuit on a given input is the value of the output gate(s). In this case, the circuit computes the $XOR$ function and hence it outputs $1$ on the input $10$.](../figure/booleancircuit.png){#boolancircfig  }
+![A _Boolean Circuit_ consists of  _gates_ that are connected by _wires_ to one another and the _inputs_. The left side depicts a circuit with $2$ inputs and $5$ gates, one of which is designated the output gate. The right side depicts the evaluation of this circuit on the input $x\in \{0,1\}^2$ with $x_0=1$ and $x_1=0$. The value of every gate is obtained by applying the corresponding function ($AND$, $OR$, or $NOT$) to values on the wire(s) that enter it. The output of the circuit on a given input is the value of the output gate(s). In this case, the circuit computes the $XOR$ function and hence it outputs $1$ on the input $10$.](../figure/booleancircuit.png){#boolancircfig  }
 
 
 
@@ -427,7 +427,7 @@ A wire from an input or gate $u$ to a gate $v$ in the circuit corresponds to a d
 The inputs are vertices with no incoming edges, while each gate has the appropriate number of incoming edges based on the function it computes. (That is,  _AND_ and _OR_ gates have two in-neighbors, while _NOT_ gates have one in-neighbor.)
 The formal definition is as follows (see also [generalcircuitfig](){.ref}):
 
-![A _Boolean Circuit_ is a labeled directed acyclic graph (DAG). It has $n$ _input_ vertices, which are marked with `X[`$0$`]`,$\ldots$, `X[`$n-1$`]` and have no incoming edges, and the rest of the vertices are _gates_. An _AND_, _OR_, or _NOT_ gate has two or one incoming edges. If the circuit has $m$ outputs, then $m$ of the gates are known as _outputs_ and are marked with `Y[`$0$`]`,$\ldots$,`Y[`$m-1$`]`. When we evaluate a circuit $C$ on an input $x\in \{0,1\}^n$, we start by setting the value of the input vertices to $x_0,\ldots,x_{n-1}$ and then propagate the values, assigning to each gate $g$ the result of applying the operation of $g$ to the values of $g$'s in-neighbors. The output of the circuit is the value assigned to the output gates.](../figure/generalcircuit.png){#generalcircuitfig }
+![A _Boolean Circuit_ is a labeled directed acyclic graph (DAG). It has $n$ _input_ vertices, which are marked with `X[`$0$`]`,$\ldots$, `X[`$n-1$`]` and have no incoming edges, and the rest of the vertices are _gates_. _AND_, _OR_, and _NOT_ gates have two, two, and one incoming edges, respectively. If the circuit has $m$ outputs, then $m$ of the gates are known as _outputs_ and are marked with `Y[`$0$`]`,$\ldots$,`Y[`$m-1$`]`. When we evaluate a circuit $C$ on an input $x\in \{0,1\}^n$, we start by setting the value of the input vertices to $x_0,\ldots,x_{n-1}$ and then propagate the values, assigning to each gate $g$ the result of applying the operation of $g$ to the values of $g$'s in-neighbors. The output of the circuit is the value assigned to the output gates.](../figure/generalcircuit.png){#generalcircuitfig }
 
 ::: {.definition title="Boolean Circuits" #booleancircdef}
 Let $n,m,s$ be positive integers with $s \geq m$. A _Boolean circuit_ with $n$ inputs, $m$ outputs, and $s$ gates, is a labeled directed acyclic graph (DAG) $G=(V,E)$ with $s+n$ vertices satisfying the following properties:
@@ -463,7 +463,7 @@ We let $L$ be the maximum layer of $h$, and for $\ell=0,1,\ldots,L$  we do the f
 
   - If $v$ is an input vertex labeled with `X[`$i$`]` for some $i\in [n]$, then we assign to $v$ the value $x_i$.
 
-  - If $v$ is a gate vertex labeled with $\wedge$ and with two in-neighbors $u,w$ then we assign to $v$ the _AND_ of the values assigned to $u$ and $w$. (Since $u$ and $w$ are in-neighbors of $v$, they are in lower layer than $v$, and hence their values have already been assigned.)
+  - If $v$ is a gate vertex labeled with $\wedge$ and with two in-neighbors $u,w$ then we assign to $v$ the _AND_ of the values assigned to $u$ and $w$. (Since $u$ and $w$ are in-neighbors of $v$, they are in a lower layer than $v$, and hence their values have already been assigned.)
 
   - If $v$ is a gate vertex labeled with $\vee$ and with two in-neighbors $u,w$ then we assign to $v$ the OR of the values assigned to $u$ and $w$.
 
@@ -495,11 +495,11 @@ We have seen two ways to describe how to compute a function $f$ using _AND_, _OR
 
 * We can also describe such a computation using a _straight-line program_ that has lines of the form `foo = AND(bar,blah)`, `foo = OR(bar,blah)` and `foo = NOT(bar)` where `foo`, `bar` and `blah` are variable names. (We call this a _straight-line program_ since it contains no loops or branching (e.g., if/then) statements.)
 
-We now formally define the AON-CIRC programming language ("AON" stands for _AND_/_OR_/_NOT_) which has the above operations, and show that it is equivalent to Boolean circuits.
+We now formally define the AON-CIRC programming language ("AON" stands for _AND_/_OR_/_NOT_; "CIRC" stands for _circuit_) which has the above operations, and show that it is equivalent to Boolean circuits.
 
 ::: {.definition title="AON-CIRC Programming language" #AONcircdef}
-An _AON-CIRC program_ is a string of lines of the form `foo = AND(bar,blah)`, `foo = OR(bar,blah)` and `foo = NOT(bar)` where `foo`, `bar` and `blah` are variable names.^[We follow the common [programming languages convention](https://goo.gl/QyHa3b)  of using names such as `foo`, `bar`, `baz`, `blah` as stand-ins for generic identifiers. A variable identifier in our programming language can be any combination of letters, numbers,  underscores, and brackets. The [appendix](https://nbviewer.jupyter.org/github/boazbk/tcscode/blob/master/appendix%5FNAND%5Fspecs.ipynb) contains a full formal specification of our programming language.]
-Variables of the form `X[`$i$`]` are known as _input_ variables, and variables of the form `Y[`$j$`]` are known as _output_ variables. In every line, the variables on the righthand side of the assignment operators must either be input variables or variables that have already been assigned a value before.
+An _AON-CIRC program_ is a string of lines of the form `foo = AND(bar,blah)`, `foo = OR(bar,blah)` and `foo = NOT(bar)` where `foo`, `bar` and `blah` are variable names.^[We follow the common [programming languages convention](https://goo.gl/QyHa3b)  of using names such as `foo`, `bar`, `baz`, `blah` as stand-ins for generic identifiers. A variable identifier in our programming language can be any combination of letters, numbers,  underscores, and brackets. The [appendix](http://tiny.cc/introtcsappendix) contains a full formal specification of our programming language.]
+Variables of the form `X[`$i$`]` are known as _input_ variables, and variables of the form `Y[`$j$`]` are known as _output_ variables. In every line, the variables on the righthand side of the assignment operators must either be input variables or variables that have already been assigned a value.
 
 A valid AON-CIRC program $P$ includes input variables of the form `X[`$0$`]`,$\ldots$,`X[`$n-1$`]` and output variables of the form `Y[`$0$`]`,$\ldots$, `Y[`$m-1$`]` for some $n,m \geq 1$.
 If $P$ is valid AON-CIRC program  and $x\in \{0,1\}^n$, then we define the _output of $P$ on input $x$_, denoted by $P(x)$, to be the string $y\in \{0,1\}^m$ corresponding to the values of the output variables `Y[`$0$`]` ,$\ldots$, `Y[`$m-1$`]`  in the execution of $P$ where we initialize the input variables `X[`$0$`]`,$\ldots$,`X[`$n-1$`]` to the values $x_0,\ldots,x_{n-1}$.
@@ -589,9 +589,9 @@ For the other direction, let $C$ be a circuit of $s$ gates and $n$ inputs that c
 We now can create a program $P$ of $s$ lines as follows.
 For every $i\in [s]$, if $v_i$ is an AND gate with in-neighbors  $v_j,v_k$ then we will add a line to $P$ of the form `temp_`$i$ ` = AND(temp_`$j$`,temp_`$k$`)`, unless one of the vertices is an input vertex or an output gate, in which case we change this to the form `X[.]` or `Y[.]` appropriately.
 Because we work in topological ordering, we are guaranteed that the in-neighbors $v_j$ and $v_k$ correspond to variables that have already been assigned a value.
-We do the same for OR and NOT gate.
+We do the same for OR and NOT gates.
 Once again, one can verify that for every input $x$, the value $P(x)$ will equal $C(x)$ and hence the program computes the same function as the circuit.
-(Note that since $C$ is a valid circuit per [booleancircdef](){.ref}, every input vertex of $C$ has at least one out-neighbor and there are exactly $m$ output gates labeled $0,\ldots,m-1$;
+(Note that since $C$ is a valid circuit, per [booleancircdef](){.ref}, every input vertex of $C$ has at least one out-neighbor and there are exactly $m$ output gates labeled $0,\ldots,m-1$;
 hence all the variables  `X[0]`, $\ldots$, `X[`$n-1$`]` and `Y[0]` ,$\ldots$, `Y[`$m-1$`]` will appear in the  program $P$.)
 :::
 
@@ -603,11 +603,11 @@ hence all the variables  `X[0]`, $\ldots$, `X[`$n-1$`]` and `Y[0]` ,$\ldots$, `Y
 
 
 _Computation_ is an abstract notion that is distinct from its physical _implementations_.
-While most modern computing devices are obtained by mapping logical gates to semi-conductor based transistors, over history people have computed using a huge variety of mechanisms,  including mechanical systems, gas and liquid (known as _fluidics_), biological and chemical processes, and even living creatures (e.g., see [crabfig](){.ref} or  [this video](https://www.youtube.com/watch?v=czk4xgdhdY4) for how crabs or slime mold can be used to do computations).
+While most modern computing devices are obtained by mapping logical gates to semiconductor based transistors, over history people have computed using a huge variety of mechanisms,  including mechanical systems, gas and liquid (known as _fluidics_), biological and chemical processes, and even living creatures (e.g., see [crabfig](){.ref} or  [this video](https://www.youtube.com/watch?v=czk4xgdhdY4) for how crabs or slime mold can be used to do computations).
 
 
 In this section we will review some of these implementations, both so you can get an appreciation of how it is possible to directly translate Boolean circuits to the physical world, without going through the entire stack of architecture, operating systems, and compilers, as well as to emphasize that silicon-based processors are by no means the only way to perform computation.
-Indeed, as we will see in [quantumchap](){.ref}, a very exciting recent line of works involves using different media for computation that would allow us to take advantage of _quantum mechanical effects_ to enable different types of algorithms.
+Indeed, as we will see in [quantumchap](){.ref}, a very exciting recent line of work involves using different media for computation that would allow us to take advantage of _quantum mechanical effects_ to enable different types of algorithms.
 
 ![Crab-based logic gates from the paper "Robust soldier-crab ball gate" by Gunji, Nishiyama and Adamatzky. This is an example of an AND gate that relies on the tendency of two swarms of crabs arriving from different directions to combine to a single swarm that continues in the average of the directions.](../figure/crab-gate.jpg){#crabfig .margin}
 
@@ -615,7 +615,7 @@ Indeed, as we will see in [quantumchap](){.ref}, a very exciting recent line of 
 
 ### Transistors
 
-A _transistor_ can be thought of as an electric circuit with two inputs, known as _source_ and _gate_ and an output, known as the _sink_.
+A _transistor_ can be thought of as an electric circuit with two inputs, known as the _source_ and the _gate_ and an output, known as the _sink_.
 The gate controls whether current flows from the source to the sink.
 In a _standard transistor_, if the gate is "ON" then current can flow from the source to the sink and if it is "OFF" then it can't.
 In a _complementary transistor_ this is reversed: if the gate is "OFF" then current can flow from the source to the sink and if it is "ON" then it can't.
@@ -623,19 +623,19 @@ In a _complementary transistor_ this is reversed: if the gate is "OFF" then curr
 ![We can implement the logic of transistors using water. The water pressure from the gate closes or opens a faucet between the source and the sink.](../figure/transistor_water.png){#transistor-water-fig .margin  }
 
 There are several ways to implement the logic of a transistor.
-For example, we can use faucets to implement it using water pressure (e.g. [transistor-water-fig](){.ref}). This might seem as merely a curiosity but there is a field known as [fluidics](https://en.wikipedia.org/wiki/Fluidics) concerned with implementing logical operations using liquids or gasses. Some of the motivations include operating in extreme environmental conditions such as in space or a battlefield, where standard electronic equipment would not survive.
+For example, we can use faucets to implement it using water pressure (e.g. [transistor-water-fig](){.ref}). This might seem as merely a curiosity, but there is a field known as [fluidics](https://en.wikipedia.org/wiki/Fluidics) concerned with implementing logical operations using liquids or gasses. Some of the motivations include operating in extreme environmental conditions such as in space or a battlefield, where standard electronic equipment would not survive.
 
 The standard implementations of transistors use electrical current.
 One of the original implementations used   _vacuum tubes_.
-As its name implies, a vacuum tube is a tube containing nothing (i.e., a vacuum) and where a priori electrons could freely flow from source (a wire) to the sink (a plate). However, there is a gate (a grid)  between the two, where modulating its voltage can block the flow of electrons.
+As its name implies, a vacuum tube is a tube containing nothing (i.e., a vacuum) and where a priori electrons could freely flow from the source (a wire) to the sink (a plate). However, there is a gate (a grid)  between the two, where modulating its voltage can block the flow of electrons.
 
 Early vacuum tubes were roughly the size of lightbulbs (and looked very much like them too).
-In the 1950's they were supplanted by _transistors_, which implement the same logic using _semiconductors_ which are materials that normally do not conduct electricity but whose conductivity can be modified and controlled by inserting impurities ("doping") and an external electric field (this is known as the _field effect_).
-In the 1960's computers were started to be implemented using _integrated circuits_ which enabled much greater density.
+In the 1950's they were supplanted by _transistors_, which implement the same logic using _semiconductors_ which are materials that normally do not conduct electricity but whose conductivity can be modified and controlled by inserting impurities ("doping") and applying an external electric field (this is known as the _field effect_).
+In the 1960's computers started to be implemented using _integrated circuits_ which enabled much greater density.
 In 1965, Gordon Moore predicted that the number of transistors per integrated circuit would double every year (see [moorefig](){.ref}), and that this would lead to "such wonders as home computers —or at least terminals connected to a central computer— automatic controls for automobiles, and personal portable communications equipment".
 Since then, (adjusted versions of) this so-called "Moore's law" have been running strong, though exponential growth cannot be sustained forever, and some physical limitations are already [becoming apparent](http://www.nature.com/news/the-chips-are-down-for-moore-s-law-1.19338).
 
-![The number of transistors per integrated circuits from 1959 till 1965 and a prediction that exponential growth will continue at least another decade. Figure taken from "Cramming More Components onto Integrated Circuits", Gordon Moore, 1965](../figure/gordon_moore.png){#moorefig .margin  }
+![The number of transistors per integrated circuits from 1959 till 1965 and a prediction that exponential growth will continue for at least another decade. Figure taken from "Cramming More Components onto Integrated Circuits", Gordon Moore, 1965](../figure/gordon_moore.png){#moorefig .margin  }
 
 ![Cartoon from Gordon Moore's article "predicting" the implications of radically improving transistor density.](../figure/moore_cartoon.png){#moore-cartoon-fig .margin  }
 
@@ -648,7 +648,7 @@ Since then, (adjusted versions of) this so-called "Moore's law" have been runnin
 
 We can use transistors to implement various Boolean functions such as $AND$, $OR$, and $NOT$.
 For each a two-input gate $G:\{0,1\}^2 \rightarrow \{0,1\}$,  such an implementation would be a system with two input wires $x,y$ and one output wire $z$, such that if we identify high voltage with "$1$" and low voltage with "$0$", then the wire  $z$ will equal to "$1$" if and only if applying $G$ to the values of the wires $x$ and $y$ is $1$ (see [logicgatestransistorsfig](){.ref} and [transistor-nand-fig](){.ref}).
-This means that there exists a AND/OR/NOT circuit to compute a function $g:\{0,1\}^n \rightarrow \{0,1\}^m$, then we can compute $g$ in the physical world using transistors as well.
+This means that if there exists a AND/OR/NOT circuit to compute a function $g:\{0,1\}^n \rightarrow \{0,1\}^m$, then we can compute $g$ in the physical world using transistors as well.
 
 ![Implementing logical gates using transistors. Figure taken from [Rory Mangles' website](http://www.northdownfarm.co.uk/rory/tim/basiclogic.htm).](../figure/DTLLogic.PNG){#logicgatestransistorsfig   .margin  }
 
@@ -660,12 +660,12 @@ This means that there exists a AND/OR/NOT circuit to compute a function $g:\{0,1
 
 ### Biological computing
 
-Computation can be based on [biological or chemical systems]((http://www.nature.com/nrg/journal/v13/n7/full/nrg3197.html)).
+Computation can be based on [biological or chemical systems](http://www.nature.com/nrg/journal/v13/n7/full/nrg3197.html).
 For example the [_lac_ operon](https://en.wikipedia.org/wiki/Lac_operon) produces the enzymes needed to digest lactose only if the conditions $x \wedge (\neg y)$ hold where $x$ is "lactose is present" and $y$ is "glucose is present".
 Researchers have managed to [create transistors](http://science.sciencemag.org/content/340/6132/554?iss=6132), and from them  logic gates, based on DNA molecules (see also [transcriptorfig](){.ref}).
 One motivation for DNA computing is to achieve increased parallelism or storage density; another is to create "smart biological agents" that could perhaps be injected into bodies, replicate themselves, and fix or kill cells that were damaged by a disease such as cancer.
-Computing in biological systems is not restricted of course to DNA.
-Even larger systems such as [flocks of birds](https://www.cs.princeton.edu/~chazelle/pubs/cacm12-natalg.pdf) can be considered as computational processes.
+Computing in biological systems is not restricted, of course, to DNA:
+even larger systems such as [flocks of birds](https://www.cs.princeton.edu/~chazelle/pubs/cacm12-natalg.pdf) can be considered as computational processes.
 
 ![Performance of DNA-based logic gates. Figure taken from paper of [Bonnet et al](http://science.sciencemag.org/content/early/2013/03/27/science.1232758.full), Science, 2013.](../figure/transcriptor.jpg){#transcriptorfig .margin  }
 
@@ -686,14 +686,14 @@ The exact working of the brain is still not fully understood, but one common mat
 
 A neural network can be thought of as a Boolean circuit that instead of $AND$/$OR$/$NOT$ uses some other gates as the basic basis.
 For example, one particular basis we can use are _threshold gates_.
-For every vector $w= (w_0,\ldots,w_{k-1})$ of integers and integer $t$ (some or all of whom could be negative),
+For every vector $w= (w_0,\ldots,w_{k-1})$ of integers and integer $t$ (some or all of which could be negative),
 the _threshold function corresponding to $w,t$_ is the function
 $T_{w,t}:\{0,1\}^k \rightarrow \{0,1\}$ that maps $x\in \{0,1\}^k$ to $1$ if and only if $\sum_{i=0}^{k-1} w_i x_i \geq t$.
 For example, the threshold function $T_{w,t}$ corresponding to $w=(1,1,1,1,1)$ and $t=3$ is simply the majority function $MAJ_5$ on $\{0,1\}^5$.
-Threshold gates can be thought of as an approximation for    _neuron cells_ that make up the core of human and animal brains. To a first approximation, a neuron has $k$ inputs and a single output and the neurons  "fires" or "turns on" its output when those signals pass some threshold.
+Threshold gates can be thought of as an approximation for    _neuron cells_ that make up the core of human and animal brains. To a first approximation, a neuron has $k$ inputs and a single output, and the neurons  "fires" or "turns on" its output when those signals pass some threshold.
 
 Many machine learning algorithms use _artificial neural networks_ whose purpose is not to imitate biology but rather to perform some computational tasks, and hence are not restricted to threshold or other biologically-inspired gates.
-Generally, a neural network is often described as operating on signals that are real numbers, rather than $0/1$ values, and where the output of a gate on inputs $x_0,\ldots,x_{k-1}$ is obtained by applying $f(\sum_i w_i x_i)$ where $f:\R \rightarrow \R$ is an an [activation function](https://goo.gl/p9izfA) such as rectified linear unit (ReLU), Sigmoid, or many others (see [activationfunctionsfig](){.ref}).
+Generally, a neural network is often described as operating on signals that are real numbers, rather than $0/1$ values, and where the output of a gate on inputs $x_0,\ldots,x_{k-1}$ is obtained by applying $f(\sum_i w_i x_i)$ where $f:\R \rightarrow \R$ is an [activation function](https://goo.gl/p9izfA) such as rectified linear unit (ReLU), Sigmoid, or many others (see [activationfunctionsfig](){.ref}).
 However, for the purposes of our discussion, all of the above are equivalent (see also [NANDsfromActivationfunctionex](){.ref}).
 In particular we can reduce the setting of real inputs to binary inputs by representing a real number in the binary basis, and multiplying the weight of the bit corresponding to the $i^{th}$ digit by $2^i$.
 
@@ -710,7 +710,7 @@ In fact, there is even a commercially-available educational game that uses marbl
 
 
 
-![A physical implementation of a NAND gate using marbles. Each wire in a Boolean circuit is modeled by a pair of pipes representing the values $0$ and $1$ respectively, and hence a gate has four input pipes (two for each logical input) and two output pipes. If one of the input pipes representing the value $0$ has a marble in it then that marble will flow to the output pipe representing the value $1$. (The dashed line represent a gadget that will ensure that at most one marble is allowed to flow onward in the pipe.) If both the input pipes representing the value $1$ have marbles in them, then the first marble will be stuck but the second one will flow onwards to the output pipe representing the value $0$.](../figure/marble.png){#marblefig .margin  }
+![A physical implementation of a NAND gate using marbles. Each wire in a Boolean circuit is modeled by a pair of pipes representing the values $0$ and $1$ respectively, and hence a gate has four input pipes (two for each logical input) and two output pipes. If one of the input pipes representing the value $0$ has a marble in it then that marble will flow to the output pipe representing the value $1$. (The dashed line represents a gadget that will ensure that at most one marble is allowed to flow onward in the pipe.) If both the input pipes representing the value $1$ have marbles in them, then the first marble will be stuck but the second one will flow onwards to the output pipe representing the value $0$.](../figure/marble.png){#marblefig .margin  }
 
 ![A "gadget" in a pipe that ensures that at most one marble can pass through it. The first marble that passes causes the barrier to lift and block new ones.](../figure/gadget.png){#gadgetfig .margin  }
 
@@ -755,7 +755,7 @@ $$
 
 We can use [univnandonethm](){.ref}  to replace all the occurrences of $AND$ and $OR$   with $NAND$'s.
 Specifically, we can use the equivalence $AND(a,b)=NOT(NAND(a,b))$, $OR(a,b)=NAND(NOT(a),NOT(b))$, and $NOT(a)=NAND(a,a)$ to replace the righthand side of
-[eqmajandornotrestated](){.eqref} with an expression involving only $NAND$, yielding that $MAJ(a,b,c)$ is equivalent the (somewhat unwieldy) expression
+[eqmajandornotrestated](){.eqref} with an expression involving only $NAND$, yielding that $MAJ(a,b,c)$ is equivalent to the (somewhat unwieldy) expression
 
 $$
 \begin{gathered}
@@ -863,7 +863,7 @@ We already know how to compute $XOR$ using NAND and so we can use this to implem
 Similarly, we can write the "if" statement as saying $c_{i+1} \leftarrow AND(c_i,x_i)$,  or in other words $c_{i+1} \leftarrow  NAND(NAND(c_i,x_i),NAND(c_i,x_i))$.
 Finally, the assignment $y_n = c_n$ can be written as $y_n = NAND(NAND(c_n,c_n),NAND(c_n,c_n))$.
 Combining these observations yields for every $n\in \N$, a $NAND$ circuit to compute $INC_n$.
-For example, [nandincrememntcircfig](){.ref} shows how this circuit looks like for $n=4$.
+For example, [nandincrememntcircfig](){.ref} shows what this circuit looks like for $n=4$.
 
 
 
@@ -897,7 +897,7 @@ Let $y_n \leftarrow c_n$
 
 Once again, [additionfromnand](){.ref} can be translated into a NAND circuit.
 The crucial observation is that the "if/then" statement simply corresponds to
-$c_{i+1} \leftarrow MAJ_3(u_i,v_i,v_i)$ and we have seen in in [majbynandex](){.ref} that the function $MAJ_3:\{0,1\}^3 \rightarrow \{0,1\}$ can be computed using $NAND$s.
+$c_{i+1} \leftarrow MAJ_3(u_i,v_i,v_i)$ and we have seen in [majbynandex](){.ref} that the function $MAJ_3:\{0,1\}^3 \rightarrow \{0,1\}$ can be computed using $NAND$s.
 
 
 
@@ -1044,7 +1044,7 @@ The exercises cover several examples of universal and non-universal gate sets.
 
 ### Specification vs. implementation  (again) {#specvsimplrem}
 
-![It is crucial to distinguish between the _specification_ of a computational task, namely _what_ is the function that is to be computed and the _implementation_ of it, namely the algorithm, program, or circuit that contains the instructions _how_ to map and input to an output. The same function could be computed in many different ways.](../figure/specvsimpl.png){#specvsimplfig }
+![It is crucial to distinguish between the _specification_ of a computational task, namely _what_ is the function that is to be computed and the _implementation_ of it, namely the algorithm, program, or circuit that contains the instructions defining _how_ to map an input to an output. The same function could be computed in many different ways.](../figure/specvsimpl.png){#specvsimplfig }
 
 
 As we discussed in [secimplvsspec](){.ref}, one of the most important distinctions in this book is that of _specification_ versus _implementation_ or separating "what" from "how" (see [specvsimplfig](){.ref}).
@@ -1084,14 +1084,14 @@ Prove that the set $\{ OR , NOT \}$ is _universal_, in the sense that one can co
 :::
 
 ::: {.exercise title="AND,OR is not universal" #andorex}
-Prove that for every $n$-bit input circuit $C$ that contains only AND, and OR gates, as well as gates that compute the constant functions $0$ and $1$, $C$ is _monotone_, in the sense that if $x,x' \in \{0,1\}^n$, $x_i \leq x'_i$ for every $i\in [n]$, then $C(x) \leq C(x')$.
+Prove that for every $n$-bit input circuit $C$ that contains only AND and OR gates, as well as gates that compute the constant functions $0$ and $1$, $C$ is _monotone_, in the sense that if $x,x' \in \{0,1\}^n$, $x_i \leq x'_i$ for every $i\in [n]$, then $C(x) \leq C(x')$.
 
 Conclude that the set $\{ AND , OR, 0 , 1\}$ is _not_ universal.
 :::
 
 
 ::: {.exercise title="XOR is not universal" #xorex}
-Prove that for every $n$-bit input circuit $C$ that contains only XOR,  gates, as well as gates that compute the constant functions $0$ and $1$, $C$ is _affine or linear modulo two_, in the sense that there exists some $a\in \{0,1\}^n$ and $b\in \{0,1\}$ such that for every $x\in \{0,1\}^n$, $C(x) = \sum_{i=0}^{n-1}a_ix_i + b \mod 2$.
+Prove that for every $n$-bit input circuit $C$ that contains only XOR gates, as well as gates that compute the constant functions $0$ and $1$, $C$ is _affine or linear modulo two_, in the sense that there exists some $a\in \{0,1\}^n$ and $b\in \{0,1\}$ such that for every $x\in \{0,1\}^n$, $C(x) = \sum_{i=0}^{n-1}a_ix_i + b \mod 2$.
 
 Conclude that the set $\{ XOR , 0 , 1\}$ is _not_ universal.
 :::
@@ -1118,7 +1118,7 @@ Prove that $\{ LOOKUP_1,0,1 \}$ is a universal set of gates where $0$ and $1$ ar
 
 > ### {.exercise title="Bound on universal basis size (challenge)" #universal-bound}
 Prove that for every subset $B$ of the functions from $\{0,1\}^k$ to $\{0,1\}$,
-if $B$ is universal then there is a $B$-circuit of at most $O(k)$ gates to compute the $NAND$ function (you can start by showing that there is a $B$ circuit of at most $O(k^{16})$ gates).^[Thanks to Alec Sun for solving this problem.]
+if $B$ is universal then there is a $B$-circuit of at most $O(1)$ gates to compute the $NAND$ function (you can start by showing that there is a $B$ circuit of at most $O(k^{16})$ gates).^[Thanks to Alec Sun and Simon Fischer for comments on this problem.]
 
 
 ::: {.exercise title="Size and inputs / outputs" #nandcircsizeex}
@@ -1151,7 +1151,7 @@ Prove that there is some constant $c$ such that for every $n>1$, there is a NAND
 
 ::: {.exercise title="Output at last layer" #outputlastlayer}
 Prove that  for every $f:\{0,1\}^n \rightarrow \{0,1\}$, if there is a Boolean circuit $C$ of $s$ gates
-that computes $f$ then there is a Boolean circuit $C'$ of at most $s$ gates such that in the minimal layering of $C'$, the output gate of $C'$ is in placed the last layer. See footnote for hint.^[_Hint:_ Vertices in layers beyond the output can be safely removed without changing the functionality of the circuit.]
+that computes $f$ then there is a Boolean circuit $C'$ of at most $s$ gates such that in the minimal layering of $C'$, the output gate of $C'$ is placed in the last layer. See footnote for hint.^[_Hint:_ Vertices in layers beyond the output can be safely removed without changing the functionality of the circuit.]
 :::
 
 ## Biographical notes

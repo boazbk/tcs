@@ -15,8 +15,8 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Daniel Chiu
 * Chi-Ning Chou
 * Michael Colavita
-* Robert Darley Waddilove
 * Rodrigo Daboin Sanchez
+* Robert Darley Waddilove
 * Anlan Du
 * Juan Esteller
 * David Evans
@@ -31,6 +31,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Mark Goldstein
 * Alexander Golovnev
 * Michael Haak
+* Rebecca Hao
 * Joosep Hook
 * Thomas HUET
 * Emily Jia
@@ -47,6 +48,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Alex Lombardi
 * Lisa Lu
 * Aditya Mahadevan
+* Christian May
 * Jacob Meyerson
 * Leon Mlodzian
 * George Moe
@@ -58,6 +60,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Joshua Pan
 * Pablo Parrilo
 * Juan Perdomo
+* Banks Pickett
 * Aaron Sachs
 * Abdelrhman Saleh
 * Brian Sapozhnikov
@@ -89,4 +92,4 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Fred Zhang
 * Grace Zhang
 * Jessica Zhu
-* Banks Pickett
+* Owen Niles

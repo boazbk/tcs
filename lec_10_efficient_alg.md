@@ -24,31 +24,35 @@ _"I think the bubble sort would be the wrong way to go."_, Barack Obama.
 
 
 So far we have been concerned with which functions are _computable_ and which ones are not.
-In this chapter we look at the finer question of  the _time_ that it takes to compute functions, as a function of their input length.
-This is extremely important in the practice of computing.
-In introductory courses,  coding interviews, and actual algorithm design, terms such as "$O(n)$ running time" are often used in an informal way.
+In this chapter we look at the finer question of  the _time_ that it takes to compute functions, as a _function of their input length_.
+Time complexity is extremely important to both the theory and practice of computing, but in introductory courses,  coding interviews, and software development, terms such as "$O(n)$ running time" are often used in an informal way.
 People don't have a precise definition of what a linear-time algorithm is, but rather assume that "they'll know it when they see it".
-However, in this book we will make precise definitions, using our mathematical models of computation.
+In this book we will define running time precisely, using the mathematical models of computation we developed in the previous chapters.
 This will allow us to ask (and sometimes answer) questions such as:
 
 * "Is there a function that can be computed in $O(n^2)$ time but not in $O(n)$ time?"
 
 * "Are there natural problems for which the _best_ algorithm (and not just the _best known_) requires $2^{\Omega(n)}$ time?"
 
+::: { .bigidea #runtimefunc}
+The running time of an algorithm is not a _number_, it is a _function_ of the length of the input.
+:::
 
-In this chapter we will survey some examples of computational problems, for some of which we know efficient (e.g., $n^c$-time for a small constant $c$) algorithms, and for others the best known algorithms are exponential.
-We want to get a feel as to the kinds of problems that lie on each side of this divide and also see how some seemingly minor changes in formulation can make the (known) complexity of a problem "jump" from polynomial to exponential.
-We will not formally define the notion of running time in this chapter, and so will use the same "I know it when I see it" notion of an $O(n)$ or $O(n^2)$ time algorithms as the one you've seen in introduction to computer science courses.
-In [chapmodelruntime](){.ref}, we  define running time precisely, using Turing Machines and the RAM machines / NAND-RAM formalisms. 
+We will see the precise definition of running time (using Turing machines and RAM machines / NAND-RAM) in [chapmodelruntime](){.ref}.
+In this chapter, we informally  survey examples of computational problems.
+For some of these problems  we know efficient (i.e., $O(n^c)$-time for a small constant $c$) algorithms, and for others the best known algorithms are _exponential_.
+We present these examples to get a feel as to the kinds of problems that lie on each side of this divide and also see how sometimes seemingly minor changes in problem formulation can make the (known) complexity of a problem "jump" from polynomial to exponential.
+We do not formally define the notion of running time in this chapter, but use the same "I know it when I see it" notion of an $O(n)$ or $O(n^2)$ time algorithms as the one you've seen in introduction to computer science courses.
 
-While the difference between $O(n)$ and $O(n^2)$ time is often crucial for practice, our focus in this book will be on the difference between _polynomial_ and _exponential_ running time.
+While the difference between $O(n)$ and $O(n^2)$ time can be crucial in practice, 
+we focus on the difference between _polynomial_ and _exponential_ running time.
+One advantage is that, as we will see, questions about polynomial versus exponential time are often _insensitive_ to the choice of the particular computational model, just as the question of whether a function $F$ is computable is insensitive to whether you use Turing machines, $\lambda$-calculus, or Javascript as your model of computation.
 One of the interesting phenomena of computing is that there is often a kind of a "threshold phenomenon" or "zero-one law" for running time.
-Many natural problems can either be solved in polynomial running time with a not-too-large exponent (e.g., something like $O(n^2)$ or $O(n^3)$), or require exponential (e.g., at least $2^{\Omega(n)}$ or $2^{\Omega(\sqrt{n})}$) time to solve.
+Many natural problems can either be solved in _polynomial_ running time with a _not-too-large exponent_ (e.g., something like $O(n^2)$ or $O(n^3)$), or require _exponential_ (e.g., at least $2^{\Omega(n)}$ or $2^{\Omega(\sqrt{n})}$) time to solve.
 The reasons for this phenomenon are still not fully understood, but some light on this is shed by the concept of _NP completeness_, which we will see in [cooklevinchap](){.ref}.
-As we will see, questions about polynomial versus exponential time are often _insensitive_ to the choice of the particular computational model, just as the question of whether a function $F$ is computable is insensitive to whether you use Turing machines, $\lambda$-calculus, or Javascript as your model of computation.
 
 This chapter is merely a tiny sample of the landscape of computational problems and efficient algorithms.
-If you have not yet seen this material and want to explore it more deeply (which I very much hope you do!), the bibliographical notes contain references to some excellent texts, some of which are available freely on the web.
+If you  want to explore the field of algorithms and data structures  more deeply (which I very much hope you do!), the bibliographical notes contain references to some excellent texts, some of which are available freely on the web.
 
 ::: {.remark title="Relations between parts of this book" #relationpartsrem }
 __Part I__ of this book contained a _quantitative study_ of computation of  _finite functions_. We asked what are the resources (in terms of gates of Boolean circuits or lines in straight-line programs) required to compute various finite functions.
@@ -66,20 +70,16 @@ In [nonuniformcompsec](){.ref} we will relate this class  to the models of Boole
 
 In this chapter we discuss several examples of important computational problems.
 Many of the problems will involve _graphs_.
-We have already encountered graphs before (see [graphsec](){.ref }  but let us now quickly recall the basic notation.
+We have already encountered graphs before (see [graphsec](){.ref })  but now quickly recall the basic notation.
 A graph $G$ consists of a set of _vertices_ $V$ and _edges_ $E$ where each edge is a pair of vertices.
+We typically denote by $n$ the number of vertices (and in fact often consider graphs where the set of vertices $V$ equals the set $[n]$ of the integers between $0$ and $n-1$).
 In a _directed_ graph, an edge is an ordered pair $(u,v)$, which we sometimes denote as $\overrightarrow{u\;v}$.
-In an _undirected_ graph, an edge is an unordered pair (or simply a set) $\{ u,v \}$ which we sometimes denote as $\overline{u\; v}$ or $u \sim v$. An equivalent viewpoint is that an undirected graph is like a directed graph with the property that whenever the edge $\overrightarrow{u\; v}$ is present then so is the edge $\overrightarrow{v\; u}$.
-
-In this chapter we will usually we assume that  the graphs are undirected and _simple_ (i.e., containing no parallel edges or self-loops) unless stated otherwise.
-We denote by $n$ their number of  vertices and $m$ the number of edges.
-To avoid annoying "edge cases" we will always assume that every vertex touches at least one edge, and so $m \geq n/2$.
-In fact, we typically think of the vertices  as simply the set  $[n]$ of the numbers from $0$ till $n-1$.
-Graphs can be represented either in the _adjacency list_ or _adjacency matrix_ representations.
+In an _undirected_ graph, an edge is an unordered pair (or simply a set) $\{ u,v \}$ which we sometimes denote as $\overline{u\; v}$ or $u \sim v$. An equivalent viewpoint is that an undirected graph corresponds to a directed graph satisfying the property that whenever the edge $\overrightarrow{u\; v}$ is present then so is the edge $\overrightarrow{v\; u}$.
+In this chapter we restrict our attention to graphs that are undirected and simple (i.e., containing no parallel edges or self-loops).
+Graphs can be represented either in the _adjacency list_ or _adjacency matrix_ representation.
 We can transform between these two representations using $O(n^2)$ operations, and hence for our purposes we will mostly consider them as equivalent.
 
-There is a reason that graphs are so ubiquitous in computer science and other sciences.
-Graphs can be used to model a great many of the data that we encounter.
+Graphs are so ubiquitous in computer science and other sciences because they can be used to model a great many of the data that we encounter.
 These are not just the "obvious" data such as the road network (which can be thought of as a graph of whose vertices are locations with edges corresponding to road segments), or the web (which can be thought of as a graph whose vertices are web pages with edges corresponding to links), or social networks (which can be thought of as a graph whose vertices are people and the edges correspond to friend relation).
 Graphs can also denote correlations in data (e.g., graph of observations of features with edges corresponding to features that tend to appear together), causal relations (e.g., gene regulatory networks, where a gene is connected to gene products it derives), or the state space of a system (e.g., graph of configurations of a physical system, with edges corresponding to states that can be reached from one another in one step).
 
@@ -123,50 +123,51 @@ Return $\infty$
 ```
 
 
-Since we only add to the queue vertices $w$ with $D[w]=\infty$ (and then immediately set $D[w]$ to an actual number), we never push to the queue a vertex more than once, and hence the algorithm makes $n$ "push" and "pop" operations.
-For each vertex $v$, the number of times we run the inner loop is equal to the _degree_ of $v$ and hence the total running time is proportional to the sum $2m$ of all degrees.
+Since we only add to the queue vertices $w$ with $D[w]=\infty$ (and then immediately set $D[w]$ to an actual number), we never push to the queue a vertex more than once, and hence the algorithm makes at most $n$ "push" and "pop" operations.
+For each vertex $v$, the number of times we run the inner loop is equal to the _degree_ of $v$ and hence the total running time is proportional to the sum  of all degrees which equals twice the number $m$ of edges.
 [bfsshortpathalg](){.ref} returns the correct answer since  the vertices are added to the queue in the order of their distance from $s$, and hence we will reach $t$ after we have explored all the vertices that are closer to $s$ than $t$.
 
 
 ::: {.remark title="On data structures" #datastructuresrem}
-If you've ever taken an algorithms course, you have probably encountered many _data structures_ such as __lists__, __arrays__, __queues__, __stacks__, __heaps__, __search trees__, __hash tables__ and many mores. Data structures are extremely important in computer science, and each one of those offers different tradeoffs between overhead in storage, operations supported, cost in time for each operation, and more.
-For example, if we store $n$ items in a list, we will need a linear (i.e., $O(n)$ time) scan to retreive one of them, while we achieve the same operation in $O(1)$ time if we used a hash table.
+If you've ever taken an algorithms course, you have probably encountered many _data structures_ such as __lists__, __arrays__, __queues__, __stacks__, __heaps__, __search trees__, __hash tables__ and many more. Data structures are extremely important in computer science, and each one of those offers different tradeoffs between overhead in storage, operations supported, cost in time for each operation, and more.
+For example, if we store $n$ items in a list, we will need a linear (i.e., $O(n)$ time) scan to retrieve an element, while we achieve the same operation in $O(1)$ time if we used a hash table.
 However,  when we only care about polynomial-time algorithms, such factors of $O(n)$ in the running time will not make much difference.
 Similarly, if we don't care about the difference between $O(n)$ and $O(n^2)$, then it doesn't matter if we represent graphs as adjacency lists or adjacency matrices.
 Hence we will often describe our algorithms at a very high level, without specifying the particular data structures that are used to implement them.
-It should however be always clear that there exists _some_ data structure that will be sufficient for our purposes.
+However, it will  always be clear that there exists _some_ data structure that is sufficient for our purposes.
 :::
+
+
 
 
 ### Finding the longest path in a graph
 
-The _longest path problem_ is the task of, given a graph $G=(V,E)$ and two vertices $s,t \in V$, to find the length of the _longest_ simple (i.e., non intersecting) path between $s$ and $t$.
+The _longest path problem_ is the task of finding the length of the _longest_ simple (i.e., non intersecting) path between a given pair of vertices $s$ and $t$ in a given graph $G$.
 If the graph is a road network, then the longest path might seem less motivated than the shortest path (unless you are the kind of person that always prefers the "scenic route").
 But of graphs can and are used to model a variety of phenomena, and in many such cases finding the longest path (and some of its variants) can be very useful.
 In particular, finding the longest path is a generalization of the famous  [Hamiltonian path problem](https://en.wikipedia.org/wiki/Hamiltonian_path_problem) which asks for a _maximally long_ simple path (i.e., path that visits all $n$ vertices once) between $s$ and $t$, as well as the notorious [traveling salesman problem (TSP)](https://en.wikipedia.org/wiki/Travelling_salesman_problem) of finding (in a weighted graph) a path visiting all vertices of cost at most $w$.
 TSP is a classical optimization problem, with applications ranging from planning and logistics to DNA sequencing and astronomy.
 
 
-Surprisingly, while we can find the shortest path in $O(m)$ time, there is no known algorithm for the _longest path problem_  that significantly improves on the trivial "exhaustive search" or "brute force" algorithm that enumerates all the exponentially many possibilities.
-Specifically the number of possible paths in an $n$ vertex graph is $O(n^n).
-The best known algorithms for the longest path problem improve on this, but not by much: it takes $\Omega(c^n)$ time for some constant $c>1$. (At the moment the best record is $c \sim 1.65$ or so; even obtaining an $O(2^n)$ time bound is not that simple, see [longest-path-ex](){.ref}.)
+Surprisingly, while we can find the shortest path in $O(m)$ time, there is no known algorithm for the _longest path problem_  that significantly improves on the trivial "exhaustive search" or "brute force" algorithm that enumerates all the exponentially many possibilities for such paths.
+Specifically, the best known algorithms for the longest path problem take $O(c^n)$ time for some constant $c>1$. (At the moment the best record is $c \sim 1.65$ or so; even obtaining an $O(2^n)$ time bound is not that simple, see [longest-path-ex](){.ref}.)
 
 ![A _knight's tour_ can be thought of as a maximally long path on the graph corresponding to a chessboard where we put an edge between any two squares that can be reached by one step via a legal knight move.](../figure/knights_tour.jpg){#knighttourpath .margin  }
 
 
 ### Finding the minimum cut in a graph { #mincutsec }
 
-Given a graph $G=(V,E)$, a _cut_ is a subset $S$ of $V$ such that $S$ is neither empty nor is it all of $V$.
+Given a graph $G=(V,E)$, a _cut_ of $G$ is a subset $S \subseteq V$  such that $S$ is neither empty nor is it all of $V$.
 The edges cut by $S$ are those edges where one of their endpoints is in $S$ and the other is in $\overline{S} = V \setminus S$.
 We denote this set of edges by $E(S,\overline{S})$.
-If $s,t \in V$ then an _$s,t$ cut_ is a cut such that $s\in S$ and $t\in \overline{S}$ (see [cutingraphfig](){.ref}).
+If $s,t \in V$ are a pair of vertices then an _$s,t$ cut_ is a cut such that $s\in S$ and $t\in \overline{S}$ (see [cutingraphfig](){.ref}).
 The _minimum $s,t$ cut problem_ is the task of finding, given $s$ and $t$, the minimum number $k$ such that there is an $s,t$ cut cutting $k$ edges (the problem is also sometimes phrased as finding the set that achieves this minimum; it turns out that algorithms to compute the number often yield the set as well).
 Formally, we define $MINCUT:\{0,1\}^* \rightarrow \{0,1\}^*$ to be the function that on input a string representing a triple $(G=(V,E),s,t)$ of a graph and two vertices, outputs the minimum number $k$ such that there exists a set $S \subseteq V$ with $s\in S$, $t\not\in S$ and $|E(S,\overline{S})|=k$.
 
 
 ![A _cut_ in a graph $G=(V,E)$ is simply a subset $S$ of its vertices. The edges that are _cut_ by $S$ are all those whose one endpoint is in $S$ and the other one is in $\overline{S} = V \setminus S$. The cut edges are colored red in this figure.](../figure/cutingraph.png){#cutingraphfig .margin  }
 
-The minimum $s,t$ cut problem appears in many applications sine minimum cuts often correspond to _bottlenecks_.
+Computing minimum $s,t$ cuts is useful for in many applications since minimum cuts often correspond to _bottlenecks_.
 For example, in a communication  or railroad network the minimum cut between $s$ and $t$ corresponds to the smallest number of edges that, if dropped, will disconnect $s$ from $t$.
 (This was actually the original motivation for this problem; see [effalgnotes](){.ref}.)
 Similar applications arise in scheduling and planning.
@@ -175,23 +176,23 @@ If we want to separate the foreground from the background then we can pick (or g
 
 The naive algorithm for computing  $MINCUT$ will  check  all $2^n$  possible subsets of an $n$-vertex graph, but it turns out we can do much better than that.
 As we've seen in this book time and again, there is more than one algorithm to compute the same function,and some of those algorithms might be more efficient than others.
-Luckily this is one of those cases.
-There are faster algorithms that compute $MINCUT$ in time which is _polynomial_ in the number of vertices  (denoted by $poly(n)$).
+Luckily the minimum cut problem is one of those cases.
+In particular, as we will see in the next section, there are algorithms that compute $MINCUT$ in time which is _polynomial_ in the number of vertices.
 
 
+### Min-Cut Max-Flow and Linear programming {#linerprogsec }
 
-__Min-Cut Max-Flow.__
 We can obtain a polynomial-time algorithm for computing $MINCUT$ using the [Max-Flow Min-Cut Theorem](https://en.wikipedia.org/wiki/Max-flow_min-cut_theorem).
-This theory says that the minimum cut between $s$ and $t$ equals the maximum amount of _flow_ we can send from $s$ to $t$, if every edge has unit capacity.
+This theorem says that the minimum cut between $s$ and $t$ equals the maximum amount of _flow_ we can send from $s$ to $t$, if every edge has unit capacity.
 Specifically, imagine that every edge of the graph corresponded to a pipe that could carry one unit of fluid per one unit of time (say 1 liter of water per second).
-Now suppose we want to send a maximum amount of water per second from our _source_ $s$ to the _sink_ $t$.
-If there is an $s,t$-cut of at most $k$ edges, then this maximum will be at most $k$.
-Indeed, such a cut $S$ will be a "bottleneck" since at most $k$ units can flow from $S$ to its complement $\overline{S}$.
-The above reasoning can be used to show that the maximum flow from $s$ to $t$ is _at most_ the value of the minimum $s,t$-cut.
+The _maximum $s,t$ flow_ is the maximum units of water that we could transfer from $s$ to $t$ over these pipes.
+If there is an $s,t$ cut of $k$ edges, then the maximum flow is at most $k$.
+The reason is that such a cut $S$ acts as a "bottleneck" since at most $k$ units can flow from $S$ to its complement at any given unit of time.
+This means that the maximum $s,t$ flow is always _at most_ the value of the minimum $s,t$ cut.
 The surprising and non-trivial content of the Max-Flow Min-Cut Theorem is that the maximum flow is also _at least_ the value of the minimum cut, and hence computing the cut is the same as computing the flow.
 
 
-### Linear programming {#linerprogsec }
+
 
 The Max-Flow Min-Cut Theorem reduces the task of computing a minimum cut to the task of computing a _maximum flow_.
 However, this still does not show how to compute such a flow.
@@ -200,7 +201,7 @@ But computing flows in polynomial time is also a special case of a much more gen
 
 
 A _flow_ on a graph $G$ of $m$ edges can be modeled as a vector $x\in \R^m$ where for every edge $e$, $x_e$ corresponds to the amount of water per time-unit that flows on $e$.
-We think of an edge $e$ an an ordered pair $(u,v)$ (we can choose the order arbitrarily) and let $x_e$ be the amount of flow that goes from $u$ to $v$. (If the flow is in the other directoin then we make $x_e$ negative.) Since every edge has capacity one, we know that $-1 \leq x_e \leq 1$ for every edge $e$.
+We think of an edge $e$ an an ordered pair $(u,v)$ (we can choose the order arbitrarily) and let $x_e$ be the amount of flow that goes from $u$ to $v$. (If the flow is in the other direction then we make $x_e$ negative.) Since every edge has capacity one, we know that $-1 \leq x_e \leq 1$ for every edge $e$.
 A valid flow has the property that the amount of water leaving the source $s$ is the same as the amount entering the sink $t$, and that for every other vertex $v$, the amount of water entering and leaving $v$ is the same.
 
 Mathematically, we can write these conditions as follows:
@@ -220,21 +221,38 @@ Maximizing a linear function $\ell(x)$ over the set of  $x\in \R^m$  that satisf
 Luckily, there are [polynomial-time algorithms](https://en.wikipedia.org/wiki/Linear_programming#Algorithms) for solving linear programming, and hence we can solve the maximum flow  (and so, equivalently, minimum cut) problem in polynomial time.
 In fact, there are much better algorithms for maximum-flow/minimum-cut, even for weighted directed graphs, with currently the record standing at $O(\min\{ m^{10/7}, m\sqrt{n}\})$ time.
 
-_Global minimum cut._ We can also define the problem of finding the _global minimum cut_ (i.e., the non-empty and non-everything set $S$ that minimizes the number of edges cut). A polynomial time algorithm for the minimum $s,t$ cut can be used to solve the global minimum cut in polynomial time by enumerating over all pairs $s,t$.
+
+::: {.solvedexercise title="Global minimum cut" #globalmincut}
+Given a graph $G=(V,E)$, define the _global_ minimum cut of $G$ to be the minimum over all $S \subseteq V$ with $S \neq \emptyset$ and $S \neq V$ of the number of edges cut by $S$.
+Prove that there is a polynomial-time algorithm to compute the global minimum cut of a graph.
+:::
+
+::: {.solution data-ref="globalmincut"}
+By the above we know that there is a polynomial-time algorithm $A$ that on input $(G,s,t)$ finds the minimum $s,t$ cut in the graph $G$. Using $A$, we can obtain an algorithm $B$ that on input a graph $G$ computes the global minimum cut as follows:
+
+1. For every  distinct pair $s,t \in V$, Algorithms $B$ sets $k_{s,t}\leftarrow A(G,s,t)$.
+
+2. $B$ returns the minimum of $k_{s,t}$ over all distinct pairs $s,t$
+
+The running time of $B$ will be $O(n^2)$ times the running time of $A$ and hence polynomial time.
+Moreover, if the the global minimum cut is $S$, then when $B$ reaches an iteration with $s\in S$ and $t\not\in S$ it will obtain the value of this cut, and hence the value output by $B$ will be the value of the global minimum cut.
+
+The above is our first example of a _reduction_ in the context of polynomial-time algorithms.
+Namely, we reduced the task of computing the global minimum cut to the task of computing minimum $s,t$ cuts.
+:::
+
 
 
 ### Finding the maximum cut in a graph
 
-The _maximum cut_ problem is the task of finding, given an input graph $G=(V,E)$, the subset $S\subseteq V$
-that _maximizes_ the number of edges cut by $S$.
-(We could also define an $s,t$-cut variant of the maximum cut like we did for minimum cut; the two variants have similar complexity but we use define maximum cut here in the way that is more common in the literature.)
+The _maximum cut_ problem is the task of finding, given an input graph $G=(V,E)$, the subset $S\subseteq V$ that _maximizes_ the number of edges cut by $S$.
+(We can also define an $s,t$-cut variant of the maximum cut like we did for minimum cut; the two variants have similar complexity but the global maximum cut is more common in the literature.)
 Like its cousin the minimum cut problem, the maximum cut problem is also very well motivated.
-For example, it arises in VLSI design, and also has some surprising relation to analyzing the
-[Ising model](https://en.wikipedia.org/wiki/Ising_model) in statistical physics.
+For example, maximum cut arises in VLSI design, and also has some surprising relation to analyzing the [Ising model](https://en.wikipedia.org/wiki/Ising_model) in statistical physics.
 
-Surprisingly, while there is a polynomial-time algorithm for the minimum cut problem, there is no known algorithm solving _maximum cut_  much faster than the trivial  "brute force" algorithm that tries all $2^n$ possibilities for the set $S$.
+Surprisingly, while (as we've seen) there is a polynomial-time algorithm for the minimum cut problem, there is no known algorithm solving _maximum cut_  much faster than the trivial  "brute force" algorithm that tries all $2^n$ possibilities for the set $S$.
 
-###  A note on convexity
+###  A note on convexity { #convexnotesec }
 
 ![In a _convex_ function $f$ (left figure), for every $x$ and $y$ and $p\in [0,1]$ it holds that $f(px+(1-p)y) \leq p\cdot f(x)+(1-p)\cdot f(y)$. In particular this means that every _local minimum_ of $f$ is also a _global minimum_. In contrast in a _non convex_ function there can be many local minima.](../figure/convexvsnot.png){#convexdeffig .margin  }
 
@@ -249,28 +267,28 @@ The reason is that if $f(y)<f(x)$ then every point $z=px+(1-p)y$ on the line seg
 Intuitively, local minima of functions are much easier to find than global ones: after all, any "local search" algorithm that keeps finding a nearby point on which the value is lower, will eventually arrive at a local minima.
 One example of such a local search algorithm is [gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) which takes a sequence of small steps, each one in the direction that would reduce the value by the most amount based on the current derivative.
 
-Indeed, under certain technical conditions, we can often efficiently find the minimum of convex functions over a convex domain, and this underlies the reason problems such as minimum cut and shortest path are easy to solve.
+Indeed, under certain technical conditions, we can often efficiently find the minimum of convex functions over a convex domain, and this is the reason why problems such as minimum cut and shortest path are easy to solve.
 On the other hand, _maximizing_ a convex function over a convex domain (or equivalently, minimizing a _concave_ function) can often be a hard computational task.
-A _linear_ function is both convex and concave, which is the reason both the maximization and minimization problems for linear functions can be done efficiently.
+A _linear_ function is both convex and concave, which is the reason that both the maximization and minimization problems for linear functions can be done efficiently.
 
 The minimum cut problem is not a priori a convex minimization task, because the set of potential cuts is   _discrete_ and not continuous.
 However, it turns out that we can embed it in a continuous and convex set via the (linear) maximum flow problem.
 The "max flow min cut" theorem ensuring that this embedding is "tight" in the sense that the minimum "fractional cut" that we obtain through the maximum-flow linear program will be the same as the true minimum cut.
 Unfortunately, we don't know of such a tight embedding in the setting of the _maximum_ cut problem.
 
-The issue of convexity arises time and again in the context of computation.
+Convexity arises time and again in the context of efficient computation.
 For example, one of the basic tasks in machine learning is _empirical risk minimization_.
-This is the task of finding a classifier for a set _training examples_.
+This is the task of finding a classifier for a given set of _training examples_.
 That is, the input is a list of labeled examples $(x_{m-1},y_{m-1}),\ldots,(x_{m-1},y_{m-1})$, where each $x_i \in \{0,1\}^n$ and $y_i \in \{0,1\}$, and the goal is to find a _classifier_ $h:\{0,1\}^n \rightarrow \{0,1\}$ (or sometimes $h:\{0,1\}^n \rightarrow \R$) that minimizes the number of _errors_.
 More generally, we want to find $h$ that  minimizes 
 $$
 \sum_{i=0}^{m-1}L(y_i,h(x_i))
 $$
-where $L$ is some _loss function_.
-When $L$ is the _square loss_ function $L(y,y')=(y-y')^2$ and $h$ is a _linear function_, this corresponds to the well-known convex minimization task of _linear regression_.
+where $L$ is some _loss function_ measuring how far is the predicted label $h(x_i)$ from the true label $y_i$.
+When $L$ is the _square loss_ function $L(y,y')=(y-y')^2$ and $h$ is a _linear function_, empirical risk minimization corresponds to the well-known convex minimization task of _linear regression_.
 In other cases, when the task is  _non convex_,  there can be many global or local minima.
 That said, even if we don't find the global (or even a local) minima, this continuous embedding can still help us.
-In particular,  when running a local improvement algorithm such as Gradient Descent, we might still find a function $h$ that is  "useful" in the sense of having a   small error on future examples from the same distribution.
+In particular,  when running a local improvement algorithm such as Gradient Descent, we might still find a function $h$ that is  "useful" in the sense of having a small error on future examples from the same distribution.
 
 ## Beyond graphs
 
@@ -307,7 +325,7 @@ Despite much effort, we do not know of a significantly better than brute force a
 
 Interestingly, a similar issue arises time and again in computation, where the difference between two and three often corresponds to the difference between tractable and intractable.
 We do not fully understand the reasons for this phenomenon, though the notions of $\mathbf{NP}$ completeness we will see later does offer a partial explanation.
-It may be related to the fact that optimizing a polynomial often amounts to equations on its derivative. The derivative of a a quadratic polynomial is linear, while the derivative of a cubic is quadratic, and, as we will see, the difference between solving linear and quadratic equations can be quite profound.
+It may be related to the fact that optimizing a polynomial often amounts to equations on its derivative. The derivative of a quadratic polynomial is linear, while the derivative of a cubic is quadratic, and, as we will see, the difference between solving linear and quadratic equations can be quite profound.
 
 
 ### Solving linear equations
@@ -341,8 +359,8 @@ The difference between the length of the input and the magnitude of the number i
 For example, most people would agree that there is a huge difference between having a billion (i.e. $10^9$) dollars and having nine dollars.
 Similarly there is a huge difference between an algorithm that takes $n$ steps on an $n$-bit number and an algorithm that takes $2^n$ steps.
 
-One example, is the problem (discussed below) of finding the prime factors of a given integer $N$.
-The natural algorithm is to search for such a factor by trying all numbers from $1$ to $N$, but that would take $N$ steps which is _exponential_ in the input length, which is number of bits needed to describe $N$.
+One example is the problem (discussed below) of finding the prime factors of a given integer $N$.
+The natural algorithm is to search for such a factor by trying all numbers from $1$ to $N$, but that would take $N$ steps which is _exponential_ in the input length, which is the number of bits needed to describe $N$.
 (The running time of this algorithm can be easily improved to roughly $\sqrt{N}$, but this is still exponential (i.e., $2^{n/2}$) in the number $n$ of bits to describe $N$.)
 It is an important and long open question whether there is such an algorithm that runs in time polynomial in the input length (i.e., polynomial in $\log N$).
 :::
@@ -354,7 +372,7 @@ Suppose that we want to solve not just _linear_ but also equations involving _qu
 That is, suppose that we are given a set of quadratic polynomials $p_1,\ldots,p_m$ and consider the equations $\{ p_i(x) = 0 \}$.
 To avoid issues with bit representations, we will always assume that the equations contain the constraints $\{ x_i^2 - x_i = 0 \}_{i\in [n]}$.
 Since only $0$ and $1$ satisfy the equation  $a^2-a$, this assumption means that we can restrict attention to solutions in $\{0,1\}^n$.
-Solving quadratic equations in several variable is a classical and extremely well motivated problem.
+Solving quadratic equations in several variables is a classical and extremely well motivated problem.
 This is the generalization of the classical case of single-variable quadratic equations that generations of high school students grapple with.
 It also generalizes the [quadratic assignment problem](https://www.opt.math.tugraz.at/~cela/papers/qap_bericht.pdf), introduced in the 1950's as a way to optimize assignment of economic activities.
 Once again, we do not know a much better algorithm for this problem than the one that enumerates over all the $2^n$ possibilities.
@@ -437,13 +455,13 @@ Fortunately, not all real-world games are zero sum, and we do have more general 
 [John Nash](https://en.wikipedia.org/wiki/John_Forbes_Nash_Jr.) won the Nobel prize for showing that there is a notion of _equilibrium_ for such games as well.
 In many economic texts it is taken as an article of faith that when actual agents are involved in such a game then they reach a Nash equilibrium.
 However, unlike zero sum games, we do not know of an efficient algorithm for finding a Nash equilibrium given the description of a general (non zero sum) game.
-In particular this means that, despite economists' intuitions, there are games for which natural strategies will take exponential number of steps to converge to an equilibrium.
+In particular this means that, despite economists' intuitions, there are games for which natural strategies will take an exponential number of steps to converge to an equilibrium.
 
 
 
 ### Primality testing
 
-Another classical computational problem, that has been of interest since the ancient greeks, is to determine whether a given number $N$ is prime or composite.
+Another classical computational problem, that has been of interest since the ancient Greeks, is to determine whether a given number $N$ is prime or composite.
 Clearly we can do so by trying to divide it with all the numbers in $2,\ldots,N-1$, but this would take at least $N$ steps which is _exponential_ in its bit complexity $n = \log N$.
 We can reduce these $N$ steps to $\sqrt{N}$ by observing that if $N$ is a composite of the form $N=PQ$ then either $P$ or $Q$ is smaller than $\sqrt{N}$.
 But this is still quite terrible.
@@ -474,7 +492,7 @@ While the brute force algorithms would require $2^{\Omega(n)}$ time to factor an
 
 The difference between an exponential and polynomial time algorithm might seem merely "quantitative" but it is in fact extremely significant.
 As we've already seen, the brute force exponential time algorithm runs out of steam very very fast, and as Edmonds says, in practice there might not be much difference between a problem where the best algorithm is exponential and a problem that is not solvable at all.
-Thus the efficient algorithms we mention above are widely used and power many computer science applications.
+Thus the efficient algorithms we mentiond above are widely used and power many computer science applications.
 Moreover, a polynomial-time algorithm often arises out of significant insight to the problem at hand, whether it is the "max-flow min-cut" result, the solvability of the determinant, or the group theoretic structure that enables primality testing.
 Such insight can be useful regardless of its computational implications.
 
@@ -502,6 +520,12 @@ For every 2CNF $\varphi$,  define the graph $G_\varphi$ on $2n$ vertices corresp
 Prove that $\varphi$ is unsatisfiable if and only if there is some $i$ such that there is a path from $x_i$ to $\overline{x}_i$ and from $\overline{x}_i$ to $x_i$ in $G_\varphi$.
 Show how to use this to solve 2SAT in polynomial time.
 
+::: {.exercise title="Reductions for showing algorithms" #reduceP}
+The following fact is true: there is a polynomial-time algorithm $BIP$ that on input a graph $G=(V,E)$ outputs $1$ if and only if the graph is _bipartite_: there is a partition of $V$ to disjoint parts $S$ and $T$ such that every edge $(u,v) \in E$ satisfies either $u\in S$ and $v\in T$ or $u\in T$ and $v\in S$.
+Use this fact to prove that there is a polynomial-time algorithm to compute that following function $CLIQUEPARTITION$ that on input a graph $G=(V,E)$ outputs $1$ if and only if there is a partition of $V$ the graph into two parts $S$ and $T$ such that both $S$ and $T$ are _cliques_: for every pair of distinct vertices $u,v \in S$, the edge $(u,v)$ is in $E$ and similarly for every pair of distinct vertices $u,v \in T$, the edge $(u,v)$ is in $E$. 
+:::
+
+
 
 ## Bibliographical notes {#effalgnotes}
 
@@ -511,10 +535,11 @@ texts that are less "encyclopedic" are  Kleinberg and Tardos [@KleinbergTardos06
 [Jeff Erickson's book](http://jeffe.cs.illinois.edu/teaching/algorithms/) is an excellent algorithms text that is freely available online. 
 
 
-The origins of the minimum cut problem date to the cold war. Specifically, Ford and Fulkerson discovered their max-flow/min-cut algorithm in 1955 as a way to find out the minimum amount of train tracks that would need to be blown up to disconnect Russia from the rest of Europe. See the survey [@schrijver2005history] for more.
+The origins of the minimum cut problem date to the Cold War. Specifically, Ford and Fulkerson discovered their max-flow/min-cut algorithm in 1955 as a way to find out the minimum amount of train tracks that would need to be blown up to disconnect Russia from the rest of Europe. See the survey [@schrijver2005history] for more.
+
+Some algorithms for the longest path problem are given in [@williams2009finding , @bjorklund2014determinant].
 
 
-^[TODO: add reference to best algorithm for longest path - probably the Bjorklund algorithm]
 
 ## Further explorations
 

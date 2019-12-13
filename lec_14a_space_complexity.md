@@ -13,9 +13,6 @@ PLAN: Example of space bounded algorithms, importance of preserving space. The c
 
 
 
-## Lecture summary
-
-
 ## Exercises
 
 
@@ -24,10 +21,3 @@ PLAN: Example of space bounded algorithms, importance of preserving space. The c
 ## Bibliographical notes
 
 
-## Further explorations
-
-Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
-
-
-
-## Acknowledgements

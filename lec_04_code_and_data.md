@@ -42,7 +42,7 @@ It underlies the notion of _general purpose_ computers, that are not pre-wired t
 This concept finds immense use in all areas of computing, from scripting languages to machine learning, but it is fair to say that we haven't yet fully mastered it.
 Many security exploits involve cases such as "buffer overflows" when attackers manage to inject code where the system expected only "passive" data (see [XKCDmomexploitsfig](){.ref}).
 The relation between code and data reaches beyond the realm of electronic computers.
-For example, DNA can be thought of as both a program and data (in the words of Schrödinger, who wrote before DNA's discovery a book that inspired Watson and Crick, DNA is both "architect's plan and builder's craft").
+For example, DNA can be thought of as both a program and data (in the words of Schrödinger, who wrote before the discovery of DNA's structure a book that inspired Watson and Crick, DNA is both "architect's plan and builder's craft").
 
 ![As illustrated in this xkcd cartoon, many exploits, including buffer overflow, SQL injections, and more, utilize the blurry line between "active programs" and "static strings".](../figure/exploits_of_a_mom.png){#XKCDmomexploitsfig .margin  }
 
@@ -90,7 +90,7 @@ Each such symbol can be encoded as a string of $7$ bits using the [ASCII](https:
 
 Nothing in the above discussion was specific to the program $P$, and hence we can use the same reasoning to prove that  _every_ NAND-CIRC program can be represented as a string in $\{0,1\}^*$.
 In fact, we can do a bit better.
-Since the names of the working  variables  of a NAND-CIRC program do not effect its functionality, we can always transform a program to have the form of $P'$ where all variables apart from the inputs and outputs have the form
+Since the names of the working  variables  of a NAND-CIRC program do not affect its functionality, we can always transform a program to have the form of $P'$ where all variables apart from the inputs and outputs have the form
 `temp_0`, `temp_1`, `temp_2`, etc..
 Moreover, if the program has $s$ lines, then we will never need to use an index larger than $3s$ (since each line involves at most three variables), and similarly the indices of the input and output variables will
 all be at most $3s$.
@@ -100,7 +100,7 @@ Hence an $s$ line program can be represented as a string of $O(s \log s)$ bits, 
 
 
 :::  {.theorem title="Representing programs as strings" #asciirepprogramthm}
-There is a constant $c$ such that for $f \in SIZE(s)$, there exists a program $P$ computing $f$ that whose string representation has length at most $c s \log s$.
+There is a constant $c$ such that for $f \in SIZE(s)$, there exists a program $P$ computing $f$ whose string representation has length at most $c s \log s$.
 :::
 
 ::: { .pause }
@@ -119,7 +119,7 @@ This has consequences for the sets $SIZE(s)$ that we defined in [secdefinesizecl
 > ### {.theorem title="Counting programs" #program-count}
 For every $s\in \N$,
 $$|SIZE(s)| \leq 2^{O(s \log s)}.$$
-That is, there are at most $2^{O(s\log s)}$ functions computed by NAND-CIRC programs of at most $s$ lines.^[The implicit constant in the $O(\cdot)$ notation is smaller than $10$. That is, for all sufficiently large $s$, $|SIZE(s)|<  2^{10s\log s}$, see [efficientrepresentation](){.ref}. As discussed in [notationsec](){.ref}](){.ref}, we use the bound $10$ simply because it is a round number. ]
+That is, there are at most $2^{O(s\log s)}$ functions computed by NAND-CIRC programs of at most $s$ lines.^[The implicit constant in the $O(\cdot)$ notation is smaller than $10$. That is, for all sufficiently large $s$, $|SIZE(s)|<  2^{10s\log s}$, see [efficientrepresentation](){.ref}. As discussed in [notationsec](){.ref}, we use the bound $10$ simply because it is a round number.]
 
 
 ::: {.proof data-ref="program-count"}
@@ -146,14 +146,14 @@ This has the following important corollary:
 > ### {.theorem title="Counting argument lower bound" #counting-lb}
 There is a constant $\delta > 0$, such that for every sufficiently large $n$, there is a function  $f:\{0,1\}^n\rightarrow \{0,1\}$  such that
 $f \not\in SIZE \left(\tfrac{\delta 2^n}{n} \right)$.
-That is, the shortest NAND-CIRC program to compute $F$ requires at least $\delta \cdot 2^n/n$ lines.^[The constant $\delta$ is at least $0.1$ and in fact, can be improved to be arbitrarily close to $1/2$, see [efficientlbex](){.ref}.]
+That is, the shortest NAND-CIRC program to compute $f$ requires at least $\delta \cdot 2^n/n$ lines.^[The constant $\delta$ is at least $0.1$ and in fact, can be improved to be arbitrarily close to $1/2$, see [efficientlbex](){.ref}.]
 
 ::: {.proof data-ref="counting-lb"}
 The proof is simple. If we let $c$ be the constant such that $|SIZE(s)| \leq 2^{c s \log s}$ and $\delta = 1/c$, then setting $s = \delta 2^n/n$ we see that
 $$
 |SIZE(\tfrac{\delta 2^n}{n})| \leq 2^{c \tfrac{\delta 2^n}{n} \log s} < 2^{c \delta 2^n} = 2^{2^n}
 $$
-using the fact that since $s < 2^n$, $\log s < n$.
+using the fact that since $s < 2^n$, $\log s < n$ and $\delta = 1/c$.
 But since $|SIZE(s)|$ is smaller than the total number of functions mapping $n$ bits to $1$ bit, there must be at least one such function not in $SIZE(s)$, which is what we needed to prove.
 :::
 
@@ -162,7 +162,7 @@ We have seen before that _every_ function mapping $\{0,1\}^n$ to $\{0,1\}$ can b
 [counting-lb](){.ref} shows that this is tight in the sense that some functions do require such an astronomical number of lines to compute.
 
 ::: { .bigidea #countinglb }
-Some functions  $f:\{0,1\}^n \rightarrow \{0,1\}$   _cannot_ be computed by a Boolean circuit using a fewer than exponential number of gates.
+Some functions  $f:\{0,1\}^n \rightarrow \{0,1\}$   _cannot_ be computed by a Boolean circuit using fewer than exponential (in $n$) number of gates.
 :::
 
 In fact, as we explore in the exercises, this is the case for _most_ functions.
@@ -186,19 +186,19 @@ It turns out that we can use [counting-lb](){.ref} to show a more general result
 
 
 > ### {.theorem title="Size Hierarchy Theorem" #sizehiearchythm}
-For every sufficiently large $n$ and $10n < s < 0.1 2^n /n$,
+For every sufficiently large $n$ and $10n < s < 0.1 \cdot 2^n /n$,
 $$
 SIZE_n(s) \subsetneq SIZE_n(s+10n) \;.
 $$
 
 > ### {.proofidea data-ref="sizehiearchythm"}
-To prove the theorem we need to find a function $f:\{0,1\}^n \rightarrow \{0,1\}$ such that $f$ _can_ be computed by a circuit of $s+10n$ gates but it _can not_ be computed by a circuit of $s$ gates.
-We will do so by coming up with a sequence of functions $f_0,f_1,f_2,\ldots,f_N$ with the following properties: __(1)__ $f_0$ _can_ be computed by a circuit of at most $10n$ gates, __(2)__ $f_N$ _can not_ be computed by a circuit of $0.1 \cdot 2^n/n$ gates, and __(3)__ for every  $i\in \{0,\ldots, N\}$, if $f_i$ can be computed by a circuit of size $s$, then $f_{i+1}$ can be computed by a circuit of size at most $s + 10n$.
+To prove the theorem we need to find a function $f:\{0,1\}^n \rightarrow \{0,1\}$ such that $f$ _can_ be computed by a circuit of $s+10n$ gates but it _cannot_ be computed by a circuit of $s$ gates.
+We will do so by coming up with a sequence of functions $f_0,f_1,f_2,\ldots,f_N$ with the following properties: __(1)__ $f_0$ _can_ be computed by a circuit of at most $10n$ gates, __(2)__ $f_N$ _cannot_ be computed by a circuit of $0.1 \cdot 2^n/n$ gates, and __(3)__ for every  $i\in \{0,\ldots, N\}$, if $f_i$ can be computed by a circuit of size $s$, then $f_{i+1}$ can be computed by a circuit of size at most $s + 10n$.
 Together these properties imply that if we let $i$ be the smallest number such that $f_i \not\in SIZE_n(s)$, then since $f_{i+1} \in SIZE(s)$ it must hold that $f_i \in SIZE(s+10n)$ which is what we need to prove.
 See [hierarchyprooffig](){.ref} for an illustration.
 
 ![We prove [sizehiearchythm](){.ref} by coming up with a list $f_0,\ldots,f_{2^n}$ of functions such that $f_0$ is  the all zero function, $f_{2^n}$ is a function
-(obtained from [counting-lb](){.ref}) outside of $SIZE(0.1\cdot 2^n/n)$ and such that $f_{i-1}$ and $f_i$ differ by one another on at most one input. We can show that for every $i$, the number of gates to compute $f_i$ is most $10n$ larger than the number of gates to compute $f_{i-1}$ and so if let $i$ be the smallest number such that $f_i \not\in SIZE(s)$, then $f_i \in SIZE(s+10n)$.](../figure/hierarchyproof.png){#hierarchyprooffig .margin }
+(obtained from [counting-lb](){.ref}) outside of $SIZE(0.1\cdot 2^n/n)$ and such that $f_{i-1}$ and $f_i$ differ by one another on at most one input. We can show that for every $i$, the number of gates to compute $f_i$ is at most $10n$ larger than the number of gates to compute $f_{i-1}$ and so if we let $i$ be the smallest number such that $f_i \not\in SIZE(s)$, then $f_i \in SIZE(s+10n)$.](../figure/hierarchyproof.png){#hierarchyprooffig .margin }
 
 ::: {.proof data-ref="sizehiearchythm"}
 Let $f^*: \{0,1\}^n \rightarrow \{0,1\}$ be the function (whose existence we are guaranteed by [counting-lb](){.ref}) such that $f^* \not\in SIZE_n(0.1 \cdot 2^n /n)$.
@@ -209,13 +209,13 @@ f_i(x) = \begin{cases} f^*(x) & lex(x)< i  \\ 0 & \text{otherwise} \end{cases} \
 $$
 
 The function $f_0$ is simply the constant zero function, while the function $f_{2^n}$ is equal to $f^*$.
-Moreover, for every $i\in [2^n]$, the function $f_i$ and $f_{i+1}$ differ on at most one input (i.e., the input $x \in \{0,1\}^n$ such that $lex(x)=i$).
+Moreover, for every $i\in [2^n]$, the functions $f_i$ and $f_{i+1}$ differ on at most one input (i.e., the input $x \in \{0,1\}^n$ such that $lex(x)=i$).
 Let $10n < s < 0.1 \cdot 2^n /n$, and let $i$ be the first index such that $f_i \not\in SIZE_n(s)$.
 Since $f_{2^n} = f^* \not\in SIZE(0.1 \dot 2^n / n)$ there must exist such an index $i$, and moreover $i>0$ since the constant zero function is a member of $SIZE_n(10n)$.
 
 By our choice of $i$, $f_{i-1}$ is a member of $SIZE_n(s)$.
 To complete the proof, we need to show that $f_i \in SIZE_n(s + 10n)$.
-Let $x^*$ be the string such that $lex(x^*)=i$ $b\in \{0,1\}$ be the value $f^*(x^*)$.
+Let $x^*$ be the string such that $lex(x^*)=i$ $b\in \{0,1\}$ is the value of $f^*(x^*)$.
 Then we can define $f_i$ also as follows
 $$
 f_i(x) = \begin{cases} b & x=x^* \\ f_i(x) & x \neq x^*
@@ -235,7 +235,7 @@ we can compute $f_i$ using at most $s + 9n +O(1) \leq s +10n$ gates which is wha
 
 
 ![An illustration of some of what we know about the size complexity classes (not to scale!). This figure depicts classes of the form $SIZE_{n,n}(s)$ but the state of affairs for other size complexity classes such as $SIZE_{n,1}(s)$ is similar. We know by [NAND-univ-thm](){.ref} (with the improvement of [tight-upper-bound](){.ref}) that all functions mapping $n$ bits to $n$ bits can be computed by a circuit of size $c \cdot 2^n$ for $c \leq 10$, while on the other hand the counting lower bound ([counting-lb](){.ref}, see also [countingmultibitex](){.ref}) shows that _some_ such functions will require $0.1 \cdot 2^n$, and the size hierarchy theorem ([sizehiearchythm](){.ref}) shows the existence of functions in $SIZE(S) \setminus SIZE(s)$ whenever $s=o(S)$, see also [sizehiearchyex](){.ref}.
-We also consider some specific examples: addition of two $n/2$ bit numbers can be done in $O(n)$ lines, while we don't know of such a program for _multiplying_ two $n$ bit numbers, though we do know it can be done in $O(n^2)$ and in fact even better size. In the above  $FACTOR_n$ corresponds to the inverse problem of multiplying- finding the _prime factorization_ of a given number. At the moment we do not know of any circuit a polynomial (or even sub-exponential) number of lines that can compute $FACTOR_n$. ](../figure/sizecomplexity.png){#sizeclassesfig    }
+We also consider some specific examples: addition of two $n/2$ bit numbers can be done in $O(n)$ lines, while we don't know of such a program for _multiplying_ two $n$ bit numbers, though we do know it can be done in $O(n^2)$ and in fact even better size. In the above,  $FACTOR_n$ corresponds to the inverse problem of multiplying- finding the _prime factorization_ of a given number. At the moment we do not know of any circuit a polynomial (or even sub-exponential) number of lines that can compute $FACTOR_n$. ](../figure/sizecomplexity.png){#sizeclassesfig    }
 
 ::: {.remark title="Explicit functions" #explicitfunc}
 While the size hierarchy theorem guarantees that there exists _some_ function that _can_ be computed using, for example, $n^2$ gates, but not using $100n$ gates, we do not know of any explicit example of such a function.
@@ -319,7 +319,7 @@ $$
 
 We can represent $P=(n,m,L)$ as a string by prepending a prefix free representation of $n$ and $m$ to the list $L$.
 Since $n,m \leq 3s$ (a program must touch at least once all its input and output variables), those prefix free representations can be encoded using strings of length $O(\log s)$.
-In particular  every program $P$ of at most $s$ lines can be represented by a string of length $O(s\log s)$.
+In particular, every program $P$ of at most $s$ lines can be represented by a string of length $O(s\log s)$.
 Similarly, every circuit $C$ of at most $s$ gates, can be represented by a string of length $O(s \log s)$ (for example by translating $C$ to the equivalent program $P$).
 
 
@@ -329,7 +329,7 @@ Similarly, every circuit $C$ of at most $s$ gates, can be represented by a strin
 ## A NAND-CIRC interpreter in NAND-CIRC
 
 Since we can represent programs as strings, we can also think of a program as an input to a function.
-In particular, for every natural numbers $s,n,m>0$ we define the function $EVAL_{s,n,m}:\{0,1\}^{S(s)+n} \rightarrow \{0,1\}^m$ as follows:
+In particular, for every natural number $s,n,m>0$ we define the function $EVAL_{s,n,m}:\{0,1\}^{S(s)+n} \rightarrow \{0,1\}^m$ as follows:
 $$
 EVAL_{s,n,m}(px) = \begin{cases} P(x) & \text{$p\in \{0,1\}^{S(s)}$ represents a size-$s$ program $P$ with $n$ inputs and $m$ outputs}  \\ 0^m & \text{otherwise} \end{cases} \label{evalcirceq}
 $$
@@ -337,7 +337,7 @@ where $S(s)$ is defined as in [lengthstringrepreseq](){.eqref} and we use the co
 
 That is, $EVAL_{s,n,m}$ takes as input the concatenation of two strings: a string $p\in \{0,1\}^{S(s)}$ and a string $x\in \{0,1\}^n$.
 If $p$ is a string that represents a list of triples $L$ such that $(n,m,L)$ is a list-of-tuples representation of  a size-$s$ NAND-CIRC program $P$, then $EVAL_{s,n,m}(px)$ is equal to the evaluation $P(x)$ of the program $P$ on the input $x$.
-Otherwise, $EVAL_{s,n,m}(px)$ equals  $0^m$ (this case is not very important: you can simply think of $0^n$ as some "junk value" that indicates an error).
+Otherwise, $EVAL_{s,n,m}(px)$ equals  $0^m$ (this case is not very important: you can simply think of $0^m$ as some "junk value" that indicates an error).
 
 __Take-away points.__ The fine  details of $EVAL_{s,n,m}$'s definition are not very crucial. Rather, what you need to remember about $EVAL_{s,n,m}$ is that:
 
@@ -345,7 +345,7 @@ __Take-away points.__ The fine  details of $EVAL_{s,n,m}$'s definition are not v
 
 * $EVAL_{s,n,m}$ is a single function, such that computing $EVAL_{s,n,m}$ allows to evaluate _arbitrary_ NAND-CIRC programs of a certain length on _arbitrary_ inputs of the appropriate length.
 
-* $EVAL_{s,n,m}$ is a _function_, not a _program_ (recall the discussion in [specvsimplrem](){.ref}). That is, $EVAL_{s,n,m}$ is  a _specification_ of what output is associated with what input. The existence of a _program_ that computes $EVAL_{s,n,m}$ (i.e., an _implementation_ for $EVAL_{s,n,m}$) is a separate fact, which needs to be established (and which we will do in [bounded-univ](){.ref}, with a more efficient program shown in  in [eff-bounded-univ]()).
+* $EVAL_{s,n,m}$ is a _function_, not a _program_ (recall the discussion in [specvsimplrem](){.ref}). That is, $EVAL_{s,n,m}$ is  a _specification_ of what output is associated with what input. The existence of a _program_ that computes $EVAL_{s,n,m}$ (i.e., an _implementation_ for $EVAL_{s,n,m}$) is a separate fact, which needs to be established (and which we will do in [bounded-univ](){.ref}, with a more efficient program shown in [eff-bounded-univ](){.ref}).
 
 
 
@@ -568,13 +568,13 @@ This completes (up to the omitted details) the proof of [eff-bounded-univ](){.re
 
 
 ::: {.remark title="Improving to quasilinear overhead (advanced optional note)" #quasilinearevalrem}
-The NAND-CIRC program above is less efficient that its Python counterpart, since NAND does not offer arrays with efficient random access. Hence for example the `LOOKUP` operation on an array of $s$ bits takes $\Omega(s)$ lines in NAND even though it takes $O(1)$ steps (or maybe $O(\log s)$ steps, depending how we count) in _Python_.
+The NAND-CIRC program above is less efficient than its Python counterpart, since NAND does not offer arrays with efficient random access. Hence for example the `LOOKUP` operation on an array of $s$ bits takes $\Omega(s)$ lines in NAND even though it takes $O(1)$ steps (or maybe $O(\log s)$ steps, depending on how we count) in _Python_.
 
 It turns out that it is possible to improve the bound of [eff-bounded-univ](){.ref}, and evaluate $s$ line NAND-CIRC programs using a NAND-CIRC program of  $O(s \log s)$ lines.
-The key is to consider the description of NAND-CIRC programs as circuits, and in particular as directed acyclic graphs (DAGs) of bounded in degree.
+The key is to consider the description of NAND-CIRC programs as circuits, and in particular as directed acyclic graphs (DAGs) of bounded in-degree.
 A universal NAND-CIRC program $U_s$ for $s$ line programs will correspond to a _universal graph_ $H_s$ for such $s$ vertex DAGs.
-We can think of such as graph $U_s$ as fixed "wiring" for communication network, that should be able to accommodate any arbitrary pattern of communication between $s$ vertices (where this pattern corresponds to an $s$ line NAND-CIRC program).
-It turns out that there exist such efficient [routing networks](https://goo.gl/NnkkjM) exist that allow embedding any $s$ vertex circuit inside a universal graph of size $O(s \log s)$, see the bibliographical notes [bibnotescodeasdata](){.ref} for more on this issue.
+We can think of such a graph $U_s$ as fixed "wiring" for a communication network, that should be able to accommodate any arbitrary pattern of communication between $s$ vertices (where this pattern corresponds to an $s$ line NAND-CIRC program).
+It turns out that such efficient [routing networks](https://goo.gl/NnkkjM) exist that allow embedding any $s$ vertex circuit inside a universal graph of size $O(s \log s)$, see the bibliographical notes [bibnotescodeasdata](){.ref} for more on this issue.
 :::
 
 
@@ -588,7 +588,7 @@ It is possible to translate _every_ Python program into an equivalent NAND-CIRC 
 (More concretely, if the Python program takes $T(n)$ operations on inputs of length at most $n$ then there exists NAND-CIRC program of $O(T(n) \log T(n))$ lines that agrees with the Python program on inputs of length $n$.)
 Actually doing so requires taking care of many details and is beyond the scope of this book, but let me try to convince you why you should believe it is possible in principle.
 
-For starters, one can can use [CPython](https://en.wikipedia.org/wiki/CPython) (the reference implementation for Python), to evaluate every Python program using a `C` program.
+For starters, one can use [CPython](https://en.wikipedia.org/wiki/CPython) (the reference implementation for Python), to evaluate every Python program using a `C` program.
 We can combine this with a C compiler to transform a Python program to various flavors of "machine language".
 So, to transform a Python program into an equivalent NAND-CIRC program, it is enough to show how to transform a _machine language_ program into an equivalent NAND-CIRC program.
 One minimalistic (and hence convenient) family of machine languages is known as the _ARM architecture_ which powers many mobile devices including essentially all Android devices.^[ARM stands for "Advanced RISC Machine" where RISC in turn stands for "Reduced instruction set computer".]
@@ -610,7 +610,7 @@ The reason is that there exists a Python interpreter _in Python_: a Python progr
 Hence, we only need to show a NAND-CIRC program $U^*$ that computes the same function as the particular Python program $U$, and this will give us a way to evaluate _all_ Python programs.
 
 What we are seeing time and again is the notion of _universality_ or _self reference_ of computation, which is the sense that all reasonably rich models of computation are expressive enough that they can "simulate themselves".
-The importance of this phenomena to both the theory and practice of computing, as well as far beyond it, including the foundations of mathematics and basic questions in science, cannot be overstated.
+The importance of this phenomenon to both the theory and practice of computing, as well as far beyond it, including the foundations of mathematics and basic questions in science, cannot be overstated.
 
 
 
@@ -641,13 +641,13 @@ There is no single universally-agreed-upon formalization of "roughly $s$ physica
 we can approximate this notion by considering the size of any physical computing device and the time it takes to compute the output, and ask that any such device can be simulated by a Boolean circuit with a number of gates that is a polynomial (with not too large exponent) in the size of the system and the time it takes it to operate.
 
 
-In other words, we can phrase the PECTT as stipulating that any function that can be computed by a device of that takes as a certain volume $V$ of space and requires $t$ time to complete the computation, must be computable by a Boolean circuit with a number of gates $p(V,t)$ that is polynomial in $V$ and $t$.
+In other words, we can phrase the PECTT as stipulating that any function that can be computed by a device that takes a certain volume $V$ of space and requires $t$ time to complete the computation, must be computable by a Boolean circuit with a number of gates $p(V,t)$ that is polynomial in $V$ and $t$.
 
 The exact form of the function $p(V,t)$ is not universally agreed upon but it is generally accepted that if $f:\{0,1\}^n \rightarrow \{0,1\}$ is an _exponentially hard_ function, in the sense that it has no NAND-CIRC program of fewer than, say, $2^{n/2}$ lines, then a demonstration of a physical device that can compute in the real world $f$ for moderate input lengths (e.g., $n=500$) would be a violation of the PECTT.
 
 
 ::: {.remark title="Advanced note: making PECTT concrete (advanced, optional)" #concretepectt}
-We can attempt at a more exact phrasing of the PECTT as follows.
+We can attempt a more exact phrasing of the PECTT as follows.
 Suppose that $Z$ is a physical system that accepts $n$ binary stimuli and has a binary output, and can be enclosed in a sphere of volume $V$.
 We say that the system $Z$ _computes_ a function $f:\{0,1\}^n \rightarrow \{0,1\}$ within $t$ seconds if whenever we set the stimuli to some value  $x\in \{0,1\}^n$,  if we measure the output after $t$ seconds then we obtain $f(x)$.
 
@@ -680,24 +680,25 @@ Here are some physical devices that have been speculated to achieve computationa
 * **Spaghetti sort:** One of the first lower bounds that Computer Science students encounter is that sorting $n$ numbers requires making $\Omega(n \log n)$ comparisons. The "spaghetti sort" is a description of a proposed "mechanical computer" that would do this faster. The idea is that to sort $n$ numbers $x_1,\ldots,x_n$, we could cut $n$ spaghetti noodles into lengths $x_1,\ldots,x_n$, and then if we simply hold them together in our hand and bring them down to a flat surface, they will emerge in sorted order. There are a great many reasons why this is not truly a challenge to the PECTT hypothesis, and I will not ruin the reader's fun in finding them out by her or himself.
 
 * **Soap bubbles:** One function $F:\{0,1\}^n \rightarrow \{0,1\}$ that is conjectured to require a large number of NAND lines to solve is the _Euclidean Steiner Tree_ problem. This is the problem where one is given $m$ points in the plane $(x_1,y_1),\ldots,(x_m,y_m)$ (say with integer coordinates ranging from $1$ till $m$, and hence the list can be represented as a string of $n=O(m \log m)$ size) and some number $K$.  The goal is to figure out whether it is possible to connect all the points by line segments of total length at most $K$. This function is conjectured to be hard because it is _NP complete_ - a concept that we'll encounter later in this course - and it is in fact reasonable to conjecture that as $m$ grows, the number of NAND lines required to compute this function grows _exponentially_ in $m$, meaning that the PECTT would predict that if $m$ is sufficiently large (such as few hundreds or so) then no physical device could compute $F$.
-Yet, some people claimed that there is in fact a very simple physical device that could solve this problem, that can be constructed using some wooden pegs and soap. The idea is that if we take two glass plates, and put $m$ wooden pegs between them in the locations $(x_1,y_1),\ldots,(x_m,y_m)$ then bubbles will form whose edges touch those pegs in the way that will minimize the total energy which turns out to be a function of the total length of the line segments.
-The problem with this device of course is that nature, just like people, often gets stuck in "local optima". That is, the resulting configuration will not be one that achieves the absolute minimum of the total energy but rather one that can't be improved with local changes.
+Yet, some people claimed that there is in fact a very simple physical device that could solve this problem, that can be constructed using some wooden pegs and soap. The idea is that if we take two glass plates, and put $m$ wooden pegs between them in the locations $(x_1,y_1),\ldots,(x_m,y_m)$ then bubbles will form whose edges touch those pegs in a way that will minimize the total energy which turns out to be a function of the total length of the line segments.
+The problem with this device is that nature, just like people, often gets stuck in "local optima".
+That is, the resulting configuration will not be one that achieves the absolute minimum of the total energy but rather one that can't be improved with local changes.
 [Aaronson](http://www.scottaaronson.com/papers/npcomplete.pdf) has carried out actual experiments (see [aaronsonsoapfig](){.ref}), and saw that while this device often is successful for three or four pegs, it starts yielding suboptimal results once the number of pegs grows beyond that.
 
 ![Scott Aaronson [tests](http://www.scottaaronson.com/blog/?p=266) a candidate device for computing Steiner trees using soap bubbles.](../figure/aaronsonsoapbubble.jpg){#aaronsonsoapfig .margin  }
 
-* **DNA computing.** People have suggested using the properties of DNA to do hard computational problems. The main advantage of DNA is the ability to potentially encode a lot of information in relatively small physical space, as well as compute on this information in a highly parallel manner. At the time of this writing, it was [demonstrated](http://science.sciencemag.org/content/337/6102/1628.full) that one can use DNA to store about $10^{16}$ bits of information in a region of radius about a millimeter, as opposed to about $10^{10}$ bits with the best known hard disk technology. This does not posit a real challenge to the PECTT but does suggest that one should be conservative about the choice of constant and not assume that current hard disk + silicon technologies are the absolute best possible.^[We were extremely conservative in the suggested parameters for the PECTT, having assumed that as many as $\ell_P^{-2}10^{-6} \sim 10^{61}$ bits could potentially be stored in a millimeter radius region.]
+* **DNA computing.** People have suggested using the properties of DNA to do hard computational problems. The main advantage of DNA is the ability to potentially encode a lot of information in a relatively small physical space, as well as compute on this information in a highly parallel manner. At the time of this writing, it was [demonstrated](http://science.sciencemag.org/content/337/6102/1628.full) that one can use DNA to store about $10^{16}$ bits of information in a region of radius about a millimeter, as opposed to about $10^{10}$ bits with the best known hard disk technology. This does not posit a real challenge to the PECTT but does suggest that one should be conservative about the choice of constant and not assume that current hard disk + silicon technologies are the absolute best possible.^[We were extremely conservative in the suggested parameters for the PECTT, having assumed that as many as $\ell_P^{-2}10^{-6} \sim 10^{61}$ bits could potentially be stored in a millimeter radius region.]
 
 * **Continuous/real computers.** The physical world is often described using continuous quantities such as time and space, and people have suggested that analog devices might have direct access to computing with real-valued quantities and would be inherently more powerful than discrete models such as NAND machines.
 Whether the "true" physical world is continuous or discrete is an open question.
 In fact, we do not even know how to precisely _phrase_ this question, let alone answer it. Yet, regardless of the answer, it seems clear that the effort to measure a continuous quantity grows with the level of accuracy desired, and so there is no "free lunch" or way to bypass the PECTT using such machines (see also [this paper](http://www.cs.princeton.edu/~ken/MCS86.pdf)). Related to that are proposals known as "hypercomputing" or  "Zeno's computers" which attempt to use the continuity of time by doing the first operation in one second, the second one in half a second, the third operation in a quarter second and so on..  These fail for a similar reason to the one guaranteeing that Achilles will eventually catch the tortoise despite the original Zeno's paradox.
 
-* **Relativity computer and time travel.** The formulation above assumed the notion of time, but under the theory of relativity time is in the eye of the observer. One approach to solve hard problems is to leave the computer to run for a lot of time from _his_ perspective, but to ensure that this is actually a short while from _our_ perspective. One approach to do so is for the user to start the computer and then go for a quick jog at close to the speed of light before checking on its status. Depending on how fast one goes, few seconds from the point of view of the user might correspond to centuries in computer time (it might even finish updating its Windows operating system!). Of course the catch here is that the energy required from the user is proportional to how close one needs to get to the speed of light. A more interesting proposal is to use time travel via _closed timelike curves (CTCs)_. In this case we could run an arbitrarily long computation by doing some calculations, remembering the current state, and the travelling back in time to continue where we left off. Indeed, if CTCs exist then we'd probably have to revise the PECTT (though in this case I will simply travel back in time and edit these notes, so I can claim I never conjectured it in the first place...)
+* **Relativity computer and time travel.** The formulation above assumed the notion of time, but under the theory of relativity time is in the eye of the observer. One approach to solve hard problems is to leave the computer to run for a lot of time from _his_ perspective, but to ensure that this is actually a short while from _our_ perspective. One approach to do so is for the user to start the computer and then go for a quick jog at close to the speed of light before checking on its status. Depending on how fast one goes, few seconds from the point of view of the user might correspond to centuries in computer time (it might even finish updating its Windows operating system!). Of course the catch here is that the energy required from the user is proportional to how close one needs to get to the speed of light. A more interesting proposal is to use time travel via _closed timelike curves (CTCs)_. In this case we could run an arbitrarily long computation by doing some calculations, remembering the current state, and then travelling back in time to continue where we left off. Indeed, if CTCs exist then we'd probably have to revise the PECTT (though in this case I will simply travel back in time and edit these notes, so I can claim I never conjectured it in the first place...)
 
 
-* **Humans.** Another computing system that has been proposed as a counterexample to the PECTT is a 3 pound computer of about 0.1m radius, namely the human brain. Humans can walk around, talk, feel, and do others things that are not commonly done by NAND-CIRC programs, but can they compute partial functions that NAND-CIRC programs cannot?
+* **Humans.** Another computing system that has been proposed as a counterexample to the PECTT is a 3 pound computer of about 0.1m radius, namely the human brain. Humans can walk around, talk, feel, and do other things that are not commonly done by NAND-CIRC programs, but can they compute partial functions that NAND-CIRC programs cannot?
 There are certainly computational tasks that _at the moment_ humans do better than computers (e.g., play some [video games](http://www.theverge.com/2016/11/4/13518210/deepmind-starcraft-ai-google-blizzard), at the moment), but based on our current understanding of the brain, humans (or other animals) have no _inherent_ computational advantage over computers.
-The brain has about $10^{11}$ neurons, each operating in a speed of about $1000$ operations per seconds. Hence a rough first approximation is that a Boolean circuit of about $10^{14}$ gates could simulate one second of a brain's activity.^[This is a very rough approximation that could be wrong to a few orders of magnitude in either direction. For one, there are other structures in the brain apart from neurons that one might need to simulate, hence requiring higher overhead. On the other hand, it is by no mean clear that we need to fully clone the brain in order to achieve the same computational tasks that it does.]
+The brain has about $10^{11}$ neurons, each operating at a speed of about $1000$ operations per seconds. Hence a rough first approximation is that a Boolean circuit of about $10^{14}$ gates could simulate one second of a brain's activity.^[This is a very rough approximation that could be wrong to a few orders of magnitude in either direction. For one, there are other structures in the brain apart from neurons that one might need to simulate, hence requiring higher overhead. On the other hand, it is by no mean clear that we need to fully clone the brain in order to achieve the same computational tasks that it does.]
 Note that the fact that such a circuit (likely) exists does not mean it is easy to _find_ it.
 After all, constructing this circuit took evolution billions of years.
 Much of the recent efforts in artificial intelligence research is focused on finding programs that replicate some of the brain's capabilities and they take massive computational effort to discover, these programs often turn out to be much smaller than the pessimistic estimates above. For example, at the time of this writing, Google's [neural network for machine translation](https://arxiv.org/pdf/1609.08144.pdf) has about $10^4$ nodes (and can be simulated by a NAND-CIRC program of comparable size). Philosophers, priests and many others have since time immemorial argued that there is something about humans that cannot be captured by mechanical devices such as computers; whether or not that is the case, the evidence is thin that humans can perform computational tasks that are inherently impossible to achieve by computers of similar complexity.^[There are some well known scientists that have [advocated](http://www.telegraph.co.uk/science/2017/03/14/can-solve-chess-problem-holds-key-human-consciousness/) that humans have inherent computational advantages over computers. See also [this](https://arxiv.org/abs/1508.05929).]
@@ -709,14 +710,14 @@ Turning this observation on its head, people have proposed using such systems to
 At the time of this writing, Scalable quantum computers have not yet been built, but it is a fascinating possibility, and one that does not seem to contradict any known law of nature.
 We will discuss quantum computing in much more detail in [quantumchap](){.ref}.
 Modeling quantum computation    involves extending the model of Boolean circuits into _Quantum circuits_ that have one more (very special) gate.
-However, the main take away is that while quantum computing does suggest we need to amend the PECTT, it does _not_ require a complete revision of our worldview. Indeed, almost all of the content of this book remains the same regardless of whether the underlying computational model is Boolean circuits or quantum circuits.
+However, the main takeaway is that while quantum computing does suggest we need to amend the PECTT, it does _not_ require a complete revision of our worldview. Indeed, almost all of the content of this book remains the same regardless of whether the underlying computational model is Boolean circuits or quantum circuits.
 
 
 
 ::: {.remark title="Physical Extended Church-Turing Thesis and Cryptography" #pcettcrypto}
 While even the precise phrasing of the PECTT, let alone understanding its correctness, is still a subject of active research, some variants of it are already implicitly assumed in practice.
 Governments, companies, and individuals currently rely on _cryptography_ to protect some of their most precious assets, including state secrets, control of weapon systems and critical infrastructure, securing commerce, and protecting the confidentiality of personal information.
-In applied cryptography, one often encounters statements such  as "cryptosystem $X$ provides 128 bits of security". What such a statement really means that __(a)__ it is conjectured that there is no Boolean circuit (or, equivalently, a NAND-CIRC program) of size much smaller than $2^{128}$ that can break $X$, and __(b)__ we assume that no other physical mechanism can do better, and hence it would take roughly a $2^{128}$ amount of "resources" to break $X$.
+In applied cryptography, one often encounters statements such  as "cryptosystem $X$ provides 128 bits of security". What such a statement really means is that __(a)__ it is conjectured that there is no Boolean circuit (or, equivalently, a NAND-CIRC program) of size much smaller than $2^{128}$ that can break $X$, and __(b)__ we assume that no other physical mechanism can do better, and hence it would take roughly a $2^{128}$ amount of "resources" to break $X$.
 We say "conjectured" and not "proved" because, while we can phrase the statement that breaking the system cannot be done by an $s$-gate circuit as a precise mathematical conjecture, at the moment we are unable to _prove_ such a statement for any non-trivial cryptosystem.
 This is related to the $\mathbf{P}$ vs $\mathbf{NP}$ question we will discuss in future chapters.
 We will explore Cryptography in [chapcryptography](){.ref}.
@@ -737,7 +738,7 @@ We will explore Cryptography in [chapcryptography](){.ref}.
 
 
 
-![A finite computational task is specified by a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$. We can model a computational process using Boolean circuits (of varying gate sets) or straight-line program. Every function can be computed by many programs. We say that $f \in SIZE_{n,m}(s)$ if there exists a NAND circuit of at most $s$ gates (equivalently a NAND-CIRC program of at most $s$ lines) that computes $f$. Every function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a circuit of $O(m \cdot 2^n/n)$ gates. Many functions such as multiplication, addition, solving linear equations, computing the shortest path in a graph, and others, can be computed by circuits of much fewer gates. In particular there is an $O(s \log^2 s)$-size circuit that computes the map $C,x \mapsto C(x)$ where $C$ is a string describing  a circuit of $s$ gates. However, the counting argument shows there do exist some functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that require $\Omega(m \cdot 2^n /n)$ gates to compute.](../figure/finitecomprecap.png){#finiterecapfig }
+![A finite computational task is specified by a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$. We can model a computational process using Boolean circuits (of varying gate sets) or straight-line program. Every function can be computed by many programs. We say that $f \in SIZE_{n,m}(s)$ if there exists a NAND circuit of at most $s$ gates (equivalently a NAND-CIRC program of at most $s$ lines) that computes $f$. Every function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a circuit of $O(m \cdot 2^n/n)$ gates. Many functions such as multiplication, addition, solving linear equations, computing the shortest path in a graph, and others, can be computed by circuits of much fewer gates. In particular there is an $O(s^2 \log s)$-size circuit that computes the map $C,x \mapsto C(x)$ where $C$ is a string describing  a circuit of $s$ gates. However, the counting argument shows there do exist some functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that require $\Omega(m \cdot 2^n /n)$ gates to compute.](../figure/finitecomprecap.png){#finiterecapfig }
 
 
 ## Recap of Part I: Finite Computation
@@ -747,13 +748,13 @@ The main take-aways from [compchap](){.ref}, [finiteuniversalchap](){.ref}, and 
 
 * We can formally define the notion of a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ being computable using $s$ basic operations. Whether these operations are AND/OR/NOT, NAND, or some other universal basis does not make much difference. We can describe such a computation either using a _circuit_ or using a _straight-line program_.
 
-* We define $SIZE_{n,m}(s)$ to be the set of _functions_ that are computable by NAND circuits of at most $s$ gates. This set is equal to the set of functions computable by a NAND-CIRC program of at most $s$ lines and pp to a constant factor in $s$ (which we will not care about) this is also the same as the set of functions that are computable by a Boolean circuit of at most $s$ AND/OR/NOT gates. The class  $SIZE_{n,m}(s)$ is a set of _functions_, not of programs/circuits.
+* We define $SIZE_{n,m}(s)$ to be the set of _functions_ that are computable by NAND circuits of at most $s$ gates. This set is equal to the set of functions computable by a NAND-CIRC program of at most $s$ lines and up to a constant factor in $s$ (which we will not care about); this is also the same as the set of functions that are computable by a Boolean circuit of at most $s$ AND/OR/NOT gates. The class  $SIZE_{n,m}(s)$ is a set of _functions_, not of programs/circuits.
 
 * _Every_ function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed using a circuit of _at most_ $O(m \cdot 2^n / n)$ gates. _Some_ functions require _at least_ $\Omega(m \cdot 2^n /n)$ gates. We define $SIZE_{n,m}(s)$ to be the set of functions from $\{0,1\}^n$ to $\{0,1\}^m$ that can be computed using at most $s$ gates.
 
-* We can describe a circuit/program $P$ as a string. For every $s$, there is a _universal_ circuit/program $U_s$ that can evaluate programs of length $s$ given their description as strings. We can use this representation also to _count_ the number of circuits of at most $s$ gates and hence prove that some functions cannot be computed by circuit of smaller-than-exponential size.
+* We can describe a circuit/program $P$ as a string. For every $s$, there is a _universal_ circuit/program $U_s$ that can evaluate programs of length $s$ given their description as strings. We can use this representation also to _count_ the number of circuits of at most $s$ gates and hence prove that some functions cannot be computed by circuits of smaller-than-exponential size.
 
-* If there is a circuit of $s$ gates that computes a function $f$, then we can build a physical device to compute $f$ using $s$ basic components (such as transistors). The "Physical Extended Church-Turing Thesis" postulates postulates that the reverse direction is true as well: if $f$ is a function for which _every_ circuit requires at least $s$ gates then  that _every_ physical device to compute $f$ will require about $s$ "physical resources". The main challenge to the PECTT is _quantum computing_, which we will discuss in [quantumchap](){.ref}.
+* If there is a circuit of $s$ gates that computes a function $f$, then we can build a physical device to compute $f$ using $s$ basic components (such as transistors). The "Physical Extended Church-Turing Thesis" postulates  that the reverse direction is true as well: if $f$ is a function for which _every_ circuit requires at least $s$ gates then  that _every_ physical device to compute $f$ will require about $s$ "physical resources". The main challenge to the PECTT is _quantum computing_, which we will discuss in [quantumchap](){.ref}.
 
 __Sneak preview:__ In the next part we will discuss how to model computational tasks on _unbounded inputs_, which are specified using functions $F:\{0,1\}^* \rightarrow \{0,1\}^*$ (or $F:\{0,1\}^* \rightarrow \{0,1\}$) that can take an unbounded number of Boolean inputs.
 
@@ -781,7 +782,7 @@ For every $k \in \N$ and $x' \in \{0,1\}^k$, show that there is an $O(k)$ line N
 
 
 ::: {.exercise title="Counting lower bound for multibit functions" #countingmultibitex}
-Prove that there exist a number $\delta>0$ such that for every $n,m$ there exists a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that requires at least $\delta m \cdot 2^n / n$ NAND gates to compute. See footnote for hint.^[How many functions from $\{0,1\}^n$ to $\{0,1\}^m$ exist?]
+Prove that there exists a number $\delta>0$ such that for every $n,m$ there exists a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that requires at least $\delta m \cdot 2^n / n$ NAND gates to compute. See footnote for hint.^[How many functions from $\{0,1\}^n$ to $\{0,1\}^m$ exist?]
 :::
 
 ::: {.exercise title="Size hierarchy theorem for multibit functions" #sizehiearchyex}
@@ -805,11 +806,11 @@ See footnote for hint.^[_Hint:_ Use the results of [efficientrepresentationex]()
 
 
 > ### {.exercise title="Random functions are hard" #rand-lb-id}
-Suppose $n>1000$ and that we choose a function $F:\{0,1\}^n \rightarrow \{0,1\}$ at random, choosing for every $x\in \{0,1\}^n$ the value $F(x)$ to be the result of tossing an independent unbiased coin. Prove that the probability that there is a $2^n/(1000n)$ line program that computes $F$ is at most $2^{-100}$.^[__Hint:__ An equivalent way to say this is that you need to prove that the set of functions that can be computed using at most $2^n/(1000n)$ has fewer than $2^{-100}2^{2^n}$ elements. Can you see why?]
+Suppose $n>1000$ and that we choose a function $F:\{0,1\}^n \rightarrow \{0,1\}$ at random, choosing for every $x\in \{0,1\}^n$ the value $F(x)$ to be the result of tossing an independent unbiased coin. Prove that the probability that there is a $2^n/(1000n)$ line program that computes $F$ is at most $2^{-100}$.^[__Hint:__ An equivalent way to say this is that you need to prove that the set of functions that can be computed using at most $2^n/(1000n)$ lines has fewer than $2^{-100}2^{2^n}$ elements. Can you see why?]
 
 
 ::: {.exercise }
-The following is a tuple representing a NAND program:  $(3, 1, ((3, 2, 2),   (4, 1, 1), (5, 3, 4),   (6, 2, 1),  (7, 6, 6), (8, 0, 0), (9, 7, 8),   (10, 5, 0),   (11, 9, 10))$.
+The following is a tuple representing a NAND program:  $(3, 1, ((3, 2, 2),   (4, 1, 1), (5, 3, 4),   (6, 2, 1),  (7, 6, 6), (8, 0, 0), (9, 7, 8),   (10, 5, 0),   (11, 9, 10)))$.
 
 1.  Write a table with the eight values $P(000)$, $P(001)$, $P(010)$, $P(011)$, $P(100)$, $P(101)$, $P(110)$, $P(111)$ in this order.
 
@@ -844,17 +845,17 @@ In other words, if $C'$ is a so called "empirical risk minimizer" that agrees wi
 
 
 
-The $EVAL$ function is usually known as _universal circuit_.
+The $EVAL$ function is usually known as a _universal circuit_.
 The implementation we describe is not the most efficient known.
 Valiant [@Valiant1976] first showed a universal circuit of $O(n \log n)$ size where $n$ is the size of the input.
 Universal circuits have seen in recent years new motivations due to their applications for cryptography, see [@lipmaa2016valiant, @Gunther2017] .
 
 
 
-While we've seen that "most" functions mapping $n$ bits to one bit require circuits of exponential size $\Omega(2^n/n)$, we actually do not know of any _explicit_ function for which we can _prove_ that it requires, say, at least $n^{100}$ or even $100n$ size. At the moment, strongest such lower bound we know is that there are quite simple and explicit $n$-variable functions that require at least $(5-o(1))n$ lines to compute, see [this paper of Iwama et al](http://www.wisdom.weizmann.ac.il/~ranraz/publications/P5nlb.pdf) as well as this more recent [work of Kulikov et al](http://logic.pdmi.ras.ru/~kulikov/papers/2012_5n_lower_bound_cie.pdf).
-Proving lower bounds for restricted models of circuits is an extremely interesting research area, for which Jukna's book [@Jukna12] (see also Wegener [@wegener1987complexity])  provides very good introduction and overview.
+While we've seen that "most" functions mapping $n$ bits to one bit require circuits of exponential size $\Omega(2^n/n)$, we actually do not know of any _explicit_ function for which we can _prove_ that it requires, say, at least $n^{100}$ or even $100n$ size. At the moment, the strongest such lower bound we know is that there are quite simple and explicit $n$-variable functions that require at least $(5-o(1))n$ lines to compute, see [this paper of Iwama et al](http://www.wisdom.weizmann.ac.il/~ranraz/publications/P5nlb.pdf) as well as this more recent [work of Kulikov et al](http://logic.pdmi.ras.ru/~kulikov/papers/2012_5n_lower_bound_cie.pdf).
+Proving lower bounds for restricted models of circuits is an extremely interesting research area, for which Jukna's book [@Jukna12] (see also Wegener [@wegener1987complexity])  provides a very good introduction and overview.
 I learned of the proof of the size hierarchy theorem ([sizehiearchythm](){.ref}) from Sasha Golovnev. 
 
 
 Scott Aaronson's blog post on how [information is physical](http://www.scottaaronson.com/blog/?p=3327) is a good discussion on issues related to the physical extended Church-Turing Physics.
-Aaronson's [survey on NP complete problems and physical reality](http://www.arxiv.org/abs/quant-ph/0502072) is also a great source for some of these issues, though might be easier to read after we reach [cooklevinchap](){.ref} on $\mathbf{NP}$  and $\mathbf{NP}$-completeness.
+Aaronson's survey on NP complete problems and physical reality    [@aaronson2005physicalreality] discusses these issues as well, though it might be easier to read after we reach [cooklevinchap](){.ref} on $\mathbf{NP}$  and $\mathbf{NP}$-completeness.

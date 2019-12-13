@@ -46,12 +46,12 @@ If we now carve out an additional slit in the metal barrier then more balls woul
 
 So far this is pure common sense, and it is indeed (to my knowledge) an accurate description of what happens when we shoot baseballs at a plastic wall.
 However, this is not the same when we shoot _photons_.
-Amazingly, if we shoot with a "photon gun" (i.e., a laser) at a wall equipped with photon detectors through some barrier, then (as shown in [doubleslitfig](){.ref}) in some positions of the wall we will see _fewer_ hits when the two slits are open than when only one of them is!.^[A nice illustrated description of the double slit experiment appears in   [this video](https://www.youtube.com/watch?v=DfPeprQ7oGc).]
+Amazingly, if we shoot with a "photon gun" (i.e., a laser) at a wall equipped with photon detectors through some barrier, then (as shown in [doubleslitfig](){.ref}) in some positions of the wall we will see _fewer_ hits when the two slits are open than when only one of them is!.
 In particular there are positions in the wall that are hit when the first slit is open, hit when the second gun is open, but are _not hit at all when both slits are open!_.
 
 
 
-![The setup of the double slit experiment in the case of photon or electron guns. We see also _destructive_ interference in the sense that there are some positions on the wall that get _fewer_ hits when both slits are open than they get when only one of the slits is open. Image credit: Wikipedia.](../figure/double-slit-setup.PNG){#doubleslitfig .margin  }
+![The setup of the double slit experiment in the case of photon or electron guns. We see also _destructive_ interference in the sense that there are some positions on the wall that get _fewer_ hits when both slits are open than they get when only one of the slits is open.  See also  [this video](https://www.youtube.com/watch?v=DfPeprQ7oGc).](../figure/double-slit-setup.PNG){#doubleslitfig .margin  }
 
 
 It seems as if each photon coming out of the gun is aware of the global setup of the experiment, and behaves differently if two slits are open than if only one is.
@@ -128,9 +128,30 @@ Pure states turn out to be sufficient for understanding the algorithmic aspects 
 More generally, this chapter is not meant to be a complete description of quantum mechanics, quantum information theory, or quantum computing, but rather illustrate the main points where these differ from classical computing.
 :::
 
+### Linear algebra quick review
+
+_Linear algebra_ underlies much of quantum mechanics, and so you would do well to review some of the basic notions such as vectors, matrices, and linear subspaces.
+The operations in quantum mechanics can be represented as linear functions over the _complex_ numbers, but
+we stick to the real numbers in this chapter. This does not cause much loss in understanding but does allow us to simplify our notation and eliminate the use of the complex conjugate.
+
+The main notions we use are:
+
+* A function $F:\R^N \rightarrow \R^N$ is _linear_ if $F(\alpha u + \beta v) =  \alpha F(u) + \beta F(v)$ for every $\alpha,\beta \in \R$ and $u,v \in \R^N$.
+
+* The _inner product_ of two vectors $u,v \in \R^N$ can be defined as $\langle u,v \rangle = \sum_{i\in [N]} u_iv_i$. (There can be different inner products but we stick to this one.) The _norm_ of a vector $u \in \R^N$ is defined as  $\|u\| = \sqrt{\langle u,u \rangle} = \sqrt{\sum_{i\in [N]}u_i^2}$. We say that $u$ is a _unit vector_ if $\|u\|=1$.
+
+* Two vectors $u,v \in \R^N$ are _orthogonal_ if $\langle u,v\rangle = 0$. An _orthonormal basis_ for $\R^N$ is a set of $N$ vectors $v_0,v_1,\ldots, v_{N-1}$ such that $\| v_i \|=1$ for every $i\in [N]$ and $\langle v_i,v_j \rangle=0$ for every $i\neq j$. A canoncial example is the _standard basis_ $e_0,\ldots,e_{N-1}$, where $e_i$ is the vector that has zeroes in all cooordinates except the $i$-th coordinate in which its value is $1$. A quirk of the quantum mechanics literature is that $e_i$ is often denoted by $|i \rangle$. We often consider the case $N=2^n$, in which case we identify $[N]$ with $\{0,1\}^n$ and for every $x\in \{0,1\}^n$, we denote the standard basis element corresponding to the $x$-th coordinate by $|x \rangle$.
+
+* If $u$ is a vector in $\R^n$ and $v_0,\ldots,v_{N-1}$ is an orthonormal basis for $\R^N$, then there are coefficients $\alpha_0,\ldots,\alpha_{N-1}$ such that $u = \alpha_0v_0 + \cdots + \alpha_{N-1}v_{N-1}$. Consequently, the value $F(u)$ is determined by the values $F(v_0)$, $\ldots$, $F(v_{N-1})$. Moreover, $\|u\| = \sqrt{\sum_{i\in [N]} \alpha_i^2}$.
+
+* We can represent a linear function $F:\R^N \rightarrow \R^N$ as an $N\times N$ _matrix_ $M(F)$ where the coordinate in the $i$-th row and $j$-th column of $M(F)$ (that is $M(F)_{i,j}$) is equal to $\langle e_i , F(e_j) \rangle$ or equivalently the $i$-th coordinate of $F(e_j)$.
+
+* A linear function $F:\R^N \rightarrow \R^N$ such that $\| F(u) \| = \|u \|$ for every $u$ is called _unitary_. It can be shown that a function $F$ is unitary if and only if $M(F) M(F)^\top = I$ where $\top$ is the _transpose_ operator (in the complex case the conjugate transpose) and $I$ is the $N\times N$ identity matrix that has $1$'s on the diagonal and zeroes everywhere else. (For every two matrices $A,B$, we use $A B$ to denote the _matrix product_ of $A$ and $B$.) Another equivalent characterization of this condition is that $M(F)^\top = M(F)^{-1}$ and yet another is that both the rows and columns of $M(F)$ form an orthonormal basis.
 
 
-## Bell's Inequality
+
+
+## Bell's Inequality { #bellineqsec }
 
 There is something weird about quantum mechanics.
 In 1935 [Einstein, Podolsky and Rosen (EPR)](http://plato.stanford.edu/entries/qt-epr/) tried to pinpoint this issue by highlighting a previously unrealized corollary of this theory.
@@ -150,7 +171,7 @@ You will interrogate Alice and your associate will interrogate Bob.
 You choose a random bit $x\in\{0,1\}$ and your associate chooses a random $y\in\{0,1\}$.
 We let $a$ be Alice's response and $b$ be Bob's response.
 We say that Alice and Bob win this experiment if $a \oplus b = x \wedge y$.
-In other words, Alice and Bob need to output two bits that _disagree_ if $x=y=1$ and _agree_ otherwise.^[This form of Bell's game was shown by [Clauser, Horne, Shimony, and Holt](https://goo.gl/wvJGZU).]
+In other words, Alice and Bob need to output two bits that _disagree_ if $x=y=1$ and _agree_ otherwise.
 
 
 
@@ -158,7 +179,7 @@ In other words, Alice and Bob need to output two bits that _disagree_ if $x=y=1$
 
 Now if Alice and Bob are not telepathic, then they need to agree in advance on some strategy.
 It's not hard for Alice and Bob to succeed with probability $3/4$: just always output the same bit.
-Moreover, by doing some case analysis, we can show that no matter what strategy they use, Alice and Bob cannot succeed with higher probability than that:^[[bellthm](){.ref} below assumes that Alice and Bob use _deterministic_ strategies $f$ and $g$ respectively. More generally, Alice and Bob could use a _randomized_ strategy, or equivalently, each could choose $f$ and $g$ from some _distributions_ $\mathcal{F}$ and $\mathcal{G}$ respectively.  However the _averaging principle_ ([averagingprinciplerem](){.ref}) implies that if all possible deterministic strategies succeed with probability at most $3/4$, then the same is true for all randomized strategies.]
+Moreover, by doing some case analysis, we can show that no matter what strategy they use, Alice and Bob cannot succeed with higher probability than that:
 
 > ### {.theorem title="Bell's Inequality" #bellthm}
 For every two functions $f,g:\{0,1\}\rightarrow\{0,1\}$, $\Pr_{x,y \in \{0,1\}}[  f(x) \oplus g(y) = x \wedge y] \leq 3/4$.
@@ -184,6 +205,9 @@ If we XOR together the first and second equalities we get $g(0) \oplus g(1) = 0$
 :::
 
 
+::: {.remark title="Randomized strategies" #randomizedstrategies}
+[bellthm](){.ref} above assumes that Alice and Bob use _deterministic_ strategies $f$ and $g$ respectively. More generally, Alice and Bob could use a _randomized_ strategy, or equivalently, each could choose $f$ and $g$ from some _distributions_ $\mathcal{F}$ and $\mathcal{G}$ respectively.  However the _averaging principle_ ([averagingprinciplerem](){.ref}) implies that if all possible deterministic strategies succeed with probability at most $3/4$, then the same is true for all randomized strategies.
+:::
 
 
 
@@ -207,14 +231,8 @@ Some of the counterintuitive properties that arise from quantum mechanics includ
 
 As counter-intuitive as these concepts are, they have been experimentally confirmed, so we just have to live with them.
 
-> ### {.remark title="More on quantum" #quantumsources}
-The discussion in this lecture is quite brief and somewhat superficial.
-The chapter on quantum computation in my [book with Arora](http://theory.cs.princeton.edu/complexity/) (see [draft here](http://theory.cs.princeton.edu/complexity/ab_quantumchap.pdf)) is one
-relatively short resource that contains essentially everything we discuss here and more.
-See also this [blog post of Aaronson](http://www.scottaaronson.com/blog/?p=208) for a high level explanation of Shor's algorithm which ends with links to several more detailed expositions.
-[This lecture](http://www.scottaaronson.com/democritus/lec14.html) of Aaronson contains a great discussion of the feasibility of quantum computing (Aaronson's [course lecture notes](http://www.scottaaronson.com/democritus/default.html) and the [book](http://www.amazon.com/Quantum-Computing-since-Democritus-Aaronson/dp/0521199565) that they spawned are fantastic reads as well).
-The videos of [Umesh Vazirani'z EdX course](https://www.youtube.com/playlist?list=PLDAjb_zu5aoFazE31_8yT0OfzsTcmvAVg) are an accessible and recommended introduction to quantum computing.
-See the "bibliographical notes" section at the end of this chapter for more resources.
+
+The discussion in this chapter of quantum mechanics in general and quantum computing in particular is quite brief and superficial, the  "bibliographical notes" section ([quantumbibnotessec](){.ref}) contains references and links to many other resources that cover this material in more depth.
 
 ## Quantum computing and computation - an executive summary.
 
@@ -272,6 +290,14 @@ In particular, due to Grover's search algorithm, we know that the $k$-SAT proble
 In contrast, the best known algorithms for $k$-SAT on a classical computer take roughly $2^{(1-\tfrac{1}{k})n}$ steps.
 :::
 
+::: { .bigidea #quantumcomp}
+Quantum computers are not a panacea and are unlikely to solve $\mathbf{NP}$ complete problems, but they can provide exponential speedups to certain _structured_ problems.
+:::
+
+
+
+
+
 
 
 ## Quantum systems
@@ -292,7 +318,7 @@ If we think of the $n$-bit system as a whole, then since the $n$ bits can take o
 For every $s\in \{0,1\}^n$, we denote by $e_s$ the $2^n$ dimensional vector that has $1$ in the coordinate corresponding to $s$ (identifying it with a number in $[2^n]$), and so can write  $p$ as $\sum_{s\in \{0,1\}^n} p_s e_s$ where $p_s$ is the probability that the system is in the state $s$.
 
 
-Applying the operation above of setting the $17$-th bit to the NAND of the 3rd and 5th bits, corresponds to transforming the vector $p$ to the vector $Fp$ where $F:\R^{2^n} \rightarrow \R^{2^n}$ is the linear map that maps $e_s$ to $e_{s_0\cdots s_{16}(1-s_3\cdot s_5)s_{18}\cdots s_{n-1}}$.^[Since $\{ e_s \}_{s\in \{0,1\}^n}$ is a _basis_ for $R^{2^n}$, it suffices to define the map $F$ on vectors of this form.]
+Applying the operation above of setting the $17$-th bit to the NAND of the 3rd and 5th bits, corresponds to transforming the vector $p$ to the vector $Fp$ where $F:\R^{2^n} \rightarrow \R^{2^n}$ is the linear map that maps $e_s$ to $e_{s_0\cdots s_{16}(1-s_3\cdot s_5)s_{18}\cdots s_{n-1}}$. (Since $\{ e_s \}_{s\in \{0,1\}^n}$ is a _basis_ for $R^{2^n}$, it suffices to define the map $F$ on vectors of this form.)
 
 ::: { .pause }
 Please make sure you understand why performing the operation will take a system in state $p$ to a system in the state $Fp$.
@@ -321,7 +347,8 @@ $$
 
 In classical computation, we typically think that there are only two operations that we can do on a single bit: keep it the same or negate it.
 In the quantum setting, a single bit operation corresponds to any linear map $OP:\R^2 \rightarrow \R^2$ that is _norm preserving_ in the sense that for every $\alpha,\beta$,  if we apply $OP$ to the vector $\begin{pmatrix} \alpha \\ \beta \end{pmatrix}$ then we obtain a vector $\begin{pmatrix} \alpha' \\ \beta' \end{pmatrix}$ such that  $\alpha'^2 + \beta'^2 = \alpha^2 + \beta^2$.
-Such a linear map $OP$ corresponds to a [unitary](https://en.wikipedia.org/wiki/Unitary_matrix) two by two matrix.^[As we mentioned,  quantum mechanics actually models states as vectors with _complex_ coordinates. However, this does not make any qualitative difference to our discussion.]
+Such a linear map $OP$ corresponds to a [unitary](https://en.wikipedia.org/wiki/Unitary_matrix) two by two matrix.
+(As we mentioned,  quantum mechanics actually models states as vectors with _complex_ coordinates; however, this does not make any qualitative difference to our discussion.)
 Keeping the bit the same corresponds to the matrix $I = \begin{pmatrix} 1&0\\ 0&1 \end{pmatrix}$ and (as we've seen) the NOT operations corresponds to the matrix $N = \begin{pmatrix} 0&1\\ 1&0 \end{pmatrix}$.
 But there are other operations we can use as well.
 One such useful operation is the _Hadamard_ operation, which corresponds to the matrix
@@ -347,7 +374,8 @@ When we _measure_ an $n$-qubit system in a state $\psi= \sum_{x\in \{0,1\}^n} \p
 
 Now that we have the notation in place, we can show a strategy for Alice and Bob to display "quantum telepathy" in Bell's Game.
 Recall that in the classical case, Alice and Bob can succeed in the "Bell Game" with probability at most $3/4 = 0.75$.
-We now show that quantum mechanics allows them to succeed with probability at least $0.8$.^[The strategy we show is not the best one. Alice and Bob can in fact succeed with probability $\cos^2(\pi/8) \sim 0.854$.]
+We now show that quantum mechanics allows them to succeed with probability at least $0.8$.
+(The strategy we show is not the best one. Alice and Bob can in fact succeed with probability $\cos^2(\pi/8) \sim 0.854$.)
 
 
 > ### {.lemma #bellstrategy}
@@ -377,7 +405,7 @@ __Case 2: $x=0$ and $y=1$.__ If $x=0$ and $y=1$ then after Alice measures her bi
 Thus, when Bob measures his qubit, he will get $0$ (and hence agree with Alice) with probability  $\cos^2 (\pi/8)  \geq 0.85$.
 Similarly, if Alice gets $1$ then the system collapses to $|11 \rangle$, in which case after rotation Bob's qubit will be in the state $-\sin (\pi/8)|0\rangle+\cos(\pi/8)|1\rangle$ and so once again he will agree with Alice with probability $\cos^2(\pi/8)$.
 
-The analysis for __Case 3__, where $x=1$ and $y=0$, is completely analogous to Case 2. Hence Alice and Bob will agree with probability $\cos^2(\pi/8)$ in this case as well.^[We are using the (not too hard) observation that the result of this experiment is the same regardless of the order in which Alice and Bob apply their rotations and measurements.]
+The analysis for __Case 3__, where $x=1$ and $y=0$, is completely analogous to Case 2. Hence Alice and Bob will agree with probability $\cos^2(\pi/8)$ in this case as well. (To show this we use the  observation that the result of this experiment is the same regardless of the order in which Alice and Bob apply their rotations and measurements; this requires a proof but is not very hard to show.)
 
 
 __Case 4: $x=1$ and $y=1$.__ For the case that $x=1$ and $y=1$, after both Alice and Bob perform their rotations, the state will be proportional to
@@ -431,7 +459,8 @@ We will do the same for _quantum computation_, focusing mostly on the _non unifo
 A _quantum circuit_ is analogous to a Boolean circuit, and can be described as a directed acyclic graph.
 One crucial difference that the _out degree_ of every vertex in a quantum circuit is at most one.
 This is because we cannot "reuse" quantum states without _measuring_ them (which collapses their "probabilities").
-Therefore, we cannot use the same qubit as input for two different gates.^[This is known as the [No Cloning Theorem](https://goo.gl/jCVtEY).]
+Therefore, we cannot use the same qubit as input for two different gates. 
+(This is known as the [No Cloning Theorem](https://goo.gl/jCVtEY).)
 Another more technical difference is that to express our operations as unitary matrices, we will need to make sure all our gates are _reversible_.
 This is not hard to ensure.
 For example, in the quantum context, instead of thinking of $NAND$ as a (non reversible) map from $\{0,1\}^2$ to $\{0,1\}$, we will think of it as the reversible map on _three_ qubits that maps $a,b,c$ to $a,b,c\oplus NAND(a,b)$ (i.e., flip the last bit if $NAND$ of the first two bits is $1$).
@@ -471,7 +500,7 @@ If $m \geq n$, we use a circuit to compute a function $f:\{0,1\}^n \rightarrow \
 
 * We execute each elementary operation one by one: at every step we apply to the current state either an operation of the form $U_{NAND}^{i,j,k}$ or an operation of the form $HAD^i$ for $i,j,k\in [m]$.
 
-* At the end of the computation, we _measure_ the system, and output the result of the last qubit (i.e. the qubit in location $m-1$).^[For simplicity we restrict attention to functions with a single bit of output, though the definition of quantum circuits naturally extends to circuits with multiple outputs.]
+* At the end of the computation, we _measure_ the system, and output the result of the last qubit (i.e. the qubit in location $m-1$). (For simplicity we restrict attention to functions with a single bit of output, though the definition of quantum circuits naturally extends to circuits with multiple outputs.)
 
 * We say that the circuit _computes_ the function $f$ if the probability that this output equals $f(x)$ is at least $2/3$. Note that this probability is obtained by summing up the squares of the amplitudes of all coordinates in the final state of the system corresponding to vectors $|y \rangle$ where $y_{m-1}=f(x)$.
 
@@ -498,6 +527,11 @@ $$
 Please stop here and see that this definition makes sense to you.
 :::
 
+::: { .bigidea #quantumdefine}
+Just as we did with classical computation, we can define mathematical models for quantum computation, and represent quantum algorithms as binary strings.
+:::
+
+
 Once we have the notion of quantum circuits, we can define the quantum analog of $\mathbf{P_{/poly}}$ (i.e., the class of functions computable by _polynomial size quantum circuits_) as follows:
 
 > ### {.definition title="$\mathbf{BQP_{/poly}}$" #QBPpoly}
@@ -513,14 +547,15 @@ Depending on how you interpret it, this description is either false or would app
 
 Moreover, this "obvious" approach for simulating a quantum computation will take not just exponential time but _exponential space_ as well, while can be shown that using a simple recursive formula one can calculate the final quantum state using _polynomial space_ (in physics this is known as "Feynman path integrals").
 So, the exponentially long vector description by itself does not imply that quantum computers are exponentially powerful.
-Indeed, we cannot _prove_ that they are (i.e., we have not been able to rule out the possiblity that every QNAND-CIRC program could be simulated by a NAND-CIRC program/ Boolean circuit with polynomial overhead), but we do have some problems (integer factoring most prominently) for which they do provide exponential speedup over the currently best _known_ classical (deterministic or probabilistic) algorithms.
+Indeed, we cannot _prove_ that they are (i.e., we have not been able to rule out the possibility that every QNAND-CIRC program could be simulated by a NAND-CIRC program/ Boolean circuit with polynomial overhead), but we do have some problems (integer factoring most prominently) for which they do provide exponential speedup over the currently best _known_ classical (deterministic or probabilistic) algorithms.
 :::
+
 
 
 
 ###  QNAND-CIRC programs (optional)
 
-Just like in the classical case, there is an equivalence between circuits and straight-line programs, and so we can define the programming language QNAND that is the quantum analog of our NAND-CIRC programming language.
+Just like in the classical case, there is an equivalence between circuits and straight-line programs, and so we can define the programming language QNAND-CIRC that is the quantum analog of our NAND-CIRC programming language.
 To do so, we only add a single operation: `HAD(foo)` which applies the single-bit operation $H$ to the variable `foo`.
 We also use the following interpretation to make `NAND` reversible: `foo = NAND(bar,blah)` means that we modify `foo` to be the XOR of its original value and the NAND of `bar` and `blah`.
 (In other words, apply the $8$ by $8$ unitary transformation $U_{NAND}$ defined above to the three qubits corresponding to `foo`, `bar` and `blah`.)
@@ -538,14 +573,14 @@ If $P$ is a QNAND-CIRC program with $n$ input variables, $\ell$ workspace variab
 
 ### Uniform computation
 
-Just as in the classical case, we can define _uniform_ computational models.
-For example, we can define the _QNAND-TM programming language_ to be QNAND augmented with loops and arrays just like NAND-TM is obtained from NAND.
-Using this we can define the class $\mathbf{BQP}$ which is the uniform analog of $\mathbf{BQP_{/poly}}$.
-Just as in the classical setting it holds that $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$, in the quantum setting it can be shown that  $\mathbf{BQP} \subseteq \mathbf{BQP_{/poly}}$.
-Just like the classical case, we can also use  [Quantum Turing Machines](https://en.wikipedia.org/wiki/Quantum_Turing_machine) instead of QNAND-TM to define $\mathbf{BQP}$.
+Just as in the classical case, we can define _uniform_ computational models for quantum computing as well.
+We will let $\mathbf{BQP}$ be the quantum analog to $\mathbf{P}$ and $\mathbf{BPP}$: the class of all Boolean functions $F:\{0,1\}^* \rightarrow \{0,1\}$ that can be computed by quantum algorithms in polynomial time.
+There are several equivalent ways to define $\mathbf{BQP}$.
+For example, there is a computational model of  [Quantum Turing Machines](https://en.wikipedia.org/wiki/Quantum_Turing_machine) that can be used to define $\mathbf{BQP}$ just as standard Turing machines are used to define $\mathbf{P}$.
+Another alternative is to define the _QNAND-TM programming language_ to be QNAND-CIRC augmented with loops and arrays just like NAND-TM is obtained from NAND-CIRC.
+Once again, we can define $\mathbf{BQP}$ using QNAND-TM programs analogously to the way $\mathbf{P}$ can be defined using NAND-TM programs.
+However, we use the following equivalent definition (which is also the one most popular in the literature):
 
-Yet another way to define $\mathbf{BQP}$ is the following: a function $F:\{0,1\}^* \rightarrow \{0,1\}$ is in $\mathbf{BQP}$ if __(1)__ $F\in \mathbf{BQP_{/poly}}$ and __(2)__ moreover for every $n$, the quantum circuit that verifies this can be generated by a _classical polynomial time NAND-TM program_ (or, equivalently, a polynomial-time Turing machine).^[This is analogous to the alternative characterization of $\mathbf{P}$ that appears in [Palternativeex](){.ref}.]
-We use this definition here, though an equivalent one can be made using QNAND-TM or quantum Turing machines:
 
 > ### {.definition title="The class $\mathbf{BQP}$" #BQPdef}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$.
@@ -558,7 +593,8 @@ We say that $F\in \mathbf{BQP}$ if there exists a polynomial time NAND-TM progra
 
 
 > ### { .pause }
-One way to verify that you've understood these definitions it to see that you can prove __(1)__ $\mathbf{P} \subseteq \mathbf{BQP}$ and in fact the stronger statement $\mathbf{BPP} \subseteq \mathbf{BQP}$, __(2)__  $\mathbf{BQP} \subseteq \mathbf{EXP}$, and __(3)__ For every $\mathbf{NP}$-complete function $F$, if $F\in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$.  [BQPcontainements](){.ref} asks you to work these out.
+[BQPdef](){.ref} is the quantum analog of the  alternative characterization of $\mathbf{P}$ that appears in [Palternativeex](){.ref}.
+One way to verify that you've understood [BQPdef](){.ref}  it to see that you can prove __(1)__ $\mathbf{P} \subseteq \mathbf{BQP}$ and in fact the stronger statement $\mathbf{BPP} \subseteq \mathbf{BQP}$, __(2)__  $\mathbf{BQP} \subseteq \mathbf{EXP}$, and __(3)__ For every $\mathbf{NP}$-complete function $F$, if $F\in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$.  [BQPcontainements](){.ref} asks you to work these out.
 
 The relation between $\mathbf{NP}$ and $\mathbf{BQP}$ is not known (see also [quantumnp](){.ref}).
 It is widely believed that $\mathbf{NP} \nsubseteq \mathbf{BQP}$, but there is no consensus whether or not $\mathbf{BQP} \subseteq \mathbf{NP}$.
@@ -566,10 +602,11 @@ It is   [quite possible](https://eccc.weizmann.ac.il/report/2018/107/) that thes
 
 
 It can be shown that $QNANDEVAL$ (evaluating a quantum circuit on an input) is computable by a polynomial size QNAND-CIRC program, and moreover this program can even be generated _uniformly_ and hence $QNANDEVAL$ is in $\mathbf{BQP}$.
-This allows us to "port" many of the results of classical computational complexity into the quantum realm as well.
+This allows us to "port" many of the results of classical computational complexity into the quantum realm, including the notions of a universal quantum Turing machine, as well as all of the uncomputability results.
+There is even a quantum analog of the [Cook-Levin Theorem](https://arxiv.org/abs/1401.3916).
 
 ::: {.remark title="Restricting attention to circuits" #quantumnonuniformrem}
-Because the non uniform model is a little cleaner to work with, in the rest of this chapter we mostly restrict attention to this model, though all the algorithms we discuss can be implemented in uniform computation as well.
+Because the non uniform model is a little cleaner to work with, in the rest of this chapter we mostly restrict attention to this model, though all the algorithms we discuss can be implemented using uniform algorithms as well.
 :::
 
 
@@ -664,7 +701,8 @@ The main steps in the algorithm are the following:
 
 __Step 1: Reduce to period finding.__ The first step in the algorithm is to pick a random $A\in \{0,1\ldots,M-1\}$ and define the function $F_A:\{0,1\}^m \rightarrow \{0,1\}^m$ as $F_A(x)= A^x (\mod M)$ where we identify the string  $x \in \{0,1\}^m$ with an integer using the binary representation, and similarly represent the integer $A^x (\mod M)$ as a string. (We will choose $m$ to be some polynomial in $\log M$ and so in particular $\{0,1\}^m$ is a large enough set to represent all the numbers in $\{0,1,\ldots, M-1 \}$).
 
-Some not-too-hard (though somewhat technical) calculations show that: __(1)__ The function $F_A$ is _periodic_ (i.e., there is some integer $p_A$ such that $F_A(x+p_A)=F_A(x)$ for almost^[We'll ignore this "almost" qualifier in the discussion below. It causes some annoying, yet ultimately manageable, technical issues in the full-fledged algorithm.] every $x$) and more importantly __(2)__ If we can recover the period $p_A$ of $F_A$  for several randomly chosen $A$'s, then we can recover the factorization of $M$.
+Some not-too-hard (though somewhat technical) calculations show that: __(1)__ The function $F_A$ is _periodic_ (i.e., there is some integer $p_A$ such that $F_A(x+p_A)=F_A(x)$ for "almost" every $x$) and more importantly __(2)__ If we can recover the period $p_A$ of $F_A$  for several randomly chosen $A$'s, then we can recover the factorization of $M$.
+(We'll ignore the "almost" qualifier in the discussion below; it causes some annoying, yet ultimately manageable, technical issues in the full-fledged algorithm.)
 Hence, factoring $M$ reduces to finding out the period of the function $F_A$.
 [dlogfromorder](){.ref} asks you to work out this for the related task of computing the _discrete logarithm_ (which underlies the security of the Diffie-Hellman key exchange and elliptic curve cryptography).
 
@@ -688,7 +726,7 @@ $$f_{A,y}(x) = \begin{cases} 1 & y = A^x (\mod M) \\ 0 & \text{otherwise} \end{c
 
 The magic of Shor's algorithm comes from a procedure known as the [_Quantum Fourier Transform_](https://en.wikipedia.org/wiki/Quantum_Fourier_transform). It allows to change the state $\rho$ into the state $\hat{\rho}$ where the coefficient of $|x\rangle|y \rangle$ is now proportional to the _$x$-th Fourier coefficient_ of $f_{A,y}$.
 In other words, if we measure the state $\hat{\rho}$, we will obtain a pair $(x,y)$ such that the probability of choosing $x$  is proportional to the square of the weight of the _frequency_ $x$ in the representation of the function $f_{A,y}$.
-Since for every $y$, the function $f_{A,y}$ has the period $p_A$, it can be shown that the frequency $x$ will be (almost^[The "almost" qualifier again appears because the original function was only "almost" periodic, but it turns out this can be handled by using an "approximate greatest common divisor" algorithm instead of a standard g.c.d. below. The latter can be obtained using a tool known as the continued fraction representation of a number.]) a multiple of $p_A$.
+Since for every $y$, the function $f_{A,y}$ has the period $p_A$, it can be shown that the frequency $x$ will be (almost) a multiple of $p_A$.
 If we make several such samples $y_0,\ldots,y_k$ and obtain the frequencies $x_1,\ldots,x_k$, then the true period $p_A$ divides all of them, and it can be shown that it is going to be in fact the _greatest common divisor_ (g.c.d.) of all these frequencies: a value which can be computed in polynomial time.
 
 As mentioned above,  we can recover the factorization of $M$ from the periods of $F_{A_0},\ldots,F_{A_t}$ for some randomly chosen $A_0,\ldots,A_t$ in $\{0,\ldots, M-1\}$ and $t$ which is polynomial in $\log M$.
@@ -733,7 +771,7 @@ This is not the same as computing the Fourier transform, but is good enough for 
 The above description of Shor's algorithm skipped over the implementation of the main quantum ingredient: the _Quantum Fourier Transform_ algorithm.
 In this section we discuss the ideas behind this algorithm.
 We will be rather brief and imprecise.
-[quantumsources](){.ref} and [quantumbibnotessec](){.ref} contain references to sources of more information about this topic.
+[quantumbibnotessec](){.ref} contain references to sources of more information about this topic.
 
 To understand the Quantum Fourier Transform, we need to better understand the Fourier Transform itself.
 In particular, we will need to understand how it applies not just to functions whose input is a real number but to functions whose domain can be any arbitrary commutative _group_.
@@ -741,14 +779,11 @@ Therefore we now take a short detour to (very basic) _group theory_, and define 
 
 
 ::: {.remark title="Group theory" #grouptheorem}
-While we define the concepts we use, some   background in group or number theory might be quite helpful for fully understanding this section.
+While we define the concepts we use, some background in group or number theory will be very helpful for fully understanding this section.
+In particular we will use the notion of _finite commutative (a.k.a. Abelian) groups_.
+These are defined as follows.
 
-
-We will not use anything more than the basic properties of finite Abelian groups.
-Specifically we use the following notions:
-
-
-* A finite _group_ $\mathbb{G}$ can be thought of as simply a set of elements and some _binary operation_ $\star$ on these elements (i.e., if $g,h \in \mathbb{G}$ then $g \star h$ is an element of $\mathbb{G}$ as well).
+* A finite _group_ $\mathbb{G}$ is a pair $(G,\star)$ where $G$ is a finite set of elements and $\star$ is a  _binary operation_ mapping a pair $g,h$ of elements in $G$ to the element $g \star h$ in $G$. We often identify $\mathbb{G}$ with the set $G$ of its elements, and so use notation such as $g\in \mathbb{G}$ to indicate that $g$ is an element of $\mathbb{G}$ and $|\mathbb{G}|$ to denote the number of elements in $\mathbb{G}$.
 
 *  The operation $\star$ satisfies the sort of properties that a product operation does, namely, it is _associative_ (i.e., $(g \star h)\star f = g \star (h \star f)$) and there is some element $1$ such that $g \star 1 = g$ for all $g$, and for every $g\in \mathbb{G}$ there exists an element $g^{-1}$ such that $g \star g^{-1} = 1$.
 
@@ -762,7 +797,8 @@ Specifically, for every such group $\mathbb{G}$, if $f$ is a function mapping $\
 
 $$f = \sum_{g \in \mathbb{G}} \hat{f}(g)\chi_g \;\;, \label{fourierexpansion}$$
 
-where the $\chi_g$'s are functions mapping $\mathbb{G}$ to $\mathbb{C}$ that are analogs of the "wave functions" for the group $\mathbb{G}$ and for every $g\in \mathbb{G}$, $\hat{f}(g)$ is a complex number known as the _Fourier coefficient of $f$ corresponding to $g$_.^[The equation [fourierexpansion](){.eqref} means that if we think of $f$ as a $|\mathbb{G}|$ dimensional vector over the complex numbers, then we can write this vector as a sum (with certain coefficients) of the vectors $\{ \chi_g \}_{g\in \mathbb{G}}$. ]
+where the $\chi_g$'s are functions mapping $\mathbb{G}$ to $\mathbb{C}$ that are analogs of the "wave functions" for the group $\mathbb{G}$ and for every $g\in \mathbb{G}$, $\hat{f}(g)$ is a complex number known as the _Fourier coefficient of $f$ corresponding to $g$_.
+Specifically, the equation [fourierexpansion](){.eqref} means that if we think of $f$ as a $|\mathbb{G}|$ dimensional vector over the complex numbers, then we can write this vector as a sum (with certain coefficients) of the vectors $\{ \chi_g \}_{g\in \mathbb{G}}$.
 The representation [fourierexpansion](){.eqref} is known as the _Fourier expansion_ or _Fourier transform_ of $f$, the numbers $( \hat{f}(g) )_{g\in\mathbb{G}}$ are known as the _Fourier coefficients_ of $f$ and the functions $( \chi_g )_{g\in\mathbb{G}}$
 are known as the _Fourier characters_.
 The central property of the Fourier characters is that they are _homomorphisms_ of the group into the complex numbers, in the sense that for every $x,x' \in \mathbb{G}$, $\chi_g(x \star x')=\chi_g(x)\chi_g(x')$, where $\star$ is the group operation.
@@ -772,7 +808,8 @@ This can be used to recover the period of $f$ from its Fourier expansion.
 
 ### Quantum Fourier Transform over the Boolean Cube: Simon's Algorithm
 
-We now describe the simplest setting of the Quantum Fourier Transform: the group $\{0,1\}^n$ with the XOR operation, which we'll denote by $(\{0,1\}^n,\oplus)$.
+We now describe the simplest setting of the Quantum Fourier Transform: the group $\{0,1\}^n$ with the XOR operation, which we'll denote by $(\{0,1\}^n,\oplus)$. 
+(Since $XOR$ is equal to addition modulo two, this group is also often denoted as $(\Z_2)^n$.)
 It can be shown that the Fourier transform over $(\{0,1\}^n,\oplus)$ corresponds to expressing $f:\{0,1\}^n \rightarrow \mathbb{C}$ as
 
 $$
@@ -817,17 +854,15 @@ We can now use the distributive law and open up a term of the form
 
 $$f(x)\bigl(|0\rangle + (-1)^{x_0}|1\rangle\bigr) \cdots  \bigl(|0\rangle + (-1)^{x_{n-1}}|1\rangle\bigr)$$
 
-to the following sum over $2^n$ terms:^[If you find this confusing, try to work out why $\bigl(|0\rangle + (-1)^{x_0}|1 \rangle\bigr) \bigl(|0\rangle + (-1)^{x_1}|1 \rangle \bigr) \bigl(|0\rangle + (-1)^{x_2}|1 \rangle \bigr)$ is the same as the sum over $2^3$ terms
-$|000\rangle + (-1)^{x_2}|001\rangle + \cdots +(-1)^{x_0+x_1+x_2}|111\rangle$.]
-
+to the following sum over $2^n$ terms:
 $$
 f(x) \sum_{y \in \{0,1\}^n} (-1)^{\sum y_ix_i}|y \rangle \;.
 $$
 
+(If you find the above confusing, try to work out explicitly this calculation for $n=3$; namely show that  $\bigl(|0\rangle + (-1)^{x_0}|1 \rangle\bigr) \bigl(|0\rangle + (-1)^{x_1}|1 \rangle \bigr) \bigl(|0\rangle + (-1)^{x_2}|1 \rangle \bigr)$ is the same as the sum over $2^3$ terms $|000\rangle + (-1)^{x_2}|001\rangle + \cdots +(-1)^{x_0+x_1+x_2}|111\rangle$.)
 
 
-
-But by changing the order of summations, we see that the final state is
+By changing the order of summations, we see that the final state is
 
 $$
 \sum_{y \in \{0,1\}^n} 2^{-n/2}\bigl(\sum_{x\in \{0,1\}^n} f(x) (-1)^{\sum x_i y_i} \bigr) | y \rangle
@@ -889,7 +924,7 @@ The case that $L$ is not an exact power of two causes some complications in both
 However, it is possible to handle these.
 The idea is that we can embed $Z_L$ in the group $\Z_{A\cdot L}$ for any integer $A$, and we can find an integer $A$ such that $A\cdot L$ will be close enough to a power of $2$ (i.e., a number of the form $2^m$ for some $m$), so that if we do the Fourier transform over the group $\Z_{2^m}$ then we will not introduce too many errors.
 
-
+![Conjectured status of $\mathbf{BQP}$ with respect to other complexity classes. We know that $\mathbf{P} \subseteq \mathbf{BPP} \subseteq \mathbf{BQP}$ and  $\mathbf{BQP} \subseteq \mathbf{PSPACE} \subseteq \mathbf{EXP}$. It is not known if any of these inclusions are strict though it is believed that they are. The relation between $\mathbf{BQP}$ and $\mathbf{NP}$ is unknown but they are believed to be incomparable, and that $\mathbf{NP}$-complete problems _can not_ be solved in polynomial time by quantum computers. However, it is possible that $\mathbf{BQP}$ contains $\mathbf{NP}$ and even $\mathbf{PSPACE}$, and it is also possible that quantum computers offer no super-polynomial speedups and that $\mathbf{P}=\mathbf{BQP}$. The class "$\mathbf{NISQ}$" above is not a well defined complexity class, but rather captures the current status of quantum devices, which seem to be able to solve a set of computational tasks that is incomparable with the set of tasks solvable by classical computers. The diagram is also inaccurate in the sense that at the moment the "quantum supremacy" tasks on which such devices seem to offer exponential speedups do _not_ correspond to Boolean functions/ decision problems.](../figure/quantumscenarios.png){#quantumoptionsfig}
 
 
 
@@ -928,36 +963,34 @@ See footnote for hint.^[We are given $h=g^x$ and need to recover $x$. To do so w
 
 ## Bibliographical notes { #quantumbibnotessec }
 
-Chapters 9 and 10 in the book _Quantum Computing Since Democritus_ give an informal but highly informative introduction to the topics of this lecture and much more.
-Shor's and Simon's algorithms are also covered in Chapter 10 of my book with Arora on computational complexity.
+
+An excellent gentle introduction to quantum computation is given in Mermin's book [@mermin2007quantum]. 
+In particular the first 100 pages (Chapter 1 to 4) of [@mermin2007quantum] cover all the material of this chapter in a much more comprehensive way.
+This material is also covered in the first 5 chapters of [De-Wolf's online lecture notes](https://arxiv.org/abs/1907.09415).
+For a more condensed exposition, the chapter on quantum computation in my [book with Arora](http://theory.cs.princeton.edu/complexity/) (see [draft here](http://theory.cs.princeton.edu/complexity/ab_quantumchap.pdf)) is one
+relatively short source that contains full descriptions of Grover's, Simon's and Shor's algorithms.
+This [blog post of Aaronson](http://www.scottaaronson.com/blog/?p=208) contains a high level explanation of Shor's algorithm which ends with links to several more detailed expositions.
+Chapters 9 and 10 in Aaronson's book [@Aaronson13democritus] give an informal but highly informative introduction to the topics of this chapter and much more.
+Chapter 10 in [Avi Wigderson's book](https://www.math.ias.edu/avi/book) also provides  a high level overview of quantum computing.
+Other recommended resources include Andrew Childs' [lecture notes on quantum algorithms](http://www.cs.umd.edu/~amchilds/qa/qa.pdf), as well as the lecture notes of [Umesh Vazirani](https://inst.eecs.berkeley.edu/~cs191/),
+[John Preskill](http://www.theory.caltech.edu/people/preskill/ph229/), and [John Watrous](https://cs.uwaterloo.ca/~watrous/LectureNotes.html).
+
 
 There are many excellent videos available online covering some of these materials.
-The Fourier transform is covered in these
-videos of [Dr. Chris Geoscience](https://youtu.be/EYRmB1aNh9I?t=19s),  [Clare Zhang](https://www.youtube.com/watch?v=Y9pYHDSxc7g) and [Vi Hart](https://www.youtube.com/watch?v=i_0DXxNeaQ0).
-More specifically to quantum computing, the videos of  [Umesh Vazirani on the Quantum Fourier Transform](https://www.youtube.com/watch?v=BM429cOogYc) and  [Kelsey Houston-Edwards on Shor's Algorithm](https://www.youtube.com/watch?v=wUwZZaI5u0c) are very recommended.
-
-
-Chapter 10 in [Avi Wigderson's book](https://www.math.ias.edu/avi/book) gives a high level overview of quantum computing.
-Andrew Childs' [lecture notes on quantum algorithms](http://www.cs.umd.edu/~amchilds/qa/qa.pdf), as well as the lecture notes of [Umesh Vazirani](https://inst.eecs.berkeley.edu/~cs191/),
-[John Preskill](http://www.theory.caltech.edu/people/preskill/ph229/), and [John Watrous](https://cs.uwaterloo.ca/~watrous/LectureNotes.html)
-
+The videos of [Umesh Vazirani'z EdX course](https://www.youtube.com/playlist?list=PLDAjb_zu5aoFazE31_8yT0OfzsTcmvAVg) are an accessible and recommended introduction to quantum computing.
 Regarding quantum mechanics in general, this
 [video](https://www.youtube.com/watch?v=DfPeprQ7oGc) illustrates the double slit experiment,
 this [Scientific American video](https://www.youtube.com/watch?v=xM3GOXaci7w)  is a nice exposition of Bell's Theorem.
 This [talk and panel](https://youtu.be/GdqC2bVLesQ?t=2m51s) moderated by Brian Greene discusses some of the philosophical and technical issues around quantum mechanics and its so called  "measurement problem".
 The [Feynmann lecture on the Fourier Transform](http://www.feynmanlectures.caltech.edu/I_50.html) and [quantum mechanics in general](http://www.feynmanlectures.caltech.edu/III_toc.html) are very much worth reading.
+The Fourier transform is covered in these videos of [Dr. Chris Geoscience](https://youtu.be/EYRmB1aNh9I?t=19s),  [Clare Zhang](https://www.youtube.com/watch?v=Y9pYHDSxc7g) and [Vi Hart](https://www.youtube.com/watch?v=i_0DXxNeaQ0).
+See also [Kelsey Houston-Edwards's video on Shor's Algorithm](https://www.youtube.com/watch?v=wUwZZaI5u0c).
 
-The [Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform), used as a component in Shor's algorithm, is one of the most useful algorithms across many application areas.
+The form of Bell's game we discuss in [bellineqsec](){.ref} was given by [Clauser, Horne, Shimony, and Holt](https://goo.gl/wvJGZU).
+
+The [Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform), used as a component in Shor's algorithm, is one of the most widely used algorithms invented.
 The stories of its discovery by Gauss in trying to calculate asteroid orbits and rediscovery by Tukey during the cold war are fascinating as well.
 
-
-
-
-## Further explorations
-
-Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
-
-
-## Acknowledgements
+The image in [doubleslitfig](){.ref} is taken from Wikipedia.
 
 Thanks to Scott Aaronson for many helpful comments about this chapter.

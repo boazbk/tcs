@@ -31,9 +31,8 @@ But why is it so important?
 In this chapter, we will try to figure out the implications of such an algorithm.
 
 First, let us get one qualm out of the way.
-Sometimes people say, _"What if $\mathbf{P}=\mathbf{NP}$ but the best algorithm for 3SAT takes $n^{100}$ time?"_
-Well, $n^{100}$ is much larger than, say, $2^{\sqrt{n}}$ for any input shorter than $10^{60}$ bits, which is way, way larger than the world's total storage capacity (estimated at a "mere" $10^{21}$ bits or about 200 exabytes at the time of this writing).
-So another way to phrase this question is to say,  "what if the complexity of 3SAT is exponential for all inputs that we will ever encounter, but then grows much smaller than that?"
+Sometimes people say, _"What if $\mathbf{P}=\mathbf{NP}$ but the best algorithm for 3SAT takes $n^{1000}$ time?"_
+Well, $n^{1000}$ is much larger than, say, $2^{0.001\sqrt{n}}$ for any input smaller than $2^{50}$, as large as a harddrive as you will encounter, and so another way to phrase this question is to say "what if the complexity of 3SAT is exponential for all inputs that we will ever encounter, but then grows much smaller than that?"
 To me this sounds like the computer science equivalent of asking, "what if the laws of physics change completely once they are out of the range of our telescopes?".
 Sure, this is a valid possibility, but wondering about it does not sound like the most productive use of our time.
 
@@ -43,18 +42,30 @@ So, as the saying goes, we'll keep an open mind, but not so open that our brains
 
 and
 
- * She does not "pussyfoot around" or take "half measures". If God decided to make $3SAT$ _easy_, then $3SAT$ will have a $10^6\cdot n$ (or at worst $10^6 n^2$) -time algorithm (i.e., $3SAT$ will be in $TIME(cn)$ or $TIME(cn^2)$  for a not-too-large constant $c$). If she decided to make $3SAT$ _hard_, then for every $n \in \N$, $3SAT$ on $n$ variables cannot be solved by a NAND-CIRC program of fewer than $2^{10^{-6}n}$ lines.^[Using the relations we've seen between $SIZE(T(n))$  and $TIME(T(n))$ (i.e., [non-uniform-thm](){.ref}), $3SAT \not\in SIZE(T(n))$ then it is also in $TIME(T(n)^\epsilon)$ for some constant $\epsilon$ that can be shown to be at least $1/5$.]
+ * She does not "pussyfoot around" or take "half measures". 
+ 
+ 
+ What we mean by this is that we will consider two extreme scenarios:
+ 
+ * __3SAT is very easy:__ $3SAT$ has an $O(n)$ or $O(n^2)$ time algorithm with a not too huge constant (say smaller than $10^6$.) 
 
+ * __3SAt is very hard:__ $3SAT$ is exponentially hard and cannot be solved faster than $2^{\epsilon n}$ for some not too tiny $\epsilon>0$ (say at least $10^{-6}$). We can even make the stronger assumption that for every sufficiently large $n$, the restriction of $3SAT$ to inputs of length $n$ cannot be computer by a circuit of fewer than $2^{\epsilon n}$ gates.
+
+At the time of writing, the fastest known algorithm for $3SAT$ requires more than $2^{0.35 n}$ to solve $n$ variable formulas, while we do not even know how to rule out the possibility that we can compute $3SAT$ using $10n$ gates.
+To put it in perspective, for the case $n=1000$ our lower and upper bounds for the computational costs are apart by a factor of about $10^{100}$.
+As far as we know, it could be the case that $1000$-variable $3SAT$ can be solved in a millisecond on a first-generation iPhone, and it can also be the case that such instances require more than the age of the universe to solve on the world's fastest supercomputer.
 
 So far, most of our evidence points to the latter possibility of 3SAT being exponentially hard, but we have not ruled out the former possibility either.
-In this chapter we will explore some of its consequences.
+In this chapter we will explore some of the consequences of the "$3SAT$ easy" scenario.
+
 
 ## Search-to-decision reduction
 
-A priori, having a fast algorithm for 3SAT might not seem so impressive. Sure, it will allow us to decide the satisfiability of not just 3CNF formulas but also of quadratic equations, as well as find out whether there is a long path in a graph, and solve many other decision problems.
+A priori, having a fast algorithm for 3SAT might not seem so impressive.
+Sure, such an algorithm allows us to decide the satisfiability of not just 3CNF formulas but also of quadratic equations, as well as find out whether there is a long path in a graph, and solve many other decision problems.
 But this is not typically what we want to do.
-It's not enough to know _if_ a formula is satisfiable$-$ we want to discover the actual satisfying assignment.
-Similarly, it's not enough to find out if a graph has a long path$-$ we want to actually _find_ the path.
+It's not enough to know _if_ a formula is satisfiable: we want to discover the actual satisfying assignment.
+Similarly, it's not enough to find out if a graph has a long path: we want to actually _find_ the path.
 
 It turns out that if we can solve these decision problems, we can solve the corresponding search problems as well:
 
@@ -80,31 +91,37 @@ We can continue in this way to recover all the bits.
 
 
 ::: {.proof data-ref="search-dec-thm"}
-If $\mathbf{P}=\mathbf{NP}$ then for every polynomial-time algorithm $V$ and $a,b \in \N$, there is a polynomial-time algorithm $STARTSWITH_V$ that on input $x\in \{0,1\}^*$ and $z\in \{0,1\}^\ell$, outputs $1$ if and only if there exists some $y\in \{0,1\}^{an^b}$ such that the first $\ell$ bits of $y$ are equal to $z$ and $V(xy)=1$.
-Indeed, we leave it as an exercise to verify that the $STARTSWITH_V$ function is in $\mathbf{NP}$ and hence can be solved in polynomial time if $\mathbf{P}=\mathbf{NP}$.
+Let $V$ be some polynomial time algorithm and $a,b \in \N$ some constants.
+Define the function $STARTSWITH_V$ as follows:
+For every $x\in \{0,1\}^*$ and $z \in \{0,1\}^*$, $STARTSWITH_V(x,z)=1$ if and only if there exists 
+some $y \in \{0,1\}^{an^b - |z|}$ (where $n=|x|)$ such that $V(xzy)=1$.
+That is, $STARTSWITH_V(x,z)$ outputs $1$ if there is some string $w$ of length $a|x|^b$ such that $V(x,w)=1$ and the first $|z|$ bits of $w$ are $z_0,\ldots,z_{\ell-1}$.
+Since, given  $x,y,z$ as above, we can check in polynomial time if $V(xzy)=1$, the function 
+$STARTSWITH_V$ is in $\mathbf{NP}$ and hence if $\mathbf{P}=\mathbf{NP}$ we can compute it in polynomial time.
 
-Now for any such polynomial-time $V$ and $a,b\in\N$, we can implement $FIND_V(x)$ as follows:
+Now for every such polynomial-time $V$ and $a,b\in\N$, we can implement $FIND_V(x)$ as follows:
 
 
 
-::: {.algorithm title="$FIND_V$: Search to decision reduction" #searchtodecisionalg}
-INPUT: $x\in \{0,1\}^*$
-OUTPUT: $x\in \{0,1\}^{an^b}$ s.t. $V(xz)=1$, -if such $x$ exists.
+``` {.algorithm title="$FIND_V$: Search to decision reduction" #searchtodecisionalg}
+INPUT: $x\in \{0,1\}^n$
+OUTPUT: $z\in \{0,1\}^{an^b}$ s.t. $V(xz)=1$, -if such $z$ exists. Otherwise -output the empty string.
 
+Initially $z_0=z_1=\cdots=z_{an^b-1}=0$.
 For{$\ell=0,\ldots,an^b-1$}
 Let $b_0 \leftarrow STARTSWITH_V(xz_{0}\cdots z_{\ell-1}0)$.
 Let   $b_1  \leftarrow STARTSWITH_V(xz_{0}\cdots z_{\ell-1}1)$.
 If{$b_0=b_1=0$} 
-Return "no $z$ exists"  # Can't extend  $xz_0\ldots z_{\ell-1}$ to accepting input of $V$
+Return ""  # Can't extend  $xz_0\ldots z_{\ell-1}$ to an accepting input of $V$
 Endif
-If{$b=1$}
+If{$b_0=1$}
  $z_\ell \leftarrow 0$ # Can extend $xz_0\ldots x_{\ell-1}$ with $0$ to accepting input
 Else
  $z_\ell \leftarrow 1$ # Can extend $xz_0\ldots x_{\ell-1}$ with $1$ to accepting input
 Endif
 Endfor
 Return $z_0,\ldots,z_{an^b-1}$
-:::
+```
 
 
 To analyze [searchtodecisionalg](){.ref}, note that it makes $2an^{b}$ invocations to $STARTSWITH_V$ and hence if the latter is polynomial-time, then so is  [searchtodecisionalg](){.ref}
@@ -120,7 +137,7 @@ $P(xz_0,\ldots,z_{\ell-1}y_\ell,\ldots,y_{an^b-1})=1$.
 If the call to  $STARTSWITH_V(xz_0\cdots z_{\ell-1}0)$ returns $0$ then it must be the case that $y_\ell=1$, and hence when we set $z_\ell=1$ we maintain the invariant.
 :::
 
-## Optimization
+## Optimization { #optimizationsection }
 
 [search-dec-thm](){.ref} allows us to find solutions for $\mathbf{NP}$ problems if $\mathbf{P}=\mathbf{NP}$, but it is not immediately clear that we can find the _optimal_ solution.
 For example, suppose that $\mathbf{P}=\mathbf{NP}$, and you are given a graph $G$. Can you find the _longest_ simple path in $G$ in polynomial time?
@@ -129,17 +146,19 @@ For example, suppose that $\mathbf{P}=\mathbf{NP}$, and you are given a graph $G
 This is actually an excellent question for you to attempt on your own.
 That is, assuming $\mathbf{P}=\mathbf{NP}$, give a polynomial-time algorithm that on input a graph $G$, outputs a maximally long simple path in the graph $G$.
 
-It turns out the answer is _Yes_.
+The answer is _Yes_.
 The idea is simple: if $\mathbf{P}=\mathbf{NP}$ then we can find out in polynomial time if an $n$-vertex graph $G$ contains a simple path of length $n$, and moreover, by [search-dec-thm](){.ref}, if $G$ does contain such a path, then we can find it. (Can you see why?)
 If $G$ does not contain a simple path of length $n$, then we will check if it contains a simple path of length $n-1$, and continue in this way to find the largest $k$ such that $G$ contains a simple path of length $k$.
 
 The above reasoning was not specifically tailored to finding paths in graphs.
 In fact, it can be vastly generalized to proving the following result:
 
-> ### {.theorem title="Optimization from $\mathbf{P}=\mathbf{NP}$" #optimizationnp}
-Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time computable function $f:\{0,1\}^* \rightarrow \{0,1\}^*$  there is a polynomial-time algorithm $OPT$ such that on input   $x\in \{0,1\}^*$, $OPT(x,1^m) = \max_{y\in \{0,1\}^m} f(x,y)$  (where we identify the output of $f(x)$ with a natural number via the binary representation).
->
-Moreover under the same assumption, there is a polynomial-time algorithm $FINDOPT$ such that for every $x\in \{0,1\}^*$, $FINDOPT(x,1^m)$ outputs $y^* \in \{0,1\}^*$ such that $f(x,y^*)=OPT(x,y^*)$.
+::: {.theorem title="Optimization from $\mathbf{P}=\mathbf{NP}$" #optimizationnp}
+Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time computable function $f:\{0,1\}^* \rightarrow \N$ (identifying $f(x)$ with natural numbers via the binary representation)  there is a polynomial-time algorithm $OPT$ such that on input   $x\in \{0,1\}^*$, 
+$$OPT(x,1^m) = \max_{y\in \{0,1\}^m} f(x,y) \;.$$
+
+Moreover under the same assumption, there is a polynomial-time algorithm $FINDOPT$ such that for every $x\in \{0,1\}^*$, $FINDOPT(x,1^m)$ outputs $y^* \in \{0,1\}^*$ such that $f(x,y^*)=\max_{y\in \{0,1\}^m} f(x,y)$.
+:::
 
 > ### { .pause }
 The statement of [optimizationnp](){.ref} is a bit cumbersome.  To understand it, think how it would subsume the example above of a polynomial time algorithm for finding the maximum length path in a graph. In this case the function $f$ would be the map that on input a pair $x,y$ outputs $0$ if the pair $(x,y)$ does not represent some graph and a simple path inside the graph respectively;  otherwise $f(x,y)$ would equal the length of the path $y$ in the graph $x$. Since a path in an $n$ vertex graph can be represented by at most $n \log n$ bits, for every $x$ representing a graph of $n$ vertices, finding $\max_{y\in \{0,1\}^{n \log n}}f(x,y)$   corresponds to finding the length of the maximum simple path in the graph corresponding to $x$, and finding the string $y^*$ that achieves this maximum corresponds to actually finding the path.
@@ -179,7 +198,7 @@ Once we find the maximum value of $k$ such that $F(x,1^m,k)=1$, we can use the s
 :::
 
 
-::: {.example title="Integer programming" #optimization}
+::: {.example title="Integer programming" #optimizationexample  }
 One application for [optimizationnp](){.ref} is in solving _optimization problems_.
 For example, the task of _linear programming_ is to find $y \in \R^n$ that maximizes some linear objective $\sum_{i=0}^{n-1}c_i y_i$ subject to the constraint that $y$ satisfies linear inequalities of the form $\sum_{i=0}^{n-1} a_i y_i \leq c$.
 As we discussed in [mincutsec](){.ref}, there is a known polynomial-time algorithm for linear programming.
@@ -368,26 +387,22 @@ We can therefore imagine investing huge computational resources in running $A$ o
 ## Approximating counting problems and posterior sampling (advanced, optional)
 
 
-Given a NAND-CIRC program $P$, if $\mathbf{P}=\mathbf{NP}$ then we can find an input $x$ (if one exists) such that $P(x)=1$. But what if there is more than one $x$ like that?
+Given a Boolean circuit $C$, if $\mathbf{P}=\mathbf{NP}$ then we can find an input $x$ (if one exists) such that $C(x)=1$. But what if there is more than one $x$ like that?
 Clearly we can't efficiently output all such $x$'s; there might be exponentially many.
 But we can get an arbitrarily good multiplicative approximation (i.e., a $1\pm \epsilon$ factor for arbitrarily small $\epsilon>0$) for the number of such $x$'s, as well as output a (nearly) uniform member of this set.
-We defer the details to later in this course, when we learn about _randomized computation_.
-However, we state (without proof) the following theorem for now:
+The details are beyond the scope of this book, but this result is formally stated in the following theorem (whose proof is omitted).
 
 ::: {.theorem title="Approximate counting if $\mathbf{P}=\mathbf{NP}$" #approxcountingnp}
 Let $V:\{0,1\}^* \rightarrow \{0,1\}$ be some polynomial-time algorithm, and suppose that $\mathbf{P}=\mathbf{NP}$.
-Then there exists an algorithm $COUNT_V$ that on input $x,1^m,\epsilon$, runs in time polynomial in $|x|,m,1/\epsilon$ and outputs a number
-$K \in \{0,\ldots, 2^m\}$ such that
+Then there exists an algorithm $COUNT_V$ that on input $x,1^m,\epsilon$, runs in time polynomial in $|x|,m,1/\epsilon$ and outputs a number in $[2^m+1]$ satisfying
 
-$$(1-\epsilon)K \leq \Bigl|\{ y \in \{0,1\}^m \;:\; V(xy)=1 \} \Bigr| \leq (1+\epsilon)K
+$$(1-\epsilon)COUNT_V(x,m,\epsilon) \leq \Bigl|\{ y \in \{0,1\}^m \;:\; V(xy)=1 \} \Bigr| \leq (1+\epsilon)COUNT_V(x,m,\epsilon) \;.
 $$
-
-That is, $K$ gives an approximation up to a factor of $1 \pm \epsilon$ for the number of _witnesses_ for $x$ with respect to the verifying algorithm $V$.
 :::
 
-::: { .pause }
+In other words, the algorithm $COUNT_V$ gives an approximation up to a factor of $1 \pm \epsilon$ for the number of _witnesses_ for $x$ with respect to the verifying algorithm $V$.
 Once again, to understand this theorem it can be useful to see how it implies that if $\mathbf{P}=\mathbf{NP}$ then there is a polynomial-time algorithm that given a graph $G$ and a number $k$, can compute a number $K$ that is within a $1 \pm 0.01$ factor equal to the number of simple paths in $G$ of length $k$. (That is, $K$ is between $0.99$ to $1.01$ times the number of such paths.)
-:::
+
 
 __Posterior sampling and probabilistic programming.__ The algorithm for counting can also be extended to _sampling_ from a given posterior distribution.
 That is, if $C:\{0,1\}^n \rightarrow \{0,1\}^m$ is a Boolean circuit and $y\in \{0,1\}^m$, then if $\mathbf{P}=\mathbf{NP}$ we can sample from (a close approximation of) the distribution of uniform $x\in \{0,1\}^n$ conditioned on $C(x)=y$.
@@ -438,12 +453,18 @@ A better algorithm for $\mathbf{NP}$, even if it is "merely" $2^{\sqrt{n}}$-time
 Such new insights would be very fruitful regardless of their computational utility.
 
 
+::: { .bigidea #pnpconsequences}
+If $\mathbf{P}=\mathbf{NP}$, we can efficiently solve a fantastic number of decision, search, optimization, counting, and sampling problems from all areas of human endeavors. 
+:::
+
 
 ## Can $\mathbf{P} \neq \mathbf{NP}$ be neither true nor false?
 
-The [Continuum Hypothesis](https://en.wikipedia.org/wiki/Continuum_hypothesis) is a conjecture made by Georg Cantor in 1878, positing the non-existence of a certain type of infinite cardinality.^[One way to phrase it is that for every infinite subset $S$ of the real numbers $\R$, either there is a one-to-one and onto function $f:S \rightarrow \R$ or there is a one-to-one and onto function $f:S \rightarrow \N$.]
+The [Continuum Hypothesis](https://en.wikipedia.org/wiki/Continuum_hypothesis) is a conjecture made by Georg Cantor in 1878, positing the non-existence of a certain type of infinite cardinality.
+(One way to phrase it is that for every infinite subset $S$ of the real numbers $\R$, either there is a one-to-one and onto function $f:S \rightarrow \R$ or there is a one-to-one and onto function $f:S \rightarrow \N$.)
 This was considered one of the most important open problems in set theory, and settling its truth or falseness was the first problem put forward by Hilbert in the 1900 address we mentioned before.
-However, using the theories developed by Gödel and Turing, in 1963 Paul Cohen proved that both the Continuum Hypothesis and its negation are consistent with the standard axioms of set theory (i.e., the Zermelo-Fraenkel axioms + the Axiom of choice, or  "ZFC" for short).^[Formally, what he proved is that if ZFC is consistent, then so is ZFC when we assume either the continuum hypothesis or its negation.]
+However, using the theories developed by Gödel and Turing, in 1963 Paul Cohen proved that both the Continuum Hypothesis and its negation are consistent with the standard axioms of set theory (i.e., the Zermelo-Fraenkel axioms + the Axiom of choice, or  "ZFC" for short).
+Formally, what he proved is that if ZFC is consistent, then so is ZFC when we assume either the continuum hypothesis or its negation.
 
 Today, many (though not all) mathematicians interpret this result as saying that the Continuum Hypothesis is neither true nor false, but rather is an axiomatic choice that we are free to make one way or the other.
 Could the same hold for $\mathbf{P} \neq \mathbf{NP}$?
@@ -506,11 +527,10 @@ This is not surprising since, as we mentioned before, from group theory to the t
 * Our current evidence and understanding supports the "SAT hard" scenario that there is no much-better-than-brute-force algorithm for 3SAT or many other $\mathbf{NP}$-hard problems.
 
 * We are very far from _proving_ this, however. Researchers have studied proving lower bounds on the number of gates to compute explicit functions in _restricted forms_ of circuits, and have made some advances in this effort, along the way generating mathematical tools that have found other uses.
-However, we have made essentially no headway in proving lower bounds for _general_ models of computation such as NAND and NAND-TM programs.
-Indeed, we currently do not even know how to rule out the possibility that for every $n\in \N$, $SAT$ restricted to $n$-length inputs has a NAND-CIRC program of $10n$ lines (even though there _exist_  $n$-input functions that require $2^n/(10n)$ lines to compute).
+However, we have made essentially no headway in proving lower bounds for _general_ models of computation such as Boolean circuits and Turing machines. 
+Indeed, we currently do not even know how to rule out the possibility that for every $n\in \N$, $SAT$ restricted to $n$-length inputs has a Boolean circuit  of  less than $10n$ gates (even though there _exist_  $n$-input functions that require at least $2^n/(10n)$ gates to compute).
 
 * Understanding how to cope with this computational intractability, and even benefit from it, comprises much of the research in theoretical computer science.
-
 :::
 
 
@@ -521,12 +541,9 @@ Indeed, we currently do not even know how to rule out the possibility that for e
 
 ## Bibliographical notes
 
-^[TODO: Scott's two surveys]
+As mentioned before, Aaronson's  survey [@aaronson2016p] is a  great exposition of the  $\mathbf{P}$ vs $\mathbf{NP}$ problem. 
+Another recommended survey by Aaronson is  [@aaronson2005physicalreality] which discusses the question of whether $\mathbf{NP}$ complete problems could be computed by any physical means.
 
-## Further explorations
 
-Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
 
-* Polynomial hierarchy hardness for circuit minimization and related problems, see for example [this paper](http://users.cms.caltech.edu/~umans/papers/BU07.pdf).
-
-## Acknowledgements
+The paper [@buchfuhrer2011complexity] discusses some results about problems in the polynomial hierarchy.

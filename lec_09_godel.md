@@ -45,7 +45,7 @@ The discovery of calculus by Newton and Leibnitz in the late 1600's ushered a go
 Many longstanding challenges succumbed to the new tools that were discovered, and mathematicians got ever better at doing some truly impressive calculations.
 However, the rigorous foundations behind these calculations left much to be desired.
 Mathematicians manipulated infinitesimal quantities and infinite series cavalierly, and while most of the time they ended up with the correct results, there were a few strange examples (such as trying to calculate the value of the infinite series $1-1+1-1+1+\ldots$) which seemed to give out different answers depending on the method of calculation.
-This led to a growing sense of unease in the foundations of the subject which was addressed in works of mathematicians such as Cauchy, Weierstrass, and Riemann, who eventually placed analysis on firmer foundations, giving rise to the $\epsilon$'s and $\delta$'s that students taking honors calculus grapple with to this day.
+This led to a growing sense of unease in the foundations of the subject which was addressed in the works of mathematicians such as Cauchy, Weierstrass, and Riemann, who eventually placed analysis on firmer foundations, giving rise to the $\epsilon$'s and $\delta$'s that students taking honors calculus grapple with to this day.
 
 In the beginning of the 20th century, there was an effort to replicate this effort,  in greater rigor, to all parts of mathematics.
 The hope was to show that all the true results of mathematics can be obtained by starting with a number of axioms, and deriving theorems from them using logical rules of inference.
@@ -56,7 +56,7 @@ Alas, it turns out the results we've seen dealt a devastating blow to this progr
 > ### {.theorem title="Gödel's Incompleteness Theorem:  informal version" #godethmtakeone}
 For every sound proof system  $V$ for sufficiently rich mathematical statements, there is a mathematical statement that is _true_ but is not _provable_ in $V$.
 
-### Defining "Proof Systems"
+### Defining "Proof Systems" { #godelproofsystemssec }
 
 Before proving [godethmtakeone](){.ref}, we need to define  "proof systems" and even formally define the notion of a "mathematical statement".
 In geometry and other areas of mathematics, proof systems are often defined by starting with some basic assumptions or _axioms_ and then deriving more statements by using _inference rules_ such as the famous [Modus Ponens](https://en.wikipedia.org/wiki/Modus_ponens), but what axioms shall we use? What rules?
@@ -94,7 +94,7 @@ The conditions for a valid proof system are:
 2. _(Soundness)_ If there is a valid proof $w$ for $x$ then $x$ is true.
 
 These are quite  minimal requirements for a proof system.
-Requirement 2 (soundness) is the very definition of a proof system: you shouldn't be able to prove things that are not true. Requirement 1 is also essential. If it there is no set of rules (i.e., an algorithm) to check that a proof is valid then in what sense is it a proof system? We could replace it with the system where the "proof" for a statement $x$ is "trust me: it's true".
+Requirement 2 (soundness) is the very definition of a proof system: you shouldn't be able to prove things that are not true. Requirement 1 is also essential. If there is no set of rules (i.e., an algorithm) to check that a proof is valid then in what sense is it a proof system? We could replace it with a system where the "proof" for a statement $x$ is "trust me: it's true".
 
 We formally define proof systems as an algorithm $V$ where $V(x,w)=1$ holds if the string $w$ is a valid proof for the statement $x$. Even if $x$ is true, the string $w$ does not have to be a valid proof for it (there are plenty of wrong proofs for true statements such as `4=2+2`) but if $w$ is a valid proof for $x$ then $x$ must be true.
 
@@ -107,7 +107,7 @@ A _proof system_ for $\mathcal{T}$ is an algorithm $V$ that satisfies:
 
 2. _(Soundness)_ For every $x\not\in \mathcal{T}$ and $w\in \{0,1\}^*$, $V(x,w)=0$.
 
-A true statement $x\in mathcal{T}$ is _unprovable_ (with respect to $V$) if for every $w\in \{0,1\}^*$, $V(x,w)=0$.
+A true statement $x\in \mathcal{T}$ is _unprovable_ (with respect to $V$) if for every $w\in \{0,1\}^*$, $V(x,w)=0$.
 We say that $V$ is _complete_ if there does not exist a true statement $x$ that is unprovable with respect to $v$.
 :::
 
@@ -274,7 +274,7 @@ This follows in the same way that [godethmtakeone](){.ref} followed from the unc
 :::
 
 
-In the rest of this chapter, we will show the proof of [godelthmqis](){.ref}, following the outline illustrated in [godelstructure](){.ref}.
+In the rest of this chapter, we will show the proof of [godelthmqis](){.ref}, following the outline illustrated in [godelstructurefig](){.ref}.
 
 
 
@@ -292,7 +292,7 @@ Many of the greatest minds of the 17th and 18th century, including Euler, Lagran
 However, the fact that there is no closed-form formula does not mean we can not solve such equations.
 People have been solving higher degree equations numerically for ages.
 The Chinese manuscript [Jiuzhang Suanshu](https://en.wikipedia.org/wiki/The_Nine_Chapters_on_the_Mathematical_Art) from the first century mentions such approaches.
-Solving polynomial equations is by no means restricted only to ancient history or to students' homeworks.
+Solving polynomial equations is by no means restricted only to ancient history or to students' homework.
 The [gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) method is the workhorse powering many of the machine learning tools that have revolutionized Computer Science over the last several years.
 
 
@@ -392,20 +392,20 @@ We need the following facts about configurations:
 
 * If $\alpha$ is a configuration, then $\beta = NEXT_P(\alpha)$  denotes the configuration of the computation after one more iteration. $\beta$ is a string over $\Sigma$ of length either $|\alpha|$ or $|\alpha|+1$, and every coordinate of $\beta$ is a function of just three coordinates in $\alpha$. That is, for every  $j\in \{0,\ldots,|\beta|-1\}$, $\beta_j = MAP_P(\alpha_{j-1},\alpha_j,\alpha_{j+1})$ where $MAP_P:\Sigma^3 \rightarrow \Sigma$ is some function depending on $P$.
 
-* There are simple conditions to check whether a string $\alpha$ is a valid starting configuration corresponding to an input $x$, as well as to check whether a string $\alpha$ is an halting configuration. In particular these conditions can be phrased as quantified mixed statements.
+* There are simple conditions to check whether a string $\alpha$ is a valid starting configuration corresponding to an input $x$, as well as to check whether a string $\alpha$ is a halting configuration. In particular these conditions can be phrased as quantified mixed statements.
 
 * A program $M$ halts on input $x$  if and only if there exists a sequence of configurations $H = (\alpha^0,\alpha^1,\ldots,\alpha^{T-1})$ such that __(i)__ $\alpha^0$ is a valid starting configuration of $M$ with input $x$, __(ii)__ $\alpha^{T-1}$ is a valid halting configuration of $P$, and __(iii)__ $\alpha^{i+1} = NEXT_P(\alpha^i)$ for every $i\in \{0,\ldots,T-2\}$.
 
 
 We can encode such a sequence $H$ of configuration as a binary string.
 For concreteness,  we let $\ell = \lceil \log (|\Sigma|+1) \rceil$ and encode each symbol $\sigma$ in $\Sigma \cup \{ ";" \}$ by a string in $\{0,1\}^\ell$.
-We use "$;$" as a  "separator" symbol, and so encode $H = (\alpha^0,\alpha^1,\ldots,\alpha^{T-1})$ as the concatenation of the encodings of each condiguration, using "$;$" to separate the encoding of $\alpha^i$ and $\alpha^{i+1}$
+We use "$;$" as a  "separator" symbol, and so encode $H = (\alpha^0,\alpha^1,\ldots,\alpha^{T-1})$ as the concatenation of the encodings of each configuration, using "$;$" to separate the encoding of $\alpha^i$ and $\alpha^{i+1}$
 for every $i\in [T]$.
 In particular for every Turing Machine $M$, 
-$M$ halts on the input $0$ if and only if the following  statement is true
+$M$ halts on the input $0$ if and only if the following  statement $\varphi_M$ is true
 
 $$
-\varphi_M = \exists_{H \in \{0,1\}^*} \text{$H$ encodes a valid sequence of configurations starting with initial configuration on input $0$ and ending with halting configuration}
+\exists_{H \in \{0,1\}^*} \text{$H$ encodes halting configuration sequence starting with input $0$} \;.
 $$
 
 
@@ -500,6 +500,15 @@ Hence the uncomputability of $QMS$  ([QMS-thm](){.ref}) implies the uncomputabil
 Prove [godelthmqis](){.ref} using  [QIS-thm](){.ref}
 :::
 
+::: {.exercise title="Proof systems and uncomputability" #proofsanduncomputex  }
+Let $FINDPROOF:\{0,1\}^* \rightarrow \{0,1\}$ be the following function. On input a Turing machine $V$ (which we think of as the verifying algorithm for a proof system) and a string $x\in \{0,1\}^*$, $FINDPROOF(V,x)=1$ if and only if there exists $w\in \{0,1\}^*$ such that $V(x,w)=1$. 
+
+1. Prove that $FINDPROOF$ is uncomputable.
+
+2. Prove that there exists a Turing machine $V$ such that $V$ _halts on every input  $x,v$_ but the function $FINDPROOF_V$ defined as $FINDPROOF_V(x) = FINDPROOF(V,x)$ is uncomputable. See footnote for hint.^[_Hint:_ think of $x$ as saying "Turing Machine $M$ halts on input $u$" and $w$ being a proof that is the number of steps that it will take for this to happen. Can you find an always-halting $V$ that will verify such statements?]
+:::
+
+
 > ### {.exercise title="Expression for floor" #floorexpressionex}
 Let $FSQRT(n,m) = \forall_{j \in \N} ((j \times j)>m) \vee (j \leq n)$. Prove that $FSQRT(n,m)$ is true if and only if $n =\floor{\sqrt{m}}$.
 
@@ -511,7 +520,7 @@ Prove that for every uncomputable function $F:\{0,1\}^* \rightarrow \{0,1\}$ and
 
 
 ![In the _puzzle problem_, the input can be thought of as a finite collection $\Sigma$ of _types of puzzle pieces_ and the goal is to find out whether or not find a way to arrange pieces from these types in a rectangle. Formally, we model the input as a pair of functions $match_{\leftrightarrow},match_{\updownarrow}:\Sigma^2 \rightarrow \{0,1\}$ that such that 
-$match_{\leftrightarrow}(left,right)=1$ (respectively $match_{\updownarrow}(up,down)=1$ ) if the pair of pieces are compatible when placed  in their respective positions. We assume $\Sigma$ contains a special symbol $\varnothing$ corresponding to having no piece, and an arrangement of puzzle pieces by an $(m-2)\times(n-2)$ rectangle is modeled by a string $x\in \Sigma^{m\cdot n}$ whose ``outer coordinates'' are $\emptyset$ and such that for every internal $i,j$ (i.e., $i\in \{1,\ldots, m-2 \}$ and $j\in \{1,\ldots,n-2\}$) $match(x_{i,j},x_{i-1,j},x_{i+1,j},x_{i,j-1},x_{i,j+1})=1$.](../figure/puzzleprob.png){#puzzleprobfig  .margin }
+$match_{\leftrightarrow}(left,right)=1$ (respectively $match_{\updownarrow}(up,down)=1$ ) if the pair of pieces are compatible when placed  in their respective positions. We assume $\Sigma$ contains a special symbol $\varnothing$ corresponding to having no piece, and an arrangement of puzzle pieces by an $(m-2)\times(n-2)$ rectangle is modeled by a string $x\in \Sigma^{m\cdot n}$ whose ``outer coordinates'' are $\emptyset$ and such that for every $i \in [n-1],j \in [m-1]$, $match_{\updownarrow}(x_{i,j},x_{i+1,j})=1$ and $match_{\leftrightarrow}(x_{i,j},x_{i,j+1})=1$.](../figure/puzzleprob.png){#puzzleprobfig  .margin }
 
 
 
@@ -556,7 +565,7 @@ Use the MRDP Theorem to prove  that this problem is uncomputable. That is, show 
 In this question we  define the NAND-TM variant of the  [busy beaver function](https://www.scottaaronson.com/writings/bignumbers.html).
 
 
-1. We define the function $T:\{0,1\}^* \rightarrow \mathbb{N}$ as follows: for every string $P\in \{0,1\}^*$, if $P$ represents a NAND++ program such  that when $P$ is executed on the input $0$ (i.e., the string of length 1 that is simply $0$), a total of $M$ lines are executed before the program halts, then $T(P)=M$. Otherwise (if $P$ does not represent a NAND++ program, or it is a program that does not halt on $0$), $T(P)=0$. Prove that $T$ is uncomputable.
+1. We define the function $T:\{0,1\}^* \rightarrow \mathbb{N}$ as follows: for every string $P\in \{0,1\}^*$, if $P$ represents a NAND-TM program such  that when $P$ is executed on the input $0$ (i.e., the string of length 1 that is simply $0$), a total of $M$ lines are executed before the program halts, then $T(P)=M$. Otherwise (if $P$ does not represent a NAND-TM program, or it is a program that does not halt on $0$), $T(P)=0$. Prove that $T$ is uncomputable.
 
 2. Let $TOWER(n)$ denote the number $\underbrace{2^{2^{2^{{\iddots}^2}}}}_{n\text{ times}}$ (that is, a "tower of powers of two" of height $n$). To get a sense of how fast this function grows, $TOWER(1)=2$, $TOWER(2)=2^2=4$, $TOWER(3)=2^{2^2}=16$, $TOWER(4) = 2^{16} = 65536$ and $TOWER(5) = 2^{65536}$ which is about $10^{20000}$. $TOWER(6)$ is already a number that is too big to write even in scientific notation.
 Define $NBB:\mathbb{N} \rightarrow \mathbb{N}$ (for "NAND-TM Busy Beaver") to be the function $NBB(n) = \max_{P\in \{0,1\}^n} T(P)$ where $T:\mathbb{N} \rightarrow \mathbb{N}$ is the function defined in Item 1. Prove that $NBB$ grows _faster_ than $TOWER$, in the sense that $TOWER(n) = o(NBB(n))$ (i.e., for every  $\epsilon>0$, there exists $n_0$ such that for every $n>n_0$,  $TOWER(n) < \epsilon \cdot NBB(n)$.).^[You will not need to use very specific properties of  the $TOWER$ function in this exercise. For example, $NBB(n)$ also grows faster than the [Ackerman function](https://en.wikipedia.org/wiki/Ackermann_function).  You might find [Aaronson's  blog post](https://www.scottaaronson.com/blog/?p=3445) on the same topic to be quite interesting, and relevant to this book  at large. If you like it then you might also enjoy [this piece by Terence Tao](https://terrytao.wordpress.com/2010/10/10/the-cosmic-distance-ladder-ver-4-1/).]
@@ -568,11 +577,11 @@ Define $NBB:\mathbb{N} \rightarrow \mathbb{N}$ (for "NAND-TM Busy Beaver") to be
 
 ## Bibliographical notes
 
-As mentioned before, Gödel, Escher, Bach [@hofstadter1999] is a highly recommended book covering Gödel's Theorem.
+As mentioned before, Gödel, Escher, Bach [@hofstadter1999] is a highly recommended book covering Gödel's Theorem.
 A classic popular science book about Fermat's Last Theorem is [@singh1997fermat].
 
-Cantor's are used for both Turing's and Gödel's theorems.
-In a twist of fate, using techniques originating from the works Gödel and Turing,  Paul Cohen showed in 1963 that Cantor's _Continuum Hypothesis_ is independent of the axioms of set theory, which means that neither it nor its negation is provable from these axioms and hence in some sense can be considered as "neither true nor false" (see [@cohen2008set]).
+Cantor's are used for both Turing and Gödel's theorems.
+In a twist of fate, using techniques originating from the works of Gödel and Turing,  Paul Cohen showed in 1963 that Cantor's _Continuum Hypothesis_ is independent of the axioms of set theory, which means that neither it nor its negation is provable from these axioms and hence in some sense can be considered as "neither true nor false" (see [@cohen2008set]).
 The [Continuum Hypothesis](https://goo.gl/9ieBVq) is the conjecture that for every subset $S$ of $\mathbb{R}$, either there is a one-to-one and onto map between $S$ and $\N$ or there is a one-to-one and onto map between $S$ and $\mathbb{R}$.
 It was conjectured by Cantor and listed by Hilbert in 1900 as one of the most important problems in mathematics.
 See also the non-conventional survey of Shelah [@shelah2003logical].

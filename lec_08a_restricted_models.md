@@ -22,6 +22,11 @@ The flip side of this is that for all these models,  Rice's theorem ([rice-thm](
 The uncomputability of halting and other semantic specification problems for Turing equivalent models motivates __restricted computational models__ that are __(a)__ powerful enough to capture a set of functions useful for certain applications but __(b)__ weak enough that we can still solve semantic specification problems on them.
 In this chapter we discuss several such examples.
 
+::: { .bigidea #restrictedmodel}
+We can use _restricted computational models_ to bypass limitations such as uncomputability of the Halting problem and Rice's Theorem. Such models can compute only a restricted subclass of functions, but allow to answer at least some _semantic questions_ on programs.
+:::
+
+
 ![Some restricted computational models we study in this chapter. We show two equivalent models of computation: regular expressions and deterministic finite automata. We show a more powerful model: context-free grammars. We also present tools to demonstrate that some functions _can not_ be computed in these models. ](../figure/restrictedoverview.png){#restrictedmodelsoverviewfig}
 
 
@@ -30,10 +35,11 @@ In this chapter we discuss several such examples.
 ## Turing completeness as a bug
 
 We have seen that seemingly simple computational models or systems can turn out to be Turing complete.
-The [following webpage](https://goo.gl/xRXq7p) lists several examples of formalisms that "accidentally" turned out to Turing complete, including supposedly limited languages such as the C preprocessor, CSS, (certain variants of) SQL, sendmail configuration, as well as games such as Minecraft, Super Mario, and the card game "Magic: The gathering".
+The [following webpage](https://goo.gl/xRXq7p) lists several examples of formalisms that "accidentally" turned out to Turing complete, including supposedly limited languages such as the C preprocessor, CSS, (certain variants of) SQL, sendmail configuration, as well as games such as Minecraft, Super Mario, and the card game "Magic: The Gathering".
 Turing completeness is not always a good thing, as it means that such formalisms can give rise to arbitrarily complex behavior.
 For example, the postscript format (a precursor of PDF) is a Turing-complete programming language meant to describe documents for printing.
 The expressive power of postscript can allow for short descriptions of very complex images, but it also gave rise to some nasty surprises, such as the attacks described in  [this page](http://hacking-printers.net/wiki/index.php/PostScript) ranging from using infinite loops as a denial of service attack, to accessing the printer's file system.
+
 
 
 ::: {.example title="The DAO Hack" #ethereum}
@@ -77,7 +83,7 @@ For this reason, typical systems for searching files or databases do _not_ allow
 Rather, such systems use _restricted computational models_ that on the one hand are _rich enough_ to capture many of the queries needed in practice (e.g., all filenames ending with `.txt`, or all phone numbers of the form `(617) xxx-xxxx`), but on the other hand are _restricted_ enough so that they cannot result in an infinite loop.
 
 One of the most popular such computational models is   [regular expressions](https://goo.gl/2vTAFU).
-If you ever used an advanced text editor, a command line shell, or have done any kind of manipulations of text files, then you have probably come across regular expressions.
+If you ever used an advanced text editor, a command line shell, or have done any kind of manipulation of text files, then you have probably come across regular expressions.
 
 A _regular expression_ over some alphabet $\Sigma$ is obtained by combining elements of $\Sigma$ with the operation of concatenation, as well as $|$ (corresponding to _or_) and $*$ (corresponding to repetition zero or more times).
 (Common implementations of regular expressions in programming languages and shells typically include some extra operations on top of $|$ and $*$, but these operations can be implemented as "syntactic sugar" using   the operators $|$ and $*$.)
@@ -102,7 +108,7 @@ A _regular expression_ $e$ over an alphabet $\Sigma$ is a string over $\Sigma \c
 
 2. $e = (e' | e'')$ where $e', e''$ are regular expressions.
 
-3. $e = (e')(e'')$ where $e',e''$ are regular expressions. (We often drop the parenthesis when there is no danger of confusion and so write this as $e' \; e''$.)
+3. $e = (e')(e'')$ where $e',e''$ are regular expressions. (We often drop the parentheses when there is no danger of confusion and so write this as $e' \; e''$.)
 
 4. $e = (e')^*$ where $e'$ is a regular expression.
 
@@ -189,7 +195,7 @@ The key observation is that in our recursive definition of regular expressions, 
 Therefore, we can prove the theorem by induction over the length $m$ of $e$ (i.e., the number of symbols in the string $e$, also denoted as $|e|$).
 For $m=1$, $e$ is either a single alphabet symbol, $""$ or $\emptyset$, and so computing the function $\Phi_{e}$ is straightforward.
 In the general case, for $m=|e|$ we assume by the induction hypothesis that we have proven the theorem for all expressions of length smaller than $m$.
-Now, such an expression of length larger than one can obtained one of three cases using the OR, concatenation, or star operations. We now show that $\Phi_{e}$ will be computable in all these cases:
+Now, such an expression of length larger than one can obtained through one of three cases: OR, concatenation, or star operations. We now show that $\Phi_{e}$ will be computable in all these cases:
 
 __Case 1:__ $e = (e' | e'')$ where $e', e''$ are shorter regular expressions.
 
@@ -242,7 +248,7 @@ This will result in an expression for the running time of the form $T(n) = T(n-1
 
 ::: {.proof data-ref="reglintimethm"}
 The central definition for this proof is the notion of a _restriction_ of a regular expression.
-The idea is is that for every regular expression $e$ and symbol $\sigma$ in its alphabet, it is possible to define a regular expresion $e[\sigma]$ such that $e[\sigma]$ matches a string $x$ if and only if $e$ matches the string $x\sigma$. 
+The idea is that for every regular expression $e$ and symbol $\sigma$ in its alphabet, it is possible to define a regular expression $e[\sigma]$ such that $e[\sigma]$ matches a string $x$ if and only if $e$ matches the string $x\sigma$. 
 For example, if $e$ is the regular expression $01|(01)*(01)$ (i.e., one or more occurrences of $01$) then $e[1]$ is equal to  $0|(01)*0$ and $e[0]$ will be $\emptyset$. (Can you see why?)
 
 For simplicity, from now on we fix our attention to the case that the alphabet $\Sigma$ is $\{0,1\}$.
@@ -387,7 +393,7 @@ In Computer Science, a single-pass constant-memory algorithm is also known as a 
 That is, we can think of such an algorithm as a "machine"  that can be in one of $C$ states, for some constant $C$.
 The machine starts in some initial state, and then reads its input $x\in \{0,1\}^*$ one bit at a time.
 Whenever the machine reads a bit $\sigma \in \{0,1\}$, it transitions into a new state based on $\sigma$ and its prior state.
-The output of the machine is based the final state.
+The output of the machine is based on the final state.
 Every constant-memory one-pass algorithm corresponds to such a machine.
 If an algorithm uses $c$ bits of memory, then the contents of its memory are a string of length $c$.
 Since there are $2^c$ such strings, at any point in the execution, such an algorithm can be in one of $2^c$ states.
@@ -401,7 +407,7 @@ In other words, we transition to the state $v \oplus \sigma$.
 Hence we can think of this algorithm's execution on input $x\in \{0,1\}^n$ as follows:
 
 
-* Let $v_t$ be the sate of the automaton at step $t$. We initialize $v_t=0$. 
+* Let $v_t$ be the state of the automaton at step $t$. We initialize $v_t=0$. 
 
 * For every $i\in [n]$, let $v_i = v_{i+1} \oplus x_i$.
 
@@ -442,7 +448,7 @@ Let $F:\{0,1\}^* \rightarrow \{0,1\}$. Then $F$ is regular if and only if there 
 
 > ### {.proofidea data-ref="dfaregequivthm"}
 One direction follows from [DFAforREGthm](){.ref}, which shows that for every regular expression $e$, the function $\Phi_e$ can be computed by a DFA (see for example [automatonregfig](){.ref}).
-For the other direction, we show that given a DFA $(T,\mathcal{S})$ for every $v,w \in [C]$ we can find a regular expression that would match $x\in \{0,1\}^*$ if an only if the DFA starting in state $v$, will end up in state $w$ after reading $x$.
+For the other direction, we show that given a DFA $(T,\mathcal{S})$ for every $v,w \in [C]$ we can find a regular expression that would match $x\in \{0,1\}^*$ if and only if the DFA starting in state $v$, will end up in state $w$ after reading $x$.
 
 ![A deterministic finite automaton that computes the function $\Phi_{(01)^*}$.](../figure/automaton.png){#automatonregfig .margin }
 
@@ -466,7 +472,7 @@ If $t=0$ then $[t]$ is the empty set, and hence $F^0_{v,w}(x)=1$ if and only if 
 If $t=C$ then all states are in $[t]$, and hence $F_{v,w}^t= F_{v,w}$.
 
 We will prove the theorem by induction on $t$, showing that $F^t_{v,w}$ is regular for every $v,w$ and $t$.
-For the __base case__ of $t=0$, $F^0_{v,w}$ is regular for every $v,w$ since it can be described one of the expressions $""$, $\emptyset$, $0$, $1$ or $0|1$.
+For the __base case__ of $t=0$, $F^0_{v,w}$ is regular for every $v,w$ since it can be described as one of the expressions $""$, $\emptyset$, $0$, $1$ or $0|1$.
 Specifically, if $v=w$ then $F^0_{v,w}(x)=1$ if and only if $x$ is the empty string.
 If $v\neq w$ then $F^0_{v,w}(x)=1$ if and only if $x$ consists of a single symbol $\sigma \in \{0,1\}$ and $T(v,\sigma)=w$.
 Therefore in this case $F^0_{v,w}$ corresponds to one of the four regular expressions $0|1$, $0$, $1$ or $\emptyset$, depending on whether $A$ transitions to $w$ from $v$ when it reads either $0$ or $1$, only one of these symbols, or neither.
@@ -528,13 +534,13 @@ In fact there are some very simple (and useful!) functions that they cannot comp
 Here is one example:
 
 > ### {.lemma title="Matching parenthesis" #regexpparn}
-Let $\Sigma = \{\langle ,\rangle \}$ and  $MATCHPAREN:\Sigma^* \rightarrow \{0,1\}$ be the function that given a string of parenthesis, outputs $1$ if and only if every opening parenthesis is matched by a corresponding closed one.
+Let $\Sigma = \{\langle ,\rangle \}$ and  $MATCHPAREN:\Sigma^* \rightarrow \{0,1\}$ be the function that given a string of parentheses, outputs $1$ if and only if every opening parenthesis is matched by a corresponding closed one.
 Then there is no regular expression over $\Sigma$ that computes $MATCHPAREN$.
 
 [regexpparn](){.ref} is a consequence of the following result, which is known as the _pumping lemma_:
 
 ::: {.theorem title="Pumping Lemma" #pumping}
-Let $e$ be a regular expression over some alphabet $\Sigma$. Then there is some number $n_0$ such that for every $w\in \{0,1\}^*$ with $|w|>n_0$ and $\Phi_{e}(w)=1$,  we can write $w=xyz$ for strings $x,y,z \in \Sigma^*$  satisfying the following conditions:
+Let $e$ be a regular expression over some alphabet $\Sigma$. Then there is some number $n_0$ such that for every $w\in \Sigma^*$ with $|w|>n_0$ and $\Phi_{e}(w)=1$,  we can write $w=xyz$ for strings $x,y,z \in \Sigma^*$  satisfying the following conditions:
 
 1. $|y| \geq 1$.
 
@@ -592,7 +598,7 @@ Using the pumping lemma, we can easily prove [regexpparn](){.ref} (i.e., the non
 
 ::: {.proof data-ref="regexpparn"}
 Suppose, towards the sake of contradiction, that there is an expression $e$ such that $\Phi_{e}= MATCHPAREN$.
-Let $n_0$ be the number from [regexpparn](){.ref} and let
+Let $n_0$ be the number obtained from  [pumping](){.ref} and let
 $w =\langle^{n_0}\rangle^{n_0}$ (i.e., $n_0$ left parenthesis followed by $n_0$ right parenthesis). Then we see that if we write $w=xyz$ as in [regexpparn](){.ref}, the condition $|xy| \leq n_0$ implies that $y$ consists solely of left parenthesis. Hence the string $xy^2z$ will contain more left parenthesis than right parenthesis.
 Hence $MATCHPAREN(xy^2z)=0$ but by the pumping lemma $\Phi_{e}(xy^2z)=1$, contradicting our assumption that $\Phi_{e}=MATCHPAREN$.
 :::
@@ -677,7 +683,7 @@ We will prove  [regequivalencethm](){.ref} from [regemptynessthm](){.ref}. (The 
 Given two regular expressions $e$ and $e'$, we will compute an expression $e''$ such that $\Phi_{e''}(x) =1$ if and only if $\Phi_e(x) \neq \Phi_{e'}(x)$.
 One can see that $e$ is equivalent to $e'$ if and only if $e''$ is empty.
 
-We start with the observation that for every bits $a,b \in \{0,1\}$, $a \neq b$ if and only if
+We start with the observation that for every bit $a,b \in \{0,1\}$, $a \neq b$ if and only if
 $$
 (a \wedge \overline{b}) \; \vee \;  (\overline{a} \wedge b) \;.
 $$
@@ -708,7 +714,7 @@ If you have ever written a program, you've experienced a _syntax error_.
 You probably also had the experience of your program entering into an _infinite loop_.
 What is less likely is that the compiler or interpreter entered an infinite loop while trying to figure out if your program has a syntax error.
 
-When a person designs a programming language, they need to determines its _syntax_.
+When a person designs a programming language, they need to determine its _syntax_.
 That is, the designer decides which strings corresponds to valid programs, and which ones do not (i.e., which strings contain a syntax error).
 To ensure that a compiler or interpreter always halts when checking for syntax errors, language designers typically _do not_ use a general Turing-complete mechanism to express their syntax.
 Rather they use a _restricted_ computational model.
@@ -1128,6 +1134,11 @@ One among the following two functions that map $\{0,1\}^*$ to $\{0,1\}$ can be c
 * $G(x) = 1$ if and only if $\sum_{i=0}^{|x|-1} x_i \geq |x|/4$ and $G(x)=0$ otherwise.
 :::
 
+::: {.exercise title="Non regularity" #nonregex}
+1. Prove that the following function $F:\{0,1\}^* \rightarrow \{0,1\}$ is not regular. For every $x\in \{0,1\}^*$, $F(x)=1$ iff $x$ is of the form $x=1^{3^i}$ for some $i>0$. 
+
+2.  Prove that the following function $F:\{0,1\}^* \rightarrow \{0,1\}$ is not regular. For every $x\in \{0,1\}^*$, $F(x)=1$ iff  $\sum_j x_j = 3^i$ for some $i>0$. 
+:::
 
 ::: {.exercise title="Closure properties of context-free functions" #closurecfgex}
 Suppose that $F,G:\{0,1\}^* \rightarrow \{0,1\}$ are context free. For each one of the following definitions of the function $H$, either prove that $H$ is always context free or give a counterexample for regular $F,G$ that would make $H$ not context free.
@@ -1179,7 +1190,7 @@ A _program_ in our language is simply a sequence of statements (possibly separat
 
 ## Bibliographical notes
 
-The relation of regular expressions with finite automata is a beautiful topic, on which we only touch upon in this texts.
+The relation of regular expressions with finite automata is a beautiful topic, on which we only touch upon in this text.
 It is covered more extensively in [@SipserBook, @hopcroft , @kozen1997automata].
 These texts also discuss topics such as _non deterministic finite automata_ (NFA) and the relation between context-free grammars and pushdown automata.
 

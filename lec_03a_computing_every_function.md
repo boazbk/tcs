@@ -8,7 +8,7 @@ chapternum: "4"
 # Syntactic sugar, and computing every function {#finiteuniversalchap }
 
 > ### { .objectives }
-* Get comfort with syntactic sugar or automatic translation of higher level logic to low level gates. \
+* Get comfortable with syntactic sugar or automatic translation of higher level logic to low level gates. \
 * Learn proof of major result: every finite function can be computed by a Boolean circuit. \
 * Start thinking _quantitatively_ about number of lines required for computation.
 
@@ -24,9 +24,9 @@ chapternum: "4"
 
 The computational models we considered thus far are as "bare bones" as they come.
 For example, our NAND-CIRC "programming language" has only the single operation `foo = NAND(bar,blah)`.
-In this chapter we will  see that these simple models are actually _equivalent_ to more powerful ones.
+In this chapter we will  see that these simple models are actually _equivalent_ to more sophisticated ones.
 The key observation is that we can implement more complex features using our basic building blocks, and then use these new features themselves as building blocks for even more sophisticated features.
-This is known as "syntactic sugar" in the field of programming language design, since we are not modifying the underlying programming model itself but rather we merely implement new features by syntactically transforming a program that uses such features into one that doesn't.
+This is known as "syntactic sugar" in the field of programming language design since we are not modifying the underlying programming model itself, but rather we merely implement new features by syntactically transforming a program that uses such features into one that doesn't.
 
 
 This chapter provides a "toolkit" that can be used to show that many functions can be computed by  NAND-CIRC programs, and hence also by Boolean circuits.
@@ -50,7 +50,7 @@ See [computefuncoverviewfig](){.ref} for an outline of the results of this chapt
 ## Some examples of syntactic sugar  { #secsyntacticsugar }
 
 We now present some examples of "syntactic sugar" transformations that we can use in constructing straightline programs or circuits.
-We focus on the _straight-line programming language_ view of our computational models, and specifically(for the sake of concreteness) on the NAND-CIRC programming language.
+We focus on the _straight-line programming language_ view of our computational models, and specifically (for the sake of concreteness) on the NAND-CIRC programming language.
 This is convenient because many of the syntactic sugar transformations we present are easiest to think about in terms of applying "search and replace" operations to the source code of a program.
 However,  by [equivalencemodelsthm](){.ref}, all of our results hold equally well for circuits, whether ones using NAND gates or Boolean circuits that use the  AND, OR, and NOT operations.
 Enumerating the examples of such  syntactic sugar transformations can be a little tedious, but we do it for two reasons:
@@ -104,7 +104,7 @@ Then for every NAND-CIRC-PROC program $P$, there exists a standard (i.e., "sugar
 
 
 ::: {.remark title="No recursive procedure" #norecursion}
-NAND-CIRC-PROC only allows _non recursive_ procedures. In particular, the code of a procedure `Proc` can not call `Proc` but only use procedures that were defined before it.
+NAND-CIRC-PROC only allows _non recursive_ procedures. In particular, the code of a procedure `Proc` cannot call `Proc` but only use procedures that were defined before it.
 Without this restriction, the above "search and replace" procedure might never terminate and [functionsynsugarthm](){.ref} would not be true.
 :::
 
@@ -144,7 +144,7 @@ print(MAJ(0,1,1))
 
 
 ::: { .bigidea #synsugar}
-Once we show that a computational model $X$ is equivalent in power to the model with an additional feature $Y$, we can use this feature whenever we need to show that some function $f$ is computable by $X$.
+Once we show that a computational model $X$ is equivalent to a model that has feature $Y$, we can assume we have  $Y$ when showing that a function $f$ is computable by $X$.
 :::
 
 
@@ -175,11 +175,11 @@ The idea is simple: if the program $P$ contains a definition of a procedure `Pro
 
 2. A line `foo = exp`, where `exp` is the expression following the `return` statement in the definition of the procedure `Proc`.
 
-To make this more robust we  a prefix to the internal variables used by `Proc` to ensure they don't conflict with the variables of $P$; for simplicity we ignore this issue in the code below though it can be easily added.
+To make this more robust we add a prefix to the internal variables used by `Proc` to ensure they don't conflict with the variables of $P$; for simplicity we ignore this issue in the code below though it can be easily added.
 
 The code in [desugarcode](){.ref} achieves such a  transformation.^[This code uses _regular expressions_ to make the search and replace parts a little easier. We will see the theoretical basis for regular expressions in [restrictedchap](){.ref}.]
 
-``` { .python  #desugarcode title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
+``` { .python #desugarcode title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
 def inline_proc(code, proc_name, proc_args,proc_body):
     '''Takes code of a program and name, arguments, body of a procedure.
     Returns new code where all lines in program of the
@@ -206,7 +206,7 @@ Specifically, we first apply `desugar` to remove usage of the OR function, then 
 
 ::: {.remark title="Parsing function definitions (optional)" #parsingdeg}
 The function `desugar` in [desugarcode](){.ref} assumes that it is given the procedure already split up into its name, arguments, and body.
-It is not crucial for our purposes to describe precisely to scan a definition and splitting it up to these components, but in case you are curious, it can be achieved in Python via the following code:
+It is not crucial for our purposes to describe precisely how to scan a definition and split it up into these components, but in case you are curious, it can be achieved in Python via the following code:
 
 ```python
 def parse_procs(code):
@@ -247,7 +247,7 @@ First we can compute the function $IF:\{0,1\}^3 \rightarrow \{0,1\}$ such that $
 
 > ### { .pause }
 Before reading onward, try to see how you could compute the $IF$ function using $NAND$'s.
-Once you you do that, see how you can use that to emulate `if`/`then` types of constructs.
+Once you do that, see how you can use that to emulate `if`/`then` types of constructs.
 
 The $IF$ function can be implemented from NANDs as follows (see [mux-ex](){.ref}):
 
@@ -363,7 +363,7 @@ It is defined as follows:
 
 
 > ### {.definition title="Lookup function" #lookup-def}
-For every $k$, the _lookup_ function of order $k$, $LOOKUP_k: \{0,1\}^{2^k+k}\rightarrow \{0,1\}$ is defined as follows.
+For every $k$, the _lookup_ function of order $k$, $LOOKUP_k: \{0,1\}^{2^k+k}\rightarrow \{0,1\}$ is defined as follows:
 For every $x\in\{0,1\}^{2^k}$ and $i\in \{0,1\}^k$,
 $$
 LOOKUP_k(x,i)=x_i
@@ -429,13 +429,13 @@ Thus we can compute $LOOKUP_k(x,i)$ by first computing $a$ and $b$ and then outp
 
 __Proof of [lookup-thm](){.ref} from [lookup-rec-lem](){.ref}.__ Now that we have [lookup-rec-lem](){.ref},
 we can complete the proof of [lookup-thm](){.ref}.
-We will prove by induction on $k$ that there is a NAND-CIRC program of at most $4\cdot 2^k$ lines for $LOOKUP_k$.
+We will prove by induction on $k$ that there is a NAND-CIRC program of at most $4\cdot (2^k-1)$ lines for $LOOKUP_k$.
 For $k=1$ this follows by the four line program for $IF$ we've seen before.
-For $k>1$, we use the following pseudocode
+For $k>1$, we use the following pseudocode:
 
 ```python
-a = LOOKUP_(k-1)(X[0],...,X[2^(k-1)-1],i[0],...,i[k-1])
-b = LOOKUP_(k-1)(X[2^(k-1)],...,Z[2^(k-1)],i[0],...,i[k-1])
+a = LOOKUP_(k-1)(X[0],...,X[2^(k-1)-1],i[1],...,i[k-1])
+b = LOOKUP_(k-1)(X[2^(k-1)],...,Z[2^(k-1)],i[1],...,i[k-1])
 return IF(i[0],b,a)
 ```
 
@@ -443,7 +443,8 @@ If we let $L(k)$ be the number of lines required for $LOOKUP_k$, then the above 
 $$
 L(k) \leq 2L(k-1)+4 \;. \label{induction-lookup}
 $$
-which solves for $L(k) \leq 4(2^k-1)$.
+Since under our induction hypothesis $L(k-1) \leq 4(2^{k-1}-1)$, we get that 
+$L(k) \leq 2\cdot 4 (2^{k-1}-1) + 4 = 4(2^k - 1)$ which is what we wanted to prove. 
 See [lookuplinesfig](){.ref} for a plot of the actual number of lines in our implementation of $LOOKUP_k$.
 
 ![The number of lines in our implementation of the `LOOKUP_k` function as a function of $k$ (i.e., the length of the index). The number of lines in our implementation is roughly $3 \cdot 2^k$.](../figure/lookup_numlines.png){#lookuplinesfig .margin  }
@@ -747,7 +748,7 @@ and $MULT_n \in SIZE_{2n,2n}(10000 n^{\log_2 3})$.
 
 
 :::  {.remark title="Finite vs infinite functions" #infinitefunc}
-A NAND-CIRC program $P$ can only compute a function with a certain number $n$ of inputs and a certain number $m$ of outputs. Hence for example there is no single NAND-CIRC program that can compute the increment function $INC:\{0,1\}^* \rightarrow \{0,1\}^*$ that maps a string $x$ (which we identify with a number via the binary representation) to the string that represents $x+1$. Rather for every $n>0$, there is a NAND-CIRC program $P_n$ that computes the restriction $INC_n$ of the function $INC$ to inputs of length $n$. Since it can be shown that for every $n>0$ such a program $P_n$ exists of length at most $10n$, $INC_n \in SIZE(10n)$ for every $n>0$.
+A NAND-CIRC program $P$ can only compute a function with a certain number $n$ of inputs and a certain number $m$ of outputs. Hence, for example, there is no single NAND-CIRC program that can compute the increment function $INC:\{0,1\}^* \rightarrow \{0,1\}^*$ that maps a string $x$ (which we identify with a number via the binary representation) to the string that represents $x+1$. Rather for every $n>0$, there is a NAND-CIRC program $P_n$ that computes the restriction $INC_n$ of the function $INC$ to inputs of length $n$. Since it can be shown that for every $n>0$ such a program $P_n$ exists of length at most $10n$, $INC_n \in SIZE(10n)$ for every $n>0$.
 
 If $T:\N \rightarrow \N$ and $F:\{0,1\}^* \rightarrow \{0,1\}^*$, we will  write $F \in SIZE_{*}(T(n))$  (or sometimes slightly abuse notation and write simply $F \in SIZE(T(n))$) to indicate that for every $n$ the restriction $F_{\upharpoonright n}$ of $F$ to inputs in $\{0,1\}^n$ is in $SIZE(T(n))$. Hence we can write $INC \in SIZE_*(10n)$. We will come back to this issue of finite vs infinite functions later in this course.
 :::
@@ -824,24 +825,24 @@ Prove that there exist a NAND-CIRC program of at most $s+s'+10$ lines to compute
 
 
 ::: {.exercise title="Half and full adders" #halffulladderex}
-1. A _half adder_ is the function $HA:\{0,1\}^2 :\rightarrow \{0,1\}^2$ that corresponds to adding two binary bits. That is, for every $a,b \in \{0,1\}$, $HA(a,b)= (e,f)$ where $2e+f = a +b$. Prove that there is a NAND circuit of at most five NAND gates that computes $HA$.
+1. A _half adder_ is the function $HA:\{0,1\}^2 :\rightarrow \{0,1\}^2$ that corresponds to adding two binary bits. That is, for every $a,b \in \{0,1\}$, $HA(a,b)= (e,f)$ where $2e+f = a+b$. Prove that there is a NAND circuit of at most five NAND gates that computes $HA$.
 
-2. A _full adder_ is the function $FA:\{0,1\}^3 \rightarrow \{0,1\}$ that takes in two bits and a "carry" bit and outputs their sum. That is, for every $a,b,c \in \{0,1\}$, FA(a,b,c) = (e,f)$ such that $2e+f = a+b+c$. Prove that there is a NAND circuit of at most nine NAND gates that computes $FA$.
+2. A _full adder_ is the function $FA:\{0,1\}^3 \rightarrow \{0,1\}^{2}$ that takes in two bits and a "carry" bit and outputs their sum. That is, for every $a,b,c \in \{0,1\}$, $FA(a,b,c) = (e,f)$ such that $2e+f = a+b+c$. Prove that there is a NAND circuit of at most nine NAND gates that computes $FA$.
 
-3. Prove that if there is a NAND circuit of $c$ gates that computes $FA$, then there is a circuit of $cn$ gates that computes $ADD_n$ where (as in [addition-thm](){.ref}) $ADD_n:\{0,1\}^{2n} \rightarrow \{0,1\}^n$ is the function that outputs the addition of two input $n$-bit numbers. See footnote for hint.^[Use a "cascade" of adding the bits one after the other, starting with the least significant digit, just like in the elementary-school algorithm.]
+3. Prove that if there is a NAND circuit of $c$ gates that computes $FA$, then there is a circuit of $cn$ gates that computes $ADD_n$ where (as in [addition-thm](){.ref}) $ADD_n:\{0,1\}^{2n} \rightarrow \{0,1\}^{n+1}$ is the function that outputs the addition of two input $n$-bit numbers. See footnote for hint.^[Use a "cascade" of adding the bits one after the other, starting with the least significant digit, just like in the elementary-school algorithm.]
 
 4. Show that for every $n$ there is a NAND-CIRC program to compute $ADD_n$ with at most $9n$ lines.
 :::
 
 
 > ### {.exercise title="Addition" #addition-ex}
-Write a program using your favorite programming language that on input an integer $n$, outputs a NAND-CIRC program that computes $ADD_n$. Can you ensure that the program it outputs for $ADD_n$ has fewer than $10n$ lines?
+Write a program using your favorite programming language that on input of an integer $n$, outputs a NAND-CIRC program that computes $ADD_n$. Can you ensure that the program it outputs for $ADD_n$ has fewer than $10n$ lines?
 
 > ### {.exercise title="Multiplication" #multiplication-ex}
-Write a program using your favorite programming language that on input an integer $n$, outputs a NAND-CIRC program that computes $MULT_n$. Can you ensure that the program it outputs for $MULT_n$ has fewer than $1000\cdot n^2$ lines?
+Write a program using your favorite programming language that on input of an integer $n$, outputs a NAND-CIRC program that computes $MULT_n$. Can you ensure that the program it outputs for $MULT_n$ has fewer than $1000\cdot n^2$ lines?
 
 > ### {.exercise title="Efficient multiplication (challenge)" #eff-multiplication-ex}
-Write a program using your favorite programming language that on input an integer $n$, outputs a NAND-CIRC program that computes $MULT_n$ and has at most $10000 n^{1.9}$ lines.^[__Hint:__ Use Karatsuba's algorithm.] What is the smallest number of lines you can use to multiply two 2048 bit numbers?
+Write a program using your favorite programming language that on input of an integer $n$, outputs a NAND-CIRC program that computes $MULT_n$ and has at most $10000 n^{1.9}$ lines.^[__Hint:__ Use Karatsuba's algorithm.] What is the smallest number of lines you can use to multiply two 2048 bit numbers?
 
 
 ::: {.exercise title="Multibit function" #mult-bit-ex}
@@ -878,8 +879,8 @@ Y[0] = NAND(Temp[6],Temp[7])
 
 
 
-In the following exercises you are asked  to compare the power of pairs programming languages.
-By "comparing the power" of two programming languages $X$ and $Y$ we mean determining the relation between the set of functions that are computable using programs in  $X$ and $Y$ respectively. That is, to answer such a question you need to do both of:
+In the following exercises you are asked  to compare the _power_ of pairs programming languages.
+By "comparing the power" of two programming languages $X$ and $Y$ we mean determining the relation between the set of functions that are computable using programs in  $X$ and $Y$ respectively. That is, to answer such a question you need to do both of the following:
 
 1. Either prove that for every program $P$ in $X$ there is a program $P'$ in $Y$ that computes the same function as $P$, _or_ give an example for a function that is computable by an $X$-program but not computable by a $Y$-program.
 
@@ -887,7 +888,7 @@ _and_
 
 1. Either prove that for every program $P$ in $Y$ there is a program $P'$ in $X$ that computes the same function as $P$, _or_ give an example for a function that is computable by a $Y$-program but not computable by an $X$-program.
 
-When you give an example as above of a function that is computable in one programming language but not the other, you need to _prove_ that the function you showed is _(1)_ computable in the first programming language, _(2)_ _not computable_ in the second programming programming language.
+When you give an example as above of a function that is computable in one programming language but not the other, you need to _prove_ that the function you showed is _(1)_ computable in the first programming language and _(2)_ _not computable_ in the second programming language.
 
 ::: {.exercise title="Compare IF and NAND" #compareif}
 Let IF-CIRC be the programming language where we have the following operations `foo = 0`, `foo = 1`, `foo = IF(cond,yes,no)`  (that is, we can use the constants $0$ and $1$, and the $IF:\{0,1\}^3 \rightarrow \{0,1\}$ function such that $IF(a,b,c)$ equals $b$ if $a=1$ and equals $c$ if $a=0$). Compare the power of the NAND-CIRC programming language and the IF-CIRC programming language.
