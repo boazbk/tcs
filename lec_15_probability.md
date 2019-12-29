@@ -520,7 +520,7 @@ We prove the claim using the Chernoff bound. Specifically, for every such $h$, l
 
 $$X_i = \begin{cases}1 & h(x_i) \neq y_i \\ 0 & \text{otherwise} \end{cases}.$$
 
-Since the samples $(x_0,y_0),\ldots,(x_{n-1},y_{n-1})$ are drawn independently from the same distribution $D$, the random variables $X_0,\ldots,X_{n-1}$ are independently and identically distributed. Moreover, for every $i$, $\E[X_i] = L(h)$. Hence by the Chernoff bound (see [eqchernoffsimpler](){.eqref}), the probability that $| \sum_{i=0}^n X_i  - n\cdot L(h)| \geq \epsilon n$ is at most $e^{-\epsilon^2 n} < e^{-k \log(1/\delta) < \delta/2^k$ (using the fact that $e>2$).
+Since the samples $(x_0,y_0),\ldots,(x_{n-1},y_{n-1})$ are drawn independently from the same distribution $D$, the random variables $X_0,\ldots,X_{n-1}$ are independently and identically distributed. Moreover, for every $i$, $\E[X_i] = L(h)$. Hence by the Chernoff bound (see [eqchernoffsimpler](){.eqref}), the probability that $| \sum_{i=0}^n X_i  - n\cdot L(h)| \geq \epsilon n$ is at most $e^{-\epsilon^2 n} < e^{-k \log(1/\delta)} < \delta/2^k$ (using the fact that $e>2$).
 Since $\hat{L}(h) = \tfrac{1}{n}\sum_{i\in [n]}X_i$, this completes the proof of the claim.
 
 Given the claim, the theorem follows from the union bound.

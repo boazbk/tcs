@@ -24,7 +24,7 @@ My priorities are:
 
 I am producing the book from the markdown source using 
 [Pandoc](https://pandoc.org/). 
-The templates for the LaTeX and HTML versions are derived from   [Tufte LaTeX](https://tufte-latex.github.io/tufte-latex/), [Gitbook](https://www.gitbook.com/) and [Bookdown](https://bookdown.org/). You can see the [scripts](https://github.com/boazbk/tcs/tree/master/scripts) directory for some of the templates, scripts and  [panflute](http://scorreia.com/software/panflute/) filter I am using.
+The templates for the LaTeX and HTML versions are derived from   [Tufte LaTeX](https://tufte-latex.github.io/tufte-latex/), [Gitbook](https://www.gitbook.com/) and [Bookdown](https://bookdown.org/). You can see the [following respository](https://github.com/boazbk/panbook)  for some of the templates, scripts and  [panflute](http://scorreia.com/software/panflute/) filter I am using.
 
 
 
