@@ -457,6 +457,12 @@ $\E[XY] \neq \E[X]\E[Y]$.
 Give an example of random variables $X,Y: \{0,1\}^3 \rightarrow \R$ such that $X$ and $Y$ are _not_ independent but $\E[XY] =\E[X]\E[Y]$.
 
 
+::: {.exercise title="standard deviation" #stddev}
+1. Give an example for a random variable $X$ such that $X$'s standard deviation is _equal to_  ${\mathbb{E}}[ | X - {\mathbb{E}}[X] | ]$
+
+2. Give an example for a random variable $X$ such that $X$'s standard deviation is _not equal to_  ${\mathbb{E}}[ | X - {\mathbb{E}}[X] | ]$
+:::
+
 
 > ### {.exercise title="Product of expectations" #expprodex}
 Prove [expprod](){.ref}
@@ -487,16 +493,29 @@ $$
 where $\binom{n}{k}$ is the binomial coefficient $\tfrac{n!}{k!(n-k)!}$ which is equal to the number of $k$-size subsets of $\{0,\ldots,n-1\}$.
 
 
-> ### {.exercise title="Chernoff using Stirling" #chernoffstirlingex}
+::: {.exercise title="Chernoff using Stirling" #chernoffstirlingex}
 1. Prove that $\Pr_{x\sim \{0,1\}^n}[ \sum x_i = k ] = \binom{n}{k}2^{-n}$.\
-2. Use this and [entropybinomex](){.ref} to prove the Chernoff bound for the case that $X_0,\ldots,X_n$ are i.i.d. random variables over $\{0,1\}$ each equaling $0$ and $1$ with probability $1/2$.
 
-> ### {.exercise title="Poor man's Chernoff" #poorchernoff}
-Let $X_0,\ldots,X_n$ be i.i.d random variables with $\E X_i = p$ and $\Pr [ 0 \leq X_i \leq 1 ]=1$.
-Define $Y_i = X_i - p$.  \
-1. Prove that for every $j_1,\ldots,j_n \in \N$, if there exists one $i$ such that $j_i$ is odd then $\E [\prod_{i=0}^{n-1} Y_i^{j_i}] = 0$. \
-2. Prove that for every $k$, $\E[ (\sum_{i=0}^{n-1} Y_i)^k ] \leq (10kn)^{k/2}$.^[__Hint:__ Bound the number of tuples $j_0,\ldots,j_{n-1}$ such that every $j_i$ is even and $\sum j_i = k$.] \
+2. Use this and [entropybinomex](){.ref} to prove (an approximate version of) the Chernoff bound for the case that $X_0,\ldots,X_{n-1}$ are i.i.d. random variables over $\{0,1\}$ each equaling $0$ and $1$ with probability $1/2$. That is, prove that for every $\epsilon>0$, and $X_0,\ldots,X_{n-1}$ as above, $\Pr[ |\sum_{i=0}^{n-1} - \tfrac{n/2}| > \epsilon n] < 2^{0.1 \cdot \epsilon^2 n}$.
+:::
+
+
+
+::: {.exercise title="Poor man's Chernoff" #poorchernoff}
+[chernoffstirlingex](){.ref} establishes the Chernoff bound for the case that  $X_0,\ldots,X_{n-1}$ are i.i.d variables over $\{0,1\}$ with expectation $1/2$. 
+In this exercise we use a slightly different method (bounding the _moments_ of the random variables) to establish a version of Chernoff
+where the random variables range over $[0,1]$ and their expectation is some number $p \in [0,1]$ that may be different than $1/2$.
+Let $X_0,\ldots,X_{n-1}$ be i.i.d random variables with $\E X_i = p$ and $\Pr [ 0 \leq X_i \leq 1 ]=1$.
+Define $Y_i = X_i - p$.  
+
+1. Prove that for every $j_0,\ldots,j_{n-1} \in \N$, if there exists one $i$ such that $j_i$ is odd then $\E [\prod_{i=0}^{n-1} Y_i^{j_i}] = 0$. \
+
+2. Prove that for every $k$, $\E[ (\sum_{i=0}^{n-1} Y_i)^k ] \leq (10kn)^{k/2}$.^[__Hint:__ Bound the number of tuples $j_0,\ldots,j_{n-1}$ such that every $j_i$ is even and $\sum j_i = k$ using the Binomial coefficient and the fact that in any such tuple  there are at most $k/2$ distinct indices.] \
+
 3. Prove that for every $\epsilon>0$, $\Pr[ |\sum_i Y_i| \geq \epsilon n ] \geq 2^{-\epsilon^2 n / (10000\log 1/\epsilon)}$.^[__Hint:__ Set $k=2\lceil \epsilon^2 n /1000 \rceil$ and then show that if the event $|\sum Y_i | \geq \epsilon n$ happens then the random variable $(\sum Y_i)^k$ is a factor of $\epsilon^{-k}$ larger than its expectation.]
+:::
+
+
 
 
 
