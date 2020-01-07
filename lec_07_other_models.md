@@ -74,7 +74,7 @@ The NAND-RAM programming language extends NAND-TM by adding the following featur
 
 * The variables of NAND-RAM are allowed to be (non negative) _integer valued_ rather than only Boolean as is the case in NAND-TM. That is, a scalar variable `foo` holds a non negative integer in $\N$ (rather than only a bit in $\{0,1\}$), and an array variable `Bar` holds an array of integers. As in the case of RAM machines, we will not allow integers of unbounded size. Concretely, each variable holds a number between $0$ and $T-1$, where $T$ is the number of steps that have been executed by the program so far. (You can ignore this restriction for now:  if we want to hold larger numbers, we can simply execute dummy instructions; it will be useful in later chapters.)
 
-* We allow _indexed access_ to arrays. If `foo` is a scalar and `Bar` is an array, then `Bar[foo]` refers to the location of `Bar` indexed by the value of `foo`. (Note that this means we don't need to have a special index variable `i` any more.)
+* We allow _indexed access_ to arrays. If `foo` is a scalar and `Bar` is an array, then `Bar[foo]` refers to the location of `Bar` indexed by the value of `foo`. (Note that this means we don't need to have a special index variable `i` anymore.)
 
 * As is often the case in programming languages, we will assume that for Boolean operations such as `NAND`, a zero valued integer is considered as _false_, and a nonzero valued integer is considered as _true_.
 
@@ -458,7 +458,7 @@ For example, as simple as its rules seem, we can simulate a Turing machine using
 In fact, even [one dimensional cellular automata](https://en.wikipedia.org/wiki/Rule_110) can be Turing complete:
 
 ::: {.theorem title="One dimensional automata are Turing complete" #onedimcathm}
-For every Turing machine  $M$,  there is a one dimension cellular automaton that can simulate $M$ on every input $x$.
+For every Turing machine  $M$,  there is a one dimensional cellular automaton that can simulate $M$ on every input $x$.
 :::
 
 To make the notion of "simulating a Turing machine"   more precise we will need to define _configurations_ of Turing machines.

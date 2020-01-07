@@ -22,8 +22,6 @@ Plan:
 * Propositions as types, Coq and other proof assistants.
 
 
-## Lecture summary
-
 
 ## Exercises
 
@@ -33,9 +31,3 @@ Plan:
 
 
 
-## Further explorations
-
-Some topics related to this chapter that might be accessible to advanced students include: (to be completed)
-
-
-## Acknowledgements

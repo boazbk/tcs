@@ -35,7 +35,7 @@ Rather, for every $n$, we can compute $XOR_n$ (the restriction of $XOR$ to $\{0,
 
 
 This code for computing $XOR_5$ is rather repetitive, and more importantly, does not capture the fact that there is a _single_ algorithm to compute the parity on all inputs.
-Typical programming language use the notion of _loops_ to express such an algorithm, along the lines of:
+Typical programming languages use the notion of _loops_ to express such an algorithm, along the lines of:
 
 ```python
 # s is the "running parity", initialized to 0
@@ -59,7 +59,7 @@ To describe and execute an algorithm we need the following components (see [algc
 
 * A potentially unbounded working memory to store the input as well as any other values we may require later. 
 
-* While the memory is unbounded, at every single step we can only read and write to a finite part of it, and we need a way to _adress_ which are the parts we want to read from and write to.
+* While the memory is unbounded, at every single step we can only read and write to a finite part of it, and we need a way to _address_ which are the parts we want to read from and write to.
 
 * If we only have a finite set of instructions but our input can be arbitrarily long, we will need to _repeat_ instructions (i.e.,  _loop_  back). We need a mechanism to decide when we will loop and when we will halt.
 
@@ -421,7 +421,7 @@ Concretely, the NAND-TM programming language adds the following features on top 
 
 * We add a special _integer valued_ variable `i`. All other variables in NAND-TM are _Boolean valued_ (as in NAND-CIRC).
 
-* Apart from `i` NAND-TM has two kinds of variables: _scalars_ and _arrays_. _Scalar_ variables hold one bit (just  as in NAND-CIRC). _Array_ variables hold an unbounded number of bits. At any point in the computation we can access the array variables at the location indexed by `i` using `Foo[i]`. We cannot access the arrays at locations other the one pointed to by  `i`.
+* Apart from `i` NAND-TM has two kinds of variables: _scalars_ and _arrays_. _Scalar_ variables hold one bit (just  as in NAND-CIRC). _Array_ variables hold an unbounded number of bits. At any point in the computation we can access the array variables at the location indexed by `i` using `Foo[i]`. We cannot access the arrays at locations other than the one pointed to by  `i`.
 
 * We use the convention that _arrays_ always start with a capital letter, and _scalar variables_ (which are never indexed with `i`) start with lowercase letters. Hence `Foo` is an array and `bar` is a scalar variable.
 
@@ -434,7 +434,7 @@ Concretely, the NAND-TM programming language adds the following features on top 
   - If $a=b=0$ then `MODANDJUMP(`$a,b$`)` halts execution of the program.
 
 
-* The`MODANDJUMP` instruction always appears in the last line of a NAND-TM program and nowhere else.
+* The `MODANDJUMP` instruction always appears in the last line of a NAND-TM program and nowhere else.
 
 
 __Default values.__ We need one more convention to handle "default values".
@@ -667,7 +667,7 @@ Just like we did with NAND-CIRC in [finiteuniversalchap](){.ref}, we can use "sy
 For starters, we can use all of the syntactic sugar of NAND-CIRC, and so have access to macro definitions and conditionals (i.e., if/then).
 But we can go beyond this and achieve for example:
 
-* Inner loops such as the `while` and `for` operations common to many programming language.s
+* Inner loops such as the `while` and `for` operations common to many programming language.
 
 * Multiple index variables (e.g., not just `i` but we can add `j`, `k`, etc.).
 
@@ -837,9 +837,9 @@ Produce the code of a (syntactic-sugar free) NAND-TM program $P$ that computes t
 ::: {.exercise title="Computable functions examples" #computable}
 Prove that the following functions are computable. For all of these functions, you do not have to fully specify the Turing Machine or the NAND-TM program that computes the function, but rather only prove that such a machine or program exists:
 
-1. $INC:\{0,1\}^* \rightarrow \{0,1\}$ which takes as input a representation of a natural number $n$ and outputs the representation of $n+1$.
+1. $INC:\{0,1\}^* \rightarrow \{0,1\}^*$ which takes as input a representation of a natural number $n$ and outputs the representation of $n+1$.
 
-2. $ADD:\{0,1\}^* \rightarrow \{0,1\}$  which takes as input a representation of a pair of natural numbers $(n,m)$ and outputs the representation of $n+m$.
+2. $ADD:\{0,1\}^* \rightarrow \{0,1\}^*$  which takes as input a representation of a pair of natural numbers $(n,m)$ and outputs the representation of $n+m$.
 
 3. $MULT:\{0,1\}^* \rightarrow \{0,1\}^*$, which takes a representation of a pair of natural numbers $(n,m)$ and outputs the representation of $n\dot m$.
 

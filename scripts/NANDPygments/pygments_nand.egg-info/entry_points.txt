@@ -1,2 +1,0 @@
-[pygments.lexers]
-                    nand=pygments_nand:NANDLexer
