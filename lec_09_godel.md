@@ -108,7 +108,7 @@ A _proof system_ for $\mathcal{T}$ is an algorithm $V$ that satisfies:
 2. _(Soundness)_ For every $x\not\in \mathcal{T}$ and $w\in \{0,1\}^*$, $V(x,w)=0$.
 
 A true statement $x\in \mathcal{T}$ is _unprovable_ (with respect to $V$) if for every $w\in \{0,1\}^*$, $V(x,w)=0$.
-We say that $V$ is _complete_ if there does not exist a true statement $x$ that is unprovable with respect to $v$.
+We say that $V$ is _complete_ if there does not exist a true statement $x$ that is unprovable with respect to $V$.
 :::
 
 ::: { .bigidea #proofsystems}
