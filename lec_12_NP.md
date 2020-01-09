@@ -37,7 +37,7 @@ All of these problems have the following properties:
 
 
 In this chapter and in [cooklevinchap](){.ref} we will see that, despite their apparent differences, we can relate the computational complexity of these and many other problems.
-In fact, it turns out that the problem above are _computationally equivalent_, in the sense that solving one of them immediately implies solving the others.
+In fact, it turns out that the problems above are _computationally equivalent_, in the sense that solving one of them immediately implies solving the others.
 This phenomenon, known as _$\mathbf{NP}$ completeness_, is one of the surprising discoveries of theoretical computer science, and we will see that it has far-reaching ramifications.
 
 ![In this chapter we show that if the $3SAT$ problem cannot be solved in polynomial time, then neither can the $QUADEQ$, $LONGESTPATH$, $ISET$ and $MAXCUT$ problems.  We do this by using the _reduction paradigm_ showing for example  "if pigs could whistle" (i.e., if we had an efficient algorithm for $QUADEQ$) then "horses could fly" (i.e., we would have an efficient algorithm for $3SAT$.)](../figure/reductionsoverview.png){#reductionsoverviewfig}
