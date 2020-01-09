@@ -329,7 +329,7 @@ Endwhile
 Return "disconnected"
 ```
 
-If we wanted to give more details on how to implement breadth first search in a programming language such as Python or C (or NAND-RAM /  NAND-TM for that matter), we would describe how we implement the queue data structure using an array, and similarly how we would use arrays mark vertices.
+If we wanted to give more details on how to implement breadth first search in a programming language such as Python or C (or NAND-RAM /  NAND-TM for that matter), we would describe how we implement the queue data structure using an array, and similarly how we would use arrays to mark vertices.
 We call such an "intermediate level" description an _implementation level_ or _pseudocode_ description.
 Finally, if we want to describe the implementation precisely, we would give the full code of the program (or another fully precise representation, such as in the form of a list of tuples).
 We call this a _formal_ or _low level_ description.
