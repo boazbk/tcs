@@ -49,7 +49,7 @@ and
  
  * __3SAT is very easy:__ $3SAT$ has an $O(n)$ or $O(n^2)$ time algorithm with a not too huge constant (say smaller than $10^6$.) 
 
- * __3SAt is very hard:__ $3SAT$ is exponentially hard and cannot be solved faster than $2^{\epsilon n}$ for some not too tiny $\epsilon>0$ (say at least $10^{-6}$). We can even make the stronger assumption that for every sufficiently large $n$, the restriction of $3SAT$ to inputs of length $n$ cannot be computer by a circuit of fewer than $2^{\epsilon n}$ gates.
+ * __3SAT is very hard:__ $3SAT$ is exponentially hard and cannot be solved faster than $2^{\epsilon n}$ for some not too tiny $\epsilon>0$ (say at least $10^{-6}$). We can even make the stronger assumption that for every sufficiently large $n$, the restriction of $3SAT$ to inputs of length $n$ cannot be computer by a circuit of fewer than $2^{\epsilon n}$ gates.
 
 At the time of writing, the fastest known algorithm for $3SAT$ requires more than $2^{0.35 n}$ to solve $n$ variable formulas, while we do not even know how to rule out the possibility that we can compute $3SAT$ using $10n$ gates.
 To put it in perspective, for the case $n=1000$ our lower and upper bounds for the computational costs are apart by a factor of about $10^{100}$.
@@ -112,7 +112,7 @@ For{$\ell=0,\ldots,an^b-1$}
 Let $b_0 \leftarrow STARTSWITH_V(xz_{0}\cdots z_{\ell-1}0)$.
 Let   $b_1  \leftarrow STARTSWITH_V(xz_{0}\cdots z_{\ell-1}1)$.
 If{$b_0=b_1=0$} 
-Return ""  # Can't extend  $xz_0\ldots z_{\ell-1}$ to an accepting input of $V$
+Return ""  # Can't extend  $fxz_0\ldots z_{\ell-1}$ to an accepting input of $V$
 Endif
 If{$b_0=1$}
  $z_\ell \leftarrow 0$ # Can extend $xz_0\ldots x_{\ell-1}$ with $0$ to accepting input
