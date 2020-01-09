@@ -139,7 +139,7 @@ The function $\Phi_{e}:\Sigma^* \rightarrow \{0,1\}$ is defined as follows:
 
 3. If $e = (e')(e'')$ then $\Phi_{e}(x) = 1$ iff there is some $x',x'' \in \Sigma^*$ such that $x$ is the concatenation of $x'$ and $x''$ and $\Phi_{e'}(x')=\Phi_{e''}(x'')=1$.
 
-4. If $e= (e')*$ then $\Phi_{e}(x)=1$ iff there are is $k\in \N$ and some $x_0,\ldots,x_{k-1} \in \Sigma^*$ such that $x$ is the concatenation $x_0 \cdots x_{k-1}$ and $\Phi_{e'}(x_i)=1$ for every $i\in [k]$.
+4. If $e= (e')*$ then $\Phi_{e}(x)=1$ iff there is some $k\in \N$ and some $x_0,\ldots,x_{k-1} \in \Sigma^*$ such that $x$ is the concatenation $x_0 \cdots x_{k-1}$ and $\Phi_{e'}(x_i)=1$ for every $i\in [k]$.
 
 5. Finally, for the edge cases $\Phi_{\emptyset}$ is the constant zero function, and $\Phi_{""}$ is the function that only outputs $1$ on the empty string $""$.
 
