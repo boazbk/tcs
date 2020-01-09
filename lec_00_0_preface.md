@@ -136,31 +136,14 @@ This can help in planning a course based on this book.
 ## Acknowledgements
 
 This text is continually evolving, and I am getting input from many people, for which I am deeply grateful.
-Thanks to Scott Aaronson, Michele Amoretti, Marguerite Basta, Sam Benkelman, Jarosław Błasiok, Emily Chan
-Christy Cheng, Michelle Chiang, Daniel Chiu, Chi-Ning Chou, Michael Colavita, Robert Darley Waddilove,
-Juan Esteller, David Evans, Leor Fishman, William Fu, Thomas Huet, 
-Piotr Galuszka, Mark Goldstein,  Alexander Golovnev, Chan Kang,
-Nina Katz-Christy, Eddie Kohler, 
-Estefania Lahera, Allison Lee, Ondřej Lengál, 
-Raymond Lin, Emma Ling, Alex Lombardi,
-Lisa Lu, Aditya Mahadevan, Jacob Meyerson, George Moe, Hamish Nicholson, 
-Sandip Nirmel, Sebastian Oberhoff,
-Thomas Orton, Pablo Parrilo, Juan Perdomo, Aaron Sachs, 
-Abdelrhman Saleh, Brian Sapozhnikov, Peter Schäfer, Anthony Scemama,
-Josh Seides, Alaisha Sharma, Noah Singer, Matthew Smedberg, 
-Hikari Sorensen, Alec Sun, Amol Surati, Everett Sussman,
-Marika Swanberg, Garrett Tanzer, Sarah Turnill, Salil Vadhan, 
-Patrick Watts, Ryan Williams, Licheng Xu,
-Wanqian Yang, Elizabeth Yeoh-Wang, Josh Zelinsky, 
-Grace Zhang, and Jessica Zhu for helpful feedback.
-
-If you have any comments or suggestions, please do post them on the GitHub repository [https://github.com/boazbk/tcs](https://github.com/boazbk/tcs).
-
 Salil Vadhan co-taught with me the first iteration of this course and gave me a tremendous amount of useful feedback and insights during this process.
-Michele Amoretti and Marika Swanberg carefully read several chapters of this text and gave extremely helpful detailed comments. Dave Evans contributed many pull requests fixing errors and improving phrasing.
-
+Michele Amoretti and Marika Swanberg carefully read several chapters of this text and gave extremely helpful detailed comments. Dave Evans and Richard Xu contributed many pull requests fixing errors and improving phrasing.
 Thanks to Anil Ada, Venkat Guruswami,  and Ryan O'Donnell for helpful tips from their experience in teaching [CMU 15-251](http://www.cs.cmu.edu/~./15251/).
-Juan Esteller and Gabe Montague initially implemented the NAND* programming languages in OCaml and Javascript.
+
+Thanks to everyone  that sent me comments, typos reports, or posted issues or pull requests on the GitHub repository  [https://github.com/boazbk/tcs](https://github.com/boazbk/tcs).
+In particular I would like to acknbowledge helpful feedback from Scott Aaronson, Michele Amoretti, Aadi Bajpai, Marguerite Basta, Anindya Basu, Sam Benkelman, Jarosław Błasiok, Emily Chan, Christy Cheng, Michelle Chiang, Daniel Chiu, Chi-Ning Chou, Michael Colavita, Rodrigo Daboin Sanchez, Robert Darley Waddilove, Anlan Du, Juan Esteller, David Evans, Michael Fine, Simon Fischer, Leor Fishman, Zaymon Foulds-Cook, William Fu, Kent Furuie, Piotr Galuszka, Carolyn Ge, Mark Goldstein, Alexander Golovnev, Sayan Goswami, Michael Haak, Rebecca Hao, Joosep Hook, Thomas HUET, Emily Jia, Chan Kang, Nina Katz-Christy, Vidak Kazic, Eddie Kohler, Estefania Lahera, Allison Lee, Benjamin Lee, Ondřej Lengál, Raymond Lin, Emma Ling, Alex Lombardi, Lisa Lu, Aditya Mahadevan, Christian May, Jacob Meyerson, Leon Mlodzian, George Moe, Glenn Moss, Hamish Nicholson, Owen Niles, Sandip Nirmel, Sebastian Oberhoff, Thomas Orton, Joshua Pan, Pablo Parrilo, Juan Perdomo, Banks Pickett, Aaron Sachs, Abdelrhman Saleh, Brian Sapozhnikov, Anthony Scemama, Peter Schäfer, Josh Seides, Alaisha Sharma, Haneul Shin, Noah Singer, Matthew Smedberg, Miguel Solano, Hikari Sorensen, David Steurer, Alec Sun, Amol Surati, Everett Sussman, Marika Swanberg, Garrett Tanzer, Eric Thomas, Sarah Turnill, Salil Vadhan, Patrick Watts, Jonah Weissman, Ryan Williams, Licheng Xu, Richard Xu, Wanqian Yang, Elizabeth Yeoh-Wang, Josh Zelinsky, Fred Zhang, Grace Zhang, and Jessica Zhu.   
+
+
 
 I am using many open source software packages in the production of these notes for which I am grateful.
 In particular, I am thankful to Donald Knuth and Leslie Lamport for [LaTeX](https://www.latex-project.org/) and
@@ -169,6 +152,7 @@ David Steurer wrote the original scripts to produce this text.
 The current version uses Sergio Correia's [panflute](http://scorreia.com/software/panflute/).
 The templates for the LaTeX and HTML versions are derived from   [Tufte LaTeX](https://tufte-latex.github.io/tufte-latex/), [Gitbook](https://www.gitbook.com/) and [Bookdown](https://bookdown.org/).
 Thanks to Amy Hendrickson for some LaTeX consulting.
+Juan Esteller and Gabe Montague initially implemented the NAND* programming languages in OCaml and Javascript.
 I used the [Jupyter project](http://jupyter.org/) to write the supplemental code snippets.
 
 Finally, I would like to thank my family: my wife Ravit, and my children Alma and Goren.
