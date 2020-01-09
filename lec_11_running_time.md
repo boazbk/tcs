@@ -325,7 +325,7 @@ Other examples of polynomially equivalent models include:
 * Biological computing devices such as DNA-based computers.
 
 
-The _Extended Church Turing Thesis_ is the statement this is true for all physically realizable computing models. 
+The _Extended Church Turing Thesis_ is the statement that this is true for all physically realizable computing models. 
 In other words, the extended Church Turing thesis says that for every _scalable computing device_ $C$ (which has a finite description but can be in principle used to run computation on arbitrarily large inputs),  there is some constant $a$  such that for every function $F:\{0,1\}^* \rightarrow \{0,1\}$ that $C$ can compute on $n$ length inputs using an $S(n)$ amount of physical resources, $F$ is in $TIME(S(n)^a)$.
 This is a strengthening of the ("plain") Church-Turing Thesis, discussed in [churchturingdiscussionsec](){.ref}, which states that the set of computable functions is the same for all physically realizable models, but without requiring the overhead in the simulation between different models to be at most polynomial.
 

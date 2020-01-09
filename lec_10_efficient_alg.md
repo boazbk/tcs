@@ -167,7 +167,7 @@ Formally, we define $MINCUT:\{0,1\}^* \rightarrow \{0,1\}^*$ to be the function 
 
 ![A _cut_ in a graph $G=(V,E)$ is simply a subset $S$ of its vertices. The edges that are _cut_ by $S$ are all those whose one endpoint is in $S$ and the other one is in $\overline{S} = V \setminus S$. The cut edges are colored red in this figure.](../figure/cutingraph.png){#cutingraphfig .margin  }
 
-Computing minimum $s,t$ cuts is useful for in many applications since minimum cuts often correspond to _bottlenecks_.
+Computing minimum $s,t$ cuts is useful in many applications since minimum cuts often correspond to _bottlenecks_.
 For example, in a communication  or railroad network the minimum cut between $s$ and $t$ corresponds to the smallest number of edges that, if dropped, will disconnect $s$ from $t$.
 (This was actually the original motivation for this problem; see [effalgnotes](){.ref}.)
 Similar applications arise in scheduling and planning.
@@ -175,7 +175,7 @@ In the setting of [image segmentation](https://en.wikipedia.org/wiki/Image_segme
 If we want to separate the foreground from the background then we can pick (or guess) a foreground pixel $s$ and background pixel $t$ and ask for a minimum cut between them.
 
 The naive algorithm for computing  $MINCUT$ will  check  all $2^n$  possible subsets of an $n$-vertex graph, but it turns out we can do much better than that.
-As we've seen in this book time and again, there is more than one algorithm to compute the same function,and some of those algorithms might be more efficient than others.
+As we've seen in this book time and again, there is more than one algorithm to compute the same function, and some of those algorithms might be more efficient than others.
 Luckily the minimum cut problem is one of those cases.
 In particular, as we will see in the next section, there are algorithms that compute $MINCUT$ in time which is _polynomial_ in the number of vertices.
 
