@@ -526,7 +526,7 @@ By [dfaregequivthm](){.ref}  this implies that $\overline{F}$ is regular as well
 ## Limitations of regular expressions
 
 The fact that functions computed by regular expressions always halt is one of the reasons why they are so useful.
-When you make a regular expression search, you are guaranteed that that it will terminate with a result.
+When you make a regular expression search, you are guaranteed that it will terminate with a result.
 This is why operating systems and text editors often restrict their search interface to regular expressions and don't allow searching by specifying an arbitrary function.
 But this always-halting property comes at a cost.
 Regular expressions cannot compute every function that is computable by Turing machines.

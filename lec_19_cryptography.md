@@ -366,7 +366,7 @@ including Julius Rosenberg, Harry Gold, Klaus Fuchs, Alger Hiss, Harry Dexter Wh
 
 
 
-Unfortunately it turns out that that such long keys are _necessary_ for perfect secrecy:
+Unfortunately it turns out that such long keys are _necessary_ for perfect secrecy:
 
 > ### {.theorem title="Perfect secrecy requires long keys" #longkeysthm}
 For every perfectly secret encryption scheme $(E,D)$ the length function $L$ satisfies $L(n) \leq n$.

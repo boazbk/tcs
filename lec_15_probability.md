@@ -120,7 +120,7 @@ Formally, a random variable is  a function $X:\{0,1\}^n \rightarrow \R$ that map
 For example, the function $SUM:\{0,1\}^n \rightarrow \R$ that maps $x$ to the sum of its coordinates (i.e., to $\sum_{i=0}^{n-1} x_i$) is a random variable.
 
 
-The _expectation_ of a random variable $X$, denoted by $\E[X]$, is the average value that that this number takes, taken over all draws from the probabilistic experiment.
+The _expectation_ of a random variable $X$, denoted by $\E[X]$, is the average value that this number takes, taken over all draws from the probabilistic experiment.
 In other words, the expectation of $X$ is defined as follows:
 $$
 \E[X] = \sum_{x\in \{0,1\}^n} 2^{-n}X(x) \;.
