@@ -59,7 +59,7 @@ Unfortunately, it turns out that (as we saw in [chapcomputable](){.ref}) underst
 A hacker (or perhaps, some would say, a savvy investor) was able to fashion an input that caused the DAO code to enter into an infinite recursive loop in which it continuously transferred funds into the hacker's account, thereby [cleaning out about 60 million dollars](https://www.bloomberg.com/features/2017-the-ether-thief/) out of the DAO.
 While this transaction was "legal" in the sense that it complied with the code of the smart contract, it was obviously not what the humans who wrote this code had in mind.
 The Ethereum community struggled with the response to this attack.
-Some tried to the "Robin Hood" approach of using the same loophole to drain the DAO funds into a secure account, but it only had limited success.
+Some tried the "Robin Hood" approach of using the same loophole to drain the DAO funds into a secure account, but it only had limited success.
 Eventually, the Ethereum community decided that the code can be mutable, stoppable, and refutable.
 Specifically,  the Ethereum maintainers and miners agreed on a "hard fork" (also known as a "bailout") to revert history to before the hacker's transaction occurred.
 Some community members strongly opposed this decision, and so an alternative currency called [Ethereum Classic](https://ethereumclassic.github.io/)  was created that preserved the original history.
