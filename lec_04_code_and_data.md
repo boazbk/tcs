@@ -146,7 +146,7 @@ This has the following important corollary:
 > ### {.theorem title="Counting argument lower bound" #counting-lb}
 There is a constant $\delta > 0$, such that for every sufficiently large $n$, there is a function  $f:\{0,1\}^n\rightarrow \{0,1\}$  such that
 $f \not\in SIZE \left(\tfrac{\delta 2^n}{n} \right)$.
-That is, the shortest NAND-CIRC program to compute $f$ requires at least $\delta \cdot 2^n/n$ lines.^[The constant $\delta$ is at least $0.1$ and in fact, can be improved to be arbitrarily close to $1/2$, see [efficientlbex](){.ref}.]
+That is, the shortest NAND-CIRC program to compute $f$ requires more than $\delta \cdot 2^n/n$ lines.^[The constant $\delta$ is at least $0.1$ and in fact, can be improved to be arbitrarily close to $1/2$, see [efficientlbex](){.ref}.]
 
 ::: {.proof data-ref="counting-lb"}
 The proof is simple. If we let $c$ be the constant such that $|SIZE(s)| \leq 2^{c s \log s}$ and $\delta = 1/c$, then setting $s = \delta 2^n/n$ we see that
@@ -320,7 +320,7 @@ $$
 We can represent $P=(n,m,L)$ as a string by prepending a prefix free representation of $n$ and $m$ to the list $L$.
 Since $n,m \leq 3s$ (a program must touch at least once all its input and output variables), those prefix free representations can be encoded using strings of length $O(\log s)$.
 In particular, every program $P$ of at most $s$ lines can be represented by a string of length $O(s\log s)$.
-Similarly, every circuit $C$ of at most $s$ gates, can be represented by a string of length $O(s \log s)$ (for example by translating $C$ to the equivalent program $P$).
+Similarly, every circuit $C$ of at most $s$ gates can be represented by a string of length $O(s \log s)$ (for example by translating $C$ to the equivalent program $P$).
 
 
 

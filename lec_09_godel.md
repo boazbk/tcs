@@ -32,7 +32,7 @@ We will actually start with the latter result, and then show the former.
 
 
 
-![Outline of the results of this chapter. One version of Gödel's Incompleteness Theorem is an immediate concsequence of the uncomputability of the Halting problem. To obtain the theorem as originally stated (for statements about the integers) we first prove that the $QMS$ problem of determining truth of quantified statements involving both integers and strings is uncomputable. We do so using the notion of _Turing Machine configurations_ but there are alternative approaches to do so as well, see [alternativeproofs](){.ref}.](../figure/godelstructure.png){#godelstructurefig }
+![Outline of the results of this chapter. One version of Gödel's Incompleteness Theorem is an immediate consequence of the uncomputability of the Halting problem. To obtain the theorem as originally stated (for statements about the integers) we first prove that the $QMS$ problem of determining truth of quantified statements involving both integers and strings is uncomputable. We do so using the notion of _Turing Machine configurations_ but there are alternative approaches to do so as well, see [alternativeproofs](){.ref}.](../figure/godelstructure.png){#godelstructurefig }
 
 
 
@@ -108,7 +108,7 @@ A _proof system_ for $\mathcal{T}$ is an algorithm $V$ that satisfies:
 2. _(Soundness)_ For every $x\not\in \mathcal{T}$ and $w\in \{0,1\}^*$, $V(x,w)=0$.
 
 A true statement $x\in \mathcal{T}$ is _unprovable_ (with respect to $V$) if for every $w\in \{0,1\}^*$, $V(x,w)=0$.
-We say that $V$ is _complete_ if there does not exist a true statement $x$ that is unprovable with respect to $v$.
+We say that $V$ is _complete_ if there does not exist a true statement $x$ that is unprovable with respect to $V$.
 :::
 
 ::: { .bigidea #proofsystems}

@@ -39,7 +39,7 @@ It turns out that _every_ such search problem can be reduced to 3SAT.
 
 
 To make the above precise, we will  make the following mathematical definition.
-we define the class $\mathbf{NP}$ to contain all Boolean functions that correspond to a _search problem_ of the form above.
+We define the class $\mathbf{NP}$ to contain all Boolean functions that correspond to a _search problem_ of the form above.
 That is, a Boolean function $F$ is in  $\mathbf{NP}$ if $F$ has the form that on input a string $x$, $F(x)=1$ if and only if there exists a "solution" string $w$  such that the pair $(x,w)$ satisfies some polynomial-time checkable condition.
 Formally, $\mathbf{NP}$ is defined as follows:
 

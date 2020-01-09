@@ -59,7 +59,7 @@ Unfortunately, it turns out that (as we saw in [chapcomputable](){.ref}) underst
 A hacker (or perhaps, some would say, a savvy investor) was able to fashion an input that caused the DAO code to enter into an infinite recursive loop in which it continuously transferred funds into the hacker's account, thereby [cleaning out about 60 million dollars](https://www.bloomberg.com/features/2017-the-ether-thief/) out of the DAO.
 While this transaction was "legal" in the sense that it complied with the code of the smart contract, it was obviously not what the humans who wrote this code had in mind.
 The Ethereum community struggled with the response to this attack.
-Some tried to the "Robin Hood" approach of using the same loophole to drain the DAO funds into a secure account, but it only had limited success.
+Some tried the "Robin Hood" approach of using the same loophole to drain the DAO funds into a secure account, but it only had limited success.
 Eventually, the Ethereum community decided that the code can be mutable, stoppable, and refutable.
 Specifically,  the Ethereum maintainers and miners agreed on a "hard fork" (also known as a "bailout") to revert history to before the hacker's transaction occurred.
 Some community members strongly opposed this decision, and so an alternative currency called [Ethereum Classic](https://ethereumclassic.github.io/)  was created that preserved the original history.
@@ -139,7 +139,7 @@ The function $\Phi_{e}:\Sigma^* \rightarrow \{0,1\}$ is defined as follows:
 
 3. If $e = (e')(e'')$ then $\Phi_{e}(x) = 1$ iff there is some $x',x'' \in \Sigma^*$ such that $x$ is the concatenation of $x'$ and $x''$ and $\Phi_{e'}(x')=\Phi_{e''}(x'')=1$.
 
-4. If $e= (e')*$ then $\Phi_{e}(x)=1$ iff there are is $k\in \N$ and some $x_0,\ldots,x_{k-1} \in \Sigma^*$ such that $x$ is the concatenation $x_0 \cdots x_{k-1}$ and $\Phi_{e'}(x_i)=1$ for every $i\in [k]$.
+4. If $e= (e')*$ then $\Phi_{e}(x)=1$ iff there is some $k\in \N$ and some $x_0,\ldots,x_{k-1} \in \Sigma^*$ such that $x$ is the concatenation $x_0 \cdots x_{k-1}$ and $\Phi_{e'}(x_i)=1$ for every $i\in [k]$.
 
 5. Finally, for the edge cases $\Phi_{\emptyset}$ is the constant zero function, and $\Phi_{""}$ is the function that only outputs $1$ on the empty string $""$.
 
@@ -526,7 +526,7 @@ By [dfaregequivthm](){.ref}  this implies that $\overline{F}$ is regular as well
 ## Limitations of regular expressions
 
 The fact that functions computed by regular expressions always halt is one of the reasons why they are so useful.
-When you make a regular expression search, you are guaranteed that that it will terminate with a result.
+When you make a regular expression search, you are guaranteed that it will terminate with a result.
 This is why operating systems and text editors often restrict their search interface to regular expressions and don't allow searching by specifying an arbitrary function.
 But this always-halting property comes at a cost.
 Regular expressions cannot compute every function that is computable by Turing machines.
@@ -675,7 +675,7 @@ Let $REGEQ:\{0,1\}^* \rightarrow \{0,1\}$ be the function that on input (a strin
 
 
 > ### {.proofidea data-ref="regequivalencethm"}
-The idea is to show that given a pair of regular expression $e$ and $e'$ we can find an expression $e''$ such that $\Phi_{e''}(x)=1$ if and only if $\Phi_e(x) \neq \Phi_(e'')(x)$. Therefore $\Phi_{e''}$ is the constant zero function if and only if $e$ and $e'$ are equivalent, and thus we can test for emptiness of $e''$ to determine equivalence of $e$ and $e'$.
+The idea is to show that given a pair of regular expressions $e$ and $e'$ we can find an expression $e''$ such that $\Phi_{e''}(x)=1$ if and only if $\Phi_e(x) \neq \Phi_(e'')(x)$. Therefore $\Phi_{e''}$ is the constant zero function if and only if $e$ and $e'$ are equivalent, and thus we can test for emptiness of $e''$ to determine equivalence of $e$ and $e'$.
 
 
 ::: {.proof data-ref="regequivalencethm"}

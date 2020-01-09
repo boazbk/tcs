@@ -89,7 +89,7 @@ Graphs can also denote correlations in data (e.g., graph of observations of feat
 
 ### Finding the shortest path in a graph
 
-The _shortest path problem_ is the task of, given a graph $G=(V,E)$ and two vertices $s,t \in V$, to find the length of the shortest path between $s$ and $t$ (if such a path exists).
+The _shortest path problem_ is the task of finding, given a graph $G=(V,E)$ and two vertices $s,t \in V$, the length of the shortest path between $s$ and $t$ (if such a path exists).
 That is, we want to find the smallest number $k$ such that there are vertices $v_0,v_1,\ldots,v_k$ with $v_0=s$, $v_k=t$ and for every $i\in\{0,\ldots,k-1\}$ an edge between $v_i$ and $v_{i+1}$.
 Formally, we define $MINPATH:\{0,1\}^* \rightarrow \{0,1\}^*$ to be the function that on input a triple $(G,s,t)$ (represented as a string) outputs the number $k$ which is the length of the shortest path in $G$ between $s$ and $t$ or a string representing `no path` if no such path exists.
 (In practice people often want to also find the actual path and not just its length; it turns out that the algorithms to compute the length of the path often yield the actual path itself as a byproduct, and so everything we say about the task of computing the length also applies to the task of finding the path.)
@@ -109,7 +109,7 @@ OUTPUT: Length $k$ of shortest path from $s$ to $t$ or  $\infty$ -if no such pat
 Let $D$ be length-$n$ array. 
 Set $D[s]=0$ and $D[i]=\infty$ -for all $i\in [n] \setminus \{s \}$.
 Initialize queue $Q$ to contain $s$.
-While{$S$ non empty}
+While{$Q$ non empty}
 Pop $v$ from $Q$
 If{$v=t$}
 Return $D[v]$
@@ -144,7 +144,7 @@ However, it will  always be clear that there exists _some_ data structure that i
 
 The _longest path problem_ is the task of finding the length of the _longest_ simple (i.e., non intersecting) path between a given pair of vertices $s$ and $t$ in a given graph $G$.
 If the graph is a road network, then the longest path might seem less motivated than the shortest path (unless you are the kind of person that always prefers the "scenic route").
-But of graphs can and are used to model a variety of phenomena, and in many such cases finding the longest path (and some of its variants) can be very useful.
+But graphs can and are used to model a variety of phenomena, and in many such cases finding the longest path (and some of its variants) can be very useful.
 In particular, finding the longest path is a generalization of the famous  [Hamiltonian path problem](https://en.wikipedia.org/wiki/Hamiltonian_path_problem) which asks for a _maximally long_ simple path (i.e., path that visits all $n$ vertices once) between $s$ and $t$, as well as the notorious [traveling salesman problem (TSP)](https://en.wikipedia.org/wiki/Travelling_salesman_problem) of finding (in a weighted graph) a path visiting all vertices of cost at most $w$.
 TSP is a classical optimization problem, with applications ranging from planning and logistics to DNA sequencing and astronomy.
 
@@ -167,7 +167,7 @@ Formally, we define $MINCUT:\{0,1\}^* \rightarrow \{0,1\}^*$ to be the function 
 
 ![A _cut_ in a graph $G=(V,E)$ is simply a subset $S$ of its vertices. The edges that are _cut_ by $S$ are all those whose one endpoint is in $S$ and the other one is in $\overline{S} = V \setminus S$. The cut edges are colored red in this figure.](../figure/cutingraph.png){#cutingraphfig .margin  }
 
-Computing minimum $s,t$ cuts is useful for in many applications since minimum cuts often correspond to _bottlenecks_.
+Computing minimum $s,t$ cuts is useful in many applications since minimum cuts often correspond to _bottlenecks_.
 For example, in a communication  or railroad network the minimum cut between $s$ and $t$ corresponds to the smallest number of edges that, if dropped, will disconnect $s$ from $t$.
 (This was actually the original motivation for this problem; see [effalgnotes](){.ref}.)
 Similar applications arise in scheduling and planning.
@@ -175,7 +175,7 @@ In the setting of [image segmentation](https://en.wikipedia.org/wiki/Image_segme
 If we want to separate the foreground from the background then we can pick (or guess) a foreground pixel $s$ and background pixel $t$ and ask for a minimum cut between them.
 
 The naive algorithm for computing  $MINCUT$ will  check  all $2^n$  possible subsets of an $n$-vertex graph, but it turns out we can do much better than that.
-As we've seen in this book time and again, there is more than one algorithm to compute the same function,and some of those algorithms might be more efficient than others.
+As we've seen in this book time and again, there is more than one algorithm to compute the same function, and some of those algorithms might be more efficient than others.
 Luckily the minimum cut problem is one of those cases.
 In particular, as we will see in the next section, there are algorithms that compute $MINCUT$ in time which is _polynomial_ in the number of vertices.
 
@@ -201,7 +201,7 @@ But computing flows in polynomial time is also a special case of a much more gen
 
 
 A _flow_ on a graph $G$ of $m$ edges can be modeled as a vector $x\in \R^m$ where for every edge $e$, $x_e$ corresponds to the amount of water per time-unit that flows on $e$.
-We think of an edge $e$ an an ordered pair $(u,v)$ (we can choose the order arbitrarily) and let $x_e$ be the amount of flow that goes from $u$ to $v$. (If the flow is in the other direction then we make $x_e$ negative.) Since every edge has capacity one, we know that $-1 \leq x_e \leq 1$ for every edge $e$.
+We think of an edge $e$ as an ordered pair $(u,v)$ (we can choose the order arbitrarily) and let $x_e$ be the amount of flow that goes from $u$ to $v$. (If the flow is in the other direction then we make $x_e$ negative.) Since every edge has capacity one, we know that $-1 \leq x_e \leq 1$ for every edge $e$.
 A valid flow has the property that the amount of water leaving the source $s$ is the same as the amount entering the sink $t$, and that for every other vertex $v$, the amount of water entering and leaving $v$ is the same.
 
 Mathematically, we can write these conditions as follows:
@@ -273,13 +273,13 @@ A _linear_ function is both convex and concave, which is the reason that both th
 
 The minimum cut problem is not a priori a convex minimization task, because the set of potential cuts is   _discrete_ and not continuous.
 However, it turns out that we can embed it in a continuous and convex set via the (linear) maximum flow problem.
-The "max flow min cut" theorem ensuring that this embedding is "tight" in the sense that the minimum "fractional cut" that we obtain through the maximum-flow linear program will be the same as the true minimum cut.
+The "max flow min cut" theorem ensures that this embedding is "tight" in the sense that the minimum "fractional cut" that we obtain through the maximum-flow linear program will be the same as the true minimum cut.
 Unfortunately, we don't know of such a tight embedding in the setting of the _maximum_ cut problem.
 
 Convexity arises time and again in the context of efficient computation.
 For example, one of the basic tasks in machine learning is _empirical risk minimization_.
 This is the task of finding a classifier for a given set of _training examples_.
-That is, the input is a list of labeled examples $(x_{m-1},y_{m-1}),\ldots,(x_{m-1},y_{m-1})$, where each $x_i \in \{0,1\}^n$ and $y_i \in \{0,1\}$, and the goal is to find a _classifier_ $h:\{0,1\}^n \rightarrow \{0,1\}$ (or sometimes $h:\{0,1\}^n \rightarrow \R$) that minimizes the number of _errors_.
+That is, the input is a list of labeled examples $(x_0,y_0),\ldots,(x_{m-1},y_{m-1})$, where each $x_i \in \{0,1\}^n$ and $y_i \in \{0,1\}$, and the goal is to find a _classifier_ $h:\{0,1\}^n \rightarrow \{0,1\}$ (or sometimes $h:\{0,1\}^n \rightarrow \R$) that minimizes the number of _errors_.
 More generally, we want to find $h$ that  minimizes 
 $$
 \sum_{i=0}^{m-1}L(y_i,h(x_i))
@@ -306,7 +306,7 @@ $$
 (x_7 \vee \overline{x}_{22} \vee x_{15} ) \wedge (x_{37} \vee x_{22}) \wedge (x_{55} \vee \overline{x}_7)
 $$
 
-The _satisfiability problem_ is the task of determining, given a CNF formula $\varphi$, whether or not there exists a _satisfying assignment_ for $\varphi$. A satisfying assignment for $\varphi$ is a string $x\in \{0,1\}^n$ such that if $\varphi$ evaluates to _True_ if we assign its variables the values of $x$.
+The _satisfiability problem_ is the task of determining, given a CNF formula $\varphi$, whether or not there exists a _satisfying assignment_ for $\varphi$. A satisfying assignment for $\varphi$ is a string $x\in \{0,1\}^n$ such that $\varphi$ evaluates to _True_ if we assign its variables the values of $x$.
 The SAT problem might seem as an  abstract question of interest only in logic but in fact SAT is of huge interest in industrial optimization, with applications including manufacturing planning, circuit synthesis, software verification, air-traffic control, scheduling sports tournaments, and more. 
 
 __2SAT.__ We say that a formula is a $k$-CNF it is an AND of ORs where each OR involves exactly $k$ literals.
@@ -324,7 +324,7 @@ One would be wrong.
 Despite much effort, we do not know of a significantly better than brute force algorithm for 3SAT (the best known algorithms take roughly $1.3^n$ steps).
 
 Interestingly, a similar issue arises time and again in computation, where the difference between two and three often corresponds to the difference between tractable and intractable.
-We do not fully understand the reasons for this phenomenon, though the notions of $\mathbf{NP}$ completeness we will see later does offer a partial explanation.
+We do not fully understand the reasons for this phenomenon, though the notion of $\mathbf{NP}$ completeness we will see later does offer a partial explanation.
 It may be related to the fact that optimizing a polynomial often amounts to equations on its derivative. The derivative of a quadratic polynomial is linear, while the derivative of a cubic is quadratic, and, as we will see, the difference between solving linear and quadratic equations can be quite profound.
 
 
@@ -371,7 +371,7 @@ It is an important and long open question whether there is such an algorithm tha
 Suppose that we want to solve not just _linear_ but also equations involving _quadratic_ terms of the form $a_{i,j,k}x_jx_k$.
 That is, suppose that we are given a set of quadratic polynomials $p_1,\ldots,p_m$ and consider the equations $\{ p_i(x) = 0 \}$.
 To avoid issues with bit representations, we will always assume that the equations contain the constraints $\{ x_i^2 - x_i = 0 \}_{i\in [n]}$.
-Since only $0$ and $1$ satisfy the equation  $a^2-a$, this assumption means that we can restrict attention to solutions in $\{0,1\}^n$.
+Since only $0$ and $1$ satisfy the equation  $a^2-a=0$, this assumption means that we can restrict attention to solutions in $\{0,1\}^n$.
 Solving quadratic equations in several variables is a classical and extremely well motivated problem.
 This is the generalization of the classical case of single-variable quadratic equations that generations of high school students grapple with.
 It also generalizes the [quadratic assignment problem](https://www.opt.math.tugraz.at/~cela/papers/qap_bericht.pdf), introduced in the 1950's as a way to optimize assignment of economic activities.
@@ -492,7 +492,7 @@ While the brute force algorithms would require $2^{\Omega(n)}$ time to factor an
 
 The difference between an exponential and polynomial time algorithm might seem merely "quantitative" but it is in fact extremely significant.
 As we've already seen, the brute force exponential time algorithm runs out of steam very very fast, and as Edmonds says, in practice there might not be much difference between a problem where the best algorithm is exponential and a problem that is not solvable at all.
-Thus the efficient algorithms we mentiond above are widely used and power many computer science applications.
+Thus the efficient algorithms we mentioned above are widely used and power many computer science applications.
 Moreover, a polynomial-time algorithm often arises out of significant insight to the problem at hand, whether it is the "max-flow min-cut" result, the solvability of the determinant, or the group theoretic structure that enables primality testing.
 Such insight can be useful regardless of its computational implications.
 

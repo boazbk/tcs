@@ -8,7 +8,7 @@ chapternum: "19"
 
 > ### { .objectives }
 * Formal definition of probabilistic polynomial time: the class  $\mathbf{BPP}$. \
-* Proof that that every function in $\mathbf{BPP}$ can be computed by $poly(n)$-sized NAND-CIRC programs/circuits. \
+* Proof that every function in $\mathbf{BPP}$ can be computed by $poly(n)$-sized NAND-CIRC programs/circuits. \
 * Relations between $\mathbf{BPP}$ and $\mathbf{NP}$. \
 * Pseudorandom generators
 
