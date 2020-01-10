@@ -112,12 +112,15 @@ For{$\ell=0,\ldots,an^b-1$}
 Let $b_0 \leftarrow STARTSWITH_V(xz_{0}\cdots z_{\ell-1}0)$.
 Let   $b_1  \leftarrow STARTSWITH_V(xz_{0}\cdots z_{\ell-1}1)$.
 If{$b_0=b_1=0$} 
-Return ""  # Can't extend  $fxz_0\ldots z_{\ell-1}$ to an accepting input of $V$
+Return ""  
+# Can't extend  $fxz_0\ldots z_{\ell-1}$ to an accepting -input of $V$
 Endif
 If{$b_0=1$}
- $z_\ell \leftarrow 0$ # Can extend $xz_0\ldots x_{\ell-1}$ with $0$ to accepting input
+ $z_\ell \leftarrow 0$ 
+ # Can extend $xz_0\ldots x_{\ell-1}$ with $0$ to accepting -input
 Else
- $z_\ell \leftarrow 1$ # Can extend $xz_0\ldots x_{\ell-1}$ with $1$ to accepting input
+ $z_\ell \leftarrow 1$ 
+ # Can extend $xz_0\ldots x_{\ell-1}$ with $1$ to accepting -input
 Endif
 Endfor
 Return $z_0,\ldots,z_{an^b-1}$

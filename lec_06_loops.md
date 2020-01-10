@@ -493,26 +493,11 @@ id: TMvsNANDTMtable
 
 ### Examples
 
-We now present some examples of NAND-TM programs
+We now present some examples of NAND-TM programs.
 
-:::  {.example title="XOR in NAND-TM" #XORENANDPP}
-The following is a NAND-TM program to compute the XOR function
-on inputs of arbitrary length.
-That is $XOR:\{0,1\}^* \rightarrow \{0,1\}$ such that $XOR(x) = \sum_{i=0}^{|x|-1} x_i \mod 2$ for every $x\in \{0,1\}^*$.
-
-```python
-temp_0 = NAND(X[0],X[0])
-Y_nonblank[0] = NAND(X[0],temp_0)
-temp_2 = NAND(X[i],Y[0])
-temp_3 = NAND(X[i],temp_2)
-temp_4 = NAND(Y[0],temp_2)
-Y[0] = NAND(temp_3,temp_4)
-MODANDJUMP(X_nonblank[i],X_nonblank[i])
-```
-:::
 
 ::: {.example title="Increment in NAND-TM" #INCENANDPP}
-We now present NAND-TM program to compute the _increment function_.
+The following is a  NAND-TM program to compute the _increment function_.
 That is, $INC:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every $x\in \{0,1\}^n$, $INC(x)$ is the $n+1$ bit long string $y$ such that if $X = \sum_{i=0}^{n-1}x_i \cdot 2^i$ is the number represented by $x$, then $y$ is the (least-significant digit first) binary representation of the number $X+1$.
 
 We start by showing the program using the "syntactic sugar" we've seen before of using shorthand for some NAND-CIRC programs we have seen before to compute simple functions such as `IF`, `XOR` and `AND` (as well as the constant `one` function as well as the function `COPY` that just maps a bit to itself).
@@ -527,7 +512,7 @@ MODANDJUMP(X_nonblank[i],X_nonblank[i])
 ```
 
 The above is not, strictly speaking, a valid NAND-TM program.
-If we "open up" all of the syntactic sugar, we get the following valid program to compute this syntactic sugar.
+If we "open up" all of the syntactic sugar, we get the following "sugar free" valid program to compute the same function.
 
 ```python
 temp_0 = NAND(started,started)
@@ -548,6 +533,33 @@ temp_14 = NAND(started,started)
 Y_nonblank[i] = NAND(started,temp_14)
 MODANDJUMP(X_nonblank[i],X_nonblank[i])
 ```
+:::
+
+
+:::  {.example title="XOR in NAND-TM" #XORENANDPP}
+The following is a NAND-TM program to compute the XOR function on inputs of arbitrary length.
+That is $XOR:\{0,1\}^* \rightarrow \{0,1\}$ such that $XOR(x) = \sum_{i=0}^{|x|-1} x_i \mod 2$ for every $x\in \{0,1\}^*$.
+Once again, we use a certain "syntactic sugar". 
+Specifically, we access the arrays `X` and `Y` at their zero-th entry, while NAND-TM only allows
+access to arrays in the coordinate of the variable `i`. 
+
+```python
+temp_0 = NAND(X[0],X[0])
+Y_nonblank[0] = NAND(X[0],temp_0)
+temp_2 = NAND(X[i],Y[0])
+temp_3 = NAND(X[i],temp_2)
+temp_4 = NAND(Y[0],temp_2)
+Y[0] = NAND(temp_3,temp_4)
+MODANDJUMP(X_nonblank[i],X_nonblank[i])
+```
+
+To transform the program above to a valid NAND-TM program, we can transform references such as  `X[0]` and `Y[0]` to  scalar variables `x_0` and `y_0` (similarly  we can transform any reference of the form `Foo[17]` or `Bar[15]` to  scalars such as `foo_17` and `bar_15`). 
+We then need to add code to load the value of `X[0]` to `x_0` and similarly to write to `Y[0]` the value of `y_0`, but this is not hard to do.
+Using the fact that variables are initialized to zero by default, we can create a variable `init` which will be set to $1$ at the end of the first iteration and not changed since then.
+We can then add an array `Atzero` and code that will modify `Atzero[i]` to $1$  if `init` is $0$ and otherwise leave it as it is.
+This will ensure that `Atzero[i]` is equal to $1$ if and only if `i` is set to zero, and allow the program to know when we are at the zero-th location.
+Thus we can add code to read and write to the corresponding scalars `x_0`, `y_0` when we are at the zero-th location, and also code to move `i` to zero and then halt at the end.
+Working this out fully is somewhat tedious, but can be a good exercise.
 :::
 
 ::: { .pause }
