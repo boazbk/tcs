@@ -1272,7 +1272,7 @@ Let $embed:\N^2 \rightarrow \N$ be the function defined as $embed(x_0,x_1)= \tfr
 :::
 
 ::: {.exercise title="Shortest Path" #shortestpathcomputableex}
-Let $SHORTPATH:\{0,1\}^* \rightarrow \{0,1\}^*$ be the function that on input a string encoding a triple $(G,u,v)$ outputs  a string encoding $\infty$ if $u$ and $v$ are disconnected in $G$ or a string encoding the length $k$ of the shortest path from $u$ to $v$. Prove that $SHORTPATH$ is computable by a Turing machine. See footnote for hint.^[You don't have to give a full description of a Turing machine: use our "eat the cake and have it too" paradigm to show the existence of such a machine by arguing from more powerful equivalent models.]
+Let $SHORTPATH:\{0,1\}^* \rightarrow \{0,1\}^*$ be the function that on input a string encoding a triple $(G,u,v)$ outputs  a string encoding $\infty$ if $u$ and $v$ are disconnected in $G$ or a string encoding the length $k$ of the shortest path from $u$ to $v$. Prove that $SHORTPATH$ is computable by a Turing machine. See footnote for hint.^[You don't have to give a full description of a Turing machine: use our "have the cake and eat it too" paradigm to show the existence of such a machine by arguing from more powerful equivalent models.]
 :::
 
 ::: {.exercise title="Longest Path" #longestpathcomputableex}

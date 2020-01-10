@@ -244,7 +244,7 @@ The proof can be thought of as an infinite version of the _counting_ argument we
 Namely, we show that it's not possible to compute all functions from $\{0,1\}^* \rightarrow \{0,1\}$ by Turing machines simply because there are more functions like that then there are Turing machines.
 
 
-As mentioned in [decidablelanguages](){.ref}, many texts use the "language" terminology and so will call a set $L \subseteq \{0,1\}^*$ an  [_undecidable_](https://goo.gl/3YvQvL)  or _non recursive_ language if the function $F:\{0,1\}^* :\rightarrow \{0,1\}$ such that $F(x)=1 \leftrightarrow x\in L$ is uncomputable.
+As mentioned in [decidablelanguagesrem](){.ref}, many texts use the "language" terminology and so will call a set $L \subseteq \{0,1\}^*$ an  [_undecidable_](https://goo.gl/3YvQvL)  or _non recursive_ language if the function $F:\{0,1\}^* :\rightarrow \{0,1\}$ such that $F(x)=1 \leftrightarrow x\in L$ is uncomputable.
 
 
 ## The Halting problem {#haltingsec }
@@ -510,7 +510,7 @@ Doing so is an excellent way to get some initial comfort with the notion of proo
 
 :::  {.proof data-ref="haltonzero-thm"}
 The proof is by reduction from $HALT$, see [haltonzerofig](){.ref}. We will assume, towards the sake of contradiction, that  $HALTONZERO$ is computable by some algorithm $A$, and use this hypothetical algorithm $A$ to construct an algorithm $B$ to compute $HALT$, hence obtaining a contradiction to [halt-thm](){.ref}.
-(As discussed in [defalgsec](){.ref}, following our "eat your cake and have it too" paradigm, we just use the generic name "algorithm" rather than worrying whether we model them as Turing machines, NAND-TM programs, NAND-RAM, etc.; this makes no difference since all these models are equivalent to one another.)
+(As discussed in [eatandhavecake](){.ref}, following our "have your cake and eat it too" paradigm, we just use the generic name "algorithm" rather than worrying whether we model them as Turing machines, NAND-TM programs, NAND-RAM, etc.; this makes no difference since all these models are equivalent to one another.)
 
 Since this is our first proof by reduction from the Halting problem, we will spell it out in more details than usual. Such a proof by reduction consists of two steps:
 
@@ -971,7 +971,7 @@ Christopher Strachey was an English computer scientist and the inventor of the C
 
 
 Rice's Theorem was proven in [@rice1953classes].
-It is typically stated in a form somewhat different than what we used, see [ricesstandardex](){.ref}.
+It is typically stated in a form somewhat different than what we used, see [ricestandardex](){.ref}.
 
 We do not discuss in the chapter the concept of _recursively enumerable_ languages, but it is covered briefly in [recursiveenumerableex](){.ref}.
 As usual, we use function, as opposto language, notation.
