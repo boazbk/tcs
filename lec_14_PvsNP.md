@@ -113,7 +113,7 @@ Let $b_0 \leftarrow STARTSWITH_V(xz_{0}\cdots z_{\ell-1}0)$.
 Let   $b_1  \leftarrow STARTSWITH_V(xz_{0}\cdots z_{\ell-1}1)$.
 If{$b_0=b_1=0$} 
 Return ""  
-# Can't extend  $fxz_0\ldots z_{\ell-1}$ to an accepting -input of $V$
+# Can't extend $xz_0\ldots z_{\ell-1}$ to -input  $V$ accepts
 Endif
 If{$b_0=1$}
  $z_\ell \leftarrow 0$ 
