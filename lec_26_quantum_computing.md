@@ -593,7 +593,7 @@ We say that $F\in \mathbf{BQP}$ if there exists a polynomial time NAND-TM progra
 
 
 > ### { .pause }
-[BQPdef](){.ref} is the quantum analog of the  alternative characterization of $\mathbf{P}$ that appears in [Palternativeex](){.ref}.
+[BQPdef](){.ref} is the quantum analog of the  alternative characterization of $\mathbf{P}$ that appears in [characterizationofp](){.ref}.
 One way to verify that you've understood [BQPdef](){.ref}  it to see that you can prove __(1)__ $\mathbf{P} \subseteq \mathbf{BQP}$ and in fact the stronger statement $\mathbf{BPP} \subseteq \mathbf{BQP}$, __(2)__  $\mathbf{BQP} \subseteq \mathbf{EXP}$, and __(3)__ For every $\mathbf{NP}$-complete function $F$, if $F\in \mathbf{BQP}$ then $\mathbf{NP} \subseteq \mathbf{BQP}$.  [BQPcontainements](){.ref} asks you to work these out.
 
 The relation between $\mathbf{NP}$ and $\mathbf{BQP}$ is not known (see also [quantumnp](){.ref}).
@@ -944,7 +944,7 @@ Prove the following relations between quantum complexity classes and classical o
 
 1. $\mathbf{P_{/poly}} \subseteq \mathbf{BQP_{/poly}}$. See footnote for hint.^[You can use $U_{NAND}$ to simulate NAND gates.]
 
-2. $\mathbf{P} \subseteq \mathbf{BQP}$. See footnote for hint.^[Use the alternative characterization of $\mathbf{P}$ as in [Palternativeex](){.ref}.]
+2. $\mathbf{P} \subseteq \mathbf{BQP}$. See footnote for hint.^[Use the alternative characterization of $\mathbf{P}$ as in [characterizationofp](){.ref}.]
 
 3. $\mathbf{BPP} \subseteq \mathbf{BQP}$. See footnote for hint.^[You can use the $HAD$ gate to simulate a coin toss.]
 
