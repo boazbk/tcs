@@ -519,7 +519,7 @@ For example, the table below describes one particular function $G: \{0,1\}^4 \ri
 | $1111$      | 1               |
 
 
-Table: An example of a function $G:\{0,1\}^4 \rightarrow \{0,1\}$. { .table #tablefunctiong }
+Table: An example of a function $G:\{0,1\}^4 \rightarrow \{0,1\}$. 
 
 
 
@@ -543,7 +543,7 @@ We can translate this pseudocode into an actual NAND-CIRC program by adding thre
 and then replacing a statement such as `Gxxx = 0` with `Gxxx = NAND(one,one)` and a statement such as `Gxxx = 1` with `Gxxx = NAND(zero,zero)`.
 The call to `LOOKUP_4` will be replaced by the NAND-CIRC program that computes $LOOKUP_4$, plugging in the appropriate inputs.
 
-There was nothing about the above reasoning that was particular to the function $G$ of [tablefunctiong](){.ref}.
+There was nothing about the above reasoning that was particular to the function $G$ above.
 Given _every_ function $F: \{0,1\}^n \rightarrow \{0,1\}$, we can write a NAND-CIRC program that does the following:
 
 1. Initialize $2^n$ variables of the form `F00...0` till `F11...1` so that for every $z\in\{0,1\}^n$,  the variable corresponding to $z$ is assigned the value $F(z)$.
