@@ -177,30 +177,39 @@ The idea is simple: if the program $P$ contains a definition of a procedure `Pro
 
 To make this more robust we add a prefix to the internal variables used by `Proc` to ensure they don't conflict with the variables of $P$; for simplicity we ignore this issue in the code below though it can be easily added.
 
-The code in [desugarcode](){.ref} achieves such a  transformation.^[This code uses _regular expressions_ to make the search and replace parts a little easier. We will see the theoretical basis for regular expressions in [restrictedchap](){.ref}.]
+The code of the Python function `desugar` below achieves such a  transformation.
 
-``` { .python #desugarcode title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
-def inline_proc(code, proc_name, proc_args,proc_body):
-    '''Takes code of a program and name, arguments, body of a procedure.
-    Returns new code where all lines in program of the
-    form "foo = proc_name(bar,blah,..)" are replaced with
-    the body of the procedure with  arguments instantiated
-    with the variables bar, blah, etc.'''
-    arglist = ",".join([r"([a-zA-Z0-9\_\[\]]+)" for i in range(len(proc_args))])
-    regexp = fr'([a-zA-Z0-9\_\[\]]+)\s*=\s*{proc_name}\({arglist}\)\s*$'
-    #  captures "variable = func_name(arguments)"    
+``` { .python title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
+def desugar(code, func_name, func_args,func_body):
+    """
+    Replaces all occurences of 
+       foo = func_name(func_args) 
+    with
+       func_body[x->a,y->b]
+       foo = [result returned in func_body]    
+    """
+    # Uses Python regular expressions to simplify the search and replace,
+    # see https://docs.python.org/3/library/re.html and Chapter 9 of the book
+
+    # regular expression for capturing a list of variable names separated by commas
+    arglist = ",".join([r"([a-zA-Z0-9\_\[\]]+)" for i in range(len(func_args))])
+    # regular expression for capturing a statement of the form
+    # "variable = func_name(arguments)"
+    regexp = fr'([a-zA-Z0-9\_\[\]]+)\s*=\s*{func_name}\({arglist}\)\s*$'
     while True:
         m = re.search(regexp, code, re.MULTILINE)
         if not m: break
-        newcode = proc_body
-        for i in range(len(proc_args)):
-            newcode = newcode.replace(proc_args[i], m.group(i+2))
+        newcode = func_body 
+        # replace function arguments by the variables from the function invocation
+        for i in range(len(func_args)): 
+            newcode = newcode.replace(func_args[i], m.group(i+2))
+        # Splice the new code inside
         newcode = newcode.replace('return', m.group(1) + " = ")
         code = code[:m.start()] + newcode + code[m.end()+1:]
     return code
 ```
 
-[progcircmajfig](){.ref} shows the result of applying the code of [desugarcode](){.ref} to the program of [majcircnand](){.ref} that uses syntactic sugar to compute the Majority function.
+[progcircmajfig](){.ref} shows the result of applying  `desugar`  to the program of [majcircnand](){.ref} that uses syntactic sugar to compute the Majority function.
 Specifically, we first apply `desugar` to remove usage of the OR function, then apply it to remove usage of the AND function, and finally apply it a third time to remove usage of the NOT function.
 
 
@@ -209,27 +218,12 @@ The function `desugar` in [desugarcode](){.ref} assumes that it is given the pro
 It is not crucial for our purposes to describe precisely how to scan a definition and split it up into these components, but in case you are curious, it can be achieved in Python via the following code:
 
 ```python
-def parse_procs(code):
-    """Parse code that contain procedure definitions into a list of
-    triples (name, arguments, body)"""
-    lines = [l for l in code.split('\n') if l ]
+def parse_func(code):
+    """Parse a function definition into name, arguments and body"""
+    lines = [l.strip() for l in code.split('\n')]
     regexp = r'def\s+([a-zA-Z\_0-9]+)\(([\sa-zA-Z0-9\_,]+)\)\s*:\s*'
-    procs = []
-    current_line = 0
-    rest = ""
-    while current_line < len(lines):
-        m = re.match(regexp,lines[current_line])
-        if m:
-            current_line+= 1
-            code = ""
-            while current_line < len(lines) and lines[current_line][0]==' ':
-                code += lines[current_line].strip()+'\n'
-                current_line += 1
-            procs.append((m.group(1) , m.group(2).split(','), code))
-        else:
-            rest += lines[current_line]+'\n'
-            current_line += 1
-    return rest, procs
+    m = re.match(regexp,lines[0])
+    return m.group(1), m.group(2).split(','), '\n'.join(lines[1:])
 ```
 :::
 
