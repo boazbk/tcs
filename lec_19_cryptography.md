@@ -471,7 +471,7 @@ $$
 $$
 :::
 
-In this chapter we will call a cryptographic pseudorandom generator simply a _pseudorandom generator_ or PRG for short. The optimal PRF conjecture of [optimalprgconj](){.ref} implies
+In this chapter we will call a cryptographic pseudorandom generator simply a _pseudorandom generator_ or PRG for short. The optimal PRG conjecture of [optimalprgconj](){.ref} implies
 that there is a pseudorandom generator that can "fool" circuits of _exponential size_ and where the gap in probabilities is at most one over an exponential quantity.
 Since exponential grow faster than every polynomial, the optimal PRG conjecture implies the following:
 
