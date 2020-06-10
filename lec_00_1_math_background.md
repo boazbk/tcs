@@ -26,21 +26,22 @@ In this chapter we review some of the mathematical concepts that we use in this 
 These concepts are typically covered in courses or textbooks on "mathematics for computer science" or "discrete mathematics"; see the "Bibliographical Notes" section ([notesmathchap](){.ref}) for several excellent resources on these topics that are freely-available online.
 
 
-_A mathematician's apology._  Some students might wonder why  this book contains so much math. Mathematics is a language for modeling concepts in a precise and unambiguous way.
+_A mathematician's apology._  Some students might wonder why  this book contains so much math. The reason is that mathematics is simply a language for modeling concepts in a precise and unambiguous way.
 In this book we use math to model the concept of _computation_.
 For example, we will consider questions such as _"is there an efficient algorithm to find the prime factors of a given integer?"_. (We will see that this question is particularly interesting, touching on areas as far apart as Internet security and quantum mechanics!)
 To even _phrase_ such a question, we need to give a precise _definition_ of the notion of an _algorithm_, and of what it means for an algorithm to be _efficient_.
-Also, since there is no empirical experiment that will prove the _nonexistence_ of an algorithm,  the only way to establish such a result is using a _mathematical proof_.
+Also, since there is no empirical experiment to prove the _nonexistence_ of an algorithm,  the only way to establish such a result is using a _mathematical proof_.
 
 
 ##  This chapter: a reader's manual   { #manualbackground}
 
 Depending on your background, you can approach this chapter in two different ways:
 
-* If you already have taken a "discrete mathematics", "mathematics for computer science" or similar courses, you can take a quick look at [secmathoverview](){.ref} to see the main tools we will use, [notationsec](){.ref} for our notation and conventions, and then skip ahead to the rest of this book. Alternatively, you can sit back, relax, and read this chapter just to get familiar with our notation, as well as to enjoy (or not) my philosophical musings and attempts at humor. You might also want to start brushing up on _discrete probability_, which we'll use later in this book.
-
+* If you have already taken a "discrete mathematics", "mathematics for computer science" or similar courses, you do not need to read the whole chapter. You can just take quick look at [secmathoverview](){.ref} to see the main tools we will use, [notationsec](){.ref} for our notation and conventions, and then skip ahead to the rest of this book. Alternatively, you can sit back, relax, and read this chapter just to get familiar with our notation, as well as to enjoy (or not) my philosophical musings and attempts at humor. 
 
 * If your background is less extensive, see [notesmathchap](){.ref} for some resources on these topics. This chapter briefly covers the concepts that we need, but you may find it helpful to see a more in-depth treatment. As usual with math, the best way to get comfort with this material is to work out exercises on your own.
+
+* You might also want to start brushing up on _discrete probability_, which we'll use later in this book (see [probabilitychap](){.ref}).
 
 
 
@@ -48,16 +49,14 @@ Depending on your background, you can approach this chapter in two different way
 ## A quick overview of mathematical prerequisites { #secmathoverview }
 
 
-
-The main mathematical concepts we use in this book are: 
+The main mathematical concepts we will use are the following. We just list these notions below, deferring their definitions to the rest of this chapter. If you are familiar with all of these, then you might want to just skip to [notationsec](){.ref} to see the full list of notation we use.
 
 * __Proofs:__ First and foremost, this book involves a heavy dose of formal mathematical reasoning, which includes mathematical _definitions_, _statements_, and _proofs_.
 
-* __Sets:__ The basic set _relations_ of membership ($\in$) and containment ($\subseteq$), and set _operations_, principally union ($\cup$), intersection ($\cap$), set difference ($\setminus$) and Cartesian product ($\times$).
+* __Sets and set operations:__ We will use extensively  mathematical _sets_. We use the basic set _relations_ of membership ($\in$) and containment ($\subseteq$), and set _operations_, principally union ($\cup$), intersection ($\cap$), and set difference ($\setminus$).
 
-* __Tuples and strings:__ The set $\Sigma^k$ of length-$k$ strings/lists over elements in $\Sigma$, where $\Sigma$ is some finite set which is called the _alphabet_ (quite often $\Sigma = \{0,1\}$). We use $\Sigma^*$ for the set of all strings of finite length.
+* __Cartesian product and Kleene star operation:__   We also use the _Cartesian product_ of two sets $A$ and $B$, denoted as $A \times B$ (that is, $A \times B$ the set of pairs $(a,b)$ where $a\in A$ and $b\in B$). We denote by $A-n$ the $n$ fold Cartesian product (e.g., $A^3 = A \times A \times A$) and by $A^*$ (known as the _Kleene star_) the union of $A^n$ for all $n \in \{0,1,2,\ldots\}$. 
 
-* __Some special sets:__ The set $\N$ of natural numbers. Following typical computer science convention, our indices start from zero and so we write $\N = \{0,1,2,\ldots \}$. We use $[n]$ for the set $\{0,1,2,\ldots,n-1\}$. We use $\{0,1\}^*$ for the set of all binary strings and $\{0,1\}^n$ for the set of strings of length $n$ for some natural number $n\in\N$. If $x$ is a string of length $n$, then we refer to its elements by $x_0,\ldots,x_{n-1}$.
 
 * __Functions:__ The _domain_ and _codomain_ of a function, properties such as being _one-to-one_ (also known as _injective_) or _onto_ (also known as _surjective_) functions, as well as _partial functions_ (that, unlike standard or "total" functions, are not necessarily defined on all elements of their domain).
 
@@ -69,7 +68,7 @@ The main mathematical concepts we use in this book are:
 
 * __Big-$O$ notation:__ $O,o,\Omega,\omega,\Theta$ notation for analyzing asymptotic growth of functions.
 
-* __Discrete probability:__ We will use _probability theory_, and specifically probability over _finite_ samples spaces such as tossing $n$ coins, including notions such as _random variables_, _expectation_, and _concentration_.  We will only use probability theory in the second half of this text, and will review it beforehand. However, probabilistic reasoning is a subtle (and extremely useful!) skill, and it's always good to start early in acquiring it.
+* __Discrete probability:__ We will use _probability theory_, and specifically probability over _finite_ samples spaces such as tossing $n$ coins, including notions such as _random variables_, _expectation_, and _concentration_.  We will only use probability theory in the second half of this text, and will review it beforehand in [probabilitychap](){.ref}. However, probabilistic reasoning is a subtle (and extremely useful!) skill, and it's always good to start early in acquiring it.
 
 
 In the rest of this chapter we briefly review the above notions.
@@ -79,7 +78,6 @@ This is partially to remind the reader and reinforce material that might not be 
 
 ## Reading mathematical texts
 
-Reading mathematical texts take practice to get used to the notation and symbols.
 Mathematicians use jargon for the same reason that it is used in many other professions such engineering, law, medicine, and others.
 We want to make terms _precise_ and introduce shorthand for concepts that are frequently reused.
 Mathematical texts tend to "pack a lot of punch" per sentence, and so the key is to read them slowly and carefully, parsing each symbol at a time.
@@ -102,8 +100,8 @@ The basic components of a mathematical text are __definitions__, __assertions__ 
 
 ### Definitions
 
-Mathematicians often define new concepts in terms of old concepts.  
-Here is a mathematical definition which you may have encountered in the past (and will see again shortly):
+Mathematicians often define new concepts in terms of old concepts.
+For example, here is a mathematical definition which you may have encountered in the past (and will see again shortly):
 
 
 > ### {.definition title="One to one function" #onetoonedef}
@@ -111,7 +109,7 @@ Let $S,T$ be sets.
 We say that a function $f:S \rightarrow T$ is _one to one_ (also known as _injective_) if for every two elements $x,x' \in S$, if $x \neq x'$ then  $f(x) \neq f(x')$.
 
 [onetoonedef](){.ref} captures a simple concept, but even so it uses quite a bit of notation.
-When reading such a definition, it is often useful to annotate it with a pen as you're going through it, as in [onetoonedefannotatedef](){.ref}.
+When reading such a definition, it is often useful to annotate it with a pen as you're going through it (see [onetoonedefannotatedef](){.ref}).
 For example, when you see an identifier such as $f$, $S$ or $x$,  make sure that you realize what sort of object is it: is it a set, a function, an element, a number, a gremlin?
 You might also find it useful to explain the definition in words to a friend (or to yourself).
 
@@ -129,8 +127,12 @@ You might also find it useful to explain the definition in words to a friend (or
 
 ### Assertions: Theorems, lemmas, claims
 
-Theorems, lemmas, claims and the like are true statements about the concepts that we defined.
-Deciding whether to call a particular statement a "Theorem", a "Lemma" or a "Claim" is a judgement call, and does not make a mathematical difference. All three correspond to true statements which can be proven. The difference is that a _Theorem_ refers to a significant result, that we would want to remember and highlight.  A _Lemma_ often refers to a technical result, that is not necessarily important in its own right, but can be often very useful in proving other theorems. A _Claim_ is a "throw away" statement, that we need to use in order to prove some other bigger results, but do not care so much about for its own sake.
+Theorems, lemmas, claims and the like are true statements about the concepts we defined.
+Deciding whether to call a particular statement a "Theorem", a "Lemma" or a "Claim" is a judgement call, and does not make a mathematical difference.
+All three correspond to statements which were proven to be true.
+The difference is that a _Theorem_ refers to a significant result, that we would want to remember and highlight.
+A _Lemma_ often refers to a technical result, that is not necessarily important in its own right, but can be often very useful in proving other theorems.
+A _Claim_ is a "throw away" statement, that we need to use in order to prove some other bigger results, but do not care so much about for its own sake.
 
 ### Proofs
 
