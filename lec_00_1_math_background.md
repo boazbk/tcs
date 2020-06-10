@@ -116,7 +116,12 @@ For example, when you see an identifier such as $f$, $S$ or $x$,  make sure that
 You might also find it useful to explain the definition in words to a friend (or to yourself).
 
 
-![An annotated form of [onetoonedef](){.ref}, marking which type is every object, and with a doodle explaining what the definition says.](../figure/onetoonedef.png){#onetoonedefannotatedef .margin  }
+
+
+
+
+
+![An annotated form of [onetoonedef](){.ref}, marking which part is being defined and how.](../figure/onetoonedef3.png){#onetoonedefannotatedef .margin  }
 
 
 
