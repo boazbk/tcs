@@ -43,6 +43,22 @@ Using this, we will be able to precisely define statements such as "function $f$
 
 ![A function mapping strings to strings _specifies_ a computational task, i.e., describes _what_ the desired relation between the input and the output is. In this chapter we define models for _implementing_ computational processes that achieve the desired relation, i.e., describe _how_ to compute the output from the input. We will see several examples of such models using both Boolean circuits and straight-line programming languages.](../figure/compchapterwhatvshow.png  ){#compchapwhatvshowfig }
 
+
+::: {.nonmath}
+The main takeaways from this chapter are:
+
+* We can use _logical operations_ such as $AND$, $OR$, and $NOT$ to compute an output from an input (see [andornotsec](){.ref}).
+
+* A _Boolean circuit_ is a way to compose the basic logical operations to compute a more complex function (see [booleancircuitsec](){.ref}). We can think of Boolean circuits as both a mathematical model (which is based on directed acyclic graphs) as well as physical devices we can construct in the real world in a variety of ways, including not just silicon-based semi-conductors but also mechanical and even biological mechanisms (see [physicalimplementationsec](){.ref}).
+
+* We can describe Bolean circuits also as _straight-line programs_, which are programs that do not have any looping constructs (i.e., no `while` / `for`/ `do .. until` etc.), see [starightlineprogramsec](){.ref}.
+
+* It is possible to implement the $AND$, $OR$, and $NOT$ operations using the $NAND$ operation (as well as vice versa). This means that circuits with $AND$/$OR$/$NOT$ gates can compute the same functions (i.e., are _equivalent in power_) to circuits with $NAND$ gates, and we can use either model to describe computation based on our convenience, see [nandsec](){.ref}. To give out a  "spoiler", we will see in [finiteuniversalchap](){.ref} that such circuits can compute _all_ finite functions.
+
+One "big idea" of this chapter is the notion of _equivalence_ between models ([equivalencemodels](){.ref}). Two computational models are _equivalent_ if they can compute the same set of functions. Boolean circuits with $AND$/$OR$/$NOT$ gates are equivalent to circuits with $NAND$ gates, but this is just one example of the more general phenomenon that we will see many times in this book.
+:::
+
+
 ## Defining computation
 
 
@@ -109,7 +125,7 @@ We will start by discussing what are "elementary operations" and  how we map a d
 ![An overview of the computational models defined in this chapter. We will show several equivalent ways to represent a recipe for performing a finite computation. Specifically we will show that we can model such a computation using either a _Boolean circuit_ or a _straight line program_, and these two representations are equivalent to one another. We will also show that we can choose as our basic operations either the set $\{ AND , OR , NOT \}$ or the set $\{ NAND \}$ and these two choices are equivalent in power. By making the choice of whether to use circuits or programs, and whether to use   $\{ AND , OR , NOT \}$ or  $\{ NAND \}$ we obtain four equivalent ways of modeling finite computation. Moreover, there are many other choices of sets of basic operations that are equivalent in power.](../figure/compcharoverview.png){#compchapoverviewfig  }
 
 
-## Computing using AND, OR, and NOT.
+## Computing using AND, OR, and NOT. { #andornotsec }
 
 
 An algorithm breaks down a _complex_ calculation into a series of _simpler_ steps.
@@ -170,7 +186,7 @@ $$MAJ(x_0,x_1,x_2) = ((x_0 \wedge x_1) \vee (x_1 \wedge x_2)) \vee (x_0 \wedge x
 
 
 
-We can also write  [eqmajandornot](){.eqref} in a   "programming language" format, expressing it as a set of instructions for computing $MAJ$ given the basic operations $AND,OR,NOT$:
+We can also write  [eqmajandornot](){.eqref} in a   "programming language" form, expressing it as a set of instructions for computing $MAJ$ given the basic operations $AND,OR,NOT$:
 
 ```python
 def MAJ(X[0],X[1],X[2]):
@@ -181,6 +197,8 @@ def MAJ(X[0],X[1],X[2]):
     return OR(firstpair,temp)
 ```
 :::
+
+<iframe src="https://trinket.io/embed/python/5ead2eab1b" width="100%" height="600" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
 
 
 ### Some properties of AND and OR
@@ -304,6 +322,9 @@ def XOR3(a,b,c):
 print([f"XOR3({a},{b},{c})={XOR3(a,b,c)}" for a in [0,1] for b in [0,1] for c in [0,1]])
 # ['XOR3(0,0,0)=0', 'XOR3(0,0,1)=1', 'XOR3(0,1,0)=1', 'XOR3(0,1,1)=0', 'XOR3(1,0,0)=1', 'XOR3(1,0,1)=0', 'XOR3(1,1,0)=0', 'XOR3(1,1,1)=1']
 ```
+
+<iframe src="https://trinket.io/embed/python/0e71e3fcaa" width="100%" height="600" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+
 :::
 
 
@@ -351,7 +372,7 @@ We will also discuss how to _physically implement_ simple operations such as $AN
 
 
 
-## Boolean Circuits  {#booleancircuitfig }
+## Boolean Circuits  {#booleancircuitsec }
 
 ![Standard symbols for the logical operations or "gates" of $AND$, $OR$, $NOT$, as well as the operation $NAND$ discussed in [nandsec](){.ref}.](../figure/logicgates.png){#logicgatesfig .margin }
 
@@ -486,7 +507,7 @@ in a circuit is never larger than twice its size.
 :::
 
 
-### Equivalence of circuits and straight-line programs
+### Equivalence of circuits and straight-line programs { #starightlineprogramsec }
 
 We have seen two ways to describe how to compute a function $f$ using _AND_, _OR_ and _NOT_:
 
@@ -611,6 +632,7 @@ Indeed, as we will see in [quantumchap](){.ref}, a very exciting recent line of 
 
 ![Crab-based logic gates from the paper "Robust soldier-crab ball gate" by Gunji, Nishiyama and Adamatzky. This is an example of an AND gate that relies on the tendency of two swarms of crabs arriving from different directions to combine to a single swarm that continues in the average of the directions.](../figure/crab-gate.jpg){#crabfig .margin}
 
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Such a cool way to explain logic gates. <a href="https://t.co/6Wgu2ZKFCx">pic.twitter.com/6Wgu2ZKFCx</a></p>&mdash; Lionel Page (@page_eco) <a href="https://twitter.com/page_eco/status/1188749430020698112?ref_src=twsrc%5Etfw">October 28, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 ### Transistors

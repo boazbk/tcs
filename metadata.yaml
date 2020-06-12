@@ -19,9 +19,6 @@ labelclasses:
     "subsection": "Section"
 latexblockcode:  "code"
 latexinlinecode: ""
-title: ""
-filename: ""
-compiletime: ""
 auxfile: "bookaux.yaml"
 pdfurl: "https://files.boazbarak.org/introtcs/lnotes_book.pdf"
 searchindex: "html/search_index.json"
@@ -34,4 +31,6 @@ cover-image: "icons/cover.png"
 apple-touch-icon: "icons/apple-touch-icon-120x120.png"
 apple-touch-icon-size: 120
 favicon: "icons/favicon.ico"
-...
+---
+
+

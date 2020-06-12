@@ -43,6 +43,23 @@ See [computefuncoverviewfig](){.ref} for an outline of the results of this chapt
 
 
 
+::: {.nonmath}
+
+In this chapter we will see our first major result: _every_ finite function can be computed some Boolean circuit (see [circuit-univ-thm](){.ref} and [finitecomputation](){.ref}).
+This is sometimes known as the "universality" of $AND$, $OR$, and $NOT$ (and, using the equivalence of [compchap](){.ref}, of $NAND$ as well)
+
+Despite being an important result, [circuit-univ-thm](){.ref} is actually not that hard to prove. [seccomputalternative](){.ref} presents a relatively simple direct proof of this result.
+However, in [secsyntacticsugar](){.ref} and [seclookupfunc](){.ref} we derive this result using the concept of "syntactic sugar" (see [synsugar](){.ref}).
+This is an important concept for programming languages theory and practice.
+The idea behind "syntactic sugar" is that we can extend a programming language by implementing advanced features from its basic components.
+For example, we can take the AON-CIRC and NAND-CIRC programming languages we saw in [compchap](){.ref}, and extend them to achieve features such as user-defined functions (e.g., `def Foo(...)`), condtional statements (e.g., `if blah ...`), and  more. 
+Once we have these features, it is not that hard to show that we can take the "truth table" (table of all inputs and outputs) of any function, and use that to create an AON-CIRC or NAND-CIRC program that maps each input to its corresponding output.
+
+We will also get our first glimplse of _quantitative measures_ in  this chapter. While [circuit-univ-thm](){.ref} tells us that every function can be computed by _some_ circuit, the number of gates in this circuit can be exponentially large.
+(We are not using here "exponentially" as some colloquial term for "very very big" but in a very precise mathematical sense, which also happens to coincide with being very very big.)
+It turns out that _some functions_ (for example, integer addition and multiplication) can be in fact computed using far fewer gates. 
+We will explore this issue of "gate complexity" more deeply in [codeanddatachap](){.ref} and following chapters.
+:::
 
 
 

@@ -65,6 +65,24 @@ At the heart of this revolution is the simple but profound observation that we c
 In later chapters, we will typically take such representations for granted, and hence use expressions such as "program $P$ takes $x$ as input" when $x$ might be a number, a vector, a graph, or any other object,  when we really mean that $P$ takes as input the _representation_ of $x$ as a binary string.
 However, in this chapter we will dwell a bit more on how we can construct such representations.
 
+::: {.nonmath}
+
+The main takeaways from this chapter are:
+
+* We can represent all kinds of objects we want to use as inputs and outputs using _binary strings_. For example, we can use the _binary basis_ to represent integers and rational numbers as binary strings (see [naturalnumsec](){.ref} and [morerepressec](){.ref}).
+
+* We can use _compose_ the representations of simple objects to represent more complex objects. In this way, we can represent lists of integers or rational numbers, and use that to represent objects such as matrices, images, and graphs. _Prefix-free encoding_ is one way to achieve such a composition (see [prefixfreesec](){.ref}).
+
+* A _computational task_ specifies a map between an input to an output--- a _function_. It is crucially important to distinguish between the "what" and the "how", or the _specification_ and _implementation_ (see [secimplvsspec](){.ref}). A _function_  simply defines which output corresponds to which input. It does not specify _how_ to compute the output from the input, and as we've seen in the context of multiplication, there can be more than one way to compute the same function.
+
+* While the set of all possible binary strings is infinite, it still cannot represent _everything_. In particular, there is no representation of the _real numbers_ (with absolute accuracy) as binary strings. This result is also known as "Cantor's Theorem" (see [cantorsec](){.ref}) and is typically referred to as the result that the "reals are uncountable". It is also implies that there are _different levels_ of infinity though we will not get into this topic in this book (see [generalizepowerset](){.ref}).
+
+The two ``big ideas'' we discuss are [representtuplesidea](){.ref} - we can compose representations for simple objects to represent more complex objects and [functionprogramidea](){.ref} - it is crucial to distinguish between _functions_ ("what") and _programs_ ("how").
+The latter will be a theme we will come back to time and again in this book.
+:::
+
+
+
 ## Defining representations
 
 Every time we store numbers, images, sounds, databases, or other objects on a computer, what we actually store in the computer's memory is the _representation_ of these objects.
@@ -80,7 +98,7 @@ A minimal requirement is that if two numbers $x$ and $x'$ are different then the
 Another way to say this is that we require the encoding function $E$ to be _one to one_.
 
 
-### Representing natural numbers
+### Representing natural numbers  {#naturalnumsec } 
 
 We now show how we can represent natural numbers as binary strings.
 Over the years people have represented numbers in a variety of ways, including Roman numerals, tally marks, our own Hindu-Arabic  decimal system, and many others.
@@ -150,6 +168,11 @@ def StN(x):# String to number
 
 print(StN(NtS(236)))
 # 236
+
+
+<iframe src="https://trinket.io/embed/python/fe91c91550" width="100%" height="600" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+
+
 ```
 :::
 
@@ -181,7 +204,7 @@ You can think of the "actual" number as (somewhat recursively) "that thing which
 
 While reading this book, you are free to choose your own philosophy of mathematics, as long as you maintain the distinction between the mathematical objects themselves and the various particular choices of representing them, whether as splotches of ink, pixels on a screen, zeroes and one, or any other form.
 
-## Representations beyond natural numbers
+## Representations beyond natural numbers {#morerepressec }
 
 We have seen that natural numbers can be represented as binary strings.
 We now show that the same is true for other types of objects, including (potentially negative) integers, rational numbers, vectors, lists, graphs and many others.
@@ -320,6 +343,12 @@ For example, floating point rounding errors have been implicated in the   [failu
 
 ### Can we represent reals _exactly_? {#cantorsec }
 
+
+::: {.quote}
+_"For any collection of fruits, we can make more fruit salads than there are fruits. If not, we could label each salad with a different fruit, and consider the salad of all fruits not in their salad. The label of this salad is in it if and only if it is not."_, [Martha Storey](https://twitter.com/JDHamkins/status/1266278627018043392).
+:::
+
+
 Given the issues with floating point approximations for real numbers,
 a natural question is whether it is possible to  represent real numbers _exactly_ as strings.
 Unfortunately, the following theorem shows that this cannot be done:
@@ -393,6 +422,14 @@ We start by proving  [sequencestostrings](){.ref} which is really the heart of [
 
 ![We construct a function $\overline{d}$ such that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$ by ensuring that $\overline{d}(n(x)) \neq StF(x)(n(x))$ for every $x\in \{0,1\}^*$ with lexicographic order $n(x)$. We can think of this as building a table where the columns correspond to numbers $m\in \N$ and the rows correspond to $x\in \{0,1\}^*$ (sorted according to $n(x)$). If the entry in the $x$-th row and the $m$-th column corresponds to $g(m))$ where $g=StF(x)$ then $\overline{d}$ is obtained by going over the "diagonal" elements in this table (the entries corresponding to the $x$-th row and $n(x)$-th column) and ensuring that $\overline{d}(x)(n(x)) \neq StF(x)(n(x))$. ](../figure/diagreals2.png){#diagrealsfig   }
 
+__Warm-up: "Baby Cantor".__ The proof of [sequencestostrings](){.ref} is rather subtle. One way to get intution for it is to consider the following finite statement "there is no onto function $f:\{0,\ldots,99\} \rightarrow \{0,1\}^100$. Of course we know it's true since the set $\{0,1\}^{100}$ is bigger than the set $[100]$, but let's see a direct proof. For every $f:\{0,\ldots,99\} \rightarrow \{0,1\}^100$, we can define the string $\overline{d} \in \{0,1\}^{100}$ as follows: $\overline{d} = (1-f(0)_0, 1-f(1)_1 , \ldots, 1-f(99)_{99})$. If $f$ was onto, then there would exist some $n\in [100]$ such that $f(n) =\overline{d}$, but we claim that no such $n$ exists.  Indeed, if there was such $n$, then the $n$-th coordinate of $\overline{d}$ would equal $f(n)_n$ but by definition this coordinate equals $1-f(n)_n$. See also a ["proof by code"](https://trinket.io/python/4cff7e58f4) of this statement.
+
+
+<iframe src="https://trinket.io/embed/python/4cff7e58f4" width="100%" height="600" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+
+
+
+
 
 ::: {.proof data-ref="sequencestostrings"}
 We will prove that there does not exist an _onto_ function $StF:\{0,1\}^* \rightarrow \{0,1\}^\infty$.
@@ -425,17 +462,15 @@ Indeed, let $x\in \{0,1\}^*$ be some string and let $g = StF(x)$.
 If $n$ is the position of $x$ in the lexicographical order then by construction $\overline{d}(n) = 1-g(n) \neq g(n)$ which means that $g \neq \overline{d}$ which is what we wanted to prove.
 :::
 
-::: {.pause}
-The proof of [sequencestostrings](){.ref} is rather subtle, and worth re-reading a second or third time.
-We will use the "diagonal argument" again several times later on in this book.
-:::
+
+
 
 
 ::: {.remark title="Generalizing beyond strings and reals" #generalizepowerset}
 [sequencestostrings](){.ref} doesn't really have much to do with the natural numbers or the strings.
 An examination of the proof shows that it really shows that for _every_ set $S$, there is no one-to-one map $F:\{0,1\}^S \rightarrow S$ where $\{0,1\}^S$ denotes the set $\{ f \;|\; f:S \rightarrow \{0,1\} \}$ of all Boolean functions with domain $S$.
 Since we can identify a subset $V \subseteq S$ with its characteristic function $f=1_V$ (i.e., $1_V(x)=1$ iff $x\in V$), we can think of $\{0,1\}^S$ also as the set of all _subsets_ of $S$.
-This subset is sometimes called the _power set_ of $S$.
+This subset is sometimes called the _power set_ of $S$ and denoted by $\mathcal{P}(S)$ or $2^S$.
 
 The proof of [sequencestostrings](){.ref} can be generalized to show that there is no one-to-one map between a set and its power set.
 In particular, it means that the set $\{0,1\}^\R$ is "even bigger" than $\R$.
