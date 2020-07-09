@@ -1,7 +1,7 @@
 ---
 title: "Probability theory 101"
 filename: "lec_15_probability"
-chapternum: "17"
+chapternum: "18"
 ---
 
 #  Probability Theory 101 {#probabilitychap }

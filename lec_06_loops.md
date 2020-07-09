@@ -1,7 +1,7 @@
 ---
 title: "Loops and infinity"
 filename: "lec_06_loops"
-chapternum: "6"
+chapternum: "7"
 ---
 
 # Loops and infinity { #chaploops }
@@ -12,7 +12,6 @@ chapternum: "6"
 NAND-TM programs, which add _loops_ and _arrays_ to NAND-CIRC.
 * See some basic syntactic sugar and equivalence of variants of Turing machines and NAND-TM programs.
 
->_"An algorithm is a finite answer to an infinite number of questions."_, Attributed to Stephen Kleene.
 
 >_"The bounds of arithmetic were however outstepped the moment the idea of applying the [punched] cards had occurred; and the Analytical Engine does not occupy common ground with mere "calculating machines."" ... In enabling mechanism to combine together general symbols, in successions of unlimited variety and extent, a uniting link is established between the operations of matter and the abstract mental processes of the most abstract branch of mathematical science. "_, Ada Augusta, countess of Lovelace, 1843
 
@@ -20,36 +19,7 @@ NAND-TM programs, which add _loops_ and _arrays_ to NAND-CIRC.
 
 
 
-The model of Boolean circuits  (or equivalently, the NAND-CIRC programming language) has one very significant drawback: a Boolean circuit can only compute a _finite_ function $f$, and in particular since every gate has two inputs, a size $s$ circuit can compute on an input of length at most $2s$.
-This does not capture our intuitive notion of an algorithm as a _single recipe_ to compute a potentially infinite function.
-For example, the standard elementary school multiplication algorithm is a _single_ algorithm that multiplies numbers of all lengths, but yet we cannot express this algorithm as a single circuit, but rather need a different circuit (or equivalently, a NAND-CIRC program) for every input length (see [multschoolfig](){.ref}).
-
-![Once you know how to multiply multi-digit numbers, you can do so for every number $n$ of digits, but if you had to describe multiplication using NAND-CIRC programs or Boolean circuits, you would need a different program/circuit for every length $n$ of the input.](../figure/multiplicationschool.png){#multschoolfig .margin  }
-
-Let us consider the case of the simple _parity_ or _XOR_ function  $XOR:\{0,1\}^* \rightarrow \{0,1\}$, where $XOR(x)$ equals $1$ iff the number of $1$'s in $x$ is odd.
-(In other words, $XOR(x) = \sum_{i=0}^{|x|-1} x_i \mod 2$ for every $x\in \{0,1\}^*$.)
-As simple as it is, the $XOR$ function cannot be computed by a NAND-CIRC program.
-Rather, for every $n$, we can compute $XOR_n$ (the restriction of $XOR$ to $\{0,1\}^n$) using a different NAND-CIRC program. For example,  [XOR5fig](){.ref} presents the NAND-CIRC program (or equivalently the circuit) to compute $XOR_5$.
-
-![The NAND circuit and NAND-CIRC program for computing the XOR of $5$ bits. Note how the circuit for $XOR_5$ merely repeats four times the circuit to compute the XOR of $2$ bits.](../figure/xor5circprog.png){#XOR5fig .margin  }
-
-
-This code for computing $XOR_5$ is rather repetitive, and more importantly, does not capture the fact that there is a _single_ algorithm to compute the parity on all inputs.
-Typical programming languages use the notion of _loops_ to express such an algorithm, along the lines of:
-
-```python
-# s is the "running parity", initialized to 0
-while i<len(X):
-    u = NAND(s,X[i])
-    v = NAND(s,u)
-    w = NAND(X[i],u)
-    s = NAND(v,w)
-    i+= 1
-Y[0] = s
-```
-![An algorithm is a finite recipe to compute on arbitrarily long inputs. The components of an algorithm include the instructions to be performed, finite state or "local variables", the memory to store the input and intermediate computations, as well as mechanisms to decide which part of the  memory to access, and when to repeat instructions and when to halt.](../figure/algcomponents.png){#algcomponentfig .margin}
-
-Generally an algorithm is, as we quote above, "a finite answer to an infinite number of questions".
+As the quote of [chapinfinite](){.ref} says, an algorithm is "a finite answer to an infinite number of questions".
 To express an algorithm we need to write down a finite set of instructions that will enable us to compute on arbitrarily long inputs.
 To describe and execute an algorithm we need the following components (see [algcomponentfig](){.ref}):
 
@@ -63,7 +33,12 @@ To describe and execute an algorithm we need the following components (see [algc
 
 * If we only have a finite set of instructions but our input can be arbitrarily long, we will need to _repeat_ instructions (i.e.,  _loop_  back). We need a mechanism to decide when we will loop and when we will halt.
 
-In this chapter we will show how we can extend the  model of Boolean circuits / straight-line programs so that it can capture these kinds of constructs.
+
+![An algorithm is a finite recipe to compute on arbitrarily long inputs. The components of an algorithm include the instructions to be performed, finite state or "local variables", the memory to store the input and intermediate computations, as well as mechanisms to decide which part of the  memory to access, and when to repeat instructions and when to halt.](../figure/algcomponents.png){#algcomponentfig .margin}
+
+
+::: {.nonmath}
+In this chapter we give a general model of an algorithm, which (unlike Boolean circuits) is not restricted to a fixed input lengths, and  (unlike finite automata) is not restricted to a finite amount of working memory.
 We will see two ways to do so:
 
 
@@ -74,23 +49,13 @@ We will see two ways to do so:
 
 It turns out that these two models are _equivalent_, and in fact they are equivalent to a great many other computational models including programming languages you may be familiar with such as C, Lisp, Python, JavaScript, etc. This notion, known as _Turing equivalence_ or _Turing completeness_, will be discussed in [chapequivalentmodels](){.ref}.
 See [chaploopoverviewfig](){.ref} for an overview of the models presented in this chapter and [chapequivalentmodels](){.ref}.
+:::
+
 
 
 
 
 ![Overview of our models for finite and unbounded computation. In the previous chapters we study the computation of _finite functions_, which are functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ for some fixed $n,m$, and modeled computing these functions using circuits or straightline programs. In this chapter we study computing _unbounded_ functions of the form $F:\{0,1\}^* \rightarrow \{0,1\}^m$ or $F:\{0,1\}^* \rightarrow \{0,1\}^*$. We model computing these functions using _Turing Machines_ or (equivalently) NAND-TM programs which add the notion of _loops_ to the NAND-CIRC programming language. In [chapequivalentmodels](){.ref} we will show that these models are equivalent to many other models, including RAM machines, the $\lambda$ calculus, and all the common programming languages including C, Python, Java, JavaScript, etc.](../figure/chaploopoverview.png){#chaploopoverviewfig  }
-
-
-::: {.remark title="Finite vs infinite computation" #infinite}
-Previously in this book we studied the computation of _finite_ functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$. Such a function $f$ can always be described by listing all the $2^n$ values it takes on inputs $x\in \{0,1\}^n$.
-
-In this chapter we consider functions that take inputs of _unbounded_ size, such as the function $XOR:\{0,1\}^* \rightarrow \{0,1\}$ that maps $x$ to $\sum_{i=0}^{|x|-1} x_i \mod 2$. While we can describe $XOR$ using a finite number of symbols (in fact we just did so in the previous sentence), it takes infinitely many possible inputs and so we cannot just write down all of its values.
-The same is true for many other functions capturing important computational tasks including addition, multiplication, sorting, finding paths in graphs, fitting curves to points, and so on and so forth.
-
-To contrast with the finite case, we will sometimes call a function $F:\{0,1\}^* \rightarrow \{0,1\}$ (or $F:\{0,1\}^* \rightarrow \{0,1\}^*$) _infinite_ but we emphasize that the functions we are interested in always take an input which is a finite string. It's just that, unlike the finite case, this string can be arbitrarily long and is not fixed to some particular length $n$.
-
-Some texts present the task of computing a function $F:\{0,1\}^* \rightarrow \{0,1\}$ as the task of deciding membership in the _language_ $L \subseteq \{0,1\}^*$ defined as $L = \{ x\in \{0,1\}^* \;|\; F(x) = 1 \}$. These two views are equivalent, see [decidablelanguagesrem](){.ref}.
-:::
 
 
 
@@ -283,10 +248,7 @@ We define $\mathbf{R}$ be the set of all _computable_ functions $F:\{0,1\}^* \ri
 
 
 ::: {.remark title="Functions vs. languages" #decidablelanguagesrem}
-Many texts use the terminology of "languages" rather than functions to refer to computational tasks.
-The name "language"  has its roots in _formal language theory_ as pursued by linguists such as Noam Chomsky.
-A _formal language_ is a subset $L \subseteq \{0,1\}^*$ (or more generally $L \subseteq \Sigma^*$ for some finite alphabet $\Sigma$).
-The _membership_ or _decision_ problem for a language $L$, is the task of determining, given $x\in \{0,1\}^*$, whether or not $x\in L$.
+As discussed in [languagessec](){.ref}, many texts use the terminology of "languages" rather than functions to refer to computational tasks.
 A Turing machine $M$ _decides_ a language $L$ if for every input $x\in \{0,1\}^*$, $M(x)$ outputs $1$ if and only if $x\in L$.
 This is equivalent to computing the Boolean function  $F:\{0,1\}^* \rightarrow \{0,1\}$ defined as $F(x)=1$ iff $x\in L$.
 A language $L$ is _decidable_ if there is a Turing machine $M$ that decides it.

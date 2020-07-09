@@ -341,7 +341,7 @@ For example, floating point rounding errors have been implicated in the   [failu
 
 
 
-### Can we represent reals _exactly_? {#cantorsec }
+## Cantor's Theorem, countable sets, and string representations of the real numbers {#cantorsec }
 
 
 ::: {.quote}
@@ -353,14 +353,23 @@ Given the issues with floating point approximations for real numbers,
 a natural question is whether it is possible to  represent real numbers _exactly_ as strings.
 Unfortunately, the following theorem shows that this cannot be done:
 
-> ### {.theorem title="Reals are uncountable" #cantorthm}
+> ### {.theorem title="Cantor's Theorem" #cantorthm}
 There does not exist a one-to-one function $RtS:\R \rightarrow \{0,1\}^*$.^[$RtS$ stands for "real numbers to strings".]
 
-[cantorthm](){.ref} was proven by [Georg Cantor](https://en.wikipedia.org/wiki/Georg_Cantor) in 1874.
-(Cantor used the set $\N$ rather than $\{0,1\}^*$, but one can show that these two results are equivalent using the one-to-one mappings between those two sets, see [naturalsstringsmapex](){.ref}.)
-The non-existence of such a map is equivalent to saying that there is no way to "count" all the real numbers as  some sequence $x_0,x_1,x_2,\ldots$.
-For this reason [cantorthm](){.ref} is known as the _uncountability of the reals_.
+__Countable sets.__ We say that a set $S$ is _countable_ if there is an onto map $C:\N \rightarrow S$, or in other words, we can write $S$ as the sequence
+$C(0),C(1),C(2),\ldots$. 
+Since the binary representation yields an onto map from $\{0,1\}^*$ to $\N$, and the composition of two onto maps is onto,
+a set $S$ is countable iff there is an onto map from $\{0,1\}^*$ to $S$.
+Using the basic properties of functions (see [functionsec](){.ref}), a set is countable if and only if there is a one-to-one function
+from $S$ to $\{0,1\}^*$.
+Hence, we can rephrase [cantorthm](){.ref} as follows:
 
+> ### {.theorem title="Cantor's Theorem (equivalent statement)" #cantorthmtwo}
+The reals are uncountable. That is, there does not exist an onto function $NtR:\N \rightarrow \R$. 
+
+
+
+[cantorthmtwo](){.ref} was proven by [Georg Cantor](https://en.wikipedia.org/wiki/Georg_Cantor) in 1874.
 This result (and the theory around it) was quite shocking to mathematicians at the time.
 By showing that there is no one-to-one map from $\R$ to $\{0,1\}^*$ (or $\N$), Cantor showed that these two infinite sets have "different forms of infinity" and that the set of real numbers $\R$ is in some sense "bigger"  than the infinite set $\{0,1\}^*$.
 The notion that there are "shades of infinity" was deeply disturbing to mathematicians and philosophers at the time.
@@ -536,6 +545,63 @@ Indeed there do exist pairs of distinct sequences $f,g\in \{0,1\}^\infty$ such t
 (For example, the sequence $1,0,0,0,\ldots$ and the sequence $0,1,1,1,\ldots$ have this property.)
 :::
 
+### Corollary: Boolean functions are uncountable
+
+Cantor's Theorem yields the following corollary that we will use several times in this book: the set of all _Boolean functions_ (mapping $\{0,1\}^*$ 
+to $\{0,1\}$) is not countable:
+
+> ### {.theorem title="Boolean functions are uncountable" #uncountalbefuncthm}
+Let $ALL$ be the set of all functions $F:\{0,1\}^* \rightarrow \{0,1\}$.
+Then $ALL$ is uncountable. Equivalently, there does not exist an onto map $StALL:\{0,1\}^* \rightarrow ALL$.
+
+> ### {.proofidea data-ref="uncountalbefuncthm"}
+This is a direct consequence of [sequencestostrings](){.ref}, since we can use the binary representation to show a one-to-one map
+from $\{0,1\}^\infty$ to $ALL$. Hence the uncountability of $\{0,1\}^\infty$ implies the uncountability  of $ALL$.
+
+
+::: {.proof data-ref="uncountalbefuncthm"}
+We prove the theorem  by giving a one-to-one map $SEQtALL$ from $\{0,1\}^\infty$ to $ALL$.
+If $ALL$ was countable then there would exist a one-to-one map $ALLtS$ from $ALL$ to $\{0,1\}^*$, but then composing
+it with $SEQtALL$ would yield a one-to-one map from $\{0,1\}^\infty$ to $\{0,1\}^*$, contradicting [sequencestostrings](){.ref}.
+
+
+We now construct the map $SEQtALL$. Since every number $n\in \N$ can be represented by a string, there is a one-to-one map $NtS:\N \rightarrow \{0,1\}^*$.
+Given $f:\N \rightarrow \{0,1\}$, define $SEQtALL(f)$ as the following function $F:\{0,1\}^* \rightarrow \{0,1\}$:
+
+$$
+F(x) = \begin{cases} f(n) & \exists_{n\in N} x=NtS(n)  \\ 
+                     0 & \text{otherwise} 
+                     \end{cases}
+$$
+(This is well-defines since $NtS$ is one-to-one and hence there cannot exist more than one $n\in \N$ such that $x=NtS(n)$.)
+We  claim that $SEQtALL$ is one-to-one. 
+Indeed, for every $f,f' \in \{0,1\}^\infty$, if $f \neq f'$ then there must be some $n\in \N$ such that $f(n) \neq f'(n)$.
+But then, letting $F=SEQtALL(f)$ and $F'=SEQtALL(f')$,  $F(x) \neq F'(x)$ where $x= NtS(n)$.
+:::
+
+### Equivelent conditions for countability { #equivcountablesec }
+
+The results above establish many equivalent ways to phrase the fact that a set is countable.
+Specifically, the following statements are all equivalent:
+
+1. The set $S$ is countable
+
+2. There exists an onto map from $\N$ to $S$
+
+3. There exists an onto map from $\{0,1\}^*$ to $S$.
+
+4. There exists a one-to-one map from $S$ to $\N$
+
+5. There exists a one-to-one map from $S$ to $\{0,1\}^*$.
+
+6. There exists an onto map from some countable set $T$ to $S$.
+
+7. There exists a one-to-one map from $S$ to some countable set $T$.
+
+
+::: { .pause }
+Make sure you know how to prove the equivalence of all the reuslts above.
+:::
 
 
 ## Representing objects beyond numbers

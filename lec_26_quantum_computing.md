@@ -1,7 +1,7 @@
 ---
 title: "Quantum computing"
 filename: "lec_26_quantum_computing"
-chapternum: "22"
+chapternum: "23"
 ---
 
 #  Quantum computing { #quantumchap }

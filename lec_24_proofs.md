@@ -1,7 +1,7 @@
 ---
 title: "Proofs and algorithms"
 filename: "lec_24_proofs"
-chapternum: "21"
+chapternum: "22"
 ---
 
 #  Proofs and algorithms  { #chapproofs }

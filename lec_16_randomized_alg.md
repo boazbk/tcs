@@ -1,7 +1,7 @@
 ---
 title: "Probabilistic computation"
 filename: "lec_16_randomized_alg"
-chapternum: "18"
+chapternum: "19"
 ---
 
 #  Probabilistic computation { #randomizedalgchap }

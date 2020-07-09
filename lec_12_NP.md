@@ -1,7 +1,7 @@
 ---
 title: "Polynomial time reductions"
 filename: "lec_12_NP"
-chapternum: "13"
+chapternum: "14"
 ---
 
 #  Polynomial-time reductions {#reductionchap }

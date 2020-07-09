@@ -193,6 +193,8 @@ endprocedure
 ```
 
 
+
+
 <iframe src="https://trinket.io/embed/python/9ddd61c11f" width="100%" height="600" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
 
  [karatsubaalg](){.ref} is only half of the full description of Karatsuba's algorithm.

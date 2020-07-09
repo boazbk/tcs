@@ -1,9 +1,9 @@
-
 ---
 title: 'What if P equals NP?'
 filename: 'lec_14_PvsNP'
-chapternum: '15'
-...
+chapternum: '16'
+---
+
 
 #  What if P equals NP? { #chappvsnp }
 

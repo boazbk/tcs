@@ -1,7 +1,7 @@
 ---
 title: "Is every theorem provable?"
 filename: "lec_09_godel"
-chapternum: "10"
+chapternum: "11"
 ---
 
 

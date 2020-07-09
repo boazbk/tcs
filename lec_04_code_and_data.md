@@ -47,19 +47,21 @@ For example, DNA can be thought of as both a program and data (in the words of S
 ![As illustrated in this xkcd cartoon, many exploits, including buffer overflow, SQL injections, and more, utilize the blurry line between "active programs" and "static strings".](../figure/exploits_of_a_mom.png){#XKCDmomexploitsfig .margin  }
 
 
-In this chapter, we will begin to explore some of the applications of this connection.
-We start by using the representation of programs/circuits as strings to _count_ the number of programs/circuits up to a certain size, and use that to obtain a counterpart to the result we proved in [finiteuniversalchap](){.ref}.
-There we proved that for _every_ function $f:\{0,1\}^n \rightarrow \{0,1\}$, there exists a circuit of _at most_ $100 \cdot 2^n / n$ gates to compute it.
-(The number $100$ here is somewhat arbitrary and fixed for concreteness;   [circuit-univ-thm-improved](){.ref} states a bound of  $c \cdot 2^n /n$ for some constant $c$, but it can be verified that the proof yields $c \leq 100$.)
-In this chapter we will prove that there are _some_ functions $f:\{0,1\}^n \rightarrow \{0,1\}$ for which we cannot do much better: they require a circuit of size _at least_  $0.01 \cdot 2^n / n$ (see [counting-lb](){.ref}).
-We will also use the notion of representing programs/circuits as strings to show the existence of a _bounded universal circuit_ $U$ that gets as input the string representation of another circuit $C$ and a string $x$,
-and outputs $C(x)$.
-(The qualifier "bounded" means that the circuit $C$ has to be of at most a certain size; we see computational models that overcome this limitation in [chaploops](){.ref}, which introduces the notion
-of programming languages with _loops_ and the computational model of a _Turing Machine_.)
-Equivalently, taking the programming-language point of view, the bounded universal circuit corresponds to a "NAND-CIRC interpreter in NAND-CIRC": a NAND-CIRC program that can evaluate other NAND-CIRC program.
-Such a program is known in Computer Science as a "meta-circular evaluator", and is fundamental to both theory and practice of computing.
-See [codedataoverviewfig](){.ref} for an overview of the results of  this chapter.
 
+
+::: {.nonmath}
+In this chapter, we will begin to explore some of the many applications of the correspondence between code and data.
+We start by using the representation of programs/circuits as strings to _count_ the number of programs/circuits up to a certain size, and use that to obtain a counterpart to the result we proved in [finiteuniversalchap](){.ref}.
+There we proved that  _every_ function can be computed by a circuit, but that circuit could be exponentially large  (see [circuit-univ-thm-improved](){.ref} for the precise bound)
+In this chapter we will prove that there are _some_ functions for which we cannot do better: the _smallest_ circuit that computes them is exponentially large.
+
+We will also use the notion of representing programs/circuits as strings to show the existence of a "universal circuit" - a circuit that can evaluate other circuits.
+In programming languages, this is known as a "meta circular evaluator" - a program in a certain programming language that can evaluate other programs in the same language.
+These results do have an important restriction: the universal circuit will have to be of bigger size than the circuits it evaluates.
+We will show how to get around this restriction in [chaploops](){.ref} where we introduce _loops_ and _Turing Machines_.
+
+See [codedataoverviewfig](){.ref} for an overview of the results of  this chapter.
+:::
 
 
 ![Overview of the results in this chapter. We use the representation of programs/circuits as strings to derive two main results. First we show the existence of a universal program/circuit, and in fact (with more work) the existence of such a program/circuit  whose size is at most polynomial in the size of the program/circuit it evaluates. We then use the string representation to _count_ the number of programs/circuits of a given size, and use that to establish that _some_ functions require an _exponential_ number of lines/gates to compute.](../figure/codedataoverview.png){#codedataoverviewfig  }

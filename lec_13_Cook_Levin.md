@@ -1,7 +1,7 @@
 ---
 title: "NP, NP completeness, and the Cook-Levin Theorem"
 filename: "lec_13_Cook_Levin"
-chapternum: "14"
+chapternum: "15"
 ---
 
 #  NP, NP completeness, and the Cook-Levin Theorem {#cooklevinchap }

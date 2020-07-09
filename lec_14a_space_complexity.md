@@ -1,7 +1,7 @@
 ---
 title: "Space bounded computation"
 filename: "lec_14a_space_complexity"
-chapternum: "16"
+chapternum: "17"
 ---
 
 

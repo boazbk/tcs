@@ -1,7 +1,7 @@
 ---
 title: "Efficient computation"
 filename: "lec_10_efficient_alg"
-chapternum: "11"
+chapternum: "12"
 ---
 
 #  Efficient computation { #chapefficient }

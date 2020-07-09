@@ -1,7 +1,7 @@
 ---
 title: "Modeling randomized computation"
 filename: "lec_17_model_rand"
-chapternum: "19"
+chapternum: "20"
 ---
 
 #  Modeling randomized computation  { #chapmodelrand }

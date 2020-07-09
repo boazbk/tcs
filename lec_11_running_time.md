@@ -1,7 +1,7 @@
 ---
 title: " Modeling running time"
 filename: "lec_11_running_time"
-chapternum: "12"
+chapternum: "13"
 ---
 
 # Modeling running time { #chapmodelruntime }

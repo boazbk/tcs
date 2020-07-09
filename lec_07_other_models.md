@@ -1,7 +1,7 @@
 ---
 title: "Equivalent models of computation"
 filename: "lec_07_other_models"
-chapternum: "7"
+chapternum: "8"
 ---
 
 # Equivalent models of computation { #chapequivalentmodels }
