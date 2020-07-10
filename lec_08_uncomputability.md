@@ -37,6 +37,22 @@ Beyond the practical applications, the existence of a universal algorithm also h
 In this chapter we will prove the existence of the universal program, and also show its implications for uncomputability, see [universalchapoverviewfig](){.ref}
 
 
+::: {.nonmath}
+In this chapter we will see two of the most important results in Computer Science:
+
+1. The existence of a _universal Turing machine_: a single algorithm that can evaluate all other algorithms,
+
+2. The existence of _uncomputable functions_: functions (including the famous "Halting problem") that _cannot be computed_ by any algorithm.
+
+Along the way, we develop the technique of _reductions_ as a way to show hardness of computing a function.
+A _reduction_ gives a way to compute a certain function using "wishful thinking" and assuming that another function can be computed.
+Reductions are of course widely used in programming - we often obtain an algorithm for one task by using another task as a "black box" subroutine.
+However we will use it in the "contra positive": rather than using a reduction to show that the former task is "easy", we use them to show that the latter
+task is "hard".
+Don't worry if you find this confusing  - reductions _are_ initially confusing - but they can be mastered with time and practice.
+:::
+
+
 ![In this chapter we will show the existence of a _universal Turing machine_ and then use this to derive first the existence of _some_ uncomputable function. We then use this to derive the uncomputability of Turing's famous "halting problem" (i.e., the $HALT$ function), from which we a host of other uncomputability results follow. We also introduce _reductions_, which allow us to use the uncomputability of a function $F$ to derive the uncomputability of a new function $G$.](../figure/universalchapoverview.png){#universalchapoverviewfig}
 
 
@@ -46,7 +62,7 @@ In this chapter we will prove the existence of the universal program, and also s
 We start by proving the existence of a _universal Turing machine_.
 This is a single Turing machine $U$ that can evaluate _arbitrary_ Turing machines $M$ on _arbitrary_ inputs $x$, including machines $M$ that can have more states and larger alphabet than $U$ itself.
 In particular, $U$ can even be used to evaluate itself!
-This notion of _self reference_ will appear time and again in this course, and as we will see, leads to several counter-intuitive phenomena in computing.
+This notion of _self reference_ will appear time and again in this book, and as we will see, leads to several counter-intuitive phenomena in computing.
 
 
 ::: {.theorem title="Universal Turing Machine" #universaltmthm}
@@ -84,7 +100,7 @@ The end result is what's known as a "meta-circular evaluator": an interpreter fo
 ### Proving the existence of a universal Turing Machine  {#representtmsec }
 
 To prove (and even properly state)  [universaltmthm](){.ref}, we need to fix some representation for Turing machines as strings.
-For example, one potential choice for such a representation is to use the equivalence betwen Turing machines and NAND-TM programs and hence represent a Turing machine $M$ using the ASCII encoding of the source code of the corresponding NAND-TM program $P$.
+One potential choice for such a representation is to use the equivalence between Turing machines and NAND-TM programs and hence represent a Turing machine $M$ using the ASCII encoding of the source code of the corresponding NAND-TM program $P$.
 However, we will use a more direct encoding.
 
 ::: {.definition title="String representation of Turing Machine" #representTM}

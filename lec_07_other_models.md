@@ -33,6 +33,28 @@ Some of the main computational models we discuss in this chapter include:
 * __$\lambda$ calculus:__ The $\lambda$ calculus is a model for expressing computation that originates from the 1930's, though it is closely connected to functional programming languages widely used today. Showing the equivalence of $\lambda$ calculus to Turing Machines involves a beautiful technique to eliminate recursion known as the "Y Combinator".
 
 
+::: {.nonmath}
+In this chapter we study _equivalence between models_. 
+Two computational models are _equivalent_ (also known as _Turing equivalent_) if they can compute the same set of functions.
+For example, we have seen that Turing Machines and NAND-TM programs are equivalent since we can transform every Turing Machine into a NAND-TM
+program that computes the same function, and similarly can transform every NAND-TM program into a Turing Machine that computes the same function.
+
+In this chapter we show this extends far beyond Turing Machines. The techniques we develop allow us to show that all general-purpose programming 
+languages (i.e., Python, C, Java, etc.) are _Turing Complete_, in the sense that they can simulate Turing Machines and hence compute all functions
+that can be computed by a TM. We will also show the other direction- Turing Machines can be used to simulate a program in any of these languages and
+hence compute any function computable by them. This means that all these programming language are _Turing equivalent_: they are equivalent in power to
+Turing Machines and to each other.
+This is a powerful principle, which underlies behind the vast reach of Computer Science.
+Moreover, it enables us to "have our cake and eat it too"- since all these models are equivalent, we can choose the model of our convenience for the task at
+hand.
+To achieve this equivalence, we define a new computational model known as _RAM machines_. RAM Machines capture the architecture of modern computers more closely than Turing Machines, but are still computationally equivalent to Turing machines.
+
+Finally, we will show that Turing equivalence extends far beyond traditional programming languages. We will see that _cellular automata_ which are a mathematical model of extremely simple natural systems is also Turing equivalent, and also see the Turing equivalence of the $\lambda$ calculus - a logical
+system for expressing functions that is the basis for _functional programming languages_ such as Lisp, OCaml, and more. 
+
+See [turingcompletefig](){.ref} for an overview of the results of this chapter.
+:::
+
 ![Some Turing-equivalent models. All of these are equivalent in power to Turing Machines (or equivalently NAND-TM programs) in the sense that they can compute exactly the same class of functions. All of these are models for computing _infinite_ functions that take inputs of unbounded length. In contrast, Boolean circuits / NAND-CIRC programs can only compute  _finite_ functions and hence are not Turing complete.](../figure/turingcomplete.png){#turingcompletefig}
 
 ## RAM machines and NAND-RAM

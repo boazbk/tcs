@@ -26,7 +26,9 @@ For example, the standard elementary school multiplication algorithm is a _singl
 In this chapter we extend our definition of computational tasks to consider functions with the _unbounded_ domain of $\{0,1\}^*$. 
 We focus on the question of defining __what__ tasks to compute, mostly leaving the question of __how__ to do so to later chapters, where we will see _Turing Machines_
 and other computational models for computing on unbounded inputs.
-We will see however one example for a simple and restricted model of computation - deterministic finite automata.
+In this chapter we will see however one example for a simple and restricted model of computation - deterministic finite automata (DFAs).
+
+
 
 
 ::: {.nonmath}
@@ -398,7 +400,7 @@ Thus we can define the following function $StDC:\{0,1\}^* \rightarrow DFACOMP$:
 
 $$
 StDC(a) = \begin{cases}
-           F & a \text{ represents a DFA $A$ and $F$ is the function $A$ computes } \\
+           F & a \text{ represents automaton } A \text{ and } F \text{ is the function } A \text{ computes } \\
            ONE & \text{otherwise} 
            \end{cases}
 $$
@@ -544,21 +546,21 @@ INPUT: Regular expressoin $e$ over $\Sigma^*$, $x\in \Sigma^*$
 OUTPUT:  $\Phi_e(x)$
 
 procedure{Match}{$e$,$x$}
-If {$e=\emptyset$} return $0$ endif
-If {$x=""$} return $1$ iff $e=""$ endif
-If {$e \in Sigma$} return $1$ iff $x=e$ endif
-If {$e = (e' | e'')$} return {$Match(e',x)$ or $Match(e'',x)$} endif
+lIf {$e=\emptyset$} return $0$ lendif
+lIf {$x=""$} return $1$ iff $e=""$ lendif
+lIf {$e \in Sigma$} return $1$ iff $x=e$ lendif
+lIf {$e = (e' | e'')$} return {$Match(e',x)$ or $Match(e'',x)$} lendif
 If {$e= (e')(e'')$}
    For {$i \in [|x|+1]$}
-      If {$Match(e',x_0 \cdots x_{i-1})$ and  $Match(e'',x_i \cdots x_{|x|-1})$} return $1$ endif
+      lIf {$Match(e',x_0 \cdots x_{i-1})$ and  $Match(e'',x_i \cdots x_{|x|-1})$} return $1$ lendif
    Endfor
 Endif
 If {$e = (e')^*$}
-    If {$e'=""$} return Match("",x) endif 
+    lIf {$e'=""$} return Match("",x) lendif 
     # $("")^*$ is the same as $""$
     For {$i \in [|x|]$}
       # $x_0 \cdots x_{i-1}$ is shorter than $x$
-      If {$Match(e,x_0 \cdots x_{i-1})$ and  $Match(e',x_i \cdots x_{|x|-1})$} return $1$ endif
+      lIf {$Match(e,x_0 \cdots x_{i-1})$ and  $Match(e',x_i \cdots x_{|x|-1})$} return $1$ lendif
    Endfor
 Endif
 return $0$
@@ -621,12 +623,12 @@ INPUT: Regular expression  $e$ over $\Sigma$, symbol $\sigma \in \Sigma$
 OUTPUT: Regular expression $e'=e[\sigma]$ such that $\Phi_{e'}(x) = \Phi_e(x \sigma)$ -for every $x\in \Sigma^*$
 
 procedure{Restrict}{$e$,$\sigma$}
-If {$e=""$ or $e=\emptyset$} return $\emptyset$ endif
-If {$e=\tau$ -for $\tau \in \Sigma$} return $""$ -if $\tau=\sigma$ and return $\emptyset$ otherwise endif
-If {$e=(e'|e'')$} return $Restrict(e',\sigma) | Restrict(e'',\sigma)$ endif
-If {$e=(e')^*$} return $(e')^* (Restrict(e',\sigma))$ endif
-If {$e= (e')(e'')$ and $\Phi_{e''}("")=0$} return $(e')(Restrict(e'',\sigma)$ endif
-If {$e= (e')(e'')$ and $\Phi_{e''}("")=1$} return $(e')(Restrict(e'',\sigma) \; | \; Restrict(e',\sigma)$ endif
+lIf {$e=""$ or $e=\emptyset$} return $\emptyset$ lendif
+lIf {$e=\tau$ -for $\tau \in \Sigma$} return $""$ -if $\tau=\sigma$ and return $\emptyset$ otherwise lendif
+lIf {$e=(e'|e'')$} return $Restrict(e',\sigma) | Restrict(e'',\sigma)$ lendif
+lIf {$e=(e')^*$} return $(e')^* (Restrict(e',\sigma))$ lendif
+lIf {$e= (e')(e'')$ and $\Phi_{e''}("")=0$} return $(e')(Restrict(e'',\sigma)$ lendif
+lIf {$e= (e')(e'')$ and $\Phi_{e''}("")=1$} return $(e')(Restrict(e'',\sigma) \; | \; Restrict(e',\sigma)$ lendif
 endprocedure
 ```
 
@@ -639,7 +641,7 @@ INPUT: Regular expression $e$ over $\Sigma^*$, $x\in \Sigma^n$ where $n\in\N$
 OUTPUT:  $\Phi_e(x)$
 
 procedure{FMatch}{$e$,$x$}
-If {$x=""$} return $1$ iff $e=""$ endif
+lIf {$x=""$} return $1$ iff $e=""$ lendif
 Let $e' \leftarrow \text{\textsc{Restrict}}(e,x_{n-1})$
 return $FMatch(e',x_0 \cdots x_{n-1})$
 endprocedure
@@ -811,16 +813,34 @@ This completes the proof of the inductive step and hence of the theorem.
 
 ![If we have regular expressions $R_{v',w'}^{t}$ corresponding to $F_{v',w'}^{t}$ for every $v',w' \in [C]$, we can obtain a regular expression $R_{v,w}^{t+1}$ corresponding to $F_{v,w}^{t+1}$. The key observation is that a path from $v$ to $w$ using $\{0,\ldots, t \}$ either does not touch $t$ at all, in which case it is captured by the expression $R_{v,w}^{t}$, or it goes from $v$ to $t$, comes back to $t$  zero or more times, and then goes from $t$ to $w$, in which case it is captured by the expression $R_{v,t}^{t}(R_{t,t}^{t})^* R_{t,w}^t$.](../figure/dfatoreginduction.png){#dfatoreginductivefig}
 
-### Regular functions are closed under complement
+### Closure properties of regular expressions
 
-Here is an important corollary of [dfaregequivthm](){.ref}:
+
+If $F$  and $G$ are regular functions computed by the expressions $e$ and $f$ respectively, then the expression $e|f$ computes the function
+$H = F \vee G$ defined as $H(x) = F(x) \vee G(x)$. 
+Another way to say this is that the set of regular functions is _closed under the OR operation_.
+That is, if $F$ and $G$ are regular then so is $F \vee G$.
+An important corollary of [dfaregequivthm](){.ref} is that this set is also closed under the NOT operation:
 
 > ### {.lemma title="Regular expressions closed under complement" #regcomplementlem}
 If $F:\{0,1\}^* \rightarrow \{0,1\}$ is regular then so is the function $\overline{F}$, where $\overline{F}(x) = 1 - F(x)$ for every $x\in \{0,1\}^*$.
 
 ::: {.proof data-ref="regcomplementlem"}
-If $F$ is regular then by [reglintimethm](){.ref} it can be computed by a constant-space one-pass algorithm $A$. But then the algorithm $\overline{A}$ which does the same computation and outputs the negation of the output of $A$ also utilizes constant space and one pass and computes $\overline{F}$.
+If $F$ is regular then by [reglintimethm](){.ref} it can be computed by a DFA $A=(T,\mathcal{A})$ with some $C$ states. But then the DFA $\overline{A}=(T,[C] \setminus \mathcal{A})$ which does the same computation but where flips the set of accepted states will compute  $\overline{F}$.
 By [dfaregequivthm](){.ref}  this implies that $\overline{F}$ is regular as well.
+:::
+
+Since $a \wedge b = \overline{\overline{a} \vee \overline{b}}$, [regcomplementlem](){.ref} implies that the set of  regular functions is closed under the AND operation as well. Moreover, since OR, NOT and AND are a universal basis, this set is also closed under NAND, XOR, and any other finite function.
+That is, we have the following corollary:
+
+> ### {.theorem title="Closure of regular expressions" #closurereg}
+Let $f:\{0,1\}^k \rightarrow \{0,1\}$ be any finite Boolean function, and  let $F_0,\ldots,F_{k-1} : \{0,1\}^* \rightarrow \{0,1\}$ be regular functions.
+Then the function $G(x) = f(F_0(x),F_1(x),\ldots,F_{k-1}(x))$ is regular.
+
+
+
+::: {.proof data-ref="closurereg"}
+This is a direct consequence of the closure of regular functions under OR and NOT (and hence AND) and [[circuit-univ-thm](){.ref}](){.ref}, that states that every $f$ can be computed by a Boolean circuit (which is simply a combination of the AND, OR, and NOT operations).
 :::
 
 
@@ -831,13 +851,14 @@ By [dfaregequivthm](){.ref}  this implies that $\overline{F}$ is regular as well
 
 
 
-## Limitations of regular expressions
 
-The fact that functions computed by regular expressions always halt is one of the reasons why they are so useful.
-When you make a regular expression search, you are guaranteed that it will terminate with a result.
-This is why operating systems and text editors often restrict their search interface to regular expressions and don't allow searching by specifying an arbitrary function.
-But this always-halting property comes at a cost.
-Regular expressions cannot compute every function that is computable by Turing machines.
+## Limitations of regular expressions and the pumping lemma 
+
+
+The efficiency of regular expression matching makes them very useful.
+This is the reason why operating systems and text editors often restrict their search interface to regular expressions and don't allow searching by specifying an arbitrary function.
+But this efficiency comes at a cost.
+As we have seen, regular expressions cannot compute every function. 
 In fact there are some very simple (and useful!) functions that they cannot compute.
 Here is one example:
 
@@ -941,16 +962,18 @@ For yet another example of a pumping-lemma based proof, see [pumpingprooffig](){
 ## Answering semantic questions about regular expressions
 
 
-Regular expressions are widely used beyond just searching.
-For example, regular expressions are often used to define _tokens_ (such as what is a valid variable identifier, or keyword) in programming languages.
-But they also have other uses.
-One nice example is the recent work on the [NetKAT network programming language](https://goo.gl/oeJNuw).
-In recent years, the world of networking moved from fixed topologies to "software defined networks".
-These are run by programmable switches that can implement policies such as "if packet is secured by SSL then forward it to A, otherwise forward it to B".
-By its nature, one would want to use a formalism for such policies that can be efficiently implemented and such that we can also answer questions such as "does C see the packets moved from A to B" etc.
-The NetKAT language uses a variant of regular expressions to achieve precisely that.
+Regular expressions have applications beyond search.
+For example, regular expressions are often used to define _tokens_ (such as what is a valid variable identifier, or keyword) in the design of
+_parsers_, _compilers_ and _interpreters_ for programming languages.
+There other applications too:  for example, in recent years, the world of networking moved from fixed topologies to "software defined networks".
+Such networks are routed by programmable switches that can implement _policies_ such as "if packet is secured by SSL then forward it to A, otherwise forward it to B".
+To represent such policies we need a language that is on one hand sufficiently expressive to capture the policies we want to implement, but on the other hand sufficiently restrictive so that we can quickly execute them at network speed and also be able to answer questions such as "can C see the packets moved from A to B?".
+The  [NetKAT network programming language](https://goo.gl/oeJNuw) uses a variant of regular expressions to achieve precisely that.
+For this application, it is important that we are not able to merely answer whether an expression $e$ matches a string $x$ but also answer
+_semantic questions_ about regular expressions such as "do expressions $e$ and $e'$ compute the same function?" and "does there exist a string $x$ that 
+is matched by the expression $e$?".
+The following theorem shows that we can answer the latter question:
 
-For example, we can tell whether two regular expressions are _equivalent_, as well as whether a regular expression computes the constant zero function.
 
 > ### {.theorem title="Emptiness of regular languages is computable" #regemptynessthm}
 There is an algorithm that given a regular expression $e$, outputs $1$ if and only if $\Phi_{e}$ is the constant zero function.
@@ -974,6 +997,9 @@ Given a regular expression $e$, we can determine if $e$ is empty using  the foll
 
 Using these rules it is straightforward to come up with a recursive algorithm to determine emptiness. 
 :::
+
+Using [regemptynessthm](){.ref}, we can obtain an algorithm that determines whether or not two regular expressions $e$ and $e'$ are _equivalent_, 
+in the sense that they compute the same function.
 
 > ### {.theorem title="Equivalence of regular expressions is computable" #regequivalencethm}
 Let $REGEQ:\{0,1\}^* \rightarrow \{0,1\}$ be the function that on input (a string representing) a pair of regular expressions $e,e'$, $REGEQ(e,e')=1$ if and only if $\Phi_{e} = \Phi_{e'}$. Then there is an algorithm that computes  $REGEQ$.

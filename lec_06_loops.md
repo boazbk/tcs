@@ -39,7 +39,7 @@ To describe and execute an algorithm we need the following components (see [algc
 
 ::: {.nonmath}
 In this chapter we give a general model of an algorithm, which (unlike Boolean circuits) is not restricted to a fixed input lengths, and  (unlike finite automata) is not restricted to a finite amount of working memory.
-We will see two ways to do so:
+We will see two ways to model algorithms:
 
 
 * _Turing machines_, invented by Alan Turing in 1936, are an hypothetical abstract device that yields a finite description of an algorithm that can handle arbitrarily long inputs.
@@ -47,7 +47,7 @@ We will see two ways to do so:
 
 * The _NAND-TM Programming language_ extends   NAND-CIRC with the notion of _loops_ and _arrays_ to obtain finite programs that can compute a function with arbitrarily long inputs.
 
-It turns out that these two models are _equivalent_, and in fact they are equivalent to a great many other computational models including programming languages you may be familiar with such as C, Lisp, Python, JavaScript, etc. This notion, known as _Turing equivalence_ or _Turing completeness_, will be discussed in [chapequivalentmodels](){.ref}.
+It turns out that these two models are _equivalent_, and in fact they are equivalent to many other computational models including programming languages such as C, Lisp, Python, JavaScript, etc. This notion, known as _Turing equivalence_ or _Turing completeness_, will be discussed in [chapequivalentmodels](){.ref}.
 See [chaploopoverviewfig](){.ref} for an overview of the models presented in this chapter and [chapequivalentmodels](){.ref}.
 :::
 
