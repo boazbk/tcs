@@ -107,7 +107,7 @@ More importantly, while models such as finite-state machines, regular expression
 This practical motivation can be better appreciated _after_ students see the undecidability of semantic properties of general computing models.
 
 
-The fact that we start with circuits makes proving the Cook-Levin Theorem much easier. In fact, our proof of this theorem can (and is)  done using a handful of lines of Python. Combining this proof with the standard reductions (which are also implemented in Python) allows students to appreciate visually how a question about computation can be mapped into a question about (for example) the existence of an independent set in a graph.
+The fact that we start with circuits makes proving the Cook-Levin Theorem much easier. In fact, our proof of this theorem can be (and is) done using a handful of lines of Python. Combining this proof with the standard reductions (which are also implemented in Python) allows students to appreciate visually how a question about computation can be mapped into a question about (for example) the existence of an independent set in a graph.
 
 
 Some other differences between this book and previous texts are the following:
