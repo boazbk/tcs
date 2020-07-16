@@ -45,7 +45,7 @@ We present these examples to get a feel as to the kinds of problems that lie on 
 We do not formally define the notion of running time in this chapter, but use the same "I know it when I see it" notion of an $O(n)$ or $O(n^2)$ time algorithms as the one you've seen in introduction to computer science courses.
 
 While the difference between $O(n)$ and $O(n^2)$ time can be crucial in practice, 
-we focus on the difference between _polynomial_ and _exponential_ running time.
+we focus on the even bigger difference between _polynomial_ and _exponential_ running time.
 One advantage is that, as we will see, questions about polynomial versus exponential time are often _insensitive_ to the choice of the particular computational model, just as the question of whether a function $F$ is computable is insensitive to whether you use Turing machines, $\lambda$-calculus, or Javascript as your model of computation.
 One of the interesting phenomena of computing is that there is often a kind of a "threshold phenomenon" or "zero-one law" for running time.
 Many natural problems can either be solved in _polynomial_ running time with a _not-too-large exponent_ (e.g., something like $O(n^2)$ or $O(n^3)$), or require _exponential_ (e.g., at least $2^{\Omega(n)}$ or $2^{\Omega(\sqrt{n})}$) time to solve.

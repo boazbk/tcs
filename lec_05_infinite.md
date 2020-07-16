@@ -351,6 +351,7 @@ See also [DFAzerooneexecfig](){.ref}, which depicts the execution of this DFA on
 
 
 
+
 ![A DFA that outouts $1$ only on inputs $x\in \{0,1\}^*$ that are a concatenation of zero or more copies of $010$.
 The state $0$ is both the starting state and the only accepting state.
 The table denotes the transition function of $T$, which maps the current state and symbol read to the new symbol.](../figure/DFA010a.png){#dfazeroonefig  .margin }
@@ -553,7 +554,7 @@ OUTPUT:  $\Phi_e(x)$
 procedure{Match}{$e$,$x$}
 lIf {$e=\emptyset$} return $0$ lendif
 lIf {$x=""$} return $1$ iff $e=""$ lendif
-lIf {$e \in Sigma$} return $1$ iff $x=e$ lendif
+lIf {$e \in \Sigma$} return $1$ iff $x=e$ lendif
 lIf {$e = (e' | e'')$} return {$Match(e',x)$ or $Match(e'',x)$} lendif
 If {$e= (e')(e'')$}
    For {$i \in [|x|+1]$}
@@ -561,7 +562,7 @@ If {$e= (e')(e'')$}
    Endfor
 Endif
 If {$e = (e')^*$}
-    lIf {$e'=""$} return Match("",x) lendif 
+    lIf {$e'=""$} return $Match("",x)$ lendif 
     # $("")^*$ is the same as $""$
     For {$i \in [|x|]$}
       # $x_0 \cdots x_{i-1}$ is shorter than $x$
@@ -647,7 +648,7 @@ OUTPUT:  $\Phi_e(x)$
 
 procedure{FMatch}{$e$,$x$}
 lIf {$x=""$} return $1$ iff $e=""$ lendif
-Let $e' \leftarrow \text{\textsc{Restrict}}(e,x_{n-1})$
+Let $e' \leftarrow \CALL{Restrict}{e,x_{n-1}}$
 return $FMatch(e',x_0 \cdots x_{n-1})$
 endprocedure
 ```
