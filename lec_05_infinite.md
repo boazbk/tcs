@@ -1,10 +1,10 @@
 ---
-title: "Functions with infinite domains, automata, and regular expressions"
+title: "Functions with Infinite domains, Automata, and Regular expressions"
 filename: "lec_05_infinite"
 chapternum: "6"
 ---
 
-# Functions with infinite domains, automata, and regular expressions { #chapinfinite }
+# Functions with Infinite domains, Automata, and Regular expressions { #chapinfinite }
 
 
 > ### { .objectives }
@@ -346,12 +346,14 @@ Since we keep three Boolean variables, the working memory can be in one of  $2^3
 so the program above can be directly translated into an $8$ state DFA.
 While this is not needed to solve the question, by examining the resulting DFA, we can see that we can merge some states together and 
 obtain a $4$ state automaton,  described in [dfazeroonefig](){.ref}.
+See also [DFAzerooneexecfig](){.ref}, which depicts the execution of this DFA on a particular input.
 :::
 
 
 
 ![A DFA that outouts $1$ only on inputs $x\in \{0,1\}^*$ that are a concatenation of zero or more copies of $010$.
-The state $0$ is both the starting state and the only accepting state.](../figure/dfa010.png){#dfazeroonefig  .margin }
+The state $0$ is both the starting state and the only accepting state.
+The table denotes the transition function of $T$, which maps the current state and symbol read to the new symbol.](../figure/DFA010a.png){#dfazeroonefig  .margin }
 
 
 ### Anatomy of an automaton (finite vs. unbounded)
@@ -374,6 +376,9 @@ __Components of unbounded size:__ The following quantities relating to a DFA are
 * The length of the input $x\in \{0,1\}^*$ that the DFA is provided with. It is always finite, but not bounded.
 
 * The number of steps that the DFA takes can grow with the length of the input. Indeed, a DFA makes a single pass on the input and so it takes exactly $|x|$ steps on an input $x\in \{0,1\}^*$.
+
+![Execution of the DFA of [dfazeroonefig](){.ref}. The number of states and the size of the transition function are bounded, but the input can be arbitrarily long.
+If the DFA is at state $s$ and observes the value $\sigma$ then it moves to the state $T(s,\sigma)$. At the end of the execution the DFA accepts iff the final state is in $\mathcal{A}$.](../figure/DFA010execution.png){#DFAzerooneexecfig}
 
 
 ### DFA-computable functions
