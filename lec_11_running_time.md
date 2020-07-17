@@ -37,16 +37,27 @@ As mentioned in Edmond's quote in [chapefficient](){.ref}, the difference betwee
 
 ![Overview of the results of this chapter.](../figure/runtimeoverview.png){#runtimeoverviewfig}
 
-In this chapter we formally define the notion of a function being computable in $T(n)$ time where $T$ is some function mapping the length of the input to a bound on the number of computation steps.
-We then do the following (see also [runtimeoverviewfig](){.ref}):
 
-* Define the class $\mathbf{P}$ of Boolean functions that can be computed in polynomial time and its superset $\mathbf{EXP}$ of functions that can be computed in exponential time. 
+::: {.nonmath}
+In this chapter we formally define what it means for a function to be computable in a certain number of steps.
+As discussed in [chapefficient](){.ref}, running time is not a number, rather what we care about is the _scaling behevaiour_ 
+of the number of steps as the input size grows.
+We can use either Turing machines or RAM machines to give such a formal definition - it turns out that this doesn't make a difference at the resolution we care about.
+We make several important definitions and prove some important theorems in this chapter.
+We will define the main _time complexity classes_ we use in this book, and also show the _Time Hierarchy Theorem_ which states that given more resources (more time steps per input size) we can compute more functions.
+:::
 
-* Show that the time to compute a function using a Turing Machine and using a RAM machine (or NAND-RAM program) is _polynomially related_ which in particular means that the classes $\mathbf{P}$ and $\mathbf{EXP}$ can be equivalently defined using either Turing Machines or RAM machines / NAND-RAM programs.
 
-* Give an _efficient_ universal NAND-RAM program and use this to establish the _time hierarchy theorem_ that in particular implies that $\mathbf{P} \subsetneq \mathbf{EXP}$. 
+To put this in more "mathy" language, in this chapter we define what it means for a function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ to be _computable in time $T(n)$ steps_, where $T$ is some function mapping the length $n$ of the input to the number of computation steps allowed.
+Using this definition we will do the following (see also [runtimeoverviewfig](){.ref}):
 
-* We relate the notions defined here to the _non uniform_ models of  Boolean circuits and NAND-CIRC programs defined in [compchap](){.ref}. We define $\mathbf{P_{/poly}}$ to be the class of functions computed by a _sequence_ of polynomial-sized circuits. We prove that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$ and that $\mathbf{P_{/poly}}$ contains _uncomputable_ functions.
+* We define the class $\mathbf{P}$ of Boolean functions that can be computed in polynomial time and the class $\mathbf{EXP}$ of functions that can be computed in exponential time. Note that $\mathbf{P} \subseteq \mathbf{EXP}$ if we can compute a function in polynomial time, we can certainly compute it in exponential time. 
+
+* We show that the times to compute a function using a Turing Machine and using a RAM machine (or NAND-RAM program) are _polynomially related_. In particular this means that the classes $\mathbf{P}$ and $\mathbf{EXP}$ are identical regardless of whether they are defined using Turing Machines or RAM machines / NAND-RAM programs.
+
+* We give an _efficient_ universal NAND-RAM program and use this to establish the _time hierarchy theorem_ that in particular implies that $\mathbf{P}$ is a _strict subset_ of  $\mathbf{EXP}$. 
+
+* We relate the notions defined here to the _non uniform_ models of  Boolean circuits and NAND-CIRC programs defined in [compchap](){.ref}. We define $\mathbf{P_{/poly}}$ to be the class of functions that can be computed by a _sequence_ of polynomial-sized circuits. We prove that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$ and that $\mathbf{P_{/poly}}$ contains _uncomputable_ functions.
 
 
 
@@ -60,7 +71,7 @@ We start by defining running time with respect to Turing Machines:
 
 ::: {.definition title="Running time (Turing Machines)" #time-TM-def}
 Let $T:\N \rightarrow \N$ be some function mapping natural numbers to natural numbers.
-We say that a function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ is _computable in $T(n)$ Single-Tape-Turing-Machine time (TM-time for short)_ 
+We say that a function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ is _computable in $T(n)$ Turing-Machine time (TM-time for short)_ 
 if there exists a Turing Machine $M$ such that for every sufficiently large $n$ and every $x\in \{0,1\}^n$, when given input $x$, the machine $M$ halts after executing at most $T(n)$ steps and outputs $F(x)$.
 
 We define  $TIME_{\mathsf{TM}}(T(n))$ to be the set of Boolean functions (functions mapping $\{0,1\}^*$ to $\{0,1\}$) that are computable in $T(n)$ TM time.
@@ -72,10 +83,11 @@ For a function $F:\{0,1\}^* \rightarrow \{0,1\}$ and $T:\N  \rightarrow \N$, we 
 
 ::: { .pause }
 [time-TM-def](){.ref}  is not very complicated but is one of the most important definitions of this book. As usual,   $TIME_{\mathsf{TM}}(T(n))$ is  a class of _functions_, not of _machines_. If $M$ is a Turing Machine then a statement such as "$M$ is a member of $TIME_{\mathsf{TM}}(n^2)$" does not make sense.
+The concept of TM-time as defined here is sometimes known as "single-tape Turing machine time" in the literature, since some texts consider Turing machines with more than one working tape.
 :::
 
 The relaxation of considering only "sufficiently large" $n$'s is not very important but it is convenient since it allows us to avoid dealing explicitly with un-interesting "edge cases".
-In most cases we will anyway be interested in determining running time only up to constant and even polynomial factors. Note that we can always compute a function on a finite number of inputs using a lookup table.
+We will mostly anyway be interested in determining running time only up to constant and even polynomial factors. 
 
 While the notion of being computable within a certain running time can be defined for every function, the class $TIME_{\mathsf{TM}}(T(n))$ is a class of _Boolean functions_ that have a single bit of output.
 This choice is not very important, but is made for simplicity and convenience later on.

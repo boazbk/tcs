@@ -40,6 +40,17 @@ In this chapter and in [cooklevinchap](){.ref} we will see that, despite their a
 In fact, it turns out that the problems above are _computationally equivalent_, in the sense that solving one of them immediately implies solving the others.
 This phenomenon, known as _$\mathbf{NP}$ completeness_, is one of the surprising discoveries of theoretical computer science, and we will see that it has far-reaching ramifications.
 
+
+::: {.nonmath}
+This chapter introduces the concept of a _polynomial time reduction_ which is a central object in computational complexity and this book in particular.
+A polynomial-time reduction is a way to _reduce_ the task of solving one problem to another.
+The way we use reductions in complexity is to argue that if the first problem is hard to solve efficiently, then the second must also be hard.
+We see several examples for reductions in this chapter, and reductions will be the basis for the theory of _$\mathbf{NP}$ completeness_ that we will develop in 
+[cooklevinchap](){.ref}.
+:::
+
+
+
 ![In this chapter we show that if the $3SAT$ problem cannot be solved in polynomial time, then neither can the $QUADEQ$, $LONGESTPATH$, $ISET$ and $MAXCUT$ problems.  We do this by using the _reduction paradigm_ showing for example  "if pigs could whistle" (i.e., if we had an efficient algorithm for $QUADEQ$) then "horses could fly" (i.e., we would have an efficient algorithm for $3SAT$.)](../figure/reductionsoverview.png){#reductionsoverviewfig}
 
 In this chapter we will see that for each one of the problems of finding a longest path in a graph, solving quadratic equations, and finding the maximum cut, if there exists a polynomial-time algorithm for this problem then there exists a polynomial-time algorithm for the 3SAT problem as well.
@@ -115,6 +126,7 @@ Thus the total running time of $A$ on inputs of length $n$ is at most the time t
 A _reduction_  $F \leq_p G$ shows that $F$ is "no harder than $G$" or equivalently that $G$ is "no easier than $F$".
 :::
 
+### Whistling pigs and flying horses
 
 A reduction from $F$ to $G$ can be used for two purposes:
 
@@ -135,7 +147,8 @@ We will reduce  3SAT to the latter problems, demonstrating that solving any one 
 In  [cooklevinchap](){.ref} we show the other direction: reducing each one of these problems to 3SAT in one fell swoop.
 
 
-__Transitivity of reductions.__ Since we think of  $F \leq_p G$ as saying that (as far as polynomial-time computation is concerned) $F$ is "easier or equal in difficulty to" $G$, we would expect that if $F \leq_p G$ and $G \leq_p H$, then it would hold that $F \leq_p H$. Indeed this is the case:
+__Transitivity of reductions.__ 
+Since we think of  $F \leq_p G$ as saying that (as far as polynomial-time computation is concerned) $F$ is "easier or equal in difficulty to" $G$, we would expect that if $F \leq_p G$ and $G \leq_p H$, then it would hold that $F \leq_p H$. Indeed this is the case:
 
 
 ::: {.solvedexercise title="Transitivity of polynomial-time reductions" #transitiveex}
@@ -153,10 +166,12 @@ But if there are some constants $c,d$ such that $R_1(x)$ is computable in time $
 
 
 
-## Reducing 3SAT to zero one equations
+## Reducing 3SAT to zero one  and quadratic equations
 
-We will now show our first example of a reduction.
-The _Zero-One Linear Equations problem_ corresponds to the function $01EQ:\{0,1\}^* \rightarrow \{0,1\}$ whose  input is a collection $E$ of linear equations in variables $x_0,\ldots,x_{n-1}$, and the output is $1$ iff there is an assignment $x\in \{0,1\}^n$ of $0/1$ values to the variables that satisfies all the equations.
+We now show our first example of a reduction.
+The _Zero-One Linear Equations problem_ corresponds to the function $01EQ:\{0,1\}^* \rightarrow \{0,1\}$ whose
+input is a collection $E$ of linear equations in variables $x_0,\ldots,x_{n-1}$, and the output is $1$ iff there is an assignment $x\in \{0,1\}^n$ of $0/1$ values 
+to the variables that satisfies all the equations.
 For example, if the input $E$ is a string encoding the set of equations 
 
 $$
@@ -233,7 +248,9 @@ Let $R$ be the function computed by [zerooneeqreduction](){.ref}. The heart of t
 We split the proof into two parts.
 The first part, traditionally known as the __completeness__ property, is to show that if $3SAT(\varphi)=1$ then $O1EQ(R(\varphi))=1$.
 The second part, traditionally known as the __soundness__ property, is to show that if $01EQ(R(\varphi))=1$ then $3SAT(\varphi)=1$.
-(The names "completeness" and "soundness"  derive viewing a solution to $R(\varphi)$ as a "proof" that $\varphi$ is satisfiable, in which case these conditions corresponds to completeness and soundness as defined in  [#godelproofsystemssec](){.ref}. However, if you find the names confusing you can simply think of completeness as the "$1$-instance maps to $1$-instance" property and soundness as the "$0$-instance maps to $0$-instance" property.)
+(The names "completeness" and "soundness"  derive viewing a solution to $R(\varphi)$ as a "proof" that $\varphi$ is satisfiable, 
+in which case these conditions corresponds to completeness and soundness as defined in  [#godelproofsystemssec](){.ref}. 
+However, if you find the names confusing you can simply think of completeness as the "$1$-instance maps to $1$-instance" property and soundness as the "$0$-instance maps to $0$-instance" property.)
 
 We complete the proof by showing both parts:
 
@@ -244,28 +261,15 @@ This means that if we let $x'_i = 1-x_i$ for every $i\in [n]$, then the assignme
 * __Soundness:__ Suppose that the set of equations $E=R(\varphi)$ has a satisfying assignment $x_0,\ldots,x_{n-1}$, $x'_0,\ldots,x'_{n-1}$, $y_0,\ldots,y_{m-1}$, $z_0,\ldots,z_{m-1}$.
 Then it must be the case that $x'_i$ is the negation of $x_i$ for all $i\in [n]$ and since $y_j + z_j \leq 2$ for every $j\in [m]$, it must be the case that for every clause $C_j$  in $\varphi$ of the form $w_1 \vee w_2 \vee w_3$ (with $w_1,w_2,w_3$ being literals), $w_1 + w_2 + w_3 \geq 1$, which means that the assignment $x_0,\ldots,x_{n-1}$ satisfies $\varphi$ and hence $3SAT(\varphi)=1$.
 :::
- 
-__Anatomy of a reduction.__ A reduction is simply an algorithm, and like any algorithm, when we come up with a reduction, it is not enough to describe _what_ the reduction does, but we also have to provide an _analysis_ of _why_ it actually works. Specifically, to describe a reduction $R$ demonstrating that $F \leq_p G$ we need to provide the following:
-
-* __Algorithm description:__ This is the description of _how_ the algorithm maps an input into the output. For example, [zerooneeqreduction](){.ref} above is the description of how we map an instance of $3SAT$  into an instance of $01EQ$ in the reduction demonstrating $3SAT \leq_p 01EQ$.
-
-* __Algorithm analysis:__ It is not enough to describe _how_ the algorithm works but we need to also explain _why_ it works. In particular we need to provide an  _analysis_ explaining why the reduction is both _efficient_ (i.e., runs in polynomial time) and _correct_ (satisfies that $G(R(x)=F(x)$ for every $x$)). Specifically, the components of analysis of a reduction $R$ include:
-  
-  * __Efficiency:__ We need to show that $R$ runs in polynomial time. In most reductions we encounter this part is straightforward, as the reductions we typically use involve a constant number of nested loops, each involving a constant number of operations.
-
-  * __Completeness:__ In a reduction $R$ demonstrating $F \leq_p G$, the _completeness_ condition is the condition that for every $x\in \{0,1\}^*$, if $F(x) = 1$ then $G(R(x))=1$. Typically we construct the reduction to ensure that this holds, by giving a way to map a "certificate/solution" certifying that $F(x)=1$ into a solution certifying that $G(R(x))=1$. For example, in the proof of [tsattozoeqthm](){.ref} the satisfying assignment for the $3SAT$ formula $\varphi$ can be mapped to a solution to the set of equations $R(\varphi)$.
-
-  * __Soundness:__ This is the condition that if $F(x)=0$ then $G(R(x))=0$ or (taking the contrapositive) if $G(R(x))=1$ then $F(x)=1$. This is sometimes straightforward but can also be  harder to show than the completeness condition, and in more advanced reductions (such as the reduction $SAT \leq_p ISET$ of [isetnpc](){.ref}) demonstrating soundness is the main part of the analysis.
-
-Whenever you need to provide a reduction, you should make sure that your description has all these components. While it is sometimes tempting to weave together the description of the reduction and its analysis, it is usually clearer if you separate the two, and also break down the analysis to its three components of efficiency, completeness, and soundness.
-
 
 
 ### Quadratic equations
 
 Now that we reduced $3SAT$ to $01EQ$, we can use this to reduce $3SAT$ to the _quadratic equations_
 problem.
-This is the function $QUADEQ$ in which the input is a  list of $n$-variate polynomials $p_0,\ldots,p_{m-1}:\R^n \rightarrow \R$ that are all of [degree](https://en.wikipedia.org/wiki/Degree_of_a_polynomial) at most two (i.e., they are _quadratic_) and with integer coefficients. (The latter condition is for convenience and can be achieved by scaling.)
+This is the function $QUADEQ$ in which the input is a  list of $n$-variate polynomials $p_0,\ldots,p_{m-1}:\R^n \rightarrow \R$ that are all of [degree](https://en.wikipedia.org/wiki/Degree_of_a_polynomial) 
+at most two (i.e., they are _quadratic_) and with integer coefficients. 
+(The latter condition is for convenience and can be achieved by scaling.)
 We define $QUADEQ(p_0,\ldots,p_{m-1})$ to equal $1$ if and only if  there is a solution $x\in \R^n$ to the equations $p_0(x)=0$, $p_1(x)=0$, $\ldots$, $p_{m-1}(x)=0$.
 
 For example, the following is a set of quadratic equations over the variables $x_0,x_1,x_2$:
@@ -287,22 +291,47 @@ $$3SAT \leq_p QUADEQ$$
 
 
 > ### {.proofidea data-ref="quadeq-thm"}
-Using the transitivity of reductions ([transitiveex](){.ref}), it is enough to show that $01EQ \leq_p QUADEQ$, but this follows since we can phrase the equation $x_i \in \{0,1\}$ as the quadratic constraint $x_i^2 - x_i = 0$. The __takeaway technique__ of this reduction is that we can use _nonlinearity_ to force continuous variables (e.g., variables taking values in $\R$) to be discrete (e.g., take values in $\{0,1\}$).
+Using the transitivity of reductions ([transitiveex](){.ref}), it is enough to show that $01EQ \leq_p QUADEQ$, but this follows since we can phrase
+the equation $x_i \in \{0,1\}$ as the quadratic constraint $x_i^2 - x_i = 0$. The __takeaway technique__ of this reduction is that we can use _nonlinearity_ to force continuous variables (e.g., variables taking values in $\R$) to be discrete (e.g., take values in $\{0,1\}$).
 
 ::: {.proof data-ref="quadeq-thm"}
 By [tsattozoeqthm](){.ref} and [transitiveex](){.ref}, it is sufficient to prove that $01EQ \leq_p QUADEQ$.
 Let $E$ be an instance of $01EQ$ with variables $x_0,\ldots,x_{m-1}$.
-We define $R(E)$ to be the set of quadratic equations $E'$ that is obtained by taking the linear equations in $E$ and adding to them the $n$ quadratic equations $x_i^2 - x_i = 0$ for all $i\in [n]$.
-Clearly the map $E \mapsto E'$ can be computed in polynomial time.
+We map $E$ to the set of quadratic equations $E'$ that is obtained by taking the linear equations in $E$ and adding to them the $n$ quadratic equations $x_i^2 - x_i = 0$ for all $i\in [n]$.
+(See [zeroonetoquadreductionalg](){.ref}.)
+The map $E \mapsto E'$ can be computed in polynomial time.
 We claim that $01EQ(E)=1$ if and only if $QUADEQ(E')=1$.
 Indeed, the only difference between the two instances is that:
 
 * In the $01EQ$ instance $E$, the equations are over variables $x_0,\ldots,x_{n-1}$ in $\{0,1\}$.
 
-* In the $QUADEQ$ instance $E'$, the equations are overvariables $x_0,\ldots,x_{n-1} \in \R$ but we have the extra constraints $x_i^2 - x_i = 0$ for all $i\in [n]$.
+* In the $QUADEQ$ instance $E'$, the equations are over variables $x_0,\ldots,x_{n-1} \in \R$ but we have the extra constraints $x_i^2 - x_i = 0$ for all $i\in [n]$.
 
 Since for every $a\in \R$, $a^2 - a = 0$ if and only if $a \in \{0,1\}$, the two sets of equations are equivalent and $01EQ(E)=QUADEQ(E')$ which is what we wanted to prove.
 :::
+
+
+``` { .algorithm title="$3SAT$ to $01EQ$ reduction" #zeroonetoquadreductionalg }
+INPUT: Set $E$ of linear equations over $n$ variables $x_0,\ldots,x_{n-1}$.
+
+OUTPUT: Set $E'$ of quadratic eqations ovar $m$ variables $w_0,\ldots,w_{m-1}$ such that there is an $0/1$ assignment $x\in \{0,1\}^n$
+satisfying the equations of $E$ -iff there is an assignment $w \in \R^m$ satisfying the equations of $E'$.
+That is, $O1EQ(E) = QUADEQ(E')$.
+
+Let $m \leftarrow n$.
+Variables of $E'$ are set to be same variable $x_0,\ldots, x_{n-1}$ as $E$.
+For{every equation $e\in E$}
+  Add $e$ to $E'$
+endfor
+For{$i\in [n]$}
+   Add to $E'$ the equation $x_i^2 - x_i = 0$.
+endfor
+return $E'$ 
+```
+
+
+
+
 
 
 
@@ -326,28 +355,73 @@ We  now reduce 3SAT to Independent set.
 $3SAT \leq_p ISET$.
 
 > ### {.proofidea data-ref="isetnpc"}
-The idea is that finding a satisfying assignment to a 3SAT formula corresponds to satisfying many local constraints without creating any conflicts. One can think of "$x_{17}=0$"  and "$x_{17}=1$" as two conflicting events, and of the constraints $x_{17} \vee \overline{x}_5 \vee x_9$ as creating a conflict between the events "$x_{17}=0$", "$x_5=1$" and "$x_9=0$", saying that these three cannot simultaneosly co-occur. Using these ideas, we can we can think of solving a 3SAT problem as trying to schedule non conflicting events, though the devil is, as usual, in the details. The __takeaway technique__ here is to map each clause of the original formula into a _gadget_ which is a small subgraph (or more generally "subinstance") satisfying some convenient properties. We will see these "gadgets" used time and again in the construction of polynomial-time reductions.
+The idea is that finding a satisfying assignment to a 3SAT formula corresponds to satisfying many local constraints without creating any conflicts.
+One can think of "$x_{17}=0$"  and "$x_{17}=1$" as two conflicting events, and of the constraints $x_{17} \vee \overline{x}_5 \vee x_9$ as creating a conflict between the events "$x_{17}=0$", "$x_5=1$" and "$x_9=0$", saying that these three cannot simultaneosly co-occur. 
+Using these ideas, we can we can think of solving a 3SAT problem as trying to schedule non conflicting events, though the devil is, as usual, in the details. 
+The __takeaway technique__ here is to map each clause of the original formula into a _gadget_ which is a small subgraph (or more generally "subinstance") satisfying some convenient properties. 
+We will see these "gadgets" used time and again in the construction of polynomial-time reductions.
+
+
 
 ![An example of the reduction of $3SAT$ to $ISET$ for the case the original input formula is $\varphi = (x_0 \vee \overline{x}_1 \vee x_2) \wedge (\overline{x}_0 \vee x_1 \vee \overline{x}_2) \wedge (x_1 \vee x_2 \vee \overline{x}_3)$. We map each clause of $\varphi$ to a triangle of three vertices, each tagged above with "$x_i = 0$" or "$x_i=1$" depending on the value of $x_i$ that would satisfy the particular literal. We put an edge between every two literals that are _conflicting_ (i.e., tagged with "$x_i=0$" and "$x_i=1$" respectively).](../figure/example3sat2iset.png){#example3sat2isetfig .margin }
 
+
+
+``` { .algorithm title="$3SAT$ to $IS$ reduction" #threesattoisetreductionalg }
+INPUT: $3SAT$  formula $\varphi$ with $n$ variables and $m$ clauses.
+
+OUTPUT: Graph $G=(V,E)$ and number $k$, such that $G$ has an independent set of size $k$ -iff $\varphi$ has a satisfying assignment.
+That is, $3SAT(\varphi) = ISET(G,k)$, 
+
+Initialize $V \leftarrow \emptyset, E \leftarrow \emptyset$
+For {every clause $C = y \vee y' \vee y''$ of $\varphi$}
+  Add three vertices $(C,y),(C,y'),(C,y'')$ to $V$
+  Add edges $\{ (C,y), (C,y') \}$, ${(C,y'),(C,y'') \}$, $\{ (C,y''), (C,y) \}$ to $E$.
+endfor
+for {every distinct clauses $C,C'$ in $\varphi$}
+  for {every $i\in [n]$}
+      if{$C$ contains literal $x_i$ and $C'$ contains literal $\overline{x}_i$}
+          Add edge $\{ (C,x_i), (C,\overline{x}_i) \}$ to $E$
+      endif
+  endfor
+endfor
+return $G=(V,E)$
+```
+
+
+
+
 ::: {.proof data-ref="isetnpc"}
-Given a 3SAT formula $\varphi$ on $n$ variables and with $m$ clauses, we will create a graph $G$ with $3m$ vertices as follows. (See [example3sat2isetfig](){.ref} for an example and [threesattoisfig](){.ref} for Python code.)
+Given a 3SAT formula $\varphi$ on $n$ variables and with $m$ clauses, we will create a graph $G$ with $3m$ vertices as follows. 
+(See [threesattoisetreductionalg](){.ref}, see also [example3sat2isetfig](){.ref} for an example and [threesattoisfig](){.ref} for Python code.)
 
 
 
-* A clause $C$ in $\varphi$ has the form $C = y \vee y' \vee y''$  where $y,y',y''$ are _literals_ (variables or their negation). For each such clause $C$, we will add three vertices to $G$, and label them  $(C,y)$, $(C,y')$, and $(C,y'')$ respectively. We will also add the three edges between all pairs of these vertices, so they form a _triangle_. Since there are $m$ clauses in $\varphi$, the graph $G$ will have $3m$ vertices.
+* A clause $C$ in $\varphi$ has the form $C = y \vee y' \vee y''$  where $y,y',y''$ are _literals_ (variables or their negation).
+  For each such clause $C$, we will add three vertices to $G$, and label them  $(C,y)$, $(C,y')$, and $(C,y'')$ respectively.
+  We will also add the three edges between all pairs of these vertices, so they form a _triangle_.
+  Since there are $m$ clauses in $\varphi$, the graph $G$ will have $3m$ vertices.
 
-* In addition to the above edges, we also add an edge between every pair vertices of the form $(C,y)$ and $(C',y')$ where $y$ and $y'$ are _conflicting_ literals. That is, we add an edge between $(C,y)$ and $(C,y')$  if there is an $i$ such that $y=x_i$ and $y' = \overline{x}_i$ or vice versa.
+* In addition to the above edges, we also add an edge between every pair vertices of the form $(C,y)$ and $(C',y')$ where $y$ and $y'$ are _conflicting_ literals.
+  That is, we add an edge between $(C,y)$ and $(C,y')$  if there is an $i$ such that $y=x_i$ and $y' = \overline{x}_i$ or vice versa.
 
 
-The above construction of $G$ based on $\varphi$ can clearly be carried out in polynomial time.
+The algorithm constructing of $G$ based on $\varphi$ takes polynomial time since it involves two loops, the first taking $O(m)$ steps and the second taking $O(m^2 n)$ steps
+(see [threesattoisetreductionalg](){.ref}).
 Hence to prove the theorem we need to show that  $\varphi$ is satisfiable if and only if $G$ contains an independent set of $m$ vertices. We now show both directions of this equivalence:
 
 __Part 1: Completeness.__ The "completeness" direction is to show that if $\varphi$ has a satisfying assignment $x^*$, then $G$ has an independent set $S^*$ of  $m$ vertices. Let us now show this.
 
-Indeed, suppose that $\varphi$ has a satisfying assignment $x^* \in \{0,1\}^n$.  Then for every clause $C = y \vee y' \vee y''$ of $\varphi$, one of the literals $y,y',y''$ must evaluate to _true_ under the assignment $x^*$ (as otherwise it would not satisfy $\varphi$). We let $S$ be a set of $m$ vertices that is obtained by choosing for every clause $C$ one vertex of the form $(C,y)$ such that $y$ evaluates to true under $x^*$. (If there is more than one such vertex for the same $C$, we arbitrarily choose one of them.)
+Indeed, suppose that $\varphi$ has a satisfying assignment $x^* \in \{0,1\}^n$.
+Then for every clause $C = y \vee y' \vee y''$ of $\varphi$, one of the literals $y,y',y''$ must evaluate to _true_ under the assignment $x^*$  (as otherwise it would not satisfy $\varphi$). 
+We let $S$ be a set of $m$ vertices that is obtained by choosing for every clause $C$ one vertex of the form $(C,y)$ such that $y$ evaluates to true under $x^*$.
+(If there is more than one such vertex for the same $C$, we arbitrarily choose one of them.)
 
-We claim that $S$ is an independent set. Indeed, suppose otherwise that there was a pair of vertices $(C,y)$ and $(C',y')$ in $S$ that have an edge between them. Since we picked one vertex out of each triangle corresponding to a clause, it must be that $C \neq C'$. Hence the only way that there is an edge between $(C,y)$ and $(C,y')$ is if $y$ and $y'$ are conflicting literals (i.e. $y=x_i$ and $y'=\overline{x}_i$ for some $i$). But that would that they can't both evaluate to _true_ under the assignment $x^*$, which contradicts the way we constructed the set $S$. This completes the proof of the completeness condition.
+We claim that $S$ is an independent set. Indeed, suppose otherwise that there was a pair of vertices $(C,y)$ and $(C',y')$ in $S$ that have an edge between them. 
+Since we picked one vertex out of each triangle corresponding to a clause, it must be that $C \neq C'$.
+Hence the only way that there is an edge between $(C,y)$ and $(C,y')$ is if $y$ and $y'$ are conflicting literals (i.e. $y=x_i$ and $y'=\overline{x}_i$ for some $i$).
+But that would that they can't both evaluate to _true_ under the assignment $x^*$, which contradicts the way we constructed the set $S$.
+This completes the proof of the completeness condition.
 
 __Part 2: Soundness.__ The "soundness" direction is to show that if $G$ has an independent set $S^*$ of $m$ vertices, then $\varphi$ has a satisfying assignment $x^* \in \{0,1\}^n$. Let us now show this.
 
@@ -360,10 +434,12 @@ We will define an assignment $x^* \in \{0,1\}^n$  for the variables of $\varphi$
 
 * If $S^*$ does not contain a vertex of either of these forms, then it does not matter which value we give to $x^*_i$, but for concreteness we'll set $x^*_i=0$.
 
-The first observation is that $x^*$ is indeed well defined, in the sense that the rules above do not conflict with one another, and ask to set $x^*_i$ to be both $0$ and $1$. This follows from the fact that $S^*$ is an _independent set_ and hence if it contains a vertex of the form $(C,x_i)$ then it cannot contain a vertex of the form $(C',\overline{x_i})$.
+The first observation is that $x^*$ is indeed well defined, in the sense that the rules above do not conflict with one another, and ask to set $x^*_i$ to be both $0$ and $1$.
+This follows from the fact that $S^*$ is an _independent set_ and hence if it contains a vertex of the form $(C,x_i)$ then it cannot contain a vertex of the form $(C',\overline{x_i})$.
 
 We now claim that $x^*$ is a satisfying assignment for $\varphi$. Indeed, since $S^*$ is an independent set, it cannot have more than one vertex inside each one of the $m$ triangles $(C,y),(C,y'),(C,y'')$ corresponding to a clause of $\varphi$.
-Hence since $|S^*|=m$, it must have exactly one vertex in each such triangle. For every clause $C$ of $\varphi$, if $(C,y)$ is the vertex in $S^*$ in the triangle corresponding to $C$, then by the way we defined $x^*$, the literal $y$ must evaluate to _true_, which means that $x^*$ satisfies this clause.
+Hence since $|S^*|=m$, it must have exactly one vertex in each such triangle.
+For every clause $C$ of $\varphi$, if $(C,y)$ is the vertex in $S^*$ in the triangle corresponding to $C$, then by the way we defined $x^*$, the literal $y$ must evaluate to _true_, which means that $x^*$ satisfies this clause.
 Therefore $x^*$ satisfies all clauses of $\varphi$, which is the definition of a satisfying assignment.
 
 This completes the proof of [isetnpc](){.ref}
@@ -371,6 +447,33 @@ This completes the proof of [isetnpc](){.ref}
 
 
 ![The reduction of 3SAT to Independent Set. On the righthand side is _Python_ code that implements this reduction. On the lefthand side is a sample output of the reduction. We use black for the "triangle edges" and red for the "conflict edges". Note that the satisfying assignment $x^* = 0110$ corresponds to the independent set $(0,\neg x_3)$, $(1, \neg x_0)$, $(2,x_2)$.](../figure/3sat2ISreduction.png){#threesattoisfig   }
+
+
+
+##  Some exercises and anatomy of a reduction. 
+
+Reductions can be confusing and working out exercises is a great way to gain more comfort with them.
+Here is one such example. As usual, I recommend you try it out yourself before looking at the solution.
+
+::: {.solvedexercise title="Vertex cover" #vertexcoverex}
+A _vertex cover_ in a graph $G=(V,E)$ is a subset $S \subseteq V$ of vertices such that every edge touches at least one vertex of $S$ (see [vertexcoverfig](){.ref}).
+The _vertex cover problem_ is the task to determine, given a graph $G$ and a number $k$, whether there exists a vertex cover in the graph with at most $k$ vertices.
+Formally, this is the function $VC:\{0,1\}^* \rightarrow \{0,1\}$ such that for every $G=(V,E)$ and $k\in \N$, $VC(G,k)=1$ if and only if there exists
+a vertex cover $S \subseteq V$ such that $|S| \leq k$.
+
+Prove that $3SAT \leq_p VC$.
+:::
+
+![A _vertex cover_ in a graph is a subset of vertices that touches all edges. In this $7$-vertex graph, the $3$ filled vertices 
+are a vertex cover.](../figure/vertex_cover.png){#vertexcoverfig}
+
+
+::: {.solution data-ref="vertexcoverex"}
+The key observation is that if $S \subseteq V$ is a vertex cover that touches all vertices, then there is no edge $e$ such that both $s$'s endpoints
+are in the set $\overline{S} = V \setminus S$, and vice versa.
+In other words, $S$ is a vertex cover if and only if $\overline{S}$ is an independent set.
+Since the size of $\overline{S}$ is $|V|-|S|$, we see that the polynomial-time map $R(G,k)=(G,n-k)$ (where $n$ is the number of vertices of $G$) satisfies that $VC(R(G,k))= ISET(G,k)$ which means that it is a reduction from independent set to vertex cover.
+:::
 
 
 
@@ -388,6 +491,140 @@ This means that for every set $S$, $S$ is an independent set in $G$ if and only 
 Since the map $G \mapsto \overline{G}$ can be computed efficiently, this yields a reduction $ISET \leq_p CLIQUE$.
 Moreover, since $\overline{\overline{G}}=G$ this yields a reduction in the other direction as well.
 :::
+
+
+### Dominating set
+
+In the two examples above, the reduction was almost "trivial": the reduction from independent set to vertex cover merely changes the number $k$ to $n-k$, and the reduction from independent set to clique flips edges to non-edges and vice versa.
+The following exercise requires a somewhat more interesting reduction.
+
+::: {.solvedexercise title="Dominating set" #dominatingsetex}
+A _dominating set_ in a graph $G=(V,E)$ is a subset $S \subseteq V$ of vertices such that for every $u \in V \setminus S$ is a neighbor in $G$ of some $s \in S$ (see [dominatingvertexcover](){.ref}).
+The _dominating set problem_ is the task, given a graph $G=(V,E)$ and number $k$, of determining whether there exists a dominating set $S \subseteq V$ with $|S| \leq k$.
+Formally, this is the function $DS:\{0,1\}^* \rightarrow \{0,1\}$ such that $DS(G,k)=1$ iff there is a dominating set in $G$ of at most $k$ vertices.
+
+Prove that $ISET \leq_p DS$.
+:::
+
+![A dominating set is a subset $S$ of vertices such that every vertex in the graph is either in $S$ or a neighbor of $S$. The figure above are two copies of the same graph. The red vertices on the left are a vertex cover that is not a dominating set. The blue vertices on the right are a dominating set that is not a vertex cover.](../figure/dominatingvc.png){#dominatingvertexcover}
+
+::: {.solution data-ref="dominatingsetex"}
+Since we know that $ISET \leq_p VC$, using transitivity, it is enough to show that VC \leq_p DS$. 
+As [dominatingvertexcover](){.ref} shows, a dominating set is not the same thing as a vertex cover.
+However, we can still relate the two problems.
+The idea is to map a graph $G$ into a graph $H$ such that a vertex cover in $G$ would translate into a dominating set in $H$ and vice versa.
+We do so by including in $H$ all the vertices and edges of $G$, but for every edge $\{u ,v \}$ of $G$ we also add to $H$ a new vertex $w_{u,v}$ and connect it to both $u$ and $v$.
+Let $\ell$ be the number of isolated vertices in $G$
+The idea behind the proof is that we can transform a vertex cover $S$ of $k$ vertices in $G$ into a dominating set of $k+\ell$ vertices in $H$ by adding to $S$ all the isolated vertices,
+and moreover we can transform every $k+\ell$ sized dominating set in $H$ into a vertex cover in $G$.
+We now give the details. 
+
+__Description of the algorithm._ Given an instance $(G,k)$ for the vertex cover problem, we will map $G$ into an instance $(H,k')$ for the dominating set problem as follows
+(see [vctodsreductionfig](){.ref} for Python implementation):
+
+
+
+``` { .algorithm title="$VC$ to $DS$ reduction" #independentsettodsredalg }
+INPUT: Graph $G=(V,E)$ and number $k$.
+
+OUTPUT: Graph $H=(V',E')$ and number $k'$, such that $G$ has a vertex cover of size $k$ -iff $H$ has a dominating set of size $k'$
+That is, $DS(H,k') = ISET(G,k)$, 
+
+Initialize $V' \leftarrow V, E' \leftarrow V$
+For {every edge $\{u,v\} \in E$}
+  Add vertex $w_{u,v}$ to $V'$
+  Add edges $\{ u, w_{u,v \}$, $\{ v, w_{u,v} \}$  to $E'$.
+endfor
+Let $\ell \leftarrow$ number of isolated vertices in $G$
+return $( H=(V',E') \;,\;  k+\ell)$
+```
+
+[independentsettodsredalg](){.ref} runs in polynomial time, since the loop takes $O(m)$ steps where $m$ is the number of edges,
+with each step can be implemented in constant or at most linear time (depending on the representation of the graph $H$).
+Counting the number of isolated vertices in an $n$ vertex graph $G$ can be done in time $O(n^2)$ if $G$ is represented in the adjacency matrix representation and $O(n)$ time
+if it is represented in the adjacency list representation.
+Regardless the algorithm runs in polynomial time.
+
+To complete the proof we need to prove that for every $G,k$, if $H,k'$ is the output of [independentsettodsredalg](){.ref} on input $(G,k)$, then\
+$DS(H,k') = VC(G,k)$.
+We split the proof into two parts. The _completeness_ part is that if $VC(G,k)=1$ then $DS(H,k')=1$.
+The _soundness_ part is that if $DS(H,k')=1$ then $VC(G,k)=1$.
+
+__Completeness.__ Suppose that $VC(G,k)=1$. Then there is a vertex cover $S \subseteq V$ of at most $k$ vertices.
+Let $I$ be the set of isolated vertices  in $G$ and $\ell$ be their number.
+Then $|S \cup I| \leq k +\ell$.
+We claim that $S \cup I$ is a dominating set in $H'$.
+Indeed for every vertex $v$ of $H'$ there are three cases:
+
+* __Case 1:__ $v$ is an isolated vertex of $G$. In this case $v$ is in $S \cup I$.
+
+* __Case 2:__ $v$ is a non-isolated vertex of $G$ and hence there is an edge $\{ u,v \}$ of $G$ for some $u$.
+  In this case since $S$ is a vertex cover, one of $u,v$ has to be in $S$, and hence either $v$ or a neighbor of $v$ has  to be in $S \subseteq S \cup I$.
+
+* __Case 3:__ $v$ is of the form $w_{u,u'}$ for some two neighbors $u,u'$ in $G$. But then since $S$ is a vertex cover, one of $u,u'$ has to be in $S$ and hence $S$ contains a neighbor of $v$.
+
+We conclude that $S \cup I$ is a dominating set of size at most $k'=k +\ell$ in $H'$ and hence under the assumption that $VC(G.k)=1$, $DS(H',k')=1$.
+
+__Soundness.__ Suppose that $DS(H,k')=1$. Then there is a dominating set $D$ of size at most $k' = k +\ell$ in $H$.
+For every edge $\{ u,v \}$ in the graph $G$, if $D$ contains the vertex $w_{u,v}$ then we remove this vertex and add $u$ in its place.
+The only two neighbors of $w_{u,v}$ are $u$ and $v$, and since $u$ is a neighbor of both $w_{u,v}$ and of $v$, replacing  $w_{u,v}$  with $v$ maintains the property that it is
+a dominating set.
+Moreover, this change cannot increase the size of $D$.
+Thus following this modification, we can assume that $D$ is a dominating set of at most $k+\ell$ vertices that does not contain any vertices of the 
+form $w_{u,v}$.
+
+Let $I$ be the set of isolated vertices in $G$.
+These vertices are also isolated in $H$ and hence must be included in $D$ (an isolated vertex must be in any dominating set, since it has no neighbors).
+We let $S = D \setminus I$. Then $|S| \leq I$.
+We claim that $S$ is a vertex cover in $G$.
+Indeed, for every edge $\{u,v\}$ of $G$, either the vertex $w_{u,v}$ or one of its neighbors must be in $S$ by the dominating set property.
+But since we ensured $S$ doesn't contain any of the vertices of the form $w_{u,v}$, it must be the case that either $u$ or $v$ is in $S$.
+This shows that $S$ is a vertex cover of $G$ of size at most $k$, hence proving that $VC(G,k)=1$.
+:::
+
+
+A corollary of [independentsettodsredalg](){.ref} and the other reduction we have seen so far is that if $DS \in \mathbf{P}$ (i.e., dominating set has a polynomial-time algorithm) then $3SAT \in \mathbf{P}$
+(i.e., $3SAT$ has a polynomial-time algorithm).
+By the contra-positive, if $3SAT$ does _not_ have a polynomial-time algorithm then neither does dominating set.
+
+![Python implementation of the reduction from vertex cover to dominating set, together with an example of an input graph and the resulting output graph.
+This reduction allows to transform a hypothetical polynomial-time algorithm for dominating set (a "whistling pig") into a hypothetical polynomial-time algorithm for vertex-cover (a "flying horse").](../figure/vctodsreduction.png){#vctodsreductionfig}
+
+
+### Anatomy of a reduction
+
+
+
+![The four components of a reduction, illustrated for the particular reduction of vertex cover to dominating set.
+A reduction from problem $F$ to problem $G$ is an algorithm that maps an input $x$ for $F$ into an input $R(x)$ for $G$.
+To show that the reduction is correct we need to show the properties of  _efficiency_: algorithm $R$ runs in polynomial time,
+_completeness_: if $F(x)=1$ then $G(R(x))=1$, and _soundness_: if $F(R(x))=1$ then $G(x)=1$.](../figure/reductionanatomy.png){#reductionanatomyfig}
+
+The reduction of [dominatingsetex](){.ref} gives a good illustration of the anatomy of a reduction.
+A reduction consists of four parts:
+
+
+* __Algorithm description:__ This is the description of _how_ the algorithm maps an input into the output. For example,  in [dominatingsetex](){.ref} this is the description of how we map an instance $(G,k)$
+  of the _vertex cover_ problem into an instance $(H,k')$ of the _dominating set_ problem.
+
+
+* __Algorithm analysis:__ It is not enough to describe _how_ the algorithm works but we need to also explain _why_ it works. In particular we need to provide an  _analysis_ explaining why the reduction is both _efficient_ (i.e., runs in polynomial time) and _correct_ (satisfies that $G(R(x)=F(x)$ for every $x$)). Specifically, the components of analysis of a reduction $R$ include:
+  
+  * __Efficiency:__ We need to show that $R$ runs in polynomial time. In most reductions we encounter this part is straightforward, as the reductions we typically use involve a constant number of nested loops, each involving a constant number of operations. For example, the reduction of [dominatingsetex](){.ref} just enumerates over the edges and vertices of the input graph.
+
+  * __Completeness:__ In a reduction $R$ demonstrating $F \leq_p G$, the _completeness_ condition is the condition that for every $x\in \{0,1\}^*$, if $F(x) = 1$ then $G(R(x))=1$. Typically we construct the reduction to ensure that this holds, by giving a way to map a "certificate/solution" certifying that $F(x)=1$ into a solution certifying that $G(R(x))=1$.
+    For example, in [dominatingsetex](){.ref} we constructed the graph $H$ such that for every vertex cover $S$ in $G$, the set $S \cup I$ (where $I$ is the isolated vertices) would be a dominating set in $H$.
+
+  
+
+  * __Soundness:__ This is the condition that if $F(x)=0$ then $G(R(x))=0$ or (taking the contrapositive) if $G(R(x))=1$ then $F(x)=1$. This is sometimes straightforward but can often be  harder to show than the completeness condition, and in more advanced reductions (such as the reduction $SAT \leq_p ISET$ of [isetnpc](){.ref}) demonstrating soundness is the main part of the analysis.
+  For example, in [dominatingsetex](){.ref} to show soundness we needed to show that for _every_ dominating set $D$ in the graph $H$, there exists a vertex cover $S$ of size at most $|D|-\ell$ in the graph $G$ (where $\ell$ is the number of isolated vertices).
+  This was challenging since the dominating set $D$ might not be necessarily the one we "had in mind".
+  In particular, in the proof above we needed to modify $D$ to ensure that it does not contain vertices of the form $w_{u,v}$, and it was important to show that this modification still maintains the property that $D$ is a dominating set, and also does not make it bigger.
+
+Whenever you need to provide a reduction, you should make sure that your description has all these components. While it is sometimes tempting to weave together the description of the reduction and its analysis, it is usually clearer if you separate the two, and also break down the analysis to its three components of efficiency, completeness, and soundness.
+
+
 
 
 

@@ -4,7 +4,7 @@ filename: "lec_10_efficient_alg"
 chapternum: "12"
 ---
 
-#  Efficient computation { #chapefficient }
+#  Efficient computation: An informal introduction { #chapefficient }
 
 > ### { .objectives }
 * Describe at a high level some interesting computational problems. \
@@ -38,18 +38,23 @@ This will allow us to ask (and sometimes answer) questions such as:
 The running time of an algorithm is not a _number_, it is a _function_ of the length of the input.
 :::
 
-We will see the precise definition of running time (using Turing machines and RAM machines / NAND-RAM) in [chapmodelruntime](){.ref}.
+
+::: {.nonmath}
 In this chapter, we informally  survey examples of computational problems.
 For some of these problems  we know efficient (i.e., $O(n^c)$-time for a small constant $c$) algorithms, and for others the best known algorithms are _exponential_.
+
 We present these examples to get a feel as to the kinds of problems that lie on each side of this divide and also see how sometimes seemingly minor changes in problem formulation can make the (known) complexity of a problem "jump" from polynomial to exponential.
 We do not formally define the notion of running time in this chapter, but use the same "I know it when I see it" notion of an $O(n)$ or $O(n^2)$ time algorithms as the one you've seen in introduction to computer science courses.
+We will see the precise definition of running time (using Turing machines and RAM machines / NAND-RAM) in [chapmodelruntime](){.ref}.
+:::
 
-While the difference between $O(n)$ and $O(n^2)$ time can be crucial in practice, 
-we focus on the even bigger difference between _polynomial_ and _exponential_ running time.
-One advantage is that, as we will see, questions about polynomial versus exponential time are often _insensitive_ to the choice of the particular computational model, just as the question of whether a function $F$ is computable is insensitive to whether you use Turing machines, $\lambda$-calculus, or Javascript as your model of computation.
+
+While the difference between $O(n)$ and $O(n^2)$ time can be crucial in practice,  in this book we focus on the even bigger difference between _polynomial_ and _exponential_ running time.
+As we will see, the difference between polynomial versus exponential time is typically  _insensitive_ to the choice of the particular computational model, a polynomial-time algorithm is still polynomial whether you use Turing machines, RAM machines, or parallel cluster as your model of computation,
+and similarly an exponential-time algorithm will remain exponential in all of these platforms.
 One of the interesting phenomena of computing is that there is often a kind of a "threshold phenomenon" or "zero-one law" for running time.
 Many natural problems can either be solved in _polynomial_ running time with a _not-too-large exponent_ (e.g., something like $O(n^2)$ or $O(n^3)$), or require _exponential_ (e.g., at least $2^{\Omega(n)}$ or $2^{\Omega(\sqrt{n})}$) time to solve.
-The reasons for this phenomenon are still not fully understood, but some light on this is shed by the concept of _NP completeness_, which we will see in [cooklevinchap](){.ref}.
+The reasons for this phenomenon are still not fully understood, but some light on it is shed by the concept of _NP completeness_, which we will see in [cooklevinchap](){.ref}.
 
 This chapter is merely a tiny sample of the landscape of computational problems and efficient algorithms.
 If you  want to explore the field of algorithms and data structures  more deeply (which I very much hope you do!), the bibliographical notes contain references to some excellent texts, some of which are available freely on the web.
