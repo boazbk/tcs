@@ -376,7 +376,7 @@ That is, $3SAT(\varphi) = ISET(G,k)$,
 Initialize $V \leftarrow \emptyset, E \leftarrow \emptyset$
 For {every clause $C = y \vee y' \vee y''$ of $\varphi$}
   Add three vertices $(C,y),(C,y'),(C,y'')$ to $V$
-  Add edges $\{ (C,y), (C,y') \}$, ${(C,y'),(C,y'') \}$, $\{ (C,y''), (C,y) \}$ to $E$.
+  Add edges $\{ (C,y), (C,y') \}$, $\{(C,y'),(C,y'') \}$, $\{ (C,y''), (C,y) \}$ to $E$.
 endfor
 for {every distinct clauses $C,C'$ in $\varphi$}
   for {every $i\in [n]$}
@@ -533,7 +533,7 @@ That is, $DS(H,k') = ISET(G,k)$,
 Initialize $V' \leftarrow V, E' \leftarrow V$
 For {every edge $\{u,v\} \in E$}
   Add vertex $w_{u,v}$ to $V'$
-  Add edges $\{ u, w_{u,v \}$, $\{ v, w_{u,v} \}$  to $E'$.
+  Add edges $\{ u, w_{u,v} \}$, $\{ v, w_{u,v} \}$  to $E'$.
 endfor
 Let $\ell \leftarrow$ number of isolated vertices in $G$
 return $( H=(V',E') \;,\;  k+\ell)$
