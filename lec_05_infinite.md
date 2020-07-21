@@ -547,7 +547,7 @@ Specifically, each one of our operations -concatenation, OR, and star- can be th
 
 
 ``` { .algorithm title="Regular expression matching" #regexpmatchalg }
-INPUT: Regular expressoin $e$ over $\Sigma^*$, $x\in \Sigma^*$
+INPUT: Regular expression $e$ over $\Sigma^*$, $x\in \Sigma^*$
 
 OUTPUT:  $\Phi_e(x)$
 
