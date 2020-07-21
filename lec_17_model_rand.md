@@ -311,7 +311,7 @@ $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$.
 That is, for every $F\in \mathbf{BPP}$, there exist some $a,b\in \N$ such that for every $n>0$, $F_{\upharpoonright n} \in SIZE(an^b)$ where $F_{\upharpoonright n}$ is the restriction of $F$ to inputs in $\{0,1\}^n$.
 
 
-> ### {.proofidea data-ref="rnandthm"}
+> ### {.proofidea #proofidea-rnandthm data-ref="rnandthm"}
 The idea behind the proof is that we can first amplify by repetition the probability of success from $2/3$ to $1-0.1 \cdot 2^{-n}$.
 This will allow us to show that for every $n\in\N$ there exists a _single fixed choice_ of "favorable coins" which is a string $r$ of length polynomial in $n$ such that if $r$ is used for the randomness then we output the right answer on _all_ of the possible $2^n$ inputs.
 We can then use the standard "unravelling the loop" technique to transform an RNAND-TM program to an RNAND-CIRC program, and  "hardwire" the favorable choice of random coins to transform the RNAND-CIRC program into a plain old deterministic NAND-CIRC program.
@@ -483,7 +483,7 @@ We now show that optimal pseudorandom generators are indeed very useful, by prov
 > ### {.theorem title="Derandomization of BPP" #derandBPPthm}
 Suppose that the optimal PRG conjecture is true. Then $\mathbf{BPP}=\mathbf{P}$.
 
-> ### {.proofidea data-ref="derandBPPthm"}
+> ### {.proofidea #prg-pause data-ref="derandBPPthm"}
 The optimal PRG conjecture tells us that we can achieve _exponential expansion_ of $\ell$ truly random coins into as many as $2^{\delta \ell}$ "pseudorandom coins."
 Looked at from the other direction, it allows us to reduce the need for randomness by taking an algorithm that uses $m$ coins and converting it into an algorithm that only uses $O(\log m)$ coins.
 Now an algorithm of the latter type by can be made fully deterministic by enumerating over all the $2^{O(\log m)}$ (which is polynomial in $m$) possibilities for its random choices.

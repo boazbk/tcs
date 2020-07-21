@@ -189,7 +189,7 @@ For every CFG $(V,R,s)$ over $\{0,1\}$, the function $\Phi_{V,R,s}:\{0,1\}^* \ri
 
 As usual we restrict attention to grammars over $\{0,1\}$ although the proof extends to any finite alphabet  $\Sigma$.
 
-::: {.proof data-ref="CFGhalt"}
+::: {.proof #proofofcfghalt data-ref="CFGhalt"}
 We only sketch the proof.
 We start with the observation we can convert every CFG to an equivalent version of _Chomsky normal form_, where all rules either have the form $u \rightarrow vw$ for variables $u,v,w$ or the form $u \rightarrow \sigma$ for a variable $u$ and symbol $\sigma \in \Sigma$, plus potentially the rule $s \rightarrow ""$ where $s$ is the starting variable.
 
@@ -221,7 +221,7 @@ Context free grammars can capture every regular expression:
 > ### {.theorem title="Context free grammars and regular expressions" #CFGreg}
 Let $e$ be a regular expression over $\{0,1\}$, then there is a CFG $(V,R,s)$ over $\{0,1\}$ such that $\Phi_{V,R,s}=\Phi_{e}$.
 
-::: {.proof data-ref="CFGreg"}
+::: {.proof #proofofCFGreg data-ref="CFGreg"}
 We prove the theorem by induction on the length of $e$.
 If $e$ is an expression of one bit length, then $e=0$ or $e=1$, in which case we leave it to the reader to verify that there is a (trivial) CFG that computes it.
 Otherwise, we fall into one of the following case: __case 1:__ $e = e'e''$, __case 2:__ $e = e'|e''$ or __case 3:__ $e=(e')^*$ where in all cases $e',e''$ are shorter regular expressions.
@@ -292,7 +292,7 @@ Let $(V,R,s)$ be a CFG over $\Sigma$, then there is some numbers $n_0,n_1 in \N$
 The context-free pumping lemma is even more cumbersome to state than its regular analog, but you can remember it as saying the following: _"If a long enough string is matched by a grammar, there must be a variable that is repeated in the derivation."_
 :::
 
-::: {.proof data-ref="cfgpumping"}
+::: {.proof #proofofcfgpumping data-ref="cfgpumping"}
 We only sketch the proof. The idea is that if the total number of symbols in the rules of the grammar is $k_0$, then the only way to get $|x|>n_0$ with $\Phi_{V,R,s}(x)=1$ is to use _recursion_.
 That is, there must be some variable $v \in V$ such that we are able to derive from $v$ the value $bvd$ for some strings $b,d \in \Sigma^*$, and then further on derive from $v$ some string $c\in \Sigma^*$ such that $bcd$ is a substring of $x$ (in other words, $x=abcde$ for some $a,e \in \{0,1\}^*$). If we take the variable $v$ satisfying this requirement with a minimum number of derivation steps, then we can ensure that $|bcd|$ is at most some constant depending on $n_0$ and we can set $n_1$ to be that constant ($n_1=10 \cdot |R| \cdot n_0$ will do, since we will not need more than $|R|$ applications of rules, and each such application can grow the string by at most $n_0$ symbols).
 
