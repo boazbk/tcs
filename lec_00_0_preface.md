@@ -90,7 +90,7 @@ In particular, Boolean Circuits are a prerequisite for many concepts that one wo
 Even in cases where Boolean Circuits are not strictly required, they can often offer significant simplifications (as in the case of the proof of the Cook-Levin Theorem).
 
 Furthermore, I believe there are pedagogical reasons to start with Boolean circuits as opposed to finite automata.
-Boolean circuits are a more natural model of computation, and one that corresponds more closely to computing in Silicon, making the connection to practice more immediate to the students.
+Boolean circuits are a more natural model of computation, and one that corresponds more closely to computing in silicon, making the connection to practice more immediate to the students.
 Finite functions are arguably easier to grasp than infinite ones, as we can fully write down their truth table.
 The theorem that _every_ finite function can be computed by some Boolean circuit is both simple enough and important enough to serve as an excellent starting point for this course.
 Moreover, many of the main conceptual points of the theory of computation, including the notions of the duality between _code_ and _data_, and the idea of _universality_, can already be seen in this context.
