@@ -609,7 +609,7 @@ This makes sense, since in practice we often want to compute $\Phi_e(x)$ for a s
 We prove [reglintimethm](){.ref} by obtaining more efficient recursive algorithm, that determines whether $e$ matches a string $x\in \{0,1\}^n$  by reducing this task to determining whether a related expression $e'$ matches $x_0,\ldots,x_{n-1}$.
 This will result in an expression for the running time of the form $T(n) = T(n-1) + O(1)$ which solves to $T(n)=O(n)$.
 
-__Restrictions of regular expressions.__  The central definition for the algorithm behind [[reglintimethm](){.ref}](){.ref}  is the notion of a _restriction_ of a regular expression.
+__Restrictions of regular expressions.__  The central definition for the algorithm behind [reglintimethm](){.ref} is the notion of a _restriction_ of a regular expression.
 The idea is that for every regular expression $e$ and symbol $\sigma$ in its alphabet, it is possible to define a regular expression $e[\sigma]$ such that $e[\sigma]$ matches a string $x$ if and only if $e$ matches the string $x\sigma$. 
 For example, if $e$ is the regular expression $01|(01)*(01)$ (i.e., one or more occurrences of $01$) then $e[1]$ is equal to  $0|(01)*0$ and $e[0]$ will be $\emptyset$. (Can you see why?)
 
@@ -846,7 +846,7 @@ Then the function $G(x) = f(F_0(x),F_1(x),\ldots,F_{k-1}(x))$ is regular.
 
 
 ::: {.proof data-ref="closurereg"}
-This is a direct consequence of the closure of regular functions under OR and NOT (and hence AND) and [[circuit-univ-thm](){.ref}](){.ref}, that states that every $f$ can be computed by a Boolean circuit (which is simply a combination of the AND, OR, and NOT operations).
+This is a direct consequence of the closure of regular functions under OR and NOT (and hence AND) and [circuit-univ-thm](){.ref}, that states that every $f$ can be computed by a Boolean circuit (which is simply a combination of the AND, OR, and NOT operations).
 :::
 
 
@@ -1096,7 +1096,7 @@ One among the following two functions that map $\{0,1\}^*$ to $\{0,1\}$ can be c
 
 
 The relation of regular expressions with finite automata is a beautiful topic, on which we only touch upon in this text.
-It is covered more extensively in [@SipserBook, @hopcroft , @kozen1997automata].
+It is covered more extensively in [@SipserBook, @hopcroft, @kozen1997automata].
 These texts also discuss topics such as _non deterministic finite automata_ (NFA) and the relation between context-free grammars and pushdown automata.
 
 The automaton of [dfazeroonefig](){.ref} was generated using the [FSM simulator](http://ivanzuzak.info/noam/webapps/fsm_simulator/) of Ivan Zuzak and Vedrana Jankovic.

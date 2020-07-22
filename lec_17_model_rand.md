@@ -667,7 +667,7 @@ $$
 $$
 is at most $2^{-T^2}$.
 
-[{eq:prgchernoff}](){.eqref} follows directly from the Chernoff bound.
+[eq:prgchernoff](){.eqref} follows directly from the Chernoff bound.
 Indeed, if we let for every $i\in  [L]$  the random variable $X_i$ denote $P(y_i)$, then since $y_0,\ldots,y_{L-1}$ is chosen independently at random, these are independently and identically distributed random variables with mean $\E_{y \sim \{0,1\}^m}[P(y)]= \Pr_{y\sim \{0,1\}^m}[ P(y)=1]$ and hence the probability that they deviate from their expectation by $\epsilon$ is at most $2\cdot 2^{-\epsilon^2 L/2}$.
 :::
 
