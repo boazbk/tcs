@@ -542,7 +542,7 @@ texts that are less "encyclopedic" are  Kleinberg and Tardos [@KleinbergTardos06
 
 The origins of the minimum cut problem date to the Cold War. Specifically, Ford and Fulkerson discovered their max-flow/min-cut algorithm in 1955 as a way to find out the minimum amount of train tracks that would need to be blown up to disconnect Russia from the rest of Europe. See the survey [@schrijver2005history] for more.
 
-Some algorithms for the longest path problem are given in [@williams2009finding , @bjorklund2014determinant].
+Some algorithms for the longest path problem are given in [@williams2009finding, @bjorklund2014determinant].
 
 
 

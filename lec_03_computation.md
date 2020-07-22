@@ -632,7 +632,7 @@ Indeed, as we will see in [quantumchap](){.ref}, a very exciting recent line of 
 
 ![Crab-based logic gates from the paper "Robust soldier-crab ball gate" by Gunji, Nishiyama and Adamatzky. This is an example of an AND gate that relies on the tendency of two swarms of crabs arriving from different directions to combine to a single swarm that continues in the average of the directions.](../figure/crab-gate.jpg){#crabfig .margin}
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Such a cool way to explain logic gates. <a href="https://t.co/6Wgu2ZKFCx">pic.twitter.com/6Wgu2ZKFCx</a></p>&mdash; Lionel Page (@page_eco) <a href="https://twitter.com/page_eco/status/1188749430020698112?ref_src=twsrc%5Etfw">October 28, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Such a cool way to explain logic gates. <a href="https://t.co/6Wgu2ZKFCx">pic.twitter.com/6Wgu2ZKFCx</a></p>&mdash; Lionel Page (\@page_eco) <a href="https://twitter.com/page_eco/status/1188749430020698112?ref_src=twsrc%5Etfw">October 28, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 ### Transistors

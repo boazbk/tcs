@@ -196,7 +196,7 @@ To make this more robust we add a prefix to the internal variables used by `Proc
 
 The code of the Python function `desugar` below achieves such a  transformation.
 
-``` { .python title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
+``` { .python .full #desugarcode title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
 def desugar(code, func_name, func_args,func_body):
     """
     Replaces all occurences of 
