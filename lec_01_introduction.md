@@ -441,9 +441,10 @@ b. Prove that the number of single-digit operations that Karatsuba's algorithm t
 
 :::
 
-> ### {.exercise }
+::: {.exercise }
 Implement in the programming language of your choice functions ```Gradeschool_multiply(x,y)``` and ```Karatsuba_multiply(x,y)``` that take two arrays of digits ```x``` and ```y``` and return an array representing the product of ```x``` and ```y``` (where ```x``` is identified with the number ```x[0]+10*x[1]+100*x[2]+...``` etc..) using the grade-school algorithm and the Karatsuba algorithm respectively. At what number of digits does the Karatsuba algorithm beat the grade-school one?
 
+:::
 
 ::: {.exercise title="Matrix Multiplication (optional, advanced)" #matrixex}
 In this exercise, we show that if for some $\omega>2$, we can write the product of two $k\times k$ real-valued matrices $A,B$ using at most $k^\omega$ multiplications, then we can multiply two $n\times n$ matrices in roughly $n^\omega$ time for every large enough $n$.
