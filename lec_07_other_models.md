@@ -1327,7 +1327,7 @@ Give an enhanced λ calculus expression to compute the function $zip$ that on in
 Thus $zip$ "zips together" these two lists of elements into a single list of pairs.^[The name $zip$ is a common name for this operation, for example in Python. It should not be confused with the `zip` compression file format.]
 :::
 
-::: {.exercise title="Next-step function without $RECURSE$" #lambdaturing-thm}
+::: {.exercise title="Next-step function without $RECURSE$" #exer-lambdaturing-thm}
 Let $M$ be a Turing machine. Give an enhanced λ calculus expression to compute the next-step function $NEXT_M$ of $M$ (as in the proof of [lambdaturing-thm](){.ref}) _without using $RECURSE$_. See footnote for hint.^[Use $MAP$ and $REDUCE$ (and potentially $FILTER$). You might also find the function $zip$ of [zipfunctionex](){.ref} useful.]
 :::
 

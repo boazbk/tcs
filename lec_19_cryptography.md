@@ -86,9 +86,9 @@ The idea is that once you guess the length of the cipher, you can reduce the tas
 analysis (can you see why?).
 Confederate generals used Vigenère regularly during the civil war, and their messages were routinely cryptanalzed by Union officers.
 
-![Confederate Cipher Disk for implementing the Vigenère cipher](../figure/confederate_cipher_disk.jpg){#tmplabelfig .margin}
+![Confederate Cipher Disk for implementing the Vigenère cipher](../figure/confederate_cipher_disk.jpg){#tmplabelfig1 .margin}
 
-![Confederate encryption of the message  "Gen'l Pemberton: You can expect no help from this side of the river. Let Gen'l Johnston know, if possible, when you can attack the same point on the enemy's lines. Inform me also and I will endeavor to make a diversion. I have sent some caps. I subjoin a despatch from General Johnston."](../figure/confederate_message.jpg ){#tmplabelfig .margin}
+![Confederate encryption of the message  "Gen'l Pemberton: You can expect no help from this side of the river. Let Gen'l Johnston know, if possible, when you can attack the same point on the enemy's lines. Inform me also and I will endeavor to make a diversion. I have sent some caps. I subjoin a despatch from General Johnston."](../figure/confederate_message.jpg ){#tmplabelfig2 .margin}
 
 
 The _Enigma_ cipher was a mechanical cipher (looking like a typewriter, see [enigmafig](){.ref}) where each letter typed would get mapped into a different letter depending on the (rather complicated) key and current state

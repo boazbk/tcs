@@ -399,7 +399,7 @@ Then $DFACOMP$ is countable.
 > ### {.proofidea data-ref="DFAcompuncountable"}
 Every DFA can be described by a finite length string, which yields an onto map from $\{0,1\}^*$ to $DFACOMP$: namely the function that maps a string describing an automaton $A$ to the function that it computes.
 
-::: {.proof data-ref="DFAcompuncountable"}
+::: {.proof #proof-DFAcompuncountable data-ref="DFAcompuncountable"}
 Every DFA can be described by a finite string, representing the transition function $T$ and the set of accepting states,
 and every DFA $A$ computes _some_ function $F:\{0,1\}^* \rightarrow \{0,1\}$.
 Thus we can define the following function $StDC:\{0,1\}^* \rightarrow DFACOMP$:
@@ -1092,7 +1092,7 @@ One among the following two functions that map $\{0,1\}^*$ to $\{0,1\}$ can be c
 :::
 
 
-## Bibliographical notes { #chaploopnotes }
+## Bibliographical notes { #chapinfinitenotes }
 
 
 The relation of regular expressions with finite automata is a beautiful topic, on which we only touch upon in this text.

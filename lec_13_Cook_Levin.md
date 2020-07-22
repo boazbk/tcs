@@ -378,7 +378,7 @@ Since we know that $F(x^*)=1$ if and only if there exists $w\in \{0,1\}^m$ such 
 
 
 
-## The $3NAND$ problem
+## The $3NAND$ problem  { #threenand }
 
 The $3NAND$ problem is defined as follows: 
 
@@ -403,7 +403,7 @@ $NANDSAT \leq_p 3NAND$.
 
 
 
-> ### {.proofidea data-ref="threenand-thm"}
+> ### {.proofidea #proofidea-threenand-thm data-ref="threenand-thm"}
 To prove [threenand-thm](){.ref} we need to give a polynomial-time map from every NAND-CIRC program $Q$ to a 3NAND formula $\Psi$ such that there exists $w$ such that $Q(w)=1$ if and only if there exists $z$ satisfying $\Psi$.
 For every line $i$ of $Q$, we define a corresponding variable $z_i$ of $\Psi$.
 If the line $i$ has the form `foo = NAND(bar,blah)` then we will add the clause $z_i = NAND(z_j,z_k)$ where $j$ and $k$ are the last lines in which `bar` and `blah` were written to. We will also set variables corresponding to the input variables, as well as add a clause to ensure that the final output is $1$.
@@ -414,7 +414,7 @@ The resulting reduction can be implemented in about a dozen lines of Python, see
 ![Python code to reduce an instance $Q$ of $NANDSAT$ to an instance $\Psi$ of $3NAND$. In the example above we transform the NAND-CIRC program `xor5` which has $5$ input variables and $16$ lines, into a $3NAND$ formula $\Psi$ that has $24$ variables and $20$ clauses. Since `xor5` outputs $1$ on the input $1,0,0,1,1$, there exists an assignment $z \in \{0,1\}^{24}$ to $\Psi$ such that $(z_0,z_1,z_2,z_3,z_4)=(1,0,0,1,1)$ and $\Psi$ evaluates to _true_ on $z$. ](../figure/nandsatto3nandreduction.png){#nandsattothreenandfig  }
 
 
-::: {.proof data-ref="threenand-thm"}
+::: {.proof #proof-threenand-thm data-ref="threenand-thm"}
 To prove [threenand-thm](){.ref} we need to give a reduction from $NANDSAT$ to $3NAND$.
 Let  $Q$ be a NAND-CIRC program with $n$ inputs, one output, and  $m$ lines.
 We can assume without loss of generality that $Q$ contains the variables `one` and `zero` as usual.
