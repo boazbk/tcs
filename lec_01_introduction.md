@@ -451,7 +451,7 @@ In this exercise, we show that if for some $\omega>2$, we can write the product 
 
 To make this precise, we need to make some notation that is unfortunately somewhat cumbersome. Assume that there is some $k\in \N$ and $m \leq k^\omega$ such that for every $k\times k$ matrices $A,B,C$ such that $C=AB$, we can write for every $i,j \in [k]$:
 $$
-C_{i,j} = \sum_{\ell=0}^m \alpha_{i,j}^\ell f_\ell(A)g_\ell(B)
+C_{i,j} = \sum_{\ell=0}^{m-1} \alpha_{i,j}^\ell f_\ell(A)g_\ell(B)
 $$
 for some linear functions $f_0,\ldots,f_{m-1},g_0,\ldots,g_{m-1}:\mathbb{R}^{n^2} \rightarrow \mathbb{R}$ and coefficients $\{ \alpha_{i,j}^\ell \}_{i,j \in [k],\ell \in [m]}$.
 Prove that under this assumption for every $\epsilon>0$, if $n$ is sufficiently large, then there is an algorithm that computes the product of two $n\times n$ matrices using at most $O(n^{\omega+\epsilon})$ arithmetic operations. See footnote for hint.^[Start by showing this for the case that $n=k^t$ for some natural number $t$, in which case you can do so recursively by breaking the matrices into $k\times k$ blocks.]
