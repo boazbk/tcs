@@ -311,7 +311,7 @@ hence establishing  [cook-levin-thm](){.ref}.
 
 We will prove these three results [nand-thm](){.ref}, [threenand-thm](){.ref} and  [threenand-sat-thm](){.ref} one by one, providing the requisite definitions as we go along.
 
-## The $NANDSAT$ Problem, and why it is $\mathbf{NP}$ hard.
+## The $NANDSAT$ Problem, and why it is $\mathbf{NP}$ hard
 
 The function $NANDSAT:\{0,1\}^* \rightarrow \{0,1\}$ is defined as follows:
 
