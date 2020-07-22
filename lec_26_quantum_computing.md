@@ -234,7 +234,7 @@ As counter-intuitive as these concepts are, they have been experimentally confir
 
 The discussion in this chapter of quantum mechanics in general and quantum computing in particular is quite brief and superficial, the  "bibliographical notes" section ([quantumbibnotessec](){.ref}) contains references and links to many other resources that cover this material in more depth.
 
-## Quantum computing and computation - an executive summary.
+## Quantum computing and computation - an executive summary
 
 One of the strange aspects of the quantum-mechanical picture of the world is that unlike in the billiard ball example, there is no obvious algorithm to simulate the evolution of $n$ particles over $t$ time periods in $poly(n,t)$ steps.
 In fact, the natural way to simulate $n$ quantum particles will require a number of steps that is _exponential_ in $n$.

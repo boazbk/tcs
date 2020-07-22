@@ -35,7 +35,7 @@ We will describe the algorithms in an informal / "pseudo-code" way, rather than 
 In [chapmodelrand](){.ref} we will discuss how to augment the computational models we say before to incorporate the ability to "toss coins".
 
 
-## Finding approximately good maximum cuts.
+## Finding approximately good maximum cuts
 
 We start with the following example.
 Recall the _maximum cut problem_ of finding, given a graph $G=(V,E)$, the cut that maximizes the number of edges.
@@ -283,7 +283,7 @@ Since any single iteration of the outer loop succeeds with probability at least 
 
 ![For every $x^* \in \{0,1\}^n$, we can sort all strings in $\{0,1\}^n$ according to their distance from $x^*$ (top to bottom in the above figure), where we let $A = \{ x\in \{0,1\}^n \;|\; dist(x,x^* \leq n/2 \}$ be the "top half" of strings. If we define $FLIP:\{0,1\}^n \rightarrow \{0,1\}$ to be the map that "flips" the bits of a given string $x$ then it maps every $x\in \overline{A}$ to an output $FLIP(x)\in A$ in a one-to-one way, and so it demonstrates that $|\overline{A}| \leq |A|$ which implies that $\Pr[A] \geq \Pr[\overline{A}]$ and hence $\Pr[A] \geq 1/2$.](../figure/flipaanalysis.png){#flipaanalysisfig .margin  }
 
-### Bipartite matching.
+### Bipartite matching
 
 The _matching_ problem is one of the canonical optimization problems, arising in all kinds of applications: matching residents with hospitals, kidney donors with patients, flights with crews, and many others.
 One prototypical variant is _bipartite perfect matching_.

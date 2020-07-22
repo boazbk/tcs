@@ -319,7 +319,7 @@ But at least we now know the right way to _ask_ it.
 
 
 
-## On the importance of negative results.
+## On the importance of negative results
 
 Finding better algorithms for problems such as multiplication, solving equations, graph problems, or fitting neural networks to data, is undoubtedly a worthwhile endeavor.
 But why is it important to prove that such algorithms _don't_ exist?
