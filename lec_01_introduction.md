@@ -50,7 +50,7 @@ MMMMMMMMMMMMMMMMMMMDCCCCLVI
 Writing the distance to the sun in Roman numerals would require about 100,000 symbols: a 50-page book just containing this single number!
 
 For someone who thinks of numbers in an additive system like Roman numerals, quantities like the distance to the moon or sun are not merely large---they are _unspeakable_: cannot be expressed or even grasped.
-It's no wonder that Eratosthenes, who was the first person to calculate the earth's diameter (up to about ten percent error) and Hipparchus who was the first to calculate the distance to the moon, did not use a Roman-numeral type system but rather the Babylonian sexadecimal (i.e., base 60) place-value system.
+It's no wonder that Eratosthenes, who was the first person to calculate the earth's diameter (up to about ten percent error) and Hipparchus who was the first to calculate the distance to the moon, did not use a Roman-numeral type system but rather the Babylonian sexagesimal (i.e., base 60) place-value system.
 
 ## Integer multiplication: an example of an algorithm
 
@@ -141,7 +141,7 @@ However, we describe Karatsuba's algorithm below since it is a good example of h
 
 Karatsuba's algorithm is based on a faster way to multiply _two-digit_ numbers.
 Suppose that $x,y \in [100]=\{0,\ldots, 99 \}$ are a pair of two-digit numbers.
-Let's write $\overline{x}$ for the "tens" digit of $x$, and $\underline{x}$ for the "ones" digit, so that $x = 10\overline{x} + \underline{x}$, and write similarly $y = 10\overline{y} + \underline{y}$ for $\overline{y},\underline{y} \in [10]$.
+Let's write $\overline{x}$ for the "tens" digit of $x$, and $\underline{x}$ for the "ones" digit, so that $x = 10\overline{x} + \underline{x}$, and write similarly $y = 10\overline{y} + \underline{y}$ for $\overline{x},\underline{x},\overline{y},\underline{y} \in [10]$.
 The grade-school algorithm for multiplying $x$ and $y$ is illustrated in [gradeschoolmult](){.ref}.
 
 ![The grade-school multiplication algorithm illustrated for multiplying $x=10\overline{x}+\underline{x}$ and $y=10\overline{y}+\underline{y}$. It uses the formula $(10\overline{x}+\underline{x}) \times (10 \overline{y}+\underline{y}) = 100\overline{x}\overline{y}+10(\overline{x}\underline{y} + \underline{x}\overline{y}) + \underline{x}\underline{y}$.](../figure/gradeschoolmult.png){#gradeschoolmult .margin  }
@@ -386,7 +386,7 @@ This book is divided into the following parts, see [dependencystructurefig](){.r
 
 * __Part V: Advanced topics:__ Cryptography, proofs and algorithms (interactive and zero knowledge proofs, Curry-Howard correspondence), quantum computing.
 
-![The dependency structure of the different parts. Part I introduces the model of Boolean circuits to study _finite functions_ with an emphasis on _quantitative_ questions (how many gates to compute a function).  Part II introduces the model of Turing machines to study functions that have _unbounded input lengths_ with an emphasis on _qualitative_ questions (is this function computable or not). Much of Part II does not depend on Part I, as Turing machines can be used as the first computational model. Part III depends on both parts as it introduces a _quantitative_ study of functions with unbounded input length. The more advancec parts IV (randomized computation) and V (advanced topics) rely on the material of Parts I, II and III.](../figure/dependencystructure.png){#dependencystructurefig   }
+![The dependency structure of the different parts. Part I introduces the model of Boolean circuits to study _finite functions_ with an emphasis on _quantitative_ questions (how many gates to compute a function).  Part II introduces the model of Turing machines to study functions that have _unbounded input lengths_ with an emphasis on _qualitative_ questions (is this function computable or not). Much of Part II does not depend on Part I, as Turing machines can be used as the first computational model. Part III depends on both parts as it introduces a _quantitative_ study of functions with unbounded input length. The more advanced parts IV (randomized computation) and V (advanced topics) rely on the material of Parts I, II and III.](../figure/dependencystructure.png){#dependencystructurefig   }
 
 
 The book largely proceeds in linear order, with each chapter building on the previous ones, with the following exceptions:
@@ -441,16 +441,17 @@ b. Prove that the number of single-digit operations that Karatsuba's algorithm t
 
 :::
 
-> ### {.exercise }
+::: {.exercise }
 Implement in the programming language of your choice functions ```Gradeschool_multiply(x,y)``` and ```Karatsuba_multiply(x,y)``` that take two arrays of digits ```x``` and ```y``` and return an array representing the product of ```x``` and ```y``` (where ```x``` is identified with the number ```x[0]+10*x[1]+100*x[2]+...``` etc..) using the grade-school algorithm and the Karatsuba algorithm respectively. At what number of digits does the Karatsuba algorithm beat the grade-school one?
 
+:::
 
 ::: {.exercise title="Matrix Multiplication (optional, advanced)" #matrixex}
 In this exercise, we show that if for some $\omega>2$, we can write the product of two $k\times k$ real-valued matrices $A,B$ using at most $k^\omega$ multiplications, then we can multiply two $n\times n$ matrices in roughly $n^\omega$ time for every large enough $n$.
 
 To make this precise, we need to make some notation that is unfortunately somewhat cumbersome. Assume that there is some $k\in \N$ and $m \leq k^\omega$ such that for every $k\times k$ matrices $A,B,C$ such that $C=AB$, we can write for every $i,j \in [k]$:
 $$
-C_{i,j} = \sum_{\ell=0}^m \alpha_{i,j}^\ell f_\ell(A)g_\ell(B)
+C_{i,j} = \sum_{\ell=0}^{m-1} \alpha_{i,j}^\ell f_\ell(A)g_\ell(B)
 $$
 for some linear functions $f_0,\ldots,f_{m-1},g_0,\ldots,g_{m-1}:\mathbb{R}^{n^2} \rightarrow \mathbb{R}$ and coefficients $\{ \alpha_{i,j}^\ell \}_{i,j \in [k],\ell \in [m]}$.
 Prove that under this assumption for every $\epsilon>0$, if $n$ is sufficiently large, then there is an algorithm that computes the product of two $n\times n$ matrices using at most $O(n^{\omega+\epsilon})$ arithmetic operations. See footnote for hint.^[Start by showing this for the case that $n=k^t$ for some natural number $t$, in which case you can do so recursively by breaking the matrices into $k\times k$ blocks.]
