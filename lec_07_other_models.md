@@ -325,7 +325,7 @@ We can use a simpler model such as Turing machines when we want to prove somethi
 
 
 
-### Let's talk about abstractions.
+### Let's talk about abstractions
 
 >"The programmer is in the unique position that ... he has to be able to think in terms of conceptual hierarchies that are much deeper than a single mind ever needed to face before.", Edsger Dijkstra, "On the cruelty of really teaching computing science", 1988.
 
@@ -691,7 +691,7 @@ By our rules of associativity, this is the same as $(f a b)$ which we'll sometim
 
 
 
-### Formal description of the λ calculus.
+### Formal description of the λ calculus
 
 We now provide a formal description of the λ calculus.
 We start with  "basic expressions" that contain a single variable such as $x$ or $y$ and build more complex expressions of the form $(e \; e')$ and $\lambda x.e$ where $e,e'$ are expressions and $x$ is a variable idenifier.
@@ -1327,7 +1327,7 @@ Give an enhanced λ calculus expression to compute the function $zip$ that on in
 Thus $zip$ "zips together" these two lists of elements into a single list of pairs.^[The name $zip$ is a common name for this operation, for example in Python. It should not be confused with the `zip` compression file format.]
 :::
 
-::: {.exercise title="Next-step function without $RECURSE$" #lambdaturing-thm}
+::: {.exercise title="Next-step function without $RECURSE$" #exer-lambdaturing-thm}
 Let $M$ be a Turing machine. Give an enhanced λ calculus expression to compute the next-step function $NEXT_M$ of $M$ (as in the proof of [lambdaturing-thm](){.ref}) _without using $RECURSE$_. See footnote for hint.^[Use $MAP$ and $REDUCE$ (and potentially $FILTER$). You might also find the function $zip$ of [zipfunctionex](){.ref} useful.]
 :::
 

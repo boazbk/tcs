@@ -72,7 +72,7 @@ Perhaps you will come across a hard problem and realize it is NP complete, or fi
 This might very well be true, but the main benefit of this book is not in teaching you any practical tool or technique, but instead in giving you a _different way of thinking_: an ability to recognize computational phenomena even when they occur in non-obvious settings, a way to model computational tasks and questions, and to reason about them.
 
 
-Regardless of any use you will derive from this book. I believe learning this material is important because it contains concepts that are both beautiful and fundamental.
+Regardless of any use you will derive from this book, I believe learning this material is important because it contains concepts that are both beautiful and fundamental.
 The role that _energy_ and _matter_ played in the 20th century is played in the 21st by _computation_ and _information_, not just as tools for our technology and economy, but also as the basic building blocks we use to understand the world.
 This book will give you a taste of some of the theory behind those, and hopefully spark your curiosity to study more.
 
@@ -90,7 +90,7 @@ In particular, Boolean Circuits are a prerequisite for many concepts that one wo
 Even in cases where Boolean Circuits are not strictly required, they can often offer significant simplifications (as in the case of the proof of the Cook-Levin Theorem).
 
 Furthermore, I believe there are pedagogical reasons to start with Boolean circuits as opposed to finite automata.
-Boolean circuits are a more natural model of computation, and one that corresponds more closely to computing in Silicon, making the connection to practice more immediate to the students.
+Boolean circuits are a more natural model of computation, and one that corresponds more closely to computing in silicon, making the connection to practice more immediate to the students.
 Finite functions are arguably easier to grasp than infinite ones, as we can fully write down their truth table.
 The theorem that _every_ finite function can be computed by some Boolean circuit is both simple enough and important enough to serve as an excellent starting point for this course.
 Moreover, many of the main conceptual points of the theory of computation, including the notions of the duality between _code_ and _data_, and the idea of _universality_, can already be seen in this context.
@@ -140,7 +140,7 @@ Salil Vadhan co-taught with me the first iteration of this course and gave me a 
 Michele Amoretti and Marika Swanberg carefully read several chapters of this text and gave extremely helpful detailed comments. Dave Evans and Richard Xu contributed many pull requests fixing errors and improving phrasing.
 Thanks to Anil Ada, Venkat Guruswami,  and Ryan O'Donnell for helpful tips from their experience in teaching [CMU 15-251](http://www.cs.cmu.edu/~./15251/).
 
-Thanks to everyone  that sent me comments, typos reports, or posted issues or pull requests on the GitHub repository  [https://github.com/boazbk/tcs](https://github.com/boazbk/tcs).
+Thanks to everyone  that sent me comments, typo reports, or posted issues or pull requests on the GitHub repository  [https://github.com/boazbk/tcs](https://github.com/boazbk/tcs).
 In particular I would like to acknowledge helpful feedback from Scott Aaronson, Michele Amoretti, Aadi Bajpai, Marguerite Basta, Anindya Basu, Sam Benkelman, Jarosław Błasiok, Emily Chan, Christy Cheng, Michelle Chiang, Daniel Chiu, Chi-Ning Chou, Michael Colavita, Rodrigo Daboin Sanchez, Robert Darley Waddilove, Anlan Du, Juan Esteller, David Evans, Michael Fine, Simon Fischer, Leor Fishman, Zaymon Foulds-Cook, William Fu, Kent Furuie, Piotr Galuszka, Carolyn Ge, Mark Goldstein, Alexander Golovnev, Sayan Goswami, Michael Haak, Rebecca Hao, Joosep Hook, Thomas HUET, Emily Jia, Chan Kang, Nina Katz-Christy, Vidak Kazic, Eddie Kohler, Estefania Lahera, Allison Lee, Benjamin Lee, Ondřej Lengál, Raymond Lin, Emma Ling, Alex Lombardi, Lisa Lu, Aditya Mahadevan, Christian May, Jacob Meyerson, Leon Mlodzian, George Moe, Glenn Moss, Hamish Nicholson, Owen Niles, Sandip Nirmel, Sebastian Oberhoff, Thomas Orton, Joshua Pan, Pablo Parrilo, Juan Perdomo, Banks Pickett, Aaron Sachs, Abdelrhman Saleh, Brian Sapozhnikov, Anthony Scemama, Peter Schäfer, Josh Seides, Alaisha Sharma, Haneul Shin, Noah Singer, Matthew Smedberg, Miguel Solano, Hikari Sorensen, David Steurer, Alec Sun, Amol Surati, Everett Sussman, Marika Swanberg, Garrett Tanzer, Eric Thomas, Sarah Turnill, Salil Vadhan, Patrick Watts, Jonah Weissman, Ryan Williams, Licheng Xu, Richard Xu, Wanqian Yang, Elizabeth Yeoh-Wang, Josh Zelinsky, Fred Zhang, Grace Zhang, and Jessica Zhu.   
 
 

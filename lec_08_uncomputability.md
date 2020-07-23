@@ -524,7 +524,7 @@ Doing so is an excellent way to get some initial comfort with the notion of proo
 
 ![To prove [haltonzero-thm](){.ref}, we show that $HALTONZERO$ is uncomputable by giving a _reduction_ from the task of computing $HALT$ to the task of computing $HALTONZERO$. This shows that if there was a hypothetical algorithm $A$ computing $HALTONZERO$, then there would be an algorithm $B$ computing $HALT$, contradicting [halt-thm](){.ref}. Since neither $A$ nor $B$ actually exists, this is an example of an implication of the form "if pigs could whistle then horses could fly".](../figure/haltonzerored.png){#haltonzerofig  .figure  }
 
-:::  {.proof data-ref="haltonzero-thm"}
+:::  {.proof #proofofhaltonzero data-ref="haltonzero-thm"}
 The proof is by reduction from $HALT$, see [haltonzerofig](){.ref}. We will assume, towards the sake of contradiction, that  $HALTONZERO$ is computable by some algorithm $A$, and use this hypothetical algorithm $A$ to construct an algorithm $B$ to compute $HALT$, hence obtaining a contradiction to [halt-thm](){.ref}.
 (As discussed in [eatandhavecake](){.ref}, following our "have your cake and eat it too" paradigm, we just use the generic name "algorithm" rather than worrying whether we model them as Turing machines, NAND-TM programs, NAND-RAM, etc.; this makes no difference since all these models are equivalent to one another.)
 
@@ -712,7 +712,7 @@ Let $F:\{0,1\}^* \rightarrow \{0,1\}$.
 If $F$ is semantic and non-trivial then it is uncomputable.
 :::
 
-::: {.proofidea data-ref="rice-thm"}
+::: {.proofidea #proofidea-rice-thm data-ref="rice-thm"}
 The idea behind the proof is to show that every semantic non-trivial function $F$ is at least as hard to compute as $HALTONZERO$. This will conclude the proof since by [haltonzero-thm](){.ref}, $HALTONZERO$ is uncomputable.
 If a function $F$ is non trivial then there are two machines $M_0$ and $M_1$ such that $F(M_0)=0$ and $F(M_1)=1$. So, the goal would be to take a machine $N$ and find a way to map it into a machine $M=R(N)$, such that __(i)__ if $N$ halts on zero then $M$ is functionally equivalent to $M_1$  and __(ii)__ if $N$ does _not_ halt on zero then $M$ is functionally equivalent $M_0$.
 
@@ -970,7 +970,7 @@ The history of the definition of a function is intertwined with the development 
 For many years, a function was identified (as per Euler's quote above) with the means to calculate the output from the input.
 In the 1800's, with the invention of the Fourier series and with the systematic study of continuity and differentiability, people have started looking at more general kinds of functions, but the modern definition of a function as an arbitrary mapping was not yet universally accepted.
 For example, in 1899 Poincare wrote _"we have seen a mass of bizarre functions which appear to be forced to resemble as little as possible honest functions which serve some purpose. ... they are invented on purpose to show that our ancestor's reasoning was at fault, and we shall never get anything more than that out of them"._
-Some of this fascinating history is discussed in [@grabiner1983gave, @Kleiner91, @Lutzen2002,  @grabiner2005the ].
+Some of this fascinating history is discussed in [@grabiner1983gave, @Kleiner91, @Lutzen2002,  @grabiner2005the].
 
 
 The existence of a universal Turing machine, and the uncomputability of $HALT$ was first shown by Turing in his seminal paper [@Turing37], though closely related results were shown by Church a year before.

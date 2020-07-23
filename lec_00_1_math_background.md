@@ -1133,11 +1133,11 @@ c. Let $A_0,\ldots,A_{k-1}$ be finite subsets of $\{1,\ldots, n\}$, such that $|
 :::
 
 
-::: {.exercise }
+::: {.exercise #onetoonesize }
 Prove that if $S,T$ are finite and $F:S \rightarrow T$ is one to one then $|S| \leq |T|$.
 :::
 
-> ### {.exercise }
+> ### {.exercise #ontosize}
 Prove that if $S,T$ are finite and $F:S \rightarrow T$ is onto then $|S| \geq |T|$.
 
 

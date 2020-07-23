@@ -322,7 +322,7 @@ $$
 \end{gathered}
 $$
 
-### Collections of independent random variables.
+### Collections of independent random variables
 
 We can extend the notions of independence to more than two random variables:
 we say that the random variables $X_0,\ldots,X_{n-1}$ are _mutually independent_ if for every $a_0,\ldots,a_{n-1} \in \R$,

@@ -529,7 +529,7 @@ Since this digit equals $0$ for $FtR(f)$  and equals $1$ for $FtR(g)$, we claim 
 To see this note that the difference $FtR(g)-FtR(f)$ will be minimized if   $g(\ell)=0$ for every $\ell>k$  and $f(\ell)=1$ for every $\ell>k$, in which case (since $f$ and $g$ agree up to the $k-1$-th digit)
 
 $$
-FtR(g)-FtR(f) = 10^{-k} - 10^{-k-1} - 10^{-k-2} - 10^{-k-3} - \cdots \label{eqcantordecimalexpansion}
+FtR(g)-FtR(f) = 10^{-k} - 10^{-k-1} - 10^{-k-2} - 10^{-k-3} - \cdots \label{eqcantordecimalexpansion2}
 $$
 
 Since the infinite series $\sum_{j=0}^{\infty} 10^{-i}$ converges to $10/9$, it follows that for every such $f$ and $g$, $FtR(g) - FtR(f) \geq 10^{-k} - 10^{-k-1}\cdot (10/9) > 0$.
@@ -538,7 +538,7 @@ In particular we see that for every distinct $f,g \in \{0,1\}^\infty$, $FtR(f) \
 
 
 ::: {.remark title="Using decimal expansion (optional)" #decimal}
-In the proof above we used the fact that $1 + 1/10 + 1/100 + \cdots$ converges to $10/9$, which plugging into [eqcantordecimalexpansion](){.eqref} yields that the difference between $FtR(g)$ and $FtR(h)$ is at least $10^{-k} - 10^{-k-1}\cdot (10/9) > 0$.
+In the proof above we used the fact that $1 + 1/10 + 1/100 + \cdots$ converges to $10/9$, which plugging into [eqcantordecimalexpansion2](){.eqref} yields that the difference between $FtR(g)$ and $FtR(h)$ is at least $10^{-k} - 10^{-k-1}\cdot (10/9) > 0$.
 While the choice of the decimal representation for $FtR$ was arbitrary, we could not have used the binary representation in its place.
 Had we used the _binary_ expansion instead of decimal, the corresponding sequence $1 + 1/2 + 1/4 + \cdots$ converges to $2/1=2$, and since $2^{-k} = 2^{-k-1} \cdot 2$, we could not have deduced that $FtR$ is one to one.
 Indeed there do exist pairs of distinct sequences $f,g\in \{0,1\}^\infty$ such that $\sum_{i=0}^\infty f(i)2^{-i} = \sum_{i=0}^\infty g(i)2^{-i}$.
@@ -701,7 +701,7 @@ Therefore, I highly recommend that you pause here to make sure you understand th
 
 ![If we have a prefix-free representation of each object then we can concatenate the representations of $k$ objects to obtain a representation for the tuple $(o_0,\ldots,o_{k-1})$.](../figure/repres_list.png){#prefixfreerepconcat .margin  }
 
-> ### {.proofidea data-ref="prefixfreethm"}
+> ### {.proofidea #proofidea-prefixfreethm data-ref="prefixfreethm"}
 The idea behind the proof is simple.
 Suppose that for example we want to decode a triple $(o_0,o_1,o_2)$ from its representation $x= \overline{E}(o_0,o_1,o_2)=E(o_0)E(o_1)E(o_2)$.
 We will do so by first finding the first prefix $x_0$ of $x$ that is a representation of some object.
@@ -1262,6 +1262,6 @@ While many functions may be described (or computed) by one or more formulas, tod
 We have mentioned that all representations of the real numbers are inherently _approximate_. Thus an important endeavor is to understand what guarantees we can offer on the approximation quality of the output of an algorithm, as a function of the approximation quality of the inputs. This question is known as the question of determining the [numerical stability](https://en.wikipedia.org/wiki/Numerical_stability) of given equations.
 The  [Floating Points Guide website](https://floating-point-gui.de/) contains an extensive description of the floating point representation, as well the many ways in which it could subtly fail, see also the website [0.30000000000000004.com](http://0.30000000000000004.com/).
 
-Dauben [@Dauben90cantor] gives a biography of Cantor with emphasis on the development of his mathematical ideas. [@halmos1960naive] is a classic textbook on set theory, including also Cantor's theorem. Cantor's Theorem is also covered in many texts on discrete mathematics, including  [@LehmanLeightonMeyer , @LewisZax19].
+Dauben [@Dauben90cantor] gives a biography of Cantor with emphasis on the development of his mathematical ideas. [@halmos1960naive] is a classic textbook on set theory, including also Cantor's theorem. Cantor's Theorem is also covered in many texts on discrete mathematics, including [@LehmanLeightonMeyer, @LewisZax19].
 
 The adjacency matrix representation of graphs is not merely a convenient way to map a graph into a binary string, but it turns out that many natural notions and operations on matrices are useful for graphs as well. (For example, Google's PageRank algorithm relies on this viewpoint.)  The notes of [Spielman's course](http://www.cs.yale.edu/homes/spielman/561/) are an excellent source for this area, known as _spectral graph theory_. We will return to this view much later in this book when we talk about _random walks_.

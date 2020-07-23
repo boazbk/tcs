@@ -234,7 +234,7 @@ As counter-intuitive as these concepts are, they have been experimentally confir
 
 The discussion in this chapter of quantum mechanics in general and quantum computing in particular is quite brief and superficial, the  "bibliographical notes" section ([quantumbibnotessec](){.ref}) contains references and links to many other resources that cover this material in more depth.
 
-## Quantum computing and computation - an executive summary.
+## Quantum computing and computation - an executive summary
 
 One of the strange aspects of the quantum-mechanical picture of the world is that unlike in the billiard ball example, there is no obvious algorithm to simulate the evolution of $n$ particles over $t$ time periods in $poly(n,t)$ steps.
 In fact, the natural way to simulate $n$ quantum particles will require a number of steps that is _exponential_ in $n$.
@@ -327,7 +327,7 @@ Understanding the evolution of probabilistic systems is a prerequisite to unders
 If your linear algebra is a bit rusty, now would be a good time to review it, and in particular make sure you are comfortable with the notions of _matrices_, _vectors_, (orthogonal and orthonormal) _bases_, and _norms_.
 :::
 
-### Quantum amplitudes
+### Quantum amplitudes  { #quantum-amplitudes-subsec }
 
 In the quantum setting, the state of an individual bit (or "qubit", to use quantum parlance) is modeled by a pair of numbers $(\alpha,\beta)$ such that $|\alpha|^2 + |\beta|^2 = 1$.
 While in general these numbers can be _complex_, for the rest of this chapter, we will often assume they are _real_ (though potentially negative), and hence often drop the absolute value operator.
@@ -765,7 +765,7 @@ This is not the same as computing the Fourier transform, but is good enough for 
 
 
 
-## Quantum Fourier Transform (advanced, optional)
+## Quantum Fourier Transform (advanced, optional)  { #qft-advanced }
 
 
 The above description of Shor's algorithm skipped over the implementation of the main quantum ingredient: the _Quantum Fourier Transform_ algorithm.

@@ -425,10 +425,10 @@ Let $TIMEDEVAL:\{0,1\}^* \rightarrow \{0,1\}^*$ be the function defined as
 $$TIMEDEVAL(M,x,1^T) = \begin{cases} M(x) & M \text{ halts within $\leq T$ steps on $x$} \\ 0 & \text{otherwise}\end{cases} \;.$$
 Then $TIMEDEVAL \in \mathbf{P}$.
 
-![The _timed_ universal Turing Machine takes as input a Turing machine $M$, an input $x$, and a time bound $T$, and outputs $M(x)$ if $M$ halts within at most $T$ steps. [timeduniversalTM](){.ref}states that there is such a machine that runs in time polynomial in $T$. ](../figure/timeduniversaltm.png){#timeduniversaltmfig  .margin }
+![The _timed_ universal Turing Machine takes as input a Turing machine $M$, an input $x$, and a time bound $T$, and outputs $M(x)$ if $M$ halts within at most $T$ steps. [timeduniversalTM](){.ref} states that there is such a machine that runs in time polynomial in $T$. ](../figure/timeduniversaltm.png){#timeduniversaltmfig  .margin }
 
 
-::: {.proof data-ref="timeduniversalTM"}
+::: {.proof #proofoftimeduniversalTM data-ref="timeduniversalTM"}
 We only sketch the proof since the  result follows fairly directly from [polyRAMTM-thm](){.ref} and [univ-nandpp](){.ref}. By  [polyRAMTM-thm](){.ref}  to show that $TIMEDEVAL \in \mathbf{P}$, it suffices to give a polynomial-time NAND-RAM program to compute $TIMEDEVAL$.
 
 Such a program can be obtained as follows. Given a Turing Machine $M$, by [polyRAMTM-thm](){.ref} we can transform it in time polynomial in its description into a functionally-equivalent NAND-RAM program $P$ such that the execution of $M$ on $T$ steps can be simulated by the execution of $P$ on $c\cdot T$ steps.
@@ -753,7 +753,8 @@ $$
 :::
 
 
-::: {.proof data-ref="nand-compiler"}
+
+::: {.proof #proofofnandcompiler data-ref="nand-compiler"}
 We only sketch the proof  since it follows by directly translating the proof of [non-uniform-thm](){.ref into an algorithm together with the simulation of Turing machines by NAND-TM programs (see also [unrolldescriptionfig](){.ref}).
 Specifically, $UNROLL$ does the following:
 
