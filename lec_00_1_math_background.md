@@ -55,7 +55,7 @@ The main mathematical concepts we will use are the following. We just list these
 
 * __Sets and set operations:__ We will use extensively  mathematical _sets_. We use the basic set _relations_ of membership ($\in$) and containment ($\subseteq$), and set _operations_, principally union ($\cup$), intersection ($\cap$), and set difference ($\setminus$).
 
-* __Cartesian product and Kleene star operation:__   We also use the _Cartesian product_ of two sets $A$ and $B$, denoted as $A \times B$ (that is, $A \times B$ the set of pairs $(a,b)$ where $a\in A$ and $b\in B$). We denote by $A-n$ the $n$ fold Cartesian product (e.g., $A^3 = A \times A \times A$) and by $A^*$ (known as the _Kleene star_) the union of $A^n$ for all $n \in \{0,1,2,\ldots\}$. 
+* __Cartesian product and Kleene star operation:__   We also use the _Cartesian product_ of two sets $A$ and $B$, denoted as $A \times B$ (that is, $A \times B$ the set of pairs $(a,b)$ where $a\in A$ and $b\in B$). We denote by $A^n$ the $n$ fold Cartesian product (e.g., $A^3 = A \times A \times A$) and by $A^*$ (known as the _Kleene star_) the union of $A^n$ for all $n \in \{0,1,2,\ldots\}$. 
 
 
 * __Functions:__ The _domain_ and _codomain_ of a function, properties such as being _one-to-one_ (also known as _injective_) or _onto_ (also known as _surjective_) functions, as well as _partial functions_ (that, unlike standard or "total" functions, are not necessarily defined on all elements of their domain).
