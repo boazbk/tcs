@@ -1075,7 +1075,7 @@ Some examples of such idioms that we use in this text include the following:
 * We can use basic objects to define more complex notions. For example, _graphs_ can be defined as a list of _pairs_.
 * Given precise _definitions_ of objects, we can state unambiguous and precise _statements_. We can then use mathematical _proofs_ to determine whether these statements are true or false.
 * A mathematical proof is not a formal ritual but rather a clear, precise and "bulletproof" argument certifying the truth of a certain statement.
-* Big-$O$ notation is an extremely useful formalism to suppress less significant details and allow us to focus on the high level behavior of quantities of interest.
+* Big-$O$ notation is an extremely useful formalism to suppress less significant details and allows us to focus on the high level behavior of quantities of interest.
 * The only way to get comfortable with mathematical notions is to apply them in the contexts of solving problems. You should expect to need to go back time and again to the definitions and notation in this chapter as you work through problems in this course.
 
 
