@@ -1153,7 +1153,7 @@ Prove by induction that  $S_n \leq 100 n \log n$ for every $n$.
 :::
 
 ::: {.exercise }
-Prove that for every undirected graph $G$ of $100$ vertices, if every vertex has degree at most $4$, then there exists a subset $S$ of at $20$ vertices such that no two vertices in $S$ are neighbors of one another.
+Prove that for every undirected graph $G$ of $100$ vertices, if every vertex has degree at most $4$, then there exists a subset $S$ of at least $20$ vertices such that no two vertices in $S$ are neighbors of one another.
 :::
 
 
