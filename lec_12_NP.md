@@ -376,7 +376,7 @@ That is, $3SAT(\varphi) = ISET(G,k)$,
 Initialize $V \leftarrow \emptyset, E \leftarrow \emptyset$
 For {every clause $C = y \vee y' \vee y''$ of $\varphi$}
   Add three vertices $(C,y),(C,y'),(C,y'')$ to $V$
-  Add edges $\{ (C,y), (C,y') \}$, ${(C,y'),(C,y'') \}$, $\{ (C,y''), (C,y) \}$ to $E$.
+  Add edges $\{ (C,y), (C,y') \}$, $\{(C,y'),(C,y'') \}$, $\{ (C,y''), (C,y) \}$ to $E$.
 endfor
 for {every distinct clauses $C,C'$ in $\varphi$}
   for {every $i\in [n]$}
@@ -465,7 +465,7 @@ Prove that $3SAT \leq_p VC$.
 :::
 
 ![A _vertex cover_ in a graph is a subset of vertices that touches all edges. In this $7$-vertex graph, the $3$ filled vertices 
-are a vertex cover.](../figure/vertex_cover.png){#vertexcoverfig}
+are a vertex cover.](../figure/vertex_cover.png){#vertexcoverfig .margin }
 
 
 ::: {.solution data-ref="vertexcoverex"}
@@ -506,7 +506,7 @@ Formally, this is the function $DS:\{0,1\}^* \rightarrow \{0,1\}$ such that $DS(
 Prove that $ISET \leq_p DS$.
 :::
 
-![A dominating set is a subset $S$ of vertices such that every vertex in the graph is either in $S$ or a neighbor of $S$. The figure above are two copies of the same graph. The red vertices on the left are a vertex cover that is not a dominating set. The blue vertices on the right are a dominating set that is not a vertex cover.](../figure/dominatingvc.png){#dominatingvertexcover}
+![A dominating set is a subset $S$ of vertices such that every vertex in the graph is either in $S$ or a neighbor of $S$. The figure above are two copies of the same graph. The red vertices on the left are a vertex cover that is not a dominating set. The blue vertices on the right are a dominating set that is not a vertex cover.](../figure/dominatingvc.png){#dominatingvertexcover .margin }
 
 ::: {.solution data-ref="dominatingsetex"}
 Since we know that $ISET \leq_p VC$, using transitivity, it is enough to show that VC \leq_p DS$. 
@@ -533,7 +533,7 @@ That is, $DS(H,k') = ISET(G,k)$,
 Initialize $V' \leftarrow V, E' \leftarrow V$
 For {every edge $\{u,v\} \in E$}
   Add vertex $w_{u,v}$ to $V'$
-  Add edges $\{ u, w_{u,v \}$, $\{ v, w_{u,v} \}$  to $E'$.
+  Add edges $\{ u, w_{u,v} \}$, $\{ v, w_{u,v} \}$  to $E'$.
 endfor
 Let $\ell \leftarrow$ number of isolated vertices in $G$
 return $( H=(V',E') \;,\;  k+\ell)$
@@ -677,6 +677,7 @@ $$3SAT \leq_p LONGPATH$$
 ![We can transform a 3SAT formula $\varphi$ into a graph $G$ such that the longest path in the graph $G$ would correspond to a satisfying assignment in $\varphi$. In this graph, the black colored part corresponds to the variables of $\varphi$ and the blue colored part corresponds to the vertices. A sufficiently long path would have to first "snake" through the black part, for each variable choosing either the "upper path" (corresponding to assigning it the value `True`) or the "lower path" (corresponding to assigning it the value `False`). Then to achieve maximum length the path would traverse through the blue part, where to go between two vertices corresponding to a clause such as $x_{17} \vee \overline{x}_{32} \vee x_{57}$, the corresponding vertices would have to have been not traversed before. ](../figure/3sat_longest_path_red_without_path.png){#longpathfig .margin  }
 
 
+
 ![The graph above with the longest path marked on it, the part of the path corresponding to variables is in green and part corresponding to the clauses is in pink.](../figure/3sat_to_longest_path_reduction.png){#longpathfigtwo .margin  }
 
 
@@ -686,6 +687,39 @@ The idea of the reduction is sketched in [longpathfig](){.ref} and [longpathfigt
 We will construct a graph that contains a potentially long "snaking path" that corresponds to all variables in the formula.
 We will add a "gadget" corresponding to each clause of $\varphi$ in a way that we would only be able to use the gadgets if we have a satisfying assignment.
 
+```python
+def TSAT2LONGPATH(φ):
+    """Reduce 3SAT to LONGPATH"""
+    def var(v): # return variable and True/False depending if positive or negated
+        return int(v[2:]),False if v[0]=="¬" else int(v[1:]),True
+    n = numvars(φ)
+    clauses = getclauses(φ)
+    m = len(clauses)
+    G =Graph() 
+    G.edge("start","start_0")
+    for i in range(n): # add 2 length-m paths per variable
+        G.edge(f"start_{i}",f"v_{i}_{0}_T")
+        G.edge(f"start_{i}",f"v_{i}_{0}_F")
+        for j in range(m-1): 
+            G.edge(f"v_{i}_{j}_T",f"v_{i}_{j+1}_T")
+            G.edge(f"v_{i}_{j}_F",f"v_{i}_{j+1}_F")
+        G.edge(f"v_{i}_{m-1}_T",f"end_{i}")
+        G.edge(f"v_{i}_{m-1}_F",f"end_{i}")
+        if i<n-1:
+            G.edge(f"end_{i}",f"start_{i+1}")
+    G.edge(f"end_{n-1}","start_clauses")
+    for j,C in enumerate(clauses): # add gadget for each clause
+        for v in enumerate(C):
+            i,sign = var(v[1])
+            s = "F" if sign else "T"
+            G.edge(f"C_{j}_in",f"v_{i}_{j}_{s}")
+            G.edge(f"v_{i}_{j}_{s}",f"C_{j}_out")
+        if j<m-1:
+            G.edge(f"C_{j}_out",f"C_{j+1}_in")
+    G.edge("start_clauses","C_0_in")
+    G.edge(f"C_{m-1}_out","end")
+    return G, 1+n*(m+1)+1+2*m+1
+```
 
 ::: {.proof data-ref="longpaththm"}
 We build a graph $G$ that "snakes" from $s$ to $t$ as follows.
@@ -703,6 +737,8 @@ Thus a satisfying assignment would correspond to a path from $s$ to $t$ that goe
 We can make the loop corresponding to the variables long enough so that we must take the entire path in each loop in order to have a fighting chance of getting a path as long as the one corresponds to a satisfying assignment.
 But if we do that, then the only way if we are able to reach $t$ is if the paths we took corresponded to a satisfying assignment, since otherwise we will have one clause $j$ where we cannot reach $t_j$ from $s_j$ without using a vertex we already used before.
 :::
+
+![The result of applying the reduction of $3SAT$ to $LONGPATH$ to the formula $(x_0 \vee \neg x_3 \vee x_2 ) \wedge (\neg x_0 \vee x_1 \vee \neg x_2 ) \wedge (x_1 \vee x_2 \vee \neg x_3 )$.](../figure/3sat2longpath.png){#threesattwolongpathfig .margin }
 
 ### Summary of relations
 
