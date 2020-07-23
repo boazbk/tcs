@@ -1099,9 +1099,9 @@ b. An expression $\varphi(n)$ such that for every natural number $n$, $\varphi(n
 :::
 
 
-> ### {.exercise }
+::: {.exercise }
 Describe the following statement in English words: $\forall_{n\in\N} \exists_{p>n} \forall{a,b \in \N} (a\times b \neq p) \vee (a=1)$.
-
+:::
 
 
 ::: {.exercise title="Set construction notation" #setsdescription}
@@ -1137,23 +1137,24 @@ c. Let $A_0,\ldots,A_{k-1}$ be finite subsets of $\{1,\ldots, n\}$, such that $|
 Prove that if $S,T$ are finite and $F:S \rightarrow T$ is one to one then $|S| \leq |T|$.
 :::
 
-> ### {.exercise #ontosize}
+::: {.exercise #ontosize}
 Prove that if $S,T$ are finite and $F:S \rightarrow T$ is onto then $|S| \geq |T|$.
+:::
 
-
-> ### {.exercise }
+::: {.exercise }
 Prove that for every finite $S,T$, there are $(|T|+1)^{|S|}$ partial functions from $S$ to $T$.
+:::
 
 
 
-
-> ### {.exercise }
+::: {.exercise }
 Suppose that $\{ S_n \}_{n\in \N}$ is a sequence such that $S_0 \leq 10$ and for $n>1$ $S_n \leq 5 S_{\lfloor \tfrac{n}{5} \rfloor} + 2n$.
 Prove by induction that  $S_n \leq 100 n \log n$ for every $n$.
+:::
 
-> ### {.exercise }
+::: {.exercise }
 Prove that for every undirected graph $G$ of $100$ vertices, if every vertex has degree at most $4$, then there exists a subset $S$ of at $20$ vertices such that no two vertices in $S$ are neighbors of one another.
-
+:::
 
 
 ::: {.exercise title="$O$-notation" #ohnotationex}
@@ -1170,9 +1171,9 @@ d. $F(n)=\sqrt{n}$, $G(n)=2^{\sqrt{\log n}}$
 e. $F(n) = \binom{n}{\ceil{0.2 n}}$ ,  $G(n) = 2^{0.1 n}$ (where $\binom{n}{k}$ is the number of $k$-sized subsets of a set of size $n$) and $g(n) = 2^{0.1 n}$. See footnote for hint.^[one way to do this is to use [Stirling's approximation for the factorial function.](https://goo.gl/cqEmS2).]
 :::
 
-> ### {.exercise}
+::: {.exercise}
 Give an example of a pair of functions $F,G:\N \rightarrow \N$ such that neither $F=O(G)$ nor $G=O(F)$ holds.
-
+:::
 
 ::: {.exercise  #graphcycleex}
 Prove that for every undirected graph $G$ on $n$ vertices, if $G$ has at least $n$ edges then $G$ contains a cycle.
