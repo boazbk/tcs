@@ -51,7 +51,7 @@ The main takeaways from this chapter are:
 
 * A _Boolean circuit_ is a way to compose the basic logical operations to compute a more complex function (see [booleancircuitsec](){.ref}). We can think of Boolean circuits as both a mathematical model (which is based on directed acyclic graphs) as well as physical devices we can construct in the real world in a variety of ways, including not just silicon-based semi-conductors but also mechanical and even biological mechanisms (see [physicalimplementationsec](){.ref}).
 
-* We can describe Bolean circuits also as _straight-line programs_, which are programs that do not have any looping constructs (i.e., no `while` / `for`/ `do .. until` etc.), see [starightlineprogramsec](){.ref}.
+* We can describe Boolean circuits also as _straight-line programs_, which are programs that do not have any looping constructs (i.e., no `while` / `for`/ `do .. until` etc.), see [starightlineprogramsec](){.ref}.
 
 * It is possible to implement the $AND$, $OR$, and $NOT$ operations using the $NAND$ operation (as well as vice versa). This means that circuits with $AND$/$OR$/$NOT$ gates can compute the same functions (i.e., are _equivalent in power_) to circuits with $NAND$ gates, and we can use either model to describe computation based on our convenience, see [nandsec](){.ref}. To give out a  "spoiler", we will see in [finiteuniversalchap](){.ref} that such circuits can compute _all_ finite functions.
 
