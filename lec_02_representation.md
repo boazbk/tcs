@@ -170,10 +170,10 @@ print(StN(NtS(236)))
 # 236
 
 
+```
+
 <iframe src="https://trinket.io/embed/python/fe91c91550" width="100%" height="600" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
 
-
-```
 :::
 
 
