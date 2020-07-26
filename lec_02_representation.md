@@ -488,7 +488,7 @@ The number of such shades turns out to be much larger than $|\N|$ or even $|\R|$
 He denoted the cardinality of $\N$ by  $\aleph_0$ and denoted the next largest infinite number by $\aleph_1$. ($\aleph$ is the first letter in the Hebrew alphabet.)
 Cantor also made the [continuum hypothesis](https://en.wikipedia.org/wiki/Continuum_hypothesis) that $|\R|=\aleph_1$.
 We will come back to the fascinating story of this hypothesis later on in this book.
-[This lecture of Aaronson](https://www.scottaaronson.com/democritus/lec2.html) mentions some of these issues (see also [this Berkeley CS 70 lecture](http://www.eecs70.org/static/notes/n10.pdf)).
+[This lecture of Aaronson](https://www.scottaaronson.com/democritus/lec2.html) mentions some of these issues (see also [this Berkeley CS 70 lecture](http://www.fa19.eecs70.org/static/notes/n10.pdf)).
 :::
 
 
