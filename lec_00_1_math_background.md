@@ -55,7 +55,7 @@ The main mathematical concepts we will use are the following. We just list these
 
 * __Sets and set operations:__ We will use extensively  mathematical _sets_. We use the basic set _relations_ of membership ($\in$) and containment ($\subseteq$), and set _operations_, principally union ($\cup$), intersection ($\cap$), and set difference ($\setminus$).
 
-* __Cartesian product and Kleene star operation:__   We also use the _Cartesian product_ of two sets $A$ and $B$, denoted as $A \times B$ (that is, $A \times B$ the set of pairs $(a,b)$ where $a\in A$ and $b\in B$). We denote by $A-n$ the $n$ fold Cartesian product (e.g., $A^3 = A \times A \times A$) and by $A^*$ (known as the _Kleene star_) the union of $A^n$ for all $n \in \{0,1,2,\ldots\}$. 
+* __Cartesian product and Kleene star operation:__   We also use the _Cartesian product_ of two sets $A$ and $B$, denoted as $A \times B$ (that is, $A \times B$ the set of pairs $(a,b)$ where $a\in A$ and $b\in B$). We denote by $A^n$ the $n$ fold Cartesian product (e.g., $A^3 = A \times A \times A$) and by $A^*$ (known as the _Kleene star_) the union of $A^n$ for all $n \in \{0,1,2,\ldots\}$. 
 
 
 * __Functions:__ The _domain_ and _codomain_ of a function, properties such as being _one-to-one_ (also known as _injective_) or _onto_ (also known as _surjective_) functions, as well as _partial functions_ (that, unlike standard or "total" functions, are not necessarily defined on all elements of their domain).
@@ -1075,7 +1075,7 @@ Some examples of such idioms that we use in this text include the following:
 * We can use basic objects to define more complex notions. For example, _graphs_ can be defined as a list of _pairs_.
 * Given precise _definitions_ of objects, we can state unambiguous and precise _statements_. We can then use mathematical _proofs_ to determine whether these statements are true or false.
 * A mathematical proof is not a formal ritual but rather a clear, precise and "bulletproof" argument certifying the truth of a certain statement.
-* Big-$O$ notation is an extremely useful formalism to suppress less significant details and allow us to focus on the high level behavior of quantities of interest.
+* Big-$O$ notation is an extremely useful formalism to suppress less significant details and allows us to focus on the high level behavior of quantities of interest.
 * The only way to get comfortable with mathematical notions is to apply them in the contexts of solving problems. You should expect to need to go back time and again to the definitions and notation in this chapter as you work through problems in this course.
 
 
@@ -1099,9 +1099,9 @@ b. An expression $\varphi(n)$ such that for every natural number $n$, $\varphi(n
 :::
 
 
-> ### {.exercise }
+::: {.exercise }
 Describe the following statement in English words: $\forall_{n\in\N} \exists_{p>n} \forall{a,b \in \N} (a\times b \neq p) \vee (a=1)$.
-
+:::
 
 
 ::: {.exercise title="Set construction notation" #setsdescription}
@@ -1137,23 +1137,24 @@ c. Let $A_0,\ldots,A_{k-1}$ be finite subsets of $\{1,\ldots, n\}$, such that $|
 Prove that if $S,T$ are finite and $F:S \rightarrow T$ is one to one then $|S| \leq |T|$.
 :::
 
-> ### {.exercise #ontosize}
+::: {.exercise #ontosize}
 Prove that if $S,T$ are finite and $F:S \rightarrow T$ is onto then $|S| \geq |T|$.
+:::
 
-
-> ### {.exercise }
+::: {.exercise }
 Prove that for every finite $S,T$, there are $(|T|+1)^{|S|}$ partial functions from $S$ to $T$.
+:::
 
 
 
-
-> ### {.exercise }
+::: {.exercise }
 Suppose that $\{ S_n \}_{n\in \N}$ is a sequence such that $S_0 \leq 10$ and for $n>1$ $S_n \leq 5 S_{\lfloor \tfrac{n}{5} \rfloor} + 2n$.
 Prove by induction that  $S_n \leq 100 n \log n$ for every $n$.
+:::
 
-> ### {.exercise }
-Prove that for every undirected graph $G$ of $100$ vertices, if every vertex has degree at most $4$, then there exists a subset $S$ of at $20$ vertices such that no two vertices in $S$ are neighbors of one another.
-
+::: {.exercise }
+Prove that for every undirected graph $G$ of $100$ vertices, if every vertex has degree at most $4$, then there exists a subset $S$ of at least $20$ vertices such that no two vertices in $S$ are neighbors of one another.
+:::
 
 
 ::: {.exercise title="$O$-notation" #ohnotationex}
@@ -1170,9 +1171,9 @@ d. $F(n)=\sqrt{n}$, $G(n)=2^{\sqrt{\log n}}$
 e. $F(n) = \binom{n}{\ceil{0.2 n}}$ ,  $G(n) = 2^{0.1 n}$ (where $\binom{n}{k}$ is the number of $k$-sized subsets of a set of size $n$) and $g(n) = 2^{0.1 n}$. See footnote for hint.^[one way to do this is to use [Stirling's approximation for the factorial function.](https://goo.gl/cqEmS2).]
 :::
 
-> ### {.exercise}
+::: {.exercise}
 Give an example of a pair of functions $F,G:\N \rightarrow \N$ such that neither $F=O(G)$ nor $G=O(F)$ holds.
-
+:::
 
 ::: {.exercise  #graphcycleex}
 Prove that for every undirected graph $G$ on $n$ vertices, if $G$ has at least $n$ edges then $G$ contains a cycle.
