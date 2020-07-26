@@ -431,7 +431,7 @@ We start by proving  [sequencestostrings](){.ref} which is really the heart of [
 
 ![We construct a function $\overline{d}$ such that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$ by ensuring that $\overline{d}(n(x)) \neq StF(x)(n(x))$ for every $x\in \{0,1\}^*$ with lexicographic order $n(x)$. We can think of this as building a table where the columns correspond to numbers $m\in \N$ and the rows correspond to $x\in \{0,1\}^*$ (sorted according to $n(x)$). If the entry in the $x$-th row and the $m$-th column corresponds to $g(m))$ where $g=StF(x)$ then $\overline{d}$ is obtained by going over the "diagonal" elements in this table (the entries corresponding to the $x$-th row and $n(x)$-th column) and ensuring that $\overline{d}(x)(n(x)) \neq StF(x)(n(x))$. ](../figure/diagreals2.png){#diagrealsfig   }
 
-__Warm-up: "Baby Cantor".__ The proof of [sequencestostrings](){.ref} is rather subtle. One way to get intution for it is to consider the following finite statement "there is no onto function $f:\{0,\ldots,99\} \rightarrow \{0,1\}^100$. Of course we know it's true since the set $\{0,1\}^{100}$ is bigger than the set $[100]$, but let's see a direct proof. For every $f:\{0,\ldots,99\} \rightarrow \{0,1\}^100$, we can define the string $\overline{d} \in \{0,1\}^{100}$ as follows: $\overline{d} = (1-f(0)_0, 1-f(1)_1 , \ldots, 1-f(99)_{99})$. If $f$ was onto, then there would exist some $n\in [100]$ such that $f(n) =\overline{d}$, but we claim that no such $n$ exists.  Indeed, if there was such $n$, then the $n$-th coordinate of $\overline{d}$ would equal $f(n)_n$ but by definition this coordinate equals $1-f(n)_n$. See also a ["proof by code"](https://trinket.io/python/4cff7e58f4) of this statement.
+__Warm-up: "Baby Cantor".__ The proof of [sequencestostrings](){.ref} is rather subtle. One way to get intution for it is to consider the following finite statement "there is no onto function $f:\{0,\ldots,99\} \rightarrow \{0,1\}^{100}$. Of course we know it's true since the set $\{0,1\}^{100}$ is bigger than the set $[100]$, but let's see a direct proof. For every $f:\{0,\ldots,99\} \rightarrow \{0,1\}^{100}$, we can define the string $\overline{d} \in \{0,1\}^{100}$ as follows: $\overline{d} = (1-f(0)_0, 1-f(1)_1 , \ldots, 1-f(99)_{99})$. If $f$ was onto, then there would exist some $n\in [100]$ such that $f(n) =\overline{d}(n)$, but we claim that no such $n$ exists.  Indeed, if there was such $n$, then the $n$-th coordinate of $\overline{d}$ would equal $f(n)_n$ but by definition this coordinate equals $1-f(n)_n$. See also a ["proof by code"](https://trinket.io/python/4cff7e58f4) of this statement.
 
 
 <iframe src="https://trinket.io/embed/python/4cff7e58f4" width="100%" height="600" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
@@ -573,13 +573,13 @@ F(x) = \begin{cases} f(n) & \exists_{n\in N} x=NtS(n)  \\
                      0 & \text{otherwise} 
                      \end{cases}
 $$
-(This is well-defines since $NtS$ is one-to-one and hence there cannot exist more than one $n\in \N$ such that $x=NtS(n)$.)
+(This is well-defined since $NtS$ is one-to-one and hence there cannot exist more than one $n\in \N$ such that $x=NtS(n)$.)
 We  claim that $SEQtALL$ is one-to-one. 
 Indeed, for every $f,f' \in \{0,1\}^\infty$, if $f \neq f'$ then there must be some $n\in \N$ such that $f(n) \neq f'(n)$.
 But then, letting $F=SEQtALL(f)$ and $F'=SEQtALL(f')$,  $F(x) \neq F'(x)$ where $x= NtS(n)$.
 :::
 
-### Equivelent conditions for countability { #equivcountablesec }
+### Equivalent conditions for countability { #equivcountablesec }
 
 The results above establish many equivalent ways to phrase the fact that a set is countable.
 Specifically, the following statements are all equivalent:
@@ -600,7 +600,7 @@ Specifically, the following statements are all equivalent:
 
 
 ::: { .pause }
-Make sure you know how to prove the equivalence of all the reuslts above.
+Make sure you know how to prove the equivalence of all the results above.
 :::
 
 
@@ -1138,7 +1138,7 @@ The ASCII encoding can be used to encode a string of $n$ English letters as a $7
 
 1. Prove that there exists a representation scheme $(E,D)$ for strings over the 26-letter alphabet $\{ a, b,c,\ldots,z \}$ as binary strings such that for every $n>0$ and length-$n$ string $x \in \{ a,b,\ldots,z \}^n$, the representation $E(x)$ is a binary string of length at most  $4.8n+1000$. In other words, prove that for every $n$, there exists a one-to-one function $E:\{a,b,\ldots, z\}^n \rightarrow \{0,1\}^{\lfloor 4.8n +1000 \rfloor}$.
 
-2. Prove that there exists _no_ representation scheme for strings over the alphabet $\{ a, b,\ldots,z \}$ as binary strings such that for every length-$n$ string $x \in \{ a,b,\ldots, z\}^n$, the representation $E(x)$ is a binary string of length  $\lfloor 4.6n+1000 \rfloor$. In other words, prove that there exists some $n>0$ such that there is no one-to-one function $E:\{a,b,\ldots,z \}^n \rightarrow \{0,1\}^{\lfloor 4.6n + 1000 \rfloor}$
+2. Prove that there exists _no_ representation scheme for strings over the alphabet $\{ a, b,\ldots,z \}$ as binary strings such that for every length-$n$ string $x \in \{ a,b,\ldots, z\}^n$, the representation $E(x)$ is a binary string of length  $\lfloor 4.6n+1000 \rfloor$. In other words, prove that there exists some $n>0$ such that there is no one-to-one function $E:\{a,b,\ldots,z \}^n \rightarrow \{0,1\}^{\lfloor 4.6n + 1000 \rfloor}$.
 
 3. Python's `bz2.compress` function is a mapping from strings to strings,  which uses the _lossless_ (and hence _one to one_) [bzip2](https://en.wikipedia.org/wiki/Bzip2) algorithm for compression.  After converting to lowercase, and truncating spaces and numbers, the text of Tolstoy's "War and Peace" contains $n=2,517,262$. Yet, if we run `bz2.compress` on the string of the text of "War and Peace" we get a string of length $k=6,274,768$ bits, which is only $2.49n$ (and in particular much smaller than $4.6n$). Explain why this does not contradict your answer to the previous question.
 
@@ -1179,10 +1179,10 @@ d.  All of the above.
 :::
 
 
-> ### {.exercise }
+::: {.exercise }
 Suppose that $R:\N \rightarrow \{0,1\}^*$ corresponds to representing a number $x$ as a string of $x$ $1$'s, (e.g., $R(4)=1111$, $R(7)=1111111$, etc.).
 If $x,y$ are numbers between $0$ and $10^n -1$, can we still multiply $x$ and $y$ using $O(n^2)$ operations if we are given them in the representation $R(\cdot)$?
-
+:::
 
 
 ::: {.exercise }
