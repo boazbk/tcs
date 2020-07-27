@@ -1201,4 +1201,4 @@ Jukna's book [@Jukna12] contains a modern in-depth exposition of Boolean circuit
 The NAND function was shown to be universal by Sheffer [@Sheffer1913], though this also appears in the  earlier work of Peirce, see [@Burks1978charles].
 Whitehead and Russell used NAND as the basis for their logic in their magnum opus _Principia Mathematica_ [@WhiteheadRussell1912].
 In her Ph.D thesis, Ernst [@Ernst2009phd] investigates empirically the minimal NAND circuits for various functions.
-Nissan and Shocken's book [@NisanShocken2005]  builds a computing system starting from NAND gates and ending with high level programs and games ("NAND to Tetris"); see also the website [nandtotetris.org](https://www.nand2tetris.org/).
+Nisan and Shocken's book [@NisanShocken2005]  builds a computing system starting from NAND gates and ending with high level programs and games ("NAND to Tetris"); see also the website [nandtotetris.org](https://www.nand2tetris.org/).
