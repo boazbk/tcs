@@ -55,7 +55,7 @@ The idea behind "syntactic sugar" is that we can extend a programming language b
 For example, we can take the AON-CIRC and NAND-CIRC programming languages we saw in [compchap](){.ref}, and extend them to achieve features such as user-defined functions (e.g., `def Foo(...)`), condtional statements (e.g., `if blah ...`), and  more. 
 Once we have these features, it is not that hard to show that we can take the "truth table" (table of all inputs and outputs) of any function, and use that to create an AON-CIRC or NAND-CIRC program that maps each input to its corresponding output.
 
-We will also get our first glimplse of _quantitative measures_ in  this chapter. While [circuit-univ-thm](){.ref} tells us that every function can be computed by _some_ circuit, the number of gates in this circuit can be exponentially large.
+We will also get our first glimpse of _quantitative measures_ in  this chapter. While [circuit-univ-thm](){.ref} tells us that every function can be computed by _some_ circuit, the number of gates in this circuit can be exponentially large.
 (We are not using here "exponentially" as some colloquial term for "very very big" but in a very precise mathematical sense, which also happens to coincide with being very very big.)
 It turns out that _some functions_ (for example, integer addition and multiplication) can be in fact computed using far fewer gates. 
 We will explore this issue of "gate complexity" more deeply in [codeanddatachap](){.ref} and following chapters.
@@ -720,8 +720,8 @@ We denote by $SIZE_n(s)$ the set $SIZE_{n,1}(s)$.
 For every integer $s \geq 1$, we let $SIZE(s) = \cup_{n,m \leq 2s} SIZE_{n,m}(s)$ be the set of all functions $f$ for which there exists a NAND circuit of at most $s$ gates that compute $f$.
 
 
-[funcvscircfig](){.ref} depicts the sets $SIZE_{n,1}(s)$.
-Note that $SIZE_{n,m}(s)$ is a set of _functions_, not of _programs!_ (asking if a program or a circuit is a member of $SIZE_{n,m}(s)$ is a _category error_ as in the sense of  [cucumberfig](){.ref}).
+[funcvscircfig](){.ref} depicts the set $SIZE_{n,1}(s)$.
+Note that $SIZE_{n,m}(s)$ is a set of _functions_, not of _programs!_ (Asking if a program or a circuit is a member of $SIZE_{n,m}(s)$ is a _category error_ as in the sense of  [cucumberfig](){.ref}.)
 As we discussed in [specvsimplrem](){.ref} (and  [secimplvsspec](){.ref}), the distinction between _programs_ and _functions_ is absolutely crucial.
 You should always remember that while a program _computes_ a function, it is not _equal_ to a function.
 In particular, as we've seen, there can be more than one program to compute the same function.
@@ -890,14 +890,14 @@ Y[0] = NAND(Temp[6],Temp[7])
 
 
 
-In the following exercises you are asked  to compare the _power_ of pairs programming languages.
+In the following exercises you are asked  to compare the _power_ of pairs of programming languages.
 By "comparing the power" of two programming languages $X$ and $Y$ we mean determining the relation between the set of functions that are computable using programs in  $X$ and $Y$ respectively. That is, to answer such a question you need to do both of the following:
 
 1. Either prove that for every program $P$ in $X$ there is a program $P'$ in $Y$ that computes the same function as $P$, _or_ give an example for a function that is computable by an $X$-program but not computable by a $Y$-program.
 
 _and_
 
-1. Either prove that for every program $P$ in $Y$ there is a program $P'$ in $X$ that computes the same function as $P$, _or_ give an example for a function that is computable by a $Y$-program but not computable by an $X$-program.
+2. Either prove that for every program $P$ in $Y$ there is a program $P'$ in $X$ that computes the same function as $P$, _or_ give an example for a function that is computable by a $Y$-program but not computable by an $X$-program.
 
 When you give an example as above of a function that is computable in one programming language but not the other, you need to _prove_ that the function you showed is _(1)_ computable in the first programming language and _(2)_ _not computable_ in the second programming language.
 
@@ -910,7 +910,7 @@ Let XOR-CIRC be the programming language where we have the following operations 
 :::
 
 ::: {.exercise title="Circuits for majority" #majasymp}
-Prove that there is some constant $c$ such that for every $n>1$, $MAJ_n \in Size(cn)$ where $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$ is the majority function on $n$ input bits. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. See footnote for hint.^[One approach to solve this is using recursion and the  so-called [Master Theorem](https://en.wikipedia.org/wiki/Master%5Ftheorem%5F(analysis%5Fof%5Falgorithms)).]
+Prove that there is some constant $c$ such that for every $n>1$, $MAJ_n \in SIZE(cn)$ where $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$ is the majority function on $n$ input bits. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. See footnote for hint.^[One approach to solve this is using recursion and the  so-called [Master Theorem](https://en.wikipedia.org/wiki/Master%5Ftheorem%5F(analysis%5Fof%5Falgorithms)).]
 :::
 
 
