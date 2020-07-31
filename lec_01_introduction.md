@@ -241,7 +241,7 @@ T(n) \leq 3T(\floor{n/2}+1) + c' n \label{eqkaratsubarecursion}
 $$
 for some constant $c'$ (using the fact that addition can be done in $O(n)$ operations).
  
-The recursive equation [eqkaratsubarecursion](){.eqref} solves to $O(n^{\log_3 2})$.
+The recursive equation [eqkaratsubarecursion](){.eqref} solves to $O(n^{\log_2 3})$.
 The intuition behind this is presented in [karatsubafig](){.ref}, and this is also a consequence of the so called ["Master Theorem"](https://en.wikipedia.org/wiki/Master_theorem_\(analysis_of_algorithms\)) on recurrence relations.
 As mentioned above, we leave completing the proof to the reader as [karatsuba-ex](){.ref}.
 :::
