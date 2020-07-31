@@ -174,7 +174,7 @@ Hence functions that can be computed in a small number of lines (such as additio
 > ### {.remark title="More efficient representation (advanced, optional)" #efficientrepresentation}
 The ASCII representation is not the shortest representation for NAND-CIRC programs.
 NAND-CIRC programs are equivalent to circuits with NAND gates, which means that a NAND-CIRC program of $s$ lines, $n$ inputs, and $m$ outputs can be represented by a labeled directed graph of $s+n$ vertices, of which $n$ have in-degree zero, and the $s$ others have in-degree at most two.
-Using the adjacency matrix representation for such graphs, we can reduce the implicit constant in [program-count](){.ref} to be arbitrarily close to $5$, see  [efficientrepresentationex](){.ref}
+Using the adjacency matrix representation for such graphs, we can reduce the implicit constant in [program-count](){.ref} to be arbitrarily close to $5$, see  [efficientrepresentationex](){.ref}.
 
 
 ### Size hierarchy theorem (optional)
@@ -196,7 +196,7 @@ $$
 > ### {.proofidea data-ref="sizehiearchythm"}
 To prove the theorem we need to find a function $f:\{0,1\}^n \rightarrow \{0,1\}$ such that $f$ _can_ be computed by a circuit of $s+10n$ gates but it _cannot_ be computed by a circuit of $s$ gates.
 We will do so by coming up with a sequence of functions $f_0,f_1,f_2,\ldots,f_N$ with the following properties: __(1)__ $f_0$ _can_ be computed by a circuit of at most $10n$ gates, __(2)__ $f_N$ _cannot_ be computed by a circuit of $0.1 \cdot 2^n/n$ gates, and __(3)__ for every  $i\in \{0,\ldots, N\}$, if $f_i$ can be computed by a circuit of size $s$, then $f_{i+1}$ can be computed by a circuit of size at most $s + 10n$.
-Together these properties imply that if we let $i$ be the smallest number such that $f_i \not\in SIZE_n(s)$, then since $f_{i+1} \in SIZE(s)$ it must hold that $f_i \in SIZE(s+10n)$ which is what we need to prove.
+Together these properties imply that if we let $i$ be the smallest number such that $f_i \not\in SIZE_n(s)$, then since $f_{i-1} \in SIZE(s)$ it must hold that $f_i \in SIZE(s+10n)$ which is what we need to prove.
 See [hierarchyprooffig](){.ref} for an illustration.
 
 ![We prove [sizehiearchythm](){.ref} by coming up with a list $f_0,\ldots,f_{2^n}$ of functions such that $f_0$ is  the all zero function, $f_{2^n}$ is a function
@@ -213,7 +213,7 @@ $$
 The function $f_0$ is simply the constant zero function, while the function $f_{2^n}$ is equal to $f^*$.
 Moreover, for every $i\in [2^n]$, the functions $f_i$ and $f_{i+1}$ differ on at most one input (i.e., the input $x \in \{0,1\}^n$ such that $lex(x)=i$).
 Let $10n < s < 0.1 \cdot 2^n /n$, and let $i$ be the first index such that $f_i \not\in SIZE_n(s)$.
-Since $f_{2^n} = f^* \not\in SIZE(0.1 \dot 2^n / n)$ there must exist such an index $i$, and moreover $i>0$ since the constant zero function is a member of $SIZE_n(10n)$.
+Since $f_{2^n} = f^* \not\in SIZE(0.1 \cdot 2^n / n)$ there must exist such an index $i$, and moreover $i>0$ since the constant zero function is a member of $SIZE_n(10n)$.
 
 By our choice of $i$, $f_{i-1}$ is a member of $SIZE_n(s)$.
 To complete the proof, we need to show that $f_i \in SIZE_n(s + 10n)$.
@@ -594,7 +594,7 @@ For starters, one can use [CPython](https://en.wikipedia.org/wiki/CPython) (the 
 We can combine this with a C compiler to transform a Python program to various flavors of "machine language".
 So, to transform a Python program into an equivalent NAND-CIRC program, it is enough to show how to transform a _machine language_ program into an equivalent NAND-CIRC program.
 One minimalistic (and hence convenient) family of machine languages is known as the _ARM architecture_ which powers many mobile devices including essentially all Android devices.^[ARM stands for "Advanced RISC Machine" where RISC in turn stands for "Reduced instruction set computer".]
-There are even simpler machine languages, such as the [LEG architecture](https://github.com/frasercrmck/llvm-leg) for which a backend for the [LLVM compiler](http://llvm.org/) was implemented (and hence can be the target of compiling any of [large and growing list](https://en.wikipedia.org/wiki/LLVM#Front_ends) of languages that this compiler supports).
+There are even simpler machine languages, such as the [LEG architecture](https://github.com/frasercrmck/llvm-leg) for which a backend for the [LLVM compiler](http://llvm.org/) was implemented (and hence can be the target of compiling any of the [large and growing list](https://en.wikipedia.org/wiki/LLVM#Front_ends) of languages that this compiler supports).
 Other examples include the  [TinyRAM](http://www.scipr-lab.org/doc/TinyRAM-spec-0.991.pdf) architecture (motivated by interactive proof systems that we will discuss in [chapproofs](){.ref}) and the teaching-oriented [Ridiculously Simple Computer](https://www.ece.umd.edu/~blj/RiSC/) architecture.
 Going one by one over the instruction sets of such computers and translating them to NAND snippets is no fun, but it is a feasible thing to do.
 In fact, ultimately this is very similar to the transformation that takes place in converting our high level code to actual silicon gates that are not so different from the operations of a NAND-CIRC program.
