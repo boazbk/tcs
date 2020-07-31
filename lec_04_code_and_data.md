@@ -709,7 +709,7 @@ Much of the recent efforts in artificial intelligence research is focused on fin
 * **Quantum computation.** The most compelling attack on the Physical Extended Church Turing Thesis comes from the notion of _quantum computing_.
 The idea was initiated by the observation that systems with strong quantum effects are very hard to simulate on a computer.
 Turning this observation on its head, people have proposed using such systems to perform computations that we do not know how to do otherwise.
-At the time of this writing, Scalable quantum computers have not yet been built, but it is a fascinating possibility, and one that does not seem to contradict any known law of nature.
+At the time of this writing, scalable quantum computers have not yet been built, but it is a fascinating possibility, and one that does not seem to contradict any known law of nature.
 We will discuss quantum computing in much more detail in [quantumchap](){.ref}.
 Modeling quantum computation    involves extending the model of Boolean circuits into _Quantum circuits_ that have one more (very special) gate.
 However, the main takeaway is that while quantum computing does suggest we need to amend the PECTT, it does _not_ require a complete revision of our worldview. Indeed, almost all of the content of this book remains the same regardless of whether the underlying computational model is Boolean circuits or quantum circuits.
