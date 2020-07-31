@@ -504,16 +504,16 @@ This part is not the core of Cantor's argument, nor are such limits important to
 
 ::: {.proofidea data-ref="sequencestoreals"}
 We define $FtR(f)$ to be the number between $0$ and $2$ whose decimal expansion is $f(0).f(1) f(2) \ldots$, or in other words  $FtR(f) = \sum_{i=0}^{\infty} f(i) \cdot 10^{-i}$.
-To prove that $FtR$ is one to one, we need to show that if $f \neq g$ then $FtR(f) \neq FtR(g)$.
-To do that we let $k\in \N$ be the first input on which $f$ and $g$ disagree.
-The numbers $FtR(f)$ and $FtR(g)$ agree in the first $k-1$ digits following the decimal point and disagree in the $k$-th digit. One can then calculate and verify that this means that $|FtR(f)-FtR(g)| > 0.5 \cdot 10^{-k}$ which in particular means that these two numbers are distinct from one another. (You might wonder why we can't immediately deduce that two numbers that differ in a digit are not the same. The issue is that we have to be a little more careful when talking about infinite expansions. For example, the number one half has two decimal expansions $0.5$ and $0.49999\cdots$. However, this issue does not come up if (as in our case) we restrict attention only to numbers with decimal expansions that do not involve the digit $9$.)
+If $f$ and $g$ are two distinct functions in $\{0,1\}^\infty$, then there must be some input $k$ in which they disagree.
+If we take the minimum such $k$, then the numbers $f(0).f(1) f(2) \ldots f(k-1) f(k) \ldots$ and $g(0) . g(1) g(2) \ldots g(k) \ldots$ agree with each other all the way up to the $k-1$-th digit after the decimal point, and disagree on the $k$-th digit.
+But then these numbers must be distinct. 
+Concretely, if $f(k)=1$ and $g(k)=0$ then the first number is larger than the second, and otherwise ($f(k)=0$ and $g(k)=1$) the first number is smaller than the second.
+In the proof we have to be a little  careful since these are numbers with _infinite expansions_. For example, the number one half has two decimal expansions $0.5$ and $0.49999\cdots$. However, this issue does not come up here, since we restrict attention only to numbers with decimal expansions that do not involve the digit $9$.
 :::
 
 ::: {.proof data-ref="sequencestoreals"}
-
 For every $f \in \{0,1\}^\infty$,  we define $FtR(f)$ to be the number whose decimal expansion is $f(0).f(1)f(2)f(3)\ldots$.
-
-Formally we define
+Formally, 
 $$
 FtR(f) = \sum_{i=0}^\infty f(i) \cdot 10^{-i} \label{eqcantordecimalexpansion}
 $$
@@ -560,23 +560,16 @@ from $\{0,1\}^\infty$ to $ALL$. Hence the uncountability of $\{0,1\}^\infty$ imp
 
 
 ::: {.proof data-ref="uncountalbefuncthm"}
-We prove the theorem  by giving a one-to-one map $SEQtALL$ from $\{0,1\}^\infty$ to $ALL$.
-If $ALL$ was countable then there would exist a one-to-one map $ALLtS$ from $ALL$ to $\{0,1\}^*$, but then composing
-it with $SEQtALL$ would yield a one-to-one map from $\{0,1\}^\infty$ to $\{0,1\}^*$, contradicting [sequencestostrings](){.ref}.
+Since $\{0,1\}^\infty$ is uncountable, the result will follow by showing a one-to-one map from $\{0,1\}^\infty$ to $ALL$.
+The reason is that the existence of such a map implies that if $ALL$ was countable, and hence there was a one-to-one map from $ALL$ to $\N$, then there would have been a one-to-one map from $\{0,1\}^\infty$ to $\N$, contradicting [sequencestostrings](){.ref}.
 
+We now show this one-to-one map. We simply map a function $f \in \{0,1\}^\infty$ to the function $F:\{0,1\}^* \rightarrow \{0,1\}$ as follows.
+We let $F(0)=f(0)$, $F(1)=f(1)$, $F(10)=F(2)$, $F(11)=F(3)$ and so on and so forth.
+That is, for every $x\in \{0,1\}^*$ that represents a natural number $n$ in the binary basis, we define $F(x)=f(n)$.
+If $x$ does not represent such a number (e.g., it has a leading zero), then we set $F(x)=0$.
 
-We now construct the map $SEQtALL$. Since every number $n\in \N$ can be represented by a string, there is a one-to-one map $NtS:\N \rightarrow \{0,1\}^*$.
-Given $f:\N \rightarrow \{0,1\}$, define $SEQtALL(f)$ as the following function $F:\{0,1\}^* \rightarrow \{0,1\}$:
-
-$$
-F(x) = \begin{cases} f(n) & \exists_{n\in N} x=NtS(n)  \\ 
-                     0 & \text{otherwise} 
-                     \end{cases}
-$$
-(This is well-defined since $NtS$ is one-to-one and hence there cannot exist more than one $n\in \N$ such that $x=NtS(n)$.)
-We  claim that $SEQtALL$ is one-to-one. 
-Indeed, for every $f,f' \in \{0,1\}^\infty$, if $f \neq f'$ then there must be some $n\in \N$ such that $f(n) \neq f'(n)$.
-But then, letting $F=SEQtALL(f)$ and $F'=SEQtALL(f')$,  $F(x) \neq F'(x)$ where $x= NtS(n)$.
+This map is one-to-one since if $f \neq g$ are two distinct elements in $\{0,1\}^\infty$, then there must be some input $n\in \N$ on which $f(n) \neq g(n)$.
+But then if $x\in \{0,1\}^*$ is the string representing $n$, we see that $F(x) \neq G(x)$ where $F$ is the function in $ALL$ that $f$ mapped to, and $G$ is the function that $g$ is mapped to.
 :::
 
 ### Equivalent conditions for countability { #equivcountablesec }
