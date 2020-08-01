@@ -83,7 +83,7 @@ A function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ specifies the computational task 
 
 As we've seen before, restricting attention to functions that use binary strings as inputs and outputs  does not detract from our generality, since other objects, including numbers, lists, matrices, images, videos, and more, can be encoded as binary strings.
 
-As before, it is important to diferentiate between _specification_ and _implementation_. For example, consider the following function:
+As before, it is important to differentiate between _specification_ and _implementation_. For example, consider the following function:
 
 $$
 TWINP(x) = \begin{cases} 
