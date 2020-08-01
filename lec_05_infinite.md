@@ -553,7 +553,7 @@ OUTPUT:  $\Phi_e(x)$
 
 procedure{Match}{$e$,$x$}
 lIf {$e=\emptyset$} return $0$ lendif
-lIf {$x=""$} return $1$ iff $e=""$ lendif
+lIf {$x=""$} return $\CALL{MatchEmpty}(e)$lendif
 lIf {$e \in \Sigma$} return $1$ iff $x=e$ lendif
 lIf {$e = (e' | e'')$} return {$Match(e',x)$ or $Match(e'',x)$} lendif
 If {$e= (e')(e'')$}
@@ -573,10 +573,12 @@ return $0$
 endprocedure
 ```
 
+We assume above that we have a procedure $\text{\textsc{MatchEmpty}}$ that on input a regular expression $e$ outputs $1$ if and only if $e$ matches the empty string $""$.
 
-The key observation is that in our recursive definition of regular expressions, whenever $e$ is made up of one or two expressions $e',e''$ then these two regular expressions are _smaller_ than $e$, and eventually (when they have size $1$) then they must correspond to the non-recursive case of a single alphabet symbol. 
-Correspondingly, the recursive calls made in [regexpmatchalg](){.ref} always correspond to a shorter expression or (in the case of an expression of the form
- $(e')^*$) a shorter input string.
+
+The key observation is that in our recursive definition of regular expressions, whenever $e$ is made up of one or two expressions $e',e''$ then these two regular expressions are _smaller_ than $e$.
+Eventually (when they have size $1$) then they must correspond to the non-recursive case of a single alphabet symbol. 
+Correspondingly, the recursive calls made in [regexpmatchalg](){.ref} always correspond to a shorter expression or (in the case of an expression of the form  $(e')^*$) a shorter input string.
 Thus, we can prove the correctness of [regexpmatchalg](){.ref} on inputs of the form $(e,x)$ by induction over $\min \{ |e|, |x| \}$. 
 The base case is when either $x=""$ or $e$ is a single alphabet symbol, $""$ or $\emptyset$.
 In the case the expression is of the forrm $e=(e'|e'')$ or $e=(e')(e'')$ then we make recursive calls with the shorter
@@ -584,6 +586,36 @@ expressions $e',e''$.
 In the case the expression is of the form $e=(e')^*$ we make recursive calls with either a shorter string $x$ and the same expression,
 or with the shorter expression $e'$ and a string $x'$ that is equal in length or shorter than $x$.
 
+
+::: {.solvedexercise title="Match the emptry string" #emptymatchex}
+Give an algorithm that on input a regular expression $e$, outputs $1$ if and only if $\Phi_e("")=1$.
+:::
+
+::: {.solution data-ref="emptymatchex"}
+We can obtain such a recursive algorithm by using the following observations:
+
+1. An expression of the form $""$ or $(e')^*$ always matches the empty string.
+
+2. An expression of the form $\sigma$, where $\sigma \in \Sigma$  is an alphabet symbol, never matches the empty string.
+
+3. The regular expression $\emptyset$ does not match the empty string.
+
+4. An expression of the form $e'|e''$ matches the empty string if and only if one of $e'$ or $e''$ matches it.
+
+5. An expression of the form $(e')(e'')$ matches the empty string if and only if both $e'$ and $e''$ match it.
+
+Given the above observations, we see that the following algorithm will check if $e$ matches the empty string:
+
+procedure{MatchEmpty}{$e$}
+lIf {$e=\emptyset$} return $0$ lendif
+lIf {$e=""$} return $1$ lendif
+lIf {$e=\emptyset$ or $e \in \Sigma$} return $0$ lendif
+lIf {$e=(e'|e'')$} return $MatchEmpty(e')$ or $MatchEmpty(e'')$ lendif
+LIf {$e=(e')(r')$} return $MatchEmpty(e')$ or $MatchEmpty(e'')$ lendif
+lIf {$e=(e')^*$} return $1$ lendif
+endprocedure
+
+:::
 
 
 ## Efficient matching of regular expressions (optional)
@@ -647,7 +679,7 @@ INPUT: Regular expression $e$ over $\Sigma^*$, $x\in \Sigma^n$ where $n\in\N$
 OUTPUT:  $\Phi_e(x)$
 
 procedure{FMatch}{$e$,$x$}
-lIf {$x=""$} return $1$ iff $e=""$ lendif
+lIf {$x=""$} return $\CALL{MatchEmpty}(e)$ lendif
 Let $e' \leftarrow \CALL{Restrict}{e,x_{n-1}}$
 return $FMatch(e',x_0 \cdots x_{n-1})$
 endprocedure
@@ -657,6 +689,8 @@ endprocedure
 By the definition of a restriction, for every $\sigma\in \Sigma$ and $x'\in \Sigma^*$, the expression $e$ matches $x'\sigma$ if and only if $e[\sigma]$ matches $x'$.
 Hence for every $e$ and $x\in \Sigma^n$,  $\Phi_{e[x_{n-1}]}(x_0\cdots x_{n-2}) = \Phi_e(x)$ and [regexpmatchlinearalg](){.ref} does return the correct answer.
 The only remaining task is to analyze its _running time_.
+Note that [regexpmatchlinearalg](){.ref} uses the  $\text{\textsc{MatchEmpty}}$  procedure of [emptymatchex](){.ref} in the base case that $x=""$.
+However, this is OK since  the running time of this procedure depends only on $e$ and is independent of the length of the original input.
 
 
 For simplicity, let us restrict our attention to the case that the alphabet $\Sigma$ is equal to $\{0,1\}$.
