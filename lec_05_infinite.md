@@ -329,17 +329,18 @@ Here is a simple Python program for computing $F$:
 ```python
 def F(X):
     '''Return 1 iff X is a concatenation of zero/more copies of [0,1,0]'''
-
-    # initialize by imagining that we saw "010" before, 
-    # so we will accept the empty string
+    if len(X) % 3 != 0:
+        return False
     ultimate = 0
     penultimate = 1
     antepenultimate = 0
-    for b in X:
+    for idx, b in enumerate(X):
         antepenultimate = penultimate
         penultimate = ultimate
         ultimate = b
-    return (antepenultimate, penultimate, ultimate) == (0,1,0)
+        if idx % 3 == 2 and ((antepenultimate, penultimate, ultimate) != (0,1,0)):
+            return False
+    return True
 ```
 
 Since we keep three Boolean variables, the working memory can be in one of  $2^3 = 8$ configurations, and
