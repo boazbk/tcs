@@ -475,7 +475,7 @@ Finally we also allow the following "edge cases": $e = \emptyset$ and $e = ""$. 
 :::
 
 We will drop parenthesis when they can be inferred from the context.
-We also use the convention that OR and concatenation are left-associative, and give higher precedence to $*$, then concatenation, and then OR.
+We also use the convention that OR and concatenation are left-associative, and we give highest precedence to $*$, then concatenation, and then OR.
 Thus for example we write $00^*|11$ instead of $((0)(0^*))|((1)(1))$.
 
 
@@ -588,7 +588,7 @@ In the case the expression is of the form $e=(e')^*$ we make recursive calls wit
 or with the shorter expression $e'$ and a string $x'$ that is equal in length or shorter than $x$.
 
 
-::: {.solvedexercise title="Match the emptry string" #emptymatchex}
+::: {.solvedexercise title="Match the empty string" #emptymatchex}
 Give an algorithm that on input a regular expression $e$, outputs $1$ if and only if $\Phi_e("")=1$.
 :::
 
@@ -639,7 +639,7 @@ This makes sense, since in practice we often want to compute $\Phi_e(x)$ for a s
 [reglintimethm](){.ref} tells us that we can do so with running time that scales linearly with the size of the document, even if it has (potentially) worse dependence on the size of the regular expression.
 
 
-We prove [reglintimethm](){.ref} by obtaining more efficient recursive algorithm, that determines whether $e$ matches a string $x\in \{0,1\}^n$  by reducing this task to determining whether a related expression $e'$ matches $x_0,\ldots,x_{n-1}$.
+We prove [reglintimethm](){.ref} by obtaining more efficient recursive algorithm, that determines whether $e$ matches a string $x\in \{0,1\}^n$  by reducing this task to determining whether a related expression $e'$ matches $x_0,\ldots,x_{n-2}$.
 This will result in an expression for the running time of the form $T(n) = T(n-1) + O(1)$ which solves to $T(n)=O(n)$.
 
 __Restrictions of regular expressions.__  The central definition for the algorithm behind [reglintimethm](){.ref} is the notion of a _restriction_ of a regular expression.
@@ -664,10 +664,10 @@ OUTPUT: Regular expression $e'=e[\sigma]$ such that $\Phi_{e'}(x) = \Phi_e(x \si
 procedure{Restrict}{$e$,$\sigma$}
 lIf {$e=""$ or $e=\emptyset$} return $\emptyset$ lendif
 lIf {$e=\tau$ -for $\tau \in \Sigma$} return $""$ -if $\tau=\sigma$ and return $\emptyset$ otherwise lendif
-lIf {$e=(e'|e'')$} return $Restrict(e',\sigma) | Restrict(e'',\sigma)$ lendif
+lIf {$e=(e'|e'')$} return $(Restrict(e',\sigma) | Restrict(e'',\sigma))$ lendif
 lIf {$e=(e')^*$} return $(e')^* (Restrict(e',\sigma))$ lendif
-lIf {$e= (e')(e'')$ and $\Phi_{e''}("")=0$} return $(e')(Restrict(e'',\sigma)$ lendif
-lIf {$e= (e')(e'')$ and $\Phi_{e''}("")=1$} return $(e')(Restrict(e'',\sigma) \; | \; Restrict(e',\sigma)$ lendif
+lIf {$e= (e')(e'')$ and $\Phi_{e''}("")=0$} return $(e')(Restrict(e'',\sigma))$ lendif
+lIf {$e= (e')(e'')$ and $\Phi_{e''}("")=1$} return $(e')(Restrict(e'',\sigma) \; | \; Restrict(e',\sigma))$ lendif
 endprocedure
 ```
 
@@ -700,7 +700,7 @@ $e$ over $\{0,1\}$ of at most $\ell$ symbols.
 The value $C(\ell)$ can be shown to be polynomial in $\ell$, though this is not important for this theorem, since we only care about the dependence of the time to compute $\Phi_e(x)$ on the length of $x$ and not about the dependence of this time on the length of $e$.
 
 
-[regexpmatchlinearalg](){.ref} is a recursive algorithm that on input an expression $e$ and a string $x\in \{0,1\}^n$, does computation of at most $C(|e|)$ steps and then calls itself on input some expression $e'$  and a string $x$ of length $n-1$.
+[regexpmatchlinearalg](){.ref} is a recursive algorithm that input an expression $e$ and a string $x\in \{0,1\}^n$, does computation of at most $C(|e|)$ steps and then calls itself with input some expression $e'$  and a string $x'$ of length $n-1$.
 It will terminate after $n$ steps when it reaches a string of length $0$.
 So, the running time $T(e,n)$ that it takes for [regexpmatchlinearalg](){.ref} to compute $\Phi_e$ for inputs of length $n$ satisfies the recursive equation:
 
@@ -728,13 +728,13 @@ We will prove the claim by showing that for every $e$, the set $S(e)$ is finite,
 
 We prove this by induction on the structure of $e$. If $e$ is a symbol, the empty string, or the empty set, then this is straightforward to show as the most expressions $S(e)$ can contain are the expression itself, $""$, and $\emptyset$. Otherwise we split to the two cases __(i)__ $e = e'^*$  and __(ii)__ $e = e'e''$, where $e',e''$ are smaller expressions (and hence by the induction hypothesis $S(e')$ and $S(e'')$ are finite).
 In the case __(i)__,  if $e = (e')^*$ then $e[\alpha]$ is either equal to $(e')^* e'[\alpha]$ or it is simply the empty set if $e'[\alpha]=\emptyset$. Since $e'[\alpha]$ is in the set $S(e')$, the number of distinct expressions in  $S(e)$ is at most  $|S(e')|+1$.
-In the case __(ii)__,  if $e = e' e''$ then all the restrictions of $e$ to strings $\alpha$ will either have the form $e' e''[\alpha]$ or the form $e' e''[\alpha] | e'[\alpha']$ where $\alpha'$ is some string such that $\alpha = \alpha' \alpha''$ and $e[\alpha'']$ matches the empty string.
+In the case __(ii)__,  if $e = e' e''$ then all the restrictions of $e$ to strings $\alpha$ will either have the form $e' e''[\alpha]$ or the form $e' e''[\alpha] | e'[\alpha']$ where $\alpha'$ is some string such that $\alpha = \alpha' \alpha''$ and $e''[\alpha'']$ matches the empty string.
 Since $e''[\alpha] \in S(e'')$ and $e'[\alpha'] \in S(e')$, the number of the possible distinct expressions of the form $e[\alpha]$  is at most $|S(e'')| + |S(e'')|\cdot |S(e')|$.  This completes the proof of the claim.
 :::
 
 
 The bottom line is that while running [regexpmatchlinearalg](){.ref} on a regular expression $e$, all the expressions we ever encounter are in the finite set $S(e)$, no matter how large the input $x$ is, and so the running time of [regexpmatchlinearalg](){.ref} satisfies the equation $T(n) = T(n-1) + C'$ for some constant $C'$ depending on $e$.
-This solves to $O(n)$ where the implicit constant in the Oh notation can (and will) depend on $e$ but crucially, not on the length of the input $x$.
+This solves to $O(n)$ where the implicit constant in the O notation can (and will) depend on $e$ but crucially, not on the length of the input $x$.
 
 
 
@@ -766,8 +766,8 @@ For {$e' \in S$}
     Let $v_{e'} \leftarrow 1$ -if $\Phi_{e'}("")=1$ and $v_{e'} \leftarrow 0$ otherwise
 endfor
 For {$i \in [n]$}
-    Let $last_e' \leftarrow v_{e'}$ -for all $e' \in S$
-    Let $v_e' \leftarrow last_{e'[x_i]}$ -for all $e' \in S$
+    Let $last_{e'} \leftarrow v_{e'}$ -for all $e' \in S$
+    Let $v_{e'} \leftarrow last_{e'[x_i]}$ -for all $e' \in S$
 endfor
 return $v_e$
 endprocedure
@@ -803,7 +803,7 @@ For the other direction, we show that given a DFA $(T,\mathcal{S})$ for every $v
 
 ![A deterministic finite automaton that computes the function $\Phi_{(01)^*}$.](../figure/automaton.png){#automatonregfig .margin }
 
-![Given a DFA of $C$ states, for every $v,w \in [C]$ and number $t\in \{0,\ldots,C\}$ we define the function $F^t_{v,w}:\{0,1\}^* \rightarrow \{0,1\}$ to output one on input $x\in \{0,1\}^*$ if and only if when the DFA is initialized in the state $v$ and is given the input $x$,  it will teach the state $w$ while going only through the intermediate states $\{0,\ldots,t-1\}$.](../figure/dfatoreg1.png){#dfatoregonefig .margin}
+![Given a DFA of $C$ states, for every $v,w \in [C]$ and number $t\in \{0,\ldots,C\}$ we define the function $F^t_{v,w}:\{0,1\}^* \rightarrow \{0,1\}$ to output one on input $x\in \{0,1\}^*$ if and only if when the DFA is initialized in the state $v$ and is given the input $x$,  it will reach the state $w$ while going only through the intermediate states $\{0,\ldots,t-1\}$.](../figure/dfatoreg1.png){#dfatoregonefig .margin}
 
 
 ::: {.proof data-ref="dfaregequivthm"}
@@ -838,7 +838,7 @@ If the path labeled by $x$ causes the automaton to get from $v$ to $w$ while vis
 
 * First travel from $v$ to $t$ using only intermediate states in $[t-1]$.
 
-* Then go from $t$ back to itself $k-1$ using only intermediate states in $[t-1]$
+* Then go from $t$ back to itself $k-1$ times using only intermediate states in $[t-1]$
 
 * Then go from $t$ to $w$ using only intermediate states in $[t-1]$.
 
@@ -954,7 +954,7 @@ Otherwise, if $|w'| \leq 2|e'|$ then since $|w|=|w'|+|w''|>n_0=2(|e'|+|e''|)$, i
 Hence by the induction hypothesis there exist $x',y,z$ such that $|y| \geq 1$, $|x'y| \leq 2|e''|$ and $e''$ matches $x'y^kz$ for every $k\in \N$.
 But now if we set $x=w'x'$ we see that $|xy| \leq |w'| + |x'y| \leq 2|e'| + 2|e''| =n_0$ and on the other hand  the expression $e=(e')(e'')$ matches $xy^kz = w'x'y^kz$ for every $k\in \N$.
 
-In case __(c)__, if $w$ is matched $(e')^*$ then $w= w_0\cdots w_t$ where for every $i\in [t]$, $w_i$ is a nonempty string matched by $e'$.
+In case __(c)__, if $w$ is matched by $(e')^*$ then $w= w_0\cdots w_t$ where for every $i\in [t]$, $w_i$ is a nonempty string matched by $e'$.
 If $|w_0|>2|e'|$ then we can use the same approach as in the concatenation case above.
 Otherwise, we simply note that if $x$ is the empty string, $y=w_0$, and $z=w_1\cdots w_t$ then $|xy| \leq n_0$ and $xy^kz$ is matched by $(e')^*$ for every $k\in \N$.
 :::
@@ -981,7 +981,7 @@ So, if we want to use the pumping lemma to rule out the existence of a regular e
 This makes sense if you think about the intuition behind the pumping lemma: we need $w$ to be large enough as to force the use of the star operator.
 
 
-![A cartoon of a proof using the pumping lemma that a function $F$ is not regular. The pumping lemma states that if $F$ is regular then _there exists_ a number $n_0$ such that _for every_ large enough $w$ with $F(w)=1$, _there exists_ a partition of $w$ to $w=xyz$ satisfying certain conditions such that _for every_ $k\in \N$, $F(xy^kz)=1$. You can imagine a pumping-lemma based proof as a game between you and the adversary. Every _there exists_ quantifier corresponds to an object you are free to choose on your own (and base your choice on previously chosen objects). Every _for every_ quantifier corresponds to an object the adversary can choose arbitrarily (and again based on prior choices) as long as it satisfies the conditions. A valid proof corresponds to a strategy by which no matter what the adversary does, you can win the game by obtaining a contradiction which would be a choice of $k$ that would result in $F(xy^ky)=0$, hence violating the conclusion of the pumping lemma.](../figure/pumpinglemmaproof.png){#pumpingprooffig  .full  }
+![A cartoon of a proof using the pumping lemma that a function $F$ is not regular. The pumping lemma states that if $F$ is regular then _there exists_ a number $n_0$ such that _for every_ large enough $w$ with $F(w)=1$, _there exists_ a partition of $w$ to $w=xyz$ satisfying certain conditions such that _for every_ $k\in \N$, $F(xy^kz)=1$. You can imagine a pumping-lemma based proof as a game between you and the adversary. Every _there exists_ quantifier corresponds to an object you are free to choose on your own (and base your choice on previously chosen objects). Every _for every_ quantifier corresponds to an object the adversary can choose arbitrarily (and again based on prior choices) as long as it satisfies the conditions. A valid proof corresponds to a strategy by which no matter what the adversary does, you can win the game by obtaining a contradiction which would be a choice of $k$ that would result in $F(xy^kz)=0$, hence violating the conclusion of the pumping lemma.](../figure/pumpinglemmaproof.png){#pumpingprooffig  .full  }
 
 ::: {.solvedexercise title="Palindromes is not regular" #palindromenotreg}
 Prove that the following function over the alphabet $\{0,1,; \}$ is not regular: $PAL(w)=1$  if and only if $w = u;u^R$ where $u \in \{0,1\}^*$ and $u^R$ denotes $u$ "reversed": the string $u_{|u|-1}\cdots u_0$.
@@ -1048,7 +1048,7 @@ Let $REGEQ:\{0,1\}^* \rightarrow \{0,1\}$ be the function that on input (a strin
 
 
 > ### {.proofidea data-ref="regequivalencethm"}
-The idea is to show that given a pair of regular expressions $e$ and $e'$ we can find an expression $e''$ such that $\Phi_{e''}(x)=1$ if and only if $\Phi_e(x) \neq \Phi_{e''}(x)$. Therefore $\Phi_{e''}$ is the constant zero function if and only if $e$ and $e'$ are equivalent, and thus we can test for emptiness of $e''$ to determine equivalence of $e$ and $e'$.
+The idea is to show that given a pair of regular expressions $e$ and $e'$ we can find an expression $e''$ such that $\Phi_{e''}(x)=1$ if and only if $\Phi_e(x) \neq \Phi_{e'} (x)$. Therefore $\Phi_{e''}$ is the constant zero function if and only if $e$ and $e'$ are equivalent, and thus we can test for emptiness of $e''$ to determine equivalence of $e$ and $e'$.
 
 
 ::: {.proof data-ref="regequivalencethm"}
@@ -1115,6 +1115,7 @@ Suppose that $F,G:\{0,1\}^* \rightarrow \{0,1\}$ are regular. For each one of th
 
 ::: {.exercise  #regularno}
 One among the following two functions that map $\{0,1\}^*$ to $\{0,1\}$ can be computed by a regular expression, and the other one cannot. For the one that can be computed by a regular expression, write the expression that does it. For the one that cannot, prove that this cannot be done using the pumping lemma.
+
 * $F(x)=1$ if $4$ divides $\sum_{i=0}^{|x|-1} x_i$ and  $F(x)=0$ otherwise.
 
 * $G(x) = 1$ if and only if $\sum_{i=0}^{|x|-1} x_i \geq |x|/4$ and $G(x)=0$ otherwise.
@@ -1135,7 +1136,7 @@ It is covered more extensively in [@SipserBook, @hopcroft, @kozen1997automata].
 These texts also discuss topics such as _non deterministic finite automata_ (NFA) and the relation between context-free grammars and pushdown automata.
 
 The automaton of [dfazeroonefig](){.ref} was generated using the [FSM simulator](http://ivanzuzak.info/noam/webapps/fsm_simulator/) of Ivan Zuzak and Vedrana Jankovic.
-Our proof of [reglintimethm](){.ref} is closely related to the [Myhill-Nerode Theorem](https://goo.gl/mnKVMP). One direction of the Myhill-Nerode theorem theorem can be stated as saying that if $e$ is a regular expression then there is at most a finite number of strings $z_0,\ldots,z_{k-1}$ such that $\Phi_{e[z_i]} \neq \Phi_{e[z_j]}$ for every $0 \leq i\neq j < k$.
+Our proof of [reglintimethm](){.ref} is closely related to the [Myhill-Nerode Theorem](https://goo.gl/mnKVMP). One direction of the Myhill-Nerode theorem can be stated as saying that if $e$ is a regular expression then there is at most a finite number of strings $z_0,\ldots,z_{k-1}$ such that $\Phi_{e[z_i]} \neq \Phi_{e[z_j]}$ for every $0 \leq i\neq j < k$.
 
 
 
