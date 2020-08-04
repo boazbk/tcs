@@ -39,8 +39,8 @@ We will also define the restriction of a function over unbounded length strings 
 
 In the second half of this chapter we discuss _finite automata_, which is a model for computing functions of unbounded length.
 This model is not as powerful as Python or other general-purpose programming languages, but can serve as an introduction to these more general models.
-We also show a beautiful result - the functions computable by finite automata are exactly the ones that correspnd to _regular expressions_.
-However, the reader can also feel free to skip automata and go straight to our discussion of _Turing Machines_ in [chaploops](){.ref}
+We also show a beautiful result - the functions computable by finite automata are exactly the ones that correspond to _regular expressions_.
+However, the reader can also feel free to skip automata and go straight to our discussion of _Turing Machines_ in [chaploops](){.ref}.
 :::
 
 
@@ -87,7 +87,7 @@ As before, it is important to differentiate between _specification_ and _impleme
 
 $$
 TWINP(x) = \begin{cases} 
-       1 & \exists_{p \in \N} \text{ s.t.} p,p+2 \text{ are primes and} p>|x| \\
+       1 & \exists_{p \in \N} \text{ s.t.} p,p+2 \text{ are primes and } p>|x| \\
        0 & \text{otherwise}     
        \end{cases}
 $$
@@ -101,7 +101,7 @@ That said, whether or not we know how to _implement_ the function $TWINP$, the d
 
 
 
-### Variying inputs and outputs
+### Varying inputs and outputs
 
 Many of the functions we are interested in take more than one input. For example the function
 
@@ -110,7 +110,7 @@ MULT(x,y) = x \cdot y
 $$
 
 that takes the binary representation of a pair of integers $x,y \in \N$ and outputs the binary representation of their product $x \cdot y$.
-However, since we can represent a pair of strings as a single string, we will consider functions such as mult as mapping $\{0,1\}^*$ to $\{0,1\}^*$.
+However, since we can represent a pair of strings as a single string, we will consider functions such as MULT as mapping $\{0,1\}^*$ to $\{0,1\}^*$.
 We will typically not be concerned with low-level details such as the precise way to represent a pair of integers as a string, since essentially all 
 choices will be equivalent for our purposes.
 
@@ -223,7 +223,7 @@ However, in this section we will present the more basic model of _deterministic 
 Automata can serve as a good stepping-stone for Turing machines, though they will not be used much in later parts of this book, and so the
 reader can feel free to skip ahead fo [chaploops](){.ref}.
 DFAs turn out to be equivalent in power to _regular expressions_, which are a powerful mechanism to specify patterns that is widely used in practice.
-Our treatment of automata inis quite brief. There are plenty of resources that help you get more comfortable with DFA's.
+Our treatment of automata is quite brief. There are plenty of resources that help you get more comfortable with DFA's.
 In particular, Chapter 1 of Sipser's book [@SipserBook] contains an excellent exposition of this material.
 There are also many websites with online simulators for automata, as well as translators from regular expressions to automata and vice versa 
 (see for example [here](http://ivanzuzak.info/noam/webapps/fsm2regex/) and [here](https://cyberzhg.github.io/toolbox/nfa2dfa)).
@@ -352,7 +352,7 @@ See also [DFAzerooneexecfig](){.ref}, which depicts the execution of this DFA on
 
 
 
-![A DFA that outouts $1$ only on inputs $x\in \{0,1\}^*$ that are a concatenation of zero or more copies of $010$.
+![A DFA that outputs $1$ only on inputs $x\in \{0,1\}^*$ that are a concatenation of zero or more copies of $010$.
 The state $0$ is both the starting state and the only accepting state.
 The table denotes the transition function of $T$, which maps the current state and symbol read to the new symbol.](../figure/DFA010a.png){#dfazeroonefig  .margin }
 
@@ -379,7 +379,7 @@ __Components of unbounded size:__ The following quantities relating to a DFA are
 * The number of steps that the DFA takes can grow with the length of the input. Indeed, a DFA makes a single pass on the input and so it takes exactly $|x|$ steps on an input $x\in \{0,1\}^*$.
 
 ![Execution of the DFA of [dfazeroonefig](){.ref}. The number of states and the size of the transition function are bounded, but the input can be arbitrarily long.
-If the DFA is at state $s$ and observes the value $\sigma$ then it moves to the state $T(s,\sigma)$. At the end of the execution the DFA accepts iff the final state is in $\mathcal{A}$.](../figure/DFA010execution.png){#DFAzerooneexecfig}
+If the DFA is at state $s$ and observes the value $\sigma$ then it moves to the state $T(s,\sigma)$. At the end of the execution the DFA accepts iff the final state is in $\mathcal{S}$.](../figure/DFA010execution.png){#DFAzerooneexecfig}
 
 
 ### DFA-computable functions
@@ -419,7 +419,7 @@ which means that $DFACOMP$ is countable (see [equivcountablesec](){.ref}).
 Since the set of _all_ Boolean functions is uncountable, we get the following corollary:
 
 > ### {.theorem title="Existence of DFA-uncomputable functions" #DFAdontcomputeeverything}
-There exist a Boolean function $F:\{0,1\}^* \rightarrow \{0,1\}$ that is not computable by _any_ DFA.
+There exists a Boolean function $F:\{0,1\}^* \rightarrow \{0,1\}$ that is not computable by _any_ DFA.
 
 
 ::: {.proof data-ref="DFAdontcomputeeverything"}
