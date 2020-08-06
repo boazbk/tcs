@@ -379,7 +379,7 @@ As we will see, adding loops and arrays to NAND-CIRC is enough to capture the fu
 But we're getting ahead of ourselves: this issue will be discussed in [chapequivalentmodels](){.ref}.
 
 
-Concretely, the NAND-TM programming language adds the following features on top of NANC-CIRC (see [nandtmfig](){.ref}):
+Concretely, the NAND-TM programming language adds the following features on top of NAND-CIRC (see [nandtmfig](){.ref}):
 
 * We add a special _integer valued_ variable `i`. All other variables in NAND-TM are _Boolean valued_ (as in NAND-CIRC).
 
