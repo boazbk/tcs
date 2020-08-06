@@ -13,7 +13,7 @@ NAND-TM programs, which add _loops_ and _arrays_ to NAND-CIRC.
 * See some basic syntactic sugar and equivalence of variants of Turing machines and NAND-TM programs.
 
 
->_"The bounds of arithmetic were however outstepped the moment the idea of applying the [punched] cards had occurred; and the Analytical Engine does not occupy common ground with mere "calculating machines."" ... In enabling mechanism to combine together general symbols, in successions of unlimited variety and extent, a uniting link is established between the operations of matter and the abstract mental processes of the most abstract branch of mathematical science. "_, Ada Augusta, countess of Lovelace, 1843
+>_"The bounds of arithmetic were however outstepped the moment the idea of applying the [punched] cards had occurred; and the Analytical Engine does not occupy common ground with mere 'calculating machines.' ... In enabling mechanism to combine together general symbols, in successions of unlimited variety and extent, a uniting link is established between the operations of matter and the abstract mental processes of the most abstract branch of mathematical science. "_, Ada Augusta, countess of Lovelace, 1843
 
 
 
@@ -104,7 +104,7 @@ Specifically, a computation of a Turing Machine $M$ with $k$ states and alphabet
 
 * The set of rules the Turing machine follows is known as its _transition function_.
 
-* When the machine halts then its output is the binary string obtained by reading the tape from the beginning until the head position, dropping all symbolssuch as $\triangleright$, $\varnothing$, etc. that are not either $0$ or $1$. 
+* When the machine halts then its output is the binary string obtained by reading the tape from the beginning until the head position, dropping all symbols such as $\triangleright$, $\varnothing$, etc. that are not either $0$ or $1$.
 
 ![The components of a Turing Machine. Note how they correspond to the general components of algorithms as described in [algcomponentfig](){.ref}.](../figure/turingmachinecomponents.png){#turingmachinecomponentsfig .margin }
 
@@ -220,7 +220,7 @@ We say that a function $F$ is _computable_ if there exists a Turing machine $M$ 
 :::
 
 Defining a function "computable" if and only if it can be computed by a Turing machine might seem "reckless" but, as we'll see in [chapequivalentmodels](){.ref}, it turns out that being computable in the sense of [computablefuncdef](){.ref} is equivalent to being computable in essentially any reasonable model of computation.
-This is known as the _Church Turing Thesis_. (Unlike the _extended_ Church Turing Thesis which we discussed in [PECTTsec](){.ref}, the Church-Turing thesis itself is widely believed and there are no candidate devices that attack it.)
+This is known as the _Church-Turing Thesis_. (Unlike the _extended_ Church-Turing Thesis which we discussed in [PECTTsec](){.ref}, the Church-Turing thesis itself is widely believed and there are no candidate devices that attack it.)
 
 ::: {.bigidea #definecompidea }
 We can precisely define what it means for a function to be computable by _any possible algorithm_.
@@ -269,7 +269,7 @@ In fact, we don't even know if an output would be produced at all!
 For example, it is very easy to come up with a Turing machine whose transition function never outputs $\mathsf{H}$ and hence never halts.
 
 
-If a machine  $M$ fails to stop and produce an output on some an input $x$, then it cannot compute any total function $F$, since clearly on input $x$, $M$  will fail to output $F(x)$. However, $P$ can still compute a _partial function_.^[A _partial function_ $F$ from a set $A$ to a set $B$ is a function that is only defined on a _subset_ of $A$, (see [functionsec](){.ref}). We can also think of such a function as mapping $A$ to $B \cup \{ \bot \}$ where $\bot$ is a special "failure" symbol such that $F(a)=\bot$  indicates the function $F$ is not defined on $a$.]
+If a machine  $M$ fails to stop and produce an output on some an input $x$, then it cannot compute any total function $F$, since clearly on input $x$, $M$  will fail to output $F(x)$. However, $M$ can still compute a _partial function_.^[A _partial function_ $F$ from a set $A$ to a set $B$ is a function that is only defined on a _subset_ of $A$, (see [functionsec](){.ref}). We can also think of such a function as mapping $A$ to $B \cup \{ \bot \}$ where $\bot$ is a special "failure" symbol such that $F(a)=\bot$  indicates the function $F$ is not defined on $a$.]
 
 For example, consider the partial function $DIV$ that on input a pair $(a,b)$ of natural numbers, outputs $\ceil{a/b}$ if $b > 0$, and is undefined otherwise.
 We can define a Turing machine $M$ that computes $DIV$ on input $a,b$ by outputting the first $c=0,1,2,\ldots$ such that $cb \geq a$. If $a>0$ and $b=0$ then the machine $M$ will never halt, but this is OK, since $DIV$ is undefined on such inputs. If $a=0$ and $b=0$, the machine  $M$ will output $0$, which is also OK, since we don't care about what the program outputs on inputs on which $DIV$ is undefined. Formally, we define computability of partial functions as follows:
@@ -353,7 +353,7 @@ def M(Tape):
 ```
 
 If we wanted to use only _Boolean_ (i.e., $0$/$1$-valued) variables then we can encode the   `state` variables using $\ceil{\log k}$ bits.
-Similarly, we can represent each element of the alphabet $\Sigma$ using $\ell=\ceil{\log |\Sigma|}$ bits and hence we can replace the $\Sigma$-valued array `Tape[]` with $\ell$ Boolean-valued arrays `Tape0[]`,$\ldots$, `Tape`$\ell$`[]`.
+Similarly, we can represent each element of the alphabet $\Sigma$ using $\ell=\ceil{\log |\Sigma|}$ bits and hence we can replace the $\Sigma$-valued array `Tape[]` with $\ell$ Boolean-valued arrays `Tape0[]`,$\ldots$, `Tape`$(\ell - 1)$`[]`.
 
 
 ### The NAND-TM Programming language
@@ -379,7 +379,7 @@ As we will see, adding loops and arrays to NAND-CIRC is enough to capture the fu
 But we're getting ahead of ourselves: this issue will be discussed in [chapequivalentmodels](){.ref}.
 
 
-Concretely, the NAND-TM programming language adds the following features on top of NANC-CIRC (see [nandtmfig](){.ref})):
+Concretely, the NAND-TM programming language adds the following features on top of NAND-CIRC (see [nandtmfig](){.ref}):
 
 * We add a special _integer valued_ variable `i`. All other variables in NAND-TM are _Boolean valued_ (as in NAND-CIRC).
 
@@ -788,7 +788,7 @@ For now, what you ought to remember is the following differences between _unifor
 * __Non uniform computational models:__ Examples are _NAND-CIRC programs_ and _Boolean circuits_. These are models where each individual program/circuit can compute a _finite_ function $f:\{0,1\}^n \rightarrow \{0,1\}^m$. We have seen that _every_ finite function can be computed by _some_ program/circuit.
 To discuss computation of an _infinite_ function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ we need to allow a _sequence_ $\{ P_n \}_{n\in \N}$ of programs/circuits (one for every input length), but this does not capture the notion of a _single algorithm_ to compute the function $F$.
 
-* __Uniform computational models:__ Examples are _Turing machines_ and _NAND-TM programs_. These are model where a single program/machine can take inputs of _arbitrary length_ and hence compute an _infinite_ function $F:\{0,1\}^* \rightarrow \{0,1\}^*$.
+* __Uniform computational models:__ Examples are _Turing machines_ and _NAND-TM programs_. These are models where a single program/machine can take inputs of _arbitrary length_ and hence compute an _infinite_ function $F:\{0,1\}^* \rightarrow \{0,1\}^*$.
 The number of steps that a program/machine takes on some input is not a priori bounded in advance and in particular there is a chance that it will enter into an _infinite loop_.
 Unlike the nonuniform case, we have _not_ shown that every infinite function can be computed by some NAND-TM program/Turing Machine. We will come back to this point in [chapcomputable](){.ref}.
 
