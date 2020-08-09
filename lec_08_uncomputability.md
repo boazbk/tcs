@@ -990,6 +990,6 @@ Rice's Theorem was proven in [@rice1953classes].
 It is typically stated in a form somewhat different than what we used, see [ricestandardex](){.ref}.
 
 We do not discuss in the chapter the concept of _recursively enumerable_ languages, but it is covered briefly in [recursiveenumerableex](){.ref}.
-As usual, we use function, as opposto language, notation.
+As usual, we use function, as opposed to language, notation.
 
 The cartoon of the Halting problem in [universalchapoverviewfig](){.ref} is copyright 2019 Charles F. Cooper.
