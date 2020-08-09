@@ -68,7 +68,7 @@ Actual physical computers also provide so called _Random Access Memory (RAM)_ wh
 
 The computational model that models access to such a memory is the _RAM machine_ (sometimes also known as the _Word RAM model_), as depicted in [rammachinefig](){.ref}.
 The memory of a RAM machine is an array of unbounded size where each cell can store a single _word_, which we think of as a string in $\{0,1\}^w$ and also (equivalently) as a number in $[2^w]$.
-For example, many modern computing architectures use  $64$ bit words, in which every memory location holds a string in $\{0,1\}^{64}$ which can also be thought of as a number between $0$ and $2^{64}-1= 9,223,372,036,854,775,807$.
+For example, many modern computing architectures use  $64$ bit words, in which every memory location holds a string in $\{0,1\}^{64}$ which can also be thought of as a number between $0$ and $2^{64}-1= 18,446,744,073,709,551,615$.
 The parameter $w$ is known as the _word size_.
 In practice often $w$ is a fixed number such as $64$, but when doing theory we model $w$ as a  parameter that can depend on the input length or number of steps.
 (You can think of $2^w$ as roughly corresponding to the largest memory address that we use in the computation.)
@@ -1218,11 +1218,11 @@ Hence finding a _fixed point_ for $myXOR$ is the same as applying $RECURSE$ to i
 
 We have defined functions to be _computable_ if they can be computed by a NAND-TM program, and we've seen that the definition would remain the same if we replaced NAND-TM programs by Python programs, Turing machines, λ calculus,  cellular automata, and many other computational models.
 The _Church-Turing thesis_ is that this is the only sensible definition of "computable" functions.
-Unlike the "Physical Extended Church Turing Thesis" (PECTT) which we saw before, the Church Turing thesis does not make a concrete physical prediction that can be experimentally tested, but it certainly motivates predictions such as the PECTT.
+Unlike the "Physical Extended Church-Turing Thesis" (PECTT) which we saw before, the Church-Turing thesis does not make a concrete physical prediction that can be experimentally tested, but it certainly motivates predictions such as the PECTT.
 One can think of the Church-Turing Thesis as either advocating a definitional choice, making some prediction about all potential computing devices, or suggesting some laws of nature that constrain the natural world.
 In Scott Aaronson's words, "whatever it is, the Church-Turing thesis can only be regarded as extremely successful".
-No candidate computing device (including quantum computers, and also much less reasonable models such as the hypothetical "closed time curve" computers we mentioned before) has so far mounted a serious challenge to the Church Turing thesis.
-These devices might potentially make some computations more _efficient_, but they do not change the difference between what is finitely computable and what is not. (The _extended_ Church Turing thesis, which we discuss in [ECTTsec](){.ref}, stipulates that Turing machines capture also the limit of what can be _efficiently_ computable. Just like its physical version, quantum computing presents the main challenge to this thesis.)
+No candidate computing device (including quantum computers, and also much less reasonable models such as the hypothetical "closed time curve" computers we mentioned before) has so far mounted a serious challenge to the Church-Turing thesis.
+These devices might potentially make some computations more _efficient_, but they do not change the difference between what is finitely computable and what is not. (The _extended_ Church-Turing thesis, which we discuss in [ECTTsec](){.ref}, stipulates that Turing machines capture also the limit of what can be _efficiently_ computable. Just like its physical version, quantum computing presents the main challenge to this thesis.)
 
 
 
