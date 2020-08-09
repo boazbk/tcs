@@ -8,7 +8,7 @@ chapternum: "10"
 # Restricted computational models { #restrictedchap }
 
 > ### { .objectives }
-* See that Turing completeness is not always a good thing
+* See that Turing completeness is not always a good thing.
 * Another example of an always-halting formalism: _context-free grammars_ and _simply typed $\lambda$ calculus.
 * The pumping lemma for non context-free functions.
 * Examples of computable and uncomputable _semantic properties_ of regular expressions and context-free grammars.
@@ -106,7 +106,7 @@ A _context free grammar (CFG) over $\Sigma$_ is a triple $(V,R,s)$ such that:
 
 * $V$, known as the _variables_, is a set disjoint from $\Sigma$.
 
-* $v\in V$ is known as the _initial variable_.
+* $s\in V$ is known as the _initial variable_.
 
 * $R$ is a set of _rules_. Each rule is a pair  $(v,z)$ with $v\in V$ and $z\in (\Sigma \cup V)^*$. We often write the rule $(v,z)$ as  $v \Rightarrow z$ and say that the string $z$ _can be derived_ from the variable $v$.
 :::
@@ -276,7 +276,7 @@ w = \alpha b u ; u^R b' \beta
 $$
 
 where $\alpha,\beta,u$ are arbitrary strings and $b \neq b'$.
-Hence we can generate such a string by first generating a palindrome $u; u^R$ (`palindrome` variable), then adding either $0$ on the right and $1$ on the left to get something that is _not_ a palindrome (`different` variable), and then we can add arbitrary number of $0$'s and $1$'s on either end (the `start` variable).
+Hence we can generate such a string by first generating a palindrome $u; u^R$ (`palindrome` variable), then adding $0$ on either the left or right and $1$ on the opposite side to get something that is _not_ a palindrome (`different` variable), and then we can add arbitrary number of $0$'s and $1$'s on either end (the `start` variable).
 :::
 
 
@@ -286,7 +286,7 @@ Even though context-free grammars are more powerful than regular expressions, th
 One tool to show this is the context-free grammar analog of the "pumping lemma" ([pumping](){.ref}):
 
 > ### {.theorem title="Context-free pumping lemma" #cfgpumping}
-Let $(V,R,s)$ be a CFG over $\Sigma$, then there is some numbers $n_0,n_1 in \N$ such that for every $x \in \Sigma^*$ with $|x|>n_0$, if $\Phi_{V,R,s}(x)=1$ then $x=abcde$ such that $|b|+|c|+|d| \leq n_1$, $|b|+|d| \geq 1$, and $\Phi_{V,R,s}(ab^kcd^ke)=1$ for every $k\in \N$.
+Let $(V,R,s)$ be a CFG over $\Sigma$, then there is some numbers $n_0,n_1 \in \N$ such that for every $x \in \Sigma^*$ with $|x|>n_0$, if $\Phi_{V,R,s}(x)=1$ then $x=abcde$ such that $|b|+|c|+|d| \leq n_1$, $|b|+|d| \geq 1$, and $\Phi_{V,R,s}(ab^kcd^ke)=1$ for every $k\in \N$.
 
 ::: { .pause }
 The context-free pumping lemma is even more cumbersome to state than its regular analog, but you can remember it as saying the following: _"If a long enough string is matched by a grammar, there must be a variable that is repeated in the derivation."_
