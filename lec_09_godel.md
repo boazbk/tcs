@@ -359,7 +359,7 @@ A _quantified mixed statement_ is a well-formed statement with no unbound variab
 For example, the true statement that for every string $a$ there is a string $b$ that corresponds to $a$ in reverse order can be phrased as the following quantified mixed statement
 $$
 \forall_{a\in\{0,1\}^*} \exists_{b\in \{0,1\}^*}  (|a|=|b|)
-\wedge (\forall_{i\in\N} i < |a| \Rightarrow (a_i \Leftrightarrow b_{|a|-i}) \;.
+\wedge (\forall_{i\in\N} i < |a| \Rightarrow (a_i \Leftrightarrow b_{|a|-i})) \;.
 $$
 
 Quantified mixed statements are more general than quantified integer statements, and so the following theorem is potentially easier to prove than [QIS-thm](){.ref}:
@@ -490,14 +490,14 @@ Hence the uncomputability of $QMS$  ([QMS-thm](){.ref}) implies the uncomputabil
 
 
 > ### { .recap }
-* Uncomputable functions include also functions that seem to have nothing to do with NAND-TM programs or other computational models such as determining the satisfiability of diophantine equations.
+* Uncomputable functions include also functions that seem to have nothing to do with NAND-TM programs or other computational models such as determining the satisfiability of Diophantine equations.
 * This also implies that for any sound proof system (and in particular every finite axiomatic system) $S$,  there are interesting statements $X$ (namely of the form "$F(x)=0$" for an uncomputable function $F$) such that $S$ is not able to prove either $X$ or its negation.
 
 ## Exercises
 
 
 ::: {.exercise title="Gödel's Theorem from uncomputability of $QIS$" #godelfromqisex}
-Prove [godelthmqis](){.ref} using  [QIS-thm](){.ref}
+Prove [godelthmqis](){.ref} using  [QIS-thm](){.ref}.
 :::
 
 ::: {.exercise title="Proof systems and uncomputability" #proofsanduncomputex  }
@@ -515,7 +515,7 @@ Let $FSQRT(n,m) = \forall_{j \in \N} ((j \times j)>m) \vee (j \leq n)$. Prove th
 
 > ### {.exercise title="axiomatic proof systems" #godelthemex}
 For every representation of logical statements as strings, we can define an axiomatic proof system to consist of a finite set of strings $A$ and a finite set of rules $I_0,\ldots,I_{m-1}$ with $I_j: (\{0,1\}^*)^{k_j} \rightarrow \{0,1\}^*$ such that a proof $(s_1,\ldots,s_n)$ that $s_n$ is true is valid if for every $i$, either $s_i \in A$ or is some $j\in [m]$ and are $i_1,\ldots,i_{k_j} < i$ such that $s_i = I_j(s_{i_1},\ldots,i_{k_j})$.
-A system is _sound_ if whenever there is no false $s$ such that there is a proof that $s$ is true
+A system is _sound_ if whenever there is no false $s$ such that there is a proof that $s$ is true.
 Prove that for every uncomputable function $F:\{0,1\}^* \rightarrow \{0,1\}$ and every sound axiomatic proof system $S$ (that is characterized by a finite number of axioms and inference rules), there is some input $x$ for which the proof system $S$ is not able to prove neither that $F(x)=0$ nor that $F(x) \neq 0$.
 
 
@@ -528,7 +528,7 @@ $match_{\leftrightarrow}(left,right)=1$ (respectively $match_{\updownarrow}(up,d
 
 ::: {.exercise title="Post Corrrespondence Problem" #postcorrespondenceproblemex}
 In the [Post Correspondence Problem](https://en.wikipedia.org/wiki/Post_correspondence_problem) the input is a set $S = \{ (\alpha^0,\beta^0), \ldots, (\beta^{c-1},\beta^{c-1}) \}$ where each $\alpha^i$ and $\beta^j$ is a string in $\{0,1\}^*$.
-We say that $PCP(S)=1$ if and only if there exists a list $(\alpha_0,\beta_0),\ldots,(\alpha_{n-1},\beta_{n-1})$ of pairs in $S$ such that 
+We say that $PCP(S)=1$ if and only if there exists a list $(\alpha_0,\beta_0),\ldots,(\alpha_{m-1},\beta_{m-1})$ of pairs in $S$ such that
 $$
 \alpha_0 \alpha_1 \cdots \alpha_{m-1} = \beta_0 \beta_1 \cdots \beta_{m-1} \;.
 $$
