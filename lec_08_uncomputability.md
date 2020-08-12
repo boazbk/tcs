@@ -788,7 +788,7 @@ Harvard[0] = NAND(X[0],X[0])
 Y[0] = NAND(X[0],Harvard[0])
 ```
 
-However, $HALTNOYALE$ is uncomputable since every program $P$ can be transformed into an equivalent (and in fact improved `:)`) program $P'$ that does not contain the variable `Yale`. Hence if we could compute $HALTONYALE$ then determine halting on zero for NAND-TM programs (and hence for Turing machines as well).
+However, $HALTNOYALE$ is uncomputable since every program $P$ can be transformed into an equivalent (and in fact improved `:)`) program $P'$ that does not contain the variable `Yale`. Hence if we could compute $HALTNOYALE$ then determine halting on zero for NAND-TM programs (and hence for Turing machines as well).
 
 Moreover, as we will see in [godelchap](){.ref}, there are uncomputable functions whose inputs are not programs, and hence for which the adjective "semantic" is not applicable.
 
@@ -962,7 +962,7 @@ Prove that for every $\mathcal{M}$-semantic $F:\{0,1\}^* \rightarrow \{0,1\}$ th
 The cartoon of the Halting problem in [universalchapoverviewfig](){.ref} and taken from [Charles Cooper's website](https://www.coopertoons.com/education/haltingproblem/haltingproblem.html/).
 
 Section 7.2 in [@MooreMertens11] gives a highly recommended overview of uncomputability.
-Gödel, Escher, Bach [@hofstadter1999] is a classic popular science book that touches on uncomputability, and unprovability, and specifically Gödel's Theorem that we will see in [godelchap](){.ref}.
+Gödel, Escher, Bach [@hofstadter1999] is a classic popular science book that touches on uncomputability, and unprovability, and specifically Gödel's Theorem that we will see in [godelchap](){.ref}.
 See also the recent book by Holt [@Holt2018].
 
 
