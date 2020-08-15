@@ -356,7 +356,7 @@ $3SAT \leq_p ISET$.
 
 > ### {.proofidea data-ref="isetnpc"}
 The idea is that finding a satisfying assignment to a 3SAT formula corresponds to satisfying many local constraints without creating any conflicts.
-One can think of "$x_{17}=0$"  and "$x_{17}=1$" as two conflicting events, and of the constraints $x_{17} \vee \overline{x}_5 \vee x_9$ as creating a conflict between the events "$x_{17}=0$", "$x_5=1$" and "$x_9=0$", saying that these three cannot simultaneosly co-occur. 
+One can think of "$x_{17}=0$"  and "$x_{17}=1$" as two conflicting events, and of the constraints $x_{17} \vee \overline{x}_5 \vee x_9$ as creating a conflict between the events "$x_{17}=0$", "$x_5=1$" and "$x_9=0$", saying that these three cannot simultaneously co-occur.
 Using these ideas, we can we can think of solving a 3SAT problem as trying to schedule non conflicting events, though the devil is, as usual, in the details. 
 The __takeaway technique__ here is to map each clause of the original formula into a _gadget_ which is a small subgraph (or more generally "subinstance") satisfying some convenient properties. 
 We will see these "gadgets" used time and again in the construction of polynomial-time reductions.
@@ -487,7 +487,7 @@ Prove that $CLIQUE \leq_p ISET$ and $ISET \leq_p CLIQUE$.
 ::: {.solution data-ref="iscliqueex"}
 If $G=(V,E)$ is a graph, we denote by $\overline{G}$ its _complement_  which is the graph on the same vertices $V$ and such that for every distinct $u,v \in V$, the edge $\{u,v\}$ is present in $\overline{G}$ if and only if this edge is _not_ present in $G$.
 
-This means that for every set $S$, $S$ is an independent set in $G$ if and only if $S$ is a _clique_ in $\overline{S}$. Therefore for every $k$, $ISET(G,k)=CLIQUE(\overline{G},k)$.
+This means that for every set $S$, $S$ is an independent set in $G$ if and only if $S$ is a _clique_ in $\overline{G}$. Therefore for every $k$, $ISET(G,k)=CLIQUE(\overline{G},k)$.
 Since the map $G \mapsto \overline{G}$ can be computed efficiently, this yields a reduction $ISET \leq_p CLIQUE$.
 Moreover, since $\overline{\overline{G}}=G$ this yields a reduction in the other direction as well.
 :::
@@ -509,17 +509,17 @@ Prove that $ISET \leq_p DS$.
 ![A dominating set is a subset $S$ of vertices such that every vertex in the graph is either in $S$ or a neighbor of $S$. The figure above are two copies of the same graph. The red vertices on the left are a vertex cover that is not a dominating set. The blue vertices on the right are a dominating set that is not a vertex cover.](../figure/dominatingvc.png){#dominatingvertexcover .margin }
 
 ::: {.solution data-ref="dominatingsetex"}
-Since we know that $ISET \leq_p VC$, using transitivity, it is enough to show that VC \leq_p DS$. 
+Since we know that $ISET \leq_p VC$, using transitivity, it is enough to show that $VC \leq_p DS$. 
 As [dominatingvertexcover](){.ref} shows, a dominating set is not the same thing as a vertex cover.
 However, we can still relate the two problems.
 The idea is to map a graph $G$ into a graph $H$ such that a vertex cover in $G$ would translate into a dominating set in $H$ and vice versa.
 We do so by including in $H$ all the vertices and edges of $G$, but for every edge $\{u ,v \}$ of $G$ we also add to $H$ a new vertex $w_{u,v}$ and connect it to both $u$ and $v$.
-Let $\ell$ be the number of isolated vertices in $G$
+Let $\ell$ be the number of isolated vertices in $G$.
 The idea behind the proof is that we can transform a vertex cover $S$ of $k$ vertices in $G$ into a dominating set of $k+\ell$ vertices in $H$ by adding to $S$ all the isolated vertices,
 and moreover we can transform every $k+\ell$ sized dominating set in $H$ into a vertex cover in $G$.
 We now give the details. 
 
-__Description of the algorithm._ Given an instance $(G,k)$ for the vertex cover problem, we will map $G$ into an instance $(H,k')$ for the dominating set problem as follows
+__Description of the algorithm.__ Given an instance $(G,k)$ for the vertex cover problem, we will map $G$ into an instance $(H,k')$ for the dominating set problem as follows
 (see [vctodsreductionfig](){.ref} for Python implementation):
 
 
@@ -530,7 +530,7 @@ INPUT: Graph $G=(V,E)$ and number $k$.
 OUTPUT: Graph $H=(V',E')$ and number $k'$, such that $G$ has a vertex cover of size $k$ -iff $H$ has a dominating set of size $k'$
 That is, $DS(H,k') = ISET(G,k)$, 
 
-Initialize $V' \leftarrow V, E' \leftarrow V$
+Initialize $V' \leftarrow V, E' \leftarrow E$
 For {every edge $\{u,v\} \in E$}
   Add vertex $w_{u,v}$ to $V'$
   Add edges $\{ u, w_{u,v} \}$, $\{ v, w_{u,v} \}$  to $E'$.
@@ -608,7 +608,7 @@ A reduction consists of four parts:
   of the _vertex cover_ problem into an instance $(H,k')$ of the _dominating set_ problem.
 
 
-* __Algorithm analysis:__ It is not enough to describe _how_ the algorithm works but we need to also explain _why_ it works. In particular we need to provide an  _analysis_ explaining why the reduction is both _efficient_ (i.e., runs in polynomial time) and _correct_ (satisfies that $G(R(x)=F(x)$ for every $x$)). Specifically, the components of analysis of a reduction $R$ include:
+* __Algorithm analysis:__ It is not enough to describe _how_ the algorithm works but we need to also explain _why_ it works. In particular we need to provide an  _analysis_ explaining why the reduction is both _efficient_ (i.e., runs in polynomial time) and _correct_ (satisfies that $G(R(x))=F(x)$ for every $x$). Specifically, the components of analysis of a reduction $R$ include:
   
   * __Efficiency:__ We need to show that $R$ runs in polynomial time. In most reductions we encounter this part is straightforward, as the reductions we typically use involve a constant number of nested loops, each involving a constant number of operations. For example, the reduction of [dominatingsetex](){.ref} just enumerates over the edges and vertices of the input graph.
 
