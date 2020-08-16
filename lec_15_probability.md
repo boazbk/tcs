@@ -197,8 +197,7 @@ For example, consider the following two functions $Y,Y':\{0,1\}^2 \rightarrow \{
 For every $x \in \{0,1\}^2$, we define $Y(x)=x$ and $Y'(x)=x_0(x_0\oplus x_1)$ where $\oplus$ is the XOR operations.
 Although these are two different functions, they induce the same distribution over $\{0,1\}^2$ when invoked on a uniform input.
 The distribution $Y(x)$ for $x\sim \{0,1\}^2$ is of course the uniform distribution over $\{0,1\}^2$.
-On the other hand $Y'$ is simply the map $00 \mapsto 00$, $01 \mapsto 01$, $10 \mapsto 11$, $11 \mapsto 10$ which is a permutation over
-the map $F:\{0,1\}^2 \rightarrow \{0,1\}^2$ defined as $F(x_0x_1)=x_0x_1$ and the map $G:\{0,1\}^2 \rightarrow \{0,1\}^2$  defined as $G(x_0x_1)=x_0(x_0 \oplus x_1)$
+On the other hand $Y'$ is simply the map $00 \mapsto 00$, $01 \mapsto 01$, $10 \mapsto 11$, $11 \mapsto 10$ which is a permutation of $Y$.
 
 ### More general sample spaces {#generalsamplespaces }
 
@@ -308,7 +307,7 @@ $$
 where the first equality  ($=^{(1)}$) follows from the independence of $X$ and $Y$, the second equality ($=^{(2)}$) follows by "opening the parentheses" of the righthand side, and the third inequality ($=^{(3)}$) follows from the definition of expectation.
 (This is not an "if and only if"; see [noindnocorex](){.ref}.)
 
-Another useful fact is that if $X$ and $Y$ are independent random variables, then so are $F(X)$ and $G(Y)$ for all functions $F,G:\R \rightarrow R$.
+Another useful fact is that if $X$ and $Y$ are independent random variables, then so are $F(X)$ and $G(Y)$ for all functions $F,G:\R \rightarrow \R$.
 This is intuitively true since learning $F(X)$ can only provide us with less information than does learning $X$ itself.
 Hence, if learning $X$ does not teach us anything about $Y$ (and so also about $F(Y)$) then neither will learning $F(X)$.
 Indeed, to prove this we can write for every $a,b \in \R$:
@@ -341,7 +340,7 @@ $$
 If $X_0,\ldots,X_{n-1}$ are mutually independent, and $Y_0,\ldots,Y_{n-1}$ are defined as $Y_i = F_i(X_i)$ for some functions $F_0,\ldots,F_{n-1}:\R \rightarrow \R$, then $Y_0,\ldots,Y_{n-1}$ are mutually independent as well.
 
 > ### { .pause }
-We leave proving [expprod](){.ref} and [indeplem](){.ref} as [expprodex](){.ref} [indeplemex](){.ref}.
+We leave proving [expprod](){.ref} and [indeplem](){.ref} as [expprodex](){.ref} and [indeplemex](){.ref}.
 It is good idea for you stop now and do these exercises to make sure you are comfortable with the notion of independence, as we will use it heavily later on in this course.
 
 
@@ -469,11 +468,11 @@ See [chernoffstirlingex](){.ref}  for a proof of the simple (but highly useful a
 
 ::: {.remark title="Slight simplification of Chernoff" #chernoffsimpler}
 Since  $e$ is roughly $2.7$ (and in particular larger than $2$),  
-[eqchernoff](){.eqref} would still be true if we replaced its righthand side with $e^{-2\epsilon^2 n - 1}$.
+[eqchernoff](){.eqref} would still be true if we replaced its righthand side with $e^{-2\epsilon^2 n + 1}$.
 For  $n>1/\epsilon^2$,  the equation will still be true if we replaced the righthand side with the simpler $e^{-\epsilon^2 n}$. 
 Hence we will sometimes use the Chernoff bound as stating that for $X_0,\ldots,X_{n-1}$ and $p$ as above, $n> 1/\epsilon^2$ then 
 $$
-\Pr[ \left| \sum_{i=0}^{n-1} X_i - pn \right| > \epsilon n ] \leq 2 e^{-\epsilon^2 n} . \label{eqchernoffsimpler}
+\Pr[ \left| \sum_{i=0}^{n-1} X_i - pn \right| > \epsilon n ] \leq e^{-\epsilon^2 n} . \label{eqchernoffsimpler}
 $$
 :::
 
@@ -599,7 +598,7 @@ where $\binom{n}{k}$ is the binomial coefficient $\tfrac{n!}{k!(n-k)!}$ which is
 ::: {.exercise title="Chernoff using Stirling" #chernoffstirlingex}
 1. Prove that $\Pr_{x\sim \{0,1\}^n}[ \sum x_i = k ] = \binom{n}{k}2^{-n}$.\
 
-2. Use this and [entropybinomex](){.ref} to prove (an approximate version of) the Chernoff bound for the case that $X_0,\ldots,X_{n-1}$ are i.i.d. random variables over $\{0,1\}$ each equaling $0$ and $1$ with probability $1/2$. That is, prove that for every $\epsilon>0$, and $X_0,\ldots,X_{n-1}$ as above, $\Pr[ |\sum_{i=0}^{n-1} - \tfrac{n/2}| > \epsilon n] < 2^{0.1 \cdot \epsilon^2 n}$.
+2. Use this and [entropybinomex](){.ref} to prove (an approximate version of) the Chernoff bound for the case that $X_0,\ldots,X_{n-1}$ are i.i.d. random variables over $\{0,1\}$ each equaling $0$ and $1$ with probability $1/2$. That is, prove that for every $\epsilon>0$, and $X_0,\ldots,X_{n-1}$ as above, $\Pr[ |\sum_{i=0}^{n-1} X_i - \tfrac{n}{2}| > \epsilon n] < 2^{0.1 \cdot \epsilon^2 n}$.
 :::
 
 
@@ -659,6 +658,6 @@ e. It is impossible to get such low probability since there are fewer than $2^{1
 ## Bibliographical notes
 
 There are many sources for more information on discrete probability, including the texts referenced in [notesmathchap](){.ref}.
-One particularly recommended source for probability is [Harvard's [STAT 110](https://projects.iq.harvard.edu/stat110/home) class, whose lectures are available on [youtube](https://projects.iq.harvard.edu/stat110/youtube) and whose book is available [online](http://probabilitybook.net).
+One particularly recommended source for probability is Harvard's [STAT 110](https://projects.iq.harvard.edu/stat110/home) class, whose lectures are available on [youtube](https://projects.iq.harvard.edu/stat110/youtube) and whose book is available [online](http://probabilitybook.net).
 
 The version of the Chernoff bound that we stated in [chernoffthm](){.ref} is sometimes known as [Hoeffding's Inequality](https://en.wikipedia.org/wiki/Hoeffding%27s_inequality). Other variants of the Chernoff bound are known as well, but all of them are equally good for the applications of this book.

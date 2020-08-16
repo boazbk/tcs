@@ -51,7 +51,7 @@ In particular there are positions in the wall that are hit when the first slit i
 
 
 
-![The setup of the double slit experiment in the case of photon or electron guns. We see also _destructive_ interference in the sense that there are some positions on the wall that get _fewer_ hits when both slits are open than they get when only one of the slits is open.  See also  [this video](https://www.youtube.com/watch?v=DfPeprQ7oGc).](../figure/double-slit-setup.PNG){#doubleslitfig .margin  }
+![The setup of the double slit experiment in the case of photon or electron guns. We see also _destructive_ interference in the sense that there are some positions on the wall that get _fewer_ hits when both slits are open than they get when only one of the slits is open.  See also  [this video](https://www.youtube.com/watch?v=DfPeprQ7oGc).](../figure/double-slit-setup.png){#doubleslitfig .margin  }
 
 
 It seems as if each photon coming out of the gun is aware of the global setup of the experiment, and behaves differently if two slits are open than if only one is.
@@ -490,7 +490,7 @@ Another way to write define $H$ is that for $b \in \{0,1\}$,  $H |b\rangle = \tf
 We define $HAD^i$ to be the $2^n \times 2^n$ unitary matrix that applies $HAD$ to the $i$-th qubit and leaves the others intact.
 Using the ket notation, we can write this as
 $$
-HAD^i \; \sum_{x\in \{0,1\}^n} v_x |x \rangle  \;=\; \tfrac{1}{\sqrt{2}}\sum_{x\in \{0,1\}^n}|x_0 \cdots x_{i-1}\rangle \left(|0\rangle + (-1)^{x_i}|1\rangle\right)|x_i \cdots x_{n-1} \rangle \;.
+HAD^i \; \sum_{x\in \{0,1\}^n} v_x |x \rangle  \;=\; \tfrac{1}{\sqrt{2}}\sum_{x\in \{0,1\}^n}|x_0 \cdots x_{i-1}\rangle \left(|0\rangle + (-1)^{x_i}|1\rangle\right)|x_{i+1} \cdots x_{n-1} \rangle \;.
 $$
 
 A _quantum circuit_ is obtained by composing these basic operations on some $m$ qubits.
@@ -977,12 +977,12 @@ Other recommended resources include Andrew Childs' [lecture notes on quantum alg
 
 
 There are many excellent videos available online covering some of these materials.
-The videos of [Umesh Vazirani'z EdX course](https://www.youtube.com/playlist?list=PLDAjb_zu5aoFazE31_8yT0OfzsTcmvAVg) are an accessible and recommended introduction to quantum computing.
+The videos of [Umesh Vazirani's EdX course](https://www.youtube.com/playlist?list=PLDAjb_zu5aoFazE31_8yT0OfzsTcmvAVg) are an accessible and recommended introduction to quantum computing.
 Regarding quantum mechanics in general, this
 [video](https://www.youtube.com/watch?v=DfPeprQ7oGc) illustrates the double slit experiment,
 this [Scientific American video](https://www.youtube.com/watch?v=xM3GOXaci7w)  is a nice exposition of Bell's Theorem.
 This [talk and panel](https://youtu.be/GdqC2bVLesQ?t=2m51s) moderated by Brian Greene discusses some of the philosophical and technical issues around quantum mechanics and its so called  "measurement problem".
-The [Feynmann lecture on the Fourier Transform](http://www.feynmanlectures.caltech.edu/I_50.html) and [quantum mechanics in general](http://www.feynmanlectures.caltech.edu/III_toc.html) are very much worth reading.
+The [Feynman lecture on the Fourier Transform](http://www.feynmanlectures.caltech.edu/I_50.html) and [quantum mechanics in general](http://www.feynmanlectures.caltech.edu/III_toc.html) are very much worth reading.
 The Fourier transform is covered in these videos of [Dr. Chris Geoscience](https://youtu.be/EYRmB1aNh9I?t=19s),  [Clare Zhang](https://www.youtube.com/watch?v=Y9pYHDSxc7g) and [Vi Hart](https://www.youtube.com/watch?v=i_0DXxNeaQ0).
 See also [Kelsey Houston-Edwards's video on Shor's Algorithm](https://www.youtube.com/watch?v=wUwZZaI5u0c).
 

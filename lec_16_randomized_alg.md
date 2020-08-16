@@ -341,7 +341,7 @@ This intuition leads to the following simple randomized algorithm:
 This makes sense: if there are only "few" roots, then we expect that with high probability the random input $x$ is not going to be one of those roots.
 However, to transform this into an actual algorithm, we need to make both the intuition and the notion of a "random" input precise.
 Choosing a random real number is quite problematic, especially when you have only a finite number of coins at your disposal, and so we start by reducing the task to a finite setting.
-We will use the following result
+We will use the following result:
 
 > ### {.theorem title="Schwartz–Zippel lemma" #szlem}
 For every integer $q$, and polynomial $P:\R^n \rightarrow \R$ with integer coefficients.
