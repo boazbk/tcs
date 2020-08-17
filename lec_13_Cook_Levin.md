@@ -74,7 +74,7 @@ Hence if there is an algorithm $V$ and polynomial $p$ as above, then we can defi
 * If $n \leq n_0$ then $V'(x,w')$ ignores $w'$ and enumerates over all $w$ of length at most $p(n)$ and outputs $1$ if there exists $w$ such that $V(x,w)=1$. (Since $n < n_0$, this only takes a constant number of steps.)
 
 * If $n> n_0$ then $V'(x,w')$ "strips out" the padding by dropping all the rightmost zeroes from $w$ until it reaches out the first $1$ (which it drops as well) and obtains a string $w$.
-If $|w| \leq p(n)$ tnen $V'$ outputs $V(x,w)$.
+If $|w| \leq p(n)$ then $V'$ outputs $V(x,w)$.
 
 Since $V$ runs in polynomial time, $V'$ runs in polynomial time as well, and by definition for every $x$, there exists $w' \in \{0,1\}^{|x|^a}$  such that $V'(xw')=1$ if and only if there exists $w \in \{0,1\}^*$ with $|w| \leq p(|x|)$ such that $V(xw)=1$.
 :::
@@ -87,7 +87,7 @@ Essentially all proof systems considered in mathematics involve line-by-line che
 Thus the heart of $\mathbf{NP}$ is asking for statements that have _short_ (i.e., polynomial in the size of the statements) proof.
 Indeed, as we will see in [#chappvsnp](){.ref},  Kurt Gödel phrased the question of whether $\mathbf{NP}=\mathbf{P}$ as asking whether "the mental work of a mathematician [in proving theorems]  could be completely replaced by a machine".
 
-::: {.remark title="$\mathbf{NP}$ not (necessaily) closed under complement" #NPassymetric}
+::: {.remark title="$\mathbf{NP}$ not (necessarily) closed under complement" #NPassymetric}
 [NP-def](){.ref} is _asymmetric_ in the sense that there is a difference between an output of $1$ and an output of $0$.
 You should make sure you understand why this definition does _not_ guarantee that if $F \in \mathbf{NP}$ then the function $1-F$ (i.e., the map $x \mapsto 1-F(x)$) is in $\mathbf{NP}$ as well.
 
