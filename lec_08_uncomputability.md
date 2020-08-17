@@ -656,8 +656,9 @@ We define a _semantic specification_ on programs to be some property that does n
 For example, consider the following two C programs
 
 ```python
-int First(int k) {
-    return 2*k;
+int First(int n) {
+    if (n<0) return 0;
+    return 2*n;
 }
 ```
 
@@ -665,6 +666,7 @@ int First(int k) {
 int Second(int n) {
     int i = 0;
     int j = 0
+    if (n<0) return 0;
     while (j<n) {
         i = i + 2;
         j=  j + 1;
