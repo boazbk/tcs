@@ -342,8 +342,10 @@ ADD([1,1,1,0,0],[1,0,0,0,0]);;
 ```
 
 where `zero` is the constant zero function, and `MAJ` and `XOR` correspond to the majority and XOR functions respectively.
-In the above we used the _loop_ `for i in range(n)`  but we can expand this out by simply repeating the code $n$ times, replacing the value of `i` with $0,1,2,\ldots,n-1$.
+While we use Python syntax for convenience, in this example $n$ is some _fixed integer_ and so for every such $n$, `ADD` is a _finite_ function that takes as input $2n$ bits and outputs $n+1$ bits.
+In particular for every $n$ we can remove the  loop construct `for i in range(n)`  by simply repeating the code $n$ times, replacing the value of `i` with $0,1,2,\ldots,n-1$.
 By expanding out all the features, for every value of $n$ we can translate the above program into a standard ("sugar free") NAND-CIRC program. [add2bitnumbersfig](){.ref} depicts what we get for $n=2$.
+
 
 ![The NAND-CIRC program and corresponding NAND circuit for adding two-digit binary numbers that are obtained by "expanding out" all the syntactic sugar. The program/circuit has 43 lines/gates which is by no means necessary. It is possible to add $n$ bit numbers using $9n$ NAND gates, see [halffulladderex](){.ref}.](../figure/add2bitnumbers.png){#add2bitnumbersfig .class  }
 
