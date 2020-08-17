@@ -85,12 +85,12 @@ All of the problems above are in $\mathbf{EXP}$ but it is not known whether or n
 
 ## Polynomial-time reductions {#polytimeredsec }
 
-Suppose that $F,G:\{0,1\}^* \rightarrow \{0,1\}$ are two functions.
+Suppose that $F,G:\{0,1\}^* \rightarrow \{0,1\}$ are two Boolean functions.
 A _polynomial-time reduction_ (or sometimes just _"reduction"_ for short) from $F$ to $G$ is a way to show that  $F$ is "no harder" than $G$, in the sense that a polynomial-time algorithm for $G$ implies a polynomial-time algorithm for $F$.
 
 
 > ### {.definition title="Polynomial-time reductions" #reduction-def}
-Let $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$. We say that _$F$ reduces to $G$_, denoted by $F \leq_p G$ if there is a polynomial-time computable $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every $x\in \{0,1\}^*$,
+Let $F,G:\{0,1\}^* \rightarrow \{0,1\}$. We say that _$F$ reduces to $G$_, denoted by $F \leq_p G$ if there is a polynomial-time computable $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every $x\in \{0,1\}^*$,
 $$
 F(x) = G(R(x)) \;. \label{eq:reduction}
 $$
@@ -111,14 +111,14 @@ As usual, solving this exercise on your own is an excellent way to make sure you
 :::
 
 ::: {.solution data-ref="reductionsandP"}
-Suppose there was an algorithm $B$ that compute $F$ in time $p(n)$ where $p$ is its input size. Then, [eq:reduction](){.eqref} directly gives an algorithm  $A$ to compute $F$ (see [reductionsfig](){.ref}).
+Suppose there was an algorithm $B$ that compute $G$ in time $p(n)$ where $p$ is its input size. Then, [eq:reduction](){.eqref} directly gives an algorithm  $A$ to compute $F$ (see [reductionsfig](){.ref}).
 Indeed, on input $x\in \{0,1\}^*$, Algorithm $A$ will run the polynomial-time reduction $R$ to obtain $y=R(x)$ and then return $B(y)$.
 By [eq:reduction](){.eqref}, $G(R(x)) = F(x)$ and hence Algorithm $A$ will indeed compute $F$.
 
 We now show that $A$ runs in polynomial time.
 By assumption, $R$ can be computed in time $q(n)$ for some polynomial $q$.
 In particular, this means that  $|y| \leq q(|x|)$ (as just writing down $y$ takes $|y|$ steps).
-This, computing $B(y)$  will take at most $p(|y|) \leq p(q(|x|))$ steps.
+Computing $B(y)$  will take at most $p(|y|) \leq p(q(|x|))$ steps.
 Thus the total running time of $A$ on inputs of length $n$ is at most the time to compute $y$, which is bounded by $q(n)$, and the time to compute $B(y)$, which is bounded by $p(q(n))$, and since the composition of two polynomials is a polynomial, $A$ runs in polynomial time.
 :::
 
@@ -133,7 +133,7 @@ A reduction from $F$ to $G$ can be used for two purposes:
 * If we already know an algorithm for $G$ and $F \leq_p G$ then we can use the reduction to obtain an algorithm for $F$. This is a widely used tool in algorithm design. For example in [linerprogsec](){.ref} we saw how the _Min-Cut Max-Flow_ theorem allows to reduce the task of computing a minimum cut in a graph to the task of computing a maximum flow in it.
 
 
-* If we have proven (or have evidence) that there exists _no polynomial-time algorithm_ for $F$ and $F \leq_p G$ then the existence of this reduction allows us to concludes that there exists no polynomial-time algorithm for $G$. This is the "if pigs could whistle then horses could fly" interpretation we've seen in [reductionsuncompsec](){.ref}. We show that if there was an hypothetical efficient algorithm for $G$ (a "whistling pig") then since $F \leq_p G$ then there would  be an efficient algorithm for $F$ (a "flying horse"). In this book we often use reductions for this second purpose, although the lines between the two is sometimes blurry (see the bibliographical notes in [reductionsbibnotes](){.ref}).
+* If we have proven (or have evidence) that there exists _no polynomial-time algorithm_ for $F$ and $F \leq_p G$ then the existence of this reduction allows us to conclude that there exists no polynomial-time algorithm for $G$. This is the "if pigs could whistle then horses could fly" interpretation we've seen in [reductionsuncompsec](){.ref}. We show that if there was an hypothetical efficient algorithm for $G$ (a "whistling pig") then since $F \leq_p G$ then there would  be an efficient algorithm for $F$ (a "flying horse"). In this book we often use reductions for this second purpose, although the lines between the two is sometimes blurry (see the bibliographical notes in [reductionsbibnotes](){.ref}).
 
 
 The most crucial difference between the notion in [reduction-def](){.ref} and the reductions we saw in the context of _uncomputability_ (e.g., in [reductionsuncompsec](){.ref})  is that for relating time complexity of problems, we need the reduction to be computable in _polynomial time_, as opposed to merely computable.
@@ -225,7 +225,7 @@ For{$i \in [n]$}
   add to $E$ the equation $x_i + x'_i = 1$
 endfor
 For{j\in [m]}
-  Let $j$-th clause be $w_1 \vee w_2 \vee w_3$ where $w_1,w_2,w_3$ are literals.
+  Let $j$-th clause be $w_0 \vee w_1 \vee w_2$ where $w_0,w_1,w_2$ are literals.
   For{$a\in[3]$}
     If{$w_a$ is variable $x_i$}
       set $t_a \leftarrow x_i$
@@ -234,7 +234,7 @@ For{j\in [m]}
       set $t_a \leftarrow x'_i$
     endif
    endfor
-   Add to $E$ the equation $t_1 + t_2 + t_3 + y_j + z_j = 3$.
+   Add to $E$ the equation $t_0 + t_1 + t_2 + y_j + z_j = 3$.
 endfor
 return $E$ 
 ```
@@ -254,12 +254,12 @@ However, if you find the names confusing you can simply think of completeness as
 
 We complete the proof by showing both parts:
 
-* __Completeness:__ Suppose that $3SAT(\varphi)=1$, which means that there is an assignment $x\in \{0,1\}^n$ that satisfies $\varphi$. We know that for every clause $C_j$  in $\varphi$ of the form $w_1 \vee w_2 \vee w_3$ (with $w_1,w_2,w_3$ being literals), $w_1 + w_2 + w_3 \geq 1$, which means that we can assign values to $y_j,z_j$ in $\{0,1\}$ such that $w_1 + w_2 + w_3 + y_j + z_j = 3$.
-This means that if we let $x'_i = 1-x_i$ for every $i\in [n]$, then the assignment $x_0,\ldots,x_{n-1}$, $x'_0,\ldots,x'_{n-1}$, $y_0,\ldots,y_{m-1}$, $z_0,\ldots,z_{m-1}$ satisfies the equations $E = R(\varphi)$ and hence $01EQ(R(\varphi))=1$.
+* __Completeness:__ Suppose that $3SAT(\varphi)=1$, which means that there is an assignment $x\in \{0,1\}^n$ that satisfies $\varphi$. If we use the assignment $x_0,\ldots,x_{n-1}$ and $1-x_0,\ldots, 1-x_{n-1}$ for the first $2n$
+variables of $E=R(\varphi)$ then we will satisfy all equations of the form $x_i + x'_i =1$. Moreover, for every $j\in [n]$, if  $t_0 + t_1 + t_2 + y_j + z_j = 3 (*)$ is the equation arising from the $j$th clause of $\varphi$ (with $t_0,t_1,t_2$ being variables of the form $x_i$ or $x'_i$ depending on the literals of the clause) then our assignment to the first $2n$ variables ensures that $t_0+t_1+t_2 \geq 1$ (since $x$ satisfied $\varphi$) and hence we can assign values to $y_j$ and $z_j$ that will ensure that the equation $(*)$ is satisfied. Hence in this case $E = R(\varphi)$ is satisfied, meaning that $01EQ(R(\varphi))=1$.
 
 
-* __Soundness:__ Suppose that the set of equations $E=R(\varphi)$ has a satisfying assignment $x_0,\ldots,x_{n-1}$, $x'_0,\ldots,x'_{n-1}$, $y_0,\ldots,y_{m-1}$, $z_0,\ldots,z_{m-1}$.
-Then it must be the case that $x'_i$ is the negation of $x_i$ for all $i\in [n]$ and since $y_j + z_j \leq 2$ for every $j\in [m]$, it must be the case that for every clause $C_j$  in $\varphi$ of the form $w_1 \vee w_2 \vee w_3$ (with $w_1,w_2,w_3$ being literals), $w_1 + w_2 + w_3 \geq 1$, which means that the assignment $x_0,\ldots,x_{n-1}$ satisfies $\varphi$ and hence $3SAT(\varphi)=1$.
+* __Soundness:__ Suppose that $01EQ(R(\varphi))=1$, which means that the set of equations $E=R(\varphi)$ has a satisfying assignment $x_0,\ldots,x_{n-1}$, $x'_0,\ldots,x'_{n-1}$, $y_0,\ldots,y_{m-1}$, $z_0,\ldots,z_{m-1}$.
+Then, since the equations contain the condition $x_i + x'_i = 1$, for every $i \in [n]$, $x'_i$ is the negation of $x_i$, and morover, for every $j\in [m]$, if $C$ has the form $w_0 \vee w_1 \vee w_2$ is the $j$-th clause of $C$, then the corresponding assignment $x$ will ensure that $w_0 + w_1 + w_2 \geq 1$, implying that $C$ is  satisfied. Hence in this case $3SAT(\varphi)=1$.
 :::
 
 
@@ -403,7 +403,7 @@ Given a 3SAT formula $\varphi$ on $n$ variables and with $m$ clauses, we will cr
   Since there are $m$ clauses in $\varphi$, the graph $G$ will have $3m$ vertices.
 
 * In addition to the above edges, we also add an edge between every pair vertices of the form $(C,y)$ and $(C',y')$ where $y$ and $y'$ are _conflicting_ literals.
-  That is, we add an edge between $(C,y)$ and $(C,y')$  if there is an $i$ such that $y=x_i$ and $y' = \overline{x}_i$ or vice versa.
+  That is, we add an edge between $(C,y)$ and $(C',y')$  if there is an $i$ such that $y=x_i$ and $y' = \overline{x}_i$ or vice versa.
 
 
 The algorithm constructing of $G$ based on $\varphi$ takes polynomial time since it involves two loops, the first taking $O(m)$ steps and the second taking $O(m^2 n)$ steps
@@ -420,7 +420,7 @@ We let $S$ be a set of $m$ vertices that is obtained by choosing for every claus
 We claim that $S$ is an independent set. Indeed, suppose otherwise that there was a pair of vertices $(C,y)$ and $(C',y')$ in $S$ that have an edge between them. 
 Since we picked one vertex out of each triangle corresponding to a clause, it must be that $C \neq C'$.
 Hence the only way that there is an edge between $(C,y)$ and $(C,y')$ is if $y$ and $y'$ are conflicting literals (i.e. $y=x_i$ and $y'=\overline{x}_i$ for some $i$).
-But that would that they can't both evaluate to _true_ under the assignment $x^*$, which contradicts the way we constructed the set $S$.
+But then they can't both evaluate to _true_ under the assignment $x^*$, which contradicts the way we constructed the set $S$.
 This completes the proof of the completeness condition.
 
 __Part 2: Soundness.__ The "soundness" direction is to show that if $G$ has an independent set $S^*$ of $m$ vertices, then $\varphi$ has a satisfying assignment $x^* \in \{0,1\}^n$. Let us now show this.
