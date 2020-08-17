@@ -182,7 +182,7 @@ INPUT: nonnegative integers $x,y$ each of at most $n$ digits
 OUTPUT: $x\cdot y$
 
 procedure{Karatsuba}{$x$,$y$}
-If {$n \leq 2$} return $x\cdot y$ endif
+If {$n \leq 4$} return $x\cdot y$ lendif
 Let $m = \floor{n/2}$
 Write $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \underline{y}$
 $A \leftarrow Karatsuba(\overline{x},\overline{y})$
@@ -208,8 +208,9 @@ endprocedure
 
 ::: {.proof data-ref="karatsubacorrect"}
 Let $n$ be the maximum number of digits of $x$ and $y$. We prove the lemma by induction on $n$.
-The base case is $n \leq 2$ where the algorithm returns $x\cdot y$ by definition.
-Otherwise, if $n>2$, we define $m = \floor{n/2}$, and write 
+The base case is $n \leq 4$ where the algorithm returns $x\cdot y$ by definition.
+(It does not matter which algorithm we use to multiply four-digit numbers - we can even use repeated addition.)
+Otherwise, if $n>4$, we define $m = \floor{n/2}$, and write 
 $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \underline{y}$.
 
 Plugging this into $x\cdot y$, we get 
