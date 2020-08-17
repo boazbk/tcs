@@ -180,9 +180,10 @@ Reading and writing to a dictionary of $m$ values in this implementation takes $
 :::
 
 
-::: {.remark title="Direct construction of universal Turing Machines" #directunivtm}
-Since universal Turing 
-:::
+The construction above yields a universal Turing Machine with a very large number of states.
+However, since universal Turing machines have such a philosophical and technical importance, researchers have attempted to find the smallest possible universal Turing machines, see [uncomputablebibnotes](){.ref}. 
+
+
 
 ### Implications of universality (discussion)
 
@@ -955,6 +956,16 @@ Prove that for every $\mathcal{M}$-semantic $F:\{0,1\}^* \rightarrow \{0,1\}$ th
 :::
 
 
+::: {.exercise title="Busy Beaver" #beaverex}
+In this question we  define the NAND-TM variant of the  busy beaver function (see Aaronson's [1999 essay](https://www.scottaaronson.com/writings/bignumbers.html), [2017 blog post](https://www.scottaaronson.com/blog/?p=3445) and 2020 survey [@aaronson20beaver]; see also Tao's [highly recommended presentation](http://tiny.cc/taoladder) on how civilization's scientific progress can be measured by the quantities we can grasp).
+
+1.  Let  $T_{BB}:\{0,1\}^* \rightarrow \mathbb{N}$ be defined as follows. For every string $P\in \{0,1\}^*$, if $P$ represents a NAND-TM program  such  that when $P$ is executed on the input $0$ then it halts within $M$ steps then $T_{BB}(P)=M$. Otherwise  (if $P$ does not represent a NAND-TM program, or it is a program that does not halt on $0$), $T_{BB}(P)=0$. Prove that $T_{BB}$ is uncomputable.
+
+
+2. Let $TOWER(n)$ denote the number $\underbrace{2^{\cdot^{\cdot^{\cdot^2}}}}_{n\text{ times}}$ (that is, a "tower of powers of two" of height $n$). To get a sense of how fast this function grows, $TOWER(1)=2$, $TOWER(2)=2^2=4$, $TOWER(3)=2^{2^2}=16$, $TOWER(4) = 2^{16} = 65536$ and $TOWER(5) = 2^{65536}$ which is about $10^{20000}$. $TOWER(6)$ is already a number that is too big to write even in scientific notation.
+Define $NBB:\mathbb{N} \rightarrow \mathbb{N}$ (for "NAND-TM Busy Beaver") to be the function $NBB(n) = \max_{P\in \{0,1\}^n} T_{BB}(P)$ where $T_{BB}$ is as defined in Question 6.1.
+Prove that $NBB$ grows _faster_ than $TOWER$, in the sense that $TOWER(n) = o(NBB(n))$. See footnote for hint^[You will not need to use very specific properties of  the $TOWER$ function in this exercise. For example, $NBB(n)$ also grows faster than the [Ackerman function](https://en.wikipedia.org/wiki/Ackermann_function).]
+:::
 
 
 ## Bibliographical notes { #uncomputablebibnotes }
@@ -979,6 +990,9 @@ These works built on Gödel's 1931 _incompleteness theorem_ that we will discuss
 Some  universal Turing Machines with a small alphabet and number of states are given in [@rogozhin1996small], including a single-tape universal Turing machine with the binary alphabet and with less than $25$ states; see also the survey [@woods2009complexity].
 Adam Yedidia has written [software](https://github.com/adamyedidia/parsimony) to help in producing Turing machines with a small number of states.
 This is related to the recreational pastime of ["Code Golfing"](https://codegolf.stackexchange.com/) which is about solving a certain computational task using the as short as possible program.
+Finding "highly complex" small Turing machine is also related to the  "Busy Beaver" problem, see [beaverex](){.ref} and the survey [@aaronson20beaver].
+
+
 
 The diagonalization argument used to prove uncomputability of $F^*$ is derived from Cantor's argument for the uncountability of the reals discussed in [chaprepres](){.ref}.
 

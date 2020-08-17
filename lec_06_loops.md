@@ -526,7 +526,7 @@ Working this out fully is somewhat tedious, but can be a good exercise.
 
 ::: { .pause }
 Working out the above two examples can go a long way towards understanding the NAND-TM language.
-See the [appendix](http://tiny.cc/introtcsappendix) and our [GitHub repository](https://github.com/boazbk/tcscode) for a full specification of the NAND-TM language.
+See our [GitHub repository](https://github.com/boazbk/tcscode) for a full specification of the NAND-TM language.
 :::
 
 
