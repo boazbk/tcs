@@ -755,7 +755,7 @@ $$
 
 
 ::: {.proof #proofofnandcompiler data-ref="nand-compiler"}
-We only sketch the proof  since it follows by directly translating the proof of [non-uniform-thm](){.ref into an algorithm together with the simulation of Turing machines by NAND-TM programs (see also [unrolldescriptionfig](){.ref}).
+We only sketch the proof  since it follows by directly translating the proof of [non-uniform-thm](){.ref} into an algorithm together with the simulation of Turing machines by NAND-TM programs (see also [unrolldescriptionfig](){.ref}).
 Specifically, $UNROLL$ does the following:
 
 1. Transform the Turing Machine $M$ into an equivalent NAND-TM program $P$. 
