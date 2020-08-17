@@ -9,7 +9,7 @@ chapternum: "10"
 
 > ### { .objectives }
 * See that Turing completeness is not always a good thing.
-* Another example of an always-halting formalism: _context-free grammars_ and _simply typed $\lambda$ calculus.
+* Another example of an always-halting formalism: _context-free grammars_ and _simply typed $\lambda$ calculus_.
 * The pumping lemma for non context-free functions.
 * Examples of computable and uncomputable _semantic properties_ of regular expressions and context-free grammars.
 
@@ -372,7 +372,7 @@ We prove the theorem by reducing from the Halting problem.
 To do that we use the notion of _configurations_ of NAND-TM programs, as defined in [configtmdef](){.ref}.
 Recall that a _configuration_ of a program $P$ is a binary string $s$  that encodes all the information about the program in the current iteration.
 
-We define $\Sigma$ to be $\{0,1\}$ plus some separator characters and define $INVALID_P:\Sigma^* \rightarrow \{0,1\}$ to be the function that maps every string $L\in \Sigma^*$ to $1$ if and only $L$ does _not_ encode a sequence of configurations that correspond to a valid halting history of the computation of $P$ on the empty input.
+We define $\Sigma$ to be $\{0,1\}$ plus some separator characters and define $INVALID_P:\Sigma^* \rightarrow \{0,1\}$ to be the function that maps every string $L\in \Sigma^*$ to $1$ if and only if $L$ does _not_ encode a sequence of configurations that correspond to a valid halting history of the computation of $P$ on the empty input.
 
 The heart of the proof is to show that $INVALID_P$ is context-free. Once we do that, we see that $P$ halts on the empty input if and only if $INVALID_P(L)=1$ for _every_ $L$.
 To show that, we will encode the list in a special way that makes it amenable to deciding via a context-free grammar.
@@ -397,7 +397,7 @@ The particular details of configurations are not so important, but what you need
 * If $\sigma$ is a configuration at some step $i$ of the computation, we denote by $NEXT_M(\sigma)$ as the configuration at the next step. $NEXT_M(\sigma)$ is a string that agrees with $\sigma$ on all but a constant number of coordinates (those encoding the position corresponding to the head position and the two adjacent ones). On those coordinates, the value of $NEXT_M(\sigma)$ can be computed by some finite function.
 
 We will let the alphabet $\Sigma = \{0,1\} \cup \{ \| , \# \}$.
-A _computation history_ of $M$ on the input $0$ is a string $L\in \Sigma$ that corresponds to a list $\| \sigma_0 \# \sigma_1 \| \sigma_2 \# \sigma_3 \cdots \sigma_{t-2} \| \sigma_{t-1} \#$ (i.e., $\|$ comes before an even numbered block, and $\|$ comes before an odd numbered one) such that if $i$ is even then $\sigma_i$ is the string encoding the configuration of $P$ on input $0$ at the beginning of its $i$-th iteration, and if $i$ is odd then it is the same except the string is _reversed_.
+A _computation history_ of $M$ on the input $0$ is a string $L\in \Sigma$ that corresponds to a list $\| \sigma_0 \# \sigma_1 \| \sigma_2 \# \sigma_3 \cdots \sigma_{t-2} \| \sigma_{t-1} \#$ (i.e., $\|$ comes before an even numbered block, and $\#$ comes before an odd numbered one) such that if $i$ is even then $\sigma_i$ is the string encoding the configuration of $P$ on input $0$ at the beginning of its $i$-th iteration, and if $i$ is odd then it is the same except the string is _reversed_.
 (That is, for odd $i$,  $rev(\sigma_i)$  encodes the configuration of $P$ on input $0$ at the beginning of its $i$-th iteration.)
 Reversing the odd-numbered blocks is a technical trick to ensure that the  function $INVALID_M$ we define below is context free.
 
