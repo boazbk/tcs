@@ -182,7 +182,7 @@ INPUT: nonnegative integers $x,y$ each of at most $n$ digits
 OUTPUT: $x\cdot y$
 
 procedure{Karatsuba}{$x$,$y$}
-If {$n \leq 4$} return $x\cdot y$ lendif
+lif {$n \leq 4$} return $x\cdot y$ lendif
 Let $m = \floor{n/2}$
 Write $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \underline{y}$
 $A \leftarrow Karatsuba(\overline{x},\overline{y})$
