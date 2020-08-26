@@ -61,7 +61,7 @@ Structures from computer science, such as bits, strings, graphs, and even the no
 
 
 In addition to coming up with the place-value system, the Babylonians also invented the "standard algorithms" that we were all taught in elementary school for adding and multiplying numbers.
-These algorithms have been essential throughout the ages for people using  abaci, papyrus, or pencil and paper,  but in our computer age, do they still serve any purpose beyond torturing third graders?
+These algorithms have been essential throughout the ages for people using  abaci, papyrus, or pencil and paper,  but in our computer age, do they still serve any purpose beyond torturing third-graders?
 To see why these algorithms are still very much relevant, let us compare the Babylonian digit-by-digit multiplication algorithm ("grade-school multiplication") with the  naive algorithm that multiplies numbers through  repeated addition.
 We start by formally describing both algorithms, see [naivemultalg](){.ref} and [gradeschoolalg](){.ref}.
 
@@ -104,7 +104,7 @@ In contrast, even though it is more than a billion times faster than a human, if
 Computers have not made algorithms obsolete.
 On the contrary, the vast increase in our ability to measure, store, and communicate data has led to much higher demand for developing better and more sophisticated algorithms that empower us to make better decisions based on these data.
 We also see that in no small extent the notion of _algorithm_ is independent of the actual computing device that executes it.
-The digit-by-digit multiplication algorithm is vastly better than iterated addition, regardless whether the technology we use to implement it is a silicon-based chip, or a third grader with pen and paper.
+The digit-by-digit multiplication algorithm is vastly better than iterated addition, regardless whether the technology we use to implement it is a silicon-based chip, or a third-grader with pen and paper.
 
 
 Theoretical computer science is concerned with the _inherent_ properties of algorithms and computation; namely, those properties that are _independent_ of current technology.
@@ -243,7 +243,7 @@ $$
 for some constant $c'$ (using the fact that addition can be done in $O(n)$ operations).
  
 The recursive equation [eqkaratsubarecursion](){.eqref} solves to $O(n^{\log_2 3})$.
-The intuition behind this is presented in [karatsubafig](){.ref}, and this is also a consequence of the so called ["Master Theorem"](https://en.wikipedia.org/wiki/Master_theorem_\(analysis_of_algorithms\)) on recurrence relations.
+The intuition behind this is presented in [karatsubafig](){.ref}, and this is also a consequence of the so-called ["Master Theorem"](https://en.wikipedia.org/wiki/Master_theorem_\(analysis_of_algorithms\)) on recurrence relations.
 As mentioned above, we leave completing the proof to the reader as [karatsuba-ex](){.ref}.
 :::
 
@@ -272,7 +272,7 @@ Yet, despite all this progress, we still don't know whether or not there is an $
 (This book contains many "advanced" or "optional" notes and sections. These may assume background that not every student has, and can be safely skipped over as none of the future parts depends on them.)
 
 Ideas similar to Karatsuba's can be used to speed up _matrix_ multiplications as well.
-Matrices are a powerful way to represent linear equations and operations, widely used in a great many applications of scientific computing, graphics, machine learning, and many many more.
+Matrices are a powerful way to represent linear equations and operations, widely used in numerous applications of scientific computing, graphics, machine learning, and many many more.
 
 One of the basic operations one can do with two matrices is to _multiply_ them.
 For example, if $x =   \begin{pmatrix} x_{0,0} & x_{0,1}\\ x_{1,0}& x_{1,1} \end{pmatrix}$ and $y =  \begin{pmatrix} y_{0,0} & y_{0,1}\\ y_{1,0}& y_{1,1} \end{pmatrix}$ then the product of $x$ and $y$ is the matrix $\begin{pmatrix} x_{0,0}y_{0,0} + x_{0,1}y_{1,0} & x_{0,0}y_{0,1} + x_{0,1}y_{1,1}\\ x_{1,0}y_{0,0}+x_{1,1}y_{1,0}  & x_{1,0}y_{0,1}+x_{1,1}y_{1,1} \end{pmatrix}$.
@@ -332,7 +332,7 @@ Here are some examples of impossibility results outside computer science  (see  
 In physics, the impossibility of building a _perpetual motion machine_ corresponds to the _law of conservation of energy_.
 The impossibility of building a heat engine beating Carnot's bound corresponds to the second law of thermodynamics, while the impossibility of faster-than-light information transmission is a cornerstone of special relativity.
 In mathematics, while we all learned the formula for solving quadratic equations in high school, the impossibility of generalizing this formula to equations of degree five or more gave birth to _group theory_.
-The impossibility of proving  Euclid's fifth axiom from the first four gave rise to  _non-Euclidean geometries_, which ended up crucial for the theory of general relativity. 
+The impossibility of proving  Euclid's fifth axiom from the first four gave rise to [non-Euclidean geometries](https://en.wikipedia.org/wiki/Non-Euclidean_geometry), which ended up crucial for the theory of general relativity. 
 
 In an analogous way, impossibility results for computation correspond to "computational laws of nature" that tell us about the fundamental limits of any information processing apparatus, whether based on silicon, neurons, or quantum particles.
 Moreover, computer scientists found creative approaches to _apply_ computational limitations to achieve certain useful tasks.
