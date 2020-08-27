@@ -286,7 +286,7 @@ Table: An example of a function.
 
 
 
-If $f:S \rightarrow T$ satisfies that $f(x)\neq f(y)$ for all $x \neq y$ then we say that $f$ is _one-to-one_ ([onetoonedef](){.ref}, also known as an _injective_ function or simply an _injection_).
+If $F:S \rightarrow T$ satisfies that $F(x)\neq f(y)$ for all $x \neq y$ then we say that $F$ is _one-to-one_ ([onetoonedef](){.ref}, also known as an _injective_ function or simply an _injection_).
 If $F$ satisfies that for every $y\in T$ there is some $x\in S$ such that $F(x)=y$ then we say that $F$ is _onto_ (also known as a _surjective_ function or simply a _surjection_).
 A function that is both one-to-one and onto is known as a _bijective_ function or simply a _bijection_.
 A bijection from a set $S$ to itself is also known as a _permutation_ of $S$.
