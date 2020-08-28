@@ -247,7 +247,7 @@ $$
 ZtS_n(k) = \begin{cases} NtS_{n+1}(k) & 0 \leq k \leq 2^n-1 \\
                      NtS_{n+1}(2^{n+1}+k) & -2^n \leq k \leq -1 \end{cases} \;,
 $$
-where $NtS_\ell(m)$ demotes the standard binary representation of a number  $m \in \{0,\ldots, 2^{\ell}\}$ as string of length $\ell$, padded with leading zeros as needed.
+where $NtS_\ell(m)$ denotes the standard binary representation of a number  $m \in \{0,\ldots, 2^{\ell}\}$ as string of length $\ell$, padded with leading zeros as needed.
 For example, if $n=3$ then $ZtS_3(1)=NtS_4(1)=0001$, $ZtS_3(2)=NtS_4(2)=0010$, $ZtS_3(-1)=NtS_4(16-1)=1111$, and $ZtS_3(-8)=NtS_4(16-8)=1000$.
 If $k$ is a  negative number larger than or equal to $-2^n$ then  $2^{n+1}+k$ is a number between $2^n$ and $2^{n+1}-1$.
 Hence the two's complement representation of such a number $k$ is a string of length $n+1$  with its first digit equal to $1$.
