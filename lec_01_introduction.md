@@ -177,7 +177,7 @@ The operations of Karatsuba's algorithm are detailed in [karatsubaalg](){.ref}, 
 
 
 ``` { .algorithm title="Karatsuba multiplication" #karatsubaalg }
-INPUT: nonnegative integers $x,y$ each of at most $n$ digits
+INPUT: non-negative integers $x,y$ each of at most $n$ digits
 
 OUTPUT: $x\cdot y$
 
@@ -202,7 +202,7 @@ endprocedure
  We now turn to showing both facts:
 
  > ### {.lemma #karatsubacorrect}
- For every nonnegative integers $x,y$, when given input $x,y$ [karatsubaalg](){.ref} will output $x\cdot y$.
+ For every non-negative integers $x,y$, when given input $x,y$ [karatsubaalg](){.ref} will output $x\cdot y$.
  
 
 
@@ -431,7 +431,7 @@ e. $n!$ operations.
 :::
 
 ::: {.exercise title="Usefulness of algorithmic non-existence"}
-In this chapter we mentioned several companies that were founded based on the discovery of new algorithms. Can you give an example for a company that was founded based on the _non existence_ of an algorithm? See footnote for hint.^[As we will see in Chapter [chapcryptography](){.ref}, almost any company relying on cryptography needs to assume the _non existence_ of certain algorithms. In particular,  [RSA Security](https://goo.gl/tMsAui) was founded based on the security of the RSA cryptosystem, which presumes the _non existence_ of an efficient algorithm to compute the prime factorization of large integers.]
+In this chapter we mentioned several companies that were founded based on the discovery of new algorithms. Can you give an example for a company that was founded based on the _non-existence_ of an algorithm? See footnote for hint.^[As we will see in Chapter [chapcryptography](){.ref}, almost any company relying on cryptography needs to assume the _non-existence_ of certain algorithms. In particular,  [RSA Security](https://goo.gl/tMsAui) was founded based on the security of the RSA cryptosystem, which presumes the _non-existence_ of an efficient algorithm to compute the prime factorization of large integers.]
 :::
 
 ::: {.exercise title="Analysis of Karatsuba's Algorithm" #karatsuba-ex}

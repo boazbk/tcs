@@ -124,7 +124,7 @@ Some more examples are given in the table below.
 | 389                                 | 110000101                          |
 | 3750                                | 111010100110                       |
 
-Table: Representing numbers in the binary basis. The left-hand column contains representations of natural numbers in the decimal basis, while the righthand column contains representations of the same numbers in the binary basis.
+Table: Representing numbers in the binary basis. The left-hand column contains representations of natural numbers in the decimal basis, while the right-hand column contains representations of the same numbers in the binary basis.
 
 If $n$ is even, then the least significant digit of $n$'s binary representation is $0$, while if $n$ is odd then this digit equals $1$.
 Just like the number $\floor{n/10}$ corresponds to "chopping off" the least significant decimal digit (e.g., $\floor{457/10}=\floor{45.7}=45$), the number $\floor{n/2}$ corresponds to the "chopping off" the least significant _binary_ digit.
@@ -208,7 +208,7 @@ While reading this book, you are free to choose your own philosophy of mathemati
 
 We have seen that natural numbers can be represented as binary strings.
 We now show that the same is true for other types of objects, including (potentially negative) integers, rational numbers, vectors, lists, graphs and many others.
-In many instances, choosing the "right" string representation for a piece of data is highly nontrivial, and finding the "best" one (e.g., most compact, best fidelity,  most efficiently manipulable, robust to errors, most informative features, etc.) is the object of intense research.
+In many instances, choosing the "right" string representation for a piece of data is highly non-trivial, and finding the "best" one (e.g., most compact, best fidelity,  most efficiently manipulable, robust to errors, most informative features, etc.) is the object of intense research.
 But for now, we focus on presenting some simple representations for various objects that we would like to use as inputs and outputs for computation.
 
 
@@ -230,7 +230,7 @@ For example, in the representation above there is no number that is represented 
 
 
 > ### {.remark title="Interpretation and context" #contextreprem}
-Given a string $y\in \{0,1\}^*$, how do we know if it's "supposed" to represent a (nonnegative) natural number or a (potentially negative) integer?
+Given a string $y\in \{0,1\}^*$, how do we know if it's "supposed" to represent a (non-negative) natural number or a (potentially negative) integer?
 For that matter, even if we know $y$ is "supposed" to be an integer, how do we know what representation scheme it uses?
 The short answer is that we do not necessarily know this information, unless it is supplied from the context. (In programming languages, the compiler or interpreter determines the representation of the sequence of bits corresponding to a variable based on the variable's _type_.)
 We can treat the same string $y$ as representing a natural number, an integer, a piece of text, an image, or a green gremlin.
@@ -260,7 +260,7 @@ Many systems leave it to the programmer to check that values are not too large a
 For this reason, in some systems adding two large positive numbers can result in a _negative_ number (e.g., adding $2^n-100$ and $2^n-200$ might result in $-300$ since $(2^{n+1}-300) \mod 2^{n+1} = -300$, see also [twoscomplementfig](){.ref}).
 
 
-![In the _two's complement representation_  we represent a potentially negative integer $k \in \{ -2^n ,\ldots, 2^n-1 \}$ as an $n+1$ length string using the binary representation of the integer $k \mod 2^{n+1}$. On the lefthand side: this representation for $n=3$ (the red integers are the numbers being represented by the blue binary strings). If a microprocessor does not check for overflows, adding the two positive numbers $6$ and $5$ might result in the negative number $-5$ (since $-5 \mod 16 = 11$. The righthand side is a `C` program that will on some $32$ bit architecture print a negative number after adding two positive numbers. (Integer overflow in `C` is considered _undefined behavior_ which means the result of this program, including whether it runs or crashes, could differ depending on the architecture, compiler, and even compiler options and version.)](../figure/twoscomplement.png){#twoscomplementfig .margin}
+![In the _two's complement representation_  we represent a potentially negative integer $k \in \{ -2^n ,\ldots, 2^n-1 \}$ as an $n+1$ length string using the binary representation of the integer $k \mod 2^{n+1}$. On the left-hand side: this representation for $n=3$ (the red integers are the numbers being represented by the blue binary strings). If a microprocessor does not check for overflows, adding the two positive numbers $6$ and $5$ might result in the negative number $-5$ (since $-5 \mod 16 = 11$. The right-hand side is a `C` program that will on some $32$ bit architecture print a negative number after adding two positive numbers. (Integer overflow in `C` is considered _undefined behavior_ which means the result of this program, including whether it runs or crashes, could differ depending on the architecture, compiler, and even compiler options and version.)](../figure/twoscomplement.png){#twoscomplementfig .margin}
 
 
 ### Rational numbers, and representing pairs of strings
@@ -518,7 +518,7 @@ Formally,
 $$
 FtR(f) = \sum_{i=0}^\infty f(i) \cdot 10^{-i} \label{eqcantordecimalexpansion}
 $$
-It is a known result in calculus (whose proof we will not repeat here) that the series on the righthand side of [eqcantordecimalexpansion](){.eqref} converges to a definite limit in $\mathbb{R}$.
+It is a known result in calculus (whose proof we will not repeat here) that the series on the right-hand side of [eqcantordecimalexpansion](){.eqref} converges to a definite limit in $\mathbb{R}$.
 
 We now prove that $FtR$ is one to one.
 Let $f,g$ be two distinct functions in $\{0,1\}^\infty$.

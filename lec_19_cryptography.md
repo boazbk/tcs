@@ -380,7 +380,7 @@ We will show that $(E,D)$ is not perfectly secret by providing two plaintexts $x
 
 
 We choose $x_0 = 0^L$.
-Let $S_0 \subseteq \{0,1\}^*$ be the set of all ciphertexts that have nonzero probability of being output in $Y_{x_0}$. That is, $S_0=\{ y \;|\; \exists_{k\in \{0,1\}^n} y=E_k(x_0) \}$.
+Let $S_0 \subseteq \{0,1\}^*$ be the set of all ciphertexts that have non-zero probability of being output in $Y_{x_0}$. That is, $S_0=\{ y \;|\; \exists_{k\in \{0,1\}^n} y=E_k(x_0) \}$.
 Since there are only $2^n$ keys, we know that $|S_0| \leq 2^n$.
 
 
@@ -423,7 +423,7 @@ $$
 
 > ### { .pause }
 [compsecdef](){.ref} requires a second or third read and some practice to truly understand.
-One excellent exercise to make sure you follow it is to see that if we allow $P$ to be an _arbitrary_ function mapping $\{0,1\}^{m(n)}$ to $\{0,1\}$, and we replace the condition in [eqindist](){.eqref} that the lefthand side is smaller than $\tfrac{1}{p(n)}$ with the condition that it is equal to $0$ then we get the perfect secrecy condition of [perfectsecrecy](){.ref}.
+One excellent exercise to make sure you follow it is to see that if we allow $P$ to be an _arbitrary_ function mapping $\{0,1\}^{m(n)}$ to $\{0,1\}$, and we replace the condition in [eqindist](){.eqref} that the left-hand side is smaller than $\tfrac{1}{p(n)}$ with the condition that it is equal to $0$ then we get the perfect secrecy condition of [perfectsecrecy](){.ref}.
 Indeed if the distributions $E_k(x_0)$  and $E_k(x_1)$ are identical then applying any function $P$ to them we get the same expectation.
 On the other hand, if the two distributions above give a different probability for some element $y^*\in \{0,1\}^{m(n)}$, then the function $P(y)$ that outputs $1$ iff $y=y^*$ will have a different expectation under the former distribution than under the latter.
 
@@ -522,7 +522,7 @@ $$
 \left| \E_{k \sim \{0,1\}^n}[ Q(G(k) \oplus x)] - \E_{r \sim \{0,1\}^L} [ Q(r \oplus x)] \right| + \left|  \E_{r \sim \{0,1\}^L} [ Q(r \oplus x')]  -  \E_{k \sim \{0,1\}^n}[Q(G(k) \oplus x')] \right| > \tfrac{1}{p(L)} \;. \label{eqprgsefour}
 $$
 
-In particular, either the first term or the second term of the lefthand-side of [eqprgsefour](){.eqref} must be at least $\tfrac{1}{2p(L)}$.
+In particular, either the first term or the second term of the left-hand side of [eqprgsefour](){.eqref} must be at least $\tfrac{1}{2p(L)}$.
 Let us assume the first case holds (the second case is analyzed in exactly the same way).
 Then we get that
 $$

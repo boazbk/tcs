@@ -90,7 +90,7 @@ One staple of almost any programming language is the ability to define and then 
 (These are often  known as _functions_ in some programming languages, but we prefer the name _procedures_
 to avoid confusion with the function that a program computes.)
 The NAND-CIRC programming language does not have this mechanism built in.
-However, we can achieve the same effect using the time honored technique of  "copy and paste".
+However, we can achieve the same effect using the time-honored technique of  "copy and paste".
 Specifically, we can replace code which defines a procedure such as
 
 ```python
@@ -117,11 +117,11 @@ The above reasoning leads to the proof of the following theorem:
 
 > ### {.theorem title="Procedure definition synctatic sugar" #functionsynsugarthm}
 Let NAND-CIRC-PROC be the programming language NAND-CIRC augmented with the syntax above for defining procedures.
-Then for every NAND-CIRC-PROC program $P$, there exists a standard (i.e., "sugar free") NAND-CIRC program $P'$ that computes the same function as $P$.
+Then for every NAND-CIRC-PROC program $P$, there exists a standard (i.e., "sugar-free") NAND-CIRC program $P'$ that computes the same function as $P$.
 
 
 ::: {.remark title="No recursive procedure" #norecursion}
-NAND-CIRC-PROC only allows _non recursive_ procedures. In particular, the code of a procedure `Proc` cannot call `Proc` but only use procedures that were defined before it.
+NAND-CIRC-PROC only allows _non-recursive_ procedures. In particular, the code of a procedure `Proc` cannot call `Proc` but only use procedures that were defined before it.
 Without this restriction, the above "search and replace" procedure might never terminate and [functionsynsugarthm](){.ref} would not be true.
 :::
 
@@ -155,7 +155,7 @@ print(MAJ(0,1,1))
 # 1
 ```
 
-[progcircmajfig](){.ref} presents the "sugar free" NAND-CIRC program (and the corresponding circuit) that is obtained by "expanding out" this program, replacing the calls to procedures with their definitions.
+[progcircmajfig](){.ref} presents the "sugar-free" NAND-CIRC program (and the corresponding circuit) that is obtained by "expanding out" this program, replacing the calls to procedures with their definitions.
 :::
 
 
@@ -167,7 +167,7 @@ Once we show that a computational model $X$ is equivalent to a model that has fe
 
 
 
-![A standard (i.e., "sugar free") NAND-CIRC program that is obtained by expanding out the procedure definitions in the program for Majority of [majcircnand](){.ref}. The corresponding circuit is on the right. Note that this is not the most efficient NAND circuit/program for majority: we can save on some gates by "short cutting" steps where a gate $u$ computes $NAND(v,v)$ and then a gate $w$ computes $NAND(u,u)$ (as indicated by the dashed green arrows in the above figure).](../figure/progcircmaj.png){#progcircmajfig}
+![A standard (i.e., "sugar-free") NAND-CIRC program that is obtained by expanding out the procedure definitions in the program for Majority of [majcircnand](){.ref}. The corresponding circuit is on the right. Note that this is not the most efficient NAND circuit/program for majority: we can save on some gates by "short cutting" steps where a gate $u$ computes $NAND(v,v)$ and then a gate $w$ computes $NAND(u,u)$ (as indicated by the dashed green arrows in the above figure).](../figure/progcircmaj.png){#progcircmajfig}
 
 
 
@@ -175,7 +175,7 @@ Once we show that a computational model $X$ is equivalent to a model that has fe
 
 ::: {.remark title="Counting lines" #countinglines}
 While we can use syntactic sugar to _present_ NAND-CIRC programs in more readable ways, we did not change the definition of the language itself.
-Therefore, whenever we say that some function $f$ has an $s$-line NAND-CIRC program we mean a standard "sugar free" NAND-CIRC program, where all syntactic sugar has been expanded out.
+Therefore, whenever we say that some function $f$ has an $s$-line NAND-CIRC program we mean a standard "sugar-free" NAND-CIRC program, where all syntactic sugar has been expanded out.
 For example, the program of [majcircnand](){.ref} is a $12$-line program for computing the $MAJ$ function, even though it can be written in fewer lines using NAND-CIRC-PROC.
 :::
 
@@ -184,7 +184,7 @@ For example, the program of [majcircnand](){.ref} is a $12$-line program for com
 ### Proof by Python (optional) { #functionsynsugarthmpython }
 
 We can write a Python program that implements the proof of [functionsynsugarthm](){.ref}.
-This is a Python program that takes a  NAND-CIRC-PROC program $P$ that includes procedure definitions and uses simple "search and replace" to transform $P$ into a standard (i.e., "sugar free") NAND-CIRC program $P'$ that computes the same function as $P$ without using any procedures.
+This is a Python program that takes a  NAND-CIRC-PROC program $P$ that includes procedure definitions and uses simple "search and replace" to transform $P$ into a standard (i.e., "sugar-free") NAND-CIRC program $P'$ that computes the same function as $P$ without using any procedures.
 The idea is simple: if the program $P$ contains a definition of a procedure `Proc` of two arguments `x` and `y`, then whenever we see a line of the form `foo = Proc(bar,blah)`, we can replace this line by:
 
 
@@ -196,7 +196,7 @@ To make this more robust we add a prefix to the internal variables used by `Proc
 
 The code of the Python function `desugar` below achieves such a  transformation.
 
-``` { .python .full #desugarcode title="Python code for transforming NAND-CIRC-PROC programs into standard sugar free NAND-CIRC programs." }
+``` { .python .full #desugarcode title="Python code for transforming NAND-CIRC-PROC programs into standard sugar-free NAND-CIRC programs." }
 def desugar(code, func_name, func_args,func_body):
     """
     Replaces all occurences of 
@@ -310,7 +310,7 @@ Once again we omit the (not too insightful) full formal proof, though see [funct
 
 > ### {.theorem title="Conditional statements synctatic sugar" #conditionalsugarthm }
 Let NAND-CIRC-IF be the programming language NAND-CIRC augmented with `if`/`then`/`else` statements for allowing code to be conditionally executed based on whether a variable is equal to $0$ or $1$.  
-Then for every NAND-CIRC-IF program $P$, there exists a standard (i.e., "sugar free") NAND-CIRC program $P'$ that computes the same function as $P$.
+Then for every NAND-CIRC-IF program $P$, there exists a standard (i.e., "sugar-free") NAND-CIRC program $P'$ that computes the same function as $P$.
 
 
 
@@ -344,7 +344,7 @@ ADD([1,1,1,0,0],[1,0,0,0,0]);;
 where `zero` is the constant zero function, and `MAJ` and `XOR` correspond to the majority and XOR functions respectively.
 While we use Python syntax for convenience, in this example $n$ is some _fixed integer_ and so for every such $n$, `ADD` is a _finite_ function that takes as input $2n$ bits and outputs $n+1$ bits.
 In particular for every $n$ we can remove the  loop construct `for i in range(n)`  by simply repeating the code $n$ times, replacing the value of `i` with $0,1,2,\ldots,n-1$.
-By expanding out all the features, for every value of $n$ we can translate the above program into a standard ("sugar free") NAND-CIRC program. [add2bitnumbersfig](){.ref} depicts what we get for $n=2$.
+By expanding out all the features, for every value of $n$ we can translate the above program into a standard ("sugar-free") NAND-CIRC program. [add2bitnumbersfig](){.ref} depicts what we get for $n=2$.
 
 
 ![The NAND-CIRC program and corresponding NAND circuit for adding two-digit binary numbers that are obtained by "expanding out" all the syntactic sugar. The program/circuit has 43 lines/gates which is by no means necessary. It is possible to add $n$ bit numbers using $9n$ NAND gates, see [halffulladderex](){.ref}.](../figure/add2bitnumbers.png){#add2bitnumbersfig .class  }
@@ -467,7 +467,7 @@ See [lookuplinesfig](){.ref} for a plot of the actual number of lines in our imp
 
 At this point we know the following facts about NAND-CIRC programs (and so equivalently about Boolean circuits and our other equivalent models):
 
-1. They can compute at least some non trivial functions.
+1. They can compute at least some non-trivial functions.
 
 2. Coming up with NAND-CIRC programs for various functions is a very tedious task.
 
@@ -666,14 +666,14 @@ There exists some constant $c>0$ such that for every $n,m>0$ and function $f: \{
 
 > ### {.proofidea data-ref="circuit-univ-alt-thm"}
 The idea of the proof is illustrated in [computeallfuncaltfig](){.ref}. As before, it is enough to focus on the case that $m=1$ (the function $f$ has a single output), since we can always extend this to the case of $m>1$ by looking at the composition of $m$ circuits each computing a different output bit of the function $f$.
-We start by showing that for every $\alpha \in \{0,1\}^n$, there is an $O(n)$ sized circuit that computes the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$ defined as follows: $\delta_\alpha(x)=1$ iff $x=\alpha$ (that is, $\delta_\alpha$ outputs $0$ on all inputs except the input $\alpha$). We can then write any function $f:\{0,1\}^n \rightarrow \{0,1\}$ as the OR of at most $2^n$ functions $\delta_\alpha$ for the $\alpha$'s on which $f(\alpha)=1$.
+We start by showing that for every $\alpha \in \{0,1\}^n$, there is an $O(n)$-sized circuit that computes the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$ defined as follows: $\delta_\alpha(x)=1$ iff $x=\alpha$ (that is, $\delta_\alpha$ outputs $0$ on all inputs except the input $\alpha$). We can then write any function $f:\{0,1\}^n \rightarrow \{0,1\}$ as the OR of at most $2^n$ functions $\delta_\alpha$ for the $\alpha$'s on which $f(\alpha)=1$.
 
 ::: {.proof data-ref="circuit-univ-alt-thm"}
 We prove the theorem for the case $m=1$. The result can be extended for $m>1$ as before (see also [mult-bit-ex](){.ref}).
 Let $f:\{0,1\}^n \rightarrow \{0,1\}$.
 We will prove that there is an $O(n\cdot 2^n)$-sized Boolean circuit to compute $f$ in the following steps:
 
-1. We show that for every $\alpha\in \{0,1\}^n$, there is an $O(n)$ sized circuit that computes the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$, where $\delta_\alpha(x)=1$ iff $x=\alpha$.
+1. We show that for every $\alpha\in \{0,1\}^n$, there is an $O(n)$-sized circuit that computes the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$, where $\delta_\alpha(x)=1$ iff $x=\alpha$.
 
 2. We then show that this implies the existence of an $O(n\cdot 2^n)$-sized circuit that computes $f$, by writing $f(x)$ as the OR of $\delta_\alpha(x)$ for all  $\alpha\in \{0,1\}^n$ such that $f(\alpha)=1$.
 
@@ -829,7 +829,7 @@ where $MAJ(a,b,c) = 1$ iff $a+b+c \geq 2$.
 ::: {.exercise title="Conditional statements" #conditionalsugarthmex}
 In this exercise we will explore [conditionalsugarthm](){.ref}: transforming NAND-CIRC-IF programs that use code such as `if .. then .. else ..` to standard NAND-CIRC programs.
 
-1. Give a "proof by code" of [conditionalsugarthm](){.ref}: a program in a programming language of your choice that transforms a NAND-CIRC-IF program $P$ into a "sugar free" NAND-CIRC program $P'$ that computes the same function. See footnote for hint.^[You can start by transforming $P$ into a NAND-CIRC-PROC program that uses procedure statements, and then use the code of [desugarcode](){.ref} to transform the latter into a "sugar free" NAND-CIRC program.]
+1. Give a "proof by code" of [conditionalsugarthm](){.ref}: a program in a programming language of your choice that transforms a NAND-CIRC-IF program $P$ into a "sugar-free" NAND-CIRC program $P'$ that computes the same function. See footnote for hint.^[You can start by transforming $P$ into a NAND-CIRC-PROC program that uses procedure statements, and then use the code of [desugarcode](){.ref} to transform the latter into a "sugar-free" NAND-CIRC program.]
 
 2. Prove the following statement, which is the heart of  [conditionalsugarthm](){.ref}: suppose that there exists an $s$-line NAND-CIRC program to compute $f:\{0,1\}^n \rightarrow \{0,1\}$ and an $s'$-line NAND-CIRC program to compute $g:\{0,1\}^n \rightarrow \{0,1\}$.
 Prove that there exist a NAND-CIRC program of at most $s+s'+10$ lines to compute the function $h:\{0,1\}^{n+1} \rightarrow \{0,1\}$ where $h(x_0,\ldots,x_{n-1},x_n)$ equals $f(x_0,\ldots,x_{n-1})$ if $x_n=0$ and equals $g(x_0,\ldots,x_{n-1})$ otherwise. (All programs in this item are standard "sugar-free" NAND-CIRC programs.)

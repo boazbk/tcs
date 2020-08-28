@@ -922,7 +922,7 @@ Let $e$ be a regular expression over some alphabet $\Sigma$. Then there is some 
 ![To prove the "pumping lemma" we look at a word $w$ that is much larger than the regular expression $e$ that matches it. In such a case, part of $w$ must be matched by some sub-expression of the form $(e')^*$, since this is the only operator that allows matching words longer than the expression. If we look at the "leftmost" such sub-expression and define $y^k$ to be the string that is matched by it, we obtain the partition needed for the pumping lemma.](../figure/pumpinglemma.png){#pumpinglemmafig   }
 
 > ### {.proofidea data-ref="pumping"}
-The idea behind the proof the following.  Let $n_0$ be twice the number of symbols that are used in the expression $e$, then the only way that there is some $w$ with $|w|>n_0$ and $\Phi_{e}(w)=1$ is that $e$ contains the $*$ (i.e. star) operator and that there is a nonempty substring $y$ of $w$ that was matched by $(e')^*$ for some sub-expression $e'$ of $e$.  We can now repeat $y$ any number of times and still get a matching string. See also [pumpinglemmafig](){.ref}.
+The idea behind the proof the following.  Let $n_0$ be twice the number of symbols that are used in the expression $e$, then the only way that there is some $w$ with $|w|>n_0$ and $\Phi_{e}(w)=1$ is that $e$ contains the $*$ (i.e. star) operator and that there is a non-empty substring $y$ of $w$ that was matched by $(e')^*$ for some sub-expression $e'$ of $e$.  We can now repeat $y$ any number of times and still get a matching string. See also [pumpinglemmafig](){.ref}.
 
 ::: { .pause }
 The pumping lemma is a bit cumbersome to state, but one way to remember it is that it simply says the following: _"if a string matching a regular expression is long enough, one of its substrings must be matched using the $*$ operator"_.
@@ -954,7 +954,7 @@ Otherwise, if $|w'| \leq 2|e'|$ then since $|w|=|w'|+|w''|>n_0=2(|e'|+|e''|)$, i
 Hence by the induction hypothesis there exist $x',y,z$ such that $|y| \geq 1$, $|x'y| \leq 2|e''|$ and $e''$ matches $x'y^kz$ for every $k\in \N$.
 But now if we set $x=w'x'$ we see that $|xy| \leq |w'| + |x'y| \leq 2|e'| + 2|e''| =n_0$ and on the other hand  the expression $e=(e')(e'')$ matches $xy^kz = w'x'y^kz$ for every $k\in \N$.
 
-In case __(c)__, if $w$ is matched by $(e')^*$ then $w= w_0\cdots w_t$ where for every $i\in [t]$, $w_i$ is a nonempty string matched by $e'$.
+In case __(c)__, if $w$ is matched by $(e')^*$ then $w= w_0\cdots w_t$ where for every $i\in [t]$, $w_i$ is a non-empty string matched by $e'$.
 If $|w_0|>2|e'|$ then we can use the same approach as in the concatenation case above.
 Otherwise, we simply note that if $x$ is the empty string, $y=w_0$, and $z=w_1\cdots w_t$ then $|xy| \leq n_0$ and $xy^kz$ is matched by $(e')^*$ for every $k\in \N$.
 :::
@@ -974,7 +974,7 @@ Hence $MATCHPAREN(xy^2z)=0$ but by the pumping lemma $\Phi_{e}(xy^2z)=1$, contra
 :::
 
 The pumping lemma is a very useful tool to show that certain functions are _not_ computable by a regular expression.
-However, it is _not_ an "if and only if" condition for regularity: there are non regular functions that still satisfy the conditions of the pumping lemma.
+However, it is _not_ an "if and only if" condition for regularity: there are non-regular functions that still satisfy the conditions of the pumping lemma.
 To understand the pumping lemma, it is important to follow the order of quantifiers in [pumping](){.ref}.
 In particular, the number $n_0$ in the statement of  [pumping](){.ref} depends on the regular expression (in the proof we chose $n_0$ to be twice the number of symbols in the expression).
 So, if we want to use the pumping lemma to rule out the existence of a regular expression $e$ computing some function $F$, we need to be able to choose an appropriate input $w\in \{0,1\}^*$ that can be arbitrarily large and satisfies $F(w)=1$.
@@ -1121,7 +1121,7 @@ One among the following two functions that map $\{0,1\}^*$ to $\{0,1\}$ can be c
 * $G(x) = 1$ if and only if $\sum_{i=0}^{|x|-1} x_i \geq |x|/4$ and $G(x)=0$ otherwise.
 :::
 
-::: {.exercise title="Non regularity" #nonregex}
+::: {.exercise title="Non-regularity" #nonregex}
 1. Prove that the following function $F:\{0,1\}^* \rightarrow \{0,1\}$ is not regular. For every $x\in \{0,1\}^*$, $F(x)=1$ iff $x$ is of the form $x=1^{3^i}$ for some $i>0$. 
 
 2.  Prove that the following function $F:\{0,1\}^* \rightarrow \{0,1\}$ is not regular. For every $x\in \{0,1\}^*$, $F(x)=1$ iff  $\sum_j x_j = 3^i$ for some $i>0$. 
@@ -1133,7 +1133,7 @@ One among the following two functions that map $\{0,1\}^*$ to $\{0,1\}$ can be c
 
 The relation of regular expressions with finite automata is a beautiful topic, on which we only touch upon in this text.
 It is covered more extensively in [@SipserBook, @hopcroft, @kozen1997automata].
-These texts also discuss topics such as _non deterministic finite automata_ (NFA) and the relation between context-free grammars and pushdown automata.
+These texts also discuss topics such as _non-deterministic finite automata_ (NFA) and the relation between context-free grammars and pushdown automata.
 
 The automaton of [dfazeroonefig](){.ref} was generated using the [FSM simulator](http://ivanzuzak.info/noam/webapps/fsm_simulator/) of Ivan Zuzak and Vedrana Jankovic.
 Our proof of [reglintimethm](){.ref} is closely related to the [Myhill-Nerode Theorem](https://goo.gl/mnKVMP). One direction of the Myhill-Nerode theorem can be stated as saying that if $e$ is a regular expression then there is at most a finite number of strings $z_0,\ldots,z_{k-1}$ such that $\Phi_{e[z_i]} \neq \Phi_{e[z_j]}$ for every $0 \leq i\neq j < k$.

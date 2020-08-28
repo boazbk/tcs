@@ -262,7 +262,7 @@ That is, if $x \in \{0,1\}^n$ and $y\in \{0,1\}^m$, then $xy$ is equal to the st
 
 ### Functions {#functionsec }
 
-If $S$ and $T$ are nonempty sets, a _function_ $F$ mapping $S$ to $T$, denoted by $F:S \rightarrow T$, associates with every element $x\in S$ an element $F(x)\in T$.
+If $S$ and $T$ are non-empty sets, a _function_ $F$ mapping $S$ to $T$, denoted by $F:S \rightarrow T$, associates with every element $x\in S$ an element $F(x)\in T$.
 The set $S$ is known as the _domain_ of $F$ and the set $T$ is known as the _codomain_ of $F$.
 The _image_ of a function $F$ is the set $\{ F(x) \;|\; x\in S\}$ which is the subset of $F$'s codomain consisting of all output elements that are mapped from some input. (Some texts use _range_ to denote the image of a function, while other texts use _range_ to denote the codomain of a function. Hence we will avoid using the term "range" altogether.)
 As in the case of sets, we can write a function either by listing the table of all the values it gives for elements in $S$ or by using a rule.
@@ -309,7 +309,7 @@ For example, the partial function $F(x)= \sqrt{x}$ is only defined on non-negati
 When we want to distinguish between partial functions and standard (i.e., non-partial) functions, we will call the latter _total_ functions.
 When we say "function" without any qualifier then we mean a _total_ function.
 
-The notion of partial functions is a strict generalization of functions, and so every function is a partial function, but not every partial function is a function. (That is, for every nonempty $S$ and $T$, the set of partial functions from $S$ to $T$ is a proper superset of the set of total functions from $S$ to $T$.) When we want to emphasize that a function $f$ from $A$ to $B$ might not be total, we will write $f: A \rightarrow_p B$.
+The notion of partial functions is a strict generalization of functions, and so every function is a partial function, but not every partial function is a function. (That is, for every non-empty $S$ and $T$, the set of partial functions from $S$ to $T$ is a proper superset of the set of total functions from $S$ to $T$.) When we want to emphasize that a function $f$ from $A$ to $B$ might not be total, we will write $f: A \rightarrow_p B$.
 We can think of a partial function $F$ from $S$ to $T$ also as a total function from $S$ to $T \cup \{ \bot \}$ where $\bot$ is a special "failure symbol". So, instead of saying that $F$ is undefined at $x$, we can say that $F(x)=\bot$.
 
 __Basic facts about functions:__
@@ -386,7 +386,7 @@ The connectivity relation is _transitive_, in the sense that if $u$ is connected
 For every undirected graph $G=(V,E)$ and connected pair $u,v$, the shortest path from $u$ to $v$ is simple.
 In particular, for every connected pair there exists a simple path that connects them.
 
-[simplepathlem](){.ref} can be shown by "shortcutting" any non simple path from $u$ to $v$ where  the same vertex $w$ appears twice to remove it (see [shortcutpathfig](){.ref}).
+[simplepathlem](){.ref} can be shown by "shortcutting" any non-simple path from $u$ to $v$ where  the same vertex $w$ appears twice to remove it (see [shortcutpathfig](){.ref}).
 It is a good exercise to transforming this intuitive reasoning to a formal proof:
 
 ![If there is a path from $u$ to $v$ in a graph that passes twice through a vertex $w$ then we can "shortcut" it by removing the loop from $w$ to itself to find a path from $u$ to $v$ that only passes once through $w$.](../figure/shortcutpath.png){#shortcutpathfig}

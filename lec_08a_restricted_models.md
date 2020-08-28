@@ -256,7 +256,7 @@ One can prove by induction that this grammar generates exactly the strings $w$ s
 
 A more interesting example is computing the strings of the form $u;v$ that are _not_ palindromes:
 
-::: {.solvedexercise title="Non palindromes" #nonpalindrome}
+::: {.solvedexercise title="Non-palindromes" #nonpalindrome}
 Prove that there is a context free grammar that computes $NPAL:\{0,1,;\}^* \rightarrow \{0,1\}$ where $NPAL(w)=1$ if $w=u;v$ but $v \neq u^R$.
 :::
 
@@ -320,7 +320,7 @@ However, by case analysis this can be shown to be a contradiction.
 
 Firstly, unless $b$ is on the left side of the $;$ separator and $d$ is on the right side, dropping $b$ and $d$ will definitely make the two parts different.
 But if it is the case that $b$ is on the left side and $d$ is on the right side, then by the condition that $|bcd| \leq n_0$ we know that $b$ is a string of only zeros and $d$ is a string of only ones.
-If we drop $b$ and $d$ then since one of them is non empty, we get that there are either less zeroes on the left side than on the right side, or there are less ones on the right side than on the left side.
+If we drop $b$ and $d$ then since one of them is non-empty, we get that there are either less zeroes on the left side than on the right side, or there are less ones on the right side than on the left side.
 In either case, we get that $EQ(ace)=0$, obtaining the desired contradiction.
 :::
 
@@ -335,21 +335,21 @@ For example, emptiness of context free grammars is decidable:
 There is an algorithm that on input a context-free grammar $G$, outputs $1$ if and only if $\Phi_G$ is the constant zero function.
 
 > ### {.proofidea data-ref="cfgemptinessthem"}
-The proof is easier to see if we transform the grammar to Chomsky Normal Form as in [CFGhalt](){.ref}. Given a grammar $G$, we can recursively define a non-terminal variable $v$ to be _non empty_ if there is either a rule of the form $v \Rightarrow \sigma$, or there is a rule of the form $v \Rightarrow uw$ where both $u$ and $w$ are non empty.
-Then the grammar is non empty if and only if the starting variable $s$ is non-empty.
+The proof is easier to see if we transform the grammar to Chomsky Normal Form as in [CFGhalt](){.ref}. Given a grammar $G$, we can recursively define a non-terminal variable $v$ to be _non-empty_ if there is either a rule of the form $v \Rightarrow \sigma$, or there is a rule of the form $v \Rightarrow uw$ where both $u$ and $w$ are non-empty.
+Then the grammar is non-empty if and only if the starting variable $s$ is non-empty.
 
 ::: {.proof data-ref="cfgemptinessthem"}
-We assume that the grammar $G$ in Chomsky Normal Form as in [CFGhalt](){.ref}. We consider the following procedure for marking variables as "non empty":
+We assume that the grammar $G$ in Chomsky Normal Form as in [CFGhalt](){.ref}. We consider the following procedure for marking variables as "non-empty":
 
-1. We start by marking all variables $v$ that are involved in a rule of the form $v \Rightarrow \sigma$ as non empty.
+1. We start by marking all variables $v$ that are involved in a rule of the form $v \Rightarrow \sigma$ as non-empty.
 
-2. We then continue to mark $v$ as non empty if it is involved in a rule of the form $v \Rightarrow uw$ where $u,w$ have been marked before.
+2. We then continue to mark $v$ as non-empty if it is involved in a rule of the form $v \Rightarrow uw$ where $u,w$ have been marked before.
 
 We continue this way until we cannot mark any more variables.
 We then declare that the grammar is empty if and only if $s$ has not been marked.
-To see why this is a valid algorithm, note that if a variable $v$ has been marked as "non empty" then there is some string $\alpha\in \Sigma^*$ that can be derived from $v$.
+To see why this is a valid algorithm, note that if a variable $v$ has been marked as "non-empty" then there is some string $\alpha\in \Sigma^*$ that can be derived from $v$.
 On the other hand, if $v$ has not been marked, then every sequence of derivations from $v$ will always have a variable that has not been replaced by alphabet symbols.
-Hence in particular  $\Phi_G$ is the all zero function if and only if the starting variable $s$  is not marked "non empty".
+Hence in particular  $\Phi_G$ is the all zero function if and only if the starting variable $s$  is not marked "non-empty".
 :::
 
 ### Uncomputability of context-free grammar equivalence (optional)
