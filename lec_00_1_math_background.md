@@ -136,7 +136,7 @@ A _Claim_ is a "throw away" statement, that we need to use in order to prove som
 
 ### Proofs
 
-Mathematical _proofs_ are the arguments we use to demonstrate that our theorems, lemmas, and claims area indeed true.
+Mathematical _proofs_ are the arguments we use to demonstrate that our theorems, lemmas, and claims are indeed true.
 We discuss proofs in [proofsbackgroundsec](){.ref} below, but the main point is that the mathematical standard of proof is very high.
 Unlike in some other realms, in mathematics a proof is an  "airtight" argument that demonstrates that the statement is true beyond a shadow of a doubt.
 Some examples in this section for mathematical proofs are given in [simplepathlemex](){.ref} and [topsortsec](){.ref}.
