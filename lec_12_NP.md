@@ -47,6 +47,8 @@ A polynomial-time reduction is a way to _reduce_ the task of solving one problem
 The way we use reductions in complexity is to argue that if the first problem is hard to solve efficiently, then the second must also be hard.
 We see several examples for reductions in this chapter, and reductions will be the basis for the theory of _$\mathbf{NP}$ completeness_ that we will develop in 
 [cooklevinchap](){.ref}.
+
+All the code for the reductions described in this chapter is available on the [following Jupyter notebook](https://colab.research.google.com/github/boazbk/tcscode/blob/master/Chap_13_reductions.ipynb).
 :::
 
 
