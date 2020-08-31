@@ -830,7 +830,7 @@ $$
 but this is a contradiction since $u_0=u_k$ and hence $f(u_0)=f(u_k)$.
 :::
 
-[acyclictosortlem](){.ref} corresponds to the more difficult (and useful) direction. To prove it, we need to show how given an arbitrary DAG $G$, we can come up with a layering of the vertices of $G$ so that all edges "go up".
+[acyclictosortlem](){.ref} corresponds to the more difficult (and useful) direction. To prove it, we need to show how, given an arbitrary DAG $G$, we can come up with a layering of the vertices of $G$ so that all edges "go up".
 
 > ### { .pause }
 If you have not seen the proof of this theorem before (or don't remember it), this would be an excellent point to pause and try to prove it yourself.
