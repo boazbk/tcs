@@ -897,10 +897,10 @@ To do so, we need to somehow find a way, given a graph $G$ of $n$ vertices, to r
 The idea is that we will find a _source_ of $G$: a vertex $v$ that has no in-neighbors. We can then assign to $v$ the layer $0$, and layer the remaining vertices using the inductive hypothesis in layers $1,2,\ldots$.
 
 The above is the intuition behind the proof of [acyclictosortlem](){.ref}, but when writing the formal proof below, we use the benefit of hindsight, and try to streamline what was a messy journey into a linear and easy-to-follow flow of logic that starts with the word __"Proof:"__ and ends with __"QED"__ or the symbol $\blacksquare$.^[QED stands for "quod erat demonstrandum", which is Latin for "what was to be demonstrated" or "the very thing it was required to have shown".]
-Discussions, examples and digressions can be very insightful, but we keep them outside the space delimited between these two words, where (as described by this [excellent handout](http://web.stanford.edu/class/cs103/handouts/120%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
+Discussions, examples, and digressions can be very insightful, but we keep them outside the space delimited between these two words, where (as described by this [excellent handout](http://web.stanford.edu/class/cs103/handouts/120%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
 Just like we do in programming, we can break the proof into little "subroutines" or "functions" (known as _lemmas_ or _claims_ in math language), which will be smaller statements that help us prove the main result.
 However, the proof should be structured in a way that ensures that it is always crystal-clear to the reader in what stage we are of the proof.
-The reader should be able to tell what is the role of every sentence in the proof and which part it belongs to.
+The reader should be able to tell what the role of every sentence is in the proof and which part it belongs to.
 We now present the formal proof of [acyclictosortlem](){.ref}.
 
 
