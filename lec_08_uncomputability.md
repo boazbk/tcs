@@ -972,7 +972,7 @@ Prove that $NBB$ grows _faster_ than $TOWER$, in the sense that $TOWER(n) = o(NB
 
 ## Bibliographical notes { #uncomputablebibnotes }
 
-The cartoon of the Halting problem in [universalchapoverviewfig](){.ref} and taken from [Charles Cooper's website](https://www.coopertoons.com/education/haltingproblem/haltingproblem.html/).
+The cartoon of the Halting problem in [universalchapoverviewfig](){.ref} and taken from [Charles Cooper's website](https://www.coopertoons.com/education/haltingproblem/haltingproblem.html).
 
 Section 7.2 in [@MooreMertens11] gives a highly recommended overview of uncomputability.
 Gödel, Escher, Bach [@hofstadter1999] is a classic popular science book that touches on uncomputability, and unprovability, and specifically Gödel's Theorem that we will see in [godelchap](){.ref}.

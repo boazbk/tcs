@@ -286,7 +286,7 @@ Table: An example of a function.
 
 
 
-If $f:S \rightarrow T$ satisfies that $f(x)\neq f(y)$ for all $x \neq y$ then we say that $f$ is _one-to-one_ ([onetoonedef](){.ref}, also known as an _injective_ function or simply an _injection_).
+If $F:S \rightarrow T$ satisfies that $F(x)\neq f(y)$ for all $x \neq y$ then we say that $F$ is _one-to-one_ ([onetoonedef](){.ref}, also known as an _injective_ function or simply an _injection_).
 If $F$ satisfies that for every $y\in T$ there is some $x\in S$ such that $F(x)=y$ then we say that $F$ is _onto_ (also known as a _surjective_ function or simply a _surjection_).
 A function that is both one-to-one and onto is known as a _bijective_ function or simply a _bijection_.
 A bijection from a set $S$ to itself is also known as a _permutation_ of $S$.
@@ -764,7 +764,7 @@ That is, to prove the statement $X$, we might first prove statements $X_1$,$X_2$
 __Proofs by case distinction:__ This is a special case of the above, where to prove a statement $X$ we split into several cases $C_1,\ldots,C_k$, and prove that __(a)__ the cases are _exhaustive_, in the sense that _one_ of the cases $C_i$  must happen and __(b)__ go one by one and prove that each one of the cases $C_i$ implies the result $X$ that we are after.
 
 __Proofs by induction:__ We discuss induction and give an example in [inductionsec](){.ref} below. We can think of such proofs as a variant of the above, where we have an unbounded number of intermediate claims $X_0,X_2,\ldots,X_k$, and we prove that $X_0$ is true, as well as that $X_0$ implies $X_1$, and that $X_0  \wedge X_1$ implies $X_2$, and so on and so forth.
-The website for CMU course 15-251 contains a [useful handout](http://www.cs.cmu.edu/~./15251/notes/induction-pitfalls.pdf) on potential pitfalls when making proofs by induction.
+The website for CMU course 15-251 contains a [useful handout](http://www.cs.cmu.edu/~arielpro/15251f17/notes/induction-pitfalls.pdf) on potential pitfalls when making proofs by induction.
 
 
 __"Without loss of generality (w.l.o.g)":__ This term can be initially quite confusing. It is essentially a way to simplify proofs by case distinctions. The idea is that if Case 1 is equal to Case 2 up to a change of variables or a similar transformation, then the proof of Case 1 will also imply the proof of Case 2.
@@ -897,7 +897,7 @@ To do so, we need to somehow find a way, given a graph $G$ of $n$ vertices, to r
 The idea is that we will find a _source_ of $G$: a vertex $v$ that has no in-neighbors. We can then assign to $v$ the layer $0$, and layer the remaining vertices using the inductive hypothesis in layers $1,2,\ldots$.
 
 The above is the intuition behind the proof of [acyclictosortlem](){.ref}, but when writing the formal proof below, we use the benefit of hindsight, and try to streamline what was a messy journey into a linear and easy-to-follow flow of logic that starts with the word __"Proof:"__ and ends with __"QED"__ or the symbol $\blacksquare$.^[QED stands for "quod erat demonstrandum", which is Latin for "what was to be demonstrated" or "the very thing it was required to have shown".]
-Discussions, examples and digressions can be very insightful, but we keep them outside the space delimited between these two words, where (as described by this [excellent handout](http://web.stanford.edu/class/cs103/handouts/120%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
+Discussions, examples and digressions can be very insightful, but we keep them outside the space delimited between these two words, where (as described by this [excellent handout](http://web.stanford.edu/class/archive/cs/cs103/cs103.1184/handouts/120%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
 Just like we do in programming, we can break the proof into little "subroutines" or "functions" (known as _lemmas_ or _claims_ in math language), which will be smaller statements that help us prove the main result.
 However, the proof should be structured in a way that ensures that it is always crystal-clear to the reader in what stage we are of the proof.
 The reader should be able to tell what is the role of every sentence in the proof and which part it belongs to.

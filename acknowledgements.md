@@ -40,6 +40,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Chan Kang
 * Nina Katz-Christy
 * Vidak Kazic
+* Joe Kerrigan
 * Eddie Kohler
 * Estefania Lahera
 * Allison Lee
