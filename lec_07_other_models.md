@@ -615,7 +615,7 @@ Clearly, the name of the argument to a function doesn't matter, and so $\lambda 
 
 
 
-_Dropping parenthesis._ To reduce notational clutter, when writing $\lambda$ calculus expressions we often drop the parentheses for function evaluation. Hence instead of writing $f(x)$ for the result of applying the function $f$ to the input $x$, we can also write this as simply $f\; x$.
+_Dropping parentheses._ To reduce notational clutter, when writing $\lambda$ calculus expressions we often drop the parentheses for function evaluation. Hence instead of writing $f(x)$ for the result of applying the function $f$ to the input $x$, we can also write this as simply $f\; x$.
 Therefore we can write  $(\lambda x.x\times x) 7=49$. In this chapter, we will use both the $f(x)$ and $f\; x$ notations for function application.
 Function evaluations are associative and bind from left to right, and hence $f\;g\;h$ is the same as $(f g) h$.
 
@@ -714,10 +714,10 @@ Consider how we define an _arithmetic expression_: it is an expression that is e
 _Free and bound variables._ Variables in a λ expression can either be _free_ or _bound_ to a $\lambda$ operator (in the sense of [boundvarsec](){.ref}). In a single-variable λ expression $var$, the variable $var$ is free. The set of free and bound variables in an application expression $e = (e' \; e'')$ is the same as that of the underlying expressions $e'$ and $e''$. In an abstraction expression $e = \lambda var.(e')$, all free occurences of $var$ in $e'$ are bound to the $\lambda$ operator of $e$.
 If you find the notion of free and bound variables confusing, you can avoid all these issues by using unique identifiers for all variables.
 
-_Precedence and parenthesis._ We will use the following rules to allow us to drop some parenthesis.
+_Precedence and parentheses._ We will use the following rules to allow us to drop some parentheses.
 Function application associates from left to right, and so $fgh$ is the same as $(fg)h$.
 Function application has a higher precedence than the λ operator, and so $\lambda x.fgx$ is the same as $\lambda x.((fg)x)$.
-This is similar to how we use the precedence rules in arithmetic operations to allow us to use fewer parenthesis and so write the expression $(7 \times 3) + 2$ as $7\times 3 + 2$.
+This is similar to how we use the precedence rules in arithmetic operations to allow us to use fewer parentheses and so write the expression $(7 \times 3) + 2$ as $7\times 3 + 2$.
 As mentioned in [curryingsec](){.ref}, we also use the shorthand $\lambda x,y.e$ for $\lambda x.(\lambda y.e)$ and the shorthand $f(x,y)$ for $(f\; x)\; y$. This plays nicely with the "Currying" transformation of simulating multi-input functions using λ expressions.
 
 

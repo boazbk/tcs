@@ -82,7 +82,7 @@ One of the most popular choices for such models is _context free grammars_.
 
 To explain context free grammars, let us begin with a canonical example.
 Consider the function $ARITH:\Sigma^* \rightarrow \{0,1\}$ that takes as input a string $x$ over the alphabet $\Sigma = \{ (,),+,-,\times,\div,0,1,2,3,4,5,6,7,8,9\}$ and returns $1$ if and only if the string $x$ represents a valid arithmetic expression.
-Intuitively, we build expressions by applying an operation such as $+$,$-$,$\times$ or $\div$ to smaller expressions, or enclosing them in parenthesis, where the "base case" corresponds to expressions that are simply numbers.
+Intuitively, we build expressions by applying an operation such as $+$,$-$,$\times$ or $\div$ to smaller expressions, or enclosing them in parentheses, where the "base case" corresponds to expressions that are simply numbers.
 More precisely, we can make the following definitions:
 
 * A _digit_ is one of the symbols $0,1,2,3,4,5,6,7,8,9$.
@@ -153,14 +153,14 @@ number     := digit|digit number
 expression := number|expression operation expression|(expression)
 ```
 
-Another example of a context free grammar is the "matching parenthesis" grammar, which can be represented in Backus-Naur as follows:
+Another example of a context free grammar is the "matching parentheses" grammar, which can be represented in Backus-Naur as follows:
 
 ```python
 match  := ""|match match|(match)
 ```
 
-A string over the alphabet $\{$ `(`,`)` $\}$ can be generated from this grammar (where `match` is the starting expression and `""` corresponds to the empty string) if and only if it consists of a matching set of parenthesis.
-In contrast, by [regexpparn](){.ref}  there is no regular expression that matches a string $x$ if and only if $x$ contains a valid sequence of matching parenthesis. 
+A string over the alphabet $\{$ `(`,`)` $\}$ can be generated from this grammar (where `match` is the starting expression and `""` corresponds to the empty string) if and only if it consists of a matching set of parentheses.
+In contrast, by [regexpparn](){.ref}  there is no regular expression that matches a string $x$ if and only if $x$ contains a valid sequence of matching parentheses. 
 
 
 
@@ -236,7 +236,7 @@ We leave it to the reader as (a very good!) exercise to verify that in all three
 :::
 
 It turns out that CFG's are strictly more powerful than regular expressions.
-In particular, as we've seen,  the "matching parenthesis" function   $MATCHPAREN$ can be computed by a context free grammar, whereas, as shown in [regexpparn](){.ref}, it cannot be computed by regular expressions.
+In particular, as we've seen,  the "matching parentheses" function   $MATCHPAREN$ can be computed by a context free grammar, whereas, as shown in [regexpparn](){.ref}, it cannot be computed by regular expressions.
 Here is another example:
 
 ::: {.solvedexercise title="Context free grammar for palindromes" #reversedstringcfg}
