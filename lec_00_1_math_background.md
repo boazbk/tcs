@@ -131,12 +131,12 @@ Theorems, lemmas, claims and the like are true statements about the concepts we 
 Deciding whether to call a particular statement a "Theorem", a "Lemma" or a "Claim" is a judgement call, and does not make a mathematical difference.
 All three correspond to statements which were proven to be true.
 The difference is that a _Theorem_ refers to a significant result, that we would want to remember and highlight.
-A _Lemma_ often refers to a technical result, that is not necessarily important in its own right, but can be often very useful in proving other theorems.
+A _Lemma_ often refers to a technical result that is not necessarily important in its own right, but that can be often very useful in proving other theorems.
 A _Claim_ is a "throw away" statement, that we need to use in order to prove some other bigger results, but do not care so much about for its own sake.
 
 ### Proofs
 
-Mathematical _proofs_ are the arguments we use to demonstrate that our theorems, lemmas, and claims area indeed true.
+Mathematical _proofs_ are the arguments we use to demonstrate that our theorems, lemmas, and claims are indeed true.
 We discuss proofs in [proofsbackgroundsec](){.ref} below, but the main point is that the mathematical standard of proof is very high.
 Unlike in some other realms, in mathematics a proof is an  "airtight" argument that demonstrates that the statement is true beyond a shadow of a doubt.
 Some examples in this section for mathematical proofs are given in [simplepathlemex](){.ref} and [topsortsec](){.ref}.
@@ -262,7 +262,7 @@ That is, if $x \in \{0,1\}^n$ and $y\in \{0,1\}^m$, then $xy$ is equal to the st
 
 ### Functions {#functionsec }
 
-If $S$ and $T$ are nonempty sets, a _function_ $F$ mapping $S$ to $T$, denoted by $F:S \rightarrow T$, associates with every element $x\in S$ an element $F(x)\in T$.
+If $S$ and $T$ are non-empty sets, a _function_ $F$ mapping $S$ to $T$, denoted by $F:S \rightarrow T$, associates with every element $x\in S$ an element $F(x)\in T$.
 The set $S$ is known as the _domain_ of $F$ and the set $T$ is known as the _codomain_ of $F$.
 The _image_ of a function $F$ is the set $\{ F(x) \;|\; x\in S\}$ which is the subset of $F$'s codomain consisting of all output elements that are mapped from some input. (Some texts use _range_ to denote the image of a function, while other texts use _range_ to denote the codomain of a function. Hence we will avoid using the term "range" altogether.)
 As in the case of sets, we can write a function either by listing the table of all the values it gives for elements in $S$ or by using a rule.
@@ -286,7 +286,7 @@ Table: An example of a function.
 
 
 
-If $f:S \rightarrow T$ satisfies that $f(x)\neq f(y)$ for all $x \neq y$ then we say that $f$ is _one-to-one_ ([onetoonedef](){.ref}, also known as an _injective_ function or simply an _injection_).
+If $F:S \rightarrow T$ satisfies that $F(x)\neq f(y)$ for all $x \neq y$ then we say that $F$ is _one-to-one_ ([onetoonedef](){.ref}, also known as an _injective_ function or simply an _injection_).
 If $F$ satisfies that for every $y\in T$ there is some $x\in S$ such that $F(x)=y$ then we say that $F$ is _onto_ (also known as a _surjective_ function or simply a _surjection_).
 A function that is both one-to-one and onto is known as a _bijective_ function or simply a _bijection_.
 A bijection from a set $S$ to itself is also known as a _permutation_ of $S$.
@@ -309,7 +309,7 @@ For example, the partial function $F(x)= \sqrt{x}$ is only defined on non-negati
 When we want to distinguish between partial functions and standard (i.e., non-partial) functions, we will call the latter _total_ functions.
 When we say "function" without any qualifier then we mean a _total_ function.
 
-The notion of partial functions is a strict generalization of functions, and so every function is a partial function, but not every partial function is a function. (That is, for every nonempty $S$ and $T$, the set of partial functions from $S$ to $T$ is a proper superset of the set of total functions from $S$ to $T$.) When we want to emphasize that a function $f$ from $A$ to $B$ might not be total, we will write $f: A \rightarrow_p B$.
+The notion of partial functions is a strict generalization of functions, and so every function is a partial function, but not every partial function is a function. (That is, for every non-empty $S$ and $T$, the set of partial functions from $S$ to $T$ is a proper superset of the set of total functions from $S$ to $T$.) When we want to emphasize that a function $f$ from $A$ to $B$ might not be total, we will write $f: A \rightarrow_p B$.
 We can think of a partial function $F$ from $S$ to $T$ also as a total function from $S$ to $T \cup \{ \bot \}$ where $\bot$ is a special "failure symbol". So, instead of saying that $F$ is undefined at $x$, we can say that $F(x)=\bot$.
 
 __Basic facts about functions:__
@@ -386,7 +386,7 @@ The connectivity relation is _transitive_, in the sense that if $u$ is connected
 For every undirected graph $G=(V,E)$ and connected pair $u,v$, the shortest path from $u$ to $v$ is simple.
 In particular, for every connected pair there exists a simple path that connects them.
 
-[simplepathlem](){.ref} can be shown by "shortcutting" any non simple path from $u$ to $v$ where  the same vertex $w$ appears twice to remove it (see [shortcutpathfig](){.ref}).
+[simplepathlem](){.ref} can be shown by "shortcutting" any non-simple path from $u$ to $v$ where  the same vertex $w$ appears twice to remove it (see [shortcutpathfig](){.ref}).
 It is a good exercise to transforming this intuitive reasoning to a formal proof:
 
 ![If there is a path from $u$ to $v$ in a graph that passes twice through a vertex $w$ then we can "shortcut" it by removing the loop from $w$ to itself to find a path from $u$ to $v$ that only passes once through $w$.](../figure/shortcutpath.png){#shortcutpathfig}
@@ -401,7 +401,7 @@ One complication is that there can be more than one vertex that is visited twice
 Details follow.
 
 Let $G=(V,E)$ be a graph and $u$ and $v$ in $V$  be two connected vertices in $G$.
-We will prove that there is a simple graph between $u$ and $v$.
+We will prove that there is a simple path between $u$ and $v$.
 Let $k$ be the shortest length of a path between $u$ and $v$ and let $P=(u_0,u_1,u_2,\ldots,u_{k-1},u_k)$ be a $k$-length path from $u$ to $v$ (there can be more than one such path: if so we just choose one of them).
 (That is $u_0=u$, $u_k=v$, and $(u_\ell,u_{\ell+1})\in E$ for all $\ell \in [k]$.)
 We claim that $P$ is simple.
@@ -764,7 +764,7 @@ That is, to prove the statement $X$, we might first prove statements $X_1$,$X_2$
 __Proofs by case distinction:__ This is a special case of the above, where to prove a statement $X$ we split into several cases $C_1,\ldots,C_k$, and prove that __(a)__ the cases are _exhaustive_, in the sense that _one_ of the cases $C_i$  must happen and __(b)__ go one by one and prove that each one of the cases $C_i$ implies the result $X$ that we are after.
 
 __Proofs by induction:__ We discuss induction and give an example in [inductionsec](){.ref} below. We can think of such proofs as a variant of the above, where we have an unbounded number of intermediate claims $X_0,X_2,\ldots,X_k$, and we prove that $X_0$ is true, as well as that $X_0$ implies $X_1$, and that $X_0  \wedge X_1$ implies $X_2$, and so on and so forth.
-The website for CMU course 15-251 contains a [useful handout](http://www.cs.cmu.edu/~./15251/notes/induction-pitfalls.pdf) on potential pitfalls when making proofs by induction.
+The website for CMU course 15-251 contains a [useful handout](http://www.cs.cmu.edu/~arielpro/15251f17/notes/induction-pitfalls.pdf) on potential pitfalls when making proofs by induction.
 
 
 __"Without loss of generality (w.l.o.g)":__ This term can be initially quite confusing. It is essentially a way to simplify proofs by case distinctions. The idea is that if Case 1 is equal to Case 2 up to a change of variables or a similar transformation, then the proof of Case 1 will also imply the proof of Case 2.
@@ -830,7 +830,7 @@ $$
 but this is a contradiction since $u_0=u_k$ and hence $f(u_0)=f(u_k)$.
 :::
 
-[acyclictosortlem](){.ref} corresponds to the more difficult (and useful) direction. To prove it, we need to show how given an arbitrary DAG $G$, we can come up with a layering of the vertices of $G$ so that all edges "go up".
+[acyclictosortlem](){.ref} corresponds to the more difficult (and useful) direction. To prove it, we need to show how, given an arbitrary DAG $G$, we can come up with a layering of the vertices of $G$ so that all edges "go up".
 
 > ### { .pause }
 If you have not seen the proof of this theorem before (or don't remember it), this would be an excellent point to pause and try to prove it yourself.
@@ -848,7 +848,7 @@ One way to do it would be to describe an _algorithm_ that given as input a direc
 ### Mathematical induction  { #inductionsec }
 
 There are several ways to prove [acyclictosortlem](){.ref}.
-One approach to do is to start by proving it for small graphs, such as graphs with 1, 2 or 3 vertices  (see [topsortexamplesfig](){.ref}, for which we can check all the cases, and then try to extend the proof for larger graphs.
+One approach to do is to start by proving it for small graphs, such as graphs with 1, 2 or 3 vertices (see [topsortexamplesfig](){.ref}, for which we can check all the cases, and then try to extend the proof for larger graphs).
 The technical term for this proof approach is _proof by induction_.
 
 
@@ -897,7 +897,7 @@ To do so, we need to somehow find a way, given a graph $G$ of $n$ vertices, to r
 The idea is that we will find a _source_ of $G$: a vertex $v$ that has no in-neighbors. We can then assign to $v$ the layer $0$, and layer the remaining vertices using the inductive hypothesis in layers $1,2,\ldots$.
 
 The above is the intuition behind the proof of [acyclictosortlem](){.ref}, but when writing the formal proof below, we use the benefit of hindsight, and try to streamline what was a messy journey into a linear and easy-to-follow flow of logic that starts with the word __"Proof:"__ and ends with __"QED"__ or the symbol $\blacksquare$.^[QED stands for "quod erat demonstrandum", which is Latin for "what was to be demonstrated" or "the very thing it was required to have shown".]
-Discussions, examples, and digressions can be very insightful, but we keep them outside the space delimited between these two words, where (as described by this [excellent handout](http://web.stanford.edu/class/cs103/handouts/120%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
+Discussions, examples and digressions can be very insightful, but we keep them outside the space delimited between these two words, where (as described by this [excellent handout](http://web.stanford.edu/class/archive/cs/cs103/cs103.1184/handouts/120%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
 Just like we do in programming, we can break the proof into little "subroutines" or "functions" (known as _lemmas_ or _claims_ in math language), which will be smaller statements that help us prove the main result.
 However, the proof should be structured in a way that ensures that it is always crystal-clear to the reader in what stage we are of the proof.
 The reader should be able to tell what the role of every sentence is in the proof and which part it belongs to.

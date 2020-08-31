@@ -261,7 +261,7 @@ The proof can be thought of as an infinite version of the _counting_ argument we
 Namely, we show that it's not possible to compute all functions from $\{0,1\}^* \rightarrow \{0,1\}$ by Turing machines simply because there are more functions like that then there are Turing machines.
 
 
-As mentioned in [decidablelanguagesrem](){.ref}, many texts use the "language" terminology and so will call a set $L \subseteq \{0,1\}^*$ an  [_undecidable_](https://goo.gl/3YvQvL)  or _non recursive_ language if the function $F:\{0,1\}^* :\rightarrow \{0,1\}$ such that $F(x)=1 \leftrightarrow x\in L$ is uncomputable.
+As mentioned in [decidablelanguagesrem](){.ref}, many texts use the "language" terminology and so will call a set $L \subseteq \{0,1\}^*$ an  [_undecidable_](https://goo.gl/3YvQvL)  or _non-recursive_ language if the function $F:\{0,1\}^* :\rightarrow \{0,1\}$ such that $F(x)=1 \leftrightarrow x\in L$ is uncomputable.
 
 
 ## The Halting problem {#haltingsec }
@@ -717,7 +717,7 @@ If $F$ is semantic and non-trivial then it is uncomputable.
 
 ::: {.proofidea #proofidea-rice-thm data-ref="rice-thm"}
 The idea behind the proof is to show that every semantic non-trivial function $F$ is at least as hard to compute as $HALTONZERO$. This will conclude the proof since by [haltonzero-thm](){.ref}, $HALTONZERO$ is uncomputable.
-If a function $F$ is non trivial then there are two machines $M_0$ and $M_1$ such that $F(M_0)=0$ and $F(M_1)=1$. So, the goal would be to take a machine $N$ and find a way to map it into a machine $M=R(N)$, such that __(i)__ if $N$ halts on zero then $M$ is functionally equivalent to $M_1$  and __(ii)__ if $N$ does _not_ halt on zero then $M$ is functionally equivalent $M_0$.
+If a function $F$ is non-trivial then there are two machines $M_0$ and $M_1$ such that $F(M_0)=0$ and $F(M_1)=1$. So, the goal would be to take a machine $N$ and find a way to map it into a machine $M=R(N)$, such that __(i)__ if $N$ halts on zero then $M$ is functionally equivalent to $M_1$  and __(ii)__ if $N$ does _not_ halt on zero then $M$ is functionally equivalent $M_0$.
 
 Because $F$ is semantic, if we achieved this, then we would be guaranteed that  $HALTONZERO(N) = F(R(N))$, and hence would show that if $F$ was computable, then $HALTONZERO$ would be computable as well, contradicting [haltonzero-thm](){.ref}.
 :::
@@ -768,7 +768,7 @@ Hence in this case, $M$ computes the non-monotone parity function (i.e., is func
 In both cases,  $MONOTONE(M)=1-HALTONZERO(N)$, which is what we wanted to prove.
 
 An examination of this proof shows that we did not use anything about $MONOTONE$ beyond the fact that it is semantic and non-trivial. For every semantic non-trivial $F$, we can use the same proof, replacing $PAR$ and $INF$ with two machines  $M_0$ and $M_1$ such that $F(M_0)=0$ and $F(M_1)=1$.
-Such machines must exist if $F$ is non trivial.
+Such machines must exist if $F$ is non-trivial.
 :::
 
 ::: {.remark title="Semantic is not the same as uncomputable" #syntacticcomputablefunctions}
@@ -796,7 +796,7 @@ However, $HALTNOYALE$ is uncomputable since every program $P$ can be transformed
 Moreover, as we will see in [godelchap](){.ref}, there are uncomputable functions whose inputs are not programs, and hence for which the adjective "semantic" is not applicable.
 
 Properties such as "the program contains the variable `Yale`" are sometimes known as _syntactic_ properties.
-The terms "semantic" and "syntactic" are used beyond the realm of programming languages: a famous example of a syntactically correct but semantically meaningless sentence in English is Chomsky's ["Colorless green ideas sleep furiously."](https://goo.gl/4gXoiV) However, formally defining "syntactic properties" is rather subtle and we will not use this terminology in this book, sticking to the terms "semantic" and "non semantic" only.
+The terms "semantic" and "syntactic" are used beyond the realm of programming languages: a famous example of a syntactically correct but semantically meaningless sentence in English is Chomsky's ["Colorless green ideas sleep furiously."](https://goo.gl/4gXoiV) However, formally defining "syntactic properties" is rather subtle and we will not use this terminology in this book, sticking to the terms "semantic" and "non-semantic" only.
 :::
 
 
@@ -881,9 +881,9 @@ Suppose that $F:\{0,1\}^* \rightarrow \{0,1\}$ and $G:\{0,1\}^* \rightarrow \{0,
 
 1. $H(x)=1$ iff $F(x)=1$ OR $G(x)=1$.
 
-2. $H(x)=1$ iff there exist two nonempty strings $u,v \in \{0,1\}^*$ such that $x=uv$ (i.e., $x$ is the concatenation of $u$ and $v$), $F(u)=1$ and $G(v)=1$.
+2. $H(x)=1$ iff there exist two non-empty strings $u,v \in \{0,1\}^*$ such that $x=uv$ (i.e., $x$ is the concatenation of $u$ and $v$), $F(u)=1$ and $G(v)=1$.
 
-3. $H(x)=1$ iff there exist a list $u_0,\ldots,u_{t-1}$ of non empty strings such that  strings$F(u_i)=1$ for every $i\in [t]$ and $x=u_0u_1\cdots u_{t-1}$.
+3. $H(x)=1$ iff there exist a list $u_0,\ldots,u_{t-1}$ of non-empty strings such that  strings$F(u_i)=1$ for every $i\in [t]$ and $x=u_0u_1\cdots u_{t-1}$.
 
 4.  $H(x)=1$ iff $x$ is a valid string representation of a NAND++ program $P$ such that  for every $z\in \{0,1\}^*$, on input $z$ the program $P$ outputs $F(z)$.
 
@@ -972,7 +972,7 @@ Prove that $NBB$ grows _faster_ than $TOWER$, in the sense that $TOWER(n) = o(NB
 
 ## Bibliographical notes { #uncomputablebibnotes }
 
-The cartoon of the Halting problem in [universalchapoverviewfig](){.ref} and taken from [Charles Cooper's website](https://www.coopertoons.com/education/haltingproblem/haltingproblem.html/).
+The cartoon of the Halting problem in [universalchapoverviewfig](){.ref} and taken from [Charles Cooper's website](https://www.coopertoons.com/education/haltingproblem/haltingproblem.html).
 
 Section 7.2 in [@MooreMertens11] gives a highly recommended overview of uncomputability.
 Gödel, Escher, Bach [@hofstadter1999] is a classic popular science book that touches on uncomputability, and unprovability, and specifically Gödel's Theorem that we will see in [godelchap](){.ref}.

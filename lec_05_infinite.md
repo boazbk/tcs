@@ -32,7 +32,7 @@ In this chapter we will see however one example for a simple and restricted mode
 
 
 ::: {.nonmath}
-In this chapter we discuss functions that as input strings of arbitary length.
+In this chapter we discuss functions that as input strings of arbitrary length.
 Such functions could have outputs that are long strings as well, but the case of _Boolean_ functions, where the output is a single bit, is of particular importance.
 The task of computing a Boolean function is equivalent to the task of _deciding a language_.
 We will also define the restriction of a function over unbounded length strings to a finite length, and how this restriction can be computed by Boolean circuits.
@@ -74,7 +74,7 @@ In this chapter we consider functions such as $XOR$ that take inputs of _unbound
 While we can describe $XOR$ using a finite number of symbols (in fact we just did so above), it takes infinitely many possible inputs and so we cannot just write down all of its values.
 The same is true for many other functions capturing important computational tasks including addition, multiplication, sorting, finding paths in graphs, fitting curves to points, and so on and so forth.
 To contrast with the finite case, we will sometimes call a function $F:\{0,1\}^* \rightarrow \{0,1\}$ (or $F:\{0,1\}^* \rightarrow \{0,1\}^*$) _infinite_.
-However, this does not mean that $F$ taks as input strings of infinite length! 
+However, this does not mean that $F$ takes as input strings of infinite length! 
 It just means that $F$ can take as input a string of that can be arbitrarily long, and so we cannot simply write down a table of all the outputs of $F$ on different inputs.
 
 ::: { .bigidea #comptask}
@@ -96,7 +96,7 @@ This is a mathematically well-defined function. For every $x$, $TWINP(x)$ has a 
 However, at  the moment no one knows of a _Python_ program that computes this function.
 The [Twin prime conjecture](https://en.wikipedia.org/wiki/Twin_prime) posits that for every $n$ there exists $p>n$ such that both $p$ and $p+2$ are primes.
 If this conjecture is true, then $T$ is easy to compute indeed - the program `def T(x): return 1` will do the trick.
-However, mathematicians have tried unsuccesfully to prove this conjecture since 1849.
+However, mathematicians have tried unsuccessfully to prove this conjecture since 1849.
 That said, whether or not we know how to _implement_ the function $TWINP$, the definition above provides its _specification_.
 
 
@@ -221,9 +221,9 @@ All our computational models so far - Boolean circuits and straight-line program
 In [chaploops](){.ref} we will present _Turing Machines_, which are the central models of computation for functions of unbounded input length.
 However, in this section we will present the more basic model of _deterministic finite automata_ (DFA).
 Automata can serve as a good stepping-stone for Turing machines, though they will not be used much in later parts of this book, and so the
-reader can feel free to skip ahead fo [chaploops](){.ref}.
-DFAs turn out to be equivalent in power to _regular expressions_, which are a powerful mechanism to specify patterns that is widely used in practice.
-Our treatment of automata is quite brief. There are plenty of resources that help you get more comfortable with DFA's.
+reader can feel free to skip ahead to [chaploops](){.ref}.
+DFAs turn out to be equivalent in power to _regular expressions_, which are powerful mechanisms to specify patterns that are widely used in practice.
+Our treatment of automata is quite brief. There are plenty of resources that help you get more comfortable with DFAs.
 In particular, Chapter 1 of Sipser's book [@SipserBook] contains an excellent exposition of this material.
 There are also many websites with online simulators for automata, as well as translators from regular expressions to automata and vice versa 
 (see for example [here](http://ivanzuzak.info/noam/webapps/fsm2regex/) and [here](https://cyberzhg.github.io/toolbox/nfa2dfa)).
@@ -249,10 +249,10 @@ def XOR(X):
 ```
 
 In each step, this program reads a single bit `X[i]` and updates its state `result` based on that bit (flipping `result` if `X[i]` is $1$ and keeping it the same otherwise).
-When its done transversing the input, the program outputs `result`.
+When it's done traversing the input, the program outputs `result`.
 In computer science, such a program is called a _single-pass constant-memory algorithm_ since it makes a single pass over the input and its working memory is of finite size.
 (Indeed in this case `result` can either be $0$ or $1$.)
-Such an algorithm is also known as a  _Deterministic Finite Automaton_ or _DFA_ (another name for DFA's is a _finite state machine_).
+Such an algorithm is also known as a  _Deterministic Finite Automaton_ or _DFA_ (also known as a _finite-state machine_).
 We can think of such an algorithm as a "machine"  that can be in one of $C$ states, for some constant $C$.
 The machine starts in some initial state, and then reads its input $x\in \{0,1\}^*$ one bit at a time.
 Whenever the machine reads a bit $\sigma \in \{0,1\}$, it transitions into a new state based on $\sigma$ and its prior state.
@@ -265,7 +265,7 @@ Since there are $2^c$ such strings, at any point in the execution, such an algor
 We can specify a DFA of $C$ states by a list of $C \cdot 2$ rules.
 Each rule will be of the form "If the DFA is in state $v$ and the bit read from the input is $\sigma$ then the new state is $v'$".
 At the end of the computation we will also have a rule of the form "If the final state is one of the following ... then output $1$, otherwise output $0$".
-For example, the Python program above can be represented by a two state automata for computing $XOR$ of the following form:
+For example, the Python program above can be represented by a two-state automaton for computing $XOR$ of the following form:
 
 
 * Initialize in state $0$
@@ -275,7 +275,7 @@ For example, the Python program above can be represented by a two state automata
 We can also describe a $C$-state DFA as a labeled _graph_ of $C$ vertices. For every state $s$ and bit $\sigma$, we add a directed edge labeled with $\sigma$ between $s$ and the state $s'$ such that if
 the DFA is at state $s$ and reads  $\sigma$ then it transitions to $s'$. (If the state stays the same then this edge will be a self loop; similarly, if $s$ transitions to $s'$ in both the case $\sigma=0$ and $\sigma=1$
 then the graph will contain two parallel edges.)
-We also label the set $\mathcal{S}$ of states on which the automate will output $1$ at the end of the computation.
+We also label the set $\mathcal{S}$ of states on which the automaton will output $1$ at the end of the computation.
 This set is known as the set of _accepting states_.
 See [xorautomatonfig](){.ref} for the graphical representation of the XOR automaton.
 
@@ -306,7 +306,7 @@ Make sure not to confuse the _transition function_ of an automaton ($T$ in [DFAd
 
 ::: {.remark title="Definitions in other texts" #Sipserautmatadef}
 Deterministic finite automata can be defined in several equivalent ways.
-In particular Sipser [@SipserBook] defines a DFAs as a five-tuple $(Q,\Sigma,\delta,q_0,F)$ where $Q$ is the set of states, $\Sigma$ is the alphabet, $\delta$ is the transition function, $q_0$ is the initial state, and $F$ is the set of accepting states.
+In particular Sipser [@SipserBook] defines a DFA as a five-tuple $(Q,\Sigma,\delta,q_0,F)$ where $Q$ is the set of states, $\Sigma$ is the alphabet, $\delta$ is the transition function, $q_0$ is the initial state, and $F$ is the set of accepting states.
 In this book the set of states is always of the form $Q=\{0,\ldots,C-1 \}$ and the initial state is always $q_0 = 0$, but this makes no difference to the computational power of these models.
 Also, we restrict our attention to the case that the alphabet $\Sigma$ is equal to $\{0,1\}$.
 :::
@@ -344,9 +344,9 @@ def F(X):
 ```
 
 Since we keep three Boolean variables, the working memory can be in one of  $2^3 = 8$ configurations, and
-so the program above can be directly translated into an $8$ state DFA.
+so the program above can be directly translated into an $8$-state DFA.
 While this is not needed to solve the question, by examining the resulting DFA, we can see that we can merge some states together and 
-obtain a $4$ state automaton,  described in [dfazeroonefig](){.ref}.
+obtain a $4$-state automaton,  described in [dfazeroonefig](){.ref}.
 See also [DFAzerooneexecfig](){.ref}, which depicts the execution of this DFA on a particular input.
 :::
 
@@ -474,7 +474,7 @@ A _regular expression_ $e$ over an alphabet $\Sigma$ is a string over $\Sigma \c
 Finally we also allow the following "edge cases": $e = \emptyset$ and $e = ""$. These are the regular expressions corresponding to accepting no strings, and accepting only the empty string respectively.
 :::
 
-We will drop parenthesis when they can be inferred from the context.
+We will drop parentheses when they can be inferred from the context.
 We also use the convention that OR and concatenation are left-associative, and we give highest precedence to $*$, then concatenation, and then OR.
 Thus for example we write $00^*|11$ instead of $((0)(0^*))|((1)(1))$.
 
@@ -903,7 +903,7 @@ As we have seen, regular expressions cannot compute every function.
 In fact there are some very simple (and useful!) functions that they cannot compute.
 Here is one example:
 
-> ### {.lemma title="Matching parenthesis" #regexpparn}
+> ### {.lemma title="Matching parentheses" #regexpparn}
 Let $\Sigma = \{\langle ,\rangle \}$ and  $MATCHPAREN:\Sigma^* \rightarrow \{0,1\}$ be the function that given a string of parentheses, outputs $1$ if and only if every opening parenthesis is matched by a corresponding closed one.
 Then there is no regular expression over $\Sigma$ that computes $MATCHPAREN$.
 
@@ -922,7 +922,7 @@ Let $e$ be a regular expression over some alphabet $\Sigma$. Then there is some 
 ![To prove the "pumping lemma" we look at a word $w$ that is much larger than the regular expression $e$ that matches it. In such a case, part of $w$ must be matched by some sub-expression of the form $(e')^*$, since this is the only operator that allows matching words longer than the expression. If we look at the "leftmost" such sub-expression and define $y^k$ to be the string that is matched by it, we obtain the partition needed for the pumping lemma.](../figure/pumpinglemma.png){#pumpinglemmafig   }
 
 > ### {.proofidea data-ref="pumping"}
-The idea behind the proof the following.  Let $n_0$ be twice the number of symbols that are used in the expression $e$, then the only way that there is some $w$ with $|w|>n_0$ and $\Phi_{e}(w)=1$ is that $e$ contains the $*$ (i.e. star) operator and that there is a nonempty substring $y$ of $w$ that was matched by $(e')^*$ for some sub-expression $e'$ of $e$.  We can now repeat $y$ any number of times and still get a matching string. See also [pumpinglemmafig](){.ref}.
+The idea behind the proof the following.  Let $n_0$ be twice the number of symbols that are used in the expression $e$, then the only way that there is some $w$ with $|w|>n_0$ and $\Phi_{e}(w)=1$ is that $e$ contains the $*$ (i.e. star) operator and that there is a non-empty substring $y$ of $w$ that was matched by $(e')^*$ for some sub-expression $e'$ of $e$.  We can now repeat $y$ any number of times and still get a matching string. See also [pumpinglemmafig](){.ref}.
 
 ::: { .pause }
 The pumping lemma is a bit cumbersome to state, but one way to remember it is that it simply says the following: _"if a string matching a regular expression is long enough, one of its substrings must be matched using the $*$ operator"_.
@@ -954,7 +954,7 @@ Otherwise, if $|w'| \leq 2|e'|$ then since $|w|=|w'|+|w''|>n_0=2(|e'|+|e''|)$, i
 Hence by the induction hypothesis there exist $x',y,z$ such that $|y| \geq 1$, $|x'y| \leq 2|e''|$ and $e''$ matches $x'y^kz$ for every $k\in \N$.
 But now if we set $x=w'x'$ we see that $|xy| \leq |w'| + |x'y| \leq 2|e'| + 2|e''| =n_0$ and on the other hand  the expression $e=(e')(e'')$ matches $xy^kz = w'x'y^kz$ for every $k\in \N$.
 
-In case __(c)__, if $w$ is matched by $(e')^*$ then $w= w_0\cdots w_t$ where for every $i\in [t]$, $w_i$ is a nonempty string matched by $e'$.
+In case __(c)__, if $w$ is matched by $(e')^*$ then $w= w_0\cdots w_t$ where for every $i\in [t]$, $w_i$ is a non-empty string matched by $e'$.
 If $|w_0|>2|e'|$ then we can use the same approach as in the concatenation case above.
 Otherwise, we simply note that if $x$ is the empty string, $y=w_0$, and $z=w_1\cdots w_t$ then $|xy| \leq n_0$ and $xy^kz$ is matched by $(e')^*$ for every $k\in \N$.
 :::
@@ -974,7 +974,7 @@ Hence $MATCHPAREN(xy^2z)=0$ but by the pumping lemma $\Phi_{e}(xy^2z)=1$, contra
 :::
 
 The pumping lemma is a very useful tool to show that certain functions are _not_ computable by a regular expression.
-However, it is _not_ an "if and only if" condition for regularity: there are non regular functions that still satisfy the conditions of the pumping lemma.
+However, it is _not_ an "if and only if" condition for regularity: there are non-regular functions that still satisfy the conditions of the pumping lemma.
 To understand the pumping lemma, it is important to follow the order of quantifiers in [pumping](){.ref}.
 In particular, the number $n_0$ in the statement of  [pumping](){.ref} depends on the regular expression (in the proof we chose $n_0$ to be twice the number of symbols in the expression).
 So, if we want to use the pumping lemma to rule out the existence of a regular expression $e$ computing some function $F$, we need to be able to choose an appropriate input $w\in \{0,1\}^*$ that can be arbitrarily large and satisfies $F(w)=1$.
@@ -1006,11 +1006,11 @@ For yet another example of a pumping-lemma based proof, see [pumpingprooffig](){
 Regular expressions have applications beyond search.
 For example, regular expressions are often used to define _tokens_ (such as what is a valid variable identifier, or keyword) in the design of
 _parsers_, _compilers_ and _interpreters_ for programming languages.
-There other applications too:  for example, in recent years, the world of networking moved from fixed topologies to "software defined networks".
+There are other applications too, for example, in recent years, the world of networking moved from fixed topologies to "software defined networks".
 Such networks are routed by programmable switches that can implement _policies_ such as "if packet is secured by SSL then forward it to A, otherwise forward it to B".
 To represent such policies we need a language that is on one hand sufficiently expressive to capture the policies we want to implement, but on the other hand sufficiently restrictive so that we can quickly execute them at network speed and also be able to answer questions such as "can C see the packets moved from A to B?".
 The  [NetKAT network programming language](https://goo.gl/oeJNuw) uses a variant of regular expressions to achieve precisely that.
-For this application, it is important that we are not able to merely answer whether an expression $e$ matches a string $x$ but also answer
+For this application, it is important that we are not merely answering whether an expression $e$ matches a string $x$ but also answering
 _semantic questions_ about regular expressions such as "do expressions $e$ and $e'$ compute the same function?" and "does there exist a string $x$ that 
 is matched by the expression $e$?".
 The following theorem shows that we can answer the latter question:
@@ -1082,7 +1082,7 @@ Given these two transformations, we see that for every regular expressions $e$ a
 
 > ### { .recap }
 * We model computational tasks on arbitrarily large inputs using _infinite_ functions $F:\{0,1\}^* \rightarrow \{0,1\}^*$. 
-* Such functions take an arbitrarily long (but still finite!) string as input, and cannot be described by a finite table of inputs and ouptuts.
+* Such functions take an arbitrarily long (but still finite!) string as input, and cannot be described by a finite table of inputs and outputs.
 * A function with a single bit of output is known as a _Boolean function_, and the tasks of computing it is equivalent to deciding a _language_ $L\subseteq \{0,1\}^*$.
 * _Deterministic finite automata_ (DFAs) are one simple model for computing (infinite) Boolean functions.
 * There are some functions that cannot be computed by DFAs. 
@@ -1121,7 +1121,7 @@ One among the following two functions that map $\{0,1\}^*$ to $\{0,1\}$ can be c
 * $G(x) = 1$ if and only if $\sum_{i=0}^{|x|-1} x_i \geq |x|/4$ and $G(x)=0$ otherwise.
 :::
 
-::: {.exercise title="Non regularity" #nonregex}
+::: {.exercise title="Non-regularity" #nonregex}
 1. Prove that the following function $F:\{0,1\}^* \rightarrow \{0,1\}$ is not regular. For every $x\in \{0,1\}^*$, $F(x)=1$ iff $x$ is of the form $x=1^{3^i}$ for some $i>0$. 
 
 2.  Prove that the following function $F:\{0,1\}^* \rightarrow \{0,1\}$ is not regular. For every $x\in \{0,1\}^*$, $F(x)=1$ iff  $\sum_j x_j = 3^i$ for some $i>0$. 
@@ -1133,7 +1133,7 @@ One among the following two functions that map $\{0,1\}^*$ to $\{0,1\}$ can be c
 
 The relation of regular expressions with finite automata is a beautiful topic, on which we only touch upon in this text.
 It is covered more extensively in [@SipserBook, @hopcroft, @kozen1997automata].
-These texts also discuss topics such as _non deterministic finite automata_ (NFA) and the relation between context-free grammars and pushdown automata.
+These texts also discuss topics such as _non-deterministic finite automata_ (NFA) and the relation between context-free grammars and pushdown automata.
 
 The automaton of [dfazeroonefig](){.ref} was generated using the [FSM simulator](http://ivanzuzak.info/noam/webapps/fsm_simulator/) of Ivan Zuzak and Vedrana Jankovic.
 Our proof of [reglintimethm](){.ref} is closely related to the [Myhill-Nerode Theorem](https://goo.gl/mnKVMP). One direction of the Myhill-Nerode theorem can be stated as saying that if $e$ is a regular expression then there is at most a finite number of strings $z_0,\ldots,z_{k-1}$ such that $\Phi_{e[z_i]} \neq \Phi_{e[z_j]}$ for every $0 \leq i\neq j < k$.

@@ -147,7 +147,7 @@ However, it will  always be clear that there exists _some_ data structure that i
 
 ### Finding the longest path in a graph
 
-The _longest path problem_ is the task of finding the length of the _longest_ simple (i.e., non intersecting) path between a given pair of vertices $s$ and $t$ in a given graph $G$.
+The _longest path problem_ is the task of finding the length of the _longest_ simple (i.e., non-intersecting) path between a given pair of vertices $s$ and $t$ in a given graph $G$.
 If the graph is a road network, then the longest path might seem less motivated than the shortest path (unless you are the kind of person that always prefers the "scenic route").
 But graphs can and are used to model a variety of phenomena, and in many such cases finding the longest path (and some of its variants) can be very useful.
 In particular, finding the longest path is a generalization of the famous  [Hamiltonian path problem](https://en.wikipedia.org/wiki/Hamiltonian_path_problem) which asks for a _maximally long_ simple path (i.e., path that visits all $n$ vertices once) between $s$ and $t$, as well as the notorious [traveling salesman problem (TSP)](https://en.wikipedia.org/wiki/Travelling_salesman_problem) of finding (in a weighted graph) a path visiting all vertices of cost at most $w$.
@@ -259,7 +259,7 @@ Surprisingly, while (as we've seen) there is a polynomial-time algorithm for the
 
 ###  A note on convexity { #convexnotesec }
 
-![In a _convex_ function $f$ (left figure), for every $x$ and $y$ and $p\in [0,1]$ it holds that $f(px+(1-p)y) \leq p\cdot f(x)+(1-p)\cdot f(y)$. In particular this means that every _local minimum_ of $f$ is also a _global minimum_. In contrast in a _non convex_ function there can be many local minima.](../figure/convexvsnot.png){#convexdeffig .margin  }
+![In a _convex_ function $f$ (left figure), for every $x$ and $y$ and $p\in [0,1]$ it holds that $f(px+(1-p)y) \leq p\cdot f(x)+(1-p)\cdot f(y)$. In particular this means that every _local minimum_ of $f$ is also a _global minimum_. In contrast in a _non-convex_ function there can be many local minima.](../figure/convexvsnot.png){#convexdeffig .margin  }
 
 ![In the high dimensional case, if $f$ is a _convex_ function (left figure) the global minimum is the only local minimum, and we can find it by a local-search algorithm which can be thought of as dropping a marble and letting it "slide down" until it reaches the global minimum. In contrast, a non-convex function (right figure) might have an exponential number of local minima in which any local-search algorithm could get stuck.](../figure/convexandnon.jpg){#convexfunctionfig .margin  }
 
@@ -291,7 +291,7 @@ $$
 $$
 where $L$ is some _loss function_ measuring how far is the predicted label $h(x_i)$ from the true label $y_i$.
 When $L$ is the _square loss_ function $L(y,y')=(y-y')^2$ and $h$ is a _linear function_, empirical risk minimization corresponds to the well-known convex minimization task of _linear regression_.
-In other cases, when the task is  _non convex_,  there can be many global or local minima.
+In other cases, when the task is  _non-convex_,  there can be many global or local minima.
 That said, even if we don't find the global (or even a local) minima, this continuous embedding can still help us.
 In particular,  when running a local improvement algorithm such as Gradient Descent, we might still find a function $h$ that is  "useful" in the sense of having a small error on future examples from the same distribution.
 
@@ -390,7 +390,7 @@ We now list a few more examples of interesting problems that are a little more a
 ### Determinant of a matrix
 
 The [determinant](https://en.wikipedia.org/wiki/Determinant) of a $n\times n$ matrix $A$, denoted by $\mathrm{det}(A)$, is an extremely important quantity in linear algebra.
-For example, it is known that $\mathrm{det}(A) \neq 0$ if and only if $A$ is _nonsingular_, which means that it has an inverse $A^{-1}$, and hence we can always uniquely solve equations of the form $Ax = b$ where $x$ and $b$ are $n$-dimensional vectors.
+For example, it is known that $\mathrm{det}(A) \neq 0$ if and only if $A$ is _non-singular_, which means that it has an inverse $A^{-1}$, and hence we can always uniquely solve equations of the form $Ax = b$ where $x$ and $b$ are $n$-dimensional vectors.
 More generally, the determinant can be thought of as a quantitative measure as to what extent $A$ is far from being singular.
 If the rows of $A$ are "almost" linearly dependent (for example, if the third row is very close to being a linear combination of the first two rows) then the determinant will be small, while if they are far from it (for example, if they are are _orthogonal_ to one another, then the determinant will be large).
 In particular, for every matrix $A$, the absolute value of the determinant of $A$ is at most the product of the norms (i.e., square root of sum of squares of entries) of the rows, with equality if and only if the rows are orthogonal to one another.
@@ -459,7 +459,7 @@ The min-max theorem turns out to be a corollary of linear programming duality, a
 Fortunately, not all real-world games are zero sum, and we do have more general games, where the payoff of one player does not necessarily equal the loss of the other.
 [John Nash](https://en.wikipedia.org/wiki/John_Forbes_Nash_Jr.) won the Nobel prize for showing that there is a notion of _equilibrium_ for such games as well.
 In many economic texts it is taken as an article of faith that when actual agents are involved in such a game then they reach a Nash equilibrium.
-However, unlike zero sum games, we do not know of an efficient algorithm for finding a Nash equilibrium given the description of a general (non zero sum) game.
+However, unlike zero sum games, we do not know of an efficient algorithm for finding a Nash equilibrium given the description of a general (non-zero-sum) game.
 In particular this means that, despite economists' intuitions, there are games for which natural strategies will take an exponential number of steps to converge to an equilibrium.
 
 
@@ -485,7 +485,7 @@ This is surely a development that mathematicians from Archimedes till Gauss woul
 
 Given that we can efficiently determine whether a number $N$ is prime or composite, we could expect that in the latter case we could also efficiently _find_ the factorization of $N$.
 Alas, no such algorithm is known.
-In a surprising and exciting turn of events, the _non existence_ of such an algorithm has been used as a basis for encryptions, and indeed it underlies much of the security of the world wide web.
+In a surprising and exciting turn of events, the _non-existence_ of such an algorithm has been used as a basis for encryptions, and indeed it underlies much of the security of the world wide web.
 We will return to the factoring problem later in this course.
 We remark that we do know much better than brute force algorithms for this problem.
 While the brute force algorithms would require $2^{\Omega(n)}$ time to factor an $n$-bit integer, there are known algorithms running in time roughly $2^{O(\sqrt{n})}$ and also algorithms that are widely believed (though not fully rigorously analyzed) to run in time roughly $2^{O(n^{1/3})}$. (By "roughly" we mean that we neglect factors  that are polylogarithmic in $n$.)
