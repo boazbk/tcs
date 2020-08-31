@@ -401,7 +401,7 @@ One complication is that there can be more than one vertex that is visited twice
 Details follow.
 
 Let $G=(V,E)$ be a graph and $u$ and $v$ in $V$  be two connected vertices in $G$.
-We will prove that there is a simple graph between $u$ and $v$.
+We will prove that there is a simple path between $u$ and $v$.
 Let $k$ be the shortest length of a path between $u$ and $v$ and let $P=(u_0,u_1,u_2,\ldots,u_{k-1},u_k)$ be a $k$-length path from $u$ to $v$ (there can be more than one such path: if so we just choose one of them).
 (That is $u_0=u$, $u_k=v$, and $(u_\ell,u_{\ell+1})\in E$ for all $\ell \in [k]$.)
 We claim that $P$ is simple.
