@@ -119,9 +119,9 @@ In our case, $M$ will use the alphabet $\{ 0,1,\triangleright, \varnothing, \tim
 
 ```table
 ---
-caption: "
-alignment: "
-table-width: "
+caption: ''
+alignment: ''
+table-width: ''
 id: ''
 ---
 State, Label
@@ -138,7 +138,7 @@ State, Label
 10,`0_AND_BLANK`
 11,`1_AND_BLANK`
 12,`BLANK_AND_STOP`
-`"
+```
 
 
 
@@ -322,7 +322,7 @@ def PAL(Tape):
             Tape[head] = 'x'
             head += 1 # move right
         ... # more if statements here
-`"
+```
 
 The precise details of this program are not important. What matters is that we can describe Turing machines as _programs_.
 Moreover, note that when translating a Turing machine into a program, the _tape_ becomes a _list_ or _array_ that can hold values from the finite set $\Sigma$.^[Most programming languages use arrays of fixed size, while a Turing machine's tape is unbounded. But of course there is no need to store an infinite number of $\varnothing$ symbols. If you want, you can think of the tape as a list that starts off just long enough to store the input, but is dynamically grown in size as the Turing machine's head explores new positions.]
@@ -352,7 +352,7 @@ def M(Tape):
         ...
         elif Tape[i]==">" and state == 29: # δ_M(29,">")=(.,.,"H")
             break # Halt
-`"
+```
 
 If we wanted to use only _Boolean_ (i.e., $0$/$1$-valued) variables, then we can encode the   `state` variables using $\ceil{\log k}$ bits.
 Similarly, we can represent each element of the alphabet $\Sigma$ using $\ell=\ceil{\log |\Sigma|}$ bits and hence we can replace the $\Sigma$-valued array `Tape[]` with $\ell$ Boolean-valued arrays `Tape0[]`,$\ldots$, `Tape`$(\ell - 1)$`[]`.
@@ -405,7 +405,7 @@ __Default values.__ We need one more convention to handle "default values".
 Turing machines have the special symbol $\varnothing$ to indicate that  tape location is "blank" or "uninitialized".
 In NAND-TM there is no such symbol, and all variables are _Boolean_, containing either $0$ or $1$.
 All variables and locations of arrays default to $0$ if they have not been initialized to another value.
-To keep track of whether a $0$ in an array corresponds to a true zero or to an uninitialized cell, a programmer can always add to an array `Foo` a "companion array" `Foo_nonblank` and set `Foo_nonblank[i]` to $1$ whenever the `i" th  location is initialized.
+To keep track of whether a $0$ in an array corresponds to a true zero or to an uninitialized cell, a programmer can always add to an array `Foo` a "companion array" `Foo_nonblank` and set `Foo_nonblank[i]` to $1$ whenever the `i` th  location is initialized.
 In particular, we will use this convention for the input and output arrays `X` and `Y`.
 A NAND-TM program has _four_ special arrays `X`, `X_nonblank`, `Y`, and `Y_nonblank`.
 When a NAND-TM program is executed on input $x\in \{0,1\}^*$ of length $n$, the first $n$ cells of the array `X` are initialized to $x_0,\ldots,x_{n-1}$ and the first $n$ cells of the array `X_nonblank` are initialized to $1$. (All uninitialized cells default to $0$.)
@@ -453,7 +453,7 @@ id: TMvsNANDTMtable
 *Head location:* A number $i\in \mathbb{N}$ that encodes the position of the head. | *Index variable:* The variable `i` that can be used to access the arrays.
 *Accessing memory:* At every step the Turing machine has access to its local state, but can only access the tape at the position of the current head location. | *Accessing memory:* At every step a NAND-TM program has access to all the scalar variables, but can only access the arrays at the location `i` of the index variable
 *Control of location:* In each step the machine can move the head location by at most one position. | *Control of index variable:* In each iteration of its main loop the program can modify the index `i` by at most one.
-`"
+```
 
 
 ### Examples
@@ -474,7 +474,7 @@ Y[i] = XOR(X[i],carry)
 carry = AND(X[i],carry)
 Y_nonblank[i] = one(started)
 MODANDJUMP(X_nonblank[i],X_nonblank[i])
-`"
+```
 
 Since we used syntactic sugar, the above is not, strictly speaking, a valid NAND-TM program.
 However, by "opening up" all the syntactic sugar, we get the following "sugar free" valid program to compute the same function.
@@ -497,7 +497,7 @@ carry = NAND(temp_12,temp_12)
 temp_14 = NAND(started,started)
 Y_nonblank[i] = NAND(started,temp_14)
 MODANDJUMP(X_nonblank[i],X_nonblank[i])
-`"
+```
 :::
 
 
@@ -516,7 +516,7 @@ temp_3 = NAND(X[i],temp_2)
 temp_4 = NAND(Y[0],temp_2)
 Y[0] = NAND(temp_3,temp_4)
 MODANDJUMP(X_nonblank[i],X_nonblank[i])
-`"
+```
 
 To transform the program above to a valid NAND-TM program, we can transform references such as  `X[0]` and `Y[0]` to  scalar variables `x_0` and `y_0` (similarly  we can transform any reference of the form `Foo[17]` or `Bar[15]` to  scalars such as `foo_17` and `bar_15`). 
 We then need to add code to load the value of `X[0]` to `x_0` and similarly to write to `Y[0]` the value of `y_0`, but this is not hard to do.
@@ -586,7 +586,7 @@ OUTPUT: $M(x)$ -if $M$ halts on $x$. Otherwise go into infinite loop
 `state_`$0$ $\ldots$ `state_`$\ell-1$, `Tape_`$0$`[i]`$\ldots$ `Tape_`$\ell'-1$`[i]`, `dir0`,`dir1` $\leftarrow$ `TRANSITION(` `state_`$0$ $\ldots$ `state_`$\ell-1$, `Tape_`$0$`[i]`$\ldots$ `Tape_`$\ell'-1$`[i]`, `dir0`,`dir1` `)`
 
 `MODANDJMP(dir0,dir1)`
-`"
+```
 
 Every step of the main loop of the above program perfectly mimics the computation of the Turing Machine $M$, and so the program carries out exactly the definition of computation by a Turing Machine as per [TM-def](){.ref}.
 
@@ -635,7 +635,7 @@ id: specvsimp
 *Setting* ; *Specification* ; *Implementation*
 _Finite computation_ ; __Functions__ mapping $\{0,1\}^n$ to $\{0,1\}^m$ ; __Circuits__, __Straightline programs__
 _Infinite computation_ ; __Functions__ mapping $\{0,1\}^*$ to $\{0,1\}$ or to $\{0,1\}^*$. ; __Algorithms__, __Turing Machines__, __Programs__
-`"
+```
 
 
 ## NAND-TM syntactic sugar
@@ -665,7 +665,7 @@ For example, if we have code of the form
    GOTO("end")
 "skip": do bar
 "end": do blah
-`"
+```
 
 then the program will only do `foo` and `blah` as when it reaches the line `GOTO("end")` it will jump to the line labeled with `"end"`.
 We can achieve the effect of `GOTO` in NAND-TM using conditionals.
@@ -680,7 +680,7 @@ To emulate a GOTO statement, we will first modify a program P of the form
 do foo
 do bar
 do blah
-`"
+```
 
 to have the following form (using syntactic sugar for `if`):
 
@@ -694,7 +694,7 @@ if (pc=="line2"):
     pc = "line3"
 if (pc=="line3"):
     do blah
-`"
+```
 
 These two programs do the same thing.
 The variable `pc` corresponds to the "program counter" and tells the program which line to execute next.
@@ -708,7 +708,7 @@ __Other loops.__ Once we have `GOTO`, we can emulate all the standard loop const
 while foo:
     do blah
 do bar
-`"
+```
 
 with
 
@@ -719,7 +719,7 @@ with
     GOTO("loop")
 "next":
     do bar
-`"
+```
 
 
 
@@ -745,7 +745,7 @@ for j in range(100):
     do something
 
 do blah
-`"
+```
 
 
 you know that the line of code `do blah` can only be reached if the loop ended, in which case you know that `j` is equal to $100$, and might also be able to argue other properties of the state of the program.
