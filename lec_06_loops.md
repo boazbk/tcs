@@ -412,6 +412,7 @@ When a NAND-TM program is executed on input $x\in \{0,1\}^*$ of length $n$, the 
 The output of a NAND-TM program is the string `Y[`$0$`]`, $\ldots$, `Y[`$m-1$`]` where $m$ is the smallest integer such that `Y_nonblank[`$m$`]`$=0$. A NAND-TM program gets called with `X` and `X_nonblank` initialized to contain the input, and writes to `Y` and `Y_nonblank` to produce the output.
 
 
+
 Formally, NAND-TM programs are defined as follows:
 
 ::: {.definition title="NAND-TM programs" #NANDTM}
