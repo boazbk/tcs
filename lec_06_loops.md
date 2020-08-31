@@ -375,7 +375,7 @@ $$
 $$
 
 > ### {.remark title="NAND-CIRC + loops + arrays = everything." #otherpl}
-As we will see, adding loops and arrays to NAND-CIRC is enough to capture the full power of all programming languages! Hence we could replace "NAND-TM" with any of _Python_, _C_, _Javascript_, _OCaml_,  etc. in the lefthand side of  [eqnandloops](){.eqref}.
+As we will see, adding loops and arrays to NAND-CIRC is enough to capture the full power of all programming languages! Hence we could replace "NAND-TM" with any of _Python_, _C_, _Javascript_, _OCaml_,  etc. in the left-hand side of  [eqnandloops](){.eqref}.
 But we're getting ahead of ourselves: this issue will be discussed in [chapequivalentmodels](){.ref}.
 
 
@@ -544,7 +544,7 @@ For every $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND-TM pr
 To prove such an equivalence theorem, we need to show two directions. We need to be able to __(1)__ transform a Turing machine $M$ to a NAND-TM program $P$ that computes the same function as $M$  and __(2)__ transform a NAND-TM program $P$ into a Turing machine $M$ that computes the same function as $P$.
 
 The idea of the proof is illustrated in [tmvsnandppfig](){.ref}.
-To show __(1)__, given a Turing machine $M$, we will create a NAND-TM program $P$ that will have an array `Tape` for the tape of $M$ and scalar (i.e., non array) variable(s) `state` for the state of $M$.
+To show __(1)__, given a Turing machine $M$, we will create a NAND-TM program $P$ that will have an array `Tape` for the tape of $M$ and scalar (i.e., non-array) variable(s) `state` for the state of $M$.
 Specifically, since the state of a Turing machine is not in $\{0,1\}$ but rather in a larger set $[k]$, we will use $\ceil{\log k}$ variables `state_`$0$ , $\ldots$, `state_`$\ceil{\log k}-1$ variables to store the representation of the state.
 Similarly, to encode the larger alphabet $\Sigma$ of the tape, we will use $\ceil{\log |\Sigma|}$ arrays `Tape_`$0$ , $\ldots$, `Tape_`$\ceil{\log |\Sigma|}-1$, such that the $i^{th}$ location of these arrays encodes the $i^{th}$ symbol in the tape for every tape.
 Using the fact that _every_ function can be computed by a NAND-CIRC program, we will be able to compute the transition function of $M$, replacing moving left and right by decrementing and incrementing `i` respectively.
@@ -776,7 +776,7 @@ The key difference between NAND-CIRC and NAND-TM is that NAND-TM allows us to ex
 That is, one can think of the NAND-TM program for general parity as the "seed" out of which we can grow NAND-CIRC programs for length $10$, length $100$, or length $1000$ parities as needed.
 
 
-This notion of a single algorithm that can compute functions of all input lengths is known as _uniformity_ of computation and hence we think of Turing machines / NAND-TM as _uniform_ model of computation, as opposed to Boolean circuits or NAND-CIRC which is a _nonuniform_ model, where we have to specify a different program for every input length.
+This notion of a single algorithm that can compute functions of all input lengths is known as _uniformity_ of computation and hence we think of Turing machines / NAND-TM as _uniform_ model of computation, as opposed to Boolean circuits or NAND-CIRC which is a _non-uniform_ model, where we have to specify a different program for every input length.
 
 
 Looking ahead, we will see that this uniformity leads to another crucial difference between Turing machines and circuits.
@@ -785,12 +785,12 @@ This notion of "self replication", and the related notion of "self reference" is
 
 For now, what you ought to remember is the following differences between _uniform_ and _non uniform_ computational models:
 
-* __Non uniform computational models:__ Examples are _NAND-CIRC programs_ and _Boolean circuits_. These are models where each individual program/circuit can compute a _finite_ function $f:\{0,1\}^n \rightarrow \{0,1\}^m$. We have seen that _every_ finite function can be computed by _some_ program/circuit.
+* __Non-uniform computational models:__ Examples are _NAND-CIRC programs_ and _Boolean circuits_. These are models where each individual program/circuit can compute a _finite_ function $f:\{0,1\}^n \rightarrow \{0,1\}^m$. We have seen that _every_ finite function can be computed by _some_ program/circuit.
 To discuss computation of an _infinite_ function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ we need to allow a _sequence_ $\{ P_n \}_{n\in \N}$ of programs/circuits (one for every input length), but this does not capture the notion of a _single algorithm_ to compute the function $F$.
 
 * __Uniform computational models:__ Examples are _Turing machines_ and _NAND-TM programs_. These are models where a single program/machine can take inputs of _arbitrary length_ and hence compute an _infinite_ function $F:\{0,1\}^* \rightarrow \{0,1\}^*$.
 The number of steps that a program/machine takes on some input is not a priori bounded in advance and in particular there is a chance that it will enter into an _infinite loop_.
-Unlike the nonuniform case, we have _not_ shown that every infinite function can be computed by some NAND-TM program/Turing Machine. We will come back to this point in [chapcomputable](){.ref}.
+Unlike the non-uniform case, we have _not_ shown that every infinite function can be computed by some NAND-TM program/Turing Machine. We will come back to this point in [chapcomputable](){.ref}.
 
 
 

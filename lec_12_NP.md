@@ -294,7 +294,7 @@ $$3SAT \leq_p QUADEQ$$
 
 > ### {.proofidea data-ref="quadeq-thm"}
 Using the transitivity of reductions ([transitiveex](){.ref}), it is enough to show that $01EQ \leq_p QUADEQ$, but this follows since we can phrase
-the equation $x_i \in \{0,1\}$ as the quadratic constraint $x_i^2 - x_i = 0$. The __takeaway technique__ of this reduction is that we can use _nonlinearity_ to force continuous variables (e.g., variables taking values in $\R$) to be discrete (e.g., take values in $\{0,1\}$).
+the equation $x_i \in \{0,1\}$ as the quadratic constraint $x_i^2 - x_i = 0$. The __takeaway technique__ of this reduction is that we can use _non-linearity_ to force continuous variables (e.g., variables taking values in $\R$) to be discrete (e.g., take values in $\{0,1\}$).
 
 ::: {.proof data-ref="quadeq-thm"}
 By [tsattozoeqthm](){.ref} and [transitiveex](){.ref}, it is sufficient to prove that $01EQ \leq_p QUADEQ$.
@@ -359,7 +359,7 @@ $3SAT \leq_p ISET$.
 > ### {.proofidea data-ref="isetnpc"}
 The idea is that finding a satisfying assignment to a 3SAT formula corresponds to satisfying many local constraints without creating any conflicts.
 One can think of "$x_{17}=0$"  and "$x_{17}=1$" as two conflicting events, and of the constraints $x_{17} \vee \overline{x}_5 \vee x_9$ as creating a conflict between the events "$x_{17}=0$", "$x_5=1$" and "$x_9=0$", saying that these three cannot simultaneously co-occur.
-Using these ideas, we can we can think of solving a 3SAT problem as trying to schedule non conflicting events, though the devil is, as usual, in the details. 
+Using these ideas, we can we can think of solving a 3SAT problem as trying to schedule non-conflicting events, though the devil is, as usual, in the details. 
 The __takeaway technique__ here is to map each clause of the original formula into a _gadget_ which is a small subgraph (or more generally "subinstance") satisfying some convenient properties. 
 We will see these "gadgets" used time and again in the construction of polynomial-time reductions.
 
@@ -448,7 +448,7 @@ This completes the proof of [isetnpc](){.ref}
 :::
 
 
-![The reduction of 3SAT to Independent Set. On the righthand side is _Python_ code that implements this reduction. On the lefthand side is a sample output of the reduction. We use black for the "triangle edges" and red for the "conflict edges". Note that the satisfying assignment $x^* = 0110$ corresponds to the independent set $(0,\neg x_3)$, $(1, \neg x_0)$, $(2,x_2)$.](../figure/3sat2ISreduction.png){#threesattoisfig   }
+![The reduction of 3SAT to Independent Set. On the right-hand side is _Python_ code that implements this reduction. On the left-hand side is a sample output of the reduction. We use black for the "triangle edges" and red for the "conflict edges". Note that the satisfying assignment $x^* = 0110$ corresponds to the independent set $(0,\neg x_3)$, $(1, \neg x_0)$, $(2,x_2)$.](../figure/3sat2ISreduction.png){#threesattoisfig   }
 
 
 
@@ -518,7 +518,7 @@ The idea is to map a graph $G$ into a graph $H$ such that a vertex cover in $G$ 
 We do so by including in $H$ all the vertices and edges of $G$, but for every edge $\{u ,v \}$ of $G$ we also add to $H$ a new vertex $w_{u,v}$ and connect it to both $u$ and $v$.
 Let $\ell$ be the number of isolated vertices in $G$.
 The idea behind the proof is that we can transform a vertex cover $S$ of $k$ vertices in $G$ into a dominating set of $k+\ell$ vertices in $H$ by adding to $S$ all the isolated vertices,
-and moreover we can transform every $k+\ell$ sized dominating set in $H$ into a vertex cover in $G$.
+and moreover we can transform every $k+\ell$-sized dominating set in $H$ into a vertex cover in $G$.
 We now give the details. 
 
 __Description of the algorithm.__ Given an instance $(G,k)$ for the vertex cover problem, we will map $G$ into an instance $(H,k')$ for the dominating set problem as follows
@@ -664,7 +664,7 @@ __Part 2: Soundness.__ Suppose that $S$ is a cut in $H$ that cuts at least $C=k+
 ![In the reduction of independent set to max cut, for every $t\in [m]$, we have a "gadget" corresponding to the $t$-th edge $e= \{ v_i,v_j\}$ in the original graph. If we think of the side of the cut containing the special source vertex $s^*$ as "white" and the other side as "blue", then the leftmost and center figures show that if $v_i$ and $v_j$ are not both blue then we can cut four edges from the gadget. In contrast, by enumerating all possibilities one can verify that if both $u$ and $v$ are blue, then no matter how we color the intermediate vertices $e_t^0,e_t^1$, we will cut at most three edges from the gadget. The figure above contains only the gadget edges and ignores the edges connecting $s^*$ to the vertices $v_0,\ldots,v_{n-1}$.](../figure/iset2maxcutgadgetanalysis.png){#ISETtoMAXCUTfig .margin  }
 
 
-![The reduction of independent set to max cut. On the righthand side is Python code implementing the reduction. On the lefthand side is an example output of the reduction where we apply it to the independent set instance that is obtained by running the reduction of [isetnpc](){.ref} on the 3CNF formula $(x_0 \vee \overline{x}_3 \vee x_2) \wedge (\overline{x}_0 \vee x_1 \vee \overline{x}_2) \wedge (\overline{x}_1 \vee x_2 \vee x_3)$.](../figure/is2maxcut.png){#isettomaxcutcodefig   }
+![The reduction of independent set to max cut. On the right-hand side is Python code implementing the reduction. On the left-hand side is an example output of the reduction where we apply it to the independent set instance that is obtained by running the reduction of [isetnpc](){.ref} on the 3CNF formula $(x_0 \vee \overline{x}_3 \vee x_2) \wedge (\overline{x}_0 \vee x_1 \vee \overline{x}_2) \wedge (\overline{x}_1 \vee x_2 \vee x_3)$.](../figure/is2maxcut.png){#isettomaxcutcodefig   }
 
 ## Reducing 3SAT to Longest Path
 
