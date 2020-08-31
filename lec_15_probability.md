@@ -29,6 +29,27 @@ Before we show how to use randomness in algorithms, let us do a quick review of 
 This is not meant to replace a course on probability theory, and if you have not seen this material before, I highly recommend you look at additional resources to get up to speed.
 Fortunately, we will not need many of the advanced notions of probability theory, but, as we will see, even the so-called "simple" setting of tossing $n$ coins can lead to very subtle and interesting issues.
 
+::: {.nonmath}
+This chapter contains an overview of the basics of probability theory, as needed for understanding randomized computation.
+The main topics covered are the notions of:
+
+1. A _sample space_ which for us will almost always consist of the set of all possible outcomes of the experiment of tossing a finite number of independent coins.
+
+2. An _event_ which is simply a subset of the sample space, with the probability of the event happening being the fraction of outcomes that are in this subset.
+
+3. A _random variable_ which is a way to assign some number or statistic to an outcome of the sample space.
+
+4. The notion _conditioning_ which correspond to how the value of a random variable (or the probability of an event) changes if we restrict attention to outcomes for which the value of another variable is known (or for which some other event has happened).  Random variables and events that have no impact on one another are called _independent_.
+
+5. _Expectation_ which is the average of a random variable, and _concentration bounds_ which quantify the probability that a random variable can "stray too far" from its expected value.
+
+These concepts are at once both basic and subtle.
+While we will not need many "fancy" topics covered in statistics courses, including special distributions (e.g., gemoetric, Poisson,  exponential, Gaussian, etc.), nor topics such as hypothesis testing or regression,
+this doesn't mean that the probability we use is "trivial".
+The human brain has not evolved to do probabilistic reasoning very well, and notions such as conditioning and independence can be quite subtle and confusing even in the basic setting of tossing a random coin.
+However, this is all the more reason that studying these notions in this basic setting is useful not just for following this book, but also as a strong foundation for "fancier topics".
+:::
+
 
 
 

@@ -31,6 +31,22 @@ they are all _search_ problems, where the goal is to decide, given an instance $
 For example, in 3SAT, the instance is a formula and the solution is an assignment to the variable; in Max-Cut the instance is a graph and the solution is a cut in the graph; and so on and so forth.
 It turns out that _every_ such search problem can be reduced to 3SAT.
 
+::: {.nonmath}
+In this chapter we will see the definition of the complexity class $\mathbf{NP}$- one of the most important definitions in this book,  and the Cook-Levin Theorem- one of the most important theorems in it.
+Intuitively, the class $\mathbf{NP}$ corresponds to the class of problems where it is _easy to verify_ a solution (i.e., verification can be done by a polynomial-time algorithm).
+For example, finding a satistfying assignment to a 2SAT or 3SAT formula is such a problem, since if we are given an assignment to the variables a 2SAT or 3SAT formula then we can efficiently verify that it satisfies all constraints.
+More precisely, $\mathbf{NP}$ is the class of decision problems (i.e., Boolean functions or languages) corresponding to determining the existence of such a solution, though we will see in [chappvsnp](){.ref} that the decision and search problems are closely related.
+
+As the examples of 2SAT and 3SAT show, there are some computational problems  (i.e., functions)  in $\mathbf{NP}$ for which we have a polynomial-time algorithm, and some for which no such algorithm is known.
+It is an outstanding open question whether or not all functions in $\mathbf{NP}$ have a polynomial-time algorithm, or in other words (to use just a little bit of math) whether or not $\mathbf{P}=\mathbf{NP}$.
+In this chapter we will see that there are some functions in $\mathbf{NP}$ that are in a precise sense "hardest in all of $\mathbf{NP}$" in the sense that _if_ even one of these functions has a polynomial-time algorithm then _all_
+functions in $\mathbf{NP}$ have such an algorithm.
+Such functions are known as _$\mathbf{NP}$ complete_.
+The Cook-Levin Theorem states that 3SAT is $\mathbf{NP}$ complete.
+Using a complex web of polynomial-time reductions, researchers have derived from the Cook-Levin theorem the $\mathbf{NP}$-completeness of thousands of computational problems from all areas of mathematics, natural and social sciences, engineering, and more.
+These results provide strong evidence that all of these problems cannot be solved in the worst-case by polynomial-time algorithm.
+:::
+
 
 ![Overview of the results of this chapter. We define $\mathbf{NP}$ to contain all decision problems for which a solution can be efficiently _verified_. The main result of this chapter is the  _Cook Levin Theorem_ ([cook-levin-thm](){.ref}) which states that $3SAT$ has a polynomial-time algorithm if and only if _every_ problem in $\mathbf{NP}$ has a polynomial-time algorithm. Another way to state this theorem is that $3SAT$ is _$\mathbf{NP}$ complete_. We will prove the Cook-Levin theorem by defining the two intermediate  problems $NANDSAT$ and $3NAND$, proving that $NANDSAT$ is $\mathbf{NP}$ complete, and then proving that $NANDSAT \leq_p 3NAND \leq_p 3SAT$.](../figure/cooklevin_overview.png){#cooklevin_overviewfig }
 

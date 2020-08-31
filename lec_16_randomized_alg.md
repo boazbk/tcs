@@ -31,8 +31,13 @@ Because this project was highly classified, Ulam, von Neumann and their collabor
 The name stuck, and randomized algorithms are known as Monte Carlo algorithms to this day.^[Some texts also talk about "Las Vegas algorithms" that always return the right answer but whose running time is only polynomial on the average. Since this Monte Carlo vs Las Vegas terminology is confusing, we will not use these terms anymore, and simply talk about randomized algorithms.]
 
 In this chapter, we will see some examples of randomized algorithms that use randomness to compute a quantity in a faster or simpler way than was known otherwise.
-We will describe the algorithms in an informal / "pseudo-code" way, rather than as NAND-TM, NAND-RAM programs or Turing macines. 
+We will describe the algorithms in an informal / "pseudo-code" way, rather than as Turing macines or NAND-TM/NAND-RAM programs. 
 In [chapmodelrand](){.ref} we will discuss how to augment the computational models we say before to incorporate the ability to "toss coins".
+
+::: {.nonmath}
+This chapter gives some examples of randomized algorithms to get a sense of why probability can be useful for computation.
+We will also see the technique of _success amplification_ which is key for many randomized algorithms.
+:::
 
 
 ## Finding approximately good maximum cuts

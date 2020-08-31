@@ -47,6 +47,17 @@ an attacker can generate as many ciphertexts as they wish.
 The key to this success has been a clearer understanding of both how to _define_ security for cryptographic tools and how to relate this security to _concrete computational problems_.
 Cryptography is a vast and continuously changing topic, but we will touch on some of these issues in this chapter.
 
+
+::: {.nonmath}
+Cryptography cannot be covered in a single chapter, and so this chapter merely gives a "taste" of crypto, focusing on the aspects most related to computational complexity.
+For a more extensive treatment, see my [lecture notes](https://intensecrypto.org/) from which this chapter is adapted.
+We will discuss some "classical cryptosystems" and show how we can _mathematically define_ security of encryption, and use the _one-time pad_ to achieve an encryption that provably satisfies this definition.
+We will then see the fundamental limitation of this definition, and how to bypass it we need to relax security by only restricting attention to attackers that have _bounded computational resources_.
+This notion of _computational security_ is inherently tied to computational complexity and the $\mathbf{P}$ vs $\mathbf{NP}$ question.
+We will also give a small taste of some of the "paradoxical" cryptographic constructions that go way beyond encryption, including public-key cryptography, fully-homomorphic encryption, and multi-party secure computation.
+:::
+
+
 ## Classical cryptosystems
 
 A great many cryptosystems have been devised and broken throughout the ages.
