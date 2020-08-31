@@ -131,7 +131,7 @@ Theorems, lemmas, claims and the like are true statements about the concepts we 
 Deciding whether to call a particular statement a "Theorem", a "Lemma" or a "Claim" is a judgement call, and does not make a mathematical difference.
 All three correspond to statements which were proven to be true.
 The difference is that a _Theorem_ refers to a significant result, that we would want to remember and highlight.
-A _Lemma_ often refers to a technical result, that is not necessarily important in its own right, but can be often very useful in proving other theorems.
+A _Lemma_ often refers to a technical result that is not necessarily important in its own right, but that can be often very useful in proving other theorems.
 A _Claim_ is a "throw away" statement, that we need to use in order to prove some other bigger results, but do not care so much about for its own sake.
 
 ### Proofs
