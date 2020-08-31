@@ -342,7 +342,7 @@ More recently, the [Bitcoin](https://en.wikipedia.org/wiki/Bitcoin) system uses 
 
 
 > ### { .recap }
-* The history of algorithms goes back thousands of years;  they have been essential much of human progress and these days form the basis of multi-billion dollar industries, as well as life-saving technologies.
+* The history of algorithms goes back thousands of years;  they have been essential to much of human progress and these days form the basis of multi-billion dollar industries, as well as life-saving technologies.
 * There is often more than one algorithm to achieve the same computational task. Finding a faster algorithm can often make a much bigger difference than improving computing hardware.
 * Better algorithms and data structures don't just speed up calculations, but can yield new qualitative insights.
 * One question we will study is to find out what is the _most efficient_ algorithm for a given problem.
