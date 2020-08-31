@@ -900,7 +900,7 @@ The above is the intuition behind the proof of [acyclictosortlem](){.ref}, but w
 Discussions, examples and digressions can be very insightful, but we keep them outside the space delimited between these two words, where (as described by this [excellent handout](http://web.stanford.edu/class/archive/cs/cs103/cs103.1184/handouts/120%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
 Just like we do in programming, we can break the proof into little "subroutines" or "functions" (known as _lemmas_ or _claims_ in math language), which will be smaller statements that help us prove the main result.
 However, the proof should be structured in a way that ensures that it is always crystal-clear to the reader in what stage we are of the proof.
-The reader should be able to tell what is the role of every sentence in the proof and which part it belongs to.
+The reader should be able to tell what the role of every sentence is in the proof and which part it belongs to.
 We now present the formal proof of [acyclictosortlem](){.ref}.
 
 
