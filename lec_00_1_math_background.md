@@ -848,7 +848,7 @@ One way to do it would be to describe an _algorithm_ that given as input a direc
 ### Mathematical induction  { #inductionsec }
 
 There are several ways to prove [acyclictosortlem](){.ref}.
-One approach to do is to start by proving it for small graphs, such as graphs with 1, 2 or 3 vertices  (see [topsortexamplesfig](){.ref}, for which we can check all the cases, and then try to extend the proof for larger graphs.
+One approach to do is to start by proving it for small graphs, such as graphs with 1, 2 or 3 vertices (see [topsortexamplesfig](){.ref}, for which we can check all the cases, and then try to extend the proof for larger graphs).
 The technical term for this proof approach is _proof by induction_.
 
 
