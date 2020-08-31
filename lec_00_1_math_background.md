@@ -1011,7 +1011,7 @@ Because the language notation is so prevalent in other textbooks, we will occasi
 ### Variable name conventions {#conventionsec }
 
 Like programming, mathematics is full of _variables_. 
-Whenever you see a variable, it is always important to keep track of what is its _type_ (e.g., whether the variable is a number, a string, a function, a graph, etc.).
+Whenever you see a variable, it is always important to keep track of what its _type_ is (e.g., whether the variable is a number, a string, a function, a graph, etc.).
 To make this easier, we try to stick to certain conventions and consistently use certain identifiers for variables of the same type.
 Some of these conventions are listed in [notationtable](){.ref} below.
 These conventions are not immutable laws and we might occasionally deviate from them.
