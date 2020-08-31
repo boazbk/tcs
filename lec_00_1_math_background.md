@@ -693,7 +693,7 @@ When you write a proof, for every equation or sentence you include, ask yourself
 
 3. What is the _role_ of this sentence or equation? Is it one step towards proving the original statement, or is it a step towards proving some intermediate claim that you have stated before?
 
-4. Finally, would the answers to questions 1-3 be clear to the reader? If not, then you should reorder, rephrase or add explanations.
+4. Finally, would the answers to questions 1-3 be clear to the reader? If not, then you should reorder, rephrase, or add explanations.
 
 
 Some helpful resources on mathematical writing include [this handout by Lee](https://sites.math.washington.edu/~lee/Writing/writing-proofs.pdf), [this handout by Hutching](https://math.berkeley.edu/~hutching/teach/proofs.pdf), as well as several of the excellent handouts in [Stanford's CS 103 class](http://web.stanford.edu/class/cs103/).
@@ -885,7 +885,7 @@ For more on proofs by induction and recursion, you might find the following [Sta
 
 ### Proving the result by induction
 
-There are several ways to use induction to prove  [acyclictosortlem](){.ref} by induction.
+There are several ways to prove  [acyclictosortlem](){.ref} by induction.
 We will use induction on the number $n$ of vertices, and so we will define the statement $Q(n)$ as follows:
 
 >$Q(n)$ is _"For every DAG  $G=(V,E)$ with $n$ vertices, there is a layering of $G$."_
