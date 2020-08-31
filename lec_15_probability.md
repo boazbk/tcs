@@ -271,11 +271,11 @@ On the other hand, $\Pr[ x_0 = 1 \wedge x_1 = 1 ] = \Pr[ \{110,111 \}] = \tfrac{
 
 > ### {.remark title="Disjointness vs independence" #disjoint}
 People sometimes confuse the notion of _disjointness_ and _independence_, but these are actually quite different.
-Two events $A$ and $B$ are _disjoint_ if $A \cap B = \emptyset$, which means that if $A$ happens then $B$ definitely does not happen. They are _independent_ if $\Pr[A \cap B]=\Pr[A]\Pr[B]$ which means that knowing that $A$ happens gives us no information about whether $B$ happened or not. If $A$ and $B$ have nonzero probability, then being disjoint implies that they are _not_ independent, since in particular it means that they are negatively correlated.
+Two events $A$ and $B$ are _disjoint_ if $A \cap B = \emptyset$, which means that if $A$ happens then $B$ definitely does not happen. They are _independent_ if $\Pr[A \cap B]=\Pr[A]\Pr[B]$ which means that knowing that $A$ happens gives us no information about whether $B$ happened or not. If $A$ and $B$ have non-zero probability, then being disjoint implies that they are _not_ independent, since in particular it means that they are negatively correlated.
 
 
 
-__Conditional probability:__ If $A$ and $B$ are events, and $A$ happens with nonzero probability then we define the probability that $B$ happens _conditioned on $A$_ to be $\Pr[B|A] = \Pr[A \cap B]/\Pr[A]$.
+__Conditional probability:__ If $A$ and $B$ are events, and $A$ happens with non-zero probability then we define the probability that $B$ happens _conditioned on $A$_ to be $\Pr[B|A] = \Pr[A \cap B]/\Pr[A]$.
 This corresponds to calculating the probability that $B$ happens if we already know that $A$ happened.
 Note that $A$ and $B$ are independent if and only if $\Pr[B|A]=\Pr[B]$.
 
@@ -325,7 +325,7 @@ $$
 \E[X] \E[Y]
 \end{gathered}
 $$
-where the first equality  ($=^{(1)}$) follows from the independence of $X$ and $Y$, the second equality ($=^{(2)}$) follows by "opening the parentheses" of the righthand side, and the third equality ($=^{(3)}$) follows from the definition of expectation.
+where the first equality  ($=^{(1)}$) follows from the independence of $X$ and $Y$, the second equality ($=^{(2)}$) follows by "opening the parentheses" of the right-hand side, and the third equality ($=^{(3)}$) follows from the definition of expectation.
 (This is not an "if and only if"; see [noindnocorex](){.ref}.)
 
 Another useful fact is that if $X$ and $Y$ are independent random variables, then so are $F(X)$ and $G(Y)$ for all functions $F,G:\R \rightarrow \R$.
@@ -489,8 +489,8 @@ See [chernoffstirlingex](){.ref}  for a proof of the simple (but highly useful a
 
 ::: {.remark title="Slight simplification of Chernoff" #chernoffsimpler}
 Since  $e$ is roughly $2.7$ (and in particular larger than $2$),  
-[eqchernoff](){.eqref} would still be true if we replaced its righthand side with $e^{-2\epsilon^2 n + 1}$.
-For  $n>1/\epsilon^2$,  the equation will still be true if we replaced the righthand side with the simpler $e^{-\epsilon^2 n}$. 
+[eqchernoff](){.eqref} would still be true if we replaced its right-hand side with $e^{-2\epsilon^2 n + 1}$.
+For  $n>1/\epsilon^2$,  the equation will still be true if we replaced the right-hand side with the simpler $e^{-\epsilon^2 n}$. 
 Hence we will sometimes use the Chernoff bound as stating that for $X_0,\ldots,X_{n-1}$ and $p$ as above, $n> 1/\epsilon^2$ then 
 $$
 \Pr[ \left| \sum_{i=0}^{n-1} X_i - pn \right| > \epsilon n ] \leq e^{-\epsilon^2 n} . \label{eqchernoffsimpler}

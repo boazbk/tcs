@@ -73,7 +73,7 @@ In this chapter, we consider functions such as $XOR$ that take inputs of _unboun
 While we can describe $XOR$ using a finite number of symbols (in fact, we just did so above), it takes infinitely many possible inputs, and so we cannot just write down all of its values.
 The same is true for many other functions capturing important computational tasks, including addition, multiplication, sorting, finding paths in graphs, fitting curves to points, and so on.
 To contrast with the finite case, we will sometimes call a function $F:\{0,1\}^* \rightarrow \{0,1\}$ (or $F:\{0,1\}^* \rightarrow \{0,1\}^*$) _infinite_.
-However, this does not mean that $F$ taks as input strings of infinite length! 
+However, this does not mean that $F$ takes as input strings of infinite length! 
 It just means that $F$ can take as input a string of that can be arbitrarily long, and so we cannot simply write down a table of all the outputs of $F$ on different inputs.
 
 ::: { .bigidea #comptask}
@@ -220,9 +220,15 @@ All our computational models so far - Boolean circuits and straight-line program
 In [chaploops](){.ref} we will present _Turing Machines_, which are the central models of computation for unbounded input length functions.
 However, in this section we present the more basic model of _deterministic finite automata_ (DFA).
 Automata can serve as a good stepping-stone for Turing machines, though they will not be used much in later parts of this book, and so the
+<<<<<<< HEAD
 reader can feel free to skip ahead fo [chaploops](){.ref}.
 DFAs turn out to be equivalent in power to _regular expressions_: a powerful mechanism to specify patterns, which is widely used in practice.
 Our treatment of automata is relatively brief. There are plenty of resources that help you get more comfortable with DFA's.
+=======
+reader can feel free to skip ahead to [chaploops](){.ref}.
+DFAs turn out to be equivalent in power to _regular expressions_, which are powerful mechanisms to specify patterns that are widely used in practice.
+Our treatment of automata is quite brief. There are plenty of resources that help you get more comfortable with DFAs.
+>>>>>>> 37a7d8058c0f25a8d2df4f52ff73a1420bc292d7
 In particular, Chapter 1 of Sipser's book [@SipserBook] contains an excellent exposition of this material.
 There are also many websites with online simulators for automata, as well as translators from regular expressions to automata and vice versa 
 (see for example [here](http://ivanzuzak.info/noam/webapps/fsm2regex/) and [here](https://cyberzhg.github.io/toolbox/nfa2dfa)).
@@ -274,7 +280,7 @@ For example, the Python program above can be represented by a two-state automato
 We can also describe a $C$-state DFA as a labeled _graph_ of $C$ vertices. For every state $s$ and bit $\sigma$, we add a directed edge labeled with $\sigma$ between $s$ and the state $s'$ such that if
 the DFA is at state $s$ and reads  $\sigma$ then it transitions to $s'$. (If the state stays the same then this edge will be a self-loop; similarly, if $s$ transitions to $s'$ in both the case $\sigma=0$ and $\sigma=1$
 then the graph will contain two parallel edges.)
-We also label the set $\mathcal{S}$ of states on which the automate will output $1$ at the end of the computation.
+We also label the set $\mathcal{S}$ of states on which the automaton will output $1$ at the end of the computation.
 This set is known as the set of _accepting states_.
 See [xorautomatonfig](){.ref} for the graphical representation of the XOR automaton.
 
@@ -305,9 +311,8 @@ Make sure not to confuse the _transition function_ of an automaton ($T$ in [DFAd
 
 ::: {.remark title="Definitions in other texts" #Sipserautmatadef}
 Deterministic finite automata can be defined in several equivalent ways.
-In particular Sipser [@SipserBook] defines a DFAs as a five-tuple $(Q,\Sigma,\delta,q_0,F)$ where $Q$ is the set of states, $\Sigma$ is the alphabet, $\delta$ is the transition function, $q_0$ is the initial state, and $F$ is the set of accepting states.
-In this book, the set of states is always of the form $Q=\{0,\ldots,C-1 \}$, and the initial state is always $q_0 = 0$.
-However, this makes no difference to the computational power of these models.
+In particular Sipser [@SipserBook] defines a DFA as a five-tuple $(Q,\Sigma,\delta,q_0,F)$ where $Q$ is the set of states, $\Sigma$ is the alphabet, $\delta$ is the transition function, $q_0$ is the initial state, and $F$ is the set of accepting states.
+In this book the set of states is always of the form $Q=\{0,\ldots,C-1 \}$ and the initial state is always $q_0 = 0$, but this makes no difference to the computational power of these models.
 Also, we restrict our attention to the case that the alphabet $\Sigma$ is equal to $\{0,1\}$.
 :::
 
@@ -474,8 +479,8 @@ A _regular expression_ $e$ over an alphabet $\Sigma$ is a string over $\Sigma \c
 Finally we also allow the following "edge cases": $e = \emptyset$ and $e = ""$. These are the regular expressions corresponding to accepting no strings, and accepting only the empty string respectively.
 :::
 
-We will drop parenthesis when they can be inferred from the context.
-We also use the convention that OR and concatenation are left-associative, and give the highest precedence to $*$, then concatenation, and then OR.
+We will drop parentheses when they can be inferred from the context.
+We also use the convention that OR and concatenation are left-associative, and we give highest precedence to $*$, then concatenation, and then OR.
 Thus for example we write $00^*|11$ instead of $((0)(0^*))|((1)(1))$.
 
 
@@ -902,7 +907,7 @@ As we have seen, regular expressions cannot compute every function.
 In fact, there are some very simple (and useful!) functions that they cannot compute.
 Here is one example:
 
-> ### {.lemma title="Matching parenthesis" #regexpparn}
+> ### {.lemma title="Matching parentheses" #regexpparn}
 Let $\Sigma = \{\langle ,\rangle \}$ and  $MATCHPAREN:\Sigma^* \rightarrow \{0,1\}$ be the function that given a string of parentheses, outputs $1$ if and only if every opening parenthesis is matched by a corresponding closed one.
 Then there is no regular expression over $\Sigma$ that computes $MATCHPAREN$.
 
@@ -921,7 +926,7 @@ Let $e$ be a regular expression over some alphabet $\Sigma$. Then there is some 
 ![To prove the "pumping lemma" we look at a word $w$ that is much larger than the regular expression $e$ that matches it. In such a case, part of $w$ must be matched by some sub-expression of the form $(e')^*$, since this is the only operator that allows matching words longer than the expression. If we look at the "leftmost" such sub-expression and define $y^k$ to be the string that is matched by it, we obtain the partition needed for the pumping lemma.](../figure/pumpinglemma.png){#pumpinglemmafig   }
 
 > ### {.proofidea data-ref="pumping"}
-The idea behind the proof the following.  Let $n_0$ be twice the number of symbols that are used in the expression $e$, then the only way that there is some $w$ with $|w|>n_0$ and $\Phi_{e}(w)=1$ is that $e$ contains the $*$ (i.e. star) operator and that there is a nonempty substring $y$ of $w$ that was matched by $(e')^*$ for some sub-expression $e'$ of $e$.  We can now repeat $y$ any number of times and still get a matching string. See also [pumpinglemmafig](){.ref}.
+The idea behind the proof the following.  Let $n_0$ be twice the number of symbols that are used in the expression $e$, then the only way that there is some $w$ with $|w|>n_0$ and $\Phi_{e}(w)=1$ is that $e$ contains the $*$ (i.e. star) operator and that there is a non-empty substring $y$ of $w$ that was matched by $(e')^*$ for some sub-expression $e'$ of $e$.  We can now repeat $y$ any number of times and still get a matching string. See also [pumpinglemmafig](){.ref}.
 
 ::: { .pause }
 The pumping lemma is a bit cumbersome to state, but one way to remember it is that it simply says the following: _"if a string matching a regular expression is long enough, one of its substrings must be matched using the $*$ operator"_.
@@ -1120,7 +1125,7 @@ One among the following two functions that map $\{0,1\}^*$ to $\{0,1\}$ can be c
 * $G(x) = 1$ if and only if $\sum_{i=0}^{|x|-1} x_i \geq |x|/4$ and $G(x)=0$ otherwise.
 :::
 
-::: {.exercise title="Non regularity" #nonregex}
+::: {.exercise title="Non-regularity" #nonregex}
 1. Prove that the following function $F:\{0,1\}^* \rightarrow \{0,1\}$ is not regular. For every $x\in \{0,1\}^*$, $F(x)=1$ iff $x$ is of the form $x=1^{3^i}$ for some $i>0$. 
 
 2.  Prove that the following function $F:\{0,1\}^* \rightarrow \{0,1\}$ is not regular. For every $x\in \{0,1\}^*$, $F(x)=1$ iff  $\sum_j x_j = 3^i$ for some $i>0$. 
@@ -1132,7 +1137,7 @@ One among the following two functions that map $\{0,1\}^*$ to $\{0,1\}$ can be c
 
 The relation of regular expressions with finite automata is a beautiful topic, on which we only touch upon in this text.
 It is covered more extensively in [@SipserBook, @hopcroft, @kozen1997automata].
-These texts also discuss topics such as _non deterministic finite automata_ (NFA) and the relation between context-free grammars and pushdown automata.
+These texts also discuss topics such as _non-deterministic finite automata_ (NFA) and the relation between context-free grammars and pushdown automata.
 
 The automaton of [dfazeroonefig](){.ref} was generated using the [FSM simulator](http://ivanzuzak.info/noam/webapps/fsm_simulator/) of Ivan Zuzak and Vedrana Jankovic.
 Our proof of [reglintimethm](){.ref} is closely related to the [Myhill-Nerode Theorem](https://goo.gl/mnKVMP). One direction of the Myhill-Nerode theorem can be stated as saying that if $e$ is a regular expression then there is at most a finite number of strings $z_0,\ldots,z_{k-1}$ such that $\Phi_{e[z_i]} \neq \Phi_{e[z_j]}$ for every $0 \leq i\neq j < k$.

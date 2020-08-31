@@ -73,7 +73,7 @@ In other words, for $F$ to be in $\mathbf{NP}$, there needs to exist some polyno
 Since the existence of this string $w$ certifies that $F(x)=1$, $w$ is often referred to as a _certificate_, _witness_, or _proof_ that $F(x)=1$.
 
 See also [NPdeffigfig](){.ref} for an illustration of [NP-def](){.ref}.
-The name $\mathbf{NP}$ stands for "nondeterministic polynomial time" and is used for historical reasons; see the bibiographical notes.
+The name $\mathbf{NP}$ stands for "non-deterministic polynomial time" and is used for historical reasons; see the bibiographical notes.
 The string $w$ in [NP-eq](){.eqref} is sometimes known as a _solution_, _certificate_, or _witness_ for the instance $x$.
 
 ::: {.solvedexercise title="Alternative definition of $\mathbf{NP}$" #NPalternativeex}
@@ -181,7 +181,7 @@ Therefore, setting $a=b=1$, we see that $V$ satisfies  [NP-eq](){.eqref}, and es
 :::
 
 ::: {.remark title="$\mathbf{NP}$ does not mean non-polynomial!" #NPandNOTPolynomial}
-People sometimes think that $\mathbf{NP}$ stands for "non polynomial time".
+People sometimes think that $\mathbf{NP}$ stands for "non-polynomial time".
 As [PinNP](){.ref} shows, this is far from the truth, and in fact every polynomial-time computable function is in $\mathbf{NP}$ as well.
 
 If $F$ is in $\mathbf{NP}$ it certainly does _not_ mean that $F$ is hard to compute (though it does not, as far as we know, necessarily mean that it's easy to compute either).
@@ -455,7 +455,7 @@ We now show both sides of this equivalence.
 
 __Part I: Completeness.__ Suppose that there is $w\in \{0,1\}^n$ s.t. $Q(w)=1$. Let $z\in \{0,1\}^{n+m}$ be defined as follows: for $i\in [n]$, $z_i=w_i$ and for $i\in \{n,n+1,\ldots,n+m\}$ $z_i$ equals the value that is assigned in the $(i-n)$-th line of $Q$ when executed on $w$. Then by construction $z$ satisfies all of the constraints of $\Psi$ (including the constraint that $z_{\ell^*}=NAND(0,0)=1$ since $Q(w)=1$.)
 
-__Part II: Soundness.__ Suppose that there exists $z\in \{0,1\}^{n+m}$ satisfying $\Psi$. Soundness will follow by showing that  $Q(z_0,\ldots,z_{n-1})=1$ (and hence in particular there exists $w\in \{0,1\}^n$, namely $w=z_0\cdots z_{n-1}$, such that $Q(w)=1$). To do this we will prove the following claim $(*)$: for every $\ell \in [m]$, $z_{\ell+n}$ equals the value assigned in the $\ell$-th step of the execution of the program $Q$ on $z_0,\ldots,z_{n-1}$. Note that because $z$ satisfies the constraints of $\Psi$, $(*)$ is sufficient to prove the soundness condition since these constraints imply that the last value assigned to the variable `y_0` in the execution of $Q$ on $z_0\cdots w_{n-1}$  is equal to $1$. To prove $(*)$ suppose, towards a contradiction, that it is false, and let $\ell$ be the smallest number such that $z_{\ell+n}$ is _not_ equal to the value assigned in the $\ell$-th step of the execution of $Q$ on $z_0,\ldots,z_{n-1}$. But since $z$ satisfies the constraints of $\Psi$, we get that $z_{\ell+n}=NAND(z_i,z_j)$ where (by the assumption above that $\ell$ is _smallest_ with this property) these values _do_ correspond to the values last assigned to the variables on the righthand side of the assignment operator in the $\ell$-th line of the program. But this means that the value assigned in the $\ell$-th step is indeed simply the NAND of $z_i$ and $z_j$, contradicting our assumption on the choice of $\ell$.
+__Part II: Soundness.__ Suppose that there exists $z\in \{0,1\}^{n+m}$ satisfying $\Psi$. Soundness will follow by showing that  $Q(z_0,\ldots,z_{n-1})=1$ (and hence in particular there exists $w\in \{0,1\}^n$, namely $w=z_0\cdots z_{n-1}$, such that $Q(w)=1$). To do this we will prove the following claim $(*)$: for every $\ell \in [m]$, $z_{\ell+n}$ equals the value assigned in the $\ell$-th step of the execution of the program $Q$ on $z_0,\ldots,z_{n-1}$. Note that because $z$ satisfies the constraints of $\Psi$, $(*)$ is sufficient to prove the soundness condition since these constraints imply that the last value assigned to the variable `y_0` in the execution of $Q$ on $z_0\cdots w_{n-1}$  is equal to $1$. To prove $(*)$ suppose, towards a contradiction, that it is false, and let $\ell$ be the smallest number such that $z_{\ell+n}$ is _not_ equal to the value assigned in the $\ell$-th step of the execution of $Q$ on $z_0,\ldots,z_{n-1}$. But since $z$ satisfies the constraints of $\Psi$, we get that $z_{\ell+n}=NAND(z_i,z_j)$ where (by the assumption above that $\ell$ is _smallest_ with this property) these values _do_ correspond to the values last assigned to the variables on the right-hand side of the assignment operator in the $\ell$-th line of the program. But this means that the value assigned in the $\ell$-th step is indeed simply the NAND of $z_i$ and $z_j$, contradicting our assumption on the choice of $\ell$.
 :::
 
 
@@ -521,7 +521,7 @@ Finding a polynomial-time algorithm for any one of them will imply a polynomial-
 
 > ### { .recap }
 * Many of the problems for which we don't know polynomial-time algorithms are $\mathbf{NP}$-complete, which means that finding a polynomial-time algorithm for one of them would imply a polynomial-time algorithm for _all_ of them.
-* It is conjectured that $\mathbf{NP}\neq \mathbf{P}$ which means that we believe that polynomial-time algorithms for these problems are not merely _unknown_ but are _nonexistent_.
+* It is conjectured that $\mathbf{NP}\neq \mathbf{P}$ which means that we believe that polynomial-time algorithms for these problems are not merely _unknown_ but are _non-existent_.
 * While an $\mathbf{NP}$-hardness result means for example that a full-fledged "textbook" solution to a problem such as MAX-CUT that is as clean and general as the algorithm for MIN-CUT probably does not exist, it does not mean that we need to give up whenever we see a MAX-CUT instance. Later in this course we will discuss several strategies to deal with $\mathbf{NP}$-hardness, including _average-case complexity_ and _approximation algorithms_.
 
 
