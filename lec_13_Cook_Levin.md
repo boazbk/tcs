@@ -208,7 +208,7 @@ Let $F,G:\{0,1\}^* \rightarrow \{0,1\}$. Show that if $F \leq_p G$ and $G\in \ma
 ::: {.solution data-ref="reductionnpex"}
 Suppose that $G$ is in $\mathbf{NP}$ and in particular there exists $a$ and $V \in \mathbf{P}$ such that for every $y \in \{0,1\}^*$, $G(y)=1 \Leftrightarrow \exists_{w\in \{0,1\}^{|y|^a}} V(yw)=1$.
 Suppose also that $F \leq_p G$ and so in particular there is a $n^b$-time computable function $R$ such that $F(x) = G(R(x))$ for all $x\in \{0,1\}^*$.
-Define $V'$ to be a Turing Machine that on input a pair $(x,w)$ computes $y=R(x)$ and returns $1$ if and only if $|w|=|y|^a$ and $V(yw)=1$.
+Define $V'$ to be a Turing machine that on input a pair $(x,w)$ computes $y=R(x)$ and returns $1$ if and only if $|w|=|y|^a$ and $V(yw)=1$.
 Then $V'$ runs in polynomial time, and for every $x\in \{0,1\}^*$, $F(x)=1$ iff there exists $w$ of size $|R(x)|^a$ which is at most polynomial  in $|x|$ such that $V'(x,w)=1$, hence demonstrating that $F \in \mathbf{NP}$.
 :::
 

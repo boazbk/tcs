@@ -24,7 +24,7 @@ For example, the standard elementary school multiplication algorithm is a _singl
 ![Once you know how to multiply multi-digit numbers, you can do so for every number $n$ of digits, but if you had to describe multiplication using Boolean circuits or NAND-CIRC programs, you would need a different program/circuit for every length $n$ of the input.](../figure/multiplicationschool.png){#multschoolfig .margin  }
 
 In this chapter we extend our definition of computational tasks to consider functions with the _unbounded_ domain of $\{0,1\}^*$. 
-We focus on the question of defining __what__ tasks to compute, mostly leaving the question of __how__ to do so to later chapters, where we will see _Turing Machines_
+We focus on the question of defining __what__ tasks to compute, mostly leaving the question of __how__ to do so to later chapters, where we will see _Turing machines_
 and other computational models for computing on unbounded inputs.
 In this chapter we will see however one example for a simple and restricted model of computation - deterministic finite automata (DFAs).
 
@@ -40,7 +40,7 @@ We will also define the restriction of a function over unbounded length strings 
 In the second half of this chapter we discuss _finite automata_, which is a model for computing functions of unbounded length.
 This model is not as powerful as Python or other general-purpose programming languages, but can serve as an introduction to these more general models.
 We also show a beautiful result - the functions computable by finite automata are exactly the ones that correspond to _regular expressions_.
-However, the reader can also feel free to skip automata and go straight to our discussion of _Turing Machines_ in [chaploops](){.ref}.
+However, the reader can also feel free to skip automata and go straight to our discussion of _Turing machines_ in [chaploops](){.ref}.
 :::
 
 
@@ -218,7 +218,7 @@ The difficulty in computing $TWINP$ using Python or any other programming langua
 ## Deterministic finite automata (optional)
 
 All our computational models so far - Boolean circuits and straight-line programs -  were only applicable for _finite_ functions.
-In [chaploops](){.ref} we will present _Turing Machines_, which are the central models of computation for functions of unbounded input length.
+In [chaploops](){.ref} we will present _Turing machines_, which are the central models of computation for functions of unbounded input length.
 However, in this section we will present the more basic model of _deterministic finite automata_ (DFA).
 Automata can serve as a good stepping-stone for Turing machines, though they will not be used much in later parts of this book, and so the
 reader can feel free to skip ahead to [chaploops](){.ref}.
