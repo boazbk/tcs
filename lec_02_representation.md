@@ -71,7 +71,7 @@ The main takeaways from this chapter are:
 
 * We can represent all kinds of objects we want to use as inputs and outputs using _binary strings_. For example, we can use the _binary basis_ to represent integers and rational numbers as binary strings (see [naturalnumsec](){.ref} and [morerepressec](){.ref}).
 
-* We can use _compose_ the representations of simple objects to represent more complex objects. In this way, we can represent lists of integers or rational numbers, and use that to represent objects such as matrices, images, and graphs. _Prefix-free encoding_ is one way to achieve such a composition (see [prefixfreesec](){.ref}).
+* We can _compose_ the representations of simple objects to represent more complex objects. In this way, we can represent lists of integers or rational numbers, and use that to represent objects such as matrices, images, and graphs. _Prefix-free encoding_ is one way to achieve such a composition (see [prefixfreesec](){.ref}).
 
 * A _computational task_ specifies a map between an input to an output--- a _function_. It is crucially important to distinguish between the "what" and the "how", or the _specification_ and _implementation_ (see [secimplvsspec](){.ref}). A _function_  simply defines which output corresponds to which input. It does not specify _how_ to compute the output from the input, and as we've seen in the context of multiplication, there can be more than one way to compute the same function.
 
