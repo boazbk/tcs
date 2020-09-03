@@ -19,6 +19,23 @@ chapternum: "23"
 
 >_"The only difference between a probabilistic classical world and the equations of the quantum world is that somehow or other it appears as if the probabilities would have to go negative"_, Richard Feynman, 1981
 
+
+Quantum mechanics is a deeply un-intuitive physical theory, and yet one that has been consistently verfied by experiments to astonishing degrees of accuracy and is accepted by physicists as under-pinning our universe.
+In the 1980's and 1990's, a small number of physicists and computer scientists began to suspect that these "un-intuitive" aspects might enable the design of computers that have "un-untuitive" powers.
+These was very much a niche area until in 1994 Peter Shor [@Shor94] showed that such computers could factor integers in time polynomial in their number of digits.
+Since then quantum computers have attracted an immense intersted from scientists, governments, and industry, and there are extensive experimental efforts for constructing these at scale.
+
+::: {.nonmath}
+In this chapter we give an overview of some of the "weird properties" of quantum mechanics, and how they impact computation.
+We discuss how quantum computers are modeled mathematically, and the class $\mathbf{BQP}$ which captures the set of functions that they can compute in polynomial time.
+We also present a (half-blind and flying high) "bird's eye view" of Shor's Algorithm, and in particular of the _Quantum Fourier Transform_ which is the main tool used by it and many other quantum algorithms
+offering exponential speedups over the best known "classical" algorithms.
+See [quantumbibnotessec](){.ref} for sources that cover this chapter's material in far greater depth.
+:::
+
+
+## A brief introduction to quantum mechanics 
+
 There were two schools of natural philosophy in ancient Greece.
 _Aristotle_ believed that objects have an _essence_ that explains their behavior, and a theory of the natural world has to refer to the _reasons_ (or "final cause" to use Aristotle's language) as to why they exhibit certain phenomena.
 _Democritus_ believed in a purely mechanistic explanation of the world.
@@ -30,7 +47,7 @@ While the classification of particles and forces evolved with time, to a large e
 In particular it was held as an axiom that if we knew fully the current _state_ of the universe (i.e., the particles and their properties such as location and velocity) then we could predict its future state at any point in time.
 In computational language, in all these theories the state of a system with $n$ particles could be stored in an array of $O(n)$ numbers, and predicting the evolution of the system can be done by running some efficient (e.g., $poly(n)$ time) deterministic computation on this array.
 
-## The double slit experiment
+### The double slit experiment
 
 
 Alas, in the beginning of the 20th century, several experimental results were calling into question this "clockwork" or "billiard ball" theory of the world.
@@ -63,7 +80,7 @@ The mere fact that we _measure_ the path changes the photon's behavior, and now 
 You should read the paragraphs above more than once and make sure you appreciate how truly mind boggling these results are.
 
 
-## Quantum amplitudes
+### Quantum amplitudes
 
 
 The double slit and other experiments ultimately forced scientists to accept a very counterintuitive picture of the world.

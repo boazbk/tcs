@@ -17,29 +17,29 @@ chapternum: "6"
 >_"An algorithm is a finite answer to an infinite number of questions."_, Attributed to Stephen Kleene.
 
 
-The model of Boolean circuits  (or equivalently, the NAND-CIRC programming language) has one very significant drawback: a Boolean circuit can only compute a _finite_ function $f$, and in particular since every gate has two inputs, a size $s$ circuit can compute on an input of length at most $2s$.
-This does not capture our intuitive notion of an algorithm as a _single recipe_ to compute a potentially infinite function.
-For example, the standard elementary school multiplication algorithm is a _single_ algorithm that multiplies numbers of all lengths, but yet we cannot express this algorithm as a single circuit, but rather need a different circuit (or equivalently, a NAND-CIRC program) for every input length (see [multschoolfig](){.ref}).
+The model of Boolean circuits  (or equivalently, the NAND-CIRC programming language) has one very significant drawback: a Boolean circuit can only compute a _finite_ function $f$. In particular, since every gate has two inputs, a size $s$ circuit can compute on an input of length at most $2s$.
+Thus this model does not capture our intuitive notion of an algorithm as a _single recipe_ to compute a potentially infinite function.
+For example, the standard elementary school multiplication algorithm is a _single_ algorithm that multiplies numbers of all lengths. However, we cannot express this algorithm as a single circuit, but rather need a different circuit (or equivalently, a NAND-CIRC program) for every input length (see [multschoolfig](){.ref}).
 
 ![Once you know how to multiply multi-digit numbers, you can do so for every number $n$ of digits, but if you had to describe multiplication using Boolean circuits or NAND-CIRC programs, you would need a different program/circuit for every length $n$ of the input.](../figure/multiplicationschool.png){#multschoolfig .margin  }
 
-In this chapter we extend our definition of computational tasks to consider functions with the _unbounded_ domain of $\{0,1\}^*$. 
-We focus on the question of defining __what__ tasks to compute, mostly leaving the question of __how__ to do so to later chapters, where we will see _Turing machines_
+
+In this chapter, we extend our definition of computational tasks to consider functions with the _unbounded_ domain of $\{0,1\}^*$. 
+We focus on the question of defining __what__ tasks to compute, mostly leaving the question of __how__ to compute them to later chapters, where we will see _Turing machines_
 and other computational models for computing on unbounded inputs.
-In this chapter we will see however one example for a simple and restricted model of computation - deterministic finite automata (DFAs).
+However, we will see one example of a simple restricted model of computation - deterministic finite automata (DFAs).
 
 
 
 
 ::: {.nonmath}
-In this chapter we discuss functions that as input strings of arbitrary length.
-Such functions could have outputs that are long strings as well, but the case of _Boolean_ functions, where the output is a single bit, is of particular importance.
-The task of computing a Boolean function is equivalent to the task of _deciding a language_.
-We will also define the restriction of a function over unbounded length strings to a finite length, and how this restriction can be computed by Boolean circuits.
+In this chapter, we discuss functions that as input strings of arbitrary length.
+We will often focus on the special case of _Boolean_ functions, where the output is a single bit.
+These are still infinite functions since their inputs have unbounded length and hence such a function cannot be computed by any single Boolean circuit.
 
-In the second half of this chapter we discuss _finite automata_, which is a model for computing functions of unbounded length.
-This model is not as powerful as Python or other general-purpose programming languages, but can serve as an introduction to these more general models.
-We also show a beautiful result - the functions computable by finite automata are exactly the ones that correspond to _regular expressions_.
+In the second half of this chapter, we discuss _finite automata_, a computational model that can compute unbounded length functions.
+Finite automata are not as powerful as Python or other general-purpose programming languages but can serve as an introduction to these more general models.
+We also show a beautiful result - the functions computable by finite automata are precisely the ones that correspond to _regular expressions_.
 However, the reader can also feel free to skip automata and go straight to our discussion of _Turing machines_ in [chaploops](){.ref}.
 :::
 
@@ -47,7 +47,7 @@ However, the reader can also feel free to skip automata and go straight to our d
 ## Functions with inputs of unbounded length
 
 Up until now, we considered the computational task of mapping some string of length $n$ into a string of length $m$.
-However, in general computational tasks can involve inputs of _unbounded_ length. 
+However, in general, computational tasks can involve inputs of _unbounded_ length. 
 For example, the following Python function computes the function $XOR:\{0,1\}^* \rightarrow \{0,1\}$, where $XOR(x)$ equals $1$ iff the number of $1$'s in $x$ is odd.
 (In other words, $XOR(x) = \sum_{i=0}^{|x|-1} x_i \mod 2$ for every $x\in \{0,1\}^*$.)
 As simple as it is, the $XOR$ function cannot be computed by a Boolean circuit.
@@ -70,9 +70,9 @@ def XOR(X):
 
 
 Previously in this book we studied the computation of _finite_ functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$. Such a function $f$ can always be described by listing all the $2^n$ values it takes on inputs $x\in \{0,1\}^n$.
-In this chapter we consider functions such as $XOR$ that take inputs of _unbounded_ size. 
-While we can describe $XOR$ using a finite number of symbols (in fact we just did so above), it takes infinitely many possible inputs and so we cannot just write down all of its values.
-The same is true for many other functions capturing important computational tasks including addition, multiplication, sorting, finding paths in graphs, fitting curves to points, and so on and so forth.
+In this chapter, we consider functions such as $XOR$ that take inputs of _unbounded_ size. 
+While we can describe $XOR$ using a finite number of symbols (in fact, we just did so above), it takes infinitely many possible inputs, and so we cannot just write down all of its values.
+The same is true for many other functions capturing important computational tasks, including addition, multiplication, sorting, finding paths in graphs, fitting curves to points, and so on.
 To contrast with the finite case, we will sometimes call a function $F:\{0,1\}^* \rightarrow \{0,1\}$ (or $F:\{0,1\}^* \rightarrow \{0,1\}^*$) _infinite_.
 However, this does not mean that $F$ takes as input strings of infinite length! 
 It just means that $F$ can take as input a string of that can be arbitrarily long, and so we cannot simply write down a table of all the outputs of $F$ on different inputs.
@@ -81,9 +81,9 @@ It just means that $F$ can take as input a string of that can be arbitrarily lon
 A function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ specifies the computational task mapping an input $x\in \{0,1\}^*$ into the output $F(x)$. 
 :::
 
-As we've seen before, restricting attention to functions that use binary strings as inputs and outputs  does not detract from our generality, since other objects, including numbers, lists, matrices, images, videos, and more, can be encoded as binary strings.
+As we have seen before, restricting attention to functions that use binary strings as inputs and outputs does not detract from our generality, since other objects, including numbers, lists, matrices, images, videos, and more, can be encoded as binary strings.
 
-As before, it is important to differentiate between _specification_ and _implementation_. For example, consider the following function:
+As before, it is essential to differentiate between _specification_ and _implementation_. For example, consider the following function:
 
 $$
 TWINP(x) = \begin{cases} 
@@ -93,7 +93,7 @@ TWINP(x) = \begin{cases}
 $$
 
 This is a mathematically well-defined function. For every $x$, $TWINP(x)$ has a unique value which is either $0$ or $1$.
-However, at  the moment no one knows of a _Python_ program that computes this function.
+However, at  the moment, no one knows of a _Python_ program that computes this function.
 The [Twin prime conjecture](https://en.wikipedia.org/wiki/Twin_prime) posits that for every $n$ there exists $p>n$ such that both $p$ and $p+2$ are primes.
 If this conjecture is true, then $T$ is easy to compute indeed - the program `def T(x): return 1` will do the trick.
 However, mathematicians have tried unsuccessfully to prove this conjecture since 1849.
@@ -103,18 +103,18 @@ That said, whether or not we know how to _implement_ the function $TWINP$, the d
 
 ### Varying inputs and outputs
 
-Many of the functions we are interested in take more than one input. For example the function
+Many of the functions that interest us take more than one input. For example the function
 
 $$
 MULT(x,y) = x \cdot y
 $$
 
-that takes the binary representation of a pair of integers $x,y \in \N$ and outputs the binary representation of their product $x \cdot y$.
+that takes the binary representation of a pair of integers $x,y \in \N$, and outputs the binary representation of their product $x \cdot y$.
 However, since we can represent a pair of strings as a single string, we will consider functions such as MULT as mapping $\{0,1\}^*$ to $\{0,1\}^*$.
-We will typically not be concerned with low-level details such as the precise way to represent a pair of integers as a string, since essentially all 
+We will typically not be concerned with low-level details such as the precise way to represent a pair of integers as a string, since virtually all 
 choices will be equivalent for our purposes.
 
-Another example for a function we want to compute is
+Another example of a function we want to compute is
 
 $$
 PALINDROME(x) = \begin{cases}
@@ -125,9 +125,9 @@ $$
 
 $PALINDROME$ has a single bit as output. 
 Functions with a single bit of output are known as _Boolean functions_.
-Boolean functions are central to the theory of computation, and we will come discuss them often in this book.
+Boolean functions are central to the theory of computation, and we will discuss them often in this book.
 Note that even though Boolean functions have a single bit of output, their _input_ can be of arbitrary length.
-Thus they are still infinite functions, that cannot be described via a finite table of values.
+Thus they are still infinite functions that cannot be described via a finite table of values.
 
 _"Booleanizing" functions._ Sometimes it might be convenient to obtain a Boolean variant for a non-Boolean function.
 For example, the following is a Boolean variant of $MULT$.
@@ -139,7 +139,7 @@ BMULT(x,y,i) = \begin{cases}
                \end{cases}
 $$
 
-If we can compute $BMULT$ via any programming language such as Python, C, Java, etc. then we can compute $MULT$ as well, and vice versa.
+If we can compute $BMULT$ via any programming language such as Python, C, Java, etc., we can compute $MULT$ as well, and vice versa.
 
 ::: {.solvedexercise title="Booleanizing general functions" #booleanize}
 Show that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ there exists a Boolean function $BF:\{0,1\}^* \rightarrow \{0,1\}$
@@ -208,22 +208,23 @@ In fact. the size of this circuit is at most $c \cdot 2^n / n$ gates for some co
 :::
 
 In particular, [computeallinfinitefuncthm](){.ref} implies that there exists such as circuit collection $\{ C_n \}$ even for the $TWINP$ function we described before,
-despite the fact that we don't know of any program to compute it.
+even though we do not know of any program to compute it.
 Indeed, this is not that surprising: for every particular $n\in \N$, $TWINP_n$ is either the constant zero function or the constant one function, both of which can be computed
 by very simple Boolean circuits.
 Hence a collection of circuits $\{ C_n \}$ that computes $TWINP$ certainly exists.
-The difficulty in computing $TWINP$ using Python or any other programming language  arises from the fact that we don't know for each particular $n$ what is the circuit $C_n$ in this collection.
+The difficulty in computing $TWINP$ using Python or any other programming language arises from the fact that we do not know for each particular $n$ what is the circuit $C_n$ in this collection.
 
 
 ## Deterministic finite automata (optional)
 
 All our computational models so far - Boolean circuits and straight-line programs -  were only applicable for _finite_ functions.
-In [chaploops](){.ref} we will present _Turing machines_, which are the central models of computation for functions of unbounded input length.
-However, in this section we will present the more basic model of _deterministic finite automata_ (DFA).
+
+In [chaploops](){.ref} we will present _Turing machines_, which are the central models of computation for unbounded input length functions.
+However, in this section we present the more basic model of _deterministic finite automata_ (DFA).
 Automata can serve as a good stepping-stone for Turing machines, though they will not be used much in later parts of this book, and so the
-reader can feel free to skip ahead to [chaploops](){.ref}.
-DFAs turn out to be equivalent in power to _regular expressions_, which are powerful mechanisms to specify patterns that are widely used in practice.
-Our treatment of automata is quite brief. There are plenty of resources that help you get more comfortable with DFAs.
+reader can feel free to skip ahead fo [chaploops](){.ref}.
+DFAs turn out to be equivalent in power to _regular expressions_: a powerful mechanism to specify patterns, which is widely used in practice.
+Our treatment of automata is relatively brief. There are plenty of resources that help you get more comfortable with DFA's.
 In particular, Chapter 1 of Sipser's book [@SipserBook] contains an excellent exposition of this material.
 There are also many websites with online simulators for automata, as well as translators from regular expressions to automata and vice versa 
 (see for example [here](http://ivanzuzak.info/noam/webapps/fsm2regex/) and [here](https://cyberzhg.github.io/toolbox/nfa2dfa)).
@@ -249,31 +250,31 @@ def XOR(X):
 ```
 
 In each step, this program reads a single bit `X[i]` and updates its state `result` based on that bit (flipping `result` if `X[i]` is $1$ and keeping it the same otherwise).
-When it's done traversing the input, the program outputs `result`.
-In computer science, such a program is called a _single-pass constant-memory algorithm_ since it makes a single pass over the input and its working memory is of finite size.
-(Indeed in this case `result` can either be $0$ or $1$.)
-Such an algorithm is also known as a  _Deterministic Finite Automaton_ or _DFA_ (also known as a _finite-state machine_).
+When its done transversing the input, the program outputs `result`.
+In computer science, such a program is called a _single-pass constant-memory algorithm_ since it makes a single pass over the input and its working memory is finite.
+(Indeed, in this case, `result` can either be $0$ or $1$.)
+Such an algorithm is also known as a  _Deterministic Finite Automaton_ or _DFA_ (another name for DFA's is a _finite state machine_).
 We can think of such an algorithm as a "machine"  that can be in one of $C$ states, for some constant $C$.
-The machine starts in some initial state, and then reads its input $x\in \{0,1\}^*$ one bit at a time.
+The machine starts in some initial state and then reads its input $x\in \{0,1\}^*$ one bit at a time.
 Whenever the machine reads a bit $\sigma \in \{0,1\}$, it transitions into a new state based on $\sigma$ and its prior state.
 The output of the machine is based on the final state.
-Every single-pass constant-memory  algorithm corresponds to such a machine.
-If an algorithm uses $c$ bits of memory, then the contents of its memory are a string of length $c$.
-Since there are $2^c$ such strings, at any point in the execution, such an algorithm can be in one of $2^c$ states.
+Every single-pass constant-memory algorithm corresponds to such a machine.
+If an algorithm uses $c$ bits of memory, then the contents of its memory can be represented as a string of length $c$.
+Therefore such an algorithm can be in one of at most $2^c$ states at any point in the execution.
 
 
 We can specify a DFA of $C$ states by a list of $C \cdot 2$ rules.
 Each rule will be of the form "If the DFA is in state $v$ and the bit read from the input is $\sigma$ then the new state is $v'$".
-At the end of the computation we will also have a rule of the form "If the final state is one of the following ... then output $1$, otherwise output $0$".
+At the end of the computation, we will also have a rule of the form "If the final state is one of the following ... then output $1$, otherwise output $0$".
 For example, the Python program above can be represented by a two-state automaton for computing $XOR$ of the following form:
 
 
-* Initialize in state $0$
+* Initialize in the state $0$.
 * For every state $s \in \{0,1\}$ and  input bit $\sigma$ read, if $\sigma =1$ then change to state $1-s$, otherwise stay in state $s$.
 * At the end output $1$ iff $s=1$.
 
 We can also describe a $C$-state DFA as a labeled _graph_ of $C$ vertices. For every state $s$ and bit $\sigma$, we add a directed edge labeled with $\sigma$ between $s$ and the state $s'$ such that if
-the DFA is at state $s$ and reads  $\sigma$ then it transitions to $s'$. (If the state stays the same then this edge will be a self loop; similarly, if $s$ transitions to $s'$ in both the case $\sigma=0$ and $\sigma=1$
+the DFA is at state $s$ and reads  $\sigma$ then it transitions to $s'$. (If the state stays the same then this edge will be a self-loop; similarly, if $s$ transitions to $s'$ in both the case $\sigma=0$ and $\sigma=1$
 then the graph will contain two parallel edges.)
 We also label the set $\mathcal{S}$ of states on which the automaton will output $1$ at the end of the computation.
 This set is known as the set of _accepting states_.
@@ -291,7 +292,7 @@ This leads to the following definition.
 
 ::: {.definition title="Deterministic Finite Automaton" #DFAdef}
 A deterministic finite automaton (DFA) with $C$ states over $\{0,1\}$ is a pair $(T,\mathcal{S})$ with $T:[C]\times \{0,1\} \rightarrow [C]$ and $\mathcal{S} \subseteq [C]$.
-The finite function $T$ is known as the _transition function_ of the DFA and the set $\mathcal{S}$ is known as the set of _accepting states_.
+The finite function $T$ is known as the _transition function_ of the DFA. The set $\mathcal{S}$ is known as the set of _accepting states_.
 
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$ be a Boolean function with the infinite domain $\{0,1\}^*$.
 We say that $(T,\mathcal{S})$ _computes_ a function $F:\{0,1\}^* \rightarrow \{0,1\}$ if for every $n\in\N$ and $x\in \{0,1\}^n$,  if we define $s_0=0$ and $s_{i+1} = T(s_i,x_i)$ for every $i\in [n]$, then
@@ -344,9 +345,9 @@ def F(X):
 ```
 
 Since we keep three Boolean variables, the working memory can be in one of  $2^3 = 8$ configurations, and
-so the program above can be directly translated into an $8$-state DFA.
-While this is not needed to solve the question, by examining the resulting DFA, we can see that we can merge some states together and 
-obtain a $4$-state automaton,  described in [dfazeroonefig](){.ref}.
+so the program above can be directly translated into an $8$ state DFA.
+While this is not needed to solve the question, by examining the resulting DFA, we can see that we can merge some states and 
+obtain a $4$ state automaton,  described in [dfazeroonefig](){.ref}.
 See also [DFAzerooneexecfig](){.ref}, which depicts the execution of this DFA on a particular input.
 :::
 
@@ -360,7 +361,7 @@ The table denotes the transition function of $T$, which maps the current state a
 
 ### Anatomy of an automaton (finite vs. unbounded)
 
-Now that we consider computational tasks with unbounded input sizes, it is crucially important to distinguish between the components of our algorithm that are _fixed_ in size, and the components that grow with the size of the input.
+Now that we are considering computational tasks with unbounded input sizes, it is crucial to distinguish between the components of our algorithm that have _fixed length_ and the components that grow with the input size.
 For the case of DFAs these are the following:
 
 __Constant size components:__ Given a DFA $A$, the following quantities are fixed independent of the input size:
@@ -369,17 +370,17 @@ __Constant size components:__ Given a DFA $A$, the following quantities are fixe
 
 * The _transition function_ $T$ (which has $2C$ inputs, and so can be specified by a table of $2C$ rows, each entry in which is a number in $[C]$).
 
-* The set $\mathcal{S} \subseteq [C]$ of accepting states. There are at most $2^C$ such states, each of which can be described by a string in $\{0,1\}^C$ specifiying which state is in $\mathcal{S}$ and which isn't
+* The set $\mathcal{S} \subseteq [C]$ of accepting states. This set can be described by a string in $\{0,1\}^C$ specifiying which states are in $\mathcal{S}$ and which are not.
 
-Together the above means that we can fully describe an automaton using finitely many symbols. This is a property we require out of any notion of "algorithm": we should be able to write down a completely specification of how it produces an output from an input.
+Together the above means that we can fully describe an automaton using finitely many symbols. This is a property we require out of any notion of "algorithm": we should be able to write down a complete specification of how it produces an output from an input.
 
 __Components of unbounded size:__ The following quantities relating to a DFA are not bounded by any constant. We stress that these are still _finite_ for any given input.
 
-* The length of the input $x\in \{0,1\}^*$ that the DFA is provided with. It is always finite, but not bounded.
+* The length of the input $x\in \{0,1\}^*$ that the DFA is provided. The input length is always finite, but not a priori bounded.
 
-* The number of steps that the DFA takes can grow with the length of the input. Indeed, a DFA makes a single pass on the input and so it takes exactly $|x|$ steps on an input $x\in \{0,1\}^*$.
+* The number of steps that the DFA takes can grow with the length of the input. Indeed, a DFA makes a single pass on the input and so it takes precisely $|x|$ steps on an input $x\in \{0,1\}^*$.
 
-![Execution of the DFA of [dfazeroonefig](){.ref}. The number of states and the size of the transition function are bounded, but the input can be arbitrarily long.
+![Execution of the DFA of [dfazeroonefig](){.ref}. The number of states and the transition function size are bounded, but the input can be arbitrarily long.
 If the DFA is at state $s$ and observes the value $\sigma$ then it moves to the state $T(s,\sigma)$. At the end of the execution the DFA accepts iff the final state is in $\mathcal{S}$.](../figure/DFA010execution.png){#DFAzerooneexecfig}
 
 
@@ -387,9 +388,9 @@ If the DFA is at state $s$ and observes the value $\sigma$ then it moves to the 
 
 We say that a function $F:\{0,1\}^* \rightarrow \{0,1\}$ is _DFA computable_ if there exists some $DFA$ that computes $F$.
 In [finiteuniversalchap](){.ref} we saw that every finite function is computable by some Boolean circuit.
-Thus, at this point you might expect that every infinite function is computable by _some_ DFA.
+Thus, at this point, you might expect that every infinite function is computable by _some_ DFA.
 However, this is very much _not_ the case.
-We will soon see some simple examples of infinite functions that are not computable by DFAs, but for starters, let's prove that
+We will soon see some simple examples of infinite functions that are not computable by DFAs, but for starters, let us prove that
 such functions exist.
 
 > ### {.theorem title="DFA-computable functions are countable" #DFAcompuncountable}
@@ -398,7 +399,7 @@ Then $DFACOMP$ is countable.
 
 
 > ### {.proofidea data-ref="DFAcompuncountable"}
-Every DFA can be described by a finite length string, which yields an onto map from $\{0,1\}^*$ to $DFACOMP$: namely the function that maps a string describing an automaton $A$ to the function that it computes.
+Every DFA can be described by a finite length string, which yields an onto map from $\{0,1\}^*$ to $DFACOMP$: namely, the function that maps a string describing an automaton $A$ to the function that it computes.
 
 ::: {.proof #proof-DFAcompuncountable data-ref="DFAcompuncountable"}
 Every DFA can be described by a finite string, representing the transition function $T$ and the set of accepting states,
@@ -435,14 +436,14 @@ _Searching_ for a piece of text is a common task in computing.
 At its heart, the _search problem_ is quite simple.
 We have a collection $X = \{ x_0, \ldots, x_k \}$ of strings (e.g.,  files on a hard-drive, or student records in a database), and the user wants to find out the subset of all the $x \in X$ that are _matched_ by some pattern  (e.g., all files whose names end with the string `.txt`).
 In full generality, we can allow the user to specify the pattern by specifying a (computable) _function_ $F:\{0,1\}^* \rightarrow \{0,1\}$, where $F(x)=1$ corresponds to the pattern matching $x$.
-That is, the user provides a _program_ $P$ in some Turing-complete programming language such as _Python_, and the system will return all the $x \in X$  such that $P(x)=1$.
+That is, the user provides a _program_ $P$ in a programming language such as _Python_, and the system returns all $x \in X$  such that $P(x)=1$.
 For example, one could search for all text files that contain the string `important document` or perhaps (letting $P$ correspond to a neural-network based classifier) all images that contain a cat.
 However, we don't want our system to get into an infinite loop just trying to evaluate the program $P$!
 For this reason, typical systems for searching files or databases do _not_ allow users to specify the patterns using full-fledged programming languages.
-Rather, such systems use _restricted computational models_ that on the one hand are _rich enough_ to capture many of the queries needed in practice (e.g., all filenames ending with `.txt`, or all phone numbers of the form `(617) xxx-xxxx`), but on the other hand are _restricted_ enough so the queries can be evaluated very efficiently on huge files and in particular cannot result in an infinite loop.
+Rather, such systems use _restricted computational models_ that on the one hand are _rich enough_ to capture many of the queries needed in practice (e.g., all filenames ending with `.txt`, or all phone numbers of the form `(617) xxx-xxxx`), but on the other hand are _restricted_ enough so that queries can be evaluated very efficiently on huge files and in particular cannot result in an infinite loop.
 
 One of the most popular such computational models is   [regular expressions](https://goo.gl/2vTAFU).
-If you ever used an advanced text editor, a command line shell, or have done any kind of manipulation of text files, then you have probably come across regular expressions.
+If you ever used an advanced text editor, a command-line shell, or have done any kind of manipulation of text files, then you have probably come across regular expressions.
 
 A _regular expression_ over some alphabet $\Sigma$ is obtained by combining elements of $\Sigma$ with the operation of concatenation, as well as $|$ (corresponding to _or_) and $*$ (corresponding to repetition zero or more times).
 (Common implementations of regular expressions in programming languages and shells typically include some extra operations on top of $|$ and $*$, but these operations can be implemented as "syntactic sugar" using   the operators $|$ and $*$.)
@@ -485,7 +486,7 @@ For example, if $e = (00|11)^*$ then $\Phi_e(110011)=1$ but $\Phi_e(101)=0$ (can
 
 
 ::: { .pause }
-The formal definition of $\Phi_{e}$ is one of those definitions that is more cumbersome to write than to grasp. Thus it might be easier for you to first work it out on your own and then check that your definition matches what is written below.
+The formal definition of $\Phi_{e}$ is one of those definitions that is more cumbersome to write than to grasp. Thus it might be easier for you first to work out the definition on your own, and then check that it matches what tis written below.
 :::
 
 ::: {.definition title="Matching a regular expression" #matchingregexpdef}
@@ -507,7 +508,7 @@ We say that a regular expression  $e$ over $\Sigma$ _matches_ a string $x \in \S
 
 
 > ### { .pause }
-The definitions above are not inherently difficult, but are a bit cumbersome. So you should pause here and go over it again   until you understand why it corresponds to our intuitive notion of regular expressions.
+The definitions above are not inherently difficult but are a bit cumbersome. So you should pause here and go over it again until you understand why it corresponds to our intuitive notion of regular expressions.
 This is important not just for understanding regular expressions themselves (which are used time and again in a great many applications) but also for getting better at understanding recursive definitions in general.
 
 
@@ -536,14 +537,14 @@ Most (if not all) of the theoretical and practical general insights about regula
 
 ### Algorithms for matching regular expressions 
 
-Regular expressions would not be very useful for search if we could not actually evaulate, given a regular expression $e$, whether a string $x$ is matched
+Regular expressions would not be very useful for search if we could not evaluate, given a regular expression $e$, whether a string $x$ is matched
 by $e$. Luckily, there is an algorithm to do so.
 Specifically, there is an algorithm (think "Python program" though later we will formalize the notion of algorithms using _Turing machines_) that
 on input a regular expression $e$ over the alphabet $\{0,1\}$ and a string $x\in \{0,1\}^*$, outputs $1$ iff $e$ matches $x$
 (i.e., outputs $\Phi_e(x)$). 
 
 Indeed, [matchingregexpdef](){.ref} actually specifies a recursive algorithm for _computing_ $\Phi_{e}$.
-Specifically, each one of our operations -concatenation, OR, and star- can be thought of as reducing the task of testing whether an expression $e$ matches a string $x$ to testing whether some sub-expressions of $e$ match substrings of $x$. Since these sub-expressions are always shorter than the original expression, this yields a recursive algorithm for checking if $e$ matches $x$ which will eventually terminate at the base cases of the expressions that correspond to a single symbol or the empty string.
+Specifically, each one of our operations -concatenation, OR, and star- can be thought of as reducing the task of testing whether an expression $e$ matches a string $x$ to testing whether some sub-expressions of $e$ match substrings of $x$. Since these sub-expressions are always shorter than the original expression, this yields a recursive algorithm for checking if $e$ matches $x$, which will eventually terminate at the base cases of the expressions that correspond to a single symbol or the empty string.
 
 
 
@@ -582,9 +583,8 @@ Eventually (when they have size $1$) then they must correspond to the non-recurs
 Correspondingly, the recursive calls made in [regexpmatchalg](){.ref} always correspond to a shorter expression or (in the case of an expression of the form  $(e')^*$) a shorter input string.
 Thus, we can prove the correctness of [regexpmatchalg](){.ref} on inputs of the form $(e,x)$ by induction over $\min \{ |e|, |x| \}$. 
 The base case is when either $x=""$ or $e$ is a single alphabet symbol, $""$ or $\emptyset$.
-In the case the expression is of the forrm $e=(e'|e'')$ or $e=(e')(e'')$ then we make recursive calls with the shorter
-expressions $e',e''$.
-In the case the expression is of the form $e=(e')^*$ we make recursive calls with either a shorter string $x$ and the same expression,
+In the case the expression is of the forrm $e=(e'|e'')$ or $e=(e')(e'')$, we make recursive calls with the shorter expressions $e',e''$.
+In the case the expression is of the form $e=(e')^*$, we make recursive calls with either a shorter string $x$ and the same expression,
 or with the shorter expression $e'$ and a string $x'$ that is equal in length or shorter than $x$.
 
 
@@ -625,7 +625,7 @@ endprocedure
 For example, given an expression involving concatenation or the "star" operation and a string of length $n$, it can make $n$ recursive calls,
 and hence it  can be shown that in the worst case [regexpmatchalg](){.ref} can take time _exponential_ in the length of the input string $x$.
 Fortunately, it turns out that there is a much more efficient algorithm that can match regular expressions in _linear_ (i.e., $O(n)$) time.
-Since we have not yet covered the topics of time and space complexity,  we describe this algorithm in high level terms, without making the computational model precise, using  the colloquial notion of $O(n)$ running time as is used in introduction to programming courses and whiteboard coding interviews. 
+Since we have not yet covered the topics of time and space complexity,  we describe this algorithm in high level terms, without making the computational model precise.  Rather we will use the colloquial notion of $O(n)$ running time as used in introduction to programming courses and whiteboard coding interviews. 
 We will see a formal definition of time complexity in [chapmodelruntime](){.ref}.
 
 
@@ -635,7 +635,7 @@ Let $e$ be a regular expression. Then there is an $O(n)$ time algorithm that com
 
 The implicit constant in the $O(n)$ term of [reglintimethm](){.ref}  depends on the expression $e$.
 Thus, another way to state [reglintimethm](){.ref} is that for every expression $e$, there is some constant $c$ and an algorithm $A$ that computes $\Phi_e$ on $n$-bit inputs using at most $c\cdot n$ steps.
-This makes sense, since in practice we often want to compute $\Phi_e(x)$ for a small regular expression $e$ and a large document $x$.
+This makes sense since in practice we often want to compute $\Phi_e(x)$ for a small regular expression $e$ and a large document $x$.
 [reglintimethm](){.ref} tells us that we can do so with running time that scales linearly with the size of the document, even if it has (potentially) worse dependence on the size of the regular expression.
 
 
@@ -691,7 +691,7 @@ By the definition of a restriction, for every $\sigma\in \Sigma$ and $x'\in \Sig
 Hence for every $e$ and $x\in \Sigma^n$,  $\Phi_{e[x_{n-1}]}(x_0\cdots x_{n-2}) = \Phi_e(x)$ and [regexpmatchlinearalg](){.ref} does return the correct answer.
 The only remaining task is to analyze its _running time_.
 Note that [regexpmatchlinearalg](){.ref} uses the  $\text{\textsc{MatchEmpty}}$  procedure of [emptymatchex](){.ref} in the base case that $x=""$.
-However, this is OK since  the running time of this procedure depends only on $e$ and is independent of the length of the original input.
+However, this is OK since this procedure's running time depends only on $e$ and is independent of the length of the original input.
 
 
 For simplicity, let us restrict our attention to the case that the alphabet $\Sigma$ is equal to $\{0,1\}$.
@@ -745,7 +745,7 @@ Specifically, no matter how long the string $x$ is, we can compute $\Phi_e(x)$ b
 That is, the algorithm will scan the input $x$ once from start to finish, and then determine whether or not $x$ is matched by the expression $e$.
 This is important in the common case of trying to match a short regular expression over a huge file or document that might not even fit in our computer's memory.
 Of course, as we have seen before, a single-pass constant-memory algorithm is simply a deterministic finite automaton. 
-As we will see in [dfaregequivthm](){.ref}, a function is can be computed by regular expression  _if and only if_ it can be computed by a DFA.
+As we will see in [dfaregequivthm](){.ref}, a function can be computed by regular expression  _if and only if_ it can be computed by a DFA.
 We start with showing the "only if" direction:
 
 > ### {.theorem title="DFA for regular expression matching" #DFAforREGthm}
@@ -814,7 +814,7 @@ We need to show that $F$ is regular.
 For every $v,w \in [C]$, we let $F_{v,w}:\{0,1\}^* \rightarrow \{0,1\}$ be the function that maps $x\in \{0,1\}^*$ to $1$ if and only if the DFA $A$, starting at the state $v$, will reach the state $w$ if it reads the input $x$.
 We will prove that $F_{v,w}$ is regular for every $v,w$.
 This will prove the theorem, since by [DFAdef](){.ref}, $F(x)$ is equal to the OR of $F_{0,w}(x)$ for every $w\in \mathcal{S}$.
-Hence if we have a regular expression for every function of the form $F_{v,w}$ then (using the $|$ operation) we can obtain a regular expression for $F$ as well.
+Hence if we have a regular expression for every function of the form $F_{v,w}$ then (using the $|$ operation), we can obtain a regular expression for $F$ as well.
 
 
 To give regular expressions for the functions $F_{v,w}$, we start by defining the following functions $F_{v,w}^t$: for every $v,w \in [C]$ and $0 \leq t \leq C$, $F_{v,w}^t(x)=1$ if and only if starting from $v$ and observing $x$, the automata reaches $w$ _with all intermediate states being in the set $[t]=\{0,\ldots, t-1\}$_ (see [dfatoregonefig](){.ref}).
@@ -829,7 +829,7 @@ If $v\neq w$ then $F^0_{v,w}(x)=1$ if and only if $x$ consists of a single symbo
 Therefore in this case $F^0_{v,w}$ corresponds to one of the four regular expressions $0|1$, $0$, $1$ or $\emptyset$, depending on whether $A$ transitions to $w$ from $v$ when it reads either $0$ or $1$, only one of these symbols, or neither.
 
 
-__Inductive step:__ Now that we've seen the base case, let's prove the general case by induction.
+__Inductive step:__ Now that we've seen the base case, let us prove the general case by induction.
 Assume, via the induction hypothesis, that for every $v',w' \in [C]$, we have a regular expression $R_{v,w}^t$ that computes $F_{v',w'}^t$.
 We need to prove that $F_{v,w}^{t+1}$ is regular for every $v,w$.
 If the automaton arrives from $v$ to $w$ using the intermediate states $[t+1]$, then it visits the $t$-th state zero or more times.
@@ -881,7 +881,7 @@ Then the function $G(x) = f(F_0(x),F_1(x),\ldots,F_{k-1}(x))$ is regular.
 
 
 ::: {.proof data-ref="closurereg"}
-This is a direct consequence of the closure of regular functions under OR and NOT (and hence AND) and [circuit-univ-thm](){.ref}, that states that every $f$ can be computed by a Boolean circuit (which is simply a combination of the AND, OR, and NOT operations).
+This is a direct consequence of the closure of regular functions under OR and NOT (and hence AND), combined with [circuit-univ-thm](){.ref}, that states that every $f$ can be computed by a Boolean circuit (which is simply a combination of the AND, OR, and NOT operations).
 :::
 
 
@@ -897,10 +897,10 @@ This is a direct consequence of the closure of regular functions under OR and NO
 
 
 The efficiency of regular expression matching makes them very useful.
-This is the reason why operating systems and text editors often restrict their search interface to regular expressions and don't allow searching by specifying an arbitrary function.
-But this efficiency comes at a cost.
+This is why operating systems and text editors often restrict their search interface to regular expressions and do not allow searching by specifying an arbitrary function.
+However, this efficiency comes at a cost.
 As we have seen, regular expressions cannot compute every function. 
-In fact there are some very simple (and useful!) functions that they cannot compute.
+In fact, there are some very simple (and useful!) functions that they cannot compute.
 Here is one example:
 
 > ### {.lemma title="Matching parentheses" #regexpparn}
@@ -931,11 +931,11 @@ The pumping lemma is a bit cumbersome to state, but one way to remember it is th
 
 ::: {.proof data-ref="pumping"}
 To prove the lemma formally, we use induction on the length of the expression.
-Like all induction proofs, this is going to be somewhat lengthy, but at the end of the day it directly follows the intuition above that _somewhere_ we must have used the star operation. Reading this proof, and in particular understanding how the formal proof below corresponds to the intuitive idea above, is a very good way to get more comfortable with inductive proofs of this form.
+Like all induction proofs, this will be somewhat lengthy, but at the end of the day it directly follows the intuition above that _somewhere_ we must have used the star operation. Reading this proof, and in particular understanding how the formal proof below corresponds to the intuitive idea above, is a very good way to get more comfortable with inductive proofs of this form.
 
 Our inductive hypothesis is that for an $n$ length expression,  $n_0=2n$ satisfies the conditions of the lemma.
 The __base case__ is when the expression is a single symbol $\sigma \in \Sigma$ or that the expression is $\emptyset$ or $""$.
-In all these cases  the conditions of the lemma  are satisfied simply because there $n_0=2$ and there is no string $x$ of length larger than $n_0$ that is matched by the expression.
+In all these cases the conditions of the lemma are satisfied simply because there $n_0=2$ and there is no string $x$ of length larger than $n_0$ that is matched by the expression.
 
 We now prove the __inductive step__.   Let $e$ be a regular expression with $n>1$ symbols.
 We set $n_0=2n$ and let $w\in \Sigma^*$ be a string satisfying $|w|>n_0$.
@@ -954,14 +954,14 @@ Otherwise, if $|w'| \leq 2|e'|$ then since $|w|=|w'|+|w''|>n_0=2(|e'|+|e''|)$, i
 Hence by the induction hypothesis there exist $x',y,z$ such that $|y| \geq 1$, $|x'y| \leq 2|e''|$ and $e''$ matches $x'y^kz$ for every $k\in \N$.
 But now if we set $x=w'x'$ we see that $|xy| \leq |w'| + |x'y| \leq 2|e'| + 2|e''| =n_0$ and on the other hand  the expression $e=(e')(e'')$ matches $xy^kz = w'x'y^kz$ for every $k\in \N$.
 
-In case __(c)__, if $w$ is matched by $(e')^*$ then $w= w_0\cdots w_t$ where for every $i\in [t]$, $w_i$ is a non-empty string matched by $e'$.
-If $|w_0|>2|e'|$ then we can use the same approach as in the concatenation case above.
+In case __(c)__, if $w$ is matched by $(e')^*$ then $w= w_0\cdots w_t$ where for every $i\in [t]$, $w_i$ is a nonempty string matched by $e'$.
+If $|w_0|>2|e'|$, then we can use the same approach as in the concatenation case above.
 Otherwise, we simply note that if $x$ is the empty string, $y=w_0$, and $z=w_1\cdots w_t$ then $|xy| \leq n_0$ and $xy^kz$ is matched by $(e')^*$ for every $k\in \N$.
 :::
 
 > ### {.remark title="Recursive definitions and inductive proofs" #recursiveproofs}
 When an object is _recursively defined_ (as in the case of regular expressions) then it is natural to prove properties of such objects by _induction_.
-That is, if we want to prove that all objects of this type have property $P$, then it is natural to use an inductive steps that says that if $o',o'',o'''$ etc have property $P$ then so is an object $o$ that is obtained by composing them.
+That is, if we want to prove that all objects of this type have property $P$, then it is natural to use an inductive step that says that if $o',o'',o'''$ etc have property $P$ then so is an object $o$ that is obtained by composing them.
 
 
 Using the pumping lemma, we can easily prove [regexpparn](){.ref} (i.e., the non-regularity of the "matching parenthesis" function):
@@ -974,8 +974,8 @@ Hence $MATCHPAREN(xy^2z)=0$ but by the pumping lemma $\Phi_{e}(xy^2z)=1$, contra
 :::
 
 The pumping lemma is a very useful tool to show that certain functions are _not_ computable by a regular expression.
-However, it is _not_ an "if and only if" condition for regularity: there are non-regular functions that still satisfy the conditions of the pumping lemma.
-To understand the pumping lemma, it is important to follow the order of quantifiers in [pumping](){.ref}.
+However, it is _not_ an "if and only if" condition for regularity: there are non-regular functions that still satisfy the pumping lemma conditions.
+To understand the pumping lemma, it is crucial to follow the order of quantifiers in [pumping](){.ref}.
 In particular, the number $n_0$ in the statement of  [pumping](){.ref} depends on the regular expression (in the proof we chose $n_0$ to be twice the number of symbols in the expression).
 So, if we want to use the pumping lemma to rule out the existence of a regular expression $e$ computing some function $F$, we need to be able to choose an appropriate input $w\in \{0,1\}^*$ that can be arbitrarily large and satisfies $F(w)=1$.
 This makes sense if you think about the intuition behind the pumping lemma: we need $w$ to be large enough as to force the use of the star operator.
@@ -985,12 +985,12 @@ This makes sense if you think about the intuition behind the pumping lemma: we n
 
 ::: {.solvedexercise title="Palindromes is not regular" #palindromenotreg}
 Prove that the following function over the alphabet $\{0,1,; \}$ is not regular: $PAL(w)=1$  if and only if $w = u;u^R$ where $u \in \{0,1\}^*$ and $u^R$ denotes $u$ "reversed": the string $u_{|u|-1}\cdots u_0$.
-(The _Palindrome_ function is most often defined without an explicit separator character $;$, but the version with such a separator is a bit cleaner and so we use it here. This does not make much difference, as one can easily encode the separator as a special binary string instead.)
+(The _Palindrome_ function is most often defined without an explicit separator character $;$, but the version with such a separator is a bit cleaner, and so we use it here. This does not make much difference, as one can easily encode the separator as a special binary string instead.)
 :::
 
 ::: {.solution data-ref="stringreversed"}
 We use the pumping lemma.
-Suppose towards the sake of contradiction that there is a regular expression $e$ computing $PAL$, and let $n_0$ be the number obtained by the pumping lemma ([pumping](){.ref}).
+Suppose toward the sake of contradiction that there is a regular expression $e$ computing $PAL$, and let $n_0$ be the number obtained by the pumping lemma ([pumping](){.ref}).
 Consider the string $w = 0^{n_0};0^{n_0}$.
 Since the reverse of the all zero string is the all zero string, $PAL(w)=1$.
 Now, by the pumping lemma, if $PAL$ is computed by $e$, then we can write $w=xyz$ such that $|xy| \leq n_0$, $|y|\geq 1$ and $PAL(xy^kz)=1$ for every $k\in \N$. In particular, it must hold that $PAL(xz)=1$, but this is a contradiction, since $xz=0^{n_0-|y|};0^{n_0}$ and so its two parts are not of the same length and in particular are not the reverse of one another.
@@ -1006,11 +1006,11 @@ For yet another example of a pumping-lemma based proof, see [pumpingprooffig](){
 Regular expressions have applications beyond search.
 For example, regular expressions are often used to define _tokens_ (such as what is a valid variable identifier, or keyword) in the design of
 _parsers_, _compilers_ and _interpreters_ for programming languages.
-There are other applications too, for example, in recent years, the world of networking moved from fixed topologies to "software defined networks".
+Regular expressions have other applications too:  for example, in recent years, the world of networking moved from fixed topologies to "software defined networks".
 Such networks are routed by programmable switches that can implement _policies_ such as "if packet is secured by SSL then forward it to A, otherwise forward it to B".
 To represent such policies we need a language that is on one hand sufficiently expressive to capture the policies we want to implement, but on the other hand sufficiently restrictive so that we can quickly execute them at network speed and also be able to answer questions such as "can C see the packets moved from A to B?".
 The  [NetKAT network programming language](https://goo.gl/oeJNuw) uses a variant of regular expressions to achieve precisely that.
-For this application, it is important that we are not merely answering whether an expression $e$ matches a string $x$ but also answering
+For this application, it is important that we are not merely able to answer whether an expression $e$ matches a string $x$ but also answer
 _semantic questions_ about regular expressions such as "do expressions $e$ and $e'$ compute the same function?" and "does there exist a string $x$ that 
 is matched by the expression $e$?".
 The following theorem shows that we can answer the latter question:
@@ -1020,7 +1020,7 @@ The following theorem shows that we can answer the latter question:
 There is an algorithm that given a regular expression $e$, outputs $1$ if and only if $\Phi_{e}$ is the constant zero function.
 
 > ### {.proofidea data-ref="regemptynessthm"}
-The idea is that we can directly observe this from the structure of the expression. The only way a regular expression $e$ computes  the constant zero function is if $e$ has the form $\emptyset$ or is obtained by concatenating $\emptyset$ with other expressions.
+The idea is that we can directly observe this from the structure of the expression. The only way a regular expression $e$ computes the constant zero function is if $e$ has the form $\emptyset$ or is obtained by concatenating $\emptyset$ with other expressions.
 
 ::: {.proof data-ref="regemptynessthm"}
 Define a regular expression to be "empty" if it computes the constant zero function.
@@ -1036,7 +1036,7 @@ Given a regular expression $e$, we can determine if $e$ is empty using  the foll
 
 * $\emptyset$ is empty.
 
-Using these rules it is straightforward to come up with a recursive algorithm to determine emptiness. 
+Using these rules, it is straightforward to come up with a recursive algorithm to determine emptiness. 
 :::
 
 Using [regemptynessthm](){.ref}, we can obtain an algorithm that determines whether or not two regular expressions $e$ and $e'$ are _equivalent_, 
@@ -1071,7 +1071,7 @@ $$
 To construct the expression $e''$, we will show how given any pair of expressions $e$ and $e'$, we can construct expressions $e\wedge e'$ and $\overline{e}$ that compute the functions $\Phi_{e} \wedge \Phi_{e'}$ and $\overline{\Phi_{e}}$ respectively. (Computing the expression for $e \vee e'$ is straightforward using the $|$ operation of regular expressions.)
 
 Specifically, by [regcomplementlem](){.ref}, regular functions are closed under negation, which means that for every regular expression $e$, there is an expression $\overline{e}$ such that $\Phi_{\overline{e}}(x) = 1 - \Phi_{e}(x)$ for every $x\in \{0,1\}^*$.
-Now, for every two expression $e$ and $e'$, the expression
+Now, for every two expressions $e$ and $e'$, the expression
 $$
 e \wedge e' = \overline{(\overline{e} | \overline{e'})}
 $$
@@ -1083,7 +1083,7 @@ Given these two transformations, we see that for every regular expressions $e$ a
 > ### { .recap }
 * We model computational tasks on arbitrarily large inputs using _infinite_ functions $F:\{0,1\}^* \rightarrow \{0,1\}^*$. 
 * Such functions take an arbitrarily long (but still finite!) string as input, and cannot be described by a finite table of inputs and outputs.
-* A function with a single bit of output is known as a _Boolean function_, and the tasks of computing it is equivalent to deciding a _language_ $L\subseteq \{0,1\}^*$.
+* A function with a single bit of output is known as a _Boolean function_, and the task of computing it is equivalent to deciding a _language_ $L\subseteq \{0,1\}^*$.
 * _Deterministic finite automata_ (DFAs) are one simple model for computing (infinite) Boolean functions.
 * There are some functions that cannot be computed by DFAs. 
 * The set of functions computable by DFAs is the same as the set of languages that can be recognized by regular expressions.

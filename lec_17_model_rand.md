@@ -32,11 +32,15 @@ One can even build mechanical coin tossing machines (see [coinfig](){.ref}).
 
 ![A mechanical coin tosser built for Percy Diaconis by Harvard technicians Steve Sansone and Rick Haggerty](../figure/coin_tosser.jpg){#coinfig .margin  }
 
+
+
+::: {.nonmath}
 In this chapter we focus on the second question: formally modeling probabilistic computation and studying its power. We will show that:
 
 1. We can define the class $\mathbf{BPP}$ that captures all Boolean functions that can be computed in polynomial time by a randomized algorithm. Crucially $\mathbf{BPP}$ is still very much a _worst case_ class of computation: the probability is only over the choice of the random coins of the algorithm, as opposed to the choice of the input.
 
-2. We can _amplify_ the success probability of randomized algorithms, and as a result the class $\mathbf{BPP}$ would be identical if we changed the required success probability to any number $p$ that lies strictly between $1/2$ and $1$ (and in fact any number in the range $1/2 + 1/q(n)$ to $1-2^{-q(n)}$ for any polynomial $q(n)$).
+2. We can _amplify_ the success probability of randomized algorithms, and as a result the definition of the class $\mathbf{BPP}$ is equivalent whether or not we require $2/3$ success, $0.51$ success or every $1-2^{-n}$ success.
+
 
 3. Though, as is  the case for $\mathbf{P}$ and $\mathbf{NP}$, there is much we do not know about the class $\mathbf{BPP}$, we can establish some relations between $\mathbf{BPP}$ and the other complexity classes we saw before. In particular we will show that $\mathbf{P}  \subseteq \mathbf{BPP} \subseteq \mathbf{EXP}$ and $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$.
 
@@ -45,6 +49,7 @@ In this chapter we focus on the second question: formally modeling probabilistic
 5. We also show that the concept of $\mathbf{NP}$ completeness applies equally well if we use randomized algorithms as our model of "efficient computation". That is, if a single $\mathbf{NP}$ complete problem has a randomized polynomial-time algorithm, then all of $\mathbf{NP}$ can be computed in polynomial-time by randomized algorithms.
 
 6. Finally we will discuss the question of whether $\mathbf{BPP} = \mathbf{P}$ and show some of the intriguing evidence that the answer might actually be _"Yes"_ using the concept of _pseudorandom generators_.
+:::
 
 
 ## Modeling randomized computation
