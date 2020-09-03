@@ -77,7 +77,7 @@ The main takeaways from this chapter are:
 
 * While the set of all possible binary strings is infinite, it still cannot represent _everything_. In particular, there is no representation of the _real numbers_ (with absolute accuracy) as binary strings. This result is also known as "Cantor's Theorem" (see [cantorsec](){.ref}) and is typically referred to as the result that the "reals are uncountable." It is also implies that there are _different levels_ of infinity though we will not get into this topic in this book (see [generalizepowerset](){.ref}).
 
-The two "big ideas" we discuss are [representtuplesidea](){.ref} - we can compose representations for simple objects to represent more complex objects and [functionprogramidea](){.ref} - it is crucial to distinguish between _functions_ ("what") and _programs_ ("how").
+The two "big ideas" we discuss are [representtuplesidea](){.ref} - we can compose representations for simple objects to represent more complex objects and [functionprogramidea](){.ref} - it is crucial to distinguish between _functions'_ ("what") and _programs'_ ("how").
 The latter will be a theme we will come back to time and again in this book.
 :::
 
