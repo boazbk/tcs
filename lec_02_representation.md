@@ -263,7 +263,7 @@ For this reason, in some systems adding two large positive numbers can result in
 ![In the _two's complement representation_  we represent a potentially negative integer $k \in \{ -2^n ,\ldots, 2^n-1 \}$ as an $n+1$ length string using the binary representation of the integer $k \mod 2^{n+1}$. On the lefthand side: this representation for $n=3$ (the red integers are the numbers being represented by the blue binary strings). If a microprocessor does not check for overflows, adding the two positive numbers $6$ and $5$ might result in the negative number $-5$ (since $-5 \mod 16 = 11$. The righthand side is a `C` program that will on some $32$ bit architecture print a negative number after adding two positive numbers. (Integer overflow in `C` is considered _undefined behavior_ which means the result of this program, including whether it runs or crashes, could differ depending on the architecture, compiler, and even compiler options and version.)](../figure/twoscomplement.png){#twoscomplementfig .margin}
 
 
-### Rational numbers, and representing pairs of strings
+### Rational numbers and representing pairs of strings
 
 We can represent a rational number of the form $a/b$ by representing the two numbers $a$ and $b$.
 However, merely concatenating the representations of $a$ and $b$ will not work.
