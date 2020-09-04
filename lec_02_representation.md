@@ -729,11 +729,11 @@ $$
 and
 
 $$
-\overline{x} = \overline{E}(o'_0,\ldots,o'_{k'-1}) = x_0\cdots x_{i-1} E(o'_i) E(o'_{i+1}) \cdots E(o'_{k-1})
+\overline{x} = \overline{E}(o'_0,\ldots,o'_{k'-1}) = x_0\cdots x_{i-1} E(o'_i) E(o'_{i+1}) \cdots E(o'_{k'-1})
 $$
 
 where $x_j = E(o_j) = E(o'_j)$ for all $j<i$.
-Let $\overline{y}$ be the string obtained after removing the prefix $x_0 \cdots x_{i-i}$ from $\overline{x}$.
+Let $\overline{y}$ be the string obtained after removing the prefix $x_0 \cdots x_{i-1}$ from $\overline{x}$.
 We see that $\overline{y}$ can be written as both $\overline{y}= E(o_i)s$ for some string $s\in \{0,1\}^*$ and as $\overline{y} = E(o'_i)s'$ for some $s'\in \{0,1\}^*$.
 But this means that one of $E(o_i)$ and $E(o'_i)$ must be a prefix of the other, contradicting the prefix-freeness of $E$.
 
