@@ -321,7 +321,7 @@ Verifying that you can prove the following results is an excellent way to brush 
 
 * If $G:T \rightarrow S$ is onto then there exists a one-to-one function $F:S \rightarrow T$ such that $G(F(s))=s$ for every $s\in S$.
 
-* If $S$ and $T$ are finite sets then the following conditions are equivalent to one another: __(a)__ $|S| \leq |T|$, __(b)__ there is a one-to-one function $F:S \rightarrow T$, and __(c)__ there is an onto function $G:T \rightarrow S$. (This is actually true even for _infinite_ $S$ and $T$: in that case __(b)__  (or equivalently __(c)__) is the commonly accepted _definition_ for $|S| \leq |T|$.)
+* If $S$ and $T$ are non-empty finite sets then the following conditions are equivalent to one another: __(a)__ $|S| \leq |T|$, __(b)__ there is a one-to-one function $F:S \rightarrow T$, and __(c)__ there is an onto function $G:T \rightarrow S$. These equivalences are in fact true even for  _infinite_ $S$ and $T$. For infinite sets the condition  __(b)__ (or equivalently, __(c)__) is the commonly accepted _definition_ for $|S| \leq |T|$.
 
 ![We can represent finite functions as a directed graph where we put an edge from $x$ to $f(x)$. The _onto_ condition corresponds to requiring that every vertex in the codomain of the function has in-degree _at least_ one. The _one-to-one_ condition corresponds to requiring that every vertex in the codomain of the function has in-degree _at most_ one. In the examples above $F$ is an onto function, $G$ is one to one, and $H$ is neither onto nor one to one.](../figure/functionsdiagram.png){#functionsdiagrampng .margin  }
 
