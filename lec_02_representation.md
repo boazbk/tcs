@@ -71,13 +71,13 @@ The main takeaways from this chapter are:
 
 * We can represent all kinds of objects we want to use as inputs and outputs using _binary strings_. For example, we can use the _binary basis_ to represent integers and rational numbers as binary strings (see [naturalnumsec](){.ref} and [morerepressec](){.ref}).
 
-* We can use _compose_ the representations of simple objects to represent more complex objects. In this way, we can represent lists of integers or rational numbers, and use that to represent objects such as matrices, images, and graphs. _Prefix-free encoding_ is one way to achieve such a composition (see [prefixfreesec](){.ref}).
+* We can _compose_ the representations of simple objects to represent more complex objects. In this way, we can represent lists of integers or rational numbers, and use that to represent objects such as matrices, images, and graphs. _Prefix-free encoding_ is one way to achieve such a composition (see [prefixfreesec](){.ref}).
 
-* A _computational task_ specifies a map between an input to an output--- a _function_. It is crucially important to distinguish between the "what" and the "how", or the _specification_ and _implementation_ (see [secimplvsspec](){.ref}). A _function_  simply defines which output corresponds to which input. It does not specify _how_ to compute the output from the input, and as we've seen in the context of multiplication, there can be more than one way to compute the same function.
+* A _computational task_ specifies a map from an input to an output--- a _function_. It is crucially important to distinguish between the "what" and the "how", or the _specification_ and _implementation_ (see [secimplvsspec](){.ref}). A _function_  simply defines which output corresponds to which input. It does not specify _how_ to compute the output from the input, and as we've seen in the context of multiplication, there can be more than one way to compute the same function.
 
-* While the set of all possible binary strings is infinite, it still cannot represent _everything_. In particular, there is no representation of the _real numbers_ (with absolute accuracy) as binary strings. This result is also known as "Cantor's Theorem" (see [cantorsec](){.ref}) and is typically referred to as the result that the "reals are uncountable". It is also implies that there are _different levels_ of infinity though we will not get into this topic in this book (see [generalizepowerset](){.ref}).
+* While the set of all possible binary strings is infinite, it still cannot represent _everything_. In particular, there is no representation of the _real numbers_ (with absolute accuracy) as binary strings. This result is also known as "Cantor's Theorem" (see [cantorsec](){.ref}) and is typically referred to as the result that the "reals are uncountable." It is also implies that there are _different levels_ of infinity though we will not get into this topic in this book (see [generalizepowerset](){.ref}).
 
-The two ``big ideas'' we discuss are [representtuplesidea](){.ref} - we can compose representations for simple objects to represent more complex objects and [functionprogramidea](){.ref} - it is crucial to distinguish between _functions_ ("what") and _programs_ ("how").
+The two "big ideas" we discuss are [representtuplesidea](){.ref} - we can compose representations for simple objects to represent more complex objects and [functionprogramidea](){.ref} - it is crucial to distinguish between _functions'_ ("what") and _programs'_ ("how").
 The latter will be a theme we will come back to time and again in this book.
 :::
 
@@ -263,7 +263,7 @@ For this reason, in some systems adding two large positive numbers can result in
 ![In the _two's complement representation_  we represent a potentially negative integer $k \in \{ -2^n ,\ldots, 2^n-1 \}$ as an $n+1$ length string using the binary representation of the integer $k \mod 2^{n+1}$. On the left-hand side: this representation for $n=3$ (the red integers are the numbers being represented by the blue binary strings). If a microprocessor does not check for overflows, adding the two positive numbers $6$ and $5$ might result in the negative number $-5$ (since $-5 \mod 16 = 11$. The right-hand side is a `C` program that will on some $32$ bit architecture print a negative number after adding two positive numbers. (Integer overflow in `C` is considered _undefined behavior_ which means the result of this program, including whether it runs or crashes, could differ depending on the architecture, compiler, and even compiler options and version.)](../figure/twoscomplement.png){#twoscomplementfig .margin}
 
 
-### Rational numbers, and representing pairs of strings
+### Rational numbers and representing pairs of strings
 
 We can represent a rational number of the form $a/b$ by representing the two numbers $a$ and $b$.
 However, merely concatenating the representations of $a$ and $b$ will not work.
@@ -649,8 +649,11 @@ Let $k=|S|$ and $m=|T|$ and so write the elements of $S$ and $T$ as $S = \{ s_0 
 For the "if" direction, if $k \leq m$ we can simply define $E(s_i)=t_i$ for every $i\in [k]$.
 Clearly for $i \neq j$, $t_i = E(s_i) \neq E(s_j) = t_j$, and hence this function is one-to-one.
 In the other direction, suppose that $k>m$ and  $E: S \rightarrow T$ is some function. Then $E$ cannot be one-to-one.
-Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$. If $t_j$ was marked before, then we have found two objects in $S$ mapping to the same element $t_j$. Otherwise, since $T$ has $m$ elements,  when we get to $i=m-1$ we mark all the objects in $T$. Hence, in this case, $E(s_m)$ must map to an element that was already marked before. (This observation is sometimes known as the "Pigeonhole Principle": the principle that if you have a pigeon coop with $m$ holes, and $k>m$ pigeons, then there must be two pigeons in the same hole. )
-
+Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$. 
+If $t_j$ was marked before, then we have found two objects in $S$ mapping to the same element $t_j$.
+Otherwise, since $T$ has $m$ elements,  when we get to $i=m-1$ we mark all the objects in $T$.
+Hence, in this case, $E(s_m)$ must map to an element that was already marked before. 
+(This observation is sometimes known as the "Pigeon Hole Principle": the principle that if you have a pigeon coop with $m$ holes and $k>m$ pigeons, then there must be two pigeons in the same hole.)
 
 ### Prefix-free encoding { #prefixfreesec }
 
