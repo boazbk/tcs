@@ -10,7 +10,7 @@ chapternum: "13"
 * Formally modeling running time, and in particular notions such as $O(n)$ or $O(n^3)$ time algorithms. \
 * The classes $\mathbf{P}$ and $\mathbf{EXP}$ modelling polynomial and exponential time respectively. \
 * The _time hierarchy theorem_, that in particular says that for every $k \geq 1$ there are functions we _can_ compute in $O(n^{k+1})$ time but _can not_ compute in $O(n^k)$ time.
-* The class $\mathbf{P_{/poly}}$ of _non uniform_ computation and the result that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$
+* The class $\mathbf{P_{/poly}}$ of _non-uniform_ computation and the result that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$
 
 
 >"When the measure of the problem-size is reasonable and when the sizes assume values arbitrarily large, an asymptotic estimate of ... the order of difficulty of [an] algorithm .. is theoretically important. It cannot be rigged by making the algorithm artificially difficult for smaller sizes", Jack Edmonds, "Paths, Trees, and Flowers", 1963
@@ -57,7 +57,7 @@ Using this definition we will do the following (see also [runtimeoverviewfig](){
 
 * We give an _efficient_ universal NAND-RAM program and use this to establish the _time hierarchy theorem_ that in particular implies that $\mathbf{P}$ is a _strict subset_ of  $\mathbf{EXP}$. 
 
-* We relate the notions defined here to the _non uniform_ models of  Boolean circuits and NAND-CIRC programs defined in [compchap](){.ref}. We define $\mathbf{P_{/poly}}$ to be the class of functions that can be computed by a _sequence_ of polynomial-sized circuits. We prove that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$ and that $\mathbf{P_{/poly}}$ contains _uncomputable_ functions.
+* We relate the notions defined here to the _non-uniform_ models of  Boolean circuits and NAND-CIRC programs defined in [compchap](){.ref}. We define $\mathbf{P_{/poly}}$ to be the class of functions that can be computed by a _sequence_ of polynomial-sized circuits. We prove that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$ and that $\mathbf{P_{/poly}}$ contains _uncomputable_ functions.
 
 
 
@@ -151,8 +151,8 @@ Prove that $\mathbf{P}$ as defined in [PandEXPdef](){.ref} is equal to  $\cup_{c
 To show these two sets are equal we need to show that $\mathbf{P} \subseteq \cup_{c\in \{1,2,3,\ldots \}} TIME_{\mathsf{TM}}(n^c)$ and $\cup_{c\in \{1,2,3,\ldots \}} TIME_{\mathsf{TM}}(n^c) \subseteq \mathbf{P}$. 
 We start with the former inclusion.
 Suppose that $F \in \mathbf{P}$. Then there is some polynomial $p:\N \rightarrow \R$ and a Turing machine $M$ such that $M$ computes $F$ and $M$ halts on every input $x$ within at most $p(|x|)$ steps.
-We can write the  polynomial $p:\N \rightarrow \R$ in  the form $p(n) = \sum_{i=0}^d a_i n^i$ where $a_0,\ldots,a_d \in \R$, and we assume that $a_d$ is nonzero (or otherwise we just let $d$ correspond to the largest number such that $a_d$
-is nonzero). The _degree_ if $p$ the number $d$.
+We can write the  polynomial $p:\N \rightarrow \R$ in  the form $p(n) = \sum_{i=0}^d a_i n^i$ where $a_0,\ldots,a_d \in \R$, and we assume that $a_d$ is non-zero (or otherwise we just let $d$ correspond to the largest number such that $a_d$
+is non-zero). The _degree_ if $p$ the number $d$.
 Since $n^d = o(n^{d+1})$, no matter what is the coefficient $a_d$, for large enough $n$, $p(n) < n^{d+1}$ which means that the Turing machine $M$ will halt on inputs of length $n$ within fewer than $n^{d+1}$ steps, and hence
 $F \in TIME_{\mathsf{TM}}(n^{d+1}) \subseteq \cup_{c\in \{1,2,3,\ldots \}} TIME_{\mathsf{TM}}(n^c)$.
 
@@ -185,7 +185,7 @@ Table : A table of the examples from [chapefficient](){.ref}. All these problems
 ![Some examples of problems that are known to be in $\mathbf{P}$ and problems that are known to be in $\mathbf{EXP}$ but not known whether or not they are in $\mathbf{P}$. Since both $\mathbf{P}$ and $\mathbf{EXP}$ are classes of Boolean functions, in this figure we always refer to the _Boolean_ (i.e., Yes/No) variant of the problems.](../figure/PvsEXP.png){#PvsEXPfig .margin}
 
 ::: {.remark title="Boolean versions of problems" #booleanversion}
-Many of the problems defined in [chapefficient](){.ref} correspond to _non Boolean_ functions (functions with more than one bit of output) while $\mathbf{P}$ and $\mathbf{EXP}$ are sets of Boolean functions.
+Many of the problems defined in [chapefficient](){.ref} correspond to _non-Boolean_ functions (functions with more than one bit of output) while $\mathbf{P}$ and $\mathbf{EXP}$ are sets of Boolean functions.
 However, for every non-Boolean function $F$ we can always define a computationally-equivalent Boolean function $G$ by letting $G(x,i)$ be the $i$-th bit of $F(x)$ (see [boolex](){.ref}).
 Hence the table above, as well as [PvsEXPfig](){.ref}, refer to the computationally-equivalent Boolean variants of these problems.
 :::
@@ -228,7 +228,7 @@ $$
 
 ::: { .pause }
 The technical details of [polyRAMTM-thm](){.ref}, such as the condition that $n \mapsto T(n)$ is computable in $O(T(n))$ time or the  constants $10$ and $4$ in [eqtmrambisimulation](){.eqref} (which are not tight and can be improved), are not very important.
-In particular, all non pathological time bound functions we encounter in practice such as $T(n)=n$, $T(n)=n\log n$, $T(n)=2^n$ etc. will satisfy the conditions of  [polyRAMTM-thm](){.ref}, see also [nicefunctionsrem](){.ref}.
+In particular, all non-pathological time bound functions we encounter in practice such as $T(n)=n$, $T(n)=n\log n$, $T(n)=2^n$ etc. will satisfy the conditions of  [polyRAMTM-thm](){.ref}, see also [nicefunctionsrem](){.ref}.
 
 The main message of the  theorem is Turing Machines and RAM machines are "roughly equivalent" in the sense that one can simulate the other with polynomial overhead.
 Similarly, while the proof involves some technical details, it's not very deep or hard, and merely follows the simulation of RAM machines with Turing Machines we saw in [RAMTMequivalencethm](){.ref} with more careful "book keeping".
@@ -564,7 +564,7 @@ The time hierarchy theorem relies on the existence of an efficient universal NAN
 For other models such as Turing Machines we have similar time hierarchy results showing that there are functions computable in time $T(n)$ and not in time $T(n)/f(n)$ where $f(n)$ corresponds to the overhead in the corresponding universal machine. 
 
 
-## Non uniform computation {#nonuniformcompsec }
+## Non-uniform computation {#nonuniformcompsec }
 
 
 
@@ -573,7 +573,7 @@ In [secdefinesizeclasses](){.ref} we defined the complexity of computing _finite
 Specifically,  for a finite function $g:\{0,1\}^n \rightarrow \{0,1\}$ and number $T\in \N$,  $g\in SIZE(T)$ if there is a circuit of at most $T$ NAND gates (or equivalently  a $T$-line NAND-CIRC program) that computes $g$.
 To relate this to the classes $TIME(T(n))$ defined in this chapter we first need to extend the class $SIZE(T(n))$ from finite functions to functions with unbounded input length.
 
-::: {.definition title="Non uniform computation" #nonuniformdef}
+::: {.definition title="Non-uniform computation" #nonuniformdef}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$ and $T:\N \rightarrow \N$ be a nice time bound.
 For every $n\in \N$, define $F_{\upharpoonright n} : \{0,1\}^n \rightarrow \{0,1\}$ to be the _restriction_ of $F$ to inputs of size $n$. That is, $F_{\upharpoonright n}$ is the function mapping $\{0,1\}^n$ to $\{0,1\}$ such that for every $x\in \{0,1\}^n$, $F_{\upharpoonright n}(x)=F(x)$.
 
@@ -584,21 +584,21 @@ We say that $F$ is _non-uniformly computable in at most $T(n)$ size_, denoted by
 * For every sufficiently large $n$, $C_n$ has at most $T(n)$ gates.
 :::
 
-The non uniform analog to the class $\mathbf{P}$ is the class $\mathbf{P_{/poly}}$ defined as 
+The non-uniform analog to the class $\mathbf{P}$ is the class $\mathbf{P_{/poly}}$ defined as 
 
 $$
 \mathbf{P_{/poly}} = \cup_{c\in \N} SIZE(n^c)  \; . \label{eqppolydef}
 $$
-There is a big difference between non uniform computation and uniform complexity classes such as $TIME(T(n))$ or $\mathbf{P}$.
+There is a big difference between non-uniform computation and uniform complexity classes such as $TIME(T(n))$ or $\mathbf{P}$.
 The condition $F\in \mathbf{P}$ means that there is a _single_ Turing machine $M$ that computes $F$ on all inputs in polynomial time.
 The condition $F\in \mathbf{P_{/poly}}$ only means that for every input length $n$ there can be a _different_ circuit $C_n$ that computes $F$ using polynomially many gates on inputs of these lengths.
 As we will see, $F\in \mathbf{P_{/poly}}$ does not necessarily imply that $F\in \mathbf{P}$.
 However, the other direction is true:
 
-![We can think of an infinite function $F:\{0,1\}^* \rightarrow \{0,1\}$ as a collection of finite functions $F_0,F_1,F_2,\ldots$ where $F_{\upharpoonright n}:\{0,1\}^n \rightarrow \{0,1\}$ is the restriction of $F$ to inputs of length $n$. We say $F$ is in $\mathbf{P_{/poly}}$ if for every $n$, the function $F_{\upharpoonright n}$  is computable by a polynomial size NAND-CIRC program, or equivalently, a polynomial sized Boolean circuit.](../figure/Ppoly.png){#Ppolyfig .margin  }
+![We can think of an infinite function $F:\{0,1\}^* \rightarrow \{0,1\}$ as a collection of finite functions $F_0,F_1,F_2,\ldots$ where $F_{\upharpoonright n}:\{0,1\}^n \rightarrow \{0,1\}$ is the restriction of $F$ to inputs of length $n$. We say $F$ is in $\mathbf{P_{/poly}}$ if for every $n$, the function $F_{\upharpoonright n}$  is computable by a polynomial-size NAND-CIRC program, or equivalently, a polynomial-sized Boolean circuit.](../figure/Ppoly.png){#Ppolyfig .margin  }
 
 
-::: {.theorem title="Nonuniform computation contains uniform computation" #non-uniform-thm}
+::: {.theorem title="Non-uniform computation contains uniform computation" #non-uniform-thm}
 There is some $a\in \N$ s.t. for every nice $T:\N \rightarrow \N$ and  $F:\{0,1\}^* \rightarrow \{0,1\}$,
 $$TIME(T(n)) \subseteq SIZE(T(n)^a)\;.$$
 :::
@@ -766,7 +766,7 @@ Specifically, $UNROLL$ does the following:
 :::
 
 
-![We can transform a Turing Machine $M$, input length parameter $n$, and time bound $T$ into an $O(T^2)$ sized NAND circuit that agrees with $M$ on all inputs $x\in \{0,1\}^n$ on which $M$ halts in at most $T$ steps. The transformation is obtained by first using the equivalence of Turing Machines and NAND-TM programs $P$, then turning $P$ into an equivalent _oblivious_ NAND-TM program $P'$ via [obliviousnandtmthm](){.ref}, then "unrolling" $O(T^2)$ iterations of the loop of $P'$ to obtain an $O(T^2)$ line  NAND-CIRC program  that agrees with $P'$ on length $n$ inputs, and finally translating this program into an equivalent circuit.](../figure/unrolldescription.png){#unrolldescriptionfig }
+![We can transform a Turing Machine $M$, input length parameter $n$, and time bound $T$ into an $O(T^2)$-sized NAND circuit that agrees with $M$ on all inputs $x\in \{0,1\}^n$ on which $M$ halts in at most $T$ steps. The transformation is obtained by first using the equivalence of Turing Machines and NAND-TM programs $P$, then turning $P$ into an equivalent _oblivious_ NAND-TM program $P'$ via [obliviousnandtmthm](){.ref}, then "unrolling" $O(T^2)$ iterations of the loop of $P'$ to obtain an $O(T^2)$ line  NAND-CIRC program  that agrees with $P'$ on length $n$ inputs, and finally translating this program into an equivalent circuit.](../figure/unrolldescription.png){#unrolldescriptionfig }
 
 ::: { .bigidea #unrollloop}
 By "unrolling the loop" we can transform an algorithm that takes $T(n)$ steps to compute $F$ into a circuit that uses $poly(T(n))$ gates to compute the restriction of $F$ to $\{0,1\}^n$.
@@ -812,13 +812,13 @@ Let $F:\{0,1\}^* \rightarrow \{0,1\}$. Then $F\in\mathbf{P_{/poly}}$ if and only
 We only sketch the proof.
 For the "only if" direction, if $F\in \mathbf{P_{/poly}}$ then we can use for $a_n$  simply the description of the corresponding circuit $C_n$ and for $M$ the program that computes in polynomial time the evaluation of a circuit on its input. 
 
-For the "if" direction, we can use the same "unrolling the loop" technique of [non-uniform-thm](){.ref} to show that if $P$ is a polynomial-time NAND-TM program, then for every $n\in \N$, the map $x \mapsto P(a_n,x)$ can be computed by a polynomial size NAND-CIRC program $Q_n$.
+For the "if" direction, we can use the same "unrolling the loop" technique of [non-uniform-thm](){.ref} to show that if $P$ is a polynomial-time NAND-TM program, then for every $n\in \N$, the map $x \mapsto P(a_n,x)$ can be computed by a polynomial-size NAND-CIRC program $Q_n$.
 :::
 
 
 
 
-### Can uniform algorithms  simulate non uniform ones?
+### Can uniform algorithms  simulate non-uniform ones?
 
 [non-uniform-thm](){.ref} shows that every function in $TIME(T(n))$ is in $SIZE(poly(T(n)))$.
 One can ask if there is an inverse relation.
@@ -833,7 +833,7 @@ There exists an _uncomputable_ function $F:\{0,1\}^* \rightarrow \{0,1\}$ such t
 
 
 > ### {.proofidea data-ref="Ppolyuncomputable"}
-Since $\mathbf{P_{/poly}}$ corresponds to non uniform computation, a function $F$ is in $\mathbf{P_{/poly}}$ if for every $n\in \N$, the restriction $F_{\upharpoonright n}$ to inputs of length $n$ has a small circuit/program, even if the circuits for different values of $n$ are completely different from one another. In particular, if $F$ has the property that for every equal-length inputs $x$ and $x'$, $F(x)=F(x')$ then this means that $F_{\upharpoonright n}$ is either the constant function zero or the constant function one for every $n\in \N$.
+Since $\mathbf{P_{/poly}}$ corresponds to non-uniform computation, a function $F$ is in $\mathbf{P_{/poly}}$ if for every $n\in \N$, the restriction $F_{\upharpoonright n}$ to inputs of length $n$ has a small circuit/program, even if the circuits for different values of $n$ are completely different from one another. In particular, if $F$ has the property that for every equal-length inputs $x$ and $x'$, $F(x)=F(x')$ then this means that $F_{\upharpoonright n}$ is either the constant function zero or the constant function one for every $n\in \N$.
 Since the constant function has a (very!) small circuit, such a function $F$ will always be in $\mathbf{P_{/poly}}$ (indeed even in smaller classes).
 Yet by a reduction from the Halting problem, we can obtain a function with this property that is uncomputable.
 
@@ -855,8 +855,8 @@ For a function $F:\{0,1\}^* \rightarrow \{0,1\}$, if $F$ is in $TIME(T(n))$ then
 On the other hand,  $F_{\upharpoonright n}$ might be in  $SIZE(T(n))$ for every $n$ using a completely different algorithm for every input length.
 For this reason we typically use $\mathbf{P_{/poly}}$ not as a model of _efficient_ computation but rather as a way to model _inefficient computation_.
 For example, in cryptography people often define an encryption scheme to be secure if breaking it for a key of length $n$ requires more than a polynomial number of NAND lines.
-Since $\mathbf{P} \subseteq \mathbf{P_{/poly}}$, this in particular precludes a polynomial time algorithm for doing so, but there are technical reasons why working in a non uniform model makes more sense in cryptography.
-It also allows to talk about security in non asymptotic terms such as a scheme having "$128$ bits of security".
+Since $\mathbf{P} \subseteq \mathbf{P_{/poly}}$, this in particular precludes a polynomial time algorithm for doing so, but there are technical reasons why working in a non-uniform model makes more sense in cryptography.
+It also allows to talk about security in non-asymptotic terms such as a scheme having "$128$ bits of security".
 
 While it can sometimes be a real issue, in many natural settings the difference between uniform and non-uniform computation does not seem so important.
 In particular, in all the examples of problems not known to be in $\mathbf{P}$ we discussed before: longest path, 3SAT, factoring, etc., these problems are also not known to be in $\mathbf{P_{/poly}}$ either.
@@ -867,7 +867,7 @@ Thus, for "natural" functions, if you pretend that $TIME(T(n))$  is roughly the 
 
 
 
-### Uniform vs. Nonuniform computation: A recap
+### Uniform vs. Non-uniform computation: A recap
 
 To summarize, the two models of computation we have described so far are:
 
@@ -883,7 +883,7 @@ For a function $F:\{0,1\}^* \rightarrow \{0,1\}$ and some nice time bound $T:\N 
 
 * The reverse direction is not necessarily true - there are examples of functions $F:\{0,1\}^n \rightarrow \{0,1\}$ such that $F_{\upharpoonright n}$ can be computed by even a constant size circuit but  $F$ is uncomputable.
 
-This means that non uniform complexity is more useful to establish _hardness_ of a function than its _easiness_.
+This means that non-uniform complexity is more useful to establish _hardness_ of a function than its _easiness_.
 
 
 
@@ -946,7 +946,7 @@ Prove that $F \in \overline{\mathbf{P}}$ if and only if $Bool(F) \in \mathbf{P}$
 Prove that if $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$ are in $\overline{\mathbf{P}}$ then their _composition_ $F\circ G$, which is the function $H$ s.t. $H(x)=F(G(x))$, is also in $\overline{\mathbf{P}}$.
 
 
-> ### {.exercise title="Non composition of exponential time" #exp-time-comp-ex}
+> ### {.exercise title="Non-composition of exponential time" #exp-time-comp-ex}
 Prove that there is some $F,G:\{0,1\}^* \rightarrow \{0,1\}^*$ s.t. $F,G \in \overline{\mathbf{EXP}}$ but $F\circ G$ is not in $\mathbf{EXP}$.
 
 

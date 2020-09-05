@@ -124,7 +124,7 @@ Some more examples are given in the table below.
 | 389                                 | 110000101                          |
 | 3750                                | 111010100110                       |
 
-Table: Representing numbers in the binary basis. The lefthand column contains representations of natural numbers in the decimal basis, while the righthand column contains representations of the same numbers in the binary basis.
+Table: Representing numbers in the binary basis. The left-hand column contains representations of natural numbers in the decimal basis, while the right-hand column contains representations of the same numbers in the binary basis.
 
 If $n$ is even, then the least significant digit of $n$'s binary representation is $0$, while if $n$ is odd then this digit equals $1$.
 Just like the number $\floor{n/10}$ corresponds to "chopping off" the least significant decimal digit (e.g., $\floor{457/10}=\floor{45.7}=45$), the number $\floor{n/2}$ corresponds to the "chopping off" the least significant _binary_ digit.
@@ -208,7 +208,7 @@ While reading this book, you are free to choose your own philosophy of mathemati
 
 We have seen that natural numbers can be represented as binary strings.
 We now show that the same is true for other types of objects, including (potentially negative) integers, rational numbers, vectors, lists, graphs and many others.
-In many instances, choosing the "right" string representation for a piece of data is highly nontrivial, and finding the "best" one (e.g., most compact, best fidelity,  most efficiently manipulable, robust to errors, most informative features, etc.) is the object of intense research.
+In many instances, choosing the "right" string representation for a piece of data is highly non-trivial, and finding the "best" one (e.g., most compact, best fidelity,  most efficiently manipulable, robust to errors, most informative features, etc.) is the object of intense research.
 But for now, we focus on presenting some simple representations for various objects that we would like to use as inputs and outputs for computation.
 
 
@@ -230,7 +230,7 @@ For example, in the representation above there is no number that is represented 
 
 
 > ### {.remark title="Interpretation and context" #contextreprem}
-Given a string $y\in \{0,1\}^*$, how do we know if it's "supposed" to represent a (nonnegative) natural number or a (potentially negative) integer?
+Given a string $y\in \{0,1\}^*$, how do we know if it's "supposed" to represent a (non-negative) natural number or a (potentially negative) integer?
 For that matter, even if we know $y$ is "supposed" to be an integer, how do we know what representation scheme it uses?
 The short answer is that we do not necessarily know this information, unless it is supplied from the context. (In programming languages, the compiler or interpreter determines the representation of the sequence of bits corresponding to a variable based on the variable's _type_.)
 We can treat the same string $y$ as representing a natural number, an integer, a piece of text, an image, or a green gremlin.
@@ -247,7 +247,7 @@ $$
 ZtS_n(k) = \begin{cases} NtS_{n+1}(k) & 0 \leq k \leq 2^n-1 \\
                      NtS_{n+1}(2^{n+1}+k) & -2^n \leq k \leq -1 \end{cases} \;,
 $$
-where $NtS_\ell(m)$ demotes the standard binary representation of a number  $m \in \{0,\ldots, 2^{\ell}\}$ as string of length $\ell$, padded with leading zeros as needed.
+where $NtS_\ell(m)$ denotes the standard binary representation of a number  $m \in \{0,\ldots, 2^{\ell}\}$ as string of length $\ell$, padded with leading zeros as needed.
 For example, if $n=3$ then $ZtS_3(1)=NtS_4(1)=0001$, $ZtS_3(2)=NtS_4(2)=0010$, $ZtS_3(-1)=NtS_4(16-1)=1111$, and $ZtS_3(-8)=NtS_4(16-8)=1000$.
 If $k$ is a  negative number larger than or equal to $-2^n$ then  $2^{n+1}+k$ is a number between $2^n$ and $2^{n+1}-1$.
 Hence the two's complement representation of such a number $k$ is a string of length $n+1$  with its first digit equal to $1$.
@@ -260,7 +260,7 @@ Many systems leave it to the programmer to check that values are not too large a
 For this reason, in some systems adding two large positive numbers can result in a _negative_ number (e.g., adding $2^n-100$ and $2^n-200$ might result in $-300$ since $(2^{n+1}-300) \mod 2^{n+1} = -300$, see also [twoscomplementfig](){.ref}).
 
 
-![In the _two's complement representation_  we represent a potentially negative integer $k \in \{ -2^n ,\ldots, 2^n-1 \}$ as an $n+1$ length string using the binary representation of the integer $k \mod 2^{n+1}$. On the lefthand side: this representation for $n=3$ (the red integers are the numbers being represented by the blue binary strings). If a microprocessor does not check for overflows, adding the two positive numbers $6$ and $5$ might result in the negative number $-5$ (since $-5 \mod 16 = 11$. The righthand side is a `C` program that will on some $32$ bit architecture print a negative number after adding two positive numbers. (Integer overflow in `C` is considered _undefined behavior_ which means the result of this program, including whether it runs or crashes, could differ depending on the architecture, compiler, and even compiler options and version.)](../figure/twoscomplement.png){#twoscomplementfig .margin}
+![In the _two's complement representation_  we represent a potentially negative integer $k \in \{ -2^n ,\ldots, 2^n-1 \}$ as an $n+1$ length string using the binary representation of the integer $k \mod 2^{n+1}$. On the left-hand side: this representation for $n=3$ (the red integers are the numbers being represented by the blue binary strings). If a microprocessor does not check for overflows, adding the two positive numbers $6$ and $5$ might result in the negative number $-5$ (since $-5 \mod 16 = 11$. The right-hand side is a `C` program that will on some $32$ bit architecture print a negative number after adding two positive numbers. (Integer overflow in `C` is considered _undefined behavior_ which means the result of this program, including whether it runs or crashes, could differ depending on the architecture, compiler, and even compiler options and version.)](../figure/twoscomplement.png){#twoscomplementfig .margin}
 
 
 ### Rational numbers and representing pairs of strings
@@ -319,24 +319,24 @@ Every real number can be approximated by a rational number, and thus we can repr
 For example, we can represent $\pi$ by $22/7$ within an error of about $10^{-3}$.  If we want a smaller error (e.g., about $10^{-4}$) then we can use $311/99$, and so on and so forth.
 
 
-![The _floating point representation_ of a real number $x\in \R$ is its approximation as a number of the form $\sigma b \cdot 2^e$ where $\sigma \in \{\pm 1 \}$, $e$ is an (potentially negative) integer, and $b$ is a rational number between $1$ and $2$ expressed as a binary fraction $1.b_0b_1b_2\ldots b_{k}$ for some $b_1,\ldots,b_k \in \{0,1\}$ (that is $b = 1 + b_1/2 + b_2/4 + \ldots + b_k/2^k$). Commonly-used floating point representations fix the numbers  $\ell$ and $k$  of bits to represent $e$ and $b$ respectively. In the example above, assuming we use two's complement representation for $e$, the number represented is $-1 \times 2^{5} \times ( 1 + 1/2 + 1/4 + 1/64 + 1/512) = -56.5625$.](../figure/floatingpoint.png){#floatingpointfig}
+![The _floating-point representation_ of a real number $x\in \R$ is its approximation as a number of the form $\sigma b \cdot 2^e$ where $\sigma \in \{\pm 1 \}$, $e$ is an (potentially negative) integer, and $b$ is a rational number between $1$ and $2$ expressed as a binary fraction $1.b_0b_1b_2\ldots b_{k}$ for some $b_1,\ldots,b_k \in \{0,1\}$ (that is $b = 1 + b_1/2 + b_2/4 + \ldots + b_k/2^k$). Commonly-used floating-point representations fix the numbers  $\ell$ and $k$  of bits to represent $e$ and $b$ respectively. In the example above, assuming we use two's complement representation for $e$, the number represented is $-1 \times 2^{5} \times ( 1 + 1/2 + 1/4 + 1/64 + 1/512) = -56.5625$.](../figure/floatingpoint.png){#floatingpointfig}
 
 
 
 The above representation of real numbers via rational numbers that approximate them is a fine choice for a representation scheme.
-However, typically in computing applications, it is more common to use the _floating point representation scheme_   (see [floatingpointfig](){.ref}) to represent real numbers.
-In the floating point representation scheme we represent $x\in \R$ by the pair $(b,e)$ of (positive or negative) integers of some prescribed sizes (determined by the desired accuracy) such that $b \times 2^{e}$ is closest to $x$.
-Floating point representation is the base-two version of  [scientific notation](https://goo.gl/MUJnVE), where one represents a number $y\in R$ as its approximation of the form $b \times 10^e$ for  $b,e$.
-It is called "floating point"  because we can think of the number $b$ as specifying a sequence of binary digits, and $e$ as describing the location of the "binary point" within this sequence.
+However, typically in computing applications, it is more common to use the _floating-point representation scheme_   (see [floatingpointfig](){.ref}) to represent real numbers.
+In the floating-point representation scheme we represent $x\in \R$ by the pair $(b,e)$ of (positive or negative) integers of some prescribed sizes (determined by the desired accuracy) such that $b \times 2^{e}$ is closest to $x$.
+Floating-point representation is the base-two version of  [scientific notation](https://goo.gl/MUJnVE), where one represents a number $y\in R$ as its approximation of the form $b \times 10^e$ for  $b,e$.
+It is called "floating-point"  because we can think of the number $b$ as specifying a sequence of binary digits, and $e$ as describing the location of the "binary point" within this sequence.
 The use of floating representation is the reason why in many programming systems, printing the expression `0.1+0.2` will result in `0.30000000000000004` and not `0.3`, see [here](http://floating-point-gui.de/), [here](https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html) and [here](https://randomascii.wordpress.com/2012/04/05/floating-point-complexities/) for more.
 
 
 ![XKCD cartoon on floating-point arithmetic.](../figure/e_to_the_pi_minus_pi.png){#xkcdfloatingfig .margin  }
 
-The reader might be (rightly) worried about the fact that the floating point representation (or the rational number one) can only _approximately_ represent real numbers.
+The reader might be (rightly) worried about the fact that the floating-point representation (or the rational number one) can only _approximately_ represent real numbers.
 In many (though not all) computational applications, one can make the accuracy tight enough so that this does not affect the final result, though sometimes we do need to be careful.
 Indeed, floating-point bugs can sometimes be no joking matter.
-For example, floating point rounding errors have been implicated in the   [failure](http://embeddedgurus.com/barr-code/2014/03/lethal-software-defects-patriot-missile-failure/) of a U.S. Patriot missile to intercept an Iraqi Scud missile, costing 28 lives, as well as a 100 million pound error in computing [payouts to British pensioners](https://catless.ncl.ac.uk/Risks/5/74).
+For example, floating-point rounding errors have been implicated in the   [failure](http://embeddedgurus.com/barr-code/2014/03/lethal-software-defects-patriot-missile-failure/) of a U.S. Patriot missile to intercept an Iraqi Scud missile, costing 28 lives, as well as a 100 million pound error in computing [payouts to British pensioners](https://catless.ncl.ac.uk/Risks/5/74).
 
 
 
@@ -349,7 +349,7 @@ _"For any collection of fruits, we can make more fruit salads than there are fru
 :::
 
 
-Given the issues with floating point approximations for real numbers,
+Given the issues with floating-point approximations for real numbers,
 a natural question is whether it is possible to  represent real numbers _exactly_ as strings.
 Unfortunately, the following theorem shows that this cannot be done:
 
@@ -372,7 +372,7 @@ The reals are uncountable. That is, there does not exist an onto function $NtR:\
 [cantorthmtwo](){.ref} was proven by [Georg Cantor](https://en.wikipedia.org/wiki/Georg_Cantor) in 1874.
 This result (and the theory around it) was quite shocking to mathematicians at the time.
 By showing that there is no one-to-one map from $\R$ to $\{0,1\}^*$ (or $\N$), Cantor showed that these two infinite sets have "different forms of infinity" and that the set of real numbers $\R$ is in some sense "bigger"  than the infinite set $\{0,1\}^*$.
-The notion that there are "shades of infinity" was deeply disturbing to mathematicians and philosophers at the time.
+The notion that there are "[shades of infinity](https://www.youtube.com/watch?v=SrU9YDoXE88)" was deeply disturbing to mathematicians and philosophers at the time.
 The philosopher Ludwig Wittgenstein (whom we mentioned before) called Cantor's results "utter nonsense" and "laughable."
 Others thought they were even worse than that.
 Leopold Kronecker called Cantor a "corrupter of youth," while Henri Poincaré said that Cantor's ideas "should be banished from mathematics once and for all."
@@ -432,7 +432,7 @@ We start by proving  [sequencestostrings](){.ref} which is really the heart of [
 ![We construct a function $\overline{d}$ such that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$ by ensuring that $\overline{d}(n(x)) \neq StF(x)(n(x))$ for every $x\in \{0,1\}^*$ with lexicographic order $n(x)$. We can think of this as building a table where the columns correspond to numbers $m\in \N$ and the rows correspond to $x\in \{0,1\}^*$ (sorted according to $n(x)$). If the entry in the $x$-th row and the $m$-th column corresponds to $g(m))$ where $g=StF(x)$ then $\overline{d}$ is obtained by going over the "diagonal" elements in this table (the entries corresponding to the $x$-th row and $n(x)$-th column) and ensuring that $\overline{d}(x)(n(x)) \neq StF(x)(x)$. ](../figure/diagonalization.png){#diagrealsfig   }
 
 
-__Warm-up: "Baby Cantor".__ The proof of [sequencestostrings](){.ref} is rather subtle. One way to get intution for it is to consider the following finite statement "there is no onto function $f:\{0,\ldots,99\} \rightarrow \{0,1\}^{100}$. Of course we know it's true since the set $\{0,1\}^{100}$ is bigger than the set $[100]$, but let's see a direct proof. For every $f:\{0,\ldots,99\} \rightarrow \{0,1\}^{100}$, we can define the string $\overline{d} \in \{0,1\}^{100}$ as follows: $\overline{d} = (1-f(0)_0, 1-f(1)_1 , \ldots, 1-f(99)_{99})$. If $f$ was onto, then there would exist some $n\in [100]$ such that $f(n) =\overline{d}(n)$, but we claim that no such $n$ exists.  Indeed, if there was such $n$, then the $n$-th coordinate of $\overline{d}$ would equal $f(n)_n$ but by definition this coordinate equals $1-f(n)_n$. See also a ["proof by code"](https://trinket.io/python/4cff7e58f4) of this statement.
+__Warm-up: "Baby Cantor".__ The proof of [sequencestostrings](){.ref} is rather subtle. One way to get intuition for it is to consider the following finite statement "there is no onto function $f:\{0,\ldots,99\} \rightarrow \{0,1\}^{100}$. Of course we know it's true since the set $\{0,1\}^{100}$ is bigger than the set $[100]$, but let's see a direct proof. For every $f:\{0,\ldots,99\} \rightarrow \{0,1\}^{100}$, we can define the string $\overline{d} \in \{0,1\}^{100}$ as follows: $\overline{d} = (1-f(0)_0, 1-f(1)_1 , \ldots, 1-f(99)_{99})$. If $f$ was onto, then there would exist some $n\in [100]$ such that $f(n) =\overline{d}(n)$, but we claim that no such $n$ exists.  Indeed, if there was such $n$, then the $n$-th coordinate of $\overline{d}$ would equal $f(n)_n$ but by definition this coordinate equals $1-f(n)_n$. See also a ["proof by code"](https://trinket.io/python/4cff7e58f4) of this statement.
 
 
 <iframe src="https://trinket.io/embed/python/4cff7e58f4" width="100%" height="600" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
@@ -518,7 +518,7 @@ Formally,
 $$
 FtR(f) = \sum_{i=0}^\infty f(i) \cdot 10^{-i} \label{eqcantordecimalexpansion}
 $$
-It is a known result in calculus (whose proof we will not repeat here) that the series on the righthand side of [eqcantordecimalexpansion](){.eqref} converges to a definite limit in $\mathbb{R}$.
+It is a known result in calculus (whose proof we will not repeat here) that the series on the right-hand side of [eqcantordecimalexpansion](){.eqref} converges to a definite limit in $\mathbb{R}$.
 
 We now prove that $FtR$ is one to one.
 Let $f,g$ be two distinct functions in $\{0,1\}^\infty$.
@@ -649,8 +649,11 @@ Let $k=|S|$ and $m=|T|$ and so write the elements of $S$ and $T$ as $S = \{ s_0 
 For the "if" direction, if $k \leq m$ we can simply define $E(s_i)=t_i$ for every $i\in [k]$.
 Clearly for $i \neq j$, $t_i = E(s_i) \neq E(s_j) = t_j$, and hence this function is one-to-one.
 In the other direction, suppose that $k>m$ and  $E: S \rightarrow T$ is some function. Then $E$ cannot be one-to-one.
-Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$. If $t_j$ was marked before, then we have found two objects in $S$ mapping to the same element $t_j$. Otherwise, since $T$ has $m$ elements,  when we get to $i=m-1$ we mark all the objects in $T$. Hence, in this case, $E(s_m)$ must map to an element that was already marked before. (This observation is sometimes known as the "Pigeon Hole Principle": the principle that if you have a pigeon coop with $m$ holes and $k>m$ pigeons, then there must be two pigeons in the same hole. )
-
+Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$. 
+If $t_j$ was marked before, then we have found two objects in $S$ mapping to the same element $t_j$.
+Otherwise, since $T$ has $m$ elements,  when we get to $i=m-1$ we mark all the objects in $T$.
+Hence, in this case, $E(s_m)$ must map to an element that was already marked before. 
+(This observation is sometimes known as the "Pigeon Hole Principle": the principle that if you have a pigeon coop with $m$ holes and $k>m$ pigeons, then there must be two pigeons in the same hole.)
 
 ### Prefix-free encoding { #prefixfreesec }
 
@@ -900,7 +903,7 @@ This is easiest to do in "unsafe" programming languages such as `C` that allow d
 
 Using a [simple `C` program](https://goo.gl/L8oMzn) we have produced the following representations of various values.
 One can see that for integers, multiplying by 2 corresponds to a "left shift" inside each byte.
-In contrast, for floating point numbers, multiplying by two corresponds to adding one to the exponent part of the representation.
+In contrast, for floating-point numbers, multiplying by two corresponds to adding one to the exponent part of the representation.
 In the architecture we used, a negative number is represented using the [two's complement](https://goo.gl/wov5fa) approach.
 `C` represents strings in a prefix-free form by ensuring that a zero byte is at their end.
 
@@ -1254,7 +1257,7 @@ As we discuss in greater depth in  [chapcomputable](){.ref}, in the 1800s this s
 While many functions may be described (or computed) by one or more formulas, today we do not consider that to be an essential property of functions, and also allow functions that do not correspond to any "nice" formula.
 
 We have mentioned that all representations of the real numbers are inherently _approximate_. Thus an important endeavor is to understand what guarantees we can offer on the approximation quality of the output of an algorithm, as a function of the approximation quality of the inputs. This question is known as the question of determining the [numerical stability](https://en.wikipedia.org/wiki/Numerical_stability) of given equations.
-The  [Floating Points Guide website](https://floating-point-gui.de/) contains an extensive description of the floating point representation, as well the many ways in which it could subtly fail, see also the website [0.30000000000000004.com](http://0.30000000000000004.com/).
+The  [Floating-Point Guide website](https://floating-point-gui.de/) contains an extensive description of the floating-point representation, as well the many ways in which it could subtly fail, see also the website [0.30000000000000004.com](http://0.30000000000000004.com/).
 
 Dauben [@Dauben90cantor] gives a biography of Cantor with emphasis on the development of his mathematical ideas. [@halmos1960naive] is a classic textbook on set theory, including also Cantor's theorem. Cantor's Theorem is also covered in many texts on discrete mathematics, including [@LehmanLeightonMeyer, @LewisZax19].
 

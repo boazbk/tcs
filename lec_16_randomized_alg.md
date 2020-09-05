@@ -31,8 +31,13 @@ Because this project was highly classified, Ulam, von Neumann and their collabor
 The name stuck, and randomized algorithms are known as Monte Carlo algorithms to this day.^[Some texts also talk about "Las Vegas algorithms" that always return the right answer but whose running time is only polynomial on the average. Since this Monte Carlo vs Las Vegas terminology is confusing, we will not use these terms anymore, and simply talk about randomized algorithms.]
 
 In this chapter, we will see some examples of randomized algorithms that use randomness to compute a quantity in a faster or simpler way than was known otherwise.
-We will describe the algorithms in an informal / "pseudo-code" way, rather than as NAND-TM, NAND-RAM programs or Turing macines. 
+We will describe the algorithms in an informal / "pseudo-code" way, rather than as Turing macines or NAND-TM/NAND-RAM programs. 
 In [chapmodelrand](){.ref} we will discuss how to augment the computational models we say before to incorporate the ability to "toss coins".
+
+::: {.nonmath}
+This chapter gives some examples of randomized algorithms to get a sense of why probability can be useful for computation.
+We will also see the technique of _success amplification_ which is key for many randomized algorithms.
+:::
 
 
 ## Finding approximately good maximum cuts
@@ -113,7 +118,7 @@ Moreover, since we can never cut more than $m$ edges, under our assumption that 
 $$
 pm + (1-p)(m/2-0.5)  \leq pm + m/2-0.5
 $$
-But if $p<1/(2m)$ then $pm<0.5$ and so the righthand side is smaller than $m/2$, which contradicts the fact that (as proven in [maxcutthm](){.ref}) the expected number of edges cut is at least $m/2$.
+But if $p<1/(2m)$ then $pm<0.5$ and so the right-hand side is smaller than $m/2$, which contradicts the fact that (as proven in [maxcutthm](){.ref}) the expected number of edges cut is at least $m/2$.
 :::
 
 
@@ -211,7 +216,7 @@ While a probabilistic algorithm might not seem as nice as a deterministic algori
 It is quite likely that even a deterministic algorithm will fail if this happens.
 
 So, in practical terms, a probabilistic algorithm is just as good as a deterministic one.
-But it is still a theoretically fascinating question whether randomized algorithms actually yield more power, or whether is it the case that for any computational problem that can be solved by probabilistic algorithm, there is a deterministic algorithm with nearly the same performance.^[This question does have some significance to practice, since hardware that generates high quality randomness at speed is nontrivial to construct.]
+But it is still a theoretically fascinating question whether randomized algorithms actually yield more power, or whether is it the case that for any computational problem that can be solved by probabilistic algorithm, there is a deterministic algorithm with nearly the same performance.^[This question does have some significance to practice, since hardware that generates high quality randomness at speed is non-trivial to construct.]
 For example, we will see in [maxcutex](){.ref} that there is in fact a deterministic algorithm that can cut at least $m/2$ edges in an $m$-edge graph.
 We will discuss this question in generality   in  [chapmodelrand](){.ref}.
 For now, let us see a couple of examples where randomization leads to algorithms that are better in some sense than the known deterministic algorithms.
@@ -330,7 +335,7 @@ The intuition behind our randomized algorithm for zero testing is the following:
 ![A degree $d$ curve in one variable can have at most $d$ roots. In higher dimensions, a $n$-variate degree-$d$ polynomial can have an infinite number roots though the set of roots will be an $n-1$ dimensional surface. Over a finite field $\mathbb{F}$, an $n$-variate degree $d$ polynomial has at most $d|\mathbb{F}|^{n-1}$ roots.](../figure/curves.png){#curvesfig .margin  }
 
 This intuition sort of makes sense.
-For one variable polynomials, we know that a nonzero linear function has at most one root, a quadratic function (e.g., a parabola) has at most two roots, and generally a degree $d$ equation has at most $d$ roots.
+For one variable polynomials, we know that a non-zero linear function has at most one root, a quadratic function (e.g., a parabola) has at most two roots, and generally a degree $d$ equation has at most $d$ roots.
 While in more than one variable there can be an infinite number of roots (e.g., the polynomial $x_0+y_0$ vanishes on the line $y=-x$) it is still the case that the set of roots is very "small" compared to the set of all inputs.
 For example, the root of a bivariate polynomial form a curve, the roots of a three-variable polynomial form a surface, and more generally the roots of an $n$-variable polynomial are a space of dimension $n-1$.
 
@@ -350,7 +355,7 @@ in the set $[q]^n = \{ (x_0,\ldots,x_{n-1}) : x_i \in \{0,\ldots,q-1\} \}$.
 
 We omit the (not too complicated)  proof of [szlem](){.ref}.
 We remark that it holds not just over the real numbers but over any field as well.
-Since the matching polynomial $P$  of [matchpolylem](){.ref} has degree at most $n$, [szlem](){.ref} leads directly to a simple algorithm for testing if it is nonzero:
+Since the matching polynomial $P$  of [matchpolylem](){.ref} has degree at most $n$, [szlem](){.ref} leads directly to a simple algorithm for testing if it is non-zero:
 
 
 ::: {.quote}

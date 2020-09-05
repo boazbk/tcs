@@ -26,17 +26,21 @@ We have neglected to address two questions:
 2. What is the mathematical model for randomized computations, and is it more powerful than deterministic computation?
 
 The first question is of both practical and theoretical importance,  but for now let's just say that there are various physical sources of "random" or "unpredictable" data.
-A user's mouse movements and typing pattern, (non solid state) hard drive and network latency, thermal noise, and radioactive decay have all been used as sources for randomness (see discussion in [modelrandbibnotes](){.ref}).
+A user's mouse movements and typing pattern, (non-solid state) hard drive and network latency, thermal noise, and radioactive decay have all been used as sources for randomness (see discussion in [modelrandbibnotes](){.ref}).
 For example, many Intel chips come with a random number generator [built in](http://spectrum.ieee.org/computing/hardware/behind-intels-new-randomnumber-generator).
 One can even build mechanical coin tossing machines (see [coinfig](){.ref}).
 
 ![A mechanical coin tosser built for Percy Diaconis by Harvard technicians Steve Sansone and Rick Haggerty](../figure/coin_tosser.jpg){#coinfig .margin  }
 
+
+
+::: {.nonmath}
 In this chapter we focus on the second question: formally modeling probabilistic computation and studying its power. We will show that:
 
 1. We can define the class $\mathbf{BPP}$ that captures all Boolean functions that can be computed in polynomial time by a randomized algorithm. Crucially $\mathbf{BPP}$ is still very much a _worst case_ class of computation: the probability is only over the choice of the random coins of the algorithm, as opposed to the choice of the input.
 
-2. We can _amplify_ the success probability of randomized algorithms, and as a result the class $\mathbf{BPP}$ would be identical if we changed the required success probability to any number $p$ that lies strictly between $1/2$ and $1$ (and in fact any number in the range $1/2 + 1/q(n)$ to $1-2^{-q(n)}$ for any polynomial $q(n)$).
+2. We can _amplify_ the success probability of randomized algorithms, and as a result the definition of the class $\mathbf{BPP}$ is equivalent whether or not we require $2/3$ success, $0.51$ success or every $1-2^{-n}$ success.
+
 
 3. Though, as is  the case for $\mathbf{P}$ and $\mathbf{NP}$, there is much we do not know about the class $\mathbf{BPP}$, we can establish some relations between $\mathbf{BPP}$ and the other complexity classes we saw before. In particular we will show that $\mathbf{P}  \subseteq \mathbf{BPP} \subseteq \mathbf{EXP}$ and $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$.
 
@@ -45,6 +49,7 @@ In this chapter we focus on the second question: formally modeling probabilistic
 5. We also show that the concept of $\mathbf{NP}$ completeness applies equally well if we use randomized algorithms as our model of "efficient computation". That is, if a single $\mathbf{NP}$ complete problem has a randomized polynomial-time algorithm, then all of $\mathbf{NP}$ can be computed in polynomial-time by randomized algorithms.
 
 6. Finally we will discuss the question of whether $\mathbf{BPP} = \mathbf{P}$ and show some of the intriguing evidence that the answer might actually be _"Yes"_ using the concept of _pseudorandom generators_.
+:::
 
 
 ## Modeling randomized computation
@@ -156,7 +161,7 @@ We will construct a polynomial-time algorithm that  $P'$  such that for every $x
 $$
 \Pr_{r \sim \{0,1\}^{m}}[ P'(xr) = 1] = \Pr[ P(x) = 1 ] \;,
 $$
-where the probability in the righthand side is taken over the `RAND()` operations in $P$.
+where the probability in the right-hand side is taken over the `RAND()` operations in $P$.
 In particular this means that if we define $G(xr) = P'(xr)$ then the function $G$ satisfies the conditions of [eqBPPauxiliary](){.eqref}.
 
 The algorithm $P'$ will be very simple: it simulates the program $P$, maintaining a counter $i$ initialized to $0$. Every time that $P$ makes a `RAND()` operation, the program $P'$ will supply the result from $r_i$ and increment $i$ by one. 
@@ -257,7 +262,7 @@ Most of the results we've seen about $\mathbf{NP}$ hardness, including the searc
 Thus if $\mathbf{NP} \subseteq \mathbf{BPP}$ then we get essentially all of the strange and wonderful consequences of $\mathbf{P}=\mathbf{NP}$.
 Unsurprisingly, we cannot rule out this possibility.
 In fact, unlike $\mathbf{P}=\mathbf{EXP}$, which is ruled out by the time hierarchy theorem, we don't even know how to rule out the possibility that $\mathbf{BPP}=\mathbf{EXP}$!
-Thus a priori it's possible (though seems highly unlikely) that randomness is a magical tool that allows us to speed up arbitrary exponential time computation.^[At the time of this writing, the largest "natural" complexity class which we can't rule out being contained in $\mathbf{BPP}$ is the class $\mathbf{NEXP}$, which we did not define in this course, but corresponds to non deterministic exponential time. See [this paper](https://people.csail.mit.edu/rrw/nexp-v-bpp.pdf) for a discussion of this question.]
+Thus a priori it's possible (though seems highly unlikely) that randomness is a magical tool that allows us to speed up arbitrary exponential time computation.^[At the time of this writing, the largest "natural" complexity class which we can't rule out being contained in $\mathbf{BPP}$ is the class $\mathbf{NEXP}$, which we did not define in this course, but corresponds to non-deterministic exponential time. See [this paper](https://people.csail.mit.edu/rrw/nexp-v-bpp.pdf) for a discussion of this question.]
 Nevertheless, as we discuss below, it is believed that randomization's power is much weaker and $\mathbf{BPP}$ lies in much more "pedestrian" territory.
 
 
@@ -303,9 +308,9 @@ We have seen in [non-uniform-thm](){.ref} that if  $F$ is in $\mathbf{P}$, then 
 A priori it is not at all clear that the same holds for a function in $\mathbf{BPP}$, but this does turn out to be the case.
 
 
-![The possible guarantees for a randomized algorithm $A$ computing some function $F$. In the tables above, the columns correspond to different inputs and the rows to different choices of the random tape. A cell at position $r,x$ is colored green if $A(x;r)=F(x)$ (i.e., the algorithm outputs the correct answer) and red otherwise. The standard $\mathbf{BPP}$ guarantee corresponds to the middle figure, where for every input $x$, at least two thirds of the choices $r$ for a random tape will result in $A$ computing the correct value. That is, every column is colored green in at least two thirds of its coordinates.  In the left figure we have an "average case" guarantee where the algorithm is only guaranteed to output the correct answer with probability two thirds over a _random_ input (i.e., at most one third of the total entries of the table are colored red, but there could be an all red column). The right figure corresponds to the "offline $\mathbf{BPP}$" case, with probability at least two thirds over the random choice $r$, $r$ will be good for _every_ input. That is, at least two thirds of the rows are all green. [rnandthm](){.ref} ($\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$) is proven by amplifying the success of a $\mathbf{BPP}$ algorithm until we have the "offline $\mathbf{BPP}$" guarantee, and then hardwiring the choice of the randomness $r$ to obtain a nonuniform deterministic algorithm.](../figure/randomizedcomp.png){#randomizedcompfig   }
+![The possible guarantees for a randomized algorithm $A$ computing some function $F$. In the tables above, the columns correspond to different inputs and the rows to different choices of the random tape. A cell at position $r,x$ is colored green if $A(x;r)=F(x)$ (i.e., the algorithm outputs the correct answer) and red otherwise. The standard $\mathbf{BPP}$ guarantee corresponds to the middle figure, where for every input $x$, at least two thirds of the choices $r$ for a random tape will result in $A$ computing the correct value. That is, every column is colored green in at least two thirds of its coordinates.  In the left figure we have an "average case" guarantee where the algorithm is only guaranteed to output the correct answer with probability two thirds over a _random_ input (i.e., at most one third of the total entries of the table are colored red, but there could be an all red column). The right figure corresponds to the "offline $\mathbf{BPP}$" case, with probability at least two thirds over the random choice $r$, $r$ will be good for _every_ input. That is, at least two thirds of the rows are all green. [rnandthm](){.ref} ($\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$) is proven by amplifying the success of a $\mathbf{BPP}$ algorithm until we have the "offline $\mathbf{BPP}$" guarantee, and then hardwiring the choice of the randomness $r$ to obtain a non-uniform deterministic algorithm.](../figure/randomizedcomp.png){#randomizedcompfig   }
 
-> ### {.theorem title="Randomness does not help for non uniform computation" #rnandthm}
+> ### {.theorem title="Randomness does not help for non-uniform computation" #rnandthm}
 $\mathbf{BPP} \subseteq \mathbf{P_{/poly}}$. 
 
 That is, for every $F\in \mathbf{BPP}$, there exist some $a,b\in \N$ such that for every $n>0$, $F_{\upharpoonright n} \in SIZE(an^b)$ where $F_{\upharpoonright n}$ is the restriction of $F$ to inputs in $\{0,1\}^n$.
@@ -342,7 +347,7 @@ for every $x\in \{0,1\}^n$.
 
 Now let us use the standard "unravelling the loop" the technique and transform $P'$ into a NAND-CIRC program $Q$ of polynomial in $n$ size, such that $Q(xr)=P'(x;r)$ for every $x\in \{0,1\}^n$ and $r \in \{0,1\}^m$.
 Then by "hardwiring" the values $r^*_0,\ldots,r^*_{m-1}$ in place of the last $m$ inputs of $Q$, we obtain a new NAND-CIRC program $Q_{r^*}$ that satisfies by [hardwirecorrecteq](){.eqref} that $Q_{r^*}(x)=F(x)$ for every $x\in \{0,1\}^n$.
-This demonstrates that $F_{\upharpoonright n}$ has a polynomial sized NAND-CIRC program, hence completing the proof of [rnandthm](){.ref}.
+This demonstrates that $F_{\upharpoonright n}$ has a polynomial-sized NAND-CIRC program, hence completing the proof of [rnandthm](){.ref}.
 :::
 
 
@@ -448,7 +453,7 @@ At this point you might want to skip ahead and look at the _statement_ of [prgex
 
 
 The fact that there _exists_ a pseudorandom generator does not mean that there is one that can be efficiently computed.
-However, it turns out that we can turn complexity "on its head" and use the assumed _non existence_ of fast algorithms for problems such as 3SAT to obtain pseudorandom generators that can then be used to transform randomized algorithms into deterministic ones.
+However, it turns out that we can turn complexity "on its head" and use the assumed _non-existence_ of fast algorithms for problems such as 3SAT to obtain pseudorandom generators that can then be used to transform randomized algorithms into deterministic ones.
 This is known as the _Hardness vs Randomness_ paradigm.
 A number of results along those lines, most of which are outside the scope of this course, have led researchers to believe the following conjecture:
 
@@ -473,7 +478,7 @@ In particular, it is stronger than the conjecture that $\mathbf{P} \neq \mathbf{
 But we do have some evidence for its truth.
 There is a spectrum of different types of pseudorandom generators, and there are weaker assumptions than the optimal PRG conjecture that suffice to prove that $\mathbf{BPP}=\mathbf{P}$.
 In particular this is known to hold under the assumption that there exists a function $F\in \mathbf{TIME}(2^{O(n)})$ and $\epsilon >0$ such that for every sufficiently large  $n$, $F_{\upharpoonright n}$ is not in $SIZE(2^{\epsilon n})$.
-The name "Optimal PRG conjecture" is non standard.
+The name "Optimal PRG conjecture" is non-standard.
 This conjecture is sometimes known in the literature as the existence of _exponentially strong pseudorandom functions_.^[A pseudorandom generator of the form we posit, where each output bit can be computed individually in time polynomial in the seed length, is commonly known as a _pseudorandom function generator_. For more on the many interesting results and connections in the study of _pseudorandomness_, see [this monograph of Salil Vadhan](https://people.seas.harvard.edu/~salil/pseudorandomness/).]
 
 ### Usefulness of pseudorandom generators
@@ -601,12 +606,12 @@ Since every shift $s_i$ is chosen independently, for every fixed $z$ the events 
 
 $$\Pr[ BAD_z ] = \Pr[ \cap_{i\in [100m-1]} BAD_z^i ] = \prod_{i=0}^{100m-1} \Pr[BAD_z^i]  \label{sipsergacsprodboundeq}\;.$$
 
-So this means that the result will follow by showing that $\Pr[ BAD_z^i ] \leq \tfrac{1}{2}$ for every $z\in \{0,1\}^m$ and $i\in [100m]$ (as that would allow to bound the righthand side of [sipsergacsprodboundeq](){.eqref} by $2^{-100m}$).
+So this means that the result will follow by showing that $\Pr[ BAD_z^i ] \leq \tfrac{1}{2}$ for every $z\in \{0,1\}^m$ and $i\in [100m]$ (as that would allow to bound the right-hand side of [sipsergacsprodboundeq](){.eqref} by $2^{-100m}$).
 In other words, we need to show that for every $z\in \{0,1\}^m$ and set $S \subseteq \{0,1\}^m$ with $|S| \geq \tfrac{1}{2} 2^m$,
 
 $$\Pr_{s \in \{0,1\}^m}[ z \in S \oplus s ] \geq \tfrac{1}{2}\; \label{sipsergacsprodboundtwoeq}.$$
 
-To show this, we observe that $z \in S \oplus s$ if and only if $s \in S \oplus z$ (can you see why). Hence we can rewrite the probability on the lefthand side of [sipsergacsprodboundtwoeq](){.eqref} as $\Pr_{s\in \{0,1\}^m}[ s\in S \oplus z]$ which simply equals $|S \oplus z|/2^m  = |S|/2^m \geq 1/2$!
+To show this, we observe that $z \in S \oplus s$ if and only if $s \in S \oplus z$ (can you see why). Hence we can rewrite the probability on the left-hand side of [sipsergacsprodboundtwoeq](){.eqref} as $\Pr_{s\in \{0,1\}^m}[ s\in S \oplus z]$ which simply equals $|S \oplus z|/2^m  = |S|/2^m \geq 1/2$!
 This concludes the proof of __CLAIM I__ and hence of [BPPvsNP](){.ref}.
 :::
 
@@ -622,7 +627,7 @@ There is some absolute constant $C$ such that for every $\epsilon,T$, if $\ell >
 
 > ### {.proofidea data-ref="prgexist"}
 The proof uses an extremely useful technique known as the "probabilistic method" which is not too hard mathematically but can be confusing at first.^[There is a whole (highly recommended) [book by Alon and Spencer](https://www.amazon.com/Probabilistic-Method-Discrete-Mathematics-Optimization/dp/1119061954/ref=dp_ob_title_bk)  devoted to this method.]
-The idea is to give a "non constructive" proof of existence of the pseudorandom generator $G$ by showing that if $G$ was chosen at random, then the probability that it would be a valid $(T,\epsilon)$ pseudorandom generator is positive.
+The idea is to give a "non-constructive" proof of existence of the pseudorandom generator $G$ by showing that if $G$ was chosen at random, then the probability that it would be a valid $(T,\epsilon)$ pseudorandom generator is positive.
 In particular this means that there _exists_ a single $G$ that is a valid $(T,\epsilon)$ pseudorandom generator.
 The probabilistic method is just a _proof technique_ to demonstrate the existence of such a function.
 Ultimately, our goal is to show the existence of a _deterministic_ function $G$ that satisfies the condition.
@@ -709,6 +714,6 @@ The name $\mathbf{BPP}$ stands for "bounded probability polynomial time". This i
 
 
 The proof of [rnandthm](){.ref} actually yields more than its statement. We can use the same "unrolling the loop" arguments we've used before to show that the restriction to $\{0,1\}^n$ of every function in $\mathbf{BPP}$ is also computable by a polynomial-size RNAND-CIRC program (i.e., NAND-CIRC program with the `RAND` operation). Like in the $\mathbf{P}$ vs $SIZE(poly(n))$ case, there are also functions outside $\mathbf{BPP}$ whose restrictions can be computed by polynomial-size RNAND-CIRC programs.
-Nevertheless the proof of [rnandthm](){.ref} shows that even such functions can be computed by polynomial sized NAND-CIRC programs without using the `rand` operations.
+Nevertheless the proof of [rnandthm](){.ref} shows that even such functions can be computed by polynomial-sized NAND-CIRC programs without using the `rand` operations.
 This can be phrased as saying   that $BPSIZE(T(n)) \subseteq SIZE(O(n T(n)))$ (where $BPSIZE$ is defined in the natural way using RNAND progams).
 The stronger version of  [rnandthm](){.ref} we mentioned can be phrased as saying that  $\mathbf{BPP_{/poly}} = \mathbf{P_{/poly}}$.

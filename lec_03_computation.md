@@ -364,7 +364,7 @@ A large part of this book will be devoted to addressing the above issues. We wil
 
 2. While the choice of $AND$/$OR$/$NOT$ is arbitrary, and we could just as well have chosen other functions, we will also see this choice does not matter much. We will see that  we would obtain the same computational power if we instead used addition and multiplication, and essentially every other operation that could be reasonably thought of as a basic step.
 
-3. It turns out that we can and do compute such "$AND$/$OR$/$NOT$ based algorithms" in the real world. First of all, such an algorithm is clearly well specified, and so can be executed by a human with a pen and paper. Second, there are a variety of ways to _mechanize_ this computation. We've already seen that we can write Python code that corresponds to following such a list of instructions. But in fact we can directly implement operations such as $AND$, $OR$, and $NOT$ via electronic signals using components known as _transistors_. This is how modern electronic computers operate.
+3. It turns out that we can and do compute such "$AND$/$OR$/$NOT$-based algorithms" in the real world. First of all, such an algorithm is clearly well specified, and so can be executed by a human with a pen and paper. Second, there are a variety of ways to _mechanize_ this computation. We've already seen that we can write Python code that corresponds to following such a list of instructions. But in fact we can directly implement operations such as $AND$, $OR$, and $NOT$ via electronic signals using components known as _transistors_. This is how modern electronic computers operate.
 
 In the remainder of this chapter, and the rest of this book, we will begin to answer some of these questions.
 We will see more examples of the power of simple operations to compute more complex operations including addition, multiplication, sorting and more.
@@ -520,7 +520,7 @@ We now formally define the AON-CIRC programming language ("AON" stands for _AND_
 
 ::: {.definition title="AON-CIRC Programming language" #AONcircdef}
 An _AON-CIRC program_ is a string of lines of the form `foo = AND(bar,blah)`, `foo = OR(bar,blah)` and `foo = NOT(bar)` where `foo`, `bar` and `blah` are variable names.^[We follow the common [programming languages convention](https://goo.gl/QyHa3b)  of using names such as `foo`, `bar`, `baz`, `blah` as stand-ins for generic identifiers. A variable identifier in our programming language can be any combination of letters, numbers,  underscores, and brackets. The [appendix](http://tiny.cc/introtcsappendix) contains a full formal specification of our programming language.]
-Variables of the form `X[`$i$`]` are known as _input_ variables, and variables of the form `Y[`$j$`]` are known as _output_ variables. In every line, the variables on the righthand side of the assignment operators must either be input variables or variables that have already been assigned a value.
+Variables of the form `X[`$i$`]` are known as _input_ variables, and variables of the form `Y[`$j$`]` are known as _output_ variables. In every line, the variables on the right-hand side of the assignment operators must either be input variables or variables that have already been assigned a value.
 
 A valid AON-CIRC program $P$ includes input variables of the form `X[`$0$`]`,$\ldots$,`X[`$n-1$`]` and output variables of the form `Y[`$0$`]`,$\ldots$, `Y[`$m-1$`]` for some $n,m \geq 1$.
 If $P$ is valid AON-CIRC program  and $x\in \{0,1\}^n$, then we define the _output of $P$ on input $x$_, denoted by $P(x)$, to be the string $y\in \{0,1\}^m$ corresponding to the values of the output variables `Y[`$0$`]` ,$\ldots$, `Y[`$m-1$`]`  in the execution of $P$ where we initialize the input variables `X[`$0$`]`,$\ldots$,`X[`$n-1$`]` to the values $x_0,\ldots,x_{n-1}$.
@@ -624,7 +624,7 @@ hence all the variables  `X[0]`, $\ldots$, `X[`$n-1$`]` and `Y[0]` ,$\ldots$, `Y
 
 
 _Computation_ is an abstract notion that is distinct from its physical _implementations_.
-While most modern computing devices are obtained by mapping logical gates to semiconductor based transistors, over history people have computed using a huge variety of mechanisms,  including mechanical systems, gas and liquid (known as _fluidics_), biological and chemical processes, and even living creatures (e.g., see [crabfig](){.ref} or  [this video](https://www.youtube.com/watch?v=czk4xgdhdY4) for how crabs or slime mold can be used to do computations).
+While most modern computing devices are obtained by mapping logical gates to semiconductor-based transistors, throughout history people have computed using a huge variety of mechanisms,  including mechanical systems, gas and liquid (known as _fluidics_), biological and chemical processes, and even living creatures (e.g., see [crabfig](){.ref} or  [this video](https://www.youtube.com/watch?v=czk4xgdhdY4) for how crabs or slime mold can be used to do computations).
 
 
 In this section we will review some of these implementations, both so you can get an appreciation of how it is possible to directly translate Boolean circuits to the physical world, without going through the entire stack of architecture, operating systems, and compilers, as well as to emphasize that silicon-based processors are by no means the only way to perform computation.
@@ -685,6 +685,7 @@ This means that if there exists a AND/OR/NOT circuit to compute a function $g:\{
 Computation can be based on [biological or chemical systems](http://www.nature.com/nrg/journal/v13/n7/full/nrg3197.html).
 For example the [_lac_ operon](https://en.wikipedia.org/wiki/Lac_operon) produces the enzymes needed to digest lactose only if the conditions $x \wedge (\neg y)$ hold where $x$ is "lactose is present" and $y$ is "glucose is present".
 Researchers have managed to [create transistors](http://science.sciencemag.org/content/340/6132/554?iss=6132), and from them  logic gates, based on DNA molecules (see also [transcriptorfig](){.ref}).
+Projects such as the [Cello programming language](https://www.cidarlab.org/cello) enable converting Boolean circuits into DNA sequences that encode operations that can be executed in bacterial cells, see [this video](https://youtu.be/-1fqgrF7fXU). 
 One motivation for DNA computing is to achieve increased parallelism or storage density; another is to create "smart biological agents" that could perhaps be injected into bodies, replicate themselves, and fix or kill cells that were damaged by a disease such as cancer.
 Computing in biological systems is not restricted, of course, to DNA:
 even larger systems such as [flocks of birds](https://www.cs.princeton.edu/~chazelle/pubs/cacm12-natalg.pdf) can be considered as computational processes.
@@ -776,7 +777,7 @@ MAJ(x_0,x_1,x_2) = OR\left(\, AND(x_0,x_1)\;,\; OR \bigl( AND(x_1,x_2) \;,\; AND
 $$
 
 We can use [univnandonethm](){.ref}  to replace all the occurrences of $AND$ and $OR$   with $NAND$'s.
-Specifically, we can use the equivalence $AND(a,b)=NOT(NAND(a,b))$, $OR(a,b)=NAND(NOT(a),NOT(b))$, and $NOT(a)=NAND(a,a)$ to replace the righthand side of
+Specifically, we can use the equivalence $AND(a,b)=NOT(NAND(a,b))$, $OR(a,b)=NAND(NOT(a),NOT(b))$, and $NOT(a)=NAND(a,a)$ to replace the right-hand side of
 [eqmajandornotrestated](){.eqref} with an expression involving only $NAND$, yielding that $MAJ(a,b,c)$ is equivalent to the (somewhat unwieldy) expression
 
 $$
@@ -1072,7 +1073,7 @@ The exercises cover several examples of universal and non-universal gate sets.
 As we discussed in [secimplvsspec](){.ref}, one of the most important distinctions in this book is that of _specification_ versus _implementation_ or separating "what" from "how" (see [specvsimplfig](){.ref}).
 A _function_ corresponds to the _specification_ of a computational task, that is _what_ output should be produced for every particular input.
 A _program_ (or circuit, or any other way to specify _algorithms_) corresponds to the _implementation_ of _how_ to compute the desired output from the input.
-That is, a program is a set of instructions how to compute the output from the input.
+That is, a program is a set of instructions on how to compute the output from the input.
 Even within the same computational model there can be many different ways to compute the same function.
 For example, there is more than one NAND-CIRC program that computes the majority function, more than one Boolean circuit to compute the addition function, and so on and so forth.
 

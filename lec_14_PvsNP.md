@@ -58,6 +58,12 @@ As far as we know, it could be the case that $1000$-variable $3SAT$ can be solve
 So far, most of our evidence points to the latter possibility of 3SAT being exponentially hard, but we have not ruled out the former possibility either.
 In this chapter we will explore some of the consequences of the "$3SAT$ easy" scenario.
 
+::: {.nonmath}
+This chapter shows some of the truly breathtaking concsequences that would be derived from an efficient algorithm for $\mathbf{NP}$-complete problems.
+We will see that an such algorithm would imply efficient algorithms for tasks including solving search problems, eliminating quantifiers, fitting data with complex models, sampling and counting, and more.
+While the evidence strongly suggest that such an algorithm does not exist, the tools developed in these results have nonetheless found many other applications.
+:::
+
 
 ## Search-to-decision reduction
 

@@ -27,10 +27,14 @@ See below for individual chapters. You can also download:
 
 If you have any _comments, suggestions, typo fixes_, etc.. I would be very grateful if you post them as an [**issue**](https://github.com/boazbk/tcs/issues) or [**pull request**](https://github.com/boazbk/tcs/pulls) in the [**GitHub repository boazbk/tcs**](https://github.com/boazbk/tcs) where I am maintaining the source files for these notes.
 You can also post comments on each chapter in the links below.
-The repository [github.com/boazbk/tcscode](https://github.com/boazbk/tcscode)  will eventually contain all supplementary code and online appendices for this book.
+
+
+See the [github.com/boazbk/tcscode](the tcscode repository) for jupyter notebooks with supplementary code for the book.
+
 
 For prior versions of the book, see the [repository release page](https://github.com/boazbk/tcs/releases). The most updated version of this book is always on this page.
 
 
-__Frozen version for Fall 2020:__ I will be only making minor edits (typos, local fixes) during the fall so as not to disrupt teaching. For consistency in references and exercises, instructor can use 
-the following version frozen as of August 2020:  [Introduction to TCS version 0.9 - August 26, 2020](https://github.com/boazbk/tcs/releases/download/0.9/introtcs_august2020.pdf)
+__Frozen version for Fall 2020:__ I will be only making minor edits (typos, local fixes) during the fall so as not to disrupt teaching. For consistency in references and exercises, instructors can use 
+the following version frozen as of September 1 2020:  [Introduction to TCS version 0.92 - September 1, 2020](https://github.com/boazbk/tcs/releases/download/0.92/introtcs_sep1.pdf)
+

@@ -30,6 +30,14 @@ In this chapter we will see an example of a natural and seemingly "computation f
 As a corollary, we will see one of the most striking results of 20th century mathematics: _Gödel's Incompleteness Theorem_, which showed that there are some mathematical statements (in fact, in number theory) that are _inherently unprovable_.
 We will actually start with the latter result, and then show the former.
 
+::: {.nonmath}
+The marquee result of this chapter is Gödel's Incompleteness Theorem, which states that for every proof system, there are some statements about arithmetic that are true but  _unprovable_ in this system.
+But more than that we will see a deep connection between _uncomputability_ and _unprovability_.
+For example, the uncomputability of the Halting problem immediately gives rise to the existence of unprovable statements about Turing machines.
+To even state Gödel's Incompleteness Theorem we will need to formally define the notion of a "proof system".
+We give a very general definition, that encompasses all types of "axioms + inference rules" systems using in logic and math.
+We will then build up the machinery to encode computation using arithmetic that will enable us to prove Gödel's Theorem.
+:::
 
 
 ![Outline of the results of this chapter. One version of Gödel's Incompleteness Theorem is an immediate consequence of the uncomputability of the Halting problem. To obtain the theorem as originally stated (for statements about the integers) we first prove that the $QMS$ problem of determining truth of quantified statements involving both integers and strings is uncomputable. We do so using the notion of _Turing Machine configurations_ but there are alternative approaches to do so as well, see [alternativeproofs](){.ref}.](../figure/godelstructure.png){#godelstructurefig }
@@ -173,7 +181,7 @@ x^* \text{ is true} \Leftrightarrow \text{$x^*$ does not have a proof in $V$} \l
 $$
 
 One can see that if $x^*$ is true, then it does not have a proof, but it is false then (assuming the proof system is sound) then it cannot have a proof, and hence $x^*$ must be both true and unprovable.
-One might wonder how is it possible to come up with an $x^*$ that satisfies a condition such as [godeleq](){.eqref} where the same string $x^*$ appears on both the righthand side and the lefthand side of the equation.
+One might wonder how is it possible to come up with an $x^*$ that satisfies a condition such as [godeleq](){.eqref} where the same string $x^*$ appears on both the right-hand side and the left-hand side of the equation.
 The idea is that the proof of [godethmtakeone](){.ref} yields a way to transform every statement $x$ into a statement $F(x)$ that is true if and only if $x$ does not have a proof in $V$.
 Thus $x^*$ needs to be a _fixed point_ of $F$: a sentence such that $x^* = F(x^*)$.
 It turns out that [we can always find](https://en.wikipedia.org/wiki/Kleene%27s_recursion_theorem) such a fixed point of $F$.

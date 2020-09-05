@@ -19,6 +19,23 @@ chapternum: "23"
 
 >_"The only difference between a probabilistic classical world and the equations of the quantum world is that somehow or other it appears as if the probabilities would have to go negative"_, Richard Feynman, 1981
 
+
+Quantum mechanics is a deeply un-intuitive physical theory, and yet one that has been consistently verfied by experiments to astonishing degrees of accuracy and is accepted by physicists as under-pinning our universe.
+In the 1980's and 1990's, a small number of physicists and computer scientists began to suspect that these "un-intuitive" aspects might enable the design of computers that have "un-untuitive" powers.
+These was very much a niche area until in 1994 Peter Shor [@Shor94] showed that such computers could factor integers in time polynomial in their number of digits.
+Since then quantum computers have attracted an immense intersted from scientists, governments, and industry, and there are extensive experimental efforts for constructing these at scale.
+
+::: {.nonmath}
+In this chapter we give an overview of some of the "weird properties" of quantum mechanics, and how they impact computation.
+We discuss how quantum computers are modeled mathematically, and the class $\mathbf{BQP}$ which captures the set of functions that they can compute in polynomial time.
+We also present a (half-blind and flying high) "bird's eye view" of Shor's Algorithm, and in particular of the _Quantum Fourier Transform_ which is the main tool used by it and many other quantum algorithms
+offering exponential speedups over the best known "classical" algorithms.
+See [quantumbibnotessec](){.ref} for sources that cover this chapter's material in far greater depth.
+:::
+
+
+## A brief introduction to quantum mechanics 
+
 There were two schools of natural philosophy in ancient Greece.
 _Aristotle_ believed that objects have an _essence_ that explains their behavior, and a theory of the natural world has to refer to the _reasons_ (or "final cause" to use Aristotle's language) as to why they exhibit certain phenomena.
 _Democritus_ believed in a purely mechanistic explanation of the world.
@@ -30,7 +47,7 @@ While the classification of particles and forces evolved with time, to a large e
 In particular it was held as an axiom that if we knew fully the current _state_ of the universe (i.e., the particles and their properties such as location and velocity) then we could predict its future state at any point in time.
 In computational language, in all these theories the state of a system with $n$ particles could be stored in an array of $O(n)$ numbers, and predicting the evolution of the system can be done by running some efficient (e.g., $poly(n)$ time) deterministic computation on this array.
 
-## The double slit experiment
+### The double slit experiment
 
 
 Alas, in the beginning of the 20th century, several experimental results were calling into question this "clockwork" or "billiard ball" theory of the world.
@@ -63,7 +80,7 @@ The mere fact that we _measure_ the path changes the photon's behavior, and now 
 You should read the paragraphs above more than once and make sure you appreciate how truly mind boggling these results are.
 
 
-## Quantum amplitudes
+### Quantum amplitudes
 
 
 The double slit and other experiments ultimately forced scientists to accept a very counterintuitive picture of the world.
@@ -443,7 +460,7 @@ It is instructive to understand what is it about quantum mechanics that enabled 
 Recall that in the classical setting, we modeled computation as obtained by a sequence of _basic operations_.
 We had two types of computational models:
 
-* _Non uniform models of computation_ such as Boolean circuits and NAND-CIRC programs, where a finite function $f:\{0,1\}^n \rightarrow \{0,1\}$ is computable in size $T$ if it can be expressed as a combination of $T$ basic operations (gates in a circuit or lines in a NAND-CIRC program)
+* _Non-uniform models of computation_ such as Boolean circuits and NAND-CIRC programs, where a finite function $f:\{0,1\}^n \rightarrow \{0,1\}$ is computable in size $T$ if it can be expressed as a combination of $T$ basic operations (gates in a circuit or lines in a NAND-CIRC program)
 
 * _Uniform models of computation_ such as Turing machines and NAND-TM programs, where an infinite function $F:\{0,1\}^* \rightarrow \{0,1\}$ is computable in time $T(n)$ if there is a single algorithm that on input $x\in \{0,1\}^n$ evaluates $F(x)$ using at most $T(n)$ basic steps.
 
@@ -451,7 +468,7 @@ We had two types of computational models:
 When considering _efficient computation_, we defined the class $\mathbf{P}$ to consist of all infinite functions $F:\{0,1\}^* \rightarrow \{0,1\}$ that can be computed by a Turing machine or NAND-TM program in time $p(n)$  for some polynomial $p(\cdot)$.
 We defined the class  $\mathbf{P_{/poly}}$ to consists of all infinite functions $F:\{0,1\}^* \rightarrow \{0,1\}$ such that for every $n$, the restriction $F_{\upharpoonright n}$ of $F$ to $\{0,1\}^n$ can be computed by a Boolean circuit or NAND-CIRC program of size at most $p(n)$ for some polynomial $p(\cdot)$.
 
-We will do the same for _quantum computation_, focusing mostly on the _non uniform_ setting of quantum circuits, since that is simpler, and already illustrates the important differences with classical computing.
+We will do the same for _quantum computation_, focusing mostly on the _non-uniform_ setting of quantum circuits, since that is simpler, and already illustrates the important differences with classical computing.
 
 
 ### Quantum circuits
@@ -463,7 +480,7 @@ Therefore, we cannot use the same qubit as input for two different gates.
 (This is known as the [No Cloning Theorem](https://goo.gl/jCVtEY).)
 Another more technical difference is that to express our operations as unitary matrices, we will need to make sure all our gates are _reversible_.
 This is not hard to ensure.
-For example, in the quantum context, instead of thinking of $NAND$ as a (non reversible) map from $\{0,1\}^2$ to $\{0,1\}$, we will think of it as the reversible map on _three_ qubits that maps $a,b,c$ to $a,b,c\oplus NAND(a,b)$ (i.e., flip the last bit if $NAND$ of the first two bits is $1$).
+For example, in the quantum context, instead of thinking of $NAND$ as a (non-reversible) map from $\{0,1\}^2$ to $\{0,1\}$, we will think of it as the reversible map on _three_ qubits that maps $a,b,c$ to $a,b,c\oplus NAND(a,b)$ (i.e., flip the last bit if $NAND$ of the first two bits is $1$).
 Equivalently, the NAND operation corresponds to the $8\times 8$ unitary matrix  $U_{NAND}$  such that (identifying $\{0,1\}^3$ with $[8]$) for every $a,b,c \in \{0,1\}$, if $|abc\rangle$ is the basis element with $1$ in the $abc$-th coordinate and zero elsewhere, then $U_{NAND} |abc\rangle =|ab(c \oplus NAND(a,b))\rangle$.^[Readers familiar with quantum computing should note that $U_{NAND}$ is a close variant of the so called [Toffoli gate](https://goo.gl/BE7aVG) and so QNAND-CIRC programs correspond to quantum circuits with the Hadamard and Toffoli gates.]
 If we order the rows and columns as $000,001,010,\ldots,111$, then $U_{NAND}$ can be written as the following matrix:
 
@@ -532,7 +549,7 @@ Just as we did with classical computation, we can define mathematical models for
 :::
 
 
-Once we have the notion of quantum circuits, we can define the quantum analog of $\mathbf{P_{/poly}}$ (i.e., the class of functions computable by _polynomial size quantum circuits_) as follows:
+Once we have the notion of quantum circuits, we can define the quantum analog of $\mathbf{P_{/poly}}$ (i.e., the class of functions computable by _polynomial-size quantum circuits_) as follows:
 
 > ### {.definition title="$\mathbf{BQP_{/poly}}$" #QBPpoly}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$.
@@ -601,12 +618,12 @@ It is widely believed that $\mathbf{NP} \nsubseteq \mathbf{BQP}$, but there is n
 It is   [quite possible](https://eccc.weizmann.ac.il/report/2018/107/) that these two classes are _incomparable_, in the sense that $\mathbf{NP} \nsubseteq \mathbf{BQP}$ (and in particular no $\mathbf{NP}$-complete function belongs to $\mathbf{BQP}$) but also $\mathbf{BQP} \nsubseteq \mathbf{NP}$ (and there are some interesting candidates for such problems).
 
 
-It can be shown that $QNANDEVAL$ (evaluating a quantum circuit on an input) is computable by a polynomial size QNAND-CIRC program, and moreover this program can even be generated _uniformly_ and hence $QNANDEVAL$ is in $\mathbf{BQP}$.
+It can be shown that $QNANDEVAL$ (evaluating a quantum circuit on an input) is computable by a polynomial-size QNAND-CIRC program, and moreover this program can even be generated _uniformly_ and hence $QNANDEVAL$ is in $\mathbf{BQP}$.
 This allows us to "port" many of the results of classical computational complexity into the quantum realm, including the notions of a universal quantum Turing machine, as well as all of the uncomputability results.
 There is even a quantum analog of the [Cook-Levin Theorem](https://arxiv.org/abs/1401.3916).
 
 ::: {.remark title="Restricting attention to circuits" #quantumnonuniformrem}
-Because the non uniform model is a little cleaner to work with, in the rest of this chapter we mostly restrict attention to this model, though all the algorithms we discuss can be implemented using uniform algorithms as well.
+Because the non-uniform model is a little cleaner to work with, in the rest of this chapter we mostly restrict attention to this model, though all the algorithms we discuss can be implemented using uniform algorithms as well.
 :::
 
 
@@ -803,7 +820,7 @@ The representation [fourierexpansion](){.eqref} is known as the _Fourier expansi
 are known as the _Fourier characters_.
 The central property of the Fourier characters is that they are _homomorphisms_ of the group into the complex numbers, in the sense that for every $x,x' \in \mathbb{G}$, $\chi_g(x \star x')=\chi_g(x)\chi_g(x')$, where $\star$ is the group operation.
 One corollary of this property is that if $\chi_g(h)=1$ then $\chi_g$ is _$h$ periodic_ in the sense that $\chi_g(x \star h)=\chi_g(x)$ for every $x$.
-It turns out that if $f$ is periodic with minimal period $h$, then the only Fourier characters that have non zero coefficients in the expression [fourierexpansion](){.eqref} are those that are $h$ periodic as well.
+It turns out that if $f$ is periodic with minimal period $h$, then the only Fourier characters that have non-zero coefficients in the expression [fourierexpansion](){.eqref} are those that are $h$ periodic as well.
 This can be used to recover the period of $f$ from its Fourier expansion.
 
 ### Quantum Fourier Transform over the Boolean Cube: Simon's Algorithm
@@ -874,7 +891,7 @@ which exactly corresponds to $\hat{\rho}$.
 ### From Fourier to Period finding: Simon's Algorithm (advanced, optional)
 
 Using [QFTcube](){.ref} it is not hard to get an algorithm that can recover a string $h^* \in \{0,1\}^n$ given a circuit that computes a function $F:\{0,1\}^n \rightarrow \{0,1\}^*$  that is _$h^*$ periodic_ in the sense that $F(x)=F(x')$ for distinct $x,x'$ if and only if $x' = x \oplus h^*$.
-The key observation is that if we compute the state $\sum_{x\in \{0,1\}^n} |x \rangle |F(x) \rangle$,  and perform the Quantum Fourier transform on the first $n$ qubits, then we would get a state such that the only basis elements with nonzero coefficients would be of the form $|y \rangle$ where
+The key observation is that if we compute the state $\sum_{x\in \{0,1\}^n} |x \rangle |F(x) \rangle$,  and perform the Quantum Fourier transform on the first $n$ qubits, then we would get a state such that the only basis elements with non-zero coefficients would be of the form $|y \rangle$ where
 
 $$
 \sum y_i h^*_i = 0 (\mod 2) \label{eq:periodbooleanqft}
@@ -956,7 +973,7 @@ Prove the following relations between quantum complexity classes and classical o
 ::: {.exercise title="Discrete logarithm from order finding" #dlogfromorder}
 Show a probabilistic polynomial time classical algorithm that given an Abelian finite group $\mathbb{G}$ (in the form of an algorithm that computes the group operation), a _generator_ $g$ for the group, and an element $h \in \mathbb{G}$, as well as access to a black box that on input $f\in \mathbb{G}$ outputs the _order_ of $f$ (the smallest $a$ such that $f^a =1$), computes the _discrete logarithm_ of $h$ with respect to $g$.
 That is the algorithm should output a number $x$ such that $g^x = h$.
-See footnote for hint.^[We are given $h=g^x$ and need to recover $x$. To do so we can compute the order of various elements of the form $h^ag^b$. The order of such an element is a number $c$ satisfying   $c(xa+b) = 0 \pmod{|\mathbb{G}|}$. With a few random examples we will get a non trivial equation on $x$ (where $c$ is not zero modulo $|\mathbb{G}|$) and then we can use our knowledge of $a,b,c$ to recover $x$.]
+See footnote for hint.^[We are given $h=g^x$ and need to recover $x$. To do so we can compute the order of various elements of the form $h^ag^b$. The order of such an element is a number $c$ satisfying   $c(xa+b) = 0 \pmod{|\mathbb{G}|}$. With a few random examples we will get a non-trivial equation on $x$ (where $c$ is not zero modulo $|\mathbb{G}|$) and then we can use our knowledge of $a,b,c$ to recover $x$.]
 :::
 
 

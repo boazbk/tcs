@@ -29,6 +29,27 @@ Before we show how to use randomness in algorithms, let us do a quick review of 
 This is not meant to replace a course on probability theory, and if you have not seen this material before, I highly recommend you look at additional resources to get up to speed.
 Fortunately, we will not need many of the advanced notions of probability theory, but, as we will see, even the so-called "simple" setting of tossing $n$ coins can lead to very subtle and interesting issues.
 
+::: {.nonmath}
+This chapter contains an overview of the basics of probability theory, as needed for understanding randomized computation.
+The main topics covered are the notions of:
+
+1. A _sample space_ which for us will almost always consist of the set of all possible outcomes of the experiment of tossing a finite number of independent coins.
+
+2. An _event_ which is simply a subset of the sample space, with the probability of the event happening being the fraction of outcomes that are in this subset.
+
+3. A _random variable_ which is a way to assign some number or statistic to an outcome of the sample space.
+
+4. The notion _conditioning_ which correspond to how the value of a random variable (or the probability of an event) changes if we restrict attention to outcomes for which the value of another variable is known (or for which some other event has happened).  Random variables and events that have no impact on one another are called _independent_.
+
+5. _Expectation_ which is the average of a random variable, and _concentration bounds_ which quantify the probability that a random variable can "stray too far" from its expected value.
+
+These concepts are at once both basic and subtle.
+While we will not need many "fancy" topics covered in statistics courses, including special distributions (e.g., gemoetric, Poisson,  exponential, Gaussian, etc.), nor topics such as hypothesis testing or regression,
+this doesn't mean that the probability we use is "trivial".
+The human brain has not evolved to do probabilistic reasoning very well, and notions such as conditioning and independence can be quite subtle and confusing even in the basic setting of tossing a random coin.
+However, this is all the more reason that studying these notions in this basic setting is useful not just for following this book, but also as a strong foundation for "fancier topics".
+:::
+
 
 
 
@@ -250,11 +271,11 @@ On the other hand, $\Pr[ x_0 = 1 \wedge x_1 = 1 ] = \Pr[ \{110,111 \}] = \tfrac{
 
 > ### {.remark title="Disjointness vs independence" #disjoint}
 People sometimes confuse the notion of _disjointness_ and _independence_, but these are actually quite different.
-Two events $A$ and $B$ are _disjoint_ if $A \cap B = \emptyset$, which means that if $A$ happens then $B$ definitely does not happen. They are _independent_ if $\Pr[A \cap B]=\Pr[A]\Pr[B]$ which means that knowing that $A$ happens gives us no information about whether $B$ happened or not. If $A$ and $B$ have nonzero probability, then being disjoint implies that they are _not_ independent, since in particular it means that they are negatively correlated.
+Two events $A$ and $B$ are _disjoint_ if $A \cap B = \emptyset$, which means that if $A$ happens then $B$ definitely does not happen. They are _independent_ if $\Pr[A \cap B]=\Pr[A]\Pr[B]$ which means that knowing that $A$ happens gives us no information about whether $B$ happened or not. If $A$ and $B$ have non-zero probability, then being disjoint implies that they are _not_ independent, since in particular it means that they are negatively correlated.
 
 
 
-__Conditional probability:__ If $A$ and $B$ are events, and $A$ happens with nonzero probability then we define the probability that $B$ happens _conditioned on $A$_ to be $\Pr[B|A] = \Pr[A \cap B]/\Pr[A]$.
+__Conditional probability:__ If $A$ and $B$ are events, and $A$ happens with non-zero probability then we define the probability that $B$ happens _conditioned on $A$_ to be $\Pr[B|A] = \Pr[A \cap B]/\Pr[A]$.
 This corresponds to calculating the probability that $B$ happens if we already know that $A$ happened.
 Note that $A$ and $B$ are independent if and only if $\Pr[B|A]=\Pr[B]$.
 
@@ -304,7 +325,7 @@ $$
 \E[X] \E[Y]
 \end{gathered}
 $$
-where the first equality  ($=^{(1)}$) follows from the independence of $X$ and $Y$, the second equality ($=^{(2)}$) follows by "opening the parentheses" of the righthand side, and the third equality ($=^{(3)}$) follows from the definition of expectation.
+where the first equality  ($=^{(1)}$) follows from the independence of $X$ and $Y$, the second equality ($=^{(2)}$) follows by "opening the parentheses" of the right-hand side, and the third equality ($=^{(3)}$) follows from the definition of expectation.
 (This is not an "if and only if"; see [noindnocorex](){.ref}.)
 
 Another useful fact is that if $X$ and $Y$ are independent random variables, then so are $F(X)$ and $G(Y)$ for all functions $F,G:\R \rightarrow \R$.
@@ -468,8 +489,8 @@ See [chernoffstirlingex](){.ref}  for a proof of the simple (but highly useful a
 
 ::: {.remark title="Slight simplification of Chernoff" #chernoffsimpler}
 Since  $e$ is roughly $2.7$ (and in particular larger than $2$),  
-[eqchernoff](){.eqref} would still be true if we replaced its righthand side with $e^{-2\epsilon^2 n + 1}$.
-For  $n>1/\epsilon^2$,  the equation will still be true if we replaced the righthand side with the simpler $e^{-\epsilon^2 n}$. 
+[eqchernoff](){.eqref} would still be true if we replaced its right-hand side with $e^{-2\epsilon^2 n + 1}$.
+For  $n>1/\epsilon^2$,  the equation will still be true if we replaced the right-hand side with the simpler $e^{-\epsilon^2 n}$. 
 Hence we will sometimes use the Chernoff bound as stating that for $X_0,\ldots,X_{n-1}$ and $p$ as above, $n> 1/\epsilon^2$ then 
 $$
 \Pr[ \left| \sum_{i=0}^{n-1} X_i - pn \right| > \epsilon n ] \leq e^{-\epsilon^2 n} . \label{eqchernoffsimpler}
