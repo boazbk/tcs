@@ -42,7 +42,7 @@ In this chapter, we give a general model of an algorithm, which (unlike Boolean 
 We will see two ways to model algorithms:
 
 
-* _Turing machines_, invented by Alan Turing in 1936, are an hypothetical abstract device that yields a finite description of an algorithm that can handle arbitrarily long inputs.
+* _Turing machines_, invented by Alan Turing in 1936, are hypothetical abstract devices that yield finite descriptions of algorithms that can handle arbitrarily long inputs.
 
 
 * The _NAND-TM Programming language_ extends   NAND-CIRC with the notion of _loops_ and _arrays_ to obtain finite programs that can compute a function with arbitrarily long inputs.
@@ -74,7 +74,7 @@ See [chaploopoverviewfig](){.ref} for an overview of the models presented in thi
 ![Aside from his many other achievements, Alan Turing was an excellent long-distance runner who just fell shy of making England's Olympic team. A fellow runner once asked him why he punished himself so much in training. Alan said "I have such a stressful job that the only way I can get it out of my mind is by running hard; it's the only way I can get some release." ](../figure/alan-turing-running.jpg){#turingrunning .margin  }
 
 
-The "granddaddy" of all models of computation is the _Turing Machine_.
+The "granddaddy" of all models of computation is the _Turing machine_.
 Turing machines were defined in 1936 by Alan Turing in an attempt to formally capture all the functions that can be computed by human "computers" (see [humancomputersfig](){.ref}) that follow a well-defined set of rules, such as the standard algorithms for addition or multiplication.
 
 ![Until the advent of electronic computers, the word "computer" was used to describe a person that performed calculations. Most of these "human computers" were women, and they were absolutely essential to many achievements, including mapping the stars, breaking the Enigma cipher, and the NASA space mission; see also the bibliographical notes. Photo from [National Photo Company Collection](https://www.loc.gov/pictures/item/2016838906/); see also  [@sobel2017the].](../figure/HumanComputers.jpg){#humancomputersfig .margin  }
@@ -85,14 +85,14 @@ The paper is divided into "cells", where each "cell" can hold a single symbol (e
 At any point in time, the person can read from and write to a single cell of the paper. Based on the contents of this cell, the person can update their finite mental state, and/or move to the cell immediately to the left or right of the current one.
 
 
-![Steam-powered Turing Machine mural, painted by CSE grad students at the University of Washington on the night before spring qualifying examinations, 1987. Image from [https://www.cs.washington.edu/building/art/SPTM](https://www.cs.washington.edu/building/art/SPTM). ](../figure/SPTM.jpg){#steamturingmachine .margin  }
+![Steam-powered Turing machine mural, painted by CSE grad students at the University of Washington on the night before spring qualifying examinations, 1987. Image from [https://www.cs.washington.edu/building/art/SPTM](https://www.cs.washington.edu/building/art/SPTM). ](../figure/SPTM.jpg){#steamturingmachine .margin  }
 
 
 
 Turing modeled such a computation by a "machine" that maintains one of $k$ states.
-At each point in time, the machine reads from its "work tape" a single symbol from a finite alphabet $\Sigma$ and uses that to update its state, write to tape, and possibly move to an adjacent cell  (see [turing-machine-fig](){.ref}).
-To compute a function $F$ using this machine, we initialize the tape with the  input $x\in \{0,1\}^*$, and our goal is to ensure that the tape will contain the value $F(x)$  at the end of the computation.
-Specifically, a computation of a Turing Machine $M$ with $k$ states and alphabet $\Sigma$ on input $x\in \{0,1\}^*$ proceeds as follows:
+At each point in time the machine reads from its "work tape" a single symbol from a finite alphabet $\Sigma$ and uses that to update its state, write to tape, and possibly move to an adjacent cell  (see [turing-machine-fig](){.ref}).
+To compute a function $F$ using this machine, we initialize the tape with the  input $x\in \{0,1\}^*$  and our  goal  is to ensure that the tape will contain the value $F(x)$  at the end of the computation.
+Specifically, a computation of a Turing machine $M$ with $k$ states and alphabet $\Sigma$ on input $x\in \{0,1\}^*$ proceeds as follows:
 
 * Initially the machine is at state $0$ (known as the "starting state") and the tape is initialized to $\triangleright,x_0,\ldots,x_{n-1},\varnothing,\varnothing,\ldots$. We use the symbol $\triangleright$ to denote the beginning of the tape, and the symbol $\varnothing$ to denote an empty cell. We will always assume that the alphabet $\Sigma$ is a (potentially strict) superset of $\{ \triangleright, \varnothing , 0 , 1 \}$.
 
@@ -113,7 +113,7 @@ Specifically, a computation of a Turing Machine $M$ with $k$ states and alphabet
 
 Let $PAL$ (for _palindromes_) be the function that on input $x\in \{0,1\}^*$, outputs $1$ if and only if $x$ is an (even length) _palindrome_, in the sense that $x = w_0 \cdots w_{n-1}w_{n-1}w_{n-2}\cdots w_0$ for some $n\in \N$ and $w\in \{0,1\}^n$.
 
-We now show a Turing Machine $M$ that computes $PAL$. To specify $M$, we need to specify __(i)__ $ M$'s tape alphabet $\Sigma$, which should contain at least the symbols $0$,$1$, $\triangleright$ and $\varnothing$, and __(ii)__ $ M$'s _transition function_ which determines what action $M$ takes when it reads a given symbol while it is in a particular state.
+We now show a Turing machine $M$ that computes $PAL$. To specify $M$ we need to specify __(i)__ $M$'s tape alphabet $\Sigma$ which should contain at least the symbols $0$,$1$, $\triangleright$ and $\varnothing$, and __(ii)__ $M$'s _transition function_ which determines what action $M$ takes when it reads a given symbol while it is in a particular state.
 
 In our case, $M$ will use the alphabet $\{ 0,1,\triangleright, \varnothing, \times \}$ and will have $k=14$ states. Though the states are simply numbers between $0$ and $k-1$, we will give them the following labels for convenience:
 
@@ -142,7 +142,7 @@ State, Label
 
 
 
-We describe the operation of our Turing Machine $M$ in words:
+We describe the operation of our Turing machine $M$ in words:
 
 * $M$ starts in state `START` and goes right, looking for the first symbol that is $0$ or $1$. If it finds $\varnothing$ before it hits such a symbol then we it moves to the `OUTPUT_1` state described below.
 
@@ -193,13 +193,14 @@ For every $x\in \{0,1\}^*$, the _output_ of $M$ on input $x$, denoted by $M(x)$,
 
 
 ::: { .pause }
-You should make sure you see why this formal definition corresponds to our informal description of a Turing Machine.
-To get more intuition on Turing Machines, you can explore some of the online available simulators such as [Martin Ugarte's](https://turingmachinesimulator.com/), [Anthony Morphett's](http://morphett.info/turing/turing.html), or [Paul Rendell's](http://rendell-attic.org/gol/TMapplet/index.htm).
+You should make sure you see why this formal definition corresponds to our informal description of a Turing machine.
+To get more intuition on Turing machines, you can explore some of the online available simulators such as [Martin Ugarte's](https://turingmachinesimulator.com/), [Anthony Morphett's](http://morphett.info/turing/turing.html), or [Paul Rendell's](http://rendell-attic.org/gol/TMapplet/index.htm).
 :::
 
 One should not confuse the _transition function_ $\delta_M$ of a Turing machine $M$ with the function that the machine computes.
 The transition function $\delta_M$ is a _finite_ function, with $k|\Sigma|$ inputs and $4k|\Sigma|$ outputs. (Can you see why?)
 The machine can compute an _infinite_ function $F$ that takes as input a string $x\in \{0,1\}^*$ of arbitrary length and might also produce an arbitrary length string as output.
+
 
 In our formal definition, we identified the machine $M$ with its transition function $\delta_M$ since the transition function tells us everything we need to know about the Turing machine.
 However, this choice of representation is somewhat arbitrary, and is based on our convention that the state space is always the numbers $\{0,\ldots,k-1\}$ with $0$ as the starting state.
@@ -291,7 +292,7 @@ If a Turing machine $M$ fails to halt on some input $x\in \{0,1\}^*$ then we den
 
 If a partial function $F$ is undefined on $x$ then we can also write $F(x) = \bot$.
 Therefore one might think that [computablepartialfuncdef](){.ref} can be simplified to requiring that $M(x) = F(x)$ for every $x\in \{0,1\}^*$, which would imply that for every $x$, $M$ halts on $x$ if and only if $F$ is defined on $x$.
-However, this is not the case: for a Turing Machine $M$ to compute a partial function $F$ it is not _necessary_ for $M$ to enter an infinite loop on inputs $x$ on which $F$ is not defined.
+However, this is not the case: for a Turing machine $M$ to compute a partial function $F$ it is not _necessary_ for $M$ to enter an infinite loop on inputs $x$ on which $F$ is not defined.
 All that is needed is for $M$ to output $F(x)$ on $ x$'s on which $F$ is defined: on other inputs it is OK for $M$ to output an arbitrary value such as $0$, $1$, or anything else, or not to halt at all.
 To borrow a term from the `C` programming language,  on inputs $x$ on which $F$ is not defined, what $M$ does is "undefined behavior".
 :::
@@ -299,9 +300,9 @@ To borrow a term from the `C` programming language,  on inputs $x$ on which $F$ 
 
 ## Turing machines as programming languages
 
-The name "Turing machine", with its "tape" and "head" evokes a physical object, while in contrast, we think of a _program_ as a piece of text.
-However, we can think of a Turing machine as a program as well.
-For example, consider the Turing Machine $M$ of [turingmachinepalindrome](){.ref} that computes the function $PAL$ such that $PAL(x)=1$ iff $x$ is a palindrome.
+The name "Turing machine", with its "tape" and "head" evokes a physical object, while in contrast we think of a _program_ as a piece of text.
+But we can think of a Turing machine as a program as well.
+For example, consider the Turing machine $M$ of [turingmachinepalindrome](){.ref} that computes the function $PAL$ such that $PAL(x)=1$ iff $x$ is a palindrome.
 We can also describe this machine as a _program_ using the Python-like pseudocode of the form below
 
 ```python
@@ -329,7 +330,7 @@ Moreover, note that when translating a Turing machine into a program, the _tape_
 The _head position_ can be thought of as an integer-valued variable that holds integers of unbounded size.
 The _state_ is a _local register_ that can hold one of a fixed number of values in $[k]$.
 
-More generally we can think of every Turing Machine $M$ as equivalent to a program similar to the following:
+More generally we can think of every Turing machine $M$ as equivalent to a program similar to the following:
 
 ```python
 # Gets an array Tape initialized to
@@ -361,7 +362,7 @@ Similarly, we can represent each element of the alphabet $\Sigma$ using $\ell=\c
 ### The NAND-TM Programming language
 
 We now introduce the _NAND-TM programming language_, which captures the power of a Turing machine with a programming-language formalism.
-Like the difference between Boolean circuits and Turing Machines, the main difference between NAND-TM and NAND-CIRC is that NAND-TM models a _single uniform algorithm_ that can compute a function that takes inputs of _arbitrary lengths_.
+Like the difference between Boolean circuits and Turing machines, the main difference between NAND-TM and NAND-CIRC is that NAND-TM models a _single uniform algorithm_ that can compute a function that takes inputs of _arbitrary lengths_.
 To do so, we extend the NAND-CIRC programming language with two constructs:
 
 * _Loops_: NAND-CIRC is a _straight-line_ programming language- a NAND-CIRC program of $s$ lines takes exactly $s$ steps of computation and hence in particular, cannot even touch more than $3s$ variables. _Loops_ allow us to use a fixed-length program to encode the instructions for a computation that can take an arbitrary amount of time.
@@ -391,7 +392,7 @@ Concretely, the NAND-TM programming language adds the following features on top 
 
 * The input and output `X` and `Y` are now considered _arrays_ with values of zeroes and ones. (There are also two other special arrays `X_nonblank` and `Y_nonblank`, see below.)
 
-* We add a special `MODANDJUMP` instruction that takes two boolean variables $a,b$ as input and does the following:
+* We add a special `MODANDJUMP` instruction that takes two Boolean variables $a,b$ as input and does the following:
   - If $a=1$ and $b=1$ then `MODANDJUMP(`$a,b$`)` increments `i` by one and jumps to the first line of the program.
   - If $a=0$ and $b=1$ then `MODANDJUMP(`$a,b$`)` decrements `i` by one and jumps to the first line of the program. (If `i` is already equal to $0$ then it stays at $0$.)
   - If $a=1$ and $b=0$ then `MODANDJUMP(`$a,b$`)` jumps to the first line of the program without modifying `i`.
@@ -416,7 +417,7 @@ The output of a NAND-TM program is the string `Y[`$0$`]`, $\ldots$, `Y[`$m-1$`]`
 Formally, NAND-TM programs are defined as follows:
 
 ::: {.definition title="NAND-TM programs" #NANDTM}
-A _NAND-TM program_ consists of a sequence of lines of the form `foo = NAND(bar,blah)` ending with a line  of the form `MODANDJMP(foo,bar)`, where `foo`,`bar`,`blah` are either _scalar variables_ (sequences of letters, digits, and underscores) or _array variables_ of the form `Foo[i]` (starting with capital letter and indexed by `i`). The program has the array variables `X`, `X_nonblank`, `Y`, `Y_nonblank`, and the index variable `i` built in, and can use additional array and scalar variables.
+A _NAND-TM program_ consists of a sequence of lines of the form `foo = NAND(bar,blah)` ending with a line  of the form `MODANDJMP(foo,bar)`, where `foo`,`bar`,`blah` are either _scalar variables_ (sequences of letters, digits, and underscores) or _array variables_ of the form `Foo[i]` (starting with capital letters and indexed by `i`). The program has the array variables `X`, `X_nonblank`, `Y`, `Y_nonblank` and the index variable `i` built in, and can use additional array and scalar variables.
 
 If $P$ is a NAND-TM program and $x\in \{0,1\}^*$ is an input then an execution of $P$ on $x$ is the following process:
 
@@ -522,8 +523,8 @@ To transform the program above to a valid NAND-TM program, we can transform refe
 We then need to add code to load the value of `X[0]` to `x_0` and similarly to write to `Y[0]` the value of `y_0`, but this is not hard to do.
 Using the fact that variables are initialized to zero by default, we can create a variable `init` which will be set to $1$ at the end of the first iteration and not changed since then.
 We can then add an array `Atzero` and code that will modify `Atzero[i]` to $1$  if `init` is $0$ and otherwise leave it as it is.
-This will ensure that `Atzero[i]` is equal to $1$ if and only if `i` is set to zero, and allow the program to know when we are at the zero-th location.
-Thus we can add code to read and write to the corresponding scalars `x_0`, `y_0` when we are at the zero-th location, and also code to move `i` to zero and then halt at the end.
+This will ensure that `Atzero[i]` is equal to $1$ if and only if `i` is set to zero, and allow the program to know when we are at the zeroth location.
+Thus we can add code to read and write to the corresponding scalars `x_0`, `y_0` when we are at the zeroth location, and also code to move `i` to zero and then halt at the end.
 Working this out fully is somewhat tedious, but can be a good exercise.
 :::
 
@@ -541,7 +542,7 @@ Indeed, we designed the NAND-TM language to have this property.
 Nevertheless, this is a significant result, and the first of many other such equivalence results we will see in this book.
 
 > ### {.theorem title="Turing machines and NAND-TM programs are equivalent" #TM-equiv-thm}
-For every $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND-TM program $P$ if and only if there is a Turing Machine $M$ that computes $F$.
+For every $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND-TM program $P$ if and only if there is a Turing machine $M$ that computes $F$.
 
 ::: {.proofidea data-ref="TM-equiv-thm"}
 To prove such an equivalence theorem, we need to show two directions. We need to be able to __(1)__ transform a Turing machine $M$ to a NAND-TM program $P$ that computes the same function as $M$  and __(2)__ transform a NAND-TM program $P$ into a Turing machine $M$ that computes the same function as $P$.
@@ -552,17 +553,17 @@ Specifically, since the state of a Turing machine is not in $\{0,1\}$ but rather
 Similarly, to encode the larger alphabet $\Sigma$ of the tape, we will use $\ceil{\log |\Sigma|}$ arrays `Tape_`$0$ , $\ldots$, `Tape_`$\ceil{\log |\Sigma|}-1$, such that the $i^{th}$ location of these arrays encodes the $i^{th}$ symbol in the tape for every tape.
 Using the fact that _every_ function can be computed by a NAND-CIRC program, we will be able to compute the transition function of $M$, replacing moving left and right by decrementing and incrementing `i` respectively.
 
-We show __(2)__ using very similar ideas. Given a program $P$ that uses $a$ array variables and $b$ scalar variables, we will create a Turing machine with about $2^b$ states to encode the values of scalar variables, and an alphabet of about $2^a$ so we can encode the arrays using our tape. (The reason the sizes are only "about" $2^a$ and $2^b$ is that we need to add some symbols and steps for bookkeeping purposes.) The Turing Machine $M$ simulates each iteration of the program $P$ by updating its state and tape accordingly.
+We show __(2)__ using very similar ideas. Given a program $P$ that uses $a$ array variables and $b$ scalar variables, we will create a Turing machine with about $2^b$ states to encode the values of scalar variables, and an alphabet of about $2^a$ so we can encode the arrays using our tape. (The reason the sizes are only "about" $2^a$ and $2^b$ is that we need to add some symbols and steps for bookkeeping purposes.) The Turing machine $M$ simulates each iteration of the program $P$ by updating its state and tape accordingly.
 :::
 
-![Comparing a Turing Machine to a NAND-TM program. Both have an unbounded memory component (the _tape_ for a Turing machine, and the _arrays_ for a NAND-TM program), as well as a constant local memory (_state_ for a Turing machine, and _scalar variables_ for a NAND-TM program). Both can only access at each step one location of the unbounded memory, this is the "head" location for a Turing machine, and the value of the index variable `i` for a NAND-TM program.  ](../figure/turingmachinevsnandtm.png){#tmvsnandppfig   }
+![Comparing a Turing machine to a NAND-TM program. Both have an unbounded memory component (the _tape_ for a Turing machine, and the _arrays_ for a NAND-TM program), as well as a constant local memory (_state_ for a Turing machine, and _scalar variables_ for a NAND-TM program). Both can only access at each step one location of the unbounded memory, this is the "head" location for a Turing machine, and the value of the index variable `i` for a NAND-TM program.  ](../figure/turingmachinevsnandtm.png){#tmvsnandppfig   }
 
 :::  {.proof data-ref="TM-equiv-thm"}
 We start by proving the "if" direction of [TM-equiv-thm](){.ref}. Namely we show that given a Turing machine $M$, we can find a NAND-TM program $P_M$ such that for every input $x$, if $M$ halts on input $x$ with output $y$ then $P_M(x)=y$.
 Since our goal is just to show such a program $P_M$ _exists_, we don't need to write out the full code of $P_M$ line by line, and can take advantage of our various "syntactic sugar" in describing it.
 
 The key observation is that by [NAND-univ-thm](){.ref} we can compute _every_ finite function using a NAND-CIRC program.
-In particular, consider the transition function  $\delta_M:[k]\times \Sigma \rightarrow [k] \times \Sigma  \times \{\mathsf{L},\mathsf{R} \}$ of our Turing Machine.
+In particular, consider the transition function  $\delta_M:[k]\times \Sigma \rightarrow [k] \times \Sigma  \times \{\mathsf{L},\mathsf{R} \}$ of our Turing machine.
 We can encode its components as follows:
 
 * We encode  $[k]$ using $\{0,1\}^\ell$ and  $\Sigma$ using $\{0,1\}^{\ell'}$,  where $\ell = \ceil{\log k}$ and $\ell' = \ceil{\log |\Sigma|}$.
@@ -588,7 +589,7 @@ OUTPUT: $M(x)$ -if $M$ halts on $x$. Otherwise go into infinite loop
 `MODANDJMP(dir0,dir1)`
 ```
 
-Every step of the main loop of the above program perfectly mimics the computation of the Turing Machine $M$, and so the program carries out exactly the definition of computation by a Turing Machine as per [TM-def](){.ref}.
+Every step of the main loop of the above program perfectly mimics the computation of the Turing machine $M$, and so the program carries out exactly the definition of computation by a Turing machine as per [TM-def](){.ref}.
 
 For the other direction, suppose that $P$ is a NAND-TM program with $s$ lines, $\ell$ scalar variables, and $\ell' $ array variables. We will show that there exists a Turing machine $M_P$ with $2^\ell+C$ states and alphabet $\Sigma$ of size $C' + 2^{\ell'}$ that computes the same functions as $P$ (where $C$, $C' $ are some constants to be determined later).
 
@@ -605,20 +606,20 @@ The overall operation of the Turing machine will be as follows:
 
 3. When the program halts (i.e., `MODANDJMP` gets $00$) then the Turing machine will enter into a special loop to copy the results of the `Y` array into the output and then halt. We can achieve this by adding a few more states.
 
-The above is not a full formal description of a Turing Machine, but our goal is just to show that such a machine exists. One can see that $M_P$ simulates every step of $P$, and hence computes the same function as $P$.
+The above is not a full formal description of a Turing machine, but our goal is just to show that such a machine exists. One can see that $M_P$ simulates every step of $P$, and hence computes the same function as $P$.
 :::
 
 
 ::: {.remark title="Running time equivalence (optional)" #polyequivrem}
 If we examine the proof of [TM-equiv-thm](){.ref} then we can see that every iteration of the loop of a NAND-TM program corresponds to one step in the execution of the Turing machine.
 We will come back to this question of measuring the number of computation steps later in this course.
-For now, the main take away point is that NAND-TM programs and Turing Machines are essentially equivalent in power even when taking running time into account.
+For now, the main take away point is that NAND-TM programs and Turing machines are essentially equivalent in power even when taking running time into account.
 :::
 
 ### Specification vs implementation (again)
 
-Once you understand the definitions of both NAND-TM programs and Turing Machines, [TM-equiv-thm](){.ref} is straightforward.
-Indeed, NAND-TM programs are not as much a different model from Turing Machines as they are simply a reformulation of the same model using programming language notation.
+Once you understand the definitions of both NAND-TM programs and Turing machines, [TM-equiv-thm](){.ref} is straightforward.
+Indeed, NAND-TM programs are not as much a different model from Turing machines as they are simply a reformulation of the same model using programming language notation.
 You can think of the difference between a Turing machine and a NAND-TM program as the difference between representing a number using decimal or binary notation.
 In contrast, the difference between a _function_ $F$ and a Turing machine that computes $F$ is much more profound: it is like the difference between the equation $x^2 + x = 12$, and the number $3$ that is a solution for this equation.
 For this reason, while we take special care in distinguishing _functions_ from _programs_ or _machines_, we will often identify the two latter concepts.
@@ -644,14 +645,14 @@ Just like we did with NAND-CIRC in [finiteuniversalchap](){.ref}, we can use "sy
 For starters, we can use all of the syntactic sugar of NAND-CIRC, such as macro definitions and conditionals (i.e., if/then).
 However, we can go beyond this and achieve (for example):
 
-* Inner loops such as the `while` and `for` operations common to many programming language.
+* Inner loops such as the `while` and `for` operations common to many programming languages.
 
 * Multiple index variables (e.g., not just `i` but we can add `j`, `k`, etc.).
 
 * Arrays with more than one dimension  (e.g., `Foo[i][j]`, `Bar[i][j][k]` etc.)
 
 In all of these cases (and many others) we can implement the new feature as mere "syntactic sugar" on top of standard NAND-TM. This means that the set of functions computable by NAND-TM with this feature is the same as the set of functions computable by standard NAND-TM.
-Similarly, we can show that the set of functions computable by Turing Machines that have more than one tape, or tapes of more dimensions than one, is the same as the set of functions computable by standard Turing machines.
+Similarly, we can show that the set of functions computable by Turing machines that have more than one tape, or tapes of more dimensions than one, is the same as the set of functions computable by standard Turing machines.
 
 ### "GOTO" and inner loops { #nandtminnerloopssec }
 
@@ -786,14 +787,14 @@ Looking ahead, we will see that this uniformity leads to another crucial differe
 Turing machines can have inputs and outputs that are longer than the description of the machine as a string, and in particular there exists a Turing machine that can "self replicate" in the sense that it can print its own code.
 The notion of "self replication", and the related notion of "self reference" are crucial to many aspects of computation, and beyond that to life itself, whether in the form of digital or biological programs.
 
-For now, what you ought to remember is the following differences between _uniform_ and _non uniform_ computational models:
+For now, what you ought to remember is the following differences between _uniform_ and _non-uniform_ computational models:
 
 * __Non-uniform computational models:__ Examples are _NAND-CIRC programs_ and _Boolean circuits_. These are models where each individual program/circuit can compute a _finite_ function $f:\{0,1\}^n \rightarrow \{0,1\}^m$. We have seen that _every_ finite function can be computed by _some_ program/circuit.
 To discuss computation of an _infinite_ function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ we need to allow a _sequence_ $\{ P_n \}_{n\in \N}$ of programs/circuits (one for every input length), but this does not capture the notion of a _single algorithm_ to compute the function $F$.
 
 * __Uniform computational models:__ Examples are _Turing machines_ and _NAND-TM programs_. These are models where a single program/machine can take inputs of _arbitrary length_ and hence compute an _infinite_ function $F:\{0,1\}^* \rightarrow \{0,1\}^*$.
 The number of steps that a program/machine takes on some input is not a priori bounded in advance and in particular there is a chance that it will enter into an _infinite loop_.
-Unlike the non-uniform case, we have _not_ shown that every infinite function can be computed by some NAND-TM program/Turing Machine. We will come back to this point in [chapcomputable](){.ref}.
+Unlike the non-uniform case, we have _not_ shown that every infinite function can be computed by some NAND-TM program/Turing machine. We will come back to this point in [chapcomputable](){.ref}.
 
 
 
@@ -812,7 +813,7 @@ Produce the code of a (syntactic-sugar free) NAND-TM program $P$ that computes t
 
 
 ::: {.exercise title="Computable functions examples" #computable}
-Prove that the following functions are computable. For all of these functions, you do not have to fully specify the Turing Machine or the NAND-TM program that computes the function, but rather only prove that such a machine or program exists:
+Prove that the following functions are computable. For all of these functions, you do not have to fully specify the Turing machine or the NAND-TM program that computes the function, but rather only prove that such a machine or program exists:
 
 1. $INC:\{0,1\}^* \rightarrow \{0,1\}^*$ which takes as input a representation of a natural number $n$ and outputs the representation of $n+1$.
 
@@ -834,7 +835,7 @@ Prove that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is comput
 
 ::: {.exercise title="Two tape Turing machines" #twotapeex}
 Define a _two tape Turing machine_ to be a Turing machine which has two separate tapes and two separate heads. At every step, the transition function gets as input the location of the cells in the two tapes, and can decide whether to move  each head independently.
-Prove that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a standard Turing Machine if and only if $F$ is computable by a two-tape Turing machine.
+Prove that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a standard Turing machine if and only if $F$ is computable by a two-tape Turing machine.
 :::
 
 ::: {.exercise title="Two dimensional arrays" #twodimnandtmex}
@@ -846,7 +847,7 @@ Prove that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is comput
 ::: {.exercise title="Two dimensional Turing machines" #twodimtapeex}
 Define a _two-dimensional  Turing machine_ to be a Turing machine in which the tape is _two dimensional_. At every step the machine can move $\mathsf{U}$p, $\mathsf{D}$own, $\mathsf{L}$eft,
 $\mathsf{R}$ight, or $\mathsf{S}$tay.
-Prove that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a standard Turing Machine if and only if $F$ is computable by a two-dimensional Turing machine.
+Prove that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a standard Turing machine if and only if $F$ is computable by a two-dimensional Turing machine.
 :::
 
 
@@ -869,7 +870,7 @@ is in $\mathbf{R}$.
 :::
 
 ::: {.exercise title="Oblivious Turing Machines (challenging)" #obliviousTMex}
-Define a Turing Machine $M$ to be _oblivious_ if its head movements are independent of its input.
+Define a Turing machine $M$ to be _oblivious_ if its head movements are independent of its input.
 That is, we say that $M$ is oblivious if there exists an infinite sequence  $MOVE \in  \{\mathsf{L},\mathsf{R}, \mathsf{S} \}^\infty$ such that for every $x\in \{0,1\}^*$, the movements of $M$ when given input $x$ (up until the point it halts, if such point exists) are given by $MOVE_0,MOVE_1,MOVE_2,\ldots$.
 
 Prove that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, if $F$ is computable then it is computable by an oblivious Turing machine. See footnote for hint.^[You can use the sequence $\mathsf{R}$, $\mathsf{L}$,$\mathsf{R}$, $\mathsf{R}$, $\mathsf{L}$, $\mathsf{L}$, $\mathsf{R}$,$\mathsf{R}$,$\mathsf{R}$, $\mathsf{L}$, $\mathsf{L}$, $\mathsf{L}$, $\ldots$.]

@@ -58,7 +58,7 @@ In this chapter we will prove that there are _some_ functions for which we canno
 We will also use the notion of representing programs/circuits as strings to show the existence of a "universal circuit" - a circuit that can evaluate other circuits.
 In programming languages, this is known as a "meta circular evaluator" - a program in a certain programming language that can evaluate other programs in the same language.
 These results do have an important restriction: the universal circuit will have to be of bigger size than the circuits it evaluates.
-We will show how to get around this restriction in [chaploops](){.ref} where we introduce _loops_ and _Turing Machines_.
+We will show how to get around this restriction in [chaploops](){.ref} where we introduce _loops_ and _Turing machines_.
 
 See [codedataoverviewfig](){.ref} for an overview of the results of  this chapter.
 :::
@@ -362,7 +362,7 @@ Given the equivalence between NAND-CIRC programs and Boolean circuits, we can al
 We call this NAND-CIRC program $U_{s,n,m}$ that computes $EVAL_{s,n,m}$ a _bounded universal program_ (or a _universal circuit_, see [universalcircfig](){.ref}).
 "Universal" stands for the fact that this is a _single program_ that can evaluate _arbitrary_ code,  where "bounded" stands for the fact that  $U_{s,n,m}$ only evaluates programs of bounded size.
 Of course this limitation is inherent for the NAND-CIRC programming language, since a program of $s$ lines (or, equivalently, a circuit of $s$ gates) can take at most $2s$  inputs.
-Later, in [chaploops](){.ref}, we will introduce the concept of _loops_ (and the model of _Turing Machines_), that allow to escape this limitation.
+Later, in [chaploops](){.ref}, we will introduce the concept of _loops_ (and the model of _Turing machines_), that allow to escape this limitation.
 
 
 ::: {.proof data-ref="bounded-univ"}
