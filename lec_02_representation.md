@@ -565,7 +565,7 @@ Since $\{0,1\}^\infty$ is uncountable, the result will follow by showing a one-t
 The reason is that the existence of such a map implies that if $ALL$ was countable, and hence there was a one-to-one map from $ALL$ to $\N$, then there would have been a one-to-one map from $\{0,1\}^\infty$ to $\N$, contradicting [sequencestostrings](){.ref}.
 
 We now show this one-to-one map. We simply map a function $f \in \{0,1\}^\infty$ to the function $F:\{0,1\}^* \rightarrow \{0,1\}$ as follows.
-We let $F(0)=f(0)$, $F(1)=f(1)$, $F(10)=F(2)$, $F(11)=F(3)$ and so on and so forth.
+We let $F(0)=f(0)$, $F(1)=f(1)$, $F(10)=f(2)$, $F(11)=f(3)$ and so on and so forth.
 That is, for every $x\in \{0,1\}^*$ that represents a natural number $n$ in the binary basis, we define $F(x)=f(n)$.
 If $x$ does not represent such a number (e.g., it has a leading zero), then we set $F(x)=0$.
 
