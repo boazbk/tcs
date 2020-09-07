@@ -672,7 +672,7 @@ We can use transistors to implement various Boolean functions such as $AND$, $OR
 For each a two-input gate $G:\{0,1\}^2 \rightarrow \{0,1\}$,  such an implementation would be a system with two input wires $x,y$ and one output wire $z$, such that if we identify high voltage with "$1$" and low voltage with "$0$", then the wire  $z$ will equal to "$1$" if and only if applying $G$ to the values of the wires $x$ and $y$ is $1$ (see [logicgatestransistorsfig](){.ref} and [transistor-nand-fig](){.ref}).
 This means that if there exists a AND/OR/NOT circuit to compute a function $g:\{0,1\}^n \rightarrow \{0,1\}^m$, then we can compute $g$ in the physical world using transistors as well.
 
-![Implementing logical gates using transistors. Figure taken from [Rory Mangles' website](http://www.northdownfarm.co.uk/rory/tim/basiclogic.htm).](../figure/DTLLogic.png){#logicgatestransistorsfig   .margin  }
+![Implementing logical gates using transistors. Figure taken from [Rory Mangles' website](http://www.northdownfarm.co.uk/rory/tim/basiclogic.htm).](../figure/dtl_logic.png){#logicgatestransistorsfig   .margin  }
 
 ![Implementing a NAND gate  (see [nandsec](){.ref}) using transistors.](../figure/nand_transistor.png){#transistor-nand-fig .margin  }
 
