@@ -388,7 +388,7 @@ It is achieved in two steps:
 2. Prove that there _is_ a one-to-one function $G$ mapping $\mathcal{X}$ to $\mathbb{R}$.
 
 We can use a proof by contradiction to show that these two facts together imply [cantorthm](){.ref}.
-Specifically, if we assume (towards the sake of contradiction) that there exists some one-to-one $F$ mapping $\mathbb{R}$ to $\{0,1\}^*$ then the function $x \mapsto F(G(x))$ obtained by composing $F$ with the function $G$ from Step 2 above would be a one-to-one function from $\mathcal{X}$ to $\{0,1\}^*$, which contradicts what we proved in Step 1!
+Specifically, if we assume (towards the sake of contradiction) that there exists some one-to-one $F$ mapping $\mathbb{R}$ to $\{0,1\}^*$, then the function $x \mapsto F(G(x))$ obtained by composing $F$ with the function $G$ from Step 2 above would be a one-to-one function from $\mathcal{X}$ to $\{0,1\}^*$, which contradicts what we proved in Step 1!
 
 To turn this idea into a full proof of [cantorthm](){.ref} we need to:
 
