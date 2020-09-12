@@ -29,7 +29,7 @@ algorithm for multiplication computationally as simple as that for
 addition, and this proves something of a stumbling block."_,  Alan Cobham, 1964
 
 
-Arguably the most significant of many contributions made to humanity by the ancient Babylonians is the _place-value number system_.
+One of the ancient Babylonians' greatest innovations is the _place-value number system_.
 The place-value system represents numbers as sequences of symbols where the _position_ of each symbol determines its value.
 
 This is opposed to a system like Roman numerals, where every symbol has a fixed value regardless of position. For example, the average distance to the moon is approximately 259,956 Roman miles. In standard Roman numerals, that would be
