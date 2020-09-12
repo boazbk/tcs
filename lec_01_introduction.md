@@ -29,9 +29,10 @@ algorithm for multiplication computationally as simple as that for
 addition, and this proves something of a stumbling block."_,  Alan Cobham, 1964
 
 
-The origin of much of science and medicine can be traced back to the ancient Babylonians.
-However, the Babylonians' most significant contribution to humanity was arguably the invention of the _place-value number system_.
-The place-value system represents any number using a collection of digits, whereby the _position_ of the digit is used to determine its value, as opposed to a system such as Roman numerals, where every symbol has a fixed numerical value regardless of position.
+Arguably the most significant of many contributions made to humanity by the ancient Babylonians is the _place-value number system_.
+The place-value system represents numbers as sequences of symbols where the _position_ of each symbol determines its value.
+This is opposed to a system like Roman numerals, where every symbol has a fixed value regardless of position.
+
 For example, the average distance to the moon is approximately 238,900 of our miles or 259,956 Roman miles.
 The latter quantity, expressed in standard Roman numerals is
 
