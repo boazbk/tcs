@@ -48,8 +48,8 @@ MMMMMMMMMMMMMMMMMMMDCCCCLVI
 
 Writing the distance to the _sun_ in Roman numerals would require about 100,000 symbols. It would take a 50-page book to contain this single number!
 
-For someone who thinks of numbers in an additive system like Roman numerals, quantities like the distance to the moon or sun are not merely large---they are _unspeakable_: cannot be expressed or even grasped.
-It's no wonder that Eratosthenes, who was the first person to calculate the earth's diameter (up to about ten percent error) and Hipparchus who was the first to calculate the distance to the moon, did not use a Roman-numeral type system but rather the Babylonian sexagesimal (i.e., base 60) place-value system.
+For someone who thinks of numbers in an additive system like Roman numerals, quantities like the distance to the moon or sun are not merely large---they are _unspeakable_: they cannot be expressed or even grasped.
+It's no wonder that Eratosthenes, the first to calculate the earth's diameter (up to about ten percent error), and Hipparchus, the first to calculate the distance to the moon, used not a Roman-numeral type system but the Babylonian sexagesimal (base 60) place-value system.
 
 ## Integer multiplication: an example of an algorithm
 
