@@ -13,7 +13,7 @@ chapternum: "p"
 >_"I suggest that you take the hardest courses that you can, because you learn the most when you challenge yourself... CS 121 I found pretty hard."_, [Mark Zuckerberg](https://youtu.be/xFFs9UgOAlE?t=3646), 2005.
 
 
-This is a textbook for an undergraduate introductory course on Theoretical Computer Science.
+This is a textbook for an undergraduate introductory course on theoretical computer science.
 The educational goals of this book are to convey the following:
 
 * That computation arises in a variety of natural and human-made systems, and not only in modern silicon-based computers.
@@ -86,7 +86,7 @@ To some extent, it is similar in content to "Theory of Computation" or "Great Id
 The most significant difference between our approach and more traditional ones (such as Hopcroft and Ullman's [@HopcroftUllman69, @HopcroftUllman79] and Sipser's [@SipserBook])  is that we do not start with _finite automata_ as our initial computational model.
 Instead, our initial computational model is _Boolean Circuits_.^[An earlier book that starts with circuits as the initial model is John Savage's  [@Savage1998models].]
 We believe that Boolean Circuits are more fundamental to the theory of computing (and even its practice!) than automata.
-In particular, Boolean Circuits are a prerequisite for many concepts that one would want to teach in a modern course on Theoretical Computer Science, including cryptography, quantum computing, derandomization, attempts at proving $\mathbf{P} \neq \mathbf{NP}$, and more.
+In particular, Boolean Circuits are a prerequisite for many concepts that one would want to teach in a modern course on theoretical computer science, including cryptography, quantum computing, derandomization, attempts at proving $\mathbf{P} \neq \mathbf{NP}$, and more.
 Even in cases where Boolean Circuits are not strictly required, they can often offer significant simplifications (as in the case of the proof of the Cook-Levin Theorem).
 
 Furthermore, I believe there are pedagogical reasons to start with Boolean circuits as opposed to finite automata.
