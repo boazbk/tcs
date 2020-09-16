@@ -45,7 +45,7 @@ See [computefuncoverviewfig](){.ref} for an outline of the results of this chapt
 
 ::: {.nonmath}
 
-In this chapter we will see our first major result: _every_ finite function can be computed some Boolean circuit (see [circuit-univ-thm](){.ref} and [finitecomputation](){.ref}).
+In this chapter we will see our first major result: _every_ finite function can be computed by some Boolean circuit (see [circuit-univ-thm](){.ref} and [finitecomputation](){.ref}).
 This is sometimes known as the "universality" of $AND$, $OR$, and $NOT$ (and, using the equivalence of [compchap](){.ref}, of $NAND$ as well)
 
 Despite being an important result, [circuit-univ-thm](){.ref} is actually not that hard to prove. [seccomputalternative](){.ref} presents a relatively simple direct proof of this result.
