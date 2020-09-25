@@ -271,7 +271,7 @@ For example, the binary representation of $4$ is $100$ and the binary representa
 Hence, if we used such simple concatenation then we would not be able to tell if the string $100101011$ is supposed to represent $4/43$ or  $18/11$.
 
 We tackle this by giving a general representation for _pairs of strings_.
-If we were using a pen and paper, we would just use a separator symbol such as  $\|$ to represent, for example, the pair consisting of the numbers represented by $10$ and $110001$ as the length-$9$ string "$01\|110001$".
+If we were using a pen and paper, we would just use a separator symbol such as  $\|$ to represent, for example, the pair consisting of the numbers represented by $10$ and $110001$ as the length-$9$ string "$10\|110001$".
 In other words, there is a one to one map $F$ from _pairs of strings_ $x,y \in \{0,1\}^*$ into a single string $z$ over the alphabet   $\Sigma = \{0,1,\| \}$ (in other words, $z\in \Sigma^*$).
 Using such separators is similar to the way we use spaces and punctuation to separate words in English.
 By adding a little redundancy, we achieve the same effect in the digital domain.
