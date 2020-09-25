@@ -53,6 +53,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Aditya Mahadevan
 * Kunal Marwaha
 * Christian May
+* Josh Mehr
 * Jacob Meyerson
 * Leon Mlodzian
 * George Moe
