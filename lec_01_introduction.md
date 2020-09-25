@@ -29,11 +29,11 @@ algorithm for multiplication computationally as simple as that for
 addition, and this proves something of a stumbling block."_,  Alan Cobham, 1964
 
 
-The origin of much of science and medicine can be traced back to the ancient Babylonians.
-However, the Babylonians' most significant contribution to humanity was arguably the invention of the _place-value number system_.
-The place-value system represents any number using a collection of digits, whereby the _position_ of the digit is used to determine its value, as opposed to a system such as Roman numerals, where every symbol has a fixed numerical value regardless of position.
-For example, the average distance to the moon is approximately 238,900 of our miles or 259,956 Roman miles.
-The latter quantity, expressed in standard Roman numerals is
+One of the ancient Babylonians' greatest innovations is the _place-value number system_.
+The place-value system represents numbers as sequences of digits where the _position_ of each digit determines its value.
+
+This is opposed to a system like Roman numerals, where every digit has a fixed value regardless of position.
+For example, the average distance to the moon is approximately 259,956 Roman miles. In standard Roman numerals, that would be
 
 ```
 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
@@ -47,10 +47,10 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 MMMMMMMMMMMMMMMMMMMDCCCCLVI
 ```
 
-Writing the distance to the sun in Roman numerals would require about 100,000 symbols: a 50-page book just containing this single number!
+Writing the distance to the _sun_ in Roman numerals would require about 100,000 symbols; it would take a 50-page book to contain this single number!
 
-For someone who thinks of numbers in an additive system like Roman numerals, quantities like the distance to the moon or sun are not merely large---they are _unspeakable_: cannot be expressed or even grasped.
-It's no wonder that Eratosthenes, who was the first person to calculate the earth's diameter (up to about ten percent error) and Hipparchus who was the first to calculate the distance to the moon, did not use a Roman-numeral type system but rather the Babylonian sexagesimal (i.e., base 60) place-value system.
+For someone who thinks of numbers in an additive system like Roman numerals, quantities like the distance to the moon or sun are not merely large---they are _unspeakable_: they cannot be expressed or even grasped.
+It's no wonder that Eratosthenes, the first to calculate the earth's diameter (up to about ten percent error), and Hipparchus, the first to calculate the distance to the moon, used not a Roman-numeral type system but the Babylonian sexagesimal (base 60) place-value system.
 
 ## Integer multiplication: an example of an algorithm
 
