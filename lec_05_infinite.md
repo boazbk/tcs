@@ -59,8 +59,8 @@ def XOR(X):
        Outputs 1 if the number of 1's is odd and outputs 0 otherwise'''
     result = 0
     for i in range(len(X)):
-        result += X[i] % 2
-    return result
+        result += X[i]
+    return result % 2
 ```
 
 ![The NAND circuit and NAND-CIRC program for computing the XOR of $5$ bits. Note how the circuit for $XOR_5$ merely repeats four times the circuit to compute the XOR of $2$ bits.](../figure/xor5circprog.png){#XOR5fig .margin  }
@@ -243,8 +243,8 @@ def XOR(X):
        Outputs 1 if the number of 1's is odd and outputs 0 otherwise'''
     result = 0
     for i in range(len(X)):
-        result += X[i] % 2
-    return result
+        result += X[i]
+    return result % 2
 ```
 
 In each step, this program reads a single bit `X[i]` and updates its state `result` based on that bit (flipping `result` if `X[i]` is $1$ and keeping it the same otherwise).
