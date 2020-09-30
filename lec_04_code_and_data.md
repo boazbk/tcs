@@ -540,7 +540,7 @@ $$
 V'_j = \begin{cases} V_j & j \neq i \\ b & j = 1 \end{cases}
 $$
 where we identify the string $i \in \{0,1\}^\ell$ with a number in  $\{0,\ldots, 2^{\ell}-1 \}$ using the binary representation.
-We can compute $UPDATE_\ell$ using an $O(2^\ell \ell)=(s \log s)$ line NAND-CIRC program as as follows:
+We can compute $UPDATE_\ell$ using an $O(2^\ell \ell)=(s \log s)$ line NAND-CIRC program as follows:
 
 1. For every $j\in [2^\ell]$, there is an $O(\ell)$ line NAND-CIRC program to compute the function $EQUALS_j: \{0,1\}^\ell \rightarrow \{0,1\}$ that on input $i$ outputs $1$ if and only if $i$ is equal to (the binary representation of) $j$. (We leave verifying this as [equals](){.ref} and [equalstwo](){.ref}.)
 
