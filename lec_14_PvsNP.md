@@ -176,7 +176,7 @@ The statement of [optimizationnp](){.ref} is a bit cumbersome.  To understand it
 > ### {.proofidea data-ref="optimizationnp"}
 The proof follows by generalizing our ideas from the longest path example above.
 Let $f$ be as in the theorem statement.
-If  $\mathbf{P}=\mathbf{NP}$ then for every for every string $x\in \{0,1\}^*$ and number $k$, we can test in in $poly(|x|,m)$ time whether there exists $y$ such that $f(x,y) \geq k$, or in other words test whether  $\max_{y \in \{0,1\}^m} f(x,y) \geq k$.
+If  $\mathbf{P}=\mathbf{NP}$ then for every for every string $x\in \{0,1\}^*$ and number $k$, we can test in $poly(|x|,m)$ time whether there exists $y$ such that $f(x,y) \geq k$, or in other words test whether  $\max_{y \in \{0,1\}^m} f(x,y) \geq k$.
 If $f(x,y)$ is an integer between $0$ and $poly(|x|+|y|)$ (as is the case in the example of longest path) then we can just try out all possibilities for $k$ to find the maximum number $k$ for which $\max_y f(x,y) \geq k$.
 Otherwise, we can use _binary search_ to hone down on the right value. Once we do so, we can use search-to-decision to actually find the string $y^*$ that achieves the maximum.
 
