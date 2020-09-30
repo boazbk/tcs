@@ -180,7 +180,7 @@ Reading and writing to a dictionary of $m$ values in this implementation takes $
 :::
 
 
-The construction above yields a universal Turing Machine with a very large number of states.
+The construction above yields a universal Turing machine with a very large number of states.
 However, since universal Turing machines have such a philosophical and technical importance, researchers have attempted to find the smallest possible universal Turing machines, see [uncomputablebibnotes](){.ref}. 
 
 
@@ -194,10 +194,10 @@ However, since universal Turing machines have such a philosophical and technical
 
 There is more than one Turing machine $U$ that satisfies the conditions of [universaltmthm](){.ref}, but the existence of even a single such machine is already extremely fundamental to both the theory and practice of computer science.
 [universaltmthm](){.ref}'s impact reaches beyond the particular model of Turing machines.
-Because we can simulate every Turing Machine by a NAND-TM program and vice versa, [universaltmthm](){.ref} immediately implies there exists a universal NAND-TM program $P_U$ such that $P_U(P,x)=P(x)$ for every NAND-TM program $P$.
+Because we can simulate every Turing machine by a NAND-TM program and vice versa, [universaltmthm](){.ref} immediately implies there exists a universal NAND-TM program $P_U$ such that $P_U(P,x)=P(x)$ for every NAND-TM program $P$.
 We can also "mix and match" models.
-For example since we can simulate every NAND-RAM program by a Turing machine, and every Turing Machine by the $\lambda$ calculus,  [universaltmthm](){.ref} implies that there exists a $\lambda$ expression $e$ such that for every NAND-RAM program $P$ and input $x$ on which $P(x)=y$, if we encode $(P,x)$ as a $\lambda$-expression $f$ (using the $\lambda$-calculus encoding of strings as lists of $0$'s and $1$'s) then $(e\; f)$ evaluates to an encoding of $y$.
-More generally we can say that for every  $\mathcal{X}$ and $\mathcal{Y}$ in the set  $\{$  Turing Machines, RAM Machines, NAND-TM, NAND-RAM, $\lambda$-calculus, JavaScript, Python, $\ldots$ $\}$ of Turing equivalent models, there exists a program/machine in $\mathcal{X}$ that computes the map $(P,x) \mapsto P(x)$ for every program/machine  $P \in \mathcal{Y}$.
+For example since we can simulate every NAND-RAM program by a Turing machine, and every Turing machine by the $\lambda$ calculus,  [universaltmthm](){.ref} implies that there exists a $\lambda$ expression $e$ such that for every NAND-RAM program $P$ and input $x$ on which $P(x)=y$, if we encode $(P,x)$ as a $\lambda$-expression $f$ (using the $\lambda$-calculus encoding of strings as lists of $0$'s and $1$'s) then $(e\; f)$ evaluates to an encoding of $y$.
+More generally we can say that for every  $\mathcal{X}$ and $\mathcal{Y}$ in the set  $\{$  Turing machines, RAM Machines, NAND-TM, NAND-RAM, $\lambda$-calculus, JavaScript, Python, $\ldots$ $\}$ of Turing equivalent models, there exists a program/machine in $\mathcal{X}$ that computes the map $(P,x) \mapsto P(x)$ for every program/machine  $P \in \mathcal{Y}$.
 
 
 The idea of a "universal program" is of course not limited to theory.
@@ -211,7 +211,7 @@ There are universal Turing machines known that require a very small number of st
 ## Is every function computable?
 
 In [NAND-univ-thm](){.ref}, we saw that NAND-CIRC programs can compute every finite function $f:\{0,1\}^n \rightarrow \{0,1\}$.
-Therefore a natural guess is that NAND-TM programs (or equivalently, Turing Machines) could compute every infinite function $F:\{0,1\}^* \rightarrow \{0,1\}$.
+Therefore a natural guess is that NAND-TM programs (or equivalently, Turing machines) could compute every infinite function $F:\{0,1\}^* \rightarrow \{0,1\}$.
 However, this turns out to be _false_.
 That is, there exists a function $F:\{0,1\}^* \rightarrow \{0,1\}$ that is _uncomputable_!
 
@@ -311,7 +311,7 @@ Specifically, we will assume, towards a contradiction, that there exists a Turin
 (This is known as a proof by _reduction_, since we reduce the task of computing $F^*$ to the task of computing $HALT$. By the contrapositive, this means the uncomputability of $F^*$ implies the uncomputability of $HALT$.)
 
 Indeed, suppose that  $M$ is a Turing machine that computes $HALT$.
-[halttof](){.ref} describes a Turing Machine  $M'$ that computes $F^*$. (We use "high level" description of Turing machines, appealing to the "have your cake and eat it too" paradigm, see [eatandhavecake](){.ref}.)
+[halttof](){.ref} describes a Turing machine  $M'$ that computes $F^*$. (We use "high level" description of Turing machines, appealing to the "have your cake and eat it too" paradigm, see [eatandhavecake](){.ref}.)
 
 
 ``` {.algorithm title="$F^*$ to $HALT$ reduction" #halttof}
@@ -550,7 +550,7 @@ Endprocedure
 Return $N_{M,x}$ # We do not execute $N_{M,x}$: only return its description
 ```
 
-Our Algorithm $B$ works as follows: on input $M,x$, it runs [halttohaltonzerored](){.ref} to obtain a Turing Machine  $M'$, and then returns $A(M')$.
+Our Algorithm $B$ works as follows: on input $M,x$, it runs [halttohaltonzerored](){.ref} to obtain a Turing machine  $M'$, and then returns $A(M')$.
 The machine $M'$ ignores its input $z$ and simply runs $M$ on $x$.
 
 In pseudocode, the program $N_{M,x}$ will look something like the following:
@@ -622,7 +622,7 @@ The proof is by reduction to $HALTONZERO$. Suppose, towards the sake of contradi
 
 Given a Turing machine $N$ (which is the input to $HALTONZERO$), our Algorithm $B$ does the following:
 
-1. Construct a Turing Machine $M$ which on input $x\in\{0,1\}^*$, first runs $N(0)$ and then outputs $0$.
+1. Construct a Turing machine $M$ which on input $x\in\{0,1\}^*$, first runs $N(0)$ and then outputs $0$.
 
 2. Return $A(M)$.
 
@@ -945,7 +945,7 @@ In this exercise we will prove Rice's Theorem in the form that it is typically s
 
 For a Turing machine $M$, define $L(M) \subseteq \{0,1\}^*$ to be the set of all $x\in \{0,1\}^*$ such that $M$ halts on the input $x$ and outputs $1$. (The set $L(M)$ is known in the literature as the _language recognized by $M$_. Note that $M$ might either output a value other than $1$ or not halt at all on inputs $x\not\in L(M)$. )
 
-1. Prove that for every Turing Machine $M$, if we define $F_M:\{0,1\}^* \rightarrow \{0,1\}$ to be the function such that $F_M(x)=1$ iff $x\in L(M)$ then $F_M$ is _recursively enumerable_ as defined in [recursiveenumerableex](){.ref}.
+1. Prove that for every Turing machine $M$, if we define $F_M:\{0,1\}^* \rightarrow \{0,1\}$ to be the function such that $F_M(x)=1$ iff $x\in L(M)$ then $F_M$ is _recursively enumerable_ as defined in [recursiveenumerableex](){.ref}.
 
 2. Use [rice-thm](){.ref} to prove that for every  $G:\{0,1\}^* \rightarrow \{0,1\}$, if __(a)__ $G$ is neither the constant zero nor the constant one function, and __(b)__ for every $M,M'$ such that $L(M)=L(M')$, $G(M)=G(M')$, then $G$ is uncomputable. See footnote for hint.^[Show that any $G$ satisfying __(b)__ must be semantic.]
 :::
@@ -989,7 +989,7 @@ Some of this fascinating history is discussed in [@grabiner1983gave, @Kleiner91,
 The existence of a universal Turing machine, and the uncomputability of $HALT$ was first shown by Turing in his seminal paper [@Turing37], though closely related results were shown by Church a year before.
 These works built on Gödel's 1931 _incompleteness theorem_ that we will discuss in [godelchap](){.ref}.
 
-Some  universal Turing Machines with a small alphabet and number of states are given in [@rogozhin1996small], including a single-tape universal Turing machine with the binary alphabet and with less than $25$ states; see also the survey [@woods2009complexity].
+Some  universal Turing machines with a small alphabet and number of states are given in [@rogozhin1996small], including a single-tape universal Turing machine with the binary alphabet and with less than $25$ states; see also the survey [@woods2009complexity].
 Adam Yedidia has written [software](https://github.com/adamyedidia/parsimony) to help in producing Turing machines with a small number of states.
 This is related to the recreational pastime of ["Code Golfing"](https://codegolf.stackexchange.com/) which is about solving a certain computational task using the as short as possible program.
 Finding "highly complex" small Turing machine is also related to the  "Busy Beaver" problem, see [beaverex](){.ref} and the survey [@aaronson20beaver].

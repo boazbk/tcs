@@ -600,7 +600,7 @@ and vice versa.
 ::: {.proof data-ref="slcircuitequivthm"}
 Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$. Since the theorem is an "if and only if" statement, to prove it we need to show both directions: translating an AON-CIRC program that computes $f$ into a circuit that computes $f$, and translating a circuit that computes $f$ into an AON-CIRC program that does so.
 
-We start with the first direction. Let $P$ be an $s$ line AON-CIRC that computes $f$. We define a circuit $C$ as follows: the circuit will have $n$ inputs and $s$ gates. For every $i \in [s]$, if the $i$-th line has the form `foo = AND(bar,blah)` then the $i$-th gate in the circuit will be an AND gate that is connected to gates $j$ and $k$ where $j$ and $k$ correspond to the last lines before $i$ where the variables `bar` and `blah` (respectively) where written to. (For example, if $i=57$ and the last line `bar` was written to is $35$ and the last line `blah` was written to is $17$ then the two in-neighbors of gate $57$ will be gates $35$ and $17$.)
+We start with the first direction. Let $P$ be an $s$ line AON-CIRC that computes $f$. We define a circuit $C$ as follows: the circuit will have $n$ inputs and $s$ gates. For every $i \in [s]$, if the $i$-th line has the form `foo = AND(bar,blah)` then the $i$-th gate in the circuit will be an AND gate that is connected to gates $j$ and $k$ where $j$ and $k$ correspond to the last lines before $i$ where the variables `bar` and `blah` (respectively) were written to. (For example, if $i=57$ and the last line `bar` was written to is $35$ and the last line `blah` was written to is $17$ then the two in-neighbors of gate $57$ will be gates $35$ and $17$.)
 If either `bar` or `blah` is an input variable then we connect the gate to the corresponding input vertex instead.
 If `foo` is an output variable of the form `Y[`$j$`]` then we add the same label to the corresponding gate to mark it as an output gate.
 We do the analogous operations if the $i$-th line involves an `OR` or a `NOT` operation (except that we use the corresponding _OR_ or _NOT_ gate, and in the latter case have only one in-neighbor instead of two).
@@ -672,7 +672,7 @@ We can use transistors to implement various Boolean functions such as $AND$, $OR
 For each a two-input gate $G:\{0,1\}^2 \rightarrow \{0,1\}$,  such an implementation would be a system with two input wires $x,y$ and one output wire $z$, such that if we identify high voltage with "$1$" and low voltage with "$0$", then the wire  $z$ will equal to "$1$" if and only if applying $G$ to the values of the wires $x$ and $y$ is $1$ (see [logicgatestransistorsfig](){.ref} and [transistor-nand-fig](){.ref}).
 This means that if there exists a AND/OR/NOT circuit to compute a function $g:\{0,1\}^n \rightarrow \{0,1\}^m$, then we can compute $g$ in the physical world using transistors as well.
 
-![Implementing logical gates using transistors. Figure taken from [Rory Mangles' website](http://www.northdownfarm.co.uk/rory/tim/basiclogic.htm).](../figure/DTLLogic.png){#logicgatestransistorsfig   .margin  }
+![Implementing logical gates using transistors. Figure taken from [Rory Mangles' website](http://www.northdownfarm.co.uk/rory/tim/basiclogic.htm).](../figure/dtl_logic.png){#logicgatestransistorsfig   .margin  }
 
 ![Implementing a NAND gate  (see [nandsec](){.ref}) using transistors.](../figure/nand_transistor.png){#transistor-nand-fig .margin  }
 

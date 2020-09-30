@@ -71,13 +71,13 @@ The main takeaways from this chapter are:
 
 * We can represent all kinds of objects we want to use as inputs and outputs using _binary strings_. For example, we can use the _binary basis_ to represent integers and rational numbers as binary strings (see [naturalnumsec](){.ref} and [morerepressec](){.ref}).
 
-* We can use _compose_ the representations of simple objects to represent more complex objects. In this way, we can represent lists of integers or rational numbers, and use that to represent objects such as matrices, images, and graphs. _Prefix-free encoding_ is one way to achieve such a composition (see [prefixfreesec](){.ref}).
+* We can _compose_ the representations of simple objects to represent more complex objects. In this way, we can represent lists of integers or rational numbers, and use that to represent objects such as matrices, images, and graphs. _Prefix-free encoding_ is one way to achieve such a composition (see [prefixfreesec](){.ref}).
 
-* A _computational task_ specifies a map between an input to an output--- a _function_. It is crucially important to distinguish between the "what" and the "how", or the _specification_ and _implementation_ (see [secimplvsspec](){.ref}). A _function_  simply defines which output corresponds to which input. It does not specify _how_ to compute the output from the input, and as we've seen in the context of multiplication, there can be more than one way to compute the same function.
+* A _computational task_ specifies a map from an input to an output--- a _function_. It is crucially important to distinguish between the "what" and the "how", or the _specification_ and _implementation_ (see [secimplvsspec](){.ref}). A _function_  simply defines which output corresponds to which input. It does not specify _how_ to compute the output from the input, and as we've seen in the context of multiplication, there can be more than one way to compute the same function.
 
-* While the set of all possible binary strings is infinite, it still cannot represent _everything_. In particular, there is no representation of the _real numbers_ (with absolute accuracy) as binary strings. This result is also known as "Cantor's Theorem" (see [cantorsec](){.ref}) and is typically referred to as the result that the "reals are uncountable". It is also implies that there are _different levels_ of infinity though we will not get into this topic in this book (see [generalizepowerset](){.ref}).
+* While the set of all possible binary strings is infinite, it still cannot represent _everything_. In particular, there is no representation of the _real numbers_ (with absolute accuracy) as binary strings. This result is also known as "Cantor's Theorem" (see [cantorsec](){.ref}) and is typically referred to as the result that the "reals are uncountable." It is also implies that there are _different levels_ of infinity though we will not get into this topic in this book (see [generalizepowerset](){.ref}).
 
-The two ``big ideas'' we discuss are [representtuplesidea](){.ref} - we can compose representations for simple objects to represent more complex objects and [functionprogramidea](){.ref} - it is crucial to distinguish between _functions_ ("what") and _programs_ ("how").
+The two "big ideas" we discuss are [representtuplesidea](){.ref} - we can compose representations for simple objects to represent more complex objects and [functionprogramidea](){.ref} - it is crucial to distinguish between _functions'_ ("what") and _programs'_ ("how").
 The latter will be a theme we will come back to time and again in this book.
 :::
 
@@ -263,7 +263,7 @@ For this reason, in some systems adding two large positive numbers can result in
 ![In the _two's complement representation_  we represent a potentially negative integer $k \in \{ -2^n ,\ldots, 2^n-1 \}$ as an $n+1$ length string using the binary representation of the integer $k \mod 2^{n+1}$. On the left-hand side: this representation for $n=3$ (the red integers are the numbers being represented by the blue binary strings). If a microprocessor does not check for overflows, adding the two positive numbers $6$ and $5$ might result in the negative number $-5$ (since $-5 \mod 16 = 11$. The right-hand side is a `C` program that will on some $32$ bit architecture print a negative number after adding two positive numbers. (Integer overflow in `C` is considered _undefined behavior_ which means the result of this program, including whether it runs or crashes, could differ depending on the architecture, compiler, and even compiler options and version.)](../figure/twoscomplement.png){#twoscomplementfig .margin}
 
 
-### Rational numbers, and representing pairs of strings
+### Rational numbers and representing pairs of strings
 
 We can represent a rational number of the form $a/b$ by representing the two numbers $a$ and $b$.
 However, merely concatenating the representations of $a$ and $b$ will not work.
@@ -271,7 +271,7 @@ For example, the binary representation of $4$ is $100$ and the binary representa
 Hence, if we used such simple concatenation then we would not be able to tell if the string $100101011$ is supposed to represent $4/43$ or  $18/11$.
 
 We tackle this by giving a general representation for _pairs of strings_.
-If we were using a pen and paper, we would just use a separator symbol such as  $\|$ to represent, for example, the pair consisting of the numbers represented by $10$ and $110001$ as the length-$9$ string "$01\|110001$".
+If we were using a pen and paper, we would just use a separator symbol such as  $\|$ to represent, for example, the pair consisting of the numbers represented by $10$ and $110001$ as the length-$9$ string "$10\|110001$".
 In other words, there is a one to one map $F$ from _pairs of strings_ $x,y \in \{0,1\}^*$ into a single string $z$ over the alphabet   $\Sigma = \{0,1,\| \}$ (in other words, $z\in \Sigma^*$).
 Using such separators is similar to the way we use spaces and punctuation to separate words in English.
 By adding a little redundancy, we achieve the same effect in the digital domain.
@@ -388,7 +388,7 @@ It is achieved in two steps:
 2. Prove that there _is_ a one-to-one function $G$ mapping $\mathcal{X}$ to $\mathbb{R}$.
 
 We can use a proof by contradiction to show that these two facts together imply [cantorthm](){.ref}.
-Specifically, if we assume (towards the sake of contradiction) that there exists some one-to-one $F$ mapping $\mathbb{R}$ to $\{0,1\}^*$ then the function $x \mapsto F(G(x))$ obtained by composing $F$ with the function $G$ from Step 2 above would be a one-to-one function from $\mathcal{X}$ to $\{0,1\}^*$, which contradicts what we proved in Step 1!
+Specifically, if we assume (towards the sake of contradiction) that there exists some one-to-one $F$ mapping $\mathbb{R}$ to $\{0,1\}^*$, then the function $x \mapsto F(G(x))$ obtained by composing $F$ with the function $G$ from Step 2 above would be a one-to-one function from $\mathcal{X}$ to $\{0,1\}^*$, which contradicts what we proved in Step 1!
 
 To turn this idea into a full proof of [cantorthm](){.ref} we need to:
 
@@ -432,7 +432,7 @@ We start by proving  [sequencestostrings](){.ref} which is really the heart of [
 ![We construct a function $\overline{d}$ such that $\overline{d} \neq StF(x)$ for every $x\in \{0,1\}^*$ by ensuring that $\overline{d}(n(x)) \neq StF(x)(n(x))$ for every $x\in \{0,1\}^*$ with lexicographic order $n(x)$. We can think of this as building a table where the columns correspond to numbers $m\in \N$ and the rows correspond to $x\in \{0,1\}^*$ (sorted according to $n(x)$). If the entry in the $x$-th row and the $m$-th column corresponds to $g(m))$ where $g=StF(x)$ then $\overline{d}$ is obtained by going over the "diagonal" elements in this table (the entries corresponding to the $x$-th row and $n(x)$-th column) and ensuring that $\overline{d}(x)(n(x)) \neq StF(x)(x)$. ](../figure/diagonalization.png){#diagrealsfig   }
 
 
-__Warm-up: "Baby Cantor".__ The proof of [sequencestostrings](){.ref} is rather subtle. One way to get intuition for it is to consider the following finite statement "there is no onto function $f:\{0,\ldots,99\} \rightarrow \{0,1\}^{100}$. Of course we know it's true since the set $\{0,1\}^{100}$ is bigger than the set $[100]$, but let's see a direct proof. For every $f:\{0,\ldots,99\} \rightarrow \{0,1\}^{100}$, we can define the string $\overline{d} \in \{0,1\}^{100}$ as follows: $\overline{d} = (1-f(0)_0, 1-f(1)_1 , \ldots, 1-f(99)_{99})$. If $f$ was onto, then there would exist some $n\in [100]$ such that $f(n) =\overline{d}(n)$, but we claim that no such $n$ exists.  Indeed, if there was such $n$, then the $n$-th coordinate of $\overline{d}$ would equal $f(n)_n$ but by definition this coordinate equals $1-f(n)_n$. See also a ["proof by code"](https://trinket.io/python/4cff7e58f4) of this statement.
+__Warm-up: "Baby Cantor".__ The proof of [sequencestostrings](){.ref} is rather subtle. One way to get intuition for it is to consider the following finite statement "there is no onto function $f:\{0,\ldots,99\} \rightarrow \{0,1\}^{100}$". Of course we know it's true since the set $\{0,1\}^{100}$ is bigger than the set $[100]$, but let's see a direct proof. For every $f:\{0,\ldots,99\} \rightarrow \{0,1\}^{100}$, we can define the string $\overline{d} \in \{0,1\}^{100}$ as follows: $\overline{d} = (1-f(0)_0, 1-f(1)_1 , \ldots, 1-f(99)_{99})$. If $f$ was onto, then there would exist some $n\in [100]$ such that $f(n) =\overline{d}$, but we claim that no such $n$ exists.  Indeed, if there was such $n$, then the $n$-th coordinate of $\overline{d}$ would equal $f(n)_n$ but by definition this coordinate equals $1-f(n)_n$. See also a ["proof by code"](https://trinket.io/python/4cff7e58f4) of this statement.
 
 
 <iframe src="https://trinket.io/embed/python/4cff7e58f4" width="100%" height="600" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
@@ -565,7 +565,7 @@ Since $\{0,1\}^\infty$ is uncountable, the result will follow by showing a one-t
 The reason is that the existence of such a map implies that if $ALL$ was countable, and hence there was a one-to-one map from $ALL$ to $\N$, then there would have been a one-to-one map from $\{0,1\}^\infty$ to $\N$, contradicting [sequencestostrings](){.ref}.
 
 We now show this one-to-one map. We simply map a function $f \in \{0,1\}^\infty$ to the function $F:\{0,1\}^* \rightarrow \{0,1\}$ as follows.
-We let $F(0)=f(0)$, $F(1)=f(1)$, $F(10)=F(2)$, $F(11)=F(3)$ and so on and so forth.
+We let $F(0)=f(0)$, $F(1)=f(1)$, $F(10)=f(2)$, $F(11)=f(3)$ and so on and so forth.
 That is, for every $x\in \{0,1\}^*$ that represents a natural number $n$ in the binary basis, we define $F(x)=f(n)$.
 If $x$ does not represent such a number (e.g., it has a leading zero), then we set $F(x)=0$.
 
@@ -642,15 +642,18 @@ To obtain a representation of objects in $\mathcal{O}$ as strings of length at m
 We can do so, if and only if $|\mathcal{O}| \leq 2^{n+1}-1$ as is implied by the following lemma:
 
 > ### {.lemma #onetoone}
-For every two finite sets $S,T$, there exists a one-to-one $E:S \rightarrow T$ if and only if $|S| \leq |T|$.
+For every two non-emptry finite sets $S,T$, there exists a one-to-one $E:S \rightarrow T$ if and only if $|S| \leq |T|$.
 
 > ### {.proof data-ref="onetoone"}
 Let $k=|S|$ and $m=|T|$ and so write the elements of $S$ and $T$ as $S = \{ s_0 , s_1, \ldots, s_{k-1} \}$ and $T= \{ t_0 , t_1, \ldots, t_{m-1} \}$. We need to show that there is a one-to-one function $E: S \rightarrow T$ iff $k \leq m$.
 For the "if" direction, if $k \leq m$ we can simply define $E(s_i)=t_i$ for every $i\in [k]$.
 Clearly for $i \neq j$, $t_i = E(s_i) \neq E(s_j) = t_j$, and hence this function is one-to-one.
 In the other direction, suppose that $k>m$ and  $E: S \rightarrow T$ is some function. Then $E$ cannot be one-to-one.
-Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$. If $t_j$ was marked before, then we have found two objects in $S$ mapping to the same element $t_j$. Otherwise, since $T$ has $m$ elements,  when we get to $i=m-1$ we mark all the objects in $T$. Hence, in this case, $E(s_m)$ must map to an element that was already marked before. (This observation is sometimes known as the "Pigeonhole Principle": the principle that if you have a pigeon coop with $m$ holes, and $k>m$ pigeons, then there must be two pigeons in the same hole. )
-
+Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$. 
+If $t_j$ was marked before, then we have found two objects in $S$ mapping to the same element $t_j$.
+Otherwise, since $T$ has $m$ elements,  when we get to $i=m-1$ we mark all the objects in $T$.
+Hence, in this case, $E(s_m)$ must map to an element that was already marked before. 
+(This observation is sometimes known as the "Pigeon Hole Principle": the principle that if you have a pigeon coop with $m$ holes and $k>m$ pigeons, then there must be two pigeons in the same hole.)
 
 ### Prefix-free encoding { #prefixfreesec }
 

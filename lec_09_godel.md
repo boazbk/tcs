@@ -149,7 +149,7 @@ Our algorithm $A$ will will work as follows:
 
 
 ``` { .algorithm title="Halting from proofs" #haltingfromproog}
-INPUT: Turing Machine $M$
+INPUT: Turing machine $M$
 OUTPUT:  $1$  $M$ -if halts on the input $0$;  $0$ otherwise.
 
 for{$n=1,2,3,\ldots$}
@@ -390,10 +390,10 @@ Since a program $P$ halts on input  $x$ if and only if there is a sequence of co
 
 ::: {.proof data-ref="QMS-thm"}
 The proof is obtained by a reduction from the Halting problem.
-Specifically, we will use the notion of a _configuration_ of a Turing Machines ([configtmdef](){.ref}) that we have seen in the context of proving that one dimensional cellular automata are Turing complete.
+Specifically, we will use the notion of a _configuration_ of a Turing machines ([configtmdef](){.ref}) that we have seen in the context of proving that one dimensional cellular automata are Turing complete.
 We need the following facts about configurations:
 
-* For every Turing Machine $M$, there is a finite alphabet $\Sigma$, and a _configuration_ of $M$ is a string $\alpha \in \Sigma^*$.
+* For every Turing machine $M$, there is a finite alphabet $\Sigma$, and a _configuration_ of $M$ is a string $\alpha \in \Sigma^*$.
 
 
 * A configuration $\alpha$ encodes all the state of the program at a particular iteration, including the array, scalar, and index variables.
@@ -409,7 +409,7 @@ We can encode such a sequence $H$ of configuration as a binary string.
 For concreteness,  we let $\ell = \lceil \log (|\Sigma|+1) \rceil$ and encode each symbol $\sigma$ in $\Sigma \cup \{ ";" \}$ by a string in $\{0,1\}^\ell$.
 We use "$;$" as a  "separator" symbol, and so encode $H = (\alpha^0,\alpha^1,\ldots,\alpha^{T-1})$ as the concatenation of the encodings of each configuration, using "$;$" to separate the encoding of $\alpha^i$ and $\alpha^{i+1}$
 for every $i\in [T]$.
-In particular for every Turing Machine $M$, 
+In particular for every Turing machine $M$, 
 $M$ halts on the input $0$ if and only if the following  statement $\varphi_M$ is true
 
 $$
@@ -428,7 +428,7 @@ Indeed, $\varphi_M$ can be encoded as a mixed-integer statement for the followin
 3. Finally, if $\alpha^0$ is a binary string encoding the initial configuration of $M$ on input $0$, checking that the first $|\alpha^0|$ bits of $H$ equal $\alpha_0$ can be expressed using $AND$,$OR$, and $NOT$'s.
 Similarly checking that the last configuration encoded by $H$ corresponds to a state in which $M$ will halt can also be expressed as a quantified statement.
 
-Together the above yields a computable procedure that maps every Turing Machine $M$  into a quantified mixed statement $\varphi_M$ such that $HALTONZERO(M)=1$ if and only if $QMS(\varphi_M)=1$.
+Together the above yields a computable procedure that maps every Turing machine $M$  into a quantified mixed statement $\varphi_M$ such that $HALTONZERO(M)=1$ if and only if $QMS(\varphi_M)=1$.
 This reduces computing $HALTONZERO$ to computing $QMS$, and hence the
 uncomputability of $HALTONZERO$ implies the uncomputability of $QMS$.
 :::
@@ -513,7 +513,7 @@ Let $FINDPROOF:\{0,1\}^* \rightarrow \{0,1\}$ be the following function. On inpu
 
 1. Prove that $FINDPROOF$ is uncomputable.
 
-2. Prove that there exists a Turing machine $V$ such that $V$ _halts on every input  $x,v$_ but the function $FINDPROOF_V$ defined as $FINDPROOF_V(x) = FINDPROOF(V,x)$ is uncomputable. See footnote for hint.^[_Hint:_ think of $x$ as saying "Turing Machine $M$ halts on input $u$" and $w$ being a proof that is the number of steps that it will take for this to happen. Can you find an always-halting $V$ that will verify such statements?]
+2. Prove that there exists a Turing machine $V$ such that $V$ _halts on every input  $x,v$_ but the function $FINDPROOF_V$ defined as $FINDPROOF_V(x) = FINDPROOF(V,x)$ is uncomputable. See footnote for hint.^[_Hint:_ think of $x$ as saying "Turing machine $M$ halts on input $u$" and $w$ being a proof that is the number of steps that it will take for this to happen. Can you find an always-halting $V$ that will verify such statements?]
 :::
 
 
