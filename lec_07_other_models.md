@@ -1290,7 +1290,7 @@ Let $embed:\N^2 \rightarrow \N$ be the function defined as $embed(x_0,x_1)= \tfr
 
 3. Construct a NAND-TM program $P$ such that for every $x^0,x^1 \in \N$, $P(pf(x^0)pf(x^1))=pf(embed(x^0,x^1))$, where $pf$ is the prefix-free encoding map defined above. You can use the syntactic sugar for inner loops, conditionals, and incrementing/decrementing the counter. \
 
-4. Construct NAND-TM programs $P_0,P_1$ such that for for every $x^0,x^1 \in \N$ and $i \in N$, $P_i(pf(embed(x^0,x^1)))=pf(x^i)$. You can use the syntactic sugar for inner loops, conditionals, and incrementing/decrementing the counter.
+4. Construct NAND-TM programs $P_0,P_1$ such that for every $x^0,x^1 \in \N$ and $i \in N$, $P_i(pf(embed(x^0,x^1)))=pf(x^i)$. You can use the syntactic sugar for inner loops, conditionals, and incrementing/decrementing the counter.
 :::
 
 ::: {.exercise title="Shortest Path" #shortestpathcomputableex}
