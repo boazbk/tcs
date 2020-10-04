@@ -240,7 +240,7 @@ By the above we know that there is a polynomial-time algorithm $A$ that on input
 2. $B$ returns the minimum of $k_{s,t}$ over all distinct pairs $s,t$
 
 The running time of $B$ will be $O(n^2)$ times the running time of $A$ and hence polynomial time.
-Moreover, if the the global minimum cut is $S$, then when $B$ reaches an iteration with $s\in S$ and $t\not\in S$ it will obtain the value of this cut, and hence the value output by $B$ will be the value of the global minimum cut.
+Moreover, if the global minimum cut is $S$, then when $B$ reaches an iteration with $s\in S$ and $t\not\in S$ it will obtain the value of this cut, and hence the value output by $B$ will be the value of the global minimum cut.
 
 The above is our first example of a _reduction_ in the context of polynomial-time algorithms.
 Namely, we reduced the task of computing the global minimum cut to the task of computing minimum $s,t$ cuts.

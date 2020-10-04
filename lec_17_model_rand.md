@@ -337,7 +337,7 @@ Then by [ampeq](){.eqref}, $\Pr[B_x] \leq 0.1\cdot 2^{-n}$ for every $x \in \{0,
 Since there are $2^n$ many such $x$'s, by the union bound we see that the probability that the _union_ of the events $\{ B_x \}_{x\in \{0,1\}^n}$ is at most $0.1$.
 This means that if we choose $r \sim \{0,1\}^m$, then with probability at least $0.9$ it will be the case that for _every_ $x\in \{0,1\}^n$, $F(x)=P'(x;r)$.
 (Indeed, otherwise the event $B_x$ would hold for some $x$.)
-In particular, because of the mere fact that the the probability of $\cup_{x \in \{0,1\}^n} B_x$ is smaller than $1$, this means that _there exists_ a particular $r^* \in \{0,1\}^m$ such that
+In particular, because of the mere fact that the probability of $\cup_{x \in \{0,1\}^n} B_x$ is smaller than $1$, this means that _there exists_ a particular $r^* \in \{0,1\}^m$ such that
 
 $$P'(x;r^*)=F(x) \label{hardwirecorrecteq}
 $$
