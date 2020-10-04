@@ -939,7 +939,7 @@ In all these cases the conditions of the lemma are satisfied simply because ther
 
 We now prove the __inductive step__.   Let $e$ be a regular expression with $n>1$ symbols.
 We set $n_0=2n$ and let $w\in \Sigma^*$ be a string satisfying $|w|>n_0$.
-Since $e$ has more than one symbol, it has  one of the  the forms __(a)__ $e' | e''$, __(b)__, $(e')(e'')$, or __(c)__ $(e')^*$ where in all these cases the subexpressions $e'$ and $e''$ have fewer symbols than $e$ and hence satisfy the induction hypothesis.
+Since $e$ has more than one symbol, it has  one of the forms __(a)__ $e' | e''$, __(b)__, $(e')(e'')$, or __(c)__ $(e')^*$ where in all these cases the subexpressions $e'$ and $e''$ have fewer symbols than $e$ and hence satisfy the induction hypothesis.
 
 
 In the case __(a)__, every string $w$ matched by $e$ must be matched by either $e'$ or $e''$.
