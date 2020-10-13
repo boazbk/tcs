@@ -222,7 +222,7 @@ All our computational models so far - Boolean circuits and straight-line program
 In [chaploops](){.ref} we will present _Turing machines_, which are the central models of computation for unbounded input length functions.
 However, in this section we present the more basic model of _deterministic finite automata_ (DFA).
 Automata can serve as a good stepping-stone for Turing machines, though they will not be used much in later parts of this book, and so the
-reader can feel free to skip ahead fo [chaploops](){.ref}.
+reader can feel free to skip ahead to [chaploops](){.ref}.
 DFAs turn out to be equivalent in power to _regular expressions_: a powerful mechanism to specify patterns, which is widely used in practice.
 Our treatment of automata is relatively brief. There are plenty of resources that help you get more comfortable with DFA's.
 In particular, Chapter 1 of Sipser's book [@SipserBook] contains an excellent exposition of this material.
