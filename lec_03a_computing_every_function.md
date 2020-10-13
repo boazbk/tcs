@@ -675,7 +675,7 @@ We will prove that there is an $O(n\cdot 2^n)$-sized Boolean circuit to compute 
 
 1. We show that for every $\alpha\in \{0,1\}^n$, there is an $O(n)$-sized circuit that computes the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$, where $\delta_\alpha(x)=1$ iff $x=\alpha$.
 
-2. We then show that this implies the existence of an $O(n\cdot 2^n)$-sized circuit that computes $f$, by writing $f(x)$ as the OR of $\delta_\alpha(x)$ for all  $\alpha\in \{0,1\}^n$ such that $f(\alpha)=1$.
+2. We then show that this implies the existence of an $O(n\cdot 2^n)$-sized circuit that computes $f$, by writing $f(x)$ as the OR of $\delta_\alpha(x)$ for all  $\alpha\in \{0,1\}^n$ such that $f(\alpha)=1$. (If  $f$ is the constant zero function and hence there is no such $\alpha$, then we can use the circuit $f(x) = x_0 \wedge \overline{x}_0$.)
 
 We start with Step 1:
 
