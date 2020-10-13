@@ -60,7 +60,7 @@ def XOR(X):
        Outputs 1 if the number of 1's is odd and outputs 0 otherwise'''
     result = 0
     for i in range(len(X)):
-        result += X[i] % 2
+        result = (result + X[i]) % 2
     return result
 ```
 
@@ -245,7 +245,7 @@ def XOR(X):
        Outputs 1 if the number of 1's is odd and outputs 0 otherwise'''
     result = 0
     for i in range(len(X)):
-        result += X[i] % 2
+        result = (result + X[i]) % 2
     return result
 ```
 
