@@ -60,8 +60,8 @@ def XOR(X):
        Outputs 1 if the number of 1's is odd and outputs 0 otherwise'''
     result = 0
     for i in range(len(X)):
-        result += X[i]
-    return result % 2
+        result = (result + X[i]) % 2
+    return result
 ```
 
 ![The NAND circuit and NAND-CIRC program for computing the XOR of $5$ bits. Note how the circuit for $XOR_5$ merely repeats four times the circuit to compute the XOR of $2$ bits.](../figure/xor5circprog.png){#XOR5fig .margin  }
@@ -245,8 +245,8 @@ def XOR(X):
        Outputs 1 if the number of 1's is odd and outputs 0 otherwise'''
     result = 0
     for i in range(len(X)):
-        result += X[i]
-    return result % 2
+        result = (result + X[i]) % 2
+    return result
 ```
 
 In each step, this program reads a single bit `X[i]` and updates its state `result` based on that bit (flipping `result` if `X[i]` is $1$ and keeping it the same otherwise).
@@ -939,7 +939,7 @@ In all these cases the conditions of the lemma are satisfied simply because ther
 
 We now prove the __inductive step__.   Let $e$ be a regular expression with $n>1$ symbols.
 We set $n_0=2n$ and let $w\in \Sigma^*$ be a string satisfying $|w|>n_0$.
-Since $e$ has more than one symbol, it has  one of the  the forms __(a)__ $e' | e''$, __(b)__, $(e')(e'')$, or __(c)__ $(e')^*$ where in all these cases the subexpressions $e'$ and $e''$ have fewer symbols than $e$ and hence satisfy the induction hypothesis.
+Since $e$ has more than one symbol, it has  one of the forms __(a)__ $e' | e''$, __(b)__, $(e')(e'')$, or __(c)__ $(e')^*$ where in all these cases the subexpressions $e'$ and $e''$ have fewer symbols than $e$ and hence satisfy the induction hypothesis.
 
 
 In the case __(a)__, every string $w$ matched by $e$ must be matched by either $e'$ or $e''$.

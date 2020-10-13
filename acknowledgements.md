@@ -74,6 +74,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Peter Schäfer
 * Josh Seides
 * Alaisha Sharma
+* Nathan Sheely
 * Haneul Shin
 * Noah Singer
 * Matthew Smedberg

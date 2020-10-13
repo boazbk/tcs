@@ -431,7 +431,7 @@ Specifically, if `Table` is a variable holding this data structure, then we assu
 
 * `GET(Table,i)` which retrieves the bit corresponding to `i` in `Table`. The value of `i` is assumed to be an integer in $[t]$.
 
-* `Table = UPDATE(Table,i,b)` which updates `Table` so the the bit  corresponding to `i` is now set to `b`. The value of `i` is assumed to be an integer in $[t]$ and `b` is a bit in $\{0,1\}$.
+* `Table = UPDATE(Table,i,b)` which updates `Table` so the bit  corresponding to `i` is now set to `b`. The value of `i` is assumed to be an integer in $[t]$ and `b` is a bit in $\{0,1\}$.
 
 
 
