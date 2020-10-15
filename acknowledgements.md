@@ -99,6 +99,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Josh Zelinsky
 * Fred Zhang
 * Grace Zhang
+* Alex Zhao
 * Jessica Zhu
 * Kai Ma
 
