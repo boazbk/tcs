@@ -841,7 +841,7 @@ Yet by a reduction from the Halting problem, we can obtain a function with this 
 Consider the following "unary halting function" $UH:\{0,1\}^* \rightarrow \{0,1\}$ defined as follows.
 We let $S:\N \rightarrow \{0,1\}^*$ be the function that on input $n\in \N$, outputs the string that corresponds to the binary representation of the number $n$ without the most significant $1$ digit.
 Note that $S$ is _onto_.
-For every $x\in \{0,1\}$, we define $UH(x)=HALTONZERO(S(|x|))$.
+For every $x\in \{0,1\}^*$, we define $UH(x)=HALTONZERO(S(|x|))$.
 That is, if $n$ is the length of $x$, then $UH(x)=1$ if and only if the string $S(n)$ encodes a NAND-TM program that halts on the input $0$.
 
 
